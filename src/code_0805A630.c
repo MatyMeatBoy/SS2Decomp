@@ -15,7 +15,13 @@ void sub_0805A654(s32 arg0) {
 void sub_0805A660(s32 arg0) {
     sub_0802413C(arg0, 7);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A66C);
+void sub_0805A66C(void)
+{
+    u8 *base = *(u8 **)0x03005CF4 + 0x1834;
+    u32 i;
+    for (i = 0; i <= 0x1F; i++, base += 0x28)
+        if (sub_08000470((u32)base)) sub_080003A8((u32)base);
+}
 void sub_0805A6A0(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFEFF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }

@@ -1,6 +1,13 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080571A4);
+void sub_080571A4(u32 a, u32 b, u32 value)
+{
+    a &= 0xFF;
+    b &= 0xFF;
+    value &= 0xFF;
+    if (sub_08002204() != 0)
+        *((u8 *)gUnk_03005CF4 + 0x1C8 + a * 5 + b) = value;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080571D8);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057210);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057254);
