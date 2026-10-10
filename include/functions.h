@@ -139,7 +139,7 @@ s32 sub_08008CC4(u16, s32, s32, s32, s32);
 s32 sub_08008D38(u16, s32, s32, s32, s32);
 void sub_08009014();
 s32 sub_08009034(void *arg0);
-s32 sub_0800903C(s32, s32, s32, s32, s32, s32);
+void sub_0800903C(s32, s32, s32, s32, s32, s32);
 void sub_0800907C(s32 arg0);
 void sub_08009088(u8 a, u8 b, u8 c, u8 d);
 void sub_080090B0();
