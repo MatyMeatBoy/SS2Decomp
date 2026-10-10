@@ -54,7 +54,12 @@ s32 sub_08019E30(s32 arg0)
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019E74);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019EB8);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F04);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F60);
+void sub_08019F60(u16 *data)
+{
+    u32 index=sub_08002164(); u32 *rates=(u32 *)0x0848FA0C;
+    data[3]=(u16)((data[3]*rates[index*3+0])/100);
+    if(index>1) data[0]=(u16)(((data[0]+2)*rates[index*3+1])/100);
+}
 u32 sub_08019FA8(void)
 {
     u16 flags = gUnk_03005724;
