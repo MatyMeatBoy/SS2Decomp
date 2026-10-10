@@ -152,7 +152,21 @@ void sub_08058444(u32 x, u32 y, u32 a, u32 b)
     while (sub_08021FE0(entry, pos, &result, &packed) == 0)
         sub_080003F0();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058498);
+void sub_08058498(u32 x, u32 y, u32 a, u32 b)
+{
+    u32 pos[2] = { x << 8, y << 8 };
+    u32 result = 0;
+    u32 packed = (u16)a | b;
+    u8 *entry = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A + 0x8C;
+    for (;;) {
+        if (sub_08021FE0(entry, pos, &result, &packed) == 0) {
+            if (sub_08058608() != 0) return;
+            sub_080003F0();
+        } else if (*(u16 *)(entry + 0x14) & 1) {
+            return;
+        }
+    }
+}
 void sub_080584FC(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) | (1 << arg0));
 }
