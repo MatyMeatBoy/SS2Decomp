@@ -94,4 +94,11 @@ u16 sub_08057038(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057068);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080570DC);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057170);
+void sub_08057170(void)
+{
+    u8 *base = (u8 *)gUnk_03005CF4 + 0x1C8;
+    u32 i, j;
+    for (i = 0; i < 20; i++)
+        for (j = 0; j < 5; j++)
+            base[i * 5 + j] = 0;
+}

@@ -88,7 +88,12 @@ s32 sub_08058524(s32 bit)
 {
     return (M2C_FIELD(gUnk_03005CF4, u32 *, 0x38) & (1 << bit)) != 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805853C);
+u32 sub_0805853C(u32 bit, u32 alternate)
+{
+    u8 *base = *(u8 **)0x03005CF4;
+    u32 offset = alternate ? 0x1C3 : 0x1B7;
+    return (base[offset + (bit >> 3)] >> (bit & 7)) & 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058574);
 void sub_080585F4(s32 arg0, s32 arg1) {
     sub_0805D37C(arg0 << 8, arg1 << 8);
