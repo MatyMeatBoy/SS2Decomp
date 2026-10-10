@@ -98,7 +98,13 @@ u32 sub_08001108(u8 vcount)
     return old;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001130);
+void sub_08001130(void)
+{
+    if (gUnk_03000010)
+        ((void (*)(void))gUnk_03000010)();
+    REG_IF = 4;
+    gUnk_03007FF8 |= 4;
+}
 
 u32 sub_0800115C(u32 v)
 {
@@ -112,7 +118,23 @@ void sub_0800116C(void) {
     gUnk_03002350 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001180);
+void sub_08001180(void)
+{
+    if (gUnk_03002870)
+        m4aSoundVSync();
+    if (gUnk_03002350)
+    {
+        if (gUnk_0300234C)
+            ((void (*)(void))gUnk_0300234C)();
+        sub_08000B50();
+        sub_08001394();
+        gUnk_03002350 = 0;
+    }
+    if (gUnk_03002870)
+        m4aSoundMain();
+    REG_IF = 1;
+    gUnk_03007FF8 |= 1;
+}
 
 #ifdef NONMATCHING
 u32 sub_080011E4(void *p)
