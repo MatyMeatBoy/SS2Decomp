@@ -124,7 +124,42 @@ s32 sub_08021C74(u16 arg0, u16 arg1, u16 arg2) {
 u16 sub_08021CE4(u16 arg0, u16 arg1) {
     return __divsi3((arg1 + 0x64) * arg0, 0x64);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021D00);
+s32 sub_08021D00(u16 arg0, u16 arg1, u16 *arg2) {
+    s16 temp_r1;
+    u16 var_r3;
+    u32 temp_r0;
+
+    var_r3 = arg1;
+    temp_r0 = arg0 - 1;
+    if (temp_r0 <= 6) {
+        switch (temp_r0) {
+        case 0:
+            temp_r1 = arg2[0];
+            break;
+        case 1:
+            temp_r1 = arg2[1];
+            break;
+        case 2:
+            temp_r1 = arg2[2];
+            break;
+        case 3:
+            temp_r1 = arg2[3];
+            break;
+        case 4:
+            temp_r1 = arg2[4];
+            break;
+        case 5:
+        case 6:
+            temp_r1 = arg2[5];
+            break;
+        }
+        var_r3 = (u16)((s32)(var_r3 * 0x1388) / (s32)((temp_r1 * temp_r1) + 0x9C4));
+        if (var_r3 & 0x8000) {
+            var_r3 = 1;
+        }
+    }
+    return var_r3;
+}
 void sub_08021D88(void) {
     gUnk_03005CE0 = sub_08001494(0x500);
     gUnk_03005CE4 = 0;
