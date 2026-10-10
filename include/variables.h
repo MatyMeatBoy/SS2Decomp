@@ -115,7 +115,7 @@ extern s32 gUnk_0300272C;
 extern s32 gUnk_03002730;
 extern M2C_UNK gUnk_03002770;
 extern s32 gUnk_030027D0;
-extern s32 gUnk_03002838;
+extern u32 gUnk_03002838;
 extern M2C_UNK gUnk_03002840;
 extern s32 gUnk_03002870;
 extern struct Unk03002880 gUnk_03002880;
