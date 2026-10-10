@@ -1,11 +1,21 @@
 #include "global.h"
 
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058790);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080587D8);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080587E4);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080587F0);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080587FC);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_0805880C);
+void sub_080587D8(void) {
+    sub_0800CFA4();
+}
+void sub_080587E4(void) {
+    sub_08015D74();
+}
+void sub_080587F0(void) {
+    sub_08015D98();
+}
+void sub_080587FC(u16 arg0) {
+    sub_0800CC48(arg0);
+}
+void sub_0805880C(void) {
+    sub_0800CC68();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058818);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058824);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058830);

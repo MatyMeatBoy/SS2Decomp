@@ -2,6 +2,7 @@
 #define GUARD_GLOBAL_H
 
 #include "gba/types.h"
+#include "m2c_macros.h"
 #include "variables.h"
 #include "functions.h"
 

@@ -42,9 +42,19 @@ INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BD48);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BD5C);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BEC0);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800C9F4);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800CB30);
+void sub_0800CB30(void) {
+    gUnk_03003478 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800CB3C);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800CB78);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800CB88);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800CB9C);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800CBAC);
+s32 sub_0800CB78(void) {
+    return gUnk_03003478 & 1;
+}
+void sub_0800CB88(void) {
+    gUnk_03003478 &= ~1;
+}
+s32 sub_0800CB9C(void) {
+    return ((u32) gUnk_03003478 >> 1) & 1;
+}
+void sub_0800CBAC(void) {
+    gUnk_03003478 |= 1;
+}

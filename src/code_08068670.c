@@ -1,6 +1,13 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068670);
+void sub_08068670(void) {
+    sub_08001538(gUnk_03006258);
+    sub_08001538(gUnk_03006368);
+    sub_08001538(gUnk_03006300);
+    gUnk_03006258 = 0;
+    gUnk_03006368 = 0;
+    gUnk_03006300 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686A4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686F4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068758);
@@ -13,7 +20,9 @@ s32 sub_08068868(void) {
 s32 sub_0806886C(void) {
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068870);
+s32 sub_08068870(void) {
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068874);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806888C);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068894);

@@ -1,10 +1,20 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A630);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A63C);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A648);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A654);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A660);
+void sub_0805A630(s32 arg0) {
+    sub_0802413C(arg0, 3);
+}
+void sub_0805A63C(s32 arg0) {
+    sub_0802413C(arg0, 4);
+}
+void sub_0805A648(s32 arg0) {
+    sub_0802413C(arg0, 5);
+}
+void sub_0805A654(s32 arg0) {
+    sub_0802413C(arg0, 6);
+}
+void sub_0805A660(s32 arg0) {
+    sub_0802413C(arg0, 7);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A66C);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A6A0);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A6B8);

@@ -21,7 +21,10 @@ INCLUDE_ASM("asm/nonmatchings/main", sub_08000B50);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000B68);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000BB0);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000BC8);
-INCLUDE_ASM("asm/nonmatchings/main", sub_08000C08);
+void sub_08000C08(s16 arg0, s16 arg1) {
+    gUnk_03001730 = arg0;
+    gUnk_03002348 = arg1;
+}
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000C1C);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000C50);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000D0C);

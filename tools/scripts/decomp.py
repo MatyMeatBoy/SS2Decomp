@@ -21,6 +21,7 @@ import os
 import re
 import subprocess
 import sys
+import struct
 import tempfile
 
 from elftools.elf.elffile import ELFFile
@@ -29,9 +30,10 @@ from elftools.elf.relocation import RelocationSection
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 AGBCC = os.path.join(ROOT, "tools/agbcc/bin/agbcc")
 M2C = os.environ.get("M2C", os.path.join(ROOT, "tools/m2c/m2c.py"))
+VALID_SYNTAX = False
 CC1FLAGS = ["-mthumb-interwork", "-Wimplicit", "-Wparentheses", "-O2", "-fhex-asm"]
 CPPFLAGS = ["-nostdinc", "-I", os.path.join(ROOT, "tools/agbcc/include"),
-            "-iquote", os.path.join(ROOT, "include"), "-undef"]
+            "-iquote", os.environ.get("DECOMP_INC", os.path.join(ROOT, "include")), "-undef"]
 
 
 def run(cmd, **kw):
@@ -76,6 +78,34 @@ def compile_c(cfile, out_o):
     return None
 
 
+_SYMS = None
+
+
+def symbol_values():
+    """name -> address, from the last good build (ref.syms) or the current ELF."""
+    global _SYMS
+    if _SYMS is not None:
+        return _SYMS
+    _SYMS = {}
+    for path in (os.path.join(ROOT, "build/ref.syms"),):
+        if os.path.exists(path):
+            for line in open(path):
+                p = line.split()
+                if len(p) == 2:
+                    _SYMS[p[1]] = int(p[0], 16)
+    return _SYMS
+
+
+def resolve(name):
+    syms = symbol_values()
+    if name in syms:
+        return syms[name] & ~1 if name.startswith("sub_") else syms[name]
+    m = re.match(r"(?:gUnk|sub|arm)_([0-9A-F]{8})$", name)
+    if m:
+        return int(m.group(1), 16)
+    return None
+
+
 def func_code(obj, func):
     """Return (bytes, relocs) for func in obj. relocs: {offset: (type, symbol)}."""
     with open(obj, "rb") as fh:
@@ -107,6 +137,31 @@ def func_code(obj, func):
         return data, relocs
 
 
+def normalized(obj, func):
+    """Bytes with relocated fields replaced by their resolved target."""
+    data, relocs = func_code(obj, func)
+    if data is None:
+        return None
+    data = bytearray(data)
+    items = []
+    for off, (rtype, name) in sorted(relocs.items()):
+        val = resolve(name) if name != "<section>" else None
+        if rtype == 2:  # R_ARM_ABS32
+            addend = struct.unpack_from("<I", data, off)[0]
+            if val is not None:
+                v = (val + addend) & 0xFFFFFFFF
+                if name.startswith("sub_") and val is not None:
+                    v |= 1
+                struct.pack_into("<I", data, off, v)
+            else:
+                items.append((off, rtype, name, addend))
+        else:
+            # calls / branches: keep target identity, blank the encoded offset
+            items.append((off, rtype, val if val is not None else name))
+            data[off:off + 4] = b"\0\0\0\0"
+    return bytes(data), items
+
+
 def disasm(obj, func):
     r = run(["arm-none-eabi-objdump", "-d", "-r", "--no-show-raw-insn", "--disassemble=%s" % func, obj])
     lines = []
@@ -117,17 +172,26 @@ def disasm(obj, func):
             txt = re.sub(r"@ \(.*\)", "", txt).strip()
             txt = re.sub(r"\s*<[^>]*>", "", txt)
             lines.append(txt)
-    return lines
+        elif re.match(r"\s*[0-9a-f]+: R_ARM", l):
+            lines.append(re.sub(r"^\s*[0-9a-f]+:\s*", "", l).strip())
+    # literal words with a relocation are shown as ".word 0" + reloc: keep the reloc only
+    out = []
+    for i, l in enumerate(lines):
+        if l.startswith(".word 0x00000000") and i + 1 < len(lines) and lines[i + 1].startswith("R_ARM"):
+            continue
+        out.append(l)
+    return out
 
 
 def compare(orig_o, cand_o, func, verbose=True):
-    a, ra = func_code(orig_o, func)
-    b, rb = func_code(cand_o, func)
+    a = normalized(orig_o, func)
+    b = normalized(cand_o, func)
     if b is None:
         if verbose:
             print("candidate does not define %s" % func)
         return False
-    ok = a == b and ra == rb
+    ok = a == b
+    a, b = a[0], b[0]
     if not ok and verbose:
         print("size: orig %d, candidate %d" % (len(a), len(b)))
         da = disasm(orig_o, func)
@@ -156,7 +220,18 @@ def m2c(func, extra=()):
         with open(ctx, "w") as fh:
             for h in ("include/m2c_context.h", "include/variables.h", "include/functions.h"):
                 fh.write(re.sub(r"^#.*$", "", open(os.path.join(ROOT, h)).read(), flags=re.M) + "\n")
+            # Return type hints from the agbcc epilogue: "pop {r1}; bx r1" keeps
+            # r0 alive (value returned), "pop {r0}; bx r0" clobbers it (void).
+            asm = open(find_asm(func)[0]).read()
+            known = func in header_names(os.path.join(ROOT, "include/functions.h"))
+            if not known and re.search(r"pop \{r[1-3]\}\n\tbx r[1-3]", asm):
+                fh.write("s32 %s();\n" % func)
         cmd = [sys.executable, M2C, "--target", "gba", "--no-cache", "--context", ctx]
+        if VALID_SYNTAX:
+            cmd.append("--valid-syntax")
+        asm = open(find_asm(func)[0]).read()
+        if re.search(r"pop \{r0\}\n\tbx r0", asm) and not re.search(r"pop \{r[1-3]\}\n\tbx r[1-3]", asm):
+            cmd.append("--void")
         r = run(cmd + list(extra) + [s])
         return r.stdout + r.stderr
 
@@ -183,6 +258,21 @@ def apply(func, cfile):
     open(src, "w").write(text)
     os.remove(path)
     print("applied %s -> src/%s.c" % (func, mod))
+
+
+def apply_nonmatch(func, cfile):
+    """Keep equivalent but not matching C next to the asm, under #ifdef NONMATCHING."""
+    path, mod = find_asm(func)
+    src = os.path.join(ROOT, "src/%s.c" % mod)
+    vars_, protos, code = split_decls(open(cfile).read())
+    add_decls(os.path.join(ROOT, "include/variables.h"), "// AUTO-VARIABLES (keep this marker, decomp.py appends below it)", vars_)
+    text = open(src).read()
+    stub = 'INCLUDE_ASM("asm/nonmatchings/%s", %s);' % (mod, func)
+    if stub not in text:
+        raise SystemExit("stub for %s not found in %s" % (func, src))
+    text = text.replace(stub, "#ifdef NONMATCHING\n%s\n#else\n%s\n#endif" % (code, stub))
+    open(src, "w").write(text)
+    print("kept %s as NONMATCHING in src/%s.c" % (func, mod))
 
 
 def check(func, cfile, verbose=True):
@@ -271,10 +361,16 @@ def main():
     p = sub.add_parser("apply")
     p.add_argument("func")
     p.add_argument("cfile")
+    p = sub.add_parser("nonmatch")
+    p.add_argument("func")
+    p.add_argument("cfile")
     p = sub.add_parser("auto")
     p.add_argument("funcs", nargs="+")
     p.add_argument("--keep", help="directory to keep drafts of failed functions")
+    p.add_argument("--valid-syntax", action="store_true", help="m2c --valid-syntax (M2C_FIELD macros)")
     args = ap.parse_args()
+    global VALID_SYNTAX
+    VALID_SYNTAX = getattr(args, "valid_syntax", False)
 
     if args.cmd == "m2c":
         print(m2c(args.func))
@@ -284,6 +380,8 @@ def main():
         sys.exit(0 if ok else 1)
     elif args.cmd == "apply":
         apply(args.func, args.cfile)
+    elif args.cmd == "nonmatch":
+        apply_nonmatch(args.func, args.cfile)
     elif args.cmd == "auto":
         good = 0
         for func in args.funcs:

@@ -27,6 +27,8 @@ GREY = "#6e7681"
 GREY_DARK = "#484f58"
 BLUE = "#388bfd"
 BLUE_DARK = "#1f5fb8"
+YELLOW = "#d29922"
+YELLOW_DARK = "#9e6a03"
 BG = "#0d1117"
 FG = "#e6edf3"
 
@@ -59,11 +61,15 @@ def collect():
     entries = sorted(a for a in funcs if a >= 0x0800023C)
     starts = [m[0] for m in mods]
     stubbed = set()
+    nonmatch = set()
     srcdir = os.path.join(ROOT, "src")
     for fn in os.listdir(srcdir) if os.path.isdir(srcdir) else []:
         if fn.endswith(".c"):
-            for m in re.finditer(r"INCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\)", open(os.path.join(srcdir, fn)).read()):
+            text = open(os.path.join(srcdir, fn)).read()
+            for m in re.finditer(r"INCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\)", text):
                 stubbed.add(m.group(1))
+            for m in re.finditer(r"#ifdef NONMATCHING\n.*?#else\nINCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\);\n#endif", text, re.S):
+                nonmatch.add(m.group(1))
     modules = []
     for i, (ma, mname, kind, cat) in enumerate(mods):
         mend = mods[i + 1][0] if i + 1 < len(mods) else CODE_END
@@ -78,7 +84,7 @@ def collect():
             if kind == "asm":
                 state = "asm"
             else:
-                state = "todo" if name in stubbed else "done"
+                state = ("nonmatch" if name in nonmatch else "todo") if name in stubbed else "done"
             fl.append({"name": name, "addr": a, "size": e - a, "state": state})
         modules.append({"name": mname, "kind": kind, "cat": cat, "funcs": fl,
                         "size": sum(f["size"] for f in fl)})
@@ -190,7 +196,7 @@ def treemap_svg(modules, summary, width=1000, height=540):
             frects = squarify([(f["size"], f) for f in m["funcs"]], mx + 1, my + 1, mw - 2, mh - 2)
             for f, fx, fy, fw, fh in frects:
                 col, edge = {"done": (GREEN, GREEN_DARK), "todo": (GREY, GREY_DARK),
-                             "asm": (BLUE, BLUE_DARK)}[f["state"]]
+                             "nonmatch": (YELLOW, YELLOW_DARK), "asm": (BLUE, BLUE_DARK)}[f["state"]]
                 parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" stroke="%s" '
                              'stroke-width="0.6"><title>%s  0x%08X  %d bytes  [%s]</title></rect>' % (
                                  fx, fy, max(fw, 0.1), max(fh, 0.1), col, edge, escape(f["name"]), f["addr"],
@@ -205,8 +211,8 @@ def treemap_svg(modules, summary, width=1000, height=540):
         gx += gw
     lx = 6
     ly = height + 6
-    for col, txt in ((GREEN, "decompilado (C matching)"), (GREY, "pendiente (asm)"),
-                     (BLUE, "asm original del SDK/juego")):
+    for col, txt in ((GREEN, "decompilado (C matching)"), (YELLOW, "C equivalente, no matching aún"),
+                     (GREY, "pendiente (asm)"), (BLUE, "asm original")):
         parts.append('<rect x="%d" y="%d" width="11" height="11" fill="%s"/>' % (lx, ly, col))
         parts.append('<text x="%d" y="%d" fill="%s" font-size="11">%s</text>' % (lx + 15, ly + 10, FG, escape(txt)))
         lx += 30 + len(txt) * 6

@@ -6,7 +6,9 @@ INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8674);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B869C);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B86D8);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8780);
-INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B87C4);
+u8 sub_080B87C4(u8 *arg0) {
+    return *arg0;
+}
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B87C8);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8808);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B882C);
