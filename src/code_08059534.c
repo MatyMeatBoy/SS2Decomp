@@ -48,7 +48,17 @@ INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059CEC);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059DA0);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059E54);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059F08);
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059FBC);
+void sub_08059FBC(void)
+{
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        do sub_080003F0(); while (sub_0801AAE0() == 0);
+    }
+}
 void sub_0805A004(u32 mode)
 {
     if (mode > 1) return;
