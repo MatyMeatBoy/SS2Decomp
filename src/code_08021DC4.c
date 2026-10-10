@@ -3,7 +3,6 @@
 extern u32 gUnk_03005CFC;
 extern u32 gUnk_03005D00;
 extern s32 gUnk_03005CF0;
-s32 sub_0800048C();
 void sub_08025890(void);
 void sub_080263B4(void);
 void sub_080226A4(void);
@@ -182,7 +181,18 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802704C);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080277E0);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027B50);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028368);
+void sub_08028368(u8 a, u16 b, u8 c)
+{
+    u8 *entry;
+    u8 *base = *(u8 **)0x03005CF4;
+    u32 count = *(u32 *)(base + 0x1E4C);
+    if (count > 10) return;
+    entry = base + 0x1E52 + count * 4;
+    entry[0] = a;
+    entry[1] = c;
+    *(u16 *)(entry + 2) = b;
+    *(u32 *)(base + 0x1E4C) = count + 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080283C4);
 void sub_08028498(u16 arg0)
 {
