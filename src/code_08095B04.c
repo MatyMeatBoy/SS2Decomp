@@ -104,7 +104,15 @@ void sub_08097D30(s16 arg0, s16 arg1) {
     M2C_FIELD(&gUnk_030002A0, s16 *, 0) = arg0;
     M2C_FIELD(&gUnk_030002A0, s16 *, 2) = arg1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097D3C);
+extern const s16 gUnk_080B9704[];
+void sub_08097D3C(u8 index, s32 scale)
+{
+    s32 value;
+    gUnk_030002A0.b0C = index;
+    value = (gUnk_080B9704[index] * (s8)scale) >> 8;
+    gUnk_030002A0.b0D = value;
+    gUnk_030002A0.pad0E = value;
+}
 void sub_08097D64(void)
 {
     gUnk_030002A0.b0F = 0;
