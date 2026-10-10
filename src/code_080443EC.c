@@ -14,8 +14,9 @@ void sub_08045AFC(void)
 {
     u8 *base = (u8 *)*(u32 *)0x03005CF4;
     u32 primary = sub_0800CE30() ? 0x1C3 : 0x1B7;
+    u32 clear;
     if ((base[primary] >> 7) == 0) return;
-    u32 clear = sub_0800CE30() ? 0x1C5 : 0x1B9;
+    clear = sub_0800CE30() ? 0x1C5 : 0x1B9;
     base[clear] &= (u8)~0x21;
     sub_0805C7B8(0);
 }
