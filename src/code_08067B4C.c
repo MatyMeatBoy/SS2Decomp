@@ -62,5 +62,11 @@ u8 sub_08068540(void) {
 void sub_0806854C(void) { gUnk_03006228 = 0xFF; }
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068558);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068590);
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080685F0);
+u32 sub_080685F0(u32 value)
+{
+    u32 rem = value & 7;
+    if (rem)
+        value += 8 - rem;
+    return value >> 3;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068600);
