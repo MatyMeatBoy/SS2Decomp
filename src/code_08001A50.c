@@ -27,7 +27,9 @@ INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001A64);
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001AA4);
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001B04);
+void sub_08001B04(u16 arg0) {
+    ReadFlash(arg0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001B14);
 

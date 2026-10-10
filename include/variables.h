@@ -15,6 +15,8 @@ extern u16 gUnk_03000004;
 extern u32 gUnk_03000010;
 extern s32 gUnk_03000014;
 extern s32 gUnk_0300001C;
+extern u16 gUnk_03000022;
+extern s16 gUnk_03000026;
 extern volatile short gUnk_03000028;
 extern s8 gUnk_03000168;
 extern s8 gUnk_03000258;

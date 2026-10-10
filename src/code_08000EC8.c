@@ -19,7 +19,12 @@ struct Heap {
     u32 size;
 };
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08000EC8);
+void sub_08000EC8(void) {
+    gUnk_03000002 = 0x2000;
+    gUnk_03000000 = 0;
+    gUnk_03000010 = 0;
+    gUnk_03000014 = 0;
+}
 
 void sub_08000EF4(void)
 {
@@ -96,7 +101,10 @@ u32 sub_0800115C(u32 v)
     return old;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800116C);
+void sub_0800116C(void) {
+    gUnk_0300234C = NULL;
+    gUnk_03002350 = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001180);
 
