@@ -1,0 +1,17 @@
+# Original ROM (never commit it)
+baserom.gba
+*.gba
+*.sav
+
+# Build output
+build/
+*.elf
+*.map
+*.o
+*.i
+
+# Local toolchain
+tools/agbcc/
+
+__pycache__/
+*.pyc
