@@ -1,5 +1,6 @@
 #include "global.h"
 void sub_0809F4A8(void);
+void sub_080A0B44(void);
 
 extern s32 gUnk_03000324;
 
@@ -195,7 +196,7 @@ void sub_080A11B4(void)
     *(u32 *)(entry + 0xC) = (u32)sub_080A0B44;
     *(u32 *)(entry + 0x24) = 0;
     *(u32 *)(entry + 8) = 0x46;
-    sub_08000274(entry, 0, 0);
+    sub_08000274_(entry, 0, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1208);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1DA8);

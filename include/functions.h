@@ -594,7 +594,7 @@ void sub_080B23FC();
 void sub_080B2424();
 void sub_080B2780();
 void sub_080B4B48();
-M2C_UNK sub_080B4B7C();
+void sub_080B4B7C(void);
 M2C_UNK sub_080B60F4();
 void sub_080B6324();
 void sub_080B6360();
