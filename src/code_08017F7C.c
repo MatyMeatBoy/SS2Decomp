@@ -2,7 +2,16 @@
 
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08017F7C);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801801C);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019BF8);
+void *sub_08019BF8(u32 id)
+{
+    u8 *entry = (u8 *)gUnk_030056F4;
+    u32 mask = gUnk_030056FC;
+    u32 i;
+    for (i = 0; i < 5; i++, entry += 0x2E0)
+        if ((mask & (1u << i)) != 0 && *(u16 *)(entry + 2) == (u16)id)
+            return entry;
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019C3C);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019C8C);
 u32 sub_08019CDC(void)
@@ -58,7 +67,12 @@ u32 sub_08019E74(u32 value)
     for(i=0;i<=1;i++) if((active&(1<<i)) && *(u32 *)(table+i*8)==value) result|=1<<i;
     return result;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019EB8);
+void sub_08019EB8(u16 key, u16 value)
+{
+    u8 *entry=*(u8 **)0x030056F4; u32 flags=*(u32 *)0x030056FC, i;
+    for(i=0;i<=4;i++,entry+=0x2E0)
+        if((flags&(1<<i)) && *(u16 *)(entry+2)==key) { *(u16 *)(entry+0x88)=value; return; }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F04);
 void sub_08019F60(u16 *data)
 {
