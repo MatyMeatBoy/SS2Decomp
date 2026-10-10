@@ -189,3 +189,5 @@ extern u8 gUnk_03003D38[];
 extern u8 gUnk_0848FA48[];
 extern u8 gUnk_0849E580[];
 extern s32 gUnk_030001C0;
+extern u8 gUnk_03001324;
+extern const u8 gUnk_0851844E[];
