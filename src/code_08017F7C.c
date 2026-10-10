@@ -138,7 +138,17 @@ void sub_0801A650(u32 arg0)
   }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A664);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A6D4);
+void sub_0801A6D4(u32 mode)
+{
+    u8 *base = 0;
+    if (mode == 0)
+        base = sub_08006EE0(0x80006, gUnk_08518938);
+    else if (mode == 1)
+        base = sub_08006EE0(0x8004A, gUnk_08518938);
+    if (mode <= 1)
+        base += 0x120;
+    sub_08000AF0(base, 0x19, 1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A70C);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A764);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A7AC);
