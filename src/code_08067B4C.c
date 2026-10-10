@@ -16,7 +16,20 @@ s32 sub_08067C08(void) {
 s32 sub_08067C18(void) {
     return sub_08068330(0x37564);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067C28);
+u32 sub_08067C28(const u32 *arg0)
+{
+    u8 *entry;
+    u32 index = gUnk_03006338;
+    if (index > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x87;
+    *(u32 *)(entry + 8) = *arg0;
+    entry[1] = 1;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 s32 sub_08067C68(s32 arg0)
 {
     u8 *p;
