@@ -38,7 +38,20 @@ void sub_08058048(u32 x, u32 y, u16 kind, u32 value)
     while (sub_08067B9C(x << 8, y << 8, data) == 0)
         sub_080003F0();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058094);
+u32 sub_08058094(void)
+{
+    u8 *base = *(u8 **)0x030034E0;
+    u32 total = 0;
+    u8 *entry = base + 0x150;
+    for (u32 i = 0; i <= 0x18; i++, entry += 0x10)
+        if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
+    u32 count = *(u16 *)(base + 0x6A);
+    u32 limit = count * 15 - count;
+    entry = base + 0x2E0;
+    for (u32 i = 0; i < limit; i++, entry += 0x10)
+        if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
+    return total;
+}
 void sub_080580EC(void) {
     sub_0807C014();
 }
