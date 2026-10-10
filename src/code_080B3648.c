@@ -20,7 +20,16 @@ void sub_080B4B48(void)
     while (((u32) var_r2) <= 3U);
   }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4B7C);
+void sub_080B4B7C(void)
+{
+    u8 *entry = *(u8 **)0x030007D0;
+    u32 i;
+    if (entry == 0) return;
+    for (i = 0; i < 4; i++, entry += 0x28)
+        if (sub_08000470((u32)entry)) sub_080003A8((u32)entry);
+    sub_08001538(*(u32 **)0x030007D0);
+    *(u32 **)0x030007D0 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4BB8);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
