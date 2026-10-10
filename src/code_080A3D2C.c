@@ -1,5 +1,7 @@
 #include "global.h"
 
+extern s32 gUnk_0300035C;
+
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4520);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A47A0);
@@ -16,7 +18,13 @@ INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4A7C);
 void sub_080A4AD0(void) {
     gUnk_030056FC &= ~2;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4AE4);
+void sub_080A4AE4(void)
+{
+    u32 i;
+    gUnk_0300035C = sub_08001494(0x78);
+    for (i = 0; i < 3; i++)
+        M2C_FIELD((u8 *)gUnk_0300035C + i * 0x28, s32 *, 8) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4B10);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4B48);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4BB0);
