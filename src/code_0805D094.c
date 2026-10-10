@@ -142,7 +142,14 @@ void sub_0805EF84(void *arg0, u16 value)
     if (arg0 != NULL)
         *(u16 *)((u8 *)arg0 + 0x80) = value;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EF90);
+u32 sub_0805EF90(void)
+{
+    u32 i;
+    for (i = 0; i < 4; i++)
+        if ((gUnk_03005D70 >> i) & 1)
+            return 1;
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EFBC);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F020);
 void sub_0805F07C(void) {

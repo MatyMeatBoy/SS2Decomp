@@ -64,7 +64,7 @@ void sub_0801A0B0(void *arg0) {
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A0BC);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A120);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A1C8);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A270);
+s32 sub_0801A270(void) { u32 i; for (i=0;i<=4;i++) if (!(gUnk_030056FC & (1<<i))) return i; return -1; }
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A298);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A2F0);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A328);
