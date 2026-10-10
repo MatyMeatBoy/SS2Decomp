@@ -164,7 +164,20 @@ void sub_0801E0BC(void *arg0, u16 arg1) {
     M2C_FIELD(arg0, u16 *, 0xA) = temp_r1;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E0D0);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E104);
+void *sub_0801E104(u8 *arg0) {
+    u8 *p = arg0 + 0x8c;
+    u32 i = 0;
+
+    do {
+        if (*(s16 *) p != -1) {
+            i++;
+            p += 0x28;
+        } else {
+            return p;
+        }
+    } while (i <= 7);
+    return 0;
+}
 s32 sub_0801E12C(s32 arg0, s32 arg1, s32 arg2)
 {
   u32 var_r1;
