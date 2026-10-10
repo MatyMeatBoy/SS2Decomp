@@ -557,6 +557,19 @@ def integrate(mod, cfile):
     results = check_file(cfile, cc1=module_cc1(mod), flags=module_flags(mod)) or {}
     text = open(cfile).read()
     prelude, funcs, corder = split_functions(text)
+    # hoist extern variables / prototypes into the shared headers
+    vars_, protos, prelude = split_decls(prelude)
+    for n, d in vars_:
+        replace_var(n, d)
+    for n, d in protos:
+        if n in funcs:
+            continue
+        replace_proto(n, d)
+    for n in corder:
+        sig = signature(funcs[n], n)
+        if sig and not funcs[n].lstrip().startswith("static"):
+            replace_proto(n, sig)
+    prelude = '#include "global.h"\n' + prelude
     src = os.path.join(ROOT, "src/%s.c" % mod)
     out = [prelude.rstrip() + "\n"]
     nmatch = 0

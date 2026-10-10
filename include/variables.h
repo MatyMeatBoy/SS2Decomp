@@ -6,8 +6,9 @@
 // Types come from the first decompiled use and are refined by hand.
 
 // AUTO-VARIABLES (keep this marker, decomp.py appends below it)
-extern s16 gUnk_03000000;
-extern s16 gUnk_03000002;
+extern u16 gUnk_03000000; // shadow REG_IME
+extern u16 gUnk_03000002; // shadow REG_IE
+extern u16 gUnk_03000004; // shadow REG_DISPSTAT
 extern s32 gUnk_03000010;
 extern s32 gUnk_03000014;
 extern s32 gUnk_0300001C;
@@ -83,6 +84,10 @@ extern u16 gUnk_030007C8;
 extern void *gUnk_030007DC;
 extern u16 gUnk_030007E0;
 extern s32 gUnk_030007E4;
+extern u16 gUnk_03001250[];
+extern struct DispCnt gUnk_0300129C;
+extern u16 gUnk_03001310;
+extern u8 gUnk_03001318[];
 extern s16 gUnk_03001730;
 extern M2C_UNK gUnk_03001F40;
 extern s16 gUnk_03002348;

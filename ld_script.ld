@@ -21,6 +21,7 @@ SECTIONS
         build/asm/crt0.o(.text);
         build/asm/sched.o(.text);
         build/src/main.o(.text);
+        build/src/video.o(.text);
         build/src/code_08000EC8.o(.text);
         build/src/code_08002118.o(.text);
         build/src/code_08006D24.o(.text);
