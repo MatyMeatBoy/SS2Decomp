@@ -125,6 +125,7 @@ extern struct TileSys gUnk_03003170;
 extern s32 gUnk_03003470;
 extern s32 gUnk_03003474;
 extern s32 gUnk_03003478;
+extern s32 gUnk_03003480[];
 extern s32 gUnk_030034A8;
 extern s32 gUnk_030034D8;
 extern s32 gUnk_030034E0;

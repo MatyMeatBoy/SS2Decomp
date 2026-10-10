@@ -6,7 +6,9 @@ void sub_0800CF58(void) {
 void sub_0800CF6C(void) {
     gUnk_03003478 &= 0xFFFEFFFF;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800CF80);
+s32 sub_0800CF80(void) {
+    return ((u32) gUnk_03003478 >> 0x10) & 1;
+}
 void sub_0800CF90(void) {
     gUnk_03003478 |= 0x20000;
 }
@@ -50,8 +52,23 @@ void sub_0800D070(void) {
 void sub_0800D084(void) {
     gUnk_03003478 &= 0xFEFFFFFF;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800D098);
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800D0A8);
+s32 sub_0800D098(void) {
+    return ((u32) gUnk_03003478 >> 0x18) & 1;
+}
+void sub_0800D0A8(void) {
+    gUnk_03003480[3] = (s32) sub_0800BEC0;
+    while (1) {
+        gUnk_03003480[8] = (s32) sub_08001494(0x800);
+        if (gUnk_03003480[8] != 0) {
+            break;
+        }
+        sub_080003F0();
+    }
+    gUnk_03003480[4] = gUnk_03003480[8] + 0x7FC;
+    gUnk_03003480[2] = 0x64;
+    gUnk_03003480[9] = 0;
+    sub_08000274(gUnk_03003480, 0);
+}
 void sub_0800D0F4(void) {
     gUnk_03003478 |= 0x800;
 }
