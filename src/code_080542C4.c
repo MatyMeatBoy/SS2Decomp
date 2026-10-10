@@ -29,26 +29,42 @@ INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056CB4);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056D2C);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056D80);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056E24);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056E38);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056E50);
+void sub_08056E38(void) {
+    M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFF7 & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
+}
+s32 sub_08056E50(void) {
+    return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 3) & 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056E64);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056E78);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056E90);
+void sub_08056E78(void) {
+    M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFEF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
+}
+s32 sub_08056E90(void) {
+    return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 4) & 1;
+}
 void sub_08056EA4(void) {
     if (sub_08000470(gUnk_03005CF4 + 0x17E4) != 0) {
         sub_080003A8(gUnk_03005CF4 + 0x17E4);
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056ED0);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056F78);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056F8C);
+s32 sub_08056F78(void) {
+    return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 5) & 1;
+}
+void sub_08056F8C(void) {
+    M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFDF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056FA4);
 void sub_08056FB8(u16 arg0, u16 arg1) {
     sub_08026CD0(arg0, arg1, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056FCC);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056FE0);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056FF8);
+void sub_08056FE0(void) {
+    M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFFBF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
+}
+s32 sub_08056FF8(void) {
+    return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 6) & 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_0805700C);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057038);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057068);

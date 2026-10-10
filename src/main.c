@@ -16,7 +16,9 @@ INCLUDE_ASM("asm/nonmatchings/main", sub_08000A34);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000A8C);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000AA8);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000AF0);
-INCLUDE_ASM("asm/nonmatchings/main", sub_08000B38);
+void sub_08000B38(void) {
+    sub_08001348((s32) &gUnk_03001F40, 0x05000000, 0x400);
+}
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000B50);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000B68);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000BB0);

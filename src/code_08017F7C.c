@@ -21,10 +21,16 @@ INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F04);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F60);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019FA8);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019FD8);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A040);
+s32 sub_0801A040(u16 arg0) {
+    return sub_08019D34(arg0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A050);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A0A4);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A0B0);
+void sub_0801A0A4(void *arg0) {
+    M2C_FIELD(arg0, s8 *, 0x1DC) = 2;
+}
+void sub_0801A0B0(void *arg0) {
+    M2C_FIELD(arg0, s8 *, 0x1DC) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A0BC);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A120);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A1C8);

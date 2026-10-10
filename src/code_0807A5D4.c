@@ -27,7 +27,11 @@ INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080850C0);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808516C);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080851B8);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085218);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808528C);
+void sub_0808528C(void) {
+    *(s16 *)0x04000012 = 4;
+    sub_08001108(0x9F);
+    sub_0800115C((s32) &sub_080852AC);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080852AC);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080852CC);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085330);

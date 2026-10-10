@@ -2,8 +2,12 @@
 
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057CAC);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057CEC);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057D14);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057D20);
+void sub_08057D14(s32 arg0) {
+    M2C_FIELD(gUnk_03005CF4, s32 *, 0x50) = arg0;
+}
+s32 sub_08057D20(void) {
+    return M2C_FIELD(gUnk_03005CF4, s32 *, 0x50);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057D2C);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057DD0);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057E74);
@@ -39,8 +43,12 @@ void sub_08058404(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058420);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058444);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058498);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080584FC);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058510);
+void sub_080584FC(s32 arg0) {
+    M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) | (1 << arg0));
+}
+void sub_08058510(s32 arg0) {
+    M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) & ~(1 << arg0));
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058524);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805853C);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058574);
@@ -48,7 +56,9 @@ void sub_080585F4(s32 arg0, s32 arg1) {
     sub_0805D37C(arg0 << 8, arg1 << 8);
     sub_080687A8();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058608);
+s32 sub_08058608(void) {
+    return sub_0800CCCC();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058614);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058620);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805865C);
@@ -78,4 +88,6 @@ void sub_08058768(s32 arg0, s32 arg1, s32 arg2) {
 void sub_08058778(void) {
     sub_0805C7B8();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058784);
+s32 sub_08058784(void) {
+    return sub_0805CDF8();
+}

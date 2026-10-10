@@ -16,3 +16,4 @@ tools/agbcc/
 __pycache__/
 *.pyc
 tools/m2c/
+tools/decomp-permuter/

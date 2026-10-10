@@ -1,7 +1,9 @@
 #include "global.h"
 
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080659B0);
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080659BC);
+void sub_080659BC(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4, s32 arg5) {
+    sub_08007CF0(arg1, arg2, arg3, (u16) arg4, (s32) (u8) arg5, arg0 + 0x1C, M2C_FIELD(arg0, s32 *, 8), M2C_FIELD(arg0, s32 *, 0));
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080659F4);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A1C);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A90);

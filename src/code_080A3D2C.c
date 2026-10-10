@@ -29,7 +29,13 @@ void sub_080A4BFC(void) {
     gUnk_03000360 = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4C24);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4C74);
+void sub_080A4C74(u8 arg0, u8 arg1) {
+    if (gUnk_030003F1 != 0xFF) {
+        gUnk_030003F2 = gUnk_030003F1;
+    }
+    gUnk_030003F1 = arg0;
+    M2C_FIELD(gUnk_03000368, s16 *, 8) = (s16) arg1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4CA8);
 void sub_080A4CDC(s8 arg0, s8 arg1) {
     gUnk_030003FB = arg1;

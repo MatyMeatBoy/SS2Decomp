@@ -6,7 +6,17 @@ INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EDFC);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EF84);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F018);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F4A8);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F8C8);
+void sub_0809F8C8(void) {
+    if (M2C_FIELD(gUnk_03000310, s16 *, 0x5C) != 0) {
+        sub_0809FAEC();
+        sub_0809FA28();
+        sub_0809F934();
+        sub_08097C6C();
+    }
+    sub_08068384();
+    gUnk_030056FC = 0;
+    sub_08016ECC(gUnk_03000314);
+}
 void sub_0809F90C(void) {
     gUnk_0300031C = 1;
 }
@@ -44,7 +54,17 @@ INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A05B4);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A099C);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0B44);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0F64);
+void sub_080A0F64(void) {
+    if (M2C_FIELD(gUnk_0300032C, s16 *, 0x5C) != 0) {
+        sub_080A0FC4();
+        sub_080A10D4();
+        sub_080A118C();
+        sub_08097C6C();
+    }
+    sub_08068384();
+    gUnk_030056FC = 0;
+    sub_08016ECC(gUnk_03000330);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0FA8);
 void sub_080A0FC4(void) {
     if (sub_08000470(gUnk_03000334) != 0) {
@@ -100,7 +120,14 @@ INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1DA8);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1F88);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1FF4);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A230C);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A2698);
+void sub_080A2698(void) {
+    if (M2C_FIELD(gUnk_03000348, s16 *, 0x5C) != 0) {
+        sub_080A1F88();
+    }
+    sub_08068384();
+    gUnk_030056FC = 0;
+    sub_08016ECC(gUnk_0300034C);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A26D0);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A2720);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A27B8);
