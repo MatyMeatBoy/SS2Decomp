@@ -1,6 +1,7 @@
 #include "global.h"
 
 extern u8 gUnk_03005C60[];
+extern u32 gUnk_03005CA0[];
 
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08017F7C);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801801C);
@@ -193,7 +194,15 @@ void sub_0801A6D4(u32 mode)
         base += 0x120;
     sub_08000AF0(base, 0x19, 1);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A70C);
+void sub_0801A70C(void)
+{
+    u32 count, i;
+    gUnk_03005C54 = 0;
+    count = sub_08007164(4);
+    for (i = 0; i < count; i++)
+        gUnk_03005CA0[i] = sub_08007290(i | 0x40000);
+    sub_08065158(gUnk_03005C60, 0x5004A, -1, 0, 0);
+}
 void sub_0801A764(const u8 *script, u32 x, u32 y)
 {
     while (script[0] != 0xFD && script[0] <= 0xF1) {

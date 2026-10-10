@@ -280,7 +280,7 @@ void sub_0801A558(void);
 void sub_0801A628();
 void sub_0801A62C();
 void sub_0801A650(u32 arg0);
-s32 sub_0801A70C();
+void sub_0801A70C(void);
 s32 sub_0801A9BC();
 s32 sub_0801AAE0();
 s32 sub_0801AAF8(void);
