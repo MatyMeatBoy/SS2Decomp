@@ -571,3 +571,4 @@ void sub_080B6360(void);
 void sub_080B63A0(void);
 
 #endif // GUARD_FUNCTIONS_H
+void sub_0801ABE8(u16 arg0);

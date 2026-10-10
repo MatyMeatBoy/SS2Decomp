@@ -4,7 +4,15 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AAF8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB24);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB50);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB90);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801ABE8);
+void sub_0801ABE8(u16 arg0) {
+    int new_var;
+    gUnk_03000026 = 1;
+    gUnk_03000020 = arg0;
+    gUnk_03000022 = 0;
+    sub_08000420(0x64);
+    new_var = 0x21;
+    gUnk_03000028 = (gUnk_03000028 | 0xC) & (-new_var);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AC24);
 s32 sub_0801AC78(void) {
     s32 var_r2;
