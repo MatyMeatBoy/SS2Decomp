@@ -71,7 +71,13 @@ void sub_08006E54(void) {
 void sub_08006E58(void) {
     m4aSongNumStart(0x62);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006E64);
+void sub_08006E64(u8 v)
+{
+    gUnk_030028AC = v;
+    if (v == 0)
+        m4aMPlayStop(&gUnk_030075C0
+                     );
+}
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006E84);
 void sub_08006EC8(u16 s)
 {

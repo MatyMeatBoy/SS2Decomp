@@ -119,11 +119,41 @@ void sub_080066A8(void) {
     *(s16 *)0x04000010 = (s16) gUnk_03003474;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_080066BC);
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006B2C);
+void sub_08006B2C(void)
+{
+    u8 *p = sub_08001494(
+        0x400);
+    gUnk_030061E0.fC = sub_080066BC;
+    gUnk_030061E0.f10 = p + 0x3FC;
+    gUnk_030061E0.f20 = p;
+    gUnk_030061E0.f8 = 1;
+    gUnk_030061E0.f24 = 0;
+    sub_08000274((void *)&gUnk_030061E0,
+                 0);
+}
 void sub_08006B60(void) {
     m4aSoundMode(0x93D800);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006B70);
+void sub_08006B70(u32 a, u16 v)
+{
+    struct MusicPlayerInfo *p;
+    switch (a) {
+    case 0:
+        p = &gUnk_030075C0;
+        break;
+    case 1:
+        p = &gUnk_03007600;
+        break;
+    case 2:
+        p = &gUnk_03007640;
+        break;
+    case 3:
+        p = &gUnk_03007690;
+        break;
+    }
+    m4aMPlayVolumeControl(p, 0xF,
+                          v);
+}
 void sub_08006BB4(u32 mode) {
     m4aSoundMode(mode);
 }
@@ -154,7 +184,17 @@ void sub_08006C14(void)
         m4aSoundVSyncOff();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006C30);
+void sub_08006C30(u16 s)
+{
+    m4aMPlayFadeOut(&gUnk_030075C0,
+                    s);
+    m4aMPlayFadeOut(&gUnk_03007600,
+                    s);
+    m4aMPlayFadeOut(&gUnk_03007640,
+                    s);
+    m4aMPlayFadeOut(&gUnk_03007690,
+                    s);
+}
 void sub_08006C70(u16 arg0) {
     u16 temp_r1;
 
