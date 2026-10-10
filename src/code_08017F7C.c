@@ -73,8 +73,37 @@ INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A3D0);
 void sub_0801A500(void)
 {
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A508);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A558);
+extern u16 gUnk_03005C94;
+extern u16 gUnk_03005C54;
+extern u8 gUnk_03005C40[20];
+extern u8 gUnk_03005740[];
+extern const u8 gUnk_080B9AD0[];
+
+void sub_0801A508(void)
+{
+    u32 i;
+    gUnk_03005C98 = 0;
+    gUnk_03005C94 = 0;
+    gUnk_03005730 = 0x12;
+    sub_0801A558();
+    CpuFastSet(gUnk_080B9AD0, (void *)0x0600C000, 0x380);
+    for (i = 0; i <= 0x13; i++)
+        gUnk_03005C40[i] = 1;
+}
+
+void sub_0801A558(void)
+{
+    u32 i;
+    u32 zero = 0;
+    for (i = 0; i <= 0x13; i++) {
+        if (gUnk_03005C40[i]) {
+            CpuFastSet(&zero, gUnk_03005740 + i * 0x40, 0x10);
+            gUnk_03005C40[i] = 0;
+        }
+    }
+    gUnk_03005C54 = 0;
+    gUnk_03005C98 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A5A8);
 void sub_0801A628(void) {
 
