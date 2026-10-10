@@ -108,7 +108,7 @@ void sub_0800224C(void)
     u32 want, got, i, v;
     u32 *p;
     if (gUnk_030027D0 & 2) {
-        want = (gUnk_03002730 >> 8) & 0xF;
+        want = ((u32)gUnk_03002730 >> 8) & 0xF;
         p = &gUnk_03002730;
         do {
             sub_080003F0();
