@@ -1,0 +1,62 @@
+# Worker instructions (parallel decompilation)
+
+You are one of many parallel workers. Your job: turn the functions of YOUR SHARD from `INCLUDE_ASM` into C that
+compiles to the same bytes as the original. A maintainer merges all worker branches and verifies the full ROM.
+Be terse in chat; the commits are what matter. User language is Spanish but code/commits are English.
+
+## Rules
+- Work ONLY on the functions of your shard (`python3 tools/scripts/shard.py show N`). Other workers own the rest.
+- Push ONLY to your branch `worker/NNN` (given in the prompt). Never touch main/other branches, never open a PR.
+- There is NO `baserom.gba` in your container. Never try to obtain one. Always run with `SKIP_ROM=1` in the environment;
+  correctness is checked per function (object-level compare vs. the original asm) by `decomp.py check` / `apply_permuted.py`.
+- Do not edit the Makefile, ld_script.ld, tools/config/*, docs/progress/*, README.md. Do not run `make progress`.
+- Shared headers (`include/functions.h`, `variables.h`, `structs.h`) are merged with union strategy: only APPEND lines
+  (new externs/prototypes/structs), never edit or reorder existing lines, never retype an existing global
+  (retyping existing globals broke other functions before). If you need a different type for an existing global, cast at use site.
+- Only commit files under `src/`, `include/`, `asm/nonmatchings/` (deleted .s of matched functions).
+- A function counts only when `apply_permuted.py` accepted it (it deletes the .s and rewrites the INCLUDE_ASM line).
+  Never hand-edit src/*.c to fake a match; no `#ifdef NONMATCHING` bodies.
+- Commit + push every ~5 functions (`git push -u origin worker/NNN`, retry 4x with backoff on network errors).
+  Before stopping, push everything. Stop when all shard functions are done or after you can no longer make progress.
+
+## Setup (once, ~2 min)
+```sh
+sudo apt-get install -y binutils-arm-none-eabi gcc-arm-none-eabi python3-pyelftools python3-capstone >/dev/null 2>&1 || pip install pyelftools capstone
+./tools/install_agbcc.sh                      # -> tools/agbcc/bin/{agbcc,old_agbcc}
+git clone --depth 1 https://github.com/matt-kempster/m2c tools/m2c
+git clone --depth 1 https://github.com/simonlindholm/decomp-permuter tools/decomp-permuter && pip install -r tools/decomp-permuter/requirements.txt 2>/dev/null
+mkdir -p /tmp/ghi && tar xJf docs/ghidra/ghidra_out.tar.xz -C /tmp && export GHIDRA_OUT=/tmp/ghi/ghi 2>/dev/null; ls /tmp/ghi | head -2
+export SKIP_ROM=1
+```
+(If the tar extracted to /tmp/ghi directly, set GHIDRA_OUT=/tmp/ghi.)
+
+## Loop per function (smallest first, they teach you the module's idioms)
+1. `tools/scripts/gv.sh FUNC` -> Ghidra pseudo-C + original asm. Ghidra is a READING AID, not matching C.
+2. `python3 tools/scripts/decomp.py m2c FUNC > /tmp/FUNC.c` draft (fix `M2C_UNK`/`?` types to s32/u32, remove stray prototypes).
+3. Write the C in a scratch file `/tmp/w.c` (`#include "global.h"` + externs + function). Test:
+   `python3 tools/scripts/decomp.py check FUNC /tmp/w.c` (prints a diff of instructions on mismatch).
+4. Iterate by hand: change loops/temps/types/order, use idioms below. Then permuter for small diffs:
+   `python3 tools/scripts/permute.py FUNC /tmp/w.c --time 120 --jobs 2` (output `build/permuter_results/FUNC.c`).
+5. When `check` prints MATCH: `SKIP_ROM=1 python3 tools/scripts/apply_permuted.py /tmp/w.c` (may contain several functions).
+6. Commit (`git add -A src include asm`), push.
+Callee/caller names: use `sub_XXXXXXXX` for unknown functions and `gUnk_XXXXXXXX` for unknown globals (names already in
+include/*.h; don't rename). Grep the repo (`grep -rn sub_08001234 src include`) for known prototypes and callers' arg types.
+Compiler per module is chosen automatically (Makefile `CC1_<module>`; old_agbcc vs agbcc). If NOTHING matches for a whole
+module with trivially simple functions, the module may need the other compiler: `python3 tools/scripts/which_cc.py` explains;
+report that in your final message instead of editing the Makefile.
+
+## agbcc idioms
+- Booleans: `u32 r = 0; if (c) r = 1; return r;`. `return c;`/ternaries often differ.
+- Swap accessor `u32 f(u32 v){u32 old=g;g=v;return old;}`. Struct arrays `g[idx].flags |= 1`.
+- Shadow IO regs: `g &= ~m; REG_IE = g;` vs chained assignment `REG_IE = (g &= ~m)` compile differently.
+- Declaration order of locals and `register` usage change allocation; `for` vs `while`/`do` change block layout.
+- Constants `0x80 | x` vs `x | 0x80` change operand order; `(u16)` casts add `lsl/lsr` pairs; u8 vs s8 globals add `lsl/asr`.
+- `(a<<8)/b` signed division uses the `__divsi3` call; unsigned ones use `__udivsi3`.
+- switch -> table (`mov pc,rN` or `bl` jump tables); dense cases are tables, sparse ones if/else chains.
+- Far calls are `bl`; `pop {r0}; bx r0` epilogues are normal for agbcc thumb-interwork.
+- Inline small statics: the compiler does not inline unless `static inline` + -O2 allows it; write calls explicitly.
+- Prefer hand-written C that follows the asm structure over m2c output; check the original block order for `goto`-free loops.
+
+## Final report (last message, <10 lines)
+Matched count / total shard size, branch name, functions you gave up on with the best remaining diff size, anything
+(compiler guess for a module, a header collision risk) the maintainer should know.

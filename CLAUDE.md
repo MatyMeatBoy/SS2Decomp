@@ -16,6 +16,8 @@ make -j$(nproc) compare
 ```
 Git-ignored (never commit): baserom.gba, *.gba, build/, tools/agbcc, tools/m2c, tools/decomp-permuter.
 
+Parallel workers: see docs/WORKER.md and tools/config/shards.txt (`shard.py show N`).
+
 ## Layout
 - `src/<module>.c` C modules; undecompiled functions are `INCLUDE_ASM("asm/nonmatchings/<mod>", sub_XXXXXXXX);`
 - `asm/nonmatchings/<mod>/<func>.s` one file per undecompiled function (deleted when the C matches)
