@@ -89,5 +89,40 @@ INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016ECC);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017C6C);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017E34);
+void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
+extern u8 gUnk_03003E28[];
+
+s32 sub_08017E34(s32 *arg0) {
+    struct {
+        u16 a;
+        s16 b;
+    } buf;
+    u8 *base;
+    u32 n;
+    u32 i;
+    s32 result;
+    s16 *pb;
+
+    sub_0800BC08((((s32) arg0[5]) << 8) >> 0x10, (((s32) arg0[6]) << 8) >> 0x10,
+                 &buf.a, &buf.b, 0x30, 0);
+    result = 0;
+    n = sub_08002164();
+    i = 0;
+    pb = &buf.b;
+    if (result < n) {
+        base = gUnk_03003E28;
+        do {
+            u8 *p = *(u8 **) (base + i * 0x14C);
+            if (!(((u32) (p[4] << 0x1A) >> 0x1A) & 0x20) && (u16) (buf.a + 0x3F) <= 0x16A) {
+                if (*pb > -0x40) {
+                    if (*pb <= 0xC7) {
+                        result = 1;
+                    }
+                }
+            }
+            i++;
+        } while (i < n);
+    }
+    return result;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017EC8);
