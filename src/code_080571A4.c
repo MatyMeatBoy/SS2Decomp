@@ -51,7 +51,13 @@ void sub_080574FC(void) {
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057534);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057580);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080575C0);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057624);
+void sub_08057624(u32 count)
+{
+    while (count != 0 && !sub_080021A8()) {
+        sub_080003F0();
+        count--;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057644);
 void sub_0805768C(void) { sub_0801ABE8(6); while (!sub_0801AAE0()) sub_080003F0(); }
 void sub_080576A8(void) { sub_0801AA34(0x1E); while (!sub_0801AAE0()) sub_080003F0(); }
@@ -63,10 +69,10 @@ INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080576EC);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057780);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_0805782C);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080578BC);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_0805790C);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057934);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_0805795C);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057984);
+void sub_0805790C(void) { gUnk_03003CE0[sub_080020F4()].flags |= 2; sub_08067D74(); }
+void sub_08057934(void) { gUnk_03003CE0[sub_080020F4()].flags &= ~3u; sub_08067D74(); }
+void sub_0805795C(void) { gUnk_03003CE0[sub_080020F4()].flags |= 1; sub_0800D0F4(); }
+void sub_08057984(void) { gUnk_03003CE0[sub_080020F4()].flags &= ~1u; sub_0800D108(); }
 u8 sub_080579AC(void) {
     return sub_0801DE60();
 }
