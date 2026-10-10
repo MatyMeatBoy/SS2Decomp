@@ -206,7 +206,18 @@ u32 sub_0805AE34(const u8 *item)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B068);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B0F0);
+u32 sub_0805B0F0(void)
+{
+    u8 *base = *(u8 **)0x030034E0;
+    u32 total = 0;
+    u8 *entry = base + 0x150;
+    for (u32 i = 0; i <= 0x18; i++, entry += 0x10)
+        if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
+    entry = base + 0x2E0;
+    for (u32 i = 0; i <= 0x4A; i++, entry += 0x10)
+        if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
+    return total;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B140);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B21C);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
