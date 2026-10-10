@@ -39,7 +39,15 @@ INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059DA0);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059E54);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059F08);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059FBC);
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A004);
+void sub_0805A004(u32 mode)
+{
+    if (mode > 1) return;
+    sub_08028AAC(mode ? 7 : 6, 0x80, 0x58, 0);
+    if (mode == 1) {
+        u8 *base = *(u8 **)0x03005CF4;
+        *(u32 *)(base + 0x38) |= 0x10;
+    }
+}
 void sub_0805A040(void) {
     sub_08028AAC(8, 0x38, 0x30, 0);
 }
