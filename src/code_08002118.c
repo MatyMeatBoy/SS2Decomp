@@ -1,7 +1,22 @@
 #include "global.h"
 
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002118);
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002164);
+u32 sub_08002164(void)
+{
+    u32 n, i, *p;
+    if (((u32)gUnk_030027D0 >> 1) & 1) {
+        i = 0;
+        n = 0;
+        p = &gUnk_03002730;
+        for (; i < 4; i++) {
+            if ((0x100 << i) & *p)
+                n++;
+        }
+    } else {
+        n = 1;
+    }
+    return n;
+}
 s32 sub_080021A8(void)
 {
   if (!(2 & gUnk_030027D0))

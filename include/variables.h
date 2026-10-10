@@ -6,6 +6,8 @@
 // Types come from the first decompiled use and are refined by hand.
 
 extern struct Player gUnk_03003CE0[];
+extern u8 gUnk_03000018;
+extern u16 (*ProgramFlashSector)(u16, u8 *);
 // AUTO-VARIABLES (keep this marker, decomp.py appends below it)
 extern struct MemBlock gUnk_02000010;
 extern struct MemBlock gUnk_0203FFF0;
@@ -110,6 +112,7 @@ extern struct Heap gUnk_03002370;
 extern u8 gUnk_030024B0[];
 extern s32 gUnk_0300272C;
 extern u32 gUnk_03002730;
+extern u32 gUnk_03002740[];
 extern M2C_UNK gUnk_03002770;
 extern s32 gUnk_030027D0;
 extern u32 gUnk_03002838;
@@ -155,11 +158,9 @@ extern u16 gUnk_03007FF8;
 extern struct LevelEntry gUnk_0847846C[];
 extern s32 gUnk_08518938;
 extern M2C_UNK gUnk_08E3FB54;
+extern void sub_08001BE4(void);
 extern M2C_UNK sub_08002B70;
 extern M2C_UNK sub_08014170;
 extern M2C_UNK sub_080852AC;
-
-extern u8 gUnk_03000018;
-extern u16 (*ProgramFlashSector)(u16, u8 *);
 
 #endif // GUARD_VARIABLES_H
