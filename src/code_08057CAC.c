@@ -40,7 +40,13 @@ s32 sub_08058260(void)
 {
     return M2C_FIELD(&gUnk_03003CE0[sub_080020F4()], s32 *, 0x90) >> 8;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058280);
+void sub_08058280(void)
+{
+    u8 *entry=*(u8 **)0x030056F4; u32 flags=*(u32 *)0x030056FC, i;
+    for(i=0;i<=4;i++,entry+=0x2E0)
+        if((flags&(1<<i)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=0;
+    sub_08019F04();
+}
 s32 sub_080582C0(void)
 {
   int new_var;
