@@ -536,7 +536,7 @@ void sub_08098060();
 void sub_08099720();
 M2C_UNK sub_08099788();
 void sub_0809ADE8();
-M2C_UNK sub_0809AE50();
+void sub_0809AE50(void);
 void sub_0809D558();
 s8 sub_0809D564();
 void sub_0809D6A8();
