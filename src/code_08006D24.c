@@ -16,7 +16,8 @@ void sub_08006D40(u16 arg0) {
         m4aSongNumStartOrContinue(temp_r1);
     }
 }
-void sub_08006D5C(u16 n)
+void sub_08006D5C_(u16 n) __asm__("sub_08006D5C");
+void sub_08006D5C_(u16 n)
 {
     if (n <= 0x1AB)
         m4aSongNumStop(n);
@@ -78,7 +79,8 @@ void sub_08006E64(u8 v)
         m4aMPlayStop(&gUnk_030075C0
                      );
 }
-void sub_08006E84(void)
+void sub_08006E84_(void) __asm__("sub_08006E84");
+void sub_08006E84_(void)
 {
     u8 *p = sub_08001494(
         0x400);

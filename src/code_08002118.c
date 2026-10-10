@@ -131,6 +131,12 @@ void sub_080065B0(void) {
     M2C_FIELD(&gUnk_03002840, s32 *, 0x24) = 0;
     sub_08000274(&gUnk_03002840, 0);
 }
+extern void sub_08003984(void);
+extern void sub_0800608C(void);
+extern void sub_080066BC(void);
+extern void sub_08005B88(void);
+#define gUnk_03003480 (*(struct Unk030061E0 *)gUnk_03003480)
+
 void sub_080065FC(s32 a, s32 b)
 {
     u8 *p = sub_08001494(
@@ -225,14 +231,16 @@ void sub_08006BF8(void) {
         m4aSoundVSyncOn();
     }
 }
-void sub_08006C14(void)
+void sub_08006C14_(void) __asm__("sub_08006C14");
+void sub_08006C14_(void)
 {
     if (gUnk_03002870 != 0) {
         gUnk_03002870 = 0;
         m4aSoundVSyncOff();
     }
 }
-void sub_08006C30(u16 s)
+void sub_08006C30_(u16 s) __asm__("sub_08006C30");
+void sub_08006C30_(u16 s)
 {
     m4aMPlayFadeOut(&gUnk_030075C0,
                     s);
