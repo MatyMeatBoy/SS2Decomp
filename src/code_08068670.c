@@ -11,7 +11,20 @@ void sub_08068670(void) {
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686A4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686F4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068758);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080687A8);
+u32 sub_080687A8(const u8 *arg0)
+{
+    u8 *entry;
+    u32 index = gUnk_03006338;
+    if (index > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x9B;
+    *(u32 *)(entry + 8) = *(const u16 *)(arg0 + 0xC);
+    entry[1] = 1;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 extern u32 gUnk_03006338;
 s32 sub_080687E8(void)
 {
