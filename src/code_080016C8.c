@@ -17,7 +17,20 @@ struct Heap {
     u32 size;
 };
 
-INCLUDE_ASM("asm/nonmatchings/code_080016C8", sub_080016C8);
+u32 sub_080016C8(void)
+{
+    u32 best = 0;
+    u32 s;
+    struct MemBlock *b = gUnk_03002370.head.nextFree;
+    while (b != &gUnk_03002370.head)
+    {
+        s = (u32)b->next - (u32)b;
+        if (best < s)
+            best = s;
+        b = b->nextFree;
+    }
+    return best;
+}
 
 u32 sub_080016EC(void)
 {
