@@ -136,7 +136,20 @@ INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016C88);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016D40);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016ECC);
+void sub_08016ECC(s32 index)
+{
+    u32 slot = (u32)(index - 4) & 0xFFFF;
+    u32 bit = 1 << slot;
+    u32 *active = (u32 *)0x030056F8;
+    u32 *table = (u32 *)0x03005700;
+    u32 offset = slot * 0xC;
+    if (!(*active & bit)) return;
+    if (table[offset + 2] > 1) { table[offset + 2]--; return; }
+    table[offset] = 0;
+    table[offset + 1] = 0;
+    table[offset + 2] = 0;
+    *active &= ~bit;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017C6C);
 void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);

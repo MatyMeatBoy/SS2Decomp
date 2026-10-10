@@ -27,7 +27,16 @@ INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E324);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E378);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E3D8);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E438);
+u16 sub_0801E438(s32 arg0, u32 arg1)
+{
+    u16 value = (u16)arg1;
+    u8 mode = sub_0801DE60();
+    if (mode == 0)
+        value = sub_0801E0AC(arg0, 3) << 3;
+    else if (mode == 3)
+        value = sub_0801E0AC(arg0, 2) << 3;
+    return value;
+}
 s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 temp_r1;
     s32 temp_r1_2;
