@@ -513,11 +513,11 @@ _0806038C:
 	strb r0, [r1, #0]
 	ldr r0, [sp, #0x58]
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r5, r0, #0
 	ldr r0, [sp, #0x58]
 	movs r1, #0xa
-	bl sub_080B95E4
+	bl __umodsi3
 	str r0, [sp, #0x58]
 	cmp r5, #0
 	beq _080603D4
@@ -635,11 +635,11 @@ _08060484:
 	beq _080604EE
 	adds r0, r7, #0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	adds r5, r0, #0
 	adds r0, r7, #0
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r7, r0, #0
 	cmp r5, #0
 	beq _080604B8
@@ -654,11 +654,11 @@ _08060484:
 _080604B8:
 	adds r0, r7, #0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r5, r0, #0
 	adds r0, r7, #0
 	movs r1, #0xa
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r7, r0, #0
 	adds r1, r4, #0
 	adds r0, r1, #1

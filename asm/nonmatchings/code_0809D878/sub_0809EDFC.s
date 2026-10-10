@@ -52,7 +52,7 @@ _0809EE5C:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r1, r0, #0
 	strh r1, [r4, #0]
 	ldr r4, _0809EEA4
@@ -137,7 +137,7 @@ _0809EF10:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r1, r0, #0
 	strh r1, [r4, #0]
 	ldr r4, _0809EF70

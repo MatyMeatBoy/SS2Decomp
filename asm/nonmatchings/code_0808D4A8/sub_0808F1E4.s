@@ -289,7 +289,7 @@ _0808F41E:
 	adds r1, r7, r4
 	movs r2, #0
 	ldrsh r1, [r1, r2]
-	bl sub_080B9394
+	bl __divsi3
 	cmp r0, #9
 	bgt _0808F462
 	movs r0, #0x1b

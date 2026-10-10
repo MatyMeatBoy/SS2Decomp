@@ -138,7 +138,7 @@ _0807366C:
 	muls r3, r1, r3
 	adds r1, r3, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	add r2, sp, #4
 	ldr r3, [sp, #0x18]
 	lsls r1, r3, #1

@@ -24,7 +24,7 @@ _08067D3C:
 	adds r1, #8
 	ldr r2, _08067D70
 	adds r0, r3, #0
-	bl sub_080B8578
+	bl CpuSet
 	strb r5, [r4, #1]
 	ldr r0, [r6, #0]
 	adds r0, #1

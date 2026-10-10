@@ -86,7 +86,7 @@ _08061EE6:
 	ldr r1, [r7, #0]
 	adds r1, #0x70
 	ldr r2, _08061F5C
-	bl sub_080B96A4
+	bl memcpy
 	bl sub_0800CCCC
 	cmp r0, #0
 	bne _08061F0E
@@ -505,7 +505,7 @@ _0806226E:
 	ldr r1, [r1, #0]
 	adds r1, #0x70
 	ldr r2, _080622D8
-	bl sub_080B96A4
+	bl memcpy
 	ldr r1, [r4, #0]
 	movs r0, #2
 	str r0, [r1, #0]
@@ -744,7 +744,7 @@ _0806248C:
 _08062494:
 	bl sub_0800CBAC
 	movs r0, #0
-	bl sub_080B8598
+	bl SoftReset
 	b _080624C8
 _080624A0:
 	bl sub_08006BF8

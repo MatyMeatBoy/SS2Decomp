@@ -26,7 +26,7 @@ _0808F6B0:
 	lsls r0, r1, #4
 	subs r0, r0, r1
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	ands r2, r4
 	movs r0, #2

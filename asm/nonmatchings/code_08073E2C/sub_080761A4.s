@@ -68,7 +68,7 @@ sub_080761A4: @ 0x080761A4
 	adds r1, r0, #0
 	add r0, sp, #0x44
 	movs r2, #0xc4
-	bl sub_080B96A4
+	bl memcpy
 	add r2, sp, #0x100
 	ldrh r0, [r2, #0]
 	cmp r0, #0
@@ -211,7 +211,7 @@ _0807631A:
 	ldrsh r0, [r2, r3]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x18
 	adds r1, r4, #0
@@ -270,7 +270,7 @@ _08076380:
 	ldrsh r0, [r3, r2]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x18
 	adds r1, r4, #0
@@ -376,7 +376,7 @@ _08076486:
 	adds r0, r0, r6
 	lsls r0, r0, #1
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	adds r0, #0xa
 	str r0, [sp, #0x148]
 	ldrh r0, [r7, #0x20]

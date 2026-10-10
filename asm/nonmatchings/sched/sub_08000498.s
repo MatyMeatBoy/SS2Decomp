@@ -3,7 +3,7 @@ sub_08000498: @ 0x08000498
 	push {r4, lr}
 	adds r4, r0, #0
 	ldr r0, [r0, #0]
-	bl sub_080B857C
+	bl Div
 	str r1, [r4, #0]
 	pop {r4, pc}
 	.2byte 0x0000

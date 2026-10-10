@@ -41,7 +41,7 @@ _08060E88:
 	adds r0, #0x54
 	ldrh r0, [r0, #0]
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	adds r0, #0x5a
@@ -142,7 +142,7 @@ _08060F5A:
 	ldr r2, [sp, #0x50]
 	ldrh r0, [r2, #0]
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	adds r0, #0x5a
@@ -350,7 +350,7 @@ _08061106:
 	ldr r3, [sp, #0x50]
 	ldrh r0, [r3, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1
@@ -869,7 +869,7 @@ _08061532:
 	ldr r1, [sp, #0x50]
 	ldrh r0, [r1, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1

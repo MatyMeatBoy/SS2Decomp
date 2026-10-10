@@ -15,7 +15,7 @@ sub_08055BA4: @ 0x08055BA4
 	movs r2, #0x80
 	lsls r2, r2, #1
 	adds r0, r4, #0
-	bl sub_080B96A4
+	bl memcpy
 	movs r5, #0
 	mov r8, r4
 	add r7, sp, #0x18

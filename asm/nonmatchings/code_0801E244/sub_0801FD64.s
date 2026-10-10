@@ -34,7 +34,7 @@ sub_0801FD64: @ 0x0801FD64
 	ldrb r0, [r2, #0]
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
 	cmp r1, #0

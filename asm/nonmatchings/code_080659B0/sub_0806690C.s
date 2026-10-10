@@ -369,7 +369,7 @@ _08066C30:
 	adds r1, #0x22
 	add r0, sp, #4
 	movs r2, #0xa
-	bl sub_080B8578
+	bl CpuSet
 	b _08066936
 _08066C40: .4byte gUnk_03005CF4
 _08066C44:
@@ -658,7 +658,7 @@ _08066E44:
 	str r1, [r0, #0]
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	bl sub_080020F4
 	muls r0, r7, r0
@@ -858,7 +858,7 @@ _0806702A:
 	ldr r2, _08067044
 _08067038:
 	add r0, sp, #4
-	bl sub_080B8578
+	bl CpuSet
 	b _08066936
 _08067040: .4byte gUnk_03003D18
 _08067044: .4byte 0x04000008
@@ -1103,7 +1103,7 @@ _08067210:
 	adds r1, #8
 	adds r0, r5, #0
 	ldr r2, _08067248
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #4
 	strb r0, [r4, #1]
 	ldr r0, [r6, #0]
@@ -1170,7 +1170,7 @@ _080672A4:
 	adds r1, #8
 	adds r0, r3, #0
 	ldr r2, _080672D8
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #4
 	strb r0, [r4, #1]
 	b _08067392
@@ -1443,7 +1443,7 @@ _0806751C:
 	ldrh r1, [r1, #0]
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	adds r3, r5, #0
 	adds r3, #0x5c
 	ldrh r1, [r3, #0]

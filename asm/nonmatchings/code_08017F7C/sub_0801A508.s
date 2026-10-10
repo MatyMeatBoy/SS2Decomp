@@ -14,7 +14,7 @@ sub_0801A508: @ 0x0801A508
 	ldr r1, _0801A550
 	movs r2, #0xe0
 	lsls r2, r2, #3
-	bl sub_080B8574
+	bl CpuFastSet
 	movs r1, #0
 	ldr r3, _0801A554
 	movs r2, #1

@@ -517,7 +517,7 @@ _080B1414:
 	lsrs r0, r0, #0x18
 	str r0, [sp, #0xf0]
 	movs r0, #4
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	cmp r2, #0
 	beq _080B1444

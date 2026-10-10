@@ -133,7 +133,7 @@ _0809E59C:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10
@@ -212,7 +212,7 @@ _0809E64C:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10
@@ -249,7 +249,7 @@ _0809E69C:
 	adds r0, r0, r2
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10
@@ -352,7 +352,7 @@ _0809E784:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10
@@ -409,7 +409,7 @@ _0809E808:
 	adds r0, r0, r2
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10
@@ -528,7 +528,7 @@ _0809E914:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10
@@ -600,7 +600,7 @@ _0809E9BC:
 	adds r0, r0, r1
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10
@@ -1027,7 +1027,7 @@ _0809ED46:
 	adds r0, r0, r2
 	asrs r0, r0, #0x10
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	lsrs r7, r2, #0x10

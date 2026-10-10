@@ -19,7 +19,7 @@ _08066234:
 	adds r1, r4, #0
 	adds r1, #8
 	ldr r2, _08066254
-	bl sub_080B8578
+	bl CpuSet
 	b _080662B0
 	.2byte 0x0000
 _08066250: .4byte gUnk_03003D18
@@ -64,7 +64,7 @@ _0806627A:
 	adds r1, r4, #0
 	adds r1, #8
 	ldr r2, _080662C0
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #4
 	strb r0, [r4, #1]
 	ldr r0, [r5, #0]

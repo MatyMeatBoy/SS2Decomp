@@ -19,7 +19,7 @@ _080013A8:
 	lsls r2, r2, #1
 	lsrs r2, r2, #3
 	ands r2, r6
-	bl sub_080B8574
+	bl CpuFastSet
 	b _080013DE
 	.2byte 0x0000
 _080013C0: .4byte gUnk_0300235C
@@ -33,7 +33,7 @@ _080013CC:
 	movs r3, #0x80
 	lsls r3, r3, #0x13
 	orrs r2, r3
-	bl sub_080B8578
+	bl CpuSet
 _080013DE:
 	adds r5, #1
 	adds r4, #0xc

@@ -769,7 +769,7 @@ _080B527C:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0xa
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -789,7 +789,7 @@ _080B52B6:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #5
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r1, r0, #0x10
 	cmp r1, #0

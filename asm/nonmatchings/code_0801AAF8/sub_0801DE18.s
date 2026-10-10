@@ -10,7 +10,7 @@ sub_0801DE18: @ 0x0801DE18
 	adds r0, r0, r1
 	adds r1, r4, #0
 	movs r2, #0x18
-	bl sub_080B8578
+	bl CpuSet
 	pop {r4}
 	pop {r0}
 	bx r0

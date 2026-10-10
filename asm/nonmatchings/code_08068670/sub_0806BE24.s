@@ -679,7 +679,7 @@ _0806C36C:
 	mov r2, sl
 	movs r3, #0
 	ldrsh r1, [r2, r3]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x18
 	adds r1, r2, #0
@@ -712,7 +712,7 @@ _0806C3AE:
 	asrs r4, r4, #0x10
 	subs r0, r0, r4
 	movs r1, #7
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	adds r4, r4, r0

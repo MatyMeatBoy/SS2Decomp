@@ -210,7 +210,7 @@ _080207EC:
 	ldrsh r2, [r3, r4]
 	adds r1, r1, r2
 	adds r1, #0x14
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
@@ -218,7 +218,7 @@ _080207EC:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r4, r4, #0x10
@@ -302,7 +302,7 @@ _080208B0:
 	subs r1, r1, r2
 	lsls r1, r1, #8
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	ldr r1, _080209B4
 	lsrs r0, r0, #0x1c
@@ -538,7 +538,7 @@ _08020A96:
 	ldrsh r2, [r6, r3]
 	adds r1, r1, r2
 	adds r1, #0x14
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
@@ -546,7 +546,7 @@ _08020A96:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r4, r4, #0x10
@@ -562,7 +562,7 @@ _08020ADA:
 _08020AE0:
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	adds r1, r6, #0
@@ -760,7 +760,7 @@ _08020C66:
 	bl sub_0805865C
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	adds r1, r6, #0

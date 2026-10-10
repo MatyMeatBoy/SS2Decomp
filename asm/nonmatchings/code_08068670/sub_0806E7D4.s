@@ -196,7 +196,7 @@ _0806E94E:
 	subs r4, r7, #1
 	adds r4, r6, r4
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r0, #0xa
 	ldrb r4, [r4, #0]
 	adds r0, r0, r4

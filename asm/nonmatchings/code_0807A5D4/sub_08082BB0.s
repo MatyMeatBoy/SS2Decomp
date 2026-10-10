@@ -477,7 +477,7 @@ _08082FBA:
 	adds r4, r4, r2
 	adds r0, r6, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	str r0, [r4, #0]
 	adds r6, #1
 	cmp r6, #5

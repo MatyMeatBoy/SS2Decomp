@@ -248,7 +248,7 @@ _0808BB9E:
 	adds r0, r6, #0
 	movs r1, #0xe1
 	lsls r1, r1, #4
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	lsls r5, r7, #0x18
 	lsrs r5, r5, #0x18
@@ -259,10 +259,10 @@ _0808BB9E:
 	adds r0, r6, #0
 	movs r1, #0xe1
 	lsls r1, r1, #4
-	bl sub_080B942C
+	bl __modsi3
 	adds r4, r0, #0
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	movs r0, #4
 	movs r1, #4
@@ -270,11 +270,11 @@ _0808BB9E:
 	bl sub_0805FB7C
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_080B942C
+	bl __modsi3
 	movs r1, #0x64
 	muls r0, r1, r0
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	movs r0, #7
 	movs r1, #4
@@ -404,7 +404,7 @@ _0808BCBA:
 _0808BCF2:
 	adds r0, r6, #0
 	mov r1, sl
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	lsls r5, r7, #0x18
 	lsrs r5, r5, #0x18
@@ -414,10 +414,10 @@ _0808BCF2:
 	bl sub_0805FB7C
 	adds r0, r6, #0
 	mov r1, sl
-	bl sub_080B942C
+	bl __modsi3
 	adds r4, r0, #0
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	movs r0, #4
 	movs r1, #4
@@ -425,11 +425,11 @@ _0808BCF2:
 	bl sub_0805FB7C
 	adds r0, r4, #0
 	movs r1, #0x3c
-	bl sub_080B942C
+	bl __modsi3
 	movs r1, #0x64
 	muls r0, r1, r0
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	movs r0, #7
 	movs r1, #4
@@ -474,13 +474,13 @@ _0808BD7E:
 	lsls r4, r4, #4
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_080B942C
+	bl __modsi3
 	movs r1, #0x3c
-	bl sub_080B942C
+	bl __modsi3
 	movs r5, #0x64
 	muls r0, r5, r0
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	mov r8, r0
 	cmp r6, #1
 	bne _0808BDD0
@@ -488,7 +488,7 @@ _0808BD7E:
 	bl sub_080008C8
 	mov r2, r8
 	subs r1, r4, r2
-	bl sub_080B95E4
+	bl __umodsi3
 	mov r1, r8
 	subs r1, r1, r0
 	mov r8, r1
@@ -501,12 +501,12 @@ _0808BDCC: .4byte gUnk_0850CAA8
 _0808BDD0:
 	subs r0, r6, #1
 	adds r1, r4, #0
-	bl sub_080B942C
+	bl __modsi3
 	movs r1, #0x3c
-	bl sub_080B942C
+	bl __modsi3
 	muls r0, r5, r0
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	mov r2, r8
 	subs r4, r2, r4
@@ -514,7 +514,7 @@ _0808BDD0:
 	bhi _0808BDFE
 	bl sub_080008C8
 	adds r1, r4, #0
-	bl sub_080B95E4
+	bl __umodsi3
 	add r8, r0
 	b _0808BE02
 _0808BDFE:
@@ -548,15 +548,15 @@ _0808BE2E:
 	lsls r4, r4, #4
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_080B9394
+	bl __divsi3
 	mov sl, r0
 	lsls r0, r7, #0x18
 	lsrs r5, r0, #0x18
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_080B942C
+	bl __modsi3
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	mov r9, r0
 	b _0808BEBA
 	.2byte 0x0000
@@ -623,15 +623,15 @@ _0808BEBA:
 	lsls r4, r4, #4
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_080B9394
+	bl __divsi3
 	mov r9, r0
 	lsls r0, r7, #0x18
 	lsrs r5, r0, #0x18
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_080B942C
+	bl __modsi3
 	movs r1, #0x3c
-	bl sub_080B9394
+	bl __divsi3
 	adds r7, r0, #0
 	b _0808BF72
 _0808BF00: .4byte 0x00018A92

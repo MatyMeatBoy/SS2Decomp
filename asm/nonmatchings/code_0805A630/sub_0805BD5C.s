@@ -66,7 +66,7 @@ _0805BDC8:
 	ldrh r0, [r4, #0]
 	muls r0, r5, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	adds r5, r0, #0
 	adds r0, r6, #0
 	adds r0, #0xc4
@@ -131,7 +131,7 @@ _0805BE42:
 	ldrh r0, [r0, #0]
 	muls r0, r5, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	adds r5, r0, #0
 	lsls r0, r5, #2
 	adds r0, r0, r5
@@ -529,7 +529,7 @@ _0805C14C:
 	ldrh r0, [r4, #0]
 	muls r0, r5, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	adds r5, r0, #0
 	adds r0, r6, #0
 	adds r0, #0xc4

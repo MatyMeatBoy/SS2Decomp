@@ -16,7 +16,7 @@ sub_0805C620: @ 0x0805C620
 	str r0, [sp, #0]
 	ldr r2, _0805C68C
 	mov r0, sp
-	bl sub_080B8578
+	bl CpuSet
 	movs r6, #0
 	bl sub_080008C8
 	lsls r0, r0, #0x10

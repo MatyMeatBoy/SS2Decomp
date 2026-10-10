@@ -62,7 +62,7 @@ _08066142:
 	adds r1, #8
 	ldr r2, _08066178
 	adds r0, r6, #0
-	bl sub_080B8578
+	bl CpuSet
 	strb r4, [r5, #1]
 	ldr r0, [r7, #0]
 	adds r0, #1

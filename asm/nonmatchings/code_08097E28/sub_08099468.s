@@ -26,7 +26,7 @@ _0809947E:
 	lsls r0, r0, #7
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	str r0, [sp, #0x50]
 	adds r2, r4, #0
 	adds r3, r5, #0
@@ -197,7 +197,7 @@ _080995C0:
 	muls r3, r1, r3
 	adds r1, r3, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0x13

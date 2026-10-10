@@ -69,12 +69,12 @@ _0807A276:
 	ldr r0, [r0, #0]
 	ldr r2, _0807A2BC
 	adds r1, r6, #0
-	bl sub_080B96A4
+	bl memcpy
 	ldr r0, _0807A2C8
 	ldr r0, [r0, #0]
 	ldr r2, _0807A2C0
 	adds r1, r7, #0
-	bl sub_080B96A4
+	bl memcpy
 	adds r0, r6, #0
 	bl sub_08001538
 	adds r0, r7, #0

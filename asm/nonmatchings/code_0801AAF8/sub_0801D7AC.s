@@ -343,7 +343,7 @@ _0801DA0C:
 	mov r0, sp
 	adds r1, r4, #0
 	ldr r2, _0801DA3C
-	bl sub_080B8578
+	bl CpuSet
 	strh r7, [r4, #2]
 	movs r0, #0x78
 	strh r0, [r4, #0]
@@ -393,7 +393,7 @@ _0801DA6A:
 	adds r1, r4, #0
 	ldr r2, _0801DAA4
 	str r3, [sp, #4]
-	bl sub_080B8578
+	bl CpuSet
 	strh r7, [r4, #2]
 	movs r0, #0x78
 	strh r0, [r4, #0]

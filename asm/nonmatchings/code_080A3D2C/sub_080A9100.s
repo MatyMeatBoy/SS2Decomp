@@ -49,7 +49,7 @@ sub_080A9100: @ 0x080A9100
 	adds r1, r5, #0
 	muls r1, r5, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0x13

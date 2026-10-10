@@ -650,7 +650,7 @@ _0809B3F2:
 	adds r0, r0, r1
 	adds r1, r7, r1
 	movs r2, #0xd8
-	bl sub_080B96A4
+	bl memcpy
 	ldr r0, [r4, #0]
 	ldr r3, _0809B53C
 	adds r0, r0, r3

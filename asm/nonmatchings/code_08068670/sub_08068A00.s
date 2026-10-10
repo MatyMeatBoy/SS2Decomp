@@ -194,7 +194,7 @@ _08068B54:
 	lsls r0, r1, #4
 	subs r0, r0, r1
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	adds r2, r0, #0
 	ldrh r0, [r5, #0]
 	ldr r3, _08068B88

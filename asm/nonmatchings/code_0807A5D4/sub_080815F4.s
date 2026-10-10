@@ -883,13 +883,13 @@ _08081CEA:
 	mov r8, r0
 	adds r0, r3, #0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08081D20
 	ldr r0, [sp, #0x258]
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08081D1C
@@ -1300,13 +1300,13 @@ _08082028:
 	mov r8, r6
 	adds r0, r3, #0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _0808205C
 	ldr r0, [sp, #0x258]
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08082058
@@ -1570,7 +1570,7 @@ _08082240:
 	mov r8, r6
 	adds r0, r2, #0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	beq _08082254
@@ -1578,7 +1578,7 @@ _08082240:
 _08082254:
 	ldr r0, [sp, #0x25c]
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08082264
@@ -1821,13 +1821,13 @@ _08082430:
 	mov r8, r6
 	adds r0, r2, #0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08082464
 	ldr r0, [sp, #0x25c]
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08082460
@@ -2135,13 +2135,13 @@ _0808267E:
 	mov r8, r6
 	adds r0, r2, #0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _080826D8
 	ldr r0, [sp, #0x25c]
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _080826D4

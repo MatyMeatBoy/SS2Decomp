@@ -398,7 +398,7 @@ _0806F3EA:
 	ldr r4, [sp, #0xa0]
 	movs r5, #0
 	ldrsh r1, [r4, r5]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x18
 	adds r1, r3, #0
@@ -1287,7 +1287,7 @@ _0806FAD2:
 	ldr r2, [sp, #0xa0]
 	movs r3, #0
 	ldrsh r1, [r2, r3]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x18
 	adds r2, r3, #0
@@ -1376,7 +1376,7 @@ _0806FB58:
 	muls r3, r1, r3
 	adds r1, r3, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #7
@@ -1506,7 +1506,7 @@ _0806FC94:
 	ldr r2, [sp, #0x74]
 	muls r0, r2, r0
 	movs r1, #0x32
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0x74]

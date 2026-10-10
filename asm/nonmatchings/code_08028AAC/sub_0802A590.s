@@ -22,7 +22,7 @@ sub_0802A590: @ 0x0802A590
 	orrs r2, r0
 	adds r0, r4, #0
 	mov r1, r8
-	bl sub_080B8578
+	bl CpuSet
 	lsls r5, r5, #4
 	mov r9, r5
 	mov r5, r8
@@ -40,7 +40,7 @@ _0802A5CE:
 	lsrs r2, r2, #0x1b
 	adds r0, r0, r2
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x1f

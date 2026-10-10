@@ -105,12 +105,12 @@ sub_080AE420: @ 0x080AE420
 	lsls r5, r5, #1
 	adds r1, r7, r5
 	movs r2, #0x18
-	bl sub_080B8578
+	bl CpuSet
 	mov r0, sl
 	adds r0, #0x38
 	ldr r1, [sp, #0x1c]
 	movs r2, #0x10
-	bl sub_080B8578
+	bl CpuSet
 	adds r0, r7, #0
 	bl sub_0801A0A4
 	movs r1, #0xee

@@ -298,7 +298,7 @@ _0801CB26:
 	ldrsh r0, [r5, r2]
 _0801CB32:
 	movs r1, #0x3c
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _0801CBEC
@@ -311,7 +311,7 @@ _0801CB32:
 	ldrh r0, [r5, #6]
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	str r0, [r7, #0x4c]
 	adds r2, r7, #0
 	adds r2, #0x4a

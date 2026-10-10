@@ -1,5 +1,5 @@
-	thumb_func_start sub_080B8F60
-sub_080B8F60: @ 0x080B8F60
+	thumb_func_start __divdi3
+__divdi3: @ 0x080B8F60
 	push {r4, r5, r6, r7, lr}
 	mov r7, sl
 	mov r6, r9
@@ -97,11 +97,11 @@ _080B9006:
 	str r1, [sp, #0xc]
 	mov r0, r8
 	mov r1, r9
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	mov r0, r8
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r6, r0, #0
 	ldr r3, [sp, #0xc]
 	adds r2, r6, #0
@@ -124,11 +124,11 @@ _080B9046:
 	subs r4, r4, r2
 	adds r0, r4, #0
 	mov r1, r9
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	adds r0, r4, #0
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	ldr r3, [sp, #0xc]
 	adds r2, r1, #0
@@ -161,7 +161,7 @@ _080B9094:
 	bne _080B90A2
 	movs r0, #1
 	movs r1, #0
-	bl sub_080B956C
+	bl __udivsi3
 	adds r7, r0, #0
 _080B90A2:
 	adds r1, r7, #0
@@ -219,11 +219,11 @@ _080B90E8:
 	str r1, [sp, #0x14]
 	adds r0, r5, #0
 	mov r1, r9
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	adds r0, r5, #0
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r6, r0, #0
 	ldr r2, [sp, #0x14]
 	adds r1, r6, #0
@@ -246,11 +246,11 @@ _080B9142:
 	subs r4, r4, r1
 	adds r0, r4, #0
 	mov r1, r9
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	adds r0, r4, #0
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r4, [sp, #0x14]
 	adds r1, r2, #0
@@ -284,11 +284,11 @@ _080B9186:
 	str r0, [sp, #0x18]
 	mov r0, r8
 	mov r1, r9
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	mov r0, r8
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r6, r0, #0
 	ldr r1, [sp, #0x18]
 	adds r2, r6, #0
@@ -311,11 +311,11 @@ _080B91C6:
 	subs r4, r4, r2
 	adds r0, r4, #0
 	mov r1, r9
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	adds r0, r4, #0
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	ldr r4, [sp, #0x18]
 	adds r2, r1, #0
@@ -413,11 +413,11 @@ _080B9264:
 	str r1, [sp, #0x1c]
 	adds r0, r5, #0
 	mov r1, r9
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	adds r0, r5, #0
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r3, r0, #0
 	ldr r2, [sp, #0x1c]
 	adds r1, r3, #0
@@ -441,11 +441,11 @@ _080B92C6:
 	adds r0, r4, #0
 	mov r1, r9
 	str r3, [sp, #0x30]
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	adds r0, r4, #0
 	mov r1, r9
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r4, [sp, #0x1c]
 	adds r1, r2, #0
@@ -545,4 +545,4 @@ _080B9380:
 	mov sl, r5
 	pop {r4, r5, r6, r7, pc}
 _080B9390: .4byte 0x0000FFFF
-	thumb_func_end sub_080B8F60
+	thumb_func_end __divdi3

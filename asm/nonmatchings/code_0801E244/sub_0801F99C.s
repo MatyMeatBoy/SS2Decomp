@@ -102,7 +102,7 @@ _0801FA38:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x32
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	movs r2, #0xc8
@@ -116,15 +116,15 @@ _0801FA38:
 	lsls r0, r0, #1
 	adds r5, r5, r6
 	adds r1, r5, #0
-	bl sub_080B9394
+	bl __divsi3
 	muls r0, r4, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r6, #0xa
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0

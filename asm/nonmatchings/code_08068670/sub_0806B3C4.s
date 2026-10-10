@@ -144,7 +144,7 @@ _0806B4D0:
 	subs r4, r7, #1
 	adds r4, r6, r4
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r0, #0xa
 	ldrb r4, [r4, #0]
 	adds r0, r0, r4
@@ -340,7 +340,7 @@ _0806B61E:
 	ldrsh r0, [r4, r3]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x1b
 	ldr r2, [sp, #0x8c]
@@ -456,7 +456,7 @@ _0806B70A:
 	ldrsh r0, [r5, r2]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x1b
 	ldr r3, [sp, #0x8c]

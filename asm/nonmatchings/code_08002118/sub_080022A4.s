@@ -10,7 +10,7 @@ _080022B0:
 	ldr r0, _080022EC
 	ldr r1, _080022F0
 	movs r2, #0xc
-	bl sub_080B8578
+	bl CpuSet
 	str r4, [r5, #0]
 	bl sub_080003F0
 	ldr r2, _080022E0

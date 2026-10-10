@@ -124,7 +124,7 @@ _08096234:
 	blo _080961E8
 _0809623A:
 	ldr r0, [sp, #0]
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
 	mov r7, sl

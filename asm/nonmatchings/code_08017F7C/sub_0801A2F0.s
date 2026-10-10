@@ -4,7 +4,7 @@ sub_0801A2F0: @ 0x0801A2F0
 	adds r4, r0, #0
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x18
 	lsrs r2, r0, #0x18
 	movs r5, #0xff

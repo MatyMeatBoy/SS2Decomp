@@ -26,7 +26,7 @@ _08097BBA:
 	adds r0, r1, #0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [r7, #4]
 	adds r1, r1, r0
 	str r1, [r7, #4]

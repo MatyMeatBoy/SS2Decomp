@@ -157,7 +157,7 @@ _0806DC40:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	add r2, sp, #4
 	mov r3, r8
 	lsls r1, r3, #1

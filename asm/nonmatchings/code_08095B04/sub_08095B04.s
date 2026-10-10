@@ -35,7 +35,7 @@ _08095B28:
 	adds r0, r1, #0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	b _08095B7E
 	.2byte 0x0000
 _08095B50: .4byte gUnk_080B9704
@@ -121,7 +121,7 @@ _08095BD2:
 	adds r0, r1, #0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	b _08095C22
 	.2byte 0x0000
 _08095BF8: .4byte gUnk_080B9704
@@ -199,7 +199,7 @@ _08095C6E:
 	adds r0, r1, #0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [r6, #0x18]
 	adds r1, r1, r0
 	str r1, [r6, #0x18]

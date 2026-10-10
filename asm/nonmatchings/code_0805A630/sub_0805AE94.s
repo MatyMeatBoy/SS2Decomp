@@ -193,7 +193,7 @@ _0805B016:
 	mov r0, r9
 	muls r0, r5, r0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r5, r0, #0
 	ldr r1, _0805B050
 	lsls r0, r7, #2
@@ -201,7 +201,7 @@ _0805B016:
 	ldr r0, [r0, #0]
 	muls r0, r5, r0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r5, r0, #0
 	ldr r1, _0805B054
 	mov r2, r8
@@ -210,7 +210,7 @@ _0805B016:
 	ldr r0, [r0, #0]
 	muls r0, r5, r0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r5, r0, #0
 	b _0805B05A
 	.2byte 0x0000

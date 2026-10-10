@@ -70,7 +70,7 @@ _0805B0DC:
 	adds r0, r5, #0
 	muls r0, r4, r0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r5, r0, #0
 _0805B0E8:
 	pop {r4, r5}

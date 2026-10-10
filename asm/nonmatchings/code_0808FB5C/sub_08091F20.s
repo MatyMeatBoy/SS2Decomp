@@ -25,25 +25,25 @@ _08091F42:
 	adds r7, #1
 	adds r0, r4, #0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	adds r6, r0, #0
 	lsls r6, r6, #0x18
 	lsrs r6, r6, #0x18
 	adds r0, r4, #0
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	lsls r5, r5, #0x10
 	lsrs r5, r5, #0x10
 	adds r0, r5, #0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x18
 	lsrs r4, r4, #0x18
 	adds r0, r5, #0
 	movs r1, #0xa
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x18
 	adds r6, #0x41
 	strb r6, [r7, #0]

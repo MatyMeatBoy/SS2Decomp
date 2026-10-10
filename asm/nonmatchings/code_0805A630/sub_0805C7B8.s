@@ -145,7 +145,7 @@ _0805C8C6:
 	bl sub_080008C8
 	mov r1, r9
 	adds r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	ldr r1, [sp, #0x64]
 	lsls r1, r1, #4
@@ -158,7 +158,7 @@ _0805C8C6:
 _0805C8EE:
 	bl sub_080008C8
 	mov r1, r8
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r1, r0, #3
 	add r0, sp, #4
 	adds r1, r0, r1
@@ -283,7 +283,7 @@ _0805C9D2:
 	bl sub_080008C8
 	mov r1, r9
 	adds r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	cmp r4, #0
 	beq _0805CA72
@@ -293,7 +293,7 @@ _0805C9D2:
 _0805C9F4:
 	bl sub_080008C8
 	mov r1, r8
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r1, r0, #3
 	add r0, sp, #4
 	adds r1, r0, r1

@@ -20,7 +20,7 @@ _0805B23E:
 	mov r0, sp
 	adds r1, r4, #0
 	ldr r2, _0805B2AC
-	bl sub_080B8578
+	bl CpuSet
 	adds r5, #1
 	adds r4, #0x20
 	cmp r5, #0xf

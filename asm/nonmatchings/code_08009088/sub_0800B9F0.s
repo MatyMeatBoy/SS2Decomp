@@ -44,7 +44,7 @@ _0800BA3C:
 	adds r1, r1, r2
 	movs r2, #0x80
 	lsls r2, r2, #3
-	bl sub_080B8574
+	bl CpuFastSet
 _0800BA4E:
 	movs r0, #0x80
 	lsls r0, r0, #0x17

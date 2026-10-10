@@ -15,7 +15,7 @@ sub_08005A24: @ 0x08005A24
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #6
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	mov r9, r0
@@ -34,7 +34,7 @@ sub_08005A24: @ 0x08005A24
 	lsls r1, r1, #0x13
 	orrs r2, r1
 	ldr r1, [sp, #4]
-	bl sub_080B8578
+	bl CpuSet
 	lsls r7, r4, #4
 	movs r6, #0x80
 	lsls r6, r6, #3

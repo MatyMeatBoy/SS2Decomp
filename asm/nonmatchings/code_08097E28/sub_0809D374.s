@@ -52,7 +52,7 @@ sub_0809D374: @ 0x0809D374
 	adds r1, r5, #0
 	muls r1, r5, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0x2f
@@ -61,7 +61,7 @@ sub_0809D374: @ 0x0809D374
 _0809D3EE:
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsls r1, r0, #3
 	lsrs r2, r0, #0x1d

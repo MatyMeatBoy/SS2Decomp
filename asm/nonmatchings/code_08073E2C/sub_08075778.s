@@ -86,7 +86,7 @@ sub_08075778: @ 0x08075778
 	adds r1, r0, #0
 	add r0, sp, #0x3c
 	movs r2, #0xc4
-	bl sub_080B96A4
+	bl memcpy
 	add r2, sp, #0xf8
 	ldrh r0, [r2, #0]
 	cmp r0, #0
@@ -249,7 +249,7 @@ _08075934:
 	ldrsh r0, [r2, r3]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r6, r0, #0x18
 	adds r1, r6, #0
@@ -307,7 +307,7 @@ _080759A0:
 	ldrsh r0, [r3, r4]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r6, r0, #0x18
 	adds r1, r6, #0
@@ -377,7 +377,7 @@ _08075A4E:
 	movs r2, #0x2d
 	muls r0, r2, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r3, [sp, #0x138]
 	adds r3, r3, r0
 	str r3, [sp, #0x138]
@@ -389,7 +389,7 @@ _08075A4E:
 	movs r2, #0x2d
 	muls r0, r2, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r3, [sp, #0x13c]
 	adds r3, r3, r0
 	str r3, [sp, #0x13c]
@@ -440,7 +440,7 @@ _08075AE2:
 	lsls r0, r6, #4
 	adds r0, r0, r6
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	adds r0, #9
 	str r0, [sp, #0x144]
 	movs r0, #0x8c
@@ -989,7 +989,7 @@ _08075F32:
 	movs r3, #0x2d
 	muls r0, r3, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r6, [sp, #0x138]
 	adds r6, r6, r0
 	str r6, [sp, #0x138]
@@ -1000,7 +1000,7 @@ _08075F32:
 	movs r2, #0x2d
 	muls r0, r2, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r3, [sp, #0x13c]
 	adds r3, r3, r0
 	str r3, [sp, #0x13c]

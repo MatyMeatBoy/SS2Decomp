@@ -56,7 +56,7 @@ _0809565E:
 	orrs r2, r0
 	adds r0, r5, #0
 	adds r1, r7, #0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, _08095724
 	movs r5, #1
 	negs r5, r5

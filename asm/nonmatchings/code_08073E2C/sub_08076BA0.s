@@ -75,7 +75,7 @@ _08076BF4:
 	adds r1, r0, #0
 	add r0, sp, #0x44
 	movs r2, #0xc4
-	bl sub_080B96A4
+	bl memcpy
 	add r2, sp, #0x100
 	ldrh r0, [r2, #0]
 	cmp r0, #0
@@ -186,7 +186,7 @@ _08076CE4:
 	ldrsh r0, [r2, r4]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x18
 	adds r1, r5, #0
@@ -257,7 +257,7 @@ _08076D5C:
 	ldrsh r0, [r3, r4]
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x18
 	adds r1, r5, #0

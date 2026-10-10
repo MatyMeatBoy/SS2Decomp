@@ -31,7 +31,7 @@ sub_08087788: @ 0x08087788
 	lsls r1, r1, #0x13
 	orrs r2, r1
 	ldr r1, [sp, #4]
-	bl sub_080B8578
+	bl CpuSet
 	lsls r4, r4, #4
 	str r4, [sp, #8]
 	movs r7, #0
@@ -61,7 +61,7 @@ _080877F0:
 	muls r0, r7, r0
 	mov r1, r8
 	str r2, [sp, #0x10]
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r4, r0
 	mov r3, sl
 	ands r4, r3
@@ -80,7 +80,7 @@ _080877F0:
 	subs r0, r1, r0
 	muls r0, r7, r0
 	mov r1, r8
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r4, r0
 	movs r0, #0x1f
 	ands r4, r0
@@ -99,7 +99,7 @@ _080877F0:
 	subs r0, r1, r0
 	muls r0, r7, r0
 	mov r1, r8
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r4, r0
 	mov r3, sl
 	ands r4, r3

@@ -114,7 +114,7 @@ _0805B73E:
 	ldr r3, [sp, #0x8c]
 	muls r0, r3, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [sp, #0x70]
 	adds r1, r1, r0
 	str r1, [sp, #0x70]
@@ -126,7 +126,7 @@ _0805B73E:
 	ldr r2, [sp, #0x8c]
 	muls r0, r2, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [sp, #0x74]
 	adds r1, r1, r0
 	str r1, [sp, #0x74]
@@ -583,7 +583,7 @@ _0805BAF6:
 	ldr r3, [sp, #0x8c]
 	lsls r0, r3, #8
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [sp, #0xa0]
 	lsls r2, r1, #0x10
 	str r4, [sp, #0]
@@ -596,7 +596,7 @@ _0805BB20:
 	ldr r2, [sp, #0x8c]
 	lsls r0, r2, #8
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r3, [sp, #0xa0]
 	lsls r2, r3, #0x10
 	movs r1, #0

@@ -31,7 +31,7 @@ _08068FBC:
 _08068FD4:
 	bl sub_080008C8
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r6, r0, #0
 	adds r6, #0x64
 	ldr r0, [r5, #0xc]
@@ -39,7 +39,7 @@ _08068FD4:
 	beq _08069014
 	adds r0, r4, #0
 	adds r0, #0xf
-	bl sub_080B858C
+	bl Sqrt
 	ldr r3, _08069010
 	ldr r2, [r5, #0xc]
 	lsls r1, r2, #1
@@ -58,7 +58,7 @@ _08069010: .4byte gUnk_084EBF1C
 _08069014:
 	adds r0, r4, #0
 	adds r0, #0xf
-	bl sub_080B858C
+	bl Sqrt
 	ldr r3, _08069070
 	ldr r2, [r5, #0x14]
 	lsrs r1, r2, #0x10
@@ -78,7 +78,7 @@ _08069030:
 	muls r0, r1, r0
 	muls r0, r6, r0
 	ldr r1, _08069078
-	bl sub_080B956C
+	bl __udivsi3
 	adds r3, r0, #0
 	cmp r7, #0
 	beq _08069066

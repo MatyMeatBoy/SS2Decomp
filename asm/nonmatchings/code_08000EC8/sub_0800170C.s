@@ -27,15 +27,15 @@ sub_0800170C: @ 0x0800170C
 	ldr r2, _080017E8
 	mov r0, sp
 	adds r1, r4, #0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, _080017EC
 	ldr r1, _080017F0
 	ldr r2, _080017F4
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, _080017F8
 	ldr r1, _080017FC
 	ldr r2, _08001800
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #1
 	negs r0, r0
 	str r0, [r4, #0x14]

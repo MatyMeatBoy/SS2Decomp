@@ -29,7 +29,7 @@ _0807A39E:
 	strh r1, [r0, #0]
 	adds r1, r5, #0
 	ldr r2, _0807A3C4
-	bl sub_080B8578
+	bl CpuSet
 	adds r7, #1
 	adds r6, r5, #0
 	adds r6, #0x6c

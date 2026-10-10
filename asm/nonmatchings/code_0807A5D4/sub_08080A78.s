@@ -66,13 +66,13 @@ _08080AD6:
 	beq _08080B4A
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #4
 	adds r4, #0x58
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	lsls r1, r1, #4
 	adds r1, #0x20
@@ -87,13 +87,13 @@ _08080B20: .4byte gUnk_03002344
 _08080B24:
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #4
 	adds r4, #0x58
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	lsls r1, r1, #4
 	adds r1, #0x20
@@ -112,7 +112,7 @@ _08080B4A:
 	adds r0, #0x68
 	ldrh r0, [r0, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1
@@ -434,7 +434,7 @@ _08080DF0:
 	adds r0, #0x54
 	ldrh r0, [r0, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1
@@ -607,13 +607,13 @@ _08080F3A:
 	beq _08080FAA
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #4
 	adds r4, #0xb8
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	lsls r1, r1, #4
 	adds r1, #0xb8
@@ -627,13 +627,13 @@ _08080F80: .4byte gUnk_03002344
 _08080F84:
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #4
 	adds r4, #0xb8
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	lsls r1, r1, #4
 	adds r1, #0x20
@@ -710,13 +710,13 @@ _08081008:
 	beq _0808107A
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #4
 	adds r4, #0xb8
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	lsls r1, r1, #4
 	adds r1, #0x20
@@ -730,13 +730,13 @@ _08081050: .4byte gUnk_03002344
 _08081054:
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #4
 	adds r4, #0xb8
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	lsls r1, r1, #4
 	adds r1, #0x20
@@ -811,7 +811,7 @@ _080810D2:
 	beq _08081126
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #4
 	adds r0, #0xb8
 	movs r1, #0x30
@@ -825,7 +825,7 @@ _0808110C: .4byte gUnk_03002344
 _08081110:
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #4
 	adds r0, #0xb8
 	movs r1, #0x30

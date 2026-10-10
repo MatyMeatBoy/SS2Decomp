@@ -609,7 +609,7 @@ _08085AF4:
 	adds r0, r7, #0
 	adds r1, r6, #0
 	ldr r2, _08085B80
-	bl sub_080B8578
+	bl CpuSet
 	adds r6, #0x28
 	adds r4, #0x28
 	adds r5, #1
@@ -1384,7 +1384,7 @@ _0808613E:
 	add r0, sp, #0x2d4
 	mov r1, r9
 	movs r2, #0xd8
-	bl sub_080B96A4
+	bl memcpy
 	movs r5, #0
 	ldrb r1, [r6, #0]
 	add r0, sp, #0x28

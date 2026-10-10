@@ -294,7 +294,7 @@ _08061E2C:
 	cmp r0, #0
 	beq _08061E28
 	movs r0, #0
-	bl sub_080B8598
+	bl SoftReset
 _08061E3A:
 	add sp, #4
 	pop {r4, r5, r6, r7}

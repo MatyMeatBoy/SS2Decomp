@@ -168,7 +168,7 @@ _0801B6CE:
 	muls r0, r4, r0
 	movs r1, #0xa
 _0801B6E2:
-	bl sub_080B9394
+	bl __divsi3
 	adds r5, r5, r0
 	lsls r5, r5, #0x10
 	lsrs r6, r5, #0x10

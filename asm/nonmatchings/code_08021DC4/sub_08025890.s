@@ -141,12 +141,12 @@ _080259A4:
 	str r0, [r1, #0]
 	bl sub_080008C8
 	movs r1, #0xc8
-	bl sub_080B95E4
+	bl __umodsi3
 	subs r0, #0x64
 	str r0, [r4, #0]
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r0, #1
 	str r0, [r5, #0]
 	bl sub_0800086C
@@ -166,14 +166,14 @@ _080259E0:
 	str r0, [r6, #0]
 	bl sub_080008C8
 	movs r1, #0xc8
-	bl sub_080B95E4
+	bl __umodsi3
 	subs r0, #0x64
 	str r0, [r7, #0]
 	bl sub_0800086C
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #3
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -794,7 +794,7 @@ _08025EE4:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	mov r1, r9
@@ -826,7 +826,7 @@ _08025F2C:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	mov r1, sl
@@ -1121,7 +1121,7 @@ _08026182:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	mov r1, r9
@@ -1153,7 +1153,7 @@ _080261CA:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	mov r1, sl

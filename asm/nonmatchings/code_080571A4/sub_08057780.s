@@ -16,7 +16,7 @@ sub_08057780: @ 0x08057780
 	beq _080577A8
 	movs r0, #0x80
 	lsls r0, r0, #3
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10
 _080577A8:

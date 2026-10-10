@@ -16,7 +16,7 @@ _0806923A:
 _0806923E:
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	mov r8, r0
 	cmp r6, #7
 	bhi _0806929E
@@ -65,7 +65,7 @@ _0806929E:
 	subs r0, r0, r5
 	adds r0, #0x32
 	adds r1, r5, #1
-	bl sub_080B9394
+	bl __divsi3
 	subs r0, #2
 	cmp r0, #0
 	bge _080692B6

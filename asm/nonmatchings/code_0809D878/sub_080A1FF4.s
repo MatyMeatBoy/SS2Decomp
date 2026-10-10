@@ -157,7 +157,7 @@ _080A20B8:
 	adds r1, r2, #0
 	muls r1, r2, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldr r1, [sp, #0x64]

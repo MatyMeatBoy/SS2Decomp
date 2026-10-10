@@ -24,7 +24,7 @@ _0808ED10:
 	ldrsh r0, [r6, r1]
 	lsls r0, r0, #1
 	adds r1, r5, #0
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10
@@ -36,9 +36,9 @@ _0808ED10:
 	lsls r0, r1, #4
 	subs r0, r0, r1
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	adds r1, r5, #0
-	bl sub_080B942C
+	bl __modsi3
 	adds r2, r0, #0
 	lsls r2, r2, #0x10
 	asrs r2, r2, #0x10

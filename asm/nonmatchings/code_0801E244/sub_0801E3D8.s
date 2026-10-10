@@ -39,7 +39,7 @@ _0801E410:
 	adds r0, #0xa
 	muls r0, r1, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r6, r0, #0x10
 _0801E430:

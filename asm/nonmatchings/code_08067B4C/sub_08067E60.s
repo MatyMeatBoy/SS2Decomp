@@ -34,7 +34,7 @@ _08067E74:
 	orrs r2, r0
 	adds r0, r4, #0
 	adds r1, r3, #0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r6, #0]
 	subs r1, #1
 	str r1, [r6, #0]

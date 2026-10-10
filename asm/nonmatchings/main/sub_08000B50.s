@@ -4,7 +4,7 @@ sub_08000B50: @ 0x08000B50
 	ldr r0, _08000B60
 	ldr r1, _08000B64
 	movs r2, #0x24
-	bl sub_080B8578
+	bl CpuSet
 	pop {r0}
 	bx r0
 _08000B60: .4byte gUnk_03001250

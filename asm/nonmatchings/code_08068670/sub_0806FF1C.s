@@ -1077,7 +1077,7 @@ _080707A4:
 	muls r3, r1, r3
 	adds r1, r3, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #7
@@ -1088,7 +1088,7 @@ _080707C8:
 	ldrsh r0, [r7, r4]
 	movs r5, #0
 	ldrsh r1, [r6, r5]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x18
 	adds r3, r2, #0
@@ -1986,7 +1986,7 @@ _08070ED2:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #7
@@ -1997,7 +1997,7 @@ _08070EFC:
 	ldrsh r0, [r7, r3]
 	movs r4, #0
 	ldrsh r1, [r6, r4]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x18
 	adds r3, r2, #0
@@ -2200,7 +2200,7 @@ _08071092:
 	ldrsh r0, [r7, r4]
 	movs r5, #0
 	ldrsh r1, [r6, r5]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x18
 	str r0, [sp, #0x74]

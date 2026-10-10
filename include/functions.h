@@ -319,12 +319,11 @@ void sub_080AF2AC(void);
 s32 sub_080AF304();
 void sub_080B2424(void);
 void sub_080B6360(void);
-s32 sub_080B8578(s32, s32, s32);
 u8 sub_080B87C4(u8 *arg0);
 s32 sub_080B882C(u16);
 s32 _call_via_r0();
 s32 _call_via_r1(s32, s32);
 s32 _call_via_r2(s32, s32, s32);
-u16 sub_080B9394(s32, s32);
+u16 __divsi3(s32, s32);
 
 #endif // GUARD_FUNCTIONS_H

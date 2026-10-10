@@ -16,7 +16,7 @@ sub_0800191C: @ 0x0800191C
 	ldr r1, [r4, #0x28]
 	adds r1, #4
 	ldr r2, _08001988
-	bl sub_080B8578
+	bl CpuSet
 	movs r2, #0
 	ldr r1, [r4, #0x28]
 _08001944:

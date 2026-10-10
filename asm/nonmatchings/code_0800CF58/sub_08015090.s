@@ -36,7 +36,7 @@ _080150BE:
 	ldr r0, [r7, #0]
 	lsls r0, r0, #3
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	adds r1, r5, #0
 	adds r1, #0x40
 	movs r2, #0

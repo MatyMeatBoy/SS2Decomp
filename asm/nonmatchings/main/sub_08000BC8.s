@@ -27,7 +27,7 @@ _08000BEA:
 _08000BF6:
 	ldr r1, [r5, #0]
 	adds r0, r6, #0
-	bl sub_080B8580
+	bl LZ77UnCompWram
 	ldr r0, [r5, #0]
 	pop {r4, r5, r6}
 	pop {r1}

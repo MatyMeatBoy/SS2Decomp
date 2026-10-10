@@ -327,7 +327,7 @@ _080951BE:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x30
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -351,7 +351,7 @@ _080951E4:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x30
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -464,7 +464,7 @@ _080952CA:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x30
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -488,7 +488,7 @@ _080952FE:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x30
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0

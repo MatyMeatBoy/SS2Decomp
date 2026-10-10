@@ -23,7 +23,7 @@ sub_080941B4: @ 0x080941B4
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x14
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -223,7 +223,7 @@ _08094338:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x14
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0

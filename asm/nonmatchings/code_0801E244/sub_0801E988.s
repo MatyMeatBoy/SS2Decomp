@@ -230,7 +230,7 @@ _0801EB18:
 	ldrh r1, [r1, #0]
 	adds r1, #0x48
 _0801EB46:
-	bl sub_080B9394
+	bl __divsi3
 _0801EB4A:
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
@@ -247,7 +247,7 @@ _0801EB56:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x32
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	movs r3, #0xc8
@@ -261,14 +261,14 @@ _0801EB56:
 	lsls r0, r0, #1
 	adds r5, r5, r6
 	adds r1, r5, #0
-	bl sub_080B9394
+	bl __divsi3
 	muls r0, r4, r0
 	mov r1, r9
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0
@@ -337,7 +337,7 @@ _0801EC0E:
 	adds r1, r2, #0
 	ldr r3, _0801ED08
 	adds r1, r1, r3
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	movs r0, #0x80
@@ -360,7 +360,7 @@ _0801EC40:
 	movs r0, #0x6e
 	muls r0, r5, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 _0801EC54:
@@ -392,7 +392,7 @@ _0801EC54:
 	adds r0, #0x64
 	muls r0, r4, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 _0801EC98:
@@ -490,7 +490,7 @@ _0801ED38:
 	adds r0, r2, #0
 	muls r0, r1, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r5, r0, #0x10
 _0801ED62:

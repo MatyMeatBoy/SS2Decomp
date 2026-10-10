@@ -27,7 +27,7 @@ _0800CA0E:
 	lsls r1, r1, #0x13
 	orrs r2, r1
 	adds r1, r7, #0
-	bl sub_080B8578
+	bl CpuSet
 	lsls r5, r5, #4
 	mov r8, r5
 	movs r0, #0x64

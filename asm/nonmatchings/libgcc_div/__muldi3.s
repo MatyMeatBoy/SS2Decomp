@@ -1,5 +1,5 @@
-	thumb_func_start sub_080B94FC
-sub_080B94FC: @ 0x080B94FC
+	thumb_func_start __muldi3
+__muldi3: @ 0x080B94FC
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x10
 	str r0, [sp, #0]
@@ -56,4 +56,4 @@ _080B953C:
 	add sp, #0x10
 	pop {r4, r5, r6, r7, pc}
 _080B9568: .4byte 0x0000FFFF
-	thumb_func_end sub_080B94FC
+	thumb_func_end __muldi3

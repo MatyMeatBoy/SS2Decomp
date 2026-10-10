@@ -9,7 +9,7 @@ sub_080854B8: @ 0x080854B8
 	adds r1, #0xf4
 	ldr r2, _080854E4
 	mov r0, sp
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]

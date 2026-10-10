@@ -16,7 +16,7 @@ sub_08069388: @ 0x08069388
 	lsrs r6, r0, #0x10
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	mov r9, r0
 	mov r0, r8
 	subs r0, #2
@@ -77,7 +77,7 @@ _08069416:
 	muls r0, r1, r0
 	movs r1, #0x32
 _08069426:
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	b _08069432
 _0806942E:
@@ -104,7 +104,7 @@ _08069446:
 	asrs r0, r0, #0x18
 	muls r0, r4, r0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	adds r4, r0, #0
 _08069462:
 	cmp r4, r9

@@ -305,7 +305,7 @@ _08008740:
 	mov r0, sp
 	movs r2, #1
 	movs r3, #8
-	bl sub_080B8584
+	bl ObjAffineSet
 	adds r6, #0x20
 	ldr r1, _080087A0
 	ldr r0, [r1, #0]

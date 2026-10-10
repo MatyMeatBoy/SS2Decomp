@@ -15,7 +15,7 @@ _0801A562:
 	adds r1, r1, r0
 	mov r0, sp
 	ldr r2, _0801A59C
-	bl sub_080B8574
+	bl CpuFastSet
 	strb r6, [r5, #0]
 _0801A57A:
 	adds r4, #1

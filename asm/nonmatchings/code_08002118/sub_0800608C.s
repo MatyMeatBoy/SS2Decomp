@@ -10,7 +10,7 @@ sub_0800608C: @ 0x0800608C
 	add r0, sp, #0x74
 	ldr r1, _0800617C
 	movs r2, #2
-	bl sub_080B96A4
+	bl memcpy
 	add r0, sp, #0x40
 	ldr r1, _08006180
 	movs r5, #1

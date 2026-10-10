@@ -9,7 +9,7 @@ sub_0805F020: @ 0x0805F020
 	ldr r1, _0805F06C
 	movs r2, #0x80
 	lsls r2, r2, #5
-	bl sub_080B8574
+	bl CpuFastSet
 	ldr r0, _0805F070
 	bl sub_08007290
 	adds r1, r0, #0

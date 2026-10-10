@@ -129,7 +129,7 @@ _08075104:
 	bl sub_080008C8
 	movs r4, #0x32
 	movs r1, #0x32
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	str r0, [sp, #0x9c]

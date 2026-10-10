@@ -328,7 +328,7 @@ _0807BA7C:
 	adds r4, r4, r2
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	str r0, [r4, #0]

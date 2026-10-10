@@ -19,7 +19,7 @@ sub_08022028: @ 0x08022028
 	subs r1, r1, r2
 	lsls r1, r1, #8
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	adds r0, r5, #0
 	adds r0, #0xcc
 	movs r1, #0

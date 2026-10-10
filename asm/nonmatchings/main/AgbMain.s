@@ -7,26 +7,26 @@ AgbMain: @ 0x08000618
 	adds r0, r2, #0
 	strh r0, [r1, #0]
 	movs r0, #0xe0
-	bl sub_080B8588
+	bl RegisterRamReset
 	movs r5, #0
 	str r5, [sp, #0]
 	movs r1, #0x80
 	lsls r1, r1, #0x12
 	ldr r2, _0800071C
 	mov r0, sp
-	bl sub_080B8578
+	bl CpuSet
 	str r5, [sp, #4]
 	add r0, sp, #4
 	movs r1, #0xc0
 	lsls r1, r1, #0x12
 	ldr r2, _08000720
-	bl sub_080B8578
+	bl CpuSet
 	str r5, [sp, #8]
 	add r0, sp, #8
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	ldr r2, _08000724
-	bl sub_080B8578
+	bl CpuSet
 	movs r6, #0xa0
 	str r6, [sp, #0xc]
 	add r0, sp, #0xc
@@ -34,23 +34,23 @@ AgbMain: @ 0x08000618
 	lsls r1, r1, #0x13
 	ldr r4, _08000728
 	adds r2, r4, #0
-	bl sub_080B8578
+	bl CpuSet
 	str r5, [sp, #0x10]
 	add r0, sp, #0x10
 	movs r1, #0xa0
 	lsls r1, r1, #0x13
 	adds r2, r4, #0
-	bl sub_080B8578
+	bl CpuSet
 	str r6, [sp, #0x14]
 	add r0, sp, #0x14
 	ldr r1, _0800072C
 	adds r2, r4, #0
-	bl sub_080B8578
+	bl CpuSet
 	str r5, [sp, #0x18]
 	add r0, sp, #0x18
 	ldr r1, _08000730
 	adds r2, r4, #0
-	bl sub_080B8578
+	bl CpuSet
 	bl sub_08000EC8
 	bl sub_08000EF4
 	ldr r0, _08000734
@@ -59,12 +59,12 @@ AgbMain: @ 0x08000618
 	ldr r0, _08000738
 	ldr r1, _0800073C
 	ldr r2, _08000740
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, _08000744
 	ldr r4, _08000748
 	ldr r2, _0800074C
 	adds r1, r4, #0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, _08000750
 	str r4, [r0, #0]
 	bl sub_08001404

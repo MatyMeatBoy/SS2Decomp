@@ -75,7 +75,7 @@ _080094FA:
 	lsls r1, r1, #1
 	add r1, r8
 	adds r2, r5, #0
-	bl sub_080B8578
+	bl CpuSet
 _08009562:
 	adds r0, r5, r4
 	lsls r0, r0, #1
@@ -89,7 +89,7 @@ _08009562:
 	subs r2, r2, r5
 	ldr r3, _08009590
 	ands r2, r3
-	bl sub_080B8578
+	bl CpuSet
 	add sp, #4
 	pop {r3}
 	mov r8, r3

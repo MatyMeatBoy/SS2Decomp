@@ -1,5 +1,5 @@
-	thumb_func_start sub_080B942C
-sub_080B942C: @ 0x080B942C
+	thumb_func_start __modsi3
+__modsi3: @ 0x080B942C
 	movs r3, #1
 	cmp r1, #0
 	beq _080B94F0
@@ -115,7 +115,7 @@ _080B94EC:
 	mov pc, lr
 _080B94F0:
 	push {lr}
-	bl sub_080B9428
+	bl __div0
 	movs r0, #0
 	pop {pc}
-	thumb_func_end sub_080B942C
+	thumb_func_end __modsi3

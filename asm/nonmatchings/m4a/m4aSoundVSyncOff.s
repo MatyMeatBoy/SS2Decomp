@@ -24,7 +24,7 @@ m4aSoundVSyncOff: @ 0x080B77A0
 	adds r1, r2, r0
 	ldr r2, _080B77E8
 	mov r0, sp
-	bl sub_080B8578
+	bl CpuSet
 _080B77D4:
 	add sp, #4
 	pop {r0}

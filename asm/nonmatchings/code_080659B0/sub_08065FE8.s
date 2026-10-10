@@ -26,7 +26,7 @@ _08065FFC:
 	adds r1, r4, #0
 	adds r1, #8
 	movs r2, #0xa
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #3
 	strb r0, [r4, #1]
 	ldr r0, [r5, #0]

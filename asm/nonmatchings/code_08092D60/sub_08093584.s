@@ -168,7 +168,7 @@ _080936C4:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0xc
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -195,7 +195,7 @@ _080936F6:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x8c
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -211,7 +211,7 @@ _08093716:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x14
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -492,7 +492,7 @@ _08093946:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0xc
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -518,7 +518,7 @@ _08093974:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x8c
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -534,7 +534,7 @@ _08093994:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x14
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0

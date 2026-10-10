@@ -11,7 +11,7 @@ _080967DA:
 	lsls r1, r1, #0x18
 	lsrs r6, r1, #0x18
 	movs r1, #0x5a
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x17
 	adds r0, r0, r7

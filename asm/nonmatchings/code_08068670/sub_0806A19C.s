@@ -436,7 +436,7 @@ _0806A50A:
 	ldrsh r0, [r6, r4]
 	movs r6, #0
 	ldrsh r1, [r7, r6]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x18
 	adds r2, r4, #0

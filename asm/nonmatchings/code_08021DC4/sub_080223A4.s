@@ -15,7 +15,7 @@ sub_080223A4: @ 0x080223A4
 	adds r2, r2, r1
 	adds r2, #0x14
 	adds r1, r2, #0
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
@@ -23,7 +23,7 @@ sub_080223A4: @ 0x080223A4
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r4, r4, #0x10

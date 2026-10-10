@@ -272,7 +272,7 @@ _0806D002:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	add r2, sp, #4
 	adds r3, r7, #0
 	lsls r1, r3, #1
@@ -358,7 +358,7 @@ _0806D0A8:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	add r2, sp, #4
 	adds r3, r7, #0
 	lsls r1, r3, #1
@@ -533,7 +533,7 @@ _0806D1E2:
 	adds r1, r1, r2
 	ldrh r1, [r1, #0]
 	adds r1, #0x78
-	bl sub_080B9394
+	bl __divsi3
 	ldrh r1, [r4, #0]
 	adds r1, r1, r0
 	strh r1, [r4, #0]
@@ -779,7 +779,7 @@ _0806D3C2:
 	adds r1, r1, r2
 	ldrh r1, [r1, #0]
 	adds r1, #0x78
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	mov r8, r0

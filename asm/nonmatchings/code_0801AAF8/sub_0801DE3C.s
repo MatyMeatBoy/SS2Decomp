@@ -10,7 +10,7 @@ sub_0801DE3C: @ 0x0801DE3C
 	adds r1, r1, r0
 	adds r0, r4, #0
 	movs r2, #0x18
-	bl sub_080B8578
+	bl CpuSet
 	pop {r4}
 	pop {r0}
 	bx r0

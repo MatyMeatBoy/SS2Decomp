@@ -13,7 +13,7 @@ sub_0801FDD0: @ 0x0801FDD0
 	adds r0, r4, #0
 	ldr r1, [sp, #0x18]
 	movs r2, #0xc4
-	bl sub_080B96A4
+	bl memcpy
 	adds r4, #0xbc
 	ldrh r0, [r4, #0]
 	cmp r0, #0
@@ -670,7 +670,7 @@ _080202B8:
 	ldrsh r2, [r3, r4]
 	adds r1, r1, r2
 	adds r1, #0x14
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
@@ -678,7 +678,7 @@ _080202B8:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r4, r4, #0x10
@@ -795,7 +795,7 @@ _080203C4:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x32
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	movs r1, #0xc8
@@ -809,15 +809,15 @@ _080203C4:
 	lsls r0, r0, #1
 	adds r5, r5, r6
 	adds r1, r5, #0
-	bl sub_080B9394
+	bl __divsi3
 	muls r0, r4, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r5, #0xa
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0
@@ -992,7 +992,7 @@ _0802054A:
 	ldrsh r2, [r3, r4]
 	adds r1, r1, r2
 	adds r1, #0x14
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10
@@ -1000,7 +1000,7 @@ _0802054A:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r4, r4, #0x10

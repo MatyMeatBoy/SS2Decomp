@@ -27,7 +27,7 @@ sub_08096060: @ 0x08096060
 	adds r1, r6, #0
 	muls r1, r6, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #1
@@ -39,7 +39,7 @@ sub_08096060: @ 0x08096060
 _080960AA:
 	adds r0, r7, #0
 	adds r1, r6, #0
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsls r1, r0, #3
 	lsrs r2, r0, #0x1d

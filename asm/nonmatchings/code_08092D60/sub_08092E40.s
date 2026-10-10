@@ -29,7 +29,7 @@ _08092E6C:
 	movs r2, #0
 	ldrsh r0, [r5, r2]
 	ldrb r1, [r7, #0]
-	bl sub_080B942C
+	bl __modsi3
 	strh r0, [r5, #0]
 	ldr r0, _08092EA4
 	ldrb r0, [r0, #0]

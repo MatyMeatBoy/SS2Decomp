@@ -35,7 +35,7 @@ _08096D64:
 	muls r2, r0, r2
 	adds r0, r2, #0
 	adds r1, r7, #0
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r4, r0
 	movs r0, #0x1f
 	ands r4, r0
@@ -57,7 +57,7 @@ _08096D64:
 	muls r1, r0, r1
 	adds r0, r1, #0
 	adds r1, r7, #0
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r4, r0
 	movs r0, #0x1f
 	ands r4, r0
@@ -78,7 +78,7 @@ _08096D64:
 	mov r0, r8
 	muls r0, r5, r0
 	adds r1, r7, #0
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r4, r0
 	movs r0, #0x1f
 	ands r4, r0

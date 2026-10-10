@@ -154,7 +154,7 @@ _08016C4A:
 	blo _08016BFC
 _08016C50:
 	ldr r0, [sp, #0]
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
 	ldr r2, [sp, #0x20]

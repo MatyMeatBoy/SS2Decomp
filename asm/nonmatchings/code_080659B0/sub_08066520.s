@@ -35,7 +35,7 @@ _0806653C:
 	adds r1, #0x14
 	ldr r2, _080665AC
 	adds r0, r3, #0
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #4
 	strb r0, [r4, #1]
 	ldr r0, [r5, #0]

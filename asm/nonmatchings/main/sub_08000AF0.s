@@ -10,7 +10,7 @@ sub_08000AF0: @ 0x08000AF0
 	ldr r1, _08000B30
 	ands r2, r1
 	adds r1, r3, #0
-	bl sub_080B8574
+	bl CpuFastSet
 	ldr r4, _08000B34
 	ldrh r0, [r4, #0]
 	cmp r0, #0

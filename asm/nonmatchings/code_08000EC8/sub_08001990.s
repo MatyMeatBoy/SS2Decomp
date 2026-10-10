@@ -55,7 +55,7 @@ _080019C8:
 	ldr r2, [sp, #0xc]
 	adds r1, r2, r1
 	ldr r2, _08001A48
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #1
 	lsls r0, r4
 	mov r2, r8
@@ -70,7 +70,7 @@ _08001A0C:
 	adds r1, #4
 	mov r0, r9
 	ldr r2, _08001A4C
-	bl sub_080B8578
+	bl CpuSet
 	adds r4, r6, #0
 	cmp r4, #3
 	ble _080019BC

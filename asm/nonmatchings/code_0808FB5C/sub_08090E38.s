@@ -15,7 +15,7 @@ sub_08090E38: @ 0x08090E38
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #3
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0

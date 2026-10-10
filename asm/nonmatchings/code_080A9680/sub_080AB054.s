@@ -58,7 +58,7 @@ sub_080AB054: @ 0x080AB054
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, r8
@@ -225,7 +225,7 @@ _080AB190:
 	asrs r4, r4, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r4, #0
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r4, r0, #0x1d
 	movs r0, #0x80

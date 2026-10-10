@@ -349,7 +349,7 @@ _08008474:
 	mov r0, sp
 	movs r2, #1
 	movs r3, #8
-	bl sub_080B8584
+	bl ObjAffineSet
 	adds r6, #0x20
 	ldr r1, _080084B8
 	ldr r0, [r1, #0]
@@ -381,7 +381,7 @@ _080084C4:
 	adds r1, r6, #6
 	movs r2, #1
 	movs r3, #8
-	bl sub_080B8584
+	bl ObjAffineSet
 _080084DC:
 	ldr r1, _080084F8
 	ldr r0, [r1, #0]

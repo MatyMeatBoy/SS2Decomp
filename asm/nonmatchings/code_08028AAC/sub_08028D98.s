@@ -45,7 +45,7 @@ _08028DE0:
 	movs r0, #0x80
 	lsls r0, r0, #3
 	adds r1, r6, #0
-	bl sub_080B9394
+	bl __divsi3
 	mov sl, r0
 	lsls r1, r7, #0x10
 	asrs r1, r1, #8
@@ -121,7 +121,7 @@ _08028E6C:
 	movs r0, #0x80
 	lsls r0, r0, #3
 	adds r1, r6, #0
-	bl sub_080B9394
+	bl __divsi3
 	mov sl, r0
 	lsls r0, r7, #0x10
 	asrs r0, r0, #8
@@ -236,7 +236,7 @@ _08028F66:
 	movs r0, #0x80
 	lsls r0, r0, #3
 	adds r1, r6, #0
-	bl sub_080B9394
+	bl __divsi3
 	mov sl, r0
 	lsls r1, r7, #0x10
 	asrs r1, r1, #8
@@ -312,7 +312,7 @@ _08029008:
 	movs r0, #0x80
 	lsls r0, r0, #3
 	adds r1, r6, #0
-	bl sub_080B9394
+	bl __divsi3
 	mov sl, r0
 	mov r5, r8
 	adds r5, #0x9c

@@ -17,7 +17,7 @@ sub_080576EC: @ 0x080576EC
 	beq _08057714
 	movs r0, #0x80
 	lsls r0, r0, #3
-	bl sub_080B9394
+	bl __divsi3
 	str r0, [sp, #8]
 _08057714:
 	ldr r0, _0805777C

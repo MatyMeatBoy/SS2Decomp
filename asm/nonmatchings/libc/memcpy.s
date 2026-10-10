@@ -1,5 +1,5 @@
-	thumb_func_start sub_080B96A4
-sub_080B96A4: @ 0x080B96A4
+	thumb_func_start memcpy
+memcpy: @ 0x080B96A4
 	push {r4, r5, lr}
 	adds r5, r0, #0
 	adds r4, r5, #0
@@ -53,4 +53,4 @@ _080B96F0:
 _080B96FE:
 	adds r0, r5, #0
 	pop {r4, r5, pc}
-	thumb_func_end sub_080B96A4
+	thumb_func_end memcpy

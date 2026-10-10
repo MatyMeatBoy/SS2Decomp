@@ -152,7 +152,7 @@ _08077ECE:
 	add r2, sp
 	movs r6, #0
 	ldrsh r1, [r2, r6]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x18
 	adds r1, r0, #0
@@ -451,7 +451,7 @@ _08078108:
 	beq _080781E4
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r2, r0, #0
 	mov r1, r9
 	adds r1, #0x6e
@@ -828,7 +828,7 @@ _08078404:
 	movs r2, #0x14
 	muls r0, r2, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	ldr r3, [sp, #0x6c]
 	adds r3, r3, r0
 	str r3, [sp, #0x6c]
@@ -839,7 +839,7 @@ _08078404:
 	movs r6, #0x14
 	muls r0, r6, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	add sl, r0
 	bl sub_0800CC98
 	cmp r0, #0

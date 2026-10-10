@@ -16,7 +16,7 @@ sub_08097B6C: @ 0x08097B6C
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0

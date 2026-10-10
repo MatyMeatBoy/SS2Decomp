@@ -9,7 +9,7 @@ m4aSoundInit: @ 0x080B7170
 	ands r0, r1
 	ldr r1, _080B71DC
 	ldr r2, _080B71E0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, _080B71E4
 	bl SoundInit
 	ldr r0, _080B71E8

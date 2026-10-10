@@ -62,7 +62,7 @@ _080794D0:
 	adds r7, r0, #0
 	bl sub_080008C8
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	movs r2, #0xc8
 	lsls r2, r2, #0xe
@@ -84,7 +84,7 @@ _08079504:
 	adds r7, r0, #0
 	bl sub_080008C8
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	movs r2, #0xc8
 	lsls r2, r2, #0xe
@@ -106,7 +106,7 @@ _08079538:
 	adds r7, r0, #0
 	bl sub_080008C8
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	movs r2, #0xc8
 	lsls r2, r2, #0xe
@@ -135,7 +135,7 @@ _08079576:
 	adds r7, r0, #0
 	bl sub_080008C8
 	movs r1, #0x28
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	movs r2, #0xc8
 	lsls r2, r2, #0xf
@@ -220,7 +220,7 @@ _080795E0:
 	bne _0807967C
 	mov r0, r9
 	movs r1, #0x3c
-	bl sub_080B956C
+	bl __udivsi3
 	movs r1, #0
 	ldrsh r4, [r7, r1]
 	movs r2, #0
@@ -398,7 +398,7 @@ _08079756:
 	beq _0807985C
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r2, r0, #0
 	adds r1, r4, #0
 	adds r1, #0x6e

@@ -10,7 +10,7 @@ sub_08002B70: @ 0x08002B70
 	add r0, sp, #0x248
 	ldr r1, _08002C38
 	movs r2, #2
-	bl sub_080B96A4
+	bl memcpy
 	bl sub_08002AA0
 	bl sub_080003F0
 	bl sub_080003F0
@@ -104,7 +104,7 @@ _08002C48:
 	add r0, sp
 	adds r0, #0x10
 	movs r2, #0x34
-	bl sub_080B96A4
+	bl memcpy
 	add r0, sp, #0x238
 	adds r0, r0, r6
 	movs r1, #6
@@ -120,7 +120,7 @@ _08002C64:
 	adds r1, r0, #0
 	adds r0, r4, #0
 	movs r2, #0x34
-	bl sub_080B96A4
+	bl memcpy
 	ldr r1, _08002CA8
 	ldr r4, [sp, #0x258]
 	lsls r2, r4, #3
@@ -416,7 +416,7 @@ _08002E5C:
 	add r0, sp
 	adds r0, #0x10
 	movs r2, #0x34
-	bl sub_080B96A4
+	bl memcpy
 	add r0, sp, #0x238
 	adds r0, r0, r4
 	movs r1, #6
@@ -1011,7 +1011,7 @@ _080033E4:
 	add r0, sp
 	adds r0, #0x10
 	movs r2, #0x34
-	bl sub_080B96A4
+	bl memcpy
 	add r1, sp, #0x238
 	ldr r3, [sp, #0x258]
 	lsls r0, r3, #1

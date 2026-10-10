@@ -8,7 +8,7 @@ sub_0801A298: @ 0x0801A298
 	ldr r0, _0801A2EC
 	ldr r0, [r0, #0]
 	movs r1, #0x19
-	bl sub_080B95E4
+	bl __umodsi3
 	ldrh r2, [r5, #0]
 	lsls r1, r2, #2
 	adds r1, r1, r2

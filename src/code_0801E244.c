@@ -49,7 +49,7 @@ void sub_08021C70(void) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021C74);
 u16 sub_08021CE4(u16 arg0, u16 arg1) {
-    return sub_080B9394((arg1 + 0x64) * arg0, 0x64);
+    return __divsi3((arg1 + 0x64) * arg0, 0x64);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021D00);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021D88);

@@ -25,7 +25,7 @@ sub_0801EF14: @ 0x0801EF14
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0x32
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	movs r0, #0xc8
@@ -39,15 +39,15 @@ sub_0801EF14: @ 0x0801EF14
 	lsls r0, r0, #1
 	adds r5, r5, r6
 	adds r1, r5, #0
-	bl sub_080B9394
+	bl __divsi3
 	muls r0, r4, r0
 	movs r1, #0xc8
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
 	adds r0, r1, #0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
 	cmp r1, #0
@@ -105,7 +105,7 @@ _0801EFDE:
 	adds r1, r2, #0
 	ldr r2, _0801F020
 	adds r1, r1, r2
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10
 	movs r0, #0x80

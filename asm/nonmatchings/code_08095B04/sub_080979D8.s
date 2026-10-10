@@ -14,7 +14,7 @@ sub_080979D8: @ 0x080979D8
 	beq _08097A1C
 	lsls r1, r6, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x18
 	ldr r2, _08097A18

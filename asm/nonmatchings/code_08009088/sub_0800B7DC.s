@@ -146,21 +146,21 @@ _0800B8E8:
 	movs r2, #0x80
 	lsls r2, r2, #5
 	adds r0, r5, #0
-	bl sub_080B8574
+	bl CpuFastSet
 	b _0800B92A
 _0800B910:
 	movs r2, #0x80
 	lsls r2, r2, #5
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_080B8574
+	bl CpuFastSet
 	b _0800B92A
 _0800B91E:
 	movs r2, #0x80
 	lsls r2, r2, #6
 	adds r0, r5, #0
 	adds r1, r6, #0
-	bl sub_080B8574
+	bl CpuFastSet
 _0800B92A:
 	ldr r0, [sp, #0]
 	lsls r1, r7, #0xb
@@ -169,7 +169,7 @@ _0800B92A:
 	adds r1, r1, r2
 	movs r2, #0x80
 	lsls r2, r2, #2
-	bl sub_080B8574
+	bl CpuFastSet
 _0800B93C:
 	movs r0, #0x80
 	lsls r0, r0, #0x17

@@ -62,7 +62,7 @@ _08016264:
 	lsls r2, r2, #2
 	adds r0, r5, r2
 	movs r2, #0xd8
-	bl sub_080B96A4
+	bl memcpy
 	ldrh r0, [r7, #0xe]
 	strh r0, [r5, #8]
 	adds r0, r5, #0
@@ -171,7 +171,7 @@ _08016384:
 	adds r1, r6, #0
 	ldr r2, _08016418
 	str r3, [sp, #8]
-	bl sub_080B8578
+	bl CpuSet
 	adds r6, #0x28
 	adds r4, #0x28
 	adds r7, #1

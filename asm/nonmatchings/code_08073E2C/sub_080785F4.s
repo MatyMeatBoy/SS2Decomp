@@ -138,7 +138,7 @@ _080786FE:
 	ldrsh r0, [r4, r5]
 	movs r6, #0x3e
 	ldrsh r1, [r4, r6]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x18
 	adds r1, r0, #0
@@ -509,7 +509,7 @@ _080789CA:
 	movs r6, #0x14
 	muls r0, r6, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	add r8, r0
 	lsls r4, r4, #1
 	ldr r0, _08078AC8
@@ -518,7 +518,7 @@ _080789CA:
 	ldrsh r0, [r4, r1]
 	muls r0, r6, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	add r9, r0
 	bl sub_0800CC98
 	cmp r0, #0

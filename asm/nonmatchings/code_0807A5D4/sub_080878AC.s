@@ -24,7 +24,7 @@ sub_080878AC: @ 0x080878AC
 	lsls r1, r1, #0x13
 	orrs r2, r1
 	ldr r1, [sp, #8]
-	bl sub_080B8578
+	bl CpuSet
 	lsls r4, r4, #4
 	str r4, [sp, #0xc]
 	movs r2, #0x64
@@ -174,7 +174,7 @@ _080879F6:
 	ldr r0, _08087A1C
 	ldr r0, [r0, #0]
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	mov r8, r0
 	cmp r0, #1
 	beq _08087A28
@@ -197,7 +197,7 @@ _08087A30:
 	bl sub_080008C8
 	movs r1, #0x1e
 _08087A36:
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 _08087A3C:
 	ldr r1, [sp, #0]

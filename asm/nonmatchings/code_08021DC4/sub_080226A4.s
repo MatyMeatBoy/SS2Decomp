@@ -159,7 +159,7 @@ _080227F0:
 	ldr r1, [r1, #0]
 	adds r0, #0x70
 	ldr r2, _08022830
-	bl sub_080B96A4
+	bl memcpy
 _08022800:
 	ldr r0, _08022828
 	ldr r1, [r0, #0]

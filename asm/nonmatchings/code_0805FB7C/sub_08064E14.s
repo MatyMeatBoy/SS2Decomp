@@ -337,7 +337,7 @@ _080650E4:
 	beq _080650E0
 	bl sub_0800CBAC
 	movs r0, #0
-	bl sub_080B8598
+	bl SoftReset
 	b _0806512C
 _080650F8:
 	bl sub_08006BF8
@@ -368,7 +368,7 @@ _0806512C:
 	cmp r0, #0
 	bne _0806513C
 	movs r0, #0
-	bl sub_080B8598
+	bl SoftReset
 _0806513C:
 	add sp, #0xc
 	pop {r3}

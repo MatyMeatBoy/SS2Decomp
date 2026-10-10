@@ -15,7 +15,7 @@ _0808E974:
 	bl sub_080008C8
 	movs r1, #0xa0
 	lsls r1, r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r1, r0, #0
 	adds r1, #0x50
 	ldr r0, _0808E9B4

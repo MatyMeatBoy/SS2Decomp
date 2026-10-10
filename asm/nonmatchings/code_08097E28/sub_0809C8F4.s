@@ -132,7 +132,7 @@ _0809C9C8:
 	adds r1, r5, #0
 	muls r1, r5, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldr r3, [sp, #0x50]
@@ -292,7 +292,7 @@ _0809CAC6:
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
 	adds r0, r4, #0
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsls r1, r0, #3
 	lsrs r4, r0, #0x1d

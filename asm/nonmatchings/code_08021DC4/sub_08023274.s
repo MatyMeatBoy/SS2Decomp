@@ -365,7 +365,7 @@ _080235E6:
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldrh r1, [r6, #2]
-	bl sub_080B95E4
+	bl __umodsi3
 	strh r0, [r5, #0]
 	ldrh r0, [r6, #0]
 	lsls r0, r0, #1

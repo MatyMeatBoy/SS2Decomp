@@ -165,7 +165,7 @@ _08066856:
 	adds r0, r4, #0
 	adds r1, r5, #0
 	movs r2, #0x88
-	bl sub_080B96A4
+	bl memcpy
 	adds r5, #0x88
 	adds r4, #0x88
 	adds r6, #1

@@ -191,7 +191,7 @@ _0809F602:
 	ldr r1, [sp, #0x80]
 	adds r0, r1, r0
 	movs r1, #0xff
-	bl sub_080B942C
+	bl __modsi3
 	adds r1, r0, #0
 	adds r1, #0x40
 	lsls r1, r1, #1
@@ -347,7 +347,7 @@ _0809F70E:
 	muls r2, r1, r2
 	adds r1, r2, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x10
 	ldr r0, [sp, #0x94]

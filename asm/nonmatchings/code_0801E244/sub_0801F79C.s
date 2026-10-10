@@ -89,7 +89,7 @@ _0801F7F8:
 	subs r1, r1, r2
 	lsls r1, r1, #0x10
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	ldr r1, _0801F98C
 	lsrs r0, r0, #0x1c
@@ -116,7 +116,7 @@ _0801F7F8:
 	adds r0, #5
 	muls r0, r1, r0
 	movs r1, #0xa
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldr r1, [sp, #0xc]
@@ -153,7 +153,7 @@ _0801F8A2:
 	asrs r0, r0, #0x18
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	ldrh r1, [r7, #0]
 	adds r1, r1, r0
 	strh r1, [r7, #0]
@@ -169,7 +169,7 @@ _0801F8A2:
 	asrs r1, r1, #0x18
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	lsls r1, r0, #2
 	adds r1, r1, r0
 	lsls r1, r1, #1

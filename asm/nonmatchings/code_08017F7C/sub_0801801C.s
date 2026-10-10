@@ -276,7 +276,7 @@ _080181D0:
 	ldr r0, [r0, #0]
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	ldr r1, [sp, #0x118]
 	strh r0, [r1, #6]
 	ldr r2, [sp, #0x130]
@@ -295,7 +295,7 @@ _080181D0:
 	ldr r0, [r0, #0]
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	ldr r3, [sp, #0x118]
 	strh r0, [r3, #0]
 _08018286:

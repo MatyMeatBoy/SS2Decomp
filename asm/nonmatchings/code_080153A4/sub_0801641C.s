@@ -146,7 +146,7 @@ _080164D6:
 	adds r0, r7, r1
 	adds r1, r3, #0
 	movs r2, #0xd8
-	bl sub_080B96A4
+	bl memcpy
 	mov r2, r8
 	ldrh r0, [r2, #8]
 	strh r0, [r7, #8]
@@ -288,7 +288,7 @@ _0801664C:
 	adds r1, r5, #0
 	ldr r2, _080166C4
 	str r3, [sp, #0x10]
-	bl sub_080B8578
+	bl CpuSet
 	adds r5, #0x28
 	adds r4, #0x28
 	adds r6, #1

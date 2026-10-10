@@ -102,7 +102,7 @@ _0806956C:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	adds r1, r4, #0
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldr r2, _080695E0
@@ -120,7 +120,7 @@ _0806956C:
 	ldrh r4, [r0, #0]
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r4, r0
 	blo _080695B8
 	ldr r0, _080695E8
@@ -239,7 +239,7 @@ _08069688:
 	lsls r1, r1, #8
 _0806968C:
 	asrs r1, r1, #0x10
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x1c
 	lsls r0, r0, #0x18

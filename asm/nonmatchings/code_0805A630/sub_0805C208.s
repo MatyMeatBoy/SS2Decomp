@@ -181,7 +181,7 @@ _0805C364:
 	bl sub_080008C8
 	adds r2, r0, #0
 	ldrh r1, [r5, #2]
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r2, r0, #0
 	adds r5, #4
 	movs r4, #0
@@ -215,7 +215,7 @@ _0805C39A:
 	adds r2, r0, #0
 	ldrh r1, [r5, #2]
 	adds r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r2, r0, #0
 	adds r5, #4
 	movs r4, #0
@@ -264,7 +264,7 @@ _0805C404:
 	adds r2, r0, #0
 	ldrh r1, [r5, #2]
 	adds r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r2, r0, #0
 	adds r5, #4
 	movs r4, #0

@@ -70,7 +70,7 @@ _080660A4:
 	adds r1, #8
 	ldr r2, _080660E8
 	adds r0, r7, #0
-	bl sub_080B8578
+	bl CpuSet
 	strb r6, [r4, #1]
 	ldr r0, [r5, #0]
 	adds r0, #1

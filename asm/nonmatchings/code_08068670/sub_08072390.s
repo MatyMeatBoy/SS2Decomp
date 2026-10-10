@@ -104,7 +104,7 @@ _08072452:
 	stm r7!, {r0}
 	bl sub_080008C8
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r0, #0xa
 	ldrb r1, [r4, #0]
 	adds r0, r0, r1
@@ -715,7 +715,7 @@ _0807291C:
 	ldrh r4, [r0, #0]
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r4, r0
 	blo _08072960
 	adds r1, r5, #0
@@ -975,7 +975,7 @@ _08072B14:
 	ldrh r4, [r0, #0]
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r4, r0
 	blo _08072B88
 	movs r3, #0x86

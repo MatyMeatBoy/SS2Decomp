@@ -20,7 +20,7 @@ _080662E4:
 	lsls r2, r2, #1
 	adds r0, r3, r2
 	ldr r2, _080662F4
-	bl sub_080B8578
+	bl CpuSet
 	b _08066386
 	.2byte 0x0000
 _080662F4: .4byte 0x04000002
@@ -92,7 +92,7 @@ _08066344:
 	adds r1, r5, #0
 	adds r1, #8
 	ldr r2, _080663A0
-	bl sub_080B8578
+	bl CpuSet
 	strb r4, [r5, #1]
 	mov r7, sl
 	ldr r0, [r7, #0]

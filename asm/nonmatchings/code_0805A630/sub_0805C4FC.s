@@ -12,7 +12,7 @@ sub_0805C4FC: @ 0x0805C4FC
 	ldr r2, _0805C524
 	mov r0, sp
 	adds r1, r6, #0
-	bl sub_080B8578
+	bl CpuSet
 	cmp r4, #0
 	bne _0805C528
 	strh r4, [r6, #0]
@@ -27,7 +27,7 @@ _0805C528:
 	lsrs r5, r0, #0x10
 	adds r0, r5, #0
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r2, _0805C5C4
 	lsls r0, r4, #3
@@ -56,7 +56,7 @@ _0805C55A:
 	adds r5, r0, #0
 	ldrh r1, [r4, #2]
 	adds r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	adds r4, #8
 	movs r2, #0
@@ -84,10 +84,10 @@ _0805C580:
 	lsls r0, r4, #4
 	subs r0, r0, r4
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r1, r0, #0
 	adds r0, r5, #0
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	lsrs r0, r4, #1
 	cmp r5, r0
@@ -116,7 +116,7 @@ _0805C5E0:
 	bne _0805C60E
 	bl sub_080008C8
 	movs r1, #0xa
-	bl sub_080B95E4
+	bl __umodsi3
 	ldr r1, _0805C61C
 	adds r1, #0x8c
 	ldrh r2, [r1, #0]

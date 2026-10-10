@@ -35,7 +35,7 @@ _08084452:
 	bls _08084452
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	lsls r0, r5, #4
 	mov r1, sp
@@ -53,7 +53,7 @@ _08084452:
 _08084482:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r4, r0, #0
 	cmp r5, r4
 	beq _08084482
@@ -68,7 +68,7 @@ _08084482:
 _080844A2:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r6, r0, #0
 	cmp r5, r6
 	beq _080844A2
@@ -167,7 +167,7 @@ _08084594: .4byte _080847C8
 _08084598:
 	bl sub_080008C8
 	movs r1, #0xe
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r2, _080845B4
 	lsls r1, r5, #2
@@ -181,7 +181,7 @@ _080845B4: .4byte gUnk_084EC1E0
 _080845B8:
 	bl sub_080008C8
 	movs r1, #0xe
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r2, _080845D4
 	lsls r1, r5, #2
@@ -195,7 +195,7 @@ _080845D4: .4byte gUnk_084EC288
 _080845D8:
 	bl sub_080008C8
 	movs r1, #0xe
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r2, _080845F4
 	lsls r1, r5, #2
@@ -209,7 +209,7 @@ _080845F4: .4byte gUnk_084EC330
 _080845F8:
 	bl sub_080008C8
 	movs r1, #0xe
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r2, _08084614
 	lsls r1, r5, #2
@@ -289,7 +289,7 @@ _080846A4: .4byte gUnk_084EC660
 _080846A8:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _080846B8
 	b _08084792
@@ -297,7 +297,7 @@ _080846B8: .4byte gUnk_084EC6C0
 _080846BC:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _080846CC
 	b _08084792
@@ -305,7 +305,7 @@ _080846CC: .4byte gUnk_084EC6E4
 _080846D0:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _080846E0
 	b _08084792
@@ -313,7 +313,7 @@ _080846E0: .4byte gUnk_084EC708
 _080846E4:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _080846F4
 	b _08084792
@@ -321,7 +321,7 @@ _080846F4: .4byte gUnk_084EC72C
 _080846F8:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _08084708
 	b _08084792
@@ -329,7 +329,7 @@ _08084708: .4byte gUnk_084EC750
 _0808470C:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _0808471C
 	b _08084792
@@ -337,7 +337,7 @@ _0808471C: .4byte gUnk_084EC774
 _08084720:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _08084730
 	b _08084792
@@ -345,7 +345,7 @@ _08084730: .4byte gUnk_084EC798
 _08084734:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _08084744
 	b _08084792
@@ -353,7 +353,7 @@ _08084744: .4byte gUnk_084EC7BC
 _08084748:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _08084758
 	b _08084792
@@ -361,7 +361,7 @@ _08084758: .4byte gUnk_084EC7E0
 _0808475C:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _0808476C
 	b _08084792
@@ -369,7 +369,7 @@ _0808476C: .4byte gUnk_084EC804
 _08084770:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _08084780
 	b _08084792
@@ -377,7 +377,7 @@ _08084780: .4byte gUnk_084EC828
 _08084784:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r1, _080847A8
 _08084792:
@@ -494,7 +494,7 @@ _08084852:
 	stm r2!, {r3, r4, r5}
 	adds r0, r7, #0
 	movs r2, #0x10
-	bl sub_080B96A4
+	bl memcpy
 	b _08084C16
 	.2byte 0x0000
 _08084878: .4byte gUnk_084EC8F0
@@ -514,14 +514,14 @@ _0808487C:
 	stm r2!, {r3, r4, r6}
 	adds r0, r7, #0
 	movs r2, #0x10
-	bl sub_080B96A4
+	bl memcpy
 	b _08084A6A
 	.2byte 0x0000
 _080848A4: .4byte gUnk_084EC920
 _080848A8:
 	bl sub_080008C8
 	movs r1, #0xc
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r0, _08084900
 	ldr r0, [r0, #0]
@@ -569,7 +569,7 @@ _08084904:
 _08084906:
 	bl sub_080008C8
 	movs r1, #0xc
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	ldr r0, _08084954
 	ldr r0, [r0, #0]
@@ -695,7 +695,7 @@ _080849F8:
 _080849FE:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	movs r6, #1
 	mov r9, r6
@@ -716,7 +716,7 @@ _08084A16:
 _08084A2A:
 	bl sub_080008C8
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r5, r0, #0
 	movs r3, #6
 	mov r9, r3
@@ -1004,26 +1004,26 @@ _08084C4A:
 	ldrh r0, [r5, #4]
 	str r0, [r4, #0]
 	movs r1, #0x14
-	bl sub_080B956C
+	bl __udivsi3
 	b _08084C82
 _08084C56:
 	ldrh r0, [r5, #4]
 	str r0, [r4, #0]
 	lsls r0, r0, #3
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	b _08084C82
 _08084C64:
 	ldrh r0, [r5, #4]
 	str r0, [r4, #0]
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	b _08084C82
 _08084C70:
 	ldrh r0, [r5, #4]
 	str r0, [r4, #0]
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	b _08084C82
 _08084C7C:
 	ldrb r0, [r5, #6]
@@ -1042,7 +1042,7 @@ _08084C82:
 	ldr r6, [r0, #0x34]
 	ldr r1, _08084CE4
 	adds r0, r6, #0
-	bl sub_080B956C
+	bl __udivsi3
 	adds r6, r0, #1
 	ldr r0, [sp, #0x40]
 	ldr r2, [sp, #0x78]
@@ -1068,7 +1068,7 @@ _08084CBE:
 	add r1, r8
 	ldr r1, [r1, #0]
 	adds r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r6, r0, #0
 	movs r4, #0
 	cmp r4, r5
@@ -1102,7 +1102,7 @@ _08084D0A:
 	ldr r6, [r2, #0x34]
 	bl sub_080008C8
 	ldr r1, _08084D88
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r6, r6, r0
 	movs r4, #0
 	cmp r4, r6
@@ -1279,12 +1279,12 @@ _08084E28:
 	adds r4, r4, r0
 	adds r0, r4, #0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	ldr r4, [r7, #0x6c]
 	adds r4, r4, r0
 	mov r0, r8
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	subs r4, r4, r0
 	str r4, [r7, #0x6c]
 	cmp r4, #0

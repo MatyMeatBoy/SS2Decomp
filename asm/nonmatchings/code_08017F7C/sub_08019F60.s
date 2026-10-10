@@ -14,7 +14,7 @@ sub_08019F60: @ 0x08019F60
 	ldr r0, [r0, #0]
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	strh r0, [r5, #6]
 	cmp r4, #1
 	bls _08019F9E
@@ -26,7 +26,7 @@ sub_08019F60: @ 0x08019F60
 	ldr r0, [r0, #0]
 	muls r0, r1, r0
 	movs r1, #0x64
-	bl sub_080B956C
+	bl __udivsi3
 	strh r0, [r5, #0]
 _08019F9E:
 	pop {r4, r5, r6, r7}

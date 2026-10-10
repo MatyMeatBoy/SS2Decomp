@@ -131,7 +131,7 @@ _080A6964:
 	adds r1, r2, #0
 	muls r1, r2, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0xf

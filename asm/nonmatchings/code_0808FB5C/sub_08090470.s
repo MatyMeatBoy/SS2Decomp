@@ -12,7 +12,7 @@ sub_08090470: @ 0x08090470
 	lsls r4, r4, #0x10
 	adds r1, r5, #0
 	adds r0, r4, #0
-	bl sub_080B8F60
+	bl __divdi3
 	pop {r4, r5}
 	pop {r1}
 	bx r1

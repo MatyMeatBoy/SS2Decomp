@@ -69,7 +69,7 @@ _0801DC24:
 	strh r0, [r5, #4]
 	bl sub_080008C8
 	movs r1, #0x3c
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r1, r0, #0
 	adds r0, #0xf0
 	b _0801DD8E
@@ -91,7 +91,7 @@ _0801DC58:
 	strh r0, [r5, #4]
 	bl sub_080008C8
 	movs r1, #0x50
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r1, r0, #0
 	cmp r4, #3
 	bhi _0801DC70
@@ -116,7 +116,7 @@ _0801DC8C:
 	bl sub_080008C8
 	movs r1, #0x96
 	lsls r1, r1, #1
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r1, r0, #0
 	movs r2, #0x96
 	lsls r2, r2, #2
@@ -154,7 +154,7 @@ _0801DCDA:
 	ldrsh r0, [r0, r2]
 _0801DCE4:
 	movs r1, #0x19
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	bl sub_0800CCCC
 	cmp r0, #0
@@ -172,7 +172,7 @@ _0801DD02:
 	strh r0, [r5, #4]
 	bl sub_080008C8
 	movs r1, #6
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r1, r0, #0
 	adds r1, #0xa
 	lsls r0, r1, #4
@@ -198,7 +198,7 @@ _0801DD36:
 _0801DD40:
 	lsls r0, r0, #3
 	movs r1, #0x64
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	bl sub_0800CCCC
 	cmp r0, #0
@@ -214,7 +214,7 @@ _0801DD60:
 	strh r0, [r5, #4]
 	bl sub_080008C8
 	movs r1, #6
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r1, r0, #0
 	adds r1, #0xa
 	lsls r0, r1, #4

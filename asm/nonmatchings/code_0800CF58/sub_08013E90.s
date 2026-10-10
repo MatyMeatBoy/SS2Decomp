@@ -45,7 +45,7 @@ _08013ECE:
 	muls r0, r2, r0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	add r8, r0
 	adds r4, r5, #0
 	adds r3, r6, #0
@@ -135,7 +135,7 @@ _08013F7E:
 	muls r0, r2, r0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	add r8, r0
 	adds r3, r4, #0
 	b _08013FC8
@@ -213,7 +213,7 @@ _08014014:
 	muls r0, r1, r0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	mov r2, sl
 	ldr r1, [r2, #4]
 	adds r1, r1, r0

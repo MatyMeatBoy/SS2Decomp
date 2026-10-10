@@ -39,7 +39,7 @@ sub_08063E30: @ 0x08063E30
 	str r6, [r0, #0]
 	ldr r1, _0806419C
 	ldr r2, _080641A0
-	bl sub_080B8578
+	bl CpuSet
 	movs r5, #0xc0
 	lsls r5, r5, #0x13
 	movs r4, #0xf
@@ -724,7 +724,7 @@ _080643D6:
 	movs r1, #0xc0
 	lsls r1, r1, #0x13
 	ldr r2, _08064414
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, _08064418
 	strh r4, [r0, #0]
 	bl sub_08000B38

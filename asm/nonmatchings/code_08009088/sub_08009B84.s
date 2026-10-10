@@ -413,7 +413,7 @@ _08009F6A:
 	adds r4, r4, r0
 	ldrh r1, [r4, #0]
 	movs r0, #0x20
-	bl sub_080B9394
+	bl __divsi3
 	mov sl, r0
 	adds r0, r5, #0
 	adds r0, #0xb0

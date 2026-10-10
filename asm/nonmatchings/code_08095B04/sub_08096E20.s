@@ -32,7 +32,7 @@ _08096E4C:
 	muls r7, r0, r7
 	adds r0, r7, #0
 	mov r1, r8
-	bl sub_080B9394
+	bl __divsi3
 	lsls r0, r0, #0x10
 	lsrs r3, r0, #0x10
 	adds r5, r3, #0

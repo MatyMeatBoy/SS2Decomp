@@ -18,13 +18,13 @@ sub_08003984: @ 0x08003984
 	add r0, sp
 	ldr r1, _080039DC
 	movs r2, #2
-	bl sub_080B96A4
+	bl memcpy
 	add r4, sp, #0x3f4
 	bl sub_080653CC
 	adds r1, r0, #0
 	adds r0, r4, #0
 	movs r2, #0x34
-	bl sub_080B96A4
+	bl memcpy
 	ldr r0, _080039E0
 	ldr r0, [r0, #0]
 	cmp r0, #4
@@ -2908,7 +2908,7 @@ _0800516E:
 	add r6, sp
 	ldr r0, [r6, #0]
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0x13
@@ -2932,7 +2932,7 @@ _0800519C:
 	add r3, sp
 	ldr r0, [r3, #0]
 	movs r1, #0x18
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0x16
@@ -2983,7 +2983,7 @@ _080051FE:
 	add r2, sp
 	ldr r0, [r2, #0]
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _08005224
@@ -3014,7 +3014,7 @@ _08005236:
 	add r6, sp
 	ldr r0, [r6, #0]
 	movs r1, #0x18
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	cmp r0, #0
 	bne _0800525C
@@ -3460,12 +3460,12 @@ _080055B0:
 	add r6, sp
 	ldr r0, [r6, #0]
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r4, r0, #3
 	movs r1, #5
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0xc
 	adds r0, #0xf
@@ -3478,7 +3478,7 @@ _080055B0:
 	add r2, sp
 	ldr r0, [r2, #0]
 	movs r1, #0x14
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0xc
 	adds r0, #0x30
@@ -3495,7 +3495,7 @@ _080055FC:
 	add r4, sp
 	ldr r0, [r4, #0]
 	movs r1, #0x18
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0xd
 	lsrs r0, r0, #0x14
@@ -3510,7 +3510,7 @@ _080055FC:
 	add r1, sp
 	ldr r0, [r1, #0]
 	movs r1, #0x18
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0xc
 	adds r0, #0x30

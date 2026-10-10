@@ -123,7 +123,7 @@ _0807C3BC:
 	ldr r5, [r4, #4]
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r0, #3
 	bhi _0807C3E8
 	str r5, [r4, #8]
@@ -202,7 +202,7 @@ _0807C466:
 	str r0, [r4, #0x18]
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	str r1, [r4, #4]
@@ -262,7 +262,7 @@ _0807C4D8:
 	str r0, [r4, #0x18]
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	str r1, [r4, #4]
@@ -280,7 +280,7 @@ _0807C4FE:
 	str r0, [r4, #0x18]
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r1, r0, #1
 	adds r1, r1, r0
 	str r1, [r4, #4]
@@ -308,7 +308,7 @@ _0807C52A:
 	ldr r5, [r6, #4]
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r0, #0
 	beq _0807C550
 	str r5, [r6, #8]
@@ -686,7 +686,7 @@ _0807C80C:
 	ldr r1, [r7, #0]
 	adds r1, #0xf4
 	ldr r2, _0807C854
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r7, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -727,7 +727,7 @@ _0807C880:
 	str r6, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807C8B0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -792,7 +792,7 @@ _0807C908:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807C938
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -840,7 +840,7 @@ _0807C96C:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807C99C
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -901,7 +901,7 @@ _0807C9B6:
 	ldr r1, [r6, #0]
 	adds r1, #0xf4
 	ldr r2, _0807CA24
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r6, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -935,7 +935,7 @@ _0807CA28:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807CA6C
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -1241,7 +1241,7 @@ _0807CCE6:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807CD14
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807CD10
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -1276,7 +1276,7 @@ _0807CD36:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807CD60
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807CD5C
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -1311,7 +1311,7 @@ _0807CD64:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807CDAC
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -1406,7 +1406,7 @@ _0807CE2C:
 	str r4, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807CE70
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -1575,7 +1575,7 @@ _0807CFB4:
 	adds r0, #0x68
 	ldrh r0, [r0, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1
@@ -1670,7 +1670,7 @@ _0807D072:
 	strh r0, [r1, #0]
 	ldr r0, [r4, #4]
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r1, r0, #0
 	cmp r1, #1
 	beq _0807D0AE
@@ -1784,7 +1784,7 @@ _0807D13C:
 	ldr r1, [r6, #0]
 	adds r1, #0xf4
 	ldr r2, _0807D18C
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r6, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -1851,7 +1851,7 @@ _0807D1FA:
 	str r7, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807D224
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r6, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -1896,7 +1896,7 @@ _0807D230:
 	ldr r1, [r6, #0]
 	adds r1, #0xf4
 	ldr r2, _0807D28C
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r6, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -2157,7 +2157,7 @@ _0807D490:
 	str r5, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807D4B8
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -2205,7 +2205,7 @@ _0807D4FC:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807D524
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -2667,7 +2667,7 @@ _0807D8A0:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807D8F0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -2714,7 +2714,7 @@ _0807D934:
 	str r5, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807D95C
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -2763,7 +2763,7 @@ _0807D96C:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807D9CC
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -2992,7 +2992,7 @@ _0807DB86:
 _0807DB94:
 	adds r1, #0xf4
 	ldr r2, _0807DBC0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -3039,7 +3039,7 @@ _0807DBD0:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807DC34
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -3332,7 +3332,7 @@ _0807DE3C:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807DE84
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807DE80
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -3375,7 +3375,7 @@ _0807DEB8:
 	str r4, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807DEE0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r6, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -3494,7 +3494,7 @@ _0807DF86:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807DFE4
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -3742,7 +3742,7 @@ _0807E1C4:
 	adds r0, #0x54
 	ldrh r0, [r0, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1
@@ -3881,7 +3881,7 @@ _0807E2D4:
 	adds r1, r5, #0
 	adds r1, #0xf4
 	ldr r2, _0807E308
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r7, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -4077,7 +4077,7 @@ _0807E48C:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807E4B0
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -4285,7 +4285,7 @@ _0807E650:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807E680
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -4330,7 +4330,7 @@ _0807E6AC:
 	ldr r4, [r5, #4]
 	adds r0, r4, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r0, #1
 	bls _0807E6CE
 	bl _0807FB38
@@ -4351,7 +4351,7 @@ _0807E6E0:
 	ldr r4, [r5, #4]
 	adds r0, r4, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r6, r0, #0
 	cmp r6, #0
 	beq _0807E708
@@ -4362,7 +4362,7 @@ _0807E704: .4byte gUnk_03006440
 _0807E708:
 	adds r0, r4, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r1, r0, #2
 	adds r1, r1, r0
 	adds r1, #4
@@ -4552,7 +4552,7 @@ _0807E88C:
 	ldr r5, [r4, #4]
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r0, #1
 	bhi _0807E8BC
 	str r5, [r4, #8]
@@ -4571,7 +4571,7 @@ _0807E8C6:
 	str r0, [r4, #8]
 	adds r0, r5, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	str r0, [r4, #4]
 	movs r1, #0xe
 	str r1, [r4, #0x18]
@@ -4592,7 +4592,7 @@ _0807E8E8:
 	ldr r4, [r5, #4]
 	adds r0, r4, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r6, r0, #0
 	cmp r6, #0
 	beq _0807E914
@@ -4606,7 +4606,7 @@ _0807E914:
 	str r4, [r5, #8]
 	adds r0, r4, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r1, r0, #2
 	adds r1, r1, r0
 	adds r1, #4
@@ -4640,7 +4640,7 @@ _0807E950:
 	ldr r5, [r4, #4]
 	adds r0, r5, #0
 	movs r1, #0xf
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r0, #0xb
 	bhi _0807E978
 	str r5, [r4, #8]
@@ -4792,7 +4792,7 @@ _0807EA5C:
 	ldr r1, [r7, #0]
 	adds r1, #0xf4
 	ldr r2, _0807EAB4
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r7, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -4953,7 +4953,7 @@ _0807EBD8:
 	ldr r1, [r6, #0]
 	adds r1, #0xf4
 	ldr r2, _0807EBF8
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r6, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -4998,7 +4998,7 @@ _0807EBFC:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807EC5C
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -5046,7 +5046,7 @@ _0807EC60:
 	ldr r1, [r7, #0]
 	adds r1, #0xf4
 	ldr r2, _0807ECC8
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r7, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -5091,7 +5091,7 @@ _0807ECCC:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807ED2C
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -5213,7 +5213,7 @@ _0807EE06:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807EE38
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807EE34
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -5255,7 +5255,7 @@ _0807EE3C:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807EE90
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807EE8C
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -5304,7 +5304,7 @@ _0807EE9C:
 	str r1, [sp, #0x14]
 	mov r1, r9
 	ldr r2, _0807EEF8
-	bl sub_080B8578
+	bl CpuSet
 	ldr r2, _0807EEFC
 	ldr r1, [r2, #0]
 	movs r0, #0x16
@@ -5344,7 +5344,7 @@ _0807EF28:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807EF54
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807EF50
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -5428,7 +5428,7 @@ _0807EFDE:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F004
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807F000
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -5467,7 +5467,7 @@ _0807F008:
 	str r6, [sp, #0x14]
 	mov r1, r9
 	ldr r2, _0807F054
-	bl sub_080B8578
+	bl CpuSet
 	ldr r4, _0807F058
 	ldr r1, [r4, #0]
 	movs r0, #0x16
@@ -5501,7 +5501,7 @@ _0807F05C:
 	ldr r1, [r2, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F0A4
-	bl sub_080B8578
+	bl CpuSet
 	ldr r3, _0807F0A0
 	ldr r1, [r3, #0]
 	movs r0, #0x16
@@ -5938,7 +5938,7 @@ _0807F3F0:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F464
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6041,7 +6041,7 @@ _0807F4D2:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F528
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6092,7 +6092,7 @@ _0807F542:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F590
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6138,7 +6138,7 @@ _0807F5A6:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F5F4
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6184,7 +6184,7 @@ _0807F60A:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F658
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6228,7 +6228,7 @@ _0807F65C:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F6BC
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6273,7 +6273,7 @@ _0807F6C0:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F720
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6320,7 +6320,7 @@ _0807F762:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F780
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6400,7 +6400,7 @@ _0807F804:
 	ldr r1, [r4, #0]
 	adds r1, #0xf4
 	ldr r2, _0807F850
-	bl sub_080B8578
+	bl CpuSet
 	ldr r4, [r4, #0]
 	movs r0, #0x16
 	str r0, [r4, #0x1c]
@@ -6416,7 +6416,7 @@ _0807F804:
 	adds r0, r4, r1
 	ldr r0, [r0, #0]
 	ldr r1, _0807F854
-	bl sub_080B956C
+	bl __udivsi3
 	str r0, [r4, #0x58]
 	movs r1, #0xb
 	subs r1, r1, r0
@@ -6449,7 +6449,7 @@ _0807F862:
 	str r5, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807F894
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -6782,7 +6782,7 @@ _0807FB1E:
 	ldr r1, [r5, #0]
 	adds r1, #0xf4
 	ldr r2, _0807FB70
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, [r5, #0]
 	str r4, [r0, #0x20]
 	str r4, [r0, #0x1c]
@@ -6911,7 +6911,7 @@ _0807FC3C:
 	str r4, [sp, #0x14]
 	adds r1, #0xf4
 	ldr r2, _0807FC68
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r5, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]
@@ -7098,7 +7098,7 @@ _0807FDEA:
 	adds r4, #0xe8
 	adds r0, r1, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #4
 	adds r0, #0x58
 	str r0, [r4, #0]
@@ -7118,7 +7118,7 @@ _0807FE08:
 _0807FE16:
 	adds r0, r6, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r1, r0, #1
 	adds r5, r1, r0
 	adds r2, r4, #0
@@ -7321,7 +7321,7 @@ _0807FF90:
 _0807FF9E:
 	adds r0, r6, #0
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r1, r0, #1
 	adds r5, r1, r0
 	adds r3, r5, #3
@@ -7381,7 +7381,7 @@ _08080012:
 	adds r4, #0xe8
 	adds r0, r1, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #4
 	adds r0, #0xb8
 	str r0, [r4, #0]
@@ -7389,7 +7389,7 @@ _08080012:
 	ldr r0, [r5, #4]
 	movs r1, #3
 _0808002A:
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #4
 	adds r0, #0x20
 	str r0, [r4, #0]
@@ -7413,14 +7413,14 @@ _08080052:
 	adds r4, #0xe8
 	adds r0, r1, #0
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #4
 	adds r0, #0xb8
 	str r0, [r4, #0]
 	adds r4, #4
 	ldr r0, [r5, #4]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #4
 	adds r0, #0x20
 	str r0, [r4, #0]
@@ -7959,7 +7959,7 @@ _080804BE:
 	adds r4, r4, r2
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B95E4
+	bl __umodsi3
 	str r0, [r4, #0]
 	adds r5, #1
 	cmp r5, #5
@@ -8233,7 +8233,7 @@ _08080700:
 	adds r0, r3, #0
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r1, [r5, #0]
 	adds r0, r1, #0
@@ -8281,7 +8281,7 @@ _08080764:
 	adds r0, r3, #0
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r1, [r5, #0]
 	adds r0, r1, #0
@@ -8324,7 +8324,7 @@ _080807BA:
 	ldr r0, [r0, #0]
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	cmp r0, #0
 	bne _080807EA
 	ldr r1, [r4, #0]
@@ -8347,7 +8347,7 @@ _080807EA:
 	ldr r0, [r0, #0]
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r1, [r4, #0]
 	adds r0, r1, #0
@@ -8379,7 +8379,7 @@ _08080830:
 	ldr r0, [r0, #0]
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	cmp r0, #0
 	bne _08080860
 	ldr r1, [r4, #0]
@@ -8403,7 +8403,7 @@ _08080860:
 	ldr r0, [r0, #0]
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r1, [r7, #0]
 	adds r0, r1, #0
@@ -8437,7 +8437,7 @@ _080808A8:
 	ldr r0, [r0, #0]
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	cmp r0, #0
 	bne _080808E0
 	ldr r1, [r4, #0]
@@ -8461,7 +8461,7 @@ _080808E0:
 	ldr r0, [r0, #0]
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r1, [r4, #0]
 	adds r0, r1, #0
@@ -8594,7 +8594,7 @@ _080809EA:
 	adds r0, r1, #0
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	cmp r0, #0
 	bne _08080A18
 	ldr r1, [r5, #0]
@@ -8616,7 +8616,7 @@ _08080A18:
 	adds r0, #0xf4
 	bl sub_0805AE94
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	ldr r1, [r5, #0]
 	adds r0, r1, #0

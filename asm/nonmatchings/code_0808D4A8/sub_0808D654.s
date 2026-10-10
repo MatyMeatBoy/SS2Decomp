@@ -207,7 +207,7 @@ _0808D7E0:
 	adds r1, r6, r3
 	movs r4, #0
 	ldrsh r1, [r1, r4]
-	bl sub_080B9394
+	bl __divsi3
 	adds r1, r0, #0
 	cmp r0, #9
 	bgt _0808D814

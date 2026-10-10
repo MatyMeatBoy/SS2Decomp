@@ -14,12 +14,12 @@ sub_0807A124: @ 0x0807A124
 	ldr r4, _0807A1EC
 	adds r0, r5, #0
 	adds r2, r4, #0
-	bl sub_080B96A4
+	bl memcpy
 	ldr r0, _0807A1F0
 	ldr r1, [r0, #0]
 	ldr r2, _0807A1F4
 	adds r0, r6, #0
-	bl sub_080B96A4
+	bl memcpy
 	movs r1, #0
 	adds r2, r5, #0
 	movs r3, #0

@@ -60,7 +60,7 @@ _0801A824:
 	ldrh r0, [r4, #0]
 	lsls r0, r0, #4
 	ldrh r1, [r5, #0]
-	bl sub_080B9394
+	bl __divsi3
 	strh r0, [r6, #0]
 	mov r3, r9
 	ldrh r0, [r3, #0]
@@ -131,7 +131,7 @@ _0801A8AC:
 	ldrh r0, [r4, #0]
 	lsls r0, r0, #4
 	ldrh r1, [r6, #0]
-	bl sub_080B9394
+	bl __divsi3
 	mov r2, r8
 	strh r0, [r2, #0]
 	mov r3, r9

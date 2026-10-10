@@ -1138,7 +1138,7 @@ _080887AC:
 	movs r0, #0x78
 	bl sub_08057624
 	movs r0, #0
-	bl sub_080B8598
+	bl SoftReset
 _080887C2:
 	add sp, #4
 	pop {r3, r4, r5}

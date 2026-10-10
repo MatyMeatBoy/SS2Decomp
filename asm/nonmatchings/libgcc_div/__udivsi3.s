@@ -1,5 +1,5 @@
-	thumb_func_start sub_080B956C
-sub_080B956C: @ 0x080B956C
+	thumb_func_start __udivsi3
+__udivsi3: @ 0x080B956C
 	cmp r1, #0
 	beq _080B95DA
 	movs r3, #1
@@ -66,7 +66,7 @@ _080B95D4:
 	mov pc, lr
 _080B95DA:
 	push {lr}
-	bl sub_080B9428
+	bl __div0
 	movs r0, #0
 	pop {pc}
-	thumb_func_end sub_080B956C
+	thumb_func_end __udivsi3

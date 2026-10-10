@@ -208,7 +208,7 @@ _080A6D56:
 	muls r0, r1, r0
 	movs r1, #0x98
 	lsls r1, r1, #1
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [r4, #0]
 	adds r1, r1, r0
 	str r1, [r4, #0]
@@ -398,7 +398,7 @@ _080A6EB0:
 	muls r3, r1, r3
 	adds r1, r3, #0
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	cmp r0, #0xf

@@ -94,7 +94,7 @@ _08072DFC:
 	subs r4, r7, #1
 	adds r4, r6, r4
 	movs r1, #0x14
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r0, #0xa
 	ldrb r4, [r4, #0]
 	adds r0, r0, r4
@@ -264,11 +264,11 @@ _08072F4A:
 	ldrsh r2, [r6, r3]
 	ldr r1, [r6, #0x48]
 	adds r1, r1, r2
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r4, r0
 	bls _08072F94
 	add r1, sp, #0x44
@@ -380,11 +380,11 @@ _08073028:
 	ldrsh r2, [r1, r4]
 	ldr r1, [r3, #0]
 	adds r1, r1, r2
-	bl sub_080B9394
+	bl __divsi3
 	adds r4, r0, #0
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	cmp r4, r0
 	bls _0807307E
 	add r1, sp, #0x44

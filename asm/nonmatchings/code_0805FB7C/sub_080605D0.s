@@ -41,7 +41,7 @@ _08060614:
 	adds r0, #0x68
 	ldrh r0, [r0, #0]
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	adds r0, #0x57
@@ -170,7 +170,7 @@ _08060720:
 	mov r2, sl
 	ldrh r0, [r2, #0]
 	movs r1, #3
-	bl sub_080B95E4
+	bl __umodsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	adds r0, #0x57
@@ -391,7 +391,7 @@ _080608EE:
 	mov r4, sl
 	ldrh r0, [r4, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1
@@ -834,7 +834,7 @@ _08060C7A:
 	mov r7, sl
 	ldrh r0, [r7, #0]
 	movs r1, #3
-	bl sub_080B956C
+	bl __udivsi3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r1, r0, #1

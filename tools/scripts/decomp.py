@@ -589,6 +589,7 @@ def main():
     p.add_argument("cfile")
     p.add_argument("-v", "--verbose", action="store_true")
     p.add_argument("-f", "--func", action="append")
+    p.add_argument("--cc1", help="compiler (default agbcc)")
     p = sub.add_parser("integrate")
     p.add_argument("module")
     p.add_argument("cfile")

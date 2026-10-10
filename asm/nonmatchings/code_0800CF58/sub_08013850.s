@@ -168,7 +168,7 @@ _08013974:
 	ldr r1, [r0, #0]
 	ldr r2, _08013BAC
 	mov r0, sp
-	bl sub_080B8578
+	bl CpuSet
 	movs r6, #0
 	ldr r7, _08013B94
 	mov sl, r7

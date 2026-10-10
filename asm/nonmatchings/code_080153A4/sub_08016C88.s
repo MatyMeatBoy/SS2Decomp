@@ -23,7 +23,7 @@ sub_08016C88: @ 0x08016C88
 	adds r1, r5, #0
 	muls r1, r5, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	lsls r4, r4, #0x10
@@ -32,7 +32,7 @@ sub_08016C88: @ 0x08016C88
 	ble _08016D38
 	adds r0, r6, #0
 	adds r1, r5, #0
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsls r1, r0, #3
 	lsrs r2, r0, #0x1d

@@ -28,14 +28,14 @@ sub_0807C114: @ 0x0807C114
 	bne _0807C16A
 	adds r0, r2, #0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	b _0807C16C
 _0807C158: .4byte gUnk_03006440
 _0807C15C:
 	adds r0, r2, #0
 	movs r1, #0xa
-	bl sub_080B956C
+	bl __udivsi3
 	adds r2, r0, #0
 	cmp r2, #0
 	bne _0807C16C
@@ -75,7 +75,7 @@ _0807C19C:
 	str r5, [sp, #0x10]
 	adds r1, #0xf4
 	ldr r2, _0807C1D4
-	bl sub_080B8578
+	bl CpuSet
 	ldr r1, [r4, #0]
 	movs r0, #0x16
 	str r0, [r1, #0x1c]

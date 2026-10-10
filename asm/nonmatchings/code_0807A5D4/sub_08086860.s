@@ -63,7 +63,7 @@ sub_08086860: @ 0x08086860
 	add r0, sp, #0x3c
 	ldr r2, _08086A08
 	adds r1, r7, #0
-	bl sub_080B8574
+	bl CpuFastSet
 	ldr r1, _08086A0C
 	adds r0, r7, #0
 	adds r2, r5, #0
@@ -406,7 +406,7 @@ _08086BCE:
 _08086BD8:
 	adds r0, r5, #0
 	movs r1, #5
-	bl sub_080B9394
+	bl __divsi3
 	cmp r0, #0
 	bne _08086BF8
 	adds r5, #1
@@ -1440,7 +1440,7 @@ _08087432:
 	add r0, sp, #0x44
 	ldr r2, _0808748C
 	adds r1, r7, #0
-	bl sub_080B8574
+	bl CpuFastSet
 	ldr r1, _08087490
 	adds r0, r7, #0
 	adds r2, r4, #0

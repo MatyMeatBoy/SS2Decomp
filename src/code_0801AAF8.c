@@ -24,10 +24,10 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D7AC);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DB94);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DD9C);
 void sub_0801DDB8(s32 arg0) {
-    sub_080B8578(gUnk_030034E0 + 0x10, arg0, 0x04000008);
+    CpuSet(gUnk_030034E0 + 0x10, arg0, 0x04000008);
 }
 void sub_0801DDD4(s32 arg0) {
-    sub_080B8578(arg0, gUnk_030034E0 + 0x10, 0x04000008);
+    CpuSet(arg0, gUnk_030034E0 + 0x10, 0x04000008);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DDF0);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE18);

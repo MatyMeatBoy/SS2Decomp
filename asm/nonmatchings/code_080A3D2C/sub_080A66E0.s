@@ -86,7 +86,7 @@ _080A6764:
 	ldr r1, [r2, #0]
 	subs r0, r0, r1
 	movs r1, #0x14
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [r4, #0]
 	adds r1, r1, r0
 	str r1, [r4, #0]
@@ -109,7 +109,7 @@ _080A6764:
 	ldr r1, [r2, #4]
 	subs r0, r0, r1
 	movs r1, #0x14
-	bl sub_080B9394
+	bl __divsi3
 	ldr r1, [r4, #0]
 	adds r1, r1, r0
 	str r1, [r4, #0]

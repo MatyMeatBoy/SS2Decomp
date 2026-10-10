@@ -13,7 +13,7 @@ sub_08001204: @ 0x08001204
 	ands r0, r1
 	cmp r0, #0
 	bne _0800122E
-	bl sub_080B8590
+	bl VBlankIntrWait
 	ldr r1, _08001270
 	ldr r0, [r1, #0]
 	adds r0, #1
@@ -25,7 +25,7 @@ _0800122E:
 	ldr r2, _08001278
 	mov r0, sp
 	adds r1, r4, #0
-	bl sub_080B8574
+	bl CpuFastSet
 	bl sub_08000760
 	movs r0, #1
 	bl sub_08000420

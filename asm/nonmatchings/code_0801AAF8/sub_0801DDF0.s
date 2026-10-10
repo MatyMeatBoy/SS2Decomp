@@ -10,7 +10,7 @@ sub_0801DDF0: @ 0x0801DDF0
 	adds r0, r0, r1
 	ldr r2, _0801DE14
 	adds r1, r4, #0
-	bl sub_080B8578
+	bl CpuSet
 	pop {r4}
 	pop {r0}
 	bx r0

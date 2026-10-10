@@ -812,7 +812,7 @@ _08092AA4:
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	movs r1, #0x78
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0
@@ -880,7 +880,7 @@ _08092B3C:
 	asrs r0, r0, #0x10
 	movs r1, #0x18
 _08092B4A:
-	bl sub_080B942C
+	bl __modsi3
 	lsls r0, r0, #0x10
 	asrs r0, r0, #0x10
 	cmp r0, #0

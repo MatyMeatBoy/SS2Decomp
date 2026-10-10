@@ -30,7 +30,7 @@ _08067BB4:
 	adds r1, #0x10
 	ldr r2, _08067BF4
 	adds r0, r3, #0
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #3
 	strb r0, [r4, #1]
 	ldr r0, [r5, #0]

@@ -39,7 +39,7 @@ _08066418:
 	movs r3, #0x80
 	lsls r3, r3, #0x13
 	orrs r2, r3
-	bl sub_080B8578
+	bl CpuSet
 	ldr r0, [r5, #0]
 	ldr r1, _08066484
 	adds r0, r0, r1

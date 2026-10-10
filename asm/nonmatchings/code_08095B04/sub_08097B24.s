@@ -24,7 +24,7 @@ sub_08097B24: @ 0x08097B24
 	adds r1, r2, #0
 	muls r1, r2, r1
 	adds r0, r0, r1
-	bl sub_080B858C
+	bl Sqrt
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	movs r1, #0

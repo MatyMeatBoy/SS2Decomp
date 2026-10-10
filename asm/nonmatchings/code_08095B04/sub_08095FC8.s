@@ -17,7 +17,7 @@ sub_08095FC8: @ 0x08095FC8
 	asrs r3, r3, #0x10
 	adds r0, r2, #0
 	adds r1, r3, #0
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsls r1, r0, #3
 	lsrs r2, r0, #0x1d

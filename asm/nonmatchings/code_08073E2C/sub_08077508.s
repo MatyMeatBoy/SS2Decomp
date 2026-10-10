@@ -176,7 +176,7 @@ _0807765C:
 	add r3, sp
 	movs r2, #0
 	ldrsh r1, [r3, r2]
-	bl sub_080B8570
+	bl ArcTan2
 	lsls r0, r0, #0x10
 	lsrs r1, r0, #0x18
 	adds r2, r1, #0
@@ -479,7 +479,7 @@ _080778A0:
 _080778B8:
 	bl sub_080008C8
 	movs r1, #0x64
-	bl sub_080B95E4
+	bl __umodsi3
 	adds r2, r0, #0
 	mov r1, r8
 	adds r1, #0x6e

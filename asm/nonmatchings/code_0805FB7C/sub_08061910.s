@@ -163,7 +163,7 @@ _08061A4E:
 	ldr r1, _08061AF4
 	ldr r2, _08061AF8
 	add r0, sp, #8
-	bl sub_080B8578
+	bl CpuSet
 	bl sub_080003F0
 	bl sub_080003F0
 	ldr r1, _08061AFC
@@ -250,7 +250,7 @@ _08061B70:
 	cmp r0, #0
 	beq _08061B6C
 	movs r0, #0
-	bl sub_080B8598
+	bl SoftReset
 	add sp, #0x10
 	pop {r4, r5, r6, r7}
 	pop {r0}

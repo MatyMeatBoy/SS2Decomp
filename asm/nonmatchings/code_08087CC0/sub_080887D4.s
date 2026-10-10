@@ -37,7 +37,7 @@ _080887FE:
 	ldr r1, [r4, #0x14]
 	movs r0, #0x80
 	lsls r0, r0, #3
-	bl sub_080B956C
+	bl __udivsi3
 	str r0, [sp, #0x54]
 	ldr r0, [r4, #0x10]
 	movs r2, #1

@@ -19,7 +19,7 @@ _08066190:
 	adds r1, r4, #0
 	adds r1, #8
 	ldr r2, _080661B0
-	bl sub_080B8578
+	bl CpuSet
 	b _0806620C
 	.2byte 0x0000
 _080661AC: .4byte gUnk_03003D38
@@ -64,7 +64,7 @@ _080661D6:
 	adds r1, r4, #0
 	adds r1, #8
 	ldr r2, _0806621C
-	bl sub_080B8578
+	bl CpuSet
 	movs r0, #6
 	strb r0, [r4, #1]
 	ldr r0, [r5, #0]
