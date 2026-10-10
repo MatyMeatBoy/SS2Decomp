@@ -469,7 +469,6 @@ void SoundClear(void)
     soundInfo->ident = ID_NUMBER;
 }
 
-#ifdef NONMATCHING
 void m4aSoundVSyncOff(void)
 {
     struct SoundInfo *soundInfo = SOUND_INFO_PTR;
@@ -477,22 +476,11 @@ void m4aSoundVSyncOff(void)
     if (soundInfo->ident >= ID_NUMBER && soundInfo->ident <= ID_NUMBER + 1)
     {
         soundInfo->ident += 10;
-
-        if (REG_DMA1CNT & (DMA_REPEAT << 16))
-            REG_DMA1CNT = ((DMA_ENABLE | DMA_START_NOW | DMA_32BIT | DMA_SRC_INC | DMA_DEST_FIXED) << 16) | 4;
-
-        if (REG_DMA2CNT & (DMA_REPEAT << 16))
-            REG_DMA2CNT = ((DMA_ENABLE | DMA_START_NOW | DMA_32BIT | DMA_SRC_INC | DMA_DEST_FIXED) << 16) | 4;
-
-        REG_DMA1CNT_H = DMA_32BIT;
-        REG_DMA2CNT_H = DMA_32BIT;
-
+        REG_DMA1CNT_H = 0;
+        REG_DMA2CNT_H = 0;
         CpuFill32(0, soundInfo->pcmBuffer, sizeof(soundInfo->pcmBuffer));
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aSoundVSyncOff);
-#endif
 
 void m4aSoundVSyncOn(void)
 {
@@ -792,12 +780,34 @@ void CgbOscOff(u8 chanNum)
     }
 }
 
-#ifdef NONMATCHING
+static inline int CgbPan(struct CgbChannel *chan)
+{
+    u32 rightVolume = chan->rightVolume;
+    u32 leftVolume = chan->leftVolume;
+
+    if ((rightVolume = (u8)rightVolume) >= (leftVolume = (u8)leftVolume))
+    {
+        if (rightVolume / 2 >= leftVolume)
+        {
+            chan->pan = 0x0F;
+            return 1;
+        }
+    }
+    else
+    {
+        if (leftVolume / 2 >= rightVolume)
+        {
+            chan->pan = 0xF0;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 void CgbModVol(struct CgbChannel *chan)
 {
-    struct SoundInfo *soundInfo = SOUND_INFO_PTR;
-
-    if ((soundInfo->mode & 1) || !CgbPan(chan))
+    if (!CgbPan(chan))
     {
         chan->pan = 0xFF;
         chan->envelopeGoal = (u32)(chan->leftVolume + chan->rightVolume);
@@ -814,9 +824,6 @@ void CgbModVol(struct CgbChannel *chan)
     chan->sustainGoal = (chan->envelopeGoal * chan->sustain + 15) >> 4;
     chan->pan &= chan->panMask;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", CgbModVol);
-#endif
 
 #ifdef NONMATCHING
 void CgbSound(void)
@@ -1328,7 +1335,6 @@ void m4aMPlayLFOSpeedSet(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 lf
     mplayInfo->ident = ID_NUMBER;
 }
 
-#ifdef NONMATCHING
 void ply_memacc(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 {
     u32 op;
@@ -1414,9 +1420,6 @@ cond_true:
 cond_false:
     track->cmdPtr += 4;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", ply_memacc);
-#endif
 
 void ply_xcmd(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 {

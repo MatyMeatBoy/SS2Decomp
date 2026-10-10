@@ -34,7 +34,7 @@ all: $(ROM)
 
 compare: $(ROM)
 	@sha1sum -c $(NAME).sha1
-	@$(PREFIX)nm $(ELF) | awk 'NF==3 {print $$1, $$3}' > $(BUILD)/ref.syms
+	@$(PREFIX)nm $(ELF) | awk 'NF==3 {print $$1, $$3, $$2}' > $(BUILD)/ref.syms
 
 clean:
 	rm -rf $(BUILD) $(ROM) $(ELF) $(MAP)

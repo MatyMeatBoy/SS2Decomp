@@ -191,15 +191,18 @@ def symbol_values():
         if os.path.exists(path):
             for line in open(path):
                 p = line.split()
-                if len(p) == 2:
-                    _SYMS[p[1]] = int(p[0], 16)
+                if len(p) >= 2:
+                    v = int(p[0], 16)
+                    if len(p) > 2 and p[2] in "Tt":
+                        v &= ~1  # THUMB function
+                    _SYMS[p[1]] = v
     return _SYMS
 
 
 def resolve(name):
     syms = symbol_values()
     if name in syms:
-        return syms[name] & ~1 if name.startswith("sub_") else syms[name]
+        return syms[name]
     m = re.match(r"(?:gUnk|sub|arm)_([0-9A-F]{8})$", name)
     if m:
         return int(m.group(1), 16)
@@ -214,6 +217,19 @@ def resolve(name):
 
 
 _NAMES_INV = None
+_THUMB = None
+
+
+def is_thumb_func(name, val):
+    """Is the symbol a THUMB function? (data words referencing it get bit 0 set)"""
+    global _THUMB
+    if _THUMB is None:
+        _THUMB = set()
+        for line in open(os.path.join(ROOT, "tools/config/functions.cfg")):
+            p = line.split()
+            if len(p) >= 2 and p[0] == "thumb":
+                _THUMB.add(int(p[1], 0))
+    return val in _THUMB
 
 
 def func_code(obj, func):
@@ -241,9 +257,14 @@ def func_code(obj, func):
                     if start <= off < start + size:
                         s2 = st.get_symbol(r["r_info_sym"])
                         name = s2.name
-                        if s2["st_info"]["type"] == "STT_SECTION":
+                        if s2["st_info"]["type"] == "STT_SECTION" or (
+                                s2["st_shndx"] == sym["st_shndx"] and s2["st_info"]["bind"] == "STB_LOCAL"):
+                            # reference into the same section: make it function relative
                             name = "<section>"
+                            if s2["st_info"]["type"] != "STT_SECTION":
+                                name = "<section+%d>" % (s2["st_value"] - start)
                         relocs[off - start] = (r["r_info_type"], name)
+        func_code.start = start
         return data, relocs
 
 
@@ -254,17 +275,24 @@ def normalized(obj, func):
         return None
     data = bytearray(data)
     items = []
+    start = func_code.start
     for off, (rtype, name) in sorted(relocs.items()):
-        val = resolve(name) if name != "<section>" else None
+        val = resolve(name) if not name.startswith("<section") else None
         if rtype == 2:  # R_ARM_ABS32
             addend = struct.unpack_from("<I", data, off)[0]
+            if name == "<section>":
+                addend -= start
+            elif name.startswith("<section+"):
+                addend += int(name[9:-1])
+                name = "<section>"
             if val is not None:
                 v = (val + addend) & 0xFFFFFFFF
-                if name.startswith("sub_") and val is not None:
+                if is_thumb_func(name, val):
                     v |= 1
                 struct.pack_into("<I", data, off, v)
             else:
                 items.append((off, rtype, name, addend))
+                data[off:off + 4] = b"\0\0\0\0"
         else:
             # calls / branches: keep target identity, blank the encoded offset
             items.append((off, rtype, val if val is not None else name))
@@ -491,12 +519,25 @@ def integrate(mod, cfile):
     """Rebuild src/<mod>.c from a candidate file defining (some of) its functions."""
     results = check_file(cfile, cc1=module_cc1(mod)) or {}
     text = open(cfile).read()
-    prelude, funcs, _ = split_functions(text)
+    prelude, funcs, corder = split_functions(text)
     src = os.path.join(ROOT, "src/%s.c" % mod)
-    cur_prelude, cur_funcs, _ = split_functions(open(src).read())
     out = [prelude.rstrip() + "\n"]
     nmatch = 0
-    for name in module_functions(mod):
+    rom = module_functions(mod)
+    # helpers (static/inline functions with no ROM counterpart) go right before
+    # the ROM function that follows them in the candidate file
+    helpers_before = {}
+    pending = []
+    for n in corder:
+        if n in rom:
+            if pending:
+                helpers_before.setdefault(n, []).extend(pending)
+                pending = []
+        else:
+            pending.append(n)
+    for name in rom:
+        for h in helpers_before.get(name, []):
+            out.append(funcs[h] + "\n")
         stub = 'INCLUDE_ASM("asm/nonmatchings/%s", %s);' % (mod, name)
         if name in funcs and results.get(name, (False,))[0]:
             out.append(funcs[name] + "\n")
