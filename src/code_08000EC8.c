@@ -239,29 +239,3 @@ INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001804);
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800191C);
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001990);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001A50);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001A64);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001AA4);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001B04);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001B14);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001B54);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001B78);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001BE4);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001DF0);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800207C);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800208C);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080020E0);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080020F4);

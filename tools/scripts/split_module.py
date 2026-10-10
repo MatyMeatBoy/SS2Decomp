@@ -48,6 +48,8 @@ def main():
         raise SystemExit("cannot find %s in %s" % (first, src))
     # include prelude (everything before first function) in both files
     prelude, _, _ = decomp.split_functions(text)
+    prelude = re.sub(r"#ifdef NONMATCHING\n.*?#endif\n?", "", prelude, flags=re.S)
+    prelude = re.sub(r"INCLUDE_ASM\([^)]*\);\n?", "", prelude)
     head, tail = text[:pos], text[pos:]
     tail = tail.replace('asm/nonmatchings/%s"' % old, 'asm/nonmatchings/%s"' % args.name)
     open(src, "w").write(head.rstrip() + "\n")

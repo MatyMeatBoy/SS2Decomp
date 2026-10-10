@@ -50,6 +50,8 @@ $(BUILD)/src/agb_flash.o: CC1FLAGS := -O1 -mthumb-interwork
 
 $(BUILD)/src/video.o: CC1 := tools/agbcc/bin/old_agbcc
 
+$(BUILD)/src/code_08001A50.o: CC1 := tools/agbcc/bin/old_agbcc
+
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)
 	@mkdir -p $(@D)
