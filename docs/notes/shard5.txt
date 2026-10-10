@@ -1,0 +1,12 @@
+Shard 5 notes (worker/005)
+
+sub_08008C1C (code_08006D24): matches with DECOMP_CC1=tools/agbcc/bin/old_agbcc (void return, switch on
+  (gUnk_0300129C<<29)>>29, cases 0-2 -> 0x06010000, 3-5 -> 0x06014000). Module uses agbcc, so it needs the module
+  compiler changed (or the function split into its own module) — maintainer decision, not edited.
+sub_08008CC4 (code_08006D24): near miss; same C shape as the asm, register allocation of temp/var differs.
+  Tried: declaration order (720 perms, no match), register keyword, type variants, pointer-cast forms.
+sub_08008D38 (code_08006D24): near miss; declaration-order search (120 perms) no match. arg2 kept in r5 not r6.
+sub_08008E74 (code_08006D24): draft with local struct Sub08008E74Ent, size 176 vs 184. Diffs: arg2/arg4 register
+  assignment (r6/r7 swapped), index/temp ordering. Tried literal masks (-8, -9, -113), OR operand order,
+  local copies of args in 6 orders. Not matched.
+sub_080094CC (code_08009088): draft size 176 vs 200 (CpuSet loop, gUnk_03003460 table of pointers).
