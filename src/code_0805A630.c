@@ -91,6 +91,11 @@ s32 sub_0805CFCC(void) {
     }
     return -1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CFF8);
+void sub_0805CFF8(u32 index, const u32 *src)
+{
+    u8 *dst = (u8 *)(*(u32 *)0x030034E0) + 0x150 + (index <= 0x18 ? index : 0) * 0x10;
+    ((u32 *)dst)[0] = src[0]; ((u32 *)dst)[1] = src[1];
+    ((u32 *)dst)[2] = src[2]; ((u32 *)dst)[3] = src[3];
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805D028);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805D064);
