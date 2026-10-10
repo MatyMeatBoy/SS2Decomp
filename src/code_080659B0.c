@@ -2,6 +2,7 @@
 
 void sub_08066898(void);
 void sub_08064E14(void);
+void sub_0806690C(void);
 
 void sub_080659B0(void *arg0, s16 arg1)
 {
@@ -92,7 +93,17 @@ INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066624);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066720);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066898);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806690C);
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08067A68);
+void sub_08067A68(u32 index)
+{
+    u8 *entry;
+    u32 mem;
+    entry = *(u8 **)0x03006258 + index*0x28;
+    if(sub_08000470((u32)entry)) return;
+    *(u32 *)(entry+0xC)=(u32)sub_0806690C;
+    mem=sub_08001494(0xC00); *(u32 *)(entry+0x20)=mem;
+    *(u32 *)(entry+0x10)=mem+0xBFC; *(u32 *)(entry+8)=0x65;
+    *(u32 *)(entry+0x24)=0; sub_08000274(entry,index);
+}
 s32 sub_08067AC0(void) {
     return 1;
 }
