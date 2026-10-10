@@ -192,6 +192,13 @@ u32 sub_0805F158(void)
             return i;
     return 0xFF;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F184);
+u32 sub_0805F184(void)
+{
+    u32 i;
+    for (i = 0; i < 4; i++)
+        if ((gUnk_03005D6C >> i) & 1)
+            return 1;
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F1B0);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805FAC0);
