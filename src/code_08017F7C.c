@@ -80,7 +80,18 @@ void sub_0801A628(void) {
 void sub_0801A62C(void) {
     gUnk_03005C98 = 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A638);
+s32 sub_0801A638(u8 *p)
+{
+    s32 n = 0;
+    while (1) {
+        u8 c = *p;
+        if (c == 0xFD) break;
+        if (c > 0xF1) break;
+        n++;
+        p++;
+    }
+    return n;
+}
 void sub_0801A650(u32 arg0)
 {
   if (((u32) gUnk_03005730) > arg0)
