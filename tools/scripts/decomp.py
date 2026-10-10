@@ -407,7 +407,17 @@ def module_of(func):
     return find_asm(func)[1]
 
 
+def ensure_sz_structs(code):
+    sizes = set(int(x) for x in re.findall(r"struct Sz(\d+)", code))
+    hp = os.path.join(ROOT, "include/structs.h")
+    h = open(hp).read()
+    add = "".join("struct Sz%d { u8 b[%d]; };\n" % (n, n) for n in sorted(sizes) if "struct Sz%d " % n not in h)
+    if add:
+        open(hp, "w").write(h.replace("#endif // GUARD_STRUCTS_H", add + "\n#endif // GUARD_STRUCTS_H"))
+
+
 def apply(func, cfile):
+    ensure_sz_structs(open(cfile).read())
     """Insert the C of cfile (everything after the include line) into src/<module>.c."""
     path, mod = find_asm(func)
     src = os.path.join(ROOT, "src/%s.c" % mod)
@@ -720,6 +730,9 @@ def main():
     p = sub.add_parser("score")
     p.add_argument("outdir")
     p.add_argument("funcs", nargs="+")
+    p = sub.add_parser("fix")
+    p.add_argument("dir")
+    p.add_argument("funcs", nargs="+")
     p = sub.add_parser("trycc")
     p.add_argument("dir")
     p.add_argument("funcs", nargs="+")
@@ -776,6 +789,23 @@ def main():
                 sc = sum(1 for l in out.splitlines() if l[:1] in "+-" and l[:3] not in ("---", "+++"))
             log.write("%s %d\n" % (func, sc))
             log.flush()
+    elif args.cmd == "fix":
+        import fixups
+        for func in args.funcs:
+            c = os.path.join(args.dir, func + ".c")
+            if not os.path.exists(c):
+                continue
+            base = open(c).read()
+            hit = None
+            for name, code in fixups.fixups(base):
+                tmp = os.path.join(args.dir, func + "." + name + ".c")
+                open(tmp, "w").write(code)
+                if check(func, tmp, verbose=False):
+                    hit = name
+                    os.replace(tmp, c)
+                    break
+                os.remove(tmp)
+            print("%s %s" % (func, hit or "-"))
     elif args.cmd == "trycc":
         # which compiler/flags make the saved draft match?
         combos = [("agbcc", os.path.join(ROOT, "tools/agbcc/bin/agbcc"), ["-O2"]),

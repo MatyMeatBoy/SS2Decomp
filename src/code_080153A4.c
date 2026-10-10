@@ -11,7 +11,14 @@ INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015A48);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015B20);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015C14);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015C38);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015C5C);
+void sub_08015C5C(s32 arg0, s32 arg1) {
+    void *temp_r2;
+
+    temp_r2 = (&((struct Sz332 *)&gUnk_03003CE0)[sub_080020F4()]);
+    M2C_FIELD(temp_r2, s32 *, 0x9C) = arg0;
+    M2C_FIELD((temp_r2 + 0x9C), s32 *, 4) = arg1;
+    M2C_FIELD(temp_r2, s32 *, 0x30) = (s32) (M2C_FIELD(temp_r2, s32 *, 0x30) | 0x24);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015C8C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015CB4);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015CE0);

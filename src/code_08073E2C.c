@@ -35,7 +35,27 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079948);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079CC4);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079D84);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079ED0);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079FD0);
+s32 sub_08079FD0(s32 arg0) {
+    s16 temp_r1;
+    s32 var_r4;
+    u32 var_r5;
+    void *temp_r6;
+
+    temp_r6 = (&((struct Sz332 *)&gUnk_03003CE0)[sub_080020F4()]);
+    var_r4 = 7;
+    var_r5 = 0x80000;
+loop_1:
+    temp_r1 = sub_0806898C(arg0, var_r4) - 1;
+    if (((s32) temp_r1 >= 0) && ((s32) M2C_FIELD(temp_r6, s16 *, 0xC2) >= (s32) temp_r1)) {
+        return (s32) (var_r5 >> 0x10);
+    }
+    var_r5 += 0xFFFF0000;
+    var_r4 -= 1;
+    if (var_r4 <= 0) {
+        return 0;
+    }
+    goto loop_1;
+}
 u16 sub_0807A028(u16 arg0) {
     return sub_08073EE8(arg0, 0x7FFFFFFF);
 }

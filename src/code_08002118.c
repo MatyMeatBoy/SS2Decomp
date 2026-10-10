@@ -14,7 +14,9 @@ INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002204);
 s32 sub_08002228(void) {
     return gUnk_030027D0 & 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002238);
+void *sub_08002238(s32 arg0) {
+    return (&((struct Sz24 *)&gUnk_03002770)[arg0]);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800224C);
 void sub_08002298(s32 arg0) {
     gUnk_0300272C = arg0;
