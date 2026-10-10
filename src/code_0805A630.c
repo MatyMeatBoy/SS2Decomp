@@ -177,7 +177,20 @@ u32 sub_0805AC08(u8 *item)
     }
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD18);
+u32 sub_0805AD18(void)
+{
+    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    u32 id;
+    if (*(u16 *)(state + 0xC) != *(u16 *)(state + 0x64)) {
+        id = *(u16 *)(*(u32 *)(state + 0x138) + 0x28);
+    } else {
+        u8 *entry = *(u8 **)0x030034E0 + *(u16 *)(*(u8 **)0x030034E0 + 0x68) * 0x10;
+        if (*(u8 *)(entry + 0x79) == 0)
+            return 0;
+        id = *(u16 *)(entry + 0x72);
+    }
+    return sub_08007290(id | 0xB00000);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD78);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE34);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
