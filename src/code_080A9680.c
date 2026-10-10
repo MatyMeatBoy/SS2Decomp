@@ -3,6 +3,8 @@
 void sub_080B2058(void);
 void sub_080AE420(void);
 void sub_080AF3C4(void);
+void sub_080AD534(void);
+void sub_080AE184(void);
 
 extern s32 gUnk_03000424;
 extern s32 gUnk_030004C8;
@@ -18,7 +20,7 @@ void sub_080A97E0(void) {
 }
 void sub_080A9818(void)
 {
-    u32 i;
+    u32 i, mem;
     gUnk_03000424 = sub_08001494(0x78);
     for (i = 0; i < 3; i++)
         M2C_FIELD((u8 *)gUnk_03000424 + i * 0x28, s32 *, 8) = 0;
@@ -72,16 +74,16 @@ void sub_080AE0E4(void) { u8 *p = (u8 *)gUnk_030004C8; u32 i; for (i=0;i<4;i++,p
 void sub_080AE11C(u32 kind)
 {
     u8 *entry = *(u8 **)0x030004C8;
-    u32 i;
+    u32 i, mem;
     for (i = 0; i < 4; i++, entry += 0x28) {
         if (sub_08000470((u32)entry) || *(u32 *)(entry + 8) != 0) continue;
         *(u32 *)(entry + 8) = (kind & 0xFF) + 0x40;
-        u32 mem = sub_08001494(0x400);
+        mem = sub_08001494(0x400);
         *(u32 *)(entry + 0x20) = mem;
         *(u32 *)(entry + 0x10) = mem + 0x3FC;
         *(u32 *)(entry + 0xC) = (u32)sub_080AD534;
         *(u32 *)(entry + 0x24) = (u32)sub_080AE184;
-        sub_08000274(entry, kind & 0xFF, 0);
+        sub_08000274_(entry, kind & 0xFF, 0);
         return;
     }
 }
