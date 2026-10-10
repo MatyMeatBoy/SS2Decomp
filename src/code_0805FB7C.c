@@ -79,7 +79,13 @@ void sub_080653FC(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065424);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065504);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080655CC);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065654);
+void sub_08065654(void)
+{
+    u8 *obj=(u8 *)0x03006000; u32 mem;
+    do { mem=sub_08001494(0x400); if(!mem)sub_080003F0(); } while(!mem);
+    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+8)=0x34; *(u32 *)(obj+0xC)=(u32)sub_080624D8;
+    *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0x24)=0; sub_08000274(obj);
+}
 s32 sub_0806569C(void)
 {
   M2C_UNK **new_var2;
