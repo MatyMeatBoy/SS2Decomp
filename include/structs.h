@@ -120,3 +120,24 @@ struct GameState {
 
 #endif // GUARD_STRUCTS_H
 struct Task { s32 u0; s32 u4; s32 u8; void *uC; s32 u10; s32 u14; s32 u18; s32 u1C; s32 u20; s32 u24; };
+struct Unk030061E0 {
+    u8 pad0[8];
+    s32 f8;
+    void *fC;
+    u8 *f10;
+    u8 pad14[0xC];
+    u8 *f20;
+    s32 f24;
+};
+struct Unk03002880 {
+    s32 f0;
+    u8 pad4[4];
+    s32 f8;
+    void *fC;
+    u8 *f10;
+    u8 pad14[4];
+    s32 f18;
+    u8 pad1C[4];
+    u8 *f20;
+    void *f24;
+};
