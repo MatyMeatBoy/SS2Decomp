@@ -613,3 +613,5 @@ void sub_0801DFE8(s32 arg0, void *arg1, void *arg2);
 void *sub_0801E1A4(u8 *arg0, s32 arg1);
 void *sub_0801E20C(u8 *arg0, s32 arg1, s32 arg2);
 s32 sub_0801DF8C(void);
+void sub_08057624(s32);
+s32 sub_08067D74(void);
