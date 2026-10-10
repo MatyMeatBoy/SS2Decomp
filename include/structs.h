@@ -118,4 +118,30 @@ struct GameState {
     u8 blk17E4[1];          // 0x17E4 (size unknown)
 };
 
+struct V2W12 { s32 x, y; };
+
+// Full view of struct Player (0x14C bytes) used by code_0800CF58 (worker 12)
+struct PlayerW12 {
+    u8 pad0[0x1C];
+    u16 w1C;                // 0x1C
+    u8 pad1E[2];
+    u16 state;              // 0x20
+    u8 pad22[2];
+    s16 w24;                // 0x24
+    u16 w26;                // 0x26
+    u16 w28;                // 0x28
+    u8 pad2A[6];
+    u32 flags;              // 0x30
+    u8 pad34[0xC];
+    s16 w40;                // 0x40
+    u8 pad42[0x4A];
+    struct V2W12 pos8C;     // 0x8C
+    struct V2W12 pos94;     // 0x94
+    u8 pad9C[0x1A];
+    u16 wB6;                // 0xB6
+    u8 padB8[0x6A];
+    u16 w122;               // 0x122
+    u8 pad124[0x14C - 0x124];
+};
+
 #endif // GUARD_STRUCTS_H
