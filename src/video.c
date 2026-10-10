@@ -43,7 +43,9 @@ void sub_08000AF0(u32 palNum, const void *src, u32 numPals)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/video", sub_08000B38);
+void sub_08000B38(void) {
+    sub_08001348((s32) &gUnk_03001F40, 0x05000000, 0x400);
+}
 
 void sub_08000B50(void)
 {
@@ -90,7 +92,10 @@ void *sub_08000BC8(u32 *src, void **dest)
 INCLUDE_ASM("asm/nonmatchings/video", sub_08000BC8);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/video", sub_08000C08);
+void sub_08000C08(s16 arg0, s16 arg1) {
+    gUnk_03001730 = arg0;
+    gUnk_03002348 = arg1;
+}
 
 void sub_08000C1C(void)
 {

@@ -88,7 +88,10 @@ u16 sub_08021CE4(u16 arg0, u16 arg1) {
     return __divsi3((arg1 + 0x64) * arg0, 0x64);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021D00);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021D88);
+void sub_08021D88(void) {
+    gUnk_03005CE0 = sub_08001494(0x500);
+    gUnk_03005CE4 = 0;
+}
 void sub_08021DAC(void) {
     sub_08001538(gUnk_03005CE0);
     gUnk_03005CE0 = 0;

@@ -720,6 +720,9 @@ def main():
     p = sub.add_parser("score")
     p.add_argument("outdir")
     p.add_argument("funcs", nargs="+")
+    p = sub.add_parser("trycc")
+    p.add_argument("dir")
+    p.add_argument("funcs", nargs="+")
     p = sub.add_parser("draft")
     p.add_argument("module")
     p.add_argument("out")
@@ -773,6 +776,27 @@ def main():
                 sc = sum(1 for l in out.splitlines() if l[:1] in "+-" and l[:3] not in ("---", "+++"))
             log.write("%s %d\n" % (func, sc))
             log.flush()
+    elif args.cmd == "trycc":
+        # which compiler/flags make the saved draft match?
+        combos = [("agbcc", os.path.join(ROOT, "tools/agbcc/bin/agbcc"), ["-O2"]),
+                  ("old_agbcc", os.path.join(ROOT, "tools/agbcc/bin/old_agbcc"), ["-O2"]),
+                  ("agbcc-O1", os.path.join(ROOT, "tools/agbcc/bin/agbcc"), ["-O1"]),
+                  ("old_agbcc-O1", os.path.join(ROOT, "tools/agbcc/bin/old_agbcc"), ["-O1"])]
+        for func in args.funcs:
+            c = os.path.join(args.dir, func + ".c")
+            if not os.path.exists(c):
+                continue
+            hit = []
+            for name, cc, opt in combos:
+                with tempfile.TemporaryDirectory() as td:
+                    o1 = os.path.join(td, "o.o"); o2 = os.path.join(td, "c.o")
+                    on = assemble_orig(func, o1)
+                    err = compile_c(c, o2, cc, ["-mthumb-interwork", "-Wimplicit"] + opt + ["-fhex-asm"])
+                    if err:
+                        continue
+                    if compare(o1, o2, func, False, on):
+                        hit.append(name)
+            print("%s %s" % (func, ",".join(hit) or "-"))
     elif args.cmd == "draft":
         VALID_SYNTAX = args.valid_syntax
         out = ['#include "global.h"']

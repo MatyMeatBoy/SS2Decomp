@@ -230,6 +230,7 @@ void sub_08021C6C(void);
 void sub_08021C70(void);
 s32 sub_08021C74(u16 arg0, u16 arg1, u16 arg2);
 u16 sub_08021CE4(u16 arg0, u16 arg1);
+void sub_08021D88(void);
 void sub_08021DAC(void);
 s32 sub_0802413C(s32, s32);
 s32 sub_08026CD0(u16, u16, s32);

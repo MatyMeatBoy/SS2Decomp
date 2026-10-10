@@ -89,7 +89,9 @@ u32 sub_080008C8(void)
 INCLUDE_ASM("asm/nonmatchings/main", sub_080008C8);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main", sub_0800093C);
+void sub_0800093C(void) {
+
+}
 
 void sub_08000940(void)
 {
