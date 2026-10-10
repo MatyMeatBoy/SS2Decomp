@@ -91,7 +91,10 @@ void sub_0805A474(s32 arg0) {
         sub_08006D08(0x23U);
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A4A0);
+s32 sub_0805A4A0(u32 index)
+{
+    return M2C_FIELD((u8 *)gUnk_03005CF4 + 0x22 + index * 2, u16 *, 0) - 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A4BC);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A550);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A58C);
