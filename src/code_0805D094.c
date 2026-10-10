@@ -66,7 +66,6 @@ s32 sub_0805D4C4(u16 arg0) {
     } while (var_r2 <= 0xFU);
     return var_r4;
 }
-extern s32 gUnk_03005D58;
 extern u16 gUnk_03005D5C;
 void sub_0805D4F4(void)
 {
