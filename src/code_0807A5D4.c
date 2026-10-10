@@ -52,7 +52,16 @@ void sub_0808536C(void)
             sub_080003F0();
     } while (p == 0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085398);
+void sub_08085398(void)
+{
+    u8 *base = *(u8 **)0x03006440;
+    u32 *slot = (u32 *)(base + 0x620);
+    u32 value = *slot;
+    while (sub_08000470(value) != 0)
+        sub_080003F0();
+    sub_08001538(value);
+    *slot = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080853DC);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808543C);
 void sub_08085484(void)
