@@ -469,7 +469,7 @@ u8 sub_080684E8();
 u8 sub_08068540();
 void sub_08068670();
 u32 sub_080687A8(const u8 *arg0);
-M2C_UNK sub_08068820(void (*)(), s32, s32);
+u32 sub_08068820(void *, void *, void *);
 s32 sub_08068868();
 s32 sub_0806886C();
 s32 sub_08068870();

@@ -1,5 +1,7 @@
 #include "global.h"
 
+void sub_08066898(void);
+
 void sub_080659B0(void *arg0, s16 arg1)
 {
   s8 *new_var;
@@ -126,4 +128,18 @@ void sub_08067AF4(void) {
 void sub_08067AF8(void) {
 
 }
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08067AFC);
+void sub_08067AFC(void)
+{
+    u8 *obj;
+    u32 mem;
+    u32 i;
+    obj = (u8 *)0x03006310;
+    *(u32 *)(obj+0xC) = (u32)sub_08066898;
+    mem = sub_08001494(0x400);
+    *(u32 *)(obj+0x20) = mem;
+    *(u32 *)(obj+0x10) = mem + 0x3FC;
+    *(u32 *)(obj+8) = 0x65;
+    *(u32 *)(obj+0x24) = (u32)sub_08068670;
+    sub_08000274_(obj, 0, 0);
+    for (i = 0; i < sub_08002164(); i++) sub_08067A68(i);
+}

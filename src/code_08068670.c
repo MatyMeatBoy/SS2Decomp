@@ -38,7 +38,22 @@ s32 sub_080687E8(void)
     gUnk_03006338++;
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068820);
+u32 sub_08068820(void *a, void *b, void *c)
+{
+    u8 *entry;
+    u32 index = gUnk_03006338;
+    if (index > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0xA4;
+    *(void **)(entry + 8) = a;
+    *(void **)(entry + 0xC) = b;
+    *(void **)(entry + 0x10) = c;
+    entry[1] = 2;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 s32 sub_08068868(void) {
     return 1;
 }
