@@ -103,5 +103,23 @@ void sub_080B2424(void) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2454);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B24B8);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2780);
+void sub_080B2780(void) {
+    if ((M2C_FIELD(gUnk_030007B8, s16 *, 0x5C) != 0) || (M2C_FIELD(gUnk_030007BC, s16 *, 0x5C) != 0)) {
+        sub_080B4B7C();
+        sub_08097C6C();
+        if (sub_08000470(gUnk_030007B0) != 0) {
+            sub_080003A8(gUnk_030007B0);
+        }
+        sub_08001538(gUnk_030007B0);
+        gUnk_030007B0 = 0;
+        if (sub_08000470(gUnk_030007B4) != 0) {
+            sub_080003A8(gUnk_030007B4);
+        }
+        sub_08001538(gUnk_030007B4);
+        gUnk_030007B4 = 0;
+    }
+    sub_08068384();
+    gUnk_030056FC = 0;
+    sub_08016ECC(gUnk_030007C8);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B280C);

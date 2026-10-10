@@ -172,7 +172,27 @@ def module_flags(mod):
 def compile_c(cfile, out_o, cc1=None, flags=None):
     i = out_o[:-2] + ".i"
     s = out_o[:-2] + ".s"
-    r = run(["arm-none-eabi-cpp"] + CPPFLAGS + [cfile, "-o", i])
+    # drop prototypes of the functions defined by cfile (they may be stale guesses)
+    defined = set(split_functions(open(cfile).read())[2])
+    incdir = out_o[:-2] + "_inc"
+    real_inc = os.environ.get("DECOMP_INC", os.path.join(ROOT, "include"))
+    import shutil
+    shutil.copytree(real_inc, incdir, dirs_exist_ok=True)
+    fh = open(os.path.join(real_inc, "functions.h")).read().splitlines()
+    keep = []
+    for l in fh:
+        m = DECL_RE.match(l.strip())
+        if m and not l.startswith("#") and (m.group(4) in defined):
+            continue
+        keep.append(l)
+    open(os.path.join(incdir, "functions.h"), "w").write("\n".join(keep) + "\n")
+    # same for variables the candidate declares itself
+    own = set(n for n, _ in split_decls(open(cfile).read())[0])
+    vh = open(os.path.join(real_inc, "variables.h")).read().splitlines()
+    vh = [l for l in vh if not (DECL_RE.match(l.strip()) and DECL_RE.match(l.strip()).group(2) in own)]
+    open(os.path.join(incdir, "variables.h"), "w").write("\n".join(vh) + "\n")
+    cppflags = [f if f != real_inc else incdir for f in CPPFLAGS]
+    r = run(["arm-none-eabi-cpp"] + cppflags + [cfile, "-o", i])
     if r.returncode:
         return r.stderr
     fl = flags or (os.environ["DECOMP_CFLAGS"].split() if "DECOMP_CFLAGS" in os.environ else CC1FLAGS)
@@ -392,9 +412,12 @@ def apply(func, cfile):
     path, mod = find_asm(func)
     src = os.path.join(ROOT, "src/%s.c" % mod)
     vars_, protos, code = split_decls(open(cfile).read())
+    for n, d in vars_:
+        replace_var(n, d)
+    vars_ = []
     sig = signature(code, func)
     if sig:
-        protos.append((func, sig))
+        replace_proto(func, sig)
     add_decls(os.path.join(ROOT, "include/variables.h"), "// AUTO-VARIABLES (keep this marker, decomp.py appends below it)", vars_)
     add_decls(os.path.join(ROOT, "include/functions.h"), "// AUTO-PROTOTYPES (keep this marker, decomp.py appends below it)", protos)
     text = open(src).read()
@@ -498,7 +521,11 @@ def split_functions(text):
         funcs_end = k + 1
         if first is None:
             first = start
-    prelude = text[:first] if first is not None else text
+    # prelude: all top level text that is not a function body
+    rest = text
+    for n in order:
+        rest = rest.replace(funcs[n], "", 1)
+    prelude = re.sub(r"\n{3,}", "\n\n", rest)
     return prelude, funcs, order
 
 
@@ -578,7 +605,7 @@ def m2c_to_c(out):
     return '#include "global.h"\n' + out
 
 
-DECL_RE = re.compile(r"^(extern .*?(\w+)(\[[^\]]*\])*;|[\w ]+?\**\s*\**(\w+)\(.*\);)\s*$")
+DECL_RE = re.compile(r"^(extern .*?(\w+)(\[[^\]]*\])*;|[\w ]+?\**\s*\**(\w+)\(.*\);)\s*(//.*)?$")
 
 
 def split_decls(code):
@@ -598,6 +625,42 @@ def split_decls(code):
         depth += line.count("{") - line.count("}")
         body.append(line)
     return vars_, protos, "\n".join(body).strip("\n")
+
+
+def replace_proto(func, sig):
+    path = os.path.join(ROOT, "include/functions.h")
+    lines = open(path).read().splitlines()
+    out = []
+    done = False
+    for l in lines:
+        m = DECL_RE.match(l.strip())
+        if m and not l.startswith("#") and m.group(4) == func:
+            if not done:
+                out.append(sig)
+                done = True
+            continue
+        out.append(l)
+    open(path, "w").write("\n".join(out) + "\n")
+    if not done:
+        add_decls(path, "// AUTO-PROTOTYPES (keep this marker, decomp.py appends below it)", [(func, sig)])
+
+
+def replace_var(name, decl):
+    path = os.path.join(ROOT, "include/variables.h")
+    lines = open(path).read().splitlines()
+    out = []
+    done = False
+    for l in lines:
+        m = DECL_RE.match(l.strip())
+        if m and l.startswith("extern") and m.group(2) == name:
+            if not done:
+                out.append(decl)
+                done = True
+            continue
+        out.append(l)
+    open(path, "w").write("\n".join(out) + "\n")
+    if not done:
+        add_decls(path, "// AUTO-VARIABLES (keep this marker, decomp.py appends below it)", [(name, decl)])
 
 
 def header_names(path):
