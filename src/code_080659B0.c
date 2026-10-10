@@ -3,6 +3,7 @@
 void sub_08066898(void);
 void sub_08064E14(void);
 void sub_0806690C(void);
+void sub_08065A1C(void);
 
 void sub_080659B0(void *arg0, s16 arg1)
 {
@@ -36,7 +37,16 @@ void sub_080659F4(s32 *arg0, s32 arg1, s32 arg2, s32 arg3)
   *arg0 = (((s32) (arg2 * arg3)) >> 0xA) + (((s32) (arg1 * (0x400 - arg3))) >> 0xA);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A1C);
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A90);
+void sub_08065A90(u32 a, u32 b)
+{
+    u8 *obj;
+    u32 mem;
+    obj=(u8 *)0x030061B0; if(sub_08000470((u32)obj))return;
+    *(u32 *)(obj+8)=0x3C;
+    do { mem=sub_08001638(0x200); if(!mem)sub_080003F0(); } while(!mem);
+    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+0xC)=(u32)sub_08065A1C;
+    *(u32 *)(obj+0x10)=mem+0x1FC; *(u32 *)(obj+0x24)=0; sub_08000274_(obj,a,b);
+}
 s32 sub_08065AE8(void)
 {
   int new_var;
