@@ -1,5 +1,7 @@
 #include "global.h"
 
+void sub_08066720(void);
+
 void sub_08068670(void) {
     sub_08001538(gUnk_03006258);
     sub_08001538(gUnk_03006368);
@@ -95,7 +97,16 @@ s32 sub_0806888C(void)
 {
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068894);
+void sub_08068894(u32 a, u32 b)
+{
+    u8 *obj;
+    u32 mem;
+    obj=*(u8 **)0x03006368; if(sub_08000470((u32)obj))return;
+    do { mem=sub_08001494(0x1000); if(!mem)sub_080003F0(); } while(!mem);
+    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+0xC)=(u32)sub_08066720;
+    *(u32 *)(obj+0x10)=mem+0x7FC; *(u32 *)(obj+8)=0x65; *(u32 *)(obj+0x24)=0;
+    sub_08000274_(obj,a,b);
+}
 void sub_080688F4(void) {
 
 }
