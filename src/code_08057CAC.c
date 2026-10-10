@@ -22,7 +22,27 @@ INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057D2C);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057DD0);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057E74);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057F18);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057FBC);
+void sub_08057FBC(u32 selector, u32 value)
+{
+    if (selector > 0x40000) {
+        u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
+        for (u32 i = 0; i <= 0xE; i++, entry += 0x70) {
+            if (*(u32 *)entry == selector) {
+                *(u16 *)(entry + 0x42) = (u16)value;
+                return;
+            }
+        }
+        sub_080003F0();
+        return;
+    }
+    if (selector == 0) {
+        u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A + 0x11E;
+        *(u16 *)state = value;
+    } else if (selector <= 5) {
+        u8 *slot = (u8 *)gUnk_030056F4 + (selector - 1) * 0x2E0;
+        sub_08019EB8(*(u16 *)(slot + 2), (u16)value);
+    }
+}
 void sub_08058048(u32 x, u32 y, u16 kind, u32 value)
 {
     u8 data[16];
