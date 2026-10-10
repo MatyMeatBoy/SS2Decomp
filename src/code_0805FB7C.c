@@ -122,4 +122,13 @@ void sub_080658A0(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080658CC);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065918);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065974);
+u32 sub_08065974(void)
+{
+    u32 count = sub_08002164();
+    u8 *entry = (u8 *)gUnk_03003CE0 + 0x148;
+    u32 i;
+    for (i = 0; i < count; i++, entry += 0x14C)
+        if ((*(u8 *)*(u32 *)entry & 0xF) == 0xE)
+            return 1;
+    return 0;
+}
