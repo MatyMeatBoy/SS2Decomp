@@ -2,6 +2,7 @@
 
 extern u8 gUnk_03000018;
 extern u16 (*ProgramFlashSector)(u16, u8 *);
+extern u32 VerifyFlashSector(u16 sectorNum, u8 *src);
 extern u32 gUnk_03002740[];
 extern void sub_080022A4(void);
 extern void sub_08001BE4(void);
@@ -61,7 +62,15 @@ u32 sub_08001B14(u16 sector, u8 *src)
     return r;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001B54);
+u32 sub_08001B54(u16 sector, u8 *src)
+{
+    u32 r;
+    if (gUnk_03000018 == 0)
+        r = 1;
+    else
+        r = VerifyFlashSector(sector, src);
+    return r;
+}
 
 void sub_08001B78(void)
 {
