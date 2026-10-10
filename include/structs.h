@@ -119,3 +119,12 @@ struct GameState {
 };
 
 #endif // GUARD_STRUCTS_H
+struct Unk030061E0 {
+    u8 pad0[8];
+    s32 f8;
+    void *fC;
+    u8 *f10;
+    u8 pad14[0xC];
+    u8 *f20;
+    s32 f24;
+};

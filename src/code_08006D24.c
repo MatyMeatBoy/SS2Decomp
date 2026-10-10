@@ -16,7 +16,11 @@ void sub_08006D40(u16 arg0) {
         m4aSongNumStartOrContinue(temp_r1);
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006D5C);
+void sub_08006D5C(u16 n)
+{
+    if (n <= 0x1AB)
+        m4aSongNumStop(n);
+}
 void sub_08006D78(u16 arg0) {
     u16 temp_r1;
 
@@ -69,7 +73,11 @@ void sub_08006E58(void) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006E64);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006E84);
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006EC8);
+void sub_08006EC8(u16 s)
+{
+    m4aMPlayFadeOut((struct MusicPlayerInfo *)&gUnk_030075C0,
+                    s);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006EE0);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007164);
 s32 sub_08007280(M2C_UNK arg0) {

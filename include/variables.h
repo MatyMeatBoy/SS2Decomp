@@ -151,6 +151,7 @@ extern s32 gUnk_03006440;
 extern s32 gUnk_03006478;
 extern s32 gUnk_030074B8;
 extern s32 gUnk_030074BC;
+extern u8 gUnk_030075C0;
 extern u16 gUnk_03007FF8;
 extern struct LevelEntry gUnk_0847846C[];
 extern s32 gUnk_08518938;

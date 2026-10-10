@@ -147,7 +147,13 @@ void sub_08006BF8(void) {
         m4aSoundVSyncOn();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006C14);
+void sub_08006C14(void)
+{
+    if (gUnk_03002870 != 0) {
+        gUnk_03002870 = 0;
+        m4aSoundVSyncOff();
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006C30);
 void sub_08006C70(u16 arg0) {
     u16 temp_r1;
