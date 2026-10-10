@@ -31,7 +31,20 @@ void sub_08001B04(u16 arg0) {
     ReadFlash(arg0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001B14);
+u32 sub_08001B14(u16 sector, u8 *src)
+{
+    u32 r;
+    u16 t;
+    if (gUnk_03000018 == 0)
+        r = 1;
+    else {
+        sub_08000EF4();
+        t = ProgramFlashSector(sector, src);
+        sub_08000F2C();
+        r = t;
+    }
+    return r;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001B54);
 
@@ -53,4 +66,12 @@ void sub_080020E0(void)
     gUnk_030027D0 |= 0x40000000;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_080020F4);
+u32 sub_080020F4(void)
+{
+    u32 r;
+    if (!(gUnk_030027D0 & 2))
+        r = 0;
+    else
+        r = (*(vu32 *)0x04000128 << 26) >> 30;
+    return r;
+}

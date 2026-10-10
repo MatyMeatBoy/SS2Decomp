@@ -159,4 +159,7 @@ extern M2C_UNK sub_08002B70;
 extern M2C_UNK sub_08014170;
 extern M2C_UNK sub_080852AC;
 
+extern u8 gUnk_03000018;
+extern u16 (*ProgramFlashSector)(u16, u8 *);
+
 #endif // GUARD_VARIABLES_H
