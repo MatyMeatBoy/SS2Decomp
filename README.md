@@ -31,6 +31,9 @@ make -j$(nproc) compare       # -> shiningsoul2_eu.gba: OK
 make progress                 # regenerate docs/progress/*.svg
 ```
 
+## Contributing / local continuation
+See [CLAUDE.md](CLAUDE.md) for the full workflow and tools.
+
 ## Layout
 
 | Path | Contents |
