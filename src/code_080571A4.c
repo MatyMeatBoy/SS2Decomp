@@ -18,7 +18,7 @@ s32 sub_08057390(s32 arg0, void (*arg1)(s32)) {
 }
 s32 sub_080573A0(s32 arg0, void (*arg1)(s32))
 {
-    return sub_08068820(arg1, arg0);
+    return ((s32 (*)(void (*)(s32), s32))sub_08068820)(arg1, arg0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080573B0);
 s32 sub_08057424(void) {
