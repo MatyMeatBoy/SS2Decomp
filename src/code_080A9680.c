@@ -25,7 +25,14 @@ INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AB2F8);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC214);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC2E8);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC5B4);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC81C);
+extern u16 gUnk_03000438;
+void sub_080AC81C(void)
+{
+    sub_0805867C(0xC2);
+    sub_08068384();
+    gUnk_030056FC = 0;
+    sub_08016ECC(gUnk_03000438);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AD534);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080ADE30);
