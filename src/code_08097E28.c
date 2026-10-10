@@ -1,5 +1,7 @@
 #include "global.h"
 
+void sub_0809A834(void);
+
 extern s32 gUnk_030002EC;
 extern s32 gUnk_030002F0;
 
