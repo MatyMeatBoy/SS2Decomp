@@ -55,7 +55,7 @@ void sub_080583EC(void) {
     } while (sub_0805F184() != 0);
 }
 void sub_08058404(s32 arg0) {
-    if ((arg0 != 0) && (sub_08000470() != 0)) {
+    if ((arg0 != 0) && (sub_08000470((u32)arg0) != 0)) {
         sub_080003A8(arg0);
     }
 }
@@ -97,7 +97,7 @@ u32 sub_0805853C(u32 bit, u32 alternate)
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058574);
 void sub_080585F4(s32 arg0, s32 arg1) {
     sub_0805D37C(arg0 << 8, arg1 << 8);
-    sub_080687A8();
+    sub_080687A8((const u8 *)gUnk_03005CF4);
 }
 s32 sub_08058608(void) {
     return sub_0800CCCC();
@@ -106,7 +106,16 @@ u16 sub_08058614(void)
 {
     return gUnk_03003170.f90;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058620);
+void sub_08058620(const s16 *arg0)
+{
+    u8 *state = (u8 *)gUnk_03005CF4;
+    u16 index = *(u16 *)(state + 0xA);
+    if (*arg0 != 0) {
+        *(const s16 **)(state + 0x724 + index * 4) = arg0;
+        sub_08023ED8(arg0, index);
+        *(u16 *)(state + 0xA) = index + 1;
+    }
+}
 void sub_0805865C(s32 arg0)
 {
     if ((gUnk_030027D0 & 0x20) == 0)
