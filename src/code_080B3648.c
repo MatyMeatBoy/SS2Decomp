@@ -80,7 +80,13 @@ void sub_080B640C(void)
     *(u32 *)0x030007EC=sub_08001494(0x28);
     if(*(u32 *)0x030007EC) *(u32 *)(*(u32 *)0x030007EC+8)=0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6448);
+void sub_080B6448(u32 a, u32 b)
+{
+    u8 *obj=*(u8 **)0x030007EC; if(!obj||sub_08000470((u32)obj)||*(u32 *)(obj+8))return;
+    u32 mem=sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; if(!mem)return;
+    *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0xC)=(u32)sub_080B6178;
+    *(u32 *)(obj+0x24)=0; *(u32 *)(obj+8)=0x3B; sub_08000274(obj,b,a,0);
+}
 void sub_080B64A4(void)
 {
     u8 *base = gUnk_030056F4;
