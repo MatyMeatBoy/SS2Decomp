@@ -143,7 +143,6 @@ void sub_0800907C(s32 arg0);
 void sub_08009088(u8 a, u8 b, u8 c, u8 d);
 void sub_0800B650(s32 a, s32 b, s32 c, u16 d, u16 e);
 void sub_0800B7DC(s32 a, s32 b, s32 c, u16 d, u16 e);
-M2C_UNK sub_08009088(s32, s32, s32, s32);
 u32 sub_0800BA6C(void);
 void sub_0800BA80(u16 i);
 void *sub_0800BAA4(s16 x, s16 y);
