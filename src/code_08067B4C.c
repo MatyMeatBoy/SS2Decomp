@@ -146,7 +146,7 @@ u8 sub_08068490(void) {
     return gUnk_0300636C;
 }
 void sub_0806849C(void) { gUnk_0300636C = 0xFF; }
-u32 sub_080684A8(u32 value) { u32 *n=(u32 *)0x03006338; if(*n>0x31)return 0; u8 *e=*(u8 **)0x03006300+*n*0x98; *(u32 *)(e+4)=1;e[0]=0xAD;*(u32 *)(e+8)=value&255;e[1]=1;(*n)++;return 1; }
+u32 sub_080684A8(u32 value) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)0x03006300+*n*0x98; *(u32 *)(e+4)=1;e[0]=0xAD;*(u32 *)(e+8)=value&255;e[1]=1;(*n)++;return 1; }
 u8 sub_080684E8(void) {
     return gUnk_03006224;
 }
