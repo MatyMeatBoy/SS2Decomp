@@ -12,7 +12,15 @@ void sub_0805D1E0(void)
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D210);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D278);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D2E0);
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D348);
+u32 sub_0805D348(void)
+{
+    u8 *entry = (u8 *)gUnk_030034E0 + 0x150;
+    u32 i;
+    for (i = 0; i <= 0x18; i++, entry += 0x10)
+        if (*(u16 *)entry == 0xA && *(u32 *)(entry + 4) <= 0x1869F)
+            return 1;
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D37C);
 s32 sub_0805D3D4(void) {
     s32 var_r3;
