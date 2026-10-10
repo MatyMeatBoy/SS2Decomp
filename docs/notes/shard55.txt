@@ -1,0 +1,11 @@
+Shard 55 (worker 24, taken after shard 24's remaining functions were hard)
+
+Matched: none yet.
+
+sub_08053C5C (code_0804D330, 72 asm lines, 152-byte original): NOT matched.
+  Best candidate 152 bytes, same size, differs in register allocation:
+  original pushes {r4,r5,r6,lr} only; ours adds r7 for the (1<<i) mask.
+  Tried ~9 variants: u32/s32/int loop index, bit mask as variable, pointer-stepping
+  (var_r2 += 0x2E0), separate 0x2E0 pointer, 0x17E constant (0x17F was wrong).
+  Ideas left: const 0 held in a register (original keeps r4 = 0 for strh), reorder
+  the two sub_08019EB8 calls with the gUnk_030056F4 load, do-while vs for.
