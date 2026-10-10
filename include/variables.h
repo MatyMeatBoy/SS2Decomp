@@ -110,6 +110,7 @@ extern struct DmaEntry *gUnk_0300235C;
 extern u32 gUnk_03002360;
 extern struct Heap gUnk_03002370;
 extern u8 gUnk_030024B0[];
+extern u8 gUnk_03002710[];
 extern s32 gUnk_0300272C;
 extern u32 gUnk_03002730;
 extern u32 gUnk_03002740[];

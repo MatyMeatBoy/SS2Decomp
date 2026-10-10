@@ -78,7 +78,17 @@ INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800224C);
 void sub_08002298(s32 arg0) {
     gUnk_0300272C = arg0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_080022A4);
+void sub_080022A4(void)
+{
+    gUnk_030027D0 = 1;
+    do {
+        CpuSet(gUnk_03002710, &gUnk_03002770, 0xC);
+        gUnk_03002730 = 0x101;
+        sub_080003F0();
+    } while (!(gUnk_030027D0 & 0x40000000));
+    gUnk_03002730 = 0;
+    gUnk_030027D0 = 0x80000000;
+}
 s32 sub_080022F4(void) {
     return ((u32) gUnk_030027D0 >> 1) & 1;
 }
