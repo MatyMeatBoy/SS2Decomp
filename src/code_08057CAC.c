@@ -1,6 +1,11 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057CAC);
+void sub_08057CAC(u32 index)
+{
+    u32 bit = 1 << (index - 1); u8 *base=*(u8 **)0x03005CF4;
+    if(!sub_0800CE30()) *(u32 *)(base+0x78) &= ~bit;
+    else *(u32 *)(base+0x80) &= ~bit;
+}
 s32 sub_08057CEC(void)
 {
     if (sub_0800CE30() == 0)
