@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="540" viewBox="0 0 1000 540" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
-<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 3.37% (657/1870)</text>
+<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 3.38% (658/1870)</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="180.75" fill="#0d1117"/>
 <rect x="1.00" y="29.00" width="127.15" height="75.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0807C29C  0x0807C29C  18396 bytes  [todo]</title></rect>
@@ -1791,7 +1791,7 @@
 <rect x="799.95" y="401.36" width="5.80" height="5.68" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08068070  0x08068070  68 bytes  [todo]</title></rect>
 <rect x="805.75" y="401.36" width="5.80" height="5.68" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080680B4  0x080680B4  68 bytes  [todo]</title></rect>
 <rect x="811.55" y="401.36" width="5.45" height="5.68" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067C28  0x08067C28  64 bytes  [todo]</title></rect>
-<rect x="793.82" y="407.04" width="4.99" height="6.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067C68  0x08067C68  64 bytes  [todo]</title></rect>
+<rect x="793.82" y="407.04" width="4.99" height="6.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067C68  0x08067C68  64 bytes  [done]</title></rect>
 <rect x="793.82" y="413.24" width="4.99" height="6.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067CA8  0x08067CA8  64 bytes  [done]</title></rect>
 <rect x="793.82" y="419.44" width="4.99" height="6.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08067CE8  0x08067CE8  64 bytes  [todo]</title></rect>
 <rect x="798.81" y="407.04" width="6.06" height="5.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08067DC8  0x08067DC8  64 bytes  [done]</title></rect>
@@ -2268,5 +2268,5 @@
 <text x="405" y="534" fill="#e6edf3" font-size="11">pendiente (asm)</text>
 <rect x="510" y="524" width="11" height="11" fill="#388bfd"/>
 <text x="525" y="534" fill="#e6edf3" font-size="11">asm original</text>
-<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 4.45% de 754868 bytes de código, 758/1973 funciones</text>
+<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 4.46% de 754868 bytes de código, 759/1973 funciones</text>
 </svg>
