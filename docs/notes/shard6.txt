@@ -1,0 +1,15 @@
+Shard 6 notes (worker/006). Compiler: old_agbcc (code_08009088).
+
+sub_0800AE50 (89 asm): tile lookup (x>>11, y>>11, map from table gUnk_0847846C+0x10 + idx*4 or map0/mapW).
+  Best: 152 vs 162 bytes. Matched: arg2 branch and curLevel/f90 selection structure. Unmatched: tail
+  (ldrb/cmp/bne truncation ordering, lo/hi nibble register choice). Permuter best 315 (from 730), no match.
+  Ideas not tried: u8 return type with separate b variable; load order via explicit temp u32.
+
+sub_0800A298 (90 asm): tile setup (f90 store, table lookup, sub_08000BC8 call, map0/map1 update).
+  Best: 168 vs 180 bytes. Diff: register/load order around table base (ldr r4 early, ldrh curLevel into r1 directly),
+  and the write-back-then-reread of pad60 (orig reads gUnk.0x60 back after str).
+
+sub_0800AD04 (177 asm): camera scroll clamp. Best 312 vs 330 bytes.
+  Diff: sign-extension of scroll temps (orig: lsl16/asr16 at use site), layout of arg2!=0 branch
+  (orig tests arg2 after flags block with branches to tail), register numbering of arg0/arg1 temps.
+  Ideas: restructure as two explicit blocks per arg2 branch; keep arg0/arg1 as u16 locals.
