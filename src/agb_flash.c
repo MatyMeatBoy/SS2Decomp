@@ -1,0 +1,25 @@
+#include "global.h"
+
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B85D8);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8674);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B869C);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B86D8);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8780);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B87C4);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B87C8);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8808);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B882C);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B88C8);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B88F8);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8990);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8A28);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8A6C);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8AB4);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8B48);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8BD0);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8C44);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8CE0);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8D18);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8E3C);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8E60);
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8E78);

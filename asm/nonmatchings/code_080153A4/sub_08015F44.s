@@ -1,0 +1,106 @@
+	thumb_func_start sub_08015F44
+sub_08015F44: @ 0x08015F44
+	ldr r2, _08015F64
+	movs r1, #0x74
+	muls r1, r0, r1
+	adds r1, r1, r2
+	ldrh r1, [r1, #0]
+	subs r2, r1, #1
+	subs r0, #1
+	cmp r0, #0xe
+	bls _08015F58
+	b _08016022
+_08015F58:
+	lsls r0, r0, #2
+	ldr r1, _08015F68
+	adds r0, r0, r1
+	ldr r0, [r0, #0]
+	mov pc, r0
+	.2byte 0x0000
+_08015F64: .4byte gUnk_0847846C
+_08015F68: .4byte _08015F6C
+_08015F6C:
+	.4byte _08015FA8
+_08015F70: .4byte _08015FB0
+_08015F74: .4byte _08015FB8
+_08015F78: .4byte _08015FC0
+_08015F7C: .4byte _08015FC8
+_08015F80: .4byte _08015FD0
+_08015F84: .4byte _08015FD8
+_08015F88: .4byte _08015FE0
+_08015F8C: .4byte _08015FE8
+_08015F90: .4byte _08015FF0
+_08015F94: .4byte _08015FF8
+_08015F98: .4byte _08016000
+_08015F9C: .4byte _08016008
+_08015FA0: .4byte _08016010
+_08015FA4: .4byte _08016018
+_08015FA8:
+	ldr r0, _08015FAC
+	b _0801601A
+_08015FAC: .4byte gUnk_084B139C
+_08015FB0:
+	ldr r0, _08015FB4
+	b _0801601A
+_08015FB4: .4byte gUnk_084B13BC
+_08015FB8:
+	ldr r0, _08015FBC
+	b _0801601A
+_08015FBC: .4byte gUnk_084B13E4
+_08015FC0:
+	ldr r0, _08015FC4
+	b _0801601A
+_08015FC4: .4byte gUnk_084B1420
+_08015FC8:
+	ldr r0, _08015FCC
+	b _0801601A
+_08015FCC: .4byte gUnk_084B1454
+_08015FD0:
+	ldr r0, _08015FD4
+	b _0801601A
+_08015FD4: .4byte gUnk_084B148C
+_08015FD8:
+	ldr r0, _08015FDC
+	b _0801601A
+_08015FDC: .4byte gUnk_084B14D0
+_08015FE0:
+	ldr r0, _08015FE4
+	b _0801601A
+_08015FE4: .4byte gUnk_084B1504
+_08015FE8:
+	ldr r0, _08015FEC
+	b _0801601A
+_08015FEC: .4byte gUnk_084B154C
+_08015FF0:
+	ldr r0, _08015FF4
+	b _0801601A
+_08015FF4: .4byte gUnk_084B1590
+_08015FF8:
+	ldr r0, _08015FFC
+	b _0801601A
+_08015FFC: .4byte gUnk_084B15E4
+_08016000:
+	ldr r0, _08016004
+	b _0801601A
+_08016004: .4byte gUnk_084B15E8
+_08016008:
+	ldr r0, _0801600C
+	b _0801601A
+_0801600C: .4byte gUnk_084B15F8
+_08016010:
+	ldr r0, _08016014
+	b _0801601A
+_08016014: .4byte gUnk_084B160C
+_08016018:
+	ldr r0, _08016028
+_0801601A:
+	lsls r1, r2, #2
+	adds r1, r1, r0
+	ldr r0, [r1, #0]
+	ldr r3, [r0, #0]
+_08016022:
+	adds r0, r3, #0
+	bx lr
+	.2byte 0x0000
+_08016028: .4byte gUnk_084B1610
+	thumb_func_end sub_08015F44

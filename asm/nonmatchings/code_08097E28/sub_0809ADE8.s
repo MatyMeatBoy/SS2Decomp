@@ -1,0 +1,27 @@
+	thumb_func_start sub_0809ADE8
+sub_0809ADE8: @ 0x0809ADE8
+	push {lr}
+	ldr r0, _0809AE18
+	ldr r0, [r0, #0]
+	adds r0, #0x5c
+	movs r1, #0
+	ldrsh r0, [r0, r1]
+	cmp r0, #0
+	beq _0809AE00
+	bl sub_08097C6C
+	bl sub_0809AE50
+_0809AE00:
+	bl sub_08068384
+	ldr r1, _0809AE1C
+	movs r0, #0
+	str r0, [r1, #0]
+	ldr r0, _0809AE20
+	ldrh r0, [r0, #0]
+	bl sub_08016ECC
+	pop {r0}
+	bx r0
+	.2byte 0x0000
+_0809AE18: .4byte gUnk_030002DC
+_0809AE1C: .4byte gUnk_030056FC
+_0809AE20: .4byte gUnk_030002E0
+	thumb_func_end sub_0809ADE8
