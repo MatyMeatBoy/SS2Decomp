@@ -108,8 +108,9 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067FE0);
 u32 sub_08068030(u32 value)
 {
     u32 *count = (u32 *)0x03006338;
+    u8 *entry;
     if (*count > 0x31) return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x98;
+    entry = *(u8 **)0x03006300 + *count * 0x98;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA1;
     *(u32 *)(entry + 8) = value;
@@ -137,8 +138,8 @@ void sub_080683CC(void) {
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080683DC);
 u32 sub_08068450(u32 value)
 {
-    u32 *count=(u32 *)0x03006338; if (*count>0x31) return 0;
-    u8 *e=*(u8 **)0x03006300 + *count*0x98;
+    u32 *count=(u32 *)0x03006338; u8 *e; if (*count>0x31) return 0;
+    e=*(u8 **)0x03006300 + *count*0x98;
     *(u32 *)(e+4)=1; e[0]=0xAC; *(u32 *)(e+8)=value&0xFF; e[1]=1; (*count)++; return 1;
 }
 u8 sub_08068490(void) {
