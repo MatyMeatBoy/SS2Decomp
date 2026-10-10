@@ -1,6 +1,17 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092D60);
+void sub_08092E40(void);
+
+void sub_08092D60(void)
+{
+    u8 *obj;
+    u32 mem;
+    obj=*(u8 **)0x03000260; if(!obj)return;
+    if(!sub_08000470((u32)obj)&&*(u32 *)(obj+8)==0)return;
+    *(u32 *)(obj+0xC)=(u32)sub_08092E40; *(u32 *)(obj+8)=0x44;
+    mem=sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; if(!mem)return;
+    *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0x24)=0; sub_08000274_(obj,0,0);
+}
 void sub_08092DB8(void) {
     gUnk_03000259 = 0;
 }
