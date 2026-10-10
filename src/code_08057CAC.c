@@ -56,7 +56,18 @@ u32 sub_0805813C(u16 a, u16 b)
     return count;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805817C);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080581E4);
+void sub_080581E4(u16 a, u16 b, u32 count)
+{
+    u8 *base = (u8 *)0x030034E0 + 0x150;
+    for (u32 i = 0; i <= 0x18 && count != 0; i++) {
+        u8 *entry = base + i * 0x10;
+        if (*(u16 *)entry == a && *(u16 *)(entry + 2) == b) {
+            *(u16 *)entry = 0;
+            *(u16 *)(entry + 2) = 0;
+            count--;
+        }
+    }
+}
 s32 sub_08058240(void)
 {
     return M2C_FIELD(&gUnk_03003CE0[sub_080020F4()], s32 *, 0x8C) >> 8;
