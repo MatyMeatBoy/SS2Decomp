@@ -34,7 +34,42 @@ void sub_0802A01C(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A080);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A104);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A19C);
+s32 sub_0801ABE8(s32);
+s32 sub_080003F4(s32);
+void sub_080867F8(void);
+
+void sub_0802A19C(void) {
+    s16 *p4;
+    s16 *p5;
+    s32 a;
+    s32 b;
+    sub_0800CE40();
+    sub_0801ABE8(10);
+    while (sub_0801AAE0() == 0) {
+        sub_080003F0();
+    }
+    sub_0800BB54();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_0800CCA8();
+    p4 = (s16 *)&gUnk_03003170;
+    p5 = p4 + 0x3E;
+    a = (s16)p5[0];
+    b = (s16)p4[0x3F];
+    sub_080867F8();
+    sub_080003F4(0x11201100);
+    p5[0] = a;
+    p4[0x3F] = b;
+    sub_0800CCB8();
+    sub_08000420(0x514C8);
+    sub_0800CE54();
+    while (sub_0801AAE0() == 0) {
+        sub_080003F0();
+    }
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A228);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A590);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A644);
