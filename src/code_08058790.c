@@ -69,7 +69,12 @@ s32 sub_080589D8(s32 arg0)
   }
   return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058A18);
+void sub_08058A18(u32 bit)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u32 offset = sub_0800CE30() ? 0x88 : 0x84;
+    *(u32 *)(base + offset) |= 1u << bit;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058A4C);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058A80);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058AD0);
