@@ -23,7 +23,15 @@ u32 sub_080686A4(const void *src)
     return 1;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686F4);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068758);
+u32 sub_08068758(u16 lo, u16 hi, const u8 *src)
+{
+    u32 *count;
+    u8 *e;
+    count=(u32 *)0x03006338; if(*count>0x31)return 0;
+    e=*(u8 **)0x03006300+*count*0x98;
+    *(u32 *)(e+4)=1; e[0]=0x9A; *(u32 *)(e+8)=((u32)hi<<16)|lo;
+    *(u32 *)(e+0xC)=*(const u16 *)(src+0xC); e[1]=1; (*count)++; return 1;
+}
 u32 sub_080687A8(const u8 *arg0)
 {
     u8 *entry;
