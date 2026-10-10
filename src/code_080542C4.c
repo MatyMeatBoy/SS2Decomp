@@ -85,7 +85,13 @@ s32 sub_0805700C(void)
   while (var_r1 <= 0x16U);
   return var_r2;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057038);
+u16 sub_08057038(void)
+{
+    u32 bits = *(u32 *)(*(u32 *)0x03004210 + 0xC), count = 0, mask;
+    for (mask = 1 << 10; mask <= (1 << 19); mask <<= 1)
+        if (bits & mask) count++;
+    return count;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057068);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080570DC);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057170);
