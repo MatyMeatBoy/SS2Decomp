@@ -140,7 +140,12 @@ void sub_08009014(void) {
 s32 sub_08009034(void *arg0) {
     return M2C_FIELD(arg0, u16 *, 2) - 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_0800903C);
+void sub_0800903C(u16 a, u16 b, u16 c, u16 d, u16 e, u16 f)
+{
+    gUnk_03001250[0x40 / 2] = a | (c << 6) | (b << 8);
+    gUnk_03001250[0x42 / 2] = d | (e << 8);
+    gUnk_03001250[0x44 / 2] = f;
+}
 void sub_0800907C(s32 arg0) {
     gUnk_030028BC = arg0;
 }

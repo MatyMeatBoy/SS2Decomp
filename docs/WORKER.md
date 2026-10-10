@@ -60,3 +60,12 @@ report that in your final message instead of editing the Makefile.
 ## Final report (last message, <10 lines)
 Matched count / total shard size, branch name, functions you gave up on with the best remaining diff size, anything
 (compiler guess for a module, a header collision risk) the maintainer should know.
+
+## Before every push (compile check, no ROM needed)
+```sh
+git fetch origin claude/rom-decompilation-research-obsal6 && git merge --no-edit origin/claude/rom-decompilation-research-obsal6
+make -j4 build/src/<each module you touched>.o      # must compile without errors
+```
+Never change an existing prototype/declaration in include/*.h (e.g. `s32 f();` -> `void f(void);`): other modules call them with
+the old signature and the merge will break. If you need a different signature, cast at the call site or declare a local
+extern in your own .c file. A branch that breaks the build is rejected by the maintainer.
