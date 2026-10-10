@@ -1,6 +1,27 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E244);
+s32 sub_0801E244(s32 arg0, s32 arg1)
+{
+  int new_var;
+  u32 var_r3;
+  void *var_r2;
+  var_r2 = arg0 + 0x8C;
+  var_r3 = 0;
+  new_var = -1;
+  loop_1:
+  if ((((*((s16 *) (((s8 *) var_r2) + 0))) != new_var) && ((*((u16 *) (((s8 *) var_r2) + 4))) == arg1)) && ((*((u16 *) (((s8 *) var_r2) + 2))) == 0x64))
+  {
+    return (s32) var_r2;
+  }
+
+  var_r3 += 1;
+  var_r2 += 0x28;
+  if (var_r3 > 7U)
+  {
+    return 0;
+  }
+  goto loop_1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E278);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E324);
@@ -36,7 +57,23 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E4B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E4CC);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E538);
+s32 sub_0801E538(void)
+{
+  long long new_var;
+  new_var = 0;
+  if ((sub_0801CCC8() << 0x10) == 0)
+  {
+    if (new_var)
+    {
+      return new_var;
+    }
+    else
+    {
+      return new_var;
+    }
+  }
+  return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E550);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E594);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
