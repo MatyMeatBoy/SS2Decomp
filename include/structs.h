@@ -119,3 +119,4 @@ struct GameState {
 };
 
 #endif // GUARD_STRUCTS_H
+struct Task { s32 u0; s32 u4; s32 u8; void *uC; s32 u10; s32 u14; s32 u18; s32 u1C; s32 u20; s32 u24; };

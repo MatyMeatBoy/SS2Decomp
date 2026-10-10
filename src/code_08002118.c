@@ -74,9 +74,29 @@ void sub_08002304(void) {
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800232C);
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002658);
+void sub_08002658(void) {
+	u32 p = (u32)sub_08001494(0x400);
+	s32 z;
+	gUnk_030027E0.uC = sub_0800232C;
+	gUnk_030027E0.u10 = p + 0x3FC;
+	gUnk_030027E0.u20 = p;
+	z = 0;
+	gUnk_030027E0.u0 = z;
+	gUnk_030027E0.u18 = z;
+	gUnk_030027E0.u8 = 1;
+	gUnk_030027E0.u24 = z;
+	sub_08000274(&gUnk_030027E0, 0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002694);
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002A54);
+void sub_08002A54(void) {
+	u32 p = (u32)sub_08001494(0x200);
+	gUnk_03002810.uC = sub_08002694;
+	gUnk_03002810.u10 = p + 0x1FC;
+	gUnk_03002810.u20 = p;
+	gUnk_03002810.u24 = 0;
+	gUnk_03002810.u8 = 1;
+	sub_08000274(&gUnk_03002810, 0);
+}
 u32 sub_08002A8C(void)
 {
     u32 r = 0;
