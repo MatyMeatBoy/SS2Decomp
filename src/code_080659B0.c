@@ -1,6 +1,7 @@
 #include "global.h"
 
 void sub_08066898(void);
+void sub_08064E14(void);
 
 void sub_080659B0(void *arg0, s16 arg1)
 {
@@ -61,7 +62,16 @@ void sub_08065B84(void)
     gUnk_03006030 = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065BD0);
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065C50);
+void sub_08065C50(u32 arg)
+{
+    u8 *obj;
+    u32 mem;
+    obj = (u8 *)0x03002840;
+    if(!sub_08000470((u32)obj)) *(u32 *)(obj+8)=0x3C;
+    do { mem=sub_08001494(0xC00); if(!mem) sub_080003F0(); } while(!mem);
+    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+0xC)=(u32)sub_08064E14;
+    *(u32 *)(obj+0x10)=mem+0xBFC; *(u32 *)(obj+0x24)=0; sub_08000274(obj,arg);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065CA8);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065D50);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065DAC);

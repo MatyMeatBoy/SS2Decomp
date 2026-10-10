@@ -8,7 +8,20 @@ void sub_08068670(void) {
     gUnk_03006368 = 0;
     gUnk_03006300 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686A4);
+u32 sub_080686A4(const void *src)
+{
+    u8 *entry;
+    u32 index = gUnk_03006338;
+    if (index > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x98;
+    CpuSet(src, entry + 8, 0x04000008);
+    entry[1] = 4;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686F4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068758);
 u32 sub_080687A8(const u8 *arg0)
