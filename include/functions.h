@@ -265,7 +265,7 @@ void sub_08015ED4();
 void sub_08015EF8();
 void sub_08016114();
 void sub_080161A4();
-s32 sub_08016ECC(u16);
+void sub_08016ECC(s32);
 u32 sub_08019CDC();
 s32 sub_08019C3C(void);
 s32 sub_08019D34(u16);
