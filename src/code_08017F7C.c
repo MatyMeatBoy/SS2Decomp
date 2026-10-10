@@ -51,7 +51,13 @@ s32 sub_08019E30(s32 arg0)
   while (var_r2 <= 4U);
   return var_r4;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019E74);
+u32 sub_08019E74(u32 value)
+{
+    u32 active=*(u16 *)0x03005724, result=0, i;
+    u8 *table=*(u8 **)0x030042E8;
+    for(i=0;i<=1;i++) if((active&(1<<i)) && *(u32 *)(table+i*8)==value) result|=1<<i;
+    return result;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019EB8);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F04);
 void sub_08019F60(u16 *data)
