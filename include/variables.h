@@ -171,11 +171,9 @@ extern u16 gUnk_0847AD0A[];
 extern u32 gUnk_0847AD1C[];
 extern s32 gUnk_08518938;
 extern M2C_UNK gUnk_08E3FB54;
-extern void sub_0800232C();
+extern void sub_080226A4(void);
 extern M2C_UNK sub_08002B70;
-extern void sub_08005B88(void);
 extern M2C_UNK sub_08014170;
 extern M2C_UNK sub_080852AC;
 
 #endif // GUARD_VARIABLES_H
-extern void sub_08002694();
