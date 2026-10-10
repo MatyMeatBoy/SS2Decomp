@@ -2,6 +2,8 @@
 
 extern u32 gUnk_03005CFC;
 extern u32 gUnk_03005D00;
+extern s32 gUnk_03005CF0;
+s32 sub_0800048C();
 void sub_080226A4(void);
 
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021DC4);
@@ -149,5 +151,46 @@ void sub_08028498(u16 arg0)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080284F4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028830);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028918);
+void sub_08028918(void) {
+    s32 keep;
+    s32 p;
+    s32 q;
+    u32 i;
+
+    keep = sub_0800048C();
+    p = gUnk_03005CF4 + 0xE34;
+    i = 0;
+    do {
+        if (p != keep) {
+            if (sub_08000470(p)) {
+                sub_080003A8(p);
+            }
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 0x1D);
+    p = gUnk_03005CF4 + 0x12E4;
+    i = 0;
+    do {
+        if (p != keep) {
+            if (sub_08000470(p)) {
+                sub_080003A8(p);
+            }
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 0x1D);
+    q = gUnk_03005CF4 + 0x7A4;
+    i = 0;
+    do {
+        if (p != keep) {
+            if (sub_08000470(q + 0x48)) {
+                sub_080003A8(q + 0x48);
+            }
+        }
+        i++;
+        q += 0x70;
+    } while (i <= 0xE);
+    gUnk_03005CF0 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080289C0);
