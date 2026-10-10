@@ -58,7 +58,15 @@ void *sub_0805D434(void)
     return 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D460);
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D498);
+void *sub_0805D498(u32 id)
+{
+    u8 *entry = gUnk_03005D58;
+    u32 i;
+    for (i = 0; i < 16; i++, entry += 0x20)
+        if (*(u16 *)(entry + 0xA) == 2 && *(u16 *)(entry + 0xC) == (u16)id)
+            return entry;
+    return 0;
+}
 s32 sub_0805D4C4(u16 arg0) {
     s32 var_r4;
     u32 var_r2;
