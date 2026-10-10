@@ -64,7 +64,13 @@ void sub_080B63A0(void)
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B63BC);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B640C);
+void sub_080B640C(void)
+{
+    u16 *flags=(u16 *)0x030007D4; u32 i;
+    for(i=0;i<2;i++) flags[i]=0;
+    *(u32 *)0x030007EC=sub_08001494(0x28);
+    if(*(u32 *)0x030007EC) *(u32 *)(*(u32 *)0x030007EC+8)=0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6448);
 void sub_080B64A4(void)
 {
