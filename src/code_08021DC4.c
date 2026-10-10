@@ -4,8 +4,36 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021DC4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021E44);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021EC8);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021F58);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021FE0);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022028);
+s32 sub_08021FE0(s32 *arg0, s32 *arg1, u16 *arg2, u16 *arg3) {
+    s32 var_r2;
+    s32 var_r3;
+
+    s32 dx = arg0[0] - arg1[0];
+    s32 dy = arg0[1] - arg1[1];
+    var_r2 = dy >> 8;
+    var_r3 = dx >> 8;
+    if (var_r3 < 0) {
+        var_r3 = -var_r3;
+    }
+    if (var_r3 <= ((s32)(arg2[0] + arg3[0]) >> 1)) {
+        if (var_r2 < 0) {
+            var_r2 = -var_r2;
+        }
+        if (var_r2 <= ((s32)(arg2[1] + arg3[1]) >> 1)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+void sub_08022028(u8 *arg0, u8 *arg1, u16 arg2) {
+    ArcTan2((s16)((*(s32 *)(arg1 + 0x8C) - *(s32 *)(arg0 + 0)) << 8 >> 16),
+            (s16)((*(s32 *)(arg1 + 0x90) - *(s32 *)(arg0 + 4)) << 8 >> 16));
+    *(u16 *)(arg1 + 0xCC) = 0;
+    *(u16 *)(arg1 + 0xD0) = 0;
+    *(u16 *)(arg1 + 0xCE) = 0;
+    *(u16 *)(arg1 + 0x88) += arg2;
+    *(u16 *)(arg1 + 0x20) = 0xA;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022078);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022100);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022180);
