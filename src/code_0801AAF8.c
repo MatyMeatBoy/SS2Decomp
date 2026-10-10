@@ -33,16 +33,24 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D028);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D34C);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D7AC);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DB94);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DD9C);
+void sub_0801DD9C(void) {
+    sub_0801E024(&gUnk_03003CE0[sub_080020F4()]);
+}
 void sub_0801DDB8(s32 arg0) {
     CpuSet(gUnk_030034E0 + 0x10, arg0, 0x04000008);
 }
 void sub_0801DDD4(s32 arg0) {
     CpuSet(arg0, gUnk_030034E0 + 0x10, 0x04000008);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DDF0);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE18);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE3C);
+void sub_0801DDF0(void *arg0) {
+    CpuSet(gUnk_03003D18 + sub_080020F4() * 0x14C, arg0, 0x04000008);
+}
+void sub_0801DE18(void *arg0) {
+    CpuSet(gUnk_03003D38 + sub_080020F4() * 0x14C, arg0, 0x18);
+}
+void sub_0801DE3C(void *arg0) {
+    CpuSet(arg0, gUnk_03003D38 + sub_080020F4() * 0x14C, 0x18);
+}
 u8 sub_0801DE60(void)
 {
   u16 temp_r0;
@@ -60,8 +68,16 @@ u8 sub_0801DE60(void)
     return 6U;
   }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE78);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE98);
+void sub_0801DE78(void *arg0) {
+    struct S36 { u32 w[9]; } *dst = arg0;
+    struct S36 *src = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
+    *dst = *src;
+}
+void sub_0801DE98(void *arg0) {
+    struct S36 { u32 w[9]; } *src = arg0;
+    struct S36 *dst = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
+    *dst = *src;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DEB8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF08);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF4C);
