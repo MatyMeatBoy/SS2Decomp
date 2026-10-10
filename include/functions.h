@@ -578,3 +578,6 @@ void sub_0801DE3C(void *arg0);
 void sub_0801DE78(void *arg0);
 void sub_0801DE98(void *arg0);
 s32 sub_0801E4B0(void);
+void sub_0801DF08(void);
+void sub_0801DFE8(s32 arg0, void *arg1, void *arg2);
+void *sub_0801E1A4(u8 *arg0, s32 arg1);

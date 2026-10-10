@@ -182,3 +182,5 @@ extern M2C_UNK sub_080852AC;
 extern void sub_08002694();
 extern u8 gUnk_03003D18[];
 extern u8 gUnk_03003D38[];
+extern u8 gUnk_0848FA48[];
+extern u8 gUnk_0849E580[];
