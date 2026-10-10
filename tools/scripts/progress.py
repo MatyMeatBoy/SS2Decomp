@@ -269,6 +269,7 @@ def main():
     summary = summarize(modules)
     os.makedirs(args.out, exist_ok=True)
     with open(os.path.join(args.out, "treemap.svg"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write('<?xml version="1.0" encoding="UTF-8"?>\n')
         fh.write(treemap_svg(modules, summary))
     for key, label in (("all", "decompiled"), ("game", "game code"), ("lib", "libraries")):
         s = summary[key]
