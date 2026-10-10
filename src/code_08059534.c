@@ -71,7 +71,20 @@ void sub_0805A004(u32 mode)
 void sub_0805A040(void) {
     sub_08028AAC(8, 0x38, 0x30, 0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A054);
+void sub_0805A054(u32 state)
+{
+    for (;;) {
+        sub_08028AAC(state, 0x270F, 0x270F, 0);
+        u32 wait = 1;
+        for (;;) {
+            sub_080003F0();
+            if (sub_080021A8() != 0)
+                break;
+            if (--wait == 0)
+                break;
+        }
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A088);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A0EC);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A138);
