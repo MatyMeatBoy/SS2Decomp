@@ -66,7 +66,17 @@ s32 sub_0805D4C4(u16 arg0) {
     } while (var_r2 <= 0xFU);
     return var_r4;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D4F4);
+extern s32 gUnk_03005D58;
+extern u16 gUnk_03005D5C;
+void sub_0805D4F4(void)
+{
+    u32 i;
+    gUnk_03005D5C = 1;
+    for (i = 0; i < 16; i++) {
+        M2C_FIELD((u8 *)gUnk_03005D58 + i * 0x20, u16 *, 0xA) = 0;
+        M2C_FIELD((u8 *)gUnk_03005D58 + i * 0x20, u16 *, 0xC) = 0;
+    }
+}
 void sub_0805D518(void) {
     u16 temp_r0;
     u32 var_r3;
@@ -101,7 +111,11 @@ loop_1:
     }
     goto loop_1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D580);
+void sub_0805D580(u32 index)
+{
+    if (index <= 0x18)
+        M2C_FIELD((u8 *)gUnk_030034E0 + index * 0x10 + 0x150, u16 *, 0) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D5A0);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D5F4);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D650);
