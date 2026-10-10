@@ -154,16 +154,20 @@ def assemble_orig(func, out_o):
 
 def module_cc1(mod):
     """Compiler used for src/<mod>.c (per file overrides in the Makefile)."""
+    default = AGBCC
     for line in open(os.path.join(ROOT, "Makefile")):
-        m = re.match(r"\$\(BUILD\)/src/(\w+)\.o: CC1 := (\S+)", line)
+        m = re.match(r"CC1\s*:= (\S+)", line)
+        if m:
+            default = os.path.join(ROOT, m.group(1))
+        m = re.match(r"CC1_(\w+)\s*:= (\S+)", line)
         if m and m.group(1) == mod:
             return os.path.join(ROOT, m.group(2))
-    return AGBCC
+    return default
 
 
 def module_flags(mod):
     for line in open(os.path.join(ROOT, "Makefile")):
-        m = re.match(r"\$\(BUILD\)/src/(\w+)\.o: CC1FLAGS := (.*)$", line)
+        m = re.match(r"CC1FLAGS_(\w+)\s*:= (.*)$", line)
         if m and m.group(1) == mod:
             return m.group(2).split()
     return None

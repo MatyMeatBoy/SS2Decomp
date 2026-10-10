@@ -87,9 +87,9 @@ def main():
         s = open(mk).read()
         add = ""
         if args.cc1:
-            add += "$(BUILD)/src/%s.o: CC1 := %s\n" % (args.name, args.cc1)
+            add += "CC1_%s := %s\n" % (args.name, args.cc1)
         if args.cflags:
-            add += "$(BUILD)/src/%s.o: CC1FLAGS := %s\n" % (args.name, args.cflags)
+            add += "CC1FLAGS_%s := %s\n" % (args.name, args.cflags)
         s = s.replace("# C files: preprocess, compile with agbcc, assemble.",
                       add + "\n# C files: preprocess, compile with agbcc, assemble.")
         open(mk, "w").write(s)

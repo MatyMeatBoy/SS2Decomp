@@ -28,10 +28,10 @@ public class DecompFuncs extends GhidraScript {
         Register tmode = currentProgram.getLanguage().getRegister("TMode");
         AddressSpace sp = currentProgram.getAddressFactory().getDefaultAddressSpace();
         // THUMB context for the whole code range, then disassemble each entry
+        // THUMB everywhere in the code region, except the ARM start up code
+        currentProgram.getProgramContext().setValue(tmode, sp.getAddress(0x0800023CL), sp.getAddress(0x080B9703L), BigInteger.ONE);
         for (long a : addrs) {
-            Address ad = sp.getAddress(a);
-            currentProgram.getProgramContext().setValue(tmode, ad, ad, BigInteger.ONE);
-            disassemble(ad);
+            disassemble(sp.getAddress(a));
         }
         for (long a : addrs) {
             Address ad = sp.getAddress(a);

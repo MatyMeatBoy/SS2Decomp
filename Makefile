@@ -42,21 +42,23 @@ clean:
 # Each module's not yet decompiled functions live in asm/nonmatchings/<module>/.
 asm_deps = $(wildcard asm/nonmatchings/$(1)/*.s)
 
+# Per module compiler: agbcc by default, old_agbcc where the original code needs it.
+
 # The SDK's m4a.c was built with an older agbcc
-$(BUILD)/src/m4a.o: CC1 := tools/agbcc/bin/old_agbcc
+CC1_m4a := tools/agbcc/bin/old_agbcc
 
 # The SDK's flash library was prebuilt with -O1
-$(BUILD)/src/agb_flash.o: CC1FLAGS := -O1 -mthumb-interwork
+CC1FLAGS_agb_flash := -O1 -mthumb-interwork
 
-$(BUILD)/src/video.o: CC1 := tools/agbcc/bin/old_agbcc
+CC1_video := tools/agbcc/bin/old_agbcc
 
-$(BUILD)/src/code_08001A50.o: CC1 := tools/agbcc/bin/old_agbcc
+CC1_code_08001A50 := tools/agbcc/bin/old_agbcc
 
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)
 	@mkdir -p $(@D)
 	$(CPP) $(CPPFLAGS) $< -o $(BUILD)/src/$*.i
-	$(CC1) $(CC1FLAGS) -o $(BUILD)/src/$*.s $(BUILD)/src/$*.i
+	$(or $(CC1_$*),$(CC1)) $(or $(CC1FLAGS_$*),$(CC1FLAGS)) -o $(BUILD)/src/$*.s $(BUILD)/src/$*.i
 	@printf ".text\n\t.align 2, 0 @ Don't pad with nop\n" >> $(BUILD)/src/$*.s
 	$(AS) $(ASFLAGS) -o $@ $(BUILD)/src/$*.s
 
