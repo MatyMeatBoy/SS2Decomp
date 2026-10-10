@@ -68,7 +68,12 @@ s32 sub_08097A74(void *arg0, void *arg1, s32 arg2, s16 arg3) {
     return (s32) temp_r5;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097AC0);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097B24);
+u32 sub_08097B24(const u8 *obj, s32 x, s32 y, s32 radius)
+{
+    s32 dx = (s16)x - (s16)(*(s32 *)(obj + 0x14) >> 8);
+    s32 dy = (s16)y - (s16)(*(s32 *)(obj + 0x18) >> 8);
+    return (s16)radius > Sqrt(dx * dx + dy * dy);
+}
 u32 sub_08097B6C(s32 x0, s32 y0, s32 x1, s32 y1, s32 radius)
 {
     s32 dx = (x0 - x1) << 8, dy = (y0 - y1) << 8;
