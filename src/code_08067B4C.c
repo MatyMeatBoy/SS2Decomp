@@ -1,5 +1,7 @@
 #include "global.h"
 
+extern u32 gUnk_03006338;
+
 void sub_08067B4C(void) {
 
 }
