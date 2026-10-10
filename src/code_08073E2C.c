@@ -40,7 +40,9 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A028);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A040);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A064);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A0E0);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A120);
+void sub_0807A120(void) {
+
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A124);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A20C);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A2E0);

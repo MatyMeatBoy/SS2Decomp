@@ -2,6 +2,8 @@
 #define GUARD_GLOBAL_H
 
 #include "gba/types.h"
+#include "variables.h"
+#include "functions.h"
 
 // Include a not yet decompiled function from its assembly file.
 // The .s file contains the complete function (label, alignment, literal pool).

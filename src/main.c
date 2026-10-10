@@ -4,7 +4,9 @@ INCLUDE_ASM("asm/nonmatchings/main", AgbMain);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000760);
 INCLUDE_ASM("asm/nonmatchings/main", sub_0800086C);
 INCLUDE_ASM("asm/nonmatchings/main", sub_080008C8);
-INCLUDE_ASM("asm/nonmatchings/main", sub_0800093C);
+void sub_0800093C(void) {
+
+}
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000940);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000968);
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000990);

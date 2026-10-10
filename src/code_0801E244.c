@@ -41,8 +41,12 @@ INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_080216BC);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_080217D8);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021960);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021AD8);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021C6C);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021C70);
+void sub_08021C6C(void) {
+
+}
+void sub_08021C70(void) {
+
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021C74);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021CE4);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021D00);

@@ -152,10 +152,11 @@ def m2c(func, extra=()):
     with tempfile.TemporaryDirectory() as td:
         s = os.path.join(td, func + ".s")
         m2c_input(func, s)
-        ctx = os.path.join(ROOT, "include/m2c_context.h")
-        cmd = [sys.executable, M2C, "--target", "gba", "--no-cache"]
-        if os.path.exists(ctx):
-            cmd += ["--context", ctx]
+        ctx = os.path.join(td, "ctx.h")
+        with open(ctx, "w") as fh:
+            for h in ("include/m2c_context.h", "include/variables.h", "include/functions.h"):
+                fh.write(re.sub(r"^#.*$", "", open(os.path.join(ROOT, h)).read(), flags=re.M) + "\n")
+        cmd = [sys.executable, M2C, "--target", "gba", "--no-cache", "--context", ctx]
         r = run(cmd + list(extra) + [s])
         return r.stdout + r.stderr
 
@@ -168,8 +169,12 @@ def apply(func, cfile):
     """Insert the C of cfile (everything after the include line) into src/<module>.c."""
     path, mod = find_asm(func)
     src = os.path.join(ROOT, "src/%s.c" % mod)
-    code = open(cfile).read()
-    code = re.sub(r'^#include "global.h"\n', "", code, flags=re.M).strip("\n")
+    vars_, protos, code = split_decls(open(cfile).read())
+    sig = signature(code, func)
+    if sig:
+        protos.append((func, sig))
+    add_decls(os.path.join(ROOT, "include/variables.h"), "// AUTO-VARIABLES (keep this marker, decomp.py appends below it)", vars_)
+    add_decls(os.path.join(ROOT, "include/functions.h"), "// AUTO-PROTOTYPES (keep this marker, decomp.py appends below it)", protos)
     text = open(src).read()
     stub = 'INCLUDE_ASM("asm/nonmatchings/%s", %s);' % (mod, func)
     if stub not in text:
@@ -196,7 +201,63 @@ def check(func, cfile, verbose=True):
 def m2c_to_c(out):
     """Clean m2c output into a compilable C file."""
     out = re.sub(r"/\*.*?\*/", "", out, flags=re.S)
+    out = re.sub(r"(?m)^\? ", "s32 ", out)          # unknown return type
+    out = re.sub(r"\(\?(?=[,)])", "(s32", out)        # unknown first argument
+    out = re.sub(r", \?(?=[,)])", ", s32", out)      # unknown other arguments
+    out = re.sub(r"\(\? ", "(s32 ", out)
+    out = re.sub(r", \? ", ", s32 ", out)
+    out = re.sub(r"[ \t]+$", "", out, flags=re.M)
     return '#include "global.h"\n' + out
+
+
+DECL_RE = re.compile(r"^(extern .*?(\w+)(\[[^\]]*\])*;|[\w ]+?\**\s*\**(\w+)\(.*\);)\s*$")
+
+
+def split_decls(code):
+    """Split C code into (variable decls, prototypes, body)."""
+    vars_, protos, body = [], [], []
+    depth = 0
+    for line in code.splitlines():
+        if depth == 0 and line.startswith("#include"):
+            continue
+        m = DECL_RE.match(line) if depth == 0 else None
+        if m:
+            if line.startswith("extern"):
+                vars_.append((m.group(2), line.strip()))
+            else:
+                protos.append((m.group(4), line.strip()))
+            continue
+        depth += line.count("{") - line.count("}")
+        body.append(line)
+    return vars_, protos, "\n".join(body).strip("\n")
+
+
+def header_names(path):
+    names = set()
+    for line in open(path):
+        m = DECL_RE.match(line.strip())
+        if m:
+            names.add(m.group(2) or m.group(4))
+    return names
+
+
+def add_decls(path, marker, decls):
+    names = header_names(path)
+    new = [d for n, d in decls if n not in names]
+    if not new:
+        return
+    text = open(path).read()
+    i = text.index(marker) + len(marker)
+    j = text.index("\n#endif", i)
+    existing = text[i:j].strip("\n").splitlines()
+    allv = sorted(set([e for e in existing if e.strip()] + new), key=lambda l: DECL_RE.match(l).group(2) or DECL_RE.match(l).group(4))
+    text = text[:i] + "\n" + "\n".join(allv) + "\n" + text[j:]
+    open(path, "w").write(text)
+
+
+def signature(body, func):
+    m = re.search(r"^([\w \*]+?\b%s\(.*?\))\s*\{" % func, body, flags=re.M | re.S)
+    return m.group(1).strip() + ";" if m else None
 
 
 def main():
