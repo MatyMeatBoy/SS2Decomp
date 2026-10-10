@@ -68,7 +68,19 @@ u32 sub_0805813C(u16 a, u16 b)
     for(i=0;i<=0x18;i++) { u8 *e=base+0x150+i*0x10; if(*(u16 *)e==a && *(u16 *)(e+2)==b) count++; }
     return count;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805817C);
+void sub_0805817C(u16 type, u16 value, u32 count)
+{
+    u8 record[16] = {0};
+    if (type == 0xA) {
+        *(u16 *)record = type;
+        *(u32 *)(record + 4) = value;
+    } else {
+        *(u16 *)record = type;
+        *(u16 *)(record + 2) = value;
+    }
+    for (u32 i = 0; i < count; i++)
+        sub_0805AB20(record);
+}
 void sub_080581E4(u16 a, u16 b, u32 count)
 {
     u8 *base = (u8 *)0x030034E0 + 0x150;
