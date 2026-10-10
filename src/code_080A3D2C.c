@@ -9,7 +9,18 @@ extern s32 gUnk_03000414;
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4520);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A47A0);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A49A8);
+void sub_080A49A8(void)
+{
+    sub_0805867C(0xDF);
+    if (*(s16 *)((u8 *)gUnk_03000368 + 0x5C) != 0) {
+        sub_080A4BFC();
+        sub_080A4B10();
+        sub_080A4A54();
+    }
+    sub_08068384();
+    gUnk_030056FC = 0;
+    sub_08016ECC(*(u16 *)gUnk_030003E8);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A49EC);
 void sub_080A4A54(void) {
     if (sub_08000470(gUnk_03000358) != 0) {
