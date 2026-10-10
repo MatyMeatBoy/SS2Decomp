@@ -106,4 +106,11 @@ void sub_0805CFF8(u32 index, const u32 *src)
     ((u32 *)dst)[2] = src[2]; ((u32 *)dst)[3] = src[3];
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805D028);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805D064);
+u32 sub_0805D064(const u32 *src, u32 index)
+{
+    u32 *dst;
+    if (*(const u16 *)src != 2) return 0;
+    dst = (u32 *)(*(u32 *)0x030034E0 + index * 0x10 + 0x70);
+    dst[0]=src[0]; dst[1]=src[1]; dst[2]=src[2]; dst[3]=src[3];
+    return 1;
+}
