@@ -22,7 +22,10 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D28);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D74);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067DC8);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E08);
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E48);
+s32 sub_08067E48(void)
+{
+    return M2C_FIELD(gUnk_03006300, u32 *, 4) == 2;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E60);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067EC8);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067F04);
@@ -37,7 +40,10 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068144);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806818C);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080681F4);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806823C);
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080682A4);
+s32 sub_080682A4(void)
+{
+    return gUnk_03006338 > 0x31;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080682B8);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068330);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068384);
