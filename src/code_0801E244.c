@@ -102,7 +102,12 @@ s32 sub_0801E538(void)
   return 1;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E550);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E594);
+void sub_0801E594(void *arg0)
+{
+    u32 i;
+    for (i = 0; i <= 7; i++)
+        M2C_FIELD((u8 *)arg0 + i * 0x28, u16 *, 0) |= 0xFFFF;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);

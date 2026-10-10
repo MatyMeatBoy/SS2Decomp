@@ -45,7 +45,10 @@ void sub_08098060(void) {
     gUnk_030002C0 = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098088);
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_080980F0);
+s32 sub_080980F0(void)
+{
+    return M2C_FIELD((void *)gUnk_030002C0, u32 *, 8) == 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098108);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098F2C);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809919C);
