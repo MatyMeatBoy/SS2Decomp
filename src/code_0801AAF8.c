@@ -4,15 +4,7 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AAF8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB24);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB50);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB90);
-void sub_0801ABE8(u16 arg0) {
-    int new_var;
-    gUnk_03000026 = 1;
-    gUnk_03000020 = arg0;
-    gUnk_03000022 = 0;
-    sub_08000420(0x64);
-    new_var = 0x21;
-    gUnk_03000028 = (gUnk_03000028 | 0xC) & (-new_var);
-}
+INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801ABE8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AC24);
 s32 sub_0801AC78(void) {
     s32 var_r2;
@@ -41,16 +33,24 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D028);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D34C);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D7AC);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DB94);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DD9C);
+void sub_0801DD9C(void) {
+    sub_0801E024(&gUnk_03003CE0[sub_080020F4()]);
+}
 void sub_0801DDB8(s32 arg0) {
     CpuSet(gUnk_030034E0 + 0x10, arg0, 0x04000008);
 }
 void sub_0801DDD4(s32 arg0) {
     CpuSet(arg0, gUnk_030034E0 + 0x10, 0x04000008);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DDF0);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE18);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE3C);
+void sub_0801DDF0(void *arg0) {
+    CpuSet(gUnk_03003D18 + sub_080020F4() * 0x14C, arg0, 0x04000008);
+}
+void sub_0801DE18(void *arg0) {
+    CpuSet(gUnk_03003D38 + sub_080020F4() * 0x14C, arg0, 0x18);
+}
+void sub_0801DE3C(void *arg0) {
+    CpuSet(arg0, gUnk_03003D38 + sub_080020F4() * 0x14C, 0x18);
+}
 u8 sub_0801DE60(void)
 {
   u16 temp_r0;
@@ -68,16 +68,44 @@ u8 sub_0801DE60(void)
     return 6U;
   }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE78);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE98);
+void sub_0801DE78(void *arg0) {
+    struct S36 { u32 w[9]; } *dst = arg0;
+    struct S36 *src = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
+    *dst = *src;
+}
+void sub_0801DE98(void *arg0) {
+    struct S36 { u32 w[9]; } *src = arg0;
+    struct S36 *dst = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
+    *dst = *src;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DEB8);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF08);
+void sub_0801DF08(void) {
+    u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
+
+    u16 v = *(u16 *) (p + 0x62);
+    *(u16 *) (p + 0xC4) = v;
+    if (sub_0801DE60() == 1) {
+        u16 w = *(u16 *) (p + 0x60);
+        *(u16 *) (p + 0xC2) = w;
+    }
+    *(u16 *) (p + 0x20) = 0;
+    *(u32 *) (p + 0x30) = 0x40;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF4C);
 s32 sub_0801DF80(void) {
     return gUnk_030034E0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF8C);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DFE8);
+void sub_0801DFE8(s32 arg0, void *arg1, void *arg2) {
+    struct S32 { u32 w[8]; } *d1 = arg1;
+    struct S48 { u32 w[12]; } *d2 = arg2;
+    struct S32 *s1 = (struct S32 *) gUnk_0848FA48;
+    struct S48 *s2;
+
+    *d1 = s1[arg0];
+    s2 = (struct S48 *) gUnk_0849E580;
+    *d2 = s2[arg0];
+}
 void sub_0801E024(void *arg0) {
     u16 temp_r7;
     u8 temp_r8;
@@ -150,7 +178,19 @@ s32 sub_0801E164(void *arg0, s32 arg1)
  do { loop_1: temp_r0 = *((s16 *) (((s8 *) var_r2) + 0)); if ((temp_r0 == (-1)) || (((temp_r0 == (-2)) && ((*((u16 *) (((s8 *) var_r2) + 4))) == arg1)) && ((*((u16 *) (((s8 *) arg0) + 0))) == (*((u16 *) (((s8 *) var_r2) + 2)))))) { return (s32) var_r2; } var_r1 += 1; var_r2 += 0x28; if (var_r1 > 7U) { return 0; } } while (0);
   goto loop_1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E1A4);
+void *sub_0801E1A4(u8 *arg0, s32 arg1) {
+    u8 *p = *(u8 **) (arg0 + 0x34);
+    u32 i = 0;
+
+    do {
+        if (*(s16 *) p != -1 && *(u16 *) (p + 4) == arg1 && *(u16 *) (p + 2) == 100) {
+            return p;
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 7);
+    return 0;
+}
 s32 sub_0801E1D8(void *arg0, s32 arg1, s32 arg2)
 {
   u32 var_r1;

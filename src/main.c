@@ -50,44 +50,43 @@ void AgbMain(void)
 
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000760);
 
-#ifdef NONMATCHING
 s16 sub_0800086C(void)
 {
-    s32 i;
-    u8 t = (gUnk_03001318[0] ^ gUnk_03001318[1]) & 2;
-    u32 c = t != 0;
-    for (i = 0; i < 8; i++)
-    {
-        u8 b = gUnk_03001318[i];
-        u8 n = (b >> 1) | (c << 7);
-        c = b & 1;
-        gUnk_03001318[i] = n;
-    }
-    return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << 8);
-}
-#else
-INCLUDE_ASM("asm/nonmatchings/main", sub_0800086C);
-#endif
+  s32 i;
+  u32 c;
+  u8 t = gUnk_03001318[0] ^ gUnk_03001318[1];
+  t &= 2;
+  c = t != 0;
+  for (i = 0; i < 8; i++)
+  {
+    u8 b = gUnk_03001318[i];
+    u8 n = (b >> 1) | (c << 7);
+    c = b & 1;
+    gUnk_03001318[i] = n;
+  }
 
-#ifdef NONMATCHING
+  t = 8;
+  return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << t);
+}
+
 u32 sub_080008C8(void)
 {
-    s32 i;
-    u8 t = (gUnk_03001318[0] ^ gUnk_03001318[1]) & 2;
-    u32 c = t != 0;
-    for (i = 0; i < 8; i++)
-    {
-        u8 b = gUnk_03001318[i];
-        u8 n = (b >> 1) | (c << 7);
-        c = b & 1;
-        gUnk_03001318[i] = n;
-    }
-    return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << 8)
-         | (gUnk_03001318[gUnk_03001318[0] & 7] << 16) | (gUnk_03001318[gUnk_03001318[1] & 7] << 24);
+  s32 i;
+  u32 c;
+  u8 t = gUnk_03001318[0] ^ gUnk_03001318[1];
+  t &= 2;
+  c = t != 0;
+  for (i = 0; i < 8; i++)
+  {
+    u8 b = gUnk_03001318[i];
+    u8 n = (b >> 1) | (c << 7);
+    c = b & 1;
+    gUnk_03001318[i] = n;
+  }
+  t = 8;
+  return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << t)
+       | (gUnk_03001318[gUnk_03001318[0] & 7] << 16) | (gUnk_03001318[gUnk_03001318[1] & 7] << 24);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main", sub_080008C8);
-#endif
 
 void sub_0800093C(void) {
 

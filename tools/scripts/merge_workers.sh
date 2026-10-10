@@ -1,6 +1,7 @@
 #!/bin/sh
 # merge_workers.sh [branches...]  merge worker/* branches one by one; keep a merge only if `make compare` stays OK.
 cd "$(dirname "$0")/../.." || exit 1
+git config merge.ours.driver true
 git fetch -q origin 'refs/heads/worker/*:refs/remotes/origin/worker/*' || exit 1
 BR=${*:-$(git branch -r | sed -n 's|^ *origin/\(worker/.*\)$|\1|p')}
 for b in $BR; do
