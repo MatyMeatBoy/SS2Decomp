@@ -69,7 +69,10 @@ void sub_080584FC(s32 arg0) {
 void sub_08058510(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) & ~(1 << arg0));
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058524);
+s32 sub_08058524(s32 bit)
+{
+    return (M2C_FIELD(gUnk_03005CF4, u32 *, 0x38) & (1 << bit)) != 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805853C);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058574);
 void sub_080585F4(s32 arg0, s32 arg1) {
@@ -89,7 +92,14 @@ void sub_0805867C(void) {
     sub_08006D5C();
 }
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058688);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080586B4);
+s32 sub_080586B4(void)
+{
+    s32 value = gUnk_03005CF8;
+    if (value)
+        sub_08006CD0(value);
+    gUnk_03005CF8 = 0;
+    return value;
+}
 s32 sub_080586D0(void) {
     s32 temp_r5;
 
