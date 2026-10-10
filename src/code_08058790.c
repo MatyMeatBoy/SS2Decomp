@@ -28,7 +28,12 @@ s32 sub_08058830(void) {
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058844);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058878);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080588C0);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058900);
+void *sub_08058900(u32 index)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u32 offset = sub_0800CE30() ? 0xF8 : 0xA8;
+    return *(void **)(base + offset + index * 4);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058934);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_0805896C);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080589A0);
