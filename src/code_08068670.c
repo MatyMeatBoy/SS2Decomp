@@ -23,7 +23,13 @@ s32 sub_0806886C(void) {
 s32 sub_08068870(void) {
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068874);
+void *sub_08068874(void)
+{
+    void *p = (void *)gUnk_03006300;
+    if (M2C_FIELD(p, u32 *, 4) == 1)
+        return p;
+    return NULL;
+}
 s32 sub_0806888C(void)
 {
     return 1;

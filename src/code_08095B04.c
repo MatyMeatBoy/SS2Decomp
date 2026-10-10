@@ -32,7 +32,14 @@ void sub_08097A38(u8 i)
 {
     gUnk_03000290[i]++;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097A4C);
+void sub_08097A4C(void)
+{
+    gUnk_03000290[0] = 0;
+    gUnk_03000290[1] = 0;
+    gUnk_03000290[2] = 0;
+    gUnk_03000290[3] = 0;
+    gUnk_03000290[4] = 0;
+}
 void sub_08097A60(u8 i)
 {
     gUnk_03000290[i] = 0;
