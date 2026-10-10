@@ -83,7 +83,17 @@ void sub_080AF2AC(void) {
     sub_080AF304();
     sub_08068384();
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF2BC);
+void sub_080AF2BC(void)
+{
+    u8 count = *(u8 *)0x03000780;
+    u8 *block;
+    u32 i;
+    *(u32 *)0x03000784 = 0;
+    block = (u8 *)sub_08001494((u32)count * 0x28);
+    *(u32 *)0x03000784 = (u32)block;
+    for (i = 0; i < count; i++)
+        *(u32 *)(block + i * 0x28 + 8) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF304);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF350);
 extern s32 *gUnk_030004D0;

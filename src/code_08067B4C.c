@@ -22,8 +22,25 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067CA8);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067CE8);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D28);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D74);
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067DC8);
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E08);
+extern s32 gUnk_03005CF4;
+s32 sub_08067DC8(void)
+{
+    u8 *p;
+    if (gUnk_03006338 > 0x31) return 0;
+    p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x98;
+    *(u32 *)(p + 4) = 1; *p = 0x8D;
+    *(u32 *)(p + 8) = *(u32 *)((u8 *)(uintptr_t)gUnk_03005CF4 + 0x40); p[1] = 1;
+    gUnk_03006338++; return 1;
+}
+ s32 sub_08067E08(void)
+{
+    u8 *p;
+    if (gUnk_03006338 > 0x31) return 0;
+    p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x98;
+    *(u32 *)(p + 4) = 1; *p = 0x90;
+    *(u32 *)(p + 8) = *(u32 *)((u8 *)(uintptr_t)gUnk_03005CF4 + 0x3C); p[1] = 1;
+    gUnk_03006338++; return 1;
+}
 s32 sub_08067E48(void)
 {
     return M2C_FIELD(gUnk_03006300, u32 *, 4) == 2;
