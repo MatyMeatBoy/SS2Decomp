@@ -80,7 +80,12 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080226A4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022E60);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023274);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023684);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080239E0);
+u32 sub_080239E0(u32 group)
+{
+    u8 *base=*(u8 **)0x03005CF4 + 0x1C8 + (group&0xFF)*5; u32 zero=0,two=0,i;
+    for(i=0;i<=4;i++){ if(base[i]==0)zero++; if(base[i]==2)two++; }
+    return zero==two;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023A3C);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023ED8);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023F98);
