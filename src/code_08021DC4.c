@@ -1,5 +1,7 @@
 #include "global.h"
 
+void sub_080226A4(void);
+
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021DC4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021E44);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021EC8);
