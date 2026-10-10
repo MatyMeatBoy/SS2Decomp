@@ -1,5 +1,6 @@
 #include "global.h"
 
+INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B85B4);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B85D8);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B8674);
 INCLUDE_ASM("asm/nonmatchings/agb_flash", sub_080B869C);

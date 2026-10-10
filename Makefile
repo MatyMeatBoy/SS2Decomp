@@ -28,7 +28,7 @@ OBJS      := $(C_SRCS:%.c=$(BUILD)/%.o) $(ASM_SRCS:%.s=$(BUILD)/%.o) $(DATA_SRCS
 .SECONDEXPANSION:
 .SECONDARY:
 .DELETE_ON_ERROR:
-.PHONY: all compare clean
+.PHONY: all compare clean progress
 
 all: $(ROM)
 
@@ -62,3 +62,7 @@ $(ELF): $(OBJS) ld_script.ld sym_ram.ld
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF $< $@
+
+# Progress badges and treemap (docs/progress/*.svg), shown in README.md
+progress:
+	python3 tools/scripts/progress.py

@@ -60,10 +60,14 @@ SECTIONS
         build/src/code_080A3D2C.o(.text);
         build/src/code_080A9680.o(.text);
         build/src/code_080B3648.o(.text);
-        build/asm/m4a.o(.text);
+        build/asm/m4a_1.o(.text);
+        build/src/m4a.o(.text);
         build/asm/libagbsyscall.o(.text);
         build/src/agb_flash.o(.text);
-        build/asm/libgcc.o(.text);
+        build/asm/libgcc_thumb.o(.text);
+        build/src/libgcc2.o(.text);
+        build/asm/libgcc_div.o(.text);
+        build/src/libc.o(.text);
     } > ROM =0
 
     .rodata :

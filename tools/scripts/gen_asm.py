@@ -244,6 +244,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rom")
     ap.add_argument("--root", default=".")
+    ap.add_argument("--force", action="store_true", help="overwrite existing src/*.c files")
     args = ap.parse_args()
     root = args.root
     rom = open(args.rom, "rb").read()
@@ -281,6 +282,9 @@ def main():
             write(os.path.join(root, rel), "\n".join(bodies[f]) + "\n")
             stubs.append((fn, rel))
         if kind == "c":
+            cpath = os.path.join(root, "src/%s.c" % mname)
+            if os.path.exists(cpath) and not args.force:
+                continue
             c = ['#include "global.h"', ""]
             for fn, rel in stubs:
                 c.append('INCLUDE_ASM("asm/nonmatchings/%s", %s);' % (mname, fn))

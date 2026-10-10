@@ -1,0 +1,27 @@
+{
+ "game": {
+  "bytes_total": 745152,
+  "bytes_done": 0,
+  "funcs_total": 1870,
+  "funcs_done": 0,
+  "percent": 0.0
+ },
+ "lib": {
+  "bytes_total": 8872,
+  "bytes_done": 0,
+  "funcs_total": 82,
+  "funcs_done": 0,
+  "percent": 0.0
+ },
+ "all": {
+  "bytes_total": 754024,
+  "bytes_done": 0,
+  "funcs_total": 1952,
+  "funcs_done": 0,
+  "percent": 0.0
+ },
+ "asm": {
+  "bytes": 4960,
+  "funcs": 81
+ }
+}
