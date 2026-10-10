@@ -81,7 +81,18 @@ void sub_080A4BFC(void) {
     sub_08001538(gUnk_03000360);
     gUnk_03000360 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4C24);
+void sub_080A4C24(void)
+{
+    u8 *entry = gUnk_03000360;
+    if (sub_08000470(entry) == 0 && *(u32 *)(entry + 8) != 0)
+        return;
+    *(u32 *)(entry + 8) = 0x44;
+    *(u32 *)(entry + 0x20) = sub_08001494(0x400);
+    *(u32 *)(entry + 0x10) = *(u32 *)(entry + 0x20) + 0x3FC;
+    *(u32 *)(entry + 0xC) = (u32)sub_080A47A0;
+    *(u32 *)(entry + 0x24) = 0;
+    sub_08000274(entry, 0, 0);
+}
 void sub_080A4C74(u8 arg0, u8 arg1) {
     if (gUnk_030003F1 != 0xFF) {
         gUnk_030003F2 = gUnk_030003F1;

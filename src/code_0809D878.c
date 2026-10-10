@@ -86,7 +86,20 @@ void sub_0809FAEC(void) {
         gUnk_03000328 = 0;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB18);
+void sub_0809FB18(void)
+{
+    u8 *obj = *(u8 **)0x03000328;
+    if (obj == 0) return;
+    if (!sub_08000470((u32)obj) && *(u32 *)(obj + 8) == 0) return;
+    *(u32 *)(obj + 8) = 0x40;
+    u32 mem = sub_08001494(0x400);
+    *(u32 *)(obj + 0x20) = mem;
+    if (mem == 0) return;
+    *(u32 *)(obj + 0x10) = mem + 0x3FC;
+    *(u32 *)(obj + 0xC) = (u32)sub_0809F4A8;
+    *(u32 *)(obj + 0x24) = 0;
+    sub_08000274(obj);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A05B4);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A099C);
