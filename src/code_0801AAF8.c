@@ -4,7 +4,15 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AAF8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB24);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB50);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB90);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801ABE8);
+void sub_0801ABE8(u32 arg0) {
+    int new_var;
+    gUnk_03000026 = 1;
+    gUnk_03000020 = arg0;
+    gUnk_03000022 = 0;
+    sub_08000420(0x64);
+    new_var = 0x21;
+    gUnk_03000028 = (gUnk_03000028 | 0xC) & (-new_var);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AC24);
 s32 sub_0801AC78(void) {
     s32 var_r2;
@@ -95,7 +103,26 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF4C);
 s32 sub_0801DF80(void) {
     return gUnk_030034E0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF8C);
+s32 sub_0801DF8C(void) {
+    u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
+    u32 flags = *(u32 *) (p + 0x30);
+    s32 r4;
+
+    if (!(flags & 0x100000)) {
+        r4 = 0;
+        if (*(u16 *) (p + 0x20) == 0xB) {
+            r4 = 1;
+        } else if (*(s16 *) (p + 0xC4) == 0) {
+            r4 = 1;
+        } else if ((s16) (*(u16 *) (p + 0xC4) - *(u16 *) (p + 0x88)) <= 0) {
+            r4 = 1;
+        } else if (flags & 0x2000) {
+            r4 = 1;
+        }
+        return r4;
+    }
+    return 0;
+}
 void sub_0801DFE8(s32 arg0, void *arg1, void *arg2) {
     struct S32 { u32 w[8]; } *d1 = arg1;
     struct S48 { u32 w[12]; } *d2 = arg2;
@@ -145,7 +172,20 @@ void sub_0801E0BC(void *arg0, u16 arg1) {
     M2C_FIELD(arg0, u16 *, 0xA) = temp_r1;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E0D0);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E104);
+void *sub_0801E104(u8 *arg0) {
+    u8 *p = arg0 + 0x8c;
+    u32 i = 0;
+
+    do {
+        if (*(s16 *) p != -1) {
+            i++;
+            p += 0x28;
+        } else {
+            return p;
+        }
+    } while (i <= 7);
+    return 0;
+}
 s32 sub_0801E12C(s32 arg0, s32 arg1, s32 arg2)
 {
   u32 var_r1;
@@ -213,4 +253,16 @@ s32 sub_0801E1D8(void *arg0, s32 arg1, s32 arg2)
   }
   goto loop_1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E20C);
+void *sub_0801E20C(u8 *arg0, s32 arg1, s32 arg2) {
+    u8 *p = arg0 + 0x8c;
+    u32 i = 0;
+
+    do {
+        if (*(s16 *) p != -1 && *(u16 *) (p + 4) == arg1 && arg2 == *(u16 *) (p + 2)) {
+            return p;
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 7);
+    return 0;
+}
