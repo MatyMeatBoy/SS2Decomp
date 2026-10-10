@@ -89,7 +89,11 @@ void sub_0805A404(s32 arg0) {
     }
     sub_08028AAC(arg0, 0x270F, 0x270F, 0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A43C);
+void sub_0805A43C(u32 value)
+{
+    u8 *base = *(u8 **)0x03005CF4;
+    base[sub_0800CE30() ? 0x1C1 : 0x1B5] = value;
+}
 void sub_0805A474(s32 arg0) {
     sub_08028AAC(arg0, 0x270F, 0x270F, 0);
     if (!(gUnk_030027D0 & 0x20)) {
