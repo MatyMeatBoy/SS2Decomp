@@ -133,7 +133,7 @@ void sub_08009014(void);
 s32 sub_08009034(void *arg0);
 s32 sub_0800903C(s32, s32, s32, s32, s32, s32);
 void sub_0800907C(s32 arg0);
-M2C_UNK sub_08009088(s32, s32, s32, s32);
+void sub_08009088(u8 a, u8 b, u8 c, u8 d);
 u32 sub_0800BA6C(void);
 void sub_0800BA80(u16 i);
 void *sub_0800BAA4(s16 x, s16 y);
