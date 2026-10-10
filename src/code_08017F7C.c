@@ -80,7 +80,13 @@ u32 sub_0801A2F0(u8 *table)
     return table[0];
 }
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A328);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A388);
+void sub_0801A388(u32 index)
+{
+    u8 *entry=*(u8 **)0x030056F4 + index*0x2E0;
+    *(u16 *)(entry+0x7A)|=4;
+    entry[0x27B]=0;
+    entry[0x1FD]=0xFF;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A3D0);
 void sub_0801A500(void)
 {

@@ -274,7 +274,7 @@ s32 sub_08019E30(s32 arg0);
 s32 sub_0801A040(u16 arg0);
 void sub_0801A0A4(void *arg0);
 void sub_0801A0B0(void *arg0);
-s32 sub_0801A388();
+void sub_0801A388(u32);
 void sub_0801A508(void);
 void sub_0801A558(void);
 void sub_0801A628();
