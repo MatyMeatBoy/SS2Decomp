@@ -110,7 +110,14 @@ void sub_0801A0A4(void *arg0) {
 void sub_0801A0B0(void *arg0) {
     M2C_FIELD(arg0, s8 *, 0x1DC) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A0BC);
+void sub_0801A0BC(u16 key, u8 value)
+{
+    u8 *e;
+    u32 f, i;
+    if(!key)return;
+    e=*(u8 **)0x030056F4; f=*(u32 *)0x030056FC;
+    for(i=0;i<=4;i++,e+=0x2E0) if((f&(1<<i))&&*(u16 *)(e+2)==key){e[0x1DC]=value;return;}
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A120);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A1C8);
 s32 sub_0801A270(void) { u32 i; for (i=0;i<=4;i++) if (!(gUnk_030056FC & (1<<i))) return i; return -1; }
