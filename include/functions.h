@@ -595,3 +595,4 @@ void sub_080B63A0(void);
 void sub_08005A24(void);
 void sub_08000274_(void *, u32, u32) __asm__("sub_08000274");
 s32 sub_08013BC0(u8 *arg0);
+s32 sub_0801A638(u8 *p);
