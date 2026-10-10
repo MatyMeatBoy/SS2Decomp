@@ -32,7 +32,23 @@ void sub_0801DDD4(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DDF0);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE18);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE3C);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE60);
+u8 sub_0801DE60(void)
+{
+  u16 temp_r0;
+  temp_r0 = *((u16 *) (((s8 *) gUnk_030034E0) + 0xA));
+  if (temp_r0 != 8)
+  {
+    return (u8) temp_r0;
+  }
+  if (temp_r0)
+  {
+    return 6U;
+  }
+  else
+  {
+    return 6U;
+  }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE78);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DE98);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DEB8);

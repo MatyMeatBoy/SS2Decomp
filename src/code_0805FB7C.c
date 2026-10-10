@@ -48,7 +48,15 @@ s32 sub_08065370(void *arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4) {
 s32 sub_08065394(void *arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4) {
     return sub_08008D38(arg1, arg2, arg3, M2C_FIELD(arg0, s32 *, 8), arg4);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080653B8);
+void sub_080653B8(void *arg0, s16 arg1, s16 arg2, s16 arg3)
+{
+  int new_var;
+  new_var = 0x100;
+  *((s16 *) (((s8 *) arg0) + 0x2C)) = new_var;
+  *((s16 *) (((s8 *) arg0) + 0x30)) = arg1;
+  *((s16 *) (((s8 *) arg0) + 0x32)) = arg2;
+  *((s16 *) (((s8 *) arg0) + 0x2E)) = arg3;
+}
 M2C_UNK *sub_080653CC(void) {
     return &gUnk_03005D80;
 }

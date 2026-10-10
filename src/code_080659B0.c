@@ -1,13 +1,43 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080659B0);
+void sub_080659B0(void *arg0, s16 arg1)
+{
+  s8 *new_var;
+  s8 *new_var2;
+  int new_var3;
+  new_var3 = 0;
+  new_var = (s8 *) arg0;
+  *((s16 *) (new_var + 0x2C)) = arg1;
+ do { new_var2 = new_var + 0x30; } while (0);
+  if (1)
+  {
+    *((s16 *) new_var2) = 0;
+  }
+  *((s16 *) (new_var + 0x32)) = 0;
+  *((s16 *) (new_var + 0x2E)) = new_var3;
+}
 void sub_080659BC(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4, s32 arg5) {
     sub_08007CF0(arg1, arg2, arg3, (u16) arg4, (s32) (u8) arg5, arg0 + 0x1C, M2C_FIELD(arg0, s32 *, 8), M2C_FIELD(arg0, s32 *, 0));
 }
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080659F4);
+void sub_080659F4(s32 *arg0, s32 arg1, s32 arg2, s32 arg3)
+{
+  if (arg1 == arg2)
+  {
+    *arg0 = arg1;
+    if (1)
+    {
+      return;
+    }
+  }
+  *arg0 = (((s32) (arg2 * arg3)) >> 0xA) + (((s32) (arg1 * (0x400 - arg3))) >> 0xA);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A1C);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A90);
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065AE8);
+s32 sub_08065AE8(void)
+{
+  int new_var;
+ do { if (sub_08058DB0() == 0) { return 0; } return 1; } while (0); new_var = 0; do { } while (new_var);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065AFC);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065B58);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065B84);

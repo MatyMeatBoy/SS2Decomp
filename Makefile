@@ -54,6 +54,9 @@ CC1_video := tools/agbcc/bin/old_agbcc
 
 CC1_code_08001A50 := tools/agbcc/bin/old_agbcc
 CC1_code_08009088 := tools/agbcc/bin/old_agbcc
+CC1_code_0801E244 := tools/agbcc/bin/old_agbcc
+CC1_code_0801AAF8 := tools/agbcc/bin/old_agbcc
+CC1_code_08017F7C := tools/agbcc/bin/old_agbcc
 
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)

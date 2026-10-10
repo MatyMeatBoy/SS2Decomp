@@ -22,7 +22,7 @@ for i, (a, name, kind) in enumerate(mods):
     end = mods[i + 1][0] if i + 1 < len(mods) else 0x080B9704
     ok = []
     for cc in ("old_agbcc", "agbcc"):
-        subprocess.run(["rm", "-f", os.path.join(ROOT, "build/src/%s.o" % name)])
+        subprocess.run(["rm", "-f", os.path.join(ROOT, "build/src/%s.o" % name), os.path.join(ROOT, "shiningsoul2_eu.gba"), os.path.join(ROOT, "shiningsoul2_eu.elf")])
         r = subprocess.run(["make", "-s", "-C", ROOT, "CC1_%s=tools/agbcc/bin/%s" % (name, cc)], capture_output=True, text=True)
         try:
             got = open(os.path.join(ROOT, "shiningsoul2_eu.gba"), "rb").read()
@@ -30,6 +30,8 @@ for i, (a, name, kind) in enumerate(mods):
             continue
         if got[a - 0x08000000:end - 0x08000000] == rom[a - 0x08000000:end - 0x08000000]:
             ok.append(cc)
+    subprocess.run(["rm", "-f", os.path.join(ROOT, "build/src/%s.o" % name)])
+    subprocess.run(["make", "-s", "-C", ROOT], capture_output=True)  # rebuild with the default compiler
     res[name] = ok
     print("%-18s %s" % (name, ",".join(ok) or "none"), flush=True)
 if write:

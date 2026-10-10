@@ -19,7 +19,18 @@ void sub_080599C4(s32 arg0) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080599D8);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059A40);
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059A94);
+void sub_08059A94(s32 arg0)
+{
+  s32 temp_r4;
+  temp_r4 = arg0;
+  temp_r4 = temp_r4 - 1;
+  if (sub_0800CE30() != 0)
+  {
+    *((s32 *) (((s8 *) gUnk_03005CF4) + 0x80)) = (s32) ((*((s32 *) (((s8 *) gUnk_03005CF4) + 0x80))) | (1 << temp_r4));
+    return;
+  }
+  *((s32 *) (((s8 *) gUnk_03005CF4) + 0x78)) = (s32) ((*((s32 *) (((s8 *) gUnk_03005CF4) + 0x78))) | (1 << temp_r4));
+}
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059AD0);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059B84);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059C38);
@@ -36,7 +47,10 @@ INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A054);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A088);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A0EC);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A138);
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A194);
+void sub_0805A194(s32 arg0)
+{
+ do { loop_1: sub_08028D98(arg0, 0, -1, 3); sub_08028D98(arg0, 0, 1, 3); goto loop_1; } while (0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A1B4);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A258);
 void sub_0805A2B8(void) {

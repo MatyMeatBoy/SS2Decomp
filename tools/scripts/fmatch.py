@@ -59,7 +59,12 @@ def main():
                       if s["st_info"]["type"] == "STT_FUNC" and s["st_shndx"] != "SHN_UNDEF"]
         cbytes = {n: masked(cand, n) for n in cnames}
         orig = {}
-        for n in decomp.module_functions(args.module):
+        if args.module == "ALL":
+            mods = [l.split()[1] for l in open(os.path.join(decomp.ROOT, "tools/config/modules.cfg")) if l.strip() and not l.startswith("#")]
+        else:
+            mods = [args.module]
+        names = [n for m in mods for n in decomp.module_functions(m)]
+        for n in names:
             o = os.path.join(td, "o_%s.o" % n)
             try:
                 on = decomp.assemble_orig(n, o)

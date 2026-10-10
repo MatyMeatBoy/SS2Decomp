@@ -36,7 +36,8 @@ VALID_SYNTAX = False
 AGBCC = os.environ.get("DECOMP_CC1", AGBCC)
 CC1FLAGS = ["-mthumb-interwork", "-Wimplicit", "-Wparentheses", "-O2", "-fhex-asm"]
 CPPFLAGS = ["-nostdinc", "-I", os.path.join(ROOT, "tools/agbcc/include"),
-            "-iquote", os.environ.get("DECOMP_INC", os.path.join(ROOT, "include")), "-undef"]
+            "-iquote", os.environ.get("DECOMP_INC", os.path.join(ROOT, "include")), "-undef"] + \
+           os.environ.get("DECOMP_CPPFLAGS", "").split()
 
 
 def run(cmd, **kw):
@@ -182,19 +183,21 @@ def compile_c(cfile, out_o, cc1=None, flags=None):
     real_inc = os.environ.get("DECOMP_INC", os.path.join(ROOT, "include"))
     import shutil
     shutil.copytree(real_inc, incdir, dirs_exist_ok=True)
-    fh = open(os.path.join(real_inc, "functions.h")).read().splitlines()
+    fh = open(os.path.join(real_inc, "functions.h")).read().splitlines() if os.path.exists(os.path.join(real_inc, "functions.h")) else []
     keep = []
     for l in fh:
         m = DECL_RE.match(l.strip())
         if m and not l.startswith("#") and (m.group(4) in defined):
             continue
         keep.append(l)
-    open(os.path.join(incdir, "functions.h"), "w").write("\n".join(keep) + "\n")
+    if fh:
+        open(os.path.join(incdir, "functions.h"), "w").write("\n".join(keep) + "\n")
     # same for variables the candidate declares itself
     own = set(n for n, _ in split_decls(open(cfile).read())[0])
-    vh = open(os.path.join(real_inc, "variables.h")).read().splitlines()
+    vh = open(os.path.join(real_inc, "variables.h")).read().splitlines() if os.path.exists(os.path.join(real_inc, "variables.h")) else []
     vh = [l for l in vh if not (DECL_RE.match(l.strip()) and DECL_RE.match(l.strip()).group(2) in own)]
-    open(os.path.join(incdir, "variables.h"), "w").write("\n".join(vh) + "\n")
+    if vh:
+        open(os.path.join(incdir, "variables.h"), "w").write("\n".join(vh) + "\n")
     cppflags = [f if f != real_inc else incdir for f in CPPFLAGS]
     r = run(["arm-none-eabi-cpp"] + cppflags + [cfile, "-o", i])
     if r.returncode:
