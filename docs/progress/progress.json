@@ -1,10 +1,10 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 30240,
+  "bytes_done": 30344,
   "funcs_total": 1870,
-  "funcs_done": 736,
-  "percent": 4.058232414326205
+  "funcs_done": 738,
+  "percent": 4.0721892982908185
  },
  "lib": {
   "bytes_total": 9716,
@@ -15,10 +15,10 @@
  },
  "all": {
   "bytes_total": 754868,
-  "bytes_done": 38724,
+  "bytes_done": 38828,
   "funcs_total": 1973,
-  "funcs_done": 837,
-  "percent": 5.129903506308388
+  "funcs_done": 839,
+  "percent": 5.143680749482028
  },
  "asm": {
   "bytes": 4116,
