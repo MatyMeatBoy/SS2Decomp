@@ -7,6 +7,7 @@
 
 extern struct Player gUnk_03003CE0[];
 // AUTO-VARIABLES (keep this marker, decomp.py appends below it)
+extern u16 gUnk_0847ACE8[];
 extern struct MemBlock gUnk_02000010;
 extern struct MemBlock gUnk_0203FFF0;
 extern u16 gUnk_03000000;
@@ -130,6 +131,7 @@ extern s32 gUnk_03003474;
 extern s32 gUnk_03003478;
 extern s32 gUnk_03003480[];
 extern s32 gUnk_030034A8;
+extern s32 gUnk_030034B0[];
 extern s32 gUnk_030034D8;
 extern s32 gUnk_030034E0;
 extern s32 gUnk_03003C10;
@@ -169,6 +171,7 @@ extern s16 gUnk_080B9704[];
 extern struct LevelEntry gUnk_0847846C[];
 extern u16 gUnk_0847AD0A[];
 extern u32 gUnk_0847AD1C[];
+extern s32 gUnk_0848FF54[];
 extern s32 gUnk_08518938;
 extern M2C_UNK gUnk_08E3FB54;
 extern void sub_0800232C();
@@ -179,3 +182,7 @@ extern M2C_UNK sub_080852AC;
 
 #endif // GUARD_VARIABLES_H
 extern void sub_08002694();
+extern u8 gUnk_03003D18[];
+extern u8 gUnk_03003D38[];
+extern u8 gUnk_0848FA48[];
+extern u8 gUnk_0849E580[];

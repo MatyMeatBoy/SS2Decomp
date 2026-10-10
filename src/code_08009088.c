@@ -1,9 +1,6 @@
 #include "global.h"
 
-void sub_08009088(u8 a, u8 b, u8 c, u8 d)
-{
-    gUnk_03001250[0x3c / 2] = a | (b << 4) | (c << 8) | (d << 12);
-}
+INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009088);
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080090B0);
 
@@ -41,9 +38,51 @@ INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B650);
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B7DC);
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B974);
+void sub_0800B974(u32 a, u32 b) {
+    void *tmp;
+    void *p;
+    u8 *sh;
+    p = (void *) sub_08007290(a);
+    if (a & 0x40000000) {
+        tmp = (char *) p + 4;
+    } else {
+        tmp = 0;
+        tmp = sub_08000BC8((u32 *) ((char *) p + 4), (void **) &tmp);
+    }
+    sh = (u8 *) &gUnk_0300129C;
+    if ((*(volatile u8 *) sh & 0x80) == 0) {
+        sub_08001348(tmp, (void *) (0x06000000 + (b << 11)), 0x800);
+    } else {
+        CpuFastSet(tmp, (void *) (0x06000000 + (b << 11)), 0x200);
+    }
+    if ((a & 0x40000000) == 0) {
+        sub_080003F0();
+        sub_08001538((s32) tmp);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B9F0);
+void sub_0800B9F0(u32 a, u32 b) {
+    void *tmp;
+    void *p;
+    u8 *sh;
+    p = (void *) sub_08007290(a);
+    if (a & 0x40000000) {
+        tmp = (char *) p + 4;
+    } else {
+        tmp = 0;
+        tmp = sub_08000BC8((u32 *) ((char *) p + 4), (void **) &tmp);
+    }
+    sh = (u8 *) &gUnk_0300129C;
+    if ((*(volatile u8 *) sh & 0x80) == 0) {
+        sub_08001348(tmp, (void *) (0x06000000 + (b << 11)), 0x1000);
+    } else {
+        CpuFastSet(tmp, (void *) (0x06000000 + (b << 11)), 0x400);
+    }
+    if ((a & 0x40000000) == 0) {
+        sub_080003F0();
+        sub_08001538((s32) tmp);
+    }
+}
 
 u32 sub_0800BA6C(void)
 {
@@ -167,7 +206,81 @@ void sub_0800BD48(s32 i, u16 v)
     gUnk_03003170.layers[i].s16 = v;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BD5C);
+void sub_0800BD5C(s32 arg) {
+    u32 t;
+    u32 i;
+    u32 buf[3];
+    t = sub_08000464();
+    sub_080020F4();
+    sub_08065CA8();
+    sub_08016114();
+    sub_08057624(5);
+    i = 0;
+    while (i < sub_08002164()) {
+        sub_080135C4((u16) i);
+        i++;
+    }
+    if (arg == 1) {
+        gUnk_03003478 |= 2;
+    } else {
+        gUnk_03003478 &= ~2;
+    }
+    sub_08006E64(1);
+    sub_0805F07C();
+    sub_080090B0();
+    sub_0805B21C();
+    sub_08022630();
+    sub_08021D88();
+    sub_08021C6C();
+    sub_08065B58();
+    sub_080658A0();
+    sub_080922B4();
+    sub_0805F1B0();
+    gUnk_03003474 = 0;
+    sub_080003F0();
+    while (sub_080021A8() == 0 && sub_0800CD00() == 0 && sub_0800CB78() == 0) {
+        sub_080003F0();
+    }
+    sub_08006DAC();
+    while (sub_0801AAE0() == 0) {
+        sub_080003F0();
+    }
+    if (sub_080021A8() != 0) {
+        sub_08061910();
+        sub_08002304();
+        sub_080020E0();
+    }
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_0800CBAC();
+    sub_080161A4();
+    sub_08021DAC();
+    sub_08021C70();
+    sub_08065B84();
+    sub_080658CC();
+    sub_08092344();
+    if (sub_0801AAF8() == 0) {
+        sub_0801ABE8();
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+    sub_08000420(0x000514C8);
+    sub_08000420(0x11201100);
+    sub_0805F07C();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    if (sub_08002228() == 0) {
+        sub_080020E0();
+        sub_080003F0();
+    }
+    while (t < sub_08000464()) {
+        sub_080003F0();
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BEC0);
 
@@ -177,7 +290,14 @@ void sub_0800CB30(void) {
     gUnk_03003478 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800CB3C);
+void sub_0800CB3C(s32 a) {
+    gUnk_030034B0[3] = (s32) sub_0800BD5C;
+    gUnk_030034B0[8] = (s32) sub_08001494(0x400);
+    gUnk_030034B0[4] = gUnk_030034B0[8] + 0x3FC;
+    gUnk_030034B0[2] = 0x64;
+    gUnk_030034B0[9] = 0;
+    sub_08000274(gUnk_030034B0, a);
+}
 
 s32 sub_0800CB78(void) {
     return gUnk_03003478 & 1;
