@@ -130,7 +130,16 @@ INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094EE4);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094F3C);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080953F8);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095518);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080955CC);
+void sub_080955CC(void)
+{
+    gUnk_03000280.w4 = 0;
+    gUnk_03000280.w6 = 0;
+    gUnk_03000280.w8 = 0;
+    gUnk_03000280.wA = 0;
+    gUnk_03000280.b0C = 0;
+    gUnk_03000280.w4 = 0x100;
+    gUnk_03000280.w6 = 0x100;
+}
 void sub_080955EC(u16 a, u16 b)
 {
     gUnk_03000280.w4 = a;
