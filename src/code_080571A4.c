@@ -15,7 +15,16 @@ u32 sub_080571D8(u32 a, u32 b, u32 value)
 }
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057210);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057254);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080572A4);
+void sub_080572A4(void)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u32 i;
+    for (i = 0; i < 10; i++) {
+        base[0x22C + i] = 0;
+        *(u32 *)(base + 0x160 + i * 8) = 0;
+        *(u32 *)(base + 0x164 + i * 8) = 0;
+    }
+}
 void sub_080572E4(void)
 {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) |= 0x100;

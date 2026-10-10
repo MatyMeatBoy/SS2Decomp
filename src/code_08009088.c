@@ -183,7 +183,6 @@ u32 sub_0800BC08(s32 x, s32 y, s16 *out_x, s16 *out_y)
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BC44);
 
-#ifdef NONMATCHING
 u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 {
     u8 *map; u16 *w; s32 ix, iy;
@@ -191,9 +190,6 @@ u32 sub_0800BCA0(s32 x, s32 y, s32 which)
     else { map = (u8 *)gUnk_03003170.map1; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width1; }
     return map[(ix + iy * *w) * 2];
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BCA0);
-#endif
 
 void sub_0800BCDC(s32 a, s32 b, s32 c, u16 d, u16 e) {
     sub_0800B650(a, b + 0x1c, c, d, e);
