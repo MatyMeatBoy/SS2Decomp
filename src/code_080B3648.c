@@ -57,4 +57,10 @@ void sub_080B63A0(void)
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B63BC);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B640C);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6448);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B64A4);
+void sub_080B64A4(void)
+{
+    u8 *base = gUnk_030056F4;
+    u32 i;
+    for (i = 1; i <= 4; i++)
+        *(u16 *)(base + i * 0x60 - 0x20 + 0x7A) |= 1;
+}
