@@ -48,7 +48,15 @@ s32 sub_0805D404(void) {
     } while (var_r2 <= 0x4AU);
     return var_r3;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D434);
+void *sub_0805D434(void)
+{
+    u8 *entry = gUnk_03005D58;
+    u32 i;
+    for (i = 0; i < 16; i++, entry += 0x20)
+        if ((*(u16 *)(entry + 0xA) & 3) == 0)
+            return entry;
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D460);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D498);
 s32 sub_0805D4C4(u16 arg0) {
