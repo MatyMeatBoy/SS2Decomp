@@ -8,17 +8,17 @@
  },
  "lib": {
   "bytes_total": 8872,
-  "bytes_done": 96,
+  "bytes_done": 6468,
   "funcs_total": 82,
-  "funcs_done": 8,
-  "percent": 1.0820559062218214
+  "funcs_done": 78,
+  "percent": 72.90351668169522
  },
  "all": {
   "bytes_total": 754024,
-  "bytes_done": 5520,
+  "bytes_done": 11892,
   "funcs_total": 1952,
-  "funcs_done": 267,
-  "percent": 0.7320721886836493
+  "funcs_done": 337,
+  "percent": 1.5771381282293402
  },
  "asm": {
   "bytes": 4960,

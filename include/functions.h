@@ -319,8 +319,6 @@ void sub_080AF2AC(void);
 s32 sub_080AF304();
 void sub_080B2424(void);
 void sub_080B6360(void);
-u8 sub_080B87C4(u8 *arg0);
-s32 sub_080B882C(u16);
 s32 _call_via_r0();
 s32 _call_via_r1(s32, s32);
 s32 _call_via_r2(s32, s32, s32);

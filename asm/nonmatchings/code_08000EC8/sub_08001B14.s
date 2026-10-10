@@ -28,5 +28,5 @@ _08001B48:
 	pop {r1}
 	bx r1
 	.2byte 0x0000
-_08001B50: .4byte gUnk_030076DC
+_08001B50: .4byte ProgramFlashSector
 	thumb_func_end sub_08001B14

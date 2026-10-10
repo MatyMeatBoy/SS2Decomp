@@ -65,8 +65,8 @@ gMPlayTable:
 	.global gSongTable
 gSongTable:
 	.incbin "baserom.gba", 0xBC60C, 0x2AA454
-	.global gUnk_08366A60
-gUnk_08366A60:
+	.global gSetup512KInfos
+gSetup512KInfos:
 	.incbin "baserom.gba", 0x366A60, 0x160
 	.global gUnk_08366BC0
 gUnk_08366BC0:

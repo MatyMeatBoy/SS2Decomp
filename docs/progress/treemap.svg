@@ -2066,87 +2066,87 @@
 <rect x="813.62" y="515.42" width="3.38" height="1.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800CBEC  0x0800CBEC  12 bytes  [done]</title></rect>
 </g>
 <rect x="820.0" y="0" width="178.0" height="26" fill="#161b22"/>
-<text x="826.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">SDK libs: 1.08% (8/82)</text>
+<text x="826.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">SDK libs: 72.90% (78/82)</text>
 <g><title>m4a (5284 bytes)</title>
 <rect x="820.00" y="28.00" width="178.00" height="201.59" fill="#0d1117"/>
-<rect x="821.00" y="29.00" width="111.22" height="65.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7C3C  0x080B7C3C  1092 bytes  [todo]</title></rect>
-<rect x="932.22" y="29.00" width="35.04" height="65.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B82F4  0x080B82F4  344 bytes  [todo]</title></rect>
-<rect x="967.26" y="29.00" width="29.74" height="65.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B73F8  0x080B73F8  292 bytes  [todo]</title></rect>
-<rect x="821.00" y="94.27" width="37.02" height="35.91" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7548  0x080B7548  200 bytes  [todo]</title></rect>
-<rect x="821.00" y="130.18" width="37.02" height="35.91" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7A14  0x080B7A14  200 bytes  [todo]</title></rect>
-<rect x="821.00" y="166.10" width="37.02" height="32.32" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B78A0  0x080B78A0  180 bytes  [todo]</title></rect>
-<rect x="821.00" y="198.42" width="37.02" height="30.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7ADC  0x080B7ADC  168 bytes  [todo]</title></rect>
-<rect x="858.02" y="94.27" width="28.90" height="37.72" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7610  0x080B7610  164 bytes  [todo]</title></rect>
-<rect x="858.02" y="131.99" width="28.90" height="34.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B76B4  0x080B76B4  152 bytes  [todo]</title></rect>
-<rect x="858.02" y="166.95" width="28.90" height="32.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7170  0x080B7170  140 bytes  [todo]</title></rect>
-<rect x="858.02" y="199.15" width="28.90" height="29.44" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7994  0x080B7994  128 bytes  [todo]</title></rect>
-<rect x="886.93" y="94.27" width="28.22" height="28.26" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7828  0x080B7828  120 bytes  [todo]</title></rect>
-<rect x="915.15" y="94.27" width="27.28" height="28.26" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8110  0x080B8110  116 bytes  [todo]</title></rect>
-<rect x="942.43" y="94.27" width="27.28" height="28.26" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B820C  0x080B820C  116 bytes  [todo]</title></rect>
-<rect x="969.72" y="94.27" width="27.28" height="28.26" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8280  0x080B8280  116 bytes  [todo]</title></rect>
-<rect x="886.93" y="122.53" width="25.83" height="26.77" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7BD4  0x080B7BD4  104 bytes  [todo]</title></rect>
-<rect x="886.93" y="149.30" width="25.83" height="26.77" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B80A8  0x080B80A8  104 bytes  [todo]</title></rect>
-<rect x="886.93" y="176.07" width="25.83" height="26.77" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8184  0x080B8184  104 bytes  [todo]</title></rect>
-<rect x="886.93" y="202.84" width="25.83" height="25.74" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B70CC  0x080B70CC  100 bytes  [todo]</title></rect>
-<rect x="912.75" y="122.53" width="21.84" height="25.57" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7280  0x080B7280  84 bytes  [todo]</title></rect>
-<rect x="934.59" y="122.53" width="21.84" height="25.57" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B774C  0x080B774C  84 bytes  [todo]</title></rect>
-<rect x="956.44" y="122.53" width="20.80" height="25.57" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7B84  0x080B7B84  80 bytes  [todo]</title></rect>
-<rect x="977.24" y="122.53" width="19.76" height="25.57" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7234  0x080B7234  76 bytes  [todo]</title></rect>
-<rect x="912.75" y="148.10" width="23.46" height="21.54" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B77A0  0x080B77A0  76 bytes  [todo]</title></rect>
-<rect x="912.75" y="169.64" width="23.46" height="20.40" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B73B0  0x080B73B0  72 bytes  [todo]</title></rect>
-<rect x="912.75" y="190.04" width="23.46" height="20.40" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8480  0x080B8480  72 bytes  [todo]</title></rect>
-<rect x="912.75" y="210.45" width="23.46" height="18.14" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7954  0x080B7954  64 bytes  [todo]</title></rect>
-<rect x="936.21" y="148.10" width="22.24" height="17.93" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B77EC  0x080B77EC  60 bytes  [todo]</title></rect>
-<rect x="958.45" y="148.10" width="19.28" height="17.93" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B72D4  0x080B72D4  52 bytes  [todo]</title></rect>
-<rect x="977.72" y="148.10" width="19.28" height="17.93" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7308  0x080B7308  52 bytes  [todo]</title></rect>
-<rect x="936.21" y="166.03" width="15.55" height="18.81" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7208  0x080B7208  44 bytes  [todo]</title></rect>
-<rect x="951.76" y="166.03" width="15.55" height="18.81" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B733C  0x080B733C  44 bytes  [todo]</title></rect>
-<rect x="967.31" y="166.03" width="15.55" height="18.81" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7374  0x080B7374  44 bytes  [todo]</title></rect>
-<rect x="982.86" y="166.03" width="14.14" height="18.81" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8080  0x080B8080  40 bytes  [todo]</title></rect>
-<rect x="936.21" y="184.84" width="14.59" height="14.58" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7150  0x080B7150  32 bytes  [todo]</title></rect>
-<rect x="936.21" y="199.42" width="14.59" height="14.58" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B81EC  0x080B81EC  32 bytes  [todo]</title></rect>
-<rect x="936.21" y="214.00" width="14.59" height="14.58" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B844C  0x080B844C  32 bytes  [todo]</title></rect>
-<rect x="950.80" y="184.84" width="13.37" height="13.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B7134  0x080B7134  28 bytes  [todo]</title></rect>
-<rect x="950.80" y="198.76" width="13.37" height="9.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B7520  0x080B7520  20 bytes  [done]</title></rect>
-<rect x="950.80" y="208.70" width="13.37" height="9.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B7534  0x080B7534  20 bytes  [done]</title></rect>
-<rect x="950.80" y="218.64" width="13.37" height="9.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B846C  0x080B846C  20 bytes  [done]</title></rect>
-<rect x="964.17" y="184.84" width="10.94" height="12.15" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B84C8  0x080B84C8  20 bytes  [todo]</title></rect>
-<rect x="975.12" y="184.84" width="10.94" height="12.15" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B84DC  0x080B84DC  20 bytes  [todo]</title></rect>
-<rect x="986.06" y="184.84" width="10.94" height="12.15" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B84F0  0x080B84F0  20 bytes  [todo]</title></rect>
-<rect x="964.17" y="196.99" width="12.63" height="10.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8504  0x080B8504  20 bytes  [todo]</title></rect>
-<rect x="964.17" y="207.52" width="12.63" height="10.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8518  0x080B8518  20 bytes  [todo]</title></rect>
-<rect x="964.17" y="218.05" width="12.63" height="10.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8544  0x080B8544  20 bytes  [todo]</title></rect>
-<rect x="976.80" y="196.99" width="11.22" height="11.85" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8558  0x080B8558  20 bytes  [todo]</title></rect>
-<rect x="988.02" y="196.99" width="8.98" height="11.85" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B73A0  0x080B73A0  16 bytes  [todo]</title></rect>
-<rect x="976.80" y="208.84" width="8.08" height="9.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B71FC  0x080B71FC  12 bytes  [done]</title></rect>
-<rect x="976.80" y="218.71" width="8.08" height="9.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B7368  0x080B7368  12 bytes  [done]</title></rect>
-<rect x="984.88" y="208.84" width="12.12" height="6.58" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B852C  0x080B852C  12 bytes  [todo]</title></rect>
-<rect x="984.88" y="215.42" width="12.12" height="6.58" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8538  0x080B8538  12 bytes  [todo]</title></rect>
-<rect x="984.88" y="222.00" width="4.04" height="6.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B7130  0x080B7130  4 bytes  [done]</title></rect>
-<rect x="988.92" y="222.00" width="4.04" height="6.58" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B751C  0x080B751C  4 bytes  [todo]</title></rect>
-<rect x="992.96" y="222.00" width="4.04" height="6.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B856C  0x080B856C  4 bytes  [done]</title></rect>
+<rect x="821.00" y="29.00" width="111.22" height="65.27" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>CgbSound  0x080B7C3C  1092 bytes  [nonmatch]</title></rect>
+<rect x="932.22" y="29.00" width="35.04" height="65.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_memacc  0x080B82F4  344 bytes  [done]</title></rect>
+<rect x="967.26" y="29.00" width="29.74" height="65.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MPlayExtender  0x080B73F8  292 bytes  [done]</title></rect>
+<rect x="821.00" y="94.27" width="37.02" height="35.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundInit  0x080B7548  200 bytes  [done]</title></rect>
+<rect x="821.00" y="130.18" width="37.02" height="35.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TrkVolPitSet  0x080B7A14  200 bytes  [done]</title></rect>
+<rect x="821.00" y="166.10" width="37.02" height="32.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MPlayStart  0x080B78A0  180 bytes  [done]</title></rect>
+<rect x="821.00" y="198.42" width="37.02" height="30.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MidiKeyToCgbFreq  0x080B7ADC  168 bytes  [done]</title></rect>
+<rect x="858.02" y="94.27" width="28.90" height="37.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SampleFreqSet  0x080B7610  164 bytes  [done]</title></rect>
+<rect x="858.02" y="131.99" width="28.90" height="34.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSoundMode  0x080B76B4  152 bytes  [done]</title></rect>
+<rect x="858.02" y="166.95" width="28.90" height="32.20" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>m4aSoundInit  0x080B7170  140 bytes  [nonmatch]</title></rect>
+<rect x="858.02" y="199.15" width="28.90" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FadeOutBody  0x080B7994  128 bytes  [done]</title></rect>
+<rect x="886.93" y="94.27" width="28.22" height="28.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MPlayOpen  0x080B7828  120 bytes  [done]</title></rect>
+<rect x="915.15" y="94.27" width="27.28" height="28.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayPitchControl  0x080B8110  116 bytes  [done]</title></rect>
+<rect x="942.43" y="94.27" width="27.28" height="28.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayModDepthSet  0x080B820C  116 bytes  [done]</title></rect>
+<rect x="969.72" y="94.27" width="27.28" height="28.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayLFOSpeedSet  0x080B8280  116 bytes  [done]</title></rect>
+<rect x="886.93" y="122.53" width="25.83" height="26.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CgbModVol  0x080B7BD4  104 bytes  [done]</title></rect>
+<rect x="886.93" y="149.30" width="25.83" height="26.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayVolumeControl  0x080B80A8  104 bytes  [done]</title></rect>
+<rect x="886.93" y="176.07" width="25.83" height="26.77" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayPanpotControl  0x080B8184  104 bytes  [done]</title></rect>
+<rect x="886.93" y="202.84" width="25.83" height="25.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MidiKeyToFreq  0x080B70CC  100 bytes  [done]</title></rect>
+<rect x="912.75" y="122.53" width="21.84" height="25.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSongNumStartOrContinue  0x080B7280  84 bytes  [done]</title></rect>
+<rect x="934.59" y="122.53" width="21.84" height="25.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundClear  0x080B774C  84 bytes  [done]</title></rect>
+<rect x="956.44" y="122.53" width="20.80" height="25.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CgbOscOff  0x080B7B84  80 bytes  [done]</title></rect>
+<rect x="977.24" y="122.53" width="19.76" height="25.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSongNumStartOrChange  0x080B7234  76 bytes  [done]</title></rect>
+<rect x="912.75" y="148.10" width="23.46" height="21.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSoundVSyncOff  0x080B77A0  76 bytes  [done]</title></rect>
+<rect x="912.75" y="169.64" width="23.46" height="20.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayImmInit  0x080B73B0  72 bytes  [done]</title></rect>
+<rect x="912.75" y="190.04" width="23.46" height="20.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xwave  0x080B8480  72 bytes  [done]</title></rect>
+<rect x="912.75" y="210.45" width="23.46" height="18.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayStop  0x080B7954  64 bytes  [done]</title></rect>
+<rect x="936.21" y="148.10" width="22.24" height="17.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSoundVSyncOn  0x080B77EC  60 bytes  [done]</title></rect>
+<rect x="958.45" y="148.10" width="19.28" height="17.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSongNumStop  0x080B72D4  52 bytes  [done]</title></rect>
+<rect x="977.72" y="148.10" width="19.28" height="17.93" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSongNumContinue  0x080B7308  52 bytes  [done]</title></rect>
+<rect x="936.21" y="166.03" width="15.55" height="18.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSongNumStart  0x080B7208  44 bytes  [done]</title></rect>
+<rect x="951.76" y="166.03" width="15.55" height="18.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayAllStop  0x080B733C  44 bytes  [done]</title></rect>
+<rect x="967.31" y="166.03" width="15.55" height="18.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayAllContinue  0x080B7374  44 bytes  [done]</title></rect>
+<rect x="982.86" y="166.03" width="14.14" height="18.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayTempoControl  0x080B8080  40 bytes  [done]</title></rect>
+<rect x="936.21" y="184.84" width="14.59" height="14.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MPlayFadeOut  0x080B7150  32 bytes  [done]</title></rect>
+<rect x="936.21" y="199.42" width="14.59" height="14.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearModM  0x080B81EC  32 bytes  [done]</title></rect>
+<rect x="936.21" y="214.00" width="14.59" height="14.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xcmd  0x080B844C  32 bytes  [done]</title></rect>
+<rect x="950.80" y="184.84" width="13.37" height="13.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MPlayContinue  0x080B7134  28 bytes  [done]</title></rect>
+<rect x="950.80" y="198.76" width="13.37" height="9.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ClearChain  0x080B7520  20 bytes  [done]</title></rect>
+<rect x="950.80" y="208.70" width="13.37" height="9.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>Clear64byte  0x080B7534  20 bytes  [done]</title></rect>
+<rect x="950.80" y="218.64" width="13.37" height="9.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xxx  0x080B846C  20 bytes  [done]</title></rect>
+<rect x="964.17" y="184.84" width="10.94" height="12.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xtype  0x080B84C8  20 bytes  [done]</title></rect>
+<rect x="975.12" y="184.84" width="10.94" height="12.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xatta  0x080B84DC  20 bytes  [done]</title></rect>
+<rect x="986.06" y="184.84" width="10.94" height="12.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xdeca  0x080B84F0  20 bytes  [done]</title></rect>
+<rect x="964.17" y="196.99" width="12.63" height="10.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xsust  0x080B8504  20 bytes  [done]</title></rect>
+<rect x="964.17" y="207.52" width="12.63" height="10.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xrele  0x080B8518  20 bytes  [done]</title></rect>
+<rect x="964.17" y="218.05" width="12.63" height="10.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xleng  0x080B8544  20 bytes  [done]</title></rect>
+<rect x="976.80" y="196.99" width="11.22" height="11.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xswee  0x080B8558  20 bytes  [done]</title></rect>
+<rect x="988.02" y="196.99" width="8.98" height="11.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayFadeOut  0x080B73A0  16 bytes  [done]</title></rect>
+<rect x="976.80" y="208.84" width="8.08" height="9.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aSoundMain  0x080B71FC  12 bytes  [done]</title></rect>
+<rect x="976.80" y="218.71" width="8.08" height="9.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>m4aMPlayContinue  0x080B7368  12 bytes  [done]</title></rect>
+<rect x="984.88" y="208.84" width="12.12" height="6.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xiecv  0x080B852C  12 bytes  [done]</title></rect>
+<rect x="984.88" y="215.42" width="12.12" height="6.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_xiecl  0x080B8538  12 bytes  [done]</title></rect>
+<rect x="984.88" y="222.00" width="4.04" height="6.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>UnusedDummyFunc  0x080B7130  4 bytes  [done]</title></rect>
+<rect x="988.92" y="222.00" width="4.04" height="6.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MusicPlayerJumpTableCopy  0x080B751C  4 bytes  [done]</title></rect>
+<rect x="992.96" y="222.00" width="4.04" height="6.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DummyFunc  0x080B856C  4 bytes  [done]</title></rect>
 <rect x="821.0" y="29.0" width="22.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="824.0" y="39.0" fill="#e6edf3" font-size="10">m4a</text>
 </g>
 <g><title>m4a_1 (3060 bytes)</title>
 <rect x="820.00" y="229.59" width="178.00" height="116.74" fill="#0d1117"/>
-<rect x="821.00" y="230.59" width="88.35" height="69.62" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B656C  0x080B656C  932 bytes  [asm]</title></rect>
-<rect x="821.00" y="300.21" width="88.35" height="45.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6B74  0x080B6B74  604 bytes  [asm]</title></rect>
-<rect x="909.35" y="230.59" width="87.65" height="40.35" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6E24  0x080B6E24  536 bytes  [asm]</title></rect>
-<rect x="909.35" y="270.94" width="23.78" height="36.64" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B64E8  0x080B64E8  132 bytes  [asm]</title></rect>
+<rect x="821.00" y="230.59" width="88.35" height="69.62" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>SoundMainRAM  0x080B656C  932 bytes  [asm]</title></rect>
+<rect x="821.00" y="300.21" width="88.35" height="45.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>MPlayMain  0x080B6B74  604 bytes  [asm]</title></rect>
+<rect x="909.35" y="230.59" width="87.65" height="40.35" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ply_note  0x080B6E24  536 bytes  [asm]</title></rect>
+<rect x="909.35" y="270.94" width="23.78" height="36.64" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>SoundMain  0x080B64E8  132 bytes  [asm]</title></rect>
 <rect x="909.35" y="307.58" width="23.78" height="18.87" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B69F4  0x080B69F4  68 bytes  [asm]</title></rect>
-<rect x="909.35" y="326.45" width="23.78" height="18.87" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6DE0  0x080B6DE0  68 bytes  [asm]</title></rect>
-<rect x="933.12" y="270.94" width="24.33" height="17.36" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B703C  0x080B703C  64 bytes  [asm]</title></rect>
-<rect x="957.46" y="270.94" width="21.29" height="17.36" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6B3C  0x080B6B3C  56 bytes  [asm]</title></rect>
-<rect x="978.75" y="270.94" width="18.25" height="17.36" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6948  0x080B6948  48 bytes  [asm]</title></rect>
+<rect x="909.35" y="326.45" width="23.78" height="18.87" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>TrackStop  0x080B6DE0  68 bytes  [asm]</title></rect>
+<rect x="933.12" y="270.94" width="24.33" height="17.36" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ply_endtie  0x080B703C  64 bytes  [asm]</title></rect>
+<rect x="957.46" y="270.94" width="21.29" height="17.36" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>m4aSoundVSync  0x080B6B3C  56 bytes  [asm]</title></rect>
+<rect x="978.75" y="270.94" width="18.25" height="17.36" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ply_fine  0x080B6948  48 bytes  [asm]</title></rect>
 <rect x="933.12" y="288.30" width="16.20" height="19.55" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6A6C  0x080B6A6C  48 bytes  [asm]</title></rect>
-<rect x="933.12" y="307.85" width="16.20" height="13.04" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6928  0x080B6928  32 bytes  [asm]</title></rect>
+<rect x="933.12" y="307.85" width="16.20" height="13.04" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>RealClearChain  0x080B6928  32 bytes  [asm]</title></rect>
 <rect x="933.12" y="320.88" width="16.20" height="13.04" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B69B8  0x080B69B8  32 bytes  [asm]</title></rect>
 <rect x="933.12" y="333.92" width="16.20" height="11.41" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B69D8  0x080B69D8  28 bytes  [asm]</title></rect>
-<rect x="949.32" y="288.30" width="13.09" height="14.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B707C  0x080B707C  28 bytes  [asm]</title></rect>
+<rect x="949.32" y="288.30" width="13.09" height="14.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>clear_modM  0x080B707C  28 bytes  [asm]</title></rect>
 <rect x="962.41" y="288.30" width="12.15" height="14.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6992  0x080B6992  26 bytes  [asm]</title></rect>
-<rect x="974.56" y="288.30" width="11.22" height="14.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6910  0x080B6910  24 bytes  [asm]</title></rect>
-<rect x="985.78" y="288.30" width="11.22" height="14.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6978  0x080B6978  24 bytes  [asm]</title></rect>
+<rect x="974.56" y="288.30" width="11.22" height="14.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>SoundMainBTM  0x080B6910  24 bytes  [asm]</title></rect>
+<rect x="985.78" y="288.30" width="11.22" height="14.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>MPlayJumpTableCopy  0x080B6978  24 bytes  [asm]</title></rect>
 <rect x="949.32" y="302.41" width="13.53" height="11.70" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6AF8  0x080B6AF8  24 bytes  [asm]</title></rect>
 <rect x="949.32" y="314.12" width="13.53" height="11.70" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6B24  0x080B6B24  24 bytes  [asm]</title></rect>
 <rect x="949.32" y="325.82" width="13.53" height="9.75" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6A44  0x080B6A44  20 bytes  [asm]</title></rect>
@@ -2156,13 +2156,13 @@
 <rect x="985.62" y="302.41" width="11.38" height="11.60" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6AC4  0x080B6AC4  20 bytes  [asm]</title></rect>
 <rect x="962.86" y="314.01" width="12.65" height="10.44" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6AD8  0x080B6AD8  20 bytes  [asm]</title></rect>
 <rect x="962.86" y="324.45" width="12.65" height="10.44" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6B10  0x080B6B10  20 bytes  [asm]</title></rect>
-<rect x="962.86" y="334.89" width="12.65" height="10.44" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B70A4  0x080B70A4  20 bytes  [asm]</title></rect>
-<rect x="975.50" y="314.01" width="11.94" height="11.05" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B70B8  0x080B70B8  20 bytes  [asm]</title></rect>
-<rect x="987.45" y="314.01" width="9.55" height="11.05" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B64D8  0x080B64D8  16 bytes  [asm]</title></rect>
+<rect x="962.86" y="334.89" width="12.65" height="10.44" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ply_lfos  0x080B70A4  20 bytes  [asm]</title></rect>
+<rect x="975.50" y="314.01" width="11.94" height="11.05" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ply_mod  0x080B70B8  20 bytes  [asm]</title></rect>
+<rect x="987.45" y="314.01" width="9.55" height="11.05" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>umul3232H32  0x080B64D8  16 bytes  [asm]</title></rect>
 <rect x="975.50" y="325.06" width="9.12" height="11.58" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6DD0  0x080B6DD0  16 bytes  [asm]</title></rect>
 <rect x="975.50" y="336.64" width="9.12" height="8.68" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6A38  0x080B6A38  12 bytes  [asm]</title></rect>
 <rect x="984.62" y="325.06" width="12.38" height="6.40" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6AEC  0x080B6AEC  12 bytes  [asm]</title></rect>
-<rect x="984.62" y="331.46" width="12.38" height="6.40" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B7098  0x080B7098  12 bytes  [asm]</title></rect>
+<rect x="984.62" y="331.46" width="12.38" height="6.40" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ld_r3_tp_adr_i  0x080B7098  12 bytes  [asm]</title></rect>
 <rect x="984.62" y="337.86" width="8.84" height="7.46" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B69AE  0x080B69AE  10 bytes  [asm]</title></rect>
 <rect x="993.46" y="337.86" width="3.54" height="3.73" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B6990  0x080B6990  2 bytes  [asm]</title></rect>
 <rect x="993.46" y="341.59" width="3.54" height="3.73" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B69AC  0x080B69AC  2 bytes  [asm]</title></rect>
@@ -2171,84 +2171,84 @@
 </g>
 <g><title>agb_flash (2416 bytes)</title>
 <rect x="820.00" y="346.32" width="95.57" height="171.68" fill="#0d1117"/>
-<rect x="821.00" y="347.32" width="43.23" height="44.39" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8D18  0x080B8D18  292 bytes  [todo]</title></rect>
-<rect x="864.23" y="347.32" width="25.46" height="44.39" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8E78  0x080B8E78  172 bytes  [todo]</title></rect>
-<rect x="889.69" y="347.32" width="24.87" height="44.39" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B86D8  0x080B86D8  168 bytes  [todo]</title></rect>
-<rect x="821.00" y="391.71" width="31.19" height="32.87" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B85D8  0x080B85D8  156 bytes  [todo]</title></rect>
-<rect x="852.19" y="391.71" width="31.19" height="32.87" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B882C  0x080B882C  156 bytes  [todo]</title></rect>
-<rect x="883.38" y="391.71" width="31.19" height="32.87" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8C44  0x080B8C44  156 bytes  [todo]</title></rect>
-<rect x="821.00" y="424.58" width="32.14" height="31.08" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B88F8  0x080B88F8  152 bytes  [todo]</title></rect>
-<rect x="821.00" y="455.66" width="32.14" height="31.08" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8990  0x080B8990  152 bytes  [todo]</title></rect>
-<rect x="821.00" y="486.74" width="32.14" height="30.26" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8AB4  0x080B8AB4  148 bytes  [todo]</title></rect>
-<rect x="853.14" y="424.58" width="33.15" height="26.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8B48  0x080B8B48  136 bytes  [todo]</title></rect>
-<rect x="886.29" y="424.58" width="28.28" height="26.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8BD0  0x080B8BD0  116 bytes  [todo]</title></rect>
-<rect x="853.14" y="451.53" width="21.26" height="22.25" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8A6C  0x080B8A6C  72 bytes  [todo]</title></rect>
-<rect x="874.40" y="451.53" width="20.08" height="22.25" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8780  0x080B8780  68 bytes  [todo]</title></rect>
-<rect x="894.48" y="451.53" width="20.08" height="22.25" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8A28  0x080B8A28  68 bytes  [todo]</title></rect>
-<rect x="853.14" y="473.78" width="18.85" height="22.31" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B87C8  0x080B87C8  64 bytes  [todo]</title></rect>
-<rect x="853.14" y="496.09" width="18.85" height="20.91" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B869C  0x080B869C  60 bytes  [todo]</title></rect>
-<rect x="871.99" y="473.78" width="22.92" height="16.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8CE0  0x080B8CE0  56 bytes  [todo]</title></rect>
-<rect x="894.92" y="473.78" width="19.65" height="16.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B88C8  0x080B88C8  48 bytes  [todo]</title></rect>
-<rect x="871.99" y="489.84" width="18.38" height="14.30" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8674  0x080B8674  40 bytes  [todo]</title></rect>
-<rect x="871.99" y="504.13" width="18.38" height="12.87" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B85B4  0x080B85B4  36 bytes  [todo]</title></rect>
-<rect x="890.38" y="489.84" width="12.10" height="19.56" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8808  0x080B8808  36 bytes  [todo]</title></rect>
-<rect x="902.47" y="489.84" width="12.10" height="19.56" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8E3C  0x080B8E3C  36 bytes  [todo]</title></rect>
-<rect x="890.38" y="509.39" width="20.73" height="7.61" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8E60  0x080B8E60  24 bytes  [todo]</title></rect>
-<rect x="911.11" y="509.39" width="3.46" height="7.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B87C4  0x080B87C4  4 bytes  [done]</title></rect>
+<rect x="821.00" y="347.32" width="43.23" height="44.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProgramFlashSector_LE  0x080B8D18  292 bytes  [done]</title></rect>
+<rect x="864.23" y="347.32" width="25.46" height="44.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProgramFlashSector_MX  0x080B8E78  172 bytes  [done]</title></rect>
+<rect x="889.69" y="347.32" width="24.87" height="44.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartFlashTimer  0x080B86D8  168 bytes  [done]</title></rect>
+<rect x="821.00" y="391.71" width="31.19" height="32.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReadFlashId  0x080B85D8  156 bytes  [done]</title></rect>
+<rect x="852.19" y="391.71" width="31.19" height="32.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReadFlash  0x080B882C  156 bytes  [done]</title></rect>
+<rect x="883.38" y="391.71" width="31.19" height="32.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EraseFlashSector_LE  0x080B8C44  156 bytes  [done]</title></rect>
+<rect x="821.00" y="424.58" width="32.14" height="31.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>VerifyFlashSector  0x080B88F8  152 bytes  [done]</title></rect>
+<rect x="821.00" y="455.66" width="32.14" height="31.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>VerifyFlashSectorNBytes  0x080B8990  152 bytes  [done]</title></rect>
+<rect x="821.00" y="486.74" width="32.14" height="30.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IdentifyFlash  0x080B8AB4  148 bytes  [done]</title></rect>
+<rect x="853.14" y="424.58" width="33.15" height="26.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>WaitForFlashWrite512K_Common  0x080B8B48  136 bytes  [done]</title></rect>
+<rect x="886.29" y="424.58" width="28.28" height="26.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EraseFlashChip_LE  0x080B8BD0  116 bytes  [done]</title></rect>
+<rect x="853.14" y="451.53" width="21.26" height="22.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProgramFlashSectorAndVerifyNBytes  0x080B8A6C  72 bytes  [done]</title></rect>
+<rect x="874.40" y="451.53" width="20.08" height="22.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StopFlashTimer  0x080B8780  68 bytes  [done]</title></rect>
+<rect x="894.48" y="451.53" width="20.08" height="22.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProgramFlashSectorAndVerify  0x080B8A28  68 bytes  [done]</title></rect>
+<rect x="853.14" y="473.78" width="18.85" height="22.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetReadFlash1  0x080B87C8  64 bytes  [done]</title></rect>
+<rect x="853.14" y="496.09" width="18.85" height="20.91" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SetFlashTimerIntr  0x080B869C  60 bytes  [done]</title></rect>
+<rect x="871.99" y="473.78" width="22.92" height="16.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ProgramByte  0x080B8CE0  56 bytes  [done]</title></rect>
+<rect x="894.92" y="473.78" width="19.65" height="16.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>VerifyFlashSector_Core  0x080B88C8  48 bytes  [done]</title></rect>
+<rect x="871.99" y="489.84" width="18.38" height="14.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FlashTimerIntr  0x080B8674  40 bytes  [done]</title></rect>
+<rect x="871.99" y="504.13" width="18.38" height="12.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SwitchFlashBank  0x080B85B4  36 bytes  [done]</title></rect>
+<rect x="890.38" y="489.84" width="12.10" height="19.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReadFlash_Core  0x080B8808  36 bytes  [done]</title></rect>
+<rect x="902.47" y="489.84" width="12.10" height="19.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>VerifyEraseSector_Core  0x080B8E3C  36 bytes  [done]</title></rect>
+<rect x="890.38" y="509.39" width="20.73" height="7.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>VerifyEraseSector  0x080B8E60  24 bytes  [done]</title></rect>
+<rect x="911.11" y="509.39" width="3.46" height="7.61" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ReadFlash1  0x080B87C4  4 bytes  [done]</title></rect>
 <rect x="821.0" y="347.3" width="56.4" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="824.0" y="357.3" fill="#e6edf3" font-size="10">agb_flash</text>
 </g>
 <g><title>libgcc2 (1076 bytes)</title>
 <rect x="915.57" y="346.32" width="82.43" height="88.64" fill="#0d1117"/>
-<rect x="916.57" y="347.32" width="80.43" height="86.64" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B8F60  0x080B8F60  1076 bytes  [todo]</title></rect>
+<rect x="916.57" y="347.32" width="80.43" height="86.64" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>__divdi3  0x080B8F60  1076 bytes  [todo]</title></rect>
 <rect x="916.6" y="347.3" width="45.2" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="919.6" y="357.3" fill="#e6edf3" font-size="10">libgcc2</text>
 </g>
 <g><title>libgcc_div (784 bytes)</title>
 <rect x="915.57" y="434.96" width="82.43" height="64.58" fill="#0d1117"/>
-<rect x="916.57" y="435.96" width="41.04" height="32.54" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B942C  0x080B942C  208 bytes  [asm]</title></rect>
-<rect x="916.57" y="468.51" width="41.04" height="30.04" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B95E4  0x080B95E4  192 bytes  [asm]</title></rect>
-<rect x="957.60" y="435.96" width="39.40" height="24.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B9394  0x080B9394  148 bytes  [asm]</title></rect>
-<rect x="957.60" y="460.08" width="20.03" height="38.46" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B956C  0x080B956C  120 bytes  [asm]</title></rect>
-<rect x="977.64" y="460.08" width="19.36" height="37.14" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B94FC  0x080B94FC  112 bytes  [asm]</title></rect>
-<rect x="977.64" y="497.22" width="19.36" height="1.33" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B9428  0x080B9428  4 bytes  [asm]</title></rect>
+<rect x="916.57" y="435.96" width="41.04" height="32.54" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>__modsi3  0x080B942C  208 bytes  [asm]</title></rect>
+<rect x="916.57" y="468.51" width="41.04" height="30.04" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>__umodsi3  0x080B95E4  192 bytes  [asm]</title></rect>
+<rect x="957.60" y="435.96" width="39.40" height="24.12" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>__divsi3  0x080B9394  148 bytes  [asm]</title></rect>
+<rect x="957.60" y="460.08" width="20.03" height="38.46" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>__udivsi3  0x080B956C  120 bytes  [asm]</title></rect>
+<rect x="977.64" y="460.08" width="19.36" height="37.14" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>__muldi3  0x080B94FC  112 bytes  [asm]</title></rect>
+<rect x="977.64" y="497.22" width="19.36" height="1.33" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>__div0  0x080B9428  4 bytes  [asm]</title></rect>
 <rect x="916.6" y="436.0" width="62.0" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="919.6" y="446.0" fill="#e6edf3" font-size="10">libgcc_div</text>
 </g>
 <g><title>libc (96 bytes)</title>
 <rect x="915.57" y="499.55" width="35.33" height="18.45" fill="#0d1117"/>
-<rect x="916.57" y="500.55" width="33.33" height="16.45" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080B96A4  0x080B96A4  96 bytes  [todo]</title></rect>
+<rect x="916.57" y="500.55" width="33.33" height="16.45" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>memcpy  0x080B96A4  96 bytes  [todo]</title></rect>
 </g>
 <g><title>libagbsyscall (68 bytes)</title>
 <rect x="950.89" y="499.55" width="25.02" height="18.45" fill="#0d1117"/>
-<rect x="951.89" y="500.55" width="9.48" height="16.45" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8598  0x080B8598  28 bytes  [asm]</title></rect>
-<rect x="961.38" y="500.55" width="9.03" height="4.94" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8590  0x080B8590  8 bytes  [asm]</title></rect>
-<rect x="970.40" y="500.55" width="4.51" height="4.94" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8570  0x080B8570  4 bytes  [asm]</title></rect>
-<rect x="961.38" y="505.48" width="3.87" height="5.76" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8574  0x080B8574  4 bytes  [asm]</title></rect>
-<rect x="961.38" y="511.24" width="3.87" height="5.76" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8578  0x080B8578  4 bytes  [asm]</title></rect>
-<rect x="965.25" y="505.48" width="4.84" height="4.61" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B857C  0x080B857C  4 bytes  [asm]</title></rect>
-<rect x="970.08" y="505.48" width="4.84" height="4.61" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8580  0x080B8580  4 bytes  [asm]</title></rect>
-<rect x="965.25" y="510.09" width="6.45" height="3.46" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8584  0x080B8584  4 bytes  [asm]</title></rect>
-<rect x="965.25" y="513.54" width="6.45" height="3.46" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8588  0x080B8588  4 bytes  [asm]</title></rect>
-<rect x="971.69" y="510.09" width="3.22" height="6.91" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B858C  0x080B858C  4 bytes  [asm]</title></rect>
+<rect x="951.89" y="500.55" width="9.48" height="16.45" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>SoftReset  0x080B8598  28 bytes  [asm]</title></rect>
+<rect x="961.38" y="500.55" width="9.03" height="4.94" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>VBlankIntrWait  0x080B8590  8 bytes  [asm]</title></rect>
+<rect x="970.40" y="500.55" width="4.51" height="4.94" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ArcTan2  0x080B8570  4 bytes  [asm]</title></rect>
+<rect x="961.38" y="505.48" width="3.87" height="5.76" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>CpuFastSet  0x080B8574  4 bytes  [asm]</title></rect>
+<rect x="961.38" y="511.24" width="3.87" height="5.76" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>CpuSet  0x080B8578  4 bytes  [asm]</title></rect>
+<rect x="965.25" y="505.48" width="4.84" height="4.61" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>Div  0x080B857C  4 bytes  [asm]</title></rect>
+<rect x="970.08" y="505.48" width="4.84" height="4.61" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>LZ77UnCompWram  0x080B8580  4 bytes  [asm]</title></rect>
+<rect x="965.25" y="510.09" width="6.45" height="3.46" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>ObjAffineSet  0x080B8584  4 bytes  [asm]</title></rect>
+<rect x="965.25" y="513.54" width="6.45" height="3.46" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>RegisterRamReset  0x080B8588  4 bytes  [asm]</title></rect>
+<rect x="971.69" y="510.09" width="3.22" height="6.91" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>Sqrt  0x080B858C  4 bytes  [asm]</title></rect>
 </g>
 <g><title>libgcc_thumb (60 bytes)</title>
 <rect x="975.92" y="499.55" width="22.08" height="18.45" fill="#0d1117"/>
-<rect x="976.92" y="500.55" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F24  0x080B8F24  4 bytes  [asm]</title></rect>
-<rect x="976.92" y="504.66" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F28  0x080B8F28  4 bytes  [asm]</title></rect>
-<rect x="976.92" y="508.77" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F2C  0x080B8F2C  4 bytes  [asm]</title></rect>
-<rect x="976.92" y="512.89" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F30  0x080B8F30  4 bytes  [asm]</title></rect>
-<rect x="982.27" y="500.55" width="4.91" height="4.49" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F34  0x080B8F34  4 bytes  [asm]</title></rect>
-<rect x="987.18" y="500.55" width="4.91" height="4.49" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F38  0x080B8F38  4 bytes  [asm]</title></rect>
-<rect x="992.09" y="500.55" width="4.91" height="4.49" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F3C  0x080B8F3C  4 bytes  [asm]</title></rect>
-<rect x="982.27" y="505.03" width="5.52" height="3.99" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F40  0x080B8F40  4 bytes  [asm]</title></rect>
-<rect x="982.27" y="509.02" width="5.52" height="3.99" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F44  0x080B8F44  4 bytes  [asm]</title></rect>
-<rect x="982.27" y="513.01" width="5.52" height="3.99" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F48  0x080B8F48  4 bytes  [asm]</title></rect>
-<rect x="987.80" y="505.03" width="4.60" height="4.79" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F4C  0x080B8F4C  4 bytes  [asm]</title></rect>
-<rect x="992.40" y="505.03" width="4.60" height="4.79" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F50  0x080B8F50  4 bytes  [asm]</title></rect>
-<rect x="987.80" y="509.82" width="6.14" height="3.59" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F54  0x080B8F54  4 bytes  [asm]</title></rect>
-<rect x="987.80" y="513.41" width="6.14" height="3.59" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F58  0x080B8F58  4 bytes  [asm]</title></rect>
-<rect x="993.93" y="509.82" width="3.07" height="7.18" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>sub_080B8F5C  0x080B8F5C  4 bytes  [asm]</title></rect>
+<rect x="976.92" y="500.55" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r0  0x080B8F24  4 bytes  [asm]</title></rect>
+<rect x="976.92" y="504.66" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r1  0x080B8F28  4 bytes  [asm]</title></rect>
+<rect x="976.92" y="508.77" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r2  0x080B8F2C  4 bytes  [asm]</title></rect>
+<rect x="976.92" y="512.89" width="5.35" height="4.11" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r3  0x080B8F30  4 bytes  [asm]</title></rect>
+<rect x="982.27" y="500.55" width="4.91" height="4.49" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r4  0x080B8F34  4 bytes  [asm]</title></rect>
+<rect x="987.18" y="500.55" width="4.91" height="4.49" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r5  0x080B8F38  4 bytes  [asm]</title></rect>
+<rect x="992.09" y="500.55" width="4.91" height="4.49" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r6  0x080B8F3C  4 bytes  [asm]</title></rect>
+<rect x="982.27" y="505.03" width="5.52" height="3.99" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r7  0x080B8F40  4 bytes  [asm]</title></rect>
+<rect x="982.27" y="509.02" width="5.52" height="3.99" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r8  0x080B8F44  4 bytes  [asm]</title></rect>
+<rect x="982.27" y="513.01" width="5.52" height="3.99" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_r9  0x080B8F48  4 bytes  [asm]</title></rect>
+<rect x="987.80" y="505.03" width="4.60" height="4.79" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_sl  0x080B8F4C  4 bytes  [asm]</title></rect>
+<rect x="992.40" y="505.03" width="4.60" height="4.79" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_fp  0x080B8F50  4 bytes  [asm]</title></rect>
+<rect x="987.80" y="509.82" width="6.14" height="3.59" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_ip  0x080B8F54  4 bytes  [asm]</title></rect>
+<rect x="987.80" y="513.41" width="6.14" height="3.59" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_sp  0x080B8F58  4 bytes  [asm]</title></rect>
+<rect x="993.93" y="509.82" width="3.07" height="7.18" fill="#388bfd" stroke="#1f5fb8" stroke-width="0.6"><title>_call_via_lr  0x080B8F5C  4 bytes  [asm]</title></rect>
 </g>
 <rect x="6" y="524" width="11" height="11" fill="#3fb950"/>
 <text x="21" y="534" fill="#e6edf3" font-size="11">decompilado (C matching)</text>
@@ -2258,5 +2258,5 @@
 <text x="405" y="534" fill="#e6edf3" font-size="11">pendiente (asm)</text>
 <rect x="510" y="524" width="11" height="11" fill="#388bfd"/>
 <text x="525" y="534" fill="#e6edf3" font-size="11">asm original</text>
-<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 0.73% de 754024 bytes de código, 267/1952 funciones</text>
+<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 1.58% de 754024 bytes de código, 337/1952 funciones</text>
 </svg>

@@ -106,7 +106,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001A50);
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001A64);
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001AA4);
 void sub_08001B04(u16 arg0) {
-    sub_080B882C(arg0);
+    ReadFlash(arg0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001B14);
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001B54);

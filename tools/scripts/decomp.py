@@ -161,13 +161,22 @@ def module_cc1(mod):
     return AGBCC
 
 
-def compile_c(cfile, out_o, cc1=None):
+def module_flags(mod):
+    for line in open(os.path.join(ROOT, "Makefile")):
+        m = re.match(r"\$\(BUILD\)/src/(\w+)\.o: CC1FLAGS := (.*)$", line)
+        if m and m.group(1) == mod:
+            return m.group(2).split()
+    return None
+
+
+def compile_c(cfile, out_o, cc1=None, flags=None):
     i = out_o[:-2] + ".i"
     s = out_o[:-2] + ".s"
     r = run(["arm-none-eabi-cpp"] + CPPFLAGS + [cfile, "-o", i])
     if r.returncode:
         return r.stderr
-    r = run([cc1 or AGBCC] + CC1FLAGS + ["-o", s, i])
+    fl = flags or (os.environ["DECOMP_CFLAGS"].split() if "DECOMP_CFLAGS" in os.environ else CC1FLAGS)
+    r = run([cc1 or AGBCC] + fl + ["-o", s, i])
     if r.returncode:
         return r.stderr or r.stdout
     with open(s, "a") as fh:
@@ -419,7 +428,8 @@ def check(func, cfile, verbose=True):
         cand = os.path.join(td, "cand.o")
         oname = assemble_orig(func, orig)
         mod = module_of_addr(func_address(func))
-        err = compile_c(cfile, cand, module_cc1(mod) if "DECOMP_CC1" not in os.environ else None)
+        err = compile_c(cfile, cand, module_cc1(mod) if "DECOMP_CC1" not in os.environ else None,
+                        module_flags(mod) if "DECOMP_CFLAGS" not in os.environ else None)
         if err:
             if verbose:
                 print(err)
@@ -427,12 +437,12 @@ def check(func, cfile, verbose=True):
         return compare(orig, cand, func, verbose, oname)
 
 
-def check_file(cfile, verbose=False, only=None, cc1=None):
+def check_file(cfile, verbose=False, only=None, cc1=None, flags=None):
     """Compile cfile once and compare every function it defines."""
     results = {}
     with tempfile.TemporaryDirectory() as td:
         cand = os.path.join(td, "cand.o")
-        err = compile_c(cfile, cand, cc1)
+        err = compile_c(cfile, cand, cc1, flags)
         if err:
             print(err)
             return None
@@ -517,7 +527,7 @@ def module_functions(mod):
 
 def integrate(mod, cfile):
     """Rebuild src/<mod>.c from a candidate file defining (some of) its functions."""
-    results = check_file(cfile, cc1=module_cc1(mod)) or {}
+    results = check_file(cfile, cc1=module_cc1(mod), flags=module_flags(mod)) or {}
     text = open(cfile).read()
     prelude, funcs, corder = split_functions(text)
     src = os.path.join(ROOT, "src/%s.c" % mod)

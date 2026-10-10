@@ -13,7 +13,7 @@ sub_08001B54: @ 0x08001B54
 _08001B68: .4byte gUnk_03000018
 _08001B6C:
 	adds r0, r2, #0
-	bl sub_080B88F8
+	bl VerifyFlashSector
 _08001B72:
 	pop {r1}
 	bx r1

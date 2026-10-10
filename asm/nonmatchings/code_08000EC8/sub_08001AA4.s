@@ -1,14 +1,14 @@
 	thumb_func_start sub_08001AA4
 sub_08001AA4: @ 0x08001AA4
 	push {r4, lr}
-	bl sub_080B8AB4
+	bl IdentifyFlash
 	ldr r2, _08001AB4
 	movs r3, #0
 	ldr r4, _08001AB8
 	b _08001AC6
 	.2byte 0x0000
 _08001AB4: .4byte gUnk_080B99C8
-_08001AB8: .4byte gUnk_030076E0
+_08001AB8: .4byte gFlash
 _08001ABC:
 	adds r0, r3, #1
 	lsls r0, r0, #0x18
@@ -39,7 +39,7 @@ _08001AE4:
 	beq _08001AF4
 	ldr r1, _08001B00
 	movs r0, #2
-	bl sub_080B869C
+	bl SetFlashTimerIntr
 _08001AF4:
 	pop {r4}
 	pop {r0}
