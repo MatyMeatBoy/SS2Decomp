@@ -102,7 +102,12 @@ u8 sub_08057B64(u32 offset)
     u8 *base = (u8 *)gUnk_03005CF4;
     return base[(sub_0800CE30() ? 0x1BC : 0x1B0) + offset];
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057B98);
+u32 sub_08057B98(u32 value)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u32 bit = 1u << ((value - 1) & 31);
+    return *(u32 *)(base + (sub_0800CE30() ? 0x7C : 0x74)) & bit;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057BD0);
 s32 sub_08057C0C(void)
 {
