@@ -153,7 +153,11 @@ u32 sub_080011E4(void *p)
     return r;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080011E4);
+u32 sub_080011E4(void *p)
+{
+    gUnk_0300234C = p;
+    return p != NULL;
+}
 #endif
 
 void sub_08001204(void)
