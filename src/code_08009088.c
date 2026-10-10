@@ -173,7 +173,7 @@ void sub_0800BBD8(u16 i, u16 a, u16 b)
 
 u32 sub_0800BC08(s32 x, s32 y, s16 *out_x, s16 *out_y)
 {
-    u8 *base = (u8 *)gUnk_03003170;
+    u8 *base = (u8 *)&gUnk_03003170;
     s32 ox = *(u16 *)(base + 0x84) + *(u16 *)(base + 0x7C);
     s32 oy = *(u16 *)(base + 0x86) + *(u16 *)(base + 0x7E);
     *out_x = (s16)(x - ox);
