@@ -5,7 +5,14 @@ INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801801C);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019BF8);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019C3C);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019C8C);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019CDC);
+u32 sub_08019CDC(void)
+{
+    u32 i = 0;
+    do {
+        i++;
+    } while (i <= 4);
+    return i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019CE8);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019D34);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019D7C);

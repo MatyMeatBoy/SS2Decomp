@@ -89,7 +89,12 @@ u32 sub_08001108(u8 vcount)
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001130);
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800115C);
+u32 sub_0800115C(u32 v)
+{
+    u32 old = gUnk_03000010;
+    gUnk_03000010 = v;
+    return old;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800116C);
 
@@ -137,9 +142,19 @@ INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001280);
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080012AC);
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080012D8);
+u32 sub_080012D8(u32 v)
+{
+    u32 old = gUnk_03002354;
+    gUnk_03002354 = v;
+    return old;
+}
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080012E8);
+u32 sub_080012E8(u32 v)
+{
+    u32 old = gUnk_03002360;
+    gUnk_03002360 = v;
+    return old;
+}
 
 void sub_080012F8(void)
 {
@@ -186,7 +201,10 @@ void sub_08001394(void)
     gUnk_03002358 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080013F8);
+void sub_080013F8(void)
+{
+    gUnk_03002358 = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001404);
 
@@ -231,7 +249,9 @@ void *sub_08001494(u32 size)
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001538);
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001634);
+void sub_08001634(void)
+{
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001638);
 

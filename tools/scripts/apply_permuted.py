@@ -5,10 +5,7 @@ uses), checks it with the module compiler and applies it only if it matches."""
 import os, re, sys, tempfile
 sys.path.insert(0, os.path.dirname(__file__))
 import decomp
-d = sys.argv[1]
-cc = None
-if "--cc1" in sys.argv:
-    cc = sys.argv[sys.argv.index("--cc1") + 1]
+
 import subprocess, glob
 
 
@@ -31,17 +28,11 @@ def restore(snap):
         open(f, "w").write(t)
 
 
-applied = []
-for f in sorted(os.listdir(d)):
-    if not f.endswith(".c"):
-        continue
-    func = f[:-2]
-    if decomp.find_asm(func)[0] is None:
-        continue
-    t = open(os.path.join(d, f)).read()
+def try_apply(func, t):
+    """t: full C text containing func (and the extern lines it needs). Applies on match."""
     p, fs, o = decomp.split_functions(t)
-    if func not in fs:
-        continue
+    if func not in fs or decomp.find_asm(func)[0] is None:
+        return False
     body = fs[func]
     ext = []
     for l in t.splitlines():
@@ -53,15 +44,28 @@ for f in sorted(os.listdir(d)):
     with tempfile.TemporaryDirectory() as td:
         c = os.path.join(td, func + ".c")
         open(c, "w").write(src)
-        ok = decomp.check(func, c, verbose=False)
-        if ok:
-            snap = snapshot(func)
-            decomp.apply(func, c)
-            if rom_ok():
-                applied.append(func)
-            else:
-                restore(snap)
-                print("%s: matched alone but broke the ROM, reverted" % func)
-        else:
+        if not decomp.check(func, c, verbose=False):
             print("%s: no match with module compiler" % func)
-print("applied:", " ".join(applied))
+            return False
+        snap = snapshot(func)
+        decomp.apply(func, c)
+        if rom_ok():
+            return True
+        restore(snap)
+        print("%s: matched alone but broke the ROM, reverted" % func)
+        return False
+
+
+if __name__ == "__main__":
+    applied = []
+    for arg in sys.argv[1:]:
+        if os.path.isdir(arg):
+            for f in sorted(os.listdir(arg)):
+                if f.endswith(".c") and try_apply(f[:-2], open(os.path.join(arg, f)).read()):
+                    applied.append(f[:-2])
+        else:
+            t = open(arg).read()
+            for func in decomp.split_functions(t)[2]:
+                if try_apply(func, t):
+                    applied.append(func)
+    print("applied:", " ".join(applied))

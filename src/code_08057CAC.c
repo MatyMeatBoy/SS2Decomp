@@ -79,7 +79,10 @@ void sub_080585F4(s32 arg0, s32 arg1) {
 s32 sub_08058608(void) {
     return sub_0800CCCC();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058614);
+u16 sub_08058614(void)
+{
+    return gUnk_03003170.f90;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058620);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805865C);
 void sub_0805867C(void) {

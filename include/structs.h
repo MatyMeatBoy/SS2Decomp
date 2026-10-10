@@ -97,4 +97,25 @@ struct Sz172 { u8 b[172]; };
 // placeholder structs: array element of N bytes
 struct Sz48 { u8 b[48]; };
 
+// Small control blocks (gUnk_03000280, gUnk_030002A0): same layout, 0x20 apart
+struct Ctrl {
+    u8 pad0[4];
+    u16 w4;    // 0x04
+    u16 w6;    // 0x06
+    u16 w8;    // 0x08
+    u16 wA;    // 0x0A
+    u8 b0C;    // 0x0C
+    u8 b0D;    // 0x0D
+    u8 pad0E;
+    u8 b0F;    // 0x0F
+};
+
+// Pointer in gUnk_03005CF4: global game state block
+struct GameState {
+    u8 pad0[4];
+    u16 flags;              // 0x04
+    u8 pad6[0x17E4 - 6];
+    u8 blk17E4[1];          // 0x17E4 (size unknown)
+};
+
 #endif // GUARD_STRUCTS_H

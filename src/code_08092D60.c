@@ -123,13 +123,24 @@ INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094F3C);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080953F8);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095518);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080955CC);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080955EC);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080955F8);
+void sub_080955EC(u16 a, u16 b)
+{
+    gUnk_03000280.w4 = a;
+    gUnk_03000280.w6 = b;
+}
+void sub_080955F8(u16 a, u16 b)
+{
+    gUnk_03000280.w8 = a;
+    gUnk_03000280.wA = b;
+}
 void sub_08095604(s16 arg0, s16 arg1) {
     M2C_FIELD(&gUnk_03000280, s16 *, 0) = arg0;
     M2C_FIELD(&gUnk_03000280, s16 *, 2) = arg1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095610);
+void sub_08095610(u8 v)
+{
+    gUnk_03000280.b0C = v;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809561C);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095A60);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095AD8);

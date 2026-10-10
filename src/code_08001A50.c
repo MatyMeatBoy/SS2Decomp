@@ -17,7 +17,11 @@ struct Heap {
     u32 size;
 };
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001A50);
+void sub_08001A50(void)
+{
+    if (gUnk_030024B0[0])
+        gUnk_030024B0[8] = 1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001A64);
 
@@ -35,10 +39,16 @@ INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001BE4);
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001DF0);
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_0800207C);
+void sub_0800207C(void)
+{
+    gUnk_030027D0 = 0x80000000;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_0800208C);
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_080020E0);
+void sub_080020E0(void)
+{
+    gUnk_030027D0 |= 0x40000000;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_080020F4);
