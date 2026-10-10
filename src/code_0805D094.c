@@ -4,7 +4,11 @@ INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D094);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D0E8);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D13C);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D190);
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D1E0);
+void sub_0805D1E0(void)
+{
+    u8 *base = gUnk_030034E0;
+    *(u8 *)(base + 0x149) = (*(u16 *)(base + 0x140) == 6);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D210);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D278);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D2E0);
