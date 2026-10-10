@@ -169,6 +169,7 @@ extern s16 gUnk_080B9704[];
 extern struct LevelEntry gUnk_0847846C[];
 extern u16 gUnk_0847AD0A[];
 extern u32 gUnk_0847AD1C[];
+extern s32 gUnk_0848FF54[];
 extern s32 gUnk_08518938;
 extern M2C_UNK gUnk_08E3FB54;
 extern void sub_0800232C();

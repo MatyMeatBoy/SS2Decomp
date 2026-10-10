@@ -55,7 +55,11 @@ s32 sub_0801E46C(void *arg0, void *arg1) {
     }
     return var_r1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E4B0);
+s32 sub_0801E4B0(void) {
+    s32 *p = (s32 *) gUnk_030034E0;
+    s32 idx = p[8];
+    return gUnk_0848FF54[idx] - p[7];
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E4CC);
 s32 sub_0801E538(void)
 {
