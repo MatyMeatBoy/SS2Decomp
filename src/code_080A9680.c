@@ -19,9 +19,9 @@ void sub_080A9818(void)
     for (i = 0; i < 3; i++)
         M2C_FIELD((u8 *)gUnk_03000424 + i * 0x28, s32 *, 8) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9844);
+void sub_080A9844(void) { u8 *p = (u8 *)gUnk_03000424; u32 i; for (i=0;i<3;i++,p+=0x28) { if (sub_08000470((u32)p)) sub_080003A8((u32)p); } sub_08001538(gUnk_03000424); gUnk_03000424=0; }
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A987C);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A98E0);
+u32 sub_080A98E0(u32 a, u32 b, u32 unused, u32 d) { u32 x=sub_080A9910(a,b,d); u32 y=sub_080A9910(a,b,d); return x != y; }
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9910);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9950);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AB054);
@@ -60,7 +60,7 @@ void sub_080AE0B8(void)
     for (i = 0; i < 4; i++)
         M2C_FIELD((u8 *)gUnk_030004C8 + i * 0x28, s32 *, 8) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE0E4);
+void sub_080AE0E4(void) { u8 *p = (u8 *)gUnk_030004C8; u32 i; for (i=0;i<4;i++,p+=0x28) { if (sub_08000470((u32)p)) sub_080003A8((u32)p); } sub_08001538(gUnk_030004C8); gUnk_030004C8=0; }
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE11C);
 extern s32 *gUnk_03000448[];
 void sub_080AE184(void)

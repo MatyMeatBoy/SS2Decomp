@@ -73,7 +73,18 @@ void sub_080854B8(void)
     *(u32 *)(gUnk_03006440 + 0x1C) = 0x16;
     *(u32 *)(gUnk_03006440 + 0x20) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080854E8);
+extern const u32 gUnk_084EBD4C[];
+s32 sub_080854E8(u32 value)
+{
+    s32 result = 6;
+    u32 i;
+    for (i = 0; i < 6; i++) {
+        if (gUnk_084EBD4C[4 + i] <= value)
+            return result;
+        result--;
+    }
+    return result;
+}
 void sub_08085518(void)
 {
     s32 p = gUnk_03006440;

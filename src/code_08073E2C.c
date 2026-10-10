@@ -74,5 +74,12 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A20C);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A2E0);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A378);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A4B4);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A544);
+u8 sub_0807A544(const u8 *data, u32 length)
+{
+    u8 sum = 0;
+    u32 i;
+    for (i = 0; i < length; i++)
+        sum += data[i];
+    return (u8)~sum;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A56C);
