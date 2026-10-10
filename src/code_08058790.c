@@ -76,7 +76,19 @@ INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058D4C);
 s32 sub_08058D8C(void) {
     return sub_080008C8();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058D98);
+extern void sub_0805AB20(void *arg0);
+void sub_08058D98(s32 value)
+{
+    struct {
+        u16 kind;
+        u16 pad02;
+        s32 value;
+        u8 pad08[8];
+    } request;
+    request.kind = 10;
+    request.value = value;
+    sub_0805AB20(&request);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058DB0);
 s32 sub_08058E08(void) {
     return M2C_FIELD(gUnk_030034E0, s32 *, 0x20);
