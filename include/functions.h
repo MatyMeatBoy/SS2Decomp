@@ -412,7 +412,7 @@ s32 sub_0805F020();
 void sub_0805F07C();
 void sub_0805F0F0(void *arg0);
 void sub_0805F134(void);
-s32 sub_0805F184();
+u32 sub_0805F184(void);
 s32 sub_0805F1B0();
 void sub_08061910();
 void sub_0806514C();
