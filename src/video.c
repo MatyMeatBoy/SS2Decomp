@@ -1,14 +1,4 @@
 #include "global.h"
-struct DispCnt {
-    u16 mode:3;
-    u16 cgbMode:1;
-    u16 frameSelect:1;
-    u16 hblankIntervalFree:1;
-    u16 objMapping1D:1;
-    u16 forcedBlank:1;
-    u16 layers:8;
-    u16 unk2;
-};
 
 
 #define WAIT_NOT_BLANK() while (REG_DISPSTAT & (DISPSTAT_VBLANK | DISPSTAT_HBLANK))

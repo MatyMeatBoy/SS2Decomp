@@ -6,9 +6,11 @@
 // Types come from the first decompiled use and are refined by hand.
 
 // AUTO-VARIABLES (keep this marker, decomp.py appends below it)
-extern u16 gUnk_03000000; // shadow REG_IME
-extern u16 gUnk_03000002; // shadow REG_IE
-extern u16 gUnk_03000004; // shadow REG_DISPSTAT
+extern struct MemBlock gUnk_02000010;
+extern struct MemBlock gUnk_0203FFF0;
+extern u16 gUnk_03000000;
+extern u16 gUnk_03000002;
+extern u16 gUnk_03000004;
 extern s32 gUnk_03000010;
 extern s32 gUnk_03000014;
 extern s32 gUnk_0300001C;
@@ -88,14 +90,18 @@ extern u16 gUnk_03001250[];
 extern struct DispCnt gUnk_0300129C;
 extern u16 gUnk_03001310;
 extern u8 gUnk_03001318[];
+extern u8 gUnk_03001330[];
 extern s16 gUnk_03001730;
 extern M2C_UNK gUnk_03001F40;
+extern u32 gUnk_03002344;
 extern s16 gUnk_03002348;
-extern s32 gUnk_0300234C;
-extern s32 gUnk_03002350;
-extern s32 gUnk_03002354;
-extern s32 gUnk_03002358;
-extern s32 gUnk_03002360;
+extern void *gUnk_0300234C;
+extern u32 gUnk_03002350;
+extern u32 gUnk_03002354;
+extern u32 gUnk_03002358;
+extern struct DmaEntry *gUnk_0300235C;
+extern u32 gUnk_03002360;
+extern struct Heap gUnk_03002370;
 extern s32 gUnk_0300272C;
 extern s32 gUnk_030027D0;
 extern M2C_UNK gUnk_03002840;

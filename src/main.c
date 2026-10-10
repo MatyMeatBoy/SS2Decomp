@@ -7,28 +7,7 @@ extern void *gUnk_030012A0[];      // gIntrTable
 extern u8 gUnk_03001740[];         // IntrMain copied to IWRAM
 extern u32 gUnk_030012E0[];        // main task control block
 
-void sub_08000EF4(void);
-void sub_08000968(void);
-void sub_08001404(void);
-void sub_08000C1C(void);
-void sub_080012F8(void);
-void sub_08000BB0(u32);
-void sub_08000F2C(void);
-void sub_08000F64(u32);
-void sub_0800023C(void *);
-void IntrMain(void);
 
-struct DispCnt {
-    u16 mode:3;
-    u16 cgbMode:1;
-    u16 frameSelect:1;
-    u16 hblankIntervalFree:1;
-    u16 objMapping1D:1;
-    u16 forcedBlank:1;
-    u16 layers:8;
-    u16 unk2;
-};
-extern struct DispCnt gUnk_0300129C;
 
 extern u8 gUnk_03001318[8];
 

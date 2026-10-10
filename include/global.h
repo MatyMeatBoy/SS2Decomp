@@ -4,6 +4,7 @@
 #include "gba/gba.h"
 #include "m2c_macros.h"
 #include "m4a.h"
+#include "structs.h"
 #include "variables.h"
 #include "functions.h"
 

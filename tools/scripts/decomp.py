@@ -717,6 +717,13 @@ def main():
     p.add_argument("-v", "--verbose", action="store_true")
     p.add_argument("-f", "--func", action="append")
     p.add_argument("--cc1", help="compiler (default agbcc)")
+    p = sub.add_parser("score")
+    p.add_argument("outdir")
+    p.add_argument("funcs", nargs="+")
+    p = sub.add_parser("draft")
+    p.add_argument("module")
+    p.add_argument("out")
+    p.add_argument("--valid-syntax", action="store_true")
     p = sub.add_parser("integrate")
     p.add_argument("module")
     p.add_argument("cfile")
@@ -744,6 +751,37 @@ def main():
         sys.exit(0 if ok else 1)
     elif args.cmd == "checkfile":
         check_file(args.cfile, args.verbose, args.func, args.cc1)
+    elif args.cmd == "score":
+        # write m2c drafts and their diff scores (no files in the project are changed)
+        VALID_SYNTAX = True
+        os.makedirs(args.outdir, exist_ok=True)
+        log = open(os.path.join(args.outdir, "scores.txt"), "a")
+        for func in args.funcs:
+            if find_asm(func)[0] is None:
+                continue
+            c = os.path.join(args.outdir, func + ".c")
+            open(c, "w").write(m2c_to_c(m2c(func)))
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                ok = check(func, c, verbose=True)
+            out = buf.getvalue()
+            if ok:
+                sc = 0
+            elif "size:" not in out:
+                sc = -1
+            else:
+                sc = sum(1 for l in out.splitlines() if l[:1] in "+-" and l[:3] not in ("---", "+++"))
+            log.write("%s %d\n" % (func, sc))
+            log.flush()
+    elif args.cmd == "draft":
+        VALID_SYNTAX = args.valid_syntax
+        out = ['#include "global.h"']
+        for n in module_functions(args.module):
+            if find_asm(n)[0] is None:
+                continue
+            c = m2c_to_c(m2c(n)).replace('#include "global.h"\n', "")
+            out.append("// ---- %s\n%s" % (n, c))
+        open(args.out, "w").write("\n".join(out) + "\n")
     elif args.cmd == "integrate":
         integrate(args.module, args.cfile)
     elif args.cmd == "restore":
