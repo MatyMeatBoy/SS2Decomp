@@ -25,10 +25,24 @@ void sub_08015C5C(s32 arg0, s32 arg1) {
     M2C_FIELD((temp_r2 + 0x9C), s32 *, 4) = arg1;
     M2C_FIELD(temp_r2, s32 *, 0x30) = (s32) (M2C_FIELD(temp_r2, s32 *, 0x30) | 0x24);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015C8C);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015CB4);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015CE0);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015D04);
+void sub_08015C8C(void) {
+    struct Player *p = &gUnk_03003CE0[sub_080020F4()];
+    p->flags |= 0x80000;
+    sub_08067D74();
+}
+void sub_08015CB4(void) {
+    struct Player *p = &gUnk_03003CE0[sub_080020F4()];
+    p->flags &= 0xFFF7FFFF;
+    sub_08067D74();
+}
+void sub_08015CE0(void) {
+    struct Player *p = &gUnk_03003CE0[sub_080020F4()];
+    p->flags |= 0x100000;
+}
+void sub_08015D04(void) {
+    struct Player *p = &gUnk_03003CE0[sub_080020F4()];
+    p->flags &= 0xFFEFFFFF;
+}
 void sub_08015D2C(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 2;
@@ -60,7 +74,22 @@ void sub_08015E00(s32 arg0)
   *((s32 *) (new_var + 0x24)) = 0;
   sub_08000274(&gUnk_03003C10, arg0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015E3C);
+void sub_08015E3C(u8 *arg0, s32 arg1) {
+    u16 r3;
+    u16 *p;
+    s32 r1;
+
+    r3 = (u16)(*(s8 *)(arg0 + 0x6C) * 10 + gUnk_0847ACE8[arg1]);
+    if ((s16)r3 < 0) {
+        r3 = 0;
+    }
+    p = (u16 *)(arg0 + 0xC2);
+    r1 = *p - (s16)r3;
+    *p = r1;
+    if ((s16)r1 < 0) {
+        *p = 0;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015E84);
 void sub_08015ED4(void) {
 
@@ -70,7 +99,9 @@ void sub_08015EF8(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= 0xFFBFFFFF;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015F20);
+u32 sub_08015F20(void) {
+    return (gUnk_03003CE0[sub_080020F4()].flags >> 2) & 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015F44);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801602C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016114);
