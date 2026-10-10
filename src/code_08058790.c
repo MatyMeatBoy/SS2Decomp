@@ -102,7 +102,15 @@ void sub_08058A4C(u32 bit)
     *(u32 *)(base + offset) &= ~(1u << bit);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058A80);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058AD0);
+u32 sub_08058AD0(void)
+{
+    u8 *entry = (u8 *)gUnk_03003CE0 + 0x64;
+    u32 i, count = sub_08002164();
+    for (i = 0; i < count; i++, entry += 0x14C)
+        if (*(u16 *)entry == 6 || *(u16 *)entry == 8)
+            return 1;
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058B08);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058B74);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058C08);
