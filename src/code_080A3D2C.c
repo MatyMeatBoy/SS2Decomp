@@ -41,7 +41,17 @@ void sub_080A4AE4(void)
     for (i = 0; i < 3; i++)
         M2C_FIELD((u8 *)gUnk_0300035C + i * 0x28, s32 *, 8) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4B10);
+void sub_080A4B10(void)
+{
+    u8 *entry = gUnk_0300035C;
+    u32 i;
+    for (i = 0; i < 3; i++, entry += 0x28) {
+        if (sub_08000470(entry) != 0)
+            sub_080003A8(entry);
+    }
+    sub_08001538(gUnk_0300035C);
+    gUnk_0300035C = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4B48);
 void sub_080A4BB0(void)
 {
