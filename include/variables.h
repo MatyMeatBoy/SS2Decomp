@@ -181,7 +181,6 @@ extern void sub_08005B88(void);
 extern M2C_UNK sub_08014170;
 extern M2C_UNK sub_080852AC;
 
-extern u16 gUnk_03000020;
 
 #endif // GUARD_VARIABLES_H
 extern void sub_08002694();
