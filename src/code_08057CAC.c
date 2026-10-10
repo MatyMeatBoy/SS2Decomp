@@ -23,7 +23,21 @@ INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057DD0);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057E74);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057F18);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057FBC);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058048);
+void sub_08058048(u32 x, u32 y, u16 kind, u32 value)
+{
+    u8 data[16];
+    if (kind == 0xA) {
+        *(u16 *)&data[0] = kind;
+        *(u32 *)&data[4] = value;
+    } else {
+        *(u16 *)&data[0] = kind;
+        *(u16 *)&data[2] = (u16)value;
+        for (u32 i = 4; i <= 15; i++)
+            data[i] = 0;
+    }
+    while (sub_08067B9C(x << 8, y << 8, data) == 0)
+        sub_080003F0();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058094);
 void sub_080580EC(void) {
     sub_0807C014();
