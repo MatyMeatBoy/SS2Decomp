@@ -96,7 +96,7 @@ extern s32 gUnk_030007E4;
 extern u16 gUnk_03001250[];
 extern struct DispCnt gUnk_0300129C;
 extern u16 gUnk_03001310;
-extern u8 gUnk_03001318[];
+extern u8 gUnk_03001318[8];
 extern u8 gUnk_03001330[];
 extern s16 gUnk_03001730;
 extern M2C_UNK gUnk_03001F40;

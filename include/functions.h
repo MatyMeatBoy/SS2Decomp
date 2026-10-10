@@ -16,6 +16,7 @@ s32 sub_080003A8(s32);
 s32 sub_080003F0();
 s32 sub_08000420(s32);
 s32 sub_08000470();
+s16 sub_0800086C(void);
 u32 sub_080008C8(void);
 void sub_0800093C(void);
 void sub_08000940(void);
