@@ -73,7 +73,12 @@ INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A120);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A1C8);
 s32 sub_0801A270(void) { u32 i; for (i=0;i<=4;i++) if (!(gUnk_030056FC & (1<<i))) return i; return -1; }
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A298);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A2F0);
+u32 sub_0801A2F0(u8 *table)
+{
+    u32 roll=sub_080008C8()%100, sum=table[1], i=0;
+    while(roll>=sum && i<2) { i++; table+=4; sum += table[1]; }
+    return table[0];
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A328);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A388);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A3D0);
