@@ -99,7 +99,17 @@ void sub_0805A0EC(u32 count)
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A138);
+void sub_0805A138(u32 mode)
+{
+    if (mode == 0) {
+        sub_08068820((u32)sub_0805A138, 1, 1);
+    } else if (mode == 1) {
+        if ((gUnk_030027D0 & 0x20) == 0)
+            sub_08006D08(0x17B);
+        sub_08028AAC(7, 0x270F, 0x270F, 0);
+        *(u32 *)((u8 *)gUnk_03005CF4 + 0x38) |= 8;
+    }
+}
 void sub_0805A194(s32 arg0)
 {
  do { loop_1: sub_08028D98(arg0, 0, -1, 3); sub_08028D98(arg0, 0, 1, 3); goto loop_1; } while (0);
