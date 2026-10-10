@@ -42,7 +42,16 @@ void sub_080852AC(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080852CC);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085330);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808536C);
+void sub_0808536C(void)
+{
+    s32 p;
+    do {
+        p = sub_08001494(0x28);
+        M2C_FIELD(gUnk_03006440, s32 *, 0x620) = p;
+        if (p == 0)
+            sub_080003F0();
+    } while (p == 0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085398);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080853DC);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808543C);
