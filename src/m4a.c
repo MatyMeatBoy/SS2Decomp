@@ -44,7 +44,6 @@ void UnusedDummyFunc(void)
 {
 }
 
-#ifdef NONMATCHING
 void MPlayContinue(struct MusicPlayerInfo *mplayInfo)
 {
     if (mplayInfo->ident == ID_NUMBER)
@@ -54,11 +53,7 @@ void MPlayContinue(struct MusicPlayerInfo *mplayInfo)
         mplayInfo->ident = ID_NUMBER;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", MPlayContinue);
-#endif
 
-#ifdef NONMATCHING
 void MPlayFadeOut(struct MusicPlayerInfo *mplayInfo, u16 speed)
 {
     if (mplayInfo->ident == ID_NUMBER)
@@ -70,9 +65,6 @@ void MPlayFadeOut(struct MusicPlayerInfo *mplayInfo, u16 speed)
         mplayInfo->ident = ID_NUMBER;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", MPlayFadeOut);
-#endif
 
 #ifdef NONMATCHING
 void m4aSoundInit(void)
@@ -104,7 +96,6 @@ void m4aSoundMain(void)
     SoundMain();
 }
 
-#ifdef NONMATCHING
 void m4aSongNumStart(u16 n)
 {
     const struct MusicPlayer *mplayTable = gMPlayTable;
@@ -114,11 +105,7 @@ void m4aSongNumStart(u16 n)
 
     MPlayStart(mplay->info, song->header);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aSongNumStart);
-#endif
 
-#ifdef NONMATCHING
 void m4aSongNumStartOrChange(u16 n)
 {
     const struct MusicPlayer *mplayTable = gMPlayTable;
@@ -139,11 +126,7 @@ void m4aSongNumStartOrChange(u16 n)
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aSongNumStartOrChange);
-#endif
 
-#ifdef NONMATCHING
 void m4aSongNumStartOrContinue(u16 n)
 {
     const struct MusicPlayer *mplayTable = gMPlayTable;
@@ -158,11 +141,7 @@ void m4aSongNumStartOrContinue(u16 n)
     else if (mplay->info->status & MUSICPLAYER_STATUS_PAUSE)
         MPlayContinue(mplay->info);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aSongNumStartOrContinue);
-#endif
 
-#ifdef NONMATCHING
 void m4aSongNumStop(u16 n)
 {
     const struct MusicPlayer *mplayTable = gMPlayTable;
@@ -173,11 +152,7 @@ void m4aSongNumStop(u16 n)
     if (mplay->info->songHeader == song->header)
         m4aMPlayStop(mplay->info);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aSongNumStop);
-#endif
 
-#ifdef NONMATCHING
 void m4aSongNumContinue(u16 n)
 {
     const struct MusicPlayer *mplayTable = gMPlayTable;
@@ -188,9 +163,6 @@ void m4aSongNumContinue(u16 n)
     if (mplay->info->songHeader == song->header)
         MPlayContinue(mplay->info);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aSongNumContinue);
-#endif
 
 void m4aMPlayAllStop(void)
 {
@@ -567,6 +539,7 @@ void m4aSoundVSyncOn(void)
     soundInfo->ident = ident - 10;
 }
 
+#ifdef NONMATCHING
 void MPlayOpen(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *tracks, u8 trackCount)
 {
     struct SoundInfo *soundInfo;
@@ -612,6 +585,9 @@ void MPlayOpen(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track
     soundInfo->ident = ID_NUMBER;
     mplayInfo->ident = ID_NUMBER;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/m4a", MPlayOpen);
+#endif
 
 #ifdef NONMATCHING
 void MPlayStart(struct MusicPlayerInfo *mplayInfo, struct SongHeader *songHeader)
@@ -871,7 +847,6 @@ u32 MidiKeyToCgbFreq(u8 chanNum, u8 key, u8 fineAdjust)
     }
 }
 
-#ifdef NONMATCHING
 void CgbOscOff(u8 chanNum)
 {
     switch (chanNum)
@@ -892,9 +867,6 @@ void CgbOscOff(u8 chanNum)
         REG_NR44 = 0x80;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", CgbOscOff);
-#endif
 
 #ifdef NONMATCHING
 void CgbModVol(struct CgbChannel *chan)
@@ -1235,7 +1207,6 @@ void CgbSound(void)
 INCLUDE_ASM("asm/nonmatchings/m4a", CgbSound);
 #endif
 
-#ifdef NONMATCHING
 void m4aMPlayTempoControl(struct MusicPlayerInfo *mplayInfo, u16 tempo)
 {
     if (mplayInfo->ident == ID_NUMBER)
@@ -1246,9 +1217,6 @@ void m4aMPlayTempoControl(struct MusicPlayerInfo *mplayInfo, u16 tempo)
         mplayInfo->ident = ID_NUMBER;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aMPlayTempoControl);
-#endif
 
 void m4aMPlayVolumeControl(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u16 volume)
 {
@@ -1353,7 +1321,6 @@ void m4aMPlayPanpotControl(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s8 
     mplayInfo->ident = ID_NUMBER;
 }
 
-#ifdef NONMATCHING
 void ClearModM(struct MusicPlayerTrack *track)
 {
     track->lfoSpeedC = 0;
@@ -1364,11 +1331,7 @@ void ClearModM(struct MusicPlayerTrack *track)
     else
         track->flags |= MPT_FLG_VOLCHG;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", ClearModM);
-#endif
 
-#ifdef NONMATCHING
 void m4aMPlayModDepthSet(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 modDepth)
 {
     s32 i;
@@ -1404,11 +1367,7 @@ void m4aMPlayModDepthSet(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 mo
 
     mplayInfo->ident = ID_NUMBER;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aMPlayModDepthSet);
-#endif
 
-#ifdef NONMATCHING
 void m4aMPlayLFOSpeedSet(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 lfoSpeed)
 {
     s32 i;
@@ -1444,9 +1403,6 @@ void m4aMPlayLFOSpeedSet(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 lf
 
     mplayInfo->ident = ID_NUMBER;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aMPlayLFOSpeedSet);
-#endif
 
 #ifdef NONMATCHING
 void ply_memacc(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
@@ -1551,7 +1507,6 @@ void ply_xxx(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
     gMPlayJumpTable[0](mplayInfo, track);
 }
 
-#ifdef NONMATCHING
 void ply_xwave(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 {
     u32 wav;
@@ -1568,9 +1523,6 @@ void ply_xwave(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track
     track->tone.wav = (struct WaveData *)wav;
     track->cmdPtr += 4;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", ply_xwave);
-#endif
 
 void ply_xtype(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 {

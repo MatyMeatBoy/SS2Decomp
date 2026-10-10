@@ -33,6 +33,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 AGBCC = os.path.join(ROOT, "tools/agbcc/bin/agbcc")
 M2C = os.environ.get("M2C", os.path.join(ROOT, "tools/m2c/m2c.py"))
 VALID_SYNTAX = False
+AGBCC = os.environ.get("DECOMP_CC1", AGBCC)
 CC1FLAGS = ["-mthumb-interwork", "-Wimplicit", "-Wparentheses", "-O2", "-fhex-asm"]
 CPPFLAGS = ["-nostdinc", "-I", os.path.join(ROOT, "tools/agbcc/include"),
             "-iquote", os.environ.get("DECOMP_INC", os.path.join(ROOT, "include")), "-undef"]
@@ -108,6 +109,15 @@ def current_names():
     return names
 
 
+def module_of_addr(addr):
+    mod = None
+    for line in open(os.path.join(ROOT, "tools/config/modules.cfg")):
+        p = line.split()
+        if p and not line.startswith("#") and addr is not None and int(p[0], 0) <= addr:
+            mod = p[1]
+    return mod
+
+
 def restore_asm(func):
     """Recreate asm/nonmatchings/<module>/<func>.s from the original disassembly."""
     addr = func_address(func)
@@ -142,13 +152,22 @@ def assemble_orig(func, out_o):
     return name
 
 
-def compile_c(cfile, out_o):
+def module_cc1(mod):
+    """Compiler used for src/<mod>.c (per file overrides in the Makefile)."""
+    for line in open(os.path.join(ROOT, "Makefile")):
+        m = re.match(r"\$\(BUILD\)/src/(\w+)\.o: CC1 := (\S+)", line)
+        if m and m.group(1) == mod:
+            return os.path.join(ROOT, m.group(2))
+    return AGBCC
+
+
+def compile_c(cfile, out_o, cc1=None):
     i = out_o[:-2] + ".i"
     s = out_o[:-2] + ".s"
     r = run(["arm-none-eabi-cpp"] + CPPFLAGS + [cfile, "-o", i])
     if r.returncode:
         return r.stderr
-    r = run([AGBCC] + CC1FLAGS + ["-o", s, i])
+    r = run([cc1 or AGBCC] + CC1FLAGS + ["-o", s, i])
     if r.returncode:
         return r.stderr or r.stdout
     with open(s, "a") as fh:
@@ -371,7 +390,8 @@ def check(func, cfile, verbose=True):
         orig = os.path.join(td, "orig.o")
         cand = os.path.join(td, "cand.o")
         oname = assemble_orig(func, orig)
-        err = compile_c(cfile, cand)
+        mod = module_of_addr(func_address(func))
+        err = compile_c(cfile, cand, module_cc1(mod) if "DECOMP_CC1" not in os.environ else None)
         if err:
             if verbose:
                 print(err)
@@ -379,12 +399,12 @@ def check(func, cfile, verbose=True):
         return compare(orig, cand, func, verbose, oname)
 
 
-def check_file(cfile, verbose=False, only=None):
+def check_file(cfile, verbose=False, only=None, cc1=None):
     """Compile cfile once and compare every function it defines."""
     results = {}
     with tempfile.TemporaryDirectory() as td:
         cand = os.path.join(td, "cand.o")
-        err = compile_c(cfile, cand)
+        err = compile_c(cfile, cand, cc1)
         if err:
             print(err)
             return None
@@ -469,7 +489,7 @@ def module_functions(mod):
 
 def integrate(mod, cfile):
     """Rebuild src/<mod>.c from a candidate file defining (some of) its functions."""
-    results = check_file(cfile) or {}
+    results = check_file(cfile, cc1=module_cc1(mod)) or {}
     text = open(cfile).read()
     prelude, funcs, _ = split_functions(text)
     src = os.path.join(ROOT, "src/%s.c" % mod)
@@ -595,7 +615,7 @@ def main():
         print("MATCH" if ok else "NO MATCH")
         sys.exit(0 if ok else 1)
     elif args.cmd == "checkfile":
-        check_file(args.cfile, args.verbose, args.func)
+        check_file(args.cfile, args.verbose, args.func, args.cc1)
     elif args.cmd == "integrate":
         integrate(args.module, args.cfile)
     elif args.cmd == "restore":

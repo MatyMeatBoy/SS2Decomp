@@ -42,6 +42,9 @@ clean:
 # Each module's not yet decompiled functions live in asm/nonmatchings/<module>/.
 asm_deps = $(wildcard asm/nonmatchings/$(1)/*.s)
 
+# The SDK's m4a.c was built with an older agbcc
+$(BUILD)/src/m4a.o: CC1 := tools/agbcc/bin/old_agbcc
+
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)
 	@mkdir -p $(@D)
