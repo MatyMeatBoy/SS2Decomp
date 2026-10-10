@@ -33,7 +33,20 @@ s32 sub_08067CA8(s32 arg0)
     *(u32 *)(p + 4) = 1; *p = 0x89; *(u32 *)(p + 8) = arg0; p[1] = 1;
     gUnk_03006338++; return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067CE8);
+u32 sub_08067CE8(void *arg0)
+{
+    u8 *entry;
+    u32 index = gUnk_03006338;
+    if (index > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0xB0;
+    *(void **)(entry + 8) = arg0;
+    entry[1] = 1;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D28);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D74);
 extern s32 gUnk_03005CF4;
