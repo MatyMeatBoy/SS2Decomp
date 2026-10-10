@@ -69,7 +69,12 @@ s32 sub_08097A74(void *arg0, void *arg1, s32 arg2, s16 arg3) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097AC0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097B24);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097B6C);
+u32 sub_08097B6C(s32 x0, s32 y0, s32 x1, s32 y1, s32 radius)
+{
+    s32 dx = (x0 - x1) << 8, dy = (y0 - y1) << 8;
+    u32 distance = Sqrt((u32)(dx * dx + dy * dy));
+    return (radius >> 16) > (s32)distance;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097BA4);
 void sub_08097C4C(void)
 {
