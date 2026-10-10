@@ -1,6 +1,9 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009088);
+void sub_08009088(u8 a, u8 b, u8 c, u8 d)
+{
+    gUnk_03001250[0x3c / 2] = a | (b << 4) | (c << 8) | (d << 12);
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080090B0);
 
@@ -66,7 +69,14 @@ void *sub_0800BAA4(s16 x, s16 y)
     return m + ((x >> 3) + (y >> 3) * gUnk_03003170.width0) * 2;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BAA4);
+void *sub_0800BAA4(s16 x, s16 y) {
+    struct TileSys *t = &gUnk_03003170;
+    u16 *m = t->map0;
+    s32 a = x;
+    s32 b = y;
+    s32 idx = (a >> 3) + (b >> 3) * t->width0;
+    return m + idx;
+}
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BAC4);
@@ -135,9 +145,13 @@ u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BCA0);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BCDC);
+void sub_0800BCDC(s32 a, s32 b, s32 c, u16 d, u16 e) {
+    sub_0800B650(a, b + 0x1c, c, d, e);
+}
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BCFC);
+void sub_0800BCFC(s32 a, s32 b, s32 c, u16 d, u16 e) {
+    sub_0800B7DC(a, b + 0x1c, c, d, e);
+}
 
 #ifdef NONMATCHING
 u32 sub_0800BD1C(void)

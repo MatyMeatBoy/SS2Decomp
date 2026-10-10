@@ -1,4 +1,10 @@
 #include "global.h"
+
+extern u8 gUnk_03000018;
+extern u16 (*ProgramFlashSector)(u16, u8 *);
+extern u32 gUnk_03002740[];
+extern void sub_080022A4(void);
+extern void sub_08001BE4(void);
 #define WAIT_NOT_BLANK() while (REG_DISPSTAT & (DISPSTAT_VBLANK | DISPSTAT_HBLANK))
 
 #define WAIT_NOT_BLANK() while (REG_DISPSTAT & (DISPSTAT_VBLANK | DISPSTAT_HBLANK))
@@ -118,7 +124,7 @@ void sub_080020E0(void)
     gUnk_030027D0 |= 0x40000000;
 }
 
-u32 sub_080020F4(void)
+s32 sub_080020F4(void)
 {
     u32 r;
     if (!(gUnk_030027D0 & 2))
