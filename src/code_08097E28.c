@@ -1,5 +1,8 @@
 #include "global.h"
 
+extern s32 gUnk_030002EC;
+extern s32 gUnk_030002F0;
+
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08097E28);
 void sub_08097EB0(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     gUnk_030002B8 = arg3;
@@ -116,7 +119,18 @@ void sub_0809D558(void) {
 s8 sub_0809D564(void) {
     return (s8) (u8) gUnk_030002E8;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809D574);
+void sub_0809D574(void)
+{
+    sub_0805867C(0xE6);
+    if (*(s16 *)((u8 *)gUnk_030002EC + 0x5C) != 0) {
+        sub_0809D5E4();
+        sub_0809D6D8();
+        sub_0809D810();
+    }
+    sub_08068384();
+    gUnk_030056FC = 0;
+    sub_08016ECC(*(u16 *)gUnk_030002F0);
+}
 extern s32 gUnk_030002F4;
 extern s32 gUnk_03000308;
 void sub_0809D5B8(void)

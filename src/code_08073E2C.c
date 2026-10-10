@@ -65,7 +65,16 @@ u16 sub_0807A040(u16 a, u16 b)
     return (u16)sub_08074398(a, b, 0x7FFFFFFF);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A064);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A0E0);
+void sub_0807A0E0(void *arg0)
+{
+    u32 offset;
+    u16 *field;
+    offset = (u32)sub_080020F4() * 0x14C;
+    field = (u16 *)(gUnk_03003CE0 + offset + 0xC2);
+    *field -= sub_0806898C(M2C_FIELD(arg0, s32 *, 0xC), M2C_FIELD(arg0, s32 *, 0x14)) - 1;
+    if ((s16)*field < 0)
+        *field = 0;
+}
 void sub_0807A120(void) {
 
 }
