@@ -98,7 +98,13 @@ u32 sub_08001108(u8 vcount)
     return old;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001130);
+void sub_08001130(void)
+{
+    if (gUnk_03000010)
+        ((void (*)(void))gUnk_03000010)();
+    REG_IF = 4;
+    gUnk_03007FF8 |= 4;
+}
 
 u32 sub_0800115C(u32 v)
 {
