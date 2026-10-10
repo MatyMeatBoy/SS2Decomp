@@ -64,16 +64,23 @@ SECTIONS
         build/src/m4a.o(.text);
         build/asm/libagbsyscall.o(.text);
         build/src/agb_flash.o(.text);
-        build/asm/libgcc_thumb.o(.text);
-        build/src/libgcc2.o(.text);
-        build/asm/libgcc_div.o(.text);
-        build/src/libc.o(.text);
+        *libgcc.a:_call_via_rX.o(.text);
+        *libgcc.a:_divdi3.o(.text);
+        *libgcc.a:_divsi3.o(.text);
+        *libgcc.a:_dvmd_tls.o(.text);
+        *libgcc.a:_modsi3.o(.text);
+        *libgcc.a:_muldi3.o(.text);
+        *libgcc.a:_udivsi3.o(.text);
+        *libgcc.a:_umodsi3.o(.text);
+        *libc.a:memcpy.o(.text);
     } > ROM =0
 
     .rodata :
     ALIGN(4)
     {
         build/data/rodata.o(.rodata);
+        *libgcc.a:_divdi3.o(.rodata);
+        build/data/rodata_libgcc_end.o(.rodata);
     } > ROM =0
 
     /* Discard everything not specifically mentioned above. */

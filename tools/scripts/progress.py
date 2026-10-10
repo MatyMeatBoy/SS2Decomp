@@ -83,6 +83,8 @@ def collect():
             name = funcs[a]
             if kind == "asm":
                 state = "asm"
+            elif kind == "linked":
+                state = "done"
             else:
                 state = ("nonmatch" if name in nonmatch else "todo") if name in stubbed else "done"
             fl.append({"name": name, "addr": a, "size": e - a, "state": state})

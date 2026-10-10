@@ -65,7 +65,7 @@ $(BUILD)/data/%.o: data/%.s baserom.gba
 	$(AS) $(ASFLAGS) -o $@ $<
 
 $(ELF): $(OBJS) ld_script.ld sym_ram.ld
-	$(LD) -T ld_script.ld -Map $(MAP) -o $@ $(OBJS)
+	$(LD) -T ld_script.ld -Map $(MAP) -o $@ $(OBJS) -L tools/agbcc/lib -lgcc -lc
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF $< $@
