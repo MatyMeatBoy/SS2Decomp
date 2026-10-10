@@ -195,3 +195,4 @@ extern u32 gUnk_03006338;
 extern s32 gUnk_0300602C;
 extern u32 gUnk_03000350;
 extern u32 gUnk_03000354;
+extern u16 gUnk_03005724;
