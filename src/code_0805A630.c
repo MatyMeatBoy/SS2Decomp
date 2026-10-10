@@ -87,7 +87,46 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B618);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B688);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805BD5C);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C208);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C4FC);
+u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
+{
+    *(u32 *)out = 0;
+    if (count == 0) {
+        *(u16 *)out = 0;
+        *(u16 *)(out + 2) = 0;
+        return 0;
+    }
+    count--;
+    u32 roll = sub_080008C8() % 100;
+    u8 *table = (u8 *)0x084E6DD8 + count * 36;
+    u32 special = (*(u16 *)(table + 0) >= roll);
+    if (category == 8) category = 6;
+    u8 *group = *(u8 **)(table + 4 + category * 4);
+    u32 n = *(u16 *)group;
+    u32 pick = sub_080008C8() % (*(u16 *)(group + 2) + 1);
+    u8 *entry = group + 8;
+    for (u32 i = 0; i < n; i++, entry += 8) {
+        u16 limit = *(u16 *)(entry + 4);
+        if (pick <= limit) {
+            *(u16 *)out = *(u16 *)entry;
+            *(u16 *)(out + 2) = *(u16 *)(entry + 2);
+            if (*(u16 *)out == 0xA) {
+                *(u32 *)(out + 4) = pick;
+                u32 span = *(u16 *)(entry + 2);
+                u32 extra = sub_080008C8() % ((span * 15) / 10);
+                if (extra < span / 2) extra = span / 2;
+                *(u32 *)(out + 4) = extra;
+            }
+            break;
+        }
+    }
+    if (special)
+        sub_0805C208(out, 0);
+    if (*(u16 *)out == 9) {
+        *(u16 *)(out + 4) = sub_080008C8() % 10 + *(u16 *)((u8 *)&gUnk_03003170 + 0x8C) * 10;
+        if (sub_0800CE30()) *(u16 *)(out + 4) += 100;
+    }
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C620);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C7B8);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB04);

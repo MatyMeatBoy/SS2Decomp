@@ -6,7 +6,12 @@ INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805968C);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059738);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080597E4);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059890);
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805990C);
+void sub_0805990C(u32 bit)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u32 offset = sub_0800CE30() ? 0x1C3 : 0x1B7;
+    base[offset + (bit >> 3)] |= (u8)(1u << (bit & 7));
+}
 void sub_08059954(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) | (1 << arg0));
 }
