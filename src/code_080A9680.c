@@ -102,7 +102,7 @@ void sub_080AF304(void)
 {
     u8 *entry = *(u8 **)0x03000784;
     u8 count = *(u8 *)0x03000780;
-    u32 i, mem;
+    u32 i;
     for (i = 0; i < count; i++, entry += 0x28) {
         if (sub_08000470((u32)entry))
             sub_080003A8((u32)entry);
@@ -116,7 +116,7 @@ void sub_080AF350(u32 kind)
 {
     u8 *entry = *(u8 **)0x03000784;
     u8 count = *(u8 *)0x03000780;
-    u32 i;
+    u32 i, mem;
     for (i = 0; i < count; i++, entry += 0x28) {
         if (sub_08000470((u32)entry) || *(u32 *)(entry + 8) != 0) continue;
         mem = sub_08001494(0x400);
