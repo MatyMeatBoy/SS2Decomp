@@ -21,7 +21,7 @@ u32 sub_080008C8();
 void sub_0800093C();
 void sub_08000940();
 void sub_08000968();
-s32 sub_080009C0(s32, s32, s32);
+void sub_080009C0(s32, s32, s32);
 void sub_08000A8C(struct DispCnt *src, u16 write);
 void sub_08000AA8(u16 bg, u16 *val);
 void sub_08000AF0(u32 palNum, const void *src, u32 numPals);

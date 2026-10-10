@@ -115,9 +115,25 @@ void sub_08000990(u16 mode, u16 write)
         REG_DISPCNT = *(u16 *)&gUnk_0300129C;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main", sub_080009C0);
+void sub_080009C0(s32 a, s32 b, s32 write)
+{
+    u16 value = *(u16 *)&gUnk_0300129C;
+    value = (value & 0x001F) | ((a & 0x001F) << 8) | ((b & 0x0007) << 5);
+    *(u16 *)&gUnk_0300129C = value;
+    if (write)
+        REG_DISPCNT = value;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main", sub_080009F8);
+void sub_080009F8(s32 a, s32 b, s32 write)
+{
+    u16 value;
+    value = *(u16 *)&gUnk_0300129C;
+    value &= ~((a & 0x001F) << 8);
+    value &= ~((b & 0x0007) << 5);
+    *(u16 *)&gUnk_0300129C = value;
+    if (write)
+        REG_DISPCNT = value;
+}
 
 void sub_08000A34(u16 a, u16 b, u16 c, u16 unused, u16 write)
 {
