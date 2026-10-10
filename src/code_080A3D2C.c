@@ -2,6 +2,7 @@
 
 extern s32 gUnk_0300035C;
 extern s32 *gUnk_03000370[];
+extern s32 gUnk_03000414;
 
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4520);
@@ -132,7 +133,14 @@ void sub_080A8014(void) {
     gUnk_03000410 = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A803C);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A8090);
+s32 sub_080A8090(void *arg0)
+{
+    u32 value = gUnk_03000414;
+    if (value == 0)
+        value = 0x4800;
+    *(u32 *)((u8 *)arg0 + 4) = value;
+    return *(u32 *)((u8 *)gUnk_03000410 + 8) == 0;
+}
 void sub_080A80BC(void)
 {
   s32 temp_r0;

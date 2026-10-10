@@ -1508,3 +1508,32 @@ void ply_xswee(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track
 void DummyFunc(void)
 {
 }
+
+void SoundMainBTM(void *soundInfo)
+{
+    u32 *dst = soundInfo;
+    dst[0] = 0;
+    dst[1] = 0;
+    dst[2] = 0;
+    dst[3] = 0;
+    dst[4] = 0;
+    dst[5] = 0;
+    dst[6] = 0;
+    dst[7] = 0;
+    dst[8] = 0;
+    dst[9] = 0;
+    dst[10] = 0;
+    dst[11] = 0;
+    dst[12] = 0;
+    dst[13] = 0;
+    dst[14] = 0;
+    dst[15] = 0;
+}
+
+void clear_modM(void *unused, u8 *mod)
+{
+    u8 mode = mod[0x18] == 0 ? 0x0c : 3;
+    mod[0x16] = 0;
+    mod[0x1a] = 0;
+    mod[0] |= mode;
+}

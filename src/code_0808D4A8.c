@@ -1,5 +1,7 @@
 #include "global.h"
 
+extern s32 gUnk_030031EC;
+
 void sub_0808D4A8(void) {
 
 }
@@ -36,7 +38,17 @@ INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E9FC);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808EAD8);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808EB68);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808EBF4);
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808ECA0);
+void sub_0808ECA0(void)
+{
+    for (;;) {
+        if (sub_0800CC98() == 0) {
+            s32 value = *(s16 *)gUnk_030031EC;
+            sub_0800BD48(3, 0);
+            sub_0800BBA8(3, value / 2, 0);
+        }
+        sub_080003F0();
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808ECD0);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808ECFC);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808ED7C);
