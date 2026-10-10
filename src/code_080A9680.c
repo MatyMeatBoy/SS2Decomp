@@ -126,7 +126,15 @@ void sub_080B22E8(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030007A4);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2330);
+void sub_080B2330(void)
+{
+    u16 *flags = (u16 *)0x03000798;
+    u32 i;
+    for (i = 0; i < 2; i++) flags[i] = 0;
+    *(u32 *)0x030007A8 = sub_08001494(0x28);
+    if (*(u32 *)0x030007A8 != 0)
+        *(u32 *)(*(u32 *)0x030007A8 + 8) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B236C);
 void sub_080B23C8(void)
 {
