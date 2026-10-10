@@ -1,7 +1,12 @@
 #include "global.h"
 
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057CAC);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057CEC);
+s32 sub_08057CEC(void)
+{
+    if (sub_0800CE30() == 0)
+        return M2C_FIELD((void *)gUnk_03005CF4, s32 *, 0x78);
+    return M2C_FIELD((void *)gUnk_03005CF4 + 0x80, s32 *, 0);
+}
 void sub_08057D14(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x50) = arg0;
 }
