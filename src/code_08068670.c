@@ -25,7 +25,6 @@ u32 sub_080687A8(const u8 *arg0)
     gUnk_03006338 = index + 1;
     return 1;
 }
-extern u32 gUnk_03006338;
 s32 sub_080687E8(void)
 {
     u8 *p;
