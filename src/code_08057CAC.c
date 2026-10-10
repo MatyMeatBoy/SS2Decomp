@@ -23,7 +23,13 @@ INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058094);
 void sub_080580EC(void) {
     sub_0807C014();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080580F8);
+u32 sub_080580F8(u16 a, u16 b)
+{
+    u8 *base=(u8 *)0x030034E0; u32 count=0, i;
+    for(i=0;i<=0x4A;i++,base+=0x10)
+        if(*(u16 *)(base+0x2E0)==a && *(u16 *)(base+2)==b) count++;
+    return count;
+}
 u32 sub_0805813C(u16 a, u16 b)
 {
     u8 *base=(u8 *)0x030034E0; u32 count=0, i;
