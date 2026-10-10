@@ -59,7 +59,11 @@ loop_1:
 u16 sub_0807A028(u16 arg0) {
     return sub_08073EE8(arg0, 0x7FFFFFFF);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A040);
+extern s32 sub_08074398(u16, u16, s32);
+u16 sub_0807A040(u16 a, u16 b)
+{
+    return (u16)sub_08074398(a, b, 0x7FFFFFFF);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A064);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A0E0);
 void sub_0807A120(void) {
