@@ -1,0 +1,25 @@
+Shard 19 notes (worker/019). Remaining functions after 14 matches.
+
+sub_0801E0D0 (code_0801AAF8, leaf, 6x halfword add dst+=src):
+  best permuter score 395 (base 485), not converged. Tried: a+b / b+a / u16 / s32 / u32 temps,
+  statement forms. Compiler loads dst first, original loads src into r2 first.
+sub_0801E438 (code_0801E244): near. Shift tail matches with (x<<19)>>16 and result kept in r4.
+  Branch layout differs: original is beq A; cmp 3; beq B; b end, with a shared call after both blocks.
+  Tried: if/else-if, switch, goto, nested if, ternary, n-accumulate. None matched.
+sub_0801E550 (code_0801E244): near. +0x34 pointer load folds into the gUnk symbol; original keeps an
+  explicit `adds r2,#52` before the index add. Struct-member form (&gUnk[idx].x) and base variables
+  still fold. Use permuter or an explicit intermediate that the compiler cannot fold.
+sub_0801E594 (code_0801E244): near. Loop `*(u16*)p |= 0xFFFF` with stride 0x28, 8 iterations.
+  Compiler keeps the mask in r0 and moves the loaded value to r4 (original: mask in r3, value in r0).
+  Tried: u16/s32/u32 mask, volatile, for/do-while. Permuter did not converge.
+sub_0801E324 (code_0801E244): same loop as E594 with the match-side `|= 0xFFFF` and the index sum.
+sub_0801E278 / sub_0801E2CC (code_0801E244): search loop plus repeated sub_0801DB94 calls. The
+  original compares 100 in a high register (`cmp r8, r0`). Structure attempts did not match.
+sub_0801E378 (code_0801E244): arithmetic ((s16)arg1 + 2*first) * (second+10) / 10 via __divsi3.
+  Calls E0AC twice per branch. Register/temp order still differs; the first call result is raw s32.
+sub_0801DEB8 (code_0801AAF8): reads gUnk_030034E0 -> +0x68 index*16 -> sub_08007290(0xB0000|u16).
+  Operand order of the orr and the branch sense are off.
+sub_0801DF4C (code_0801AAF8): void function, arg in r2. Loop stride 0x2E0, bhi unsigned.
+  Register allocation differs (arg/counter/base order).
+Not started: sub_0801DB94 (241 asm), sub_0801E3D8 (50), sub_0801E5B0 (496), sub_0801E988 (519),
+  sub_0801ED8C (194), sub_0801EF14 (133), sub_0801F024 (218).

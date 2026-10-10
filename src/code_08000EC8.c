@@ -82,7 +82,13 @@ s32 sub_080010C8(s32 arg0)
   return new_var;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080010DC);
+void sub_080010DC(void)
+{
+    if (gUnk_03000014)
+        ((void (*)(void))gUnk_03000014)();
+    REG_IF = 2;
+    gUnk_03007FF8 |= 2;
+}
 
 u32 sub_08001108(u8 vcount)
 {
@@ -92,7 +98,13 @@ u32 sub_08001108(u8 vcount)
     return old;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001130);
+void sub_08001130(void)
+{
+    if (gUnk_03000010)
+        ((void (*)(void))gUnk_03000010)();
+    REG_IF = 4;
+    gUnk_03007FF8 |= 4;
+}
 
 u32 sub_0800115C(u32 v)
 {
@@ -106,7 +118,23 @@ void sub_0800116C(void) {
     gUnk_03002350 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001180);
+void sub_08001180(void)
+{
+    if (gUnk_03002870)
+        m4aSoundVSync();
+    if (gUnk_03002350)
+    {
+        if (gUnk_0300234C)
+            ((void (*)(void))gUnk_0300234C)();
+        sub_08000B50();
+        sub_08001394();
+        gUnk_03002350 = 0;
+    }
+    if (gUnk_03002870)
+        m4aSoundMain();
+    REG_IF = 1;
+    gUnk_03007FF8 |= 1;
+}
 
 #ifdef NONMATCHING
 u32 sub_080011E4(void *p)
@@ -146,9 +174,19 @@ void sub_08001204(void)
     sub_0801A558();
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001280);
+void sub_08001280(void)
+{
+    ((void (*)(void))gUnk_03002354)();
+    REG_IF = 0x800;
+    gUnk_03007FF8 |= 0x800;
+}
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080012AC);
+void sub_080012AC(void)
+{
+    ((void (*)(void))gUnk_03002360)();
+    REG_IF = 0x100;
+    gUnk_03007FF8 |= 0x100;
+}
 
 u32 sub_080012D8(u32 v)
 {
@@ -262,15 +300,3 @@ void sub_08001634(void)
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001638);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080016C8);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080016EC);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800170C);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001804);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800191C);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001990);

@@ -23,6 +23,7 @@ SECTIONS
         build/src/main.o(.text);
         build/src/video.o(.text);
         build/src/code_08000EC8.o(.text);
+        build/src/code_080016C8.o(.text);
         build/src/code_08001A50.o(.text);
         build/src/code_08002118.o(.text);
         build/src/code_08006D24.o(.text);

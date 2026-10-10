@@ -1,3 +1,5 @@
 include/functions.h merge=union
 include/variables.h merge=union
 include/structs.h merge=union
+tools/scripts/* merge=ours
+docs/progress/* merge=ours
