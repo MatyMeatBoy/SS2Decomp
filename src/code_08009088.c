@@ -1,9 +1,6 @@
 #include "global.h"
 
-void sub_08009088(u8 a, u8 b, u8 c, u8 d)
-{
-    gUnk_03001250[0x3c / 2] = a | (b << 4) | (c << 8) | (d << 12);
-}
+INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009088);
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080090B0);
 
