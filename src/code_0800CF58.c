@@ -140,7 +140,38 @@ INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800D368);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080135C4);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080137A0);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08013850);
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08013BC0);
+s32 sub_08013BC0(u8 *arg0) {
+    u16 *p;
+    u16 *q;
+    u16 *s;
+    s32 r;
+    s32 m;
+    r = sub_0800D1B0();
+    if (r == 0) {
+        p = (u16 *)(arg0 + 0xC4);
+        q = (u16 *)(arg0 + 0x88);
+        *p = *p - *q;
+        s = (u16 *)(arg0 + 0x8A);
+        *p = *p - *s;
+        *q = r;
+        *s = r;
+        m = *(s16 *)p & 0x8000;
+        if (m != 0 || *(s16 *)p == 0) {
+            if ((*(u32 *)(arg0 + 0x30) & 0x100000) == 0) {
+                *p = 0;
+                return 1;
+            }
+            *p = 1;
+            return 0;
+        }
+        *(u32 *)(arg0 + 0xE0) = m;
+        return 0;
+    } else {
+        *(u16 *)(arg0 + 0x88) = 0;
+        *(u16 *)(arg0 + 0x8A) = 0;
+    }
+    return 0;
+}
 void sub_08013C3C(u8 *arg0) {
     u8 *p = gUnk_030056F4;
     u16 i = 0;
