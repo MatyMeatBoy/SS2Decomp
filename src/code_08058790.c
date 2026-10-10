@@ -99,7 +99,10 @@ void sub_08058E14(s32 arg0) {
 void sub_08058E28(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) & ~(1 << arg0));
 }
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058E3C);
+s32 sub_08058E3C(s32 bit)
+{
+    return (M2C_FIELD(gUnk_03005CF4, u32 *, 0x6C) & (1 << bit)) != 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058E54);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058EF8);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058F4C);
