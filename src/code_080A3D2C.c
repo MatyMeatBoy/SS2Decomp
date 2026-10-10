@@ -2,6 +2,8 @@
 
 extern s32 gUnk_0300035C;
 extern s32 *gUnk_03000370[];
+extern u8 gUnk_030003F4[];
+extern u8 gUnk_030003F8[];
 extern s32 gUnk_03000414;
 
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
