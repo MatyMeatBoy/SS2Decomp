@@ -79,13 +79,33 @@ void sub_0801DE98(void *arg0) {
     *dst = *src;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DEB8);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF08);
+void sub_0801DF08(void) {
+    u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
+
+    u16 v = *(u16 *) (p + 0x62);
+    *(u16 *) (p + 0xC4) = v;
+    if (sub_0801DE60() == 1) {
+        u16 w = *(u16 *) (p + 0x60);
+        *(u16 *) (p + 0xC2) = w;
+    }
+    *(u16 *) (p + 0x20) = 0;
+    *(u32 *) (p + 0x30) = 0x40;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF4C);
 s32 sub_0801DF80(void) {
     return gUnk_030034E0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF8C);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DFE8);
+void sub_0801DFE8(s32 arg0, void *arg1, void *arg2) {
+    struct S32 { u32 w[8]; } *d1 = arg1;
+    struct S48 { u32 w[12]; } *d2 = arg2;
+    struct S32 *s1 = (struct S32 *) gUnk_0848FA48;
+    struct S48 *s2;
+
+    *d1 = s1[arg0];
+    s2 = (struct S48 *) gUnk_0849E580;
+    *d2 = s2[arg0];
+}
 void sub_0801E024(void *arg0) {
     u16 temp_r7;
     u8 temp_r8;
@@ -158,7 +178,19 @@ s32 sub_0801E164(void *arg0, s32 arg1)
  do { loop_1: temp_r0 = *((s16 *) (((s8 *) var_r2) + 0)); if ((temp_r0 == (-1)) || (((temp_r0 == (-2)) && ((*((u16 *) (((s8 *) var_r2) + 4))) == arg1)) && ((*((u16 *) (((s8 *) arg0) + 0))) == (*((u16 *) (((s8 *) var_r2) + 2)))))) { return (s32) var_r2; } var_r1 += 1; var_r2 += 0x28; if (var_r1 > 7U) { return 0; } } while (0);
   goto loop_1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E1A4);
+void *sub_0801E1A4(u8 *arg0, s32 arg1) {
+    u8 *p = *(u8 **) (arg0 + 0x34);
+    u32 i = 0;
+
+    do {
+        if (*(s16 *) p != -1 && *(u16 *) (p + 4) == arg1 && *(u16 *) (p + 2) == 100) {
+            return p;
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 7);
+    return 0;
+}
 s32 sub_0801E1D8(void *arg0, s32 arg1, s32 arg2)
 {
   u32 var_r1;
