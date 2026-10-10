@@ -184,7 +184,14 @@ void sub_0805F134(void)
     gUnk_03005D68 = sub_08001494(0x220);
     gUnk_03005D6C = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F158);
+u32 sub_0805F158(void)
+{
+    u32 i;
+    for (i = 0; i < 4; i++)
+        if (((gUnk_03005D6C >> i) & 1) == 0)
+            return i;
+    return 0xFF;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F184);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F1B0);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805FAC0);
