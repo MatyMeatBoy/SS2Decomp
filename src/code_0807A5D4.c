@@ -41,7 +41,22 @@ void sub_080852AC(void)
     sub_0800115C((s32)sub_0808528C);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080852CC);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085330);
+u32 sub_08085330(void)
+{
+    u8 *base = (u8 *)gUnk_03006440;
+    u32 total = 0;
+    if (*(u32 *)base == 4) {
+        u8 *entry = base + 0x104;
+        u32 i;
+        for (i = 0; i <= 0x4A; i++, entry += 0x10) {
+            if (*(u16 *)entry == 0xA)
+                total += *(u32 *)(entry + 4);
+        }
+    } else {
+        total = sub_0805D404();
+    }
+    return total;
+}
 void sub_0808536C(void)
 {
     s32 p;

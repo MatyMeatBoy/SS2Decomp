@@ -142,4 +142,10 @@ u32 sub_08057C34(u32 value)
     u32 flags = sub_0800CE30() ? *(u32 *)(base + 0x80) : *(u32 *)(base + 0x78);
     return flags & bit;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057C6C);
+void sub_08057C6C(u32 value)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u32 bit = 1u << ((value - 1) & 31);
+    u32 offset = sub_0800CE30() ? 0x80 : 0x78;
+    *(u32 *)(base + offset) |= bit;
+}
