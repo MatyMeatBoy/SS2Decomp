@@ -7,7 +7,7 @@ sub_08006C14: @ 0x08006C14
 	beq _08006C26
 	movs r0, #0
 	str r0, [r1, #0]
-	bl sub_080B77A0
+	bl m4aSoundVSyncOff
 _08006C26:
 	pop {r0}
 	bx r0

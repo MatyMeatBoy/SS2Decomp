@@ -14,13 +14,13 @@ sub_080923B4: @ 0x080923B4
 	ldr r2, [r0, #0]
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_080B8F2C
+	bl _call_via_r2
 	ldr r0, _080923F4
 	adds r5, r5, r0
 	ldr r2, [r5, #0]
 	adds r0, r6, #0
 	adds r1, r4, #0
-	bl sub_080B8F2C
+	bl _call_via_r2
 	ldr r0, _080923F8
 	bl sub_08000420
 	pop {r4, r5, r6}

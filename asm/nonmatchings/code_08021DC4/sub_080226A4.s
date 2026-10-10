@@ -686,7 +686,7 @@ _08022C38:
 	adds r0, r0, r1
 	ldr r4, [r0, #0]
 	adds r0, r5, #0
-	bl sub_080B8F34
+	bl _call_via_r4
 	mov r8, r0
 	b _08022CAC
 _08022C62:
@@ -715,7 +715,7 @@ _08022C90: .4byte gUnk_03005CF4
 _08022C94: .4byte 0x000092BC
 _08022C98:
 	adds r0, r5, #0
-	bl sub_080B8F34
+	bl _call_via_r4
 	mov r8, r0
 _08022CA0:
 	mov r7, r8

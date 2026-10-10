@@ -7,7 +7,7 @@ sub_08006D5C: @ 0x08006D5C
 	cmp r1, r0
 	bhi _08006D6E
 	adds r0, r1, #0
-	bl sub_080B72D4
+	bl m4aSongNumStop
 _08006D6E:
 	pop {r0}
 	bx r0

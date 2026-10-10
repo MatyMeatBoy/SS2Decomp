@@ -14,7 +14,7 @@ _0805A6C6:
 	ldr r0, [r5, #4]
 	ldr r1, [r5, #8]
 	ldr r2, [r5, #0]
-	bl sub_080B8F2C
+	bl _call_via_r2
 	pop {r4, r5}
 	pop {r0}
 	bx r0

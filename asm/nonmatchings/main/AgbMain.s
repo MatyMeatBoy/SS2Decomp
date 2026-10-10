@@ -73,8 +73,8 @@ AgbMain: @ 0x08000618
 	bl sub_0800116C
 	ldr r0, _08000754
 	bl sub_08000BB0
-	bl sub_080B7170
-	bl sub_080B77A0
+	bl m4aSoundInit
+	bl m4aSoundVSyncOff
 	bl sub_08000F2C
 	movs r0, #1
 	bl sub_08000F64

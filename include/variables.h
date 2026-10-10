@@ -86,7 +86,6 @@ extern s32 gUnk_03006368;
 extern u8 gUnk_0300636C;
 extern s32 gUnk_03006440;
 extern s32 gUnk_03006478;
-extern s32 gUnk_03007430;
 extern s32 gUnk_030074B8;
 extern s32 gUnk_030074BC;
 extern u16 gUnk_03007FF8;

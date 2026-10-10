@@ -39,7 +39,7 @@ _080B8B90: .4byte 0x0E005555
 _080B8B94:
 	ldr r1, [r7, #0]
 	adds r0, r5, #0
-	bl sub_080B8F28
+	bl _call_via_r1
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, r6
@@ -50,7 +50,7 @@ _080B8B94:
 	beq _080B8B94
 	ldr r1, [r7, #0]
 	adds r0, r5, #0
-	bl sub_080B8F28
+	bl _call_via_r1
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, r6

@@ -557,7 +557,7 @@ _080908DE:
 	lsls r1, r2, #1
 	adds r1, r1, r0
 	ldrh r0, [r1, #0]
-	bl sub_080B72D4
+	bl m4aSongNumStop
 	b _0809093A
 	.2byte 0x0000
 _08090914: .4byte gUnk_085181C0
@@ -588,7 +588,7 @@ _0809093A:
 	lsls r1, r2, #1
 	adds r1, r1, r0
 	ldrh r0, [r1, #0]
-	bl sub_080B7208
+	bl m4aSongNumStart
 	b _080909E2
 _08090950: .4byte gUnk_085181C0
 _08090954:
@@ -597,13 +597,13 @@ _08090954:
 	lsls r0, r1, #1
 	adds r0, r0, r4
 	ldrh r0, [r0, #0]
-	bl sub_080B72D4
+	bl m4aSongNumStop
 	ldr r2, [sp, #0x94]
 	str r2, [sp, #0x90]
 	lsls r0, r2, #1
 	adds r0, r0, r4
 	ldrh r0, [r0, #0]
-	bl sub_080B7208
+	bl m4aSongNumStart
 	b _080909E2
 	.2byte 0x0000
 _08090974: .4byte gUnk_0851820A
@@ -626,7 +626,7 @@ _08090978:
 	lsls r0, r2, #1
 	adds r0, r0, r1
 	ldrh r0, [r0, #0]
-	bl sub_080B72D4
+	bl m4aSongNumStop
 	movs r0, #0
 	mov sl, r0
 	movs r0, #0xb
@@ -648,7 +648,7 @@ _080909BE:
 	lsls r1, r2, #1
 	adds r1, r1, r0
 	ldrh r0, [r1, #0]
-	bl sub_080B72D4
+	bl m4aSongNumStop
 	b _080909E2
 	.2byte 0x0000
 _080909D0: .4byte gUnk_085181C0

@@ -10,7 +10,7 @@ sub_08001990: @ 0x08001990
 	ldr r0, _08001A40
 	movs r4, #0
 	str r4, [sp, #0]
-	bl sub_080B8F24
+	bl _call_via_r0
 	str r0, [sp, #4]
 	ldr r0, _08001A44
 	strb r4, [r0, #3]

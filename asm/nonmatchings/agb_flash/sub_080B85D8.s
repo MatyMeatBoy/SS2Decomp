@@ -31,12 +31,12 @@ _080B8610:
 	cmp r0, #0
 	bne _080B860C
 	ldr r0, _080B864C
-	bl sub_080B8F38
+	bl _call_via_r5
 	lsls r0, r0, #0x18
 	lsrs r4, r0, #0x10
 	movs r0, #0xe0
 	lsls r0, r0, #0x14
-	bl sub_080B8F38
+	bl _call_via_r5
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	orrs r4, r0

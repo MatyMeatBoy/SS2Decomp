@@ -13,5 +13,5 @@ sub_080B69D8: @ 0x080B69D8
 	strb r2, [r1, #2]
 	b sub_080B69B8
 _080B69F0:
-	b sub_080B6948
+	b ply_fine
 	thumb_func_end sub_080B69D8

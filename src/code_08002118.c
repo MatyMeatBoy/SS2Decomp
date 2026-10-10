@@ -54,30 +54,30 @@ void sub_080066A8(void) {
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_080066BC);
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006B2C);
 void sub_08006B60(void) {
-    sub_080B76B4(0x93D800);
+    m4aSoundMode(0x93D800);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006B70);
-void sub_08006BB4(void) {
-    sub_080B76B4();
+void sub_08006BB4(u32 mode) {
+    m4aSoundMode(mode);
 }
 void sub_08006BC0(void) {
     gUnk_03002870 = 0;
     gUnk_030028AC = 0;
     sub_08000940();
-    sub_080B733C();
+    m4aMPlayAllStop();
     sub_08006BF8();
 loop_1:
     sub_080003F0();
     goto loop_1;
 }
 void sub_08006BE8(void) {
-    sub_080B733C();
+    m4aMPlayAllStop();
     sub_08006C14();
 }
 void sub_08006BF8(void) {
     if (gUnk_03002870 == 0) {
         gUnk_03002870 = 1;
-        sub_080B77EC();
+        m4aSoundVSyncOn();
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006C14);
@@ -87,7 +87,7 @@ void sub_08006C70(u16 arg0) {
 
     temp_r1 = arg0;
     if (((u32) temp_r1 <= 0x1ABU) && (gUnk_030028AC != 0)) {
-        sub_080B7208((s32) temp_r1);
+        m4aSongNumStart((s32) temp_r1);
     }
 }
 void sub_08006C98(u16 arg0) {
@@ -95,7 +95,7 @@ void sub_08006C98(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B7234(temp_r1);
+        m4aSongNumStartOrChange(temp_r1);
     }
 }
 void sub_08006CB4(u16 arg0) {
@@ -103,7 +103,7 @@ void sub_08006CB4(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B7280(temp_r1);
+        m4aSongNumStartOrContinue(temp_r1);
     }
 }
 void sub_08006CD0(u16 arg0) {
@@ -111,7 +111,7 @@ void sub_08006CD0(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B72D4(temp_r1);
+        m4aSongNumStop(temp_r1);
     }
 }
 void sub_08006CEC(u16 arg0) {
@@ -119,7 +119,7 @@ void sub_08006CEC(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B7308(temp_r1);
+        m4aSongNumContinue(temp_r1);
     }
 }
 void sub_08006D08(u16 arg0) {
@@ -127,6 +127,6 @@ void sub_08006D08(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B7208((s32) temp_r1);
+        m4aSongNumStart((s32) temp_r1);
     }
 }

@@ -29,7 +29,7 @@ _08006BA0:
 _08006BA2:
 	adds r0, r3, #0
 	movs r1, #0xf
-	bl sub_080B80A8
+	bl m4aMPlayVolumeControl
 	pop {r0}
 	bx r0
 	.2byte 0x0000

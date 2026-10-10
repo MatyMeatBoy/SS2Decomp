@@ -8,7 +8,7 @@ sub_08006E64: @ 0x08006E64
 	cmp r0, #0
 	bne _08006E78
 	ldr r0, _08006E80
-	bl sub_080B7954
+	bl m4aMPlayStop
 _08006E78:
 	pop {r0}
 	bx r0

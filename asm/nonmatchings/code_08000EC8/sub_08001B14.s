@@ -17,7 +17,7 @@ _08001B2C:
 	ldr r2, [r0, #0]
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_080B8F2C
+	bl _call_via_r2
 	adds r4, r0, #0
 	lsls r4, r4, #0x10
 	lsrs r4, r4, #0x10

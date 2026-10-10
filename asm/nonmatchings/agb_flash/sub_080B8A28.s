@@ -17,7 +17,7 @@ _080B8A3A:
 	ldr r2, [r0, #0]
 	adds r0, r4, #0
 	adds r1, r5, #0
-	bl sub_080B8F2C
+	bl _call_via_r2
 	lsls r0, r0, #0x10
 	lsrs r2, r0, #0x10
 	cmp r2, #0

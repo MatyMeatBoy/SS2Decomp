@@ -1605,7 +1605,7 @@ _080AC04A:
 	movs r0, #0x16
 	bl sub_08057C6C
 	movs r0, #0x32
-	bl sub_080B7208
+	bl m4aSongNumStart
 _080AC098:
 	movs r2, #0x14
 	str r2, [sp, #0x9c]

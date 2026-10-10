@@ -1,7 +1,7 @@
 	thumb_func_start sub_080B8E60
 sub_080B8E60: @ 0x080B8E60
 	push {lr}
-	bl sub_080B8F28
+	bl _call_via_r1
 	cmp r0, #0
 	bne _080B8E6E
 	movs r0, #0

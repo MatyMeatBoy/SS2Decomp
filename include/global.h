@@ -1,8 +1,9 @@
 #ifndef GUARD_GLOBAL_H
 #define GUARD_GLOBAL_H
 
-#include "gba/types.h"
+#include "gba/gba.h"
 #include "m2c_macros.h"
+#include "m4a.h"
 #include "variables.h"
 #include "functions.h"
 
@@ -12,13 +13,6 @@
     asm(".syntax unified\n" \
         ".include \"" FOLDER "/" #NAME ".s\"\n" \
         ".syntax divided\n")
-
-// Same as INCLUDE_ASM but for a function whose C is written but not matching yet.
-#ifdef NONMATCHING
-#define NONMATCH(FOLDER, DECL) DECL
-#else
-#define NONMATCH(FOLDER, DECL) __attribute__((unused)) static DECL##_nonmatch
-#endif
 
 asm(".include \"asm/macros.inc\"");
 

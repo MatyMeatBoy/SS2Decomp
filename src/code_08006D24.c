@@ -5,7 +5,7 @@ void sub_08006D24(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B7234(temp_r1);
+        m4aSongNumStartOrChange(temp_r1);
     }
 }
 void sub_08006D40(u16 arg0) {
@@ -13,7 +13,7 @@ void sub_08006D40(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B7280(temp_r1);
+        m4aSongNumStartOrContinue(temp_r1);
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006D5C);
@@ -22,50 +22,50 @@ void sub_08006D78(u16 arg0) {
 
     temp_r1 = arg0;
     if ((u32) temp_r1 <= 0x1ABU) {
-        sub_080B7308(temp_r1);
+        m4aSongNumContinue(temp_r1);
     }
 }
-void sub_08006D94(void) {
-    sub_080B78A0();
+void sub_08006D94(struct MusicPlayerInfo *mplayInfo, struct SongHeader *songHeader) {
+    MPlayStart(mplayInfo, songHeader);
 }
-void sub_08006DA0(void) {
-    sub_080B7954();
+void sub_08006DA0(struct MusicPlayerInfo *mplayInfo) {
+    m4aMPlayStop(mplayInfo);
 }
 void sub_08006DAC(void) {
-    sub_080B733C();
+    m4aMPlayAllStop();
 }
 void sub_08006DB8(void) {
-    sub_080B7374();
+    m4aMPlayAllContinue();
 }
-void sub_08006DC4(s32 arg0, u16 arg1) {
-    sub_080B73A0(arg0, arg1);
+void sub_08006DC4(struct MusicPlayerInfo *mplayInfo, u16 speed) {
+    m4aMPlayFadeOut(mplayInfo, speed);
 }
-void sub_08006DD4(s32 arg0, u16 arg1) {
-    sub_080B8080(arg0, arg1);
+void sub_08006DD4(struct MusicPlayerInfo *mplayInfo, u16 tempo) {
+    m4aMPlayTempoControl(mplayInfo, tempo);
 }
-void sub_08006DE4(s32 arg0, u16 arg1, u16 arg2) {
-    sub_080B80A8(arg0, arg1, arg2);
+void sub_08006DE4(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u16 volume) {
+    m4aMPlayVolumeControl(mplayInfo, trackBits, volume);
 }
-void sub_08006DF8(s32 arg0, u16 arg1, s16 arg2) {
-    sub_080B8110(arg0, arg1, arg2);
+void sub_08006DF8(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s16 pitch) {
+    m4aMPlayPitchControl(mplayInfo, trackBits, pitch);
 }
-void sub_08006E0C(s32 arg0, u16 arg1, s8 arg2) {
-    sub_080B8184(arg0, arg1, arg2);
+void sub_08006E0C(struct MusicPlayerInfo *mplayInfo, u16 trackBits, s8 pan) {
+    m4aMPlayPanpotControl(mplayInfo, trackBits, pan);
 }
-void sub_08006E20(s32 arg0, u16 arg1, u8 arg2) {
-    sub_080B820C(arg0, arg1, arg2);
+void sub_08006E20(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 modDepth) {
+    m4aMPlayModDepthSet(mplayInfo, trackBits, modDepth);
 }
-void sub_08006E34(s32 arg0, u16 arg1, u8 arg2) {
-    sub_080B8280(arg0, arg1, arg2);
+void sub_08006E34(struct MusicPlayerInfo *mplayInfo, u16 trackBits, u8 lfoSpeed) {
+    m4aMPlayLFOSpeedSet(mplayInfo, trackBits, lfoSpeed);
 }
-void sub_08006E48(void) {
-    sub_080B73B0();
+void sub_08006E48(struct MusicPlayerInfo *mplayInfo) {
+    m4aMPlayImmInit(mplayInfo);
 }
 void sub_08006E54(void) {
 
 }
 void sub_08006E58(void) {
-    sub_080B7208(0x62);
+    m4aSongNumStart(0x62);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006E64);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006E84);

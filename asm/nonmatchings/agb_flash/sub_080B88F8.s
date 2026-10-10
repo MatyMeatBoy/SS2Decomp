@@ -64,7 +64,7 @@ _080B8960:
 	adds r1, r1, r2
 	ldrh r2, [r0, #4]
 	adds r0, r5, #0
-	bl sub_080B8F30
+	bl _call_via_r3
 	add sp, #0x100
 	pop {r4, r5}
 	pop {r1}

@@ -15,7 +15,7 @@ sub_080B8CE0: @ 0x080B8CE0
 	ldrb r2, [r0, #0]
 	ldr r3, [r3, #0]
 	movs r0, #1
-	bl sub_080B8F30
+	bl _call_via_r3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	pop {r4}

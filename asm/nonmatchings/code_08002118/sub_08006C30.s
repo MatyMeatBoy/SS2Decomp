@@ -6,16 +6,16 @@ sub_08006C30: @ 0x08006C30
 	lsrs r4, r4, #0x10
 	ldr r0, _08006C60
 	adds r1, r4, #0
-	bl sub_080B73A0
+	bl m4aMPlayFadeOut
 	ldr r0, _08006C64
 	adds r1, r4, #0
-	bl sub_080B73A0
+	bl m4aMPlayFadeOut
 	ldr r0, _08006C68
 	adds r1, r4, #0
-	bl sub_080B73A0
+	bl m4aMPlayFadeOut
 	ldr r0, _08006C6C
 	adds r1, r4, #0
-	bl sub_080B73A0
+	bl m4aMPlayFadeOut
 	pop {r4}
 	pop {r0}
 	bx r0

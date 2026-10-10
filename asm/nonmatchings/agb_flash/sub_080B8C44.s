@@ -43,7 +43,7 @@ sub_080B8C44: @ 0x080B8C44
 	movs r0, #2
 	adds r1, r4, #0
 	movs r2, #0xff
-	bl sub_080B8F30
+	bl _call_via_r3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldrh r1, [r6, #0]

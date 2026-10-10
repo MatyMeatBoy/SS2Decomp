@@ -15,6 +15,8 @@ without rebuilding the ROM.
 """
 
 import argparse
+import contextlib
+import io
 import difflib
 import glob
 import os
@@ -48,10 +50,88 @@ def find_asm(func):
     return path, os.path.basename(os.path.dirname(path))
 
 
-def assemble_orig(func, out_o):
+ORIG_COMMIT = "e79213b"  # first matching disassembly, every function still in asm
+
+
+def func_address(func):
+    m = re.match(r"(?:sub|arm)_([0-9A-F]{8})$", func)
+    if m:
+        return int(m.group(1), 16)
+    for line in open(os.path.join(ROOT, "tools/config/functions.cfg")):
+        p = line.split()
+        if len(p) > 2 and p[0] in ("thumb", "arm") and p[2] == func:
+            return int(p[1], 0)
+    return None
+
+
+def orig_asm(func, workdir):
+    """Path of the original asm of func and the symbol name used in it."""
     path, mod = find_asm(func)
-    if path is None:
-        raise SystemExit("no asm for %s" % func)
+    if path is not None:
+        return path, func
+    addr = func_address(func)
+    if addr is None:
+        raise SystemExit("unknown function %s" % func)
+    r = run(["git", "ls-tree", "-r", "--name-only", ORIG_COMMIT, "asm/nonmatchings"])
+    for f in r.stdout.split():
+        name = os.path.basename(f)[:-2]
+        if name == "sub_%08X" % addr or (addr == 0x08000618 and name == "AgbMain"):
+            text = run(["git", "show", "%s:%s" % (ORIG_COMMIT, f)]).stdout
+            out = os.path.join(workdir, name + ".s")
+            open(out, "w").write(text)
+            return out, name
+    raise SystemExit("no original asm for %s" % func)
+
+
+def current_names():
+    """address -> current symbol name (functions.cfg, sym_ram.ld, data labels)."""
+    names = {}
+    for line in open(os.path.join(ROOT, "tools/config/functions.cfg")):
+        p = line.split()
+        if len(p) > 2 and p[0] in ("thumb", "arm"):
+            names[int(p[1], 0)] = p[2]
+    for line in open(os.path.join(ROOT, "sym_ram.ld")):
+        m = re.match(r"(\w+) = (0x[0-9A-Fa-f]+);", line)
+        if m and not m.group(1).startswith("gUnk_"):
+            names[int(m.group(2), 16)] = m.group(1)
+    data = open(os.path.join(ROOT, "data/rodata.s")).read()
+    # data labels: "name:" lines follow incbins; compute addresses from the incbin offsets
+    addr = 0x080B9704
+    for line in data.splitlines():
+        m = re.match(r'\t\.incbin "baserom.gba", (0x[0-9A-F]+), (0x[0-9A-F]+)', line)
+        if m:
+            addr = 0x08000000 + int(m.group(1), 16) + int(m.group(2), 16)
+            continue
+        m = re.match(r"(\w+):$", line)
+        if m and not m.group(1).startswith("gUnk_"):
+            names[addr] = m.group(1)
+    return names
+
+
+def restore_asm(func):
+    """Recreate asm/nonmatchings/<module>/<func>.s from the original disassembly."""
+    addr = func_address(func)
+    mod = None
+    for line in open(os.path.join(ROOT, "tools/config/modules.cfg")):
+        p = line.split()
+        if p and not line.startswith("#") and int(p[0], 0) <= addr:
+            mod = p[1]
+    with tempfile.TemporaryDirectory() as td:
+        path, oname = orig_asm("sub_%08X" % addr, td)
+        text = open(path).read()
+    names = current_names()
+
+    def sub(m):
+        a = int(m.group(2), 16)
+        return names.get(a, m.group(0))
+    text = re.sub(r"\b(sub|gUnk)_([0-9A-F]{8})\b", sub, text)
+    out = os.path.join(ROOT, "asm/nonmatchings/%s/%s.s" % (mod, func))
+    open(out, "w").write(text)
+    return out
+
+
+def assemble_orig(func, out_o):
+    path, name = orig_asm(func, os.path.dirname(out_o))
     rel = os.path.relpath(path, ROOT)
     src = out_o[:-2] + ".s"
     with open(src, "w") as fh:
@@ -59,6 +139,7 @@ def assemble_orig(func, out_o):
     r = run(["arm-none-eabi-as", "-mcpu=arm7tdmi", "-I", ROOT, "-o", out_o, src])
     if r.returncode:
         raise SystemExit(r.stderr)
+    return name
 
 
 def compile_c(cfile, out_o):
@@ -103,7 +184,17 @@ def resolve(name):
     m = re.match(r"(?:gUnk|sub|arm)_([0-9A-F]{8})$", name)
     if m:
         return int(m.group(1), 16)
-    return None
+    global _NAMES_INV
+    if _NAMES_INV is None:
+        _NAMES_INV = {v: k for k, v in current_names().items()}
+        for line in open(os.path.join(ROOT, "sym_ram.ld")):
+            mm = re.match(r"(\w+) = (0x[0-9A-Fa-f]+|\d+);", line)
+            if mm:
+                _NAMES_INV[mm.group(1)] = int(mm.group(2), 0)
+    return _NAMES_INV.get(name)
+
+
+_NAMES_INV = None
 
 
 def func_code(obj, func):
@@ -183,8 +274,8 @@ def disasm(obj, func):
     return out
 
 
-def compare(orig_o, cand_o, func, verbose=True):
-    a = normalized(orig_o, func)
+def compare(orig_o, cand_o, func, verbose=True, orig_name=None):
+    a = normalized(orig_o, orig_name or func)
     b = normalized(cand_o, func)
     if b is None:
         if verbose:
@@ -194,7 +285,7 @@ def compare(orig_o, cand_o, func, verbose=True):
     a, b = a[0], b[0]
     if not ok and verbose:
         print("size: orig %d, candidate %d" % (len(a), len(b)))
-        da = disasm(orig_o, func)
+        da = disasm(orig_o, orig_name or func)
         db = disasm(cand_o, func)
         for l in difflib.unified_diff(da, db, "original", "candidate", lineterm="", n=3):
             print(l)
@@ -279,13 +370,129 @@ def check(func, cfile, verbose=True):
     with tempfile.TemporaryDirectory() as td:
         orig = os.path.join(td, "orig.o")
         cand = os.path.join(td, "cand.o")
-        assemble_orig(func, orig)
+        oname = assemble_orig(func, orig)
         err = compile_c(cfile, cand)
         if err:
             if verbose:
                 print(err)
             return False
-        return compare(orig, cand, func, verbose)
+        return compare(orig, cand, func, verbose, oname)
+
+
+def check_file(cfile, verbose=False, only=None):
+    """Compile cfile once and compare every function it defines."""
+    results = {}
+    with tempfile.TemporaryDirectory() as td:
+        cand = os.path.join(td, "cand.o")
+        err = compile_c(cfile, cand)
+        if err:
+            print(err)
+            return None
+        with open(cand, "rb") as fh:
+            elf = ELFFile(fh)
+            names = [sy.name for sy in elf.get_section_by_name(".symtab").iter_symbols()
+                     if sy["st_info"]["type"] == "STT_FUNC" and sy["st_shndx"] != "SHN_UNDEF"]
+        for n in names:
+            if only and n not in only:
+                continue
+            if func_address(n) is None:
+                continue
+            orig = os.path.join(td, "orig_%s.o" % n)
+            try:
+                oname = assemble_orig(n, orig)
+            except SystemExit:
+                continue
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                ok = compare(orig, cand, n, True, oname)
+            out = buf.getvalue()
+            ndiff = sum(1 for l in out.splitlines() if l[:1] in "+-" and l[:3] not in ("---", "+++"))
+            results[n] = (ok, ndiff, out)
+            print("%-32s %s" % (n, "MATCH" if ok else "%d diff lines" % ndiff))
+            if verbose and not ok:
+                print(out)
+    return results
+
+
+FUNC_RE = re.compile(r"^(?:static\s+)?(?:inline\s+)?[\w \*]+?\b(\w+)\s*\(([^;{]*?)\)\s*\n?\{", re.M)
+
+
+def split_functions(text):
+    """-> (prelude, {name: code}, [names in order])"""
+    funcs = {}
+    order = []
+    first = None
+    for m in FUNC_RE.finditer(text):
+        start = m.start()
+        if order and start < funcs_end:
+            continue
+        j = text.index("{", m.end() - 1)
+        depth = 0
+        for k in range(j, len(text)):
+            if text[k] == "{":
+                depth += 1
+            elif text[k] == "}":
+                depth -= 1
+                if depth == 0:
+                    break
+        funcs[m.group(1)] = text[start:k + 1]
+        order.append(m.group(1))
+        funcs_end = k + 1
+        if first is None:
+            first = start
+    prelude = text[:first] if first is not None else text
+    return prelude, funcs, order
+
+
+def module_functions(mod):
+    """Function names of a module, in ROM order."""
+    mods = []
+    for line in open(os.path.join(ROOT, "tools/config/modules.cfg")):
+        p = line.split()
+        if p and not line.startswith("#"):
+            mods.append((int(p[0], 0), p[1]))
+    mods.sort()
+    lo = hi = None
+    for i, (a, n) in enumerate(mods):
+        if n == mod:
+            lo = a
+            hi = mods[i + 1][0] if i + 1 < len(mods) else 0x080B9704
+    out = []
+    for line in open(os.path.join(ROOT, "tools/config/functions.cfg")):
+        p = line.split()
+        if len(p) >= 2 and p[0] == "thumb":
+            a = int(p[1], 0)
+            if lo <= a < hi:
+                out.append((a, p[2] if len(p) > 2 else "sub_%08X" % a))
+    return [n for a, n in sorted(out)]
+
+
+def integrate(mod, cfile):
+    """Rebuild src/<mod>.c from a candidate file defining (some of) its functions."""
+    results = check_file(cfile) or {}
+    text = open(cfile).read()
+    prelude, funcs, _ = split_functions(text)
+    src = os.path.join(ROOT, "src/%s.c" % mod)
+    cur_prelude, cur_funcs, _ = split_functions(open(src).read())
+    out = [prelude.rstrip() + "\n"]
+    nmatch = 0
+    for name in module_functions(mod):
+        stub = 'INCLUDE_ASM("asm/nonmatchings/%s", %s);' % (mod, name)
+        if name in funcs and results.get(name, (False,))[0]:
+            out.append(funcs[name] + "\n")
+            p = find_asm(name)[0]
+            if p:
+                os.remove(p)
+            nmatch += 1
+        else:
+            if find_asm(name)[0] is None:
+                restore_asm(name)
+            if name in funcs:
+                out.append("#ifdef NONMATCHING\n%s\n#else\n%s\n#endif\n" % (funcs[name], stub))
+            else:
+                out.append(stub + "\n")
+    open(src, "w").write("\n".join(out))
+    print("src/%s.c: %d functions matching" % (mod, nmatch))
 
 
 def m2c_to_c(out):
@@ -358,6 +565,15 @@ def main():
     p = sub.add_parser("check")
     p.add_argument("func")
     p.add_argument("cfile")
+    p = sub.add_parser("checkfile")
+    p.add_argument("cfile")
+    p.add_argument("-v", "--verbose", action="store_true")
+    p.add_argument("-f", "--func", action="append")
+    p = sub.add_parser("integrate")
+    p.add_argument("module")
+    p.add_argument("cfile")
+    p = sub.add_parser("restore")
+    p.add_argument("funcs", nargs="+")
     p = sub.add_parser("apply")
     p.add_argument("func")
     p.add_argument("cfile")
@@ -378,6 +594,13 @@ def main():
         ok = check(args.func, args.cfile)
         print("MATCH" if ok else "NO MATCH")
         sys.exit(0 if ok else 1)
+    elif args.cmd == "checkfile":
+        check_file(args.cfile, args.verbose, args.func)
+    elif args.cmd == "integrate":
+        integrate(args.module, args.cfile)
+    elif args.cmd == "restore":
+        for f in args.funcs:
+            print(restore_asm(f))
     elif args.cmd == "apply":
         apply(args.func, args.cfile)
     elif args.cmd == "nonmatch":

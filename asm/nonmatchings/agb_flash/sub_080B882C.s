@@ -67,7 +67,7 @@ _080B8898:
 	adds r0, r0, r1
 	adds r1, r6, #0
 	adds r2, r7, #0
-	bl sub_080B8F30
+	bl _call_via_r3
 	add sp, #0x80
 	pop {r4, r5, r6, r7}
 	pop {r0}

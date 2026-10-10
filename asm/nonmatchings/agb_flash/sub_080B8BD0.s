@@ -31,7 +31,7 @@ sub_080B8BD0: @ 0x080B8BD0
 	ldr r3, [r0, #0]
 	movs r0, #3
 	movs r2, #0xff
-	bl sub_080B8F30
+	bl _call_via_r3
 	lsls r0, r0, #0x10
 	lsrs r0, r0, #0x10
 	ldrh r1, [r5, #0]
