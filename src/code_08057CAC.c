@@ -110,7 +110,14 @@ void sub_0805865C(s32 arg0)
 void sub_0805867C(void) {
     sub_08006D5C();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058688);
+s32 sub_08058688(s32 value)
+{
+    s32 old = gUnk_03005CF8;
+    gUnk_03005CF8 = value;
+    if ((gUnk_030027D0 & 0x20) == 0)
+        sub_08006CB4(value);
+    return old;
+}
 s32 sub_080586B4(void)
 {
     s32 value = gUnk_03005CF8;
