@@ -68,7 +68,14 @@ void sub_080010AC(u16 mask)
     REG_DISPSTAT = gUnk_03000004;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080010C8);
+s32 sub_080010C8(s32 arg0)
+{
+  s32 new_var;
+  new_var = gUnk_03000010;
+  gUnk_03000014 = arg0;
+  ;
+  return new_var;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080010DC);
 

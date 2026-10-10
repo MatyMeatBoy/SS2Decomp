@@ -14,7 +14,30 @@ s32 sub_08019E20(s32 arg0) {
     sub_0800CE30();
     return arg0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019E30);
+s32 sub_08019E30(s32 arg0)
+{
+  s32 temp_r1;
+  s32 var_r4;
+  u32 var_r2;
+  void *var_r3;
+  s32 *new_var;
+  var_r3 = gUnk_030056F4;
+  var_r4 = 0;
+  var_r2 = 0;
+  new_var = &gUnk_030056FC;
+  do
+  {
+    temp_r1 = 1 << var_r2;
+    if (((*new_var) & temp_r1) && ((*((s32 *) (((s8 *) var_r3) + 0x2C))) == arg0))
+    {
+      var_r4 |= temp_r1;
+    }
+    var_r2 += 1;
+    var_r3 += 0x2E0;
+  }
+  while (var_r2 <= 4U);
+  return var_r4;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019E74);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019EB8);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F04);

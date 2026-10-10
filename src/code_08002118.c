@@ -62,7 +62,11 @@ void sub_080065B0(void) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_080065FC);
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800663C);
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08006694);
+void sub_08006694(void)
+{
+  short new_var;
+  *((s16 *) 0x04000012) = (new_var = 0xFFFC);
+}
 void sub_080066A8(void) {
     *(s16 *)0x04000010 = (s16) gUnk_03003474;
 }

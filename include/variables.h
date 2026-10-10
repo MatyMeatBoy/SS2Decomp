@@ -118,6 +118,9 @@ extern s32 gUnk_03003478;
 extern s32 gUnk_030034A8;
 extern s32 gUnk_030034D8;
 extern s32 gUnk_030034E0;
+extern s32 gUnk_03003C10;
+extern void *gUnk_03004210;
+extern void *gUnk_030056F4;
 extern s32 gUnk_030056FC;
 extern s16 gUnk_03005C98;
 extern s32 gUnk_03005CE0;
@@ -145,6 +148,7 @@ extern struct LevelEntry gUnk_0847846C[];
 extern s32 gUnk_08518938;
 extern M2C_UNK gUnk_08E3FB54;
 extern M2C_UNK sub_08002B70;
+extern M2C_UNK sub_08014170;
 extern M2C_UNK sub_080852AC;
 
 #endif // GUARD_VARIABLES_H
