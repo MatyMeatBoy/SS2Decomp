@@ -1,5 +1,9 @@
 #include "global.h"
 
+extern u32 gUnk_03005CFC;
+extern u32 gUnk_03005D00;
+extern s32 gUnk_03005CF0;
+s32 sub_0800048C();
 void sub_08025890(void);
 void sub_080263B4(void);
 void sub_080226A4(void);
@@ -180,8 +184,77 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027B50);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028368);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080283C4);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028498);
+void sub_08028498(u16 arg0)
+{
+  u32 *flagp;
+  u32 mask;
+  u32 flags;
+  u32 *tbl;
+  u32 off;
+  u16 idx;
+  idx = arg0 - 4;
+  flagp = &gUnk_03005CFC;
+  mask = 1 << idx;
+  flags = *flagp;
+  if (flags & mask)
+  {
+    tbl = &gUnk_03005D00;
+    off = (idx * 3) * 4;
+    if ((*((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8))) <= 1)
+    {
+      *((u32 *) (((u8 *) tbl) + off)) = 0;
+      *((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 4)) = 0;
+      *((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8)) = 0;
+      *flagp = flags & (~mask);
+    }
+    else
+    {
+      *((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8)) = (*((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8))) - 1;
+    }
+  }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080284F4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028830);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028918);
+void sub_08028918(void) {
+    s32 keep;
+    s32 p;
+    s32 q;
+    u32 i;
+
+    keep = sub_0800048C();
+    p = gUnk_03005CF4 + 0xE34;
+    i = 0;
+    do {
+        if (p != keep) {
+            if (sub_08000470(p)) {
+                sub_080003A8(p);
+            }
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 0x1D);
+    p = gUnk_03005CF4 + 0x12E4;
+    i = 0;
+    do {
+        if (p != keep) {
+            if (sub_08000470(p)) {
+                sub_080003A8(p);
+            }
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 0x1D);
+    q = gUnk_03005CF4 + 0x7A4;
+    i = 0;
+    do {
+        if (p != keep) {
+            if (sub_08000470(q + 0x48)) {
+                sub_080003A8(q + 0x48);
+            }
+        }
+        i++;
+        q += 0x70;
+    } while (i <= 0xE);
+    gUnk_03005CF0 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080289C0);
