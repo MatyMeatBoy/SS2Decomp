@@ -28,9 +28,29 @@ void sub_0808899C(void)
     *(u32 *)(obj + 0xC) = (u32)sub_08087CC0;
     sub_08000274(obj, 0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_080889D4);
+void sub_080889D4(u32 arg0, u32 arg1)
+{
+    u8 *obj = (u8 *)0x030061B0;
+    u32 mem = sub_08001494(0xC00);
+    *(u32 *)(obj + 0x20) = mem;
+    *(u32 *)(obj + 0xC) = (u32)sub_08087A5C;
+    *(u32 *)(obj + 0x10) = mem + 0xBFC;
+    *(u32 *)(obj + 8) = 0xA;
+    *(u32 *)(obj + 0x24) = 0;
+    sub_08000274(obj, arg0, (u16)arg1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088A18);
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088A60);
+void sub_08088A60(u32 arg0, u32 arg1)
+{
+    u8 *obj = (u8 *)0x030061B0;
+    u32 mem = sub_08001494(0xC00);
+    *(u32 *)(obj + 0x20) = mem;
+    *(u32 *)(obj + 0xC) = (u32)sub_08087A5C;
+    *(u32 *)(obj + 0x10) = mem + 0xBFC;
+    *(u32 *)(obj + 8) = 0xA;
+    *(u32 *)(obj + 0x24) = 0;
+    sub_08000274(obj, arg0, (u16)arg1 | 0x10000);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088AA8);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088B24);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088B6C);
