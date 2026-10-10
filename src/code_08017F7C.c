@@ -16,7 +16,13 @@ u32 sub_08019CDC(void)
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019CE8);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019D34);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019D7C);
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019DE0);
+u32 sub_08019DE0(u32 value)
+{
+    u8 *entry=*(u8 **)0x030056F4; u32 flags=*(u32 *)0x030056FC, i;
+    for(i=0;i<=4;i++,entry+=0x2E0)
+        if((flags&(1<<i)) && *(u32 *)(entry+0x2C)==value) return 1;
+    return 0;
+}
 s32 sub_08019E20(s32 arg0) {
     sub_0800CE30();
     return arg0;
