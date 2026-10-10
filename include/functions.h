@@ -84,6 +84,7 @@ void sub_08002304(void);
 void sub_08002658(void);
 void sub_08002A54(void);
 u32 sub_08002A8C(void);
+void sub_08002AA0(void);
 void sub_08006544(void);
 void sub_080065B0(void);
 void sub_08006694(void);

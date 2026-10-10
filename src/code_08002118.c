@@ -104,7 +104,33 @@ u32 sub_08002A8C(void)
         r = 1;
     return r;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002AA0);
+void sub_08002AA0(void)
+{
+	u32 sp8;
+	u16 *p;
+	u16 v;
+	u32 z;
+	sub_08000990(0, 1);
+	sub_08000A34(1, 0, 0, 0, 1);
+	sub_080009F8(0xF00, 0, 1);
+	sub_080009C0(0x1F00, 0, 1);
+	sp8 = (0xFFFF0000 & sp8) | 0x1C08;
+	sub_08000AA8(0, (u16 *) (&sp8));
+	z = 0;
+	v = 0x1D01;
+	*((u16 *) (&sp8)) = v;
+	sub_08000AA8(1, (u16 *) (&sp8));
+	v = 0x1E02;
+	*((u16 *) (&sp8)) = v;
+	sub_08000AA8(2, (u16 *) (&sp8));
+	v = 0x1F03;
+	*((u16 *) (&sp8)) = v;
+	sub_08000AA8(3, (u16 *) (&sp8));
+	sub_0800BCDC(0x19, 3, 0x06000000, 0, 0xF);
+	sub_0800BCDC(0x14, 2, 0x06000000, 0, 0xF);
+	sub_0800BCDC(0x13, 1, 0x06000000, 0, 0xF);
+	sub_0800903C(4, 8, 1, 0, 8, z);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002B70);
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08003984);
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005A24);
