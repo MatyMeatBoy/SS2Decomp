@@ -84,7 +84,19 @@ void sub_08097C4C(void)
     *((s32 *) (new_var2 + 8)) = 0;
   }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097C6C);
+void sub_08097C6C(void)
+{
+    u32 *obj = *(u32 **)0x03000298;
+    if (obj != 0) {
+        if (obj[2] != 0) {
+            u32 *dst = *(u32 **)0x030034E0;
+            *(u16 *)((u8 *)dst + 0x18) = *(u16 *)0x0300029C;
+            sub_080003A8((u32)obj);
+        }
+        sub_08001538((u32)obj);
+        *(u32 *)0x03000298 = 0;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097CA8);
 void sub_08097D0C(u16 a, u16 b)
 {
