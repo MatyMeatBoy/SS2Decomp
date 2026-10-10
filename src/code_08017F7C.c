@@ -240,7 +240,16 @@ void sub_0801AA34(u32 value)
     sub_08000420(100);
     gUnk_03000028 = (gUnk_03000028 | 2) & ~0x29;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801AA8C);
+void sub_0801AA8C(u32 value)
+{
+    if (gUnk_03000026 == 1 && gUnk_03000022 <= gUnk_03000020)
+        return;
+    gUnk_03000026 = 1;
+    gUnk_03000020 = value;
+    gUnk_03000022 = 0;
+    sub_08000420(100);
+    gUnk_03000028 = (gUnk_03000028 | 2) & ~0x29;
+}
 s32 sub_0801AAE0(void)
 {
   s32 var_r2;
