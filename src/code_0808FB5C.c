@@ -91,6 +91,15 @@ INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092348);
 s32 sub_080923B0(void) {
     return 3;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080923B4);
+void sub_080923B4(u32 index, u32 packed)
+{
+    typedef void (*Callback)(s32, s32);
+    s32 a = (s8)(packed >> 8);
+    s32 b = (s8)packed;
+    u32 slot = index * 4;
+    ((Callback *)((u8 *)gUnk_03000210 + slot))[0](a, b);
+    ((Callback *)((u8 *)gUnk_03000230 + slot))[0](a, b);
+    sub_08000420(0x12001111);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080923FC);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092CB8);
