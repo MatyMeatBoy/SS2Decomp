@@ -18,3 +18,7 @@ sub_0800B650 (195 asm): VRAM/tile upload (sub_08001348 DMA + CpuFastSet). Size n
   Remaining diff: 4 register-order lines: (a) ldrh [base] vs constant 0x70000 load order in tilesrc arg,
   (b) `arg0 & 0x40000000` picks r2 instead of r1, (c) ldr [gUnk_0300129C] / ldrb order (fixed with 0x80 & *(u8*)).
   Permuter x1 best scores 225 (not 0). Ideas: store (u16)*base into a temp before the | 0x70000 call; try `register`.
+
+sub_0800B7DC (200 asm): sibling of sub_0800B650 (source offset +gUnk_03003470 on first pointer). Size matches (408).
+  Same 4 residual register-order diffs as B650 (tilesrc ldrh/const order, arg0 mask reg r1 vs r2, gUnk_0300129C load).
+  Tried 4 expression forms for tilesrc: no change. Likely shared root cause: fix B650 first, then copy.
