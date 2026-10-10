@@ -571,3 +571,5 @@ void sub_080B6360(void);
 void sub_080B63A0(void);
 
 #endif // GUARD_FUNCTIONS_H
+void sub_08005A24(void);
+void sub_08000274_(void *, u32, u32) __asm__("sub_08000274");
