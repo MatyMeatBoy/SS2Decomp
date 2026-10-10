@@ -76,3 +76,13 @@ reads r0..r3 can be defined with real parameters as long as they are not u8/u16/
 mask inside, because K&R declarations promote narrow types). If the declared RETURN type is wrong (e.g. header says `s32`
 but the asm returns nothing), you may change only that return type on that single line, provided no C caller uses the
 result. Never reorder or delete header lines.
+
+## Never stop (standing orders)
+- Keep going until `python3 tools/scripts/shard.py show N` is empty. Do not end your turn to ask for confirmation; do not
+  stop because a function is hard: after ~15 attempts or one permuter run without a match, note the function in
+  `docs/notes/shardN.txt` (best diff, ideas tried) and move on; come back to it at the end with new ideas
+  (restructure loops, other types, temporaries, statement order, `register`, do-while vs for, separate vs chained stores).
+- Merge main often (`git merge origin/claude/rom-decompilation-research-obsal6`); it gains fixes (module splits, prototypes).
+- Push after every matched function.
+- When your shard is empty (or only hopeless functions remain), take the next shard: worker N takes shards N+31, N+62, N+93
+  (those <= 119), same branch. Tell the maintainer in your final message which shard you finished.
