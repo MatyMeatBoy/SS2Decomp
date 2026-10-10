@@ -82,7 +82,17 @@ void sub_080AF2AC(void) {
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF2BC);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF304);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF350);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF3C4);
+extern s32 *gUnk_030004D0;
+extern s32 gUnk_030056FC;
+void sub_080AF3C4(void) {
+    s32 obj = sub_0800048C();
+    u32 index;
+    u16 bit;
+    M2C_FIELD(obj, s32 *, 8) -= 0x44;
+    index = M2C_FIELD(obj, s32 *, 8);
+    bit = *(u16 *)((u8 *)gUnk_030004D0 + index * 0xAC);
+    gUnk_030056FC &= ~(1 << bit);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF3F4);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0288);
 void sub_080B0F70(void) {

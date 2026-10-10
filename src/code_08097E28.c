@@ -174,4 +174,14 @@ void sub_0809D7E4(void)
         M2C_FIELD((u8 *)gUnk_03000308 + i * 0x28, s32 *, 8) = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809D810);
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809D848);
+extern s32 *gUnk_03000300[];
+extern s32 gUnk_030056FC;
+void sub_0809D848(void) {
+    s32 obj = sub_0800048C();
+    u32 index;
+    u16 bit;
+    M2C_FIELD(obj, s32 *, 8) -= 0x46;
+    index = M2C_FIELD(obj, s32 *, 8);
+    bit = *(u16 *)gUnk_03000300[index];
+    gUnk_030056FC &= ~(1 << bit);
+}
