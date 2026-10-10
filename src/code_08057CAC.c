@@ -37,7 +37,11 @@ s32 sub_080582C0(void)
  do { if (sub_0805CFA0() >= 0) { return 1; do { } while (new_var); } return 0; } while (0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080582D4);
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058318);
+void sub_08058318(s32 arg0)
+{
+    while (!sub_0805EEFC(arg0))
+        sub_080003F0();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058334);
 void sub_080583EC(void) {
     sub_0805EFBC();
