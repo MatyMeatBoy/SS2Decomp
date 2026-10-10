@@ -56,7 +56,18 @@ s32 sub_08092080(void)
 void sub_08092094(void) {
     gUnk_03000168 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080920A0);
+void sub_080920A0(void)
+{
+    u8 index = gUnk_03000168;
+    if (index != 0xD) {
+        if (((u8 *)gUnk_0851844E)[index] == gUnk_03001324)
+            gUnk_03000168 = index + 1;
+        else if (gUnk_03001324 != 0)
+            gUnk_03000168 = 0;
+    }
+    if (gUnk_03000168 == 0xD)
+        sub_0805865C(0x33);
+}
 void sub_080920E4(void)
 {
     u8 *obj = (u8 *)gUnk_030001C0;
