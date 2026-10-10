@@ -1,6 +1,8 @@
 #include "global.h"
 
 void sub_080B2058(void);
+void sub_080AE420(void);
+void sub_080AF3C4(void);
 
 extern s32 gUnk_03000424;
 extern s32 gUnk_030004C8;
@@ -100,7 +102,7 @@ void sub_080AF304(void)
 {
     u8 *entry = *(u8 **)0x03000784;
     u8 count = *(u8 *)0x03000780;
-    u32 i;
+    u32 i, mem;
     for (i = 0; i < count; i++, entry += 0x28) {
         if (sub_08000470((u32)entry))
             sub_080003A8((u32)entry);
@@ -117,7 +119,7 @@ void sub_080AF350(u32 kind)
     u32 i;
     for (i = 0; i < count; i++, entry += 0x28) {
         if (sub_08000470((u32)entry) || *(u32 *)(entry + 8) != 0) continue;
-        u32 mem = sub_08001494(0x400);
+        mem = sub_08001494(0x400);
         *(u32 *)(entry + 0x20) = mem;
         *(u32 *)(entry + 0x10) = mem + 0x3FC;
         *(u32 *)(entry + 0xC) = (u32)sub_080AE420;
