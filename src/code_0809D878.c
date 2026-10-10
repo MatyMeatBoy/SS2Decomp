@@ -20,7 +20,12 @@ void sub_0809F8C8(void) {
 void sub_0809F90C(void) {
     gUnk_0300031C = 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F918);
+void sub_0809F918(void)
+{
+  s32 temp_r0;
+  temp_r0 = (gUnk_03000318 = (s32) sub_08001494(0x28U));
+  *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
+}
 void sub_0809F934(void) {
     if (sub_08000470(gUnk_03000318) != 0) {
         sub_08000E48();
@@ -39,7 +44,19 @@ INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F998);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F9F8);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FA28);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FA64);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FACC);
+void sub_0809FACC(void)
+{
+  int new_var;
+  s8 *new_var2;
+  s32 temp_r0;
+  temp_r0 = (gUnk_03000328 = (s32) sub_08001494(0x28U));
+  new_var = 0;
+  new_var2 = (s8 *) temp_r0;
+  if (temp_r0 != new_var)
+  {
+    *((s32 *) (new_var2 + 8)) = new_var;
+  }
+}
 void sub_0809FAEC(void) {
     if (gUnk_03000328 != 0) {
         if (sub_08000470() != 0) {
@@ -65,7 +82,12 @@ void sub_080A0F64(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000330);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0FA8);
+void sub_080A0FA8(void)
+{
+  s32 temp_r0;
+  temp_r0 = (gUnk_03000334 = (s32) sub_08001494(0x28U));
+  *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
+}
 void sub_080A0FC4(void) {
     if (sub_08000470(gUnk_03000334) != 0) {
         sub_080003A8(gUnk_03000334);
@@ -97,7 +119,12 @@ void sub_080A1094(void) {
 void sub_080A10AC(void) {
     gUnk_03000338 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A10B8);
+void sub_080A10B8(void)
+{
+  s32 temp_r0;
+  gUnk_03000340 = (temp_r0 = (s32) sub_08001494(0x28U));
+  *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
+}
 void sub_080A10D4(void) {
     if (sub_08000470(gUnk_03000340) != 0) {
         sub_080003A8(gUnk_03000340);
@@ -106,7 +133,14 @@ void sub_080A10D4(void) {
     gUnk_03000340 = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A10FC);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1170);
+void sub_080A1170(void)
+{
+  int new_var;
+  s8 *new_var2;
+  s32 temp_r0;
+  temp_r0 = (gUnk_03000344 = (s32) sub_08001494(0x28U));
+  *((s32 *) (new_var2 = ((s8 *) temp_r0) + (new_var = 8))) = 0;
+}
 void sub_080A118C(void) {
     if (sub_08000470(gUnk_03000344) != 0) {
         sub_080003A8(gUnk_03000344);
