@@ -192,3 +192,4 @@ extern s32 gUnk_030001C0;
 extern u8 gUnk_03001324;
 extern const u8 gUnk_0851844E[];
 extern u32 gUnk_03006338;
+extern s32 gUnk_0300602C;
