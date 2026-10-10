@@ -27,6 +27,7 @@ extern s16 gUnk_0300025A;
 extern s8 gUnk_0300025C;
 extern s32 gUnk_03000260;
 extern s8 gUnk_03000268;
+extern u8 gUnk_03000267;
 extern s32 gUnk_03000270;
 extern s8 gUnk_03000274;
 extern u8 gUnk_03000275;
