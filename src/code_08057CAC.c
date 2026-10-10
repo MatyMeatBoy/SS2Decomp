@@ -223,7 +223,19 @@ s32 sub_080586D0(void) {
     gUnk_03005CF8 = 0;
     return temp_r5;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080586EC);
+void sub_080586EC(u32 index, u32 x, u32 y)
+{
+    if (index == 0)
+        return;
+    u32 bit = 1u << (index - 1);
+    while ((gUnk_030056FC & bit) == 0)
+        sub_080003F0();
+    u8 *entry = (u8 *)gUnk_030056F4 + (index - 1) * 0x2E0;
+    *(u32 *)(entry + 0x30) = x;
+    *(u32 *)(entry + 0x34) = y;
+    *(u32 *)(entry + 0x38) = 0;
+    *(u32 *)(entry + 0x3C) = 0;
+}
 void sub_0805874C(void) {
     sub_0801A388();
 }
