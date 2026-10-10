@@ -215,7 +215,27 @@ u32 sub_0805853C(u32 bit, u32 alternate)
     u32 offset = alternate ? 0x1C3 : 0x1B7;
     return (base[offset + (bit >> 3)] >> (bit & 7)) & 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058574);
+void sub_08058574(u32 callback, u32 arg1, u32 arg2)
+{
+    u8 *entry = *(u8 **)0x03005CF4 + 0xE34;
+    for (u32 i = 0; i <= 0x1D; i++, entry += 0x28) {
+        if (sub_08000470((u32)entry) != 0)
+            continue;
+        u32 args[6] = {0};
+        args[3] = arg1;
+        args[4] = arg2;
+        *(u32 *)(entry + 8) = 0x3C;
+        u32 mem = sub_08001494(0x400);
+        *(u32 *)(entry + 0x20) = mem;
+        *(u32 *)(entry + 0xC) = (u32)sub_0802A104;
+        *(u32 *)(entry + 0x10) = mem + 0x3FC;
+        *(u32 *)(entry + 0x24) = 0;
+        sub_08000274((u32)entry, args, callback);
+        sub_080003F0();
+        sub_080003F0();
+        return;
+    }
+}
 void sub_080585F4(s32 arg0, s32 arg1) {
     sub_0805D37C(arg0 << 8, arg1 << 8);
     sub_080687A8((const u8 *)gUnk_03005CF4);
