@@ -5,7 +5,10 @@ INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080571D8);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057210);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057254);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080572A4);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080572E4);
+void sub_080572E4(void)
+{
+    M2C_FIELD(gUnk_03005CF4, u16 *, 4) |= 0x100;
+}
 void sub_080572FC(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFEFF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
