@@ -67,7 +67,19 @@ void *sub_0805A960(u32 value)
     sub_080003F0();
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A994);
+void sub_0805A994(u32 index, u32 a, u32 b)
+{
+    if (index == 0)
+        return;
+    u32 bit = 1u << (index - 1);
+    while ((gUnk_030056FC & bit) == 0)
+        sub_080003F0();
+    u8 *entry = (u8 *)gUnk_030056F4 + (index - 1) * 0x2E0;
+    *(u32 *)(entry + 0x38) = a;
+    *(u32 *)(entry + 0x3C) = b;
+    *(u32 *)(entry + 0x30) = 0;
+    *(u32 *)(entry + 0x34) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A9F4);
 void sub_0805AA68(u32 packed)
 {
