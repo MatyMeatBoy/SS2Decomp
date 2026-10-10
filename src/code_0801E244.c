@@ -60,7 +60,30 @@ s32 sub_0801E4B0(void) {
     s32 idx = p[8];
     return gUnk_0848FF54[idx] - p[7];
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E4CC);
+s32 sub_0801E4CC(u8 *arg0, s32 arg1) {
+    s32 idx = sub_080020F4();
+    u32 flags = gUnk_03003CE0[idx].flags;
+    s32 n;
+    u32 limit;
+
+    if (flags & 0x2000) {
+        return 0;
+    }
+    n = *(s32 *) (arg0 + 0x20);
+    if ((u32) n > 0xC6) {
+        return 0;
+    }
+    *(s32 *) (arg0 + 0x1C) += arg1;
+    limit = gUnk_0848FF54[n];
+    if (*(u32 *) (arg0 + 0x1C) < limit) {
+        return 0;
+    }
+    *(s32 *) (arg0 + 0x20) = n + 1;
+    *(u16 *) (arg0 + 0x1A) += 4;
+    *(u16 *) (arg0 + 0x30) += 1;
+    sub_08061830(&gUnk_03003CE0[sub_080020F4()]);
+    return 1;
+}
 s32 sub_0801E538(void)
 {
   long long new_var;
