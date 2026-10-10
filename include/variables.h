@@ -179,3 +179,5 @@ extern M2C_UNK sub_080852AC;
 
 #endif // GUARD_VARIABLES_H
 extern void sub_08002694();
+extern u8 gUnk_03003D18[];
+extern u8 gUnk_03003D38[];
