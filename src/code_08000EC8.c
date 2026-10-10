@@ -278,15 +278,3 @@ void sub_08001634(void)
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001638);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080016C8);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080016EC);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800170C);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001804);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_0800191C);
-
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001990);
