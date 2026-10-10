@@ -160,4 +160,11 @@ void sub_08095610(u8 v)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809561C);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095A60);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095AD8);
+void sub_08095AD8(s8 value)
+{
+    sub_080586D0(3);
+    sub_0809561C(value);
+    sub_0800CC18();
+    sub_0800CC68();
+    sub_08098028();
+}
