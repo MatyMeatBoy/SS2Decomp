@@ -44,7 +44,13 @@ void sub_0801B6F4(u16 *p, s32 delta)
     for (i = 0; i < 6; i++)
         p[i] += d;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B720);
+void sub_0801B720(u16 *p, s32 delta)
+{
+    s16 d = (s16)delta;
+    u32 i;
+    for (i = 0; i < 6; i++)
+        p[i] -= d;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B74C);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B8A8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
