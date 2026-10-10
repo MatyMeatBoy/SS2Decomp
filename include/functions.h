@@ -237,13 +237,12 @@ s32 sub_0800D11C(void);
 void sub_0800D12C(void);
 void sub_0800D140(void);
 s32 sub_0800D154(void);
-void sub_0800D164(void);
-void sub_0800D2F4(void);
-s32 sub_08013BC0(u8 *arg0);
 void sub_08013C3C(u8 *arg0);
 u16 sub_08013E90(s32 arg0, s32 *arg1, u16 arg2, s32 arg3, s32 arg4);
 void sub_080140AC(u8 *arg0);
 void sub_08014B28(void);
+void sub_0800D164(void);
+void sub_0800D2F4(void);
 void sub_08015C14(void);
 void sub_08015C38(void);
 void sub_08015C5C(s32 arg0, s32 arg1);
@@ -572,3 +571,4 @@ void sub_080B6360(void);
 void sub_080B63A0(void);
 
 #endif // GUARD_FUNCTIONS_H
+s32 sub_08013BC0(u8 *arg0);
