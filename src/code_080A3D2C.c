@@ -57,7 +57,11 @@ INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A705C);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A74E8);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A756C);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7DEC);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7E38);
+void sub_080A7E38(void) {
+
+    gUnk_03003CE0[sub_080020F4()].flags &= ~1;
+    gUnk_030056FC = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7E68);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7E94);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7ECC);

@@ -3,5 +3,5 @@
 f=$1
 a=$(echo "$f" | sed -n 's/.*_\([0-9A-F]\{8\}\)$/\1/p')
 [ -z "$a" ] && a=$(grep -m1 " $f\$" tools/config/functions.cfg | sed 's/.* 0x\([0-9A-Fa-f]*\).*/\1/' | tr a-f A-F)
-echo "=== Ghidra"; cat "${GHIDRA_OUT:-/tmp/ghi}/$a.c" 2>/dev/null
+echo "=== Ghidra"; python3 "$(dirname "$0")/ghfix.py" < "${GHIDRA_OUT:-/tmp/ghi}/$a.c" 2>/dev/null
 echo "=== asm"; grep -v thumb_func asm/nonmatchings/*/$f.s

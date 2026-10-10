@@ -28,7 +28,7 @@ PERMUTER = os.environ.get("PERMUTER", os.path.join(ROOT, "tools/decomp-permuter"
 def setup(func, cfile, d):
     os.makedirs(d, exist_ok=True)
     mod = decomp.module_of_addr(decomp.func_address(func))
-    cc1 = decomp.module_cc1(mod)
+    cc1 = os.environ.get("DECOMP_CC1") or decomp.module_cc1(mod)
     flags = decomp.module_flags(mod) or decomp.CC1FLAGS
     # target.o
     oname = decomp.assemble_orig(func, os.path.join(d, "target.o"))

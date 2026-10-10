@@ -53,6 +53,7 @@ CC1FLAGS_agb_flash := -O1 -mthumb-interwork
 CC1_video := tools/agbcc/bin/old_agbcc
 
 CC1_code_08001A50 := tools/agbcc/bin/old_agbcc
+CC1_code_08009088 := tools/agbcc/bin/old_agbcc
 
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)

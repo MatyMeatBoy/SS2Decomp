@@ -389,7 +389,7 @@ def m2c(func, extra=()):
         m2c_input(func, s)
         ctx = os.path.join(td, "ctx.h")
         with open(ctx, "w") as fh:
-            for h in ("include/m2c_context.h", "include/variables.h", "include/functions.h"):
+            for h in ("include/m2c_context.h", "include/structs.h", "include/variables.h", "include/functions.h"):
                 fh.write(re.sub(r"^#.*$", "", open(os.path.join(ROOT, h)).read(), flags=re.M) + "\n")
             # Return type hints from the agbcc epilogue: "pop {r1}; bx r1" keeps
             # r0 alive (value returned), "pop {r0}; bx r0" clobbers it (void).
@@ -585,6 +585,13 @@ def integrate(mod, cfile):
             replace_proto(n, sig)
     prelude = '#include "global.h"\n' + prelude
     src = os.path.join(ROOT, "src/%s.c" % mod)
+    # keep C functions already present in the module (their asm file is gone)
+    _, cur_funcs, _ = split_functions(open(src).read())
+    for n, code in cur_funcs.items():
+        if n not in funcs and find_asm(n)[0] is None:
+            funcs[n] = code
+            corder.append(n)
+            results[n] = (True, 0, "")
     out = [prelude.rstrip() + "\n"]
     nmatch = 0
     rom = module_functions(mod)

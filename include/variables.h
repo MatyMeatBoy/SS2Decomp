@@ -5,6 +5,7 @@
 // Names gUnk_<address> are placeholders until the variable is understood.
 // Types come from the first decompiled use and are refined by hand.
 
+extern struct Player gUnk_03003CE0[];
 // AUTO-VARIABLES (keep this marker, decomp.py appends below it)
 extern struct MemBlock gUnk_02000010;
 extern struct MemBlock gUnk_0203FFF0;
@@ -110,13 +111,13 @@ extern s32 gUnk_03002870;
 extern s32 gUnk_030028AC;
 extern s32 gUnk_030028BC;
 extern void *gUnk_030028C0;
+extern struct TileSys gUnk_03003170;
 extern s32 gUnk_03003470;
 extern s32 gUnk_03003474;
 extern s32 gUnk_03003478;
 extern s32 gUnk_030034A8;
 extern s32 gUnk_030034D8;
 extern s32 gUnk_030034E0;
-extern M2C_UNK gUnk_03003CE0;
 extern s32 gUnk_030056FC;
 extern s16 gUnk_03005C98;
 extern s32 gUnk_03005CE0;
@@ -140,6 +141,7 @@ extern s32 gUnk_03006478;
 extern s32 gUnk_030074B8;
 extern s32 gUnk_030074BC;
 extern u16 gUnk_03007FF8;
+extern struct LevelEntry gUnk_0847846C[];
 extern s32 gUnk_08518938;
 extern M2C_UNK gUnk_08E3FB54;
 extern M2C_UNK sub_08002B70;
