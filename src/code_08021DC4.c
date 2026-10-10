@@ -1,5 +1,8 @@
 #include "global.h"
 
+extern u32 gUnk_03005CFC;
+extern u32 gUnk_03005D00;
+
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021DC4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021E44);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021EC8);
@@ -43,7 +46,35 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027B50);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028368);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080283C4);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028498);
+void sub_08028498(u16 arg0)
+{
+  u32 *flagp;
+  u32 mask;
+  u32 flags;
+  u32 *tbl;
+  u32 off;
+  u16 idx;
+  idx = arg0 - 4;
+  flagp = &gUnk_03005CFC;
+  mask = 1 << idx;
+  flags = *flagp;
+  if (flags & mask)
+  {
+    tbl = &gUnk_03005D00;
+    off = (idx * 3) * 4;
+    if ((*((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8))) <= 1)
+    {
+      *((u32 *) (((u8 *) tbl) + off)) = 0;
+      *((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 4)) = 0;
+      *((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8)) = 0;
+      *flagp = flags & (~mask);
+    }
+    else
+    {
+      *((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8)) = (*((u32 *) ((((u8 *) (&gUnk_03005D00)) + off) + 8))) - 1;
+    }
+  }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080284F4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028830);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028918);
