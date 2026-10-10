@@ -1,5 +1,7 @@
 #include "global.h"
 
+void sub_080904A4(void);
+
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FB5C);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FBDC);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FC50);
@@ -65,7 +67,7 @@ void sub_080920E4(void)
     *(u32 *)(obj + 8) = 0x40;
     *(u32 *)obj = 0;
     *(u32 *)(obj + 0x18) = 0;
-    sub_08000274(gUnk_030001C0, 0, 0);
+    sub_08000274_((void *)gUnk_030001C0, 0, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092124);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092190);
