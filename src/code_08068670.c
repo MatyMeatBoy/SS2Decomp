@@ -24,7 +24,10 @@ s32 sub_08068870(void) {
     return 1;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068874);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806888C);
+s32 sub_0806888C(void)
+{
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068894);
 void sub_080688F4(void) {
 
