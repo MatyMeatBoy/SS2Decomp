@@ -96,7 +96,14 @@ INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019FD8);
 s32 sub_0801A040(u16 arg0) {
     return sub_08019D34(arg0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A050);
+void sub_0801A050(u16 key)
+{
+    u8 *entry;
+    u32 flags, i;
+    if (key == 0) return;
+    entry=*(u8 **)0x030056F4; flags=*(u32 *)0x030056FC;
+    for(i=0;i<=4;i++,entry+=0x2E0) if((flags&(1<<i)) && *(u16 *)(entry+2)==key) { *(u16 *)(entry+0x7A)|=1<<i; return; }
+}
 void sub_0801A0A4(void *arg0) {
     M2C_FIELD(arg0, s8 *, 0x1DC) = 2;
 }
