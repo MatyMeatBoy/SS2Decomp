@@ -11,25 +11,6 @@ void sub_08000A8C(struct DispCnt *src, u16 write)
         REG_DISPCNT = *(u16 *)&gUnk_0300129C;
 }
 
-#ifdef NONMATCHING
-void sub_08000AA8(u16 bg, u16 *val)
-{
-    vu16 *reg;
-
-    if (val)
-    {
-        switch (bg)
-        {
-        case 0: reg = &REG_BG0CNT; break;
-        case 1: reg = &REG_BG1CNT; break;
-        case 2: reg = &REG_BG2CNT; break;
-        case 3: reg = &REG_BG3CNT; break;
-        default: return;
-        }
-        *reg = *val;
-    }
-}
-#else
 void sub_08000AA8(u16 which, u16 *src)
 {
     if (src == 0)
@@ -49,7 +30,6 @@ void sub_08000AA8(u16 which, u16 *src)
         break;
     }
 }
-#endif
 
 void sub_08000AF0(u32 palNum, const void *src, u32 numPals)
 {

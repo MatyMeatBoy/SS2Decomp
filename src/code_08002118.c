@@ -1,6 +1,25 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002118);
+u8 *sub_08002118(u32 idx)
+{
+    u32 id;
+    u32 i;
+    u8 *p;
+    if (gUnk_030027D0 & 2)
+        id = (*(vu32 *)0x04000128 << 26) >> 30;
+    else
+        id = 0;
+    i = 0;
+    p = (u8 *)&gUnk_03002770;
+    for (; i < 4; p += 0x18, i++) {
+        if (idx == i) {
+            if (i == id)
+                return gUnk_03002710;
+            return p;
+        }
+    }
+    return 0;
+}
 u32 sub_08002164(void)
 {
     u32 n, i, *p;
@@ -74,7 +93,24 @@ s32 sub_08002228(void) {
 void *sub_08002238(s32 arg0) {
     return (&((struct Sz24 *)&gUnk_03002770)[arg0]);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800224C);
+void sub_0800224C(void)
+{
+    u32 want, got, i, v;
+    u32 *p;
+    if (gUnk_030027D0 & 2) {
+        want = (gUnk_03002730 >> 8) & 0xF;
+        p = &gUnk_03002730;
+        do {
+            sub_080003F0();
+            got = 0;
+            for (i = 0; i < 4; i++) {
+                v = *p;
+                if (v & (1 << i))
+                    got |= 1 << i;
+            }
+        } while (got != want);
+    }
+}
 void sub_08002298(s32 arg0) {
     gUnk_0300272C = arg0;
 }

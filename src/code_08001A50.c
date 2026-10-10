@@ -23,7 +23,16 @@ void sub_08001A50(void)
         gUnk_030024B0[8] = 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001A64);
+void sub_08001A64(void)
+{
+    sub_08000EF4();
+    sub_08000FD4(0xC0);
+    sub_08000F2C();
+    REG_SIOCNT = 0x2003;
+    *(vu32 *)0x0400010C = 0xC352;
+    *(vu16 *)0x04000202 = 0xC0;
+    gUnk_030024B0[8] = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001AA4);
 
