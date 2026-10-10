@@ -49,17 +49,17 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068450);
 u8 sub_08068490(void) {
     return gUnk_0300636C;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806849C);
+void sub_0806849C(void) { gUnk_0300636C = 0xFF; }
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080684A8);
 u8 sub_080684E8(void) {
     return gUnk_03006224;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080684F4);
+void sub_080684F4(void) { gUnk_03006224 = 0xFF; }
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068500);
 u8 sub_08068540(void) {
     return gUnk_03006228;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806854C);
+void sub_0806854C(void) { gUnk_03006228 = 0xFF; }
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068558);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068590);
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080685F0);
