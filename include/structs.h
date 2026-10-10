@@ -128,3 +128,15 @@ struct Unk030061E0 {
     u8 *f20;
     s32 f24;
 };
+struct Unk03002880 {
+    s32 f0;
+    u8 pad4[4];
+    s32 f8;
+    void *fC;
+    u8 *f10;
+    u8 pad14[4];
+    s32 f18;
+    u8 pad1C[4];
+    u8 *f20;
+    void *f24;
+};

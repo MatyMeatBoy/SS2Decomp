@@ -78,7 +78,20 @@ void sub_08006E64(u8 v)
         m4aMPlayStop(&gUnk_030075C0
                      );
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006E84);
+void sub_08006E84(void)
+{
+    u8 *p = sub_08001494(
+        0x400);
+    gUnk_03002880.fC = sub_08006BC0;
+    gUnk_03002880.f10 = p + 0x3FC;
+    gUnk_03002880.f20 = p;
+    gUnk_03002880.f8 = 1000;
+    gUnk_03002880.f18 = 0;
+    gUnk_03002880.f0 = 0;
+    gUnk_03002880.f24 = sub_08006BE8;
+    sub_08000274((void *)&gUnk_03002880,
+                 0);
+}
 void sub_08006EC8(u16 s)
 {
     m4aMPlayFadeOut((struct MusicPlayerInfo *)&gUnk_030075C0,

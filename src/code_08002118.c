@@ -108,8 +108,33 @@ void sub_080065B0(void) {
     M2C_FIELD(&gUnk_03002840, s32 *, 0x24) = 0;
     sub_08000274(&gUnk_03002840, 0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_080065FC);
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800663C);
+void sub_080065FC(s32 a, s32 b)
+{
+    u8 *p = sub_08001494(
+        0x2000);
+    gUnk_03003480.fC = sub_08003984;
+    gUnk_03003480.f10 = p + 0x1FFC;
+    gUnk_03003480.f20 = p;
+    gUnk_03003480.f8 = 10;
+    gUnk_03003480.f24 = 0;
+    ((void (*)(void *, s32, s32))sub_08000274)((void *)&gUnk_03003480,
+                 a, b);
+}
+void sub_0800663C(s32 a)
+{
+    u8 *p = sub_08001494(
+        0x2000);
+    if (gUnk_03002838 == 1)
+        gUnk_03003480.fC = sub_0800608C;
+    else
+        gUnk_03003480.fC = sub_08005B88;
+    gUnk_03003480.f10 = p + 0x1FFC;
+    gUnk_03003480.f20 = p;
+    gUnk_03003480.f8 = 10;
+    gUnk_03003480.f24 = 0;
+    sub_08000274((void *)&gUnk_03003480,
+                 a);
+}
 void sub_08006694(void)
 {
   short new_var;
