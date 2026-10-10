@@ -8,7 +8,11 @@ void sub_080571A4(u32 a, u32 b, u32 value)
     if (sub_08002204() != 0)
         *((u8 *)gUnk_03005CF4 + 0x1C8 + a * 5 + b) = value;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080571D8);
+u32 sub_080571D8(u32 a, u32 b, u32 value)
+{
+    u8 *base=*(u8 **)0x03005CF4;
+    return base[0x1C8 + (a*5 + b)] == (value & 0xFF);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057210);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057254);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080572A4);
