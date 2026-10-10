@@ -9,6 +9,7 @@ for b in $BR; do
   if ! git merge --no-edit -q "origin/$b" -m "Merge $b" 2>/dev/null; then
     echo "$b: CONFLICT"; git merge --abort; continue
   fi
+  python3 tools/scripts/dedupe_headers.py >/dev/null; git commit -qam "dedupe headers" 2>/dev/null
   if make -s -j4 >/dev/null 2>&1 && sha1sum -c --quiet shiningsoul2_eu.sha1 2>/dev/null; then
     echo "$b: merged OK"
   else
