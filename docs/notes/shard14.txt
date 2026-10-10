@@ -1,0 +1,17 @@
+Shard 14 (code_080153A4), worker/014 - notes on functions not yet matched
+
+sub_08016ECC (47 asm lines, 90 bytes): best draft 86-88 bytes, no match.
+  Diff is register allocation: original keeps the flags pointer in r7 and the bit in r6.
+  Tried: u16/u32 index, explicit fp pointer, offset vs base-pointer forms. Permuter best score 465.
+
+sub_080169C8 (86 lines, 180 bytes): near. Loop counters use do/while <= with u32 i.
+  Remaining diff is register order: arg counter/offset swapped (i in r5, off in r6 expected).
+  Permuter best score 505.
+
+sub_08016A7C (95 lines, 180 bytes): draft 168 bytes, missing r8/r9 spill pattern. Permuter best 1535.
+
+sub_080168FC (102 lines, 204 bytes): near. Only register allocation differs (arg in r5, i in r4 expected).
+  Goto-mirrored loop and retry-alloc layout matched the structure. Permuter best 1005.
+
+sub_08016C88 (97 lines, 184 bytes): near. Only 2-3 instruction diffs around qy/t shift placement.
+  Matching draft: see git history of this file (not committed). Permuter best score 90.
