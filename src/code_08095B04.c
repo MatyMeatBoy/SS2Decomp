@@ -137,5 +137,14 @@ void sub_08097D70(void)
 {
     gUnk_030002A0.b0F = 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097D7C);
+void sub_08097D7C(u32 angle, u32 scale)
+{
+    u8 *state = (u8 *)gUnk_030002A0;
+    state[0xE] = state[0xD];
+    if (state[0xF] == 0) {
+        const s16 *table = (const s16 *)gUnk_080B9704;
+        state[0xD] = (u8)((table[state[0xC]] * (s8)scale) >> 8);
+        state[0xC] += (u8)angle;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097DBC);
