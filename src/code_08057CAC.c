@@ -63,7 +63,14 @@ s32 sub_080582C0(void)
   int new_var;
  do { if (sub_0805CFA0() >= 0) { return 1; do { } while (new_var); } return 0; } while (0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080582D4);
+void sub_080582D4(u32 value)
+{
+    while (sub_0805F184() != 0)
+        sub_080003F0();
+    while (sub_0805EF90() != 0)
+        sub_080003F0();
+    sub_0805DF38(1, 0xF, 2, 0, 0x2D, 0xA00000 | (value & 0xFFFF));
+}
 void sub_08058318(s32 arg0)
 {
     while (!sub_0805EEFC(arg0))
