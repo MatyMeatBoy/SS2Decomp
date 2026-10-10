@@ -59,8 +59,27 @@ void sub_08015D98(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= 0xFFFFEFFF;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015DC0);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015DE0);
+s32 sub_08015DC0(s32 *value)
+{
+    s32 current = *value;
+    s32 next;
+    if (current <= 0x17) {
+        next = current - 8;
+        if (next <= 0) next = 0;
+    } else {
+        next = current - (current >> 1);
+    }
+    *value = next;
+    return next;
+}
+void sub_08015DE0(s32 *value, s32 target)
+{
+    s32 current = *value;
+    s32 step = (target - current) >> 1;
+    s32 next = step > 0 ? current + step : current + 1;
+    *value = next;
+    if (target <= next) *value = target;
+}
 void sub_08015E00(s32 arg0)
 {
   s8 *new_var;
