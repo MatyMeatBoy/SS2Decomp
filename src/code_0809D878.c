@@ -1,4 +1,5 @@
 #include "global.h"
+void sub_0809F4A8(void);
 
 extern s32 gUnk_03000324;
 
@@ -89,16 +90,17 @@ void sub_0809FAEC(void) {
 void sub_0809FB18(void)
 {
     u8 *obj = *(u8 **)0x03000328;
+    u32 mem;
     if (obj == 0) return;
     if (!sub_08000470((u32)obj) && *(u32 *)(obj + 8) == 0) return;
     *(u32 *)(obj + 8) = 0x40;
-    u32 mem = sub_08001494(0x400);
+    mem = sub_08001494(0x400);
     *(u32 *)(obj + 0x20) = mem;
     if (mem == 0) return;
     *(u32 *)(obj + 0x10) = mem + 0x3FC;
     *(u32 *)(obj + 0xC) = (u32)sub_0809F4A8;
     *(u32 *)(obj + 0x24) = 0;
-    sub_08000274(obj);
+    sub_08000274_(obj, 0, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A05B4);

@@ -1,4 +1,5 @@
 #include "global.h"
+void sub_080A47A0(void);
 
 extern s32 gUnk_0300035C;
 extern s32 *gUnk_03000370[];
@@ -91,7 +92,7 @@ void sub_080A4C24(void)
     *(u32 *)(entry + 0x10) = *(u32 *)(entry + 0x20) + 0x3FC;
     *(u32 *)(entry + 0xC) = (u32)sub_080A47A0;
     *(u32 *)(entry + 0x24) = 0;
-    sub_08000274(entry, 0, 0);
+    sub_08000274_(entry, 0, 0);
 }
 void sub_080A4C74(u8 arg0, u8 arg1) {
     if (gUnk_030003F1 != 0xFF) {
