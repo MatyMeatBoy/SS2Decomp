@@ -23,8 +23,14 @@ s32 sub_0809043C(s32 arg0, s32 arg1)
 {
     return (arg0 << 8) / arg1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809044C);
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090470);
+s32 sub_0809044C(s32 arg0, s32 arg1)
+{
+    return (s32)(((s64)arg0 * arg1) >> 16);
+}
+s32 sub_08090470(s32 arg0, s32 arg1)
+{
+    return (s32)(((s64)arg0 << 16) / arg1);
+}
 s32 sub_08090494(s32 arg0) {
     return 0x10000 / arg0;
 }
