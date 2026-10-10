@@ -1,0 +1,17 @@
+Shard 24 (code_08021DC4) notes
+
+Matched: sub_08026338, sub_080267DC
+
+sub_080257D4 (86 asm lines), 188-byte original vs 160-byte best candidate. NOT matched.
+  Tried (8 variants): gp pointer local, off local, base via *gp vs direct global,
+  recomputed off per store, explicit (base+C)+off, permuter 3 min (plateau score ~2785).
+  Missing: original keeps arg0 in r9 and off in r8 across calls (push r5-r7 + mov r8/r9 shuffles,
+  ~6 extra instrs), and reloads the gUnk literal per store. Ideas left: register hints via
+  distinct variable lifetimes, arg0 copied after first call, do-while vs goto form.
+
+sub_08026858 (484 asm lines): big game-logic function with stack struct (sp44/sp46/sp4A),
+  Player field access, multiple tail-calls; not started in detail.
+
+sub_080263B4 (502 asm lines): state machine, m2c draft is large; not started.
+
+sub_08025890 (1307 asm lines): not started.
