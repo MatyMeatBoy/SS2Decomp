@@ -350,7 +350,7 @@ void sub_08058510(s32 arg0);
 void sub_080585F4(s32 arg0, s32 arg1);
 s32 sub_08058608();
 u16 sub_08058614();
-M2C_UNK sub_0805865C(s32);
+void sub_0805865C(s32);
 void sub_0805867C();
 s32 sub_080586D0();
 void sub_0805874C();
