@@ -69,3 +69,10 @@ make -j4 build/src/<each module you touched>.o      # must compile without error
 Never change an existing prototype/declaration in include/*.h (e.g. `s32 f();` -> `void f(void);`): other modules call them with
 the old signature and the merge will break. If you need a different signature, cast at the call site or declare a local
 extern in your own .c file. A branch that breaks the build is rejected by the maintainer.
+
+## Prototype rule (updated)
+All `sub_XXXXXXXX` prototypes in include/functions.h are now unprototyped `type f();` (no `(void)`), so a function that
+reads r0..r3 can be defined with real parameters as long as they are not u8/u16/s8/s16 (declare those as u32/s32 and
+mask inside, because K&R declarations promote narrow types). If the declared RETURN type is wrong (e.g. header says `s32`
+but the asm returns nothing), you may change only that return type on that single line, provided no C caller uses the
+result. Never reorder or delete header lines.
