@@ -34,7 +34,6 @@ void sub_0802A01C(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A080);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A104);
-s32 sub_0801ABE8(s32);
 s32 sub_080003F4(s32);
 void sub_080867F8(void);
 
