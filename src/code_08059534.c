@@ -65,7 +65,15 @@ void sub_0805A2E4(void)
     u32 offset = sub_0800CE30() ? 0x1C4 : 0x1B8;
     base[offset] |= 0x10;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A318);
+u32 sub_0805A318(void)
+{
+    u32 count = sub_08002164();
+    u16 *p = (u16 *)0x03003D44;
+    u32 i;
+    for (i=0; i<count; i++, p += 0x53)
+        if (*p == 6 || *p == 8) return 1;
+    return 0;
+}
 void sub_0805A350(void)
 {
     u8 *base = *(u8 **)0x03005CF4;

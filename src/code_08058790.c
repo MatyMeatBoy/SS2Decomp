@@ -129,7 +129,11 @@ INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058F4C);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08059000);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080590B4);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08059168);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_0805921C);
+void sub_0805921C(u32 value)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    base[(sub_0800CE30() ? 0x1BC : 0x1B0)] = (u8)value;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08059250);
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080592FC);
 void sub_08059340(void) { u8 *p=(u8 *)(uintptr_t)gUnk_03005CF4 + (sub_0800CE30()?0x1BD:0x1B1); *p=0xA; }
