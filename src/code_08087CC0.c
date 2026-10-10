@@ -73,7 +73,17 @@ void sub_08088A60(u32 arg0, u32 arg1)
     sub_08000274_(obj, arg0, (u16)arg1 | 0x10000);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088AA8);
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088B24);
+void sub_08088B24(void *arg0, u32 arg1)
+{
+    u8 *obj = (u8 *)gUnk_030061B0;
+    u32 buffer = sub_08001494(0xC00);
+    *(u32 *)(obj + 0x20) = buffer;
+    *(u32 *)(obj + 0xC) = (u32)sub_08087A5C;
+    *(u32 *)(obj + 0x10) = buffer + 0xBFC;
+    *(u32 *)(obj + 8) = 0xA;
+    *(u32 *)(obj + 0x24) = 0;
+    sub_08000274(obj, arg0, (arg1 & 0xFFFF) | 0x80000);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088B6C);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088C24);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088F30);
