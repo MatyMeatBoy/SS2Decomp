@@ -60,7 +60,19 @@ u32 sub_08067CE8(void *arg0)
     gUnk_03006338 = index + 1;
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D28);
+u32 sub_08067D28(const void *source)
+{
+    u32 *count = (u32 *)0x03006338;
+    if (*count > 0x31)
+        return 0;
+    u8 *entry = *(u8 **)0x03006300 + *count * 0x28;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x8B;
+    CpuSet(source, entry + 8, 0x04000002);
+    entry[1] = 1;
+    (*count)++;
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D74);
 extern s32 gUnk_03005CF4;
 s32 sub_08067DC8(void)
