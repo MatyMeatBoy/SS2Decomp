@@ -40,7 +40,27 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097488);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097658);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097978);
+void sub_08097978(s32 x, s32 y, s32 targetX, s32 targetY, s32 *out)
+{
+    s16 dx = (s16)(targetX - (x >> 8));
+    s16 dy = (s16)(targetY - (y >> 8));
+    s16 sine;
+    s16 cosine;
+
+    if (dx != 0) {
+        u32 angle = ArcTan2(dx, dy) >> 8;
+        sine = gUnk_080B9704[angle + 0x40];
+        cosine = gUnk_080B9704[angle];
+    } else {
+        sine = 0;
+        cosine = 0x100;
+        if (targetY < y)
+            cosine = -0x100;
+    }
+
+    out[0] = sine;
+    out[1] = cosine;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080979D8);
 void sub_08097A38(u8 i)
 {

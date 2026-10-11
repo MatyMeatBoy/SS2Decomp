@@ -1,6 +1,7 @@
 #include "global.h"
 
 void sub_0809A834(void);
+void sub_08096FA0(void);
 
 extern s32 gUnk_030002EC;
 extern s32 gUnk_030002F0;
@@ -49,7 +50,29 @@ void sub_08098060(void) {
     sub_08001538(gUnk_030002C0);
     gUnk_030002C0 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098088);
+void sub_08098088(u32 arg0, u32 arg1, u32 mode)
+{
+    u8 *task = (u8 *)gUnk_030002C0;
+    void *buffer;
+
+    if (sub_08000470((u32)task) == 0 && *(u32 *)(task + 8) != 0)
+        return;
+
+    *(u32 *)0x030002C8 = arg0;
+    *(u32 *)0x030002CC = arg1;
+    buffer = sub_08001494(0x400);
+    *(void **)(task + 0x20) = buffer;
+    if (buffer == NULL) {
+        *(u32 *)(task + 8) = 0;
+        return;
+    }
+
+    *(void **)(task + 0x10) = (u8 *)buffer + 0x3FC;
+    *(u32 *)(task + 0x0C) = (u32)sub_08096FA0;
+    *(u32 *)(task + 0x24) = 0;
+    *(u32 *)(task + 8) = 0x44;
+    sub_08000274(task, (u8)mode);
+}
 s32 sub_080980F0(void)
 {
     return M2C_FIELD((void *)gUnk_030002C0, u32 *, 8) == 0;

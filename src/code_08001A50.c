@@ -1,4 +1,5 @@
 #include "global.h"
+#include "lib/agb_flash/agb_flash.h"
 
 extern u8 gUnk_03000018;
 extern u16 (*ProgramFlashSector)(u16, u8 *);
@@ -56,8 +57,8 @@ void sub_08001AA4(void)
         SetFlashTimerIntr(2, (void (**)(void))0x030012B8);
 }
 
-void sub_08001B04(u16 arg0) {
-    ReadFlash(arg0);
+void sub_08001B04(u16 sector, u32 offset, void *dest, u32 size) {
+    ReadFlash(sector, offset, dest, size);
 }
 
 u32 sub_08001B14(u16 sector, u8 *src)

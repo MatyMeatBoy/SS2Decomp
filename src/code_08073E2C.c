@@ -91,4 +91,18 @@ u8 sub_0807A544(const u8 *data, u32 length)
         sum += data[i];
     return (u8)~sum;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A56C);
+u32 sub_0807A56C(u32 sector)
+{
+    u8 *data;
+    u32 i;
+    u8 sum;
+
+    data = sub_08001494(0xCA8);
+    sub_08001B04((u16)(u8)sector, 0, data, 0xCA8);
+    sum = 0;
+    for (i = 0; i < 0xCA4; i++)
+        sum += data[i];
+    i = (data[0xCA4] == (u8)~sum);
+    sub_08001538((s32)data);
+    return i;
+}

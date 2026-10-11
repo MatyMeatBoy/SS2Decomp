@@ -92,7 +92,7 @@ s32 sub_08001538(s32);
 void sub_08001634();
 void sub_08001A50();
 void sub_08001AA4(void);
-void sub_08001B04(u16 arg0);
+void sub_08001B04(u16 sector, u32 offset, void *dest, u32 size);
 u32 sub_08001B54(u16 sector, u8 *src);
 void sub_08001B78();
 void sub_0800207C();

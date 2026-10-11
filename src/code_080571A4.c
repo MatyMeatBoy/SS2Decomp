@@ -1,5 +1,9 @@
 #include "global.h"
 
+u32 sub_0805DF38(u32 arg0, u32 arg1, u32 arg2, u32 arg3, s32 arg4, u32 arg5);
+s32 sub_0805EEFC(void *arg0);
+u32 sub_0805EF90(void);
+
 void sub_080571A4(u32 a, u32 b, u32 value)
 {
     a &= 0xFF;
@@ -122,7 +126,23 @@ void sub_08057580(u32 key, u32 value)
     }
     sub_080003F0();
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080575C0);
+void sub_080575C0(u32 value)
+{
+    u32 handle;
+
+    while (sub_0805F184() != 0)
+        sub_080003F0();
+    while (sub_0805EF90() != 0)
+        sub_080003F0();
+
+    handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0xA00000 | (u16)value);
+    while (sub_0805EEFC((void *)handle) == 0) {
+        if (sub_0800CDF8() == 0)
+            sub_080003F0();
+        else
+            sub_0805EFBC();
+    }
+}
 void sub_08057624(u32 count)
 {
     while (count != 0 && !sub_080021A8()) {
