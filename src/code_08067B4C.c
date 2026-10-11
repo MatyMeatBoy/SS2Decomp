@@ -153,7 +153,22 @@ u32 sub_08067F94(u32 a, u32 b, u32 c)
     (*count)++;
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067FE0);
+u32 sub_08067FE0(u16 value, u16 handle)
+{
+    u32 index = gUnk_03006338;
+    u8 *entry;
+    if (index > 0x31)
+        return 0;
+    if (handle == 0)
+        return 1;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0xA0;
+    *(u32 *)(entry + 8) = value | ((u32)handle << 16);
+    entry[1] = 1;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 u32 sub_08068030(u32 value)
 {
     u32 *count = (u32 *)0x03006338;
