@@ -18,7 +18,27 @@ void sub_08057D14(s32 arg0) {
 s32 sub_08057D20(void) {
     return M2C_FIELD(gUnk_03005CF4, s32 *, 0x50);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057D2C);
+void sub_08057D2C(u32 x, u32 y, u32 type, u32 value, u32 arg1, u32 arg2)
+{
+    u8 *entry = *(u8 **)0x03005CF4 + 0xE34;
+    for (u32 i = 0; i <= 0x1D; i++, entry += 0x28) {
+        if (sub_08000470((u32)entry) != 0)
+            continue;
+        u32 data[6] = { x << 8, y << 8, 0, 0, arg1, arg2 };
+        *(u16 *)((u8 *)data + 8) = (u16)type;
+        *(u16 *)((u8 *)data + 0xA) = (u16)value;
+        *(u32 *)(entry + 8) = 0x3C;
+        u32 mem = sub_08001494(0x400);
+        *(u32 *)(entry + 0x20) = mem;
+        *(u32 *)(entry + 0xC) = (u32)sub_0805A874;
+        *(u32 *)(entry + 0x10) = mem + 0x3FC;
+        *(u32 *)(entry + 0x24) = 0;
+        sub_08000274((u32)entry, data, 1);
+        sub_080003F0();
+        sub_080003F0();
+        return;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057DD0);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057E74);
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057F18);
