@@ -128,7 +128,15 @@ s32 sub_080576E0(void) {
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080576EC);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057780);
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_0805782C);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080578BC);
+u32 sub_080578BC(u32 value)
+{
+    while (sub_0805F184() != 0)
+        sub_080003F0();
+    u32 handle = sub_0805DF38(1, 0xF, 2, 0, -2, 0xA00000 | (u16)value);
+    while (sub_0805EEFC(handle) == 0)
+        sub_080003F0();
+    return sub_0805EF14(handle);
+}
 void sub_0805790C(void) { gUnk_03003CE0[sub_080020F4()].flags |= 2; sub_08067D74(); }
 void sub_08057934(void) { gUnk_03003CE0[sub_080020F4()].flags &= ~3u; sub_08067D74(); }
 void sub_0805795C(void) { gUnk_03003CE0[sub_080020F4()].flags |= 1; sub_0800D0F4(); }
