@@ -124,7 +124,16 @@ void sub_0808D0B0(void) {
     sub_08057984();
     sub_080587E4();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808D0C4);
+void sub_0808D0C4(void)
+{
+    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    if ((*(u32 *)(state + 0x30) & 0x4000) == 0) {
+        do {
+            sub_08057624(1);
+        } while ((*(u32 *)(state + 0x30) & 0x4000) == 0);
+    }
+    sub_08057DD0(0x78, 0x78, 0x50, (u32)sub_0808C020, 0);
+}
 void sub_0808D118(void) {
 
 }

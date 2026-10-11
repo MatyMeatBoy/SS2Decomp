@@ -104,22 +104,11 @@ void sub_0800BA80(u16 i)
     }
 }
 
-#ifdef NONMATCHING
 void *sub_0800BAA4(s16 x, s16 y)
 {
     u8 *m = (u8 *)gUnk_03003170.map0;
     return m + ((x >> 3) + (y >> 3) * gUnk_03003170.width0) * 2;
 }
-#else
-void *sub_0800BAA4(s16 x, s16 y) {
-    struct TileSys *t = &gUnk_03003170;
-    u16 *m = t->map0;
-    s32 a = x;
-    s32 b = y;
-    s32 idx = (a >> 3) + (b >> 3) * t->width0;
-    return m + idx;
-}
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BAC4);
 
