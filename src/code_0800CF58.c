@@ -365,7 +365,39 @@ void sub_08014C04(void) {
     p->w26 = 0;
     p->w122 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014C8C);
+void sub_08014C8C(void) {
+    struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
+    u16 value = p->w26;
+    u32 next;
+
+    if (sub_0800CCCC() == 0 && sub_0800CD34() == 0) {
+        if (sub_0801DE60() == 0) {
+            sub_0805865C(value + 0x100);
+        } else {
+            sub_0805865C(value + 0xF9);
+        }
+    }
+    next = 0x50;
+    if (p->wB6 == 0 && p->state == 5) {
+        u32 step = 1;
+        do {
+            if (p->wB2 == next || p->wB2 == step) {
+                next = p->wB2;
+                p->wDC++;
+                step = (step + 3) & 0xFFFF;
+            }
+            sub_080003F0();
+        } while (p->wB6 == 0 && p->state == 5);
+    }
+    if (p->state != 0xE && p->state != 0xA && p->state != 0xB &&
+        (p->flags & 0x2000) == 0) {
+        p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014D60);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014E68);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0801500C);
