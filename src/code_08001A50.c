@@ -41,7 +41,20 @@ void sub_08001A64(void)
     gUnk_030024B0[8] = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001AA4);
+void sub_08001AA4(void)
+{
+    const u16 *supportedIds = (const u16 *)0x080B99C8;
+    u16 flashId;
+    u32 i;
+
+    IdentifyFlash();
+    flashId = gFlash->ids.joined;
+    for (i = 0; i < 5 && supportedIds[i] != flashId; i++)
+        ;
+    gUnk_03000018 = (i < 5);
+    if (gUnk_03000018)
+        SetFlashTimerIntr(2, (void (**)(void))0x030012B8);
+}
 
 void sub_08001B04(u16 arg0) {
     ReadFlash(arg0);
