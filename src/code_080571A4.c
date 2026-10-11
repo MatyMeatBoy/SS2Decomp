@@ -158,7 +158,12 @@ void sub_08057A20(u32 bit, u32 alternate)
     u8 *base=*(u8 **)0x03005CF4; u32 off=alternate?0x1C3:0x1B7;
     base[off+(bit>>3)] |= 1<<(bit&7);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057A5C);
+void sub_08057A5C(u32 bit)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u32 offset = sub_0800CE30() ? 0x1C3 : 0x1B7;
+    base[offset + (bit >> 3)] &= (u8)~(1u << (bit & 7));
+}
 void sub_08057AA4(u32 bit, u32 alternate)
 {
     u8 *base = (u8 *)gUnk_03005CF4;
