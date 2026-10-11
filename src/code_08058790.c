@@ -246,7 +246,24 @@ void sub_08058D98(s32 value)
     request.value = value;
     sub_0805AB20(&request);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058DB0);
+s32 sub_08058DB0(void)
+{
+    s32 found = sub_0800CD8C() != 0;
+    u32 i, count;
+    u8 *players = (u8 *)gUnk_03003CE0;
+    u8 *current = players + sub_080020F4() * 0x14C;
+    if (*(u16 *)(current + 0x20) == 0xE)
+        found = 1;
+    players += 0x148;
+    count = sub_08002164();
+    for (i = 0; i < count; i++) {
+        u8 *entry = players + i * 0x14C;
+        void *ptr = *(void **)entry;
+        if (ptr != 0 && ((*(u8 *)ptr >> 4) & 0xF) == 0xE)
+            found = 1;
+    }
+    return found;
+}
 s32 sub_08058E08(void) {
     return M2C_FIELD(gUnk_030034E0, s32 *, 0x20);
 }
