@@ -42,7 +42,23 @@ void sub_0801E278(s32 arg0, u32 arg1)
         sub_0801DB94(*(u16 *)arg0, entry, 0);
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
+void sub_0801E2CC(s32 arg0, u32 arg1)
+{
+    u8 *entry;
+    s32 i;
+
+    while (1) {
+        entry = *(u8 **)(arg0 + 0x8C);
+        for (i = 0; i < 8; i++, entry += 0x28) {
+            if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == arg1 &&
+                *(u16 *)(entry + 2) == 100)
+                break;
+        }
+        if (i == 8)
+            break;
+        sub_0801DB94(*(u16 *)arg0 + 4, entry, 0);
+    }
+}
 void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2)
 {
     u8 *player = (u8 *)gUnk_03003CE0 + playerIndex * 0x14C + 0x34;
