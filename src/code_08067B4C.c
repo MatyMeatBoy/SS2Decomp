@@ -85,7 +85,20 @@ u32 sub_08067D28(const void *source)
     (*count)++;
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D74);
+u32 sub_08067D74(void)
+{
+    u32 index = gUnk_03006338;
+    u8 *entry;
+    if (index > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x8C;
+    *(u32 *)(entry + 8) = *(u32 *)((u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C + 0x30);
+    entry[1] = 1;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 extern s32 gUnk_03005CF4;
 s32 sub_08067DC8(void)
 {

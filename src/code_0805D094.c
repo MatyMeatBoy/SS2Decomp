@@ -3,7 +3,17 @@
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D094);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D0E8);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D13C);
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D190);
+void sub_0805D190(void)
+{
+    u8 *base = *(u8 **)0x030034E0;
+    if (*(u16 *)(base + 0x130) == 7) {
+        base[0x13A] = 1;
+    } else {
+        u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+        *(u16 *)(state + 0xC6) = 0;
+        base[0x13A] = 0;
+    }
+}
 void sub_0805D1E0(void)
 {
     u8 *base = gUnk_030034E0;
