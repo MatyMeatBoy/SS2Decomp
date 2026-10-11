@@ -16,7 +16,20 @@ void *sub_08019BF8(u32 id)
             return entry;
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019C3C);
+u32 sub_08019C3C(void)
+{
+    u32 mask = gUnk_030056FC;
+    u8 *entry = (u8 *)gUnk_030056F4 + 0x4A;
+    u32 i;
+    if (mask == 0)
+        return 0;
+    for (i = 0; i <= 4; i++, entry += 0x2E0) {
+        if ((mask & (1u << i)) != 0 &&
+            *(s16 *)(entry + 0x12) - *(u16 *)entry > 0)
+            return 1;
+    }
+    return 0;
+}
 s32 sub_08019C8C(void)
 {
     u32 flags = *(u32 *)0x030056FC;
