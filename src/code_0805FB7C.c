@@ -114,7 +114,18 @@ void sub_080656B8(void *owner)
     for (i = 0; i < 30; i++)
         *(u32 *)(obj + 0xC + i * 0x28) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080656EC);
+void sub_080656EC(void)
+{
+    u8 *base = *(u8 **)0x0300602C + 4;
+    for (u32 i = 0; i < 30; i++) {
+        u8 *entry = base + i * 0x28;
+        if (sub_08000470((u32)entry) != 0)
+            sub_080003A8((u32)entry);
+    }
+    u32 ptr = *(u32 *)0x0300602C;
+    sub_08001538(ptr);
+    *(u32 *)0x0300602C = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065748);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080657C4);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065838);
