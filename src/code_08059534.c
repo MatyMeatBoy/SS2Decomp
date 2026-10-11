@@ -5,7 +5,19 @@ INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080595E0);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805968C);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059738);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080597E4);
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059890);
+void sub_08059890(void)
+{
+    s16 y = *(s16 *)((u8 *)gUnk_03003170 + 0x80);
+    s16 x = *(s16 *)((u8 *)gUnk_03003170 + 0x82);
+    for (s32 i = 0; i <= 0x400; i += 2) {
+        s32 first;
+        s32 second;
+        sub_080659F4(&first, y, 0, i);
+        sub_080659F4(&second, x, -50, i);
+        sub_0800BB80((s16)first, (s16)second);
+        sub_080003F0();
+    }
+}
 void sub_0805990C(u32 bit)
 {
     u8 *base = (u8 *)gUnk_03005CF4;

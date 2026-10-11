@@ -42,7 +42,17 @@ void sub_0805A6F0(void)
 void sub_0805A704(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFF7F & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A71C);
+u32 sub_0805A71C(u32 key, u32 value)
+{
+    for (u32 i = 0; i <= 2; i++) {
+        if ((*(u32 *)0x03005CFC & (1u << i)) == 0)
+            continue;
+        u8 *entry = (u8 *)0x03005D00 + i * 0xC;
+        if (*(u32 *)entry == key && *(u32 *)(entry + 4) == (u16)value && *(u32 *)(entry + 8) != 0)
+            return i + 4;
+    }
+    return 0xFFFF;
+}
 void sub_0805A780(void *target)
 {
     u8 *base = *(u8 **)0x03005CF4;
