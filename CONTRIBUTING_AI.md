@@ -1,0 +1,60 @@
+# Guía para agentes de IA
+
+Esta guía permite que agentes externos (por ejemplo Nemotron mediante OpenCode) colaboren en la decompilación de Shining Soul 2.
+
+## Preparación
+
+1. Clona el repositorio y crea una rama propia:
+
+```bash
+git clone https://github.com/MatyMeatBoy/SS2Decomp.git
+cd SS2Decomp
+git checkout -b ai/<nombre-del-agente>
+```
+
+2. Trabaja únicamente en tu rama. No hagas push a la rama principal ni reescribas historia.
+3. Antes de editar, comprueba el árbol:
+
+```bash
+git status --short
+git log -5 --oneline
+```
+
+## Objetivo
+
+Convierte funciones de `asm/nonmatchings/` a C en `src/`, conservando exactamente el comportamiento y la dirección de la función. Prioriza funciones pequeñas y aisladas. No inventes estructuras ni traduzcas una función si la equivalencia no es clara.
+
+Para cada función:
+
+1. Lee el ASM completo y las declaraciones relacionadas en `include/` y `src/`.
+2. Confirma offsets, tipos, llamadas y convenciones con funciones vecinas.
+3. Implementa la función en el C correspondiente.
+4. Elimina el ASM solo después de verificar la implementación.
+5. No modifiques funciones ajenas a la tarea.
+
+## Verificación
+
+En Windows, prepara MSYS2 así:
+
+```powershell
+$env:PATH="C:\msys64\ucrt64\bin;C:\msys64\usr\bin;$env:PATH"
+```
+
+Comprueba siempre:
+
+```bash
+git diff --check
+python tools/scripts/progress.py
+```
+
+No dejes archivos generados `*.i` o `*.s` temporales en el commit. No cambies `docs/progress/` manualmente; se actualiza con `progress.py`.
+
+## Entrega
+
+El agente debe entregar una descripción breve de las funciones convertidas, la salida de `git diff --check` y cualquier duda de equivalencia. Puede crear un commit local descriptivo, pero no debe hacer push salvo autorización explícita. El coordinador revisará el diff, ejecutará las comprobaciones e integrará los cambios.
+
+Si una función es grande, usa callbacks complejos o depende de datos no identificados, déjala intacta y documenta el bloqueo. Si otro agente ya modificó el archivo, detente y comunica el conflicto.
+
+## Seguridad
+
+No ejecutes comandos destructivos ni borres archivos fuera de la tarea. No introduzcas pseudocódigo, código generado o comentarios que oculten una equivalencia incompleta. Mantén los cambios pequeños: una función o un grupo estrechamente relacionado por commit.
