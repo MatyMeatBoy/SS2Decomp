@@ -277,7 +277,22 @@ s32 sub_08058E3C(s32 bit)
 {
     return (M2C_FIELD(gUnk_03005CF4, u32 *, 0x6C) & (1 << bit)) != 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058E54);
+void sub_08058E54(void)
+{
+    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    *(u32 *)(state + 0x30) |= 1;
+    sub_0800D0F4();
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+    u32 result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x001404ED);
+    while (sub_0805EEFC(result) == 0) {
+        sub_080003F0();
+        if (sub_0800CDF8() != 0) sub_0805EFBC();
+    }
+    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    *(u32 *)(state + 0x30) &= ~1u;
+    sub_0800D108();
+}
 void sub_08058EF8(u32 arg0)
 {
     u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
