@@ -148,7 +148,11 @@ void sub_080579BC(void)
 {
     M2C_FIELD(&gUnk_03003CE0[sub_080020F4()], u16 *, 0x20) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080579D8);
+void sub_080579D8(u32 index)
+{
+    u8 *base = *(u8 **)0x03005CF4 + (sub_0800CE30() ? 0x1C3 : 0x1B7);
+    base[index >> 3] |= 1u << (index & 7);
+}
 void sub_08057A20(u32 bit, u32 alternate)
 {
     u8 *base=*(u8 **)0x03005CF4; u32 off=alternate?0x1C3:0x1B7;
