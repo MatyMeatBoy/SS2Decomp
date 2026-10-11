@@ -21,6 +21,7 @@ void sub_08068590(void);
 u32 sub_08065D50(void);
 void sub_08065AFC(void);
 void sub_08085064(u32 count);
+void sub_080853DC(u32 arg);
 void sub_0801F2CC(u8 *object, u8 *data);
 void sub_0801F320(u8 *object, u8 *data);
 u32 sub_0805D278(void *arg0);

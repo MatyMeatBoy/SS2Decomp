@@ -1,6 +1,8 @@
 #include "global.h"
 
 void sub_080852AC(void);
+void sub_0808381C(void);
+void sub_08083AE8(void);
 extern u8 gUnk_03005740[];
 void sub_0801A664(u32 index, u32 value);
 void sub_0805FB7C(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
@@ -119,7 +121,25 @@ void sub_08085398(void)
     sub_08001538(value);
     *slot = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080853DC);
+void sub_080853DC(u32 arg)
+{
+    u8 *base = *(u8 **)0x03006440;
+    u8 *task = *(u8 **)(base + 0x620);
+    u32 memory;
+
+    do {
+        memory = sub_08001494(0x400);
+        *(u32 *)(task + 0x20) = memory;
+        if (memory == 0)
+            sub_080003F0();
+    } while (memory == 0);
+
+    *(u32 *)(task + 8) = 0x50;
+    *(u32 *)(task + 0xC) = (u32)(arg == 1 ? sub_08083AE8 : sub_0808381C);
+    *(u32 *)(task + 0x10) = memory + 0x3FC;
+    *(u32 *)(task + 0x24) = 0;
+    sub_08000274((M2C_UNK *)task, (s32)arg);
+}
 u32 sub_0808543C(void)
 {
     u8 *base = *(u8 **)0x03006440;
