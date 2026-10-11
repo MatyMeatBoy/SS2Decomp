@@ -719,5 +719,61 @@ void sub_080867F8(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08086860);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08087788);
+#ifdef NONMATCHING
+void sub_080878AC(u32 arg0, s32 *state)
+{
+    u16 entry = (u16)arg0;
+    u16 width = (u16)(arg0 >> 16);
+    u16 *buffer = (u16 *)sub_08001494(width << 5);
+    u16 *source = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
+    u32 i;
+    u32 count = width << 4;
+    u16 factor = 0x64;
+    u16 angle = 0;
+    s32 timer = 10;
+    u32 phase = 0;
+    s32 base = 0x3D0;
+
+    CpuSet(source, buffer, (width << 3) | 0x04000000);
+    while (*state != 0) {
+        u16 *dst = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
+        for (i = 0; i < count; i++) {
+            u16 color = buffer[i];
+            u16 red = (((color & 0x1F) * factor) >> 10) & 0x1F;
+            u16 green = ((((color >> 5) & 0x1F) * factor) >> 10) & 0x1F;
+            u16 blue = ((((color >> 10) & 0x1F) * factor) >> 10) & 0x1F;
+
+            dst[i] = (color & 0x8000) | red | (green << 5) | (blue << 10);
+        }
+        sub_08000B38();
+        sub_080003F0();
+        factor = (u16)(base +
+                       ((u32)((s32)gUnk_080B9704[angle] * (0x400 - base)) >> 8));
+        switch (phase) {
+        case 0:
+            angle += 0x30;
+            base = 0x3D0;
+            break;
+        case 1:
+            angle += 0x10;
+            base = 0x3C8;
+            break;
+        case 2:
+            angle += 4;
+            base = 0x380;
+            break;
+        }
+        if (angle > 0x100)
+            angle = 0;
+        timer--;
+        if (timer < 0) {
+            phase = gUnk_03002344 % 3;
+            timer = sub_080008C8() % (phase == 2 ? 0x1E : 0xA);
+        }
+    }
+    sub_08001538((s32)buffer);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080878AC);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08087A5C);
