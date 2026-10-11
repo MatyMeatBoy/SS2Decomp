@@ -100,7 +100,6 @@ void sub_08000C1C(void)
     gUnk_03001250[16] = 0x100;
 }
 
-#ifdef NONMATCHING
 void sub_08000C50(void)
 {
     WAIT_NOT_BLANK();
@@ -114,9 +113,6 @@ void sub_08000C50(void)
     WAIT_NOT_BLANK();
     SET_IME(1);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/video", sub_08000C50);
-#endif
 
 void sub_08000D0C(void)
 {
