@@ -21,7 +21,16 @@ void sub_0801AB50(u16 arg0)
     sub_08000420(100);
     gUnk_03000028 = (gUnk_03000028 | 4) & -m;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB90);
+void sub_0801AB90(u16 value)
+{
+    if (*(s16 *)0x03000026 < 0 && (*(u16 *)0x03000022 & 0x8000) != 0)
+        return;
+    *(s16 *)0x03000026 = -1;
+    *(u16 *)0x03000020 = value;
+    *(u16 *)0x03000022 = value;
+    sub_08000420(0x64);
+    *(u16 *)0x03000028 = (*(u16 *)0x03000028 | 0x10) & (u16)~9;
+}
 void sub_0801ABE8(u32 arg0) {
     int new_var;
     gUnk_03000026 = 1;
