@@ -99,6 +99,19 @@ INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808EFEC);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F088);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F15C);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F1E4);
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F6A8);
+void sub_0808F6A8(void)
+{
+    const u32 mask = 0x1FF;
+    for (;;) {
+        if (sub_0800CC98() == 0) {
+            sub_0800BD48(1, 0);
+            sub_0800BD48(2, 0);
+            s32 value = *(s16 *)&gUnk_030031EE;
+            sub_0800BBA8(1, 0, value * 2 & mask);
+            sub_0800BBA8(2, 0, (value * 15 / 10) & mask);
+        }
+        sub_080003F0();
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F700);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F9E0);
