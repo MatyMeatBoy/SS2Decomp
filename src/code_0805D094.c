@@ -215,7 +215,27 @@ u32 sub_0805D5A0(void)
     }
     return total >> 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D5F4);
+s32 sub_0805D5F4(s32 start)
+{
+    u8 *entry;
+    s32 bestIndex = start < 0 ? 0 : start;
+    s32 index = bestIndex;
+    s32 bestValue = -1;
+
+    if (index <= 0x18) {
+        entry = (u8 *)gUnk_030034E0 + index * 0x10 + 0x150;
+        for (; index <= 0x18; index++, entry += 0x10) {
+            if (*(u16 *)entry == 0xA) {
+                s32 value = *(s32 *)(entry + 4);
+                if (bestValue < value && value != 0x186A0) {
+                    bestIndex = index;
+                    bestValue = value;
+                }
+            }
+        }
+    }
+    return bestValue < 0 ? -1 : bestIndex;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D650);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D6B8);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D720);
