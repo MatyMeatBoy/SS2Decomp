@@ -1,11 +1,16 @@
 #include "global.h"
 
 void sub_080852AC(void);
-void sub_0808381C(void);
+void sub_0808381C(u32 index);
 void sub_08083AE8(void);
 void sub_08085534(void);
 extern u8 gUnk_03005740[];
+extern u32 gUnk_084ECBDC[];
+extern u32 gUnk_084ECC04[];
 void sub_0801A664(u32 index, u32 value);
+u32 sub_08065158(void *arg0, u32 arg1, u32 arg2, s32 arg3, s32 arg4);
+void sub_08065230(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4);
+void sub_0801A3D0(u8 *arg0, u32 arg1, u32 arg2);
 void sub_0805FB7C(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807A5D4);
@@ -22,7 +27,129 @@ INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08081518);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080815F4);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082960);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082BB0);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808381C);
+void sub_0808381C(u32 index)
+{
+    u32 frameWords[0x1F];
+    u8 *frame = (u8 *)frameWords;
+    u8 *descriptor = frame + 4;
+    u8 *text = frame + 0x38;
+    u8 *liveText = frame + 0x58;
+    u8 *source;
+    u8 *dictionary = (u8 *)gUnk_030034E0;
+    u8 *manager;
+    u32 sourceOffset;
+    u32 textLength;
+    u32 dictionaryOffset;
+    u32 i;
+    s32 countdown;
+    s32 amount;
+    s32 x;
+
+    sub_08065158(descriptor, gUnk_084ECBDC[index], 0, -1, 0);
+    if (index == 9 || index == 3 || index == 4) {
+        sub_08000AF0(0x1E, *(u32 *)(descriptor + 0x0C), 1);
+        descriptor[0x1C] = 0x0E;
+    } else {
+        sub_08000AF0(0x1E, (u8 *)*(u32 *)(descriptor + 0x0C) + 0x1C0, 1);
+    }
+
+    source = (u8 *)sub_08007290(gUnk_084ECC04[index] | 0x140000);
+    manager = (u8 *)gUnk_03006440;
+    *(u32 *)(manager + 0x28) |= 2;
+
+    sourceOffset = 0;
+    textLength = 0;
+    dictionaryOffset = 0;
+    while (source[sourceOffset + 2] != 0xFD) {
+        if (source[sourceOffset + 2] == 0xFC) {
+            text[textLength++] = dictionary[dictionaryOffset++];
+            if (dictionary[dictionaryOffset] != 0xFD)
+                continue;
+        } else {
+            text[textLength++] = source[sourceOffset + 3];
+        }
+        sourceOffset++;
+    }
+    text[textLength] = 0xFD;
+
+    countdown = 0x40;
+    while (countdown > 0) {
+        if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
+            goto done;
+        if (countdown == 1)
+            countdown = 0;
+        amount = countdown - ((s32)((u32)countdown << 16) >> 17);
+        sub_08065230(descriptor, amount + 0xF0, 0x88, 0, 0);
+        sub_080003F0();
+        if (amount <= 0)
+            break;
+        countdown = amount;
+    }
+
+    for (i = 0; i <= textLength; i++) {
+        if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
+            goto done;
+        liveText[i] = text[i];
+        liveText[i + 1] = 0xFD;
+        sub_08065230(liveText, 0xF0, 0x88, 0, 0);
+        x = 0x0F - (sub_0801A638(text) >> 1);
+        sub_0801A3D0(liveText, x, 0x12);
+        sub_080003F0();
+    }
+
+    i = textLength;
+    if ((gUnk_03001324 & 1) == 0) {
+        u32 blink = 0;
+        u8 *cursor = liveText + i;
+        u8 *cursorEnd = cursor + 1;
+        u32 visible = 0;
+
+        for (;;) {
+            if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
+                goto done;
+            if (blink <= 0x1D)
+                visible = 1;
+            else if (blink + 1 > 0x1D)
+                visible = 0;
+            blink++;
+            if (blink > 0x28)
+                blink = 0;
+            if (visible) {
+                *cursor = 0xA0;
+                *cursorEnd = 0xFD;
+            } else {
+                *cursor = 0xFD;
+            }
+            sub_08065230(descriptor, 0xF0, 0x88, 0, 0);
+            x = 0x0F - (sub_0801A638(text) >> 1);
+            sub_0801A3D0(liveText, x, 0x12);
+            sub_080003F0();
+            if (gUnk_03001324 & 1)
+                break;
+        }
+    }
+
+    countdown = 0;
+    sub_0805865C(0x0F);
+    for (;;) {
+        if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
+            goto done;
+        if (countdown == 0x9F)
+            countdown = 0xA0;
+        amount = countdown - ((countdown - 0xA0) >> 1);
+        sub_08065230(descriptor, amount + 0xF0, 0x88, 0, 0);
+        sub_080003F0();
+        if (amount > 0x9F)
+            break;
+        countdown = amount;
+    }
+    sub_080003F0();
+    sub_080003F0();
+
+done:
+    manager = (u8 *)gUnk_03006440;
+    *(u32 *)(manager + 0x28) &= ~3u;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08083AE8);
 u32 sub_08084200(const u8 *arg0)
 {
