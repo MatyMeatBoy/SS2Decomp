@@ -34,7 +34,19 @@ void sub_080A4A54(void) {
     sub_08001538(gUnk_03000358);
     gUnk_03000358 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4A7C);
+void sub_080A4A7C(void)
+{
+    u8 *task = *(u8 **)0x03000358;
+    if (sub_08000470((u32)task) != 0 || *(u32 *)(task + 8) == 0) {
+        *(u32 *)(task + 8) = 0x44;
+        u32 mem = sub_08001494(0x400);
+        *(u32 *)(task + 0x20) = mem;
+        *(u32 *)(task + 0x10) = mem + 0x3FC;
+        *(u32 *)(task + 0xC) = (u32)sub_080A35D0;
+        *(u32 *)(task + 0x24) = (u32)sub_080A4AD0;
+        sub_08000274((u32)task, 0, 0);
+    }
+}
 void sub_080A4AD0(void) {
     gUnk_030056FC &= ~2;
 }
