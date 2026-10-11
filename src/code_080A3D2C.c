@@ -199,7 +199,20 @@ void sub_080A8014(void) {
     sub_08001538(gUnk_03000410);
     gUnk_03000410 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A803C);
+void sub_080A803C(void)
+{
+    u8 *task = *(u8 **)0x03000410;
+    if (sub_08000470((u32)task) != 0 || *(u32 *)(task + 8) == 0) {
+        u32 mem = sub_08001494(0x400);
+        *(u32 *)(task + 0x20) = mem;
+        if (mem == 0) return;
+        *(u32 *)(task + 0x10) = mem + 0x3FC;
+        *(u32 *)(task + 0xC) = (u32)sub_080A705C;
+        *(u32 *)(task + 0x24) = 0;
+        *(u32 *)(task + 8) = 0x40;
+        sub_08000274((u32)task, 0, 0);
+    }
+}
 s32 sub_080A8090(void *arg0)
 {
     u32 value = gUnk_03000414;
