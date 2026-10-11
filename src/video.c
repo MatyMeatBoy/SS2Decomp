@@ -146,7 +146,6 @@ void sub_08000D8C(void)
 INCLUDE_ASM("asm/nonmatchings/video", sub_08000D8C);
 #endif
 
-#ifdef NONMATCHING
 void sub_08000E48(void)
 {
     WAIT_NOT_BLANK();
@@ -156,6 +155,3 @@ void sub_08000E48(void)
     SET_IME(1);
     REG_DISPSTAT = (gUnk_03000004 &= ~DISPSTAT_VCOUNT_INTR);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/video", sub_08000E48);
-#endif
