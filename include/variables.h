@@ -191,6 +191,7 @@ extern M2C_UNK sub_08020F74;
 extern M2C_UNK sub_0802133C;
 extern M2C_UNK sub_08021490;
 extern M2C_UNK sub_080215E4;
+extern M2C_UNK sub_080216BC;
 extern M2C_UNK sub_080217D8;
 extern M2C_UNK sub_0802258C;
 
