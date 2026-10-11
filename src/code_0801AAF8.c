@@ -31,7 +31,20 @@ void sub_0801ABE8(u32 arg0) {
     new_var = 0x21;
     gUnk_03000028 = (gUnk_03000028 | 0xC) & (-new_var);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AC24);
+void sub_0801AC24(u16 value)
+{
+    u16 *state = (u16 *)0x03000026;
+    u16 *current = (u16 *)0x03000022;
+    u16 *limit = (u16 *)0x03000020;
+    if (*(s16 *)state == 1 && *current > *limit)
+        return;
+    *state = 1;
+    *limit = value;
+    *current = 0;
+    sub_08000420(0x64);
+    *(u16 *)0x03000028 &= (u16)~9;
+    *(u16 *)0x03000028 |= 0x30;
+}
 s32 sub_0801AC78(void) {
     s32 var_r2;
 
