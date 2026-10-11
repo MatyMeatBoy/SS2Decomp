@@ -149,7 +149,23 @@ void sub_080658CC(void)
     sub_08001538(ptr);
     *(u32 *)0x03006208 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065918);
+void sub_08065918(u32 arg1, u32 arg2)
+{
+    u8 *obj = (u8 *)0x030061E0;
+    if (sub_08000470((u32)obj) != 0)
+        return;
+    *(u32 *)(obj + 8) = 0x3C;
+    u32 mem;
+    do {
+        mem = sub_08001494(0xC00);
+        if (mem == 0) sub_080003F0();
+    } while (mem == 0);
+    *(u32 *)(obj + 0x20) = mem;
+    *(u32 *)(obj + 0xC) = (u32)sub_0806441C;
+    *(u32 *)(obj + 0x10) = mem + 0xBFC;
+    *(u32 *)(obj + 0x24) = 0;
+    sub_08000274((u32)obj, arg1, arg2);
+}
 u32 sub_08065974(void)
 {
     u32 count = sub_08002164();
