@@ -90,7 +90,18 @@ void sub_08057624(u32 count)
         count--;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057644);
+void sub_08057644(void)
+{
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+}
 void sub_0805768C(void) { sub_0801ABE8(6); while (!sub_0801AAE0()) sub_080003F0(); }
 void sub_080576A8(void) { sub_0801AA34(0x1E); while (!sub_0801AAE0()) sub_080003F0(); }
 void sub_080576C4(void) { sub_0801AA8C(0x1E); while (!sub_0801AAE0()) sub_080003F0(); }

@@ -278,7 +278,24 @@ u32 sub_0805AE34(const u8 *item)
     return *(u16 *)(resource + 0xAC) <= (u16)sub_0801D028();
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B068);
+u32 sub_0805B068(const u8 *item)
+{
+    u32 value = 0;
+    u16 type = *(u16 *)item;
+    if (type >= 2 && type <= 5) {
+        u32 id = *(u16 *)(item + 2) | ((u32)(type + 9) << 20);
+        u8 *resource = (u8 *)sub_08007290(id);
+        value = *(u32 *)(resource + (type == 2 ? 0xA0 : 0x9C));
+    }
+    u32 divisor = 10;
+    while (sub_08057C34(divisor) == 0 && divisor > 1)
+        divisor--;
+    if (sub_0800CE30() != 0)
+        return value >> 1;
+    if (divisor > 5)
+        divisor = 5;
+    return value * divisor / 10;
+}
 u32 sub_0805B0F0(void)
 {
     u8 *base = *(u8 **)0x030034E0;
