@@ -310,7 +310,19 @@ s32 sub_08068558(void)
     gUnk_03006338++;
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068590);
+void sub_08068590(void)
+{
+    s32 *count = &gUnk_03006338;
+    u8 *records = (u8 *)gUnk_03006300;
+    s32 i;
+
+    *count -= 1;
+    if (*count < 0)
+        *count = 0;
+    for (i = 0; i < *count; i++)
+        memcpy(records + i * 0x88, records + (i + 1) * 0x88, 0x88);
+    *(u32 *)(records + i * 0x88 + 4) = 0;
+}
 u32 sub_080685F0(u32 value)
 {
     u32 rem = value & 7;
