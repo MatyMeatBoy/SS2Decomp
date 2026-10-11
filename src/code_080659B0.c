@@ -84,7 +84,24 @@ void sub_08065C50(u32 arg)
     *(u32 *)(obj+0x10)=mem+0xBFC; *(u32 *)(obj+0x24)=0; sub_08000274(obj,arg);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065CA8);
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065D50);
+u32 sub_08065D50(void)
+{
+    u32 count = gUnk_03006338;
+    u8 *entry;
+    u8 *source = (u8 *)gUnk_030034E0;
+    u32 i;
+
+    if (count > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + count * 0x88;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x81;
+    for (i = 0; i < 10; i++)
+        entry[8 + i] = source[i];
+    entry[1] = 2;
+    gUnk_03006338 = count + 1;
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065DAC);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065E38);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065F08);

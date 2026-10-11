@@ -18,6 +18,7 @@ u32 sub_0805D5A0(void);
 s32 sub_0805D5F4(s32 start);
 u32 sub_08067B9C(u32 arg0, u32 arg1, void *source);
 void sub_08068590(void);
+u32 sub_08065D50(void);
 void sub_0801F2CC(u8 *object, u8 *data);
 void sub_0801F320(u8 *object, u8 *data);
 u32 sub_0805D278(void *arg0);
