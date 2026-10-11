@@ -21,7 +21,15 @@ u32 sub_08057210(u32 index)
             return 1;
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057254);
+u32 sub_08057254(u8 index)
+{
+    u8 *table = (u8 *)gUnk_03005CF4 + 0x1C8 + index * 5;
+    u32 i;
+    for (i = 0; i <= 4; i++)
+        if (table[i] == 1 || table[i] == 2)
+            return 0;
+    return 1;
+}
 void sub_080572A4(void)
 {
     u8 *base = (u8 *)gUnk_03005CF4;
