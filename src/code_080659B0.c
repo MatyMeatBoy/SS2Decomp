@@ -4,6 +4,9 @@ void sub_08066898(void);
 void sub_08064E14(void);
 void sub_0806690C(void);
 void sub_08065A1C(void);
+extern u32 sub_08001638(u32 size);
+extern void sub_0806335C(void);
+extern M2C_UNK sub_08000274_task(void *) __asm__("sub_08000274");
 
 void sub_080659B0(void *arg0, s16 arg1)
 {
@@ -52,7 +55,26 @@ s32 sub_08065AE8(void)
   int new_var;
  do { if (sub_08058DB0() == 0) { return 0; } return 1; } while (0); new_var = 0; do { } while (new_var);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065AFC);
+void sub_08065AFC(void)
+{
+    struct Unk030061E0 *task = &gUnk_030061E0;
+    u32 index;
+    u32 memory;
+    u8 *player;
+
+    if (sub_08000470((u32)task) != 0)
+        return;
+    index = sub_080020F4();
+    player = (u8 *)gUnk_03003CE0 + index * 0x14C + 0x30;
+    *(u32 *)player |= 0x80;
+    task->f8 = 0x3C;
+    memory = sub_08001638(0x400);
+    task->f20 = (void *)memory;
+    task->fC = sub_0806335C;
+    task->f10 = (u8 *)memory + 0x3FC;
+    task->f24 = 0;
+    sub_08000274_task(task);
+}
 extern s32 gUnk_03006030;
 void sub_08065B58(void)
 {
