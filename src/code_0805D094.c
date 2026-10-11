@@ -187,7 +187,17 @@ u32 sub_0805EF90(void)
     return 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EFBC);
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F020);
+extern s32 gUnk_03005D64;
+extern u8 gUnk_03005D70;
+void sub_0805F020(void)
+{
+    void *src = sub_08007290((u8 *)(uintptr_t)gUnk_03003470 + 0x10010003);
+    CpuFastSet(src, (void *)0x06008000, 0x1000);
+    src = sub_08007290((void *)0x00070003);
+    sub_08000AF0((u8 *)src + 0x1E0, 0xF, 1);
+    gUnk_03005D64 = sub_08001494(0xD0);
+    gUnk_03005D70 = 0;
+}
 void sub_0805F07C(void) {
     sub_08001348(sub_08007290(gUnk_03003470 + 0x10010003), 0x06008000, 0x4000);
     sub_08000AF0(0xF, sub_08007290(0x70003) + 0x1E0, 1);
