@@ -1,6 +1,11 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D094);
+void sub_0805D094(void)
+{
+    u8 *base = (u8 *)gUnk_030034E0;
+    *(u8 *)(base + 0x109) =
+        (*(u16 *)(base + 0x100) == 4 && sub_0805D210(base + 0x100) != 0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D0E8);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D13C);
 void sub_0805D190(void)
