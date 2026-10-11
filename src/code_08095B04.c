@@ -1,5 +1,7 @@
 #include "global.h"
 
+extern u16 gUnk_085186DC[];
+
 void sub_080967D0(s32 value);
 
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095B04);
@@ -61,7 +63,23 @@ void sub_08097978(s32 x, s32 y, s32 targetX, s32 targetY, s32 *out)
     out[0] = sine;
     out[1] = cosine;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080979D8);
+void sub_080979D8(s32 x, s32 y, s32 targetX, s32 targetY, s32 *out)
+{
+    s16 dx = (s16)(targetX - x);
+    s16 dy = (s16)(targetY - y);
+    u32 angle;
+
+    if (dx != 0) {
+        angle = ArcTan2(dx, dy) >> 8;
+        out[0] = gUnk_080B9704[angle + 0x40];
+        out[1] = gUnk_080B9704[angle];
+    } else {
+        out[0] = 0;
+        out[1] = 0x100;
+        if (targetY < y)
+            out[1] = -0x100;
+    }
+}
 void sub_08097A38(u8 i)
 {
     gUnk_03000290[i]++;
@@ -102,7 +120,31 @@ u32 sub_08097B6C(s32 x0, s32 y0, s32 x1, s32 y1, s32 radius)
     u32 distance = Sqrt((u32)(dx * dx + dy * dy));
     return (radius >> 16) > (s32)distance;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097BA4);
+void sub_08097BA4(s32 velocity, s32 *position, u32 direction, s32 arg3)
+{
+    s32 product;
+    s32 delta;
+    u16 angle;
+
+    (void)arg3;
+    direction = (u16)direction;
+    angle = gUnk_085186DC[direction];
+
+    product = velocity * gUnk_080B9704[angle];
+    if (direction == 0 || direction == 4) {
+        delta = product / 304;
+    } else {
+        if (product < 0)
+            product += 0xFF;
+        delta = product >> 8;
+    }
+    position[1] += delta;
+
+    product = velocity * gUnk_080B9704[angle + 0x40];
+    if (product < 0)
+        product += 0xFF;
+    position[0] += product >> 8;
+}
 void sub_08097C4C(void)
 {
   s8 *new_var2;
@@ -193,4 +235,18 @@ void sub_08097D7C(u32 angle, u32 scale)
         state[0xC] += (u8)angle;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097DBC);
+u32 sub_08097DBC(u32 arg0, s32 y, u32 angle, u32 arg3)
+{
+    s32 scaled;
+
+    (void)arg0;
+    (void)arg3;
+    if (sub_0800CCCC() != 0 || sub_0800CC98() != 0 ||
+        sub_0800CD8C() != 0 || sub_0800CD34() != 0)
+        return 0;
+
+    scaled = ((s32)(s16)(u16)angle * gUnk_080B9704[gUnk_030002A0.b0D]) >> 8;
+    if (0x7000 - scaled > y || 0xA000 - scaled < y)
+        return 0xF;
+    return 0;
+}

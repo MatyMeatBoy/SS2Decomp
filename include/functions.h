@@ -162,7 +162,7 @@ M2C_UNK sub_08007AA4(void *);
 M2C_UNK sub_08007CF0(s32, s32, u16, u16, s32, s32, s32, s32);
 void sub_08008C10();
 s32 sub_08008C1C();
-s32 sub_08008CC4(u16, s32, s32, s32, s32);
+u32 sub_08008CC4(u32 arg0, u16 *arg1, u16 *arg2, u8 *arg3, u32 arg4);
 s32 sub_08008D38(u16, s32, s32, s32, s32);
 void sub_08009014();
 s32 sub_08009034(void *arg0);
