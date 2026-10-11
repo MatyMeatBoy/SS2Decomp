@@ -85,7 +85,27 @@ void sub_0807C014(u32 amount)
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C014);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C114);
+#ifdef NONMATCHING
+void sub_0807C1D8(void) {
+    register u8 *manager asm("r1");
+    register u32 saved asm("r5");
+    manager = (u8 *)gUnk_03006440;
+    saved = *(u32 *)(manager + 4);
+    if (saved != 0) {
+        sub_08065370(manager + 0xA4, 4, manager + 0x4E, manager + 0x52, 1);
+        sub_08065230(manager + 0xA4, 0x78, 0x78, 9, 0);
+        sub_08065264(manager + 0xA4, 0x88, 0x78, 5, *(u16 *)(manager + 0x4E));
+        sub_08065230(manager + 0xA4, 0x68, 0x78, 4, *(u16 *)(manager + 0x4C));
+        return;
+    }
+    sub_08065370(manager + 0xA4, 5, manager + 0x4C, manager + 0x50, 1);
+    sub_08065230(manager + 0xA4, 0x78, 0x78, 8, saved);
+    sub_08065230(manager + 0xA4, 0x88, 0x78, 5, *(u16 *)(manager + 0x4E));
+    sub_08065264(manager + 0xA4, 0x68, 0x78, 4, *(u16 *)(manager + 0x4C));
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C1D8);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C29C);
 #ifdef NONMATCHING
 // Inventory drawing pass. The assembly remains the default until this draft
