@@ -88,7 +88,20 @@ INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065D50);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065DAC);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065E38);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065F08);
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065FE8);
+u32 sub_08065FE8(void)
+{
+    u32 index = gUnk_03006338;
+    u8 *entry;
+    if (index > 0x31)
+        return 0;
+    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x85;
+    CpuSet((u8 *)gUnk_03005CF4 + 0x22, entry + 8, 0xA);
+    entry[1] = 3;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806603C);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080660EC);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806617C);
