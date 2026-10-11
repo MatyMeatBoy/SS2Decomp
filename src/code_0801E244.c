@@ -162,8 +162,39 @@ INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801EF14);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F1C4);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F2CC);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F320);
+void sub_0801F2CC(u8 *object, u8 *data)
+{
+    u16 value = data[2];
+
+    if (value != 0) {
+        u16 duration = value >> 2;
+        *(u16 *)(object + 0x7C) = duration != 0 ? duration : 1;
+        *(u16 *)(object + 0x80) = duration != 0 ? 0x400 : 0x100;
+        *(s16 *)(object + 0x7E) = (s8)data[3];
+        *(u16 *)(object + 0x82) = value;
+    } else {
+        *(u16 *)(object + 0x7C) = 0;
+        *(u16 *)(object + 0x80) = 0;
+        *(u16 *)(object + 0x7E) = 0;
+    }
+}
+
+void sub_0801F320(u8 *object, u8 *data)
+{
+    u16 value = data[2];
+
+    if (value != 0) {
+        u16 duration = value >> 2;
+        *(u16 *)(object + 0xCE) = duration != 0 ? duration : 1;
+        *(u16 *)(object + 0xD2) = duration != 0 ? 0x400 : 0x100;
+        *(s16 *)(object + 0xD0) = (s8)data[3];
+        *(u16 *)(object + 0xD4) = value;
+    } else {
+        *(u16 *)(object + 0xCE) = 0;
+        *(u16 *)(object + 0xD2) = 0;
+        *(u16 *)(object + 0xD4) = 0;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F374);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F79C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F99C);

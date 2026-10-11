@@ -13,6 +13,8 @@ void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2);
 u32 sub_0805D210(void *arg0);
 u32 sub_0805D5A0(void);
 s32 sub_0805D5F4(s32 start);
+void sub_0801F2CC(u8 *object, u8 *data);
+void sub_0801F320(u8 *object, u8 *data);
 u32 sub_0805D278(void *arg0);
 u32 sub_0805D2E0(void *arg0);
 void IntrMain(void);
