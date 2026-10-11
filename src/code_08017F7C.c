@@ -26,7 +26,19 @@ u32 sub_08019CDC(void)
     } while (i <= 4);
     return i;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019CE8);
+u32 sub_08019CE8(u8 *obj)
+{
+    u16 *value = (u16 *)(obj + 0x5C);
+    u16 *timer = (u16 *)(obj + 0x4A);
+    *value -= (*timer & 0x7FFF);
+    *timer = 0;
+    if ((s16)*value < 0 || *value == 0) {
+        *(u16 *)(obj + 0xC) = 0xB;
+        *value = 0;
+        return 1;
+    }
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019D34);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019D7C);
 u32 sub_08019DE0(u32 value)
