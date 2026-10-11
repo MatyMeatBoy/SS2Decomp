@@ -126,7 +126,18 @@ void sub_080658A0(void)
     for (i = 0; i < 4; i++)
         M2C_FIELD((u8 *)gUnk_03006208 + i * 0x28, s32 *, 8) = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080658CC);
+void sub_080658CC(void)
+{
+    u8 *base = *(u8 **)0x03006208;
+    for (u32 i = 0; i < 4; i++) {
+        u8 *entry = base + i * 0x28;
+        while (sub_08000470((u32)entry) != 0)
+            sub_080003F0();
+    }
+    u32 ptr = *(u32 *)0x03006208;
+    sub_08001538(ptr);
+    *(u32 *)0x03006208 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065918);
 u32 sub_08065974(void)
 {
