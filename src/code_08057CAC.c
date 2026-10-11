@@ -146,7 +146,39 @@ void sub_08058318(s32 arg0)
     while (!sub_0805EEFC(arg0))
         sub_080003F0();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058334);
+void sub_08058334(u32 x, u32 y, u32 a, u32 b, u32 callback)
+{
+    u32 pos[2] = { x << 8, y << 8 };
+    u32 packed = (a & 0xFFFF) | ((b & 0xFFFF) << 16);
+    u32 info = 0x00200018;
+    u8 *entry;
+    u32 result;
+
+    entry = (u8 *)gUnk_03003D6C + sub_080020F4() * 0x14C;
+    result = sub_08021FE0(entry, pos, &info, &packed);
+    if (result != 0) {
+        entry = *(u8 **)0x03005CF4 + 0xE34;
+        for (u32 i = 0; i <= 0x1D; i++, entry += 0x28) {
+            if (sub_08000470((u32)entry) == 0)
+                break;
+        }
+        if (sub_08000470((u32)entry) == 0) {
+            u32 mem;
+            do {
+                mem = sub_08001494(0x400);
+                if (mem == 0)
+                    sub_080003F0();
+            } while (mem == 0);
+            *(u32 *)(entry + 0x20) = mem;
+            *(u32 *)(entry + 8) = 0x3C;
+            *(u32 *)(entry + 0xC) = callback;
+            *(u32 *)(entry + 0x10) = mem + 0x3FC;
+            *(u32 *)(entry + 0x24) = 0;
+            sub_08000274((u32)entry, 0);
+        }
+    }
+    sub_0800035C();
+}
 void sub_080583EC(void) {
     sub_0805EFBC();
     do {

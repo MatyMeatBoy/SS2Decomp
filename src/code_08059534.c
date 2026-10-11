@@ -27,7 +27,14 @@ void sub_080599B0(s32 arg0) {
 void sub_080599C4(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) | (1 << arg0));
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080599D8);
+void sub_080599D8(u32 index)
+{
+    u32 bit = 1u << (index - 1);
+    u8 *base = *(u8 **)0x03005CF4;
+    u32 *flags = (u32 *)(base + (sub_0800CE30() ? 0x80 : 0x78));
+    if ((*flags & bit) == 0)
+        *flags |= bit;
+}
 void sub_08059A40(u32 count)
 {
     for (u32 i = 1; i < count; i++) {
