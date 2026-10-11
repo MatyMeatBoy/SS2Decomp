@@ -11,6 +11,8 @@ u32 sub_08015E84(u8 *arg0);
 u32 sub_0800BC44(u32 x, u32 y, u32 alternate);
 void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2);
 void sub_0801E2CC(s32 arg0, u32 arg1);
+u16 sub_0801E378(s32 arg0, u16 value);
+u16 sub_0801E3D8(s32 arg0, u16 value);
 u32 sub_0805D210(void *arg0);
 u32 sub_0805D5A0(void);
 s32 sub_0805D5F4(s32 start);
