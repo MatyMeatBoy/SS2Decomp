@@ -170,7 +170,30 @@ u32 sub_0800BC08(s32 x, s32 y, s16 *out_x, s16 *out_y)
     return 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BC44);
+u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
+{
+    u8 *state = (u8 *)0x03003170;
+    u32 *map;
+    u32 width;
+    u32 index;
+    u32 tile;
+
+    if (alternate != 0) {
+        map = *(u32 **)(state + 0x6C);
+        width = *(u16 *)(state + 0x74);
+    } else {
+        map = *(u32 **)(state + 0x68);
+        width = *(u16 *)(state + 0x70);
+    }
+    index = (x >> 3) + (y >> 3) * width;
+    tile = *(u32 *)((u8 *)map + index * 2);
+    switch ((tile >> 14) & 3) {
+    case 0: return 2;
+    case 1: return 1;
+    case 2: return 3;
+    default: return 0;
+    }
+}
 
 u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 {
