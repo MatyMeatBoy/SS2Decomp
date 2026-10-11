@@ -288,7 +288,29 @@ u32 sub_0805AD18(void)
     }
     return sub_08007290(id | 0xB00000);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD78);
+void sub_0805AD78(u32 index)
+{
+    u8 *states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    u8 *table = *(u8 **)0x030034E0;
+    for (u32 i = 0; i < states[0x77]; i++)
+        table[i * 0x10 + 0x79] = 0;
+    u8 *item = table + index * 0x10;
+    if (*(u16 *)(item + 0x70) == 2) {
+        if (sub_0805AE34(item + 0x70)) {
+            item[0x79] = 1;
+            u8 *resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB00000);
+            states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+            *(u16 *)(states + 0x10) = resource[0x9B];
+        } else {
+            states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+            *(u16 *)(states + 0x10) = index;
+        }
+    } else {
+        states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+        *(u16 *)(states + 0x10) = 0;
+    }
+    sub_08065DAC();
+}
 u32 sub_0805AE34(const u8 *item)
 {
     if (item == 0 || *(u16 *)item != 2 || item[8] != 0)
