@@ -292,7 +292,29 @@ u32 sub_0805B0F0(void)
     return total;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B140);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B21C);
+void sub_0805B21C(void)
+{
+    u32 *slots = (u32 *)0x03005D58;
+    u32 *secondary = (u32 *)0x03005D60;
+    *slots = sub_08001494(0x200);
+    *secondary = sub_08001494(0xF0);
+    for (u32 i = 0; i < 16; i++) {
+        u16 zero = 0;
+        CpuSet(&zero, (u8 *)*slots + i * 0x20, 0x01000010);
+    }
+    u32 *buffer = (u32 *)0x03000124;
+    *buffer = sub_08001494(0x1B9);
+    for (u32 i = 0; i <= 0x1B8; i++)
+        ((u8 *)*buffer)[i] = 0;
+    *(u16 *)0x03005D5C = 1;
+    u8 *task = (u8 *)0x03005D30;
+    *(u32 *)(task + 0xC) = (u32)sub_0805B140;
+    *(u32 *)(task + 0x20) = sub_08001494(0x400);
+    *(u32 *)(task + 0x10) = *(u32 *)(task + 0x20) + 0x3FC;
+    *(u32 *)(task + 8) = 0x41;
+    *(u32 *)(task + 0x24) = 0;
+    sub_08000274((u32)task);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B4CC);
 void *sub_0805B618(void)

@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="540" viewBox="0 0 1000 540" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
-<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 5.48% (853/1870)</text>
+<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 5.51% (855/1870)</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="180.75" fill="#0d1117"/>
 <rect x="1.00" y="29.00" width="127.15" height="75.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0807C29C  0x0807C29C  18396 bytes  [todo]</title></rect>
@@ -1038,7 +1038,7 @@
 <rect x="585.94" y="276.81" width="5.22" height="5.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801DFE8  0x0801DFE8  60 bytes  [done]</title></rect>
 <rect x="591.16" y="276.81" width="4.88" height="5.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E12C  0x0801E12C  56 bytes  [done]</title></rect>
 <rect x="596.04" y="276.81" width="4.88" height="5.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E20C  0x0801E20C  56 bytes  [done]</title></rect>
-<rect x="600.91" y="276.81" width="4.53" height="5.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0801DF4C  0x0801DF4C  52 bytes  [todo]</title></rect>
+<rect x="600.91" y="276.81" width="4.53" height="5.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801DF4C  0x0801DF4C  52 bytes  [done]</title></rect>
 <rect x="585.94" y="282.70" width="5.45" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E0D0  0x0801E0D0  52 bytes  [done]</title></rect>
 <rect x="585.94" y="287.59" width="5.45" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E1A4  0x0801E1A4  52 bytes  [done]</title></rect>
 <rect x="585.94" y="292.49" width="5.45" height="4.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801E1D8  0x0801E1D8  52 bytes  [done]</title></rect>
@@ -1421,7 +1421,7 @@
 <rect x="723.41" y="346.19" width="10.38" height="10.79" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805B140  0x0805B140  220 bytes  [todo]</title></rect>
 <rect x="733.79" y="346.19" width="8.87" height="10.79" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805AD78  0x0805AD78  188 bytes  [todo]</title></rect>
 <rect x="742.66" y="346.19" width="8.31" height="10.79" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805A7C4  0x0805A7C4  176 bytes  [todo]</title></rect>
-<rect x="712.46" y="356.98" width="7.86" height="10.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805B21C  0x0805B21C  168 bytes  [todo]</title></rect>
+<rect x="712.46" y="356.98" width="7.86" height="10.89" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805B21C  0x0805B21C  168 bytes  [done]</title></rect>
 <rect x="712.46" y="367.87" width="7.86" height="8.82" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805B068  0x0805B068  136 bytes  [todo]</title></rect>
 <rect x="712.46" y="376.69" width="7.86" height="8.82" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805CB04  0x0805CB04  136 bytes  [todo]</title></rect>
 <rect x="720.32" y="356.98" width="8.29" height="8.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A874  0x0805A874  132 bytes  [done]</title></rect>
@@ -2268,5 +2268,5 @@
 <text x="405" y="534" fill="#e6edf3" font-size="11">pendiente (asm)</text>
 <rect x="510" y="524" width="11" height="11" fill="#388bfd"/>
 <text x="525" y="534" fill="#e6edf3" font-size="11">asm original</text>
-<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 6.53% de 754868 bytes de código, 954/1973 funciones</text>
+<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 6.56% de 754868 bytes de código, 956/1973 funciones</text>
 </svg>
