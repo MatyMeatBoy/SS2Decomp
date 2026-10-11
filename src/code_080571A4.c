@@ -87,7 +87,22 @@ void sub_080574FC(void) {
         var_r5 += 0x70;
     } while (var_r6 <= 0xEU);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057534);
+void sub_08057534(void *key, u16 x, u16 y)
+{
+    u8 *entry = (u8 *)gUnk_03005CF4 + 0x7A4;
+    s32 i;
+    for (i = 0; i <= 0xE; i++, entry += 0x70) {
+        if (*(void **)entry == key)
+            break;
+    }
+    if (i > 0xE) {
+        sub_080003F0();
+        return;
+    }
+    *(u16 *)(entry + 0x18) = x;
+    *(u16 *)(entry + 0x1A) = y;
+    *(u32 *)(entry + 0x3C) |= 0x10;
+}
 void sub_08057580(u32 key, u32 value)
 {
     u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
