@@ -128,8 +128,52 @@ void sub_08068894(u32 a, u32 b)
 void sub_080688F4(void) {
 
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080688F8);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806898C);
+void sub_080688F8(u32 index)
+{
+    volatile u32 *slot = (volatile u32 *)(0x030063B0 + index * 4);
+    volatile u32 *global;
+
+    while (*slot != 0 && sub_08000470(*slot) != 0)
+        sub_080003F0();
+    sub_08001538((s32)*slot);
+    *slot = 0;
+
+    global = (volatile u32 *)0x03006370;
+    while (*global != 0 && sub_08000470(*global) != 0)
+        sub_080003F0();
+    sub_08001538((s32)*global);
+
+    slot = (volatile u32 *)(0x03006380 + index * 4);
+    sub_08001538((s32)*slot);
+    *slot = 0;
+
+    sub_08001538((s32)*global);
+    sub_08001538(*(volatile s32 *)0x03006420);
+    *global = 0;
+    *(volatile u32 *)0x03006420 = 0;
+}
+extern u8 gUnk_084EBF1C[];
+s32 sub_0806898C(s32 arg0, s32 arg1)
+{
+    u8 *player;
+    u32 tableOffset;
+    s32 value;
+    s16 candidate;
+
+    player = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
+    if (arg1 == 0)
+        return 0;
+
+    tableOffset = (u32)arg0 * 0x18 + ((u32)arg1 - 1) * 2 + 6;
+    value = *(s16 *)(gUnk_084EBF1C + tableOffset) + *(s8 *)(player + 0x6C) * 10;
+    if (value < 0)
+        value = 0;
+
+    candidate = (s16)(u16)value;
+    if (*(s16 *)(player + 0xC2) - (s32)candidate < 0)
+        return 0;
+    return (s16)(u16)(candidate + 1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068A00);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068F9C);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069080);

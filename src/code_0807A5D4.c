@@ -1,6 +1,9 @@
 #include "global.h"
 
 void sub_080852AC(void);
+extern u8 gUnk_03005740[];
+void sub_0801A664(u32 index, u32 value);
+void sub_0805FB7C(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
 
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807A5D4);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807B7B4);
@@ -38,7 +41,21 @@ void sub_08085014(u32 index, u32 count, u32 value)
     if (count != 0)
         sub_0801A664(index + 5, 1);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085064);
+void sub_08085064(u32 count)
+{
+    u32 i;
+
+    if (count <= 9) {
+        for (i = 0; i < count; i++)
+            *(u16 *)(gUnk_03005740 + 0xE8 + i * 2) = 0xE16B;
+        if (count != 0)
+            sub_0801A664(3, 1);
+    } else {
+        *(u16 *)(gUnk_03005740 + 0xE8) = 0xE16B;
+        *(u16 *)(gUnk_03005740 + 0xEA) = 0xE16A;
+        sub_0805FB7C(0x18, 3, count, 0);
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080850C0);
 void sub_0808516C(void)
 {

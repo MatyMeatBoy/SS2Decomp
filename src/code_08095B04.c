@@ -1,5 +1,7 @@
 #include "global.h"
 
+void sub_080967D0(s32 value);
+
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095B04);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095D1C);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095E70);
@@ -107,7 +109,26 @@ void sub_08097C6C(void)
         *(u32 *)0x03000298 = 0;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097CA8);
+void sub_08097CA8(u16 value)
+{
+    u8 *task = (u8 *)gUnk_03000298;
+    u32 mem;
+
+    if (task == 0 || *(u32 *)(task + 8) != 0)
+        return;
+
+    mem = sub_08001494(0x200);
+    *(u32 *)(task + 0x20) = mem;
+    if (mem == 0)
+        return;
+
+    *(u32 *)(task + 0x10) = mem + 0x1FC;
+    *(u32 *)(task + 0x0C) = (u32)sub_080967D0;
+    *(u32 *)(task + 0x24) = 0;
+    *(u32 *)(task + 8) = 0x4C;
+    sub_08000274_(task, (u32)(s32)(s16)value, 0);
+    *(u16 *)0x0300029C = *(u16 *)(*(u8 **)0x030034E0 + 0x18);
+}
 void sub_08097D0C(u16 a, u16 b)
 {
     gUnk_030002A0.w4 = a;

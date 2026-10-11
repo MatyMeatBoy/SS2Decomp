@@ -69,7 +69,19 @@ void sub_08093404(void) {
     sub_080012D8(0);
     sub_080011E4(0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809342C);
+void sub_0809342C(void)
+{
+    u16 scanline = *(volatile u16 *)0x04000006 & 0xFF;
+
+    if (scanline > 0x9F) {
+        *(u16 *)0x03000264 = 0;
+    } else {
+        u32 index = (scanline + *(u8 *)0x03000267) & 0xFF;
+        s32 sample = gUnk_080B9704[index];
+        s32 scale = *(u8 *)0x03000266;
+        *(u16 *)0x03000264 = (u16)((sample * scale) >> 8);
+    }
+}
 u16 sub_08093498(void)
 {
     gUnk_03000267 += 2;
