@@ -203,7 +203,23 @@ void sub_08058C74(s16 arg0) {
     sub_0805AD78();
 }
 void sub_08058C8C(s32 arg0) { if (sub_0800CB9C()) { sub_080586B4(0); return; } if (!(gUnk_030027D0 & 0x20)) { gUnk_03005CF8=arg0; sub_08006CB4(arg0); } }
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058CC4);
+void sub_08058CC4(u32 value)
+{
+    if (value < 1 || value > 9 || (gUnk_030027D0 & 0x20) != 0)
+        return;
+    switch (value) {
+    case 2:
+        sub_08006D08(0x14);
+        break;
+    case 6:
+    case 8:
+        sub_08006D08(0x1B);
+        break;
+    default:
+        sub_08006D08((value == 7) ? 0x1B : 0x13);
+        break;
+    }
+}
 u32 sub_08058D4C(u32 key)
 {
     u8 *base = *(u8 **)0x03005CF4;
