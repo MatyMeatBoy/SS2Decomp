@@ -21,7 +21,32 @@ void sub_080153A4(void)
     p->w26 = 0;
     p->w122 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015464);
+void sub_08015464(void)
+{
+    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    u16 saved = *(u16 *)(state + 0x26);
+    if (*(u16 *)(state + 0x20) != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(saved + 0xF9);
+    u16 *done = (u16 *)(state + 0xB6);
+    if (*done == 0 && *(u16 *)(state + 0x20) == 5) {
+        u32 *counter = (u32 *)(state + 0xDC);
+        do {
+            u16 type = *(u16 *)(state + 0xB2);
+            if ((type == 2 || type == 5 || type == 7) && *(u16 *)(state + 0xB4) == 1)
+                (*counter)++;
+            sub_080003F0();
+        } while (*done == 0 && *(u16 *)(state + 0x20) == 5);
+    }
+    u16 mode = *(u16 *)(state + 0x20);
+    if (mode < 0xA || mode > 0xB) {
+        if ((*(u32 *)(state + 0x30) & 0x4000) == 0)
+            *(u16 *)(state + 0x20) = 0;
+    }
+    *(u16 *)(state + 0x24) = 0;
+    *(u16 *)(state + 0x28) = saved;
+    *(u16 *)(state + 0x26) = 0;
+    *(u16 *)(state + 0x122) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801551C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015620);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080156FC);
