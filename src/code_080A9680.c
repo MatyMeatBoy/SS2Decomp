@@ -190,7 +190,24 @@ void sub_080B0F9C(void) {
     gUnk_030056FC = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0FC4);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B1FD4);
+void sub_080B1FD4(void)
+{
+    u32 i;
+    if (gUnk_030007A8 != 0) {
+        if (sub_08000470(gUnk_030007A8) != 0)
+            sub_080003A8(gUnk_030007A8);
+        sub_08001538(gUnk_030007A8);
+        gUnk_030007A8 = 0;
+        for (i = 1; i <= 4; i++) {
+            if (gUnk_030056FC & (1u << i)) {
+                u8 *entry = (u8 *)gUnk_030056F4 + i * 0x3E0 + 0x7A;
+                *(u16 *)entry |= (u16)(1u | (1u << i));
+            }
+        }
+        for (i = 0; i <= 1; i++)
+            ((u16 *)&gUnk_03000798)[i] = 0;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2058);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2200);
 void sub_080B22E8(void) {
