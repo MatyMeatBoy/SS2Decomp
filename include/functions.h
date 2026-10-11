@@ -289,7 +289,7 @@ void sub_08015E00(s32 arg0);
 void sub_08015ED4();
 void sub_08015EF8();
 void sub_08016114();
-void sub_080161A4();
+void sub_080161A4(void);
 void sub_08016ECC(s32);
 u32 sub_08019CDC();
 s32 sub_08019C3C(void);

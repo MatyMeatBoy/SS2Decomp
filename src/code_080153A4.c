@@ -183,7 +183,35 @@ u32 sub_08015F20(void) {
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015F44);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801602C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016114);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080161A4);
+void sub_080161A4(void) {
+    u16 var_r4;
+    u16 var_r4_2;
+    volatile s32 *maskPtr;
+    u32 bitMask;
+    var_r4 = 0;
+    do {
+        if (((s32) gUnk_03005724 >> var_r4) & 1) {
+            sub_080003A8(gUnk_030056F0 + (var_r4 * 0x28));
+        }
+        var_r4 += 1;
+    } while ((u32) var_r4 <= 1U);
+    var_r4_2 = 0;
+    maskPtr = (volatile s32 *)&gUnk_030056FC;
+    do {
+        bitMask = 1;
+        bitMask <<= var_r4_2;
+        if (*maskPtr & bitMask) {
+            sub_080003A8((s32)((u8 *)&gUnk_03004220 + (var_r4_2 * 0x28)));
+        }
+        sub_080688F8(var_r4_2 + 4);
+        var_r4_2 += 1;
+    } while ((u32) var_r4_2 <= 4U);
+    sub_08001538(gUnk_030056F0);
+    sub_08001538((s32) gUnk_030056F4);
+    sub_08001538(gUnk_030042E8);
+    gUnk_030056F0 = 0;
+    gUnk_030056F4 = NULL;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801623C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801641C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801674C);

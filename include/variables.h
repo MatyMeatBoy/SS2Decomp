@@ -7,7 +7,6 @@
 
 extern struct Player gUnk_03003CE0[];
 // AUTO-VARIABLES (keep this marker, decomp.py appends below it)
-extern u16 gUnk_0847ACE8[];
 extern struct MemBlock gUnk_02000010;
 extern struct MemBlock gUnk_0203FFF0;
 extern u16 gUnk_03000000;
@@ -28,8 +27,8 @@ extern s8 gUnk_03000259;
 extern s16 gUnk_0300025A;
 extern s8 gUnk_0300025C;
 extern s32 gUnk_03000260;
-extern s8 gUnk_03000268;
 extern u8 gUnk_03000267;
+extern s8 gUnk_03000268;
 extern s32 gUnk_03000270;
 extern s8 gUnk_03000274;
 extern u8 gUnk_03000275;
@@ -140,6 +139,9 @@ extern s32 gUnk_030034D8;
 extern s32 gUnk_030034E0;
 extern s32 gUnk_03003C10;
 extern void *gUnk_03004210;
+extern M2C_UNK gUnk_03004220;
+extern s32 gUnk_030042E8;
+extern s32 gUnk_030056F0;
 extern void *gUnk_030056F4;
 extern s32 gUnk_030056FC;
 extern volatile unsigned short gUnk_03005730;
@@ -173,6 +175,7 @@ extern struct MusicPlayerInfo gUnk_03007690;
 extern u16 gUnk_03007FF8;
 extern s16 gUnk_080B9704[];
 extern struct LevelEntry gUnk_0847846C[];
+extern u16 gUnk_0847ACE8[];
 extern u16 gUnk_0847AD0A[];
 extern u32 gUnk_0847AD1C[];
 extern s32 gUnk_0848FF54[];
@@ -182,7 +185,6 @@ extern void sub_0800232C();
 extern M2C_UNK sub_08002B70;
 extern void sub_08005B88(void);
 extern M2C_UNK sub_08014170;
-
 
 #endif // GUARD_VARIABLES_H
 extern void sub_08002694();
