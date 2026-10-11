@@ -1,5 +1,7 @@
 #include "global.h"
 
+s32 sub_080003F0(void) { return 1; }
+
 /* Scheduler state accessors.  These are kept as word accesses because the
  * state lives in the fixed-address scheduler workspace. */
 u32 sub_08000464(void)
