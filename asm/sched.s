@@ -11,7 +11,5 @@
 	.include "asm/nonmatchings/sched/sub_080003C0.s"
 	.include "asm/nonmatchings/sched/sub_080003F0.s"
 	.include "asm/nonmatchings/sched/sub_080003F4.s"
-	.include "asm/nonmatchings/sched/sub_08000420.s"
-	.include "asm/nonmatchings/sched/sub_08000440.s"
 	.include "asm/nonmatchings/sched/sub_08000498.s"
 	.align 2, 0 @ Don't pad with nop
