@@ -1,6 +1,26 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080153A4);
+void sub_080153A4(void)
+{
+    struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
+    u16 angle = (u16)(p->w26 * 40 + 0x80);
+    if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(p->w26 + 0xF9);
+    while (p->wB6 == 0 && p->state == 5) {
+        p->w1C = sub_08013E90((s16)angle, (s32 *)&p->pos8C, p->w1C,
+                              (u16)sub_0800CCCC(), 0);
+        sub_08013CEC((u8 *)p);
+        sub_080003F0();
+    }
+    if (p->state != 0xA && p->state != 0xB) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015464);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801551C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015620);
