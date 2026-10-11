@@ -81,7 +81,18 @@ void sub_080920E4(void)
     sub_08000274_((void *)gUnk_030001C0, 0, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092124);
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092190);
+void sub_08092190(void)
+{
+    s32 index = (s16)sub_0800086C();
+    index %= 9;
+    if (index < 0) index = -index;
+    u8 *task = (u8 *)0x03000170;
+    *(u32 *)(task + 0xC) = *(u32 *)((u8 *)0x03000198 + index * 4);
+    u32 mem = sub_08001494(0x400);
+    *(u32 *)(task + 0x20) = mem;
+    *(u32 *)(task + 0x10) = mem + 0x3FC;
+    sub_08000274((u32)task, 0, 0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080921E4);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080922B4);
 void sub_08092344(void) {
