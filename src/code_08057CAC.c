@@ -79,7 +79,31 @@ void sub_08057E74(u32 x, u32 y, u32 type, u32 value, u32 arg1, u32 arg2)
         return;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057F18);
+void sub_08057F18(u32 x, u32 y, u32 kind, u32 value, u32 arg4, u32 arg5)
+{
+    u8 *entry = *(u8 **)0x03005CF4 + 0xE34;
+    u8 args[20];
+    for (u32 i = 0; i <= 0x1D; i++, entry += 0x28) {
+        if (sub_08000470((u32)entry) == 0)
+            break;
+    }
+    if (sub_08000470((u32)entry) != 0)
+        return;
+    *(u32 *)(args + 0) = x << 8;
+    *(u32 *)(args + 4) = y << 8;
+    *(u16 *)(args + 8) = (u16)kind;
+    *(u16 *)(args + 10) = (u16)value;
+    *(u32 *)(args + 12) = arg4;
+    *(u32 *)(args + 16) = arg5;
+    *(u32 *)(entry + 8) = 0x3C;
+    *(u32 *)(entry + 0x20) = sub_08001494(0x400);
+    *(u32 *)(entry + 0xC) = (u32)sub_08028830;
+    *(u32 *)(entry + 0x10) = *(u32 *)(entry + 0x20) + 0x3FC;
+    *(u32 *)(entry + 0x24) = 0;
+    sub_08000274((u32)entry, args, 0);
+    sub_080003F0();
+    sub_080003F0();
+}
 void sub_08057FBC(u32 selector, u32 value)
 {
     if (selector > 0x40000) {
