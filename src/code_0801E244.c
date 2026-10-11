@@ -110,7 +110,16 @@ s32 sub_0801E538(void)
   }
   return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E550);
+void sub_0801E550(u16 id, u32 stateIndex, u16 kind, u16 value)
+{
+    u8 *state = (u8 *)gUnk_03003CE0 + stateIndex * 0x14A + 0x34;
+    u8 *entry = *(u8 **)state;
+    for (u32 i = 0; i <= 7; i++, entry += 0x28) {
+        if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == kind &&
+            *(u16 *)(entry + 2) == id)
+            *(u16 *)(entry + 6) = value;
+    }
+}
 void sub_0801E594(void *arg0)
 {
     u32 i;
