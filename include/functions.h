@@ -414,7 +414,7 @@ s32 sub_0805C7B8();
 s32 sub_0805CDF8();
 s32 sub_0805CFA0(void);
 u32 sub_0805D348(void);
-s32 sub_0805D37C(s32, s32);
+void *sub_0805D37C(s32 x, s32 y, u32 key);
 s32 sub_0805D3D4();
 s32 sub_0805D404();
 s32 sub_0805D4C4(u16 arg0);
