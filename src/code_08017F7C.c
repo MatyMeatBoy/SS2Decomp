@@ -139,7 +139,19 @@ void sub_08019EB8(u16 key, u16 value)
     for(i=0;i<=4;i++,entry+=0x2E0)
         if((flags&(1<<i)) && *(u16 *)(entry+2)==key) { *(u16 *)(entry+0x88)=value; return; }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019F04);
+void sub_08019F04(void)
+{
+    u8 *config = (u8 *)gUnk_03005CF4;
+    u8 *player = (u8 *)gUnk_030056F4;
+    u32 active = gUnk_030056FC;
+    u32 i;
+
+    *(u16 *)(config + 0x5A) = 1;
+    for (i = 0; i < 5; i++, player += 0x2E0) {
+        if ((active & (1 << i)) != 0 && (*(u16 *)(player + 0x7A) & 4) != 0)
+            player[0x201] = 1;
+    }
+}
 void sub_08019F60(u16 *data)
 {
     u32 index=sub_08002164(); u32 *rates=(u32 *)0x0848FA0C;

@@ -6,6 +6,7 @@
 
 // AUTO-PROTOTYPES (keep this marker, decomp.py appends below it)
 s32 sub_08019D7C(u32 arg0, u32 arg1);
+void sub_08019F04(void);
 void IntrMain(void);
 u16 __divsi3(s32, s32);
 s32 _call_via_r0();
