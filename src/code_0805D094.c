@@ -182,7 +182,19 @@ s32 sub_0805EF14(void *arg0)
 {
     return arg0 != NULL && M2C_FIELD(arg0, u16 *, 0x80) == 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EF2C);
+void sub_0805EF2C(void)
+{
+    u32 i;
+    for (i = 0; i < 4; i++) {
+        u8 bit = (u8)(1u << i);
+        if ((gUnk_03005D70 & bit) != 0) {
+            u8 *entry = (u8 *)gUnk_03005D64 + i * 0x34;
+            if (sub_08000470((u32)entry) != 0)
+                sub_080003A8((u32)entry);
+            gUnk_03005D70 &= (u8)~bit;
+        }
+    }
+}
 void sub_0805EF84(void *arg0, u16 value)
 {
     if (arg0 != NULL)
