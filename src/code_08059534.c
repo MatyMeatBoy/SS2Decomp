@@ -238,7 +238,23 @@ s32 sub_0805A4A0(u32 index)
 {
     return M2C_FIELD((u8 *)gUnk_03005CF4 + 0x22 + index * 2, u16 *, 0) - 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A4BC);
+void sub_0805A4BC(u32 arg)
+{
+    u8 *base = *(u8 **)0x03005CF4;
+    u32 *slot = (u32 *)(base + 0x6F4);
+    while (sub_08000470((u32)slot) == 0) {
+        *slot = sub_08001494(0xC00);
+        if (*slot == 0) sub_080003F0();
+    }
+    if (*slot != 0) {
+        u8 *obj = *(u8 **)slot;
+        *(u32 *)(obj + 0x700) = (u32)sub_08027C1C;
+        *(u32 *)(obj + 0x704) = *(u32 *)(obj + 0x718) + 0xBFC;
+        *(u32 *)(obj + 0x6FC) = 0x46;
+        *(u32 *)(obj + 0x71C) = 0;
+        sub_08000274((u32)slot, (void *)arg, 0);
+    }
+}
 void sub_0805A550(s16 *item, u32 index)
 {
     u8 *state;
