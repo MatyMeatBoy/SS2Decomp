@@ -136,7 +136,6 @@ void sub_08001180(void)
     gUnk_03007FF8 |= 1;
 }
 
-#ifdef NONMATCHING
 u32 sub_080011E4(void *p)
 {
     u32 r;
@@ -152,13 +151,6 @@ u32 sub_080011E4(void *p)
     }
     return r;
 }
-#else
-u32 sub_080011E4(void *p)
-{
-    gUnk_0300234C = p;
-    return p != NULL;
-}
-#endif
 
 void sub_08001204(void)
 {

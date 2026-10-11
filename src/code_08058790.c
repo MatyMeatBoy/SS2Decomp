@@ -1,6 +1,12 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058790);
+void sub_08058790(void)
+{
+    sub_0800CF90();
+    do { sub_080003F0(); } while (sub_080021A8() == 0);
+    sub_0801A664(0, 2);
+    do { sub_080003F0(); } while (sub_080021A8() == 0);
+}
 void sub_080587D8(void) {
     sub_0800CFA4();
 }
