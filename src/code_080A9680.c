@@ -26,7 +26,24 @@ void sub_080A9818(void)
         M2C_FIELD((u8 *)gUnk_03000424 + i * 0x28, s32 *, 8) = 0;
 }
 void sub_080A9844(void) { u8 *p = (u8 *)gUnk_03000424; u32 i; for (i=0;i<3;i++,p+=0x28) { if (sub_08000470((u32)p)) sub_080003A8((u32)p); } sub_08001538(gUnk_03000424); gUnk_03000424=0; }
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A987C);
+void sub_080A987C(u16 value)
+{
+    u8 *slot = (u8 *)gUnk_03000424;
+    u32 i;
+    for (i = 0; i < 3; i++, slot += 0x28) {
+        if (sub_08000470((u32)slot) != 0 || *(u32 *)(slot + 8) != 0)
+            continue;
+        *(u32 *)(slot + 0x20) = sub_08001494(0x400);
+        if (*(u32 *)(slot + 0x20) == 0)
+            return;
+        *(u32 *)(slot + 0x10) = *(u32 *)(slot + 0x20) + 0x3FC;
+        *(void (**)(void))(slot + 0xC) = sub_080A92C0;
+        *(u32 *)(slot + 0x24) = 0;
+        *(u32 *)(slot + 8) = 0x40;
+        sub_08000274(slot, value);
+        return;
+    }
+}
 u32 sub_080A98E0(u32 a, u32 b, u32 unused, u32 d) { u32 x=sub_080A9910(a,b,d); u32 y=sub_080A9910(a,b,d); return x != y; }
 u32 sub_080A9910(s32 *a, s32 *b, s32 *c)
 {
