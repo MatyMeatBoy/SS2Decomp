@@ -154,7 +154,21 @@ void sub_08015E3C(u8 *arg0, s32 arg1) {
         *p = 0;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015E84);
+u32 sub_08015E84(u8 *arg0)
+{
+    s32 adjustment = (s8)arg0[0x6C] * 10;
+    s16 value = *(s16 *)(arg0 + 0xC2);
+    s32 i;
+
+    for (i = 7; i >= 0; i--) {
+        s32 threshold = (s16)(gUnk_0847ACE8[i] + adjustment);
+        if (threshold < 0)
+            threshold = 0;
+        if (value >= threshold)
+            return i;
+    }
+    return 0;
+}
 void sub_08015ED4(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 0x400000;
