@@ -67,7 +67,26 @@ void sub_0805A780(void *target)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A7C4);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A874);
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A8F8);
+void *sub_0805A8F8(u32 arg, u32 callback)
+{
+    u8 *entry = *(u8 **)0x03005CF4 + 0x12E4;
+    for (u32 i = 0; i <= 0x1D; i++, entry += 0x28) {
+        if (sub_08000470((u32)entry) != 0) continue;
+        u32 mem;
+        do {
+            mem = sub_08001494(0x400);
+            if (mem == 0) sub_080003F0();
+        } while (mem == 0);
+        *(u32 *)(entry + 0x20) = mem;
+        *(u32 *)(entry + 8) = 0x3C;
+        *(u32 *)(entry + 0xC) = callback;
+        *(u32 *)(entry + 0x10) = mem + 0x3FC;
+        *(u32 *)(entry + 0x24) = 0;
+        sub_08000274((u32)entry, arg);
+        return entry;
+    }
+    return entry;
+}
 void *sub_0805A960(u32 value)
 {
     u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;

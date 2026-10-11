@@ -1,6 +1,25 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059534);
+void sub_08059534(u32 arg0)
+{
+    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    *(u32 *)(state + 0x30) |= 1;
+    sub_0800D0F4();
+    sub_0802949C(arg0, 0);
+    while (sub_0805F184() != 0)
+        sub_080003F0();
+    while (sub_0805EF90() != 0)
+        sub_080003F0();
+    u32 result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x0014013C);
+    while (sub_0805EEFC(result) == 0) {
+        sub_080003F0();
+        if (sub_0800CDF8() != 0)
+            sub_0805EFBC();
+    }
+    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+    *(u32 *)(state + 0x30) &= ~1u;
+    sub_0800D108();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080595E0);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805968C);
 INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059738);
