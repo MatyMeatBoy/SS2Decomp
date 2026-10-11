@@ -171,7 +171,21 @@ void sub_0801A0BC(u16 key, u8 value)
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A120);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A1C8);
 s32 sub_0801A270(void) { u32 i; for (i=0;i<=4;i++) if (!(gUnk_030056FC & (1<<i))) return i; return -1; }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A298);
+void sub_0801A298(u8 *obj, u16 value)
+{
+    if (gUnk_03002344 % 0x19 == *(u16 *)obj * 5) {
+        *(u16 *)(obj + 4) = sub_08016C88(*(s32 *)(obj + 0x14),
+                                          *(s32 *)(obj + 0x18),
+                                          *(s32 *)(obj + 0x24),
+                                          *(s32 *)(obj + 0x28),
+                                          (s16)value);
+    }
+    *(u16 *)(obj + 0x44) += 1;
+    if (*(u16 *)(obj + 0x44) > 0xB4) {
+        *(u16 *)(obj + 0x44) = 0;
+        *(u16 *)(obj + 4) = 0;
+    }
+}
 u32 sub_0801A2F0(u8 *table)
 {
     u32 roll=sub_080008C8()%100, sum=table[1], i=0;

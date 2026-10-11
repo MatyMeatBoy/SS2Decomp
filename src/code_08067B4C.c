@@ -231,7 +231,22 @@ s32 sub_080682A4(void)
     return gUnk_03006338 > 0x31;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080682B8);
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068330);
+s32 sub_08068330(s32 callback)
+{
+    u32 *count = (u32 *)0x03006338;
+    if (*count > 0x31)
+        return 0;
+    u32 player = sub_080020F4();
+    if (((u32 *)0x03006210)[player] > 9)
+        return 0;
+    u8 *entry = *(u8 **)0x03006300 + *count * 0x98;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x84;
+    *(u32 *)(entry + 8) = callback;
+    entry[1] = 1;
+    (*count)++;
+    return 1;
+}
 void sub_08068384(void)
 {
     u32 count = sub_08002164();
