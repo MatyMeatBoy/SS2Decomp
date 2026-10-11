@@ -48,7 +48,31 @@ void AgbMain(void)
     sub_0800023C(gUnk_030012E0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main", sub_08000760);
+void sub_08000760(void)
+{
+    volatile u16 *a = (u16 *)0x03001298, *b = (u16 *)0x0300130C;
+    u16 old = *b, now = (*(u16 *)0x04000130 ^ 0x3FF);
+    *a = old; *b = now; *(u16 *)0x03001324 = now & ~old;
+    u16 high = now & 0xF0, low = old & 0xF0;
+    if (low == high) {
+        u16 *timer = (u16 *)0x03001320;
+        u16 count = ++*timer, limit = *(u16 *)0x03001730;
+        if (count == limit) *(u16 *)0x03001308 = high;
+        else if (count > limit) {
+            u16 *delay = (u16 *)0x03002340;
+            if (++*delay > *(u16 *)0x03002348) {
+                *(u16 *)0x03001308 = high; *delay = 0; *timer = limit;
+            } else *(u16 *)0x03001308 = 0;
+        } else *(u16 *)0x03001308 = 0;
+    } else {
+        *(u16 *)0x03001308 = now & ~old;
+        *(u16 *)0x03001320 = 0; *(u16 *)0x03002340 = 0;
+    }
+    *(u16 *)0x03001328 = 0;
+    u8 old8 = *(u8 *)a, new8 = *(u8 *)b;
+    if ((old8 & 1) && !(new8 & 1)) *(u16 *)0x03001328 |= 1;
+    if ((old8 & 2) && !(new8 & 2)) *(u16 *)0x03001328 |= 2;
+}
 
 s16 sub_0800086C(void)
 {

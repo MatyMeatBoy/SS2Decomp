@@ -1,7 +1,23 @@
 #include "global.h"
 
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FB7C);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC0C);
+void sub_0805FC0C(u16 *out, u32 value, u32 index)
+{
+    u32 hundreds;
+    u32 tens;
+    u16 base = ((const u16 *)gUnk_084EBD74)[(u8)index];
+    if (value > 0x3E7)
+        value = 0x3E7;
+    hundreds = sub_08000498(&value, 0x64);
+    tens = sub_08000498(&value, 0xA);
+    *out = base + (u16)value;
+    if (hundreds != 0) {
+        out[-2] = base + (u16)hundreds;
+        out[-1] = base + (u16)tens;
+    } else if (tens != 0) {
+        out[-1] = base + (u16)tens;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC80);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080605D0);
