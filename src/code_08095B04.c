@@ -107,7 +107,20 @@ s32 sub_08097A74(void *arg0, void *arg1, s32 arg2, s16 arg3) {
     }
     return (s32) temp_r5;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097AC0);
+s32 sub_08097AC0(void *arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u8 arg5)
+{
+    s8 result = sub_08096060(arg0, arg1, arg2, arg4);
+
+    if (result != 0) {
+        if (arg5 != 0) {
+            M2C_FIELD(arg0, u16 *, 8) = sub_08013E90(arg3, arg0 + 0x14,
+                M2C_FIELD(arg0, u16 *, 8), 0, 0);
+        } else {
+            sub_08097BA4(arg3, arg0 + 0x14, M2C_FIELD(arg0, u16 *, 8), 0);
+        }
+    }
+    return result;
+}
 u32 sub_08097B24(const u8 *obj, s32 x, s32 y, s32 radius)
 {
     s32 dx = (s16)x - (s16)(*(s32 *)(obj + 0x14) >> 8);

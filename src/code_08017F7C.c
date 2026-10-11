@@ -287,7 +287,26 @@ void sub_0801A558(void)
     gUnk_03005C54 = 0;
     gUnk_03005C98 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A5A8);
+void sub_0801A5A8(const u8 *script, u32 x, u32 row, u32 palette)
+{
+    u8 rowIndex = (u8)row;
+    u32 paletteBits = (u8)(palette + 0xF0) << 12;
+    u16 *dst = (u16 *)(gUnk_03005740 + (u8)x * 2 + rowIndex * 0x40);
+
+    while (*script != 0) {
+        u16 tile = *script++ + 0x200 | paletteBits;
+        if (tile == 0xA) {
+            sub_0801A664(rowIndex, 1);
+            rowIndex++;
+            tile = *script++ | paletteBits;
+            dst = (u16 *)(gUnk_03005740 + (u8)x * 2 + rowIndex * 0x40);
+        }
+        *dst++ = tile;
+    }
+
+    sub_0801A664(rowIndex, 1);
+    gUnk_03005C94 = 1;
+}
 void sub_0801A628(void) {
 
 }

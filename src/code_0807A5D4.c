@@ -24,7 +24,47 @@ INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082960);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082BB0);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808381C);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08083AE8);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08084200);
+u32 sub_08084200(const u8 *arg0)
+{
+    u16 a;
+    u16 b;
+    u16 c;
+
+    if (*(const u16 *)(arg0 + 0x00) != 9 ||
+        *(const u16 *)(arg0 + 0x10) != 9 ||
+        *(const u16 *)(arg0 + 0x20) != 9)
+        return 0;
+
+    a = *(const u16 *)(arg0 + 0x02);
+    b = *(const u16 *)(arg0 + 0x12);
+    c = *(const u16 *)(arg0 + 0x22);
+
+    if (a == 0 && b == 0 && c == 0) return 1;
+    if (a == 2 && b == 2 && c == 2) return 2;
+    if (a == 1 && b == 1 && c == 1) return 3;
+    if (a <= 2 && b <= 2 && c <= 2 && a != b && a != c && b != c) return 4;
+    if (a == 0 && b == 2 && c == 0) return 5;
+    if (a == 1 && b == 0 && c == 1) return 6;
+    if (a == 0 && b == 1 && c == 0) return 7;
+    if (a == 1 && b == 2 && c == 1) return 8;
+    if (a == 2 && b == 1 && c == 2) return 9;
+    if (a == 2 && b == 0 && c == 2) return 10;
+    if (a == 0 && b == 0 && c == 2) return 11;
+    if (a == 1 && b == 1 && c == 0) return 12;
+    if (a == 0 && b == 0 && c == 1) return 13;
+    if (a == 1 && b == 1 && c == 2) return 14;
+    if (a == 2 && b == 2 && c == 1) return 15;
+    if (a == 2 && b == 2 && c == 0) return 16;
+    if (a == 2 && b == 0 && c == 0) return 17;
+    if (a == 0 && b == 1 && c == 1) return 18;
+    if (a == 1 && b == 0 && c == 0) return 19;
+    if (a == 2 && b == 1 && c == 1) return 20;
+    if (a == 1 && b == 2 && c == 2) return 21;
+    if (a == 0 && b == 2 && c == 2) return 22;
+    if (a == 3 && b == 3 && c == 3) return 23;
+    if (a == 4 && b == 4 && c == 4) return 24;
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808441C);
 void sub_08084EAC(void)
 {
