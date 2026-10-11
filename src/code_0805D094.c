@@ -35,7 +35,21 @@ void sub_0805D1E0(void)
     u8 *base = gUnk_030034E0;
     *(u8 *)(base + 0x149) = (*(u16 *)(base + 0x140) == 6);
 }
+#ifdef NONMATCHING
+u32 sub_0805D210(void *arg0)
+{
+    register u32 temp_r4 asm("r4");
+    if (arg0 != 0 && *(u16 *)arg0 == 4 && *(u8 *)((u8 *)arg0 + 8) == 0) {
+        temp_r4 = sub_08007290(*(u16 *)((u8 *)arg0 + 2) | 0xD0000);
+        if (((*(u16 *)((u8 *)temp_r4 + 0xA2) >> sub_0801DE60()) & 1) &&
+            *(u8 *)((u8 *)temp_r4 + 0xA0) <= *(s16 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x38))
+            return 1;
+    }
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D210);
+#endif
 u32 sub_0805D278(void *arg0)
 {
     u8 *state = arg0;
