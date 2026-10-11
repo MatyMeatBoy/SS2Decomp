@@ -87,7 +87,26 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B74C);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B8A8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801C8F0);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801CC10);
+void sub_0801CC10(s32 index, s16 delta)
+{
+    u8 *current = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
+    u8 *other = (u8 *)gUnk_03003CE0 + index * 0x14C;
+    s32 dx, dy;
+    u8 *target = *(u8 **)(other + 0x148);
+    dx = ((*(s32 *)(current + 0x8C) << 5) >> 16) - ((s16)(*(u16 *)target >> 7));
+    if (dx < 0) dx = -dx;
+    dy = ((*(s32 *)(current + 0x90) << 5) >> 16) - ((s16)((*(u16 *)(target + 2) << 20) >> 23));
+    if (dy < 0) dy = -dy;
+    if (current == other) {
+        s16 *value = (s16 *)(current + 0xC4);
+        if (*value > 0) *value += delta;
+    } else if (dx <= 13 && dy <= 9) {
+        s16 *value = (s16 *)(current + 0xC4);
+        if (*value > 0) *value += delta;
+    }
+    if (*(s16 *)(current + 0xC4) > *(s16 *)(current + 0x62))
+        *(u16 *)(current + 0xC4) = *(u16 *)(current + 0x62);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801CCC8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D028);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D34C);
