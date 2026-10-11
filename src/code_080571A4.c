@@ -81,7 +81,17 @@ void sub_080574FC(void) {
     } while (var_r6 <= 0xEU);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057534);
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057580);
+void sub_08057580(u32 key, u32 value)
+{
+    u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
+    for (u32 i = 0; i <= 0xE; i++, entry += 0x70) {
+        if (*(u32 *)entry == key) {
+            *(u32 *)(entry + 0x44) = value;
+            return;
+        }
+    }
+    sub_080003F0();
+}
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080575C0);
 void sub_08057624(u32 count)
 {
