@@ -2,7 +2,7 @@
 
 void sub_080852AC(void);
 void sub_0808381C(u32 index);
-void sub_08083AE8(void);
+void sub_08083AE8(u32 index);
 void sub_08085534(void);
 extern u8 gUnk_03005740[];
 extern u32 gUnk_084ECBDC[];
@@ -47,7 +47,7 @@ void sub_0808381C(u32 index)
 
     sub_08065158(descriptor, gUnk_084ECBDC[index], 0, -1, 0);
     if (index == 9 || index == 3 || index == 4) {
-        sub_08000AF0(0x1E, *(u32 *)(descriptor + 0x0C), 1);
+        sub_08000AF0(0x1E, (const void *)*(u32 *)(descriptor + 0x0C), 1);
         descriptor[0x1C] = 0x0E;
     } else {
         sub_08000AF0(0x1E, (u8 *)*(u32 *)(descriptor + 0x0C) + 0x1C0, 1);
@@ -91,7 +91,7 @@ void sub_0808381C(u32 index)
             goto done;
         liveText[i] = text[i];
         liveText[i + 1] = 0xFD;
-        sub_08065230(liveText, 0xF0, 0x88, 0, 0);
+        sub_08065230(descriptor, 0xF0, 0x88, 0, 0);
         x = 0x0F - (sub_0801A638(text) >> 1);
         sub_0801A3D0(liveText, x, 0x12);
         sub_080003F0();
