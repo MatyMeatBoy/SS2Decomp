@@ -65,7 +65,31 @@ void sub_0805A780(void *target)
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A7C4);
+u32 sub_0805A7C4(u32 id, u32 x, u32 y)
+{
+    u8 *owner = *(u8 **)0x03005CF4;
+    u8 *entry = owner + 0x7A4;
+    for (u32 i = 0; i <= 0xE; i++, entry += 0x70) {
+        if (sub_08000470((u32)(entry + 0x48)) != 0) continue;
+        u32 bit = 1u << i;
+        *(u32 *)(owner + 0x54) |= bit;
+        *(u32 *)entry = *(u32 *)(owner + 0x4C);
+        (*(u32 *)(owner + 0x4C))++;
+        *(u32 *)(entry + 4) = id;
+        *(u32 *)(entry + 0x3C) = 1;
+        *(u32 *)(entry + 8) = x << 8;
+        *(u32 *)(entry + 0xC) = y << 8;
+        *(u32 *)(entry + 0x50) = 0x3C;
+        u32 mem = sub_08001494(0x400);
+        *(u32 *)(entry + 0x68) = mem;
+        *(u32 *)(entry + 0x54) = (u32)sub_080284F4;
+        *(u32 *)(entry + 0x58) = mem + 0x3FC;
+        *(u32 *)(entry + 0x6C) = (u32)sub_0805A780;
+        sub_08000274((u32)(entry + 0x48), (u32)entry);
+        return *(u32 *)entry;
+    }
+    return 0;
+}
 void sub_0805A874(const u32 *args, u32 mode)
 {
     u8 *state = (u8 *)0x03003D6C + sub_080020F4() * 0x14A;
