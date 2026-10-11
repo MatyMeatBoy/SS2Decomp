@@ -5,7 +5,19 @@ extern u32 gUnk_03006338;
 void sub_08067B4C(void) {
 
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067B50);
+u32 sub_08067B50(void)
+{
+    u32 *count = (u32 *)0x03006338;
+    if (*count > 0x31) return 0;
+    u8 *entry = *(u8 **)0x03006300 + *count * 0x28;
+    u8 *source = *(u8 **)0x030034E0;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x82;
+    *(u32 *)(entry + 8) = *(u16 *)(source + 0xA) | ((u32)*(u16 *)(source + 0xC) << 16);
+    entry[1] = 1;
+    (*count)++;
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067B9C);
 void sub_08067BF8(void) {
     sub_08065E38(0x37564);
