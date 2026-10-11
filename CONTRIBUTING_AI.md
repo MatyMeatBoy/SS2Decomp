@@ -58,3 +58,12 @@ Si una función es grande, usa callbacks complejos o depende de datos no identif
 ## Seguridad
 
 No ejecutes comandos destructivos ni borres archivos fuera de la tarea. No introduzcas pseudocódigo, código generado o comentarios que oculten una equivalencia incompleta. Mantén los cambios pequeños: una función o un grupo estrechamente relacionado por commit.
+
+## Coordinación con varios agentes
+
+- Cada agente trabaja en una función o grupo estrechamente relacionado y anuncia primero el archivo que va a tocar.
+- No uses `git add -A`: el coordinador integra archivos concretos para evitar incluir material auxiliar.
+- `hermes01/` y `opencode01/` son carpetas locales de investigación; no forman parte del código fuente ni deben añadirse al commit.
+- No hagas push desde los workers. Entrega el diff, la función convertida y cualquier duda; el coordinador valida y publica los cambios.
+- Antes de empezar y antes de entregar, ejecuta `git status --short` para detectar conflictos con otro agente.
+- Mantén un commit pequeño por función o grupo relacionado y no mezcles reformatos ni archivos generados.
