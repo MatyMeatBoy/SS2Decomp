@@ -128,7 +128,22 @@ void sub_080656EC(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065748);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080657C4);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065838);
+void sub_08065838(u32 arg1, u32 arg2)
+{
+    u8 *entry = *(u8 **)0x03006208;
+    for (u32 i = 0; i < 4; i++, entry += 0x28) {
+        if (sub_08000470((u32)entry) != 0) continue;
+        u32 mem = sub_08001494(0x400);
+        if (mem == 0) return;
+        *(u32 *)(entry + 0x20) = mem;
+        *(u32 *)(entry + 8) = 0x3C;
+        *(u32 *)(entry + 0xC) = (u32)sub_08065BD0;
+        *(u32 *)(entry + 0x10) = mem + 0x3FC;
+        *(u32 *)(entry + 0x24) = 0;
+        sub_08000274((u32)entry, arg1, arg2);
+        return;
+    }
+}
 extern s32 gUnk_03006208;
 void sub_080658A0(void)
 {
