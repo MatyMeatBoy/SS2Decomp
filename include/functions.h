@@ -5,6 +5,7 @@
 // sub_<address> are placeholders until the function is understood.
 
 // AUTO-PROTOTYPES (keep this marker, decomp.py appends below it)
+void sub_08021F58(s32 arg0, s32 arg1);
 void sub_08021DC4(s32 arg0);
 s32 sub_08019D7C(u32 arg0, u32 arg1);
 void sub_08019F04(void);
