@@ -120,7 +120,16 @@ void sub_08058C74(s16 arg0) {
 }
 void sub_08058C8C(s32 arg0) { if (sub_0800CB9C()) { sub_080586B4(0); return; } if (!(gUnk_030027D0 & 0x20)) { gUnk_03005CF8=arg0; sub_08006CB4(arg0); } }
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058CC4);
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058D4C);
+u32 sub_08058D4C(u32 key)
+{
+    u8 *base = *(u8 **)0x03005CF4;
+    u8 *entry = base + 0x7A4;
+    u32 mask = *(u32 *)(base + 0x54);
+    for (u32 i = 0; i <= 0xE; i++, entry += 0x70)
+        if ((mask & (1u << i)) && *(u32 *)(entry + 4) == key)
+            return *(u32 *)entry;
+    return 0;
+}
 s32 sub_08058D8C(void) {
     return sub_080008C8();
 }
