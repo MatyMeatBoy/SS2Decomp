@@ -22,7 +22,26 @@ s32 sub_0801E244(s32 arg0, s32 arg1)
   }
   goto loop_1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E278);
+void sub_0801E278(s32 arg0, u32 arg1)
+{
+    u8 *entry;
+    s32 i;
+
+    while (1) {
+        entry = *(u8 **)(arg0 + 0x34);
+        for (i = 0; i < 8; i++, entry += 0x28) {
+            if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == arg1 &&
+                *(u16 *)(entry + 2) == 100) {
+                break;
+            }
+        }
+
+        if (i == 8) {
+            break;
+        }
+        sub_0801DB94(*(u16 *)arg0, entry, 0);
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E324);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E378);

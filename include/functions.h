@@ -302,6 +302,8 @@ s32 sub_0801E12C(s32 arg0, s32 arg1, s32 arg2);
 s32 sub_0801E164(void *arg0, s32 arg1);
 s32 sub_0801E1D8(void *arg0, s32 arg1, s32 arg2);
 s32 sub_0801E244(s32 arg0, s32 arg1);
+void sub_0801DB94(s32 arg0, void *arg1, s32 arg2);
+void sub_0801E278(s32 arg0, u32 arg1);
 s32 sub_0801E46C(void *arg0, void *arg1);
 s32 sub_0801E538();
 void sub_08021C6C();

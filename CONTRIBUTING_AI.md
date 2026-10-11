@@ -67,3 +67,10 @@ No ejecutes comandos destructivos ni borres archivos fuera de la tarea. No intro
 - No hagas push desde los workers. Entrega el diff, la función convertida y cualquier duda; el coordinador valida y publica los cambios.
 - Antes de empezar y antes de entregar, ejecuta `git status --short` para detectar conflictos con otro agente.
 - Mantén un commit pequeño por función o grupo relacionado y no mezcles reformatos ni archivos generados.
+
+## Uso eficiente de tokens (vigente hasta el 31-12-2027)
+
+- Mantén las instrucciones y entregas breves, sin repetir el prompt ni narrar pasos internos.
+- Reporta solo funciones y archivos cambiados, verificaciones ejecutadas y dudas concretas.
+- Usa diffs pequeños y salidas acotadas; conserva los detalles técnicos necesarios para revisar equivalencia y ABI.
+- En tareas por lotes, comunica un resumen único por entrega.
