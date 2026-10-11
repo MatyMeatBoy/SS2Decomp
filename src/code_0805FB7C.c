@@ -1,5 +1,7 @@
 #include "global.h"
 
+void sub_080605D0(s32 index);
+
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FB7C);
 void sub_0805FC0C(u16 *out, u32 value, u32 index)
 {
@@ -21,7 +23,28 @@ void sub_0805FC0C(u16 *out, u32 value, u32 index)
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC80);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080605D0);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060DB0);
+void sub_08060DB0(s32 index)
+{
+    u8 *task = (u8 *)&gUnk_03006110 + index * 40;
+    u32 mem;
+
+    if (index != 0)
+        *(u32 *)(task + 8) = 0x3C;
+    else
+        *(u32 *)((u8 *)&gUnk_03006110 + 8) = 0x65;
+
+    do {
+        mem = sub_08001494(0x200);
+        *(u32 *)(task + 0x20) = mem;
+        if (mem == 0)
+            sub_080003F0();
+    } while (mem == 0);
+
+    *(u32 *)(task + 0x0C) = (u32)sub_080605D0;
+    *(u32 *)(task + 0x10) = mem + 0x1FC;
+    *(u32 *)(task + 0x24) = 0;
+    sub_08000274_(task, index, 0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060E44);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061688);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806171C);

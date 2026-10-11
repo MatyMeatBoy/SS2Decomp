@@ -36,7 +36,25 @@ void sub_0805D1E0(void)
     *(u8 *)(base + 0x149) = (*(u16 *)(base + 0x140) == 6);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D210);
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D278);
+u32 sub_0805D278(void *arg0)
+{
+    u8 *state = arg0;
+    u8 *resource;
+    u8 shift;
+    s32 player;
+    s16 limit;
+
+    if (state == NULL || *(u16 *)state != 3 || state[8] != 0)
+        return 0;
+    resource = (u8 *)sub_08007290(*(u16 *)(state + 2) | 0xC0000);
+    shift = sub_0801DE60();
+    if (shift >= 16 || ((*(u16 *)(resource + 0xA2) >> shift) & 1) == 0)
+        return 0;
+
+    player = sub_080020F4();
+    limit = *(s16 *)((u8 *)gUnk_03003CE0 + player * 0x14C + 0x38);
+    return resource[0xA0] <= limit;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D2E0);
 u32 sub_0805D348(void)
 {

@@ -117,7 +117,93 @@ void sub_08001B78(void)
 
 INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001BE4);
 
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001DF0);
+s32 sub_08001DF0(u32 playerId)
+{
+    extern u8 gUnk_03002710[];
+    volatile u8 *buffer;
+    u32 flags;
+    u32 activeMask;
+    u32 playerCount;
+    u32 acknowledged;
+    u32 currentId;
+    u32 i;
+
+    playerId = (u8)playerId;
+    flags = *(volatile u32 *)&gUnk_030027D0;
+    if ((flags & 2) == 0)
+        return 1;
+
+    if ((*(volatile u32 *)&gUnk_03002730 & 0x80) != 0) {
+        flags = *(volatile u32 *)&gUnk_030027D0;
+        if ((flags & 2) != 0) {
+            activeMask = *(volatile u32 *)&gUnk_03002730;
+            playerCount = ((activeMask >> 8) & 1) + ((activeMask >> 9) & 1) +
+                ((activeMask >> 10) & 1) + ((activeMask >> 11) & 1);
+        } else {
+            playerCount = 1;
+        }
+
+        acknowledged = 0;
+        for (i = 1; i < playerCount; i++) {
+            flags = *(volatile u32 *)&gUnk_030027D0;
+            currentId = (flags & 2) != 0 ? ((*(vu32 *)0x04000128 >> 30) & 3) : 0;
+            if (i == currentId)
+                buffer = gUnk_03002710;
+            else
+                buffer = (u8 *)&gUnk_03002770 + i * 0x18;
+
+            if (buffer[8] == 0x4F && buffer[9] == 0x4B && buffer[10] == playerId)
+                acknowledged++;
+        }
+
+        if (acknowledged < playerCount - 1) {
+            flags = *(volatile u32 *)&gUnk_030027D0;
+            currentId = (flags & 2) != 0 ? ((*(vu32 *)0x04000128 >> 30) & 3) : 0;
+            if (currentId == 0)
+                buffer = gUnk_03002710;
+            else
+                buffer = (u8 *)&gUnk_03002770;
+            buffer[8] = 0x4F;
+            buffer[9] = 0x4B;
+            buffer[10] = 0x53;
+            buffer[11] = (u8)playerId;
+            return 1;
+        }
+
+        flags = *(volatile u32 *)&gUnk_030027D0;
+        currentId = (flags & 2) != 0 ? ((*(vu32 *)0x04000128 >> 30) & 3) : 0;
+        if (currentId == 0)
+            buffer = gUnk_03002710;
+        else
+            buffer = (u8 *)&gUnk_03002770;
+        buffer[8] = 0x4E;
+        buffer[9] = 0x4F;
+        buffer[10] = 0x53;
+        buffer[11] = 0x53;
+        return 0;
+    }
+
+    flags = *(volatile u32 *)&gUnk_030027D0;
+    currentId = (flags & 2) != 0 ? ((*(vu32 *)0x04000128 >> 30) & 3) : 0;
+    if (currentId == 0)
+        buffer = gUnk_03002710;
+    else
+        buffer = (u8 *)&gUnk_03002770 + currentId * 0x18;
+    buffer[8] = 0x4F;
+    buffer[9] = 0x4B;
+    buffer[10] = (u8)playerId;
+
+    flags = *(volatile u32 *)&gUnk_030027D0;
+    currentId = (flags & 2) != 0 ? ((*(vu32 *)0x04000128 >> 30) & 3) : 0;
+    if (currentId == 0)
+        buffer = gUnk_03002710;
+    else
+        buffer = (u8 *)&gUnk_03002770 + currentId * 0x18;
+    if (buffer[8] == 0x4F || buffer[9] == 0x4B || buffer[10] == 0x53 ||
+        buffer[11] == playerId)
+        return 1;
+    return 0;
+}
 
 void sub_0800207C(void)
 {
