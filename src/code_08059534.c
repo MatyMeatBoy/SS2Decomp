@@ -276,7 +276,30 @@ void sub_0805A550(s16 *item, u32 index)
     sub_08023ED8(item, index);
     (*(u16 *)(state + 0xA))++;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A58C);
+void *sub_0805A58C(u32 arg0, u32 callback)
+{
+    u8 *entry = *(u8 **)0x03005CF4 + 0xE34;
+    for (u32 i = 0; i <= 0x1D; i++, entry += 0x28) {
+        if (sub_08000470((u32)entry) == 0)
+            break;
+    }
+    if (sub_08000470((u32)entry) != 0)
+        return 0;
+    *(u16 *)(*(u8 **)0x03005CF4 + 4) |= 0x80;
+    u32 mem;
+    do {
+        mem = sub_08001494(0x400);
+        if (mem == 0)
+            sub_080003F0();
+    } while (mem == 0);
+    *(u32 *)(entry + 0x20) = mem;
+    *(u32 *)(entry + 8) = 0x3C;
+    *(u32 *)(entry + 0xC) = callback;
+    *(u32 *)(entry + 0x10) = mem + 0x3FC;
+    *(u32 *)(entry + 0x24) = (u32)sub_0805A704;
+    sub_08000274((u32)entry, arg0);
+    return entry;
+}
 void sub_0805A60C(s32 arg0) {
     sub_0802413C(arg0, 0);
 }
