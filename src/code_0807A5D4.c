@@ -17,7 +17,73 @@ INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807A5D4);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807B7B4);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807BD78);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807BEA0);
+#ifdef NONMATCHING
+void sub_0807C014(u32 amount)
+{
+    u8 *inventory = (u8 *)gUnk_030034E0;
+    u8 *manager = (u8 *)gUnk_03006440;
+
+    while (1) {
+        u32 i;
+        u32 minimum = 0xFFFFFFFF;
+        u32 selected = 0x19;
+
+        for (i = 0; i < 0x19; i++) {
+            u8 *item = inventory + 0x150 + i * 0x10;
+            u32 count = *(u32 *)(item + 4);
+            if (*(u16 *)item == 0xA && count < minimum) {
+                minimum = count;
+                selected = i;
+            }
+        }
+        if (selected != 0x19) {
+            u8 *item = inventory + 0x150 + selected * 0x10;
+            if (minimum < amount) {
+                amount -= minimum;
+                sub_0805D580(selected);
+                continue;
+            }
+            *(u32 *)(item + 4) = minimum - amount;
+            if (*(u32 *)(item + 4) == 0)
+                sub_0805D580(selected);
+            return;
+        }
+        {
+            u8 *items;
+            u8 *selectedItem = 0;
+            if (*(u32 *)manager == 4)
+                items = manager + 0x104;
+            else
+                items = inventory + 0x2E0;
+            minimum = 0xFFFFFFFF;
+            selected = 0x4B;
+            for (i = 0; i < 0x4B; i++) {
+                u8 *item = items + i * 0x10;
+                u32 count = *(u32 *)(item + 4);
+                if (*(u16 *)item == 0xA && count < minimum) {
+                    minimum = count;
+                    selected = i;
+                    selectedItem = item;
+                }
+            }
+            if (selected == 0x4B)
+                return;
+            if (minimum < amount) {
+                amount -= minimum;
+                *(u32 *)(selectedItem + 4) = 0;
+                *(u16 *)selectedItem = 0;
+                continue;
+            }
+            *(u32 *)(selectedItem + 4) = minimum - amount;
+            if (*(u32 *)(selectedItem + 4) == 0)
+                *(u16 *)selectedItem = 0;
+            return;
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C014);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C114);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C1D8);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C29C);
