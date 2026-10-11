@@ -192,7 +192,21 @@ u32 sub_0801A2F0(u8 *table)
     while(roll>=sum && i<2) { i++; table+=4; sum += table[1]; }
     return table[0];
 }
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A328);
+void sub_0801A328(u16 x, u16 y, u16 speed, u16 direction, s32 *out)
+{
+    s32 velocity = speed;
+    s32 angle = direction;
+    s32 deltaY;
+    s32 deltaX;
+
+    if (velocity & 0x8000)
+        velocity = 0;
+    angle = gUnk_0847AD0A[angle];
+    deltaY = gUnk_080B9704[angle] * velocity + ((s32)y << 8);
+    deltaX = gUnk_080B9704[angle + 0x40] * velocity + ((s32)x << 8);
+    out[1] = deltaY >> 8;
+    out[0] = deltaX >> 8;
+}
 void sub_0801A388(u32 index)
 {
     u8 *entry=*(u8 **)0x030056F4 + index*0x2E0;
