@@ -19,6 +19,7 @@ u32 sub_0808D4AC(u32 arg)
     while (sub_0801AAE0() == 0)
         sub_080003F0();
     sub_0800BB40();
+    base = *(u8 **)0x03005CF4;
     u32 *state = (u32 *)(base + 0x71C);
     *state = ((u32 *)0x084F794C)[*(u32 *)(base + 0x40)];
     *(u16 *)(base + 0x10) = 0;
@@ -30,7 +31,27 @@ INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808D520);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808D594);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808D654);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808D9AC);
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808DA20);
+u32 sub_0808DA20(u32 arg)
+{
+    u8 *base = *(u8 **)0x03005CF4;
+    if (*(u16 *)(base + 0x10) == 0) {
+        sub_0802704C(arg);
+        return 0;
+    }
+    if (sub_08056E90() == 0)
+        return 0;
+    sub_0801ABE8(3);
+    sub_0800BB40();
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_0800BB40();
+    base = *(u8 **)0x03005CF4;
+    *(u32 *)(base + 0x71C) = ((u32 *)0x084FA298)[*(u32 *)(base + 0x40)];
+    *(u16 *)(base + 0x10) = 0;
+    *(u16 *)(base + 0x30) = 1;
+    *(u16 *)(base + 0x24) = 1;
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808DA94);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808DB38);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808DE08);

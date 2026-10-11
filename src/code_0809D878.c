@@ -1,6 +1,7 @@
 #include "global.h"
 void sub_0809F4A8(void);
 void sub_080A0B44(void);
+void sub_080A05B4(u32 mode, void *state);
 
 extern s32 gUnk_03000324;
 
@@ -138,7 +139,27 @@ void sub_080A0FC4(void) {
     sub_08001538(gUnk_03000334);
     gUnk_03000334 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0FEC);
+void sub_080A0FEC(u8 mode, u8 *result)
+{
+    u8 *task = (u8 *)gUnk_03000334;
+    u32 mem;
+
+    if (sub_08000470((u32)task) == 0 && *(u32 *)(task + 8) == 0)
+        return;
+
+    mem = sub_08001494(0x400);
+    *(u32 *)(task + 0x20) = mem;
+    if (mem == 0) {
+        *result = 1;
+        return;
+    }
+
+    *(u32 *)(task + 0x10) = mem + 0x3FC;
+    *(u32 *)(task + 0x0C) = (u32)sub_080A05B4;
+    *(u32 *)(task + 0x24) = 0;
+    *(u32 *)(task + 8) = 0x44;
+    sub_08000274_(task, mode, (u32)result);
+}
 void sub_080A104C(void) {
     gUnk_03000339 = 1;
 }
