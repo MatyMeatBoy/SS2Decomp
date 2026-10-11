@@ -16,7 +16,7 @@ u32 sub_080686A4(const void *src)
     u32 index = gUnk_03006338;
     if (index > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    entry = (u8 *)gUnk_03006300 + index * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x98;
     CpuSet(src, entry + 8, 0x04000008);
@@ -24,13 +24,31 @@ u32 sub_080686A4(const void *src)
     gUnk_03006338 = index + 1;
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686F4);
+u32 sub_080686F4(const u8 *arg0)
+{
+    u8 *entry;
+    u32 index = gUnk_03006338;
+
+    if (index > 0x31)
+        return 0;
+    if (sub_0805CFA0() == -1 &&
+        (*(const u16 *)(arg0 + 0x10) != 0xA || sub_0805D348() != 0))
+        return 0;
+
+    entry = (u8 *)gUnk_03006300 + index * 0x88;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0x99;
+    *(u32 *)(entry + 8) = *(const u16 *)(arg0 + 0xC);
+    entry[1] = 1;
+    gUnk_03006338 = index + 1;
+    return 1;
+}
 u32 sub_08068758(u16 lo, u16 hi, const u8 *src)
 {
     u32 *count;
     u8 *e;
     count=(u32 *)0x03006338; if(*count>0x31)return 0;
-    e=*(u8 **)0x03006300+*count*0x98;
+    e=*(u8 **)0x03006300+*count*0x88;
     *(u32 *)(e+4)=1; e[0]=0x9A; *(u32 *)(e+8)=((u32)hi<<16)|lo;
     *(u32 *)(e+0xC)=*(const u16 *)(src+0xC); e[1]=1; (*count)++; return 1;
 }
@@ -40,7 +58,7 @@ u32 sub_080687A8(const u8 *arg0)
     u32 index = gUnk_03006338;
     if (index > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    entry = (u8 *)gUnk_03006300 + index * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x9B;
     *(u32 *)(entry + 8) = *(const u16 *)(arg0 + 0xC);
@@ -53,7 +71,7 @@ s32 sub_080687E8(void)
     u8 *p;
     if (gUnk_03006338 > 0x31)
         return 0;
-    p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x98;
+    p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
     *(u32 *)(p + 4) = 1;
     *p = 0x9F;
     *(u32 *)(p + 8) = 1;
@@ -67,7 +85,7 @@ u32 sub_08068820(void *a, void *b, void *c)
     u32 index = gUnk_03006338;
     if (index > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    entry = (u8 *)gUnk_03006300 + index * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA4;
     *(void **)(entry + 8) = a;

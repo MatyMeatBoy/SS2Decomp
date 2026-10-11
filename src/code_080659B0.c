@@ -94,7 +94,7 @@ u32 sub_08065FE8(void)
     u8 *entry;
     if (index > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + index * 0x98;
+    entry = (u8 *)gUnk_03006300 + index * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x85;
     CpuSet((u8 *)gUnk_03005CF4 + 0x22, entry + 8, 0xA);
