@@ -192,8 +192,65 @@ u32 sub_080663A4(u32 index)
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080663A4);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066404);
+#ifdef NONMATCHING
+/* Host spawn broadcast (tag 0x95): queue {a, b, payload}; the host also applies it locally. */
+u32 sub_08066490(u32 a, u32 b, u32 *src)
+{
+    u8 *p;
+    if (gUnk_03006338 < 0x32) {
+        if (src != 0) {
+            p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+            *(u32 *)(p + 4) = 1;
+            *p = 0x95;
+            *(u32 *)(p + 8) = a;
+            *(u32 *)(p + 0xC) = b;
+            CpuSet(src, p + 0x10, 0x04000004);
+            p[1] = 3;
+            gUnk_03006338++;
+            if ((sub_08002204() == 0 || sub_08002164() == 1) && sub_0800CCCC() == 0) {
+                sub_0805B4CC(&a, &b);
+                sub_0802230C(a, b, 1);
+            }
+            a = 1;
+        }
+    } else {
+        a = 0;
+    }
+    return a;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066490);
+#endif
+#ifdef NONMATCHING
+/* Host spawn broadcast (tag 0x96): like 0x95 with an extra u16 parameter. */
+u32 sub_08066520(u32 a, u32 b, u32 c, u32 *src)
+{
+    u8 *p;
+    if (gUnk_03006338 < 0x32) {
+        if (src != 0) {
+            p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+            *(u32 *)(p + 4) = 1;
+            *p = 0x96;
+            *(u32 *)(p + 8) = a;
+            *(u32 *)(p + 0xC) = b;
+            *(u32 *)(p + 0x10) = c & 0xFFFF;
+            CpuSet(src, p + 0x14, 0x04000004);
+            p[1] = 4;
+            gUnk_03006338++;
+            if ((sub_08002204() == 0 || sub_08002164() == 1) && sub_0800CCCC() == 0) {
+                sub_0805B4CC(&a, &b);
+                sub_0802230C(a, b, 1);
+            }
+            a = 1;
+        }
+    } else {
+        a = 0;
+    }
+    return a;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066520);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080665B0);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066624);
 #ifdef NONMATCHING

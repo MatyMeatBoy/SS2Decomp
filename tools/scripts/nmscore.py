@@ -34,7 +34,8 @@ for fn in sorted(os.listdir(os.path.join(root, "src"))):
             lines = buf.getvalue().splitlines()
             minus = sorted(norm(l)[1:] for l in lines if l[:1] == "-" and l[:3] != "---" and ".short 0x0000" not in l)
             plus = sorted(norm(l)[1:] for l in lines if l[:1] == "+" and l[:3] != "+++" and ".short 0x0000" not in l)
-            sc = 0 if (ok or minus == plus) else max(len(minus), len(plus)) if any(("size:" in l) for l in lines) else -1
+            sz = re.search(r"size: orig (\d+), candidate (\d+)", "\n".join(lines)); same = (not sz) or sz.group(1) == sz.group(2)
+            sc = 0 if (ok or (minus == plus and same)) else max(len(minus), len(plus)) if any(("size:" in l) for l in lines) else -1
             if sc and not any("size:" in l for l in lines): sc = -1
         except BaseException:
             sc = -1

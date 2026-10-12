@@ -169,7 +169,20 @@ s32 sub_08067E48(void)
 {
     return M2C_FIELD(gUnk_03006300, u32 *, 4) == 2;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E60);
+/* Remove the queued link message with tag 0x91 whose u16 at +0xE equals `arg` (shift the queue down). */
+s32 sub_08067E60(u32 arg)
+{
+    u8 *p;
+    u32 i;
+
+    p = (u8 *)(uintptr_t)gUnk_03006300;
+    for (i = 0; i < (u32)gUnk_03006338; i++, p += 0x88) {
+        if (*(u32 *)(p + 4) == 1 && p[0] == 0x91 && *(u16 *)(p + 0xE) == arg) {
+            CpuSet(p + 0x88, p, (((0x31 - i) * 0x22) & 0x1FFFFF) | 0x04000000);
+            gUnk_03006338--;
+        }
+    }
+}
 s32 sub_08067EC8(void)
 {
     u8 *p;
@@ -328,7 +341,24 @@ u32 sub_080681F4(u32 callback)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080681F4);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806823C);
+/* Enqueue message 0xAA (lobby/setting block) unless sub_0800CFF0() says no. */
+u32 sub_0806823C(u32 a, s32 b, u32 c, u32 d, u32 e)
+{
+    u8 *p;
+    if (gUnk_03006338 < 0x32 && sub_0800CFF0() == 0) {
+        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(p + 4) = 1;
+        *p = 0xAA;
+        *(u32 *)(p + 8) = (b << 16) | a;
+        *(u32 *)(p + 0xC) = c;
+        *(u32 *)(p + 0x10) = d;
+        *(u32 *)(p + 0x14) = e;
+        p[1] = 2;
+        gUnk_03006338++;
+        return 1;
+    }
+    return 0;
+}
 u32 sub_080682A4(void)
 {
     if (gUnk_03006338 > 0x31)

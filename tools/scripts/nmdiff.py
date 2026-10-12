@@ -31,7 +31,9 @@ with tempfile.TemporaryDirectory() as td:
     minus = [m[1:] for m in minus]
     plus = [x for x in plus if x != ".short 0x0000"]
     minus = [x for x in minus if x != ".short 0x0000"]
-    if minus == plus:
+    m = re.search(r"size: orig (\d+), candidate (\d+)", out)
+    same_size = (not m) or m.group(1) == m.group(2)
+    if minus == plus and same_size:
         print("\n".join(lines[:3])); print("MATCH (positions only)"); sys.exit(0)
     print(out)
     print("NO MATCH")
