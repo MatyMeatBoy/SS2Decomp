@@ -210,8 +210,11 @@ s32 sub_0801E538(void)
   return 1;
 }
 #ifdef NONMATCHING
-void sub_0801E550(u16 id, u32 stateIndex, u16 kind, u16 value)
+void sub_0801E550(u32 id, u32 stateIndex, u32 kind, u32 value)
 {
+    id = (u16)id;
+    kind = (u16)kind;
+    value = (u16)value;
     u32 i;
     u8 *state = (u8 *)gUnk_03003CE0 + stateIndex * 0x14A + 0x34;
     u8 *entry = *(u8 **)state;
