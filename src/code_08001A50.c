@@ -113,7 +113,91 @@ void sub_08001B78(void)
         sub_08008C1C();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001BE4);
+extern u32 gLinkPrevState asm("gUnk_03002728");
+extern u32 gLinkTimeout asm("gUnk_0300272C");
+extern u8 gLinkSendBuf[] asm("gUnk_03002710");
+extern u8 gLinkRecvBufs[] asm("gUnk_03002770");
+extern u32 gLinkFlags asm("gUnk_030027D0");
+extern u32 gLinkState asm("gUnk_03002730");
+extern void sub_080003F4();
+extern void sub_080586B4();
+void sub_08001BE4(void)
+{
+    u32 cnt[4];
+    u32 i;
+    u32 errs;
+    u32 myId;
+    u32 st;
+
+    sub_0800170C();
+    gLinkFlags = 1;
+    gLinkState = 0;
+    sub_08002298(0x50);
+    for (i = 0; i < 4; i++)
+        cnt[i] = 0;
+    while (cnt[0] <= 0x3B) {
+        sub_080003F0();
+        if (gLinkFlags & 0x40000000)
+            break;
+        gLinkPrevState = gLinkState;
+        gLinkState = sub_08001804(gLinkSendBuf, gLinkRecvBufs);
+        sub_08001A50();
+        if (gLinkState & 0xE00)
+            cnt[0]++;
+    }
+    cnt[0] = 0;
+    errs = 0;
+    gLinkFlags |= 2;
+    myId = sub_080020F4();
+    if (!(gLinkFlags & 0x40000000)) {
+        do {
+            sub_080003F0();
+            gLinkPrevState = gLinkState;
+            st = sub_08001804(gLinkSendBuf, gLinkRecvBufs);
+            gLinkState = st;
+            gLinkFlags &= ~0x10;
+            if (st & 0x1000) {
+                errs++;
+                if (errs > 5 && (gLinkFlags & 4)) {
+                    gLinkFlags |= 8;
+                    sub_080003F4(0x1F40);
+                    gLinkFlags &= ~8;
+                }
+            } else {
+                errs = 0;
+            }
+            gLinkFlags &= ~0x20;
+            for (i = 0; i < sub_08002164(); i++) {
+                if (!(gLinkState & (1 << i))) {
+                    cnt[i]++;
+                    gLinkFlags |= 0x10;
+                } else {
+                    cnt[i] = 0;
+                }
+                if (gLinkTimeout == 0x50 && cnt[i] > 0x3C)
+                    gLinkFlags |= 0x20;
+            }
+            for (i = 0; i < sub_08002164(); i++) {
+                if (i != myId && cnt[i] > gLinkTimeout) {
+                    if (gLinkFlags & 4) {
+                        gLinkFlags |= 8;
+                        sub_080003F4(0x1F40);
+                        goto next;
+                    }
+                    cnt[i] = 0;
+                }
+            }
+        next:
+            if (gLinkFlags & 0x20)
+                sub_080586B4(0);
+            sub_08001A50();
+        } while (!(gLinkFlags & 0x40000000));
+    }
+    sub_08001A64();
+    gLinkFlags = 0x80000000;
+    gLinkState = 0;
+    sub_0800035C();
+}
 #ifdef NONMATCHING
 extern u32 gLinkFlags asm("gUnk_030027D0");
 extern u32 gLinkState asm("gUnk_03002730");
