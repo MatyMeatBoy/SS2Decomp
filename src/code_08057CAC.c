@@ -285,7 +285,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080581E4);
 #ifdef NONMATCHING
 s32 sub_08058240(void)
 {
-    return M2C_FIELD(&gUnk_03003CE0[sub_080020F4()], s32 *, 0x8C) >> 8;
+    return ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].pos8C.x >> 8;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058240);
@@ -293,7 +293,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058240);
 #ifdef NONMATCHING
 s32 sub_08058260(void)
 {
-    return M2C_FIELD(&gUnk_03003CE0[sub_080020F4()], s32 *, 0x90) >> 8;
+    return ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].pos8C.y >> 8;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058260);
@@ -515,18 +515,14 @@ void sub_0805865C(s32 arg0)
 void sub_0805867C(void) {
     sub_08006D5C();
 }
-#ifdef NONMATCHING
 s32 sub_08058688(s32 value)
 {
     s32 old = gUnk_03005CF8;
     gUnk_03005CF8 = value;
     if ((gUnk_030027D0 & 0x20) == 0)
-        sub_08006CB4(value);
+        ((void (*)(s32))sub_08006CB4)(value);
     return old;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058688);
-#endif
 #ifdef NONMATCHING
 s32 sub_080586B4(void)
 {

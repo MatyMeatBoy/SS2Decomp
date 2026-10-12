@@ -430,20 +430,17 @@ fail_e7fc:
     return 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E88C);
-#ifdef NONMATCHING
 void sub_0808E94C(void)
 {
     s32 value = 0;
+    s32 step = 0x2A;
     sub_0800BD48(3, 0);
     for (;;) {
-        value += 0x2A;
-        sub_0800BBA8(3, (s16)(value >> 8), 0);
+        value += step;
+        ((void (*)(s32, s32, s32))sub_0800BBA8)(3, (value << 8) >> 16, 0);
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E94C);
-#endif
 void sub_0808E970(void)
 {
     while (sub_08056E90() == 0) {

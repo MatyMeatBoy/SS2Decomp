@@ -170,23 +170,21 @@ s32 sub_08067E48(void)
     return M2C_FIELD(gUnk_03006300, u32 *, 4) == 2;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E60);
-#ifdef NONMATCHING
 s32 sub_08067EC8(void)
 {
     u8 *p;
+    u32 z;
     if (gUnk_03006338 > 0x31)
         return 0;
     p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
     *(u32 *)(p + 4) = 1;
+    z = 0;
     *p = 0x93;
-    *(u32 *)(p + 8) = 0;
+    *(u32 *)(p + 8) = z;
     p[1] = 2;
     gUnk_03006338++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067EC8);
-#endif
 #ifdef NONMATCHING
 static s32 sub_08067Fxx(s32 a, s32 b, s32 c, u8 type)
 { u8 *p; if (gUnk_03006338 > 0x31) return 0; p=(u8 *)(uintptr_t)gUnk_03006300+gUnk_03006338*0x88; *(u32 *)(p+4)=1; *p=type; *(u32 *)(p+8)=(b<<16)|a; *(u32 *)(p+0xc)=c; p[1]=1; gUnk_03006338++; return 1; }
