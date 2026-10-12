@@ -355,13 +355,9 @@ void sub_0801A388(u32 index)
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A388);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A3D0);
-#ifdef NONMATCHING
-void sub_0801A500(void)
+void sub_0801A500(u32 a, u32 b, u32 c, ...)
 {
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A500);
-#endif
 void sub_0801A508(void)
 {
     u32 i;

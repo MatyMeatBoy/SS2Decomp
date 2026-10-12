@@ -182,14 +182,10 @@ s32 sub_0809044C(s32 arg0, s32 arg1)
   new_var = ((s64) arg0) * arg1;
   return (s32) (new_var >> 16);
 }
-#ifdef NONMATCHING
 s32 sub_08090470(s32 arg0, s32 arg1)
 {
-    return (s32)(((s64)arg0 << 16) / arg1);
+    s64 a = arg0; s64 b = arg1; return (s32)((a << 16) / b);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090470);
-#endif
 s32 sub_08090494(s32 arg0) {
     return 0x10000 / arg0;
 }

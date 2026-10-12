@@ -57,9 +57,11 @@ Ghidra regeneration (needs Ghidra 11.x): `analyzeHeadless proj proj -import base
 - Shadow regs (gUnk_03000000/2/4, DispCnt gUnk_0300129C): separate `x &= ~m; REG_IE = x;` vs chained assignment gives different code.
 - Far jumps use `bl`, switch tables `mov pc, rN`; epilogues `pop {r0}; bx r0`.
 - Unused stack frame: original `sub sp,#N ... add sp,#N` with nothing else = an unused local array; `u8 buf[N];` reproduces it (sub_0806888C: `s32 f(void){ u8 buf[0x88]; return 1; }`).
-  If the frame is bigger than the code needs, add a dead `u8 buf[N]` / `u32 pad[k]` local. 8-byte `push {r2,r3}` frames: not solved yet (volatile u32 a[2] gives `sub sp,#8`).
+  If the frame is bigger than the code needs, add a dead `u8 buf[N]` / `u32 pad[k]` local. `push {r2,r3}` ... `add sp,#8` = variadic function: `void f(u32 a, u32 b, u32 c, ...){}` (named params shift which of r0-r3 are pushed).
 - Do not retype globals (gUnk_03005CF4 s32, gUnk_03003478) piecemeal: it broke other functions. Retype only with a full consistent rewrite.
 - Permuter output is preprocessed: only take the function body (apply_permuted does this).
+
+- Callee proto has u16 param but original passes s32 without lsl/lsr: call via cast `((void (*)(s32))f)(x)`; callee proto `()`-style (K&R) when original passes nothing extra (sub_080687A8).
 
 ## Status (see `python3 tools/scripts/progress.py`)
 ~520/1973 functions matched (2.66% bytes). Libs: m4a 54/56, flash 24/24. Near misses: sub_0800BAA4, sub_0800BC44/BC08/BCA0/BD1C,
