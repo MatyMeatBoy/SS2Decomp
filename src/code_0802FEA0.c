@@ -30,7 +30,53 @@ INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08034A5C);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08034F64);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803540C);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035914);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080359E8);
+void sub_080359E8(s32 arg0) {
+    u16 count;
+start:
+    sub_0802939C(arg0, 0);
+    count = 0xF0;
+    goto wait1;
+dec1:
+    count--;
+    if (count == 0) goto stage2;
+wait1:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto dec1;
+stage2:
+    sub_0802926C(arg0, 1);
+    sub_0802926C(arg0, 1);
+    sub_0802926C(arg0, 1);
+    count = 0x64;
+    goto wait2;
+dec2:
+    count--;
+    if (count == 0) goto stage3;
+wait2:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto dec2;
+stage3:
+    sub_08029174(arg0, 2);
+    count = 0xC8;
+    goto wait3;
+dec3:
+    count--;
+    if (count == 0) goto stage4;
+wait3:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto dec3;
+stage4:
+    sub_08029174(arg0, 3);
+    count = 0xB4;
+    goto wait4;
+dec4:
+    count--;
+    if (count == 0) goto start;
+    goto wait4;
+wait4:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto dec4;
+    goto start;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035A88);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035B18);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080368F4);

@@ -7,8 +7,6 @@ extern void *gUnk_030012A0[];      // gIntrTable
 extern u8 gUnk_03001740[];         // IntrMain copied to IWRAM
 extern u32 gUnk_030012E0[];        // main task control block
 
-
-
 extern u8 gUnk_03001318[8];
 
 void AgbMain(void)
@@ -47,9 +45,35 @@ void AgbMain(void)
     gUnk_030012E0[9] = 0;
     sub_0800023C(gUnk_030012E0);
 }
-
+#ifdef NONMATCHING
+void sub_08000760(void)
+{
+    volatile u16 *a = (u16 *)0x03001298, *b = (u16 *)0x0300130C;
+    u16 old = *b, now = (*(u16 *)0x04000130 ^ 0x3FF);
+    *a = old; *b = now; *(u16 *)0x03001324 = now & ~old;
+    u16 high = now & 0xF0, low = old & 0xF0;
+    if (low == high) {
+        u16 *timer = (u16 *)0x03001320;
+        u16 count = ++*timer, limit = *(u16 *)0x03001730;
+        if (count == limit) *(u16 *)0x03001308 = high;
+        else if (count > limit) {
+            u16 *delay = (u16 *)0x03002340;
+            if (++*delay > *(u16 *)0x03002348) {
+                *(u16 *)0x03001308 = high; *delay = 0; *timer = limit;
+            } else *(u16 *)0x03001308 = 0;
+        } else *(u16 *)0x03001308 = 0;
+    } else {
+        *(u16 *)0x03001308 = now & ~old;
+        *(u16 *)0x03001320 = 0; *(u16 *)0x03002340 = 0;
+    }
+    *(u16 *)0x03001328 = 0;
+    u8 old8 = *(u8 *)a, new8 = *(u8 *)b;
+    if ((old8 & 1) && !(new8 & 1)) *(u16 *)0x03001328 |= 1;
+    if ((old8 & 2) && !(new8 & 2)) *(u16 *)0x03001328 |= 2;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000760);
-
+#endif
 s16 sub_0800086C(void)
 {
   s32 i;
@@ -68,7 +92,6 @@ s16 sub_0800086C(void)
   t = 8;
   return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << t);
 }
-
 u32 sub_080008C8(void)
 {
   s32 i;
@@ -87,11 +110,9 @@ u32 sub_080008C8(void)
   return gUnk_03001318[gUnk_03001318[2] & 7] | (gUnk_03001318[gUnk_03001318[3] & 7] << t)
        | (gUnk_03001318[gUnk_03001318[0] & 7] << 16) | (gUnk_03001318[gUnk_03001318[1] & 7] << 24);
 }
-
 void sub_0800093C(void) {
 
 }
-
 void sub_08000940(void)
 {
     sub_08001040(8);
@@ -99,7 +120,6 @@ void sub_08000940(void)
     REG_DISPCNT = *(u16 *)&gUnk_0300129C;
     sub_08006BF8();
 }
-
 void sub_08000968(void)
 {
     sub_080010AC(0x18);
@@ -107,18 +127,38 @@ void sub_08000968(void)
     REG_DISPCNT = *(u16 *)&gUnk_0300129C;
     sub_08006C14();
 }
-
 void sub_08000990(u16 mode, u16 write)
 {
     gUnk_0300129C.mode = mode;
     if (write)
         REG_DISPCNT = *(u16 *)&gUnk_0300129C;
 }
-
+#ifdef NONMATCHING
+void sub_080009C0(s32 a, s32 b, s32 write)
+{
+    u16 value = *(u16 *)&gUnk_0300129C;
+    value = (value & 0x001F) | ((a & 0x001F) << 8) | ((b & 0x0007) << 5);
+    *(u16 *)&gUnk_0300129C = value;
+    if (write)
+        REG_DISPCNT = value;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main", sub_080009C0);
-
+#endif
+#ifdef NONMATCHING
+void sub_080009F8(s32 a, s32 b, s32 write)
+{
+    u16 value;
+    value = *(u16 *)&gUnk_0300129C;
+    value &= ~((a & 0x001F) << 8);
+    value &= ~((b & 0x0007) << 5);
+    *(u16 *)&gUnk_0300129C = value;
+    if (write)
+        REG_DISPCNT = value;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main", sub_080009F8);
-
+#endif
 void sub_08000A34(u16 a, u16 b, u16 c, u16 unused, u16 write)
 {
     gUnk_0300129C.frameSelect = c != 0;

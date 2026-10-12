@@ -1,5 +1,9 @@
 #include "global.h"
 
+void sub_08006D5C_(u16 n) __asm__("sub_08006D5C");
+
+void sub_08006E84_(void) __asm__("sub_08006E84");
+
 void sub_08006D24(u16 arg0) {
     u16 temp_r1;
 
@@ -16,7 +20,6 @@ void sub_08006D40(u16 arg0) {
         m4aSongNumStartOrContinue(temp_r1);
     }
 }
-void sub_08006D5C_(u16 n) __asm__("sub_08006D5C");
 void sub_08006D5C_(u16 n)
 {
     if (n <= 0x1AB)
@@ -79,7 +82,6 @@ void sub_08006E64(u8 v)
         m4aMPlayStop(&gUnk_030075C0
                      );
 }
-void sub_08006E84_(void) __asm__("sub_08006E84");
 void sub_08006E84_(void)
 {
     u8 *p = sub_08001494(
@@ -123,8 +125,85 @@ void sub_08008C10(void) {
     sub_08008C1C();
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008C1C);
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008CC4);
+u32 sub_08008CC4(u32 arg0, u16 *arg1, u16 *arg2, u8 *arg3, u32 arg4)
+{
+    u16 idx = arg0;
+    u8 *entry;
+    u8 *sub;
+    u32 ret;
+
+    if (*(u16 *)(arg3 + 2) < idx)
+        return 0;
+
+    entry = arg3 + *(u32 *)(arg3 + 8);
+    entry += idx * 12;
+
+    if (*(u16 *)(entry + 4) <= *arg1)
+        *arg1 = 0;
+
+    sub = entry + *(u32 *)(entry + 8);
+    sub += *arg1 * 4;
+
+    ret = 0;
+
+    if (*(u16 *)(sub + 2) <= *arg2) {
+        *arg1 = *arg1 + 1;
+        *arg2 = 0;
+        if (*(u16 *)(entry + 4) <= *arg1) {
+            if (arg4 != 0) {
+                *arg1 = 0;
+            } else {
+                *arg2 = *(u16 *)(sub + 2) + 1;
+                *arg1 = *(u16 *)(entry + 4) - 1;
+                ret = 1;
+            }
+        }
+    } else {
+        *arg2 = *arg2 + 1;
+    }
+    return ret;
+}
+#ifdef NONMATCHING
+s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
+{
+    u16 *state = (u16 *)arg1;
+    u16 *step = (u16 *)arg2;
+    u8 *data = (u8 *)arg3;
+    u8 *entry;
+    u8 *sub;
+    u16 index = arg0;
+    u16 count;
+    u32 result = 0;
+
+    count = *(u16 *)(data + 2);
+    if (count < index)
+        return 0;
+
+    entry = data + *(u32 *)(data + 8) + index * 12;
+    if (*state & 0x8000)
+        *state = *(u16 *)(entry + 4) - 1;
+
+    sub = entry + *(u32 *)(entry + 8) + *state * 4;
+    if (*step & 0x8000) {
+        *state -= 1;
+        *step = *(u16 *)(sub + 2) - 1;
+        if (*state & 0x8000) {
+            if (arg4 != 0) {
+                *state = *(u16 *)(entry + 4) - 1;
+            } else {
+                *step = 0;
+                *state = 0;
+                result = 1;
+            }
+        }
+    } else {
+        *step -= 1;
+    }
+    return result;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008D38);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008DB8);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008E74);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008F2C);

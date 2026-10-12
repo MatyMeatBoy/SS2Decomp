@@ -3,15 +3,142 @@
 extern u32 gUnk_03005CFC;
 extern u32 gUnk_03005D00;
 extern s32 gUnk_03005CF0;
-s32 sub_0800048C();
 void sub_08025890(void);
 void sub_080263B4(void);
 void sub_080226A4(void);
+void sub_08021960(void);
+void sub_08021AD8(void);
+void sub_08021214(void);
 
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021DC4);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021E44);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021EC8);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021F58);
+extern void sub_08026858(void);
+
+void sub_08021DC4(s32 arg0) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08020E08;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, arg0, var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08021E44(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_080210A8;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, (var_r5 << 0x10) | arg0, arg1);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08021EC8(u32 arg0, u32 arg1, s32 arg2) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        arg0 >>= 8;
+        arg1 >>= 8;
+        arg0 |= arg1 << 0x10;
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08021214;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, arg0, (var_r5 << 0x10) | arg2);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08021F58(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_080215E4;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, (arg0 >> 8) | ((arg1 >> 8) << 0x10), var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
 s32 sub_08021FE0(s32 *arg0, s32 *arg1, u16 *arg2, u16 *arg3) {
     s32 var_r2;
     s32 var_r3;
@@ -42,12 +169,201 @@ void sub_08022028(u8 *arg0, u8 *arg1, u16 arg2) {
     *(u16 *)(arg1 + 0x88) += arg2;
     *(u16 *)(arg1 + 0x20) = 0xA;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022078);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022100);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022180);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022200);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022284);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802230C);
+void sub_08022078(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08020F74;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, (arg0 >> 8) | ((arg1 >> 8) << 0x10), var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08022100(s32 arg0) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_0802133C;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, arg0, var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08022180(s32 arg0) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08021490;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, arg0, var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08022200(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_080217D8;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, (arg1 << 0x10) | arg0, var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08022284(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    if (arg1 != 0) {
+        var_r5 = 0;
+        flags = (volatile u32 *)&gUnk_03005CE4;
+        asm volatile("movs %0, #1" : "=r"(firstMask));
+        if (*flags & firstMask) {
+            one = 1;
+            do {
+                var_r5 += 1;
+                if (var_r5 > 0x1FU) break;
+            } while (*flags & (one << var_r5));
+        }
+        if (var_r5 <= 0x1FU) {
+            temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+            M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08021960;
+            temp_r0 = sub_08001494(0x400U);
+            M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+            if (temp_r0 != NULL) {
+                M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+                M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+                M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+                sub_08000274_(temp_r4, (arg1 << 0x10) | arg0, var_r5);
+                gUnk_03005CE4 |= 1 << var_r5;
+            }
+        }
+    }
+}
+void sub_0802230C(u32 arg0, u32 arg1, s32 arg2) {
+    s32 *temp_r4;
+    register u32 var_r5 asm("r5");
+    u32 packed;
+    void *temp_r0;
+    register u32 val0 asm("r4");
+    register u32 val1 asm("ip");
+    u32 val2;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    asm volatile("movs %0, r0\n\tmov %1, r1\n\tmovs %2, r2" : "=r"(val0), "=r"(val1), "=r"(val2));
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        packed = (val0 >> 8) | ((val1 >> 8) << 0x10);
+        if (val2 != 0) val2 = 1;
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08021AD8;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, packed, (val2 << 0x10) | var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
 u32 sub_080223A4(s16 a, s16 b) {
     s16 q = (a + 10) * 125 / (a + b + 20);
     u16 r = (u16)sub_080008C8() % 100;
@@ -56,9 +372,99 @@ u32 sub_080223A4(s16 a, s16 b) {
     }
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080223F4);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802247C);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022504);
+void sub_080223F4(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_0802258C;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, (arg0 >> 8) | ((arg1 >> 8) << 0x10), var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_0802247C(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08020D40;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, (arg0 >> 8) | ((arg1 >> 8) << 0x10), var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
+void sub_08022504(s32 arg0, s32 arg1) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_080216BC;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, (arg0 >> 8) | ((arg1 >> 8) << 0x10), var_r5);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802258C);
 void sub_08022630(void) {
     u8 *p;
@@ -81,7 +487,16 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080226A4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022E60);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023274);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023684);
+#ifdef NONMATCHING
+u32 sub_080239E0(u32 group)
+{
+    u8 *base=*(u8 **)0x03005CF4 + 0x1C8 + (group&0xFF)*5; u32 zero=0,two=0,i;
+    for(i=0;i<=4;i++){ if(base[i]==0)zero++; if(base[i]==2)two++; }
+    return zero==two;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080239E0);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023A3C);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023ED8);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023F98);
@@ -156,7 +571,6 @@ void sub_080267DC(void) {
     sub_08000274((M2C_UNK *) (base + off), (s32) sub_0805A6A0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08026858);
-extern void sub_08026858(void);
 void sub_08026C54(void) {
     s32 *new_var2;
     s32 base;
@@ -182,7 +596,22 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802704C);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080277E0);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027B50);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
+#ifdef NONMATCHING
+void sub_08028368(u8 a, u16 b, u8 c)
+{
+    u8 *entry;
+    u8 *base = *(u8 **)0x03005CF4;
+    u32 count = *(u32 *)(base + 0x1E4C);
+    if (count > 10) return;
+    entry = base + 0x1E52 + count * 4;
+    entry[0] = a;
+    entry[1] = c;
+    *(u16 *)(entry + 2) = b;
+    *(u32 *)(base + 0x1E4C) = count + 1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028368);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080283C4);
 void sub_08028498(u16 arg0)
 {

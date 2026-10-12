@@ -137,17 +137,18 @@ def restore_asm(func):
         return names.get(a, m.group(0))
     text = re.sub(r"\b(sub|gUnk)_([0-9A-F]{8})\b", sub, text)
     out = os.path.join(ROOT, "asm/nonmatchings/%s/%s.s" % (mod, func))
+    os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, "w").write(text)
     return out
 
 
 def assemble_orig(func, out_o):
     path, name = orig_asm(func, os.path.dirname(out_o))
-    rel = os.path.relpath(path, ROOT)
+    rel = os.path.relpath(path, ROOT).replace('\\', '/')
     src = out_o[:-2] + ".s"
     with open(src, "w") as fh:
         fh.write('\t.include "asm/macros.inc"\n\t.syntax unified\n\t.text\n\t.include "%s"\n' % rel)
-    r = run(["arm-none-eabi-as", "-mcpu=arm7tdmi", "-I", ROOT, "-o", out_o, src])
+    r = run([os.environ.get("DECOMP_AS", "arm-none-eabi-as"), "-mcpu=arm7tdmi", "-I", ROOT, "-o", out_o, src])
     if r.returncode:
         raise SystemExit(r.stderr)
     return name
@@ -199,7 +200,7 @@ def compile_c(cfile, out_o, cc1=None, flags=None):
     if vh:
         open(os.path.join(incdir, "variables.h"), "w").write("\n".join(vh) + "\n")
     cppflags = [f if f != real_inc else incdir for f in CPPFLAGS]
-    r = run(["arm-none-eabi-cpp"] + cppflags + [cfile, "-o", i])
+    r = run([os.environ.get("DECOMP_CPP", "arm-none-eabi-cpp")] + cppflags + [cfile, "-o", i])
     if r.returncode:
         return r.stderr
     fl = flags or (os.environ["DECOMP_CFLAGS"].split() if "DECOMP_CFLAGS" in os.environ else CC1FLAGS)
@@ -208,7 +209,7 @@ def compile_c(cfile, out_o, cc1=None, flags=None):
         return r.stderr or r.stdout
     with open(s, "a") as fh:
         fh.write("\t.text\n\t.align 2, 0\n")
-    r = run(["arm-none-eabi-as", "-mcpu=arm7tdmi", "-I", ROOT, "-o", out_o, s])
+    r = run([os.environ.get("DECOMP_AS", "arm-none-eabi-as"), "-mcpu=arm7tdmi", "-I", ROOT, "-o", out_o, s])
     if r.returncode:
         return r.stderr
     return None

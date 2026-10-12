@@ -1,0 +1,10 @@
+Shard 17 notes (code_0801AAF8). Matched: sub_0801ABE8 (u32 arg, mask via new_var = 0x21; -new_var).
+Hard / not matched yet (best permuter score, ideas tried):
+- sub_0801AB90 (u32 arg): best 265. Early-return and nested-if shapes tried; arg0 register (r3 in original) not reproduced.
+- sub_0801AC24 (u32 arg): best 95 (permuter, g2 seed). Original loads s16 gUnk_03000026 via ldrsh with movs r1,#0; compiler emits ldrh for ==1.
+- sub_0801B6F4 (s16 *, s32 delta cast to s16): best 270. Original loads ldrh before sign-extending the delta (adds r2,r1,r2 order).
+- sub_0801B720 (same shape, subtract): best 220 (permuter, m1 seed).
+- sub_0801B58C (180 asm): jump table (mov pc,rN) + nested state machine; not started.
+- sub_0801B264 (410 asm), sub_0801B74C (171), sub_0801B8A8 (231): not started.
+- sub_0801ACB8 (584 asm), sub_0801BA74 (1912 asm): not started.
+Ideas not yet tried: temporaries holding the u16 loads before the sign-extended delta; do-while for the 6-slot loops; separate stores per slot in reverse order.

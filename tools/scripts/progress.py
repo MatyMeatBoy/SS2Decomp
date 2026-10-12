@@ -35,7 +35,7 @@ FG = "#e6edf3"
 
 def load():
     funcs = {}
-    for line in open(os.path.join(ROOT, "tools/config/functions.cfg")):
+    for line in open(os.path.join(ROOT, "tools/config/functions.cfg"), encoding="utf-8"):
         line = line.split("#")[0].strip()
         if not line:
             continue
@@ -44,7 +44,7 @@ def load():
             a = int(p[1], 0)
             funcs[a] = p[2] if len(p) > 2 else ("sub_%08X" if p[0] == "thumb" else "arm_%08X") % a
     mods = []
-    for line in open(os.path.join(ROOT, "tools/config/modules.cfg")):
+    for line in open(os.path.join(ROOT, "tools/config/modules.cfg"), encoding="utf-8"):
         line = line.split("#")[0].strip()
         if not line:
             continue
@@ -65,7 +65,7 @@ def collect():
     srcdir = os.path.join(ROOT, "src")
     for fn in os.listdir(srcdir) if os.path.isdir(srcdir) else []:
         if fn.endswith(".c"):
-            text = open(os.path.join(srcdir, fn)).read()
+            text = open(os.path.join(srcdir, fn), encoding="utf-8").read()
             for m in re.finditer(r"INCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\)", text):
                 stubbed.add(m.group(1))
             for m in re.finditer(r"#ifdef NONMATCHING\n.*?#else\nINCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\);\n#endif", text, re.S):
@@ -268,17 +268,18 @@ def main():
     modules = collect()
     summary = summarize(modules)
     os.makedirs(args.out, exist_ok=True)
-    with open(os.path.join(args.out, "treemap.svg"), "w") as fh:
+    with open(os.path.join(args.out, "treemap.svg"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write('<?xml version="1.0" encoding="UTF-8"?>\n')
         fh.write(treemap_svg(modules, summary))
     for key, label in (("all", "decompiled"), ("game", "game code"), ("lib", "libraries")):
         s = summary[key]
-        with open(os.path.join(args.out, "badge_%s.svg" % key), "w") as fh:
+        with open(os.path.join(args.out, "badge_%s.svg" % key), "w", encoding="utf-8", newline="\n") as fh:
             fh.write(badge_svg(label, "%.2f%%" % s["percent"], pct_color(s["percent"])))
     s = summary["all"]
-    with open(os.path.join(args.out, "badge_functions.svg"), "w") as fh:
+    with open(os.path.join(args.out, "badge_functions.svg"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write(badge_svg("functions", "%d/%d" % (s["funcs_done"], s["funcs_total"]),
                            pct_color(100.0 * s["funcs_done"] / max(1, s["funcs_total"]))))
-    with open(os.path.join(args.out, "progress.json"), "w") as fh:
+    with open(os.path.join(args.out, "progress.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(summary, fh, indent=1)
     if args.json:
         print(json.dumps(summary, indent=1))

@@ -1,6 +1,5 @@
 #include "global.h"
 
-
 #define WAIT_NOT_BLANK() while (REG_DISPSTAT & (DISPSTAT_VBLANK | DISPSTAT_HBLANK))
 #define SET_IME(v) REG_IME = (gUnk_03000000 = (v))
 
@@ -10,7 +9,6 @@ void sub_08000A8C(struct DispCnt *src, u16 write)
     if (write)
         REG_DISPCNT = *(u16 *)&gUnk_0300129C;
 }
-
 void sub_08000AA8(u16 which, u16 *src)
 {
     if (src == 0)
@@ -30,7 +28,6 @@ void sub_08000AA8(u16 which, u16 *src)
         break;
     }
 }
-
 void sub_08000AF0(u32 palNum, const void *src, u32 numPals)
 {
     CpuFastSet(src, (u8 *)&gUnk_03001F40 + palNum * 32, (numPals * 8) & 0x1FFFFF);
@@ -40,16 +37,13 @@ void sub_08000AF0(u32 palNum, const void *src, u32 numPals)
         gUnk_03001310++;
     }
 }
-
 void sub_08000B38(void) {
     sub_08001348((s32) &gUnk_03001F40, 0x05000000, 0x400);
 }
-
 void sub_08000B50(void)
 {
     CpuSet(gUnk_03001250, (void *)REG_ADDR_BG0HOFS, 0x24);
 }
-
 void sub_08000B68(u16 bg, u16 *out)
 {
     if (out)
@@ -63,7 +57,6 @@ void sub_08000B68(u16 bg, u16 *out)
         }
     }
 }
-
 void sub_08000BB0(u32 seed)
 {
     gUnk_03001318[0] = 0xFA;
@@ -71,7 +64,6 @@ void sub_08000BB0(u32 seed)
     gUnk_03001318[2] = 0x86;
     gUnk_03001318[3] = 0x04;
 }
-
 #ifdef NONMATCHING
 void *sub_08000BC8(u32 *src, void **dest)
 {
@@ -89,12 +81,10 @@ void *sub_08000BC8(u32 *src, void **dest)
 #else
 INCLUDE_ASM("asm/nonmatchings/video", sub_08000BC8);
 #endif
-
 void sub_08000C08(s16 arg0, s16 arg1) {
     gUnk_03001730 = arg0;
     gUnk_03002348 = arg1;
 }
-
 void sub_08000C1C(void)
 {
     DmaFill16(3, 0, gUnk_03001250, 4);
@@ -103,7 +93,6 @@ void sub_08000C1C(void)
     gUnk_03001250[18] = 0x100;
     gUnk_03001250[16] = 0x100;
 }
-
 #ifdef NONMATCHING
 void sub_08000C50(void)
 {
@@ -121,7 +110,6 @@ void sub_08000C50(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/video", sub_08000C50);
 #endif
-
 #ifdef NONMATCHING
 void sub_08000D0C(void)
 {
@@ -135,7 +123,6 @@ void sub_08000D0C(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/video", sub_08000D0C);
 #endif
-
 #ifdef NONMATCHING
 void sub_08000D8C(void)
 {
@@ -153,7 +140,6 @@ void sub_08000D8C(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/video", sub_08000D8C);
 #endif
-
 #ifdef NONMATCHING
 void sub_08000E48(void)
 {

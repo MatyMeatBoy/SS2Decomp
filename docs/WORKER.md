@@ -86,3 +86,13 @@ result. Never reorder or delete header lines.
 - Push after every matched function.
 - When your shard is empty (or only hopeless functions remain), take the next shard: worker N takes shards N+31, N+62, N+93
   (those <= 119), same branch. Tell the maintainer in your final message which shard you finished.
+
+## UPDATE: tree revalidated (read this first)
+Main was revalidated: ~470 functions that other agents had "decompiled" without byte verification are now **drafts** inside
+`#ifdef NONMATCHING <C> #else INCLUDE_ASM(...) #endif` blocks (the ROM still builds from the asm). They usually compile and are close.
+Start every function by looking for such a draft in `src/<module>.c` (grep the function name): copy it to a scratch file, run
+`decomp.py check FUNC file.c` to see the diff, fix it, then `apply_permuted.py file.c` (it turns the block into plain C and removes the asm).
+- agbcc is C89: declare all locals at the top of a block; no `for (u32 i = ...)`, no declarations after statements.
+- Keep functions in ROM address order inside the module (`python3 tools/scripts/sort_module.py <module>` fixes the order).
+- `python3 tools/scripts/nm_drafts.py OUT [module]` exports all drafts with their diff score (0 = match, -1 = no compile).
+- Never leave both a C definition and an INCLUDE_ASM of the same function; never convert hand-written asm modules (m4a_1, sched, crt0).

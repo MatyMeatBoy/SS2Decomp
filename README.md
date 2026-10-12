@@ -9,7 +9,7 @@ Work-in-progress **matching** decompilation of *Shining Soul II* for the Game Bo
 Advance (Europe, `AU2P`, En/Fr/De/Es/It). The build reproduces the original ROM
 byte for byte.
 
-![progress treemap](docs/progress/treemap.svg)
+![progress treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg)
 
 Each cell is one function (area = size in bytes): **green** = decompiled to
 matching C, **grey** = still assembly, **blue** = original hand-written
