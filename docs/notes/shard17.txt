@@ -8,3 +8,12 @@ Hard / not matched yet (best permuter score, ideas tried):
 - sub_0801B264 (410 asm), sub_0801B74C (171), sub_0801B8A8 (231): not started.
 - sub_0801ACB8 (584 asm), sub_0801BA74 (1912 asm): not started.
 Ideas not yet tried: temporaries holding the u16 loads before the sign-extended delta; do-while for the 6-slot loops; separate stores per slot in reverse order.
+
+Round 2 (after tree revalidation, drafts in src/code_0801AAF8.c):
+- sub_0801B6F4 / sub_0801B720: the unrolled 6-slot form matches the asm shape except the sign-extension order. The asm loads
+  p[0] before extending the delta (ldrh r2; lsl/asr r1; adds r2,r1,r2); agbcc always extends a s16 parameter at entry.
+  Tried: s16 *p/s16 delta, u16 *p/s32 delta with (s16) casts at use, operand-order swaps, local s16 d. Best permuter 270 (B6F4).
+  Idea left: a u32 temp per slot, or restructure so the first load precedes the conversion.
+- sub_0801AB90: draft in the module uses inline asm for the mask (not acceptable as final). Clean C best: permuter 265.
+- sub_0801AC24: draft uses absolute pointers (0x03000026 etc.). Not compared yet with the clean u32 form (best 420 earlier).
+- sub_0801B58C, B264, B74C, B8A8, ACB8, BA74: no drafts with a clean match; B58C is a jump table state machine.

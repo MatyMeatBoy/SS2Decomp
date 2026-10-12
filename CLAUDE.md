@@ -47,6 +47,8 @@ Ghidra regeneration (needs Ghidra 11.x): `analyzeHeadless proj proj -import base
 - Booleans: `u32 r = 0; if (c) r = 1; return r;` often matches where `return c;` does not.
 - Shadow regs (gUnk_03000000/2/4, DispCnt gUnk_0300129C): separate `x &= ~m; REG_IE = x;` vs chained assignment gives different code.
 - Far jumps use `bl`, switch tables `mov pc, rN`; epilogues `pop {r0}; bx r0`.
+- Unused stack frame: original `sub sp,#N ... add sp,#N` with nothing else = an unused local array; `u8 buf[N];` reproduces it (sub_0806888C: `s32 f(void){ u8 buf[0x88]; return 1; }`).
+  If the frame is bigger than the code needs, add a dead `u8 buf[N]` / `u32 pad[k]` local. 8-byte `push {r2,r3}` frames: not solved yet (volatile u32 a[2] gives `sub sp,#8`).
 - Do not retype globals (gUnk_03005CF4 s32, gUnk_03003478) piecemeal: it broke other functions. Retype only with a full consistent rewrite.
 - Permuter output is preprocessed: only take the function body (apply_permuted does this).
 

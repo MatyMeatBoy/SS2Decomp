@@ -1,6 +1,6 @@
 #include "global.h"
 
-extern void sub_0805AB20(void *arg0);
+extern u32 sub_0805AB20(void *arg0);
 
 #ifdef NONMATCHING
 void sub_08058790(void)
@@ -321,7 +321,18 @@ void sub_08058D98(s32 value)
     sub_0805AB20(&request);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058D98);
+s32 sub_08058D98(s32 value)
+{
+    struct {
+        u16 kind;
+        u16 pad02;
+        s32 value;
+        u8 pad08[8];
+    } request;
+    request.kind = 10;
+    request.value = value;
+    return sub_0805AB20(&request);
+}
 #endif
 #ifdef NONMATCHING
 s32 sub_08058DB0(void)

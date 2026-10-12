@@ -15,3 +15,11 @@ sub_080168FC (102 lines, 204 bytes): near. Only register allocation differs (arg
 
 sub_08016C88 (97 lines, 184 bytes): near. Only 2-3 instruction diffs around qy/t shift placement.
   Matching draft: see git history of this file (not committed). Permuter best score 90.
+
+Later attempts (after main merge):
+sub_080169C8: best permuter score 375 (300 s run). Still register order (i/off).
+sub_080168FC: best permuter score 1090 (300 s run).
+sub_08016D40 (99 lines, 196 bytes): draft 188 bytes, permuter best 1675. Shifts/field-offset ordering differ.
+sub_08016E04 (104 lines, 200 bytes): accumulator draft 192 bytes, permuter best 3295. Struct-table loops.
+sub_08016ECC: existing NONMATCHING draft in src (score 67), not matching; my drafts 86-88 bytes.
+sub_08016A7C: 168 vs 180 bytes; permuter best 1535 (150 s).

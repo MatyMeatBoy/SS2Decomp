@@ -295,7 +295,11 @@ void sub_080579BC(void)
     M2C_FIELD(&gUnk_03003CE0[sub_080020F4()], u16 *, 0x20) = 0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080579BC);
+void sub_080579BC(void)
+{
+    struct Player *p = &gUnk_03003CE0[sub_080020F4()];
+    p->state = 0;
+}
 #endif
 #ifdef NONMATCHING
 void sub_080579D8(u32 index)

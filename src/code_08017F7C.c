@@ -121,17 +121,18 @@ s32 sub_08019D7C(u32 arg0, u32 arg1)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019D7C);
 #endif
-#ifdef NONMATCHING
 u32 sub_08019DE0(u32 value)
 {
-    u8 *entry=*(u8 **)0x030056F4; u32 flags=*(u32 *)0x030056FC, i;
-    for(i=0;i<=4;i++,entry+=0x2E0)
-        if((flags&(1<<i)) && *(u32 *)(entry+0x2C)==value) return 1;
+    u8 *entry = gUnk_030056F4;
+    u32 i = 0;
+    u32 *pf = (u32 *)&gUnk_030056FC;
+    u32 one = 1;
+    s32 flags = *pf;
+    for (; i <= 4; i++, entry += 0x2E0) {
+        if (((one << i) & flags) && *(u32 *)(entry + 0x2C) == value) return 1;
+    }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019DE0);
-#endif
 s32 sub_08019E20(s32 arg0) {
     sub_0800CE30();
     return arg0;
@@ -346,7 +347,6 @@ void sub_0801A500(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A500);
 #endif
-#ifdef NONMATCHING
 void sub_0801A508(void)
 {
     u32 i;
@@ -354,13 +354,10 @@ void sub_0801A508(void)
     gUnk_03005C94 = 0;
     gUnk_03005730 = 0x12;
     sub_0801A558();
-    CpuFastSet(gUnk_080B9AD0, (void *)0x0600C000, 0x380);
+    CpuFastSet(gUnk_080B9AD0, (void *)0x0600C000, 0xE0 << 3);
     for (i = 0; i <= 0x13; i++)
         gUnk_03005C40[i] = 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A508);
-#endif
 #ifdef NONMATCHING
 void sub_0801A558(void)
 {
@@ -469,7 +466,6 @@ void sub_0801A6D4(u32 mode)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A6D4);
 #endif
-#ifdef NONMATCHING
 void sub_0801A70C(void)
 {
     u32 count, i;
@@ -477,24 +473,20 @@ void sub_0801A70C(void)
     count = sub_08007164(4);
     for (i = 0; i < count; i++)
         gUnk_03005CA0[i] = sub_08007290(i | 0x40000);
-    sub_08065158(gUnk_03005C60, 0x5004A, -1, 0, 0);
+    sub_08065158(gUnk_03005C60, 0x5004A, 0, -1, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A70C);
-#endif
-#ifdef NONMATCHING
-void sub_0801A764(const u8 *script, u32 x, u32 y)
+void sub_0801A764(const u8 *script, u16 x, u16 y)
 {
-    while (script[0] != 0xFD && script[0] <= 0xF1) {
-        u32 count = (u16)(script[0] - 1);
+    u32 count;
+    while (1) {
+        if (*script == 0xFD) break;
+        if (*script > 0xF1) break;
+        count = (u16)(*script - 1);
         sub_08065230(gUnk_03005C60, x, y, 0, count);
         x = (u16)(x + 8);
         script++;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A764);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A7AC);
 #ifdef NONMATCHING
 void sub_0801A9BC(void)

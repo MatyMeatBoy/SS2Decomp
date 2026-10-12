@@ -3,7 +3,8 @@ Shard 19 notes (worker/019). Remaining functions after 14 matches.
 sub_0801E0D0 (code_0801AAF8, leaf, 6x halfword add dst+=src):
   best permuter score 395 (base 485), not converged. Tried: a+b / b+a / u16 / s32 / u32 temps,
   statement forms. Compiler loads dst first, original loads src into r2 first.
-sub_0801E438 (code_0801E244): near. Shift tail matches with (x<<19)>>16 and result kept in r4.
+sub_0801E438 (code_0801E244): MATCHED (switch with a full per-case call; a shared call after the switch does not match).
+OLD NOTE: Shift tail matches with (x<<19)>>16 and result kept in r4.
   Branch layout differs: original is beq A; cmp 3; beq B; b end, with a shared call after both blocks.
   Tried: if/else-if, switch, goto, nested if, ternary, n-accumulate. None matched.
 sub_0801E550 (code_0801E244): near. +0x34 pointer load folds into the gUnk symbol; original keeps an
@@ -23,3 +24,11 @@ sub_0801DF4C (code_0801AAF8): void function, arg in r2. Loop stride 0x2E0, bhi u
   Register allocation differs (arg/counter/base order).
 Not started: sub_0801DB94 (241 asm), sub_0801E3D8 (50), sub_0801E5B0 (496), sub_0801E988 (519),
   sub_0801ED8C (194), sub_0801EF14 (133), sub_0801F024 (218).
+
+Update (session 2):
+sub_0801E378 / sub_0801E3D8: per-case switch with two calls per case matches the branch layout; the only
+  difference is register numbering (original: arg0 in r5, first in r4). Declaration-order permutations did not fix it.
+  Permuter (240s) only reached score 485 vs 690 base. Not converged.
+sub_0801DEB8: branch sense fixed (`if (item[0x79] == 0) r = 0; else r = call`). Remaining diff: halfword load and
+  the 0xB0000 orr operand order (value first in original). Temps and operand swaps did not change it.
+sub_0801E324: permuter could not compile the base (s32-param form); not run further.

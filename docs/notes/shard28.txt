@@ -1,0 +1,18 @@
+shard 28 (worker/028) notes
+
+sub_0802C144 (348 bytes, code_08028AAC) - NOT matched. Best draft 352 bytes, ~125 diff lines.
+  Matches: prologue arg setup, Player flag set/clear via `p = sub_080020F4() * 0x14C; p = p + (s32)gUnk_03003CE0;`,
+  sub_0805DF38 call, sprite-init struct on stack (buf[0..5]), sub_08000274 call via cast.
+  Remaining diffs:
+  - loop shape: original is `b COND; INCR: i++, ptr += 0x28; COND: cmp; bhi EXIT; body; bne INCR; BLOCK; EXIT`
+    (top-tested, increment at top). Draft emits bottom-tested loop.
+  - register allocation: original keeps loop pointer in r4, index in r5, iVar4 in r6, fn address in r7.
+    Draft puts pointer in r5 and index in r4.
+  - literal pool padding (.short 0) differs as a consequence.
+  Tried: declaration orders (24 perms of 4 locals), `register` hints, `continue`-style loop, while-loop form,
+  pointer temporaries (p), expression orders for index multiply, permuter 120 s (best candidate 336 bytes, wrong loop shape).
+  Next ideas: write loop as `for (...; i++)` with ptr in a separate outer variable, pre-load fn address before loop,
+  try `do { } while` with explicit break, split the loop into a helper call.
+
+sub_0802B8A4 (1097 asm lines), sub_0802C2A0 (509 asm lines), sub_0802C674 (1173 asm lines) - not attempted.
+  No NONMATCHING drafts exist for shard 28 functions in src/code_08028AAC.c (checked after merging main 0447530).

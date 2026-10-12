@@ -25,3 +25,11 @@ sub_0801F99C, sub_0801FB14, sub_0801FC34, sub_0801FDD0, sub_08020680.
 Ideas not yet tried: do-while instead of if-blocks for F2CC; separate `u32 q` declared
 after `p`; `register` on arg0 for F320; a helper pointer for the struct base instead of
 arg0 offsets.
+
+Session 3 (after merging base with NONMATCHING drafts):
+  nm_drafts.py scores: sub_0801F2CC 54 (ternary draft, no match), sub_0801F320 61.
+  F2CC: swept 16 pointer-form combinations, 120 declaration orders, 24 local type sets,
+  pointer-typed params and a separate tail pointer. Best still 37-48 diff lines. The
+  remaining mismatch is register allocation: original keeps v in r2 and the 0x7C pointer
+  in r1; ours swap them, and the arg1 copy into r4 is missing.
+  Stopping F2CC after ~40 attempts; F320 and FD64 untouched this session.
