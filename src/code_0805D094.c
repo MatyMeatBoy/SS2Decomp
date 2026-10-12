@@ -361,16 +361,20 @@ INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805DE98);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805DF38);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805E0C4);
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EE6C);
-#ifdef NONMATCHING
-s32 sub_0805EEDC(void *arg0) { return *((u8 *)arg0 + 0x30) == 3; }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EEDC);
-#endif
-#ifdef NONMATCHING
-s32 sub_0805EEEC(void *arg0) { return *((u8 *)arg0 + 0x30) == 0; }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EEEC);
-#endif
+u32 sub_0805EEDC(u8 *p)
+{
+    u32 r = 0;
+    if (p[0x30] == 3)
+        r = 1;
+    return r;
+}
+u32 sub_0805EEEC(u8 *p)
+{
+    u32 r = 0;
+    if (p[0x30] == 0)
+        r = 1;
+    return r;
+}
 #ifdef NONMATCHING
 s32 sub_0805EEFC(void *arg0)
 {
@@ -404,15 +408,11 @@ void sub_0805EF2C(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EF2C);
 #endif
-#ifdef NONMATCHING
-void sub_0805EF84(void *arg0, u16 value)
+void sub_0805EF84(u8 *p, u32 v)
 {
-    if (arg0 != NULL)
-        *(u16 *)((u8 *)arg0 + 0x80) = value;
+    if (p != 0)
+        *(u16 *)(p + 0x80) = v;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EF84);
-#endif
 #ifdef NONMATCHING
 u32 sub_0805EF90(void)
 {

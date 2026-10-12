@@ -353,14 +353,10 @@ void sub_08058E14(s32 arg0) {
 void sub_08058E28(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) & ~(1 << arg0));
 }
-#ifdef NONMATCHING
 s32 sub_08058E3C(s32 bit)
 {
     return (M2C_FIELD(gUnk_03005CF4, u32 *, 0x6C) & (1 << bit)) != 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058E3C);
-#endif
 #ifdef NONMATCHING
 void sub_08058E54(void)
 {

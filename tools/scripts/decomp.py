@@ -34,7 +34,7 @@ AGBCC = os.path.join(ROOT, "tools/agbcc/bin/agbcc")
 M2C = os.environ.get("M2C", os.path.join(ROOT, "tools/m2c/m2c.py"))
 VALID_SYNTAX = False
 AGBCC = os.environ.get("DECOMP_CC1", AGBCC)
-CC1FLAGS = ["-mthumb-interwork", "-Wimplicit", "-Wparentheses", "-O2", "-fhex-asm"]
+CC1FLAGS = ["-mthumb-interwork", "-Wimplicit", "-Wparentheses", "-O2", "-fhex-asm", "-fprologue-bugfix"]
 CPPFLAGS = ["-nostdinc", "-I", os.path.join(ROOT, "tools/agbcc/include"),
             "-iquote", os.environ.get("DECOMP_INC", os.path.join(ROOT, "include")), "-undef"] + \
            os.environ.get("DECOMP_CPPFLAGS", "").split()

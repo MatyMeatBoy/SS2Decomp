@@ -208,14 +208,12 @@ INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091CF8);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091E94);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091F20);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091F9C);
-#ifdef NONMATCHING
-s32 sub_08092080(void)
+u32 sub_08092080(void)
 {
-    return gUnk_03000168 == 0xD;
+    if (gUnk_03000168 == 0xD)
+        return 1;
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092080);
-#endif
 void sub_08092094(void) {
     gUnk_03000168 = 0;
 }

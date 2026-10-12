@@ -16,7 +16,7 @@ CC1       := tools/agbcc/bin/agbcc
 ASFLAGS   := -mcpu=arm7tdmi -I .
 NM_FLAGS  :=
 CPPFLAGS  := -nostdinc -I tools/agbcc/include -iquote include -undef $(NM_FLAGS)
-CC1FLAGS  := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm
+CC1FLAGS  := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm -fprologue-bugfix
 
 SHELL     := /bin/bash -o pipefail
 
@@ -51,20 +51,13 @@ asm_deps = $(wildcard asm/nonmatchings/$(1)/*.s)
 
 # The SDK's m4a.c was built with an older agbcc
 CC1_m4a := tools/agbcc/bin/old_agbcc
+CC1FLAGS_m4a := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm
 
 # The SDK's flash library was prebuilt with -O1
 CC1FLAGS_agb_flash := -O1 -mthumb-interwork
 
-CC1_video := tools/agbcc/bin/old_agbcc
 
-CC1_code_08001A50 := tools/agbcc/bin/old_agbcc
-CC1_code_08009088 := tools/agbcc/bin/old_agbcc
-CC1_code_08002118 := tools/agbcc/bin/old_agbcc
-CC1_code_0801E244 := tools/agbcc/bin/old_agbcc
-CC1_code_0801AAF8 := tools/agbcc/bin/old_agbcc
-CC1_code_08017F7C := tools/agbcc/bin/old_agbcc
 
-CC1_code_080016C8 := tools/agbcc/bin/old_agbcc
 
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)

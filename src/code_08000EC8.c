@@ -120,7 +120,6 @@ void sub_08001180(void)
     REG_IF = 1;
     gUnk_03007FF8 |= 1;
 }
-#ifdef NONMATCHING
 u32 sub_080011E4(void *p)
 {
     u32 r;
@@ -136,9 +135,6 @@ u32 sub_080011E4(void *p)
     }
     return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_080011E4);
-#endif
 void sub_08001204(void)
 {
     sub_08009014();

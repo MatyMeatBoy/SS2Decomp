@@ -80,7 +80,6 @@ u32 sub_080687A8(const u8 *arg0)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080687A8);
 #endif
-#ifdef NONMATCHING
 s32 sub_080687E8(void)
 {
     u8 *p;
@@ -94,9 +93,6 @@ s32 sub_080687E8(void)
     gUnk_03006338++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080687E8);
-#endif
 #ifdef NONMATCHING
 u32 sub_08068820(void *a, void *b, void *c)
 {
@@ -126,7 +122,6 @@ s32 sub_0806886C(void) {
 s32 sub_08068870(void) {
     return 1;
 }
-#ifdef NONMATCHING
 void *sub_08068874(void)
 {
     void *p = (void *)gUnk_03006300;
@@ -134,9 +129,6 @@ void *sub_08068874(void)
         return p;
     return NULL;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068874);
-#endif
 s32 sub_0806888C(void)
 {
     u8 buf[136];

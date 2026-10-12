@@ -29,7 +29,8 @@ agent-written C is valid agbcc C89). `tools/scripts/c89fix.py` converts C99 styl
 - `tools/config/functions.cfg` function list (`thumb|arm 0xADDR [name]`), `modules.cfg` (`addr name c|asm|linked game|lib`)
 - `include/` global.h, structs.h, variables.h, functions.h (auto-appended decls), gba/*, m4a.h
 - Per-module compiler is set in `Makefile`: `CC1_<module> := tools/agbcc/bin/old_agbcc`, `CC1FLAGS_<module>`.
-  Default agbcc -O2. old_agbcc: m4a, video, code_08001A50, code_08009088, code_08002118, code_0801E244, code_0801AAF8, code_08017F7C. agb_flash is -O1.
+  ALL game code: agbcc -O2 -fprologue-bugfix (found by cc_scan.py: superset of every agbcc and old_agbcc match; leaf functions end in
+  `bx lr` without `push {lr}`). m4a: old_agbcc (no bugfix flag). agb_flash: -O1.
   Use `tools/scripts/which_cc.py` to detect the compiler of a new module (split with `split_module.py ADDR NAME --cc1 ...`).
 - docs/RESEARCH.md research notes; README.md progress treemap (`make progress`).
 

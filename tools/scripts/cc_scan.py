@@ -7,15 +7,22 @@ sys.path.insert(0, os.path.dirname(__file__))
 import decomp
 ROOT = decomp.ROOT
 CCS = [os.path.join(ROOT, "tools/agbcc/bin/agbcc"), os.path.join(ROOT, "tools/agbcc/bin/old_agbcc")]
+FLAGS = [None, None]
+if os.environ.get("CC_SCAN_BUGFIX"):
+    CCS = [os.path.join(ROOT, "tools/agbcc/bin/agbcc")]
+    FLAGS = ["-mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm -fprologue-bugfix"]
 out = open(sys.argv[1], "w")
 kinds = {}
 for l in open(os.path.join(ROOT, "tools/config/modules.cfg")):
     p = l.split()
     if len(p) > 3 and not l.startswith("#"): kinds[p[1]] = (p[2], p[3])
 
-def score(func, path, cc):
+def score(func, path, cc, fl=None):
     buf = io.StringIO()
+    if fl: os.environ["DECOMP_CFLAGS"] = fl
+    else: os.environ.pop("DECOMP_CFLAGS", None)
     os.environ["DECOMP_CC1"] = cc
+    decomp.AGBCC = cc
     try:
         with contextlib.redirect_stdout(buf):
             ok = decomp.check(func, path, verbose=True)
@@ -40,5 +47,5 @@ for fn in sorted(os.listdir(os.path.join(ROOT, "src"))):
         with tempfile.TemporaryDirectory() as td:
             c = os.path.join(td, name + ".c")
             open(c, "w").write(prelude + "\n" + funcs[name] + "\n")
-            s = [score(name, c, cc) for cc in CCS]
+            s = [score(name, c, cc, fl) for cc, fl in zip(CCS, FLAGS)] + [0] * (2 - len(CCS))
         out.write("%s %s %s %d %d\n" % (mod, name, "draft" if name in drafts else "c", s[0], s[1])); out.flush()

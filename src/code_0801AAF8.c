@@ -1,15 +1,11 @@
 #include "global.h"
 
-#ifdef NONMATCHING
 s32 sub_0801AAF8(void)
 {
     if (gUnk_03000026 == 1 && gUnk_03000022 > gUnk_03000020)
         return 1;
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AAF8);
-#endif
 #ifdef NONMATCHING
 u32 sub_0801AB24(void)
 {
