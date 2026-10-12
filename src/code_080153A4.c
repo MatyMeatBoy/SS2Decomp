@@ -243,7 +243,79 @@ INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080168FC);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080169C8);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016C88);
+s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
+{
+  s16 dx;
+  s16 dy;
+  u32 angle;
+  u32 idx;
+  u32 t;
+  s16 px;
+  s16 py;
+  s16 qx;
+  s16 qy;
+  s32 s0;
+  u32 *new_var;
+  s0 = arg0 << 8;
+  t = arg1 << 8;
+  px = arg2;
+  qx = s0 >> 16;
+  dx = px - qx;
+  py = arg3;
+  qy = (s16) (t >> 16);
+  new_var = &t;
+  dy = py - qy;
+  if (Sqrt((dx * dx) + (dy * dy)) > ((s16) arg4))
+  {
+    angle = ArcTan2(dx, dy);
+    t = angle << 19;
+    idx = angle >> 13;
+    if ((*new_var) > 0x80000000)
+    {
+      if (idx <= 6)
+      {
+        idx++;
+      }
+      else
+      {
+        idx = 0;
+      }
+    }
+    if (idx > 7)
+    {
+      return 0;
+    }
+    switch (idx)
+    {
+      case 0:
+        return 0x10;
+
+      case 1:
+        return 0x90;
+
+      case 2:
+        return 0x80;
+
+      case 3:
+        return 0xA0;
+
+      case 4:
+        return 0x20;
+
+      case 5:
+        return 0x60;
+
+      case 6:
+        return 0x40;
+
+      case 7:
+        return 0x50;
+
+    }
+
+  }
+  return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016D40);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
 #ifdef NONMATCHING
