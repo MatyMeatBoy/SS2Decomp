@@ -137,18 +137,11 @@ void *sub_08068874(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068874);
 #endif
-#ifdef NONMATCHING
-s32 sub_0806888C(void)
-{
-    return 1;
-}
-#else
 s32 sub_0806888C(void)
 {
     u8 buf[136];
     return 1;
 }
-#endif
 #ifdef NONMATCHING
 void sub_08068894(u32 a, u32 b)
 {

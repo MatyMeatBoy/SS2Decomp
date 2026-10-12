@@ -14,7 +14,8 @@ CPP       := $(PREFIX)cpp
 CC1       := tools/agbcc/bin/agbcc
 
 ASFLAGS   := -mcpu=arm7tdmi -I .
-CPPFLAGS  := -nostdinc -I tools/agbcc/include -iquote include -undef
+NM_FLAGS  :=
+CPPFLAGS  := -nostdinc -I tools/agbcc/include -iquote include -undef $(NM_FLAGS)
 CC1FLAGS  := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm
 
 SHELL     := /bin/bash -o pipefail
@@ -28,13 +29,17 @@ OBJS      := $(C_SRCS:%.c=$(BUILD)/%.o) $(ASM_SRCS:%.s=$(BUILD)/%.o) $(DATA_SRCS
 .SECONDEXPANSION:
 .SECONDARY:
 .DELETE_ON_ERROR:
-.PHONY: all compare clean progress
+.PHONY: all compare clean progress nonmatching
 
 all: $(ROM)
 
 compare: $(ROM)
 	@sha1sum -c $(NAME).sha1
 	@$(PREFIX)nm $(ELF) | awk 'NF==3 {print $$1, $$3, $$2}' > $(BUILD)/ref.syms
+
+# Build with the C drafts of #ifdef NONMATCHING blocks instead of the original asm (not byte identical; used to check that every draft compiles/links).
+nonmatching:
+	$(MAKE) BUILD=build_nm NAME=shiningsoul2_nm NM_FLAGS=-DNONMATCHING all
 
 clean:
 	rm -rf $(BUILD) $(ROM) $(ELF) $(MAP)
@@ -77,8 +82,15 @@ $(BUILD)/data/%.o: data/%.s baserom.gba
 	@mkdir -p $(@D)
 	$(AS) $(ASFLAGS) -o $@ $<
 
-$(ELF): $(OBJS) ld_script.ld sym_ram.ld
-	$(LD) -T ld_script.ld -Map $(MAP) -o $@ $(OBJS) -L tools/agbcc/lib -lgcc -lc
+$(BUILD)/ld_script.ld: ld_script.ld
+	@mkdir -p $(BUILD)
+	sed 's#build/#$(BUILD)/#g' $< > $@
+ifneq ($(NM_FLAGS),)
+	sed -i -e 's#\*libc.a:memcpy.o(.text);#*libc.a:*(.text);#' -e 's#^\( *\)$(BUILD)/data/rodata.o(.rodata);#&\n\1$(BUILD)/src/*.o(.rodata);\n\1*libc.a:*(.rodata);#' $@
+endif
+
+$(ELF): $(OBJS) $(BUILD)/ld_script.ld sym_ram.ld
+	$(LD) -T $(BUILD)/ld_script.ld -Map $(MAP) -o $@ $(OBJS) -L tools/agbcc/lib -lgcc -lc
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF $< $@

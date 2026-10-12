@@ -338,9 +338,9 @@ void sub_080B2424(void) {
 #ifdef NONMATCHING
 void sub_080B2454(void)
 {
-    u8 *obj=*(u8 **)0x030007AC; if(!obj)return;
+    u8 *obj=*(u8 **)0x030007AC; u32 mem; if(!obj)return;
     if(!sub_08000470((u32)obj)&&*(u32 *)(obj+8)==0)return;
-    u32 mem; do { mem=sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; sub_080003F0(); } while(!mem);
+    do { mem=sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; sub_080003F0(); } while(!mem);
     *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0xC)=(u32)sub_080B2200;
     *(u32 *)(obj+0x24)=0; *(u32 *)(obj+8)=0x44; sub_08000274(obj,0,0);
 }

@@ -254,6 +254,8 @@ INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080920E4);
 #ifdef NONMATCHING
 void sub_08092124(void)
 {
+    u32 *callbacks;
+    u8 *task;
     void sub_08090B84(void);
     void sub_08090E38(void);
     void sub_080910A8(void);
@@ -263,8 +265,8 @@ void sub_08092124(void)
     void sub_08091938(void);
     void sub_08091B5C(void);
     void sub_08091CF8(void);
-    u32 *callbacks = (u32 *)0x03000198;
-    u8 *task = (u8 *)0x03000170;
+    callbacks = (u32 *)0x03000198;
+    task = (u8 *)0x03000170;
 
     *(u32 *)0x0300016C = 0;
     callbacks[0] = (u32)sub_08090B84;
@@ -287,12 +289,14 @@ INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092124);
 #ifdef NONMATCHING
 void sub_08092190(void)
 {
+    u8 *task;
+    u32 mem;
     s32 index = (s16)sub_0800086C();
     index %= 9;
     if (index < 0) index = -index;
-    u8 *task = (u8 *)0x03000170;
+    task = (u8 *)0x03000170;
     *(u32 *)(task + 0xC) = *(u32 *)((u8 *)0x03000198 + index * 4);
-    u32 mem = sub_08001494(0x400);
+    mem = sub_08001494(0x400);
     *(u32 *)(task + 0x20) = mem;
     *(u32 *)(task + 0x10) = mem + 0x3FC;
     sub_08000274((u32)task, 0, 0);
@@ -353,10 +357,13 @@ s32 sub_080923B0(void) {
 #ifdef NONMATCHING
 void sub_080923B4(u32 index, u32 packed)
 {
+    s32 a;
+    s32 b;
+    u32 slot;
     typedef void (*Callback)(s32, s32);
-    s32 a = (s8)(packed >> 8);
-    s32 b = (s8)packed;
-    u32 slot = index * 4;
+    a = (s8)(packed >> 8);
+    b = (s8)packed;
+    slot = index * 4;
     ((Callback *)((u8 *)gUnk_03000210 + slot))[0](a, b);
     ((Callback *)((u8 *)gUnk_03000230 + slot))[0](a, b);
     sub_08000420(0x12001111);

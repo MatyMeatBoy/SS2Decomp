@@ -53,10 +53,12 @@ void sub_0805A704(void) {
 #ifdef NONMATCHING
 u32 sub_0805A71C(u32 key, u32 value)
 {
-    for (u32 i = 0; i <= 2; i++) {
+    u32 i;
+    for (i = 0; i <= 2; i++) {
+        u8 *entry;
         if ((*(u32 *)0x03005CFC & (1u << i)) == 0)
             continue;
-        u8 *entry = (u8 *)0x03005D00 + i * 0xC;
+        entry = (u8 *)0x03005D00 + i * 0xC;
         if (*(u32 *)entry == key && *(u32 *)(entry + 4) == (u16)value && *(u32 *)(entry + 8) != 0)
             return i + 4;
     }
@@ -84,11 +86,14 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A780);
 #ifdef NONMATCHING
 u32 sub_0805A7C4(u32 id, u32 x, u32 y)
 {
+    u32 i;
     u8 *owner = *(u8 **)0x03005CF4;
     u8 *entry = owner + 0x7A4;
-    for (u32 i = 0; i <= 0xE; i++, entry += 0x70) {
+    for (i = 0; i <= 0xE; i++, entry += 0x70) {
+        u32 bit;
+        u32 mem;
         if (sub_08000470((u32)(entry + 0x48)) != 0) continue;
-        u32 bit = 1u << i;
+        bit = 1u << i;
         *(u32 *)(owner + 0x54) |= bit;
         *(u32 *)entry = *(u32 *)(owner + 0x4C);
         (*(u32 *)(owner + 0x4C))++;
@@ -97,7 +102,7 @@ u32 sub_0805A7C4(u32 id, u32 x, u32 y)
         *(u32 *)(entry + 8) = x << 8;
         *(u32 *)(entry + 0xC) = y << 8;
         *(u32 *)(entry + 0x50) = 0x3C;
-        u32 mem = sub_08001494(0x400);
+        mem = sub_08001494(0x400);
         *(u32 *)(entry + 0x68) = mem;
         *(u32 *)(entry + 0x54) = (u32)sub_080284F4;
         *(u32 *)(entry + 0x58) = mem + 0x3FC;
@@ -131,10 +136,11 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A874);
 #ifdef NONMATCHING
 void *sub_0805A8F8(u32 arg, u32 callback)
 {
+    u32 i;
     u8 *entry = *(u8 **)0x03005CF4 + 0x12E4;
-    for (u32 i = 0; i <= 0x1D; i++, entry += 0x28) {
-        if (sub_08000470((u32)entry) != 0) continue;
+    for (i = 0; i <= 0x1D; i++, entry += 0x28) {
         u32 mem;
+        if (sub_08000470((u32)entry) != 0) continue;
         do {
             mem = sub_08001494(0x400);
             if (mem == 0) sub_080003F0();
@@ -164,12 +170,14 @@ void *sub_0805A960(u32 value)
 #ifdef NONMATCHING
 void sub_0805A994(u32 index, u32 a, u32 b)
 {
+    u32 bit;
+    u8 *entry;
     if (index == 0)
         return;
-    u32 bit = 1u << (index - 1);
+    bit = 1u << (index - 1);
     while ((gUnk_030056FC & bit) == 0)
         sub_080003F0();
-    u8 *entry = (u8 *)gUnk_030056F4 + (index - 1) * 0x2E0;
+    entry = (u8 *)gUnk_030056F4 + (index - 1) * 0x2E0;
     *(u32 *)(entry + 0x38) = a;
     *(u32 *)(entry + 0x3C) = b;
     *(u32 *)(entry + 0x30) = 0;
@@ -244,13 +252,17 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AAB8);
 #ifdef NONMATCHING
 u32 sub_0805AB20(u8 *item)
 {
+    u32 i;
     u8 *base = *(u8 **)0x030034E0;
     u32 remaining = *(u32 *)(item + 4);
     if (*(u16 *)item == 0xA) {
         for (;;) {
+            u32 i;
+            u8 *entry;
+            u32 sum;
             s32 best = -1;
             u32 bestValue = 0;
-            for (u32 i = 0; i <= 0x18; i++) {
+            for (i = 0; i <= 0x18; i++) {
                 u8 *entry = base + 0x2E0 + i * 0x10;
                 u32 value = *(u32 *)(entry + 4);
                 if (*(u16 *)entry == 0xA && value > bestValue && value != 100000) {
@@ -260,8 +272,8 @@ u32 sub_0805AB20(u8 *item)
             }
             if (best < 0)
                 break;
-            u8 *entry = base + 0x2E0 + best * 0x10;
-            u32 sum = bestValue + remaining;
+            entry = base + 0x2E0 + best * 0x10;
+            sum = bestValue + remaining;
             if (sum <= 100000) {
                 *(u32 *)(entry + 4) = sum;
                 return 1;
@@ -271,7 +283,7 @@ u32 sub_0805AB20(u8 *item)
             *(u32 *)(item + 4) = remaining;
         }
     }
-    for (u32 i = 0; i <= 0x18; i++) {
+    for (i = 0; i <= 0x18; i++) {
         u8 *entry = base + 0x2E0 + i * 0x10;
         if (*(u16 *)entry == 0) {
             sub_0805CFF8(i, (const u32 *)item);
@@ -286,15 +298,20 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AB20);
 #ifdef NONMATCHING
 u32 sub_0805AC08(u8 *item)
 {
+    u32 remaining;
+    u32 i;
     u8 *base = *(u8 **)0x030034E0;
     u32 limit = *(u16 *)(base + 0x6A) * 14;
     if (limit > 0x18) limit = 0x19;
-    u32 remaining = *(u32 *)(item + 4);
+    remaining = *(u32 *)(item + 4);
     if (*(u16 *)item == 0xA) {
         for (;;) {
+            u32 i;
+            u8 *entry;
+            u32 sum;
             s32 best = -1;
             u32 bestValue = 0;
-            for (u32 i = 0; i < limit; i++) {
+            for (i = 0; i < limit; i++) {
                 u8 *entry = base + 0x2E0 + i * 0x10;
                 u32 value = *(u32 *)(entry + 4);
                 if (*(u16 *)entry == 0xA && value > bestValue && value != 100000) {
@@ -303,8 +320,8 @@ u32 sub_0805AC08(u8 *item)
                 }
             }
             if (best < 0) break;
-            u8 *entry = base + 0x2E0 + best * 0x10;
-            u32 sum = bestValue + remaining;
+            entry = base + 0x2E0 + best * 0x10;
+            sum = bestValue + remaining;
             if (sum <= 100000) {
                 *(u32 *)(entry + 4) = sum;
                 return 1;
@@ -314,7 +331,7 @@ u32 sub_0805AC08(u8 *item)
             *(u32 *)(item + 4) = remaining;
         }
     }
-    for (u32 i = 0; i < 0x19; i++) {
+    for (i = 0; i < 0x19; i++) {
         u8 *entry = base + 0x2E0 + i * 0x10;
         if (*(u16 *)entry == 0) {
             sub_0805D028(i, (const u32 *)item);
@@ -347,15 +364,18 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD18);
 #ifdef NONMATCHING
 void sub_0805AD78(u32 index)
 {
+    u32 i;
+    u8 *item;
     u8 *states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
     u8 *table = *(u8 **)0x030034E0;
-    for (u32 i = 0; i < states[0x77]; i++)
+    for (i = 0; i < states[0x77]; i++)
         table[i * 0x10 + 0x79] = 0;
-    u8 *item = table + index * 0x10;
+    item = table + index * 0x10;
     if (*(u16 *)(item + 0x70) == 2) {
         if (sub_0805AE34(item + 0x70)) {
+            u8 *resource;
             item[0x79] = 1;
-            u8 *resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB00000);
+            resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB00000);
             states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
             *(u16 *)(states + 0x10) = resource[0x9B];
         } else {
@@ -374,10 +394,12 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD78);
 #ifdef NONMATCHING
 u32 sub_0805AE34(const u8 *item)
 {
+    u8 *resource;
+    u32 state;
     if (item == 0 || *(u16 *)item != 2 || item[8] != 0)
         return 0;
-    u8 *resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB00000);
-    u32 state = sub_0801DE60();
+    resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB00000);
+    state = sub_0801DE60();
     if (((*(u16 *)(resource + 0xAE) >> state) & 1) == 0)
         return 0;
     if (resource[0x9B] == 9)
@@ -391,6 +413,7 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
 #ifdef NONMATCHING
 u32 sub_0805B068(const u8 *item)
 {
+    u32 divisor;
     u32 value = 0;
     u16 type = *(u16 *)item;
     if (type >= 2 && type <= 5) {
@@ -398,7 +421,7 @@ u32 sub_0805B068(const u8 *item)
         u8 *resource = (u8 *)sub_08007290(id);
         value = *(u32 *)(resource + (type == 2 ? 0xA0 : 0x9C));
     }
-    u32 divisor = 10;
+    divisor = 10;
     while (sub_08057C34(divisor) == 0 && divisor > 1)
         divisor--;
     if (sub_0800CE30() != 0)
@@ -413,13 +436,14 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B068);
 #ifdef NONMATCHING
 u32 sub_0805B0F0(void)
 {
+    u32 i;
     u8 *base = *(u8 **)0x030034E0;
     u32 total = 0;
     u8 *entry = base + 0x150;
-    for (u32 i = 0; i <= 0x18; i++, entry += 0x10)
+    for (i = 0; i <= 0x18; i++, entry += 0x10)
         if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
     entry = base + 0x2E0;
-    for (u32 i = 0; i <= 0x4A; i++, entry += 0x10)
+    for (i = 0; i <= 0x4A; i++, entry += 0x10)
         if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
     return total;
 }
@@ -430,20 +454,23 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B140);
 #ifdef NONMATCHING
 void sub_0805B21C(void)
 {
+    u32 i;
+    u32 *buffer;
+    u8 *task;
     u32 *slots = (u32 *)0x03005D58;
     u32 *secondary = (u32 *)0x03005D60;
     *slots = sub_08001494(0x200);
     *secondary = sub_08001494(0xF0);
-    for (u32 i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
         u16 zero = 0;
         CpuSet(&zero, (u8 *)*slots + i * 0x20, 0x01000010);
     }
-    u32 *buffer = (u32 *)0x03000124;
+    buffer = (u32 *)0x03000124;
     *buffer = sub_08001494(0x1B9);
-    for (u32 i = 0; i <= 0x1B8; i++)
+    for (i = 0; i <= 0x1B8; i++)
         ((u8 *)*buffer)[i] = 0;
     *(u16 *)0x03005D5C = 1;
-    u8 *task = (u8 *)0x03005D30;
+    task = (u8 *)0x03005D30;
     *(u32 *)(task + 0xC) = (u32)sub_0805B140;
     *(u32 *)(task + 0x20) = sub_08001494(0x400);
     *(u32 *)(task + 0x10) = *(u32 *)(task + 0x20) + 0x3FC;
@@ -459,11 +486,12 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B4CC);
 #ifdef NONMATCHING
 void *sub_0805B618(void)
 {
+    u32 i;
     u8 *base = *(u8 **)0x03005D58;
     u32 active = 0;
     u32 lowest = 0x11170;
     u32 lowestIndex = 0;
-    for (u32 i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
         u8 *slot = base + i * 0x20;
         if (*(u16 *)(slot + 0xA) & (1u << i)) {
             active++;
@@ -475,7 +503,7 @@ void *sub_0805B618(void)
     }
     if (active > 15)
         *(u16 *)(base + lowestIndex * 0x20 + 0xA) = 0;
-    for (u32 i = 0; i < 16; i++) {
+    for (i = 0; i < 16; i++) {
         u8 *slot = base + i * 0x20;
         if ((*(u16 *)(slot + 0xA) & 3) == 0)
             return slot;
@@ -491,6 +519,14 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C208);
 #ifdef NONMATCHING
 u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
 {
+    u32 roll;
+    u8 *table;
+    u32 special;
+    u8 *group;
+    u32 n;
+    u32 pick;
+    u8 *entry;
+    u32 i;
     *(u32 *)out = 0;
     if (count == 0) {
         *(u16 *)out = 0;
@@ -498,23 +534,25 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
         return 0;
     }
     count--;
-    u32 roll = sub_080008C8() % 100;
-    u8 *table = (u8 *)0x084E6DD8 + count * 36;
-    u32 special = (*(u16 *)(table + 0) >= roll);
+    roll = sub_080008C8() % 100;
+    table = (u8 *)0x084E6DD8 + count * 36;
+    special = (*(u16 *)(table + 0) >= roll);
     if (category == 8) category = 6;
-    u8 *group = *(u8 **)(table + 4 + category * 4);
-    u32 n = *(u16 *)group;
-    u32 pick = sub_080008C8() % (*(u16 *)(group + 2) + 1);
-    u8 *entry = group + 8;
-    for (u32 i = 0; i < n; i++, entry += 8) {
+    group = *(u8 **)(table + 4 + category * 4);
+    n = *(u16 *)group;
+    pick = sub_080008C8() % (*(u16 *)(group + 2) + 1);
+    entry = group + 8;
+    for (i = 0; i < n; i++, entry += 8) {
         u16 limit = *(u16 *)(entry + 4);
         if (pick <= limit) {
             *(u16 *)out = *(u16 *)entry;
             *(u16 *)(out + 2) = *(u16 *)(entry + 2);
             if (*(u16 *)out == 0xA) {
+                u32 span;
+                u32 extra;
                 *(u32 *)(out + 4) = pick;
-                u32 span = *(u16 *)(entry + 2);
-                u32 extra = sub_080008C8() % ((span * 15) / 10);
+                span = *(u16 *)(entry + 2);
+                extra = sub_080008C8() % ((span * 15) / 10);
                 if (extra < span / 2) extra = span / 2;
                 *(u32 *)(out + 4) = extra;
             }
@@ -537,8 +575,9 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C7B8);
 #ifdef NONMATCHING
 void sub_0805CB04(u32 index, u8 *out)
 {
+    u32 i;
     const u8 *table = (const u8 *)gUnk_084EB7E8 + index * 0x30;
-    for (u32 i = 0; i <= 0xB; i++, table += 4, out += 0x10) {
+    for (i = 0; i <= 0xB; i++, table += 4, out += 0x10) {
         u16 type = *(u16 *)table;
         *(u16 *)out = type;
         *(u16 *)(out + 2) = *(u16 *)(table + 2);
@@ -602,13 +641,14 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CFF8);
 #ifdef NONMATCHING
 void sub_0805D028(u32 index, const u32 *src)
 {
+    u32 *dst;
     u8 *base = *(u8 **)0x030034E0;
     u32 count = *(u16 *)(base + 0x6A);
     u32 limit = count * 15 - count;
     index = (u8)index;
     if (index >= limit)
         index = 0;
-    u32 *dst = (u32 *)(base + 0x2E0 + index * 0x10);
+    dst = (u32 *)(base + 0x2E0 + index * 0x10);
     dst[0] = src[0];
     dst[1] = src[1];
     dst[2] = src[2];

@@ -1,8 +1,8 @@
 #include "global.h"
 #include "lib/agb_flash/agb_flash.h"
+#include "lib/agb_flash/flash_internal.h"
 
 extern u8 gUnk_03000018;
-extern u16 (*ProgramFlashSector)(u16, u8 *);
 extern u32 VerifyFlashSector(u16 sectorNum, u8 *src);
 extern u32 gUnk_03002740[];
 extern void sub_080022A4(void);
@@ -117,7 +117,6 @@ INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001BE4);
 #ifdef NONMATCHING
 s32 sub_08001DF0(u32 playerId)
 {
-    extern u8 gUnk_03002710[];
     volatile u8 *buffer;
     u32 flags;
     u32 activeMask;
@@ -125,6 +124,7 @@ s32 sub_08001DF0(u32 playerId)
     u32 acknowledged;
     u32 currentId;
     u32 i;
+    extern u8 gUnk_03002710[];
 
     playerId = (u8)playerId;
     flags = *(volatile u32 *)&gUnk_030027D0;

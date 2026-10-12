@@ -31,11 +31,13 @@ INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080153A4);
 #ifdef NONMATCHING
 void sub_08015464(void)
 {
+    u16 *done;
+    u16 mode;
     u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
     u16 saved = *(u16 *)(state + 0x26);
     if (*(u16 *)(state + 0x20) != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(saved + 0xF9);
-    u16 *done = (u16 *)(state + 0xB6);
+    done = (u16 *)(state + 0xB6);
     if (*done == 0 && *(u16 *)(state + 0x20) == 5) {
         u32 *counter = (u32 *)(state + 0xDC);
         do {
@@ -45,7 +47,7 @@ void sub_08015464(void)
             sub_080003F0();
         } while (*done == 0 && *(u16 *)(state + 0x20) == 5);
     }
-    u16 mode = *(u16 *)(state + 0x20);
+    mode = *(u16 *)(state + 0x20);
     if (mode < 0xA || mode > 0xB) {
         if ((*(u32 *)(state + 0x30) & 0x4000) == 0)
             *(u16 *)(state + 0x20) = 0;
@@ -339,15 +341,15 @@ INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016ECC);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017C6C);
 s32 sub_08017E34(s32 *arg0) {
-    struct {
-        u16 a;
-        s16 b;
-    } buf;
     u8 *base;
     u32 n;
     u32 i;
     s32 result;
     s16 *pb;
+    struct {
+        u16 a;
+        s16 b;
+    } buf;
 
     sub_0800BC08((((s32) arg0[5]) << 8) >> 0x10, (((s32) arg0[6]) << 8) >> 0x10,
                  &buf.a, &buf.b, 0x30, 0);

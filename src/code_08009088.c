@@ -83,13 +83,6 @@ void sub_0800BA80(u16 i)
         l->x = 0;
     }
 }
-#ifdef NONMATCHING
-void *sub_0800BAA4(s16 x, s16 y)
-{
-    u8 *m = (u8 *)gUnk_03003170.map0;
-    return m + ((x >> 3) + (y >> 3) * gUnk_03003170.width0) * 2;
-}
-#else
 void *sub_0800BAA4(s16 x, s16 y) {
     struct TileSys *t = &gUnk_03003170;
     u16 *m = t->map0;
@@ -98,7 +91,6 @@ void *sub_0800BAA4(s16 x, s16 y) {
     s32 idx = (a >> 3) + (b >> 3) * t->width0;
     return m + idx;
 }
-#endif
 s32 sub_0800BAC4(s32 arg0, s32 arg1) {
     register s32 index asm("r4") = arg1;
     register u8 *table asm("r2") = (u8 *)gUnk_0847846C;

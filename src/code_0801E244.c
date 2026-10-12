@@ -119,18 +119,6 @@ u16 sub_0801E3D8(s32 arg0, u16 value)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E3D8);
 #endif
-#ifdef NONMATCHING
-u16 sub_0801E438(s32 arg0, u32 arg1)
-{
-    u16 value = (u16)arg1;
-    u8 mode = sub_0801DE60();
-    if (mode == 0)
-        value = sub_0801E0AC(arg0, 3) << 3;
-    else if (mode == 3)
-        value = sub_0801E0AC(arg0, 2) << 3;
-    return value;
-}
-#else
 u16 sub_0801E438(s32 arg0, u32 arg1)
 {
     u16 value;
@@ -148,7 +136,6 @@ u16 sub_0801E438(s32 arg0, u32 arg1)
     }
     return value;
 }
-#endif
 s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 temp_r1;
     s32 temp_r1_2;
@@ -225,9 +212,10 @@ s32 sub_0801E538(void)
 #ifdef NONMATCHING
 void sub_0801E550(u16 id, u32 stateIndex, u16 kind, u16 value)
 {
+    u32 i;
     u8 *state = (u8 *)gUnk_03003CE0 + stateIndex * 0x14A + 0x34;
     u8 *entry = *(u8 **)state;
-    for (u32 i = 0; i <= 7; i++, entry += 0x28) {
+    for (i = 0; i <= 7; i++, entry += 0x28) {
         if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == kind &&
             *(u16 *)(entry + 2) == id)
             *(u16 *)(entry + 6) = value;

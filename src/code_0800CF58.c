@@ -382,9 +382,9 @@ void sub_08014C8C(void) {
     if (p->wB6 == 0 && p->state == 5) {
         u32 step = 1;
         do {
-            if (p->wB2 == next || p->wB2 == step) {
-                next = p->wB2;
-                p->wDC++;
+            if ((*(u16 *)((u8 *)p + 0xB2)) == next || (*(u16 *)((u8 *)p + 0xB2)) == step) {
+                next = (*(u16 *)((u8 *)p + 0xB2));
+                (*(u16 *)((u8 *)p + 0xDC))++;
                 step = (step + 3) & 0xFFFF;
             }
             sub_080003F0();

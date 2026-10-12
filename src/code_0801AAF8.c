@@ -118,10 +118,11 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801C8F0);
 #ifdef NONMATCHING
 void sub_0801CC10(s32 index, s16 delta)
 {
+    u8 *target;
     u8 *current = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
     u8 *other = (u8 *)gUnk_03003CE0 + index * 0x14C;
     s32 dx, dy;
-    u8 *target = *(u8 **)(other + 0x148);
+    target = *(u8 **)(other + 0x148);
     dx = ((*(s32 *)(current + 0x8C) << 5) >> 16) - ((s16)(*(u16 *)target >> 7));
     if (dx < 0) dx = -dx;
     dy = ((*(s32 *)(current + 0x90) << 5) >> 16) - ((s16)((*(u16 *)(target + 2) << 20) >> 23));
@@ -220,10 +221,11 @@ void sub_0801DF08(void) {
 #ifdef NONMATCHING
 u32 sub_0801DF4C(u16 id)
 {
+    u32 i;
     u8 *base = *(u8 **)0x030056F4;
     if (*(u16 *)(base + 2) == id)
         return 0;
-    for (u32 i = 1; i <= 4; i++)
+    for (i = 1; i <= 4; i++)
         if (*(u16 *)(base + i * 0x2E0 + 2) == id)
             return i;
     return 5;

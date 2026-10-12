@@ -285,7 +285,7 @@ void sub_08097D70(void)
 #ifdef NONMATCHING
 void sub_08097D7C(u32 angle, u32 scale)
 {
-    u8 *state = (u8 *)gUnk_030002A0;
+    u8 *state = (u8 *)&gUnk_030002A0;
     state[0xE] = state[0xD];
     if (state[0xF] == 0) {
         const s16 *table = (const s16 *)gUnk_080B9704;

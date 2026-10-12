@@ -49,11 +49,13 @@ s32 sub_08019C8C(void)
 {
     u32 flags = *(u32 *)0x030056FC;
     if (sub_0800CDC0() != 0) {
-        for (s32 i = 4; i >= 0; i--)
+        s32 i;
+        for (i = 4; i >= 0; i--)
             if ((flags & (1u << i)) == 0)
                 return i;
     } else {
-        for (s32 i = 0; i <= 4; i++)
+        s32 i;
+        for (i = 0; i <= 4; i++)
             if ((flags & (1u << i)) == 0)
                 return i;
     }
@@ -90,12 +92,15 @@ INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_08019CE8);
 #ifdef NONMATCHING
 u32 sub_08019D34(u32 value)
 {
+    u8 *entry;
+    u32 flags;
+    u32 i;
     value &= 0xFFFF;
     if (value == 0)
         return 0;
-    u8 *entry = *(u8 **)0x030056F4;
-    u32 flags = *(u32 *)0x030056FC;
-    for (u32 i = 0; i <= 4; i++, entry += 0x2E0) {
+    entry = *(u8 **)0x030056F4;
+    flags = *(u32 *)0x030056FC;
+    for (i = 0; i <= 4; i++, entry += 0x2E0) {
         if ((flags & (1u << i)) != 0 && *(u16 *)(entry + 2) == value)
             return 1;
     }

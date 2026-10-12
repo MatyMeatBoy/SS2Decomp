@@ -174,13 +174,15 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080656B8);
 #ifdef NONMATCHING
 void sub_080656EC(void)
 {
+    u32 i;
+    u32 ptr;
     u8 *base = *(u8 **)0x0300602C + 4;
-    for (u32 i = 0; i < 30; i++) {
+    for (i = 0; i < 30; i++) {
         u8 *entry = base + i * 0x28;
         if (sub_08000470((u32)entry) != 0)
             sub_080003A8((u32)entry);
     }
-    u32 ptr = *(u32 *)0x0300602C;
+    ptr = *(u32 *)0x0300602C;
     sub_08001538(ptr);
     *(u32 *)0x0300602C = 0;
 }
@@ -190,10 +192,12 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080656EC);
 #ifdef NONMATCHING
 void sub_08065748(u32 a, u32 b, u32 c)
 {
+    u32 i;
     u8 *entry = *(u8 **)0x0300602C + 4;
-    for (u32 i = 0; i < 30; i++, entry += 0x28) {
+    for (i = 0; i < 30; i++, entry += 0x28) {
+        u32 mem;
         if (sub_08000470((u32)entry) != 0 || *(u32 *)(entry + 8) != 0) continue;
-        u32 mem = sub_08001494(0x400);
+        mem = sub_08001494(0x400);
         if (mem == 0) return;
         *(u32 *)(entry + 0x20) = mem;
         *(u32 *)(entry + 8) = 0x3C;
@@ -210,13 +214,14 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065748);
 #ifdef NONMATCHING
 void sub_080657C4(u32 arg, u32 mode)
 {
+    u32 i;
+    u32 mem;
     u8 *entry = *(u8 **)0x03006030;
-    for (u32 i = 0; i < 4; i++, entry += 0x28)
+    for (i = 0; i < 4; i++, entry += 0x28)
         if (sub_08000470((u32)entry) == 0)
             break;
     if (sub_08000470((u32)entry) != 0)
         return;
-    u32 mem;
     do {
         mem = sub_08001494(0x400);
         if (mem == 0) sub_080003F0();
@@ -235,10 +240,12 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080657C4);
 #ifdef NONMATCHING
 void sub_08065838(u32 arg1, u32 arg2)
 {
+    u32 i;
     u8 *entry = *(u8 **)0x03006208;
-    for (u32 i = 0; i < 4; i++, entry += 0x28) {
+    for (i = 0; i < 4; i++, entry += 0x28) {
+        u32 mem;
         if (sub_08000470((u32)entry) != 0) continue;
-        u32 mem = sub_08001494(0x400);
+        mem = sub_08001494(0x400);
         if (mem == 0) return;
         *(u32 *)(entry + 0x20) = mem;
         *(u32 *)(entry + 8) = 0x3C;
@@ -262,13 +269,15 @@ void sub_080658A0(void)
 #ifdef NONMATCHING
 void sub_080658CC(void)
 {
+    u32 i;
+    u32 ptr;
     u8 *base = *(u8 **)0x03006208;
-    for (u32 i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++) {
         u8 *entry = base + i * 0x28;
         while (sub_08000470((u32)entry) != 0)
             sub_080003F0();
     }
-    u32 ptr = *(u32 *)0x03006208;
+    ptr = *(u32 *)0x03006208;
     sub_08001538(ptr);
     *(u32 *)0x03006208 = 0;
 }
@@ -278,11 +287,11 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080658CC);
 #ifdef NONMATCHING
 void sub_08065918(u32 arg1, u32 arg2)
 {
+    u32 mem;
     u8 *obj = (u8 *)0x030061E0;
     if (sub_08000470((u32)obj) != 0)
         return;
     *(u32 *)(obj + 8) = 0x3C;
-    u32 mem;
     do {
         mem = sub_08001494(0xC00);
         if (mem == 0) sub_080003F0();

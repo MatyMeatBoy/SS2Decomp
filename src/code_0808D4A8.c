@@ -33,6 +33,7 @@ void sub_0808D4A8(void) {
 #ifdef NONMATCHING
 u32 sub_0808D4AC(u32 arg)
 {
+    u32 *state;
     u8 *base = *(u8 **)0x03005CF4;
     if (*(u16 *)(base + 0x10) == 0) {
         sub_0802704C(arg);
@@ -46,7 +47,7 @@ u32 sub_0808D4AC(u32 arg)
         sub_080003F0();
     sub_0800BB40();
     base = *(u8 **)0x03005CF4;
-    u32 *state = (u32 *)(base + 0x71C);
+    state = (u32 *)(base + 0x71C);
     *state = ((u32 *)0x084F794C)[*(u32 *)(base + 0x40)];
     *(u16 *)(base + 0x10) = 0;
     *(u16 *)(base + 0x30) = 1;
@@ -551,9 +552,10 @@ void sub_0808F6A8(void)
     const u32 mask = 0x1FF;
     for (;;) {
         if (sub_0800CC98() == 0) {
+            s32 value;
             sub_0800BD48(1, 0);
             sub_0800BD48(2, 0);
-            s32 value = *(s16 *)&gUnk_030031EE;
+            value = *(s16 *)&gUnk_030031EE;
             sub_0800BBA8(1, 0, value * 2 & mask);
             sub_0800BBA8(2, 0, (value * 15 / 10) & mask);
         }

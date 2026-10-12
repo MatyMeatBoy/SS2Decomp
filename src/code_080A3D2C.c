@@ -68,8 +68,9 @@ void sub_080A4A7C(void)
 {
     u8 *task = *(u8 **)0x03000358;
     if (sub_08000470((u32)task) != 0 || *(u32 *)(task + 8) == 0) {
+        u32 mem;
         *(u32 *)(task + 8) = 0x44;
-        u32 mem = sub_08001494(0x400);
+        mem = sub_08001494(0x400);
         *(u32 *)(task + 0x20) = mem;
         *(u32 *)(task + 0x10) = mem + 0x3FC;
         *(u32 *)(task + 0xC) = (u32)sub_080A35D0;
@@ -353,9 +354,10 @@ INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7F5C);
 #ifdef NONMATCHING
 void sub_080A7F94(u16 value)
 {
-    void sub_080A6BE8(void);
-    u8 *task = (u8 *)gUnk_0300040C;
+    u8 *task;
     u32 i;
+    void sub_080A6BE8(void);
+    task = (u8 *)gUnk_0300040C;
 
     for (i = 0; i < 2; i++, task += 0x28) {
         u32 state;

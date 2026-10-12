@@ -28,8 +28,9 @@ INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080571D8);
 #ifdef NONMATCHING
 u32 sub_08057210(u32 index)
 {
+    u32 i;
     u8 *base = *(u8 **)0x03005CF4 + 0x1C8 + (u8)index * 5;
-    for (u32 i = 0; i <= 4; i++)
+    for (i = 0; i <= 4; i++)
         if (base[i] == 2)
             return 1;
     return 0;
@@ -188,8 +189,9 @@ INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057534);
 #ifdef NONMATCHING
 void sub_08057580(u32 key, u32 value)
 {
+    u32 i;
     u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
-    for (u32 i = 0; i <= 0xE; i++, entry += 0x70) {
+    for (i = 0; i <= 0xE; i++, entry += 0x70) {
         if (*(u32 *)entry == key) {
             *(u32 *)(entry + 0x44) = value;
             return;
@@ -256,9 +258,10 @@ INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_0805782C);
 #ifdef NONMATCHING
 u32 sub_080578BC(u32 value)
 {
+    u32 handle;
     while (sub_0805F184() != 0)
         sub_080003F0();
-    u32 handle = sub_0805DF38(1, 0xF, 2, 0, -2, 0xA00000 | (u16)value);
+    handle = sub_0805DF38(1, 0xF, 2, 0, -2, 0xA00000 | (u16)value);
     while (sub_0805EEFC(handle) == 0)
         sub_080003F0();
     return sub_0805EF14(handle);
@@ -289,18 +292,11 @@ INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057984);
 u8 sub_080579AC(void) {
     return sub_0801DE60();
 }
-#ifdef NONMATCHING
-void sub_080579BC(void)
-{
-    M2C_FIELD(&gUnk_03003CE0[sub_080020F4()], u16 *, 0x20) = 0;
-}
-#else
 void sub_080579BC(void)
 {
     struct Player *p = &gUnk_03003CE0[sub_080020F4()];
     p->state = 0;
 }
-#endif
 #ifdef NONMATCHING
 void sub_080579D8(u32 index)
 {

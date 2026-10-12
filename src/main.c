@@ -48,10 +48,15 @@ void AgbMain(void)
 #ifdef NONMATCHING
 void sub_08000760(void)
 {
+    u16 high;
+    u16 low;
+    u8 old8;
+    u8 new8;
     volatile u16 *a = (u16 *)0x03001298, *b = (u16 *)0x0300130C;
     u16 old = *b, now = (*(u16 *)0x04000130 ^ 0x3FF);
     *a = old; *b = now; *(u16 *)0x03001324 = now & ~old;
-    u16 high = now & 0xF0, low = old & 0xF0;
+    high = now & 0xF0;
+    low = old & 0xF0;
     if (low == high) {
         u16 *timer = (u16 *)0x03001320;
         u16 count = ++*timer, limit = *(u16 *)0x03001730;
@@ -67,7 +72,8 @@ void sub_08000760(void)
         *(u16 *)0x03001320 = 0; *(u16 *)0x03002340 = 0;
     }
     *(u16 *)0x03001328 = 0;
-    u8 old8 = *(u8 *)a, new8 = *(u8 *)b;
+    old8 = *(u8 *)a;
+    new8 = *(u8 *)b;
     if ((old8 & 1) && !(new8 & 1)) *(u16 *)0x03001328 |= 1;
     if ((old8 & 2) && !(new8 & 2)) *(u16 *)0x03001328 |= 2;
 }

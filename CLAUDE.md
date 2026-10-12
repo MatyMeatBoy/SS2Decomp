@@ -18,6 +18,11 @@ Git-ignored (never commit): baserom.gba, *.gba, build/, tools/agbcc, tools/m2c, 
 
 Parallel workers: docs/PARALLEL.md (local + cloud how-to), docs/WORKER.md (worker rules), tools/config/shards.txt (`shard.py show N`).
 
+## Compilable drafts
+`make nonmatching` builds `shiningsoul2_nm.gba` using the C drafts inside `#ifdef NONMATCHING` blocks (not byte identical, but every draft must compile and link; it is the check that
+agent-written C is valid agbcc C89). `tools/scripts/c89fix.py` converts C99 style (declarations after statements, `for (T i = ...)`, multi-declarators, initializer lists) to C89,
+`tools/scripts/fix_decls.py` repairs header declarations from compiler errors. Run both after importing code written by other agents; `make compare` must stay OK.
+
 ## Layout
 - `src/<module>.c` C modules; undecompiled functions are `INCLUDE_ASM("asm/nonmatchings/<mod>", sub_XXXXXXXX);`
 - `asm/nonmatchings/<mod>/<func>.s` one file per undecompiled function (deleted when the C matches)

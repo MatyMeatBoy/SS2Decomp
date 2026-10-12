@@ -72,6 +72,7 @@ INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056CB4);
 #ifdef NONMATCHING
 void sub_08056D2C(void)
 {
+    u32 ptr;
     u8 *base = *(u8 **)0x03005CF4;
     u8 *resource = base + 0x1794;
     if (sub_08000470((u32)resource) != 0) {
@@ -79,7 +80,7 @@ void sub_08056D2C(void)
         while (sub_08000470((u32)resource) != 0)
             sub_080003F0();
     }
-    u32 ptr = *(u32 *)0x03005CF4;
+    ptr = *(u32 *)0x03005CF4;
     sub_08001538(ptr);
     *(u32 *)0x03005CF4 = 0;
 }

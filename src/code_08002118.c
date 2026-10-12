@@ -115,8 +115,8 @@ void *sub_08002238(s32 arg0) {
 }
 void sub_0800224C(void)
 {
-    u32 want, got, i, v;
     u32 *p;
+    u32 want, got, i, v;
     if (gUnk_030027D0 & 2) {
         want = ((u32)gUnk_03002730 >> 8) & 0xF;
         p = &gUnk_03002730;
@@ -175,6 +175,11 @@ extern u16 gUnk_0300130C;
 
 void sub_08002694(void)
 {
+    u16 *sl;
+    s32 var_r4;
+    s32 var_r6;
+    s32 var_r8;
+    s32 var_r9;
     struct {
         u8 sp4[0x34];
         u16 sp38;
@@ -183,11 +188,6 @@ void sub_08002694(void)
         u16 *sp40;
         u16 *sp44;
     } L;
-    u16 *sl;
-    s32 var_r4;
-    s32 var_r6;
-    s32 var_r8;
-    s32 var_r9;
 
     sub_0805F07C();
     sub_080003F0();

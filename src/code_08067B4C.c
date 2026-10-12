@@ -13,10 +13,12 @@ void sub_08067B4C(void) {
 #ifdef NONMATCHING
 u32 sub_08067B50(void)
 {
+    u8 *entry;
+    u8 *source;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31) return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
-    u8 *source = *(u8 **)0x030034E0;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
+    source = *(u8 **)0x030034E0;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x82;
     *(u32 *)(entry + 8) = *(u16 *)(source + 0xA) | ((u32)*(u16 *)(source + 0xC) << 16);
@@ -112,10 +114,11 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067CE8);
 #ifdef NONMATCHING
 u32 sub_08067D28(const void *source)
 {
+    u8 *entry;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31)
         return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x8B;
     CpuSet(source, entry + 8, 0x04000002);
@@ -213,10 +216,11 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067F4C);
 #ifdef NONMATCHING
 u32 sub_08067F94(u32 a, u32 b, u32 c)
 {
+    u8 *entry;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31)
         return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x9E;
     *(u32 *)(entry + 8) = a | (b << 8) | (c << 16);
@@ -265,10 +269,11 @@ u32 sub_080680B4(u32 a, u32 b) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)ret
 #ifdef NONMATCHING
 u32 sub_080680F8(u32 value)
 {
+    u8 *entry;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31 || sub_0800CFF0() != 0)
         return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
     sub_0800CFC8();
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA5;
@@ -283,10 +288,11 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080680F8);
 #ifdef NONMATCHING
 u32 sub_08068144(u32 value)
 {
+    u8 *entry;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31 || sub_0800CFF0() != 0)
         return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA7;
     *(u32 *)(entry + 8) = value;
@@ -300,10 +306,11 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068144);
 #ifdef NONMATCHING
 s32 sub_0806818C(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4)
 {
+    u8 *entry;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31 || sub_0800CFF0() != 0)
         return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA8;
     *(u32 *)(entry + 8) = (arg1 << 16) | arg0;
@@ -320,10 +327,11 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806818C);
 #ifdef NONMATCHING
 u32 sub_080681F4(u32 callback)
 {
+    u8 *entry;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31 || sub_0800CFF0() != 0)
         return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA9;
     *(u32 *)(entry + 8) = callback;
@@ -347,13 +355,15 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080682B8);
 #ifdef NONMATCHING
 s32 sub_08068330(s32 callback)
 {
+    u32 player;
+    u8 *entry;
     u32 *count = (u32 *)0x03006338;
     if (*count > 0x31)
         return 0;
-    u32 player = sub_080020F4();
+    player = sub_080020F4();
     if (((u32 *)0x03006210)[player] > 9)
         return 0;
-    u8 *entry = *(u8 **)0x03006300 + *count * 0x88;
+    entry = *(u8 **)0x03006300 + *count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x84;
     *(u32 *)(entry + 8) = callback;
@@ -367,11 +377,13 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068330);
 #ifdef NONMATCHING
 void sub_08068384(void)
 {
+    u32 i;
     u32 count = sub_08002164();
-    for (u32 i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
+        u32 j;
         u32 *entries = (u32 *)(0x03006260 + i * 0x28);
         u32 *state = (u32 *)(0x03006210 + i * 4);
-        for (u32 j = 0; j < 10; j++) entries[j] = (u32)-1;
+        for (j = 0; j < 10; j++) entries[j] = (u32)-1;
         *state = 0;
     }
 }

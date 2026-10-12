@@ -18,3 +18,5 @@ __pycache__/
 tools/m2c/
 tools/decomp-permuter/
 .claude/settings.local.json
+build_nm/
+shiningsoul2_nm.map
