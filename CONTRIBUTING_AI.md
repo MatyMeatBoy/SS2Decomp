@@ -55,3 +55,19 @@ make nonmatching        # todos los borradores deben compilar y enlazar
 - `tools/hooks/pre-commit`: `check_tree.py` + `make compare` + `make nonmatching` antes de cada commit.
 - GitHub Actions (`.github/workflows/check.yml`): en cada push compila todos los módulos (normal y NONMATCHING) y corre `check_tree.py`.
   Si sale en rojo, arréglalo antes de seguir.
+
+## Estado / siguiente trabajo (online) — actualizado
+Objetivo del usuario: sustituir las esperas del cable link por un sistema online moderno. Leer `docs/LINK_CABLE.md` (transporte, flags, bloques)
+y `docs/LINK_MESSAGES.md` (catálogo de mensajes 0x81..0xB0, productores y efectos del receptor).
+Herramientas nuevas (todas verifican la ROM): `nmscore.py [--unwrap]` (puntúa todos los drafts y desenvuelve los que casan),
+`nmdiff.py FUNC` (diff real de un draft NONMATCHING contra el asm), `addnm.py FUNC file.c` (inserta C escrito a mano como draft, compara,
+desenvuelve si casa), `unwrap_func.py`, `families.py`, `refscan.py`, `loopfix.py`. SIEMPRE `make compare` + `make nonmatching` antes de commit.
+Trucos que casaron: función variádica para `push {r2,r3}`; llamada por cast `((void(*)(s32))f)(x)` para evitar lsl/lsr de params u16;
+bucles `for (i=0,e=base;i<N;i++){...; e+=0x28;}` + `i=0; G=i`; constante 0 en variable declarada; `if(x) return 0; else return 1;`;
+funciones no-void sin `return` para epílogo `pop {r1}`; parámetros con dirección tomada (`&a`) cuando el original los guarda en pila.
+CUIDADO: el veredicto de nmdiff exige MISMO tamaño (el relleno `.short 0` cambia la posición de todo lo siguiente).
+Pendiente online (sin casar): sub_08066720 (broadcast, draft a 4 bytes), sub_0806690C (receptor, draft documentado), sub_080135C4
+(crea entidad jugador), sub_08001DF0 (barrera), sub_08066404/08065DAC (senders 0x94/0x83, drafts), sub_08066490/08066520 (0x95/0x96),
+sub_0800D368 (update por jugador, 12k líneas), resto de senders sin productor casado (ver tabla "-" en LINK_MESSAGES.md).
+Siguiente: sub_08065CA8 (init de la cola), sub_0806603C/080660EC/0806617C/08066220/080662C4/08066624, sub_08066CB.. (ver `sync_funcs`:
+funciones que llaman a productores o tocan gUnk_03006300/03006338).
