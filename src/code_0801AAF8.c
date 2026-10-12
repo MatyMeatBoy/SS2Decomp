@@ -21,15 +21,19 @@ void sub_0801AB50(u16 arg0)
     sub_08000420(100);
     gUnk_03000028 = (gUnk_03000028 | 4) & -m;
 }
-void sub_0801AB90(u16 value)
-{
-    if (*(s16 *)0x03000026 < 0 && (*(u16 *)0x03000022 & 0x8000) != 0)
-        return;
-    *(s16 *)0x03000026 = -1;
-    *(u16 *)0x03000020 = value;
-    *(u16 *)0x03000022 = value;
-    sub_08000420(0x64);
-    *(u16 *)0x03000028 = (*(u16 *)0x03000028 | 0x10) & (u16)~9;
+void sub_0801AB90(u16 arg0) {
+    register volatile u16 *p asm("r2");
+    register u16 value asm("r0");
+    if (((s32)gUnk_03000026 >= 0) || !(0x8000 & gUnk_03000022)) {
+        gUnk_03000026 = -1;
+        gUnk_03000020 = arg0;
+        gUnk_03000022 = arg0;
+        sub_08000420(0x64);
+        p = &gUnk_03000028;
+        value = *p;
+        asm volatile("movs r1, #16\n\t.hword 0x4308\n\tmovs r1, #9\n\t.hword 0x4249\n\t.hword 0x4008" : "+r"(value) : : "r1", "memory");
+        *p = value;
+    }
 }
 void sub_0801ABE8(u32 arg0) {
     int new_var;
