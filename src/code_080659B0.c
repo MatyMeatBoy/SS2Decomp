@@ -298,8 +298,78 @@ u32 sub_080660EC(u8 *src)
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080660EC);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806617C);
+#ifdef NONMATCHING
+extern u8 gPlayer38[] asm("gUnk_03003D18");
+/* Enqueue tag 0x8F (local player's 8-word block at Player+0x38), coalescing with a pending 0x8F. */
+u32 sub_08066220(void)
+{
+    u8 *p;
+    u32 n;
+    u32 i;
+    u32 r;
+    n = gUnk_03006338;
+    if (n > 0x31) {
+        r = 0;
+    } else {
+        p = (u8 *)(uintptr_t)gUnk_03006300;
+        for (i = 0; i < n; i++, p += 0x88) {
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8F) {
+                CpuSet(gPlayer38 + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+                goto done;
+            }
+        }
+        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(p + 4) = 1;
+        *p = 0x8F;
+        CpuSet(gPlayer38 + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+        p[1] = 4;
+        gUnk_03006338++;
+    done:
+        r = 1;
+    }
+    return r;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066220);
+#endif
+#ifdef NONMATCHING
+extern u8 *gEntArr asm("gUnk_030056F4");
+/* Enqueue tag 0x91 (entity `idx` velocity words at +0x1FC), coalescing with a pending 0x91 for the same entity id. */
+u32 sub_080662C4(s32 idx)
+{
+    u8 *p;
+    u8 *ent;
+    u32 i;
+    u32 n;
+    u32 r;
+    n = gUnk_03006338;
+    if (n > 0x31) {
+        r = 0;
+    } else {
+        p = (u8 *)(uintptr_t)gUnk_03006300;
+        for (i = 0; i < n; i++, p += 0x88) {
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x91) {
+                ent = gEntArr + idx * 0x2E0;
+                if (*(s16 *)(p + 0xE) == *(s16 *)(ent + 2)) {
+                    CpuSet(ent + 0x1FC, p + 8, 0x04000002);
+                    goto done;
+                }
+            }
+        }
+        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(p + 4) = 1;
+        *p = 0x91;
+        CpuSet(gEntArr + idx * 0x2E0 + 0x1FC, p + 8, 0x04000002);
+        p[1] = 1;
+        gUnk_03006338++;
+    done:
+        r = 1;
+    }
+    return r;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080662C4);
+#endif
 #ifdef NONMATCHING
 u32 sub_080663A4(u32 index)
 {
