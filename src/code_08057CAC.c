@@ -479,14 +479,10 @@ void sub_08058574(u32 callback, u32 arg1, u32 arg2)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058574);
 #endif
-#ifdef NONMATCHING
-void sub_080585F4(s32 arg0, s32 arg1) {
-    sub_0805D37C(arg0 << 8, arg1 << 8);
-    sub_080687A8((const u8 *)gUnk_03005CF4);
+void sub_080585F4(s32 arg0, s32 arg1)
+{
+    sub_080687A8(sub_0805D37C(arg0 << 8, arg1 << 8));
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080585F4);
-#endif
 s32 sub_08058608(void) {
     return sub_0800CCCC();
 }
@@ -508,15 +504,11 @@ void sub_08058620(const s16 *arg0)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08058620);
 #endif
-#ifdef NONMATCHING
 void sub_0805865C(s32 arg0)
 {
     if ((gUnk_030027D0 & 0x20) == 0)
-        sub_08006D08(arg0);
+        ((void (*)(s32))sub_08006D08)(arg0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_0805865C);
-#endif
 void sub_0805867C(void) {
     sub_08006D5C();
 }

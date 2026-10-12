@@ -213,14 +213,12 @@ void sub_0800BCDC(s32 a, s32 b, s32 c, u16 d, u16 e) {
 void sub_0800BCFC(s32 a, s32 b, s32 c, u16 d, u16 e) {
     sub_0800B7DC(a, b + 0x1c, c, d, e);
 }
-#ifdef NONMATCHING
 u32 sub_0800BD1C(void)
 {
-    u16 lv = gUnk_03003170.curLevel; if (gUnk_0847846C[lv].count - 1 == gUnk_03003170.f90) return 1; return 0;
+    if (gUnk_0847846C[gUnk_03003170.curLevel].count - 1 == gUnk_03003170.f90)
+        return 1;
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BD1C);
-#endif
 void sub_0800BD48(s32 i, u16 v)
 {
     gUnk_03003170.layers[i].s16 = v;
