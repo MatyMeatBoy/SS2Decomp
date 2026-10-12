@@ -224,3 +224,5 @@ extern u32 gUnk_084EBD5C;
 extern u32 gUnk_030031EE;
 extern u32 gUnk_030007A8;
 extern u32 gUnk_03000798;
+/* typed alias of gUnk_03005CF4 (same symbol); use it instead of casting the s32 */
+extern struct GameState *gGameState asm("gUnk_03005CF4");
