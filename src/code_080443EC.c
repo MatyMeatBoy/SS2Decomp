@@ -4,7 +4,37 @@ INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080443EC);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080444C0);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080445E8);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08044D1C);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08044E34);
+void sub_08044E34(s32 arg0) {
+    register s32 arg asm("r8") = arg0;
+    s32 *base;
+    u32 mask;
+    register s32 count asm("r4");
+    register s32 oldBit asm("r5");
+    s32 value;
+    register s32 temp asm("r0");
+    mask = 1;
+    base = &gUnk_03005CF4;
+start:
+    if (sub_0800CE30() != 0) value = *(u8 *)(*(u32 *)base + 0x1C4);
+    else value = *(u8 *)(*(u32 *)base + 0x1B8);
+    oldBit = (value >> 5) & mask;
+    count = 1;
+    goto wait;
+dec:
+    temp = count - 1;
+    asm volatile("" : "+r" (temp));
+    count = (u16)temp;
+    if (count == 0) goto compare;
+wait:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto dec;
+compare:
+    count = 1;
+    if (sub_0800CE30() != 0) value = *(u8 *)(*(u32 *)base + 0x1C4);
+    else value = *(u8 *)(*(u32 *)base + 0x1B8);
+    if (oldBit == ((value >> 5) & count)) goto start;
+    sub_0802939C(arg, 1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08044EB4);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804534C);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080455F0);
