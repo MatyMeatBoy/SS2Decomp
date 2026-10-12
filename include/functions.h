@@ -372,6 +372,7 @@ void sub_080572FC();
 s32 sub_08057314();
 s32 sub_08057328();
 s32 sub_08057390(s32 arg0, void (*arg1)(s32));
+s32 sub_080573A0(s32 arg0, void (*arg1)(s32), void *arg2);
 s32 sub_08057424(s32 a);
 void sub_080574B0(s32 arg0);
 void sub_080574FC();
