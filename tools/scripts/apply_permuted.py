@@ -38,6 +38,8 @@ def try_apply(func, t):
     body = fs[func]
     ext = []
     for l in t.splitlines():
+        if ' asm("' in l:
+            continue  # asm-label aliases live in include/variables.h
         if l.startswith("extern ") or re.match(r"^[A-Za-z][\w \*]*\b\w+\(.*\);$", l):
             names = re.findall(r"\b(?:gUnk_\w+|sub_\w+|g[A-Z]\w+)\b", l)
             if names and any(re.search(r"\b%s\b" % n, body) for n in names) and func not in names:

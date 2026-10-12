@@ -18,7 +18,6 @@ extern s32 gUnk_0300040C;
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4520);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A47A0);
-#ifdef NONMATCHING
 void sub_080A49A8(void)
 {
     sub_0805867C(0xDF);
@@ -29,11 +28,8 @@ void sub_080A49A8(void)
     }
     sub_08068384();
     gUnk_030056FC = 0;
-    sub_08016ECC(*(u16 *)gUnk_030003E8);
+    sub_08016ECC(gUnkVu16_030003E8);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A49A8);
-#endif
 #ifdef NONMATCHING
 void sub_080A49EC(void)
 {
@@ -138,21 +134,12 @@ void sub_080A4B48(s32 arg0)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4B48);
 #endif
-#ifdef NONMATCHING
 void sub_080A4BB0(void)
 {
-    s32 obj = sub_0800048C();
-    u32 index;
-    u16 bit;
-
-    M2C_FIELD(obj, s32 *, 8) -= 0x46;
-    index = M2C_FIELD(obj, s32 *, 8);
-    bit = *(u16 *)gUnk_03000370[index];
-    gUnk_030056FC &= ~(1 << bit);
+    s32 *obj = (s32 *)sub_0800048C();
+    obj[2] -= 0x46;
+    gUnk_030056FC &= ~(1 << *(u16 *)gUnk_03000370[obj[2]]);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4BB0);
-#endif
 void sub_080A4BE0(void)
 {
   s8 *new_var;
@@ -250,7 +237,6 @@ void sub_080A74E8(void)
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A74E8);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A756C);
-#ifdef NONMATCHING
 void sub_080A7DEC(void)
 {
     if (*(s16 *)((u8 *)gUnk_03000400 + 0x5C) != 0) {
@@ -262,11 +248,8 @@ void sub_080A7DEC(void)
     }
     sub_08068384();
     gUnk_030056FC = 0;
-    sub_08016ECC(*(u16 *)gUnk_03000404);
+    sub_08016ECC(gUnkVu16_03000404);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7DEC);
-#endif
 void sub_080A7E38(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= ~1;

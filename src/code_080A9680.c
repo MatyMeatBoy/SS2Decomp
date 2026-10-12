@@ -138,20 +138,12 @@ void sub_080AE11C(u32 kind)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE11C);
 #endif
-#ifdef NONMATCHING
 void sub_080AE184(void)
 {
-    s32 obj = sub_0800048C();
-    u32 index;
-    u16 bit;
-    M2C_FIELD(obj, s32 *, 8) -= 0x40;
-    index = M2C_FIELD(obj, s32 *, 8);
-    bit = *(u16 *)gUnk_03000448[index];
-    gUnk_030056FC &= ~(1 << bit);
+    s32 *obj = (s32 *)sub_0800048C();
+    obj[2] -= 0x40;
+    gUnk_030056FC &= ~(1 << *(u16 *)gUnk_03000448[obj[2]]);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE184);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE1B4);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE420);
 void sub_080AF2AC(void) {
