@@ -1,6 +1,8 @@
 #include "global.h"
 
 void sub_08066898(void);
+extern void sub_08066720();
+extern u8 *sub_08002118();
 void sub_08064E14(void);
 void sub_0806690C(void);
 void sub_08065A1C(void);
@@ -198,7 +200,6 @@ INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066624);
 /* Link message broadcast (lobby data sync). msg[0] = tag, msg[1] = number of 8-byte chunks, msg+8 = payload.
  * Writes into our MultiSio send block (sub_08002118(myId) + 8): [0]=id/cmd, [1]=cmd (0xB1 announce, 0xB2 chunk, 0x80 idle),
  * [2]=chunk number, [4..11]=8 payload bytes. Peers acknowledge by echoing bytes into their own block at offset 0x14+id. */
-extern u8 *sub_08002118();
 void sub_08066720(u8 *msg)
 {
     u8 *peers[4];
@@ -272,7 +273,31 @@ void sub_08066720(u8 *msg)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066720);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066898);
+/* Link sender task spawner: when the first queued message (gUnk_03006300[0], 0x88 bytes) is pending (+4 == 1),
+ * start sub_08066720 as a task on it (task object = *gUnk_03006368, stack 0x800). */
+void sub_08066898(void)
+{
+    u8 *q;
+    u8 *msg;
+    u8 *t;
+
+    sub_08002118(sub_080020F4());
+    for (;;) {
+        q = (u8 *)gUnk_03006300;
+        msg = (*(u32 *)(q + 4) == 1) ? q : 0;
+        if (msg != 0 && sub_08000470(gUnk_03006368) == 0) {
+            while ((*(u32 *)((u8 *)gUnk_03006368 + 0x20) = (u32)sub_08001494(0x800)) == 0)
+                sub_080003F0();
+            t = (u8 *)gUnk_03006368;
+            *(u32 *)(t + 0xC) = (u32)sub_08066720;
+            *(u32 *)(t + 0x10) = *(u32 *)(t + 0x20) + 0x7FC;
+            *(u32 *)(t + 8) = 0x65;
+            *(u32 *)(t + 0x24) = 0;
+            sub_08000274_(t, (u32)msg, 0);
+        }
+        sub_080003F0();
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806690C);
 #ifdef NONMATCHING
 void sub_08067A68(u32 index)
