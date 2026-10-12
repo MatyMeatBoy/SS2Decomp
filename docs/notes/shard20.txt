@@ -33,3 +33,13 @@ Session 3 (after merging base with NONMATCHING drafts):
   remaining mismatch is register allocation: original keeps v in r2 and the 0x7C pointer
   in r1; ours swap them, and the arg1 copy into r4 is missing.
   Stopping F2CC after ~40 attempts; F320 and FD64 untouched this session.
+
+Session 4:
+  sub_0801F320: F2CC pointer-walk template ported (base 0xCE, 0xD2, 0xD4). Original reads
+  arg1 straight from r1 (no copy) and reloads v into r4 for the 0xD4 store; s8 at +3 is
+  sign-extended by hand (lsl/asr 24) -- ours uses ldrsb. Best ~55-58 diff lines, no match.
+  Declaration-order sweep (120) has no effect. Permuter reports "Unable to compile" here.
+  sub_0801FB14 (288 bytes): full scaffold written (rect-overlap scan over a 0x24-byte item
+  table at gUnk_03005CF4+0x58C, calls sub_0801DE60/sub_08028368). Not matching: ~196 diff
+  lines, register allocation for the three args differs. Permuter after 150s: 5565 vs 7150.
+  Not attempted this session: sub_0801F79C, F99C, FC34, FD64 (see session 3), FDD0, 20680, F374, F1C4.
