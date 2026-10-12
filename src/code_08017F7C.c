@@ -475,19 +475,18 @@ void sub_0801A70C(void)
         gUnk_03005CA0[i] = sub_08007290(i | 0x40000);
     sub_08065158(gUnk_03005C60, 0x5004A, 0, -1, 0);
 }
-#ifdef NONMATCHING
-void sub_0801A764(const u8 *script, u32 x, u32 y)
+void sub_0801A764(const u8 *script, u16 x, u16 y)
 {
-    while (script[0] != 0xFD && script[0] <= 0xF1) {
-        u32 count = (u16)(script[0] - 1);
+    u32 count;
+    while (1) {
+        if (*script == 0xFD) break;
+        if (*script > 0xF1) break;
+        count = (u16)(*script - 1);
         sub_08065230(gUnk_03005C60, x, y, 0, count);
         x = (u16)(x + 8);
         script++;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A764);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A7AC);
 #ifdef NONMATCHING
 void sub_0801A9BC(void)

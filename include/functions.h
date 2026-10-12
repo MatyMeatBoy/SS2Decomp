@@ -287,6 +287,7 @@ void sub_0801A628();
 void sub_0801A62C();
 void sub_0801A650(u32 arg0);
 void sub_0801A70C(void);
+void sub_0801A764(const u8 *script, u16 x, u16 y);
 void sub_0801A9BC(void);
 s32 sub_0801AAE0();
 s32 sub_0801AAF8(void);
