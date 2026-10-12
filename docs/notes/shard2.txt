@@ -1,0 +1,5 @@
+sub_08005A24 (code_08002118, 178 asm lines): unmatched.
+Best draft: 348 bytes vs 356 original. Remaining diff is register allocation (n / fade-target / target
+placement) and constant folding on the 0xFFFFFC1F / -0x20 / -0x7D masks. Ideas tried: m2c, declaration-order
+shuffle, `register` hints, mask cast forms, channel loads per-channel from *(u32*)src, signed (s32) multiply
+shift, permuter 10 min (best 356 bytes, not a match).
