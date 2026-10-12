@@ -4,3 +4,5 @@ draft 0x18). Locals used: on-stack u16 pair at sp+8 (sub_0805AB20 arg), 12-byte 
 One permuter run (240s) best score 10590 (far). Ideas not yet tried: other struct layouts for the sp+8 block
 (a 4th-word local, u32 array of 8), restructure the duplicated wait loops as a helper-free goto form, and
 compare the 0x140224..0x140229 push order.
+Update: frame size fixed with a dead `u32 pad[4];` local (sub sp,#0x28 now matches). Permuter 240s on that
+variant: best score 10655 (still far). Remaining diff is in the loop/branch bodies, not the frame.
