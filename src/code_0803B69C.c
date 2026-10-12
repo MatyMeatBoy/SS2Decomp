@@ -34,7 +34,81 @@ INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803E5D8);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803E638);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803EE88);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803F18C);
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803F210);
+void sub_0803F210(s32 arg0) {
+    u16 n;
+
+    n = 20;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+    sub_08029174(arg0, 0x10);
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006D08(0x55);
+    }
+    n = 10;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+    sub_08029174(arg0, 0xA);
+    n = 58;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+    sub_08029174(arg0, 0x10);
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006D08(0x55);
+    }
+    n = 10;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+    sub_08029174(arg0, 0xA);
+    n = 58;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+    sub_08029174(arg0, 0x10);
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006D08(0x55);
+    }
+    n = 10;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+    sub_08029174(arg0, 0xA);
+    n = 40;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803F348);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803F454);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803FE34);
