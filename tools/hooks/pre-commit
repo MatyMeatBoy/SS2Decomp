@@ -1,0 +1,11 @@
+#!/bin/sh
+# Pre-commit guard (install once: sh tools/install_hooks.sh). Blocks commits that would break the matching build.
+set -e
+cd "$(git rev-parse --show-toplevel)"
+python3 tools/scripts/check_tree.py >/dev/null || { python3 tools/scripts/check_tree.py; echo "pre-commit: tree check failed"; exit 1; }
+if git diff --cached --name-only | grep -q '^baserom\|\.gba$'; then echo "pre-commit: never commit the ROM"; exit 1; fi
+if [ -f baserom.gba ] && [ -x tools/agbcc/bin/agbcc ]; then
+    make -s -j4 compare >/dev/null 2>&1 || { echo "pre-commit: make compare FAILED (ROM no longer identical). Fix it or run tools/scripts/revalidate.py --apply"; exit 1; }
+    make -s -j4 nonmatching >/dev/null 2>&1 || { echo "pre-commit: make nonmatching FAILED (a NONMATCHING draft does not compile: run tools/scripts/c89fix.py and tools/scripts/fix_decls.py)"; exit 1; }
+fi
+exit 0

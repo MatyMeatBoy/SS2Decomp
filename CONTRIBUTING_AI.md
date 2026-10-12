@@ -5,6 +5,7 @@ Una función solo cuenta si coincide. C que "se parece" no cuenta: va como borra
 
 ## Antes de empezar
 ```bash
+sh tools/install_hooks.sh   # una vez: el hook pre-commit bloquea commits que rompan la ROM o los borradores
 git pull origin claude/rom-decompilation-research-obsal6
 make compare            # debe dar OK; si no, arréglalo antes de nada
 make nonmatching        # todos los borradores deben compilar y enlazar
@@ -49,3 +50,8 @@ make nonmatching        # todos los borradores deben compilar y enlazar
   devuelve a borrador toda función que no coincida.
 - `make nonmatching` falla → `python tools/scripts/c89fix.py` y `python tools/scripts/fix_decls.py nonmatching`.
 - Tras aplicar una función queda un borrador viejo → `python tools/scripts/unwrap_matched.py`.
+
+## Protecciones automáticas
+- `tools/hooks/pre-commit`: `check_tree.py` + `make compare` + `make nonmatching` antes de cada commit.
+- GitHub Actions (`.github/workflows/check.yml`): en cada push compila todos los módulos (normal y NONMATCHING) y corre `check_tree.py`.
+  Si sale en rojo, arréglalo antes de seguir.

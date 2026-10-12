@@ -18,6 +18,9 @@ Git-ignored (never commit): baserom.gba, *.gba, build/, tools/agbcc, tools/m2c, 
 
 Parallel workers: docs/PARALLEL.md (local + cloud how-to), docs/WORKER.md (worker rules), tools/config/shards.txt (`shard.py show N`).
 
+## Guards
+`sh tools/install_hooks.sh` enables the pre-commit hook (check_tree.py, make compare, make nonmatching). CI: .github/workflows/check.yml.
+
 ## Compilable drafts
 `make nonmatching` builds `shiningsoul2_nm.gba` using the C drafts inside `#ifdef NONMATCHING` blocks (not byte identical, but every draft must compile and link; it is the check that
 agent-written C is valid agbcc C89). `tools/scripts/c89fix.py` converts C99 style (declarations after statements, `for (T i = ...)`, multi-declarators, initializer lists) to C89,
