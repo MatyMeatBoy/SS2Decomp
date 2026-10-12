@@ -25,3 +25,9 @@ sub_0800B7DC (200 asm): sibling of sub_0800B650 (source offset +gUnk_03003470 on
 
 Round 3 (after tree revalidation): no drafts for shard 6 exist in src/ (all still INCLUDE_ASM).
   B650/B7DC tilesrc constant-load order tried 3 more forms (k1-k3): no change. Blocker remains.
+
+Round 4: no NONMATCHING drafts exist for shard 6 (all INCLUDE_ASM).
+  sub_0800AEF4 (297 asm): hand draft (tile brush: arg4 branch A/B, curLevel==0xB special case) is 398 vs 546 bytes.
+    Blocker: value written to cell[0] is ((cell[0]&0xF)<<4)|0xA via a 32-bit ldr; branch A/B structure not yet matched.
+  sub_0800A998 (412 asm): m2c draft needs cleanup before check (not attempted further).
+  Remaining untouched: sub_0800A998, sub_0800B118, sub_0800A34C.
