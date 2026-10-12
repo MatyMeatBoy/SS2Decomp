@@ -16,3 +16,17 @@ sub_0803D36C (code_0803B69C, 105 asm lines) - NOT MATCHED after ~15 attempts.
   constant 0xA6<<1 is materialised before idx is copied. Tried: array index, local struct pointer, cast form,
   inline index call, idx as s32/u32/u16/u8, agbcc and old_agbcc at -O1/-O2.
   A fix for this idiom likely unlocks both functions and most of the module's other flag toggles.
+
+LEAD (applies to sub_0803E510, sub_0803D36C, and the rest of this flag-toggle family):
+  In isolation, `struct Player *p = gUnk_03003CE0 + idx; p->flags |= 1;` with idx a parameter compiles to the exact
+  original shape (movs #0xa6 / lsl / mov r2,r0 / mul / ldr [pc] / add / ldr [r2,#0x30]). Inside these functions the
+  copy of the call result still lands in a different register or the copy disappears (`muls r1,r0`). Not solved.
+  Permuter on the pointer variant: "Unable to compile base.c" when prototypes are added to the scratch file.
+  Remaining shard 40 functions not attempted: sub_0803D1F8 (same idiom), sub_0803D454, sub_0803D99C, sub_0803DE84,
+  sub_0803E638.
+
+sub_0803D1F8 (code_0803B69C, 170 asm lines) - NOT MATCHED. Draft in docs/notes/shard40_sub_0803D1F8_draft.c.
+  Size matches (372 bytes) and the whole body matches except the same idiom as sub_0803E510/sub_0803D36C:
+  the call result copy before the idx*0x14C multiply (orig: movs #0xa6/lsl, then adds r2,r0,#0, muls r2,r1).
+  Tried on this function: assign-in-expression, idx-then-pointer, cast-multiply, &arr[call()].
+  Shard 40 is therefore blocked on one codegen idiom: the struct-array element address with a call-result index.
