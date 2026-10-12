@@ -1,0 +1,16 @@
+Shard 29 (code_08028AAC) notes
+
+Matched (4/9): sub_0802CF84, sub_0802D200, sub_0802D73C, sub_0802D800.
+Shared template: entity search over 15 entries (stride 0x70, base gUnk_03005CF4+0x7A4), found pointer in a
+separate result var (res/res2), sub_080003F0 on miss, then a switch(0/1/2) tail. Matches with the
+`<= 0xEU` loop bound and do/while, as in sub_0802F424.
+
+Remaining (5):
+- sub_0802D050 (228 lines): three id lookups in one function. The first search uses a `bne` + out-of-line `b` found
+  shape, not the `beq` shape of the template, so the template does not carry over. Not attempted further.
+- sub_0802D568 (244 lines, orig 466 bytes): template prefix matches, but the function continues with more
+  search/store blocks (candidate 194 bytes vs 466). Needs the full block structure.
+- sub_0802D2C8 (349 lines), sub_0802D8C4 (285 lines), sub_0802DAF0 (426 lines): multi-block, not attempted.
+
+Tried for the template: declaration order (120 permutations), u32/s32 counter, goto-to-join, for-loop form,
+single shared result var. Only the separate-result-var + switch form matched.
