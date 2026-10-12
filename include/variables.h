@@ -234,3 +234,6 @@ extern struct GameState *gGameState asm("gUnk_03005CF4");
 extern u16 gUnkVu16_030002F0 asm("gUnk_030002F0");
 extern u16 gUnkVu16_030003E8 asm("gUnk_030003E8");
 extern u16 gUnkVu16_03000404 asm("gUnk_03000404");
+extern struct MultiSioArea gMultiSioArea asm("gUnk_030024B0");
+extern u32 gMultiSioRecvFuncBuf[0x40 / 4] asm("gUnk_030026D0");
+extern u32 gMultiSioIntrFuncBuf[0x120 / 4] asm("gUnk_03002390");

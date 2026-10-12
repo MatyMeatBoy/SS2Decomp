@@ -167,3 +167,38 @@ struct Unk03002880 {
     u8 *f20;
     void *f24;
 };
+
+/* AGB SDK MultiSio010214 (link cable multi-play driver), work area at gUnk_030024B0 */
+#define MULTI_SIO_BLOCK_SIZE 24
+
+struct MultiSioPacket {
+    u8 frameCounter;
+    u8 recvErrorFlags;
+    u16 checkSum;
+    u16 data[MULTI_SIO_BLOCK_SIZE / 2];
+    u16 overrunCatch[2];
+};
+
+struct MultiSioArea {
+    u8 type;
+    u8 state;
+    u8 connectedFlags;
+    u8 recvSuccessFlags;
+    u8 syncRecvFlag[4];
+    u8 startFlag;
+    u8 hardError;
+    u8 recvFlagsAvailableCounter;
+    u8 sendFrameCounter;
+    u8 recvFrameCounter[4][2];
+    s32 sendBufCounter;
+    s32 recvBufCounter[4];
+    u16 *nextSendBufp;
+    u16 *currentSendBufp;
+    u16 *currentRecvBufp[4];
+    u16 *lastRecvBufp[4];
+    u16 *recvCheckBufp[4];
+    struct MultiSioPacket sendBuf[2];
+    struct MultiSioPacket recvBuf[4][3];
+};
+
+
