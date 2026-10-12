@@ -25,17 +25,17 @@ void sub_080A97E0(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000420);
 }
-#ifdef NONMATCHING
 void sub_080A9818(void)
 {
-    u32 i, mem;
-    gUnk_03000424 = sub_08001494(0x78);
-    for (i = 0; i < 3; i++)
-        M2C_FIELD((u8 *)gUnk_03000424 + i * 0x28, s32 *, 8) = 0;
+  int i;
+  u32 mem;
+  gUnk_03000424 = sub_08001494(0x78);
+  for (i = 0; i < 3; i++)
+  {
+    *((s32 *) (((s8 *) (((u8 *) gUnk_03000424) + (i * 0x28))) + 8)) = 0;
+  }
+
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9818);
-#endif
 #ifdef NONMATCHING
 void sub_080A9844(void) { u8 *p = (u8 *)gUnk_03000424; u32 i; for (i=0;i<3;i++,p+=0x28) { if (sub_08000470((u32)p)) sub_080003A8((u32)p); } sub_08001538(gUnk_03000424); gUnk_03000424=0; }
 #else

@@ -176,14 +176,12 @@ s32 sub_0809043C(s32 arg0, s32 arg1)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809043C);
 #endif
-#ifdef NONMATCHING
 s32 sub_0809044C(s32 arg0, s32 arg1)
 {
-    return (s32)(((s64)arg0 * arg1) >> 16);
+  unsigned long long new_var;
+  new_var = ((s64) arg0) * arg1;
+  return (s32) (new_var >> 16);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809044C);
-#endif
 #ifdef NONMATCHING
 s32 sub_08090470(s32 arg0, s32 arg1)
 {

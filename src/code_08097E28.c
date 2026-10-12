@@ -211,17 +211,16 @@ void sub_0809D574(void)
     gUnk_030056FC = 0;
     sub_08016ECC(gUnkVu16_030002F0);
 }
-#ifdef NONMATCHING
 void sub_0809D5B8(void)
 {
-    u32 i;
-    gUnk_030002F4 = sub_08001494(0x140);
-    for (i = 0; i < 8; i++)
-        M2C_FIELD((u8 *)gUnk_030002F4 + i * 0x28, s32 *, 8) = 0;
+  int i;
+  gUnk_030002F4 = sub_08001494(0x140);
+  for (i = 0; i < 8; i++)
+  {
+    *((s32 *) (((s8 *) (((u8 *) gUnk_030002F4) + (i * 0x28))) + 8)) = 0;
+  }
+
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809D5B8);
-#endif
 #ifdef NONMATCHING
 void sub_0809D5E4(void)
 {
