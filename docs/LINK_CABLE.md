@@ -9,7 +9,7 @@ Packets are 0x20 bytes: 4-byte header (frameCounter, recvErrorFlags, checksum) +
 | Function | Address | Role | Status |
 |---|---|---|---|
 | MultiSioInit | sub_0800170C | reset regs, copy ISR to IWRAM, set buffers | matched C |
-| MultiSioMain | sub_08001804 | per-frame: `(void *send24, void *recv4x24)` -> status flags | C draft (NONMATCHING) |
+| MultiSioMain | sub_08001804 | per-frame: `(void *send24, void *recv4x24)` -> status flags | matched C |
 | MultiSioSendDataSet | sub_0800191C | copy 24 bytes into next send buffer, checksum | matched C |
 | MultiSioRecvDataCheck | sub_08001990 | verify checksums, copy 4x24 bytes | matched C |
 | MultiSioStart / Stop | sub_08001A50 / sub_08001A64 | start flag / disable SIO+timer3 | matched C |

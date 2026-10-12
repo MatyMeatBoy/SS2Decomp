@@ -7,7 +7,8 @@ import decomp
 func = sys.argv[1]
 mod = decomp.module_of(func)
 obj = os.path.join(decomp.ROOT, "build_nm/src/%s.o" % mod)
-r = subprocess.run(["make", "-s", obj], cwd=decomp.ROOT, capture_output=True, text=True)
+os.environ["MAKEFLAGS"] = ""
+r = subprocess.run(["make", "-s", "BUILD=build_nm", "NAME=shiningsoul2_nm", "NM_FLAGS=-DNONMATCHING", "build_nm/src/%s.o" % mod], cwd=decomp.ROOT, capture_output=True, text=True)
 if r.returncode:
     print(r.stdout[-1500:], r.stderr[-1500:]); sys.exit(1)
 with tempfile.TemporaryDirectory() as td:

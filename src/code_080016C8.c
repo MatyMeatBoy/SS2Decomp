@@ -70,7 +70,6 @@ void sub_0800170C(void)
     sub_08000F64(0x80);
     sub_08000F2C();
 }
-#ifdef NONMATCHING
 u32 sub_08001804(void *sendp, void *recvp)
 {
     struct SioMultiCnt sioCntBak;
@@ -106,13 +105,8 @@ u32 sub_08001804(void *sendp, void *recvp)
         break;
     }
     ++gMultiSioArea.sendFrameCounter;
-    return gMultiSioArea.recvSuccessFlags | gMultiSioArea.connectedFlags << 8 | (gMultiSioArea.type == 8) << 7
-        | (gMultiSioArea.hardError != 0) << 12 | (gMultiSioArea.recvFlagsAvailableCounter >> 3) << 15
-        | (sioCntBak.id >= 4) << 13;
+    return gMultiSioArea.recvSuccessFlags | ((gMultiSioArea.type == 8) ? 0x80 : 0) | (gMultiSioArea.connectedFlags << 8) | (gMultiSioArea.hardError ? 0x1000 : 0) | ((sioCntBak.id >= 4) ? 0x2000 : 0) | ((gMultiSioArea.recvFlagsAvailableCounter >> 3) << 15);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080016C8", sub_08001804);
-#endif
 
 void sub_0800191C(void *sendp)
 {
