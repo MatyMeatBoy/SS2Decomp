@@ -31,3 +31,8 @@ Round 4: no NONMATCHING drafts exist for shard 6 (all INCLUDE_ASM).
     Blocker: value written to cell[0] is ((cell[0]&0xF)<<4)|0xA via a 32-bit ldr; branch A/B structure not yet matched.
   sub_0800A998 (412 asm): m2c draft needs cleanup before check (not attempted further).
   Remaining untouched: sub_0800A998, sub_0800B118, sub_0800A34C.
+
+Round 5: merged main (c89fix/fix_decls tooling; no shard-6 drafts exist).
+  sub_0800A998 (412 asm): game state machine; starts with sub_080020F4 call, gUnk_03003CE0 table, calls sub_080092C8 x6,
+    sub_0800A34C, sub_0800CD34 poll loop. Not drafted yet beyond reading the first 130 asm lines.
+  Still open: sub_0800A998, sub_0800A34C (743), sub_0800B118 (604), sub_0800AEF4 (draft 398 vs 546).
