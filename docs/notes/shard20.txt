@@ -1,0 +1,27 @@
+Shard 20 notes (code_0801E244). Nothing matched yet.
+
+sub_0801F2CC (84 bytes, closest)
+  Best draft: u16 pointer walk over the struct at arg0+0x7C (p[0]=q, p[1]=(s8)arg1[3],
+  p[2]=0x100/0x400, p[3]=v) -- the original uses exactly this layout. Remaining diff:
+  - original computes q as `adds r0,r2,#0; lsrs r0,r0,#2` (copy then shift), ours shifts in place.
+  - 0x400 store goes through r5 in ours (extra push r5); original keeps it in r0.
+  - tail: original stores v at +0x82 with r0 as pointer, value in r1; ours swaps them.
+  - arg0/arg1 are copied to r3/r4 in the original; ours use ip / r1 directly.
+  Permuter (240s, 4 jobs) plateaued at score 355 vs 1955 base, no match.
+
+sub_0801F320 (84 bytes)
+  Same template as F2CC with base offset 0xCE. Original keeps arg0 in r3 and reloads v
+  into r4; ours uses ip for arg0. Not matched.
+
+sub_0801FD64 (108 bytes)
+  Best draft ~14 diff lines. Original keeps p(obj+0xDC) and p(obj+0x10C) in r6/r7 and
+  reloads *(obj+0xDC) after the 0x8A update (aliasing). Byte at obj+0x69 kept in r2 and
+  reused for the cmp; rate is kept in r1 (ours uses r0). Signed __divsi3 by 0x64 matches.
+  Not matched.
+
+Not attempted yet: sub_0801F1C4 (bitfield packing + ArcTan2), sub_0801F374, sub_0801F79C,
+sub_0801F99C, sub_0801FB14, sub_0801FC34, sub_0801FDD0, sub_08020680.
+
+Ideas not yet tried: do-while instead of if-blocks for F2CC; separate `u32 q` declared
+after `p`; `register` on arg0 for F320; a helper pointer for the struct base instead of
+arg0 offsets.
