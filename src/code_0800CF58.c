@@ -365,6 +365,7 @@ void sub_08014C04(void) {
     p->w26 = 0;
     p->w122 = 0;
 }
+#ifdef NONMATCHING
 void sub_08014C8C(void) {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
     u16 value = p->w26;
@@ -398,6 +399,9 @@ void sub_08014C8C(void) {
     p->w26 = 0;
     p->w122 = 0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014C8C);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014D60);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014E68);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0801500C);

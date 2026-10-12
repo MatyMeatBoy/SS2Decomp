@@ -1,5 +1,10 @@
 #include "global.h"
 
+void sub_080003F4(s32);
+void sub_080867F8(void);
+
+void sub_0802939C(s32, s32);
+
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08028AAC);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08028D98);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_080290E4);
@@ -34,8 +39,6 @@ void sub_0802A01C(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A080);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A104);
-void sub_080003F4(s32);
-void sub_080867F8(void);
 void sub_0802A19C(void) {
     register u8 *base asm("r4");
     register s16 *x asm("r5");
@@ -130,8 +133,6 @@ INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802E6E0);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802E7AC);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802EA50);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802F208);
-void sub_0802939C(s32, s32);
-
 void sub_0802F424(s32 arg0) {
     s32 *var_r1;
     u32 var_r2;

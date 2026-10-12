@@ -80,3 +80,20 @@ No ejecutes comandos destructivos ni borres archivos fuera de la tarea. No intro
 - Reporta solo funciones y archivos cambiados, verificaciones ejecutadas y dudas concretas.
 - Usa diffs pequeños y salidas acotadas; conserva los detalles técnicos necesarios para revisar equivalencia y ABI.
 - En tareas por lotes, comunica un resumen único por entrega.
+
+## Verificación obligatoria (añadido tras revalidar el árbol)
+
+Se revalidaron todas las funciones convertidas por agentes: ~470 de ~505 compilaban pero **no coincidían byte a byte** (o ni compilaban con agbcc,
+que es C89: sin `for (u32 i = 0;...)` ni declaraciones después de sentencias). Esas funciones quedaron como borrador dentro de
+`#ifdef NONMATCHING ... #else INCLUDE_ASM(...) #endif` (el ROM se construye con el asm; el C sirve de punto de partida para el permuter).
+Reglas para que el avance sea real:
+
+1. Una función solo cuenta si `python tools/scripts/decomp.py check FUNC archivo.c` da **MATCH** con el compilador del módulo, y entonces
+   se aplica con `python tools/scripts/apply_permuted.py archivo.c` (aplica, reconstruye la ROM completa y revierte si cambia el SHA1).
+2. Antes de cada commit: `make compare` debe imprimir `shiningsoul2_eu.gba: OK`. Si no compila o no coincide, no se commitea.
+3. Las funciones deben quedar **en orden de dirección** dentro del módulo (`python tools/scripts/sort_module.py` las reordena) y no puede
+   haber un `INCLUDE_ASM` duplicado de una función ya convertida.
+4. No convertir a C el código escrito a mano (`asm/m4a_1.s`, `asm/sched.s`, `asm/crt0.s`, `asm/libagbsyscall.s`) salvo que coincida con ROM completa.
+5. Helpers `static` auxiliares de código en `NONMATCHING` deben ir dentro del mismo `#ifdef NONMATCHING`, o añaden bytes a la ROM.
+6. `python tools/scripts/revalidate.py [--apply]` vuelve a comprobar todas las funciones C y degrada las que no coinciden; `python tools/scripts/first_shift.py`
+   localiza la primera función que desplaza el layout cuando la ROM no coincide.

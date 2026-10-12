@@ -1,5 +1,9 @@
 #include "global.h"
 
+void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
+extern u8 gUnk_03003E28[];
+
+#ifdef NONMATCHING
 void sub_080153A4(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
@@ -21,6 +25,10 @@ void sub_080153A4(void)
     p->w26 = 0;
     p->w122 = 0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080153A4);
+#endif
+#ifdef NONMATCHING
 void sub_08015464(void)
 {
     u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
@@ -47,6 +55,9 @@ void sub_08015464(void)
     *(u16 *)(state + 0x26) = 0;
     *(u16 *)(state + 0x122) = 0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015464);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801551C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015620);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080156FC);
@@ -104,6 +115,7 @@ void sub_08015D98(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= 0xFFFFEFFF;
 }
+#ifdef NONMATCHING
 s32 sub_08015DC0(s32 *value)
 {
     s32 current = *value;
@@ -117,6 +129,10 @@ s32 sub_08015DC0(s32 *value)
     *value = next;
     return next;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015DC0);
+#endif
+#ifdef NONMATCHING
 void sub_08015DE0(s32 *value, s32 target)
 {
     s32 current = *value;
@@ -125,6 +141,9 @@ void sub_08015DE0(s32 *value, s32 target)
     *value = next;
     if (target <= next) *value = target;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015DE0);
+#endif
 void sub_08015E00(s32 arg0)
 {
   s8 *new_var;
@@ -154,6 +173,7 @@ void sub_08015E3C(u8 *arg0, s32 arg1) {
         *p = 0;
     }
 }
+#ifdef NONMATCHING
 u32 sub_08015E84(u8 *arg0)
 {
     s32 adjustment = (s8)arg0[0x6C] * 10;
@@ -169,6 +189,9 @@ u32 sub_08015E84(u8 *arg0)
     }
     return 0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015E84);
+#endif
 void sub_08015ED4(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 0x400000;
@@ -223,6 +246,7 @@ INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016C88);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016D40);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
+#ifdef NONMATCHING
 void sub_08016ECC(s32 index)
 {
     u32 slot = (u32)(index - 4) & 0xFFFF;
@@ -237,11 +261,11 @@ void sub_08016ECC(s32 index)
     table[offset + 2] = 0;
     *active &= ~bit;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016ECC);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017C6C);
-void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
-extern u8 gUnk_03003E28[];
-
 s32 sub_08017E34(s32 *arg0) {
     struct {
         u16 a;

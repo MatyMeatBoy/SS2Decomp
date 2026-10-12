@@ -22,6 +22,7 @@ s32 sub_0801E244(s32 arg0, s32 arg1)
   }
   goto loop_1;
 }
+#ifdef NONMATCHING
 void sub_0801E278(s32 arg0, u32 arg1)
 {
     u8 *entry;
@@ -42,6 +43,10 @@ void sub_0801E278(s32 arg0, u32 arg1)
         sub_0801DB94(*(u16 *)arg0, entry, 0);
     }
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E278);
+#endif
+#ifdef NONMATCHING
 void sub_0801E2CC(s32 arg0, u32 arg1)
 {
     u8 *entry;
@@ -59,6 +64,10 @@ void sub_0801E2CC(s32 arg0, u32 arg1)
         sub_0801DB94(*(u16 *)arg0 + 4, entry, 0);
     }
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
+#endif
+#ifdef NONMATCHING
 void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2)
 {
     u8 *player = (u8 *)gUnk_03003CE0 + playerIndex * 0x14C + 0x34;
@@ -71,6 +80,10 @@ void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2)
             *(u16 *)entry = 0xFFFF;
     }
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E324);
+#endif
+#ifdef NONMATCHING
 u16 sub_0801E378(s32 arg0, u16 value)
 {
     u8 mode = sub_0801DE60();
@@ -85,7 +98,10 @@ u16 sub_0801E378(s32 arg0, u16 value)
     }
     return value;
 }
-
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E378);
+#endif
+#ifdef NONMATCHING
 u16 sub_0801E3D8(s32 arg0, u16 value)
 {
     u8 mode = sub_0801DE60();
@@ -100,6 +116,10 @@ u16 sub_0801E3D8(s32 arg0, u16 value)
     }
     return value;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E3D8);
+#endif
+#ifdef NONMATCHING
 u16 sub_0801E438(s32 arg0, u32 arg1)
 {
     u16 value = (u16)arg1;
@@ -110,6 +130,9 @@ u16 sub_0801E438(s32 arg0, u32 arg1)
         value = sub_0801E0AC(arg0, 2) << 3;
     return value;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E438);
+#endif
 s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 temp_r1;
     s32 temp_r1_2;
@@ -183,6 +206,7 @@ s32 sub_0801E538(void)
   }
   return 1;
 }
+#ifdef NONMATCHING
 void sub_0801E550(u16 id, u32 stateIndex, u16 kind, u16 value)
 {
     u8 *state = (u8 *)gUnk_03003CE0 + stateIndex * 0x14A + 0x34;
@@ -193,18 +217,26 @@ void sub_0801E550(u16 id, u32 stateIndex, u16 kind, u16 value)
             *(u16 *)(entry + 6) = value;
     }
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E550);
+#endif
+#ifdef NONMATCHING
 void sub_0801E594(void *arg0)
 {
     u32 i;
     for (i = 0; i <= 7; i++)
         M2C_FIELD((u8 *)arg0 + i * 0x28, u16 *, 0) |= 0xFFFF;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E594);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801EF14);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F1C4);
+#ifdef NONMATCHING
 void sub_0801F2CC(u8 *object, u8 *data)
 {
     u16 value = data[2];
@@ -221,7 +253,10 @@ void sub_0801F2CC(u8 *object, u8 *data)
         *(u16 *)(object + 0x7E) = 0;
     }
 }
-
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F2CC);
+#endif
+#ifdef NONMATCHING
 void sub_0801F320(u8 *object, u8 *data)
 {
     u16 value = data[2];
@@ -238,6 +273,9 @@ void sub_0801F320(u8 *object, u8 *data)
         *(u16 *)(object + 0xD4) = 0;
     }
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F320);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F374);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F79C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F99C);

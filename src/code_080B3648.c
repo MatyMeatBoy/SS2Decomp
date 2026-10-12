@@ -22,6 +22,7 @@ void sub_080B4B48(void)
     while (((u32) var_r2) <= 3U);
   }
 }
+#ifdef NONMATCHING
 void sub_080B4B7C(void)
 {
     u8 *entry = *(u8 **)0x030007D0;
@@ -32,6 +33,9 @@ void sub_080B4B7C(void)
     sub_08001538(*(u32 **)0x030007D0);
     *(u32 **)0x030007D0 = 0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4B7C);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4BB8);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
@@ -65,6 +69,7 @@ void sub_080B63A0(void)
   gUnk_030007E4 = (temp_r0 = (s32) sub_08001494(0x28U));
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
+#ifdef NONMATCHING
 void sub_080B63BC(void)
 {
     u8 *obj=*(u8 **)0x030007E4; u32 mem; if(!obj)return;
@@ -74,6 +79,10 @@ void sub_080B63BC(void)
     *(u32 *)(obj+0xC)=(u32)sub_080B5F94; *(u32 *)(obj+0x24)=0;
     sub_08000274_(obj,0,0);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B63BC);
+#endif
+#ifdef NONMATCHING
 void sub_080B640C(void)
 {
     u16 *flags=(u16 *)0x030007D4; u32 i;
@@ -81,6 +90,10 @@ void sub_080B640C(void)
     *(u32 *)0x030007EC=sub_08001494(0x28);
     if(*(u32 *)0x030007EC) *(u32 *)(*(u32 *)0x030007EC+8)=0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B640C);
+#endif
+#ifdef NONMATCHING
 void sub_080B6448(u32 a, u32 b)
 {
     u8 *obj=*(u8 **)0x030007EC; u32 mem; if(!obj||sub_08000470((u32)obj)||*(u32 *)(obj+8))return;
@@ -88,6 +101,10 @@ void sub_080B6448(u32 a, u32 b)
     *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0xC)=(u32)sub_080B6178;
     *(u32 *)(obj+0x24)=0; *(u32 *)(obj+8)=0x3B; sub_08000274_4(obj,b,a,0);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6448);
+#endif
+#ifdef NONMATCHING
 void sub_080B64A4(void)
 {
     u8 *base = gUnk_030056F4;
@@ -95,3 +112,6 @@ void sub_080B64A4(void)
     for (i = 1; i <= 4; i++)
         *(u16 *)(base + i * 0x60 - 0x20 + 0x7A) |= 1;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B64A4);
+#endif

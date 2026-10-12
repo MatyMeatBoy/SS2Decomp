@@ -137,6 +137,7 @@ def restore_asm(func):
         return names.get(a, m.group(0))
     text = re.sub(r"\b(sub|gUnk)_([0-9A-F]{8})\b", sub, text)
     out = os.path.join(ROOT, "asm/nonmatchings/%s/%s.s" % (mod, func))
+    os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, "w").write(text)
     return out
 

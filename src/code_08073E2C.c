@@ -1,5 +1,7 @@
 #include "global.h"
 
+extern s32 sub_08074398(u16, u16, s32);
+
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073E2C);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
@@ -59,12 +61,16 @@ loop_1:
 u16 sub_0807A028(u16 arg0) {
     return sub_08073EE8(arg0, 0x7FFFFFFF);
 }
-extern s32 sub_08074398(u16, u16, s32);
+#ifdef NONMATCHING
 u16 sub_0807A040(u16 a, u16 b)
 {
     return (u16)sub_08074398(a, b, 0x7FFFFFFF);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A040);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A064);
+#ifdef NONMATCHING
 void sub_0807A0E0(void *arg0)
 {
     u32 offset;
@@ -75,6 +81,9 @@ void sub_0807A0E0(void *arg0)
     if ((s16)*field < 0)
         *field = 0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A0E0);
+#endif
 void sub_0807A120(void) {
 
 }
@@ -83,6 +92,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A20C);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A2E0);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A378);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A4B4);
+#ifdef NONMATCHING
 u8 sub_0807A544(const u8 *data, u32 length)
 {
     u8 sum = 0;
@@ -91,6 +101,10 @@ u8 sub_0807A544(const u8 *data, u32 length)
         sum += data[i];
     return (u8)~sum;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A544);
+#endif
+#ifdef NONMATCHING
 u32 sub_0807A56C(u32 sector)
 {
     u8 *data;
@@ -106,3 +120,6 @@ u32 sub_0807A56C(u32 sector)
     sub_08001538((s32)data);
     return i;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A56C);
+#endif

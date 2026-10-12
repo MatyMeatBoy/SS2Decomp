@@ -72,6 +72,7 @@ wait:
 }
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045660);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045764);
+#ifdef NONMATCHING
 void sub_08045AFC(void)
 {
     u8 *base = (u8 *)*(u32 *)0x03005CF4;
@@ -82,6 +83,9 @@ void sub_08045AFC(void)
     base[clear] &= (u8)~0x21;
     sub_0805C7B8(0);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045AFC);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045B68);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045E38);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045F44);

@@ -1,5 +1,9 @@
 #include "global.h"
 
+void sub_08006D5C_(u16 n) __asm__("sub_08006D5C");
+
+void sub_08006E84_(void) __asm__("sub_08006E84");
+
 void sub_08006D24(u16 arg0) {
     u16 temp_r1;
 
@@ -16,7 +20,6 @@ void sub_08006D40(u16 arg0) {
         m4aSongNumStartOrContinue(temp_r1);
     }
 }
-void sub_08006D5C_(u16 n) __asm__("sub_08006D5C");
 void sub_08006D5C_(u16 n)
 {
     if (n <= 0x1AB)
@@ -79,7 +82,6 @@ void sub_08006E64(u8 v)
         m4aMPlayStop(&gUnk_030075C0
                      );
 }
-void sub_08006E84_(void) __asm__("sub_08006E84");
 void sub_08006E84_(void)
 {
     u8 *p = sub_08001494(
@@ -161,6 +163,7 @@ u32 sub_08008CC4(u32 arg0, u16 *arg1, u16 *arg2, u8 *arg3, u32 arg4)
     }
     return ret;
 }
+#ifdef NONMATCHING
 s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     u16 *state = (u16 *)arg1;
@@ -198,6 +201,9 @@ s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     }
     return result;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008D38);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008DB8);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008E74);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008F2C);

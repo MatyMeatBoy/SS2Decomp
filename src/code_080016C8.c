@@ -31,7 +31,6 @@ u32 sub_080016C8(void)
     }
     return best;
 }
-
 u32 sub_080016EC(void)
 {
     u32 total = 0;
@@ -43,11 +42,7 @@ u32 sub_080016EC(void)
     }
     return total;
 }
-
 INCLUDE_ASM("asm/nonmatchings/code_080016C8", sub_0800170C);
-
 INCLUDE_ASM("asm/nonmatchings/code_080016C8", sub_08001804);
-
 INCLUDE_ASM("asm/nonmatchings/code_080016C8", sub_0800191C);
-
 INCLUDE_ASM("asm/nonmatchings/code_080016C8", sub_08001990);

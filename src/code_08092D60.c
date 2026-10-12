@@ -4,6 +4,12 @@ void sub_08092E40(void);
 void sub_0809342C(void);
 u16 sub_08093498(void);
 
+#include "global.h"
+M2C_UNK sub_08000990(s32, s32);
+M2C_UNK sub_080009F8(s32, s32, s32);
+M2C_UNK sub_08000A34(s32, s32, s32, s32, s32);
+
+#ifdef NONMATCHING
 void sub_08092D60(void)
 {
     u8 *obj;
@@ -14,6 +20,9 @@ void sub_08092D60(void)
     mem=sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; if(!mem)return;
     *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0x24)=0; sub_08000274_(obj,0,0);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092D60);
+#endif
 void sub_08092DB8(void) {
     gUnk_03000259 = 0;
 }
@@ -48,6 +57,7 @@ s16 sub_08092E34(void) {
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092E40);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092EB4);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092F58);
+#ifdef NONMATCHING
 void sub_080933A0(void)
 {
     *(u8 *)0x03000267 = 0;
@@ -62,6 +72,9 @@ void sub_080933A0(void)
     *(u32 *)0x040000DC = 0xE3400001;
     (void)*(volatile u32 *)0x040000DC;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080933A0);
+#endif
 void sub_08093404(void) {
     gUnk_03000268 = 0;
     sub_08000FD4(0x800);
@@ -69,6 +82,7 @@ void sub_08093404(void) {
     sub_080012D8(0);
     sub_080011E4(0);
 }
+#ifdef NONMATCHING
 void sub_0809342C(void)
 {
     u16 scanline = *(volatile u16 *)0x04000006 & 0xFF;
@@ -82,6 +96,10 @@ void sub_0809342C(void)
         *(u16 *)0x03000264 = (u16)((sample * scale) >> 8);
     }
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809342C);
+#endif
+#ifdef NONMATCHING
 u16 sub_08093498(void)
 {
     gUnk_03000267 += 2;
@@ -93,6 +111,9 @@ u16 sub_08093498(void)
     }
     return 0;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093498);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080934D4);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
@@ -126,6 +147,7 @@ void sub_080944F0(void) {
         gUnk_03000270 = 0;
     }
 }
+#ifdef NONMATCHING
 void sub_08094530(void)
 {
     u8 *obj = *(u8 **)0x03000270;
@@ -146,6 +168,9 @@ void sub_08094530(void)
     *(u32 *)(obj + 8) = 0x44;
     sub_08000274(obj, 0, 0);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094530);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094590);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094638);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080948E0);
@@ -170,6 +195,7 @@ void sub_08094968(void) {
         gUnk_03000278 = 0;
     }
 }
+#ifdef NONMATCHING
 void sub_080949A8(void)
 {
     u8 *obj=*(u8 **)0x03000278; if(!obj)return;
@@ -178,6 +204,9 @@ void sub_080949A8(void)
     *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0xC)=(u32)sub_080948E0;
     *(u32 *)(obj+0x24)=0; *(u32 *)(obj+8)=0x44; sub_08000274(obj,0,0);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080949A8);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094A00);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094AB8);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094DEC);
@@ -200,6 +229,7 @@ void sub_08094EA4(void) {
         gUnk_0300027C = 0;
     }
 }
+#ifdef NONMATCHING
 void sub_08094EE4(void)
 {
     u8 *obj = *(u8 **)0x0300027C;
@@ -218,9 +248,13 @@ void sub_08094EE4(void)
     *(u32 *)(obj + 8) = 0x44;
     sub_08000274(obj, 0, 0);
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094EE4);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094F3C);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080953F8);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095518);
+#ifdef NONMATCHING
 void sub_080955CC(void)
 {
     gUnk_03000280.w4 = 0;
@@ -231,6 +265,9 @@ void sub_080955CC(void)
     gUnk_03000280.w4 = 0x100;
     gUnk_03000280.w6 = 0x100;
 }
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080955CC);
+#endif
 void sub_080955EC(u16 a, u16 b)
 {
     gUnk_03000280.w4 = a;
@@ -250,12 +287,6 @@ void sub_08095610(u8 v)
     gUnk_03000280.b0C = v;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809561C);
-#include "global.h"
-M2C_UNK sub_08000990(s32, s32);
-M2C_UNK sub_080009F8(s32, s32, s32);
-M2C_UNK sub_08000A34(s32, s32, s32, s32, s32);
-extern s16 gUnk_03001F40;
-
 void sub_08095A60(void) {
     sub_08000A34(1, 0, 0, 0, 0);
     sub_080009F8(0xF00, 0, 0);
@@ -269,7 +300,7 @@ void sub_08095A60(void) {
     M2C_FIELD(gUnk_03001250, s16 *, 4) = 0;
     M2C_FIELD(gUnk_03001250, s16 *, 6) = 0;
     sub_0800903C(0, 0, 0, 0, 0, 0);
-    gUnk_03001F40 = 0;
+    *(s16 *)&gUnk_03001F40 = 0;
     sub_08000940();
 }
 void sub_08095AD8(s8 value)
