@@ -1,99 +1,51 @@
-# Guía para agentes de IA
+# Guía para agentes de IA (ChatGPT, Nemotron, etc.)
 
-Esta guía permite que agentes externos (por ejemplo Nemotron mediante OpenCode) colaboren en la decompilación de Shining Soul 2.
+Objetivo: decompilación **matching**: el C compilado debe dar una ROM idéntica byte a byte (`make compare` → `shiningsoul2_eu.gba: OK`).
+Una función solo cuenta si coincide. C que "se parece" no cuenta: va como borrador en `#ifdef NONMATCHING`.
 
-## Preparación
-
-1. Clona el repositorio y crea una rama propia:
-
+## Antes de empezar
 ```bash
-git clone https://github.com/MatyMeatBoy/SS2Decomp.git
-cd SS2Decomp
-git checkout -b ai/<nombre-del-agente>
+git pull origin claude/rom-decompilation-research-obsal6
+make compare            # debe dar OK; si no, arréglalo antes de nada
+make nonmatching        # todos los borradores deben compilar y enlazar
 ```
 
-2. Trabaja únicamente en tu rama. No hagas push a la rama principal ni reescribas historia.
-3. Antes de editar, comprueba el árbol:
+## Compilador (importante)
+- Todo el código del juego: `agbcc -O2 -fprologue-bugfix` (ya configurado en el Makefile). m4a usa `old_agbcc`, agb_flash `-O1`.
+- agbcc es **C89**: declaraciones al inicio del bloque, sin `for (u32 i = 0; ...)`, sin declarar tras sentencias.
+  `python tools/scripts/c89fix.py` lo convierte solo.
 
-```bash
-git status --short
-git log -5 --oneline
-```
+## Flujo por función
+1. Elige una función con `INCLUDE_ASM` o un borrador `#ifdef NONMATCHING` en `src/<modulo>.c`.
+   Lista de borradores con su distancia: `python tools/scripts/nm_drafts.py /tmp/nm` (0 = coincide, -1 = no compila).
+2. Escribe el C en un archivo aparte y compruébalo: `python tools/scripts/decomp.py check FUNC archivo.c` (muestra el diff de asm).
+3. Cuando diga `MATCH`: `python tools/scripts/apply_permuted.py archivo.c` (aplica, reconstruye la ROM y revierte si cambia el SHA1).
+4. `make compare` OK y `make nonmatching` OK → commit pequeño → push.
+5. Casi-coincidencias: `python tools/scripts/permute.py FUNC archivo.c --time 120`.
 
-## Objetivo
+## Patrones que ya resolvieron muchos borradores (úsalos primero)
+- **No uses direcciones literales** (`*(u32 *)0x03005CF4`): el original usa el símbolo `gUnk_03005CF4`.
+- **Globals con el tipo correcto mediante alias** (no cambies la declaración existente):
+  `extern struct GameState *gGameState asm("gUnk_03005CF4");` o `extern u16 gUnkVu16_030002F0 asm("gUnk_030002F0");`
+  (van en `include/variables.h`; `tools/scripts/try_aliases.py` prueba estas reescrituras en lote).
+- `*(u16 *)gUnk_X` cuando el asm hace un solo `ldrh` sobre la dirección → la variable es u16 (alias), no un puntero.
+- **No partas expresiones en temporales** si el asm carga los globals en otro orden; escribe la expresión en una línea
+  (p.ej. `gUnk_030056FC &= ~(1 << *(u16 *)tabla[obj[2]]);`).
+- Si el original termina en `pop {r1}; bx r1` la función **devuelve** algo (`return sub_X(...)`); `pop {r0}` = void.
+- Parámetros `u16/u8` añaden `lsl/lsr`; si el asm no los tiene, declara el parámetro `u32`/`s32`.
+- Puntero local a estructura (`struct Player *p = &gUnk_03003CE0[i]; p->state = 0;`) en vez de offsets sueltos.
+- Frame de pila sin uso (`sub sp,#N`) = array local sin usar `u8 buf[N];`.
+- Booleanos: `u32 r = 0; if (c) r = 1; return r;`.
+- Comparaciones `ble/bgt` = con signo, `bls/bhi` = sin signo: ajusta el tipo.
 
-Convierte funciones de `asm/nonmatchings/` a C en `src/`, conservando exactamente el comportamiento y la dirección de la función. Prioriza funciones pequeñas y aisladas. No inventes estructuras ni traduzcas una función si la equivalencia no es clara.
+## Reglas
+- No borres ni cambies líneas existentes de `include/*.h` (solo añade). No cambies el Makefile.
+- No conviertas a C el asm escrito a mano (`asm/m4a_1.s`, `asm/sched.s`, `asm/crt0.s`).
+- Mantén las funciones en orden de dirección (`python tools/scripts/sort_module.py`) y sin `INCLUDE_ASM` duplicados.
+- Nunca subas `baserom.gba`.
 
-Para cada función:
-
-1. Lee el ASM completo y las declaraciones relacionadas en `include/` y `src/`.
-2. Confirma offsets, tipos, llamadas y convenciones con funciones vecinas.
-3. Implementa la función en el C correspondiente.
-4. Elimina el ASM solo después de verificar la implementación.
-5. No modifiques funciones ajenas a la tarea.
-
-## Verificación
-
-En Windows, prepara MSYS2 así:
-
-```powershell
-$env:PATH="C:\msys64\ucrt64\bin;C:\msys64\usr\bin;$env:PATH"
-```
-
-Comprueba siempre:
-
-```bash
-git diff --check
-python tools/scripts/progress.py
-```
-
-No dejes archivos generados `*.i` o `*.s` temporales en el commit. No cambies `docs/progress/` manualmente; se actualiza con `progress.py`.
-
-## Entrega
-
-El agente debe entregar una descripción breve de las funciones convertidas, la salida de `git diff --check` y cualquier duda de equivalencia. Puede crear un commit local descriptivo, pero no debe hacer push salvo autorización explícita. El coordinador revisará el diff, ejecutará las comprobaciones e integrará los cambios.
-
-Si una función es grande, usa callbacks complejos o depende de datos no identificados, déjala intacta y documenta el bloqueo. Si otro agente ya modificó el archivo, detente y comunica el conflicto.
-
-## Seguridad
-
-No ejecutes comandos destructivos ni borres archivos fuera de la tarea. No introduzcas pseudocódigo, código generado o comentarios que oculten una equivalencia incompleta. Mantén los cambios pequeños: una función o un grupo estrechamente relacionado por commit.
-
-## Coordinación con varios agentes
-
-- Cada agente trabaja en una función o grupo estrechamente relacionado y anuncia primero el archivo que va a tocar.
-- No uses `git add -A`: el coordinador integra archivos concretos para evitar incluir material auxiliar.
-- `hermes01/` y `opencode01/` son carpetas locales de investigación; no forman parte del código fuente ni deben añadirse al commit.
-- No hagas push desde los workers. Entrega el diff, la función convertida y cualquier duda; el coordinador valida y publica los cambios.
-- Antes de empezar y antes de entregar, ejecuta `git status --short` para detectar conflictos con otro agente.
-- Mantén un commit pequeño por función o grupo relacionado y no mezcles reformatos ni archivos generados.
-
-## Lotes rápidos
-
-- Antes de profundizar, compara funciones vecinas: wrappers con el mismo flujo y distintas tablas/callbacks suelen admitir una plantilla C compartida. Adapta nombres y constantes, y valida cada función por separado.
-- Prioriza candidatos cortos cuyo control de flujo se entienda; si tras dos iteraciones no mejora el diff, registra el bloqueo y cambia de función.
-- Cuenta avance solo cuando `decomp.py check` o `checkfile` da `MATCH`; mantener C no equivalente no sustituye la eliminación del ASM.
-
-## Uso eficiente de tokens (vigente hasta el 31-12-2027)
-
-- Mantén las instrucciones y entregas breves, sin repetir el prompt ni narrar pasos internos.
-- Reporta solo funciones y archivos cambiados, verificaciones ejecutadas y dudas concretas.
-- Usa diffs pequeños y salidas acotadas; conserva los detalles técnicos necesarios para revisar equivalencia y ABI.
-- En tareas por lotes, comunica un resumen único por entrega.
-
-## Verificación obligatoria (añadido tras revalidar el árbol)
-
-Se revalidaron todas las funciones convertidas por agentes: ~470 de ~505 compilaban pero **no coincidían byte a byte** (o ni compilaban con agbcc,
-que es C89: sin `for (u32 i = 0;...)` ni declaraciones después de sentencias). Esas funciones quedaron como borrador dentro de
-`#ifdef NONMATCHING ... #else INCLUDE_ASM(...) #endif` (el ROM se construye con el asm; el C sirve de punto de partida para el permuter).
-Reglas para que el avance sea real:
-
-1. Una función solo cuenta si `python tools/scripts/decomp.py check FUNC archivo.c` da **MATCH** con el compilador del módulo, y entonces
-   se aplica con `python tools/scripts/apply_permuted.py archivo.c` (aplica, reconstruye la ROM completa y revierte si cambia el SHA1).
-2. Antes de cada commit: `make compare` debe imprimir `shiningsoul2_eu.gba: OK`. Si no compila o no coincide, no se commitea.
-3. Las funciones deben quedar **en orden de dirección** dentro del módulo (`python tools/scripts/sort_module.py` las reordena) y no puede
-   haber un `INCLUDE_ASM` duplicado de una función ya convertida.
-4. No convertir a C el código escrito a mano (`asm/m4a_1.s`, `asm/sched.s`, `asm/crt0.s`, `asm/libagbsyscall.s`) salvo que coincida con ROM completa.
-5. Helpers `static` auxiliares de código en `NONMATCHING` deben ir dentro del mismo `#ifdef NONMATCHING`, o añaden bytes a la ROM.
-6. `python tools/scripts/revalidate.py [--apply]` vuelve a comprobar todas las funciones C y degrada las que no coinciden; `python tools/scripts/first_shift.py`
-   localiza la primera función que desplaza el layout cuando la ROM no coincide.
+## Autocorrección (si algo se rompe)
+- `make compare` falla → `python tools/scripts/first_shift.py` dice qué función cambia el layout; `python tools/scripts/revalidate.py --apply`
+  devuelve a borrador toda función que no coincida.
+- `make nonmatching` falla → `python tools/scripts/c89fix.py` y `python tools/scripts/fix_decls.py nonmatching`.
+- Tras aplicar una función queda un borrador viejo → `python tools/scripts/unwrap_matched.py`.
