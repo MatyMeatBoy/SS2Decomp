@@ -1,6 +1,7 @@
 #include "global.h"
 
 void sub_08066898(void);
+void sub_08067AFC(void);
 extern void sub_08066720();
 extern u8 *sub_08002118();
 void sub_08064E14(void);
@@ -230,8 +231,72 @@ u32 sub_08065FE8(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065FE8);
 #endif
+#ifdef NONMATCHING
+/* Enqueue tag 0x86 (8-byte block {ptr, idx}) if the referenced slot is visible/valid and no 0x86 is in flight. */
+u32 sub_0806603C(s32 *src)
+{
+    s32 pos[2];
+    s32 base;
+    u32 idx;
+    u8 *p;
+    if (gUnk_03006338 < 0x32) {
+        base = *src;
+        idx = *(u8 *)(src + 1) & 0x7F;
+        pos[0] = *(s16 *)(base + idx * 8 + 10) << 11;
+        pos[1] = *(s16 *)(base + idx * 8 + 12) << 11;
+        if ((*(u16 *)(base + idx * 8 + 8) & 0x4000) != 0 || sub_08017F7C(pos) != 0) {
+            if (gLinkFlagByte == 0) {
+                gLinkFlagByte = 1;
+                p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+                *(u32 *)(p + 4) = 1;
+                *p = 0x86;
+                CpuSet(src, p + 8, 0x04000002);
+                p[1] = 1;
+                gUnk_03006338++;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806603C);
+#endif
+#ifdef NONMATCHING
+/* Enqueue tag 0x8A (hit event: u8 target, u8 kind, u8 b, u8 c, s16 damage...), merging damage into a pending 0x8A for the same target. */
+u32 sub_080660EC(u8 *src)
+{
+    u8 *p;
+    u32 i;
+    u32 n;
+    u32 r;
+    n = gUnk_03006338;
+    if (n > 0x31) {
+        r = 0;
+    } else {
+        p = (u8 *)(uintptr_t)gUnk_03006300;
+        for (i = 0; i < n; i++, p += 0x88) {
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8A && p[8] == src[0]) {
+                *(s16 *)(p + 0xC) += *(s16 *)(src + 8);
+                p[0xB] = src[3];
+                p[10] = src[2];
+                goto done;
+            }
+        }
+        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(p + 4) = 1;
+        *p = 0x8A;
+        CpuSet(src, p + 8, 0x04000002);
+        p[1] = 1;
+        gUnk_03006338++;
+    done:
+        r = 1;
+    }
+    return r;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080660EC);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806617C);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066220);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080662C4);
