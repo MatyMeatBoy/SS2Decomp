@@ -29,7 +29,18 @@ void sub_0803E5D8(void)
         base[0x1B5] = next;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803E5D8);
+void sub_0803E5D8(void)
+{
+    u8 next;
+    if (sub_0800CE30() != 0)
+        next = *((u8 *) gUnk_03005CF4 + 0x1C1) + 1;
+    else
+        next = *((u8 *) gUnk_03005CF4 + 0x1B5) + 1;
+    if (sub_0800CE30() != 0)
+        *((u8 *) gUnk_03005CF4 + 0x1C1) = next;
+    else
+        *((u8 *) gUnk_03005CF4 + 0x1B5) = next;
+}
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803E638);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803EE88);

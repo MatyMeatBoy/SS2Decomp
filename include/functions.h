@@ -344,6 +344,7 @@ void sub_080277E0();
 s32 sub_080289C0(s32, s32, s32);
 s32 sub_08028AAC(s32, s32, s32, s32);
 s32 sub_08028D98(s32, s32, s32, s32);
+void sub_0803E5D8(void);
 void sub_08054514(void);
 void sub_08056E38();
 s32 sub_08056E50();
