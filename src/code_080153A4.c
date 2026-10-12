@@ -117,23 +117,16 @@ void sub_08015D98(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags &= 0xFFFFEFFF;
 }
-#ifdef NONMATCHING
-s32 sub_08015DC0(s32 *value)
+void sub_08015DC0(s32 *p)
 {
-    s32 current = *value;
-    s32 next;
-    if (current <= 0x17) {
-        next = current - 8;
-        if (next <= 0) next = 0;
+    s32 v = *p;
+    if (v <= 23) {
+        *p = v - 8;
+        if (*p <= 0) *p = 0;
     } else {
-        next = current - (current >> 1);
+        *p = v - (v >> 1);
     }
-    *value = next;
-    return next;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015DC0);
-#endif
 #ifdef NONMATCHING
 void sub_08015DE0(s32 *value, s32 target)
 {

@@ -388,14 +388,14 @@ s32 sub_0805EEFC(void *arg0)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EEFC);
 #endif
-#ifdef NONMATCHING
-s32 sub_0805EF14(void *arg0)
+u32 sub_0805EF14(u8 *arg0)
 {
-    return arg0 != NULL && M2C_FIELD(arg0, u16 *, 0x80) == 0;
+    u32 r;
+    if (arg0 == NULL) return 0;
+    r = 0;
+    if (*(u16 *)(arg0 + 0x80) == 0) r = 1;
+    return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EF14);
-#endif
 #ifdef NONMATCHING
 void sub_0805EF2C(void)
 {
