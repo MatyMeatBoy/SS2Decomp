@@ -39,7 +39,44 @@ INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A228);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A590);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A644);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A7DC);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A9B0);
+s32 sub_0802A9B0(void) {
+    register u32 var_r5 asm("r5") = 0x533;
+    register u8 **seqAddr asm("r6");
+    register u8 **globalAddr asm("r0");
+    register u8 *seq asm("r1");
+    s32 var_r7;
+    register volatile u16 *attrs asm("r4");
+    register s32 var_r3 asm("r3");
+    register u16 temp_r1 asm("r1");
+    register u16 temp_r2 asm("r2");
+    do {
+        u8 *temp_r0 = (u8 *)sub_08007290(0x140000 | var_r5);
+        attrs = (volatile u16 *)(temp_r0 + 2);
+        var_r7 = 1;
+        var_r3 = 0;
+        temp_r2 = *(u16 *)(temp_r0 + 2);
+        if (temp_r2 != 0xFF) {
+            globalAddr = (u8 **)&gUnk_030034E0;
+            seq = *globalAddr;
+            seqAddr = globalAddr;
+            if (temp_r2 != seq[0]) goto block_9;
+            do {
+                var_r3++;
+                temp_r1 = attrs[var_r3];
+                if (temp_r1 == 0xFF) break;
+                if (temp_r1 != (*seqAddr)[var_r3]) {
+                    var_r7 = 0;
+                    break;
+                }
+            } while (1);
+        }
+        if (var_r7 != 0 && ((u8 *)gUnk_030034E0)[var_r3] == 0xFD) return var_r5 - 0x533;
+block_9:
+        asm volatile (".ltorg");
+        var_r5++;
+    } while (var_r5 <= 0x53F);
+    return -1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802AA28);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802B8A4);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802C144);
