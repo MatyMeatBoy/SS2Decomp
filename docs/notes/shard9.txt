@@ -11,3 +11,6 @@ sub_080137A0 (code_0800CF58, 95 asm lines) - NOT MATCHED after ~1000 variants.
   Best diff: register allocation (zero/loop counter swapped, base recomputed per halfword store).
   Ideas not tried: struct view of gUnk_030034E0 (stride-8 element with u16 a,b and u8 c[12]), separate per-case
   helper functions, `register` locals.
+
+Later attempt (same function): pointer-increment loops over (u8*)gUnk_030034E0 with local q, and i<=11 loops with
+case orders (1,0,2)/(0,1,2). No match. Remaining diff is still the register/reload layout around the halfword stores.
