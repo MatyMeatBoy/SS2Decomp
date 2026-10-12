@@ -229,7 +229,47 @@ void sub_08092190(void)
     sub_08000274((u32)task, 0, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080921E4);
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080922B4);
+extern void sub_08095A60(void);
+extern void sub_08095AD8(void);
+extern void sub_08092CB8(void);
+extern void sub_080923FC(void);
+extern void sub_08092EB4(void);
+extern void sub_08092F58(void);
+extern void sub_080934D4(void);
+extern void sub_08093584(void);
+extern void sub_080943F8(void);
+extern void sub_08093BAC(void);
+extern void sub_08094590(void);
+extern void sub_08094638(void);
+extern void sub_08094A00(void);
+extern void sub_08094AB8(void);
+extern void sub_08095518(void);
+extern void sub_08094F3C(void);
+extern u32 gUnk_03000210;
+extern u32 gUnk_03000230;
+typedef void (*Handler)(void);
+void sub_080922B4(void)
+{
+    volatile Handler *a = (volatile Handler *)&gUnk_03000210;
+    volatile Handler *b;
+    a[6] = sub_08095A60;
+    b = (volatile Handler *)&gUnk_03000230;
+    b[6] = sub_08095AD8;
+    a[7] = sub_08092CB8;
+    b[7] = sub_080923FC;
+    a[0] = sub_08092EB4;
+    b[0] = sub_08092F58;
+    a[1] = sub_080934D4;
+    b[1] = sub_08093584;
+    a[2] = sub_080943F8;
+    b[2] = sub_08093BAC;
+    a[4] = sub_08094590;
+    b[4] = sub_08094638;
+    a[5] = sub_08094A00;
+    b[5] = sub_08094AB8;
+    a[3] = sub_08095518;
+    b[3] = sub_08094F3C;
+}
 void sub_08092344(void) {
 
 }

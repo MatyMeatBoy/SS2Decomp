@@ -54,7 +54,37 @@ void sub_080572FC(void) {
 s32 sub_08057314(void) {
     return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 8) & 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057328);
+s32 sub_08057328(u32 a, void *b) {
+    u8 *entry;
+    u32 count;
+    register s32 result asm("r1");
+    u32 memory;
+    entry = (u8 *)gUnk_03005CF4 + 0xE34;
+    count = 0;
+    goto check;
+next:
+    count++;
+    entry += 0x28;
+check:
+    if (count > 0x1D) goto out;
+    result = sub_08000470(entry);
+    if (result != 0) goto next;
+    goto allocate;
+wait:
+    sub_080003F0();
+allocate:
+    memory = sub_08001494(0x400);
+    *(u32 *)(entry + 0x20) = memory;
+    if (memory == 0) goto wait;
+    *(u32 *)(entry + 8) = 0x3C;
+    *(u32 *)(entry + 0xC) = (u32)b;
+    *(u32 *)(entry + 0x10) = memory + 0x3FC;
+    *(u32 *)(entry + 0x24) = 0;
+    sub_08000274((s32 *)entry, (s32)a);
+    return (s32)entry;
+out:
+    return;
+}
 s32 sub_08057390(s32 arg0, void (*arg1)(s32)) {
     return sub_08068070(arg1, arg0);
 }
