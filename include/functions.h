@@ -517,6 +517,7 @@ u32 sub_08068820(void *, void *, void *);
 s32 sub_08068868();
 s32 sub_0806886C();
 s32 sub_08068870();
+s32 sub_0806888C(void);
 void sub_080688F4();
 void sub_080688F8(u32);
 s32 sub_0806898C(s32, s32);

@@ -96,3 +96,5 @@ Start every function by looking for such a draft in `src/<module>.c` (grep the f
 - Keep functions in ROM address order inside the module (`python3 tools/scripts/sort_module.py <module>` fixes the order).
 - `python3 tools/scripts/nm_drafts.py OUT [module]` exports all drafts with their diff score (0 = match, -1 = no compile).
 - Never leave both a C definition and an INCLUDE_ASM of the same function; never convert hand-written asm modules (m4a_1, sched, crt0).
+
+- Idiom: a frame larger than needed (`sub sp,#N` .. `add sp,#N` around trivial code) is an unused local array: add `u8 buf[N];` (matched sub_0806888C).
