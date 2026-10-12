@@ -12,7 +12,7 @@ ap.add_argument("--max-score", type=int, default=12)
 ap.add_argument("--min-score", type=int, default=1)
 ap.add_argument("--time", type=int, default=90)
 ap.add_argument("--procs", type=int, default=3)
-ap.add_argument("--cc1", default="tools/agbcc/bin/old_agbcc")
+ap.add_argument("--cc1", default="")
 a = ap.parse_args()
 funcs = []
 for l in open(a.scores):
@@ -25,7 +25,7 @@ def run(f):
     c = os.path.join(a.dir, f + ".c")
     if not os.path.exists(c):
         return
-    env = dict(os.environ, DECOMP_CC1=a.cc1)
+    env = dict(os.environ, DECOMP_CC1=a.cc1) if a.cc1 else dict(os.environ)
     r = subprocess.run([sys.executable, os.path.join(here, "permute.py"), f, c, "--time", str(a.time), "--out", out],
                        capture_output=True, text=True, env=env)
     print(r.stdout.strip().splitlines()[-1] if r.stdout.strip() else f + " ?", flush=True)
