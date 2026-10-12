@@ -110,7 +110,30 @@ void *sub_0800BAA4(s16 x, s16 y)
     return m + ((x >> 3) + (y >> 3) * gUnk_03003170.width0) * 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BAC4);
+extern void *gUnk_030031D4;
+s32 sub_0800BAC4(s32 arg0, s32 arg1) {
+    register s32 index asm("r4") = arg1;
+    register u8 *table asm("r2") = (u8 *)gUnk_0847846C;
+    s32 offset;
+    u32 *entry;
+    s32 temp_r2;
+    void *var_r2;
+    offset = index * 4 + arg0 * 0x74;
+    asm volatile("" : "+r" (offset));
+    table += 0x10;
+    entry = (u32 *)((u32)offset + (u32)table);
+    temp_r2 = sub_08007290(*entry);
+    if (*entry & 0x40000000) {
+        var_r2 = temp_r2 + 0x10;
+    } else {
+        var_r2 = sub_08000BC8(temp_r2 + 0x10, &gUnk_030031D4);
+    }
+    gUnk_03003170.map0 = var_r2 + ((M2C_FIELD(var_r2, s16 *, 0) * M2C_FIELD(var_r2, s16 *, 2) * 6) + 0x10);
+    gUnk_03003170.mapW = (u16)M2C_FIELD(var_r2, s16 *, 0);
+    gUnk_03003170.mapH = (u16)M2C_FIELD(var_r2, s16 *, 2);
+    gUnk_03003170.flags = 0x40;
+    return 1;
+}
 
 void sub_0800BB40(void)
 {
