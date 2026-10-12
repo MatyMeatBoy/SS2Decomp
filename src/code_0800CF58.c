@@ -177,7 +177,70 @@ block_c:
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800D368);
+#ifdef NONMATCHING
+/* Create the player entity for a link slot `id` (0..3). struct Player (0x14C bytes): +0 id, +0x20 state (0 local, 0xD remote),
+ * +0x34 -> 8 x 0x28 byte slots, +0xAC -> 0x100 byte buffer, +0x13C/+0x140 -> local player template data,
+ * +0x144 -> this slot's link SEND block (sub_08002118), +0x148 -> RECV block (sub_08002238).
+ * The entity runs as task sub_0800D368 (per-player update), stack 0x680 (remote) or gUnk_03003590 (local). */
+extern u8 *gPlayerTemplate asm("gUnk_030034E0");
+extern u8 gTaskArr[] asm("gUnk_030034F0");
+extern u8 gLocalTaskStack[] asm("gUnk_03003590");
+extern u8 *sub_08002118();
+extern void sub_0800D368();
+void sub_080135C4(u16 id)
+{
+    u8 stk_buf[0x13C];
+    u16 zero;
+    u32 stackBase;
+    u8 *pl;
+    u8 *task;
+    u8 *p;
+    u32 i;
+
+    pl = (u8 *)gUnk_03003CE0 + id * 0x14C;
+    *(u32 *)(pl + 0x144) = (u32)sub_08002118(id);
+    *(u32 *)(pl + 0x148) = (u32)sub_08002238(id);
+    *(u16 *)pl = id;
+    task = gTaskArr + id * 0x28;
+    if (id == sub_080020F4()) {
+        *(u32 *)(pl + 0x140) = (u32)gPlayerTemplate;
+        *(u16 *)(pl + 0x20) = 0;
+        *(u32 *)(task + 8) = 0x31;
+        stackBase = (u32)gLocalTaskStack;
+        *(u32 *)(task + 0x20) = 0;
+        *(u32 *)(pl + 0x13C) = (u32)sub_08001494(10);
+        CpuSet(gPlayerTemplate, pl + 2, 10);
+        *(u16 *)(pl + 0xC) = *(u16 *)(gPlayerTemplate + 10);
+        *(u16 *)(pl + 0xE) = *(u16 *)(gPlayerTemplate + 12);
+    } else {
+        *(u16 *)(pl + 0x20) = 0xD;
+        *(u32 *)(task + 8) = 0x32;
+        stackBase = (u32)sub_08001494(0x680);
+        *(u32 *)(task + 0x20) = stackBase;
+        *(u32 *)(pl + 0x13C) = 0;
+        pl[2] = 0xFE;
+    }
+    *(u32 *)(pl + 0xAC) = (u32)sub_08001494(0x100);
+    p = (u8 *)sub_08001494(0x140);
+    *(u32 *)(pl + 0x34) = (u32)p;
+    for (i = 0; i < 8; i++) {
+        *(s16 *)(p + i * 0x28) = -1;
+        zero = 0;
+        CpuSet(&zero, p + i * 0x28 + 8, 0x1000010);
+    }
+    *(u16 *)(pl + 0x136) = 0;
+    if (id == sub_080020F4()) {
+        memcpy(stk_buf, pl + 0x10, 0x13C);
+        ((void (*)(u32, u32, u32, u32))sub_0801E024)(*(u32 *)pl, *(u32 *)(pl + 4), *(u32 *)(pl + 8), *(u32 *)(pl + 0xC));
+    }
+    *(u32 *)(task + 0xC) = (u32)sub_0800D368;
+    *(u32 *)(task + 0x10) = stackBase + 0x67C;
+    *(u32 *)(task + 0x24) = 0;
+    sub_08000274_(task, (u32)pl, 0);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080135C4);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080137A0);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08013850);
 s32 sub_08013BC0(u8 *arg0) {
