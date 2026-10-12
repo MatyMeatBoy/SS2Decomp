@@ -141,7 +141,40 @@ u32 sub_08065D50(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065D50);
 #endif
+#ifdef NONMATCHING
+struct PL10 { u8 pad[0x10]; u16 w10; u8 pad2[0x14C - 0x12]; };
+/* Enqueue tag 0x83 (player's u16 at Player+0x10), coalescing with a pending 0x83 message. */
+u32 sub_08065DAC(void)
+{
+    u8 *p;
+    u32 n;
+    u32 i;
+    u32 r;
+    n = gUnk_03006338;
+    if (n > 0x31) {
+        r = 0;
+    } else {
+        p = (u8 *)(uintptr_t)gUnk_03006300;
+        for (i = 0; i < n; i++, p += 0x88) {
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x83) {
+                *(u32 *)(p + 8) = ((struct PL10 *)gUnk_03003CE0)[sub_080020F4()].w10;
+                goto done;
+            }
+        }
+        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(p + 4) = 1;
+        *p = 0x83;
+        *(u32 *)(p + 8) = ((struct PL10 *)gUnk_03003CE0)[sub_080020F4()].w10;
+        p[1] = 1;
+        gUnk_03006338++;
+    done:
+        r = 1;
+    }
+    return r;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065DAC);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065E38);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065F08);
 #ifdef NONMATCHING
@@ -251,7 +284,33 @@ u32 sub_08066520(u32 a, u32 b, u32 c, u32 *src)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066520);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080665B0);
+/* Enqueue tag 0xA6 (round end value), coalescing with a pending 0xA6; refused while sub_0800CFF0() != 0. */
+u32 sub_080665B0(u32 value)
+{
+    u8 *p;
+    u32 i;
+    u32 r;
+    if (gUnk_03006338 > 0x31 || sub_0800CFF0() != 0) {
+        r = 0;
+    } else {
+        p = (u8 *)(uintptr_t)gUnk_03006300;
+        for (i = 0; i < gUnk_03006338; i++, p += 0x88) {
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0xA6) {
+                *(u32 *)(p + 8) = value;
+                goto done;
+            }
+        }
+        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(p + 4) = 1;
+        *p = 0xA6;
+        *(u32 *)(p + 8) = value;
+        p[1] = 1;
+        gUnk_03006338++;
+    done:
+        r = 1;
+    }
+    return r;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066624);
 #ifdef NONMATCHING
 /* Link message broadcast (lobby data sync). msg[0] = tag, msg[1] = number of 8-byte chunks, msg+8 = payload.
