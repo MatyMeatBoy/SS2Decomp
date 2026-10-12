@@ -244,7 +244,25 @@ void sub_0801E594(void *arg0)
         M2C_FIELD((u8 *)arg0 + i * 0x28, u16 *, 0) |= 0xFFFF;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E594);
+void sub_0801E594(void *arg0)
+{
+  u8 *p;
+  u32 i;
+  u32 mask;
+  u16 v;
+  p = arg0;
+  i = 0;
+  ;
+  do
+  {
+    v = *((volatile u16 *) p);
+    *((u16 *) p) = 0xFFFF;
+    *((u16 *) p) = v | (*((u16 *) p));
+    i++;
+    p += 0x28;
+  }
+  while (i <= 7);
+}
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
