@@ -13,3 +13,12 @@ sub_0800AD04 (177 asm): camera scroll clamp. Best 312 vs 330 bytes.
   Diff: sign-extension of scroll temps (orig: lsl16/asr16 at use site), layout of arg2!=0 branch
   (orig tests arg2 after flags block with branches to tail), register numbering of arg0/arg1 temps.
   Ideas: restructure as two explicit blocks per arg2 branch; keep arg0/arg1 as u16 locals.
+
+sub_0800B650 (195 asm): VRAM/tile upload (sub_08001348 DMA + CpuFastSet). Size now matches (396).
+  Remaining diff: 4 register-order lines: (a) ldrh [base] vs constant 0x70000 load order in tilesrc arg,
+  (b) `arg0 & 0x40000000` picks r2 instead of r1, (c) ldr [gUnk_0300129C] / ldrb order (fixed with 0x80 & *(u8*)).
+  Permuter x1 best scores 225 (not 0). Ideas: store (u16)*base into a temp before the | 0x70000 call; try `register`.
+
+sub_0800B7DC (200 asm): sibling of sub_0800B650 (source offset +gUnk_03003470 on first pointer). Size matches (408).
+  Same 4 residual register-order diffs as B650 (tilesrc ldrh/const order, arg0 mask reg r1 vs r2, gUnk_0300129C load).
+  Tried 4 expression forms for tilesrc: no change. Likely shared root cause: fix B650 first, then copy.
