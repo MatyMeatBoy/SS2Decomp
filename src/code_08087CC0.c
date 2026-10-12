@@ -147,7 +147,36 @@ void sub_0808D0C4(void)
 void sub_0808D118(void) {
 
 }
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808D11C);
+extern u32 gUnk_084F26E4[];
+u32 sub_0808D11C(u32 arg)
+{
+    u8 *base;
+    register u8 *dest asm("r3");
+    register u32 *table asm("r2");
+    register u32 one asm("r0");
+    if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
+        sub_0802704C(arg);
+        goto fail;
+    }
+    if (sub_08056E90() == 0)
+        goto fail;
+    sub_0801ABE8(3);
+    sub_0800BB40();
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_0800BB40();
+    base = *(u8 **)&gUnk_03005CF4;
+    dest = base + 0x71C;
+    table = gUnk_084F26E4;
+    * (u32 *)dest = table[*(u32 *)(base + 0x40)];
+    *(u16 *)(base + 0x10) = 0;
+    one = 1;
+    *(u16 *)(base + 0x30) = one;
+    *(u16 *)(base + 0x24) = one;
+    return one;
+fail:
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808D190);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808D204);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808D278);
