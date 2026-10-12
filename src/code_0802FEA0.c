@@ -20,7 +20,62 @@ INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08032598);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803294C);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08032DE4);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08033198);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08033520);
+extern void sub_08045764(void);
+
+void sub_08033520(s32 arg0)
+{
+  s32 r4;
+  struct Player *pl;
+  long new_var2;
+  s32 new_var;
+  pl = &gUnk_03003CE0[sub_080020F4()];
+  pl->flags |= 1;
+  sub_0800D0F4();
+  sub_0802949C(arg0, 0);
+  while (sub_0805F184() != 0)
+  {
+    sub_080003F0();
+  }
+
+  r4 = sub_0805DF38(1, 0xF, 2, 0, -2, 0x001404EB);
+  while (sub_0805EEFC(r4) == 0)
+  {
+    sub_080003F0();
+  }
+
+  if (sub_0805EF14(r4) != 0)
+  {
+    if (!(gUnk_030027D0 & 0x20))
+    {
+      sub_08006D08(0x32);
+    }
+    sub_08068070((u32) (&sub_08045764), 0);
+  }
+  while (sub_0805F184() != 0)
+  {
+    sub_080003F0();
+  }
+
+  r4 = (new_var = sub_0805DF38(1, 0xF, 2, 0, -2, 0x001404EC));
+  while (sub_0805EEFC(r4) == 0)
+  {
+    sub_080003F0();
+  }
+
+  new_var2 = sub_0805EF14(r4);
+  if (new_var2 != 0)
+  {
+    if (!(gUnk_030027D0 & 0x20))
+    {
+      sub_08006D08(0x32);
+    }
+    sub_08068070((u32) (&sub_08045764), 1);
+  }
+  sub_08029788(arg0);
+  ;
+  (&gUnk_03003CE0[sub_080020F4()])->flags &= ~1;
+  sub_0800D108();
+}
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08033650);
 void sub_08033B3C(void)
 {
