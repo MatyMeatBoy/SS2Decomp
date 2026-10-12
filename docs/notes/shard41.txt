@@ -1,0 +1,7 @@
+Shard 41 (code_0803B69C), worker/010 - notes on functions not yet matched (started by worker 10)
+
+sub_0803F18C (67 asm lines, 132 bytes): draft at asm/nonmatchings/code_0803B69C/sub_0803F18C.draft.c.
+  Loop shape matches (rotated while: entry jumps to the check). Remaining diff: the original emits two separate
+  sub_08028D98(0,0,-0x12C,0x12C) call blocks (cases 0-2 and case 3) that agbcc merges into one (candidate 120 bytes).
+  Tried: switch vs if-chain, case order, constant spellings (0xFFFFFED4, -300, (u32)-0x12C): none keep both blocks.
+  Ideas not tried: volatile/separate arg expression, splitting case 3 through a helper.
