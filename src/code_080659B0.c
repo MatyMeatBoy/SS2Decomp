@@ -118,7 +118,42 @@ void sub_08065C50(u32 arg)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065C50);
 #endif
+#ifdef NONMATCHING
+/* Link message layer init: allocs the task object (0x28), the 0xA0 ack area, the 50-entry send queue (0x1A90) and resets the
+ * per-peer ring buffers (4 peers x 10 words, index table). */
+extern u32 gRingIdx[] asm("gUnk_03006210");
+extern u32 gRingBuf[] asm("gUnk_03006260");
+void sub_08065CA8(void)
+{
+    u32 i, j;
+    u8 *e;
+    u32 *rp;
+
+    gUnk_03006368 = (s32)sub_08001494(0x28);
+    gUnk_03006258 = (s32)sub_08001494(0xA0);
+    e = sub_08001494(0x1A90);
+    gUnk_03006300 = (s32)e;
+    gUnk_03006338 = 0;
+    gUnk_0300636C = 0xFF;
+    gUnk_03006224 = 0xFF;
+    gUnk_03006228 = 0xFF;
+    gLinkFlagByte = 0;
+    for (i = 0; i < 0x32; i++) {
+        *(u32 *)(e + 4) = 0;
+        *(u16 *)(e + 2) = 0;
+        e += 0x88;
+    }
+    for (i = 0; i < 4; i++) {
+        gRingIdx[i] = 0;
+        rp = gRingBuf + i * 10;
+        for (j = 0; j < 10; j++)
+            *rp++ = 0xFFFFFFFF;
+    }
+    sub_08067AFC();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065CA8);
+#endif
 #ifdef NONMATCHING
 u32 sub_08065D50(void)
 {
