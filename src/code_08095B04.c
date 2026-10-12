@@ -278,8 +278,7 @@ void sub_08097D70(void)
 {
     gUnk_030002A0.b0F = 1;
 }
-#ifdef NONMATCHING
-void sub_08097D7C(u32 angle, u32 scale)
+void sub_08097D7C(u8 angle, u8 scale)
 {
     u8 *state = (u8 *)&gUnk_030002A0;
     state[0xE] = state[0xD];
@@ -289,9 +288,6 @@ void sub_08097D7C(u32 angle, u32 scale)
         state[0xC] += (u8)angle;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097D7C);
-#endif
 #ifdef NONMATCHING
 u32 sub_08097DBC(u32 arg0, s32 y, u32 angle, u32 arg3)
 {

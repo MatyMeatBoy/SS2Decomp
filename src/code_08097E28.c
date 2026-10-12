@@ -87,14 +87,13 @@ void sub_08098088(u32 arg0, u32 arg1, u32 mode)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098088);
 #endif
-#ifdef NONMATCHING
 s32 sub_080980F0(void)
 {
-    return M2C_FIELD((void *)gUnk_030002C0, u32 *, 8) == 0;
+    if (M2C_FIELD((void *)gUnk_030002C0, u32 *, 8))
+        return 0;
+    else
+        return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_080980F0);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098108);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098F2C);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809919C);
