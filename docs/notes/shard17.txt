@@ -17,3 +17,10 @@ Round 2 (after tree revalidation, drafts in src/code_0801AAF8.c):
 - sub_0801AB90: draft in the module uses inline asm for the mask (not acceptable as final). Clean C best: permuter 265.
 - sub_0801AC24: draft uses absolute pointers (0x03000026 etc.). Not compared yet with the clean u32 form (best 420 earlier).
 - sub_0801B58C, B264, B74C, B8A8, ACB8, BA74: no drafts with a clean match; B58C is a jump table state machine.
+
+Round 3:
+- sub_0801B8A8 (231 asm): C draft in /tmp (not committed): structure matches (6 blocks calling sub_0801B74C, 0x150-byte
+  entries from gUnk_08490120, found path stores into gUnk_03006440+0x5B4). Score stays large (permuter 2005); layout differs
+  in the first load of gUnk_03006440 and block ordering. Needs B74C to compile-match first only for the bl target (not required).
+- sub_0801B74C (171 asm): switch on jump table + magic-number divisions (muls with 0x1A1F58D1 etc.) and a call to sub_08007290.
+  Not attempted in C yet; division by constant must be expressed as the same multiply/shift sequence.
