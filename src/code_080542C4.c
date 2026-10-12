@@ -2,7 +2,50 @@
 
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080542C4);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_0805442C);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054514);
+void sub_08054514(void) {
+    u8 *var_r1;
+    u8 *var_r1_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    u32 var_r2;
+    u32 var_r2_2;
+
+    temp_r5 = sub_080289C0(0x24, 0x138, 0xB0);
+    temp_r4 = sub_080289C0(0x10024, 0x138, 0xC8);
+    sub_08028D98(temp_r5, 0, -0xC8, 0xC8);
+    var_r1 = gUnk_03005CF4 + 0x7A4;
+    var_r2 = 0;
+loop_1:
+    if (*(u32 *)var_r1 != temp_r5) {
+        var_r2 += 1;
+        var_r1 += 0x70;
+        if (var_r2 > 0xEU) {
+            sub_080003F0();
+            var_r1 = NULL;
+        } else {
+            goto loop_1;
+        }
+    }
+    if (var_r1 != NULL) {
+        M2C_FIELD(var_r1, s16 *, 0x36) = 4;
+    }
+    var_r1_2 = gUnk_03005CF4 + 0x7A4;
+    var_r2_2 = 0;
+loop_7:
+    if (*(u32 *)var_r1_2 != temp_r4) {
+        var_r2_2 += 1;
+        var_r1_2 += 0x70;
+        if (var_r2_2 > 0xEU) {
+            sub_080003F0();
+            var_r1_2 = NULL;
+        } else {
+            goto loop_7;
+        }
+    }
+    if (var_r1_2 != NULL) {
+        M2C_FIELD(var_r1_2, s16 *, 0x36) = 4;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080545A0);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054644);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054748);
