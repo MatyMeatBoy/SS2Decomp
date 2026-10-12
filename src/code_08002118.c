@@ -155,7 +155,6 @@ void sub_08002304(void) {
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800232C);
-#ifdef NONMATCHING
 void sub_08002658(void)
 {
     s32 temp_r2;
@@ -170,11 +169,7 @@ void sub_08002658(void)
     gUnk_030027E0.u24 = 0;
     sub_08000274(&gUnk_030027E0.u0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002658);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002694);
-#ifdef NONMATCHING
 void sub_08002A54(void)
 {
     s32 temp_r2;
@@ -187,9 +182,6 @@ void sub_08002A54(void)
     gUnk_03002810.u8 = 1;
     sub_08000274(&gUnk_03002810.u0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002A54);
-#endif
 u32 sub_08002A8C(void)
 {
     u32 r = 0;
