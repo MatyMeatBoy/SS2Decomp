@@ -24,3 +24,9 @@ LEAD (applies to sub_0803E510, sub_0803D36C, and the rest of this flag-toggle fa
   Permuter on the pointer variant: "Unable to compile base.c" when prototypes are added to the scratch file.
   Remaining shard 40 functions not attempted: sub_0803D1F8 (same idiom), sub_0803D454, sub_0803D99C, sub_0803DE84,
   sub_0803E638.
+
+sub_0803D1F8 (code_0803B69C, 170 asm lines) - NOT MATCHED. Draft in docs/notes/shard40_sub_0803D1F8_draft.c.
+  Size matches (372 bytes) and the whole body matches except the same idiom as sub_0803E510/sub_0803D36C:
+  the call result copy before the idx*0x14C multiply (orig: movs #0xa6/lsl, then adds r2,r0,#0, muls r2,r1).
+  Tried on this function: assign-in-expression, idx-then-pointer, cast-multiply, &arr[call()].
+  Shard 40 is therefore blocked on one codegen idiom: the struct-array element address with a call-result index.
