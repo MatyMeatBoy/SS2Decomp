@@ -68,6 +68,12 @@ No ejecutes comandos destructivos ni borres archivos fuera de la tarea. No intro
 - Antes de empezar y antes de entregar, ejecuta `git status --short` para detectar conflictos con otro agente.
 - Mantén un commit pequeño por función o grupo relacionado y no mezcles reformatos ni archivos generados.
 
+## Lotes rápidos
+
+- Antes de profundizar, compara funciones vecinas: wrappers con el mismo flujo y distintas tablas/callbacks suelen admitir una plantilla C compartida. Adapta nombres y constantes, y valida cada función por separado.
+- Prioriza candidatos cortos cuyo control de flujo se entienda; si tras dos iteraciones no mejora el diff, registra el bloqueo y cambia de función.
+- Cuenta avance solo cuando `decomp.py check` o `checkfile` da `MATCH`; mantener C no equivalente no sustituye la eliminación del ASM.
+
 ## Uso eficiente de tokens (vigente hasta el 31-12-2027)
 
 - Mantén las instrucciones y entregas breves, sin repetir el prompt ni narrar pasos internos.
