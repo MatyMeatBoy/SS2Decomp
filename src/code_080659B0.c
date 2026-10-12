@@ -194,7 +194,84 @@ INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066490);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066520);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080665B0);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066624);
+#ifdef NONMATCHING
+/* Link message broadcast (lobby data sync). msg[0] = tag, msg[1] = number of 8-byte chunks, msg+8 = payload.
+ * Writes into our MultiSio send block (sub_08002118(myId) + 8): [0]=id/cmd, [1]=cmd (0xB1 announce, 0xB2 chunk, 0x80 idle),
+ * [2]=chunk number, [4..11]=8 payload bytes. Peers acknowledge by echoing bytes into their own block at offset 0x14+id. */
+extern u8 *sub_08002118();
+void sub_08066720(u8 *msg)
+{
+    u8 *peers[4];
+    u32 myId, n, i, k, acked, pos, lastPos, wait, j;
+    u8 *buf, *src, *q;
+
+    *(u32 *)(msg + 4) = 2;
+    myId = sub_080020F4();
+    buf = sub_08002118(myId) + 8;
+    for (i = 0; i < sub_08002164(); i++)
+        peers[i] = (u8 *)sub_08002238(i) + 0x14 + myId;
+    n = sub_08002164();
+    for (;;) {
+        do {
+            buf[0] = 0xB1;
+            buf[1] = msg[0];
+            buf[2] = msg[1];
+            sub_080003F0();
+            acked = 0;
+            for (k = 0; k < n; k++) {
+                if (*peers[k] == msg[0])
+                    acked++;
+            }
+        } while (acked < n);
+        wait = 0;
+        lastPos = 0;
+        pos = 0;
+        if (msg[1] != 0) {
+            src = msg + 8;
+            do {
+                buf[1] = 0xB2;
+                buf[0] = myId;
+                buf[2] = (pos >> 1) + 1;
+                *(u32 *)(buf + 4) = *(u32 *)src;
+                *(u32 *)(buf + 8) = *(u32 *)(src + 4);
+                sub_080003F0();
+                acked = 0;
+                for (k = 0; k < n; k++) {
+                    if (0x7F - (pos >> 1) == *peers[k])
+                        acked++;
+                }
+                if (acked == n) {
+                    src += 8;
+                    pos += 2;
+                    lastPos = pos;
+                    wait = 0;
+                } else if (lastPos == pos) {
+                    wait++;
+                }
+                if (wait > 0x3C)
+                    goto retry;
+            } while (pos < msg[1] * 2);
+        }
+        if (wait > 0x3C)
+            continue;
+        buf[2] = pos + 1;
+        sub_0800224C();
+        gUnk_03006338--;
+        if ((s32)gUnk_03006338 < 0)
+            gUnk_03006338 = 0;
+        q = (u8 *)gUnk_03006300;
+        for (j = 0; j < gUnk_03006338; j++)
+            memcpy(q + j * 0x88, q + (j + 1) * 0x88, 0x88);
+        *(u32 *)(q + j * 0x88 + 4) = 0;
+        buf[1] = 0x80;
+        return;
+    retry:
+        ;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066720);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066898);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806690C);
 #ifdef NONMATCHING
