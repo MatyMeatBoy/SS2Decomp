@@ -127,7 +127,10 @@ s32 sub_08057424(void) {
     return sub_08000470(gUnk_03000328);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057424);
+s32 sub_08057424(s32 a)
+{
+    return sub_08000470(a);
+}
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057430);
 void sub_080574B0(s32 arg0) {

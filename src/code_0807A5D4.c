@@ -817,7 +817,15 @@ void sub_080854B8(void)
     *(u32 *)(gUnk_03006440 + 0x20) = 0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080854B8);
+void sub_080854B8(void)
+{
+    u32 zero = 0;
+    u8 *p;
+    CpuSet(&zero, (void *)(gUnk_03006440 + 0xF4), 0x05000004);
+    p = (u8 *)gUnk_03006440;
+    *(u32 *)(p + 0x1C) = 0x16;
+    *(u32 *)(p + 0x20) = 0;
+}
 #endif
 #ifdef NONMATCHING
 s32 sub_080854E8(u32 value)
