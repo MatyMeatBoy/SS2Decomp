@@ -444,7 +444,6 @@ void sub_0808E94C(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E94C);
 #endif
-#ifdef NONMATCHING
 void sub_0808E970(void)
 {
     while (sub_08056E90() == 0) {
@@ -455,18 +454,6 @@ void sub_0808E970(void)
         sub_080003F0();
     }
 }
-#else
-void sub_0808E970(void)
-{
-    while (sub_08056E90() == 0) {
-        if (sub_08058DB0() == 0 && (gUnk_03002344 & 0x7F) == 0) {
-            u32 value = sub_080008C8() % 0x140;
-            sub_08068070((u32)sub_0808E530, value + 0x50);
-        }
-        sub_080003F0();
-    }
-}
-#endif
 #ifdef NONMATCHING
 void sub_0808E9B8(void)
 {

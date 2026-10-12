@@ -209,24 +209,6 @@ s32 sub_0801E538(void)
   }
   return 1;
 }
-#ifdef NONMATCHING
-void sub_0801E550(u32 id, u32 stateIndex, u32 kind, u32 value)
-{
-    u32 i;
-    u8 *state;
-    u8 *entry;
-    id = (u16)id;
-    kind = (u16)kind;
-    value = (u16)value;
-    state = (u8 *)gUnk_03003CE0 + stateIndex * 0x14A + 0x34;
-    entry = *(u8 **)state;
-    for (i = 0; i <= 7; i++, entry += 0x28) {
-        if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == kind &&
-            *(u16 *)(entry + 2) == id)
-            *(u16 *)(entry + 6) = value;
-    }
-}
-#else
 void sub_0801E550(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     u8 *p;
@@ -247,15 +229,6 @@ void sub_0801E550(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         p += 0x28;
     } while (i <= 7);
 }
-#endif
-#ifdef NONMATCHING
-void sub_0801E594(void *arg0)
-{
-    u32 i;
-    for (i = 0; i <= 7; i++)
-        M2C_FIELD((u8 *)arg0 + i * 0x28, u16 *, 0) |= 0xFFFF;
-}
-#else
 void sub_0801E594(void *arg0)
 {
   u8 *p;
@@ -275,7 +248,6 @@ void sub_0801E594(void *arg0)
   }
   while (i <= 7);
 }
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);

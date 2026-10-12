@@ -122,16 +122,10 @@ s32 sub_080573A0(s32 arg0, void (*arg1)(s32))
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080573A0);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080573B0);
-#ifdef NONMATCHING
-s32 sub_08057424(void) {
-    return sub_08000470(gUnk_03000328);
-}
-#else
 s32 sub_08057424(s32 a)
 {
     return sub_08000470(a);
 }
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057430);
 void sub_080574B0(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) & ~(1 << arg0));

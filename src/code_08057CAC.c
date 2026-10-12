@@ -575,15 +575,9 @@ void sub_080586EC(u32 index, u32 x, u32 y)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_080586EC);
 #endif
-#ifdef NONMATCHING
 void sub_0805874C(void) {
     sub_0801A388();
 }
-#else
-void sub_0805874C(void) {
-    sub_0801A388();
-}
-#endif
 void sub_08058758(s32 arg0, s32 arg1, s32 arg2) {
     sub_08073E2C(arg0 << 8, arg1 << 8, arg2, 1);
 }

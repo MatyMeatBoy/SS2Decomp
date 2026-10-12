@@ -808,15 +808,6 @@ void sub_080854A0(void) {
     sub_08001538(gUnk_03006440);
     gUnk_03006440 = 0;
 }
-#ifdef NONMATCHING
-void sub_080854B8(void)
-{
-    u32 zero = 0;
-    CpuSet(&zero, (void *)(gUnk_03006440 + 0xF4), 0x05000004);
-    *(u32 *)(gUnk_03006440 + 0x1C) = 0x16;
-    *(u32 *)(gUnk_03006440 + 0x20) = 0;
-}
-#else
 void sub_080854B8(void)
 {
     u32 zero = 0;
@@ -826,7 +817,6 @@ void sub_080854B8(void)
     *(u32 *)(p + 0x1C) = 0x16;
     *(u32 *)(p + 0x20) = 0;
 }
-#endif
 #ifdef NONMATCHING
 s32 sub_080854E8(u32 value)
 {

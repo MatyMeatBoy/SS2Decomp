@@ -51,6 +51,8 @@ def try_apply(func, t):
             return False
         snap = snapshot(func)
         decomp.apply(func, c)
+        import unwrap_matched
+        unwrap_matched.run([os.path.join(decomp.ROOT, "src", decomp.find_asm(func)[1] + ".c")] if decomp.find_asm(func)[0] else [os.path.join(decomp.ROOT, "src", f) for f in os.listdir(os.path.join(decomp.ROOT, "src")) if f.endswith(".c")])
         if rom_ok():
             return True
         restore(snap)
