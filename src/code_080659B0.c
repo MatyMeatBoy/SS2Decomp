@@ -60,13 +60,11 @@ void sub_08065AFC(void)
     struct Unk030061E0 *task = &gUnk_030061E0;
     u32 index;
     u32 memory;
-    u8 *player;
 
     if (sub_08000470((u32)task) != 0)
         return;
     index = sub_080020F4();
-    player = (u8 *)gUnk_03003CE0 + index * 0x14C + 0x30;
-    *(u32 *)player |= 0x80;
+    gUnk_03003CE0[index].flags |= 0x80;
     task->f8 = 0x3C;
     memory = sub_08001638(0x400);
     task->f20 = (void *)memory;
