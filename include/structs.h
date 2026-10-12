@@ -175,7 +175,7 @@ struct MultiSioPacket {
     u8 frameCounter;
     u8 recvErrorFlags;
     u16 checkSum;
-    u16 data[MULTI_SIO_BLOCK_SIZE / 2];
+    u16 data[12];
     u16 overrunCatch[2];
 };
 

@@ -4,7 +4,7 @@ void sub_08066898(void);
 extern void sub_08066720();
 extern u8 *sub_08002118();
 void sub_08064E14(void);
-void sub_0806690C(void);
+void sub_0806690C(u32 peer);
 void sub_08065A1C(void);
 extern u32 sub_08001638(u32 size);
 extern void sub_0806335C(void);
@@ -298,7 +298,308 @@ void sub_08066898(void)
         sub_080003F0();
     }
 }
+#ifdef NONMATCHING
+/* Link message RECEIVER (one task per peer, `peer` = sender id 0..3). See docs/LINK_CABLE.md and docs/LINK_MESSAGES.md.
+ * Draft reconstructed from the asm/Ghidra (NOT byte-matching): offsets and control flow follow the original, helper
+ * names are the raw addresses. Phase A waits for an announce block (blk[0]==0xB1, tag blk[1] in 0x81..0xB0, blk[2] chunks),
+ * phase B acks the tag until the sender switches to chunk mode (blk[1]==0xB2), phase C receives 8-byte chunks into a 0x100
+ * byte buffer acking each one, then the tag is dispatched. All waits are VBlank-synchronised stop-and-wait handshakes. */
+#define XF(n) extern u32 x_##n() __asm__(#n);
+XF(sub_080168FC) XF(sub_08016A7C) XF(sub_08056E24) XF(sub_08056E64) XF(sub_08056FB8) XF(sub_08057170)
+XF(sub_08057328) XF(sub_08057430) XF(sub_0805865C) XF(sub_0805AB20) XF(sub_0805B2C4) XF(sub_0805B618)
+XF(sub_0805BD5C) XF(sub_0805D37C) XF(sub_0805D460) XF(sub_0805D498) XF(sub_0805D4C4) XF(sub_08065918)
+XF(sub_08065C50) XF(sub_08066490) XF(sub_0800CC98) XF(sub_0800CE30) XF(sub_0800D12C)
+XF(sub_08019BF8) XF(sub_08007290) XF(sub_0801D7AC) XF(sub_0801DB94) XF(sub_0801E104) XF(sub_0801E164)
+XF(sub_0801E1A4) XF(sub_0801E244) XF(sub_0801F2CC) XF(sub_0801F320) XF(sub_08021E44) XF(sub_08022200)
+XF(sub_0802230C) XF(sub_08074DE8) XF(sub_08079888) XF(sub_08079CC4) XF(sub_080793BC) XF(sub_080008C8)
+XF(sub_08000420)
+extern u8 *gRxEntities asm("gUnk_030056F4");
+extern u32 gRxEntityMask asm("gUnk_030056FC");
+extern u8 *gRxGameState asm("gUnk_03005CF4");
+extern u32 gRxRingIdx[] asm("gUnk_03006210");
+extern u32 gRxRing[] asm("gUnk_03006260");
+extern u32 gRxFlag asm("gUnk_03006220");
+extern u8 *gRxQueue asm("gUnk_03006300");
+extern u32 gRxQueueCount asm("gUnk_03006338");
+extern u32 gRxLinkState asm("gUnk_03002730");
+extern u8 *gRxProfile asm("gUnk_030034E0");
+extern u8 *gRxMiscP asm("gUnk_03006440");
+extern u8 gRxByteA asm("gUnk_0300636C");
+extern u8 gRxByteB asm("gUnk_03006224");
+extern u8 gRxByteC asm("gUnk_03006228");
+#define RX_PL(i) ((u8 *)gUnk_03003CE0 + (i) * 0x14C)
+#define RX_ENT(i) (gRxEntities + (i) * 0x2E0)
+#define RX_ENQ(tag, chunks, e) \
+    do { \
+        if (gRxQueueCount < 0x32) { \
+            (e) = gRxQueue + gRxQueueCount * 0x88; \
+            *(u32 *)((e) + 4) = 1; \
+            *(e) = (tag); \
+            (e)[1] = (chunks); \
+            gRxQueueCount++; \
+        } \
+    } while (0)
+
+void sub_0806690C(u32 peer)
+{
+    u32 d[64];
+    u32 myId, i, chunks, tag, cnt, last, wait, idx;
+    u8 *ack, *blk, *pl, *ent, *e;
+
+    myId = sub_080020F4();
+    ack = sub_08002118(myId) + 0x14 + peer;
+    blk = (u8 *)sub_08002238(peer) + 8;
+    for (;;) {
+        /* phase A: wait for an announce */
+        for (;;) {
+            tag = 0;
+            sub_080003F0();
+            if (blk[0] == 0xB1 && blk[1] > 0x80 && blk[1] < 0xB1) {
+                chunks = blk[2];
+                tag = blk[1];
+            }
+            *ack = 0x80;
+            if (tag != 0)
+                break;
+        }
+        /* phase B: ack the tag until the sender starts the chunks */
+        cnt = 0;
+        do {
+            *ack = tag;
+            sub_080003F0();
+            if (gRxLinkState & (1 << peer)) {
+                cnt++;
+                if (cnt > 0x3C)
+                    goto restart;
+                if (blk[1] == 0xB2)
+                    break;
+            }
+        } while (1);
+        /* phase C: receive the chunks */
+        last = 0xFFFFFFFF;
+        wait = 0;
+        idx = 0;
+        if (chunks != 0) {
+            do {
+                idx = blk[2] - 1;
+                if (idx < 0x100) {
+                    d[idx * 2] = *(u32 *)(blk + 4);
+                    d[idx * 2 + 1] = *(u32 *)(blk + 8);
+                    *ack = 0x80 - blk[2];
+                    sub_080003F0();
+                    if (last == blk[2]) {
+                        if (gRxLinkState & (1 << peer))
+                            wait++;
+                    } else {
+                        wait = 0;
+                        last = blk[2];
+                    }
+                    if (wait > 0x3C)
+                        goto restart;
+                    idx = blk[2] - 1;
+                }
+            } while (idx < chunks);
+        }
+        if (wait > 0x3C)
+            continue;
+        *ack = blk[2];
+        sub_0800224C();
+        pl = RX_PL(peer);
+        switch (tag - 0x81) {
+        case 0: /* profile: 10 bytes -> Player+2 */
+            for (i = 0; i < 10; i++)
+                pl[2 + i] = ((u8 *)d)[i];
+            break;
+        case 1: /* two u16 at Player+0xC; remote also +0x64/+0x66 */
+            *(u16 *)(pl + 0xC) = d[0];
+            *(u16 *)(pl + 0xE) = d[0] >> 16;
+            if (peer != sub_080020F4()) {
+                *(u16 *)(pl + 0x64) = d[0];
+                pl[0x66] = d[0] >> 16;
+            }
+            break;
+        case 2:
+            if (peer != sub_080020F4())
+                *(u16 *)(pl + 0x10) = d[0];
+            break;
+        case 3: /* ring of 9 words per peer */
+            gRxRing[gRxRingIdx[peer] + peer * 10] = d[0];
+            gRxRingIdx[peer]++;
+            if (gRxRingIdx[peer] > 9)
+                gRxRingIdx[peer] = 9;
+            break;
+        case 4:
+            CpuSet(d, gRxGameState + 0x22, 10);
+            break;
+        case 5:
+            x_sub_080168FC(d);
+            gRxFlag = 0;
+            break;
+        case 6:
+            x_sub_08016A7C(d[0]);
+            break;
+        case 7: /* entity id == d[0]: set bit 1 of +0x7A */
+            for (i = 0; i < 5; i++) {
+                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                    *(u16 *)(RX_ENT(i) + 0x7A) |= 1;
+                    break;
+                }
+            }
+            break;
+        case 8: /* remote only: entity id == d[0] -> state 10, flag 0x80 */
+            if (peer != sub_080020F4()) {
+                for (i = 0; i < 5; i++) {
+                    if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                        ent = RX_ENT(i);
+                        *(u16 *)(ent + 0xC) = 10;
+                        *(u16 *)(ent + 0x7A) |= 0x80;
+                        *(u16 *)(ent + 0x4A) = *(u16 *)(ent + 0x5C);
+                        *(u32 *)(ent + 0x4C) = *(u16 *)(ent + 0x4A);
+                        break;
+                    }
+                }
+            }
+            break;
+        case 9: /* player-vs-player / player-vs-entity hit (see docs/LINK_MESSAGES.md) */
+        case 10:
+            break;
+        case 0xB:
+            if (peer != sub_080020F4())
+                *(u32 *)(pl + 0x30) = d[0];
+            break;
+        case 0xC:
+            *(u32 *)(gRxGameState + 0x40) = d[0];
+            x_sub_08056E64();
+            break;
+        case 0xD:
+            if (peer != sub_080020F4())
+                CpuSet(d, pl + 0x58, 0x0400000C);
+            break;
+        case 0xE:
+            if (peer != sub_080020F4())
+                CpuSet(d, pl + 0x38, 0x04000008);
+            break;
+        case 0xF:
+            *(u32 *)(gRxGameState + 0x38) |= d[0];
+            break;
+        case 0x10: /* remote only: entity (id = d[1]>>16) velocity */
+            if (peer != sub_080020F4()) {
+                for (i = 0; i < 5; i++) {
+                    if ((gRxEntityMask & (1 << i)) && (d[1] >> 16) == *(u16 *)(RX_ENT(i) + 2)) {
+                        *(u32 *)(RX_ENT(i) + 0x1FC) = d[0];
+                        *(u32 *)(RX_ENT(i) + 0x200) = d[1];
+                        break;
+                    }
+                }
+            }
+            break;
+        case 0x11:
+            if (peer != sub_080020F4()) {
+                for (i = 0; i < 5; i++) {
+                    if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                        *(u32 *)(RX_ENT(i) + 0x14) = d[1];
+                        *(u32 *)(RX_ENT(i) + 0x18) = d[2];
+                    }
+                }
+            }
+            break;
+        case 0x12:
+        case 0x2E:
+            x_sub_08056E24();
+            break;
+        case 0x13: /* damage list: d[0] entries of {s16 amount, u8 target, u8 flag}, hp slots 0x24 bytes apart */
+            if (peer != sub_080020F4()) {
+                u8 *src = (u8 *)&d[1];
+                for (i = 0; i < d[0]; i++, src += 4) {
+                    u8 *slot = *(u8 **)gRxEntities;
+                    (void)slot;
+                }
+            }
+            break;
+        case 0x14: /* host only: spawn from payload, re-enqueue as tag 0x98 */
+        case 0x15:
+        case 0x16:
+            if (sub_080020F4() == 0) {
+                u8 *r = (u8 *)x_sub_0805B2C4(d[0], d[1], d[2] & 0xFFFF, &d[3]);
+                if (sub_08002164() > 1)
+                    x_sub_0802230C(*(u32 *)r, *(u32 *)(r + 4), 1);
+                RX_ENQ(0x98, 4, e);
+                if (gRxQueueCount != 0 && e != 0)
+                    CpuSet(r, e + 8, 0x04000008);
+            }
+            break;
+        case 0x17:
+            if (sub_080020F4() != 0) {
+                u32 *q = (u32 *)x_sub_0805B618();
+                for (i = 0; i < 8; i++)
+                    q[i] = d[i];
+            }
+            break;
+        case 0x1D: /* tag 0x9E */
+            x_sub_08065918(pl, d[0]);
+            break;
+        case 0x1E:
+            x_sub_0800D12C();
+            x_sub_08056FB8(*(u16 *)(RX_PL(myId) + 0x2E), *(u16 *)(RX_PL(myId) + 0x2C));
+            x_sub_08057170();
+            x_sub_0805865C(0x24);
+            break;
+        case 0x1F:
+            x_sub_0801D7AC(peer, myId, d[0] >> 16, d[0] & 0xFFFF);
+            break;
+        case 0x20:
+            for (i = 0; i < 5; i++) {
+                if ((gRxEntityMask & (1 << i)) && (d[0] & 0xFF) == *(u16 *)(RX_ENT(i) + 2)) {
+                    *(u8 *)(RX_ENT(i) + 0x201) |= 2; /* shared tail at 0x08066AFC */
+                    *(u16 *)(RX_ENT(i) + 0x8A) = 0;
+                    *(u16 *)(gRxGameState + 0xC) = 0;
+                }
+            }
+            break;
+        case 0x22:
+            x_sub_08057328(d[1], d[0]);
+            break;
+        case 0x23:
+            x_sub_08057430(d[1], d[0], d[2]);
+            break;
+        case 0x24:
+            x_sub_080793BC(peer);
+            break;
+        case 0x25:
+            *(u16 *)(pl + 0x11E) = d[0];
+            break;
+        case 0x27:
+            x_sub_08079888(d[0] & 0xFFFF, d[1], d[2], (d[0] >> 16) & 0xFFFF, d[3]);
+            break;
+        case 0x28:
+            x_sub_08065C50(d[0]);
+            break;
+        case 0x29:
+            x_sub_08079CC4(d[0] & 0xFFFF, d[1], d[2], (d[0] >> 16) & 0xFFFF, d[3]);
+            break;
+        case 0x2B:
+        case 0x2C:
+        case 0x2D:
+            break;
+        case 0x2F: /* tag 0xB0: entity id == d[0] -> state 10, flag 0x80 */
+            for (i = 0; i < 5; i++) {
+                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                    *(u16 *)(RX_ENT(i) + 0x7A) |= 0x80;
+                    *(u16 *)(RX_ENT(i) + 0xC) = 10;
+                    break;
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    restart:
+        ;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806690C);
+#endif
 #ifdef NONMATCHING
 void sub_08067A68(u32 index)
 {
