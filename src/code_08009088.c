@@ -90,7 +90,14 @@ void *sub_0800BAA4(s16 x, s16 y)
     return m + ((x >> 3) + (y >> 3) * gUnk_03003170.width0) * 2;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BAA4);
+void *sub_0800BAA4(s16 x, s16 y) {
+    struct TileSys *t = &gUnk_03003170;
+    u16 *m = t->map0;
+    s32 a = x;
+    s32 b = y;
+    s32 idx = (a >> 3) + (b >> 3) * t->width0;
+    return m + idx;
+}
 #endif
 s32 sub_0800BAC4(s32 arg0, s32 arg1) {
     register s32 index asm("r4") = arg1;
