@@ -212,12 +212,14 @@ s32 sub_0801E538(void)
 #ifdef NONMATCHING
 void sub_0801E550(u32 id, u32 stateIndex, u32 kind, u32 value)
 {
+    u32 i;
+    u8 *state;
+    u8 *entry;
     id = (u16)id;
     kind = (u16)kind;
     value = (u16)value;
-    u32 i;
-    u8 *state = (u8 *)gUnk_03003CE0 + stateIndex * 0x14A + 0x34;
-    u8 *entry = *(u8 **)state;
+    state = (u8 *)gUnk_03003CE0 + stateIndex * 0x14A + 0x34;
+    entry = *(u8 **)state;
     for (i = 0; i <= 7; i++, entry += 0x28) {
         if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == kind &&
             *(u16 *)(entry + 2) == id)
