@@ -61,6 +61,7 @@ INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E000);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E090);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E130);
 extern u32 gUnk_0850008C[] __asm__("gUnk_0850008C");
+extern u32 gUnk_085028BC[] __asm__("gUnk_085028BC");
 u32 sub_0808E184(u32 arg)
 {
     u8 *base;
@@ -88,6 +89,64 @@ u32 sub_0808E184(u32 arg)
     *(u16 *)(base + 0x24) = one;
     return one;
 fail:
+    return 0;
+}
+u32 sub_0808E3A0(u32 arg)
+{
+    u8 *base;
+    register u8 *dest asm("r3");
+    register u32 *table asm("r2");
+    register u32 one asm("r0");
+    if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
+        sub_0802704C(arg);
+        goto fail_3a0;
+    }
+    if (sub_08056E90() == 0)
+        goto fail_3a0;
+    sub_0801ABE8(3);
+    sub_0800BB40();
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_0800BB40();
+    base = *(u8 **)&gUnk_03005CF4;
+    dest = base + 0x71C;
+    table = gUnk_085028BC;
+    *(u32 *)dest = table[*(u32 *)(base + 0x40)];
+    *(u16 *)(base + 0x10) = 0;
+    one = 1;
+    *(u16 *)(base + 0x30) = one;
+    *(u16 *)(base + 0x24) = one;
+    return one;
+fail_3a0:
+    return 0;
+}
+u32 sub_0808E414(u32 arg)
+{
+    u8 *base;
+    register u8 *dest asm("r3");
+    register u32 *table asm("r2");
+    register u32 one asm("r0");
+    if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
+        sub_0802704C(arg);
+        goto fail_414;
+    }
+    if (sub_08056E90() == 0)
+        goto fail_414;
+    sub_0801ABE8(3);
+    sub_0800BB40();
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_0800BB40();
+    base = *(u8 **)&gUnk_03005CF4;
+    dest = base + 0x71C;
+    table = gUnk_085028BC;
+    *(u32 *)dest = table[*(u32 *)(base + 0x40)];
+    *(u16 *)(base + 0x10) = 0;
+    one = 1;
+    *(u16 *)(base + 0x30) = one;
+    *(u16 *)(base + 0x24) = one;
+    return one;
+fail_414:
     return 0;
 }
 u32 sub_0808E1F8(u32 arg)
@@ -121,8 +180,6 @@ fail:
 }
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E26C);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E2FC);
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E3A0);
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E414);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E488);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E530);
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E66C);
