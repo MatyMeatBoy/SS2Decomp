@@ -32,3 +32,11 @@ sub_0801E378 / sub_0801E3D8: per-case switch with two calls per case matches the
 sub_0801DEB8: branch sense fixed (`if (item[0x79] == 0) r = 0; else r = call`). Remaining diff: halfword load and
   the 0xB0000 orr operand order (value first in original). Temps and operand swaps did not change it.
 sub_0801E324: permuter could not compile the base (s32-param form); not run further.
+
+Update (session 3):
+sub_0801E594: MATCHED via permuter from a volatile-read variant (score 0). Applied the permuter body as-is.
+sub_0801E550: MATCHED. The base must be computed as `off = arg1*0x14C; base = gUnk+0x34; *(base+off)`;
+  computing base first folds the +0x34 into the load offset.
+sub_0801E324: same base ordering as E550 is correct; remaining diff is parameter register assignment and the
+  0xFFFF constant pool. Permuter and parameter-type variants did not converge.
+sub_0801E0D0: volatile on the source load fixes the load order; the add operand order is still reversed.

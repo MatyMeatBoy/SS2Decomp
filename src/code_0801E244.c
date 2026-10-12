@@ -222,7 +222,26 @@ void sub_0801E550(u16 id, u32 stateIndex, u16 kind, u16 value)
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E550);
+void sub_0801E550(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+{
+    u8 *p;
+    u32 i;
+    u8 *base;
+    s32 off;
+
+    base = (u8 *) gUnk_03003CE0;
+    off = arg1 * 0x14C;
+    base = base + 0x34;
+    p = *(u8 **) (base + off);
+    i = 0;
+    do {
+        if (*(s16 *) p != -1 && *(u16 *) (p + 4) == arg2 && *(u16 *) (p + 2) == arg0) {
+            *(u16 *) (p + 6) = arg3;
+        }
+        i++;
+        p += 0x28;
+    } while (i <= 7);
+}
 #endif
 #ifdef NONMATCHING
 void sub_0801E594(void *arg0)
