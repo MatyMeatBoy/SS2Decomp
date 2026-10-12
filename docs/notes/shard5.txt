@@ -10,3 +10,9 @@ sub_08008E74 (code_08006D24): draft with local struct Sub08008E74Ent, size 176 v
   assignment (r6/r7 swapped), index/temp ordering. Tried literal masks (-8, -9, -113), OR operand order,
   local copies of args in 6 orders. Not matched.
 sub_080094CC (code_08009088): draft size 176 vs 200 (CpuSet loop, gUnk_03003460 table of pointers).
+
+sub_08008D38 (code_08006D24): draft with hoisted `u32 mask = 0x8000` size 130 vs 128; permuter (90s) best score 185, no match.
+  Original keeps 0x8000 in ip across both tests and loads *state before materialising the mask.
+sub_080090B0 (code_08009088): draft (table gUnk_03003460 stores, layers[1..3].data = 0, lay stride 0x18, CpuSet-free)
+  size 136 vs 136 with offset-based loop; diff is register choice (original keeps ts in r6, table in r5 then r8,
+  loop index spilled to [sp,#4]). Constant sub_08001494(0x20000) must be 0x80<<10 (not 0x200000).
