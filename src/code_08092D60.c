@@ -250,7 +250,28 @@ void sub_08095610(u8 v)
     gUnk_03000280.b0C = v;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809561C);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095A60);
+#include "global.h"
+M2C_UNK sub_08000990(s32, s32);
+M2C_UNK sub_080009F8(s32, s32, s32);
+M2C_UNK sub_08000A34(s32, s32, s32, s32, s32);
+extern s16 gUnk_03001F40;
+
+void sub_08095A60(void) {
+    sub_08000A34(1, 0, 0, 0, 0);
+    sub_080009F8(0xF00, 0, 0);
+    sub_08000990(0, 0);
+    sub_080009C0(0x1000, 0, 0);
+    sub_0800CBF8(1U);
+    sub_0800CC48(1U);
+    sub_08098010(1U);
+    M2C_FIELD(gUnk_03001250, u16 *, 0) = 0;
+    M2C_FIELD(gUnk_03001250, s16 *, 2) = 0;
+    M2C_FIELD(gUnk_03001250, s16 *, 4) = 0;
+    M2C_FIELD(gUnk_03001250, s16 *, 6) = 0;
+    sub_0800903C(0, 0, 0, 0, 0, 0);
+    gUnk_03001F40 = 0;
+    sub_08000940();
+}
 void sub_08095AD8(s8 value)
 {
     sub_080586D0(3);
