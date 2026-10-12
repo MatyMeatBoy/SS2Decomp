@@ -1,0 +1,13 @@
+Shard 9 notes (worker/009)
+
+sub_080137A0 (code_0800CF58, 95 asm lines) - NOT MATCHED after ~1000 variants.
+  Shape: switch(arg0) cases 0,1,2 (cmp #1/beq, cmp #1/bcc, cmp #2/beq). Each case zeroes two u16 at
+  gUnk_030034E0+0x100/0x102 (+0x108/0x10A, +0x110/0x112), then 12 u8 at +0x104+i (+0x10C+i, +0x114+i), i in 0..11.
+  Original: base loaded once for the halfword stores, then gUnk reloaded each loop iteration, 0x104 hoisted to r3,
+  shared zero in r2, loop bottom-tested with unsigned `cmp #11; bls`.
+  Tried: switch vs if-chain (all case orders), for(<=11)/for(<12)/do-while, s32/u32 index, pointer-cast forms
+  (*(u8*)(g+c+i), *((u8*)g+c+i), ((u8*)g)[c+i]), halfword stores via local vs global base, agbcc and old_agbcc at -O1/-O2,
+  permuter (~2 min, no match).
+  Best diff: register allocation (zero/loop counter swapped, base recomputed per halfword store).
+  Ideas not tried: struct view of gUnk_030034E0 (stride-8 element with u16 a,b and u8 c[12]), separate per-case
+  helper functions, `register` locals.

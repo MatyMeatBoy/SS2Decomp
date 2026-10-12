@@ -1,0 +1,18 @@
+Shard 40 notes (worker/009)
+
+sub_0803E510 (code_0803B69C, 90 asm lines) - NOT MATCHED after ~15 attempts.
+  Logic is clear: idx=sub_080020F4(); gUnk_03003CE0[idx].flags |= 1; sub_0800D0F4(); sub_08029174(0,0);
+  sub_0802949C(arg0,0); two busy-wait loops; h=sub_0805DF38(1,0xF,2,0,-1,0x1404E9); wait loop on sub_0805EEFC/CDF8/EFBC;
+  sub_08029788(arg0); flags &= ~1; sub_0800D108(); state = 0 at idx.
+  Remaining diff: address of gUnk_03003CE0[idx] computed as (idx*0x14C) + base with the 0x30 offset folded into base
+  (orig keeps `ldr [r2,#48]`), and constant 0xA6<<1 loaded into r1 before idx is copied to r2.
+  Tried: array index, local struct pointer, (u8*) cast with idx*0x14C, inline sub_080020F4() index, local idx var.
+  Permuter on the pointer variant: internal failure (decl-type crash in randomizer).
+
+sub_0803D36C (code_0803B69C, 105 asm lines) - NOT MATCHED after ~15 attempts.
+  Same shape as sub_0803E510: flags |= 1 on gUnk_03003CE0[idx] at the start, flags &= ~1 at the end, plus
+  wait loops, sub_0805DF38(..., -2, 0x1404FA), sub_0805EF14 branch that stores 10 to gUnk_03005CF4+0x1BF or +0x1B3.
+  The same blocker as E510: the struct-array element address keeps the 0x30 offset folded into the base, and the
+  constant 0xA6<<1 is materialised before idx is copied. Tried: array index, local struct pointer, cast form,
+  inline index call, idx as s32/u32/u16/u8, agbcc and old_agbcc at -O1/-O2.
+  A fix for this idiom likely unlocks both functions and most of the module's other flag toggles.
