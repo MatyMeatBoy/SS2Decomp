@@ -13,7 +13,7 @@ Be terse in chat; the commits are what matter. User language is Spanish but code
 - Shared headers (`include/functions.h`, `variables.h`, `structs.h`) are merged with union strategy: only APPEND lines
   (new externs/prototypes/structs), never edit or reorder existing lines, never retype an existing global
   (retyping existing globals broke other functions before). If you need a different type for an existing global, cast at use site.
-- Only commit files under `src/`, `include/`, `asm/nonmatchings/` (deleted .s of matched functions).
+- Only commit files under `src/`, `include/`, `asm/nonmatchings/` and `docs/notes/` (your notes) (deleted .s of matched functions).
 - A function counts only when `apply_permuted.py` accepted it (it deletes the .s and rewrites the INCLUDE_ASM line).
   Never hand-edit src/*.c to fake a match; no `#ifdef NONMATCHING` bodies.
 - Commit + push every ~5 functions (`git push -u origin worker/NNN`, retry 4x with backoff on network errors).
