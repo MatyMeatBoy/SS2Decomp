@@ -43,3 +43,10 @@ Session 4:
   table at gUnk_03005CF4+0x58C, calls sub_0801DE60/sub_08028368). Not matching: ~196 diff
   lines, register allocation for the three args differs. Permuter after 150s: 5565 vs 7150.
   Not attempted this session: sub_0801F79C, F99C, FC34, FD64 (see session 3), FDD0, 20680, F374, F1C4.
+
+Session 5:
+  sub_0801FC34 (304 bytes): same rectangle scan as FB14 but without early return and with
+  `q[6] & 1`; the 0x8000 branch stores 0 before the second DE60 call. Packing the (w,h)
+  pair into a u32 with mask ops (as the original does) fixes the size (264 vs 304) but
+  ~187 diff lines remain. Not matched.
+  Remaining untouched: sub_0801F79C, F99C, FDD0, 20680, F374, F1C4, FD64 (see session 3).
