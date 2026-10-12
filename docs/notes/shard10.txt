@@ -1,0 +1,14 @@
+Shard 10 (code_0800CF58), worker/010 - notes on functions not yet matched
+
+sub_08013850 (438 asm lines, 880 bytes): draft at asm/nonmatchings/code_0800CF58/sub_08013850.draft.c is now the
+same size as the original (880). Remaining diff is instruction level, not size:
+  - register allocation: original keeps p24 in sl, z8 in r9, z16 in r5, loop counter in r7; candidate differs.
+  - one folded address: candidate computes 0x138 as (0x116 + 0x22), original loads it fresh.
+  - a few CSE differences around the 0x54/0x6a pointer setup.
+Tried (no match):
+  - random search of 3,400 local-declaration and tail-store orders (size 880 reached, never exact)
+  - `register` storage class sweep over all 256 combinations of the locals
+  - loop-form variants (<= bounds, do/while for the stm loops): all compile identically
+  - permuter (score stuck at 1235)
+Ideas not tried: separate pointer per struct (GA/GB typed struct accessors) instead of raw offsets; splitting the
+init into a helper; swapping which global is read first (gUnk_030034E0 vs gUnk_03004210) to change reg order.
