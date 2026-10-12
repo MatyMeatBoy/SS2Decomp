@@ -317,7 +317,7 @@ u16 sub_0801E438(s32 arg0, u32 arg1);
 s32 sub_0801E46C(void *arg0, void *arg1);
 s32 sub_0801E4CC(u8 *arg0, s32 arg1);
 s32 sub_0801E538();
-void sub_0801E550(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void sub_0801E550(u16 id, u32 stateIndex, u16 kind, u16 value);
 void sub_0801E594(void *arg0);
 void sub_0801F2CC(u8 *object, u8 *data);
 void sub_0801F320(u8 *object, u8 *data);
