@@ -90,21 +90,27 @@ void sub_080A4AE4(void)
   }
 
 }
-#ifdef NONMATCHING
 void sub_080A4B10(void)
 {
-    u8 *entry = gUnk_0300035C;
-    u32 i;
-    for (i = 0; i < 3; i++, entry += 0x28) {
-        if (sub_08000470(entry) != 0)
-            sub_080003A8(entry);
+  u32 i;
+  u8 *entry;
+  u8 *new_var2;
+  u8 *new_var;
+  new_var2 = (u8 *) gUnk_0300035C;
+  for (i = 0, entry = new_var2; i < 3; i++)
+  {
+    new_var = entry;
+    if (sub_08000470(new_var) != 0)
+    {
+      sub_080003A8(entry);
     }
-    sub_08001538(gUnk_0300035C);
-    gUnk_0300035C = 0;
+    entry += 0x28;
+  }
+
+  i = 0;
+  sub_08001538(gUnk_0300035C);
+  gUnk_0300035C = i;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4B10);
-#endif
 void sub_080A4B48(s32 arg0)
 {
   u16 argIndex = arg0;
@@ -264,21 +270,27 @@ void sub_080A7E68(void)
   }
 
 }
-#ifdef NONMATCHING
 void sub_080A7E94(void)
 {
-    u8 *entry = gUnk_03000408;
-    u32 i;
-    for (i = 0; i < 8; i++, entry += 0x28) {
-        if (sub_08000470(entry) != 0)
-            sub_080003A8(entry);
+  u32 i;
+  u8 *entry;
+  u8 *new_var2;
+  u8 *new_var;
+  new_var2 = (u8 *) gUnk_03000408;
+  for (i = 0, entry = new_var2; i < 8; i++)
+  {
+    new_var = entry;
+    if (sub_08000470(new_var) != 0)
+    {
+      sub_080003A8(entry);
     }
-    sub_08001538(gUnk_03000408);
-    gUnk_03000408 = 0;
+    entry += 0x28;
+  }
+
+  i = 0;
+  sub_08001538(gUnk_03000408);
+  gUnk_03000408 = i;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7E94);
-#endif
 #ifdef NONMATCHING
 void sub_080A7ECC(u32 arg0)
 {
@@ -316,21 +328,27 @@ void sub_080A7F30(void)
   }
 
 }
-#ifdef NONMATCHING
 void sub_080A7F5C(void)
 {
-    u32 i;
-    s32 ptr = gUnk_0300040C;
-    for (i = 0; i < 2; i++, ptr += 0x28) {
-        if (sub_08000470(ptr) != 0)
-            sub_080003A8(ptr);
+  u32 i;
+  u8 *entry;
+  u8 *new_var2;
+  u8 *new_var;
+  new_var2 = (u8 *) gUnk_0300040C;
+  for (i = 0, entry = new_var2; i < 2; i++)
+  {
+    new_var = entry;
+    if (sub_08000470(new_var) != 0)
+    {
+      sub_080003A8(entry);
     }
-    sub_08001538(gUnk_0300040C);
-    gUnk_0300040C = 0;
+    entry += 0x28;
+  }
+
+  i = 0;
+  sub_08001538(gUnk_0300040C);
+  gUnk_0300040C = i;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A7F5C);
-#endif
 #ifdef NONMATCHING
 void sub_080A7F94(u16 value)
 {
