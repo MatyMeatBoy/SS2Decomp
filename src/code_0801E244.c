@@ -131,7 +131,23 @@ u16 sub_0801E438(s32 arg0, u32 arg1)
     return value;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E438);
+u16 sub_0801E438(s32 arg0, u32 arg1)
+{
+    u16 value;
+    u8 mode;
+
+    value = (u16)arg1;
+    mode = sub_0801DE60();
+    switch (mode) {
+    case 0:
+        value = sub_0801E0AC(arg0, 3) << 3;
+        break;
+    case 3:
+        value = sub_0801E0AC(arg0, 2) << 3;
+        break;
+    }
+    return value;
+}
 #endif
 s32 sub_0801E46C(void *arg0, void *arg1) {
     s32 temp_r1;

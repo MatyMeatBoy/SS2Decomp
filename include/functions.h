@@ -313,6 +313,7 @@ void sub_0801E2CC(s32 arg0, u32 arg1);
 void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2);
 u16 sub_0801E378(s32 arg0, u16 value);
 u16 sub_0801E3D8(s32 arg0, u16 value);
+u16 sub_0801E438(s32 arg0, u32 arg1);
 s32 sub_0801E46C(void *arg0, void *arg1);
 s32 sub_0801E4CC(u8 *arg0, s32 arg1);
 s32 sub_0801E538();
