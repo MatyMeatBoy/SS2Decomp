@@ -1,5 +1,7 @@
 #include "global.h"
 
+u32 sub_0805D2E0(void *arg0);
+
 void sub_0805D094(void)
 {
     u8 *base = (u8 *)gUnk_030034E0;
@@ -69,7 +71,27 @@ u32 sub_0805D278(void *arg0)
     limit = *(s16 *)((u8 *)gUnk_03003CE0 + player * 0x14C + 0x38);
     return resource[0xA0] <= limit;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D2E0);
+u32 sub_0805D2E0(void *arg0) {
+    s32 temp_r4;
+    s32 player;
+    s16 *limitPtr;
+    u8 resourceValue;
+    s16 limit;
+
+    if ((arg0 != NULL) && (M2C_FIELD(arg0, u16 *, 0) == 5) && (M2C_FIELD(arg0, u8 *, 8) == 0)) {
+        temp_r4 = sub_08007290(M2C_FIELD(arg0, u16 *, 2) | 0xE0000);
+        if ((((s32) M2C_FIELD(temp_r4, u16 *, 0xA2) >> sub_0801DE60()) & 1) != 0) {
+            player = sub_080020F4();
+            limitPtr = (s16 *)((u8 *)gUnk_03003CE0 + player * 0x14C);
+            resourceValue = *(u8 *)((u8 *)temp_r4 + 0xA1);
+            limit = *(s16 *)((u8 *)limitPtr + 0x38);
+            if (resourceValue <= limit) {
+                return 1U;
+            }
+        }
+    }
+    return 0U;
+}
 u32 sub_0805D348(void)
 {
     u8 *entry = (u8 *)gUnk_030034E0 + 0x150;
