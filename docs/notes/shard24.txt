@@ -15,3 +15,9 @@ sub_08026858 (484 asm lines): big game-logic function with stack struct (sp44/sp
 sub_080263B4 (502 asm lines): state machine, m2c draft is large; not started.
 
 sub_08025890 (1307 asm lines): not started.
+
+Later attempts (2026-10-12, after main merge with revalidated tree):
+  - sub_080257D4: for(;;) retry loop with sub_080003F0 at loop end; gp/global direct; recomputed off.
+    All stay at 160 bytes vs 188. Original's extra bytes are high-register saves (r8/r9) for arg0/off
+    across calls; still not reproduced. No NONMATCHING draft exists for any remaining shard-24 function.
+  - sub_08025890, sub_080263B4, sub_08026858: not attempted further (large).
