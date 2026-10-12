@@ -64,23 +64,29 @@ void sub_08000BB0(u32 seed)
     gUnk_03001318[2] = 0x86;
     gUnk_03001318[3] = 0x04;
 }
-#ifdef NONMATCHING
 void *sub_08000BC8(u32 *src, void **dest)
 {
-    u32 size, rem;
-    size = *src >> 8;
-    rem = size & 3; if (rem) size += 4 - rem;
-    if (*dest == NULL)
+  u32 *new_var;
+  u32 size;
+  u32 rem;
+  new_var = src;
+  size = (*new_var) >> 8;
+  rem = size & 3;
+  if (rem)
+  {
+    size += 4 - rem;
+  }
+  if ((*dest) == ((void *) 0))
+  {
+    while ((*dest = (void *) sub_08001494(size)) == ((void *) 0))
     {
-        while ((*dest = (void *)sub_08001494(size)) == NULL)
-            sub_080003F0();
+      sub_080003F0();
     }
-    LZ77UnCompWram(src, *dest);
-    return *dest;
+
+  }
+  LZ77UnCompWram(new_var, *dest);
+  return *dest;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/video", sub_08000BC8);
-#endif
 void sub_08000C08(s16 arg0, s16 arg1) {
     gUnk_03001730 = arg0;
     gUnk_03002348 = arg1;

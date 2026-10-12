@@ -280,11 +280,21 @@ INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A0BC);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A120);
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A1C8);
-#ifdef NONMATCHING
-s32 sub_0801A270(void) { u32 i; for (i=0;i<=4;i++) if (!(gUnk_030056FC & (1<<i))) return i; return -1; }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A270);
-#endif
+s32 sub_0801A270(void)
+{
+  int new_var;
+  int i;
+  for (i = 0; i <= 4; i++)
+  {
+    new_var = gUnk_030056FC & (1 << i);
+    if (!new_var)
+    {
+      return i;
+    }
+  }
+
+  return -1;
+}
 #ifdef NONMATCHING
 void sub_0801A298(u8 *obj, u16 value)
 {

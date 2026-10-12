@@ -123,19 +123,20 @@ u32 sub_0805D2E0(void *arg0) {
     }
     return 0U;
 }
-#ifdef NONMATCHING
 u32 sub_0805D348(void)
 {
-    u8 *entry = (u8 *)gUnk_030034E0 + 0x150;
-    u32 i;
-    for (i = 0; i <= 0x18; i++, entry += 0x10)
-        if (*(u16 *)entry == 0xA && *(u32 *)(entry + 4) <= 0x1869F)
-            return 1;
-    return 0;
+  u8 *entry = ((u8 *) gUnk_030034E0) + 0x150;
+  int i;
+  for (i = 0; i <= 0x18; i++, entry += 0x10)
+  {
+    if (((*((u16 *) entry)) == 0xA) && ((*((u32 *) (entry + 4))) <= 0x1869F))
+    {
+      return 1;
+    }
+  }
+
+  return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D348);
-#endif
 #ifdef NONMATCHING
 void *sub_0805D37C(s32 x, s32 y, u32 key)
 {
@@ -205,32 +206,34 @@ void *sub_0805D434(void)
             return entry;
     return 0;
 }
-#ifdef NONMATCHING
-void *sub_0805D460(u32 id)
+void *sub_0805D460(unsigned short id)
 {
-    u8 *entry = gUnk_03005D58;
-    u32 i;
-    for (i = 0; i < 16; i++, entry += 0x20)
-        if ((*(u16 *)(entry + 0xA) & 1) != 0 && *(u16 *)(entry + 0xC) == (u16)id)
-            return entry;
-    return 0;
+  u8 *entry = gUnk_03005D58;
+  u32 i;
+  for (i = 0; i < 16; i++, entry += 0x20)
+  {
+    if ((((*((u16 *) (entry + 0xA))) & 1) != 0) && ((*((u16 *) (entry + 0xC))) == ((u16) id)))
+    {
+      return entry;
+    }
+  }
+
+  return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D460);
-#endif
-#ifdef NONMATCHING
-void *sub_0805D498(u32 id)
+void *sub_0805D498(unsigned short id)
 {
-    u8 *entry = gUnk_03005D58;
-    u32 i;
-    for (i = 0; i < 16; i++, entry += 0x20)
-        if (*(u16 *)(entry + 0xA) == 2 && *(u16 *)(entry + 0xC) == (u16)id)
-            return entry;
-    return 0;
+  u8 *entry = gUnk_03005D58;
+  u32 i;
+  for (i = 0; i < 16; i++, entry += 0x20)
+  {
+    if (((*((u16 *) (entry + 0xA))) == 2) && ((*((u16 *) (entry + 0xC))) == ((u16) id)))
+    {
+      return entry;
+    }
+  }
+
+  return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D498);
-#endif
 s32 sub_0805D4C4(u16 arg0) {
     s32 var_r4;
     u32 var_r2;
@@ -297,15 +300,17 @@ loop_1:
     }
     goto loop_1;
 }
-#ifdef NONMATCHING
 void sub_0805D580(u32 index)
 {
-    if (index <= 0x18)
-        M2C_FIELD((u8 *)gUnk_030034E0 + index * 0x10 + 0x150, u16 *, 0) = 0;
+  s8 *new_var;
+  s32 new_var2;
+  if (index <= 0x18)
+  {
+    new_var2 = gUnk_030034E0;
+    new_var = (s8 *) ((((u8 *) new_var2) + (8 * (2 * index))) + 0x150);
+    *((u16 *) (new_var + 0)) = 0;
+  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D580);
-#endif
 #ifdef NONMATCHING
 u32 sub_0805D5A0(void)
 {
@@ -413,18 +418,19 @@ void sub_0805EF84(u8 *p, u32 v)
     if (p != 0)
         *(u16 *)(p + 0x80) = v;
 }
-#ifdef NONMATCHING
 u32 sub_0805EF90(void)
 {
-    u32 i;
-    for (i = 0; i < 4; i++)
-        if ((gUnk_03005D70 >> i) & 1)
-            return 1;
-    return 0;
+  char i;
+  for (i = 0; i < 4; i++)
+  {
+    if ((gUnk_03005D70 >> i) & 1)
+    {
+      return 1;
+    }
+  }
+
+  return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EF90);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EFBC);
 #ifdef NONMATCHING
 void sub_0805F020(void)

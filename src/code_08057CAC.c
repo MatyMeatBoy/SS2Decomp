@@ -10,16 +10,19 @@ void sub_08057CAC(u32 index)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057CAC);
 #endif
-#ifdef NONMATCHING
 s32 sub_08057CEC(void)
 {
-    if (sub_0800CE30() == 0)
-        return M2C_FIELD((void *)gUnk_03005CF4, s32 *, 0x78);
-    return M2C_FIELD((void *)gUnk_03005CF4 + 0x80, s32 *, 0);
+  int new_var2;
+  s32 *new_var;
+  if (sub_0800CE30() == 0)
+  {
+    return *((s32 *) (((s8 *) ((void *) gUnk_03005CF4)) + 0x78));
+    new_var2 = 0;
+ do { } while (new_var2);
+  }
+  new_var = (s32 *) (((s8 *) (((void *) gUnk_03005CF4) + 0x80)) + 0);
+  return *new_var;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08057CAC", sub_08057CEC);
-#endif
 void sub_08057D14(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x50) = arg0;
 }

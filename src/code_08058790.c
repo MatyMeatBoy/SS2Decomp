@@ -290,21 +290,24 @@ void sub_08058CC4(u32 value)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058CC4);
 #endif
-#ifdef NONMATCHING
 u32 sub_08058D4C(u32 key)
 {
-    u32 i;
-    u8 *base = *(u8 **)0x03005CF4;
-    u8 *entry = base + 0x7A4;
-    u32 mask = *(u32 *)(base + 0x54);
-    for (i = 0; i <= 0xE; i++, entry += 0x70)
-        if ((mask & (1u << i)) && *(u32 *)(entry + 4) == key)
-            return *(u32 *)entry;
-    return 0;
+  int new_var;
+  u32 i;
+  u8 *base = *((u8 **) 0x03005CF4);
+  u8 *entry = base + 0x7A4;
+  u32 mask;
+  for (i = 0; i <= 0xE; i++, entry += 0x70)
+  {
+    new_var = (*((u32 *) (base + 0x54))) & (1u << i);
+    if (new_var && ((*((u32 *) (entry + 4))) == key))
+    {
+      return *((u32 *) entry);
+    }
+  }
+
+  return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08058D4C);
-#endif
 s32 sub_08058D8C(void) {
     return sub_080008C8();
 }
@@ -527,11 +530,16 @@ void sub_080592FC(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_080592FC);
 #endif
-#ifdef NONMATCHING
-void sub_08059340(void) { u8 *p=(u8 *)(uintptr_t)gUnk_03005CF4 + (sub_0800CE30()?0x1BD:0x1B1); *p=0xA; }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08059340);
-#endif
+void sub_08059340(void)
+{
+  int new_var2;
+  int new_var3;
+  u8 *p;
+  int new_var;
+  new_var2 = 0xA;
+  new_var3 = new_var2;
+ do { new_var = new_var3; *(((u8 *) ((uintptr_t) gUnk_03005CF4)) + ((sub_0800CE30()) ? (0x1BD) : (0x1B1))) = new_var; } while (0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08059374);
 #ifdef NONMATCHING
 void sub_08059418(s32 arg0)
