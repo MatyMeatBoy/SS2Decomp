@@ -6,6 +6,7 @@ extern s32 gUnk_03005CF0;
 void sub_08025890(void);
 void sub_080263B4(void);
 void sub_080226A4(void);
+void sub_08021214(void);
 
 void sub_08021DC4(s32 arg0) {
     s32 *temp_r4;
@@ -69,7 +70,40 @@ void sub_08021E44(s32 arg0, s32 arg1) {
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08021EC8);
+void sub_08021EC8(u32 arg0, u32 arg1, s32 arg2) {
+    s32 *temp_r4;
+    u32 var_r5;
+    void *temp_r0;
+    register volatile u32 *flags asm("r2");
+    u32 one;
+    register u32 firstMask asm("r1");
+    var_r5 = 0;
+    flags = (volatile u32 *)&gUnk_03005CE4;
+    asm volatile("movs %0, #1" : "=r"(firstMask));
+    if (*flags & firstMask) {
+        one = 1;
+        do {
+            var_r5 += 1;
+            if (var_r5 > 0x1FU) break;
+        } while (*flags & (one << var_r5));
+    }
+    if (var_r5 <= 0x1FU) {
+        temp_r4 = gUnk_03005CE0 + (var_r5 * 0x28);
+        arg0 >>= 8;
+        arg1 >>= 8;
+        arg0 |= arg1 << 0x10;
+        M2C_FIELD(temp_r4, M2C_UNK **, 0xC) = &sub_08021214;
+        temp_r0 = sub_08001494(0x400U);
+        M2C_FIELD(temp_r4, void **, 0x20) = temp_r0;
+        if (temp_r0 != NULL) {
+            M2C_FIELD(temp_r4, void **, 0x10) = (void *)(temp_r0 + 0x3FC);
+            M2C_FIELD(temp_r4, s32 *, 8) = 0x46;
+            M2C_FIELD(temp_r4, s32 *, 0x24) = 0;
+            sub_08000274_(temp_r4, arg0, (var_r5 << 0x10) | arg2);
+            gUnk_03005CE4 |= 1 << var_r5;
+        }
+    }
+}
 void sub_08021F58(s32 arg0, s32 arg1) {
     s32 *temp_r4;
     u32 var_r5;
