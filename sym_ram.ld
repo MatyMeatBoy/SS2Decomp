@@ -398,5 +398,3 @@ gUnk_03007FFA = 0x03007FFA;
 gUnk_03007FFC = 0x03007FFC;
 gNumMusicPlayers = 4;
 gMaxLines = 0x3C;
-sub_080004B8 = 0x080004B8;
-sub_080004F8 = 0x080004F8;

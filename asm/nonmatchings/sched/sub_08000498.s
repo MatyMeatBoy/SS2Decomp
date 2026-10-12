@@ -11,92 +11,110 @@ _080004A8: .4byte sub_0800035C
 _080004AC: .4byte sub_0800035C
 _080004B0: .4byte sub_08000378
 _080004B4: .4byte sub_080003C0
-	.4byte 0xE92D0FF0
-	.4byte 0xE3A0C301
-	.4byte 0xE59FB02C
-	.4byte 0xE28BA040
-	.4byte 0xE3A09001
-	.4byte 0xE3A08000
-	.4byte 0xE5CC8208
-	.4byte 0xE89A00FF
-	.4byte 0xE8AA00F0
-	.4byte 0xE8AA000F
-	.4byte 0xE59B0004
-	.4byte 0xE58B8004
-	.4byte 0xE5CC9208
-	.4byte 0xE8BD0FF0
-	.4byte 0xE12FFF1E
-	.4byte 0x030024B0
-	.4byte 0xE3A0C301
-	.4byte 0xE28CCE12
-	.4byte 0xE89C0003
-	.4byte 0xE92D0F80
-	.4byte 0xE59FB100
-	.4byte 0xE3A090FE
-	.4byte 0xE2899CFE
-	.4byte 0xE1DC30B8
-	.4byte 0xE2033040
-	.4byte 0xE5CB3009
-	.4byte 0xE59BA014
-	.4byte 0xE29A3001
-	.4byte 0xBA000009
-	.4byte 0x1A000005
-	.4byte 0xE1CC90BA
-	.4byte 0xE28B8028
-	.4byte 0xE898000C
-	.4byte 0xE1A07002
-	.4byte 0xE8880088
-	.4byte 0xEA000002
-	.4byte 0xE59B302C
-	.4byte 0xE793208A
-	.4byte 0xE1CC20BA
-	.4byte 0xE35A000F
-	.4byte 0xB28AA001
-	.4byte 0xB58BA014
-	.4byte 0xE92D0063
-	.4byte 0xE3A06003
-	.4byte 0xE28B8018
-	.4byte 0xE0888106
-	.4byte 0xE598A000
-	.4byte 0xE1A03086
-	.4byte 0xE19D50B3
-	.4byte 0xE1550009
-	.4byte 0x1A000004
-	.4byte 0xE35A000D
-	.4byte 0xDA000002
-	.4byte 0xE3A00001
-	.4byte 0xE240A002
-	.4byte 0xEA00000A
-	.4byte 0xE5980018
-	.4byte 0xE1A0308A
-	.4byte 0xE18050B3
-	.4byte 0xE35A000D
-	.4byte 0x1A000005
-	.4byte 0xE5981028
-	.4byte 0xE5880028
-	.4byte 0xE5881018
-	.4byte 0xE28B3004
-	.4byte 0xE3A00001
-	.4byte 0xE7C30006
-	.4byte 0xE35A000F
-	.4byte 0xB28AA001
-	.4byte 0xE588A000
-	.4byte 0xE2566001
-	.4byte 0xAAFFFFE3
-	.4byte 0xE5DB0000
-	.4byte 0xE3500000
-	.4byte 0x0A000007
-	.4byte 0xE59F7028
-	.4byte 0xE3A00000
-	.4byte 0xE1C700B0
-	.4byte 0xE1DC00B8
-	.4byte 0xE3800080
-	.4byte 0xE1CC00B8
-	.4byte 0xE3A000C0
-	.4byte 0xE1C700B0
-	.4byte 0xE28DD008
-	.4byte 0xE8BD0FE0
-	.4byte 0xE12FFF1E
-	.4byte 0x030024B0
-	.4byte 0x0400010E
 	thumb_func_end sub_08000498
+
+	arm_func_start sub_080004B8
+sub_080004B8: @ 0x080004B8
+	push	{r4, r5, r6, r7, r8, r9, sl, fp}
+	mov	ip, #67108864
+	ldr	fp, _080004F4
+	add	sl, fp, #64
+	mov	r9, #1
+	mov	r8, #0
+	strb	r8, [ip, #520]
+	ldm	sl, {r0, r1, r2, r3, r4, r5, r6, r7}
+	stmia	sl!, {r4, r5, r6, r7}
+	stmia	sl!, {r0, r1, r2, r3}
+	ldr	r0, [fp, #4]
+	str	r8, [fp, #4]
+	strb	r9, [ip, #520]
+	pop	{r4, r5, r6, r7, r8, r9, sl, fp}
+	bx	lr
+_080004F4:
+	.4byte gUnk_030024B0
+	arm_func_end sub_080004B8
+
+	arm_func_start sub_080004F8
+sub_080004F8: @ 0x080004F8
+	mov	ip, #67108864
+	add	ip, ip, #288
+	ldm	ip, {r0, r1}
+	push	{r7, r8, r9, sl, fp}
+	ldr	fp, _08000610
+	mov	r9, #254
+	add	r9, r9, #65024
+	ldrh	r3, [ip, #8]
+	and	r3, r3, #64
+	strb	r3, [fp, #9]
+	ldr	sl, [fp, #20]
+	adds	r3, sl, #1
+	blt _08000554
+	bne _08000548
+	strh	r9, [ip, #10]
+	add	r8, fp, #40
+	ldm	r8, {r2, r3}
+	mov	r7, r2
+	stm	r8, {r3, r7}
+	b _08000554
+_08000548:
+	ldr	r3, [fp, #44]
+	ldr	r2, [r3, sl, lsl #1]
+	strh	r2, [ip, #10]
+_08000554:
+	cmp	sl, #15
+	addlt	sl, sl, #1
+	strlt	sl, [fp, #20]
+	push	{r0, r1, r5, r6}
+	mov	r6, #3
+_08000568:
+	add	r8, fp, #24
+	add	r8, r8, r6, lsl #2
+	ldr	sl, [r8]
+	lsl	r3, r6, #1
+	ldrh	r5, [sp, r3]
+	cmp	r5, r9
+	bne _08000598
+	cmp	sl, #13
+	ble _08000598
+	mov	r0, #1
+	sub	sl, r0, #2
+	b _080005C4
+_08000598:
+	ldr	r0, [r8, #24]
+	lsl	r3, sl, #1
+	strh	r5, [r0, r3]
+	cmp	sl, #13
+	bne _080005C4
+	ldr	r1, [r8, #40]
+	str	r0, [r8, #40]
+	str	r1, [r8, #24]
+	add	r3, fp, #4
+	mov	r0, #1
+	strb	r0, [r3, r6]
+_080005C4:
+	cmp	sl, #15
+	addlt	sl, sl, #1
+	str	sl, [r8]
+	subs	r6, r6, #1
+	bge _08000568
+	ldrb	r0, [fp]
+	cmp	r0, #0
+	beq _08000604
+	ldr	r7, _08000614
+	mov	r0, #0
+	strh	r0, [r7]
+	ldrh	r0, [ip, #8]
+	orr	r0, r0, #128
+	strh	r0, [ip, #8]
+	mov	r0, #192
+	strh	r0, [r7]
+_08000604:
+	add	sp, sp, #8
+	pop	{r5, r6, r7, r8, r9, sl, fp}
+	bx	lr
+_08000610:
+	.4byte gUnk_030024B0
+_08000614:
+	.4byte 0x0400010E
+	arm_func_end sub_080004F8
+
