@@ -4,6 +4,7 @@
 ![game code](docs/progress/badge_game.svg)
 ![libraries](docs/progress/badge_lib.svg)
 ![functions](docs/progress/badge_functions.svg)
+![with C drafts](docs/progress/badge_drafts.svg)
 
 Work-in-progress **matching** decompilation of *Shining Soul II* for the Game Boy
 Advance (Europe, `AU2P`, En/Fr/De/Es/It). The build reproduces the original ROM

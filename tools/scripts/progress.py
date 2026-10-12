@@ -101,10 +101,15 @@ def summarize(modules):
         done = [f for f in fs if f["state"] == "done"]
         tot_b = sum(f["size"] for f in fs)
         done_b = sum(f["size"] for f in done)
+        nm = [f for f in fs if f["state"] == "nonmatch"]
+        nm_b = sum(f["size"] for f in nm)
         out[cat] = {
             "bytes_total": tot_b, "bytes_done": done_b,
             "funcs_total": len(fs), "funcs_done": len(done),
             "percent": 100.0 * done_b / tot_b if tot_b else 100.0,
+            # C drafts that compile but do not match yet (#ifdef NONMATCHING blocks)
+            "funcs_drafts": len(nm), "bytes_drafts": nm_b,
+            "percent_with_drafts": 100.0 * (done_b + nm_b) / tot_b if tot_b else 100.0,
         }
     asm = [f for m in modules for f in m["funcs"] if f["state"] == "asm"]
     out["asm"] = {"bytes": sum(f["size"] for f in asm), "funcs": len(asm)}
@@ -276,6 +281,8 @@ def main():
         with open(os.path.join(args.out, "badge_%s.svg" % key), "w", encoding="utf-8", newline="\n") as fh:
             fh.write(badge_svg(label, "%.2f%%" % s["percent"], pct_color(s["percent"])))
     s = summary["all"]
+    with open(os.path.join(args.out, "badge_drafts.svg"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(badge_svg("with C drafts", "%.2f%%" % s["percent_with_drafts"], pct_color(s["percent_with_drafts"])))
     with open(os.path.join(args.out, "badge_functions.svg"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write(badge_svg("functions", "%d/%d" % (s["funcs_done"], s["funcs_total"]),
                            pct_color(100.0 * s["funcs_done"] / max(1, s["funcs_total"]))))
@@ -286,8 +293,9 @@ def main():
     else:
         for key in ("game", "lib", "all"):
             s = summary[key]
-            print("%-5s %6.2f%%  %5d/%5d funcs  %7d/%7d bytes" % (
-                key, s["percent"], s["funcs_done"], s["funcs_total"], s["bytes_done"], s["bytes_total"]))
+            print("%-5s %6.2f%%  %5d/%5d funcs  %7d/%7d bytes   (+%d draft funcs: %.2f%% with drafts)" % (
+                key, s["percent"], s["funcs_done"], s["funcs_total"], s["bytes_done"], s["bytes_total"],
+                s["funcs_drafts"], s["percent_with_drafts"]))
         print("asm   (hand written, not decompiled) %d funcs %d bytes" % (summary["asm"]["funcs"],
                                                                          summary["asm"]["bytes"]))
 

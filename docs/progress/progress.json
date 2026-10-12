@@ -4,21 +4,30 @@
   "bytes_done": 29852,
   "funcs_total": 1870,
   "funcs_done": 623,
-  "percent": 4.006162501073606
+  "percent": 4.006162501073606,
+  "funcs_drafts": 457,
+  "bytes_drafts": 42376,
+  "percent_with_drafts": 9.693055913424375
  },
  "lib": {
   "bytes_total": 9716,
   "bytes_done": 8484,
   "funcs_total": 103,
   "funcs_done": 101,
-  "percent": 87.31988472622479
+  "percent": 87.31988472622479,
+  "funcs_drafts": 2,
+  "bytes_drafts": 1232,
+  "percent_with_drafts": 100.0
  },
  "all": {
   "bytes_total": 754868,
   "bytes_done": 38336,
   "funcs_total": 1973,
   "funcs_done": 724,
-  "percent": 5.078503791391342
+  "percent": 5.078503791391342,
+  "funcs_drafts": 459,
+  "bytes_drafts": 43608,
+  "percent_with_drafts": 10.855407832892638
  },
  "asm": {
   "bytes": 4116,
