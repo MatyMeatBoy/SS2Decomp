@@ -1,0 +1,6 @@
+Shard 33 (code_0802FEA0). Matched: sub_08033B3C, sub_08033520.
+sub_08033198 (422 asm lines, 904 bytes): unmatched. Draft is 852-860 bytes; frame size differs (orig sub sp,#0x28,
+draft 0x18). Locals used: on-stack u16 pair at sp+8 (sub_0805AB20 arg), 12-byte zeroed buffer at sp+0xC.
+One permuter run (240s) best score 10590 (far). Ideas not yet tried: other struct layouts for the sp+8 block
+(a 4th-word local, u32 array of 8), restructure the duplicated wait loops as a helper-free goto form, and
+compare the 0x140224..0x140229 push order.
