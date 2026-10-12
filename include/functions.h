@@ -633,6 +633,7 @@ void sub_0809D558();
 s8 sub_0809D564();
 void sub_0809D574(void);
 void sub_0809D5B8(void);
+void sub_0809D5E4(void);
 void sub_0809D6A8();
 void sub_0809D6D8();
 void sub_0809F8C8();

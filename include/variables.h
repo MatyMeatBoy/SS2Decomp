@@ -48,6 +48,7 @@ extern u8 gUnk_030002BD;
 extern s32 gUnk_030002C0;
 extern void *gUnk_030002D0;
 extern u16 gUnk_030002D4;
+extern s32 gUnk_030002D8;
 extern void *gUnk_030002DC;
 extern u16 gUnk_030002E0;
 extern s8 gUnk_030002E8;
