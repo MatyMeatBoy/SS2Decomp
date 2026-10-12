@@ -147,7 +147,6 @@ u32 sub_08067D74(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D74);
 #endif
-#ifdef NONMATCHING
 s32 sub_08067DC8(void)
 {
     u8 *p;
@@ -157,10 +156,6 @@ s32 sub_08067DC8(void)
     *(u32 *)(p + 8) = *(u32 *)((u8 *)(uintptr_t)gUnk_03005CF4 + 0x40); p[1] = 1;
     gUnk_03006338++; return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067DC8);
-#endif
-#ifdef NONMATCHING
  s32 sub_08067E08(void)
 {
     u8 *p;
@@ -170,17 +165,10 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067DC8);
     *(u32 *)(p + 8) = *(u32 *)((u8 *)(uintptr_t)gUnk_03005CF4 + 0x3C); p[1] = 1;
     gUnk_03006338++; return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E08);
-#endif
-#ifdef NONMATCHING
 s32 sub_08067E48(void)
 {
     return M2C_FIELD(gUnk_03006300, u32 *, 4) == 2;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E48);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067E60);
 #ifdef NONMATCHING
 s32 sub_08067EC8(void)
@@ -436,7 +424,6 @@ void sub_0806854C(void) { gUnk_03006228 = 0xFF; }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806854C);
 #endif
-#ifdef NONMATCHING
 s32 sub_08068558(void)
 {
     u8 *p;
@@ -450,9 +437,6 @@ s32 sub_08068558(void)
     gUnk_03006338++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068558);
-#endif
 #ifdef NONMATCHING
 void sub_08068590(void)
 {

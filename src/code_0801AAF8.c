@@ -25,7 +25,6 @@ void sub_0801AB50(u16 arg0)
     sub_08000420(100);
     gUnk_03000028 = (gUnk_03000028 | 4) & -m;
 }
-#ifdef NONMATCHING
 void sub_0801AB90(u16 arg0) {
     register volatile u16 *p asm("r2");
     register u16 value asm("r0");
@@ -40,9 +39,6 @@ void sub_0801AB90(u16 arg0) {
         *p = value;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB90);
-#endif
 void sub_0801ABE8(u32 arg0) {
     int new_var;
     gUnk_03000026 = 1;
