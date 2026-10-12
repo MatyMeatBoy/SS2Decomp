@@ -33,7 +33,36 @@ INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803E5D8);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803E638);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803EE88);
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803F18C);
+void sub_0803F18C(s32 arg0) {
+    u16 n;
+    u8 *q;
+
+    n = 0x1E;
+    while (n != 0) {
+        sub_080003F0();
+        if (sub_080021A8() != 0) {
+            break;
+        }
+        n--;
+    }
+    sub_0802939C(0, 8);
+    switch (arg0) {
+    case 0:
+        sub_08028D98(0, 0, -0x12C, 0x12C);
+        break;
+    case 1:
+        sub_08028D98(0, 0, -0x12C, 0x12C);
+        break;
+    case 2:
+        sub_08028D98(0, 0, -0x12C, 0x12C);
+        break;
+    case 3:
+        sub_08028D98(0, 0, -0x12C, 0x12C);
+        break;
+    }
+    q = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
+    *(u16 *)(q + 0x20) = 0;
+}
 void sub_0803F210(s32 arg0) {
     u16 n;
 
