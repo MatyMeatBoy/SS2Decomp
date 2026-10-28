@@ -434,6 +434,8 @@ extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
 void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
+    s32 drawOffset3984;
+    u32 keyboardGap3984;
     s32 setupZero3984;
     u32 drawOne3984, ninthZero3984;
     u32 cleanupZero3984, cleanupMask3984, cleanupEnd3984;
@@ -1264,7 +1266,7 @@ block_175:
                     var_r4_2 = temp_r4_15 + (((u8 *)&gUnk_08366E0C) + 2);
                     ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7 + 2, *temp_r5_14 - 9, *var_r4_2 - 0x28);
                     var_r7 = (u8 *)&cursor;
-                    sub_08065230(var_r7, *temp_r5_14 - (cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
+                    sub_08065230(var_r7, *temp_r5_14 - (drawOffset3984 = cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
                     var_r1_7 = offsetY + 0x18 + *temp_r5_14 + cursorY;
 block_198:
                     sub_08065230(var_r7, var_r1_7, *var_r4_2 - 0x20, 3U, 1);
@@ -1277,7 +1279,7 @@ block_198:
                 var_r4_2 = temp_r4_16 + (((u8 *)&gUnk_08366E0C) + 2);
                 ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, *temp_r5_14 - ((textWidth3984 * 4) - 0x18), *var_r4_2 - 0x28);
                 var_r7 = (u8 *)&cursor;
-                    sub_08065230(var_r7, *temp_r5_14 - (cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
+                    sub_08065230(var_r7, *temp_r5_14 - (drawOffset3984 = cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
                 var_r7 = (u8 *)&cursor;
                     sub_08065230(var_r7, offsetY + 0x18 + *temp_r5_14 + (cursorY + 9), *var_r4_2 - 0x20, 3U, 1);
                         }
@@ -1593,12 +1595,12 @@ loop_330:
         case 0:
         case 1:
                 temp_r0_19 = (u16) ((u32) current % 20U);
-                newX = (temp_r0_19 * 8) + (((u32) ((temp_r0_19 / 5U) << 0x10) >> 0xC) + 0xF);
+                newX = (temp_r0_19 * 8) + (keyboardGap3984 = (((u32) ((temp_r0_19 / 5U) << 0x10) >> 0xC) + 0xF));
                 newY = ((u32) (((u32) current / 20U) << 0x10) >> 0xC) + 0x30;
             break;
         case 2:
                     temp_r0_18 = ((u32) current % 24U) << 0x10;
-                    newX = (temp_r0_18 >> 0xD) + (((temp_r0_18 >> 0x14) * 0x10) + 0x10);
+                    newX = (temp_r0_18 >> 0xD) + (keyboardGap3984 = (((temp_r0_18 >> 0x14) * 0x10) + 0x10));
                     newY = ((u32) (((u32) current / 24U) << 0x10) >> 0xC) + 0x30;
             break;
         }
@@ -1669,12 +1671,12 @@ loop_375:
             if (state == var_r6) {
                 temp_r5_3 = &x[var_r6];
                 *temp_r5_3 = drawOne3984;
-                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data + (M2C_FIELD(arg0, u8 *, 2) << 5), drawOne3984);
+                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data + (M2C_FIELD(arg0, u8 *, 2) << 5), 1U);
                 sub_08065370((u8 *)&icons[var_r6], *temp_r5_3, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), 0);
             } else {
                 temp_r5_4 = &x[var_r6];
                 *temp_r5_4 = 0;
-                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data, drawOne3984);
+                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data, 1U);
                 sub_08065370((u8 *)&icons[var_r6], *temp_r5_4, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), drawOne3984);
             }
         }
