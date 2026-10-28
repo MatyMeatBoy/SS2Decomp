@@ -1,4 +1,13 @@
 #include "global.h"
+extern u8 *gA03000370[] asm("gUnk_03000370");
+extern u8 gA030003F4[] asm("gUnk_030003F4");
+extern u8 gA030003F8[] asm("gUnk_030003F8");
+extern void sub_080A47A0();
+extern struct TaskP *gTP03000360 asm("gUnk_03000360");
+extern void sub_080A4AD0();
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern struct TaskP *gTP03000358 asm("gUnk_03000358");
+struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern void scrollA74E8(u32, s32, u32) asm("sub_0800BBD8");
 extern void waveA74E8(s32,s32,s32,u16,u16,s32) asm("sub_0800903C");
 extern void sub_080A6BE8(void);
@@ -62,24 +71,21 @@ void sub_080A4A54(void) {
     sub_08001538(gUnk_03000358);
     gUnk_03000358 = 0;
 }
-#ifdef NONMATCHING
 void sub_080A4A7C(void)
 {
-    u8 *task = *(u8 **)0x03000358;
-    if (sub_08000470((u32)task) != 0 || *(u32 *)(task + 8) == 0) {
-        u32 mem;
-        *(u32 *)(task + 8) = 0x44;
-        mem = sub_08001494(0x400);
-        *(u32 *)(task + 0x20) = mem;
-        *(u32 *)(task + 0x10) = mem + 0x3FC;
-        *(u32 *)(task + 0xC) = (u32)sub_080A35D0;
-        *(u32 *)(task + 0x24) = (u32)sub_080A4AD0;
-        sub_08000274((u32)task, 0, 0);
-    }
+    u32 mem;
+    struct TaskP *t;
+    if (sub_08000470((u32)gTP03000358) == 0 && gTP03000358->f8 != 0)
+        return;
+    gTP03000358->f8 = 0x44;
+    mem = sub_08001494(0x400);
+    t = gTP03000358;
+    t->f20 = mem;
+    t->f10 = mem + 0x3FC;
+    t->fC = (u32)sub_080A35D0;
+    t->f24 = (u32)sub_080A4AD0;
+    sub_08000274_3((u32)t, 0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4A7C);
-#endif
 void sub_080A4AD0(void) {
     gUnk_030056FC &= ~2;
 }
@@ -162,22 +168,21 @@ void sub_080A4BFC(void) {
     sub_08001538(gUnk_03000360);
     gUnk_03000360 = 0;
 }
-#ifdef NONMATCHING
 void sub_080A4C24(void)
 {
-    u8 *entry = gUnk_03000360;
-    if (sub_08000470(entry) == 0 && *(u32 *)(entry + 8) != 0)
+    u32 mem;
+    struct TaskP *t;
+    if (sub_08000470((u32)gTP03000360) == 0 && gTP03000360->f8 != 0)
         return;
-    *(u32 *)(entry + 8) = 0x44;
-    *(u32 *)(entry + 0x20) = sub_08001494(0x400);
-    *(u32 *)(entry + 0x10) = *(u32 *)(entry + 0x20) + 0x3FC;
-    *(u32 *)(entry + 0xC) = (u32)sub_080A47A0;
-    *(u32 *)(entry + 0x24) = 0;
-    sub_08000274_(entry, 0, 0);
+    gTP03000360->f8 = 0x44;
+    mem = sub_08001494(0x400);
+    t = gTP03000360;
+    t->f20 = mem;
+    t->f10 = mem + 0x3FC;
+    t->fC = (u32)sub_080A47A0;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, 0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4C24);
-#endif
 void sub_080A4C74(u8 arg0, u8 arg1) {
     if (gUnk_030003F1 != 0xFF) {
         gUnk_030003F2 = gUnk_030003F1;
@@ -185,17 +190,12 @@ void sub_080A4C74(u8 arg0, u8 arg1) {
     gUnk_030003F1 = arg0;
     M2C_FIELD(gUnk_03000368, s16 *, 8) = (s16) arg1;
 }
-#ifdef NONMATCHING
-void sub_080A4CA8(u32 index, u8 a, u8 b, u32 value)
+void sub_080A4CA8(u8 index, u32 a, u32 b, u8 value)
 {
-    index &= 0xFF;
-    gUnk_030003F8[index] = a;
-    gUnk_030003F4[index] = b;
-    *(u16 *)((u8 *)gUnk_03000370[index] + 8) = (u8)value;
+    gA030003F8[index] = a;
+    gA030003F4[index] = b;
+    *(u16 *)(gA03000370[index] + 8) = value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4CA8);
-#endif
 void sub_080A4CDC(s8 arg0, s8 arg1) {
     gUnk_030003FB = arg1;
     gUnk_030003FC = arg0;
