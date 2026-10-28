@@ -1,4 +1,11 @@
 #include "global.h"
+extern u16 gArr030007D4[] asm("gUnk_030007D4");
+extern u8 *gPtr030007EC asm("gUnk_030007EC");
+extern void sub_080A4AD0();
+extern void sub_080B5F94();
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern struct TaskP *gTP030007E4 asm("gUnk_030007E4");
+struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 void sub_080B5F94(void);
 void sub_080B6178(void);
 
@@ -69,30 +76,35 @@ void sub_080B63A0(void)
   gUnk_030007E4 = (temp_r0 = (s32) sub_08001494(0x28U));
   *((s32 *) (((s8 *) temp_r0) + 8)) = 0;
 }
-#ifdef NONMATCHING
 void sub_080B63BC(void)
 {
-    u8 *obj=*(u8 **)0x030007E4; u32 mem; if(!obj)return;
-    if(!sub_08000470((u32)obj)&&*(u32 *)(obj+8)==0)return;
-    *(u32 *)(obj+8)=0x44; mem=sub_08001494(0x400);
-    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+0x10)=mem+0x3FC;
-    *(u32 *)(obj+0xC)=(u32)sub_080B5F94; *(u32 *)(obj+0x24)=0;
-    sub_08000274_(obj,0,0);
+    u32 mem;
+    struct TaskP *t;
+    if (sub_08000470((u32)gTP030007E4) == 0 && gTP030007E4->f8 != 0)
+        return;
+    gTP030007E4->f8 = 0x44;
+    mem = sub_08001494(0x400);
+    t = gTP030007E4;
+    t->f20 = mem;
+    t->f10 = mem + 0x3FC;
+    t->fC = (u32)sub_080B5F94;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, 0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B63BC);
-#endif
-#ifdef NONMATCHING
 void sub_080B640C(void)
 {
-    u16 *flags=(u16 *)0x030007D4; u32 i;
-    for(i=0;i<2;i++) flags[i]=0;
-    *(u32 *)0x030007EC=sub_08001494(0x28);
-    if(*(u32 *)0x030007EC) *(u32 *)(*(u32 *)0x030007EC+8)=0;
+    u8 i;
+    u8 *p;
+    u8 **pp;
+    i = 0;
+    pp = &gPtr030007EC;
+    for (; i <= 1; i++)
+        gArr030007D4[i] = 0;
+    p = (u8 *)sub_08001494(0x28);
+    *pp = p;
+    if (p != 0)
+        *(u32 *)(p + 8) = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B640C);
-#endif
 #ifdef NONMATCHING
 void sub_080B6448(u32 a, u32 b)
 {
