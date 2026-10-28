@@ -2,7 +2,58 @@
 
 extern s32 sub_08074398(u16, u16, s32);
 
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073E2C);
+struct Task3E2C { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern vu32 gMask3E2C asm("gUnk_030063E0");
+extern u8 *gInfo3E2C asm("gUnk_03006380");
+extern u8 *gTasks3E2C asm("gUnk_030063B0");
+extern void sub_08000274_2(void *, void *) asm("sub_08000274");
+extern void sub_08073CF4();
+extern void sub_0807A120();
+void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d) asm("sub_08073E2C");
+void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d)
+{
+    u32 i = 0;
+    u32 mem;
+    u32 off;
+    u32 *e;
+    struct Task3E2C *t;
+    vu32 *m = &gMask3E2C;
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0xF)
+            return;
+    }
+    if (i > 0xF)
+        return;
+    if (d != 0)
+        d = 1;
+    {
+        u8 **pi = &gInfo3E2C;
+        u8 *p = *pi;
+        off = i * 0x18;
+        e = (u32 *)(off + (u32)p);
+    }
+    e[0] = 0;
+    e[1] = i;
+    e[2] = d;
+    e[3] = c;
+    e[5] = a;
+    e[4] = b;
+    mem = sub_08001494(0x400);
+    {
+        u8 *q = gTasks3E2C;
+        t = (struct Task3E2C *)(i * 0x28 + (u32)q);
+    }
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->fC = (u32)sub_08073CF4;
+    t->f8 = 0x34;
+    t->f10 = mem + 0x3FC;
+    t->f24 = (u32)sub_0807A120;
+    sub_08000274_2(t, gInfo3E2C + off);
+    gMask3E2C |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074398);
