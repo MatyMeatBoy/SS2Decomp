@@ -1,4 +1,5 @@
 #include "global.h"
+extern void sub_080887D4();
 extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
 
 void sub_08086860(void);
@@ -79,7 +80,28 @@ void sub_08088A60(u32 arg0, u16 arg1)
     gTask61B0.f24 = 0;
     sub_08000274_3((u32)&gTask61B0, arg0, arg1 | 0x10000);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088AA8);
+void sub_08088AA8(u32 arg)
+{
+    u8 *base = (u8 *)gUnk_03005CF4;
+    u8 *e;
+    u32 i;
+    u8 *t;
+    u32 r;
+    for (e = base + 0x7A4, i = 0, t = base + 0x7EC; i <= 0xE; i++, e += 0x70, t = e + 0x48) {
+        r = sub_08000470((u32)t);
+        if (r == 0) {
+            *(u16 *)(e + 0x40) = i;
+            *(u32 *)(e + 0x68) = sub_08001494(0x800);
+            *(u32 *)(e + 0x54) = (u32)sub_080887D4;
+            *(u32 *)(e + 0x58) = *(u32 *)(e + 0x68) + 0x7FC;
+            *(u32 *)(e + 0x50) = 0xA;
+            *(u32 *)(e + 0x6C) = r;
+            sub_08000274_3((u32)t, (u32)e, arg);
+            sub_08057624(2);
+            break;
+        }
+    }
+}
 void sub_08088B24(u32 arg0, u16 arg1)
 {
     gTask61B0.f20 = sub_08001494(0xC00);
