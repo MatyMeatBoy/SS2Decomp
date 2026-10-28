@@ -7,6 +7,7 @@ tools/config/modules.cfg are original hand written assembly (crt0, m4a_1,
 libgcc thunks...) and are shown separately.
 
 Usage: progress.py [--out docs/progress] [--json]
+Also exports evidence-backed names, a source call graph and raw data inventory.
 Needs no ROM: function sizes come from tools/config/functions.cfg.
 """
 
@@ -16,10 +17,15 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
+from source_index import strip_comments
 from html import escape
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
 CODE_END = 0x080B9704
+
+PURPLE = "#a371f7"
+PURPLE_DARK = "#8957e5"
 
 GREEN = "#3fb950"
 GREEN_DARK = "#2a7f39"
@@ -33,9 +39,10 @@ BG = "#0d1117"
 FG = "#e6edf3"
 
 
-def load():
+def load(root=None):
+    root = ROOT if root is None else root
     funcs = {}
-    for line in open(os.path.join(ROOT, "tools/config/functions.cfg"), encoding="utf-8"):
+    for line in Path(root, "tools/config/functions.cfg").read_text(encoding="utf-8").splitlines():
         line = line.split("#")[0].strip()
         if not line:
             continue
@@ -44,7 +51,7 @@ def load():
             a = int(p[1], 0)
             funcs[a] = p[2] if len(p) > 2 else ("sub_%08X" if p[0] == "thumb" else "arm_%08X") % a
     mods = []
-    for line in open(os.path.join(ROOT, "tools/config/modules.cfg"), encoding="utf-8"):
+    for line in Path(root, "tools/config/modules.cfg").read_text(encoding="utf-8").splitlines():
         line = line.split("#")[0].strip()
         if not line:
             continue
@@ -56,29 +63,32 @@ def load():
     return funcs, mods
 
 
-def collect():
-    funcs, mods = load()
-    entries = sorted(a for a in funcs if a >= 0x0800023C)
+def collect(root=None, code_end=CODE_END, include_prelude=False):
+    root = ROOT if root is None else root
+    funcs, mods = load(root)
+    if include_prelude and any(a < mods[0][0] for a in funcs):
+        mods.insert(0, (0x08000000, "crt0", "asm", "game"))
+    entries = sorted(a for a in funcs if include_prelude or a >= 0x0800023C)
     starts = [m[0] for m in mods]
     stubbed = set()
     nonmatch = set()
-    srcdir = os.path.join(ROOT, "src")
+    srcdir = os.path.join(root, "src")
     for fn in os.listdir(srcdir) if os.path.isdir(srcdir) else []:
         if fn.endswith(".c"):
-            text = open(os.path.join(srcdir, fn), encoding="utf-8").read()
-            for m in re.finditer(r"INCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\)", text):
+            text = strip_comments(Path(srcdir, fn).read_text(encoding="utf-8"))
+            for m in re.finditer(r'(?m)^\s*INCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\)', text):
                 stubbed.add(m.group(1))
             for m in re.finditer(r"#ifdef NONMATCHING\n.*?#else\nINCLUDE_ASM\(\s*\"[^\"]*\"\s*,\s*(\w+)\s*\);\n#endif", text, re.S):
                 nonmatch.add(m.group(1))
     modules = []
     for i, (ma, mname, kind, cat) in enumerate(mods):
-        mend = mods[i + 1][0] if i + 1 < len(mods) else CODE_END
+        mend = mods[i + 1][0] if i + 1 < len(mods) else code_end
         lo = bisect.bisect_left(entries, ma)
         hi = bisect.bisect_left(entries, mend)
         fl = []
         for j in range(lo, hi):
             a = entries[j]
-            e = entries[j + 1] if j + 1 < len(entries) else CODE_END
+            e = entries[j + 1] if j + 1 < len(entries) else code_end
             e = min(e, mend)
             name = funcs[a]
             if kind == "asm":
@@ -111,6 +121,29 @@ def summarize(modules):
             "funcs_drafts": len(nm), "bytes_drafts": nm_b,
             "percent_with_drafts": 100.0 * (done_b + nm_b) / tot_b if tot_b else 100.0,
         }
+        partitions = {
+            "decompiled": [f for m in ms if m["kind"] == "c" for f in m["funcs"] if f["state"] == "done"],
+            "linked": [f for m in ms if m["kind"] == "linked" for f in m["funcs"]],
+            "pending": [f for m in ms if m["kind"] == "c" for f in m["funcs"] if f["state"] == "todo"],
+            "original_asm": [f for m in ms if m["kind"] == "asm" for f in m["funcs"]],
+            "decompilable": [f for m in ms if m["kind"] == "c" for f in m["funcs"]],
+            "all": [f for m in ms for f in m["funcs"]],
+        }
+        for label, functions in partitions.items():
+            out[cat]["funcs_" + label] = len(functions)
+            out[cat]["bytes_" + label] = sum(f["size"] for f in functions)
+        eligible = out[cat]["bytes_decompilable"]
+        out[cat]["percent_decompiled"] = 100.0 * out[cat]["bytes_decompiled"] / eligible if eligible else 100.0
+        for prefix in ("funcs", "bytes"):
+            s = out[cat]
+            if s[prefix + "_done"] != s[prefix + "_decompiled"] + s[prefix + "_linked"]:
+                raise ValueError("done must partition into matching C and linked libraries")
+            if s[prefix + "_total"] != sum(s[prefix + "_" + k] for k in ("decompiled", "linked", "drafts", "pending")):
+                raise ValueError("legacy total must partition into C, linked, drafts and pending")
+            if s[prefix + "_all"] != s[prefix + "_total"] + s[prefix + "_original_asm"]:
+                raise ValueError("all code must partition into legacy total and original assembly")
+            if s[prefix + "_decompilable"] != sum(s[prefix + "_" + k] for k in ("decompiled", "drafts", "pending")):
+                raise ValueError("C modules must partition into matching C, drafts and pending")
     asm = [f for m in modules for f in m["funcs"] if f["state"] == "asm"]
     out["asm"] = {"bytes": sum(f["size"] for f in asm), "funcs": len(asm)}
     return out
@@ -170,7 +203,7 @@ def squarify(items, x, y, w, h):
 def treemap_svg(modules, summary, width=1000, height=540):
     pad = 2
     head = 26
-    legend = 22
+    legend = 42
     full_h = height
     height -= legend
     groups = [("game", "Juego / Game"), ("lib", "SDK libs")]
@@ -202,12 +235,12 @@ def treemap_svg(modules, summary, width=1000, height=540):
                 mx, my, mw, mh, BG))
             frects = squarify([(f["size"], f) for f in m["funcs"]], mx + 1, my + 1, mw - 2, mh - 2)
             for f, fx, fy, fw, fh in frects:
-                col, edge = {"done": (GREEN, GREEN_DARK), "todo": (GREY, GREY_DARK),
-                             "nonmatch": (YELLOW, YELLOW_DARK), "asm": (BLUE, BLUE_DARK)}[f["state"]]
+                col, edge = {"linked": (PURPLE, PURPLE_DARK), "done": (GREEN, GREEN_DARK), "todo": (GREY, GREY_DARK),
+                             "nonmatch": (YELLOW, YELLOW_DARK), "asm": (BLUE, BLUE_DARK)}["linked" if m["kind"] == "linked" else f["state"]]
                 parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" stroke="%s" '
                              'stroke-width="0.6"><title>%s  0x%08X  %d bytes  [%s]</title></rect>' % (
                                  fx, fy, max(fw, 0.1), max(fh, 0.1), col, edge, escape(f["name"]), f["addr"],
-                                 f["size"], f["state"]))
+                                 f["size"], "linked" if m["kind"] == "linked" else f["state"]))
             if mw > 70 and mh > 18:
                 tw = len(m["name"]) * 5.6 + 6
                 parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="13" fill="%s" fill-opacity="0.75"/>' % (
@@ -218,16 +251,16 @@ def treemap_svg(modules, summary, width=1000, height=540):
         gx += gw
     lx = 6
     ly = height + 6
-    for col, txt in ((GREEN, "decompilado (C matching)"), (YELLOW, "C equivalente, no matching aún"),
-                     (GREY, "pendiente (asm)"), (BLUE, "asm original")):
+    for col, txt in ((GREEN, "decompilado (C matching)"), (YELLOW, "borrador C compilable"),
+                     (GREY, "pendiente (asm)"), (BLUE, "asm original"), (PURPLE, "biblioteca enlazada")):
         parts.append('<rect x="%d" y="%d" width="11" height="11" fill="%s"/>' % (lx, ly, col))
         parts.append('<text x="%d" y="%d" fill="%s" font-size="11">%s</text>' % (lx + 15, ly + 10, FG, escape(txt)))
         lx += 30 + len(txt) * 6
     s = summary["all"]
-    tot = "Total: %.2f%% de %d bytes de código, %d/%d funciones" % (
+    tot = "Matching + linked: %.2f%% de %d bytes de código, %d/%d funciones" % (
         s["percent"], s["bytes_total"], s["funcs_done"], s["funcs_total"])
     parts.append('<text x="%d" y="%d" fill="%s" font-size="11" text-anchor="end">%s</text>' % (
-        width - 6, ly + 10, FG, escape(tot)))
+        width - 6, ly + 29, FG, escape(tot)))
     parts.append('</svg>')
     return "\n".join(parts)
 
@@ -276,7 +309,7 @@ def main():
     with open(os.path.join(args.out, "treemap.svg"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write('<?xml version="1.0" encoding="UTF-8"?>\n')
         fh.write(treemap_svg(modules, summary))
-    for key, label in (("all", "decompiled"), ("game", "game code"), ("lib", "libraries")):
+    for key, label in (("all", "matched + linked"), ("game", "game code"), ("lib", "libraries")):
         s = summary[key]
         with open(os.path.join(args.out, "badge_%s.svg" % key), "w", encoding="utf-8", newline="\n") as fh:
             fh.write(badge_svg(label, "%.2f%%" % s["percent"], pct_color(s["percent"])))
@@ -286,6 +319,11 @@ def main():
     with open(os.path.join(args.out, "badge_functions.svg"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write(badge_svg("functions", "%d/%d" % (s["funcs_done"], s["funcs_total"]),
                            pct_color(100.0 * s["funcs_done"] / max(1, s["funcs_total"]))))
+    from project_inventory import generate
+    summary.update(generate(ROOT, args.out, collect(include_prelude=True)))
+    for filename, label, value in (("badge_decompiled.svg", "matching C", summary["all"]["percent_decompiled"]),
+                                    ("badge_names.svg", "identified game functions", summary["identification"]["game"]["percent_identified"])):
+        Path(args.out, filename).write_text(badge_svg(label, "%.2f%%" % value, pct_color(value)), encoding="utf-8")
     with open(os.path.join(args.out, "progress.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(summary, fh, indent=1)
     if args.json:

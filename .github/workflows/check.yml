@@ -13,6 +13,8 @@ jobs:
         run: python3 tools/scripts/check_tree.py
       - name: tooling regression tests
         run: python3 -m unittest discover -s tools/tests -p 'test_*.py'
+      - name: validate progress, names, source call graph and raw data inventory (no ROM)
+        run: python3 tools/scripts/progress.py --out build/progress
       - name: compile every C module (matching + NONMATCHING drafts); no ROM needed
         run: |
           for f in src/*.c; do m=$(basename $f .c); make -s build/src/$m.o; make -s BUILD=build_nm NM_FLAGS=-DNONMATCHING build_nm/src/$m.o; done
@@ -25,7 +27,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: regenerate progress
+      - name: regenerate progress, names, source call graph and raw data inventory
         run: python3 tools/scripts/progress.py
       - name: commit if changed
         run: |
