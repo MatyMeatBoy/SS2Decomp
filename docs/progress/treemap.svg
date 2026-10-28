@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="540" viewBox="0 0 1000 540" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
-<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 7.39% (932/1870)</text>
+<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 7.99% (974/1870)</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="180.75" fill="#0d1117"/>
 <rect x="1.00" y="29.00" width="127.15" height="75.92" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0807C29C  0x0807C29C  18396 bytes  [todo]</title></rect>
@@ -29,11 +29,11 @@
 <rect x="123.87" y="190.41" width="11.86" height="8.67" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0807C114  0x0807C114  196 bytes  [todo]</title></rect>
 <rect x="123.87" y="199.08" width="11.86" height="8.67" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0807C1D8  0x0807C1D8  196 bytes  [nonmatch]</title></rect>
 <rect x="135.73" y="169.35" width="10.19" height="8.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080850C0  0x080850C0  172 bytes  [done]</title></rect>
-<rect x="145.93" y="169.35" width="9.48" height="8.85" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08085534  0x08085534  160 bytes  [todo]</title></rect>
+<rect x="145.93" y="169.35" width="9.48" height="8.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08085534  0x08085534  160 bytes  [done]</title></rect>
 <rect x="155.41" y="169.35" width="7.11" height="8.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08084EAC  0x08084EAC  120 bytes  [done]</title></rect>
 <rect x="135.73" y="178.21" width="9.03" height="6.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08084F24  0x08084F24  120 bytes  [done]</title></rect>
 <rect x="144.76" y="178.21" width="9.03" height="6.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08084F9C  0x08084F9C  120 bytes  [done]</title></rect>
-<rect x="153.79" y="178.21" width="8.73" height="6.97" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08085218  0x08085218  116 bytes  [nonmatch]</title></rect>
+<rect x="153.79" y="178.21" width="8.73" height="6.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08085218  0x08085218  116 bytes  [done]</title></rect>
 <rect x="135.73" y="185.18" width="6.98" height="7.82" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080867F8  0x080867F8  104 bytes  [nonmatch]</title></rect>
 <rect x="135.73" y="193.01" width="6.98" height="7.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080852CC  0x080852CC  100 bytes  [done]</title></rect>
 <rect x="135.73" y="200.53" width="6.98" height="7.22" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080851B8  0x080851B8  96 bytes  [done]</title></rect>
@@ -709,11 +709,11 @@
 <rect x="472.21" y="243.15" width="14.28" height="17.55" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0809D374  0x0809D374  484 bytes  [todo]</title></rect>
 <rect x="486.49" y="221.54" width="9.31" height="7.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097E28  0x08097E28  136 bytes  [done]</title></rect>
 <rect x="495.80" y="221.54" width="9.31" height="7.56" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0809D620  0x0809D620  136 bytes  [todo]</title></rect>
-<rect x="505.12" y="221.54" width="8.77" height="7.56" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097EF0  0x08097EF0  128 bytes  [nonmatch]</title></rect>
+<rect x="505.12" y="221.54" width="8.77" height="7.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097EF0  0x08097EF0  128 bytes  [done]</title></rect>
 <rect x="486.49" y="229.10" width="7.34" height="8.47" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080997C0  0x080997C0  120 bytes  [todo]</title></rect>
 <rect x="493.83" y="229.10" width="7.09" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097F70  0x08097F70  116 bytes  [done]</title></rect>
 <rect x="500.92" y="229.10" width="6.60" height="8.47" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0809D710  0x0809D710  108 bytes  [nonmatch]</title></rect>
-<rect x="507.53" y="229.10" width="6.36" height="8.47" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08098088  0x08098088  104 bytes  [nonmatch]</title></rect>
+<rect x="507.53" y="229.10" width="6.36" height="8.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08098088  0x08098088  104 bytes  [done]</title></rect>
 <rect x="486.49" y="237.57" width="6.00" height="8.98" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0809D77C  0x0809D77C  104 bytes  [nonmatch]</title></rect>
 <rect x="486.49" y="246.55" width="6.00" height="8.29" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0809AE88  0x0809AE88  96 bytes  [nonmatch]</title></rect>
 <rect x="486.49" y="254.83" width="6.00" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809D574  0x0809D574  68 bytes  [done]</title></rect>
@@ -751,7 +751,7 @@
 <rect x="476.70" y="262.71" width="37.18" height="50.52" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A8164  0x080A8164  3628 bytes  [todo]</title></rect>
 <rect x="420.79" y="313.22" width="28.45" height="39.60" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A756C  0x080A756C  2176 bytes  [todo]</title></rect>
 <rect x="420.79" y="352.83" width="28.45" height="37.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A3D2C  0x080A3D2C  2036 bytes  [todo]</title></rect>
-<rect x="449.23" y="313.22" width="23.06" height="26.14" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A705C  0x080A705C  1164 bytes  [todo]</title></rect>
+<rect x="449.23" y="313.22" width="23.06" height="26.14" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A705C  0x080A705C  1164 bytes  [nonmatch]</title></rect>
 <rect x="472.29" y="313.22" width="22.58" height="26.14" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A6BE8  0x080A6BE8  1140 bytes  [todo]</title></rect>
 <rect x="494.87" y="313.22" width="19.01" height="26.14" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A92C0  0x080A92C0  960 bytes  [todo]</title></rect>
 <rect x="449.23" y="339.36" width="22.14" height="19.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A68B0  0x080A68B0  824 bytes  [todo]</title></rect>
@@ -762,15 +762,15 @@
 <rect x="500.26" y="339.36" width="13.62" height="17.63" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A66E0  0x080A66E0  464 bytes  [todo]</title></rect>
 <rect x="471.37" y="357.00" width="12.85" height="18.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A9100  0x080A9100  448 bytes  [todo]</title></rect>
 <rect x="471.37" y="375.05" width="12.85" height="14.83" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080A8F90  0x080A8F90  368 bytes  [todo]</title></rect>
-<rect x="484.22" y="357.00" width="8.90" height="7.68" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A74E8  0x080A74E8  132 bytes  [nonmatch]</title></rect>
+<rect x="484.22" y="357.00" width="8.90" height="7.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A74E8  0x080A74E8  132 bytes  [done]</title></rect>
 <rect x="493.12" y="357.00" width="7.01" height="7.68" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A49EC  0x080A49EC  104 bytes  [nonmatch]</title></rect>
 <rect x="500.13" y="357.00" width="7.01" height="7.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A4B48  0x080A4B48  104 bytes  [done]</title></rect>
-<rect x="507.14" y="357.00" width="6.74" height="7.68" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A7ECC  0x080A7ECC  100 bytes  [nonmatch]</title></rect>
-<rect x="484.22" y="364.68" width="7.15" height="7.24" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A7F94  0x080A7F94  100 bytes  [nonmatch]</title></rect>
+<rect x="507.14" y="357.00" width="6.74" height="7.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A7ECC  0x080A7ECC  100 bytes  [done]</title></rect>
+<rect x="484.22" y="364.68" width="7.15" height="7.24" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A7F94  0x080A7F94  100 bytes  [done]</title></rect>
 <rect x="484.22" y="371.92" width="7.15" height="6.08" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A4A7C  0x080A4A7C  84 bytes  [nonmatch]</title></rect>
-<rect x="484.22" y="378.00" width="7.15" height="6.08" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A803C  0x080A803C  84 bytes  [nonmatch]</title></rect>
+<rect x="484.22" y="378.00" width="7.15" height="6.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A803C  0x080A803C  84 bytes  [done]</title></rect>
 <rect x="484.22" y="384.09" width="7.15" height="5.79" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A4C24  0x080A4C24  80 bytes  [nonmatch]</title></rect>
-<rect x="491.37" y="364.68" width="6.34" height="6.53" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A8114  0x080A8114  80 bytes  [nonmatch]</title></rect>
+<rect x="491.37" y="364.68" width="6.34" height="6.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A8114  0x080A8114  80 bytes  [done]</title></rect>
 <rect x="497.71" y="364.68" width="6.03" height="6.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A7DEC  0x080A7DEC  76 bytes  [done]</title></rect>
 <rect x="503.74" y="364.68" width="5.39" height="6.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A49A8  0x080A49A8  68 bytes  [done]</title></rect>
 <rect x="509.13" y="364.68" width="4.76" height="6.53" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A80D8  0x080A80D8  60 bytes  [done]</title></rect>
@@ -784,7 +784,7 @@
 <rect x="496.03" y="377.01" width="5.31" height="4.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A4AE4  0x080A4AE4  44 bytes  [done]</title></rect>
 <rect x="496.03" y="381.30" width="5.31" height="4.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A7E68  0x080A7E68  44 bytes  [done]</title></rect>
 <rect x="496.03" y="385.59" width="5.31" height="4.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A7F30  0x080A7F30  44 bytes  [done]</title></rect>
-<rect x="501.34" y="377.01" width="4.45" height="5.12" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A8090  0x080A8090  44 bytes  [nonmatch]</title></rect>
+<rect x="501.34" y="377.01" width="4.45" height="5.12" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A8090  0x080A8090  44 bytes  [done]</title></rect>
 <rect x="505.79" y="377.01" width="4.05" height="5.12" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A4A54  0x080A4A54  40 bytes  [done]</title></rect>
 <rect x="509.84" y="377.01" width="4.05" height="5.12" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A4BFC  0x080A4BFC  40 bytes  [done]</title></rect>
 <rect x="501.34" y="382.12" width="4.54" height="4.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A8014  0x080A8014  40 bytes  [done]</title></rect>
@@ -1098,12 +1098,12 @@
 <rect x="578.18" y="369.13" width="7.62" height="7.52" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FF28  0x0808FF28  112 bytes  [done]</title></rect>
 <rect x="585.80" y="353.83" width="6.62" height="8.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808FF98  0x0808FF98  112 bytes  [done]</title></rect>
 <rect x="592.43" y="353.83" width="6.62" height="8.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080903C4  0x080903C4  112 bytes  [done]</title></rect>
-<rect x="599.05" y="353.83" width="6.39" height="8.65" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08092124  0x08092124  108 bytes  [nonmatch]</title></rect>
-<rect x="585.80" y="362.48" width="6.79" height="7.84" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08092348  0x08092348  104 bytes  [nonmatch]</title></rect>
-<rect x="585.80" y="370.32" width="6.79" height="6.33" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08092190  0x08092190  84 bytes  [nonmatch]</title></rect>
+<rect x="599.05" y="353.83" width="6.39" height="8.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092124  0x08092124  108 bytes  [done]</title></rect>
+<rect x="585.80" y="362.48" width="6.79" height="7.84" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092348  0x08092348  104 bytes  [done]</title></rect>
+<rect x="585.80" y="370.32" width="6.79" height="6.33" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092190  0x08092190  84 bytes  [done]</title></rect>
 <rect x="592.59" y="362.48" width="6.61" height="5.57" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080923B4  0x080923B4  72 bytes  [nonmatch]</title></rect>
-<rect x="599.20" y="362.48" width="6.24" height="5.57" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080920A0  0x080920A0  68 bytes  [nonmatch]</title></rect>
-<rect x="592.59" y="368.05" width="5.95" height="5.50" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080920E4  0x080920E4  64 bytes  [nonmatch]</title></rect>
+<rect x="599.20" y="362.48" width="6.24" height="5.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080920A0  0x080920A0  68 bytes  [done]</title></rect>
+<rect x="592.59" y="368.05" width="5.95" height="5.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080920E4  0x080920E4  64 bytes  [done]</title></rect>
 <rect x="592.59" y="373.56" width="5.95" height="3.10" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0809044C  0x0809044C  36 bytes  [done]</title></rect>
 <rect x="598.54" y="368.05" width="4.44" height="4.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08090470  0x08090470  36 bytes  [done]</title></rect>
 <rect x="602.97" y="368.05" width="2.46" height="4.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08092080  0x08092080  20 bytes  [done]</title></rect>
@@ -1436,13 +1436,13 @@
 <rect x="728.61" y="379.12" width="6.39" height="6.38" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805AA68  0x0805AA68  80 bytes  [nonmatch]</title></rect>
 <rect x="734.99" y="363.81" width="6.14" height="6.63" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805B0F0  0x0805B0F0  80 bytes  [nonmatch]</title></rect>
 <rect x="741.14" y="363.81" width="5.22" height="6.63" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A780  0x0805A780  68 bytes  [nonmatch]</title></rect>
-<rect x="746.36" y="363.81" width="4.61" height="6.63" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805D028  0x0805D028  60 bytes  [nonmatch]</title></rect>
+<rect x="746.36" y="363.81" width="4.61" height="6.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805D028  0x0805D028  60 bytes  [done]</title></rect>
 <rect x="734.99" y="370.45" width="5.14" height="5.15" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A66C  0x0805A66C  52 bytes  [nonmatch]</title></rect>
 <rect x="734.99" y="375.60" width="5.14" height="5.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A960  0x0805A960  52 bytes  [done]</title></rect>
-<rect x="734.99" y="380.75" width="5.14" height="4.75" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805CFF8  0x0805CFF8  48 bytes  [nonmatch]</title></rect>
+<rect x="734.99" y="380.75" width="5.14" height="4.75" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805CFF8  0x0805CFF8  48 bytes  [done]</title></rect>
 <rect x="740.14" y="370.45" width="5.65" height="4.33" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805D064  0x0805D064  48 bytes  [nonmatch]</title></rect>
-<rect x="745.79" y="370.45" width="5.18" height="4.33" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805CFA0  0x0805CFA0  44 bytes  [nonmatch]</title></rect>
-<rect x="740.14" y="374.78" width="3.80" height="5.90" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805CFCC  0x0805CFCC  44 bytes  [nonmatch]</title></rect>
+<rect x="745.79" y="370.45" width="5.18" height="4.33" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805CFA0  0x0805CFA0  44 bytes  [done]</title></rect>
+<rect x="740.14" y="374.78" width="3.80" height="5.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805CFCC  0x0805CFCC  44 bytes  [done]</title></rect>
 <rect x="740.14" y="380.67" width="3.80" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A6B8  0x0805A6B8  36 bytes  [done]</title></rect>
 <rect x="743.94" y="374.78" width="3.51" height="3.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A6A0  0x0805A6A0  24 bytes  [done]</title></rect>
 <rect x="747.45" y="374.78" width="3.51" height="3.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A704  0x0805A704  24 bytes  [done]</title></rect>
@@ -1562,11 +1562,11 @@
 </g>
 <g><title>code_08095B04 (8996 bytes)</title>
 <rect x="606.44" y="452.48" width="73.76" height="65.52" fill="#0d1117"/>
-<rect x="607.44" y="453.48" width="18.28" height="22.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08097658  0x08097658  800 bytes  [todo]</title></rect>
+<rect x="607.44" y="453.48" width="18.28" height="22.17" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097658  0x08097658  800 bytes  [nonmatch]</title></rect>
 <rect x="607.44" y="475.65" width="18.28" height="14.85" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08095B04  0x08095B04  536 bytes  [todo]</title></rect>
 <rect x="607.44" y="490.51" width="18.28" height="13.63" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080970CC  0x080970CC  492 bytes  [todo]</title></rect>
 <rect x="607.44" y="504.14" width="18.28" height="12.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080972B8  0x080972B8  464 bytes  [todo]</title></rect>
-<rect x="625.72" y="453.48" width="15.39" height="15.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08097488  0x08097488  464 bytes  [todo]</title></rect>
+<rect x="625.72" y="453.48" width="15.39" height="15.27" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097488  0x08097488  464 bytes  [nonmatch]</title></rect>
 <rect x="641.12" y="453.48" width="13.54" height="15.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08096BA8  0x08096BA8  408 bytes  [todo]</title></rect>
 <rect x="654.65" y="453.48" width="13.27" height="15.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08096640  0x08096640  400 bytes  [todo]</title></rect>
 <rect x="667.92" y="453.48" width="11.28" height="15.27" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08095D1C  0x08095D1C  340 bytes  [todo]</title></rect>
@@ -1584,20 +1584,20 @@
 <rect x="647.24" y="481.36" width="10.97" height="8.50" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08095F10  0x08095F10  184 bytes  [todo]</title></rect>
 <rect x="658.21" y="481.36" width="10.73" height="8.50" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08096AF4  0x08096AF4  180 bytes  [todo]</title></rect>
 <rect x="668.95" y="481.36" width="10.25" height="8.50" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08096594  0x08096594  172 bytes  [todo]</title></rect>
-<rect x="647.24" y="489.86" width="9.18" height="9.27" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097BA4  0x08097BA4  168 bytes  [nonmatch]</title></rect>
+<rect x="647.24" y="489.86" width="9.18" height="9.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097BA4  0x08097BA4  168 bytes  [done]</title></rect>
 <rect x="647.24" y="499.13" width="9.18" height="9.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08096EFC  0x08096EFC  164 bytes  [todo]</title></rect>
 <rect x="647.24" y="508.17" width="9.18" height="8.83" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08095E70  0x08095E70  160 bytes  [todo]</title></rect>
 <rect x="656.43" y="489.86" width="9.62" height="8.01" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08095FC8  0x08095FC8  152 bytes  [todo]</title></rect>
 <rect x="666.04" y="489.86" width="6.83" height="8.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097DBC  0x08097DBC  108 bytes  [done]</title></rect>
-<rect x="672.87" y="489.86" width="6.33" height="8.01" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097AC0  0x08097AC0  100 bytes  [nonmatch]</title></rect>
+<rect x="672.87" y="489.86" width="6.33" height="8.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097AC0  0x08097AC0  100 bytes  [done]</title></rect>
 <rect x="656.43" y="497.87" width="7.73" height="6.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097CA8  0x08097CA8  100 bytes  [done]</title></rect>
-<rect x="656.43" y="504.42" width="7.73" height="6.29" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097978  0x08097978  96 bytes  [nonmatch]</title></rect>
-<rect x="656.43" y="510.71" width="7.73" height="6.29" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080979D8  0x080979D8  96 bytes  [nonmatch]</title></rect>
+<rect x="656.43" y="504.42" width="7.73" height="6.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097978  0x08097978  96 bytes  [done]</title></rect>
+<rect x="656.43" y="510.71" width="7.73" height="6.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080979D8  0x080979D8  96 bytes  [done]</title></rect>
 <rect x="664.16" y="497.87" width="7.72" height="4.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097A74  0x08097A74  76 bytes  [done]</title></rect>
-<rect x="671.88" y="497.87" width="7.32" height="4.99" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097B24  0x08097B24  72 bytes  [nonmatch]</title></rect>
+<rect x="671.88" y="497.87" width="7.32" height="4.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097B24  0x08097B24  72 bytes  [done]</title></rect>
 <rect x="664.16" y="502.85" width="6.45" height="5.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097D7C  0x08097D7C  64 bytes  [done]</title></rect>
 <rect x="664.16" y="507.88" width="6.45" height="4.72" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097C6C  0x08097C6C  60 bytes  [done]</title></rect>
-<rect x="664.16" y="512.60" width="6.45" height="4.40" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08097B6C  0x08097B6C  56 bytes  [nonmatch]</title></rect>
+<rect x="664.16" y="512.60" width="6.45" height="4.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097B6C  0x08097B6C  56 bytes  [done]</title></rect>
 <rect x="670.61" y="502.85" width="4.52" height="4.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097D3C  0x08097D3C  40 bytes  [done]</title></rect>
 <rect x="675.13" y="502.85" width="4.07" height="4.48" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0809689C  0x0809689C  36 bytes  [nonmatch]</title></rect>
 <rect x="670.61" y="507.33" width="5.29" height="3.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097C4C  0x08097C4C  32 bytes  [done]</title></rect>
@@ -1669,38 +1669,38 @@
 <rect x="681.20" y="474.86" width="8.43" height="10.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059AD0  0x08059AD0  180 bytes  [done]</title></rect>
 <rect x="681.20" y="485.39" width="8.43" height="10.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059B84  0x08059B84  180 bytes  [done]</title></rect>
 <rect x="681.20" y="495.93" width="8.43" height="10.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059C38  0x08059C38  180 bytes  [done]</title></rect>
-<rect x="681.20" y="506.46" width="8.43" height="10.54" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08059CEC  0x08059CEC  180 bytes  [nonmatch]</title></rect>
-<rect x="689.63" y="474.86" width="10.35" height="8.58" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08059DA0  0x08059DA0  180 bytes  [nonmatch]</title></rect>
-<rect x="689.63" y="483.44" width="10.35" height="8.58" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08059E54  0x08059E54  180 bytes  [nonmatch]</title></rect>
-<rect x="689.63" y="492.02" width="10.35" height="8.58" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08059F08  0x08059F08  180 bytes  [nonmatch]</title></rect>
+<rect x="681.20" y="506.46" width="8.43" height="10.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059CEC  0x08059CEC  180 bytes  [done]</title></rect>
+<rect x="689.63" y="474.86" width="10.35" height="8.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059DA0  0x08059DA0  180 bytes  [done]</title></rect>
+<rect x="689.63" y="483.44" width="10.35" height="8.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059E54  0x08059E54  180 bytes  [done]</title></rect>
+<rect x="689.63" y="492.02" width="10.35" height="8.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059F08  0x08059F08  180 bytes  [done]</title></rect>
 <rect x="689.63" y="500.60" width="10.35" height="8.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059534  0x08059534  172 bytes  [done]</title></rect>
 <rect x="689.63" y="508.80" width="10.35" height="8.20" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080595E0  0x080595E0  172 bytes  [done]</title></rect>
 <rect x="699.98" y="474.86" width="8.13" height="10.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805968C  0x0805968C  172 bytes  [done]</title></rect>
 <rect x="708.11" y="474.86" width="8.13" height="10.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059738  0x08059738  172 bytes  [done]</title></rect>
 <rect x="716.24" y="474.86" width="8.13" height="10.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080597E4  0x080597E4  172 bytes  [done]</title></rect>
-<rect x="724.36" y="474.86" width="7.75" height="10.44" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A1B4  0x0805A1B4  164 bytes  [nonmatch]</title></rect>
+<rect x="724.36" y="474.86" width="7.75" height="10.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A1B4  0x0805A1B4  164 bytes  [done]</title></rect>
 <rect x="699.98" y="485.30" width="7.85" height="9.31" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A4BC  0x0805A4BC  148 bytes  [nonmatch]</title></rect>
 <rect x="699.98" y="494.61" width="7.85" height="8.05" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A58C  0x0805A58C  128 bytes  [nonmatch]</title></rect>
 <rect x="699.98" y="502.66" width="7.85" height="7.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059890  0x08059890  124 bytes  [done]</title></rect>
 <rect x="699.98" y="510.46" width="7.85" height="6.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080599D8  0x080599D8  104 bytes  [done]</title></rect>
 <rect x="707.83" y="485.30" width="6.53" height="7.56" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A088  0x0805A088  100 bytes  [nonmatch]</title></rect>
 <rect x="714.35" y="485.30" width="6.27" height="7.56" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A258  0x0805A258  96 bytes  [nonmatch]</title></rect>
-<rect x="720.62" y="485.30" width="6.01" height="7.56" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A138  0x0805A138  92 bytes  [nonmatch]</title></rect>
+<rect x="720.62" y="485.30" width="6.01" height="7.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A138  0x0805A138  92 bytes  [done]</title></rect>
 <rect x="726.63" y="485.30" width="5.48" height="7.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059A40  0x08059A40  84 bytes  [done]</title></rect>
 <rect x="707.83" y="492.86" width="5.97" height="6.28" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A0EC  0x0805A0EC  76 bytes  [nonmatch]</title></rect>
 <rect x="707.83" y="499.14" width="5.97" height="5.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805990C  0x0805990C  72 bytes  [done]</title></rect>
 <rect x="707.83" y="505.09" width="5.97" height="5.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059968  0x08059968  72 bytes  [done]</title></rect>
-<rect x="707.83" y="511.05" width="5.97" height="5.95" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08059FBC  0x08059FBC  72 bytes  [nonmatch]</title></rect>
+<rect x="707.83" y="511.05" width="5.97" height="5.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059FBC  0x08059FBC  72 bytes  [done]</title></rect>
 <rect x="713.80" y="492.86" width="6.37" height="4.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A3B0  0x0805A3B0  64 bytes  [done]</title></rect>
 <rect x="720.17" y="492.86" width="5.97" height="4.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08059A94  0x08059A94  60 bytes  [done]</title></rect>
-<rect x="726.14" y="492.86" width="5.97" height="4.96" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A004  0x0805A004  60 bytes  [nonmatch]</title></rect>
+<rect x="726.14" y="492.86" width="5.97" height="4.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A004  0x0805A004  60 bytes  [done]</title></rect>
 <rect x="713.80" y="497.82" width="4.82" height="6.14" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A550  0x0805A550  60 bytes  [nonmatch]</title></rect>
 <rect x="718.62" y="497.82" width="4.50" height="6.14" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A318  0x0805A318  56 bytes  [nonmatch]</title></rect>
 <rect x="723.11" y="497.82" width="4.50" height="6.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A404  0x0805A404  56 bytes  [done]</title></rect>
 <rect x="727.61" y="497.82" width="4.50" height="6.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A43C  0x0805A43C  56 bytes  [done]</title></rect>
-<rect x="713.80" y="503.96" width="5.90" height="4.35" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A054  0x0805A054  52 bytes  [nonmatch]</title></rect>
-<rect x="713.80" y="508.31" width="5.90" height="4.35" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A2E4  0x0805A2E4  52 bytes  [nonmatch]</title></rect>
-<rect x="713.80" y="512.65" width="5.90" height="4.35" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805A350  0x0805A350  52 bytes  [nonmatch]</title></rect>
+<rect x="713.80" y="503.96" width="5.90" height="4.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A054  0x0805A054  52 bytes  [done]</title></rect>
+<rect x="713.80" y="508.31" width="5.90" height="4.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A2E4  0x0805A2E4  52 bytes  [done]</title></rect>
+<rect x="713.80" y="512.65" width="5.90" height="4.35" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A350  0x0805A350  52 bytes  [done]</title></rect>
 <rect x="719.70" y="503.96" width="4.14" height="5.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A2B8  0x0805A2B8  44 bytes  [done]</title></rect>
 <rect x="723.84" y="503.96" width="4.14" height="5.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A384  0x0805A384  44 bytes  [done]</title></rect>
 <rect x="727.97" y="503.96" width="4.14" height="5.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805A474  0x0805A474  44 bytes  [done]</title></rect>
@@ -1921,10 +1921,10 @@
 </g>
 <g><title>code_08000EC8 (2048 bytes)</title>
 <rect x="733.11" y="462.16" width="36.40" height="30.22" fill="#0d1117"/>
-<rect x="734.11" y="463.16" width="9.41" height="12.70" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08001538  0x08001538  252 bytes  [todo]</title></rect>
+<rect x="734.11" y="463.16" width="9.41" height="12.70" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001538  0x08001538  252 bytes  [done]</title></rect>
 <rect x="734.11" y="475.86" width="9.41" height="8.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001494  0x08001494  164 bytes  [done]</title></rect>
-<rect x="734.11" y="484.13" width="9.41" height="7.26" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08001404  0x08001404  144 bytes  [todo]</title></rect>
-<rect x="743.52" y="463.16" width="9.47" height="7.21" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08001638  0x08001638  144 bytes  [todo]</title></rect>
+<rect x="734.11" y="484.13" width="9.41" height="7.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001404  0x08001404  144 bytes  [done]</title></rect>
+<rect x="743.52" y="463.16" width="9.47" height="7.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001638  0x08001638  144 bytes  [done]</title></rect>
 <rect x="752.99" y="463.16" width="8.16" height="7.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001204  0x08001204  124 bytes  [done]</title></rect>
 <rect x="761.15" y="463.16" width="7.37" height="7.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000F64  0x08000F64  112 bytes  [done]</title></rect>
 <rect x="743.52" y="470.37" width="7.13" height="7.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000FD4  0x08000FD4  108 bytes  [done]</title></rect>
@@ -1956,7 +1956,7 @@
 <rect x="734.11" y="493.38" width="12.92" height="23.62" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08001DF0  0x08001DF0  652 bytes  [nonmatch]</title></rect>
 <rect x="747.03" y="493.38" width="21.48" height="11.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001BE4  0x08001BE4  524 bytes  [done]</title></rect>
 <rect x="747.03" y="504.80" width="7.83" height="6.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001B78  0x08001B78  108 bytes  [done]</title></rect>
-<rect x="747.03" y="511.26" width="7.83" height="5.74" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08001AA4  0x08001AA4  96 bytes  [nonmatch]</title></rect>
+<rect x="747.03" y="511.26" width="7.83" height="5.74" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001AA4  0x08001AA4  96 bytes  [done]</title></rect>
 <rect x="754.86" y="504.80" width="5.68" height="6.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800208C  0x0800208C  84 bytes  [done]</title></rect>
 <rect x="754.86" y="511.72" width="5.68" height="5.28" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001A64  0x08001A64  64 bytes  [done]</title></rect>
 <rect x="760.53" y="504.80" width="5.11" height="5.87" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08001B14  0x08001B14  64 bytes  [done]</title></rect>
@@ -1985,8 +1985,8 @@
 <rect x="794.37" y="462.16" width="23.63" height="24.64" fill="#0d1117"/>
 <rect x="795.37" y="463.16" width="10.82" height="7.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000C50  0x08000C50  188 bytes  [done]</title></rect>
 <rect x="806.18" y="463.16" width="10.82" height="7.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000D8C  0x08000D8C  188 bytes  [done]</title></rect>
-<rect x="795.37" y="471.01" width="7.82" height="7.39" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08000D0C  0x08000D0C  128 bytes  [nonmatch]</title></rect>
-<rect x="795.37" y="478.41" width="7.82" height="7.39" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08000E48  0x08000E48  128 bytes  [nonmatch]</title></rect>
+<rect x="795.37" y="471.01" width="7.82" height="7.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000D0C  0x08000D0C  128 bytes  [done]</title></rect>
+<rect x="795.37" y="478.41" width="7.82" height="7.39" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000E48  0x08000E48  128 bytes  [done]</title></rect>
 <rect x="803.19" y="471.01" width="6.91" height="4.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000AA8  0x08000AA8  72 bytes  [done]</title></rect>
 <rect x="810.09" y="471.01" width="6.91" height="4.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000AF0  0x08000AF0  72 bytes  [done]</title></rect>
 <rect x="803.19" y="475.72" width="6.10" height="5.33" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08000B68  0x08000B68  72 bytes  [done]</title></rect>
@@ -2268,5 +2268,5 @@
 <text x="405" y="534" fill="#e6edf3" font-size="11">pendiente (asm)</text>
 <rect x="510" y="524" width="11" height="11" fill="#388bfd"/>
 <text x="525" y="534" fill="#e6edf3" font-size="11">asm original</text>
-<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 8.42% de 754868 bytes de código, 1033/1973 funciones</text>
+<text x="994" y="534" fill="#e6edf3" font-size="11" text-anchor="end">Total: 9.01% de 754868 bytes de código, 1075/1973 funciones</text>
 </svg>
