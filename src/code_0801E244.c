@@ -253,7 +253,41 @@ INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801EF14);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
+#ifdef NONMATCHING
+struct Sh20F1C4Packet { u8 player:8; u8 power:8; u8 impulse:8; s32 direction:8; u32 amount:16; u32 unused:16; };
+void sub_0801F1C4(void *position, u8 *object, u16 amount)
+{
+    struct Sh20F1C4Packet packet;
+    u16 angle;
+    u32 impulse;
+    extern u8 gUnk_084790B4[];
+    extern void sub_080660EC(void *);
+    *(u16 *)(object + 0xC) = 10;
+    packet.amount = amount;
+    packet.power = 0;
+    packet.impulse = 2;
+    angle = ArcTan2((s32)((*(s32 *)(object + 0x14) - *(s32 *)position) << 8) >> 16,
+                    (s32)((*(s32 *)(object + 0x18) - *((s32 *)position + 1)) << 8) >> 16);
+    packet.direction = gUnk_084790B4[angle >> 12];
+    packet.player = object[2];
+    *(u16 *)(object + 0x4A) = packet.amount + *(u16 *)(object + 0x4A);
+    *(u32 *)(object + 0x4C) = packet.amount;
+    *(u16 *)(object + 0x62) = packet.power;
+    impulse = packet.impulse;
+    *(u16 *)(object + 0x7C) = impulse;
+    if (impulse & 0x80)
+        packet.impulse = 0;
+    if (*(u32 *)(object + 0x210) == 0xFF)
+        packet.impulse = 0;
+    sub_0801F2CC(object, (u8 *)&packet);
+    *(s16 *)(object + 0x7E) = packet.direction;
+    *(u16 *)(object + 0x58) = 100;
+    *(u16 *)(object + 0x5A) |= 1 << *(u16 *)&gUnk_03003CE0[sub_080020F4()];
+    sub_080660EC(&packet);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F1C4);
+#endif
 struct Sh20F2CC { u8 pad[0x7C]; u16 duration; s16 direction; u16 speed; u16 value; };
 struct Sh20F2CCData { u8 pad[2]; u8 value; s8 direction; };
 void sub_0801F2CC(u8 *object, u8 *data)
@@ -287,32 +321,72 @@ void sub_0801F2CC(u8 *object, u8 *data)
     ((struct Sh20F2CC *)object)->direction = value;
   }
 }
-#ifdef NONMATCHING
+struct Sh20F320 { u32 alignment; u8 pad[0xCA]; u16 duration; s16 direction; u16 speed; u16 value; };
+struct Sh20F320Data { u8 pad[2]; u8 value; s32 direction:8; };
 void sub_0801F320(u8 *object, u8 *data)
 {
-    u16 value = data[2];
 
-    if (value != 0) {
-        u16 duration = value >> 2;
-        *(u16 *)(object + 0xCE) = duration != 0 ? duration : 1;
-        *(u16 *)(object + 0xD2) = duration != 0 ? 0x400 : 0x100;
-        *(s16 *)(object + 0xD0) = (s8)data[3];
-        *(u16 *)(object + 0xD4) = value;
-    } else {
-        *(u16 *)(object + 0xCE) = 0;
-        *(u16 *)(object + 0xD2) = 0;
-        *(u16 *)(object + 0xD4) = 0;
+
+
+  u8 duration;
+  u8 value;
+  u8 initial;
+  int divisor;
+  initial = ((struct Sh20F320Data *)data)->value;
+  if (initial != 0)
+  {
+    duration = initial;
+    duration /= (divisor = 4);
+    ((struct Sh20F320 *)object)->duration = duration;
+    value = ((struct Sh20F320Data *)data)->value;
+    if (duration == 0)
+    {
+      ((struct Sh20F320 *)object)->duration = 1;
+      ((struct Sh20F320 *)object)->speed = 0x100;
     }
+    else
+    {
+      ((struct Sh20F320 *)object)->speed = 0x400;
+    }
+    ((struct Sh20F320 *)object)->value = value;
+    ((struct Sh20F320 *)object)->direction = ((struct Sh20F320Data *)data)->direction;
+  }
+  else
+  {
+    ((struct Sh20F320 *)object)->duration = initial;
+    ((struct Sh20F320 *)object)->speed = initial;
+    ((struct Sh20F320 *)object)->value = initial;
+  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F320);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F374);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F79C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F99C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FB14);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FC34);
+#ifdef NONMATCHING
+struct Sh20FD64 { u8 pad0[0x62]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
+void sub_0801FD64(void *arg0)
+{
+
+    u16 amount;
+    u8 rate;
+    u8 blocked;
+    if (((struct Sh20FD64 *)arg0)->previous != ((struct Sh20FD64 *)arg0)->current && ((struct Sh20FD64 *)arg0)->enabled != 0) {
+        rate = ((struct Sh20FD64 *)arg0)->rate;
+        blocked = (u8)(0x80 & rate);
+        if (blocked == 0 && rate != 0) {
+            amount = (s32)(((struct Sh20FD64 *)arg0)->amount * ((struct Sh20FD64 *)arg0)->rate) / 100;
+            if (amount == 0)
+                amount = 1;
+            ((struct Sh20FD64 *)arg0)->accumulator = amount + ((struct Sh20FD64 *)arg0)->accumulator;
+            ((struct Sh20FD64 *)arg0)->previous = ((struct Sh20FD64 *)arg0)->current;
+            ((struct Sh20FD64 *)arg0)->pending = blocked;
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FD64);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FDD0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020680);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020D40);
