@@ -2051,8 +2051,8 @@ digraph calls {
   "AgbMain" -> "sub_080012F8" [label="c"];
   "AgbMain" -> "sub_08001404" [label="c"];
   "AgbMain" -> "sub_08001494" [label="c"];
-  "CgbSound" -> "CgbModVol" [label="asm,c"];
-  "CgbSound" -> "CgbOscOff" [label="asm,c"];
+  "CgbSound" -> "CgbModVol" [label="c"];
+  "CgbSound" -> "CgbOscOff" [label="c"];
   "EraseFlashChip_LE" -> "SetReadFlash1" [label="c"];
   "EraseFlashSector_LE" -> "SetReadFlash1" [label="c"];
   "FadeOutBody" -> "TrackStop" [label="c"];
