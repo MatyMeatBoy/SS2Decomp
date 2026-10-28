@@ -14,6 +14,7 @@ import argparse
 import glob
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -21,6 +22,7 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(__file__))
 import decomp  # noqa: E402
+from source_index import ALIASES  # noqa: E402
 
 ROOT = decomp.ROOT
 PERMUTER = os.environ.get("PERMUTER", os.path.join(ROOT, "tools/decomp-permuter"))
@@ -42,24 +44,26 @@ def setup(func, cfile, d):
                          capture_output=True, text=True, check=True).stdout
     pre = "\n".join(l for l in pre.splitlines() if not l.startswith("asm("))
     # pycparser cannot parse asm labels (`extern T gAlias asm("gUnk_X");`): drop them, rename back in the .s
-    aliases = re.findall(r'(\w+)\s*(?:\([^;]*?\))?\s*(?:asm|__asm__)\("(\w+)"\)', pre)
+    aliases = ALIASES.findall(pre)
     pre = re.sub(r'\s*(?:asm|__asm__)\("\w+"\)', "", pre)
     ren = 'sed -i %s "$T/out.s"' % " ".join("-e 's/\\b%s\\b/%s/g'" % a for a in aliases) if aliases else ""
     open(os.path.join(d, "base.c"), "w").write(pre)
     subprocess.run([sys.executable, os.path.join(PERMUTER, "strip_other_fns.py"),
                     os.path.join(d, "base.c"), func], check=True)
     sh = os.path.join(d, "compile.sh")
-    open(sh, "w").write("""#!/bin/sh
+    # MSYS sh treats backslashes as escapes; preserve spaces/apostrophes too.
+    shell_cc1 = cc1.replace("\\", "/") if re.match(r"^[A-Za-z]:[\\/]", cc1) else cc1
+    compiler_command = shlex.join([shell_cc1] + flags)
+    open(sh, "w", encoding="utf-8", newline="\n").write("""#!/bin/sh
 # $1 = input.c, $3 = output.o
+set -e
 T=$(mktemp -d)
-%s %s -o "$T/out.s" "$1" 2>/dev/null || { rm -rf "$T"; exit 1; }
+trap 'rm -f "$T/out.s"; rmdir "$T"' EXIT
+%s -o "$T/out.s" "$1"
 printf '\\t.text\\n\\t.align 2, 0\\n' >> "$T/out.s"
 %s
 arm-none-eabi-as -mcpu=arm7tdmi -o "$3" "$T/out.s"
-r=$?
-rm -rf "$T"
-exit $r
-""" % (cc1, " ".join(flags), ren))
+""" % (compiler_command, ren))
     os.chmod(sh, 0o755)
     open(os.path.join(d, "settings.toml"), "w").write(
         'func_name = "%s"\ncompiler_type = "gcc"\nobjdump_command = "arm-none-eabi-objdump -drz -M force-thumb"\n' % func)
@@ -76,9 +80,17 @@ def main():
     args = ap.parse_args()
     d = args.dir or tempfile.mkdtemp(prefix="perm_%s_" % args.func)
     setup(args.func, args.cfile, d)
+    baseline = subprocess.run(["sh", os.path.join(d, "compile.sh").replace("\\", "/"),
+                               os.path.join(d, "base.c").replace("\\", "/"), "-o",
+                               os.path.join(d, "baseline.o").replace("\\", "/")],
+                              capture_output=True, text=True)
+    if baseline.returncode:
+        raise SystemExit("baseline compilation failed:\n" + baseline.stdout + baseline.stderr)
     try:
-        subprocess.run([sys.executable, os.path.join(PERMUTER, "permuter.py"), d, "-j", str(args.jobs),
-                        "--stop-on-zero", "--best-only", "--quiet"], timeout=args.time)
+        result = subprocess.run([sys.executable, os.path.join(PERMUTER, "permuter.py"), d, "-j", str(args.jobs),
+                                 "--stop-on-zero", "--best-only", "--quiet"], timeout=args.time)
+        if result.returncode:
+            raise SystemExit("permuter failed (exit %d); no result accepted" % result.returncode)
     except subprocess.TimeoutExpired:
         pass
     outs = sorted(glob.glob(os.path.join(d, "output-*")), key=lambda p: int(p.split("-")[-2]) if p.split("-")[-2].isdigit() else 10 ** 9)
