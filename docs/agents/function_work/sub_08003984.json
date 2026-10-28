@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T18:44:08.636793+00:00",
-  "checkpoint": "2a913abe3660ec2ad22217ed7b16e43bf2b9d14c",
+  "updated_utc": "2026-10-28T18:53:55.774828+00:00",
+  "checkpoint": "eeb88ac6d1f9860bca52e357a718eac2dc56b398",
   "areas": [
     {
       "id": "flow",
@@ -13,7 +13,7 @@
       "id": "compile",
       "label": "Draft completo compilable",
       "state": "done",
-      "evidence": "Reconstrucción forzada del módulo, make compare ROM OK y make nonmatching; 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c."
+      "evidence": "make compare ROM OK y make nonmatching; eeb88ac6d1f9860bca52e357a718eac2dc56b398."
     },
     {
       "id": "types",
@@ -25,7 +25,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame 0x54C recuperado en 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c. Continúan diferencias de registros y control de flujo."
+      "evidence": "Frame 0x54C y llamadas recuperadas; eeb88ac6d1f9860bca52e357a718eac2dc56b398. Se ajustan ramas y bloques compartidos de vista previa; registros aún distintos."
     },
     {
       "id": "match",

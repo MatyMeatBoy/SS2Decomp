@@ -4,7 +4,44 @@ extern u16 gUnk_085186DC[];
 
 void sub_080967D0(s32 value);
 
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095B04);
+struct Motion95 {u32 unk0,unk4; s16 unk8; u8 pad[10]; s32 unk14,unk18;};
+extern s16 sine95[] asm("gUnk_080B9704");
+extern u16 angles95[] asm("gUnk_085186DC");
+extern u16 query95(u8,s32,s32) asm("sub_08095D1C");
+s32 sub_08095B04(struct Motion95 *p, s32 speed)
+{
+    s32 x=p->unk14;
+    s32 y=p->unk18;
+    u16 old=p->unk8;
+    u16 hit;
+    if(p->unk8==0 || p->unk8==4)
+        y += sine95[angles95[p->unk8]] * speed / 304;
+    else
+        y += sine95[angles95[p->unk8]] * speed / 256;
+    x += sine95[angles95[p->unk8]+64] * speed / 256;
+    hit=query95((u8)p->unk8,x,y);
+    if(hit) {
+        p->unk8=hit-1;
+        x=p->unk14;
+        y=p->unk18;
+        if(p->unk8==0 || p->unk8==4)
+            y += sine95[angles95[p->unk8]] * speed / 304;
+        else
+            y += sine95[angles95[p->unk8]] * speed / 256;
+        x += sine95[angles95[p->unk8]+64] * speed / 256;
+        hit=query95((u8)p->unk8,x,y);
+        if(hit) {
+            p->unk8=hit-1;
+            if(p->unk8==0 || p->unk8==4)
+                p->unk18 += sine95[angles95[p->unk8]] * speed / 304;
+            else
+                p->unk18 += sine95[angles95[p->unk8]] * speed / 256;
+            p->unk14 += sine95[angles95[p->unk8]+64] * speed / 256;
+        }
+    }
+    if(old!=p->unk8) old=1; else old=0;
+    return old;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095D1C);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095E70);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095F10);

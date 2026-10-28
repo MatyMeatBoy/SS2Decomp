@@ -1006,10 +1006,8 @@ loop_107:
             sub_0805865C(0x10);
             sub_0801A664(0, 0xA);
             sub_0801ABE8(6);
-loop_116:
-            if (sub_0801AAE0() == 0) {
+            while (sub_0801AAE0() == 0) {
                 sub_080003F0();
-                goto loop_116;
             }
             sub_08000E48();
             sub_080003F0();
@@ -1135,8 +1133,7 @@ loop_116:
             } else {
                 var_r0_6 = &pair[0];
                 var_r1_6 = 0x1C;
-block_206:
-                sub_0801A3D0(var_r0_6, var_r1_6, 0U);
+                goto block_206;
             }
         }
         goto block_374;
@@ -1192,46 +1189,7 @@ block_206:
             }
 block_175:
             temp_r7_6 = ((u8 *(*)(s32))sub_08007290)((M2C_FIELD(arg0, u8 *, 2) + 0x4C5) | 0x140000);
-            if (state == 2) {
-                switch (gUnk_03003470) {            /* switch 6 */
-                case 0:                             /* switch 6 */
-                    offsetX = 0x23;
-                    offsetY = 0x18;
-                    break;
-                case 1:                             /* switch 6 */
-                    offsetX = 0x2B;
-                    offsetY = 0x28;
-                    break;
-                case 2:                             /* switch 6 */
-                    offsetX = 0x23;
-                    offsetY = 0x18;
-                    break;
-                case 3:                             /* switch 6 */
-                    offsetX = 0x2B;
-                    offsetY = 0x20;
-                    break;
-                case 4:                             /* switch 6 */
-                    offsetX = 0x23;
-                    offsetY = 0x18;
-                    break;
-                }
-                if ((u32) M2C_FIELD(arg0, u8 *, 2) <= 8U) {
-                    temp_r4_15 = state * 4;
-                    temp_r5_11 = temp_r4_15 + ((u8 *)&gUnk_08366E0C);
-                    var_r4_2 = temp_r4_15 + (((u8 *)&gUnk_08366E0C) + 2);
-                    ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r7_6 + 2, *temp_r5_11 - 9, *var_r4_2 - 0x28);
-                    sub_08065230(&cursor, *temp_r5_11 - (cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
-                    var_r1_7 = offsetY + 0x18 + *temp_r5_11 + cursorY;
-                    goto block_198;
-                }
-                temp_r7_7 = temp_r7_6 + 2;
-                temp_r4_16 = state * 4;
-                temp_r5_12 = temp_r4_16 + ((u8 *)&gUnk_08366E0C);
-                temp_r4_17 = temp_r4_16 + (((u8 *)&gUnk_08366E0C) + 2);
-                ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r7_7, *temp_r5_12 - ((sub_0801A638(temp_r7_7) * 4) - 0x18), *temp_r4_17 - 0x28);
-                sub_08065230(&cursor, *temp_r5_12 - (cursorX + 0x10), *temp_r4_17 - 0x20, 3U, 2);
-                sub_08065230(&cursor, offsetY + 0x18 + *temp_r5_12 + (cursorY + 9), *temp_r4_17 - 0x20, 3U, 1);
-            } else {
+            if (state != 2) {
                 temp_r5_13 = temp_r7_6 + 2;
                 temp_r4_18 = state * 4;
                 ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r5_13, *(u16 *)(temp_r4_18 + ((u8 *)&gUnk_08366E0C)) - (sub_0801A638(temp_r5_13) * 4), *(u16 *)(temp_r4_18 + (((u8 *)&gUnk_08366E0C) + 2)) - 0x28);
@@ -1272,9 +1230,50 @@ block_185:
                     sub_08065230(&cursor, (*temp_r5_15 - offsetX) - (cursorX + 5), *var_r4_2 - 0x20, 3U, 2);
                     var_r1_7 = *temp_r5_15 + offsetY + (cursorY + 5);
                 }
+                goto block_198;
+                        } else {
+                switch (gUnk_03003470) {            /* switch 6 */
+                case 0:                             /* switch 6 */
+                    offsetX = 0x23;
+                    offsetY = 0x18;
+                    break;
+                case 1:                             /* switch 6 */
+                    offsetX = 0x2B;
+                    offsetY = 0x28;
+                    break;
+                case 2:                             /* switch 6 */
+                    offsetX = 0x23;
+                    offsetY = 0x18;
+                    break;
+                case 3:                             /* switch 6 */
+                    offsetX = 0x2B;
+                    offsetY = 0x20;
+                    break;
+                case 4:                             /* switch 6 */
+                    offsetX = 0x23;
+                    offsetY = 0x18;
+                    break;
+                }
+                if ((u32) M2C_FIELD(arg0, u8 *, 2) <= 8U) {
+                    temp_r4_15 = state * 4;
+                    temp_r5_11 = temp_r4_15 + ((u8 *)&gUnk_08366E0C);
+                    var_r4_2 = temp_r4_15 + (((u8 *)&gUnk_08366E0C) + 2);
+                    ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r7_6 + 2, *temp_r5_11 - 9, *var_r4_2 - 0x28);
+                    sub_08065230(&cursor, *temp_r5_11 - (cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
+                    var_r1_7 = offsetY + 0x18 + *temp_r5_11 + cursorY;
 block_198:
-                sub_08065230(&cursor, var_r1_7, *var_r4_2 - 0x20, 3U, 1);
-            }
+                    sub_08065230(&cursor, var_r1_7, *var_r4_2 - 0x20, 3U, 1);
+                    goto after198;
+                }
+                temp_r7_7 = temp_r7_6 + 2;
+                temp_r4_16 = state * 4;
+                temp_r5_12 = temp_r4_16 + ((u8 *)&gUnk_08366E0C);
+                temp_r4_17 = temp_r4_16 + (((u8 *)&gUnk_08366E0C) + 2);
+                ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r7_7, *temp_r5_12 - ((sub_0801A638(temp_r7_7) * 4) - 0x18), *temp_r4_17 - 0x28);
+                sub_08065230(&cursor, *temp_r5_12 - (cursorX + 0x10), *temp_r4_17 - 0x20, 3U, 2);
+                sub_08065230(&cursor, offsetY + 0x18 + *temp_r5_12 + (cursorY + 9), *temp_r4_17 - 0x20, 3U, 1);
+                        }
+after198:
             if (!(gUnk_03002344 & 3)) {
                 temp_r6_6 = cursorX;
                 if (temp_r6_6 != 0) {
@@ -1287,7 +1286,8 @@ block_198:
             }
             var_r0_6 = ((u8 *(*)(s32))sub_08007290)(0x140442) + 2;
             var_r1_6 = 0;
-            goto block_206;
+block_206:
+            sub_0801A3D0(var_r0_6, var_r1_6, 0U);
         }
         goto block_374;
     case 4:                                         /* switch 2 */
@@ -1688,10 +1688,8 @@ block_368:
         sub_0801ABE8(6);
         sub_080003F0();
         sub_080003F0();
-loop_371:
-        if (sub_0801AAE0() == 0) {
+        while (sub_0801AAE0() == 0) {
             sub_080003F0();
-            goto loop_371;
         }
         sub_080003F0();
         sub_080003F0();
