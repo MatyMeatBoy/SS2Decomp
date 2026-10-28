@@ -349,24 +349,38 @@ s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
 }
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016D40);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
-#ifdef NONMATCHING
-void sub_08016ECC(s32 index)
+extern u32 gW6ECC_56F8 asm("gUnk_030056F8");
+extern u32 gT6ECC_5700 asm("gUnk_03005700");
+void sub_08016ECC_u16(u16 arg0) asm("sub_08016ECC");
+void sub_08016ECC_u16(u16 arg0)
 {
-    u32 slot = (u32)(index - 4) & 0xFFFF;
-    u32 bit = 1 << slot;
-    u32 *active = (u32 *)0x030056F8;
-    u32 *table = (u32 *)0x03005700;
-    u32 offset = slot * 0xC;
-    if (!(*active & bit)) return;
-    if (table[offset + 2] > 1) { table[offset + 2]--; return; }
-    table[offset] = 0;
-    table[offset + 1] = 0;
-    table[offset + 2] = 0;
-    *active &= ~bit;
+  u32 *flagp;
+  u32 mask;
+  u32 flags;
+  u32 *tbl;
+  u32 off;
+  u16 idx;
+  idx = arg0 - 4;
+  flagp = &gW6ECC_56F8;
+  mask = 1 << idx;
+  flags = *flagp;
+  if (flags & mask)
+  {
+    tbl = &gT6ECC_5700;
+    off = (idx * 3) * 4;
+    if ((*((u32 *) ((((u8 *) (&gT6ECC_5700)) + off) + 8))) <= 1)
+    {
+      *((u32 *) (((u8 *) tbl) + off)) = 0;
+      *((u32 *) ((((u8 *) (&gT6ECC_5700)) + off) + 4)) = 0;
+      *((u32 *) ((((u8 *) (&gT6ECC_5700)) + off) + 8)) = 0;
+      *flagp = flags & (~mask);
+    }
+    else
+    {
+      *((u32 *) ((((u8 *) (&gT6ECC_5700)) + off) + 8)) = (*((u32 *) ((((u8 *) (&gT6ECC_5700)) + off) + 8))) - 1;
+    }
+  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016ECC);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017C6C);
 s32 sub_08017E34(s32 *arg0) {
