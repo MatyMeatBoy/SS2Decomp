@@ -380,14 +380,16 @@ u32 sub_0805EEEC(u8 *p)
         r = 1;
     return r;
 }
-#ifdef NONMATCHING
 s32 sub_0805EEFC(void *arg0)
 {
-    return arg0 != NULL && M2C_FIELD(arg0, u32 *, 0x74) == 0;
+    s32 r;
+    if (arg0 == 0)
+        return 0;
+    r = 0;
+    if (*(s32 *)((u8 *)arg0 + 0x74) == 0)
+        r = 1;
+    return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EEFC);
-#endif
 u32 sub_0805EF14(u8 *arg0)
 {
     u32 r;

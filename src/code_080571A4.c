@@ -263,11 +263,7 @@ u32 sub_080578BC(u32 value)
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_080578BC);
 #endif
 void sub_0805790C(void) { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 2; sub_08067D74(); }
-#ifdef NONMATCHING
-void sub_08057934(void) { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~3u; sub_08067D74(); }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057934);
-#endif
+void sub_08057934(void) { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~2u; sub_08067D74(); }
 void sub_0805795C(void) { struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; sub_0800D0F4(); }
 void sub_08057984(void)
 {

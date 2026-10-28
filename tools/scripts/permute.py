@@ -13,6 +13,7 @@ Set PERMUTER to the decomp-permuter checkout (default tools/decomp-permuter).
 import argparse
 import glob
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -37,9 +38,13 @@ def setup(func, cfile, d):
         subprocess.run(["arm-none-eabi-objcopy", "--redefine-sym", "%s=%s" % (oname, func),
                         os.path.join(d, "target.o")], check=True)
     # base.c: preprocessed, without asm() statements
-    pre = subprocess.run(["arm-none-eabi-cpp", "-P"] + decomp.CPPFLAGS + [cfile],
+    pre = subprocess.run(["arm-none-eabi-cpp", "-P", "-D__attribute__(x)="] + decomp.CPPFLAGS + [cfile],
                          capture_output=True, text=True, check=True).stdout
     pre = "\n".join(l for l in pre.splitlines() if not l.startswith("asm("))
+    # pycparser cannot parse asm labels (`extern T gAlias asm("gUnk_X");`): drop them, rename back in the .s
+    aliases = re.findall(r'(\w+)\s*(?:\([^;]*?\))?\s*(?:asm|__asm__)\("(\w+)"\)', pre)
+    pre = re.sub(r'\s*(?:asm|__asm__)\("\w+"\)', "", pre)
+    ren = 'sed -i %s "$T/out.s"' % " ".join("-e 's/\\b%s\\b/%s/g'" % a for a in aliases) if aliases else ""
     open(os.path.join(d, "base.c"), "w").write(pre)
     subprocess.run([sys.executable, os.path.join(PERMUTER, "strip_other_fns.py"),
                     os.path.join(d, "base.c"), func], check=True)
@@ -49,11 +54,12 @@ def setup(func, cfile, d):
 T=$(mktemp -d)
 %s %s -o "$T/out.s" "$1" 2>/dev/null || { rm -rf "$T"; exit 1; }
 printf '\\t.text\\n\\t.align 2, 0\\n' >> "$T/out.s"
+%s
 arm-none-eabi-as -mcpu=arm7tdmi -o "$3" "$T/out.s"
 r=$?
 rm -rf "$T"
 exit $r
-""" % (cc1, " ".join(flags)))
+""" % (cc1, " ".join(flags), ren))
     os.chmod(sh, 0o755)
     open(os.path.join(d, "settings.toml"), "w").write(
         'func_name = "%s"\ncompiler_type = "gcc"\nobjdump_command = "arm-none-eabi-objdump -drz -M force-thumb"\n' % func)

@@ -1,6 +1,6 @@
 pyelftools
 capstone
-pycparser
+pycparser<3
 toml
 colorama
 watchdog

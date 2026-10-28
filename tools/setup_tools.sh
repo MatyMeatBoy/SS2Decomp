@@ -26,6 +26,14 @@ case "$(uname -s)" in
     Darwin) OS=macos; EXE= ;;
     *) OS=linux; EXE= ;;
 esac
+
+if [ "$OS" = windows ]; then
+    # Windows has no exec bit and cannot exec .sh: run compile.sh through sh.
+    P="$T/decomp-permuter/src"
+    sed -i 's/if not os.stat(compile_cmd).st_mode & 0o100:/if os.name != "nt" and not os.stat(compile_cmd).st_mode \& 0o100:/' "$P/main.py"
+    sed -i 's/\[self.compile_cmd, c_name, "-o", o_name\]/(["sh"] if os.name == "nt" else []) + [self.compile_cmd, c_name, "-o", o_name]/' "$P/compiler.py"
+    grep -q "^import os" "$P/compiler.py" || sed -i '1i import os' "$P/compiler.py"
+fi
 ARCH=x86_64; [ "$OS" = macos ] && [ "$(uname -m)" = arm64 ] && ARCH=arm64
 mkdir -p "$T/objdiff"
 for b in objdiff-cli objdiff; do
