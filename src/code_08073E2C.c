@@ -14,9 +14,77 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074B00);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074C74);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074DE8);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075088);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075494);
+struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern u32 gMasks5494[] asm("gUnk_030063E0");
+extern u8 *gLists5494[] asm("gUnk_030063B0");
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern void sub_08075088();
+void sub_08075494(u32 who)
+{
+    u32 i = 0;
+    vu32 *m;
+    u32 mem;
+    struct Task5494 *t;
+    {
+        vu32 *b = gMasks5494;
+        m = &b[who];
+    }
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0xF)
+            return;
+    }
+    if (i > 0xF)
+        return;
+    mem = sub_08001494(0x400);
+    {
+        u8 *p = gLists5494[who];
+        t = (struct Task5494 *)(i * 0x28 + (u32)p);
+    }
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->f8 = 0x34;
+    t->fC = (u32)sub_08075088;
+    t->f10 = mem + 0x3FC;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, who, i);
+    gMasks5494[who] |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075520);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080756EC);
+extern void sub_08075520();
+void sub_080756EC(u32 who)
+{
+    u32 i = 0;
+    vu32 *m;
+    u32 mem;
+    struct Task5494 *t;
+    {
+        vu32 *b = gMasks5494;
+        m = &b[who];
+    }
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0xF)
+            return;
+    }
+    if (i > 0xF)
+        return;
+    mem = sub_08001494(0x400);
+    {
+        u8 *p = gLists5494[who];
+        t = (struct Task5494 *)(i * 0x28 + (u32)p);
+    }
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->f8 = 0x34;
+    t->fC = (u32)sub_08075520;
+    t->f10 = mem + 0x3FC;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, who, i);
+    gMasks5494[who] |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075778);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080760E8);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080761A4);
