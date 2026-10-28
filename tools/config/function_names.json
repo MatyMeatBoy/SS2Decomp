@@ -66,6 +66,48 @@
       ]
     },
     {
+      "address": "0x08000440",
+      "canonical_symbol": "sub_08000440",
+      "display_name": "TaskHasWaiterForSignal",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_08000440.s",
+          "line": 1,
+          "detail": "Traverses task list and returns one if a task has state 4 and a matching signal at +0x14; otherwise returns zero.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Scheduler insertion increments 03001244; global function names remain unchanged.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000464",
+      "canonical_symbol": "sub_08000464",
+      "display_name": "TaskGetCount",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_08000464.s",
+          "line": 1,
+          "detail": "Loads global 03001244, initialized to one by 0023C, incremented on scheduling by 00274 and decremented on unlinking.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Scheduler insertion increments 03001244; global function names remain unchanged.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
       "address": "0x08000470",
       "canonical_symbol": "sub_08000470",
       "display_name": "TaskIsScheduled",
@@ -94,6 +136,624 @@
       ]
     },
     {
+      "address": "0x0800086C",
+      "canonical_symbol": "sub_0800086C",
+      "display_name": "NextRandom16",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 88,
+          "detail": "Updates the eight-byte feedback state03001318, then combines two state-selected bytes as a 16-bit result. Does not establish a standard RNG algorithm or SDK origin.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080008C8",
+      "canonical_symbol": "sub_080008C8",
+      "display_name": "NextRandom32",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 106,
+          "detail": "Updates the same eight-byte feedback state, then combines four state-selected bytes into a 32-bit result; shares transition structure with 0086C.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000940",
+      "canonical_symbol": "sub_08000940",
+      "display_name": "DisableForcedBlank",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 127,
+          "detail": "Enables DISPSTAT flag 8, clears forcedBlank in display shadow, writes DISPCNT and invokes 06BF8. No broader scene identity is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000968",
+      "canonical_symbol": "sub_08000968",
+      "display_name": "EnableForcedBlank",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 134,
+          "detail": "Clears DISPSTAT flags 0x18, sets forcedBlank in display shadow, writes DISPCNT and invokes 06C14.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000990",
+      "canonical_symbol": "sub_08000990",
+      "display_name": "SetDisplayMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 141,
+          "detail": "Sets mode field in DISPCNT shadow and optionally writes hardware.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080009C0",
+      "canonical_symbol": "sub_080009C0",
+      "display_name": "EnableDisplayPlanesAndWindows",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 148,
+          "detail": "ORs first argument mask 0x1F00 and second mask 0xE000 into DISPCNT shadow, optionally writing hardware; does not clear other bits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000A34",
+      "canonical_symbol": "sub_08000A34",
+      "display_name": "SetDisplayFrameAndObjOptions",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 178,
+          "detail": "Sets frameSelect, hblankIntervalFree and objMapping1D fields from three boolean arguments, optionally writing DISPCNT.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000A8C",
+      "canonical_symbol": "sub_08000A8C",
+      "display_name": "LoadDisplayControlShadow",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 1,
+          "detail": "Copies one 32-bit value from the supplied DispCnt structure into display-control shadow and optionally writes its low halfword to DISPCNT.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000AA8",
+      "canonical_symbol": "sub_08000AA8",
+      "display_name": "WriteBackgroundControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 12,
+          "detail": "For background index 0..3, writes the supplied halfword to BG0CNT..BG3CNT; ignores null source and unsupported index.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000AF0",
+      "canonical_symbol": "sub_08000AF0",
+      "display_name": "LoadPaletteShadow",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 31,
+          "detail": "Copies palette groups into RAM shadow03001F40 at palette-index*32. Queues a full 0x400-byte palette copy once while 03001310 is zero, then increments that flag.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000B38",
+      "canonical_symbol": "sub_08000B38",
+      "display_name": "QueuePaletteShadowCopy",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 40,
+          "detail": "Queues 0x400 bytes from palette shadow03001F40 to hardware palette RAM 05000000 through 01348.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000B50",
+      "canonical_symbol": "sub_08000B50",
+      "display_name": "FlushBgWindowBlendRegisterShadow",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "Copies 0x24 halfwords from 03001250 to REG_ADDR_BG0HOFS, covering BG scroll/affine, window, mosaic and blend registers, not DISPCNT/BGCNT.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000B68",
+      "canonical_symbol": "sub_08000B68",
+      "display_name": "ReadBackgroundControl",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 47,
+          "detail": "Reads selected BG0CNT..BG3CNT halfword into non-null output for indices 0..3.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000BC8",
+      "canonical_symbol": "sub_08000BC8",
+      "display_name": "DecompressLz77AllocatingIfNeeded",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 67,
+          "detail": "Reads decompressed size from LZ77 header, rounds to 4 bytes; if destination is null, retries heap allocation while waiting for signal 1, then decompresses with LZ77UnCompWram and returns destination.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000C50",
+      "canonical_symbol": "sub_08000C50",
+      "display_name": "EnableHBlankInterrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 102,
+          "detail": "Enables IE HBlank flag and DISPSTAT HBlank interrupt flag through their shadows, with IME disable/enable and blank-interval waits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000D0C",
+      "canonical_symbol": "sub_08000D0C",
+      "display_name": "DisableHBlankInterrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 125,
+          "detail": "Clears HBlank interrupt in IE shadow/register and clears DISPSTAT HBlank interrupt flag.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000D8C",
+      "canonical_symbol": "sub_08000D8C",
+      "display_name": "EnableVCountInterrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 141,
+          "detail": "Enables IE VCount flag and DISPSTAT VCount interrupt flag through their shadows, with IME disable/enable and blank-interval waits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000E48",
+      "canonical_symbol": "sub_08000E48",
+      "display_name": "DisableVCountInterrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 164,
+          "detail": "Clears IE VCount interrupt and DISPSTAT VCount interrupt flag.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000EF4",
+      "canonical_symbol": "sub_08000EF4",
+      "display_name": "DisableInterruptMaster",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 26,
+          "detail": "Waits until outside blank intervals, then clears both IME shadow and REG_IME.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000F2C",
+      "canonical_symbol": "sub_08000F2C",
+      "display_name": "EnableInterruptMaster",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 31,
+          "detail": "Waits until outside blank intervals, then sets IME shadow and REG_IME to one.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000F64",
+      "canonical_symbol": "sub_08000F64",
+      "display_name": "EnableInterruptSources",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 36,
+          "detail": "Disables IME, ORs mask into IE shadow and REG_IE, then re-enables IME; does not preserve previous IME state.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08000FD4",
+      "canonical_symbol": "sub_08000FD4",
+      "display_name": "DisableInterruptSources",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 45,
+          "detail": "Disables IME, clears mask from IE shadow and REG_IE, then re-enables IME; does not preserve previous IME state.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001040",
+      "canonical_symbol": "sub_08001040",
+      "display_name": "SetDisplayStatusFlags",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 53,
+          "detail": "Disables IME, ORs mask into DISPSTAT shadow/register, then re-enables IME with blank-interval waits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080010AC",
+      "canonical_symbol": "sub_080010AC",
+      "display_name": "ClearDisplayStatusFlags",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 62,
+          "detail": "Clears mask from DISPSTAT shadow and writes REG_DISPSTAT directly.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080010DC",
+      "canonical_symbol": "sub_080010DC",
+      "display_name": "HandleHBlankInterrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 75,
+          "detail": "Invokes callback 03000014 when nonzero, acknowledges REG_IF and BIOS interrupt-check mask 0x2 (HBlank).",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 717,
+          "detail": "INTR_FLAG_VBLANK/HBLANK/VCOUNT are masks1/2/4; these numbers are masks, not bit indices.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001108",
+      "canonical_symbol": "sub_08001108",
+      "display_name": "SetVCountCompareLine",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 82,
+          "detail": "Replaces high byte of DISPSTAT shadow with the byte argument, writes hardware and returns previous high byte.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001130",
+      "canonical_symbol": "sub_08001130",
+      "display_name": "HandleVCountInterrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 89,
+          "detail": "Invokes callback 03000010 when nonzero, acknowledges REG_IF and BIOS interrupt-check mask 0x4 (VCount).",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 717,
+          "detail": "INTR_FLAG_VBLANK/HBLANK/VCOUNT are masks1/2/4; these numbers are masks, not bit indices.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x0800115C",
+      "canonical_symbol": "sub_0800115C",
+      "display_name": "SetVCountInterruptCallback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 96,
+          "detail": "Replaces callback 03000010 and returns its previous value.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x0800116C",
+      "canonical_symbol": "sub_0800116C",
+      "display_name": "ResetVBlankCallbackState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 102,
+          "detail": "Clears callback 0300234C and frame-transfer-ready flag 03002350.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001180",
+      "canonical_symbol": "sub_08001180",
+      "display_name": "HandleVBlankInterrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 106,
+          "detail": "Optionally services m4a VSync/Main; when frame-transfer flag is set, invokes callback 0300234C, flushes register shadow/copy queue and clears flag. Acknowledges interrupt mask 0x1 (VBlank).",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 717,
+          "detail": "INTR_FLAG_VBLANK/HBLANK/VCOUNT are masks1/2/4; these numbers are masks, not bit indices.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080011E4",
+      "canonical_symbol": "sub_080011E4",
+      "display_name": "SetVBlankCallback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 123,
+          "detail": "Stores callback 0300234C, returning one for non-null or zero for null.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001280",
+      "canonical_symbol": "sub_08001280",
+      "display_name": "HandleDma3Interrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 155,
+          "detail": "Invokes callback 03002354 and acknowledges REG_IF/BIOS check mask 0x800 (DMA3); there is no null callback guard.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080012AC",
+      "canonical_symbol": "sub_080012AC",
+      "display_name": "HandleDma0Interrupt",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 161,
+          "detail": "Invokes callback 03002360 and acknowledges REG_IF/BIOS check mask 0x100 (DMA0); there is no null callback guard.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080012D8",
+      "canonical_symbol": "sub_080012D8",
+      "display_name": "SetDma3InterruptCallback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 167,
+          "detail": "Replaces callback 03002354, used by DMA3 handler 01280, and returns previous value.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080012E8",
+      "canonical_symbol": "sub_080012E8",
+      "display_name": "SetDma0InterruptCallback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 173,
+          "detail": "Replaces callback 03002360, used by DMA0 handler 012AC, and returns previous value.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080012F8",
+      "canonical_symbol": "sub_080012F8",
+      "display_name": "InitializeMemoryCopyQueue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 179,
+          "detail": "Allocates 400 entries, clears src/dest/control, resets queue count and clears DMA3/DMA0 callback globals. Queue flush uses CPU copy BIOS calls, not DMA hardware.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001348",
+      "canonical_symbol": "sub_08001348",
+      "display_name": "QueueMemoryCopy",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 194,
+          "detail": "Appends src/dest/byte-size while count<400; sets high control bit for sizes aligned to 32 bytes. Does not enqueue when full.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001394",
+      "canonical_symbol": "sub_08001394",
+      "display_name": "FlushMemoryCopyQueue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 207,
+          "detail": "Consumes queued entries with CpuFastSet or CpuSet32 according to high control bit, then resets count. No DMA register programming occurs.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080013F8",
+      "canonical_symbol": "sub_080013F8",
+      "display_name": "ClearMemoryCopyQueue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 221,
+          "detail": "Resets queued memory-copy count to zero without executing copies.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001404",
+      "canonical_symbol": "sub_08001404",
+      "display_name": "InitializeEwramHeap",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 225,
+          "detail": "Builds free-list/sentinel metadata over EWRAM with heap start EWRAM_START and recorded size 0x3FFFF.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
       "address": "0x08001494",
       "canonical_symbol": "sub_08001494",
       "display_name": "HeapAllocate",
@@ -104,6 +764,36 @@
           "source": "src/code_08000EC8.c",
           "detail": "Aligns allocation size, searches free blocks and splits the selected block.",
           "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001538",
+      "canonical_symbol": "sub_08001538",
+      "display_name": "HeapFree",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 300,
+          "detail": "Existing _free C definition is aliased to this canonical symbol. Bounds-checks pointer, clears block used bit and coalesces adjacent free blocks in heap free list.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001638",
+      "canonical_symbol": "sub_08001638",
+      "display_name": "HeapAllocateFromEnd",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 360,
+          "detail": "Aligns size to 4 with minimum 16, traverses free list backward and splits an allocation from the selected block end, returning payload after 16-byte header.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
