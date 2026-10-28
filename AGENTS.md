@@ -15,7 +15,8 @@ hundreds of functions: [docs/agents/AI_AGENTS.md](docs/agents/AI_AGENTS.md). Use
    python3 tools/scripts/claim.py take <agent-name>   # -> branch shard/NNN
    python3 tools/scripts/shard.py show NNN            # your functions; touch nothing else
    ```
-3. **Work order inside the shard**: first the yellow drafts (`#ifdef NONMATCHING`, `tools/scripts/nmdiff.py FUNC`),
+3. **Work order inside the shard**: first the yellow drafts (`#ifdef NONMATCHING`): `python3 tools/scripts/yellow.py --only F1,F2`
+   (score, permuter, auto-apply), then read `tools/scripts/nmdiff.py FUNC` for the rest,
    then the remaining `INCLUDE_ASM` from smallest to largest. Per function: CONTRIBUTING.md §2.
 4. **Commit small and often** on `shard/NNN` (`decompile sub_XXXXXXXX`). The pre-commit hook runs
    `make compare` + `make nonmatching`; never bypass it.

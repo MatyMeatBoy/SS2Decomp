@@ -45,7 +45,7 @@ agent-written C is valid agbcc C89). `tools/scripts/c89fix.py` converts C99 styl
    rebuilds the whole ROM, rolls back if sha1 differs). Accepts several functions per file or a directory of .c.
 5. Near miss (score small): `python3 tools/scripts/permute.py FUNC file.c --time 120`, or batch `permute_batch.py DRAFTDIR SCORES.txt --max-score 12`,
    then `apply_permuted.py DRAFTDIR/permuted`.
-6. `make compare` -> OK, `python3 tools/scripts/progress.py` (stats), `make progress` (SVGs), commit, push.
+6. `make compare` -> OK, `python3 tools/scripts/progress.py --out build/progress` (stats; never commit docs/progress, CI does), commit, push (or `claim.py land`).
 
 Other tools: `fmatch.py MODULE ref.c` pairs functions of a reference decomp (e.g. other GBA games) with ROM functions by bytes;
 `variants.py` template search `{{a||b}}`; `rename.py` rename symbols; `fixups.py` source rewrites; `analyze.py`/`gen_asm.py` function discovery + asm regeneration.
@@ -64,6 +64,6 @@ Ghidra regeneration (needs Ghidra 11.x): `analyzeHeadless proj proj -import base
 - Callee proto has u16 param but original passes s32 without lsl/lsr: call via cast `((void (*)(s32))f)(x)`; callee proto `()`-style (K&R) when original passes nothing extra (sub_080687A8).
 
 ## Status (see `python3 tools/scripts/progress.py`)
-~520/1973 functions matched (2.66% bytes). Libs: m4a 54/56, flash 24/24. Near misses: sub_0800BAA4, sub_0800BC44/BC08/BCA0/BD1C,
+838/1973 functions matched (5.93% bytes), 366 yellow drafts. Libs: m4a 54/56, flash 24/24. Near misses: sub_0800BAA4, sub_0800BC44/BC08/BCA0/BD1C,
 sub_0806849C/84F4/854C (0xFF byte stores), sub_08056E24/E64/FA4/FCC + sub_0805A6F0 (GameState pointer typing),
 sub_0805EF84, sub_0809043C (`(a<<8)/b`), sub_08001B04 (ReadFlash arg count), sub_08006B2C, sub_0800CB3C. MultiSio code not located yet.

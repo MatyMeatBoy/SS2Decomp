@@ -57,9 +57,10 @@ y [ReVa](https://github.com/cyberkaida/reverse-engineering-assistant), que expon
    - o en terminal: `python3 tools/scripts/decomp.py check FUNC /tmp/f.c` (compila la función aislada y muestra el diff),
      `python3 tools/asm-differ/diff.py -mwo FUNC` (diff en vivo contra `expected/`).
    - Casi casa (pocas diferencias de registros/orden): `python3 tools/scripts/permute.py FUNC /tmp/f.c --time 300`.
+4b. **Amarillos en lote:** `python3 tools/scripts/yellow.py` puntúa todos los borradores, desenvuelve los que ya casan, pasa el permuter a los cercanos (score 1-12) y aplica los ganadores.
 5. **Aplicar.** `python3 tools/scripts/apply_permuted.py /tmp/f.c`: inserta la función, borra su `.s`, recompila la ROM
    y deshace todo si el SHA1 cambia. Si lo hiciste a mano en `src/`, borra `asm/nonmatchings/<modulo>/FUNC.s`.
-6. **Verificar y subir.** `make compare` OK, `make nonmatching` OK, `python3 tools/scripts/progress.py`.
+6. **Verificar y subir.** `make compare` OK, `make nonmatching` OK, `python3 tools/scripts/progress.py --out build/progress` (no toques `docs/progress/`: lo regenera el CI).
    Commit pequeño (`decompile sub_XXXXXXXX` o con el nombre real), PR contra `claude/rom-decompilation-research-obsal6`.
 
 Si no consigues que case, no lo tires: déjalo como borrador
