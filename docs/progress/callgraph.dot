@@ -9220,8 +9220,8 @@ digraph calls {
   "sub_08075088" -> "sub_08029E0C" [label="asm"];
   "sub_08075088" -> "sub_08065158" [label="asm"];
   "sub_08075088" -> "sub_08065370" [label="asm"];
-  "sub_08075494" -> "sub_08000274" [label="asm"];
-  "sub_08075494" -> "sub_08001494" [label="asm"];
+  "sub_08075494" -> "sub_08000274" [label="c"];
+  "sub_08075494" -> "sub_08001494" [label="c"];
   "sub_08075520" -> "sub_080003F0" [label="asm"];
   "sub_08075520" -> "sub_08000AF0" [label="asm"];
   "sub_08075520" -> "sub_080020F4" [label="asm"];
@@ -9233,8 +9233,8 @@ digraph calls {
   "sub_08075520" -> "sub_0800CD8C" [label="asm"];
   "sub_08075520" -> "sub_08065158" [label="asm"];
   "sub_08075520" -> "sub_08065370" [label="asm"];
-  "sub_080756EC" -> "sub_08000274" [label="asm"];
-  "sub_080756EC" -> "sub_08001494" [label="asm"];
+  "sub_080756EC" -> "sub_08000274" [label="c"];
+  "sub_080756EC" -> "sub_08001494" [label="c"];
   "sub_08075778" -> "ArcTan2" [label="asm"];
   "sub_08075778" -> "__divsi3" [label="asm"];
   "sub_08075778" -> "memcpy" [label="asm"];
