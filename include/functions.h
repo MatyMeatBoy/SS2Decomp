@@ -307,6 +307,7 @@ void sub_0801E024(void *arg0);
 u16 sub_0801E0A0();
 u16 sub_0801E0AC(s32 arg0, s32 arg1);
 void sub_0801E0BC(void *arg0, u16 arg1);
+void sub_0801E0D0(u16 *dst, const u16 *src);
 void *sub_0801E104(u8 *arg0);
 s32 sub_0801E12C(s32 arg0, s32 arg1, s32 arg2);
 s32 sub_0801E164(void *arg0, s32 arg1);

@@ -292,16 +292,15 @@ void sub_0801E0BC(void *arg0, u16 arg1) {
     M2C_FIELD(arg0, u16 *, 8) = temp_r1;
     M2C_FIELD(arg0, u16 *, 0xA) = temp_r1;
 }
-#ifdef NONMATCHING
 void sub_0801E0D0(u16 *dst, const u16 *src)
 {
-    u32 i;
-    for (i = 0; i < 6; i++)
-        dst[i] += src[i];
+    dst[0] = dst[0] + src[0];
+    dst[1] = dst[1] + src[1];
+    dst[2] = dst[2] + src[2];
+    dst[3] = dst[3] + src[3];
+    dst[4] = dst[4] + src[4];
+    dst[5] = dst[5] + src[5];
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801E0D0);
-#endif
 void *sub_0801E104(u8 *arg0) {
     u8 *p = arg0 + 0x8c;
     u32 i = 0;
