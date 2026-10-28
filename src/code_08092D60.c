@@ -67,24 +67,30 @@ s16 sub_08092E34(void) {
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092E40);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092EB4);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092F58);
-#ifdef NONMATCHING
+extern u8 gB03000267 asm("gUnk_03000267");
+extern u8 gB03000266 asm("gUnk_03000266");
+extern u8 gB03000268 asm("gUnk_03000268");
+extern u16 gH03000264 asm("gUnk_03000264");
+extern void sub_0809342C();
 void sub_080933A0(void)
 {
-    *(u8 *)0x03000267 = 0;
-    *(u8 *)0x03000266 = 0x10;
-    *(u8 *)0x03000268 = 1;
+    gB03000267 = 0;
+    gB03000266 = 0x10;
+    gB03000268 = 1;
     sub_080012D8((u32)sub_0809342C);
     sub_08000F64(0x800);
     sub_080011E4((void *)sub_08093498);
-    *(u16 *)0x03000264 = 0;
-    *(u32 *)0x040000D4 = 0x03000264;
-    *(u32 *)0x040000D8 = 0x04000014;
-    *(u32 *)0x040000DC = 0xE3400001;
-    (void)*(volatile u32 *)0x040000DC;
+    {
+    u16 *h = &gH03000264;
+    vu32 *dma;
+    *h = 0;
+    dma = (vu32 *)0x040000D4;
+    dma[0] = (u32)h;
+    dma[1] = 0x04000014;
+    dma[2] = 0xE3400001;
+    dma[2];
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080933A0);
-#endif
 void sub_08093404(void) {
     gUnk_03000268 = 0;
     sub_08000FD4(0x800);
