@@ -1,0 +1,626 @@
+{
+  "schema_version": 1,
+  "base_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+  "scope": "Experimental C only; no original build changes",
+  "provenance": "Fresh reconstruction from original SS2 ASM; donor source not copied",
+  "original_configured_entries": 36,
+  "hidden_semantic_entry": "0x080B6A08",
+  "tested_experimental_apis": 33,
+  "differential_cases": 326,
+  "normal_ROM_matching_C_credit": 0,
+  "remaining_major_regions": [
+    "SoundMain",
+    "SoundMainRAM mixer",
+    "MPlayMain",
+    "shared indirect-call integration"
+  ],
+  "entries": [
+    {
+      "address": "0x080B64D8",
+      "canonical_symbol": "umul3232H32",
+      "configured_end": "0x080B64E8",
+      "experimental_api": "M4AExp_MultiplyHigh32",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/umul3232H32.s",
+      "original_sha256": "d9ee017b7dee10ee90ca1ef6275154d39164371ec8d91a45ac4b124821ff13bd",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B64E8",
+      "canonical_symbol": "SoundMain",
+      "configured_end": "0x080B656C",
+      "experimental_api": null,
+      "state": "pending",
+      "cases": 0,
+      "original_source": "asm/nonmatchings/m4a_1/SoundMain.s",
+      "original_sha256": "2e94b256b2d82f3abb215c0efb6dd31924f9d89a7d0b8a050017a64f10d71707",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "_080B690A",
+        "_080B690A"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B656C",
+      "canonical_symbol": "SoundMainRAM",
+      "configured_end": "0x080B6910",
+      "experimental_api": null,
+      "state": "pending",
+      "cases": 0,
+      "original_source": "asm/nonmatchings/m4a_1/SoundMainRAM.s",
+      "original_sha256": "32c9d28451f6d8800afdd75368cf0c5c0c5f60bf8a4d369267bf3d24104097a1",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "_080B68F6",
+        "_080B68EC",
+        "_080B66B6",
+        "_080B68EC",
+        "_080B66C4",
+        "_080B66C4",
+        "_080B6604"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6910",
+      "canonical_symbol": "SoundMainBTM",
+      "configured_end": "0x080B6928",
+      "experimental_api": "M4AExp_Clear64",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/SoundMainBTM.s",
+      "original_sha256": "4ae913b3fe7421df7975bb89f7e3f6ccd70f74cf58f2d8cf87abcdd4739561ec",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6928",
+      "canonical_symbol": "RealClearChain",
+      "configured_end": "0x080B6948",
+      "experimental_api": "M4AExp_UnlinkChannel",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/RealClearChain.s",
+      "original_sha256": "7f7cd05aac442e393bc3ce6a3b0da294e06b491268d2c635688d7152454aba7f",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "_080B693C"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6948",
+      "canonical_symbol": "ply_fine",
+      "configured_end": "0x080B6978",
+      "experimental_api": "M4AExp_Fine",
+      "state": "selected_differential_cases_pass",
+      "cases": 4,
+      "original_source": "asm/nonmatchings/m4a_1/ply_fine.s",
+      "original_sha256": "fa6e3c36ddb9cb757a5579005dfa0f033630ff971bb258e19b265f633167b132",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "RealClearChain"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6978",
+      "canonical_symbol": "MPlayJumpTableCopy",
+      "configured_end": "0x080B6990",
+      "experimental_api": "M4AExp_CopyJumpTable",
+      "state": "selected_differential_cases_pass",
+      "cases": 1,
+      "original_source": "asm/nonmatchings/m4a_1/MPlayJumpTableCopy.s",
+      "original_sha256": "665ade84cd6ac2f6cff2453feb753e006a24b74df1e5f4168541dc60e3b0af9b",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B6992"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6990",
+      "canonical_symbol": "sub_080B6990",
+      "configured_end": "0x080B6992",
+      "experimental_api": "M4AExp_ReadGuardedByte",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6990.s",
+      "original_sha256": "a2bdbe797a719863eedf3e95a9398addbe12253a5afb305d5bdd101644900d60",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6992",
+      "canonical_symbol": "sub_080B6992",
+      "configured_end": "0x080B69AC",
+      "experimental_api": "M4AExp_GuardRead",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6992.s",
+      "original_sha256": "b054392aedf8cc46121e295d5fc4b310d52e95331d8cf912d4f276cd551cc971",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B69AC",
+      "canonical_symbol": "sub_080B69AC",
+      "configured_end": "0x080B69AE",
+      "experimental_api": "M4AExp_ReadTrackByte",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B69AC.s",
+      "original_sha256": "dccd3fc115192ab5ba0135b9cdc06222fcadbec719fb9e433622028d05e5b9b3",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B69AE",
+      "canonical_symbol": "sub_080B69AE",
+      "configured_end": "0x080B69B8",
+      "experimental_api": "M4AExp_ReadTrackByteFromCursor",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B69AE.s",
+      "original_sha256": "b92d5cff2fd803d6460f0434a4765eaa37bb7fc660215820dd339d6ca429037b",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B6992"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B69B8",
+      "canonical_symbol": "sub_080B69B8",
+      "configured_end": "0x080B69D8",
+      "experimental_api": "M4AExp_Goto",
+      "state": "selected_differential_cases_pass",
+      "cases": 2,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B69B8.s",
+      "original_sha256": "7dbc3f6959396b95a1729ba04376e36ed421a341b9bab976f311b2f5fec18266",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B6990"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B69D8",
+      "canonical_symbol": "sub_080B69D8",
+      "configured_end": "0x080B69F4",
+      "experimental_api": "M4AExp_Pattern",
+      "state": "selected_differential_cases_pass",
+      "cases": 4,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B69D8.s",
+      "original_sha256": "117d2ff30e8926ee35927d005635215f87f611e5b7b188299cbf0cb262214c90",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69B8",
+        "ply_fine"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B69F4",
+      "canonical_symbol": "sub_080B69F4",
+      "configured_end": "0x080B6A38",
+      "experimental_api": "M4AExp_PatternEnd",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B69F4.s",
+      "original_sha256": "ec9685108d889d2bdcff928bb8314eab2da9edeb559f3fb9a146820bcdac02f4",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6A38",
+      "canonical_symbol": "sub_080B6A38",
+      "configured_end": "0x080B6A44",
+      "experimental_api": "M4AExp_Priority",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6A38.s",
+      "original_sha256": "d5cc90f5cb0ea816c8e2d2a501c07da2291b982b95c558ad050a039137dca5f4",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6A44",
+      "canonical_symbol": "sub_080B6A44",
+      "configured_end": "0x080B6A58",
+      "experimental_api": "M4AExp_Tempo",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6A44.s",
+      "original_sha256": "cdd0b5e04117ca97fed2d7718acdf508a1db4d2db5f3fd5d5e83dda99e57a2e0",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6A58",
+      "canonical_symbol": "sub_080B6A58",
+      "configured_end": "0x080B6A6C",
+      "experimental_api": "M4AExp_KeyShift",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6A58.s",
+      "original_sha256": "f28a7930170412f1770373c9fa8a367267247785abe86b316b0c27272e4bdcdb",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6A6C",
+      "canonical_symbol": "sub_080B6A6C",
+      "configured_end": "0x080B6A9C",
+      "experimental_api": "M4AExp_Voice",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6A6C.s",
+      "original_sha256": "1cf58631eb309cb9c72f33da1a1d41c5f2178cd4a6ea7cc500c6747d6742bb74",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B6992",
+        "sub_080B6992",
+        "sub_080B6992"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6A9C",
+      "canonical_symbol": "sub_080B6A9C",
+      "configured_end": "0x080B6AB0",
+      "experimental_api": "M4AExp_Volume",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6A9C.s",
+      "original_sha256": "bc0e3c7d34aced4aef4aa10424ef0aa42d2882ea078907edddcd93b72e62f800",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6AB0",
+      "canonical_symbol": "sub_080B6AB0",
+      "configured_end": "0x080B6AC4",
+      "experimental_api": "M4AExp_Pan",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6AB0.s",
+      "original_sha256": "b96807b65716cc42beb73519b9956b890688217a7945751dcc87c70666d01fa6",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6AC4",
+      "canonical_symbol": "sub_080B6AC4",
+      "configured_end": "0x080B6AD8",
+      "experimental_api": "M4AExp_Bend",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6AC4.s",
+      "original_sha256": "5288432885f79a3ed362335fb25764f4d15082afeb6fba5289f5b372fad23492",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6AD8",
+      "canonical_symbol": "sub_080B6AD8",
+      "configured_end": "0x080B6AEC",
+      "experimental_api": "M4AExp_BendRange",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6AD8.s",
+      "original_sha256": "5687d7506a22d75db6dd86f34b5fc6468bf12492e6e079fac25ac894c9993e8b",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6AEC",
+      "canonical_symbol": "sub_080B6AEC",
+      "configured_end": "0x080B6AF8",
+      "experimental_api": "M4AExp_LfoDelay",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6AEC.s",
+      "original_sha256": "2ccedc0446bd4b37846341de7f5cc273cf366d4e113f64437b0f375b7e272274",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6AF8",
+      "canonical_symbol": "sub_080B6AF8",
+      "configured_end": "0x080B6B10",
+      "experimental_api": "M4AExp_ModType",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6AF8.s",
+      "original_sha256": "75464f561492bd77c262aa3e2e76ea98dcc81b1d97f2d67f065604c6d85b55ef",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6B10",
+      "canonical_symbol": "sub_080B6B10",
+      "configured_end": "0x080B6B24",
+      "experimental_api": "M4AExp_Tune",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6B10.s",
+      "original_sha256": "eedce1192bc74b82463f75ba17bb6f265a5e018f930e029daf25137c8cb1dedf",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AC"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6B24",
+      "canonical_symbol": "sub_080B6B24",
+      "configured_end": "0x080B6B3C",
+      "experimental_api": "M4AExp_Port",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6B24.s",
+      "original_sha256": "fce4c7157e89987b6066cf2d8109aa3f0caa6096681725404fccf31c211fcf61",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B69AE"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6B3C",
+      "canonical_symbol": "m4aSoundVSync",
+      "configured_end": "0x080B6B74",
+      "experimental_api": "M4AExp_SoundVSync",
+      "state": "selected_differential_cases_pass",
+      "cases": 16,
+      "original_source": "asm/nonmatchings/m4a_1/m4aSoundVSync.s",
+      "original_sha256": "75746a9f4ac177680cb754ff1fd32e9a3b94ff863b8ed948dc6c41d6c5e02437",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6B74",
+      "canonical_symbol": "MPlayMain",
+      "configured_end": "0x080B6DD0",
+      "experimental_api": null,
+      "state": "pending",
+      "cases": 0,
+      "original_source": "asm/nonmatchings/m4a_1/MPlayMain.s",
+      "original_sha256": "ae0206b1ac4669858f0acbb9d7a3ae59e2059174bc6138d76f7a01595c768e19",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B6DD0",
+        "_080B6DC0",
+        "FadeOutBody",
+        "_080B6D04",
+        "_080B6CE0",
+        "_080B6BFC",
+        "ClearChain",
+        "Clear64byte",
+        "_080B6C80",
+        "_080B6C3E",
+        "sub_080B6DD0",
+        "_080B6C80",
+        "sub_080B6DD0",
+        "_080B6C80",
+        "_080B6CDC",
+        "_080B6CBA",
+        "_080B6CD8",
+        "_080B6BC4",
+        "_080B6DC0",
+        "_080B6BBC",
+        "TrkVolPitSet",
+        "ClearChain",
+        "_080B6DA6",
+        "sub_080B6DD0",
+        "_080B6DA6",
+        "MidiKeyToFreq"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6DD0",
+      "canonical_symbol": "sub_080B6DD0",
+      "configured_end": "0x080B6DE0",
+      "experimental_api": null,
+      "state": "pending",
+      "cases": 0,
+      "original_source": "asm/nonmatchings/m4a_1/sub_080B6DD0.s",
+      "original_sha256": "b1117caa7a0f42cb6e6e71f8be358ac73e6cc2dce48f50532f445e3b7eb897d7",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6DE0",
+      "canonical_symbol": "TrackStop",
+      "configured_end": "0x080B6E24",
+      "experimental_api": "M4AExp_TrackStop",
+      "state": "selected_differential_cases_pass",
+      "cases": 32,
+      "original_source": "asm/nonmatchings/m4a_1/TrackStop.s",
+      "original_sha256": "281648a1ac0a2ff5bd4680978f3281b13d3ff152377690d076a9bc95466c6d5e",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "sub_080B6DD0"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6E24",
+      "canonical_symbol": "ply_note",
+      "configured_end": "0x080B703C",
+      "experimental_api": "M4AExp_Note",
+      "state": "selected_differential_cases_pass",
+      "cases": 152,
+      "original_source": "asm/nonmatchings/m4a_1/ply_note.s",
+      "original_sha256": "77ea7a43f769368c2975ece1a5b70e755771ab73386820b3991d8f2a098113c9",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "_080B6E8C",
+        "_080B7024",
+        "_080B6EBC",
+        "_080B7024",
+        "_080B7024",
+        "_080B7024",
+        "_080B6F52",
+        "_080B6F52",
+        "_080B6F52",
+        "ClearChain",
+        "clear_modM",
+        "TrkVolPitSet",
+        "sub_080B6DD0",
+        "_080B7016",
+        "MidiKeyToFreq"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B703C",
+      "canonical_symbol": "ply_endtie",
+      "configured_end": "0x080B707C",
+      "experimental_api": "M4AExp_EndTie",
+      "state": "selected_differential_cases_pass",
+      "cases": 8,
+      "original_source": "asm/nonmatchings/m4a_1/ply_endtie.s",
+      "original_sha256": "a1b85b4075f158a4762d7b6e69ea8b83bf70ff447bc09671ec88d591f504dc93",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "_080B7050",
+        "_080B7078"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B707C",
+      "canonical_symbol": "clear_modM",
+      "configured_end": "0x080B7098",
+      "experimental_api": "M4AExp_ClearModulation",
+      "state": "selected_differential_cases_pass",
+      "cases": 3,
+      "original_source": "asm/nonmatchings/m4a_1/clear_modM.s",
+      "original_sha256": "3b2af081cf40ab8c59ea92c36e048b30fa6b26549ff44673c2c10768bca73cae",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "_080B708E"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B7098",
+      "canonical_symbol": "ld_r3_tp_adr_i",
+      "configured_end": "0x080B70A4",
+      "experimental_api": "M4AExp_ReadTrackByteUnguarded",
+      "state": "selected_differential_cases_pass",
+      "cases": 4,
+      "original_source": "asm/nonmatchings/m4a_1/ld_r3_tp_adr_i.s",
+      "original_sha256": "c59560a536081a2009738d6eb30a139eb6e38f94e0cf210d55442e8506193f39",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B70A4",
+      "canonical_symbol": "ply_lfos",
+      "configured_end": "0x080B70B8",
+      "experimental_api": "M4AExp_LfoSpeed",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/ply_lfos.s",
+      "original_sha256": "9f8f4e0b65db6d17ebf7cc597f4d9a91f1a34efa12b3748f8afa64e69527d0ff",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "ld_r3_tp_adr_i",
+        "clear_modM"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B70B8",
+      "canonical_symbol": "ply_mod",
+      "configured_end": "0x080B70CC",
+      "experimental_api": "M4AExp_ModDepth",
+      "state": "selected_differential_cases_pass",
+      "cases": 5,
+      "original_source": "asm/nonmatchings/m4a_1/ply_mod.s",
+      "original_sha256": "e15d32b06da511dfaffe75401f484b0b772ec58f00727e3a3ab9c4d365eff173",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "observed_direct_calls": [
+        "ld_r3_tp_adr_i",
+        "clear_modM"
+      ],
+      "matching_status": "not_integrated_or_credited"
+    },
+    {
+      "address": "0x080B6A08",
+      "canonical_symbol": null,
+      "container": "sub_080B69F4",
+      "semantic_end": "0x080B6A36",
+      "experimental_api": "M4AExp_Repeat",
+      "state": "selected_differential_cases_pass",
+      "cases": 6,
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "matching_status": "unconfigured_original_ASM_entry_no_extra_credit"
+    }
+  ],
+  "ABI_notes": [
+    "Guard/source readers consume r2/r3 and return r3 in ASM; C API uses explicit arguments and r0 return; tests adapt that ABI",
+    "ReadTrackByte and shared-tail helper are distinct entry contracts, not independent ordinary original C functions",
+    "SoundMainRAM shares caller stack/high registers and ARM/Thumb transitions; a normal C signature does not preserve its executable-copy ABI",
+    "CopyJumpTable takes an explicit template source in C; binding original serialized callbacks to experimental C is pending",
+    "R0 advancement from original Clear64 is not exposed by the void C API; its tested contract is 64 stores and callee stack restoration",
+    "Note takes an explicit fourth argument pointing to three GBA32 service callbacks; dynamic table override binding remains an integration obligation"
+  ],
+  "IWRAM": {
+    "source": "0x080B656C",
+    "destination": "0x03000E3C",
+    "copied_bytes": 1024,
+    "configured_mixer_bytes": 932,
+    "extra_copy_bytes": 92,
+    "hardware_qualification": "pending"
+  },
+  "dependency_reuse": {
+    "api": "M4AExp_MidiKeyToFreqDependency",
+    "source": "src/m4a.c:MidiKeyToFreq",
+    "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+    "new_reconstruction_credit": 0
+  }
+}
