@@ -175,7 +175,7 @@ digraph calls {
   "sub_080087AC" [label="sub_080087AC"];
   "sub_080089DC" [label="sub_080089DC"];
   "sub_08008C10" [label="sub_08008C10"];
-  "sub_08008C1C" [label="sub_08008C1C"];
+  "sub_08008C1C" [label="sub_08008C1C_v"];
   "sub_08008CC4" [label="sub_08008CC4"];
   "sub_08008D38" [label="sub_08008D38"];
   "sub_08008DB8" [label="sub_08008DB8"];

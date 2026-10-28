@@ -3620,18 +3620,24 @@
       "name": "sub_08008C1C",
       "addr": 134253596,
       "size": 168,
-      "state": "todo",
+      "state": "done",
       "module": "code_08006D24",
       "kind": "c",
       "cat": "game",
       "address": "0x08008C1C",
       "canonical_symbol": "sub_08008C1C",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08008C1C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "sub_08008C1C_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 137,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08008C1C_v"
+        }
+      ]
     },
     {
       "name": "sub_08008CC4",
@@ -10224,14 +10230,14 @@
       "name": "sub_08028368",
       "addr": 134382440,
       "size": 92,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08021DC4",
       "kind": "c",
       "cat": "game",
       "address": "0x08028368",
       "canonical_symbol": "sub_08028368",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08028368",
       "name_status": "unidentified",
       "name_source": null,
@@ -36230,12 +36236,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 113,
-      "existing": 4,
+      "identified": 114,
+      "existing": 5,
       "confirmed": 109,
       "proposed": 0,
-      "unidentified": 1767,
-      "percent_identified": 6.01063829787234
+      "unidentified": 1766,
+      "percent_identified": 6.0638297872340425
     },
     "sdk": {
       "total": 155,
@@ -36248,12 +36254,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 248,
-      "existing": 133,
+      "identified": 249,
+      "existing": 134,
       "confirmed": 115,
       "proposed": 0,
-      "unidentified": 1787,
-      "percent_identified": 12.186732186732186
+      "unidentified": 1786,
+      "percent_identified": 12.235872235872236
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
