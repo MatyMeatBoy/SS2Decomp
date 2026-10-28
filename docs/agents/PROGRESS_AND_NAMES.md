@@ -172,3 +172,8 @@ Do not build while another process edits that checkout.
 
 Audited role interpretations and corrections are recorded in
 [function-name research notes](../FUNCTION_NAME_RESEARCH.md).
+
+## Reviewed SDK identification
+
+See [m4a_1 shared entries, handler identities and dispatch phases](SDK_M4A_IDENTIFICATION.md)
+for the reviewed audio-SDK catalog, nonstandard ABI boundaries and C-donor limits.
