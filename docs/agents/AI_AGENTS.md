@@ -1,23 +1,27 @@
 
-## Workflow medido (2026-10-28, 30 min en shard 067; ganador)
-1. `yellow.py --shard N --no-permute` para ver scores de tus borradores (1 min).
-2. Por cada borrador, de menor a mayor score: `decomp.py check FUNC build/try/FUNC.c`, leer **solo las primeras líneas del diff**
-   y aplicar el patrón conocido (abajo). 3-6 iteraciones por función, ~2-4 min cada una. Rinde ~1 función casada cada 5-10 min.
-3. Si tras 3 intentos sigue con diff de registros/orden: `permute.py ... --time 400 &` en segundo plano y pasar a la siguiente.
-   El permuter casó 0 de 3 en esta prueba (útil solo para diffs de 1-2 líneas).
-4. Ghidra 12.2 headless da la **misma** salida que `docs/ghidra/ghidra_out.tar.xz`: usa el tarball (`gv.sh`), no hace falta regenerar.
-   Lo útil de Ghidra es leer la **estructura** (`if (x < 0x32) {...}` = el original pone el éxito primero).
-Patrones de esta ronda:
-- `ldr r0,=G; ldr r2,[r0]; adds r5,r0,#0` = el global `G` usado directo (`if (G > 0x31) return 0; ... G++`), sin variable puntero.
-  `ldr r5,=G; ldr r2,[r5]` = puntero local `u32 *n = &G`.
-- Un camino que devuelve "lo que haya en r0" (sin `movs r0`): ese camino **no tiene `return`** (sub_08066490/520).
-- Bucle de copia `adds r2,#1; adds r3,#1`: `for (i = 0; i <= 9; i++, dst++) *dst = src[i];` (el orden del `++` importa).
-- Global de struct de tarea (`gUnk_03002840`): `extern struct T gX asm("gUnk_03002840");` con campos `f8, fC, f20...`.
-Ghidra 12.2 local: `tools/ghidra_dist` (JDK 25 obligatorio: `winget install EclipseAdoptium.Temurin.25.JDK`).
- → push.
-5. Casi-coincidencias: `python tools/scripts/permute.py FUNC archivo.c --time 120`.
-
-## Patrones que ya resolvieron muchos borradores (úsalos primero)
+## Familia "hueco de tarea libre" (2026-10-28, +15 funciones)
+Asm: `ldr rX,=gTaskList; ldr r4,[rX]; movs r6,#0; b check` ... `bl sub_08000470` ... `ldr r5,[r4,#8]` ... `sub_08001494(0x400)` ... `sub_08000274`.
+Plantilla que casa (cambia símbolo, límite, f8, callback y argumentos):
+```c
+struct TaskPXXXX { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };   /* nombre ÚNICO por módulo (handapply lo exige) */
+extern struct TaskPXXXX *gTP asm("gUnk_XXXXXXXX");
+void f(u16 arg) {
+  struct TaskPXXXX *t = gTP; u32 z; u8 i;          /* i u8 si hay lsls #0x18; u32 si no */
+  i = 0; goto check;
+next: i++; t = (struct TaskPXXXX *)((u8 *)t + 0x28);
+check: if (i > N) return;
+  if (sub_08000470((u32)t) != 0 || (z = t->f8) != 0) goto next;
+  if ((t->f20 = sub_08001494(0x400)) == 0) return;
+  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32)cb; t->f24 = z; t->f8 = 0x40; sub_08000274_2(t, arg); } while (0);
+}
+```
+- Con `cmp r0,#0; beq` sobre el global antes del bucle: `if (gTP == 0) return; t = gTP;` (no inicializar t antes).
+- Una sola tarea (sin bucle): `if (sub_08000470(gTP) == 0 && gTP->f8 != 0) return; mem = alloc; t = gTP; t->f20 = mem; ...`.
+- Prototipo de header incompatible (p.ej. `s32 f()` y el original es void): define `void f_v(...) asm("f");` en vez de cambiar el header.
+- `static inline` de varias líneas (checksum inlined): handapply no lo copia; insértalo a mano antes de la función.
+- Parámetros guardados en pila al entrar (`str r0,[sp]; str r1,[sp,#4]`) = struct pasado por valor (`struct V2W12 pos`).
+- Una constante usada dos veces y guardada en registro (`mov sl, r0` con 0x18): ponla en una variable local.
+ Patrones que ya resolvieron muchos borradores (úsalos primero)
 - **No uses direcciones literales** (`*(u32 *)0x03005CF4`): el original usa el símbolo `gUnk_03005CF4`.
 - **Globals con el tipo correcto mediante alias** (no cambies la declaración existente):
   `extern struct GameState *gGameState asm("gUnk_03005CF4");` o `extern u16 gUnkVu16_030002F0 asm("gUnk_030002F0");`
