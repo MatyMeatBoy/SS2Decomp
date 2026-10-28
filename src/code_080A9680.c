@@ -260,19 +260,29 @@ void sub_080AF350(u32 kind)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF350);
 #endif
-#ifdef NONMATCHING
-void sub_080AF3C4(void) {
-    s32 obj = sub_0800048C();
-    u32 index;
-    u16 bit;
-    M2C_FIELD(obj, s32 *, 8) -= 0x44;
-    index = M2C_FIELD(obj, s32 *, 8);
-    bit = *(u16 *)((u8 *)gUnk_030004D0 + index * 0xAC);
-    gUnk_030056FC &= ~(1 << bit);
+extern u8 *gP03000784 asm("gUnk_03000784");
+extern u8 gB03000780 asm("gUnk_03000780");
+extern u8 gArr030004D0[] asm("gUnk_030004D0");
+extern u32 gM030056FC asm("gUnk_030056FC");
+void sub_080AF3C4(void)
+{
+  u8 *new_var4;
+  u32 *new_var3;
+  u16 *new_var;
+  u8 *new_var2;
+  u8 *obj = (u8 *) sub_0800048C();
+  u32 i;
+  *((u32 *) (obj + 8)) -= 0x44;
+  new_var2 = obj + 8;
+  i = *((u32 *) new_var2);
+  new_var3 = &gM030056FC;
+  new_var4 = gArr030004D0;
+  new_var = *((u16 **) (new_var4 + (i * 0xAC)));
+  {
+    u32 *m = new_var3;
+    *m &= ~(1 << (*new_var));
+  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF3C4);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF3F4);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0288);
 void sub_080B0F70(void) {
