@@ -5,33 +5,33 @@
   "areas": [
     {
       "id": "flow",
-      "label": "Reconstrucci髇 inicial del flujo",
+      "label": "Reconstrucci贸n inicial del flujo",
       "state": "done",
-      "evidence": "Funci髇 completa NONMATCHING conservando ASM; f397be0de22bf3500e640d1c2190b366f9e3eba4."
+      "evidence": "Funci贸n completa NONMATCHING conservando ASM; f397be0de22bf3500e640d1c2190b366f9e3eba4."
     },
     {
       "id": "compile",
       "label": "Draft completo compilable",
       "state": "done",
-      "evidence": "Reconstrucci髇 forzada del m骴ulo, make compare ROM OK y make nonmatching; 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c."
+      "evidence": "Reconstrucci贸n forzada del m贸dulo, make compare ROM OK y make nonmatching; 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c."
     },
     {
       "id": "types",
       "label": "Tipos y convenciones de llamadas",
       "state": "active",
-      "evidence": "Anchos u16, recursos y sprites reconstruidos; firmas a鷑 en revisi髇."
+      "evidence": "Anchos u16, recursos y sprites reconstruidos; firmas a煤n en revisi贸n."
     },
     {
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame 0x54C recuperado en 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c. Contin鷄n diferencias de registros y control de flujo."
+      "evidence": "Frame 0x54C recuperado en 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c. Contin煤an diferencias de registros y control de flujo."
     },
     {
       "id": "match",
-      "label": "Coincidencia exacta y validaci髇 final",
+      "label": "Coincidencia exacta y validaci贸n final",
       "state": "pending",
-      "evidence": "Permanece NONMATCHING; comparaci髇 exacta del candidato negativa."
+      "evidence": "Permanece NONMATCHING; comparaci贸n exacta del candidato negativa."
     }
   ],
   "regions": []
