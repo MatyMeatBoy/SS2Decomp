@@ -301,6 +301,7 @@ void sub_0801DB94(s32 arg0, void *arg1, s32 arg2);
 void sub_0801DDB8(s32 arg0);
 void sub_0801DDD4(s32 arg0);
 u8 sub_0801DE60();
+u32 sub_0801DEB8(void);
 s32 sub_0801DF80();
 void sub_0801E024(void *arg0);
 u16 sub_0801E0A0();

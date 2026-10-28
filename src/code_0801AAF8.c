@@ -181,22 +181,19 @@ void sub_0801DE98(void *arg0) {
     struct S36 *dst = (struct S36 *) ((u8 *) gUnk_030034E0 + 0x30);
     *dst = *src;
 }
-#ifdef NONMATCHING
 u32 sub_0801DEB8(void)
 {
-    u8 *table = *(u8 **)0x030034E0;
+    u8 *table = (u8 *)gUnk_030034E0;
     u8 *item = table + *(u16 *)(table + 0x68) * 0x10;
     u8 *resource;
     if (item[0x79] == 0)
-        return 0;
-    resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB00000);
-    if (resource[0x9B] != 9)
-        return 0;
-    return resource[0xA7];
+        resource = 0;
+    else
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB0000);
+    if (resource[0x9B] == 9)
+        return resource[0xA7];
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DEB8);
-#endif
 void sub_0801DF08(void) {
     u8 *p = (u8 *) &gUnk_03003CE0[sub_080020F4()];
 
