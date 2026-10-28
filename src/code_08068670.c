@@ -517,7 +517,53 @@ INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080694AC);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080698D4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069A30);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069AEC);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069BBC);
+struct Task9BBC { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern u32 gMask0300641C asm("gUnk_0300641C");
+extern struct Task9BBC *gTasks03006370 asm("gUnk_03006370");
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern void sub_08069AEC();
+void sub_08069BBC(u32 a, u32 b)
+{
+  int new_var;
+  u32 i = 0;
+  u32 mem;
+  struct Task9BBC *t;
+  u32 *m = &gMask0300641C;
+  new_var = 1;
+  if ((*m) & 1)
+  {
+    u32 one = new_var;
+    do
+    {
+      i++;
+      if (i > 0x1F)
+      {
+        return;
+      }
+    }
+    while ((*m) & (one << i));
+  }
+  if (i > 0x1F)
+  {
+    return;
+  }
+  mem = sub_08001494(0x400);
+  {
+    u8 *base = (u8 *) gTasks03006370;
+    t = (struct Task9BBC *)(i * 0x28 + (u32)base);
+  }
+  t->f20 = mem;
+  if (mem == 0)
+  {
+    return;
+  }
+  t->f8 = 0x34;
+  t->fC = (u32) sub_08069AEC;
+  t->f10 = mem + 0x3FC;
+  t->f24 = 0;
+  sub_08000274_3((u32) t, (b << 16) | a, i);
+  gMask0300641C |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069C44);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806A19C);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806A88C);
