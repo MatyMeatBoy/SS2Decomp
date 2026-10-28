@@ -28,10 +28,12 @@ def main():
         machine.mem_write(0x08000000, rom)
         for pointer, data in writes:
             machine.mem_write(pointer, data)
-        for index, value in enumerate(arguments):
+        for index, value in enumerate(arguments[:4]):
             machine.reg_write(getattr(reg, 'UC_ARM_REG_R' + str(index)), value & 0xFFFFFFFF)
         machine.reg_write(reg.UC_ARM_REG_SP, 0x03007C00)
         machine.reg_write(reg.UC_ARM_REG_LR, 0x08F00001)
+        for index, value in enumerate(arguments[4:]):
+            machine.mem_write(0x03007C00 + index * 4, struct.pack('<I', value & 0xFFFFFFFF))
         machine.emu_start(address | 1, 0x08F00000, count=20000)
         assert machine.reg_read(reg.UC_ARM_REG_PC) == 0x08F00000, 'instruction limit'
         assert machine.reg_read(reg.UC_ARM_REG_SP) == 0x03007C00, 'stack not restored'
@@ -82,14 +84,26 @@ def main():
     first_sequence = sequences + word(sequences + 8)
     assert half(metadata + 2) == 1
     assert frames == 0x08956C0C and sequences == 0x0895800C and first_sequence == 0x08958018
+    assert half(sequences + 4) == 255
+    animation_checks = 0
+    for frame, tick, loop, expected_frame, expected_tick, expected_return in (
+            (254, 16, 0, 254, 17, 1), (254, 16, 1, 0, 0, 0),
+            (255, 0, 0, 0, 1, 0), (65535, 0, 0, 0, 1, 0),
+            (0, 16, 0, 1, 0, 0), (254, 15, 0, 254, 16, 0)):
+        actual, memory = call(0x08008CC4, [0, 0x02001000, 0x02001002, metadata, loop],
+                              [(0x02001000, struct.pack('<HH', frame, tick))])
+        assert actual == expected_return
+        assert struct.unpack_from('<HH', memory, 0x1000) == (expected_frame, expected_tick)
+        assert not any(memory[:0x1000] + memory[0x1004:]), 'write outside animation state'
+        animation_checks += 1
     bitmap = int(resources['0x40000'], 16)
     next_section = 0x08518938 + word(0x08518938 + 8 + 5 * 4)
     assert next_section - bitmap == 256 * 128
     assert all(not any(rom[bitmap - 0x08000000 + i * 128 + 64:bitmap - 0x08000000 + (i + 1) * 128])
                for i in range(256)), 'unqualified glyph padding'
-    result = {'role_cases': counts, 'resolver_checks': 4, 'resource_addresses': resources,
+    result = {'role_cases': counts, 'resolver_checks': 4, 'animation_advance_checks': animation_checks, 'resource_addresses': resources,
         'bitmap_slots': 256, 'bitmap_stride': 128, 'bitmap_queued_bytes': 64,
-        'sprite_metadata': {'style_bound_inclusive': 1, 'frame_records': hex(frames),
+        'sprite_metadata': {'style_bound_inclusive': 1, 'style0_position_count_used_by_08CC4': 255, 'frame_records': hex(frames),
                             'sequence_records': hex(sequences), 'style0_sequence': hex(first_sequence)},
         'qualification': 'Original own EU ROM and synthetic role inputs only; no new C/decoded-data/matching credit',
         'limitations': ['not a Unicode map or proof that every slot/frame is used',
@@ -98,7 +112,7 @@ def main():
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2))
-    print('PASS:', sum(counts.values()), 'role cases and 4 resolver/metadata checks; no matching credit')
+    print('PASS:', sum(counts.values()), 'role cases, 4 resolver/metadata and 6 animation-boundary checks; no matching credit')
 
 
 if __name__ == '__main__':

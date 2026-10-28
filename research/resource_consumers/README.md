@@ -37,7 +37,8 @@ images, palettes or asset bytes.
 - Four resolver checks and metadata assertions establish the addresses below.
   They do not test all resource categories, a complete decoder or an importer.
 
-These 68 role cases plus four resolver/metadata checks provide bounded role and
+These 68 role cases, four resolver/metadata and six animation-boundary checks
+provide bounded role and
 width evidence. They confer no new C matching credit. Unicorn does not establish
 hardware timing or every ARM7 unaligned-access behavior.
 
@@ -69,6 +70,21 @@ uses descriptor+8 as metadata and+0 as pixel data. In the
    0x0895800C. Its+8 relative offset reaches sequence data at0x08958018.
 4. A halfword at `sequence+4*frame_position` selects a12-byte frame record.
    The record's+8 relative offset reaches parts data.
+
+The comparison accepting style1 does not establish that a valid style1 record
+exists. The observed text wrapper always supplies style0. For this resource, the
+style0 sequence data starts12B after its sequence record; that fact must not be
+relabelled as a proven second style. No style1 or byte0 frameFFFF execution is
+validated here.
+
+The existing [08CC4 sequence-advance consumer](https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_08006D24.c)
+uses the sequence record's halfword+4 as an exclusive position count. It resets
+an input position at/above that count before reading duration at+2 of the4-byte
+sequence entry. For style0 here, the count is255: the advance consumer bounds
+positions to0..254. Six original-ROM cases verify last-position stop versus loop,
+reset of255/65535, ordinary advancement and a duration boundary, with writes
+confined to the two caller-supplied halfwords. This does not validate drawing
+frame65535:1A764/65230 call the draw consumer directly, bypassing08CC4's reset.
 
 Thus this route includes sequence/frame/parts indirection, not `glyph*128`.
 The resolver gives its pixel companion0x6004A at0x08AEF294 and palette companion
