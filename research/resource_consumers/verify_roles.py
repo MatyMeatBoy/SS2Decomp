@@ -96,12 +96,29 @@ def main():
         assert struct.unpack_from('<HH', memory, 0x1000) == (expected_frame, expected_tick)
         assert not any(memory[:0x1000] + memory[0x1004:]), 'write outside animation state'
         animation_checks += 1
+    selector_tables = (0x0838AFF0, 0x084009A4, 0x08428C38, 0x083D8AEC, 0x083B0B4C)
+    context_checks = 0
+    for state, table in enumerate(selector_tables):
+        actual, memory = call(0x08006EE0, [0x140000, 0x08518938, 0x12345678],
+                              [(0x03003470, struct.pack('<I', state))])
+        assert actual == word(table) and not any(memory)
+        context_checks += 1
+    actual, memory = call(0x08006EE0, [0x140000, 0x08518938, 0x12345678],
+                          [(0x03003470, struct.pack('<I', 5))])
+    assert actual == 0x12345678 and not any(memory)
+    context_checks += 1
+    actual, memory = call(0x08006EE0, [0x16007B, 0x08518938], [])
+    assert actual == 0x0847838C and not any(memory)
+    context_checks += 1
+    actual, memory = call(0x08007164, [22], [])
+    assert actual == 0 and not any(memory)
+    context_checks += 1
     bitmap = int(resources['0x40000'], 16)
     next_section = 0x08518938 + word(0x08518938 + 8 + 5 * 4)
     assert next_section - bitmap == 256 * 128
     assert all(not any(rom[bitmap - 0x08000000 + i * 128 + 64:bitmap - 0x08000000 + (i + 1) * 128])
                for i in range(256)), 'unqualified glyph padding'
-    result = {'role_cases': counts, 'resolver_checks': 4, 'animation_advance_checks': animation_checks, 'resource_addresses': resources,
+    result = {'role_cases': counts, 'resolver_checks': 4, 'animation_advance_checks': animation_checks, 'resolver_context_checks': context_checks, 'resource_addresses': resources,
         'bitmap_slots': 256, 'bitmap_stride': 128, 'bitmap_queued_bytes': 64,
         'sprite_metadata': {'style_bound_inclusive': 1, 'style0_position_count_used_by_08CC4': 255, 'frame_records': hex(frames),
                             'sequence_records': hex(sequences), 'style0_sequence': hex(first_sequence)},
@@ -112,7 +129,7 @@ def main():
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2))
-    print('PASS:', sum(counts.values()), 'role cases, 4 resolver/metadata and 6 animation-boundary checks; no matching credit')
+    print('PASS:', sum(counts.values()), 'role cases;4 resolver/metadata,6 animation and8 context checks; no matching credit')
 
 
 if __name__ == '__main__':

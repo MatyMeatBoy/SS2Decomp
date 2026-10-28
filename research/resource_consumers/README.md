@@ -101,3 +101,27 @@ and sprite-glyph initialization. QueueTextGlyphTiles also writes tilemap entries
 InitSpriteResourceDescriptor can return0 after partial field writes; Init does
 not imply transactional success. Resource counts are logical entries, not unique
 assets or decoded bytes. No global data percentage or Unicode mapping is claimed.
+
+## Resolver state and count-query limits
+
+The [06EE0/07164 ASM](https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/asm/nonmatchings/code_08006D24/sub_08006EE0.s)
+does not define a pure `ID + archive` lookup for every category. Category0x14
+reads the word at0x03003470 and selects one of five pointer tables for states0..4:
+0x0838AFF0,0x084009A4,0x08428C38,0x083D8AEC,0x083B0B4C. Text callers use this
+category, but the selector's semantic name is not established here; calling it
+Language would exceed this evidence.
+
+With a state above4, the branch reaches the return path without assigningr2.
+The original instructions return the incomingr2 value in that path: an isolated
+state5 test withr2=0x12345678 confirms it. This is an unsupported-state observation,
+not a supported third parameter or a promise of return0. No game/source fix is
+proposed. Valid-state low16 index bounds must be established separately.
+
+Category22 returns the fixed address0x0847838C, independent of the low16 index,
+while07164(22) returns0. A zero count query therefore does not by itself prove an
+ID has no resolver result. Main/aux wrapper names describe the archive argument;
+fixed/state-selected categories do not necessarily use that archive.
+
+Eight additional context checks cover the five table choices, state5/r2, and the
+category22 resolver/count distinction. They export no text bytes and add no
+matching or decoded-data credit. The original68 role cases remain separate.
