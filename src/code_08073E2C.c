@@ -92,11 +92,122 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08076A88);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08076BA0);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077444);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077508);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077D04);
+struct Task7D04 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern u32 gMasks7D04[] asm("gUnk_030063E0");
+extern u8 *gLists7D04[] asm("gUnk_030063B0");
+extern void sub_08077508();
+void sub_08077D04(u32 who, u32 b)
+{
+    u32 i;
+    vu32 *m;
+    u32 mem;
+    struct Task7D04 *t;
+    u8 **l;
+    who += 4;
+    i = 0;
+    {
+        vu32 *mb = gMasks7D04;
+        m = &mb[who];
+    }
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0xF)
+            return;
+    }
+    if (i > 0xF)
+        return;
+    {
+        u8 **lb = gLists7D04;
+        l = &lb[who];
+    }
+    ((struct Task7D04 *)(i * 0x28 + (u32)*l))->f8 = 0x34;
+    mem = sub_08001494(0x400);
+    t = (struct Task7D04 *)(i * 0x28 + (u32)*l);
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->fC = (u32)sub_08077508;
+    t->f10 = mem + 0x3FC;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, who - 4, b << 16 | i);
+    gMasks7D04[who] |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077DAC);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807854C);
+extern void sub_08077DAC();
+void sub_0807854C(u32 who, u32 b)
+{
+    u32 i;
+    vu32 *m;
+    u32 mem;
+    struct Task7D04 *t;
+    u8 **l;
+    who += 4;
+    i = 0;
+    {
+        vu32 *mb = gMasks7D04;
+        m = &mb[who];
+    }
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0xF)
+            return;
+    }
+    if (i > 0xF)
+        return;
+    {
+        u8 **lb = gLists7D04;
+        l = &lb[who];
+    }
+    ((struct Task7D04 *)(i * 0x28 + (u32)*l))->f8 = 0x34;
+    mem = sub_08001494(0x400);
+    t = (struct Task7D04 *)(i * 0x28 + (u32)*l);
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->fC = (u32)sub_08077DAC;
+    t->f10 = mem + 0x3FC;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, who - 4, b << 16 | i);
+    gMasks7D04[who] |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080785F4);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08078B24);
+extern void sub_080785F4();
+void sub_08078B24(u32 who, u32 b)
+{
+    u32 i;
+    vu32 *m;
+    u32 mem;
+    struct Task7D04 *t;
+    u8 **l;
+    who += 4;
+    i = 0;
+    {
+        vu32 *mb = gMasks7D04;
+        m = &mb[who];
+    }
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0xF)
+            return;
+    }
+    if (i > 0xF)
+        return;
+    {
+        u8 **lb = gLists7D04;
+        l = &lb[who];
+    }
+    ((struct Task7D04 *)(i * 0x28 + (u32)*l))->f8 = 0x34;
+    mem = sub_08001494(0x400);
+    t = (struct Task7D04 *)(i * 0x28 + (u32)*l);
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->fC = (u32)sub_080785F4;
+    t->f10 = mem + 0x3FC;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, who - 4, b << 16 | i);
+    gMasks7D04[who] |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08078BCC);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080793BC);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079458);
