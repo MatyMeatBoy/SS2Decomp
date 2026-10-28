@@ -1,13 +1,13 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-10-28T18:44:51Z",
-  "checkpoint": "f33808007424b4607a5510682cb2314576e36443",
+  "updated_utc": "2026-10-28T19:30:39Z",
+  "checkpoint": "5581a13b2fdbeb50ebc2e6721f63490c5b1779f3",
   "areas": [
     {
       "id": "flow",
       "state": "done",
-      "evidence": "Borrador íntegro recuperado desde ASM con 76 BL internos normalizados y tablas de salto reparadas; d305c65321d35fbc58198f0a019b359e05c7f013. No demuestra equivalencia.",
-      "label": "Reconstrucción inicial del flujo"
+      "evidence": "Borrador completo recuperado; auditoría de 288 entradas de tablas: 278 presentes apuntaban al bloque ASM correcto y diez salidas comunes omitidas fueron restauradas. No demuestra equivalencia completa.",
+      "label": "ReconstrucciÃ³n inicial del flujo"
     },
     {
       "id": "compile",
@@ -16,22 +16,22 @@
       "label": "Borrador C89 compilable"
     },
     {
-      "evidence": "Usos auditados: máscaras y comparaciones de32bits restauradas; tres temporales de16bits conservados por LSL16/LSR16 explícito. Checkpoints ecabff5 y a22b0e9.",
+      "evidence": "Usos auditados: mÃ¡scaras y comparaciones de 32 bits restauradas; tres temporales de16bits conservados por LSL16/LSR16 explÃ­cito. Checkpoints ecabff5 y a22b0e9.",
       "id": "types_narrow",
-      "label": "Auditoría de temporales estrechos",
+      "label": "AuditorÃ­a de temporales estrechos",
       "state": "done"
     },
     {
-      "evidence": "Estructura local conserva70 offsets de accesos existentes;70 aserciones offsetof compiladas con agbcc. No identifica aún la estructura completa del juego.",
+      "evidence": "Estructura local conserva 70 offsets de accesos existentes; 70 aserciones offsetof compiladas con agbcc. No identifica aÃºn la estructura completa del juego.",
       "id": "types_actor_offsets",
-      "label": "Offsets de70 campos usados del actor",
+      "label": "Offsets de 70 campos usados del actor",
       "state": "done"
     },
     {
       "id": "types",
       "state": "active",
-      "evidence": "Auditados temporales, máscaras y truncamientos aritméticos. Restaurados argumentos de coordenadas de32bits de07870/5FAC0 con evidencia de caller y callee; continúan otras firmas y accesos.",
-      "label": "Auditoría de tipos y accesos"
+      "evidence": "Tres escrituras empaquetadas ahora llaman a 1CCC8/1DEB8 antes de cargar el puntero de destino, conforme al ASM. Temporales separados conservan el orden de evaluación. Continúa auditoría de accesos y firmas.",
+      "label": "AuditorÃ­a de tipos y accesos"
     },
     {
       "id": "layout",
@@ -42,8 +42,8 @@
     {
       "id": "match",
       "state": "pending",
-      "evidence": "La función sigue NONMATCHING con su ASM original. Ningún candidato ha producido ROM exacta con C normal.",
-      "label": "Matching íntegro con C normal"
+      "evidence": "La funciÃ³n sigue NONMATCHING con su ASM original. NingÃºn candidato ha producido ROM exacta con C normal.",
+      "label": "Matching Ã­ntegro con C normal"
     }
   ],
   "regions": []

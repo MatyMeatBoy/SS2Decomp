@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T18:53:55.774828+00:00",
-  "checkpoint": "eeb88ac6d1f9860bca52e357a718eac2dc56b398",
+  "updated_utc": "2026-10-28T19:20:12.242881+00:00",
+  "checkpoint": "3795bf87b92f02fc2b479badd67ae6fe3095955f",
   "areas": [
     {
       "id": "flow",
@@ -19,13 +19,13 @@
       "id": "types",
       "label": "Tipos y convenciones de llamadas",
       "state": "active",
-      "evidence": "Anchos u16, recursos y sprites reconstruidos; firmas aún en revisión."
+      "evidence": "Revisión de ASM detecta tres stores32 y load32 de03003474; se elimina alias u16 incorrecto. Tipos aún en auditoría."
     },
     {
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame 0x54C y llamadas recuperadas; eeb88ac6d1f9860bca52e357a718eac2dc56b398. Se ajustan ramas y bloques compartidos de vista previa; registros aún distintos."
+      "evidence": "Frame0x54C preservado. ASM04ABA y04D54 llaman TextWidth antes del índice; draft ajusta ambas ramas. Registros y otras instrucciones aún difieren."
     },
     {
       "id": "match",

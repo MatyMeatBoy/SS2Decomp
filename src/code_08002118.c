@@ -411,7 +411,6 @@ union Bg3984 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; };
 struct Reg3984 { u16 h0,v0,h1,v1,h2,v2,h3,v3; };
 extern struct Reg3984 reg3984 asm("gUnk_03001250");
 extern u16 keys3984 asm("gUnk_03001324");
-extern u16 clear3984 asm("gUnk_03003474");
 M2C_UNK memcpy(u8 *, s32 *, s32);                   /* extern */
 M2C_UNK sub_080009F8(s32, s32, s32);                /* extern */
 void sub_08006550(u16, u16, u16);                /* extern */
@@ -435,6 +434,7 @@ extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
 void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
+    s32 textWidth3984;
     u32 input3984;
     u16 widths[10], heights[10], x[10], y[4];
     struct Sprite3984 icons[9], labels[9];
@@ -959,7 +959,7 @@ block_102:
             sub_0805865C(0xF);
             M2C_FIELD(arg0, u8 *, 1) = (u8) state;
             reg3984.h0 = 0;
-            clear3984 = 0;
+            gUnk_03003474 = 0;
             sub_0801A664(0, 0xA);
             timer = 3;
             temp_r0_3 = (void *) ((u8 *(*)(s32))sub_08007290)((state + 0x454) | 0x140000);
@@ -967,7 +967,7 @@ block_102:
             var_r6 = 0;
             temp_r5_7 = arg0 + 0x10;
             if (M2C_FIELD(temp_r0_3, u8 *, 2) == 0xFF) {
-                M2C_FIELD(arg0, s8 *, 0x10) = 0xFD;
+                M2C_FIELD(arg0, u8 *, 0x10) = 0xFD;
             } else {
 loop_107:
                 temp_r5_7[var_r6] = *(temp_r7_3 + var_r6);
@@ -1045,7 +1045,7 @@ loop_107:
                 phase = 0;
                 status = 0;
                 oldCount = 0;
-                clear3984 = (s32) status;
+                gUnk_03003474 = (s32) status;
                 var_r6 = 0;
                 do {
                     (&buffer[0])[var_r6] = 0xFD;
@@ -1082,7 +1082,7 @@ loop_107:
                 }
             }
             if (phase != 0) {
-                clear3984 += 1;
+                gUnk_03003474 += 1;
                 temp_r0_7 = count + 1;
                 count = temp_r0_7;
                 if (temp_r0_7 > 7U) {
@@ -1191,8 +1191,9 @@ block_175:
             temp_r7_6 = ((u8 *(*)(s32))sub_08007290)((M2C_FIELD(arg0, u8 *, 2) + 0x4C5) | 0x140000);
             if (state != 2) {
                 temp_r5_13 = temp_r7_6 + 2;
+                textWidth3984 = sub_0801A638(temp_r5_13);
                 temp_r4_18 = state * 4;
-                ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r5_13, *(u16 *)(temp_r4_18 + ((u8 *)&gUnk_08366E0C)) - (sub_0801A638(temp_r5_13) * 4), *(u16 *)(temp_r4_18 + (((u8 *)&gUnk_08366E0C) + 2)) - 0x28);
+                ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r5_13, *(u16 *)(temp_r4_18 + ((u8 *)&gUnk_08366E0C)) - (textWidth3984 * 4), *(u16 *)(temp_r4_18 + (((u8 *)&gUnk_08366E0C) + 2)) - 0x28);
                 switch (gUnk_03003470) {            /* switch 5 */
                 case 0:                             /* switch 5 */
                     offsetX = 0x23;
@@ -1266,10 +1267,11 @@ block_198:
                     goto after198;
                 }
                 temp_r7_7 = temp_r7_6 + 2;
+                textWidth3984 = sub_0801A638(temp_r7_7);
                 temp_r4_16 = state * 4;
                 temp_r5_12 = temp_r4_16 + ((u8 *)&gUnk_08366E0C);
                 temp_r4_17 = temp_r4_16 + (((u8 *)&gUnk_08366E0C) + 2);
-                ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r7_7, *temp_r5_12 - ((sub_0801A638(temp_r7_7) * 4) - 0x18), *temp_r4_17 - 0x28);
+                ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r7_7, *temp_r5_12 - ((textWidth3984 * 4) - 0x18), *temp_r4_17 - 0x28);
                 sub_08065230(&cursor, *temp_r5_12 - (cursorX + 0x10), *temp_r4_17 - 0x20, 3U, 2);
                 sub_08065230(&cursor, offsetY + 0x18 + *temp_r5_12 + (cursorY + 9), *temp_r4_17 - 0x20, 3U, 1);
                         }

@@ -825,7 +825,6 @@ void CgbModVol(struct CgbChannel *chan)
     chan->pan &= chan->panMask;
 }
 
-#ifdef NONMATCHING
 void CgbSound(void)
 {
     s32 ch;
@@ -886,7 +885,6 @@ void CgbSound(void)
         }
 
         prevC15 = soundInfo->c15;
-        envelopeStepTimeAndDir = *nrx2ptr;
 
         /* 2. calculate envelope volume */
         if (channels->statusFlags & SOUND_CHANNEL_SF_START)
@@ -925,7 +923,7 @@ void CgbSound(void)
                     *nrx1ptr = channels->length;
                     *nrx3ptr = (u32)channels->wavePointer << 3;
                 init_env_step_time_dir:
-                    envelopeStepTimeAndDir = channels->attack + CGB_NRx2_ENV_DIR_INC;
+                    envelopeStepTimeAndDir = (u8)(channels->attack + CGB_NRx2_ENV_DIR_INC);
                     if (channels->length)
                         channels->n4 = 0x40;
                     else
@@ -997,8 +995,6 @@ void CgbSound(void)
                         {
                             channels->statusFlags |= SOUND_CHANNEL_SF_IEC;
                             channels->modify |= CGB_CHANNEL_MO_VOL;
-                            if (ch != 3)
-                                envelopeStepTimeAndDir = 0 | CGB_NRx2_ENV_DIR_INC;
                             goto envelope_complete;
                         }
                         else
@@ -1134,9 +1130,7 @@ void CgbSound(void)
         channels->modify = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", CgbSound);
-#endif
+
 
 void m4aMPlayTempoControl(struct MusicPlayerInfo *mplayInfo, u16 tempo)
 {
