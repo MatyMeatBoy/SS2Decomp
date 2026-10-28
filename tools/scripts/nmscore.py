@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
-"""nmscore.py [--unwrap] [MODULE...] : build the NONMATCHING objects with the real rules and score every C draft
+"""nmscore.py [--unwrap] [--only FUNC,FUNC] [MODULE...] : score selected C drafts with the real build rules
 (0 = identical -> with --unwrap it is converted to plain C and its .s removed; run `make compare` afterwards).
 Output lines: `func score` (score = number of differing diff lines after normalising branch targets; -1 = no compile)."""
-import contextlib, io, os, re, subprocess, sys, tempfile
+import argparse, contextlib, io, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(__file__))
 import decomp
-args = [a for a in sys.argv[1:] if not a.startswith("--")]
-unwrap = "--unwrap" in sys.argv
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--unwrap", action="store_true")
+parser.add_argument("--only", help="score/unwrap only these comma-separated functions, even inside a shared module")
+parser.add_argument("modules", nargs="*")
+options = parser.parse_args()
+args = options.modules
+unwrap = options.unwrap
+only = None if options.only is None else set(filter(None, (f.strip() for f in options.only.split(","))))
 root = decomp.ROOT
 def norm(l):
     return re.sub(r"^([-+])(b\w*(?:\.n)?|bl) [0-9a-f]+$", r"\1\2 X", l)
@@ -14,8 +20,11 @@ for fn in sorted(os.listdir(os.path.join(root, "src"))):
     if not fn.endswith(".c") or (args and fn[:-2] not in args):
         continue
     mod = fn[:-2]
-    text = open(os.path.join(root, "src", fn)).read()
+    with open(os.path.join(root, "src", fn), encoding="utf-8") as source:
+        text = source.read()
     funcs = re.findall(r'#ifdef NONMATCHING\n(?:(?!#ifdef|#endif).|\n)*?#else\nINCLUDE_ASM\("[^"]*", (sub_[0-9A-F]{8})\);\n#endif', text)
+    if only is not None:
+        funcs = [f for f in funcs if f in only]
     if not funcs:
         continue
     obj = "build_nm/src/%s.o" % mod

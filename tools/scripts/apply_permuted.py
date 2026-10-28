@@ -22,18 +22,27 @@ def rom_ok():
 def snapshot(func):
     path, mod = decomp.find_asm(func)
     files = [path, os.path.join(decomp.ROOT, "src/%s.c" % mod)] + glob.glob(os.path.join(decomp.ROOT, "include/*.h"))
-    return {f: open(f).read() for f in files if f and os.path.exists(f)}
+    snap = {}
+    for f in files:
+        if f and os.path.exists(f):
+            with open(f, encoding="utf-8") as source:
+                snap[f] = source.read()
+    return snap
 
 
 def restore(snap):
     for f, t in snap.items():
-        open(f, "w").write(t)
+        with open(f, "w", encoding="utf-8", newline="\n") as source:
+            source.write(t)
 
 
 def try_apply(func, t):
     """t: full C text containing func (and the extern lines it needs). Applies on match."""
     p, fs, o = decomp.split_functions(t)
-    if func not in fs or decomp.find_asm(func)[0] is None:
+    if func not in fs:
+        return False
+    asm, mod = decomp.find_asm(func)
+    if asm is None:
         return False
     body = fs[func]
     ext = []
@@ -47,14 +56,15 @@ def try_apply(func, t):
     src = '#include "global.h"\n' + "\n".join(ext) + "\n\n" + body + "\n"
     with tempfile.TemporaryDirectory() as td:
         c = os.path.join(td, func + ".c")
-        open(c, "w").write(src)
+        with open(c, "w", encoding="utf-8", newline="\n") as source:
+            source.write(src)
         if not decomp.check(func, c, verbose=False):
             print("%s: no match with module compiler" % func)
             return False
         snap = snapshot(func)
         decomp.apply(func, c)
         import unwrap_matched
-        unwrap_matched.run([os.path.join(decomp.ROOT, "src", decomp.find_asm(func)[1] + ".c")] if decomp.find_asm(func)[0] else [os.path.join(decomp.ROOT, "src", f) for f in os.listdir(os.path.join(decomp.ROOT, "src")) if f.endswith(".c")])
+        unwrap_matched.run([os.path.join(decomp.ROOT, "src", mod + ".c")], only={func})
         if rom_ok():
             return True
         restore(snap)
