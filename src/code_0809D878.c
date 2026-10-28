@@ -94,7 +94,38 @@ void sub_0809FA28(void)
     sub_08001538(gP03000324);
     gP03000324 = (u8 *)i;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FA64);
+extern void sub_0809F018();
+void sub_0809FA64(u16 arg)
+{
+  struct TaskP *t = (struct TaskP *) gP03000324;
+  u32 z;
+  u8 i;
+  if (t == 0)
+  {
+    return;
+  }
+  i = 0;
+  goto check;
+  next:
+  i++;
+
+  t = (struct TaskP *) (((u8 *) t) + 0x28);
+  check:
+  if (i > 3)
+  {
+    return;
+  }
+
+  if ((sub_08000470((u32) t) != 0) || ((z = t->f8) != 0))
+  {
+    goto next;
+  }
+  if ((t->f20 = sub_08001494(0x200)) == 0)
+  {
+    return;
+  }
+ do { t->f10 = t->f20 + 0x1FC; t->fC = (u32) sub_0809F018; t->f24 = z; t->f8 = 0x40; sub_08000274_2(t, arg); } while (0);
+}
 void sub_0809FACC(void)
 {
   int new_var;
