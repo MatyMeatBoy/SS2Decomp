@@ -1,0 +1,18 @@
+# decomp-settings (https://github.com/ethteck/decomp_settings): lets decomp.me, mapfile_parser and other tools find the project.
+name: Shining Soul II
+repo: https://github.com/MatyMeatBoy/SS2Decomp
+platform: gba
+build_system: make
+versions:
+  - name: eu
+    fullname: Europe (AU2P)
+    sha1: aa1288be9257337abdfe3034898cf6c7aa778fbc
+    paths:
+      target: baserom.gba
+      build_dir: build
+      map: shiningsoul2_eu.map
+      compiled_target: shiningsoul2_eu.gba
+      elf: shiningsoul2_eu.elf
+      expected_dir: expected
+      asm: asm
+      nonmatchings: asm/nonmatchings

@@ -29,7 +29,7 @@ OBJS      := $(C_SRCS:%.c=$(BUILD)/%.o) $(ASM_SRCS:%.s=$(BUILD)/%.o) $(DATA_SRCS
 .SECONDEXPANSION:
 .SECONDARY:
 .DELETE_ON_ERROR:
-.PHONY: all compare clean progress nonmatching
+.PHONY: all compare clean progress nonmatching expected
 
 all: $(ROM)
 
@@ -40,6 +40,10 @@ compare: $(ROM)
 # Build with the C drafts of #ifdef NONMATCHING blocks instead of the original asm (not byte identical; used to check that every draft compiles/links).
 nonmatching:
 	$(MAKE) BUILD=build_nm NAME=shiningsoul2_nm NM_FLAGS=-DNONMATCHING all
+
+# Snapshot of the matching objects: diff target for objdiff and asm-differ (-o). Refresh after every pull.
+expected: compare
+	rm -rf expected && mkdir -p expected && cp -r $(BUILD) expected/
 
 clean:
 	rm -rf $(BUILD) $(ROM) $(ELF) $(MAP)

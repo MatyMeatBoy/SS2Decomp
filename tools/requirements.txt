@@ -1,0 +1,7 @@
+pyelftools
+capstone
+pycparser
+toml
+colorama
+watchdog
+cxxfilt

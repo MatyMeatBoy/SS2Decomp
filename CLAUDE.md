@@ -5,18 +5,18 @@ Goal: C that compiles with agbcc (GCC 2.95 ARM) to a byte-identical ROM.
 User writes Spanish; keep replies terse. Commit only to the working branch, no PR unless asked.
 
 ## Setup (local)
+Human guide: CONTRIBUTING.md. Linux/WSL: apt `binutils-arm-none-eabi gcc-arm-none-eabi make python3 git gcc`.
+Windows: MSYS2, prefix every shell with `export PATH="/c/msys64/ucrt64/bin:/c/msys64/usr/bin:$PATH"` (the WindowsApps python3 stub is not Python).
 ```sh
-sudo apt install binutils-arm-none-eabi gcc-arm-none-eabi make python3 git gcc python3-pyelftools python3-capstone
 cp /path/rom.gba baserom.gba                 # SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc
-./tools/install_agbcc.sh                     # tools/agbcc/bin/{agbcc,old_agbcc,agbcc_arm}
-git clone https://github.com/matt-kempster/m2c tools/m2c                              # optional: drafts
-git clone https://github.com/simonlindholm/decomp-permuter tools/decomp-permuter       # optional: permuter
+sh tools/setup_tools.sh                      # agbcc, m2c, decomp-permuter (agbcc fork), asm-differ, objdiff, pip deps, hooks
 mkdir -p ghi && tar xJf docs/ghidra/ghidra_out.tar.xz -C . && export GHIDRA_OUT=$PWD/ghi # Ghidra output per function
-make -j$(nproc) compare
+make -j$(nproc) compare && make expected && python3 tools/scripts/gen_objdiff.py
 ```
-Git-ignored (never commit): baserom.gba, *.gba, build/, tools/agbcc, tools/m2c, tools/decomp-permuter.
+Git-ignored (never commit): baserom.gba, *.gba, build/, expected/, objdiff.json, tools/{agbcc,m2c,decomp-permuter,asm-differ,objdiff}.
+Diff one function: `python3 tools/asm-differ/diff.py -mo FUNC` (vs expected/) or `tools/objdiff/objdiff-cli diff -p . -u src/MOD FUNC`.
 
-Parallel workers: docs/PARALLEL.md (local + cloud how-to), docs/WORKER.md (worker rules), tools/config/shards.txt (`shard.py show N`).
+Parallel workers: docs/agents/PARALLEL.md (local + cloud how-to), docs/agents/WORKER.md (worker rules), tools/config/shards.txt (`shard.py show N`).
 
 ## Guards
 `sh tools/install_hooks.sh` enables the pre-commit hook (check_tree.py, make compare, make nonmatching). CI: .github/workflows/check.yml.

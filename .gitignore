@@ -21,3 +21,9 @@ tools/decomp-permuter/
 build_nm/
 shiningsoul2_nm.map
 ghi/
+
+# Toolkit installed by tools/setup_tools.sh + generated diff targets
+tools/asm-differ/
+tools/objdiff/
+expected/
+objdiff.json

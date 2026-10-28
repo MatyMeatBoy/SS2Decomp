@@ -13,7 +13,7 @@ Be terse in chat; the commits are what matter. User language is Spanish but code
 - Shared headers (`include/functions.h`, `variables.h`, `structs.h`) are merged with union strategy: only APPEND lines
   (new externs/prototypes/structs), never edit or reorder existing lines, never retype an existing global
   (retyping existing globals broke other functions before). If you need a different type for an existing global, cast at use site.
-- Only commit files under `src/`, `include/`, `asm/nonmatchings/` and `docs/notes/` (your notes) (deleted .s of matched functions).
+- Only commit files under `src/`, `include/`, `asm/nonmatchings/` and `docs/agents/shard_notes/` (your notes) (deleted .s of matched functions).
 - A function counts only when `apply_permuted.py` accepted it (it deletes the .s and rewrites the INCLUDE_ASM line).
   Never hand-edit src/*.c to fake a match; no `#ifdef NONMATCHING` bodies.
 - Commit + push every ~5 functions (`git push -u origin worker/NNN`, retry 4x with backoff on network errors).
@@ -80,7 +80,7 @@ result. Never reorder or delete header lines.
 ## Never stop (standing orders)
 - Keep going until `python3 tools/scripts/shard.py show N` is empty. Do not end your turn to ask for confirmation; do not
   stop because a function is hard: after ~15 attempts or one permuter run without a match, note the function in
-  `docs/notes/shardN.txt` (best diff, ideas tried) and move on; come back to it at the end with new ideas
+  `docs/agents/shard_notes/shardN.txt` (best diff, ideas tried) and move on; come back to it at the end with new ideas
   (restructure loops, other types, temporaries, statement order, `register`, do-while vs for, separate vs chained stores).
 - Merge main often (`git merge origin/claude/rom-decompilation-research-obsal6`); it gains fixes (module splits, prototypes).
 - Push after every matched function.

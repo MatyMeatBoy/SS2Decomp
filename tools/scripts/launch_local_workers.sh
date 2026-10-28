@@ -23,7 +23,7 @@ for n in $(seq "$FIRST" "$LAST"); do
   ( cd "$wt" && git merge -q --no-edit "$BASE" 2>/dev/null || true
     GHIDRA_OUT=${GHIDRA_OUT:-$ROOT/ghi}
     export GHIDRA_OUT
-    nohup claude -p "You are decompilation worker for shard $n on branch worker/$id (this worktree). Read CLAUDE.md and docs/WORKER.md. Differences for local mode: baserom.gba exists, so do NOT set SKIP_ROM; run 'make compare' (must print OK) before every commit. Decompile every function of: python3 tools/scripts/shard.py show $n (smallest first). Commit often on this branch; do not push unless asked. Be terse." \
+    nohup claude -p "You are decompilation worker for shard $n on branch worker/$id (this worktree). Read CLAUDE.md and docs/agents/WORKER.md. Differences for local mode: baserom.gba exists, so do NOT set SKIP_ROM; run 'make compare' (must print OK) before every commit. Decompile every function of: python3 tools/scripts/shard.py show $n (smallest first). Commit often on this branch; do not push unless asked. Be terse." \
       --model "$MODEL" --permission-mode acceptEdits \
       --allowedTools "Bash Read Write Edit Glob Grep" > "$OUT/$id.log" 2>&1 &
   )

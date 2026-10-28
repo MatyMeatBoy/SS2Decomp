@@ -24,16 +24,20 @@ The ROM is **not** included. You need your own dump, saved as `baserom.gba`:
 |---------------|--------------------------------------------|
 | `baserom.gba` | `aa1288be9257337abdfe3034898cf6c7aa778fbc` |
 
-Requirements (Debian/Ubuntu): `binutils-arm-none-eabi gcc-arm-none-eabi make python3 git gcc`.
+Requirements: `binutils-arm-none-eabi gcc-arm-none-eabi make python3 git gcc` (Linux/WSL) or MSYS2 UCRT64 on Windows
+(see [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ```sh
-./tools/install_agbcc.sh      # builds pret/agbcc into tools/agbcc
+sh tools/setup_tools.sh       # agbcc, m2c, decomp-permuter-agbcc, asm-differ, objdiff (all inside tools/, git-ignored)
 make -j$(nproc) compare       # -> shiningsoul2_eu.gba: OK
+make expected                 # snapshot of the matching objects (diff target for objdiff / asm-differ)
+python3 tools/scripts/gen_objdiff.py && tools/objdiff/objdiff
 make progress                 # regenerate docs/progress/*.svg
 ```
 
-## Contributing / local continuation
-See [CLAUDE.md](CLAUDE.md) for the full workflow and tools.
+## Contributing
+Anyone can help: read [CONTRIBUTING.md](CONTRIBUTING.md) (setup, per-function workflow, compiler rules).
+AI agents: [CLAUDE.md](CLAUDE.md) and [docs/agents/](docs/agents/).
 
 ## Layout
 
