@@ -591,7 +591,7 @@ void sub_0800D368(void *arg0) {
     u16 *var_r5_2;
     u16 *var_r5_3;
     struct EffectD368 *var_r6;
-    u16 *var_r9_2;
+    u8 *var_r9_2;
     s32 temp_r0_100;
     s32 temp_r0_101;
     s32 temp_r0_104;
@@ -5609,12 +5609,12 @@ loop_1306:
         goto block_1312;
     }
     var_r5_11 += 1;
-    if ((u32) *var_r4_9 >= (u32) *(u32 *)((0x14C * var_r3_8) + (u8 *)&d368_gUnk_03003CE0)) {
+    if ((u32) *var_r4_9 >= (u32) *(u16 *)((0x14C * var_r3_8) + (u8 *)&d368_gUnk_03003CE0)) {
         goto block_1312;
     }
     var_r3_8 = (u16) sp128;
 block_1312:
-    var_r9_2 += 0xa6;
+    var_r9_2 += 0x14C;
     var_r4_9 += 0xa6;
     var_r8 += 0x14C;
     temp_r0_122 = sp128 + 1;

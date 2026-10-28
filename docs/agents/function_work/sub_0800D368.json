@@ -1,7 +1,7 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-10-28T19:37:09Z",
-  "checkpoint": "3ea33f81d8ca37b98f12bbe9add91f8c665d077a",
+  "updated_utc": "2026-10-28T20:25:13Z",
+  "checkpoint": "0f941893bff003b9ad278f26fbd432564b30ba85",
   "areas": [
     {
       "id": "flow",
@@ -30,13 +30,13 @@
     {
       "id": "types",
       "state": "active",
-      "evidence": "Restaurado argumento r0 de 1DEB8 en las cuatro llamadas a 79FD0, confirmado por caller ASM y callee matched. Auditoría de 58 funciones llamadas sin argumentos frente a headers, fuentes y entradas ASM: ningún otro argumento faltante encontrado. Desplazamiento de byte en 5D6B8 conserva LSR.",
+      "evidence": "Player scan ASM 0801164A: corrected actor+68 byte load and actor-ID halfword load; byte pointer stride remains 14C. Directed Thumb fixtures reproduced opposite extra/missing 680F8 calls before correction; ten inputs per fixture preserve original traces after correction. External callees are synthetic stubs; not global equivalence. Previous call-argument and narrow-temporary audits retained.",
       "label": "AuditorÃ­a de tipos y accesos"
     },
     {
       "id": "layout",
       "state": "active",
-      "evidence": "Coordenadas F0..FE recuperadas y variantes CFG completas compiladas. Persisten diferencias de pila, registros y orden.",
+      "evidence": "Frame still 1CC vs original 1D8; exact C match pending. Selective volatile-spill and 99 typed-record-read experiments discarded. Structured22 alternative has two proven irregular-switch default defects (mode 0/5 incorrectly call 5FAC0/07870); repaired only in ignored structured29 experiment, not adopted.",
       "label": "Pila, registros y orden de bloques"
     },
     {

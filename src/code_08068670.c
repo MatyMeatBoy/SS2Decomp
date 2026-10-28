@@ -195,9 +195,10 @@ s32 sub_0806898C(s32 arg0, s32 arg1)
     return (s16)(result + 1);
 }
 #ifdef NONMATCHING
+struct Position68 { s32 x, y; };
 /* Resolve an area attack against nearby enemies or players. The result
  * combines target-present (1) and effect-applied (2) flags. */
-s32 sub_08068A00(s32 arg0, s32 arg1, u8 *attack) {
+s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     void sub_08029A7C(u32, s32, s32);
     void sub_08029B98(u32, u32, s32, s32, s32, s32);
     s16 sub_08068F9C(void *, s32);
@@ -208,8 +209,6 @@ s32 sub_08068A00(s32 arg0, s32 arg1, u8 *attack) {
     extern u16 effects[] asm("gUnk_084EC14C");
     extern u16 radii[] asm("gUnk_084EC17C");
     extern u32 enemyActive asm("gUnk_030056FC");
-    s32 centerX;
-    s32 centerY;
     u8 *sourceEnemy;
     u8 *sourcePlayer;
     s32 radius;
@@ -253,8 +252,6 @@ s32 sub_08068A00(s32 arg0, s32 arg1, u8 *attack) {
     u8 *targetPlayerAlly;
     u8 *targetEnemy;
 
-    centerX = arg0;
-    centerY = arg1;
     localPlayer = (s32) (u16) sub_080020F4();
     if ((sub_08058DB0() != 0) || (sub_0800CDF8() != 0)) {
         return 0;
@@ -293,7 +290,7 @@ loop_15:
             } else if (M2C_FIELD(targetEnemy, u16 *, 0xC) == 0xB) {
 
             } else {
-                var_r1 = (s32) ((M2C_FIELD(targetEnemy, s32 *, 0x14) - centerX) << 8) >> 0x10;
+                var_r1 = (s32) ((M2C_FIELD(targetEnemy, s32 *, 0x14) - pos.x) << 8) >> 0x10;
                 if (var_r1 < 0) {
                     var_r1 = 0 - var_r1;
                 }
@@ -301,7 +298,7 @@ loop_15:
                 if (var_r1 > (s32) temp_r2_2) {
 
                 } else {
-                    var_r0_2 = (s16) ((u32) ((M2C_FIELD(targetEnemy, s32 *, 0x18) - centerY) << 8) >> 0x10);
+                    var_r0_2 = (s16) ((u32) ((M2C_FIELD(targetEnemy, s32 *, 0x18) - pos.y) << 8) >> 0x10);
                     if ((s32) var_r0_2 < 0) {
                         var_r0_2 = 0 - var_r0_2;
                     }
@@ -331,7 +328,7 @@ block_55:
                                 if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                     sub_0805865C(0x1A);
                                 }
-                                sub_08069A30(centerX, centerY, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                                sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
                                 hitFlags = 2;
                             }
                         } else if (M2C_FIELD(targetEnemy, u32 *, 0x54) == M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
@@ -362,7 +359,7 @@ block_40:
                             if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                 sub_0805865C(0x1A);
                             }
-                            sub_08069A30(centerX, centerY, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                            sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
                             hitFlags = 2;
                         }
                         hitFlags |= 1;
@@ -392,13 +389,13 @@ loop_105:
                     enemyTargetPosition = M2C_FIELD(targetPlayerEnemy, u8 * *, 0x148);
                     temp_r0_5 = (u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x0) << 0x1C) >> 0x1C;
                     if ((temp_r0_5 != 0xE) && (temp_r0_5 != 0xB) && (temp_r0_5 != 0xA) && (M2C_FIELD(targetPlayerEnemy, u8 *, 0x68) != 0)) {
-                        var_r2_2 = (s16)(((u16) M2C_FIELD(enemyTargetPosition, u16 *, 0x0) >> 4) - (centerX >> 8));
+                        var_r2_2 = (s16)(((u16) M2C_FIELD(enemyTargetPosition, u16 *, 0x0) >> 4) - (pos.x >> 8));
                         if ((s32) var_r2_2 < 0) {
                             var_r2_2 = 0 - var_r2_2;
                         }
                         temp_r1_3 = (s16) radius;
                         if ((s32) var_r2_2 <= (s32) temp_r1_3) {
-                            var_r0_4 = (s16) (u16) (((u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (centerY >> 8));
+                            var_r0_4 = (s16) (u16) (((u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (pos.y >> 8));
                             if ((s32) var_r0_4 < 0) {
                                 var_r0_4 = 0 - var_r0_4;
                             }
@@ -454,13 +451,13 @@ loop_69:
                         if (temp_r2_3 == 0) {
 
                         } else if (!(((u32) (M2C_FIELD(allyTargetPosition, u8 *, 0x4) << 0x1A) >> 0x1A) & 0x20)) {
-                            var_r2_3 = (s16)(((u16) M2C_FIELD(allyTargetPosition, u16 *, 0x0) >> 4) - (centerX >> 8));
+                            var_r2_3 = (s16)(((u16) M2C_FIELD(allyTargetPosition, u16 *, 0x0) >> 4) - (pos.x >> 8));
                             if ((s32) var_r2_3 < 0) {
                                 var_r2_3 = 0 - var_r2_3;
                             }
                             temp_r1_5 = (s16) radius;
                             if ((s32) var_r2_3 <= (s32) temp_r1_5) {
-                                var_r0_5 = (s16) (u16) (((u32) (M2C_FIELD(allyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (centerY >> 8));
+                                var_r0_5 = (s16) (u16) (((u32) (M2C_FIELD(allyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (pos.y >> 8));
                                 if ((s32) var_r0_5 < 0) {
                                     var_r0_5 = 0 - var_r0_5;
                                 }
@@ -487,7 +484,7 @@ block_94:
                                             if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                                 sub_0805865C(0x1A);
                                             }
-                                            sub_08069A30(centerX, centerY, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                                            sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
                                             hitFlags = 2;
                                         }
                                     }
@@ -507,7 +504,6 @@ block_94:
     }
     return (s32) hitFlags;
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068A00);
 #endif

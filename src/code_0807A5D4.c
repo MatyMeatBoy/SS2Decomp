@@ -4642,7 +4642,6 @@ LAB_080841de:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08083AE8);
 #endif
-#ifdef NONMATCHING
 u32 sub_08084200(const u8 *arg0)
 {
     u16 b;
@@ -4662,15 +4661,54 @@ u32 sub_08084200(const u8 *arg0)
     if (*(const u16 *)(arg0 + 0x02) == 1 && *(const u16 *)(arg0 + 0x12) == 0 && *(const u16 *)(arg0 + 0x22) == 1) return 6;
     if (*(const u16 *)(arg0 + 0x02) == 0 && *(const u16 *)(arg0 + 0x12) == 1 && *(const u16 *)(arg0 + 0x22) == 0) return 7;
     if (*(const u16 *)(arg0 + 0x02) == 1 && *(const u16 *)(arg0 + 0x12) == 2 && *(const u16 *)(arg0 + 0x22) == 1) return 8;
-    if (*(const u16 *)(arg0 + 0x02) == 2 && *(const u16 *)(arg0 + 0x12) == 1 && *(const u16 *)(arg0 + 0x22) == 2) return 9;
-    if (*(const u16 *)(arg0 + 0x02) == 2 && *(const u16 *)(arg0 + 0x12) == 0 && *(const u16 *)(arg0 + 0x22) == 2) return 10;
+    {
+        /* Keep the original halfword extensions across the shared tests. */
+        register u32 d asm("r2");
+        register u32 raw asm("r0");
+        if (*(const u16 *)(arg0 + 0x02) == 2 &&
+            ({
+                raw = *(const u16 *)(arg0 + 0x12);
+                asm("" : "+r"(raw));
+                d = raw;
+                asm("" : "+r"(d));
+                d;
+            }) == 1 && *(const u16 *)(arg0 + 0x22) == 2) return 9;
+        if (*(const u16 *)(arg0 + 0x02) == 2 &&
+            ({
+                raw = d << 16;
+                asm("" : "+r"(raw));
+                raw;
+            }) == 0 && *(const u16 *)(arg0 + 0x22) == 2) return 10;
+    }
     if (*(const u16 *)(arg0 + 0x02) == 0 && *(const u16 *)(arg0 + 0x12) == 0 && *(const u16 *)(arg0 + 0x22) == 2) return 11;
     if (*(const u16 *)(arg0 + 0x02) == 1 && *(const u16 *)(arg0 + 0x12) == 1 && *(const u16 *)(arg0 + 0x22) == 0) return 12;
     if (*(const u16 *)(arg0 + 0x02) == 0 && *(const u16 *)(arg0 + 0x12) == 0 && *(const u16 *)(arg0 + 0x22) == 1) return 13;
     if (*(const u16 *)(arg0 + 0x02) == 1 && *(const u16 *)(arg0 + 0x12) == 1 && *(const u16 *)(arg0 + 0x22) == 2) return 14;
-    if (*(const u16 *)(arg0 + 0x02) == 2 && *(const u16 *)(arg0 + 0x12) == 2 && *(const u16 *)(arg0 + 0x22) == 1) return 15;
-    if (*(const u16 *)(arg0 + 0x02) == 2 && *(const u16 *)(arg0 + 0x12) == 2 && *(const u16 *)(arg0 + 0x22) == 0) return 16;
-    if (*(const u16 *)(arg0 + 0x02) == 2 && *(const u16 *)(arg0 + 0x12) == 0 && *(const u16 *)(arg0 + 0x22) == 0) return 17;
+    {
+        /* Keep the original halfword extensions across the shared tests. */
+        register u32 d asm("r2");
+        register u32 raw asm("r0");
+        if (*(const u16 *)(arg0 + 0x02) == 2 &&
+            ({
+                raw = *(const u16 *)(arg0 + 0x12);
+                asm("" : "+r"(raw));
+                d = raw;
+                asm("" : "+r"(d));
+                d;
+            }) == 2 && *(const u16 *)(arg0 + 0x22) == 1) return 15;
+        if (*(const u16 *)(arg0 + 0x02) == 2 &&
+            ({
+                raw = (u16)d;
+                asm("" : "+r"(raw), "+r"(d));
+                raw;
+            }) == 2 && *(const u16 *)(arg0 + 0x22) == 0) return 16;
+        if (*(const u16 *)(arg0 + 0x02) == 2 &&
+            ({
+                raw = d << 16;
+                asm("" : "+r"(raw));
+                raw;
+            }) == 0 && *(const u16 *)(arg0 + 0x22) == 0) return 17;
+    }
     if (*(const u16 *)(arg0 + 0x02) == 0 && *(const u16 *)(arg0 + 0x12) == 1 && *(const u16 *)(arg0 + 0x22) == 1) return 18;
     if (*(const u16 *)(arg0 + 0x02) == 1 && *(const u16 *)(arg0 + 0x12) == 0 && *(const u16 *)(arg0 + 0x22) == 0) return 19;
     if (*(const u16 *)(arg0 + 0x02) == 2 && *(const u16 *)(arg0 + 0x12) == 1 && *(const u16 *)(arg0 + 0x22) == 1) return 20;
@@ -4680,9 +4718,6 @@ u32 sub_08084200(const u8 *arg0)
     if (*(const u16 *)(arg0 + 0x02) == 4 && *(const u16 *)(arg0 + 0x12) == 4 && *(const u16 *)(arg0 + 0x22) == 4) return 24;
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08084200);
-#endif
 #ifdef NONMATCHING
 void sub_0808441C(u16 *param_1,u32 *param_2)
 

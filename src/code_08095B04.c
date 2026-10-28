@@ -89,7 +89,6 @@ extern void fadeScroll100(u32,u32,u32,u32) asm("sub_08009088");
 extern s8 sub_08096E20(u16 *,s32,u16,s32);
 s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
 {
-    void *object=entity;
     u32 palNum=paletteNum;
     s16 *screenYPtr;
     u16 palette[16];
@@ -119,14 +118,18 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
     frame=0;
     state=2;
     uploadPal=palNum+16;
-    field68=(u16 *)((u8 *)object+0x68);
-    field6A=(u16 *)((u8 *)object+0x6A);
+    field68=(u16 *)((u8 *)entity+0x68);
+    field6A=(u16 *)((u8 *)entity+0x6A);
     imageAttr=(u8 *)image+0x1C;
     screenXPtr=&screenX;
     screenYPtr=&screenY;
     do {
         u8 oldAlternate;
-        phase=((phase+1)<<16 & 0xF0000U)>>16;
+        {
+            register u32 nextPhase asm("r1")=(phase+1)<<16;
+            asm("" : "+r"(nextPhase));
+            phase=(0xF0000U & nextPhase)>>16;
+        }
         oldAlternate=alternate++;
         if(oldAlternate&1) fadeScroll100(0,0,phase,0);
         else fadeScroll100(0,0,0,phase);
@@ -138,8 +141,8 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
         }
         sub_08000AF0(uploadPal,palette,1);
         {
-            u8 priority=sub_0800BC44(M2C_FIELD(object,s32 *,0x14)>>8,M2C_FIELD(object,s32 *,0x18)>>8,0);
-            sub_0800BC08((M2C_FIELD(object,s32 *,0x14)<<8)>>16,(M2C_FIELD(object,s32 *,0x18)<<8)>>16,screenXPtr,screenYPtr,0,0);
+            u8 priority=sub_0800BC44(M2C_FIELD(entity,s32 *,0x14)>>8,M2C_FIELD(entity,s32 *,0x18)>>8,0);
+            sub_0800BC08((M2C_FIELD(entity,s32 *,0x14)<<8)>>16,(M2C_FIELD(entity,s32 *,0x18)<<8)>>16,screenXPtr,screenYPtr,0,0);
             sub_08007974(*screenXPtr,*screenYPtr,*field68,*field6A,priority,1,0,imageAttr,M2C_FIELD(image,u32 *,8),M2C_FIELD(image,void **,0));
         }
         sub_08000B38();

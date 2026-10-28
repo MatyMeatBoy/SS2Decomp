@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T19:44:52.041844+00:00",
-  "checkpoint": "af7589ffa3e60d6874a4cf40dd2396a2a234a8c0",
+  "updated_utc": "2026-10-28T20:22:40.930023+00:00",
+  "checkpoint": "0035eedd8b595bfdd4948ea87f514e6354bf23ce",
   "areas": [
     {
       "id": "flow",
@@ -25,7 +25,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C. Captura u16 de navegación conserva r1 para cola común0436C sin recarga. Auditoría mantiene comparadores, polaridad y switches. Continúan diferencias de instrucciones/registros."
+      "evidence": "Frame0x54C. Se construye puntero widths[0] antes de stores en tres reinicios, como ASM. En0452A TextWidth ocurre antes de construir coordenadas; ya no cruzan esa llamada dos punteros. Auditor CFG conserva190 llamadas explícitas,170 predicados y5 switches; no prueba datos ni bytes."
     },
     {
       "id": "match",
