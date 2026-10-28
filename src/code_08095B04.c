@@ -199,33 +199,29 @@ void sub_08097C4C(void)
     *((s32 *) (new_var2 + 8)) = 0;
   }
 }
-#ifdef NONMATCHING
 void sub_08097C6C(void)
 {
-    u32 *obj = *(u32 **)0x03000298;
+    u32 *obj = (u32 *)gUnk_03000298;
     if (obj != 0) {
         if (obj[2] != 0) {
-            u32 *dst = *(u32 **)0x030034E0;
-            *(u16 *)((u8 *)dst + 0x18) = *(u16 *)0x0300029C;
+            u32 *dst = (u32 *)gUnk_030034E0;
+            *(u16 *)((u8 *)dst + 0x18) = ss2ScaleSave;
             sub_080003A8((u32)obj);
         }
-        sub_08001538((u32)obj);
-        *(u32 *)0x03000298 = 0;
+        sub_08001538((u32)gUnk_03000298);
+        gUnk_03000298 = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097C6C);
-#endif
-#ifdef NONMATCHING
 void sub_08097CA8(u16 value)
 {
-    u8 *task = (u8 *)gUnk_03000298;
+    u8 *task;
     u32 mem;
 
-    if (task == 0 || *(u32 *)(task + 8) != 0)
+    if (gUnk_03000298 == 0 || *(u32 *)((u8 *)gUnk_03000298 + 8) != 0)
         return;
 
     mem = sub_08001494(0x200);
+    task = (u8 *)gUnk_03000298;
     *(u32 *)(task + 0x20) = mem;
     if (mem == 0)
         return;
@@ -235,11 +231,8 @@ void sub_08097CA8(u16 value)
     *(u32 *)(task + 0x24) = 0;
     *(u32 *)(task + 8) = 0x4C;
     sub_08000274_(task, (u32)(s32)(s16)value, 0);
-    *(u16 *)0x0300029C = *(u16 *)(*(u8 **)0x030034E0 + 0x18);
+    ss2ScaleSave = *(u16 *)((u8 *)gUnk_030034E0 + 0x18);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097CA8);
-#endif
 void sub_08097D0C(u16 a, u16 b)
 {
     gUnk_030002A0.w4 = a;
@@ -258,18 +251,14 @@ void sub_08097D30(s16 arg0, s16 arg1) {
     M2C_FIELD(&gUnk_030002A0, s16 *, 0) = arg0;
     M2C_FIELD(&gUnk_030002A0, s16 *, 2) = arg1;
 }
-#ifdef NONMATCHING
-void sub_08097D3C(u8 index, s32 scale)
+void sub_08097D3C(u32 index, s32 scale)
 {
     s32 value;
     gUnk_030002A0.b0C = index;
-    value = (gUnk_080B9704[index] * (s8)scale) >> 8;
+    value = (gUnk_080B9704[gUnk_030002A0.b0C] * (s8)scale) >> 8;
     gUnk_030002A0.b0D = value;
     gUnk_030002A0.pad0E = value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097D3C);
-#endif
 void sub_08097D64(void)
 {
     gUnk_030002A0.b0F = 0;
@@ -288,22 +277,17 @@ void sub_08097D7C(u8 angle, u8 scale)
         state[0xC] += (u8)angle;
     }
 }
-#ifdef NONMATCHING
-u32 sub_08097DBC(u32 arg0, s32 y, u32 angle, u32 arg3)
+u32 sub_08097DBC(u32 arg0, s32 y, u16 angle, u32 arg3)
 {
     s32 scaled;
-
-    (void)arg0;
-    (void)arg3;
-    if (sub_0800CCCC() != 0 || sub_0800CC98() != 0 ||
-        sub_0800CD8C() != 0 || sub_0800CD34() != 0)
-        return 0;
-
-    scaled = ((s32)(s16)(u16)angle * gUnk_080B9704[gUnk_030002A0.b0D]) >> 8;
-    if (0x7000 - scaled > y || 0xA000 - scaled < y)
-        return 0xF;
-    return 0;
+    u32 result = 0;
+    if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 &&
+        sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+        scaled = (gUnk_080B9704[gUnk_030002A0.b0D] * (s32)(s16)angle << 8) >> 16;
+        if (0x7000 - scaled > y)
+            result = 0xF;
+        if (0xA000 - scaled < y)
+            result |= 0xF;
+    }
+    return result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097DBC);
-#endif

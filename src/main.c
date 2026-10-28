@@ -139,28 +139,33 @@ void sub_08000990(u16 mode, u16 write)
     if (write)
         REG_DISPCNT = *(u16 *)&gUnk_0300129C;
 }
-#ifdef NONMATCHING
-void sub_080009C0(s32 a, s32 b, s32 write)
+void sub_080009C0_u16(u16, u16, u16) asm("sub_080009C0");
+void sub_080009C0_u16(u16 a, u16 b, u16 write)
 {
-    u16 value = *(u16 *)&gUnk_0300129C;
-    value = (value & 0x001F) | ((a & 0x001F) << 8) | ((b & 0x0007) << 5);
-    *(u16 *)&gUnk_0300129C = value;
+    u32 first;
+    u32 second;
+    first = a & 0x1F00;
+    first |= *(u16 *)&gUnk_0300129C;
+    second = b & 0xE000;
+    second |= first;
+    *(u16 *)&gUnk_0300129C = second;
     if (write)
-        REG_DISPCNT = value;
+        REG_DISPCNT = second;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main", sub_080009C0);
-#endif
 #ifdef NONMATCHING
-void sub_080009F8(s32 a, s32 b, s32 write)
+void sub_080009F8(u16 a, u16 b, u16 write)
 {
+    register u32 first asm("r3");
     u16 value;
+    u32 second;
+    first = a & 0x1F00;
     value = *(u16 *)&gUnk_0300129C;
-    value &= ~((a & 0x001F) << 8);
-    value &= ~((b & 0x0007) << 5);
-    *(u16 *)&gUnk_0300129C = value;
+    first = value & ~first;
+    second = b & 0xE000;
+    first &= ~second;
+    *(u16 *)&gUnk_0300129C = first;
     if (write)
-        REG_DISPCNT = value;
+        REG_DISPCNT = first;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main", sub_080009F8);

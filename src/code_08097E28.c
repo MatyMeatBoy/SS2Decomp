@@ -16,7 +16,31 @@ extern s32 gUnk_03000308;
 extern s32 *gUnk_03000300[];
 extern s32 gUnk_030056FC;
 
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08097E28);
+void sub_08097E28(void *arg0, u16 arg1) {
+    s32 temp_r1;
+    s32 temp_r2;
+
+
+    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
+        temp_r1 = (s32) ((gUnk_080B9704[gUnk_030002A0.b0D] * (s16) arg1) << 8) >> 0x10;
+        temp_r2 = 0x7000 - temp_r1;
+        if (temp_r2 > (s32) M2C_FIELD(arg0, s32 *, 4)) {
+            M2C_FIELD(arg0, s32 *, 4) = temp_r2;
+        }
+        temp_r2 = 0xA000 - temp_r1;
+        if (temp_r2 < (s32) M2C_FIELD(arg0, s32 *, 4)) {
+            M2C_FIELD(arg0, s32 *, 4) = temp_r2;
+        }
+        if ((s32) M2C_FIELD(arg0, s32 *, 0) <= 0x8FF) {
+            M2C_FIELD(arg0, s32 *, 0) = 0x900;
+        }
+        if ((s32) M2C_FIELD(arg0, s32 *, 0) > 0xE000) {
+            M2C_FIELD(arg0, s32 *, 0) = 0xE000;
+        }
+    }
+}
+
+
 void sub_08097EB0(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     gUnk_030002B8 = arg3;
     gUnk_030002B6 = arg2;
@@ -27,8 +51,54 @@ void sub_08097EB0(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
 s16 sub_08097EE4(void) {
     return gUnk_030002BA;
 }
+#ifdef NONMATCHING
+s32 sub_08097EF0(s32 arg0, s32 arg1) {
+    s16 temp_r4;
+    s32 temp_r0;
+    s32 var_r2;
+    s32 fraction;
+    s32 var_r7;
+
+    var_r7 = 0;
+    if ((s32) gUnk_030002BA > 0xFFF) {
+        var_r7 = 2;
+    }
+    temp_r4 = 0xFFF & (u16) gUnk_030002BA;
+    gUnk_030002BA = temp_r4;
+    temp_r0 = (((s32) ((u16) gUnk_030002B4 << 0x10) >> 0x11) << 0xC) * gUnk_030002BA;
+    fraction = (temp_r0 >> 0xC) & 0xFFF;
+    var_r2 = (temp_r0 >> 0x18) * 2;
+    if (arg0 == 1) {
+        var_r2 = gUnk_030002B4 - (var_r2 + 1);
+    }
+    gUnk_030002BA = temp_r4 + (u16) gUnk_030002B8;
+    if (sub_08096BA8(var_r2, fraction, arg0, arg1) == 1) {
+        var_r7 = 1;
+    }
+    return var_r7;
+}
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08097EF0);
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08097F70);
+#endif
+struct Color100 { u32 r:5; u32 g:5; u32 b:5; u32 flag:1; };
+void sub_08097F70(s32 dst, s32 src)
+{
+    u8 i = 0;
+    s32 out = dst;
+    do {
+        struct Color100 *p = (struct Color100 *)src;
+        struct Color100 color;
+        struct Color100 *d = (struct Color100 *)out;
+        src += 2;
+        out += 2;
+        color = *p;
+        d->r = color.r;
+        d->g = color.g;
+        d->b = color.b;
+        i++;
+    } while (i<=15);
+}
 void sub_08097FE4(void) {
     gUnk_030002BC = 0;
     gUnk_030002BD = 0;

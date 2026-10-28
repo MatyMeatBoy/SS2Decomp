@@ -249,3 +249,6 @@ extern struct MultiSioArea gMultiSioArea asm("gUnk_030024B0");
 extern u32 gMultiSioRecvFuncBuf[0x40 / 4] asm("gUnk_030026D0");
 extern u32 gMultiSioIntrFuncBuf[0x120 / 4] asm("gUnk_03002390");
 extern u8 *gUnkP_03005D58 asm("gUnk_03005D58");
+
+extern u16 ss2ScaleSave asm("gUnk_0300029C");
+extern u16 gUnk_085186DC[];

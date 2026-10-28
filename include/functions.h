@@ -784,3 +784,8 @@ s32 sub_0809CC2C();
 u32 sub_080004B8();
 void sub_080004F8();
 void sub_0805A43C(u8 value);
+void sub_0808536C(void);
+
+void sub_08097CA8(u16 value);
+void sub_08097D3C(u32 index, s32 scale);
+u32 sub_08097DBC(u32 arg0, s32 y, u16 angle, u32 arg3);
