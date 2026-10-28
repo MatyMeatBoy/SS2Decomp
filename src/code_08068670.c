@@ -12,24 +12,21 @@ void sub_08068670(void) {
     gUnk_03006368 = 0;
     gUnk_03006300 = 0;
 }
-#ifdef NONMATCHING
 u32 sub_080686A4(const void *src)
 {
     u8 *entry;
     u32 *n = (u32 *)0x03006338;
-    if (*n > 0x31)
-        return 0;
-    entry =  *(u8 **)0x03006300 + *n * 0x88;
-    *(u32 *)(entry + 4) = 1;
-    entry[0] = 0x98;
-    CpuSet(src, entry + 8, 0x04000008);
-    entry[1] = 4;
-    (*n)++;
-    return 1;
+    if (*n <= 0x31) {
+        entry =  *(u8 **)0x03006300 + *n * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0x98;
+        CpuSet(src, entry + 8, 0x04000008);
+        entry[1] = 4;
+        (*n)++;
+        return 1;
+    }
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686A4);
-#endif
 #ifdef NONMATCHING
 u32 sub_080686F4(const u8 *arg0)
 {

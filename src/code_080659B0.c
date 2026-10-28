@@ -213,24 +213,21 @@ INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065DAC);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065E38);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065F08);
-#ifdef NONMATCHING
 u32 sub_08065FE8(void)
 {
     u32 *n = (u32 *)0x03006338;
     u8 *entry;
-    if (*n > 0x31)
-        return 0;
-    entry =  *(u8 **)0x03006300 + *n * 0x88;
-    *(u32 *)(entry + 4) = 1;
-    entry[0] = 0x85;
-    CpuSet((u8 *)gUnk_03005CF4 + 0x22, entry + 8, 0xA);
-    entry[1] = 3;
-    (*n)++;
-    return 1;
+    if (*n <= 0x31) {
+        entry =  *(u8 **)0x03006300 + *n * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0x85;
+        CpuSet((u8 *)gUnk_03005CF4 + 0x22, entry + 8, 0xA);
+        entry[1] = 3;
+        (*n)++;
+        return 1;
+    }
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065FE8);
-#endif
 #ifdef NONMATCHING
 /* Enqueue tag 0x86 (8-byte block {ptr, idx}) if the referenced slot is visible/valid and no 0x86 is in flight. */
 u32 sub_0806603C(s32 *src)

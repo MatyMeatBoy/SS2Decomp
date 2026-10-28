@@ -103,38 +103,36 @@ u32 sub_08067CE8(void *arg0)
     (*n)++;
     return 1;
 }
-#ifdef NONMATCHING
 u32 sub_08067D28(const void *source)
 {
     u8 *entry;
     u32 *count = (u32 *)0x03006338;
-    if (*count > 0x31)
-        return 0;
-    entry = *(u8 **)0x03006300 + *count * 0x88;
-    *(u32 *)(entry + 4) = 1;
-    entry[0] = 0x8B;
-    CpuSet(source, entry + 8, 0x04000002);
-    entry[1] = 1;
-    (*count)++;
-    return 1;
+    if (*count <= 0x31) {
+        entry = *(u8 **)0x03006300 + *count * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0x8B;
+        CpuSet(source, entry + 8, 0x04000002);
+        entry[1] = 1;
+        (*count)++;
+        return 1;
+    }
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D28);
-#endif
 #ifdef NONMATCHING
 u32 sub_08067D74(void)
 {
     u32 *n = (u32 *)0x03006338;
     u8 *entry;
-    if (*n > 0x31)
-        return 0;
-    entry =  *(u8 **)0x03006300 + *n * 0x88;
-    *(u32 *)(entry + 4) = 1;
-    entry[0] = 0x8C;
-    *(u32 *)(entry + 8) = *(u32 *)((u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C + 0x30);
-    entry[1] = 1;
-    (*n)++;
-    return 1;
+    if (*n <= 0x31) {
+        entry =  *(u8 **)0x03006300 + *n * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0x8C;
+        *(u32 *)(entry + 8) = *(u32 *)((u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C + 0x30);
+        entry[1] = 1;
+        (*n)++;
+        return 1;
+    }
+    return 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D74);
@@ -209,15 +207,16 @@ u32 sub_08067F94(u32 a, u32 b, u32 c)
 {
     u8 *entry;
     u32 *count = (u32 *)0x03006338;
-    if (*count > 0x31)
-        return 0;
-    entry = *(u8 **)0x03006300 + *count * 0x88;
-    *(u32 *)(entry + 4) = 1;
-    entry[0] = 0x9E;
-    *(u32 *)(entry + 8) = a | (b << 8) | (c << 16);
-    entry[1] = 1;
-    (*count)++;
-    return 1;
+    if (*count <= 0x31) {
+        entry = *(u8 **)0x03006300 + *count * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0x9E;
+        *(u32 *)(entry + 8) = a | (b << 8) | (c << 16);
+        entry[1] = 1;
+        (*count)++;
+        return 1;
+    }
+    return 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067F94);
@@ -227,17 +226,18 @@ u32 sub_08067FE0(u16 value, u16 handle)
 {
     u32 *n = (u32 *)0x03006338;
     u8 *entry;
-    if (*n > 0x31)
-        return 0;
-    if (handle == 0)
+    if (*n <= 0x31) {
+        if (handle == 0)
+            return 1;
+        entry =  *(u8 **)0x03006300 + *n * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0xA0;
+        *(u32 *)(entry + 8) = value | ((u32)handle << 16);
+        entry[1] = 1;
+        (*n)++;
         return 1;
-    entry =  *(u8 **)0x03006300 + *n * 0x88;
-    *(u32 *)(entry + 4) = 1;
-    entry[0] = 0xA0;
-    *(u32 *)(entry + 8) = value | ((u32)handle << 16);
-    entry[1] = 1;
-    (*n)++;
-    return 1;
+    }
+    return 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067FE0);
@@ -352,18 +352,19 @@ s32 sub_08068330(s32 callback)
     u32 player;
     u8 *entry;
     u32 *count = (u32 *)0x03006338;
-    if (*count > 0x31)
-        return 0;
-    player = sub_080020F4();
-    if (((u32 *)0x03006210)[player] > 9)
-        return 0;
-    entry = *(u8 **)0x03006300 + *count * 0x88;
-    *(u32 *)(entry + 4) = 1;
-    entry[0] = 0x84;
-    *(u32 *)(entry + 8) = callback;
-    entry[1] = 1;
-    (*count)++;
-    return 1;
+    if (*count <= 0x31) {
+        player = sub_080020F4();
+        if (((u32 *)0x03006210)[player] > 9)
+            return 0;
+        entry = *(u8 **)0x03006300 + *count * 0x88;
+        *(u32 *)(entry + 4) = 1;
+        entry[0] = 0x84;
+        *(u32 *)(entry + 8) = callback;
+        entry[1] = 1;
+        (*count)++;
+        return 1;
+    }
+    return 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08068330);
