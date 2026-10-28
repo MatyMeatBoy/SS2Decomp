@@ -441,7 +441,6 @@ u32 sub_0805AD18(void)
     id |= 0xB0000;
     return sub_08007290(id);
 }
-#ifdef NONMATCHING
 s32 impl_0805AD78(u32 index) asm("sub_0805AD78");
 s32 impl_0805AD78(u32 index)
 {
@@ -496,9 +495,6 @@ s32 impl_0805AD78(u32 index)
     }
     return sub_08065DAC();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD78);
-#endif
 u32 sub_0805AE34(const u8 *item)
 {
     u8 *resource;
@@ -685,7 +681,6 @@ u32 sub_0805B0F0(void)
     first += second;
     return first;
 }
-#ifdef NONMATCHING
 void impl_0805B140(void) asm("sub_0805B140");
 void impl_0805B140(void)
 {
@@ -731,9 +726,6 @@ test:
             sub_080003F0();
     sub_08001538(secondaryTasks);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B140);
-#endif
 void sub_0805B21C(void)
 {
     extern u8 *slotsMemory asm("gUnk_03005D58");
