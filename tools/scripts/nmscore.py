@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """nmscore.py [--unwrap] [--only FUNC,FUNC] [MODULE...] : score selected C drafts with the real build rules
 (0 = identical -> with --unwrap it is converted to plain C and its .s removed; run `make compare` afterwards).
-Output lines: `func score` (score = number of differing diff lines after normalising branch targets; -1 = no compile)."""
+Output lines: `func score` (0 = identical normalized bytes/relocations; positive = approximate diff distance;
+-1 = no compile). A heuristic distance of zero is never sufficient to unwrap."""
 import argparse, contextlib, io, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(__file__))
 import decomp
@@ -43,9 +44,10 @@ for fn in sorted(os.listdir(os.path.join(root, "src"))):
             lines = buf.getvalue().splitlines()
             minus = sorted(norm(l)[1:] for l in lines if l[:1] == "-" and l[:3] != "---" and ".short 0x0000" not in l)
             plus = sorted(norm(l)[1:] for l in lines if l[:1] == "+" and l[:3] != "+++" and ".short 0x0000" not in l)
-            sz = re.search(r"size: orig (\d+), candidate (\d+)", "\n".join(lines)); same = (not sz) or sz.group(1) == sz.group(2)
-            sc = 0 if (ok or (minus == plus and same)) else max(len(minus), len(plus)) if any(("size:" in l) for l in lines) else -1
-            if sc and not any("size:" in l for l in lines): sc = -1
+            # Only normalized bytes/relocations can authorize MATCH/unwrap.
+            # Keep the relaxed diff for ranking, but never let it erase a real
+            # instruction, branch-target or relocation mismatch.
+            sc = 0 if ok else max(1, len(minus), len(plus)) if any("size:" in l for l in lines) else -1
         except BaseException:
             sc = -1
         print(f, sc, flush=True)

@@ -5,6 +5,8 @@
 > `decomp.py check` says 100 %, `make compare` OK, small commit, PR. Everything below in Spanish; commands are the same.
 
 Una función solo cuenta como decompilada si `make compare` sigue diciendo `shiningsoul2_eu.gba: OK`.
+`MATCH (positions only)` era una heurística insegura, eliminada: no demuestra coincidencia.
+Ver [qué demuestra un match y cómo auditarlo](docs/agents/MATCH_VERIFICATION.md).
 C que "se parece" no cuenta: se guarda como borrador dentro de `#ifdef NONMATCHING`.
 
 ## 1. Preparar el entorno (una vez)
