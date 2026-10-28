@@ -157,30 +157,23 @@ void sub_080944F0(void) {
         gUnk_03000270 = 0;
     }
 }
-#ifdef NONMATCHING
+struct Task98c { u32 a0,a4,a8; void (*fC)(void); u8 *p10; u32 pad[3]; void *p20; u32 a24; };
+extern struct Task98c *task98c asm("gUnk_03000270");
+extern void taskStart98c(struct Task98c *, u32, u32) asm("sub_08000274");
 void sub_08094530(void)
 {
-    u8 *obj = *(u8 **)0x03000270;
-    u32 mem;
-    if (obj == 0 || (sub_08000470((u32)obj) == 0 && *(u32 *)(obj + 8) != 0))
-        return;
-    do {
-        mem = sub_08001494(0x400);
-        *(u32 *)(obj + 0x20) = mem;
-        if (mem == 0)
+    if (task98c != 0 && (sub_08000470((u32)task98c) != 0 || task98c->a8 == 0)) {
+        do {
+            task98c->p20 = sub_08001494(0x400);
             sub_080003F0();
-    } while (mem == 0 && *(u8 **)0x03000270 != 0);
-    if (mem == 0)
-        return;
-    *(u32 *)(obj + 0x10) = mem + 0x3FC;
-    *(u32 *)(obj + 0x0C) = (u32)sub_080941B4;
-    *(u32 *)(obj + 0x24) = 0;
-    *(u32 *)(obj + 8) = 0x44;
-    sub_08000274(obj, 0, 0);
+        } while (task98c == 0);
+        task98c->p10 = (u8 *)task98c->p20 + 0x3FC;
+        task98c->fC = (void (*)(void))sub_080941B4;
+        task98c->a24 = 0;
+        task98c->a8 = 0x44;
+        taskStart98c(task98c, 0, 0);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094530);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094590);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094638);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080948E0);
@@ -205,19 +198,24 @@ void sub_08094968(void) {
         gUnk_03000278 = 0;
     }
 }
-#ifdef NONMATCHING
+struct Task98 { u32 a0,a4,a8; void (*fC)(void); u8 *p10; u32 pad[3]; void *p20; u32 a24; };
+extern struct Task98 *task98 asm("gUnk_03000278");
+extern void taskStart98(struct Task98 *, u32, u32) asm("sub_08000274");
 void sub_080949A8(void)
 {
-    u32 mem;
-    u8 *obj=*(u8 **)0x03000278; if(!obj)return;
-    if(!sub_08000470((u32)obj)&&*(u32 *)(obj+8)==0)return;
-    mem = sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; if(!mem)return;
-    *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0xC)=(u32)sub_080948E0;
-    *(u32 *)(obj+0x24)=0; *(u32 *)(obj+8)=0x44; sub_08000274(obj,0,0);
+    void *mem;
+    if (task98 != 0 && (sub_08000470((u32)task98) != 0 || task98->a8 == 0)) {
+        mem = sub_08001494(0x400);
+        task98->p20 = mem;
+        if (mem != 0) {
+            task98->p10 = (u8 *)mem + 0x3FC;
+            task98->fC = (void (*)(void))sub_080948E0;
+            task98->a24 = 0;
+            task98->a8 = 0x44;
+            taskStart98(task98, 0, 0);
+        }
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080949A8);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094A00);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094AB8);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094DEC);
@@ -240,28 +238,22 @@ void sub_08094EA4(void) {
         gUnk_0300027C = 0;
     }
 }
-#ifdef NONMATCHING
+extern struct Task98 *task98b asm("gUnk_0300027C");
 void sub_08094EE4(void)
 {
-    u8 *obj = *(u8 **)0x0300027C;
-    u32 mem;
-    if (obj == 0)
-        return;
-    if (sub_08000470((u32)obj) == 0 && *(u32 *)(obj + 8) == 0)
-        return;
-    mem = sub_08001494(0x400);
-    *(u32 *)(obj + 0x20) = mem;
-    if (mem == 0)
-        return;
-    *(u32 *)(obj + 0x10) = mem + 0x3FC;
-    *(u32 *)(obj + 0x0C) = (u32)sub_08094DEC;
-    *(u32 *)(obj + 0x24) = 0;
-    *(u32 *)(obj + 8) = 0x44;
-    sub_08000274(obj, 0, 0);
+    void *mem;
+    if (task98b != 0 && (sub_08000470((u32)task98b) != 0 || task98b->a8 == 0)) {
+        mem = sub_08001494(0x400);
+        task98b->p20 = mem;
+        if (mem != 0) {
+            task98b->p10 = (u8 *)mem + 0x3FC;
+            task98b->fC = (void (*)(void))sub_08094DEC;
+            task98b->a24 = 0;
+            task98b->a8 = 0x44;
+            taskStart98(task98b, 0, 0);
+        }
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094EE4);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094F3C);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080953F8);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095518);

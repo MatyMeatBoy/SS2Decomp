@@ -6,7 +6,7 @@ extern void sub_08066720();
 extern u8 *sub_08002118();
 void sub_08064E14(void);
 void sub_0806690C(u32 peer);
-void sub_08065A1C(void);
+void sub_08065A1C(u32 a, s32 frames);
 extern u32 sub_08001638(u32 size);
 extern void sub_0806335C(void);
 extern M2C_UNK sub_08000274_task(void *) __asm__("sub_08000274");
@@ -44,7 +44,24 @@ void sub_080659F4(s32 *arg0, s32 arg1, s32 arg2, s32 arg3)
   }
   *arg0 = (((s32) (arg2 * arg3)) >> 0xA) + (((s32) (arg1 * (0x400 - arg3))) >> 0xA);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A1C);
+extern void sub_0801A3D0(s32, u16, u16);
+extern void sub_0801A664(u16, s32);
+void sub_08065A1C(u32 a, s32 frames)
+{
+    s32 color = 15;
+    s32 text = sub_08007290(0x140000 | a);
+    s32 offset = -((u32)sub_0801A638((u8 *)(text + 2)) >> 1);
+    frames--;
+    if (frames != -1) {
+        do {
+            if (sub_0805F184() == 0 && sub_0800CC98() == 0)
+                sub_0801A3D0(text + 2, offset + 15, color);
+            sub_080003F0();
+            frames--;
+        } while (frames != -1);
+    }
+    sub_0801A664(color, 2);
+}
 extern u32 sub_08001638(u32);
 struct Task6A90 { u32 f0, f4, f8; void (*fC)(); u8 *f10; u32 f14, f18, f1C; u8 *f20; u32 f24; };
 extern struct Task6A90 task6A90 asm("gUnk_030061B0");
@@ -104,7 +121,32 @@ void sub_08065B84(void)
     sub_08001538(gUnk_03006030);
     gUnk_03006030 = result;
 }
+#ifdef NONMATCHING
+extern void sub_0800BC08(u32, u32, s16 *, s16 *, s32, s32);
+extern void draw66(const u8 *, s32, s32) asm("sub_0801A764");
+s32 sub_08065BD0(s32 index, s32 frames)
+{
+    s16 x;
+    s16 y;
+    u8 *player = (u8 *)&gUnk_03003CE0[index];
+    u8 *text;
+    u16 *data;
+    frames--;
+    if (frames != -1) {
+        do {
+            if (sub_0800CC98() == 0) {
+                data = *(u16 **)(player + 0x148);
+                sub_0800BC08(data[0] >> 4, (u32)(data[1] << 20) >> 20, &x, &y, 0x30, 1);
+                draw66(player + 2, x - sub_0801A638(player + 2) * 4, y - 0x30);
+            }
+            sub_080003F0();
+            frames--;
+        } while (frames != -1);
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065BD0);
+#endif
 struct TaskC50 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct TaskC50 gTaskC50 asm("gUnk_03002840");
 void sub_08065C50(u32 arg)

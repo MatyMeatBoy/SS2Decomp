@@ -36,75 +36,176 @@ extern const u32 gUnk_084EBD4C[];
 
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807A5D4);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807B7B4);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807BD78);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807BEA0);
-#ifdef NONMATCHING
-void sub_0807C014(u32 amount)
+void sub_0807BD78(u32 kind, u32 index)
 {
-    u8 *inventory = (u8 *)gUnk_030034E0;
-    u8 *manager = (u8 *)gUnk_03006440;
+    switch (kind) {
+    case 0: {
+        register u8 *base asm("r0") = (u8 *)gUnk_030034E0;
+        register u32 offset asm("r1") = index * 16;
+        *(u16 *)(base + offset + 0x150) = 0;
+        break; }
+    case 1: {
+        register u8 *base asm("r2") = (u8 *)gUnk_030034E0;
+        register u8 *dest asm("r0") = base + index * 16;
+        *(u16 *)(dest + 0x70) = 0;
+        if (index == *(u16 *)(base + 0x68)) sub_0805AD78(index);
+        break; }
+    case 2:
+        *(u16 *)((u8 *)gUnk_030034E0 + 0x100) = 0;
+        sub_0805D094(); break;
+    case 3:
+        *(u16 *)((u8 *)gUnk_030034E0 + 0x120) = 0;
+        sub_0805D13C(); break;
+    case 4:
+        *(u16 *)((u8 *)gUnk_030034E0 + 0x110) = 0;
+        sub_0805D0E8(); break;
+    case 5:
+        *(u16 *)((u8 *)gUnk_030034E0 + 0x130) = 0;
+        sub_0805D190(); break;
+    case 6:
+        *(u16 *)((u8 *)gUnk_030034E0 + 0x140) = 0;
+        sub_0805D1E0(); break;
+    case 11: case 13: case 16:
+        { register u8 *base asm("r0") = (u8 *)gUnk_03006440;
+        register u32 offset asm("r1") = index * 16;
+        *(u16 *)(base + offset + 0x104) = 0;
+        break; }
+    }
+}
+struct Copy7BEA0 { u32 words[4]; };
+void sub_0807BEA0(u32 kind, u32 index, struct Copy7BEA0 *item)
+{
+    switch (kind) {
+    case 0:
+        { register u8 *base asm("r1") = (u8 *)gUnk_030034E0;
+        register u32 offset asm("r0") = index * 16;
+        base += offset;
+        base += 0x150;
+        *(struct Copy7BEA0 *)base = *item; } break;
+    case 1:
+        { register u8 *base asm("r1") = (u8 *)gUnk_030034E0;
+        register u32 offset asm("r0") = index * 16;
+        base += offset;
+        base += 0x70;
+        *(struct Copy7BEA0 *)base = *item; }
+        if (index == *(u16 *)((u8 *)gUnk_030034E0 + 0x68)) sub_0805AD78(index);
+        break;
+    case 2:
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x100) = *item;
+        sub_0805D094(); break;
+    case 3:
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x120) = *item;
+        sub_0805D13C(); break;
+    case 4:
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x110) = *item;
+        sub_0805D0E8(); break;
+    case 5:
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x130) = *item;
+        *(u16 *)((u8 *)gUnk_030034E0 + 0x136) = 0;
+        sub_0805D190(); break;
+    case 6:
+        *(struct Copy7BEA0 *)((u8 *)gUnk_030034E0 + 0x140) = *item;
+        sub_0805D1E0(); break;
+    case 13: case 16:
+        { register u8 *base asm("r1") = (u8 *)gUnk_03006440;
+        register u32 offset asm("r0") = index * 16;
+        base += offset;
+        base += 0x104;
+        *(struct Copy7BEA0 *)base = *item; } break;
+    }
+}
+struct Item7C014 { u16 kind; u16 pad; u32 count; u32 rest[2]; };
+void sub_0807C014(u32 arg0)
+{
+    register u32 amount asm("r4") = arg0;
+    register u32 minimum asm("r5");
+    register u32 selected asm("r6");
+    register u32 i asm("r3");
+    u32 remaining;
+    register u8 *base asm("r0");
+    register u32 offset asm("r7");
+    register s32 *ptr1 asm("r1");
+    register s32 *ptr7 asm("r7");
+    register struct Item7C014 *chosen asm("r10");
+    register s32 *inventory asm("r8") = &gUnk_030034E0;
+    register s32 *inventory2 asm("r9") = inventory;
+    u8 *cursor;
+    register u32 *count asm("r2");
 
-    while (1) {
-        u32 i;
-        u32 minimum = 0xFFFFFFFF;
-        u32 selected = 0x19;
-
-        for (i = 0; i < 0x19; i++) {
-            u8 *item = inventory + 0x150 + i * 0x10;
-            u32 count = *(u32 *)(item + 4);
-            if (*(u16 *)item == 0xA && count < minimum) {
-                minimum = count;
-                selected = i;
-            }
+loop:
+    minimum = -1;
+    selected = 25;
+    i = 0;
+    ptr1 = inventory2;
+    base = (u8 *)*ptr1;
+    count = (u32 *)(base + 0x154);
+    cursor = (u8 *)*ptr1;
+    do {
+        register u32 fieldOffset asm("r7") = 0x150;
+        if (*(u16 *)(cursor + fieldOffset) == 10) {
+            u32 value = *count;
+            if (value < minimum) { selected = i; minimum = value; }
         }
-        if (selected != 0x19) {
-            u8 *item = inventory + 0x150 + selected * 0x10;
-            if (minimum < amount) {
-                amount -= minimum;
-                sub_0805D580(selected);
-                continue;
-            }
-            *(u32 *)(item + 4) = minimum - amount;
-            if (*(u32 *)(item + 4) == 0)
-                sub_0805D580(selected);
-            return;
+        count += 4;
+        cursor += 16;
+        i++;
+    } while (i <= 24);
+    if (selected <= 24) {
+        if (minimum >= amount) {
+            register u32 *item asm("r0");
+            register u32 value asm("r1");
+            ptr1 = inventory;
+            item = (u32 *)*ptr1;
+            value = selected * 16;
+            item = (u32 *)((u8 *)item + 0x154);
+            item = (u32 *)((u8 *)item + value);
+            value = *item - amount;
+            *item = value;
+            remaining = value;
+            if (remaining == 0) sub_0805D580(selected);
+        } else {
+            register u32 index asm("r1");
+            ptr7 = inventory2;
+            base = (u8 *)*ptr7;
+            index = selected * 16;
+            base += 0x154;
+            base += index;
+            amount -= *(u32 *)base;
+            sub_0805D580(selected);
+            goto loop;
         }
-        {
-            u8 *items;
-            u8 *selectedItem = 0;
-            if (*(u32 *)manager == 4)
-                items = manager + 0x104;
-            else
-                items = inventory + 0x2E0;
-            minimum = 0xFFFFFFFF;
-            selected = 0x4B;
-            for (i = 0; i < 0x4B; i++) {
-                u8 *item = items + i * 0x10;
-                u32 count = *(u32 *)(item + 4);
-                if (*(u16 *)item == 0xA && count < minimum) {
-                    minimum = count;
-                    selected = i;
-                    selectedItem = item;
-                }
+    } else {
+        selected = 75;
+        if (*(u32 *)gUnk_03006440 != 4) { ptr7 = inventory; base = (u8 *)*ptr7; cursor = base + 0x2E0; }
+        else { offset = 0x104; cursor = (u8 *)gUnk_03006440 + offset; }
+        i = 0;
+        do {
+            if (*(u16 *)cursor == 10) {
+                u32 value = *(u32 *)(cursor + 4);
+                if (value < minimum) { selected = i; minimum = value; chosen = (struct Item7C014 *)cursor; }
             }
-            if (selected == 0x4B)
-                return;
+            i++;
+            cursor += 16;
+        } while (i <= 74);
+        if (selected != 75) {
             if (minimum < amount) {
-                amount -= minimum;
-                *(u32 *)(selectedItem + 4) = 0;
-                *(u16 *)selectedItem = 0;
-                continue;
+                register struct Item7C014 *p asm("r1") = chosen;
+                register u32 zero asm("r0");
+                amount -= p->count;
+                zero = 0;
+                p->count = zero;
+                p->kind = zero;
+                goto loop;
             }
-            *(u32 *)(selectedItem + 4) = minimum - amount;
-            if (*(u32 *)(selectedItem + 4) == 0)
-                *(u16 *)selectedItem = 0;
-            return;
+            {
+                register struct Item7C014 *p asm("r2") = chosen;
+                register u32 result asm("r0") = p->count - amount;
+                p->count = result;
+                if (result == 0) p->kind = result;
+            }
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C014);
-#endif
 struct Item7C114 { u16 kind; u16 pad; u32 count; u8 flag; u8 rest[7]; };
 struct Manager7C114 { u32 kind; u32 f4; u32 f8; u8 padC[12]; u32 f18; u32 f1C; u32 f20; u8 pad24[0xD0]; struct Item7C114 item; };
 s32 sub_0807C114(void)

@@ -44,7 +44,32 @@ extern u32 gUnk_03000210;
 extern u32 gUnk_03000230;
 typedef void (*Handler)(void);
 
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FB5C);
+extern u32 tableFB5C[] asm("gUnk_0850DE28");
+u32 sub_0808FB5C(u32 arg)
+{
+    u8 *base;
+    u8 *dest;
+    u32 *table;
+    if (*(u16 *)((u8 *)gUnk_03005CF4+0x10)==0) {
+        sub_0802704C(arg);
+        gUnk_03003170.pad72=30;
+        goto fail;
+    }
+    if (sub_08056E90()==0) goto fail;
+    sub_0801ABE8(3);
+    sub_0800BB40();
+    while (sub_0801AAE0()==0) sub_080003F0();
+    sub_0800BB40();
+    base=(u8 *)gUnk_03005CF4;
+    dest=base+0x71C;
+    table=tableFB5C;
+    *(u32 *)dest=table[*(u32 *)(base+0x40)];
+    *(u16 *)(base+0x10)=0;
+    *(u16 *)(base+0x36)=6;
+    return 1;
+fail:
+    return 0;
+}
 u32 sub_0808FBDC(u32 arg0)
 {
     u8 *gs;

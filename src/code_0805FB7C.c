@@ -73,7 +73,39 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08064E14);
 void sub_0806514C(void) {
     gUnk_03006028 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065158);
+struct Init66 { s32 f0, f4, f8, fC, f10, f14, f18; u8 data[16]; };
+s32 sub_08065158(struct Init66 *obj, u32 resource, s32 index, s32 size, s32 alternate)
+{
+    void *table = &gUnk_08518938;
+    s32 mem;
+    s32 first;
+    s32 second;
+    s32 i;
+    if (alternate != 0)
+        table = &gUnk_08E3FB54;
+    obj->f10 = resource;
+    obj->f14 = index;
+    obj->f18 = size;
+    first = sub_08006EE0(resource, table);
+    obj->f8 = first;
+    if (first == 0) return 0;
+    resource = (resource & 0xFFFF) | 0x60000;
+    second = sub_08006EE0(resource, table);
+    obj->f0 = second;
+    if (second == 0) return 0;
+    mem = sub_08006EE0((resource & 0xFFFF) | 0x80000, table);
+    obj->fC = mem;
+    if (mem == 0) return 0;
+    if (size >= 0)
+        sub_08000AF0(obj->f14 + 0x10, mem + (obj->f14 << 5), obj->f18);
+    i = 0;
+    do {
+        obj->data[i] = i;
+        i++;
+    } while ((u32)i <= 15);
+    sub_080653B8(obj, 0x120, 0xE0, 8);
+    return (s32)obj;
+}
 void sub_08065204(void *arg0) {
     M2C_FIELD(arg0, s32 *, 0x10) = -1;
     M2C_FIELD(arg0, s32 *, 8) = 0;
@@ -89,8 +121,32 @@ void sub_08065214(void *arg0) {
 void sub_08065230(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4) {
     sub_08007CF0(arg1, arg2, arg3, (u16) arg4, 0, arg0 + 0x1C, M2C_FIELD(arg0, s32 *, 8), M2C_FIELD(arg0, s32 *, 0));
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065264);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080652E0);
+extern void sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
+struct Bounce66 { s32 f0, f4, f8; u8 pad[0x20]; u16 value; u16 step; s16 upper; s16 lower; };
+void sub_08065264(struct Bounce66 *obj, s32 x, s32 y, u16 a, u16 b)
+{
+    u16 step = obj->step;
+    u32 value = step + obj->value;
+    s16 result;
+    obj->value = value;
+    if ((s32)(step << 16) > 0 && (s16)value > obj->upper)
+        obj->step = -step;
+    if ((s16)obj->step < 0 && (s16)obj->value < obj->lower)
+        obj->step = -obj->step;
+    sub_08007F0C(x, y, a, b, 0, (u8 *)obj + 0x1C, obj->f8, obj->f0, (s16)obj->value, (s16)obj->value, 255);
+}
+void sub_080652E0(struct Bounce66 *obj, s32 x, s32 y, u16 a, u16 b, u16 c)
+{
+    u16 step = obj->step;
+    u32 value = step + obj->value;
+    s16 result;
+    obj->value = value;
+    if ((s32)(step << 16) > 0 && (s16)value > obj->upper)
+        obj->step = -step;
+    if ((s16)obj->step < 0 && (s16)obj->value < obj->lower)
+        obj->step = -obj->step;
+    sub_08007F0C(x, y, a, b, (u8)c, (u8 *)obj + 0x1C, obj->f8, obj->f0, (s16)obj->value, (s16)obj->value, 255);
+}
 s32 sub_08065370(void *arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4) {
     return sub_08008CC4(arg1, arg2, arg3, M2C_FIELD(arg0, s32 *, 8), arg4);
 }
