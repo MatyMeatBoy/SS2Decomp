@@ -367,39 +367,55 @@ test:
     if (sub_080021A8() == 0) goto countdown;
     goto again;
 }
-#ifdef NONMATCHING
 void sub_0805A088(u32 arg)
 {
-    u32 pos[2] = { 0xB700, 0xE100 };
-    u32 result = 0;
-    u32 packed = 0x0028000A;
-    u8 *entry = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A + 0x8C;
-    while (sub_08021FE0(entry, pos, &result, &packed) == 0)
+    u32 pos[2];
+    u32 result;
+    u32 packed;
+    u8 *entry;
+    result = 0;
+    pos[0] = 0xB700;
+    pos[1] = 0xE100;
+    packed = 0x0028000A;
+    entry = (u8 *)&((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()];
+    while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0)
         sub_080003F0();
     sub_08068070((u32)sub_0804BC38, arg);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A088);
-#endif
-#ifdef NONMATCHING
-void sub_0805A0EC(u32 count)
+void sub_0805A0EC(u32 owner)
 {
-    u8 *entry;
+    extern u8 * volatile mapObjects asm("gUnk_030034E0");
+    u32 remaining;
     u32 i;
-    if (sub_080020F4() != count)
-        return;
-    entry = (u8 *)(*(u32 *)0x030034E0) + 0x150;
-    for (i = 0; i <= 0x18 && count != 0; i++, entry += 0x10) {
-        if (*(u16 *)entry == 1 && *(u16 *)(entry + 2) == 0x22) {
-            *(u16 *)entry = 0;
-            *(u16 *)(entry + 2) = 0;
-            count--;
+    register u32 zero asm("r5");
+    register u8 * volatile *map asm("r6");
+    if (sub_080020F4() != owner) return;
+    remaining = 1;
+    i = 0;
+    map = &mapObjects;
+    zero = 0;
+loop:
+    {
+        register u8 *base asm("r0") = *map;
+        u8 *slot = base + i * 16;
+        register u32 offset asm("r0") = 0x150;
+        u16 *status = (u16 *)(slot + offset);
+        if (*status == 1) {
+            offset = 0x152;
+            slot += offset;
+            if (*(u16 *)slot == 0x22) {
+                remaining--;
+                *status = zero;
+                *(u16 *)slot = zero;
+                if (remaining == 0) goto done;
+            }
         }
     }
+    i++;
+    if (i <= 0x18) goto loop;
+done:
+    return;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A0EC);
-#endif
 void sub_0805A138(u32 mode)
 {
     switch (mode) {
@@ -438,7 +454,6 @@ void sub_0805A1B4(void)
     ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#ifdef NONMATCHING
 void sub_0805A258(void)
 {
     if (sub_0800CC98() == 0) {
@@ -451,11 +466,8 @@ void sub_0805A258(void)
             sub_080003F0();
     }
     sub_0802939C(1, 1);
-    sub_08028D98(1, 0xF0, 0x190, 0);
+    sub_08028D98(1, 0xF0, 0, 0x190);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A258);
-#endif
 void sub_0805A2B8(void) {
     sub_08028AAC(8, 0x270F, 0x270F, 0);
     if (!(gUnk_030027D0 & 0x20)) {
@@ -474,19 +486,17 @@ void sub_0805A2E4(void)
     mask |= old;
     *field = mask;
 }
-#ifdef NONMATCHING
 u32 sub_0805A318(void)
 {
+    struct PlayerKinds { u8 pad[0x64]; u16 kind; u8 tail[0xE6]; };
     u32 count = sub_08002164();
-    u16 *p = (u16 *)0x03003D44;
     u32 i;
-    for (i=0; i<count; i++, p += 0x53)
-        if (*p == 6 || *p == 8) return 1;
+    for (i = 0; i < count; i++) {
+        u16 kind = ((struct PlayerKinds *)gUnk_03003CE0)[i].kind;
+        if (kind == 6 || kind == 8) return 1;
+    }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A318);
-#endif
 void sub_0805A350(void)
 {
     u8 *field;
@@ -545,69 +555,74 @@ u16 sub_0805A4A0(u16 index)
 {
     return ((struct GameState22 *)gUnk_03005CF4)->arr22[index] - 1;
 }
-#ifdef NONMATCHING
 void sub_0805A4BC(u32 arg)
 {
-    u8 *base = *(u8 **)0x03005CF4;
-    u32 *slot = (u32 *)(base + 0x6F4);
-    while (sub_08000470((u32)slot) == 0) {
-        *slot = sub_08001494(0xC00);
-        if (*slot == 0) sub_080003F0();
+    u32 mem;
+    register u8 *base asm("r0");
+    register u8 **owner asm("r4") = (u8 **)&gUnk_03005CF4;
+    if (sub_08000470((u32)*owner + 0x6F4) != 0) return;
+    goto allocate;
+retry:
+    sub_080003F0();
+allocate:
+    {
+        register u32 slotOffset asm("r2");
+        mem = sub_08001494(0xC00);
+        slotOffset = 0x714;
+        *(u32 *)(*owner + slotOffset) = mem;
     }
-    if (*slot != 0) {
-        u8 *obj = *(u8 **)slot;
-        *(u32 *)(obj + 0x700) = (u32)sub_08027C1C;
-        *(u32 *)(obj + 0x704) = *(u32 *)(obj + 0x718) + 0xBFC;
-        *(u32 *)(obj + 0x6FC) = 0x46;
-        *(u32 *)(obj + 0x71C) = 0;
-        sub_08000274((u32)slot, (void *)arg, 0);
-    }
+    if (mem == 0) goto retry;
+    base = (u8 *)gGameState;
+    *(u32 *)(base + 0x700) = (u32)sub_08027C1C;
+    *(u32 *)(base + 0x704) = *(u32 *)(base + 0x714) + 0xBFC;
+    *(u32 *)(base + 0x6FC) = 0x46;
+    *(u32 *)(base + 0x718) = 0;
+    sub_08000274((u32)(base + 0x6F4), arg);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A4BC);
-#endif
-#ifdef NONMATCHING
 void sub_0805A550(s16 *item, u32 index)
 {
-    u8 *state;
+    struct SlotArray { u8 pad[0x724]; s16 *items[1]; };
     if (*item == 0) return;
-    state = *(u8 **)0x03005CF4;
-    *(s16 **)(state + 0x724 + index * 4) = item;
+    ((struct SlotArray *)gGameState)->items[index] = item;
     sub_08023ED8(item, index);
-    (*(u16 *)(state + 0xA))++;
+    (*(u16 *)((u8 *)gGameState + 0xA))++;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A550);
-#endif
-#ifdef NONMATCHING
 void *sub_0805A58C(u32 arg0, u32 callback)
 {
     u32 i;
     u32 mem;
-    u8 *entry = *(u8 **)0x03005CF4 + 0xE34;
-    for (i = 0; i <= 0x1D; i++, entry += 0x28) {
-        if (sub_08000470((u32)entry) == 0)
-            break;
-    }
-    if (sub_08000470((u32)entry) != 0)
-        return 0;
-    *(u16 *)(*(u8 **)0x03005CF4 + 4) |= 0x80;
-    do {
-        mem = sub_08001494(0x400);
-        if (mem == 0)
+    register u8 *base asm("r1") = (u8 *)gGameState;
+    register u32 offset asm("r2") = 0xE34;
+    u8 *entry = base + offset;
+    i = 0;
+    goto search;
+next:
+    i++;
+    entry += 0x28;
+search:
+    if (i > 0x1D) goto done;
+    if (sub_08000470((u32)entry) != 0) goto next;
+    {
+            gGameState->flags |= 0x80;
+            goto allocate;
+retry:
             sub_080003F0();
-    } while (mem == 0);
-    *(u32 *)(entry + 0x20) = mem;
-    *(u32 *)(entry + 8) = 0x3C;
-    *(u32 *)(entry + 0xC) = callback;
-    *(u32 *)(entry + 0x10) = mem + 0x3FC;
-    *(u32 *)(entry + 0x24) = (u32)sub_0805A704;
-    sub_08000274((u32)entry, arg0);
-    return entry;
+allocate:
+            {
+                mem = sub_08001494(0x400);
+                *(u32 *)(entry + 0x20) = mem;
+            }
+            if (mem == 0) goto retry;
+            *(u32 *)(entry + 8) = 0x3C;
+            *(u32 *)(entry + 0xC) = callback;
+            *(u32 *)(entry + 0x10) = mem + 0x3FC;
+            *(u32 *)(entry + 0x24) = (u32)sub_0805A704;
+            sub_08000274((u32)entry, arg0);
+            return entry;
+    }
+done:
+    ;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A58C);
-#endif
 void sub_0805A60C(s32 arg0) {
     sub_0802413C(arg0, 0);
 }

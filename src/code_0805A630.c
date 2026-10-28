@@ -16,17 +16,14 @@ void sub_0805A654(s32 arg0) {
 void sub_0805A660(s32 arg0) {
     sub_0802413C(arg0, 7);
 }
-#ifdef NONMATCHING
 void sub_0805A66C(void)
 {
-    u8 *base = *(u8 **)0x03005CF4 + 0x1834;
-    u32 i;
-    for (i = 0; i <= 0x1F; i++, base += 0x28)
-        if (sub_08000470((u32)base)) sub_080003A8((u32)base);
+    u32 i = 0;
+    struct GameState **owner = &gGameState;
+    u32 offset = 0x1834;
+    for (; i <= 0x1F; offset += 0x28, i++)
+        if (sub_08000470((u32)*owner + offset)) sub_080003A8((u32)*owner + offset);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A66C);
-#endif
 void sub_0805A6A0(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFEFF & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
@@ -47,78 +44,97 @@ void sub_0805A6F0(void)
 void sub_0805A704(void) {
     M2C_FIELD(gUnk_03005CF4, u16 *, 4) = (u16) (0xFF7F & M2C_FIELD(gUnk_03005CF4, u16 *, 4));
 }
-#ifdef NONMATCHING
-u32 sub_0805A71C(u32 key, u32 value)
+u32 sub_0805A71C(u32 key, u16 value)
 {
-    u32 i;
-    for (i = 0; i <= 2; i++) {
-        u8 *entry;
-        if ((*(u32 *)0x03005CFC & (1u << i)) == 0)
-            continue;
-        entry = (u8 *)0x03005D00 + i * 0xC;
-        if (*(u32 *)entry == key && *(u32 *)(entry + 4) == (u16)value && *(u32 *)(entry + 8) != 0)
-            return i + 4;
+    extern u32 activeSlots asm("gUnk_03005CFC");
+    extern u8 slotRecords[] asm("gUnk_03005D00");
+    register u32 i asm("r1") = 0;
+    register u32 flags asm("r5") = activeSlots;
+    register u32 result asm("r4") = 0x40000;
+    register u32 offset asm("r3") = 0;
+loop:
+    if (flags & (1u << i)) {
+        register u32 base asm("r2") = (u32)slotRecords;
+        register u32 address asm("r0");
+        address = offset + base;
+        if (*(u32 *)address != key) goto next;
+        address = base + 4;
+        address = offset + address;
+        if (*(u32 *)address != value) goto next;
+        address = base + 8;
+        address = offset + address;
+        if (*(u32 *)address != 0) return result >> 16;
     }
+next:
+    result += 0x10000;
+    offset += 12;
+    i++;
+    if (i <= 2) goto loop;
     return 0xFFFF;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A71C);
-#endif
-#ifdef NONMATCHING
 void sub_0805A780(void *target)
 {
-    u8 *base = *(u8 **)0x03005CF4;
+    u8 *base = (u8 *)gGameState;
     u8 *entry = base + 0x7A4;
     u32 i;
     for (i = 0; i <= 0xE; i++, entry += 0x70) {
         if (entry + 0x48 == (u8 *)target) {
             sub_08028498(*(u16 *)(entry + 0x40));
-            *(u32 *)(base + 0x54) &= ~(1u << i);
+            *(u32 *)((u8 *)gGameState + 0x54) &= ~(1u << i);
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A780);
-#endif
-#ifdef NONMATCHING
 u32 sub_0805A7C4(u32 id, u32 x, u32 y)
 {
     u32 i;
-    u8 *owner = *(u8 **)0x03005CF4;
-    u8 *entry = owner + 0x7A4;
-    for (i = 0; i <= 0xE; i++, entry += 0x70) {
-        u32 bit;
-        u32 mem;
-        if (sub_08000470((u32)(entry + 0x48)) != 0) continue;
-        bit = 1u << i;
-        *(u32 *)(owner + 0x54) |= bit;
-        *(u32 *)entry = *(u32 *)(owner + 0x4C);
-        (*(u32 *)(owner + 0x4C))++;
-        *(u32 *)(entry + 4) = id;
-        *(u32 *)(entry + 0x3C) = 1;
-        *(u32 *)(entry + 8) = x << 8;
-        *(u32 *)(entry + 0xC) = y << 8;
-        *(u32 *)(entry + 0x50) = 0x3C;
-        mem = sub_08001494(0x400);
-        *(u32 *)(entry + 0x68) = mem;
-        *(u32 *)(entry + 0x54) = (u32)sub_080284F4;
-        *(u32 *)(entry + 0x58) = mem + 0x3FC;
-        *(u32 *)(entry + 0x6C) = (u32)sub_0805A780;
-        sub_08000274((u32)(entry + 0x48), (u32)entry);
-        return *(u32 *)entry;
-    }
-    return 0;
+    u32 mem;
+    register u32 one asm("r3");
+    register u8 *base asm("r0") = (u8 *)gGameState;
+    register u32 offset asm("r1") = 0x7A4;
+    u8 *entry = base + offset;
+    u8 *task;
+    register u8 *owner asm("r2");
+    i = 0;
+    offset += 0x48;
+    task = base + offset;
+    goto search;
+next:
+    i++; entry += 0x70; task = entry + 0x48;
+search:
+    if (i > 0xE) return 0;
+    if (sub_08000470((u32)task) != 0) goto next;
+    owner = (u8 *)gGameState;
+    one = 1;
+    *(u32 *)(owner + 0x54) |= one << i;
+    *(u32 *)entry = *(u32 *)(owner + 0x4C);
+    (*(u32 *)(owner + 0x4C))++;
+    *(u32 *)(entry + 4) = id;
+    *(u32 *)(entry + 0x3C) = one;
+    *(u32 *)(entry + 8) = x << 8;
+    *(u32 *)(entry + 0xC) = y << 8;
+    *(u32 *)(entry + 0x50) = 0x3C;
+    mem = sub_08001494(0x400);
+    *(u32 *)(entry + 0x68) = mem;
+    *(u32 *)(entry + 0x54) = (u32)sub_080284F4;
+    *(u32 *)(entry + 0x58) = mem + 0x3FC;
+    *(u32 *)(entry + 0x6C) = (u32)sub_0805A780;
+    sub_08000274((u32)task, (u32)entry);
+    return *(u32 *)entry;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A7C4);
-#endif
-#ifdef NONMATCHING
 void sub_0805A874(const u32 *args, u32 mode)
 {
-    u8 *state = (u8 *)0x03003D6C + sub_080020F4() * 0x14A;
-    u32 data[4] = { args[0], args[1], args[2], args[3] };
-    u32 callback = args[4];
-    u32 value = args[5];
+    extern u8 playerPositions[] asm("gUnk_03003D6C");
+    u8 *state = playerPositions + sub_080020F4() * 0x14C;
+    u32 data[4];
+    u32 callback;
+    u32 value;
+    u32 x;
+    u32 y;
+    data[2] = 0;
+    x = args[0]; y = args[1];
+    data[0] = x; data[1] = y;
+    data[3] = args[2];
+    callback = args[3]; value = args[4];
     if (mode) {
         while (sub_08021FE0(state, data, &data[2], &data[3]) != 0)
             sub_080003F0();
@@ -127,34 +143,41 @@ void sub_0805A874(const u32 *args, u32 mode)
         sub_080003F0();
     sub_08057328(value, callback);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A874);
-#endif
-#ifdef NONMATCHING
-void *sub_0805A8F8(u32 arg, u32 callback)
+void *sub_0805A8F8(u32 arg0, u32 callback)
 {
     u32 i;
-    u8 *entry = *(u8 **)0x03005CF4 + 0x12E4;
-    for (i = 0; i <= 0x1D; i++, entry += 0x28) {
-        u32 mem;
-        if (sub_08000470((u32)entry) != 0) continue;
-        do {
-            mem = sub_08001494(0x400);
-            if (mem == 0) sub_080003F0();
-        } while (mem == 0);
-        *(u32 *)(entry + 0x20) = mem;
-        *(u32 *)(entry + 8) = 0x3C;
-        *(u32 *)(entry + 0xC) = callback;
-        *(u32 *)(entry + 0x10) = mem + 0x3FC;
-        *(u32 *)(entry + 0x24) = 0;
-        sub_08000274((u32)entry, arg);
-        return entry;
+    u32 mem;
+    register u8 *base asm("r1") = (u8 *)gGameState;
+    register u32 offset asm("r2") = 0x12E4;
+    u8 *entry = base + offset;
+    i = 0;
+    goto search;
+next:
+    i++;
+    entry += 0x28;
+search:
+    if (i > 0x1D) goto done;
+    if (sub_08000470((u32)entry) != 0) goto next;
+    {
+            goto allocate;
+retry:
+            sub_080003F0();
+allocate:
+            {
+                mem = sub_08001494(0x400);
+                *(u32 *)(entry + 0x20) = mem;
+            }
+            if (mem == 0) goto retry;
+            *(u32 *)(entry + 8) = 0x3C;
+            *(u32 *)(entry + 0xC) = callback;
+            *(u32 *)(entry + 0x10) = mem + 0x3FC;
+            *(u32 *)(entry + 0x24) = 0;
+            sub_08000274((u32)entry, arg0);
+            return entry;
     }
-    return entry;
+done:
+    ;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A8F8);
-#endif
 void *sub_0805A960(u32 value)
 {
     u8 *entry = *(u8 **)0x03005CF4 + 0x7A4;
@@ -164,130 +187,173 @@ void *sub_0805A960(u32 value)
     sub_080003F0();
     return 0;
 }
-#ifdef NONMATCHING
 void sub_0805A994(u32 index, u32 a, u32 b)
 {
     u32 bit;
     u8 *entry;
     if (index == 0)
         return;
-    bit = 1u << (index - 1);
-    while ((gUnk_030056FC & bit) == 0)
-        sub_080003F0();
-    entry = (u8 *)gUnk_030056F4 + (index - 1) * 0x2E0;
+    index--;
+    {
+        register u32 *flags asm("r2") = (u32 *)&gUnk_030056FC;
+        bit = 1u << index;
+        if ((*flags & bit) == 0) {
+            u32 *savedFlags = flags;
+            u32 savedBit = bit;
+            do { sub_080003F0(); } while ((*savedFlags & savedBit) == 0);
+        }
+    }
+    entry = (u8 *)gUnk_030056F4 + index * 0x2E0;
     *(u32 *)(entry + 0x38) = a;
     *(u32 *)(entry + 0x3C) = b;
     *(u32 *)(entry + 0x30) = 0;
     *(u32 *)(entry + 0x34) = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A994);
-#endif
-#ifdef NONMATCHING
 void sub_0805A9F4(u32 packed)
 {
-    u32 *current = (u32 *)0x03005CF8;
-    u32 old = *current;
-    u32 value = packed & 0xFF;
-    u32 frames = packed >> 16;
-    *current = value;
-    if ((gUnk_030027D0 & 0x20) == 0)
-        sub_08006CB4(value);
-    while (frames != 0) {
+    register u32 value asm("r2") = packed;
+    register u32 frames asm("r5") = value >> 16;
+    register u32 previous asm("r4");
+    register u32 saved asm("r6");
+    register u32 wait asm("r4");
+    register u32 next asm("r0");
+    value &= 0xFF;
+    previous = gUnk_03005CF8;
+    gUnk_03005CF8 = value;
+    if ((gUnk_030027D0 & 0x20) == 0) sub_08006CB4(value);
+    saved = previous;
+    wait = frames;
+    goto test;
+countdown:
+    next = (wait - 1) << 16;
+    wait = next >> 16;
+test:
+    if (wait != 0) {
         sub_080003F0();
-        if (sub_080021A8() == 0)
-            frames--;
+        if (sub_080021A8() == 0) goto countdown;
     }
     if (sub_0800CC98() == 0) {
-        *current = old;
+        gUnk_03005CF8 = saved;
         if ((gUnk_030027D0 & 0x20) == 0)
-            sub_08006CB4(old);
+            ((void (*)(u32))sub_08006CB4)(saved);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805A9F4);
-#endif
-#ifdef NONMATCHING
 void sub_0805AA68(u32 packed)
 {
-    u32 wait = packed >> 16;
-    u32 value = packed & 0xFF;
-    while (wait != 0) {
+    u32 value = packed;
+    u32 frames = value >> 16;
+    u16 wait;
+    value &= 0xFF;
+    wait = frames;
+    goto test;
+countdown:
+    wait--;
+test:
+    if (wait != 0) {
         sub_080003F0();
-        if (sub_080021A8() != 0)
-            wait--;
+        if (sub_080021A8() == 0) goto countdown;
     }
     if (sub_0800CC98() == 0) {
         gUnk_03005CF8 = value;
         if ((gUnk_030027D0 & 0x20) == 0)
-            sub_08006CB4(value);
+            ((void (*)(u32))sub_08006CB4)(value);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AA68);
-#endif
-#ifdef NONMATCHING
 void sub_0805AAB8(u32 packed)
 {
-    u32 wait = packed >> 16;
-    u32 value = packed & 0xFF;
-    u32 previous = gUnk_03005CF8;
+    register u32 value asm("r2") = packed;
+    u16 frames = value >> 16;
+    u32 previous;
+    u32 saved;
+    u16 wait;
+    value &= 0xFF;
+    previous = gUnk_03005CF8;
     gUnk_03005CF8 = value;
-    if ((gUnk_030027D0 & 0x20) == 0)
-        sub_08006CB4(value);
-    while (wait != 0) {
+    if ((gUnk_030027D0 & 0x20) == 0) sub_08006CB4(value);
+    saved = previous;
+    wait = frames;
+    goto test;
+countdown:
+    wait--;
+test:
+    if (wait != 0) {
         sub_080003F0();
-        if (sub_080021A8() == 0)
-            wait--;
+        if (sub_080021A8() == 0) goto countdown;
     }
     if (sub_0800CC98() == 0)
-        sub_0800A34C(*(u16 *)((u8 *)&gUnk_03003170 + 0x8C), previous, 1);
+        sub_0800A34C(gUnk_03003170.curLevel, saved, 1);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AAB8);
-#endif
 #ifdef NONMATCHING
-u32 sub_0805AB20(u8 *item)
+u32 sub_0805AB20(u8 *arg)
 {
-    u32 i;
-    u8 *base = *(u8 **)0x030034E0;
-    u32 remaining = *(u32 *)(item + 4);
-    if (*(u16 *)item == 0xA) {
-        for (;;) {
-            u32 i;
-            u8 *entry;
-            u32 sum;
-            s32 best = -1;
-            u32 bestValue = 0;
-            for (i = 0; i <= 0x18; i++) {
-                u8 *entry = base + 0x2E0 + i * 0x10;
-                u32 value = *(u32 *)(entry + 4);
-                if (*(u16 *)entry == 0xA && value > bestValue && value != 100000) {
-                    best = (s32)i;
-                    bestValue = value;
-                }
-            }
-            if (best < 0)
-                break;
-            entry = base + 0x2E0 + best * 0x10;
-            sum = bestValue + remaining;
-            if (sum <= 100000) {
-                *(u32 *)(entry + 4) = sum;
-                return 1;
-            }
-            *(u32 *)(entry + 4) = 100000;
-            remaining = sum - 100000;
-            *(u32 *)(item + 4) = remaining;
+    extern u8 *mapItems asm("gUnk_030034E0");
+    u8 *item = arg;
+    u32 type = *(u16 *)item;
+    register u8 **owner asm("r12") = &mapItems;
+    register s32 previous asm("r6");
+    s32 selected;
+    s32 result;
+    s32 best;
+    s32 i;
+    u8 *entry;
+    register s32 cap asm("r5");
+    u32 offset;
+    u32 sum;
+    if (type != 0xA) goto empty;
+    previous = -1;
+    goto find;
+merge:
+    previous = selected;
+    if (selected > 0x18) goto empty;
+    offset = selected * 0x10;
+    offset += 0x150;
+    entry = *owner;
+    entry += offset;
+    *(u16 *)entry = 0xA;
+    sum = *(u32 *)(entry + 4) + *(u32 *)(item + 4);
+    if (sum <= 100000) goto stacked;
+    *(u32 *)(entry + 4) = 100000;
+    *(u32 *)(item + 4) = sum - 100000;
+find:
+    selected = previous;
+    if (previous < 0) selected = 0;
+    offset = selected * 0x10;
+    offset += 0x150;
+    entry = *owner;
+    entry += offset;
+    best = -1;
+    for (i = selected; i <= 0x18; i++, entry += 0x10) {
+        cap = 100000;
+        if (*(u16 *)entry == 0xA && best < *(s32 *)(entry + 4) && *(s32 *)(entry + 4) != cap) {
+            selected = i;
+            best = *(s32 *)(entry + 4);
         }
     }
-    for (i = 0; i <= 0x18; i++) {
-        u8 *entry = base + 0x2E0 + i * 0x10;
-        if (*(u16 *)entry == 0) {
-            sub_0805CFF8(i, (const u32 *)item);
-            return 1;
-        }
+    result = selected;
+    if (best < 0) result = -1;
+    if (previous != result && result >= 0) {
+        selected = result;
+        goto merge;
     }
-    return 0;
+empty:
+    i = 0;
+    entry = mapItems + 0x150;
+    for (; i <= 0x18; i++, entry += 0x10)
+        if (*(u16 *)entry == 0) goto found;
+    selected = -1;
+    goto check;
+found:
+    selected = i;
+check:
+    if (selected == -1) return 0;
+    goto insert;
+stacked:
+    *(u32 *)(entry + 4) = sum;
+    goto success;
+insert:
+    sub_0805CFF8((u8)selected, (const u32 *)item);
+success:
+    return 1;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AB20);
@@ -295,128 +361,182 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AB20);
 #ifdef NONMATCHING
 u32 sub_0805AC08(u8 *item)
 {
-    u32 remaining;
-    u32 i;
-    u8 *base = *(u8 **)0x030034E0;
-    u32 limit = *(u16 *)(base + 0x6A) * 14;
-    if (limit > 0x18) limit = 0x19;
-    remaining = *(u32 *)(item + 4);
-    if (*(u16 *)item == 0xA) {
-        for (;;) {
-            u32 i;
-            u8 *entry;
-            u32 sum;
-            s32 best = -1;
-            u32 bestValue = 0;
-            for (i = 0; i < limit; i++) {
-                u8 *entry = base + 0x2E0 + i * 0x10;
-                u32 value = *(u32 *)(entry + 4);
-                if (*(u16 *)entry == 0xA && value > bestValue && value != 100000) {
-                    best = (s32)i;
-                    bestValue = value;
-                }
-            }
-            if (best < 0) break;
-            entry = base + 0x2E0 + best * 0x10;
-            sum = bestValue + remaining;
-            if (sum <= 100000) {
-                *(u32 *)(entry + 4) = sum;
-                return 1;
-            }
-            *(u32 *)(entry + 4) = 100000;
-            remaining = sum - 100000;
-            *(u32 *)(item + 4) = remaining;
+    extern u8 *mapItems asm("gUnk_030034E0");
+    s32 previous;
+    s32 selected;
+    s32 best;
+    s32 i;
+    s32 limit;
+    u8 *entry;
+    u32 sum;
+    if (*(u16 *)item != 0xA) goto empty;
+    previous = -1;
+    goto find;
+merge:
+    previous = selected;
+    limit = *(u16 *)(mapItems + 0x6A) * 15;
+    if (limit > 0x18) goto empty;
+    entry = mapItems + selected * 0x10 + 0x2E0;
+    *(u16 *)entry = 0xA;
+    sum = *(u32 *)(entry + 4) + *(u32 *)(item + 4);
+    if (sum <= 100000) {
+        *(u32 *)(entry + 4) = sum;
+        return 1;
+    }
+    *(u32 *)(entry + 4) = 100000;
+    *(u32 *)(item + 4) = sum - 100000;
+    if (selected >= *(u16 *)(mapItems + 0x6A) * 15) goto empty;
+find:
+    selected = previous;
+    if (previous < 0) selected = 0;
+    entry = mapItems + selected * 0x10 + 0x2E0;
+    best = -1;
+    limit = *(u16 *)(mapItems + 0x6A) * 15;
+    for (i = selected; i < limit; i++, entry += 0x10) {
+        if (*(u16 *)entry == 0xA && best < *(s32 *)(entry + 4) && *(s32 *)(entry + 4) != 100000) {
+            selected = i;
+            best = *(s32 *)(entry + 4);
         }
     }
-    for (i = 0; i < 0x19; i++) {
-        u8 *entry = base + 0x2E0 + i * 0x10;
-        if (*(u16 *)entry == 0) {
-            sub_0805D028(i, (const u32 *)item);
-            return 1;
-        }
-    }
+    if (best < 0) selected = -1;
+    if (previous != selected && selected >= 0) goto merge;
+empty:
+    entry = mapItems + 0x2E0;
+    for (i = 0; i <= 0x18; i++, entry += 0x10)
+        if (*(u16 *)entry == 0) goto found;
     return 0;
+found:
+    sub_0805D028((u8)i, (const u32 *)item);
+    return 1;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AC08);
 #endif
-#ifdef NONMATCHING
 u32 sub_0805AD18(void)
 {
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    u32 id;
+    extern u8 *mapObjects asm("gUnk_030034E0");
+    u8 *state = (u8 *)&((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()];
+    register u32 id asm("r0");
     if (*(u16 *)(state + 0xC) != *(u16 *)(state + 0x64)) {
         id = *(u16 *)(*(u32 *)(state + 0x138) + 0x28);
     } else {
-        u8 *entry = *(u8 **)0x030034E0 + *(u16 *)(*(u8 **)0x030034E0 + 0x68) * 0x10;
+        u8 *entry = mapObjects + *(u16 *)(mapObjects + 0x68) * 0x10;
         if (*(u8 *)(entry + 0x79) == 0)
             return 0;
         id = *(u16 *)(entry + 0x72);
     }
-    return sub_08007290(id | 0xB00000);
+    id |= 0xB0000;
+    return sub_08007290(id);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD18);
-#endif
 #ifdef NONMATCHING
-void sub_0805AD78(u32 index)
+s32 impl_0805AD78(u32 index) asm("sub_0805AD78");
+s32 impl_0805AD78(u32 index)
 {
-    u32 i;
+    extern u8 *mapItems asm("gUnk_030034E0");
+    u32 i = 0;
     u8 *item;
-    u8 *states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    u8 *table = *(u8 **)0x030034E0;
-    for (i = 0; i < states[0x77]; i++)
-        table[i * 0x10 + 0x79] = 0;
-    item = table + index * 0x10;
+    u32 offset;
+    u32 valid;
+    u8 *players = (u8 *)gUnk_03003CE0;
+    register u8 *states asm("r0");
+    register u32 player asm("r0");
+    register u8 *playerBase asm("r1");
+    u8 **owner;
+    u8 *table;
+    for (; i < players[sub_080020F4() * 0x14C + 0x77]; i++) {
+        register u8 *slot asm("r1") = mapItems;
+        slot = slot + i * 0x10;
+        slot += 0x79;
+        *slot = 0;
+    }
+    owner = &mapItems;
+    table = *owner;
+    offset = index * 0x10;
+    item = table + offset;
     if (*(u16 *)(item + 0x70) == 2) {
-        if (sub_0805AE34(item + 0x70)) {
+        valid = sub_0805AE34(table + (offset + 0x70));
+        if (valid) {
             u8 *resource;
-            item[0x79] = 1;
-            resource = (u8 *)sub_08007290(*(u16 *)(item + 0x72) | 0xB00000);
-            states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+            register u8 *slot asm("r0") = *owner;
+            slot += offset;
+            slot += 0x79;
+            *slot = 1;
+            resource = (u8 *)sub_08007290(*(u16 *)(mapItems + offset + 0x72) | 0xB0000);
+            player = sub_080020F4();
+            playerBase = (u8 *)gUnk_03003CE0;
+            player *= 0x14C;
+            states = (u8 *)player + (u32)playerBase;
             *(u16 *)(states + 0x10) = resource[0x9B];
         } else {
-            states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-            *(u16 *)(states + 0x10) = index;
+            player = sub_080020F4();
+            playerBase = (u8 *)gUnk_03003CE0;
+            player *= 0x14C;
+            states = (u8 *)player + (u32)playerBase;
+            *(u16 *)(states + 0x10) = valid;
         }
     } else {
-        states = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
+        player = sub_080020F4();
+        playerBase = (u8 *)gUnk_03003CE0;
+        player *= 0x14C;
+        states = (u8 *)player + (u32)playerBase;
         *(u16 *)(states + 0x10) = 0;
     }
-    sub_08065DAC();
+    return sub_08065DAC();
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD78);
 #endif
-#ifdef NONMATCHING
 u32 sub_0805AE34(const u8 *item)
 {
     u8 *resource;
     u32 state;
-    if (item == 0 || *(u16 *)item != 2 || item[8] != 0)
-        return 0;
-    resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB00000);
+    u32 raw;
+    u32 needed;
+    register u8 *kind asm("r1");
+    if (item == 0 || *(u16 *)item != 2 || item[8] != 0) goto reject;
+    resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
     state = sub_0801DE60();
-    if (((*(u16 *)(resource + 0xAE) >> state) & 1) == 0)
-        return 0;
-    if (resource[0x9B] == 9)
-        return 1;
-    return *(u16 *)(resource + 0xAC) <= (u16)sub_0801D028();
+    if (((*(u16 *)(resource + 0xAE) >> (u8)state) & 1) == 0) goto reject;
+    kind = resource + 0x9B;
+    if (*kind == 9) goto accept;
+    resource += 0xAC;
+    raw = sub_0801D028();
+    needed = *(u16 *)resource;
+    if (needed > (u16)raw) goto reject;
+accept:
+    return 1;
+reject:
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE34);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
-#ifdef NONMATCHING
 u32 sub_0805B068(const u8 *item)
 {
     u32 divisor;
     u32 value = 0;
-    u16 type = *(u16 *)item;
-    if (type >= 2 && type <= 5) {
-        u32 id = *(u16 *)(item + 2) | ((u32)(type + 9) << 20);
-        u8 *resource = (u8 *)sub_08007290(id);
-        value = *(u32 *)(resource + (type == 2 ? 0xA0 : 0x9C));
+    register u32 id asm("r0");
+    register u32 category asm("r1");
+    u8 *resource;
+    switch (*(u16 *)item) {
+    case 2:
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
+        value = *(u32 *)(resource + 0xA0);
+        break;
+    case 3:
+        id = *(u16 *)(item + 2);
+        category = 0xC0000;
+        goto common;
+    case 4:
+        id = *(u16 *)(item + 2);
+        category = 0xD0000;
+        goto common;
+    case 5:
+        id = *(u16 *)(item + 2);
+        category = 0xE0000;
+common:
+        id |= category;
+        resource = (u8 *)sub_08007290(id);
+        value = *(u32 *)(resource + 0x9C);
+        break;
     }
     divisor = 10;
     while (sub_08057C34(divisor) == 0 && divisor > 1)
@@ -425,59 +545,125 @@ u32 sub_0805B068(const u8 *item)
         return value >> 1;
     if (divisor > 5)
         divisor = 5;
-    return value * divisor / 10;
+    value = value * divisor / 10;
+    return value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B068);
-#endif
-#ifdef NONMATCHING
 u32 sub_0805B0F0(void)
 {
+    extern u8 *mapObjects asm("gUnk_030034E0");
+    register u32 first asm("r3") = 0;
+    register u32 i asm("r2") = 0;
+    register u8 **map asm("r0");
+    register u8 *base asm("r0");
+    register u8 *entry asm("r1");
+    register u32 firstOffset asm("r4");
+    register u32 second asm("r4");
+    register u32 secondOffset asm("r5");
+    map = &mapObjects;
+    base = *map;
+    firstOffset = 0x150;
+    entry = base + firstOffset;
+    do {
+        if (*(u16 *)entry == 0xA) first += *(u32 *)(entry + 4);
+        entry += 0x10; i++;
+    } while (i <= 0x18);
+    second = 0;
+    i = 0;
+    map = &mapObjects;
+    base = *map;
+    secondOffset = 0x2E0;
+    entry = base + secondOffset;
+    do {
+        if (*(u16 *)entry == 0xA) second += *(u32 *)(entry + 4);
+        entry += 0x10; i++;
+    } while (i <= 0x4A);
+    first += second;
+    return first;
+}
+#ifdef NONMATCHING
+void impl_0805B140(void) asm("sub_0805B140");
+void impl_0805B140(void)
+{
+    extern u8 *slotsMemory asm("gUnk_03005D58");
+    extern u8 *secondaryTasks asm("gUnk_03005D60");
+    u8 *entry;
     u32 i;
-    u8 *base = *(u8 **)0x030034E0;
-    u32 total = 0;
-    u8 *entry = base + 0x150;
-    for (i = 0; i <= 0x18; i++, entry += 0x10)
-        if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
-    entry = base + 0x2E0;
-    for (i = 0; i <= 0x4A; i++, entry += 0x10)
-        if (*(u16 *)entry == 0xA) total += *(u32 *)(entry + 4);
-    return total;
+    goto test;
+loop:
+    if (sub_0800CD34() != 0) goto yield;
+    if (sub_0800CC98() != 0) goto yield;
+    if (sub_0800CD8C() != 0) goto yield;
+    entry = slotsMemory;
+    for (i = 0; i <= 15; i++, entry += 0x20) {
+        register u32 flags asm("r1") = *(u16 *)(entry + 0xA);
+        register u32 active asm("r0") = 1;
+        u8 *payload;
+        active &= flags;
+        payload = entry + 0x10;
+        if (active) {
+            if (sub_0800CCCC() != 0) {
+                register u32 masked asm("r1");
+                register u8 *current asm("r0");
+                if ((*(u16 *)(entry + 8) >> 5) != 0) {
+                    masked = *(u16 *)(entry + 8) & ~0x20;
+                    current = (u8 *)&gUnk_03003170;
+                    current += 0x90;
+                    if (masked == *(u16 *)current)
+                        sub_0805FC80(*(u32 *)entry, *(u32 *)(entry + 4), payload, 1);
+                }
+            } else if ((*(u16 *)(entry + 8) >> 5) == 0)
+                sub_0805FC80(*(u32 *)entry, *(u32 *)(entry + 4), payload, 1);
+        }
+    }
+yield:
+    sub_080003F0();
+test:
+    if (sub_0800CB78() == 0) goto loop;
+    sub_08001538(slotsMemory);
+    slotsMemory = 0;
+    for (i = 0; i <= 5; i++)
+        while (sub_08000470((u32)(secondaryTasks + i * 0x28)) != 0)
+            sub_080003F0();
+    sub_08001538(secondaryTasks);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B0F0);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B140);
-#ifdef NONMATCHING
+#endif
 void sub_0805B21C(void)
 {
+    extern u8 *slotsMemory asm("gUnk_03005D58");
+    extern u32 secondaryMemory asm("gUnk_03005D60");
+    extern u8 *smallBuffer asm("gUnk_03000124");
+    extern u16 allocationCount asm("gUnk_03005D5C");
+    extern u8 slotTask[] asm("gUnk_03005D30");
     u32 i;
-    u32 *buffer;
+    u8 *entry;
     u8 *task;
-    u32 *slots = (u32 *)0x03005D58;
-    u32 *secondary = (u32 *)0x03005D60;
-    *slots = sub_08001494(0x200);
-    *secondary = sub_08001494(0xF0);
-    for (i = 0; i < 16; i++) {
-        u16 zero = 0;
-        CpuSet(&zero, (u8 *)*slots + i * 0x20, 0x01000010);
+    u16 zero;
+    register u16 *zeroPtr asm("r6");
+    u32 zeroValue;
+    slotsMemory = sub_08001494(0x200);
+    secondaryMemory = (u32)sub_08001494(0xF0);
+    entry = slotsMemory;
+    i = 0;
+    zeroPtr = &zero;
+    zeroValue = 0;
+    for (; i <= 15; i++, entry += 0x20) {
+        *zeroPtr = zeroValue;
+        CpuSet(&zero, entry, 0x01000010);
     }
-    buffer = (u32 *)0x03000124;
-    *buffer = sub_08001494(0x1B9);
+    smallBuffer = sub_08001494(0x1B9);
     for (i = 0; i <= 0x1B8; i++)
-        ((u8 *)*buffer)[i] = 0;
-    *(u16 *)0x03005D5C = 1;
-    task = (u8 *)0x03005D30;
+        smallBuffer[i] = 0;
+    allocationCount = 1;
+    task = slotTask;
     *(u32 *)(task + 0xC) = (u32)sub_0805B140;
-    *(u32 *)(task + 0x20) = sub_08001494(0x400);
+    *(u32 *)(task + 0x20) = (u32)sub_08001494(0x400);
     *(u32 *)(task + 0x10) = *(u32 *)(task + 0x20) + 0x3FC;
     *(u32 *)(task + 8) = 0x41;
     *(u32 *)(task + 0x24) = 0;
     sub_08000274((u32)task);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B21C);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B4CC);
 #ifdef NONMATCHING
@@ -623,15 +809,10 @@ void sub_0805D028(u8 index,const struct Entry61 *src) {
     if(index>=count*15) index=0;
     *(struct Entry61 *)(base+index*16+0x2E0)=*src;
 }
-#ifdef NONMATCHING
-u32 sub_0805D064(const u32 *src, u32 index)
-{
-    u32 *dst;
-    if (*(const u16 *)src != 2) return 0;
-    dst = (u32 *)(*(u32 *)0x030034E0 + index * 0x10 + 0x70);
-    dst[0]=src[0]; dst[1]=src[1]; dst[2]=src[2]; dst[3]=src[3];
-    return 1;
+u32 sub_0805D064(const struct Entry61 *src,u32 index) {
+    register u32 savedIndex asm("r3")=index;
+    register struct Entry61 *dst asm("r1");
+    register u32 offset asm("r0");
+    asm volatile("" : "+r" (savedIndex));
+    switch(*(const u16 *)src) { case 2: dst=(void *)gUnk_030034E0; asm volatile("" : "+r" (dst)); offset=savedIndex*16; asm volatile("" : "+r" (offset)); dst=(void *)((u8 *)dst+offset); asm volatile("" : "+r" (dst) : "r" (offset)); dst=(void *)((u8 *)dst+0x70); *dst=*src; return 1; default:return 0; }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805D064);
-#endif
