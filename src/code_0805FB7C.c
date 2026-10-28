@@ -1391,7 +1391,25 @@ block_91:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060E44);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061688);
+extern u32 taskMem64[] asm("gUnk_03006180");
+extern struct Task tasks64[] asm("gUnk_03006160");
+extern void sub_08060E44(s32);
+void sub_08061688(s32 index)
+{
+    u32 *memOut;
+    if (index != 0) {
+        tasks64[index].u8 = 0x3C;
+    } else {
+        tasks64[0].u8 = 0x65;
+    }
+    memOut = &taskMem64[index * 10];
+    while ((*memOut = sub_08001494(0x200)) == 0)
+        sub_080003F0();
+    tasks64[index].uC = sub_08060E44;
+    tasks64[index].u10 = tasks64[index].u20 + 0x1FC;
+    tasks64[index].u24 = 0;
+    sub_08000274(&tasks64[index], index);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806171C);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061830);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061910);
