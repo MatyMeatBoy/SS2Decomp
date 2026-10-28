@@ -4,57 +4,198 @@ void sub_080605D0(s32 index);
 
 extern s32 gUnk_03006208;
 
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FB7C);
-#ifdef NONMATCHING
-void sub_0805FC0C(u16 *out, u32 value, u32 index)
+extern void sub_0801A664(s32, s32);
+extern u16 digitBasesFB63[] asm("gUnk_084EBD74");
+extern u8 tileMap63[] asm("gUnk_03005740");
+void sub_0805FB7C(s32 x, s32 y, u32 value, u8 style)
 {
-    u32 hundreds;
-    u32 tens;
-    u16 base = ((const u16 *)gUnk_084EBD74)[(u8)index];
-    if (value > 0x3E7)
-        value = 0x3E7;
-    hundreds = sub_08000498(&value, 0x64);
-    tens = sub_08000498(&value, 0xA);
-    *out = base + (u16)value;
-    if (hundreds != 0) {
-        out[-2] = base + (u16)hundreds;
-        out[-1] = base + (u16)tens;
-    } else if (tens != 0) {
-        out[-1] = base + (u16)tens;
+    u16 digits[3];
+    u16 base;
+    u16 *out;
+    u32 remainder;
+    if (value > 999) value = 999;
+    base = digitBasesFB63[style];
+    out = (u16 *)(tileMap63 + (y << 6) + x * 2);
+    digits[0] = sub_08000498(&value, 100);
+    digits[1] = sub_08000498(&value, 10);
+    remainder = value;
+    digits[2] = remainder;
+    *out = base + remainder;
+    if (digits[0] != 0) out[-2] = base + digits[0];
+    if (digits[0] != 0 || digits[1] != 0) out[-1] = base + digits[1];
+    sub_0801A664(y, 1);
+}
+extern u16 digitBases63[] asm("gUnk_084EBD74");
+void sub_0805FC0C(u16 *out, u32 value, u8 index)
+{
+    u16 digits[3];
+    u16 base;
+    u32 remainder;
+    if (value > 999) value = 999;
+    base = digitBases63[index];
+    digits[0] = sub_08000498(&value, 100);
+    digits[1] = sub_08000498(&value, 10);
+    remainder = value;
+    digits[2] = remainder;
+    *out = base + remainder;
+    if (digits[0] != 0) {
+        out[-2] = base + digits[0];
+        goto tens;
+    }
+    if (digits[1] != 0) {
+tens:
+        out[-1] = base + digits[1];
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC0C);
-#endif
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC80);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080605D0);
 #ifdef NONMATCHING
-void sub_08060DB0(s32 index)
+struct IconAsset63 { s32 f0, f4, f8; u8 pad[0x20]; u16 value, step; s16 upper, lower; };
+extern struct IconAsset63 iconAssets63[] asm("gUnk_03005DC0");
+extern struct IconAsset63 iconOverlay63 asm("gUnk_03005D80");
+extern u8 iconData63[] asm("gUnk_03005DDC");
+extern void sub_0800BC08(s16, s16, s16 *, s16 *, s32, s32);
+extern void sub_08008E74(s32, s32, u16, u16, u8, void *, s32, s32);
+extern void sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
+struct IconPosition63 { s32 x, y; };
+extern s32 drawIcon63(struct IconPosition63, u16, u16, s32, s32, s32, s32) asm("sub_08007CF0");
+void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
 {
-    u8 *task = (u8 *)&gUnk_03006110 + index * 40;
-    u32 mem;
-
-    if (index != 0)
-        *(u32 *)(task + 8) = 0x3C;
+    u16 screenX; s16 screenY;
+    u16 alternate = 0;
+    u16 overlay = 0;
+    u32 group;
+    u32 frame;
+    u8 *resource;
+    u8 *descriptor;
+    u32 packed;
+    struct IconAsset63 *asset;
+    u16 step;
+    u32 value;
+    s32 worldX, worldY;
+    u8 priority;
+    switch (*item) {
+    case 0: return;
+    default: return;
+    case 1:
+        descriptor = (u8 *)sub_08007290(item[1] | 0x100000) + 0xA8;
+        goto packed16;
+    case 2:
+        resource = (u8 *)sub_08007290(item[1] | 0xB0000);
+        descriptor = resource + 0xBE;
+        group = *(u16 *)descriptor;
+        frame = *descriptor;
+        group >>= 8;
+        if (((u8 *)item)[8] != 0) goto alt;
+        overlay = ((u8 *)item)[7];
+        if (overlay == 0) overlay = *(u16 *)(resource + 0xBC);
+        break;
+    case 3:
+        resource = (u8 *)sub_08007290(item[1] | 0xC0000);
+        goto equipment;
+    case 4:
+        resource = (u8 *)sub_08007290(item[1] | 0xD0000);
+equipment:
+        descriptor = resource + 0xB0;
+        group = *(u16 *)descriptor;
+        frame = *descriptor;
+        group >>= 8;
+        if (((u8 *)item)[8] != 0) goto alt;
+        overlay = ((u8 *)item)[7];
+        break;
+    case 5:
+        descriptor = (u8 *)sub_08007290(item[1] | 0xE0000) + 0xB0;
+        group = *(u16 *)descriptor;
+        frame = *descriptor;
+        group >>= 8;
+        if (((u8 *)item)[8] != 0) {
+alt:
+            group++;
+            alternate++;
+        }
+        break;
+    case 6:
+        descriptor = (u8 *)sub_08007290(item[1] | 0xF0000) + 0xAC;
+        goto packed16;
+    case 7:
+        descriptor = (u8 *)sub_08007290(item[1] | 0x110000) + 0xA8;
+        goto packed16;
+    case 8:
+        descriptor = (u8 *)sub_08007290(item[1] | 0x120000) + 0xA0;
+packed16:
+        packed = *(u16 *)descriptor;
+        goto unpack;
+    case 9:
+        descriptor = (u8 *)sub_08007290(item[1] | 0x150000) + 0xA0;
+        packed = *(u32 *)descriptor;
+        goto unpack;
+    case 10:
+        descriptor = (u8 *)sub_08007290(0x160000) + 0x9C;
+        packed = *(u32 *)descriptor;
+unpack:
+        frame = *descriptor;
+        group = packed >> 8;
+        break;
+    }
+    if (flags & 1) {
+        s32 camera = sub_0800CCCC();
+        worldX = pos.x >> 8;
+        worldY = pos.y >> 8;
+        sub_0800BC08(worldX, worldY, &screenX, &screenY, 16, camera);
+        if ((u32)((screenX + 16) << 16) > 0x1080000 || screenY < -16 || screenY > 168)
+            return;
+        priority = sub_0800BC44(worldX, worldY, sub_0800CCCC());
+        sub_08008E74(screenX, screenY, 0, frame, priority, iconData63 + group * 0x34,
+            *(s32 *)(iconData63 - 0x14 + group * 0x34), *(s32 *)(iconData63 - 0x1C + group * 0x34));
+        return;
+    }
+    asset = &iconAssets63[group];
+    if ((flags & 2) && alternate == 0)
+        ((u8 *)asset)[0x25] = 10;
     else
-        *(u32 *)((u8 *)&gUnk_03006110 + 8) = 0x65;
-
-    do {
-        mem = sub_08001494(0x200);
-        *(u32 *)(task + 0x20) = mem;
-        if (mem == 0)
-            sub_080003F0();
-    } while (mem == 0);
-
-    *(u32 *)(task + 0x0C) = (u32)sub_080605D0;
-    *(u32 *)(task + 0x10) = mem + 0x1FC;
-    *(u32 *)(task + 0x24) = 0;
-    sub_08000274_(task, index, 0);
+        ((u8 *)asset)[0x25] = 9;
+    if ((flags & 8) && overlay != 0) {
+        if (overlay == 7) overlay = 6;
+        sub_08007CF0(pos.x, pos.y + 8, 4, (u16)(overlay + 11), 0, (s32)((u8 *)&iconOverlay63 + 0x1C), iconOverlay63.f8, iconOverlay63.f0);
+    }
+    if (flags & 4) {
+        step = asset->step;
+        value = step + asset->value;
+        asset->value = value;
+        if ((s32)(step << 16) > 0 && (s16)value > asset->upper)
+            asset->step = -step;
+        if ((s16)asset->step < 0 && (s16)asset->value < asset->lower)
+            asset->step = -asset->step;
+        sub_08007F0C(pos.x, pos.y, 0, frame, 0, (u8 *)asset + 0x1C, asset->f8, asset->f0, (s16)asset->value, (s16)asset->value, 255);
+    } else {
+        drawIcon63(pos, 0, frame, 0, (s32)(iconData63 + group * 0x34),
+            *(s32 *)(iconData63 - 0x14 + group * 0x34), *(s32 *)(iconData63 - 0x1C + group * 0x34));
+    }
+    ((u8 *)&iconAssets63[group])[0x25] = 9;
+    ((u8 *)&iconOverlay63)[0x25] = 9;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060DB0);
+INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC80);
 #endif
+INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
+INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080605D0);
+extern u32 taskMem63[] asm("gUnk_03006130");
+extern struct Task tasks63[] asm("gUnk_03006110");
+extern void sub_080605D0(s32);
+void sub_08060DB0(s32 index)
+{
+    u32 *memOut;
+    if (index != 0) {
+        tasks63[index].u8 = 0x3C;
+    } else {
+        tasks63[0].u8 = 0x65;
+    }
+    memOut = &taskMem63[index * 10];
+    while ((*memOut = sub_08001494(0x200)) == 0)
+        sub_080003F0();
+    tasks63[index].uC = sub_080605D0;
+    tasks63[index].u10 = tasks63[index].u20 + 0x1FC;
+    tasks63[index].u24 = 0;
+    sub_08000274(&tasks63[index], index);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060E44);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061688);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806171C);

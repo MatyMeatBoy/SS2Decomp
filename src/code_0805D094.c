@@ -1396,4 +1396,19 @@ s32 sub_0805F1B0(void) {
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F1B0);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805FAC0);
+struct NumAsset63 { u32 f0, f4, f8; u8 data[40]; };
+extern struct NumAsset63 numAssets63[] asm("gUnk_03006040");
+void sub_0805FAC0(s32 x, s32 y, u32 value, u8 style)
+{
+    u8 digits[2];
+    struct NumAsset63 *asset;
+    if (value > 999) value = 999;
+    asset = &numAssets63[style];
+    digits[0] = sub_08000498(&value, 100);
+    digits[1] = value;
+    if (digits[0] != 0)
+        sub_08007CF0(x - 12, y, 0, digits[0], 0, (s32)((u8 *)asset + 0x1C), asset->f8, asset->f0);
+    if (digits[1] <= 9 && digits[0] != 0)
+        sub_08007CF0(x - 6, y, 0, 0, 0, (s32)((u8 *)asset + 0x1C), asset->f8, asset->f0);
+    sub_08007CF0(x, y, 0, digits[1], 0, (s32)((u8 *)asset + 0x1C), asset->f8, asset->f0);
+}

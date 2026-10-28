@@ -407,7 +407,7 @@ void sub_08002AA0(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002B70);
 #ifdef NONMATCHING
-struct Bg3984 { u32 cnt:16; u32 spare:16; };
+union Bg3984 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; };
 struct Reg3984 { u16 h0,v0,h1,v1,h2,v2,h3,v3; };
 extern struct Reg3984 reg3984 asm("gUnk_03001250");
 extern u16 keys3984 asm("gUnk_03001324");
@@ -435,6 +435,7 @@ extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
 void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
+    u32 nameOffset3984 = 0x10;
     u32 input3984;
     u16 widths[10], heights[10], x[10], y[4];
     u8 icons[9][0x34], labels[9][0x34];
@@ -442,7 +443,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u8 panel[0x34], pair[4], buffer[0x68];
     u16 lastWidth;
     u16 lastHeight;
-    struct Bg3984 bg;
+    union Bg3984 bg;
     u16 state;
     u16 selection;
     u16 current;
@@ -481,7 +482,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     s32 temp_r3_2;
     s32 temp_r3_4;
     s32 temp_r3_5;
-    s32 temp_r3_6;
     s32 temp_r4;
     s32 temp_r4_11;
     s32 temp_r4_15;
@@ -492,7 +492,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     s32 temp_r4_5;
     s32 temp_r4_6;
     s32 temp_r4_9;
-    s32 temp_r5_16;
     s32 temp_r6_6;
     s32 temp_r7;
     s32 temp_r7_2;
@@ -504,7 +503,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     s32 var_r0_4;
     s32 var_r0_5;
     s32 var_r0_7;
-    s32 var_r1;
     s32 var_r1_7;
     s32 var_r3;
     s32 var_r3_4;
@@ -552,8 +550,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u16 var_r5_2;
     u16 var_r9;
     u32 temp_r0_18;
-    u32 temp_r0_20;
-    u32 temp_r0_21;
     u32 temp_r0_2;
     u32 temp_r0_6;
     u32 temp_r0_7;
@@ -627,10 +623,10 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     reg3984.v3 = 0;
     reg3984.h3 = 0;
     sub_0801A664(2, 0x11);
-    bg.cnt = 0x1B00;
-    sub_08000AA8(1U, (u16 *) &bg);
-    *(u16 *)&bg = 0x1F03;
-    sub_08000AA8(3U, (u16 *) &bg);
+    bg.bits.cnt = 0x1B00;
+    sub_08000AA8(1U, &bg.half);
+    bg.half = 0x1F03;
+    sub_08000AA8(3U, &bg.half);
     sub_0800BCDC(0x15, 3, 0x06000000, 0U, 0xFU);
     sub_0800BCDC(0x16, 2, 0x06000000, 0U, 0xFU);
     sub_0800B650(0x3B, 0x1B, 0x06000000, 0U, 0xFU);
@@ -644,8 +640,8 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     iconp = &icons[0][0];
     heightp = (u8 *) &x[0];
     widthp = (u8 *) &heights[0];
-    yp = &icons[0][0] - 8;
-    xp = (u8 *) &y[2];
+    yp = iconp - 8;
+    xp = heightp + 0x18;
     do {
         temp_r4 = 0x34 * var_r6;
         temp_r5 = &iconp[temp_r4];
@@ -705,8 +701,8 @@ void sub_08003984(u8 *arg0, s32 arg1) {
             sub_0801A664(0, 5);
             sub_08001108(0x1FU);
             sub_0800115C((u32) sub_080066A8);
-            *(u16 *)&bg = 0x1B00;
-            sub_08000AA8(1U, (u16 *) &bg);
+            bg.half = 0x1B00;
+            sub_08000AA8(1U, &bg.half);
             sub_080009C0(0x200, 0, 1);
             sub_08000D8C();
         } else {
@@ -1003,7 +999,7 @@ block_102:
             temp_r0_3 = (void *) sub_08007290((state + 0x454) | 0x140000);
             temp_r7_3 = temp_r0_3 + 2;
             var_r6 = 0;
-            temp_r5_7 = arg0 + 0x10;
+            temp_r5_7 = arg0 + nameOffset3984;
             if (M2C_FIELD(temp_r0_3, u8 *, 2) == 0xFF) {
                 M2C_FIELD(arg0, s8 *, 0x10) = 0xFD;
             } else {
@@ -1031,8 +1027,8 @@ loop_107:
                 var_r9 = temp_r0_4;
                 next = (u32) temp_r0_4;
                 current = 0;
-                *(u16 *)&bg = 0xD800;
-                sub_08000AA8(1U, (u16 *) &bg);
+                bg.half = 0xD800;
+                sub_08000AA8(1U, &bg.half);
                 sub_080009C0(0x200, 0, 1);
                 sub_0800903C(0xC, 0x28, 1, 8, 6, (s32) current);
                 sub_08006550(0x10, 9, 0x32);
@@ -1218,13 +1214,13 @@ block_206:
             sub_0801A664(0, 2);
             reg3984.h0 = temp_r4_14;
             var_r9 = 0;
-            temp_r0_12 = (u16) sub_0801A638(arg0 + 0x10);
+            temp_r0_12 = (u16) sub_0801A638(arg0 + nameOffset3984);
             next = (u32) temp_r0_12;
             if ((u32) temp_r0_12 > 7U) {
                 next = 7;
             }
-            *(u16 *)&bg = 0xD800;
-            sub_08000AA8(1U, (u16 *) &bg);
+            bg.half = 0xD800;
+            sub_08000AA8(1U, &bg.half);
             sub_080009C0(0x200, 0, 1);
             sub_0800903C(0xC, 0x28, 1, 8, 6, 0);
             sub_08006550(0x10, 9, 0x32);
@@ -1380,13 +1376,13 @@ block_221:
                 sub_08065264(&panel[0], 0xC2, 0x8E, 4, (s32) M2C_FIELD(temp_r4_19, u16 *, 0));
             }
             sub_0801A3D0(sub_08007290(0x140443) + 2, 2U, 0x12U);
-            ((void (*)(const u8 *, s32, s32))sub_0801A764)(arg0 + 0x10, 0x58U, 0x10U);
+            ((void (*)(const u8 *, s32, s32))sub_0801A764)(arg0 + nameOffset3984, 0x58U, 0x10U);
         }
         goto block_374;
     case 5:                                         /* switch 2 */
         sub_08000C08(8, 2);
         if (0x100 & keys3984) {
-            var_r5_3 = arg0 + 0x10;
+            var_r5_3 = arg0 + nameOffset3984;
             if ((u32) var_r9 > 6U) {
 
             } else {
@@ -1403,7 +1399,7 @@ block_221:
                 goto block_237;
             }
         } else if (0x200 & keys3984) {
-            var_r5_3 = arg0 + 0x10;
+            var_r5_3 = arg0 + nameOffset3984;
             if (var_r9 == 0) {
 
             } else {
@@ -1415,7 +1411,7 @@ block_237:
             }
         } else if (0x40 & gUnk_03001308) {
             sub_0805865C(0x62);
-            var_r5_3 = arg0 + 0x10;
+            var_r5_3 = arg0 + nameOffset3984;
             if (language < 0) {
 
             } else if (language > 1) {
@@ -1441,7 +1437,7 @@ block_237:
             }
         } else if (0x80 & gUnk_03001308) {
             sub_0805865C(0x62);
-            var_r5_3 = arg0 + 0x10;
+            var_r5_3 = arg0 + nameOffset3984;
             if (language < 0) {
 
             } else if (language > 1) {
@@ -1471,7 +1467,7 @@ block_258:
             }
         } else if (0x10 & gUnk_03001308) {
             sub_0805865C(0x62);
-            var_r5_3 = arg0 + 0x10;
+            var_r5_3 = arg0 + nameOffset3984;
             if (language < 0) {
 
             } else if (language > 1) {
@@ -1496,7 +1492,7 @@ block_258:
             temp_r4_22 = 0x20 & gUnk_03001308;
             if (temp_r4_22 != 0) {
                 sub_0805865C(0x62);
-                var_r5_3 = arg0 + 0x10;
+                var_r5_3 = arg0 + nameOffset3984;
                 if (language < 0) {
 
                 } else if (language > 1) {
@@ -1527,23 +1523,23 @@ block_286:
                     if (language != 1) {
                         if (language <= 1) {
                             if (language != 0) {
-                                var_r5_3 = arg0 + 0x10;
+                                var_r5_3 = arg0 + nameOffset3984;
                             } else {
-                                var_r2_2 = arg0 + 0x10;
+                                var_r2_2 = arg0 + nameOffset3984;
                                 var_r3_2 = &var_r2_2[var_r9];
                                 var_r1_8 = gUnk_08366E34;
                                 goto block_302;
                             }
                         } else if (language != 2) {
-                            var_r5_3 = arg0 + 0x10;
+                            var_r5_3 = arg0 + nameOffset3984;
                         } else {
-                            var_r2_2 = arg0 + 0x10;
+                            var_r2_2 = arg0 + nameOffset3984;
                             var_r3_2 = &var_r2_2[var_r9];
                             var_r1_8 = gUnk_08366FC4;
                             goto block_302;
                         }
                     } else {
-                        var_r2_2 = arg0 + 0x10;
+                        var_r2_2 = arg0 + nameOffset3984;
                         var_r3_2 = &var_r2_2[var_r9];
                         var_r1_8 = gUnk_08366EFC;
 block_302:
@@ -1567,7 +1563,7 @@ block_316:
                 } else if (temp_r0_14 == 2) {
                     sub_0805865C(0x10);
                     if (var_r9 == next) {
-                        temp_r2_4 = arg0 + 0x10;
+                        temp_r2_4 = arg0 + nameOffset3984;
                         temp_r2_4[var_r9] = 0xFD;
                         temp_r2_4[var_r9 + 1] = (s8) temp_r4_22;
                         var_r9 -= 1;
@@ -1589,7 +1585,7 @@ block_316:
                         var_r2_3 = var_r9;
                         goto block_316;
                     }
-                    temp_r0_15 = arg0 + 0x10;
+                    temp_r0_15 = arg0 + nameOffset3984;
                     temp_r2_5 = &temp_r0_15[var_r9];
                     var_r5_3 = temp_r0_15;
                     if (*temp_r2_5 == 0x51) {
@@ -1624,7 +1620,7 @@ block_316:
                     }
 
                 } else {
-                    var_r5_3 = arg0 + 0x10;
+                    var_r5_3 = arg0 + nameOffset3984;
                     if (temp_r0_14 == 8) {
                         if (sub_0801A638(var_r5_3) != 0) {
                             var_r3_3 = 0;
@@ -1695,12 +1691,8 @@ loop_330:
         ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r5_3, 0x58U, 0x10U);
         sub_08065370(&cursor, 5U, (s32) &lastWidth, (s32) &lastHeight, 1);
         sub_080659BC(&cursor, (var_r9 * 8) + 0x58, 0x18, 5U, (s32) lastWidth, 1);
-        temp_r5_16 = targetX;
-        temp_r0_20 = newX - temp_r5_16;
-        targetX = temp_r5_16 + ((s32) (temp_r0_20 + (temp_r0_20 >> 0x1F)) >> 1);
-        temp_r3_6 = targetY;
-        temp_r0_21 = newY - temp_r3_6;
-        targetY = temp_r3_6 + ((s32) (temp_r0_21 + (temp_r0_21 >> 0x1F)) >> 1);
+        targetX += (newX - targetX) / 2;
+        targetY += (newY - targetY) / 2;
         var_r0_15 = newX - targetX;
         if (var_r0_15 < 0) {
             var_r0_15 = 0 - var_r0_15;
@@ -1720,7 +1712,7 @@ loop_330:
     case 6:                                         /* switch 2 */
         var_r3_4 = 0;
         var_r6 = 8;
-        temp_r2_6 = arg0 + 0x10;
+        temp_r2_6 = arg0 + nameOffset3984;
 loop_363:
         temp_r1_7 = &temp_r2_6[var_r6];
         temp_r0_22 = M2C_FIELD(temp_r1_7, u8 *, 0);
@@ -1759,6 +1751,7 @@ loop_371:
         goto finish3984;
     }
 finish3984:
+    /* Preserve caller ABI; the scheduler consumes only the low32 signal tag. */
     ((void (*)(unsigned long long))sub_08000420)(0x25A112EBFULL);
     goto epilogue3984;
 block_374:

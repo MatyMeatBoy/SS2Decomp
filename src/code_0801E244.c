@@ -254,26 +254,39 @@ INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801EF14);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F1C4);
-#ifdef NONMATCHING
+struct Sh20F2CC { u8 pad[0x7C]; u16 duration; s16 direction; u16 speed; u16 value; };
+struct Sh20F2CCData { u8 pad[2]; u8 value; s8 direction; };
 void sub_0801F2CC(u8 *object, u8 *data)
 {
-    u16 value = data[2];
-
-    if (value != 0) {
-        u16 duration = value >> 2;
-        *(u16 *)(object + 0x7C) = duration != 0 ? duration : 1;
-        *(u16 *)(object + 0x80) = duration != 0 ? 0x400 : 0x100;
-        *(s16 *)(object + 0x7E) = (s8)data[3];
-        *(u16 *)(object + 0x82) = value;
-    } else {
-        *(u16 *)(object + 0x7C) = 0;
-        *(u16 *)(object + 0x80) = 0;
-        *(u16 *)(object + 0x7E) = 0;
+  u8 duration;
+  u8 value;
+  int divisor;
+  value = ((struct Sh20F2CCData *)data)->value;
+  if (value != 0)
+  {
+    duration = value;
+    duration /= (divisor = 4);
+    ((struct Sh20F2CC *)object)->duration = duration;
+    value = ((struct Sh20F2CCData *)data)->value;
+    if (duration == 0)
+    {
+      ((struct Sh20F2CC *)object)->duration = 1;
+      ((struct Sh20F2CC *)object)->speed = 0x100;
     }
+    else
+    {
+      ((struct Sh20F2CC *)object)->speed = 0x400;
+    }
+    ((struct Sh20F2CC *)object)->value = value;
+    ((struct Sh20F2CC *)object)->direction = ((struct Sh20F2CCData *)data)->direction;
+  }
+  else
+  {
+    ((struct Sh20F2CC *)object)->duration = value;
+    ((struct Sh20F2CC *)object)->speed = value;
+    ((struct Sh20F2CC *)object)->direction = value;
+  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F2CC);
-#endif
 #ifdef NONMATCHING
 void sub_0801F320(u8 *object, u8 *data)
 {
