@@ -762,84 +762,56 @@ void sub_0805B21C(void)
     sub_08000274((u32)task);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
-#ifdef NONMATCHING
 void sub_0805B4CC(s32 *x, s32 *y)
 {
-    extern u8 *slotsMemory asm("gUnk_03005D58");
-    extern u8 *freeGrid asm("gUnk_03000124");
-    s32 column = 0;
-    s32 row;
-    s32 nextColumn;
-    s32 nextRow;
-    s32 testX;
-    s32 testY;
-    s32 radius;
-    s32 first;
-    s32 gridOffset;
-    do {
-        testX = *x + ((column - 10) << 10);
-        row = 0;
-        nextColumn = column + 1;
-        do {
-            u32 collision;
-            testY = *y + ((row - 10) << 10);
-            collision = sub_0800AE50(testX, testY, 0) & 7;
-            nextRow = row + 1;
-            if (collision == 0) {
-                u8 *entry = slotsMemory;
-                u32 i = 0;
-                do {
-                    if (*(u16 *)(entry + 0xA) & 1) {
-                        s32 dx = (testX - *(s32 *)entry) >> 8;
+    s32 i, j, r;
+    s32 px, py;
+    for (i = 0; i <= 20; i++) {
+        px = *x + ((i - 10) << 10);
+        for (j = 0; j <= 20; j++) {
+            py = *y + ((j - 10) << 10);
+            if ((sub_0800AE50(px, py, 0) & 7) == 0) {
+                u32 k;
+                u32 id = 0;
+                u8 *e = *(u8 **)&gUnk_03005D58;
+                u8 *res;
+                for (k = 0; k <= 15; k++, e += 0x20) {
+                    if (*(u16 *)(e + 0xA) & 1) {
+                        s32 dx = (px - *(s32 *)e) >> 8;
                         s32 dy;
                         if (dx < 0) dx = -dx;
-                        dy = (testY - *(s32 *)(entry + 4)) >> 8;
+                        dy = (py - *(s32 *)(e + 4)) >> 8;
                         if (dy < 0) dy = -dy;
-                        if (dx <= 7 && dy <= 7 && *(u16 *)(entry + 8) == 0) goto occupied;
+                        if (dx <= 7 && dy <= 7 && id == *(u16 *)(e + 8)) {
+                            res = e;
+                            goto done;
+                        }
                     }
-                    i++;
-                    entry += 0x20;
-                } while (i <= 15);
-                entry = 0;
-occupied:
-                if (entry == 0) freeGrid[row * 21 + column] = 1;
-                else goto blocked;
-            } else {
-blocked:
-                freeGrid[row * 21 + column] = 0;
+                }
+                res = 0;
+            done:
+                if (res == 0) {
+                    (*(u8 **)&gUnk_03000124)[j * 21 + i] = 1;
+                    continue;
+                }
             }
-            row = nextRow;
-        } while (row <= 20);
-        column = nextColumn;
-    } while (column <= 20);
-    radius = 0;
-    gridOffset = 0;
-    do {
-        first = -radius;
-        for (column = first; column < radius; column++) {
-            testX = *x + (column << 10);
-            if (first < radius) {
-                s32 offset = gridOffset + column;
-                row = first;
-                do {
-                    testY = *y + (row << 10);
-                    if (freeGrid[offset + 0xDC] != 0) {
-                        *x = testX;
-                        *y = testY;
-                        return;
-                    }
-                    offset += 21;
-                    row++;
-                } while (row < radius);
+            (*(u8 **)&gUnk_03000124)[j * 21 + i] = 0;
+        }
+    }
+    for (r = 0; r <= 9; r++) {
+        for (i = -r; i < r; i++) {
+            px = *x + (i << 10);
+            for (j = -r; j < r; j++) {
+                py = *y + (j << 10);
+                if ((*(u8 **)&gUnk_03000124)[j * 21 + i + 220]) {
+                    *x = px;
+                    *y = py;
+                    return;
+                }
             }
         }
-        gridOffset -= 21;
-        radius++;
-    } while (radius <= 9);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B4CC);
-#endif
 struct Slot60 { u8 pad[10]; u16 flags; u16 age; u8 tail[18]; };
 extern struct Slot60 *slots60 asm("gUnk_03005D58");
 void *sub_0805B618(void)
