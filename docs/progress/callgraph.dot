@@ -11563,8 +11563,7 @@ digraph calls {
   "sub_08095AD8" -> "sub_080586D0" [label="c"];
   "sub_08095AD8" -> "sub_0809561C" [label="c"];
   "sub_08095AD8" -> "sub_08098028" [label="c"];
-  "sub_08095B04" -> "__divsi3" [label="asm"];
-  "sub_08095B04" -> "sub_08095D1C" [label="asm"];
+  "sub_08095B04" -> "sub_08095D1C" [label="c"];
   "sub_08095E70" -> "ArcTan2" [label="asm"];
   "sub_08095F10" -> "ArcTan2" [label="asm"];
   "sub_08095FC8" -> "ArcTan2" [label="asm"];
