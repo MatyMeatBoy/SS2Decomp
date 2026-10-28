@@ -40,8 +40,14 @@ M4AEXP_COMMAND(Fine);
 M4AEXP_COMMAND(Pattern);
 M4AEXP_COMMAND(Voice);
 M4AEXP_COMMAND(EndTie);
+M4AEXP_COMMAND(TrackStop);
 void M4AExp_SoundVSync(void);
 M4AExp_u32 M4AExp_MultiplyHigh32(M4AExp_u32 left, M4AExp_u32 right);
 void M4AExp_CopyJumpTable(M4AExp_u32 destination, M4AExp_u32 source);
+
+void M4AExp_Note(M4AExp_u32 length_index, M4AExp_u32 player,
+                 M4AExp_u32 track, M4AExp_u32 services);
+M4AExp_u32 M4AExp_MidiKeyToFreqDependency(M4AExp_u32 wave,
+                                        M4AExp_u32 key, M4AExp_u32 fine);
 
 #endif

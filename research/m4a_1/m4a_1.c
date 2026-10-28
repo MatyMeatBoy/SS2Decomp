@@ -286,3 +286,223 @@ void M4AExp_CopyJumpTable(M4AExp_u32 destination, M4AExp_u32 source)
         destination += 4;
     }
 }
+
+M4AEXP_COMMAND(TrackStop)
+{
+    typedef void (*OscillatorOff)(M4AExp_u32 channel_type);
+    M4AExp_u32 channel;
+    M4AExp_u32 channel_type;
+    M4AExp_u32 sound;
+    OscillatorOff oscillator_off;
+    if ((BYTE_AT(track) & 0x80) == 0)
+        return;
+    channel = WORD_AT(track + 0x20);
+    while (channel != 0) {
+        if (BYTE_AT(channel) != 0) {
+            channel_type = BYTE_AT(channel + 1) & 7;
+            if (channel_type != 0) {
+                sound = WORD_AT(0x03007FF0U);
+                oscillator_off = (OscillatorOff)WORD_AT(sound + 0x2C);
+                oscillator_off(channel_type);
+            }
+            BYTE_AT(channel) = 0;
+        }
+        WORD_AT(channel + 0x2C) = 0;
+        channel = WORD_AT(channel + 0x34);
+    }
+    WORD_AT(track + 0x20) = 0;
+}
+/* Adapted dependency from this repository's already matching src/m4a.c.
+ * It uses the reconstructed multiply, rather than invoking target-module ASM.
+ * This is dependency reuse, not another newly reconstructed original routine. */
+M4AExp_u32 M4AExp_MidiKeyToFreqDependency(M4AExp_u32 wave,
+                                        M4AExp_u32 key, M4AExp_u32 fine)
+{
+    M4AExp_u32 first;
+    M4AExp_u32 second;
+    key = (M4AExp_u8)key;
+    fine = (M4AExp_u8)fine;
+    if (key > 178) {
+        key = 178;
+        fine = 255;
+    }
+    first = BYTE_AT(0x080BB878U + key);
+    first = WORD_AT(0x080BB92CU + (first & 15) * 4) >> (first >> 4);
+    second = BYTE_AT(0x080BB879U + key);
+    second = WORD_AT(0x080BB92CU + (second & 15) * 4) >> (second >> 4);
+    return M4AExp_MultiplyHigh32(WORD_AT(wave + 4), first +
+        M4AExp_MultiplyHigh32(second - first, fine << 24));
+}
+
+/* services: three GBA32 callbacks: ClearChain, TrkVolPitSet, MidiKeyToFreq.
+ * The caller resolves the dynamic jump table, including any overrides.
+ * No assumption that the original serialized ASM callbacks are C bindings. */
+void M4AExp_Note(M4AExp_u32 length_index, M4AExp_u32 player,
+                 M4AExp_u32 track, M4AExp_u32 services)
+{
+    typedef void (*ClearChainService)(M4AExp_u32);
+    typedef void (*TrackService)(M4AExp_u32, M4AExp_u32);
+    typedef M4AExp_u32 (*FrequencyService)(M4AExp_u32, M4AExp_u32, M4AExp_u32);
+    M4AExp_u32 sound;
+    M4AExp_u32 cursor;
+    M4AExp_u32 value;
+    M4AExp_u32 tone;
+    M4AExp_u32 outer_type;
+    M4AExp_u32 key;
+    M4AExp_u32 rhythm_pan;
+    M4AExp_u32 priority;
+    M4AExp_u32 channel_type;
+    M4AExp_u32 channel;
+    M4AExp_u32 chosen;
+    M4AExp_u32 best_priority;
+    M4AExp_u32 best_owner;
+    M4AExp_u32 released;
+    M4AExp_s32 remaining;
+    M4AExp_u32 wave;
+    M4AExp_s32 pitch_key;
+    M4AExp_u32 frequency;
+    sound = WORD_AT(0x03007FF0U);
+    BYTE_AT(track + 4) = BYTE_AT(0x080BBA5CU + length_index);
+    cursor = WORD_AT(track + 0x40);
+    value = BYTE_AT(cursor);
+    if (value < 0x80) {
+        BYTE_AT(track + 5) = value;
+        cursor++;
+        value = BYTE_AT(cursor);
+        if (value < 0x80) {
+            BYTE_AT(track + 6) = value;
+            cursor++;
+            value = BYTE_AT(cursor);
+            if (value < 0x80) {
+                BYTE_AT(track + 4) += value;
+                cursor++;
+            }
+        }
+        WORD_AT(track + 0x40) = cursor;
+    }
+    rhythm_pan = 0;
+    tone = track + 0x24;
+    outer_type = BYTE_AT(tone);
+    key = BYTE_AT(track + 5);
+    if (outer_type & 0xC0) {
+        value = key;
+        if (outer_type & 0x40)
+            value = BYTE_AT(WORD_AT(track + 0x2C) + key);
+        tone = WORD_AT(track + 0x28) + value * 12;
+        if (BYTE_AT(tone) & 0xC0)
+            return;
+        if (outer_type & 0x80) {
+            value = BYTE_AT(tone + 3);
+            if (value & 0x80)
+                rhythm_pan = value;
+            key = BYTE_AT(tone + 1);
+        }
+    }
+    priority = BYTE_AT(track + 0x1D) + BYTE_AT(player + 9);
+    if (priority > 255)
+        priority = 255;
+    channel_type = BYTE_AT(tone) & 7;
+    if (channel_type != 0) {
+        channel = WORD_AT(sound + 0x1C);
+        if (channel == 0)
+            return;
+        channel += (channel_type - 1) * 0x40;
+        value = BYTE_AT(channel);
+        if ((value & 0xC7) && !(value & 0x40)) {
+            value = BYTE_AT(channel + 0x13);
+            if (value > priority)
+                return;
+            if (value == priority && WORD_AT(channel + 0x2C) < track)
+                return;
+        }
+    } else {
+        best_priority = priority;
+        best_owner = track;
+        released = 0;
+        chosen = 0;
+        remaining = BYTE_AT(sound + 6);
+        channel = sound + 0x50;
+        do {
+            value = BYTE_AT(channel);
+            if ((value & 0xC7) == 0) {
+                chosen = channel;
+                break;
+            }
+            if (value & 0x40) {
+                if (released == 0) {
+                    released = 1;
+                    best_priority = BYTE_AT(channel + 0x13);
+                    best_owner = WORD_AT(channel + 0x2C);
+                    chosen = channel;
+                    goto next_channel;
+                }
+            } else if (released != 0) {
+                goto next_channel;
+            }
+            value = BYTE_AT(channel + 0x13);
+            if (value < best_priority) {
+                best_priority = value;
+                best_owner = WORD_AT(channel + 0x2C);
+                chosen = channel;
+            } else if (value == best_priority) {
+                value = WORD_AT(channel + 0x2C);
+                if (value >= best_owner) {
+                    best_owner = value;
+                    chosen = channel;
+                }
+            }
+next_channel:
+            channel += 0x40;
+            remaining--;
+        } while (remaining > 0);
+        channel = chosen;
+        if (channel == 0)
+            return;
+    }
+    ((ClearChainService)WORD_AT(services))(channel);
+    WORD_AT(channel + 0x30) = 0;
+    value = WORD_AT(track + 0x20);
+    WORD_AT(channel + 0x34) = value;
+    if (value != 0)
+        WORD_AT(value + 0x30) = channel;
+    WORD_AT(track + 0x20) = channel;
+    WORD_AT(channel + 0x2C) = track;
+    value = BYTE_AT(track + 0x1B);
+    BYTE_AT(track + 0x1C) = value;
+    if (value != 0)
+        M4AExp_ClearModulation(track);
+    if (rhythm_pan != 0) {
+        BYTE_AT(track + 0x15) = (rhythm_pan - 0xC0) * 2;
+        BYTE_AT(track) |= 3;
+    }
+    ((TrackService)WORD_AT(services + 4))(player, track);
+    WORD_AT(channel + 0x10) = WORD_AT(track + 4);
+    BYTE_AT(channel + 0x13) = priority;
+    BYTE_AT(channel + 8) = key;
+    BYTE_AT(channel + 1) = BYTE_AT(tone);
+    wave = WORD_AT(tone + 4);
+    WORD_AT(channel + 0x24) = wave;
+    WORD_AT(channel + 4) = WORD_AT(tone + 8);
+    HALF_AT(channel + 0x0C) = HALF_AT(track + 0x1E);
+    value = BYTE_AT(channel + 0x12);
+    BYTE_AT(channel + 2) = (BYTE_AT(track + 0x10) * value) >> 7;
+    BYTE_AT(channel + 3) = (BYTE_AT(track + 0x11) * value) >> 7;
+    pitch_key = BYTE_AT(channel + 8) + (M4AExp_s8)BYTE_AT(track + 8);
+    if (pitch_key < 0)
+        pitch_key = 0;
+    if (channel_type != 0) {
+        BYTE_AT(channel + 0x1E) = BYTE_AT(tone + 2);
+        value = BYTE_AT(tone + 3);
+        if ((value & 0x80) || !(value & 0x70))
+            value = 8;
+        BYTE_AT(channel + 0x1F) = value;
+        frequency = ((FrequencyService)WORD_AT(sound + 0x30))(
+            channel_type, pitch_key, BYTE_AT(track + 9));
+    } else {
+        frequency = ((FrequencyService)WORD_AT(services + 8))(
+            wave, pitch_key, BYTE_AT(track + 9));
+    }
+    WORD_AT(channel + 0x20) = frequency;
+    BYTE_AT(channel) = 0x80;
+    BYTE_AT(track) &= 0xF0;
+}

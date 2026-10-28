@@ -8,6 +8,7 @@ import shutil
 import struct
 import json
 import hashlib
+import re
 
 
 def main():
@@ -19,7 +20,7 @@ def main():
     parser.add_argument('--cc', help='optional compiler path; default is this checkout\'s agbcc')
     args = parser.parse_args()
     sys.path.insert(0, args.deps)
-    from unicorn import Uc, UC_ARCH_ARM, UC_MODE_THUMB, UC_HOOK_MEM_WRITE
+    from unicorn import Uc, UC_ARCH_ARM, UC_MODE_THUMB, UC_HOOK_MEM_WRITE, UC_HOOK_CODE
     from unicorn.arm_const import UC_ARM_REG_R0, UC_ARM_REG_LR, UC_ARM_REG_SP
     from unicorn import arm_const
 
@@ -58,6 +59,13 @@ def main():
     assert hashlib.sha1(rom).hexdigest() == 'aa1288be9257337abdfe3034898cf6c7aa778fbc'
     candidate = (out / 'core.bin').read_bytes()
 
+    def forbid_original_calls(machine, entry):
+        if entry >= 0x09000000:
+            def reject_original_target(uc, location, size, user):
+                assert not 0x080B64D8 <= location < 0x080B70CC, (
+                    'experimental call executed original m4a_1 ASM at ' + hex(location))
+            machine.hook_add(UC_HOOK_CODE, reject_original_target)
+
     def execute(address, value):
         machine = Uc(UC_ARCH_ARM, UC_MODE_THUMB)
         machine.mem_map(0x08000000, 0x02000000)
@@ -69,6 +77,7 @@ def main():
         machine.reg_write(UC_ARM_REG_R0, 0x02001010)
         machine.reg_write(UC_ARM_REG_SP, 0x03007C00)
         machine.reg_write(UC_ARM_REG_LR, 0x090F0001)
+        forbid_original_calls(machine, address)
         machine.emu_start(address | 1, 0x090F0000, count=10000)
         assert machine.reg_read(arm_const.UC_ARM_REG_PC) == 0x090F0000, 'clear64 instruction limit reached'
         assert machine.reg_read(UC_ARM_REG_SP) == 0x03007C00, 'clear64 stack was not restored'
@@ -174,6 +183,63 @@ def main():
         cases.append(('MultiplyHigh32', 0x080B64D8, {0: left, 1: right}, [left, right], [], 0))
     cases.append(('CopyJumpTable', 0x080B6978, {0: 0x02003000},
                   [0x02003000, 0x080BB7E8], [(0x02003000, b'\xA5' * 160)], None))
+    callback = re.search(r'^thumb (0x[0-9A-Fa-f]+) CgbOscOff$',
+                         (root / 'tools/config/functions.cfg').read_text(), re.M)
+    oscillator_off = int(callback.group(1), 16) | 1
+    for flags in (0, 0x80):
+        for status in (0, 0x80):
+            for channel_type in (0, 1, 2, 3, 4, 7, 0x10, 0xFF):
+                writes = [(0x02001100, bytes([flags])), word(0x02001120, 0x02001400),
+                          (0x02001400, bytes([status, channel_type])),
+                          word(0x0200142C, 0x02001100), word(0x02001434, 0x02001500),
+                          (0x02001500, b'\x80\x02'), word(0x0200152C, 0x02001100),
+                          word(0x03007FF0, 0x02002000), word(0x0200202C, oscillator_off)]
+                cases.append(('TrackStop', 0x080B6DE0, {0: 0x02001000, 1: 0x02001100},
+                              [0x02001000, 0x02001100], writes, None))
+
+    # Note uses an explicit service binding in IWRAM; it is not the original ABI.
+    for stream in (b'\x80', b'\x3C\x80', b'\x3C\x64\x80', b'\x3C\x64\x05\x80'):
+        for outer_type in (0, 0x40, 0x80):
+            for selected_type in (0, 1, 4, 0xC0):
+                if outer_type == 0 and selected_type == 0xC0:
+                    continue
+                tone = 0x02004000 + 60 * 12 if outer_type else 0x02001124
+                writes = [(0x02001100, b'\x8F'), (0x02001104, b'\x00\x3C\x64'),
+                          (0x0200110C, b'\x40\x20'), (0x0200111D, b'\x04'),
+                          word(0x02001140, 0x02003000), (0x02003000, stream),
+                          word(0x03007FF0, 0x02002000), (0x02002006, b'\x02'),
+                          word(0x0200201C, 0x02005000), word(0x02002030, 0x080B7ADD),
+                          word(0x03007430 + 34 * 4, 0x080B6929),
+                          (tone, bytes([selected_type, 40, 12, 0xC8])),
+                          word(tone + 4, 0x02006000), word(tone + 8, 0x04030201),
+                          word(0x02006004, 0x00123456)]
+                if outer_type:
+                    writes += [(0x02001124, bytes([outer_type])), word(0x02001128, 0x02004000),
+                               word(0x0200112C, 0x02007000), (0x0200703C, b'\x3C')]
+                cases.append(('Note', 0x080B6E24, {0: 4, 1: 0x02001000, 2: 0x02001100},
+                              [4, 0x02001000, 0x02001100, 0x03001000], writes, None))
+
+    for channel_type in (0, 1, 4):
+        for status in (0, 0x80, 0x40, 0xC0):
+            for old_priority in (3, 4, 5):
+                for owner in (0x02001080, 0x02001100, 0x02001200):
+                    channel = 0x02002050 if channel_type == 0 else 0x02005000 + (channel_type - 1) * 64
+                    writes = [(0x02001100, b'\x80'), (0x02001104, b'\x00\x3C\x64'),
+                              (0x02001108, b'\xFE\x7F'), (0x02001110, b'\x60\x50'),
+                              (0x0200111B, b'\x03\x04\x04'), word(0x02001140, 0x02003000),
+                              (0x02003000, b'\x80'), (0x02001124, bytes([channel_type, 40, 12, 0x18])),
+                              word(0x02001128, 0x02006000), word(0x0200112C, 0x04030201),
+                              word(0x02006004, 0x123456), word(0x03007FF0, 0x02002000),
+                              (0x02002006, b'\x02'), word(0x0200201C, 0x02005000),
+                              word(0x02002030, 0x080B7ADD), word(0x03007430 + 34 * 4, 0x080B6929),
+                              (channel, bytes([status])), (channel + 0x13, bytes([old_priority])),
+                              word(channel + 0x2C, owner), word(owner + 0x20, channel)]
+                    if channel_type == 0:
+                        writes += [(channel + 0x40, b'\x80'),
+                                   (channel + 0x53, bytes([old_priority])),
+                                   word(channel + 0x6C, owner)]
+                    cases.append(('Note', 0x080B6E24, {0: 4, 1: 0x02001000, 2: 0x02001100},
+                                  [4, 0x02001000, 0x02001100, 0x03001000], writes, None))
 
     def invoke(address, registers, writes, return_register):
         machine = Uc(UC_ARCH_ARM, UC_MODE_THUMB)
@@ -189,13 +255,22 @@ def main():
             if 0x04000000 <= location < 0x04001000:
                 io_writes.append((location, size, value))
         machine.hook_add(UC_HOOK_MEM_WRITE, record_write)
+        forbid_original_calls(machine, address)
+        if 'M4AExp_Note' in symbols:
+            bindings = [symbols['M4AExp_UnlinkChannel'] | 1, 0x080B7A15,
+                        symbols['M4AExp_MidiKeyToFreqDependency'] | 1]
+            machine.mem_write(0x03001000, struct.pack('<III', *bindings))
         for location, data in writes:
             machine.mem_write(location, data)
         for index, value in registers.items():
             machine.reg_write(getattr(arm_const, 'UC_ARM_REG_R' + str(index)), value)
         machine.reg_write(UC_ARM_REG_SP, 0x03007C00)
         machine.reg_write(UC_ARM_REG_LR, 0x090F0001)
-        machine.emu_start(address | 1, 0x090F0000, count=10000)
+        try:
+            machine.emu_start(address | 1, 0x090F0000, count=10000)
+        except Exception:
+            print('oracle failure', hex(address), 'PC', hex(machine.reg_read(arm_const.UC_ARM_REG_PC)), writes)
+            raise
         assert machine.reg_read(arm_const.UC_ARM_REG_PC) == 0x090F0000, 'instruction limit reached'
         assert machine.reg_read(UC_ARM_REG_SP) == 0x03007C00, 'stack was not restored'
         value = None if return_register is None else machine.reg_read(

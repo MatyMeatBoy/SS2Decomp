@@ -2,7 +2,7 @@
 
 This is real C reconstructed from the SS2 EU ASM, outside the normal build.
 It currently implements the helpers and stream commands listed in `inventory.json`.
-SoundMain, its mixer, MPlayMain, TrackStop and ply_note are still pending.
+SoundMain, its mixer and MPlayMain are still pending.
 There are no empty implementations for those routines.
 
 The `M4AExp_` namespace prevents collisions with the original module. Addresses
@@ -37,8 +37,8 @@ The harness compiles the experimental C with normal SS2 agbcc flags, links only
 its necessary compiler runtime, and executes both that code and original ROM ASM
 in Unicorn. It compares all EWRAM bytes, I/O register bytes, ordered I/O writes,
 selected returned values and stack restoration. The implemented entry points
-currently pass 142 cases, including guarded reads, stream advancement, linked
-channels, parameter flags, pattern/repeat control, note release and VSync DMA
+currently pass 326 cases, including guarded reads, stream advancement, linked
+channels, parameter flags, pattern/repeat control, note release, channel priority/stealing and VSync DMA
 write order. The counter255 repeat case preserves the wide comparison after the
 stored byte wraps. Every tested call must reach its return sentinel.
 
@@ -68,3 +68,23 @@ The real IWRAM copy is 1024 bytes although the configured SoundMainRAM interval
 is 932 bytes. It includes trailing bytes from other routines. Preserve that
 distinction when reconstructing the mixer; do not copy arbitrary compiled C bytes
 to IWRAM and claim that the entry/return ABI or timing is preserved.
+
+## Note service binding
+
+`M4AExp_Note(length_index, player, track, services)` takes an additional explicit
+GBA32 pointer to three callback words: ClearChain, TrkVolPitSet and MidiKeyToFreq.
+The integrator must resolve the current dynamic jump-table bindings, including
+RAM overrides. This service API is not a claim of the original three-register ABI.
+The fixture binds ClearChain to experimental UnlinkChannel, TrkVolPitSet to the
+existing normal C routine, and frequency conversion to an adaptation of this
+repository's already matching `src/m4a.c` formula. The latter uses experimental
+MultiplyHigh32 and is dependency reuse, not additional newly reconstructed code.
+The CGB frequency callback and TrackStop oscillator callback retain their dynamic
+sound-structure bindings and execute existing normal C in the fixture.
+
+An execution hook rejects any candidate call entering the original m4a_1 interval;
+passing by secretly invoking its ASM helpers is therefore a test failure. The
+service words live in IWRAM separate from the compared EWRAM payload. Global
+jump-table override integration remains pending. Note tests include optional
+stream bytes, nested-voice rejection, split/rhythm voices, CGB/PCM channel types,
+active/released/free channels, lower/equal/higher priority and owner ordering.

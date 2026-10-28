@@ -5,15 +5,13 @@
   "provenance": "Fresh reconstruction from original SS2 ASM; donor source not copied",
   "original_configured_entries": 36,
   "hidden_semantic_entry": "0x080B6A08",
-  "tested_experimental_apis": 31,
-  "differential_cases": 142,
+  "tested_experimental_apis": 33,
+  "differential_cases": 326,
   "normal_ROM_matching_C_credit": 0,
   "remaining_major_regions": [
     "SoundMain",
     "SoundMainRAM mixer",
     "MPlayMain",
-    "TrackStop",
-    "ply_note",
     "shared indirect-call integration"
   ],
   "entries": [
@@ -475,9 +473,9 @@
       "address": "0x080B6DE0",
       "canonical_symbol": "TrackStop",
       "configured_end": "0x080B6E24",
-      "experimental_api": null,
-      "state": "pending",
-      "cases": 0,
+      "experimental_api": "M4AExp_TrackStop",
+      "state": "selected_differential_cases_pass",
+      "cases": 32,
       "original_source": "asm/nonmatchings/m4a_1/TrackStop.s",
       "original_sha256": "281648a1ac0a2ff5bd4680978f3281b13d3ff152377690d076a9bc95466c6d5e",
       "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
@@ -490,9 +488,9 @@
       "address": "0x080B6E24",
       "canonical_symbol": "ply_note",
       "configured_end": "0x080B703C",
-      "experimental_api": null,
-      "state": "pending",
-      "cases": 0,
+      "experimental_api": "M4AExp_Note",
+      "state": "selected_differential_cases_pass",
+      "cases": 152,
       "original_source": "asm/nonmatchings/m4a_1/ply_note.s",
       "original_sha256": "77ea7a43f769368c2975ece1a5b70e755771ab73386820b3991d8f2a098113c9",
       "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
@@ -608,7 +606,8 @@
     "ReadTrackByte and shared-tail helper are distinct entry contracts, not independent ordinary original C functions",
     "SoundMainRAM shares caller stack/high registers and ARM/Thumb transitions; a normal C signature does not preserve its executable-copy ABI",
     "CopyJumpTable takes an explicit template source in C; binding original serialized callbacks to experimental C is pending",
-    "R0 advancement from original Clear64 is not exposed by the void C API; its tested contract is 64 stores and callee stack restoration"
+    "R0 advancement from original Clear64 is not exposed by the void C API; its tested contract is 64 stores and callee stack restoration",
+    "Note takes an explicit fourth argument pointing to three GBA32 service callbacks; dynamic table override binding remains an integration obligation"
   ],
   "IWRAM": {
     "source": "0x080B656C",
@@ -617,5 +616,11 @@
     "configured_mixer_bytes": 932,
     "extra_copy_bytes": 92,
     "hardware_qualification": "pending"
+  },
+  "dependency_reuse": {
+    "api": "M4AExp_MidiKeyToFreqDependency",
+    "source": "src/m4a.c:MidiKeyToFreq",
+    "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+    "new_reconstruction_credit": 0
   }
 }
