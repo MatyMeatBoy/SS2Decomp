@@ -1,19 +1,20 @@
 
-## Patrones nuevos (2026-10-28, casaron 30+ borradores)
-- **Constantes mal copiadas** por el LLM: `movs r1,#3; negs r1,r1` es `~2` (no `~3`); `movs r0,#0xa0; lsls r0,#13` es `0x140000`.
-  Lee la constante del asm, no la del borrador.
-- **`lsls rX,#16/#24` al entrar** = parámetro `u16`/`u8` (no `u32` con `& 0xFF`). Retorno `lsls/lsrs` antes de `bx` = devuelve `u16`/`u8`.
-- **`pop {r1}; bx r1`** = la función devuelve algo: `return sub_X(...)`.
-- **Registros r2/r3 sin tocar antes de un `bl`** con 5º argumento en pila = la función reenvía sus propios r2/r3:
-  `u16 f(u16 a, u16 b, s32 c, s32 d) { return g5(a, b, c, d, K); }` (alias `extern ... g5(...) asm("g")`).
-- **`adds rB,#off; adds rB,rI; ldrh [rB]`** (offset sumado a la base antes del índice) = array miembro de struct:
-  `struct S { u8 pad[0x22]; u16 arr[1]; }; ((struct S *)gUnk_X)->arr[i]`.
-- **Selección de puntero con `ldr` repetido en cada rama** (`if (c) p = base+0x88; else p = base+0x84; *p = v;`) en vez de ternario de offsets.
-- **Familia "link sender"** (`gUnk_03006338` contador, `gUnk_03006300` cola, stride 0x88): contador por puntero
-  `u32 *n = (u32 *)0x03006338; ... (*n)++;`, y si el asm pone el éxito primero: `if (*n <= 0x31 [&& f() == 0]) { ...; return 1; } return 0;`.
-- Permuter: `python3 tools/scripts/yellow.py` resolvió los "0xFF byte stores" (sub_080684F4/854C) que llevaban semanas atascados.
-_permuted.py archivo.c` (aplica, reconstruye la ROM y revierte si cambia el SHA1).
-4. `make compare` OK y `make nonmatching` OK → commit pequeño → push.
+## Workflow medido (2026-10-28, 30 min en shard 067; ganador)
+1. `yellow.py --shard N --no-permute` para ver scores de tus borradores (1 min).
+2. Por cada borrador, de menor a mayor score: `decomp.py check FUNC build/try/FUNC.c`, leer **solo las primeras líneas del diff**
+   y aplicar el patrón conocido (abajo). 3-6 iteraciones por función, ~2-4 min cada una. Rinde ~1 función casada cada 5-10 min.
+3. Si tras 3 intentos sigue con diff de registros/orden: `permute.py ... --time 400 &` en segundo plano y pasar a la siguiente.
+   El permuter casó 0 de 3 en esta prueba (útil solo para diffs de 1-2 líneas).
+4. Ghidra 12.2 headless da la **misma** salida que `docs/ghidra/ghidra_out.tar.xz`: usa el tarball (`gv.sh`), no hace falta regenerar.
+   Lo útil de Ghidra es leer la **estructura** (`if (x < 0x32) {...}` = el original pone el éxito primero).
+Patrones de esta ronda:
+- `ldr r0,=G; ldr r2,[r0]; adds r5,r0,#0` = el global `G` usado directo (`if (G > 0x31) return 0; ... G++`), sin variable puntero.
+  `ldr r5,=G; ldr r2,[r5]` = puntero local `u32 *n = &G`.
+- Un camino que devuelve "lo que haya en r0" (sin `movs r0`): ese camino **no tiene `return`** (sub_08066490/520).
+- Bucle de copia `adds r2,#1; adds r3,#1`: `for (i = 0; i <= 9; i++, dst++) *dst = src[i];` (el orden del `++` importa).
+- Global de struct de tarea (`gUnk_03002840`): `extern struct T gX asm("gUnk_03002840");` con campos `f8, fC, f20...`.
+Ghidra 12.2 local: `tools/ghidra_dist` (JDK 25 obligatorio: `winget install EclipseAdoptium.Temurin.25.JDK`).
+ → push.
 5. Casi-coincidencias: `python tools/scripts/permute.py FUNC archivo.c --time 120`.
 
 ## Patrones que ya resolvieron muchos borradores (úsalos primero)
