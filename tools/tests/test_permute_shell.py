@@ -75,3 +75,46 @@ class PermuterFailureTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 permute.main()
             self.assertNotIn('no improvement', output.getvalue())
+
+
+class PermuterExportTests(unittest.TestCase):
+    def export(self, root, source, aliases):
+        case = root / 'case'
+        best = case / 'output-0-1'
+        best.mkdir(parents=True)
+        (best / 'source.c').write_text(source, encoding='utf-8')
+        with mock.patch.object(sys, 'argv', ['permute.py', 'test_target', 'input.c',
+                                           '--dir', str(case), '--out', str(root / 'out')]), \
+             mock.patch.object(permute, 'setup', return_value=aliases), \
+             mock.patch.object(permute.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, '', '')), \
+             contextlib.redirect_stdout(io.StringIO()):
+            permute.main()
+        return root / 'out/test_target.c'
+
+    @unittest.skipUnless(AVAILABLE, 'requires agbcc and ARM binutils')
+    def test_exported_source_keeps_alias_relocations_without_shell_wrapper(self):
+        source = ('extern int samples[2];\nextern int matrix[2][3];\n'
+                  'extern int flag;\nextern int callee(int);\n'
+                  'int test_target(void) { return samples[1]+matrix[1][2]+flag+callee(3); }\n')
+        aliases = [('samples', 'gSamples'), ('matrix', 'gMatrix'), ('flag', 'gFlag'), ('callee', 'real_callee')]
+        original = source.replace('samples[2];', 'samples[2] asm("gSamples");') \
+                         .replace('matrix[2][3];', 'matrix[2][3] asm("gMatrix");') \
+                         .replace('flag;', 'flag asm("gFlag");') \
+                         .replace('callee(int);', 'callee(int) asm("real_callee");')
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            exported = self.export(root, source, aliases)
+            expected = root / 'expected.c'
+            expected.write_text(original, encoding='utf-8')
+            for candidate, obj in ((exported, 'actual.o'), (expected, 'expected.o')):
+                error = decomp.compile_c(str(candidate), str(root / obj), str(COMPILER), decomp.CC1FLAGS)
+                self.assertFalse(error, error)
+            self.assertEqual(decomp.normalized(str(root / 'actual.o'), 'test_target'),
+                             decomp.normalized(str(root / 'expected.o'), 'test_target'))
+
+    def test_used_alias_without_recoverable_declaration_is_not_exported(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            with self.assertRaises(SystemExit):
+                self.export(root, 'int test_target(void) { return missing; }\n', [('missing', 'gMissing')])
+            self.assertFalse((root / 'out/test_target.c').exists())

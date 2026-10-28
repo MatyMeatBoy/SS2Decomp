@@ -15,14 +15,13 @@ import glob
 import os
 import re
 import shlex
-import shutil
 import subprocess
 import sys
 import tempfile
 
 sys.path.insert(0, os.path.dirname(__file__))
 import decomp  # noqa: E402
-from source_index import ALIASES  # noqa: E402
+from source_index import ALIASES, mask_noncode  # noqa: E402
 
 ROOT = decomp.ROOT
 PERMUTER = os.environ.get("PERMUTER", os.path.join(ROOT, "tools/decomp-permuter"))
@@ -67,6 +66,36 @@ arm-none-eabi-as -mcpu=arm7tdmi -o "$3" "$T/out.s"
     os.chmod(sh, 0o755)
     open(os.path.join(d, "settings.toml"), "w").write(
         'func_name = "%s"\ncompiler_type = "gcc"\nobjdump_command = "arm-none-eabi-objdump -drz -M force-thumb"\n' % func)
+    return aliases
+
+
+def restore_aliases(source, aliases):
+    """Reattach labels to global declarations stripped for pycparser, never calls."""
+    aliases = dict(aliases)
+    if not aliases:
+        return source
+    code = mask_noncode(source)
+    restored, inserts = set(), []
+    depth, start = 0, 0
+    for i, char in enumerate(code):
+        if char == '{':
+            depth += 1
+        elif char == '}':
+            depth -= 1
+        elif char == ';' and depth == 0:
+            declaration = code[start:i]
+            for name, target in aliases.items():
+                declarator = r'\b' + re.escape(name) + r'\s*(?:\[[^\]]*\]\s*)*(?:\([^;{}]*\)\s*)?$'
+                if re.search(declarator, declaration):
+                    inserts.append((i, ' asm("%s")' % target))
+                    restored.add(name)
+            start = i + 1
+    for name in aliases.keys() - restored:
+        if re.search(r'\b' + re.escape(name) + r'\b', code):
+            raise SystemExit("cannot restore asm alias for %s; no source exported" % name)
+    for position, label in reversed(inserts):
+        source = source[:position] + label + source[position:]
+    return source
 
 
 def main():
@@ -79,7 +108,7 @@ def main():
     ap.add_argument("--dir")
     args = ap.parse_args()
     d = args.dir or tempfile.mkdtemp(prefix="perm_%s_" % args.func)
-    setup(args.func, args.cfile, d)
+    aliases = setup(args.func, args.cfile, d)
     baseline = subprocess.run(["sh", os.path.join(d, "compile.sh").replace("\\", "/"),
                                os.path.join(d, "base.c").replace("\\", "/"), "-o",
                                os.path.join(d, "baseline.o").replace("\\", "/")],
@@ -98,7 +127,10 @@ def main():
     if outs:
         best = outs[0]
         score = best.split("-")[-2]
-        shutil.copy(os.path.join(best, "source.c"), os.path.join(args.out, "%s.c" % args.func))
+        with open(os.path.join(best, "source.c"), encoding="utf-8") as source_file:
+            source = restore_aliases(source_file.read(), aliases)
+        with open(os.path.join(args.out, "%s.c" % args.func), "w", encoding="utf-8", newline="\n") as output_file:
+            output_file.write(source)
         print("%s best score %s -> %s" % (args.func, score, os.path.join(args.out, args.func + ".c")))
     else:
         print("%s: no improvement found" % args.func)
