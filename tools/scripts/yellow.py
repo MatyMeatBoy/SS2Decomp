@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yellow.py [--min 1] [--max 12] [--time 300] [--procs 8] [--only FUNC,FUNC] [--no-permute]
+"""yellow.py --shard N [--min 1] [--max 12] [--time 300] [--procs 8] [--only FUNC,FUNC] [--no-permute]
 Pipeline for the yellow cells (C drafts in #ifdef NONMATCHING):
   1. nmscore.py --unwrap: score every draft in place; drafts that already match are converted to plain C
   2. extract drafts with min <= score <= max into build/yellow/FUNC.c (module prelude + draft)
@@ -34,7 +34,13 @@ def main():
     ap.add_argument("--procs", type=int, default=max(1, (os.cpu_count() or 2) // 2))
     ap.add_argument("--only", default="")
     ap.add_argument("--no-permute", action="store_true")
+    ap.add_argument("--shard", type=int, help="limit to the functions of this (claimed) shard")
+    ap.add_argument("--all-shards", action="store_true", help="coordinator only: touch every module (overlaps other agents)")
     a = ap.parse_args()
+    if a.shard is not None:
+        a.only = ",".join(l.split()[1] for l in open(os.path.join(ROOT, "tools/config/shards.txt")) if int(l.split()[0]) == a.shard)
+    if not a.only and not a.all_shards:
+        sys.exit("yellow.py needs --shard N (your claimed shard) or --only F1,F2; --all-shards only when no agent is working")
     out = os.path.join(ROOT, "build", "yellow")
     os.makedirs(out, exist_ok=True)
     only = set(filter(None, a.only.split(",")))

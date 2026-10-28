@@ -28,3 +28,4 @@ tools/objdiff/
 expected/
 objdiff.json
 /~/
+tools/ghidra_dist/

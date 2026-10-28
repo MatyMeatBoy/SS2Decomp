@@ -10,6 +10,7 @@ usage: claim.py status                   shards with work left, drafts (yellow) 
        claim.py land                     rebase on main (dropping the claim commit), make compare, push to main
                                          (retries when main moved); the shard stays claimed
        claim.py pr                       same checks, but push shard/NNN and open a pull request (gh) instead
+       claim.py who FUNC                 which shard owns FUNC and who claimed it (check before touching anything)
        claim.py release [SHARD]          free the shard (delete the remote branch) when done or abandoned
 Run every agent in its own clone or worktree:  git worktree add ../ss2-AGENT origin/MAIN
 """
@@ -73,6 +74,37 @@ def owners():
     return out
 
 
+def shard_funcs(s):
+    return {l.split()[1] for l in open(CFG) if l.split() and int(l.split()[0]) == int(s)}
+
+
+def owner_of(func):
+    for l in open(CFG):
+        p = l.split()
+        if len(p) >= 2 and p[1] == func:
+            return int(p[0])
+    return None
+
+
+def guard(branch, mb):
+    """Refuse to deliver functions that belong to another shard (the cause of overlapping work)."""
+    mine = shard_funcs(int(branch.split("/")[1]))
+    touched = set()
+    for p in git("diff", "--name-only", "origin/%s...HEAD" % mb).splitlines():
+        if p.startswith("asm/nonmatchings/") and p.endswith(".s"):
+            touched.add(os.path.basename(p)[:-2])
+    bad = sorted(f for f in touched if f not in mine and owner_of(f) is not None)
+    if bad:
+        sys.exit("functions outside your shard: %s\n(owned by shards %s). Revert them: `git checkout origin/%s -- <files>`"
+                 % (" ".join(bad), sorted({owner_of(f) for f in bad}), mb))
+
+
+def cmd_who(func):
+    s = owner_of(func)
+    own = owners()
+    print("%s: shard %s, owner %s" % (func, s, own.get(s, "free") if s is not None else "-"))
+
+
 def make_compare():
     r = subprocess.run(["make", "-j%d" % (os.cpu_count() or 4), "compare"], cwd=ROOT, capture_output=True, text=True)
     if "OK" not in r.stdout:
@@ -131,6 +163,7 @@ def cmd_land():
     b = current_shard()
     for attempt in range(6):
         mb = rebase_on_main()
+        guard(b, mb)
         make_compare()
         r = subprocess.run(["git", "push", "-q", "origin", "HEAD:refs/heads/" + mb], cwd=ROOT, capture_output=True, text=True)
         if r.returncode == 0:
@@ -144,6 +177,7 @@ def cmd_land():
 def cmd_pr():
     b = current_shard()
     mb = rebase_on_main()
+    guard(b, mb)
     make_compare()
     git("push", "-q", "--force-with-lease", "origin", "%s:refs/heads/%s" % (b, b))
     r = subprocess.run(["gh", "pr", "create", "--fill", "--base", mb, "--head", b], cwd=ROOT)
@@ -159,6 +193,6 @@ def cmd_release(s=None):
 
 if __name__ == "__main__":
     a = sys.argv[1:]
-    if not a or a[0] not in ("status", "take", "land", "pr", "release"):
+    if not a or a[0] not in ("status", "take", "land", "pr", "release", "who"):
         sys.exit(__doc__)
-    {"status": cmd_status, "take": cmd_take, "land": cmd_land, "pr": cmd_pr, "release": cmd_release}[a[0]](*a[1:])
+    {"status": cmd_status, "take": cmd_take, "land": cmd_land, "pr": cmd_pr, "release": cmd_release, "who": cmd_who}[a[0]](*a[1:])

@@ -42,6 +42,11 @@ Windows (MSYS2): prefix shells with `export PATH="/c/msys64/ucrt64/bin:/c/msys64
 (`mingw-w64-ucrt-x86_64-python-*`) plus `pip install --user --break-system-packages "pycparser<3"` (the permuter needs pycparser 2.x).
 
 ## Hard rules (these keep merges conflict-free)
+- **Nobody works unclaimed, not even the coordinator or a human on main.** Before touching a function: `claim.py who FUNC`.
+- **No global batch tools inside a shard**: `yellow.py --shard N`, `nmscore.py <modules of your shard>`; never run family-wide
+  regex rewrites or `--all-shards` while other agents are active. `claim.py land/pr` refuses functions outside your shard.
+- Rebase conflict on a function that is already matched on main (someone else got it first): keep main's version
+  (`git checkout --ours <file>` during the rebase, then re-run `make compare`), drop yours, and go on.
 - Only edit the functions of your shard. Keep them where they are (address order).
 - `include/*.h`: append only (they merge with `union`). Never rewrite or reorder existing lines, never retype a global
   (use an `asm("gUnk_X")` alias instead).
