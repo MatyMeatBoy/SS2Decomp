@@ -1,4 +1,8 @@
 #include "global.h"
+extern void sub_08092E40();
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern struct TaskP *gTP03000260 asm("gUnk_03000260");
+struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 
 void sub_08092E40(void);
 void sub_0809342C(void);
@@ -9,20 +13,26 @@ M2C_UNK sub_08000990(s32, s32);
 M2C_UNK sub_080009F8(s32, s32, s32);
 M2C_UNK sub_08000A34(s32, s32, s32, s32, s32);
 
-#ifdef NONMATCHING
 void sub_08092D60(void)
 {
-    u8 *obj;
     u32 mem;
-    obj=*(u8 **)0x03000260; if(!obj)return;
-    if(!sub_08000470((u32)obj)&&*(u32 *)(obj+8)==0)return;
-    *(u32 *)(obj+0xC)=(u32)sub_08092E40; *(u32 *)(obj+8)=0x44;
-    mem=sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; if(!mem)return;
-    *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0x24)=0; sub_08000274_(obj,0,0);
+    struct TaskP *t;
+    if (gTP03000260 == 0)
+        return;
+    if (sub_08000470((u32)gTP03000260) == 0 && gTP03000260->f8 != 0)
+        return;
+    t = gTP03000260;
+    t->fC = (u32)sub_08092E40;
+    t->f8 = 0x44;
+    mem = sub_08001494(0x400);
+    t = gTP03000260;
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->f10 = mem + 0x3FC;
+    t->f24 = 0;
+    sub_08000274_3((u32)t, 0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092D60);
-#endif
 void sub_08092DB8(void) {
     gUnk_03000259 = 0;
 }
