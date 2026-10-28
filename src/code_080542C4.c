@@ -97,7 +97,31 @@ INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054FB8);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055174);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055558);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080557CC);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080558D0);
+void sub_080558D0(void)
+{
+    struct E2E0a *p;
+    u32 i;
+    u32 one;
+    u32 z;
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+    SetMode53A80(0xB);
+    Clr53A80(gP030056F4);
+    sub_08019F04();
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055974);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055A60);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055BA4);
@@ -105,8 +129,56 @@ INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055C58);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055D1C);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055E74);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080560D0);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080563F0);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056494);
+void sub_080563F0(void)
+{
+    struct E2E0a *p;
+    u32 i;
+    u32 one;
+    u32 z;
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+    SetMode53A80(0xB);
+    Clr53A80(gP030056F4);
+    sub_08019F04();
+}
+void sub_08056494(void)
+{
+    struct E2E0a *p;
+    u32 i;
+    u32 one;
+    u32 z;
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+    SetMode53A80(0xB);
+    Clr53A80(gP030056F4);
+    sub_08019F04();
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056538);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_0805664C);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
