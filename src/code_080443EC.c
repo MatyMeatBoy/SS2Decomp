@@ -72,20 +72,27 @@ wait:
 }
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045660);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045764);
-#ifdef NONMATCHING
+struct Bits5AFC { u8 b0:5; u8 b5:1; u8 b6:1; u8 b7:1; };
+extern u8 *gGS5AFC asm("gUnk_03005CF4");
+static inline struct Bits5AFC *SelA_5AFC(void)
+{
+    if (sub_0800CE30())
+        return (struct Bits5AFC *)(gGS5AFC + 0x1C3);
+    return (struct Bits5AFC *)(gGS5AFC + 0x1B7);
+}
+static inline struct Bits5AFC *SelB_5AFC(void)
+{
+    if (sub_0800CE30())
+        return (struct Bits5AFC *)(gGS5AFC + 0x1C5);
+    return (struct Bits5AFC *)(gGS5AFC + 0x1B9);
+}
 void sub_08045AFC(void)
 {
-    u8 *base = (u8 *)*(u32 *)0x03005CF4;
-    u32 primary = sub_0800CE30() ? 0x1C3 : 0x1B7;
-    u32 clear;
-    if ((base[primary] >> 7) == 0) return;
-    clear = sub_0800CE30() ? 0x1C5 : 0x1B9;
-    base[clear] &= (u8)~0x21;
-    sub_0805C7B8(0);
+    if (*(u8 *)SelA_5AFC() >> 7) {
+        { u8 *q = (u8 *)SelB_5AFC(); s32 m = ~0x20; *q = m & *q; }
+        sub_0805C7B8(0);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045AFC);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045B68);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045E38);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045F44);
