@@ -115,21 +115,21 @@ void sub_0809342C(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809342C);
 #endif
-#ifdef NONMATCHING
 u16 sub_08093498(void)
 {
-    gUnk_03000267 += 2;
-    if (gUnk_03000268 == 0) {
-        vu16 *control = (vu16 *)0x040000DE;
-        *control &= 0xC5FF;
-        *control &= 0x7FFF;
-        return *control;
-    }
-    return 0;
+  u16 r;
+  vu16 *c;
+  gB03000267 += 2;
+ do { r = gB03000268; } while (0);
+  if (r == 0)
+  {
+    c = (vu16 *) 0x040000D4;
+    c[5] &= 0xC5FF;
+    c[5] &= 0x7FFF;
+    r = c[5];
+  }
+  return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093498);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080934D4);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
