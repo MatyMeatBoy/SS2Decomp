@@ -1,0 +1,27 @@
+{
+  "sources": [
+    {
+      "source": "src/code_08000EC8.c",
+      "revision": "156cba5168f32de3d9e92b426c925922a365d1d6",
+      "sha256_git_bytes_lf": "4de162c20251c89730e6ab1098dd69e09e430a5fb87ddaf7ac3ba5eb22417f9e",
+      "url": "https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/156cba5168f32de3d9e92b426c925922a365d1d6/src/code_08000EC8.c"
+    },
+    {
+      "source": "include/structs.h",
+      "revision": "156cba5168f32de3d9e92b426c925922a365d1d6",
+      "sha256_git_bytes_lf": "ab0f5a49e827f75289630903fd33f561a6a2eb1a068b7bac0e621fe6bc60fc84",
+      "url": "https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/156cba5168f32de3d9e92b426c925922a365d1d6/include/structs.h"
+    }
+  ],
+  "qualification": "Public source text verified; no ROM/assets or native-port equivalence claims",
+  "original_functions": {
+    "queue": "0x08001348",
+    "flush": "0x08001394",
+    "cancel": "0x080013F8",
+    "initialize_heap": "0x08001404",
+    "allocate_front": "0x08001494",
+    "free": "0x08001538",
+    "allocate_tail": "0x08001638",
+    "vblank_handler": "0x08001180"
+  }
+}
