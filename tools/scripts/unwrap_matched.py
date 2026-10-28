@@ -3,19 +3,25 @@
 (left behind when a draft is later matched through apply_permuted/decomp.apply). Blocks whose #else branch is INCLUDE_ASM are kept."""
 import os, re, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-def run(files):
+def run(files, only=None):
     n = 0
     for p in files:
-        t = open(p, encoding="utf-8").read()
+        with open(p, encoding="utf-8") as source:
+            t = source.read()
         def sub(m):
             nonlocal n
             if "INCLUDE_ASM" in m.group(2):
                 return m.group(0)
+            if only is not None:
+                definitions = set(re.findall(r"^[\w \t*]+?\b(\w+)\s*\([^;{]*?\)\s*\{", m.group(2), re.M))
+                if not definitions.intersection(only):
+                    return m.group(0)
             n += 1
             return m.group(2)
         t2 = re.sub(r"#ifdef NONMATCHING\n((?:(?!#endif|#ifdef).)*?)#else\n((?:(?!#endif|#ifdef).)*?)#endif\n?", sub, t, flags=re.S)
         if t2 != t:
-            open(p, "w", encoding="utf-8").write(t2)
+            with open(p, "w", encoding="utf-8", newline="\n") as source:
+                source.write(t2)
     return n
 if __name__ == "__main__":
     files = sys.argv[1:] or [os.path.join(ROOT, "src", f) for f in sorted(os.listdir(os.path.join(ROOT, "src"))) if f.endswith(".c")]

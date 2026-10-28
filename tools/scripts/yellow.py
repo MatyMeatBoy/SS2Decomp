@@ -45,11 +45,16 @@ def main():
     os.makedirs(out, exist_ok=True)
     only = set(filter(None, a.only.split(",")))
     mods = []
-    if only:  # stay inside your shard: only score/unwrap the modules that hold these functions
+    if only:  # modules can span shards: forward the exact function filter as well
         for fn in os.listdir(os.path.join(ROOT, "src")):
-            if fn.endswith(".c") and any(f in open(os.path.join(ROOT, "src", fn), encoding="utf-8").read() for f in only):
+            if not fn.endswith(".c"):
+                continue
+            with open(os.path.join(ROOT, "src", fn), encoding="utf-8") as source:
+                text = source.read()
+            if any(m.group(2) in only for m in DRAFT.finditer(text)):
                 mods.append(fn[:-2])
-    r = run(os.path.join(S, "nmscore.py"), "--unwrap", *mods, capture_output=True)
+    selection = ["--only=" + ",".join(sorted(only))] if only else []
+    r = run(os.path.join(S, "nmscore.py"), "--unwrap", *selection, *mods, capture_output=True)
     scores = {}
     for line in r.stdout.splitlines():
         p = line.split()
@@ -61,12 +66,14 @@ def main():
     for fn in sorted(os.listdir(os.path.join(ROOT, "src"))):
         if not fn.endswith(".c"):
             continue
-        text = open(os.path.join(ROOT, "src", fn), encoding="utf-8").read()
+        with open(os.path.join(ROOT, "src", fn), encoding="utf-8") as source:
+            text = source.read()
         pre = prelude(text)
         for m in DRAFT.finditer(text):
             f = m.group(2)
             if (only and f in only) or (not only and a.min <= scores.get(f, -1) <= a.max):
-                open(os.path.join(out, f + ".c"), "w", newline="\n").write(pre + m.group(1))
+                with open(os.path.join(out, f + ".c"), "w", encoding="utf-8", newline="\n") as candidate:
+                    candidate.write(pre + m.group(1))
                 picked.append(f)
     with open(os.path.join(out, "scores.txt"), "w", newline="\n") as fh:
         for f in picked:
@@ -77,8 +84,10 @@ def main():
     run(os.path.join(S, "permute_batch.py"), out, os.path.join(out, "scores.txt"), "--min-score", "1",
         "--max-score", "1000000", "--time", str(a.time), "--procs", str(a.procs))
     perm = os.path.join(out, "permuted")
-    if os.path.isdir(perm) and os.listdir(perm):
-        run(os.path.join(S, "apply_permuted.py"), perm)
+    winners = [os.path.join(perm, f + ".c") for f in picked
+               if os.path.isfile(os.path.join(perm, f + ".c"))]
+    if winners:
+        run(os.path.join(S, "apply_permuted.py"), *winners)
 
 
 if __name__ == "__main__":
