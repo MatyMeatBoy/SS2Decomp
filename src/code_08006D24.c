@@ -124,7 +124,41 @@ INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080089DC);
 void sub_08008C10(void) {
     sub_08008C1C();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008C1C);
+extern u32 gW8C1C_28B4 asm("gUnk_030028B4");
+extern u32 gW8C1C_28B8 asm("gUnk_030028B8");
+extern u32 gW8C1C_28C8 asm("gUnk_030028C8");
+extern u32 gW8C1C_28B0 asm("gUnk_030028B0");
+extern u32 gW8C1C_28C0 asm("gUnk_030028C0");
+extern u32 gW8C1C_28C4 asm("gUnk_030028C4");
+struct DispCnt8C1C { u32 mode:3; u32 rest:29; };
+extern struct DispCnt8C1C gW8C1C_128C asm("gUnk_0300129C");
+extern u32 gW8C1C_28BC asm("gUnk_030028BC");
+void sub_08008C1C_v(void) asm("sub_08008C1C");
+void sub_08008C1C_v(void)
+{
+    gW8C1C_28B4 = 0;
+    gW8C1C_28B8 = 0;
+    gW8C1C_28C8 = 0;
+    gW8C1C_28B0 = 0;
+    gW8C1C_28C0 = 0;
+    gW8C1C_28C4 = 0;
+    switch (gW8C1C_128C.mode) {
+    case 0:
+        gW8C1C_28BC = 0x06010000;
+        break;
+    case 1:
+        gW8C1C_28BC = 0x06010000;
+        break;
+    case 2:
+        gW8C1C_28BC = 0x06010000;
+        break;
+    case 3:
+    case 4:
+    case 5:
+        gW8C1C_28BC = 0x06014000;
+        break;
+    }
+}
 u32 sub_08008CC4(u32 arg0, u16 *arg1, u16 *arg2, u8 *arg3, u32 arg4)
 {
     u16 idx = arg0;
