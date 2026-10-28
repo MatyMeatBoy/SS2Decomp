@@ -36,7 +36,10 @@ hundreds of functions: [docs/agents/AI_AGENTS.md](docs/agents/AI_AGENTS.md). Use
 4. **Permuter** (`tools/decomp-permuter`, agbcc fork) only when the diff is small (registers/order):
    `python3 tools/scripts/permute.py FUNC build/try/FUNC.c --time 300 --jobs 4`; many drafts at once: `python3 tools/scripts/yellow.py`.
    It handles `asm("...")` aliases and `__attribute__` itself. Output in `build/permuter_results/FUNC.c`.
-5. **Apply**: `python3 tools/scripts/apply_permuted.py FILE_OR_DIR` (inserts, deletes the .s, rebuilds, rolls back if the SHA1 changes).
+5. **Apply**: `python3 tools/scripts/apply_permuted.py FILE_OR_DIR`; if the C needs a local `struct`/`asm("gUnk_X")` alias
+   (apply_permuted then says "no match with module compiler"): `python3 tools/scripts/handapply.py MODULE build/try/FUNC.c ...`
+   (hoists the one-line decls to the module top), then `make compare`. Twins: generate the C from the asm and check them in a loop.
+   Old step: (inserts, deletes the .s, rebuilds, rolls back if the SHA1 changes).
    Not matching after ~30 min: keep it as a draft (`python3 tools/scripts/addnm.py FUNC file.c`) and move on.
 Windows (MSYS2): prefix shells with `export PATH="/c/msys64/ucrt64/bin:/c/msys64/usr/bin:$PATH"`; Python deps via `pacman`
 (`mingw-w64-ucrt-x86_64-python-*`) plus `pip install --user --break-system-packages "pycparser<3"` (the permuter needs pycparser 2.x).
