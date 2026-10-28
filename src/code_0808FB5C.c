@@ -7,6 +7,19 @@ extern u32 gTbl0851810C[] asm("gUnk_0851810C");
 extern u32 gTbl08511538[] asm("gUnk_08511538");
 extern u32 gTbl08510530[] asm("gUnk_08510530");
 extern u32 gTbl0850F894[] asm("gUnk_0850F894");
+extern void sub_080923B4();
+extern struct Task01E8 gTask01E8 asm("gUnk_030001E8");
+struct Task01E8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern void sub_08090B84(), sub_08090E38(), sub_080910A8(), sub_080912CC(), sub_080914F0(), sub_08091714(), sub_08091938(), sub_08091B5C(), sub_08091CF8();
+extern u32 gWord0300016C asm("gUnk_0300016C");
+extern u32 gTbl03000198[] asm("gUnk_03000198");
+extern struct Task0170 gTask0170 asm("gUnk_03000170");
+struct Task0170 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern void sub_080904A4();
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern struct Task01C0 gTask01C0 asm("gUnk_030001C0");
+struct Task01C0 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern u16 gUnk_03001324_16 asm("gUnk_03001324");
 
 void sub_080904A4(void);
 void sub_0802704C(u32 arg0);
@@ -259,91 +272,61 @@ u32 sub_08092080(void)
 void sub_08092094(void) {
     gUnk_03000168 = 0;
 }
-#ifdef NONMATCHING
 void sub_080920A0(void)
 {
-    u8 index = gUnk_03000168;
-    if (index != 0xD) {
-        if (((u8 *)gUnk_0851844E)[index] == gUnk_03001324)
-            gUnk_03000168 = index + 1;
-        else if (gUnk_03001324 != 0)
-            gUnk_03000168 = 0;
-    }
+    if (gUnk_03000168 == 0xD)
+        return;
+    if (gUnk_0851844E[gUnk_03000168] == gUnk_03001324_16)
+        gUnk_03000168 = gUnk_03000168 + 1;
+    else if (gUnk_03001324_16 != 0)
+        gUnk_03000168 = 0;
     if (gUnk_03000168 == 0xD)
         sub_0805865C(0x33);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080920A0);
-#endif
-#ifdef NONMATCHING
 void sub_080920E4(void)
 {
-    u8 *obj = (u8 *)gUnk_030001C0;
-    *(u32 *)(obj + 0xC) = (u32)sub_080904A4;
-    *(u32 *)(obj + 0x24) = 0;
-    *(u32 *)(obj + 0x20) = sub_08001494(0x800);
-    *(u32 *)(obj + 0x10) = *(u32 *)(obj + 0x20) + 0x7FC;
-    *(u32 *)(obj + 8) = 0x40;
-    *(u32 *)obj = 0;
-    *(u32 *)(obj + 0x18) = 0;
-    sub_08000274_((void *)gUnk_030001C0, 0, 0);
+    u32 zero;
+    gTask01C0.fC = (u32)sub_080904A4;
+    zero = 0;
+    gTask01C0.f24 = zero;
+    gTask01C0.f20 = sub_08001494(0x800);
+    gTask01C0.f10 = gTask01C0.f20 + 0x7FC;
+    gTask01C0.f8 = 0x40;
+    gTask01C0.f0 = zero;
+    gTask01C0.f18 = zero;
+    sub_08000274_3((u32)&gTask01C0, 0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080920E4);
-#endif
-#ifdef NONMATCHING
 void sub_08092124(void)
 {
-    u32 *callbacks;
-    u8 *task;
-    void sub_08090B84(void);
-    void sub_08090E38(void);
-    void sub_080910A8(void);
-    void sub_080912CC(void);
-    void sub_080914F0(void);
-    void sub_08091714(void);
-    void sub_08091938(void);
-    void sub_08091B5C(void);
-    void sub_08091CF8(void);
-    callbacks = (u32 *)0x03000198;
-    task = (u8 *)0x03000170;
-
-    *(u32 *)0x0300016C = 0;
-    callbacks[0] = (u32)sub_08090B84;
-    callbacks[1] = (u32)sub_08090E38;
-    callbacks[2] = (u32)sub_080910A8;
-    callbacks[3] = (u32)sub_080912CC;
-    callbacks[4] = (u32)sub_080914F0;
-    callbacks[5] = (u32)sub_08091714;
-    callbacks[6] = (u32)sub_08091938;
-    callbacks[7] = (u32)sub_08091B5C;
-    callbacks[8] = (u32)sub_08091CF8;
-    *(u32 *)(task + 0x24) = 0;
-    *(u32 *)(task + 8) = 0x3C;
-    *(u32 *)task = 0;
-    *(u32 *)(task + 0x18) = 0;
+    u32 zero;
+    gWord0300016C = zero = 0;
+    gTbl03000198[0] = (u32)sub_08090B84;
+    gTbl03000198[1] = (u32)sub_08090E38;
+    gTbl03000198[2] = (u32)sub_080910A8;
+    gTbl03000198[3] = (u32)sub_080912CC;
+    gTbl03000198[4] = (u32)sub_080914F0;
+    gTbl03000198[5] = (u32)sub_08091714;
+    gTbl03000198[6] = (u32)sub_08091938;
+    gTbl03000198[7] = (u32)sub_08091B5C;
+    gTbl03000198[8] = (u32)sub_08091CF8;
+    gTask0170.f24 = zero;
+    gTask0170.f8 = 0x3C;
+    gTask0170.f0 = zero;
+    gTask0170.f18 = zero;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092124);
-#endif
-#ifdef NONMATCHING
 void sub_08092190(void)
 {
-    u8 *task;
-    u32 mem;
-    s32 index = (s16)sub_0800086C();
-    index %= 9;
-    if (index < 0) index = -index;
-    task = (u8 *)0x03000170;
-    *(u32 *)(task + 0xC) = *(u32 *)((u8 *)0x03000198 + index * 4);
-    mem = sub_08001494(0x400);
-    *(u32 *)(task + 0x20) = mem;
-    *(u32 *)(task + 0x10) = mem + 0x3FC;
-    sub_08000274((u32)task, 0, 0);
+    s32 i = (s16)((s16)sub_0800086C() % 9);
+    if (i < 0)
+        i = -i;
+    {
+    u8 k = i;
+    gTask0170.fC = gTbl03000198[k];
+    }
+    gTask0170.f20 = sub_08001494(0x400);
+    gTask0170.f10 = gTask0170.f20 + 0x3FC;
+    sub_08000274_3((u32)&gTask0170, 0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092190);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080921E4);
 void sub_080922B4(void)
 {
@@ -370,27 +353,21 @@ void sub_080922B4(void)
 void sub_08092344(void) {
 
 }
-#ifdef NONMATCHING
-void sub_08092348(s32 arg0, s32 arg1, s32 arg2)
+void sub_08092348(u8 a, u8 b, u8 c)
 {
-    u8 *task = (u8 *)0x030001E8;
-
-    *(u32 *)(task + 0xC) = (u32)sub_080923B4;
-    *(u32 *)(task + 0x20) = 0;
-    while (*(u32 *)(task + 0x20) == 0) {
-        *(u32 *)(task + 0x20) = sub_08001494(0x800);
+    gTask01E8.fC = (u32)sub_080923B4;
+    gTask01E8.f20 = 0;
+    do {
+        gTask01E8.f20 = sub_08001494(0x800);
         sub_080003F0();
-    }
-    *(u32 *)(task + 0x10) = *(u32 *)(task + 0x20) + 0x7FC;
-    *(u32 *)(task + 8) = 0x40;
-    *(u32 *)task = 0;
-    *(u32 *)(task + 0x18) = 0;
-    *(u32 *)(task + 0x24) = 0;
-    sub_08000274_(task, (s8)arg0, ((s32)(s8)arg1 << 8) | (s8)arg2);
+    } while (gTask01E8.f20 == 0);
+    gTask01E8.f10 = gTask01E8.f20 + 0x7FC;
+    gTask01E8.f8 = 0x40;
+    gTask01E8.f0 = 0;
+    gTask01E8.f18 = 0;
+    gTask01E8.f24 = 0;
+    sub_08000274_3((u32)&gTask01E8, (s8)a, ((s8)b << 8) | (s8)c);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092348);
-#endif
 s32 sub_080923B0(void) {
     return 3;
 }
