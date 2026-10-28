@@ -89,34 +89,34 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A20C);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A2E0);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A378);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A4B4);
-#ifdef NONMATCHING
 u8 sub_0807A544(const u8 *data, u32 length)
 {
     u8 sum = 0;
+    const u8 *p = data;
     u32 i;
-    for (i = 0; i < length; i++)
-        sum += data[i];
-    return (u8)~sum;
+    for (i = 0; i < length; i++, p++)
+        sum += *p;
+    return ~sum;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A544);
-#endif
-#ifdef NONMATCHING
-u32 sub_0807A56C(u32 sector)
+extern void sub_08001B04_4(u32, u32, void *, u32) asm("sub_08001B04");
+static inline u8 Sum_A56C(const u8 *data, u32 length)
 {
-    u8 *data;
+    u8 sum = 0;
+    const u8 *p = data;
     u32 i;
-    u8 sum;
-
-    data = sub_08001494(0xCA8);
-    sub_08001B04((u16)(u8)sector, 0, data, 0xCA8);
-    sum = 0;
-    for (i = 0; i < 0xCA4; i++)
-        sum += data[i];
-    i = (data[0xCA4] == (u8)~sum);
-    sub_08001538((s32)data);
-    return i;
+    for (i = 0; i < length; i++, p++)
+        sum += *p;
+    return ~sum;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A56C);
-#endif
+u32 sub_0807A56C(u8 sector)
+{
+    u32 sz = 0xCA8;
+    u8 *data = (u8 *)sub_08001494(sz);
+    sub_08001B04_4(sector, 0, data, sz);
+    if (data[0xCA4] != Sum_A56C(data, 0xCA4)) {
+        sub_08001538(data);
+        return 0;
+    }
+    sub_08001538(data);
+    return 1;
+}
