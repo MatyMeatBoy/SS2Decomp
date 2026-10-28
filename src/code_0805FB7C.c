@@ -1826,23 +1826,15 @@ void sub_08065918(u32 a, u32 b)
         sub_08000274(&gUnk_030061E0, a, b);
     }
 }
-#ifdef NONMATCHING
+struct P148 { u8 pad[0x148]; u8 *p; };
+extern struct P148 gP148[] asm("gUnk_03003CE0");
 u32 sub_08065974(void)
 {
-    u32 count = sub_08002164();
-    u32 i = 0;
-    u8 *entry;
-    if (i < count) {
-        entry = (u8 *)gUnk_03003CE0 + 0x148;
-        do {
-            if (((u32)(*(u8 *)*(u32 *)entry << 28) >> 28) == 14)
-                return 1;
-            entry += 0x14C;
-            i++;
-        } while (i < count);
+    u32 n = sub_08002164();
+    u32 i;
+    for (i = 0; i < n; i++) {
+        if ((u32)(*gP148[i].p << 28) >> 28 == 0xE)
+            return 1;
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065974);
-#endif
