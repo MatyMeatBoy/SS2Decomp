@@ -4244,20 +4244,20 @@ INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08081518);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080815F4);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082960);
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082BB0);
-#ifdef NONMATCHING
 void sub_0808381C(u32 index)
 {
+    /* Empty constraints preserve the original register lifetimes and truncations. */
     u32 descriptorWords[13];
     u8 text[32];
     u8 liveText[32];
     volatile u32 visible;
-    u8 *source;
+    register u8 *source asm("r4");
     u8 *manager;
     u16 sourceOffset;
     u16 textLength;
-    u16 dictionaryOffset;
-    u16 i;
-    u16 countdown;
+    register u32 dictionaryOffset asm("ip");
+
+    register u32 countdown asm("r6");
     s16 amount;
     u16 x;
     extern u16 keys8381C asm("gUnk_03001324");
@@ -4280,14 +4280,22 @@ void sub_0808381C(u32 index)
     sourceOffset = 0;
     if (source[2] != 0xFD) {
         do {
-            if (*(u8 *)((u32)source + (sourceOffset + 2)) == 0xFC) {
-                text[textLength++] = ((u8 *)gUnk_030034E0)[dictionaryOffset++];
-                if (((u8 *)gUnk_030034E0)[dictionaryOffset] == 0xFD)
+            if (*(u8 *)((u32)source + ({ s32 offset = sourceOffset + 2; asm("" : "+r"(offset)); offset; })) == 0xFC) {
+                u8 *destination;
+                u8 *dictionary;
+                u32 previous;
+                destination = text + textLength++;
+                dictionary = (u8 *)gUnk_030034E0;
+                asm("" : "+r"(dictionary));
+                previous = dictionaryOffset;
+                dictionaryOffset = (u16)(previous + 1);
+                *destination = dictionary[previous];
+                if (dictionary[dictionaryOffset] == 0xFD)
                     sourceOffset++;
             } else {
-                text[textLength++] = *(u8 *)((u32)source + (sourceOffset++ + 2));
+                text[textLength++] = *({ register u8 *pointer asm("r1") = source + ({ s32 offset = sourceOffset++ + 2; asm("" : "+r"(offset)); offset; }); asm("" : "+r"(pointer)); pointer; });
             }
-        } while (*(u8 *)((u32)source + (sourceOffset + 2)) != 0xFD);
+        } while (*(u8 *)((u32)source + ({ s32 offset = sourceOffset + 2; asm("" : "+r"(offset)); offset; })) != 0xFD);
     }
     text[textLength] = 0xFD;
 
@@ -4296,55 +4304,90 @@ void sub_0808381C(u32 index)
             goto done;
         if (countdown == 1)
             countdown = 0;
-        amount = (s16)countdown - ((s32)((u32)countdown << 16) >> 17);
-        countdown = amount;
+        {
+            register s32 scaled asm("r0") = countdown << 16;
+            register s32 initial asm("r4") = scaled >> 16;
+            asm("" : "+r"(scaled), "+r"(initial));
+            amount = initial - (scaled >> 17);
+        }
+        countdown = (u16)amount;
         sub_08065230(((u8 *)descriptorWords), amount + 0xF0, 0x88, 0, 0);
         sub_080003F0();
     } while (amount > 0);
 
-    for (i = 0; i <= (u32)sub_0801A638(text);) {
-        if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
-            goto done;
-        liveText[i] = text[i];
-        liveText[i + 1] = 0xFD;
-        i++;
-        sub_08065230(((u8 *)descriptorWords), 0xF0, 0x88, 0, 0);
-        x = 0x0F - ((u32)sub_0801A638(text) >> 1);
-        sub_0801A3D0(liveText, x, 0x12);
-        sub_080003F0();
-    }
-
-    i--;
-    if ((keys8381C & 1) == 0) {
-        u16 blink = 0;
-        u8 *cursor = liveText + i;
-        u8 *cursorEnd = cursor + 1;
-
-        for (;;) {
+    {
+        register u32 i asm("r5");
+        register u32 lastIndex asm("ip");
+        register u32 blink asm("r5");
+        for (i = 0; i <= (u32)sub_0801A638(text);) {
             if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
                 goto done;
+            liveText[i] = text[i];
             {
-            u16 previousBlink = blink++;
-            if (previousBlink <= 0x1D)
-                visible = 1;
-            else if (blink > 0x1D)
-                visible = 0;
-            }
-            if (blink > 0x28)
-                blink = 0;
-            if (visible) {
-                *cursor = 0xA0;
-                *cursorEnd = 0xFD;
-            } else {
-                *cursor = 0xFD;
+                register u32 next asm("r1") = i + 1;
+                liveText[next] = 0xFD;
+                asm("" : "+r"(next));
+                i = (u16)next;
             }
             sub_08065230(((u8 *)descriptorWords), 0xF0, 0x88, 0, 0);
             x = 0x0F - ((u32)sub_0801A638(text) >> 1);
             sub_0801A3D0(liveText, x, 0x12);
             sub_080003F0();
-            if (keys8381C & 1)
-                break;
         }
+
+        {
+            register u32 previous asm("r0") = i - 1;
+            asm("" : "+r"(previous));
+            lastIndex = (u16)previous;
+        }
+        blink = 0;
+        if ((keys8381C & 1) == 0) {
+
+            register u8 *cursor asm("r6");
+            u8 *cursorEnd;
+            {
+                u8 *base = liveText;
+                register u32 previous asm("r0");
+                asm("" : "+r"(base));
+                previous = lastIndex;
+                cursor = base + previous;
+                cursorEnd = base + (previous + 1);
+            }
+
+            for (;;) {
+                if (sub_0800CDF8() != 0 || sub_080021A8() != 0)
+                    goto done;
+                {
+                register u32 previousBlink asm("r1") = blink;
+                register u32 nextBlink asm("r0") = previousBlink + 1;
+                asm("" : "+r"(previousBlink), "+r"(nextBlink));
+                blink = (u16)nextBlink;
+                if (previousBlink <= 0x1D)
+                    visible = ({ register u32 value asm("r1") = 1; asm("" : "+r"(value)); value; });
+                else if (blink > 0x1D)
+                    visible = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+                }
+                if (blink > 0x28)
+                    blink = 0;
+                if (({ register u32 value asm("r1") = visible; asm("" : "+r"(value) : "r"(cursor), "r"(cursorEnd) : "r4", "r8", "r10"); value; })) {
+                    *cursor = 0xA0;
+                    *cursorEnd = 0xFD;
+                } else {
+                    *cursor = 0xFD;
+                }
+                {
+                register u8 *liveBase asm("r4") = liveText;
+                asm("" : "+r"(liveBase));
+                sub_08065230(((u8 *)descriptorWords), 0xF0, 0x88, 0, 0);
+                x = 0x0F - ((u32)sub_0801A638(text) >> 1);
+                sub_0801A3D0(liveBase, x, 0x12);
+                sub_080003F0();
+                }
+                if (keys8381C & 1)
+                    break;
+            }
+        }
+
     }
 
     countdown = 0;
@@ -4354,12 +4397,17 @@ void sub_0808381C(u32 index)
             goto done;
         if (countdown == 0x9F)
             countdown = 0xA0;
-        amount = (s16)countdown - (((s16)countdown - 0xA0) >> 1);
+        {
+            register s32 initial asm("r4") = countdown << 16;
+            initial >>= 16;
+            asm("" : "+r"(initial));
+            amount = initial - ((initial - 0xA0) >> 1);
+        }
+        countdown = (u16)amount;
         sub_08065230(((u8 *)descriptorWords), amount + 0xF0, 0x88, 0, 0);
         sub_080003F0();
         if (amount > 0x9F)
             break;
-        countdown = amount;
     }
     sub_080003F0();
     sub_080003F0();
@@ -4368,9 +4416,6 @@ done:
     manager = (u8 *)gUnk_03006440;
     *(u32 *)(manager + 0x28) &= ~2u;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808381C);
-#endif
 #ifdef NONMATCHING
 void sub_08083AE8(u32 param_1)
 

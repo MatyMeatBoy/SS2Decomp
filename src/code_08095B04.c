@@ -81,7 +81,6 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096EFC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096FA0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
-#ifdef NONMATCHING
 struct FadeColor100 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern void sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
 extern void sub_08007974(s16,s16,u16,u16,u32,u32,u32,void *,u32,void *);
@@ -117,12 +116,6 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
     phase=0;
     frame=0;
     state=2;
-    uploadPal=palNum+16;
-    field68=(u16 *)((u8 *)entity+0x68);
-    field6A=(u16 *)((u8 *)entity+0x6A);
-    imageAttr=(u8 *)image+0x1C;
-    screenXPtr=&screenX;
-    screenYPtr=&screenY;
     do {
         u8 oldAlternate;
         {
@@ -139,10 +132,16 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
             frame++;
             if(sub_08096E20(palette,2,frame,60)!=0) { frame=0; state=0; }
         }
+        uploadPal=palNum+16;
         sub_08000AF0(uploadPal,palette,1);
         {
             u8 priority=sub_0800BC44(M2C_FIELD(entity,s32 *,0x14)>>8,M2C_FIELD(entity,s32 *,0x18)>>8,0);
+            screenXPtr=&screenX;
+            screenYPtr=&screenY;
             sub_0800BC08((M2C_FIELD(entity,s32 *,0x14)<<8)>>16,(M2C_FIELD(entity,s32 *,0x18)<<8)>>16,screenXPtr,screenYPtr,0,0);
+            field68=(u16 *)((u8 *)entity+0x68);
+            field6A=(u16 *)((u8 *)entity+0x6A);
+            imageAttr=(u8 *)image+0x1C;
             sub_08007974(*screenXPtr,*screenYPtr,*field68,*field6A,priority,1,0,imageAttr,M2C_FIELD(image,u32 *,8),M2C_FIELD(image,void **,0));
         }
         sub_08000B38();
@@ -151,9 +150,6 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
     fadeScroll100(0,0,0,0);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097488);
-#endif
 #ifdef NONMATCHING
 s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,u16 paletteNum,u8 reverse)
 {

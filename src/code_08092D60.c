@@ -222,7 +222,78 @@ void sub_08094590(void)
     sub_080949A8();
     sub_08000940();
 }
+#ifdef NONMATCHING
+struct Anim98c { u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24]; };
+struct Sprite98c { u32 f0,f4,f8; s32 y; };
+extern void init98c(struct Anim98c *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 step98c(struct Anim98c *,u16,u16 *,u16 *,s32) asm("sub_08065370");
+extern s32 back98c(struct Anim98c *,u16,u16 *,u16 *,s32) asm("sub_08065394");
+extern struct Sprite98c *draw98c(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern struct Sprite98c *tall98c(s16,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
+extern u16 regs98c[] asm("gUnk_03001250");
+void sub_08094638(u32 count,s32 choice)
+{
+    struct Anim98c a,b;
+    u16 indices[3],frames[3];
+    struct {s32 x,y;} base;
+    s32 screenX,screenY,result,active;
+    u32 completed;
+    s32 shifted=(s32)((u32)choice<<24);
+    u8 limit=(u8)(count*2);
+    s32 selected=(s32)((u32)shifted+0xFF000000)>>24;
+    struct {s32 x:16,y:16;} pos;
+    u8 i;
+    completed=0;
+    init98c(&a,selected+0x50041,7,-1,1);
+    a.payload[7]=((u8 *)&completed)[0];
+    init98c(&b,0x50045,8,-1,1);
+    b.payload[8]=1;
+    base.x=0x7800;base.y=0x5000;
+    for(i=0;i<3;i++) {
+        u16 *index=&indices[i];
+        u16 *frame=&frames[i];
+        *frame=0;*index=0;
+    }
+    indices[1]=*(u16 *)(b.f8+*(u32 *)(b.f8+8)+4)-1;
+    sub_0801AB50(6);
+    screenX=base.x>>8;screenY=base.y>>8;
+    while(!sub_0801AAE0())sub_080003F0();
+    regs98c[0x1D]=0x3233;
+    active=1;
+    sub_0805865C(0x1A0);
+    do {
+        sub_08000AF0(0x11,b.fC+0x100,1);
+        back98c(&b,0,&indices[1],&frames[1],0);
+        pos.x=screenX;pos.y=screenY;
+        tall98c(pos.x,0x9E,0,indices[1],1,0,2,b.payload,b.f8,b.f0)->y=pos.y;
+        sub_08000AF0(0x11,b.fC+0x100,1);
+        result=step98c(&b,0,&indices[2],&frames[2],0);
+        pos.x=screenX;pos.y=screenY;
+        draw98c(pos.x,0x9F,0,indices[2],1,b.payload,b.f8,b.f0)->y=pos.y;
+        sub_08000AF0(0x10,a.fC+0xE0,1);
+        step98c(&a,0,&indices[0],&frames[0],1);
+        pos.x=screenX;pos.y=screenY;
+        draw98c(pos.x,pos.y,0,indices[0],0,a.payload,a.f8,a.f0);
+        if(result) {
+            u32 previous=completed;
+            frames[2]=0;frames[1]=0;
+            indices[2]=0;indices[1]=0;
+            indices[1]=*(u16 *)(b.f8+*(u32 *)(b.f8+8)+4)-1;
+            completed=(u8)(previous+1);
+            if(limit<previous)active=0;
+        }
+        sub_080003F0();
+        if(sub_080021A8()==1)active=0;
+    }while(active);
+    sub_0801ABE8(6);
+    while(!sub_0801AAE0())sub_080003F0();
+    sub_080586D0(3);sub_08094968();sub_0800CC18();sub_0800CC68();sub_08098028();
+    regs98c[0x1D]=0;
+    sub_080009F8(0xF00,0x8000,0);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094638);
+#endif
 struct Drift98 { s16 f0,f2,f4,f6; };
 extern struct Drift98 drift98 asm("gUnk_03001250");
 extern s16 sine98[] asm("gUnk_080B9704");
@@ -305,7 +376,94 @@ void sub_08094A00(void)
     sub_08094EE4();
     sub_08000940();
 }
+#ifdef NONMATCHING
+struct Anim98b { u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24]; };
+struct Sprite98b {u32 f0,f4,f8; s32 y;};
+extern void init98b(struct Anim98b *,s32,s32,s32,s32) asm("sub_08065158");
+extern s32 step98b(struct Anim98b *,u16,u16 *,u16 *,s32) asm("sub_08065370");
+extern struct Sprite98b *draw98b(s32,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870");
+extern struct Sprite98b *drawTall98b(s32,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
+extern s16 sine98b[] asm("gUnk_080B9704");
+extern u32 drawFlag98b asm("gUnk_03002344");
+void sub_08094AB8(s8 count, s32 choice)
+{
+    struct Anim98b a,b,c;
+    u16 indices[3],frames[3];
+    s32 x,y,orbitX,orbitY,radius;
+    u8 angle;
+    u16 timer;
+    u8 i;
+    s32 state;
+    s32 shifted=(s32)((u32)choice<<24);
+    u8 repetitions=(u8)(count*3);
+    s32 selected=(s32)((u32)shifted+0xFF000000)>>24;
+    init98b(&a,selected+0x50036,7,-1,1);
+    a.payload[7]=0;
+    init98b(&b,0x5003A,8,-1,1);
+    init98b(&c,0x5003B,8,-1,1);
+    b.payload[7]=0;
+    c.payload[8]=1;
+    switch(selected){
+    case 0:x=0x7800;y=0x7000;break;
+    case 1:x=0x7800;y=0x7000;break;
+    case 2:x=0x7800;y=0x6000;break;
+    case 3:x=0x8000;y=0x6800;break;
+    }
+    angle=0;timer=0;
+    for(i=0;i<3;i++){
+        u16 *index=&indices[i];
+        u16 *frame=&frames[i];
+        *frame=0;*index=0;
+    }
+    state=4;
+    sub_0801AB50(6);
+    while(!sub_0801AAE0())sub_080003F0();
+    sub_0805865C(0x19B);
+    do {
+        switch(state){
+        case 4:if(timer++>120){timer=0;state=3;sub_0805865C(0x19D);}break;
+        case 3:if(y<=0x11FFF)y+=0x1A0;else{radius=240;state=2;sub_0805865C(0x19C);}break;
+        case 2:
+            if(radius!=0){
+                orbitX=radius*sine98b[angle+64]+0x7800;
+                orbitY=radius*sine98b[angle]+0x5000;
+                radius-=4;angle+=2;
+            }else{
+                repetitions--;radius=240;
+                if(repetitions)sub_0805865C(0x19C);
+            }
+            if(!repetitions)state=1;
+            break;
+        case 1:if(timer++>120)state=0;break;
+        }
+        if((u32)state>2){
+            sub_08000AF0(0x10,a.fC+0xE0,1);
+            step98b(&a,0,&indices[0],&frames[0],1);
+            draw98b(x>>8,0,0,indices[0],0,a.payload,a.f8,a.f0)->y=y>>8;
+        }
+        if(state==2){
+            s32 ox,oy;
+            sub_08000AF0(0x10,b.fC+0xE0,1);
+            step98b(&b,0,&indices[1],&frames[1],1);
+            ox=orbitX>>8;oy=orbitY>>8;
+            draw98b(ox,oy,0,indices[1],1,b.payload,b.f8,b.f0);
+            if(drawFlag98b&1){
+                sub_08000AF0(0x11,c.fC+0x100,1);
+                step98b(&c,0,&indices[2],&frames[2],1);
+                drawTall98b(ox,0x9F,0,indices[2],1,0,1,c.payload,c.f8,c.f0)->y=oy;
+            }
+        }
+        sub_080003F0();
+        if(sub_080021A8()==1)state=0;
+    }while(state!=0);
+    sub_0801ABE8(6);
+    while(!sub_0801AAE0())sub_080003F0();
+    sub_080586D0(3);
+    sub_08094EA4();sub_0800CC18();sub_0800CC68();sub_08098028();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094AB8);
+#endif
 #ifdef NONMATCHING
 s32 sub_08094DEC(void)
 {

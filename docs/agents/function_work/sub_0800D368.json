@@ -1,12 +1,12 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-10-28T20:25:13Z",
-  "checkpoint": "0f941893bff003b9ad278f26fbd432564b30ba85",
+  "updated_utc": "2026-10-28T20:54:12Z",
+  "checkpoint": "d4e274105360a636cc5b8e8aacbbe47df5596844",
   "areas": [
     {
       "id": "flow",
       "state": "done",
-      "evidence": "Borrador completo recuperado; auditoría de 288 entradas de tablas: 278 presentes apuntaban al bloque ASM correcto y diez salidas comunes omitidas fueron restauradas. No demuestra equivalencia completa.",
+      "evidence": "Current structured draft generated with --no-switches to preserve original if trees. Thirty jump tables audited: 262 explicit cases begin at original ASM targets; 26 omitted common targets resolve through default, break or existing goto. Twenty cross-scope shared case labels repaired. This is not complete equivalence.",
       "label": "ReconstrucciÃ³n inicial del flujo"
     },
     {
@@ -30,13 +30,13 @@
     {
       "id": "types",
       "state": "active",
-      "evidence": "Player scan ASM 0801164A: corrected actor+68 byte load and actor-ID halfword load; byte pointer stride remains 14C. Directed Thumb fixtures reproduced opposite extra/missing 680F8 calls before correction; ten inputs per fixture preserve original traces after correction. External callees are synthetic stubs; not global equivalence. Previous call-argument and narrow-temporary audits retained.",
+      "evidence": "Player scan byte/halfword fixes retained. Directed effect trial seed24 exposed prior color bug in both gotos and structured drafts: final0300215E was1C20 instead of original1C21. Restored original byte and halfword writes for color red/green; expanded word updates plus aliased halfword read had lost red bit0. All100 expanded effect trials now preserve observed calls, arguments, EWRAM/IWRAM and fault details, and terminate. Synthetic callees limit this evidence; no full equivalence.",
       "label": "AuditorÃ­a de tipos y accesos"
     },
     {
       "id": "layout",
       "state": "active",
-      "evidence": "Frame still 1CC vs original 1D8; exact C match pending. Selective volatile-spill and 99 typed-record-read experiments discarded. Structured22 alternative has two proven irregular-switch default defects (mode 0/5 incorrectly call 5FAC0/07870); repaired only in ignored structured29 experiment, not adopted.",
+      "evidence": "Structured --no-switches basis retained. Frame dimension1D8; candidate24344bytes vs original25180, exact C match pending. --no-andor experiment45 restores six comparisons lost by merged conditions (tiny agbcc probe reproduces cause), but remains unadopted; color-fixed counterpart49 saved. No asymmetric return casts retained.",
       "label": "Pila, registros y orden de bloques"
     },
     {

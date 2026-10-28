@@ -387,7 +387,7 @@ loop_105:
                 temp_r1 = M2C_FIELD(targetPlayerEnemy, u32 *, 0x30);
                 if (!(0x2000 & temp_r1) && !(temp_r1 & 0x400)) {
                     enemyTargetPosition = M2C_FIELD(targetPlayerEnemy, u8 * *, 0x148);
-                    temp_r0_5 = (u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x0) << 0x1C) >> 0x1C;
+                    temp_r0_5 = (u32) (M2C_FIELD(enemyTargetPosition, u8 *, 0x0) << 0x1C) >> 0x1C;
                     if ((temp_r0_5 != 0xE) && (temp_r0_5 != 0xB) && (temp_r0_5 != 0xA) && (M2C_FIELD(targetPlayerEnemy, u8 *, 0x68) != 0)) {
                         var_r2_2 = (s16)(((u16) M2C_FIELD(enemyTargetPosition, u16 *, 0x0) >> 4) - (pos.x >> 8));
                         if ((s32) var_r2_2 < 0) {
@@ -439,7 +439,7 @@ loop_69:
 
                 } else {
                     allyTargetPosition = M2C_FIELD(targetPlayerAlly, u8 * *, 0x148);
-                    temp_r0_6 = (u32) (M2C_FIELD(allyTargetPosition, u16 *, 0x0) << 0x1C) >> 0x1C;
+                    temp_r0_6 = (u32) (M2C_FIELD(allyTargetPosition, u8 *, 0x0) << 0x1C) >> 0x1C;
                     switch (temp_r0_6) {            /* irregular */
                     case 14:
                         break;

@@ -1,0 +1,38 @@
+{
+  "address": "0x08068A00",
+  "updated_utc": "2026-10-28T20:40:45.096506+00:00",
+  "checkpoint": "e962dec0fb5b28414dfc735af3501c1ed01c0ccb",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Borrador completo compilable",
+      "state": "done",
+      "evidence": "Checkpoint e962dec: make -j1 nonmatching exit 0; make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; check_tree 0 errores. Esto no demuestra equivalencia del C."
+    },
+    {
+      "id": "abi",
+      "label": "ABI de posición y tipos de acceso",
+      "state": "active",
+      "evidence": "ASM 0x08068A00..0x08068A1C guarda r0/r1 antes de copiar r2. Position68 por valor reproduce ese prólogo; seis callers revisados usan posición r0/r1 y attack r2. Tipo C original aún no probado. Cargas de estado de jugador son ldrb; posiciones empaquetadas combinan ldrh y campos de 4/12 bits."
+    },
+    {
+      "id": "flow",
+      "label": "Filtros e historiales de objetivos",
+      "state": "active",
+      "evidence": "ASM: cinco slots enemigos (0x08068AA6..0x08068CF2) preceden búsqueda de jugadores; flags 1/2. Historial enemigo +0x54; historiales jugador +0xE4/+0xF8. Borrador conserva rama que lee sourcePlayer sin inicializar para source>3, como el slot sp+0x14 del original. Auditoría de operandos completa pendiente."
+    },
+    {
+      "id": "layout",
+      "label": "Bloques, frame y vidas útiles",
+      "state": "active",
+      "evidence": "Original frame 0x20, flags r8, índices r9, máscara/límite sl. Candidato de salida común asigna flags r8 naturalmente pero añade mov r8,r0 en salida temprana; NO MATCH. Candidatos con deltas u16 reproducen orden de cargas X/Y en bloque enemigo, pero persisten diferencias de preparación de llamadas y pools. Candidatos conservados en build/try; no aplicados."
+    },
+    {
+      "id": "match",
+      "label": "Coincidencia íntegra de C y ROM",
+      "state": "pending",
+      "evidence": "sub_08068A00 continúa NONMATCHING. nmdiff estricto del checkpoint: NO MATCH (1436/1316 bytes). Ningún candidato nuevo ha producido coincidencia íntegra; tamaños y registros no son prueba de equivalencia."
+    }
+  ],
+  "regions": []
+}

@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T20:22:40.930023+00:00",
-  "checkpoint": "0035eedd8b595bfdd4948ea87f514e6354bf23ce",
+  "updated_utc": "2026-10-28T20:49:32.645273+00:00",
+  "checkpoint": "9eb4e8b8071f758f3672ccb915a23beb58a61c06",
   "areas": [
     {
       "id": "flow",
@@ -25,7 +25,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C. Se construye puntero widths[0] antes de stores en tres reinicios, como ASM. En0452A TextWidth ocurre antes de construir coordenadas; ya no cruzan esa llamada dos punteros. Auditor CFG conserva190 llamadas explícitas,170 predicados y5 switches; no prueba datos ni bytes."
+      "evidence": "Frame0x54C. Se reutiliza puntero recurso/cursor y punteros X/Y; se elimina índice artificial de estado3 para que GCC reconstruya su CSE. Constantes de limpieza explícitas antes del bucle recrean ceroR7/máscaraR5/terminadorR4 sin rotarlo. Auditor conserva190 llamadas explícitas,170 predicados,5 switches y cero diferencias de raíces locales; raw BL199 incluye6 restos+3 divisiones. No prueba operandos completos ni bytes; cursorSL/nextStatusR9 aún difieren."
     },
     {
       "id": "match",

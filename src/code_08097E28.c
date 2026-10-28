@@ -233,8 +233,8 @@ void sub_08098108(void *arg0) {
     u16 *spD4;
     void *var_sl;
     s16 *var_r4;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
     s16 temp_r1_2;
     s16 temp_r1_7;
     s16 var_r2;
@@ -705,7 +705,7 @@ loop_130:
             sp4 = (void *)temp_r0_16;
             sub_0800BC08((s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x18) << 8) >> 0x10, &sp78, &screenY, 0, 0);
             sp0 = (s32) temp_r8;
-            sp4 = &sp10 + 0x1C;
+            sp4 = (u8 *)&sp10 + 0x1C;
             sp8 = M2C_FIELD(&sp10, s32 *, 8);
             spC = M2C_FIELD(&sp10, s32 *, 0);
             sub_08007870(sp78, screenY, M2C_FIELD(gUnk_030002D0, u16 *, 0x68), M2C_FIELD(gUnk_030002D0, u16 *, 0x6A), sp0, sp4, sp8, spC);
@@ -738,7 +738,7 @@ loop_144:
                 sp4 = (void *)temp_r0_17;
                 sub_0800BC08((s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x18) << 8) >> 0x10, &sp78, &screenY, 0, 0);
                 sp0 = (s32) temp_r8_2;
-                sp4 = &sp10 + 0x1C;
+                sp4 = (u8 *)&sp10 + 0x1C;
                 sp8 = M2C_FIELD(&sp10, s32 *, 8);
                 spC = M2C_FIELD(&sp10, s32 *, 0);
                 sub_08007870(sp78, screenY, M2C_FIELD(gUnk_030002D0, u16 *, 0x68), M2C_FIELD(gUnk_030002D0, u16 *, 0x6A), sp0, sp4, sp8, spC);
@@ -763,7 +763,7 @@ loop_151:
                 sp4 = (void *)temp_r0_18;
                 sub_0800BC08((s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x18) << 8) >> 0x10, &sp78, &screenY, 0, 0);
                 sp0 = (s32) temp_r8_3;
-                sp4 = &sp10 + 0x1C;
+                sp4 = (u8 *)&sp10 + 0x1C;
                 sp8 = M2C_FIELD(&sp10, s32 *, 8);
                 spC = M2C_FIELD(&sp10, s32 *, 0);
                 sub_08007870(sp78, screenY, M2C_FIELD(gUnk_030002D0, u16 *, 0x68), M2C_FIELD(gUnk_030002D0, u16 *, 0x6A), sp0, sp4, sp8, spC);
@@ -793,7 +793,7 @@ loop_158:
                 sp4 = (void *)temp_r0_19;
                 sub_0800BC08((s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x18) << 8) >> 0x10, &sp78, &screenY, 0, 0);
                 sp0 = (s32) temp_r8_4;
-                sp4 = &sp10 + 0x1C;
+                sp4 = (u8 *)&sp10 + 0x1C;
                 sp8 = M2C_FIELD(&sp10, s32 *, 8);
                 spC = M2C_FIELD(&sp10, s32 *, 0);
                 sub_08007870(sp78, screenY, M2C_FIELD(gUnk_030002D0, u16 *, 0x68), M2C_FIELD(gUnk_030002D0, u16 *, 0x6A), sp0, sp4, sp8, spC);
