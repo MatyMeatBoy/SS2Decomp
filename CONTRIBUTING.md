@@ -112,3 +112,14 @@ CLAUDE.md                   instrucciones para Claude Code
 ```
 
 Para coordinar muchos agentes de IA en paralelo: [docs/agents/PARALLEL.md](docs/agents/PARALLEL.md).
+
+## Function identification and source reports
+
+Read [progress metrics, names and call graph](docs/agents/PROGRESS_AND_NAMES.md).
+While working your shard, record observed roles and proposed names with canonical
+address, source/ASM evidence and revision in handoff notes. The coordinator reviews
+and consolidates `tools/config/function_names.json` on a dedicated tooling branch;
+workers do not edit the shared catalog or mass-rename symbols in shard branches.
+Confirmed names and proposals remain separate; type/ABI aliases are not semantic names.
+A compiling NONMATCHING draft is not proven equivalent C. CI regenerates names,
+source-callgraph and data reports alongside progress; never commit `docs/progress/*`.

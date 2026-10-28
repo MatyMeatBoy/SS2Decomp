@@ -1,0 +1,398 @@
+{
+  "schema_version": 1,
+  "policy": "Display names only; no canonical symbol renaming. Proposed names do not count as identified. Evidence is source-based, not inferred from diff scores.",
+  "functions": [
+    {
+      "address": "0x080003F0",
+      "canonical_symbol": "sub_080003F0",
+      "display_name": "TaskYieldOneTick",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_080003F0.s",
+          "detail": "Loads r0=1 and branches to sub_080003F4.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080003F4",
+      "canonical_symbol": "sub_080003F4",
+      "display_name": "TaskSleepTicks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_080003F4.s",
+          "detail": "Stores tick count at task+0x14, saves context and switches to scheduler stack.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08000470",
+      "canonical_symbol": "sub_08000470",
+      "display_name": "TaskIsScheduled",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_08000470.s",
+          "detail": "Traverses gUnk_03001240 task list, returning one when the requested task pointer is found.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x0800048C",
+      "canonical_symbol": "sub_0800048C",
+      "display_name": "TaskGetCurrent",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_0800048C.s",
+          "detail": "Returns the current task pointer from gUnk_0300123C.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001494",
+      "canonical_symbol": "sub_08001494",
+      "display_name": "HeapAllocate",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "detail": "Aligns allocation size, searches free blocks and splits the selected block.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080016C8",
+      "canonical_symbol": "sub_080016C8",
+      "display_name": "HeapLargestFreeBlockSpan",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080016C8.c",
+          "detail": "Returns maximum free block span while walking heap blocks.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080016EC",
+      "canonical_symbol": "sub_080016EC",
+      "display_name": "HeapTotalFreeBlockSpan",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080016C8.c",
+          "detail": "Accumulates free block spans while walking heap blocks.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x0800170C",
+      "canonical_symbol": "sub_0800170C",
+      "display_name": "MultiSioInit",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented SDK initialization: reset registers, copy ISR, initialize buffers.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001804",
+      "canonical_symbol": "sub_08001804",
+      "display_name": "MultiSioMain",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented SDK per-frame send24/receive4x24 processing and status flags.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x0800191C",
+      "canonical_symbol": "sub_0800191C",
+      "display_name": "MultiSioSendDataSet",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented SDK 24-byte send-buffer copy and checksum.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001990",
+      "canonical_symbol": "sub_08001990",
+      "display_name": "MultiSioRecvDataCheck",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented SDK checksum verification and 4x24 receive copy.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001A50",
+      "canonical_symbol": "sub_08001A50",
+      "display_name": "MultiSioStart",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented SDK start flag.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001A64",
+      "canonical_symbol": "sub_08001A64",
+      "display_name": "MultiSioStop",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented SDK disable SIO and timer3.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001BE4",
+      "canonical_symbol": "sub_08001BE4",
+      "display_name": "LinkSessionTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Per-frame session task passes send/receive blocks to MultiSioMain and stores its status.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08001DF0",
+      "canonical_symbol": "sub_08001DF0",
+      "display_name": "LinkWaitBarrier",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Tag-based NOS/OK barrier handshake.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080020F4",
+      "canonical_symbol": "sub_080020F4",
+      "display_name": "LinkGetLocalPlayerId",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented accessor for own player id.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08002118",
+      "canonical_symbol": "sub_08002118",
+      "display_name": "LinkGetSendBlock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented per-player send block accessor.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08002164",
+      "canonical_symbol": "sub_08002164",
+      "display_name": "LinkCountConnectedPlayers",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented accessor for connected player count.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08002238",
+      "canonical_symbol": "sub_08002238",
+      "display_name": "LinkGetReceiveBlock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Documented per-player receive block accessor.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080022A4",
+      "canonical_symbol": "sub_080022A4",
+      "display_name": "LinkLoopbackTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Copies local send block to receive block zero each frame and sets status 0x101.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080135C4",
+      "canonical_symbol": "sub_080135C4",
+      "display_name": "LinkCreatePlayerEntity",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Creates player entity and assigns per-slot send and receive block pointers.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08066720",
+      "canonical_symbol": "sub_08066720",
+      "display_name": "LinkBroadcastMessageTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Announces tagged message, sends eight-byte chunks, waits for peer acknowledgments.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x0806690C",
+      "canonical_symbol": "sub_0806690C",
+      "display_name": "LinkReceivePeerMessageTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "docs/LINK_CABLE.md",
+          "detail": "Per-peer receiver acknowledges announce/chunks and dispatches message tag.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08094530",
+      "canonical_symbol": "sub_08094530",
+      "display_name": "InitializeTaskStack03000270",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "detail": "Task variant using global03000270 and waits through080003F0; precise screen role unknown.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080948E0",
+      "canonical_symbol": "sub_080948E0",
+      "display_name": "AnimateSineOffsets",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08092D60/sub_080948E0.s",
+          "detail": "Infinite loop uses sine table080B9704, offsets-0xAA/+0x80 and yield080003F0; precise display role unknown.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080949A8",
+      "canonical_symbol": "sub_080949A8",
+      "display_name": "InitializeTaskStack03000278",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "detail": "Initializes task global03000278, allocation0x400 and stack+0x3FC, callback080948E0 and state0x44.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08094EE4",
+      "canonical_symbol": "sub_08094EE4",
+      "display_name": "InitializeTaskStack0300027C",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "detail": "Initializes task global0300027C, allocation0x400 and stack+0x3FC, callback08094DEC and state0x44.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x080955CC",
+      "canonical_symbol": "sub_080955CC",
+      "display_name": "ResetTransformState03000280",
+      "status": "proposed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "detail": "Observed halfwords at offsets6/4/10/8=0, byte12=0, halfwords2/0=0x100 in gUnk_03000280; transform interpretation remains provisional.",
+          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    }
+  ]
+}
