@@ -50,4 +50,17 @@ void M4AExp_Note(M4AExp_u32 length_index, M4AExp_u32 player,
 M4AExp_u32 M4AExp_MidiKeyToFreqDependency(M4AExp_u32 wave,
                                         M4AExp_u32 key, M4AExp_u32 fine);
 
+void M4AExp_MPlayMain(M4AExp_u32 player, M4AExp_u32 services);
+void M4AExp_FadeOutDependency(M4AExp_u32 player);
+
+void M4AExp_SoundMain(M4AExp_u32 services);
+void M4AExp_SoundMainRAM(M4AExp_u32 sound, M4AExp_u32 output,
+                         M4AExp_u32 count, M4AExp_u32 line_limit);
+
+void M4AExp_BindKnownJumpTable(M4AExp_u32 table);
+void M4AExp_BindKnownSoundCallbacks(M4AExp_u32 sound);
+void M4AExp_BindKnownPlayerCallback(M4AExp_u32 player);
+
+void M4AExp_InitDefaultServices(M4AExp_u32 services, M4AExp_u32 table);
+
 #endif

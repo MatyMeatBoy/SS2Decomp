@@ -99,3 +99,14 @@ behavioral review: this probe finishes a track and unlinks its channels. Neither
 the donor's names nor its comments establish the SS2 compiler's provenance.
 Continue checking helpers and complete module context under the configured SS2
 compiler before promoting any candidate.
+
+## Experimental C implementation and composed tests
+
+[research/m4a_1](../../research/m4a_1/README.md) now contains C models for all
+semantic regions, explicit known-EU callback bindings, individual ARM differential
+fixtures and persistent sequencer/mixer scenarios. Use these as behavioral
+references and retain their documented input/ABI/hardware limits. They are outside
+the normal ROM build. Their current isolated strict audit is 0/35 equal; no
+matching bytes are credited and the original ASM remains the production input.
+In particular, do not replace the 1024-byte executable IWRAM copy with arbitrary
+compiled C bytes or treat ordinary C helper returns as the original r2/r3 ABI.
