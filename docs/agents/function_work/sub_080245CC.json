@@ -1,0 +1,38 @@
+{
+  "address": "0x080245CC",
+  "updated_utc": "2026-10-28T23:02:40.256939+00:00",
+  "checkpoint": "ef6d0b8445273c115e365e97f45ee3ce0fcc4d00",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Borrador completo compilable",
+      "state": "done",
+      "evidence": "ef6d0b8: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0 y check_tree 0 errores. No prueba equivalencia del draft."
+    },
+    {
+      "id": "switches",
+      "label": "Casos de tablas de salto recuperados",
+      "state": "done",
+      "evidence": "ASM original en b8919a6: tablas 0x080249C4 (13 entradas), 0x08024B60 (8 entradas) y 0x08025360 (13 entradas). El m2c inicial truncaba cada tabla tras la primera entrada por labels intermedios; el draft de ef6d0b8 conserva callbacks 0805A60C..0805A660 y los casos 0,2,3,5,6,7,8,9,10,12 frente a 1,4,11/default en ambos filtros de estado. Esto solo acredita recuperar los casos, no el CFG completo. Inventario estatico adicional: los 149 BL externos coinciden por callee y multiplicidad con 149 sitios de llamada C; no comprueba argumentos ni orden."
+    },
+    {
+      "id": "abi",
+      "label": "Tipos, accesos y argumentos de pila",
+      "state": "active",
+      "evidence": "ef6d0b8 usa aliases locales: flags 03001324 u16 (ldrh en bloques previos a las referencias 08024ADC y 08025464), 03002344 u32, retorno 0800BC44 u32 seguido de conversion u8. Llamadas de 5/6/8 argumentos reconstruidas desde stores sp+0/+4/+8/+C. Store Player+CE corregido a halfword (bloque 080253E0..0802540C). Auditoria integral de operandos pendiente. La resta de punteros de tareas de 0x28 bytes desde state+0x17BC reproduce la secuencia aritmetica inicial; no se usa el inverso multiplicativo como fuente."
+    },
+    {
+      "id": "layout",
+      "label": "Frame, registros y pools",
+      "state": "active",
+      "evidence": "nmdiff estricto de ef6d0b8: NO MATCH; original 4616 bytes, draft 4592. Frame original 0xE4; candidato 0x104. Persisten diferencias de bloques, registros y pools. No se ejecuto permuter con este diff amplio."
+    },
+    {
+      "id": "match",
+      "label": "Coincidencia exacta de C y ROM",
+      "state": "pending",
+      "evidence": "La funcion conserva INCLUDE_ASM bajo #else. La ROM exacta valida el fallback; no existe MATCH del C por bytes y relocations."
+    }
+  ],
+  "regions": []
+}

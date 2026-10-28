@@ -189,6 +189,7 @@ extern void sub_080290E4(s32, s32);
 extern void sub_080257D4(void *, s32);
 extern void sub_0801A664(s32, s32);
 /* The first team-count loop stops at the local player, as in the original.
+ * Only indices 0..3 select a winner message; the original skips other indices.
  * Explicit shifts retain subtraction before table scaling; registers still differ. */
 void sub_0808CB58(void) {
     u32 anim[13];
@@ -211,15 +212,9 @@ void sub_0808CB58(void) {
     s32 var_r6;
     u16 temp_r0_4;
     u16 temp_r5;
-    u32 var_r4_5;
     u32 temp_r0_3;
     u32 var_r2;
-    u32 var_r4;
-    u32 var_r4_2;
-    u32 var_r4_3;
-    u32 var_r4_4;
-    u32 var_r4_6;
-    u32 var_r4_7;
+    register u32 var_r4 asm("r4");
     u32 var_r5_3;
     u32 var_r6_3;
     register u32 var_sl asm("r10");
@@ -231,6 +226,7 @@ void sub_0808CB58(void) {
     s32 tableIndex;
     s32 tableOffset;
     u16 tableY;
+    u8 *current;
     u8 *players2;
     register u8 *table asm("r4");
     register s32 *countBase asm("r8");
@@ -271,24 +267,26 @@ void sub_0808CB58(void) {
         temp_r5 = *(u16 *)(table + tableOffset);
         tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
-        tableY = (var_r6 * 10) + *(u16 *)(tableOffset + (table + 2));
+        table += 2;
+        tableY = (var_r6 * 10) + *(u16 *)(tableOffset + table);
         sub_08028AAC(0, temp_r5, tableY, 0);
         tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
-        sub_080290E4(0, *(s16 *)(tableOffset + (table + 4)));
+        table += 2;
+        sub_080290E4(0, *(s16 *)(tableOffset + table));
     } else {
         table = gUnk_084F0C8A;
         sub_08028AAC(0, (s32) (u16) ((var_r6 << 5) + *(u16 *)(table + 0x18)), (s32) *(u16 *)(table + 0x1A), 0);
         sub_080290E4(0, *(s16 *)(table + 0x1C));
     }
-    var_r4_2 = 0;
+    var_r4 = 0;
     var_r6_2 = sp5C;
     var_r5_2 = ((u8 *)gUnk_03003CE0 + 0x68);
-    while (var_r4_2 < sub_08002164()) {
+    while (var_r4 < sub_08002164()) {
         *var_r6_2 = (s32) *var_r5_2;
         var_r6_2 += 1;
         var_r5_2 += 0x14C;
-        var_r4_2 += 1;
+        var_r4 += 1;
     }
     sub_08057328(0, &sub_0802F208);
     (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = 0U;
@@ -300,101 +298,86 @@ loop_27:
         sub_08015C14();
     }
     (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = 0U;
-    var_r4_3 = 0;
+    var_r4 = 0;
     var_r0 = countBase;
     do {
         *var_r0 = 0;
         var_r0 += 1;
-        var_r4_3 += 1;
-    } while (var_r4_3 <= 3U);
-    var_r4_4 = 0;
-    while (var_r4_4 < sub_08002164()) {
-        temp_r2 = 0x14C * var_r4_4;
-        if ((((u32) (**(u8 **)((u8 *)gUnk_03003CE0 + temp_r2 + 0x148) << 0x1C) >> 0x1C) != 0xB) && !(*(u32 *)((u8 *)gUnk_03003CE0 + temp_r2 + 0x30) & 0x2000)) {
-            temp_r0 = *((u8 *)gUnk_03003CE0 + temp_r2 + 0x68);
+        var_r4 += 1;
+    } while (var_r4 <= 3U);
+    var_r4 = 0;
+    while (var_r4 < sub_08002164()) {
+        temp_r2 = 0x14C * var_r4;
+        current = (u8 *)gUnk_03003CE0 + temp_r2;
+        if ((((u32) (**(u8 **)(current + 0x148) << 0x1C) >> 0x1C) != 0xB) && !(*(u32 *)(current + 0x30) & 0x2000)) {
+            temp_r0 = *(current + 0x68);
             if (temp_r0 != 0) {
                 temp_r0_2 = &countBase[temp_r0 - 3];
                 *temp_r0_2 += 1;
             }
         }
-        var_r4_4 += 1;
+        var_r4 += 1;
     }
     var_r2 = 0;
-    var_r4_5 = 0;
+    var_r4 = 0;
     var_r1 = countBase;
     do {
         if (*var_r1 != 0) {
             var_r2 += 1;
-            (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = var_r4_5;
+            (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = var_r4;
         }
         var_r1 += 1;
-        var_r4_5 += 1;
-    } while ((u32) var_r4_5 <= 3U);
-    if (var_r2 > 1U) {
+        var_r4 += 1;
+    } while ((u32) var_r4 <= 3U);
+    if (var_r2 <= 1U) {
+        temp_r0_3 = var_r5_3;
+        var_r5_3 += 1;
+        if (temp_r0_3 > 2U) goto stable;
+    } else {
         var_r5_3 = 0;
-block_46:
-        sub_08057624(1U);
-        goto loop_27;
     }
-    temp_r0_3 = var_r5_3;
-    var_r5_3 += 1;
-    if (temp_r0_3 <= 2U) {
-        goto block_46;
-    }
+    sub_08057624(1U);
+    goto loop_27;
+stable:
     if (var_r2 != 1) {
 
     } else {
         var_r6_3 = 0;
-        var_r4_6 = 0;
+        var_r4 = 0;
         var_r5_4 = sp5C;
-        while (var_r4_6 < sub_08002164()) {
+        while (var_r4 < sub_08002164()) {
             temp_r1 = *var_r5_4;
             if ((temp_r1 != 0) && ((temp_r1 - 3) == (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)))) {
                 var_r6_3 += 1;
             }
             var_r5_4 += 1;
-            var_r4_6 += 1;
+            var_r4 += 1;
             }
         while (sub_0805EF90() != 0) sub_080003F0();
         if (var_r6_3 <= 1U) {
-            var_r4_7 = 0;
-loop_61:
-            if ((var_r4_7 < sub_08002164()) && ((temp_r2_2 = 0x14C * var_r4_7, ((*(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x30) & 0x2000) != 0)) || (*((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x68) == 0))) {
-                var_r4_7 += 1;
-                goto loop_61;
-            }
-            switch (var_r4_7) {                     /* switch 2; irregular */
-            default:                                /* switch 2 */
-                var_r0_2 = 0x1401FB;
-                goto block_84;
-            case 1:                                 /* switch 2 */
-                var_r0_2 = 0x1401FC;
-                goto block_84;
-            case 2:                                 /* switch 2 */
-                var_r0_2 = 0x1401FD;
-                goto block_84;
-            case 3:                                 /* switch 2 */
-                var_r0_2 = 0x1401FE;
-                goto block_84;
+            var_r4 = 0;
+            goto check_player;
+next_player:
+            var_r4 += 1;
+check_player:
+            if (var_r4 >= sub_08002164()) goto found_player;
+            temp_r2_2 = 0x14C * var_r4;
+            if (*(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x30) & 0x2000) goto next_player;
+            if (*((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x68) == 0) goto next_player;
+found_player:
+            switch (var_r4) {
+            case 0: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x1401FB); break;
+            case 1: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x1401FC); break;
+            case 2: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x1401FD); break;
+            case 3: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x1401FE); break;
             }
         } else {
-            temp_r0_4 = (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A));
-            switch (temp_r0_4) {                    /* switch 3; irregular */
-            case 0:                                 /* switch 3 */
-                var_r0_2 = 0x1401FF;
-block_84:
-                textId = var_r0_2;
-                var_sl = sub_0805DF38(1U, 0xEU, 0x19U, 2U, -1, textId);
-                break;
-            case 1:                                 /* switch 3 */
-                var_r0_2 = 0x140200;
-                goto block_84;
-            case 2:                                 /* switch 3 */
-                var_r0_2 = 0x140201;
-                goto block_84;
-            case 3:                                 /* switch 3 */
-                var_r0_2 = 0x140202;
-                goto block_84;
+            temp_r0_4 = *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A);
+            switch (temp_r0_4) {
+            case 0: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x1401FF); break;
+            case 1: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x140200); break;
+            case 2: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x140201); break;
+            case 3: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x140202); break;
             }
         }
         *((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x68) = 0;

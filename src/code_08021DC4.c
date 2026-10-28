@@ -961,11 +961,16 @@ selected:
     }
 }
 #ifdef NONMATCHING
+struct Input2413C { u16 x, y, destination, flags; };
+struct State2413C { u16 mode, pad2, flags; };
+extern struct State2413C *state2413C asm("gUnk_03005CF4");
+extern u16 inputFlags2413C asm("gUnk_03001324");
+void sub_0802413C_void(struct Input2413C *, s32) asm("sub_0802413C");
 struct Remote2413C { u16 unk0, unk2; u8 unk4, unk5, unk6, unk7; };
 extern struct Remote2413C *gUnk_03003E28;
 extern s16 gUnk_0849E730[];
 extern s32 sub_08015F20(void);
-s32 sub_0802413C(s32 arg0, s32 arg1) {
+void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
     s32 sp0;
     s32 sp4;
     s32 sp8;
@@ -1007,11 +1012,11 @@ s32 sub_0802413C(s32 arg0, s32 arg1) {
     if (sub_0800CCCC() != 0) {
         return;
     }
-    sp1C = (s32) M2C_FIELD(arg0, u16 *, 6);
+    sp1C = (s32) arg0->flags;
     sp24 = (u32) (0 - (4 & sp1C)) >> 0x1F;
     sp1C &= 3;
     var_r7 = 0x20;
-    if ((M2C_FIELD(gUnk_03005CF4, u16 *, 0) == 3) && (gUnk_03003170.f90 == 0xC)) {
+    if ((state2413C->mode == 3) && (gUnk_03003170.f90 == 0xC)) {
         var_r7 = 0x18;
     }
     if (sub_0800CF80() != 0) {
@@ -1019,11 +1024,11 @@ s32 sub_0802413C(s32 arg0, s32 arg1) {
     } else {
         sp10 = 0x18;
     }
-    temp_r3 = M2C_FIELD(arg0, u16 *, 0) << 0xB;
+    temp_r3 = arg0->x << 0xB;
     temp_r1 = gUnk_0849E730[arg1];
     temp_r5 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5) + 0x80);
     sp4 = temp_r3 + (var_r7 * temp_r5);
-    temp_r2 = M2C_FIELD(arg0, u16 *, 2) << 0xB;
+    temp_r2 = arg0->y << 0xB;
     temp_r4 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5));
     sp0 = temp_r2 + (var_r7 * temp_r4);
     temp_r0 = 0 - (var_r7 + 8);
@@ -1043,10 +1048,10 @@ loop_16:
     if ((temp_r8->state != 0xE) && (sub_0800CD8C() == 0) && (temp_r8->state != 5)) {
         sub_08015C5C(sp4 >> 8, sp0 >> 8);
 loop_23:
-        if ((sub_08015F20() == 0) || (((u16) gGameState->flags >> 4) & 1)) {
+        if ((sub_08015F20() == 0) || (((u16) state2413C->flags >> 4) & 1)) {
             temp_r8->flags = temp_r8->flags | 0x403;
             sub_08067D74();
-            if (((u16) gGameState->flags >> 4) & 1) {
+            if (((u16) state2413C->flags >> 4) & 1) {
                 return;
             }
             sp28 = &gUnk_03003E28;
@@ -1149,7 +1154,7 @@ block_53:
             } else {
                 sp18 = 0;
             }
-            if ((sp18 == 0) && (sub_08058DB0() == 0) && (2 & gUnk_03001324)) {
+            if ((sp18 == 0) && (sub_08058DB0() == 0) && (2 & inputFlags2413C)) {
                 temp_r8->flags = temp_r8->flags & 0xFFFFFBFF;
                 sub_08067D74();
                 sub_08057624(0x3CU);
@@ -1157,7 +1162,7 @@ block_53:
                 sub_08067D74();
                 sub_08015C5C(spC >> 8, sp8 >> 8);
 loop_77:
-                if ((sub_08015F20() != 0) && !(((u16) gGameState->flags >> 4) & 1)) {
+                if ((sub_08015F20() != 0) && !(((u16) state2413C->flags >> 4) & 1)) {
                     sub_08057624(1U);
                     goto loop_77;
                 }
@@ -1171,7 +1176,7 @@ loop_77:
                 return;
             }
             sub_08057624(1U);
-            if (!(((u16) gGameState->flags >> 4) & 1)) {
+            if (!(((u16) state2413C->flags >> 4) & 1)) {
                 goto loop_28;
             }
             return;
@@ -1218,6 +1223,7 @@ void sub_08024538(s32 arg0) {
 }
 #ifdef NONMATCHING
 /* Draft: transition trigger; original ASM remains authoritative. */
+struct Task245CC { u8 bytes[0x28]; };
 struct Remote245CC { u16 x,y; u8 flags,p5,p6,flags7; };
 struct Input245CC { u16 x,y,destination,flags; };
 struct Player245CC { u8 pad0[0x14]; u16 w14; u8 pad16[10]; u16 state; s16 w22,w24,w26; u8 pad28[8]; u32 flags; u8 pad34[0x58]; s32 x,y; u8 pad94[0x3a]; s16 wCE; u8 padD0[8]; s32 wD8; u8 padDC[0x6c]; struct Remote245CC *remote; };
@@ -1232,8 +1238,8 @@ extern struct Remote245CC *local245CC_gUnk_03003E28 asm("gUnk_03003E28");
 extern u32 local245CC_gUnk_084B16E0[] asm("gUnk_084B16E0");
 extern u32 local245CC_gUnk_03005CF0 asm("gUnk_03005CF0");
 extern u32 local245CC_gUnk_030056FC asm("gUnk_030056FC");
-extern u32 local245CC_gUnk_03001324 asm("gUnk_03001324");
-extern u16 local245CC_gUnk_03002344 asm("gUnk_03002344");
+extern u16 local245CC_gUnk_03001324 asm("gUnk_03001324");
+extern u32 local245CC_gUnk_03002344 asm("gUnk_03002344");
 s32 local245CC_sub_0800CCCC(void) asm("sub_0800CCCC"); s32 local245CC_sub_0800CD8C(void) asm("sub_0800CD8C"); extern u32 local245CC_gUnk_03003D10 asm("gUnk_03003D10");
 
 void local245CC_sub_08024538(s32) asm("sub_08024538");
@@ -1254,7 +1260,7 @@ s32 local245CC_sub_080021A8() asm("sub_080021A8");                              
 s32 local245CC_sub_08002204() asm("sub_08002204");                                 /* extern */
 void local245CC_sub_0800A34C(u16, s32, s32) asm("sub_0800A34C");                /* extern */
 s32 local245CC_sub_0800BA6C() asm("sub_0800BA6C");                                 /* extern */
-u8 local245CC_sub_0800BC44(u32, u32, s32) asm("sub_0800BC44");                     /* extern */
+u32 local245CC_sub_0800BC44(u32, u32, s32) asm("sub_0800BC44");                     /* extern */
 s32 local245CC_sub_0800CB9C() asm("sub_0800CB9C");                                 /* extern */
 s32 local245CC_sub_0800CC98() asm("sub_0800CC98");                                 /* extern */
 s32 local245CC_sub_0800CD34() asm("sub_0800CD34");                                 /* extern */
@@ -1400,7 +1406,7 @@ void sub_080245CC(struct Input245CC *arg0) {
     u8 temp_r6_4;
 
     sp84 = arg0;
-    spB0 = (s32) (0 - (((local245CC_sub_0800048C() + 0xFFFFE844) - (u32)local245CC_gUnk_03005CF4) * 0x33333333)) >> 3;
+    spB0 = (struct Task245CC *)local245CC_sub_0800048C() - (struct Task245CC *)((u8 *)local245CC_gUnk_03005CF4 + 0x17BC);
     spCC = local245CC_gUnk_03003170.map;
     sp8C = sp84->x * 8;
     sp90 = sp84->y * 8;
@@ -1704,7 +1710,7 @@ block_136:
                             temp_r2 = *var_r6;
                             if ((s32) (temp_r2->flags7 << 0x1B) >= 0) {
                                 if (((u32) (temp_r2->flags << 0x1A) >> 0x1A) & 0x20) {
-                                    if (((u32) ((u8) M2C_FIELD(temp_r2, u16 *, 0) << 0x1C) >> 0x1C) != 0xC) {
+                                    if (((u32) ((u8) temp_r2->x << 0x1C) >> 0x1C) != 0xC) {
                                         goto block_147;
                                     }
                                     goto block_148;
@@ -1731,7 +1737,7 @@ block_147:
                         }
 block_148:
                         temp_r2_2 = *var_r6;
-                        if ((((u32) (temp_r2_2->flags << 0x1A) >> 0x1A) & 0x20) && (((u32) ((u8) M2C_FIELD(temp_r2_2, u16 *, 0) << 0x1C) >> 0x1C) != 0xC)) {
+                        if ((((u32) (temp_r2_2->flags << 0x1A) >> 0x1A) & 0x20) && (((u32) ((u8) temp_r2_2->x << 0x1C) >> 0x1C) != 0xC)) {
                             var_sl += 1;
                         }
                     }
@@ -1782,7 +1788,7 @@ block_175:
                 if ((local245CC_sub_0800CD34() == 0) && (local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0)) {
                     temp_r0_3 = local245CC_sub_0800CD8C();
                     if (temp_r0_3 == 0) {
-                        temp_r6 = local245CC_sub_0800BC44(sp8C, sp90, 0);
+                        temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                         sp0 = (u32)0x30;
                         sp4 = (void *)temp_r0_3;
                         local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, sp0, (s32)sp4);
@@ -1825,7 +1831,7 @@ block_175:
                     local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                     spBC = 0;
                 }
-                temp_r6_2 = local245CC_sub_0800BC44(sp8C, sp90, 0);
+                temp_r6_2 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                 sp0 = (u32)0x30;
                 sp4 = (void *)temp_r0_4;
                 local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, sp0, (s32)sp4);
@@ -1998,7 +2004,7 @@ block_241:
                             temp_r2_3 = *var_r6_2;
                             if ((s32) (temp_r2_3->flags7 << 0x1B) >= 0) {
                                 if (((u32) (temp_r2_3->flags << 0x1A) >> 0x1A) & 0x20) {
-                                    if (((u32) ((u8) M2C_FIELD(temp_r2_3, u16 *, 0) << 0x1C) >> 0x1C) != 0xC) {
+                                    if (((u32) ((u8) temp_r2_3->x << 0x1C) >> 0x1C) != 0xC) {
                                         goto block_252;
                                     }
                                     goto block_253;
@@ -2135,7 +2141,7 @@ block_310:
                                 temp_r8->state = 0;
                                 temp_r8->w26 = 0;
                                 temp_r8->w24 = 0;
-                                *(&temp_r8->wD8 - 0xA) = 0;
+                                temp_r8->wCE = 0;
                             }
                             spB4 = 1;
                             spAC = 0;
@@ -2182,7 +2188,7 @@ block_310:
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
-                    temp_r6_3 = local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    temp_r6_3 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                     sp0 = (u32)0x30;
                     sp4 = (void *)temp_r0_7;
                     local245CC_sub_0800BC08((s16) spD0, temp_r0_9, &sp7C, temp_r7, sp0, (s32)sp4);
@@ -2223,7 +2229,7 @@ block_332:
                     sp0 = (u32)0x30;
                     sp4 = (void *)temp_r0_10;
                     local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, sp0, (s32)sp4);
-                    temp_r6_4 = local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    temp_r6_4 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                     if (spCC->wE != 0) {
                         sp0 = (u32) temp_r6_4;
                         sp4 = &sp10.data[0];
@@ -2253,8 +2259,8 @@ block_344:
                 local245CC_gUnk_03005CF4->transition = (u32) temp_r1_11;
             }
             if (spA4 == 0) {
-                local245CC_sub_0801E278(&local245CC_gUnk_03003CE0->pad0[0x14C * local245CC_sub_080020F4()], 6);
-                local245CC_sub_0801E278(&local245CC_gUnk_03003CE0->pad0[0x14C * local245CC_sub_080020F4()], 7);
+                local245CC_sub_0801E278((u8 *)&local245CC_gUnk_03003CE0[local245CC_sub_080020F4()], 6);
+                local245CC_sub_0801E278((u8 *)&local245CC_gUnk_03003CE0[local245CC_sub_080020F4()], 7);
             }
             temp_r8->flags = temp_r8->flags & 0xFF7FFFFF;
             if (local245CC_gUnk_030056FC != 0) {
