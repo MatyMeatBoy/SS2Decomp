@@ -45,7 +45,39 @@ void sub_080B4B7C(void)
     sub_08001538(gP030007D0);
     gP030007D0 = (u8 *)i;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4BB8);
+extern void sub_080B4690();
+void sub_080B4BB8(u8 a, u16 arg)
+{
+  struct TaskP *t;
+  u32 z;
+  u8 i;
+  if (gP030007D0 == 0)
+  {
+    return;
+  }
+  t = (struct TaskP *) gP030007D0;
+  i = 0;
+  goto check;
+  next:
+  i++;
+
+  t = (struct TaskP *) (((u8 *) t) + 0x28);
+  check:
+  if (i > 3)
+  {
+    return;
+  }
+
+  if ((sub_08000470((u32) t) != 0) || ((z = t->f8) != 0))
+  {
+    goto next;
+  }
+  if ((t->f20 = sub_08001494(0x400)) == 0)
+  {
+    return;
+  }
+ do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080B4690; t->f24 = z; t->f8 = arg + 0x40; sub_08000274_3((u32)t, a, arg); } while (0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5E64);
