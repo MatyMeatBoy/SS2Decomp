@@ -195,31 +195,27 @@ void sub_080A0FC4(void) {
     sub_08001538(gUnk_03000334);
     gUnk_03000334 = 0;
 }
-#ifdef NONMATCHING
-void sub_080A0FEC(u8 mode, u8 *result)
+extern struct TaskP *gTP03000334 asm("gUnk_03000334");
+extern void sub_080A05B4();
+void sub_080A0FEC(u8 a, u8 *err)
 {
-    u8 *task = (u8 *)gUnk_03000334;
     u32 mem;
-
-    if (sub_08000470((u32)task) == 0 && *(u32 *)(task + 8) == 0)
+    struct TaskP *t;
+    if (sub_08000470((u32)gTP03000334) == 0 && gTP03000334->f8 != 0)
         return;
-
     mem = sub_08001494(0x400);
-    *(u32 *)(task + 0x20) = mem;
+    t = gTP03000334;
+    t->f20 = mem;
     if (mem == 0) {
-        *result = 1;
+        *err = 1;
         return;
     }
-
-    *(u32 *)(task + 0x10) = mem + 0x3FC;
-    *(u32 *)(task + 0x0C) = (u32)sub_080A05B4;
-    *(u32 *)(task + 0x24) = 0;
-    *(u32 *)(task + 8) = 0x44;
-    sub_08000274_(task, mode, (u32)result);
+    t->f10 = mem + 0x3FC;
+    t->fC = (u32)sub_080A05B4;
+    t->f24 = 0;
+    t->f8 = 0x44;
+    sub_08000274_3((u32)t, a, (u32)err);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0FEC);
-#endif
 void sub_080A104C(void) {
     gUnk_03000339 = 1;
 }
@@ -256,7 +252,31 @@ void sub_080A10D4(void) {
     sub_08001538(gUnk_03000340);
     gUnk_03000340 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A10FC);
+extern struct TaskP *gTP03000340 asm("gUnk_03000340");
+extern u8 gB0300033B asm("gUnk_0300033B");
+extern u8 gB0300033C asm("gUnk_0300033C");
+extern u8 gB03000339 asm("gUnk_03000339");
+extern u8 gB0300033A asm("gUnk_0300033A");
+extern void sub_080A099C();
+void sub_080A10FC(void)
+{
+    u32 mem;
+    struct TaskP *t;
+    if (sub_08000470((u32)gTP03000340) == 0 && gTP03000340->f8 != 0)
+        return;
+    gB0300033B = 1;
+    gB0300033C = 0;
+    gB03000339 = 0;
+    gB0300033A = 0x14;
+    mem = sub_08001494(0x400);
+    t = gTP03000340;
+    t->f20 = mem;
+    t->f10 = mem + 0x3FC;
+    t->fC = (u32)sub_080A099C;
+    t->f24 = 0;
+    t->f8 = 0x40;
+    sub_08000274_3((u32)t, 0, 0);
+}
 void sub_080A1170(void)
 {
   int new_var;
@@ -272,24 +292,25 @@ void sub_080A118C(void) {
     sub_08001538(gUnk_03000344);
     gUnk_03000344 = 0;
 }
-#ifdef NONMATCHING
+extern struct TaskP *gTP03000344 asm("gUnk_03000344");
+extern void sub_080A0B44();
 void sub_080A11B4(void)
 {
-    u8 *entry = gUnk_03000344;
-    if (sub_08000470(entry) == 0 && *(u32 *)(entry + 8) != 0)
+    u32 mem;
+    struct TaskP *t;
+    if (sub_08000470((u32)gTP03000344) == 0 && gTP03000344->f8 != 0)
         return;
-    *(u32 *)(entry + 0x20) = sub_08001494(0x400);
-    if (*(u32 *)(entry + 0x20) == 0)
+    mem = sub_08001494(0x400);
+    t = gTP03000344;
+    t->f20 = mem;
+    if (mem == 0)
         return;
-    *(u32 *)(entry + 0x10) = *(u32 *)(entry + 0x20) + 0x3FC;
-    *(u32 *)(entry + 0xC) = (u32)sub_080A0B44;
-    *(u32 *)(entry + 0x24) = 0;
-    *(u32 *)(entry + 8) = 0x46;
-    sub_08000274_(entry, 0, 0);
+    t->f10 = mem + 0x3FC;
+    t->fC = (u32)sub_080A0B44;
+    t->f24 = 0;
+    t->f8 = 0x46;
+    sub_08000274_3((u32)t, 0, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A11B4);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1208);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1DA8);
 void sub_080A1F88(void) {
