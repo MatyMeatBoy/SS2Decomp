@@ -1,4 +1,11 @@
 #include "global.h"
+extern u32 gA03005700[] asm("gUnk_03005700");
+extern u32 gW030042E8 asm("gUnk_030042E8");
+extern u32 gW030056F0 asm("gUnk_030056F0");
+extern u16 gH03005724 asm("gUnk_03005724");
+extern u32 gW030056F8 asm("gUnk_030056F8");
+extern u32 gW030056FC asm("gUnk_030056FC");
+extern u8 *gP030056F4 asm("gUnk_030056F4");
 
 void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
 extern u8 gUnk_03003E28[];
@@ -196,7 +203,40 @@ u32 sub_08015F20(void) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015F44);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801602C);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016114);
+void sub_08016114(void)
+{
+    u8 *p;
+    u32 i;
+    u32 z;
+    u32 *q;
+    gP030056F4 = (u8 *)sub_08001494(0xE60);
+    gW030056FC = 0;
+    gW030056F8 = 0;
+    gH03005724 = 0;
+    gW030056F0 = sub_08001494(0x50);
+    gW030042E8 = sub_08001494(0x10);
+    p = gP030056F4;
+    i = 0;
+    z = 0;
+    for (; i <= 4; i++, p += 0x2E0) {
+        sub_0807A064(i + 4);
+        *(u16 *)(p + 0) = z;
+        *(u16 *)(p + 8) = z;
+        *(u16 *)(p + 0xC) = z;
+        *(u16 *)(p + 0x10) = z;
+        *(u32 *)(p + 0x14) = z;
+        *(u32 *)(p + 0x18) = z;
+        *(u16 *)(p + 0x4A) = z;
+    }
+    {
+    u32 z2;
+    for (i = 0, z2 = 0, q = gA03005700; i <= 2; q += 3, i++) {
+        q[2] = z2;
+        q[1] = z2;
+        q[0] = z2;
+    }
+    }
+}
 void sub_080161A4(void) {
     u16 var_r4;
     u16 var_r4_2;

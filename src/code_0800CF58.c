@@ -1,4 +1,8 @@
 #include "global.h"
+extern void sub_08014E68();
+extern void sub_08000274_2(void *, u32) asm("sub_08000274");
+struct Task28 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern struct Task28 gTasks03003C40[] asm("gUnk_03003C40");
 
 void sub_0800CF58(void) {
     gUnk_03003478 |= 0x10000;
@@ -467,7 +471,19 @@ INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014C8C);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014D60);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014E68);
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0801500C);
+void sub_0801500C(u32 idx)
+{
+    u32 mem;
+    if (sub_08000470((u32)&gTasks03003C40[idx]) != 0)
+        return;
+    gTasks03003C40[idx].fC = (u32)sub_08014E68;
+    gTasks03003C40[idx].f8 = 0x34;
+    while ((gTasks03003C40[idx].f20 = mem = sub_08001494(0x400)) == 0)
+        sub_080003F0();
+    gTasks03003C40[idx].f10 = mem + 0x3FC;
+    gTasks03003C40[idx].f24 = 0;
+    sub_08000274_2(&gTasks03003C40[idx], idx);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08015090);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08015150);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080151E0);
