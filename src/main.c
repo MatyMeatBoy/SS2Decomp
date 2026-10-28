@@ -48,34 +48,39 @@ void AgbMain(void)
 #ifdef NONMATCHING
 void sub_08000760(void)
 {
-    u16 high;
-    u16 low;
-    u8 old8;
-    u8 new8;
-    volatile u16 *a = (u16 *)0x03001298, *b = (u16 *)0x0300130C;
-    u16 old = *b, now = (*(u16 *)0x04000130 ^ 0x3FF);
-    *a = old; *b = now; *(u16 *)0x03001324 = now & ~old;
+    extern u16 keyOld asm("gUnk_03001298");
+    extern u16 keyNow asm("gUnk_0300130C");
+    extern u16 keyPressed asm("gUnk_03001324");
+    extern u16 keyTimer asm("gUnk_03001320");
+    extern u16 keyRepeat asm("gUnk_03001308");
+    extern u16 keyDelay asm("gUnk_03002340");
+    extern u16 keyReleased asm("gUnk_03001328");
+    u32 high;
+    u32 low;
+    volatile u16 *a = &keyOld, *b = &keyNow;
+    u32 old = *b, now;
+    *a = old;
+    now = REG_KEYINPUT ^ 0x3FF;
+    *b = now; keyPressed = now & ~old;
     high = now & 0xF0;
     low = old & 0xF0;
     if (low == high) {
-        u16 *timer = (u16 *)0x03001320;
-        u16 count = ++*timer, limit = *(u16 *)0x03001730;
-        if (count == limit) *(u16 *)0x03001308 = high;
+        u16 *timer = &keyTimer;
+        u16 count = ++*timer, limit = *(u16 *)&gUnk_03001730;
+        if (count == limit) keyRepeat = high;
         else if (count > limit) {
-            u16 *delay = (u16 *)0x03002340;
-            if (++*delay > *(u16 *)0x03002348) {
-                *(u16 *)0x03001308 = high; *delay = 0; *timer = limit;
-            } else *(u16 *)0x03001308 = 0;
-        } else *(u16 *)0x03001308 = 0;
+            u16 *delay = &keyDelay;
+            if ((*delay)++ > *(u16 *)&gUnk_03002348) {
+                keyRepeat = high; *delay = 0; *timer = limit;
+            } else keyRepeat = 0;
+        } else keyRepeat = 0;
     } else {
-        *(u16 *)0x03001308 = now & ~old;
-        *(u16 *)0x03001320 = 0; *(u16 *)0x03002340 = 0;
+        keyRepeat = now & ~old;
+        keyDelay = 0; keyTimer = 0;
     }
-    *(u16 *)0x03001328 = 0;
-    old8 = *(u8 *)a;
-    new8 = *(u8 *)b;
-    if ((old8 & 1) && !(new8 & 1)) *(u16 *)0x03001328 |= 1;
-    if ((old8 & 2) && !(new8 & 2)) *(u16 *)0x03001328 |= 2;
+    keyReleased = 0;
+    if ((*(volatile u8 *)a & 1) && !(*(volatile u8 *)b & 1)) keyReleased |= 1;
+    if ((*(volatile u8 *)a & 2) && !(*(volatile u8 *)b & 2)) keyReleased |= 2;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main", sub_08000760);

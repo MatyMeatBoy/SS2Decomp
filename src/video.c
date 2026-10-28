@@ -122,15 +122,13 @@ void sub_08000C50(void)
     WAIT_NOT_BLANK();
     SET_IME(1);
 }
-#ifdef NONMATCHING
 void sub_08000D0C(void)
 {
     register u32 value asm("r0");
     u16 half;
     WAIT_NOT_BLANK();
     SET_IME(0);
-    half = gUnk_03000002;
-    half &= ~INTR_FLAG_HBLANK;
+    half = gUnk_03000002; half ^= half & 2;
     gUnk_03000002 = half;
     REG_IE = half;
     WAIT_NOT_BLANK();
@@ -140,9 +138,6 @@ void sub_08000D0C(void)
     gUnk_03000004 = value;
     REG_DISPSTAT = value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/video", sub_08000D0C);
-#endif
 void sub_08000D8C(void)
 {
     register u32 value asm("r0");
@@ -166,7 +161,6 @@ void sub_08000D8C(void)
     WAIT_NOT_BLANK();
     SET_IME(1);
 }
-#ifdef NONMATCHING
 void sub_08000E48(void)
 {
     register u32 value asm("r0");
@@ -174,7 +168,7 @@ void sub_08000E48(void)
     WAIT_NOT_BLANK();
     SET_IME(0);
     half = gUnk_03000002;
-    half &= ~INTR_FLAG_VCOUNT;
+    half ^= half & INTR_FLAG_VCOUNT;
     gUnk_03000002 = half;
     REG_IE = half;
     WAIT_NOT_BLANK();
@@ -184,6 +178,3 @@ void sub_08000E48(void)
     gUnk_03000004 = value;
     REG_DISPSTAT = value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/video", sub_08000E48);
-#endif

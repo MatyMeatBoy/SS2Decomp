@@ -222,7 +222,42 @@ void sub_080013F8(void)
 {
     gUnk_03002358 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001404);
+void sub_08001404(void)
+{
+    register volatile struct MemBlock *root asm("r1") = &gUnk_02000010;
+    struct Heap *heap;
+    register struct MemBlock *block asm("r2");
+    register u32 start asm("r8") = EWRAM_START;
+    register u32 usedBit asm("r6");
+    u32 flags;
+    *(volatile u32 *)root = start;
+    root->next = &gUnk_0203FFF0;
+    heap = &gUnk_03002370;
+    root->prevFree = &heap->head;
+    root->nextFree = &heap->head;
+    root->used = 0;
+    block = (struct MemBlock *)*(volatile u32 *)root;
+    flags = *((u8 *)block + 3);
+    usedBit = 0x80;
+    *((u8 *)block + 3) = flags | usedBit;
+    ((struct MemBlock *)*(volatile u32 *)root)->prev = 0;
+    ((struct MemBlock *)*(volatile u32 *)root)->next = root;
+    ((struct MemBlock *)*(volatile u32 *)root)->prevFree = &heap->head;
+    ((struct MemBlock *)*(volatile u32 *)root)->nextFree = NULL;
+    block = root->next;
+    *((u8 *)block + 3) |= usedBit;
+    block = root->next;
+    *(u32 *)block = (*(u32 *)block & 0x80000000) | (u32)root;
+    root->next->next = NULL;
+    ((struct MemBlock *)*(volatile u32 *)root)->prevFree = NULL;
+    ((struct MemBlock *)*(volatile u32 *)root)->nextFree = &heap->head;
+    *(u32 *)&heap->head = (u32)root->next;
+    heap->head.next = root;
+    heap->head.prevFree = root;
+    heap->head.nextFree = root;
+    heap->start = (void *)start;
+    heap->size = 0x3FFFF;
+}
 void *sub_08001494(u32 size)
 {
     struct MemBlock *b;
@@ -261,8 +296,93 @@ void *sub_08001494(u32 size)
     }
     return NULL;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001538);
+void sub_08001538_free(void *) asm("sub_08001538");
+void sub_08001538_free(void *pointer)
+{
+    register struct MemBlock *block asm("r4") = (struct MemBlock *)((u8 *)pointer - 16);
+    register struct MemBlock *next asm("r5");
+    struct MemBlock *previous;
+    struct MemBlock *limit;
+    struct Heap *heap;
+    void *start = gUnk_03002370.start;
+    u8 clearBits;
+    heap = &gUnk_03002370;
+    if ((u32)pointer < (u32)start || (u32)pointer > (u32)start + heap->size) return;
+    clearBits = ((u8 *)block)[3] & 0x7F;
+    ((u8 *)block)[3] = clearBits;
+    next = block->next;
+    previous = (struct MemBlock *)*(u32 *)block;
+    if (!previous->used) {
+        next->prev = (u32)previous;
+        previous->next = next;
+        if (heap->head.nextFree == &heap->head) for (;;) {}
+        if (!next->used) {
+            previous->next = next->next;
+            next->next->prev = (u32)previous;
+            next->prevFree->nextFree = next->nextFree;
+            next->nextFree->prevFree = next->prevFree;
+        }
+    } else if (!next->used) {
+        block->next = next->next;
+        next->next->prev = (u32)block;
+        block->prevFree = next->prevFree;
+        block->nextFree = next->nextFree;
+        next->prevFree->nextFree = block;
+        next->nextFree->prevFree = block;
+        block->used = 0;
+    } else {
+        ((u8 *)block)[3] = clearBits;
+        limit = *(struct MemBlock * volatile *)&heap->head.next;
+        if (block == limit) goto insertHead;
+        goto testPrevious;
+insertPrevious:
+        block->prevFree = previous;
+        block->nextFree = previous->nextFree;
+        previous->nextFree->prevFree = block;
+        previous->nextFree = block;
+        return;
+searchPrevious:
+        previous = (struct MemBlock *)previous->prev;
+        if (!previous->used) goto insertPrevious;
+        limit = *(struct MemBlock * volatile *)&heap->head.next;
+testPrevious:
+        if (previous != limit) goto searchPrevious;
+insertHead:
+        block->prevFree = &heap->head;
+        block->nextFree = heap->head.nextFree;
+        heap->head.nextFree->prevFree = block;
+        heap->head.nextFree = block;
+    }
+}
 void sub_08001634(void)
 {
 }
-INCLUDE_ASM("asm/nonmatchings/code_08000EC8", sub_08001638);
+void *sub_08001638(u32 size)
+{
+    struct MemBlock *block;
+    struct MemBlock *previous;
+    struct MemBlock *next;
+    u32 available;
+    size = (size + 3) & ~3;
+    if (size <= 15) size = 16;
+    for (block = gUnk_03002370.head.prevFree; block != &gUnk_03002370.head; block = block->prevFree) {
+        next = block->next;
+        available = (u32)next - (u32)block;
+        if (available >= size + 16) {
+            if (available >= size + 0x30) {
+                previous = block;
+                block = (struct MemBlock *)((u8 *)next - size - 16);
+                block->prev = (u32)previous;
+                block->next = previous->next;
+                previous->next->prev = (u32)block;
+                previous->next = block;
+            } else {
+                block->prevFree->nextFree = block->nextFree;
+                block->nextFree->prevFree = block->prevFree;
+            }
+            block->used = 1;
+            return (u8 *)block + 16;
+        }
+    }
+    return NULL;
+}

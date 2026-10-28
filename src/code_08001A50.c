@@ -40,24 +40,24 @@ void sub_08001A64(void)
     *(vu16 *)0x04000202 = 0xC0;
     gUnk_030024B0[8] = 0;
 }
-#ifdef NONMATCHING
 void sub_08001AA4(void)
 {
-    const u16 *supportedIds = (const u16 *)0x080B99C8;
-    u16 flashId;
-    u32 i;
-
+    extern const u16 gFlashSupportedIds[] asm("gUnk_080B99C8");
+    extern const struct FlashType * volatile flashDevice asm("gFlash");
+    extern volatile u8 flashSupported asm("gUnk_03000018");
+    extern void (*flashTimerSlot)(void) asm("gUnk_030012B8");
+    const u16 *supportedIds;
+    u8 i;
     IdentifyFlash();
-    flashId = gFlash->ids.joined;
-    for (i = 0; i < 5 && supportedIds[i] != flashId; i++)
-        ;
-    gUnk_03000018 = (i < 5);
-    if (gUnk_03000018)
-        SetFlashTimerIntr(2, (void (**)(void))0x030012B8);
+    supportedIds = gFlashSupportedIds;
+    for (i = 0; i <= 4; i++) {
+        if (flashDevice->ids.joined == *supportedIds++) break;
+    }
+    if (i > 4) flashSupported = 0;
+    else flashSupported = 1;
+    if (flashSupported)
+        SetFlashTimerIntr(2, &flashTimerSlot);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001AA4);
-#endif
 void sub_08001B04(u16 sector, u32 offset, void *dest, u32 size) {
     ReadFlash(sector, offset, dest, size);
 }

@@ -1,4 +1,5 @@
 #include "global.h"
+struct Entry61 { u32 words[4]; };
 
 void sub_0805A630(s32 arg0) {
     sub_0802413C(arg0, 3);
@@ -599,60 +600,29 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB04);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB8C);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CDF8);
-#ifdef NONMATCHING
- s32 sub_0805CFA0(void)
-{
-    u8 *p = (u8 *)(*(u32 *)0x030034E0 + 0x150);
+s32 sub_0805CFA0(void) {
     u32 i;
-    for (i=0; i<=0x18; i++, p+=0x10)
-        if (*(u16 *)p == 0) return i;
+    u8 *p;
+    for(i=0,p=(u8 *)gUnk_030034E0+0x150;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CFA0);
-#endif
-#ifdef NONMATCHING
 s32 sub_0805CFCC(void) {
     u32 i;
-    u8 *entry = (u8 *)gUnk_030034E0 + 0x2E0;
-    for (i = 0; i <= 0x18; i++, entry += 0x10) {
-        if (M2C_FIELD(entry, u16 *, 0) == 0)
-            return i;
-    }
+    u8 *p;
+    for(i=0,p=(u8 *)gUnk_030034E0+0x2E0;i<=24;p+=16,i++) if(*(u16 *)p==0) return i;
     return -1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CFCC);
-#endif
-#ifdef NONMATCHING
-void sub_0805CFF8(u32 index, const u32 *src)
+void sub_0805CFF8(u8 index, const struct Entry61 *src)
 {
-    u8 *dst = (u8 *)(*(u32 *)0x030034E0) + 0x150 + (index <= 0x18 ? index : 0) * 0x10;
-    ((u32 *)dst)[0] = src[0]; ((u32 *)dst)[1] = src[1];
-    ((u32 *)dst)[2] = src[2]; ((u32 *)dst)[3] = src[3];
+    if(index>24) index=0;
+    *(struct Entry61 *)((u8 *)gUnk_030034E0+0x150+index*16)=*src;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CFF8);
-#endif
-#ifdef NONMATCHING
-void sub_0805D028(u32 index, const u32 *src)
-{
-    u32 *dst;
-    u8 *base = *(u8 **)0x030034E0;
-    u32 count = *(u16 *)(base + 0x6A);
-    u32 limit = count * 15 - count;
-    index = (u8)index;
-    if (index >= limit)
-        index = 0;
-    dst = (u32 *)(base + 0x2E0 + index * 0x10);
-    dst[0] = src[0];
-    dst[1] = src[1];
-    dst[2] = src[2];
-    dst[3] = src[3];
+void sub_0805D028(u8 index,const struct Entry61 *src) {
+    u8 *base=(u8 *)gUnk_030034E0;
+    s32 count=*(u16 *)(base+0x6A);
+    if(index>=count*15) index=0;
+    *(struct Entry61 *)(base+index*16+0x2E0)=*src;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805D028);
-#endif
 #ifdef NONMATCHING
 u32 sub_0805D064(const u32 *src, u32 index)
 {

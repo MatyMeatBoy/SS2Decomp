@@ -19,7 +19,7 @@ extern u32 task84eac[] asm("gUnk_03006450");
 void sub_080852AC(void);
 void sub_0808381C(u32 index);
 void sub_08083AE8(u32 index);
-void sub_08085534(void);
+void sub_08085534(s32 arg0, s32 arg1);
 extern u8 gUnk_03005740[];
 extern u32 gUnk_084ECBDC[];
 extern u32 gUnk_084ECC04[];
@@ -667,34 +667,30 @@ void sub_080851B8(void)
     sub_08001538(*(s32 *)(gUnk_03006440 + 0x620));
     *(u32 *)(gUnk_03006440 + 0x620) = result;
 }
-#ifdef NONMATCHING
 void sub_08085218(u32 arg0, u32 arg1)
 {
-    u8 *base = *(u8 **)0x03006440;
-    u8 *entry = *(u8 **)(base + 0x620);
-    u32 i;
+    u8 *entry = *(u8 **)(gUnk_03006440 + 0x620);
+    u32 i = 0;
     u32 memory;
-
-    for (i = 0; i <= 4; i++, entry += 0x28) {
+    goto check;
+    do {
+next:
+        i++;
+        entry += 0x28;
+check:
+        if (i > 4) return;
         if (sub_08000470((u32)entry) != 0 || *(u32 *)(entry + 8) != 0)
-            continue;
-
+            goto next;
         *(u32 *)(entry + 8) = 0x3C;
         memory = sub_08001494(0x400);
         *(u32 *)(entry + 0x20) = memory;
-        if (memory == 0)
-            return;
-
-        *(u32 *)(entry + 0xC) = (u32)sub_08085534;
-        *(u32 *)(entry + 0x10) = memory + 0x3FC;
-        *(u32 *)(entry + 0x24) = 0;
-        sub_08000274_(entry, arg0, arg1);
-        return;
-    }
+    } while (0);
+    if (memory == 0) return;
+    *(u32 *)(entry + 0xC) = (u32)sub_08085534;
+    *(u32 *)(entry + 0x10) = memory + 0x3FC;
+    *(u32 *)(entry + 0x24) = 0;
+    sub_08000274_(entry,arg0,arg1);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085218);
-#endif
 void sub_0808528C(void) {
     *(s16 *)0x04000012 = 4;
     sub_08001108(0x9F);
@@ -841,7 +837,29 @@ void sub_08085518(void)
   sub_08001538(p);
   gUnk_03006440 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08085534);
+extern u16 flags85534 asm("gUnk_03001308");
+void sub_08065230(void *, s32, s32, u16, s32);
+void sub_08085534(s32 arg0, s32 arg1)
+{
+    u16 a;
+    u16 b;
+    void *ctx;
+    u16 i;
+    ctx = sub_080653CC();
+    sub_0805865C(0x25);
+    a = 0;
+    b = 0;
+    i = 0x1D;
+    do {
+        flags85534 &= 0xFFCF;
+        if ((gUnk_03002344 & 3) == 0) arg1--;
+        sub_08065370(ctx, 0xE, (s32)&a, (s32)&b, 1);
+        sub_08065230(ctx, arg0, arg1, 0xE, a);
+        sub_080003F0();
+        i--;
+    } while (i != 0xFFFF);
+    *(u32 *)(sub_0800048C() + 8) = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080855D4);
 void sub_080867E0(void) {
     sub_08001538(gUnk_03006478);

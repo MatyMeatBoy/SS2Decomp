@@ -51,36 +51,45 @@ void sub_08097EB0(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
 s16 sub_08097EE4(void) {
     return gUnk_030002BA;
 }
-#ifdef NONMATCHING
+extern s32 sub_08096BA8(s32, s32, s32, s32);
 s32 sub_08097EF0(s32 arg0, s32 arg1) {
-    s16 temp_r4;
+    register u32 temp_r4 asm("r4");
+    register s32 mask asm("r2");
+    register u32 phase asm("r1");
     s32 temp_r0;
-    s32 var_r2;
-    s32 fraction;
+    register s32 var_r2 asm("r2");
+    register s32 fraction asm("r3");
     s32 var_r7;
+    register s32 current asm("r0");
 
     var_r7 = 0;
-    if ((s32) gUnk_030002BA > 0xFFF) {
+    phase = (u16)gUnk_030002BA;
+    current = gUnk_030002BA;
+    mask=0xFFF;
+    if (current > mask) {
         var_r7 = 2;
     }
-    temp_r4 = 0xFFF & (u16) gUnk_030002BA;
+    temp_r4 = mask & phase;
     gUnk_030002BA = temp_r4;
     temp_r0 = (((s32) ((u16) gUnk_030002B4 << 0x10) >> 0x11) << 0xC) * gUnk_030002BA;
-    fraction = (temp_r0 >> 0xC) & 0xFFF;
+    fraction = (temp_r0 >> 0xC) & mask;
     var_r2 = (temp_r0 >> 0x18) * 2;
     if (arg0 == 1) {
-        var_r2 = gUnk_030002B4 - (var_r2 + 1);
+        register s32 len asm("r1") = gUnk_030002B4;
+        register s32 next asm("r0") = var_r2 + 1;
+        asm volatile("" : "+r" (next));
+        var_r2 = len - next;
     }
-    gUnk_030002BA = temp_r4 + (u16) gUnk_030002B8;
+    current = (u16)gUnk_030002B8;
+
+    current = temp_r4 + current;
+
+    gUnk_030002BA = current;
     if (sub_08096BA8(var_r2, fraction, arg0, arg1) == 1) {
         var_r7 = 1;
     }
     return var_r7;
 }
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08097EF0);
-#endif
 struct Color100 { u32 r:5; u32 g:5; u32 b:5; u32 flag:1; };
 void sub_08097F70(s32 dst, s32 src)
 {
@@ -130,33 +139,34 @@ void sub_08098060(void) {
     sub_08001538(gUnk_030002C0);
     gUnk_030002C0 = 0;
 }
-#ifdef NONMATCHING
-void sub_08098088(u32 arg0, u32 arg1, u32 mode)
+extern u32 gTaskArgs100[2] asm("gUnk_030002C8");
+void sub_08096FA0(void);
+void sub_08098088(u32 arg0,u32 arg1,u32 mode)
 {
-    u8 *task = (u8 *)gUnk_030002C0;
+    register u32 b asm("r5")=arg1;
+    register u32 a asm("r4")=arg0;
+    u32 m;
+    register s32 *taskp asm("r6");
     void *buffer;
-
-    if (sub_08000470((u32)task) == 0 && *(u32 *)(task + 8) != 0)
-        return;
-
-    *(u32 *)0x030002C8 = arg0;
-    *(u32 *)0x030002CC = arg1;
-    buffer = sub_08001494(0x400);
-    *(void **)(task + 0x20) = buffer;
-    if (buffer == NULL) {
-        *(u32 *)(task + 8) = 0;
-        return;
-    }
-
-    *(void **)(task + 0x10) = (u8 *)buffer + 0x3FC;
-    *(u32 *)(task + 0x0C) = (u32)sub_08096FA0;
-    *(u32 *)(task + 0x24) = 0;
-    *(u32 *)(task + 8) = 0x44;
-    sub_08000274(task, (u8)mode);
+    register u8 *task asm("r1");
+    asm volatile("" : "+r" (b), "+r" (a), "+r" (mode));
+    m=(u8)mode;
+    taskp=&gUnk_030002C0;
+    asm volatile("" : "+r" (taskp));
+    if(sub_08000470(*taskp)==0 && M2C_FIELD((void *)*taskp,u32 *,8)!=0) return;
+    gTaskArgs100[0]=a;
+    gTaskArgs100[1]=b;
+    buffer=sub_08001494(0x400);
+    task=(u8 *)*taskp;
+    asm volatile("" : "+r" (task));
+    M2C_FIELD(task,void **,0x20)=buffer;
+    if(buffer==0) { M2C_FIELD(task,u32 *,8)=0; return; }
+    M2C_FIELD(task,void **,0x10)=(u8 *)buffer+0x3FC;
+    M2C_FIELD(task,u32 *,0xC)=(u32)sub_08096FA0;
+    M2C_FIELD(task,u32 *,0x24)=0;
+    M2C_FIELD(task,u32 *,8)=0x44;
+    sub_08000274(task,m);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098088);
-#endif
 s32 sub_080980F0(void)
 {
     if (M2C_FIELD((void *)gUnk_030002C0, u32 *, 8))
