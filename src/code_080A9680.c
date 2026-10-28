@@ -244,26 +244,31 @@ void sub_080AE0E4(void)
   sub_08001538(gUnk_030004C8);
   gUnk_030004C8 = i;
 }
-#ifdef NONMATCHING
-void sub_080AE11C(u32 kind)
+struct TaskPE11C { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern struct TaskPE11C *gTP030004C8 asm("gUnk_030004C8");
+extern void sub_080AE184();
+extern void sub_080AD534();
+void sub_080AE11C(u8 a)
 {
-    u8 *entry = *(u8 **)0x030004C8;
-    u32 i, mem;
-    for (i = 0; i < 4; i++, entry += 0x28) {
-        if (sub_08000470((u32)entry) || *(u32 *)(entry + 8) != 0) continue;
-        *(u32 *)(entry + 8) = (kind & 0xFF) + 0x40;
-        mem = sub_08001494(0x400);
-        *(u32 *)(entry + 0x20) = mem;
-        *(u32 *)(entry + 0x10) = mem + 0x3FC;
-        *(u32 *)(entry + 0xC) = (u32)sub_080AD534;
-        *(u32 *)(entry + 0x24) = (u32)sub_080AE184;
-        sub_08000274_(entry, kind & 0xFF, 0);
+    struct TaskPE11C *t = gTP030004C8;
+    u8 i;
+    i = 0;
+    goto check;
+next:
+    i++;
+    t = (struct TaskPE11C *)((u8 *)t + 0x28);
+check:
+    if (i > 3)
         return;
-    }
+    if (sub_08000470((u32)t) != 0 || t->f8 != 0)
+        goto next;
+    t->f8 = a + 0x40;
+    t->f20 = sub_08001494(0x400);
+    t->f10 = t->f20 + 0x3FC;
+    t->fC = (u32)sub_080AD534;
+    t->f24 = (u32)sub_080AE184;
+    sub_08000274_3((u32)t, a, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE11C);
-#endif
 void sub_080AE184(void)
 {
     s32 *obj = (s32 *)sub_0800048C();
