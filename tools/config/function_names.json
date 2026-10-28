@@ -1885,6 +1885,498 @@
           "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
+    },
+    {
+      "address": "0x080B6990",
+      "canonical_symbol": "sub_080B6990",
+      "display_name": "SoundReadGuardedByte",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6990.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Reads byte at r2 into r3, falls through to source-address guard. Not an independent C body."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6992",
+      "canonical_symbol": "sub_080B6992",
+      "display_name": "SoundGuardSourceRead",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6992.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "r2>>25 nonzero preserves r3. Otherwise compares r2 against ROM table literal, and may set r3=0; preserves r0. Guard concerns SOURCE r2, not loaded pointer r3."
+        }
+      ]
+    },
+    {
+      "address": "0x080B69AC",
+      "canonical_symbol": "sub_080B69AC",
+      "display_name": "SoundReadTrackByteGuarded",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B69AC.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Loads track.cmdPtr at r1+0x40 then falls through69AE; complete shared helper body ends69B6."
+        }
+      ]
+    },
+    {
+      "address": "0x080B69AE",
+      "canonical_symbol": "sub_080B69AE",
+      "display_name": "SoundReadTrackByteFromCursorGuarded",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B69AE.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Uses supplied r2 cursor, stores r2+1 to track.cmdPtr, reads byte then tail-branches guard6992. Direct caller ply_port supplies cursor after register-index byte."
+        }
+      ]
+    },
+    {
+      "address": "0x080B69B8",
+      "canonical_symbol": "sub_080B69B8",
+      "display_name": "ply_goto",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B69B8.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Reads4little-endian bytes from cmdPtr and replaces cmdPtr. Only least-significant byte goes through6990; upper3bytes are read directly."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[1] stores Thumb target0x080B69B8; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 463,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B69D8",
+      "canonical_symbol": "sub_080B69D8",
+      "display_name": "ply_patt",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B69D8.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Checks patternLevel<3, saves cmdPtr+4 at patternStack[level], increments level, tails goto; overflow tails fine."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[2] stores Thumb target0x080B69D8; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 464,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B69F4",
+      "canonical_symbol": "sub_080B69F4",
+      "display_name": "ply_pend",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B69F4.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "If level>0, decrements level and restores saved cmdPtr; bx lr at6A06. Semantic body20B ends6A08; configured68B container also holds rept46B and2B alignment."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[3] stores Thumb target0x080B69F4; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 465,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6A38",
+      "canonical_symbol": "sub_080B6A38",
+      "display_name": "ply_prio",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6A38.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded stream byte stored track+0x1D (priority)."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[9] stores Thumb target0x080B6A38; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 468,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6A44",
+      "canonical_symbol": "sub_080B6A44",
+      "display_name": "ply_tempo",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6A44.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte<<1 stored player+0x1C tempoD; multiplies tempoU+0x1E then>>8 stores tempoI+0x20."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[10] stores Thumb target0x080B6A44; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 469,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6A58",
+      "canonical_symbol": "sub_080B6A58",
+      "display_name": "ply_keysh",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6A58.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte to track+0x0A keyShift and flags|=0x0C."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[11] stores Thumb target0x080B6A58; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 470,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6A6C",
+      "canonical_symbol": "sub_080B6A6C",
+      "display_name": "ply_voice",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6A6C.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Reads voice index directly, increments cmdPtr; computes tone base player+0x30 +index*12; three words via6992 into track+0x24/28/2C. Guard uses same r2 base for all3loads."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[12] stores Thumb target0x080B6A6C; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 471,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6A9C",
+      "canonical_symbol": "sub_080B6A9C",
+      "display_name": "ply_vol",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6A9C.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte to track+0x12 volume and flags|=3."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[13] stores Thumb target0x080B6A9C; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 472,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6AB0",
+      "canonical_symbol": "sub_080B6AB0",
+      "display_name": "ply_pan",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6AB0.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte-0x40 to track+0x14 pan and flags|=3."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[14] stores Thumb target0x080B6AB0; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 473,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6AC4",
+      "canonical_symbol": "sub_080B6AC4",
+      "display_name": "ply_bend",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6AC4.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte-0x40 to track+0x0E bend and flags|=0x0C."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[15] stores Thumb target0x080B6AC4; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 474,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6AD8",
+      "canonical_symbol": "sub_080B6AD8",
+      "display_name": "ply_bendr",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6AD8.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte to track+0x0F bendRange and flags|=0x0C."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[16] stores Thumb target0x080B6AD8; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 475,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6AEC",
+      "canonical_symbol": "sub_080B6AEC",
+      "display_name": "ply_lfodl",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6AEC.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte to track+0x1B lfoDelay."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[18] stores Thumb target0x080B6AEC; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 477,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6AF8",
+      "canonical_symbol": "sub_080B6AF8",
+      "display_name": "ply_modt",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6AF8.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte compared to track+0x18 modulation type; only on change updates field and flags|=0x0F."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[20] stores Thumb target0x080B6AF8; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 479,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6B10",
+      "canonical_symbol": "sub_080B6B10",
+      "display_name": "ply_tune",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6B10.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Guarded byte-0x40 to track+0x0C tune and flags|=0x0C."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[23] stores Thumb target0x080B6B10; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 480,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6B24",
+      "canonical_symbol": "sub_080B6B24",
+      "display_name": "ply_port",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6B24.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "First operand unguarded register offset; byte write to0x04000060+offset; second operand guarded via69AE, cmdPtr advances2."
+        },
+        {
+          "source": "data/rodata.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 32,
+          "detail": "EU own dump table0x080BB7E8 slots[27] stores Thumb target0x080B6B24; MPlayJumpTableCopy copies36words; MPlayMain dispatch indexes opcode-0xB1 for command slots0..29. See private jump-table-audit.json for decoded pointers/phase overrides."
+        },
+        {
+          "source": "include/gba/m4a_internal.h",
+          "line": 481,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Existing SDK handler name; mapping reviewed against ASM behavior and MusicPlayerTrack / MusicPlayerInfo layout at lines272..350. See SDK_M4A_IDENTIFICATION.md."
+        }
+      ]
+    },
+    {
+      "address": "0x080B6DD0",
+      "canonical_symbol": "sub_080B6DD0",
+      "display_name": "SoundCallR3Veneer",
+      "status": "confirmed",
+      "domain": "sdk",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/m4a_1/sub_080B6DD0.s",
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "line": 2,
+          "detail": "Executable body is bx r3 (2 bytes), followed by 2 bytes alignment and 12 bytes literal pool. Shared indirect-call veneer, not a dedicated MPlayMain handler."
+        },
+        {
+          "source": "asm/nonmatchings/m4a_1/TrackStop.s",
+          "line": 24,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Loads SoundInfo callback into r3 and calls this veneer; proves use outside MPlayMain."
+        },
+        {
+          "source": "asm/nonmatchings/m4a_1/ply_note.s",
+          "line": 267,
+          "revision": "f022679443ba914f2a3e89ad8193bffcbadc8d00",
+          "detail": "Another caller of the shared bx-r3 veneer."
+        }
+      ]
     }
   ]
 }
