@@ -127,18 +127,14 @@ void sub_08015DC0(s32 *p)
         *p = v - (v >> 1);
     }
 }
-#ifdef NONMATCHING
 void sub_08015DE0(s32 *value, s32 target)
 {
     s32 current = *value;
     s32 step = (target - current) >> 1;
-    s32 next = step > 0 ? current + step : current + 1;
-    *value = next;
-    if (target <= next) *value = target;
+    *value = step > 0 ? current + step : current + 1;
+    if (target <= *value)
+        *value = target;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015DE0);
-#endif
 void sub_08015E00(s32 arg0)
 {
   s8 *new_var;
