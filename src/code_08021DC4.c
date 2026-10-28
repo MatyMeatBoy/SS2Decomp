@@ -1246,11 +1246,11 @@ void local245CC_sub_08024538(s32) asm("sub_08024538");
 void local245CC_sub_0805A60C(s32) asm("sub_0805A60C");
 u8 *local245CC_sub_08007290(u32) asm("sub_08007290");
 void local245CC_sub_08065158(struct Anim245CC *,u32,s32,s32,s32) asm("sub_08065158");
-void local245CC_sub_08007870(s16,s16,u32,u16,u32,void *,s32,s32) asm("sub_08007870");
+void local245CC_sub_08007870(s32,s16,u32,u16,u32,void *,s32,s32) asm("sub_08007870");
 void local245CC_sub_08008E74(s16,s16,u32,u16,u32,void *,s32,s32) asm("sub_08008E74");
 void local245CC_sub_0800BC08(s16,s16,s16 *,s16 *,u32,s32) asm("sub_0800BC08");
 void local245CC_sub_08057DD0(u32,u32,s32,s32,void (*)(s32),struct Input245CC *) asm("sub_08057DD0");
-void local245CC_sub_08065370(struct Anim245CC *,u16,u16 *,u16 *,u32) asm("sub_08065370");
+void local245CC_sub_08065370(struct Anim245CC *,u32,u16 *,u16 *,u32) asm("sub_08065370");
 void local245CC_sub_080003F0() asm("sub_080003F0");                             /* extern */
 s32 local245CC_sub_0800048C() asm("sub_0800048C");                                 /* extern */
 void local245CC_sub_08000AF0(s32, void *, s32) asm("sub_08000AF0");             /* extern */
@@ -1334,7 +1334,7 @@ void sub_080245CC(struct Input245CC *arg0) {
     s16 *temp_r7;
     s16 temp_r0_8;
     s16 temp_r0_9;
-    s16 var_r0_4;
+    s32 var_r0_4;
     s32 temp_r0_10;
     s32 temp_r0_3;
     s32 temp_r0_4;
@@ -1784,7 +1784,7 @@ block_188:
                 }
 block_175:
                 sp0 = (u32)1;
-                local245CC_sub_08065370(&sp44, (u16) spB8, &sp78, &sp7A, sp0);
+                local245CC_sub_08065370(&sp44, spB8, &sp78, &sp7A, sp0);
                 if ((local245CC_sub_0800CD34() == 0) && (local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0)) {
                     temp_r0_3 = local245CC_sub_0800CD8C();
                     if (temp_r0_3 == 0) {
@@ -1825,7 +1825,7 @@ block_175:
                 goto block_186;
             }
             sp0 = (u32)1;
-            local245CC_sub_08065370(&sp10, (u16) spA4, &sp78, &sp7A, sp0);
+            local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, sp0);
             if ((local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0) && (temp_r0_4 = local245CC_sub_0800CD8C(), (temp_r0_4 == 0))) {
                 if (spBC != 0) {
                     local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
@@ -2159,7 +2159,7 @@ block_310:
                     }
                 }
                 sp0 = (u32)1;
-                local245CC_sub_08065370(&sp10, (u16) spA4, &sp78, &sp7A, sp0);
+                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, sp0);
                 sp0 = (u32)1;
                 local245CC_sub_08065370(&sp44, 8U, &sp80, &sp82, sp0);
                 if (local245CC_sub_0800CD34() != 0) {
@@ -2220,7 +2220,7 @@ block_332:
             spA8 = 9;
             do {
                 sp0 = (u32)1;
-                local245CC_sub_08065370(&sp10, (u16) spA4, &sp78, &sp7A, sp0);
+                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, sp0);
                 if ((local245CC_sub_0800CC98() == 0) && (temp_r0_10 = local245CC_sub_0800CCCC(), (temp_r0_10 == 0))) {
                     if (spBC != 0) {
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);

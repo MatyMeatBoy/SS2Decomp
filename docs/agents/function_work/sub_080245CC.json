@@ -1,7 +1,7 @@
 {
   "address": "0x080245CC",
-  "updated_utc": "2026-10-28T23:02:40.256939+00:00",
-  "checkpoint": "ef6d0b8445273c115e365e97f45ee3ce0fcc4d00",
+  "updated_utc": "2026-10-28T23:42:44.0090203Z",
+  "checkpoint": "4c3e9338c3ea907672103de36f19404ef099109f",
   "areas": [
     {
       "id": "compile",
@@ -19,13 +19,13 @@
       "id": "abi",
       "label": "Tipos, accesos y argumentos de pila",
       "state": "active",
-      "evidence": "ef6d0b8 usa aliases locales: flags 03001324 u16 (ldrh en bloques previos a las referencias 08024ADC y 08025464), 03002344 u32, retorno 0800BC44 u32 seguido de conversion u8. Llamadas de 5/6/8 argumentos reconstruidas desde stores sp+0/+4/+8/+C. Store Player+CE corregido a halfword (bloque 080253E0..0802540C). Auditoria integral de operandos pendiente. La resta de punteros de tareas de 0x28 bytes desde state+0x17BC reproduce la secuencia aritmetica inicial; no se usa el inverso multiplicativo como fuente."
+      "evidence": "ef6d0b8 usa aliases locales: flags 03001324 u16 (ldrh en bloques previos a las referencias 08024ADC y 08025464), 03002344 u32, retorno 0800BC44 u32 seguido de conversion u8. Llamadas de 5/6/8 argumentos reconstruidas desde stores sp+0/+4/+8/+C. Store Player+CE corregido a halfword (bloque 080253E0..0802540C). Auditoria integral de operandos pendiente. La resta de punteros de tareas de 0x28 bytes desde state+0x17BC reproduce la secuencia aritmetica inicial; no se usa el inverso multiplicativo como fuente. Continuacion sobre2c80cd9: ASM08024F0C/08024F30 carga X con ldrsh y suma/resta16 sin truncar antes de08007870. Temporal var_r0_4 y primer parametro del alias corregidos a s32; resto de argumentos intactos. Candidato aislado4588/4616 NO MATCH; auditoria integral aun pendiente. ASM08024798/08024E6A/080254A2/08025628 pasa selector de animacion mediante ldr/mov r1 sin estrechar. Alias08065370 y llamadas usan u32; selectores provienen de flags&3 o (flags>>4)&7/8. Pilas de esas cinco llamadas: quinto argumento1. No prueba ABI del callee en otros callers."
     },
     {
       "id": "layout",
       "label": "Frame, registros y pools",
       "state": "active",
-      "evidence": "nmdiff estricto de ef6d0b8: NO MATCH; original 4616 bytes, draft 4592. Frame original 0xE4; candidato 0x104. Persisten diferencias de bloques, registros y pools. No se ejecuto permuter con este diff amplio."
+      "evidence": "nmdiff estricto de ef6d0b8: NO MATCH; original 4616 bytes, draft 4592. Frame original 0xE4; candidato 0x104. Persisten diferencias de bloques, registros y pools. No se ejecuto permuter con este diff amplio. Candidato de coordenada X s32:4588/4616, NO MATCH; reduccion de bytes no acredita match. Selector u32 elimina conversiones adicionales del caller:4572/4616 NO MATCH; frame y CFG pendientes."
     },
     {
       "id": "match",

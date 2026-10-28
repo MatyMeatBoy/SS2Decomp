@@ -4444,9 +4444,7 @@ block_1369:
                     } else {
                         switch (temp_r0_133) {      /* switch 22 */
                         case 0:                     /* switch 22 */
-                            var_r0_33 = (u16) M2C_FIELD(sp180, u16 *, 4);
-block_1444:
-                            sp1A4 = (u32) (var_r0_33 << 0x16) >> 0x1C;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
                             break;
                         case 1:                     /* switch 22 */
                             temp_r0_134 = ((struct PlayerD368 *)arg0)->f10;
@@ -4457,10 +4455,11 @@ block_1444:
                             } else {
                                 d368_sub_08065158(&sp10, 0x5011A, 0, -1, (0));
                             }
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         case 9:                     /* switch 22 */
-block_1443:
-                            var_r0_33 = (u16) M2C_FIELD(sp180, u16 *, 4);
-                            goto block_1444;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         case 2:                     /* switch 22 */
                             temp_r0_135 = ((struct PlayerD368 *)arg0)->f10;
                             if (temp_r0_135 != 7) {
@@ -4500,8 +4499,8 @@ block_1438:
                             }
                             break;
                         case 3:                     /* switch 22 */
-                            var_r0_33 = (u16) M2C_FIELD(sp180, u16 *, 4);
-                            goto block_1444;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         case 4:                     /* switch 22 */
                             temp_r0_136 = ((struct PlayerD368 *)arg0)->f10;
                             if (temp_r0_136 != 5) {
@@ -4510,11 +4509,11 @@ block_1438:
 
                             }
                             }
-                            var_r0_33 = (u16) M2C_FIELD(sp180, u16 *, 4);
-                            goto block_1444;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         case 5:                     /* switch 22 */
-                            var_r0_33 = (u16) M2C_FIELD(sp180, u16 *, 4);
-                            goto block_1444;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         case 6:                     /* switch 22 */
                             temp_r0_137 = ((struct PlayerD368 *)arg0)->f10;
                             if (temp_r0_137 != 5) {
@@ -4523,7 +4522,8 @@ block_1438:
 
                             }
                             }
-                            goto block_1443;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         case 7:                     /* switch 22 */
                             temp_r0_138 = ((struct PlayerD368 *)arg0)->f10;
                             if (temp_r0_138 != 8) {
@@ -4531,8 +4531,8 @@ block_1438:
                                     if (temp_r0_138 != 1) {
 
                                     } else {
-                                        var_r0_33 = (u16) M2C_FIELD(sp180, u16 *, 4);
-                                        goto block_1444;
+                                        sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                                     }
                                 } else if (temp_r0_138 != 9) {
 
@@ -4563,8 +4563,8 @@ block_1438:
 
                             }
                             }
-                            var_r0_33 = (u16) M2C_FIELD(sp180, u16 *, 4);
-                            goto block_1444;
+                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
+                            break;
                         }
                     }
                 }
@@ -5648,61 +5648,73 @@ INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800D368);
  * +0x34 -> 8 x 0x28 byte slots, +0xAC -> 0x100 byte buffer, +0x13C/+0x140 -> local player template data,
  * +0x144 -> this slot's link SEND block (sub_08002118), +0x148 -> RECV block (sub_08002238).
  * The entity runs as task sub_0800D368 (per-player update), stack 0x680 (remote) or gUnk_03003590 (local). */
-extern u8 *gPlayerTemplate asm("gUnk_030034E0");
-extern u8 gTaskArr[] asm("gUnk_030034F0");
-extern u8 gLocalTaskStack[] asm("gUnk_03003590");
-extern u8 *sub_08002118();
-extern void sub_0800D368();
-void sub_080135C4(u16 id)
-{
-    u8 stk_buf[0x13C];
-    u16 zero;
-    u32 stackBase;
-    u8 *pl;
-    u8 *task;
-    u8 *p;
+/* Typed draft: frame/slot reloads and call ABI follow original ASM; NOT MATCHING. */
+struct T6Template135C4 { u8 pad[10]; u16 fA, fC; };
+extern struct T6Template135C4 *t6_template135 asm("gUnk_030034E0");
+struct T6Slot135 { u16 f0; u8 pad[38]; };
+struct T6Player135 { u16 f0; u8 f2; u8 pad3[9]; u16 fC, fE; u8 pad10[0x10]; u16 f20; u8 pad22[0x12]; struct T6Slot135 *f34; u8 pad38[0x74]; void *fAC; u8 padB0[0x86]; u16 f136; u8 pad138[4]; void *f13C; void *f140; void *f144, *f148; };
+extern struct T6Player135 t6_players135[] asm("gUnk_03003CE0");
+struct T6Task135 { u32 f0, f4, f8; void (*fC)(void); u8 *f10; u32 f14, f18, f1C; void *f20; u32 f24; };
+extern struct T6Task135 t6_tasks135[] asm("gUnk_030034F0");
+extern u8 t6_stack135[] asm("gUnk_03003590");
+extern void t6_update135(void) asm("sub_0800D368");
+extern void t6_start135(void *, void *) asm("sub_08000274");
+extern void *t6_send135(u32) asm("sub_08002118");
+struct T6Args135 { u32 a, b, c, d; };
+extern void t6_init135(struct T6Args135) asm("sub_0801E024");
+void sub_080135C4(u16 id) {
+    u8 buf[0x13C];
+    s16 zero;
+    u8 *stack;
     u32 i;
-
-    pl = (u8 *)gUnk_03003CE0 + id * 0x14C;
-    *(u32 *)(pl + 0x144) = (u32)sub_08002118(id);
-    *(u32 *)(pl + 0x148) = (u32)sub_08002238(id);
-    *(u16 *)pl = id;
-    task = gTaskArr + id * 0x28;
-    if (id == sub_080020F4()) {
-        *(u32 *)(pl + 0x140) = (u32)gPlayerTemplate;
-        *(u16 *)(pl + 0x20) = 0;
-        *(u32 *)(task + 8) = 0x31;
-        stackBase = (u32)gLocalTaskStack;
-        *(u32 *)(task + 0x20) = 0;
-        *(u32 *)(pl + 0x13C) = (u32)sub_08001494(10);
-        CpuSet(gPlayerTemplate, pl + 2, 10);
-        *(u16 *)(pl + 0xC) = *(u16 *)(gPlayerTemplate + 10);
-        *(u16 *)(pl + 0xE) = *(u16 *)(gPlayerTemplate + 12);
-    } else {
-        *(u16 *)(pl + 0x20) = 0xD;
-        *(u32 *)(task + 8) = 0x32;
-        stackBase = (u32)sub_08001494(0x680);
-        *(u32 *)(task + 0x20) = stackBase;
-        *(u32 *)(pl + 0x13C) = 0;
-        pl[2] = 0xFE;
-    }
-    *(u32 *)(pl + 0xAC) = (u32)sub_08001494(0x100);
-    p = (u8 *)sub_08001494(0x140);
-    *(u32 *)(pl + 0x34) = (u32)p;
-    for (i = 0; i < 8; i++) {
-        *(s16 *)(p + i * 0x28) = -1;
+    s32 j;
+    struct T6Player135 *pl;
+    struct T6Player135 *end;
+    struct T6Slot135 **slots;
+    t6_players135[id].f144 = t6_send135(id);
+    t6_players135[id].f148 = sub_08002238(id);
+    pl = &t6_players135[id];
+    pl->f0 = id;
+    if (id != sub_080020F4()) {
+        pl->f20 = 0xD;
+            t6_tasks135[id].f8 = 0x32;
+        stack = sub_08001494(0x680);
+        t6_tasks135[id].f20 = stack;
+        t6_players135[id].f13C = 0;
+        pl->f2 = 0xFE;
+        } else {
+        t6_players135[id].f140 = t6_template135;
+        pl->f20 = 0;
+            t6_tasks135[id].f8 = 0x31;
+        stack = t6_stack135;
+        t6_tasks135[id].f20 = 0;
+        t6_players135[id].f13C = sub_08001494(10);
+        CpuSet(t6_template135, &t6_players135[id].f2, 10);
+        pl->fC = t6_template135->fA;
+        pl->fE = t6_template135->fC;
+        }
+    t6_players135[id].fAC = sub_08001494(0x100);
+    t6_players135[id].f34 = (struct T6Slot135 *)sub_08001494(0x140);
+    slots = &t6_players135[id].f34;
+    i = 0;
+    j = 0;
+    do {
+        ((struct T6Slot135 *)(j + (u8 *)*slots))->f0 = 0xFFFF;
         zero = 0;
-        CpuSet(&zero, p + i * 0x28 + 8, 0x1000010);
-    }
-    *(u16 *)(pl + 0x136) = 0;
+        CpuSet(&zero, (u8 *)*slots + j + 8, 0x1000010);
+        j += 0x28;
+        i++;
+    } while (i <= 7);
+    end = &t6_players135[id];
+    end->f136 = 0;
     if (id == sub_080020F4()) {
-        memcpy(stk_buf, pl + 0x10, 0x13C);
-        ((void (*)(u32, u32, u32, u32))sub_0801E024)(*(u32 *)pl, *(u32 *)(pl + 4), *(u32 *)(pl + 8), *(u32 *)(pl + 0xC));
+        memcpy(buf, (u8 *)end + 0x10, 0x13C);
+        t6_init135(*(struct T6Args135 *)end);
     }
-    *(u32 *)(task + 0xC) = (u32)sub_0800D368;
-    *(u32 *)(task + 0x10) = stackBase + 0x67C;
-    *(u32 *)(task + 0x24) = 0;
-    sub_08000274_(task, (u32)pl, 0);
+    t6_tasks135[id].fC = t6_update135;
+    t6_tasks135[id].f10 = stack + 0x67C;
+    t6_tasks135[id].f24 = 0;
+    t6_start135((u8 *)&t6_tasks135[id], end);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080135C4);

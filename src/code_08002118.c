@@ -434,6 +434,7 @@ extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
 void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
+    s32 nextChar03984, nextChar13984, nextChar23984, nextChar33984, nextChar43984;
     s32 drawOffset3984;
     u32 keyboardGap3984;
     s32 setupZero3984;
@@ -993,7 +994,7 @@ loop_107:
                     }
                 }
             }
-            temp_r5_7[var_r6 + 1] = 0;
+            temp_r5_7[(nextChar03984 = var_r6 + 1)] = 0;
             selection = 0xA;
             sub_08000E48();
             sub_080009F8(0x200, 0, 1);
@@ -1358,7 +1359,7 @@ block_221:
             } else {
                 if ((next == var_r9) || (var_r5_3[var_r9] == 0xFD)) {
                     var_r5_3[var_r9] = 0x51;
-                    var_r5_3[var_r9 + 1] = 0xFD;
+                    var_r5_3[(nextChar13984 = var_r9 + 1)] = 0xFD;
                     var_r9++;
                     next = var_r9;
                 } else {
@@ -1475,7 +1476,7 @@ block_302:
                             next = var_r9;
                         }
                     } else {
-                        var_r5_3[var_r9 + 1] = 0xFD;
+                        var_r5_3[(nextChar23984 = var_r9 + 1)] = 0xFD;
                     }
 
                 } else if (temp_r0_14 == 2) {
@@ -1483,7 +1484,7 @@ block_302:
                     if (var_r9 == next) {
                         temp_r2_4 = arg0 + 0x10;
                         temp_r2_4[var_r9] = 0xFD;
-                        temp_r2_4[var_r9 + 1] = (s8) temp_r4_22;
+                        temp_r2_4[(nextChar33984 = var_r9 + 1)] = (s8) temp_r4_22;
                         var_r9 -= 1;
                         var_r5_3 = temp_r2_4;
                         if (0x8000 & var_r9) {
@@ -1634,7 +1635,7 @@ loop_363:
         if (var_r3_4 == 1) {
             if (temp_r0_22 == 0x51) {
                 M2C_FIELD(temp_r1_7, u8 *, 0) = cleanupEnd3984;
-                temp_r2_6[var_r6 + 1] = cleanupZero3984;
+                temp_r2_6[(nextChar43984 = var_r6 + 1)] = cleanupZero3984;
                 goto block_368;
             }
         } else {

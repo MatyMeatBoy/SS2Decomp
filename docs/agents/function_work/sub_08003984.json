@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T23:37:23.621944+00:00",
-  "checkpoint": "b2a1e03214b48c986e6974b4662eb081f4452266",
+  "updated_utc": "2026-10-28T23:40:31.504875+00:00",
+  "checkpoint": "aa9730131dfeef9d14e7ac818cadbf19b7b5792c",
   "areas": [
     {
       "id": "flow",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C y filaR8/cursorR9/oneSL/nextStatusSL conservados. Primer draw: dos llamadas00AF0 recuperan MOVS r2,1 del original mediante literal1; flag/call de dibujo mantienen oneSL. Grupos aritméticos cursor/teclado y cargas x cacheadas recuperados. CFG190/170/5 y105 replays simulados sin divergencias; no equivalencia ni matching. NO MATCH8304/8352."
+      "evidence": "Frame0x54C y filaR8/cursorR9/oneSL/nextStatusSL conservados. Cinco índices temporales32 separados recuperan ADD índice+1, ADD base y STRBoffset0 del original, evitando STRBoffset1 fusionado. Grupos cursor/teclado, cargas x cacheadas y literalesAF0 recuperados. CFG190/170/5 y105 replays simulados sin divergencias; no equivalencia ni matching. NO MATCH8320/8352."
     },
     {
       "id": "match",

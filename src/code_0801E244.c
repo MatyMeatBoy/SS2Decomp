@@ -879,7 +879,75 @@ void t21_21960(u32 arg0, s32 arg1)
         sub_080003F0();
     }    gUnk_03005CE4 &= ~(1 << arg1);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021AD8);
+struct T21Anim21AD8 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
+extern void t21_init21AD8(void *, u32, s32, s32, s32) asm("sub_08065158");
+void t21_21AD8(u32 arg0, u32 arg1) asm("sub_08021AD8");
+void t21_21AD8(u32 arg0, u32 arg1)
+{
+    struct T21Anim21AD8 data;
+    s16 x, y;
+    u16 states[1];
+    u32 xs[1];
+    u32 ys[1];
+    u16 a[1];
+    u16 b[1];
+    u32 i;
+    s32 completed;
+    u32 mode;
+    s32 zero, cond;
+    u32 *px, *py;
+    u32 dx, dy;
+    u16 current;
+    u8 tile;
+    zero = sub_0800CD34();
+    if (zero != 0) return;
+    t21_init21AD8(&data, 0x5008C, 1, -1, zero);
+    data.sprite[0] = 7;
+    data.sprite[1] = 8;
+    sub_08000AF0(23, data.palette, 2);
+    mode = arg1 >> 16;
+    arg1 &= 65535;
+    xs[0] = arg0 & 65535;
+    ys[0] = arg0 >> 16;
+    b[0] = zero;
+    states[0] = zero;
+    a[0] = zero;
+    completed = 0;
+    while (sub_0800CB78() == 0 && completed == 0 && (cond = sub_0800CCCC()) == 0) {
+
+        completed = cond;
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+            i = 0;
+
+
+
+            do {
+                current = states[i];
+                if (current == 0) {
+                    px = &xs[i];
+                    dx = *px;
+                    py = &ys[i];
+                    dy = *py;
+                    tile = sub_0800BC44(dx, dy, sub_0800CCCC());
+                    states[i] = sub_08065370(&data, 41, (s32)&a[i], (s32)&b[i], current);
+                    t21_BC08(*(s16 *)px, *(s16 *)py, &x, &y, 16, current);
+                    if (mode != 0)
+                        t21_7870(x, y + 1, 41, a[i], tile, data.sprite, data.b, data.a);
+                    else
+                        sub_08065230(&data, x, y, 41, a[i]);
+                } else {
+                    completed++;
+                }
+
+
+
+                i++;
+            } while (i == 0);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << arg1);
+}
 void sub_08021C6C(void) {
 
 }
