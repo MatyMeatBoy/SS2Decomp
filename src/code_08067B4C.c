@@ -59,24 +59,20 @@ s32 sub_08067C08(void) {
 s32 sub_08067C18(void) {
     return sub_08068330(0x37564);
 }
-#ifdef NONMATCHING
 u32 sub_08067C28(const u32 *arg0)
 {
     u8 *entry;
-    u32 index = gUnk_03006338;
-    if (index > 0x31)
+    u32 *n = (u32 *)0x03006338;
+    if (*n > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + index * 0x88;
+    entry =  *(u8 **)0x03006300 + *n * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x87;
     *(u32 *)(entry + 8) = *arg0;
     entry[1] = 1;
-    gUnk_03006338 = index + 1;
+    (*n)++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067C28);
-#endif
 s32 sub_08067C68(s32 arg0)
 {
     u8 *p;
@@ -93,24 +89,20 @@ s32 sub_08067CA8(s32 arg0)
     *(u32 *)(p + 4) = 1; *p = 0x89; *(u32 *)(p + 8) = arg0; p[1] = 1;
     gUnk_03006338++; return 1;
 }
-#ifdef NONMATCHING
 u32 sub_08067CE8(void *arg0)
 {
     u8 *entry;
-    u32 index = gUnk_03006338;
-    if (index > 0x31)
+    u32 *n = (u32 *)0x03006338;
+    if (*n > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + index * 0x88;
+    entry =  *(u8 **)0x03006300 + *n * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xB0;
     *(void **)(entry + 8) = arg0;
     entry[1] = 1;
-    gUnk_03006338 = index + 1;
+    (*n)++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067CE8);
-#endif
 #ifdef NONMATCHING
 u32 sub_08067D28(const void *source)
 {
@@ -132,16 +124,16 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067D28);
 #ifdef NONMATCHING
 u32 sub_08067D74(void)
 {
-    u32 index = gUnk_03006338;
+    u32 *n = (u32 *)0x03006338;
     u8 *entry;
-    if (index > 0x31)
+    if (*n > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + index * 0x88;
+    entry =  *(u8 **)0x03006300 + *n * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x8C;
     *(u32 *)(entry + 8) = *(u32 *)((u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C + 0x30);
     entry[1] = 1;
-    gUnk_03006338 = index + 1;
+    (*n)++;
     return 1;
 }
 #else
@@ -233,18 +225,18 @@ INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_08067F94);
 #ifdef NONMATCHING
 u32 sub_08067FE0(u16 value, u16 handle)
 {
-    u32 index = gUnk_03006338;
+    u32 *n = (u32 *)0x03006338;
     u8 *entry;
-    if (index > 0x31)
+    if (*n > 0x31)
         return 0;
     if (handle == 0)
         return 1;
-    entry = (u8 *)gUnk_03006300 + index * 0x88;
+    entry =  *(u8 **)0x03006300 + *n * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0xA0;
     *(u32 *)(entry + 8) = value | ((u32)handle << 16);
     entry[1] = 1;
-    gUnk_03006338 = index + 1;
+    (*n)++;
     return 1;
 }
 #else
