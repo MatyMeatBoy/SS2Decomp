@@ -1687,27 +1687,17 @@ s32 sub_0806569C(void)
     return 1;
   }
 }
-#ifdef NONMATCHING
-void sub_080656B8(s32 owner)
+struct S602C_E { u32 x; u8 pad[0x24]; };
+struct S602C { u32 a; u32 b; u32 c; struct S602C_E e[30]; };
+extern struct S602C *gS602C asm("gUnk_0300602C");
+void sub_080656B8(u32 a)
 {
-    s32 *global = &gUnk_0300602C;
-    s32 mem;
-    s32 offset;
     u32 i;
-    mem = sub_08001494(0x4B4);
-    *global = mem;
-    *(s32 *)mem = owner;
-    i = 0;
-    offset = 0;
-    do {
-        *(s32 *)(*global + 0xC + offset) = 0;
-        offset += 0x28;
-        i++;
-    } while (i <= 29);
+    gS602C = sub_08001494(0x4B4);
+    gS602C->a = a;
+    for (i = 0; i < 30; i++)
+        gS602C->e[i].x = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080656B8);
-#endif
 void sub_080656EC(void)
 {
     u8 *base = (u8 *)gUnk_0300602C + 4;
