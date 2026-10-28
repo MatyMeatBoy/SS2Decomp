@@ -389,15 +389,180 @@ INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FD64);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FDD0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020680);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020D40);
+extern void t21_BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void t21_20D40(s32 arg0, s32 arg1) asm("sub_08020D40");
+void t21_20D40(s32 arg0, s32 arg1)
+{
+    s16 x, y;
+    u16 a, b;
+    void *obj;
+    s32 state;
+    s32 px, py;
+    obj = sub_080653CC();
+    a = 0;
+    b = 0;
+    state = 0;
+    px = (arg0 & 0xFFFF) << 8;
+    py = (arg0 >> 16) << 8;
+    while (sub_0800CB78() == 0 && state == 0) {
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+            t21_BC08((px << 8) >> 16, py >> 8, &x, &y, 16, state);
+            state = sub_08065370(obj, 32, (s32)&a, (s32)&b, state);
+            sub_08065230(obj, x, y, 32, a);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << arg1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020E08);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020F74);
+struct T21Anim20F74 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
+extern void t21_init20F74(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
+void t21_20F74(s32 arg0, s32 arg1) asm("sub_08020F74");
+void t21_20F74(s32 arg0, s32 arg1)
+{
+    struct T21Anim20F74 data;
+    u16 a, b;
+    s16 x, y;
+    s32 px, py;
+    u16 state;
+    s32 zero;
+    u32 tile;
+    s32 dx, dy, sx;
+    t21_init20F74(&data, 0x5008C, 1, -1, 0);
+    sub_08000AF0(23, data.palette, 2);
+    data.sprite[0] = 7;
+    data.sprite[1] = 8;
+    px = (arg0 & 0xFFFF) << 8;
+    py = (arg0 >> 16) << 8;
+    a = 0;
+    b = 0;
+    state = 0;
+    while (sub_0800CB78() == 0 && state == 0) {
+        state = sub_08065370(&data, 14, (s32)&a, (s32)&b, state);
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CCCC()) == 0) {
+            if (gUnk_03002344 & 1) sub_08000AF0(23, data.palette, 2);
+            dx = px >> 8;
+            sx = (s16)dx;
+            dy = py >> 8;
+            t21_BC08(sx, dy, &x, &y, 16, zero);
+            tile = sub_0800BC44(dx, dy, 0);
+            t21_7870(x, y + 1, 14, a, (u8)tile, data.sprite, data.b, data.a);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << arg1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_080210A8);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021214);
+struct T21Anim21214 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
+extern void t21_init21214(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
+void t21_21214(u32 arg0, u32 arg1) asm("sub_08021214");
+void t21_21214(u32 arg0, u32 arg1)
+{
+    struct T21Anim21214 data;
+    u16 a, b;
+    s16 x, y;
+    u32 py, px, bit;
+    s32 anim;
+    u16 state;
+    u16 id;
+    s32 zero;
+    u32 tile;
+    t21_init21214(&data, 0x50074, 1, -1, 0);
+    sub_08000AF0(23, data.palette, 2);
+    data.sprite[0] = 7;
+    data.sprite[1] = 8;
+    py = arg0 >> 16;
+    px = arg0 & 65535;
+    bit = arg1 >> 16;
+    arg1 &= 255;
+    a = 0;
+    b = 0;
+    state = 0;
+    sub_0805865C(arg1 + 0x115);
+    while (sub_0800CB78() == 0 && state == 0) {
+        id = arg1;
+        state = sub_08065370(&data, id, (s32)&a, (s32)&b, state);
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CCCC()) == 0) {
+            t21_BC08((s16)px, (s16)py, &x, &y, 16, zero);
+            tile = sub_0800BC44(px, py, 0);
+            t21_7870(x, y + 1, id, a, (u8)tile, data.sprite, data.b, data.a);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << bit);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0802133C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021490);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_080215E4);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_080216BC);
+extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
+void t21_215E4(s32 arg0, s32 arg1) asm("sub_080215E4");
+void t21_215E4(s32 arg0, s32 arg1)
+{
+    struct { u32 a; u32 unused; u32 b; u8 pad[0x10]; u8 sprite[0x18]; } data;
+    s16 x, y;
+    u16 timer;
+    u32 px;
+    s32 py;
+    u8 tile;
+    s32 zero;
+    s32 sx, sy;
+    u16 old;
+    data.sprite[5] = 8;
+        px = 0xFFFF;
+    timer = 30;
+    px &= arg0;
+    py = arg0 >> 16;
+    sx = px << 16;
+    sy = py << 16;
+    while (sub_0800CB78() == 0) {
+        old = timer;
+        timer = old - 1;
+        if (old == 0) break;
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CCCC()) == 0) {
+            tile = sub_0800BC44(px, py, 0);
+            t21_BC08(sx >> 16, sy >> 16, &x, &y, 16, zero);
+            t21_7870(x, y + 1, 1, 0, tile, data.sprite, data.b, data.a);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << arg1);
+}
+struct T21Anim216BC { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
+extern void t21_init216BC(void *, u32, s32, s32, s32) asm("sub_08065158");
+void t21_216BC(s32 arg0, s32 arg1) asm("sub_080216BC");
+void t21_216BC(s32 arg0, s32 arg1)
+{
+    struct T21Anim216BC data;
+    u16 a, b;
+    s16 x, y;
+    s32 px, py;
+    u16 state;
+    s32 zero;
+    u8 tile;
+    s32 dx, dy;
+    t21_init216BC(&data, 0x5008C, 1, -1, 0);
+    sub_08000AF0(23, data.palette, 2);
+    data.sprite[0] = 7;
+    data.sprite[1] = 8;
+    px = (arg0 & 0xFFFF) << 8;
+    py = (arg0 >> 16) << 8;
+    a = 0;
+    b = 0;
+    state = 0;
+    while (sub_0800CB78() == 0 && state == 0) {
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CCCC()) == 0) {
+            dx = px >> 8;
+            dy = py >> 8;
+            tile = sub_0800BC44(dx, dy, 0);
+            state = sub_08065370(&data, 1, (s32)&a, (s32)&b, state);
+            t21_BC08((s16)dx, dy, &x, &y, 16, zero);
+            t21_7870(x, y + 1, 1, a, tile, data.sprite, data.b, data.a);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << arg1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_080217D8);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021960);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021AD8);

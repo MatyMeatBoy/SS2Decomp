@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T23:22:38.550487+00:00",
-  "checkpoint": "0fd2e218b725c0abb84d374c8c112c86124d7506",
+  "updated_utc": "2026-10-28T23:27:03.543417+00:00",
+  "checkpoint": "b7322062a840b0221d97167dee6560305ef81cdf",
   "areas": [
     {
       "id": "flow",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C; filaR8/cursorR9/oneSL/nextStatusSL conservados. Condiciones directas de máscaras40/80 en casos3/8 permiten compartir CFG al compilador sin goto artificial block_100. Auditor CFG190/170/5 sin diferencias diagnósticas y105 replays simulados sin divergencias; no prueban equivalencia ni matching. NO MATCH8292/8352."
+      "evidence": "Frame0x54C y filaR8/cursorR9/oneSL/nextStatusSL conservados. Índices u32 en las dos cargas x de draw659BC recuperan base x cacheada+índice y LDRH independiente, como original058BA/059E8; evita carga fusionada widths+40. Auditor CFG190/170/5 sin diferencias diagnósticas,105 replays simulados sin divergencias. No equivalencia ni matching: NO MATCH8308/8352."
     },
     {
       "id": "match",

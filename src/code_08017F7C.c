@@ -683,6 +683,9 @@ void sub_0801A7AC(void)
     s16 *step;
     struct Transition16Display *screen;
     s16 *savedStep;
+    /* These addresses remain live across the yields in both fade loops. */
+    u16 *progress, *period;
+    s16 *fadeLevel;
     s32 flag2, flag16;
     u32 delta, total;
     s32 signedDelta;
@@ -699,14 +702,17 @@ again:
         else level16 = 16;
         sub_080003F0();
         sub_080009F8(0, 0x2000, 1);
+        progress = &gUnk_03000022;
+        period = &gUnk_03000020;
+        fadeLevel = &level16;
         savedStep = &gUnk_03000026;
 fade:
-        level16 = ((s32)(gUnk_03000022 << 4)) / gUnk_03000020;
+        *fadeLevel = ((s32)(*progress << 4)) / *period;
         delta = *(u16 *)step;
-        total = delta + gUnk_03000022;
-        gUnk_03000022 = total;
+        total = delta + *progress;
+        *progress = total;
         signedDelta = (s16)delta;
-        if (signedDelta > 0 && gUnk_03000020 < (u16)total) goto finished;
+        if (signedDelta > 0 && *period < (u16)total) goto finished;
         if (signedDelta < 0 && (total & 0x8000)) goto finished;
         sub_080003F0();
         goto fade;
@@ -714,18 +720,23 @@ fade:
     flag16 = (s16)(flags16 & 16);
     if (flag16 != 0) {
         struct Transition16Display *inner;
+        /* Original blend loop retains display+0x44 independently of its base. */
+        u16 *blendRegister;
         if (*step > 0) level16 = flag2;
         else level16 = 16;
         inner = &display16;
+        blendRegister = &inner->f44;
+        progress = &gUnk_03000022;
+        period = &gUnk_03000020;
         savedStep = &gUnk_03000026;
 blend:
         inner->f40 = 255;
-        inner->f44 = ((s32)(gUnk_03000022 << 4)) / gUnk_03000020;
+        *blendRegister = ((s32)(*progress << 4)) / *period;
         delta = *(u16 *)step;
-        total = delta + gUnk_03000022;
-        gUnk_03000022 = total;
+        total = delta + *progress;
+        *progress = total;
         signedDelta = (s16)delta;
-        if (signedDelta > 0 && gUnk_03000020 < (u16)total) goto finished;
+        if (signedDelta > 0 && *period < (u16)total) goto finished;
         if (signedDelta < 0 && (total & 0x8000)) goto finished;
         sub_080003F0();
         goto blend;

@@ -226,7 +226,148 @@ found2:
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802D050);
+extern void sub_08037DFC(void);
+extern void sub_080592FC(void);
+extern void sub_080384D4(void);
+extern s32 sub_0801AB24(void);
+extern void sub_080576A8(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+void sub_0802D050(void) {
+    s32 *var_r1;
+    u32 var_r2;
+    s32 *res;
+    s32 *res2;
+    s32 iVar2;
+    s32 dVar1;
+    s32 r;
+
+    iVar2 = sub_080289C0(0x30, 0x54, 0x90);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found1;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found1:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08037DFC;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found2;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found2:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x20039, 0x78, 0x5F);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found3;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found3:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_080592FC;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found4;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found4:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x5002A, 0xB5, 0x6D);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found5;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found5:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_080384D4;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found6;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found6:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+}
 void sub_0802D200(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -418,7 +559,167 @@ found2:
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802D8C4);
+extern void sub_0803B194(void);
+extern void sub_0803B69C(void);
+extern void sub_0803B720(void);
+extern void sub_0803BC3C(void);
+struct TaskP29D8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern void taskStart29D8(void *, u32) asm("sub_08000274");
+void sub_0802D8C4(void) {
+    s32 *var_r1;
+    u32 var_r2;
+    s32 *res;
+    s32 *res2;
+    s32 iVar2;
+    s32 dVar1;
+    s32 r;
+    struct TaskP29D8 *t;
+    u32 i;
+    u32 mem;
+    s32 cb;
+    s32 first;
+    s32 first_cb;
+
+    first = sub_080289C0(0x36, 0x34, 0x50);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == first) {
+            res = var_r1;
+            goto found1;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found1:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    first_cb = (s32) sub_0803B194;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == first) {
+            res2 = var_r1;
+            goto found2;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found2:
+    if (res2 != NULL) {
+        res2[0x11] = first_cb;
+    }
+    cb = (s32) sub_0803B69C;
+    t = (struct TaskP29D8 *)(gUnk_03005CF4 + 0xE34);
+    for (i = 0; i <= 0x1D; i++, t++) {
+        if (sub_08000470((u32)t) != 0) continue;
+        while ((t->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        t->f8 = 0x3C;
+        t->fC = cb;
+        t->f10 = mem + 0x3FC;
+        t->f24 = 0;
+        taskStart29D8(t, first);
+        break;
+    }
+    iVar2 = sub_080289C0(0x40027, 0x6C, 0x76);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found3;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found3:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_0803B720;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found4;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found4:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x35, 0x18C, 0x4E);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found5;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found5:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_0803BC3C;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found6;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found6:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    sub_080289C0(0xB0036, 0x22, 0x42);
+    sub_080289C0(0xC0036, 0x32, 0x42);
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802DAF0);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802DE0C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802E110);
