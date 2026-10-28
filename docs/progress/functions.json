@@ -249,10 +249,23 @@
       "canonical_symbol": "sub_08000440",
       "domain": "game",
       "implementation": "original_asm",
-      "display_name": "sub_08000440",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskHasWaiterForSignal",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_08000440.s",
+          "line": 1,
+          "detail": "Traverses task list and returns one if a task has state 4 and a matching signal at +0x14; otherwise returns zero.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Scheduler insertion increments 03001244; global function names remain unchanged.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000464",
@@ -266,10 +279,23 @@
       "canonical_symbol": "sub_08000464",
       "domain": "game",
       "implementation": "original_asm",
-      "display_name": "sub_08000464",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskGetCount",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_08000464.s",
+          "line": 1,
+          "detail": "Loads global 03001244, initialized to one by 0023C, incremented on scheduling by 00274 and decremented on unlinking.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000274.s",
+          "line": 1,
+          "detail": "Scheduler insertion increments 03001244; global function names remain unchanged.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000470",
@@ -385,10 +411,17 @@
       "canonical_symbol": "sub_0800086C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800086C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "NextRandom16",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 88,
+          "detail": "Updates the eight-byte feedback state03001318, then combines two state-selected bytes as a 16-bit result. Does not establish a standard RNG algorithm or SDK origin.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080008C8",
@@ -402,10 +435,17 @@
       "canonical_symbol": "sub_080008C8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080008C8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "NextRandom32",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 106,
+          "detail": "Updates the same eight-byte feedback state, then combines four state-selected bytes into a 32-bit result; shares transition structure with 0086C.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_0800093C",
@@ -436,10 +476,17 @@
       "canonical_symbol": "sub_08000940",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000940",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DisableForcedBlank",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 127,
+          "detail": "Enables DISPSTAT flag 8, clears forcedBlank in display shadow, writes DISPCNT and invokes 06BF8. No broader scene identity is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000968",
@@ -453,10 +500,17 @@
       "canonical_symbol": "sub_08000968",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000968",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnableForcedBlank",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 134,
+          "detail": "Clears DISPSTAT flags 0x18, sets forcedBlank in display shadow, writes DISPCNT and invokes 06C14.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000990",
@@ -470,10 +524,17 @@
       "canonical_symbol": "sub_08000990",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000990",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetDisplayMode",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 141,
+          "detail": "Sets mode field in DISPCNT shadow and optionally writes hardware.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080009C0",
@@ -487,10 +548,17 @@
       "canonical_symbol": "sub_080009C0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080009C0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnableDisplayPlanesAndWindows",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 148,
+          "detail": "ORs first argument mask 0x1F00 and second mask 0xE000 into DISPCNT shadow, optionally writing hardware; does not clear other bits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080009F8",
@@ -521,10 +589,17 @@
       "canonical_symbol": "sub_08000A34",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000A34",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetDisplayFrameAndObjOptions",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 178,
+          "detail": "Sets frameSelect, hblankIntervalFree and objMapping1D fields from three boolean arguments, optionally writing DISPCNT.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000A8C",
@@ -538,10 +613,17 @@
       "canonical_symbol": "sub_08000A8C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000A8C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LoadDisplayControlShadow",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 1,
+          "detail": "Copies one 32-bit value from the supplied DispCnt structure into display-control shadow and optionally writes its low halfword to DISPCNT.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000AA8",
@@ -555,10 +637,17 @@
       "canonical_symbol": "sub_08000AA8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000AA8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "WriteBackgroundControl",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 12,
+          "detail": "For background index 0..3, writes the supplied halfword to BG0CNT..BG3CNT; ignores null source and unsupported index.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000AF0",
@@ -572,10 +661,17 @@
       "canonical_symbol": "sub_08000AF0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000AF0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LoadPaletteShadow",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 31,
+          "detail": "Copies palette groups into RAM shadow03001F40 at palette-index*32. Queues a full 0x400-byte palette copy once while 03001310 is zero, then increments that flag.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000B38",
@@ -589,10 +685,17 @@
       "canonical_symbol": "sub_08000B38",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000B38",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueuePaletteShadowCopy",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 40,
+          "detail": "Queues 0x400 bytes from palette shadow03001F40 to hardware palette RAM 05000000 through 01348.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000B50",
@@ -606,10 +709,17 @@
       "canonical_symbol": "sub_08000B50",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000B50",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FlushBgWindowBlendRegisterShadow",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "Copies 0x24 halfwords from 03001250 to REG_ADDR_BG0HOFS, covering BG scroll/affine, window, mosaic and blend registers, not DISPCNT/BGCNT.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000B68",
@@ -623,10 +733,17 @@
       "canonical_symbol": "sub_08000B68",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000B68",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ReadBackgroundControl",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 47,
+          "detail": "Reads selected BG0CNT..BG3CNT halfword into non-null output for indices 0..3.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000BB0",
@@ -657,10 +774,17 @@
       "canonical_symbol": "sub_08000BC8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000BC8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DecompressLz77AllocatingIfNeeded",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 67,
+          "detail": "Reads decompressed size from LZ77 header, rounds to 4 bytes; if destination is null, retries heap allocation while waiting for signal 1, then decompresses with LZ77UnCompWram and returns destination.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000C08",
@@ -708,10 +832,17 @@
       "canonical_symbol": "sub_08000C50",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000C50",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnableHBlankInterrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 102,
+          "detail": "Enables IE HBlank flag and DISPSTAT HBlank interrupt flag through their shadows, with IME disable/enable and blank-interval waits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000D0C",
@@ -725,10 +856,17 @@
       "canonical_symbol": "sub_08000D0C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000D0C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DisableHBlankInterrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 125,
+          "detail": "Clears HBlank interrupt in IE shadow/register and clears DISPSTAT HBlank interrupt flag.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000D8C",
@@ -742,10 +880,17 @@
       "canonical_symbol": "sub_08000D8C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000D8C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnableVCountInterrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 141,
+          "detail": "Enables IE VCount flag and DISPSTAT VCount interrupt flag through their shadows, with IME disable/enable and blank-interval waits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000E48",
@@ -759,10 +904,17 @@
       "canonical_symbol": "sub_08000E48",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000E48",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DisableVCountInterrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/video.c",
+          "line": 164,
+          "detail": "Clears IE VCount interrupt and DISPSTAT VCount interrupt flag.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000EC8",
@@ -793,10 +945,17 @@
       "canonical_symbol": "sub_08000EF4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000EF4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DisableInterruptMaster",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 26,
+          "detail": "Waits until outside blank intervals, then clears both IME shadow and REG_IME.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000F2C",
@@ -810,10 +969,17 @@
       "canonical_symbol": "sub_08000F2C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000F2C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnableInterruptMaster",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 31,
+          "detail": "Waits until outside blank intervals, then sets IME shadow and REG_IME to one.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000F64",
@@ -827,10 +993,17 @@
       "canonical_symbol": "sub_08000F64",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000F64",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnableInterruptSources",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 36,
+          "detail": "Disables IME, ORs mask into IE shadow and REG_IE, then re-enables IME; does not preserve previous IME state.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000FD4",
@@ -844,10 +1017,17 @@
       "canonical_symbol": "sub_08000FD4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000FD4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DisableInterruptSources",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 45,
+          "detail": "Disables IME, clears mask from IE shadow and REG_IE, then re-enables IME; does not preserve previous IME state.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001040",
@@ -861,10 +1041,17 @@
       "canonical_symbol": "sub_08001040",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001040",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetDisplayStatusFlags",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 53,
+          "detail": "Disables IME, ORs mask into DISPSTAT shadow/register, then re-enables IME with blank-interval waits.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080010AC",
@@ -878,10 +1065,17 @@
       "canonical_symbol": "sub_080010AC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080010AC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ClearDisplayStatusFlags",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 62,
+          "detail": "Clears mask from DISPSTAT shadow and writes REG_DISPSTAT directly.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080010C8",
@@ -912,10 +1106,23 @@
       "canonical_symbol": "sub_080010DC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080010DC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleHBlankInterrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 75,
+          "detail": "Invokes callback 03000014 when nonzero, acknowledges REG_IF and BIOS interrupt-check mask 0x2 (HBlank).",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 717,
+          "detail": "INTR_FLAG_VBLANK/HBLANK/VCOUNT are masks1/2/4; these numbers are masks, not bit indices.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001108",
@@ -929,10 +1136,17 @@
       "canonical_symbol": "sub_08001108",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001108",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetVCountCompareLine",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 82,
+          "detail": "Replaces high byte of DISPSTAT shadow with the byte argument, writes hardware and returns previous high byte.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001130",
@@ -946,10 +1160,23 @@
       "canonical_symbol": "sub_08001130",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001130",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleVCountInterrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 89,
+          "detail": "Invokes callback 03000010 when nonzero, acknowledges REG_IF and BIOS interrupt-check mask 0x4 (VCount).",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 717,
+          "detail": "INTR_FLAG_VBLANK/HBLANK/VCOUNT are masks1/2/4; these numbers are masks, not bit indices.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_0800115C",
@@ -963,10 +1190,17 @@
       "canonical_symbol": "sub_0800115C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800115C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetVCountInterruptCallback",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 96,
+          "detail": "Replaces callback 03000010 and returns its previous value.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_0800116C",
@@ -980,10 +1214,17 @@
       "canonical_symbol": "sub_0800116C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800116C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ResetVBlankCallbackState",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 102,
+          "detail": "Clears callback 0300234C and frame-transfer-ready flag 03002350.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001180",
@@ -997,10 +1238,23 @@
       "canonical_symbol": "sub_08001180",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001180",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleVBlankInterrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 106,
+          "detail": "Optionally services m4a VSync/Main; when frame-transfer flag is set, invokes callback 0300234C, flushes register shadow/copy queue and clears flag. Acknowledges interrupt mask 0x1 (VBlank).",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 717,
+          "detail": "INTR_FLAG_VBLANK/HBLANK/VCOUNT are masks1/2/4; these numbers are masks, not bit indices.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080011E4",
@@ -1014,10 +1268,17 @@
       "canonical_symbol": "sub_080011E4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080011E4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetVBlankCallback",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 123,
+          "detail": "Stores callback 0300234C, returning one for non-null or zero for null.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001204",
@@ -1048,10 +1309,17 @@
       "canonical_symbol": "sub_08001280",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001280",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleDma3Interrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 155,
+          "detail": "Invokes callback 03002354 and acknowledges REG_IF/BIOS check mask 0x800 (DMA3); there is no null callback guard.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080012AC",
@@ -1065,10 +1333,17 @@
       "canonical_symbol": "sub_080012AC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080012AC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HandleDma0Interrupt",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 161,
+          "detail": "Invokes callback 03002360 and acknowledges REG_IF/BIOS check mask 0x100 (DMA0); there is no null callback guard.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080012D8",
@@ -1082,10 +1357,17 @@
       "canonical_symbol": "sub_080012D8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080012D8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetDma3InterruptCallback",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 167,
+          "detail": "Replaces callback 03002354, used by DMA3 handler 01280, and returns previous value.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080012E8",
@@ -1099,10 +1381,17 @@
       "canonical_symbol": "sub_080012E8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080012E8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetDma0InterruptCallback",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 173,
+          "detail": "Replaces callback 03002360, used by DMA0 handler 012AC, and returns previous value.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080012F8",
@@ -1116,10 +1405,17 @@
       "canonical_symbol": "sub_080012F8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080012F8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "InitializeMemoryCopyQueue",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 179,
+          "detail": "Allocates 400 entries, clears src/dest/control, resets queue count and clears DMA3/DMA0 callback globals. Queue flush uses CPU copy BIOS calls, not DMA hardware.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001348",
@@ -1133,10 +1429,17 @@
       "canonical_symbol": "sub_08001348",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001348",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueMemoryCopy",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 194,
+          "detail": "Appends src/dest/byte-size while count<400; sets high control bit for sizes aligned to 32 bytes. Does not enqueue when full.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001394",
@@ -1150,10 +1453,17 @@
       "canonical_symbol": "sub_08001394",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001394",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FlushMemoryCopyQueue",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 207,
+          "detail": "Consumes queued entries with CpuFastSet or CpuSet32 according to high control bit, then resets count. No DMA register programming occurs.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080013F8",
@@ -1167,10 +1477,17 @@
       "canonical_symbol": "sub_080013F8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080013F8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ClearMemoryCopyQueue",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 221,
+          "detail": "Resets queued memory-copy count to zero without executing copies.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001404",
@@ -1184,10 +1501,17 @@
       "canonical_symbol": "sub_08001404",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001404",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "InitializeEwramHeap",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 225,
+          "detail": "Builds free-list/sentinel metadata over EWRAM with heap start EWRAM_START and recorded size 0x3FFFF.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001494",
@@ -1224,14 +1548,15 @@
       "canonical_symbol": "sub_08001538",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001538_free",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
+      "display_name": "HeapFree",
+      "name_status": "confirmed",
+      "name_source": "catalog",
       "evidence": [
         {
           "source": "src/code_08000EC8.c",
           "line": 300,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08001538_free"
+          "detail": "Existing _free C definition is aliased to this canonical symbol. Bounds-checks pointer, clears block used bit and coalesces adjacent free blocks in heap free list.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
@@ -1264,10 +1589,17 @@
       "canonical_symbol": "sub_08001638",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001638",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HeapAllocateFromEnd",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 360,
+          "detail": "Aligns size to 4 with minimum 16, traverses free list backward and splits an allocation from the selected block end, returning payload after 16-byte header.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080016C8",
@@ -1465,10 +1797,17 @@
       "canonical_symbol": "sub_08001AA4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001AA4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "InitializeSupportedFlashDevice",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 43,
+          "detail": "Calls IdentifyFlash, compares device ID with five supported IDs, records support flag 03000018 and installs flash timer interrupt slot 2 only when supported.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001B04",
@@ -1482,10 +1821,17 @@
       "canonical_symbol": "sub_08001B04",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001B04",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ReadFlashBytes",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 61,
+          "detail": "Direct ReadFlash wrapper forwarding sector, byte offset, destination and size; no game-save format identity is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001B14",
@@ -1499,10 +1845,17 @@
       "canonical_symbol": "sub_08001B14",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001B14",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ProgramSupportedFlashSector",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 64,
+          "detail": "Returns 1 when support flag 03000018 is zero; otherwise disables master interrupts, calls ProgramFlashSector, re-enables interrupts and returns its status. Does not preserve prior IME state.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001B54",
@@ -1516,10 +1869,17 @@
       "canonical_symbol": "sub_08001B54",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08001B54",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "VerifySupportedFlashSector",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 78,
+          "detail": "Returns 1 when support flag 03000018 is zero; otherwise forwards sector and source to VerifyFlashSector, preserving its returned status rather than reducing it to a boolean.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08001B78",
@@ -2510,10 +2870,17 @@
       "canonical_symbol": "sub_08006D24",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006D24",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioStartOrChangeSong",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 7,
+          "detail": "Matching game wrapper calls m4aSongNumStartOrChange. Checks song ID<=0x1AB before delegating. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006D40",
@@ -2527,10 +2894,17 @@
       "canonical_symbol": "sub_08006D40",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006D40",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioStartOrContinueSong",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 15,
+          "detail": "Matching game wrapper calls m4aSongNumStartOrContinue. Checks song ID<=0x1AB before delegating. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006D5C",
@@ -2544,10 +2918,17 @@
       "canonical_symbol": "sub_08006D5C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006D5C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioStopSong",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 23,
+          "detail": "Matching game wrapper calls m4aSongNumStop. Existing trailing-underscore C alias resolves to the canonical function. Checks song ID<=0x1AB. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006D78",
@@ -2561,10 +2942,17 @@
       "canonical_symbol": "sub_08006D78",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006D78",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioContinueSong",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 28,
+          "detail": "Matching game wrapper calls m4aSongNumContinue. Checks song ID<=0x1AB before delegating. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006D94",
@@ -2578,10 +2966,17 @@
       "canonical_symbol": "sub_08006D94",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006D94",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioStartPlayer",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 36,
+          "detail": "Matching game wrapper calls MPlayStart. Forwards music-player and song-header pointers. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006DA0",
@@ -2595,10 +2990,17 @@
       "canonical_symbol": "sub_08006DA0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006DA0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioStopPlayer",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 39,
+          "detail": "Matching game wrapper calls m4aMPlayStop. Forwards the supplied music-player pointer. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006DAC",
@@ -2612,10 +3014,17 @@
       "canonical_symbol": "sub_08006DAC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006DAC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioStopAllPlayers",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 42,
+          "detail": "Matching game wrapper calls m4aMPlayAllStop. Direct no-argument wrapper. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006DB8",
@@ -2629,10 +3038,17 @@
       "canonical_symbol": "sub_08006DB8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006DB8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioContinueAllPlayers",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 45,
+          "detail": "Matching game wrapper calls m4aMPlayAllContinue. Direct no-argument wrapper. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006DC4",
@@ -2646,10 +3062,17 @@
       "canonical_symbol": "sub_08006DC4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006DC4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioFadeOutPlayer",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 48,
+          "detail": "Matching game wrapper calls m4aMPlayFadeOut. Forwards music-player pointer and fade speed. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006DD4",
@@ -2663,10 +3086,17 @@
       "canonical_symbol": "sub_08006DD4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006DD4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioSetPlayerTempo",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 51,
+          "detail": "Matching game wrapper calls m4aMPlayTempoControl. Forwards player pointer and tempo. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006DE4",
@@ -2680,10 +3110,17 @@
       "canonical_symbol": "sub_08006DE4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006DE4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioSetTrackVolume",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 54,
+          "detail": "Matching game wrapper calls m4aMPlayVolumeControl. Forwards player pointer, track mask and volume. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006DF8",
@@ -2697,10 +3134,17 @@
       "canonical_symbol": "sub_08006DF8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006DF8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioSetTrackPitch",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 57,
+          "detail": "Matching game wrapper calls m4aMPlayPitchControl. Forwards player pointer, track mask and signed pitch. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006E0C",
@@ -2714,10 +3158,17 @@
       "canonical_symbol": "sub_08006E0C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006E0C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioSetTrackPan",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 60,
+          "detail": "Matching game wrapper calls m4aMPlayPanpotControl. Forwards player pointer, track mask and signed pan. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006E20",
@@ -2731,10 +3182,17 @@
       "canonical_symbol": "sub_08006E20",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006E20",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioSetTrackModDepth",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 63,
+          "detail": "Matching game wrapper calls m4aMPlayModDepthSet. Forwards player pointer, track mask and modulation depth. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006E34",
@@ -2748,10 +3206,17 @@
       "canonical_symbol": "sub_08006E34",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006E34",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioSetTrackLfoSpeed",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 66,
+          "detail": "Matching game wrapper calls m4aMPlayLFOSpeedSet. Forwards player pointer, track mask and LFO speed. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006E48",
@@ -2765,10 +3230,17 @@
       "canonical_symbol": "sub_08006E48",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006E48",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AudioInitializePlayerImmediately",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 69,
+          "detail": "Matching game wrapper calls m4aMPlayImmInit. Forwards music-player pointer. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08006E54",
@@ -12495,14 +12967,14 @@
       "name": "sub_08045AFC",
       "addr": 134503164,
       "size": 108,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x08045AFC",
       "canonical_symbol": "sub_08045AFC",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08045AFC",
       "name_status": "unidentified",
       "name_source": null,
@@ -27383,10 +27855,29 @@
       "canonical_symbol": "sub_080941B4",
       "domain": "game",
       "implementation": "pending_asm",
-      "display_name": "sub_080941B4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskScrollBg0Bg1WithRandomBlendState",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08092D60/sub_080941B4.s",
+          "line": 1,
+          "detail": "ASM loop writes four BG0/BG1 scroll shadow halfwords: horizontal fixed-point drift and separate sine-based vertical offsets. Four-state control chooses blend coefficients and calls RNG 0086C for dwell values; flags 03000274/275/26C participate. Waits for signal 1. No weather or scene identity is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "B50 copies shadow 03001250 to hardware BG0/BG1 scroll registers.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 224,
+          "detail": "0903C writes blend coefficients to the register shadow.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080943F8",
@@ -27468,10 +27959,17 @@
       "canonical_symbol": "sub_080944B4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080944B4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AllocateBgRandomBlendTaskControlBlock",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 166,
+          "detail": "Clears control flags 03000274/275, retries allocating 0x28-byte task control block 03000270 while waiting for signal 1, then clears priority field+8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080944F0",
@@ -27485,10 +27983,17 @@
       "canonical_symbol": "sub_080944F0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080944F0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DestroyBgRandomBlendTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 175,
+          "detail": "Disables blend coefficients; if global 03000270 is non-null, destroys its scheduled task when present, frees the control block and clears the global.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08094530",
@@ -27502,14 +28007,21 @@
       "canonical_symbol": "sub_08094530",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "InitializeTaskStack03000270",
-      "name_status": "proposed",
+      "display_name": "StartBgScrollRandomBlendTask",
+      "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
           "source": "src/code_08092D60.c",
-          "detail": "Task variant using global03000270 and waits through080003F0; precise screen role unknown.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "line": 188,
+          "detail": "Initializes global task 03000270 with callback 941B4, priority 0x44, allocation 0x400, stack top+0x3FC and null cleanup callback, then schedules it. The source retry condition checks the task pointer, not the newly allocated stack; no allocation-safety guarantee is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/code_08092D60/sub_080941B4.s",
+          "line": 1,
+          "detail": "Direct callback ASM confirms scrolling plus random-driven blend-state machine.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
@@ -27595,10 +28107,17 @@
       "canonical_symbol": "sub_08094948",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08094948",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AllocateBgScrollBlendTaskControlBlock",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 247,
+          "detail": "Allocates 0x28-byte control block 03000278 and clears priority field+8 when allocation succeeds; callback 948E0 is assigned by starter 949A8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08094968",
@@ -27612,10 +28131,17 @@
       "canonical_symbol": "sub_08094968",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08094968",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DestroyBgScrollBlendTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 258,
+          "detail": "Disables blending; if 03000278 is non-null, destroys the scheduled task when present, frees its control block and clears the global.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080949A8",
@@ -27729,10 +28255,17 @@
       "canonical_symbol": "sub_08094E84",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08094E84",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AllocateBgSineScrollBlendTaskControlBlock",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 335,
+          "detail": "Allocates 0x28-byte control block 0300027C and clears priority field+8 on success; callback 94DEC is assigned by starter 94EE4.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08094EA4",
@@ -27746,10 +28279,17 @@
       "canonical_symbol": "sub_08094EA4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08094EA4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DestroyBgSineScrollBlendTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 344,
+          "detail": "Disables blending; if 0300027C is non-null, destroys the scheduled task when present, frees its control block and clears the global.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08094EE4",
@@ -35690,12 +36230,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 42,
-      "existing": 5,
-      "confirmed": 37,
-      "proposed": 1,
-      "unidentified": 1837,
-      "percent_identified": 2.234042553191489
+      "identified": 113,
+      "existing": 4,
+      "confirmed": 109,
+      "proposed": 0,
+      "unidentified": 1767,
+      "percent_identified": 6.01063829787234
     },
     "sdk": {
       "total": 155,
@@ -35708,12 +36248,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 177,
-      "existing": 134,
-      "confirmed": 43,
-      "proposed": 1,
-      "unidentified": 1857,
-      "percent_identified": 8.697788697788697
+      "identified": 248,
+      "existing": 133,
+      "confirmed": 115,
+      "proposed": 0,
+      "unidentified": 1787,
+      "percent_identified": 12.186732186732186
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
