@@ -910,6 +910,66 @@
       ]
     },
     {
+      "address": "0x08001AA4",
+      "canonical_symbol": "sub_08001AA4",
+      "display_name": "InitializeSupportedFlashDevice",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 43,
+          "detail": "Calls IdentifyFlash, compares device ID with five supported IDs, records support flag 03000018 and installs flash timer interrupt slot 2 only when supported.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001B04",
+      "canonical_symbol": "sub_08001B04",
+      "display_name": "ReadFlashBytes",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 61,
+          "detail": "Direct ReadFlash wrapper forwarding sector, byte offset, destination and size; no game-save format identity is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001B14",
+      "canonical_symbol": "sub_08001B14",
+      "display_name": "ProgramSupportedFlashSector",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 64,
+          "detail": "Returns 1 when support flag 03000018 is zero; otherwise disables master interrupts, calls ProgramFlashSector, re-enables interrupts and returns its status. Does not preserve prior IME state.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08001B54",
+      "canonical_symbol": "sub_08001B54",
+      "display_name": "VerifySupportedFlashSector",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 78,
+          "detail": "Returns 1 when support flag 03000018 is zero; otherwise forwards sector and source to VerifyFlashSector, preserving its returned status rather than reducing it to a boolean.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
       "address": "0x08001BE4",
       "canonical_symbol": "sub_08001BE4",
       "display_name": "LinkSessionTask",
@@ -1004,6 +1064,246 @@
           "source": "docs/LINK_CABLE.md",
           "detail": "Copies local send block to receive block zero each frame and sets status 0x101.",
           "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+        }
+      ]
+    },
+    {
+      "address": "0x08006D24",
+      "canonical_symbol": "sub_08006D24",
+      "display_name": "AudioStartOrChangeSong",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 7,
+          "detail": "Matching game wrapper calls m4aSongNumStartOrChange. Checks song ID<=0x1AB before delegating. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006D40",
+      "canonical_symbol": "sub_08006D40",
+      "display_name": "AudioStartOrContinueSong",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 15,
+          "detail": "Matching game wrapper calls m4aSongNumStartOrContinue. Checks song ID<=0x1AB before delegating. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006D5C",
+      "canonical_symbol": "sub_08006D5C",
+      "display_name": "AudioStopSong",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 23,
+          "detail": "Matching game wrapper calls m4aSongNumStop. Existing trailing-underscore C alias resolves to the canonical function. Checks song ID<=0x1AB. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006D78",
+      "canonical_symbol": "sub_08006D78",
+      "display_name": "AudioContinueSong",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 28,
+          "detail": "Matching game wrapper calls m4aSongNumContinue. Checks song ID<=0x1AB before delegating. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006D94",
+      "canonical_symbol": "sub_08006D94",
+      "display_name": "AudioStartPlayer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 36,
+          "detail": "Matching game wrapper calls MPlayStart. Forwards music-player and song-header pointers. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006DA0",
+      "canonical_symbol": "sub_08006DA0",
+      "display_name": "AudioStopPlayer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 39,
+          "detail": "Matching game wrapper calls m4aMPlayStop. Forwards the supplied music-player pointer. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006DAC",
+      "canonical_symbol": "sub_08006DAC",
+      "display_name": "AudioStopAllPlayers",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 42,
+          "detail": "Matching game wrapper calls m4aMPlayAllStop. Direct no-argument wrapper. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006DB8",
+      "canonical_symbol": "sub_08006DB8",
+      "display_name": "AudioContinueAllPlayers",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 45,
+          "detail": "Matching game wrapper calls m4aMPlayAllContinue. Direct no-argument wrapper. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006DC4",
+      "canonical_symbol": "sub_08006DC4",
+      "display_name": "AudioFadeOutPlayer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 48,
+          "detail": "Matching game wrapper calls m4aMPlayFadeOut. Forwards music-player pointer and fade speed. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006DD4",
+      "canonical_symbol": "sub_08006DD4",
+      "display_name": "AudioSetPlayerTempo",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 51,
+          "detail": "Matching game wrapper calls m4aMPlayTempoControl. Forwards player pointer and tempo. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006DE4",
+      "canonical_symbol": "sub_08006DE4",
+      "display_name": "AudioSetTrackVolume",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 54,
+          "detail": "Matching game wrapper calls m4aMPlayVolumeControl. Forwards player pointer, track mask and volume. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006DF8",
+      "canonical_symbol": "sub_08006DF8",
+      "display_name": "AudioSetTrackPitch",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 57,
+          "detail": "Matching game wrapper calls m4aMPlayPitchControl. Forwards player pointer, track mask and signed pitch. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006E0C",
+      "canonical_symbol": "sub_08006E0C",
+      "display_name": "AudioSetTrackPan",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 60,
+          "detail": "Matching game wrapper calls m4aMPlayPanpotControl. Forwards player pointer, track mask and signed pan. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006E20",
+      "canonical_symbol": "sub_08006E20",
+      "display_name": "AudioSetTrackModDepth",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 63,
+          "detail": "Matching game wrapper calls m4aMPlayModDepthSet. Forwards player pointer, track mask and modulation depth. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006E34",
+      "canonical_symbol": "sub_08006E34",
+      "display_name": "AudioSetTrackLfoSpeed",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 66,
+          "detail": "Matching game wrapper calls m4aMPlayLFOSpeedSet. Forwards player pointer, track mask and LFO speed. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08006E48",
+      "canonical_symbol": "sub_08006E48",
+      "display_name": "AudioInitializePlayerImmediately",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 69,
+          "detail": "Matching game wrapper calls m4aMPlayImmInit. Forwards music-player pointer. The wrapper remains game-domain; the named SDK callee is a separate function.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },

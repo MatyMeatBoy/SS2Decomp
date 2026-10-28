@@ -141,3 +141,21 @@ to their independently reviewed callbacks. Allocation of a 0x28-byte control
 block is distinguished from stack allocation in the starter; destroy functions
 cancel a scheduled task when present, free the control block and clear the
 global. The game scene behind these effects remains unidentified.
+
+
+## Audio and flash wrappers (29822dfa)
+
+The matching wrappers at 06D24..06E48 delegate directly to named m4a APIs.
+Song-number wrappers first enforce the inclusive maximum 0x1AB; player/track
+wrappers forward their typed arguments. Their catalog names describe those
+observed operations, not a particular background-music or sound-effect channel.
+The wrappers stay game-domain even though their separate callees belong to the
+sound library. Empty wrapper 06E54, constant-song wrapper 06E58 and the meaning of
+flag 030028AC in 06E64 remain without invented game-role names.
+
+01AA4 identifies flash hardware, checks five supported IDs and installs the
+flash timer interrupt slot when supported. 01B04 directly reads flash bytes;
+01B14/01B54 gate sector programming/verification on the support flag. Programming
+forces IME off/on instead of preserving previous state, and verification keeps
+the SDK return status rather than converting it to a boolean. No save-record
+layout, checksum scheme or game-save slot identity is inferred from these wrappers.
