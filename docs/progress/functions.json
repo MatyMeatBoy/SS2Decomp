@@ -3339,10 +3339,20 @@
       "canonical_symbol": "sub_08006EE0",
       "domain": "game",
       "implementation": "pending_asm",
-      "display_name": "sub_08006EE0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ResolveResourceByEncodedId",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08006D24/sub_08006EE0.s",
+          "line": 2,
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "detail": "Dispatches category=(id>>16)&0xFFF, index=id&0xFFFF. Categories0..9 resolve section-relative offsets in supplied archive;1/3/6 use even entries and7/9/8 use odd partners. Categories11..22 select fixed game tables/records;10 or>22 returns0. No general index bounds checks. Runtime source role, not SDK provenance.",
+          "source_sha256": "be5f07d590b7b1b9e8eb477609405f12a30ae07a81919882a0817605b4f7b8a5",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/asm/nonmatchings/code_08006D24/sub_08006EE0.s",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_08007164",
@@ -3356,10 +3366,20 @@
       "canonical_symbol": "sub_08007164",
       "domain": "game",
       "implementation": "pending_asm",
-      "display_name": "sub_08007164",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "GetMainResourceCategoryCount",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08006D24/sub_08007164.s",
+          "line": 2,
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "detail": "Uses category arg&0xFFF and primaryarchive gUnk_08518938; categories0..9 return section word0, others return explicit hardcoded counts/zero. Count is logical entries, not uniqueassets nor decodedbytes.",
+          "source_sha256": "708c0932210fe714228fb932d04c4af6462b3e3151cb6ed2dce97316198bc45a",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/asm/nonmatchings/code_08006D24/sub_08007164.s",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_08007280",
@@ -3373,10 +3393,20 @@
       "canonical_symbol": "sub_08007280",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08007280",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ResolveAuxResourceById",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 106,
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "detail": "Passes encoded resource id and gUnk_08E3FB54 to06EE0. Own EUdump root at0xE3FB54 also starts SSDT. Does not validate id or prove contents of every auxsection.",
+          "source_sha256": "7f64606602f4f30e999082d89d61124eb99940f48646dd7fc6d9584091dba635",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_08006D24.c",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_08007290",
@@ -3390,10 +3420,20 @@
       "canonical_symbol": "sub_08007290",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08007290",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ResolveMainResourceById",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 109,
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "detail": "Passes encoded resource id and gUnk_08518938 to06EE0. Own EUdump root at0x518938 starts SSDT. Used by font initializer1A70C and many graphics/text consumers.",
+          "source_sha256": "7f64606602f4f30e999082d89d61124eb99940f48646dd7fc6d9584091dba635",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_08006D24.c",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_080072A0",
@@ -7603,10 +7643,20 @@
       "canonical_symbol": "sub_0801A3D0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A3D0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueueTextGlyphTiles",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 486,
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "detail": "Reads scriptbytes until0xFD or>0xF1; glyph=((byte-1)&255), font=03005CA0[0], queues64bytes fromfont+glyph*128 toVRAM0600B000+uploadcursor via01348, writes two consecutive maptiles and advancescursor64. This proves256slotstride128 and used64B per glyph; byte0 maps255, not a Cstring terminator. No full script encoding map claimed.",
+          "source_sha256": "0cb5285b4cc90de6ef53e2351354b1e444bd87a8e3b7b14a7592dca89dbd25ce",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_08017F7C.c",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_0801A500",
@@ -7790,10 +7840,20 @@
       "canonical_symbol": "sub_0801A70C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A70C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "InitTextFontResources",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 653,
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "detail": "Resets glyph upload cursor03005C54; asks count07164(4), resolves each i|0x40000 through07290 into03005CA0; initializes additional spriteglyphresource5004A. Class4 count1 and offset table resolve resource40000 to glyphbank92C028 in ownEUdump.",
+          "source_sha256": "0cb5285b4cc90de6ef53e2351354b1e444bd87a8e3b7b14a7592dca89dbd25ce",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_08017F7C.c",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_0801A764",
@@ -20529,10 +20589,20 @@
       "canonical_symbol": "sub_08065158",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08065158",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "InitSpriteResourceDescriptor",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1430,
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "detail": "Resolves supplied metadataID then same low16index|0x60000 pixeldata and|0x80000 palette into descriptor+8/+0/+0xC, choosing primary/auxarchive by flag. Optionally uploads palette via00AF0, sets16identityremapbytes and defaults via653B8. Caller5E0C4 uses IDs500A8/A7/C1; decoded companions match portrait offsets from publicextractor.",
+          "source_sha256": "83a7def0dcfdef40491fdeaffe8e14bfd651cbef7f6dd74f451406eb92843b92",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_0805FB7C.c",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_08065204",
@@ -28975,10 +29045,20 @@
       "canonical_symbol": "sub_08096EFC",
       "domain": "game",
       "implementation": "pending_asm",
-      "display_name": "sub_08096EFC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AddPalette16ChannelOffset",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08095B04/sub_08096EFC.s",
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "line": 2,
+          "detail": "Loops16two-byte BGR555 entries, signed8delta independently added to5bit channels, casts each sum tou16 then unsigned caps31. Clears bit15. Caller93BAC uses+6, uploads palette, then-6. Not conventional signed lower+upper clamp, not source-equivalent to SA2 palette function.",
+          "source_sha256": "c5f40118a9df7092d6a46d00f0fe443e7b0dcf07e7837d5c7cb4a5b878c5e588",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/asm/nonmatchings/code_08095B04/sub_08096EFC.s",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_08096FA0",
@@ -31984,10 +32064,20 @@
       "canonical_symbol": "sub_080A98E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A98E0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "PointsHaveDifferentLineSideSigns",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "line": 168,
+          "detail": "Calls canonicalA9910(a,b,c) andA9910(a,b,d), returns1iff result words differ. Includes collinear zero vsnonzero, so do not name general segment intersection; no guarantee about full geometric crossing.",
+          "source_sha256": "55b750daf097be2aff019122d294c562314dea991726b8b8991fd7d7ef8c502e",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_080A9680.c",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_080A9910",
@@ -32001,10 +32091,20 @@
       "canonical_symbol": "sub_080A9910",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_080A9910",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "PointOrientationSign32",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_080A9680/sub_080A9910.s",
+          "revision": "0fed377ba72198198468238647333649254e93da",
+          "line": 2,
+          "detail": "Loads three points of2signed32 coordinates, computes low32bits of(bx-ax)*(cy-ay)-(by-ay)*(cx-ax), returns1/0/-1 via signed comparison. Arithmetic wraps at32bits; no exact orientation guarantee for overflow. No SDK provenance established.",
+          "source_sha256": "369c3ec4f384e03ad26a532831928c422aaf0e851af9bd153861b782257e0c14",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/asm/nonmatchings/code_080A9680/sub_080A9910.s",
+          "hash_scope": "Public revision file bytes (Git LF), text verified against local source"
+        }
+      ]
     },
     {
       "name": "sub_080A9950",
@@ -36574,12 +36674,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 115,
+      "identified": 125,
       "existing": 6,
-      "confirmed": 109,
+      "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1765,
-      "percent_identified": 6.117021276595745
+      "unidentified": 1755,
+      "percent_identified": 6.648936170212766
     },
     "sdk": {
       "total": 155,
@@ -36592,12 +36692,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 270,
+      "identified": 280,
       "existing": 135,
-      "confirmed": 135,
+      "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1765,
-      "percent_identified": 13.267813267813267
+      "unidentified": 1755,
+      "percent_identified": 13.75921375921376
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

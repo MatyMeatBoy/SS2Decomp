@@ -158,10 +158,10 @@ digraph calls {
   "sub_08006E64" [label="sub_08006E64"];
   "sub_08006E84" [label="sub_08006E84"];
   "sub_08006EC8" [label="sub_08006EC8"];
-  "sub_08006EE0" [label="sub_08006EE0"];
-  "sub_08007164" [label="sub_08007164"];
-  "sub_08007280" [label="sub_08007280"];
-  "sub_08007290" [label="sub_08007290"];
+  "sub_08006EE0" [label="ResolveResourceByEncodedId"];
+  "sub_08007164" [label="GetMainResourceCategoryCount"];
+  "sub_08007280" [label="ResolveAuxResourceById"];
+  "sub_08007290" [label="ResolveMainResourceById"];
   "sub_080072A0" [label="sub_080072A0"];
   "sub_08007434" [label="sub_08007434"];
   "sub_080076C4" [label="sub_080076C4"];
@@ -407,7 +407,7 @@ digraph calls {
   "sub_0801A2F0" [label="sub_0801A2F0"];
   "sub_0801A328" [label="sub_0801A328"];
   "sub_0801A388" [label="sub_0801A388"];
-  "sub_0801A3D0" [label="sub_0801A3D0"];
+  "sub_0801A3D0" [label="QueueTextGlyphTiles"];
   "sub_0801A500" [label="sub_0801A500"];
   "sub_0801A508" [label="sub_0801A508"];
   "sub_0801A558" [label="sub_0801A558"];
@@ -418,7 +418,7 @@ digraph calls {
   "sub_0801A650" [label="sub_0801A650"];
   "sub_0801A664" [label="sub_0801A664"];
   "sub_0801A6D4" [label="sub_0801A6D4"];
-  "sub_0801A70C" [label="sub_0801A70C"];
+  "sub_0801A70C" [label="InitTextFontResources"];
   "sub_0801A764" [label="sub_0801A764"];
   "sub_0801A7AC" [label="sub_0801A7AC"];
   "sub_0801A9BC" [label="sub_0801A9BC"];
@@ -1167,7 +1167,7 @@ digraph calls {
   "sub_0806441C" [label="sub_0806441C"];
   "sub_08064E14" [label="sub_08064E14"];
   "sub_0806514C" [label="sub_0806514C"];
-  "sub_08065158" [label="sub_08065158"];
+  "sub_08065158" [label="InitSpriteResourceDescriptor"];
   "sub_08065204" [label="sub_08065204"];
   "sub_08065214" [label="sub_08065214"];
   "sub_08065230" [label="sub_08065230"];
@@ -1645,7 +1645,7 @@ digraph calls {
   "sub_08096BA8" [label="sub_08096BA8"];
   "sub_08096D40" [label="sub_08096D40"];
   "sub_08096E20" [label="sub_08096E20"];
-  "sub_08096EFC" [label="sub_08096EFC"];
+  "sub_08096EFC" [label="AddPalette16ChannelOffset"];
   "sub_08096FA0" [label="sub_08096FA0"];
   "sub_080970CC" [label="sub_080970CC"];
   "sub_080972B8" [label="sub_080972B8"];
@@ -1822,8 +1822,8 @@ digraph calls {
   "sub_080A9818" [label="sub_080A9818"];
   "sub_080A9844" [label="sub_080A9844"];
   "sub_080A987C" [label="sub_080A987C"];
-  "sub_080A98E0" [label="sub_080A98E0"];
-  "sub_080A9910" [label="sub_080A9910"];
+  "sub_080A98E0" [label="PointsHaveDifferentLineSideSigns"];
+  "sub_080A9910" [label="PointOrientationSign32"];
   "sub_080A9950" [label="sub_080A9950"];
   "sub_080AB054" [label="sub_080AB054"];
   "sub_080AB2D8" [label="sub_080AB2D8"];
