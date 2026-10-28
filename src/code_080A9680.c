@@ -50,13 +50,9 @@ s32 sub_080A9680(void)
     struct Player111 *base = players111;
     s32 *px;
     s32 *py;
-    s32 *po;
-    s32 *dst;
     s32 srcIndexX, srcIndexY;
     u32 *pf;
     s32 idxF, idxX, idxY;
-    s32 i;
-    s32 j;
     s32 ix, jx, iy, jy;
     s32 *dx, *dy;
     s32 *sx, *sy;

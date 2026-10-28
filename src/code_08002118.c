@@ -407,6 +407,7 @@ void sub_08002AA0(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002B70);
 #ifdef NONMATCHING
+struct Bg3984 { u32 cnt:16; u32 spare:16; };
 struct Reg3984 { u16 h0,v0,h1,v1,h2,v2,h3,v3; };
 extern struct Reg3984 reg3984 asm("gUnk_03001250");
 extern u16 keys3984 asm("gUnk_03001324");
@@ -434,13 +435,14 @@ extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
 void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
+    u32 input3984;
     u16 widths[10], heights[10], x[10], y[4];
     u8 icons[9][0x34], labels[9][0x34];
     struct Sprite3984 cursor;
     u8 panel[0x34], pair[4], buffer[0x68];
     u16 lastWidth;
     u16 lastHeight;
-    u32 bg;
+    struct Bg3984 bg;
     u16 state;
     u16 selection;
     u16 current;
@@ -625,7 +627,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     reg3984.v3 = 0;
     reg3984.h3 = 0;
     sub_0801A664(2, 0x11);
-    bg = (bg & 0xFFFF0000) | 0x1B00;
+    bg.cnt = 0x1B00;
     sub_08000AA8(1U, (u16 *) &bg);
     *(u16 *)&bg = 0x1F03;
     sub_08000AA8(3U, (u16 *) &bg);
@@ -810,7 +812,7 @@ block_98:
             if (var_r4 != 0) {
                 state = 0;
                 sub_0805865C(0xE);
-                *widthp = (u16) state;
+                *(u16 *)widthp = (u16) state;
                 widths[0] = (u16) state;
             } else if (!(0x80 & gUnk_03001308)) {
 
@@ -875,7 +877,7 @@ block_102:
             if (var_r4 != 0) {
                 state = 0;
                 sub_0805865C(0xE);
-                *widthp = (u16) state;
+                *(u16 *)widthp = (u16) state;
                 widths[0] = (u16) state;
             } else {
                 var_r5_2 = 0x20 & gUnk_03001308;
@@ -974,7 +976,7 @@ block_102:
             if (var_r4 != 0) {
                 state = 0;
                 sub_0805865C(0xE);
-                *widthp = (u16) state;
+                *(u16 *)widthp = (u16) state;
                 widths[0] = (u16) state;
             } else {
                 var_r5_2 = 0x20 & gUnk_03001308;
@@ -990,8 +992,8 @@ block_102:
             }
             break;
         }
-        switch (keys3984) {                    /* switch 4; irregular */
-        case 1:                                     /* switch 4 */
+        input3984 = keys3984;
+        if (input3984 == 1) {
             sub_0805865C(0xF);
             M2C_FIELD(arg0, u8 *, 1) = (u8) state;
             reg3984.h0 = 0;
@@ -1037,7 +1039,7 @@ loop_107:
                 timer = 5;
             }
             goto block_374;
-        case 2:                                     /* switch 4 */
+        } else if (input3984 == 2) {
             sub_080009F8(0x200, 0, 1);
             sub_0805865C(0x10);
             sub_0801A664(0, 0xA);
@@ -1050,8 +1052,8 @@ loop_116:
             sub_08000E48();
             sub_080003F0();
             sub_080003F0();
-            break;
-        default:                                    /* switch 4 */
+            goto finish3984;
+        } else {
             temp_r7_4 = sub_08007290((state + 0x454) | 0x140000) + 2;
             temp_r4_9 = state * 4;
             temp_r5_8 = temp_r4_9 + ((u8 *)&gUnk_08366E0C);
@@ -1520,8 +1522,7 @@ block_286:
                 }
             } else {
                 temp_r0_14 = keys3984;
-                switch (temp_r0_14) {               /* switch 7; irregular */
-                case 1:                             /* switch 7 */
+                if (temp_r0_14 == 1) {
                     sub_0805865C(0xF);
                     if (language != 1) {
                         if (language <= 1) {
@@ -1562,8 +1563,8 @@ block_316:
                     } else {
                         var_r5_3[var_r9 + 1] = 0xFD;
                     }
-                    break;
-                case 2:                             /* switch 7 */
+
+                } else if (temp_r0_14 == 2) {
                     sub_0805865C(0x10);
                     if (var_r9 == next) {
                         temp_r2_4 = arg0 + 0x10;
@@ -1621,8 +1622,8 @@ block_316:
                             }
                         }
                     }
-                    break;
-                default:                            /* switch 7 */
+
+                } else {
                     var_r5_3 = arg0 + 0x10;
                     if (temp_r0_14 == 8) {
                         if (sub_0801A638(var_r5_3) != 0) {
@@ -1658,7 +1659,7 @@ loop_330:
                             sub_0805865C(0x61);
                         }
                     }
-                    break;
+
                 }
             }
         }

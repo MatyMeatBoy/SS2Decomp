@@ -1628,15 +1628,13 @@ extern u8 *hitObject2111 asm("gUnk_0300041C");
 extern s16 hitOffsets111[] asm("gUnk_080B9704");
 void sub_080A9100(void)
 {
-    s32 ix, iy, iflags, itable, icmp, offset;
-    u8 *objX, *objY, *objTable;
+    s32 ix, iy, iflags, itable, offset;
+    u8 *objTable;
     s32 *px, *py, *table;
     u32 *flags;
     struct PlayerHit2111 *base;
     u32 dx;
     s32 dy;
-    s16 *target;
-    s16 direction;
     s32 x, y;
     s32 saveIndex, saveOffset;
     u8 *saveObj;
@@ -1694,4 +1692,108 @@ void sub_080A9100(void)
     hitPlayers2111[sub_080020F4()].power = 0x400;
     hitPlayers2111[sub_080020F4()].lock = 0x50;
 }
+#ifdef NONMATCHING
+struct PlayerEffect111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x1C]; u16 hit; u8 padB2[0x16]; u16 lock, direction, power; u8 padCE[0x16]; s32 previous[0x1A]; };
+extern struct PlayerEffect111 effectPlayers111[] asm("gUnk_03003CE0");
+extern u8 *effectObject111 asm("gUnk_0300041C");
+struct SpriteEffect111 { s32 f0, f4, f8, fC, f10, f14, f18; u8 bytes[0x18]; };
+extern void initEffect111(void *, u32, u32, s32, s32) asm("sub_08065158");
+extern void moveEffect111(s32, s32, s32, s32, s32 *) asm("sub_080979D8");
+extern u8 testEffect111(s32, s32, s32, s32, s32) asm("sub_08097B6C");
+extern void screenEffect111(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void animateEffect111(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern u8 *drawEffect111(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+s32 sub_080A92C0(u32 argument)
+{
+    u16 kind = argument;
+    struct { struct SpriteEffect111 sprite; s16 screenX, screenY; u16 frame, tick; s32 velocity[2]; s32 x, y, range, end, hit; } local;
+    s32 ix, iy, iflags, itable, offset, saveIndex, saveOffset;
+    u32 dx;
+    s32 dy;
+    u16 distance;
+    struct PlayerEffect111 *base;
+    s32 *px, *py, *table, *saveTable, *saveDst;
+    u32 *flags;
+    u8 *objTable, *saveObj;
+    s32 serial;
+    s32 zero;
+    u8 layer;
+    initEffect111(&local.sprite, 0x50011, gUnk_03000420, -1, 1);
+    local.sprite.bytes[0] = gUnk_03000420;
+    local.x = *(s32 *)(effectObject111 + 0x14);
+    local.y = *(s32 *)(effectObject111 + 0x18);
+    if (kind != 0) {
+        local.x -= 0x800;
+        local.y -= 0x800;
+    } else {
+        local.x += 0x400;
+    }
+    local.tick = 0;
+    local.frame = 0;
+    local.hit = 0;
+    sub_0805865C(0xE4);
+    for (;;) {
+        if (kind != 0) {
+            local.range = 0x2000;
+            local.end = 0x10000;
+        } else {
+            local.range = 0x3000;
+            local.end = 0x11000;
+        }
+        moveEffect111(local.x, local.y, local.range, local.end, local.velocity);
+        local.x += local.velocity[0] * 4;
+        local.y += local.velocity[1] * 4;
+        if (testEffect111(local.x, local.y, local.range, local.end, 0x18) != 0) break;
+        ix = sub_080020F4();
+        base = effectPlayers111;
+        ix *= 0x14C;
+        px = &base->x;
+        dx = (u32)((local.x - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
+        iy = 0x14C * sub_080020F4();
+        py = &base->y;
+        dy = (local.y - *(s32 *)((u8 *)py + iy)) << 8;
+        distance = Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16));
+        if (local.hit == 0 && distance <= 11 && sub_0800CDF8() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && *(u16 *)(effectObject111 + 0xC) != 11) {
+            iflags = 0x14C * sub_080020F4();
+            flags = &base->flags;
+            if ((*(u32 *)((u8 *)flags + iflags) & 0x2000) == 0 && base[sub_080020F4()].active != 0 && base[sub_080020F4()].state != 14 && base[sub_080020F4()].state != 11 && base[sub_080020F4()].state != 12) {
+                itable = sub_080020F4();
+                objTable = effectObject111;
+                offset = *(u16 *)objTable * 4;
+                itable *= 0x14C;
+                offset += itable;
+                table = base->previous;
+                if (*(s32 *)((u8 *)table + offset) != *(s32 *)(objTable + 0x50)) {
+                    if (sub_0800CE30() == 1) sub_08029CEC(1, 0x28, 3);
+                    else sub_08029CEC(1, 0xF, 3);
+                    effectPlayers111[sub_080020F4()].hit = 0xFFFE;
+                    saveIndex = sub_080020F4();
+                    saveObj = effectObject111;
+                    saveOffset = *(u16 *)saveObj * 4;
+                    saveIndex *= 0x14C;
+                    saveOffset += saveIndex;
+                    saveTable = effectPlayers111->previous;
+                    saveDst = (s32 *)((u8 *)saveTable + saveOffset);
+                    serial = *(s32 *)(saveObj + 0x50);
+                    *saveDst = serial;
+                    *(s32 *)(saveObj + 0x50) = serial + 1;
+                    local.hit = 1;
+                }
+            }
+        }
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CD34()) == 0) {
+            screenEffect111((local.x << 8) >> 16, (local.y << 8) >> 16, &local.screenX, &local.screenY, zero, zero);
+            sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)local.sprite.fC + (*(u16 *)(effectObject111 + 0x2DA) << 5), 1);
+            animateEffect111(&local.sprite, 3, &local.frame, &local.tick, zero);
+            layer = sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
+            *(s32 *)(drawEffect111(local.screenX, kind != 0 ? 0x10 : 0xA0, 3, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY;
+            *(s32 *)(drawEffect111(local.screenX + 0x20, kind != 0 ? 0x10 : 0xA0, 4, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x10;
+            *(s32 *)(drawEffect111(local.screenX + 0x40, kind != 0 ? 0x10 : 0xA0, 5, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x20;
+        }
+        sub_080003F0();
+    }
+    *(s32 *)((u8 *)sub_0800048C() + 8) = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A92C0);
+#endif

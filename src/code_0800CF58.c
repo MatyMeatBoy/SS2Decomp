@@ -251,8 +251,8 @@ void sub_0800D368(void *arg0) {
     extern s32 d368_gUnk_030056F4 asm("gUnk_030056F4");
     extern s32 d368_gUnk_030056FC asm("gUnk_030056FC");
     extern void *d368_gUnk_03005CF4 asm("gUnk_03005CF4");
-    extern M2C_UNK d368_gUnk_03006410 asm("gUnk_03006410");
-    extern M2C_UNK d368_gUnk_03006430 asm("gUnk_03006430");
+    extern u8 d368_gUnk_03006410 asm("gUnk_03006410");
+    extern u8 d368_gUnk_03006430 asm("gUnk_03006430");
     extern void *d368_gUnk_03006440 asm("gUnk_03006440");
     extern M2C_UNK d368_gUnk_080B9704 asm("gUnk_080B9704");
     extern M2C_UNK d368_gUnk_084790B4 asm("gUnk_084790B4");
@@ -337,6 +337,7 @@ void sub_0800D368(void *arg0) {
     extern u32 d368_sub_08067D74() asm("sub_08067D74");
     extern s32 d368_sub_08016C88() asm("sub_08016C88");
     extern u32 d368_sub_0801DEB8() asm("sub_0801DEB8");
+    struct Copy40D368 { u32 words[10]; };
     struct AnimD368 sp10;
     struct AnimD368 sp44;
     struct AnimD368 sp78;
@@ -1061,7 +1062,7 @@ loop_12:
     sp168 = sp16C;
     sp128 = 1;
 loop_15:
-    temp_r1 = (sp128 * 4) + M2C_FIELD(arg0, u16 **, 0xAC);
+    temp_r1 = (sp128 * 2) + M2C_FIELD(arg0, u16 **, 0xAC);
     *temp_r1 = *(temp_r1 - 0x2);
     temp_r4 = sp128 + 1;
     sp128 = temp_r4;
@@ -1175,7 +1176,7 @@ block_46:
     M2C_FIELD(arg0, u16 *, 0x12) = 0U;
     M2C_FIELD(arg0, u16 *, 0x14) = 0U;
     M2C_FIELD(arg0, u16 *, 0x16) = 0U;
-    *((M2C_FIELD(arg0, u16 *, 0x136) * 2) + M2C_FIELD(arg0, u16 **, 0x13C)) = 0xF0 & d368_gUnk_0300130C;
+    *(M2C_FIELD(arg0, u16 *, 0x136) + M2C_FIELD(arg0, u16 **, 0x13C)) = 0xF0 & d368_gUnk_0300130C;
     M2C_FIELD(arg0, u16 *, 0x136) = (u16) ((s32) (M2C_FIELD(arg0, u16 *, 0x136) + 1) % 5);
     goto block_58;
 block_48:
@@ -1194,7 +1195,7 @@ block_48:
     goto block_58;
 block_51:
     temp_r4_2 = 0xF0 & d368_gUnk_0300130C;
-    *((M2C_FIELD(arg0, u16 *, 0x136) * 2) + M2C_FIELD(arg0, u16 **, 0x13C)) = temp_r4_2;
+    *(M2C_FIELD(arg0, u16 *, 0x136) + M2C_FIELD(arg0, u16 **, 0x13C)) = temp_r4_2;
     M2C_FIELD(arg0, u16 *, 0x136) = (u16) ((s32) (M2C_FIELD(arg0, u16 *, 0x136) + 1) % 5);
     if (temp_r4_2 == 0) {
         goto block_54;
@@ -2044,22 +2045,8 @@ block_333:
     if (M2C_FIELD(temp_r1_11, s16 *, 0x8C) != -1) {
         goto loop_336;
     }
-    temp_r1_12 = var_r6 + 0x6;
-    M2C_FIELD(temp_r1_11, s16 *, 0x8C) = (s32) M2C_FIELD(var_r6, s16 *, 0);
-    M2C_FIELD(var_r1_2, s32 *, 4) = (s32) M2C_FIELD(var_r6, u16 *, 4);
-    M2C_FIELD(var_r1_2, s32 *, 8) = (s32) M2C_FIELD(var_r6, s32 *, 8);
-    temp_r0_21 = var_r1_2 + 0xC;
-    temp_r1_13 = temp_r1_12 + 0xC;
-    M2C_FIELD(var_r1_2, s32 *, 0xC) = (s32) M2C_FIELD(var_r6, s32 *, 0xC);
-    M2C_FIELD(temp_r0_21, s32 *, 4) = (s32) M2C_FIELD(temp_r1_12, s32 *, 4);
-    M2C_FIELD(temp_r0_21, s32 *, 8) = (s32) M2C_FIELD(temp_r1_12, s32 *, 8);
-    temp_r0_22 = temp_r0_21 + 0xC;
-    var_r1_3 = temp_r1_13 + 0xC;
-    M2C_FIELD(temp_r0_21, s32 *, 0xC) = (s32) M2C_FIELD(temp_r1_12, s32 *, 0xC);
-    M2C_FIELD(temp_r0_22, s32 *, 4) = (s32) M2C_FIELD(temp_r1_13, s32 *, 4);
-    M2C_FIELD(temp_r0_22, s32 *, 8) = (s32) M2C_FIELD(temp_r1_13, s32 *, 8);
-    var_r0_3 = temp_r0_22 + 0xC;
-    goto block_339;
+    *(struct Copy40D368 *)var_r1_2 = *(struct Copy40D368 *)var_r6;
+    goto block_340;
 loop_336:
     temp_r4_6 = sp128 + 1;
     sp128 = temp_r4_6;
@@ -2070,23 +2057,7 @@ loop_336:
     if (M2C_FIELD(var_r1_2, s16 *, 0) != -1) {
         goto loop_336;
     }
-    temp_r1_14 = var_r6 + 0x6;
-    M2C_FIELD(var_r1_2, s16 *, 0) = (s32) M2C_FIELD(var_r6, s16 *, 0);
-    M2C_FIELD(var_r1_2, s32 *, 4) = (s32) M2C_FIELD(var_r6, u16 *, 4);
-    M2C_FIELD(var_r1_2, s32 *, 8) = (s32) M2C_FIELD(var_r6, s32 *, 8);
-    temp_r0_23 = var_r1_2 + 0xC;
-    temp_r1_15 = temp_r1_14 + 0xC;
-    M2C_FIELD(var_r1_2, s32 *, 0xC) = (s32) M2C_FIELD(var_r6, s32 *, 0xC);
-    M2C_FIELD(temp_r0_23, s32 *, 4) = (s32) M2C_FIELD(temp_r1_14, s32 *, 4);
-    M2C_FIELD(temp_r0_23, s32 *, 8) = (s32) M2C_FIELD(temp_r1_14, s32 *, 8);
-    temp_r0_24 = temp_r0_23 + 0xC;
-    var_r1_3 = temp_r1_15 + 0xC;
-    M2C_FIELD(temp_r0_23, s32 *, 0xC) = (s32) M2C_FIELD(temp_r1_14, s32 *, 0xC);
-    M2C_FIELD(temp_r0_24, s32 *, 4) = (s32) M2C_FIELD(temp_r1_15, s32 *, 4);
-    M2C_FIELD(temp_r0_24, s32 *, 8) = (s32) M2C_FIELD(temp_r1_15, s32 *, 8);
-    var_r0_3 = temp_r0_24 + 0xC;
-block_339:
-    *var_r0_3 = *var_r1_3;
+    *(struct Copy40D368 *)var_r1_2 = *(struct Copy40D368 *)var_r6;
 block_340:
     var_r5 += 1;
     if (var_r5 <= 4U) {
