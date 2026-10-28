@@ -167,3 +167,6 @@ separate checkouts. Two simultaneous make processes sharing a build directory ca
 truncate intermediate `.i`/`.s` files even when source is valid. Stop overlapping
 processes and force a rebuild before trusting results from affected artifacts.
 Do not build while another process edits that checkout.
+
+Audited role interpretations and corrections are recorded in
+[function-name research notes](../FUNCTION_NAME_RESEARCH.md).
