@@ -215,7 +215,36 @@ void sub_08099788(void)
   sub_08001538(gUnk_030002D8);
   gUnk_030002D8 = i;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_080997C0);
+struct TaskP97C0 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern struct TaskP97C0 *gTP030002D8 asm("gUnk_030002D8");
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern void sub_08099468();
+extern void sub_0809919C();
+void sub_080997C0(u16 a, u16 b)
+{
+    struct TaskP97C0 *t = gTP030002D8;
+    u32 i;
+    i = 0;
+    goto check;
+next:
+    i++;
+    t = (struct TaskP97C0 *)((u8 *)t + 0x28);
+check:
+    if (i > 0x3F)
+        return;
+    if (sub_08000470((u32)t) != 0 || t->f8 != 0)
+        goto next;
+    if ((t->f20 = sub_08001494(0x400)) == 0)
+        return;
+    t->f10 = t->f20 + 0x3FC;
+    if (sub_0800CE30() == 1)
+        t->fC = (u32)sub_08099468;
+    else
+        t->fC = (u32)sub_0809919C;
+    t->f24 = 0;
+    t->f8 = 0x46;
+    sub_08000274_3((u32)t, a, b);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08099838);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809A5E0);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809A834);
@@ -343,7 +372,35 @@ void sub_0809D5E4(void)
   sub_08001538(gUnk_030002F4);
   gUnk_030002F4 = i;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809D620);
+extern struct TaskP *gTP030002F4 asm("gUnk_030002F4");
+extern s8 gS030002E8 asm("gUnk_030002E8");
+extern void sub_0809C4E8();
+extern void sub_0809C1B4();
+void sub_0809D620(u16 a)
+{
+    struct TaskP *t = gTP030002F4;
+    u8 i;
+    i = 0;
+    goto check;
+next:
+    i++;
+    t = (struct TaskP *)((u8 *)t + 0x28);
+check:
+    if (i > 7)
+        return;
+    if (sub_08000470((u32)t) != 0 || t->f8 != 0)
+        goto next;
+    if ((t->f20 = sub_08001494(0x400)) == 0)
+        return;
+    t->f10 = t->f20 + 0x3FC;
+    if (sub_0800CE30() == 1 && gS030002E8 == 0)
+        t->fC = (u32)sub_0809C4E8;
+    else
+        t->fC = (u32)sub_0809C1B4;
+    t->f24 = 0;
+    t->f8 = 0x46;
+    sub_08000274_2(t, a);
+}
 void sub_0809D6A8(void)
 {
   u8 var_r2;
