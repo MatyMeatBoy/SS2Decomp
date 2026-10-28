@@ -30,6 +30,21 @@ class ReportTests(unittest.TestCase):
             self.assertTrue((out / 'identification.md').is_file())
             self.assertTrue((out / 'callgraph.dot').is_file())
 
+    def test_graph_json_keeps_all_values_with_one_record_per_line(self):
+        graph = {"schema_version": 1, "nodes": [{"canonical_symbol": "A", "evidence": [{"detail": "quoted \"name\" and unicode \u00f1"}]}, {"canonical_symbol": "B"}],
+                 "edges": [{"caller": "A", "callee": "B", "observations": [{"line": 1}, {"line": 2}]}],
+                 "unresolved_calls": [{"caller": "A", "expression": "cb", "line": 3}],
+                 "parsed_c_functions": 1, "limitations": ["source only"], "future_field": {"preserve": True}}
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / 'graph.json'
+            project_inventory.write_graph_json(path, graph)
+            text = path.read_text(encoding='utf-8')
+            self.assertEqual(json.loads(text), graph)
+            for record in graph['nodes'] + graph['edges'] + graph['unresolved_calls']:
+                encoded = json.dumps(record, ensure_ascii=True, separators=(',', ':'))
+                self.assertEqual(sum(line.strip().rstrip(',') == encoded for line in text.splitlines()), 1)
+            self.assertLess(len(text.splitlines()), 20)
+
     def test_definition_aliases_exclude_extern_only_and_mechanical_helpers(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td); (root / 'src').mkdir(); (root / 'include').mkdir()
