@@ -38,7 +38,42 @@ void sub_0802A01C(void)
   while (i <= 4);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A080);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A104);
+struct TaskP2A1 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern u8 *gGS2A1 asm("gUnk_03005CF4");
+extern void sub_08000274_2(void *, u32) asm("sub_08000274");
+void sub_0802A104_v(struct TaskP2A1 *src, u32 idx) asm("sub_0802A104");
+void sub_0802A104_v(struct TaskP2A1 *src, u32 idx)
+{
+    u32 arg = src->f10;
+    u32 cb = src->fC;
+    u8 *e = gGS2A1 + (idx * 36 + 0x4B4);
+    struct TaskP2A1 *t;
+    u32 i;
+    u32 mem;
+    while (*(u16 *)(e + 0x14) != 0xC) {
+        if ((*(u16 *)(gGS2A1 + 4) >> 4) & 1)
+            return;
+        sub_080003F0();
+    }
+    t = (struct TaskP2A1 *)(gGS2A1 + 0xE34);
+    i = 0;
+    goto check;
+next:
+    i++;
+    t++;
+check:
+    if (i > 0x1D)
+        return;
+    if (sub_08000470((u32)t) != 0)
+        goto next;
+    while ((t->f20 = mem = sub_08001494(0x400)) == 0)
+        sub_080003F0();
+    t->f8 = 0x3C;
+    t->fC = cb;
+    t->f10 = mem + 0x3FC;
+    t->f24 = 0;
+    sub_08000274_2(t, arg);
+}
 void sub_080867F8(void);
 
 void sub_0802A19C(void) {
