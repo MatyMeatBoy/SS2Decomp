@@ -24,15 +24,15 @@
  },
  "lib": {
   "bytes_total": 9716,
-  "bytes_done": 9576,
+  "bytes_done": 9716,
   "funcs_total": 103,
-  "funcs_done": 102,
-  "percent": 98.55907780979827,
-  "funcs_drafts": 1,
-  "bytes_drafts": 140,
+  "funcs_done": 103,
+  "percent": 100.0,
+  "funcs_drafts": 0,
+  "bytes_drafts": 0,
   "percent_with_drafts": 100.0,
-  "funcs_decompiled": 79,
-  "bytes_decompiled": 7560,
+  "funcs_decompiled": 80,
+  "bytes_decompiled": 7700,
   "funcs_linked": 23,
   "bytes_linked": 2016,
   "funcs_pending": 0,
@@ -43,19 +43,19 @@
   "bytes_decompilable": 7700,
   "funcs_all": 149,
   "bytes_all": 12844,
-  "percent_decompiled": 98.18181818181819
+  "percent_decompiled": 100.0
  },
  "all": {
   "bytes_total": 754868,
-  "bytes_done": 98520,
+  "bytes_done": 98660,
   "funcs_total": 1973,
-  "funcs_done": 1270,
-  "percent": 13.05128843718372,
-  "funcs_drafts": 96,
-  "bytes_drafts": 102640,
+  "funcs_done": 1271,
+  "percent": 13.069834726071313,
+  "funcs_drafts": 95,
+  "bytes_drafts": 102500,
   "percent_with_drafts": 26.648367661630907,
-  "funcs_decompiled": 1247,
-  "bytes_decompiled": 96504,
+  "funcs_decompiled": 1248,
+  "bytes_decompiled": 96644,
   "funcs_linked": 23,
   "bytes_linked": 2016,
   "funcs_pending": 607,
@@ -66,7 +66,7 @@
   "bytes_decompilable": 752852,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 12.818455685845292
+  "percent_decompiled": 12.83705163830341
  },
  "asm": {
   "bytes": 4116,
@@ -112,7 +112,7 @@
  },
  "callgraph": {
   "nodes": 2035,
-  "edges": 11776,
+  "edges": 11775,
   "unresolved_calls": 985,
   "parsed_c_functions": 1338
  }

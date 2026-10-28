@@ -2103,11 +2103,10 @@ digraph calls {
   "m4aSongNumStartOrContinue" -> "MPlayContinue" [label="c"];
   "m4aSongNumStartOrContinue" -> "MPlayStart" [label="c"];
   "m4aSongNumStop" -> "m4aMPlayStop" [label="c"];
-  "m4aSoundInit" -> "CpuSet" [label="asm"];
-  "m4aSoundInit" -> "MPlayExtender" [label="asm,c"];
-  "m4aSoundInit" -> "MPlayOpen" [label="asm,c"];
-  "m4aSoundInit" -> "SoundInit" [label="asm,c"];
-  "m4aSoundInit" -> "m4aSoundMode" [label="asm,c"];
+  "m4aSoundInit" -> "MPlayExtender" [label="c"];
+  "m4aSoundInit" -> "MPlayOpen" [label="c"];
+  "m4aSoundInit" -> "SoundInit" [label="c"];
+  "m4aSoundInit" -> "m4aSoundMode" [label="c"];
   "m4aSoundMain" -> "SoundMain" [label="c"];
   "m4aSoundMode" -> "SampleFreqSet" [label="c"];
   "m4aSoundMode" -> "m4aSoundVSyncOff" [label="c"];
