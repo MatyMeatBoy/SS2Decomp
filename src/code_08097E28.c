@@ -256,28 +256,39 @@ void sub_0809AE50(void)
   sub_08001538(gUnk_030002E4);
   gUnk_030002E4 = i;
 }
-#ifdef NONMATCHING
-void sub_0809AE88(u32 arg0)
+struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
+extern void sub_08000274_1(u32) asm("sub_08000274");
+extern void sub_08000274_2(void *, u32) asm("sub_08000274");
+extern u8 *gP030002E4 asm("gUnk_030002E4");
+extern void sub_0809A834();
+void sub_0809AE88(u16 arg)
 {
-    u8 *entry = gUnk_030002E4;
-    u32 i;
-    for (i = 0; i < 5; i++, entry += 0x28) {
-        if (sub_08000470(entry) != 0 || *(u32 *)(entry + 8) != 0)
-            continue;
-        *(u32 *)(entry + 0x20) = sub_08001494(0x400);
-        if (*(u32 *)(entry + 0x20) == 0)
-            return;
-        *(u32 *)(entry + 0x10) = *(u32 *)(entry + 0x20) + 0x3FC;
-        *(u32 *)(entry + 0xC) = (u32)sub_0809A834;
-        *(u32 *)(entry + 0x24) = 0;
-        *(u32 *)(entry + 8) = 0x46;
-        sub_08000274(entry, arg0);
-        return;
-    }
+  struct TaskP *t = (struct TaskP *) gP030002E4;
+  u32 z;
+  u32 i;
+  i = 0;
+  goto check;
+  next:
+  i++;
+
+  t = (struct TaskP *) (((u8 *) t) + 0x28);
+  check:
+  if (i > 4)
+  {
+    return;
+  }
+
+  if ((sub_08000470((u32) t) != 0) || ((z = t->f8) != 0))
+  {
+    goto next;
+  }
+  if ((t->f20 = sub_08001494(0x400)) == 0)
+  {
+    return;
+  }
+ do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_0809A834; t->f24 = z; t->f8 = 0x46; sub_08000274_2(t, arg); } while (0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809AE88);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809AEE8);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C1B4);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C4E8);
