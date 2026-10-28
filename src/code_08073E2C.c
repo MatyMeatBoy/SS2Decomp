@@ -66,21 +66,40 @@ u16 sub_0807A040(u16 a, u16 b, s32 c, s32 d)
 {
     return sub_08074398_5(a, b, c, d, 0x7FFFFFFF);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A064);
-#ifdef NONMATCHING
+extern u8 gA7A064_6410[] asm("gUnk_03006410");
+extern u8 gA7A064_6430[] asm("gUnk_03006430");
+extern u32 gA7A064_63E0[] asm("gUnk_030063E0");
+extern u32 gW7A064_641C asm("gUnk_0300641C");
+extern u32 gA7A064_63B0[] asm("gUnk_030063B0");
+extern u32 gA7A064_6380[] asm("gUnk_03006380");
+extern u32 gW7A064_6370 asm("gUnk_03006370");
+extern u32 gW7A064_6420 asm("gUnk_03006420");
+void sub_0807A064(u32 k)
+{
+
+    u32 sz;
+    gA7A064_6410[k] = 0;
+    gA7A064_6430[k] = 0;
+    gA7A064_63E0[k] = 0;
+    gW7A064_641C = 0;
+    gA7A064_63B0[k] = sub_08001494(0x280);
+    sz = 0x180;
+    gA7A064_6380[k] = sub_08001494(sz);
+    if (k == 0) {
+        gW7A064_6370 = sub_08001494(0x500);
+        gW7A064_6420 = sub_08001494(sz);
+    }
+}
 void sub_0807A0E0(void *arg0)
 {
-    u32 offset;
-    u16 *field;
-    offset = (u32)sub_080020F4() * 0x14C;
-    field = (u16 *)(gUnk_03003CE0 + offset + 0xC2);
-    *field -= sub_0806898C(M2C_FIELD(arg0, s32 *, 0xC), M2C_FIELD(arg0, s32 *, 0x14)) - 1;
-    if ((s16)*field < 0)
-        *field = 0;
+    u8 *p = (u8 *)&gUnk_03003CE0[sub_080020F4()];
+    u16 d = sub_0806898C(M2C_FIELD(arg0, s32 *, 0xC), M2C_FIELD(arg0, s32 *, 0x14)) - 1;
+    u16 *f = (u16 *)(p + 0xC2);
+    u32 n = *f - d;
+    *f = n;
+    if ((s16)n < 0)
+        *f = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A0E0);
-#endif
 void sub_0807A120(void) {
 
 }
