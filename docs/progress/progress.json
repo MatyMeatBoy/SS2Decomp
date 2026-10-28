@@ -1,13 +1,13 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 74320,
+  "bytes_done": 74540,
   "funcs_total": 1870,
-  "funcs_done": 1096,
-  "percent": 9.97380400240488,
-  "funcs_drafts": 101,
-  "bytes_drafts": 88052,
-  "percent_with_drafts": 21.790453491368204
+  "funcs_done": 1098,
+  "percent": 10.003328180022331,
+  "funcs_drafts": 100,
+  "bytes_drafts": 87956,
+  "percent_with_drafts": 21.807094391479858
  },
  "lib": {
   "bytes_total": 9716,
@@ -21,13 +21,13 @@
  },
  "all": {
   "bytes_total": 754868,
-  "bytes_done": 82804,
+  "bytes_done": 83024,
   "funcs_total": 1973,
-  "funcs_done": 1197,
-  "percent": 10.969335036059285,
-  "funcs_drafts": 103,
-  "bytes_drafts": 89284,
-  "percent_with_drafts": 22.797098300630044
+  "funcs_done": 1199,
+  "percent": 10.998479204311217,
+  "funcs_drafts": 102,
+  "bytes_drafts": 89188,
+  "percent_with_drafts": 22.81352501364477
  },
  "asm": {
   "bytes": 4116,
