@@ -77,7 +77,7 @@ def orig_asm(func, workdir):
     r = run(["git", "ls-tree", "-r", "--name-only", ORIG_COMMIT, "asm/nonmatchings"])
     for f in r.stdout.split():
         name = os.path.basename(f)[:-2]
-        if name == "sub_%08X" % addr or (addr == 0x08000618 and name == "AgbMain"):
+        if name in (func, "sub_%08X" % addr) or (addr == 0x08000618 and name == "AgbMain"):
             text = run(["git", "show", "%s:%s" % (ORIG_COMMIT, f)]).stdout
             out = os.path.join(workdir, name + ".s")
             open(out, "w").write(text)
@@ -128,7 +128,7 @@ def restore_asm(func):
         if p and not line.startswith("#") and int(p[0], 0) <= addr:
             mod = p[1]
     with tempfile.TemporaryDirectory() as td:
-        path, oname = orig_asm("sub_%08X" % addr, td)
+        path, oname = orig_asm(func, td)
         text = open(path).read()
     names = current_names()
 
@@ -486,6 +486,14 @@ def check(func, cfile, verbose=True):
         return compare(orig, cand, func, verbose, oname)
 
 
+def function_symbols(obj):
+    """Defined ELF function symbols, including canonical exports of C asm aliases."""
+    with open(obj, 'rb') as source:
+        elf = ELFFile(source)
+        return [symbol.name for symbol in elf.get_section_by_name('.symtab').iter_symbols()
+                if symbol['st_info']['type'] == 'STT_FUNC' and symbol['st_shndx'] != 'SHN_UNDEF']
+
+
 def check_file(cfile, verbose=False, only=None, cc1=None, flags=None):
     """Compile cfile once and compare every function it defines."""
     results = {}
@@ -495,10 +503,7 @@ def check_file(cfile, verbose=False, only=None, cc1=None, flags=None):
         if err:
             print(err)
             return None
-        with open(cand, "rb") as fh:
-            elf = ELFFile(fh)
-            names = [sy.name for sy in elf.get_section_by_name(".symtab").iter_symbols()
-                     if sy["st_info"]["type"] == "STT_FUNC" and sy["st_shndx"] != "SHN_UNDEF"]
+        names = function_symbols(cand)
         for n in names:
             if only and n not in only:
                 continue
@@ -526,19 +531,21 @@ FUNC_RE = re.compile(r"^(?:static\s+)?(?:inline\s+)?[\w \*]+?\b(\w+)\s*\(([^;{]*
 
 def split_functions(text):
     """-> (prelude, {name: code}, [names in order])"""
+    from source_index import mask_noncode
+    code = mask_noncode(text)
     funcs = {}
     order = []
     first = None
-    for m in FUNC_RE.finditer(text):
+    for m in FUNC_RE.finditer(code):
         start = m.start()
         if order and start < funcs_end:
             continue
-        j = text.index("{", m.end() - 1)
+        j = code.index("{", m.end() - 1)
         depth = 0
-        for k in range(j, len(text)):
-            if text[k] == "{":
+        for k in range(j, len(code)):
+            if code[k] == "{":
                 depth += 1
-            elif text[k] == "}":
+            elif code[k] == "}":
                 depth -= 1
                 if depth == 0:
                     break

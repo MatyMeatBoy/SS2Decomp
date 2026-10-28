@@ -54,7 +54,19 @@ def functions(text):
             level += (code[closing] == '{') - (code[closing] == '}')
             closing += 1
         if level == 0:
-            result.append({"name": match[1], "params": match[2], "start": match.start(),
+            cursor = match.start() - 1
+            while cursor >= 0:
+                if (code[cursor] == ';' and depths[cursor] == 0) or (code[cursor] == '}' and depths[cursor] == 1):
+                    break
+                if code[cursor] == '\n':
+                    line_start = code.rfind('\n', 0, cursor) + 1
+                    if code[line_start:cursor].lstrip().startswith('#'):
+                        break
+                cursor -= 1
+            declaration_start = cursor + 1
+            while declaration_start < match.start() and code[declaration_start].isspace():
+                declaration_start += 1
+            result.append({"name": match[1], "params": match[2], "start": match.start(), "declaration_start": declaration_start,
                            "body_start": opening + 1, "end": closing - 1})
     return result
 
@@ -209,3 +221,39 @@ def focus_graph(graph, symbol, depth=1, direction="both"):
     result["unresolved_calls"] = [e for e in graph.get("unresolved_calls", []) if e["caller"] in selected]
     result["focus"] = {"symbol": symbol, "depth": depth, "direction": direction}
     return result
+
+
+def canonical_bindings(text, known, inherited_text=""):
+    """Strict definition-to-export map for verification, not callgraph guessing.
+
+    asm labels are literal linker names: do not follow C-name alias chains.
+    Unknown ordinary helpers are ignored; explicit/ambiguous ROM aliases fail.
+    """
+    candidates = {}
+    for name, target in ALIASES.findall(strip_comments(inherited_text + '\n' + text)):
+        candidates.setdefault(name, set()).add(target)
+    result, exports = {}, set()
+    for definition in functions(text):
+        name = definition['name']
+        targets = candidates.get(name, {name})
+        if len(targets) != 1:
+            raise ValueError('ambiguous asm alias for ' + name)
+        target = next(iter(targets))
+        if target not in known:
+            if name in candidates or re.fullmatch(r'(?:sub|arm)_[0-9A-Fa-f]{8}', name):
+                raise ValueError('unknown canonical asm target %s for %s' % (target, name))
+            continue
+        if name in known and name != target:
+            raise ValueError('registered function %s redirected to %s' % (name, target))
+        if name in result or target in exports:
+            raise ValueError('multiple C definitions export ' + target)
+        result[name] = target
+        exports.add(target)
+    return result
+
+
+def canonical_bodies(text, known, inherited_text=""):
+    """Canonical definitions including return types, for conservative ownership diffs."""
+    bindings = canonical_bindings(text, known, inherited_text)
+    return {bindings[f['name']]: text[f['declaration_start']:f['end'] + 1]
+            for f in functions(text) if f['name'] in bindings}

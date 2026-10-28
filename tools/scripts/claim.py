@@ -19,6 +19,7 @@ import os
 import re
 import subprocess
 import sys
+from pathlib import Path
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CFG = os.path.join(ROOT, "tools/config/shards.txt")
@@ -90,9 +91,33 @@ def guard(branch, mb):
     """Refuse to deliver functions that belong to another shard (the cause of overlapping work)."""
     mine = shard_funcs(int(branch.split("/")[1]))
     touched = set()
-    for p in git("diff", "--name-only", "origin/%s...HEAD" % mb).splitlines():
+    base = git("merge-base", "origin/" + mb, "HEAD")
+    changed = git("diff", "--name-only", base + "..HEAD").splitlines()
+    for p in changed:
         if p.startswith("asm/nonmatchings/") and p.endswith(".s"):
             touched.add(os.path.basename(p)[:-2])
+    from source_index import canonical_bodies
+    known = set()
+    for line in Path(ROOT, 'tools/config/functions.cfg').read_text(encoding='utf-8').splitlines():
+        fields = line.split('#', 1)[0].split()
+        if len(fields) >= 2 and fields[0] in ('thumb', 'arm'):
+            known.add(fields[2] if len(fields) > 2 else ('sub_' if fields[0] == 'thumb' else 'arm_') + '%08X' % int(fields[1], 0))
+    revisions = (base, 'HEAD')
+    def headers(revision):
+        paths = git('ls-tree', '-r', '--name-only', revision, 'include').splitlines()
+        return '\n'.join(git('show', revision + ':' + path, check=False) for path in paths if path.endswith('.h'))
+    sources = {path for path in changed if path.startswith('src/') and path.endswith('.c')}
+    if any(path.startswith('include/') and path.endswith('.h') for path in changed):
+        for revision in revisions:
+            sources.update(path for path in git('ls-tree', '-r', '--name-only', revision, 'src').splitlines() if path.endswith('.c'))
+    inherited = [headers(revision) for revision in revisions] if sources else ['', '']
+    for path in sorted(sources):
+        try:
+            before, after = [canonical_bodies(git('show', revision + ':' + path, check=False), known, header)
+                             for revision, header in zip(revisions, inherited)]
+        except ValueError as exc:
+            sys.exit('cannot validate canonical C ownership in %s: %s' % (path, exc))
+        touched.update(name for name in set(before) | set(after) if before.get(name) != after.get(name))
     bad = sorted(f for f in touched if f not in mine and owner_of(f) is not None)
     if bad:
         sys.exit("functions outside your shard: %s\n(owned by shards %s). Revert them: `git checkout origin/%s -- <files>`"
