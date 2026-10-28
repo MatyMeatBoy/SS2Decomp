@@ -85,26 +85,30 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
 struct FadeColor100 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern void sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
 extern void sub_08007974(s16,s16,u16,u16,u32,u32,u32,void *,u32,void *);
+extern void fadeScroll100(u32,u32,u32,u32) asm("sub_08009088");
 extern s8 sub_08096E20(u16 *,s32,u16,s32);
 s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
 {
-    register void *object asm("r6")=entity;
-    register u32 palNum asm("r10")=paletteNum;
-    u32 uploadPal;
-    register s16 *screenYPtr asm("r10");
+    void *object=entity;
+    u32 palNum=paletteNum;
+    s16 *screenYPtr;
     u16 palette[16];
     s16 screenX,screenY;
     s16 i;
     u8 alternate;
-    register u16 phase asm("r9");
-    register u16 frame asm("r5");
-    register s32 state asm("r8");
+    s16 *screenXPtr;
+    u16 *field68;
+    u16 *field6A;
+    u32 uploadPal;
+    void *imageAttr;
+    register u32 phase asm("r9");
+    u16 frame;
+    s32 state;
     M2C_FIELD(image,u8 *,0x1C)=palNum;
     for(i=0;i<16;i++) {
-        struct FadeColor100 *src;
+        volatile struct FadeColor100 *src;
         struct FadeColor100 *dst;
-        asm volatile("" ::: "memory");
-        src=(void *)((u16 *)M2C_FIELD(image,void **,0xC)+bank*16+i);
+        src=(void *)((u8 *)M2C_FIELD(image,void **,0xC)+(bank*16+i)*2);
         dst=(void *)&palette[i];
         dst->r=src->r;
         dst->g=src->g;
@@ -115,13 +119,17 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
     frame=0;
     state=2;
     uploadPal=palNum+16;
+    field68=(u16 *)((u8 *)object+0x68);
+    field6A=(u16 *)((u8 *)object+0x6A);
+    imageAttr=(u8 *)image+0x1C;
+    screenXPtr=&screenX;
     screenYPtr=&screenY;
     do {
         u8 oldAlternate;
-        phase=(phase+1)&15;
+        phase=((phase+1)<<16 & 0xF0000U)>>16;
         oldAlternate=alternate++;
-        if(oldAlternate&1) sub_08009088(0,0,phase,0);
-        else sub_08009088(0,0,0,phase);
+        if(oldAlternate&1) fadeScroll100(0,0,phase,0);
+        else fadeScroll100(0,0,0,phase);
         if(state!=1) {
             if(state==2 && frame++>60) { frame=0; state=1; }
         } else {
@@ -131,13 +139,13 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
         sub_08000AF0(uploadPal,palette,1);
         {
             u8 priority=sub_0800BC44(M2C_FIELD(object,s32 *,0x14)>>8,M2C_FIELD(object,s32 *,0x18)>>8,0);
-            sub_0800BC08((M2C_FIELD(object,s32 *,0x14)<<8)>>16,(M2C_FIELD(object,s32 *,0x18)<<8)>>16,&screenX,screenYPtr,0,0);
-            sub_08007974(screenX,*screenYPtr,M2C_FIELD(object,u16 *,0x68),M2C_FIELD(object,u16 *,0x6A),priority,1,0,(u8 *)image+0x1C,M2C_FIELD(image,u32 *,8),M2C_FIELD(image,void **,0));
+            sub_0800BC08((M2C_FIELD(object,s32 *,0x14)<<8)>>16,(M2C_FIELD(object,s32 *,0x18)<<8)>>16,screenXPtr,screenYPtr,0,0);
+            sub_08007974(*screenXPtr,*screenYPtr,*field68,*field6A,priority,1,0,imageAttr,M2C_FIELD(image,u32 *,8),M2C_FIELD(image,void **,0));
         }
         sub_08000B38();
         sub_080003F0();
     } while(state!=0);
-    sub_08009088(0,0,0,0);
+    fadeScroll100(0,0,0,0);
     return 1;
 }
 #else
@@ -151,19 +159,24 @@ s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,
     s16 screenX,screenY;
     s16 i;
     u8 alternate;
-    u16 phase;
+    u32 phase;
     u16 frame;
     s32 state;
     M2C_FIELD(imageA,u8 *,0x1C)=paletteNum;
     M2C_FIELD(imageB,u8 *,0x1C)=paletteNum;
     for(i=0;i<16;i++) {
-        struct FadeColor100 *srcA=(void *)((u16 *)M2C_FIELD(imageA,void **,0xC)+bank*16+i);
-        struct FadeColor100 *dstA=(void *)&paletteA[i];
-        struct FadeColor100 *srcB=(void *)((u16 *)M2C_FIELD(imageB,void **,0xC)+bank*16+i);
-        struct FadeColor100 *dstB=(void *)&paletteB[i];
+        struct FadeColor100 *srcA;
+        struct FadeColor100 *dstA;
+        struct FadeColor100 *srcB;
+        struct FadeColor100 *dstB;
+        asm volatile("" ::: "memory");
+        srcA=(void *)((u8 *)M2C_FIELD(imageA,void **,0xC)+(bank*16+i)*2);
+        dstA=(void *)&paletteA[i];
         dstA->r=srcA->r;
         dstA->g=srcA->g;
         dstA->b=srcA->b;
+        srcB=(void *)((u8 *)M2C_FIELD(imageB,void **,0xC)+(bank*16+i)*2);
+        dstB=(void *)&paletteB[i];
         dstB->r=srcB->r;
         dstB->g=srcB->g;
         dstB->b=srcB->b;
@@ -174,10 +187,10 @@ s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,
     state=2;
     do {
         u8 oldAlternate;
-        phase=(phase+1)&15;
+        phase=((phase+1)<<16 & 0xF0000U)>>16;
         oldAlternate=alternate++;
-        if(oldAlternate&1) sub_08009088(0,0,phase,0);
-        else sub_08009088(0,0,0,phase);
+        if(oldAlternate&1) fadeScroll100(0,0,phase,0);
+        else fadeScroll100(0,0,0,phase);
         if(state!=1) {
             if(state==2 && frame++>60) { frame=0; state=1; }
         } else {
@@ -204,7 +217,7 @@ s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,
         sub_08000B38();
         sub_080003F0();
     } while(state!=0);
-    sub_08009088(0,0,0,0);
+    fadeScroll100(0,0,0,0);
     return 1;
 }
 #else

@@ -1,7 +1,7 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-10-28T19:30:39Z",
-  "checkpoint": "5581a13b2fdbeb50ebc2e6721f63490c5b1779f3",
+  "updated_utc": "2026-10-28T19:37:09Z",
+  "checkpoint": "3ea33f81d8ca37b98f12bbe9add91f8c665d077a",
   "areas": [
     {
       "id": "flow",
@@ -30,7 +30,7 @@
     {
       "id": "types",
       "state": "active",
-      "evidence": "Tres escrituras empaquetadas ahora llaman a 1CCC8/1DEB8 antes de cargar el puntero de destino, conforme al ASM. Temporales separados conservan el orden de evaluación. Continúa auditoría de accesos y firmas.",
+      "evidence": "Restaurado argumento r0 de 1DEB8 en las cuatro llamadas a 79FD0, confirmado por caller ASM y callee matched. Auditoría de 58 funciones llamadas sin argumentos frente a headers, fuentes y entradas ASM: ningún otro argumento faltante encontrado. Desplazamiento de byte en 5D6B8 conserva LSR.",
       "label": "AuditorÃ­a de tipos y accesos"
     },
     {

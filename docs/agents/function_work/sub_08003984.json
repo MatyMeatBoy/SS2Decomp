@@ -1,13 +1,13 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T19:20:12.242881+00:00",
-  "checkpoint": "3795bf87b92f02fc2b479badd67ae6fe3095955f",
+  "updated_utc": "2026-10-28T19:44:52.041844+00:00",
+  "checkpoint": "af7589ffa3e60d6874a4cf40dd2396a2a234a8c0",
   "areas": [
     {
       "id": "flow",
       "label": "Reconstrucción inicial del flujo",
       "state": "done",
-      "evidence": "Función completa NONMATCHING conservando ASM; f397be0de22bf3500e640d1c2190b366f9e3eba4."
+      "evidence": "Draft completo y auditor CFG reproducible: isomorfismo de190 llamadas explícitas,170 comparadores/inmediatos/polaridades y5 switches indexados. No valida operandos ni bytes. Fuente e8cac7a4a4f96c862c1934b78947adb1783159ab."
     },
     {
       "id": "compile",
@@ -25,7 +25,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C preservado. ASM04ABA y04D54 llaman TextWidth antes del índice; draft ajusta ambas ramas. Registros y otras instrucciones aún difieren."
+      "evidence": "Frame0x54C. Captura u16 de navegación conserva r1 para cola común0436C sin recarga. Auditoría mantiene comparadores, polaridad y switches. Continúan diferencias de instrucciones/registros."
     },
     {
       "id": "match",

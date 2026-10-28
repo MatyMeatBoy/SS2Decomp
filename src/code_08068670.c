@@ -163,7 +163,6 @@ void sub_080688F8(u32 index)
     task = 0;
     buffer = 0;
 }
-#ifdef NONMATCHING
 s32 sub_0806898C(s32 arg0, s32 arg1)
 {
     struct CostEntry { u8 pad[6]; s16 cost[9]; };
@@ -172,14 +171,20 @@ s32 sub_0806898C(s32 arg0, s32 arg1)
     s16 result;
     s32 value;
     u16 candidate;
+    s16 *cost;
+    u8 *table;
+    s32 offset;
 
     player = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
     if (arg1 == 0)
         return 0;
 
     arg1--;
-    value = costs[arg0].cost[arg1];
-    value += *(s8 *)(player + 0x6C) * 10;
+    table = (u8 *)costs;
+    offset = arg1 * 2 + arg0 * 24;
+    table += 6;
+    cost = (s16 *)(offset + table);
+    value = *(s8 *)(player + 0x6C) * 5; value = *cost + value * 2;
     /* The game truncates to 16 bits before testing the sign. */
     candidate = value;
     if ((s32)(value << 16) < 0)
@@ -189,9 +194,6 @@ s32 sub_0806898C(s32 arg0, s32 arg1)
         return 0;
     return (s16)(result + 1);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806898C);
-#endif
 #ifdef NONMATCHING
 /* Resolve an area attack against nearby enemies or players. The result
  * combines target-present (1) and effect-applied (2) flags. */
@@ -218,7 +220,7 @@ s32 sub_08068A00(s32 arg0, s32 arg1, u8 *attack) {
     s32 var_r0_2;
     s32 var_r0_4;
     s32 var_r0_5;
-    s16 var_r2;
+    s32 var_r2;
     s32 var_r2_2;
     s32 var_r2_3;
     s32 temp_r0;
@@ -347,7 +349,7 @@ block_55:
                                 }
                             } else {
                                 if (M2C_FIELD(targetEnemy, u8 *, 0x226) == 1) {
-                                    var_r2 = (s16) ((s32) (sub_08068F9C(attack, 0) * 0xF) / 10);
+                                    var_r2 = (s32) (sub_08068F9C(attack, 0) * 0xF) / 10;
                                     var_r1_2 = attackEffect;
 block_40:
                                     sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), var_r1_2, var_r2, M2C_FIELD(attack, u32 *, 0x14), 0, 0);

@@ -329,7 +329,7 @@ void sub_0800D368(void *arg0) {
     extern u32 d368_sub_080686F4() asm("sub_080686F4");
     extern void d368_sub_080688F8() asm("sub_080688F8");
     extern s32 d368_sub_0806898C() asm("sub_0806898C");
-    extern s32 d368_sub_08079FD0() asm("sub_08079FD0");
+    extern s32 d368_sub_08079FD0(s32) asm("sub_08079FD0");
     extern u16 d368_sub_0807A028() asm("sub_0807A028");
     extern s32 d368_sub_08013BC0() asm("sub_08013BC0");
     extern void d368_sub_0801DD9C() asm("sub_0801DD9C");
@@ -407,6 +407,7 @@ void sub_0800D368(void *arg0) {
     s32 sp1D0;
     s32 sp1D4;
     void *lookupStats;
+    s32 availableCount0, availableCount1;
     u32 recordCallValue0, recordCallValue1, recordCallValue2;
     s16 *temp_r0;
     s16 *var_r1_16;
@@ -818,7 +819,7 @@ void sub_0800D368(void *arg0) {
     s32 var_r1_13;
     s32 var_r1_15;
     s32 var_r2_11;
-    s32 var_r2_15;
+    u32 var_r2_15;
     s32 var_r3_10;
     s32 var_r3_9;
     void **var_r5_10;
@@ -2329,9 +2330,9 @@ block_415:
     sp154 = 0;
     goto block_419;
 block_417:
-    d368_sub_0801DEB8();
+    availableCount0 = d368_sub_08079FD0(d368_sub_0801DEB8()) << 0x10;
     var_r5_2 = arg0 + 0x64;
-    if ((d368_sub_08079FD0() << 0x10) != 0) {
+    if (availableCount0 != 0) {
         goto block_419;
     }
     sp154 = 0;
@@ -2577,9 +2578,9 @@ block_488:
     sp154 = 0;
     goto block_492;
 block_490:
-    d368_sub_0801DEB8();
+    availableCount1 = d368_sub_08079FD0(d368_sub_0801DEB8()) << 0x10;
     var_r5_3 = arg0 + 0x64;
-    if ((d368_sub_08079FD0() << 0x10) != 0) {
+    if (availableCount1 != 0) {
         goto block_492;
     }
     sp154 = 0;
@@ -2984,8 +2985,7 @@ block_603:
     goto block_612;
 block_606:
     sp128 = d368_sub_0801D34C();
-    d368_sub_0801DEB8();
-    var_r5_4 = (u16) d368_sub_08079FD0() - 1;
+    var_r5_4 = (u16) d368_sub_08079FD0(d368_sub_0801DEB8()) - 1;
     if (sp128 <= (u32) var_r5_4) {
         goto block_609;
     }
@@ -3366,8 +3366,7 @@ block_711:
     goto block_719;
 block_713:
     sp128 = d368_sub_0801D34C();
-    d368_sub_0801DEB8();
-    temp_r5_7 = (u16) d368_sub_08079FD0() - 1;
+    temp_r5_7 = (u16) d368_sub_08079FD0(d368_sub_0801DEB8()) - 1;
     if (sp128 <= temp_r5_7) {
         goto block_716;
     }
