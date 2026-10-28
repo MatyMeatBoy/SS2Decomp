@@ -1,4 +1,14 @@
 #include "global.h"
+extern void sub_0801A0BC_2(u32, u32) asm("sub_0801A0BC");
+extern u16 sub_08019FD8_3(void *, u32, u32) asm("sub_08019FD8");
+extern s32 sub_0801A040_1(u32) asm("sub_0801A040");
+extern void sub_0801A0A4_1(void *) asm("sub_0801A0A4");
+extern void sub_0801A0B0_1(void *) asm("sub_0801A0B0");
+extern u8 *sub_08007870_8p(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern u32 sub_08065370_5r(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern u8 gData084AA580[] asm("gUnk_084AA580");
+extern u8 gByte0300079C asm("gUnk_0300079C");
+extern struct TaskP *gTaskP030007A8 asm("gUnk_030007A8");
 extern void sub_08007870_8(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
 extern void sub_0800BC08_6(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern void sub_08065370_5(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
@@ -14,7 +24,7 @@ extern u16 gArr03000798[] asm("gUnk_03000798");
 extern u8 *gPtr030007A8 asm("gUnk_030007A8");
 struct E2E0 { u8 b[0x2E0]; };
 
-void sub_080B2058(void);
+void sub_080B2058();
 void sub_080AE420(void);
 void sub_080AF3C4(void);
 void sub_080AD534(void);
@@ -294,7 +304,65 @@ void sub_080B1FD4(void)
             gArr03000798[i] = 0;
     }
 }
+#ifdef NONMATCHING
+void sub_080B2058(s32 arg0, s32 arg1)
+{
+    struct Spr2200 s;
+    u16 a44;
+    u16 a46;
+    s16 x48;
+    s16 y4A;
+    u16 cnt;
+    s32 xs;
+    s32 ys;
+    s32 x;
+    s32 y;
+    u16 done;
+    s32 r;
+    u8 k;
+    u8 i;
+    u16 *e;
+    sub_0801A0B0_1(gPtr030007A0);
+    sub_08065158_5(&s, 0x50020, 8, -1, 1);
+    s.b1C[0] = 7;
+    s.b1C[1] = 8;
+    a46 = 0;
+    a44 = 0;
+    cnt = 0;
+    sub_0805865C(0x1A5);
+    x = arg0 >> 8;
+    y = arg1 >> 8;
+    xs = x << 16;
+    ys = y << 16;
+    do {
+        if ((r = sub_0800CD8C()) == 0)
+            done = sub_08065370_5r(&s, 0, &a44, &a46, r);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (r = sub_0800CD34()) == 0) {
+            sub_08000AF0(0x17, (void *)s.fC, 2);
+            k = sub_0800BC44(x, y, 0);
+            sub_0800BC08_6(xs >> 16, ys >> 16, &x48, &y4A, r, r);
+            *(s32 *)(sub_08007870_8p(x48, 0, 0, a44, k, s.b1C, s.f8, s.f0) + 0xC) = y4A;
+        }
+        sub_080003F0();
+    } while (done == 0 || cnt++ > 0x3B);
+    if (*(s16 *)(gPtr030007A0 + 0x5C) != 0 && sub_08002204() != 0) {
+        for (i = 0; i <= 1; i++) {
+            e = &gArr03000798[i];
+            if (sub_0801A040_1(*e) == 0) {
+                *e = sub_08019FD8_3(gData084AA580, 0, gByte0300079C);
+                sub_0801A0BC_2(*e, 3);
+                while (sub_0801A040_1(*e) == 0)
+                    sub_080003F0();
+                break;
+            }
+        }
+    }
+    sub_0801A0A4_1(gPtr030007A0);
+    gTaskP030007A8->f8 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2058);
+#endif
 s32 sub_080B2200(void)
 {
     struct Spr2200 s;
