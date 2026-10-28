@@ -1268,7 +1268,7 @@ block_175:
                     ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7 + 2, *temp_r5_14 - 9, *var_r4_2 - 0x28);
                     var_r7 = (u8 *)&cursor;
                     sub_08065230(var_r7, *temp_r5_14 - (drawOffset3984 = cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
-                    var_r1_7 = offsetY + 0x18 + *temp_r5_14 + cursorY;
+                    var_r1_7 = (drawOffset3984 = offsetY + 0x18) + *temp_r5_14 + cursorY;
 block_198:
                     sub_08065230(var_r7, var_r1_7, *var_r4_2 - 0x20, 3U, 1);
                     goto after198;
@@ -1278,11 +1278,11 @@ block_198:
                 temp_r4_16 = state * 4;
                 temp_r5_14 = temp_r4_16 + ((u8 *)&gUnk_08366E0C);
                 var_r4_2 = temp_r4_16 + (((u8 *)&gUnk_08366E0C) + 2);
-                ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, *temp_r5_14 - ((textWidth3984 * 4) - 0x18), *var_r4_2 - 0x28);
+                ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, *temp_r5_14 - (drawOffset3984 = (textWidth3984 * 4) - 0x18), *var_r4_2 - 0x28);
                 var_r7 = (u8 *)&cursor;
                     sub_08065230(var_r7, *temp_r5_14 - (drawOffset3984 = cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
                 var_r7 = (u8 *)&cursor;
-                    sub_08065230(var_r7, offsetY + 0x18 + *temp_r5_14 + (cursorY + 9), *var_r4_2 - 0x20, 3U, 1);
+                    sub_08065230(var_r7, (drawOffset3984 = offsetY + 0x18) + *temp_r5_14 + (cursorY + 9), *var_r4_2 - 0x20, 3U, 1);
                         }
 after198:
             if (!(gUnk_03002344 & 3)) {
@@ -1716,9 +1716,9 @@ epilogue3984:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08003984);
 #endif
-#ifdef NONMATCHING
 struct FadeColor5A24 { u32 red:5; u32 green:5; u32 blue:5; };
 struct FadeDest5A24 { u16 red:5; u16 green:5; u16 blue:5; };
+extern void fadeCopy5A24(const void *, void *, u32) asm("CpuSet");
 void sub_08005A24(u32 range, s32 percent)
 {
     u32 start;
@@ -1728,6 +1728,7 @@ void sub_08005A24(u32 range, s32 percent)
     u16 *out;
     u16 *in;
     u32 banks;
+    u32 colors;
     u32 i;
     u16 target;
     u16 factor;
@@ -1738,14 +1739,15 @@ void sub_08005A24(u32 range, s32 percent)
     gUnk_0300001C = 1;
     backup = (u16 *)sub_08001494(banks << 5);
     fadeCopy5A24((u8 *)&gUnk_03001F40 + (start << 5), backup, (banks << 3) | 0x04000000);
-    range = banks << 4;
+    colors = banks << 4;
+    asm("" : "+r"(colors));
     factor = 0x400;
     while (factor > target) {
         dest = (struct FadeDest5A24 *)((u8 *)&gUnk_03001F40 + (start << 5));
         source = (struct FadeColor5A24 *)backup;
         i = 0;
         difference = factor - target;
-        while (i < range) {
+        while (i < colors) {
             dest->red = (source->red * factor) >> 10;
             dest->green = (source->green * factor) >> 10;
             dest->blue = (source->blue * factor) >> 10;
@@ -1766,7 +1768,7 @@ void sub_08005A24(u32 range, s32 percent)
         dest = (struct FadeDest5A24 *)((u8 *)&gUnk_03001F40 + (start << 5));
         source = (struct FadeColor5A24 *)backup;
         i = 0;
-        while (i < range) {
+        while (i < colors) {
             *(u16 *)dest = *(u16 *)source;
             i++;
             dest = (struct FadeDest5A24 *)((u8 *)dest + 2);
@@ -1777,9 +1779,6 @@ void sub_08005A24(u32 range, s32 percent)
     sub_080003F0();
     sub_08001538((s32)backup);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005A24);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005B88);
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800608C);
 void sub_08006544(void) {

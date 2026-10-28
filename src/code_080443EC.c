@@ -114,7 +114,37 @@ INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A478);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A89C);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804AE48);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804AF80);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B054);
+extern u8 *t49_gsB054 asm("gUnk_03005CF4");
+extern void t49_spawnB054(void *, s32, s32) asm("sub_08068820");
+static inline void t49_flagB054(u8 *ptr, u32 mask)
+{ *(u32 *)(ptr + 0x38) |= mask; }
+static inline void t49_effectB054(s32 x, s32 y)
+{ sub_08073E2C(x, y, 41, 1); }
+void sub_0804B054(s32 arg0)
+{
+    u16 timer;
+    switch (arg0) {
+    case 0:
+        t49_spawnB054(sub_0804B054, 1, 0);
+        break;
+    case 1:
+        t49_flagB054(t49_gsB054, 8);
+        t49_effectB054(0x19800, 0x15900);
+        timer = 4;
+        goto wait;
+next:
+        if (--timer == 0) goto done;
+wait:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto next;
+done:
+        t49_effectB054(0x19000, 0x15900);
+        t49_effectB054(0x1A000, 0x15900);
+        if ((gUnk_030027D0 & 32) == 0) sub_08006D08(0x17B);
+        sub_08028AAC(8, 0x198, 0x158, 0);
+        break;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B100);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B32C);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B61C);

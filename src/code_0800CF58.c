@@ -2797,7 +2797,7 @@ block_809:
                         var_r1_6 = ((struct PlayerD368 *)arg0)->fD8;
                         var_r4_6 = arg0 + 0xD8;
                         if (var_r1_6 > 0x17) {
-                            ((struct PlayerD368 *)arg0)->fD8 = var_r1_6 - (var_r1_6 >> 1);
+                            goto timerHighDecayD368;
                         } else {
                             temp_r0_40 = var_r1_6 - 8;
                             ((struct PlayerD368 *)arg0)->fD8 = temp_r0_40;
@@ -3375,6 +3375,7 @@ block_1015:
                         ((struct PlayerD368 *)arg0)->fD8 = 0;
                     }
                 } else {
+timerHighDecayD368:
                     ((struct PlayerD368 *)arg0)->fD8 = var_r1_6 - (var_r1_6 >> 1);
                 }
                 break;
