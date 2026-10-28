@@ -27,7 +27,7 @@
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="177.06" fill="#0d1117"/>
 <rect x="1.00" y="29.00" width="127.15" height="74.35" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0807C29C | sub_0807C29C | unidentified  0x0807C29C  18396 bytes  [nonmatch]</title></rect>
-<rect x="128.15" y="29.00" width="34.37" height="74.35" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080815F4 | sub_080815F4 | unidentified  0x080815F4  4972 bytes  [todo]</title></rect>
+<rect x="128.15" y="29.00" width="34.37" height="74.35" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080815F4 | sub_080815F4 | unidentified  0x080815F4  4972 bytes  [nonmatch]</title></rect>
 <rect x="1.00" y="103.35" width="46.93" height="50.60" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080855D4 | sub_080855D4 | unidentified  0x080855D4  4620 bytes  [todo]</title></rect>
 <rect x="1.00" y="153.95" width="46.93" height="50.11" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0807A5D4 | sub_0807A5D4 | unidentified  0x0807A5D4  4576 bytes  [todo]</title></rect>
 <rect x="47.93" y="103.35" width="36.03" height="55.35" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08086860 | sub_08086860 | unidentified  0x08086860  3880 bytes  [todo]</title></rect>
@@ -507,7 +507,7 @@
 </g>
 <g><title>code_08021DC4 (27880 bytes)</title>
 <rect x="288.23" y="396.48" width="131.55" height="111.52" fill="#0d1117"/>
-<rect x="289.23" y="397.48" width="43.33" height="54.22" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080245CC | sub_080245CC | unidentified  0x080245CC  4616 bytes  [todo]</title></rect>
+<rect x="289.23" y="397.48" width="43.33" height="54.22" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080245CC | sub_080245CC | unidentified  0x080245CC  4616 bytes  [nonmatch]</title></rect>
 <rect x="289.23" y="451.70" width="43.33" height="32.04" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08025890 | sub_08025890 | unidentified  0x08025890  2728 bytes  [todo]</title></rect>
 <rect x="289.23" y="483.74" width="43.33" height="23.26" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080226A4 | sub_080226A4 | unidentified  0x080226A4  1980 bytes  [todo]</title></rect>
 <rect x="332.56" y="397.48" width="33.54" height="29.44" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0802704C | sub_0802704C | unidentified  0x0802704C  1940 bytes  [todo]</title></rect>
@@ -2295,5 +2295,5 @@
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Área = bytes de código. Relleno parcial amarillo = hitos registrados, no porcentaje matching ni estimación de tiempo.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Datos: 413 bloques incbin (15.3 MiB), 11 / 412 etiquetas descriptivas; comprensión: sin porcentaje.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11773 relaciones, 978 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11773 relaciones, 981 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
 </svg>
