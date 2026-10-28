@@ -1,0 +1,50 @@
+{
+  "address": "0x0800D368",
+  "updated_utc": "2026-10-28T18:44:51Z",
+  "checkpoint": "f33808007424b4607a5510682cb2314576e36443",
+  "areas": [
+    {
+      "id": "flow",
+      "state": "done",
+      "evidence": "Borrador íntegro recuperado desde ASM con 76 BL internos normalizados y tablas de salto reparadas; d305c65321d35fbc58198f0a019b359e05c7f013. No demuestra equivalencia.",
+      "label": "Reconstrucción inicial del flujo"
+    },
+    {
+      "id": "compile",
+      "state": "done",
+      "evidence": "NONMATCHING completo compila y enlaza; make compare conserva ROM exacta usando ASM, make nonmatching y check_tree pasan en 7d9d29bd2af06b8fba91a690e5e8720cb6babe0b.",
+      "label": "Borrador C89 compilable"
+    },
+    {
+      "evidence": "Usos auditados: máscaras y comparaciones de32bits restauradas; tres temporales de16bits conservados por LSL16/LSR16 explícito. Checkpoints ecabff5 y a22b0e9.",
+      "id": "types_narrow",
+      "label": "Auditoría de temporales estrechos",
+      "state": "done"
+    },
+    {
+      "evidence": "Estructura local conserva70 offsets de accesos existentes;70 aserciones offsetof compiladas con agbcc. No identifica aún la estructura completa del juego.",
+      "id": "types_actor_offsets",
+      "label": "Offsets de70 campos usados del actor",
+      "state": "done"
+    },
+    {
+      "id": "types",
+      "state": "active",
+      "evidence": "Auditados temporales, máscaras y truncamientos aritméticos. Restaurados argumentos de coordenadas de32bits de07870/5FAC0 con evidencia de caller y callee; continúan otras firmas y accesos.",
+      "label": "Auditoría de tipos y accesos"
+    },
+    {
+      "id": "layout",
+      "state": "active",
+      "evidence": "Coordenadas F0..FE recuperadas y variantes CFG completas compiladas. Persisten diferencias de pila, registros y orden.",
+      "label": "Pila, registros y orden de bloques"
+    },
+    {
+      "id": "match",
+      "state": "pending",
+      "evidence": "La función sigue NONMATCHING con su ASM original. Ningún candidato ha producido ROM exacta con C normal.",
+      "label": "Matching íntegro con C normal"
+    }
+  ],
+  "regions": []
+}

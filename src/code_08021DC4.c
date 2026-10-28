@@ -487,20 +487,710 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080226A4);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08022E60);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023274);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023684);
+s32 sub_080239E0(u8 arg0) {
+    s32 a, b, nonzero, two;
+    u8 value;
+    register u32 i asm("r4");
+    u32 group;
+    register u8 *base asm("r2");
+    two = 0;
+    nonzero = 0;
+    i = 0;
+    base = (u8 *)gUnk_03005CF4;
+    group = arg0 * 5;
+    base += 0x1C8;
+    do {
+        value = (u8)i;
+        a = 0;
+        value = base[value + group];
+        if (value == 0) a = 1;
+        if (a == 0) nonzero++;
+        b = 0;
+        if (value == 2) b = 1;
+        if (b != 0) two++;
+        i++;
+    } while (i <= 4);
+    if (nonzero == two) return 1;
+    return 0;
+}
 #ifdef NONMATCHING
-u32 sub_080239E0(u32 group)
-{
-    u8 *base=*(u8 **)0x03005CF4 + 0x1C8 + (group&0xFF)*5; u32 zero=0,two=0,i;
-    for(i=0;i<=4;i++){ if(base[i]==0)zero++; if(base[i]==2)two++; }
-    return zero==two;
+struct Event23A3C { s32 record; u8 index, group; u16 sequence; };
+struct Remote23A3C { u16 unk0, unk2; u8 unk4; };
+struct State23A3C { u16 mode, pad2, flags, pad6, sequence, count; u8 padC[0x1BC]; u8 states[0x55C]; s32 entries[32]; };
+extern struct State23A3C *state23A3C asm("gUnk_03005CF4");
+s32 sub_08019FA8();                                 /* extern */
+s32 sub_0806603C(void *);                           /* extern */
+s32 sub_08067C28(s32);                              /* extern */
+s32 sub_08067EC8();                                 /* extern */
+
+void sub_08023A3C(s32 *arg0, u32 arg1) {
+    struct Event23A3C sp0[5];
+    u8 padding[12];
+    s32 *sp34;
+    s32 sp38;
+    u32 sp3C;
+    s32 *sp40;
+    struct Event23A3C *var_r4;
+    s32 *var_r3;
+    s32 *var_r3_2;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r4;
+    s32 temp_r5;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r1;
+    s32 var_r1_2;
+    s32 var_r2;
+    s32 var_r2_2;
+    s32 var_r2_3;
+    s32 var_r3_3;
+    s32 var_r3_4;
+    s32 var_r4_3;
+    s32 var_r4_4;
+    s32 var_sl;
+    u32 temp_r0;
+    u32 temp_r0_6;
+    u16 temp_r1;
+    u16 temp_r1_2;
+    u16 temp_r7;
+    u16 temp_r8;
+    u32 temp_r6;
+    u32 var_r5;
+    u8 *var_r4_2;
+    u8 temp_r0_4;
+    u8 temp_r0_5;
+    u32 var_r4_5;
+    u32 var_r5_2;
+    u32 var_r6;
+    u32 var_r6_2;
+    u32 var_r6_3;
+    u32 var_r6_4;
+    struct Remote23A3C *temp_r2;
+    struct Player *temp_r3;
+
+    sp34 = arg0;
+    temp_r1 = arg1;
+    sp3C = 0;
+    sp38 = 0;
+    var_r6 = 0;
+    var_r4 = sp0;
+    var_r3 = sp34;
+    do {
+        if (M2C_FIELD(var_r3, u16 *, 0x8) != 0) {
+            sp3C += 1;
+            var_r4->record = (s32) state23A3C->entries[temp_r1];
+            var_r4->sequence = (u16) state23A3C->sequence;
+            var_r4->group = (s8) temp_r1;
+            var_r2 = 0;
+            temp_r5 = (u8)var_r6 + ((u8) temp_r1 * 5);
+            if (state23A3C->states[temp_r5] == 3) {
+                var_r2 = 1;
+            }
+            if (var_r2 == 0) {
+                sp40 = var_r3;
+                if (sub_08002204() != 0) {
+                    state23A3C->states[temp_r5] = 1;
+                }
+            }
+        }
+        var_r4++;
+        var_r3 = (s32 *)((u8 *)var_r3 + 8);
+        var_r6 += 1;
+    } while ((u32) var_r6 <= 4U);
+    var_r6_2 = 0;
+    if (sp3C > 0U) {
+        var_r4_2 = &sp0[0].index;
+        do {
+            *var_r4_2 = var_r6_2;
+            if ((0xFF & sub_080008C8()) == 0x80) {
+                *var_r4_2 |= 0x80;
+            }
+            var_r4_2 += 8;
+            var_r6_2 += 1;
+        } while ((u32) var_r6_2 < sp3C);
+    }
+    temp_r0 = state23A3C->sequence + 5;
+    state23A3C->sequence = temp_r0;
+    if ((u16) temp_r0 <= 0xFAU) {
+
+    } else {
+        state23A3C->sequence = 9U;
+    }
+    goto loop_90;
+dispatch:
+        temp_r1_2 = M2C_FIELD(sp34, u16 *, 0x30);
+        switch (temp_r1_2) {                        /* irregular */
+        case 0:
+    goto loop_22;
+loop_22_yield:
+    sub_080003F0();
+loop_22:
+            if ((sub_08019FA8() == 0) && (sub_08056E90() == 0)) goto loop_22_yield;
+            if (sub_08056E90() == 0) {
+                var_r6_4 = 0;
+                if (sp3C > 0U) {
+                    var_r3_2 = &gUnk_03005CF4;
+                    do {
+                        var_r2_3 = 0;
+                        temp_r4 = (u8)var_r6_4 + ((u8) temp_r1 * 5);
+                        if (*(u8 *)(*var_r3_2 + 0x1C8 + temp_r4) == 1) {
+                            var_r2_3 = 1;
+                        }
+                        if (var_r2_3 != 0) {
+                            sp40 = var_r3_2;
+                            if (sub_0806603C(&sp0[var_r6_4]) != 0) {
+                                var_r3_2 = sp40;
+                                if (sub_08002204() != 0) {
+                                    *(u8 *)(*var_r3_2 + 0x1C8 + temp_r4) = 2;
+                                }
+                            }
+                        }
+                        var_r6_4 += 1;
+                    } while ((u32) var_r6_4 < sp3C);
+                }
+            }
+            if (sub_08056E90() != 0) {
+    goto loop_37;
+loop_37_yield:
+    sub_080003F0();
+loop_37:
+                if (sub_08067C28(gUnk_03005CF4 + ((temp_r1 * 4) + 0x724)) == 0) goto loop_37_yield;
+            } else {
+                var_r5_2 = 0;
+loop_40:
+                var_r4_4 = 0;
+                if (state23A3C->states[((u8)var_r5_2 + ((u8) temp_r1 * 5))] == 2) {
+                    var_r4_4 = 1;
+                }
+                if (var_r4_4 != 0) {
+                    sub_080003F0();
+                    goto loop_22;
+                }
+                var_r5_2 += 1;
+                if ((u32) var_r5_2 <= 4U) {
+                    goto loop_40;
+                }
+            }
+            var_r4_5 = 0;
+loop_46:
+            var_r3_3 = 0;
+            temp_r0_5 = state23A3C->states[((u8)var_r4_5 + ((u8) temp_r1 * 5))];
+            if (temp_r0_5 == 2) {
+                var_r3_3 = 1;
+            }
+            if (var_r3_3 == 0) {
+                var_r3_4 = 0;
+                if (temp_r0_5 == 1) {
+                    var_r3_4 = 1;
+                }
+                if (var_r3_4 == 0) {
+                    var_r4_5 += 1;
+                    if ((u32) var_r4_5 > 4U) {
+                        sp38 = 1;
+                    } else {
+                        goto loop_46;
+                    }
+                } else {
+                    goto block_54;
+                }
+            } else {
+block_54:
+                sp38 = 0;
+            }
+            break;
+        case 1:
+            var_r6_3 = 0;
+            if ((u32) temp_r0_3 >= sp3C) {
+
+            } else {
+    goto loop_59;
+loop_59_yield:
+    sub_080003F0();
+loop_59:
+                if ((sub_08019FA8() == 0) && (sub_08056E90() == 0)) goto loop_59_yield;
+                if (sub_08056E90() == 0) {
+                    var_r4_3 = 0;
+                    if (state23A3C->states[((u8)var_r6_3 + ((u8) temp_r1 * 5))] == 3) {
+                        var_r4_3 = 1;
+                    }
+                    if (var_r4_3 == 0) {
+    goto loop_67;
+loop_67_yield:
+    sub_080003F0();
+loop_67:
+                        if ((sub_0806603C(&sp0[var_r6_3]) == 0) && (sub_08056E90() == 0)) goto loop_67_yield;
+                        if ((sub_08056E90() == 0) && (sub_08002204() != 0)) {
+                            state23A3C->states[((u8)var_r6_3 + ((u8) temp_r1 * 5))] = 2;
+                        }
+                    }
+                }
+loop_82:
+                if (sub_08056E90() != 0) {
+    goto loop_85;
+loop_85_yield:
+    sub_080003F0();
+loop_85:
+                    if (sub_08067C28(gUnk_03005CF4 + ((temp_r1 * 4) + 0x724)) == 0) goto loop_85_yield;
+                    var_r6_3 = sp3C;
+                } else {
+                    var_r2_2 = 0;
+                    temp_r0_4 = state23A3C->states[((u8)var_r6_3 + ((u8) temp_r1 * 5))];
+                    if (temp_r0_4 == 1) {
+                        var_r2_2 = 1;
+                    }
+                    if (var_r2_2 != 0) {
+                        var_r6_3 = sp3C;
+                        sp38 = 0;
+                    } else {
+                        var_r1_2 = 0;
+                        if (temp_r0_4 == 3) {
+                            var_r1_2 = 1;
+                        }
+                        if (var_r1_2 != 0) {
+                            sp38 = 1;
+                        } else {
+                            sub_080003F0();
+                            goto loop_82;
+                        }
+                    }
+                }
+                var_r6_3 += 1;
+                if ((u32) var_r6_3 < sp3C) {
+                    goto loop_59;
+                }
+            }
+            break;
+        }
+    sub_080003F0();
+    if (sp38 == 1) goto finish;
+loop_90:
+    if (state23A3C->mode != 0xB) {
+loop_109:
+        sub_080003F0();
+        temp_r0_2 = sub_08056E90();
+        if (temp_r0_2 == 0) {
+            if ((gUnk_03002344 & 1) == (temp_r1 & 1)) {
+                temp_r8 = M2C_FIELD(sp34, u16 *, 0x4);
+                temp_r7 = M2C_FIELD(sp34, u16 *, 0x6);
+                temp_r6 = sub_08002164();
+                var_sl = 0;
+                if (sub_08019FA8() == 0) {
+                    goto loop_109;
+                }
+                var_r5 = 0;
+                if ((u32) temp_r0_2 < temp_r6) {
+loop_97:
+                    temp_r3 = &gUnk_03003CE0[var_r5];
+                    temp_r2 = M2C_FIELD(temp_r3, struct Remote23A3C **, 0x148);
+                    if (!(((u32) (temp_r2->unk4 << 0x1A) >> 0x1A) & 0x20) && !(temp_r3->flags & 0x2000)) {
+                        var_r1 = M2C_FIELD(sp34, s16 *, 0x0) - ((u16) temp_r2->unk0 >> 7);
+                        if (var_r1 < 0) {
+                            var_r1 = 0 - var_r1;
+                        }
+                        if (var_r1 < (s32) temp_r8) {
+                            var_r0 = M2C_FIELD(sp34, s16 *, 0x2) - ((u32) (temp_r2->unk2 << 0x14) >> 0x17);
+                            if (var_r0 < 0) {
+                                var_r0 = 0 - var_r0;
+                            }
+                            if (var_r0 >= (s32) temp_r7) {
+                                goto block_105;
+                            }
+                            var_sl = 1;
+                        } else {
+                            goto block_105;
+                        }
+                    } else {
+block_105:
+                        var_r5 += 1;
+                        if (var_r5 < temp_r6) {
+                            goto loop_97;
+                        }
+                    }
+                }
+                var_r0_2 = var_sl;
+                goto block_108;
+            }
+            var_r0_2 = 0;
+block_108:
+            if (var_r0_2 == 0) {
+                goto loop_109;
+            }
+        }
+    }
+    temp_r0_3 = sub_08056E90();
+    if (temp_r0_3 == 0) goto dispatch;
+finish:
+    temp_r0_6 = state23A3C->count - 1;
+    state23A3C->count = temp_r0_6;
+    if (temp_r0_6 & 0x8000) {
+        state23A3C->count = 0U;
+    }
+    if ((state23A3C->count == 0) && (sub_08056E50() == 0) && (sub_08056FF8() == 0) && (state23A3C->mode != 0xB)) {
+    goto loop_120;
+loop_120_yield:
+    sub_080003F0();
+loop_120:
+        if (sub_08067EC8() == 0) goto loop_120_yield;
+    }
+}
+
+#else
+INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023A3C);
+#endif
+extern void sub_08023A3C(s32 *, u32);
+struct Task23ED8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+struct State23ED8 { u8 pad[0x1834]; struct Task23ED8 tasks[32]; };
+extern struct State23ED8 *state23ED8 asm("gUnk_03005CF4");
+void sub_08023ED8(s32 arg0, u32 arg1) {
+    register struct State23ED8 **global asm("r6");
+    register u32 four asm("r4");
+    register u32 offset asm("r8");
+    register u32 taskOffset asm("r5");
+    register u8 *callbackBase asm("r0");
+    register struct State23ED8 *base asm("r3");
+    u32 offset2;
+    register s32 sum asm("r0");
+    register void *memory asm("r1");
+    global = &state23ED8;
+    four = arg1 * 4;
+    offset = (four + arg1) * 8;
+    taskOffset = 0x1834 + offset;
+    if (sub_08000470((s32)*global + taskOffset) != 0)
+        sub_080003A8((s32)*global + taskOffset);
+    callbackBase = (u8 *)&(*global)->tasks[0].fC;
+    *(u32 *)(callbackBase + offset) = (u32)sub_08023A3C;
+    goto allocate;
+retry:
+    sub_080003F0();
+allocate:
+    memory = sub_08001494(0x200);
+    base = state23ED8;
+    asm("" : "+r"(four));
+    sum = four + arg1;
+    offset2 = sum * 8;
+    callbackBase = (u8 *)&base->tasks[0].f20;
+    *(u32 *)(callbackBase + offset2) = (u32)memory;
+    if (memory == 0) goto retry;
+    callbackBase = (u8 *)&base->tasks[0].f10;
+    *(u32 *)(callbackBase + offset2) = (u32)memory + 0x1FC;
+    callbackBase = (u8 *)&base->tasks[0].f8;
+    *(u32 *)(callbackBase + offset2) = 0x46;
+    callbackBase = (u8 *)&base->tasks[0].f24;
+    *(u32 *)(callbackBase + offset2) = 0;
+    callbackBase = (u8 *)(offset2 + 0x1834);
+    callbackBase = (u8 *)base + (u32)callbackBase;
+    sub_08000274(callbackBase, arg0, arg1);
+}
+struct Entry23F98 { s16 id; u8 data[54]; };
+struct State23F98 { u8 pad0[10]; u16 count; u8 padC[0x718]; struct Entry23F98 *entries[32]; };
+extern struct State23F98 *state23F98 asm("gUnk_03005CF4");
+extern void sub_08023ED8(s32, u32);
+extern struct Entry23F98 **gUnk_084B139C[];
+extern struct Entry23F98 **gUnk_084B13BC[];
+extern struct Entry23F98 **gUnk_084B13E4[];
+extern struct Entry23F98 **gUnk_084B1420[];
+extern struct Entry23F98 **gUnk_084B1454[];
+extern struct Entry23F98 **gUnk_084B148C[];
+extern struct Entry23F98 **gUnk_084B14D0[];
+extern struct Entry23F98 **gUnk_084B1504[];
+extern struct Entry23F98 **gUnk_084B154C[];
+extern struct Entry23F98 **gUnk_084B1590[];
+extern struct Entry23F98 **gUnk_084B15E4[];
+extern struct Entry23F98 **gUnk_084B15E8[];
+extern struct Entry23F98 **gUnk_084B15F8[];
+extern struct Entry23F98 **gUnk_084B160C[];
+extern struct Entry23F98 **gUnk_084B1610[];
+extern struct Entry23F98 **gUnk_084B1620[];
+extern struct Entry23F98 **gUnk_084B1630[];
+extern struct Entry23F98 **gUnk_084B164C[];
+extern struct Entry23F98 **gUnk_084B1664[];
+extern struct Entry23F98 **gUnk_084B1678[];
+extern struct Entry23F98 **gUnk_084B16A0[];
+extern struct Entry23F98 **gUnk_084B16B4[];
+extern struct Entry23F98 **gUnk_084B16CC[];
+void sub_08023F98(u16 arg0, u16 arg1) {
+    register struct Entry23F98 ***table asm("r0");
+    struct Entry23F98 *entry;
+    u32 i;
+    u16 count;
+    switch (arg0) {
+    case 1: table = gUnk_084B139C; break;
+    case 2: table = gUnk_084B13BC; break;
+    case 3: table = gUnk_084B13E4; break;
+    case 4: table = gUnk_084B1420; break;
+    case 5: table = gUnk_084B1454; break;
+    case 6: table = gUnk_084B148C; break;
+    case 7: table = gUnk_084B14D0; break;
+    case 8: table = gUnk_084B1504; break;
+    case 9: table = gUnk_084B154C; break;
+    case 10: table = gUnk_084B1590; break;
+    case 11: table = gUnk_084B15E4; break;
+    case 12: table = gUnk_084B15E8; break;
+    case 13: table = gUnk_084B15F8; break;
+    case 14: table = gUnk_084B160C; break;
+    case 15: table = gUnk_084B1610; break;
+    case 16: table = gUnk_084B1620; break;
+    case 17: table = gUnk_084B1630; break;
+    case 18: table = gUnk_084B164C; break;
+    case 19: table = gUnk_084B1664; break;
+    case 20: table = gUnk_084B1678; break;
+    case 21: table = gUnk_084B16A0; break;
+    case 22: table = gUnk_084B16B4; break;
+    case 23: table = gUnk_084B16CC; break;
+    default: goto selected;
+    }
+    entry = *table[arg1];
+selected:
+    if (sub_08002204() != 0) {
+        state23F98->count = 0;
+        if (arg0 != 0 && arg0 != 11) {
+            i = 0;
+            while (entry->id != 0) {
+                count = state23F98->count;
+                if ((u16)entry->id != 0) {
+                    state23F98->entries[count] = entry;
+                    sub_08023ED8((s32)entry, count);
+                    state23F98->count++;
+                }
+                i++;
+                entry++;
+                if (i > 31) break;
+            }
+        }
+    }
+}
+#ifdef NONMATCHING
+struct Remote2413C { u16 unk0, unk2; u8 unk4, unk5, unk6, unk7; };
+extern struct Remote2413C *gUnk_03003E28;
+extern s16 gUnk_0849E730[];
+extern s32 sub_08015F20(void);
+s32 sub_0802413C(s32 arg0, s32 arg1) {
+    s32 sp0;
+    s32 sp4;
+    s32 sp8;
+    s32 spC;
+    s32 sp10;
+    s32 sp14;
+    s32 sp18;
+    s32 sp1C;
+    u32 sp20;
+    u32 sp24;
+    struct Remote2413C **sp28;
+    s8 *sp2C;
+    s32 sp30;
+    s16 temp_r1;
+    s16 temp_r4;
+    s16 temp_r5;
+    s32 temp_r0;
+    s32 temp_r2;
+    s32 temp_r3;
+    s32 var_r1;
+    s32 var_r1_2;
+    s32 var_r1_3;
+    s32 var_r1_4;
+    s32 var_r3;
+    s32 var_r3_2;
+    s32 var_r7;
+    s32 var_r9;
+    s32 var_sl;
+    struct Player *temp_r8;
+    u32 temp_r4_2;
+    u32 temp_r5_2;
+    struct Remote2413C **var_r7_2;
+    struct Remote2413C *temp_r1_2;
+    struct Remote2413C *temp_r1_3;
+    struct Remote2413C *temp_r2_2;
+    struct Remote2413C *temp_r2_3;
+
+    temp_r8 = &gUnk_03003CE0[sub_080020F4()];
+    if (sub_0800CCCC() != 0) {
+        return;
+    }
+    sp1C = (s32) M2C_FIELD(arg0, u16 *, 6);
+    sp24 = (u32) (0 - (4 & sp1C)) >> 0x1F;
+    sp1C &= 3;
+    var_r7 = 0x20;
+    if ((M2C_FIELD(gUnk_03005CF4, u16 *, 0) == 3) && (gUnk_03003170.f90 == 0xC)) {
+        var_r7 = 0x18;
+    }
+    if (sub_0800CF80() != 0) {
+        sp10 = 0xF0;
+    } else {
+        sp10 = 0x18;
+    }
+    temp_r3 = M2C_FIELD(arg0, u16 *, 0) << 0xB;
+    temp_r1 = gUnk_0849E730[arg1];
+    temp_r5 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5) + 0x80);
+    sp4 = temp_r3 + (var_r7 * temp_r5);
+    temp_r2 = M2C_FIELD(arg0, u16 *, 2) << 0xB;
+    temp_r4 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5));
+    sp0 = temp_r2 + (var_r7 * temp_r4);
+    temp_r0 = 0 - (var_r7 + 8);
+    spC = temp_r3 + (temp_r0 * temp_r5);
+    sp8 = temp_r2 + (temp_r4 * temp_r0);
+    if (sp4 < 0) {
+        sp4 = 0;
+    }
+    if (sp0 < 0) {
+        sp0 = 0;
+    }
+    M2C_FIELD(temp_r8, s16 *, 0x26) = 0;
+    M2C_FIELD(temp_r8, s16 *, 0x24) = 0;
+    M2C_FIELD(temp_r8, s8 *, 0x68) = 0;
+    sp2C = &M2C_FIELD(temp_r8, s8 *, 0x68);
+loop_16:
+    if ((temp_r8->state != 0xE) && (sub_0800CD8C() == 0) && (temp_r8->state != 5)) {
+        sub_08015C5C(sp4 >> 8, sp0 >> 8);
+loop_23:
+        if ((sub_08015F20() == 0) || (((u16) gGameState->flags >> 4) & 1)) {
+            temp_r8->flags = temp_r8->flags | 0x403;
+            sub_08067D74();
+            if (((u16) gGameState->flags >> 4) & 1) {
+                return;
+            }
+            sp28 = &gUnk_03003E28;
+loop_28:
+            var_sl = 0;
+            sp14 = 0;
+            var_r3 = 0;
+            sp20 = 0;
+            var_r9 = 0;
+            var_r7_2 = sp28;
+loop_61:
+            sp30 = var_r3;
+            if (sp20 < sub_08002164()) {
+                temp_r1_2 = *var_r7_2;
+                temp_r4_2 = (u16) temp_r1_2->unk0 >> 4;
+                temp_r5_2 = (u32) (temp_r1_2->unk2 << 0x14) >> 0x14;
+                sp30 = var_r3;
+                var_r3_2 = var_r3;
+                if (sub_0800CB9C() != 0) {
+                    var_r3_2 = sp30;
+                    if (sub_0800CF80() != 0) {
+                        temp_r1_3 = *var_r7_2;
+                        if (((s32) (temp_r1_3->unk7 << 0x1B) < 0) || ((temp_r1_3->unk4 << 0x1A) == 0)) {
+                            var_r3_2 += 1;
+                        }
+                        goto block_53;
+                    }
+                    var_r1 = temp_r4_2 - sp4;
+                    if (var_r1 < 0) {
+                        var_r1 = 0 - var_r1;
+                    }
+                    if (var_r1 < (s32) (sp10 + 0x20)) {
+                        var_r1_2 = temp_r5_2 - sp0;
+                        if (var_r1_2 < 0) {
+                            var_r1_2 = 0 - var_r1_2;
+                        }
+                        if (var_r1_2 >= 0x30) {
+                            goto block_40;
+                        }
+                        goto block_41;
+                    }
+block_40:
+                    if (((u32) ((*var_r7_2)->unk4 << 0x1A) >> 0x1A) & 0x20) {
+block_41:
+                        temp_r2_2 = *var_r7_2;
+                        if ((s32) (temp_r2_2->unk7 << 0x1B) >= 0) {
+                            if (((u32) (temp_r2_2->unk4 << 0x1A) >> 0x1A) & 0x20) {
+                                if (((u32) ((u8) temp_r2_2->unk0 << 0x1C) >> 0x1C) != 0xC) {
+                                    goto block_44;
+                                }
+                                goto block_53;
+                            }
+                        } else {
+block_44:
+                            var_r3_2 += 1;
+                            goto block_53;
+                        }
+                    }
+                } else {
+                    var_r1_3 = temp_r4_2 - sp4;
+                    if (var_r1_3 < 0) {
+                        var_r1_3 = 0 - var_r1_3;
+                    }
+                    if (var_r1_3 < (s32) (sp10 + 0x20)) {
+                        var_r1_4 = temp_r5_2 - sp0;
+                        if (var_r1_4 < 0) {
+                            var_r1_4 = 0 - var_r1_4;
+                        }
+                        if ((var_r1_4 < 0x30) && (*(u32 *)((u8 *)&gUnk_03003CE0->flags + var_r9) & 0x400)) {
+                            var_r3_2 += 1;
+                        }
+                    }
+block_53:
+                    temp_r2_3 = *var_r7_2;
+                    if ((((u32) (temp_r2_3->unk4 << 0x1A) >> 0x1A) & 0x20) && (((u32) ((u8) temp_r2_3->unk0 << 0x1C) >> 0x1C) != 0xC)) {
+                        sp14 += 1;
+                    }
+                }
+                if (*(u32 *)((u8 *)&gUnk_03003CE0->flags + var_r9) & 0x2000) {
+                    var_sl += 1;
+                }
+                sp30 = var_r3_2;
+                var_r3 = var_r3_2;
+                if (sub_0800CF80() != 0) {
+                    var_sl = 0;
+                }
+                var_r7_2 = (struct Remote2413C **)((u8 *)var_r7_2 + 0x14C);
+                var_r9 += 0x14C;
+                sp20 += 1;
+                goto loop_61;
+            }
+            if ((sp30 == sub_08002164()) && (sp14 != sub_08002164())) {
+                if ((sp1C == 0) || (sp24 != 0)) {
+                    if ((sp14 == 0) && (var_sl != sub_08002164())) {
+                        sp18 += 1;
+                    }
+                } else {
+                    sp18 += 1;
+                }
+            } else {
+                sp18 = 0;
+            }
+            if ((sp18 == 0) && (sub_08058DB0() == 0) && (2 & gUnk_03001324)) {
+                temp_r8->flags = temp_r8->flags & 0xFFFFFBFF;
+                sub_08067D74();
+                sub_08057624(0x3CU);
+                temp_r8->flags = temp_r8->flags & 0xFFFFFBFC;
+                sub_08067D74();
+                sub_08015C5C(spC >> 8, sp8 >> 8);
+loop_77:
+                if ((sub_08015F20() != 0) && !(((u16) gGameState->flags >> 4) & 1)) {
+                    sub_08057624(1U);
+                    goto loop_77;
+                }
+                if (sub_0800CF80() == 0) {
+                    *sp2C = 1;
+                }
+                temp_r8->flags &= 0xFFFFFBDA;
+                sub_0806617C();
+                sub_08067D74();
+                gUnk_03005CF0 = 0;
+                return;
+            }
+            sub_08057624(1U);
+            if (!(((u16) gGameState->flags >> 4) & 1)) {
+                goto loop_28;
+            }
+            return;
+        }
+        if (sub_0800CCCC() != 0) {
+            return;
+        }
+        sub_08057624(1U);
+        goto loop_23;
+    }
+    if (sub_0800CCCC() != 0) {
+        return;
+    }
+    sub_08057624(1U);
+    goto loop_16;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080239E0);
-#endif
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023A3C);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023ED8);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023F98);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802413C);
+#endif
 void sub_08024538(s32 arg0) {
     struct Player *p;
 

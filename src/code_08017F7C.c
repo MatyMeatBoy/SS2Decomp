@@ -456,17 +456,16 @@ void sub_0801A388(u32 index)
     entry->state201 = 0;
     entities[index].state1FD = 0xFF;
 }
-#ifdef NONMATCHING
-void sub_0801A3D0(const u8 *script, u16 x, u16 row)
+static inline void FlushRows16(u32 index, u32 count)
 {
-    volatile u32 savedRow = row;
-    u32 index = row;
     u32 pending = 0;
-    u32 i = 0;
-    u16 tile;
+    u32 i;
+    u32 value;
     void *destination;
-    for (; i < 2; i++) {
-        if (gUnk_03005C40[index + i] == 0) {
+
+    for (i = 0; i < count; i++) {
+        value = gUnk_03005C40[index + i];
+        if (value == 0) {
             gUnk_03005C40[index + i] = 1;
             pending++;
         } else {
@@ -483,26 +482,56 @@ void sub_0801A3D0(const u8 *script, u16 x, u16 row)
         destination = (void *)(0x0600E000 + index * 0x40);
         sub_08001348(gUnk_03005740 + index * 0x40, destination, pending * 0x40);
     }
+}
+void sub_0801A3D0(const u8 *script, u16 x, u32 row)
+{
+    register u32 column asm("sl") = x;
+    volatile u32 savedRow = (u16)row;
+    u16 tile;
+    FlushRows16((u16)row, 2);
     tile = (gUnk_03005C54 >> 5) + 0x180;
     while (1) {
-        u32 glyph;
+        register u32 scratch asm("r1");
+        register u32 xOffset asm("r5");
+        register u32 rowOffset asm("r3");
+        register u32 rowLoad asm("r2");
+        register u16 *map asm("r3");
+        register u32 mapBaseNext asm("r2");
+        register u32 glyph asm("r6");
         u8 *font;
         if (*script == 0xFD) break;
         if (*script > 0xF1) break;
-        glyph = (u32)(*script - 1) << 16;
+        scratch = (u32)(*script - 1) << 16;
         font = (u8 *)gUnk_03005CA0[0];
-        glyph &= 0xFF0000;
-        *(u16 *)(x * 2 + savedRow * 64 + (u32)gUnk_03005740) = tile++ | 0xF000;
-        *(u16 *)(x * 2 + (savedRow + 1) * 64 + (u32)gUnk_03005740) = tile++ | 0xF000;
+        glyph = 0xFF0000;
+        glyph &= scratch;
+        xOffset = column * 2;
+        rowLoad = savedRow;
+        rowOffset = rowLoad * 64;
+        rowOffset = xOffset + rowOffset;
+        scratch = (u32)gUnk_03005740;
+        map = (u16 *)(rowOffset + scratch);
+        {
+            u16 oldTile = tile++;
+            scratch = 0xF000;
+            *map = oldTile | scratch;
+        }
+        scratch = savedRow + 1;
+        scratch *= 64;
+        xOffset += scratch;
+        mapBaseNext = (u32)gUnk_03005740;
+        xOffset += mapBaseNext;
+        {
+            u16 oldTile = tile++;
+            scratch = 0xF000;
+            *(u16 *)xOffset = oldTile | scratch;
+        }
         sub_08001348(font + (glyph >> 9), (void *)(0x0600B000 + gUnk_03005C54), 64);
         gUnk_03005C54 += 64;
-        x++;
+        column = (u16)(column + 1);
         script++;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A3D0);
-#endif
 void sub_0801A500(u32 a, u32 b, u32 c, ...)
 {
 }
@@ -643,90 +672,93 @@ void sub_0801A764(const u8 *script, u16 x, u16 y)
     }
 }
 #ifdef NONMATCHING
-void sub_0801A7AC(void) {
-    extern s16 fadeLevel asm("gUnk_03001294");
-    extern s16 fadeDisplay asm("gUnk_03001F40");
-    s16 temp_r2;
-    s16 temp_r3;
-    s16 temp_r3_2;
-    s16 temp_r4;
-    u16 temp_r2_2;
-    u16 temp_r2_3;
+void sub_0801A7AC(void)
+{
+    struct Transition16Display { u8 pad[0x30]; u16 f30, f32, f34, f36, f38, f3A; u8 pad3C[4]; u16 f40, f42, f44; };
+    extern struct Transition16Display display16 asm("gUnk_03001250");
+    extern s16 flags16 asm("gUnk_03000028");
+    extern s16 level16 asm("gUnk_03001294");
+    extern s16 displayLevel16 asm("gUnk_03001F40");
 
-    gUnk_03000028 = 1;
-loop_1:
-    sub_080003F4(0x64);
-    temp_r2 = 2 & (u16) gUnk_03000028;
-    if (temp_r2 != 0) {
-        gUnk_03001250[0x40 / 2] = 0xFF;
-        if ((s32) gUnk_03000026 > 0) {
-            fadeLevel = 0;
-        } else {
-            fadeLevel = 0x10;
-        }
+    s16 *step;
+    struct Transition16Display *screen;
+    s16 *savedStep;
+    s32 flag2, flag16;
+    u32 delta, total;
+    s32 signedDelta;
+    flags16 = 1;
+    step = &gUnk_03000026;
+    screen = &display16;
+again:
+    sub_080003F4(100);
+    flag2 = (s16)(flags16 & 2);
+    if (flag2 != 0) {
+        display16.f40 = 255;
+        flag2 = 0;
+        if (*step > 0) level16 = flag2;
+        else level16 = 16;
         sub_080003F0();
         sub_080009F8(0, 0x2000, 1);
-loop_6:
-        fadeLevel = (s16) ((s32) (gUnk_03000022 * 0x10) / (s32) gUnk_03000020);
-        temp_r2_2 = (u16) gUnk_03000026 + gUnk_03000022;
-        gUnk_03000022 = temp_r2_2;
-        temp_r3 = (s16) (u16) gUnk_03000026;
-        if ((((s32) temp_r3 <= 0) || ((u32) gUnk_03000020 >= (u32) temp_r2_2)) && (((s32) temp_r3 >= 0) || !(temp_r2_2 & 0x8000))) {
-            sub_080003F0();
-            goto loop_6;
-        }
-        goto block_21;
+        savedStep = &gUnk_03000026;
+fade:
+        level16 = ((s32)(gUnk_03000022 << 4)) / gUnk_03000020;
+        delta = *(u16 *)step;
+        total = delta + gUnk_03000022;
+        gUnk_03000022 = total;
+        signedDelta = (s16)delta;
+        if (signedDelta > 0 && gUnk_03000020 < (u16)total) goto finished;
+        if (signedDelta < 0 && (total & 0x8000)) goto finished;
+        sub_080003F0();
+        goto fade;
     }
-    temp_r4 = 0x10 & (u16) gUnk_03000028;
-    if (temp_r4 != 0) {
-        if ((s32) gUnk_03000026 > 0) {
-            fadeLevel = temp_r2;
-        } else {
-            fadeLevel = 0x10;
-        }
-loop_16:
-        gUnk_03001250[0x40 / 2] = 0xFF;
-        gUnk_03001250[0x44 / 2] = (s16) ((s32) (gUnk_03000022 * 0x10) / (s32) gUnk_03000020);
-        temp_r2_3 = (u16) gUnk_03000026 + gUnk_03000022;
-        gUnk_03000022 = temp_r2_3;
-        temp_r3_2 = (s16) (u16) gUnk_03000026;
-        if ((((s32) temp_r3_2 <= 0) || ((u32) gUnk_03000020 >= (u32) temp_r2_3)) && (((s32) temp_r3_2 >= 0) || !(temp_r2_3 & 0x8000))) {
-            sub_080003F0();
-            goto loop_16;
-        }
-block_21:
-        if ((s32) gUnk_03000026 < 0) {
-            gUnk_03000022 = 0;
-        }
+    flag16 = (s16)(flags16 & 16);
+    if (flag16 != 0) {
+        struct Transition16Display *inner;
+        if (*step > 0) level16 = flag2;
+        else level16 = 16;
+        inner = &display16;
+        savedStep = &gUnk_03000026;
+blend:
+        inner->f40 = 255;
+        inner->f44 = ((s32)(gUnk_03000022 << 4)) / gUnk_03000020;
+        delta = *(u16 *)step;
+        total = delta + gUnk_03000022;
+        gUnk_03000022 = total;
+        signedDelta = (s16)delta;
+        if (signedDelta > 0 && gUnk_03000020 < (u16)total) goto finished;
+        if (signedDelta < 0 && (total & 0x8000)) goto finished;
+        sub_080003F0();
+        goto blend;
+finished:
+        if (*savedStep < 0) gUnk_03000022 = 0;
     } else {
         gUnk_03000020 = 2;
-        if ((s32) gUnk_03000026 > 0) {
-            gUnk_03001250[0x3A / 2] = 0x3F3F;
-            gUnk_03001250[0x38 / 2] = temp_r4;
-            gUnk_03001250[0x30 / 2] = 0xF0;
-            gUnk_03001250[0x34 / 2] = 0xA0;
+        if (gUnk_03000026 > 0) {
+            screen->f3A = 0x3F3F;
+            screen->f38 = flag16;
+            screen->f30 = 0xF0;
+            screen->f34 = 0xA0;
             sub_080003F0();
-            fadeDisplay = temp_r4;
+            displayLevel16 = flag16;
             sub_08000B38();
             sub_080009C0(0, 0x2000, 1);
             gUnk_03000022 = 1;
-            gUnk_03000026 = temp_r4;
+            gUnk_03000026 = flag16;
             sub_080003F0();
         } else {
-            gUnk_03001250[0x3A / 2] = temp_r4;
-            gUnk_03001250[0x38 / 2] = 0x3F3F;
-            gUnk_03001250[0x30 / 2] = temp_r4;
-            gUnk_03001250[0x34 / 2] = temp_r4;
+            screen->f3A = flag16;
+            screen->f38 = 0x3F3F;
+            screen->f30 = flag16;
+            screen->f34 = flag16;
             sub_080009F8(0, 0x2000, 1);
-            gUnk_03000022 = (u16) temp_r4;
+            gUnk_03000022 = flag16;
             gUnk_03000026 = -1;
             sub_080003F0();
         }
     }
-    gUnk_03000028 = (u16) gUnk_03000028 & ~0x16;
-    goto loop_1;
+    { s32 mask = -23; flags16 &= mask; }
+    goto again;
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A7AC);
 #endif

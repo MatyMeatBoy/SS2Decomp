@@ -189,7 +189,7 @@ extern void sub_080290E4(s32, s32);
 extern void sub_080257D4(void *, s32);
 extern void sub_0801A664(s32, s32);
 /* The first team-count loop stops at the local player, as in the original.
- * Matching still needs table-index arithmetic and stack/register placement. */
+ * Explicit shifts retain subtraction before table scaling; registers still differ. */
 void sub_0808CB58(void) {
     u32 anim[13];
     s32 counts[4];
@@ -211,7 +211,7 @@ void sub_0808CB58(void) {
     s32 var_r6;
     u16 temp_r0_4;
     u16 temp_r5;
-    u16 var_r4_5;
+    u32 var_r4_5;
     u32 temp_r0_3;
     u32 var_r2;
     u32 var_r4;
@@ -228,6 +228,9 @@ void sub_0808CB58(void) {
     u8 temp_r0;
     u8 *players;
     u32 stride;
+    s32 tableIndex;
+    s32 tableOffset;
+    u16 tableY;
     u8 *players2;
     register u8 *table asm("r4");
     register s32 *countBase asm("r8");
@@ -263,9 +266,16 @@ void sub_0808CB58(void) {
     players2 = (u8 *)gUnk_03003CE0;
     if (*((players2 + 0x14C * sub_080020F4()) + 0x68) != 0) {
         table = gUnk_084F0C8A;
-        temp_r5 = *(u16 *)(((*((players2 + 0x14C * sub_080020F4()) + 0x68) - 3) * 6) + table);
-        sub_08028AAC(0, (s32) temp_r5, (s32) (u16) ((var_r6 * 0xA) + *(u16 *)(((*((players2 + 0x14C * sub_080020F4()) + 0x68) - 3) * 6) + ((table + 2)))), 0);
-        sub_080290E4(0, *(s16 *)(((*((players2 + 0x14C * sub_080020F4()) + 0x68) - 3) * 6) + ((table + 4))));
+        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
+        tableOffset = ((tableIndex << 1) + tableIndex) << 1;
+        temp_r5 = *(u16 *)(table + tableOffset);
+        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
+        tableOffset = ((tableIndex << 1) + tableIndex) << 1;
+        tableY = (var_r6 * 10) + *(u16 *)(tableOffset + (table + 2));
+        sub_08028AAC(0, temp_r5, tableY, 0);
+        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
+        tableOffset = ((tableIndex << 1) + tableIndex) << 1;
+        sub_080290E4(0, *(s16 *)(tableOffset + (table + 4)));
     } else {
         table = gUnk_084F0C8A;
         sub_08028AAC(0, (s32) (u16) ((var_r6 << 5) + *(u16 *)(table + 0x18)), (s32) *(u16 *)(table + 0x1A), 0);
@@ -415,6 +425,7 @@ block_84:
     (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x36)) = 1;
     sub_0801A664(0, 0x14);
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808CB58);
 #endif

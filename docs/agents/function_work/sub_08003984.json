@@ -1,0 +1,38 @@
+{
+  "address": "0x08003984",
+  "updated_utc": "2026-10-28T18:44:08.636793+00:00",
+  "checkpoint": "2a913abe3660ec2ad22217ed7b16e43bf2b9d14c",
+  "areas": [
+    {
+      "id": "flow",
+      "label": "Reconstrucción inicial del flujo",
+      "state": "done",
+      "evidence": "Función completa NONMATCHING conservando ASM; f397be0de22bf3500e640d1c2190b366f9e3eba4."
+    },
+    {
+      "id": "compile",
+      "label": "Draft completo compilable",
+      "state": "done",
+      "evidence": "Reconstrucción forzada del módulo, make compare ROM OK y make nonmatching; 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c."
+    },
+    {
+      "id": "types",
+      "label": "Tipos y convenciones de llamadas",
+      "state": "active",
+      "evidence": "Anchos u16, recursos y sprites reconstruidos; firmas aún en revisión."
+    },
+    {
+      "id": "layout",
+      "label": "Frame, bloques y registros",
+      "state": "active",
+      "evidence": "Frame 0x54C recuperado en 2a913abe3660ec2ad22217ed7b16e43bf2b9d14c. Continúan diferencias de registros y control de flujo."
+    },
+    {
+      "id": "match",
+      "label": "Coincidencia exacta y validación final",
+      "state": "pending",
+      "evidence": "Permanece NONMATCHING; comparación exacta del candidato negativa."
+    }
+  ],
+  "regions": []
+}

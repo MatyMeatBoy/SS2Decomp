@@ -148,11 +148,11 @@ void sub_0808D654(u8 *arg0) {
         s32 damage, flashing, timer;
     } L;
     s32 temp_r0;
-    s32 temp_r0_2;
+    register s32 temp_r0_2 asm("r0");
+    s32 scaledStat;
     s32 temp_r0_4;
     s32 temp_r0_5;
     s32 temp_r0_6;
-    u16 temp_r0_3;
     u16 temp_r4_2;
     register u32 var_sl asm("r10");
     register u32 temp_r8 asm("r8");
@@ -175,7 +175,11 @@ void sub_0808D654(u8 *arg0) {
     temp_r0 = (*(s16 *)(temp_r4 + 0x6)) * 3;
     (*(s16 *)(arg0 + 0x1D6)) = temp_r0;
     (*(s16 *)(arg0 + 0x5C)) = temp_r0;
-    temp_r0_2 = ((*(s16 *)(temp_r4 + 0x4)) * 10) << 1;
+    temp_r0_2 = *(s16 *)(temp_r4 + 4);
+    scaledStat = temp_r0_2 << 1;
+    temp_r0_2 <<= 3;
+    temp_r0_2 += scaledStat;
+    temp_r0_2 <<= 1;
     (*(s16 *)(arg0 + 0x1D4)) = temp_r0_2;
     (*(s16 *)(arg0 + 0x5E)) = temp_r0_2;
     (*(u16 *)(arg0 + 0xC)) = zero;
@@ -217,9 +221,8 @@ loop_60:
             if ((1 & var_sl) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
                 sub_08007870(L.x, L.y, (*(u16 *)(arg0 + 0x68)), *palette, temp_r8, &L.anim[7], L.anim[2], L.anim[0]);
             }
-            temp_r0_3 = var_sl - 1;
-            var_sl = temp_r0_3;
-            if (temp_r0_3 == 0) {
+            var_sl = (u16)(var_sl - 1);
+            if (var_sl == 0) {
                 if ((*(u16 *)(arg0 + 0xC)) == 0xB) {
                     goto done;
                 } else {
@@ -296,6 +299,7 @@ done:
     gUnk_030056FC &= ~(1 << (*(u16 *)(arg0 + 0x0)));
     sub_08016ECC(5);
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808D654);
 #endif
@@ -406,7 +410,7 @@ struct DB38Locals {
     s32 hit, sound;
 };
 
-/* Matching still needs the original packed-box mask sequence and stack aliases. */
+/* Keep the two word masks in the original order; stack aliases still differ. */
 void sub_0808DB38(u32 arg)
 {
     struct DB38Locals L;
@@ -429,9 +433,14 @@ void sub_0808DB38(u32 arg)
     L.pos[0] = 0x3D400;
     height = 0xA000;
     speed = 0;
-    L.size = 0x100010;
-    L.player = &gUnk_03003CE0[sub_080020F4()];
-    L.box = (u16)((L.box & 0xFFFF0000) | 0x10) | 0x80000;
+    {
+        register u32 maskhi asm("r5") = 0xFFFF0000;
+        register u32 masklo asm("r6") = 0xFFFF;
+        register u32 boxwidth asm("r4") = 0x10;
+        L.size = 0x100010;
+        L.player = &gUnk_03003CE0[sub_080020F4()];
+        L.box = (((L.box & maskhi) | boxwidth) & masklo) | 0x80000;
+    }
     L.hit = 1;
     L.sound = 1;
     attrptr = &L.attr0;
@@ -478,6 +487,7 @@ void sub_0808DB38(u32 arg)
         sub_080003F0();
     }
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808DB38);
 #endif
