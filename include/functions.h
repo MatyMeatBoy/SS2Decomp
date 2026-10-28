@@ -517,6 +517,8 @@ s32 sub_08065E38(s32);
 s32 sub_08065F08(s32);
 M2C_UNK sub_0806617C();
 u32 sub_080663A4(u32 index);
+u32 sub_08066490(u32 a, u32 b, u32 *src);
+u32 sub_08066520(u32 a, u32 b, u16 c, u32 *src);
 s32 sub_08067AC0();
 s32 sub_08067AC4();
 s32 sub_08067AC8();
