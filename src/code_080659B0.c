@@ -45,20 +45,22 @@ void sub_080659F4(s32 *arg0, s32 arg1, s32 arg2, s32 arg3)
   *arg0 = (((s32) (arg2 * arg3)) >> 0xA) + (((s32) (arg1 * (0x400 - arg3))) >> 0xA);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A1C);
-#ifdef NONMATCHING
+extern u32 sub_08001638(u32);
+struct Task6A90 { u32 f0, f4, f8; void (*fC)(); u8 *f10; u32 f14, f18, f1C; u8 *f20; u32 f24; };
+extern struct Task6A90 task6A90 asm("gUnk_030061B0");
 void sub_08065A90(u32 a, u32 b)
 {
-    u8 *obj;
-    u32 mem;
-    obj=(u8 *)0x030061B0; if(sub_08000470((u32)obj))return;
-    *(u32 *)(obj+8)=0x3C;
-    do { mem=sub_08001638(0x200); if(!mem)sub_080003F0(); } while(!mem);
-    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+0xC)=(u32)sub_08065A1C;
-    *(u32 *)(obj+0x10)=mem+0x1FC; *(u32 *)(obj+0x24)=0; sub_08000274_(obj,a,b);
+    u8 *mem;
+    if (sub_08000470((u32)&task6A90) == 0) {
+        task6A90.f8 = 0x3C;
+        while ((mem = (u8 *)sub_08001638(0x200), task6A90.f20 = mem) == 0)
+            sub_080003F0();
+        task6A90.fC = sub_08065A1C;
+        task6A90.f10 = task6A90.f20 + 0x1FC;
+        task6A90.f24 = 0;
+        sub_08000274(&task6A90, a, b);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065A90);
-#endif
 s32 sub_08065AE8(void)
 {
   int new_var;
@@ -89,21 +91,19 @@ void sub_08065B58(void)
     for (i = 0; i < 4; i++)
         M2C_FIELD((u8 *)gUnk_03006030 + i * 0x28, s32 *, 8) = 0;
 }
-#ifdef NONMATCHING
 void sub_08065B84(void)
 {
-    u32 i;
-    s32 ptr = gUnk_03006030;
-    for (i = 0; i < 4; i++, ptr += 0x28) {
-        while (sub_08000470(ptr) != 0)
+    s32 base = gUnk_03006030;
+    u32 i = 0;
+    u32 result;
+    do {
+        while ((result = sub_08000470(i * 0x28 + base)) != 0)
             sub_080003F0();
-    }
+        i++;
+    } while (i <= 3);
     sub_08001538(gUnk_03006030);
-    gUnk_03006030 = 0;
+    gUnk_03006030 = result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065B84);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065BD0);
 struct TaskC50 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct TaskC50 gTaskC50 asm("gUnk_03002840");

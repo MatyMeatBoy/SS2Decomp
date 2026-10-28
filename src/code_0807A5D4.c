@@ -105,28 +105,73 @@ void sub_0807C014(u32 amount)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C014);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C114);
-#ifdef NONMATCHING
+struct Item7C114 { u16 kind; u16 pad; u32 count; u8 flag; u8 rest[7]; };
+struct Manager7C114 { u32 kind; u32 f4; u32 f8; u8 padC[12]; u32 f18; u32 f1C; u32 f20; u8 pad24[0xD0]; struct Item7C114 item; };
+s32 sub_0807C114(void)
+{
+    struct Item7C114 item;
+    u32 zero;
+    u32 count;
+    s32 kind;
+    register struct Manager7C114 *manager asm("r4");
+    sub_0807BD78(((struct Manager7C114 *)gUnk_03006440)->f1C, ((struct Manager7C114 *)gUnk_03006440)->f20);
+    count = sub_0805AE94(&((struct Manager7C114 *)gUnk_03006440)->item);
+    manager = (struct Manager7C114 *)gUnk_03006440;
+    { register struct Item7C114 *p asm("r1") = &manager->item; kind = p->kind; }
+    if (kind != 10) {
+    switch (kind) {
+    case 2: case 3: case 4: case 5:
+        { register u8 *flag asm("r0") = (u8 *)manager + 0xFC;
+        if (*flag == 0) count /= 10;
+        else goto one; }
+        break;
+    default:
+        count /= 10;
+        if (count == 0) {
+one:
+            count = 1;
+        }
+        break;
+    }
+    }
+    item.kind = 10;
+    item.count = count;
+    if (sub_0805AB20(&item) != 0) {
+    ((struct Manager7C114 *)gUnk_03006440)->f18 = ((struct Manager7C114 *)gUnk_03006440)->f1C;
+    ((struct Manager7C114 *)gUnk_03006440)->f4 = ((struct Manager7C114 *)gUnk_03006440)->f20;
+    ((struct Manager7C114 *)gUnk_03006440)->f8 = ((struct Manager7C114 *)gUnk_03006440)->f20 + 1;
+    { register u32 *zp asm("r0") = &zero;
+    register void *dst asm("r1");
+    zero = 0;
+    dst = &((struct Manager7C114 *)gUnk_03006440)->item;
+    CpuSet(zp, dst, 0x05000004); }
+    ((struct Manager7C114 *)gUnk_03006440)->f1C = 22;
+    ((struct Manager7C114 *)gUnk_03006440)->f20 = 0;
+    sub_0805865C(0x63);
+    return 1;
+    } else {
+        sub_0807BEA0(((struct Manager7C114 *)gUnk_03006440)->f1C, ((struct Manager7C114 *)gUnk_03006440)->f20, &((struct Manager7C114 *)gUnk_03006440)->item);
+        sub_0805865C(0x61);
+        return 0;
+    }
+}
 void sub_0807C1D8(void) {
-    register u8 *manager asm("r1");
+    u8 *manager;
     register u32 saved asm("r5");
     manager = (u8 *)gUnk_03006440;
-    saved = *(u32 *)(manager + 4);
+    saved = *(u32 *)((u8 *)gUnk_03006440 + 4);
     if (saved != 0) {
-        sub_08065370(manager + 0xA4, 4, manager + 0x4E, manager + 0x52, 1);
-        sub_08065230(manager + 0xA4, 0x78, 0x78, 9, 0);
-        sub_08065264(manager + 0xA4, 0x88, 0x78, 5, *(u16 *)(manager + 0x4E));
-        sub_08065230(manager + 0xA4, 0x68, 0x78, 4, *(u16 *)(manager + 0x4C));
+        sub_08065370((u8 *)gUnk_03006440 + 0xA4, 4, (u8 *)gUnk_03006440 + 0x4E, (u8 *)gUnk_03006440 + 0x52, 1);
+        sub_08065230((u8 *)gUnk_03006440 + 0xA4, 0x78, 0x78, 9, 0);
+        sub_08065264((u8 *)gUnk_03006440 + 0xA4, 0x88, 0x78, 5, *(u16 *)((u8 *)gUnk_03006440 + 0x4E));
+        sub_08065230((u8 *)gUnk_03006440 + 0xA4, 0x68, 0x78, 4, *(u16 *)((u8 *)gUnk_03006440 + 0x4C));
         return;
     }
-    sub_08065370(manager + 0xA4, 5, manager + 0x4C, manager + 0x50, 1);
-    sub_08065230(manager + 0xA4, 0x78, 0x78, 8, saved);
-    sub_08065230(manager + 0xA4, 0x88, 0x78, 5, *(u16 *)(manager + 0x4E));
-    sub_08065264(manager + 0xA4, 0x68, 0x78, 4, *(u16 *)(manager + 0x4C));
+    sub_08065370((u8 *)gUnk_03006440 + 0xA4, 5, (u8 *)gUnk_03006440 + 0x4C, (u8 *)gUnk_03006440 + 0x50, 1);
+    sub_08065230((u8 *)gUnk_03006440 + 0xA4, 0x78, 0x78, 8, saved);
+    sub_08065230((u8 *)gUnk_03006440 + 0xA4, 0x88, 0x78, 5, *(u16 *)((u8 *)gUnk_03006440 + 0x4E));
+    sub_08065264((u8 *)gUnk_03006440 + 0xA4, 0x68, 0x78, 4, *(u16 *)((u8 *)gUnk_03006440 + 0x4C));
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C1D8);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C29C);
 #ifdef NONMATCHING
 // Inventory drawing pass. The assembly remains the default until this draft

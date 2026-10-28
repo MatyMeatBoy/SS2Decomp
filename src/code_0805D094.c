@@ -720,7 +720,36 @@ u32 sub_0805EF90(void)
 
   return 0;
 }
+#ifdef NONMATCHING
+/* Original has a void epilogue; the existing s32 prototype needs separate tooling support. */
+s32 sub_0805EFBC(void) {
+    u32 base=gUnk_03005D68;
+    register u32 i asm("r6")=0;
+    do {
+        u32 flag=((s32)gUnk_03005D6C>>i)&1;
+        u32 next=i+1;
+        register u32 nextLow asm("r1");
+        register u32 clipped asm("r0");
+        if(flag) {
+            register u32 shifted asm("r5")=i<<4;
+            register u32 offset asm("r4");
+            register u32 sum asm("r0");
+            while((sum=shifted+i,offset=sum<<3,sub_0805EE6C((void *)(base+offset)))==0) {
+                sub_080003F0();
+                asm volatile("" : "+r" (shifted));
+            }
+            while(sub_0805EEFC((void *)(base+offset))==0) { sub_080003F0(); asm volatile("" : "+r" (offset)); }
+        }
+        nextLow=next;
+        asm volatile("" : "+r" (nextLow));
+        clipped=nextLow<<24;
+        asm volatile("" : "+r" (clipped));
+        i=clipped>>24;
+    } while(i<=3);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EFBC);
+#endif
 void sub_0805F020(void)
 {
     void *src = sub_08007290((u8 *)(uintptr_t)gUnk_03003470 + 0x10010003);
@@ -792,5 +821,579 @@ u32 sub_0805F184(void)
 
   return (long long) 0;
 }
+#ifdef NONMATCHING
+struct Asset62 { s32 unk0; u32 unk4; s32 unk8; s32 unkC; u32 unk10; u32 unk14; s32 unk18; u8 remap[16]; u8 tail[8]; };
+extern struct Asset62 asset62_03005D80 asm("gUnk_03005D80");
+extern struct Asset62 asset62_03005DC0 asm("gUnk_03005DC0");
+extern struct Asset62 asset62_03005DF4 asm("gUnk_03005DF4");
+extern struct Asset62 asset62_03005E28 asm("gUnk_03005E28");
+extern struct Asset62 asset62_03005E5C asm("gUnk_03005E5C");
+extern struct Asset62 asset62_03005E90 asm("gUnk_03005E90");
+extern struct Asset62 asset62_03005EC4 asm("gUnk_03005EC4");
+extern struct Asset62 asset62_03005EF8 asm("gUnk_03005EF8");
+extern struct Asset62 asset62_03005F2C asm("gUnk_03005F2C");
+extern struct Asset62 asset62_03005F60 asm("gUnk_03005F60");
+extern struct Asset62 asset62_03005F94 asm("gUnk_03005F94");
+extern struct Asset62 asset62_03005FC8 asm("gUnk_03005FC8");
+extern struct Asset62 asset62_03006040 asm("gUnk_03006040");
+extern struct Asset62 asset62_03006074 asm("gUnk_03006074");
+extern struct Asset62 asset62_030060A8 asm("gUnk_030060A8");
+extern struct Asset62 asset62_030060DC asm("gUnk_030060DC");
+s32 sub_0805F1B0(void) {
+    {
+        struct Asset62 *p=&asset62_03006040;
+        u32 id=0x5000B;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03006074;
+        u32 id=0x50003;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_030060A8;
+        u32 id=0x50004;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_030060DC;
+        u32 id=0x50005;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    switch(gUnk_03003470) {
+    case 0:
+    {
+        struct Asset62 *p=&asset62_03005D80;
+        u32 id=0x50006;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=4;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+        break;
+    case 1:
+    {
+        struct Asset62 *p=&asset62_03005D80;
+        u32 id=0x50007;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=4;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+        break;
+    case 2:
+    {
+        struct Asset62 *p=&asset62_03005D80;
+        u32 id=0x50008;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=4;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+        break;
+    case 3:
+    {
+        struct Asset62 *p=&asset62_03005D80;
+        u32 id=0x50009;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=4;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+        break;
+    case 4:
+    {
+        struct Asset62 *p=&asset62_03005D80;
+        u32 id=0x5000a;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=4;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+        break;
+    }
+    {
+        struct Asset62 *p=&asset62_03005DC0;
+        u32 id=0x500A3;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005DF4;
+        u32 id=0x500A1;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005E28;
+        u32 id=0x500A4;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005E5C;
+        u32 id=0x500A2;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005E90;
+        u32 id=0x500DB;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005EC4;
+        u32 id=0x500DC;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005EF8;
+        u32 id=0x500DE;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005F2C;
+        u32 id=0x500DD;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005F60;
+        u32 id=0x500BD;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005F94;
+        u32 id=0x500AF;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+    {
+        struct Asset62 *p=&asset62_03005FC8;
+        u32 id=0x500F1;
+        u32 i;
+        u8 *map;
+        s32 data;
+        p->unk10=id;
+        p->unk14=9;
+        p->unk18=-1;
+        data=sub_08006EE0(id,&gUnk_08518938);
+        p->unk8=data;
+        if(data!=0) {
+            id&=0xFFFF;
+            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
+            p->unk0=data;
+            if(data!=0) {
+                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
+                p->unkC=data;
+                if(data!=0) {
+
+                    map=p->remap;
+                    for(i=0;i<=15;i++) map[i]=i;
+                    sub_080653B8(p,0x120,0xE0,8);
+                }
+            }
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F1B0);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805FAC0);

@@ -631,7 +631,7 @@ block_20:
             var_r2 = 0;
             if (spAC > 0U) {
                 do {
-                    temp_r1 = *((var_r2 * 0x14C) + &gUnk_03003E28);
+                    temp_r1 = *(void **)((var_r2 * 0x14C) + (u8 *)&gUnk_03003E28);
                     if (((s32) ((u32) (M2C_FIELD(temp_r1, u16 *, 2) << 0x14) >> 0x14) <= 0x7B) && (((u32) (M2C_FIELD(temp_r1, u8 *, 4) << 0x1A) >> 0x1A) == 0x11)) {
                         spCC = 1;
                         spB4 = 0x10;
@@ -668,7 +668,7 @@ block_20:
         var_r2_2 = 0;
         if (spAC > 0U) {
             do {
-                temp_r1_2 = *((var_r2_2 * 0x14C) + &gUnk_03003E28);
+                temp_r1_2 = *(void **)((var_r2_2 * 0x14C) + (u8 *)&gUnk_03003E28);
                 if (((s32) ((u32) (M2C_FIELD(temp_r1_2, u16 *, 2) << 0x14) >> 0x14) > 0x7C) && (((u32) (M2C_FIELD(temp_r1_2, u8 *, 4) << 0x1A) >> 0x1A) == 0x11)) {
                     spD0 = 4;
                 }
@@ -711,7 +711,7 @@ block_20:
             temp_r2_4 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x90;
             *temp_r2_4 -= motion[1];
             temp_r4 = sub_080020F4();
-            *((0x14C * temp_r4) + &gUnk_03003D78) = *((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x90);
+            *(s32 *)((0x14C * temp_r4) + (u8 *)&gUnk_03003D78) = *(s32 *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x90);
         }
         sub_0800BBA8(2U, (u16) ((s32) (sp94 << 8) >> 0x10), (u16) ((s32) (sp98 << 8) >> 0x10));
         temp_r2_5 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;

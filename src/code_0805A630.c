@@ -291,67 +291,80 @@ u32 sub_0805AB20(u8 *arg)
     u32 type = *(u16 *)item;
     register u8 **owner asm("r12") = &mapItems;
     register s32 previous asm("r6");
-    s32 selected;
-    s32 result;
-    s32 best;
-    s32 i;
-    u8 *entry;
+    register s32 selected asm("r3");
+    register s32 result asm("r1");
+    register s32 best asm("r4");
+    register s32 i asm("r2");
+    register u8 *entry asm("r1");
     register s32 cap asm("r5");
-    u32 offset;
+    register u32 offset asm("r0");
     u32 sum;
     if (type != 0xA) goto empty;
     previous = -1;
     goto find;
 merge:
-    previous = selected;
-    if (selected > 0x18) goto empty;
-    offset = selected * 0x10;
-    offset += 0x150;
-    entry = *owner;
+    previous = result;
+    if (result > 0x18) goto empty;
+    offset = result * 0x10;
+    i = 0x150;
+    offset += i;
+    selected = (u32)owner;
+    entry = *(u8 **)selected;
     entry += offset;
     *(u16 *)entry = 0xA;
     sum = *(u32 *)(entry + 4) + *(u32 *)(item + 4);
     if (sum <= 100000) goto stacked;
     *(u32 *)(entry + 4) = 100000;
-    *(u32 *)(item + 4) = sum - 100000;
+    i = sum - 100000;
+    *(u32 *)(item + 4) = i;
 find:
     selected = previous;
     if (previous < 0) selected = 0;
     offset = selected * 0x10;
-    offset += 0x150;
-    entry = *owner;
+    i = 0x150;
+    offset += i;
+    i = (u32)owner;
+    entry = *(u8 **)i;
     entry += offset;
     best = -1;
-    for (i = selected; i <= 0x18; i++, entry += 0x10) {
+    i = selected;
+    if (selected <= 0x18) do {
         cap = 100000;
-        if (*(u16 *)entry == 0xA && best < *(s32 *)(entry + 4) && *(s32 *)(entry + 4) != cap) {
-            selected = i;
-            best = *(s32 *)(entry + 4);
+        if (*(u16 *)entry == 0xA) {
+            s32 value = *(s32 *)(entry + 4);
+            if (best < value && value != cap) {
+                selected = i;
+                best = value;
+            }
         }
-    }
+        i++;
+        entry += 0x10;
+    } while (i <= 0x18);
     result = selected;
     if (best < 0) result = -1;
-    if (previous != result && result >= 0) {
-        selected = result;
-        goto merge;
-    }
+    if (previous != result && result >= 0) goto merge;
 empty:
     i = 0;
-    entry = mapItems + 0x150;
-    for (; i <= 0x18; i++, entry += 0x10)
+    offset = (u32)mapItems;
+    selected = 0x150;
+    entry = (u8 *)offset + selected;
+    do {
         if (*(u16 *)entry == 0) goto found;
-    selected = -1;
+        entry += 0x10;
+        i++;
+    } while ((u32)i <= 0x18);
+    result = -1;
     goto check;
 found:
-    selected = i;
+    result = i;
 check:
-    if (selected == -1) return 0;
+    if (result == -1) return 0;
     goto insert;
 stacked:
     *(u32 *)(entry + 4) = sum;
     goto success;
 insert:
-    sub_0805CFF8((u8)selected, (const u32 *)item);
+    sub_0805CFF8((u8)result, (const u32 *)item);
 success:
     return 1;
 }
@@ -508,7 +521,99 @@ accept:
 reject:
     return 0;
 }
+#ifdef NONMATCHING
+u32 sub_0805AE94(u8 *item)
+{
+    extern u32 priceLevels[] asm("gUnk_084B24B0");
+    extern u32 priceQualities[] asm("gUnk_084B2504");
+    u32 flag = 0;
+    u32 value = 0;
+    u32 level = 0;
+    u32 quality = 0;
+    u32 multiplier = 10;
+    register u32 id asm("r0");
+    register u32 category asm("r1");
+    register u32 q0 asm("r0");
+    register u32 q2 asm("r2");
+    u32 result;
+    u8 *resource;
+    switch (*(u16 *)item) {
+    case 1:
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000);
+        value = *(u32 *)(resource + 0x9C);
+        break;
+    case 2:
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
+        value = *(u32 *)(resource + 0xA0);
+        flag = item[8]; level = item[6]; q0 = item[7]; quality = q0;
+        goto modifier;
+    case 3:
+        id = *(u16 *)(item + 2);
+        category = 0xC0000;
+        goto shared;
+    case 4:
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000);
+        value = *(u32 *)(resource + 0x9C);
+        flag = item[8]; level = item[6]; q0 = item[7]; quality = q0;
+        goto modifier;
+    case 7:
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000);
+        value = *(u32 *)(resource + 0x9C);
+        flag = 0; level = 0;
+        break;
+    case 5:
+        id = *(u16 *)(item + 2);
+        category = 0xE0000;
+shared:
+        id |= category;
+        resource = (u8 *)sub_08007290(id);
+        value = *(u32 *)(resource + 0x9C);
+        flag = item[8]; level = item[6]; q2 = item[7]; quality = q2;
+modifier:
+        if (*(u16 *)(item + 4) != 0) {
+            resource = (u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000);
+            multiplier = *(u16 *)(resource + 0x9C);
+        }
+        break;
+    case 6:
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000);
+        value = *(u32 *)(resource + 0x9C);
+        flag = 0; level = 0; q0 = 0; quality = q0;
+        break;
+    case 9:
+        sub_08007290(*(u16 *)(item + 2) | 0x150000);
+        switch (*(u16 *)(item + 2)) {
+        case 0: value = *(u16 *)(item + 4) * 100; break;
+        case 1: value = *(u16 *)(item + 4) * 250; break;
+        case 2: value = *(u16 *)(item + 4) * 200; break;
+        case 3: value = *(u16 *)(item + 4) * 10; break;
+        case 4: value = *(u16 *)(item + 4) * 20; break;
+        }
+        break;
+    case 10:
+        value = *(u32 *)(item + 4);
+        break;
+    case 8:
+        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000);
+        value = *(u16 *)(resource + 0x9C);
+        break;
+    }
+    if (flag != 0) goto one;
+    {
+        value = value * multiplier / 10;
+        value = value * priceLevels[level] / 10;
+        value = value * priceQualities[quality] / 10;
+        result = value;
+        goto done;
+    }
+one:
+    result = 1;
+done:
+    return result;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
+#endif
 u32 sub_0805B068(const u8 *item)
 {
     u32 divisor;
@@ -665,7 +770,84 @@ void sub_0805B21C(void)
     sub_08000274((u32)task);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
+#ifdef NONMATCHING
+void sub_0805B4CC(s32 *x, s32 *y)
+{
+    extern u8 *slotsMemory asm("gUnk_03005D58");
+    extern u8 *freeGrid asm("gUnk_03000124");
+    s32 column = 0;
+    s32 row;
+    s32 nextColumn;
+    s32 nextRow;
+    s32 testX;
+    s32 testY;
+    s32 radius;
+    s32 first;
+    s32 gridOffset;
+    do {
+        testX = *x + ((column - 10) << 10);
+        row = 0;
+        nextColumn = column + 1;
+        do {
+            u32 collision;
+            testY = *y + ((row - 10) << 10);
+            collision = sub_0800AE50(testX, testY, 0) & 7;
+            nextRow = row + 1;
+            if (collision == 0) {
+                u8 *entry = slotsMemory;
+                u32 i = 0;
+                do {
+                    if (*(u16 *)(entry + 0xA) & 1) {
+                        s32 dx = (testX - *(s32 *)entry) >> 8;
+                        s32 dy;
+                        if (dx < 0) dx = -dx;
+                        dy = (testY - *(s32 *)(entry + 4)) >> 8;
+                        if (dy < 0) dy = -dy;
+                        if (dx <= 7 && dy <= 7 && *(u16 *)(entry + 8) == 0) goto occupied;
+                    }
+                    i++;
+                    entry += 0x20;
+                } while (i <= 15);
+                entry = 0;
+occupied:
+                if (entry == 0) freeGrid[row * 21 + column] = 1;
+                else goto blocked;
+            } else {
+blocked:
+                freeGrid[row * 21 + column] = 0;
+            }
+            row = nextRow;
+        } while (row <= 20);
+        column = nextColumn;
+    } while (column <= 20);
+    radius = 0;
+    gridOffset = 0;
+    do {
+        first = -radius;
+        for (column = first; column < radius; column++) {
+            testX = *x + (column << 10);
+            if (first < radius) {
+                s32 offset = gridOffset + column;
+                row = first;
+                do {
+                    testY = *y + (row << 10);
+                    if (freeGrid[offset + 0xDC] != 0) {
+                        *x = testX;
+                        *y = testY;
+                        return;
+                    }
+                    offset += 21;
+                    row++;
+                } while (row < radius);
+            }
+        }
+        gridOffset -= 21;
+        radius++;
+    } while (radius <= 9);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B4CC);
+#endif
 #ifdef NONMATCHING
 void *sub_0805B618(void)
 {

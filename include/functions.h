@@ -791,3 +791,5 @@ void sub_08097D3C(u32 index, s32 scale);
 u32 sub_08097DBC(u32 arg0, s32 y, u16 angle, u32 arg3);
 u32 sub_0801DEB8(void);
 void sub_0801E0D0(u16 *dst, const u16 *src);
+
+void sub_0807C1D8(void);
