@@ -49,6 +49,12 @@ check: if (i > N) return;
 - Tras aplicar una función queda un borrador viejo → `python tools/scripts/unwrap_matched.py`.
 
 ## Protecciones automáticas
+- Una definición C con nombre distinto del símbolo exportado (`void nombre(void) asm("sub_XXXXXXXX");`)
+  se aplica por su símbolo canónico: `handapply.py MODULO sub_XXXXXXXX.c` o `apply_permuted.py archivo_o_directorio`.
+  Conservan el nombre C, alias y tipos locales; no reescribas el header canónico para forzar su tipo.
+  El caso con alias verifica el target dentro del módulo normal y compila NONMATCHING, con rollback exacto;
+  `handapply` requiere igualmente `make compare` antes de darlo por terminado. Una función por candidato.
+  Límites y pruebas: [ALIAS_APPLICATION_AUDIT.md](ALIAS_APPLICATION_AUDIT.md).
 - `tools/hooks/pre-commit`: `check_tree.py` + `make compare` + `make nonmatching` antes de cada commit.
 - GitHub Actions (`.github/workflows/check.yml`): en cada push compila todos los módulos (normal y NONMATCHING) y corre `check_tree.py`.
   Si sale en rojo, arréglalo antes de seguir.
