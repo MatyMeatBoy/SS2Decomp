@@ -7,7 +7,7 @@ usage: shard.py gen K            write tools/config/shards.txt (lines: SHARD FUN
 import glob, os, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CFG = os.path.join(ROOT, "tools/config/shards.txt")
-SKIP = {"libagbsyscall", "m4a", "m4a_1", "sched"}
+SKIP = {"libagbsyscall", "m4a_1", "sched"}
 
 def remaining():
     out = {}
