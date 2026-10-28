@@ -15,7 +15,7 @@ CC1       := tools/agbcc/bin/agbcc
 
 ASFLAGS   := -mcpu=arm7tdmi -I .
 NM_FLAGS  :=
-CPPFLAGS  := -nostdinc -I tools/agbcc/include -iquote include -undef $(NM_FLAGS)
+CPPFLAGS  := -nostdinc -I tools/agbcc/include -iquote include -undef -std=gnu17 $(NM_FLAGS)
 CC1FLAGS  := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm -fprologue-bugfix
 
 SHELL     := /bin/bash -o pipefail
@@ -75,9 +75,10 @@ $(BUILD)/data/%.o: data/%.s baserom.gba
 	@mkdir -p $(@D)
 	$(AS) $(ASFLAGS) -o $@ $<
 
-$(BUILD)/ld_script.ld: ld_script.ld
+$(BUILD)/ld_script.ld: ld_script.ld sym_ram.ld
 	@mkdir -p $(BUILD)
-	sed 's#build/#$(BUILD)/#g' $< > $@
+	# sym_ram.ld is inlined: binutils >= 2.46 rejects INCLUDE from a -T script ("appears multiple times")
+	sed -e 's#build/#$(BUILD)/#g' -e '/^INCLUDE sym_ram.ld/{r sym_ram.ld' -e 'd}' $< > $@
 ifneq ($(NM_FLAGS),)
 	sed -i -e 's#\*libc.a:memcpy.o(.text);#*libc.a:*(.text);#' -e 's#^\( *\)$(BUILD)/data/rodata.o(.rodata);#&\n\1$(BUILD)/src/*.o(.rodata);\n\1*libc.a:*(.rodata);#' $@
 endif

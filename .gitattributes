@@ -1,3 +1,9 @@
+# Force LF everywhere: sha1sum -c, sed on ld scripts and the assembler break on CRLF (Windows checkouts).
+* text=auto eol=lf
+*.gba binary
+*.bin binary
+*.png binary
+*.xz binary
 include/functions.h merge=union
 include/variables.h merge=union
 include/structs.h merge=union
