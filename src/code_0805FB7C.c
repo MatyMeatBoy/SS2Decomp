@@ -181,9 +181,127 @@ void sub_080653FC(s32 arg0) {
         sub_080003A8((s32) temp_r4);
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065424);
+extern u32 gUnk_084EBD4C[];
+void sub_08065424(s32 x, s32 y, s32 number, u32 argStyle, u32 argDigits)
+{
+    u8 buffer[12];
+    s32 value;
+    s32 style = (u8)argStyle;
+    u32 digits = (u8)argDigits;
+    u32 *table;
+    u8 *out;
+    u32 i;
+    s32 started;
+    u8 *obj;
+    if (number < 0) number = 0x7FFFFFFF;
+    switch (style) {
+    case 0: style = 0; break;
+    case 1: style = 1; break;
+    case 2: style = 2; break;
+    case 3: style = 13; break;
+    }
+    value = number;
+    table = gUnk_084EBD4C + (10 - digits);
+    out = buffer;
+    i = 0;
+    if (i < digits) {
+        do {
+            *out = sub_08000498(&value, *table++);
+            i++;
+            out++;
+        } while (i < digits);
+    }
+    started = 0;
+    x -= (digits - 1) * 6;
+    out = buffer;
+    i = 0;
+    if (i < digits) {
+        obj = (u8 *)&gUnk_03005D80;
+        do {
+            if (started != 0 || *out != 0 || i == digits - 1) {
+                started = 1;
+                sub_08007CF0(x, y, style, *out, 0, (s32)(obj + 0x1C), *(u32 *)(obj + 8), *(u32 *)obj);
+            }
+            i++;
+            x += 6;
+            out++;
+        } while (i < digits);
+    }
+}
+#ifdef NONMATCHING
+extern u32 gUnk_084EBD4C[];
+extern u32 gUnk_03005740;
+extern void sub_0801A664(s32, s32);
+void sub_08065504(s32 x, s32 y, s32 number, u8 style, u8 digits)
+{
+    u8 buffer[12];
+    s32 value;
+    u32 *table;
+    u8 *out;
+    u32 i;
+    s32 started;
+    s32 column;
+    if (number < 0) number = 0x7FFFFFFF;
+    value = number;
+    table = gUnk_084EBD4C + (10 - digits);
+    out = buffer;
+    i = 0;
+    if (i < digits) {
+        do {
+            *out = sub_08000498(&value, *table++);
+            i++;
+            out++;
+        } while (i < digits);
+    }
+    started = 0;
+    column = (x + 1) - digits;
+    out = buffer;
+    i = 0;
+    if (i < digits) {
+        do {
+            if (started != 0 || *out != 0 || i == digits - 1) {
+                started = 1;
+                *(u16 *)(column * 2 + (y << 6) + (u32)&gUnk_03005740) = *(u16 *)((style * 2) + (u32)&gUnk_084EBD74) + *out;
+            }
+            i++;
+            column++;
+            out++;
+        } while (i < digits);
+    }
+    sub_0801A664(y, 1);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065504);
+#endif
+#ifdef NONMATCHING
+extern void textDraw66(s32, s32, s32) asm("sub_0801A3D0");
+void sub_080655CC(s32 x, s32 y, u16 *data, s32 align)
+{
+    s32 text;
+    s32 base;
+    u16 offset;
+    if (data != 0) {
+        switch ((u32)*data) {
+        case 0: return;
+        case 1: return;
+        case 2: goto draw;
+        case 3: goto draw;
+        case 4: goto draw;
+        case 5: goto draw;
+        default: return;
+        }
+    draw:
+        base = sub_08007290(data[2] | 0x130000);
+        offset = 0;
+        text = base + gUnk_03003470 * 31;
+        if (align < 0)
+            offset = -(((u32)sub_0801A638((u8 *)text) * 13) >> 1);
+        textDraw66(text, (u16)((s16)offset + x), (u16)y);
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080655CC);
+#endif
 struct Task6654 { u32 f0, f4, f8; void (*fC)(); u8 *f10; u32 f14, f18, f1C; u8 *f20; u32 f24; };
 extern struct Task6654 task6654 asm("gUnk_03006000");
 void sub_08065654(void)
@@ -217,14 +335,22 @@ s32 sub_0806569C(void)
   }
 }
 #ifdef NONMATCHING
-void sub_080656B8(void *owner)
+void sub_080656B8(s32 owner)
 {
-    u8 *obj = sub_08001494(0x4B4);
+    s32 *global = &gUnk_0300602C;
+    s32 mem;
+    s32 offset;
     u32 i;
-    gUnk_0300602C = obj;
-    *(void **)obj = owner;
-    for (i = 0; i < 30; i++)
-        *(u32 *)(obj + 0xC + i * 0x28) = 0;
+    mem = sub_08001494(0x4B4);
+    *global = mem;
+    *(s32 *)mem = owner;
+    i = 0;
+    offset = 0;
+    do {
+        *(s32 *)(*global + 0xC + offset) = 0;
+        offset += 0x28;
+        i++;
+    } while (i <= 29);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080656B8);
@@ -351,11 +477,17 @@ void sub_08065918(u32 a, u32 b)
 u32 sub_08065974(void)
 {
     u32 count = sub_08002164();
-    u8 *entry = (u8 *)gUnk_03003CE0 + 0x148;
-    u32 i;
-    for (i = 0; i < count; i++, entry += 0x14C)
-        if ((*(u8 *)*(u32 *)entry & 0xF) == 0xE)
-            return 1;
+    u32 i = 0;
+    u8 *entry;
+    if (i < count) {
+        entry = (u8 *)gUnk_03003CE0 + 0x148;
+        do {
+            if (((u32)(*(u8 *)*(u32 *)entry << 28) >> 28) == 14)
+                return 1;
+            entry += 0x14C;
+            i++;
+        } while (i < count);
+    }
     return 0;
 }
 #else

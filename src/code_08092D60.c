@@ -134,7 +134,26 @@ INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080934D4);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080941B4);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080943F8);
+void sub_080943F8(void)
+{
+    union { u32 word; u16 half[2]; } config;
+    sub_08000A34(1,0,0,0,0);
+    sub_080009F8(0xF00,0,0);
+    sub_08000990(0,0);
+    sub_080009C0(0x1300,0,0);
+    config.word = (config.word & 0xFFFF0000) | 0x1C02;
+    sub_08000AA8(1,config.half);
+    sub_080921E4(4,0x1C);
+    config.half[0]=0x1801;
+    sub_08000AA8(0,config.half);
+    sub_080921E4(3,0x18);
+    sub_0800CBF8(0);
+    sub_0800CC48(2);
+    sub_08098010(2);
+    sub_080944B4();
+    sub_08094530();
+    sub_08000940();
+}
 void sub_08094490(void) {
     gUnk_03000275 = 1;
 }
@@ -182,7 +201,27 @@ void sub_08094530(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094590);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094638);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080948E0);
+struct Drift98 { s16 f0,f2,f4,f6; };
+extern struct Drift98 drift98 asm("gUnk_03001250");
+extern s16 sine98[] asm("gUnk_080B9704");
+s32 sub_080948E0(void)
+{
+    s32 y=0;
+    s32 x=0;
+    u8 phase=0;
+    register s32 sx=0xAA;
+    register s32 sy=0x80;
+    for (;;) {
+        s32 v = ((sine98[phase]*5)>>8)+10;
+        x-=sx;
+        y+=sy;
+        drift98.f2=x>>8;
+        drift98.f6=y>>8;
+        sub_0800903C(1,0x22,1,(u16)v,0x10,0);
+        phase+=3;
+        sub_080003F0();
+    }
+}
 void sub_08094948(void)
 {
   s32 temp_r0;
