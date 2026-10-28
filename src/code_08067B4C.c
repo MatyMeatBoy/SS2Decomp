@@ -413,20 +413,18 @@ u32 sub_080684A8(u8 value) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 
 u8 sub_080684E8(void) {
     return gUnk_03006224;
 }
-#ifdef NONMATCHING
-void sub_080684F4(void) { gUnk_03006224 = 0xFF; }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_080684F4);
-#endif
+unsigned int sub_080684F4(void)
+{
+  gUnk_03006224 = 0xFF;
+}
 u32 sub_08068500(u8 value) { u32 *n=(u32 *)0x03006338; u8 *e; if(*n>0x31)return 0; e=*(u8 **)0x03006300+*n*0x88; *(u32 *)(e+4)=1;e[0]=0xAE;*(u32 *)(e+8)=value;e[1]=1;(*n)++;return 1; }
 u8 sub_08068540(void) {
     return gUnk_03006228;
 }
-#ifdef NONMATCHING
-void sub_0806854C(void) { gUnk_03006228 = 0xFF; }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08067B4C", sub_0806854C);
-#endif
+int sub_0806854C(void)
+{
+  gUnk_03006228 = 0xFF;
+}
 s32 sub_08068558(void)
 {
     u8 *p;

@@ -494,15 +494,15 @@ void sub_08059168(u32 arg0)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_08059168);
 #endif
-#ifdef NONMATCHING
-void sub_0805921C(u32 value)
+void sub_0805921C(u8 value)
 {
-    u8 *base = (u8 *)gUnk_03005CF4;
-    base[(sub_0800CE30() ? 0x1BC : 0x1B0)] = (u8)value;
+    u8 *p;
+    if (sub_0800CE30())
+        p = (u8 *)gUnk_03005CF4 + 0x1BC;
+    else
+        p = (u8 *)gUnk_03005CF4 + 0x1B0;
+    *p = value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08058790", sub_0805921C);
-#endif
 #ifdef NONMATCHING
 void sub_08059250(u32 arg0)
 {

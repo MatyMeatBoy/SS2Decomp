@@ -319,15 +319,15 @@ u32 sub_08057AE8(u32 bit)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057AE8);
 #endif
-#ifdef NONMATCHING
-void sub_08057B2C(u32 index, u32 value)
+void sub_08057B2C(u32 index, u8 value)
 {
-    u8 *base = (u8 *)gUnk_03005CF4;
-    base[(sub_0800CE30() ? 0x1BC : 0x1B0) + index] = (u8)value;
+    u8 *p;
+    if (sub_0800CE30())
+        p = (u8 *)gUnk_03005CF4 + 0x1BC;
+    else
+        p = (u8 *)gUnk_03005CF4 + 0x1B0;
+    p[index] = value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057B2C);
-#endif
 #ifdef NONMATCHING
 u8 sub_08057B64(u32 offset)
 {
