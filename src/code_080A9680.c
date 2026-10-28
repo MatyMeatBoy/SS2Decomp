@@ -1,4 +1,11 @@
 #include "global.h"
+extern void sub_08007870_8(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern void sub_0800BC08_6(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void sub_08065370_5(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void sub_08065158_5(void *, u32, u32, s32, s32) asm("sub_08065158");
+extern u8 *gPtr030007A0 asm("gUnk_030007A0");
+extern u16 gHalf030007A4 asm("gUnk_030007A4");
+struct Spr2200 { s32 f0, f4, f8, fC, f10, f14, f18; u8 b1C[0x18]; };
 extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
 extern struct TaskP *gTaskP030007AC asm("gUnk_030007AC");
 struct TaskP { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
@@ -288,7 +295,32 @@ void sub_080B1FD4(void)
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2058);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2200);
+s32 sub_080B2200(void)
+{
+    struct Spr2200 s;
+    u16 a44;
+    u16 a46;
+    s16 x48;
+    s16 y4A;
+    s32 r;
+    u8 k;
+    u32 sz;
+    sub_08065158_5(&s, 0x50089, gHalf030007A4, -1, 0);
+    s.b1C[0] = gHalf030007A4;
+    sz = 0x18;
+    a46 = 0;
+    a44 = 0;
+    for (;;) {
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (r = sub_0800CD34()) == 0) {
+            sub_08000AF0(gHalf030007A4 + 0x10, (void *)s.fC, 1);
+            k = sub_0800BC44(*(s32 *)(gPtr030007A0 + 0x14) >> 8, *(s32 *)(gPtr030007A0 + 0x18) >> 8, 0);
+            sub_08065370_5(&s, sz, &a44, &a46, r);
+            sub_0800BC08_6((*(s32 *)(gPtr030007A0 + 0x14) << 8) >> 16, (*(s32 *)(gPtr030007A0 + 0x18) << 8) >> 16, &x48, &y4A, r, r);
+            sub_08007870_8(x48, y4A, sz, a44, k, s.b1C, s.f8, s.f0);
+        }
+        sub_080003F0();
+    }
+}
 void sub_080B22E8(void) {
     if (M2C_FIELD(gUnk_030007A0, s16 *, 0x5C) != 0) {
         sub_08009088(0, 0, 0, 0);
