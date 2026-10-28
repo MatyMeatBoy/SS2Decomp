@@ -24,7 +24,7 @@ from pathlib import Path
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CFG = os.path.join(ROOT, "tools/config/shards.txt")
-SKIP = {"libagbsyscall", "m4a", "m4a_1", "sched"}
+SKIP = {"libagbsyscall", "m4a_1", "sched"}
 
 
 def git(*a, check=True, capture=True):
