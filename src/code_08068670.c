@@ -27,29 +27,25 @@ u32 sub_080686A4(const void *src)
     }
     return 0;
 }
-#ifdef NONMATCHING
 u32 sub_080686F4(const u8 *arg0)
 {
     u8 *entry;
-    u32 *n = (u32 *)0x03006338;
 
-    if (*n > 0x31)
+
+    if (gUnk_03006338 > 0x31)
         return 0;
     if (sub_0805CFA0() == -1 &&
-        (*(const u16 *)(arg0 + 0x10) != 0xA || sub_0805D348() != 0))
+        (*(const u16 *)(arg0 + 0x10) != 0xA || sub_0805D348() == 0))
         return 0;
 
-    entry =  *(u8 **)0x03006300 + *n * 0x88;
+    entry = (u8 *)gUnk_03006300 + gUnk_03006338 * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x99;
     *(u32 *)(entry + 8) = *(const u16 *)(arg0 + 0xC);
     entry[1] = 1;
-    (*n)++;
+    gUnk_03006338++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080686F4);
-#endif
 u32 sub_08068758(u16 lo, u16 hi, const u8 *src)
 {
     u32 *count;
@@ -123,77 +119,396 @@ s32 sub_0806888C(void)
     u8 buf[136];
     return 1;
 }
-#ifdef NONMATCHING
 void sub_08068894(u32 a, u32 b)
 {
     u8 *obj;
     u32 mem;
-    obj=*(u8 **)0x03006368; if(sub_08000470((u32)obj))return;
-    do { mem=sub_08001494(0x1000); if(!mem)sub_080003F0(); } while(!mem);
-    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+0xC)=(u32)sub_08066720;
-    *(u32 *)(obj+0x10)=mem+0x7FC; *(u32 *)(obj+8)=0x65; *(u32 *)(obj+0x24)=0;
-    sub_08000274_(obj,a,b);
+    if (sub_08000470(gUnk_03006368)) return;
+    while (1) {
+        mem = (u32)sub_08001494(0x800);
+        *(u32 *)((u8 *)gUnk_03006368 + 0x20) = mem;
+        if (mem != 0) break;
+        sub_080003F0();
+    }
+    obj = (u8 *)gUnk_03006368;
+    *(u32 *)(obj + 0xC) = (u32)sub_08066720;
+    *(u32 *)(obj + 0x10) = *(u32 *)(obj + 0x20) + 0x7FC;
+    *(u32 *)(obj + 8) = 0x65;
+    *(u32 *)(obj + 0x24) = 0;
+    sub_08000274_(obj, a, b);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068894);
-#endif
 void sub_080688F4(void) {
 
 }
-#ifdef NONMATCHING
 void sub_080688F8(u32 index)
 {
-    volatile u32 *slot = (volatile u32 *)(0x030063B0 + index * 4);
-    volatile u32 *global;
-
-    while (*slot != 0 && sub_08000470(*slot) != 0)
-        sub_080003F0();
-    sub_08001538((s32)*slot);
-    *slot = 0;
-
-    global = (volatile u32 *)0x03006370;
-    while (*global != 0 && sub_08000470(*global) != 0)
-        sub_080003F0();
-    sub_08001538((s32)*global);
-
-    slot = (volatile u32 *)(0x03006380 + index * 4);
-    sub_08001538((s32)*slot);
-    *slot = 0;
-
-    sub_08001538((s32)*global);
-    sub_08001538(*(volatile s32 *)0x03006420);
-    *global = 0;
-    *(volatile u32 *)0x03006420 = 0;
+    extern u32 slots[] asm("gUnk_030063B0");
+    extern u32 buffers[] asm("gUnk_03006380");
+    extern u32 task asm("gUnk_03006370");
+    extern u32 buffer asm("gUnk_03006420");
+    if (slots[index] != 0) {
+        while (sub_08000470(slots[index]) != 0)
+            sub_080003F0();
+    }
+    sub_08001538(slots[index]);
+    slots[index] = 0;
+    if (task != 0) {
+        while (sub_08000470(task) != 0)
+            sub_080003F0();
+    }
+    sub_08001538(buffers[index]);
+    buffers[index] = 0;
+    sub_08001538(task);
+    sub_08001538(buffer);
+    task = 0;
+    buffer = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080688F8);
-#endif
 #ifdef NONMATCHING
 s32 sub_0806898C(s32 arg0, s32 arg1)
 {
+    struct CostEntry { u8 pad[6]; s16 cost[9]; };
+    extern struct CostEntry costs[] asm("gUnk_084EBF1C");
     u8 *player;
-    u32 tableOffset;
+    s16 result;
     s32 value;
-    s16 candidate;
+    u16 candidate;
 
     player = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
     if (arg1 == 0)
         return 0;
 
-    tableOffset = (u32)arg0 * 0x18 + ((u32)arg1 - 1) * 2 + 6;
-    value = *(s16 *)(gUnk_084EBF1C + tableOffset) + *(s8 *)(player + 0x6C) * 10;
-    if (value < 0)
-        value = 0;
-
-    candidate = (s16)(u16)value;
-    if (*(s16 *)(player + 0xC2) - (s32)candidate < 0)
+    arg1--;
+    value = costs[arg0].cost[arg1];
+    value += *(s8 *)(player + 0x6C) * 10;
+    /* The game truncates to 16 bits before testing the sign. */
+    candidate = value;
+    if ((s32)(value << 16) < 0)
+        candidate = 0;
+    result = candidate;
+    if (*(s16 *)(player + 0xC2) - result < 0)
         return 0;
-    return (s16)(u16)(candidate + 1);
+    return (s16)(result + 1);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806898C);
 #endif
+#ifdef NONMATCHING
+/* Resolve an area attack against nearby enemies or players. The result
+ * combines target-present (1) and effect-applied (2) flags. */
+s32 sub_08068A00(s32 arg0, s32 arg1, u8 *attack) {
+    void sub_08029A7C(u32, s32, s32);
+    void sub_08029B98(u32, u32, s32, s32, s32, s32);
+    s16 sub_08068F9C(void *, s32);
+    void sub_080694AC(void *);
+    void sub_08069A30(s32, s32, u32, u32, s32);
+    extern u8 gUnk_084EBF1C[];
+    extern u16 attackEffect asm("gUnk_084EBF7E");
+    extern u16 effects[] asm("gUnk_084EC14C");
+    extern u16 radii[] asm("gUnk_084EC17C");
+    extern u32 enemyActive asm("gUnk_030056FC");
+    s32 centerX;
+    s32 centerY;
+    u8 *sourceEnemy;
+    u8 *sourcePlayer;
+    s32 radius;
+    s32 localPlayer;
+    s16 temp_r1_3;
+    s16 temp_r1_5;
+    s16 temp_r2_2;
+    s32 var_r0_2;
+    s32 var_r0_4;
+    s32 var_r0_5;
+    s16 var_r2;
+    s32 var_r2_2;
+    s32 var_r2_3;
+    s32 temp_r0;
+    s32 localPlayerMask;
+    s32 temp_r0_3;
+    s32 temp_r0_4;
+    s32 temp_r0_7;
+    s32 temp_r1;
+    s32 var_r0_3;
+    s32 var_r1;
+    u16 *var_r0_6;
+    u16 temp_r4_2;
+    u16 temp_r4_4;
+    u16 var_r0;
+    u16 var_r1_2;
+    u32 temp_r0_5;
+    u32 temp_r0_6;
+    u32 temp_r2;
+    u32 playerCount;
+    u32 hitFlags;
+    u32 enemyIndex;
+    u32 playerIndexEnemy;
+    u32 playerIndexAlly;
+    u8 temp_r2_3;
+    u8 *enemyTargetPosition;
+    u8 *enemyHitHistory;
+    u8 *playerHitHistory;
+    u8 *allyTargetPosition;
+    u8 *targetPlayerEnemy;
+    u8 *targetPlayerAlly;
+    u8 *targetEnemy;
+
+    centerX = arg0;
+    centerY = arg1;
+    localPlayer = (s32) (u16) sub_080020F4();
+    if ((sub_08058DB0() != 0) || (sub_0800CDF8() != 0)) {
+        return 0;
+    }
+    temp_r2 = M2C_FIELD(attack, u32 *, 0x0);
+    if (temp_r2 <= 3U) {
+        sourcePlayer = (0x14C * temp_r2) + (u8 *)gUnk_03003CE0;
+    } else {
+        sourceEnemy = (u8 *)gUnk_030056F4 + ((temp_r2 * 0x2E0) + 0xFFFFF480);
+    }
+    hitFlags = 0;
+    temp_r0 = M2C_FIELD(attack, u32 *, 0xC);
+    if (temp_r0 != 0xC) {
+        if (temp_r0 == 0xD) {
+            var_r0 = 0x16;
+        } else {
+            var_r0 = radii[M2C_FIELD(attack, u32 *, 0x14)];
+        }
+        radius = (s32) var_r0;
+    } else {
+        radius = 0x20;
+    }
+    /* Enemy slots are checked first when the target is not a player. */
+    if ((u32) M2C_FIELD(attack, u32 *, 0x8) <= 3U) {
+
+    } else {
+        enemyIndex = 0;
+        localPlayerMask = 1 << localPlayer;
+loop_15:
+        if (!(enemyActive & (1 << enemyIndex))) {
+
+        } else {
+            targetEnemy = (u8 *)gUnk_030056F4 + (enemyIndex * 0x2E0);
+            if (M2C_FIELD(targetEnemy, u8 *, 0x1DC) == 0) {
+
+            } else if (M2C_FIELD(targetEnemy, u16 *, 0xC) == 0xB) {
+
+            } else {
+                var_r1 = (s32) ((M2C_FIELD(targetEnemy, s32 *, 0x14) - centerX) << 8) >> 0x10;
+                if (var_r1 < 0) {
+                    var_r1 = 0 - var_r1;
+                }
+                temp_r2_2 = (s16) radius;
+                if (var_r1 > (s32) temp_r2_2) {
+
+                } else {
+                    var_r0_2 = (s16) ((u32) ((M2C_FIELD(targetEnemy, s32 *, 0x18) - centerY) << 8) >> 0x10);
+                    if ((s32) var_r0_2 < 0) {
+                        var_r0_2 = 0 - var_r0_2;
+                    }
+                    if ((s32) var_r0_2 > (s32) temp_r2_2) {
+
+                    } else {
+                        if (localPlayer != M2C_FIELD(attack, u32 *, 0x0)) {
+                            if ((sub_08002204() != 0) && ((u32) M2C_FIELD(attack, u32 *, 0x0) > 3U) && (M2C_FIELD(targetEnemy, u16 *, 0xC) != 0xB) && (M2C_FIELD(targetEnemy, u32 *, 0x54) != M2C_FIELD(sourcePlayer, u32 *, 0xDC))) {
+                                M2C_FIELD(targetEnemy, u16 *, 0x58) = 0;
+                                M2C_FIELD(attack, u32 *, 0x8) = (u32) (M2C_FIELD(targetEnemy, u16 *, 0x0) + 4);
+                                temp_r0_3 = M2C_FIELD(attack, u32 *, 0xC);
+                                if (temp_r0_3 != 4) {
+                                    if (temp_r0_3 != 7) {
+                                        sub_080694AC(attack);
+                                    } else {
+                                        sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), effects[M2C_FIELD(attack, u32 *, 0x14)], sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14), 0, 0);
+                                        var_r0_3 = M2C_FIELD(sourceEnemy, u32 *, 0x50);
+                                        goto block_55;
+                                    }
+                                } else {
+                                    sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), attackEffect, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14), 0, 0);
+                                    var_r0_3 = M2C_FIELD(sourceEnemy, u32 *, 0x50);
+block_55:
+                                    M2C_FIELD(targetEnemy, u32 *, 0x54) = var_r0_3;
+                                    M2C_FIELD(targetEnemy, u16 *, 0x5A) = (u16) (localPlayerMask | M2C_FIELD(targetEnemy, u16 *, 0x5A));
+                                }
+                                if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                    sub_0805865C(0x1A);
+                                }
+                                sub_08069A30(centerX, centerY, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                                hitFlags = 2;
+                            }
+                        } else if (M2C_FIELD(targetEnemy, u32 *, 0x54) == M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
+
+                        } else {
+                            M2C_FIELD(attack, u32 *, 0x8) = (u32) (M2C_FIELD(targetEnemy, u16 *, 0x0) + 4);
+                            temp_r0_4 = M2C_FIELD(attack, u32 *, 0xC);
+                            if (temp_r0_4 != 4) {
+                                if (temp_r0_4 != 7) {
+                                    sub_080694AC(attack);
+                                } else {
+                                    var_r2 = sub_08068F9C(attack, 0);
+                                    var_r1_2 = effects[M2C_FIELD(attack, u32 *, 0x14)];
+                                    goto block_40;
+                                }
+                            } else {
+                                if (M2C_FIELD(targetEnemy, u8 *, 0x226) == 1) {
+                                    var_r2 = (s16) ((s32) (sub_08068F9C(attack, 0) * 0xF) / 10);
+                                    var_r1_2 = attackEffect;
+block_40:
+                                    sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), var_r1_2, var_r2, M2C_FIELD(attack, u32 *, 0x14), 0, 0);
+                                } else {
+                                    sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), attackEffect, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14), 0, 0);
+                                }
+                                M2C_FIELD(targetEnemy, u32 *, 0x54) = (s32) M2C_FIELD(sourcePlayer, u32 *, 0xDC);
+                                M2C_FIELD(targetEnemy, u16 *, 0x5A) = (u16) (localPlayerMask | M2C_FIELD(targetEnemy, u16 *, 0x5A));
+                            }
+                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                sub_0805865C(0x1A);
+                            }
+                            sub_08069A30(centerX, centerY, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                            hitFlags = 2;
+                        }
+                        hitFlags |= 1;
+                    }
+                }
+            }
+        }
+        enemyIndex += 1;
+        if (enemyIndex <= 4U) {
+            goto loop_15;
+        }
+    }
+    /* Only search players if no enemy target was in range. */
+    if (hitFlags != 0) {
+
+    } else {
+        playerCount = sub_08002164();
+        if ((u32) M2C_FIELD(attack, u32 *, 0x0) > 3U) {
+            playerIndexEnemy = 0;
+            if (hitFlags >= playerCount) {
+
+            } else {
+loop_105:
+                targetPlayerEnemy = (0x14C * playerIndexEnemy) + (u8 *)gUnk_03003CE0;
+                temp_r1 = M2C_FIELD(targetPlayerEnemy, u32 *, 0x30);
+                if (!(0x2000 & temp_r1) && !(temp_r1 & 0x400)) {
+                    enemyTargetPosition = M2C_FIELD(targetPlayerEnemy, u8 * *, 0x148);
+                    temp_r0_5 = (u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x0) << 0x1C) >> 0x1C;
+                    if ((temp_r0_5 != 0xE) && (temp_r0_5 != 0xB) && (temp_r0_5 != 0xA) && (M2C_FIELD(targetPlayerEnemy, u8 *, 0x68) != 0)) {
+                        var_r2_2 = (s16)(((u16) M2C_FIELD(enemyTargetPosition, u16 *, 0x0) >> 4) - (centerX >> 8));
+                        if ((s32) var_r2_2 < 0) {
+                            var_r2_2 = 0 - var_r2_2;
+                        }
+                        temp_r1_3 = (s16) radius;
+                        if ((s32) var_r2_2 <= (s32) temp_r1_3) {
+                            var_r0_4 = (s16) (u16) (((u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (centerY >> 8));
+                            if ((s32) var_r0_4 < 0) {
+                                var_r0_4 = 0 - var_r0_4;
+                            }
+                            if ((s32) var_r0_4 <= (s32) temp_r1_3) {
+                                if ((localPlayer == playerIndexEnemy) && (sub_0800CCCC() == 0) && (M2C_FIELD(targetPlayerEnemy, u16 *, 0x20) != 0xB)) {
+                                    enemyHitHistory = targetPlayerEnemy + 0xE4;
+                                    if (M2C_FIELD(enemyHitHistory, u32 *, M2C_FIELD(sourceEnemy, u16 *, 0x0) * 4) != M2C_FIELD(sourceEnemy, u32 *, 0x50)) {
+                                        M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerEnemy, u16 *, 0x0);
+                                        if (M2C_FIELD(attack, u32 *, 0xC) == 4) {
+                                            temp_r4_2 = M2C_FIELD(gUnk_084EBF1C, u16 *, 0x62);
+                                            sub_08029A7C(temp_r4_2, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14));
+                                        } else {
+                                            sub_080694AC(attack);
+                                        }
+                                        M2C_FIELD(enemyHitHistory, u32 *, M2C_FIELD(sourceEnemy, u16 *, 0x0) * 4) = M2C_FIELD(sourceEnemy, u32 *, 0x50);
+                                        if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                            sub_0805865C(0x1A);
+                                        }
+                                        hitFlags = 2;
+                                    }
+                                }
+                                hitFlags |= 1;
+                            }
+                        }
+                    }
+                }
+                playerIndexEnemy += 1;
+                if (playerIndexEnemy < playerCount) {
+                    goto loop_105;
+                }
+            }
+        } else {
+            playerIndexAlly = 0;
+            if (hitFlags >= playerCount) {
+
+            } else {
+loop_69:
+                targetPlayerAlly = (0x14C * playerIndexAlly) + (u8 *)gUnk_03003CE0;
+                temp_r2_3 = M2C_FIELD(targetPlayerAlly, u8 *, 0x68);
+                if (temp_r2_3 == M2C_FIELD(sourcePlayer, u8 *, 0x68)) {
+
+                } else {
+                    allyTargetPosition = M2C_FIELD(targetPlayerAlly, u8 * *, 0x148);
+                    temp_r0_6 = (u32) (M2C_FIELD(allyTargetPosition, u16 *, 0x0) << 0x1C) >> 0x1C;
+                    switch (temp_r0_6) {            /* irregular */
+                    case 14:
+                        break;
+                    case 11:
+                        break;
+                    case 10:
+                        break;
+                    default:
+                        if (temp_r2_3 == 0) {
+
+                        } else if (!(((u32) (M2C_FIELD(allyTargetPosition, u8 *, 0x4) << 0x1A) >> 0x1A) & 0x20)) {
+                            var_r2_3 = (s16)(((u16) M2C_FIELD(allyTargetPosition, u16 *, 0x0) >> 4) - (centerX >> 8));
+                            if ((s32) var_r2_3 < 0) {
+                                var_r2_3 = 0 - var_r2_3;
+                            }
+                            temp_r1_5 = (s16) radius;
+                            if ((s32) var_r2_3 <= (s32) temp_r1_5) {
+                                var_r0_5 = (s16) (u16) (((u32) (M2C_FIELD(allyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (centerY >> 8));
+                                if ((s32) var_r0_5 < 0) {
+                                    var_r0_5 = 0 - var_r0_5;
+                                }
+                                if ((s32) var_r0_5 <= (s32) temp_r1_5) {
+                                    if ((localPlayer == playerIndexAlly) && (M2C_FIELD(targetPlayerAlly, u16 *, 0x20) != 0xB)) {
+                                        playerHitHistory = targetPlayerAlly + 0xF8;
+                                        if (M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) != M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
+                                            M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerAlly, u16 *, 0x0);
+                                            temp_r0_7 = M2C_FIELD(attack, u32 *, 0xC);
+                                            if (temp_r0_7 != 4) {
+                                                if (temp_r0_7 != 7) {
+                                                    sub_080694AC(attack);
+                                                } else {
+                                                    var_r0_6 = &effects[M2C_FIELD(attack, u32 *, 0x14)];
+                                                    goto block_94;
+                                                }
+                                            } else {
+                                                var_r0_6 = (u16 *)(gUnk_084EBF1C + 0x62);
+block_94:
+                                                temp_r4_4 = *var_r0_6;
+                                                sub_08029A7C(temp_r4_4, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14));
+                                            }
+                                            M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) = M2C_FIELD(sourcePlayer, u32 *, 0xDC);
+                                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                                sub_0805865C(0x1A);
+                                            }
+                                            sub_08069A30(centerX, centerY, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                                            hitFlags = 2;
+                                        }
+                                    }
+                                    hitFlags |= 1;
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+                playerIndexAlly += 1;
+                if (playerIndexAlly < playerCount) {
+                    goto loop_69;
+                }
+            }
+        }
+    }
+    return (s32) hitFlags;
+}
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068A00);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068F9C);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069080);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069224);

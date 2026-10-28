@@ -6,16 +6,15 @@ s32 sub_0801AAF8(void)
         return 1;
     return 0;
 }
-#ifdef NONMATCHING
 u32 sub_0801AB24(void)
 {
-    u16 flags = gUnk_03000028;
-    if (flags & 8) return 1;
-    return (flags & 0x20) ? 2 : 0;
+    extern volatile u16 flagBits asm("gUnk_03000028");
+    register s32 flags asm("r1") = flagBits;
+    s32 result;
+    if (!(flags & 8)) result = 2 & (-((s16)(flags & 0x20) != 0));
+    else result = 1;
+    return result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AB24);
-#endif
 void sub_0801AB50(u16 arg0)
 {
     u32 m = 0x21;

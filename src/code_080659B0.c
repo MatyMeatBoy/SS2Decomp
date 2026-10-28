@@ -883,21 +883,24 @@ void sub_0806690C(u32 peer)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806690C);
 #endif
-#ifdef NONMATCHING
 void sub_08067A68(u32 index)
 {
-    u8 *entry;
-    u32 mem;
-    entry = *(u8 **)0x03006258 + index*0x28;
-    if(sub_08000470((u32)entry)) return;
-    *(u32 *)(entry+0xC)=(u32)sub_0806690C;
-    mem=sub_08001494(0xC00); *(u32 *)(entry+0x20)=mem;
-    *(u32 *)(entry+0x10)=mem+0xBFC; *(u32 *)(entry+8)=0x65;
-    *(u32 *)(entry+0x24)=0; sub_08000274(entry,index);
+    struct Task { u32 pad[2]; u32 type; void (*fn)(u32); u8 *stack; u8 pad14[12]; u8 *mem; u32 state; };
+    u8 *mem;
+    struct Task *entry;
+    u32 active;
+    active = sub_08000470(gUnk_03006258 + index * 0x28);
+    if (active == 0) {
+        ((struct Task *)(index * 0x28 + gUnk_03006258))->fn = sub_0806690C;
+        mem = (u8 *)sub_08001494(0xC00);
+        entry = (struct Task *)(index * 0x28 + gUnk_03006258);
+        entry->mem = mem;
+        entry->stack = mem + 0xBFC;
+        entry->type = 0x65;
+        entry->state = active;
+        sub_08000274(entry, index);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08067A68);
-#endif
 s32 sub_08067AC0(void) {
     return 1;
 }
@@ -943,22 +946,19 @@ void sub_08067AF4(void) {
 void sub_08067AF8(void) {
 
 }
-#ifdef NONMATCHING
 void sub_08067AFC(void)
 {
+    extern u8 task[] asm("gUnk_03006310");
     u8 *obj;
     u32 mem;
     u32 i;
-    obj = (u8 *)0x03006310;
+    obj = task;
     *(u32 *)(obj+0xC) = (u32)sub_08066898;
-    mem = sub_08001494(0x400);
+    mem = (u32)sub_08001494(0x400);
     *(u32 *)(obj+0x20) = mem;
     *(u32 *)(obj+0x10) = mem + 0x3FC;
     *(u32 *)(obj+8) = 0x65;
     *(u32 *)(obj+0x24) = (u32)sub_08068670;
-    sub_08000274_(obj, 0, 0);
+    sub_08000274(obj);
     for (i = 0; i < sub_08002164(); i++) sub_08067A68(i);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08067AFC);
-#endif

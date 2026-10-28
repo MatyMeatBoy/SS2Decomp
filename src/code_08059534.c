@@ -1,197 +1,178 @@
 #include "global.h"
 
-#ifdef NONMATCHING
 void sub_08059534(u32 arg0)
 {
     u32 result;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
     sub_0802949C(arg0, 0);
-    while (sub_0805F184() != 0)
-        sub_080003F0();
-    while (sub_0805EF90() != 0)
-        sub_080003F0();
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
     result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x0014013C);
     while (sub_0805EEFC(result) == 0) {
-        sub_080003F0();
-        if (sub_0800CDF8() != 0)
+        if (sub_0800CDF8() != 0) {
             sub_0805EFBC();
+            break;
+        }
+        sub_080003F0();
     }
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~1u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059534);
-#endif
-#ifdef NONMATCHING
-void sub_080595E0(u32 arg)
+void sub_080595E0(u32 arg0)
 {
-    u32 handle;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    u32 result;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
-    sub_0802949C(arg, 0);
+    sub_0802949C(arg0, 0);
     while (sub_0805F184() != 0) sub_080003F0();
     while (sub_0805EF90() != 0) sub_080003F0();
-    handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x14013D);
-    while (sub_0805EEFC(handle) == 0) {
+    result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x0014013D);
+    while (sub_0805EEFC(result) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
         sub_080003F0();
-        if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
     }
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~2u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080595E0);
-#endif
-#ifdef NONMATCHING
-void sub_0805968C(u32 arg)
+void sub_0805968C(u32 arg0)
 {
-    u32 handle;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    u32 result;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
-    sub_0802949C(arg, 0);
+    sub_0802949C(arg0, 0);
     while (sub_0805F184() != 0) sub_080003F0();
     while (sub_0805EF90() != 0) sub_080003F0();
-    handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x14013E);
-    while (sub_0805EEFC(handle) == 0) {
+    result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x0014013E);
+    while (sub_0805EEFC(result) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
         sub_080003F0();
-        if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
     }
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~2u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805968C);
-#endif
-#ifdef NONMATCHING
-void sub_08059738(u32 arg)
+void sub_08059738(u32 arg0)
 {
-    u32 handle;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    u32 result;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
-    sub_0802949C(arg, 0);
+    sub_0802949C(arg0, 0);
     while (sub_0805F184() != 0) sub_080003F0();
     while (sub_0805EF90() != 0) sub_080003F0();
-    handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x14013F);
-    while (sub_0805EEFC(handle) == 0) {
+    result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x0014013F);
+    while (sub_0805EEFC(result) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
         sub_080003F0();
-        if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
     }
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~2u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059738);
-#endif
-#ifdef NONMATCHING
 void sub_080597E4(u32 arg0)
 {
     u32 result;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
     sub_0802949C(arg0, 0);
     while (sub_0805F184() != 0) sub_080003F0();
     while (sub_0805EF90() != 0) sub_080003F0();
     result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x00140140);
     while (sub_0805EEFC(result) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
         sub_080003F0();
-        if (sub_0800CDF8() != 0) sub_0805EFBC();
     }
-    sub_08029788(arg0);
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~1u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080597E4);
-#endif
-#ifdef NONMATCHING
 void sub_08059890(void)
 {
+    struct Scroll { u8 pad[0x80]; s16 y; s16 x; };
+    s32 step = 2;
+    s32 y = ((struct Scroll *)&gUnk_03003170)->y;
+    s32 x = ((struct Scroll *)&gUnk_03003170)->x;
     s32 i;
-    s16 y = *(s16 *)((u8 *)&gUnk_03003170 + 0x80);
-    s16 x = *(s16 *)((u8 *)&gUnk_03003170 + 0x82);
-    for (i = 0; i <= 0x400; i += 2) {
-        s32 first;
-        s32 second;
-        sub_080659F4(&first, y, 0, i);
-        sub_080659F4(&second, x, -50, i);
-        sub_0800BB80((s16)first, (s16)second);
+    s32 first;
+    s32 second;
+    s16 targetY = 0;
+    s16 targetX = -50;
+    for (i = 0; i <= 0x400; i += step) {
+        sub_080659F4(&first, y, targetY, i);
+        sub_080659F4(&second, x, targetX, i);
+        ((void (*)(s32, s32))sub_0800BB80)((s16)first, (s16)second);
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059890);
-#endif
-#ifdef NONMATCHING
 void sub_0805990C(u32 bit)
 {
-    u8 *base = (u8 *)gUnk_03005CF4;
-    u32 offset = sub_0800CE30() ? 0x1C3 : 0x1B7;
-    base[offset + (bit >> 3)] |= (u8)(1u << (bit & 7));
+    struct StateA { u8 pad[0x1C3]; u8 flags[12]; };
+    struct StateB { u8 pad[0x1B7]; u8 flags[12]; };
+    u32 index = bit >> 3;
+    bit &= 7;
+    if (sub_0800CE30())
+        ((struct StateA *)gUnk_03005CF4)->flags[index] |= 1 << bit;
+    else
+        ((struct StateB *)gUnk_03005CF4)->flags[index] |= 1 << bit;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805990C);
-#endif
 void sub_08059954(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) | (1 << arg0));
 }
-#ifdef NONMATCHING
 void sub_08059968(u32 bit)
 {
-    u8 *base = (u8 *)gUnk_03005CF4;
-    u32 offset = sub_0800CE30() ? 0x1C3 : 0x1B7;
-    base[offset + (bit >> 3)] &= (u8)~(1u << (bit & 7));
+    struct StateA { u8 pad[0x1C3]; u8 flags[12]; };
+    struct StateB { u8 pad[0x1B7]; u8 flags[12]; };
+    u32 index = bit >> 3;
+    bit &= 7;
+    if (sub_0800CE30())
+        ((struct StateA *)gUnk_03005CF4)->flags[index] &= ~(1 << bit);
+    else
+        ((struct StateB *)gUnk_03005CF4)->flags[index] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059968);
-#endif
 void sub_080599B0(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x38) & ~(1 << arg0));
 }
 void sub_080599C4(s32 arg0) {
     M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) = (s32) (M2C_FIELD(gUnk_03005CF4, s32 *, 0x6C) | (1 << arg0));
 }
-#ifdef NONMATCHING
 void sub_080599D8(u32 index)
 {
-    u32 bit = 1u << (index - 1);
-    u8 *base = *(u8 **)0x03005CF4;
-    u32 *flags = (u32 *)(base + (sub_0800CE30() ? 0x80 : 0x78));
-    if ((*flags & bit) == 0)
-        *flags |= bit;
+    u32 bit = index - 1;
+    u32 mask;
+    if (sub_0800CE30())
+        mask = *(u32 *)(gUnk_03005CF4 + 0x80) & (1 << bit);
+    else
+        mask = *(u32 *)(gUnk_03005CF4 + 0x78) & (1 << bit);
+    if (mask == 0) {
+        bit = index - 1;
+        if (sub_0800CE30())
+            *(u32 *)(gUnk_03005CF4 + 0x80) |= 1 << bit;
+        else
+            *(u32 *)(gUnk_03005CF4 + 0x78) |= 1 << bit;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_080599D8);
-#endif
-#ifdef NONMATCHING
-void sub_08059A40(u32 count)
+void sub_08059A40(s32 count)
 {
-    u32 i;
+    u16 i;
+    u16 wait;
     for (i = 1; i < count; i++) {
-        u32 wait;
-        u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-        *(u32 *)(state + 0x30) |= 1;
+        ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
         sub_0800D0F4();
-        wait = 1;
-        while (wait != 0) {
+        for (wait = 1; wait != 0; wait--) {
             sub_080003F0();
-            if (sub_080021A8() == 0) wait--;
+            if (sub_080021A8()) break;
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059A40);
-#endif
 void sub_08059A94(s32 arg0)
 {
   s32 temp_r4;
@@ -204,78 +185,66 @@ void sub_08059A94(s32 arg0)
   }
   *((s32 *) (((s8 *) gUnk_03005CF4) + 0x78)) = (s32) ((*((s32 *) (((s8 *) gUnk_03005CF4) + 0x78))) | (1 << temp_r4));
 }
-#ifdef NONMATCHING
 void sub_08059AD0(u32 arg0)
 {
     u32 result;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
     sub_0802949C(arg0, 0);
-    while (sub_0805F184() != 0)
-        sub_080003F0();
-    while (sub_0805EF90() != 0)
-        sub_080003F0();
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
     result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x00140217);
     while (sub_0805EEFC(result) == 0) {
-        sub_080003F0();
-        if (sub_0800CDF8() != 0)
+        if (sub_0800CDF8() != 0) {
             sub_0805EFBC();
+            break;
+        }
+        sub_080003F0();
     }
     sub_08029788(arg0);
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~1u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059AD0);
-#endif
-#ifdef NONMATCHING
 void sub_08059B84(u32 arg0)
 {
     u32 result;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
     sub_0802949C(arg0, 0);
     while (sub_0805F184() != 0) sub_080003F0();
     while (sub_0805EF90() != 0) sub_080003F0();
     result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x00140218);
     while (sub_0805EEFC(result) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
         sub_080003F0();
-        if (sub_0800CDF8() != 0) sub_0805EFBC();
     }
     sub_08029788(arg0);
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~1u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059B84);
-#endif
-#ifdef NONMATCHING
 void sub_08059C38(u32 arg0)
 {
     u32 result;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) |= 1;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags |= 1;
     sub_0800D0F4();
     sub_0802949C(arg0, 0);
     while (sub_0805F184() != 0) sub_080003F0();
     while (sub_0805EF90() != 0) sub_080003F0();
     result = sub_0805DF38(1, 0xF, 2, 0, -1, 0x00140219);
     while (sub_0805EEFC(result) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
         sub_080003F0();
-        if (sub_0800CDF8() != 0) sub_0805EFBC();
     }
     sub_08029788(arg0);
-    state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    *(u32 *)(state + 0x30) &= ~1u;
+    ((struct PlayerW12 *)gUnk_03003CE0)[sub_080020F4()].flags &= ~1u;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_08059C38);
-#endif
 #ifdef NONMATCHING
 void sub_08059CEC(u32 arg0)
 {
@@ -572,15 +541,19 @@ void sub_0805A404(s32 arg0) {
     }
     sub_08028AAC(arg0, 0x270F, 0x270F, 0);
 }
-#ifdef NONMATCHING
-void sub_0805A43C(u32 value)
+void sub_0805A43C(u8 value)
 {
-    u8 *base = *(u8 **)0x03005CF4;
-    base[sub_0800CE30() ? 0x1C1 : 0x1B5] = value;
+    u32 offset;
+    u8 *base;
+    if (sub_0800CE30() != 0) {
+        base = (u8 *)gGameState;
+        offset = 0x1C1;
+    } else {
+        base = (u8 *)gGameState;
+        offset = 0x1B5;
+    }
+    base[offset] = value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A43C);
-#endif
 void sub_0805A474(s32 arg0) {
     sub_08028AAC(arg0, 0x270F, 0x270F, 0);
     if (!(gUnk_030027D0 & 0x20)) {

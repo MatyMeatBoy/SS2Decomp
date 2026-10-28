@@ -137,32 +137,26 @@ u32 sub_0805D348(void)
 
   return 0;
 }
-#ifdef NONMATCHING
-void *sub_0805D37C(s32 x, s32 y, u32 key)
-{
-    u8 *entry = (u8 *)gUnk_03005D58;
+void *sub_0805D37C(s32 x, s32 y, s32 key) {
+    u8 *entry;
     u32 i;
-
-    for (i = 0; i < 16; i++, entry += 0x20) {
-        s32 dx;
-        s32 dy;
-
-        if ((*(u16 *)(entry + 0xA) & 1) == 0)
-            continue;
-        dx = (s32)((u32)x - *(u32 *)entry) >> 8;
-        dy = (s32)((u32)y - *(u32 *)(entry + 4)) >> 8;
-        if (dx < 0)
-            dx = -dx;
-        if (dy < 0)
-            dy = -dy;
-        if (dx <= 7 && dy <= 7 && *(u16 *)(entry + 8) == (u16)key)
-            return entry;
-    }
-    return NULL;
+    entry = gUnkP_03005D58;
+    i = 0;
+    do {
+        if (*(u16 *)(entry + 0xA) & 1) {
+            s32 dx;
+            s32 dy;
+            dx = (x - *(s32 *)entry) >> 8;
+            if (dx < 0) dx = -dx;
+            dy = (y - *(s32 *)(entry + 4)) >> 8;
+            if (dy < 0) dy = -dy;
+            if (dx <= 7 && dy <= 7 && key == *(u16 *)(entry + 8)) return entry;
+        }
+        i++;
+        entry += 0x20;
+    } while (i <= 0xF);
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D37C);
-#endif
 s32 sub_0805D3D4(void) {
     s32 var_r3;
     u32 var_r2;
@@ -253,19 +247,19 @@ s32 sub_0805D4C4(u16 arg0) {
     } while (var_r2 <= 0xFU);
     return var_r4;
 }
-#ifdef NONMATCHING
-void sub_0805D4F4(void)
-{
+void sub_0805D4F4(void) {
     u32 i;
+    u8 *entry;
+    entry = gUnkP_03005D58;
     gUnk_03005D5C = 1;
-    for (i = 0; i < 16; i++) {
-        M2C_FIELD((u8 *)gUnk_03005D58 + i * 0x20, u16 *, 0xA) = 0;
-        M2C_FIELD((u8 *)gUnk_03005D58 + i * 0x20, u16 *, 0xC) = 0;
-    }
+    i = 0;
+    do {
+        *(u16 *)(entry + 0xA) = 0;
+        *(u16 *)(entry + 0xC) = 0;
+        i++;
+        entry += 0x20;
+    } while (i <= 0xF);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D4F4);
-#endif
 void sub_0805D518(void) {
     u16 temp_r0;
     u32 var_r3;

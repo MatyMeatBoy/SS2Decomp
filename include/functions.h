@@ -781,3 +781,4 @@ s32 sub_080B2200();
 s32 sub_0809CC2C();
 u32 sub_080004B8();
 void sub_080004F8();
+void sub_0805A43C(u8 value);

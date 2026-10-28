@@ -68,25 +68,39 @@ INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056494);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056538);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_0805664C);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056CB4);
-#ifdef NONMATCHING
+void sub_08056CB4(u32 value)
+{
+    u8 *base;
+    if (sub_080020F4() != 0)
+        return;
+    if (sub_0800CE30())
+        base = (u8 *)gUnk_03005CF4 + 0x1C1;
+    else
+        base = (u8 *)gUnk_03005CF4 + 0x1B5;
+    {
+        register s32 check asm("r0") = *base;
+        if (check > 7)
+            return;
+    }
+    value += 8;
+    sub_08068070(sub_0805A43C, value);
+    value = (u8)value;
+    if (sub_0800CE30())
+        base = (u8 *)gUnk_03005CF4 + 0x1C1;
+    else
+        base = (u8 *)gUnk_03005CF4 + 0x1B5;
+    *base = value;
+}
 void sub_08056D2C(void)
 {
-    u32 ptr;
-    u8 *base = *(u8 **)0x03005CF4;
-    u8 *resource = base + 0x1794;
-    if (sub_08000470((u32)resource) != 0) {
-        sub_080003A8((u32)resource);
-        while (sub_08000470((u32)resource) != 0)
+    if (sub_08000470(gUnk_03005CF4 + 0x1794) != 0) {
+        sub_080003A8(gUnk_03005CF4 + 0x1794);
+        while (sub_08000470(gUnk_03005CF4 + 0x1794) != 0)
             sub_080003F0();
     }
-    ptr = *(u32 *)0x03005CF4;
-    sub_08001538(ptr);
-    *(u32 *)0x03005CF4 = 0;
+    sub_08001538(gUnk_03005CF4);
+    gUnk_03005CF4 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056D2C);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056D80);
 void sub_08056E24(void)
 {
@@ -157,28 +171,81 @@ s32 sub_0805700C(void)
   while (var_r1 <= 0x16U);
   return var_r2;
 }
-#ifdef NONMATCHING
 u16 sub_08057038(void)
 {
-    u32 bits = *(u32 *)(*(u32 *)0x03004210 + 0xC), count = 0, mask;
-    for (mask = 1 << 10; mask <= (1 << 19); mask <<= 1)
-        if (bits & mask) count++;
+    u32 count = 0;
+    u32 i = 10;
+    u32 *p = (u32 *)gUnk_03004210;
+    u32 one = 1;
+    u32 bits = p[3];
+    for (; i <= 19; i++)
+        if ((one << i) & bits)
+            count++;
     return count;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057038);
-#endif
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057068);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080570DC);
-#ifdef NONMATCHING
+u32 sub_08057068(void *arg)
+{
+    u8 *entry;
+    u32 data;
+    u32 i;
+    if (*(u32 *)((u8 *)gUnk_03005CF4 + 0x54) == 0)
+        return 0;
+    entry = (u8 *)gUnk_03005CF4 + 0x7A4;
+    data = 0x80010;
+    for (i = 0; i <= 14; i++, entry += 0x70) {
+        register u8 *state asm("r0") = (u8 *)gUnk_03005CF4;
+        u32 flag = 1 << i;
+        if ((*(u32 *)(state + 0x54) & flag) && (*(u32 *)(entry + 0x3C) & 0x10)) {
+            if (sub_08021FE0(arg, entry + 8, &data, entry + 0x18))
+                return 1;
+        }
+    }
+    return 0;
+}
+void sub_080570DC(u32 all)
+{
+    extern u32 gUnk_03005CF0;
+    u8 *entry = (u8 *)gUnk_03005CF4 + 0xE34;
+    register u32 i asm("r5");
+    i = 0;
+    do {
+        if (sub_08000470((u32)entry))
+            sub_080003A8((u32)entry);
+        i++;
+        entry += 0x28;
+    } while (i <= 29);
+    if (all) {
+        entry = (u8 *)gUnk_03005CF4 + 0x12E4;
+        i = 0;
+    do {
+            if (sub_08000470((u32)entry))
+                sub_080003A8((u32)entry);
+            i++;
+            entry += 0x28;
+        } while (i <= 29);
+    }
+    {
+    u8 *objects = (u8 *)gUnk_03005CF4 + 0x7A4;
+    i = 0;
+    do {
+        u8 *task = objects + 0x48;
+        if (sub_08000470((u32)task))
+            sub_080003A8((u32)task);
+        i++;
+        objects += 0x70;
+    } while (i <= 14);
+    }
+    gUnk_03005CF0 = 0;
+}
 void sub_08057170(void)
 {
-    u8 *base = (u8 *)gUnk_03005CF4 + 0x1C8;
     u32 i, j;
     for (i = 0; i < 20; i++)
-        for (j = 0; j < 5; j++)
-            base[i * 5 + j] = 0;
+        for (j = 0; j < 5; j++) {
+            register u8 *base asm("r0") = (u8 *)gUnk_03005CF4;
+            u32 index = j + i * 5;
+            base += 0x1C8;
+            base += index;
+            *base = 0;
+        }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08057170);
-#endif
