@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "policy": "Hitos de investigación de igual peso visual; no miden bytes matching, equivalencia ni tiempo restante. Solo la función completa matching aumenta el porcentaje de código.",
+  "functions": [
+    {
+      "address": "0x0800D368",
+      "areas": [
+        {
+          "id": "flow",
+          "label": "Reconstrucción inicial del flujo",
+          "state": "done",
+          "evidence": "Checkpoint 84c4774af5a4b5f03226fc776a969efb5dd117bf; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "compile",
+          "label": "Borrador completo compilable",
+          "state": "done",
+          "evidence": "Checkpoint 84c4774af5a4b5f03226fc776a969efb5dd117bf; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "types",
+          "label": "Auditar tipos y accesos de memoria",
+          "state": "active",
+          "evidence": "Checkpoint 84c4774af5a4b5f03226fc776a969efb5dd117bf; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "layout",
+          "label": "Ajustar pila, registros y bloques",
+          "state": "active",
+          "evidence": "Checkpoint 84c4774af5a4b5f03226fc776a969efb5dd117bf; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "match",
+          "label": "Función completa matching",
+          "state": "pending",
+          "evidence": "Checkpoint 84c4774af5a4b5f03226fc776a969efb5dd117bf; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        }
+      ],
+      "regions": []
+    },
+    {
+      "address": "0x08003984",
+      "areas": [
+        {
+          "id": "flow",
+          "label": "Reconstrucción inicial del flujo",
+          "state": "done",
+          "evidence": "Checkpoint 1af1f4a4cff249c684c265969fd652d89dcef7c6; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "compile",
+          "label": "Borrador completo compilable",
+          "state": "done",
+          "evidence": "Checkpoint 1af1f4a4cff249c684c265969fd652d89dcef7c6; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "types",
+          "label": "Auditar tipos y accesos de memoria",
+          "state": "active",
+          "evidence": "Checkpoint 1af1f4a4cff249c684c265969fd652d89dcef7c6; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "layout",
+          "label": "Ajustar pila, registros y bloques",
+          "state": "active",
+          "evidence": "Checkpoint 1af1f4a4cff249c684c265969fd652d89dcef7c6; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        },
+        {
+          "id": "match",
+          "label": "Función completa matching",
+          "state": "pending",
+          "evidence": "Checkpoint 1af1f4a4cff249c684c265969fd652d89dcef7c6; conserva ASM original y draft NONMATCHING. Auditoría y matching completos siguen pendientes."
+        }
+      ],
+      "regions": []
+    }
+  ]
+}

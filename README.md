@@ -18,11 +18,16 @@ Each cell is one function (area = size in bytes):
 
 | Colour | Meaning |
 |---|---|
-| 🟩 green | decompiled, C compiles to the exact original bytes (counts as done) |
-| 🟨 yellow | **C draft** inside `#ifdef NONMATCHING`: compiles, but equivalence is not proven and it is not matching. Start by inspecting the difference (`tools/scripts/nmdiff.py FUNC`) |
-| ⬜ grey | still assembly (`INCLUDE_ASM`), no C yet |
-| 🟦 blue | original assembly retained in the project (start-up, m4a sound engine core, thunks) |
-| 🟪 purple | linked library code from `libgcc.a` / `libc.a`; not decompiled C |
+| 🟩 green | matching C or linked library code; separate totals are shown above the map |
+| 🟨 yellow | compiling C draft; tracked large functions fill progressively by documented work milestones |
+| ⬜ grey | no matching C, original ASM, or unfinished tracked milestones; hover for the exact state |
+
+The graphic shows recognized display names while preserving canonical symbols in
+its tooltips. Partial yellow fill is a count of evidenced work milestones, not
+matching bytes, semantic equivalence or an estimate of remaining time. Function
+owners update their own `docs/agents/function_work/sub_XXXXXXXX.json` at checkpoints;
+CI refreshes the map when those commits are integrated. Data is shown as an
+inventory, without a decoding percentage.
 
 The historical **matched + linked** percentage includes linked library code and
 excludes original ASM. **Matching C** counts only matching C bytes over all C
