@@ -40,7 +40,12 @@ def try_apply(func, t):
     """t: full C text containing func (and the extern lines it needs). Applies on match."""
     p, fs, o = decomp.split_functions(t)
     if func not in fs:
-        return False
+        from alias_application import apply_alias
+        try:
+            return apply_alias(func, t, validate_rom=rom_ok)
+        except (ValueError, SystemExit) as error:
+            print('%s: %s; reverted' % (func, error))
+            return False
     asm, mod = decomp.find_asm(func)
     if asm is None:
         return False
@@ -77,11 +82,19 @@ if __name__ == "__main__":
     for arg in sys.argv[1:]:
         if os.path.isdir(arg):
             for f in sorted(os.listdir(arg)):
-                if f.endswith(".c") and try_apply(f[:-2], open(os.path.join(arg, f)).read()):
-                    applied.append(f[:-2])
+                if not f.endswith('.c'):
+                    continue
+                with open(os.path.join(arg, f), encoding='utf8') as source:
+                    t = source.read()
+                from alias_application import targets
+                for func in targets(t).values():
+                    if try_apply(func, t):
+                        applied.append(func)
         else:
-            t = open(arg).read()
-            for func in decomp.split_functions(t)[2]:
+            with open(arg, encoding='utf8') as source:
+                t = source.read()
+            from alias_application import targets
+            for func in targets(t).values():
                 if try_apply(func, t):
                     applied.append(func)
     print("applied:", " ".join(applied))
