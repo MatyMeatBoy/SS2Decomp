@@ -1,0 +1,87 @@
+# Resource consumers and proposed roles (SS2 EU)
+
+This folder records bounded consumer evidence and ten display names independently
+reviewed and accepted in `tools/config/function_names.json`. It changes no
+canonical function symbol, header, claim or normal build.
+Role identification is separate from matching C and from decoded-data coverage.
+
+Source reference: [public PR29 merge](https://github.com/MatyMeatBoy/SS2Decomp/commit/0fed377ba72198198468238647333649254e93da).
+The files referenced by `name-proposals.json` were read at that revision and
+checked against local source text. Its hashes are public Git file bytes (LF).
+The proposal file retains its original `proposed` records as review history;
+its `applied` and `coordinator_review` fields record the acceptance. The catalog
+contains the confirmed display names.
+
+## Reproduce the bounded role checks
+
+Supply your own EU dump. The script asserts its SHA1 and reads it without editing
+or exporting ROM content. Optional dependencies and all results stay in build/:
+
+```sh
+python -m pip install --target build/resource_consumers/deps unicorn==2.1.4
+python research/resource_consumers/verify_roles.py
+```
+
+`--rom`, `--deps` and `--out` accept explicit alternate paths. This executes the
+original ROM instructions, not a new C implementation. Every call must reach its
+return sentinel and restore SP. Outputs contain counts, IDs and addresses, not
+images, palettes or asset bytes.
+
+- 24 orientation tests exercise low32 cross-product sign, including signed
+  extremes. This is not exact geometric orientation when arithmetic overflows.
+- 36 side-sign tests compare two result words. Collinear zero versus nonzero
+  returns different; this function alone is not segment intersection.
+- 8 palette tests use synthetic colors/deltas. The signed8 delta sum truncates to
+  unsigned16 before an upper cap31, so underflow becomes31 rather than0. Bit15
+  clears. The script also checks all EWRAM outside the16-color payload.
+- Four resolver checks and metadata assertions establish the addresses below.
+  They do not test all resource categories, a complete decoder or an importer.
+
+These 68 role cases plus four resolver/metadata checks provide bounded role and
+width evidence. They confer no new C matching credit. Unicorn does not establish
+hardware timing or every ARM7 unaligned-access behavior.
+
+## Two text representations with different consumers
+
+[Initializer1A70C and readers1A3D0/1A764](https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_08017F7C.c)
+initialize/read two distinct resources. Both readers stop at0xFD or byte>0xF1.
+
+| Path | Index and consumer | Proven limit |
+|---|---|---|
+| Bitmap resource0x40000 at0x0892C028 |1A3D0 computes `(byte-1)&255`, queues64B from `font+index*128`, writes two tilemap entries and advances upload cursor64 | This reader reaches slots0..240 and255; byte0 means255. Slots241..254 are not reached by this reader. |
+| Sprite metadata0x5004A at0x08956C00 |1A764 computes `(u16)(byte-1)` and calls65230 with style0;65230 passes it as frame position to7CF0 | Byte0 means65535, not255. Its use/validity as a frame position is unqualified; the verifier deliberately does not dereference it. |
+
+The bitmap entry extends to the next category section at0x08934028:32768B,
+256slots of128B. The second64B of each slot are zero in the checked EU input.
+That capacity and padding do not establish a full character map or meaningful
+content/use in every slot. The external [extractor at its audited revision](https://github.com/foone/ShiningSoul2Extractor/blob/8b230e6a9d1b56feda994fa8a2e9a9c996e20caf/extract_ss2.py)
+exports153 glyphs; this is an extractor limit, not the resource's capacity.
+Consult its [license and notices](https://github.com/foone/ShiningSoul2Extractor/blob/8b230e6a9d1b56feda994fa8a2e9a9c996e20caf/LICENSE)
+before reusing code. No extractor implementation is copied here.
+
+[65230's wrapper](https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/src/code_0805FB7C.c)
+uses descriptor+8 as metadata and+0 as pixel data. In the
+[7CF0 consumer](https://github.com/MatyMeatBoy/SS2Decomp/blob/0fed377ba72198198468238647333649254e93da/asm/nonmatchings/code_08006D24/sub_08007CF0.s):
+
+1. Metadata+2 is an inclusive bound for style; the checked resource holds1.
+2. `metadata+word(metadata+4)` points to12-byte frame records (0x08956C0C).
+3. `metadata+word(metadata+8)+12*style` selects a sequence record; style0 is
+   0x0895800C. Its+8 relative offset reaches sequence data at0x08958018.
+4. A halfword at `sequence+4*frame_position` selects a12-byte frame record.
+   The record's+8 relative offset reaches parts data.
+
+Thus this route includes sequence/frame/parts indirection, not `glyph*128`.
+The resolver gives its pixel companion0x6004A at0x08AEF294 and palette companion
+0x8004A at0x08AF1294. These are structural addresses, not a claim that their
+formats, animation semantics or script encoding are fully decoded.
+
+## Proposal boundaries
+
+`name-proposals.json` preserves canonical addresses and `status: proposed`.
+These are the submitted records, not the current catalog status.
+Geometry names retain wrap/collinearity limits. The palette name does not imply
+conventional signed saturation. InitTextFontResources includes both bitmap cache
+and sprite-glyph initialization. QueueTextGlyphTiles also writes tilemap entries.
+InitSpriteResourceDescriptor can return0 after partial field writes; Init does
+not imply transactional success. Resource counts are logical entries, not unique
+assets or decoded bytes. No global data percentage or Unicode mapping is claimed.
