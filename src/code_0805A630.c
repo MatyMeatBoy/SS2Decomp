@@ -848,36 +848,63 @@ blocked:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B4CC);
 #endif
-#ifdef NONMATCHING
+struct Slot60 { u8 pad[10]; u16 flags; u16 age; u8 tail[18]; };
+extern struct Slot60 *slots60 asm("gUnk_03005D58");
 void *sub_0805B618(void)
 {
-    u32 i;
-    u8 *base = *(u8 **)0x03005D58;
-    u32 active = 0;
-    u32 lowest = 0x11170;
-    u32 lowestIndex = 0;
-    for (i = 0; i < 16; i++) {
-        u8 *slot = base + i * 0x20;
-        if (*(u16 *)(slot + 0xA) & (1u << i)) {
+    u16 temp;
+    register u32 lowest asm("r2");
+    register u32 lowestIndex asm("r3");
+    register u32 i asm("r5");
+    register u32 active asm("r6");
+    register struct Slot60 *slot asm("r4");
+    register struct Slot60 **owner asm("r1") = &slots60;
+    register u32 initial asm("r0");
+    slot = *owner;
+    initial = 0x11170;
+    lowest = initial;
+    lowestIndex = initial;
+    active = 0;
+    i = 0;
+    do {
+        if (1 & slot->flags) {
             active++;
-            if (*(u16 *)(slot + 0xC) < lowest) {
-                lowest = *(u16 *)(slot + 0xC);
+            temp = slot->age;
+            if ((u32)temp < lowest) {
+                lowest = temp;
                 lowestIndex = i;
             }
         }
+        i++;
+        slot++;
+    } while (i <= 15);
+    if (active > 15) {
+        register u32 address asm("r0");
+        slot = slots60;
+        address = lowestIndex << 5;
+        address += (u32)slot;
+        *(u16 *)(address + 10) = 0;
     }
-    if (active > 15)
-        *(u16 *)(base + lowestIndex * 0x20 + 0xA) = 0;
-    for (i = 0; i < 16; i++) {
-        u8 *slot = base + i * 0x20;
-        if ((*(u16 *)(slot + 0xA) & 3) == 0)
-            return slot;
+    {
+        struct Slot60 *second = slots60;
+        u32 j;
+        register u32 hint asm("r5");
+        for (j = 0; j <= 15; j = hint + 1, second++) {
+            hint = j;
+            if (!(second->flags & 3)) return second;
+        }
+        return 0;
     }
-    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B618);
-#endif
+
+
+
+
+
+
+
+
+
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B688);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805BD5C);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C208);
@@ -937,35 +964,60 @@ INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C4FC);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C620);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C7B8);
-#ifdef NONMATCHING
-void sub_0805CB04(u32 index, u8 *out)
+struct Record60 { u16 type, value, timer; u8 a, b, c, d; u8 tail[6]; };
+void sub_0805CB04(s32 index, struct Record60 *out)
 {
-    u32 i;
-    const u8 *table = (const u8 *)gUnk_084EB7E8 + index * 0x30;
-    for (i = 0; i <= 0xB; i++, table += 4, out += 0x10) {
-        u16 type = *(u16 *)table;
-        *(u16 *)out = type;
-        *(u16 *)(out + 2) = *(u16 *)(table + 2);
+    register u16 type asm("r1");
+    u16 bit;
+    register u32 i asm("r8");
+    register u32 work asm("r2");
+    register u32 offset asm("r0");
+    register u8 *base asm("r1");
+    u16 *table;
+    u8 zero8;
+    u32 zero16;
+    register u32 sentinel asm("r9");
+    offset = index * 0x30;
+    base = (u8 *)&gUnk_084EB7E8;
+    work = 0;
+    i = work;
+    zero8 = 0;
+    zero16 = work;
+    work = 0xFFFF;
+    sentinel = work;
+    table = (u16 *)(offset + (u32)base);
+    do {
+        type = table[0];
+        out->type = type;
+        out->value = table[1];
         if (type == 2) {
-            out[8] = 0;
-            *(u16 *)(out + 4) = 0;
-            out[6] = 0;
-            out[7] = 0;
-            out[9] = 0;
+            out->c = zero8;
+            out->timer = zero16;
+            out->a = zero8;
+            out->b = zero8;
+            out->d = zero8;
         }
-        if (type == 0xFFFF) {
-            if ((sub_080008C8() & 1) != 0)
+        if (out->type == sentinel) {
+            bit = sub_080008C8() & 1;
+            if (bit != 0)
                 sub_0805C4FC(out, 0x14, index);
             else {
-                *(u16 *)out = 0;
-                *(u16 *)(out + 2) = 0;
+                out->type = bit;
+                out->value = bit;
             }
         }
-    }
+        table += 2;
+        work = 1;
+        i += work;
+        out++;
+    } while (i <= 0xB);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB04);
-#endif
+
+
+
+
+
+
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB8C);
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CDF8);
 s32 sub_0805CFA0(void) {

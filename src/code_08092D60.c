@@ -199,7 +199,29 @@ void sub_08094530(void)
         taskStart98c(task98c, 0, 0);
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094590);
+struct Reset98 {u16 x0,y0,x1,y1;};
+extern struct Reset98 reset98 asm("gUnk_03001250");
+void sub_08094590(void)
+{
+    union { u32 word; u16 half[2]; } config;
+    sub_08000A34(1,0,0,0,0);
+    sub_080009F8(0xF00,0,0);
+    sub_08000990(0,0);
+    sub_080009C0(0x1300,0x8000,0);
+    config.word = (config.word & 0xFFFF0000) | 0x1802;
+    sub_08000AA8(0,config.half);
+    sub_080921E4(0xC,0x18);
+    config.half[0]=0x1C03;
+    sub_08000AA8(1,config.half);
+    sub_080921E4(0xD,0x1C);
+    reset98.y0=0; reset98.x0=0; reset98.y1=0; reset98.x1=0;
+    sub_0800CBF8(2);
+    sub_0800CC48(2);
+    sub_08098010(2);
+    sub_08094948();
+    sub_080949A8();
+    sub_08000940();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094638);
 struct Drift98 { s16 f0,f2,f4,f6; };
 extern struct Drift98 drift98 asm("gUnk_03001250");
@@ -261,9 +283,55 @@ void sub_080949A8(void)
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094A00);
+void sub_08094A00(void)
+{
+    union { u32 word; u16 half[2]; } config;
+    sub_08000A34(1,0,0,0,0);
+    sub_080009F8(0xF00,0,0);
+    sub_08000990(0,0);
+    sub_080009C0(0x1300,0,0);
+    config.word = (config.word & 0xFFFF0000) | 0x1801;
+    sub_08000AA8(0,config.half);
+    sub_080921E4(8,0x18);
+    config.half[0]=0x1C02;
+    sub_08000AA8(1,config.half);
+    sub_080921E4(9,0x1C);
+    reset98.y0=0; reset98.x0=0; reset98.y1=0; reset98.x1=0;
+    sub_0800903C(0,0,1,0,0,0);
+    sub_0800CBF8(2);
+    sub_0800CC48(2);
+    sub_08098010(2);
+    sub_08094E84();
+    sub_08094EE4();
+    sub_08000940();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094AB8);
+#ifdef NONMATCHING
+s32 sub_08094DEC(void)
+{
+    s32 y1=0;
+    s32 y0=0;
+    u8 b=0; u8 a=0;
+    register s32 zero=0;
+    for (;;) {
+        s32 s=(sine98[b]*5)>>8;
+        s32 first=s+8;
+        s32 second=8-s;
+        y0+=0x100;
+        { register s32 x=sine98[a+0x40]; drift98.f0=x>>3; }
+        drift98.f2=y0>>8;
+        y1+=0x80;
+        { register s32 x=sine98[a]; drift98.f4=x>>3; }
+        drift98.f6=y1>>8;
+        sub_0800903C(1,0x32,1,(u16)first,(u16)second,zero);
+        b+=3;
+        a++;
+        sub_080003F0();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094DEC);
+#endif
 void sub_08094E84(void)
 {
   s32 temp_r0;
@@ -300,8 +368,62 @@ void sub_08094EE4(void)
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094F3C);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080953F8);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08095518);
+struct AffineControl98 {u16 scaleX,scaleY,x,y,dx,dy;u8 angle;};
+extern struct AffineControl98 affine98 asm("gUnk_03000280");
+extern u16 affineRegs98[] asm("gUnk_03001250");
+void sub_080953F8(void)
+{
+    register s16 v1,v2,v4;
+    s32 v3,ox,oy;
+    u16 result;
+    s16 sumX,sumY;
+    u16 pa,pb,pc,pd;
+    v1=sine98[affine98.angle+0x40];
+    pa=sub_08090434(v1,sub_08090494(affine98.scaleX));
+    v2=sine98[affine98.angle];
+    pb=sub_08090434(v2,sub_08090494(affine98.scaleX));
+    v3=-sine98[affine98.angle];
+    pc=sub_08090434(v3,sub_08090494(affine98.scaleY));
+    v4=sine98[affine98.angle+0x40];
+    result=sub_08090434(v4,sub_08090494(affine98.scaleY));
+    sumX=affine98.x+affine98.dx;
+    sumY=affine98.y+affine98.dy;
+    ox=((0x78-sumX)<<8)-(s16)pa*0x78-(s16)pb*0x50;
+    pd=result;
+    oy=((0x78-sumY)<<8)-(s16)pc*0x78-(s16)pd*0x50;
+    if (!sub_0800CCCC() && !sub_0800CC98() && !sub_0800CD34()) {
+        affineRegs98[8]=pa;
+        affineRegs98[9]=pb;
+        affineRegs98[10]=pc;
+        affineRegs98[11]=pd;
+        affineRegs98[12]=ox;
+        affineRegs98[14]=oy;
+        affineRegs98[13]=ox>>16;
+        affineRegs98[15]=oy>>16;
+    }
+}
+void sub_08095518(s32 unused, u32 arg1)
+{
+    union { u32 word; u16 half[2]; } config;
+    u8 palette = arg1;
+    palette--;
+    sub_08000A34(1,0,0,0,0);
+    sub_080009F8(0xF00,0,0);
+    sub_08000990(2,0);
+    if (palette == 0) sub_080009C0(0x1400,0x8000,0);
+    else sub_080009C0(0x1400,0,0);
+    config.word = (config.word & 0xFFFF0000) | 0x7C82;
+    sub_08000AA8(2,config.half);
+    sub_080921E4(5,0x1C);
+    sub_080955CC();
+    sub_080955EC(0,0);
+    sub_080955F8(0xF8,0xF8);
+    sub_08095604(0x200,0x200);
+    sub_0800CBF8(1);
+    sub_0800CC48(1);
+    sub_08098010(1);
+    sub_08000940();
+}
 struct Ctrl98 { u16 v0,v1,w4,w6,w8,wA; u8 b0C; };
 extern struct Ctrl98 ctrl98 asm("gUnk_03000280");
 void sub_080955CC(void) {

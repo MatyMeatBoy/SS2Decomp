@@ -40,7 +40,64 @@ extern s32 *gUnk_03000448[];
 extern s32 *gUnk_030004D0;
 extern s32 gUnk_030056FC;
 
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9680);
+struct Player111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x, y, oldX, oldY; u8 pad9C[0x2C]; u16 lock; u8 padCA[0x82]; };
+extern struct Player111 players111[] asm("gUnk_03003CE0");
+extern s32 *object111 asm("gUnk_0300041C");
+s32 sub_080A9680(void)
+{
+    s32 playerLine[4];
+    s32 objectLine[4];
+    struct Player111 *base = players111;
+    s32 *px;
+    s32 *py;
+    s32 *po;
+    s32 *dst;
+    s32 srcIndexX, srcIndexY;
+    u32 *pf;
+    s32 idxF, idxX, idxY;
+    s32 i;
+    s32 j;
+    s32 ix, jx, iy, jy;
+    s32 *dx, *dy;
+    s32 *sx, *sy;
+    if (base[sub_080020F4()].lock != 0) goto fail;
+    idxF = 0x14C * sub_080020F4();
+    pf = &base->flags;
+    if (*(u32 *)((u8 *)pf + idxF) & 0x2000) goto fail;
+    if (base[sub_080020F4()].active == 0) goto fail;
+    if (base[sub_080020F4()].state == 14) goto fail;
+    if (base[sub_080020F4()].state == 11) goto fail;
+    if (base[sub_080020F4()].state == 12) goto fail;
+    idxX = 0x14C * sub_080020F4();
+    px = &base->x;
+    playerLine[0] = *(s32 *)((u8 *)px + idxX) >> 8;
+    idxY = 0x14C * sub_080020F4();
+    py = &base->y;
+    playerLine[1] = *(s32 *)((u8 *)py + idxY) >> 8;
+    playerLine[2] = (px[0x53 * sub_080020F4()] + 0xC00) >> 8;
+    playerLine[3] = (py[0x53 * sub_080020F4()] - 0x800) >> 8;
+    objectLine[0] = (object111[5] - 0x4000) >> 8;
+    objectLine[1] = (object111[6] - 0x2000) >> 8;
+    objectLine[2] = (object111[5] + 0x4000) >> 8;
+    objectLine[3] = (object111[6] + 0x2000) >> 8;
+    if (sub_080A98E0(objectLine, objectLine + 2, playerLine, playerLine + 2) != 0) {
+        ix = sub_080020F4();
+        jx = sub_080020F4();
+        dx = (s32 *)((u8 *)px + 0x14C * ix);
+        srcIndexX = 0x14C * jx;
+        sx = &base->oldX;
+        *dx = *(s32 *)((u8 *)sx + srcIndexX);
+        iy = sub_080020F4();
+        jy = sub_080020F4();
+        dy = (s32 *)((u8 *)py + 0x14C * iy);
+        srcIndexY = 0x14C * jy;
+        sy = &base->oldY;
+        *dy = *(s32 *)((u8 *)sy + srcIndexY);
+        return 1;
+    }
+fail:
+    return 0;
+}
 void sub_080A97E0(void) {
     if (M2C_FIELD(gUnk_0300041C, s16 *, 0x5C) != 0) {
         sub_080A9844();

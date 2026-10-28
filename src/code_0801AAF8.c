@@ -47,24 +47,16 @@ void sub_0801ABE8(u32 arg0) {
     new_var = 0x21;
     gUnk_03000028 = (gUnk_03000028 | 0xC) & (-new_var);
 }
-#ifdef NONMATCHING
-void sub_0801AC24(u16 value)
-{
-    u16 *state = (u16 *)0x03000026;
-    u16 *current = (u16 *)0x03000022;
-    u16 *limit = (u16 *)0x03000020;
-    if (*(s16 *)state == 1 && *current > *limit)
-        return;
-    *state = 1;
-    *limit = value;
-    *current = 0;
-    sub_08000420(0x64);
-    *(u16 *)0x03000028 &= (u16)~9;
-    *(u16 *)0x03000028 |= 0x30;
+void sub_0801AC24(u16 arg0) {
+    int mask = 9;
+    if (gUnk_03000026 != 1 || gUnk_03000022 <= gUnk_03000020) {
+        gUnk_03000026 = 1;
+        gUnk_03000020 = arg0;
+        gUnk_03000022 = 0;
+        sub_08000420(0x64);
+        gUnk_03000028 = (gUnk_03000028 | 0x30) & -mask;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801AC24);
-#endif
 s32 sub_0801AC78(void) {
     s32 var_r2;
 
@@ -78,31 +70,292 @@ s32 sub_0801AC78(void) {
     return 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801ACB8);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B264);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B58C);
-#ifdef NONMATCHING
-void sub_0801B6F4(u16 *p, s32 delta)
+u32 sub_0801B264(void *mods, u16 *stats, u8 *extra)
 {
-    s16 d = (s16)delta;
-    u32 i;
-    for (i = 0; i < 6; i++)
-        p[i] += d;
+    u32 flags = 0;
+    u32 i = 0;
+    do {
+        u32 type = M2C_FIELD(mods + i * 4, u16 *, 0);
+        if (type) flags |= 1 << type;
+        switch (type) {
+        case 1:
+            stats[0] = stats[0] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            flags |= 1;
+            break;
+        case 2:
+            stats[1] = stats[1] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 3:
+            stats[2] = stats[2] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            flags |= 6;
+            break;
+        case 4:
+            stats[3] = stats[3] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            flags |= 5;
+            break;
+        case 5:
+            *(u16 *)(extra + 0xA) = *(u16 *)(extra + 0xA) + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 6:
+            *(u16 *)(extra + 0x8) = *(u16 *)(extra + 0x8) + M2C_FIELD(mods + i * 4, u16 *, 2) * 10;
+            break;
+        case 7:
+            stats[4] = stats[4] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 8:
+            stats[10] = stats[10] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 9:
+            stats[11] = stats[11] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 10:
+            stats[12] = stats[12] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 11:
+            stats[13] = stats[13] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 12:
+            stats[14] = stats[14] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 13:
+            stats[15] = stats[15] + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 14:
+            *(u16 *)(extra + 0x0) = *(u16 *)(extra + 0x0) + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 15:
+            *(u16 *)(extra + 0x2) = *(u16 *)(extra + 0x2) + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 16:
+            *(u16 *)(extra + 0x6) = *(u16 *)(extra + 0x6) + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 17:
+            extra[0x1D] = extra[0x1D] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 18:
+            extra[0x1E] = extra[0x1E] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 19:
+            *(u16 *)(extra + 0x4) = *(u16 *)(extra + 0x4) + M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 20:
+            extra[0x15] = extra[0x15] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 21:
+            extra[0x11] = extra[0x11] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 22: {
+            register u32 value asm("r1") = extra[0x11];
+            register u32 result asm("r0") = 0x80 | value;
+            extra[0x11] = result;
+            break;
+        }
+        case 23:
+            extra[0x14] = extra[0x14] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 24:
+            extra[0x12] = extra[0x12] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 25:
+            extra[0x13] = extra[0x13] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 26:
+            extra[0x1F] = extra[0x1F] + M2C_FIELD(mods + i * 4, u16 *, 2) * 3;
+            break;
+        case 27:
+            extra[0x20] = extra[0x20] + M2C_FIELD(mods + i * 4, u16 *, 2) * 3;
+            break;
+        case 28:
+            extra[0xF] = 1;
+            break;
+        case 29:
+            extra[0x18] = extra[0x18] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 30:
+            extra[0x19] = extra[0x19] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 31:
+            extra[0x1A] = extra[0x1A] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 32:
+            extra[0x17] = extra[0x17] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 33:
+            extra[0x16] = extra[0x16] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 34:
+            extra[0x1B] = extra[0x1B] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 35:
+            extra[0x1C] = extra[0x1C] + (u8)M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        case 36:
+            *(u16 *)(extra + 0xC) = 9;
+            break;
+        case 37:
+            extra[0xE] = 10;
+            break;
+        case 38:
+            extra[0xE] = 11;
+            break;
+        case 40: {
+            u32 value = M2C_FIELD(mods + i * 4, u16 *, 2);
+            extra[0x21] = value;
+            break;
+        }
+        case 41:
+            extra[0x10] = M2C_FIELD(mods + i * 4, u16 *, 2);
+            break;
+        }
+        i++;
+    } while (i <= 2);
+    return flags;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B6F4);
-#endif
-#ifdef NONMATCHING
-void sub_0801B720(u16 *p, s32 delta)
+
+
+
+
+s32 sub_0801B58C(u8 *item, s32 stats, u16 value, u16 kind)
 {
-    s16 d = (s16)delta;
-    u32 i;
-    for (i = 0; i < 6; i++)
-        p[i] -= d;
+    register s32 factor asm("r4");
+    switch (kind) {
+    case 0:
+        switch (item[0x9B]) {
+        case 2:
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
+            break;
+        case 3:
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 2);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 2) + ((s16)value * ((u16)factor + 10)) / 10;
+            break;
+        case 1:
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
+            break;
+        }
+        break;
+    case 3:
+        if (item[0x9B] == 2) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
+        } else if (item[0x9B] == 4) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
+        }
+        break;
+    case 2:
+        if (item[0x9B] != 3) {
+            if (item[0x9B] == 7) {
+                factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
+                value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
+            }
+        } else {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
+        }
+        break;
+    case 5:
+        if (item[0x9B] == 6) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
+        } else if (item[0x9B] == 8) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
+        }
+        break;
+    case 4:
+        if (item[0x9B] == 4) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor * 8 + 100)) / 100;
+        } else if (item[0x9B] == 5) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
+        }
+        break;
+    case 7:
+        if (item[0x9B] == 1) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
+        } else if (item[0x9B] == 8) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 1) + ((s16)value * ((u16)factor + 10)) / 10;
+        }
+        break;
+    case 1: case 6: case 8:
+        if (item[0x9B] == 5) {
+            factor = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0);
+            value = ((s32 (*)(s32, s32))sub_0801E0AC)(stats, 0) + ((s16)value * ((u16)factor + 10)) / 10;
+        }
+        break;
+    }
+    return value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B720);
-#endif
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B74C);
+
+
+
+void sub_0801B6F4(s16 *p, s16 delta) {
+    p[0] = delta + p[0];
+    p[1] = delta + p[1];
+    p[2] = delta + p[2];
+    p[3] = delta + p[3];
+    p[4] = delta + p[4];
+    p[5] = delta + p[5];
+}
+void sub_0801B720(s16 *p, s16 delta) {
+    p[0] = p[0] - delta;
+    p[1] = p[1] - delta;
+    p[2] = p[2] - delta;
+    p[3] = p[3] - delta;
+    p[4] = p[4] - delta;
+    p[5] = p[5] - delta;
+}
+struct S17ItemC4 { u8 data[0xC4]; };
+struct S17ItemB8 { u8 data[0xB8]; };
+struct S17ItemB4 { u8 data[0xB4]; };
+struct S17ItemB0 { u8 data[0xB0]; };
+struct S17Set { u8 pad[0x136]; u16 slots[6]; };
+s32 sub_0801B74C(struct S17Set *set, struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, struct S17ItemB8 *d, struct S17ItemB4 *e, struct S17ItemB0 *f)
+{
+    s32 matched = 0;
+    s32 count = 0;
+    u32 i = 0;
+    do {
+        if (set->slots[i] != 0xFFFF) {
+            count++;
+            switch (i) {
+            case 0:
+                if (a && a - (struct S17ItemC4 *)sub_08007290(0xB0000) == set->slots[i])
+                    matched++;
+                break;
+            case 2:
+                if (b && b - (struct S17ItemB8 *)sub_08007290(0xC0000) == set->slots[i])
+                    matched++;
+                break;
+            case 1:
+                if (c && c - (struct S17ItemB8 *)sub_08007290(0xD0000) == set->slots[i])
+                    matched++;
+                break;
+            case 3:
+                if (d && d - (struct S17ItemB8 *)sub_08007290(0xE0000) == set->slots[i])
+                    matched++;
+                break;
+            case 4:
+                if (e && e - (struct S17ItemB4 *)sub_08007290(0xF0000) == set->slots[i])
+                    matched++;
+                break;
+            case 5:
+                if (f && f - (struct S17ItemB0 *)sub_08007290(0x110000) == set->slots[i])
+                    matched++;
+                break;
+            }
+        }
+        i++;
+    } while (i <= 5);
+    if (matched == count) return 1;
+    return 0;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B8A8);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801C8F0);

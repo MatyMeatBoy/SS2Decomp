@@ -1564,6 +1564,134 @@ loop_164:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A8164);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A8F90);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A9100);
+struct PlayerHit111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x34]; u16 lock, direction, power; u8 padCE[0x16]; s32 previous[0x1A]; };
+extern struct PlayerHit111 hitPlayers111[] asm("gUnk_03003CE0");
+extern u8 *hitObject111 asm("gUnk_0300041C");
+void sub_080A8F90(void)
+{
+    s32 ix, iy, iflags, itable, icmp, offset;
+    u8 *objX, *objY, *objTable;
+    s32 *px, *py, *table;
+    u32 *flags;
+    struct PlayerHit111 *base;
+    u32 dx;
+    s32 dy;
+    s16 *target;
+    s16 direction;
+    ix = sub_080020F4();
+    objX = hitObject111;
+    base = hitPlayers111;
+    ix *= 0x14C;
+    px = &base->x;
+    dx = (u32)((*(s32 *)(objX + 0x14) - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
+    iy = sub_080020F4();
+    objY = hitObject111;
+    iy *= 0x14C;
+    py = &base->y;
+    dy = (*(s32 *)(objY + 0x18) - *(s32 *)((u8 *)py + iy)) << 8;
+    if (Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16)) > 19) return;
+    if (*(s16 *)(hitObject111 + 0x5C) == 0) return;
+    if (base[sub_080020F4()].lock != 0) return;
+    if (sub_0800CDF8() != 0) return;
+    if (sub_0800CD8C() != 0) return;
+    if (sub_0800CCCC() != 0) return;
+    if (*(u16 *)(hitObject111 + 0xC) == 11) return;
+    iflags = 0x14C * sub_080020F4();
+    flags = &base->flags;
+    if (*(u32 *)((u8 *)flags + iflags) & 0x2000) return;
+    if (base[sub_080020F4()].active == 0) return;
+    if (base[sub_080020F4()].state == 14) return;
+    if (base[sub_080020F4()].state == 11) return;
+    if (base[sub_080020F4()].state == 12) return;
+    itable = sub_080020F4();
+    objTable = hitObject111;
+    offset = *(u16 *)objTable * 4;
+    itable *= 0x14C;
+    offset += itable;
+    table = base->previous;
+    if (*(s32 *)((u8 *)table + offset) == *(s32 *)(objTable + 0x50)) return;
+    icmp = 0x14C * sub_080020F4();
+    if (*(s32 *)((u8 *)px + icmp) <= *(s32 *)(hitObject111 + 0x14)) {
+        target = (s16 *)&base[sub_080020F4()].direction;
+        direction = 1;
+    } else {
+        target = (s16 *)&base[sub_080020F4()].direction;
+        direction = 5;
+    }
+    *target = direction;
+    hitPlayers111[sub_080020F4()].power = 0x400;
+    hitPlayers111[sub_080020F4()].lock = 8;
+}
+struct PlayerHit2111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x1C]; u16 hit; u8 padB2[0x16]; u16 lock, direction, power; u8 padCE[0x16]; s32 previous[0x1A]; };
+extern struct PlayerHit2111 hitPlayers2111[] asm("gUnk_03003CE0");
+extern u8 *hitObject2111 asm("gUnk_0300041C");
+extern s16 hitOffsets111[] asm("gUnk_080B9704");
+void sub_080A9100(void)
+{
+    s32 ix, iy, iflags, itable, icmp, offset;
+    u8 *objX, *objY, *objTable;
+    s32 *px, *py, *table;
+    u32 *flags;
+    struct PlayerHit2111 *base;
+    u32 dx;
+    s32 dy;
+    s16 *target;
+    s16 direction;
+    s32 x, y;
+    s32 saveIndex, saveOffset;
+    u8 *saveObj;
+    s32 *saveTable;
+    s32 serial;
+    s32 *saveDst;
+    x = *(s32 *)(hitObject2111 + 0x14);
+    y = *(s32 *)(hitObject2111 + 0x18);
+    x += hitOffsets111[0xB0] << 5;
+    y += hitOffsets111[0x70] << 5;
+    ix = sub_080020F4();
+    base = hitPlayers2111;
+    ix *= 0x14C;
+    px = &base->x;
+    dx = (u32)((x - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
+    iy = 0x14C * sub_080020F4();
+    py = &base->y;
+    dy = (y - *(s32 *)((u8 *)py + iy)) << 8;
+    if (Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16)) > 19) return;
+    if (base[sub_080020F4()].lock != 0) return;
+    if (sub_0800CDF8() != 0) return;
+    if (sub_0800CD8C() != 0) return;
+    if (sub_0800CCCC() != 0) return;
+    if (*(u16 *)(hitObject2111 + 0xC) == 11) return;
+    iflags = 0x14C * sub_080020F4();
+    flags = &base->flags;
+    if (*(u32 *)((u8 *)flags + iflags) & 0x2000) return;
+    if (base[sub_080020F4()].active == 0) return;
+    if (base[sub_080020F4()].state == 14) return;
+    if (base[sub_080020F4()].state == 11) return;
+    if (base[sub_080020F4()].state == 12) return;
+    itable = sub_080020F4();
+    objTable = hitObject2111;
+    offset = *(u16 *)objTable * 4;
+    itable *= 0x14C;
+    offset += itable;
+    table = base->previous;
+    if (*(s32 *)((u8 *)table + offset) == *(s32 *)(objTable + 0x50)) return;
+    if (sub_0800CE30() == 1)
+        sub_08029A7C(1, 0xC8, 4);
+    else
+        sub_08029A7C(1, 0x50, 4);
+    hitPlayers2111[sub_080020F4()].hit = 0xFFFE;
+    saveIndex = sub_080020F4();
+    saveObj = hitObject2111;
+    saveOffset = *(u16 *)saveObj * 4;
+    saveIndex *= 0x14C;
+    saveOffset += saveIndex;
+    saveTable = hitPlayers2111->previous;
+    saveDst = (s32 *)((u8 *)saveTable + saveOffset);
+    serial = *(s32 *)(saveObj + 0x50);
+    *saveDst = serial;
+    *(s32 *)(saveObj + 0x50) = serial + 1;
+    hitPlayers2111[sub_080020F4()].direction = 1;
+    hitPlayers2111[sub_080020F4()].power = 0x400;
+    hitPlayers2111[sub_080020F4()].lock = 0x50;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A92C0);

@@ -793,3 +793,6 @@ u32 sub_0801DEB8(void);
 void sub_0801E0D0(u16 *dst, const u16 *src);
 
 void sub_0807C1D8(void);
+void sub_0801AC24(u16 arg0);
+void sub_0801B6F4(s16 *p, s16 delta);
+void sub_0801B720(s16 *p, s16 delta);
