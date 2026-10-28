@@ -1,0 +1,4982 @@
+{
+  "files": [
+    {
+      "source": "data/rodata.s",
+      "incbin_count": 22,
+      "incbin_bytes": 2806972,
+      "labels": 22,
+      "explicit_data_directives": 0,
+      "padding_directives": 0
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "incbin_count": 391,
+      "incbin_bytes": 13210432,
+      "labels": 390,
+      "explicit_data_directives": 0,
+      "padding_directives": 0
+    }
+  ],
+  "incbin_count": 413,
+  "incbin_bytes": 16017404,
+  "labels_total": 412,
+  "labels_descriptive": 11,
+  "explicit_data_directives": 0,
+  "padding_directives": 0,
+  "incbins": [
+    {
+      "source": "data/rodata.s",
+      "line": 7,
+      "file": "baserom.gba",
+      "rom_offset": 759556,
+      "size": 640
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 10,
+      "file": "baserom.gba",
+      "rom_offset": 760196,
+      "size": 68
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 13,
+      "file": "baserom.gba",
+      "rom_offset": 760264,
+      "size": 12
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 16,
+      "file": "baserom.gba",
+      "rom_offset": 760276,
+      "size": 4
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 19,
+      "file": "baserom.gba",
+      "rom_offset": 760280,
+      "size": 248
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 22,
+      "file": "baserom.gba",
+      "rom_offset": 760528,
+      "size": 7168
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 25,
+      "file": "baserom.gba",
+      "rom_offset": 767696,
+      "size": 20
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 28,
+      "file": "baserom.gba",
+      "rom_offset": 767716,
+      "size": 256
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 31,
+      "file": "baserom.gba",
+      "rom_offset": 767972,
+      "size": 4
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 34,
+      "file": "baserom.gba",
+      "rom_offset": 767976,
+      "size": 144
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 37,
+      "file": "baserom.gba",
+      "rom_offset": 768120,
+      "size": 180
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 40,
+      "file": "baserom.gba",
+      "rom_offset": 768300,
+      "size": 48
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 43,
+      "file": "baserom.gba",
+      "rom_offset": 768348,
+      "size": 24
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 46,
+      "file": "baserom.gba",
+      "rom_offset": 768372,
+      "size": 132
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 49,
+      "file": "baserom.gba",
+      "rom_offset": 768504,
+      "size": 24
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 52,
+      "file": "baserom.gba",
+      "rom_offset": 768528,
+      "size": 60
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 55,
+      "file": "baserom.gba",
+      "rom_offset": 768588,
+      "size": 16
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 58,
+      "file": "baserom.gba",
+      "rom_offset": 768604,
+      "size": 52
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 61,
+      "file": "baserom.gba",
+      "rom_offset": 768656,
+      "size": 2892
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 64,
+      "file": "baserom.gba",
+      "rom_offset": 771548,
+      "size": 48
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 67,
+      "file": "baserom.gba",
+      "rom_offset": 771596,
+      "size": 2794580
+    },
+    {
+      "source": "data/rodata.s",
+      "line": 70,
+      "file": "baserom.gba",
+      "rom_offset": 3566176,
+      "size": 352
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 5,
+      "file": "baserom.gba",
+      "rom_offset": 3566784,
+      "size": 256
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 8,
+      "file": "baserom.gba",
+      "rom_offset": 3567040,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 11,
+      "file": "baserom.gba",
+      "rom_offset": 3567052,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 14,
+      "file": "baserom.gba",
+      "rom_offset": 3567056,
+      "size": 60
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 17,
+      "file": "baserom.gba",
+      "rom_offset": 3567116,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 20,
+      "file": "baserom.gba",
+      "rom_offset": 3567118,
+      "size": 38
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 23,
+      "file": "baserom.gba",
+      "rom_offset": 3567156,
+      "size": 200
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 26,
+      "file": "baserom.gba",
+      "rom_offset": 3567356,
+      "size": 200
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 29,
+      "file": "baserom.gba",
+      "rom_offset": 3567556,
+      "size": 147500
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 32,
+      "file": "baserom.gba",
+      "rom_offset": 3715056,
+      "size": 154460
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 35,
+      "file": "baserom.gba",
+      "rom_offset": 3869516,
+      "size": 163744
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 38,
+      "file": "baserom.gba",
+      "rom_offset": 4033260,
+      "size": 163512
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 41,
+      "file": "baserom.gba",
+      "rom_offset": 4196772,
+      "size": 164500
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 44,
+      "file": "baserom.gba",
+      "rom_offset": 4361272,
+      "size": 5972
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 47,
+      "file": "baserom.gba",
+      "rom_offset": 4367244,
+      "size": 840
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 50,
+      "file": "baserom.gba",
+      "rom_offset": 4368084,
+      "size": 23780
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 53,
+      "file": "baserom.gba",
+      "rom_offset": 4391864,
+      "size": 17280
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 56,
+      "file": "baserom.gba",
+      "rom_offset": 4409144,
+      "size": 29072
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 59,
+      "file": "baserom.gba",
+      "rom_offset": 4438216,
+      "size": 27600
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 62,
+      "file": "baserom.gba",
+      "rom_offset": 4465816,
+      "size": 33672
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 65,
+      "file": "baserom.gba",
+      "rom_offset": 4499488,
+      "size": 17200
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 68,
+      "file": "baserom.gba",
+      "rom_offset": 4516688,
+      "size": 7040
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 71,
+      "file": "baserom.gba",
+      "rom_offset": 4523728,
+      "size": 146412
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 74,
+      "file": "baserom.gba",
+      "rom_offset": 4670140,
+      "size": 15488
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 77,
+      "file": "baserom.gba",
+      "rom_offset": 4685628,
+      "size": 264
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 80,
+      "file": "baserom.gba",
+      "rom_offset": 4685892,
+      "size": 276
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 83,
+      "file": "baserom.gba",
+      "rom_offset": 4686168,
+      "size": 200
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 86,
+      "file": "baserom.gba",
+      "rom_offset": 4686368,
+      "size": 212
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 89,
+      "file": "baserom.gba",
+      "rom_offset": 4686580,
+      "size": 28
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 92,
+      "file": "baserom.gba",
+      "rom_offset": 4686608,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 95,
+      "file": "baserom.gba",
+      "rom_offset": 4686648,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 98,
+      "file": "baserom.gba",
+      "rom_offset": 4686712,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 101,
+      "file": "baserom.gba",
+      "rom_offset": 4686732,
+      "size": 160
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 104,
+      "file": "baserom.gba",
+      "rom_offset": 4686892,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 107,
+      "file": "baserom.gba",
+      "rom_offset": 4686908,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 110,
+      "file": "baserom.gba",
+      "rom_offset": 4686924,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 113,
+      "file": "baserom.gba",
+      "rom_offset": 4686940,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 116,
+      "file": "baserom.gba",
+      "rom_offset": 4686956,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 119,
+      "file": "baserom.gba",
+      "rom_offset": 4686960,
+      "size": 2780
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 122,
+      "file": "baserom.gba",
+      "rom_offset": 4689740,
+      "size": 78
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 125,
+      "file": "baserom.gba",
+      "rom_offset": 4689818,
+      "size": 170
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 128,
+      "file": "baserom.gba",
+      "rom_offset": 4689988,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 131,
+      "file": "baserom.gba",
+      "rom_offset": 4690004,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 134,
+      "file": "baserom.gba",
+      "rom_offset": 4690100,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 137,
+      "file": "baserom.gba",
+      "rom_offset": 4690116,
+      "size": 124
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 140,
+      "file": "baserom.gba",
+      "rom_offset": 4690240,
+      "size": 6948
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 143,
+      "file": "baserom.gba",
+      "rom_offset": 4697188,
+      "size": 132
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 146,
+      "file": "baserom.gba",
+      "rom_offset": 4697320,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 149,
+      "file": "baserom.gba",
+      "rom_offset": 4697336,
+      "size": 18
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 152,
+      "file": "baserom.gba",
+      "rom_offset": 4697354,
+      "size": 18
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 155,
+      "file": "baserom.gba",
+      "rom_offset": 4697372,
+      "size": 32
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 158,
+      "file": "baserom.gba",
+      "rom_offset": 4697404,
+      "size": 42336
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 161,
+      "file": "baserom.gba",
+      "rom_offset": 4739740,
+      "size": 42864
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 164,
+      "file": "baserom.gba",
+      "rom_offset": 4782604,
+      "size": 60
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 167,
+      "file": "baserom.gba",
+      "rom_offset": 4782664,
+      "size": 288
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 170,
+      "file": "baserom.gba",
+      "rom_offset": 4782952,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 173,
+      "file": "baserom.gba",
+      "rom_offset": 4782972,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 176,
+      "file": "baserom.gba",
+      "rom_offset": 4782980,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 179,
+      "file": "baserom.gba",
+      "rom_offset": 4782992,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 182,
+      "file": "baserom.gba",
+      "rom_offset": 4783004,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 185,
+      "file": "baserom.gba",
+      "rom_offset": 4783016,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 188,
+      "file": "baserom.gba",
+      "rom_offset": 4783028,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 191,
+      "file": "baserom.gba",
+      "rom_offset": 4783040,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 194,
+      "file": "baserom.gba",
+      "rom_offset": 4783052,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 197,
+      "file": "baserom.gba",
+      "rom_offset": 4783064,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 200,
+      "file": "baserom.gba",
+      "rom_offset": 4783076,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 203,
+      "file": "baserom.gba",
+      "rom_offset": 4783088,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 206,
+      "file": "baserom.gba",
+      "rom_offset": 4783100,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 209,
+      "file": "baserom.gba",
+      "rom_offset": 4783112,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 212,
+      "file": "baserom.gba",
+      "rom_offset": 4783124,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 215,
+      "file": "baserom.gba",
+      "rom_offset": 4783136,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 218,
+      "file": "baserom.gba",
+      "rom_offset": 4783148,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 221,
+      "file": "baserom.gba",
+      "rom_offset": 4783160,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 224,
+      "file": "baserom.gba",
+      "rom_offset": 4783172,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 227,
+      "file": "baserom.gba",
+      "rom_offset": 4783184,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 230,
+      "file": "baserom.gba",
+      "rom_offset": 4783196,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 233,
+      "file": "baserom.gba",
+      "rom_offset": 4783208,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 236,
+      "file": "baserom.gba",
+      "rom_offset": 4783220,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 239,
+      "file": "baserom.gba",
+      "rom_offset": 4783232,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 242,
+      "file": "baserom.gba",
+      "rom_offset": 4783244,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 245,
+      "file": "baserom.gba",
+      "rom_offset": 4783256,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 248,
+      "file": "baserom.gba",
+      "rom_offset": 4783268,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 251,
+      "file": "baserom.gba",
+      "rom_offset": 4783280,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 254,
+      "file": "baserom.gba",
+      "rom_offset": 4783292,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 257,
+      "file": "baserom.gba",
+      "rom_offset": 4783304,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 260,
+      "file": "baserom.gba",
+      "rom_offset": 4783316,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 263,
+      "file": "baserom.gba",
+      "rom_offset": 4783328,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 266,
+      "file": "baserom.gba",
+      "rom_offset": 4783340,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 269,
+      "file": "baserom.gba",
+      "rom_offset": 4783352,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 272,
+      "file": "baserom.gba",
+      "rom_offset": 4783364,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 275,
+      "file": "baserom.gba",
+      "rom_offset": 4783376,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 278,
+      "file": "baserom.gba",
+      "rom_offset": 4783388,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 281,
+      "file": "baserom.gba",
+      "rom_offset": 4783400,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 284,
+      "file": "baserom.gba",
+      "rom_offset": 4783412,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 287,
+      "file": "baserom.gba",
+      "rom_offset": 4783424,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 290,
+      "file": "baserom.gba",
+      "rom_offset": 4783436,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 293,
+      "file": "baserom.gba",
+      "rom_offset": 4783448,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 296,
+      "file": "baserom.gba",
+      "rom_offset": 4783460,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 299,
+      "file": "baserom.gba",
+      "rom_offset": 4783472,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 302,
+      "file": "baserom.gba",
+      "rom_offset": 4783484,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 305,
+      "file": "baserom.gba",
+      "rom_offset": 4783496,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 308,
+      "file": "baserom.gba",
+      "rom_offset": 4783508,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 311,
+      "file": "baserom.gba",
+      "rom_offset": 4783520,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 314,
+      "file": "baserom.gba",
+      "rom_offset": 4783532,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 317,
+      "file": "baserom.gba",
+      "rom_offset": 4783544,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 320,
+      "file": "baserom.gba",
+      "rom_offset": 4783556,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 323,
+      "file": "baserom.gba",
+      "rom_offset": 4783568,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 326,
+      "file": "baserom.gba",
+      "rom_offset": 4783580,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 329,
+      "file": "baserom.gba",
+      "rom_offset": 4783592,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 332,
+      "file": "baserom.gba",
+      "rom_offset": 4783604,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 335,
+      "file": "baserom.gba",
+      "rom_offset": 4783616,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 338,
+      "file": "baserom.gba",
+      "rom_offset": 4783628,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 341,
+      "file": "baserom.gba",
+      "rom_offset": 4783640,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 344,
+      "file": "baserom.gba",
+      "rom_offset": 4783652,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 347,
+      "file": "baserom.gba",
+      "rom_offset": 4783664,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 350,
+      "file": "baserom.gba",
+      "rom_offset": 4783676,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 353,
+      "file": "baserom.gba",
+      "rom_offset": 4783688,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 356,
+      "file": "baserom.gba",
+      "rom_offset": 4783700,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 359,
+      "file": "baserom.gba",
+      "rom_offset": 4783712,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 362,
+      "file": "baserom.gba",
+      "rom_offset": 4783724,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 365,
+      "file": "baserom.gba",
+      "rom_offset": 4783736,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 368,
+      "file": "baserom.gba",
+      "rom_offset": 4783748,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 371,
+      "file": "baserom.gba",
+      "rom_offset": 4783784,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 374,
+      "file": "baserom.gba",
+      "rom_offset": 4783796,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 377,
+      "file": "baserom.gba",
+      "rom_offset": 4783808,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 380,
+      "file": "baserom.gba",
+      "rom_offset": 4783820,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 383,
+      "file": "baserom.gba",
+      "rom_offset": 4783832,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 386,
+      "file": "baserom.gba",
+      "rom_offset": 4783844,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 389,
+      "file": "baserom.gba",
+      "rom_offset": 4783848,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 392,
+      "file": "baserom.gba",
+      "rom_offset": 4783852,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 395,
+      "file": "baserom.gba",
+      "rom_offset": 4783856,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 398,
+      "file": "baserom.gba",
+      "rom_offset": 4783920,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 401,
+      "file": "baserom.gba",
+      "rom_offset": 4783924,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 404,
+      "file": "baserom.gba",
+      "rom_offset": 4783928,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 407,
+      "file": "baserom.gba",
+      "rom_offset": 4783932,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 410,
+      "file": "baserom.gba",
+      "rom_offset": 4783936,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 413,
+      "file": "baserom.gba",
+      "rom_offset": 4783940,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 416,
+      "file": "baserom.gba",
+      "rom_offset": 4783944,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 419,
+      "file": "baserom.gba",
+      "rom_offset": 4783948,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 422,
+      "file": "baserom.gba",
+      "rom_offset": 4783952,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 425,
+      "file": "baserom.gba",
+      "rom_offset": 4783956,
+      "size": 460
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 428,
+      "file": "baserom.gba",
+      "rom_offset": 4784416,
+      "size": 58464
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 431,
+      "file": "baserom.gba",
+      "rom_offset": 4842880,
+      "size": 432
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 434,
+      "file": "baserom.gba",
+      "rom_offset": 4843312,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 437,
+      "file": "baserom.gba",
+      "rom_offset": 4843328,
+      "size": 32
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 440,
+      "file": "baserom.gba",
+      "rom_offset": 4843360,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 443,
+      "file": "baserom.gba",
+      "rom_offset": 4843376,
+      "size": 4360
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 446,
+      "file": "baserom.gba",
+      "rom_offset": 4847736,
+      "size": 3640
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 449,
+      "file": "baserom.gba",
+      "rom_offset": 4851376,
+      "size": 4704
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 452,
+      "file": "baserom.gba",
+      "rom_offset": 4856080,
+      "size": 3640
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 455,
+      "file": "baserom.gba",
+      "rom_offset": 4859720,
+      "size": 5880
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 458,
+      "file": "baserom.gba",
+      "rom_offset": 4865600,
+      "size": 112
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 461,
+      "file": "baserom.gba",
+      "rom_offset": 4865712,
+      "size": 3472
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 464,
+      "file": "baserom.gba",
+      "rom_offset": 4869184,
+      "size": 4200
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 467,
+      "file": "baserom.gba",
+      "rom_offset": 4873384,
+      "size": 4368
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 470,
+      "file": "baserom.gba",
+      "rom_offset": 4877752,
+      "size": 3864
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 473,
+      "file": "baserom.gba",
+      "rom_offset": 4881616,
+      "size": 952
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 476,
+      "file": "baserom.gba",
+      "rom_offset": 4882568,
+      "size": 1064
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 479,
+      "file": "baserom.gba",
+      "rom_offset": 4883632,
+      "size": 1680
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 482,
+      "file": "baserom.gba",
+      "rom_offset": 4885312,
+      "size": 896
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 485,
+      "file": "baserom.gba",
+      "rom_offset": 4886208,
+      "size": 5824
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 488,
+      "file": "baserom.gba",
+      "rom_offset": 4892032,
+      "size": 448
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 491,
+      "file": "baserom.gba",
+      "rom_offset": 4892480,
+      "size": 112
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 494,
+      "file": "baserom.gba",
+      "rom_offset": 4892592,
+      "size": 448
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 497,
+      "file": "baserom.gba",
+      "rom_offset": 4893040,
+      "size": 112
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 500,
+      "file": "baserom.gba",
+      "rom_offset": 4893152,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 503,
+      "file": "baserom.gba",
+      "rom_offset": 4893160,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 506,
+      "file": "baserom.gba",
+      "rom_offset": 4893488,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 509,
+      "file": "baserom.gba",
+      "rom_offset": 4893496,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 512,
+      "file": "baserom.gba",
+      "rom_offset": 4893824,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 515,
+      "file": "baserom.gba",
+      "rom_offset": 4893832,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 518,
+      "file": "baserom.gba",
+      "rom_offset": 4894160,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 521,
+      "file": "baserom.gba",
+      "rom_offset": 4894168,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 524,
+      "file": "baserom.gba",
+      "rom_offset": 4894496,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 527,
+      "file": "baserom.gba",
+      "rom_offset": 4894504,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 530,
+      "file": "baserom.gba",
+      "rom_offset": 4894832,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 533,
+      "file": "baserom.gba",
+      "rom_offset": 4894840,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 536,
+      "file": "baserom.gba",
+      "rom_offset": 4895168,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 539,
+      "file": "baserom.gba",
+      "rom_offset": 4895176,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 542,
+      "file": "baserom.gba",
+      "rom_offset": 4895504,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 545,
+      "file": "baserom.gba",
+      "rom_offset": 4895512,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 548,
+      "file": "baserom.gba",
+      "rom_offset": 4895840,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 551,
+      "file": "baserom.gba",
+      "rom_offset": 4895848,
+      "size": 328
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 554,
+      "file": "baserom.gba",
+      "rom_offset": 4896176,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 557,
+      "file": "baserom.gba",
+      "rom_offset": 4896184,
+      "size": 1112
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 560,
+      "file": "baserom.gba",
+      "rom_offset": 4897296,
+      "size": 20624
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 563,
+      "file": "baserom.gba",
+      "rom_offset": 4917920,
+      "size": 2300
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 566,
+      "file": "baserom.gba",
+      "rom_offset": 4920220,
+      "size": 32
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 569,
+      "file": "baserom.gba",
+      "rom_offset": 4920252,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 572,
+      "file": "baserom.gba",
+      "rom_offset": 4920292,
+      "size": 60
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 575,
+      "file": "baserom.gba",
+      "rom_offset": 4920352,
+      "size": 52
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 578,
+      "file": "baserom.gba",
+      "rom_offset": 4920404,
+      "size": 56
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 581,
+      "file": "baserom.gba",
+      "rom_offset": 4920460,
+      "size": 68
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 584,
+      "file": "baserom.gba",
+      "rom_offset": 4920528,
+      "size": 52
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 587,
+      "file": "baserom.gba",
+      "rom_offset": 4920580,
+      "size": 72
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 590,
+      "file": "baserom.gba",
+      "rom_offset": 4920652,
+      "size": 68
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 593,
+      "file": "baserom.gba",
+      "rom_offset": 4920720,
+      "size": 84
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 596,
+      "file": "baserom.gba",
+      "rom_offset": 4920804,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 599,
+      "file": "baserom.gba",
+      "rom_offset": 4920808,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 602,
+      "file": "baserom.gba",
+      "rom_offset": 4920824,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 605,
+      "file": "baserom.gba",
+      "rom_offset": 4920844,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 608,
+      "file": "baserom.gba",
+      "rom_offset": 4920848,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 611,
+      "file": "baserom.gba",
+      "rom_offset": 4920864,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 614,
+      "file": "baserom.gba",
+      "rom_offset": 4920880,
+      "size": 28
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 617,
+      "file": "baserom.gba",
+      "rom_offset": 4920908,
+      "size": 24
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 620,
+      "file": "baserom.gba",
+      "rom_offset": 4920932,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 623,
+      "file": "baserom.gba",
+      "rom_offset": 4920952,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 626,
+      "file": "baserom.gba",
+      "rom_offset": 4920992,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 629,
+      "file": "baserom.gba",
+      "rom_offset": 4921012,
+      "size": 24
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 632,
+      "file": "baserom.gba",
+      "rom_offset": 4921036,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 635,
+      "file": "baserom.gba",
+      "rom_offset": 4921056,
+      "size": 384
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 638,
+      "file": "baserom.gba",
+      "rom_offset": 4921440,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 641,
+      "file": "baserom.gba",
+      "rom_offset": 4921444,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 644,
+      "file": "baserom.gba",
+      "rom_offset": 4921452,
+      "size": 388
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 647,
+      "file": "baserom.gba",
+      "rom_offset": 4921840,
+      "size": 608
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 650,
+      "file": "baserom.gba",
+      "rom_offset": 4922448,
+      "size": 240
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 653,
+      "file": "baserom.gba",
+      "rom_offset": 4922688,
+      "size": 56
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 656,
+      "file": "baserom.gba",
+      "rom_offset": 4922744,
+      "size": 1584
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 659,
+      "file": "baserom.gba",
+      "rom_offset": 4924328,
+      "size": 264
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 662,
+      "file": "baserom.gba",
+      "rom_offset": 4924592,
+      "size": 84
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 665,
+      "file": "baserom.gba",
+      "rom_offset": 4924676,
+      "size": 215252
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 668,
+      "file": "baserom.gba",
+      "rom_offset": 5139928,
+      "size": 3600
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 671,
+      "file": "baserom.gba",
+      "rom_offset": 5143528,
+      "size": 7680
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 674,
+      "file": "baserom.gba",
+      "rom_offset": 5151208,
+      "size": 7680
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 677,
+      "file": "baserom.gba",
+      "rom_offset": 5158888,
+      "size": 240
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 680,
+      "file": "baserom.gba",
+      "rom_offset": 5159128,
+      "size": 1040
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 683,
+      "file": "baserom.gba",
+      "rom_offset": 5160168,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 686,
+      "file": "baserom.gba",
+      "rom_offset": 5160232,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 689,
+      "file": "baserom.gba",
+      "rom_offset": 5160248,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 692,
+      "file": "baserom.gba",
+      "rom_offset": 5160264,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 695,
+      "file": "baserom.gba",
+      "rom_offset": 5160268,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 698,
+      "file": "baserom.gba",
+      "rom_offset": 5160284,
+      "size": 24
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 701,
+      "file": "baserom.gba",
+      "rom_offset": 5160308,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 704,
+      "file": "baserom.gba",
+      "rom_offset": 5160316,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 707,
+      "file": "baserom.gba",
+      "rom_offset": 5160380,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 710,
+      "file": "baserom.gba",
+      "rom_offset": 5160382,
+      "size": 10
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 713,
+      "file": "baserom.gba",
+      "rom_offset": 5160392,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 716,
+      "file": "baserom.gba",
+      "rom_offset": 5160456,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 719,
+      "file": "baserom.gba",
+      "rom_offset": 5160458,
+      "size": 10
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 722,
+      "file": "baserom.gba",
+      "rom_offset": 5160468,
+      "size": 32
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 725,
+      "file": "baserom.gba",
+      "rom_offset": 5160500,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 728,
+      "file": "baserom.gba",
+      "rom_offset": 5160504,
+      "size": 28
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 731,
+      "file": "baserom.gba",
+      "rom_offset": 5160532,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 734,
+      "file": "baserom.gba",
+      "rom_offset": 5160580,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 737,
+      "file": "baserom.gba",
+      "rom_offset": 5160582,
+      "size": 54
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 740,
+      "file": "baserom.gba",
+      "rom_offset": 5160636,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 743,
+      "file": "baserom.gba",
+      "rom_offset": 5160638,
+      "size": 94
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 746,
+      "file": "baserom.gba",
+      "rom_offset": 5160732,
+      "size": 98
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 749,
+      "file": "baserom.gba",
+      "rom_offset": 5160830,
+      "size": 430
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 752,
+      "file": "baserom.gba",
+      "rom_offset": 5161260,
+      "size": 32
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 755,
+      "file": "baserom.gba",
+      "rom_offset": 5161292,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 758,
+      "file": "baserom.gba",
+      "rom_offset": 5161308,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 761,
+      "file": "baserom.gba",
+      "rom_offset": 5161324,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 764,
+      "file": "baserom.gba",
+      "rom_offset": 5161340,
+      "size": 18
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 767,
+      "file": "baserom.gba",
+      "rom_offset": 5161358,
+      "size": 18
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 770,
+      "file": "baserom.gba",
+      "rom_offset": 5161376,
+      "size": 32
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 773,
+      "file": "baserom.gba",
+      "rom_offset": 5161408,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 776,
+      "file": "baserom.gba",
+      "rom_offset": 5161424,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 779,
+      "file": "baserom.gba",
+      "rom_offset": 5161440,
+      "size": 168
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 782,
+      "file": "baserom.gba",
+      "rom_offset": 5161608,
+      "size": 168
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 785,
+      "file": "baserom.gba",
+      "rom_offset": 5161776,
+      "size": 168
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 788,
+      "file": "baserom.gba",
+      "rom_offset": 5161944,
+      "size": 168
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 791,
+      "file": "baserom.gba",
+      "rom_offset": 5162112,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 794,
+      "file": "baserom.gba",
+      "rom_offset": 5162208,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 797,
+      "file": "baserom.gba",
+      "rom_offset": 5162304,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 800,
+      "file": "baserom.gba",
+      "rom_offset": 5162400,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 803,
+      "file": "baserom.gba",
+      "rom_offset": 5162496,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 806,
+      "file": "baserom.gba",
+      "rom_offset": 5162592,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 809,
+      "file": "baserom.gba",
+      "rom_offset": 5162688,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 812,
+      "file": "baserom.gba",
+      "rom_offset": 5162724,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 815,
+      "file": "baserom.gba",
+      "rom_offset": 5162760,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 818,
+      "file": "baserom.gba",
+      "rom_offset": 5162796,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 821,
+      "file": "baserom.gba",
+      "rom_offset": 5162832,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 824,
+      "file": "baserom.gba",
+      "rom_offset": 5162868,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 827,
+      "file": "baserom.gba",
+      "rom_offset": 5162904,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 830,
+      "file": "baserom.gba",
+      "rom_offset": 5162940,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 833,
+      "file": "baserom.gba",
+      "rom_offset": 5162976,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 836,
+      "file": "baserom.gba",
+      "rom_offset": 5163012,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 839,
+      "file": "baserom.gba",
+      "rom_offset": 5163048,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 842,
+      "file": "baserom.gba",
+      "rom_offset": 5163084,
+      "size": 36
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 845,
+      "file": "baserom.gba",
+      "rom_offset": 5163120,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 848,
+      "file": "baserom.gba",
+      "rom_offset": 5163184,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 851,
+      "file": "baserom.gba",
+      "rom_offset": 5163248,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 854,
+      "file": "baserom.gba",
+      "rom_offset": 5163296,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 857,
+      "file": "baserom.gba",
+      "rom_offset": 5163344,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 860,
+      "file": "baserom.gba",
+      "rom_offset": 5163424,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 863,
+      "file": "baserom.gba",
+      "rom_offset": 5163504,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 866,
+      "file": "baserom.gba",
+      "rom_offset": 5163584,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 869,
+      "file": "baserom.gba",
+      "rom_offset": 5163664,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 872,
+      "file": "baserom.gba",
+      "rom_offset": 5163744,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 875,
+      "file": "baserom.gba",
+      "rom_offset": 5163824,
+      "size": 84
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 878,
+      "file": "baserom.gba",
+      "rom_offset": 5163908,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 881,
+      "file": "baserom.gba",
+      "rom_offset": 5163928,
+      "size": 24
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 884,
+      "file": "baserom.gba",
+      "rom_offset": 5163952,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 887,
+      "file": "baserom.gba",
+      "rom_offset": 5163954,
+      "size": 10
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 890,
+      "file": "baserom.gba",
+      "rom_offset": 5163964,
+      "size": 12
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 893,
+      "file": "baserom.gba",
+      "rom_offset": 5163976,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 896,
+      "file": "baserom.gba",
+      "rom_offset": 5163996,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 899,
+      "file": "baserom.gba",
+      "rom_offset": 5164036,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 902,
+      "file": "baserom.gba",
+      "rom_offset": 5164076,
+      "size": 584
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 905,
+      "file": "baserom.gba",
+      "rom_offset": 5164660,
+      "size": 26
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 908,
+      "file": "baserom.gba",
+      "rom_offset": 5164686,
+      "size": 34
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 911,
+      "file": "baserom.gba",
+      "rom_offset": 5164720,
+      "size": 216
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 914,
+      "file": "baserom.gba",
+      "rom_offset": 5164936,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 917,
+      "file": "baserom.gba",
+      "rom_offset": 5165032,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 920,
+      "file": "baserom.gba",
+      "rom_offset": 5165128,
+      "size": 312
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 923,
+      "file": "baserom.gba",
+      "rom_offset": 5165440,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 926,
+      "file": "baserom.gba",
+      "rom_offset": 5165536,
+      "size": 312
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 929,
+      "file": "baserom.gba",
+      "rom_offset": 5165848,
+      "size": 192
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 932,
+      "file": "baserom.gba",
+      "rom_offset": 5166040,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 935,
+      "file": "baserom.gba",
+      "rom_offset": 5166136,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 938,
+      "file": "baserom.gba",
+      "rom_offset": 5166232,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 941,
+      "file": "baserom.gba",
+      "rom_offset": 5166328,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 944,
+      "file": "baserom.gba",
+      "rom_offset": 5166376,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 947,
+      "file": "baserom.gba",
+      "rom_offset": 5166472,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 950,
+      "file": "baserom.gba",
+      "rom_offset": 5166568,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 953,
+      "file": "baserom.gba",
+      "rom_offset": 5166664,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 956,
+      "file": "baserom.gba",
+      "rom_offset": 5166760,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 959,
+      "file": "baserom.gba",
+      "rom_offset": 5166856,
+      "size": 288
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 962,
+      "file": "baserom.gba",
+      "rom_offset": 5167144,
+      "size": 288
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 965,
+      "file": "baserom.gba",
+      "rom_offset": 5167432,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 968,
+      "file": "baserom.gba",
+      "rom_offset": 5167528,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 971,
+      "file": "baserom.gba",
+      "rom_offset": 5167624,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 974,
+      "file": "baserom.gba",
+      "rom_offset": 5167720,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 977,
+      "file": "baserom.gba",
+      "rom_offset": 5167816,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 980,
+      "file": "baserom.gba",
+      "rom_offset": 5167912,
+      "size": 96
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 983,
+      "file": "baserom.gba",
+      "rom_offset": 5168008,
+      "size": 144
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 986,
+      "file": "baserom.gba",
+      "rom_offset": 5168152,
+      "size": 144
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 989,
+      "file": "baserom.gba",
+      "rom_offset": 5168296,
+      "size": 11800
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 992,
+      "file": "baserom.gba",
+      "rom_offset": 5180096,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 995,
+      "file": "baserom.gba",
+      "rom_offset": 5180176,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 998,
+      "file": "baserom.gba",
+      "rom_offset": 5180178,
+      "size": 238
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1001,
+      "file": "baserom.gba",
+      "rom_offset": 5180416,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1004,
+      "file": "baserom.gba",
+      "rom_offset": 5180456,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1007,
+      "file": "baserom.gba",
+      "rom_offset": 5180464,
+      "size": 4
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1010,
+      "file": "baserom.gba",
+      "rom_offset": 5180468,
+      "size": 86
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1013,
+      "file": "baserom.gba",
+      "rom_offset": 5180554,
+      "size": 6746
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1016,
+      "file": "baserom.gba",
+      "rom_offset": 5187300,
+      "size": 8500
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1019,
+      "file": "baserom.gba",
+      "rom_offset": 5195800,
+      "size": 12596
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1022,
+      "file": "baserom.gba",
+      "rom_offset": 5208396,
+      "size": 10572
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1025,
+      "file": "baserom.gba",
+      "rom_offset": 5218968,
+      "size": 11732
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1028,
+      "file": "baserom.gba",
+      "rom_offset": 5230700,
+      "size": 12320
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1031,
+      "file": "baserom.gba",
+      "rom_offset": 5243020,
+      "size": 10288
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1034,
+      "file": "baserom.gba",
+      "rom_offset": 5253308,
+      "size": 14360
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1037,
+      "file": "baserom.gba",
+      "rom_offset": 5267668,
+      "size": 10880
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1040,
+      "file": "baserom.gba",
+      "rom_offset": 5278548,
+      "size": 15252
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1043,
+      "file": "baserom.gba",
+      "rom_offset": 5293800,
+      "size": 960
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1046,
+      "file": "baserom.gba",
+      "rom_offset": 5294760,
+      "size": 2628
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1049,
+      "file": "baserom.gba",
+      "rom_offset": 5297388,
+      "size": 20
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1052,
+      "file": "baserom.gba",
+      "rom_offset": 5297408,
+      "size": 2344
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1055,
+      "file": "baserom.gba",
+      "rom_offset": 5299752,
+      "size": 3228
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1058,
+      "file": "baserom.gba",
+      "rom_offset": 5302980,
+      "size": 604
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1061,
+      "file": "baserom.gba",
+      "rom_offset": 5303584,
+      "size": 2932
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1064,
+      "file": "baserom.gba",
+      "rom_offset": 5306516,
+      "size": 3228
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1067,
+      "file": "baserom.gba",
+      "rom_offset": 5309744,
+      "size": 4104
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1070,
+      "file": "baserom.gba",
+      "rom_offset": 5313848,
+      "size": 4408
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1073,
+      "file": "baserom.gba",
+      "rom_offset": 5318256,
+      "size": 4112
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1076,
+      "file": "baserom.gba",
+      "rom_offset": 5322368,
+      "size": 6444
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1079,
+      "file": "baserom.gba",
+      "rom_offset": 5328812,
+      "size": 4128
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1082,
+      "file": "baserom.gba",
+      "rom_offset": 5332940,
+      "size": 4692
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1085,
+      "file": "baserom.gba",
+      "rom_offset": 5337632,
+      "size": 3820
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1088,
+      "file": "baserom.gba",
+      "rom_offset": 5341452,
+      "size": 140
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1091,
+      "file": "baserom.gba",
+      "rom_offset": 5341592,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1094,
+      "file": "baserom.gba",
+      "rom_offset": 5341632,
+      "size": 74
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1097,
+      "file": "baserom.gba",
+      "rom_offset": 5341706,
+      "size": 580
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1100,
+      "file": "baserom.gba",
+      "rom_offset": 5342286,
+      "size": 14
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1103,
+      "file": "baserom.gba",
+      "rom_offset": 5342300,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1106,
+      "file": "baserom.gba",
+      "rom_offset": 5342348,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1109,
+      "file": "baserom.gba",
+      "rom_offset": 5342396,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1112,
+      "file": "baserom.gba",
+      "rom_offset": 5342444,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1115,
+      "file": "baserom.gba",
+      "rom_offset": 5342492,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1118,
+      "file": "baserom.gba",
+      "rom_offset": 5342540,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1121,
+      "file": "baserom.gba",
+      "rom_offset": 5342588,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1124,
+      "file": "baserom.gba",
+      "rom_offset": 5342652,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1127,
+      "file": "baserom.gba",
+      "rom_offset": 5342716,
+      "size": 64
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1130,
+      "file": "baserom.gba",
+      "rom_offset": 5342780,
+      "size": 160
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1133,
+      "file": "baserom.gba",
+      "rom_offset": 5342940,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1136,
+      "file": "baserom.gba",
+      "rom_offset": 5342956,
+      "size": 16
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1139,
+      "file": "baserom.gba",
+      "rom_offset": 5342972,
+      "size": 40
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1142,
+      "file": "baserom.gba",
+      "rom_offset": 5343012,
+      "size": 48
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1145,
+      "file": "baserom.gba",
+      "rom_offset": 5343060,
+      "size": 2
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1148,
+      "file": "baserom.gba",
+      "rom_offset": 5343062,
+      "size": 18
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1151,
+      "file": "baserom.gba",
+      "rom_offset": 5343080,
+      "size": 76
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1154,
+      "file": "baserom.gba",
+      "rom_offset": 5343156,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1157,
+      "file": "baserom.gba",
+      "rom_offset": 5343164,
+      "size": 128
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1160,
+      "file": "baserom.gba",
+      "rom_offset": 5343292,
+      "size": 92
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1163,
+      "file": "baserom.gba",
+      "rom_offset": 5343384,
+      "size": 80
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1166,
+      "file": "baserom.gba",
+      "rom_offset": 5343464,
+      "size": 8
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1169,
+      "file": "baserom.gba",
+      "rom_offset": 5343472,
+      "size": 72
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1172,
+      "file": "baserom.gba",
+      "rom_offset": 5343544,
+      "size": 9597468
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "line": 1175,
+      "file": "baserom.gba",
+      "rom_offset": 14941012,
+      "size": 1836204
+    }
+  ],
+  "labels": [
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080B9704",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080B9984",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080B99C8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080B99D4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080B99D8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080B9AD0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080BB6D0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080BB6E4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080BB7E4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080BB7E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gScaleTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gFreqTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gPcmSamplesPerVBlankTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gCgbScaleTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gCgbFreqTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gNoiseTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gCgb3Vol",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gUnk_080BBA5C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gXcmdTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gMPlayTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gSongTable",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata.s",
+      "name": "gSetup512KInfos",
+      "descriptive": true
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366DC0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366DCC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366DD0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366E0C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366E0E",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366E34",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366EFC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08366FC4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0838AFF0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_083B0B4C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_083D8AEC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084009A4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08428C38",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0842A38C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0842A6D4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084303B8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08434738",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0843B8C8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08442498",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0844A820",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0844EB50",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084506D0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084742BC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08477F3C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478044",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478158",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478220",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084782F4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478310",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478338",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478378",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847838C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847842C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847843C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847844C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847845C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847846C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478470",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478F4C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08478F9A",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08479044",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08479054",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084790B4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084790C4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08479140",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847AC64",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847ACE8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847ACF8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847AD0A",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847AD1C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0847AD3C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848529C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FA0C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FA48",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FB68",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FB7C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FB84",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FB90",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FB9C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBA8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBB4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBC0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBCC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBD8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBE4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBF0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FBFC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC08",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC14",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC20",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC2C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC38",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC44",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC50",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC5C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC68",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC74",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC80",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC8C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FC98",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCA4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCB0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCBC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCC8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCD4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCE0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCEC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FCF8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD04",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD10",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD1C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD28",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD34",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD40",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD4C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD58",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD64",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD70",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD7C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD88",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FD94",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDA0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDAC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDB8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDC4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDD0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDDC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDE8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FDF4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE00",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE0C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE18",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE24",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE30",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE3C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE48",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE54",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE60",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE6C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE78",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FE84",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FEA8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FEB4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FEC0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FECC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FED8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FEE4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FEE8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FEEC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FEF0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF30",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF34",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF38",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF3C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF40",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF44",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF48",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF4C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF50",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0848FF54",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08490120",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0849E580",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0849E730",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0849E740",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0849E760",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0849E770",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0849F878",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A06B0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A1910",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A2748",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A3E40",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A3EB0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A4C40",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A5CA8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A6DB8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A7CD0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A8088",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A84B0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A8B40",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084A8EC0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AA580",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AA740",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AA7B0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AA970",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AA9E0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AA9E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AAB30",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AAB38",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AAC80",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AAC88",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AADD0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AADD8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AAF20",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AAF28",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB070",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB078",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB1C0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB1C8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB310",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB318",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB460",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB468",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB5B0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084AB5B8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ABA10",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B0AA0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B139C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B13BC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B13E4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1420",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1454",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B148C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B14D0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1504",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B154C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1590",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B15E4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B15E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B15F8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B160C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1610",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1620",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1630",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B164C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1664",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1678",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B16A0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B16B4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B16CC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B16E0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1860",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1864",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B186C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B19F0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1C50",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1D40",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B1D78",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B23A8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B24B0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084B2504",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084E6DD8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084E7BE8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084E99E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EB7E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EB8D8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBCE8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBD28",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBD38",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBD48",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBD4C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBD5C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBD74",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBD7C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBDBC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBDBE",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBDC8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE08",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE0A",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE14",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE34",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE38",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE54",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE84",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBE86",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBEBC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBEBE",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBF1C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EBF7E",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC12C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC14C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC15C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC16C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC17C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC18E",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC1A0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC1C0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC1D0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC1E0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC288",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC330",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC3D8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC480",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC4E0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC540",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC5A0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC600",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC660",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC6C0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC6E4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC708",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC72C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC750",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC774",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC798",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC7BC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC7E0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC804",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC828",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC84C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC870",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC8B0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC8F0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC920",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC950",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC9A0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EC9F0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECA40",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECA90",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECAE0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECB30",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECB84",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECB98",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECBB0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECBB2",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECBBC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECBC8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECBDC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECC04",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECC2C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECE74",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECE8E",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECEB0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECF88",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ECFE8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED048",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED180",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED1E0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED318",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED3D8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED438",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED498",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED4F8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED528",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED588",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED5E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED648",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED6A8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED708",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED828",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED948",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084ED9A8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EDA08",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EDA68",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EDAC8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EDB28",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EDB88",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EDC18",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084EDCA8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0AC0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0B10",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0B12",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0C00",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0C28",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0C30",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0C34",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F0C8A",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F26E4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F4818",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084F794C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084FA298",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_084FD06C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850008C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085028BC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085060D4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08508B54",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850C6E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850CAA8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850D4EC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850D500",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850DE28",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850EAC4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850ED20",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0850F894",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08510530",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08511538",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08512670",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08513680",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08514FAC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08515FCC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08517220",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851810C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08518198",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085181C0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851820A",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851844E",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851845C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851848C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085184BC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085184EC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851851C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851854C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851857C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085185BC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085185FC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851863C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085186DC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085186EC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085186FC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08518724",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08518754",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08518756",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08518768",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085187B4",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085187BC",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_0851883C",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08518898",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085188E8",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_085188F0",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08518938",
+      "descriptive": false
+    },
+    {
+      "source": "data/rodata_libgcc_end.s",
+      "name": "gUnk_08E3FB54",
+      "descriptive": false
+    }
+  ],
+  "limitations": "Raw incbin ranges include padding and opaque bytes. Descriptive labels and explicit directives do not prove decoded or understood data; no decoding percentage is reported."
+}
