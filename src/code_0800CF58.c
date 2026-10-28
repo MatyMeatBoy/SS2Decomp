@@ -4627,13 +4627,13 @@ block_1459:
                                         case 3:     /* switch 24 */
                                             var_r0_34 = ((struct PlayerD368 *)arg0)->fB0 + 0x10;
                                             ((struct PlayerD368 *)arg0)->fB0 = var_r0_34;
-                                    goto animationClassDoneD368;
+                                            goto animationClassDoneD368;
                                         case 4:     /* switch 24 */
                                         case 5:     /* switch 24 */
                                         case 6:     /* switch 24 */
                                             var_r0_34 = ((struct PlayerD368 *)arg0)->fB0 + 0x18;
                                             ((struct PlayerD368 *)arg0)->fB0 = var_r0_34;
-                                    goto animationClassDoneD368;
+                                            goto animationClassDoneD368;
                                         }
                                     }
                                 } else if (temp_r0_141 != 3) {
@@ -4662,7 +4662,7 @@ block_1459:
                             } else {
                                 d368_sub_08076A88(((struct PlayerD368 *)arg0)->f0, (u32) ((u16) M2C_FIELD(sp180, u16 *, 4) << 0x12) >> 0x18, (u32) ((s32) M2C_FIELD(sp180, u32 *, 4) << 0xF) >> 0x1D, (u32) (M2C_FIELD(sp180, u8 *, 6) << 0x1C) >> 0x1D);
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
+                                goto animationClassDoneD368;
                             }
                             break;
                         case 3:                     /* switch 23 */
@@ -4674,50 +4674,42 @@ block_1459:
                                 }
                             } else {
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
+                                goto animationClassDoneD368;
                             }
                             break;
                         case 5:                     /* switch 23 */
-                            temp_r0_145 = ((struct PlayerD368 *)arg0)->f10;
-                            if (temp_r0_145 != 6) {
-                                if (temp_r0_145 != 8) {
-
-                                } else {
-                                    d368_sub_08015B20(((struct PlayerD368 *)arg0)->f0);
-                                    ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
-                                }
-                            } else {
+                            switch (((struct PlayerD368 *)arg0)->f10) {
+                            case 6:
                                 d368_sub_08015B20(((struct PlayerD368 *)arg0)->f0);
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
+                                break;
+                            case 8:
+                                d368_sub_08015B20(((struct PlayerD368 *)arg0)->f0);
+                                ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
+                                break;
                             }
                             break;
                         case 7:                     /* switch 23 */
-                            temp_r0_146 = ((struct PlayerD368 *)arg0)->f10;
-                            if (temp_r0_146 != 1) {
-                                if (temp_r0_146 != 8) {
-
-                                } else {
-                                    d368_sub_08015820(((struct PlayerD368 *)arg0)->f0);
-                                    ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
-                                }
-                            } else {
+                            switch (((struct PlayerD368 *)arg0)->f10) {
+                            case 1:
                                 d368_sub_08015820(((struct PlayerD368 *)arg0)->f0);
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
+                                break;
+                            case 8:
+                                d368_sub_08015820(((struct PlayerD368 *)arg0)->f0);
+                                ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
+                                break;
                             }
                             break;
                         case 4:                     /* switch 23 */
                             if (((struct PlayerD368 *)arg0)->f10 == 4) {
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
+                                goto animationClassDoneD368;
                             }
 block_1503:
                             if (((struct PlayerD368 *)arg0)->f10 == 5) {
                                 ((struct PlayerD368 *)arg0)->fB0 = ((struct PlayerD368 *)arg0)->fB0 + 8;
-                                    goto animationClassDoneD368;
+                                goto animationClassDoneD368;
                             }
                             break;
                         case 1:                     /* switch 23 */

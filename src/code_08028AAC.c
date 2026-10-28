@@ -431,8 +431,347 @@ found2:
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802D2C8);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802D568);
+extern void sub_080455F0(void);
+extern void sub_0803A460(void);
+extern void sub_08059AD0(void);
+extern void sub_08059CEC(void);
+extern void sub_08059DA0(void);
+struct TaskP29D2 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern void taskStart29D2(void *, u32) asm("sub_08000274");
+void sub_0802D2C8(void) {
+    s32 *var_r1;
+    u32 var_r2;
+    s32 *res;
+    s32 *res2;
+    s32 iVar2;
+    s32 dVar1;
+    s32 r;
+    struct TaskP29D2 *t;
+    u32 i;
+    u32 mem;
+    s32 cb;
+    s32 first;
+    s32 first_cb;
+
+    first = sub_080289C0(0x2C, 0x79, 0x186);
+    cb = (s32) sub_080455F0;
+    t = (struct TaskP29D2 *)(gUnk_03005CF4 + 0xE34);
+    for (i = 0; i <= 0x1D; i++, t++) {
+        if (sub_08000470((u32)t) != 0) continue;
+        while ((t->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        t->f8 = 0x3C;
+        t->fC = cb;
+        t->f10 = mem + 0x3FC;
+        t->f24 = 0;
+        taskStart29D2(t, first);
+        break;
+    }
+    iVar2 = sub_080289C0(0x15, 0x138, 0x1A6);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found1;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found1:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_0803A460;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found2;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found2:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x20016, 0xA3, 0x1AF);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found3;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found3:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08059AD0;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found4;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found4:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x47, 0x5A, 0x1A6);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found5;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found5:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08059CEC;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found6;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found6:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x70010, 0x39, 0x1B7);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found7;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found7:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08059DA0;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found8;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found8:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+}
+extern void sub_0803145C(void);
+extern void sub_08031580(void);
+extern void sub_08033650(void);
+void sub_0802D568(void) {
+    s32 *var_r1;
+    u32 var_r2;
+    s32 *res;
+    s32 *res2;
+    s32 iVar2;
+    s32 dVar1;
+    s32 r;
+    u32 flag;
+    u32 bits;
+
+    iVar2 = sub_080289C0(0x31, 0xD0, 0x60);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found1;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found1:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_0803145C;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found2;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found2:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x31, 0x110, 0x60);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found3;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found3:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08031580;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found4;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found4:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    flag = 2;
+    bits = flag & (sub_0800CE30() != 0 ? *(s32 *)(gUnk_03005CF4 + 0x80) : *(s32 *)(gUnk_03005CF4 + 0x78));
+    if (bits) {
+    iVar2 = sub_080289C0(0x10034, 0x14C, 0x64);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found5;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found5:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08033650;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found6;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found6:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    }
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+}
 void sub_0802D73C(void) {
     s32 *var_r1;
     u32 var_r2;
@@ -720,7 +1059,255 @@ found6:
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802DAF0);
+extern void sub_08059488(void);
+extern void sub_08059534(void);
+extern void sub_080595E0(void);
+extern void sub_0805968C(void);
+extern void sub_08059738(void);
+extern void sub_080597E4(void);
+void sub_0802DAF0(void) {
+    s32 *var_r1;
+    u32 var_r2;
+    s32 *res;
+    s32 *res2;
+    s32 iVar2;
+    s32 dVar1;
+    s32 r;
+
+    iVar2 = sub_080289C0(0x50019, 0x6E, 0x84);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found1;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found1:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08059488;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found2;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found2:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x40019, 0x67, 0x4B);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found3;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found3:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08059534;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found4;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found4:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x70019, 0xCC, 0x70);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found5;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found5:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_080595E0;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found6;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found6:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x19, 0xFC, 0x4B);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found7;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found7:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_0805968C;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found8;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found8:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x4001B, 0x166, 0x46);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found9;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found9:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08059738;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found10;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found10:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(0x10019, 0x90, 0x68);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found11;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found11:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_080597E4;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found12;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found12:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802DE0C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802E110);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802E444);

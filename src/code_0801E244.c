@@ -493,8 +493,103 @@ void t21_21214(u32 arg0, u32 arg1)
     }
     gUnk_03005CE4 &= ~(1 << bit);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0802133C);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08021490);
+struct T21Anim2133C { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
+struct T21Player2133C { u8 pad[0x148]; u16 *position; };
+extern struct T21Player2133C t21_players2133C[] asm("gUnk_03003CE0");
+struct T21Entity2133C { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+extern struct T21Entity2133C *t21_entities2133C asm("gUnk_030056F4");
+extern void t21_init2133C(void *, u32, s32, s32, s32) asm("sub_08065158");
+void t21_2133C(u32 arg0, s32 arg1) asm("sub_0802133C");
+void t21_2133C(u32 arg0, s32 arg1)
+{
+    struct T21Anim2133C data;
+    u16 a, b;
+    s16 x, y;
+    s32 px, py;
+    u16 state;
+    s32 zero;
+    u32 tile, addr;
+    u16 *pos;
+    struct T21Entity2133C *entity;
+    t21_init2133C(&data, 0x5008C, 1, -1, 0);
+    data.sprite[0] = 7;
+    data.sprite[1] = 8;
+    sub_08000AF0(23, data.palette, 2);
+    a = 0;
+    b = 0;
+    state = 0;
+    if (arg0 <= 3) {
+        pos = t21_players2133C[arg0].position;
+        px = pos[0] >> 4;
+        py = (u32)(pos[1] << 20) >> 20;
+    } else {
+        entity = t21_entities2133C;
+        addr = arg0 * 0x2E0;
+        addr += (u32)entity;
+        addr -= 0xB80;
+        px = *(s32 *)(addr + 0x14) >> 8;
+        py = *(s32 *)(addr + 0x18) >> 8;
+    }
+    while (sub_0800CB78() == 0 && state == 0) {
+        state = sub_08065370(&data, 34, (s32)&a, (s32)&b, state);
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CCCC()) == 0) {
+            t21_BC08((s16)px, (s16)py, &x, &y, 16, zero);
+            tile = sub_0800BC44(px, py, 0);
+            t21_7870(x, y + 1, 34, a, (u8)tile, data.sprite, data.b, data.a);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << arg1);
+}
+struct T21Anim21490 { u32 a; u32 unused; u32 b; void *palette; u8 pad[12]; u8 sprite[24]; };
+struct T21Player21490 { u8 pad[0x148]; u16 *position; };
+extern struct T21Player21490 t21_players21490[] asm("gUnk_03003CE0");
+struct T21Entity21490 { u8 pad[0x14]; s32 x, y; u8 tail[0x2C4]; };
+extern struct T21Entity21490 *t21_entities21490 asm("gUnk_030056F4");
+extern void t21_init21490(void *, u32, s32, s32, s32) asm("sub_08065158");
+void t21_21490(u32 arg0, s32 arg1) asm("sub_08021490");
+void t21_21490(u32 arg0, s32 arg1)
+{
+    struct T21Anim21490 data;
+    u16 a, b;
+    s16 x, y;
+    s32 px, py;
+    u16 state;
+    s32 zero;
+    u32 tile, addr;
+    u16 *pos;
+    struct T21Entity21490 *entity;
+    t21_init21490(&data, 0x5008C, 1, -1, 0);
+    sub_08000AF0(23, data.palette, 2);
+    data.sprite[0] = 7;
+    data.sprite[1] = 8;
+
+    a = 0;
+    b = 0;
+    state = 0;
+    while (sub_0800CB78() == 0 && state == 0) {
+        state = sub_08065370(&data, 11, (s32)&a, (s32)&b, state);
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+    if (arg0 <= 3) {
+        pos = t21_players21490[arg0].position;
+        px = pos[0] >> 4;
+        py = (u32)(pos[1] << 20) >> 20;
+    } else {
+        entity = t21_entities21490;
+        addr = arg0 * 0x2E0;
+        addr += (u32)entity;
+        addr -= 0xB80;
+        px = *(s32 *)(addr + 0x14) >> 8;
+        py = *(s32 *)(addr + 0x18) >> 8;
+    }
+            t21_BC08((s16)px, (s16)py, &x, &y, 16, 0);
+            tile = sub_0800BC44(px, py, 0);
+            t21_7870(x, y + 1, 11, a, (u8)tile, data.sprite, data.b, data.a);
+        }
+        sub_080003F0();
+    }
+    gUnk_03005CE4 &= ~(1 << arg1);
+}
 extern void t21_7870(s32, s32, s32, s32, u32, void *, u32, u32) asm("sub_08007870");
 void t21_215E4(s32 arg0, s32 arg1) asm("sub_080215E4");
 void t21_215E4(s32 arg0, s32 arg1)

@@ -571,8 +571,8 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u8 *var_r3_2;
     u8 *var_r5_3;
     u8 *var_r7;
-    u8 temp_r0_10;
-    u8 temp_r0_11;
+    u32 temp_r0_10;
+    u32 temp_r0_11;
     u8 temp_r0_16;
     u8 temp_r0_17;
     u8 temp_r0_22;
@@ -1168,7 +1168,7 @@ loop_107:
             temp_r6_5 = arg0;
             temp_r0_11 = M2C_FIELD(temp_r6_5, u8 *, 2) + 1;
             M2C_FIELD(temp_r6_5, u8 *, 2) = temp_r0_11;
-            if ((u32) temp_r0_11 > 9U) {
+            if ((u32) (u8) temp_r0_11 > 9U) {
                 M2C_FIELD(temp_r6_5, u8 *, 2) = (u8) temp_r5_10;
             }
             goto block_175;
