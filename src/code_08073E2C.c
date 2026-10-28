@@ -61,14 +61,11 @@ loop_1:
 u16 sub_0807A028(u16 arg0) {
     return sub_08073EE8(arg0, 0x7FFFFFFF);
 }
-#ifdef NONMATCHING
-u16 sub_0807A040(u16 a, u16 b)
+extern s32 sub_08074398_5(u16, u16, s32, s32, s32) asm("sub_08074398");
+u16 sub_0807A040(u16 a, u16 b, s32 c, s32 d)
 {
-    return (u16)sub_08074398(a, b, 0x7FFFFFFF);
+    return sub_08074398_5(a, b, c, d, 0x7FFFFFFF);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A040);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A064);
 #ifdef NONMATCHING
 void sub_0807A0E0(void *arg0)

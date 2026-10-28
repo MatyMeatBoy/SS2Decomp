@@ -587,14 +587,11 @@ void sub_0805A474(s32 arg0) {
         sub_08006D08(0x23U);
     }
 }
-#ifdef NONMATCHING
-s32 sub_0805A4A0(u32 index)
+struct GameState22 { u8 pad0[0x22]; u16 arr22[1]; };
+u16 sub_0805A4A0(u16 index)
 {
-    return M2C_FIELD((u8 *)gUnk_03005CF4 + 0x22 + index * 2, u16 *, 0) - 1;
+    return ((struct GameState22 *)gUnk_03005CF4)->arr22[index] - 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08059534", sub_0805A4A0);
-#endif
 #ifdef NONMATCHING
 void sub_0805A4BC(u32 arg)
 {
