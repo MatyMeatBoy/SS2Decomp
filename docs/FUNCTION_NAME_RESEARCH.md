@@ -121,3 +121,23 @@ seed argument; it is not named as a conventional general seed API.
 The scheduler count accessor 00464 is anchored by initialization/increment/
 decrement sites, and 00440 explicitly tests state 4 plus an exact signal match.
 No canonical symbols, game source, headers, assembly or ROM data were changed.
+
+
+## Completion of the 941B4 callback review (29822dfa)
+
+A subsequent full ASM read establishes 941B4 as BG0/BG1 scrolling with a
+random-driven blend-state machine. It writes all four scroll halfwords, uses
+separate sine phases for vertical offsets, and supplies blend coefficients from
+four control states. RNG 0086C supplies dwell values; global flags participate in
+state changes. This supports the narrow display name
+`TaskScrollBg0Bg1WithRandomBlendState` without naming a weather effect or screen.
+The earlier partial-review note above records why 94530 was initially proposed;
+it is now confirmed as its task starter. Its source retry condition checks the
+task pointer rather than the newly allocated stack, so no stronger allocation
+failure behavior is claimed.
+
+The allocate/start/destroy pairs for task controls 03000270/278/27C are now linked
+to their independently reviewed callbacks. Allocation of a 0x28-byte control
+block is distinguished from stack allocation in the starter; destroy functions
+cancel a scheduled task when present, free the control block and clear the
+global. The game scene behind these effects remains unidentified.

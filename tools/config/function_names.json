@@ -1194,16 +1194,80 @@
       ]
     },
     {
-      "address": "0x08094530",
-      "canonical_symbol": "sub_08094530",
-      "display_name": "InitializeTaskStack03000270",
-      "status": "proposed",
+      "address": "0x080941B4",
+      "canonical_symbol": "sub_080941B4",
+      "display_name": "TaskScrollBg0Bg1WithRandomBlendState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08092D60/sub_080941B4.s",
+          "line": 1,
+          "detail": "ASM loop writes four BG0/BG1 scroll shadow halfwords: horizontal fixed-point drift and separate sine-based vertical offsets. Four-state control chooses blend coefficients and calls RNG 0086C for dwell values; flags 03000274/275/26C participate. Waits for signal 1. No weather or scene identity is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "B50 copies shadow 03001250 to hardware BG0/BG1 scroll registers.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 224,
+          "detail": "0903C writes blend coefficients to the register shadow.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080944B4",
+      "canonical_symbol": "sub_080944B4",
+      "display_name": "AllocateBgRandomBlendTaskControlBlock",
+      "status": "confirmed",
       "domain": "game",
       "evidence": [
         {
           "source": "src/code_08092D60.c",
-          "detail": "Task variant using global03000270 and waits through080003F0; precise screen role unknown.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "line": 166,
+          "detail": "Clears control flags 03000274/275, retries allocating 0x28-byte task control block 03000270 while waiting for signal 1, then clears priority field+8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080944F0",
+      "canonical_symbol": "sub_080944F0",
+      "display_name": "DestroyBgRandomBlendTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 175,
+          "detail": "Disables blend coefficients; if global 03000270 is non-null, destroys its scheduled task when present, frees the control block and clears the global.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08094530",
+      "canonical_symbol": "sub_08094530",
+      "display_name": "StartBgScrollRandomBlendTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 188,
+          "detail": "Initializes global task 03000270 with callback 941B4, priority 0x44, allocation 0x400, stack top+0x3FC and null cleanup callback, then schedules it. The source retry condition checks the task pointer, not the newly allocated stack; no allocation-safety guarantee is inferred.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/code_08092D60/sub_080941B4.s",
+          "line": 1,
+          "detail": "Direct callback ASM confirms scrolling plus random-driven blend-state machine.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
@@ -1230,6 +1294,36 @@
           "source": "src/code_08006D24.c",
           "line": 224,
           "detail": "sub_0800903C packs the supplied coefficients into blend register shadow.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08094948",
+      "canonical_symbol": "sub_08094948",
+      "display_name": "AllocateBgScrollBlendTaskControlBlock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 247,
+          "detail": "Allocates 0x28-byte control block 03000278 and clears priority field+8 when allocation succeeds; callback 948E0 is assigned by starter 949A8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08094968",
+      "canonical_symbol": "sub_08094968",
+      "display_name": "DestroyBgScrollBlendTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 258,
+          "detail": "Disables blending; if 03000278 is non-null, destroys the scheduled task when present, frees its control block and clears the global.",
           "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
@@ -1278,6 +1372,36 @@
           "source": "src/code_08006D24.c",
           "line": 224,
           "detail": "Blend helper0903C packs the supplied coefficients.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08094E84",
+      "canonical_symbol": "sub_08094E84",
+      "display_name": "AllocateBgSineScrollBlendTaskControlBlock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 335,
+          "detail": "Allocates 0x28-byte control block 0300027C and clears priority field+8 on success; callback 94DEC is assigned by starter 94EE4.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08094EA4",
+      "canonical_symbol": "sub_08094EA4",
+      "display_name": "DestroyBgSineScrollBlendTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 344,
+          "detail": "Disables blending; if 0300027C is non-null, destroys the scheduled task when present, frees its control block and clears the global.",
           "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
