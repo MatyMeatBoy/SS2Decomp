@@ -5,14 +5,14 @@
   "provenance": "Fresh reconstruction from original SS2 ASM; donor source not copied",
   "original_configured_entries": 36,
   "hidden_semantic_entry": "0x080B6A08",
-  "tested_experimental_apis": 33,
-  "differential_cases": 326,
+  "tested_experimental_apis": 36,
+  "differential_cases": 855,
   "normal_ROM_matching_C_credit": 0,
   "remaining_major_regions": [
-    "SoundMain",
-    "SoundMainRAM mixer",
-    "MPlayMain",
-    "shared indirect-call integration"
+    "binary-matching integration",
+    "dynamic callback overrides",
+    "IWRAM executable ABI and timing",
+    "whole-game audio/hardware validation"
   ],
   "entries": [
     {
@@ -32,9 +32,9 @@
       "address": "0x080B64E8",
       "canonical_symbol": "SoundMain",
       "configured_end": "0x080B656C",
-      "experimental_api": null,
-      "state": "pending",
-      "cases": 0,
+      "experimental_api": "M4AExp_SoundMain",
+      "state": "selected_differential_cases_pass",
+      "cases": 302,
       "original_source": "asm/nonmatchings/m4a_1/SoundMain.s",
       "original_sha256": "2e94b256b2d82f3abb215c0efb6dd31924f9d89a7d0b8a050017a64f10d71707",
       "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
@@ -48,9 +48,9 @@
       "address": "0x080B656C",
       "canonical_symbol": "SoundMainRAM",
       "configured_end": "0x080B6910",
-      "experimental_api": null,
-      "state": "pending",
-      "cases": 0,
+      "experimental_api": "M4AExp_SoundMainRAM",
+      "state": "selected_differential_cases_pass_via_SoundMain",
+      "cases": 302,
       "original_source": "asm/nonmatchings/m4a_1/SoundMainRAM.s",
       "original_sha256": "32c9d28451f6d8800afdd75368cf0c5c0c5f60bf8a4d369267bf3d24104097a1",
       "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
@@ -63,7 +63,8 @@
         "_080B66C4",
         "_080B6604"
       ],
-      "matching_status": "not_integrated_or_credited"
+      "matching_status": "not_integrated_or_credited",
+      "case_overlap": "These are the same SoundMain fixtures, not extra cases"
     },
     {
       "address": "0x080B6910",
@@ -420,9 +421,9 @@
       "address": "0x080B6B74",
       "canonical_symbol": "MPlayMain",
       "configured_end": "0x080B6DD0",
-      "experimental_api": null,
-      "state": "pending",
-      "cases": 0,
+      "experimental_api": "M4AExp_MPlayMain",
+      "state": "selected_differential_cases_pass",
+      "cases": 209,
       "original_source": "asm/nonmatchings/m4a_1/MPlayMain.s",
       "original_sha256": "ae0206b1ac4669858f0acbb9d7a3ae59e2059174bc6138d76f7a01595c768e19",
       "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
@@ -461,13 +462,14 @@
       "canonical_symbol": "sub_080B6DD0",
       "configured_end": "0x080B6DE0",
       "experimental_api": null,
-      "state": "pending",
+      "state": "represented_by_typed_indirect_calls",
       "cases": 0,
       "original_source": "asm/nonmatchings/m4a_1/sub_080B6DD0.s",
       "original_sha256": "b1117caa7a0f42cb6e6e71f8be358ac73e6cc2dce48f50532f445e3b7eb897d7",
       "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
       "observed_direct_calls": [],
-      "matching_status": "not_integrated_or_credited"
+      "matching_status": "not_integrated_or_credited",
+      "evidence": "Original executable body bx r3; C callbacks model it at each consumer. No invented standalone helper."
     },
     {
       "address": "0x080B6DE0",
@@ -605,9 +607,12 @@
     "Guard/source readers consume r2/r3 and return r3 in ASM; C API uses explicit arguments and r0 return; tests adapt that ABI",
     "ReadTrackByte and shared-tail helper are distinct entry contracts, not independent ordinary original C functions",
     "SoundMainRAM shares caller stack/high registers and ARM/Thumb transitions; a normal C signature does not preserve its executable-copy ABI",
-    "CopyJumpTable takes an explicit template source in C; binding original serialized callbacks to experimental C is pending",
+    "CopyJumpTable takes an explicit template source in C; explicit known-EU binding adapters are provided; normal-build integration is pending",
     "R0 advancement from original Clear64 is not exposed by the void C API; its tested contract is 64 stores and callee stack restoration",
-    "Note takes an explicit fourth argument pointing to three GBA32 service callbacks; dynamic table override binding remains an integration obligation"
+    "Note takes an explicit fourth argument pointing to service callbacks; dynamic overrides need rebinding",
+    "MPlayMain takes services as its second argument and passes it to chained callbacks; table binding is tested in private IWRAM fixture, not globally integrated",
+    "SoundMainRAM takes sound/output/count/scanline limit explicitly; shared stack and ARM/Thumb IWRAM execution ABI is intentionally not claimed preserved",
+    "SoundMainRAM cases overlap SoundMain; FadeOutDependency cases are reused dependency validation, not original module coverage"
   ],
   "IWRAM": {
     "source": "0x080B656C",
@@ -617,10 +622,75 @@
     "extra_copy_bytes": 92,
     "hardware_qualification": "pending"
   },
-  "dependency_reuse": {
-    "api": "M4AExp_MidiKeyToFreqDependency",
-    "source": "src/m4a.c:MidiKeyToFreq",
+  "dependency_reuse": [
+    {
+      "api": "M4AExp_MidiKeyToFreqDependency",
+      "source": "src/m4a.c:MidiKeyToFreq",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "new_reconstruction_credit": 0
+    },
+    {
+      "api": "M4AExp_FadeOutDependency",
+      "source": "src/m4a.c:FadeOutBody",
+      "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
+      "new_reconstruction_credit": 0
+    }
+  ],
+  "binary_audit": {
+    "strict_equal": 0,
+    "compared_configured_functions": 35,
+    "tool": "tools/scripts/decomp.py:normalized",
+    "qualification": "Conservative prefixed-symbol byte/relocation comparison; no integrated match credit"
+  },
+  "binding_adapters": {
+    "apis": [
+      "M4AExp_BindKnownJumpTable",
+      "M4AExp_BindKnownSoundCallbacks",
+      "M4AExp_BindKnownPlayerCallback",
+      "M4AExp_InitDefaultServices"
+    ],
+    "checks": 10,
     "source_revision": "834afb93ee6a015c7a90f27dc53907e7eb38c5b7",
-    "new_reconstruction_credit": 0
+    "matching_credit": 0,
+    "contract": "Only exact known EU callback addresses migrate; unknown overrides survive; services/ABI adapters still explicit"
+  },
+  "indirect_dependencies": {
+    "M4AExp_SoundMain": [
+      "sound+0x20(player,services), optional",
+      "sound+0x28(), required",
+      "M4AExp_SoundMainRAM"
+    ],
+    "M4AExp_MPlayMain": [
+      "player+0x38(next_player,services), optional",
+      "services+0 clear-chain",
+      "services+4 track volume/pitch",
+      "services+8 frequency",
+      "services+12 fade",
+      "services+16 clear64",
+      "sound+0x34 command table",
+      "sound+0x38 note callback",
+      "sound+0x30 CGB frequency"
+    ],
+    "M4AExp_Note": [
+      "services+0 clear-chain",
+      "services+4 track volume/pitch",
+      "services+8 frequency",
+      "sound+0x30 CGB frequency"
+    ],
+    "M4AExp_TrackStop": [
+      "sound+0x2C oscillator-off"
+    ]
+  },
+  "integrated_engine_validation": {
+    "script": "research/m4a_1/test_engine.py",
+    "scenarios": 12,
+    "frames_per_scenario": 32,
+    "frames": 384,
+    "phase_snapshots": 768,
+    "initial_state_comparisons": 12,
+    "persistent_state": "EWRAM and PCM; IWRAM excluding explicit20B services and reserved1KiB stack; declared callback pointer fields canonicalized",
+    "IO": "register bytes and cumulative ordered writes",
+    "matching_credit": 0,
+    "hardware_qualification": "not established"
   }
 }
