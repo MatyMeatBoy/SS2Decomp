@@ -821,9 +821,7 @@ block_98:
                 var_r0 = &heights[2];
                 goto block_98;
             }
-            var_r0_2 = 0x40;
-block_100:
-            if (var_r0_2 & navKeys3984) {
+            if (0x40 & navKeys3984) {
                 state = 4;
                 sub_0805865C(0xE);
                 var_r1_5 = &widths[4];
@@ -955,8 +953,14 @@ block_102:
                     var_r0 = &heights[6];
                     goto block_98;
                 }
-                var_r0_2 = 0x80;
-                goto block_100;
+                if (0x80 & navKeys3984) {
+                    state = 4;
+                    sub_0805865C(0xE);
+                    var_r1_5 = &widths[4];
+                    var_r0_3 = &heights[4];
+                    *var_r0_3 = var_r5_2;
+                    *var_r1_5 = var_r5_2;
+                }
             }
             break;
         }

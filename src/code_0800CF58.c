@@ -5705,7 +5705,31 @@ void sub_080135C4(u16 id)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080135C4);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080137A0);
+struct Team6State137A0 { u8 pad[0x100]; u16 a, b; u8 c[12]; u16 d, e; u8 f[12]; u16 g, h; u8 j[12]; };
+extern struct Team6State137A0 *team6_state137A0 asm("gUnk_030034E0");
+void sub_080137A0(u32 arg0) {
+    u32 i;
+    switch (arg0) {
+    case 0:
+        team6_state137A0->a = 0;
+        team6_state137A0->b = 0;
+        i = 0;
+        do { team6_state137A0->c[i] = 0; i++; } while (i <= 11);
+        break;
+    case 1:
+        team6_state137A0->d = 0;
+        team6_state137A0->e = 0;
+        i = 0;
+        do { team6_state137A0->f[i] = 0; i++; } while (i <= 11);
+        break;
+    case 2:
+        team6_state137A0->g = 0;
+        team6_state137A0->h = 0;
+        i = 0;
+        do { team6_state137A0->j[i] = 0; i++; } while (i <= 11);
+        break;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08013850);
 s32 sub_08013BC0(u8 *arg0) {
     u16 *p;

@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T22:42:02.787729+00:00",
-  "checkpoint": "ea711cb746e9c11801428bcf68c6a3cf1692ff67",
+  "updated_utc": "2026-10-28T23:22:38.550487+00:00",
+  "checkpoint": "0fd2e218b725c0abb84d374c8c112c86124d7506",
   "areas": [
     {
       "id": "flow",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C. Noveno icono accedido mediante arrays tipados: recupera multiplicaciones separadas por rama y cálculo final independiente. Cero local explícito del caso seleccionado recupera MOVSL0 antes del flag/call, conservando filaR8/cursorR9/oneSL/nextStatusSL. CFG190/170/5 sin diferencias diagnósticas. Persisten diferencias de instrucciones/operandos locales; NO MATCH8296/8352."
+      "evidence": "Frame0x54C; filaR8/cursorR9/oneSL/nextStatusSL conservados. Condiciones directas de máscaras40/80 en casos3/8 permiten compartir CFG al compilador sin goto artificial block_100. Auditor CFG190/170/5 sin diferencias diagnósticas y105 replays simulados sin divergencias; no prueban equivalencia ni matching. NO MATCH8292/8352."
     },
     {
       "id": "match",
