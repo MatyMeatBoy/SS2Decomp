@@ -20,7 +20,7 @@ def main():
     parser.add_argument('--cc', help='optional compiler path; default is this checkout\'s agbcc')
     args = parser.parse_args()
     sys.path.insert(0, args.deps)
-    from unicorn import Uc, UC_ARCH_ARM, UC_MODE_THUMB, UC_HOOK_MEM_WRITE, UC_HOOK_CODE
+    from unicorn import Uc, UC_ARCH_ARM, UC_MODE_THUMB, UC_HOOK_MEM_WRITE, UC_HOOK_CODE, UC_HOOK_MEM_READ
     from unicorn.arm_const import UC_ARM_REG_R0, UC_ARM_REG_LR, UC_ARM_REG_SP
     from unicorn import arm_const
 
@@ -62,7 +62,8 @@ def main():
     def forbid_original_calls(machine, entry):
         if entry >= 0x09000000:
             def reject_original_target(uc, location, size, user):
-                assert not 0x080B64D8 <= location < 0x080B70CC, (
+                assert not (0x080B64D8 <= location < 0x080B70CC or
+                            0x03000E3C <= location < 0x0300123C), (
                     'experimental call executed original m4a_1 ASM at ' + hex(location))
             machine.hook_add(UC_HOOK_CODE, reject_original_target)
 
@@ -217,7 +218,7 @@ def main():
                     writes += [(0x02001124, bytes([outer_type])), word(0x02001128, 0x02004000),
                                word(0x0200112C, 0x02007000), (0x0200703C, b'\x3C')]
                 cases.append(('Note', 0x080B6E24, {0: 4, 1: 0x02001000, 2: 0x02001100},
-                              [4, 0x02001000, 0x02001100, 0x03001000], writes, None))
+                              [4, 0x02001000, 0x02001100, 0x03006000], writes, None))
 
     for channel_type in (0, 1, 4):
         for status in (0, 0x80, 0x40, 0xC0):
@@ -239,7 +240,119 @@ def main():
                                    (channel + 0x53, bytes([old_priority])),
                                    word(channel + 0x6C, owner)]
                     cases.append(('Note', 0x080B6E24, {0: 4, 1: 0x02001000, 2: 0x02001100},
-                                  [4, 0x02001000, 0x02001100, 0x03001000], writes, None))
+                                  [4, 0x02001000, 0x02001100, 0x03006000], writes, None))
+
+    for ident in (0, 0x68736D53, 0x68736D54):
+        for tempo in (0, 149, 150, 300):
+            for flags in (0, 0x80, 0xC0, 0x8F):
+                writes = [word(0x02001034, ident), word(0x0200102C, 0x02001100),
+                          (0x02001008, b'\x01'), (0x02001020, struct.pack('<HH', tempo, 0)),
+                          (0x02001100, bytes([flags])), word(0x02001140, 0x02003000),
+                          (0x02003000, b'\xBE\x40\xCF\x3C\x64\x81\xB1'),
+                          (0x02001124, b'\x01\x3C\x0C\x18'),
+                          word(0x02001128, 0x02006000), word(0x02006004, 0x123456),
+                          word(0x03007FF0, 0x03002000), word(0x0300201C, 0x02005000),
+                          word(0x03002030, 0x080B7ADD), word(0x03002034, 0x03007430),
+                          word(0x03002038, 0x080B6E25),
+                          (0x03007430, rom[0xBB7E8:0xBB878])]
+                cases.append(('MPlayMain', 0x080B6B74, {0: 0x02001000},
+                              [0x02001000, 0x03006000], writes, None))
+
+    sequencer_base = list(writes)
+    for phase in (0, 32, 63, 64, 127, 128, 192, 250):
+        for speed in (22, 255):
+            for modulation_type in (0, 1, 2):
+                for delay in (0, 1):
+                    writes = sequencer_base + [word(0x02001034, 0x68736D53),
+                        (0x02001020, struct.pack('<HH', 150, 0)), (0x02001100, b'\x80\x05'),
+                        (0x02001116, bytes([7, 127, modulation_type, speed, phase, 0, delay])),
+                        word(0x02001120, 0x02001400), (0x02001400, b'\x80\x01'),
+                        (0x02001408, b'\x3C'), (0x02001410, b'\x02\x3C\x64'),
+                        word(0x0200142C, 0x02001100)]
+                    cases.append(('MPlayMain', 0x080B6B74, {0: 0x02001000},
+                                  [0x02001000, 0x03006000], writes, None))
+    for interval in (0, 2):
+        for counter in (0, 1, 2):
+            for volume in (0, 16, 32):
+                writes = sequencer_base + [(0x02001024, struct.pack('<HHH', interval, counter, volume)),
+                    (0x02001100, b'\x80'), word(0x02001120, 0x02001400),
+                    (0x02001400, b'\x80\x00'), word(0x0200142C, 0x02001100)]
+                cases.append(('FadeOutDependency', 0x080B7994, {0: 0x02001000},
+                              [0x02001000], writes, None))
+
+    for flags in (0x80, 0x81, 0x83, 0x84, 0x88, 0x8C, 0x8F):
+        for channel_type in (0, 1, 4):
+            for status in (0, 0x80, 0x40):
+                writes = sequencer_base + [word(0x02001034, 0x68736D53),
+                    (0x02001020, struct.pack('<HH', 0, 0)), (0x02001100, bytes([flags, 1])),
+                    (0x02001108, b'\xFE\x7F'), (0x02001110, b'\x60\x50'),
+                    word(0x02001120, 0x02001400), (0x02001400, bytes([status, channel_type])),
+                    (0x02001408, b'\x3C'), (0x02001410, b'\x02\x3C\x64'),
+                    word(0x02001424, 0x02006000), word(0x0200142C, 0x02001100)]
+                cases.append(('MPlayMain', 0x080B6B74, {0: 0x02001000},
+                              [0x02001000, 0x03006000], writes, None))
+
+    for reverb in (0, 64, 255):
+        for dma_counter in (1, 2, 3):
+            for status in (0, 0x80, 3, 2, 1, 0x40, 4, 0xC0):
+                writes = [word(0x03007FF0, 0x02002000), word(0x02002000, 0x68736D53),
+                    (0x02002004, bytes([dma_counter, reverb, 1, 15])), (0x0200200B, b'\x03'),
+                    word(0x02002010, 16), word(0x02002018, 1), word(0x0200201C, 0x02008000),
+                    word(0x02002028, 0x080B7C3D),
+                    (0x02002050, bytes([status, 8, 127, 255, 30, 200, 80, 128, 60, 100])),
+                    (0x0200205C, b'\x20\x02'), word(0x02002068, 40), word(0x02002074, 0x02006000),
+                    word(0x02002078, 0x02006010), word(0x0200600C, 40),
+                    (0x02006010, bytes(range(64))),
+                    (0x02002350, bytes([0x80, 0x7F, 0xFF, 0x01]) * (0xC60 // 4)),
+                    (0x03000E3C, rom[0xB656C:0xB696C])]
+                cases.append(('SoundMain', 0x080B64E8, {}, [0x03006000], writes, None))
+
+    mixer_base = list(writes)
+    for fixed in (0, 8):
+        for loop in (0, 0x40):
+            for length in (1, 3, 4, 5, 15, 16, 17, 40):
+                for increment in (0, 0x00400000, 0x00800000, 0x01400000):
+                    writes = mixer_base + [(0x02002004, b'\x01\x00\x01\x0F'),
+                        (0x02002050, bytes([0x80, fixed, 255, 255, 255, 200, 80, 128])),
+                        (0x02006003, bytes([loop])), word(0x02006008, 0),
+                        word(0x0200600C, length), word(0x02002070, increment),
+                        (0x02006010, bytes([128, 255, 0, 1, 127, 64, 192, 32]) * 8)]
+                    cases.append(('SoundMain', 0x080B64E8, {}, [0x03006000], writes, None))
+    for count in (16, 20, 28, 32):
+        for fixed in (0, 8):
+            for channels in (0, 1, 3):
+                writes = mixer_base + [(0x02002004, bytes([1, 0, channels, 15])), word(0x02002010, count),
+                    (0x02006010, bytes([128, 255, 0, 1, 127, 64, 192, 32]) * 8),
+                    (0x02006003, b'\x40'), word(0x02006008, 7), word(0x0200600C, 40)]
+                for index in range(max(1, channels)):
+                    channel = 0x02002050 + index * 64
+                    writes += [(channel, bytes([0x11, fixed, 255, 255])), (channel + 9, b'\xFF'),
+                        word(channel + 0x18, 40), word(channel + 0x1C, 0x00500000),
+                        word(channel + 0x20, 0x01400000), word(channel + 0x24, 0x02006000),
+                        word(channel + 0x28, 0x02006010)]
+                cases.append(('SoundMain', 0x080B64E8, {}, [0x03006000], writes, None))
+
+    for status in (0x80, 3, 2, 1, 0x40, 4):
+        for envelope in (0, 1, 254, 255):
+            for echo in (0, 1, 255):
+                writes = mixer_base + [(0x02002004, b'\x01\x00\x01\x0F'),
+                    (0x02002050, bytes([status, 8, 255, 255, 255, 0, 0, 0, 60, envelope])),
+                    (0x0200205C, bytes([echo, 1])), word(0x0200600C, 40)]
+                cases.append(('SoundMain', 0x080B64E8, {}, [0x03006000], writes, None))
+    for initial_line, next_line, budget in ((159, 160, 1), (160, 161, 1), (227, 228, 1),
+                                           (0, 1, 1), (0, 2, 1), (160, 160, 1)):
+        writes = mixer_base + [(0x0200200C, bytes([budget])),
+            (0x03006100, bytes([2, initial_line, next_line])), (0x04000006, bytes([initial_line]))]
+        cases.append(('SoundMain', 0x080B64E8, {}, [0x03006000], writes, None))
+
+    for first_status in (0, 0x80000000):
+        writes = sequencer_base + [word(0x02001034, 0x68736D53),
+            (0x02001020, struct.pack('<HH', 150, 0)), (0x02001100, b'\x80'),
+            word(0x03003034, 0x68736D53), word(0x03003004, first_status),
+            word(0x03003038, 0x080B6B75), word(0x0300303C, 0x02001000),
+            word(0x0300302C, 0x02001200), (0x03003008, b'\x01')]
+        cases.append(('MPlayMain', 0x080B6B74, {0: 0x03003000},
+                      [0x03003000, 0x03006000], writes, None))
 
     def invoke(address, registers, writes, return_register):
         machine = Uc(UC_ARCH_ARM, UC_MODE_THUMB)
@@ -256,12 +369,38 @@ def main():
                 io_writes.append((location, size, value))
         machine.hook_add(UC_HOOK_MEM_WRITE, record_write)
         forbid_original_calls(machine, address)
-        if 'M4AExp_Note' in symbols:
-            bindings = [symbols['M4AExp_UnlinkChannel'] | 1, 0x080B7A15,
-                        symbols['M4AExp_MidiKeyToFreqDependency'] | 1]
-            machine.mem_write(0x03001000, struct.pack('<III', *bindings))
+        machine.mem_write(0x03007430, rom[0xBB7E8:0xBB878])
         for location, data in writes:
             machine.mem_write(location, data)
+        if address >= 0x09000000:
+            def bind(name, *pointers):
+                assert name in symbols, 'missing experimental binding: ' + name
+                for index, pointer in enumerate(pointers):
+                    machine.reg_write(getattr(arm_const, 'UC_ARM_REG_R' + str(index)), pointer)
+                machine.reg_write(UC_ARM_REG_SP, 0x03007C00)
+                machine.reg_write(UC_ARM_REG_LR, 0x090F0001)
+                machine.emu_start(symbols[name] | 1, 0x090F0000, count=10000)
+                assert machine.reg_read(arm_const.UC_ARM_REG_PC) == 0x090F0000
+                assert machine.reg_read(UC_ARM_REG_SP) == 0x03007C00
+            bind('M4AExp_BindKnownJumpTable', 0x03007430)
+            bind('M4AExp_InitDefaultServices', 0x03006000, 0x03007430)
+            sound = struct.unpack('<I', machine.mem_read(0x03007FF0, 4))[0]
+            if sound:
+                bind('M4AExp_BindKnownSoundCallbacks', sound)
+                head = struct.unpack('<I', machine.mem_read(sound + 0x24, 4))[0]
+                if head:
+                    bind('M4AExp_BindKnownPlayerCallback', head)
+            if address == symbols.get('M4AExp_MPlayMain'):
+                bind('M4AExp_BindKnownPlayerCallback', registers[0])
+        line_values = bytes(machine.mem_read(0x03006100, 4))
+        if line_values[0]:
+            line_reads = [0]
+            def vcount_read(uc, access, location, size, value, user):
+                if location == 0x04000006:
+                    index = min(line_reads[0], line_values[0] - 1)
+                    uc.mem_write(location, bytes([line_values[index + 1]]))
+                    line_reads[0] += 1
+            machine.hook_add(UC_HOOK_MEM_READ, vcount_read)
         for index, value in registers.items():
             machine.reg_write(getattr(arm_const, 'UC_ARM_REG_R' + str(index)), value)
         machine.reg_write(UC_ARM_REG_SP, 0x03007C00)
@@ -284,9 +423,44 @@ def main():
         expected = invoke(original_address, registers, writes, return_register)
         actual = invoke(symbols[symbol], dict(enumerate(arguments)), writes,
                         None if return_register is None else 0)
+        if actual != expected:
+            differences = [(hex(0x02000000 + index), left, right)
+                           for index, (left, right) in enumerate(zip(expected[0], actual[0])) if left != right]
+            print('different case', name, writes, 'EWRAM first differences', differences[:16])
         assert actual == expected, name + ' differs from original ASM'
         counts[name] = counts.get(name, 0) + 1
-    (out / 'results.json').write_text(json.dumps({'cases': counts, 'oracle': 'original EU ROM ASM under Unicorn',
+    # Adapter checks are separate from original-ASM differential cases.
+    table = list(struct.unpack('<36I', rom[0xBB7E8:0xBB878]))
+    table[8] = 0x080B7131  # arbitrary existing C override must remain unchanged
+    entries = json.loads(source.with_name('inventory.json').read_text())['entries']
+    translated = {int(row['address'], 16) | 1: symbols[row['experimental_api']] | 1
+                  for row in entries if row.get('experimental_api') in symbols}
+    expected_table = [translated.get(pointer, pointer) for pointer in table]
+    for table_input in (table, expected_table):
+        state = invoke(symbols['M4AExp_BindKnownJumpTable'], {0: 0x02009000},
+                       [(0x02009000, struct.pack('<36I', *table_input))], None)[0]
+        assert list(struct.unpack('<36I', state[0x9000:0x9090])) == expected_table
+    for function, offset, original_pointer, symbol in (
+            ('M4AExp_BindKnownSoundCallbacks', 0x20, 0x080B6B75, 'M4AExp_MPlayMain'),
+            ('M4AExp_BindKnownSoundCallbacks', 0x38, 0x080B6E25, 'M4AExp_Note'),
+            ('M4AExp_BindKnownPlayerCallback', 0x38, 0x080B6B75, 'M4AExp_MPlayMain')):
+        for pointer in (original_pointer, 0x080B7131):
+            state = invoke(symbols[function], {0: 0x02009000},
+                           [word(0x02009000 + offset, pointer)], None)[0]
+            expected_pointer = symbols[symbol] | 1 if pointer == original_pointer else pointer
+            assert struct.unpack_from('<I', state, 0x9000 + offset)[0] == expected_pointer
+
+    for fade in (0x080B7995, 0x080B7131):
+        service_table = expected_table.copy()
+        service_table[32] = fade
+        state = invoke(symbols['M4AExp_InitDefaultServices'], {0: 0x02009200, 1: 0x02009000},
+                       [(0x02009000, struct.pack('<36I', *service_table))], None)[0]
+        expected_services = [service_table[34], service_table[33],
+            symbols['M4AExp_MidiKeyToFreqDependency'] | 1,
+            symbols['M4AExp_FadeOutDependency'] | 1 if fade == 0x080B7995 else fade, service_table[35]]
+        assert list(struct.unpack('<5I', state[0x9200:0x9214])) == expected_services
+
+    (out / 'results.json').write_text(json.dumps({'cases': counts, 'binding_adapter_checks': 10, 'oracle': 'original EU ROM ASM under Unicorn',
         'limitations': ['RAM and MMIO-register bytes only; no GBA hardware/timing proof',
                         'Special register ABIs are adapted explicitly to the C API; no binary-match claim']}, indent=2))
     print('PASS:', sum(counts.values()), 'original-ASM differential cases;', counts)

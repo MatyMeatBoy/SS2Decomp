@@ -13,13 +13,13 @@ Implementation is inline, with no additional workers in this checkout.
 - [x] Baseline normal ROM compare and NONMATCHING build, serial jobs1.
 - [x] Helpers and parameter/pattern commands: add failing differential cases,
   reconstruct the ASM behavior, pass cases including width/guard boundaries.
-- [ ] TrackStop and ply_note: test channel allocation, priority, stealing,
-  CGB callback effects, key/velocity parsing and all chain updates before bodies.
-- [ ] MPlayMain: test ident/tempo, waits/running status, dispatch, modulation,
+- [x] TrackStop and ply_note: test channel allocation, priority, stealing,
+  CGB callback effects, key/velocity parsing and all chain updates against the original ASM.
+- [x] MPlayMain: test ident/tempo, waits/running status, dispatch, modulation,
   chained players and volume/pitch updates; connect an explicit C callback table.
-- [ ] SoundMain and mixer: test reverb, ADSR, saturation/wrap/carries, fixed and
+- [x] SoundMain and mixer: test reverb, ADSR, saturation/wrap/carries, fixed and
   interpolated samples, loop/end behavior and scanline limit as separate regions.
-- [ ] Record byte+relocation comparisons where C and original interfaces permit;
+- [x] Record byte+relocation comparisons where C and original interfaces permit;
   any alternative compiler remains diagnostic, never a build-policy change.
 - [ ] Complete module review and normal compare/NM; hardware/audio/IWRAM timing
   remain separately qualified even if all functional fixtures pass.

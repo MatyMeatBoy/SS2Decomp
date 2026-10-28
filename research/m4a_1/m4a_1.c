@@ -506,3 +506,520 @@ next_channel:
     BYTE_AT(channel) = 0x80;
     BYTE_AT(track) &= 0xF0;
 }
+/* Dependency reuse from src/m4a.c:FadeOutBody, with TrackStop bound to C. */
+void M4AExp_FadeOutDependency(M4AExp_u32 player)
+{
+    M4AExp_u32 track;
+    M4AExp_s32 count;
+    M4AExp_u32 volume;
+    if (HALF_AT(player + 0x24) == 0)
+        return;
+    HALF_AT(player + 0x26)--;
+    if (HALF_AT(player + 0x26) != 0)
+        return;
+    volume = (M4AExp_u16)(HALF_AT(player + 0x28) - 16);
+    HALF_AT(player + 0x28) = volume;
+    count = BYTE_AT(player + 8);
+    track = WORD_AT(player + 0x2C);
+    if ((M4AExp_s16)volume <= 0) {
+        while (count-- > 0) {
+            M4AExp_TrackStop(player, track);
+            BYTE_AT(track) = 0;
+            track += 0x50;
+        }
+        return;
+    }
+    HALF_AT(player + 0x26) = HALF_AT(player + 0x24);
+    while (count-- > 0) {
+        if (BYTE_AT(track) & 0x80) {
+            BYTE_AT(track + 0x13) = volume >> 2;
+            BYTE_AT(track) |= 3;
+        }
+        track += 0x50;
+    }
+}
+
+void M4AExp_MPlayMain(M4AExp_u32 player, M4AExp_u32 services)
+{
+    typedef void (*OneArgument)(M4AExp_u32);
+    typedef void (*TwoArguments)(M4AExp_u32, M4AExp_u32);
+    typedef void (*NoteCommand)(M4AExp_u32, M4AExp_u32, M4AExp_u32, M4AExp_u32);
+    typedef M4AExp_u32 (*Frequency)(M4AExp_u32, M4AExp_u32, M4AExp_u32);
+    M4AExp_u32 sound;
+    M4AExp_u32 track;
+    M4AExp_u32 channel;
+    M4AExp_u32 flags;
+    M4AExp_u32 mask;
+    M4AExp_u32 active;
+    M4AExp_u32 command;
+    M4AExp_u32 cursor;
+    M4AExp_u32 table;
+    M4AExp_u32 value;
+    M4AExp_u32 phase;
+    M4AExp_u32 type;
+    M4AExp_u32 frequency;
+    M4AExp_u32 tempo;
+    M4AExp_s32 count;
+    M4AExp_s32 modulation;
+    M4AExp_s32 key;
+    if (WORD_AT(player + 0x34) != 0x68736D53U)
+        return;
+    WORD_AT(player + 0x34)++;
+    value = WORD_AT(player + 0x38);
+    if (value != 0)
+        ((TwoArguments)value)(WORD_AT(player + 0x3C), services);
+    if ((M4AExp_s32)WORD_AT(player + 4) < 0)
+        goto unlock;
+    sound = WORD_AT(0x03007FF0U);
+    ((OneArgument)WORD_AT(services + 12))(player);
+    tempo = HALF_AT(player + 0x22) + HALF_AT(player + 0x20);
+    HALF_AT(player + 0x22) = tempo;
+    while (tempo >= 150) {
+        count = BYTE_AT(player + 8);
+        track = WORD_AT(player + 0x2C);
+        mask = 1;
+        active = 0;
+        do {
+            flags = BYTE_AT(track);
+            if (flags & 0x80) {
+                active |= mask;
+                channel = WORD_AT(track + 0x20);
+                while (channel != 0) {
+                    value = BYTE_AT(channel);
+                    if (value & 0xC7) {
+                        if (BYTE_AT(channel + 0x10) != 0) {
+                            BYTE_AT(channel + 0x10)--;
+                            if (BYTE_AT(channel + 0x10) == 0)
+                                BYTE_AT(channel) = value | 0x40;
+                        }
+                    } else {
+                        ((OneArgument)WORD_AT(services))(channel);
+                    }
+                    channel = WORD_AT(channel + 0x34);
+                }
+                if (BYTE_AT(track) & 0x40) {
+                    ((OneArgument)WORD_AT(services + 16))(track);
+                    BYTE_AT(track) = 0x80;
+                    BYTE_AT(track + 0x0F) = 2;
+                    BYTE_AT(track + 0x13) = 0x40;
+                    BYTE_AT(track + 0x19) = 0x16;
+                    BYTE_AT(track + 0x24) = 1;
+                }
+                while (BYTE_AT(track + 1) == 0) {
+                    cursor = WORD_AT(track + 0x40);
+                    command = BYTE_AT(cursor);
+                    if (command < 0x80) {
+                        command = BYTE_AT(track + 7);
+                    } else {
+                        WORD_AT(track + 0x40) = cursor + 1;
+                        if (command >= 0xBD)
+                            BYTE_AT(track + 7) = command;
+                    }
+                    if (command >= 0xCF) {
+                        ((NoteCommand)WORD_AT(sound + 0x38))(
+                            command - 0xCF, player, track, services);
+                    } else if (command > 0xB0) {
+                        value = command - 0xB1;
+                        BYTE_AT(player + 0x0A) = value;
+                        table = WORD_AT(sound + 0x34);
+                        ((TwoArguments)WORD_AT(table + value * 4))(player, track);
+                        if (BYTE_AT(track) == 0)
+                            goto next_track;
+                    } else {
+                        BYTE_AT(track + 1) = BYTE_AT(0x080BBA5CU + command - 0x80);
+                    }
+                }
+                BYTE_AT(track + 1)--;
+                value = BYTE_AT(track + 0x19);
+                if (value != 0 && BYTE_AT(track + 0x17) != 0) {
+                    if (BYTE_AT(track + 0x1C) != 0) {
+                        BYTE_AT(track + 0x1C)--;
+                    } else {
+                        phase = BYTE_AT(track + 0x1A) + value;
+                        BYTE_AT(track + 0x1A) = phase;
+                        if ((M4AExp_s8)(phase - 0x40) < 0)
+                            modulation = (M4AExp_s8)phase;
+                        else
+                            modulation = 0x80 - phase;
+                        modulation = (M4AExp_s32)(BYTE_AT(track + 0x17) * modulation) >> 6;
+                        if ((M4AExp_u8)(BYTE_AT(track + 0x16) ^ modulation) != 0) {
+                            BYTE_AT(track + 0x16) = modulation;
+                            BYTE_AT(track) |= BYTE_AT(track + 0x18) == 0 ? 12 : 3;
+                        }
+                    }
+                }
+            }
+next_track:
+            count--;
+            track += 0x50;
+            mask <<= 1;
+        } while (count > 0);
+        WORD_AT(player + 0x0C)++;
+        if (active == 0) {
+            WORD_AT(player + 4) = 0x80000000U;
+            goto unlock;
+        }
+        WORD_AT(player + 4) = active;
+        tempo = HALF_AT(player + 0x22) - 150;
+        HALF_AT(player + 0x22) = tempo;
+    }
+    count = BYTE_AT(player + 8);
+    track = WORD_AT(player + 0x2C);
+    do {
+        flags = BYTE_AT(track);
+        if ((flags & 0x80) && (flags & 15)) {
+            ((TwoArguments)WORD_AT(services + 4))(player, track);
+            channel = WORD_AT(track + 0x20);
+            while (channel != 0) {
+                if ((BYTE_AT(channel) & 0xC7) == 0) {
+                    ((OneArgument)WORD_AT(services))(channel);
+                } else {
+                    type = BYTE_AT(channel + 1) & 7;
+                    flags = BYTE_AT(track);
+                    if (flags & 3) {
+                        value = BYTE_AT(channel + 0x12);
+                        BYTE_AT(channel + 2) = (BYTE_AT(track + 0x10) * value) >> 7;
+                        BYTE_AT(channel + 3) = (BYTE_AT(track + 0x11) * value) >> 7;
+                        if (type != 0)
+                            BYTE_AT(channel + 0x1D) |= 1;
+                    }
+                    if (flags & 12) {
+                        key = BYTE_AT(channel + 8) + (M4AExp_s8)BYTE_AT(track + 8);
+                        if (key < 0)
+                            key = 0;
+                        if (type != 0) {
+                            frequency = ((Frequency)WORD_AT(sound + 0x30))(
+                                type, key, BYTE_AT(track + 9));
+                            BYTE_AT(channel + 0x1D) |= 2;
+                        } else {
+                            frequency = ((Frequency)WORD_AT(services + 8))(
+                                WORD_AT(channel + 0x24), key, BYTE_AT(track + 9));
+                        }
+                        WORD_AT(channel + 0x20) = frequency;
+                    }
+                }
+                channel = WORD_AT(channel + 0x34);
+            }
+            BYTE_AT(track) &= 0xF0;
+        }
+        count--;
+        track += 0x50;
+    } while (count > 0);
+unlock:
+    WORD_AT(player + 0x34) = 0x68736D53U;
+}
+/* One channel's PCM contribution. Packed ARM rotates place each contribution
+ * in the high byte; after four rotations this is byte-wise modular addition.
+ * The signed product is explicitly reduced to ARM32 before shifting. */
+static void MixChannel(M4AExp_u32 channel, M4AExp_u32 output,
+                       M4AExp_u32 count, M4AExp_u32 loop_start,
+                       M4AExp_u32 loop_length, M4AExp_u32 div_frequency)
+{
+    M4AExp_u32 remaining;
+    M4AExp_u32 source;
+    M4AExp_u32 fraction;
+    M4AExp_u32 increment;
+    M4AExp_u32 advance;
+    M4AExp_u32 i;
+    M4AExp_u32 fixed;
+    M4AExp_u32 right;
+    M4AExp_u32 left;
+    M4AExp_s32 sample;
+    M4AExp_s32 difference;
+    M4AExp_s32 product;
+    M4AExp_u32 overshoot;
+    remaining = WORD_AT(channel + 0x18);
+    source = WORD_AT(channel + 0x28);
+    fraction = WORD_AT(channel + 0x1C);
+    increment = div_frequency * WORD_AT(channel + 0x20);
+    fixed = BYTE_AT(channel + 1) & 8;
+    right = BYTE_AT(channel + 0x0A);
+    left = BYTE_AT(channel + 0x0B);
+    /* Original packed loops operate in groups of four output bytes. */
+    count = (count + 3) & ~3U;
+    for (i = 0; i < count; i++) {
+        sample = (M4AExp_s8)BYTE_AT(source);
+        if (fixed == 0) {
+            difference = (M4AExp_s8)BYTE_AT(source + 1) - sample;
+            product = (M4AExp_s32)(fraction * (M4AExp_u32)difference);
+            sample += product >> 23;
+        }
+        product = (M4AExp_s32)((M4AExp_u32)sample * right);
+        BYTE_AT(output + i) += product >> 8;
+        product = (M4AExp_s32)((M4AExp_u32)sample * left);
+        BYTE_AT(output + 0x630 + i) += product >> 8;
+        if (fixed != 0) {
+            source++;
+            remaining--;
+            if (remaining == 0) {
+                if (loop_length == 0) {
+                    BYTE_AT(channel) = 0;
+                    return;
+                }
+                source = loop_start;
+                remaining = loop_length;
+            }
+        } else {
+            fraction += increment;
+            advance = fraction >> 23;
+            if (advance != 0) {
+                fraction &= ~0x3F800000U;
+                if ((M4AExp_s32)(remaining - advance) <= 0) {
+                    if (loop_length == 0) {
+                        BYTE_AT(channel) = 0;
+                        return;
+                    }
+                    overshoot = advance - remaining;
+                    remaining -= advance;
+                    do {
+                        remaining += loop_length;
+                        if ((M4AExp_s32)remaining > 0)
+                            break;
+                        overshoot -= loop_length;
+                    } while (1);
+                    source = loop_start + overshoot;
+                } else {
+                    remaining -= advance;
+                    source += advance;
+                }
+            }
+        }
+    }
+    if (fixed == 0)
+        WORD_AT(channel + 0x1C) = fraction;
+    WORD_AT(channel + 0x18) = remaining;
+    WORD_AT(channel + 0x28) = source;
+}
+
+/* Ordinary C contract replaces shared stack/high-register/ARM-entry ABI.
+ * It does not implement executable IWRAM relocation or hardware timing. */
+void M4AExp_SoundMainRAM(M4AExp_u32 sound, M4AExp_u32 output,
+                         M4AExp_u32 count, M4AExp_u32 line_limit)
+{
+    M4AExp_u32 i;
+    M4AExp_u32 next_buffer;
+    M4AExp_u32 reverb;
+    M4AExp_u32 clear_bytes;
+    M4AExp_u32 channel;
+    M4AExp_u32 wave;
+    M4AExp_u32 status;
+    M4AExp_u32 envelope;
+    M4AExp_u32 value;
+    M4AExp_u32 loop_start;
+    M4AExp_u32 loop_length;
+    M4AExp_s32 sum;
+    M4AExp_s32 channels;
+    reverb = BYTE_AT(sound + 5);
+    if (reverb != 0) {
+        next_buffer = BYTE_AT(sound + 4) == 2 ? sound + 0x350 : output + count;
+        i = 0;
+        do {
+            sum = (M4AExp_s8)BYTE_AT(output + i) +
+                  (M4AExp_s8)BYTE_AT(output + 0x630 + i) +
+                  (M4AExp_s8)BYTE_AT(next_buffer + i) +
+                  (M4AExp_s8)BYTE_AT(next_buffer + 0x630 + i);
+            sum = (sum * (M4AExp_s32)reverb) >> 9;
+            if (sum & 0x80)
+                sum++;
+            BYTE_AT(output + i) = sum;
+            BYTE_AT(output + 0x630 + i) = sum;
+            i++;
+        } while ((M4AExp_s32)(count - i) > 0);
+    } else {
+        clear_bytes = count & ~15U;
+        if (clear_bytes == 0)
+            clear_bytes = 16;
+        clear_bytes += count & 12;
+        for (i = 0; i < clear_bytes; i += 4) {
+            WORD_AT(output + i) = 0;
+            WORD_AT(output + 0x630 + i) = 0;
+        }
+    }
+    channels = BYTE_AT(sound + 6);
+    channel = sound + 0x50;
+    do {
+        wave = WORD_AT(channel + 0x24);
+        if (line_limit != 0) {
+            value = BYTE_AT(0x04000006U);
+            if (value < 160)
+                value += 228;
+            if (value >= line_limit)
+                break;
+        }
+        status = BYTE_AT(channel);
+        if ((status & 0xC7) == 0)
+            goto next_pcm_channel;
+        if (status & 0x80) {
+            if (status & 0x40)
+                goto stop_pcm_channel;
+            status = 3;
+            BYTE_AT(channel) = status;
+            WORD_AT(channel + 0x28) = wave + 0x10;
+            WORD_AT(channel + 0x18) = WORD_AT(wave + 0x0C);
+            envelope = 0;
+            BYTE_AT(channel + 9) = 0;
+            WORD_AT(channel + 0x1C) = 0;
+            if (BYTE_AT(wave + 3) & 0xC0) {
+                status |= 0x10;
+                BYTE_AT(channel) = status;
+            }
+            goto attack;
+        }
+        envelope = BYTE_AT(channel + 9);
+        if (status & 4) {
+            value = BYTE_AT(channel + 0x0D);
+            BYTE_AT(channel + 0x0D) = value - 1;
+            if (value <= 1)
+                goto stop_pcm_channel;
+            goto apply_envelope;
+        }
+        if (status & 0x40) {
+            envelope = (envelope * BYTE_AT(channel + 7)) >> 8;
+            if (envelope <= BYTE_AT(channel + 0x0C))
+                goto pseudo_echo;
+            goto apply_envelope;
+        }
+        value = status & 3;
+        if (value == 2) {
+            envelope = (envelope * BYTE_AT(channel + 5)) >> 8;
+            value = BYTE_AT(channel + 6);
+            if (envelope > value)
+                goto apply_envelope;
+            envelope = value;
+            if (envelope == 0)
+                goto pseudo_echo;
+            BYTE_AT(channel) = --status;
+        } else if (value == 3) {
+attack:
+            envelope += BYTE_AT(channel + 4);
+            if (envelope >= 255) {
+                envelope = 255;
+                BYTE_AT(channel) = --status;
+            }
+        }
+        goto apply_envelope;
+pseudo_echo:
+        envelope = BYTE_AT(channel + 0x0C);
+        if (envelope == 0)
+            goto stop_pcm_channel;
+        status |= 4;
+        BYTE_AT(channel) = status;
+apply_envelope:
+        BYTE_AT(channel + 9) = envelope;
+        value = ((BYTE_AT(sound + 7) + 1) * envelope) >> 4;
+        BYTE_AT(channel + 0x0A) = (BYTE_AT(channel + 2) * value) >> 8;
+        BYTE_AT(channel + 0x0B) = (BYTE_AT(channel + 3) * value) >> 8;
+        loop_start = 0;
+        loop_length = 0;
+        if (status & 0x10) {
+            loop_start = wave + 0x10 + WORD_AT(wave + 8);
+            loop_length = WORD_AT(wave + 0x0C) - WORD_AT(wave + 8);
+        }
+        MixChannel(channel, output, count, loop_start, loop_length, WORD_AT(sound + 0x18));
+        goto next_pcm_channel;
+stop_pcm_channel:
+        BYTE_AT(channel) = 0;
+next_pcm_channel:
+        channel += 0x40;
+        channels--;
+    } while (channels > 0);
+    WORD_AT(sound) = 0x68736D53U;
+}
+
+void M4AExp_SoundMain(M4AExp_u32 services)
+{
+    typedef void (*PlayerCallback)(M4AExp_u32, M4AExp_u32);
+    typedef void (*SoundCallback)(void);
+    M4AExp_u32 sound;
+    M4AExp_u32 line_limit;
+    M4AExp_u32 line;
+    M4AExp_u32 callback;
+    M4AExp_u32 count;
+    M4AExp_u32 output;
+    M4AExp_u32 counter;
+    sound = WORD_AT(0x03007FF0U);
+    if (WORD_AT(sound) != 0x68736D53U)
+        return;
+    WORD_AT(sound)++;
+    line_limit = BYTE_AT(sound + 0x0C);
+    if (line_limit != 0) {
+        line = BYTE_AT(0x04000006U);
+        if (line < 160)
+            line += 228;
+        line_limit += line;
+    }
+    callback = WORD_AT(sound + 0x20);
+    if (callback != 0)
+        ((PlayerCallback)callback)(WORD_AT(sound + 0x24), services);
+    ((SoundCallback)WORD_AT(sound + 0x28))();
+    count = WORD_AT(sound + 0x10);
+    output = sound + 0x350;
+    counter = BYTE_AT(sound + 4);
+    if (counter > 1)
+        output += (BYTE_AT(sound + 0x0B) - (counter - 1)) * count;
+    M4AExp_SoundMainRAM(sound, output, count, line_limit);
+}
+/* Explicit EU-revision callback migration. Unknown RAM overrides are preserved;
+ * callers must provide a compatible C service for overrides with special ABI. */
+static M4AExp_u32 RebindCommand(M4AExp_u32 original)
+{
+    switch (original) {
+    case 0x080B6949U: return (M4AExp_u32)M4AExp_Fine;
+    case 0x080B69B9U: return (M4AExp_u32)M4AExp_Goto;
+    case 0x080B69D9U: return (M4AExp_u32)M4AExp_Pattern;
+    case 0x080B69F5U: return (M4AExp_u32)M4AExp_PatternEnd;
+    case 0x080B6A09U: return (M4AExp_u32)M4AExp_Repeat;
+    case 0x080B6A39U: return (M4AExp_u32)M4AExp_Priority;
+    case 0x080B6A45U: return (M4AExp_u32)M4AExp_Tempo;
+    case 0x080B6A59U: return (M4AExp_u32)M4AExp_KeyShift;
+    case 0x080B6A6DU: return (M4AExp_u32)M4AExp_Voice;
+    case 0x080B6A9DU: return (M4AExp_u32)M4AExp_Volume;
+    case 0x080B6AB1U: return (M4AExp_u32)M4AExp_Pan;
+    case 0x080B6AC5U: return (M4AExp_u32)M4AExp_Bend;
+    case 0x080B6AD9U: return (M4AExp_u32)M4AExp_BendRange;
+    case 0x080B70A5U: return (M4AExp_u32)M4AExp_LfoSpeed;
+    case 0x080B6AEDU: return (M4AExp_u32)M4AExp_LfoDelay;
+    case 0x080B70B9U: return (M4AExp_u32)M4AExp_ModDepth;
+    case 0x080B6AF9U: return (M4AExp_u32)M4AExp_ModType;
+    case 0x080B6B11U: return (M4AExp_u32)M4AExp_Tune;
+    case 0x080B6B25U: return (M4AExp_u32)M4AExp_Port;
+    case 0x080B703DU: return (M4AExp_u32)M4AExp_EndTie;
+    case 0x080B6DE1U: return (M4AExp_u32)M4AExp_TrackStop;
+    case 0x080B6929U: return (M4AExp_u32)M4AExp_UnlinkChannel;
+    case 0x080B6911U: return (M4AExp_u32)M4AExp_Clear64;
+    default: return original;
+    }
+}
+
+void M4AExp_BindKnownJumpTable(M4AExp_u32 table)
+{
+    M4AExp_u32 i;
+    for (i = 0; i < 36; i++)
+        WORD_AT(table + i * 4) = RebindCommand(WORD_AT(table + i * 4));
+}
+
+void M4AExp_BindKnownSoundCallbacks(M4AExp_u32 sound)
+{
+    if (WORD_AT(sound + 0x20) == 0x080B6B75U)
+        WORD_AT(sound + 0x20) = (M4AExp_u32)M4AExp_MPlayMain;
+    if (WORD_AT(sound + 0x38) == 0x080B6E25U)
+        WORD_AT(sound + 0x38) = (M4AExp_u32)M4AExp_Note;
+}
+
+void M4AExp_BindKnownPlayerCallback(M4AExp_u32 player)
+{
+    if (WORD_AT(player + 0x38) == 0x080B6B75U)
+        WORD_AT(player + 0x38) = (M4AExp_u32)M4AExp_MPlayMain;
+}
+void M4AExp_InitDefaultServices(M4AExp_u32 services, M4AExp_u32 table)
+{
+    M4AExp_u32 fade;
+    WORD_AT(services) = WORD_AT(table + 34 * 4);
+    WORD_AT(services + 4) = WORD_AT(table + 33 * 4);
+    WORD_AT(services + 8) = (M4AExp_u32)M4AExp_MidiKeyToFreqDependency;
+    fade = WORD_AT(table + 32 * 4);
+    if (fade == 0x080B7995U)
+        fade = (M4AExp_u32)M4AExp_FadeOutDependency;
+    WORD_AT(services + 12) = fade;
+    WORD_AT(services + 16) = WORD_AT(table + 35 * 4);
+}
