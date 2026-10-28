@@ -4254,6 +4254,11 @@ INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08081518);
 extern u8 text85[] asm("gUnk_03000128");
 extern u8 table85[] asm("gUnk_08479140");
 extern u32 divisors85[] asm("gUnk_084EBD5C");
+/* Original 08082832/08082910 advances each detail record by four bytes. */
+struct DetailEntry815F4 { u16 kind, value; };
+/* These callers pass sub_0801DE60() in r2. */
+u16 local815F4_sub_0801E378(s32, u16, u8) asm("sub_0801E378");
+u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
 void sub_080815F4(void *arg0) {
     union { u32 word; u8 bytes[0x20C]; } scratch;
     s32 sp20C;
@@ -4273,7 +4278,7 @@ void sub_080815F4(void *arg0) {
     s32 sp244;
     s32 sp248;
     s32 sp24C;
-    u16 *sp250;
+    struct DetailEntry815F4 *sp250;
     s32 sp254;
     u32 sp258;
     u32 sp25C;
@@ -4364,9 +4369,9 @@ void sub_080815F4(void *arg0) {
     s32 var_r8_22;
     s32 var_r8_4;
     s32 var_r8_9;
-    s8 var_r7_17;
-    u16 *temp_r1_15;
-    u16 *var_r1_2;
+    s32 var_r7_17;
+    struct DetailEntry815F4 *temp_r1_15;
+    struct DetailEntry815F4 *var_r1_2;
     u16 temp_r0_17;
     u16 temp_r0_18;
     u16 temp_r0_19;
@@ -4592,8 +4597,7 @@ block_232:
             } else {
                 temp_r4 = gUnk_030034E0 + 0x30;
                 temp_r5 = (*((u8 *)((u8 *)(sp244) + (0x9B))));
-                sub_0801DE60();
-                sp25C = (u32) sub_0801E378(temp_r4, (u16) temp_r5);
+                sp25C = (u32) local815F4_sub_0801E378(temp_r4, (u16) temp_r5, sub_0801DE60());
                 sp25C = (u32) (u16) (sp25C - (*((u8 *)((u8 *)(sp244) + (0x9B)))));
                 temp_r2 = sub_08007290(0x140329);
                 sp278 = (*((u8 *)((u8 *)(sp244) + (0x9B)))) + (*((u8 *)((u8 *)(sp23C) + (6))));
@@ -4715,8 +4719,7 @@ block_230:
             }
             temp_r4_3 = gUnk_030034E0 + 0x30;
             temp_r5_3 = (*((u8 *)((u8 *)(sp248) + (0x9B))));
-            sub_0801DE60();
-            sp25C = (u32) sub_0801E378(temp_r4_3, (u16) temp_r5_3);
+            sp25C = (u32) local815F4_sub_0801E378(temp_r4_3, (u16) temp_r5_3, sub_0801DE60());
             sp25C = (u32) (u16) (sp25C - (*((u8 *)((u8 *)(sp248) + (0x9B)))));
             temp_r2_5 = sub_08007290(0x140329);
             sp280 = (*((u8 *)((u8 *)(sp248) + (0x9B)))) + (*((u8 *)((u8 *)(sp23C) + (6))));
@@ -4825,14 +4828,12 @@ block_230:
                 temp_r4_4 = gUnk_030034E0 + 0x30;
                 var_r6_6 = sp24C + 0x9B;
                 temp_r5_5 = (*((u8 *)((u8 *)(sp24C) + (0x9B))));
-                sub_0801DE60();
-                var_r0_2 = sub_0801E3D8(temp_r4_4, (u16) temp_r5_5);
+                var_r0_2 = local815F4_sub_0801E3D8(temp_r4_4, (u16) temp_r5_5, sub_0801DE60());
             } else {
                 temp_r4_5 = gUnk_030034E0 + 0x30;
                 var_r6_6 = sp24C + 0x9B;
                 temp_r5_6 = (*((u8 *)((u8 *)(sp24C) + (0x9B))));
-                sub_0801DE60();
-                var_r0_2 = sub_0801E378(temp_r4_5, (u16) temp_r5_6);
+                var_r0_2 = local815F4_sub_0801E378(temp_r4_5, (u16) temp_r5_6, sub_0801DE60());
             }
             sp25C = (u32) var_r0_2;
             sp25C = (u32) (u16) (sp25C - *var_r6_6);
@@ -4977,7 +4978,7 @@ block_230:
                     } else {
                         temp_r4_8 = gUnk_030034E0 + 0x30;
                         temp_r6_3 = (*((u8 *)((u8 *)(sp240) + (0x9C))));
-                        sp258 = (u32) sub_0801B58C(sp240, temp_r4_8, temp_r6_3, sub_0801DE60());
+                        sp258 = (u16) sub_0801B58C(sp240, temp_r4_8, temp_r6_3, sub_0801DE60());
                         sp258 = (u32) (u16) (sp258 - (*((u8 *)((u8 *)(sp240) + (0x9C)))));
                         if (!(0x8000 & sp258)) {
 
@@ -5135,7 +5136,7 @@ block_230:
                 } else {
                     temp_r4_9 = gUnk_030034E0 + 0x30;
                     temp_r6_4 = (*((u8 *)((u8 *)(sp240) + (0x9C))));
-                    sp258 = (u32) sub_0801B58C(sp240, temp_r4_9, temp_r6_4, sub_0801DE60());
+                    sp258 = (u16) sub_0801B58C(sp240, temp_r4_9, temp_r6_4, sub_0801DE60());
                     sp258 = (u32) (u16) (sp258 - (*((u8 *)((u8 *)(sp240) + (0x9C)))));
                     temp_r2_19 = sub_08007290(0x140328);
                     sp260 = (*((u8 *)((u8 *)(sp240) + (0x9C)))) + (*((u8 *)((u8 *)(sp23C) + (6))));
@@ -5316,13 +5317,13 @@ block_230:
         temp_r4_11 = (*((u16 *)((u8 *)(sp23C) + (0))));
         switch ((s32) temp_r4_11) {                 /* switch 3; irregular */
         case 1:                                     /* switch 3 */
-            temp_r0_17 = (*((u16 *)((u8 *)(sp250) + (0))));
+            temp_r0_17 = (sp250->kind);
             if (temp_r0_17 == 0) {
                 return;
             }
             temp_r2_25 = sub_08007290((temp_r0_17 + 0x314) | 0x140000);
             scratch.word = (u32) temp_r4_11;
-            sub_08081518(0xF, 7U, temp_r2_25, (u16) (*((u16 *)((u8 *)(sp250) + (2)))), scratch.word);
+            sub_08081518(0xF, 7U, temp_r2_25, (u16) (sp250->value), scratch.word);
             return;
         case 10:                                    /* switch 3 */
             sub_0805FFBC(0xF, 6, sp23C, 0x80000000);
@@ -5339,11 +5340,11 @@ block_230:
                 }
                 var_r1_2 = sp250;
 loop_290:
-                temp_r0_18 = *var_r1_2;
+                temp_r0_18 = var_r1_2->kind;
                 if ((temp_r0_18 != 0) && (temp_r0_18 != 0x29)) {
                     var_r4_16 += 1;
                 }
-                var_r1_2 += 2;
+                var_r1_2 += 1;
                 var_r8_19 += 1;
                 if ((var_r8_19 <= 2U) && (sp250 != NULL)) {
                     goto loop_290;
@@ -5351,17 +5352,17 @@ loop_290:
                 var_r8_20 = 0;
                 if (sp250 != NULL) {
 loop_296:
-                    temp_r0_19 = (*((u16 *)((u8 *)(sp250) + (0))));
+                    temp_r0_19 = (sp250->kind);
                     if ((temp_r0_19 != 0) && (temp_r0_19 != 0x29)) {
-                        if ((*((u16 *)((u8 *)(sp250) + (2)))) & 0x8000) {
-                            var_r0_3 = ((*((u16 *)((u8 *)(sp250) + (0)))) * 2) + 0x2C4;
+                        if ((sp250->value) & 0x8000) {
+                            var_r0_3 = ((sp250->kind) * 2) + 0x2C4;
                         } else {
-                            var_r0_3 = ((*((u16 *)((u8 *)(sp250) + (0)))) * 2) + 0x2C3;
+                            var_r0_3 = ((sp250->kind) * 2) + 0x2C3;
                         }
                         temp_r2_26 = sub_08007290(var_r0_3 | 0x140000);
                         switch (var_r4_16) {        /* switch 4; irregular */
                         case 1:                     /* switch 4 */
-                            var_r3_13 = (s16) (*((u16 *)((u8 *)(sp250) + (2))));
+                            var_r3_13 = (s16) (sp250->value);
                             if ((s32) var_r3_13 < 0) {
                                 var_r3_13 = 0 - var_r3_13;
                             }
@@ -5369,7 +5370,7 @@ loop_296:
                             sub_08081518(0xF, 9U, temp_r2_26, (u16) var_r3_13, scratch.word);
                             break;
                         case 2:                     /* switch 4 */
-                            var_r3_14 = (s16) (*((u16 *)((u8 *)(sp250) + (2))));
+                            var_r3_14 = (s16) (sp250->value);
                             if ((s32) var_r3_14 < 0) {
                                 var_r3_14 = 0 - var_r3_14;
                             }
@@ -5377,7 +5378,7 @@ loop_296:
                             sub_08081518(0xF, (u32) ((var_r8_20 << 0x11) + 0x80000) >> 0x10, temp_r2_26, (u16) var_r3_14, scratch.word);
                             break;
                         case 3:                     /* switch 4 */
-                            var_r3_15 = (s16) (*((u16 *)((u8 *)(sp250) + (2))));
+                            var_r3_15 = (s16) (sp250->value);
                             if ((s32) var_r3_15 < 0) {
                                 var_r3_15 = 0 - var_r3_15;
                             }
@@ -5386,7 +5387,7 @@ loop_296:
                             break;
                         }
                     }
-                    temp_r1_15 = sp250 + 2;
+                    temp_r1_15 = sp250 + 1;
                     sp250 = temp_r1_15;
                     var_r8_20 += 1;
                     if (var_r8_20 <= 2U) {
@@ -5530,7 +5531,6 @@ block_28:
         goto block_46;
     }
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080815F4);
 #endif

@@ -1716,7 +1716,70 @@ epilogue3984:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08003984);
 #endif
+#ifdef NONMATCHING
+struct FadeColor5A24 { u32 red:5; u32 green:5; u32 blue:5; };
+struct FadeDest5A24 { u16 red:5; u16 green:5; u16 blue:5; };
+void sub_08005A24(u32 range, s32 percent)
+{
+    u32 start;
+    u16 *backup;
+    struct FadeColor5A24 *source;
+    struct FadeDest5A24 *dest;
+    u16 *out;
+    u16 *in;
+    u32 banks;
+    u32 i;
+    u16 target;
+    u16 factor;
+    s32 difference;
+    start = (u16)range;
+    banks = range >> 16;
+    target = (s32)((u32)(percent << 16) >> 6) / 100;
+    gUnk_0300001C = 1;
+    backup = (u16 *)sub_08001494(banks << 5);
+    fadeCopy5A24((u8 *)&gUnk_03001F40 + (start << 5), backup, (banks << 3) | 0x04000000);
+    range = banks << 4;
+    factor = 0x400;
+    while (factor > target) {
+        dest = (struct FadeDest5A24 *)((u8 *)&gUnk_03001F40 + (start << 5));
+        source = (struct FadeColor5A24 *)backup;
+        i = 0;
+        difference = factor - target;
+        while (i < range) {
+            dest->red = (source->red * factor) >> 10;
+            dest->green = (source->green * factor) >> 10;
+            dest->blue = (source->blue * factor) >> 10;
+            i++;
+            dest = (struct FadeDest5A24 *)((u8 *)dest + 2);
+            source = (struct FadeColor5A24 *)((u8 *)source + 2);
+        }
+        if (difference > 1) factor = factor - (difference >> 1);
+        else factor = factor - 1;
+        sub_08000B38();
+        sub_080003F0();
+    }
+    if (gUnk_0300001C != 0) {
+        i = (u32)&gUnk_0300001C;
+        do { sub_080003F0(); } while (*(s32 *)i != 0);
+    }
+    if (!(gUnk_0300001C & 2)) {
+        dest = (struct FadeDest5A24 *)((u8 *)&gUnk_03001F40 + (start << 5));
+        source = (struct FadeColor5A24 *)backup;
+        i = 0;
+        while (i < range) {
+            *(u16 *)dest = *(u16 *)source;
+            i++;
+            dest = (struct FadeDest5A24 *)((u8 *)dest + 2);
+            source = (struct FadeColor5A24 *)((u8 *)source + 2);
+        }
+        sub_08000B38();
+    }
+    sub_080003F0();
+    sub_08001538((s32)backup);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005A24);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005B88);
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800608C);
 void sub_08006544(void) {

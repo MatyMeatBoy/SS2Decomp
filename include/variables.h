@@ -8,6 +8,7 @@
 extern struct Player gUnk_03003CE0[];
 // AUTO-VARIABLES (keep this marker, decomp.py appends below it)
 extern u8 gLinkFlagByte asm("gUnk_03006220");
+extern void fadeCopy5A24(const void *, void *, u32) asm("CpuSet");
 extern struct MemBlock gUnk_02000010;
 extern struct MemBlock gUnk_0203FFF0;
 extern u16 gUnk_03000000;
