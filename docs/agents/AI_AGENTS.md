@@ -1,26 +1,18 @@
-# Guía para agentes de IA (ChatGPT, Nemotron, etc.)
 
-Objetivo: decompilación **matching**: el C compilado debe dar una ROM idéntica byte a byte (`make compare` → `shiningsoul2_eu.gba: OK`).
-Una función solo cuenta si coincide. C que "se parece" no cuenta: va como borrador en `#ifdef NONMATCHING`.
-
-## Antes de empezar
-```bash
-sh tools/install_hooks.sh   # una vez: el hook pre-commit bloquea commits que rompan la ROM o los borradores
-git pull origin claude/rom-decompilation-research-obsal6
-make compare            # debe dar OK; si no, arréglalo antes de nada
-make nonmatching        # todos los borradores deben compilar y enlazar
-```
-
-## Compilador (importante)
-- Todo el código del juego: `agbcc -O2 -fprologue-bugfix` (ya configurado en el Makefile). m4a usa `old_agbcc`, agb_flash `-O1`.
-- agbcc es **C89**: declaraciones al inicio del bloque, sin `for (u32 i = 0; ...)`, sin declarar tras sentencias.
-  `python tools/scripts/c89fix.py` lo convierte solo.
-
-## Flujo por función
-1. Elige una función con `INCLUDE_ASM` o un borrador `#ifdef NONMATCHING` en `src/<modulo>.c`.
-   Lista de borradores con su distancia: `python tools/scripts/nm_drafts.py /tmp/nm` (0 = coincide, -1 = no compila).
-2. Escribe el C en un archivo aparte y compruébalo: `python tools/scripts/decomp.py check FUNC archivo.c` (muestra el diff de asm).
-3. Cuando diga `MATCH`: `python tools/scripts/apply_permuted.py archivo.c` (aplica, reconstruye la ROM y revierte si cambia el SHA1).
+## Patrones nuevos (2026-10-28, casaron 30+ borradores)
+- **Constantes mal copiadas** por el LLM: `movs r1,#3; negs r1,r1` es `~2` (no `~3`); `movs r0,#0xa0; lsls r0,#13` es `0x140000`.
+  Lee la constante del asm, no la del borrador.
+- **`lsls rX,#16/#24` al entrar** = parámetro `u16`/`u8` (no `u32` con `& 0xFF`). Retorno `lsls/lsrs` antes de `bx` = devuelve `u16`/`u8`.
+- **`pop {r1}; bx r1`** = la función devuelve algo: `return sub_X(...)`.
+- **Registros r2/r3 sin tocar antes de un `bl`** con 5º argumento en pila = la función reenvía sus propios r2/r3:
+  `u16 f(u16 a, u16 b, s32 c, s32 d) { return g5(a, b, c, d, K); }` (alias `extern ... g5(...) asm("g")`).
+- **`adds rB,#off; adds rB,rI; ldrh [rB]`** (offset sumado a la base antes del índice) = array miembro de struct:
+  `struct S { u8 pad[0x22]; u16 arr[1]; }; ((struct S *)gUnk_X)->arr[i]`.
+- **Selección de puntero con `ldr` repetido en cada rama** (`if (c) p = base+0x88; else p = base+0x84; *p = v;`) en vez de ternario de offsets.
+- **Familia "link sender"** (`gUnk_03006338` contador, `gUnk_03006300` cola, stride 0x88): contador por puntero
+  `u32 *n = (u32 *)0x03006338; ... (*n)++;`, y si el asm pone el éxito primero: `if (*n <= 0x31 [&& f() == 0]) { ...; return 1; } return 0;`.
+- Permuter: `python3 tools/scripts/yellow.py` resolvió los "0xFF byte stores" (sub_080684F4/854C) que llevaban semanas atascados.
+_permuted.py archivo.c` (aplica, reconstruye la ROM y revierte si cambia el SHA1).
 4. `make compare` OK y `make nonmatching` OK → commit pequeño → push.
 5. Casi-coincidencias: `python tools/scripts/permute.py FUNC archivo.c --time 120`.
 
