@@ -155,28 +155,23 @@ void sub_08065CA8(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065CA8);
 #endif
-#ifdef NONMATCHING
 u32 sub_08065D50(void)
 {
-    u32 count = gUnk_03006338;
     u8 *entry;
-    u8 *source = (u8 *)gUnk_030034E0;
+    u8 *dst;
     u32 i;
-
-    if (count > 0x31)
+    if (gUnk_03006338 > 0x31)
         return 0;
-    entry = (u8 *)gUnk_03006300 + count * 0x88;
+    entry = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x81;
-    for (i = 0; i < 10; i++)
-        entry[8 + i] = source[i];
+    dst = entry + 8;
+    for (i = 0; i <= 9; i++, dst++)
+        *dst = ((u8 *)gUnk_030034E0)[i];
     entry[1] = 2;
-    gUnk_03006338 = count + 1;
+    gUnk_03006338++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065D50);
-#endif
 #ifdef NONMATCHING
 struct PL10 { u8 pad[0x10]; u16 w10; u8 pad2[0x14C - 0x12]; };
 /* Enqueue tag 0x83 (player's u16 at Player+0x10), coalescing with a pending 0x83 message. */
