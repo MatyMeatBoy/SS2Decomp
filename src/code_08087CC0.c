@@ -1,4 +1,5 @@
 #include "global.h"
+extern u32 gTbl084F0AC0[] asm("gUnk_084F0AC0");
 extern void sub_080887D4();
 extern void sub_08000274_3(u32, u32, u32) asm("sub_08000274");
 
@@ -111,7 +112,37 @@ void sub_08088B24(u32 arg0, u16 arg1)
     gTask61B0.f24 = 0;
     sub_08000274_3((u32)&gTask61B0, arg0, arg1 | 0x20000);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088B6C);
+u32 sub_08088B6C(u8 *tbl, u32 arg1)
+{
+    u8 *p = (u8 *)&gUnk_03003CE0[sub_080020F4()];
+    u32 i;
+    u16 *e;
+    s32 d;
+    u8 *gs;
+    u16 zero;
+    for (i = 1, zero = 0; i <= 3; i++) {
+        e = (u16 *)(tbl + (*(u16 *)((u8 *)gUnk_03005CF4 + 0x36) * 36 + 4) + i * 8);
+        d = (*(s32 *)(p + 0x8C) >> 11) - e[0];
+        if (d < 0)
+            d = -d;
+        if (d <= 1 && (*(s32 *)(p + 0x90) >> 11) == e[1]) {
+            sub_08015ED4();
+            sub_0801ABE8(3);
+            sub_0800BB40();
+            while (sub_0801AAE0() == 0)
+                sub_080003F0();
+            sub_0800BB40();
+            gs = (u8 *)gUnk_03005CF4;
+            *(u16 *)(gs + 0x36) = arg1;
+            *(u16 *)(gs + 2) = e[2];
+            *(u32 *)(gs + 0x71C) = gTbl084F0AC0[e[2]];
+            *(u16 *)(gs + 0x10) = zero;
+            *(u16 *)(gs + 0x1C) = zero;
+            return 1;
+        }
+    }
+    return 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088C24);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088F30);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089204);
