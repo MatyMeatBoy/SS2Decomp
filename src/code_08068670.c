@@ -515,7 +515,49 @@ INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069224);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069388);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080694AC);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080698D4);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069A30);
+struct Task9A30 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+struct Info9A30 { u16 x, y, c, d, b, i; };
+extern vu32 gMask9A30 asm("gUnk_0300641C");
+extern u8 *gInfo9A30 asm("gUnk_03006420");
+extern u8 *gTasks9A30 asm("gUnk_03006370");
+extern void sub_08000274_2(void *, void *) asm("sub_08000274");
+extern void sub_080698D4();
+void sub_08069A30(s32 x, s32 y, u32 b, u16 c, u16 d)
+{
+    u32 i = 0;
+    u32 mem;
+    struct Task9A30 *t;
+    struct Info9A30 *e;
+    vu32 *m = &gMask9A30;
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0x1F)
+            return;
+    }
+    if (i > 0x1F)
+        return;
+    e = &((struct Info9A30 *)gInfo9A30)[i];
+    e->x = x >> 8;
+    e->y = y >> 8;
+    e->b = b;
+    e->i = i;
+    e->c = c;
+    e->d = d;
+    mem = sub_08001494(0x500);
+    {
+        u8 *p = gTasks9A30;
+        t = (struct Task9A30 *)(i * 0x28 + (u32)p);
+    }
+    t->f20 = mem;
+    if (mem == 0)
+        return;
+    t->f8 = 0x34;
+    t->fC = (u32)sub_080698D4;
+    t->f10 = mem + 0x4FC;
+    t->f24 = 0;
+    sub_08000274_2(t, e);
+    gMask9A30 |= 1 << i;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069AEC);
 struct Task9BBC { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMask0300641C asm("gUnk_0300641C");
