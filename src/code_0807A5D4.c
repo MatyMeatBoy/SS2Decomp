@@ -5088,16 +5088,9 @@ u32 sub_08084200(const u8 *arg0)
     if (*(const u16 *)(arg0 + 0x02) == 4 && *(const u16 *)(arg0 + 0x12) == 4 && *(const u16 *)(arg0 + 0x22) == 4) return 24;
     return 0;
 }
-#ifdef NONMATCHING
-void sub_0808441C(u16 *param_1,u32 *param_2)
-
+void sub_0808441C(u16 *param_1, u32 *param_2)
 {
-    /* NONMATCHING: stack layout recovered from ASM; equivalence unproven. */
-#define CONCAT13_8441C(a,b) (((u32)(a) << 24) | ((u32)(b) & 0xFFFFFF))
-#define CONCAT22_8441C(a,b) (((u32)(a) << 16) | (u16)(b))
-#define CONCAT12_8441C(a,b) (((u32)(a) << 16) | (u16)(b))
-#define mod8441C(a,b) ((u32)(a) % (u32)(b))
-#define div8441C(a,b) ((u32)(a) / (u32)(b))
+    /* Combine three randomized records and update the shared success value. */
     extern const u32 table8441C_084EC1E0[] asm("gUnk_084EC1E0");
     extern const u32 table8441C_084EC288[] asm("gUnk_084EC288");
     extern const u32 table8441C_084EC330[] asm("gUnk_084EC330");
@@ -5133,650 +5126,856 @@ void sub_0808441C(u16 *param_1,u32 *param_2)
     extern const u32 table8441C_084ECB30[] asm("gUnk_084ECB30");
     extern const u32 table8441C_084ECB84[] asm("gUnk_084ECB84");
     extern u32 sub_0805AE94(const void *);
-  u32 frame8441C[32];
-  int *piVar1;
-  u16 uVar2;
-  u32 uVar3;
-  int iVar4;
-  u32 uVar5;
-  int iVar6;
-  int iVar7;
-  u32 dVar8;
-  u32 uVar9;
-  u32 *puVar10;
-  u32 *puVar11;
-  u32 uVar12;
-  u32 uVar13;
-  u32 uVar14;
-  u32 uVar15;
-  u32 uVar16;
-  u32 uVar17;
-  u16 *puVar18;
-  u32 uVar19;
-  int iVar20;
-  u8 unaff_r9;
-  u32 in_lr;
+    extern void *copy8441C(void *, const void *, u32) asm("memcpy");
+    extern u32 sub_08084200(const u8 *);
+    struct Triple8441C { u32 a, b, c; };
+    struct Record8441C { u16 type, subtype, value; u8 byte6, byte7; u32 word8, wordC; };
+    /* Preserve the original frame, including partially initialized records. */
+    u8 frameStorage8441C[128];
+    register u8 *stack asm("sp");
+    register struct Record8441C *result;
+    register struct Record8441C *second asm("r10");
+    register struct Record8441C *third asm("r8");
+    register u32 firstIndex asm("r5");
+    register u32 secondIndex asm("r4");
+    register u32 thirdIndex asm("r6");
+    register u32 tier asm("r6");
+    register u32 randomIndex asm("r5");
+    register const u16 *entry asm("r1");
+    register const u32 *tripleTable asm("r1");
+    s32 classification;
+    register u32 unaff_r9 asm("r9");
+    asm("" : "=r"(stack), "=r"(unaff_r9));
+    *(u16 **)(stack + 0x5C) = param_1;
+    *(u32 **)(stack + 0x60) = param_2;
+    {
+      register u32 zeroHalf asm("r4") = 0;
+      register struct Record8441C *initial asm("r0") = (struct Record8441C *)(stack + 0x30);
+      register u32 zeroByte asm("r1") = 0;
+      asm("" : "+r"(zeroHalf), "+r"(initial), "+r"(zeroByte));
+      initial->type = zeroHalf;
+      initial->subtype = zeroHalf;
+      initial->byte6 = zeroByte;
+      initial->byte7 = zeroByte;
+      initial->value = zeroHalf;
+      firstIndex = 0;
+      result = initial;
+    }
+    second = ({ register struct Record8441C *p asm("r0") = (struct Record8441C *)(stack + 0x10); asm("" : "+r"(p)); p; });
+    third = ({ register struct Record8441C *p asm("r1") = (struct Record8441C *)(stack + 0x20); asm("" : "+r"(p)); p; });
+    {
+      register u8 *temporary asm("r2") = stack;
+      asm("" : "+r"(temporary));
+      temporary += 0x40;
+      *(u8 **)(stack + 0x78) = temporary;
+    }
+    {
+      register u8 *bytes asm("r1") = stack + 0x34;
+      register u32 zero asm("r2") = 0;
+      asm("" : "+r"(bytes), "+r"(zero));
+      do { bytes[firstIndex] = zero; firstIndex++; } while (firstIndex <= 0xB);
+    }
+    firstIndex = (u32)sub_080008C8() % 3;
+    {
+      register u32 offset asm("r0") = firstIndex << 4;
+      register struct Record8441C *destination asm("r1");
+      register struct Record8441C *input asm("r3");
+      register struct Record8441C *source asm("r0");
+      asm("" : "+r"(offset));
+      destination = (struct Record8441C *)stack;
+      asm("" : "+r"(destination));
+      input = *(struct Record8441C **)(stack + 0x5C);
+      asm("" : "+r"(input));
+      source = (struct Record8441C *)(offset + (u32)input);
+      asm("" : "+r"(source));
+      *destination = *source;
+      input++;
+      *(struct Record8441C **)(stack + 0x7C) = input;
+    }
+    {
+      register u8 *next asm("r3") = *(u8 **)(stack + 0x5C);
+      asm("" : "+r"(next));
+      next += 0x20;
+      *(u8 **)(stack + 0x74) = next;
+    }
+    do { secondIndex = (u32)sub_080008C8() % 3; } while (firstIndex == secondIndex);
+    {
+      register u32 offset asm("r0") = secondIndex << 4;
+      register struct Record8441C *destination asm("r1");
+      register struct Record8441C *input asm("r6");
+      register struct Record8441C *source asm("r0");
+      asm("" : "+r"(offset));
+      destination = second;
+      asm("" : "+r"(destination));
+      input = *(struct Record8441C **)(stack + 0x5C);
+      asm("" : "+r"(input));
+      source = (struct Record8441C *)(offset + (u32)input);
+      asm("" : "+r"(source));
+      *destination = *source;
 
-  (*(u32 *)((u8 *)frame8441C + 0x30)) = 0;
-  (*(u32 *)((u8 *)frame8441C + 0x34)) = 0;
-  uVar17 = 0;
-  (*(u32 * *)((u8 *)frame8441C + 0x78)) = (frame8441C + 16);
-  do {
-    *(u8 *)((int)&(*(u32 *)((u8 *)frame8441C + 0x34)) + uVar17) = 0;
-    uVar17 = uVar17 + 1;
-  } while (uVar17 < 0xc);
-  (*(u16 * *)((u8 *)frame8441C + 0x5C)) = param_1;
-  (*(u32 * *)((u8 *)frame8441C + 0x60)) = param_2;
-  uVar3 = sub_080008C8();
-  iVar4 = mod8441C(uVar3,3);
-  puVar11 = (u32 *)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + iVar4 * 8);
-  uVar17 = *puVar11;
-  uVar15 = puVar11[1];
-  uVar19 = puVar11[2];
-  uVar5 = puVar11[3];
-  (*(u16 * *)((u8 *)frame8441C + 0x7C)) = (*(u16 * *)((u8 *)frame8441C + 0x5C)) + 8;
-  (*(u16 * *)((u8 *)frame8441C + 0x74)) = (*(u16 * *)((u8 *)frame8441C + 0x5C)) + 0x10;
-  do {
-    uVar3 = sub_080008C8();
-    iVar6 = mod8441C(uVar3,3);
-  } while (iVar4 == iVar6);
-  uVar12 = *(u32 *)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + iVar6 * 8);
-  uVar13 = *(u32 *)((int)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + iVar6 * 8) + 4);
-  do {
-    do {
-      uVar3 = sub_080008C8();
-      iVar7 = mod8441C(uVar3,3);
-    } while (iVar4 == iVar7);
-  } while (iVar6 == iVar7);
-  uVar14 = *(u32 *)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + iVar7 * 8);
-  uVar16 = *(u32 *)((int)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + iVar7 * 8) + 4);
-  iVar4 = sub_08084200((*(u16 * *)((u8 *)frame8441C + 0x5C)));
-  (*(u16 *)((u8 *)frame8441C + 0x2)) = (u16)(uVar17 >> 0x10);
-  if ((iVar4 == 0) ||
-     (uVar9 = sub_080008C8(), *(u32 *)(*(int *)((u32)&gUnk_030034E0) + 0x6c) < (0xFFFF & uVar9)))
-  {
+    }
+    do { thirdIndex = (u32)sub_080008C8() % 3; } while (firstIndex == thirdIndex || secondIndex == thirdIndex);
+    {
+      register u32 offset asm("r0") = thirdIndex << 4;
+      register struct Record8441C *destination asm("r1");
+      register struct Record8441C *input asm("r2");
+      register struct Record8441C *source asm("r0");
+      asm("" : "+r"(offset));
+      destination = third;
+      asm("" : "+r"(destination));
+      input = *(struct Record8441C **)(stack + 0x5C);
+      asm("" : "+r"(input));
+      source = (struct Record8441C *)(offset + (u32)input);
+      asm("" : "+r"(source));
+      *destination = *source;
+      asm("" : : "r"(input));
+    }
+    classification = sub_08084200(*(u8 **)(stack + 0x5C));
+    if (classification == 0) goto LAB_0808481c;
+    if (((u32)sub_080008C8() & 0xFFFF) > *(u32 *)((u32)gUnk_030034E0 + 0x6C)) goto LAB_0808481c;
+    {
+      register struct Record8441C *input asm("r6") = *(struct Record8441C **)(stack + 0x5C);
+      asm("" : "+r"(input));
+      tier = (u32)input[0].value + (u32)input[1].value + (u32)input[2].value;
+    }
+    if (tier <= 99) goto lowTier8441C;
+    if (tier - 100 <= 199) tier = 0;
+    else {
+      u32 range = tier - 300;
+      tier = 2;
+      if (range <= 199) tier = 1;
+    }
+    switch (classification) {
+    case 1:
+      randomIndex = (u32)sub_080008C8() % 14;
+      { register const u32 *table asm("r2") = table8441C_084EC1E0;
+        register u32 index asm("r1") = randomIndex << 2;
+        register u32 row asm("r0") = tier * 56;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(1)); }
+      goto applyEntry8441C;
+    case 2:
+      randomIndex = (u32)sub_080008C8() % 14;
+      { register const u32 *table asm("r2") = table8441C_084EC288;
+        register u32 index asm("r1") = randomIndex << 2;
+        register u32 row asm("r0") = tier * 56;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(2)); }
+      goto applyEntry8441C;
+    case 3:
+      randomIndex = (u32)sub_080008C8() % 14;
+      { register const u32 *table asm("r2") = table8441C_084EC330;
+        register u32 index asm("r1") = randomIndex << 2;
+        register u32 row asm("r0") = tier * 56;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(3)); }
+      goto applyEntry8441C;
+    case 4:
+      randomIndex = (u32)sub_080008C8() % 14;
+      { register const u32 *table asm("r2") = table8441C_084EC3D8;
+        register u32 index asm("r1") = randomIndex << 2;
+        register u32 row asm("r0") = tier * 56;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(randomIndex), "r"(table), "i"(4)); }
+      goto applyEntry8441C;
+    case 5:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
+        register const u32 *table asm("r2") = table8441C_084EC480;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = tier << 5;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(5)); }
+      goto applyEntry8441C;
+    case 6:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
+        register const u32 *table asm("r2") = table8441C_084EC4E0;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = tier << 5;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(6)); }
+      goto applyEntry8441C;
+    case 7:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
+        register const u32 *table asm("r2") = table8441C_084EC540;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = tier << 5;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(7)); }
+      goto applyEntry8441C;
+    case 8:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
+        register const u32 *table asm("r2") = table8441C_084EC5A0;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = tier << 5;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(8)); }
+      goto applyEntry8441C;
+    case 9:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
+        register const u32 *table asm("r2") = table8441C_084EC600;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = tier << 5;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(9)); }
+      goto applyEntry8441C;
+    case 10:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 7;
+        register const u32 *table asm("r2") = table8441C_084EC660;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = tier << 5;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(10)); }
+      goto applyEntry8441C;
+    case 11:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC6C0;
+      goto tripleEntry8441C;
+    case 12:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC6E4;
+      goto tripleEntry8441C;
+    case 13:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC708;
+      goto tripleEntry8441C;
+    case 14:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC72C;
+      goto tripleEntry8441C;
+    case 15:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC750;
+      goto tripleEntry8441C;
+    case 16:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC774;
+      goto tripleEntry8441C;
+    case 17:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC798;
+      goto tripleEntry8441C;
+    case 18:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC7BC;
+      goto tripleEntry8441C;
+    case 19:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC7E0;
+      goto tripleEntry8441C;
+    case 20:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC804;
+      goto tripleEntry8441C;
+    case 21:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC828;
+      goto tripleEntry8441C;
+    case 22:
+      randomIndex = (u32)sub_080008C8() % 3;
+      tripleTable = table8441C_084EC84C;
+tripleEntry8441C:
+      { register const u16 *p asm("r0") = (const u16 *)(((tier * 3 + randomIndex) << 2) + (u32)tripleTable);
+         result->type = p[0]; result->subtype = p[1]; }
+      goto finalize8441C;
+    case 23:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
+        register const u32 *table asm("r2") = table8441C_084EC870;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = (tier + 1) << 4;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(23)); }
+      goto applyEntry8441C;
+    case 24:
+      { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
+        register const u32 *table asm("r2") = table8441C_084EC8B0;
+        register u32 row asm("r0");
+        index <<= 2;
+        row = (tier + 1) << 4;
+        entry = (const u16 *)(index + row + (u32)table);
+        asm("" : "+r"(entry) : "r"(row), "r"(table), "i"(24)); }
+      goto applyEntry8441C;
+    default: goto finalize8441C;
+    }
+lowTier8441C:
+    if (classification == 23) goto low23;
+    if (classification == 24) goto low24;
+    goto LAB_0808481c;
+low23:
+    { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
+      register const u32 *table asm("r0");
+       table = table8441C_084EC870;
+      entry = (const u16 *)((index << 2) + (u32)table); }
+    goto applyEntry8441C;
+low24:
+    { register u32 index asm("r1") = (u32)sub_080008C8() & 3;
+      register const u32 *table asm("r0");
+       table = table8441C_084EC8B0;
+      entry = (const u16 *)((index << 2) + (u32)table); }
+applyEntry8441C:
+    result->type = entry[0];
+    result->subtype = entry[1];
+    goto finalize8441C;
 LAB_0808481c:
-    uVar9 = uVar17 & 0xffff;
-    if (uVar9 < 6) {
-      if (2 < uVar9) goto LAB_08084a6a;
-      if (uVar9 == 2) {
-        (*(u32 *)((u8 *)frame8441C + 0x30)) = uVar17;
-        (*(u32 *)((u8 *)frame8441C + 0x34)) = uVar15;
-        (*(u32 *)((u8 *)frame8441C + 0x38)) = uVar19;
-        (*(u32 *)((u8 *)frame8441C + 0x3C)) = uVar5;
-      }
-LAB_080849b8:
-      uVar9 = sub_080008C8();
-      uVar17 = (*(u32 *)((u8 *)frame8441C + 0x30));
-      uVar15 = (*(u32 *)((u8 *)frame8441C + 0x34));
-      uVar19 = (*(u32 *)((u8 *)frame8441C + 0x38));
-      uVar5 = (*(u32 *)((u8 *)frame8441C + 0x3C));
-      if ((0xFFFF & uVar9) <= *(u32 *)(*(int *)((u32)&gUnk_030034E0) + 0x6c)) {
-        uVar17 = uVar12 & 0xffff;
-        (*(u8 *)((u8 *)frame8441C + 0x17)) = unaff_r9;
-        if (uVar17 < 6) {
-          if (uVar17 < 3) {
-            if (uVar17 == 2) {
-              (*(u8 *)((u8 *)frame8441C + 0x17)) = (u8)(uVar13 >> 0x18);
-            }
-          }
-          else {
-            (*(u8 *)((u8 *)frame8441C + 0x17)) = 0;
-          }
-        }
-        else if (uVar17 == 9) {
-          (*(u16 *)((u8 *)frame8441C + 0x12)) = (u16)(uVar12 >> 0x10);
-          if ((*(u16 *)((u8 *)frame8441C + 0x12)) == 1) {
-            uVar17 = sub_080008C8();
-            (*(u8 *)((u8 *)frame8441C + 0x17)) = 4;
-            if ((uVar17 & 1) == 0) {
-              (*(u8 *)((u8 *)frame8441C + 0x17)) = 2;
-            }
-          }
-          else if ((*(u16 *)((u8 *)frame8441C + 0x12)) < 2) {
-            if ((*(u16 *)((u8 *)frame8441C + 0x12)) == 0) {
-              uVar3 = sub_080008C8();
-              iVar4 = mod8441C(uVar3,3);
-              (*(u8 *)((u8 *)frame8441C + 0x17)) = 1;
-              if (iVar4 == 0) {
-                (*(u8 *)((u8 *)frame8441C + 0x17)) = 3;
-              }
-            }
-            else {
-LAB_08084a44:
-              (*(u8 *)((u8 *)frame8441C + 0x17)) = 0;
-            }
-          }
-          else {
-            if ((*(u16 *)((u8 *)frame8441C + 0x12)) != 2) goto LAB_08084a44;
-            uVar3 = sub_080008C8();
-            iVar4 = mod8441C(uVar3,3);
-            (*(u8 *)((u8 *)frame8441C + 0x17)) = 6;
-            if (iVar4 == 0) {
-              (*(u8 *)((u8 *)frame8441C + 0x17)) = 5;
-            }
-          }
-        }
-        uVar17 = (*(u32 *)((u8 *)frame8441C + 0x30));
-        uVar19 = (*(u32 *)((u8 *)frame8441C + 0x38));
-        uVar5 = (*(u32 *)((u8 *)frame8441C + 0x3C));
-        if ((((*(u32 *)((u8 *)frame8441C + 0x30)) & 0xffff) < 6) && (2 < ((*(u32 *)((u8 *)frame8441C + 0x30)) & 0xffff))) {
-          (*(u32 *)((u8 *)frame8441C + 0x34)) = (*(u32 *)((u8 *)frame8441C + 0x34)) & 0xffffff;
-          uVar15 = (*(u32 *)((u8 *)frame8441C + 0x34));
-        }
-        else {
-          (*(u32 *)((u8 *)frame8441C + 0x34)) = CONCAT13_8441C((*(u8 *)((u8 *)frame8441C + 0x17)),(u32)(*(u32 *)((u8 *)frame8441C + 0x34)));
-          uVar15 = (*(u32 *)((u8 *)frame8441C + 0x34));
-        }
-      }
-LAB_08084a6a:
-      (*(u32 *)((u8 *)frame8441C + 0x3C)) = uVar5;
-      (*(u32 *)((u8 *)frame8441C + 0x38)) = uVar19;
-      (*(u32 *)((u8 *)frame8441C + 0x34)) = uVar15;
-      (*(u32 *)((u8 *)frame8441C + 0x30)) = uVar17;
-      uVar17 = sub_080008C8();
-      uVar17 = 0xFFFF & uVar17;
-      uVar15 = *(u32 *)(*(int *)((u32)&gUnk_030034E0) + 0x6c);
-      uVar19 = (*(u32 *)((u8 *)frame8441C + 0x30)) & 0xffff;
-      (*(u16 *)((u8 *)frame8441C + 0x24)) = (u16)uVar16;
-      uVar2 = (*(u16 *)((u8 *)frame8441C + 0x24));
-      if (uVar19 == 2) {
-        (*(u32 *)((u8 *)frame8441C + 0x64)) = sub_08007290((*(u32 *)((u8 *)frame8441C + 0x30)) >> 0x10 | 0xb0000);
-        puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-        puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-        piVar1 = (int *)((u32)&gUnk_030034E0);
-        if (*(char *)((*(u32 *)((u8 *)frame8441C + 0x64)) + 0x9b) == '\t') {
-          uVar19 = uVar14 & 0xffff;
-          if (1 < uVar19) {
-            if (uVar19 < 6) {
-              if ((uVar16 & 0xffff) != 0) {
-                iVar4 = sub_08007290((uVar16 & 0xffff) - 1 | 0x130000);
-                uVar2 = *(u16 *)(iVar4 + 0xac) & 4;
-                if ((*(u16 *)(iVar4 + 0xac) & 4) != 0) {
-                  uVar2 = (*(u16 *)((u8 *)frame8441C + 0x24));
-                }
-              }
-            }
-            else {
-              if (uVar19 != 9) goto LAB_08084c1e;
-              uVar19 = sub_080008C8();
-              uVar19 = uVar19 & 3;
-              dVar8 = ((u32)table8441C_084ECA90);
-              if (uVar15 < uVar17) {
-                iVar4 = uVar19 << 2;
-                dVar8 = ((u32)table8441C_084ECAE0);
-              }
-              else {
-LAB_08084aee:
-                iVar4 = uVar19 << 2;
-              }
-LAB_08084af4:
-              uVar2 = (u16)*(u32 *)(iVar4 + (uVar14 >> 0x10) * 0x10 + dVar8);
-            }
-LAB_08084c14:
-            (*(u32 *)((u8 *)frame8441C + 0x34)) = CONCAT22_8441C((*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x34)) + 2)),uVar2);
-            puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-            puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-            piVar1 = (int *)((u32)&gUnk_030034E0);
-          }
-        }
-        else {
-          uVar19 = uVar14 & 0xffff;
-          if (1 < uVar19) {
-            if (uVar19 < 6) {
-              if ((uVar16 & 0xffff) != 0) {
-                iVar4 = sub_08007290((uVar16 & 0xffff) - 1 | 0x130000);
-                uVar2 = *(u16 *)(iVar4 + 0xac) & 8;
-                if ((*(u16 *)(iVar4 + 0xac) & 8) != 0) {
-                  uVar2 = (*(u16 *)((u8 *)frame8441C + 0x24));
-                }
-              }
-              goto LAB_08084c14;
-            }
-            if (uVar19 == 9) {
-              uVar19 = sub_080008C8();
-              uVar19 = uVar19 & 3;
-              dVar8 = ((u32)table8441C_084EC9A0);
-              if (uVar15 < uVar17) goto LAB_08084aee;
-              iVar4 = uVar19 << 2;
-              dVar8 = ((u32)table8441C_084EC950);
-              goto LAB_08084af4;
-            }
-          }
-        }
-      }
-      else {
-        puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-        puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-        piVar1 = (int *)((u32)&gUnk_030034E0);
-        if (((1 < uVar19) && (uVar19 < 6)) && (uVar19 = uVar14 & 0xffff, 1 < uVar19)) {
-          if (uVar19 < 6) {
-            if ((uVar16 & 0xffff) != 0) {
-              iVar4 = sub_08007290(uVar16 & 0xffff | 0x130000);
-              if ((((*(u32 *)((u8 *)frame8441C + 0x30)) & 0xffff) - 3 & 0xffff) < 2) {
-                uVar2 = *(u16 *)(iVar4 + 0xac) & 2;
-                if ((*(u16 *)(iVar4 + 0xac) & 2) != 0) {
-                  uVar2 = (*(u16 *)((u8 *)frame8441C + 0x24));
-                }
-              }
-              else if ((*(u16 *)(iVar4 + 0xac) & 1) == 0) {
-                (*(u32 *)((u8 *)frame8441C + 0x34)) = CONCAT22_8441C((*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x34)) + 2)),*(u16 *)(iVar4 + 0xac)) & 0xffff0001;
-                puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-                puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-                piVar1 = (int *)((u32)&gUnk_030034E0);
-                goto LAB_08084c1e;
-              }
-            }
-            goto LAB_08084c14;
-          }
-          if (uVar19 == 9) {
-            uVar19 = sub_080008C8();
-            uVar19 = uVar19 & 3;
-            dVar8 = ((u32)table8441C_084ECA40);
-            if (uVar15 < uVar17) goto LAB_08084aee;
-            iVar4 = uVar19 << 2;
-            dVar8 = ((u32)table8441C_084EC9F0);
-            goto LAB_08084af4;
-          }
-        }
-      }
-    }
-    else {
-      if (uVar9 != 9) goto LAB_080849b8;
-      if ((*(u16 *)((u8 *)frame8441C + 0x2)) != 3) {
-        if ((*(u16 *)((u8 *)frame8441C + 0x2)) != 4) {
-          uVar17 = sub_080008C8();
-          if ((uVar17 & 1) == 0) {
-            do {
-              uVar3 = sub_080008C8();
-              iVar4 = mod8441C(uVar3,0xc);
-              iVar4 = *(int *)((u32)&gUnk_030034E0) + iVar4 * 0x10;
-              uVar17 = *(u32 *)(iVar4 + 0x850);
-              (*(u32 *)((u8 *)frame8441C + 0x34)) = *(u32 *)(iVar4 + 0x854);
-              (*(u32 *)((u8 *)frame8441C + 0x38)) = *(u32 *)(iVar4 + 0x858);
-              (*(u32 *)((u8 *)frame8441C + 0x3C)) = *(u32 *)(iVar4 + 0x85c);
-              (*(u32 *)((u8 *)frame8441C + 0x30)) = uVar17;
-            } while ((uVar17 & 0xffff) == 0);
-            (*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x30)) + 2)) = (u16)(uVar17 >> 0x10);
-            if ((uVar17 & 0xffff) == 3) {
-              uVar17 = (u32)(*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x30)) + 2));
-              (*(u32 *)((u8 *)frame8441C + 0x68)) = sub_08007290(uVar17 | 0xc0000);
-              uVar17 = (*(u32 *)((u8 *)frame8441C + 0x34)) & 0xFFFFFF;
-              iVar4 = (*(u32 *)((u8 *)frame8441C + 0x68));
-            }
-            else {
-              if ((uVar17 & 0xffff) == 4) {
-                uVar17 = (u32)(*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x30)) + 2));
-                (*(u32 *)((u8 *)frame8441C + 0x6C)) = sub_08007290(uVar17 | 0xd0000);
-              }
-              else {
-                uVar17 = (u32)(*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x30)) + 2));
-                (*(u32 *)((u8 *)frame8441C + 0x70)) = sub_08007290(uVar17 | 0xe0000);
-              }
-              uVar17 = (*(u32 *)((u8 *)frame8441C + 0x34)) & 0xFFFFFF;
-              iVar4 = (*(u32 *)((u8 *)frame8441C + 0x6C));
-            }
-            puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-            puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-            piVar1 = (int *)((u32)&gUnk_030034E0);
-            if ((uVar17 == 0) &&
-               (uVar17 = (*(u32 *)((u8 *)frame8441C + 0x30)), uVar15 = (*(u32 *)((u8 *)frame8441C + 0x34)), uVar19 = (*(u32 *)((u8 *)frame8441C + 0x38)), uVar5 = (*(u32 *)((u8 *)frame8441C + 0x3C)),
-               *(short *)(iVar4 + 0xa4) == 0)) goto LAB_08084a6a;
-          }
-          else {
-            do {
-              uVar3 = sub_080008C8();
-              iVar4 = mod8441C(uVar3,0xc);
-              iVar4 = *(int *)((u32)&gUnk_030034E0) + iVar4 * 0x10;
-              (*(u32 *)((u8 *)frame8441C + 0x30)) = *(u32 *)(iVar4 + 0x790);
-              (*(u32 *)((u8 *)frame8441C + 0x34)) = *(u32 *)(iVar4 + 0x794);
-              (*(u32 *)((u8 *)frame8441C + 0x38)) = *(u32 *)(iVar4 + 0x798);
-              (*(u32 *)((u8 *)frame8441C + 0x3C)) = *(u32 *)(iVar4 + 0x79c);
-            } while (((*(u32 *)((u8 *)frame8441C + 0x30)) & 0xffff) == 0);
-            (*(u32 *)((u8 *)frame8441C + 0x64)) = sub_08007290((*(u32 *)((u8 *)frame8441C + 0x30)) >> 0x10 | 0xb0000);
-            puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-            puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-            piVar1 = (int *)((u32)&gUnk_030034E0);
-            if (((*(short *)((*(u32 *)((u8 *)frame8441C + 0x64)) + 0xbc) == 0) && ((*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x34)) + 2)) == 0)) &&
-               (*(short *)((*(u32 *)((u8 *)frame8441C + 0x64)) + 0xb0) == 0)) goto LAB_080849b8;
-          }
-          goto LAB_08084c1e;
-        }
-        uVar17 = sub_080008C8();
-        puVar10 = (u32 *)((uVar17 & 3) * 0xc + ((u32)table8441C_084EC920));
-        (*(u32 *)((u8 *)frame8441C + 0x4C)) = *puVar10;
-        (*(u32 *)((u8 *)frame8441C + 0x50)) = puVar10[1];
-        (*(u32 *)((u8 *)frame8441C + 0x54)) = puVar10[2];
-        memcpy(&(*(u32 *)((u8 *)frame8441C + 0x30)),&(*(u32 *)((u8 *)frame8441C + 0x4C)),0x10);
-        uVar17 = (*(u32 *)((u8 *)frame8441C + 0x30));
-        uVar15 = (*(u32 *)((u8 *)frame8441C + 0x34));
-        uVar19 = (*(u32 *)((u8 *)frame8441C + 0x38));
-        uVar5 = (*(u32 *)((u8 *)frame8441C + 0x3C));
-        goto LAB_08084a6a;
-      }
-      uVar17 = sub_080008C8();
-      puVar10 = (u32 *)((uVar17 & 3) * 0xc + ((u32)table8441C_084EC8F0));
-      (*(u32 *)((u8 *)frame8441C + 0x4C)) = *puVar10;
-      (*(u32 *)((u8 *)frame8441C + 0x50)) = puVar10[1];
-      (*(u32 *)((u8 *)frame8441C + 0x54)) = puVar10[2];
-      memcpy(&(*(u32 *)((u8 *)frame8441C + 0x30)),&(*(u32 *)((u8 *)frame8441C + 0x4C)),0x10);
-      puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-      puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-      piVar1 = (int *)((u32)&gUnk_030034E0);
-    }
-    goto LAB_08084c1e;
-  }
-  uVar9 = (u32)(*(u16 * *)((u8 *)frame8441C + 0x5C))[2] + (u32)(*(u16 * *)((u8 *)frame8441C + 0x5C))[10] + (u32)(*(u16 * *)((u8 *)frame8441C + 0x5C))[0x12];
-  if (uVar9 < 100) {
-    if (iVar4 == 0x17) {
-      uVar17 = sub_080008C8();
-      dVar8 = ((u32)table8441C_084EC870);
-    }
-    else {
-      if (iVar4 != 0x18) goto LAB_0808481c;
-      uVar17 = sub_080008C8();
-      dVar8 = ((u32)table8441C_084EC8B0);
-    }
-    puVar11 = (u32 *)((uVar17 & 3) * 4 + dVar8);
-    goto code_0808480e;
-  }
-  if (uVar9 - 100 < 200) {
-    iVar6 = 0;
-  }
-  else {
-    iVar6 = 2;
-    if (uVar9 + 0xFFFFFED4 < 200) {
-      iVar6 = 1;
-    }
-  }
-  puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-  puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-  piVar1 = (int *)((u32)&gUnk_030034E0);
-  switch(iVar4) {
-  case 1:
-    uVar3 = sub_080008C8();
-    iVar4 = mod8441C(uVar3,0xe);
-    puVar11 = (u32 *)(iVar4 * 4 + iVar6 * 0x38 + ((u32)table8441C_084EC1E0));
-    break;
-  case 2:
-    uVar3 = sub_080008C8();
-    iVar4 = mod8441C(uVar3,0xe);
-    puVar11 = (u32 *)(iVar4 * 4 + iVar6 * 0x38 + ((u32)table8441C_084EC288));
-    break;
-  case 3:
-    uVar3 = sub_080008C8();
-    iVar4 = mod8441C(uVar3,0xe);
-    puVar11 = (u32 *)(iVar4 * 4 + iVar6 * 0x38 + ((u32)table8441C_084EC330));
-    break;
-  case 4:
-    uVar3 = sub_080008C8();
-    iVar4 = mod8441C(uVar3,0xe);
-    puVar11 = (u32 *)(iVar4 * 4 + iVar6 * 0x38 + ((u32)table8441C_084EC3D8));
-    break;
-  case 5:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 7) * 4 + iVar6 * 0x20 + ((u32)table8441C_084EC480));
-    break;
-  case 6:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 7) * 4 + iVar6 * 0x20 + ((u32)table8441C_084EC4E0));
-    break;
-  case 7:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 7) * 4 + iVar6 * 0x20 + ((u32)table8441C_084EC540));
-    break;
-  case 8:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 7) * 4 + iVar6 * 0x20 + ((u32)table8441C_084EC5A0));
-    break;
-  case 9:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 7) * 4 + iVar6 * 0x20 + ((u32)table8441C_084EC600));
-    break;
-  case 10:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 7) * 4 + iVar6 * 0x20 + ((u32)table8441C_084EC660));
-    break;
-  case 0xb:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC6C0);
-    goto code_08084792;
-  case 0xc:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC6E4);
-    goto code_08084792;
-  case 0xd:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC708);
-    goto code_08084792;
-  case 0xe:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC72C);
-    goto code_08084792;
-  case 0xf:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC750);
-    goto code_08084792;
-  case 0x10:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC774);
-    goto code_08084792;
-  case 0x11:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC798);
-    goto code_08084792;
-  case 0x12:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC7BC);
-    goto code_08084792;
-  case 0x13:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC7E0);
-    goto code_08084792;
-  case 0x14:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC804);
-    goto code_08084792;
-  case 0x15:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC828);
-    goto code_08084792;
-  case 0x16:
-    uVar3 = sub_080008C8();
-    iVar7 = mod8441C(uVar3,3);
-    iVar4 = ((u32)table8441C_084EC84C);
-code_08084792:
-    (*(u32 *)((u8 *)frame8441C + 0x30)) = *(u32 *)((iVar6 * 3 + iVar7) * 4 + iVar4);
-    puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-    puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-    piVar1 = (int *)((u32)&gUnk_030034E0);
-    goto LAB_08084c1e;
-  case 0x17:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 3) * 4 + (iVar6 + 1) * 0x10 + ((u32)table8441C_084EC870));
-    break;
-  case 0x18:
-    uVar17 = sub_080008C8();
-    puVar11 = (u32 *)((uVar17 & 3) * 4 + (iVar6 + 1) * 0x10 + ((u32)table8441C_084EC8B0));
-    break;
-  default:
-    goto LAB_08084c1e;
-  }
-code_0808480e:
-  (*(u32 *)((u8 *)frame8441C + 0x30)) = *puVar11;
-  puVar11 = (*(u32 * *)((u8 *)frame8441C + 0x78));
-  puVar18 = (*(u16 * *)((u8 *)frame8441C + 0x5C));
-  piVar1 = (int *)((u32)&gUnk_030034E0);
-LAB_08084c1e:
-  do {
-    uVar2 = *puVar18;
-    if (uVar2 < 2) {
-LAB_08084c80:
-      uVar17 = 0;
-    }
-    else if (uVar2 < 6) {
-      uVar17 = (u32)(u8)puVar18[3];
-    }
-    else {
-      if (uVar2 != 9) goto LAB_08084c80;
-      if ((*(u16 *)((u8 *)frame8441C + 0x2)) == 1) {
-        uVar2 = puVar18[2];
-        *puVar11 = (u32)uVar2;
-        uVar17 = div8441C((u32)uVar2 << 3,100);
-      }
-      else if ((*(u16 *)((u8 *)frame8441C + 0x2)) < 2) {
-        if ((*(u16 *)((u8 *)frame8441C + 0x2)) == 0) {
-          uVar2 = puVar18[2];
-          *puVar11 = (u32)uVar2;
-          uVar17 = div8441C((u32)uVar2,0x14);
-        }
-        else {
-LAB_08084c70:
-          uVar2 = puVar18[2];
-          *puVar11 = (u32)uVar2;
-          uVar17 = div8441C((u32)uVar2,100);
-        }
-      }
-      else {
-        if ((*(u16 *)((u8 *)frame8441C + 0x2)) != 2) goto LAB_08084c70;
-        uVar2 = puVar18[2];
-        *puVar11 = (u32)uVar2;
-        uVar17 = div8441C((u32)uVar2,10);
-      }
-    }
-    *puVar11 = uVar17;
-    puVar11 = puVar11 + 1;
-    puVar18 = puVar18 + 8;
-  } while (puVar11 <= (*(u32 * *)((u8 *)frame8441C + 0x78)) + 2);
-  iVar4 = div8441C(*(u32 *)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + 0x1a),0x2710);
-  uVar17 = (*(int *)(*piVar1 + 0x6c) * ((frame8441C + 16)[0] + (*(u32 * *)((u8 *)frame8441C + 0x78))[1] + (*(u32 * *)((u8 *)frame8441C + 0x78))[2] + iVar4 + 1)
-           >> 0x12) + 3;
-  if (0x13 < uVar17) {
-    uVar17 = 0x14;
-  }
-  uVar3 = sub_080008C8();
-  dVar8 = ((u32)table8441C_084ECB30);
-  uVar15 = mod8441C(uVar3,*(int *)(uVar17 * 4 + ((u32)table8441C_084ECB30)) + 1);
-  uVar19 = 0;
-  if (uVar17 != 0) {
-    uVar5 = *(u32 *)dVar8;
-    while (uVar5 <= uVar15) {
-      do {
-        iVar4 = uVar19 * 4;
-        uVar19 = uVar19 + 1;
-        if (uVar17 <= uVar19) goto LAB_08084d0a;
-      } while (uVar15 < *(u32 *)(iVar4 + ((u32)table8441C_084ECB30)));
-      uVar5 = *(u32 *)(uVar19 * 4 + ((u32)table8441C_084ECB30));
-    }
-    (*(u32 *)((u8 *)frame8441C + 0x34)) = ((*(u32 *)((u8 *)frame8441C + 0x34)) & 0xFF000000) | ((CONCAT12_8441C((char)uVar19,(u16)(*(u32 *)((u8 *)frame8441C + 0x34)))) & 0xFFFFFF);
-  }
-LAB_08084d0a:
-  iVar6 = *(int *)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + 0x1a);
-  uVar3 = sub_080008C8();
-  iVar4 = mod8441C(uVar3,0x30D40);
-  uVar15 = iVar6 + iVar4;
-  uVar17 = 0;
-  if (*(u32 *)((u32)table8441C_084ECB84) <= uVar15) {
-    do {
-      iVar4 = uVar17 * 4;
-      uVar17 = uVar17 + 1;
-      if (4 < uVar17) goto LAB_08084d4a;
-    } while ((uVar15 < *(u32 *)(iVar4 + ((u32)table8441C_084ECB84))) ||
-            (*(u32 *)(uVar17 * 4 + ((u32)table8441C_084ECB84)) <= uVar15));
-    (*(u32 *)((u8 *)frame8441C + 0x34)) = ((*(u32 *)((u8 *)frame8441C + 0x34)) & 0xFF000000) | ((CONCAT12_8441C((*(u8 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x34)) + 2)) + (char)uVar17,(u16)(*(u32 *)((u8 *)frame8441C + 0x34)))) & 0xFFFFFF);
-  }
-LAB_08084d4a:
-  if (((short)(*(u32 *)((u8 *)frame8441C + 0x30)) == 2) &&
-     ((*(u32 *)((u8 *)frame8441C + 0x64)) = sub_08007290((*(u32 *)((u8 *)frame8441C + 0x30)) >> 0x10 | 0xb0000), *(char *)((*(u32 *)((u8 *)frame8441C + 0x64)) + 0x9b) == '\t')) {
-    (*(u32 *)((u8 *)frame8441C + 0x34)) = ((*(u32 *)((u8 *)frame8441C + 0x34)) & 0xFF000000) | (((u32)(u16)(*(u32 *)((u8 *)frame8441C + 0x34))) & 0xFFFFFF);
-  }
-  if (0x13 < (*(u8 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x34)) + 2))) {
-    (*(u32 *)((u8 *)frame8441C + 0x34)) = ((*(u32 *)((u8 *)frame8441C + 0x34)) & 0xFF000000) | ((CONCAT12_8441C(0x14,(u16)(*(u32 *)((u8 *)frame8441C + 0x34)))) & 0xFFFFFF);
-  }
-  uVar17 = (*(u32 *)((u8 *)frame8441C + 0x30)) & 0xffff;
-  if (uVar17 == 3) {
-    uVar17 = 0;
-    if (*(short *)((*(u32 *)((u8 *)frame8441C + 0x68)) + 0xa4) != 0) goto LAB_08084e0c;
-    do {
-      uVar17 = uVar17 + 1;
-      if (2 < uVar17) goto LAB_08084e28;
-    } while (*(short *)((*(u32 *)((u8 *)frame8441C + 0x68)) + uVar17 * 4 + 0xa4) == 0);
-  }
-  else if (uVar17 < 4) {
-    if (uVar17 != 2) goto LAB_08084e28;
-    uVar17 = 0;
-    if (*(short *)((*(u32 *)((u8 *)frame8441C + 0x64)) + 0xb0) != 0) goto LAB_08084e0c;
-    do {
-      uVar17 = uVar17 + 1;
-      if (2 < uVar17) goto LAB_08084e28;
-    } while (*(short *)((*(u32 *)((u8 *)frame8441C + 0x64)) + uVar17 * 4 + 0xb0) == 0);
-  }
-  else if (uVar17 == 4) {
-    uVar17 = 0;
-    if (*(short *)((*(u32 *)((u8 *)frame8441C + 0x6C)) + 0xa4) != 0) {
-LAB_08084e0c:
-      (*(u32 *)((u8 *)frame8441C + 0x34)) = (u32)(*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x34)) + 2)) << 0x10;
-      goto LAB_08084e28;
-    }
-    do {
-      uVar17 = uVar17 + 1;
-      if (2 < uVar17) goto LAB_08084e28;
-    } while (*(short *)((*(u32 *)((u8 *)frame8441C + 0x6C)) + uVar17 * 4 + 0xa4) == 0);
-  }
-  else {
-    if (uVar17 != 5) goto LAB_08084e28;
-    uVar17 = 0;
-    if (*(short *)((*(u32 *)((u8 *)frame8441C + 0x70)) + 0xa4) != 0) goto LAB_08084e0c;
-    do {
-      uVar17 = uVar17 + 1;
-      if (2 < uVar17) goto LAB_08084e28;
-    } while (*(short *)((*(u32 *)((u8 *)frame8441C + 0x70)) + uVar17 * 4 + 0xa4) == 0);
-  }
-  (*(u32 *)((u8 *)frame8441C + 0x34)) = (u32)(*(u16 *)((u8 *)&(*(u32 *)((u8 *)frame8441C + 0x34)) + 2)) << 0x10;
-LAB_08084e28:
-  *(*(u32 * *)((u8 *)frame8441C + 0x60)) = (*(u32 *)((u8 *)frame8441C + 0x30));
-  (*(u32 * *)((u8 *)frame8441C + 0x60))[1] = (*(u32 *)((u8 *)frame8441C + 0x34));
-  (*(u32 * *)((u8 *)frame8441C + 0x60))[2] = (*(u32 *)((u8 *)frame8441C + 0x38));
-  (*(u32 * *)((u8 *)frame8441C + 0x60))[3] = (*(u32 *)((u8 *)frame8441C + 0x3C));
-  iVar4 = sub_0805AE94((*(u16 * *)((u8 *)frame8441C + 0x5C)));
-  iVar6 = sub_0805AE94((*(u16 * *)((u8 *)frame8441C + 0x7C)));
-  iVar7 = sub_0805AE94((*(u16 * *)((u8 *)frame8441C + 0x74)));
-  uVar3 = sub_0805AE94((*(u32 * *)((u8 *)frame8441C + 0x60)));
-  dVar8 = ((u32)&gUnk_030034E0);
-  iVar20 = *(int *)((u32)&gUnk_030034E0);
-  iVar4 = div8441C(iVar4 + iVar6 + iVar7 + *(int *)((*(u16 * *)((u8 *)frame8441C + 0x5C)) + 0x1a),10);
-  iVar7 = *(int *)(iVar20 + 0x6c);
-  iVar6 = div8441C(uVar3,10);
-  iVar6 = (iVar7 + iVar4) - iVar6;
-  *(int *)(iVar20 + 0x6c) = iVar6;
-  if (iVar6 < 0) {
-    *(u32 *)(iVar20 + 0x6c) = 0;
-  }
-  if ((int)0xFFFF < *(int *)(*(int *)dVar8 + 0x6c)) {
-    *(u32 *)(*(int *)dVar8 + 0x6c) = 0xFFFF;
-  }
-  return;
+    switch (((struct Record8441C *)stack)->type) {
+    case 9:
+      {
+        register s32 subtype asm("r4") = ((struct Record8441C *)stack)->subtype;
+        if (subtype == 3) goto rareFirst8441C;
+        if (subtype == 4) goto rareSecond8441C;
+        if (((u32)sub_080008C8() & 1) == 0) goto inventorySecond8441C;
+        goto inventoryFirst8441C;
+rareFirst8441C:
+        randomIndex = (u32)sub_080008C8();
+        randomIndex &= subtype;
+    {
+      register struct Triple8441C *temporary asm("r1") = (struct Triple8441C *)(stack + 0x4C);
+      register const u32 *table asm("r3");
+      register const struct Triple8441C *source asm("r0");
+      table = table8441C_084EC8F0;
+      { register u32 offset asm("r0") = randomIndex * 12;
+        register struct Triple8441C *destination asm("r2");
+        destination = temporary;
+        source = (const struct Triple8441C *)(offset + (u32)table);
+        *destination = *source; }
 
-#undef CONCAT13_8441C
-#undef CONCAT22_8441C
-#undef CONCAT12_8441C
-#undef mod8441C
-#undef div8441C
+      copy8441C(result, temporary, 16);
+    }
+
+        goto finalize8441C;
+rareSecond8441C:
+        randomIndex = (u32)sub_080008C8();
+        { register u32 mask asm("r0") = 3;  randomIndex &= mask; }
+    {
+      register struct Triple8441C *temporary asm("r1") = (struct Triple8441C *)(stack + 0x4C);
+      register const u32 *table asm("r3");
+      register const struct Triple8441C *source asm("r0");
+      table = table8441C_084EC920;
+      { register u32 offset asm("r0") = randomIndex * 12;
+        register struct Triple8441C *destination asm("r2");
+        destination = temporary;
+        source = (const struct Triple8441C *)(offset + (u32)table);
+        *destination = *source; }
+      copy8441C(result, temporary, 16);
+    }
+
+        goto thirdValue8441C;
+inventoryFirst8441C:
+        do {
+      randomIndex = (u32)sub_080008C8() % 12;
+      asm("" : "+r"(randomIndex));
+      {
+        register u8 *source asm("r0") = (u8 *)(u32)gUnk_030034E0;
+        register u32 byteOffset asm("r1") = randomIndex << 4;
+        register struct Record8441C *destination asm("r1");
+        register u32 baseOffset asm("r5");
+        source += byteOffset;
+        destination = result;
+        baseOffset = 0x790;
+        asm("" : "+r"(destination), "+r"(baseOffset));
+        source += baseOffset;
+        *destination = *(struct Record8441C *)source;
+        asm("" : : "r"(baseOffset), "r"(subtype));
+      }
+
+        } while (result->type == 0);
+        { register u32 loaded asm("r0") = sub_08007290(result->subtype | 0xB0000);
+          *(u32 *)(stack + 0x64) = loaded;
+          if (*(u16 *)(loaded + 0xBC) != 0) goto finalize8441C; }
+        if (*(u16 *)((u8 *)result + 6) != 0) goto finalize8441C;
+        if (*(u16 *)(*(volatile u32 *)(stack + 0x64) + 0xB0) != 0) goto finalize8441C;
+        goto secondAttribute8441C;
+inventorySecond8441C:
+        {
+          register struct Record8441C *inventoryResult asm("r4") = result;
+          do {
+      randomIndex = (u32)sub_080008C8() % 12;
+      asm("" : "+r"(randomIndex));
+      {
+        register u8 *source asm("r0") = (u8 *)(u32)gUnk_030034E0;
+        register u32 byteOffset asm("r1") = randomIndex << 4;
+        register struct Record8441C *destination asm("r1");
+        register u32 baseOffset asm("r5");
+        source += byteOffset;
+        destination = inventoryResult;
+        baseOffset = 0x850;
+        asm("" : "+r"(destination), "+r"(baseOffset));
+        source += baseOffset;
+        *destination = *(struct Record8441C *)source;
+        asm("" : : "r"(baseOffset), "r"(inventoryResult));
+      }
+
+          } while (inventoryResult->type == 0);
+        }
+        if (result->type == 3) {
+          *(u32 *)(stack + 0x68) = sub_08007290(result->subtype | 0xC0000);
+        asm("" : : : "memory");
+          if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
+          if (*(u16 *)(*(u32 *)(stack + 0x68) + 0xA4) != 0) goto finalize8441C;
+        } else {
+          if (result->type == 4) *(u32 *)(stack + 0x6C) = sub_08007290(result->subtype | 0xD0000);
+          else *(u32 *)(stack + 0x70) = sub_08007290(result->subtype | 0xE0000);
+          if ((*(u32 *)((u8 *)result + 4) & 0xFFFFFF) != 0) goto finalize8441C;
+          if (*(u16 *)(*(u32 *)(stack + 0x6C) + 0xA4) != 0) goto finalize8441C;
+        }
+        goto thirdValue8441C;
+      }
+    case 2:
+      { register u32 hold2 asm("r2"), hold3 asm("r3");
+        *result = *(struct Record8441C *)stack;
+         }
+      goto secondAttribute8441C;
+    case 3: case 4: case 5:
+      { register u32 hold5 asm("r5"), hold6 asm("r6");
+        *result = *(struct Record8441C *)stack;
+         }
+      goto thirdValue8441C;
+    default: break;
+    }
+secondAttribute8441C:
+    if (((u32)sub_080008C8() & 0xFFFF) <= *(u32 *)((u32)gUnk_030034E0 + 0x6C)) {
+      register struct Record8441C *attributeRecord asm("r0") = second;
+      register s32 attributeType asm("r1");
+      attributeType = attributeRecord->type;
+      switch (attributeType) {
+      case 9:
+        {
+          register s32 subtype asm("r4") = attributeRecord->subtype;
+          switch (subtype) {
+          case 0:
+            randomIndex = (u32)sub_080008C8() % 3;
+            asm("" : "+r"(randomIndex));
+            unaff_r9 = ({ register u32 value asm("r6") = 1; asm("" : "+r"(value)); value; });
+            if (randomIndex == 0) unaff_r9 = ({ register u32 value asm("r0") = 3; asm("" : "+r"(value)); value; });
+            break;
+          case 1:
+            subtype &= sub_080008C8();
+            unaff_r9 = ({ register u32 value asm("r1") = 4; asm("" : "+r"(value)); value; });
+            if (subtype == 0) unaff_r9 = ({ register u32 value asm("r2") = 2; asm("" : "+r"(value)); value; });
+            break;
+          case 2:
+            randomIndex = (u32)sub_080008C8() % 3;
+            asm("" : "+r"(randomIndex));
+            unaff_r9 = ({ register u32 value asm("r3") = 6; asm("" : "+r"(value)); value; });
+            if (randomIndex == 0) unaff_r9 = ({ register u32 value asm("r4") = 5; asm("" : "+r"(value)); value; });
+            break;
+          default: unaff_r9 = ({ register u32 value asm("r5") = 0;  value; }); break;
+          }
+        }
+        break;
+      case 2:
+        unaff_r9 = ({ register struct Record8441C *p asm("r6") = second; register u32 value asm("r6");  value = p->byte7;  value; });
+        break;
+      case 3: case 4: case 5: unaff_r9 = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; }); break;
+      default: break;
+      }
+      switch (result->type) {
+      case 3: case 4: case 5: result->byte7 = 0; break;
+      default: { register u32 attribute asm("r1") = unaff_r9;  result->byte7 = attribute; } break;
+      }
+    }
+thirdValue8441C:
+    {
+      register u32 chance asm("r4");
+      u32 tableValue;
+      register u32 offset asm("r1");
+      register const u32 *table asm("r2");
+      {
+        register u32 random asm("r1") = (u32)sub_080008C8() & 0xFFFF;
+        register u32 limit asm("r0");
+        limit = *(u32 *)((u32)gUnk_030034E0 + 0x6C);
+        chance = 0;
+        if (random <= limit) chance = 1;
+      }
+      switch (result->type) {
+      case 2: goto resultTwo8441C;
+      case 3: case 4: case 5: break;
+      default: goto finalize8441C;
+      }
+      { register struct Record8441C *p asm("r2") = third;
+        switch ((s32)p->type) {
+        case 2: case 3: case 4: case 5: goto permittedOther8441C;
+        case 9: goto topRandomTrampoline;
+        default: goto finalize8441C;
+        }
+      }
+topRandomTrampoline:
+      /* Keep the original conditional trampoline; this emits no instructions. */
+      asm("" : : "X"(&&topRandomTrampoline));
+      goto randomOther8441C;
+resultTwo8441C:
+      { u32 address;
+      address = sub_08007290(result->subtype | 0xB0000);
+      *(u32 *)(stack + 0x64) = address;
+      if (*(u8 *)(address + 0x9B) != 9) goto resultTwoOrdinary8441C;
+      { register struct Record8441C *p asm("r3") = third;
+        switch ((s32)p->type) {
+        case 2: case 3: case 4: case 5: goto permittedFour8441C;
+        case 9: break;
+        default: goto finalize8441C;
+        }
+      }
+      }
+randomSpecial8441C:
+      randomIndex = sub_080008C8();
+      { register u32 mask asm("r0") = 3; randomIndex &= mask;  }
+      if (!chance) goto randomSpecialNo;
+      table = table8441C_084ECA90;
+sharedOffset8441C:
+      offset = randomIndex << 2;
+      tableValue = ({ register struct Record8441C *p asm("r4") = third;  p->subtype; });
+sharedTable8441C:
+      tableValue <<= 4;
+      offset += tableValue;
+      offset += (u32)table;
+      tableValue = *(u32 *)offset;
+      goto setValue8441C;
+randomSpecialNo:
+      table = table8441C_084ECAE0;
+      offset = randomIndex << 2;
+      tableValue = ({ register struct Record8441C *p asm("r5") = third;  p->subtype; });
+      goto sharedTable8441C;
+permittedFour8441C:
+      { u32 value;
+      value = ({ register struct Record8441C *p asm("r6") = third;  p->value; });
+      if (value == 0) { result->value = value; goto finalize8441C; }
+      value = sub_08007290((value - 1) | 0x130000);
+      { register u8 *duplicate asm("r1") = (u8 *)value;
+        register u32 flags asm("r1");
+        asm("" : : "r"(duplicate));
+        value += 0xAC;
+        flags = *(u16 *)value;
+        value = 4; value &= flags;
+        value = (u16)value;
+ }
+      if (value == 0) { result->value = value; goto finalize8441C; }
+      value = ({ register struct Record8441C *p asm("r1") = third;  p->value; });
+      { result->value = value; goto finalize8441C; }
+      }
+resultTwoOrdinary8441C:
+      { register struct Record8441C *p asm("r2") = third;
+        switch ((s32)p->type) {
+        case 2: case 3: case 4: case 5: goto permittedEight8441C;
+        case 9: break;
+        default: goto finalize8441C;
+        }
+      }
+randomOrdinary8441C:
+      randomIndex = sub_080008C8();
+      { register u32 mask asm("r0") = 3; randomIndex &= mask;  }
+      if (!chance) goto randomOrdinary8441Cno;
+      table = table8441C_084EC950;
+      offset = randomIndex << 2;
+      tableValue = ({ register struct Record8441C *p asm("r3") = third; asm("" : "+r"(p)); p->subtype; });
+      goto sharedTable8441C;
+randomOrdinary8441Cno:
+      table = table8441C_084EC9A0;
+      goto sharedOffset8441C;
+permittedEight8441C:
+      { u32 value;
+      value = ({ register struct Record8441C *p asm("r5") = third;  p->value; });
+      if (value == 0) { result->value = value; goto finalize8441C; }
+      value = sub_08007290((value - 1) | 0x130000);
+      { register u8 *duplicate asm("r1") = (u8 *)value;
+        register u32 flags asm("r1");
+        asm("" : : "r"(duplicate));
+        value += 0xAC;
+        flags = *(u16 *)value;
+        value = 8; value &= flags;
+        value = (u16)value;
+ }
+      if (value == 0) { result->value = value; goto finalize8441C; }
+      value = ({ register struct Record8441C *p asm("r6") = third;  p->value; });
+      { result->value = value; goto finalize8441C; }
+      }
+randomOther8441C:
+      randomIndex = sub_080008C8();
+      { register u32 mask asm("r0") = 3; randomIndex &= mask;  }
+      if (!chance) goto randomOther8441Cno;
+      table = table8441C_084EC9F0;
+      offset = randomIndex << 2;
+      tableValue = ({ register struct Record8441C *p asm("r3") = third;  p->subtype; });
+      goto sharedTable8441C;
+randomOther8441Cno:
+      table = table8441C_084ECA40;
+      goto sharedOffset8441C;
+permittedOther8441C:
+      { register struct Record8441C *valueRecord asm("r4") = third;
+        register u8 *properties asm("r1");
+        u32 initial, type, flags, allowed;
+        initial = valueRecord->value;
+        if (initial == 0) { result->value = initial; goto finalize8441C; }
+        { register u32 argument asm("r0") = initial;
+          register u32 tag asm("r1") = 0x130000;
+          asm("" : "+r"(argument), "+r"(tag));
+          properties = (u8 *)sub_08007290(argument | tag); }
+        type = (u16)(result->type - 3);
+        if (type > 1) goto permittedOne8441C;
+        { register u8 *address asm("r0") = properties;
+          register u32 bits asm("r1");
+          register u32 mask asm("r0");
+          address += 0xAC;
+          bits = *(u16 *)address;
+          mask = 2; mask &= bits;
+          allowed = (u16)mask;
+          if (allowed == 0) { result->value = allowed; goto finalize8441C; }
+        }
+        result->value = valueRecord->value;
+        goto finalize8441C;
+permittedOne8441C:
+        { register u8 *address asm("r0") = properties;
+          register u32 mask asm("r1");
+          address += 0xAC;
+          flags = *(u16 *)address;
+          mask = 1; mask &= flags;
+          if (mask == 0) { result->value = mask; goto finalize8441C; }
+        }
+        { register struct Record8441C *last asm("r5") = third;
+           result->value = last->value; }
+        goto finalize8441C;
+      }
+setValue8441C:
+      result->value = tableValue;
+    }
+
+finalize8441C:
+    {
+      register u32 *stateAddress asm("r8");
+      register u32 *weight asm("r4");
+      register struct Record8441C *input asm("r5");
+      stateAddress = ({ register u32 *p asm("r6") = (u32 *)&gUnk_030034E0; asm("" : "+r"(p)); p; });
+      weight = *(u32 *volatile *)(stack + 0x78);
+      input = *(struct Record8441C *volatile *)(stack + 0x5C);
+      do {
+        register u32 normalized asm("r0");
+        switch ((s32)input->type) {
+        case 2: case 3: case 4: case 5: goto weightByte8441C;
+        case 9: break;
+        default: goto weightZero8441C;
+        }
+        switch (((struct Record8441C *)stack)->subtype) {
+        case 0:
+          normalized = input->value;
+          *weight = normalized;
+          normalized /= (u32)20;
+          asm("" : "+r"(normalized) : "i"(20));
+          goto weightStore8441C;
+        case 1:
+          normalized = input->value;
+          *weight = normalized;
+          normalized = (normalized << 3) / 100;
+          asm("" : "+r"(normalized) : "i"(800));
+          goto weightStore8441C;
+        case 2:
+          normalized = input->value;
+          *weight = normalized;
+          normalized /= (u32)10;
+          asm("" : "+r"(normalized) : "i"(10));
+          goto weightStore8441C;
+        default:
+          normalized = input->value;
+          *weight = normalized;
+          normalized /= (u32)100;
+          asm("" : "+r"(normalized) : "i"(100));
+          goto weightStore8441C;
+        }
+weightByte8441C:
+        normalized = input->byte6;
+        goto weightStore8441C;
+weightZero8441C:
+        normalized = 0;
+weightStore8441C:
+        *weight = normalized;
+        asm("" : "+r"(weight));
+        weight++;
+        input++;
+      } while (weight <= *(u32 *volatile *)(stack + 0x78) + 2);
+      {
+        register u32 factor asm("r6") = *(u32 *)(*(volatile u32 *)(stack + 0x5C) + 0x34);
+        register u32 score asm("r5");
+        register u32 sum asm("r0");
+        register u32 *values asm("r2");
+        register u32 multiplier asm("r1");
+        register u32 *global asm("r3");
+        asm("" : : "r"(factor));
+        factor = factor / 10000 + 1;
+        asm("" : "+r"(factor));
+        sum = *(u32 *)(stack + 0x40);
+        asm("" : "+r"(sum));
+        values = *(u32 *volatile *)(stack + 0x78);
+        asm("" : "+r"(values));
+        sum += values[1];
+        sum += values[2];
+        sum += factor;
+        global = stateAddress;
+        asm("" : "+r"(global));
+        multiplier = *(u32 *)(*global + 0x6C);
+        asm("" : : "r"(values));
+        sum *= multiplier;
+        score = (sum >> 18) + 3;
+        if (score > 19) score = 20;
+        {
+          register u32 random asm("r0") = sub_080008C8();
+          register const u32 *weights asm("r8");
+          register u32 range asm("r1");
+          register u32 roll asm("r6");
+          register u32 index asm("r4");
+          register u32 value asm("r0");
+          register const u32 *base asm("r1");
+          asm("" : "+r"(random));
+          weights = ({ register const u32 *p asm("r4") = table8441C_084ECB30; asm("" : "+r"(p)); p; });
+          range = score << 2;
+          range += (u32)weights;
+          range = *(u32 *)range + 1;
+          roll = random % range;
+          index = 0;
+          asm("" : "+r"(index));
+          if (index >= score) goto afterWeight8441C;
+          if (index > roll) goto scanWeight8441C;
+          base = weights;
+          value = *base;
+          goto compareWeight8441C;
+scanWeight8441C:
+          base = table8441C_084ECB30;
+          value = *(u32 *)((index << 2) + (u32)base);
+          index++;
+          if (index >= score) goto afterWeight8441C;
+          if (value > roll) goto scanWeight8441C;
+          value = *(u32 *)((index << 2) + (u32)base);
+compareWeight8441C:
+          if (roll >= value) goto scanWeight8441C;
+          result->byte6 = index;
+afterWeight8441C:
+          { register u32 *metadata asm("r2") = *(u32 *volatile *)(stack + 0x5C);
+            asm("" : "+r"(metadata)); roll = metadata[13]; }
+          roll += (u32)sub_080008C8() % 200000;
+          index = 0;
+          asm("" : "+r"(index));
+          if (index > roll) goto scanBonus8441C;
+          value = table8441C_084ECB84[0];
+          if (roll < value) goto afterBonus8441C;
+scanBonus8441C:
+          base = table8441C_084ECB84;
+          value = *(u32 *)((index << 2) + (u32)base);
+          index++;
+          if (index > 4) goto afterBonus8441C;
+          if (value > roll) goto scanBonus8441C;
+          value = *(u32 *)((index << 2) + (u32)base);
+          if (roll >= value) goto scanBonus8441C;
+          result->byte6 += index;
+afterBonus8441C:
+          ;
+        }
+      }
+    }
+    if (result->type == 2) {
+      *(u32 *)(stack + 0x64) = sub_08007290(result->subtype | 0xB0000);
+      if (*(u8 *)(*(u32 *)(stack + 0x64) + 0x9B) == 9) result->byte6 = 0;
+    }
+    if (result->byte6 > 19) result->byte6 = 20;
+    switch (result->type) {
+    case 2:
+      randomIndex = 0;
+      if (*(u16 *)(*(u32 *)(stack + 0x64) + 0xB0) != 0) goto clearByIndex8441C;
+scanProperty2:
+      randomIndex++;
+      if (randomIndex > 2) goto copyOutput8441C;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r3"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x64); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xB0); }) == 0) goto scanProperty2;
+      goto clearByZero8441C;
+    case 3:
+      randomIndex = 0;
+      if (*(u16 *)(*(u32 *)(stack + 0x68) + 0xA4) != 0) goto clearByIndex8441C;
+scanProperty3:
+      randomIndex++;
+      if (randomIndex > 2) goto copyOutput8441C;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r4"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x68); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty3;
+      goto clearByZero8441C;
+    case 4:
+      randomIndex = 0;
+      if (*(u16 *)(*(u32 *)(stack + 0x6C) + 0xA4) != 0) goto clearByIndex8441C;
+scanProperty4:
+      randomIndex++;
+      if (randomIndex > 2) goto copyOutput8441C;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r6"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x6C); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty4;
+      goto clearByZero8441C;
+    case 5:
+      randomIndex = 0;
+      if (*(u16 *)(*(u32 *)(stack + 0x70) + 0xA4) == 0) goto scanProperty5;
+clearByIndex8441C:
+      result->value = randomIndex;
+      goto copyOutput8441C;
+
+scanProperty5:
+      randomIndex++;
+      if (randomIndex > 2) goto copyOutput8441C;
+      if (({ register u32 offset asm("r0") = randomIndex << 2; register u8 *properties asm("r1"); asm("" : "+r"(offset)); properties = *(u8 **)(stack + 0x70); asm("" : "+r"(properties)); *(u16 *)(properties + offset + 0xA4); }) == 0) goto scanProperty5;
+      goto clearByZero8441C;
+clearByZero8441C:
+      result->value = 0;
+      goto copyOutput8441C;
+
+    default: goto copyOutput8441C;
+    }
+copyOutput8441C:
+    {
+      register struct Record8441C *output asm("r1") = *(struct Record8441C **)(stack + 0x60);
+      register struct Record8441C *source asm("r0");
+      register u32 hold5 asm("r5"), hold6 asm("r6");
+      asm("" : "+r"(output));
+      source = result;
+      asm("" : "+r"(source), "=r"(hold5), "=r"(hold6));
+      *output = *source;
+      asm("" : : "r"(hold5), "r"(hold6));
+    }
+    {
+      register u32 firstPrice asm("r4") = sub_0805AE94(*(void **)(stack + 0x5C));
+      register u32 secondPrice asm("r6");
+      register u32 thirdPrice asm("r5");
+      register u32 outputPrice asm("r8");
+      register u32 *globalAddress asm("r9");
+      u8 *state;
+      asm("" : "+r"(firstPrice));
+      secondPrice = sub_0805AE94(*(void **)(stack + 0x7C));
+      asm("" : "+r"(secondPrice));
+      thirdPrice = sub_0805AE94(*(void **)(stack + 0x74));
+      asm("" : "+r"(thirdPrice));
+      outputPrice = sub_0805AE94(*(void **)(stack + 0x60));
+      asm("" : "+r"(outputPrice));
+      { register u32 *p asm("r0") = (u32 *)&gUnk_030034E0;
+        asm("" : "+r"(p));
+        globalAddress = p;
+        asm("" : : "r"(globalAddress), "r"(p));
+        state = (u8 *)*p; }
+      firstPrice += secondPrice;
+      firstPrice += thirdPrice;
+      { register u32 *input asm("r1") = *(u32 *volatile *)(stack + 0x5C);
+        asm("" : "+r"(input));
+        firstPrice += input[13]; }
+      firstPrice = *(u32 *)(state + 0x6C) + firstPrice / 10;
+      firstPrice -= outputPrice / 10;
+      *(u32 *)(state + 0x6C) = firstPrice;
+      if ((s32)firstPrice < 0) *(u32 *)(state + 0x6C) = 0;
+      {
+        register u32 *address asm("r2") = globalAddress;
+        register u8 *current asm("r1");
+        register s32 value asm("r0");
+        register u32 maximum asm("r2");
+        asm("" : "+r"(address));
+        current = (u8 *)*address;
+        value = *(s32 *)(current + 0x6C);
+        maximum = 0xFFFF;
+        asm("" : "+r"(maximum));
+        if (value > (s32)maximum) *(u32 *)(current + 0x6C) = maximum;
+      }
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0808441C);
-#endif
+
 void sub_08084EAC(void)
 {
     while ((gUnk_03006440 = sub_08001494(0x624)) == 0)

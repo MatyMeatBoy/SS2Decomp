@@ -434,6 +434,7 @@ extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
 void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
+    s32 setupZero3984;
     u32 cleanupZero3984, cleanupMask3984, cleanupEnd3984;
     u32 firstName3984;
     s32 textWidth3984;
@@ -587,14 +588,14 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     case 4: sub_08065158(panel, 0x5015E, 0, 0x80000000, 0); break;
     }
     sub_0801A6D4(0);
-    reg3984.v0 = 0;
-    reg3984.h0 = 0;
-    reg3984.v1 = 0;
-    reg3984.h1 = 0;
-    reg3984.v2 = 0;
-    reg3984.h2 = 0;
-    reg3984.v3 = 0;
-    reg3984.h3 = 0;
+    reg3984.v0 = setupZero3984 = 0;
+    reg3984.h0 = setupZero3984;
+    reg3984.v1 = setupZero3984;
+    reg3984.h1 = setupZero3984;
+    reg3984.v2 = setupZero3984;
+    reg3984.h2 = setupZero3984;
+    reg3984.v3 = setupZero3984;
+    reg3984.h3 = setupZero3984;
     sub_0801A664(2, 0x11);
     bg.bits.cnt = 0x1B00;
     sub_08000AA8(1U, &bg.half);
@@ -606,19 +607,19 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     sub_0800B650(0x40000017, 0x1A, 0x06000000, 0U, 0xFU);
     sub_0800B650(0x12, 0x19, 0x06000000, 0U, 0xFU);
     sub_0800B650(0x18, 0x18, 0x06000000, 0U, 0xFU);
-    sub_0800903C(4, 8, 1, 8, 0x10, 0);
+    sub_0800903C(4, 8, 1, 8, 0x10, setupZero3984);
     sub_080009F8(0x200, 0, 1);
     handle = ((u8 *(*)(s32))sub_08007290)(0x10023);
     var_r6 = 0;
     do {
         temp_r5 = (u8 *)&icons[var_r6];
-        sub_08065158(temp_r5, var_r6 + 0x5006B, 0, 1, 0);
-        sub_08065158((u8 *)&labels[var_r6], resource3984[var_r6].id, 0, 1, 0);
+        sub_08065158(temp_r5, var_r6 + 0x5006B, 0, 1, setupZero3984);
+        sub_08065158((u8 *)&labels[var_r6], resource3984[var_r6].id, 0, 1, setupZero3984);
         M2C_FIELD(temp_r5, s8 *, 0x1C) = var_r6;
         temp_r1 = var_r6 * 2;
-        x[var_r6] = 0;
-        (&widths[0])[var_r6] = 0;
-        heights[var_r6] = 0;
+        x[var_r6] = setupZero3984;
+        (&widths[0])[var_r6] = setupZero3984;
+        heights[var_r6] = setupZero3984;
         var_r6 = (u16) (var_r6 + 1);
     } while ((u32) var_r6 <= 8U);
     sub_080003F0();
@@ -1197,30 +1198,26 @@ block_175:
                 temp_r5_13 = var_r7 + 2;
                 ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r5_13, *(u16 *)((state * 4) + ((u8 *)&gUnk_08366E0C)) - (sub_0801A638(temp_r5_13) * 4), *(u16 *)((state * 4) + (((u8 *)&gUnk_08366E0C) + 2)) - 0x28);
                 switch (gUnk_03003470) {            /* switch 5 */
-                case 0:                             /* switch 5 */
-                    offsetX = 0x23;
-                    var_r3 = 0x1D;
-block_183:
-                    offsetY = var_r3;
-                    break;
-                case 1:                             /* switch 5 */
-                    offsetX = 0x2B;
-                    var_r0_7 = 0x25;
-block_185:
-                    offsetY = var_r0_7;
-                    break;
-                case 2:                             /* switch 5 */
+                case 0:
                     offsetX = 0x23;
                     offsetY = 0x1D;
                     break;
-                case 3:                             /* switch 5 */
+                case 1:
                     offsetX = 0x2B;
-                    var_r3 = 0x25;
-                    goto block_183;
-                case 4:                             /* switch 5 */
+                    offsetY = 0x25;
+                    break;
+                case 2:
                     offsetX = 0x23;
-                    var_r0_7 = 0x1D;
-                    goto block_185;
+                    offsetY = 0x1D;
+                    break;
+                case 3:
+                    offsetX = 0x2B;
+                    offsetY = 0x25;
+                    break;
+                case 4:
+                    offsetX = 0x23;
+                    offsetY = 0x1D;
+                    break;
                 }
                 if ((u32) M2C_FIELD(arg0, u8 *, 2) <= 8U) {
                     var_r7 = (u8 *)&cursor;
@@ -1380,84 +1377,45 @@ block_237:
             sub_0805865C(0x62);
             var_r5_3 = arg0 + 0x10;
             switch (language) {
- case 0: case 1:
-
+            case 0: case 1:
                 temp_r6_7 = current;
-                if (temp_r6_7 <= 0x13U) {
-                    var_r0_11 = temp_r6_7 + 0x50;
-                    goto block_258;
-                }
-                var_r0_12 = current - 0x14;
-                goto block_284;
-
- break;
- case 2:
-
-                    temp_r4_20 = current;
-                    if (temp_r4_20 <= 0x17U) {
-                        var_r0_9 = temp_r4_20 + 0x78;
-                        goto block_262;
-                    }
-                    var_r0_10 = current - 0x18;
-                    goto block_291;
-
- break;
- }
+                if (temp_r6_7 <= 0x13U) current = (u16)(temp_r6_7 + 0x50);
+                else current = (u16)(current - 0x14);
+                break;
+            case 2:
+                temp_r4_20 = current;
+                if (temp_r4_20 <= 0x17U) current = (u16)(temp_r4_20 + 0x78);
+                else current = (u16)(current - 0x18);
+                break;
+            }
         } else if (0x80 & gUnk_03001308) {
             sub_0805865C(0x62);
             var_r5_3 = arg0 + 0x10;
             switch (language) {
- case 0: case 1:
-
+            case 0: case 1:
                 temp_r6_8 = current;
-                if (temp_r6_8 > 0x4FU) {
-                    var_r0_11 = temp_r6_8 - 0x50;
-block_258:
-                    current = (u32) var_r0_11;
-                } else {
-                    var_r0_12 = current + 0x14;
-                    goto block_284;
-                }
-
- break;
- case 2:
-
-                    temp_r4_21 = current;
-                    if (temp_r4_21 > 0x77U) {
-                        var_r0_9 = temp_r4_21 - 0x78;
-block_262:
-                        current = (u32) var_r0_9;
-                    } else {
-                        var_r0_10 = current + 0x18;
-                        goto block_291;
-                    }
-
- break;
- }
+                if (temp_r6_8 > 0x4FU) current = (u16)(temp_r6_8 - 0x50);
+                else current = (u16)(current + 0x14);
+                break;
+            case 2:
+                temp_r4_21 = current;
+                if (temp_r4_21 > 0x77U) current = (u16)(temp_r4_21 - 0x78);
+                else current = (u16)(current + 0x18);
+                break;
+            }
         } else if (0x10 & gUnk_03001308) {
             sub_0805865C(0x62);
             var_r5_3 = arg0 + 0x10;
             switch (language) {
- case 0: case 1:
-
-                if ((u16) ((u32) current % 20U) == 0x13) {
-                    var_r0_14 = current - 0x13;
-                    goto block_289;
-                }
-                var_r0_10 = current + 1;
-                goto block_291;
-
- break;
- case 2:
-
-                    if ((u32) (u16) ((u32) current % 24U) > 0x16U) {
-                        var_r0_13 = current - 0x17;
-                        goto block_286;
-                    }
-                    current = (u32) (u16) (current + 1);
-
- break;
- }
+            case 0: case 1:
+                if ((u16)((u32)current % 20U) == 0x13) current = (u16)(current - 0x13);
+                else current = (u16)(current + 1);
+                break;
+            case 2:
+                if ((u32)(u16)((u32)current % 24U) > 0x16U) current = (u16)(current - 0x17);
+                else current = (u16)(current + 1);
+                break;
+            }
         } else {
             temp_r4_22 = 0x20 & gUnk_03001308;
             if (temp_r4_22 != 0) {
@@ -1465,26 +1423,12 @@ block_262:
                 var_r5_3 = arg0 + 0x10;
                 switch (language) {
                 case 0: case 1:
-                    if ((((u32) current % 20U) << 0x10) == 0) {
-                        var_r0_12 = current + 0x13;
-block_284:
-                        current = (u32) var_r0_12;
-                    } else {
-                        var_r0_13 = current - 1;
-block_286:
-                        current = (u32) var_r0_13;
-                    }
+                    if ((((u32)current % 20U) << 0x10) == 0) current = (u16)(current + 0x13);
+                    else current = (u16)(current - 1);
                     break;
                 case 2:
-                    if ((((u32) current % 24U) << 0x10) == 0) {
-                        var_r0_14 = current + 0x17;
-block_289:
-                        current = (u32) var_r0_14;
-                    } else {
-                        var_r0_10 = current - 1;
-block_291:
-                        current = (u32) var_r0_10;
-                    }
+                    if ((((u32)current % 24U) << 0x10) == 0) current = (u16)(current + 0x17);
+                    else current = (u16)(current - 1);
                     break;
                 }
             } else {

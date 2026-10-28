@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T21:38:05.590841+00:00",
-  "checkpoint": "015865da6ba5267f69bea5cfc6433ae45a169296",
+  "updated_utc": "2026-10-28T22:17:42.204363+00:00",
+  "checkpoint": "937c95e37debe5365dbdf11246d7a5e197ef3d85",
   "areas": [
     {
       "id": "flow",
@@ -19,7 +19,7 @@
       "id": "replay",
       "label": "Replay con externos simulados",
       "state": "done",
-      "evidence": "Oracle privado Unicorn2.1.4, C015865d contra ROM original: matriz95+tours10, 105 recorridos terminados/3015 frames sin divergencias en argumentos32, textos y writesctx/IWRAM. Dos controles negativos detectados: memcpy2→3 y active1→2. Externos simulados; no verifica motor real, idiomas0/1 ni estado externo2. No equivalencia universal ni matching."
+      "evidence": "Oracle privado Unicorn2.1.4 contra ROM original: matriz95+tours10, 105 recorridos terminados/3015 frames sin divergencias en argumentos32, textos, writesctx/IWRAM y ABI preservado. Revalidado para gridnatural, zerochain y offsetnatural; controles negativos memcpy2→3 y active1→2 detectados. Externos simulados; no verifica motor real, idiomas0/1 ni estado externo2. No equivalencia universal ni matching."
     },
     {
       "id": "types",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C. Se reutiliza puntero recurso/cursor y punteros X/Y; se elimina índice artificial de estado3 para que GCC reconstruya su CSE. Constantes de limpieza explícitas antes del bucle recrean ceroR7/máscaraR5/terminadorR4 sin rotarlo. Auditor conserva190 llamadas explícitas,170 predicados,5 switches y cero diferencias de raíces locales; raw BL199 incluye6 restos+3 divisiones. No prueba operandos completos ni bytes; cursorSL/nextStatusR9 aún difieren."
+      "evidence": "Frame0x54C. Asignaciones naturales en las cinco entradas del switch de offsets recuperan cinco pares de stores del original04B1C–04B76; los gotos artificiales fusionaban dos entradas. Cero inicialR7 y colas de cuadrícula conservados. CFG190/170/5 sin diferencias diagnósticas; quedan diferencias de instrucciones/registros. NO MATCH8280/8352."
     },
     {
       "id": "match",
