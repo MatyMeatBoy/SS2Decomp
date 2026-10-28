@@ -105,20 +105,20 @@ void sub_08065B84(void)
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065B84);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065BD0);
-#ifdef NONMATCHING
+struct TaskC50 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern struct TaskC50 gTaskC50 asm("gUnk_03002840");
 void sub_08065C50(u32 arg)
 {
-    u8 *obj;
-    u32 mem;
-    obj = (u8 *)0x03002840;
-    if(!sub_08000470((u32)obj)) *(u32 *)(obj+8)=0x3C;
-    do { mem=sub_08001494(0xC00); if(!mem) sub_080003F0(); } while(!mem);
-    *(u32 *)(obj+0x20)=mem; *(u32 *)(obj+0xC)=(u32)sub_08064E14;
-    *(u32 *)(obj+0x10)=mem+0xBFC; *(u32 *)(obj+0x24)=0; sub_08000274(obj,arg);
+    if (sub_08000470((u32)&gTaskC50) == 0) {
+        gTaskC50.f8 = 0x3C;
+        while ((gTaskC50.f20 = sub_08001494(0xC00)) == 0)
+            sub_080003F0();
+        gTaskC50.fC = (u32)sub_08064E14;
+        gTaskC50.f10 = gTaskC50.f20 + 0xBFC;
+        gTaskC50.f24 = 0;
+        sub_08000274((u32)&gTaskC50, arg);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065C50);
-#endif
 #ifdef NONMATCHING
 /* Link message layer init: allocs the task object (0x28), the 0xA0 ack area, the 50-entry send queue (0x1A90) and resets the
  * per-peer ring buffers (4 peers x 10 words, index table). */
