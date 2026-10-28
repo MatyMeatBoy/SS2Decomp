@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T22:17:42.204363+00:00",
-  "checkpoint": "937c95e37debe5365dbdf11246d7a5e197ef3d85",
+  "updated_utc": "2026-10-28T22:42:02.787729+00:00",
+  "checkpoint": "ea711cb746e9c11801428bcf68c6a3cf1692ff67",
   "areas": [
     {
       "id": "flow",
@@ -19,7 +19,7 @@
       "id": "replay",
       "label": "Replay con externos simulados",
       "state": "done",
-      "evidence": "Oracle privado Unicorn2.1.4 contra ROM original: matriz95+tours10, 105 recorridos terminados/3015 frames sin divergencias en argumentos32, textos, writesctx/IWRAM y ABI preservado. Revalidado para gridnatural, zerochain y offsetnatural; controles negativos memcpy2→3 y active1→2 detectados. Externos simulados; no verifica motor real, idiomas0/1 ni estado externo2. No equivalencia universal ni matching."
+      "evidence": "Oracle privado Unicorn2.1.4 contra ROM original: matriz95+tours10,105 recorridos terminados/3015 frames sin divergencias en argumentos32,textos,writesctx/IWRAM y ABI preservado. Revalidado para ninthzeroafter; controles negativos memcpy2→3 y active1→2 detectados. Externos simulados; no verifica motor real, idiomas0/1 ni estado externo2. No equivalencia universal ni matching."
     },
     {
       "id": "types",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C. Asignaciones naturales en las cinco entradas del switch de offsets recuperan cinco pares de stores del original04B1C–04B76; los gotos artificiales fusionaban dos entradas. Cero inicialR7 y colas de cuadrícula conservados. CFG190/170/5 sin diferencias diagnósticas; quedan diferencias de instrucciones/registros. NO MATCH8280/8352."
+      "evidence": "Frame0x54C. Noveno icono accedido mediante arrays tipados: recupera multiplicaciones separadas por rama y cálculo final independiente. Cero local explícito del caso seleccionado recupera MOVSL0 antes del flag/call, conservando filaR8/cursorR9/oneSL/nextStatusSL. CFG190/170/5 sin diferencias diagnósticas. Persisten diferencias de instrucciones/operandos locales; NO MATCH8296/8352."
     },
     {
       "id": "match",

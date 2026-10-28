@@ -435,6 +435,7 @@ extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
     s32 setupZero3984;
+    u32 drawOne3984, ninthZero3984;
     u32 cleanupZero3984, cleanupMask3984, cleanupEnd3984;
     u32 firstName3984;
     s32 textWidth3984;
@@ -995,9 +996,8 @@ loop_107:
             } else {
                 sub_0801A664(0, 2);
                 reg3984.h0 = 0;
-                temp_r0_4 = (u16) sub_0801A638(temp_r5_7);
-                var_r9 = temp_r0_4;
-                next = (u32) temp_r0_4;
+                var_r9 = (u16) sub_0801A638(temp_r5_7);
+                next = var_r9;
                 current = 0;
                 bg.half = 0xD800;
                 sub_08000AA8(1U, &bg.half);
@@ -1353,9 +1353,8 @@ block_221:
                 if ((next == var_r9) || (var_r5_3[var_r9] == 0xFD)) {
                     var_r5_3[var_r9] = 0x51;
                     var_r5_3[var_r9 + 1] = 0xFD;
-                    temp_r1_5 = var_r9 + 1;
-                    var_r9 = temp_r1_5;
-                    next = (u32) temp_r1_5;
+                    var_r9++;
+                    next = var_r9;
                 } else {
                     var_r0_8 = var_r9 + 1;
                     goto block_236;
@@ -1466,10 +1465,8 @@ block_302:
                         if ((u32) var_r9 <= (u32) next) {
 
                         } else {
-                            var_r2_3 = var_r9;
-                            var_r5_3[var_r2_3] = 0xFD;
-block_316:
-                            next = (u32) var_r2_3;
+                            var_r5_3[var_r9] = 0xFD;
+                            next = var_r9;
                         }
                     } else {
                         var_r5_3[var_r9 + 1] = 0xFD;
@@ -1497,9 +1494,8 @@ block_316:
                                 }
                             }
                         }
-                        var_r2_3 = var_r9;
-                        goto block_316;
-                    }
+                        next = var_r9;
+                    } else {
                     temp_r0_15 = arg0 + 0x10;
                     temp_r2_5 = &temp_r0_15[var_r9];
                     var_r5_3 = temp_r0_15;
@@ -1534,6 +1530,7 @@ block_316:
                         }
                     }
 
+                    }
                 } else {
                     var_r5_3 = arg0 + 0x10;
                     if (temp_r0_14 == 8) {
@@ -1661,23 +1658,24 @@ finish3984:
     ((void (*)(unsigned long long))sub_08000420)(0x25A112EBFULL);
     goto epilogue3984;
 block_374:
+        drawOne3984 = 1;
         var_r6 = 0;
 loop_375:
         if ((u32) (u16) (timer - 4) > 2U) {
             if (state == var_r6) {
                 temp_r5_3 = &x[var_r6];
-                *temp_r5_3 = 1;
-                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data + (M2C_FIELD(arg0, u8 *, 2) << 5), 1U);
+                *temp_r5_3 = drawOne3984;
+                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data + (M2C_FIELD(arg0, u8 *, 2) << 5), drawOne3984);
                 sub_08065370((u8 *)&icons[var_r6], *temp_r5_3, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), 0);
             } else {
                 temp_r5_4 = &x[var_r6];
                 *temp_r5_4 = 0;
-                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data, 1U);
-                sub_08065370((u8 *)&icons[var_r6], *temp_r5_4, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), 1);
+                sub_08000AF0(var_r6 + 0x10, labels[var_r6].data, drawOne3984);
+                sub_08065370((u8 *)&icons[var_r6], *temp_r5_4, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), drawOne3984);
             }
         }
         var_r8 = 0x34;
-        sub_080659BC(((u8 *)icons + var_r8 * var_r6), (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0C)), (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0E)), *(u16 *)(&x[var_r6]), (s32) (&widths[0])[var_r6], 1);
+        sub_080659BC(((u8 *)icons + var_r8 * var_r6), (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0C)), (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0E)), *(u16 *)(&x[var_r6]), (s32) (&widths[0])[var_r6], drawOne3984);
         var_r6 += 1;
         if ((u32) var_r6 <= 7U) {
             goto loop_375;
@@ -1688,17 +1686,18 @@ loop_375:
             if ((u32) (u16) (timer - 4) > 2U) {
                 if (state == var_r6) {
                     temp_r5_5 = &x[var_r6];
+                    ninthZero3984 = 0;
                     *temp_r5_5 = 1;
-                    sub_08000AF0(var_r6 + 0x10, ((struct Sprite3984 *)((u8 *)labels + var_r8 * var_r6))->data + (M2C_FIELD(arg0, u8 *, 2) << 5), 1U);
-                    sub_08065370(((u8 *)icons + var_r8 * var_r6), *temp_r5_5, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), 0);
+                    sub_08000AF0(var_r6 + 0x10, labels[var_r6].data + (M2C_FIELD(arg0, u8 *, 2) << 5), 1U);
+                    sub_08065370((u8 *)&icons[var_r6], *temp_r5_5, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), ninthZero3984);
                 } else {
                     temp_r5_6 = &x[var_r6];
                     *temp_r5_6 = 0;
-                    sub_08000AF0(var_r6 + 0x10, ((struct Sprite3984 *)((u8 *)labels + var_r8 * var_r6))->data, 1U);
-                    sub_08065370(((u8 *)icons + var_r8 * var_r6), *temp_r5_6, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), 1);
+                    sub_08000AF0(var_r6 + 0x10, labels[var_r6].data, 1U);
+                    sub_08065370((u8 *)&icons[var_r6], *temp_r5_6, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), 1);
                 }
             }
-            sub_080659BC(((u8 *)icons + var_r8 * var_r6), (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0C)), (s32) *(u16 *)(var_r6 * 4 + (((u8 *)&gUnk_08366E0C) + 2)), *(u16 *)(&x[var_r6]), (s32) (&widths[0])[var_r6], 1);
+            sub_080659BC((u8 *)&icons[var_r6], (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0C)), (s32) *(u16 *)(var_r6 * 4 + (((u8 *)&gUnk_08366E0C) + 2)), *(u16 *)(&x[var_r6]), (s32) (&widths[0])[var_r6], 1);
         }
         sub_080003F0();
         continue;

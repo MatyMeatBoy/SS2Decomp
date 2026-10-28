@@ -141,18 +141,20 @@ extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
 /* The damage timer tests its old value after storing the decremented value.
  * Remaining matching differences are arithmetic selection and registers. */
 void sub_0808D654(u8 *arg0) {
-    struct {
-        u32 anim[26];
-        s16 x, y;
-        u32 offset;
-        s32 damage, flashing, timer;
-    } L;
+    u32 anim[26];
+    s16 x, y;
+    u32 offset;
+    s32 damage, flashing, timer;
+    u32 layer;
+    u32 drawFlags;
+    u8 *animBytes;
+    register u32 timerMask asm("r2");
     s32 temp_r0;
     register s32 temp_r0_2 asm("r0");
     s32 scaledStat;
     s32 temp_r0_4;
     s32 temp_r0_5;
-    s32 temp_r0_6;
+    register s32 temp_r0_6 asm("r0");
     u16 temp_r4_2;
     register u32 var_sl asm("r10");
     register u32 temp_r8 asm("r8");
@@ -184,9 +186,9 @@ void sub_0808D654(u8 *arg0) {
     (*(s16 *)(arg0 + 0x5E)) = temp_r0_2;
     (*(u16 *)(arg0 + 0xC)) = zero;
     var_sl = zero;
-    L.flashing = 0;
-    L.timer = 0xFFFF;
-    L.damage = 0;
+    flashing = 0;
+    timer = 0xFFFF;
+    damage = 0;
     (*(s32 *)(arg0 + 0x4C)) = 0;
     palette = paletteInit;
     goto loop_check;
@@ -196,18 +198,18 @@ loop_60:
         temp_r4_2 = (*(u16 *)(arg0 + 0xC));
         switch (temp_r4_2) {                        /* irregular */
         case 0:
-            sub_08065158(L.anim, 0x5005D, 5, -1, temp_r4_2);
+            sub_08065158(anim, 0x5005D, 5, -1, temp_r4_2);
             (*(u16 *)(arg0 + 0x68)) = temp_r4_2;
             break;
         case 10:
-            if (L.flashing == 0) {
-                L.flashing = 1;
+            if (flashing == 0) {
+                flashing = 1;
                 var_sl = 8;
             }
             break;
         case 11:
-            if (L.flashing == 0) {
-                L.flashing = 1;
+            if (flashing == 0) {
+                flashing = 1;
                 var_sl = 0x14;
                 sub_080586D0(2);
             }
@@ -215,11 +217,14 @@ loop_60:
         }
         temp_r8 = (u8) sub_0800BC44((u32) ((s32) (*(s32 *)(arg0 + 0x14)) >> 8), (u32) ((s32) (*(s32 *)(arg0 + 0x18)) >> 8), 0U);
         temp_r9 = temp_r8;
-        *(u8 *)&L.anim[7] = 5;
-        sub_0800BC08((s32) ((*(s32 *)(arg0 + 0x14)) << 8) >> 0x10, (s32) ((*(s32 *)(arg0 + 0x18)) << 8) >> 0x10, &L.x, &L.y, 0x30, 0);
-        if (L.flashing != 0) {
+        animBytes = (u8 *)anim;
+        drawFlags = 0;
+        layer = 5;
+        animBytes[28] = layer;
+        sub_0800BC08((s32) ((*(s32 *)(arg0 + 0x14)) << 8) >> 0x10, (s32) ((*(s32 *)(arg0 + 0x18)) << 8) >> 0x10, &x, &y, 0x30, drawFlags);
+        if (flashing != 0) {
             if ((1 & var_sl) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
-                sub_08007870(L.x, L.y, (*(u16 *)(arg0 + 0x68)), *palette, temp_r8, &L.anim[7], L.anim[2], L.anim[0]);
+                sub_08007870(x, y, (*(u16 *)(arg0 + 0x68)), *palette, temp_r8, &anim[7], anim[2], anim[0]);
             }
             var_sl = (u16)(var_sl - 1);
             if (var_sl == 0) {
@@ -228,7 +233,7 @@ loop_60:
                 } else {
                     (*(u16 *)(arg0 + 0xC)) = var_sl;
                     sub_08019CE8(arg0);
-                    L.flashing = 0;
+                    flashing = 0;
                     temp_r0_4 = (s32) ((*(s16 *)(arg0 + 0x5C)) * 0x64) / (s16) (*(s16 *)(arg0 + 0x1D6));
                     if (temp_r0_4 <= 9) {
                         *palette = 7U;
@@ -254,38 +259,39 @@ loop_60:
             }
         } else {
             if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
-                sub_08007870(L.x, L.y, (*(u16 *)(arg0 + 0x68)), *palette, temp_r9, &L.anim[7], L.anim[2], L.anim[0]);
+                sub_08007870(x, y, (*(u16 *)(arg0 + 0x68)), *palette, temp_r9, &anim[7], anim[2], anim[0]);
             }
 block_41:
             temp_r0_5 = (*(s32 *)(arg0 + 0x4C));
-            if ((temp_r0_5 != 0) && (L.damage != temp_r0_5)) {
+            if ((temp_r0_5 != 0) && (damage != temp_r0_5)) {
                 if ((sub_08019CE8(arg0) << 0x10) != 0) {
                     var_sl = 0xA;
                 }
-                L.damage = (*(s32 *)(arg0 + 0x4C));
-                L.timer = 0xA;
-                L.offset = 0;
+                damage = (*(s32 *)(arg0 + 0x4C));
+                timer = 0xA;
+                offset = 0;
             }
-            temp_r0_6 = L.timer;
-            L.timer = (s32) (u16) (temp_r0_6 - 1);
-            if (!(temp_r0_6 & 0x8000)) {
-                if (L.damage == 0) {
-                    L.timer = 0xFFFF;
+            temp_r0_6 = timer;
+            timer = (s32) (u16) (temp_r0_6 - 1);
+            timerMask = 0x8000;
+            if (!(temp_r0_6 & timerMask)) {
+                if (damage == 0) {
+                    timer = 0xFFFF;
                 } else {
                     if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                        sub_0801A120(arg0, L.damage, (s16) L.offset);
+                        sub_0801A120(arg0, damage, (s16) offset);
                     }
-                    if (2 & L.timer) {
-                        L.offset = (u32) ((L.offset << 0x10) + 0xFFFF0000) >> 0x10;
+                    if (2 & timer) {
+                        offset = (u32) ((offset << 0x10) + 0xFFFF0000) >> 0x10;
                     }
                 }
             } else {
-                L.timer = 0xFFFF;
-                L.damage = 0;
+                timer = 0xFFFF;
+                damage = 0;
                 (*(s32 *)(arg0 + 0x4C)) = 0;
             }
             if ((sub_0800CCCC() == 0) && ((gUnk_03002344 & 1) == (1 & (*(u16 *)(arg0 + 0x0))))) {
-                sub_08000AF0(0x15U, L.anim[3], 1U);
+                sub_08000AF0(layer + 0x10, anim[3], 1U);
             }
             sub_080003F0();
             goto loop_check;
@@ -401,19 +407,17 @@ extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
 extern s32 sub_08021FE0(void *, void *, void *, void *);
 extern void sub_08029A7C(s32, s32, s32);
-struct DB38Locals {
+/* The frame/attribute pairs and screen coordinates have distinct stack storage.
+ * Register allocation and call scheduling still differ from the original. */
+void sub_0808DB38(u32 arg)
+{
     u32 anim[13];
-    u16 frame0, attr0, frame1, attr1, screenX, screenY;
+    u16 first[2], second[2];
+    u16 screen[2];
     s32 pos[2];
     u32 size, box;
     struct Player *player;
     s32 hit, sound;
-};
-
-/* Keep the two word masks in the original order; stack aliases still differ. */
-void sub_0808DB38(u32 arg)
-{
-    struct DB38Locals L;
     s32 height;
     s32 speed;
     u8 priority;
@@ -421,68 +425,76 @@ void sub_0808DB38(u32 arg)
     s32 *posptr;
     void *texture;
     u16 *attrptr;
-    sub_08065158(L.anim, 0x50122, 0, -1, 0);
-    sub_08000AF0(0x15, L.anim[3], 1);
-    *(u8 *)&L.anim[7] = 5;
+    register u16 *firstptr asm("r10");
+    sub_08065158(anim, 0x50122, 0, -1, 0);
+    sub_08000AF0(0x15, anim[3], 1);
+    *(u8 *)&anim[7] = 5;
     switch (arg) {
-    case 0: L.pos[1] = 0x8C00; break;
-    case 1: L.pos[1] = 0x9400; break;
-    case 2: L.pos[1] = 0xA600; break;
-    case 3: L.pos[1] = 0xAA00; break;
+    case 0: pos[1] = 0x8C00; break;
+    case 1: pos[1] = 0x9400; break;
+    case 2: pos[1] = 0xA600; break;
+    case 3: pos[1] = 0xAA00; break;
     }
-    L.pos[0] = 0x3D400;
+    pos[0] = 0x3D400;
     height = 0xA000;
     speed = 0;
     {
         register u32 maskhi asm("r5") = 0xFFFF0000;
         register u32 masklo asm("r6") = 0xFFFF;
         register u32 boxwidth asm("r4") = 0x10;
-        L.size = 0x100010;
-        L.player = &gUnk_03003CE0[sub_080020F4()];
-        L.box = (((L.box & maskhi) | boxwidth) & masklo) | 0x80000;
+        size = 0x100010;
+        player = &gUnk_03003CE0[sub_080020F4()];
+        box = (((box & maskhi) | boxwidth) & masklo) | 0x80000;
     }
-    L.hit = 1;
-    L.sound = 1;
-    attrptr = &L.attr0;
-    if ((L.pos[0] >> 8) > 45) {
-        posptr = L.pos;
-        texture = &L.anim[7];
+    hit = 1;
+    sound = 1;
+    firstptr = first;
+    attrptr = &firstptr[1];
+    if ((pos[0] >> 8) > 45) {
+        register u16 *screenXptr asm("r9");
+        register u16 *screenYptr asm("r6");
+        register u16 *secondptr asm("r5");
+        posptr = pos;
+        screenXptr = &screen[0];
+        screenYptr = &screen[1];
+        texture = &anim[7];
         do {
-            L.pos[0] += 0xFFFFFE00;
+            pos[0] += 0xFFFFFE00;
             height += speed;
             speed -= 0x28;
             if (height <= 0) {
                 height = 1;
                 speed = -(speed >> 1);
             }
-            if (speed > 0 && L.sound) {
+            if (speed > 0 && sound) {
                 if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
-                L.sound = 0;
+                sound = 0;
             }
-            if (L.hit && (height >> 8) <= 7 && sub_08021FE0(L.pos, (u8 *)L.player + 0x8C, &L.size, &L.box)) {
-                L.hit = 0;
+            if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
+                hit = 0;
                 sub_08029A7C(0, 0x10, 1);
             }
-            sub_08065370(L.anim, 0, (s32)&L.frame0, (s32)attrptr, 1);
-            sub_08065370(L.anim, 1, (s32)&L.frame1, (s32)&L.attr1, 1);
+            sub_08065370(anim, 0, (s32)&firstptr[0], (s32)attrptr, 1);
+            secondptr = second;
+            sub_08065370(anim, 1, (s32)secondptr, (s32)(secondptr + 1), 1);
             if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
-                sub_0800BC08((s16)(L.pos[0] >> 8), (s16)(posptr[1] >> 8), &L.screenX, &L.screenY, 0x30, 0);
-                priority = sub_0800BC44(L.pos[0] >> 8, posptr[1] >> 8, 0);
-                sub_08007870(L.screenX, L.screenY - 1, 1, L.frame1, 3, texture, L.anim[2], L.anim[0]);
-                sprite = sub_08007870(L.screenX, L.screenY, 0, L.frame0, priority, texture, L.anim[2], L.anim[0]);
+                sub_0800BC08((s16)(pos[0] >> 8), (s16)(posptr[1] >> 8), screenXptr, screenYptr, 0x30, 0);
+                priority = sub_0800BC44(pos[0] >> 8, posptr[1] >> 8, 0);
+                sub_08007870(*screenXptr, *screenYptr - 1, 1, *secondptr, 3, texture, anim[2], anim[0]);
+                sprite = sub_08007870(*screenXptr, *screenYptr, 0, firstptr[0], priority, texture, anim[2], anim[0]);
                 sprite[3] -= height >> 8;
             }
             sub_080003F0();
-        } while ((L.pos[0] >> 8) > 45);
+        } while ((pos[0] >> 8) > 45);
     }
     if (!sub_0800CCCC()) sub_0805865C(0x29);
-    sub_08065158(L.anim, 0x50053, 0, -1, 0);
+    sub_08065158(anim, 0x50053, 0, -1, 0);
     *attrptr = 0;
-    L.frame0 = 0;
-    while (!sub_08065370(L.anim, 6, (s32)&L.frame0, (s32)attrptr, 0)) {
+    firstptr[0] = 0;
+    while (!sub_08065370(anim, 6, (s32)&firstptr[0], (s32)attrptr, 0)) {
         if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
-            sub_0800BC08((s16)(L.pos[0] >> 8), (s16)(L.pos[1] >> 8), &L.screenX, &L.screenY, 0x30, 0);
-            sub_08007870(L.screenX, L.screenY, 6, L.frame0, (u8)sub_0800BC44(L.pos[0] >> 8, L.pos[1] >> 8, 0), &L.anim[7], L.anim[2], L.anim[0]);
+            sub_0800BC08((s16)(pos[0] >> 8), (s16)(pos[1] >> 8), &screen[0], &screen[1], 0x30, 0);
+            sub_08007870(screen[0], screen[1], 6, firstptr[0], (u8)sub_0800BC44(pos[0] >> 8, pos[1] >> 8, 0), &anim[7], anim[2], anim[0]);
         }
         sub_080003F0();
     }
