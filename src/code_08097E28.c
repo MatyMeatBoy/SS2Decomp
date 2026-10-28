@@ -235,7 +235,6 @@ void sub_08098108(void *arg0) {
     s16 *var_r4;
     s32 temp_r0_3;
     s32 temp_r0_4;
-    s16 temp_r1_2;
     s16 temp_r1_7;
     s16 var_r2;
     s16 var_r3;
@@ -260,12 +259,10 @@ void sub_08098108(void *arg0) {
     u16 temp_r0_2;
     u16 temp_r0_9;
     u16 temp_r1;
-    u16 temp_r1_3;
     u16 var_r0_2;
     u32 temp_r0_10;
     u32 temp_r0_20;
     u32 temp_r0_21;
-    u32 temp_r0_5;
     u32 temp_r0_6;
     u32 temp_r0_7;
     u32 temp_r1_5;
@@ -338,19 +335,11 @@ block_6:
     spCC = arg0 + 0x6A;
     spC8 = arg0 + 0x68;
     spD4 = sp7C + 0xD6;
-    do {
-        var_r2 = 0;
-loop_8:
-        temp_r1_2 = var_r2;
-        M2C_FIELD(&gStateClear100, s32 *, temp_r1_2*4+var_r3*0x14C) = 0;
-        temp_r1_3 = temp_r1_2 + 1;
-        var_r2 = (s16) temp_r1_3;
-        if ((s32) (s16) temp_r1_3 <= 4) {
-            goto loop_8;
+    for (var_r3=0;var_r3<4;var_r3++) {
+        for (var_r2=0;var_r2<5;var_r2++) {
+            M2C_FIELD(&gStateClear100,s32 *,var_r2*4+var_r3*0x14C)=0;
         }
-        temp_r0_5 = (var_r3 << 0x10) + 0x10000;
-        var_r3 = (s16) (temp_r0_5 >> 0x10);
-    } while ((s32) ((s32) temp_r0_5 >> 0x10) <= 3);
+    }
     if (sub_0800CE30() == 1) {
         sp9C = 0x78;
         spA0 = 0x168;
@@ -365,14 +354,11 @@ loop_8:
     sub_08097A4C();
     spBC = 0;
     sub_08067C18();
-loop_15:
-    if (sub_08067C08() == 0) {
+    while (sub_08067C08() == 0) {
         sub_080003F0();
-        goto loop_15;
     }
     sub_08067BF8();
-loop_126:
-    if ((sub_0800CB78() == 0) && (sub_08056E90() == 0)) {
+    while ((sub_0800CB78() == 0) && (sub_08056E90() == 0)) {
         if ((M2C_FIELD(arg0, u16 *, 0xC) == 0xA) && (sp90 == 0)) {
             sp90 = 8;
         }
@@ -676,9 +662,7 @@ block_89:
             spBC = 1;
         }
         sub_080003F0();
-        if (spBC == 0) {
-            goto loop_126;
-        }
+        if (spBC != 0) break;
     }
     gUnk_030056FC = 0;
     temp_r2 = (s32 *)((u8 *)&gUnk_03003CE0->flags+sub_080020F4()*0x14C);
@@ -826,10 +810,8 @@ loop_158:
         spAC = temp_r0_21 >> 0x10;
     } while (((s32) temp_r0_21 >> 0x10) != -1);
     sub_08067C18();
-loop_168:
-    if (sub_08067C08() == 0) {
+    while (sub_08067C08() == 0) {
         sub_080003F0();
-        goto loop_168;
     }
     sub_08067BF8();
     sub_08056E24();

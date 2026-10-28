@@ -150,35 +150,32 @@ s32 sub_08097488(void *entity,void *image,u16 bank,u16 paletteNum)
     fadeScroll100(0,0,0,0);
     return 1;
 }
-#ifdef NONMATCHING
+struct FadePairColor100 { u16 r:5; u16 g:5; u16 b:5; u16 unused:1; };
 s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,u16 paletteNum,u8 reverse)
 {
-    u16 paletteA[16];
-    u16 paletteB[16];
+    u16 colors[32];
     s16 screenX,screenY;
     s16 i;
-    u8 alternate;
     u32 phase;
+    u8 alternate;
     u16 frame;
     s32 state;
     M2C_FIELD(imageA,u8 *,0x1C)=paletteNum;
     M2C_FIELD(imageB,u8 *,0x1C)=paletteNum;
     for(i=0;i<16;i++) {
-        struct FadeColor100 *srcA;
-        struct FadeColor100 *dstA;
-        struct FadeColor100 *srcB;
-        struct FadeColor100 *dstB;
+        struct FadePairColor100 *src;
+        struct FadePairColor100 *dst;
         asm volatile("" ::: "memory");
-        srcA=(void *)((u8 *)M2C_FIELD(imageA,void **,0xC)+(bank*16+i)*2);
-        dstA=(void *)&paletteA[i];
-        dstA->r=srcA->r;
-        dstA->g=srcA->g;
-        dstA->b=srcA->b;
-        srcB=(void *)((u8 *)M2C_FIELD(imageB,void **,0xC)+(bank*16+i)*2);
-        dstB=(void *)&paletteB[i];
-        dstB->r=srcB->r;
-        dstB->g=srcB->g;
-        dstB->b=srcB->b;
+        src=(void *)((u8 *)M2C_FIELD(imageA,void **,0xC)+(bank*16+i)*2);
+        dst=(void *)&colors[i];
+        dst->r=src->r;
+        dst->g=src->g;
+        dst->b=src->b;
+        src=(void *)((u8 *)M2C_FIELD(imageB,void **,0xC)+(bank*16+i)*2);
+        dst=(void *)&colors[i+16];
+        dst->r=src->r;
+        dst->g=src->g;
+        dst->b=src->b;
     }
     alternate=0;
     phase=0;
@@ -186,31 +183,45 @@ s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,
     state=2;
     do {
         u8 oldAlternate;
-        phase=((phase+1)<<16 & 0xF0000U)>>16;
+        {
+            register u32 nextPhase asm("r1")=(phase+1)<<16;
+            asm("" : "+r"(nextPhase));
+            phase=(0xF0000U & nextPhase)>>16;
+        }
         oldAlternate=alternate++;
         if(oldAlternate&1) fadeScroll100(0,0,phase,0);
         else fadeScroll100(0,0,0,phase);
         if(state!=1) {
             if(state==2 && frame++>60) { frame=0; state=1; }
         } else {
-            sub_08096E20(paletteA,2,frame,60);
+            sub_08096E20(colors,2,frame,60);
             frame++;
-            if(sub_08096E20(paletteB,2,frame,60)!=0) { frame=0; state=0; }
+            if(sub_08096E20((colors+16),2,frame,60)!=0) { frame=0; state=0; }
         }
-        sub_08000AF0(paletteNum+16,paletteA,1);
+        sub_08000AF0(paletteNum+16,colors,1);
         sub_08065370(imageA,M2C_FIELD(entityA,u16 *,0x68),(s32)((u8 *)entityA+0x6A),(s32)((u8 *)entityA+0x6C),1);
         sub_0800BC08((M2C_FIELD(entityA,s32 *,0x14)<<8)>>16,(M2C_FIELD(entityA,s32 *,0x18)<<8)>>16,&screenX,&screenY,0,0);
         {
-            u8 priority=sub_0800BC44(M2C_FIELD(entityA,s32 *,0x14)>>8,M2C_FIELD(entityA,s32 *,0x18)>>8,0);
+            u32 priority=(u8)sub_0800BC44(M2C_FIELD(entityA,s32 *,0x14)>>8,M2C_FIELD(entityA,s32 *,0x18)>>8,0);
             if(reverse) screenX-=9; else screenX+=9;
             screenY+=21;
+            {
+                register u32 drawPriority asm("r4")=priority;
+                asm("" : "+r"(drawPriority));
+                priority=drawPriority;
+            }
             sub_08007974(screenX,screenY,M2C_FIELD(entityA,u16 *,0x68),M2C_FIELD(entityA,u16 *,0x6A),priority,1,0,(u8 *)imageA+0x1C,M2C_FIELD(imageA,u32 *,8),M2C_FIELD(imageA,void **,0));
         }
-        sub_08000AF0(paletteNum+16,paletteB,1);
+        sub_08000AF0(paletteNum+16,(colors+16),1);
         sub_08065370(imageB,M2C_FIELD(entityB,u16 *,0x68),(s32)((u8 *)entityB+0x6A),(s32)((u8 *)entityB+0x6C),1);
         sub_0800BC08((M2C_FIELD(entityB,s32 *,0x14)<<8)>>16,(M2C_FIELD(entityB,s32 *,0x18)<<8)>>16,&screenX,&screenY,0,0);
         {
-            u8 priority=sub_0800BC44(M2C_FIELD(entityB,s32 *,0x14)>>8,M2C_FIELD(entityB,s32 *,0x18)>>8,0);
+            u32 priority=(u8)sub_0800BC44(M2C_FIELD(entityB,s32 *,0x14)>>8,M2C_FIELD(entityB,s32 *,0x18)>>8,0);
+            {
+                register u32 drawPriority asm("r4")=priority;
+                asm("" : "+r"(drawPriority));
+                priority=drawPriority;
+            }
             sub_08007974(screenX,screenY,M2C_FIELD(entityB,u16 *,0x68),M2C_FIELD(entityB,u16 *,0x6A),priority,1,0,(u8 *)imageB+0x1C,M2C_FIELD(imageB,u32 *,8),M2C_FIELD(imageB,void **,0));
         }
         sub_08000B38();
@@ -219,9 +230,6 @@ s32 sub_08097658(void *entityA,void *entityB,void *imageA,void *imageB,u16 bank,
     fadeScroll100(0,0,0,0);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08097658);
-#endif
 void sub_08097978(s32 x,s32 y,s32 targetX,s32 targetY,s32 *out)
 {
     register s32 savedY asm("r5")=y;

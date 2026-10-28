@@ -1,7 +1,7 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-10-28T20:54:12Z",
-  "checkpoint": "d4e274105360a636cc5b8e8aacbbe47df5596844",
+  "updated_utc": "2026-10-28T21:24:02Z",
+  "checkpoint": "28a2658dc0daa92592ea77a3435eb7b294e55380",
   "areas": [
     {
       "id": "flow",
@@ -30,13 +30,13 @@
     {
       "id": "types",
       "state": "active",
-      "evidence": "Player scan byte/halfword fixes retained. Directed effect trial seed24 exposed prior color bug in both gotos and structured drafts: final0300215E was1C20 instead of original1C21. Restored original byte and halfword writes for color red/green; expanded word updates plus aliased halfword read had lost red bit0. All100 expanded effect trials now preserve observed calls, arguments, EWRAM/IWRAM and fault details, and terminate. Synthetic callees limit this evidence; no full equivalence.",
+      "evidence": "Player-scan, partial-color and full-index fixes retained. Record flags OR now uses existing six-bit union view: original reads halfword03003200, manual expression let compiler narrow to byte. Dynamic30-case read-width profiles now find no candidate-only external widths. New100 animation-side-effect fixtures preserve observed trace/memory/faults (89 returned,11 same faults). Before this byte-equivalent rewrite, two expanded2000-case batches preserved observations;1827/1820 returned,173/180 same faults. Stubs and finite inputs do not prove full equivalence.",
       "label": "AuditorÃ­a de tipos y accesos"
     },
     {
       "id": "layout",
       "state": "active",
-      "evidence": "Structured --no-switches basis retained. Frame dimension1D8; candidate24344bytes vs original25180, exact C match pending. --no-andor experiment45 restores six comparisons lost by merged conditions (tiny agbcc probe reproduces cause), but remains unadopted; color-fixed counterpart49 saved. No asymmetric return casts retained.",
+      "evidence": "Structured --no-switches basis retained. Frame dimension1D8; candidate24332bytes vs original25180, exact C match pending. --no-andor experiment45 restores six comparisons lost by merged conditions (tiny agbcc probe reproduces cause), but remains unadopted; color-fixed counterpart49 saved. No asymmetric return casts retained.",
       "label": "Pila, registros y orden de bloques"
     },
     {

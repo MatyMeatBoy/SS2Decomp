@@ -4207,8 +4207,7 @@ block_1293:
         }
         if (((struct PlayerD368 *)arg0)->f20 != 0xD) {
             temp_r3_55 = ((struct PlayerD368 *)arg0)->f144;
-            temp_r2_60 = (u8) M2C_FIELD(temp_r3_55, u8 *, 4);
-            M2C_FIELD(temp_r3_55, u8 *, 4) = (s8) ((-0x40 & temp_r2_60) | ((((u32) (temp_r2_60 << 0x1A) >> 0x1A) | M2C_FIELD((u8 *)&d368_gUnk_03003170, u16 *, 0x90)) & 0x3F));
+            ((union RecordD368 *)temp_r3_55)->w1_b0_n6.value |= M2C_FIELD((u8 *)&d368_gUnk_03003170, u16 *, 0x90);
             if (d368_sub_0800CFF0() == 0) {
                 temp_r2_61 = d368_sub_08002164();
                 var_ip = 0;
@@ -4228,7 +4227,7 @@ block_1293:
                             if (((s32) temp_r0_122 <= 1) && ((s32) temp_r0_122 >= 0) && ((s32) (M2C_FIELD(temp_r1_48, u8 *, 5) << 0x1D) < 0)) {
                                 var_r5_11 += 1;
                                 if ((u32) *var_r4_9 < (u32) *(u16 *)((0x14C * var_r3_8) + (u8 *)&d368_gUnk_03003CE0)) {
-                                    var_r3_8 = (u16) sp128;
+                                    var_r3_8 = sp128;
                                 }
                             }
                         }

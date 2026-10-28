@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T20:49:32.645273+00:00",
-  "checkpoint": "9eb4e8b8071f758f3672ccb915a23beb58a61c06",
+  "updated_utc": "2026-10-28T21:38:05.590841+00:00",
+  "checkpoint": "015865da6ba5267f69bea5cfc6433ae45a169296",
   "areas": [
     {
       "id": "flow",
@@ -14,6 +14,12 @@
       "label": "Draft completo compilable",
       "state": "done",
       "evidence": "make compare ROM OK y make nonmatching; eeb88ac6d1f9860bca52e357a718eac2dc56b398."
+    },
+    {
+      "id": "replay",
+      "label": "Replay con externos simulados",
+      "state": "done",
+      "evidence": "Oracle privado Unicorn2.1.4, C015865d contra ROM original: matriz95+tours10, 105 recorridos terminados/3015 frames sin divergencias en argumentos32, textos y writesctx/IWRAM. Dos controles negativos detectados: memcpy2→3 y active1→2. Externos simulados; no verifica motor real, idiomas0/1 ni estado externo2. No equivalencia universal ni matching."
     },
     {
       "id": "types",

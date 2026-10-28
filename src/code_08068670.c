@@ -203,7 +203,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     void sub_08029B98(u32, u32, s32, s32, s32, s32);
     s16 sub_08068F9C(void *, s32);
     void sub_080694AC(void *);
-    void sub_08069A30(s32, s32, u32, u32, s32);
+    void sub_08069A30(s32, s32, u32, u16, u16);
     extern u8 gUnk_084EBF1C[];
     extern u16 attackEffect asm("gUnk_084EBF7E");
     extern u16 effects[] asm("gUnk_084EC14C");

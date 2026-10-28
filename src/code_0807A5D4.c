@@ -4416,15 +4416,18 @@ done:
     manager = (u8 *)gUnk_03006440;
     *(u32 *)(manager + 0x28) &= ~2u;
 }
-#ifdef NONMATCHING
-void sub_08083AE8(u32 param_1)
+void sub_08083AE8(u32 input)
 
 {
-    /* NONMATCHING: stack layout recovered from ASM; equivalence unproven. */
+    register u32 param_1 asm("r8") = input;
+    /* Preserve the original 208-byte frame, including its outgoing argument. */
     extern u32 gUnk_084ECC04[];
     extern u16 sub_08057AE8(s32);
-  u32 frame83AE8[52];
-  u16 uVar1;
+    extern u16 keys83AE8 asm("gUnk_03001324");
+  u8 frameStorage83AE8[204];
+  register u8 *stack asm("sp");
+  /* Empty constraints retain the original register and stack lifetimes. */
+  s32 uVar1;
   u16 uVar2;
   u8 *puVar3;
   int iVar4;
@@ -4436,247 +4439,572 @@ void sub_08083AE8(u32 param_1)
   short sVar10;
   u16 uVar11;
   u32 uVar12;
-  u32 unaff_r9;
-  u32 unaff_r10;
+  register u32 unaff_r9 asm("r9");
+  register u32 unaff_r10 asm("r10");
   u32 in_lr;
 
-  if (*(short *)(((u32)&gUnk_03003170) + 0x8c) == 0) {
-    uVar1 = sub_08057AE8(0x15);
-  }
-  else {
-    uVar1 = 2;
-  }
-  if (uVar1 == 1) {
-    sub_08065158(((u8 *)frame83AE8 + 0x38),0x500CB,0,0xffffffff,0);
-    sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-    unaff_r9 = 0x77;
-  }
-  else {
-    if (uVar1 < 2) {
-      if (uVar1 == 0) {
-        sub_08065158(((u8 *)frame83AE8 + 0x4),0x500CC,0,0xffffffff,0);
-        sub_08065158(((u8 *)frame83AE8 + 0x38),0x500CB,0,0xffffffff,0);
-        sub_08065158(((u8 *)frame83AE8 + 0x6C),0x500CA,0,0xffffffff,0);
-        sub_08000AF0(0x14,(*(u32 *)((u8 *)frame83AE8 + 0x10)) + 0x1c0,1);
-        sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-        sub_08000AF0(0x1e,(*(u32 *)((u8 *)frame83AE8 + 0x78)) + 0x1c0,1);
-        (*(u32 *)((u8 *)frame83AE8 + 0xC4)) = 0x77;
-        unaff_r9 = 0xae;
-        unaff_r10 = 0x40;
-      }
-      goto LAB_08083bee;
+  asm("" : "=r"(stack), "=r"(unaff_r9), "=r"(unaff_r10));
+  if (gUnk_03003170.curLevel == 0) uVar1 = sub_08057AE8(0x15);
+  else uVar1 = 2;
+  switch ((s32)uVar1) {
+  case 1:
+    {
+      register u8 *panel asm("r4") = stack + 0x38;
+      asm("" : "+r"(panel));
+      sub_08065158(panel, 0x500CB, 0, -1, 0);
+      sub_08000AF0(0x15, *(u32 *)(panel + 0xC) + 0x1C0, 1);
+      unaff_r9 = ({ register u32 value asm("r1") = 0x77; asm("" : "+r"(value)); value; });
+      goto setCountdown;
     }
-    if (uVar1 != 2) goto LAB_08083bee;
-    sub_08065158(((u8 *)frame83AE8 + 0x6C),0x500CA,0,0xffffffff,0);
-    sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x78)) + 0x1c0,1);
-    unaff_r10 = 0x77;
+  case 2:
+    {
+      register u8 *panel asm("r4") = stack + 0x6C;
+      asm("" : "+r"(panel));
+      sub_08065158(panel, 0x500CA, 0, -1, 0);
+      {
+      register u32 palette asm("r1") = *(u32 *)(panel + 0xC);
+      asm("" : "+r"(palette));
+      sub_08000AF0(0x15, palette + ({ register u32 offset asm("r0") = 0x1C0; asm("" : "+r"(offset)); offset; }), 1);
+      }
+      unaff_r10 = ({ register u32 value asm("r1") = 0x77; asm("" : "+r"(value)); value; });
+    }
+setCountdown:
+    *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r2") = 0x77; asm("" : "+r"(value)); value; });
+    break;
+  case 0:
+    {
+      register u8 *middle asm("r6");
+      register u8 *right asm("r5");
+      sub_08065158(frameStorage83AE8, 0x500CC, 0, -1, 0);
+      middle = stack + 0x38;
+      asm("" : "+r"(middle));
+      sub_08065158(middle, 0x500CB, 0, -1, 0);
+      right = stack + 0x6C;
+      asm("" : "+r"(right));
+      sub_08065158(right, 0x500CA, 0, -1, 0);
+      sub_08000AF0(0x14, *(u32 *)(stack + 0x10) + 0x1C0, 1);
+      sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + 0x1C0, 1);
+      sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + 0x1C0, 1);
+      *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r0") = 0x77; asm("" : "+r"(value)); value; });
+      unaff_r9 = ({ register u32 value asm("r1") = 0xAE; asm("" : "+r"(value)); value; });
+      unaff_r10 = ({ register u32 value asm("r2") = 0x40; asm("" : "+r"(value)); value; });
+    }
+    break;
   }
-  (*(u32 *)((u8 *)frame83AE8 + 0xC4)) = 0x77;
-LAB_08083bee:
-  (*(u8 *)((u8 *)frame83AE8 + 0x2E)) = 4;
-  (*(u8 *)((u8 *)frame83AE8 + 0x62)) = 5;
-  (*(u32 *)((u8 *)frame83AE8 + 0xC0)) = sub_08007290(*(u32 *)(param_1 * 4 + ((u32)gUnk_084ECC04)) | 0x140000);
+  (*(u8 *)((stack + 4) + 0x2A)) = 4;
+  (*(u8 *)((stack + 4) + 0x5E)) = 5;
+  (*(u32 *)((stack + 4) + 0xBC)) = sub_08007290(({ register u32 *table asm("r1") = gUnk_084ECC04; register u32 index asm("r2"); register u32 *entry asm("r0"); asm("" : "+r"(table)); index = param_1; asm("" : "+r"(index)); entry = (u32 *)((index << 2) + (u32)table); asm("" : "+r"(entry)); *entry; }) | 0x140000);
   *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) = *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) | 2;
-  if (0 < (int)((*(u32 *)((u8 *)frame83AE8 + 0xC4)) * 0x10000)) {
+  if (({ register u32 raw asm("r1") = *(u32 *)(stack + 0xC4); register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled; }) > 0) {
+    register u8 *middle asm("r5") = stack + 0x38;
+    register u32 paletteOffset asm("r6") = 0x1C0;
+    register s32 shiftedCount asm("r4");
+    asm("" : "+r"(middle), "+r"(paletteOffset));
     do {
-      iVar4 = sub_0800CDF8();
-      if ((iVar4 != 0) || (iVar4 = sub_080021A8(), iVar4 != 0)) goto LAB_080841de;
-      if ((short)(*(u32 *)((u8 *)frame83AE8 + 0xC4)) == 1) {
-        (*(u32 *)((u8 *)frame83AE8 + 0xC4)) = 0;
+      register s32 zero asm("r2");
+      if (sub_0800CDF8() != 0) goto LAB_080841de;
+      zero = sub_080021A8();
+      asm("" : "+r"(zero) : : "r4");
+      if (zero != 0) goto LAB_080841de;
+      if (({ register u32 raw asm("r1") = *(u32 *)(stack + 0xC4); register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled >> 16; }) == 1) *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+      {
+        register u32 raw asm("r1") = *(u32 *)(stack + 0xC4);
+        register s32 scaled asm("r0");
+        register s32 signedValue asm("r1");
+        asm("" : "+r"(raw));
+        scaled = raw << 16;
+        signedValue = scaled >> 16;
+        asm("" : "+r"(scaled), "+r"(signedValue));
+        signedValue = (u16)(signedValue - (scaled >> 17));
+        asm("" : "+r"(signedValue));
+        *(u32 *)(stack + 0xC4) = signedValue;
       }
-      (*(u32 *)((u8 *)frame83AE8 + 0xC4)) = ((int)((*(u32 *)((u8 *)frame83AE8 + 0xC4)) << 0x10) >> 0x10) - ((int)((*(u32 *)((u8 *)frame83AE8 + 0xC4)) << 0x10) >> 0x11) & 0xffff;
-      if ((short)unaff_r9 == 1) {
-        unaff_r9 = 0;
+      if (({ register u32 raw asm("r1") = unaff_r9; register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled >> 16; }) == 1) unaff_r9 = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+      {
+        register u32 raw asm("r1") = unaff_r9;
+        register s32 scaled asm("r0");
+        register s32 signedValue asm("r1");
+        asm("" : "+r"(raw));
+        scaled = raw << 16;
+        signedValue = scaled >> 16;
+        asm("" : "+r"(scaled), "+r"(signedValue));
+        signedValue = (u16)(signedValue - (scaled >> 17));
+        asm("" : "+r"(signedValue));
+        unaff_r9 = signedValue;
       }
-      uVar12 = ((int)(unaff_r9 << 0x10) >> 0x10) - ((int)(unaff_r9 << 0x10) >> 0x11);
-      unaff_r9 = uVar12 & 0xffff;
-      if ((short)unaff_r10 == 1) {
-        unaff_r10 = 0;
+      if (({ register u32 raw asm("r1") = unaff_r10; register s32 scaled asm("r0"); asm("" : "+r"(raw)); scaled = raw << 16; asm("" : "+r"(scaled)); scaled >> 16; }) == 1) unaff_r10 = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+      {
+        register u32 raw asm("r1") = unaff_r10;
+        register s32 scaled asm("r0");
+        register s32 signedValue asm("r1");
+        asm("" : "+r"(raw));
+        scaled = raw << 16;
+        signedValue = scaled >> 16;
+        asm("" : "+r"(scaled), "+r"(signedValue));
+        signedValue = (u16)(signedValue - (scaled >> 17));
+        asm("" : "+r"(signedValue));
+        unaff_r10 = signedValue;
       }
-      uVar5 = ((int)(unaff_r10 << 0x10) >> 0x10) - ((int)(unaff_r10 << 0x10) >> 0x11);
-      unaff_r10 = uVar5 & 0xffff;
-      sVar10 = (short)uVar12;
-      puVar3 = ((u8 *)frame83AE8 + 0x38);
-      if (uVar1 == 1) {
-LAB_08083ce4:
-        sub_08065230(puVar3,sVar10 + 0xb9,0x88,0,0);
-        sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-LAB_08083cfc:
-        iVar4 = (*(u32 *)((u8 *)frame83AE8 + 0xC4)) << 0x10;
-      }
-      else {
-        sVar8 = (short)uVar5;
-        if (1 < uVar1) {
-          if (uVar1 == 2) {
-            puVar3 = ((u8 *)frame83AE8 + 0x6C);
-            sVar10 = sVar8;
-            goto LAB_08083ce4;
-          }
-          goto LAB_08083cfc;
+      {
+        register u8 *panel asm("r0");
+        register s32 x asm("r1");
+        if (uVar1 == 1) goto phase1Middle;
+        if (uVar1 > 1) goto phase1Greater;
+        if (uVar1 == 0) goto phase1All;
+        shiftedCount = ({ register u32 value asm("r2") = *(u32 *)(stack + 0xC4); asm("" : "+r"(value)); value; }) << 16;
+        goto phase1Yield;
+phase1Greater:
+        if (uVar1 == 2) goto phase1Right;
+        goto phase1SingleEnd;
+phase1Middle:
+        x = ({ register u32 raw asm("r0") = unaff_r9; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0xB9; });
+        *(u32 *)stack = zero;
+        asm("" : : "m"(*(u32 *)stack));
+        panel = middle;
+        goto phase1Single;
+phase1Right:
+        x = ({ register u32 raw asm("r0") = unaff_r10; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0xB9; });
+        *(u32 *)stack = zero;
+        asm("" : : "m"(*(u32 *)stack));
+        panel = stack + 0x6C;
+phase1Single:
+        sub_08065230(panel, x, 0x88, 0, *(u32 *)stack);
+        {
+          register u32 palette asm("r1") = *(u32 *)(middle + 0xC);
+          register u32 paletteOffset asm("r2");
+          asm("" : "+r"(palette));
+          paletteOffset = 0x1C0;
+          asm("" : "+r"(paletteOffset));
+          sub_08000AF0(0x15, palette + paletteOffset, 1);
         }
-        if (uVar1 == 0) {
-          sub_08000AF0(0x14,(*(u32 *)((u8 *)frame83AE8 + 0x10)) + 0x1c0,1);
-          sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-          sub_08000AF0(0x1e,(*(u32 *)((u8 *)frame83AE8 + 0x78)) + 0x1c0,1);
-          sub_08065230(((u8 *)frame83AE8 + 0x6C),sVar8 + 0xf0,0x88,0,0);
-          sub_08065230(((u8 *)frame83AE8 + 0x38),sVar10 + 0x82,0x88,0,0);
-          iVar4 = (*(u32 *)((u8 *)frame83AE8 + 0xC4)) << 0x10;
-          sub_08065230(((u8 *)frame83AE8 + 0x4),(iVar4 >> 0x10) + 0xb9,0x88,0,0);
-        }
-        else {
-          iVar4 = (*(u32 *)((u8 *)frame83AE8 + 0xC4)) << 0x10;
+phase1SingleEnd:
+        shiftedCount = ({ register u32 value asm("r0") = *(u32 *)(stack + 0xC4); asm("" : "+r"(value)); value; }) << 16;
+        goto phase1Yield;
+phase1All:
+        {
+          register u8 *right asm("r4");
+          sub_08000AF0(0x14, *(u32 *)(stack + 0x10) + paletteOffset, 1);
+          sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + paletteOffset, 1);
+          right = stack + 0x6C;
+          asm("" : "+r"(right));
+          sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + paletteOffset, 1);
+          sub_08065230(right, ({ register u32 raw asm("r2") = unaff_r10; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0xF0; }), 0x88, 0, 0);
+          sub_08065230(middle, ({ register u32 raw asm("r0") = unaff_r9; register s32 x asm("r1"); asm("" : "+r"(raw)); x = raw << 16; asm("" : "+r"(x)); x >>= 16; x + 0x82; }), 0x88, 0, 0);
+          shiftedCount = ({ register u32 value asm("r1") = *(u32 *)(stack + 0xC4); asm("" : "+r"(value)); value; }) << 16;
+          sub_08065230(frameStorage83AE8, (shiftedCount >> 16) + 0xB9, 0x88, 0, 0);
         }
       }
+phase1Yield:
       sub_080003F0();
-    } while (0 < iVar4);
+    } while (shiftedCount > 0);
   }
-  (*(u32 *)((u8 *)frame83AE8 + 0xCC)) = (*(u32 *)((u8 *)frame83AE8 + 0xC0)) + 2;
-  for (uVar12 = 0; uVar5 = sub_0801A638((*(u32 *)((u8 *)frame83AE8 + 0xCC))), uVar12 <= uVar5; uVar12 = uVar12 + 1 & 0xffff) {
-    iVar4 = sub_0800CDF8();
-    if ((iVar4 != 0) || (iVar4 = sub_080021A8(), iVar4 != 0)) goto LAB_080841de;
-    if (uVar1 == 1) {
-      sub_08065230(((u8 *)frame83AE8 + 0x38),0xb9,0x88,0,0);
-LAB_08083dd4:
-      sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-    }
-    else if (uVar1 < 2) {
-      if (uVar1 == 0) {
-        sub_08000AF0(0x14,(*(u32 *)((u8 *)frame83AE8 + 0x10)) + 0x1c0,1);
-        sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-        sub_08000AF0(0x1e,(*(u32 *)((u8 *)frame83AE8 + 0x78)) + 0x1c0,1);
-        sub_08065230(((u8 *)frame83AE8 + 0x6C),0xf0,0x88,0,0);
-        sub_08065230(((u8 *)frame83AE8 + 0x38),0x82,0x88,0,0);
-        sub_08065230(((u8 *)frame83AE8 + 0x4),0xb9,0x88,0,0);
-      }
-    }
-    else if (uVar1 == 2) {
-      sub_08065230(((u8 *)frame83AE8 + 0x6C),0xb9,0x88,0,0);
-      goto LAB_08083dd4;
-    }
-    ((u8 *)frame83AE8 + 0xA0)[uVar12] = *(u8 *)((*(u32 *)((u8 *)frame83AE8 + 0xC0)) + uVar12 + 2);
-    ((u8 *)frame83AE8 + 0xA0)[uVar12 + 1] = 0xfd;
-    uVar5 = sub_0801A638((*(u32 *)((u8 *)frame83AE8 + 0xCC)));
-    sub_0801A3D0(((u8 *)frame83AE8 + 0xA0),0xf - (uVar5 >> 1) & 0xffff,0x12);
-    sub_080003F0();
-  }
-  uVar12 = uVar12 - 1 & 0xffff;
-  if ((*(u16 *)((u32)&gUnk_03001324) & 1) == 0) {
-    uVar11 = 0;
-    do {
-      iVar4 = sub_0800CDF8();
-      if ((iVar4 != 0) || (iVar4 = sub_080021A8(), iVar4 != 0)) goto LAB_080841de;
-      uVar2 = uVar11 + 1;
-      if (uVar11 < 0x1e) {
-        (*(u32 *)((u8 *)frame83AE8 + 0xC8)) = 1;
-      }
-      else if (0x1d < uVar2) {
-        (*(u32 *)((u8 *)frame83AE8 + 0xC8)) = 0;
-      }
-      if (0x28 < uVar2) {
-        uVar2 = 0;
-      }
-      if ((*(u32 *)((u8 *)frame83AE8 + 0xC8)) == 0) {
-        ((u8 *)frame83AE8 + 0xA0)[uVar12] = 0xfd;
-      }
-      else {
-        ((u8 *)frame83AE8 + 0xA0)[uVar12] = 0xa0;
-        ((u8 *)frame83AE8 + 0xA0)[uVar12 + 1] = 0xfd;
-      }
-      if (uVar1 == 1) {
-        sub_08065230(((u8 *)frame83AE8 + 0x38),0xb9,0x88,0,0);
-LAB_08083f4a:
-        sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-      }
-      else if (uVar1 < 2) {
-        if (uVar1 == 0) {
-          sub_08000AF0(0x14,(*(u32 *)((u8 *)frame83AE8 + 0x10)) + 0x1c0,1);
-          sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-          sub_08000AF0(0x1e,(*(u32 *)((u8 *)frame83AE8 + 0x78)) + 0x1c0,1);
-          sub_08065230(((u8 *)frame83AE8 + 0x6C),0xf0,0x88,0,0);
-          sub_08065230(((u8 *)frame83AE8 + 0x38),0x82,0x88,0,0);
-          sub_08065230(((u8 *)frame83AE8 + 0x4),0xb9,0x88,0,0);
+  {
+    register u32 revealIndex asm("r8");
+    register u32 lastIndex asm("r10");
+    register u32 blink asm("r8");
+    revealIndex = ({ register u32 value asm("r2") = 0; asm("" : "+r"(value)); value; });
+    *(u32 *)(stack + 0xCC) = *(u32 *)(stack + 0xC0) + 2;
+    while (revealIndex <= (u32)sub_0801A638(*(u8 **)(stack + 0xCC))) {
+      register s32 zero asm("r1");
+      if (sub_0800CDF8() != 0) goto LAB_080841de;
+      zero = sub_080021A8();
+      asm("" : "+r"(zero) : : "r4", "r9", "r10");
+      if (zero != 0) goto LAB_080841de;
+      switch (uVar1) {
+      case 1:
+        {
+          register u8 *middle asm("r4") = stack + 0x38;
+          asm("" : "+r"(middle));
+          sub_08065230(middle, 0xB9, 0x88, 0, zero);
+          { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
         }
+        break;
+      case 2:
+        sub_08065230(stack + 0x6C, 0xB9, 0x88, 0, zero);
+        { register u32 palette asm("r1") = *(u32 *)(stack + 0x44); register u32 offset asm("r0"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+        break;
+      case 0:
+        {
+          register u8 *middle asm("r6");
+          register u8 *right asm("r5");
+          register u32 paletteOffset asm("r4");
+          register u32 palette asm("r1") = *(u32 *)(stack + 0x10);
+          asm("" : "+r"(palette));
+          paletteOffset = 0x1C0;
+          asm("" : "+r"(paletteOffset));
+          sub_08000AF0(0x14, palette + paletteOffset, 1);
+          middle = stack + 0x38;
+          asm("" : "+r"(middle));
+          sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + paletteOffset, 1);
+          right = stack + 0x6C;
+          asm("" : "+r"(right));
+          sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + paletteOffset, 1);
+          sub_08065230(right, 0xF0, 0x88, 0, 0);
+          sub_08065230(middle, 0x82, 0x88, 0, 0);
+          sub_08065230(frameStorage83AE8, 0xB9, 0x88, 0, 0);
+        }
+        break;
       }
-      else if (uVar1 == 2) {
-        sub_08065230(((u8 *)frame83AE8 + 0x6C),0xb9,0x88,0,0);
-        goto LAB_08083f4a;
-      }
-      uVar5 = sub_0801A638((*(u32 *)((u8 *)frame83AE8 + 0xCC)));
-      sub_0801A3D0(((u8 *)frame83AE8 + 0xA0),0xf - (uVar5 >> 1) & 0xffff,0x12);
-      sub_080003F0();
-      uVar11 = uVar2;
-    } while ((*(u16 *)((u32)&gUnk_03001324) & 1) == 0);
-  }
-  (*(u32 *)((u8 *)frame83AE8 + 0xC4)) = 0;
-  uVar12 = 0;
-  uVar5 = 0;
-  sub_0805865C(0xf);
-  if (uVar1 == 1) {
-    do {
-      iVar4 = sub_0800CDF8();
-      if ((iVar4 != 0) || (iVar4 = sub_080021A8(), iVar4 != 0)) goto LAB_080841de;
-      uVar5 = (int)(short)uVar12 - ((short)uVar12 + -0x77 >> 1);
-      uVar12 = uVar5 & 0xffff;
-      sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-      iVar4 = (int)(short)uVar5;
-      sub_08065230(((u8 *)frame83AE8 + 0x38),iVar4 + 0xb9,0x88,0,0);
-      sub_080003F0();
-    } while (iVar4 != 0x77);
-  }
-  else if (uVar1 < 2) {
-    if (uVar1 == 0) {
-      do {
-        iVar4 = sub_0800CDF8();
-        if ((iVar4 != 0) || (iVar4 = sub_080021A8(), iVar4 != 0)) goto LAB_080841de;
-        uVar9 = (int)(short)(*(u32 *)((u8 *)frame83AE8 + 0xC4)) - ((short)(*(u32 *)((u8 *)frame83AE8 + 0xC4)) + -0x77 >> 1);
-        uVar6 = (int)(short)uVar12 - ((short)uVar12 + -0xae >> 1);
-        uVar12 = uVar6 & 0xffff;
-        uVar7 = (int)(short)uVar5 - ((short)uVar5 + -0x40 >> 1);
-        uVar5 = uVar7 & 0xffff;
-        (*(u32 *)((u8 *)frame83AE8 + 0xC4)) = uVar9 & 0xffff;
-        iVar4 = ((int)(uVar9 * 0x10000) >> 0x10) + -0x77;
-        if (iVar4 < 0) {
-          iVar4 = -iVar4;
-        }
-        if (iVar4 == 1) {
-          (*(u32 *)((u8 *)frame83AE8 + 0xC4)) = 0x77;
-        }
-        iVar4 = (short)uVar6 + -0xae;
-        if (iVar4 < 0) {
-          iVar4 = -iVar4;
-        }
-        if (iVar4 == 1) {
-          uVar12 = 0xae;
-        }
-        iVar4 = (short)uVar7 + -0x40;
-        if (iVar4 < 0) {
-          iVar4 = -iVar4;
-        }
-        if (iVar4 == 1) {
-          uVar5 = 0x40;
-        }
-        sub_08000AF0(0x14,(*(u32 *)((u8 *)frame83AE8 + 0x10)) + 0x1c0,1);
-        sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x44)) + 0x1c0,1);
-        sub_08000AF0(0x1e,(*(u32 *)((u8 *)frame83AE8 + 0x78)) + 0x1c0,1);
-        sub_08065230(((u8 *)frame83AE8 + 0x6C),(short)uVar5 + 0xf0,0x88,0,0);
-        sub_08065230(((u8 *)frame83AE8 + 0x38),(short)uVar12 + 0x82,0x88,0,0);
-        sVar10 = (short)(*(u32 *)((u8 *)frame83AE8 + 0xC4));
-        sub_08065230(((u8 *)frame83AE8 + 0x4),sVar10 + 0xb9,0x88,0,0);
+      {
+        register u8 *buffer asm("r4") = stack + 0xA0;
+        register u32 old asm("r2");
+        register u8 *destination asm("r1");
+        register u32 offset asm("r0");
+        register u8 *source asm("r2");
+        register u8 *address asm("r0");
+        register u32 next asm("r1");
+        asm("" : "+r"(buffer));
+        old = revealIndex;
+        asm("" : "+r"(old));
+        destination = buffer + old;
+        asm("" : "+r"(destination));
+        offset = revealIndex + 2;
+        asm("" : "+r"(offset));
+        source = *(u8 **)(stack + 0xC0);
+        asm("" : "+r"(source));
+        address = source + offset;
+        asm("" : "+r"(address));
+        *destination = *address;
+        next = revealIndex + 1;
+        buffer[next] = 0xFD;
+        asm("" : "+r"(next));
+        revealIndex = (u16)next;
+        sub_0801A3D0(buffer, (u16)(0xF - ((u32)sub_0801A638(*(u8 **)(stack + 0xCC)) >> 1)), 0x12);
         sub_080003F0();
-      } while (((sVar10 != 0x77) || ((short)uVar12 != 0xae)) || ((short)uVar5 != 0x40));
+      }
+    }
+    {
+      register u32 previous asm("r0") = revealIndex - 1;
+      asm("" : "+r"(previous));
+      lastIndex = (u16)previous;
+    }
+    blink = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+    if ((keys83AE8 & 1) == 0) {
+      register u8 *buffer asm("r9");
+      register u8 *middle asm("r5");
+      {
+        register u8 *base asm("r1") = stack + 0xA0;
+        asm("" : "+r"(base));
+        buffer = base;
+      }
+      middle = stack + 0x38;
+      asm("" : "+r"(buffer), "+r"(middle));
+      do {
+        if (sub_0800CDF8() != 0) goto LAB_080841de;
+        if (({ register s32 status asm("r0") = sub_080021A8(); asm("" : "+r"(status) : : "r4", "r6"); status; }) != 0) goto LAB_080841de;
+        {
+          register u32 previous asm("r1") = blink;
+          register u32 next asm("r0") = previous + 1;
+          asm("" : "+r"(previous), "+r"(next));
+          blink = (u16)next;
+          if (previous <= 0x1D) *(u32 *)(stack + 0xC8) = ({ register u32 value asm("r2") = 1; asm("" : "+r"(value)); value; });
+          else if (({ register u32 value asm("r0") = blink; asm("" : "+r"(value)); value; }) > 0x1D) *(u32 *)(stack + 0xC8) = ({ register u32 value asm("r1") = 0; asm("" : "+r"(value)); value; });
+        }
+        if (({ register u32 value asm("r2") = blink; asm("" : "+r"(value)); value; }) > 0x28) blink = ({ register u32 value asm("r0") = 0; asm("" : "+r"(value)); value; });
+        if (({ register u32 value asm("r1") = *(u32 *)(stack + 0xC8); asm("" : "+r"(value)); value; })) {
+          buffer[lastIndex] = 0xA0;
+          {
+            register u32 next asm("r0") = lastIndex + 1;
+            register u8 *end asm("r0");
+            register u32 terminator asm("r1");
+            asm("" : "+r"(next));
+            end = buffer + next;
+            asm("" : "+r"(end));
+            terminator = 0xFD;
+            asm("" : "+r"(terminator));
+            *end = terminator;
+          }
+        } else buffer[lastIndex] = 0xFD;
+        {
+          register u8 *drawBuffer asm("r6") = frameStorage83AE8 + 0x9C;
+          asm("" : "+r"(drawBuffer));
+          switch (uVar1) {
+          case 1:
+            sub_08065230(middle, 0xB9, 0x88, 0, 0);
+            { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+            break;
+          case 2:
+            sub_08065230(frameStorage83AE8 + 0x68, 0xB9, 0x88, 0, 0);
+            { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r0"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+            break;
+          case 0:
+            {
+              register u8 *right asm("r4");
+              { register u32 palette asm("r1") = *(u32 *)(stack + 0x10); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x14, palette, 1); }
+              { register u32 palette asm("r1") = *(u32 *)(middle + 0xC); register u32 offset asm("r0"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x15, palette, 1); }
+              right = stack + 0x6C;
+              asm("" : "+r"(right));
+              { register u32 palette asm("r1") = *(u32 *)(right + 0xC); register u32 offset asm("r2"); asm("" : "+r"(palette)); offset = 0x1C0; asm("" : "+r"(offset)); palette += offset; sub_08000AF0(0x1E, palette, 1); }
+              sub_08065230(right, 0xF0, 0x88, 0, 0);
+              sub_08065230(middle, 0x82, 0x88, 0, 0);
+              sub_08065230(frameStorage83AE8, 0xB9, 0x88, 0, 0);
+            }
+            break;
+          }
+          sub_0801A3D0(drawBuffer, (u16)(0xF - ((u32)sub_0801A638(*(u8 **)(stack + 0xCC)) >> 1)), 0x12);
+          sub_080003F0();
+        }
+      } while ((keys83AE8 & 1) == 0);
     }
   }
-  else if (uVar1 == 2) {
-    do {
-      iVar4 = sub_0800CDF8();
-      if ((iVar4 != 0) || (iVar4 = sub_080021A8(), iVar4 != 0)) goto LAB_080841de;
-      uVar12 = (int)(short)uVar5 - ((short)uVar5 + -0x77 >> 1);
-      uVar5 = uVar12 & 0xffff;
-      sub_08000AF0(0x15,(*(u32 *)((u8 *)frame83AE8 + 0x78)) + 0x1c0,1);
-      iVar4 = (int)(short)uVar12;
-      sub_08065230(((u8 *)frame83AE8 + 0x6C),iVar4 + 0xb9,0x88,0,0);
+  {
+    register u32 zero asm("r0") = 0;
+    asm("" : "+r"(zero));
+    *(u32 *)(stack + 0xC4) = zero;
+    unaff_r9 = zero;
+    unaff_r10 = zero;
+  }
+  sub_0805865C(0xF);
+  switch (uVar1) {
+  case 1:
+    {
+      register u8 *panel asm("r6") = stack + 0x38;
+      register s32 amount asm("r4");
+      asm("" : "+r"(panel));
+      do {
+        register s32 zero asm("r5");
+        if (sub_0800CDF8() != 0) goto LAB_080841de;
+        zero = sub_080021A8();
+        asm("" : "+r"(zero) : : "r4");
+        if (zero != 0) goto LAB_080841de;
+        {
+          register u32 raw asm("r1") = unaff_r9;
+          register s32 value asm("r0");
+          register s32 delta asm("r1");
+          asm("" : "+r"(raw));
+          value = raw << 16;
+          value >>= 16;
+          asm("" : "+r"(value));
+          delta = value - 0x77;
+          delta >>= 1;
+          asm("" : "+r"(delta));
+          value = (u16)(value - delta);
+          asm("" : "+r"(value));
+          unaff_r9 = value;
+        }
+
+        {
+          register u32 palette asm("r1") = *(u32 *)(panel + 0xC);
+          register u32 paletteOffset asm("r2");
+          asm("" : "+r"(palette));
+          paletteOffset = 0x1C0;
+          asm("" : "+r"(paletteOffset));
+          sub_08000AF0(0x15, palette + paletteOffset, 1);
+        }
+        {
+          register u32 raw asm("r0") = unaff_r9;
+          asm("" : "+r"(raw));
+          amount = raw << 16;
+          asm("" : "+r"(amount));
+          amount >>= 16;
+        }
+        sub_08065230(panel, amount + 0xB9, 0x88, 0, zero);
+        sub_080003F0();
+      } while (amount != 0x77);
+    }
+    break;
+  case 2:
+    {
+      register u8 *panel asm("r6") = stack + 0x6C;
+      register s32 amount asm("r4");
+      asm("" : "+r"(panel));
+      do {
+        register s32 zero asm("r5");
+        if (sub_0800CDF8() != 0) goto LAB_080841de;
+        zero = sub_080021A8();
+        asm("" : "+r"(zero) : : "r4");
+        if (zero != 0) goto LAB_080841de;
+        {
+          register u32 raw asm("r1") = unaff_r10;
+          register s32 value asm("r0");
+          register s32 delta asm("r1");
+          asm("" : "+r"(raw));
+          value = raw << 16;
+          value >>= 16;
+          asm("" : "+r"(value));
+          delta = value - 0x77;
+          delta >>= 1;
+          asm("" : "+r"(delta));
+          value = (u16)(value - delta);
+          asm("" : "+r"(value));
+          unaff_r10 = value;
+        }
+
+        {
+          register u32 palette asm("r1") = *(u32 *)(panel + 0xC);
+          register u32 paletteOffset asm("r2");
+          asm("" : "+r"(palette));
+          paletteOffset = 0x1C0;
+          asm("" : "+r"(paletteOffset));
+          sub_08000AF0(0x15, palette + paletteOffset, 1);
+        }
+        {
+          register u32 raw asm("r0") = unaff_r10;
+          asm("" : "+r"(raw));
+          amount = raw << 16;
+          asm("" : "+r"(amount));
+          amount >>= 16;
+        }
+        sub_08065230(panel, amount + 0xB9, 0x88, 0, zero);
+        sub_080003F0();
+      } while (amount != 0x77);
+    }
+    break;
+  case 0:
+    for (;;) {
+      register s32 zero asm("r8");
+      register s32 shiftedCount asm("r2");
+      register s32 firstCount asm("r4");
+      register s32 secondCount asm("r5");
+      s32 thirdCount;
+      register u8 *middle asm("r6");
+      register u8 *right asm("r5");
+      if (sub_0800CDF8() != 0) goto LAB_080841de;
+      {
+        s32 status = sub_080021A8();
+        zero = status;
+        asm("" : : "r"(zero) : "r4", "r5", "r6");
+        if (status != 0) goto LAB_080841de;
+      }
+      {
+        register u32 raw asm("r1") = *(u32 *)(stack + 0xC4);
+        register s32 delta asm("r0");
+        asm("" : "+r"(raw));
+        shiftedCount = raw << 16;
+        shiftedCount >>= 16;
+        asm("" : "+r"(shiftedCount));
+        delta = shiftedCount - 0x77;
+        delta >>= 1;
+        asm("" : "+r"(delta));
+        shiftedCount -= delta;
+        asm("" : "+r"(shiftedCount));
+        shiftedCount <<= 16;
+        asm("" : "+r"(shiftedCount));
+      }
+        {
+          register u32 raw asm("r1") = unaff_r9;
+          register s32 value asm("r0");
+          register s32 delta asm("r1");
+          asm("" : "+r"(raw));
+          value = raw << 16;
+          value >>= 16;
+          asm("" : "+r"(value));
+          delta = value - 0xAE;
+          delta >>= 1;
+          asm("" : "+r"(delta));
+          value = (u16)(value - delta);
+          asm("" : "+r"(value));
+          unaff_r9 = value;
+        }
+        {
+          register u32 raw asm("r1") = unaff_r10;
+          register s32 value asm("r0");
+          register s32 delta asm("r1");
+          asm("" : "+r"(raw));
+          value = raw << 16;
+          value >>= 16;
+          asm("" : "+r"(value));
+          delta = value - 0x40;
+          delta >>= 1;
+          asm("" : "+r"(delta));
+          value = (u16)(value - delta);
+          asm("" : "+r"(value));
+          unaff_r10 = value;
+        }
+      *(u32 *)(stack + 0xC4) = (u32)shiftedCount >> 16;
+      shiftedCount >>= 16;
+      {
+        register s32 delta asm("r0") = shiftedCount - 0x77;
+        if (delta < 0) delta = -delta;
+        if (delta == 1) *(u32 *)(stack + 0xC4) = ({ register u32 value asm("r1") = 0x77; asm("" : "+r"(value)); value; });
+      }
+      {
+        register u32 raw asm("r2") = unaff_r9;
+        register s32 delta asm("r0");
+        asm("" : "+r"(raw));
+        delta = raw << 16;
+        delta >>= 16;
+        asm("" : "+r"(delta));
+        delta -= 0xAE;
+        if (delta < 0) delta = -delta;
+        if (delta == 1) unaff_r9 = ({ register u32 value asm("r0") = 0xAE; asm("" : "+r"(value)); value; });
+      }
+      {
+        register u32 raw asm("r1") = unaff_r10;
+        register s32 delta asm("r0");
+        asm("" : "+r"(raw));
+        delta = raw << 16;
+        delta >>= 16;
+        asm("" : "+r"(delta));
+        delta -= 0x40;
+        if (delta < 0) delta = -delta;
+        if (delta == 1) unaff_r10 = ({ register u32 value asm("r2") = 0x40; asm("" : "+r"(value)); value; });
+      }
+      {
+        register u32 paletteOffset asm("r4");
+        register u32 palette asm("r1") = *(u32 *)(stack + 0x10);
+        asm("" : "+r"(palette));
+        paletteOffset = 0x1C0;
+        asm("" : "+r"(paletteOffset));
+        sub_08000AF0(0x14, palette + paletteOffset, 1);
+        middle = stack + 0x38;
+        asm("" : "+r"(middle));
+        sub_08000AF0(0x15, *(u32 *)(middle + 0xC) + paletteOffset, 1);
+        right = stack + 0x6C;
+        asm("" : "+r"(right));
+        sub_08000AF0(0x1E, *(u32 *)(right + 0xC) + paletteOffset, 1);
+      }
+      {
+        register u32 raw asm("r1") = unaff_r10;
+        register s32 scaled asm("r0");
+        asm("" : "+r"(raw));
+        scaled = raw << 16;
+        asm("" : "+r"(scaled));
+        thirdCount = scaled >> 16;
+      }
+      {
+        register s32 x asm("r1") = thirdCount + 0xF0;
+        register u32 stackZero asm("r2");
+        asm("" : "+r"(x));
+        stackZero = zero;
+        asm("" : "+r"(stackZero));
+        sub_08065230(right, x, 0x88, 0, stackZero);
+      }
+      {
+        register u32 raw asm("r1") = unaff_r9;
+        register s32 scaled asm("r0");
+        asm("" : "+r"(raw));
+        scaled = raw << 16;
+        asm("" : "+r"(scaled));
+        secondCount = scaled >> 16;
+      }
+      {
+        register s32 x asm("r1") = secondCount + 0x82;
+        register u32 stackZero asm("r2");
+        asm("" : "+r"(x));
+        stackZero = zero;
+        asm("" : "+r"(stackZero));
+        sub_08065230(middle, x, 0x88, 0, stackZero);
+      }
+      {
+        register u32 raw asm("r0") = *(u32 *)(stack + 0xC4);
+        asm("" : "+r"(raw));
+        firstCount = raw << 16;
+        firstCount >>= 16;
+        asm("" : "+r"(firstCount));
+      }
+      {
+        register s32 x asm("r1") = firstCount + 0xB9;
+        register u32 stackZero asm("r2");
+        asm("" : "+r"(x));
+        stackZero = zero;
+        asm("" : "+r"(stackZero));
+        sub_08065230(frameStorage83AE8, x, 0x88, 0, stackZero);
+      }
       sub_080003F0();
-    } while (iVar4 != 0x77);
+      if (firstCount == 0x77 && secondCount == 0xAE && thirdCount == 0x40) break;
+    }
+    break;
   }
   sub_080003F0();
   sub_080003F0();
@@ -4684,9 +5012,6 @@ LAB_080841de:
   *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) = *(u32 *)(*(int *)((u32)&gUnk_03006440) + 0x28) & 0xfffffffd;
   return;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08083AE8);
-#endif
 u32 sub_08084200(const u8 *arg0)
 {
     u16 b;
