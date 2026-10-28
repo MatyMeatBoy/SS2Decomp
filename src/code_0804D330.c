@@ -36,7 +36,38 @@ INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0805247C);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080526B4);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080529E0);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08052D0C);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08052FE8);
+extern u8 *gGS2FE8 asm("gUnk_03005CF4");
+extern void sub_0805990C();
+extern void sub_0803E5D8();
+static inline u8 *Sel2FE8(void)
+{
+    if (sub_0800CE30())
+        return gGS2FE8 + 0x1C7;
+    return gGS2FE8 + 0x1BB;
+}
+void sub_08052FE8(void)
+{
+    u8 mode;
+    u32 a, b;
+    {
+        u8 *q = Sel2FE8();
+        s32 m = ~1;
+        *q = m & *q;
+    }
+    mode = sub_0801DE60();
+    b = sub_0800CCCC();
+    a = 0;
+    if (mode == 6)
+        a = 1;
+    {
+        u32 c = 0;
+        if (b == 0)
+            c = 1;
+        if (a & c)
+            sub_08068070((u32)sub_0805990C, 0x20);
+    }
+    sub_08068070((u32)sub_0803E5D8, 0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053060);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053120);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080531C4);
