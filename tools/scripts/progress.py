@@ -200,7 +200,7 @@ def squarify(items, x, y, w, h):
     return rects
 
 
-def treemap_svg(modules, summary, width=1000, height=540):
+def _code_treemap_svg(modules, summary, width=1000, height=540):
     pad = 2
     head = 26
     legend = 42
@@ -235,12 +235,27 @@ def treemap_svg(modules, summary, width=1000, height=540):
                 mx, my, mw, mh, BG))
             frects = squarify([(f["size"], f) for f in m["funcs"]], mx + 1, my + 1, mw - 2, mh - 2)
             for f, fx, fy, fw, fh in frects:
-                col, edge = {"linked": (PURPLE, PURPLE_DARK), "done": (GREEN, GREEN_DARK), "todo": (GREY, GREY_DARK),
-                             "nonmatch": (YELLOW, YELLOW_DARK), "asm": (BLUE, BLUE_DARK)}["linked" if m["kind"] == "linked" else f["state"]]
+                col, edge = {"linked": (GREEN, GREEN_DARK), "done": (GREEN, GREEN_DARK), "todo": (GREY, GREY_DARK),
+                             "nonmatch": (YELLOW, YELLOW_DARK), "asm": (GREY, GREY_DARK)}["linked" if m["kind"] == "linked" else f["state"]]
+                work = f.get("work_progress", {}) if f["state"] != "done" else {}
+                areas = work.get("areas", [])
+                completed = sum(a["state"] == "done" for a in areas)
+                work_label = ("%d/%d hitos; no es matching" % (completed,len(areas))) if areas else ""
+                if areas:
+                    col, edge = GREY_DARK, YELLOW_DARK
                 parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" stroke="%s" '
                              'stroke-width="0.6"><title>%s  0x%08X  %d bytes  [%s]</title></rect>' % (
-                                 fx, fy, max(fw, 0.1), max(fh, 0.1), col, edge, escape(f["name"]), f["addr"],
+                                 fx, fy, max(fw, 0.1), max(fh, 0.1), col, edge, escape((f.get("display_name", f["name"]) + " | " + f["name"] + " | " + f.get("name_status", "unidentified") + (" | " + work_label if work_label else ""))), f["addr"],
                                  f["size"], "linked" if m["kind"] == "linked" else f["state"]))
+                if areas:
+                    parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" pointer-events="none"/>' % (fx,fy,max(fw,0.1)*completed/len(areas),max(fh,0.1),YELLOW))
+                    if fw > 85 and fh > 45:
+                        parts.append('<text x="%.1f" y="%.1f" fill="%s" font-size="9" text-anchor="middle" pointer-events="none">%d/%d hitos</text>' % (fx+fw/2,fy+fh/2+17,FG,completed,len(areas)))
+                display = f.get("display_name", f["name"])
+                if fw > 100 and fh > 28 and (f.get("name_status") in ("confirmed", "existing") or areas) and fy + fh / 2 > my + 20:
+                    limit = max(4, int((fw - 10) / 5.5))
+                    label = display if len(display) <= limit else display[:limit - 3] + "..."
+                    parts.append('<text x="%.1f" y="%.1f" fill="%s" font-size="9" text-anchor="middle" pointer-events="none">%s</text>' % (fx + fw / 2, fy + fh / 2 + 3, FG, escape(label)))
             if mw > 70 and mh > 18:
                 tw = len(m["name"]) * 5.6 + 6
                 parts.append('<rect x="%.1f" y="%.1f" width="%.1f" height="13" fill="%s" fill-opacity="0.75"/>' % (
@@ -251,8 +266,8 @@ def treemap_svg(modules, summary, width=1000, height=540):
         gx += gw
     lx = 6
     ly = height + 6
-    for col, txt in ((GREEN, "decompilado (C matching)"), (YELLOW, "borrador C compilable"),
-                     (GREY, "pendiente (asm)"), (BLUE, "asm original"), (PURPLE, "biblioteca enlazada")):
+    for col, txt in ((GREEN, "C matching / enlazado"), (YELLOW, "borrador / hitos de trabajo"),
+                     (GREY, "sin C matching / ASM original")):
         parts.append('<rect x="%d" y="%d" width="11" height="11" fill="%s"/>' % (lx, ly, col))
         parts.append('<text x="%d" y="%d" fill="%s" font-size="11">%s</text>' % (lx + 15, ly + 10, FG, escape(txt)))
         lx += 30 + len(txt) * 6
@@ -261,6 +276,43 @@ def treemap_svg(modules, summary, width=1000, height=540):
         s["percent"], s["bytes_total"], s["funcs_done"], s["funcs_total"])
     parts.append('<text x="%d" y="%d" fill="%s" font-size="11" text-anchor="end">%s</text>' % (
         width - 6, ly + 29, FG, escape(tot)))
+    parts.append('</svg>')
+    return "\n".join(parts)
+
+
+def treemap_svg(modules, summary, width=1000, height=740):
+    """Code area stays byte-weighted; identification and data are independent."""
+    all_ = summary["all"]
+    names = summary.get("identification", {}).get("all", {})
+    parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" role="img" aria-labelledby="progress-title progress-desc" font-family="Segoe UI,Helvetica,Arial,sans-serif">' % (width,height,width,height),
+             '<title id="progress-title">Shining Soul II: progreso de código e identificación</title>',
+             '<desc id="progress-desc">C matching, bibliotecas enlazadas y nombres se miden por separado. Los datos conservados no tienen porcentaje de comprensión.</desc>',
+             '<rect width="100%%" height="100%%" fill="%s"/>' % BG,
+             '<text x="12" y="20" fill="%s" font-size="15" font-weight="600">Shining Soul II | progreso verificado</text>' % FG]
+    cards = [
+        ("C matching", "%.2f%%" % all_["percent_decompiled"], "%d / %d funciones C" % (all_["funcs_decompiled"],all_["funcs_decompilable"]), GREEN),
+        ("Bibliotecas enlazadas", str(all_["funcs_linked"]) + " funciones", "%d bytes; no son C decompilado" % all_["bytes_linked"], GREEN),
+        ("Identificación", "%.2f%%" % names.get("percent_identified",0), "%d / %d nombres registrados" % (names.get("identified",0),names.get("total",0)), GREEN),
+        ("Histórico C + linked", "%.2f%%" % all_["percent"], "%d / %d funciones" % (all_["funcs_done"],all_["funcs_total"]), FG)]
+    card_width = (width - 60) / 4
+    for i,(label,value,detail,color) in enumerate(cards):
+        x = 12 + i * (card_width + 12)
+        parts += ['<rect x="%.1f" y="30" width="%.1f" height="66" rx="5" fill="#161b22"/>' % (x,card_width),
+                  '<text x="%.1f" y="46" fill="%s" font-size="11">%s</text>' % (x+10,FG,escape(label)),
+                  '<text x="%.1f" y="69" fill="%s" font-size="21" font-weight="600">%s</text>' % (x+10,color,escape(value)),
+                  '<text x="%.1f" y="86" fill="%s" font-size="10">%s</text>' % (x+10,FG,escape(detail))]
+    plot_height = height - 190
+    plot = _code_treemap_svg(modules,summary,width,plot_height)
+    parts.append(plot.replace('<svg ', '<svg x="0" y="104" ', 1))
+    y = 104 + plot_height + 20
+    data = summary.get("data", {})
+    graph = summary.get("callgraph", {})
+    lines = [
+        "Área = bytes de código. Relleno parcial amarillo = hitos registrados, no porcentaje matching ni estimación de tiempo.",
+        "Datos: %d bloques incbin (%.1f MiB), %d / %d etiquetas descriptivas; comprensión: sin porcentaje." % (data.get("incbin_count",0),data.get("incbin_bytes",0)/1048576,data.get("labels_descriptive",0),data.get("labels_total",0)),
+        "Grafo: %d funciones, %d relaciones, %d llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución." % (graph.get("nodes",0),graph.get("edges",0),graph.get("unresolved_calls",0))]
+    for i,line in enumerate(lines):
+        parts.append('<text x="12" y="%d" fill="%s" font-size="11">%s</text>' % (y+i*18,FG,escape(line)))
     parts.append('</svg>')
     return "\n".join(parts)
 
@@ -298,6 +350,31 @@ def pct_color(p):
     return "#e05d44"
 
 
+def load_function_work(root, registered):
+    work_path = Path(root, "tools/config/function_work.json")
+    work_rows = json.loads(work_path.read_text(encoding="utf-8"))["functions"] if work_path.exists() else []
+    reports = Path(root, "docs/agents/function_work")
+    overrides = {}
+    for report_path in sorted(reports.glob("*.json")) if reports.exists() else []:
+        row = json.loads(report_path.read_text(encoding="utf-8"))
+        address = int(row["address"],0)
+        if report_path.stem not in ("sub_%08X" % address,"arm_%08X" % address) or address in overrides:
+            raise ValueError("Function work report filename/address mismatch")
+        overrides[address] = row
+    work_rows = [row for row in work_rows if int(row["address"],0) not in overrides] + list(overrides.values())
+    work_by_address = {int(row["address"],0): row for row in work_rows}
+    if len(work_by_address) != len(work_rows) or not set(work_by_address) <= registered:
+        raise ValueError("Unknown or duplicate function work address")
+    for row in work_rows:
+        if not row.get("areas") or any(a.get("state") not in ("pending","active","done") or not a.get("id") or not a.get("label") or not a.get("evidence") for a in row["areas"]):
+            raise ValueError("Work milestones require state, label and evidence")
+    for row in work_rows:
+        ids = [area["id"] for area in row["areas"]]
+        if len(set(ids)) != len(ids):
+            raise ValueError("Duplicate work milestone id")
+    return work_by_address
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(ROOT, "docs/progress"))
@@ -306,6 +383,16 @@ def main():
     modules = collect()
     summary = summarize(modules)
     os.makedirs(args.out, exist_ok=True)
+    from project_inventory import generate
+    summary.update(generate(ROOT, args.out, collect(include_prelude=True)))
+    work_by_address = load_function_work(ROOT, {f["addr"] for m in modules for f in m["funcs"]})
+    inventory = json.loads(Path(args.out, "functions.json").read_text(encoding="utf-8"))
+    names_by_address = {f["addr"]: f for f in inventory["functions"]}
+    for module in modules:
+        for function in module["funcs"]:
+            node = names_by_address.get(function["addr"], {})
+            function["work_progress"] = work_by_address.get(function["addr"], {})
+            function.update(display_name=node.get("display_name",function["name"]), name_status=node.get("name_status","unidentified"))
     with open(os.path.join(args.out, "treemap.svg"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write('<?xml version="1.0" encoding="UTF-8"?>\n')
         fh.write(treemap_svg(modules, summary))
@@ -319,8 +406,6 @@ def main():
     with open(os.path.join(args.out, "badge_functions.svg"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write(badge_svg("functions", "%d/%d" % (s["funcs_done"], s["funcs_total"]),
                            pct_color(100.0 * s["funcs_done"] / max(1, s["funcs_total"]))))
-    from project_inventory import generate
-    summary.update(generate(ROOT, args.out, collect(include_prelude=True)))
     for filename, label, value in (("badge_decompiled.svg", "matching C", summary["all"]["percent_decompiled"]),
                                     ("badge_names.svg", "identified game functions", summary["identification"]["game"]["percent_identified"])):
         Path(args.out, filename).write_text(badge_svg(label, "%.2f%%" % value, pct_color(value)), encoding="utf-8")

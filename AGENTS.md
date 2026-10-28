@@ -75,3 +75,25 @@ source-callgraph and data reports alongside progress; never commit `docs/progres
 Serialize edits, builds and commit hooks within each checkout; parallelize only
 between independent checkouts. If overlapping builds truncated intermediates,
 stop them and force a rebuild before trusting compare/nonmatching results.
+
+
+## Progress of large functions
+
+Each owner may update only `docs/agents/function_work/sub_XXXXXXXX.json` for their
+claimed function, alongside a verified checkpoint. This per-function tracking file
+is the explicit exception to function-only edits; never edit another owner's report.
+Use `address`, `updated_utc`, `checkpoint`, `areas` and optional `regions`. Each area
+needs an id, label, state (`pending`, `active`, `done`) and concrete evidence.
+Only completed, evidenced areas fill the yellow work bar. These equal-weight work
+milestones do not measure matching bytes, semantic equivalence or remaining time.
+Keep the full-match area pending until the normal C build reproduces the ROM.
+The coordinator integrates reports; CI updates the graphic. Never commit generated
+`docs/progress/*` or change the shared tracking defaults inside a shard.
+
+For future multi-worker work on one giant function, first add atomic region
+subclaims beneath its exclusive function claim. Define CFG boundaries, live-in/out
+registers, stack slots, types and shared declarations before assigning regions.
+Use independent checkouts and region candidates, with one owner assembling the
+complete function and running module/ROM checks. Do not extract new helpers merely
+to split work: optimization and register allocation span region boundaries.
+Subclaims are not implemented yet; the current exclusive function claim remains.

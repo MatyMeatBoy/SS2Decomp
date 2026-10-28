@@ -596,22 +596,18 @@ INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802704C);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080277E0);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027B50);
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
-#ifdef NONMATCHING
-void sub_08028368(u8 a, u16 b, u8 c)
+struct E8368 { u16 h; u8 a; u8 c; };
+struct GS8368 { u8 pad[0x1E4C]; u32 cnt; struct E8368 e[11]; };
+extern struct GS8368 *gGS8368 asm("gUnk_03005CF4");
+void sub_08028368(u32 a, u32 b, u32 c)
 {
-    u8 *entry;
-    u8 *base = *(u8 **)0x03005CF4;
-    u32 count = *(u32 *)(base + 0x1E4C);
-    if (count > 10) return;
-    entry = base + 0x1E52 + count * 4;
-    entry[0] = a;
-    entry[1] = c;
-    *(u16 *)(entry + 2) = b;
-    *(u32 *)(base + 0x1E4C) = count + 1;
+    if (gGS8368->cnt > 10)
+        return;
+    gGS8368->e[gGS8368->cnt].a = a;
+    gGS8368->e[gGS8368->cnt].c = c;
+    gGS8368->e[gGS8368->cnt].h = b;
+    gGS8368->cnt++;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028368);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080283C4);
 void sub_08028498(u16 arg0)
 {
