@@ -318,6 +318,33 @@
       ]
     },
     {
+      "address": "0x0800903C",
+      "canonical_symbol": "sub_0800903C",
+      "display_name": "SetBlendRegisterShadow",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 224,
+          "detail": "Packs target masks/effect into shadow+0x40, EVA/EVB into+0x42 and brightness into+0x44; B50 copies these to BLDCNT/BLDALPHA/BLDY at 0x50/0x52/0x54.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "Shadow base is copied to hardware starting at 0x04000010.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 1,
+          "detail": "BLDCNT/BLDALPHA/BLDY offsets are 0x50/0x52/0x54.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
       "address": "0x080135C4",
       "canonical_symbol": "sub_080135C4",
       "display_name": "LinkCreatePlayerEntity",
@@ -375,6 +402,36 @@
       ]
     },
     {
+      "address": "0x0809044C",
+      "canonical_symbol": "sub_0809044C",
+      "display_name": "FixedMultiplyQ16",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 265,
+          "detail": "Multiplies two signed 32-bit inputs in a 64-bit intermediate, then returns the low 32 bits of product shifted right 16; SDK origin is not established.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08090470",
+      "canonical_symbol": "sub_08090470",
+      "display_name": "FixedDivideQ16",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 271,
+          "detail": "Promotes inputs to signed 64-bit, shifts numerator left 16, divides by denominator and returns signed 32-bit result; no explicit zero guard or SDK origin is established.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
       "address": "0x08090494",
       "canonical_symbol": "sub_08090494",
       "display_name": "FixedReciprocalQ8",
@@ -385,6 +442,63 @@
           "source": "src/code_0808FB5C.c",
           "line": 275,
           "detail": "Matching C returns 0x10000/arg0: reciprocal in 8-fractional-bit representation. No explicit divide-by-zero guard; SDK origin is not established.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080933A0",
+      "canonical_symbol": "sub_080933A0",
+      "display_name": "StartBg1HBlankDmaScroll",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 75,
+          "detail": "Resets phase, sets amplitude 0x10 and active flag, installs DMA3/VBlank callbacks, enables interrupt 0x800 and programs DMA3 from 03000264 to BG1HOFS 04000014 with control 0xE3400001.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 1,
+          "detail": "REG_OFFSET_BG1HOFS is0x14 and DMA3 source register starts at 0xD4.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08093404",
+      "canonical_symbol": "sub_08093404",
+      "display_name": "StopBg1HBlankDmaScroll",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 94,
+          "detail": "Clears active flag, disables DMA3 interrupt 0x800, waits for signal 1 then clears DMA3/VBlank callbacks. Callback 93498 observes inactive flag and disables DMA3.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 118,
+          "detail": "sub_08093498 masks DMA3 control when active flag 03000268 is zero.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08093498",
+      "canonical_symbol": "sub_08093498",
+      "display_name": "AdvanceBg1ScrollDmaPhase",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 118,
+          "detail": "Advances phase 03000267 by 2; if active flag 03000268 is zero, masks DMA3 control to disable transfer/IRQ timing. Installed as VBlank callback by 933A0.",
           "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
@@ -406,56 +520,255 @@
     {
       "address": "0x080948E0",
       "canonical_symbol": "sub_080948E0",
-      "display_name": "AnimateSineOffsets",
-      "status": "proposed",
+      "display_name": "TaskScrollBg0Bg1AndPulseBlend",
+      "status": "confirmed",
       "domain": "game",
       "evidence": [
         {
-          "source": "asm/nonmatchings/code_08092D60/sub_080948E0.s",
-          "detail": "Infinite loop uses sine table080B9704, offsets-0xAA/+0x80 and yield080003F0; precise display role unknown.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "source": "src/code_08092D60.c",
+          "line": 229,
+          "detail": "Loop decrements the BG0 vertical scroll accumulator by 0xAA, increments BG1 vertical scroll by 0x80, writes their >>8 values to shadow+2/+6 and uses sine(phase)*5/256+10 as blend EVA; phase advances 3 and waits for signal 1.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "Shadow offsets2/6 map to BG0VOFS/BG1VOFS through the register-shadow copy.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 224,
+          "detail": "sub_0800903C packs the supplied coefficients into blend register shadow.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
     {
       "address": "0x080949A8",
       "canonical_symbol": "sub_080949A8",
-      "display_name": "InitializeTaskStack03000278",
-      "status": "proposed",
+      "display_name": "StartBgScrollBlendTask",
+      "status": "confirmed",
       "domain": "game",
       "evidence": [
         {
           "source": "src/code_08092D60.c",
-          "detail": "Initializes task global03000278, allocation0x400 and stack+0x3FC, callback080948E0 and state0x44.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "line": 271,
+          "detail": "Initializes stack allocation 0x400 at global task 03000278, callback 948E0, stack top+0x3FC and priority 0x44, then schedules the task.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 229,
+          "detail": "Callback948E0 directly scrolls BG0/BG1 and pulses blend coefficient.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08094DEC",
+      "canonical_symbol": "sub_08094DEC",
+      "display_name": "TaskSineScrollBg0Bg1AndPulseBlend",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08092D60/sub_08094DEC.s",
+          "line": 1,
+          "detail": "Original ASM loop writes sine/cosine horizontal offsets at shadow+0/+4, vertical drift+0x100/+0x80 at+2/+6, complementary sine-driven blend coefficients 8+s and8-s, then waits for signal 1. C remains a nonmatching draft; identity comes from ASM.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "Shadow offsets 0..6 are copied to BG0/BG1 horizontal/vertical offset registers.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 224,
+          "detail": "Blend helper0903C packs the supplied coefficients.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
     {
       "address": "0x08094EE4",
       "canonical_symbol": "sub_08094EE4",
-      "display_name": "InitializeTaskStack0300027C",
-      "status": "proposed",
+      "display_name": "StartBgSineScrollBlendTask",
+      "status": "confirmed",
       "domain": "game",
       "evidence": [
         {
           "source": "src/code_08092D60.c",
-          "detail": "Initializes task global0300027C, allocation0x400 and stack+0x3FC, callback08094DEC and state0x44.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "line": 355,
+          "detail": "Initializes stack allocation 0x400 at global task 0300027C, callback 94DEC, stack top+0x3FC and priority 0x44, then schedules it.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/code_08092D60/sub_08094DEC.s",
+          "line": 1,
+          "detail": "ASM callback implements BG0/BG1 sine scrolling and complementary alpha blend pulses.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080953F8",
+      "canonical_symbol": "sub_080953F8",
+      "display_name": "UpdateBg2AffineRegisterShadow",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 374,
+          "detail": "Builds PA/PB/PC/PD from sine/cosine and reciprocal scales, then low/high reference coordinates. Writes shadow halfwords 8..15 only when all three effect checks return zero. The Y reference formula uses0x78 exactly as source; no centered-screen simplification is assumed.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "detail": "sub_08000B50 copies 0x24 halfwords from gUnk_03001250 to REG_ADDR_BG0HOFS (0x04000010).",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "include/gba/io_reg.h",
+          "line": 1,
+          "detail": "BG2PA/PB/PC/PD at 0x20..0x26 and BG2X/Y at 0x28/0x2C map shadow halfwords 8..15 to BG2 affine registers.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08095518",
+      "canonical_symbol": "sub_08095518",
+      "display_name": "ConfigureBg2AffineDisplay",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 405,
+          "detail": "Sets display mode 2, enables BG2/OBJ, writes BG2CNT 0x7C82, calls sub_080921E4(5,0x1C), resets transform and sets position 0, offset 0xF8 and scale 0x200 before display resume.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/main.c",
+          "line": 141,
+          "detail": "sub_08000990 writes the display mode; sub_080009C0 enables display planes/window mask.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/video.c",
+          "line": 12,
+          "detail": "sub_08000AA8 case 2 writes BG2CNT.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
     {
       "address": "0x080955CC",
       "canonical_symbol": "sub_080955CC",
-      "display_name": "ResetTransformState03000280",
-      "status": "proposed",
+      "display_name": "ResetBg2AffineTransform",
+      "status": "confirmed",
       "domain": "game",
       "evidence": [
         {
           "source": "src/code_08092D60.c",
-          "detail": "Observed halfwords at offsets6/4/10/8=0, byte12=0, halfwords2/0=0x100 in gUnk_03000280; transform interpretation remains provisional.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "line": 429,
+          "detail": "Resets transform fields x/y/dx/dy/angle to zero and scaleX/scaleY to 0x100. The affine consumer 953F8 confirms field roles.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 374,
+          "detail": "sub_080953F8 reads these scale, position, offset and angle fields to construct the BG2 affine register shadow.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080955EC",
+      "canonical_symbol": "sub_080955EC",
+      "display_name": "SetBg2AffinePosition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 439,
+          "detail": "Stores the two inputs in transform offsets 4/6, used as x/y by 953F8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 374,
+          "detail": "Affine consumer confirms the field roles rather than inferring them solely from setters.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x080955F8",
+      "canonical_symbol": "sub_080955F8",
+      "display_name": "SetBg2AffineOffset",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 444,
+          "detail": "Stores the two inputs in transform offsets 8/10, added to x/y by 953F8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 374,
+          "detail": "Affine consumer confirms the field roles rather than inferring them solely from setters.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08095604",
+      "canonical_symbol": "sub_08095604",
+      "display_name": "SetBg2AffineScale",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 449,
+          "detail": "Stores the two halfword inputs at offsets 0/2, consumed as reciprocal scales by 953F8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 374,
+          "detail": "Affine consumer confirms the field roles rather than inferring them solely from setters.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
+    },
+    {
+      "address": "0x08095610",
+      "canonical_symbol": "sub_08095610",
+      "display_name": "SetBg2AffineAngle",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08092D60.c",
+          "line": 453,
+          "detail": "Stores the byte at offset 12, used as sine/cosine lookup phase by 953F8.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08092D60.c",
+          "line": 374,
+          "detail": "Affine consumer confirms the field roles rather than inferring them solely from setters.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     }

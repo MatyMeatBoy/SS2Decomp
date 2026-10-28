@@ -34,3 +34,43 @@ in the reciprocal helper, and the multiply does not promise a 64-bit intermediat
 Studied for this correction: 003F0, 003F4, 00420, 01204, 00274, wait/signal callers in
 `code_08028AAC.c`, and 90434/90494 with affine consumer 953F8. No C, ASM or canonical
 symbols were modified.
+
+
+## Affine, scrolling and blend roles (29822dfa)
+
+The role of `gUnk_03001250` is independently anchored by `sub_08000B50`: it copies
+36 halfwords to hardware starting at BG0HOFS (0x04000010). The register offsets
+in `include/gba/io_reg.h` therefore map shadow indices 8..15 to BG2 PA/PB/PC/PD
+and the low/high BG2 reference X/Y halves. `sub_080953F8` computes those values
+from the control block's scale, angle, position and additive offset fields, then
+writes them only when three effect checks return zero. Its name describes the
+register-shadow update; it does not claim that the calculation always runs.
+The Y reference expression uses 0x78 exactly as source, even though the matrix
+term uses 0x50. A port must not replace that expression with an assumed centered
+screen transform without a separate behavior change and validation.
+
+This consumer establishes the field roles used by setters 955EC/955F8/95604/95610
+and reset 955CC. Setup 95518 directly selects display mode 2 and BG2CNT 0x7C82,
+then sets the transform defaults. Resource identities and the exact game screen
+are not inferred. Related scene initializers 943F8/94590/94A00 were read but not
+given screen-specific names. The more complex 941B4 callback was inspected only
+partially, so the 94530 task-stack interpretation remains a proposal.
+
+948E0 writes **vertical** scroll offsets for BG0/BG1, despite C locals named x/y.
+It drifts those offsets at different fixed rates while pulsing a blend coefficient
+with sine. The role of blend helper 0903C is established by its shadow+0x40/+0x42/
++0x44 writes, which the same hardware copy maps to BLDCNT/BLDALPHA/BLDY. The
+original ASM of 94DEC additionally confirms sine/cosine horizontal offsets and
+complementary blend coefficients. Its C remains a nonmatching draft; the name
+comes from the ASM, not an equivalence claim. These callbacks establish the
+narrow roles of their task starters 949A8/94EE4 without guessing a scene name.
+
+933A0 programs DMA3 to write the BG1 horizontal scroll register at HBlank and
+installs its DMA3/VBlank callbacks. 93498 advances phase and disables DMA when
+inactive. 93404 requests shutdown, waits on signal 1, then removes the callbacks.
+The callback implementation at 9342C remains a draft and was not promoted based
+on the C draft alone.
+
+Additional matching helpers 9044C/90470 implement Q16 multiplication/division
+with 64-bit intermediates. They retain game-domain classification because their
+formulas and consumers do not establish SDK provenance.

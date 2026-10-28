@@ -125,7 +125,9 @@ aliases, including aliases declared in headers, resolve to canonical targets.
 Strings and comments are masked before call scanning. C draft observations retain
 the caller's `draft` implementation status; the graph can contain both a draft C
 observation and its original ASM target observation. `callgraph.dot` is suitable
-for Graphviz. It includes isolated configured functions as well.
+for Graphviz. It includes isolated configured functions as well. The JSON keeps
+one node, edge or unresolved-call record per line with compact nested objects;
+this changes formatting only and retains every schema field and observation.
 
 A focused caller/callee neighborhood is usually more useful than the full graph:
 
@@ -167,3 +169,6 @@ separate checkouts. Two simultaneous make processes sharing a build directory ca
 truncate intermediate `.i`/`.s` files even when source is valid. Stop overlapping
 processes and force a rebuild before trusting results from affected artifacts.
 Do not build while another process edits that checkout.
+
+Audited role interpretations and corrections are recorded in
+[function-name research notes](../FUNCTION_NAME_RESEARCH.md).

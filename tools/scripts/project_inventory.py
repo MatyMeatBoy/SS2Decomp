@@ -12,6 +12,25 @@ def write_json(path, value):
     Path(path).write_text(json.dumps(value, indent=2, ensure_ascii=True) + '\n', encoding='utf-8')
 
 
+def write_graph_json(path, graph):
+    """Keep each node/edge/unresolved record on one line, preserving all fields."""
+    compact = lambda value: json.dumps(value, ensure_ascii=True, separators=(',', ':'))
+    with Path(path).open('w', encoding='utf-8', newline='\n') as output:
+        output.write('{\n')
+        for field_index, (key, value) in enumerate(graph.items()):
+            comma = ',' if field_index + 1 < len(graph) else ''
+            output.write('  ' + compact(key) + ': ')
+            if key in ('nodes', 'edges', 'unresolved_calls'):
+                output.write('[\n')
+                for record_index, record in enumerate(value):
+                    output.write('    ' + compact(record))
+                    output.write(',\n' if record_index + 1 < len(value) else '\n')
+                output.write('  ]' + comma + '\n')
+            else:
+                output.write(compact(value) + comma + '\n')
+        output.write('}\n')
+
+
 def generate(root, out, modules):
     root, out = Path(root), Path(out)
     out.mkdir(parents=True, exist_ok=True)
@@ -27,7 +46,7 @@ def generate(root, out, modules):
     data = data_inventory.collect(root)
     write_json(out / 'functions.json', {'schema_version': 1, 'functions': nodes, 'identification': identification,
                'limitations': 'Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven.'})
-    write_json(out / 'callgraph.json', graph)
+    write_graph_json(out / 'callgraph.json', graph)
     (out / 'callgraph.dot').write_text(source_index.to_dot(graph), encoding='utf-8')
     write_json(out / 'data_inventory.json', data)
     lines = ['# Function identification', '',
@@ -65,7 +84,7 @@ def main():
     args = parser.parse_args()
     graph = source_index.focus_graph(json.loads(Path(args.graph).read_text(encoding='utf-8')), args.focus, args.depth, args.direction)
     stem = Path(args.out); stem.parent.mkdir(parents=True, exist_ok=True)
-    write_json(str(stem) + '.json', graph)
+    write_graph_json(str(stem) + '.json', graph)
     Path(str(stem) + '.dot').write_text(source_index.to_dot(graph), encoding='utf-8')
 
 
