@@ -1,5 +1,11 @@
 # Worker instructions (parallel decompilation)
 
+> Legacy cloud-only guide. Current [AGENTS.md](../../AGENTS.md) takes precedence.
+> Local workers with `baserom.gba` must never set `SKIP_ROM`: require `make compare`
+> and `make nonmatching`, append-only headers, and the claimed-shard workflow.
+> Never accept `MATCH (positions only)` or a heuristic zero; read
+> [MATCH_VERIFICATION.md](MATCH_VERIFICATION.md) before applying candidates.
+
 You are one of many parallel workers. Your job: turn the functions of YOUR SHARD from `INCLUDE_ASM` into C that
 compiles to the same bytes as the original. A maintainer merges all worker branches and verifies the full ROM.
 Be terse in chat; the commits are what matter. User language is Spanish but code/commits are English.

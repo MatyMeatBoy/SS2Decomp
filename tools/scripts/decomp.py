@@ -294,12 +294,18 @@ def func_code(obj, func):
                     if start <= off < start + size:
                         s2 = st.get_symbol(r["r_info_sym"])
                         name = s2.name
-                        if s2["st_info"]["type"] == "STT_SECTION" or (
-                                s2["st_shndx"] == sym["st_shndx"] and s2["st_info"]["bind"] == "STB_LOCAL"):
-                            # reference into the same section: make it function relative
-                            name = "<section>"
-                            if s2["st_info"]["type"] != "STT_SECTION":
+                        if s2["st_info"]["type"] == "STT_SECTION":
+                            # Only this function's own section is function-relative.
+                            # Collapsing other sections loses target identity and
+                            # incorrectly subtracts the caller's start from ABS32.
+                            name = "<section>" if s2["st_shndx"] == sym["st_shndx"] else "<section:%s>" % elf.get_section(s2["st_shndx"]).name
+                        elif s2["st_info"]["bind"] == "STB_LOCAL" and isinstance(s2["st_shndx"], int):
+                            if s2["st_shndx"] == sym["st_shndx"]:
                                 name = "<section+%d>" % (s2["st_value"] - start)
+                            else:
+                                # Local names can repeat across objects/sections;
+                                # never resolve one through the linked global map.
+                                name = "<section:%s+%d>" % (elf.get_section(s2["st_shndx"]).name, s2["st_value"])
                         relocs[off - start] = (r["r_info_type"], name)
         func_code.start = start
         return data, relocs
@@ -331,9 +337,11 @@ def normalized(obj, func):
                 items.append((off, rtype, name, addend))
                 data[off:off + 4] = b"\0\0\0\0"
         else:
-            # calls / branches: keep target identity, blank the encoded offset
+            # REL addends live in the relocated bytes. Erasing four bytes loses
+            # call/jump addends and even opcodes (e.g. R_ARM_V4BX's bx register).
+            # ARM7 GAS emits the same implicit addend for defined/undefined
+            # globals; keep these bytes and the relocation target identity.
             items.append((off, rtype, val if val is not None else name))
-            data[off:off + 4] = b"\0\0\0\0"
     return bytes(data), items
 
 
