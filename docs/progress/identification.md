@@ -5,9 +5,9 @@ Existing descriptive identifiers and confirmed catalog names count as identified
 
 | Domain | All functions | Existing | Confirmed | Proposed | Unidentified | Identified |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| game | 1880 | 5 | 17 | 5 | 1853 | 1.17% |
+| game | 1880 | 5 | 20 | 5 | 1850 | 1.33% |
 | sdk | 155 | 129 | 6 | 0 | 20 | 87.10% |
-| all | 2035 | 134 | 23 | 5 | 1873 | 7.71% |
+| all | 2035 | 134 | 26 | 5 | 1870 | 7.86% |
 
 SDK/game here describes catalog origin; module categories used by progress metrics remain unchanged.
 
@@ -18,8 +18,9 @@ Graph observations include source locations and distinguish compiling C drafts f
 
 | Address | Canonical symbol | Display name | Status | Domain | Evidence |
 | --- | --- | --- | --- | --- | --- |
-| 0x080003F0 | `sub_080003F0` | TaskYieldOneTick | confirmed | game | asm/nonmatchings/sched/sub_080003F0.s: Loads r0=1 and branches to sub_080003F4. |
-| 0x080003F4 | `sub_080003F4` | TaskSleepTicks | confirmed | game | asm/nonmatchings/sched/sub_080003F4.s: Stores tick count at task+0x14, saves context and switches to scheduler stack. |
+| 0x080003F0 | `sub_080003F0` | TaskWaitForSignal1 | confirmed | game | asm/nonmatchings/sched/sub_080003F0.s: Loads r0=1 and branches to TaskWaitForSignal; this is a signal identifier, not a tick duration.; src/code_08000EC8.c: Frame-processing sub_08001204 invokes sub_08000420(1); its VBlank wait is conditional on forcedBlank. This does not establish a fixed elapsed-time sleep. |
+| 0x080003F4 | `sub_080003F4` | TaskWaitForSignal | confirmed | game | asm/nonmatchings/sched/sub_080003F4.s: Stores the supplied signal at task+0x14, saves context, sets state 4 and switches to scheduler stack. No decrement of a duration occurs.; asm/nonmatchings/sched/sub_08000420.s: Wake operation compares the supplied signal for exact equality with each task+0x14, clears it and sets state 1.; src/code_08028AAC.c: Waits for 0x11201100 and separately signals 0x514C8; demonstrates identifiers rather than tick counts. |
+| 0x08000420 | `sub_08000420` | TaskWakeBySignal | confirmed | game | asm/nonmatchings/sched/sub_08000420.s: Traverses gUnk_03001240; for each task whose +0x14 equals r0, clears +0x14 and sets +4 to ready state 1. It does not decrement sleep counters. |
 | 0x08000470 | `sub_08000470` | TaskIsScheduled | confirmed | game | asm/nonmatchings/sched/sub_08000470.s: Traverses gUnk_03001240 task list, returning one when the requested task pointer is found. |
 | 0x0800048C | `sub_0800048C` | TaskGetCurrent | confirmed | game | asm/nonmatchings/sched/sub_0800048C.s: Returns the current task pointer from gUnk_0300123C. |
 | 0x08001494 | `sub_08001494` | HeapAllocate | confirmed | game | src/code_08000EC8.c: Aligns allocation size, searches free blocks and splits the selected block. |
@@ -41,6 +42,8 @@ Graph observations include source locations and distinguish compiling C drafts f
 | 0x080135C4 | `sub_080135C4` | LinkCreatePlayerEntity | confirmed | game | docs/LINK_CABLE.md: Creates player entity and assigns per-slot send and receive block pointers. |
 | 0x08066720 | `sub_08066720` | LinkBroadcastMessageTask | confirmed | game | docs/LINK_CABLE.md: Announces tagged message, sends eight-byte chunks, waits for peer acknowledgments. |
 | 0x0806690C | `sub_0806690C` | LinkReceivePeerMessageTask | confirmed | game | docs/LINK_CABLE.md: Per-peer receiver acknowledges announce/chunks and dispatches message tag. |
+| 0x08090434 | `sub_08090434` | FixedMultiplyQ8 | confirmed | game | src/code_0808FB5C.c: Matching C computes signed 32-bit product arg1 * arg0 then arithmetic right shift 8. This confirms an 8-fractional-bit multiply; SDK origin is not established. |
+| 0x08090494 | `sub_08090494` | FixedReciprocalQ8 | confirmed | game | src/code_0808FB5C.c: Matching C returns 0x10000/arg0: reciprocal in 8-fractional-bit representation. No explicit divide-by-zero guard; SDK origin is not established. |
 | 0x08094530 | `sub_08094530` | InitializeTaskStack03000270 | proposed | game | src/code_08092D60.c: Task variant using global03000270 and waits through080003F0; precise screen role unknown. |
 | 0x080948E0 | `sub_080948E0` | AnimateSineOffsets | proposed | game | asm/nonmatchings/code_08092D60/sub_080948E0.s: Infinite loop uses sine table080B9704, offsets-0xAA/+0x80 and yield080003F0; precise display role unknown. |
 | 0x080949A8 | `sub_080949A8` | InitializeTaskStack03000278 | proposed | game | src/code_08092D60.c: Initializes task global03000278, allocation0x400 and stack+0x3FC, callback080948E0 and state0x44. |

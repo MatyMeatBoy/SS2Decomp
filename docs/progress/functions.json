@@ -159,14 +159,21 @@
       "canonical_symbol": "sub_080003F0",
       "domain": "game",
       "implementation": "original_asm",
-      "display_name": "TaskYieldOneTick",
+      "display_name": "TaskWaitForSignal1",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
           "source": "asm/nonmatchings/sched/sub_080003F0.s",
-          "detail": "Loads r0=1 and branches to sub_080003F4.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "line": 1,
+          "detail": "Loads r0=1 and branches to TaskWaitForSignal; this is a signal identifier, not a tick duration.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08000EC8.c",
+          "line": 138,
+          "detail": "Frame-processing sub_08001204 invokes sub_08000420(1); its VBlank wait is conditional on forcedBlank. This does not establish a fixed elapsed-time sleep.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
@@ -182,14 +189,27 @@
       "canonical_symbol": "sub_080003F4",
       "domain": "game",
       "implementation": "original_asm",
-      "display_name": "TaskSleepTicks",
+      "display_name": "TaskWaitForSignal",
       "name_status": "confirmed",
       "name_source": "catalog",
       "evidence": [
         {
           "source": "asm/nonmatchings/sched/sub_080003F4.s",
-          "detail": "Stores tick count at task+0x14, saves context and switches to scheduler stack.",
-          "revision": "2e8b4e3ec6c41ed9f0d10903858c5c2c718ae355"
+          "line": 1,
+          "detail": "Stores the supplied signal at task+0x14, saves context, sets state 4 and switches to scheduler stack. No decrement of a duration occurs.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000420.s",
+          "line": 1,
+          "detail": "Wake operation compares the supplied signal for exact equality with each task+0x14, clears it and sets state 1.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        },
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 100,
+          "detail": "Waits for 0x11201100 and separately signals 0x514C8; demonstrates identifiers rather than tick counts.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
         }
       ]
     },
@@ -205,10 +225,17 @@
       "canonical_symbol": "sub_08000420",
       "domain": "game",
       "implementation": "original_asm",
-      "display_name": "sub_08000420",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskWakeBySignal",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/sched/sub_08000420.s",
+          "line": 1,
+          "detail": "Traverses gUnk_03001240; for each task whose +0x14 equals r0, clears +0x14 and sets +4 to ready state 1. It does not decrement sleep counters.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_08000440",
@@ -7496,14 +7523,14 @@
       "name": "sub_0801ACB8",
       "addr": 134327480,
       "size": 1452,
-      "state": "todo",
+      "state": "done",
       "module": "code_0801AAF8",
       "kind": "c",
       "cat": "game",
       "address": "0x0801ACB8",
       "canonical_symbol": "sub_0801ACB8",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0801ACB8",
       "name_status": "unidentified",
       "name_source": null,
@@ -7598,14 +7625,14 @@
       "name": "sub_0801B8A8",
       "addr": 134330536,
       "size": 460,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0801AAF8",
       "kind": "c",
       "cat": "game",
       "address": "0x0801B8A8",
       "canonical_symbol": "sub_0801B8A8",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_0801B8A8",
       "name_status": "unidentified",
       "name_source": null,
@@ -7615,14 +7642,14 @@
       "name": "sub_0801BA74",
       "addr": 134330996,
       "size": 3708,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0801AAF8",
       "kind": "c",
       "cat": "game",
       "address": "0x0801BA74",
       "canonical_symbol": "sub_0801BA74",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_0801BA74",
       "name_status": "unidentified",
       "name_source": null,
@@ -18603,14 +18630,14 @@
       "name": "sub_0805C208",
       "addr": 134595080,
       "size": 756,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0805A630",
       "kind": "c",
       "cat": "game",
       "address": "0x0805C208",
       "canonical_symbol": "sub_0805C208",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_0805C208",
       "name_status": "unidentified",
       "name_source": null,
@@ -18637,14 +18664,14 @@
       "name": "sub_0805C620",
       "addr": 134596128,
       "size": 408,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0805A630",
       "kind": "c",
       "cat": "game",
       "address": "0x0805C620",
       "canonical_symbol": "sub_0805C620",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_0805C620",
       "name_status": "unidentified",
       "name_source": null,
@@ -26443,10 +26470,17 @@
       "canonical_symbol": "sub_08090434",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08090434",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FixedMultiplyQ8",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 254,
+          "detail": "Matching C computes signed 32-bit product arg1 * arg0 then arithmetic right shift 8. This confirms an 8-fractional-bit multiply; SDK origin is not established.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_0809043C",
@@ -26511,10 +26545,17 @@
       "canonical_symbol": "sub_08090494",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08090494",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FixedReciprocalQ8",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 275,
+          "detail": "Matching C returns 0x10000/arg0: reciprocal in 8-fractional-bit representation. No explicit divide-by-zero guard; SDK origin is not established.",
+          "revision": "29822dfa6f1c78d16721b19a9b286d2fc592e203"
+        }
+      ]
     },
     {
       "name": "sub_080904A4",
@@ -31072,14 +31113,14 @@
       "name": "sub_080A92C0",
       "addr": 134910656,
       "size": 960,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A3D2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080A92C0",
       "canonical_symbol": "sub_080A92C0",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080A92C0",
       "name_status": "unidentified",
       "name_source": null,
@@ -35440,12 +35481,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 22,
+      "identified": 25,
       "existing": 5,
-      "confirmed": 17,
+      "confirmed": 20,
       "proposed": 5,
-      "unidentified": 1853,
-      "percent_identified": 1.1702127659574468
+      "unidentified": 1850,
+      "percent_identified": 1.3297872340425532
     },
     "sdk": {
       "total": 155,
@@ -35458,12 +35499,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 157,
+      "identified": 160,
       "existing": 134,
-      "confirmed": 23,
+      "confirmed": 26,
       "proposed": 5,
-      "unidentified": 1873,
-      "percent_identified": 7.714987714987715
+      "unidentified": 1870,
+      "percent_identified": 7.862407862407863
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
