@@ -10861,14 +10861,14 @@
       "name": "sub_08031CB8",
       "addr": 134421688,
       "size": 208,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08031CB8",
       "canonical_symbol": "sub_08031CB8",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08031CB8",
       "name_status": "unidentified",
       "name_source": null,
@@ -10878,14 +10878,14 @@
       "name": "sub_08031D88",
       "addr": 134421896,
       "size": 208,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08031D88",
       "canonical_symbol": "sub_08031D88",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08031D88",
       "name_status": "unidentified",
       "name_source": null,
@@ -10895,14 +10895,14 @@
       "name": "sub_08031E58",
       "addr": 134422104,
       "size": 208,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08031E58",
       "canonical_symbol": "sub_08031E58",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08031E58",
       "name_status": "unidentified",
       "name_source": null,
@@ -10912,14 +10912,14 @@
       "name": "sub_08031F28",
       "addr": 134422312,
       "size": 208,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08031F28",
       "canonical_symbol": "sub_08031F28",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08031F28",
       "name_status": "unidentified",
       "name_source": null,
@@ -113666,72 +113666,63 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 25,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 36,
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 31,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 38,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 32,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 39,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 33,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 40,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 34,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 41,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 61,
-          "column": 1,
-          "callee": "sub_080003F0"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031CB8",
-      "callee": "sub_080003F4",
-      "observations": [
-        {
-          "caller": "sub_08031CB8",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
+          "source": "src/code_0802FEA0.c",
           "line": 48,
-          "column": 1,
-          "callee": "sub_080003F4"
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113741,12 +113732,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 54,
-          "column": 1,
-          "callee": "sub_08000420"
+          "source": "src/code_0802FEA0.c",
+          "line": 45,
+          "column": 5,
+          "callee": "sub_08000420",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113756,21 +113748,23 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 6,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 29,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 66,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 50,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113780,12 +113774,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 30,
-          "column": 1,
-          "callee": "sub_0800BB54"
+          "source": "src/code_0802FEA0.c",
+          "line": 37,
+          "column": 5,
+          "callee": "sub_0800BB54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113795,12 +113790,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 35,
-          "column": 1,
-          "callee": "sub_0800CCA8"
+          "source": "src/code_0802FEA0.c",
+          "line": 42,
+          "column": 5,
+          "callee": "sub_0800CCA8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113810,12 +113806,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 52,
-          "column": 1,
-          "callee": "sub_0800CCB8"
+          "source": "src/code_0802FEA0.c",
+          "line": 44,
+          "column": 5,
+          "callee": "sub_0800CCB8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113825,12 +113822,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 18,
-          "column": 1,
-          "callee": "sub_0800CE40"
+          "source": "src/code_0802FEA0.c",
+          "line": 33,
+          "column": 5,
+          "callee": "sub_0800CE40",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113840,12 +113838,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 55,
-          "column": 1,
-          "callee": "sub_0800CE54"
+          "source": "src/code_0802FEA0.c",
+          "line": 46,
+          "column": 5,
+          "callee": "sub_0800CE54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113855,12 +113854,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 17,
-          "column": 1,
-          "callee": "sub_0800D0F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 32,
+          "column": 5,
+          "callee": "sub_0800D0F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113870,12 +113870,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 78,
-          "column": 1,
-          "callee": "sub_0800D108"
+          "source": "src/code_0802FEA0.c",
+          "line": 53,
+          "column": 5,
+          "callee": "sub_0800D108",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113885,21 +113886,23 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 27,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 35,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 63,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 47,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113909,27 +113912,13 @@
       "observations": [
         {
           "caller": "sub_08031CB8",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 20,
-          "column": 1,
-          "callee": "sub_0801ABE8"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031CB8",
-      "callee": "sub_08084F9C",
-      "observations": [
-        {
-          "caller": "sub_08031CB8",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-          "line": 46,
-          "column": 1,
-          "callee": "sub_08084F9C"
+          "source": "src/code_0802FEA0.c",
+          "line": 34,
+          "column": 5,
+          "callee": "sub_0801ABE8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -113939,72 +113928,63 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 25,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 65,
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 31,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 67,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 32,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 68,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 33,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 69,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 34,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 70,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 61,
-          "column": 1,
-          "callee": "sub_080003F0"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031D88",
-      "callee": "sub_080003F4",
-      "observations": [
-        {
-          "caller": "sub_08031D88",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 48,
-          "column": 1,
-          "callee": "sub_080003F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 77,
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114014,12 +113994,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 54,
-          "column": 1,
-          "callee": "sub_08000420"
+          "source": "src/code_0802FEA0.c",
+          "line": 74,
+          "column": 5,
+          "callee": "sub_08000420",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114029,21 +114010,23 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 6,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 58,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 66,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 79,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114053,12 +114036,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 30,
-          "column": 1,
-          "callee": "sub_0800BB54"
+          "source": "src/code_0802FEA0.c",
+          "line": 66,
+          "column": 5,
+          "callee": "sub_0800BB54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114068,12 +114052,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 35,
-          "column": 1,
-          "callee": "sub_0800CCA8"
+          "source": "src/code_0802FEA0.c",
+          "line": 71,
+          "column": 5,
+          "callee": "sub_0800CCA8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114083,12 +114068,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 52,
-          "column": 1,
-          "callee": "sub_0800CCB8"
+          "source": "src/code_0802FEA0.c",
+          "line": 73,
+          "column": 5,
+          "callee": "sub_0800CCB8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114098,12 +114084,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 18,
-          "column": 1,
-          "callee": "sub_0800CE40"
+          "source": "src/code_0802FEA0.c",
+          "line": 62,
+          "column": 5,
+          "callee": "sub_0800CE40",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114113,12 +114100,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 55,
-          "column": 1,
-          "callee": "sub_0800CE54"
+          "source": "src/code_0802FEA0.c",
+          "line": 75,
+          "column": 5,
+          "callee": "sub_0800CE54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114128,12 +114116,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 17,
-          "column": 1,
-          "callee": "sub_0800D0F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 61,
+          "column": 5,
+          "callee": "sub_0800D0F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114143,12 +114132,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 78,
-          "column": 1,
-          "callee": "sub_0800D108"
+          "source": "src/code_0802FEA0.c",
+          "line": 82,
+          "column": 5,
+          "callee": "sub_0800D108",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114158,21 +114148,23 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 27,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 64,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 63,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 76,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114182,27 +114174,13 @@
       "observations": [
         {
           "caller": "sub_08031D88",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 20,
-          "column": 1,
-          "callee": "sub_0801ABE8"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031D88",
-      "callee": "sub_08084F9C",
-      "observations": [
-        {
-          "caller": "sub_08031D88",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-          "line": 46,
-          "column": 1,
-          "callee": "sub_08084F9C"
+          "source": "src/code_0802FEA0.c",
+          "line": 63,
+          "column": 5,
+          "callee": "sub_0801ABE8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114212,72 +114190,63 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 25,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 94,
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 31,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 96,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 32,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 97,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 33,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 98,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 34,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 99,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 61,
-          "column": 1,
-          "callee": "sub_080003F0"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031E58",
-      "callee": "sub_080003F4",
-      "observations": [
-        {
-          "caller": "sub_08031E58",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 48,
-          "column": 1,
-          "callee": "sub_080003F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 106,
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114287,12 +114256,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 54,
-          "column": 1,
-          "callee": "sub_08000420"
+          "source": "src/code_0802FEA0.c",
+          "line": 103,
+          "column": 5,
+          "callee": "sub_08000420",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114302,21 +114272,23 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 6,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 87,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 66,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 108,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114326,12 +114298,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 30,
-          "column": 1,
-          "callee": "sub_0800BB54"
+          "source": "src/code_0802FEA0.c",
+          "line": 95,
+          "column": 5,
+          "callee": "sub_0800BB54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114341,12 +114314,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 35,
-          "column": 1,
-          "callee": "sub_0800CCA8"
+          "source": "src/code_0802FEA0.c",
+          "line": 100,
+          "column": 5,
+          "callee": "sub_0800CCA8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114356,12 +114330,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 52,
-          "column": 1,
-          "callee": "sub_0800CCB8"
+          "source": "src/code_0802FEA0.c",
+          "line": 102,
+          "column": 5,
+          "callee": "sub_0800CCB8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114371,12 +114346,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 18,
-          "column": 1,
-          "callee": "sub_0800CE40"
+          "source": "src/code_0802FEA0.c",
+          "line": 91,
+          "column": 5,
+          "callee": "sub_0800CE40",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114386,12 +114362,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 55,
-          "column": 1,
-          "callee": "sub_0800CE54"
+          "source": "src/code_0802FEA0.c",
+          "line": 104,
+          "column": 5,
+          "callee": "sub_0800CE54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114401,12 +114378,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 17,
-          "column": 1,
-          "callee": "sub_0800D0F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 90,
+          "column": 5,
+          "callee": "sub_0800D0F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114416,12 +114394,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 78,
-          "column": 1,
-          "callee": "sub_0800D108"
+          "source": "src/code_0802FEA0.c",
+          "line": 111,
+          "column": 5,
+          "callee": "sub_0800D108",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114431,21 +114410,23 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 27,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 93,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 63,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 105,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114455,27 +114436,13 @@
       "observations": [
         {
           "caller": "sub_08031E58",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 20,
-          "column": 1,
-          "callee": "sub_0801ABE8"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031E58",
-      "callee": "sub_08084F9C",
-      "observations": [
-        {
-          "caller": "sub_08031E58",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-          "line": 46,
-          "column": 1,
-          "callee": "sub_08084F9C"
+          "source": "src/code_0802FEA0.c",
+          "line": 92,
+          "column": 5,
+          "callee": "sub_0801ABE8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114485,72 +114452,63 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 25,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 123,
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 31,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 125,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 32,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 126,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 33,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 127,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 34,
-          "column": 1,
-          "callee": "sub_080003F0"
+          "source": "src/code_0802FEA0.c",
+          "line": 128,
+          "column": 5,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 61,
-          "column": 1,
-          "callee": "sub_080003F0"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031F28",
-      "callee": "sub_080003F4",
-      "observations": [
-        {
-          "caller": "sub_08031F28",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 48,
-          "column": 1,
-          "callee": "sub_080003F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 135,
+          "column": 9,
+          "callee": "sub_080003F0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114560,12 +114518,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 54,
-          "column": 1,
-          "callee": "sub_08000420"
+          "source": "src/code_0802FEA0.c",
+          "line": 132,
+          "column": 5,
+          "callee": "sub_08000420",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114575,21 +114534,23 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 6,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 116,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 66,
-          "column": 1,
-          "callee": "sub_080020F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 137,
+          "column": 39,
+          "callee": "sub_080020F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114599,12 +114560,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 30,
-          "column": 1,
-          "callee": "sub_0800BB54"
+          "source": "src/code_0802FEA0.c",
+          "line": 124,
+          "column": 5,
+          "callee": "sub_0800BB54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114614,12 +114576,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 35,
-          "column": 1,
-          "callee": "sub_0800CCA8"
+          "source": "src/code_0802FEA0.c",
+          "line": 129,
+          "column": 5,
+          "callee": "sub_0800CCA8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114629,12 +114592,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 52,
-          "column": 1,
-          "callee": "sub_0800CCB8"
+          "source": "src/code_0802FEA0.c",
+          "line": 131,
+          "column": 5,
+          "callee": "sub_0800CCB8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114644,12 +114608,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 18,
-          "column": 1,
-          "callee": "sub_0800CE40"
+          "source": "src/code_0802FEA0.c",
+          "line": 120,
+          "column": 5,
+          "callee": "sub_0800CE40",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114659,12 +114624,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 55,
-          "column": 1,
-          "callee": "sub_0800CE54"
+          "source": "src/code_0802FEA0.c",
+          "line": 133,
+          "column": 5,
+          "callee": "sub_0800CE54",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114674,12 +114640,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 17,
-          "column": 1,
-          "callee": "sub_0800D0F4"
+          "source": "src/code_0802FEA0.c",
+          "line": 119,
+          "column": 5,
+          "callee": "sub_0800D0F4",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114689,12 +114656,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 78,
-          "column": 1,
-          "callee": "sub_0800D108"
+          "source": "src/code_0802FEA0.c",
+          "line": 140,
+          "column": 5,
+          "callee": "sub_0800D108",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114704,21 +114672,23 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 27,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 122,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         },
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 63,
-          "column": 1,
-          "callee": "sub_0801AAE0"
+          "source": "src/code_0802FEA0.c",
+          "line": 134,
+          "column": 12,
+          "callee": "sub_0801AAE0",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -114728,27 +114698,13 @@
       "observations": [
         {
           "caller": "sub_08031F28",
-          "language": "asm",
+          "language": "c",
           "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 20,
-          "column": 1,
-          "callee": "sub_0801ABE8"
-        }
-      ]
-    },
-    {
-      "caller": "sub_08031F28",
-      "callee": "sub_08084F9C",
-      "observations": [
-        {
-          "caller": "sub_08031F28",
-          "language": "asm",
-          "kind": "call",
-          "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-          "line": 46,
-          "column": 1,
-          "callee": "sub_08084F9C"
+          "source": "src/code_0802FEA0.c",
+          "line": 121,
+          "column": 5,
+          "callee": "sub_0801ABE8",
+          "implementation": "decompiled"
         }
       ]
     },
@@ -118940,7 +118896,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 37,
+          "line": 161,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -118950,7 +118906,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 43,
+          "line": 167,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -118960,7 +118916,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 56,
+          "line": 180,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -118970,7 +118926,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 62,
+          "line": 186,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -118986,7 +118942,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 31,
+          "line": 155,
           "column": 23,
           "callee": "sub_080020F4",
           "implementation": "decompiled"
@@ -118996,7 +118952,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 76,
+          "line": 200,
           "column": 19,
           "callee": "sub_080020F4",
           "implementation": "decompiled"
@@ -119012,7 +118968,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 50,
+          "line": 174,
           "column": 7,
           "callee": "sub_08006D08",
           "implementation": "decompiled"
@@ -119022,7 +118978,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 70,
+          "line": 194,
           "column": 7,
           "callee": "sub_08006D08",
           "implementation": "decompiled"
@@ -119038,7 +118994,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 33,
+          "line": 157,
           "column": 3,
           "callee": "sub_0800D0F4",
           "implementation": "decompiled"
@@ -119054,7 +119010,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 77,
+          "line": 201,
           "column": 3,
           "callee": "sub_0800D108",
           "implementation": "decompiled"
@@ -119070,7 +119026,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 34,
+          "line": 158,
           "column": 3,
           "callee": "sub_0802949C",
           "implementation": "decompiled"
@@ -119086,7 +119042,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 74,
+          "line": 198,
           "column": 3,
           "callee": "sub_08029788",
           "implementation": "decompiled"
@@ -119102,7 +119058,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 40,
+          "line": 164,
           "column": 8,
           "callee": "sub_0805DF38",
           "implementation": "decompiled"
@@ -119112,7 +119068,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 59,
+          "line": 183,
           "column": 19,
           "callee": "sub_0805DF38",
           "implementation": "decompiled"
@@ -119128,7 +119084,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 41,
+          "line": 165,
           "column": 10,
           "callee": "sub_0805EEFC",
           "implementation": "decompiled"
@@ -119138,7 +119094,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 60,
+          "line": 184,
           "column": 10,
           "callee": "sub_0805EEFC",
           "implementation": "decompiled"
@@ -119154,7 +119110,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 46,
+          "line": 170,
           "column": 7,
           "callee": "sub_0805EF14",
           "implementation": "decompiled"
@@ -119164,7 +119120,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 65,
+          "line": 189,
           "column": 14,
           "callee": "sub_0805EF14",
           "implementation": "decompiled"
@@ -119180,7 +119136,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 35,
+          "line": 159,
           "column": 10,
           "callee": "sub_0805F184",
           "implementation": "decompiled"
@@ -119190,7 +119146,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 54,
+          "line": 178,
           "column": 10,
           "callee": "sub_0805F184",
           "implementation": "decompiled"
@@ -119206,7 +119162,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 52,
+          "line": 176,
           "column": 5,
           "callee": "sub_08068070",
           "implementation": "decompiled"
@@ -119216,7 +119172,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 72,
+          "line": 196,
           "column": 5,
           "callee": "sub_08068070",
           "implementation": "decompiled"
@@ -120165,7 +120121,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 94,
+          "line": 218,
           "column": 7,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -120175,7 +120131,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 97,
+          "line": 221,
           "column": 37,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -120185,7 +120141,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 97,
+          "line": 221,
           "column": 188,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -120195,7 +120151,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 103,
+          "line": 227,
           "column": 7,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -120205,7 +120161,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 108,
+          "line": 232,
           "column": 7,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -120215,7 +120171,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 119,
+          "line": 243,
           "column": 7,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -120231,7 +120187,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 86,
+          "line": 210,
           "column": 32,
           "callee": "sub_080020F4",
           "implementation": "decompiled"
@@ -120241,7 +120197,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 123,
+          "line": 247,
           "column": 32,
           "callee": "sub_080020F4",
           "implementation": "decompiled"
@@ -120257,7 +120213,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 97,
+          "line": 221,
           "column": 140,
           "callee": "sub_0800CDF8",
           "implementation": "decompiled"
@@ -120267,7 +120223,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 114,
+          "line": 238,
           "column": 11,
           "callee": "sub_0800CDF8",
           "implementation": "decompiled"
@@ -120283,7 +120239,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 89,
+          "line": 213,
           "column": 3,
           "callee": "sub_0800D0F4",
           "implementation": "decompiled"
@@ -120299,7 +120255,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 125,
+          "line": 249,
           "column": 3,
           "callee": "sub_0800D108",
           "implementation": "decompiled"
@@ -120315,7 +120271,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 97,
+          "line": 221,
           "column": 60,
           "callee": "sub_0805DF38",
           "implementation": "decompiled"
@@ -120325,7 +120281,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 111,
+          "line": 235,
           "column": 10,
           "callee": "sub_0805DF38",
           "implementation": "decompiled"
@@ -120341,7 +120297,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 97,
+          "line": 221,
           "column": 111,
           "callee": "sub_0805EEFC",
           "implementation": "decompiled"
@@ -120351,7 +120307,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 112,
+          "line": 236,
           "column": 12,
           "callee": "sub_0805EEFC",
           "implementation": "decompiled"
@@ -120367,7 +120323,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 97,
+          "line": 221,
           "column": 14,
           "callee": "sub_0805EF90",
           "implementation": "decompiled"
@@ -120377,7 +120333,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 106,
+          "line": 230,
           "column": 12,
           "callee": "sub_0805EF90",
           "implementation": "decompiled"
@@ -120393,7 +120349,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 97,
+          "line": 221,
           "column": 163,
           "callee": "sub_0805EFBC",
           "implementation": "decompiled"
@@ -120403,7 +120359,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 116,
+          "line": 240,
           "column": 9,
           "callee": "sub_0805EFBC",
           "implementation": "decompiled"
@@ -120419,7 +120375,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 92,
+          "line": 216,
           "column": 12,
           "callee": "sub_0805F184",
           "implementation": "decompiled"
@@ -120429,7 +120385,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 101,
+          "line": 225,
           "column": 12,
           "callee": "sub_0805F184",
           "implementation": "decompiled"
@@ -126385,7 +126341,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 144,
+          "line": 268,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -126395,7 +126351,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 156,
+          "line": 280,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -126405,7 +126361,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 166,
+          "line": 290,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -126415,7 +126371,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 177,
+          "line": 301,
           "column": 5,
           "callee": "sub_080003F0",
           "implementation": "decompiled"
@@ -126431,7 +126387,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 145,
+          "line": 269,
           "column": 9,
           "callee": "sub_080021A8",
           "implementation": "decompiled"
@@ -126441,7 +126397,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 157,
+          "line": 281,
           "column": 9,
           "callee": "sub_080021A8",
           "implementation": "decompiled"
@@ -126451,7 +126407,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 167,
+          "line": 291,
           "column": 9,
           "callee": "sub_080021A8",
           "implementation": "decompiled"
@@ -126461,7 +126417,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 178,
+          "line": 302,
           "column": 9,
           "callee": "sub_080021A8",
           "implementation": "decompiled"
@@ -126477,7 +126433,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 159,
+          "line": 283,
           "column": 5,
           "callee": "sub_08029174",
           "implementation": "decompiled"
@@ -126487,7 +126443,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 169,
+          "line": 293,
           "column": 5,
           "callee": "sub_08029174",
           "implementation": "decompiled"
@@ -126503,7 +126459,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 147,
+          "line": 271,
           "column": 5,
           "callee": "sub_0802926C",
           "implementation": "decompiled"
@@ -126513,7 +126469,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 148,
+          "line": 272,
           "column": 5,
           "callee": "sub_0802926C",
           "implementation": "decompiled"
@@ -126523,7 +126479,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 149,
+          "line": 273,
           "column": 5,
           "callee": "sub_0802926C",
           "implementation": "decompiled"
@@ -126539,7 +126495,7 @@
           "language": "c",
           "kind": "call",
           "source": "src/code_0802FEA0.c",
-          "line": 137,
+          "line": 261,
           "column": 5,
           "callee": "sub_0802939C",
           "implementation": "decompiled"
@@ -386383,6 +386339,50 @@
       "implementation": "decompiled"
     },
     {
+      "caller": "sub_08031CB8",
+      "language": "c",
+      "kind": "call",
+      "source": "src/code_0802FEA0.c",
+      "line": 43,
+      "column": 5,
+      "expression": "Keep31CB8",
+      "reason": "unresolved_identifier_or_macro",
+      "implementation": "decompiled"
+    },
+    {
+      "caller": "sub_08031D88",
+      "language": "c",
+      "kind": "call",
+      "source": "src/code_0802FEA0.c",
+      "line": 72,
+      "column": 5,
+      "expression": "Keep31CB8",
+      "reason": "unresolved_identifier_or_macro",
+      "implementation": "decompiled"
+    },
+    {
+      "caller": "sub_08031E58",
+      "language": "c",
+      "kind": "call",
+      "source": "src/code_0802FEA0.c",
+      "line": 101,
+      "column": 5,
+      "expression": "Keep31CB8",
+      "reason": "unresolved_identifier_or_macro",
+      "implementation": "decompiled"
+    },
+    {
+      "caller": "sub_08031F28",
+      "language": "c",
+      "kind": "call",
+      "source": "src/code_0802FEA0.c",
+      "line": 130,
+      "column": 5,
+      "expression": "Keep31CB8",
+      "reason": "unresolved_identifier_or_macro",
+      "implementation": "decompiled"
+    },
+    {
       "caller": "sub_08044E34",
       "language": "c",
       "kind": "call",
@@ -390019,46 +390019,6 @@
       "kind": "tail_branch",
       "source": "asm/nonmatchings/code_0802FEA0/sub_08031B54.s",
       "line": 150,
-      "column": 1,
-      "expression": "r0",
-      "reason": "indirect"
-    },
-    {
-      "caller": "sub_08031CB8",
-      "language": "asm",
-      "kind": "tail_branch",
-      "source": "asm/nonmatchings/code_0802FEA0/sub_08031CB8.s",
-      "line": 83,
-      "column": 1,
-      "expression": "r0",
-      "reason": "indirect"
-    },
-    {
-      "caller": "sub_08031D88",
-      "language": "asm",
-      "kind": "tail_branch",
-      "source": "asm/nonmatchings/code_0802FEA0/sub_08031D88.s",
-      "line": 83,
-      "column": 1,
-      "expression": "r0",
-      "reason": "indirect"
-    },
-    {
-      "caller": "sub_08031E58",
-      "language": "asm",
-      "kind": "tail_branch",
-      "source": "asm/nonmatchings/code_0802FEA0/sub_08031E58.s",
-      "line": 83,
-      "column": 1,
-      "expression": "r0",
-      "reason": "indirect"
-    },
-    {
-      "caller": "sub_08031F28",
-      "language": "asm",
-      "kind": "tail_branch",
-      "source": "asm/nonmatchings/code_0802FEA0/sub_08031F28.s",
-      "line": 83,
       "column": 1,
       "expression": "r0",
       "reason": "indirect"
@@ -395434,7 +395394,7 @@
       "reason": "indirect"
     }
   ],
-  "parsed_c_functions": 1294,
+  "parsed_c_functions": 1298,
   "limitations": [
     "Source-derived graph, not a complete runtime or linked-binary call graph.",
     "C macros and conditional compilation are not expanded; draft and matching source observations are distinguished.",

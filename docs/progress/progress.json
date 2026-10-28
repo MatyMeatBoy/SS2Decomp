@@ -1,26 +1,26 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 81040,
+  "bytes_done": 81872,
   "funcs_total": 1870,
-  "funcs_done": 1124,
-  "percent": 10.875633427810701,
+  "funcs_done": 1128,
+  "percent": 10.987288499527613,
   "funcs_drafts": 95,
   "bytes_drafts": 93380,
-  "percent_with_drafts": 23.407304818345786,
-  "funcs_decompiled": 1124,
-  "bytes_decompiled": 81040,
+  "percent_with_drafts": 23.5189598900627,
+  "funcs_decompiled": 1128,
+  "bytes_decompiled": 81872,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 651,
-  "bytes_pending": 570732,
+  "funcs_pending": 647,
+  "bytes_pending": 569900,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 10.875633427810701
+  "percent_decompiled": 10.987288499527613
  },
  "lib": {
   "bytes_total": 9716,
@@ -47,26 +47,26 @@
  },
  "all": {
   "bytes_total": 754868,
-  "bytes_done": 89524,
+  "bytes_done": 90356,
   "funcs_total": 1973,
-  "funcs_done": 1225,
-  "percent": 11.859556902663776,
+  "funcs_done": 1229,
+  "percent": 11.969774848052905,
   "funcs_drafts": 97,
   "bytes_drafts": 94612,
-  "percent_with_drafts": 24.393138932899525,
-  "funcs_decompiled": 1202,
-  "bytes_decompiled": 87508,
+  "percent_with_drafts": 24.503356878288656,
+  "funcs_decompiled": 1206,
+  "bytes_decompiled": 88340,
   "funcs_linked": 23,
   "bytes_linked": 2016,
-  "funcs_pending": 651,
-  "bytes_pending": 570732,
+  "funcs_pending": 647,
+  "bytes_pending": 569900,
   "funcs_original_asm": 60,
   "bytes_original_asm": 4116,
   "funcs_decompilable": 1950,
   "bytes_decompilable": 752852,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 11.623532912179286
+  "percent_decompiled": 11.734046001073253
  },
  "asm": {
   "bytes": 4116,
@@ -112,8 +112,8 @@
  },
  "callgraph": {
   "nodes": 2035,
-  "edges": 11794,
+  "edges": 11786,
   "unresolved_calls": 997,
-  "parsed_c_functions": 1294
+  "parsed_c_functions": 1298
  }
 }
