@@ -1,4 +1,8 @@
 #include "global.h"
+extern u32 gTbl0851810C[] asm("gUnk_0851810C");
+extern u32 gTbl08511538[] asm("gUnk_08511538");
+extern u32 gTbl08510530[] asm("gUnk_08510530");
+extern u32 gTbl0850F894[] asm("gUnk_0850F894");
 
 void sub_080904A4(void);
 void sub_0802704C(u32 arg0);
@@ -68,84 +72,60 @@ void sub_0808FD88(void) {
     while (sub_08056E90() == 0 && sub_080021A8() == 0) sub_08057624(1);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FE04);
-#ifdef NONMATCHING
 u32 sub_0808FEB8(u32 arg0)
 {
-    u8 *base = *(u8 **)0x03005CF4;
-
-    if (*(u16 *)(base + 0x10) == 0) {
+    u8 *gs;
+    if (*(u16 *)((u8 *)gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg0);
-        return 0;
-    }
-    if (sub_08056E90() == 0)
-        return 0;
-
+    } else if (sub_08056E90() != 0) {
     sub_0801ABE8(3);
     sub_0800BB40();
     while (sub_0801AAE0() == 0)
         sub_080003F0();
     sub_0800BB40();
-
-    base = *(u8 **)0x03005CF4;
-    *(u32 *)(base + 0x71C) = ((u32 *)0x0850F894)[*(u32 *)(base + 0x40)];
-    *(u16 *)(base + 0x10) = 0;
+    gs = (u8 *)gUnk_03005CF4;
+    *(u32 *)(gs + 0x71C) = gTbl0850F894[*(u32 *)(gs + 0x40)];
+    *(u16 *)(gs + 0x10) = 0;
     return 1;
+    }
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FEB8);
-#endif
-#ifdef NONMATCHING
 u32 sub_0808FF28(u32 arg0)
 {
-    u8 *base = *(u8 **)0x03005CF4;
-
-    if (*(u16 *)(base + 0x10) == 0) {
+    u8 *gs;
+    if (*(u16 *)((u8 *)gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg0);
-        return 0;
-    }
-    if (sub_08056E90() == 0)
-        return 0;
-
+    } else if (sub_08056E90() != 0) {
     sub_0801ABE8(3);
     sub_0800BB40();
     while (sub_0801AAE0() == 0)
         sub_080003F0();
     sub_0800BB40();
-
-    base = *(u8 **)0x03005CF4;
-    *(u32 *)(base + 0x71C) = ((u32 *)0x08510530)[*(u32 *)(base + 0x40)];
-    *(u16 *)(base + 0x10) = 0;
+    gs = (u8 *)gUnk_03005CF4;
+    *(u32 *)(gs + 0x71C) = gTbl08510530[*(u32 *)(gs + 0x40)];
+    *(u16 *)(gs + 0x10) = 0;
     return 1;
+    }
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FF28);
-#endif
-#ifdef NONMATCHING
 u32 sub_0808FF98(u32 arg0)
 {
-    u8 *base = *(u8 **)0x03005CF4;
-
-    if (*(u16 *)(base + 0x10) == 0) {
+    u8 *gs;
+    if (*(u16 *)((u8 *)gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg0);
-        return 0;
-    }
-    if (sub_08056E90() == 0)
-        return 0;
-
+    } else if (sub_08056E90() != 0) {
     sub_0801ABE8(3);
     sub_0800BB40();
     while (sub_0801AAE0() == 0)
         sub_080003F0();
     sub_0800BB40();
-
-    base = *(u8 **)0x03005CF4;
-    *(u32 *)(base + 0x71C) = ((u32 *)0x08511538)[*(u32 *)(base + 0x40)];
-    *(u16 *)(base + 0x10) = 0;
+    gs = (u8 *)gUnk_03005CF4;
+    *(u32 *)(gs + 0x71C) = gTbl08511538[*(u32 *)(gs + 0x40)];
+    *(u16 *)(gs + 0x10) = 0;
     return 1;
+    }
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FF98);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090008);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809007C);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809011C);
@@ -153,32 +133,24 @@ INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080901A8);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809021C);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090290);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090330);
-#ifdef NONMATCHING
 u32 sub_080903C4(u32 arg0)
 {
-    u8 *base = *(u8 **)0x03005CF4;
-
-    if (*(u16 *)(base + 0x10) == 0) {
+    u8 *gs;
+    if (*(u16 *)((u8 *)gUnk_03005CF4 + 0x10) == 0) {
         sub_0802704C(arg0);
-        return 0;
-    }
-    if (sub_08056E90() == 0)
-        return 0;
-
+    } else if (sub_08056E90() != 0) {
     sub_0801ABE8(3);
     sub_0800BB40();
     while (sub_0801AAE0() == 0)
         sub_080003F0();
     sub_0800BB40();
-
-    base = *(u8 **)0x03005CF4;
-    *(u32 *)(base + 0x71C) = ((u32 *)0x0851810C)[*(u32 *)(base + 0x40)];
-    *(u16 *)(base + 0x10) = 0;
+    gs = (u8 *)gUnk_03005CF4;
+    *(u32 *)(gs + 0x71C) = gTbl0851810C[*(u32 *)(gs + 0x40)];
+    *(u16 *)(gs + 0x10) = 0;
     return 1;
+    }
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080903C4);
-#endif
 s32 sub_08090434(s32 arg0, s32 arg1) {
     return (s32) (arg1 * arg0) >> 8;
 }
