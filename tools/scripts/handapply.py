@@ -49,21 +49,23 @@ def global_declarations(text):
         elif value == '}': depth = max(0, depth - 1)
     return result
 
-mod = sys.argv[1]; p = 'src/%s.c' % mod
-with open(p, encoding='utf-8') as source:
-    s = source.read()
-remove_asm = []
-for f in sys.argv[2:]:
-    func = os.path.basename(f)[:-2]
-    with open(f, encoding='utf-8') as candidate:
-        c = candidate.read()
-    start = c.rindex('\n', 0, c.index(func + '(')) + 1
-    decls = [l for l in c[:start].splitlines() if re.match(r'^(struct \w+ \{.*\};|extern .*;)$', l)]
-    body = c[start:]
+def prepare(s, c, func, alias=None):
+    """Construct a replacement without editing files or hoisting later types."""
+    if alias is None:
+        start = c.rindex('\n', 0, c.index(func + '(')) + 1
+        prelude, body = c[:start], c[start:]
+    else:
+        import decomp
+        prelude, functions, _ = decomp.split_functions(c)
+        body = functions[alias]
+        if len(functions) != 1:
+            sys.exit('alias application requires a single function candidate')
+    decls = [l for l in prelude.splitlines() if re.match(r'^(struct \w+ \{.*\};|extern .*;)$', l)
+             or (alias is not None and re.match(r'^.*\b%s\s*\([^;{}]*\)\s*(?:asm|__asm__)\s*\(.*\);$' % re.escape(alias), l))]
     pat = re.compile(r'(#ifdef NONMATCHING\n(?:(?!#ifdef|#endif).|\n)*?#else\n)?INCLUDE_ASM\("[^"]*", %s\);\n(#endif\n)?' % func)
     target = pat.search(s)
     if target is None:
-        sys.exit('stub for %s not found in %s' % (func, p))
+        sys.exit('stub for %s not found' % func)
     # Preserve candidate order and already-visible types, including mid-module
     # declarations. Never hoist an extern array ahead of its complete struct.
     prefix = s[:target.start()]
@@ -74,7 +76,8 @@ for f in sys.argv[2:]:
     for d in decls:
         if d in added:
             continue
-        candidate = global_declarations(d)[0]
+        parsed = global_declarations(d)
+        candidate = parsed[0] if parsed else dict(kind='alias', key=tuple(t.group() for t in tokens(d)))
         related = ([old for old in existing if old['kind'] == 'struct' and old['tag'] == candidate['tag']]
                    if candidate['kind'] == 'struct' else existing)
         visible = [old for old in related if old['end'] <= target.start() and not old['conditional']]
@@ -88,11 +91,55 @@ for f in sys.argv[2:]:
             sys.exit('conflicting struct definition for %s: use a unique local type' % func)
         added.append(d)
     block = '\n'.join(added) + '\n' if added else ''
-    s = prefix + block + (body if body.endswith('\n') else body + '\n') + later
-    asm = 'asm/nonmatchings/%s/%s.s' % (mod, func)
-    if os.path.exists(asm): remove_asm.append(asm)
-# Parse/validate every candidate before changing the source or deleting ASM.
-with open(p, 'w', encoding='utf-8', newline='\n') as source:
-    source.write(s)
-for asm in remove_asm:
-    os.remove(asm)
+    return prefix + block + (body if body.endswith('\n') else body + '\n') + later
+
+
+def main():
+    from pathlib import Path
+    import decomp
+    mod = sys.argv[1]
+    if Path('tools/config/functions.cfg').exists() and Path.cwd().resolve() != Path(decomp.ROOT).resolve():
+        sys.exit('run handapply from its project checkout')
+    source = Path('src/%s.c' % mod)
+    candidates = []
+    for filename in sys.argv[2:]:
+        func = Path(filename).stem
+        text = Path(filename).read_text(encoding='utf8')
+        _, functions, _ = decomp.split_functions(text)
+        alias = None
+        # In a project checkout validate identity even when the C identifier is
+        # already canonical: an asm label must not redirect it to another ROM
+        # function. Minimal declaration-only callers need no project registry.
+        if Path('tools/config/functions.cfg').exists() or func not in functions:
+            from alias_application import c_name
+            try:
+                resolved = c_name(text, func)
+                alias = resolved if resolved != func else None
+            except ValueError as error:
+                sys.exit(str(error))
+        candidates.append((func, text, alias))
+    # Validate declaration order for the complete batch before any mutation.
+    updated = source.read_text(encoding='utf8')
+    for func, text, alias in candidates:
+        updated = prepare(updated, text, func, alias)
+    if any(alias is not None for _, _, alias in candidates):
+        # Keep the strict alias transaction deliberately single-target: a later
+        # failure must not leave earlier candidates partially applied.
+        if len(candidates) != 1:
+            sys.exit('apply alias candidates individually')
+        from alias_application import apply_alias
+        try:
+            apply_alias(candidates[0][0], candidates[0][1], module=mod)
+        except ValueError as error:
+            sys.exit(str(error))
+        return
+    source.write_text(updated, encoding='utf8', newline='\n')
+    for func, _, _ in candidates:
+        asm = Path('asm/nonmatchings/%s/%s.s' % (mod, func))
+        if asm.exists():
+            asm.unlink()
+
+
+# Preserve the script's existing runpy use while making ordinary imports safe.
+if __name__ in ('__main__', '<run_path>'):
+    main()
