@@ -154,3 +154,13 @@ Regression tests include optional real agbcc/binutils fixtures for stale integer
 headers plus matching void aliases, canonical rollback, and compilation of both
 matching and NONMATCHING modes. They use temporary source/config/ASM fixtures and
 need no ROM. The complete repository ROM/NONMATCHING checks remain mandatory.
+
+
+Per-function work reports under `docs/agents/function_work/` are guarded by the
+same exclusive shard ownership. A direct `sub_XXXXXXXX.json` or `arm_XXXXXXXX.json`
+filename must identify a registered function address and agree with the JSON
+`address`; ownership follows the registered canonical symbol, including descriptive
+symbols. Unknown/foreign reports and inconsistent/nested paths are rejected.
+Deleting a report also requires ownership. Milestone states/evidence remain
+validated by the graphic's report loader; the delivery guard does not duplicate
+that schema or change the graphic.

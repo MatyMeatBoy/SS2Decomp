@@ -15,6 +15,7 @@ usage: claim.py status                   shards with work left, drafts (yellow) 
 Run every agent in its own clone or worktree:  git worktree add ../ss2-AGENT origin/MAIN
 """
 import glob
+import json
 import os
 import re
 import subprocess
@@ -97,11 +98,35 @@ def guard(branch, mb):
         if p.startswith("asm/nonmatchings/") and p.endswith(".s"):
             touched.add(os.path.basename(p)[:-2])
     from source_index import canonical_bodies
-    known = set()
+    known, registered = set(), {}
     for line in Path(ROOT, 'tools/config/functions.cfg').read_text(encoding='utf-8').splitlines():
         fields = line.split('#', 1)[0].split()
         if len(fields) >= 2 and fields[0] in ('thumb', 'arm'):
-            known.add(fields[2] if len(fields) > 2 else ('sub_' if fields[0] == 'thumb' else 'arm_') + '%08X' % int(fields[1], 0))
+            address = int(fields[1], 0)
+            canonical = fields[2] if len(fields) > 2 else ('sub_' if fields[0] == 'thumb' else 'arm_') + '%08X' % address
+            known.add(canonical)
+            registered[address] = canonical
+    for path in changed:
+        if not path.startswith('docs/agents/function_work/'):
+            continue
+        match = re.fullmatch(r'docs/agents/function_work/(?:sub|arm)_([0-9A-F]{8})\.json', path)
+        if match is None:
+            sys.exit('invalid function work report path: ' + path)
+        address = int(match[1], 16)
+        canonical = registered.get(address)
+        if canonical is None:
+            sys.exit('unknown function work report: ' + path)
+        if canonical not in mine:
+            sys.exit('function work report outside your shard: ' + canonical)
+        # Deleted reports still require ownership, but have no new content to validate.
+        if not git('ls-tree', '-r', '--name-only', 'HEAD', path):
+            continue
+        try:
+            row = json.loads(git('show', 'HEAD:' + path))
+            if int(row['address'], 0) != address:
+                raise ValueError('filename/address mismatch')
+        except (ValueError, TypeError, KeyError) as exc:
+            sys.exit('invalid function work report %s: %s' % (path, exc))
     revisions = (base, 'HEAD')
     def headers(revision):
         paths = git('ls-tree', '-r', '--name-only', revision, 'include').splitlines()
