@@ -66,7 +66,13 @@ void MPlayFadeOut(struct MusicPlayerInfo *mplayInfo, u16 speed)
     }
 }
 
-#ifdef NONMATCHING
+static inline struct MusicPlayerTrack * GetMPlayTrackI(s32 i)
+{
+    struct MusicPlayerTrack *const *pTrack = &gMPlayTable->track;
+    pTrack = (struct MusicPlayerTrack *const *)((u32)pTrack + i * sizeof(struct MusicPlayer));
+    return *pTrack;
+}
+
 void m4aSoundInit(void)
 {
     s32 i;
@@ -83,13 +89,13 @@ void m4aSoundInit(void)
     for (i = 0; i < NUM_MUSIC_PLAYERS; i++)
     {
         struct MusicPlayerInfo *mplayInfo = gMPlayTable[i].info;
-        MPlayOpen(mplayInfo, (gMPlayTable + i)->track, gMPlayTable[i].numTracks);
+        struct MusicPlayerTrack *mplayTrack = GetMPlayTrackI(i);
+        u8 trackCount = gMPlayTable[i].numTracks;
+
+        MPlayOpen(mplayInfo, mplayTrack, trackCount);
         mplayInfo->memAccArea = gMPlayMemAccArea;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a", m4aSoundInit);
-#endif
 
 void m4aSoundMain(void)
 {
