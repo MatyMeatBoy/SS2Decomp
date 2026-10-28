@@ -47,7 +47,7 @@ y [ReVa](https://github.com/cyberkaida/reverse-engineering-assistant), que expon
 ## 2. Flujo por función
 
 1. **Elegir.** `grep -n INCLUDE_ASM src/*.c` o `python3 tools/scripts/nm_drafts.py /tmp/nm` (borradores con su distancia:
-   0 = casa, -1 = no compila). Empieza por funciones pequeñas; avisa en el issue/PR qué módulo tocas para no pisaros.
+   0 = casa, -1 = no compila). Empieza por las amarillas y las pequeñas. Si trabajáis varios: `python3 tools/scripts/claim.py take TU_NOMBRE` reserva un shard (ver [AGENTS.md](AGENTS.md)).
 2. **Leer.** `GHIDRA_OUT=ghi tools/scripts/gv.sh sub_XXXXXXXX` muestra el C de Ghidra y el asm original.
    Ghidra ayuda a entender, **no** produce C que case.
 3. **Borrador.** `python3 tools/scripts/decomp.py m2c sub_XXXXXXXX > /tmp/f.c` o a mano.

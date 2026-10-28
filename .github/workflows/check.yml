@@ -14,3 +14,19 @@ jobs:
       - name: compile every C module (matching + NONMATCHING drafts); no ROM needed
         run: |
           for f in src/*.c; do m=$(basename $f .c); make -s build/src/$m.o; make -s BUILD=build_nm NM_FLAGS=-DNONMATCHING build_nm/src/$m.o; done
+  progress:
+    # Agents never commit docs/progress/*: it is regenerated here after every push to the main branch.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/claude/rom-decompilation-research-obsal6'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: regenerate progress
+        run: python3 tools/scripts/progress.py
+      - name: commit if changed
+        run: |
+          git config user.name "progress-bot"; git config user.email "progress-bot@users.noreply.github.com"
+          git add docs/progress
+          git diff --cached --quiet || { git commit -m "progress: update [skip ci]" && git push || true; }

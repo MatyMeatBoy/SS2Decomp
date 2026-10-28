@@ -12,7 +12,7 @@ SKIP = {"libagbsyscall", "m4a", "m4a_1", "sched"}
 def remaining():
     out = {}
     for p in glob.glob(os.path.join(ROOT, "asm/nonmatchings/*/*.s")):
-        m = p.split("/")[-2]
+        m = os.path.basename(os.path.dirname(p))
         if m in SKIP:
             continue
         out[os.path.basename(p)[:-2]] = (m, len(open(p).read().splitlines()))

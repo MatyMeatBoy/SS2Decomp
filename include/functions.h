@@ -576,6 +576,7 @@ void sub_0808D118();
 void sub_0808D4A8();
 u32 sub_0808DA20(u32);
 void sub_0808E970(void);
+void sub_0808FD88(void);
 s32 sub_08090434(s32 arg0, s32 arg1);
 s32 sub_0809044C(s32 arg0, s32 arg1);
 s32 sub_08090470(s32 arg0, s32 arg1);

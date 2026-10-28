@@ -1,4 +1,5 @@
 # Running many workers in parallel
+n> Current protocol for many agents (claim/land/pr with atomic shard branches): [AGENTS.md](../../AGENTS.md). This page documents the older local worker scripts.
 
 The remaining ~1350 functions are split into 120 balanced shards (`tools/config/shards.txt`, `python3 tools/scripts/shard.py show N`).
 One worker = one shard = one branch `worker/NNN`. Workers never touch each other's functions, so merges are mostly conflict free.

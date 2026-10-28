@@ -2,7 +2,7 @@
 
 Goal: C that compiles with agbcc (GCC 2.95 ARM) to a byte-identical ROM.
 `make compare` must print `shiningsoul2_eu.gba: OK` before every commit.
-User writes Spanish; keep replies terse. Commit only to the working branch, no PR unless asked.
+Multi-agent rules (shards, claim/land/pr): AGENTS.md. User writes Spanish; keep replies terse. Commit only to the working branch, no PR unless asked.
 
 ## Setup (local)
 Human guide: CONTRIBUTING.md. Linux/WSL: apt `binutils-arm-none-eabi gcc-arm-none-eabi make python3 git gcc`.

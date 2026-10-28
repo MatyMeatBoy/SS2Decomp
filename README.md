@@ -12,9 +12,14 @@ byte for byte.
 
 ![progress treemap](https://raw.githubusercontent.com/MatyMeatBoy/SS2Decomp/claude/rom-decompilation-research-obsal6/docs/progress/treemap.svg)
 
-Each cell is one function (area = size in bytes): **green** = decompiled to
-matching C, **grey** = still assembly, **blue** = original hand-written
-assembly (start up code, m4a sound engine core, libgcc).
+Each cell is one function (area = size in bytes):
+
+| Colour | Meaning |
+|---|---|
+| 🟩 green | decompiled, C compiles to the exact original bytes (counts as done) |
+| 🟨 yellow | **C draft** inside `#ifdef NONMATCHING`: equivalent C that compiles but is not byte-identical yet. Best place to start: often a register or ordering tweak away (`tools/scripts/nmdiff.py FUNC`) |
+| ⬜ grey | still assembly (`INCLUDE_ASM`), no C yet |
+| 🟦 blue | original hand-written assembly (start-up, m4a sound engine core, libgcc): never converted |
 
 ## Building
 

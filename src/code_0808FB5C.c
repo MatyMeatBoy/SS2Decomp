@@ -52,7 +52,21 @@ u32 sub_0808FBDC(u32 arg0)
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FBDC);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FC50);
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FD88);
+void sub_0808FD88(void) {
+    u32 i;
+    sub_0805795C();
+    sub_080169C8();
+    while ((sub_080B6068() << 24) == 0) sub_080003F0();
+    sub_08058790();
+    sub_08058688(0x172);
+    for (i = 0; i <= 0x16; i++) {
+        sub_080889D4(i + 0x483, 0x1A4);
+        if (sub_080021A8() != 0) break;
+        sub_08057624(0x1A7);
+    }
+    if (sub_08002204() != 0) sub_08067DC8();
+    while (sub_08056E90() == 0 && sub_080021A8() == 0) sub_08057624(1);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FE04);
 #ifdef NONMATCHING
 u32 sub_0808FEB8(u32 arg0)
