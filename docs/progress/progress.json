@@ -1,26 +1,26 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 96276,
+  "bytes_done": 98568,
   "funcs_total": 1870,
-  "funcs_done": 1176,
-  "percent": 12.920316928626642,
+  "funcs_done": 1183,
+  "percent": 13.227905179077558,
   "funcs_drafts": 95,
   "bytes_drafts": 114572,
-  "percent_with_drafts": 28.295971828566522,
-  "funcs_decompiled": 1176,
-  "bytes_decompiled": 96276,
+  "percent_with_drafts": 28.603560079017434,
+  "funcs_decompiled": 1183,
+  "bytes_decompiled": 98568,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 599,
-  "bytes_pending": 534304,
+  "funcs_pending": 592,
+  "bytes_pending": 532012,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 12.920316928626642
+  "percent_decompiled": 13.227905179077558
  },
  "lib": {
   "bytes_total": 9716,
@@ -47,26 +47,26 @@
  },
  "all": {
   "bytes_total": 754868,
-  "bytes_done": 105992,
+  "bytes_done": 108284,
   "funcs_total": 1973,
-  "funcs_done": 1279,
-  "percent": 14.041130369813,
+  "funcs_done": 1286,
+  "percent": 14.344759613601319,
   "funcs_drafts": 95,
   "bytes_drafts": 114572,
-  "percent_with_drafts": 29.21888330145138,
-  "funcs_decompiled": 1256,
-  "bytes_decompiled": 103976,
+  "percent_with_drafts": 29.522512545239696,
+  "funcs_decompiled": 1263,
+  "bytes_decompiled": 106268,
   "funcs_linked": 23,
   "bytes_linked": 2016,
-  "funcs_pending": 599,
-  "bytes_pending": 534304,
+  "funcs_pending": 592,
+  "bytes_pending": 532012,
   "funcs_original_asm": 60,
   "bytes_original_asm": 4116,
   "funcs_decompilable": 1950,
   "bytes_decompilable": 752852,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 13.810948234181486
+  "percent_decompiled": 14.115390541567267
  },
  "asm": {
   "bytes": 4116,
@@ -113,7 +113,7 @@
  "callgraph": {
   "nodes": 2035,
   "edges": 11773,
-  "unresolved_calls": 980,
-  "parsed_c_functions": 1346
+  "unresolved_calls": 973,
+  "parsed_c_functions": 1353
  }
 }
