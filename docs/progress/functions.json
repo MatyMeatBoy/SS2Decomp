@@ -2437,18 +2437,24 @@
       "name": "sub_08005B88",
       "addr": 134241160,
       "size": 1284,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x08005B88",
       "canonical_symbol": "sub_08005B88",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08005B88",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "menu5B",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 1895,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
+        }
+      ]
     },
     {
       "name": "sub_0800608C",
@@ -2590,14 +2596,14 @@
       "name": "sub_080066BC",
       "addr": 134244028,
       "size": 1136,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x080066BC",
       "canonical_symbol": "sub_080066BC",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080066BC",
       "name_status": "unidentified",
       "name_source": null,
@@ -12608,14 +12614,14 @@
       "name": "sub_08042BB0",
       "addr": 134491056,
       "size": 2580,
-      "state": "todo",
+      "state": "done",
       "module": "code_0803B69C",
       "kind": "c",
       "cat": "game",
       "address": "0x08042BB0",
       "canonical_symbol": "sub_08042BB0",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08042BB0",
       "name_status": "unidentified",
       "name_source": null,
@@ -36688,12 +36694,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 127,
-      "existing": 8,
+      "identified": 128,
+      "existing": 9,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1753,
-      "percent_identified": 6.75531914893617
+      "unidentified": 1752,
+      "percent_identified": 6.808510638297872
     },
     "sdk": {
       "total": 155,
@@ -36706,12 +36712,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 282,
-      "existing": 137,
+      "identified": 283,
+      "existing": 138,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1753,
-      "percent_identified": 13.857493857493857
+      "unidentified": 1752,
+      "percent_identified": 13.906633906633907
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
