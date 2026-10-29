@@ -5598,9 +5598,7 @@ block_1813:
                             break;
                         case 4:                     /* switch 29 */
                             var_r0_40 = (u16) *sp1C4 - 0xA;
-block_1830:
-                            *sp1C4 = var_r0_40;
-                            break;
+                            goto block_1830;
                         case 5:                     /* switch 29 */
                             *sp1C4 = (u16) *sp1C4 - 2;
                             *sp1C0 = (s16) ((u16) *sp1C0 + 2);
@@ -5612,7 +5610,9 @@ block_1830:
                         case 7:                     /* switch 29 */
                             *sp1C0 = (s16) ((u16) *sp1C0 + 2);
                             var_r0_40 = (u16) *sp1C4 + 2;
-                            goto block_1830;
+block_1830:
+                            *sp1C4 = var_r0_40;
+                            break;
                         }
                         if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
                             d368_sub_08007870(*sp1C0, *sp1C4, sp138, coordFC, (sp160), (&sp44.f1C), (sp44.f8), (sp44.f0));
@@ -5661,9 +5661,7 @@ block_1830:
                         break;
                     case 4:                         /* switch 30 */
                         var_r0_41 = (u16) *sp1C4 - 0xA;
-block_1860:
-                        *sp1C4 = var_r0_41;
-                        break;
+                            goto block_1860;
                     case 5:                         /* switch 30 */
                         *sp1C4 = (u16) *sp1C4 - 2;
                         *sp1C0 = (s16) ((u16) *sp1C0 + 2);
@@ -5675,7 +5673,9 @@ block_1860:
                     case 7:                         /* switch 30 */
                         *sp1C0 = (s16) ((u16) *sp1C0 + 2);
                         var_r0_41 = (u16) *sp1C4 + 2;
-                        goto block_1860;
+block_1860:
+                            *sp1C4 = var_r0_41;
+                            break;
                     }
                     if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
                         d368_sub_08007870(*sp1C0, *sp1C4, sp138, coordFC, (sp160), (&sp44.f1C), (sp44.f8), (sp44.f0));

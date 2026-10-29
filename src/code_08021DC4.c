@@ -518,13 +518,19 @@ void sub_08022630(void) {
         0x1794);
 }
 struct T22Copy8 { u32 w[2]; };
-struct T22State226A4 { u16 f0; u16 f2; u16 f4; u8 pad6[2]; u16 f8; u8 padA[44]; u16 f36; u32 f38; u8 pad3C[4]; u32 f40; u32 f44; u32 f48; u32 f4C; u32 f50; u32 f54; u8 pad58[20]; u32 f6C; u32 f70; u8 pad74[24]; u16 f8C; u16 f8E; u16 f90; u16 f92; u16 f94; u8 pad96[2]; u32 f98; u32 f9C; struct T22Copy8 fA0; u8 padA8[160]; u16 f148; u16 f14A; u8 pad14C[1488]; u16 * f71C; };
+struct T22Item226A4 { u32 f0,f4; u16 f8,fA,fC; u8 padE[18]; };
+struct T22Save226A4 { u8 pad0[0xDA]; u16 fDA; u16 variants[10]; u8 padF0[0xCC]; u8 bytes[10]; u8 pad1C6[0x16]; struct T22Item226A4 items[16]; };
+extern struct T22Save226A4 *t22_save226A4 asm("gUnk_03004210");
+extern struct T22Item226A4 *t22_items226A4 asm("gUnk_03005D58");
+struct T22Inv226A4 { u32 w[10]; };
+struct T22Slot226A4 { u32 f0; u8 pad[108]; };
+struct T22State226A4 { u16 f0; u16 f2; u16 f4; u8 pad6[2]; u16 f8; u8 padA[4]; u16 variantsE[10]; u16 variants22[10]; u16 f36; u32 f38; u8 pad3C[4]; u32 f40; u32 f44; u32 f48; u32 f4C; u32 f50; u32 f54; u8 pad58[20]; u32 f6C; u32 f70; u8 pad74[24]; u16 f8C; u16 f8E; u16 f90; u16 f92; u16 f94; u8 pad96[2]; u32 f98; u32 f9C; struct T22Copy8 fA0; u8 padA8[160]; u16 f148; u16 f14A; u8 pad14C[0xE0]; u8 bytes22C[10]; u8 pad236[0x216]; struct T22Inv226A4 inv[8]; u8 pad58C[0x190]; u16 * f71C; u8 pad720[0xC0]; struct T22Slot226A4 slots[15]; };
 
 struct T22Copy32 { u32 w[8]; };
 struct T22Copy40 { u32 w[10]; };
 struct T22TaskRec { u32 a,b,c; };
 extern struct T22State226A4 *t22_gs asm("gUnk_03005CF4");
-struct T22Player226A4 { u8 pad0[0x2C]; u16 f2C,f2E; u8 pad30[4]; u8 *f34; u8 pad38[0x54]; s32 f8C,f90; u8 pad94[16]; struct T22Copy8 fA4; u8 padAC[0x16]; u16 fC2,fC4,fC6; u8 padC8[0x84]; };
+struct T22Player226A4 { u8 pad0[0x2C]; u16 f2C,f2E; u8 pad30[4]; struct T22Inv226A4 *f34; u8 pad38[0x54]; s32 f8C,f90; u8 pad94[16]; struct T22Copy8 fA4; u8 padAC[0x16]; u16 fC2,fC4,fC6; u8 padC8[0x84]; };
 extern struct T22Player226A4 t22_players[] asm("gUnk_03003CE0");
 extern struct T22TaskRec t22_tasks[] asm("gUnk_03005700");
 extern u16 t22_seq asm("gUnk_03005D5C");
@@ -537,21 +543,22 @@ struct T22Rec226A4;
 struct T22CB226A4 { s32 (*fn)(struct T22Rec226A4 *); u8 pad[0x20]; };
 struct T22Rec226A4 { u16 id; u8 pad[0x22]; struct T22CB226A4 cb[1]; };
 extern u16 t22_variant226A4(u16) asm("sub_0805A4A0");
-#ifdef NONMATCHING
 void sub_080226A4(void) {
     u16 x,y;
     void *ctx;
-    s32 player;
+    register s32 player asm("sl");
     u32 i, off, nv;
     s32 result;
     s32 px,py;
-    u16 mask,n;
+    u16 mask; register u32 n asm("r2");
+    struct T22Item226A4 *item;
     u8 *p,*q,*r;
     struct T22Player226A4 *pl;
     struct T22Rec226A4 *rec;
     s32 (*fn)(struct T22Rec226A4 *);
     ctx=sub_080653CC();
     player=sub_080020F4();
+    asm("" : "+r"(player));
     t22_gs->f0=0;
     t22_gs->f2=0;
     t22_gs->f8=9;
@@ -566,10 +573,11 @@ void sub_080226A4(void) {
     gUnk_03005CF8=0;
     y=0;
     x=0;
-    i=0; off=0;
-    do { M2C_FIELD(t22_gs,u32 *,0x7E0+off)=0; off+=0x70; i++; } while(i<=14);
-    i=0; p=(u8 *)t22_tasks;
-    do { M2C_FIELD(p,u32 *,8)=0; M2C_FIELD(p,u32 *,4)=0; M2C_FIELD(p,u32 *,0)=0; p+=12; i++; } while(i<=2);
+    i=0;
+    do { t22_gs->slots[i].f0=0; i++; } while(i<=14);
+    { struct T22TaskRec *t; register u32 zero asm("r1");
+    i=0; zero=0; asm("" : "+r"(zero)); t=t22_tasks;
+    do { t->c=zero; t->b=zero; t->a=zero; t++; i++; } while(i<=2); }
     while(sub_08067C18()==0) sub_080003F0();
     while(sub_08067C08()==0) {
         if(sub_0800CB9C()!=0) {
@@ -589,9 +597,9 @@ void sub_080226A4(void) {
         sub_08057AE8(21);
         sub_0805C7B8();
         i=0;
-        do { p=(u8 *)gUnk_03004210+(i<<5); M2C_FIELD(p,u16 *,0x1E6)=0; M2C_FIELD(p,u16 *,0x1E8)=0; i++; } while(i<=15);
-    } else memcpy(((u8 *)t22_gs)+0x70,gUnk_03004210,0x51C);
-    t22_gs->f14A=M2C_FIELD(gUnk_03004210,u16 *,0xDA);
+        do { t22_save226A4->items[i].fA=0; t22_save226A4->items[i].fC=0; i++; } while(i<=15);
+    } else memcpy(((u8 *)t22_gs)+0x70,t22_save226A4,0x51C);
+    t22_gs->f14A=t22_save226A4->fDA;
     switch(t22_gs->f70) {
     case 0: case 2:
         sub_08057170(); sub_080572A4();
@@ -602,24 +610,24 @@ void sub_080226A4(void) {
         t22_gs->f50=sub_08057C0C();
         i=0;
         do {
-            off=i<<5;
-            *(struct T22Copy32 *)((u8 *)gUnk_03005D58+off)=*(struct T22Copy32 *)((u8 *)gUnk_03004210+off+0x1DC);
-            p=(u8 *)gUnk_03005D58+off;
-            mask=M2C_FIELD(p,u16 *,8)&32;
-            if(mask==0) M2C_FIELD(p,u16 *,10)=mask;
+            t22_items226A4[i]=t22_save226A4->items[i];
+            item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
+            mask=item->f8&32;
+            if(mask==0) item->fA=mask;
             i++;
         } while(i<=15);
-        t22_seq=1;
-        i=0;
+        { register u16 *seqPtr asm("r4"); register u32 next asm("r0");
+        t22_seq=1; i=0; seqPtr=&t22_seq; asm("" : "+r"(seqPtr));
         do {
-            off=i<<5;
-            *(struct T22Copy32 *)((u8 *)gUnk_03005D58+off)=*(struct T22Copy32 *)((u8 *)gUnk_03004210+off+0x1DC);
-            p=(u8 *)gUnk_03005D58+off;
-            if(M2C_FIELD(p,u16 *,10)&1) { n=M2C_FIELD(p,u16 *,12); if(n>t22_seq) t22_seq=n; }
+            t22_items226A4[i]=t22_save226A4->items[i];
+            item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
+            if(item->fA&1) { n=item->fC; asm("" : "+r"(n)); if(n>t22_seq) *seqPtr=n; }
             i++;
         } while(i<=15);
-        nv=t22_seq+1; t22_seq=nv;
-        if((u32)(nv<<16)>0xFFFE0000U) t22_seq=1;
+
+        next=*seqPtr+1; *seqPtr=next; next<<=16; asm("" : "+r"(next));
+        if(next>0xFFFE0000U) *seqPtr=1;
+        }
         break;
     case 1:
         sub_08057170(); sub_080572A4(); t22_22E60(12,1);
@@ -630,33 +638,35 @@ void sub_080226A4(void) {
         t22_gs->f50=sub_08057C0C();
         t22_gs->f8E=0xFFFF;
         break;
-    case 3:
+    case 3: {
+        s32 selected;
         t22_23274(0,4,1);
         t22_gs->f36=0;
-        pl=&t22_players[player];
+        asm("" : : "r"(t22_players));
+        selected=player;
+        pl=&t22_players[selected];
         pl->fA4=t22_gs->fA0;
         pl->f2E=t22_gs->f8C;
         pl->f2C=t22_gs->f8E;
         pl->fC4=t22_gs->f90;
         pl->fC2=t22_gs->f92;
         pl->fC6=t22_gs->f94;
-        i=0; off=0;
+        i=0;
+        do { t22_players[selected].f34[i]=t22_gs->inv[i]; i++; } while(i<=7);
+        { register u16 *seqPtr asm("r4"); register u32 next asm("r0");
+        t22_seq=1; i=0; { register struct T22Save226A4 **savedAddr asm("r7")=&t22_save226A4; asm("" : : "r"(savedAddr)); { register struct T22Save226A4 **cache asm("ip")=&t22_save226A4; asm("" : : "r"(cache)); } } seqPtr=&t22_seq; asm("" : "+r"(seqPtr));
         do {
-            *(struct T22Copy40 *)(t22_players[player].f34+off)=*(struct T22Copy40 *)(((u8 *)t22_gs)+off+0x44C);
-            off+=40; i++;
-        } while(i<=7);
-        t22_seq=1; i=0;
-        do {
-            off=i<<5;
-            *(struct T22Copy32 *)((u8 *)gUnk_03005D58+off)=*(struct T22Copy32 *)((u8 *)gUnk_03004210+off+0x1DC);
-            p=(u8 *)gUnk_03005D58+off;
-            if(M2C_FIELD(p,u16 *,10)&1) { n=M2C_FIELD(p,u16 *,12); if(n>t22_seq) t22_seq=n; }
+            t22_items226A4[i]=t22_save226A4->items[i];
+            item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
+            if(item->fA&1) { n=item->fC; asm("" : "+r"(n)); if(n>t22_seq) *seqPtr=n; }
             i++;
         } while(i<=15);
-        nv=t22_seq+1; t22_seq=nv;
-        if((u32)(nv<<16)>0xFFFE0000U) t22_seq=1;
+
+        next=*seqPtr+1; *seqPtr=next; next<<=16; asm("" : "+r"(next));
+        if(next>0xFFFE0000U) *seqPtr=1;
+        }
         i=0;
-        do { M2C_FIELD(t22_gs,u16 *,0x22+i*2)=M2C_FIELD(gUnk_03004210,u16 *,0xDC+i*2); i++; } while(i<=9);
+        do { t22_gs->variants22[i]=t22_save226A4->variants[i]; i++; } while(i<=9);
         gUnk_03003478=t22_gs->f9C;
         t22_gs->f4=1|t22_gs->f148;
         t22_gs->f38=t22_gs->f98;
@@ -665,23 +675,27 @@ void sub_080226A4(void) {
         if(sub_08057314()!=0) { sub_080267DC(); sub_0800CEFC(); } else sub_080657C4(player,1);
         sub_0800CCCC();
         break;
+    }
     case 4:
         sub_0802A228(t22_gs->f8C,t22_gs->f8E);
         gUnk_03003478=t22_gs->f9C;
+        { register u16 *seqPtr asm("r4"); register u32 next asm("r0");
         t22_seq=1; i=0;
         do {
-            off=i<<5;
-            *(struct T22Copy32 *)((u8 *)gUnk_03005D58+off)=*(struct T22Copy32 *)((u8 *)gUnk_03004210+off+0x1DC);
-            p=(u8 *)gUnk_03005D58+off;
-            if(M2C_FIELD(p,u16 *,10)&1) { n=M2C_FIELD(p,u16 *,12); if(n>t22_seq) t22_seq=n; }
+            t22_items226A4[i]=t22_save226A4->items[i];
+            item=(struct T22Item226A4 *)((i<<5)+(u32)t22_items226A4);
+            mask=item->fA&1; seqPtr=&t22_seq; asm("" : "+r"(seqPtr));
+            if(mask) { n=item->fC; asm("" : "+r"(n)); { register u32 read asm("r0")=*seqPtr; asm("" : "+r"(read)); if(n>read) *seqPtr=n; } }
             i++;
         } while(i<=15);
-        nv=t22_seq+1; t22_seq=nv;
-        if((u32)(nv<<16)>0xFFFE0000U) t22_seq=1;
+
+        next=*seqPtr+1; *seqPtr=next; next<<=16; asm("" : "+r"(next));
+        if(next>0xFFFE0000U) *seqPtr=1;
+        }
         i=0;
-        do { M2C_FIELD(t22_gs,u16 *,0x22+i*2)=M2C_FIELD(gUnk_03004210,u16 *,0xDC+i*2); i++; } while(i<=9);
+        do { t22_gs->variants22[i]=t22_save226A4->variants[i]; i++; } while(i<=9);
         i=0;
-        do { M2C_FIELD(t22_gs,u8 *,0x22C+i)=M2C_FIELD(gUnk_03004210,u8 *,0x1BC+i); i++; } while(i<=9);
+        do { t22_gs->bytes22C[i]=t22_save226A4->bytes[i]; i++; } while(i<=9);
         break;
     }
     while(sub_0800CB78()==0) {
@@ -697,15 +711,16 @@ void sub_080226A4(void) {
                     fn=rec->cb[t22_gs->f36].fn;
                     if(sub_08056E90()!=0 && t22_gs->f40!=0x92BC) sub_080277E0(rec);
                     else result=fn(rec);
-                    if(result!=0) sub_080570DC(0);
+                    { register s32 test asm("r7")=result; asm("" : : "r"(test)); if(test!=0) sub_080570DC(0); }
                 }
                 break;
             }
-            rec=(struct T22Rec226A4 *)((u8 *)rec+0x124);
+            { register u32 step asm("r0")=0x124; asm("" : "+r"(step)); rec=(struct T22Rec226A4 *)((u8 *)rec+step); }
         }
         if(sub_0800BA6C()!=0 && !(sub_0800CDC0()!=0 && gUnk_030056FC==0)) {
-            px=t22_players[player].f8C;
-            py=t22_players[player].f90;
+            s32 current=player;
+            px=t22_players[current].f8C;
+            py=t22_players[current].f90;
             switch((u8)sub_0800BCA0(px,py,sub_0800CCCC())-2U) {
             case 0:
                 if(sub_08000440(0x514C8)!=0) sub_0800A03C();
@@ -733,9 +748,7 @@ void sub_080226A4(void) {
     }
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080226A4);
-#endif
+
 struct T22S22E60 { u16 f0,f2; u8 pad4[4]; u16 f8; u8 padA[4]; u16 fE[10]; u16 f22[10]; u16 f36; u8 pad38[8]; s32 f40; u8 pad44[0x6D8]; void *f71C; };
 struct T22R22E60 { u16 id, count; u8 pad[0x120]; };
 extern struct T22S22E60 *t22_state22E60 asm("gUnk_03005CF4");
@@ -3521,7 +3534,7 @@ void sub_0802704C(s32 input) {
     s32 temp_r4;
     s32 temp_r4_2;
     s32 temp_r4_3;
-    s32 temp_r4_4;
+    s32 restoreIndex;
     s32 temp_r6;
     s32 temp_sl;
     s32 var_r6;
@@ -3531,7 +3544,6 @@ void sub_0802704C(s32 input) {
     u16 temp_r1_7;
     u16 temp_r1_8;
     u32 var_r1;
-    u32 copyCount;
     u32 spawnCount;
     u32 waitCount;
     u32 sendCount;
@@ -3607,21 +3619,20 @@ check_loop_11:
             M2C_FIELD(temp_r2_4, struct V2W12 *, 0xA4) = M2C_FIELD(t025State270, struct V2W12 *, 0xA0);
             temp_r4_3 = sub_080020F4();
             t025Players270[temp_r4_3].pos8C = t025Players270[sub_080020F4()].posA4;
-            temp_r4_4 = sub_080020F4();
-            t025Players270[temp_r4_4].pos94 = t025Players270[sub_080020F4()].posA4;
+            restoreIndex = sub_080020F4();
+            t025Players270[restoreIndex].pos94 = t025Players270[sub_080020F4()].posA4;
             t025Players270[sub_080020F4()].unkC4 = (u16) t025State270->f90;
             t025Players270[sub_080020F4()].unkC2 = (u16) t025State270->f92;
             t025Players270[sub_080020F4()].unkC6 = (u16) t025State270->f94;
             t025Players270[sub_080020F4()].unk20 = (s16) temp_r0_2;
-            copyCount = 0;
-            var_r6 = 0;
+            restoreIndex = 0;
             do {
+                var_r6 = restoreIndex * 40;
                 temp_r1_2 = var_r6 + t025Players270[sub_080020F4()].unk34;
                 temp_r0_8 = (void *)t025State270 + var_r6;
                 M2C_FIELD(temp_r1_2, struct T025Block270 *, 0) = M2C_FIELD(temp_r0_8, struct T025Block270 *, 0x44C);
-                var_r6 += 0x28;
-                copyCount += 1;
-            } while (copyCount <= 7U);
+                restoreIndex += 1;
+            } while (restoreIndex <= 7U);
             t025State270->f50 = sub_08057C0C();
             t025State270->f70 = 0;
             gUnk_03003478 = t025State270->f9C;
@@ -3826,6 +3837,7 @@ check_loop_115:
     }
     sub_08068384();
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802704C);
 #endif
