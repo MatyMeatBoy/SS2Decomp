@@ -736,7 +736,164 @@ footer:
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804BC38);
+struct T49TaskBC38 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
+struct T49ReqBC38 { s32 x, y; u16 w, h; void *callback; u32 arg, unused; };
+extern u8 *t49_gsBC38 asm("gUnk_03005CF4");
+extern void t49_taskBC38(void) asm("sub_0805A874");
+void sub_0804BEF8(u32 arg0);
+struct T49EntryBC38 { u32 id, kind; u8 pad[0x3A]; u16 state; u8 tail[0x2C]; };
+struct T49EntityBC38 { u16 f0,id; u8 pad[0x2DC]; };
+extern struct T49EntityBC38 *t49_entitiesBC38 asm("gUnk_030056F4");
+static inline void t49_lockBC38(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
+static inline void t49_unlockBC38(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+static inline void t49_waitBC38(u16 timer)
+{
+    goto wait;
+next: if (--timer == 0) return;
+wait:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto next;
+}
+
+static inline void t49_spawnBC38(void *callback, u32 arg, s32 x, s32 y, u16 w, u16 h)
+{
+    register u32 savedArg asm("r9")=arg;
+    void *savedCallback=callback;
+    struct T49ReqBC38 req;
+    struct T49TaskBC38 *task = (struct T49TaskBC38 *)(t49_gsBC38 + 0xE34);
+    u32 i = 0, zero;
+    goto check;
+next: i++; task++;
+check:
+    if (i > 29) return;
+    zero = sub_08000470((u32)task);
+    if (zero != 0) goto next;
+    req.x = x;
+    req.y = y;
+    req.w = w;
+    req.h = h;
+    req.callback = savedCallback;
+    req.arg = savedArg;
+    task->flags = 60;
+    task->memory = sub_08001494(0x400);
+    task->callback = (u32)t49_taskBC38;
+    task->stack = task->memory + 0x3FC;
+    task->arg = zero;
+    sub_08000274(task, &req, 1);
+    sub_080003F0();
+    sub_080003F0();
+}
+static inline struct T49EntryBC38 *t49_findBC38(u32 actor)
+{
+    struct T49EntryBC38 *p=(struct T49EntryBC38 *)(t49_gsBC38+0x7A4);
+    u32 i=0;
+    do {
+        if(p->id==actor)return p;
+        i++;p++;
+    }while(i<=14);
+    sub_080003F0();return 0;
+}
+static inline void t49_stateBC38(u32 actor)
+{
+    register u32 current asm("r5")=actor;
+    register u32 savedActor asm("r2")=current;
+    register u16 state asm("r4");
+    struct T49EntryBC38 *p;
+    state=3;
+    if(current>0x100000) {
+        p=t49_findBC38(savedActor);
+        if(p)p->state=state;
+    } else if(current) {
+        u32 index=current-1;
+        if(index<=4) {
+            register struct T49EntityBC38 **table asm("r1")=&t49_entitiesBC38;
+            register u32 offset asm("r0")=index*0x2E0;
+            register struct T49EntityBC38 *entity asm("r1")=*table;
+            entity=(struct T49EntityBC38 *)((u8 *)entity+offset);
+            sub_08019EB8(entity->id,3);
+        }
+    } else {
+        register u32 index asm("r0")=sub_080020F4();
+        register u32 stride asm("r1")=0x14C;
+        register u8 *player asm("r0");
+        register u8 *players asm("r1");
+        register u32 offset asm("r1");
+        index*=stride;
+        players=(u8 *)gUnk_03003CE0;
+        index+=(u32)players;
+        player=(u8 *)index;
+        offset=0x11E;
+        player+=offset;
+        *(u16 *)player=state;
+    }
+}
+void t49_sceneBC38(u32 arg0) asm("sub_0804BC38");
+void t49_sceneBC38(u32 arg0)
+{
+    register u32 savedArg asm("r9")=arg0;
+    register u8 **address asm("r5")=&t49_gsBC38;
+    register u8 **savedAddress asm("r8");
+    register u8 *game asm("r2")=*address;
+    register u32 mask asm("r3")=2;
+    u32 flags;
+    s32 gate;
+    u16 level;
+    register s32 attempts asm("r4");
+    register s32 nextAttempt asm("r6");
+    register u32 actor asm("r5");
+    register u32 active asm("r3");
+    register u32 one asm("r7");
+    register struct T49EntryBC38 *p asm("r1");
+    register u32 i asm("r2");
+    u32 dialog;
+    flags=*(u32 *)(game+0x38);
+    if(flags&mask)return;
+    *(u32 *)(game+0x38)=flags|mask;
+    gate=sub_0800CCCC();
+    level=gUnk_03003170.f90;
+    if(gate!=0)return;
+    if(level!=4)return;
+    t49_lockBC38();
+    sub_0800D0F4();
+    savedAddress=address;
+    one=1;
+    do {
+        register u8 **tableAddress asm("r1")=savedAddress;
+        u8 *snapshot=*tableAddress;
+        p=(struct T49EntryBC38 *)(snapshot+0x7A4);
+        i=0;
+        nextAttempt=attempts+1;
+        active=*(u32 *)(snapshot+0x54);
+        do {
+            if(((one<<i)&active) && p->kind==19) { actor=p->id;goto found; }
+            i++;p++;
+        }while(i<=14);
+        actor=0;
+found:
+        t49_waitBC38(1);
+        attempts=nextAttempt;
+    }while(actor==0 && nextAttempt<=599);
+    { register u32 song asm("r1")=196; gUnk_03005CF8=song; }
+    if(!(gUnk_030027D0&32))sub_08006CB4(196);
+    t49_stateBC38(actor);
+    t49_waitBC38(30);
+    sub_0802939C(actor,8);
+    sub_08028AAC(actor,184,187,40);
+    sub_0802939C(actor,0);
+    while(sub_0805F184()!=0)sub_080003F0();
+    while(sub_0805EF90()!=0)sub_080003F0();
+    dialog=sub_0805DF38(1,15,2,0,45,0x140043);
+    while(sub_0805EEFC((void *)dialog)==0)sub_080003F0();
+    t49_unlockBC38();
+    sub_0800D108();
+    if(sub_0800CB9C()==0) {
+        if(!(gUnk_030027D0&32)) { gUnk_03005CF8=3;sub_08006CB4(3); }
+    } else sub_080586B4(0);
+    t49_spawnBC38(sub_0804BEF8,savedArg,0xB700,0xC800,20,14);
+}
+
 struct T49TaskBEF8 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
 struct T49ReqBEF8 { s32 x, y; u16 w, h; void *callback; u32 arg, unused; };
 extern u8 *t49_gsBEF8 asm("gUnk_03005CF4");
