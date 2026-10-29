@@ -841,7 +841,141 @@ u32 oamDrawAff004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
     root4AffTiles += tile;
     return root4AffMatrices;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080081D4);
+struct Root4AffModeOamAttr1Hi { u8 xHi:1; u8 matrixLo:3; u8 matrix2:1; u8 matrix3:1; u8 size:2; } __attribute__((packed));
+struct Root4AffModeOamData { u32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; u32 x:9; u32 matrixLo:3; u32 matrix2:1; u32 matrix3:1; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
+struct Root4AffModeSpriteOam { s8 y; u8 unk1_0:6; u8 shape:2; s16 x:9; u16 matrixLo:3; u16 matrix2:1; u16 matrix3:1; u16 size:2; u16 tileNum:10; u16 tileHi:2; u16 unk4_12:4; u16 unk6; };
+struct Root4AffModeSpriteFrame { u16 matrixCount; u16 count; s32 matrices; s32 oams; };
+struct Root4AffModeSpriteMatrix { u16 rotation; s16 yScale; s16 xScale; };
+struct Root4AffModeSpriteAnim { u16 unk0; u16 unk2; u16 frameCount; u16 unk6; s32 frames; };
+struct Root4AffModeSpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
+extern struct Root4AffModeOamData root4AffModeOam[] asm("gUnk_03001330");
+extern u32 root4AffModeCount asm("gUnk_030028B4");
+extern u32 root4AffModeTiles asm("gUnk_030028B8");
+extern const u32 root4AffModeNonSquare[] asm("gUnk_0847842C");
+extern const u32 root4AffModeSquare[] asm("gUnk_0847843C");
+extern void root4AffModeCopy(const void *src, void *dest, u32 size) asm("sub_08001348");
+extern u32 root4AffModeVram asm("gUnk_030028BC");
+struct Root4AffModeObjAffineSrcData { s16 xScale; s16 yScale; u16 rotation; };
+extern void root4AffModeSet(struct Root4AffModeObjAffineSrcData *src, void *dest, s32 count, s32 offset) asm("ObjAffineSet");
+extern u32 root4AffModeMatrices asm("gUnk_030028B0");
+u32 oamDrawAffMode004(s32,s32,u16,u16,u8,u8 *,struct Root4AffModeSpriteRecord *,u8 *,u16,u16,u16,u8) asm("sub_080081D4");
+u32 oamDrawAffMode004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
+                 struct Root4AffModeSpriteRecord *record, u8 *tiles, u16 xScale, u16 yScale,
+                 u16 rotation, u8 mode)
+{
+    struct Root4AffModeObjAffineSrcData affine;
+    struct Root4AffModeSpriteFrame *frames;
+    struct Root4AffModeSpriteAnim *entry;
+    struct Root4AffModeSpriteOam *src;
+    struct Root4AffModeSpriteOam *oams;
+    struct Root4AffModeSpriteOam *obj;
+    struct Root4AffModeOamData *dest;
+    struct Root4AffModeOamAttr1Hi *hi;
+    struct Root4AffModeSpriteMatrix *entries;
+    struct Root4AffModeOamData *mat;
+    u32 vram;
+    u32 i;
+    u32 base;
+    u32 matrix;
+    u16 param;
+    u32 list;
+    u32 size;
+    u16 tile;
+    u32 shape;
+    u32 m;
+    s32 objX;
+    register s32 objY asm("r4");
+
+    if (root4AffModeCount > 127)
+        return -1;
+    if (record->animCount < anim)
+        return -1;
+    mode = sub_0801AAE0() ? mode : 0;
+    base = root4AffModeTiles;
+    matrix = root4AffModeMatrices;
+    frames = (struct Root4AffModeSpriteFrame *)(record->frames + (u32)record);
+    entry = (struct Root4AffModeSpriteAnim *)((u32)record + record->anims) + anim;
+    list = (u32)entry + entry->frames;
+    list += frame * 4;
+    frames += *(u16 *)list;
+    oams = (struct Root4AffModeSpriteOam *)((u8 *)frames + frames->oams);
+    dest = &root4AffModeOam[root4AffModeCount];
+    vram = root4AffModeVram + base * 32;
+    tile = 0;
+    size = 0;
+    src = oams;
+    for (i = 0; i < frames->count; i++, dest++, src++)
+    {
+        obj = src;
+        param = dest->affineParam;
+        *dest = *(struct Root4AffModeOamData *)obj;
+        dest->affineParam = param;
+        objX = ((struct Root4AffModeOamData *)obj)->x << 23;
+        objX >>= 23;
+        objY = obj->y;
+        objY += y;
+        objX += x;
+        dest->priority = priority;
+        dest->paletteNum = palettes[dest->paletteNum];
+        dest->objMode = mode;
+        if ((u32)(objX + 64) > 304 || objY > 160 || objY < -64)
+        {
+            dest->size = 0;
+            dest->shape = 0;
+            objY = 160;
+        }
+        dest->x = objX;
+        dest->y = objY;
+        dest->tileNum = base + tile;
+        vram += size;
+        shape = obj->shape;
+        if (shape)
+        {
+            size = root4AffModeNonSquare[obj->size];
+            tile += size;
+        }
+        else
+        {
+            size = root4AffModeSquare[obj->size];
+            tile += size;
+        }
+        dest->affineMode = 1;
+        m = obj->matrixLo | (obj->matrix2 << 3) | (obj->matrix3 << 4);
+        m += matrix;
+        hi = (struct Root4AffModeOamAttr1Hi *)((u8 *)dest + 3);
+        hi->matrixLo = m % 8;
+        hi->matrix2 = (matrix / 8) % 2;
+        hi->matrix3 = (matrix / 16) % 2;
+        if (++root4AffModeCount > 127)
+            return 0;
+        size *= 32;
+        root4AffModeCopy(tiles + ((obj->tileNum | (obj->tileHi << 10)) << 5), (void *)vram, size);
+    }
+    mat = root4AffModeOam;
+    mat += root4AffModeMatrices++ * 4;
+    if (frames->matrixCount)
+    {
+        entries = (struct Root4AffModeSpriteMatrix *)((u8 *)frames + frames->matrices);
+        for (i = 0; i < frames->matrixCount; i++)
+        {
+            affine.xScale = entries->xScale;
+            affine.yScale = entries->yScale;
+            affine.rotation = entries->rotation;
+            root4AffModeSet(&affine, &mat->affineParam, 1, 8);
+            mat += 4;
+            root4AffModeMatrices++;
+        }
+    }
+    else
+    {
+        affine.xScale = xScale;
+        affine.yScale = yScale;
+        affine.rotation = rotation;
+        root4AffModeSet(&affine, &mat->affineParam, 1, 8);
+    }
+    root4AffModeTiles += tile;
+    return root4AffModeMatrices;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008500);
 struct Root4ModeOamData { u32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; u32 x:9; u32 matrixNum:5; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
 struct Root4ModeSpriteOam { s8 y; u8 unk1_0:6; u8 shape:2; s16 x:9; u16 unk2_9:5; u16 size:2; u16 tileNum:10; u16 tileHi:2; u16 unk4_12:4; u16 unk6; };
