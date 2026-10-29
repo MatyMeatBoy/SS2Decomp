@@ -8652,7 +8652,6 @@ s32 sub_080855D4(void)
     u32 n;
     u32 i;
     u32 j;
-    u32 lines;
     u32 count;
     u32 last;
     u8 c;
@@ -8794,10 +8793,10 @@ s32 sub_080855D4(void)
     gShop855D4->index = 0;
     gShop855D4->running = 1;
     gShop855D4->grid = 0;
-    for (i = 0; i <= 7; i++) {
-        win->slots[i].id = 0xFFFF;
+    for (j = 0; j <= 7; j++) {
+        win->slots[j].id = 0xFFFF;
         L.zero = 0;
-        f855_CpuSet(&L.zero, win->slots[i].data, 0x01000018);
+        f855_CpuSet(&L.zero, win->slots[j].data, 0x01000018);
     }
     for (count = 0; gTable855D4[count].cat != 0x64; count++)
         last = gTable855D4[count].cat;
@@ -8838,18 +8837,18 @@ s32 sub_080855D4(void)
                 f855_5865C(0x177);
                 if (++gShop855D4->cat > last)
                     gShop855D4->cat = 0;
-                for (j = 0; gTable855D4[j].cat != gShop855D4->cat; j++)
+                for (i = 0; gTable855D4[i].cat != gShop855D4->cat; i++)
                     ;
-                gShop855D4->index = j;
+                gShop855D4->index = i;
                 f855_1A664(0, 0x13);
                 gShop855D4->cursor = 0;
             } else if (gKeys855D4 & 0x200) {
                 f855_5865C(0x177);
                 if (--gShop855D4->cat < 0)
                     gShop855D4->cat = last;
-                for (j = 0; gTable855D4[j].cat != gShop855D4->cat; j++)
+                for (i = 0; gTable855D4[i].cat != gShop855D4->cat; i++)
                     ;
-                gShop855D4->index = j;
+                gShop855D4->index = i;
                 f855_1A664(0, 0x13);
                 gShop855D4->cursor = 0;
             } else if (gKeys855D4 & 1) {
@@ -8868,9 +8867,9 @@ s32 sub_080855D4(void)
                 gShop855D4->mode = 3;
                 f855_5865C(0xF);
             } else if (gKeys855D4 & 2) {
-                for (j = 0; gTable855D4[j].cat != gShop855D4->cat; j++)
+                for (i = 0; gTable855D4[i].cat != gShop855D4->cat; i++)
                     ;
-                gShop855D4->index = j;
+                gShop855D4->index = i;
                 gShop855D4->mode = 0;
                 f855_1A664(0, 0x13);
                 f855_5865C(0x10);
@@ -9005,21 +9004,21 @@ s32 sub_080855D4(void)
                 L.name[j] = 0xFD;
                 text = f855_07290(*(u16 *)(f855_07290(gTable855D4[gShop855D4->index].id | 0x120000) + 0xA2) | 0x140000);
                 s = text + 2;
-                lines = 0;
+                i = 0;
                 j = 0;
                 while (*s != 0xFD) {
                     c = *s;
                     if (c == 0xFF) {
-                        L.desc[lines][j] = 0xFD;
-                        lines++;
+                        L.desc[i][j] = 0xFD;
+                        i++;
                         j = 0;
                     } else {
-                        L.desc[lines][j] = c;
+                        L.desc[i][j] = c;
                         j++;
                     }
                     s++;
                 }
-                L.desc[lines][j] = 0xFD;
+                L.desc[i][j] = 0xFD;
                 f855_1C8F0(win);
                 f855_5FB7C(0x14, 4, win->atk, 0);
                 f855_5FB7C(0x14, 5, win->def, 0);
@@ -9074,21 +9073,21 @@ s32 sub_080855D4(void)
                     f855_1A664(0xF, 4);
                     text = f855_07290(0x140542);
                     s = text + 2;
-                    lines = 0;
+                    i = 0;
                     j = 0;
                     while (*s != 0xFD) {
                         c = *s;
                         if (c == 0xFF) {
-                            L.desc[lines][j] = 0xFD;
-                            lines++;
+                            L.desc[i][j] = 0xFD;
+                            i++;
                             j = 0;
                         } else {
-                            L.desc[lines][j] = c;
+                            L.desc[i][j] = c;
                             j++;
                         }
                         s++;
                     }
-                    L.desc[lines][j] = 0xFD;
+                    L.desc[i][j] = 0xFD;
                     f855_1A3D0(L.desc[0], 2, 0xF);
                     f855_1A3D0(L.desc[1], 2, 0x11);
                 }
