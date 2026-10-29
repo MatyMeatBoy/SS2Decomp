@@ -288,8 +288,10 @@ radiusDone:
     if ((u32) M2C_FIELD(attack, u32 *, 0x8) <= 3U) {
 
     } else {
-        enemyIndex = 0;
-        localPlayerMask = 1; localPlayerMask = localPlayerMask << localPlayer;
+        {register u32 initialIndex asm("r2")=0;asm("" : "+r"(initialIndex));enemyIndex=initialIndex;}
+        {register u32 one asm("r3")=1;asm("" : "+r"(one));localPlayerMask=one;}
+        asm("" : "+r"(localPlayerMask));
+        {register u32 mask asm("r0")=localPlayerMask;register u32 shift asm("r1")=localPlayer;asm("" : "+r"(mask), "+r"(shift));localPlayerMask=mask<<shift;}
 loop_15:
         if (!(enemyActive & (1 << enemyIndex))) {
 
@@ -447,7 +449,7 @@ loop_69:
                                             if(temp_r0_7==7) goto ally7;
                                             sub_080694AC(attack); goto allyDone;
 ally4:
-                                            var_r0_6=(u16 *)gUnk_084EBF1C; var_r0_6=(u16 *)((u8 *)var_r0_6+0x62); goto allyCall;
+                                            var_r0_6=(u16 *)gUnk_084EBF1C; asm("" : "+r"(var_r0_6)); var_r0_6=(u16 *)((u8 *)var_r0_6+0x62); goto allyCall;
 ally7:
                                             var_r0_6=&effects[M2C_FIELD(attack,u32 *,0x14)];
 allyCall:
@@ -506,7 +508,7 @@ loop_105:
                                     if (M2C_FIELD(enemyHitHistory, u32 *, M2C_FIELD(sourceEnemy, u16 *, 0x0) * 4) != M2C_FIELD(sourceEnemy, u32 *, 0x50)) {
                                         M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerEnemy, u16 *, 0x0);
                                         if (M2C_FIELD(attack, u32 *, 0xC) == 4) {
-                                            temp_r4_2 = M2C_FIELD(gUnk_084EBF1C, u16 *, 0x62);
+                                            {u8 *effectBase=gUnk_084EBF1C;asm("" : "+r"(effectBase));effectBase+=0x62;temp_r4_2=*(u16 *)effectBase;}
                                             sub_08029A7C(temp_r4_2, (s16)damage68_raw(attack, 0), M2C_FIELD(attack, u32 *, 0x14));
                                         } else {
                                             sub_080694AC(attack);
