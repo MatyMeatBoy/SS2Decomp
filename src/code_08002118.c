@@ -1925,7 +1925,6 @@ void sub_08005A24(u32 range, s32 percent)
     sub_080003F0();
     sub_08001538((s32)backup);
 }
-#ifdef NONMATCHING
 extern u16 pressed5B asm("gUnk_03001324");
 extern void finish5B(unsigned long long) asm("sub_08000420");
 struct Menu5B { u8 pad[5], f5, f6, f7; };
@@ -1945,44 +1944,26 @@ extern u16 keys5B asm("gUnk_03001308");
 extern void sub_080066A8(void);
 void menu5B(struct Menu5B *) asm("sub_08005B88");
 void menu5B(struct Menu5B *arg) {
-    u16 sp4[2],sp8[2];
-    u8 spC[0x34],sp40[0x34],sp74[4],sp78[33],sp9C[36];
-    struct Menu5B *spC0;
-    s32 spC4,spC8;
-    u32 spCC;
-    s32 spD0;
-    u32 spD4,spD8;
-    s32 spDC,spE0,spE4,spE8;
-    u32 spEC;
-    s32 spF0;
-    s32 temp_r0;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    s32 var_r3_2;
-    register s32 var_sl asm("sl");
-    u32 temp_r0_2;
-    u32 temp_r1;
-    u32 temp_r2;
-    u32 temp_r2_2;
-    u32 temp_r6;
-    u32 var_r3;
-    u32 var_r6;
-    register u32 var_r8 asm("r8");
-    u8 *var_r4;
-    u8 *var_r7;
-    u8 temp_r1_2;
-    u8 temp_r2_5;
-    register u8 var_r9 asm("r9");
-    u32 temp_r0_3;
+    u16 sp4[2], sp8[2];
+    u8 spC[0x34], sp40[0x34], sp74[4], sp78[33], sp9C[36];
+    s32 sel, prev;
+    u32 timer;
+    s32 scroll;
+    u32 count, pos;
+    s32 x, y, tx, ty;
+    u32 vblank;
+    u8 vcount;
+    s32 state;
+    u8 side;
+    s32 dy, dx;
+    u8 *p, *q, *buf, *txt, *d;
+    u32 i, j, n, row;
+    u8 c;
+    s32 r, d1, d2;
 
-
-    spC0 = arg;
-    copy5B(&sp74, &data5B, 2);
-    sprite5B(&sp40, 0x50002, 0, -1, 0);
-    sprite5B(&spC, 0x50006, 0, -1, 0);
+    copy5B(sp74, &data5B, 2);
+    sprite5B(sp40, 0x50002, 0, -1, 0);
+    sprite5B(spC, 0x50006, 0, -1, 0);
     mode5B(0);
     gUnk_03001250[1] = 0;
     gUnk_03001250[0] = 0;
@@ -1995,257 +1976,204 @@ void menu5B(struct Menu5B *arg) {
     fade5B(0, 0x13);
     reg5B(0xE00, 0, 1);
     start5B(3);
-    spC4 = 0;
-    spC8 = 0xA;
-    sp8[0] = *(volatile u16 *)&spC4;
-    sp4[0] = *(volatile u16 *)&spC4;
-    sp8[1] = *(volatile u16 *)&spC4;
-    sp4[1] = *(volatile u16 *)&spC4;
-    spD0 = 0;
-    spCC = 0;
-    spD8 = 0;
-    spE8 = 0x2C;
-    spE4 = 8;
-    spDC = 8;
-    spE0 = 0x2C;
-    var_r9 = spC0->f7;
-    var_sl = 0;
-    spF0 = (s32) (u8) sub_08001108(0x6EU);
-    spEC = sub_0800115C((u32) sub_080066A8);
+    sel = 0;
+    prev = 10;
+    {
+        u16 *b, *a;
+        a = sp4;
+        b = sp8;
+        b[0] = sel;
+        a[0] = sel;
+        b[1] = sel;
+        a[1] = sel;
+        asm("" : : "r"(a));
+    }
+    scroll = 0;
+    timer = 0;
+    pos = 0;
+    ty = 0x2C;
+    tx = 8;
+    x = 8;
+    y = 0x2C;
+    side = arg->f7;
+    state = 0;
+    vcount = (u8)sub_08001108(0x6E);
+    vblank = sub_0800115C((u32)sub_080066A8);
     sub_08000D8C();
-loop_1:
-    temp_r0 = sub_0801AAE0();
-    if (temp_r0 == 0) {
-        pressed5B = (u16) temp_r0;
-    }
-    switch (var_sl) {                               /* irregular */
-    case 0:
-        if (pressed5B == 1) {
-            if (spC4 == 1) {
-                if (spC0->f5 == 0) {
-                    var_sl = 3;
-                    var_r9 = 0;
-                } else {
-                    var_sl = 1;
-                    spE8 = 0x62;
-                    spE4 = 0x3C;
-                }
-            } else {
-                var_sl = 3;
-            }
-            sub_0805865C(0xF);
-            goto block_43;
-        }
-        if ((spC4 == 1) && (0x40 & pressed5B)) {
-            sub_0805865C(0xE);
-            spE8 = 0x2C;
-            spC4 = 0;
-            goto block_43;
-        }
-        if ((spC4 == 0) && (0x80 & pressed5B)) {
-            sub_0805865C(0xE);
-            spE8 = 0x52;
-            spC4 = 1;
-            goto block_43;
-        }
-        if (pressed5B != 2) {
-            goto block_43;
-        }
-        sub_0805865C(0x10);
-        sub_0801ABE8(6);
-loop_24:
-        if (sub_0801AAE0() == 0) {
-            sub_080003F0();
-            goto loop_24;
-        }
-        if (sub_08000470((u32) &task5B) != 0) {
-            sub_080003A8((s32) &task5B);
-        }
-        temp_r0_3 = (u32) sub_08001494(0x1000U);
-        task5B.fC = (u32)callback5B;
-        task5B.f10 = temp_r0_3 + 0xFFC;
-        task5B.f20 = temp_r0_3;
-        task5B.f8 = 1;
-        task5B.f24 = 0;
-        sub_08000274(&task5B, 0);
-        sub_08000E48();
-        sub_0800115C(spEC);
-        sub_08001108((u8) spF0);
-        fade5B(0, 0x14);
-        sub_080003F0();
-        return;
-    case 1:
-        if (0x20 & keys5B) {
-            if ((spC4 == 1) && (var_r9 == 1)) {
-                sub_0805865C(0xE);
-            }
-            var_r9 = 0;
-        } else if (0x10 & keys5B) {
-            if ((spC4 == 1) && (var_r9 == 0)) {
-                sub_0805865C(0xE);
-            }
-            var_r9 = 1;
-        } else if (pressed5B == 1) {
-            var_sl = 3;
-            sub_0805865C(0xF);
-            fade5B(0, 0xA);
-            sub_08000E48();
-            spEC = sub_0800115C(spEC);
-            sub_08001108((u8) spF0);
-            reg5B(0x200, 0, 1);
-        } else if (pressed5B == 2) {
-            var_sl = 0;
-            spE4 = 8;
-            sub_0805865C(0x10);
-            spE8 = 0x52;
-            if (spC4 == 0) {
-                spE8 = 0x3C;
-            }
-        }
-    default:
-block_43:
-        if (spC0->f5 != 0) {
-            sub_08065230(&spC, 0x50, 0x64, 0x26U, (s32) ((u32) ((0 - var_r9) | var_r9) >> 0x1F));
-            var_r0 = 0;
-            if (var_r9 == 0) {
-                var_r0 = 1;
-            }
-            sub_08065230(&spC, 0x78, 0x64, 0x27U, var_r0);
-        }
-        temp_r6 = spE8 - spE0;
-        temp_r1 = spE4 - spDC;
-        if (spC8 != spC4) {
-            spD4 = 0;
-            spD0 = 0;
-            var_r3 = 0;
-            spCC = 0;
-            spD8 = 0;
-            gUnk_03003474 = 0;
-            do {
-                (sp78)[var_r3] = 0xFD;
-                var_r3 += 1;
-            } while (var_r3 <= 0x1FU);
-            var_r7 = resource5B((spC4 + 0x451) | 0x140000) + 2;
-            spC8 = spC4;
-        }
-        temp_r0_2 = spCC;
-        spCC = temp_r0_2 + 1;
-        if (temp_r0_2 > 2U) {
-            spCC = 0;
-            if (*var_r7 == 0xFF) {
-                var_r7 += 1;
-            }
-            if (*var_r7 == 0xFE) {
-                var_r7 += 3;
-            }
-            if (*var_r7 == 0xFD) {
-                var_r7 = resource5B((spC4 + 0x451) | 0x140000) + 2;
-            }
-            (sp78)[spD8] = *var_r7;
-            var_r7 += 1;
-            temp_r2 = spD8 + 1;
-            spD8 = temp_r2;
-            if (temp_r2 > 0x1FU) {
-                spD8 = 0;
-                sp78[32] = 0xFD;
-                spD0 = 1;
-            }
-        }
-        if (spD0 != 0) {
-            gUnk_03003474 += 1;
-            temp_r2_2 = spD4 + 1;
-            spD4 = temp_r2_2;
-            if (temp_r2_2 > 7U) {
-                spD4 = 0;
-                spCC = 0xA;
-            } else {
-                spCC = 0;
-            }
-        }
-        text5B(sp78, 0, 0xEU);
-        temp_r2_3 = spE0 + ((s32) (temp_r6 + (temp_r6 >> 0x1F)) >> 1);
-        spE0 = temp_r2_3;
-        var_r0_2 = spE8 - temp_r2_3;
-        if (var_r0_2 < 0) {
-            var_r0_2 = 0 - var_r0_2;
-        }
-        if (var_r0_2 <= 1) {
-            spE0 = spE8;
-        }
-        temp_r2_4 = spDC + ((s32) ((temp_r1 >> 0x1F) + temp_r1) >> 1);
-        spDC = temp_r2_4;
-        var_r0_3 = spE4 - temp_r2_4;
-        if (var_r0_3 < 0) {
-            var_r0_3 = 0 - var_r0_3;
-        }
-        if (var_r0_3 <= 1) {
-            spDC = spE4;
-        }
-        sub_08065230(&spC, spDC, spE0, 0x15U, 0);
-        var_r4 = resource5B(0x14044D) + 2;
-        var_r8 = 0;
-        var_r6 = 0x40000;
-loop_73:
-        var_r3_2 = 0;
-        temp_r1_2 = *var_r4;
-        if (temp_r1_2 != 0xFD) {
-            sp9C[0] = temp_r1_2;
-            if (temp_r1_2 != 0xFF) {
-loop_75:
-                var_r3_2 += 1;
-                var_r4 += 1;
-                temp_r2_5 = *var_r4;
-                if (temp_r2_5 != 0xFD) {
-                    (sp9C)[var_r3_2] = temp_r2_5;
-                    if (temp_r2_5 == 0xFF) {
-                        goto block_77;
+    do {
+        r = sub_0801AAE0();
+        if (r == 0)
+            pressed5B = r;
+        switch (state) {
+        case 0:
+            if (pressed5B == 1) {
+                if (sel == 1) {
+                    if (arg->f5 == 0) {
+                        state = 3;
+                        side = 0;
+                    } else {
+                        state = 1;
+                        ty = 0x62;
+                        tx = 0x3C;
                     }
-                    goto loop_75;
+                } else {
+                    state = 3;
                 }
+                sub_0805865C(0xF);
+            } else if (sel == 1 && (pressed5B & 0x40)) {
+                sub_0805865C(0xE);
+                ty = 0x2C;
+                sel = 0;
+            } else if (sel == 0 && (pressed5B & 0x80)) {
+                sub_0805865C(0xE);
+                ty = 0x52;
+                sel = 1;
+            } else if (pressed5B == 2) {
+                sub_0805865C(0x10);
+                sub_0801ABE8(6);
+                while (sub_0801AAE0() == 0)
+                    sub_080003F0();
+                if (sub_08000470((u32)&task5B) != 0)
+                    sub_080003A8((s32)&task5B);
+                {
+                    u32 stack = (u32)sub_08001494(0x1000);
+                    task5B.fC = (u32)callback5B;
+                    task5B.f10 = stack + 0xFFC;
+                    task5B.f20 = stack;
+                    task5B.f8 = 1;
+                    task5B.f24 = 0;
+                }
+                sub_08000274(&task5B, 0);
+                sub_08000E48();
+                sub_0800115C(vblank);
+                sub_08001108(vcount);
+                fade5B(0, 0x14);
+                sub_080003F0();
+                return;
+            }
+            break;
+        case 1:
+            if (keys5B & 0x20) {
+                if (sel == 1 && side == 1)
+                    sub_0805865C(0xE);
+                side = 0;
+            } else if (keys5B & 0x10) {
+                if (sel == 1 && side == 0)
+                    sub_0805865C(0xE);
+                side = 1;
+            } else if (pressed5B == 1) {
+                state = 3;
+                sub_0805865C(0xF);
+                fade5B(0, 0xA);
+                sub_08000E48();
+                vblank = sub_0800115C(vblank);
+                sub_08001108(vcount);
+                reg5B(0x200, 0, 1);
+            } else if (pressed5B == 2) {
+                state = 0;
+                tx = 8;
+                sub_0805865C(0x10);
+                ty = 0x52;
+                if (sel == 0)
+                    ty = 0x3C;
+            }
+            break;
+        }
+        if (arg->f5 != 0) {
+            sub_08065230(spC, 0x50, 0x64, 0x26, side != 0);
+            sub_08065230(spC, 0x78, 0x64, 0x27, side == 0);
+        }
+        buf = sp78;
+        dy = ty - y;
+        dx = tx - x;
+        if (prev != sel) {
+            count = 0;
+            scroll = 0;
+            timer = 0;
+            pos = 0;
+            gUnk_03003474 = 0;
+            d = buf;
+            for (n = 0; n <= 0x1F; n++)
+                d[n] = 0xFD;
+            p = resource5B((sel + 0x451) | 0x140000);
+            p += 2;
+            prev = sel;
+        }
+        if (timer++ > 2) {
+            timer = 0;
+            if (*p == 0xFF)
+                p++;
+            if (*p == 0xFE)
+                p += 3;
+            if (*p == 0xFD) {
+                p = resource5B((sel + 0x451) | 0x140000);
+                p += 2;
+            }
+            buf[pos] = *p++;
+            if (++pos > 0x1F) {
+                pos = 0;
+                sp78[32] = 0xFD;
+                scroll = 1;
+            }
+        }
+        if (scroll != 0) {
+            gUnk_03003474++;
+            if (++count > 7) {
+                count = 0;
+                timer = 10;
             } else {
-block_77:
-                var_r4 += 1;
+                timer = 0;
             }
         }
-        (sp9C)[var_r3_2] = 0xFD;
-        if (var_r3_2 != 0) {
-            text5B(sp9C, 2, var_r6 >> 0x10);
-            if (*var_r4 != 0xFD) {
-                var_r6 += 0x20000;
-                var_r8 += 1;
-                if (var_r8 <= 1U) {
-                    goto loop_73;
+        text5B(buf, 0, 0xE);
+        y += dy / 2;
+        d1 = ty - y;
+        if (d1 < 0)
+            d1 = -d1;
+        if (d1 <= 1)
+            y = ty;
+        x += dx / 2;
+        d2 = tx - x;
+        if (d2 < 0)
+            d2 = -d2;
+        if (d2 <= 1)
+            x = tx;
+        sub_08065230(spC, x, y, 0x15, 0);
+        q = resource5B(0x14044D) + 2;
+        for (i = 0, row = 0x40000; i <= 1; row += 0x20000, i++) {
+            n = 0;
+            while ((c = *q) != 0xFD) {
+                sp9C[n] = c; if (sp9C[n] == 0xFF) {
+                    q++;
+                    break;
                 }
+                n++;
+                q++;
             }
+            sp9C[n] = 0xFD;
+            if (n == 0)
+                break;
+            text5B(sp9C, 2, row >> 16);
+            if (*q == 0xFD)
+                break;
         }
-        text5B(resource5B(0x14044E) + 2, 2, 9U);
+        text5B(resource5B(0x14044E) + 2, 2, 9);
         sub_080003F0();
-        if (var_sl != 3) {
-            goto loop_1;
-        }
-        sub_0801ABE8(6);
-loop_85:
-        if (sub_0801AAE0() == 0) {
-            sub_080003F0();
-            goto loop_85;
-        }
-        fade5B(0, 0x14);
+    } while (state != 3);
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
         sub_080003F0();
-        fade5B(0, 0x14);
-        sub_080003F0();
-        if (spC4 == 0) {
-            spC0->f6 = (s8) spC4;
-        } else {
-            spC0->f6 = 1;
-        }
-        spC0->f7 = var_r9;
-        finish5B(0x25A112EBFULL);
-        return;
-    }
+    fade5B(0, 0x14);
+    sub_080003F0();
+    fade5B(0, 0x14);
+    sub_080003F0();
+    if (sel == 0)
+        arg->f6 = 0;
+    else
+        arg->f6 = 1;
+    arg->f7 = side;
+    finish5B(0x25A112EBFULL);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005B88);
-#endif
 extern u16 pressed6C asm("gUnk_03001324");
 extern void finish6C(unsigned long long) asm("sub_08000420");
 struct Menu6C { u8 pad[5], f5, f6, f7; };
