@@ -107,7 +107,44 @@ INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080480E8);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804819C);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08048570);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08048A74);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08049DC4);
+struct T48Item { s16 id; u16 kind; u8 pad[12]; };
+extern u8 *t48State asm("gUnk_03005CF4");
+extern u8 *t48Items asm("gUnk_030034E0");
+static inline s32 t48id(struct T48Item *p) { register u32 x asm("r0") = (u16)p->id; asm("" : "+r" (x)); return x; }
+void sub_08049DC4(void) {
+    register s32 value asm("r1"); register s32 loaded asm("r0"); s32 other; register s32 flag asm("r4"); register s32 count2 asm("r5"); register u8 *state asm("r2"); register s32 count asm("r3"); register s32 saved asm("r6"); register s32 bits asm("r2"); register s32 off asm("r4"); register s32 off1 asm("r5"); register s32 flagmask asm("r3"); register s32 mask asm("r5");
+    u32 i; register u32 j asm("r3");
+    u8 *selected;
+    struct T48Item *p,*q;
+    state=t48State; asm("" : "+r" (state)); flagmask=0x20; value = *(s32 *)(state+0x38);
+    if (!(value & flagmask)) {
+        *(s32 *)(state+0x38) = value | flagmask;
+        mask=1; if (sub_0800CE30()) selected = t48State+0x1C4;
+        else { loaded=(s32)t48State; off=0x1B8; asm("" : "+r" (off)); selected = (u8 *)loaded+off; }
+        loaded=*selected; asm("" : "+r" (loaded)); flag = (loaded >> 5) & mask; asm("" : "+r" (flag));
+        other = sub_080020F4();
+        count=0; i=0; loaded=(s32)t48Items; asm("" : "+r" (loaded)); off1=0x150; asm("" : "+r" (off1)); p=(struct T48Item *)((u8 *)loaded+off1);
+        do {
+            if (t48id(p)==1 && p->kind==0x2A) count++;
+            p++; i++;
+        } while(i<=24);
+        saved=count; count2=0; asm("" : "+r" (count2)); j=0; bits=flag|other; asm("" : "+r" (bits)); loaded=(s32)t48Items; asm("" : "+r" (loaded)); off=0x2E0; asm("" : "+r" (off)); q=(struct T48Item *)((u8 *)loaded+off);
+        do {
+            if (t48id(q)==1 && q->kind==0x2A) count2++;
+            q++; j++;
+        } while(j<=74);
+        if ((bits | saved | count2)==0) sub_08068820(sub_0805A040,0,(void *)1);
+    }
+    if (sub_0800CC98()==0) {
+        switch(sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while(sub_0801AAE0()==0) sub_080003F0();
+    }
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08049EBC);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A188);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A478);

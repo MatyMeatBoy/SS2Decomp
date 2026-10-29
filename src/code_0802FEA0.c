@@ -1,6 +1,190 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0802FEA0);
+extern u8 *gState2FEA0 asm("gUnk_03005CF4");
+struct Cmd2FEA0 { u16 kind, value; u8 data[12]; };
+extern void cb2FEA0(void) asm("sub_0805990C");
+extern void emit2FEA0(struct Cmd2FEA0 *) asm("sub_0805AB20");
+static inline u32 count2FEA0(u32 n) { return n; }
+void sub_0802FEA0(s32 arg)
+{
+    register u32 offset asm("r2");
+    struct Player *p;
+    u8 *base;
+    register u32 field asm("r4");
+    struct Cmd2FEA0 cmdA;
+    u8 unused[16];
+    register s32 idx asm("r4");
+    register s32 flag asm("r5");
+    register u32 one asm("r6");
+    s32 shifted;
+    register u32 n asm("r4");
+    u32 send;
+    s32 mode;
+    register s32 result asm("r0");
+    register u32 off asm("r1");
+    register u32 a asm("r1");
+    register u32 v asm("r2");
+    register struct Cmd2FEA0 *cmd asm("r0");
+    register u32 ok asm("r1");
+    u32 dialog;
+    register u32 value asm("r4");
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
+    p->flags |= 1;
+    sub_0800D0F4();
+    sub_0802949C(arg, 0);
+    if (sub_0800CE30()) field = *(u32 *)(gState2FEA0 + 0x7C);
+    else field = *(u32 *)(gState2FEA0 + 0x74);
+    if (field & 256) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310924);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 128) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310923);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 64) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310922);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 32) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310921);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 16) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310920);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 8) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310919);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 4) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310918);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310917);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    idx = sub_080020F4();
+    one = 1;
+    if (sub_0800CE30()) { base = gState2FEA0; off = 0x1C4; }
+    else { base = gState2FEA0; off = 0x1B8; }
+    base += off; shifted = *base;
+    flag = (shifted >> 7) & one;
+    one = 1;
+    if (sub_0800CE30()) { base = gState2FEA0; off = 0x1C4; }
+    else { base = gState2FEA0; off = 0x1B8; }
+    base += off; shifted = *base;
+    if (idx + ((shifted >> 3) & one) == 0 && flag != 0) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310925);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        result = sub_0805CFA0();
+        ok = 1;
+        if (result < 0) ok = 0;
+        if (!ok) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310928);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        } else {
+        dialog = sub_0800CE30();
+        if (dialog == 0) {
+            if (!(gUnk_030027D0 & 0x20)) sub_08006D08(0x33);
+            a = 7; v = 11; cmd = &cmdA; cmd->kind = a; cmd->value = v;
+            n = 0;
+            do { cmdA.data[n] = 0; n++; } while (n <= 11);
+            send = 0;
+            do { emit2FEA0(&cmdA); send++; } while (send < count2FEA0(1));
+            sub_08068070((u32)cb2FEA0, 11);
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310926);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        } else {
+            if (!(gUnk_030027D0 & 0x20)) sub_08006D08(0x33);
+            a = 1; v = 99; cmd = &cmdA; cmd->kind = a; cmd->value = v;
+            n = 0;
+            do { cmdA.data[n] = 0; n++; } while (n <= 11);
+            send = 0;
+            do { emit2FEA0(&cmdA); send++; } while (send < count2FEA0(1));
+            sub_08068070((u32)cb2FEA0, 11);
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310927);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        }
+    }
+    }
+    sub_08029788(arg);
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
+    p->flags &= ~1;
+    sub_0800D108();
+}
+
+
+
+
+
+
 extern u8 *gState30480 asm("gUnk_03005CF4");
 void sub_08030480(s32 arg)
 {

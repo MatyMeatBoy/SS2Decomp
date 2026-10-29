@@ -1296,29 +1296,31 @@ extern u8 rescueC8F0Records[] asm("gUnk_03003CE0");
 extern s32 rescueC8F0Test(s32 *, void *, s32 *, s32 *) asm("sub_08021FE0");
 void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     s32 zero;
+    register u32 hp18 asm("r3");
     s32 pos[2];
     s32 sp8;
     s32 spC;
     s16 *var_r1;
     s16 temp_r1;
-    s16 var_r0_2;
-    s32 temp_r0;
-    s32 temp_r0_5;
+    s32 var_r0_2;
+    register s32 temp_r0 asm("r4");
+    register s32 temp_r0_5 asm("r0");
     s32 temp_r2;
-    u32 baseAddress;
+    register u32 baseAddress asm("r3");
     s32 var_r0;
-    s32 var_r1_2;
+    register s32 var_r1_2 asm("r1");
     u16 *var_r2;
     u16 temp_r0_3;
     u16 temp_r0_6;
     u16 temp_r0_7;
     u16 temp_r0_8;
-    u16 temp_r0_9;
+    register u32 temp_r0_9 asm("r0");
+    register u32 clampZero18 asm("r1");
     u32 temp_r0_4;
     u32 var_r6;
     u8 temp_r0_2;
-    u8 **temp_r1_3;
-    u8 *temp_r1_2;
+    register u8 **temp_r1_3 asm("r1");
+    register u8 *temp_r1_2 asm("r1");
     u8 *temp_r6;
     struct RescueC8F0Slot *var_r5;
 
@@ -1348,7 +1350,7 @@ loop_5:
         if ((u32) temp_r0_3 <= 3U) {
             baseAddress = (u32)rescueC8F0Records;
             temp_r2 = 0x14C * temp_r0_3;
-            temp_r1_2 = (u8 *)(baseAddress + temp_r2);
+            temp_r1_2 = (u8 *)(temp_r2 + baseAddress);
             temp_r0_6 = (*(u16 *)(temp_r1_2 + 0xC));
             switch (temp_r0_6) {                    /* switch 1; irregular */
             case 3:                                 /* switch 1 */
@@ -1376,7 +1378,8 @@ loop_5:
                     }
                     break;
                 case 6:                             /* switch 2 */
-                    temp_r1_3 = (u8 **)(temp_r2 + (rescueC8F0Records + 0x148));
+                    temp_r1_3 = (u8 **)(baseAddress + 0x148);
+                    temp_r1_3 = (u8 **)(temp_r2 + (u32)temp_r1_3);
                     pos[0] = ((u16) (*(u16 *)(*temp_r1_3)) >> 4) << 8;
                     pos[1] = (u32) ((*(u16 *)(*temp_r1_3 + 2)) << 0x14) >> 0xC;
                     sp8 = 0x300030;
@@ -1384,13 +1387,12 @@ loop_5:
                     if (rescueC8F0Test(&pos[0], (u8 *)arg0 + 0x14, &sp8, &spC) == 0) {
 
                     } else {
-                        temp_r0_9 = arg0->field1CC - (var_r5->value * 4);
-                        arg0->field1CC = temp_r0_9;
-                        if ((s32) (temp_r0_9 << 0x10) >= 0) {
-
-                        } else {
-                            arg0->field1CC = 0U;
-                        }
+                        var_r2 = &arg0->field1CC;
+                        var_r1_2 = var_r5->value * 4;
+                        temp_r0_9 = *var_r2 - var_r1_2;
+                        clampZero18 = 0;
+                        *var_r2 = temp_r0_9;
+                        if ((s32)(temp_r0_9 << 16) < 0) *var_r2 = clampZero18;
                     }
                     break;
                 }
@@ -1433,31 +1435,36 @@ loop_5:
                 var_r0 = (s32) (arg0->link[1] << 0x10) >> 0x11;
                 var_r1 = (s16 *)((u8 *)arg0 + 0x206);
                 *var_r1 = (s16)var_r0; goto processed;
-            case 5:                                 /* switch 4 */
+            case 5:
+                arg0->status = 0xD;
+                var_r0_2 = var_r5->timer;
+                goto block_52;
+            case 6:
                 arg0->status = 0xD;
                 var_r0_2 = var_r5->timer;
 block_52:
                 if (((var_r0_2 % 60) << 0x10) == 0) {
-                    temp_r0_5 = (s32) (((var_r5->scale * 0xA) + 0x64) * var_r5->value) / 100;
+                    var_r1_2 = var_r5->scale;
+                    temp_r0_5 = var_r1_2 * 5;
+                    temp_r0_5 <<= 1;
+                    var_r1_2 = temp_r0_5 + 100;
+                    temp_r0_5 = var_r5->value;
+                    temp_r0_5 = temp_r0_5 * var_r1_2 / 100;
                     arg0->value4C = temp_r0_5;
                     arg0->value4A = (u16) (arg0->value4A + temp_r0_5);
                 }
                 break;
-            case 6:                                 /* switch 4 */
-                arg0->status = 0xD;
-                var_r0_2 = var_r5->timer;
-                goto block_52;
             case 0:                                 /* switch 4 */
-                if ((var_r5->timer == 0) && ((s32) (arg0->limit5C - arg0->value4A) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08021DC4(arg0->id + 4);
-                    arg0->value4A = (u16) (var_r5->value + arg0->value4A);
+                    temp_r0_5 = var_r5->value; hp18 = *(u16 *)temp_r0; *(u16 *)temp_r0 = temp_r0_5 + hp18;
                     arg0->value4C = (s32) var_r5->value;
                 }
                 break;
             case 3:                                 /* switch 4 */
-                if ((var_r5->timer == 0) && ((s32) (arg0->limit5C - arg0->value4A) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08022180(arg0->id + 4);
-                    arg0->value4A = (u16) (var_r5->value + arg0->value4A);
+                    temp_r0_5 = var_r5->value; hp18 = *(u16 *)temp_r0; *(u16 *)temp_r0 = temp_r0_5 + hp18;
                     arg0->value4C = (s32) var_r5->value;
                     var_r1 = (s16 *)&arg0->status;
                     var_r0 = 0xB;
