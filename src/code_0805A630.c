@@ -283,148 +283,149 @@ test:
     if (sub_0800CC98() == 0)
         sub_0800A34C(gUnk_03003170.curLevel, saved, 1);
 }
-#ifdef NONMATCHING
-u32 sub_0805AB20(u8 *arg)
+struct ItemSlot { u16 type; u16 pad; u32 count; u32 c; u32 d; };
+struct ItemTable {
+    u8 pad[0x6A];
+    u16 rows;
+    u8 pad2[0x150 - 0x6C];
+    struct ItemSlot field[25];
+    struct ItemSlot stash[25];
+};
+extern struct ItemTable *gItemTable asm("gUnk_030034E0");
+void sub_0805CFF8(u8 index, const struct Entry61 *src);
+void sub_0805D028(u8 index, const struct Entry61 *src);
+
+static inline s32 FindStackableField(s32 start)
 {
-    extern u8 *mapItems asm("gUnk_030034E0");
-    u8 *item = arg;
-    u32 type = *(u16 *)item;
-    register u8 **owner asm("r12") = &mapItems;
-    register s32 previous asm("r6");
-    register s32 selected asm("r3");
-    register s32 result asm("r1");
-    register s32 best asm("r4");
-    register s32 i asm("r2");
-    register u8 *entry asm("r1");
-    register s32 cap asm("r5");
-    register u32 offset asm("r0");
-    u32 sum;
-    if (type != 0xA) goto empty;
-    previous = -1;
-    goto find;
-merge:
-    previous = result;
-    if (result > 0x18) goto empty;
-    offset = result * 0x10;
-    i = 0x150;
-    offset += i;
-    selected = (u32)owner;
-    entry = *(u8 **)selected;
-    entry += offset;
-    *(u16 *)entry = 0xA;
-    sum = *(u32 *)(entry + 4) + *(u32 *)(item + 4);
-    if (sum <= 100000) goto stacked;
-    *(u32 *)(entry + 4) = 100000;
-    i = sum - 100000;
-    *(u32 *)(item + 4) = i;
-find:
-    selected = previous;
-    if (previous < 0) selected = 0;
-    offset = selected * 0x10;
-    i = 0x150;
-    offset += i;
-    i = (u32)owner;
-    entry = *(u8 **)i;
-    entry += offset;
+    s32 sel = start;
+    s32 i;
+    s32 best;
+    struct ItemSlot *e;
+    if (start < 0) sel = 0;
+    e = &gItemTable->field[sel];
     best = -1;
-    i = selected;
-    if (selected <= 0x18) do {
-        cap = 100000;
-        if (*(u16 *)entry == 0xA) {
-            s32 value = *(s32 *)(entry + 4);
-            if (best < value && value != cap) {
-                selected = i;
-                best = value;
-            }
+    for (i = sel; i <= 0x18; i++, e++) {
+        if (e->type == 0xA && best < (s32)e->count && e->count != 100000) {
+            sel = i;
+            best = e->count;
         }
-        i++;
-        entry += 0x10;
-    } while (i <= 0x18);
-    result = selected;
-    if (best < 0) result = -1;
-    if (previous != result && result >= 0) goto merge;
+    }
+    if (best < 0) return -1;
+    return sel;
+}
+
+u32 sub_0805AB20(struct ItemSlot *item)
+{
+    s32 prev;
+    s32 r;
+    u32 i;
+    struct ItemSlot *e;
+    u32 sum;
+    struct ItemSlot *m;
+
+    if (item->type != 0xA) goto empty;
+    prev = -1;
+    goto find;
+    do {
+        prev = r;
+        if (r > 0x18) goto empty;
+        m = &gItemTable->field[r];
+        m->type = 0xA;
+        i = m->count;
+        sum = i + item->count;
+        if (sum <= 100000) goto stored;
+        m->count = 100000;
+        i = sum - 100000;
+        item->count = i;
+find:
+        r = FindStackableField(prev);
+    } while (prev != r ? r >= 0 : 0);
 empty:
     i = 0;
-    offset = (u32)mapItems;
-    selected = 0x150;
-    entry = (u8 *)offset + selected;
     do {
-        if (*(u16 *)entry == 0) goto found;
-        entry += 0x10;
+        if (gItemTable->field[i].type == 0) goto found;
         i++;
-    } while ((u32)i <= 0x18);
-    result = -1;
-    goto check;
-found:
-    result = i;
+    } while (i <= 0x18);
+    r = -1;
 check:
-    if (result == -1) return 0;
-    goto insert;
-stacked:
-    *(u32 *)(entry + 4) = sum;
-    goto success;
-insert:
-    sub_0805CFF8((u8)result, (const u32 *)item);
-success:
+    if (r == -1) return 0;
+    goto call;
+found:
+    r = i;
+    goto check;
+stored:
+    m->count = sum;
+    goto ret;
+call:
+    sub_0805CFF8(r, (const struct Entry61 *)item);
+ret:
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AB20);
-#endif
-#ifdef NONMATCHING
-u32 sub_0805AC08(u8 *item)
+
+static inline s32 FindStackableStash(s32 start)
 {
-    extern u8 *mapItems asm("gUnk_030034E0");
-    s32 previous;
-    s32 selected;
-    s32 best;
+    s32 sel = start;
     s32 i;
-    s32 limit;
-    u8 *entry;
-    u32 sum;
-    if (*(u16 *)item != 0xA) goto empty;
-    previous = -1;
-    goto find;
-merge:
-    previous = selected;
-    limit = *(u16 *)(mapItems + 0x6A) * 15;
-    if (limit > 0x18) goto empty;
-    entry = mapItems + selected * 0x10 + 0x2E0;
-    *(u16 *)entry = 0xA;
-    sum = *(u32 *)(entry + 4) + *(u32 *)(item + 4);
-    if (sum <= 100000) {
-        *(u32 *)(entry + 4) = sum;
-        return 1;
-    }
-    *(u32 *)(entry + 4) = 100000;
-    *(u32 *)(item + 4) = sum - 100000;
-    if (selected >= *(u16 *)(mapItems + 0x6A) * 15) goto empty;
-find:
-    selected = previous;
-    if (previous < 0) selected = 0;
-    entry = mapItems + selected * 0x10 + 0x2E0;
+    s32 best;
+    struct ItemSlot *e;
+    if (start < 0) sel = 0;
+    e = &gItemTable->stash[sel];
     best = -1;
-    limit = *(u16 *)(mapItems + 0x6A) * 15;
-    for (i = selected; i < limit; i++, entry += 0x10) {
-        if (*(u16 *)entry == 0xA && best < *(s32 *)(entry + 4) && *(s32 *)(entry + 4) != 100000) {
-            selected = i;
-            best = *(s32 *)(entry + 4);
+    for (i = sel; i < gItemTable->rows * 15; i++, e++) {
+        if (e->type == 0xA && best < (s32)e->count && e->count != 100000) {
+            sel = i;
+            best = e->count;
         }
     }
-    if (best < 0) selected = -1;
-    if (previous != selected && selected >= 0) goto merge;
+    if (best < 0) return -1;
+    return sel;
+}
+
+u32 sub_0805AC08(struct ItemSlot *item)
+{
+    s32 prev;
+    s32 r;
+    u32 i;
+    u32 sum;
+    u32 t;
+    struct ItemSlot *m;
+
+    if (item->type != 0xA) goto empty;
+    prev = -1;
+    goto find;
+    do {
+        prev = r;
+        if (gItemTable->rows * 15 > 0x18) goto empty;
+        m = &gItemTable->stash[r];
+        m->type = 0xA;
+        t = m->count;
+        sum = t + item->count;
+        if (sum <= 100000) goto stored;
+        m->count = 100000;
+        t = sum - 100000;
+        item->count = t;
+        if (r >= gItemTable->rows * 15) goto empty;
+find:
+        r = FindStackableStash(prev);
+    } while (prev != r ? r >= 0 : 0);
 empty:
-    entry = mapItems + 0x2E0;
-    for (i = 0; i <= 0x18; i++, entry += 0x10)
-        if (*(u16 *)entry == 0) goto found;
-    return 0;
+    for (i = 0; i <= 0x18; i++)
+        if (gItemTable->stash[i].type == 0) goto found;
+    r = -1;
+check:
+    if (r == -1) return 0;
+    goto call;
 found:
-    sub_0805D028((u8)i, (const u32 *)item);
+    r = i;
+    goto check;
+stored:
+    m->count = sum;
+    goto ret;
+call:
+    sub_0805D028(r, (const struct Entry61 *)item);
+ret:
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AC08);
-#endif
 u32 sub_0805AD18(void)
 {
     extern u8 *mapObjects asm("gUnk_030034E0");
