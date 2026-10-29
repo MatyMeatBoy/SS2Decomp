@@ -1,9 +1,6 @@
 /* Original MP2K driver: remaining entries retain their original assembly. */
 #include "global.h"
 
-/* The register bindings preserve the SDK helper's register contract. */
-INCLUDE_ASM("asm/nonmatchings/m4a_1", SoundMainBTM);
-
 void RealClearChain(void *arg)
 {
     register struct SoundChannel *channel asm("r0") = arg;

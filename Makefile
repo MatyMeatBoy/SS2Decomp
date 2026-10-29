@@ -157,3 +157,12 @@ tools/agbcc_sdk_sound/installed: tools/install_agbcc_sdk_sound.sh tools/patches/
 	sh tools/install_agbcc_sdk_sound.sh
 
 $(BUILD)/src/m4a_1_sound.o: Makefile tools/agbcc_sdk_sound/installed
+
+# Store grouping is opt-in for the 24-byte SDK clear interval only.
+CC1_m4a_1_btm := tools/agbcc_sdk_btm/bin/agbcc
+CC1FLAGS_m4a_1_btm := -O2 -mthumb-interwork -fprologue-bugfix -fthumb-store-four
+
+tools/agbcc_sdk_btm/installed: tools/install_agbcc_sdk_btm.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-lsr-halfword.patch tools/patches/agbcc-sdk-store-four.patch
+	sh tools/install_agbcc_sdk_btm.sh
+
+$(BUILD)/src/m4a_1_btm.o: Makefile tools/agbcc_sdk_btm/installed

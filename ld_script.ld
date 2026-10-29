@@ -65,6 +65,7 @@ SECTIONS
         build/src/code_080B3648.o(.text);
         build/src/m4a_1_mul.o(.text);
         build/src/m4a_1_sound.o(.text);
+        build/src/m4a_1_btm.o(.text);
         build/src/m4a_1.o(.text);
         build/src/m4a_1_read.o(.text);
         build/src/m4a_1_jump.o(.text);

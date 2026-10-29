@@ -1,0 +1,38 @@
+{
+  "functions": [
+    "negative",
+    "cc0_compare",
+    "one",
+    "four",
+    "descending",
+    "duplicate",
+    "base_source",
+    "gap",
+    "side_effect",
+    "volatile",
+    "weak",
+    "opaque_flags"
+  ],
+  "positive": [
+    "one",
+    "four",
+    "cc0_compare"
+  ],
+  "expected_groups": {
+    "one": 1,
+    "four": 4,
+    "cc0_compare": 1
+  },
+  "negative": [
+    "negative",
+    "volatile",
+    "side_effect",
+    "duplicate",
+    "gap",
+    "cc0_compare",
+    "weak",
+    "descending",
+    "opaque_flags",
+    "base_source"
+  ]
+}

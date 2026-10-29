@@ -1,0 +1,27 @@
+{
+  "private_only": true,
+  "source_revision": "1b1c4a81d13918ca55c39c1ccf83689691b03a25",
+  "archive_sha256": "7afb90d0fd3495cc19925a8cc454261bcceaf30ec4c138f5bd61a3302ef2c4b1",
+  "base_patches": [
+    "agbcc-tst-eq-ne-only.patch",
+    "agbcc-sdk-lsr-halfword.patch"
+  ],
+  "delta_sha256": "3f9be49002533dae0238af8f9f2f5e51f92a715bcd6480fa676e80f4378aa639",
+  "default": 0,
+  "option": "-fthumb-store-four",
+  "source_files_lf": {
+    "flags.h": "8bf09154fa6f381d6736624a744e5394e1e351b057276d04ee8a148f5e50d74b",
+    "toplev.c": "223b4630a498c5ca82a1a845618704ee0a5001c60743d707dfa3d1c265117111",
+    "thumb.h": "d7b36e36cf278968fce7d59372080893c8117028045646bd57e6633cb5510ad3",
+    "thumb.md": "fd9037843178267433a2ecc68f79a3e5ee75925ffd5e65d8240cfb3f355b1902",
+    "thumb.c": "c41730f9453521945395def36ce496af9ada7e2e5254b06d384d0090e84fd5be",
+    "rtl.h": "fc765f7efcf98bd0f469ef5ca6e808f6e5940e1eaed768cb47b7037dc9d3d9ff",
+    "emit-rtl.c": "420f7c9cf76f3bb9d3f70e32e454dcd0b234fe62ccd4784c838e94e194c95931",
+    "expr.c": "16ca189ac3e9afb019c328c5492dc1bbe2df90a1a45abf8651c622e55573a43f",
+    "integrate.c": "2d9381bfd136240717f9946d313e06cf28c4d5f45cfbab0a297fb586526d2429"
+  },
+  "alignment": "Explicit C-derived MEM fact; default false, all RTL clones/new addresses lose it; no SImode or register-number inference",
+  "flags": "No CC0 use before explicit kill or target ABI return; opaque ASM/flow rejects; grouped stores have unchanged flags attribute",
+  "scope": "SDK opt-in; 20-byte C algorithm plus 2-byte ABI return and 2-byte alignment; C ABI flags not return values",
+  "license": "GCC GPL-2.0-or-later; see compiler COPYING"
+}
