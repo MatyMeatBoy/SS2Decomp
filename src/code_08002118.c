@@ -1711,7 +1711,22 @@ loop_375:
             }
         }
         var_r8 = 0x34;
-        sub_080659BC(((u8 *)icons + var_r8 * var_r6), (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0C)), (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0E)), x[(u32)var_r6], (s32) (&widths[0])[var_r6], drawOne3984);
+        {
+            register u8 *drawSpriteC8 asm("r0");
+            register u32 drawIndexC8 asm("r2");
+            register u32 drawBaseC8 asm("r3");
+            register u32 drawXC8 asm("r1");
+            register u32 drawYBaseC8 asm("r4");
+            drawSpriteC8 = (u8 *)icons + var_r8 * var_r6;
+            drawIndexC8 = var_r6 * 4;
+            drawBaseC8 = (u32)&gUnk_08366E0C;
+            drawXC8 = drawIndexC8 + drawBaseC8;
+            drawXC8 = *(u16 *)drawXC8;
+            drawYBaseC8 = (u32)&gUnk_08366E0E;
+            drawIndexC8 += drawYBaseC8;
+            drawIndexC8 = *(u16 *)drawIndexC8;
+            sub_080659BC(drawSpriteC8, drawXC8, drawIndexC8, x[(u32)var_r6], (s32)widths[var_r6], drawOne3984);
+        }
         var_r6 += 1;
         if ((u32) var_r6 <= 7U) {
             goto loop_375;

@@ -218,7 +218,7 @@ void sub_0805FFBC(s32 arg0, s32 arg1, void *arg2, s32 arg3) {
     u8 *var_r2_2;
     u8 *var_r4_8;
     u8 *var_r6;
-    u8 temp_r0_7;
+    u32 temp_r0_7;
     u8 temp_r1;
     u8 temp_r2;
     u8 temp_r2_2;
@@ -238,8 +238,7 @@ void sub_0805FFBC(s32 arg0, s32 arg1, void *arg2, s32 arg3) {
     sp44 = arg0;
     sp48 = arg3;
     if (arg2 == NULL) {
-        sub_0801A664(arg1, 2);
-        return;
+        goto clear63;
     }
     sp50 = 0;
     sp54 = 0;
@@ -256,84 +255,104 @@ void sub_0805FFBC(s32 arg0, s32 arg1, void *arg2, s32 arg3) {
         sp58 = 0;
         sp5C = 0;
         var_r9 = arg1 << 0x10;
+        goto block_31;
+    case 1:                                         /* switch 1 */
+        temp_r0_4 = sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xB0000);
+        var_r6 = (u8 *)temp_r0_4 + (gUnk_03003470 * 0x1F);
+        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
+        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
+        temp_r3 = M2C_FIELD(arg2, u8 *, 7);
+        sp5C = (s32) temp_r3;
+        if (temp_r3 == 0) {
+            sp5C = (s32) M2C_FIELD(temp_r0_4, u16 *, 0xBC);
+        }
+block_14:
+        temp_r0_5 = M2C_FIELD(arg2, u16 *, 4);
+        var_r9 = arg1 << 0x10;
+        if (temp_r0_5 == 0) {
+
+        } else {
+            sp50 = (u8 *)sub_08007290((temp_r0_5 - 1) | 0x130000);
+        }
+        goto block_31;
+    case 2:                                         /* switch 1 */
+        var_r1_4 = 0xC0000;
+block_9:
+        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | var_r1_4) + (gUnk_03003470 * 0x1F);
+        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
+        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
+        sp5C = (s32) M2C_FIELD(arg2, u8 *, 7);
+        goto block_14;
+    case 3:                                         /* switch 1 */
+        var_r1_4 = 0xD0000;
+        goto block_9;
+    case 6:                                         /* switch 1 */
+        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x110000) + (gUnk_03003470 * 0x1F);
+        sp54 = 0;
+        sp58 = 0;
+block_27:
+        var_r9 = arg1 << 0x10;
+        goto block_31;
+    case 4:                                         /* switch 1 */
+        temp_r0_6 = sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xE0000);
+        var_r6 = (u8 *)temp_r0_6 + (gUnk_03003470 * 0x1F);
+        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
+        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
+        sp5C = (s32) M2C_FIELD(arg2, u8 *, 7);
+        if (M2C_FIELD(temp_r0_6, u8 *, 0xA0) != 0) {
+            sp60 = 1;
+        }
+        goto block_14;
+    case 5:                                         /* switch 1 */
+        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xF0000) + (gUnk_03003470 * 0x1F);
+        sp54 = 0;
+        sp58 = 0;
+        sp5C = 0;
+block_29:
+        var_r9 = arg1 << 0x10;
+        goto block_31;
+    case 8:                                         /* switch 1 */
+        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x150000) + (gUnk_03003470 * 0x1F);
+        var_r9 = arg1 << 0x10;
+        goto block_31;
+    case 9:                                         /* switch 1 */
+        if (sub_0800CC98() == 0) {
+            sp40 = M2C_FIELD(arg2, s32 *, 4);
+            var_r6_2 = &gUnk_084EBD5C;
+            var_r4_8 = numeric;
+            var_r7_2 = 0;
+            var_r8_2 = 0;
+            var_r9 = arg1 << 0x10;
+            do {
+                temp_r0_7 = sub_08000498(&sp40, *var_r6_2) + 0x41;
+                *var_r4_8 = temp_r0_7;
+                if ((var_r7_2 != 0) || ((u8)temp_r0_7 != 0x41)) {
+                    var_r4_8 += 1;
+                    var_r7_2 = 1;
+                }
+                var_r8_2 += 1;
+                var_r6_2++;
+            } while (var_r8_2 <= 5U);
+            M2C_FIELD(var_r4_8, u8 *, 0) = 7;
+            M2C_FIELD(var_r4_8, s8 *, 1) = 0;
+            var_r6 = numeric;
+        } else {
+            var_r6 = (u8 *)sub_08007290(0x160000) + (gUnk_03003470 * 0x1F);
+            goto block_27;
+        }
+        goto block_31;
+    case 7:                                         /* switch 1 */
+        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x120000) + (gUnk_03003470 * 0x1F);
+        goto block_29;
+    default:
+        goto clear63;
+    }
+clear63:
+    sub_0801A664(arg1, 2);
+    return;
 block_31:
         switch (sp64) {                             /* switch 2; irregular */
-        case 1:                                     /* switch 2 */
-            var_r4 = 0;
-            if (sp54 != 0) {
-                buffer[0] = 0xA1;
-                var_r4 = 1;
-            } else if (M2C_FIELD(arg2, u16 *, 0) != 1) {
-                if (*var_r6 != 0) {
-                    do {
-                        (buffer)[var_r4] = var_r6[var_r4];
-                        var_r4 += 1;
-                    } while (var_r6[var_r4] != 0);
-                }
-            } else if (M2C_FIELD(sp4C, u16 *, 0xA0) == 1) {
-                if (sub_0801DE60() == 0) {
-                    var_r7 = M2C_FIELD(gUnk_030034E0, u16 *, 0x48) * 4 * M2C_FIELD(sp4C, u16 *, 0xA2);
-                } else {
-                    var_r7 = M2C_FIELD(sp4C, u16 *, 0xA2);
-                }
-                var_r4 = 0;
-                var_r0 = *var_r6;
-loop_84:
-                if ((var_r0 != 0xFD) && (var_r0 != 0xF7)) {
-                    (buffer)[var_r4] = M2C_FIELD(&var_r6[var_r4], u8 *, 0);
-                    var_r4 += 1;
-                    var_r0 = var_r6[var_r4];
-                    goto loop_84;
-                }
-                var_r8 = var_r4 + 3;
-                if (M2C_FIELD(&var_r6[var_r4], u8 *, 0) != 0xFD) {
-                    temp_r0_2 = var_r7 / 100U;
-                    temp_r0_3 = var_r7 % 100U;
-                    if (temp_r0_2 != 0) {
-                        temp_r1 = var_r4;
-                        var_r4 = temp_r1 + 1;
-                        buffer[temp_r1] = temp_r0_2 + 0x41;
-                    }
-                    temp_r2 = var_r4 + 1;
-                    buffer[var_r4] = (temp_r0_3 / 10U) + 0x41;
-                    var_r4 = temp_r2 + 1;
-                    (buffer)[temp_r2] = (temp_r0_3 % 10U) + 0x41;
-                }
-                var_r2 = &M2C_FIELD(&var_r6[var_r4], u8 *, 3);
-                if (M2C_FIELD(&var_r6[var_r4], u8 *, 3) != 0) {
-                    do {
-                        (buffer)[var_r4] = *var_r2;
-                        var_r8 += 1;
-                        var_r4 += 1;
-                        var_r2 = &var_r6[var_r8];
-                    } while (*var_r2 != 0);
-                }
-            } else if (*var_r6 != 0xFD) {
-                do {
-                    (buffer)[var_r4] = var_r6[var_r4];
-                    var_r4 += 1;
-                } while (var_r6[var_r4] != 0xFD);
-            }
-            var_r1 = &(buffer)[var_r4];
-            var_r0_2 = 0xFD;
-block_104:
-            *var_r1 = var_r0_2;
-            break;
-        case 2:                                     /* switch 2 */
-            var_r4_2 = 0;
-            if (sp54 != 0) {
-                buffer[0] = 0xA1;
-                var_r4_2 = 1;
-            } else if (*var_r6 != 0xFD) {
-                do {
-                    (buffer)[var_r4_2] = var_r6[var_r4_2];
-                    var_r4_2 += 1;
-                } while (var_r6[var_r4_2] != 0xFD);
-            }
-            var_r1 = &(buffer)[var_r4_2];
-            var_r0_2 = 0;
-            goto block_104;
-        default:                                    /* switch 2 */
+        case 0:                                    /* switch 2 */
             if (sp54 != 0) {
                 buffer[0] = 0xA1;
                 var_r5 = 0;
@@ -444,6 +463,84 @@ loop_60:
                 var_r0_2 = 0xFD;
             }
             goto block_104;
+            break;
+        case 1:                                     /* switch 2 */
+            var_r4 = 0;
+            if (sp54 != 0) {
+                buffer[0] = 0xA1;
+                var_r4 = 1;
+            } else if (M2C_FIELD(arg2, u16 *, 0) != 1) {
+                if (*var_r6 != 0) {
+                    do {
+                        (buffer)[var_r4] = var_r6[var_r4];
+                        var_r4 += 1;
+                    } while (var_r6[var_r4] != 0);
+                }
+            } else if (M2C_FIELD(sp4C, u16 *, 0xA0) == 1) {
+                if (sub_0801DE60() == 0) {
+                    var_r7 = M2C_FIELD(gUnk_030034E0, u16 *, 0x48) * 4 * M2C_FIELD(sp4C, u16 *, 0xA2);
+                } else {
+                    var_r7 = M2C_FIELD(sp4C, u16 *, 0xA2);
+                }
+                var_r4 = 0;
+                var_r0 = *var_r6;
+loop_84:
+                if ((var_r0 != 0xFD) && (var_r0 != 0xF7)) {
+                    (buffer)[var_r4] = M2C_FIELD(&var_r6[var_r4], u8 *, 0);
+                    var_r4 += 1;
+                    var_r0 = var_r6[var_r4];
+                    goto loop_84;
+                }
+                var_r8 = var_r4 + 3;
+                if (M2C_FIELD(&var_r6[var_r4], u8 *, 0) != 0xFD) {
+                    temp_r0_2 = var_r7 / 100U;
+                    temp_r0_3 = var_r7 % 100U;
+                    if (temp_r0_2 != 0) {
+                        temp_r1 = var_r4;
+                        var_r4 = temp_r1 + 1;
+                        buffer[temp_r1] = temp_r0_2 + 0x41;
+                    }
+                    temp_r2 = var_r4 + 1;
+                    buffer[var_r4] = (temp_r0_3 / 10U) + 0x41;
+                    var_r4 = temp_r2 + 1;
+                    (buffer)[temp_r2] = (temp_r0_3 % 10U) + 0x41;
+                }
+                var_r2 = &var_r6[var_r8];
+                if (*var_r2 != 0) {
+                    do {
+                        (buffer)[var_r4] = *var_r2;
+                        var_r8 += 1;
+                        var_r4 += 1;
+                        var_r2 = &var_r6[var_r8];
+                    } while (*var_r2 != 0);
+                }
+            } else if (*var_r6 != 0xFD) {
+                do {
+                    (buffer)[var_r4] = var_r6[var_r4];
+                    var_r4 += 1;
+                } while (var_r6[var_r4] != 0xFD);
+            }
+            var_r1 = &(buffer)[var_r4];
+            var_r0_2 = 0xFD;
+block_104:
+            *var_r1 = var_r0_2;
+            break;
+        case 2:                                     /* switch 2 */
+            var_r4_2 = 0;
+            if (sp54 != 0) {
+                buffer[0] = 0xA1;
+                var_r4_2 = 1;
+            } else if (*var_r6 != 0xFD) {
+                do {
+                    (buffer)[var_r4_2] = var_r6[var_r4_2];
+                    var_r4_2 += 1;
+                } while (var_r6[var_r4_2] != 0xFD);
+            }
+            var_r1 = &(buffer)[var_r4_2];
+            var_r0_2 = 0;
+            goto block_104;
+        default:
+            break;
         }
         var_r0_4 = 0;
         if (sp48 < 0) {
@@ -451,95 +548,6 @@ loop_60:
         }
         sub_0801A3D0(buffer, (u16) ((s16) var_r0_4 + sp44), var_r9 >> 0x10);
         return;
-    case 1:                                         /* switch 1 */
-        temp_r0_4 = sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xB0000);
-        var_r6 = (u8 *)temp_r0_4 + (gUnk_03003470 * 0x1F);
-        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
-        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
-        temp_r3 = M2C_FIELD(arg2, u8 *, 7);
-        sp5C = (s32) temp_r3;
-        if (temp_r3 == 0) {
-            sp5C = (s32) M2C_FIELD(temp_r0_4, u16 *, 0xBC);
-        }
-block_14:
-        temp_r0_5 = M2C_FIELD(arg2, u16 *, 4);
-        var_r9 = arg1 << 0x10;
-        if (temp_r0_5 == 0) {
-
-        } else {
-            sp50 = (u8 *)sub_08007290((temp_r0_5 - 1) | 0x130000);
-        }
-        goto block_31;
-    case 2:                                         /* switch 1 */
-        var_r1_4 = 0xC0000;
-block_9:
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | var_r1_4) + (gUnk_03003470 * 0x1F);
-        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
-        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
-        sp5C = (s32) M2C_FIELD(arg2, u8 *, 7);
-        goto block_14;
-    case 3:                                         /* switch 1 */
-        var_r1_4 = 0xD0000;
-        goto block_9;
-    case 6:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x110000) + (gUnk_03003470 * 0x1F);
-        sp54 = 0;
-        sp58 = 0;
-block_27:
-        var_r9 = arg1 << 0x10;
-        goto block_31;
-    case 4:                                         /* switch 1 */
-        temp_r0_6 = sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xE0000);
-        var_r6 = (u8 *)temp_r0_6 + (gUnk_03003470 * 0x1F);
-        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
-        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
-        sp5C = (s32) M2C_FIELD(arg2, u8 *, 7);
-        if (M2C_FIELD(temp_r0_6, u8 *, 0xA0) != 0) {
-            sp60 = 1;
-        }
-        goto block_14;
-    case 5:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xF0000) + (gUnk_03003470 * 0x1F);
-        sp54 = 0;
-        sp58 = 0;
-        sp5C = 0;
-block_29:
-        var_r9 = arg1 << 0x10;
-        goto block_31;
-    case 8:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x150000) + (gUnk_03003470 * 0x1F);
-        var_r9 = arg1 << 0x10;
-        goto block_31;
-    case 9:                                         /* switch 1 */
-        if (sub_0800CC98() == 0) {
-            sp40 = M2C_FIELD(arg2, s32 *, 4);
-            var_r6_2 = &gUnk_084EBD5C;
-            var_r4_8 = numeric;
-            var_r7_2 = 0;
-            var_r8_2 = 0;
-            var_r9 = arg1 << 0x10;
-            do {
-                temp_r0_7 = sub_08000498(&sp40, *var_r6_2) + 0x41;
-                *var_r4_8 = temp_r0_7;
-                if ((var_r7_2 != 0) || (temp_r0_7 != 0x41)) {
-                    var_r4_8 += 1;
-                    var_r7_2 = 1;
-                }
-                var_r8_2 += 1;
-                var_r6_2++;
-            } while (var_r8_2 <= 5U);
-            M2C_FIELD(var_r4_8, u8 *, 0) = 7;
-            M2C_FIELD(var_r4_8, s8 *, 1) = 0;
-            var_r6 = numeric;
-        } else {
-            var_r6 = (u8 *)sub_08007290(0x160000) + (gUnk_03003470 * 0x1F);
-            goto block_27;
-        }
-        goto block_31;
-    case 7:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x120000) + (gUnk_03003470 * 0x1F);
-        goto block_29;
-    }
 }
 
 #else
