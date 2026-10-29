@@ -183,6 +183,8 @@ block_c:
 #ifdef NONMATCHING
 /* Complete control-flow draft; matching and type audit remain in progress. */
 void sub_0800D368(void *arg0) {
+    struct PairD36867 { s32 x,y; };
+    void *state5Destination67;
     void *retryRecord630, *retryRecord631;
     struct AnimD368 { s32 f0,f4,f8; void *fC; s32 f10,f14,f18; u8 f1C,f1D; u16 f1E; s32 f20,f24,f28,f2C,f30; };
     extern M2C_UNK d368_sub_0800035C() asm("sub_0800035C");
@@ -2618,9 +2620,9 @@ block_693:
                 case 5:
                     if ((((struct PlayerD368 *)arg0)->f10 == 8) && (var_r6_6 != 0)) {
                         ((struct PlayerD368 *)arg0)->f1C = (s16) (var_r6_6 - 1);
+                        state5Destination67 = arg0 + 0x94;
                         var_r5_6 = arg0 + 0x8C;
-                        ((struct PlayerD368 *)arg0)->f94 = (s32) ((struct PlayerD368 *)arg0)->f8C;
-                        M2C_FIELD((arg0 + 0x94), s32 *, 4) = (s32) M2C_FIELD(var_r5_6, s32 *, 4);
+                        *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
                         var_r3_6 = (u16) d368_sub_0800CCCC();
                         var_r0_15 = (s32) ((u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
                         var_r2_10 = (u16) ((struct PlayerD368 *)arg0)->f1C;
@@ -2631,9 +2633,9 @@ block_693:
                     if (((struct PlayerD368 *)arg0)->f10 == 1) {
 state5Move66:
                         if (var_r6_6 != 0) {
+                            state5Destination67 = arg0 + 0x94;
                             var_r5_6 = arg0 + 0x8C;
-                            ((struct PlayerD368 *)arg0)->f94 = (s32) ((struct PlayerD368 *)arg0)->f8C;
-                            M2C_FIELD((arg0 + 0x94), s32 *, 4) = (s32) M2C_FIELD(var_r5_6, s32 *, 4);
+                            *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
                             var_r3_6 = (u16) d368_sub_0800CCCC();
                             var_r0_15 = (s32) ((u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
                             var_r2_10 = var_r6_6 - 1;

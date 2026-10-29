@@ -433,6 +433,8 @@ struct Resource3984 { u32 id; u8 rest[0x54]; };
 extern struct Resource3984 resource3984[] asm("gUnk_08479140");
 
 void sub_08003984(u8 *arg0, s32 arg1) {
+    u32 gridResultC5;
+    u32 gridResult2C5;
     s32 language = 2;
     s32 nextChar03984, nextChar13984, nextChar23984, nextChar33984, nextChar43984;
     s32 drawOffset3984;
@@ -1387,13 +1389,17 @@ block_237:
             switch (language) {
             case 0: case 1:
                 temp_r6_7 = current;
-                if (temp_r6_7 <= 0x13U) current = (u16)(temp_r6_7 + 0x50);
-                else current = (u16)(current - 0x14);
+                if (temp_r6_7 <= 0x13U) {
+                    gridResultC5 = temp_r6_7 + 0x50;
+                    goto gridStoreC5;
+                } else current = (u16)(current - 0x14);
                 break;
             case 2:
                 temp_r4_20 = current;
-                if (temp_r4_20 <= 0x17U) current = (u16)(temp_r4_20 + 0x78);
-                else current = (u16)(current - 0x18);
+                if (temp_r4_20 <= 0x17U) {
+                    gridResult2C5 = temp_r4_20 + 0x78;
+                    goto gridStore2C5;
+                } else current = (u16)(current - 0x18);
                 break;
             }
         } else if (0x80 & gUnk_03001308) {
@@ -1402,13 +1408,19 @@ block_237:
             switch (language) {
             case 0: case 1:
                 temp_r6_8 = current;
-                if (temp_r6_8 > 0x4FU) current = (u16)(temp_r6_8 - 0x50);
-                else current = (u16)(current + 0x14);
+                if (temp_r6_8 > 0x4FU) {
+                    gridResultC5 = temp_r6_8 - 0x50;
+                gridStoreC5:
+                    current = (u16)gridResultC5;
+                } else current = (u16)(current + 0x14);
                 break;
             case 2:
                 temp_r4_21 = current;
-                if (temp_r4_21 > 0x77U) current = (u16)(temp_r4_21 - 0x78);
-                else current = (u16)(current + 0x18);
+                if (temp_r4_21 > 0x77U) {
+                    gridResult2C5 = temp_r4_21 - 0x78;
+                gridStore2C5:
+                    current = (u16)gridResult2C5;
+                } else current = (u16)(current + 0x18);
                 break;
             }
         } else if (0x10 & gUnk_03001308) {
@@ -1558,7 +1570,7 @@ loop_330:
                                     temp_r0_17 = var_r5_3[var_r6];
                                     if (temp_r0_17 != 0x51) {
                                         if (temp_r0_17 != 0xFD) {
-                                            var_r3_3 = 1;
+                                            var_r3_3 += 1;
                                         }
                                     } else {
                                         goto loop_330;

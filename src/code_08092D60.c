@@ -257,7 +257,11 @@ void sub_08094638(u32 count,s32 choice)
         u16 *frame=&frames[i];
         *frame=0;*index=0;
     }
-    indices[1]=*(u16 *)(b.f8+*(u32 *)(b.f8+8)+4)-1;
+    {
+        register u32 table asm("r1")=b.f8;
+        table+=*(u32 *)(table+8);
+        indices[1]=*(u16 *)(table+4)-1;
+    }
     sub_0801AB50(6);
     screen.x=base.x>>8;screen.y=base.y>>8;
     while(!sub_0801AAE0())sub_080003F0();
@@ -283,7 +287,11 @@ void sub_08094638(u32 count,s32 choice)
             u32 previous;
             frames[2]=0;frames[1]=0;
             indices[2]=0;indices[1]=0;
-            indices[1]=*(u16 *)(b.f8+*(u32 *)(b.f8+8)+4)-1;
+            {
+                register u32 table asm("r1")=b.f8;
+                table+=*(u32 *)(table+8);
+                indices[1]=*(u16 *)(table+4)-1;
+            }
             previous=completed;
             completed=(u8)(previous+1);
             if(limit<previous)active=0;

@@ -869,33 +869,50 @@ found3:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804EABC);
 #endif
-#ifdef NONMATCHING
 extern void sub_080290E4(s32,s32);
 extern void sub_0804EE20(void);
 struct Task51ED { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51ED(void *,u32) asm("sub_08000274");
 void sub_0804ED18(s32 arg0) {
     u8 *p;
+    register u8 **stateAddr asm("r2");
+    register u8 *stateBase asm("r0");
+    u32 offset; register u32 taskOffset asm("r2");
+    register u32 byteMask asm("r0");
+    u8 **savedAddr;
     s32 value;
-    s32 raw, mask;
+    s32 mask; register s32 raw asm("r1");
     u8 *state;
     struct Task51ED *task;
     u32 i,mem;
     s32 callback;
     u16 timer;
-    if (sub_0800CE30()) p = (u8 *)(gUnk_03005CF4 + 0x1C3);
-    else p = (u8 *)(gUnk_03005CF4 + 0x1B7);
-    raw = *p;
-    mask = 4;
-    *p = mask | raw;
-    state = (u8 *)gUnk_03005CF4;
+    if(sub_0800CE30()) {
+        stateAddr=(u8 **)&gUnk_03005CF4;
+        stateBase=*stateAddr;
+        offset=0x1C3;
+    } else {
+        stateAddr=(u8 **)&gUnk_03005CF4;
+        stateBase=*stateAddr;
+        offset=0x1B7;
+    }
+    p=stateBase+offset;
+    raw=*p;
+    byteMask=4;
+    *p=byteMask|raw;
+    savedAddr=stateAddr;
+    state=*savedAddr;
     mask = 8;
     value = *(u32 *)(state + 0x38);
     if (!(value & mask)) {
         *(u32 *)(state + 0x38) = value | mask;
         if (sub_0800CCCC() == 0) {
             callback = (s32)sub_0804EE20;
-            task = (struct Task51ED *)(gUnk_03005CF4 + 0xE34);
+            stateBase=*savedAddr;
+            /* Retain the split assignment for agbcc's address allocation. */
+            if(arg0) taskOffset=0xE34;
+            else taskOffset=0xE34;
+            task = (struct Task51ED *)(stateBase + taskOffset);
             for (i=0; i<=29; i++,task++) {
                 if (sub_08000470((u32)task)) continue;
                 while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
@@ -917,10 +934,6 @@ void sub_0804ED18(s32 arg0) {
         } else sub_08028D98(arg0,0,-0xC8,0xC8);
     }
 }
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804ED18);
-#endif
 void sub_0804EE20(void) {
     s32 *var_r1;
     s32 *var_r1_2;
@@ -960,7 +973,6 @@ found_var_r1_2:
     }
 }
 
-#ifdef NONMATCHING
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);
@@ -990,8 +1002,6 @@ void sub_0804EEA8(void) {
     *statusptr = status;
     if (!(gUnk_030027D0 & 0x20)) sub_08006CB4(0xC4);
     timer = 1;
-    px2 = &out[2];
-    py2 = &out[3];
     for(;timer;timer--) { sub_080003F0(); if(sub_080021A8())break; }
     if (sub_0800CC98() == 0) {
         r = sub_0801AB24();
@@ -1044,8 +1054,8 @@ void sub_0804EEA8(void) {
     targetX2.whole = 0;
     targetY2.whole = 0;
     for(t=0;t<=0x400;t+=step2) {
-        sub_080659F4(px2,startX,targetX2.part.hi,t);
-        sub_080659F4(py2,startY,targetY2.part.hi,t);
+        sub_080659F4(&out[2],startX,targetX2.part.hi,t);
+        sub_080659F4(&out[3],startY,targetY2.part.hi,t);
         cameraMove51((s16)out[2],(s16)out[3]);
         sub_080003F0();
     }
@@ -1058,9 +1068,6 @@ void sub_0804EEA8(void) {
     player2->flags &= ~1;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804EEA8);
-#endif
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);
@@ -2728,9 +2735,155 @@ INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080509A8);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08050E48);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08051A78);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08051BFC);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08051CE4);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08051DF0);
+struct T53EntityBFC { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
+extern struct T53EntityBFC *t53_entitiesBFC asm("gUnk_030056F4");
+extern u8 *t53_gsBFC asm("gUnk_03005CF4");
+static inline void t53_waitBFC(u16 value)
+{
+    register u32 timer asm("r4")=value;
+    register u32 nextValue asm("r0");
+    goto wait;
+next: nextValue=timer-1;timer=(u16)nextValue;if(timer==0)return;
+wait: sub_080003F0();if(sub_080021A8()==0)goto next;
+}
+static inline void t53_clearBFC(u16 one)
+{
+    register struct T53EntityBFC *p asm("r2")=t53_entitiesBFC;
+    register u32 i asm("r3")=0;
+    register s32 *active asm("r5")=&gUnk_030056FC;
+    u32 bit=one;
+    u16 zero=0;
+    do {
+        if((*active&(bit<<i)) && p->state==12)p->state=zero;
+        i++;p++;
+    }while(i<=4);
+    sub_08019F04();
+}
+void sub_08051BFC(void)
+{
+    if(sub_0800CC98()==0) {
+        switch(sub_0801AB24()) {
+        case 0:sub_080576A8();break;
+        case 1:sub_0801AB50(6);break;
+        case 2:sub_0801AB90(6);break;
+        }
+        while(sub_0801AAE0()==0)sub_080003F0();
+    }
+    {
+    register u8 *base asm("r0")=t53_gsBFC;
+    register u32 mask asm("r3")=4;
+    register u32 value asm("r2")=*(u32 *)(base+0x38);
+    register u32 test asm("r1")=value&mask;
+    if(!test) {
+        *(u32 *)(base+0x38)=value|mask;
+        t53_waitBFC(60);
+        sub_0802949C(1,0);
+        sub_08019EB8(t53_entitiesBFC->id,3);
+        t53_waitBFC(60);
+    }
+    }
+    t53_clearBFC(1);
+}
+struct T53TaskCE4 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
+
+struct T53ReqCE4 { u32 a, b, c; void *callback; u32 arg, unused; };
+extern u8 *t53_gsCE4 asm("gUnk_03005CF4");
+extern void sub_08051DF0(s32);
+
+static inline u32 t53_hasCE4(u8 *ptr, u32 mask)
+{ return *(u32 *)(ptr + 0x38) & mask; }
+static inline void t53_startCE4(void *cb, u32 value, u32 mode)
+{
+    struct T53ReqCE4 req;
+    struct T53TaskCE4 *task;
+    u32 i;
+    register u32 zero asm("r5");
+
+        task = (struct T53TaskCE4 *)(t53_gsCE4 + 0xE34);
+
+        i = 0;
+        goto check;
+next:
+        i++;
+        task++;
+check:
+        if (i > 29) return;
+            zero = sub_08000470((u32)task);
+            if (zero != 0) goto next;
+            req.callback = cb;
+            req.arg = value;
+            task->flags = 60;
+            task->memory = sub_08001494(0x400);
+            task->callback = (u32)sub_0802A104;
+            task->stack = task->memory + 0x3FC;
+            task->arg = zero;
+            sub_08000274(task, &req, mode);
+            sub_080003F0();
+            sub_080003F0();
+}
+struct T53EntityCE4 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
+extern struct T53EntityCE4 *t53_entitiesCE4 asm("gUnk_030056F4");
+static inline void t53_clearCE4(u16 one)
+{
+    register struct T53EntityCE4 *p asm("r2")=t53_entitiesCE4;
+    register u32 i asm("r3")=0;
+    register s32 *active asm("r5")=&gUnk_030056FC;
+    u32 bit=one;
+    u16 zero=0;
+    do {
+        if((*active&(bit<<i)) && p->state==12)p->state=zero;
+        i++;p++;
+    }while(i<=4);
+    sub_08019F04();
+}
+void sub_08051CE4(void)
+{
+    if (t53_hasCE4(t53_gsCE4, 8) == 0) {
+        t53_startCE4(sub_08051DF0, 0, 6);
+    } else {
+        sub_08028AAC(7, 0x108, 0x158, 0);
+    }
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    t53_clearCE4(1);
+}
+extern u8 *t53_gsDF0 asm("gUnk_03005CF4");
+extern void t53_spawnDF0(void *, s32, s32) asm("sub_08068820");
+static inline void t53_flagDF0(u8 *ptr, u32 mask)
+{ *(u32 *)(ptr + 0x38) |= mask; }
+static inline void t53_effectDF0(s32 x, s32 y)
+{ sub_08073E2C(x, y, 41, 1); }
+void sub_08051DF0(s32 arg0)
+{
+    u16 timer;
+    switch (arg0) {
+    case 0:
+        t53_spawnDF0(sub_08051DF0, 1, 1);
+        break;
+    case 1:
+        t53_effectDF0(0x10800, 0x15800);
+        timer = 4;
+        goto wait;
+next:
+        if (--timer == 0) goto done;
+wait:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto next;
+done:
+        t53_effectDF0(0x10000, 0x15800);
+        t53_effectDF0(0x11000, 0x15800);
+        if ((gUnk_030027D0 & 32) == 0) sub_08006D08(0x17B);
+        sub_08028AAC(7, 0x108, 0x158, 0);
+        t53_flagDF0(t53_gsDF0, 8);
+        break;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08051E98);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08052060);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080523D8);
