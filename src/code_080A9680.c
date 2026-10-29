@@ -2617,7 +2617,7 @@ exit116:
     sub_08068330(-0x21520532);
 loop_90:
     if (sub_080682B8(-0x21520532) == 0) {
-        temp_r1_7 = (sub_080020F4() * 0x14C) + &t116_flags;
+        temp_r1_7 = (s32 *)((u8 *)&t116_flags + sub_080020F4() * 0x14C);
         *temp_r1_7 |= 1;
         if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
             temp_r0_8 = sub_0800CD34();
@@ -2635,7 +2635,7 @@ loop_90:
     sub_08065E38(-0x21520532);
 loop_98:
     if (sub_08058DB0() != 0) {
-        temp_r1_8 = (sub_080020F4() * 0x14C) + &t116_flags;
+        temp_r1_8 = (s32 *)((u8 *)&t116_flags + sub_080020F4() * 0x14C);
         *temp_r1_8 |= 1;
         if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
             temp_r0_9 = sub_0800CD34();
