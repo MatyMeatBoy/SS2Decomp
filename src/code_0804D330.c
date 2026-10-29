@@ -1702,16 +1702,11 @@ while (sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
     sub_0800D108();
 }
 
-#ifdef NONMATCHING
 struct PlayerFC3C { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
 struct StateFC3C { u8 pad[4]; u16 flags; u8 pad6[0x38-6]; u32 eventFlags; };
 extern struct PlayerFC3C playersFC3C[] asm("gUnk_03003CE0");
 extern struct StateFC3C *stateFC3C asm("gUnk_03005CF4");
 extern void localFC3C_BB80(s16,s16) asm("sub_0800BB80");
-extern s32 sub_0801AB24(void);
-extern void sub_0801AB50(s32);
-extern void sub_0801AB90(s32);
-extern void sub_080576A8(void);
 void sub_0804FC3C(void) {
     struct { s32 x,y,nextX,nextY; s32 *nextXp,*nextYp; } L;
     s32 sp0;
@@ -1737,7 +1732,7 @@ void sub_0804FC3C(void) {
     s32 var_r0;
     s32 var_r4_3;
     s32 var_r4_4;
-    u16 var_r4;
+    register u32 var_r4 asm("r4");
     u16 var_r4_2;
     register u32 temp_r3 asm("r3");
     register u32 handle asm("r4");
@@ -1771,11 +1766,11 @@ void sub_0804FC3C(void) {
     var_r4 = 1;
     var_r5 = -var_r5;
     firstY = &L.y;
-    L.nextXp = &L.nextX;
-    L.nextYp = &L.nextY;
+    a1=(u32)&L.x-8; asm("" : "+r"(a1), "+r"(var_r4), "+r"(var_r5), "+r"(firstY) : : "r0", "r2", "r3", "r6", "r7", "r9", "r10", "r12"); a1+=16; L.nextXp=(s32 *)a1;
+    a2=(u32)&L.x-8; asm("" : "+r"(a2)); a2+=20; L.nextYp=(s32 *)a2;
 goto wait15;
 dec15:
-var_r4--; if (var_r4 == 0) goto after15;
+shift0=var_r4-1; var_r4=(u16)shift0; if (var_r4 == 0) goto after15;
 wait15:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec15;
 after15:
@@ -1805,7 +1800,7 @@ var_r4_2--; if (var_r4_2 == 0) goto after32;
 wait32:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec32;
 after32:
-    a3=0x11; firstStep=a3;
+    a3=0x11; asm("" : "+r"(a3)); firstStep=a3;
     temp_r7 = (s16) gUnk_03003170.f80;
     temp_r6 = (s16) gUnk_03003170.f82;
     var_r4_3 = 0;
@@ -1859,9 +1854,7 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
     temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FC3C);
-#endif
+
 struct PlayerFF04 { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
 struct EntityFF04 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
 struct StateFF04 { u8 pad[0x38]; u32 events; };
@@ -2293,22 +2286,16 @@ after:
     } while (i <= 4);
     sub_08019F04();
 }
-#ifdef NONMATCHING
 struct PlayerF50688 { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
 struct SlotF50688 { s32 id; u8 pad[0x32]; u16 state; u8 tail[0x38]; };
 struct StateF50688 { u8 pad[4]; u16 flags; u8 pad6[0x38-6]; u32 eventFlags; u8 pad3C[0x7A4-0x3C]; struct SlotF50688 slots[15]; };
 extern struct PlayerF50688 playersF50688[] asm("gUnk_03003CE0");
 extern struct StateF50688 *stateF50688 asm("gUnk_03005CF4");
 extern void localF50688_BB80(s16,s16) asm("sub_0800BB80");
-extern s32 sub_0801AB24(void);
-extern void sub_0801AB50(s32);
-extern void sub_0801AB90(s32);
-extern void sub_080576A8(void);
-extern void sub_0802939C(s32,s32);
 void sub_08050688(void) {
     struct { s32 x,y,nextX,nextY,ui; s32 *nextXp,*nextYp; } L;
-    struct SlotF50688 *slot;
-    u32 i;
+    register struct SlotF50688 *slot asm("r1");
+    register u32 i asm("r2");
     s32 sp0;
     s32 sp4;
     register s32 temp_r5 asm("r5");
@@ -2332,7 +2319,7 @@ void sub_08050688(void) {
     s32 var_r0;
     s32 var_r4_3;
     s32 var_r4_4;
-    u16 var_r4;
+    register u32 var_r4 asm("r4");
     u16 var_r4_2;
     register u32 temp_r3 asm("r3");
     register u32 handle asm("r4");
@@ -2369,11 +2356,11 @@ void sub_08050688(void) {
     var_r4 = 1;
     var_r5 = -var_r5;
     firstY = &L.y;
-    L.nextXp = &L.nextX;
-    L.nextYp = &L.nextY;
+    a1=(u32)&L.x-8; asm("" : "+r"(a1), "+r"(var_r4), "+r"(var_r5), "+r"(firstY) : : "r0", "r2", "r3", "r6", "r7", "r9", "r10", "r12"); a1+=16; L.nextXp=(s32 *)a1;
+    a2=(u32)&L.x-8; asm("" : "+r"(a2)); a2+=20; L.nextYp=(s32 *)a2;
 goto wait15;
 dec15:
-var_r4--; if (var_r4 == 0) goto after15;
+shift0=var_r4-1; var_r4=(u16)shift0; if (var_r4 == 0) goto after15;
 wait15:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec15;
 after15:
@@ -2403,7 +2390,7 @@ var_r4_2--; if (var_r4_2 == 0) goto after32;
 wait32:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec32;
 after32:
-    firstStep = 0x11;
+    a3=0x11; asm("" : "+r"(a3)); firstStep=a3;
     temp_r7 = (s16) gUnk_03003170.f80;
     temp_r6 = (s16) gUnk_03003170.f82;
     var_r4_3 = 0;
@@ -2448,9 +2435,13 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
         sub_080003F0();
         var_r4_4 += secondStep;
     } while (var_r4_4 <= 0x400);
-    slot = stateF50688->slots;
+    a0=(s32 *)stateF50688; a2=0x7A4; asm("" : "+r"(a2) : "r"(a0));
+    slot=(struct SlotF50688 *)((u8 *)a0+a2);
     i = 0;
-    while (slot->id != L.ui) {
+    for (;;) {
+        register s32 slotID asm("r0");
+        slotID=slot->id; asm("" : : "r"(slotID) : "memory");
+        a3=L.ui; if (slotID==a3) break;
         i++;
         slot++;
         if (i > 14) { sub_080003F0(); slot = 0; break; }
@@ -2466,9 +2457,7 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
     temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08050688);
-#endif
+
 #ifdef NONMATCHING
 struct Player509A8 { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
 struct Entity509A8 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
@@ -2757,7 +2746,179 @@ while (sub_0801AAE0() == 0) sub_080003F0();
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080509A8);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08050E48);
+struct T53Entity0E48 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
+extern struct T53Entity0E48 *t53_entities0E48 asm("gUnk_030056F4");
+struct T53Task0E48 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
+extern u8 *t53_gs0E48 asm("gUnk_03005CF4");
+extern void t53_cb0E48(void) asm("sub_08050E48");
+static inline void t53_start0E48(void *callback, u32 arg)
+{
+    struct T53Task0E48 *task = (struct T53Task0E48 *)(t53_gs0E48 + 0xE34);
+    u32 i = 0;
+    u32 memory;
+    goto check;
+next:
+    i++;
+    task++;
+check:
+    if (i > 29) return;
+    if (sub_08000470((u32)task) != 0) goto next;
+    while ((task->memory = sub_08001494(0x400)) == 0) sub_080003F0();
+    memory = task->memory;
+    task->flags = 60;
+    task->callback = (u32)callback;
+    task->stack = memory + 0x3FC;
+    task->arg = 0;
+    sub_08000274(task, arg);
+}
+static inline void t53_wait0E48(u16 value)
+{
+    register u32 timer asm("r4")=value;
+    register u32 nextValue asm("r0");
+    goto wait;
+next: nextValue=timer-1;timer=(u16)nextValue;if(timer==0)return;
+wait: sub_080003F0();if(sub_080021A8()==0)goto next;
+}
+static inline void t53_clear0E48(u16 one)
+{
+    register struct T53Entity0E48 *p asm("r2")=t53_entities0E48;
+    register u32 i asm("r3")=0;
+    register s32 *active asm("r5")=&gUnk_030056FC;
+    u32 bit=one;
+    u16 zero=0;
+    do {
+        if((*active&(bit<<i)) && p->state==12)p->state=zero;
+        i++;p++;
+    }while(i<=4);
+    sub_08019F04();
+}
+static inline void t53_lock0E48(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
+static inline void t53_unlock0E48(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+union T53Packet0E48 {
+    struct {u16 type,id;s32 value;u32 tail[2];} effect;
+    struct {u16 type,id;u8 args[12];} request;
+};
+static inline u32 t53_open0E48(u32 id)
+{
+    while(sub_0805F184())sub_080003F0();
+    while(sub_0805EF90())sub_080003F0();
+    return sub_0805DF38(1,15,2,0,45,id);
+}
+static inline void t53_dialogWait0E48(u32 dialog)
+{while(!sub_0805EEFC((void *)dialog))sub_080003F0();}
+static inline void t53_dialog0E48(u32 id)
+{u32 dialog=t53_open0E48(id);t53_dialogWait0E48(dialog);}
+static inline void t53_flag0E48(u8 *base,u32 mask)
+{*(u32 *)(base+0x38)|=mask;}
+static inline void t53_scene0E48(s32 arg0,u16 px,u16 py)
+{
+    union T53Packet0E48 packet;
+    u32 dialog;
+    u32 i;
+    switch(arg0) {
+    case 0:
+        sub_0800CC48(0);
+        t53_wait0E48(60);
+        sub_080290E4(1,4);
+        t53_wait0E48(4);
+        sub_080290E4(1,5);
+        t53_wait0E48(100);
+        sub_080290E4(1,4);
+        t53_wait0E48(4);
+        sub_080290E4(1,3);
+        t53_wait0E48(100);
+        sub_080290E4(1,4);
+        t53_wait0E48(4);
+        sub_080290E4(1,5);
+        sub_08028AAC(2,96,0,0);
+        sub_0802939C(2,16);
+        sub_08028D98(2,0,100,120);
+        sub_0802939C(2,17);
+        t53_dialog0E48(0x14006B);
+        dialog=t53_open0E48(0x14006C);
+        sub_080290E4(1,2);
+        t53_dialogWait0E48(dialog);
+        t53_dialog0E48(0x14006D);
+        t53_dialog0E48(0x14006E);
+        t53_dialog0E48(0x14006F);
+        t53_dialog0E48(0x140070);
+        t53_dialog0E48(0x140071);
+        t53_dialog0E48(0x140072);
+        t53_dialog0E48(0x140073);
+        t53_dialog0E48(0x140074);
+        t53_dialog0E48(0x140075);
+        t53_dialog0E48(0x140076);
+        t53_dialog0E48(0x140077);
+        t53_dialog0E48(0x140078);
+        t53_dialog0E48(0x140079);
+        t53_dialog0E48(0x14007A);
+        {register u16 type asm("r0")=10;
+        register u32 value asm("r2")=300;
+        register union T53Packet0E48 *ptr asm("r1")=&packet;
+        ptr->effect.type=type;
+        packet.effect.value=value;}
+        goto packetRetry;
+packetWait: sub_080003F0();
+packetRetry:
+        if(!sub_08067B9C(px,py,&packet))goto packetWait;
+        t53_dialog0E48(0x14007B);
+        t53_dialog0E48(0x14007C);
+        t53_dialog0E48(0x14007D);
+        t53_dialog0E48(0x14007E);
+        sub_0805D37C(0x7800,0x7800,0);
+        sub_080687A8();
+        t53_dialog0E48(0x14007F);
+        t53_start0E48(t53_cb0E48,2);
+        t53_dialog0E48(0x140080);
+    case 1:
+        if(sub_0800CB9C()==0) {
+            if(!(gUnk_030027D0&32)) {gUnk_03005CF8=8;sub_08006CB4(8);}
+        } else sub_080586B4(0);
+        t53_lock0E48();
+        sub_0800D0F4();
+        sub_08019EB8(t53_entities0E48->id,3);
+        sub_0802949C(1,0);
+        t53_dialog0E48(0x140081);
+        t53_dialog0E48(0x140082);
+        t53_dialog0E48(0x140083);
+        t53_dialog0E48(0x140084);
+        t53_dialog0E48(0x140085);
+        t53_dialog0E48(0x140086);
+        t53_dialog0E48(0x140087);
+        t53_dialog0E48(0x140088);
+        dialog=t53_open0E48(0x140089);
+        {register u16 type asm("r1")=1;
+        register u16 id asm("r2")=6;
+        register union T53Packet0E48 *ptr asm("r0")=&packet;
+        ptr->request.type=type;
+        ptr->request.id=id;}
+        for(i=0;i<=11;i++)packet.request.args[i]=0;
+        while(!sub_08067B9C(0x5C00,0x6400,&packet))sub_080003F0();
+        sub_0802939C(2,16);
+        {register s32 dy asm("r2")=-100;sub_08028D98(2,0,dy,120);}
+        {register u32 pos asm("r2")=9999;sub_08028AAC(2,pos,pos,0);}
+        sub_0800CC68();
+        t53_dialogWait0E48(dialog);
+        t53_dialog0E48(0x14008A);
+        t53_flag0E48(t53_gs0E48,2);
+        t53_unlock0E48();
+        sub_0800D108();
+        t53_clear0E48(1);
+        break;
+    case 2:
+        t53_wait0E48(60);
+        sub_080290E4(1,0);
+        sub_0802939C(1,8);
+        sub_08028D98(1,0,40,80);
+        sub_0802939C(1,0);
+        break;
+    }
+}
+
+void t53_impl0E48(s32 arg0) asm("sub_08050E48");
+void t53_impl0E48(s32 arg0) {t53_scene0E48(arg0,0x7800,0x7800);}
 extern u8 *t53_gsA78 asm("gUnk_03005CF4");
 extern s32 t53_transformA78(void *,void *,void *,void *) asm("sub_08021FE0");
 extern void t53_cb1A78(void) asm("sub_0805A474");
