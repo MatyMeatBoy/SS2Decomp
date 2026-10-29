@@ -355,13 +355,19 @@ callLocal:
                             sub_08029B98(id,effect,extended,kind,0,0);
 localStore:
                             M2C_FIELD(targetEnemy,u32 *,0x54)=M2C_FIELD(sourcePlayer,u32 *,0xDC);
-                            M2C_FIELD(targetEnemy,u16 *,0x5A)=localPlayerMask | M2C_FIELD(targetEnemy,u16 *,0x5A);
+                            {
+                                register u16 *status68 asm("r2") = (u16 *)(targetEnemy + 0x5A);
+                                register u32 oldStatus68 asm("r1") = *status68;
+                                register u32 maskStatus68 asm("r0") = localPlayerMask;
+                                asm("" : "+r"(status68), "+r"(oldStatus68), "+r"(maskStatus68));
+                                *status68 = maskStatus68 | oldStatus68;
+                            }
 localDone:
                             if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                 sub_0805865C(0x1A);
                             }
                             sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
-                            hitFlags = 2;
+                            {register u32 flagsValue68 asm("r0") = 2; asm("" : "+r"(flagsValue68)); hitFlags = flagsValue68;}
                         }
                         } else {
                             if ((sub_08002204() != 0) && ((u32) M2C_FIELD(attack, u32 *, 0x0) > 3U) && (M2C_FIELD(targetEnemy, u16 *, 0xC) != 0xB) && (M2C_FIELD(targetEnemy, u32 *, 0x54) != M2C_FIELD(sourcePlayer, u32 *, 0xDC))) {
