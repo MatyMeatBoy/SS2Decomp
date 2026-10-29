@@ -2032,21 +2032,32 @@ void sub_08035A88(s32 arg0) {
         for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
     }
 }
-#ifdef NONMATCHING
 struct Cmd35B18 { u16 unk0, unk2; u8 data[12]; };
 struct Inv35B18 { u8 pad[0x150]; u16 unk150, unk152; };
 extern u8 *inv35B18 asm("gUnk_030034E0");
 extern u8 *state35B18 asm("gUnk_03005CF4");
 extern u32 flags35B18 asm("gUnk_030027D0");
-extern void emit35B18(struct Cmd35B18 *) asm("sub_0805AB20");
 extern void sub_0802949C(s32, s32);
 extern void sub_08029788(s32);
+extern void emit35B18(struct Cmd35B18 *) asm("sub_0805AB20");
 
+static inline u32 count35B18(u32 n) { return n; }
 void sub_08035B18(s32 input) {
     register s32 arg0 asm("r8") = input;
-    u8 unused[16];
     register u8 *base asm("r0");
+    register s32 raw asm("r0");
     struct Cmd35B18 sp8;
+    u8 unused[16];
+    register u8 *row asm("r1");
+    register u8 *data asm("r6");
+    register u32 left asm("r4");
+    register u32 scan asm("r3");
+    u8 **inventory;
+    register u32 zero asm("r5");
+    register u32 a asm("r1");
+    register u32 b asm("r2");
+    register struct Cmd35B18 *cmd asm("r0");
+    register u32 n asm("r4");
     register s32 temp_r4 asm("r4");
     register s32 var_r1 asm("r1");
     s32 var_r1_3;
@@ -2110,7 +2121,7 @@ void sub_08035B18(s32 input) {
     u32 var_r4_6;
     u32 var_r4_8;
     u32 var_r4_9;
-    register s32 stage asm("r5");
+    s32 stage;
     struct Inv35B18 *temp_r1;
     struct Inv35B18 *temp_r1_2;
     struct Inv35B18 *temp_r1_3;
@@ -2136,7 +2147,7 @@ void sub_08035B18(s32 input) {
         base = state35B18;
         var_r1 = 0x1B0;
     }
-    stage = *(base + var_r1);
+    raw = *(base + var_r1); asm("" : "+r"(raw)); stage = raw;
     if ((s32) stage <= 4) {
         if (temp_r4 == 0) {
 while (sub_0805F184() != 0) { sub_080003F0(); }
@@ -2153,7 +2164,7 @@ while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0
                 var_r2 = 0;
                 var_r1_2 = (struct Cmd35B18 *)(inv35B18 + 0x150);
                 do {
-                    if ((var_r1_2->unk0 == 8) && (var_r1_2->unk2 == 6)) {
+                    if ((*(u16 *)var_r1_2 == 8) && (*(u16 *)((u8 *)var_r1_2 + 2) == 6)) {
                         var_r3 += 1;
                     }
                     var_r1_2++;
@@ -2168,34 +2179,21 @@ while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_4) == 0) {
 
                     } else {
-                        var_r4 = 3;
-                        var_r3_2 = 0;
-loop_44:
-                        temp_r1 = (struct Inv35B18 *)(inv35B18 + (var_r3_2 * 0x10));
-                        if ((temp_r1->unk150 != 8) || (temp_r1->unk152 != 6) || (var_r4 -= 1, temp_r1->unk150 = 0U, temp_r1->unk152 = 0U, (var_r4 != 0))) {
-                            var_r3_2 += 1;
-                            if (var_r3_2 <= 0x18U) {
-                                goto loop_44;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x1A;
-                        var_r4_2 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv35B18;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_2] = 0;
-                            var_r4_2 += 1;
-                        } while (var_r4_2 <= 0xBU);
-                        var_r4_3 = 0;
-                        do {
-                            emit35B18(&sp8);
-                            var_r4_3 += 1;
-                        } while (var_r4_3 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_3 = 0x1BC;
-                        } else {
-                            var_r1_3 = 0x1B0;
-                        }
-                        *(u8 *)(state35B18 + var_r1_3) = 1;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next1;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=6)goto next1;left--;*kind=zero;*value=zero;if(!left)goto removed1; }
+next1: scan++;
+                        }while(scan<=24);
+removed1:
+                        a=8;b=0x1A;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit35B18(&sp8);n++;}while(n<count35B18(1));
+                        n=1;
+                        if(sub_0800CE30()){base=state35B18;var_r1=0x1BC;}else{base=state35B18;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags35B18 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2220,7 +2218,7 @@ while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0
                 var_r2_2 = 0;
                 var_r1_4 = (struct Cmd35B18 *)(inv35B18 + 0x150);
                 do {
-                    if ((var_r1_4->unk0 == 8) && (var_r1_4->unk2 == 0x23)) {
+                    if ((*(u16 *)var_r1_4 == 8) && (*(u16 *)((u8 *)var_r1_4 + 2) == 0x23)) {
                         var_r3_3 += 1;
                     }
                     var_r1_4++;
@@ -2235,34 +2233,21 @@ while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_8) == 0) {
 
                     } else {
-                        var_r4_4 = 3;
-                        var_r3_4 = 0;
-loop_104:
-                        temp_r1_2 = (struct Inv35B18 *)(inv35B18 + (var_r3_4 * 0x10));
-                        if ((temp_r1_2->unk150 != 8) || (temp_r1_2->unk152 != 0x23) || (var_r4_4 -= 1, temp_r1_2->unk150 = 0U, temp_r1_2->unk152 = 0U, (var_r4_4 != 0))) {
-                            var_r3_4 += 1;
-                            if (var_r3_4 <= 0x18U) {
-                                goto loop_104;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x2F;
-                        var_r4_5 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv35B18;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_5] = 0;
-                            var_r4_5 += 1;
-                        } while (var_r4_5 <= 0xBU);
-                        var_r4_6 = 0;
-                        do {
-                            emit35B18(&sp8);
-                            var_r4_6 += 1;
-                        } while (var_r4_6 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_5 = 0x1BC;
-                        } else {
-                            var_r1_5 = 0x1B0;
-                        }
-                        *(u8 *)(state35B18 + var_r1_5) = 2;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next2;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x23)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
+next2: scan++;
+                        }while(scan<=24);
+removed2:
+                        a=8;b=0x2F;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit35B18(&sp8);n++;}while(n<count35B18(1));
+                        n=2;
+                        if(sub_0800CE30()){base=state35B18;var_r1=0x1BC;}else{base=state35B18;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags35B18 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2287,7 +2272,7 @@ while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_
                 var_r2_3 = 0;
                 var_r1_6 = (struct Cmd35B18 *)(inv35B18 + 0x150);
                 do {
-                    if ((var_r1_6->unk0 == 8) && (var_r1_6->unk2 == 0x41)) {
+                    if ((*(u16 *)var_r1_6 == 8) && (*(u16 *)((u8 *)var_r1_6 + 2) == 0x41)) {
                         var_r3_5 += 1;
                     }
                     var_r1_6++;
@@ -2302,34 +2287,21 @@ while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_12) == 0) {
 
                     } else {
-                        var_r4_7 = 3;
-                        var_r3_6 = 0;
-loop_164:
-                        temp_r1_3 = (struct Inv35B18 *)(inv35B18 + (var_r3_6 * 0x10));
-                        if ((temp_r1_3->unk150 != 8) || (temp_r1_3->unk152 != 0x41) || (var_r4_7 -= 1, temp_r1_3->unk150 = 0U, temp_r1_3->unk152 = 0U, (var_r4_7 != 0))) {
-                            var_r3_6 += 1;
-                            if (var_r3_6 <= 0x18U) {
-                                goto loop_164;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x72;
-                        var_r4_8 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv35B18;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_8] = 0;
-                            var_r4_8 += 1;
-                        } while (var_r4_8 <= 0xBU);
-                        var_r4_9 = 0;
-                        do {
-                            emit35B18(&sp8);
-                            var_r4_9 += 1;
-                        } while (var_r4_9 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_7 = 0x1BC;
-                        } else {
-                            var_r1_7 = 0x1B0;
-                        }
-                        *(u8 *)(state35B18 + var_r1_7) = 3;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next3;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x41)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
+next3: scan++;
+                        }while(scan<=24);
+removed3:
+                        a=8;b=0x72;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit35B18(&sp8);n++;}while(n<count35B18(1));
+                        n=3;
+                        if(sub_0800CE30()){base=state35B18;var_r1=0x1BC;}else{base=state35B18;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags35B18 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2343,15 +2315,7 @@ while (sub_0805EEFC((void *) temp_r4_13) == 0) { if (sub_0800CDF8() != 0) { sub_
 while (sub_0805F184() != 0) { sub_080003F0(); }
 while (sub_0805EF90() != 0) { sub_080003F0(); }
                 temp_r4_14 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_195:
-                if (sub_0805EEFC((void *) temp_r4_14) != 0) {
-
-                } else if (sub_0800CDF8() != 0) {
-                    sub_0805EFBC();
-                } else {
-                    sub_080003F0();
-                    goto loop_195;
-                }
+while (sub_0805EEFC((void *) temp_r4_14) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 break;
             case 3:
 while (sub_0805F184() != 0) { sub_080003F0(); }
@@ -2362,7 +2326,7 @@ while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_
                 var_r2_4 = 0;
                 var_r1_8 = (struct Cmd35B18 *)(inv35B18 + 0x150);
                 do {
-                    if ((var_r1_8->unk0 == 8) && (var_r1_8->unk2 == 0x59)) {
+                    if ((*(u16 *)var_r1_8 == 8) && (*(u16 *)((u8 *)var_r1_8 + 2) == 0x59)) {
                         var_r3_7 += 1;
                     }
                     var_r1_8++;
@@ -2377,34 +2341,21 @@ while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_16) == 0) {
 
                     } else {
-                        var_r4_10 = 3;
-                        var_r3_8 = 0;
-loop_225:
-                        temp_r1_4 = (struct Inv35B18 *)(inv35B18 + (var_r3_8 * 0x10));
-                        if ((temp_r1_4->unk150 != 8) || (temp_r1_4->unk152 != 0x59) || (var_r4_10 -= 1, temp_r1_4->unk150 = 0U, temp_r1_4->unk152 = 0U, (var_r4_10 != 0))) {
-                            var_r3_8 += 1;
-                            if (var_r3_8 <= 0x18U) {
-                                goto loop_225;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x68;
-                        var_r4_11 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv35B18;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_11] = 0;
-                            var_r4_11 += 1;
-                        } while (var_r4_11 <= 0xBU);
-                        var_r4_12 = 0;
-                        do {
-                            emit35B18(&sp8);
-                            var_r4_12 += 1;
-                        } while (var_r4_12 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_9 = 0x1BC;
-                        } else {
-                            var_r1_9 = 0x1B0;
-                        }
-                        *(u8 *)(state35B18 + var_r1_9) = 4;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next4;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x59)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
+next4: scan++;
+                        }while(scan<=24);
+removed4:
+                        a=8;b=0x68;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit35B18(&sp8);n++;}while(n<count35B18(1));
+                        n=4;
+                        if(sub_0800CE30()){base=state35B18;var_r1=0x1BC;}else{base=state35B18;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags35B18 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2418,15 +2369,7 @@ while (sub_0805EEFC((void *) temp_r4_17) == 0) { if (sub_0800CDF8() != 0) { sub_
 while (sub_0805F184() != 0) { sub_080003F0(); }
 while (sub_0805EF90() != 0) { sub_080003F0(); }
                 temp_r4_18 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_256:
-                if (sub_0805EEFC((void *) temp_r4_18) != 0) {
-
-                } else if (sub_0800CDF8() != 0) {
-                    sub_0805EFBC();
-                } else {
-                    sub_080003F0();
-                    goto loop_256;
-                }
+while (sub_0805EEFC((void *) temp_r4_18) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 break;
             case 4:
 while (sub_0805F184() != 0) { sub_080003F0(); }
@@ -2437,67 +2380,31 @@ while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_
                 var_r2_5 = 0;
                 var_r1_10 = (struct Cmd35B18 *)(inv35B18 + 0x150);
                 do {
-                    if ((var_r1_10->unk0 == 8) && (var_r1_10->unk2 == 0x6F)) {
+                    if ((*(u16 *)var_r1_10 == 8) && (*(u16 *)((u8 *)var_r1_10 + 2) == 0x6F)) {
                         var_r3_9 += 1;
                     }
                     var_r1_10++;
                     var_r2_5 += 1;
                 } while (var_r2_5 <= 0x18U);
-                if (var_r3_9 <= 2) {
-                    sub_08029788(arg0);
-while (sub_0805F184() != 0) { sub_080003F0(); }
-while (sub_0805EF90() != 0) { sub_080003F0(); }
-                    temp_r4_20 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_338:
-                    if (sub_0805EEFC((void *) temp_r4_20) != 0) {
+if (var_r3_9 <= 2) goto missing5;
 
-                    } else if (sub_0800CDF8() != 0) {
-                        sub_0805EFBC();
-                    } else {
-                        sub_080003F0();
-                        goto loop_338;
-                    }
-                } else {
 while (sub_0805F184() != 0) { sub_080003F0(); }
                     temp_r4_21 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
 while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
-                    if (sub_0805EF14((u8 *) temp_r4_21) == 0) {
-                        sub_08029788(arg0);
-while (sub_0805F184() != 0) { sub_080003F0(); }
-while (sub_0805EF90() != 0) { sub_080003F0(); }
-                        temp_r4_22 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_326:
-                        if (sub_0805EEFC((void *) temp_r4_22) != 0) {
+                    if (sub_0805EF14((u8 *)temp_r4_21)==0) goto rejected5;
 
-                        } else if (sub_0800CDF8() != 0) {
-                            sub_0805EFBC();
-                        } else {
-                            sub_080003F0();
-                            goto loop_326;
-                        }
-                    } else {
-                        var_r4_13 = 3;
-                        var_r3_10 = 0;
-loop_286:
-                        temp_r1_5 = (struct Inv35B18 *)(inv35B18 + (var_r3_10 * 0x10));
-                        if ((temp_r1_5->unk150 != 8) || (temp_r1_5->unk152 != 0x6F) || (var_r4_13 -= 1, temp_r1_5->unk150 = 0U, temp_r1_5->unk152 = 0U, (var_r4_13 != 0))) {
-                            var_r3_10 += 1;
-                            if (var_r3_10 <= 0x18U) {
-                                goto loop_286;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x78;
-                        var_r4_14 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv35B18;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_14] = 0;
-                            var_r4_14 += 1;
-                        } while (var_r4_14 <= 0xBU);
-                        var_r4_15 = 0;
-                        do {
-                            emit35B18(&sp8);
-                            var_r4_15 += 1;
-                        } while (var_r4_15 < 1U);
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next5;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x6F)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
+next5: scan++;
+                        }while(scan<=24);
+removed5:
+                        a=8;b=0x78;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit35B18(&sp8);n++;}while(n<count35B18(1));
                         sub_08068070((u32) sub_0805921C, 5U);
                         if (!(flags35B18 & 0x20)) {
                             sub_08006D08(0x33U);
@@ -2510,17 +2417,27 @@ while (sub_0805EEFC((void *) temp_r4_23) == 0) { if (sub_0800CDF8() != 0) { sub_
 while (sub_0805F184() != 0) { sub_080003F0(); }
 while (sub_0805EF90() != 0) { sub_080003F0(); }
                         temp_r4_24 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
-loop_314:
-                        if (sub_0805EEFC((void *) temp_r4_24) != 0) {
+while (sub_0805EEFC((void *) temp_r4_24) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
 
-                        } else if (sub_0800CDF8() != 0) {
-                            sub_0805EFBC();
-                        } else {
-                            sub_080003F0();
-                            goto loop_314;
-                        }
-                    }
-                }
+goto done;
+rejected5:
+
+                        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_22 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_22) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+
+goto done;
+missing5:
+
+                    sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                    temp_r4_20 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_20) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+
+goto done;
                 break;
             }
         } else {
@@ -2545,29 +2462,38 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
         temp_r4_28 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
 while (sub_0805EEFC((void *) temp_r4_28) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
     }
+done:
     temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
     temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035B18);
-#endif
-#ifdef NONMATCHING
 struct Cmd368F4 { u16 unk0, unk2; u8 data[12]; };
 struct Inv368F4 { u8 pad[0x150]; u16 unk150, unk152; };
 extern u8 *inv368F4 asm("gUnk_030034E0");
 extern u8 *state368F4 asm("gUnk_03005CF4");
 extern u32 flags368F4 asm("gUnk_030027D0");
-extern void emit368F4(struct Cmd368F4 *) asm("sub_0805AB20");
 extern void sub_0802949C(s32, s32);
 extern void sub_08029788(s32);
+extern void emit368F4(struct Cmd368F4 *) asm("sub_0805AB20");
 
+static inline u32 count368F4(u32 n) { return n; }
 void sub_080368F4(s32 input) {
     register s32 arg0 asm("r8") = input;
-    u8 unused[16];
-    u16 temp_r0_2;
     register u8 *base asm("r0");
+    register s32 raw asm("r0");
     struct Cmd368F4 sp8;
+    u8 unused[16];
+    register u8 *row asm("r1");
+    register u8 *data asm("r6");
+    register u32 left asm("r4");
+    register u32 scan asm("r3");
+    u8 **inventory;
+    register u8 **inventoryFirst asm("r5");
+    register u32 zero asm("r5");
+    register u32 a asm("r1");
+    register u32 b asm("r2");
+    register struct Cmd368F4 *cmd asm("r0");
+    register u32 n asm("r4");
     register s32 temp_r4 asm("r4");
     register s32 var_r1 asm("r1");
     s32 var_r1_3;
@@ -2631,7 +2557,7 @@ void sub_080368F4(s32 input) {
     u32 var_r4_6;
     u32 var_r4_8;
     u32 var_r4_9;
-    register s32 stage asm("r5");
+    s32 stage;
     struct Inv368F4 *temp_r1;
     struct Inv368F4 *temp_r1_2;
     struct Inv368F4 *temp_r1_3;
@@ -2657,7 +2583,7 @@ void sub_080368F4(s32 input) {
         base = state368F4;
         var_r1 = 0x1B0;
     }
-    stage = *(base + var_r1);
+    raw = *(base + var_r1); asm("" : "+r"(raw)); stage = raw;
     if ((s32) stage <= 4) {
         if (temp_r4 == 0) {
 while (sub_0805F184() != 0) { sub_080003F0(); }
@@ -2674,7 +2600,7 @@ while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0
                 var_r2 = 0;
                 var_r1_2 = (struct Cmd368F4 *)(inv368F4 + 0x150);
                 do {
-                    if ((var_r1_2->unk0 == 8) && (var_r1_2->unk2 == 0)) {
+                    if ((*(u16 *)var_r1_2 == 8) && (*(u16 *)((u8 *)var_r1_2 + 2) == 0)) {
                         var_r3 += 1;
                     }
                     var_r1_2++;
@@ -2689,34 +2615,21 @@ while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_4) == 0) {
 
                     } else {
-                        var_r4 = 3;
-                        var_r3_2 = 0;
-loop_44:
-                        temp_r1 = (struct Inv368F4 *)(inv368F4 + (var_r3_2 * 0x10));
-                        if ((temp_r1->unk150 != 8) || (temp_r0_2 = temp_r1->unk152, (temp_r0_2 != 0)) || (var_r4 -= 1, temp_r1->unk150 = temp_r0_2, temp_r1->unk152 = temp_r0_2, (var_r4 != 0))) {
-                            var_r3_2 += 1;
-                            if (var_r3_2 <= 0x18U) {
-                                goto loop_44;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 9;
-                        var_r4_2 = 0;
+                        left=3;scan=0;data=sp8.data;inventoryFirst=&inv368F4;asm("" : "+r"(inventoryFirst));
                         do {
-                            sp8.data[var_r4_2] = 0;
-                            var_r4_2 += 1;
-                        } while (var_r4_2 <= 0xBU);
-                        var_r4_3 = 0;
-                        do {
-                            emit368F4(&sp8);
-                            var_r4_3 += 1;
-                        } while (var_r4_3 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_3 = 0x1BC;
-                        } else {
-                            var_r1_3 = 0x1B0;
-                        }
-                        *(u8 *)(state368F4 + var_r1_3) = 1;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventoryFirst;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next1;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);k=*value;asm("" : "+r"(k));if(k!=0)goto next1;left--;*kind=k;*value=k;if(!left)goto removed1; }
+next1: scan++;
+                        }while(scan<=24);
+removed1:
+                        a=8;b=9;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit368F4(&sp8);n++;}while(n<count368F4(1));
+                        n=1;
+                        if(sub_0800CE30()){base=state368F4;var_r1=0x1BC;}else{base=state368F4;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags368F4 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2741,7 +2654,7 @@ while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0
                 var_r2_2 = 0;
                 var_r1_4 = (struct Cmd368F4 *)(inv368F4 + 0x150);
                 do {
-                    if ((var_r1_4->unk0 == 8) && (var_r1_4->unk2 == 0x2B)) {
+                    if ((*(u16 *)var_r1_4 == 8) && (*(u16 *)((u8 *)var_r1_4 + 2) == 0x2B)) {
                         var_r3_3 += 1;
                     }
                     var_r1_4++;
@@ -2756,34 +2669,21 @@ while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_8) == 0) {
 
                     } else {
-                        var_r4_4 = 3;
-                        var_r3_4 = 0;
-loop_104:
-                        temp_r1_2 = (struct Inv368F4 *)(inv368F4 + (var_r3_4 * 0x10));
-                        if ((temp_r1_2->unk150 != 8) || (temp_r1_2->unk152 != 0x2B) || (var_r4_4 -= 1, temp_r1_2->unk150 = 0U, temp_r1_2->unk152 = 0U, (var_r4_4 != 0))) {
-                            var_r3_4 += 1;
-                            if (var_r3_4 <= 0x18U) {
-                                goto loop_104;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x45;
-                        var_r4_5 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv368F4;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_5] = 0;
-                            var_r4_5 += 1;
-                        } while (var_r4_5 <= 0xBU);
-                        var_r4_6 = 0;
-                        do {
-                            emit368F4(&sp8);
-                            var_r4_6 += 1;
-                        } while (var_r4_6 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_5 = 0x1BC;
-                        } else {
-                            var_r1_5 = 0x1B0;
-                        }
-                        *(u8 *)(state368F4 + var_r1_5) = 2;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next2;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x2B)goto next2;left--;*kind=zero;*value=zero;if(!left)goto removed2; }
+next2: scan++;
+                        }while(scan<=24);
+removed2:
+                        a=8;b=0x45;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit368F4(&sp8);n++;}while(n<count368F4(1));
+                        n=2;
+                        if(sub_0800CE30()){base=state368F4;var_r1=0x1BC;}else{base=state368F4;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags368F4 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2808,7 +2708,7 @@ while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_
                 var_r2_3 = 0;
                 var_r1_6 = (struct Cmd368F4 *)(inv368F4 + 0x150);
                 do {
-                    if ((var_r1_6->unk0 == 8) && (var_r1_6->unk2 == 0x50)) {
+                    if ((*(u16 *)var_r1_6 == 8) && (*(u16 *)((u8 *)var_r1_6 + 2) == 0x50)) {
                         var_r3_5 += 1;
                     }
                     var_r1_6++;
@@ -2823,34 +2723,21 @@ while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_12) == 0) {
 
                     } else {
-                        var_r4_7 = 3;
-                        var_r3_6 = 0;
-loop_164:
-                        temp_r1_3 = (struct Inv368F4 *)(inv368F4 + (var_r3_6 * 0x10));
-                        if ((temp_r1_3->unk150 != 8) || (temp_r1_3->unk152 != 0x50) || (var_r4_7 -= 1, temp_r1_3->unk150 = 0U, temp_r1_3->unk152 = 0U, (var_r4_7 != 0))) {
-                            var_r3_6 += 1;
-                            if (var_r3_6 <= 0x18U) {
-                                goto loop_164;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x5F;
-                        var_r4_8 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv368F4;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_8] = 0;
-                            var_r4_8 += 1;
-                        } while (var_r4_8 <= 0xBU);
-                        var_r4_9 = 0;
-                        do {
-                            emit368F4(&sp8);
-                            var_r4_9 += 1;
-                        } while (var_r4_9 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_7 = 0x1BC;
-                        } else {
-                            var_r1_7 = 0x1B0;
-                        }
-                        *(u8 *)(state368F4 + var_r1_7) = 3;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next3;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x50)goto next3;left--;*kind=zero;*value=zero;if(!left)goto removed3; }
+next3: scan++;
+                        }while(scan<=24);
+removed3:
+                        a=8;b=0x5F;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit368F4(&sp8);n++;}while(n<count368F4(1));
+                        n=3;
+                        if(sub_0800CE30()){base=state368F4;var_r1=0x1BC;}else{base=state368F4;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags368F4 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2864,15 +2751,7 @@ while (sub_0805EEFC((void *) temp_r4_13) == 0) { if (sub_0800CDF8() != 0) { sub_
 while (sub_0805F184() != 0) { sub_080003F0(); }
 while (sub_0805EF90() != 0) { sub_080003F0(); }
                 temp_r4_14 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_195:
-                if (sub_0805EEFC((void *) temp_r4_14) != 0) {
-
-                } else if (sub_0800CDF8() != 0) {
-                    sub_0805EFBC();
-                } else {
-                    sub_080003F0();
-                    goto loop_195;
-                }
+while (sub_0805EEFC((void *) temp_r4_14) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 break;
             case 3:
 while (sub_0805F184() != 0) { sub_080003F0(); }
@@ -2883,7 +2762,7 @@ while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_
                 var_r2_4 = 0;
                 var_r1_8 = (struct Cmd368F4 *)(inv368F4 + 0x150);
                 do {
-                    if ((var_r1_8->unk0 == 8) && (var_r1_8->unk2 == 0x5C)) {
+                    if ((*(u16 *)var_r1_8 == 8) && (*(u16 *)((u8 *)var_r1_8 + 2) == 0x5C)) {
                         var_r3_7 += 1;
                     }
                     var_r1_8++;
@@ -2898,34 +2777,21 @@ while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
                     if (sub_0805EF14((u8 *) temp_r4_16) == 0) {
 
                     } else {
-                        var_r4_10 = 3;
-                        var_r3_8 = 0;
-loop_225:
-                        temp_r1_4 = (struct Inv368F4 *)(inv368F4 + (var_r3_8 * 0x10));
-                        if ((temp_r1_4->unk150 != 8) || (temp_r1_4->unk152 != 0x5C) || (var_r4_10 -= 1, temp_r1_4->unk150 = 0U, temp_r1_4->unk152 = 0U, (var_r4_10 != 0))) {
-                            var_r3_8 += 1;
-                            if (var_r3_8 <= 0x18U) {
-                                goto loop_225;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x6D;
-                        var_r4_11 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv368F4;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_11] = 0;
-                            var_r4_11 += 1;
-                        } while (var_r4_11 <= 0xBU);
-                        var_r4_12 = 0;
-                        do {
-                            emit368F4(&sp8);
-                            var_r4_12 += 1;
-                        } while (var_r4_12 < 1U);
-                        if (sub_0800CE30() != 0) {
-                            var_r1_9 = 0x1BC;
-                        } else {
-                            var_r1_9 = 0x1B0;
-                        }
-                        *(u8 *)(state368F4 + var_r1_9) = 4;
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next4;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x5C)goto next4;left--;*kind=zero;*value=zero;if(!left)goto removed4; }
+next4: scan++;
+                        }while(scan<=24);
+removed4:
+                        a=8;b=0x6D;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit368F4(&sp8);n++;}while(n<count368F4(1));
+                        n=4;
+                        if(sub_0800CE30()){base=state368F4;var_r1=0x1BC;}else{base=state368F4;var_r1=0x1B0;}
+                        base[var_r1]=n;
                         if (!(flags368F4 & 0x20)) {
                             sub_08006D08(0x33U);
                         }
@@ -2939,15 +2805,7 @@ while (sub_0805EEFC((void *) temp_r4_17) == 0) { if (sub_0800CDF8() != 0) { sub_
 while (sub_0805F184() != 0) { sub_080003F0(); }
 while (sub_0805EF90() != 0) { sub_080003F0(); }
                 temp_r4_18 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_256:
-                if (sub_0805EEFC((void *) temp_r4_18) != 0) {
-
-                } else if (sub_0800CDF8() != 0) {
-                    sub_0805EFBC();
-                } else {
-                    sub_080003F0();
-                    goto loop_256;
-                }
+while (sub_0805EEFC((void *) temp_r4_18) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
                 break;
             case 4:
 while (sub_0805F184() != 0) { sub_080003F0(); }
@@ -2958,67 +2816,31 @@ while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_
                 var_r2_5 = 0;
                 var_r1_10 = (struct Cmd368F4 *)(inv368F4 + 0x150);
                 do {
-                    if ((var_r1_10->unk0 == 8) && (var_r1_10->unk2 == 0x65)) {
+                    if ((*(u16 *)var_r1_10 == 8) && (*(u16 *)((u8 *)var_r1_10 + 2) == 0x65)) {
                         var_r3_9 += 1;
                     }
                     var_r1_10++;
                     var_r2_5 += 1;
                 } while (var_r2_5 <= 0x18U);
-                if (var_r3_9 <= 2) {
-                    sub_08029788(arg0);
-while (sub_0805F184() != 0) { sub_080003F0(); }
-while (sub_0805EF90() != 0) { sub_080003F0(); }
-                    temp_r4_20 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_338:
-                    if (sub_0805EEFC((void *) temp_r4_20) != 0) {
+if (var_r3_9 <= 2) goto missing5;
 
-                    } else if (sub_0800CDF8() != 0) {
-                        sub_0805EFBC();
-                    } else {
-                        sub_080003F0();
-                        goto loop_338;
-                    }
-                } else {
 while (sub_0805F184() != 0) { sub_080003F0(); }
                     temp_r4_21 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
 while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
-                    if (sub_0805EF14((u8 *) temp_r4_21) == 0) {
-                        sub_08029788(arg0);
-while (sub_0805F184() != 0) { sub_080003F0(); }
-while (sub_0805EF90() != 0) { sub_080003F0(); }
-                        temp_r4_22 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
-loop_326:
-                        if (sub_0805EEFC((void *) temp_r4_22) != 0) {
+                    if (sub_0805EF14((u8 *)temp_r4_21)==0) goto rejected5;
 
-                        } else if (sub_0800CDF8() != 0) {
-                            sub_0805EFBC();
-                        } else {
-                            sub_080003F0();
-                            goto loop_326;
-                        }
-                    } else {
-                        var_r4_13 = 3;
-                        var_r3_10 = 0;
-loop_286:
-                        temp_r1_5 = (struct Inv368F4 *)(inv368F4 + (var_r3_10 * 0x10));
-                        if ((temp_r1_5->unk150 != 8) || (temp_r1_5->unk152 != 0x65) || (var_r4_13 -= 1, temp_r1_5->unk150 = 0U, temp_r1_5->unk152 = 0U, (var_r4_13 != 0))) {
-                            var_r3_10 += 1;
-                            if (var_r3_10 <= 0x18U) {
-                                goto loop_286;
-                            }
-                        }
-                        sp8.unk0 = 8;
-                        sp8.unk2 = 0x89;
-                        var_r4_14 = 0;
+                        left=3;scan=0;data=sp8.data;inventory=&inv368F4;asm("" : "+r"(inventory));zero=0;
                         do {
-                            sp8.data[var_r4_14] = 0;
-                            var_r4_14 += 1;
-                        } while (var_r4_14 <= 0xBU);
-                        var_r4_15 = 0;
-                        do {
-                            emit368F4(&sp8);
-                            var_r4_15 += 1;
-                        } while (var_r4_15 < 1U);
+                            register u8 *slot asm("r1"); register u8 *v asm("r0"); register u32 k asm("r0"); register u16 *kind asm("r2");
+                            v=*inventory;slot=v+scan*16;k=0x150;asm("" : "+r"(k));kind=(u16 *)(slot+k);
+                            if(*kind!=8)goto next5;
+                            { register u16 *value asm("r1"); k=0x152;asm("" : "+r"(k));value=(u16 *)(slot+k);if(*value!=0x65)goto next5;left--;*kind=zero;*value=zero;if(!left)goto removed5; }
+next5: scan++;
+                        }while(scan<=24);
+removed5:
+                        a=8;b=0x89;cmd=&sp8;cmd->unk0=a;cmd->unk2=b;
+                        {register u8 *v asm("r1");register u32 z asm("r2");n=0;v=data;z=0;do{v[n]=z;n++;}while(n<=11);}
+                        n=0;do{emit368F4(&sp8);n++;}while(n<count368F4(1));
                         sub_08068070((u32) sub_0805921C, 5U);
                         if (!(flags368F4 & 0x20)) {
                             sub_08006D08(0x33U);
@@ -3031,17 +2853,27 @@ while (sub_0805EEFC((void *) temp_r4_23) == 0) { if (sub_0800CDF8() != 0) { sub_
 while (sub_0805F184() != 0) { sub_080003F0(); }
 while (sub_0805EF90() != 0) { sub_080003F0(); }
                         temp_r4_24 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
-loop_314:
-                        if (sub_0805EEFC((void *) temp_r4_24) != 0) {
+while (sub_0805EEFC((void *) temp_r4_24) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
 
-                        } else if (sub_0800CDF8() != 0) {
-                            sub_0805EFBC();
-                        } else {
-                            sub_080003F0();
-                            goto loop_314;
-                        }
-                    }
-                }
+goto done;
+rejected5:
+
+                        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_22 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_22) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+
+goto done;
+missing5:
+
+                    sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                    temp_r4_20 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_20) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+
+goto done;
                 break;
             }
         } else {
@@ -3066,13 +2898,11 @@ while (sub_0805EF90() != 0) { sub_080003F0(); }
         temp_r4_28 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
 while (sub_0805EEFC((void *) temp_r4_28) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
     }
+done:
     temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
     temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080368F4);
-#endif
 struct T36ACmd { u16 unk0, unk2; u8 data[12]; };
 struct T36AItem { u16 unk0, unk2; u8 data[12]; };
 struct T36AActor { u32 id; u8 pad4[0x3E]; u16 unk42; u8 pad44[0x2C]; };

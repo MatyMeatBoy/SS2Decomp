@@ -471,6 +471,7 @@ void t109Run68B0(u16 arg0) {
     struct T109Obj68B0 *obj;
     s32 zero;
     s32 second, yy;
+    s32 *task;
     resource = (u8 *)t109O68B0 + 0x204;
     t109Init68B0(sprite,0x5000F,t109Index68B0,-1,1);
     sprite[0x1C] = t109Index68B0;
@@ -529,14 +530,16 @@ contactDone:
         }
         sub_080003F0();
         if (sub_0800CED8() != 0 || sub_0800CB78() != 0 || (zero = sub_0800CD00()) != 0) {
-            { s32 *task = (s32 *)sub_0800048C(); register s32 z asm("r0") = 0; task[2] = z; }
+            task = (s32 *)sub_0800048C();
+            task[2] = 0;
             return;
         }
         remaining = (u16)(remaining-1);
     } while (remaining != 0xFFFF);
     sub_080003F0();
     t109O68B0->serial++;
-    *(s32 *)((u8 *)sub_0800048C()+8) = zero;
+    task = (s32 *)sub_0800048C();
+    task[2] = zero;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A68B0);

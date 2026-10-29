@@ -425,6 +425,7 @@ void sub_0800D368(void *arg0) {
     s16 *temp_r0;
     s16 *var_r1_16;
     u32 stateFlagsD368;
+    struct PlayerD368 *effectOwnersD368;
     s16 *var_r1_4;
     s16 *var_r1_5;
     s16 *var_r9;
@@ -1514,7 +1515,8 @@ loop_296:
                 temp_r0_17 = var_r6->f2;
                 if ((u32) temp_r0_17 <= 3U) {
 
-                temp_r0_19 = M2C_FIELD(((temp_r0_17 * 0x14C) + (u8 *)&d368_gUnk_03003CE0), u16 *, 0xC) - 2;
+                effectOwnersD368 = (struct PlayerD368 *)&d368_gUnk_03003CE0;
+                temp_r0_19 = effectOwnersD368[temp_r0_17].fC - 2;
                 var_r3 = var_r6 + 1;
                 if (temp_r0_19 > 6U) {
                     goto block_388;
@@ -1525,13 +1527,13 @@ loop_296:
                     if (var_r6->f4 != 7) {
                         goto block_388;
                     }
-                    if (*(u32 *)((0x14C * temp_r0_17) + ((u8 *)&d368_gUnk_03003CE0 + 0x30)) & 0x2000) {
+                    if (effectOwnersD368[temp_r0_17].f30 & 0x2000) {
 
                     } else {
                         sp1CC = var_r3;
                         if (d368_sub_0801DF8C() != 0) {
 
-                        } else if (((struct PlayerD368 *)arg0)->f68 != M2C_FIELD(((0x14C * var_r6->f2) + (u8 *)&d368_gUnk_03003CE0), u8 *, 0x68)) {
+                        } else if (((struct PlayerD368 *)arg0)->f68 != effectOwnersD368[var_r6->f2].f68) {
 
                         } else {
                             temp_r2_5 = sp150;
@@ -1557,7 +1559,7 @@ loop_296:
                     if (var_r6->f4 != 6) {
                         goto block_388;
                     }
-                    if (*(u32 *)((temp_r0_17 * 0x14C) + ((u8 *)&d368_gUnk_03003CE0 + 0x30)) & 0x2000) {
+                    if (effectOwnersD368[temp_r0_17].f30 & 0x2000) {
 
                     } else {
                         sp1CC = var_r3;
@@ -1639,13 +1641,13 @@ block_372:
                     if (var_r6->f4 != 7) {
                         goto block_388;
                     }
-                    if (*(u32 *)((0x14C * temp_r0_17) + ((u8 *)&d368_gUnk_03003CE0 + 0x30)) & 0x2000) {
+                    if (effectOwnersD368[temp_r0_17].f30 & 0x2000) {
 
                     } else {
                         sp1CC = var_r3;
                         if (d368_sub_0801DF8C() != 0) {
 
-                        } else if (((struct PlayerD368 *)arg0)->f68 != M2C_FIELD(((0x14C * var_r6->f2) + (u8 *)&d368_gUnk_03003CE0), u8 *, 0x68)) {
+                        } else if (((struct PlayerD368 *)arg0)->f68 != effectOwnersD368[var_r6->f2].f68) {
 
                         } else {
                             temp_r2_6 = sp150;
