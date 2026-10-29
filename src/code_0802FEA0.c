@@ -2032,8 +2032,1047 @@ void sub_08035A88(s32 arg0) {
         for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
     }
 }
+#ifdef NONMATCHING
+struct Cmd35B18 { u16 unk0, unk2; u8 data[12]; };
+struct Inv35B18 { u8 pad[0x150]; u16 unk150, unk152; };
+extern u8 *inv35B18 asm("gUnk_030034E0");
+extern u8 *state35B18 asm("gUnk_03005CF4");
+extern u32 flags35B18 asm("gUnk_030027D0");
+extern void emit35B18(struct Cmd35B18 *) asm("sub_0805AB20");
+extern void sub_0802949C(s32, s32);
+extern void sub_08029788(s32);
+
+void sub_08035B18(s32 input) {
+    register s32 arg0 asm("r8") = input;
+    u8 unused[16];
+    register u8 *base asm("r0");
+    struct Cmd35B18 sp8;
+    register s32 temp_r4 asm("r4");
+    register s32 var_r1 asm("r1");
+    s32 var_r1_3;
+    s32 var_r1_5;
+    s32 var_r1_7;
+    s32 var_r1_9;
+    s32 var_r3;
+    s32 var_r3_3;
+    s32 var_r3_5;
+    s32 var_r3_7;
+    s32 var_r3_9;
+    s32 var_r4;
+    s32 var_r4_10;
+    s32 var_r4_13;
+    s32 var_r4_4;
+    s32 var_r4_7;
+    u32 temp_r4_10;
+    u32 temp_r4_11;
+    u32 temp_r4_12;
+    u32 temp_r4_13;
+    u32 temp_r4_14;
+    u32 temp_r4_15;
+    u32 temp_r4_16;
+    u32 temp_r4_17;
+    u32 temp_r4_18;
+    u32 temp_r4_19;
+    u32 temp_r4_20;
+    u32 temp_r4_21;
+    u32 temp_r4_22;
+    u32 temp_r4_23;
+    u32 temp_r4_24;
+    u32 temp_r4_25;
+    u32 temp_r4_26;
+    u32 temp_r4_27;
+    u32 temp_r4_28;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 temp_r4_8;
+    u32 temp_r4_9;
+    u32 var_r2;
+    u32 var_r2_2;
+    u32 var_r2_3;
+    u32 var_r2_4;
+    u32 var_r2_5;
+    u32 var_r3_10;
+    u32 var_r3_2;
+    u32 var_r3_4;
+    u32 var_r3_6;
+    u32 var_r3_8;
+    u32 var_r4_11;
+    u32 var_r4_12;
+    u32 var_r4_14;
+    u32 var_r4_15;
+    u32 var_r4_2;
+    u32 var_r4_3;
+    u32 var_r4_5;
+    u32 var_r4_6;
+    u32 var_r4_8;
+    u32 var_r4_9;
+    register s32 stage asm("r5");
+    struct Inv35B18 *temp_r1;
+    struct Inv35B18 *temp_r1_2;
+    struct Inv35B18 *temp_r1_3;
+    struct Inv35B18 *temp_r1_4;
+    struct Inv35B18 *temp_r1_5;
+    struct Player *temp_r2;
+    struct Player *temp_r2_2;
+    struct Cmd35B18 *var_r1_10;
+    struct Cmd35B18 *var_r1_2;
+    struct Cmd35B18 *var_r1_4;
+    struct Cmd35B18 *var_r1_6;
+    struct Cmd35B18 *var_r1_8;
+
+    temp_r2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    sub_0802949C(arg0, 0);
+    temp_r4 = sub_080020F4();
+    if (sub_0800CE30() != 0) {
+        base = state35B18;
+        var_r1 = 0x1BC;
+    } else {
+        base = state35B18;
+        var_r1 = 0x1B0;
+    }
+    stage = *(base + var_r1);
+    if ((s32) stage <= 4) {
+        if (temp_r4 == 0) {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+            temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140237U);
+while (sub_0805EEFC((void *) temp_r4_2) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+            switch (stage) {
+            case 0:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140238U);
+while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3 = 0;
+                var_r2 = 0;
+                var_r1_2 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                do {
+                    if ((var_r1_2->unk0 == 8) && (var_r1_2->unk2 == 6)) {
+                        var_r3 += 1;
+                    }
+                    var_r1_2++;
+                    var_r2 += 1;
+                } while (var_r2 <= 0x18U);
+                if (var_r3 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_4) == 0) {
+
+                    } else {
+                        var_r4 = 3;
+                        var_r3_2 = 0;
+loop_44:
+                        temp_r1 = (struct Inv35B18 *)(inv35B18 + (var_r3_2 * 0x10));
+                        if ((temp_r1->unk150 != 8) || (temp_r1->unk152 != 6) || (var_r4 -= 1, temp_r1->unk150 = 0U, temp_r1->unk152 = 0U, (var_r4 != 0))) {
+                            var_r3_2 += 1;
+                            if (var_r3_2 <= 0x18U) {
+                                goto loop_44;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x1A;
+                        var_r4_2 = 0;
+                        do {
+                            sp8.data[var_r4_2] = 0;
+                            var_r4_2 += 1;
+                        } while (var_r4_2 <= 0xBU);
+                        var_r4_3 = 0;
+                        do {
+                            emit35B18(&sp8);
+                            var_r4_3 += 1;
+                        } while (var_r4_3 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_3 = 0x1BC;
+                        } else {
+                            var_r1_3 = 0x1B0;
+                        }
+                        *(u8 *)(state35B18 + var_r1_3) = 1;
+                        if (!(flags35B18 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_5 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140242U);
+while (sub_0805EEFC((void *) temp_r4_5) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_6 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_6) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                break;
+            case 1:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_7 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140239U);
+while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_3 = 0;
+                var_r2_2 = 0;
+                var_r1_4 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                do {
+                    if ((var_r1_4->unk0 == 8) && (var_r1_4->unk2 == 0x23)) {
+                        var_r3_3 += 1;
+                    }
+                    var_r1_4++;
+                    var_r2_2 += 1;
+                } while (var_r2_2 <= 0x18U);
+                if (var_r3_3 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_8 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_8) == 0) {
+
+                    } else {
+                        var_r4_4 = 3;
+                        var_r3_4 = 0;
+loop_104:
+                        temp_r1_2 = (struct Inv35B18 *)(inv35B18 + (var_r3_4 * 0x10));
+                        if ((temp_r1_2->unk150 != 8) || (temp_r1_2->unk152 != 0x23) || (var_r4_4 -= 1, temp_r1_2->unk150 = 0U, temp_r1_2->unk152 = 0U, (var_r4_4 != 0))) {
+                            var_r3_4 += 1;
+                            if (var_r3_4 <= 0x18U) {
+                                goto loop_104;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x2F;
+                        var_r4_5 = 0;
+                        do {
+                            sp8.data[var_r4_5] = 0;
+                            var_r4_5 += 1;
+                        } while (var_r4_5 <= 0xBU);
+                        var_r4_6 = 0;
+                        do {
+                            emit35B18(&sp8);
+                            var_r4_6 += 1;
+                        } while (var_r4_6 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_5 = 0x1BC;
+                        } else {
+                            var_r1_5 = 0x1B0;
+                        }
+                        *(u8 *)(state35B18 + var_r1_5) = 2;
+                        if (!(flags35B18 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_9 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140243U);
+while (sub_0805EEFC((void *) temp_r4_9) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_10 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_10) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                break;
+            case 2:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_11 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023AU);
+while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_5 = 0;
+                var_r2_3 = 0;
+                var_r1_6 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                do {
+                    if ((var_r1_6->unk0 == 8) && (var_r1_6->unk2 == 0x41)) {
+                        var_r3_5 += 1;
+                    }
+                    var_r1_6++;
+                    var_r2_3 += 1;
+                } while (var_r2_3 <= 0x18U);
+                if (var_r3_5 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_12 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_12) == 0) {
+
+                    } else {
+                        var_r4_7 = 3;
+                        var_r3_6 = 0;
+loop_164:
+                        temp_r1_3 = (struct Inv35B18 *)(inv35B18 + (var_r3_6 * 0x10));
+                        if ((temp_r1_3->unk150 != 8) || (temp_r1_3->unk152 != 0x41) || (var_r4_7 -= 1, temp_r1_3->unk150 = 0U, temp_r1_3->unk152 = 0U, (var_r4_7 != 0))) {
+                            var_r3_6 += 1;
+                            if (var_r3_6 <= 0x18U) {
+                                goto loop_164;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x72;
+                        var_r4_8 = 0;
+                        do {
+                            sp8.data[var_r4_8] = 0;
+                            var_r4_8 += 1;
+                        } while (var_r4_8 <= 0xBU);
+                        var_r4_9 = 0;
+                        do {
+                            emit35B18(&sp8);
+                            var_r4_9 += 1;
+                        } while (var_r4_9 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_7 = 0x1BC;
+                        } else {
+                            var_r1_7 = 0x1B0;
+                        }
+                        *(u8 *)(state35B18 + var_r1_7) = 3;
+                        if (!(flags35B18 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_13 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140244U);
+while (sub_0805EEFC((void *) temp_r4_13) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_14 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_195:
+                if (sub_0805EEFC((void *) temp_r4_14) != 0) {
+
+                } else if (sub_0800CDF8() != 0) {
+                    sub_0805EFBC();
+                } else {
+                    sub_080003F0();
+                    goto loop_195;
+                }
+                break;
+            case 3:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_15 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023BU);
+while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_7 = 0;
+                var_r2_4 = 0;
+                var_r1_8 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                do {
+                    if ((var_r1_8->unk0 == 8) && (var_r1_8->unk2 == 0x59)) {
+                        var_r3_7 += 1;
+                    }
+                    var_r1_8++;
+                    var_r2_4 += 1;
+                } while (var_r2_4 <= 0x18U);
+                if (var_r3_7 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_16 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_16) == 0) {
+
+                    } else {
+                        var_r4_10 = 3;
+                        var_r3_8 = 0;
+loop_225:
+                        temp_r1_4 = (struct Inv35B18 *)(inv35B18 + (var_r3_8 * 0x10));
+                        if ((temp_r1_4->unk150 != 8) || (temp_r1_4->unk152 != 0x59) || (var_r4_10 -= 1, temp_r1_4->unk150 = 0U, temp_r1_4->unk152 = 0U, (var_r4_10 != 0))) {
+                            var_r3_8 += 1;
+                            if (var_r3_8 <= 0x18U) {
+                                goto loop_225;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x68;
+                        var_r4_11 = 0;
+                        do {
+                            sp8.data[var_r4_11] = 0;
+                            var_r4_11 += 1;
+                        } while (var_r4_11 <= 0xBU);
+                        var_r4_12 = 0;
+                        do {
+                            emit35B18(&sp8);
+                            var_r4_12 += 1;
+                        } while (var_r4_12 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_9 = 0x1BC;
+                        } else {
+                            var_r1_9 = 0x1B0;
+                        }
+                        *(u8 *)(state35B18 + var_r1_9) = 4;
+                        if (!(flags35B18 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_17 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140245U);
+while (sub_0805EEFC((void *) temp_r4_17) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_18 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_256:
+                if (sub_0805EEFC((void *) temp_r4_18) != 0) {
+
+                } else if (sub_0800CDF8() != 0) {
+                    sub_0805EFBC();
+                } else {
+                    sub_080003F0();
+                    goto loop_256;
+                }
+                break;
+            case 4:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_19 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023CU);
+while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_9 = 0;
+                var_r2_5 = 0;
+                var_r1_10 = (struct Cmd35B18 *)(inv35B18 + 0x150);
+                do {
+                    if ((var_r1_10->unk0 == 8) && (var_r1_10->unk2 == 0x6F)) {
+                        var_r3_9 += 1;
+                    }
+                    var_r1_10++;
+                    var_r2_5 += 1;
+                } while (var_r2_5 <= 0x18U);
+                if (var_r3_9 <= 2) {
+                    sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                    temp_r4_20 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_338:
+                    if (sub_0805EEFC((void *) temp_r4_20) != 0) {
+
+                    } else if (sub_0800CDF8() != 0) {
+                        sub_0805EFBC();
+                    } else {
+                        sub_080003F0();
+                        goto loop_338;
+                    }
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_21 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_21) == 0) {
+                        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_22 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_326:
+                        if (sub_0805EEFC((void *) temp_r4_22) != 0) {
+
+                        } else if (sub_0800CDF8() != 0) {
+                            sub_0805EFBC();
+                        } else {
+                            sub_080003F0();
+                            goto loop_326;
+                        }
+                    } else {
+                        var_r4_13 = 3;
+                        var_r3_10 = 0;
+loop_286:
+                        temp_r1_5 = (struct Inv35B18 *)(inv35B18 + (var_r3_10 * 0x10));
+                        if ((temp_r1_5->unk150 != 8) || (temp_r1_5->unk152 != 0x6F) || (var_r4_13 -= 1, temp_r1_5->unk150 = 0U, temp_r1_5->unk152 = 0U, (var_r4_13 != 0))) {
+                            var_r3_10 += 1;
+                            if (var_r3_10 <= 0x18U) {
+                                goto loop_286;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x78;
+                        var_r4_14 = 0;
+                        do {
+                            sp8.data[var_r4_14] = 0;
+                            var_r4_14 += 1;
+                        } while (var_r4_14 <= 0xBU);
+                        var_r4_15 = 0;
+                        do {
+                            emit35B18(&sp8);
+                            var_r4_15 += 1;
+                        } while (var_r4_15 < 1U);
+                        sub_08068070((u32) sub_0805921C, 5U);
+                        if (!(flags35B18 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_23 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140246U);
+while (sub_0805EEFC((void *) temp_r4_23) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_24 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
+loop_314:
+                        if (sub_0805EEFC((void *) temp_r4_24) != 0) {
+
+                        } else if (sub_0800CDF8() != 0) {
+                            sub_0805EFBC();
+                        } else {
+                            sub_080003F0();
+                            goto loop_314;
+                        }
+                    }
+                }
+                break;
+            }
+        } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+            temp_r4_25 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023DU);
+while (sub_0805EEFC((void *) temp_r4_25) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+            sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+            temp_r4_26 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_26) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        }
+    } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+        temp_r4_27 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140240U);
+while (sub_0805EEFC((void *) temp_r4_27) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+        temp_r4_28 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
+while (sub_0805EEFC((void *) temp_r4_28) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    }
+    temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
+    sub_0800D108();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035B18);
+#endif
+#ifdef NONMATCHING
+struct Cmd368F4 { u16 unk0, unk2; u8 data[12]; };
+struct Inv368F4 { u8 pad[0x150]; u16 unk150, unk152; };
+extern u8 *inv368F4 asm("gUnk_030034E0");
+extern u8 *state368F4 asm("gUnk_03005CF4");
+extern u32 flags368F4 asm("gUnk_030027D0");
+extern void emit368F4(struct Cmd368F4 *) asm("sub_0805AB20");
+extern void sub_0802949C(s32, s32);
+extern void sub_08029788(s32);
+
+void sub_080368F4(s32 input) {
+    register s32 arg0 asm("r8") = input;
+    u8 unused[16];
+    u16 temp_r0_2;
+    register u8 *base asm("r0");
+    struct Cmd368F4 sp8;
+    register s32 temp_r4 asm("r4");
+    register s32 var_r1 asm("r1");
+    s32 var_r1_3;
+    s32 var_r1_5;
+    s32 var_r1_7;
+    s32 var_r1_9;
+    s32 var_r3;
+    s32 var_r3_3;
+    s32 var_r3_5;
+    s32 var_r3_7;
+    s32 var_r3_9;
+    s32 var_r4;
+    s32 var_r4_10;
+    s32 var_r4_13;
+    s32 var_r4_4;
+    s32 var_r4_7;
+    u32 temp_r4_10;
+    u32 temp_r4_11;
+    u32 temp_r4_12;
+    u32 temp_r4_13;
+    u32 temp_r4_14;
+    u32 temp_r4_15;
+    u32 temp_r4_16;
+    u32 temp_r4_17;
+    u32 temp_r4_18;
+    u32 temp_r4_19;
+    u32 temp_r4_20;
+    u32 temp_r4_21;
+    u32 temp_r4_22;
+    u32 temp_r4_23;
+    u32 temp_r4_24;
+    u32 temp_r4_25;
+    u32 temp_r4_26;
+    u32 temp_r4_27;
+    u32 temp_r4_28;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 temp_r4_8;
+    u32 temp_r4_9;
+    u32 var_r2;
+    u32 var_r2_2;
+    u32 var_r2_3;
+    u32 var_r2_4;
+    u32 var_r2_5;
+    u32 var_r3_10;
+    u32 var_r3_2;
+    u32 var_r3_4;
+    u32 var_r3_6;
+    u32 var_r3_8;
+    u32 var_r4_11;
+    u32 var_r4_12;
+    u32 var_r4_14;
+    u32 var_r4_15;
+    u32 var_r4_2;
+    u32 var_r4_3;
+    u32 var_r4_5;
+    u32 var_r4_6;
+    u32 var_r4_8;
+    u32 var_r4_9;
+    register s32 stage asm("r5");
+    struct Inv368F4 *temp_r1;
+    struct Inv368F4 *temp_r1_2;
+    struct Inv368F4 *temp_r1_3;
+    struct Inv368F4 *temp_r1_4;
+    struct Inv368F4 *temp_r1_5;
+    struct Player *temp_r2;
+    struct Player *temp_r2_2;
+    struct Cmd368F4 *var_r1_10;
+    struct Cmd368F4 *var_r1_2;
+    struct Cmd368F4 *var_r1_4;
+    struct Cmd368F4 *var_r1_6;
+    struct Cmd368F4 *var_r1_8;
+
+    temp_r2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    sub_0802949C(arg0, 0);
+    temp_r4 = sub_080020F4();
+    if (sub_0800CE30() != 0) {
+        base = state368F4;
+        var_r1 = 0x1BC;
+    } else {
+        base = state368F4;
+        var_r1 = 0x1B0;
+    }
+    stage = *(base + var_r1);
+    if ((s32) stage <= 4) {
+        if (temp_r4 == 0) {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+            temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140237U);
+while (sub_0805EEFC((void *) temp_r4_2) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+            switch (stage) {
+            case 0:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140247U);
+while (sub_0805EEFC((void *) temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3 = 0;
+                var_r2 = 0;
+                var_r1_2 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                do {
+                    if ((var_r1_2->unk0 == 8) && (var_r1_2->unk2 == 0)) {
+                        var_r3 += 1;
+                    }
+                    var_r1_2++;
+                    var_r2 += 1;
+                } while (var_r2 <= 0x18U);
+                if (var_r3 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_4) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_4) == 0) {
+
+                    } else {
+                        var_r4 = 3;
+                        var_r3_2 = 0;
+loop_44:
+                        temp_r1 = (struct Inv368F4 *)(inv368F4 + (var_r3_2 * 0x10));
+                        if ((temp_r1->unk150 != 8) || (temp_r0_2 = temp_r1->unk152, (temp_r0_2 != 0)) || (var_r4 -= 1, temp_r1->unk150 = temp_r0_2, temp_r1->unk152 = temp_r0_2, (var_r4 != 0))) {
+                            var_r3_2 += 1;
+                            if (var_r3_2 <= 0x18U) {
+                                goto loop_44;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 9;
+                        var_r4_2 = 0;
+                        do {
+                            sp8.data[var_r4_2] = 0;
+                            var_r4_2 += 1;
+                        } while (var_r4_2 <= 0xBU);
+                        var_r4_3 = 0;
+                        do {
+                            emit368F4(&sp8);
+                            var_r4_3 += 1;
+                        } while (var_r4_3 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_3 = 0x1BC;
+                        } else {
+                            var_r1_3 = 0x1B0;
+                        }
+                        *(u8 *)(state368F4 + var_r1_3) = 1;
+                        if (!(flags368F4 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_5 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14024CU);
+while (sub_0805EEFC((void *) temp_r4_5) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_6 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_6) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                break;
+            case 1:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_7 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140248U);
+while (sub_0805EEFC((void *) temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_3 = 0;
+                var_r2_2 = 0;
+                var_r1_4 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                do {
+                    if ((var_r1_4->unk0 == 8) && (var_r1_4->unk2 == 0x2B)) {
+                        var_r3_3 += 1;
+                    }
+                    var_r1_4++;
+                    var_r2_2 += 1;
+                } while (var_r2_2 <= 0x18U);
+                if (var_r3_3 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_8 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_8) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_8) == 0) {
+
+                    } else {
+                        var_r4_4 = 3;
+                        var_r3_4 = 0;
+loop_104:
+                        temp_r1_2 = (struct Inv368F4 *)(inv368F4 + (var_r3_4 * 0x10));
+                        if ((temp_r1_2->unk150 != 8) || (temp_r1_2->unk152 != 0x2B) || (var_r4_4 -= 1, temp_r1_2->unk150 = 0U, temp_r1_2->unk152 = 0U, (var_r4_4 != 0))) {
+                            var_r3_4 += 1;
+                            if (var_r3_4 <= 0x18U) {
+                                goto loop_104;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x45;
+                        var_r4_5 = 0;
+                        do {
+                            sp8.data[var_r4_5] = 0;
+                            var_r4_5 += 1;
+                        } while (var_r4_5 <= 0xBU);
+                        var_r4_6 = 0;
+                        do {
+                            emit368F4(&sp8);
+                            var_r4_6 += 1;
+                        } while (var_r4_6 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_5 = 0x1BC;
+                        } else {
+                            var_r1_5 = 0x1B0;
+                        }
+                        *(u8 *)(state368F4 + var_r1_5) = 2;
+                        if (!(flags368F4 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_9 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14024DU);
+while (sub_0805EEFC((void *) temp_r4_9) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_10 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_10) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                break;
+            case 2:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_11 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140249U);
+while (sub_0805EEFC((void *) temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_5 = 0;
+                var_r2_3 = 0;
+                var_r1_6 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                do {
+                    if ((var_r1_6->unk0 == 8) && (var_r1_6->unk2 == 0x50)) {
+                        var_r3_5 += 1;
+                    }
+                    var_r1_6++;
+                    var_r2_3 += 1;
+                } while (var_r2_3 <= 0x18U);
+                if (var_r3_5 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_12 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_12) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_12) == 0) {
+
+                    } else {
+                        var_r4_7 = 3;
+                        var_r3_6 = 0;
+loop_164:
+                        temp_r1_3 = (struct Inv368F4 *)(inv368F4 + (var_r3_6 * 0x10));
+                        if ((temp_r1_3->unk150 != 8) || (temp_r1_3->unk152 != 0x50) || (var_r4_7 -= 1, temp_r1_3->unk150 = 0U, temp_r1_3->unk152 = 0U, (var_r4_7 != 0))) {
+                            var_r3_6 += 1;
+                            if (var_r3_6 <= 0x18U) {
+                                goto loop_164;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x5F;
+                        var_r4_8 = 0;
+                        do {
+                            sp8.data[var_r4_8] = 0;
+                            var_r4_8 += 1;
+                        } while (var_r4_8 <= 0xBU);
+                        var_r4_9 = 0;
+                        do {
+                            emit368F4(&sp8);
+                            var_r4_9 += 1;
+                        } while (var_r4_9 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_7 = 0x1BC;
+                        } else {
+                            var_r1_7 = 0x1B0;
+                        }
+                        *(u8 *)(state368F4 + var_r1_7) = 3;
+                        if (!(flags368F4 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_13 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14024EU);
+while (sub_0805EEFC((void *) temp_r4_13) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_14 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_195:
+                if (sub_0805EEFC((void *) temp_r4_14) != 0) {
+
+                } else if (sub_0800CDF8() != 0) {
+                    sub_0805EFBC();
+                } else {
+                    sub_080003F0();
+                    goto loop_195;
+                }
+                break;
+            case 3:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_15 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14024AU);
+while (sub_0805EEFC((void *) temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_7 = 0;
+                var_r2_4 = 0;
+                var_r1_8 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                do {
+                    if ((var_r1_8->unk0 == 8) && (var_r1_8->unk2 == 0x5C)) {
+                        var_r3_7 += 1;
+                    }
+                    var_r1_8++;
+                    var_r2_4 += 1;
+                } while (var_r2_4 <= 0x18U);
+                if (var_r3_7 <= 2) {
+
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_16 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_16) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_16) == 0) {
+
+                    } else {
+                        var_r4_10 = 3;
+                        var_r3_8 = 0;
+loop_225:
+                        temp_r1_4 = (struct Inv368F4 *)(inv368F4 + (var_r3_8 * 0x10));
+                        if ((temp_r1_4->unk150 != 8) || (temp_r1_4->unk152 != 0x5C) || (var_r4_10 -= 1, temp_r1_4->unk150 = 0U, temp_r1_4->unk152 = 0U, (var_r4_10 != 0))) {
+                            var_r3_8 += 1;
+                            if (var_r3_8 <= 0x18U) {
+                                goto loop_225;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x6D;
+                        var_r4_11 = 0;
+                        do {
+                            sp8.data[var_r4_11] = 0;
+                            var_r4_11 += 1;
+                        } while (var_r4_11 <= 0xBU);
+                        var_r4_12 = 0;
+                        do {
+                            emit368F4(&sp8);
+                            var_r4_12 += 1;
+                        } while (var_r4_12 < 1U);
+                        if (sub_0800CE30() != 0) {
+                            var_r1_9 = 0x1BC;
+                        } else {
+                            var_r1_9 = 0x1B0;
+                        }
+                        *(u8 *)(state368F4 + var_r1_9) = 4;
+                        if (!(flags368F4 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_17 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14024FU);
+while (sub_0805EEFC((void *) temp_r4_17) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                    }
+                }
+                sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_18 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_256:
+                if (sub_0805EEFC((void *) temp_r4_18) != 0) {
+
+                } else if (sub_0800CDF8() != 0) {
+                    sub_0805EFBC();
+                } else {
+                    sub_080003F0();
+                    goto loop_256;
+                }
+                break;
+            case 4:
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                temp_r4_19 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14024BU);
+while (sub_0805EEFC((void *) temp_r4_19) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                var_r3_9 = 0;
+                var_r2_5 = 0;
+                var_r1_10 = (struct Cmd368F4 *)(inv368F4 + 0x150);
+                do {
+                    if ((var_r1_10->unk0 == 8) && (var_r1_10->unk2 == 0x65)) {
+                        var_r3_9 += 1;
+                    }
+                    var_r1_10++;
+                    var_r2_5 += 1;
+                } while (var_r2_5 <= 0x18U);
+                if (var_r3_9 <= 2) {
+                    sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                    temp_r4_20 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_338:
+                    if (sub_0805EEFC((void *) temp_r4_20) != 0) {
+
+                    } else if (sub_0800CDF8() != 0) {
+                        sub_0805EFBC();
+                    } else {
+                        sub_080003F0();
+                        goto loop_338;
+                    }
+                } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+                    temp_r4_21 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14023FU);
+while (sub_0805EEFC((void *) temp_r4_21) == 0) { sub_080003F0(); }
+                    if (sub_0805EF14((u8 *) temp_r4_21) == 0) {
+                        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_22 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+loop_326:
+                        if (sub_0805EEFC((void *) temp_r4_22) != 0) {
+
+                        } else if (sub_0800CDF8() != 0) {
+                            sub_0805EFBC();
+                        } else {
+                            sub_080003F0();
+                            goto loop_326;
+                        }
+                    } else {
+                        var_r4_13 = 3;
+                        var_r3_10 = 0;
+loop_286:
+                        temp_r1_5 = (struct Inv368F4 *)(inv368F4 + (var_r3_10 * 0x10));
+                        if ((temp_r1_5->unk150 != 8) || (temp_r1_5->unk152 != 0x65) || (var_r4_13 -= 1, temp_r1_5->unk150 = 0U, temp_r1_5->unk152 = 0U, (var_r4_13 != 0))) {
+                            var_r3_10 += 1;
+                            if (var_r3_10 <= 0x18U) {
+                                goto loop_286;
+                            }
+                        }
+                        sp8.unk0 = 8;
+                        sp8.unk2 = 0x89;
+                        var_r4_14 = 0;
+                        do {
+                            sp8.data[var_r4_14] = 0;
+                            var_r4_14 += 1;
+                        } while (var_r4_14 <= 0xBU);
+                        var_r4_15 = 0;
+                        do {
+                            emit368F4(&sp8);
+                            var_r4_15 += 1;
+                        } while (var_r4_15 < 1U);
+                        sub_08068070((u32) sub_0805921C, 5U);
+                        if (!(flags368F4 & 0x20)) {
+                            sub_08006D08(0x33U);
+                        }
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_23 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140250U);
+while (sub_0805EEFC((void *) temp_r4_23) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+                        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+                        temp_r4_24 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
+loop_314:
+                        if (sub_0805EEFC((void *) temp_r4_24) != 0) {
+
+                        } else if (sub_0800CDF8() != 0) {
+                            sub_0805EFBC();
+                        } else {
+                            sub_080003F0();
+                            goto loop_314;
+                        }
+                    }
+                }
+                break;
+            }
+        } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+            temp_r4_25 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023DU);
+while (sub_0805EEFC((void *) temp_r4_25) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+            sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+            temp_r4_26 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14023EU);
+while (sub_0805EEFC((void *) temp_r4_26) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        }
+    } else {
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+        temp_r4_27 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140240U);
+while (sub_0805EEFC((void *) temp_r4_27) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        sub_08029788(arg0);
+while (sub_0805F184() != 0) { sub_080003F0(); }
+while (sub_0805EF90() != 0) { sub_080003F0(); }
+        temp_r4_28 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140241U);
+while (sub_0805EEFC((void *) temp_r4_28) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    }
+    temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
+    sub_0800D108();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080368F4);
+#endif
 struct T36ACmd { u16 unk0, unk2; u8 data[12]; };
 struct T36AItem { u16 unk0, unk2; u8 data[12]; };
 struct T36AActor { u32 id; u8 pad4[0x3E]; u16 unk42; u8 pad44[0x2C]; };

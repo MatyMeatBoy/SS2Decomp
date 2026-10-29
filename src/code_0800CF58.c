@@ -846,7 +846,6 @@ void sub_0800D368(void *arg0) {
     void *temp_r1_14;
     void *temp_r1_15;
     void *temp_r1_16;
-    void *temp_r1_43;
     void *temp_r1_45;
     void *temp_r1_48;
     void *temp_r1_55;
@@ -4107,16 +4106,16 @@ block_1221:
                             }
                             ((struct PlayerD368 *)arg0)->f110 = (u32) sp1A8;
                             } else {
-                                temp_r1_43 = (0x14C * temp_r2_48) + (u8 *)&d368_gUnk_03003CE0;
-                                temp_r1_44 = M2C_FIELD(temp_r1_43, u8 *, 0x68);
+                                temp_r1_45 = (0x14C * temp_r2_48) + (u8 *)&d368_gUnk_03003CE0;
+                                temp_r1_44 = M2C_FIELD(temp_r1_45, u8 *, 0x68);
                                 if ((temp_r1_44 != 0) && (temp_r1_44 == ((struct PlayerD368 *)arg0)->f68)) {
                                     M2C_FIELD((s32 *)&localRecord, u16 *, 4) = (u16) ((struct PlayerD368 *)arg0)->f38;
                                     M2C_FIELD((s32 *)&localRecord, s8 *, 1) = 0;
                                     M2C_FIELD((s32 *)&localRecord, s8 *, 2) = 0x20;
-                                    temp_r2_49 = M2C_FIELD(temp_r1_43, void **, 0x148);
+                                    temp_r2_49 = M2C_FIELD(temp_r1_45, void **, 0x148);
                                     M2C_FIELD((s32 *)&localRecord, u8 *, 3) = (u8) *((((u32) ArcTan2((s16) (((u16) M2C_FIELD(temp_r2_49, u16 *, 0) >> 4) - ((s32) ((struct PlayerD368 *)arg0)->f8C >> 8)), (s16) (((u32) ((u32) M2C_FIELD(temp_r2_49, u16 *, 2) << 0x14) >> 0x14) - ((s32) ((struct PlayerD368 *)arg0)->f90 >> 8))) << 0x10) >> 0x1C) + (u8 *)&d368_gUnk_084790B4);
-                                    *(u32 *)(temp_r1_43 + 0xF8 + (((struct PlayerD368 *)arg0)->f0 * 4)) = *sp1C8;
-                                    M2C_FIELD((s32 *)&localRecord, s8 *, 0) = (s8) M2C_FIELD(temp_r1_43, u16 *, 0);
+                                    *(u32 *)(temp_r1_45 + 0xF8 + (((struct PlayerD368 *)arg0)->f0 * 4)) = *sp1C8;
+                                    M2C_FIELD((s32 *)&localRecord, s8 *, 0) = (s8) M2C_FIELD(temp_r1_45, u16 *, 0);
                                     d368_sub_080660EC((s32 *)&localRecord);
                                 }
                                 var_r1_14 = arg0 + 0x110;
