@@ -1,26 +1,26 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 254804,
+  "bytes_done": 255732,
   "funcs_total": 1870,
-  "funcs_done": 1372,
-  "percent": 34.19490251653354,
+  "funcs_done": 1376,
+  "percent": 34.31944086575625,
   "funcs_drafts": 115,
   "bytes_drafts": 153860,
-  "percent_with_drafts": 54.84303873572103,
-  "funcs_decompiled": 1372,
-  "bytes_decompiled": 254804,
+  "percent_with_drafts": 54.96757708494374,
+  "funcs_decompiled": 1376,
+  "bytes_decompiled": 255732,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 383,
-  "bytes_pending": 336488,
+  "funcs_pending": 379,
+  "bytes_pending": 335560,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 34.19490251653354
+  "percent_decompiled": 34.31944086575625
  },
  "lib": {
   "bytes_total": 12776,
@@ -47,26 +47,26 @@
  },
  "all": {
   "bytes_total": 757928,
-  "bytes_done": 265256,
+  "bytes_done": 266184,
   "funcs_total": 2009,
-  "funcs_done": 1503,
-  "percent": 34.99751955330849,
+  "funcs_done": 1507,
+  "percent": 35.11995862403817,
   "funcs_drafts": 115,
   "bytes_drafts": 153860,
-  "percent_with_drafts": 55.29760082751924,
-  "funcs_decompiled": 1481,
-  "bytes_decompiled": 264316,
+  "percent_with_drafts": 55.42003989824891,
+  "funcs_decompiled": 1485,
+  "bytes_decompiled": 265244,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 391,
-  "bytes_pending": 338812,
+  "funcs_pending": 387,
+  "bytes_pending": 337884,
   "funcs_original_asm": 24,
   "bytes_original_asm": 1056,
   "funcs_decompilable": 1987,
   "bytes_decompilable": 756988,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 34.916801851548506
+  "percent_decompiled": 35.03939296263613
  },
  "asm": {
   "bytes": 1056,
@@ -114,6 +114,6 @@
   "nodes": 2035,
   "edges": 11615,
   "unresolved_calls": 1230,
-  "parsed_c_functions": 1593
+  "parsed_c_functions": 1597
  }
 }
