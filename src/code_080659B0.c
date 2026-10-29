@@ -401,30 +401,27 @@ u32 sub_080662C4(s32 idx)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080662C4);
 #endif
-#ifdef NONMATCHING
+extern volatile u32 root67Count asm("gUnk_03006338");
+extern u8 *root67Entries asm("gUnk_03006300");
+extern u8 *root67Sources asm("gUnk_030056F4");
 u32 sub_080663A4(u32 index)
 {
-    u32 count = gUnk_03006338;
-    u8 *entry;
-    u8 *source;
-
-    if (count > 0x31)
-        return 0;
-
-    entry = (u8 *)gUnk_03006300 + count * 0x88;
-    source = (u8 *)gUnk_030056F4 + index * 0x2E0;
+    register u32 count asm("r2") = root67Count;
+    register u8 *entry asm("r2");
+    register u8 *source asm("r0");
+    if (count > 0x31) return 0;
+    entry = root67Entries + count * 0x88;
     *(u32 *)(entry + 4) = 1;
     entry[0] = 0x92;
+    { register u8 *base asm("r1") = root67Sources;
+      source = (u8 *)(index * 0x2E0 + (u32)base); }
     *(u32 *)(entry + 8) = *(u16 *)(source + 2);
     *(u32 *)(entry + 0xC) = *(u32 *)(source + 0x14);
     *(u32 *)(entry + 0x10) = *(u32 *)(source + 0x18);
     entry[1] = 2;
-    gUnk_03006338 = count + 1;
+    root67Count++;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080663A4);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066404);
 u32 sub_08066490(u32 a, u32 b, u32 *src)
 {
