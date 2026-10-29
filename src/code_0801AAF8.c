@@ -620,45 +620,64 @@ s32 sub_0801B74C(struct S17Set *set, struct S17ItemC4 *a, struct S17ItemB8 *b, s
 
 struct S17SetEntry { u8 data[0x150]; };
 extern struct S17SetEntry gUnk_08490120[];
-#ifdef NONMATCHING
-s32 sub_0801B8A8(void *a, void *b, void *c, void *d, void *e, void *f)
+struct S17State { u8 pad[0x5B4]; struct S17SetEntry *active; };
+extern struct S17State *s17_state asm("gUnk_03006440");
+s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, struct S17ItemB8 *d, struct S17ItemB4 *e, struct S17ItemB0 *f)
 {
-    void *set;
+    struct S17SetEntry *set;
 
-    if (gUnk_03006440)
-        M2C_FIELD(gUnk_03006440, s32 *, 0x5B4) = 0;
-    if (a) {
-
-        if (M2C_FIELD(a, u16 *, 0xC2)) {
-            set = &gUnk_08490120[M2C_FIELD(a, u16 *, 0xC2)];
-            if (sub_0801B74C(set, a, b, c, d, e, f)) {
-                if (gUnk_03006440)
-                    M2C_FIELD(gUnk_03006440, void **, 0x5B4) = set;
-                return (s32)(set + 0x144);
-            }
+    if (s17_state)
+        s17_state->active = 0;
+    if (a && *(u16 *)(a->data + 0xC2)) {
+        set = &gUnk_08490120[*(u16 *)(a->data + 0xC2)];
+        if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
+            if (s17_state)
+                s17_state->active = set;
+            return (s32)(set->data + 0x144);
         }
     }
-    if (
-        (b && M2C_FIELD(b, u16 *, 0xB4) &&
-         (set = &gUnk_08490120[M2C_FIELD(b, u16 *, 0xB4)], sub_0801B74C(set, a, b, c, d, e, f))) ||
-        (c && M2C_FIELD(c, u16 *, 0xB4) &&
-         (set = &gUnk_08490120[M2C_FIELD(c, u16 *, 0xB4)], sub_0801B74C(set, a, b, c, d, e, f))) ||
-        (d && M2C_FIELD(d, u16 *, 0xB4) &&
-         (set = &gUnk_08490120[M2C_FIELD(d, u16 *, 0xB4)], sub_0801B74C(set, a, b, c, d, e, f))) ||
-        (e && M2C_FIELD(e, u16 *, 0xB0) &&
-         (set = &gUnk_08490120[M2C_FIELD(e, u16 *, 0xB0)], sub_0801B74C(set, a, b, c, d, e, f))) ||
-        (f && M2C_FIELD(f, u16 *, 0xAC) &&
-         (set = &gUnk_08490120[M2C_FIELD(f, u16 *, 0xAC)], sub_0801B74C(set, a, b, c, d, e, f)))
-    ) {
-        if (gUnk_03006440)
-            M2C_FIELD(gUnk_03006440, void **, 0x5B4) = set;
-        return (s32)(set + 0x144);
+    if (b && *(u16 *)(b->data + 0xB4)) {
+        set = &gUnk_08490120[*(u16 *)(b->data + 0xB4)];
+        if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
+            if (s17_state)
+                s17_state->active = set;
+            return (s32)(set->data + 0x144);
+        }
+    }
+    if (c && *(u16 *)(c->data + 0xB4)) {
+        set = &gUnk_08490120[*(u16 *)(c->data + 0xB4)];
+        if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
+            if (s17_state)
+                s17_state->active = set;
+            return (s32)(set->data + 0x144);
+        }
+    }
+    if (d && *(u16 *)(d->data + 0xB4)) {
+        set = &gUnk_08490120[*(u16 *)(d->data + 0xB4)];
+        if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
+            if (s17_state)
+                s17_state->active = set;
+            return (s32)(set->data + 0x144);
+        }
+    }
+    if (e && *(u16 *)(e->data + 0xB0)) {
+        set = &gUnk_08490120[*(u16 *)(e->data + 0xB0)];
+        if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
+            if (s17_state)
+                s17_state->active = set;
+            return (s32)(set->data + 0x144);
+        }
+    }
+    if (f && *(u16 *)(f->data + 0xAC)) {
+        set = &gUnk_08490120[*(u16 *)(f->data + 0xAC)];
+        if (sub_0801B74C((struct S17Set *)set, a, b, c, d, e, f)) {
+            if (s17_state)
+                s17_state->active = set;
+            return (s32)(set->data + 0x144);
+        }
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801B8A8);
-#endif
 
 #ifdef NONMATCHING
 /* Incomplete m2c draft: switch-table branches still need reconstruction. */
