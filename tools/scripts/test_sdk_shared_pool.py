@@ -38,13 +38,11 @@ def main():
         assert not result.returncode, result.stdout + result.stderr
 
     build = Path(os.path.relpath(work, ROOT)).as_posix()
-    run(['make', '-j1', 'BUILD=' + build, build + '/src/m4a_1_engine.o'])
-    candidate = work / 'src/m4a_1_engine.o'
+    run(['make', '-j1', 'BUILD=' + build, build + '/src/m4a_1_vsync.o'])
+    candidate = work / 'src/m4a_1_vsync.o'
     active = {row['name'] for row in functions(candidate.with_suffix('.i').read_text())}
-    assert 'sub_080B6DD0' in active and not {'m4aSoundVSync', 'MPlayMain'} & active
-    original = ''.join((ROOT / 'asm/nonmatchings/m4a_1_engine' / (n + '.s')).read_text()
-                       for n in ['m4aSoundVSync', 'MPlayMain'])
-    original += (ROOT / 'tools/tests/fixtures/sdk_sound/sub_080B6DD0.s').read_text()
+    assert active == {'sub_080B6DD0', 'm4aSoundVSync'}
+    original = (ROOT / 'tools/tests/fixtures/sdk_vsync/original.s').read_text()
     (work / 'original.s').write_text('.include "asm/macros.inc"\n.syntax unified\n.text\n' + original)
     run(['arm-none-eabi-as', '-mcpu=arm7tdmi', '-I', ROOT,
          '-o', work / 'original.o', work / 'original.s'])
@@ -93,7 +91,7 @@ def main():
     expected = linked(work / 'original.o', 'original')
     actual = linked(candidate, 'candidate', True)
     assert len(expected) == 676 and actual[:676] == expected
-    source = (ROOT / 'src/m4a_1_engine.c').read_text()
+    source = (ROOT / 'src/m4a_1_vsync.c').read_text()
     mutations = [('data', '= ID_NUMBER;', '= ID_NUMBER + 1;'),
                  ('abi', 'asm("bx r3");', 'asm("bx r2");')]
     bad_abi = None
@@ -102,8 +100,8 @@ def main():
         draft = work / (name + '.c')
         draft.write_text(source.replace(before, after))
         obj = work / (name + '.o')
-        error = decomp.compile_c(str(draft), str(obj), decomp.module_cc1('m4a_1_engine'),
-                                 decomp.module_flags('m4a_1_engine'))
+        error = decomp.compile_c(str(draft), str(obj), decomp.module_cc1('m4a_1_vsync'),
+                                 decomp.module_flags('m4a_1_vsync'))
         assert not error, error
         changed = linked(obj, name)
         assert changed[:676] != expected, 'mutation accepted: ' + name
