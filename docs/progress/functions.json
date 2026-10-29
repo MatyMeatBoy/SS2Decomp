@@ -10305,7 +10305,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4103,
+          "line": 4109,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -11901,14 +11901,14 @@
       "name": "sub_0803898C",
       "addr": 134449548,
       "size": 908,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x0803898C",
       "canonical_symbol": "sub_0803898C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0803898C",
       "name_status": "unidentified",
       "name_source": null,
@@ -11952,14 +11952,14 @@
       "name": "sub_080399E4",
       "addr": 134453732,
       "size": 1308,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x080399E4",
       "canonical_symbol": "sub_080399E4",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_080399E4",
       "name_status": "unidentified",
       "name_source": null,
@@ -13227,21 +13227,21 @@
       "name": "sub_08047B2C",
       "addr": 134511404,
       "size": 1468,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x08047B2C",
       "canonical_symbol": "sub_08047B2C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "t47B2C",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 498,
+          "line": 500,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47B2C"
         }
       ]
@@ -13315,7 +13315,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 1399,
+          "line": 1406,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47EScript"
         }
       ]
@@ -13406,7 +13406,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 2629,
+          "line": 2636,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t48implB"
         }
       ]
@@ -13565,7 +13565,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 3498,
+          "line": 3505,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
         }
       ]
