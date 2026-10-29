@@ -963,7 +963,7 @@ void sub_08060DB0(s32 index)
 #ifdef NONMATCHING
 extern void drawItemTaskE63(s32, s32, void *, s32) asm("sub_0805FC80");
 M2C_UNK sub_080003F4(s32);                          /* extern */
-M2C_UNK sub_0805FAC0(s32, s32, s16, s32);           /* extern */
+extern void drawNumber63(s32, s32, u32, u8) asm("sub_0805FAC0");
 extern u8 taskETiles63[] asm("gUnk_03005740");
 extern M2C_UNK gUnk_030057C0;
 extern M2C_UNK gUnk_03005800;
@@ -1238,7 +1238,7 @@ block_39:
                                 temp_r6_2 = temp_r4_3 + ((u8 *)&gUnk_084EBE08);
                                 temp_r5_4 = (7 - (s16) sp2C) * 8;
                                 temp_r4_4 = temp_r4_3 + ((u8 *)&gUnk_084EBE0A);
-                                sub_0805FAC0((*temp_r6_2 + 0xF0) - temp_r5_4, *temp_r4_4 + 0x18, (s16) var_r7, 0);
+                                drawNumber63((*temp_r6_2 + 0xF0) - temp_r5_4, *temp_r4_4 + 0x18, (s16) var_r7, 0);
                                 drawItemTaskE63((*temp_r6_2 + 0xF0) - temp_r5_4, *temp_r4_4 + 0x10, var_r8, 0);
                             }
                             var_r2_3 = (u16) ((u32) (sp48 + 0x10000) >> 0x10);

@@ -3612,7 +3612,7 @@ s32 t6f_sub_0800CF10() asm("sub_0800CF10");
 u8 *t6f_sub_0800D11C() asm("sub_0800D11C");
 s32 t6f_sub_0801DF8C() asm("sub_0801DF8C");
 u8 t6f_sub_08029A7C(u16, s16, u32) asm("sub_08029A7C");
-u8 t6f_sub_08029B98(u16, u16, s16, u32) asm("sub_08029B98");
+u8 t6f_sub_08029B98(u16, u16, s16, u32, s32, s32) asm("sub_08029B98");
 s32 t6f_sub_08056E90() asm("sub_08056E90");
 u8 t6f_sub_0805865C(s32) asm("sub_0805865C");
 s32 t6f_sub_08058DB0() asm("sub_08058DB0");
@@ -3620,7 +3620,7 @@ s32 t6f_sub_0806898C(s32, s32) asm("sub_0806898C");
 s16 t6f_sub_08068F9C(void *, s32) asm("sub_08068F9C");
 u16 t6f_sub_08073EE8(s32, s32) asm("sub_08073EE8");
 u16 t6f_sub_0807414C(void *, s32, s32) asm("sub_0807414C");
-u16 t6f_sub_08074398(u16, s32, s32, u32) asm("sub_08074398");
+u16 t6f_sub_08074398(u16, s32, s32, u32, s32) asm("sub_08074398");
 extern s32 t6f_gUnk_03002344 asm("gUnk_03002344");
 extern u8 t6f_gUnk_03003170 asm("gUnk_03003170");
 extern u8 t6f_gUnk_03003CE0 asm("gUnk_03003CE0");
@@ -4044,7 +4044,7 @@ block_64:
 block_67:
     goto block_71;
 block_68:
-    var_r0_3 = t6f_sub_08074398((u16) (M2C_FIELD(sp58, u16 *, 0) + 4), 0xFF, var_sl, var_r9);
+    var_r0_3 = t6f_sub_08074398((u16) (M2C_FIELD(sp58, u16 *, 0) + 4), 0xFF, var_sl, var_r9, 100);
 block_69:
     temp_r0_6 = var_r0_3;
     sp60 = (u32) temp_r0_6;
@@ -4583,7 +4583,7 @@ block_232:
         goto block_234;
     }
     temp_r2_7 = t6f_sub_08068F9C(sp4C, 0);
-    t6f_sub_08029B98(M2C_FIELD(sp50, u16 *, 0), M2C_FIELD(&t6f_gUnk_084EBF1C, u16 *, 0x19A), temp_r2_7, sp64);
+    t6f_sub_08029B98(M2C_FIELD(sp50, u16 *, 0), M2C_FIELD(&t6f_gUnk_084EBF1C, u16 *, 0x19A), temp_r2_7, sp64, 0, 0);
     M2C_FIELD(sp50, u16 *, 0x5A) = (u16) (spA4 | M2C_FIELD(sp50, u16 *, 0x5A));
 block_234:
     if (temp_r1 > 3U) {
