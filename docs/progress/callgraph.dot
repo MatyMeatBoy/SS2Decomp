@@ -171,7 +171,7 @@ digraph calls {
   "sub_08007CF0" [label="oamDrawCopy004"];
   "sub_08007F0C" [label="oamDrawAff004"];
   "sub_080081D4" [label="oamDrawAffMode004"];
-  "sub_08008500" [label="sub_08008500"];
+  "sub_08008500" [label="oamDrawAff2004"];
   "sub_080087AC" [label="oamDrawMode004"];
   "sub_080089DC" [label="sub_080089DC"];
   "sub_08008C10" [label="sub_08008C10"];
@@ -2479,8 +2479,8 @@ digraph calls {
   "sub_080081D4" -> "ObjAffineSet" [label="c"];
   "sub_080081D4" -> "sub_08001348" [label="c"];
   "sub_080081D4" -> "sub_0801AAE0" [label="c"];
-  "sub_08008500" -> "ObjAffineSet" [label="asm"];
-  "sub_08008500" -> "sub_08001348" [label="asm"];
+  "sub_08008500" -> "ObjAffineSet" [label="c"];
+  "sub_08008500" -> "sub_08001348" [label="c"];
   "sub_080087AC" -> "sub_08001348" [label="c"];
   "sub_080089DC" -> "sub_08001348" [label="asm"];
   "sub_08008C10" -> "sub_08008C1C" [label="c"];
