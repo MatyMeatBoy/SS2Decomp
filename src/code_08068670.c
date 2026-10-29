@@ -1141,7 +1141,494 @@ block_130:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806ABC0);
 #endif
+#ifdef NONMATCHING
+struct T073Sprite {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
+/* local */ extern u8 t073Players[] asm("gUnk_03003CE0");
+/* local */ extern u8 *t073Enemies asm("gUnk_030056F4");
+/* local */ extern u32 t073Flags[] asm("gUnk_030063E0");
+/* local */ extern u8 t073Costs[] asm("gUnk_084EBF1C");
+/* local */ extern u8 t073Rects[] asm("gUnk_084EC12C");
+/* local */ extern void t073Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+/* local */ extern void t073Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+/* local */ extern s32 t073Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+/* local */ extern void t073Spawn(s32,u32,u32,s32,s32) asm("sub_08069A30");
+/* local */ extern void t073Send(void *) asm("sub_080694AC");
+/* local */ extern void t073Draw(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+void sub_0806B3C4(u8 *arg0) {
+    struct T073Sprite sp10;
+    u8 sp44[8];
+    u8 sp4C[8];
+    u16 sp54[6];
+    s16 sp60[6];
+    s16 sp6C;
+    s16 sp6E;
+    u32 i;
+    register u32 random asm("r0");
+    u8 *delayBase;
+    u16 costDelta;
+    u8 *dst,*prev;
+    u8 *sp70;
+    u8 *sp74;
+    s32 sp78;
+    u32 sp7C;
+    u32 sp80;
+    u32 sp84;
+    s32 sp88;
+    s32 sp8C;
+    s32 sp90;
+    s32 sp94;
+    register u8 *costBase asm("r3");
+    register s16 *costPtr asm("r2");
+    u32 costOffset;
+    s32 sp98;
+    s32 sp9C;
+    s32 spA0;
+    s16 *spA4;
+    u8 *spA8;
+    s32 spAC;
+    s16 *spB0;                                      /* compiler-managed */
+    s16 *spB4;
+    s16 temp_r0_11;
+    s16 temp_r0_7;
+    s16 temp_r1_9;
+    s32 var_r0;
+    s32 var_r0_2;
+    s16 var_r0_3;
+    s16 var_r0_4;
+    s16 var_r1_3;
+    s16 var_r1_4;
+    s32 var_r2;
+    s32 var_r2_2;
+    s32 var_r2_3;
+    s32 var_r2_4;
+    s32 *temp_r2;
+    s32 *temp_r2_7;
+    s32 *temp_r4_2;
+    s32 temp_r0_13;
+    s32 temp_r0_15;
+    s32 temp_r4_7;
+    u16 temp_r0_10;
+    s32 temp_r0_2;
+    u16 temp_r0_3;
+    u16 temp_r0_4;
+    u16 temp_r0_5;
+    u16 temp_r0_6;
+    s32 temp_r1;
+    u16 temp_r1_5;
+    u16 var_r1;
+    u16 var_r1_2;
+    u16 var_r3;
+    u16 var_r3_2;
+    u16 var_r8_2;
+    register u32 var_sl asm("r10");
+    register u32 temp_r0 asm("r9");
+    u32 temp_r0_8;
+    u32 temp_r0_9;
+    u32 temp_r1_3;
+    u32 temp_r2_2;
+    u32 temp_r2_4;
+    u8 temp_r0_12;
+    u8 temp_r0_14;
+    u8 temp_r8;
+    u8 temp_r8_2;
+    u8 var_r8_3;
+    u8 *temp_r1_2;
+    u8 *temp_r1_4;
+    u8 *temp_r1_6;
+    u8 *temp_r1_7;
+    u8 *temp_r1_8;
+    u8 *temp_r2_3;
+    u8 *temp_r2_5;
+    u8 *temp_r2_6;
+    u8 *temp_r4;
+    u8 *temp_r4_3;
+    u8 *temp_r4_4;
+    u8 *temp_r4_5;
+    u8 *temp_r4_6;
+    u8 *var_r8;
+
+
+    sp70 = arg0;
+    sp90 = (s32) (u16) sub_080020F4();
+    temp_r0 = *(u32 *)arg0;
+    sp94 = (*(u32 *)((u8 *)sp70+0x4));
+    var_sl = (u16)(*(u32 *)((u8 *)sp70+0x14));
+    if (temp_r0 <= 3U) {
+        sp74 = (0x14C * temp_r0) + t073Players;
+    } else {
+        var_r8 = t073Enemies + ((temp_r0 * 0x2E0) + 0xFFFFF480);
+    }
+    if (sp90 != temp_r0) {
+        if (temp_r0 > 3U) {
+            costBase=t073Costs;
+            costOffset=var_sl*2+(*(u32 *)(sp70+0xC))*24;
+            costBase+=6;
+            costPtr=(s16 *)(costOffset+(u32)costBase);
+            temp_r0_2=(*(u16 *)(var_r8+0x5E))-*costPtr;
+            (*(u16 *)((u8 *)var_r8+0x5E)) = temp_r0_2;
+            if ((s32) (temp_r0_2 << 0x10) < 0) {
+                temp_r2 = (s32 *)((temp_r0 * 4) + (u8 *)t073Flags);
+                *temp_r2 &= ~(1 << sp94);
+                (*(u16 *)((u8 *)var_r8+0x5E)) = 0U;
+                return;
+            }
+        }
+        goto block_9;
+    }
+    temp_r4 = (0x14C * sub_080020F4()) + t073Players;
+    costDelta=sub_0806898C((*(u32 *)((u8 *)sp70+0xC)), (s32) (*(u32 *)((u8 *)sp70+0x14)))-1;
+    temp_r1 = (*(u16 *)((u8 *)temp_r4+0xC2))-costDelta;
+    (*(u16 *)((u8 *)temp_r4+0xC2)) = temp_r1;
+    if ((s32) (temp_r1 << 0x10) < 0) {
+        (*(u16 *)((u8 *)temp_r4+0xC2)) = 0U;
+    }
+block_9:
+    sp54[0] = 0;
+    sp60[0] = 0;
+    sp4C[0] = 0;
+    i = 1;
+    delayBase=sp4C;
+    spAC = temp_r0 * 4;
+    do {
+        sp54[i] = 0;
+        sp60[i] = 0;
+        random=sub_080008C8();
+        dst=delayBase+i; prev=delayBase+i-1;
+        random%=20U;
+        random+=10;
+        *dst=random+*prev;
+        i=(u16)(i+1);
+    } while ((u32) i <= 4U);
+    if (temp_r0 <= 3U) {
+        temp_r1_2 = (*(u8 * *)((u8 *)sp74+0x148));
+        sp78 = ((u16) (*(u16 *)((u8 *)temp_r1_2+0x0)) >> 4) << 8;
+        sp7C = (u32) ((*(u16 *)((u8 *)temp_r1_2+0x2)) << 0x14) >> 0xC;
+        temp_r0_3 = gUnk_0847AD0A[(u8) (*(u8 *)((u8 *)temp_r1_2+0x3)) >> 4];
+        sp88 = (s32) temp_r0_3;
+        sp8C = (s32) (u16) ((s32) (temp_r0_3 << 0x10) >> 0x13);
+        goto block_21;
+    }
+    sp78 = (*(u32 *)((u8 *)var_r8+0x14));
+    sp7C = (*(u32 *)((u8 *)var_r8+0x18));
+    temp_r0_4 = gUnk_0847AD0A[(*(s16 *)((u8 *)var_r8+0x8))];
+    sp88 = (s32) temp_r0_4;
+    sp8C = (s32) (u16) ((s32) (temp_r0_4 << 0x10) >> 0x13);
+    if ((u32) (*(u16 *)((u8 *)var_r8+0x6A)) < (u32) (*(u8 *)((u8 *)var_r8+0x22B))) {
+        temp_r4_2 = (s32 *)(spAC + (u8 *)t073Flags);
+loop_15:
+        if ((sub_08056E90() != 0) || (sub_0800BA6C() == 0) || (temp_r0_5 = (*(u16 *)((u8 *)var_r8+0xC)), (temp_r0_5 == 0xA)) || (temp_r0_5 == 0xB)) {
+            *temp_r4_2 &= ~(1 << sp94);
+            return;
+        }
+        sub_080003F0();
+        if ((u32) (*(u16 *)((u8 *)var_r8+0x6A)) >= (u32) (*(u8 *)((u8 *)var_r8+0x22B))) {
+            goto block_21;
+        }
+        goto loop_15;
+    }
+block_21:
+    var_r8_2 = 0;
+    sp84 = 0;
+    if (sub_0800CDF8() != 0) {
+
+    } else if ((u32) (*(u32 *)((u8 *)sp70+0x8)) > 3U) {
+        i = 0;
+        do {
+            if (gUnk_030056FC & (1 << i)) {
+                temp_r4_3 = t073Enemies + (i * 0x2E0);
+                if (((*(u16 *)((u8 *)temp_r4_3+0xC)) != 0xB) && ((*(u8 *)((u8 *)temp_r4_3+0x1DC)) != 0)) {
+                    sp6C = (s16) ((u32) ((*(u32 *)((u8 *)temp_r4_3+0x14)) - sp78) >> 8);
+                    temp_r1_3 = (u32) (((*(u32 *)((u8 *)temp_r4_3+0x18)) - sp7C) << 8) >> 0x10;
+                    sp6E = (s16) temp_r1_3;
+                    temp_r0_6 = ((u32) (ArcTan2(sp6C, (s16) temp_r1_3) << 0x10) >> 0x1B) - (s16) sp8C;
+                    var_r1 = temp_r0_6;
+                    temp_r0_7 = (s16) temp_r0_6;
+                    if ((s32) temp_r0_7 > 0x10) {
+                        var_r1 = temp_r0_7 - 0x20;
+                    }
+                    var_r0 = (s16) var_r1;
+                    if ((s32) var_r0 < 0) {
+                        var_r0 = 0 - var_r0;
+                    }
+                    if ((s32) var_r0 <= 5) {
+                        var_r2 = sp6C;
+                        if ((s32) var_r2 < 0) {
+                            var_r2 = 0 - var_r2;
+                        }
+                        temp_r1_4 = (var_sl * 4) + t073Rects;
+                        if ((s32) var_r2 < (s32) (*(s16 *)((u8 *)temp_r1_4+0x0))) {
+                            var_r2_2 = sp6E;
+                            if ((s32) var_r2_2 < 0) {
+                                var_r2_2 = 0 - var_r2_2;
+                            }
+                            if ((s32) var_r2_2 < (s32) (*(s16 *)((u8 *)temp_r1_4+0x2))) {
+                                temp_r2_2 = sp84;
+                                sp84 = (u32) (u16) (temp_r2_2 + 1);
+                                sp44[temp_r2_2] = i;
+                                var_r8_2 += 1;
+                            }
+                        }
+                    }
+                }
+            }
+            i = (u16) (i + 1);
+        } while ((u32) i <= 4U);
+    } else {
+        temp_r0_8 = sub_08002164();
+        i = 0;
+        if (sp84 >= temp_r0_8) {
+
+        } else {
+            do {
+                temp_r4_4 = (0x14C * i) + t073Players;
+                if (((temp_r0 > 3U) || ((*(u8 *)((u8 *)temp_r4_4+0x68)) != (*(u8 *)((u8 *)sp74+0x68)))) && ((*(u8 *)((u8 *)temp_r4_4+0x68)) != 0)) {
+                    temp_r2_3 = (*(u8 * *)((u8 *)temp_r4_4+0x148));
+                    temp_r0_9 = (u32) ((*(u16 *)((u8 *)temp_r2_3+0x0)) << 0x1C) >> 0x1C;
+                    if ((temp_r0_9 != 0xB) && (temp_r0_9 != 0xA) && (temp_r0_9 != 0xE) && !(((u32) ((*(u8 *)((u8 *)temp_r2_3+0x4)) << 0x1A) >> 0x1A) & 0x20)) {
+                        sp6C = (s16) (((u16) (*(u16 *)((u8 *)temp_r2_3+0x0)) >> 4) - (sp78 >> 8));
+                        temp_r1_5 = ((u32) ((*(u16 *)((u8 *)temp_r2_3+0x2)) << 0x14) >> 0x14) - ((s32) sp7C >> 8);
+                        sp6E = (s16) temp_r1_5;
+                        temp_r0_10 = ((u32) (ArcTan2(sp6C, (s16) temp_r1_5) << 0x10) >> 0x1B) - (s16) sp8C;
+                        var_r1_2 = temp_r0_10;
+                        temp_r0_11 = (s16) temp_r0_10;
+                        if ((s32) temp_r0_11 > 0x10) {
+                            var_r1_2 = temp_r0_11 - 0x20;
+                        }
+                        var_r0_2 = (s16) var_r1_2;
+                        if ((s32) var_r0_2 < 0) {
+                            var_r0_2 = 0 - var_r0_2;
+                        }
+                        if ((s32) var_r0_2 <= 5) {
+                            var_r2_3 = sp6C;
+                            if ((s32) var_r2_3 < 0) {
+                                var_r2_3 = 0 - var_r2_3;
+                            }
+                            temp_r1_6 = (var_sl * 4) + t073Rects;
+                            if ((s32) var_r2_3 < (s32) (*(s16 *)((u8 *)temp_r1_6+0x0))) {
+                                var_r2_4 = sp6E;
+                                if ((s32) var_r2_4 < 0) {
+                                    var_r2_4 = 0 - var_r2_4;
+                                }
+                                if ((s32) var_r2_4 < (s32) (*(s16 *)((u8 *)temp_r1_6+0x2))) {
+                                    temp_r2_4 = sp84;
+                                    sp84 = (u32) (u16) (temp_r2_4 + 1);
+                                    sp44[temp_r2_4] = i;
+                                    var_r8_2 += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                i = (u16) (i + 1);
+            } while ((u32) i < temp_r0_8);
+        }
+    }
+    t073Init(&sp10,0x50074,8,-1,0);
+    sp10.f1C = 7;
+    sp10.f1D = 8;
+    if ((u32) var_sl > 6U) {
+        var_sl = 6;
+    }
+    if (var_r8_2 != 0) {
+        sp80 = 0;
+loop_170:
+        if ((sp80 < sp84) && (sub_0800BA6C() != 0)) {
+            if (temp_r0 != sub_080020F4()) {
+                goto block_91;
+            }
+            if (((u32) (u16) ((*(u16 *)((u8 *)sp74+0x20)) - 0xB) > 1U) && (sub_0800D11C() == 0)) {
+block_91:
+                if ((u32) (*(u32 *)((u8 *)sp70+0x8)) > 3U) {
+                    i = 0;
+                    if (sp84 <= 0U) {
+
+                    } else {
+                        spB0 = &sp6C;
+                        spB4 = &sp6E;
+loop_129:
+                        temp_r4_5 = t073Enemies + (sp44[i] * 0x2E0);
+                        t073Coords((s32) ((*(u32 *)((u8 *)temp_r4_5+0x14)) << 8) >> 0x10, (s32) ((*(u32 *)((u8 *)temp_r4_5+0x18)) << 8) >> 0x10, &sp6C, &sp6E,0x30,0);
+                        var_r8_3 = (u8) sub_0800BC44((u32) (sp78 >> 8), (u32) ((s32) sp7C >> 8), 0U);
+                        temp_r2_5 = sp4C + i;
+                        temp_r0_12 = *temp_r2_5;
+                        switch (temp_r0_12) {       /* switch 2; irregular */
+                        case 0xF0:                  /* switch 2 */
+                            break;
+                        case 0x0:                   /* switch 2 */
+                            temp_r0_13 = i * 2;
+                            if ((*(u16 *)((u8 *)sp54+temp_r0_13) == 1) && (*(s16 *)((u8 *)sp60+temp_r0_13) == 0) && ((sp90 == temp_r0) || (temp_r0 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                sub_0805865C(var_sl + 0x11C);
+                            }
+                            if (t073Animate(&sp10, var_sl, (u16 *)((u8 *)sp54+temp_r0_13), (s16 *)((u8 *)sp60+temp_r0_13), 0) != 0) {
+                                sp80 = (u32) (u16) (sp80 + 1);
+                                sp4C[i] = 0xF0;
+                                if (sp90 == temp_r0) {
+                                    (*(u32 *)((u8 *)sp70+0x8)) = (u32) ((*(u16 *)((u8 *)temp_r4_5+0x0)) + 4);
+                                    t073Send(sp70);
+                                    if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                        sub_0805865C(0x1A);
+                                    }
+                                } else if ((temp_r0 > 3U) && (sub_08002204() != 0)) {
+                                    (*(u32 *)((u8 *)sp70+0x8)) = (u32) ((*(u16 *)((u8 *)temp_r4_5+0x0)) + 4);
+                                    t073Send(sp70);
+                                    if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                        sub_0805865C(0x1A);
+                                    }
+                                }
+                                t073Spawn((*(u32 *)((u8 *)temp_r4_5+0x14)), (*(u32 *)((u8 *)temp_r4_5+0x18)), temp_r0, 2,var_sl);
+                            }
+                            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
+                                if ((gUnk_03003170.curLevel == 4) && (sub_0800CDC0() != 0)) {
+                                    var_r8_3 = 0;
+                                }
+                                if (sub_0800CB9C() != 0) {
+                                    if ((gUnk_03002344 & 1) == (temp_r0 & 1)) {
+                                        var_r0_3 = *spB0;
+                                        var_r1_3 = *spB4;
+                                        var_r3 = *(u16 *)((u8 *)sp54+temp_r0_13);
+                                        goto block_159;
+                                    }
+                                } else {
+                                    var_r0_3 = *spB0;
+                                    var_r1_3 = *spB4;
+                                    var_r3 = *(u16 *)((u8 *)sp54+temp_r0_13);
+block_159:
+                                    t073Draw(var_r0_3,var_r1_3,var_sl,var_r3,var_r8_3,&sp10.f1C,sp10.f8,sp10.f0);
+                                }
+                            }
+                            break;
+                        default:                    /* switch 2 */
+                            *temp_r2_5 = (u8) (temp_r0_12 - 1);
+                            break;
+                        }
+                        i=(u16)(i+1);
+                        if ((u32) i < sp84) {
+                            goto loop_129;
+                        }
+                    }
+                } else {
+                    i = 0;
+                    if (sp84 <= 0U) {
+
+                    } else {
+                        spA8 = sp44;
+                        spB0 = &sp6C;
+                        spB4 = &sp6E;
+loop_96:
+                        temp_r4_6 = (0x14C * *(spA8 + i)) + t073Players;
+                        temp_r1_7 = (*(u8 * *)((u8 *)temp_r4_6+0x148));
+                        t073Coords((s32) ((u16) (*(u16 *)((u8 *)temp_r1_7+0x0)) >> 4), (s32) ((u32) ((*(u16 *)((u8 *)temp_r1_7+0x2)) << 0x14) >> 0x14), &sp6C, &sp6E,0x30,0);
+                        temp_r8 = (u8) sub_0800BC44((u32) (sp78 >> 8), (u32) ((s32) sp7C >> 8), 0U);
+                        temp_r2_6 = sp4C + i;
+                        temp_r0_14 = *temp_r2_6;
+                        switch (temp_r0_14) {       /* switch 1; irregular */
+                        case 0xF0:                  /* switch 1 */
+                            break;
+                        case 0x0:                   /* switch 1 */
+                            temp_r0_15 = i * 2;
+                            if ((*(u16 *)((u8 *)sp54+temp_r0_15) == 1) && (*(s16 *)((u8 *)sp60+temp_r0_15) == 0) && ((sp90 == temp_r0) || (temp_r0 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                sub_0805865C(var_sl + 0x11C);
+                            }
+                            if (t073Animate(&sp10, var_sl, (u16 *)((u8 *)sp54+temp_r0_15), (s16 *)((u8 *)sp60+temp_r0_15), 0) != 0) {
+                                sp80 = (u32) (u16) (sp80 + 1);
+                                sp4C[i] = 0xF0;
+                                if (sp90 == *(spA8 + i)) {
+                                    (*(u32 *)((u8 *)sp70+0x8)) = (u32) (*(u16 *)((u8 *)temp_r4_6+0x0));
+                                    t073Send(sp70);
+                                    if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                        sub_0805865C(0x1A);
+                                    }
+                                }
+                                temp_r1_8 = (*(u8 * *)((u8 *)temp_r4_6+0x148));
+                                t073Spawn(((u16) (*(u16 *)((u8 *)temp_r1_8+0x0)) >> 4) << 8, (u32) ((*(u16 *)((u8 *)temp_r1_8+0x2)) << 0x14) >> 0xC, temp_r0, 2,var_sl);
+                            }
+                            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
+                                if (!(gUnk_03002344 & 1)) {
+                                    sub_08000AF0(0x17U, sp10.fC, 2U);
+                                }
+                                if (sub_0800CB9C() != 0) {
+                                    if ((gUnk_03002344 & 1) == (temp_r0 & 1)) {
+                                        var_r0_4 = *spB0;
+                                        var_r1_4 = *spB4;
+                                        var_r3_2 = *(u16 *)((u8 *)sp54+temp_r0_15);
+                                        goto block_120;
+                                    }
+                                } else {
+                                    var_r0_4 = *spB0;
+                                    var_r1_4 = *spB4;
+                                    var_r3_2 = *(u16 *)((u8 *)sp54+temp_r0_15);
+block_120:
+                                    t073Draw(var_r0_4,var_r1_4,var_sl,var_r3_2,temp_r8,&sp10.f1C,sp10.f8,sp10.f0);
+                                }
+                            }
+                            break;
+                        default:                    /* switch 1 */
+                            *temp_r2_6 = (u8) (temp_r0_14 - 1);
+                            break;
+                        }
+                        i=(u16)(i+1);
+                        if ((u32) i < sp84) {
+                            goto loop_96;
+                        }
+                    }
+                }
+                if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0) && !(gUnk_03002344 & 1)) {
+                    sub_08000AF0(0x17U, sp10.fC, 2U);
+                }
+                sub_080003F0();
+                goto loop_170;
+            }
+        }
+    } else {
+        temp_r1_9 = (s16) sp88;
+        sp78 += gUnk_080B9704[temp_r1_9 + 0x40] * 0x14;
+        sp7C += gUnk_080B9704[temp_r1_9] * 0x14;
+        sp80 = 0;
+        if (((sp90 == temp_r0) || (temp_r0 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+            sub_0805865C(var_sl + 0x11C);
+        }
+        if (sp80 != 0) {
+
+        } else {
+            temp_r4_7 = sp78 >> 8;
+            sp98 = temp_r4_7;
+            spA0 = (s32) sp7C >> 8;
+            spA4 = &sp6C;
+            sp9C = temp_r4_7 << 0x10;
+            do {
+                t073Coords(sp9C >> 0x10, (s32) (s16) spA0, spA4, &sp6E,0x30,0);
+                temp_r8_2 = (u8) sub_0800BC44((u32) sp98, (u32) spA0, 0U);
+                if (t073Animate(&sp10, var_sl, sp54, sp60, 0) != 0) {
+                    sp80 = (u32) (u16) (sp80 + 1);
+                }
+                if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
+                    if (!(gUnk_03002344 & 1)) {
+                        sub_08000AF0(0x17U, sp10.fC, 2U);
+                    }
+                    if (sub_0800CB9C() != 0) {
+                        if ((gUnk_03002344 & 1) == (temp_r0 & 1)) {
+                            t073Draw(*spA4,sp6E,var_sl,sp54[0],temp_r8_2,&sp10.f1C,sp10.f8,sp10.f0);
+                        }
+                    } else {
+                        t073Draw(*spA4,sp6E,var_sl,sp54[0],temp_r8_2,&sp10.f1C,sp10.f8,sp10.f0);
+                    }
+                }
+                sub_080003F0();
+            } while (sp80 == 0);
+        }
+        t073Spawn(sp78, sp7C, temp_r0, 3,var_sl);
+    }
+    if ((temp_r0 <= 3U) && ((*(u16 *)((u8 *)sp74+0xB6)) == 0)) {
+        do {
+            sub_080003F0();
+        } while ((*(u16 *)((u8 *)sp74+0xB6)) == 0);
+    }
+    temp_r2_7 = (s32 *)(spAC + (u8 *)t073Flags);
+    *temp_r2_7 &= ~(1 << sp94);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806B3C4);
+#endif
 #ifdef NONMATCHING
 #define T71B_U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
 #define T71B_U16(p,o) (*(u16 *)((u8 *)(p)+(o)))
@@ -2393,26 +2880,41 @@ block_90:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806CDF0);
 #endif
-#ifdef NONMATCHING
 struct T072D4Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
 struct T072D4Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072D4Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
 struct T072D4Args { u32 player, bit, f8, value, f10, level; };
 extern struct T072D4Player t072D4Players[] asm("gUnk_03003CE0");
 extern u32 t072D4Flags[] asm("gUnk_030063E0");
+void sub_08074DE8(u32, u32);
+extern void t072D4_E0BC(void *, s16) asm("sub_0801E0BC");
 void sub_0806D4A4(struct T072D4Args *arg) {
     u8 list[4];
-    u32 x, y;
-    u32 bit;
-    u32 offset;
-    u16 level, range, count, i;
-    u32 player;
+    u32 x;
+    u32 y;
     s32 local;
-    struct T072D4Player *p, *other, *costPlayer; u16 *wait;
-    struct T072D4Effect *e, *start;
+    u32 player;
+    u32 bit;
+    u16 level;
+    u16 range;
+    u16 i;
+    u16 count;
+    struct T072D4Player *p;
+    struct T072D4Player *q;
+    struct T072D4Player *other;
+    struct T072D4Effect *start;
+    struct T072D4Effect *e;
+    struct T072D4Effect *e2;
     u16 *sprite;
-    u16 dx, dy, cost;
-    s32 ax, ay, limit;
-    s32 duration, amount;
+    u16 dx;
+    u16 dy;
+    u16 cost;
+    s32 ax;
+    s32 ay;
+    s32 limit;
+    u32 found;
+    s32 duration;
+    s32 amount;
+
     local = sub_080020F4();
     player = arg->player;
     bit = arg->bit;
@@ -2420,115 +2922,115 @@ void sub_0806D4A4(struct T072D4Args *arg) {
     range = level;
     if (player <= 3) p = &t072D4Players[player];
     if (local == player) {
-        costPlayer = &t072D4Players[sub_080020F4()];
+        q = &t072D4Players[sub_080020F4()];
         cost = sub_0806898C(arg->value, arg->level) - 1;
-        costPlayer->resource -= cost;
-        if (costPlayer->resource < 0) costPlayer->resource = 0;
+        q->resource -= cost;
+        if (q->resource < 0) q->resource = 0;
     }
-    offset = player * 4;
-    wait = &p->wait;
-    while (*wait <= 6) {
-        if (p->state == 10) goto finish;
+    while (p->wait <= 6) {
+        if (p->state == 10) {
+            t072D4Flags[player] &= ~(1 << bit);
+            return;
+        }
         sub_080003F0();
     }
     if (local == player && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x166);
-    sprite = p->sprite;
-    x = sprite[0] >> 4;
-    y = ((u32)sprite[1] << 20) >> 20;
+    x = p->sprite[0] >> 4;
+    y = ((u32)p->sprite[1] << 20) >> 20;
     count = 0;
-    i = 0;
-    goto testPlayers;
-nextPlayer:
-    other = &t072D4Players[i];
-    sprite = other->sprite;
-    if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) goto skipPlayer;
-    if (other->team != p->team || other->team == 0) goto skipPlayer;
-    dx = (sprite[0] >> 4) - x;
-    dy = (((u32)sprite[1] << 20) >> 20) - y;
-    if (range != 5) {
-        ax = (s16)dx >> 3;
-        if (ax < 0) ax = -ax;
-        limit = (range + 1) * 2;
-        if (ax >= limit) goto skipPlayer;
-        ay = (s16)dy >> 3;
-        if (ay < 0) ay = -ay;
-        if (ay >= limit) goto skipPlayer;
-    }
-    list[count++] = i;
-skipPlayer:
-    i++;
-testPlayers:
-    if (i < sub_08002164()) goto nextPlayer;
-    for (i = 0; i < count; i++) sub_08074DE8(list[i], 10);
-    if (local != player) {
-        for (i = 0; i < count; i++) {
-            if (list[i] == local) {
-                p = &t072D4Players[local];
-                e = p->effects; i = 0;
-                duration = (level * 10 + 40) * 60;
-                amount = level * 8;
-                do {
-                    if (e->timer > 0 && e->owner <= 3 && t072D4Players[e->owner].mode == 4 && e->kind == 4) {
-                        if (e->level < level) {
-                            e->owner = player; e->level = level; e->timer = duration;
-                            sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
-                        }
-                        goto finish;
-                    }
-                    i++; e++;
-                } while (i <= 7);
-                e = p->effects; i = 0;
-                do {
-                    if (e->timer == -1) {
-                        e->owner = player; e->kind = 4; e->level = level;
-                        e->timer = (level * 10 + 40) * 60;
-                        amount = level * 8;
-                        sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
-                        goto finish;
-                    }
-                    i++; e++;
-                } while (i <= 7);
-                goto finish;
-            }
+    for (i = 0; i < sub_08002164(); i++) {
+        other = &t072D4Players[i];
+        sprite = other->sprite;
+        if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) continue;
+        if (other->team != p->team || other->team == 0) continue;
+        dx = (sprite[0] >> 4) - x;
+        dy = (((u32)sprite[1] << 20) >> 20) - y;
+        if (range != 5) {
+            ax = (s16)dx >> 3;
+            if (ax < 0) ax = -ax;
+            limit = (range + 1) * 2;
+            if (ax >= limit) continue;
+            ay = (s16)dy >> 3;
+            if (ay < 0) ay = -ay;
+            if (ay >= limit) continue;
         }
-    } else {
+        list[count++] = i;
+    }
+    for (i = 0; i < count; i++) sub_08074DE8(list[i], 10);
+    if (local == player) {
         e = p->effects;
         i = 0;
         start = e;
-        duration = (level * 10 + 40) * 60;
-        amount = level * 8;
-        do {
+        found = 0;
+        for (; i < 8; i++, e++) {
             if (e->timer > 0 && e->owner <= 3 && t072D4Players[e->owner].mode == 4 && e->kind == 4) {
                 if (e->level < level) {
                     e->level = level;
-                    e->timer = duration;
-                    sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
+                    e->timer = (level * 10 + 40) * 60;
+                    t072D4_E0BC((u8 *)e + 0x1C, level * 10);
                     e->owner = player;
                 }
-                goto clear;
-            }
-            i++; e++;
-        } while (i <= 7);
-        e = start; i = 0;
-        do {
-            if (e->timer == -1) {
-                e->owner = player; e->kind = 4; e->level = level;
-                e->timer = (level * 10 + 40) * 60;
-                amount = level * 8;
-                sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
+                found = 1;
                 break;
             }
-            i++; e++;
-        } while (i <= 7);
-clear:
-        p->x24 = 0; p->x26 = 0;
+        }
+        if (!found) {
+            e = start;
+            for (i = 0; i < 8; i++, e++) {
+                if (e->timer == -1) {
+                    e->owner = player;
+                    e->kind = 4;
+                    e->level = level;
+                    e->timer = (level * 10 + 40) * 60;
+                    ;
+                    t072D4_E0BC((u8 *)e + 0x1C, level * 10);
+                    break;
+                }
+            }
+        }
+        p->x24 = 0;
+        p->x26 = 0;
+    } else {
+        for (i = 0; i < count; i++) {
+            if (list[i] == local) {
+                p = &t072D4Players[local];
+                e2 = p->effects;
+                found = 0;
+                ;
+                ;
+                for (i = 0; i < 8; i++, e2++) {
+                    if (e2->timer > 0 && e2->owner <= 3 && t072D4Players[e2->owner].mode == 4 && e2->kind == 4) {
+                        if (e2->level < level) {
+                            e2->owner = player;
+                            e2->level = level;
+                            e2->timer = (level * 10 + 40) * 60;
+                            t072D4_E0BC((u8 *)e2 + 0x1C, level * 10);
+                        }
+                        found = 1;
+                        break;
+                    }
+                }
+                if (!found) {
+                    e2 = p->effects;
+                    for (i = 0; i < 8; i++, e2++) {
+                        if (e2->timer == -1) {
+                            e2->owner = player;
+                            e2->kind = 4;
+                            e2->level = level;
+                            e2->timer = (level * 10 + 40) * 60;
+                    ;
+                            t072D4_E0BC((u8 *)e2 + 0x1C, level * 10);
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
     }
 finish:
-    *(u32 *)((u8 *)t072D4Flags + offset) &= ~(1 << bit);
+    t072D4Flags[player] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806D4A4);
-#endif
 #ifdef NONMATCHING
 struct T072Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
 struct T072Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };

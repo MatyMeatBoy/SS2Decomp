@@ -1358,19 +1358,12 @@ void sub_0803E5D8(void)
     else
         *((u8 *) gUnk_03005CF4 + 0x1B5) = next;
 }
-#ifdef NONMATCHING
 struct TaskE638 {u32 f0,f4,f8,fC;void *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
 extern u8 *gStateE638 asm("gUnk_03005CF4");
 struct TileE638 {u8 pad[0x80];s16 x,y;};
 extern struct TileE638 tileE638 asm("gUnk_03003170");
 extern u8 *gConfigE638 asm("gUnk_030034E0");
-extern void sub_08019EB8(u16,s32);
 extern void sub_0801A664(s32,s32);
-extern void sub_0801AA34(s32);
-extern void sub_0801AA8C(s32);
-extern void sub_080290E4(s32,s32);
-extern void sub_0802939C(s32,s32);
-extern void sub_0802A228(s32,s32);
 extern void callbackE638A(void) asm("sub_0803F210");
 extern void callbackE638B(void) asm("sub_0803F348");
 extern void callbackE638C(void) asm("sub_0803F454");
@@ -1378,32 +1371,14 @@ extern void cameraE638(s32,s32) asm("sub_0800BB80");
 extern void musicE638(u32) asm("sub_08006CD0");
 static inline u8 *findE638(u32 input) {register u32 key asm("r9")=input;u8 *p=gStateE638+0x7A4;u32 i;for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;sub_080003F0();return 0;}
 static inline u8 testE638(u32 value,u32 mask) {u32 result=value&mask;if(result)result=1;return result;}
-static inline u8 *findSetE638(u32 arg) {
-    register u32 key asm("r2")=arg;
-    u8 *p=gStateE638+0x7A4;
-    u32 i;
-    for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
-    sub_080003F0(); return 0;
-}
-static inline void setE638(u32 input) {
-    register u32 arg asm("r9")=input;
-    register u32 value asm("r4");
-    register u32 key asm("r2")=arg;
-    register u8 *p asm("r0");
-    u32 idx;
-    value=3;
-    if(arg>0x100000) {p=findSetE638(key);if(p) *(u16 *)(p+0x42)=value;}
-    else if(arg!=0) {
-        register u8 **address asm("r1");
-        register u8 *entry asm("r1");
-        register u32 off asm("r0");
-        idx=arg-1;
-        if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*0x2E0;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
-    }
-    else {register u32 off asm("r0");off=sub_080020F4()*0x14C;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
-}
 void sub_0803E638(void) {
     s32 out[4];
+    register u8 *setPointerE638 asm("r1");
+    register u8 *setResultE638 asm("r0");
+    register u32 setKeyE638 asm("r2");
+    register u32 setValueE638 asm("r4");
+    u32 setIndexE638;
+
     u8 *sp18;
     s32 sp1C;
     s32 sp20;
@@ -1524,7 +1499,7 @@ void sub_0803E638(void) {
     if (!(gUnk_030027D0 & 0x20)) {
         sub_08006D08(0x37U);
     }
-    playerTest=temp_r0_2;
+    playerTest=temp_r0_2;asm("" : "+r"(playerTest));
     if (playerTest == 0) {
 cbFirst=(u32)callbackE638C;
 poolBase=gStateE638;if(cbFirst)poolOff=0xE34;else poolOff=0xE34;var_r4_4=(struct TaskE638 *)(poolBase+poolOff);
@@ -1614,6 +1589,7 @@ taskCheck3:
  if(var_r5_4<=29) {
  if(sub_08000470((u32)var_r4_11)!=0) goto taskNext3;
  while((var_r1_3=(u8 *)sub_08001494(0x400),var_r4_11->f20=var_r1_3,var_r1_3)==0) sub_080003F0();goto block_115;
+setFoundE638:setResultE638=setPointerE638;goto setReadyE638;
  }
     } else {
         var_r6 = (u32)callbackE638B;
@@ -1625,7 +1601,7 @@ taskCheck4:
  if(sub_08000470((u32)var_r4_11)!=0) goto taskNext4;
  while((var_r1_3=(u8 *)sub_08001494(0x400),var_r4_11->f20=var_r1_3,var_r1_3)==0) sub_080003F0();
 block_115:
- var_r4_11->f8=0x3C;var_r4_11->fC=var_r6;taskAddr=(u32)var_r1_3;lastOff=0x3FC;taskAddr+=lastOff;var_r4_11->f10=(void *)taskAddr;var_r4_11->f24=0;
+ var_r4_11->f8=0x3C;var_r4_11->fC=var_r6;taskAddr=(u32)var_r1_3;lastOff=0x3FC;asm("" : "+r"(lastOff));taskAddr+=lastOff;var_r4_11->f10=(void *)taskAddr;var_r4_11->f24=0;
  sub_08000274(var_r4_11,temp_r0);sp18=(u8 *)var_r4_11;
  }
     }
@@ -1643,7 +1619,27 @@ block_115:
         while(var_r4_13!=0) {sub_080003F0();if(sub_080021A8()!=0) break;var_r4_13--;}
         stateSecond=gStateE638;var_r0=testE638(*(u32 *)(stateSecond+0x38),bitTwo);
     } while(var_r0==0);
-    setE638(temp_r0);
+    setKeyE638=temp_r0;setValueE638=3;
+    if((u32)temp_r0>0x100000) {
+        setPointerE638=gStateE638+0x7A4;
+        for(setIndexE638=0;setIndexE638<15;setIndexE638++,setPointerE638+=0x70)
+            if(*(u32 *)setPointerE638==setKeyE638) goto setFoundE638;
+        sub_080003F0();setResultE638=0;
+setReadyE638:
+        if(setResultE638) *(u16 *)(setResultE638+0x42)=setValueE638;
+    } else if(temp_r0!=0) {
+        register u32 playerIndexE638 asm("r2");
+        register u8 **addressE638 asm("r1");
+        register u8 *entryE638 asm("r1");
+        register u32 offE638 asm("r0");
+        playerIndexE638=(u32)temp_r0-1;
+        if(playerIndexE638<5) {addressE638=(u8 **)&gUnk_030056F4;offE638=playerIndexE638*0x2E0;entryE638=*addressE638;entryE638+=offE638;sub_08019EB8(*(u16 *)(entryE638+2),3);}
+    } else {
+        register u32 offE638 asm("r0");
+        offE638=sub_080020F4()*0x14C;
+        setResultE638=(u8 *)gUnk_03003CE0+offE638;
+        *(u16 *)(setResultE638+0x11E)=setValueE638;
+    }
     sub_0802939C(temp_r0, 0x11);
     sub_08028D98(temp_r0, 0x24, 0, 4);
     musicE638(gUnk_03005CF8);
@@ -1674,9 +1670,6 @@ block_115:
     sub_0802A228(0xC, 2);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803E638);
-#endif
 struct SignedEE88 {u8 pad[0x80];s16 x,y;};
 extern void cameraEE88(s32,s32) asm("sub_0800BB80");
 void sub_0803EE88(void) {

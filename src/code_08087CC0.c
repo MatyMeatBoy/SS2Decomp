@@ -176,7 +176,6 @@ void sub_0808AFA4(const u16 *pos)
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808AFA4);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808AFE8);
-#ifdef NONMATCHING
 extern void B978SetTime(u32,u32) asm("sub_0805896C");
 extern u8 *gStateB978 asm("gUnk_03005CF4");
 extern s16 gUnk_084AA9E0, gUnk_084AAB30, gUnk_084AAC80, gUnk_084AADD0, gUnk_084AAF20, gUnk_084AB070, gUnk_084AB1C0, gUnk_084AB310, gUnk_084AB460, gUnk_084AB5B0;
@@ -189,7 +188,7 @@ void sub_0808B978(void) {
     u8 sp4[0x34];
     volatile u32 sp38;
     volatile u32 sp3C;
-    s16 *var_r1_2;
+    register s16 *var_r1_2 asm("r1");
     register s16 *var_r9 asm("r9");
     s32 temp_r0;
     s32 temp_r0_2;
@@ -198,7 +197,7 @@ void sub_0808B978(void) {
     s32 temp_r0_5;
     s32 temp_r0_6;
     s32 temp_r0_7;
-    s32 temp_r1;
+    register s32 temp_r1 asm("r1");
     s32 var_r1;
     register s32 var_r8 asm("r8");
     u16 temp_r1_2;
@@ -208,7 +207,7 @@ void sub_0808B978(void) {
     u32 temp_r4_2;
     u32 temp_r4_3;
     u32 temp_r4_4;
-    u32 var_r1_3;
+    register u32 var_r1_3 asm("r1");
     register u32 temp_r5 asm("r5");
     register u32 temp_r5_2 asm("r5");
     register u32 temp_r5_3 asm("r5");
@@ -247,8 +246,12 @@ block_6:
     sub_08057328(0, &sub_0802F208);
     (*(u16 *)(gStateB978 + 0x5A)) = 0U;
     sub_080003F4(0x09999000);
-    temp_r2 = 0xFF & (*(u16 *)(gStateB978 + 0x36));
-    var_r6 = gTimeB978[temp_r2];
+    {
+        register u16 *times asm("r1") = gTimeB978;
+        asm("" : "+r"(times));
+        temp_r2 = 0xFF & (*(u16 *)(gStateB978 + 0x36));
+        var_r6 = times[temp_r2];
+    }
     asm("" : "+r"(var_r6));
     sp38 = 0;
     switch (temp_r2) {                              /* switch 2 */
@@ -256,37 +259,66 @@ block_6:
         var_r1_2 = &gUnk_084AA9E0;
         goto block_20;
     case 1:                                         /* switch 2 */
-        var_r9 = &gUnk_084AAB30;
+        {
+            register s16 *selected asm("r2") = &gUnk_084AAB30;
+            asm("" : "+r"(selected));
+            var_r9 = selected;
+        }
         break;
     case 2:                                         /* switch 2 */
-        var_r9 = &gUnk_084AAC80;
+        {
+            register s16 *selected asm("r0") = &gUnk_084AAC80;
+            asm("" : "+r"(selected));
+            var_r9 = selected;
+        }
         break;
     case 3:                                         /* switch 2 */
         var_r1_2 = &gUnk_084AADD0;
         goto block_20;
     case 4:                                         /* switch 2 */
-        var_r9 = &gUnk_084AAF20;
+        {
+            register s16 *selected asm("r2") = &gUnk_084AAF20;
+            asm("" : "+r"(selected));
+            var_r9 = selected;
+        }
         break;
     case 5:                                         /* switch 2 */
-        var_r9 = &gUnk_084AB070;
+        {
+            register s16 *selected asm("r0") = &gUnk_084AB070;
+            asm("" : "+r"(selected));
+            var_r9 = selected;
+        }
         break;
     case 6:                                         /* switch 2 */
         var_r1_2 = &gUnk_084AB1C0;
         goto block_20;
     case 7:                                         /* switch 2 */
-        var_r9 = &gUnk_084AB310;
+        {
+            register s16 *selected asm("r2") = &gUnk_084AB310;
+            asm("" : "+r"(selected));
+            var_r9 = selected;
+        }
         break;
     case 8:                                         /* switch 2 */
-        var_r9 = &gUnk_084AB460;
+        {
+            register s16 *selected asm("r0") = &gUnk_084AB460;
+            asm("" : "+r"(selected));
+            var_r9 = selected;
+        }
         break;
     case 9:                                         /* switch 2 */
         var_r1_2 = &gUnk_084AB5B0;
 block_20:
+        asm("" : "+r"(var_r1_2));
         var_r9 = var_r1_2;
         break;
     }
 scripts_test:
-    if (*var_r9 == 0) goto block_67;
+    {
+        register s16 *script asm("r2") = var_r9;
+        asm("" : "+r"(script));
+        if (*script == 0) goto block_67;
+    }
 loop_23:
     sub_08057170();
     (*(u16 *)(gStateB978 + 0xA)) = 0U;
@@ -295,20 +327,24 @@ loop_23:
 loop_42:
     {
         temp_r4 = 0xFF & (*(u16 *)(gStateB978 + 0x36));
-        if ((s32) var_r6 < (s32) (gTimeB978[temp_r4] >> 1)) {
-            var_r7 = 1;
-        } else if (sub_08058900(temp_r4) <= (u32) var_r6) {
-            if (sub_08058900(temp_r4) == var_r6) {
-                if (sub_08058934(temp_r4) > (u32) saved_reg_r8) {
-                    goto block_29;
-                }
-                var_r7 = 0;
-            } else {
-                var_r7 = 0;
+        {
+            u32 best;
+            if ((s32)var_r6 < (s32)(gTimeB978[temp_r4] >> 1)) {
+                var_r7 = 1;
+                goto category_done_29;
             }
-        } else {
-block_29:
+            if (sub_08058900(temp_r4) > (u32)var_r6) goto category_two_29;
+            if (sub_08058900(temp_r4) != var_r6) goto category_zero_29;
+            best = sub_08058934(temp_r4);
+            var_r7 = 0;
+            asm("" : "+r"(var_r7));
+            if (best <= (u32)saved_reg_r8) goto category_done_29;
+category_two_29:
             var_r7 = 2;
+            goto category_done_29;
+category_zero_29:
+            var_r7 = 0;
+category_done_29: ;
         }
         if (sub_0800CC98() == 0) {
             temp_r0 = sub_0800CD8C();
@@ -339,7 +375,13 @@ block_29:
         }
         if ((*(u16 *)(gStateB978 + 0x5A)) != 0) {
             var_r6 -= 1;
-            sp38 += 1;
+            {
+                register u32 elapsed asm("r2") = sp38;
+                asm("" : "+r"(elapsed));
+                elapsed += 1;
+                asm("" : "+r"(elapsed));
+                sp38 = elapsed;
+            }
         }
         sub_08057624(1U);
         if ((s32) var_r6 <= 0) {
@@ -356,7 +398,11 @@ scriptwait:
     }
     {
 block_44:
-        divisor = 3600;
+        {
+            register s32 initial asm("r0") = 3600;
+            asm("" : "+r"(initial));
+            divisor = initial;
+        }
         asm("" : "+r"(divisor));
         goto second_body;
 loop_48:
@@ -364,20 +410,23 @@ loop_48:
         if ((*(u16 *)(gStateB978 + 0xA)) != 1) goto block_64;
 second_body:
         temp_r4_2 = 0xFF & (*(u16 *)(gStateB978 + 0x36));
-        if ((s32) var_r6 < (s32) (gTimeB978[temp_r4_2] >> 1)) {
-            var_r7 = 1;
-        } else if (sub_08058900(temp_r4_2) <= (u32) var_r6) {
-            if (sub_08058900(temp_r4_2) == var_r6) {
-                if (sub_08058934(temp_r4_2) > (u32) saved_reg_r8) {
-                    goto block_53;
-                }
-                var_r7 = 0;
-            } else {
-                var_r7 = 0;
+        {
+            u32 best;
+            if ((s32)var_r6 < (s32)(gTimeB978[temp_r4_2] >> 1)) {
+                var_r7 = 1;
+                goto category_done_53;
             }
-        } else {
-block_53:
+            if (sub_08058900(temp_r4_2) > (u32)var_r6) goto category_two_53;
+            if (sub_08058900(temp_r4_2) != var_r6) goto category_zero_53;
+            best = sub_08058934(temp_r4_2);
+            var_r7 = 0;
+            if (best <= (u32)saved_reg_r8) goto category_done_53;
+category_two_53:
             var_r7 = 2;
+            goto category_done_53;
+category_zero_53:
+            var_r7 = 0;
+category_done_53: ;
         }
         if (sub_0800CC98() == 0) {
             temp_r0_3 = sub_0800CD8C();
@@ -388,7 +437,6 @@ block_53:
                 }
                 {
                 register s32 quotient asm("r2") = var_r6 / divisor;
-                asm("" : "+r"(quotient));
                 temp_r5_2 = (u8)var_r7;
                 sub_0805FB7C(1, 4, quotient, temp_r5_2);
                 }
@@ -399,7 +447,12 @@ block_53:
         }
         if ((*(u16 *)(gStateB978 + 0x5A)) != 0) {
             var_r6 -= 1;
-            sp38 += 1;
+            {
+                register u32 elapsed asm("r1") = sp38;
+                elapsed += 1;
+                asm("" : "+r"(elapsed));
+                sp38 = elapsed;
+            }
         }
         sub_08057624(1U);
         if (var_r6 > 0) goto loop_48;
@@ -408,25 +461,65 @@ block_53:
 block_64:
             if ((s32) var_r6 > 0) {
                 sub_08057624(3U);
-                var_r9 = (s16 *)((u8 *)var_r9 + 0x38);
-                goto scripts_test;
+                {
+                    register u32 step asm("r2") = 0x38;
+                    asm("" : "+r"(step));
+                    var_r9 = (s16 *)((u8 *)var_r9 + step);
+                }
+                {
+                    register s16 *script asm("r1") = var_r9;
+                    asm("" : "+r"(script));
+                    if (*script != 0) goto loop_23;
+                }
 block_67:
                 if ((s32) var_r6 > 0) {
                     sub_0805A4BC(&gUnk_0850CAA8);
-                    temp_r0_5 = (s32) (0x64 * ((s32) ((s32) var_r6 % 3600) % 60)) / 60;
+                    {
+                    register s32 cutoff asm("r4") = 3600;
+                    register s32 hundred asm("r5");
+                    s32 remainder;
+                    asm("" : "+r"(cutoff));
+                    remainder = (var_r6 % cutoff) % 60;
+                    hundred = 100;
+                    asm("" : "+r"(hundred));
+                    var_r8 = (hundred * remainder) / 60;
+                    asm("" : "+r"(var_r8));
                     if (var_r6 == 1) {
-                        temp_r1 = temp_r0_5 - (sub_080008C8() % (u32) (3 - temp_r0_5));
-                        var_r8 = temp_r1;
-                        var_r1_3 = 0x64 - temp_r1;
-                    } else {
-                        temp_r4_3 = temp_r0_5 - ((s32) (0x64 * ((s32) ((s32) (var_r6 - 1) % 3600) % 60)) / 60);
-                        if (temp_r4_3 <= 0x63U) {
-                            var_r8 = temp_r0_5 + (sub_080008C8() % temp_r4_3);
-                        } else {
-                            var_r8 = 0x64;
+                        register s32 three asm("r4") = 3;
+                        asm("" : "+r"(three));
+                        {
+                            u32 random = sub_080008C8() % (u32)(three - var_r8);
+                            temp_r1 = var_r8;
+                            asm("" : "+r"(temp_r1));
+                            temp_r1 -= random;
                         }
-                        var_r1_3 = 0x64 - var_r8;
+                        asm("" : "+r"(temp_r1));
+                        var_r8 = temp_r1;
+                        var_r1_3 = hundred - temp_r1;
+                    } else {
+                        register s32 previous asm("r4") = ((s32) (hundred * ((s32) ((s32) (var_r6 - 1) % cutoff) % 60)) / 60);
+                        asm("" : "+r"(previous));
+                        {
+                            register s32 current asm("r2") = var_r8;
+                            asm("" : "+r"(current));
+                            temp_r4_3 = current - previous;
+                        }
+                        if (temp_r4_3 <= 0x63U) {
+                            var_r8 = var_r8 + (sub_080008C8() % temp_r4_3);
+                        } else {
+                            register s32 full asm("r0") = 100;
+                            asm("" : "+r"(full));
+                            var_r8 = full;
+                        }
+                        {
+                            register s32 full asm("r0") = 100;
+                            register s32 current asm("r1") = var_r8;
+                            asm("" : "+r"(full), "+r"(current));
+                            var_r1_3 = full - current;
+                        }
                     }
+                    }
+                    asm("" : "+r"(var_r1_3));
                     sp3C = var_r1_3;
                     (*(u16 *)(gStateB978 + 0x58)) = 1;
                 } else {
@@ -467,7 +560,15 @@ loop_83:
                 }
                 sub_08057624(1U);
                 test_83:
-if (*(s32 *)((u8 *)B978PlayerTime + sub_080020F4() * 0x14C) > 0x1C1FF) goto loop_83;
+{
+    register u32 offset asm("r0") = sub_080020F4() * 0x14C;
+    register s32 *base asm("r2");
+    asm("" : "+r"(offset));
+    base = B978PlayerTime;
+    asm("" : "+r"(base));
+    offset += (u32)base;
+    if (*(s32 *)offset > 0x1C1FF) goto loop_83;
+}
             }
             sub_080257D4(&gUnk_084F0C28, 0);
             sub_08056E24();
@@ -506,27 +607,68 @@ if (sub_08056E90() == 0) goto loop_91;
                 elapsed = sp38;
                 if (previous > elapsed) {
                     B978SetTime(temp_r4_4, elapsed);
-                    sub_080589A0(temp_r4_4, sp3C);
-                } else if ((sub_08058900(temp_r4_4) == sp38) && (sub_08058934(temp_r4_4) > sp3C)) {
-                    B978SetTime(temp_r4_4, sp38);
-                    sub_080589A0(temp_r4_4, sp3C);
+                    {
+                        register u32 index asm("r0") = temp_r4_4;
+                        asm("" : "+r"(index));
+                        sub_080589A0(index, sp3C);
+                    }
+                } else {
+                    u32 old;
+                    register u32 elapsed asm("r2");
+                    old = sub_08058900(temp_r4_4);
+                    elapsed = sp38;
+                    asm("" : "+r"(elapsed));
+                    if ((old == elapsed) && (sub_08058934(temp_r4_4) > sp3C)) {
+                    {
+                        register u32 index asm("r0") = temp_r4_4;
+                        asm("" : "+r"(index));
+                        B978SetTime(index, sp38);
+                    }
+                    {
+                        register u32 index asm("r0") = temp_r4_4;
+                        asm("" : "+r"(index));
+                        sub_080589A0(index, sp3C);
+                    }
+                }
                 }
                 sub_08058A18(temp_r4_4 + 1);
                 if (temp_r4_4 <= 9U) {
-                    temp_r1_2 = (*(u16 *)(gStateB978 + 0x36));
-                    sub_080588C0(0xFF & temp_r1_2, (u32) (0x7FFF & temp_r1_2) >> 8);
+                    {
+                        register u32 flags asm("r1") = *(u16 *)(gStateB978 + 0x36);
+                        register u32 masked asm("r0");
+                        register u32 upper asm("r4");
+                        asm("" : "+r"(flags));
+                        masked = 0x7FFF & flags;
+                        asm("" : "+r"(masked));
+                        upper = masked >> 8;
+                        asm("" : "+r"(upper));
+                        sub_080588C0(0xFF & flags, upper);
+                    }
                 }
             }
         }
     }
 finish:
-    (*(u32 *)(gStateB978 + 0x40)) = 0;
-    (*(u16 *)(gStateB978 + 0x36)) = 1U;
+    {
+        u8 *finished = gStateB978;
+        (*(u32 *)(finished + 0x40)) = 0;
+        (*(u16 *)(finished + 0x36)) = 1U;
+    }
     sub_0801A664(0, 0x14);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808B978);
-#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
 #ifdef NONMATCHING
 extern u16 gFlagC020 asm("gUnk_03001324");
 extern u32 sub_08058260(void);

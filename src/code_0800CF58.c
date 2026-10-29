@@ -265,7 +265,7 @@ void sub_0800D368(void *arg0) {
     extern s32 d368_sub_080003F0() asm("sub_080003F0");
     extern void d368_sub_08000420() asm("sub_08000420");
     extern u32 d368_sub_080008C8() asm("sub_080008C8");
-    extern void d368_sub_08000AF0() asm("sub_08000AF0");
+    extern void d368_sub_08000AF0(u32 palNum, const void *src, u32 numPals) asm("sub_08000AF0");
     extern s32 d368_sub_08001538() asm("sub_08001538");
     extern s32 d368_sub_080020F4() asm("sub_080020F4");
     extern u32 d368_sub_08002164() asm("sub_08002164");
@@ -430,6 +430,8 @@ void sub_0800D368(void *arg0) {
     extern const u16 effectThresholdTableD368[] asm("gUnk_0847ACF8");
     extern const u8 directionTableD368[] asm("gUnk_084790B4");
     extern const s16 colorWaveTableD368[] asm("gUnk_080B9704");
+    struct RenderColorEntryD368 { u8 reserved[0x1E]; u16 color; };
+    extern struct RenderColorEntryD368 renderColorEntriesD368[] asm("gUnk_03001F40");
     s16 *var_r1_4;
     s16 *var_r1_5;
     s16 *var_r9;
@@ -5211,7 +5213,7 @@ block_1676:
                         }
                     }
                     sp164 = (u32) (0x7F000000 & ((sp164 + 2) << 0x18)) >> 0x18;
-                    *(u16 *)(((((struct PlayerD368 *)arg0)->f0 + 0x10) << 5) + ((u8 *)&d368_gUnk_03001F40 + 0x1E)) = 0;
+                    renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = 0;
                     temp_r0_163 = sp128 - 1;
                     if (temp_r0_163 > 0xDU) {
                         goto block_1781;
@@ -5228,7 +5230,7 @@ block_1676:
                         colorWordD368 = (colorWordD368 & 0xFFFFFC1F) | colorGreenD368;
                         temp_r0_164 <<= 0xA;
                         sp110 = (colorWordD368 & 0xFFFF83FF) | temp_r0_164;
-                        *(u16 *)(((((struct PlayerD368 *)arg0)->f0 + 0x10) << 5) + ((u8 *)&d368_gUnk_03001F40 + 0x1E)) = *(u16 *)&sp110;
+                        renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = *(u16 *)&sp110;
                         break;
                     }
                     case 1:                         /* switch 26 */
@@ -5414,7 +5416,7 @@ block_1751:
                                     }
                                 }
                                 sp164 = (u32) (0x7F000000 & ((sp164 + 2) << 0x18)) >> 0x18;
-                                *(u16 *)(((((struct PlayerD368 *)arg0)->f0 + 0x10) << 5) + ((u8 *)&d368_gUnk_03001F40 + 0x1E)) = 0;
+                                renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = 0;
                                 temp_r0_161 = sp128 - 1;
                                 if (temp_r0_161 > 0xDU) {
                                     goto block_1781;
@@ -5462,7 +5464,7 @@ block_1763:
                                     var_r3_13 = &sp110;
 block_1764:
                                     M2C_FIELD(var_r3_13, u8 *, 1) = (u8) ((-0x7D & M2C_FIELD(var_r3_13, u8 *, 1)) | (var_r1_25 * 4));
-                                    *(u16 *)(((((struct PlayerD368 *)arg0)->f0 + 0x10) << 5) + ((u8 *)&d368_gUnk_03001F40 + 0x1E)) = *(u16 *)&sp110;
+                                    renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = *(u16 *)&sp110;
                                     break;
                                 case 12:            /* switch 27 */
                                     d368_sub_08065370(&sp44, 0xDU, (u16 *) &coordF8, &coordFA, (1));
