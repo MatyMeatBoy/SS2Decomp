@@ -581,7 +581,8 @@ void sub_080A230C(void *unused, u16 delay)
     s32 velocity[2];
     u8 *aux;
     struct PlayerT107C *target;
-    u32 angle, magnitude, count;
+    volatile u32 angle, magnitude;
+    u32 count;
     s32 active, timer, hit;
     s32 x, y;
     s16 dx, dy;
@@ -624,7 +625,7 @@ void sub_080A230C(void *unused, u16 delay)
             y += velocity[1] + (velocity[1] >> 1);
             rawDx = (x >> 8) - (t107PlayersC[sub_080020F4()].x >> 8);
             dx = rawDx;
-            dy = ((y >> 8) + 12) - (t107PlayersC[sub_080020F4()].y >> 8);
+            {u32 playerIndex=sub_080020F4();register s32 screenYPlus asm("r2")=(y>>8)+12;asm("" : "+r"(screenYPlus));dy=screenYPlus-(t107PlayersC[playerIndex].y>>8);}
             radius = (u16)Sqrt(dx * dx + dy * dy);
             if (hit == 0 && radius <= 23 &&
                 sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0 &&
