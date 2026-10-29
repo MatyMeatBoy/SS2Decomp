@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: deps
-        run: sudo apt-get update && sudo apt-get install -y binutils-arm-none-eabi gcc-arm-none-eabi python3-pyelftools
+        run: sudo apt-get update && sudo apt-get install -y binutils-arm-none-eabi gcc-arm-none-eabi python3-pyelftools python3-unicorn
       - name: agbcc
         run: ./tools/install_agbcc.sh
       - name: tree check
@@ -18,6 +18,10 @@ jobs:
       - name: compile every C module (matching + NONMATCHING drafts); no ROM needed
         run: |
           for f in src/*.c; do m=$(basename $f .c); make -s build/src/$m.o; make -s BUILD=build_nm NM_FLAGS=-DNONMATCHING build_nm/src/$m.o; done
+      - name: SDK compiler flag and ABI fixtures (no ROM needed)
+        run: |
+          /usr/bin/python3 tools/scripts/test_sdk_tst.py
+          /usr/bin/python3 tools/scripts/test_sdk_tst_matches.py
   progress:
     # Agents never commit docs/progress/*: it is regenerated here after every push to the main branch.
     if: github.event_name == 'push' && github.ref == 'refs/heads/claude/rom-decompilation-research-obsal6'

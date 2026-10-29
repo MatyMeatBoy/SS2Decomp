@@ -30,3 +30,6 @@ objdiff.json
 /~/
 tools/ghidra_dist/
 tools/bizhawk/
+
+# Opt-in SDK compiler, pinned and built by tools/install_agbcc_tst.sh
+tools/agbcc_tst/

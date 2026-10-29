@@ -30,4 +30,17 @@ void RealClearChain(void *arg)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/m4a_1", ply_fine);
+void ply_fine(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg) {
+ register struct MusicPlayerTrack *track asm("r5") = arg;
+ register struct SoundChannel *chan asm("r4") = track->chan;
+ if(chan != 0) {
+  do {
+   register unsigned int flags asm("r1")=chan->statusFlags;
+   register unsigned int mask asm("r0")=0xc7;
+   if(flags & mask) {mask=0x40;flags|=mask;chan->statusFlags=flags;}
+   RealClearChain(chan);
+   chan=chan->nextChannelPointer;
+  } while(chan != 0);
+ }
+ track->flags=0;
+}

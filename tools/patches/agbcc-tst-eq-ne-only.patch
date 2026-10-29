@@ -1,0 +1,8 @@
+--- a/gcc/thumb.md
++++ b/gcc/thumb.md
+@@ -827 +827 @@
+-  "flag_tst"
++  "flag_tst && next_insn_tests_no_inequality (insn)"
+@@ -840 +840 @@
+-  "flag_tst"
++  "flag_tst && next_insn_tests_no_inequality (insn)"
