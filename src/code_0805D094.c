@@ -485,7 +485,88 @@ found:
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D854);
+#ifdef NONMATCHING
+struct DC1CWindow { u8 data[0x28]; u16 x, y, width, height; u8 state, number; u16 pad32; };
+struct DC1CVideo { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V, win1V; };
+extern struct DC1CWindow *dc1c_windows asm("gUnk_03005D64");
+extern u16 dc1c_tiles[] asm("gUnk_03005740");
+extern struct DC1CVideo dc1c_video asm("gUnk_03001250");
+extern s32 sub_0801A664(u32, u32);
+
+/* Draw the border for the first free window and update its pixel bounds. */
+void sub_0805DC1C(u8 x, u8 y, u8 width, u8 height)
+{
+    struct DC1CWindow *window;
+    u8 index, limit;
+    u16 left, right, top, bottom, column, row;
+    u32 halfWidth, halfHeight;
+    s32 leftEdge, rightEdge, topEdge, bottomEdge;
+    u16 horizontal, vertical;
+    index = 0;
+    while ((gUnk_03005D70 >> index) & 1) {
+        index++;
+        if (index > 3) {
+            index = 0xFF;
+            break;
+        }
+    }
+    if (index == 0xFF) return;
+    window = &dc1c_windows[index];
+    window->state = 1;
+    dc1c_video.scrollX = 0;
+    dc1c_video.scrollY = 0;
+    window->x = x + (width >> 1) + 1;
+    window->y = y + (height >> 1) + 1;
+    if (width != 0) {
+        limit = 28;
+        if (width <= 28) limit = width;
+    } else limit = 1;
+    window->width = limit;
+    if (height != 0) {
+        limit = 18;
+        if (height <= 18) limit = height;
+    } else limit = 1;
+    window->height = limit;
+    halfWidth = window->width >> 1;
+    if ((s32)(window->x + halfWidth) > 30) window->x = 30 - halfWidth;
+    if ((window->x - halfWidth) & 0x80) window->x = halfWidth;
+    halfHeight = window->height >> 1;
+    if ((s32)(window->y + halfHeight) > 20) window->y = 30 - halfHeight;
+    if ((window->y - halfHeight) & 0x80) window->y = halfHeight;
+    left = window->x - halfWidth;
+    right = (u16)(window->x + halfWidth) + (window->width & 1);
+    top = window->y - halfHeight;
+    bottom = (u16)(window->y + halfHeight) + (window->height & 1);
+    leftEdge = left - 1;
+    rightEdge = right + 1;
+    topEdge = top - 1;
+    bottomEdge = bottom + 1;
+    dc1c_tiles[leftEdge + topEdge * 32] = 0xF120;
+    dc1c_tiles[leftEdge + bottomEdge * 32] = 0xF126;
+    dc1c_tiles[rightEdge + topEdge * 32] = 0xF122;
+    dc1c_tiles[rightEdge + bottomEdge * 32] = 0xF128;
+    for (column = left; column <= right; column++) {
+        dc1c_tiles[column + topEdge * 32] = 0xF121;
+        dc1c_tiles[column + bottomEdge * 32] = 0xF127;
+    }
+    for (row = top; row <= bottom; row++) {
+        dc1c_tiles[leftEdge + row * 32] = 0xF123;
+        dc1c_tiles[rightEdge + row * 32] = 0xF125;
+    }
+    horizontal = (((leftEdge * 8) + 3) << 8) | (((right + 2) * 8) - 3);
+    vertical = (((topEdge * 8) + 3) << 8) | (((bottom + 2) * 8) - 3);
+    if (window->number == 0) {
+        dc1c_video.win1H = horizontal;
+        dc1c_video.win1V = vertical;
+    } else {
+        dc1c_video.win0H = horizontal;
+        dc1c_video.win0V = vertical;
+    }
+    sub_0801A664(~(window->height >> 1) + window->y, window->height + 3);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805DC1C);
+#endif
 void sub_0805DE98(void) {
     s32 temp_r4;
     s32 var_r6;
