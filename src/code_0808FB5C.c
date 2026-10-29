@@ -89,7 +89,56 @@ u32 sub_0808FBDC(u32 arg0)
     }
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FC50);
+struct State8FC5095 {u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36;};
+struct Player8FC5095 {u8 p0[0x20];u16 state;u8 p22[0xE];u32 flags;u8 rest[0x118];};
+struct Display8FC5095 {u8 pad[0x8C];u16 x;};
+extern struct State8FC5095 *state8FC5095 asm("gUnk_03005CF4");
+extern struct Player8FC5095 players8FC5095[] asm("gUnk_03003CE0");
+extern struct Display8FC5095 display8FC5095 asm("gUnk_03003170");
+extern void callbackA8FC5095(void) asm("sub_080B4C34");
+extern void callbackB8FC5095(void) asm("sub_080B6324");
+extern void callbacks8FC5095(void (*)(void),void (*)(void)) asm("sub_0801674C");
+u32 sub_0808FC50(u32 arg)
+{
+    struct State8FC5095 **holder=&state8FC5095;
+    struct State8FC5095 *state;
+    u32 zero,i;
+    if((*holder)->mode==0) {
+        sub_0800CD9C();
+        sub_0802704C(arg);
+        callbacks8FC5095(callbackA8FC5095,callbackB8FC5095);
+        sub_0800CD9C();
+    } else if(sub_08056E90()) {
+        sub_080B6360();
+        sub_08056FB8(0,2);
+        sub_080586B4(0x172);
+        sub_08056E78();
+        state=*holder;zero=0;
+        state->w36=3;
+        sub_0800CDAC();
+        sub_08057BD0(display8FC5095.x);
+        sub_08057B2C(3,10);
+        players8FC5095[sub_080020F4()].flags&=~2;
+        players8FC5095[sub_080020F4()].state=zero;
+        {struct State8FC5095 *finalState=*holder;finalState->mode=zero;finalState->w30=1;finalState->w24=1;}
+    }
+    if(sub_08056E50()) {
+        sub_0805795C();
+        sub_080169C8();
+        while(!(u8)sub_080B6068()) sub_080003F0();
+        sub_08058790();
+        sub_08058688(0x172);
+        for(i=0;i<=0x16;i++) {
+            sub_080889D4(i+0x483,0x1A4);
+            if(sub_080021A8()) break;
+            sub_08057624(0x1A7);
+        }
+        if(sub_08002204()) sub_08067DC8();
+        while(!sub_08056E90()&&!sub_080021A8()) sub_08057624(1);
+        sub_08056E38();
+    }
+    return 0;
+}
 void sub_0808FD88(void) {
     u32 i;
     sub_0805795C();
@@ -285,7 +334,31 @@ u32 sub_0809021C(u32 arg0)
     }
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090290);
+struct State9029095 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36; };
+struct Player9029095 {u8 p0[0x1C];u16 action;u8 p1E[2];u16 state;u8 p22[0xE];u32 flags;u8 p34[0x34];u8 active;u8 rest[0xE3];};
+extern struct State9029095 *state9029095 asm("gUnk_03005CF4");
+extern struct Player9029095 players9029095[] asm("gUnk_03003CE0");
+u32 sub_08090290(u32 arg)
+{
+    struct State9029095 **holder=&state9029095;
+    u32 zero,one,firstIndex;
+    register struct Player9029095 *base asm("r5");
+    if((*holder)->mode==0) sub_0802704C(arg);
+    else if(sub_08056E90()) {
+        sub_080570DC(1);
+        sub_08056FB8(0,0);
+        firstIndex=sub_080020F4(); base=players9029095; asm volatile("" : : "r"(base));
+        { struct Player9029095 *player=(struct Player9029095 *)(firstIndex*0x14C+(u32)base);
+          u8 *active=&player->active; asm("" : "+r"(active)); zero=0;one=1;*active=one; }
+        sub_08056E78();
+        (*holder)->w36=zero;
+        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*0x14C; asm("" : "+r"(offset)); flagsBase=(u8 *)base+0x30; asm("" : "+r"(flagsBase) : "r"(offset)); offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
+        base[sub_080020F4()].state=zero;
+        base[sub_080020F4()].action=4;
+        { struct State9029095 *finalState=*holder; finalState->w30=one; finalState->w24=one; }
+    }
+    return 0;
+}
 struct State9033095 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[0xE];u32 index;u8 p44[0x6D8];u32 resource; };
 struct Display9033095 {u8 p0[0x72];u16 delay;u8 p74[0x1C];u16 status;};
 extern struct State9033095 *state9033095 asm("gUnk_03005CF4");
