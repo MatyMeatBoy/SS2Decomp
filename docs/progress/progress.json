@@ -1,26 +1,26 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 287916,
+  "bytes_done": 290156,
   "funcs_total": 1870,
-  "funcs_done": 1433,
-  "percent": 38.63855964957485,
-  "funcs_drafts": 130,
-  "bytes_drafts": 211212,
-  "percent_with_drafts": 66.98338057201752,
-  "funcs_decompiled": 1433,
-  "bytes_decompiled": 287916,
+  "funcs_done": 1439,
+  "percent": 38.93916945804346,
+  "funcs_drafts": 129,
+  "bytes_drafts": 210784,
+  "percent_with_drafts": 67.22655243493945,
+  "funcs_decompiled": 1439,
+  "bytes_decompiled": 290156,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 307,
-  "bytes_pending": 246024,
+  "funcs_pending": 302,
+  "bytes_pending": 244212,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 38.63855964957485
+  "percent_decompiled": 38.93916945804346
  },
  "lib": {
   "bytes_total": 12776,
@@ -47,26 +47,26 @@
  },
  "all": {
   "bytes_total": 757928,
-  "bytes_done": 298620,
+  "bytes_done": 300860,
   "funcs_total": 2009,
-  "funcs_done": 1569,
-  "percent": 39.399520798809384,
-  "funcs_drafts": 131,
-  "bytes_drafts": 211748,
-  "percent_with_drafts": 67.33726686439873,
-  "funcs_decompiled": 1547,
-  "bytes_decompiled": 297680,
+  "funcs_done": 1575,
+  "percent": 39.695063383329284,
+  "funcs_drafts": 130,
+  "bytes_drafts": 211320,
+  "percent_with_drafts": 67.57633970509072,
+  "funcs_decompiled": 1553,
+  "bytes_decompiled": 299920,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 309,
-  "bytes_pending": 247560,
+  "funcs_pending": 304,
+  "bytes_pending": 245748,
   "funcs_original_asm": 24,
   "bytes_original_asm": 1056,
   "funcs_decompilable": 1987,
   "bytes_decompilable": 756988,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 39.32426934112562
+  "percent_decompiled": 39.62017891961299
  },
  "asm": {
   "bytes": 1056,
@@ -75,12 +75,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 147,
-   "existing": 28,
+   "identified": 148,
+   "existing": 29,
    "confirmed": 119,
    "proposed": 0,
-   "unidentified": 1733,
-   "percent_identified": 7.819148936170213
+   "unidentified": 1732,
+   "percent_identified": 7.872340425531915
   },
   "sdk": {
    "total": 155,
@@ -93,12 +93,12 @@
   },
   "all": {
    "total": 2035,
-   "identified": 302,
-   "existing": 157,
+   "identified": 303,
+   "existing": 158,
    "confirmed": 145,
    "proposed": 0,
-   "unidentified": 1733,
-   "percent_identified": 14.84029484029484
+   "unidentified": 1732,
+   "percent_identified": 14.88943488943489
   }
  },
  "data": {
@@ -113,7 +113,7 @@
  "callgraph": {
   "nodes": 2035,
   "edges": 11569,
-  "unresolved_calls": 1298,
-  "parsed_c_functions": 1675
+  "unresolved_calls": 1292,
+  "parsed_c_functions": 1680
  }
 }
