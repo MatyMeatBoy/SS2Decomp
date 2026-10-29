@@ -812,7 +812,47 @@ s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008D38);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008DB8);
+struct AnimHeader005 { u16 unk0; u16 count; u32 unk4; u32 animsOffset; };
+struct Anim005 { u32 unk0; u16 numFrames; u16 unk6; u32 framesOffset; };
+struct AnimFrame005 { u16 unk0; u16 duration; };
+struct SpriteFrame005 { u16 unk0; u16 numParts; u32 unk4; u32 partsOffset; };
+extern const u32 animSizes005[] asm("gUnk_0847844C");
+extern const u32 animSquare005[] asm("gUnk_0847845C");
+struct SpritePart005 { u8 unk0; u8 unk1; u8 unk2; u8 unk3; u16 tile:10; u16 tileHigh:2; u16 unk4_12:4; u16 unk6; } __attribute__((packed, aligned(2)));
+extern void animCopy005(const void *,void *,u32) asm("sub_08001348");
+void sub_08008DB8(u16 animId, u16 frame, struct AnimHeader005 *data, u8 *tiles, u8 *dest)
+{
+    u8 *out;
+    struct SpriteFrame005 *spriteFrame;
+    struct Anim005 *anim;
+    struct AnimFrame005 *animFrame;
+    struct SpritePart005 *part;
+    u32 size;
+    u32 i;
+
+    if (data->count < animId)
+        return;
+    spriteFrame = (struct SpriteFrame005 *)((u8 *)data + data->unk4);
+    anim = (struct Anim005 *)((u8 *)data + data->animsOffset);
+    anim += animId;
+    animFrame = (struct AnimFrame005 *)((u8 *)anim + anim->framesOffset);
+    animFrame += frame;
+    spriteFrame += animFrame->unk0;
+    part = (struct SpritePart005 *)((u8 *)spriteFrame + spriteFrame->partsOffset);
+    out = dest;
+    size = 0;
+    for (i = 0; i < spriteFrame->numParts; i++, part++)
+    {
+        u8 *src = tiles + ((part->tile | (part->tileHigh << 10)) << 5);
+
+        out += size;
+        if (part->unk1 >> 6)
+            size = animSizes005[part->unk3 >> 6];
+        else
+            size = animSquare005[part->unk3 >> 6];
+        animCopy005(src, out, size);
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008E74);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008F2C);
 void sub_08009014(void) {
