@@ -134,11 +134,11 @@ CMP #128 / BHS rather than CMP #127 / BHI; explicit C labels/gotos avoid
 loop optimization moving the release block outside the traversal. The
 only assembly is the explicitly documented register-save/return ABI glue.
 
-The other 10 configured entries retain their original INCLUDE_ASM bodies.
+The other 9 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 652 bytes / 26 functions
-become decompiled; the remaining 2408 bytes / 10 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 720 bytes / 27 functions
+become decompiled; the remaining 2340 bytes / 9 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 
@@ -182,3 +182,32 @@ those two direct unconditional tails are assembly. A local threshold of three
 preserves CMP #3 / BHS instead of folding into CMP #2 / BHI. The no-ROM SDK
 strict suite requires the active C definition and compares original bytes and
 relocations from revision a533caf3ac7046d9308910581c2af7688b29ce9c.
+
+The configured interval `sub_080B69F4` at 0x080B69F4 also contains the real
+entry at 0x080B6A08. The original source represented the latter's executable
+Repeat handler as raw words. Both entries now have C definitions, with minimal
+ABI assembly only in Repeat; neither raw instruction words nor function-size overrides are
+used in the implementation. PatternEnd is pure C: it pops a saved pattern stream
+address, and the compiler emits its normal return. Repeat uses C for its count handling,
+reader call, comparison and stream updates. Its ABI assembly saves lr, returns
+through the saved address, or transfers to 0x080B69BA. That shared Goto entry
+is two bytes after `sub_080B69B8`, skipping its PUSH lr because Repeat already
+saved lr. This stack contract is essential. The wide repeat increment remains
+in ip across the reader call even when its byte store truncates at 256.
+
+The configured 68-byte interval covers 20 bytes of PatternEnd, 46 bytes of
+Repeat and two original alignment bytes. It remains a single configured
+interval for progress; adding a canonical symbol at the existing 6A08 entry
+does not change a denominator. The jump table at 0x080BB7E8 contains entry
+0x080B69F5 at index 3 and 0x080B6A09 at index 4. The roles agree with the
+experimental model; this observation does not credit that model as matched.
+
+`test_sdk_pattern_container.py` preserves the original assembly oracle,
+including its raw words. It links oracle and normal C objects at 0x080B69D8
+with canonical Thumb external symbols, resolving all relocations before
+comparing the complete 96-byte pattern container. It requires all three C
+entries at their original addresses, verifies the existing Goto implementation
+against its original oracle, and rejects mutated comparison and stack-entry
+candidates. The original oracle is from a533caf3ac7046d9308910581c2af7688b29ce9c.
+This container check avoids forcing natural C function sizes to match the old
+combined symbol. Full normal ROM comparison remains mandatory and passes.
