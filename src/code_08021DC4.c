@@ -4570,9 +4570,19 @@ struct T025Rows270 { s32 x[25]; };
 extern struct T025Rows270 t025Rows270[] asm("gUnk_084B0AA0");
 
 void sub_0802704C(s32 input) {
+    register u8 *flagBase asm("r1");
+    register s32 flagOffset asm("r2");
+    register s32 flagIndex asm("r0");
+    register s32 *flagTarget asm("r2");
+    struct T025Player270 *endBase;
+    s32 *endFlags;
+    s32 endMask;
+    struct T025Player270 *restoreBase;
+    s32 restoreId;
+    s32 restoreStride;
     struct T025Packet270 sp0;
     u16 *arg0;
-    s32 *temp_r1_9;
+    register s32 *temp_r1_9 asm("r1");
     s32 *temp_r2_7;
     s32 temp_r0;
     s32 temp_r0_13;
@@ -4670,7 +4680,10 @@ check_loop_11:
         if (temp_r1 == 4) {
             t025State270->f38 = (s32) t025State270->f98;
             t025State270->f3C = (s32) t025State270->f98;
-            temp_r2_4 = &t025Players270[sub_080020F4()];
+            restoreId = sub_080020F4();
+            restoreBase = t025Players270;
+            restoreStride = 0x14C;
+            temp_r2_4 = (u8 *)restoreBase + restoreId * restoreStride;
             M2C_FIELD(temp_r2_4, struct V2W12 *, 0xA4) = M2C_FIELD(t025State270, struct V2W12 *, 0xA0);
             temp_r4_3 = sub_080020F4();
             t025Players270[temp_r4_3].pos8C = t025Players270[sub_080020F4()].posA4;
@@ -4683,7 +4696,7 @@ check_loop_11:
             restoreIndex = 0;
             do {
                 var_r6 = restoreIndex * 40;
-                temp_r1_2 = var_r6 + t025Players270[sub_080020F4()].unk34;
+                temp_r1_2 = (void *)(var_r6 + (u32)t025Players270[sub_080020F4()].unk34);
                 temp_r0_8 = (void *)t025State270 + var_r6;
                 M2C_FIELD(temp_r1_2, struct T025Block270 *, 0) = M2C_FIELD(temp_r0_8, struct T025Block270 *, 0x44C);
                 restoreIndex += 1;
@@ -4749,8 +4762,13 @@ check_loop_33:
         t025Players270[sub_080020F4()].unk22 = 2;
         sub_080570DC(0);
     }
-    temp_r2_7 = (s32 *)((u8 *)&t025Players270->flags + sub_080020F4() * 0x14C);
-    *temp_r2_7 &= 0xFFFFFBFF;
+    flagIndex = sub_080020F4();
+    flagBase = (u8 *)t025Players270;
+    flagOffset = 0x14C;
+    flagOffset *= flagIndex;
+    flagBase += 0x30;
+    flagTarget = (s32 *)(flagOffset + (u32)flagBase);
+    *flagTarget &= 0xFFFFFBFF;
     sub_0800BB40();
     if (((sub_0800CF10() == 0) && (temp_r0_12 = t025State270->f0, (temp_r0_12 != 0xB)) && (temp_r0_12 != 0xC)) || (t025State270->f70 == 3)) {
         spawnCount = 1;
@@ -4865,11 +4883,17 @@ loop_97:
     sub_0800D108();
     t025State270->f10 = 1;
     t025State270->f2 = (s16) t025State270->f40;
-    temp_r1_9 = (s32 *)((u8 *)&t025Players270->flags + sub_080020F4() * 0x14C);
-    *temp_r1_9 &= 0x2000;
-    t025Players270[sub_080020F4()].unk2A = (s16) t025State270->f40;
-    if (!(t025Players270[sub_080020F4()].flags & 0x2000)) {
-        t025Players270[sub_080020F4()].unk68 = 1;
+    temp_r0 = sub_080020F4();
+    endBase = t025Players270;
+    temp_r1 = temp_r0 * 0x14C;
+    endFlags = (s32 *)&endBase->flags;
+    temp_r1_9 = (s32 *)(temp_r1 + (u32)endFlags);
+    temp_r0 = *temp_r1_9;
+    endMask = 0x2000;
+    *temp_r1_9 = temp_r0 & endMask;
+    endBase[sub_080020F4()].unk2A = (s16) t025State270->f40;
+    if (!(*(s32 *)((u32)endFlags + sub_080020F4() * 0x14C) & endMask)) {
+        endBase[sub_080020F4()].unk68 = 1;
     }
     sub_08015C38();
     sub_0806617C();
@@ -5172,7 +5196,10 @@ extern void t025Draw27C(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08007870")
 extern s32 t025Item27C(u32 *,u16,u16) asm("sub_0805C4FC");
 extern u16 t025Level27C asm("gUnk_03003200");
 extern void t025Effects27C(u16 *) asm("sub_08027C1C");
+struct T025RuntimeEffects { u8 pad0[0x160]; struct V2W12 pos160[10]; u8 pad1B0[0x7C]; u8 active22C[10]; };
+extern struct T025RuntimeEffects *t025RuntimeEffects asm("gUnk_03005CF4");
 void t025Effects27C(u16 *arg0) {
+    u8 *effectConfig;
     u8 sprites[10][0x34];
     struct T025Packet27C arg82;
     s16 screenX, screenY;
@@ -5242,6 +5269,7 @@ void t025Effects27C(u16 *arg0) {
         } while (*var_r1 != 0);
     }
     var_r7 = t025State27C + 0x58C;
+    effectConfig = t025Config27C;
     var_r5 = 0;
     var_r8 = 0;
     if (arg88 <= 0U) {
@@ -5254,7 +5282,7 @@ loop_11:
         var_r4 = var_r6;
 loop_12:
         if (M2C_FIELD(var_r4, u16 *, 0x4) != 0) {
-            temp_r1 = t025State27C + 0x160 + (var_r5 * 8);
+            temp_r1 = &t025RuntimeEffects->pos160[var_r5];
             if (M2C_FIELD(temp_r1, s32 *, 0x0) == 0) {
                 var_r7->f0 = (s32) (M2C_FIELD(var_r4, u16 *, 0x0) << 0xB);
                 var_r7->f4 = (s32) (M2C_FIELD(var_r4, u16 *, 0x2) << 0xB);
@@ -5266,20 +5294,20 @@ loop_12:
             var_r7->f10 = (s16) (temp_r2->f0 * 3);
             var_r7->f16 = (u16) M2C_FIELD(var_r4, u16 *, 0x6);
             if ((u32) temp_r2->f8 > 1U) {
-                t025Init27C(sprites[var_r5], M2C_FIELD(t025Config27C, s32 *, temp_r2->f8 * 0x10), 0xD, 1, 0);
+                t025Init27C(sprites[var_r5], M2C_FIELD(effectConfig, s32 *, temp_r2->f8 * 0x10), 0xD, 1, 0);
             } else {
-                t025Init27C(sprites[var_r5], M2C_FIELD(t025Config27C, s32 *, temp_r2->f8 * 0x10), 0xD, -1, 0);
+                t025Init27C(sprites[var_r5], M2C_FIELD(effectConfig, s32 *, temp_r2->f8 * 0x10), 0xD, -1, 0);
             }
-            var_r7->f14 = (s16) M2C_FIELD(t025State27C, u8 *, 0x22C + var_r5);
+            var_r7->f14 = (s16) t025RuntimeEffects->active22C[var_r5];
             temp_r2_2 = var_r7->f20;
-            temp_r1_2 = t025Config27C + 4;
+            temp_r1_2 = effectConfig + 4;
             var_r7->f8 = (s16) M2C_FIELD(temp_r1_2, s32 *, temp_r2_2->f8 * 0x10);
             var_r7->fA = 0;
             var_r7->fC = 0;
             var_r7->fE = 0;
             var_r7->f18 = 1;
             var_r7->f1A = (s16) M2C_FIELD(temp_r1_2, s32 *, temp_r2_2->f8 * 0x10 + 4);
-            var_r7->f1C = (s16) M2C_FIELD((t025Config27C + 12), s32 *, temp_r2_2->f8 * 0x10);
+            var_r7->f1C = (s16) M2C_FIELD((effectConfig + 12), s32 *, temp_r2_2->f8 * 0x10);
             if (var_r7->f16 != 0) {
                 arg8B += 1;
             }
@@ -5308,7 +5336,7 @@ block_23:
         var_r4 = arg8C;
         do {
             if (M2C_FIELD(var_r4, u16 *, 0x4) != 0) {
-                temp_r1_3 = t025State27C + 0x160 + (var_r5 * 8);
+                temp_r1_3 = &t025RuntimeEffects->pos160[var_r5];
                 if (M2C_FIELD(temp_r1_3, s32 *, 0x0) == 0) {
                     var_r7->f0 = (s32) (M2C_FIELD(var_r4, u16 *, 0x0) << 0xB);
                     var_r7->f4 = (s32) (M2C_FIELD(var_r4, u16 *, 0x2) << 0xB);
@@ -5320,20 +5348,20 @@ block_23:
                 var_r7->f10 = (s16) (temp_r2_3->f0 * 3);
                 var_r7->f16 = (u16) M2C_FIELD(var_r4, u16 *, 0x6);
                 if ((u32) temp_r2_3->f8 > 1U) {
-                        t025Init27C(sprites[var_r5], M2C_FIELD(t025Config27C, s32 *, temp_r2_3->f8 * 0x10), 0xD, 1, 0);
+                        t025Init27C(sprites[var_r5], M2C_FIELD(effectConfig, s32 *, temp_r2_3->f8 * 0x10), 0xD, 1, 0);
                 } else {
-                        t025Init27C(sprites[var_r5], M2C_FIELD(t025Config27C, s32 *, temp_r2_3->f8 * 0x10), 0xD, -1, 0);
+                        t025Init27C(sprites[var_r5], M2C_FIELD(effectConfig, s32 *, temp_r2_3->f8 * 0x10), 0xD, -1, 0);
                 }
-                var_r7->f14 = (s16) M2C_FIELD(t025State27C, u8 *, 0x22C + var_r5);
+                var_r7->f14 = (s16) t025RuntimeEffects->active22C[var_r5];
                 temp_r2_4 = var_r7->f20;
-                temp_r1_4 = t025Config27C + 4;
+                temp_r1_4 = effectConfig + 4;
                 var_r7->f8 = (s16) M2C_FIELD(temp_r1_4, s32 *, temp_r2_4->f8 * 0x10);
                 var_r7->fA = 0;
                 var_r7->fC = 0;
                 var_r7->fE = 0;
                 var_r7->f18 = 1;
                 var_r7->f1A = (s16) M2C_FIELD(temp_r1_4, s32 *, temp_r2_4->f8 * 0x10 + 4);
-                var_r7->f1C = (s16) M2C_FIELD((t025Config27C + 0xC), s32 *, temp_r2_4->f8 * 0x10);
+                var_r7->f1C = (s16) M2C_FIELD((effectConfig + 0xC), s32 *, temp_r2_4->f8 * 0x10);
                 if (var_r7->f16 != 0) {
                     arg8B += 1;
                 }
@@ -5367,9 +5395,9 @@ loop_50:
         var_r8 = 0;
 loop_129:
         if (var_r8 < arg8A) {
-            temp_r2_5 = t025State27C + 0x160 + (var_r8 * 8);
+            temp_r2_5 = &t025RuntimeEffects->pos160[var_r8];
             M2C_FIELD(temp_r2_5, struct V2W12 *, 0) = M2C_FIELD(var_r7, struct V2W12 *, 0);
-            M2C_FIELD(t025State27C, u8 *, 0x22C + var_r8) = (s8) var_r7->f14;
+            t025RuntimeEffects->active22C[var_r8] = (s8) var_r7->f14;
             temp_r0_2 = var_r7->f14;
             if (temp_r0_2 != 0) {
                 var_r9 = var_r7 + 1;
@@ -5524,14 +5552,15 @@ block_127:
     }
     var_r3_2 = 0;
     do {
-        M2C_FIELD(t025State27C, u8 *, 0x22C + var_r3_2) = 0;
+        t025RuntimeEffects->active22C[var_r3_2] = 0;
         temp_r1_8 = var_r3_2 * 8;
-        M2C_FIELD(t025State27C, s32 *, 0x160 + temp_r1_8) = 0;
-        M2C_FIELD(t025State27C, s32 *, 0x164 + temp_r1_8) = 0;
+        t025RuntimeEffects->pos160[var_r3_2].x = 0;
+        t025RuntimeEffects->pos160[var_r3_2].y = 0;
         var_r3_2 += 1;
     } while (var_r3_2 <= 9U);
     sub_08056FE0();
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
 #endif

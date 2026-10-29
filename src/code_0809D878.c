@@ -588,6 +588,13 @@ extern void t107CCall0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC0
 extern s32 t107CCall08007870(s16, s16, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
 extern void t107CCall08029CEC(s32, s32, s32) asm("sub_08029CEC");
 extern void t107Velocity(s32,s32,u32,s32,s32 *) asm("sub_08097978");
+struct PlayerT107C {
+    u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
+    u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 x, y;
+    u8 p94[0x1C]; u16 effect; u8 pB2[0x32];
+    u32 serial[25]; u16 *data;
+};
+extern struct PlayerT107C t107PlayersC[] asm("gUnk_03003CE0");
 void sub_080A230C(void *unused, u16 delay)
 {
     struct AnimT107A230C anim;
@@ -595,12 +602,13 @@ void sub_080A230C(void *unused, u16 delay)
     s16 screenX, screenY;
     s32 velocity[2];
     u8 *aux;
-    u8 *target;
+    struct PlayerT107C *target;
     u32 angle, magnitude, count;
     s32 active, timer, hit;
     s32 x, y;
     s16 dx, dy;
-    u16 i, rawDx, radius, facing;
+    u16 i, rawDx, facing;
+    s32 radius;
     u8 tick, previous;
     sub_0805865C(0xC2);
     i = 0;
@@ -608,7 +616,7 @@ void sub_080A230C(void *unused, u16 delay)
     aux = (u8 *)gActorT107A230C + 0x204;
     t107CCall08065158(&anim, 0x5000C, gUnk_0300034C, -1, 1);
     *((u8 *)gActorT107A230C + 0x1FC) = (*((u8 *)gActorT107A230C + 0x1FC) & 15) | (sub_08096594(0) << 4);
-    target = (u8 *)&gUnk_03003CE0[*((u8 *)gActorT107A230C + 0x1FC) >> 4];
+    target = &t107PlayersC[*((u8 *)gActorT107A230C + 0x1FC) >> 4];
     sub_08097A38(0);
     extra = 0; tile = 0; count = 0; tick = 0; hit = 0;
     x = gActorT107A230C->x; y = gActorT107A230C->y;
@@ -624,9 +632,9 @@ void sub_080A230C(void *unused, u16 delay)
                 if (previous > 20) {
                     u16 *data;
                     tick = 0;
-                    data = *(u16 **)(target + 0x148);
+                    data = target->data;
                     angle = data[0] >> 4;
-                    magnitude = (data[1] & 0xFFF) - 12;
+                    magnitude = (((u32)data[1] << 20) >> 20) - 12;
                     t107Velocity(x, y, angle, magnitude, velocity);
                     count = (u8)(count + 1);
                 }
@@ -636,23 +644,23 @@ void sub_080A230C(void *unused, u16 delay)
             }
             x += velocity[0] + (velocity[0] >> 1);
             y += velocity[1] + (velocity[1] >> 1);
-            rawDx = (x >> 8) - (*(s32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x8C) >> 8);
+            rawDx = (x >> 8) - (t107PlayersC[sub_080020F4()].x >> 8);
             dx = rawDx;
-            dy = ((y >> 8) + 12) - (*(s32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x90) >> 8);
-            radius = Sqrt(dx * dx + dy * dy);
-            if (hit == 0 && radius <= 23U &&
+            dy = ((y >> 8) + 12) - (t107PlayersC[sub_080020F4()].y >> 8);
+            radius = (u16)Sqrt(dx * dx + dy * dy);
+            if (hit == 0 && radius <= 23 &&
                 sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0 &&
                 gActorT107A230C->state != 11 &&
-                !(gUnk_03003CE0[sub_080020F4()].flags & 0x2000) &&
-                *((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x68) != 0 &&
-                gUnk_03003CE0[sub_080020F4()].state != 14 &&
-                gUnk_03003CE0[sub_080020F4()].state != 11 &&
-                gUnk_03003CE0[sub_080020F4()].state != 12 &&
-                *(u32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0xE4 + gActorT107A230C->id * 4) != gActorT107A230C->serial) {
+                !(t107PlayersC[sub_080020F4()].flags & 0x2000) &&
+                t107PlayersC[sub_080020F4()].active != 0 &&
+                t107PlayersC[sub_080020F4()].state != 14 &&
+                t107PlayersC[sub_080020F4()].state != 11 &&
+                t107PlayersC[sub_080020F4()].state != 12 &&
+                t107PlayersC[sub_080020F4()].serial[gActorT107A230C->id] != gActorT107A230C->serial) {
                 if (sub_0800CE30() == 1) t107CCall08029CEC(0, 60, 2);
                 else t107CCall08029CEC(0, 30, 2);
-                *(u16 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0xB0) = 0xFFFE;
-                *(u32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0xE4 + gActorT107A230C->id * 4) = gActorT107A230C->serial++;
+                t107PlayersC[sub_080020F4()].effect = 0xFFFE;
+                t107PlayersC[sub_080020F4()].serial[gActorT107A230C->id] = gActorT107A230C->serial++;
                 hit = 1;
             }
         }
@@ -751,7 +759,7 @@ extern s16 t107BCall0800086C(void) asm("sub_0800086C");
 extern void *t107BCall08007870(s16,s16,u32,u16,s32,void *,u32,u32) asm("sub_08007870");
 extern void t107BCall0800BC08(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
 extern void t107BCall0801623C(void *,void *,s32) asm("sub_0801623C");
-extern u16 t107BCall08016E04(u16,u16) asm("sub_08016E04");
+extern s32 t107BCall08016E04(u16,u16) asm("sub_08016E04");
 extern void t107BCall08019F60(void *) asm("sub_08019F60");
 extern void t107BCall0801A120(void *,s32,s16) asm("sub_0801A120");
 extern void t107BCall0801C8F0(void *) asm("sub_0801C8F0");
@@ -828,9 +836,7 @@ void sub_080A27B8(void *arg0) {
     sub_0801A0B0(t107B364);
     t107B364->f14 = 0xF200;
     t107B364->f18 = 0x8500;
-    temp_r0 = t107BCall08016E04(sp14->f2D8, sp14->f2DA);
-    t107BTile = temp_r0;
-    temp_r1 = temp_r0;
+    temp_r1 = (t107BTile = t107BCall08016E04(sp14->f2D8, sp14->f2DA));
     if (temp_r1 == 0xFFFF) {
 loop_2:
         t107B364->fC = 0xB;
@@ -1257,8 +1263,10 @@ loop_126:
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A27B8);
 #endif
 #ifdef NONMATCHING
-extern u8 *t107D364 asm("gUnk_03000364");
-extern u8 *t107D368 asm("gUnk_03000368");
+struct T107DActor { u16 f0; u16 f2; u8 p4[8]; u16 fC; u8 pE[6]; s32 f14; s32 f18; u8 p1C[44]; u16 f48; u8 p4A[2]; s32 f4C; s32 f50; u8 p54[8]; s16 f5C; s16 f5E; u8 p60[10]; u16 f6A; u16 f6C; u16 f6E; u8 p70[356]; s16 f1D4; s16 f1D6; u8 p1D8[36]; u8 f1FC; u8 f1FD; u8 f1FE; u8 p1FF[1]; u8 f200; u8 p201[1]; u16 f202; u8 p204[42]; s8 f22E; s8 f22F; };
+extern struct T107DActor *t107D364 asm("gUnk_03000364");
+extern struct T107DActor *t107D368 asm("gUnk_03000368");
+struct T107DAux { u8 p0[4]; s16 f4,f6; u8 p8[0xCE]; u16 fD6; };
 extern s16 t107Offsets[] asm("gUnk_08518754");
 extern u8 t107Raw380[] asm("gUnk_03000380");
 extern u8 t107Raw388[] asm("gUnk_03000388");
@@ -1278,13 +1286,14 @@ extern void t107DCall0801C8F0(void *) asm("sub_0801C8F0");
 extern void t107DCall08067CA8(u16) asm("sub_08067CA8");
 void t107MainD(void) asm("sub_080A35D0");
 void t107MainD(void) {
+    struct T107DActor *init;
     s32 sp0;
     s32 sp4;                                        /* compiler-managed */
     s32 sp8;
     s32 spC;
     s16 sp10;
     s16 sp12;
-    void *sp14;
+    struct T107DAux *sp14;
     s32 sp18;
     s32 sp1C;
     s32 sp20;
@@ -1292,8 +1301,8 @@ void t107MainD(void) {
     u32 *sp28;
     u16 *sp2C;
     s16 *temp_r7;
-    s16 temp_r0_2;
-    s16 temp_r1;
+    s32 temp_r0_2;
+    s32 temp_r1;
     s16 var_r0_4;
     s32 temp_r0_10;
     s32 temp_r0_3;
@@ -1326,54 +1335,55 @@ void t107MainD(void) {
     t107D368 = temp_r0;
     sub_0801A0A4(temp_r0);
     t107DCall0801623C(t107D368, &gUnk_084A6DB8, 1);
-    temp_r2 = t107D368 + 0x204;
+    temp_r2 = (u8 *)t107D368 + 0x204;
     sp14 = temp_r2;
     t107DCall08019F60(temp_r2);
-    temp_r1 = M2C_FIELD(sp14, s16 *, 0x6) * 3;
-    M2C_FIELD(t107D368, s16 *, 0x1D6) = temp_r1;
-    M2C_FIELD(t107D368, s16 *, 0x5C) = temp_r1;
-    temp_r0_2 = M2C_FIELD(sp14, s16 *, 0x4) * 0xA * 2;
-    M2C_FIELD(t107D368, s16 *, 0x1D4) = temp_r0_2;
-    M2C_FIELD(t107D368, s16 *, 0x5E) = temp_r0_2;
-    M2C_FIELD(t107D368, u16 *, 0x48) = (u16) gUnk_03003170.f90;
-    M2C_FIELD(t107D368, s32 *, 0x50) = (s32) M2C_FIELD(t107D364, s32 *, 0x50);
-    M2C_FIELD(t107D368, u16 *, 0xC) = 0U;
-    M2C_FIELD(t107D368, u16 *, 0x0) = 1U;
-    M2C_FIELD(t107D368, u16 *, 0x2) = 5U;
-    M2C_FIELD(t107D368, u8 *, 0x1FC) = (u8) ((-0x10 & M2C_FIELD(t107D368, u8 *, 0x1FC)) | 1);
-    M2C_FIELD(t107D368, u16 *, 0x202) = (u16) M2C_FIELD(t107D368, u16 *, 0x2);
-    M2C_FIELD(t107D368, u8 *, 0x200) = 0xFF;
-    M2C_FIELD(t107D368, u8 *, 0x1FD) = 3U;
-    M2C_FIELD(t107D368, u8 *, 0x1FE) = 3U;
-    M2C_FIELD(t107D368, u16 *, 0xC) = 0U;
+    init = t107D368;
+    temp_r1 = sp14->f6 * 3;
+    init->f1D6 = temp_r1;
+    init->f5C = temp_r1;
+    temp_r0_2 = ((sp14->f4 << 1) + (sp14->f4 << 3)) << 1;
+    init->f1D4 = temp_r0_2;
+    init->f5E = temp_r0_2;
+    init->f48 = (u16) gUnk_03003170.f90;
+    init->f50 = (s32) t107D364->f50;
+    init->fC = 0U;
+    init->f0 = 1U;
+    init->f2 = 5U;
+    init->f1FC = (u8) ((-0x10 & init->f1FC) | 1);
+    t107D368->f202 = (u16) t107D368->f2;
+    t107D368->f200 = 0xFF;
+    t107D368->f1FD = 3U;
+    t107D368->f1FE = 3U;
+    t107D368->fC = 0U;
     sp1C = 0;
     sp20 = 0;
     sp28 = (u32 *)t107Raw388;
 loop_49:
-    if ((M2C_FIELD(t107D368, u16 *, 0xC) == 0xA) && (sp1C == 0)) {
+    if ((t107D368->fC == 0xA) && (sp1C == 0)) {
         sp1C = 8;
     }
     temp_r0_3 = sub_08058DB0();
     if (temp_r0_3 == 0) {
         t107DCall0801C8F0(t107D368);
-        temp_r0_4 = M2C_FIELD(t107D368, u8 *, 0x1FD);
+        temp_r0_4 = t107D368->f1FD;
         switch (temp_r0_4) {                        /* irregular */
         case 1:
-            M2C_FIELD(t107D368, u16 *, 0xC) = (u16) temp_r0_3;
-            if (sub_080682B8((s32) M2C_FIELD(t107D368, u16 *, 0x0)) != 0) {
-                M2C_FIELD(t107D368, u8 *, 0x1FD) = (u8) M2C_FIELD(t107D368, u8 *, 0x1FE);
-                sub_08065E38((s32) M2C_FIELD(t107D368, u16 *, 0x0));
+            t107D368->fC = (u16) temp_r0_3;
+            if (sub_080682B8((s32) t107D368->f0) != 0) {
+                t107D368->f1FD = (u8) t107D368->f1FE;
+                sub_08065E38((s32) t107D368->f0);
             }
             break;
         case 3:
             if (sub_08056F78() != 0) {
-                M2C_FIELD(t107D368, u8 *, 0x1FE) = 8U;
-                M2C_FIELD(t107D368, u8 *, 0x1FD) = 1U;
-                sub_08068330((s32) M2C_FIELD(t107D368, u16 *, 0x0));
+                t107D368->f1FE = 8U;
+                t107D368->f1FD = 1U;
+                sub_08068330((s32) t107D368->f0);
             }
             break;
         case 8:
-            M2C_FIELD(t107D368, u16 *, 0xC) = (u16) temp_r0_3;
+            t107D368->fC = (u16) temp_r0_3;
             break;
         }
     }
@@ -1384,19 +1394,19 @@ loop_49:
             var_r0 = gUnk_030003F1 + 1;
         }
         temp_r0_5 = var_r0;
-        temp_r1_2 = M2C_FIELD(t107D364, s32 *, 0x14);
-        M2C_FIELD(t107D368, s32 *, 0x14) = temp_r1_2;
-        temp_r3 = M2C_FIELD(t107D364, s32 *, 0x18);
-        M2C_FIELD(t107D368, s32 *, 0x18) = temp_r3;
-        M2C_FIELD(t107D368, s32 *, 0x14) = (s32) (temp_r1_2 + t107Offsets[gUnk_030003F1 * 2]);
-        M2C_FIELD(t107D368, s32 *, 0x18) = (s32) (temp_r3 + t107Offsets[gUnk_030003F1 * 2 + 1]);
+        temp_r1_2 = t107D364->f14;
+        t107D368->f14 = temp_r1_2;
+        temp_r3 = t107D364->f18;
+        t107D368->f18 = temp_r3;
+        t107D368->f14 = (s32) (temp_r1_2 + t107Offsets[gUnk_030003F1 * 2]);
+        t107D368->f18 = (s32) (temp_r3 + t107Offsets[gUnk_030003F1 * 2 + 1]);
         if (gUnk_030003F1 == 0) {
-            M2C_FIELD(t107D368, s8 *, 0x22E) = 0x20;
-            var_r0_2 = t107D368 + 0x22F;
+            t107D368->f22E = 0x20;
+            var_r0_2 = (u8 *)t107D368 + 0x22F;
             var_r1 = 0x28;
         } else {
-            M2C_FIELD(t107D368, s8 *, 0x22E) = 0x20;
-            var_r0_2 = t107D368 + 0x22F;
+            t107D368->f22E = 0x20;
+            var_r0_2 = (u8 *)t107D368 + 0x22F;
             var_r1 = 0x10;
         }
         *var_r0_2 = var_r1;
@@ -1406,17 +1416,17 @@ loop_49:
             sub_0801A0A4(t107D368);
         }
         t107Anims[(u8)gUnk_030003F0].attr[0] = (s8) t107TileD;
-        sub_08000AF0(t107TileD + 0x10, (t107Anims[(u8)gUnk_030003F0].fC) + (M2C_FIELD(sp14, u16 *, 0xD6) << 5), 1U);
+        sub_08000AF0(t107TileD + 0x10, (t107Anims[(u8)gUnk_030003F0].fC) + (sp14->fD6 << 5), 1U);
         temp_r1_3 = sub_0800CD8C();
-        sp2C = sp14 + 0xD6;
+        sp2C = &sp14->fD6;
         if (temp_r1_3 == 0) {
             sp0 = temp_r1_3;
-            M2C_FIELD(t107D368, u16 *, 0x6E) = (u16) sub_08065370((0x34 * (u8) gUnk_030003F0) + t107Raw380, (u16) temp_r0_5, (s32) (t107D368 + 0x6A), (s32) (t107D368 + 0x6C), 0);
+            t107D368->f6E = (u16) sub_08065370((0x34 * (u8) gUnk_030003F0) + t107Raw380, (u16) temp_r0_5, (s32) ((u8 *)t107D368 + 0x6A), (s32) ((u8 *)t107D368 + 0x6C), 0);
         }
         if (1 & sub_08098004()) {
             var_r0_3 = sub_08097FF8();
         } else {
-            var_r0_3 = (u8) sub_0800BC44((u32) ((s32) M2C_FIELD(t107D368, s32 *, 0x14) >> 8), (u32) ((s32) M2C_FIELD(t107D368, s32 *, 0x18) >> 8), 0U);
+            var_r0_3 = (u8) sub_0800BC44((u32) ((s32) t107D368->f14 >> 8), (u32) ((s32) t107D368->f18 >> 8), 0U);
         }
         temp_r4 = var_r0_3;
         if (sp1C != 0) {
@@ -1435,15 +1445,15 @@ loop_49:
                 } else {
                     sp0 = temp_r0_7;
                     sp4 = temp_r0_7;
-                    t107DCall0800BC08((s32) (M2C_FIELD(t107D364, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(t107D364, s32 *, 0x18) << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
+                    t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
                     sp0 = (s32) temp_r4;
                     sp4 = (0x34 * (u8) gUnk_030003F0) + t107Raw39C;
                     sp8 = *(u32 *)((u8 *)sp28 + (0x34 * (u8) gUnk_030003F0));
                     spC = *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C));
-                    var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, M2C_FIELD(t107D368, u16 *, 0x6A), sp0, (void *)sp4, sp8, spC);
+                    var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, sp0, (void *)sp4, sp8, spC);
                     sp0 = temp_r0_7;
                     sp4 = temp_r0_7;
-                    t107DCall0800BC08((s32) (M2C_FIELD(t107D368, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(t107D368, s32 *, 0x18) << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
+                    t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
                     M2C_FIELD(var_r4, s32 *, 0x8) = (s32) sp10;
                     var_r0_4 = sp12;
                     goto block_30;
@@ -1452,21 +1462,21 @@ loop_49:
         } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
             sp0 = sp1C;
             sp4 = sp1C;
-            t107DCall0800BC08((s32) (M2C_FIELD(t107D364, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(t107D364, s32 *, 0x18) << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
+            t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
             sp0 = (s32) temp_r4;
             sp4 = (0x34 * (u8) gUnk_030003F0) + t107Raw39C;
             sp8 = *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw388);
             spC = *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C));
-            var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, M2C_FIELD(t107D368, u16 *, 0x6A), sp0, (void *)sp4, sp8, spC);
+            var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, sp0, (void *)sp4, sp8, spC);
             sp0 = sp1C;
             sp4 = sp1C;
-            t107DCall0800BC08((s32) (M2C_FIELD(t107D368, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(t107D368, s32 *, 0x18) << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
+            t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
             M2C_FIELD(var_r4, s32 *, 0x8) = (s32) sp10;
             var_r0_4 = sp12;
 block_30:
             M2C_FIELD(var_r4, s32 *, 0xC) = (s32) var_r0_4;
         }
-        temp_r0_8 = M2C_FIELD(t107D368, s32 *, 0x4C);
+        temp_r0_8 = t107D368->f4C;
         if ((temp_r0_8 != 0) && (sp18 != temp_r0_8)) {
             sp18 = temp_r0_8;
             sp20 = 0xA;
@@ -1482,9 +1492,9 @@ block_30:
             sp20 = (s32) (u16) (sp20 - 1);
         } else {
             sp18 = 0;
-            M2C_FIELD(t107D368, s32 *, 0x4C) = 0;
+            t107D368->f4C = 0;
         }
-        if ((gUnk_030003EA == 1) && (M2C_FIELD(t107D368, u16 *, 0x6E) != 0)) {
+        if ((gUnk_030003EA == 1) && (t107D368->f6E != 0)) {
             gUnk_030003EA = 0;
         }
         if ((t107DCall08019CE8(t107D368) << 0x10) != 0) {
@@ -1497,26 +1507,26 @@ block_30:
         temp_r4_2 = t107DCall08019CE8(t107D368);
         if (temp_r4_2 == 0) {
             sub_0801A0B0(t107D368);
-            M2C_FIELD(t107D368, s8 *, 0x22E) = (s8) temp_r4_2;
-            M2C_FIELD(t107D368, s8 *, 0x22F) = (s8) temp_r4_2;
+            t107D368->f22E = (s8) temp_r4_2;
+            t107D368->f22F = (s8) temp_r4_2;
             sub_080003F0();
             goto loop_49;
         }
         gUnk_030003F1 = gUnk_030003F2;
-        sp2C = sp14 + 0xD6;
+        sp2C = &sp14->fD6;
     }
-    t107DCall08067CA8(M2C_FIELD(t107D368, u16 *, 0x2));
+    t107DCall08067CA8(t107D368->f2);
     gUnk_030003EA = 0;
     temp_sl = gUnk_030003F1 + 1;
-    M2C_FIELD(t107D368, u16 *, 0x6C) = 0;
-    M2C_FIELD(t107D368, u16 *, 0x6A) = 0;
+    t107D368->f6C = 0;
+    t107D368->f6A = 0;
     gUnk_030003F0 = 0;
-    temp_r1_4 = M2C_FIELD(t107D364, s32 *, 0x14);
-    M2C_FIELD(t107D368, s32 *, 0x14) = temp_r1_4;
-    temp_r3_2 = M2C_FIELD(t107D364, s32 *, 0x18);
-    M2C_FIELD(t107D368, s32 *, 0x18) = temp_r3_2;
-    M2C_FIELD(t107D368, s32 *, 0x14) = (s32) (temp_r1_4 + t107Offsets[gUnk_030003F1 * 2]);
-    M2C_FIELD(t107D368, s32 *, 0x18) = (s32) (temp_r3_2 + t107Offsets[gUnk_030003F1 * 2 + 1]);
+    temp_r1_4 = t107D364->f14;
+    t107D368->f14 = temp_r1_4;
+    temp_r3_2 = t107D364->f18;
+    t107D368->f18 = temp_r3_2;
+    t107D368->f14 = (s32) (temp_r1_4 + t107Offsets[gUnk_030003F1 * 2]);
+    t107D368->f18 = (s32) (temp_r3_2 + t107Offsets[gUnk_030003F1 * 2 + 1]);
     temp_r7 = &sp12;
 loop_70:
     t107Anims[(u8)gUnk_030003F0].attr[0] = (s8) t107TileD;
@@ -1524,27 +1534,27 @@ loop_70:
     temp_r0_9 = sub_0800CD8C();
     if (temp_r0_9 == 0) {
         sp0 = temp_r0_9;
-        M2C_FIELD(t107D368, u16 *, 0x6E) = (u16) sub_08065370((0x34 * (u8) gUnk_030003F0) + t107Raw380, (u16) temp_sl, (s32) (t107D368 + 0x6A), (s32) (t107D368 + 0x6C), 0);
+        t107D368->f6E = (u16) sub_08065370((0x34 * (u8) gUnk_030003F0) + t107Raw380, (u16) temp_sl, (s32) ((u8 *)t107D368 + 0x6A), (s32) ((u8 *)t107D368 + 0x6C), 0);
     }
     if (1 & sub_08098004()) {
         var_r0_5 = sub_08097FF8();
     } else {
-        var_r0_5 = (u8) sub_0800BC44((u32) ((s32) M2C_FIELD(t107D368, s32 *, 0x14) >> 8), (u32) ((s32) M2C_FIELD(t107D368, s32 *, 0x18) >> 8), 0U);
+        var_r0_5 = (u8) sub_0800BC44((u32) ((s32) t107D368->f14 >> 8), (u32) ((s32) t107D368->f18 >> 8), 0U);
     }
     if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
         temp_r0_10 = sub_0800CD34();
         if (temp_r0_10 == 0) {
             sp0 = temp_r0_10;
             sp4 = temp_r0_10;
-            t107DCall0800BC08((s32) (M2C_FIELD(t107D364, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(t107D364, s32 *, 0x18) << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
+            t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
             sp0 = (s32) var_r0_5;
             sp4 = (0x34 * (u8) gUnk_030003F0) + t107Raw39C;
             sp8 = *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x14));
             spC = *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw380);
-            temp_r4_3 = t107DCall08007870(sp10, sp12 + 1, temp_sl, M2C_FIELD(t107D368, u16 *, 0x6A), sp0, (void *)sp4, sp8, spC);
+            temp_r4_3 = t107DCall08007870(sp10, sp12 + 1, temp_sl, t107D368->f6A, sp0, (void *)sp4, sp8, spC);
             sp0 = temp_r0_10;
             sp4 = temp_r0_10;
-            t107DCall0800BC08((s32) (M2C_FIELD(t107D368, s32 *, 0x14) << 8) >> 0x10, (s32) (M2C_FIELD(t107D368, s32 *, 0x18) << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
+            t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
             M2C_FIELD(temp_r4_3, s32 *, 0x8) = (s32) sp10;
             M2C_FIELD(temp_r4_3, s32 *, 0xC) = (s32) sp12;
         }

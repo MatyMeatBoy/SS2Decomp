@@ -382,7 +382,144 @@ void sub_08016ECC_u16(u16 arg0)
   }
 }
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017C6C);
+struct T015CEntity { u16 id; u8 pad2[0xA]; u16 kind; u8 padE[6]; s32 x,y; u8 pad1C[0x5A]; u16 cursor; u8 pad78[2]; u16 flags; u8 pad7C[0x194]; u32 active; u8 pad214[0x1A]; u8 radius; };
+extern struct T015CEntity *T015CEntities asm("gUnk_030056F4");
+extern u8 T015CDirections[] asm("gUnk_084790B4");
+extern u8 T015CAngles[] asm("gUnk_0849E730");
+extern u16 T015CProbe(u8,s32,s32,s32) asm("sub_0800B118");
+void sub_08017C6C(struct T015CEntity *p) {
+    register s32 x asm("r8");
+    register s32 y asm("r9");
+    s32 dx,ax;
+    register s32 delta asm("r5");
+    u16 *cp;
+    s16 dy;
+    register u32 angle asm("r0");
+    register s32 idx asm("r1");
+    register u32 cosindex asm("r1");
+    register u32 finalindex asm("r0");
+    register s32 finalproduct asm("r0");
+    register u8 *anglesptr asm("r1");
+    register u32 minus asm("r4");
+    register u32 hitraw asm("r0");
+    register u32 hit asm("r1");
+    s32 ay;
+    register s32 index asm("r2");
+    u32 sumraw;
+    u16 cursor;
+    u32 nextvalue;
+    register u32 offset asm("r0");
+    register u32 *flagptr asm("r0");
+    register u32 angleword asm("r0");
+    register u32 *phaseptr asm("r0");
+    register u32 phase asm("r1");
+    register u32 id asm("r2");
+    register u32 bit asm("r0");
+    register u32 mask asm("r1");
+    register struct T015CEntity **baseptr asm("r1");
+    register struct T015CEntity *base asm("r1");
+    register u32 loadtemp asm("r0");
+    register u32 dxraw asm("r1");
+    register u32 dyraw asm("r0");
+    register s32 deltaraw asm("r2");
+    register s32 product asm("r1");
+    register s32 signedangle asm("r3");
+    s32 cosine;
+    register u32 cursorraw asm("r3");
+    register u32 one asm("r5");
+    u32 radiusraw;
+    u32 flags;
+    register u16 radius asm("sl");
+    u16 dist;
+    register s32 px asm("r4");
+    register s32 py asm("r2");
+    register s16 *sines asm("r6");
+    u8 r;
+    register struct T015CEntity *q asm("r3");
+    x=p->x; y=p->y;
+    cp=&p->cursor; loadtemp=*cp;
+    cursorraw=loadtemp << 16;
+    cursor=cursorraw >> 16;
+    if ((u16)cursor>4) goto reset;
+    phaseptr=&gUnk_03002344;
+    phase=*phaseptr;
+    one=1;
+    phase &= one;
+    id=p->id;
+    bit=one;
+    bit &= id;
+    if (phase != bit) return;
+    flags=p->flags & 0xFFEF; p->flags=flags;
+    radiusraw=p->radius << 16;
+    r=radiusraw >> 16;
+    if (!radiusraw || p->active==0xFF) goto next;
+    baseptr=&T015CEntities;
+    index=(s32)cursorraw >> 16;
+    offset=index*0x2E0;
+    base=*baseptr;
+    q=(struct T015CEntity *)((u8 *)base+offset);
+    flagptr=&gUnk_030056FC;
+    mask=one<<index;
+    if (!(*flagptr & mask) || p->kind==0xB) goto next;
+    sumraw=(q->radius+(u16)r)<<16;
+    radius=sumraw>>16;
+    asm("" : "+r"(radius));
+    if (!sumraw) goto next;
+    dxraw=q->x;
+    dxraw=(x-dxraw)<<8;
+    dyraw=(u32)((y-q->y)<<8)>>16;
+    dx=(s32)dxraw>>16;
+    ax=dx; if(dx<0) ax=-dx;
+    if(ax>7) goto next;
+    dy=dyraw;
+    ay=dy; if(dy<0) ay=-dy;
+    if(ay>7) goto next;
+    mask=0x10;
+    bit=flags;
+    bit |= mask;
+    p->flags=bit;
+    dist=Sqrt(dx*dx+dy*dy);
+    angle=(u16)ArcTan2(dx,dy)>>8;
+    deltaraw=((s16)radius-(s16)dist)<<16;
+    sines=gUnk_080B9704;
+    angleword=(u32)angle << 16;
+    signedangle=(s32)angleword >> 16;
+    cosindex=signedangle+0x40;
+    cosine=sines[cosindex];
+    delta=deltaraw>>17;
+    product=cosine*delta;
+    px=x+product;
+    product=sines[signedangle]*delta;
+    py=y+product;
+    hitraw=T015CProbe(T015CDirections[angleword>>20],px,py,0)<<16;
+    hit=hitraw>>16;
+    if(hitraw) {
+        hitraw=hit<<16;
+        anglesptr=T015CAngles;
+        minus=0xFFFF0000;
+        hitraw=(s32)(hitraw+minus)>>15;
+        idx=(s32)(*(u16 *)(hitraw+(u32)anglesptr)<<20)>>16;
+        finalindex=idx+0x40;
+        finalproduct=sines[finalindex]*delta;
+        px=x+finalproduct;
+        finalproduct=sines[idx]*delta;
+        py=y+finalproduct;
+        p->x=px; p->y=py;
+    }
+
+next:
+    cp=&p->cursor; nextvalue=*cp+1; *cp=nextvalue;
+    if((u16)nextvalue<=5) return;
+reset:
+    *cp=p->id+1;
+}
+
+
+
+
+
+
+
 s32 sub_08017E34(s32 *arg0) {
     u8 *base;
     u32 n;
@@ -416,4 +553,43 @@ s32 sub_08017E34(s32 *arg0) {
     }
     return result;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08017EC8);
+struct T015ERect { u32 x:16; u32 y:16; };
+struct T015EPos { u16 x, y; u8 flags:6; u8 rest:2; };
+struct T015EPlayer { u8 pad[0x148]; struct T015EPos *pos; };
+extern struct T015EPlayer T015EPlayers[] asm("gUnk_03003CE0");
+extern s32 T015ETest(s32 *, void *, s32 *, u32 *) asm("sub_08021FE0");
+s32 sub_08017EC8(u8 *arg0)
+{
+    s32 pos[2];
+    s32 size;
+    u32 rect;
+    register s32 found asm("r8");
+    struct T015EPlayer *p;
+    register u32 count asm("r5");
+    register u32 i asm("r6");
+    register u8 *lo asm("r2");
+    register u32 high asm("r1");
+    if (*(u16 *)(arg0 + 0x7A) & 0x40) return 1;
+    size = 0x014001E0;
+    lo = arg0 + 0x22E;
+    asm("" : "+r"(lo));
+    high = arg0[0x22F] << 16;
+    asm("" : "+r"(high), "+r"(lo));
+    rect = *lo | high;
+    found = 0;
+    asm("" : "+r"(found));
+    count = sub_08002164();
+    p = T015EPlayers;
+    i = 0;
+    if ((u32)found < count) do {
+        if (!(((u32)(p->pos->flags << 26) >> 26) & 0x20)) {
+            pos[0] = (p->pos->x >> 4) << 8;
+            pos[1] = ((u32)p->pos->y << 20) >> 12;
+            if (T015ETest(pos, arg0 + 0x14, &size, &rect)) found = 1;
+        }
+        i++;
+        p++;
+    } while (i < count);
+    asm("" : "+r"(count), "+r"(i), "+r"(found));
+    return found;
+}
