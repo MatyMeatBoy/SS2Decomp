@@ -1239,6 +1239,8 @@ loop_107:
 block_175:
             var_r7 = ((u8 *(*)(s32))sub_08007290)((M2C_FIELD(arg0, u8 *, 2) + 0x4C5) | 0x140000);
             if (state != 2) {
+                register u32 menuIndexC9 asm("r2");
+                u32 menuLanguageC9;
                 temp_r5_13 = var_r7 + 2;
                 {
                     register u32 titleWidthC9 asm("r0");
@@ -1256,8 +1258,10 @@ block_175:
                     titleBaseC9 = *(u16 *)titleBaseC9;
                     titleBaseC9 -= 0x28;
                     ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r5_13, titleXValueC9, titleBaseC9);
+                    menuLanguageC9 = gUnk_03003470;
+                    menuIndexC9 = titleIndexC9;
                 }
-                switch (gUnk_03003470) {            /* switch 5 */
+                switch (menuLanguageC9) {            /* switch 5 */
                 case 0:
                     offsetX = 0x23;
                     offsetY = 0x1D;
@@ -1281,13 +1285,13 @@ block_175:
                 }
                 if ((u32) M2C_FIELD(arg0, u8 *, 2) <= 8U) {
                     var_r7 = (u8 *)&cursor;
-                    temp_r5_14 = (state * 4) + ((u8 *)&gUnk_08366E0C);
-                    sub_08065230(var_r7, (*temp_r5_14 - offsetX) - cursorX, *(var_r4_2 = (u16 *)((state * 4) + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
+                    temp_r5_14 = menuIndexC9 + ((u8 *)&gUnk_08366E0C);
+                    sub_08065230(var_r7, (*temp_r5_14 - offsetX) - cursorX, *(var_r4_2 = (u16 *)(menuIndexC9 + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
                     var_r1_7 = *temp_r5_14 + offsetY + cursorY;
                 } else {
                     var_r7 = (u8 *)&cursor;
-                    temp_r5_14 = (state * 4) + ((u8 *)&gUnk_08366E0C);
-                    sub_08065230(var_r7, (*temp_r5_14 - offsetX) - (cursorX + 5), *(var_r4_2 = (u16 *)((state * 4) + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
+                    temp_r5_14 = menuIndexC9 + ((u8 *)&gUnk_08366E0C);
+                    sub_08065230(var_r7, (*temp_r5_14 - offsetX) - (cursorX + 5), *(var_r4_2 = (u16 *)(menuIndexC9 + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
                     var_r1_7 = *temp_r5_14 + offsetY + (cursorY + 5);
                 }
                 goto block_198;
@@ -1890,6 +1894,7 @@ void sub_08005A24(u32 range, s32 percent)
 }
 #ifdef NONMATCHING
 extern u16 pressed5B asm("gUnk_03001324");
+extern void finish5B(unsigned long long) asm("sub_08000420");
 struct Menu5B { u8 pad[5], f5, f6, f7; };
 struct Task5B {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern struct Task5B task5B asm("gUnk_03002840");
@@ -2201,7 +2206,7 @@ loop_85:
             spC0->f6 = 1;
         }
         spC0->f7 = var_r9;
-        sub_08000420(0x5A112EBF);
+        finish5B(0x25A112EBFULL);
         return;
     }
 }
@@ -2210,6 +2215,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005B88);
 #endif
 #ifdef NONMATCHING
 extern u16 pressed6C asm("gUnk_03001324");
+extern void finish6C(unsigned long long) asm("sub_08000420");
 struct Menu6C { u8 pad[5], f5, f6, f7; };
 struct Task6C {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern struct Task6C task6C asm("gUnk_03002840");
@@ -2515,7 +2521,7 @@ loop_76:
     } else {
         spC0->f6 = 1;
     }
-    sub_08000420(0x5A112EBF);
+    finish6C(0x25A112EBFULL);
     return;
 }
 #else

@@ -398,7 +398,6 @@ void sub_0800D368(void *arg0) {
     s32 sp190;
     s32 sp194;
     s32 sp198;
-    s32 regenerationPeriodD368;
     s32 regenerationBaseD368;
     s32 regenerationTermD368;
     s32 sp19C;
@@ -1490,10 +1489,10 @@ block_197:
                 }
                 regenerationBaseD368 = ((struct PlayerD368 *)arg0)->f3C;
                 regenerationTermD368 = 100 * (var_r2_3 + (s8) ((struct PlayerD368 *)arg0)->f70) + 200;
-                regenerationPeriodD368 = 48000 / (regenerationBaseD368 + regenerationTermD368);
+                var_r2_3 = 48000 / (regenerationBaseD368 + regenerationTermD368);
                 temp_r0_15 = sp198;
                 sp198 = temp_r0_15 + 1;
-                if (regenerationPeriodD368 < temp_r0_15) {
+                if (var_r2_3 < temp_r0_15) {
                     sp198 = 0;
                     temp_r0_16 = *sp1B8 + 0xA;
                     *sp1B8 = temp_r0_16;

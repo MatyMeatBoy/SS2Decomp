@@ -484,8 +484,13 @@ extern struct T06SysA998 t06_sysA998 asm("gUnk_03003170");
 extern struct T06PlayerA998 t06_playersA998[] asm("gUnk_03003CE0");
 extern u16 t06_levelA998 asm("gUnk_030031FC");
 extern s16 t06_scrollYA998 asm("gUnk_030031EE");
+static inline u32 *t06_stateAddrA998(void *p,u16 offset) {return (u32 *)((u8 *)p+offset);}
+static inline u32 t06_readA998(u32 *p) {register u32 *q asm("r1")=p;return *q;}
+static inline void t06_writeA998(u32 *p,u32 v) {register u32 value asm("r0")=v;register u32 *q asm("r2")=p;*q=value;}
+static inline u32 t06_read2A998(u32 *p) {register u32 *q asm("r2")=p;register u32 v asm("r0")=*q;return v;}
+static inline u32 t06_read3A998(u32 *p) {register u32 *q asm("r3")=p;register u32 v asm("r0")=*q;return v;}
 void sub_0800A998(void) {
-    struct {s32 config,result;s16 *volatile pointer;} frame;
+    struct {s32 config,result;u16 *volatile pointer;} frame;
     register u32 *state asm("r8");
     s32 temp_r0;
     s32 temp_r0_2;
@@ -494,7 +499,7 @@ void sub_0800A998(void) {
     struct T06PlayerA998 *temp_r1;
     register struct T06PlayerA998 *temp_r9 asm("r9");
     u16 temp_r5;
-    u16 var_r4;
+    u32 var_r4;
     u16 var_r5;
     u16 var_r7;
 
@@ -521,11 +526,11 @@ void sub_0800A998(void) {
         sub_080092C8(3, t06_sysA998.header, temp_r5, var_r7);
     }
     {register struct T06SysA998 *base asm("r4")=&t06_sysA998;register u16 *level asm("r5")=&base->curLevel;sub_0800A34C(*level,0,0);}
-    state=(u32 *)(t06_rawA998+0x9C);
-    frame.pointer = (s16 *)&frame.config;
-    while (!(*state & 2) && (sub_0800CB78() == 0)) {
+    state=t06_stateAddrA998(t06_rawA998,0x9C);
+    {register u16 *p asm("r1")=(u16 *)&frame.config;frame.pointer=p;}
+    while (!(t06_read3A998(state) & 2) && (sub_0800CB78() == 0)) {
         while(sub_0800CD34()!=0)sub_080003F0();
-        if (!(*state & 0xC)) {
+        if (!(t06_read2A998(state) & 0xC)) {
             goto block_43;
         }
         if (sub_0800CD8C() == 0) {
@@ -573,11 +578,11 @@ void sub_0800A998(void) {
                 sub_08000990(1, 1);
                 sub_080009F8(0x800, 0, 1);
                 sub_080009C0(0x1700, 0, 1);
-                frame.config = (frame.config & 0xFFFF0000) | 0x1C08;
+                {register u32 mask asm("r1")=0xFFFF0000;register u32 value asm("r0")=frame.config;value&=mask;mask=0x1C08;value|=mask;frame.config=value;}
                 sub_08000AA8(0U, (u16 *) &frame.config);
-                *frame.pointer = 0x1D83;
+                {register u32 value asm("r0")=0x1D83;register u16 *p asm("r1")=frame.pointer;*p=value;}
                 sub_08000AA8(1U, (u16 *) &frame.config);
-                *frame.pointer = 0xBE81;
+                {register u32 value asm("r0")=0xBE81;register u16 *p asm("r2")=frame.pointer;*p=value;}
                 sub_08000AA8(2U, (u16 *) &frame.config);
                 sub_0800B650(0x2D, 0x1D, 0x06000000, 0U, 15);
                 sub_0800B9F0(0x2CU, 0x1EU);
@@ -585,8 +590,8 @@ void sub_0800A998(void) {
                 sub_080003F0();
             }
             var_sl = 1;
-            *state &= ~0xC;
-            sub_0800A34C(t06_levelA998, frame.result, 1);
+            {register u32 value asm("r0")=t06_readA998(state);value&=~0xC;t06_writeA998(state,value);}
+            {register u16 *level asm("r3")=&t06_levelA998;sub_0800A34C(*level,frame.result,1);}
             if (sub_0801AB24() == 0) {
                 sub_0801AA34(0x14);
             } else if (sub_0801AB24() == 2) {
@@ -595,20 +600,25 @@ void sub_0800A998(void) {
                 sub_0801AB50(6);
             }
 block_43:
+            {register s16 *sy asm("r6");
+            register s16 *sx asm("r5");
             var_r4 = 1;
+            sy=&t06_scrollYA998;sx=sy-1;
             do {
-                sub_08009594(var_r4, *(&t06_scrollYA998 - 1), t06_scrollYA998, var_sl);
+                sub_08009594((u16)var_r4, *sx, *sy, var_sl);
                 var_r4 += 1;
             } while ((u32) var_r4 <= 3U);
+            }
             var_sl = 0;
             sub_08009B84();
             sub_080003F0();
-            *state |= 0x40;
+            {register u32 value asm("r0")=t06_readA998(state);value|=0x40;t06_writeA998(state,value);}
             continue;
         }
     }
     t06_sysA998.flags = 0x80000000;
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A998);
 #endif
