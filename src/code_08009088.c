@@ -767,9 +767,9 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     u8 var_r0;
 
     sp0 = arg3;
-    temp_r0 = (u32) (arg0 << 0x10) >> 0x13;
+    temp_r0 = ((u32)arg0 << 0x10) >> 0x13;
     asm("" : "+r"(temp_r0));
-    temp_r1 = (u32) (arg1 << 0x10) >> 0x13;
+    temp_r1 = ((u32)arg1 << 0x10) >> 0x13;
     if ((s32) temp_r0 > (s32) gUnk_03003170.mapW) {
         return;
     }
