@@ -596,8 +596,89 @@ s32 sub_08068F9C(struct Attack69 *a,s32 target)
     if(target!=0) result=attackAdjust69(attackTable69[a->kind].effect,(u16)result,target);
     return (s16)result;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069080);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069224);
+struct Resist69 {s16 a;u8 pad2[4];s16 b;};
+struct EffectPlayer69 {u8 id;u8 pad1[0x72];s8 modifier;u8 pad74[0x6C];u32 state;u8 padE4[0x14C-0xE4];};
+struct EffectEnemy69 {u8 pad0[2];u8 id;u8 pad3[0x223];u8 state;};
+struct Payload69 {union {u32 raw;struct {u32 who:8,kind:8,upper:16;} bits;} control;union {u32 raw;struct {u32 value:16,upper:16;} bits;} amount;};
+extern struct EffectPlayer69 effectPlayers69[] asm("gUnk_03003CE0");
+extern u8 *effectEnemies69 asm("gUnk_030056F4");
+extern u8 *effectStats69 asm("gUnk_030034E0");
+extern void effectApply69(struct Payload69 *) asm("sub_08067D28");
+extern void effectFeedback69(u32,u32,void *) asm("sub_08069224");
+void sub_08069080(struct Resist69 *res,u16 magnitude,u32 level,u32 unused,u32 target,s32 kind)
+{
+    /* The original preserves the incoming stack bits outside the fields written. */
+    struct Payload69 packet;
+    s32 random;
+    u32 probability;
+    u8 who;
+    struct EffectEnemy69 *enemy;
+    struct EffectPlayer69 *player;
+    random=sub_080008C8()%100U;
+    switch(kind) {
+    case 1: probability=(100-res->a)*((level*10)+5)/25U; break;
+    case 4: probability=(100-res->b)*((level*10)+5)/50U; break;
+    default:return;
+    }
+    if(target==sub_080020F4()) goto modify;
+    if(!sub_0800CF80()) goto afterModify;
+    { register u32 low asm("r0"); low=target; asm("" : "+r"(low)); if(low>3) goto afterModify; }
+modify:
+    probability=(s32)(probability*effectPlayers69[target].modifier)/100;
+afterModify:;
+    if((s32)probability>(s32)random) packet.control.bits.kind=kind;
+    switch((u8)(packet.control.raw>>8)) {
+    case 1: random=sub_080008C8()%100U+450; break;
+    case 4: random=sub_080008C8()%100U+700; break;
+    default:return;
+    }
+    magnitude=(random*magnitude)/1000;
+    if(target<=3) {
+        player=&effectPlayers69[target];who=player->id;
+    } else {
+        { register u8 **base asm("r1"); register u32 offset asm("r0"); base=&effectEnemies69; offset=target*0x2E0; offset-=0xB80; enemy=(struct EffectEnemy69 *)((u32)*base+offset); }
+        asm("" : "+r"(enemy));
+        if(enemy->state==3)return;
+        who=enemy->id;
+    }
+    packet.control.bits.who=who;
+    { register u32 word asm("r1"); word=packet.amount.raw&0xFFFF0000; word|=magnitude; packet.amount.raw=word; }
+    effectApply69(&packet);
+    if(target==sub_080020F4() && !sub_0800CF80()) {
+        effectFeedback69(packet.control.bits.kind,magnitude,effectStats69+0x24);
+        player->state=kind;
+    }
+}
+s32 sub_08069224(u32 kind,u16 magnitude,s16 *stats)
+{
+    s32 stat;
+    s32 chance;
+    u32 random;
+    if(sub_0800CF80()) return 0;
+    random=sub_080008C8()%100U;
+    switch(kind) {
+    case 0:return 0;
+    case 1:stat=stats[0];break;
+    case 2:stat=stats[1];break;
+    case 3:stat=stats[2];break;
+    case 4:stat=stats[3];break;
+    case 5:stat=stats[4];break;
+    case 6:case 7:stat=stats[5];break;
+    }
+    chance=(magnitude*6-stat+50)/(stat+1)-2;
+    if(chance<0) chance=0;
+    if(random<(u32)chance) {
+        switch(kind) {
+        case 1: if(++stats[0]>100) stats[0]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 2: if(++stats[1]>99) stats[1]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 3: if(++stats[2]>100) stats[2]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 4: if(++stats[3]>100) stats[3]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 5: if(++stats[4]>100) stats[4]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 6:case 7: if(++stats[5]>100) stats[5]=100; else sub_08022200(sub_080020F4(),kind); break;
+        }
+    }
+    return kind;
+}
 struct ResistPlayer69 {u8 pad0[0x73];s8 modifier;u8 pad74[0x14C-0x74];};
 extern struct ResistPlayer69 resistPlayers69[] asm("gUnk_03003CE0");
 extern u8 *resistEnemies69 asm("gUnk_030056F4");
