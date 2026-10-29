@@ -69,8 +69,8 @@ CC1FLAGS_m4a_1_commands := -O2 -mthumb-interwork
 CC1_m4a_1_mod := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_mod := -O2 -mthumb-interwork
 
-CC1_m4a_1_read := tools/agbcc/bin/old_agbcc
-CC1FLAGS_m4a_1_read := -O2 -mthumb-interwork
+CC1_m4a_1_read := tools/agbcc_sdk_flags/bin/agbcc
+CC1FLAGS_m4a_1_read := -O2 -mthumb-interwork -fprologue-bugfix -ftst -flsr-flags -fthumb-halfword-align
 
 CC1_m4a_1_jump := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_jump := -O2 -mthumb-interwork
@@ -101,6 +101,11 @@ tools/agbcc_tst/installed: tools/install_agbcc_tst.sh tools/patches/agbcc-tst-eq
 	sh tools/install_agbcc_tst.sh
 
 $(BUILD)/src/m4a_1.o $(BUILD)/src/m4a_1_engine.o: Makefile tools/agbcc_tst/installed
+
+tools/agbcc_sdk_flags/installed: tools/install_agbcc_sdk_flags.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-lsr-halfword.patch
+	sh tools/install_agbcc_sdk_flags.sh
+
+$(BUILD)/src/m4a_1_read.o: Makefile tools/agbcc_sdk_flags/installed
 
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)

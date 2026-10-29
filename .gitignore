@@ -33,3 +33,4 @@ tools/bizhawk/
 
 # Opt-in SDK compiler, pinned and built by tools/install_agbcc_tst.sh
 tools/agbcc_tst/
+tools/agbcc_sdk_flags/
