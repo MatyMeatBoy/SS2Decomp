@@ -643,8 +643,278 @@ INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806B3C4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806BE24);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806C568);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806CDF0);
+#ifdef NONMATCHING
+struct T072D4Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
+struct T072D4Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072D4Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct T072D4Args { u32 player, bit, f8, value, f10, level; };
+extern struct T072D4Player t072D4Players[] asm("gUnk_03003CE0");
+extern u32 t072D4Flags[] asm("gUnk_030063E0");
+void sub_0806D4A4(struct T072D4Args *arg) {
+    u8 list[4];
+    u32 x, y;
+    u32 bit;
+    u32 offset;
+    u16 level, range, count, i;
+    u32 player;
+    s32 local;
+    struct T072D4Player *p, *other, *costPlayer; u16 *wait;
+    struct T072D4Effect *e, *start;
+    u16 *sprite;
+    u16 dx, dy, cost;
+    s32 ax, ay, limit;
+    s32 duration, amount;
+    local = sub_080020F4();
+    player = arg->player;
+    bit = arg->bit;
+    level = arg->level;
+    range = level;
+    if (player <= 3) p = &t072D4Players[player];
+    if (local == player) {
+        costPlayer = &t072D4Players[sub_080020F4()];
+        cost = sub_0806898C(arg->value, arg->level) - 1;
+        costPlayer->resource -= cost;
+        if (costPlayer->resource < 0) costPlayer->resource = 0;
+    }
+    offset = player * 4;
+    wait = &p->wait;
+    while (*wait <= 6) {
+        if (p->state == 10) goto finish;
+        sub_080003F0();
+    }
+    if (local == player && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x166);
+    sprite = p->sprite;
+    x = sprite[0] >> 4;
+    y = ((u32)sprite[1] << 20) >> 20;
+    count = 0;
+    i = 0;
+    goto testPlayers;
+nextPlayer:
+    other = &t072D4Players[i];
+    sprite = other->sprite;
+    if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) goto skipPlayer;
+    if (other->team != p->team || other->team == 0) goto skipPlayer;
+    dx = (sprite[0] >> 4) - x;
+    dy = (((u32)sprite[1] << 20) >> 20) - y;
+    if (range != 5) {
+        ax = (s16)dx >> 3;
+        if (ax < 0) ax = -ax;
+        limit = (range + 1) * 2;
+        if (ax >= limit) goto skipPlayer;
+        ay = (s16)dy >> 3;
+        if (ay < 0) ay = -ay;
+        if (ay >= limit) goto skipPlayer;
+    }
+    list[count++] = i;
+skipPlayer:
+    i++;
+testPlayers:
+    if (i < sub_08002164()) goto nextPlayer;
+    for (i = 0; i < count; i++) sub_08074DE8(list[i], 10);
+    if (local != player) {
+        for (i = 0; i < count; i++) {
+            if (list[i] == local) {
+                p = &t072D4Players[local];
+                e = p->effects; i = 0;
+                duration = (level * 10 + 40) * 60;
+                amount = level * 8;
+                do {
+                    if (e->timer > 0 && e->owner <= 3 && t072D4Players[e->owner].mode == 4 && e->kind == 4) {
+                        if (e->level < level) {
+                            e->owner = player; e->level = level; e->timer = duration;
+                            sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
+                        }
+                        goto finish;
+                    }
+                    i++; e++;
+                } while (i <= 7);
+                e = p->effects; i = 0;
+                do {
+                    if (e->timer == -1) {
+                        e->owner = player; e->kind = 4; e->level = level;
+                        e->timer = (level * 10 + 40) * 60;
+                        amount = level * 8;
+                        sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
+                        goto finish;
+                    }
+                    i++; e++;
+                } while (i <= 7);
+                goto finish;
+            }
+        }
+    } else {
+        e = p->effects;
+        i = 0;
+        start = e;
+        duration = (level * 10 + 40) * 60;
+        amount = level * 8;
+        do {
+            if (e->timer > 0 && e->owner <= 3 && t072D4Players[e->owner].mode == 4 && e->kind == 4) {
+                if (e->level < level) {
+                    e->level = level;
+                    e->timer = duration;
+                    sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
+                    e->owner = player;
+                }
+                goto clear;
+            }
+            i++; e++;
+        } while (i <= 7);
+        e = start; i = 0;
+        do {
+            if (e->timer == -1) {
+                e->owner = player; e->kind = 4; e->level = level;
+                e->timer = (level * 10 + 40) * 60;
+                amount = level * 8;
+                sub_0801E0BC((u8 *)e + 0x1C, (u16)(level * 10));
+                break;
+            }
+            i++; e++;
+        } while (i <= 7);
+clear:
+        p->x24 = 0; p->x26 = 0;
+    }
+finish:
+    *(u32 *)((u8 *)t072D4Flags + offset) &= ~(1 << bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806D4A4);
+#endif
+#ifdef NONMATCHING
+struct T072Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
+struct T072Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct T072Args { u32 player, bit, f8, value, f10, level; };
+extern struct T072Player t072Players[] asm("gUnk_03003CE0");
+extern u32 t072Flags[] asm("gUnk_030063E0");
+void sub_0806D7EC(struct T072Args *arg) {
+    u8 list[4];
+    u32 x, y;
+    u32 bit;
+    u32 offset;
+    u16 level, range, count, i;
+    u32 player;
+    s32 local;
+    struct T072Player *p, *other, *costPlayer; u16 *wait;
+    struct T072Effect *e, *start;
+    u16 *sprite;
+    u16 dx, dy, cost;
+    s32 ax, ay, limit;
+    s32 duration, amount;
+    local = sub_080020F4();
+    player = arg->player;
+    bit = arg->bit;
+    level = arg->level;
+    range = level;
+    if (player <= 3) p = &t072Players[player];
+    if (local == player) {
+        costPlayer = &t072Players[sub_080020F4()];
+        cost = sub_0806898C(arg->value, arg->level) - 1;
+        costPlayer->resource -= cost;
+        if (costPlayer->resource < 0) costPlayer->resource = 0;
+    }
+    offset = player * 4;
+    wait = &p->wait;
+    while (*wait <= 6) {
+        if (p->state == 10) goto finish;
+        sub_080003F0();
+    }
+    if (local == player && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x168);
+    sprite = p->sprite;
+    x = sprite[0] >> 4;
+    y = ((u32)sprite[1] << 20) >> 20;
+    count = 0;
+    i = 0;
+    goto testPlayers;
+nextPlayer:
+    other = &t072Players[i];
+    sprite = other->sprite;
+    if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) goto skipPlayer;
+    if (other->team != p->team || other->team == 0) goto skipPlayer;
+    dx = (sprite[0] >> 4) - x;
+    dy = (((u32)sprite[1] << 20) >> 20) - y;
+    if (range != 5) {
+        ax = (s16)dx >> 3;
+        if (ax < 0) ax = -ax;
+        limit = (range + 1) * 2;
+        if (ax >= limit) goto skipPlayer;
+        ay = (s16)dy >> 3;
+        if (ay < 0) ay = -ay;
+        if (ay >= limit) goto skipPlayer;
+    }
+    list[count++] = i;
+skipPlayer:
+    i++;
+testPlayers:
+    if (i < sub_08002164()) goto nextPlayer;
+    for (i = 0; i < count; i++) sub_08074DE8(list[i], 11);
+    if (local == player) {
+        e = p->effects;
+        i = 0;
+        start = e;
+        duration = (level * 10 + 40) * 60;
+        amount = level * 8;
+        do {
+            if (e->timer > 0 && e->owner <= 3 && t072Players[e->owner].mode == 4 && e->kind == 5) {
+                if (e->level <= level) {
+                    e->owner = player;
+                    e->level = level;
+                    e->timer = duration;
+                    e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                }
+                goto clear;
+            }
+            i++; e++;
+        } while (i <= 7);
+        e = start; i = 0;
+        do {
+            if (e->timer == -1) {
+                e->owner = player; e->kind = 5; e->level = level;
+                e->timer = (level * 10 + 40) * 60;
+                amount = level * 8;
+                e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                break;
+            }
+            i++; e++;
+        } while (i <= 7);
+clear:
+        p->x24 = 0; p->x26 = 0;
+    } else {
+        for (i = 0; i < count; i++) {
+            if (list[i] == local) {
+                p = &t072Players[local];
+                e = p->effects; i = 0;
+                duration = (level * 10 + 40) * 60;
+                amount = level * 8;
+                do {
+                    if (e->timer > 0 && e->owner <= 3 && t072Players[e->owner].mode == 4 && e->kind == 5) {
+                        if (e->level <= level) {
+                            e->level = level; e->timer = duration;
+                            e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                        }
+                        goto finish;
+                    }
+                    i++; e++;
+                } while (i <= 7);
+                e = p->effects; i = 0;
+                do {
+                    if (e->timer == -1) {
+                        e->owner = player; e->kind = 5; e->level = level;
+                        e->timer = (level * 10 + 40) * 60;
+                        amount = level * 8;
+                        e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                        goto finish;
+                    }
+                    i++; e++;
+                } while (i <= 7);
+                goto finish;
+            }
+        }
+    }
+finish:
+    *(u32 *)((u8 *)t072Flags + offset) &= ~(1 << bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806D7EC);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DB1C);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DE94);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806E7D4);

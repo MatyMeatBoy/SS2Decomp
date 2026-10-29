@@ -2404,7 +2404,193 @@ actor_done:
     t36Players[sub_080020F4()].unk20 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08037DFC);
+struct T36CCmd { u16 unk0,unk2; u8 data[12]; };
+extern u8 *t36CState asm("gUnk_03005CF4");
+extern u8 *t36CInventory asm("gUnk_030034E0");
+extern void t36CEmit(struct T36CCmd *) asm("sub_0805AB20");
+extern void sub_0805990C(void);
+extern void sub_0802949C(s32,s32);
+static inline u32 t36CTest2(u8 *p) { register s32 v asm("r0")=*p; register s32 shifted asm("r6"); register u32 mask asm("r0"); asm("" : "+r"(v)); shifted=v>>2; asm("" : "+r"(shifted)); mask=1; return shifted&mask; }
+static inline u32 t36CTest6(u8 *p) { register s32 v asm("r0")=*p; register s32 shifted asm("r4"); register u32 mask asm("r0"); asm("" : "+r"(v)); shifted=v>>6; asm("" : "+r"(shifted)); mask=1; return shifted&mask; }
+static inline u32 t36CAvailable(void) { register s32 v asm("r0")=sub_0805CFA0(); register u32 ok asm("r1")=1; if(v<0)ok=0; return ok; }
+static inline u32 t36CCount(u32 n) { return n; }
+static inline void t36CInit(struct T36CCmd *pp,u32 aa,u32 bb) { register struct T36CCmd *p asm("r0"); register u32 a asm("r1")=aa; register u32 b asm("r2")=bb; asm("" : "+r"(a), "+r"(b)); p=pp; asm("" : "+r"(p)); p->unk0=a; p->unk2=b; }
+static inline u8 *t36CInvBase(u8 *base) { register u8 *p asm("r0")=base; u32 off; asm("" : "+r"(p)); off=0xC10; return p+off; }
+void sub_08037DFC(s32 arg0) {
+    struct T36CCmd sp8;
+    u8 unused[16];
+    register s32 temp_r1 asm("r1");
+    register s32 temp_r4 asm("r4");
+    register s32 temp_r6 asm("r6");
+    s32 var_r1_2;
+    register s32 var_r2 asm("r2");
+    register s32 var_r5 asm("r5");
+    s32 var_r7;
+    u32 temp_r4_10;
+    u32 temp_r4_11;
+    u32 temp_r4_12;
+    u32 temp_r4_13;
+    u32 temp_r4_14;
+    u32 temp_r4_15;
+    u32 temp_r4_16;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 temp_r4_8;
+    u32 temp_r4_9;
+    register u32 var_r1 asm("r1");
+    register u8 *inventory asm("r3");
+    register u32 var_r4 asm("r4");
+    register u8 *fill asm("r1");
+    register u32 fillzero asm("r2");
+    u32 var_r4_2;
+    u8 *var_r0;
+    u8 *var_r0_2;
+    struct Player *temp_r2;
+    struct Player *temp_r2_2;
+
+    temp_r2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    sub_0802949C(arg0, 0);
+    if (sub_0800CE30() != 0) {
+        var_r5 = (*(u32 *)(t36CState+0x7C));
+    } else {
+        var_r5 = (*(u32 *)(t36CState+0x74));
+    }
+    if (sub_0800CE30() != 0) {
+        var_r0 = t36CState + 0x1C6;
+    } else {
+        var_r0 = t36CState + 0x1BA;
+    }
+    temp_r6 = t36CTest2(var_r0);
+    if (sub_0800CE30() != 0) {
+        var_r0_2 = t36CState + 0x1C7;
+    } else {
+        var_r0_2 = t36CState + 0x1BB;
+    }
+    temp_r4 = t36CTest6(var_r0_2);
+    var_r2 = 0;
+    var_r1 = 0;
+    inventory=t36CInvBase(t36CInventory);
+    asm("" : "+r"(inventory));
+    do {
+        if (*(inventory + var_r1) != 0) {
+            var_r2 += 1;
+        }
+        var_r1 += 1;
+    } while (var_r1 <= 0x90U);
+    var_r7 = 0;
+    if (var_r2 == 0x91) {
+        var_r7 = 1;
+    }
+    temp_r1 = sub_080020F4();
+    if (temp_r4 == 0 && var_r7 != 0 && temp_r1 == 0) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_13 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140113U);
+    while (sub_0805EEFC((void *)temp_r4_13) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        var_r1_2 = t36CAvailable();
+        if (var_r1_2 != 0) {
+            t36CInit(&sp8, 6, 0x1E);
+            var_r4 = 0;
+            fill=sp8.data;
+            fillzero=0;
+            asm("" : "+r"(fill), "+r"(fillzero));
+            do {
+                fill[var_r4] = fillzero;
+                var_r4 += 1;
+            } while (var_r4 <= 0xBU);
+            var_r4_2 = 0;
+            do {
+                t36CEmit(&sp8);
+                var_r4_2 += 1;
+            } while (var_r4_2 < t36CCount(1));
+            if (!(gUnk_030027D0 & 0x20)) {
+                sub_08006D08(0x33U);
+            }
+            sub_08068070((u32) &sub_0805990C, 0x26U);
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_15 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140114U);
+    while (sub_0805EEFC((void *)temp_r4_15) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_16 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140115U);
+    while (sub_0805EEFC((void *)temp_r4_16) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_14 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140116U);
+    while (sub_0805EEFC((void *)temp_r4_14) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        }
+    } else {
+        if (temp_r6 != 0) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140112U);
+    while (sub_0805EEFC((void *)temp_r4_2) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (0x100 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140111U);
+    while (sub_0805EEFC((void *)temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (0x80 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140110U);
+    while (sub_0805EEFC((void *)temp_r4_4) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (0x40 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_5 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14010FU);
+    while (sub_0805EEFC((void *)temp_r4_5) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (0x20 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_6 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14010EU);
+    while (sub_0805EEFC((void *)temp_r4_6) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (0x10 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_7 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14010DU);
+    while (sub_0805EEFC((void *)temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (8 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_8 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14010CU);
+    while (sub_0805EEFC((void *)temp_r4_8) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (4 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_9 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14010BU);
+    while (sub_0805EEFC((void *)temp_r4_9) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if (2 & var_r5) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_10 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14010AU);
+    while (sub_0805EEFC((void *)temp_r4_10) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else if ((var_r5 &= 1) != 0) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_11 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140109U);
+    while (sub_0805EEFC((void *)temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        } else {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_12 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140108U);
+    while (sub_0805EEFC((void *)temp_r4_12) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        }
+    }
+    temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
+    sub_0800D108();
+}
+
+
 extern u8 *t36DState asm("gUnk_03005CF4");
 extern void sub_0802949C(s32,s32);
 extern void sub_08029788(s32);
