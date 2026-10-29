@@ -1604,7 +1604,104 @@ struct F9E0P {
 };
 extern struct F9E0P F9E0pl[] asm("gUnk_03003CE0");
 extern u8 F9E0pos[] asm("gUnk_03003D6C");
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F700);
+extern u32 gUnk_0850D4EC[];
+extern u32 gUnk_0850D500[];
+extern void sub_0802EA50(void);
+extern void F700_AD04(void *, void *, s32) asm("sub_0800AD04");
+extern void F700_9930(u16, u32) asm("sub_08009930");
+extern s32 F700_A4A0(s32) asm("sub_0805A4A0");
+extern void F700_7328(u32, void (*)()) asm("sub_08057328");
+u32 sub_0808F700(u16 *arg)
+{
+    s32 idx;
+    u16 *rec;
+    u32 i;
+    if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_08056E78();
+        sub_0800CF6C();
+        sub_0800CCEC();
+        idx = sub_080020F4();
+        rec = &arg[F700_A4A0(*arg) * 18 + 2];
+        if (F9E0pl[idx].flags & 0x2000) {
+            F9E0pl[idx].flags &= 0xFFFFDFFD;
+            F9E0pl[idx].state = 0;
+            if (sub_0800CB9C() == 0)
+                *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x58) = 2;
+            sub_0802996C();
+        }
+        F9E0pl[idx].aC2[1] = F9E0pl[idx].a60[1];
+        F9E0pl[idx].aC2[0] = F9E0pl[idx].a60[0];
+        F9E0pl[idx].b68 = 1;
+        F9E0pl[idx].pos.x = rec[0] << 8;
+        F9E0pl[idx].pos.y = rec[1] << 8;
+        F9E0pl[idx].pos2 = F9E0pl[idx].pos;
+        F9E0pl[idx].flags &= 0xFFFFFBFF;
+        F9E0pl[idx].w1C = rec[2];
+        sub_0801A664(2, 5);
+        F700_9930(**(u16 **)&gUnk_03005CF4, *(u32 *)(*(u8 **)&gUnk_03005CF4 + 0x40));
+        while (sub_0800BA6C() == 0)
+            sub_080003F0();
+        sub_0805D518();
+        gUnk_03003170.pad76 = 0x20;
+        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * 0x14C); F700_AD04(&q->x, &q->y, sub_0800CCCC()); }
+        *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) = 1;
+        sub_0805A66C();
+        i = 0;
+        do {
+            sub_080003F0();
+            i++;
+        } while (i < 20);
+        sub_080169C8();
+        sub_080003F0();
+        sub_0805A4BC(arg);
+        sub_080257D4(gUnk_0850D500, 0);
+        sub_08056E24();
+        F700_7328(*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x58), sub_0802EA50);
+        F700_7328(0, sub_0808D0B0);
+        *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x58) = 0;
+        sub_080003F0();
+        sub_080003F0();
+    } else if (sub_08056E90() != 0) {
+        u8 *base;
+        sub_080570DC(1);
+        sub_08056FB8(0, 0);
+        F9E0pl[sub_080020F4()].b68 = 1;
+        sub_08056E78();
+        *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x36) = 0;
+        F9E0pl[sub_080020F4()].flags &= ~2;
+        F9E0pl[sub_080020F4()].state = 0;
+        F9E0pl[sub_080020F4()].w1C = 4;
+        base = *(u8 **)&gUnk_03005CF4;
+        *(u16 *)(base + 0x30) = 1;
+        *(u16 *)(base + 0x24) = 1;
+        return 1;
+    }
+    if ((F9E0pl[sub_080020F4()].pos.y >> 11) <= 12) {
+        u8 *base;
+        F9E0pl[sub_080020F4()].flags |= 3;
+        sub_08067D74();
+        sub_0800BB40();
+        sub_08056E64();
+        sub_0801ABE8(3);
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_0800CCA8();
+        sub_0808D05C();
+        sub_08056E64();
+        sub_080570DC(1);
+        sub_080003F4(0x02688420);
+        sub_0800CCB8();
+        base = *(u8 **)&gUnk_03005CF4;
+        *(u32 *)(base + 0x71C) = gUnk_0850D4EC[*(u32 *)(base + 0x40)];
+        *(u16 *)(base + 0x10) = 0;
+        *(u16 *)(base + 0x58) = 0;
+        sub_080587F0();
+        return 1;
+    }
+    return 0;
+}
 extern u32 gUnk_0850D4EC[];
 extern void sub_0808B978(void);
 extern void sub_0808CB58(void);
