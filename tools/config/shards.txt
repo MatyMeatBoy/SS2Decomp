@@ -1446,3 +1446,6 @@
 119 sub_080B64A4 code_080B3648
 120 m4aSoundInit m4a
 120 CgbSound m4a
+121 ply_note m4a_1_engine
+122 SoundMainRAM m4a_1_sound
+123 MPlayMain m4a_1_vsync
