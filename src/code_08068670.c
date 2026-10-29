@@ -649,7 +649,36 @@ afterModify:;
         player->state=kind;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069224);
+s32 sub_08069224(u32 kind,u16 magnitude,s16 *stats)
+{
+    s32 stat;
+    s32 chance;
+    u32 random;
+    if(sub_0800CF80()) return 0;
+    random=sub_080008C8()%100U;
+    switch(kind) {
+    case 0:return 0;
+    case 1:stat=stats[0];break;
+    case 2:stat=stats[1];break;
+    case 3:stat=stats[2];break;
+    case 4:stat=stats[3];break;
+    case 5:stat=stats[4];break;
+    case 6:case 7:stat=stats[5];break;
+    }
+    chance=(magnitude*6-stat+50)/(stat+1)-2;
+    if(chance<0) chance=0;
+    if(random<(u32)chance) {
+        switch(kind) {
+        case 1: if(++stats[0]>100) stats[0]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 2: if(++stats[1]>99) stats[1]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 3: if(++stats[2]>100) stats[2]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 4: if(++stats[3]>100) stats[3]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 5: if(++stats[4]>100) stats[4]=100; else sub_08022200(sub_080020F4(),kind); break;
+        case 6:case 7: if(++stats[5]>100) stats[5]=100; else sub_08022200(sub_080020F4(),kind); break;
+        }
+    }
+    return kind;
+}
 struct ResistPlayer69 {u8 pad0[0x73];s8 modifier;u8 pad74[0x14C-0x74];};
 extern struct ResistPlayer69 resistPlayers69[] asm("gUnk_03003CE0");
 extern u8 *resistEnemies69 asm("gUnk_030056F4");
