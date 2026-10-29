@@ -517,64 +517,50 @@ accept:
 reject:
     return 0;
 }
-#ifdef NONMATCHING
+extern u32 gUnk_084B24B0[];
+extern u32 gUnk_084B2504[];
 u32 sub_0805AE94(u8 *item)
 {
-    extern u32 priceLevels[] asm("gUnk_084B24B0");
-    extern u32 priceQualities[] asm("gUnk_084B2504");
     u32 flag = 0;
     u32 value = 0;
     u32 level = 0;
     u32 quality = 0;
     u32 multiplier = 10;
-    register u32 id asm("r0");
-    register u32 category asm("r1");
-    register u32 q0 asm("r0");
-    register u32 q2 asm("r2");
-    u32 result;
-    u8 *resource;
     switch (*(u16 *)item) {
     case 1:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000);
-        value = *(u32 *)(resource + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000) + 0x9C);
         break;
     case 2:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
-        value = *(u32 *)(resource + 0xA0);
-        flag = item[8]; level = item[6]; q0 = item[7]; quality = q0;
-        goto modifier;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000) + 0xA0);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+        break;
     case 3:
-        id = *(u16 *)(item + 2);
-        category = 0xC0000;
-        goto shared;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xC0000) + 0x9C);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+        break;
     case 4:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000);
-        value = *(u32 *)(resource + 0x9C);
-        flag = item[8]; level = item[6]; q0 = item[7]; quality = q0;
-        goto modifier;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000) + 0x9C);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+        break;
     case 7:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000);
-        value = *(u32 *)(resource + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000) + 0x9C);
         flag = 0; level = 0;
         break;
     case 5:
-        id = *(u16 *)(item + 2);
-        category = 0xE0000;
-shared:
-        id |= category;
-        resource = (u8 *)sub_08007290(id);
-        value = *(u32 *)(resource + 0x9C);
-        flag = item[8]; level = item[6]; q2 = item[7]; quality = q2;
-modifier:
-        if (*(u16 *)(item + 4) != 0) {
-            resource = (u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000);
-            multiplier = *(u16 *)(resource + 0x9C);
-        }
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xE0000) + 0x9C);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
         break;
     case 6:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000);
-        value = *(u32 *)(resource + 0x9C);
-        flag = 0; level = 0; q0 = 0; quality = q0;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000) + 0x9C);
+        flag = 0; level = 0; quality = 0;
         break;
     case 9:
         sub_08007290(*(u16 *)(item + 2) | 0x150000);
@@ -590,26 +576,16 @@ modifier:
         value = *(u32 *)(item + 4);
         break;
     case 8:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000);
-        value = *(u16 *)(resource + 0x9C);
+        value = *(u16 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000) + 0x9C);
         break;
     }
-    if (flag != 0) goto one;
-    {
-        value = value * multiplier / 10;
-        value = value * priceLevels[level] / 10;
-        value = value * priceQualities[quality] / 10;
-        result = value;
-        goto done;
-    }
-one:
-    result = 1;
-done:
-    return result;
+    if (flag != 0)
+        return 1;
+    value = value * multiplier / 10;
+    value = value * gUnk_084B24B0[level] / 10;
+    value = value * gUnk_084B2504[quality] / 10;
+    return value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
-#endif
 u32 sub_0805B068(const u8 *item)
 {
     u32 divisor;
