@@ -20529,14 +20529,14 @@
       "name": "sub_0806335C",
       "addr": 134624092,
       "size": 380,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x0806335C",
       "canonical_symbol": "sub_0806335C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0806335C",
       "name_status": "unidentified",
       "name_source": null,
@@ -20560,7 +20560,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 1521,
+          "line": 1517,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
