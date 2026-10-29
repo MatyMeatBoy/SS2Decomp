@@ -201,6 +201,7 @@ extern void sub_080997C0(u16,u16);
 #endif
 #ifdef NONMATCHING
 void sub_08098108(void *arg0) {
+    extern u32 playerIndex98108(s32) asm("sub_08096594");
     struct TaskFinal98108 { u8 pad[0x18]; s32 y; }; struct TaskFinal98108 *taskFinal98108;
     u16 *registration;
     s32 *registrationFlags;
@@ -393,7 +394,7 @@ block_6:
             case 3:                                 /* switch 1 */
                 sp84 = 1;
                 M2C_FIELD(arg0, u16 *, 0xC) = 1U;
-                if ((sub_08097A74(arg0, &gUnk_03003CE0[sub_08096594(0)], 0x100, 0x20) << 0x18) != 0) {
+                if ((sub_08097A74(arg0, &gUnk_03003CE0[playerIndex98108(0)], 0x100, 0x20) << 0x18) != 0) {
                     temp_r1_4 = sp98;
                     sp98 = (s32) (u16) (temp_r1_4 + 1);
                     var_r4 = &screenY;
