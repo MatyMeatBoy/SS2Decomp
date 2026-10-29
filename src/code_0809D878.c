@@ -743,7 +743,8 @@ extern u8 gUnk_084A6DB8[];
 extern u16 t107BTile asm("gUnk_030003E8");
 extern s32 t107BAck(void) asm("sub_08067BF8");
 extern s16 t107BCall0800086C(void) asm("sub_0800086C");
-extern void *t107BCall08007870(s16,s16,u32,u16,s32,void *,u32,u32) asm("sub_08007870");
+/* Keep renderer coordinates wide: y - 1 must not wrap before the call. */
+extern void *t107BCall08007870(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
 extern void t107BCall0800BC08(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
 extern void t107BCall0801623C(void *,void *,s32) asm("sub_0801623C");
 extern s32 t107BCall08016E04(u16,u16) asm("sub_08016E04");
