@@ -259,6 +259,9 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     register u8 temp_r2_3 asm("r2");
     register u8 *enemyTargetPosition asm("r1");
     u8 *enemyHitHistory;
+    register u8 *historyAddress68 asm("r1");
+    register u32 historyValue68 asm("r2");
+    register u32 historyIndex68 asm("r0");
     u8 *playerHitHistory;
     register u8 *allyTargetPosition asm("r3");
     u8 *targetPlayerEnemy;
@@ -504,8 +507,15 @@ loop_105:
                             }
                             if ((s32) var_r0_4 <= (s32) temp_r1_3) {
                                 if ((localPlayer == playerIndexEnemy) && (sub_0800CCCC() == 0) && (M2C_FIELD(targetPlayerEnemy, u16 *, 0x20) != 0xB)) {
-                                    enemyHitHistory = targetPlayerEnemy + 0xE4;
-                                    if (M2C_FIELD(enemyHitHistory, u32 *, M2C_FIELD(sourceEnemy, u16 *, 0x0) * 4) != M2C_FIELD(sourceEnemy, u32 *, 0x50)) {
+                                    historyIndex68 = M2C_FIELD(sourceEnemy, u16 *, 0x0) * 4;
+                                    asm("" : "+r"(historyIndex68));
+                                    historyAddress68 = targetPlayerEnemy + 0xE4;
+                                    historyValue68 = M2C_FIELD(historyAddress68, u32 *, historyIndex68);
+                                    asm("" : "+r"(historyAddress68), "+r"(historyValue68));
+                                    historyIndex68 = M2C_FIELD(sourceEnemy, u32 *, 0x50);
+                                    asm("" : "+r"(historyIndex68), "+r"(historyAddress68));
+                                    enemyHitHistory = historyAddress68;
+                                    if (historyValue68 != historyIndex68) {
                                         M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerEnemy, u16 *, 0x0);
                                         if (M2C_FIELD(attack, u32 *, 0xC) == 4) {
                                             {u8 *effectBase=gUnk_084EBF1C;asm("" : "+r"(effectBase));effectBase+=0x62;temp_r4_2=*(u16 *)effectBase;}
