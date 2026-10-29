@@ -3782,7 +3782,87 @@ void sub_08053120(s32 arg0)
         break;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080531C4);
+struct P31C4 { u8 pad[0x64]; u16 state; u8 rest[0x14C - 0x66]; };
+extern struct P31C4 t53_players31C4[] asm("gUnk_03003CE0");
+static inline u8 t53_busy31C4(void)
+{
+    u32 n = sub_08002164();
+    u32 i;
+    for (i = 0; i < n; i++) {
+        u16 st = t53_players31C4[i].state;
+        if (st == 6 || st == 8) return 1;
+    }
+    return 0;
+}
+void sub_080531C4(void)
+{
+    s32 out[4];
+    s32 sx, sy, sx2, sy2;
+    s32 i, i2, step, step2;
+    u16 n;
+    s32 off;
+    u32 dialog;
+    s32 k;
+    u8 flag;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX, targetY, targetX2, targetY2;
+    t53_lock0E48();
+    sub_0800D0F4();
+    if (sub_08002164() == 1) off = 0;
+    else switch (sub_080020F4()) {
+    case 0: off = -12; break;
+    case 1: off = 12; break;
+    case 2: off = -36; break;
+    case 3: off = 36; break;
+    }
+    sub_08028D98(0, (s16)off, 0, 0);
+    k = t53_busy31C4();
+    for (n = 1; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
+    for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    step = 17;
+    sx = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX.all = -off << 16; targetY.all = 0xFFC00000;
+    for (i = 0; i <= 1024; i += step) {
+        sub_080659F4(&out[0], sx, targetX.half.high, i);
+        sub_080659F4(&out[1], sy, targetY.half.high, i);
+        t53_cam37DC((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+    }
+    flag = t53_has2060(t53_gs0E48, 1);
+    if (k && flag == 0) dialog = t53_open37DC(0x1400A5, 1);
+    else if (k == 0 && flag == 0) dialog = t53_open37DC(0x1400A2, 1);
+    else if (k) dialog = t53_open37DC(0x1400A3, 1);
+    else dialog = t53_open37DC(0x1400A3, 1);
+    t53_dialogWait0E48(dialog);
+    step2 = 34;
+    sx2 = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy2 = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX2.all = 0; targetY2.all = 0;
+    for (i2 = 0; i2 <= 1024; i2 += step2) {
+        sub_080659F4(&out[2], sx2, targetX2.half.high, i2);
+        sub_080659F4(&out[3], sy2, targetY2.half.high, i2);
+        t53_cam37DC((s16)out[2], (s16)out[3]);
+        sub_080003F0();
+    }
+    {register u32 song asm("r1")=11;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(11);
+    {register u8 *base asm("r2")=t53_gs0E48;
+    register u32 value asm("r1")=*(u16 *)(base+4);
+    register u32 mask asm("r0")=32;
+    *(u16 *)(base+4)=mask|value;}
+    t53_unlock0E48();
+    sub_0800D108();
+}
 void sub_08053510(void)
 {
     s32 out[4];
