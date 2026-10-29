@@ -720,10 +720,12 @@ u32 sub_0805EF90(void)
 
   return 0;
 }
-void sub_0805EFBC(void)
+extern u8 *efbcBase62 asm("gUnk_03005D68");
+void sub_0805EFBC_impl(void) asm("sub_0805EFBC");
+void sub_0805EFBC_impl(void)
 {
     u8 i;
-    u8 *base = *(u8 **)&gUnk_03005D68;
+    u8 *base = efbcBase62;
     for (i = 0; i <= 3; i++) {
         if ((gUnk_03005D6C >> i) & 1) {
             while (sub_0805EE6C(base + i * 0x88) == 0)

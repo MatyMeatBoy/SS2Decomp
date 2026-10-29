@@ -168,7 +168,6 @@ extern s32 gUnk_03005CE4;
 extern s32 gUnk_03005CF4;
 extern s32 gUnk_03005CF8;
 extern void *gUnk_03005D58;
-extern s32 gUnk_03005D68;
 extern u8 gUnk_03005D6C;
 extern u8 gUnk_03005D70;
 extern M2C_UNK gUnk_03005D80;

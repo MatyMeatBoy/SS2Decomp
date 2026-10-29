@@ -483,7 +483,7 @@ s32 sub_0805EEFC(void *arg0);
 u32 sub_0805EF14(u8 *arg0);
 void sub_0805EF84(u8 *p, u32 v);
 u32 sub_0805EF90(void);
-void sub_0805EFBC(void);
+s32 sub_0805EFBC();
 void sub_0805F020();
 void sub_0805F07C();
 u32 sub_0805F0C4(void);
