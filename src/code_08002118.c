@@ -519,10 +519,10 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u16 temp_r0_4;
     u16 temp_r0_5;
     u16 temp_r1_5;
-    u16 temp_r2_2;
+    u32 temp_r2_2;
     u16 temp_r4_14;
     u16 temp_r4_22;
-    u16 temp_r5_10;
+    u32 temp_r5_10;
     u16 var_r0_10;
     u16 var_r0_11;
     u16 var_r0_12;

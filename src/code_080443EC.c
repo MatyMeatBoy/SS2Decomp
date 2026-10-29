@@ -442,7 +442,119 @@ finish:
         *selected = mask | value;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B61C);
+extern u8 *t49_gsB61C asm("gUnk_03005CF4");
+extern void t49_BB80B61C(s32, s32) asm("sub_0800BB80");
+static inline void t49_lockB61C(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
+static inline void t49_unlockB61C(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+static inline void t49_moveFirstB61C(s16 step, s16 tx, s16 ty)
+{
+    volatile s32 a;
+    s32 b;
+    register s32 delta asm("sl") = step;
+    register s32 x asm("r8") = (s16)gUnk_03003170.f80;
+    s32 y = (s16)gUnk_03003170.f82;
+    s32 i;
+    register s32 *outB asm("r6");
+    i = 0;
+    outB = &b;
+    for (; i <= 0x400; i += delta) {
+        sub_080659F4(&a, x, tx, i);
+        sub_080659F4(outB, y, ty, i);
+        t49_BB80B61C((s16)a, (s16)b);
+        sub_080003F0();
+    }
+}
+static inline void t49_moveSecondB61C(s16 step, s16 tx, s16 ty)
+{
+    s32 a, b;
+    register s32 delta asm("r9") = step;
+    register s32 x asm("r6") = (s16)gUnk_03003170.f80;
+    s32 y = (s16)gUnk_03003170.f82;
+    s32 i;
+    for (i = 0; i <= 0x400; i += delta) {
+        sub_080659F4(&a, x, tx, i);
+        sub_080659F4(&b, y, ty, i);
+        t49_BB80B61C((s16)a, (s16)b);
+        sub_080003F0();
+    }
+}
+static inline void t49_waitB61C(u16 timer)
+{
+    goto wait;
+next: if (--timer == 0) return;
+wait:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto next;
+}
+static inline void t49_transitionB61C(void)
+{
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
+static inline void t49_musicB61C(u32 track)
+{
+    gUnk_03005CF8 = track;
+    if ((gUnk_030027D0 & 32) == 0) sub_08006CB4(track);
+}
+static inline u32 t49_hasB61C(u8 *ptr, u32 mask)
+{ return *(u32 *)(ptr + 0x38) & mask; }
+static inline void t49_flagB61C(u8 *ptr, u32 mask)
+{ *(u32 *)(ptr + 0x38) |= mask; }
+void sub_0804B61C(void)
+{
+    register s32 offset asm("r4");
+    register s32 tx asm("r2");
+    register u32 dialog asm("r4");
+    register u32 newDialog asm("r3");
+    t49_lockB61C();
+    sub_0800D0F4();
+    if (sub_08002164() == 1) offset = 0;
+    else {
+        switch (sub_080020F4()) {
+        case 0: offset = -12; break;
+        case 1: offset = 12; break;
+        case 2: offset = -36; break;
+        case 3: offset = 36; break;
+        }
+    }
+    sub_08028AAC(0, (u16)(offset + 120), 400, 0);
+    tx = -offset;
+    t49_moveFirstB61C(512, tx, -300);
+    t49_waitB61C(30);
+    t49_transitionB61C();
+    t49_musicB61C(217);
+    t49_waitB61C(20);
+    if (t49_hasB61C(t49_gsB61C, 64) == 0) {
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        newDialog = sub_0805DF38(1, 15, 2, 0, 45, 0x14003B);
+    } else {
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        newDialog = sub_0805DF38(1, 15, 2, 0, 45, 0x14003D);
+    }
+    t49_flagB61C(t49_gsB61C, 64);
+    dialog = newDialog;
+    while (sub_0805EEFC((void *)dialog) == 0) sub_080003F0();
+    t49_moveSecondB61C(17, 0, 0);
+    t49_musicB61C(11);
+    {
+        u16 *ptr = (u16 *)(t49_gsB61C + 4);
+        register u32 value asm("r1") = *ptr;
+        register u32 mask asm("r0") = 32;
+        *ptr = mask | value;
+    }
+    t49_unlockB61C();
+    sub_0800D108();
+}
 #ifdef NONMATCHING
 extern void t49_BB80(s32, s32) asm("sub_0800BB80");
 static inline void t49_moveB8EC(s16 step, s16 tx, s16 ty)

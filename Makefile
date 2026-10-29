@@ -57,16 +57,23 @@ asm_deps = $(wildcard asm/nonmatchings/$(1)/*.s)
 CC1_m4a := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm
 
+# Original libgcc C runtime: match the library compiler, not game flags.
+CC1_libgcc2 := tools/agbcc/bin/old_agbcc
+CC1FLAGS_libgcc2 := -O2
+CPPFLAGS_libgcc2 := -DL_divdi3
+
 # The SDK's flash library was prebuilt with -O1
 CC1FLAGS_agb_flash := -O1 -mthumb-interwork
 
 
 
 
+$(BUILD)/src/libgcc2.o: src/longlong.h
+
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)
 	@mkdir -p $(@D)
-	$(CPP) $(CPPFLAGS) $< -o $(BUILD)/src/$*.i
+	$(CPP) $(CPPFLAGS) $(CPPFLAGS_$*) $< -o $(BUILD)/src/$*.i
 	$(or $(CC1_$*),$(CC1)) $(or $(CC1FLAGS_$*),$(CC1FLAGS)) -o $(BUILD)/src/$*.s $(BUILD)/src/$*.i
 	@printf ".text\n\t.align 2, 0 @ Don't pad with nop\n" >> $(BUILD)/src/$*.s
 	$(AS) $(ASFLAGS) -o $@ $(BUILD)/src/$*.s

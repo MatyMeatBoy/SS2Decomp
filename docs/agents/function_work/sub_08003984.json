@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-29T00:37:54.588788+00:00",
-  "checkpoint": "08e1b62c8fc2e844c1100ff438a480eabd12a9b3",
+  "updated_utc": "2026-10-29T00:58:00.319260+00:00",
+  "checkpoint": "e495d769fd173995c69a242d931fccfe1ac8dabe",
   "areas": [
     {
       "id": "flow",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C/highregs conservados. Estados1/5 comparten puntero de nombre var_r5_3; cero del terminador vive hasta reg.h0 en estado8. Recupera destinoR5, ceroR4, fadeR6 y materialización original de arg0 en043E6–044A4; cambios locales. Borrado053F0 tiene prefijo250bytes idéntico en objetos (sólo evidencia local, no ROM C). CFG190/170/5 y seis replays149frames; diez casos de nombres longitudes0/1/8/9/12 y targets0/8,265frames completos sin divergencias. Diagnóstico acotado, C8324/8352 NO MATCH; ASM retenido."
+      "evidence": "Frame0x54C/highregs conservados. Estados1/5 comparten puntero de nombre var_r5_3; cero del terminador vive hasta reg.h0 en estado8. Recupera destinoR5, ceroR4, fadeR6 y materialización original de arg0 en043E6–044A4; cambios locales. Borrado053F0 tiene prefijo250bytes idéntico en objetos (sólo evidencia local, no ROM C). CFG190/170/5 y seis replays149frames; diez casos de nombres longitudes0/1/8/9/12 y targets0/8,265frames completos sin divergencias. Diagnóstico acotado, C8324/8352 NO MATCH; ASM retenido. Estado3: temporal de máscara0x20 u32 elimina MOV redundante y recupera LSRS R5,R0,16 original; único cambio de instrucciones normalizadas respecto625f2832. C8320/8352, frame54C, NO MATCH. CFG190/170/5 y seis replays149frames pasan; diagnósticos limitados, ASM fallback conservado. Menú estado0: temporal máscara0x10 u32 recupera LSRS R2,R0,16 original, único cambio de instrucciones respecto e495d769. C8316/8352, frame54C, NO MATCH. CFG190/170/5 y seis replays149frames pasan; alcance diagnóstico."
     },
     {
       "id": "match",

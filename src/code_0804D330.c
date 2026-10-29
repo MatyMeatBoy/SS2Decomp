@@ -152,7 +152,237 @@ void sub_0804DB48(void) {
         break;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804DDBC);
+extern s32 sub_0801AB24(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+extern void sub_080576A8(void);
+extern void sub_0802939C(s32,s32);
+extern void cameraMove51DD(s16,s16) asm("sub_0800BB80");
+union Fixed51DD { s32 whole; struct { u16 lo; s16 hi; } part; };
+struct Task51DD { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
+extern void taskStart51DD(void *,u32) asm("sub_08000274");
+struct HalfDD {u32 pad; u16 flags;};
+void sub_0804DDBC(void) {
+    s32 out[6];
+    s32 *sp20,*sp24;
+    union Fixed51DD xa,ya,xb,yb,xc,yc;
+    s32 status1,status2,step3;
+    s32 *statusptr1,*statusptr2;
+    u32 *word;
+    u32 mask;
+    u32 *word2,mask2; u16 *half,halfmask;
+    u8 *entry;
+    s32 *entryFlags;
+    u32 one,zero;
+    s32 bitTemp;
+    s32 temp_r5;
+    s32 temp_r6;
+    s32 temp_r7;
+    s32 temp_r8;
+    s32 temp_r8_2;
+    s32 temp_r9;
+    s32 *var_r1;
+    s32 *var_r1_2;
+    s32 temp_r0;
+    s32 temp_r0_3;
+    s32 var_r4;
+    s32 var_r4_4;
+    s32 var_r4_6;
+    s32 var_r4_8;
+    s32 var_r6;
+    u16 var_r4_3;
+    u16 var_r4_5;
+    u16 var_r4_7;
+    u32 temp_r4;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 var_r2;
+    u32 var_r2_2;
+    u32 var_r3;
+    struct Task51DD *var_r4_2;
+    s32 callback;
+    u32 var_r5;
+    u32 temp_r0_2;
+    struct Player *temp_r2;
+    struct Player *temp_r2_2;
+    void *var_r2_3;
+
+    temp_r2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    if (sub_08002164() == 1) {
+        var_r4 = 0;
+    } else {
+        var_r6 = sub_080020F4();
+        switch (var_r6) {                           /* switch 1; irregular */
+        case 0:                                     /* switch 1 */
+            var_r4 = -0xC;
+            break;
+        case 1:                                     /* switch 1 */
+            var_r4 = 0xC;
+            break;
+        case 2:                                     /* switch 1 */
+            var_r4 = -0x24;
+            break;
+        case 3:                                     /* switch 1 */
+            var_r4 = 0x24;
+            break;
+        }
+    }
+    sub_08028AAC(0, (s32) (u16) (var_r4 + 0x78), 0xC0, 0);
+    temp_r0 = sub_080289C0(0x11, 0x78, 0x96);
+    sub_0802939C(temp_r0, 0);
+    sub_08028AAC(1, 0x78, 0, 0);
+    callback = (s32)sub_0805A194;
+    var_r4_2 = (struct Task51DD *)(gUnk_03005CF4+0xE34);
+    var_r5 = 0;
+    sp20 = &out[4];
+    sp24 = &out[5];
+    goto taskcheck51DD;
+tasknext51DD: var_r5++; var_r4_2++;
+taskcheck51DD: if(var_r5<=29) {
+        if (sub_08000470((u32)var_r4_2)) goto tasknext51DD;
+        while ((var_r4_2->f20 = temp_r0_2 = sub_08001494(0x400)) == 0) sub_080003F0();
+        var_r4_2->f8 = 0x3C;
+        var_r4_2->fC = callback;
+        var_r4_2->f10 = temp_r0_2+0x3FC;
+        var_r4_2->f24 = 0;
+        taskStart51DD(var_r4_2,temp_r0);
+        var_r6 = (s32)var_r4_2;
+    }
+    for (var_r4_3=1;var_r4_3;var_r4_3--) { sub_080003F0(); if(sub_080021A8())break; }
+    if (sub_0800CC98() == 0) {
+        temp_r0_3 = sub_0801AB24();
+        switch (temp_r0_3) {                        /* switch 2; irregular */
+        case 0:                                     /* switch 2 */
+            sub_080576A8();
+            break;
+        case 1:                                     /* switch 2 */
+            sub_0801AB50(6);
+            break;
+        case 2:                                     /* switch 2 */
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    status1=0xD9; statusptr1=&gUnk_03005CF8; *statusptr1=status1;
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006CB4(0xD9U);
+    }
+    word=(u32 *)(gUnk_03005CF4+0x38); mask=2;
+    if (!(*word & mask)) {
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_3 = sub_0805DF38(1,15,2,0,45,0x140048);
+        while (sub_0805EEFC((void *) temp_r4_3) == 0) sub_080003F0();
+        temp_r8_2 = (s16) gUnk_03003170.f80;
+        temp_r7 = (s16) gUnk_03003170.f82;
+        var_r4_6 = 0;
+        xa.whole=0; ya.whole=0xFFA60000;
+    do {
+            sub_080659F4(&out[0], (s32) temp_r8_2, xa.part.hi, var_r4_6);
+            sub_080659F4(&out[1], (s32) temp_r7, ya.part.hi, var_r4_6);
+            cameraMove51DD((s16) out[0], (s16) out[1]);
+            sub_080003F0();
+            var_r4_6 += 0x11;
+        } while (var_r4_6 <= 0x400);
+        sub_08028AAC(1, 0x78, 0x5A, 0xB4);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_4 = sub_0805DF38(1,15,2,0,45,0x140049);
+        while (sub_0805EEFC((void *) temp_r4_4) == 0) sub_080003F0();
+        if ((var_r6 != 0) && (sub_08000470((u32) var_r6) != 0)) {
+            sub_080003A8(var_r6);
+        }
+        sub_08028AAC(temp_r0, 0x78, 0x50, 0x2D);
+        var_r1_2=(s32 *)(gUnk_03005CF4+0x7A4);
+        var_r2_2=0;
+        do {
+            if (*var_r1_2==temp_r0) goto found2;
+            var_r2_2++; var_r1_2+=0x1C;
+        } while(var_r2_2<=14);
+        sub_080003F0(); var_r1_2=NULL;
+found2:
+        if (var_r1_2 != NULL) {
+            *(u16 *)((u8 *)var_r1_2+0x36) = 4;
+        }
+        for (var_r4_7=60;var_r4_7;var_r4_7--) { sub_080003F0(); if(sub_080021A8())break; }
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_5 = sub_0805DF38(1,15,2,0,45,0x14004A);
+        while (sub_0805EEFC((void *) temp_r4_5) == 0) sub_080003F0();
+        word2=(u32 *)(gUnk_03005CF4+0x38); mask2=2; *word2=mask2 | *word2;
+        } else {
+        temp_r9 = (s16) gUnk_03003170.f80;
+        temp_r8 = (s16) gUnk_03003170.f82;
+        var_r4_4 = 0;
+        xb.whole=0; yb.whole=0xFFA60000;
+    do {
+            sub_080659F4(&out[2], (s32) temp_r9, xb.part.hi, var_r4_4);
+            sub_080659F4(&out[3], (s32) temp_r8, yb.part.hi, var_r4_4);
+            cameraMove51DD((s16) out[2], (s16) out[3]);
+            sub_080003F0();
+            var_r4_4 += 0x11;
+        } while (var_r4_4 <= 0x400);
+        sub_08028AAC(1, 0x78, 0x5A, 0xB4);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4 = sub_0805DF38(1,15,2,0,45,0x14004C);
+        while (sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
+        if ((var_r6 != 0) && (sub_08000470((u32) var_r6) != 0)) {
+            sub_080003A8(var_r6);
+        }
+        sub_08028AAC(temp_r0, 0x78, 0x50, 0x2D);
+        var_r1=(s32 *)(gUnk_03005CF4+0x7A4);
+        var_r2=0;
+        do {
+            if (*var_r1==temp_r0) goto found1;
+            var_r2++; var_r1+=0x1C;
+        } while(var_r2<=14);
+        sub_080003F0(); var_r1=NULL;
+found1:
+        if (var_r1 != NULL) {
+            *(u16 *)((u8 *)var_r1+0x36) = 4;
+        }
+        for (var_r4_5=60;var_r4_5;var_r4_5--) { sub_080003F0(); if(sub_080021A8())break; }
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1,15,2,0,45,0x14004D);
+        while (sub_0805EEFC((void *) temp_r4_2) == 0) sub_080003F0();
+        }
+    step3=0x22;
+    temp_r6 = (s16) gUnk_03003170.f80;
+    temp_r5 = (s16) gUnk_03003170.f82;
+    var_r4_8 = 0;
+    xc.whole=0; yc.whole=0;
+    do {
+        sub_080659F4(sp20, (s32) temp_r6, xc.part.hi, var_r4_8);
+        sub_080659F4(sp24, (s32) temp_r5, yc.part.hi, var_r4_8);
+        cameraMove51DD((s16) out[4], (s16) out[5]);
+        sub_080003F0();
+        var_r4_8 += step3;
+    } while (var_r4_8 <= 0x400);
+    status2=0xB; statusptr2=&gUnk_03005CF8; *statusptr2=status2;
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006CB4(0xBU);
+    }
+    entry=gUnk_030056F4;
+    var_r3=0;
+    entryFlags=&gUnk_030056FC;
+    one=1; zero=0;
+entry_loop:
+    if ((*entryFlags & (bitTemp=one<<var_r3)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
+    var_r3++; entry+=0x2E0;
+    if(var_r3<=4)goto entry_loop;
+    sub_08019F04();
+    ((struct HalfDD *)gUnk_03005CF4)->flags |= 32;
+    temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
+    sub_0800D108();
+}
 #ifdef NONMATCHING
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
@@ -838,7 +1068,6 @@ void sub_0804EEA8(void) {
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804EEA8);
 #endif
-#ifdef NONMATCHING
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);
@@ -849,6 +1078,7 @@ struct Task51F1 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51F1(void *,u32) asm("sub_08000274");
 struct Player51F1 { u8 a[0x11E]; u16 f11E; u8 b[0x14C-0x120]; };
 extern struct Player51F1 players51F1[] asm("gUnk_03003CE0");
+struct Flag51F1 { u32 pad; u16 flags; };
 void sub_0804F128(void) {
     s32 var_r4;
     s32 temp_r0;
@@ -954,21 +1184,13 @@ void sub_0804F128(void) {
     if (!(gUnk_030027D0 & 0x20)) {
         sub_08006CB4(0xBU);
     }
-    state = (u8 *)gUnk_03005CF4;
-    rawFlag = *(u16 *)(state+4);
-    mask = 0x20;
-    zero = 0;
-    *(u16 *)(state+4) = mask | rawFlag;
+    ((struct Flag51F1 *)gUnk_03005CF4)->flags |= 32;
+    zero=0;
     temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
     temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
     sub_0800D108();
     gUnk_03003CE0[sub_080020F4()].state = zero;
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804F128);
-#endif
 #ifdef NONMATCHING
 struct ScratchF390 { s32 out[20]; struct TileSys *level; s32 *p[4]; u32 iteration; s32 *rest[14]; };
 extern s16 cameraYF390 asm("gUnk_030031F2");

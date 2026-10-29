@@ -68,7 +68,7 @@ SECTIONS
         build/asm/libagbsyscall.o(.text);
         build/src/agb_flash.o(.text);
         *libgcc.a:_call_via_rX.o(.text);
-        *libgcc.a:_divdi3.o(.text);
+        build/src/libgcc2.o(.text);
         *libgcc.a:_divsi3.o(.text);
         *libgcc.a:_dvmd_tls.o(.text);
         *libgcc.a:_modsi3.o(.text);
@@ -82,7 +82,7 @@ SECTIONS
     ALIGN(4)
     {
         build/data/rodata.o(.rodata);
-        *libgcc.a:_divdi3.o(.rodata);
+        build/src/libgcc2.o(.rodata);
         build/data/rodata_libgcc_end.o(.rodata);
     } > ROM =0
 

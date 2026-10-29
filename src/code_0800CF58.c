@@ -4317,26 +4317,23 @@ block_1354:
                     if (((struct PlayerD368 *)arg0)->f10 == 9) {
                         var_r1_17 = 0x50029;
                     } else {
-block_1368:
-                        var_r1_17 = *(u32 *)((((struct PlayerD368 *)arg0)->f10 * 4) + (((struct PlayerD368 *)arg0)->f64 * 0x58) + (u8 *)&d368_gUnk_08479140);
+                        goto selectorLoad49;
                     }
-block_1369:
-                    d368_sub_08065158(&sp10, var_r1_17, 0, -1, (0));
-                    break;
+                    goto selectorCall49;
                 case 5:                             /* switch 20 */
                     if (((struct PlayerD368 *)arg0)->f10 == 9) {
                         var_r1_17 = 0x5001B;
                     } else {
-                        goto block_1368;
+                        goto selectorLoad49;
                     }
-                    goto block_1369;
+                    goto selectorCall49;
                 case 1:                             /* switch 20 */
                     if (((struct PlayerD368 *)arg0)->f10 == 9) {
                         var_r1_17 = 0x5009D;
                     } else {
-                        goto block_1368;
+                        goto selectorLoad49;
                     }
-                    goto block_1369;
+                    goto selectorCall49;
                 case 6:                             /* switch 20 */
                     temp_r1_51 = ((struct PlayerD368 *)arg0)->f10;
                     if (temp_r1_51 == 9) {
@@ -4344,18 +4341,25 @@ block_1369:
                     } else {
                         var_r1_17 = *(u32 *)((temp_r1_51 * 4) + (((struct PlayerD368 *)arg0)->f64 * 0x58) + (u8 *)&d368_gUnk_08479140);
                     }
-                    goto block_1369;
+                    goto selectorCall49;
                 case 7:                             /* switch 20 */
                     if (((struct PlayerD368 *)arg0)->f10 == 9) {
                         var_r1_17 = 0x50088;
                     } else {
-                        goto block_1368;
+                        goto selectorLoad49;
                     }
-                    goto block_1369;
+                    goto selectorCall49;
                 default:                            /* switch 20 */
-                    d368_sub_08065158(&sp10, *(u32 *)((((struct PlayerD368 *)arg0)->f10 * 4) + (((struct PlayerD368 *)arg0)->f64 * 0x58) + (u8 *)&d368_gUnk_08479140), 0, -1, (0));
-                    break;
+                    goto selectorDefault49;
                 }
+selectorLoad49:
+                var_r1_17 = *(u32 *)((((struct PlayerD368 *)arg0)->f10 * 4) + (((struct PlayerD368 *)arg0)->f64 * 0x58) + (u8 *)&d368_gUnk_08479140);
+selectorCall49:
+                d368_sub_08065158(&sp10, var_r1_17, 0, -1, (0));
+                goto selectorDone49;
+selectorDefault49:
+                d368_sub_08065158(&sp10, *(u32 *)((((struct PlayerD368 *)arg0)->f10 * 4) + (((struct PlayerD368 *)arg0)->f64 * 0x58) + (u8 *)&d368_gUnk_08479140), 0, -1, (0));
+selectorDone49:
                 sp114 = (u32) ((u8) M2C_FIELD(sp180, u8 *, 0) << 0x1C) >> 0x1C;
                 temp_r1_52 = (u8) M2C_FIELD(sp180, u8 *, 3) >> 4;
                 ((struct PlayerD368 *)arg0)->fB0 = (u16) temp_r1_52;
