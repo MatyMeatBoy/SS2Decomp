@@ -151,12 +151,8 @@ extern struct T48TileE t48tileE asm("gUnk_03003170");
 extern u8 *t48stateE asm("gUnk_03005CF4");
 extern void t48bbE(s32,s32) asm("sub_0800BB80");
 static inline void t48moveE(s16 step,s16 tx,s16 ty) {
- s32 a,b; register s32 delta asm("r9")=step; s32 x=t48tileE.x,y=t48tileE.y; s32 i;
- for(i=0;i<=0x400;i+=delta) { sub_080659F4(&a,x,tx,i); sub_080659F4(&b,y,ty,i); t48bbE((s16)a,(s16)b); sub_080003F0(); }
-}
-static inline void t48moveFirstE(s16 step,s16 tx,s16 ty) {
- s32 a,b; register s32 delta asm("sl")=step; register s32 destY asm("r9")=(s32)ty<<16; s32 x=t48tileE.x,y=t48tileE.y; s32 i;
- for(i=0;i<=0x400;i+=delta) { sub_080659F4(&a,x,tx,i); asm("" : "+r"(destY)); sub_080659F4(&b,y,destY>>16,i); t48bbE((s16)a,(s16)b); sub_080003F0(); }
+ s32 a,b; s32 delta=step; s32 x=t48tileE.x,y=t48tileE.y; register s32 i asm("r4");
+ i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbE((s16)a,(s16)b);sub_080003F0();i+=delta;asm("" : : "r"(i));}while(i<=0x400);
 }
 static inline void t48musicE(u32 track) { register u32 v asm("r1")=track; asm("" : "+r"(v)); gUnk_03005CF8=v; { register u32 bits asm("r1"); register u32 flags asm("r0")=gUnk_030027D0; asm("" : "+r"(flags)); bits=32; asm("" : "+r"(bits)); if(!(flags&bits)) sub_08006CB4(track); } }
 
@@ -172,7 +168,7 @@ void sub_08049EBC(void) {
  if(sub_0800CC98()==0) { switch(sub_0801AB24()) { case 0: sub_080576A8(); break; case 1: sub_0801AB50(6); break; case 2: sub_0801AB90(6); break; } while(sub_0801AAE0()==0) sub_080003F0(); }
  t48musicE(217);
  n=20; goto wait2; dec2: n--; if(n==0) goto end2; wait2: sub_080003F0(); if(sub_080021A8()==0) goto dec2; end2:;
- t48moveFirstE(17,-off,-108);
+ t48moveE(17,-off,-108);
  gp=t48stateE; asm("" : "+r"(gp)); mask=64; if(!(*(u32 *)(gp+0x38)&mask)) { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140030); }
  else { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140031); }
  asm("" : "+r"(req3));

@@ -1436,12 +1436,29 @@ struct T65Pair { u16 x,y; };
 extern struct T65State t65_state asm("gUnk_03003170");
 extern struct T65Video t65_video asm("gUnk_03001250");
 extern struct T65Player t65_players[] asm("gUnk_03003CE0");
+static inline void t65_measure(u32 id,u16 *w,u16 *h,u8 *data) {
+ u16 *pw = w;
+ u16 *ph = h;
+ sub_08008CC4(id,pw,ph,data,1);
+}
+static inline u16 t65_readLevel(u16 *p) {register u16 *p1 asm("r1")=p; return *p1;}
+static inline void t65_flags(void) {
+ u32 id=sub_080020F4();
+ register u8 *base asm("r1")=(u8 *)t65_players;
+ register u32 offset asm("r2")=0x14C;
+ offset*=id; base+=0x30; offset+=(u32)base;
+ { register u32 *p asm("r2")=(u32 *)offset; *p &= ~0x80; }
+}
+static inline u16 t65_width(struct T65Pair *p) {register struct T65Pair *p1 asm("r1")=p; return p1->x;}
 void sub_0806335C(void)
 {
     struct T65Draw a, b;
     u16 ids[2], widths[2], heights[2];
     u16 i;
-    u32 *flags;
+    register struct T65Pair *wp asm("r8");
+    register u16 *lp asm("r9");
+    u8 *bp;
+    register u8 *ap asm("r4");
     sub_08000AF0(0x15, b.unkC, 1);
     a.style = 5;
     b.style = 5;
@@ -1455,20 +1472,23 @@ void sub_0806335C(void)
         widths[0] = 0; widths[1] = 0;
         heights[0] = 0; heights[1] = 0;
         i = 1;
+        wp = (struct T65Pair *)widths;
+        ap=&a.style;
+        { register u8 *p asm("r0")=&b.style; bp=p; }
+        lp = &t65_level;
         do {
             t65_video.blend = 0x3030;
-            if (t65_level <= 8U) sub_08008CC4(ids[0], widths, heights, a.data, 1);
-            else sub_08008CC4(0x26, widths, heights, a.data, 1);
-            sub_08008CC4(ids[1], widths + 1, heights + 1, b.data, 1);
-            if (t65_level <= 8U) sub_08007CF0(0x78,0x36,ids[0],widths[0],0,(s32)&a.style,(s32)a.data,a.base);
-            else sub_08007CF0(0x78,0x36,0x26,widths[0],0,(s32)&a.style,(s32)a.data,a.base);
-            sub_08007CF0(0x78,0x6A,ids[1],widths[1],0,(s32)&b.style,(s32)b.data,b.base);
+            if (t65_readLevel(lp) <= 8U) t65_measure(ids[0], widths, heights, a.data);
+            else t65_measure(0x26, widths, heights, a.data);
+            t65_measure(ids[1], widths + 1, heights + 1, b.data);
+            if (t65_readLevel(lp) <= 8U) sub_08007CF0(0x78,0x36,ids[0],wp->x,0,(s32)ap,(s32)a.data,a.base);
+            else sub_08007CF0(0x78,0x36,0x26,t65_width(wp),0,(s32)ap,(s32)a.data,a.base);
+            sub_08007CF0(0x78,0x6A,ids[1],wp->y,0,(s32)bp,(s32)b.data,b.base);
             sub_080003F0();
         } while (i++ <= 0x77U);
         t65_video.blend = 0;
     }
-    flags = &t65_players[sub_080020F4()].flags;
-    *flags &= ~0x80;
+    t65_flags();
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806335C);

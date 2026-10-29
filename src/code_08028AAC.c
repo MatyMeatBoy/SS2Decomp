@@ -2255,7 +2255,6 @@ found10:
 extern void sub_0803C008(void);
 extern void sub_08031F28(void);
 extern void sub_080290E4(s32, s32);
-#ifdef NONMATCHING
 void sub_0802EA50(s32 arg0) {
     s32 *var_r1;
     u32 var_r2;
@@ -2268,7 +2267,9 @@ void sub_0802EA50(s32 arg0) {
     s32 flag;
     u8 *p;
     u8 *p0, *pRead, *pWrite;
+    register s32 tmp asm("r0");
     s32 raw;
+    register u8 *fb asm("r2"); register u32 fm asm("r1");
     u32 *flagdest;
     u32 setmask;
     struct Player *player;
@@ -2362,8 +2363,7 @@ found4:
     if (sub_0800CE30()) p0 = (u8 *)(gUnk_03005CF4 + 0x1C5);
     else p0 = (u8 *)(gUnk_03005CF4 + 0x1B9);
     raw = *p0;
-    count = raw >> 3;
-    count = 1 & count;
+    count = raw >> 3; tmp = 1; count &= tmp;
     if (count || active != 1) sub_08028AAC(6, 0x270F, 0x270F, 0);
     if (arg0 != 0) {
         sub_08028AAC(0, 0xB8, 0xA0, 0);
@@ -2511,9 +2511,9 @@ increment:
                 setmask = 0x80000;
                 *flagdest = setmask | *flagdest;
             } else {
-                flagdest = (u32 *)(gUnk_03005CF4 + 0x78);
-                setmask = 0x80000;
-                *flagdest = setmask | *flagdest;
+                fb = (u8 *)gUnk_03005CF4;
+                fm = 0x80000;
+                *(u32 *)(fb + 0x78) = fm | *(u32 *)(fb + 0x78);
             }
             break;
         }
@@ -2577,9 +2577,6 @@ cleanup:
         break;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802EA50);
-#endif
 extern void sub_0801AA34(s32);
 extern void sub_0802939C(s32, s32);
 extern void sub_0802F424(s32);
