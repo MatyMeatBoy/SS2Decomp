@@ -384,13 +384,52 @@ def compare(orig_o, cand_o, func, verbose=True, orig_name=None):
     return ok
 
 
+def _m2c_join_word_data(text):
+    """Remove unused internal labels splitting word-data runs in reading input.
+
+    m2c otherwise treats each labelled table entry as a separate object and
+    silently reads only its first case. Keep the first label, all references
+    (including exports), public names, and every instruction/data directive.
+    The original assembly file is never changed.
+    """
+    label = re.compile(r'^\s*([A-Za-z_.$][\w.$]*):')
+    local = re.compile(r'(?:_0[89][0-9A-Fa-f]{6}|\.L[\w.$]+)$')
+    word = re.compile(r'^\s*\.(?:4byte|word)\s+')
+    # Retain positions/newlines so label spans also index the original lines.
+    clean = re.sub(r'/\*.*?\*/', lambda m: re.sub(r'[^\n]', ' ', m.group()), text, flags=re.S)
+    code = [re.split(r'@|//', line, maxsplit=1)[0] for line in clean.splitlines(keepends=True)]
+    references = set()
+    for line in code:
+        definition = label.match(line)
+        operands = line[definition.end():] if definition else line
+        references.update(re.findall(r'[A-Za-z_.$][\w.$]*', operands))
+    output = []
+    previous_word = False
+    for index, original in enumerate(text.splitlines(keepends=True)):
+        line = code[index]
+        definition = label.match(line)
+        body = line[definition.end():] if definition else line
+        following = body
+        if definition and not body.strip():
+            following = next((code[j] for j in range(index + 1, len(code)) if code[j].strip()), '')
+        if (definition and previous_word and word.match(following)
+                and local.fullmatch(definition.group(1)) and definition.group(1) not in references):
+            original = original[:definition.start(1)] + original[definition.end():]
+        output.append(original)
+        if body.strip():
+            previous_word = bool(word.match(body))
+    return ''.join(output)
+
+
 def m2c_input(func, out):
     path, mod = find_asm(func)
-    text = open(path).read()
+    with open(path) as source:
+        text = source.read()
     text = re.sub(r"^\tthumb_func_start (\w+)", r"\t.align 2, 0\n\t.globl \1\n\t.thumb_func", text, flags=re.M)
     text = re.sub(r"^\tnon_word_aligned_thumb_func_start (\w+)", r"\t.globl \1\n\t.thumb_func", text, flags=re.M)
     text = re.sub(r"^\tthumb_func_end .*$", "", text, flags=re.M)
     text = re.sub(r"\.inst\.n 0x[0-9a-f]+ @ ", "", text)
+    text = _m2c_join_word_data(text)
     with open(out, "w") as fh:
         fh.write(".syntax unified\n.text\n" + text)
 
