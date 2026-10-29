@@ -11243,14 +11243,14 @@
       "name": "sub_0802FEA0",
       "addr": 134413984,
       "size": 1504,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x0802FEA0",
       "canonical_symbol": "sub_0802FEA0",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0802FEA0",
       "name_status": "unidentified",
       "name_source": null,
@@ -13300,14 +13300,14 @@
       "name": "sub_08049DC4",
       "addr": 134520260,
       "size": 248,
-      "state": "todo",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x08049DC4",
       "canonical_symbol": "sub_08049DC4",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08049DC4",
       "name_status": "unidentified",
       "name_source": null,
@@ -13535,7 +13535,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 833,
+          "line": 870,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
         }
       ]
