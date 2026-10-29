@@ -947,7 +947,81 @@ loop_14:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809919C);
 #endif
+#ifdef NONMATCHING
+void sub_08099468(u32 unused,s32 arg1) {
+    struct Sprite99468 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
+    struct Frame99468 {struct Sprite99468 sprite;s16 sx,sy;u16 tile;s16 rotation;s32 vx,vy;u32 count;s16 *volatile px,*volatile py;} frame;
+    register u16 *tile99468 asm("sl");
+    s16 temp_r4_3;
+    s32 temp_r1;
+    s32 temp_r1_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r4;
+    s32 var_r8;
+    s32 var_r9;
+    u32 temp_r0;
+    u32 temp_r4_2;
+    u32 temp_r4_4;
+
+    temp_r1 = arg1 - 1;
+    if ((temp_r1 == 0) || (temp_r1 == 4)) {
+        frame.vy = (s32) (gUnk_080B9704[gUnk_085186DC[temp_r1]] * 0x180) / 304;
+        var_r4 = temp_r1 * 2;
+    } else {
+        var_r4 = temp_r1 * 2;
+        var_r0 = gUnk_080B9704[gUnk_085186DC[temp_r1]] * 0x180;
+        if (var_r0 < 0) {
+            var_r0 += 0xFF;
+        }
+        frame.vy = var_r0 >> 8;
+    }
+    var_r0_2 = gUnk_080B9704[*(u16 *)((u8 *)gUnk_085186DC+var_r4) + 0x40] * 0x180;
+    if (var_r0_2 < 0) {
+        var_r0_2 += 0xFF;
+    }
+    frame.vx = var_r0_2 >> 8;
+    var_r9 = entity98F->x;
+    var_r8 = entity98F->y;
+    t071Init(&frame.sprite, 0x50130, 5, -1,0);
+    sub_08000AF0(0x15U,(void *)(frame.sprite.fC+0x20),1U);
+    frame.sprite.f1D = 5;
+    frame.count = 0x10D;
+    frame.px = &frame.sx;
+    frame.py = &frame.sy;
+    tile99468=&frame.tile;
+loop_9:
+    var_r9 += frame.vx;
+    var_r8 += frame.vy;
+    temp_r5 = var_r9 >> 8;
+    temp_r4 = var_r8 >> 8;
+    t071Coords((s16)temp_r5,(s16)temp_r4,frame.px,frame.py,0,0);
+    if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+        t071Animate(&frame.sprite,10,tile99468,&frame.rotation,1);
+        t071Draw(*frame.px,*frame.py,10,*tile99468,(u8)sub_0800BC44(temp_r5,temp_r4,0),&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);
+    }
+    temp_r4_2 = (u32) ((var_r9 - players98F[sub_080020F4()].x) << 8) >> 0x10;
+    temp_r4_3 = (s16) temp_r4_2;
+    temp_r1_2 = (s32) ((var_r8 - players98F[sub_080020F4()].y) << 8) >> 0x10;
+    if (((u32) Sqrt((temp_r4_3 * temp_r4_3) + (temp_r1_2 * temp_r1_2)) <= 0x13U) && (sub_0800CDF8() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0) && (entity98F->state != 0xB) && !(players98F[sub_080020F4()].flags & 0x2000) && (players98F[sub_080020F4()].active != 0) && (players98F[sub_080020F4()].state != 0xE) && (players98F[sub_080020F4()].state != 0xB) && (players98F[sub_080020F4()].state != 0xC) && (players98F[sub_080020F4()].seen[entity98F->index] != entity98F->counter)) {
+        sub_08029CEC(1, 0x1E, 5);
+        players98F[sub_080020F4()].motion = 0xFFFE;
+        players98F[sub_080020F4()].seen[entity98F->index] = entity98F->counter;
+    }
+    sub_080003F0();
+    temp_r4_4 = frame.count;
+    temp_r0 = (temp_r4_4 << 0x10) + 0xFFFF0000;
+    frame.count = temp_r0 >> 0x10;
+    if (((s32) temp_r0 >> 0x10) != -1) {
+        goto loop_9;
+    }
+    M2C_FIELD((void *)sub_0800048C(),u32 *,8) = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08099468);
+#endif
 void sub_08099720(void) {
     if (M2C_FIELD(gUnk_030002D0, s16 *, 0x5C) != 0) {
         sub_08099788();
