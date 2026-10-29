@@ -644,10 +644,10 @@ void sub_0800D368(void *arg0) {
     s32 temp_r0_46;
     s32 temp_r0_49;
     s32 temp_r0_50;
-    u16 temp_r0_57;
+    u32 temp_r0_57;
     s32 temp_r0_58;
     s32 temp_r0_5;
-    u16 temp_r0_61;
+    u32 temp_r0_61;
     s32 temp_r0_62;
     s32 temp_r0_77;
     s32 temp_r0_7;
@@ -668,7 +668,7 @@ void sub_0800D368(void *arg0) {
     s32 temp_r1_29;
     s32 temp_r1_30;
     s32 temp_r1_31;
-    s32 temp_r1_32;
+    u16 temp_r1_32;
     s32 temp_r1_33;
     s32 temp_r1_41;
     s32 temp_r1_51;
@@ -698,7 +698,7 @@ void sub_0800D368(void *arg0) {
     s32 temp_r5;
     s32 temp_r5_11;
     s32 temp_r5_6;
-    s32 temp_r5_8;
+    u16 temp_r5_8;
     s32 var_r0_16;
     s32 var_r0_17;
     s32 var_r0_29;
@@ -2234,7 +2234,7 @@ block_612:
                             temp_r0_38 = ((u32) sp130 >> 8) + ((struct PlayerD368 *)arg0)->f24;
                             ((struct PlayerD368 *)arg0)->f24 = temp_r0_38;
                             sp130 = (s32) (u8) sp130;
-                            if ((u32) temp_r0_38 > 0x10U) {
+                            if ((u32) (u16) temp_r0_38 > 0x10U) {
                                 sp134 = (s32) (u16) (sp134 + 0x20);
                                 ((struct PlayerD368 *)arg0)->f26 = (u16) (((struct PlayerD368 *)arg0)->f26 + 1);
                                 ((struct PlayerD368 *)arg0)->f24 = 0U;
@@ -2397,7 +2397,7 @@ block_719:
                             temp_r0_46 = ((u32) sp130 >> 8) + ((struct PlayerD368 *)arg0)->f24;
                             ((struct PlayerD368 *)arg0)->f24 = temp_r0_46;
                             sp130 = (s32) (u8) sp130;
-                            if ((u32) temp_r0_46 > 0x10U) {
+                            if ((u32) (u16) temp_r0_46 > 0x10U) {
                                 sp134 = (s32) (u16) (sp134 + 0x20);
                                 ((struct PlayerD368 *)arg0)->f26 = (u16) (((struct PlayerD368 *)arg0)->f26 + 1);
                                 ((struct PlayerD368 *)arg0)->f24 = 0U;
@@ -2725,7 +2725,7 @@ state5Done66:
                         } else {
                             temp_r0_58 = ((u32) (temp_r0_57 << 0x10) >> 0x18) + ((struct PlayerD368 *)arg0)->f24;
                             ((struct PlayerD368 *)arg0)->f24 = temp_r0_58;
-                            sp130 = (s32) (u8) temp_r5_8;
+                            sp130 = temp_r5_8 & 0xFF;
                             if ((u32) (u16) temp_r0_58 > 0xFU) {
                                 temp_r1_30 = ((struct PlayerD368 *)arg0)->f26 + 1;
                                 ((struct PlayerD368 *)arg0)->f26 = temp_r1_30;
@@ -2871,7 +2871,7 @@ block_809:
                         } else {
                             temp_r0_62 = ((u32) (temp_r0_61 << 0x10) >> 0x18) + ((struct PlayerD368 *)arg0)->f24;
                             ((struct PlayerD368 *)arg0)->f24 = temp_r0_62;
-                            sp130 = (s32) (u8) sp130;
+                            sp130 &= 0xFF;
                             if ((u32) (u16) temp_r0_62 > 0xFU) {
                                 temp_r1_33 = ((struct PlayerD368 *)arg0)->f26 + 1;
                                 ((struct PlayerD368 *)arg0)->f26 = temp_r1_33;

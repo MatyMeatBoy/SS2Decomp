@@ -63,7 +63,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     u16 alternate = 0;
     u16 overlay = 0;
     u32 group;
-    u32 frame;
+    u8 frame;
     u8 *resource;
     u8 *descriptor;
     u32 packed;
@@ -112,17 +112,12 @@ alt:
             alternate++;
         }
         break;
-    case 6:
-        descriptor = (u8 *)sub_08007290(item[1] | 0xF0000) + 0xAC;
-        goto packed16;
     case 7:
         descriptor = (u8 *)sub_08007290(item[1] | 0x110000) + 0xA8;
         goto packed16;
-    case 8:
-        descriptor = (u8 *)sub_08007290(item[1] | 0x120000) + 0xA0;
-packed16:
-        packed = *(u16 *)descriptor;
-        goto unpack;
+    case 6:
+        descriptor = (u8 *)sub_08007290(item[1] | 0xF0000) + 0xAC;
+        goto packed16;
     case 9:
         descriptor = (u8 *)sub_08007290(item[1] | 0x150000) + 0xA0;
         packed = *(u32 *)descriptor;
@@ -130,6 +125,11 @@ packed16:
     case 10:
         descriptor = (u8 *)sub_08007290(0x160000) + 0x9C;
         packed = *(u32 *)descriptor;
+        goto unpack;
+    case 8:
+        descriptor = (u8 *)sub_08007290(item[1] | 0x120000) + 0xA0;
+packed16:
+        packed = *(u16 *)descriptor;
 unpack:
         frame = *descriptor;
         group = packed >> 8;
@@ -143,20 +143,20 @@ unpack:
         if ((u32)((screenX + 16) << 16) > 0x1080000 || screenY < -16 || screenY > 168)
             return;
         priority = sub_0800BC44(worldX, worldY, sub_0800CCCC());
-        sub_08008E74(screenX, screenY, 0, frame, priority, iconData63 + group * 0x34,
+        sub_08008E74((s16)screenX, screenY, 0, frame, priority, iconData63 + group * 0x34,
             *(s32 *)(iconData63 - 0x14 + group * 0x34), *(s32 *)(iconData63 - 0x1C + group * 0x34));
         return;
     }
-    asset = &iconAssets63[group];
     if ((flags & 2) && alternate == 0)
-        ((u8 *)asset)[0x25] = 10;
+        ((u8 *)&iconAssets63[group])[0x25] = 10;
     else
-        ((u8 *)asset)[0x25] = 9;
+        ((u8 *)&iconAssets63[group])[0x25] = 9;
     if ((flags & 8) && overlay != 0) {
         if (overlay == 7) overlay = 6;
         sub_08007CF0(pos.x, pos.y + 8, 4, (u16)(overlay + 11), 0, (s32)((u8 *)&iconOverlay63 + 0x1C), iconOverlay63.f8, iconOverlay63.f0);
     }
     if (flags & 4) {
+        asset = &iconAssets63[group];
         step = asset->step;
         value = step + asset->value;
         asset->value = value;

@@ -316,6 +316,155 @@ INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080399E4);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08039F00);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803A460);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803A8F0);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803AD74);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803AE6C);
+void sub_0803AD74(void) {
+    u8 *p;
+    u32 msg;
+    register u32 offset asm("r2");
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (u8 *)gUnk_03003CE0 + offset;
+    *(u32 *)(p + 0x30) |= 1;
+    sub_0800D0F4();
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+    msg = sub_0805DF38(1, 15, 2, 0, -1, 0x140122);
+    while (sub_0805EEFC((void *)msg) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
+        sub_080003F0();
+    }
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+    msg = sub_0805DF38(1, 15, 2, 0, -1, 0x140123);
+    while (sub_0805EEFC((void *)msg) == 0) {
+        if (sub_0800CDF8() != 0) {
+            sub_0805EFBC();
+            break;
+        }
+        sub_080003F0();
+    }
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (u8 *)gUnk_03003CE0 + offset;
+    *(u32 *)(p + 0x30) &= ~1;
+    sub_0800D108();
+}
+static inline u32 t38_getAE6C(u32 mask) {
+    register u8 *base asm("r0");
+    register u32 bits asm("r0");
+    register u32 m asm("r1");
+    if (sub_0800CE30()) {base=(u8 *)gUnk_03005CF4 + 0x80; m=mask; bits=*(u32 *)base;}
+    else {base=(u8 *)gUnk_03005CF4; m=mask; bits=*(u32 *)(base+0x78);}
+    return bits & m;
+}
+static inline u8 *t38_findAE6C(u32 arg) {
+    register u32 key asm("r2")=arg;
+    u8 *p=(u8 *)gUnk_03005CF4+0x7A4;
+    u32 i;
+    for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
+    sub_080003F0(); return 0;
+}
+static inline void t38_setAE6C(u32 arg) {
+    register u32 value asm("r4");
+    register u32 key asm("r2")=arg;
+    register u8 *p asm("r0");
+    u32 idx;
+    value=3;
+    if(arg>0x100000) {p=t38_findAE6C(key);if(p) *(u16 *)(p+0x42)=value;}
+    else if(arg!=0) {
+        register u8 **address asm("r1");
+        register u8 *entry asm("r1");
+        register u32 off asm("r0");
+        idx=arg-1;
+        if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*0x2E0;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
+    }
+    else {register u32 off asm("r0");off=sub_080020F4()*0x14C;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
+}
+static inline u32 t38_getFirstAE6C(u32 mask) {
+    register u8 *base asm("r0");
+    register u32 bits asm("r4");
+    register u32 m asm("r1");
+    if (sub_0800CE30()) {base=(u8 *)gUnk_03005CF4 + 0x80; m=mask << 14; bits=*(u32 *)base;}
+    else {base=(u8 *)gUnk_03005CF4; m=mask << 14; bits=*(u32 *)(base+0x78);}
+    return bits & m;
+}
+void sub_0803AE6C(u32 arg0) {
+    s32 var_r0;
+    s32 var_r4;
+    register u8 *temp_r1 asm("r1");
+    register u32 one asm("r4");
+    u32 temp_r4;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u8 *temp_r2_2;
+    register u32 endOffset asm("r2");
+
+    {register u32 off asm("r1");register u32 bits asm("r0");register u8 *base asm("r0");
+    off=0x14C * sub_080020F4();base=(u8 *)gUnk_03003CE0;temp_r1=(u8 *)off;temp_r1+= (u32)base;
+    bits=*(u32 *)(temp_r1+0x30);one=1;bits|=one;*(u32 *)(temp_r1+0x30)=bits;}
+    sub_0800D0F4();
+    var_r4=t38_getFirstAE6C(one);
+    var_r0=t38_getAE6C(0x100);
+    if (var_r0 && !var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140278U);
+    while (sub_0805EEFC((void *) temp_r4) == 0) {
+            if (sub_0800CDF8() != 0) {sub_0805EFBC(); break;}
+            sub_080003F0();
+        }
+        if(sub_0800CE30()) {
+            register u8 *p asm("r1");register u32 mask asm("r2");register u32 bits asm("r0");
+            p=(u8 *)gUnk_03005CF4+0x80; mask=0x4000;bits=*(u32 *)p;*(u32 *)p=bits|mask;
+        } else {
+            register u8 *p asm("r2");register u32 mask asm("r1");register u32 bits asm("r0");
+            p=(u8 *)gUnk_03005CF4;mask=0x4000;bits=*(u32 *)(p+0x78);*(u32 *)(p+0x78)=bits|mask;
+        }
+        if (!(gUnk_030027D0 & 0x20)) {
+            sub_08006D08(0x32U);
+        }
+    } else {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140274U);
+    while (sub_0805EEFC((void *) temp_r4_2) == 0) {
+            if (sub_0800CDF8() != 0) {sub_0805EFBC(); break;}
+            sub_080003F0();
+        }
+    }
+    sub_0802939C(arg0, 0);
+    sub_0802949C(arg0, 0);
+    t38_setAE6C(arg0);
+    while (sub_0805F184() != 0) sub_080003F0();
+    temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x140275U);
+    while (sub_0805EEFC((void *) temp_r4_3) == 0) sub_080003F0();
+    if (sub_0805EF14((u8 *) temp_r4_3) != 0) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140276U);
+    while (sub_0805EEFC((void *) temp_r4_4) == 0) {
+            if (sub_0800CDF8() != 0) {sub_0805EFBC(); break;}
+            sub_080003F0();
+        }
+    } else {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_5 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140277U);
+    while (sub_0805EEFC((void *) temp_r4_5) == 0) {
+            if (sub_0800CDF8() != 0) {sub_0805EFBC(); break;}
+            sub_080003F0();
+        }
+    }
+    sub_08029788(arg0);
+    sub_0802939C(arg0, 3);
+    endOffset = sub_080020F4();
+    endOffset *= 0x14C;
+    temp_r2_2 = (u8 *)gUnk_03003CE0 + endOffset;
+    (*(u32 *)(temp_r2_2 + 0x30)) = (s32) ((*(u32 *)(temp_r2_2 + 0x30)) & ~1);
+    sub_0800D108();
+}
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803B194);

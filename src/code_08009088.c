@@ -53,7 +53,147 @@ void sub_0800A298(u32 index)
     t06_updateA298();
 }
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A34C);
+#ifdef NONMATCHING
+struct T06PlayerA998 {u8 pad[0x8C];s32 x,y;u8 tail[0xB8];};
+struct T06SysA998 {
+    u8 pad[0x60];void *header,*allocation;u16 *map0,*map1;
+    u16 width0,pad72,width1,pad76,mapW,mapH,scrollX,scrollY;
+    u16 f80,f82,offX,offY,relX,relY,curLevel,pad8E,f90;
+    u8 pad92[10];u32 flags;u8 padA0[16];void *resource;
+};
+extern u8 t06_rawA998[] asm("gUnk_03003170");
+extern struct T06SysA998 t06_sysA998 asm("gUnk_03003170");
+extern struct T06PlayerA998 t06_playersA998[] asm("gUnk_03003CE0");
+extern u16 t06_levelA998 asm("gUnk_030031FC");
+extern s16 t06_scrollYA998 asm("gUnk_030031EE");
+void sub_0800A998(void) {
+    struct {s32 config,result;s16 *volatile pointer;} frame;
+    register u32 *state asm("r8");
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    register s32 var_sl asm("sl");
+    struct T06PlayerA998 *temp_r1;
+    register struct T06PlayerA998 *temp_r9 asm("r9");
+    u16 temp_r5;
+    u16 var_r4;
+    u16 var_r5;
+    u16 var_r7;
+
+    t06_sysA998.flags = 1;
+    temp_r1 = &t06_playersA998[sub_080020F4()];
+    temp_r9 = temp_r1;
+    temp_r5 = ((s32) temp_r9->x >> 0xB) - 0xF;
+    var_r7 = ((s32) temp_r9->y >> 0xB) - 0xB;
+    sub_080003F0();
+    sub_080003F0();
+    if ((t06_sysA998.curLevel != 5) || (t06_sysA998.f90 != 0xD)) {
+        if (t06_sysA998.curLevel == 0xA) {
+            if ((t06_sysA998.f90 == 3) || (t06_sysA998.f90 == 0xD)) {
+                sub_080092C8(1, t06_sysA998.header, temp_r5, 0U);
+                sub_080092C8(2, t06_sysA998.header, temp_r5, 0U);
+            } else {
+                sub_080092C8(1, t06_sysA998.header, temp_r5, var_r7);
+                sub_080092C8(2, t06_sysA998.header, temp_r5, var_r7);
+            }
+        } else {
+            sub_080092C8(1, t06_sysA998.header, temp_r5, var_r7);
+            sub_080092C8(2, t06_sysA998.header, temp_r5, var_r7);
+        }
+        sub_080092C8(3, t06_sysA998.header, temp_r5, var_r7);
+    }
+    {register struct T06SysA998 *base asm("r4")=&t06_sysA998;register u16 *level asm("r5")=&base->curLevel;sub_0800A34C(*level,0,0);}
+    state=(u32 *)(t06_rawA998+0x9C);
+    frame.pointer = (s16 *)&frame.config;
+    while (!(*state & 2) && (sub_0800CB78() == 0)) {
+        while(sub_0800CD34()!=0)sub_080003F0();
+        if (!(*state & 0xC)) {
+            goto block_43;
+        }
+        if (sub_0800CD8C() == 0) {
+            frame.result = sub_080586B4(0);
+        }
+        sub_080003F4(0x514C8);
+        temp_r0 = sub_080021A8();
+        if (temp_r0 != 0) break;
+        {
+            var_r5 = ((s32) temp_r9->x >> 0xB) - 0xF;
+            var_r7 = ((s32) temp_r9->y >> 0xB) - 0xB;
+            if (var_r5 & 0x8000) {
+                var_r5 = 0;
+            }
+            if (var_r7 & 0x8000) {
+                var_r7 = 0;
+            }
+            temp_r0_2 = t06_sysA998.width0 - 0x1E;
+            if ((s32) var_r5 > temp_r0_2) {
+                var_r5 = (u16) temp_r0_2;
+            }
+            if ((s32) (s16) t06_sysA998.scrollY < 0) {
+                t06_sysA998.scrollY = (u16) temp_r0;
+            }
+            temp_r0_3 = t06_sysA998.pad72 - 0x14;
+            if ((s32) var_r7 > temp_r0_3) {
+                var_r7 = (u16) temp_r0_3;
+            }
+            if ((t06_sysA998.curLevel != 5) || (t06_sysA998.f90 != 0xD)) {
+                sub_08009138(t06_sysA998.resource, t06_sysA998.curLevel);
+                if (t06_sysA998.curLevel == 0xA) {
+                    if ((t06_sysA998.f90 == 3) || (t06_sysA998.f90 == 0xD)) {
+                        sub_080092C8(1, t06_sysA998.header, var_r5, 0U);
+                        sub_080092C8(2, t06_sysA998.header, var_r5, 0U);
+                    } else {
+                        sub_080092C8(1, t06_sysA998.header, var_r5, var_r7);
+                        sub_080092C8(2, t06_sysA998.header, var_r5, var_r7);
+                    }
+                } else {
+                    sub_080092C8(1, t06_sysA998.header, var_r5, var_r7);
+                    sub_080092C8(2, t06_sysA998.header, var_r5, var_r7);
+                }
+                sub_080092C8(3, t06_sysA998.header, var_r5, var_r7);
+            } else {
+                sub_08000990(1, 1);
+                sub_080009F8(0x800, 0, 1);
+                sub_080009C0(0x1700, 0, 1);
+                frame.config = (frame.config & 0xFFFF0000) | 0x1C08;
+                sub_08000AA8(0U, (u16 *) &frame.config);
+                *frame.pointer = 0x1D83;
+                sub_08000AA8(1U, (u16 *) &frame.config);
+                *frame.pointer = 0xBE81;
+                sub_08000AA8(2U, (u16 *) &frame.config);
+                sub_0800B650(0x2D, 0x1D, 0x06000000, 0U, 15);
+                sub_0800B9F0(0x2CU, 0x1EU);
+                sub_080003F0();
+                sub_080003F0();
+            }
+            var_sl = 1;
+            *state &= ~0xC;
+            sub_0800A34C(t06_levelA998, frame.result, 1);
+            if (sub_0801AB24() == 0) {
+                sub_0801AA34(0x14);
+            } else if (sub_0801AB24() == 2) {
+                sub_0801AB90(6);
+            } else {
+                sub_0801AB50(6);
+            }
+block_43:
+            var_r4 = 1;
+            do {
+                sub_08009594(var_r4, *(&t06_scrollYA998 - 1), t06_scrollYA998, var_sl);
+                var_r4 += 1;
+            } while ((u32) var_r4 <= 3U);
+            var_sl = 0;
+            sub_08009B84();
+            sub_080003F0();
+            *state |= 0x40;
+            continue;
+        }
+    }
+    t06_sysA998.flags = 0x80000000;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A998);
+#endif
 #ifdef NONMATCHING
 struct T06SysAD04 {u8 pad[0x70];u16 w,h,w1,h1,mapW,mapH;s16 x,y;u16 offX,offY,pad84,pad86,relX,relY;u8 pad8C[16];u32 flags;};
 extern struct T06SysAD04 t06_sysAD04 asm("gUnk_03003170");
@@ -303,7 +443,277 @@ block_28:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800AEF4);
 #endif
+#ifdef NONMATCHING
+extern u16 t06_width1B118 asm("gUnk_030031E4");
+extern u16 t06_heightB118 asm("gUnk_030031EA");
+s32 sub_0800B118(u8 direction,s32 x,s32 y,s32 flags)
+{
+    u32 cells[3][3];
+    s32 centerX=x>>11;
+    s32 centerY=(y+0x200)>>11;
+    s32 i,j,xx,yy,nextI,nextJ;
+    u16 width;
+    u16 *map;
+    u32 value;
+    u8 *cell;
+    if(flags&1) {
+        map=gUnk_03003170.map1;
+        i=-1;
+        do {
+            xx=centerX+i;
+            j=-1;
+            nextI=i+1;
+            do {
+                yy=centerY+j;
+                if(xx<=0 || yy<=0 || xx>=t06_width1B118 || yy>=gUnk_03003170.pad76) {
+                    nextJ=j+1;
+                    cells[nextJ][nextI]=1;
+                } else {
+                    nextJ=j+1;
+                    cells[nextJ][nextI]=(*(u32 *)&map[xx+t06_width1B118*yy]<<20)>>28;
+                }
+                j=nextJ;
+            }while(j<=1);
+            i=nextI;
+        }while(i<=1);
+    } else {
+        if(gUnk_03003170.curLevel==8 && gUnk_03003170.f90==18)width=90;
+        else if(gUnk_03003170.curLevel==8 && (gUnk_03003170.f90==2 || gUnk_03003170.f90==12))width=60;
+        else width=gUnk_03003170.mapW;
+        map=gUnk_03003170.map0;
+        i=-1;
+        do {
+            xx=centerX+i;
+            j=-1;
+            nextI=i+1;
+            do {
+                yy=centerY+j;
+                if(xx<=0 || yy<=0 || xx>=width || yy>=t06_heightB118) {
+                    nextJ=j+1;
+                    cells[nextJ][nextI]=1;
+                } else {
+                    cell=(u8 *)&map[xx+yy*width];
+                    nextJ=j+1;
+                    value=(*(u32 *)cell<<20)>>28;
+                    cells[nextJ][nextI]=value;
+                    if((flags&2) && cell[0]==1)cells[nextJ][nextI]=value|cell[0];
+                    if((flags&4) && (cell[1]&16))cells[nextJ][nextI]=0;
+                }
+                j=nextJ;
+            }while(j<=1);
+            i=nextI;
+        }while(i<=1);
+    }
+    switch(cells[1][1]) {
+    case 0:goto L_B63C;
+    case 1:goto L_B304;
+    case 2:goto L_B47C;
+    case 3:goto L_B47C;
+    case 4:goto L_B4B0;
+    case 5:goto L_B4B0;
+    case 6:goto L_B4E4;
+    case 7:goto L_B4E4;
+    case 8:goto L_B51C;
+    case 9:goto L_B51C;
+    case 10:goto L_B550;
+    case 11:goto L_B588;
+    case 12:goto L_B5C4;
+    case 13:goto L_B5FC;
+    default:goto L_B63C;
+    }
+L_B304:
+    switch(direction) {
+    case 0:goto L_B338;
+    case 1:goto L_B434;
+    case 2:goto L_B368;
+    case 3:goto L_B446;
+    case 4:goto L_B3AC;
+    case 5:goto L_B458;
+    case 6:goto L_B3F4;
+    case 7:goto L_B468;
+    default:goto L_B63C;
+    }
+L_B338:
+    switch(cells[0][1]-6) {
+    case 0:goto L_B4E4;
+    case 1:goto L_B4E4;
+    case 2:goto L_B51C;
+    case 3:goto L_B51C;
+    case 4:goto L_B550;
+    case 5:goto L_B588;
+    default:goto L_B638;
+    }
+L_B368:
+    switch(cells[1][2]-2) {
+    case 0:goto L_B47C;
+    case 1:goto L_B47C;
+    case 2:goto L_B638;
+    case 3:goto L_B638;
+    case 4:goto L_B638;
+    case 5:goto L_B638;
+    case 6:goto L_B51C;
+    case 7:goto L_B51C;
+    case 8:goto L_B638;
+    case 9:goto L_B588;
+    case 10:goto L_B5C4;
+    default:goto L_B638;
+    }
+L_B3AC:
+    switch(cells[2][1]-2) {
+    case 0:goto L_B47C;
+    case 1:goto L_B47C;
+    case 2:goto L_B4B0;
+    case 3:goto L_B4B0;
+    case 4:goto L_B638;
+    case 5:goto L_B638;
+    case 6:goto L_B638;
+    case 7:goto L_B638;
+    case 8:goto L_B638;
+    case 9:goto L_B638;
+    case 10:goto L_B5C4;
+    case 11:goto L_B5FC;
+    default:goto L_B638;
+    }
+L_B3F4:
+    switch(cells[1][0]-4) {
+    case 0:goto L_B4B0;
+    case 1:goto L_B4B0;
+    case 2:goto L_B4E4;
+    case 3:goto L_B4E4;
+    case 4:goto L_B638;
+    case 5:goto L_B638;
+    case 6:goto L_B550;
+    case 7:goto L_B638;
+    case 8:goto L_B638;
+    case 9:goto L_B5FC;
+    default:goto L_B638;
+    }
+L_B434:
+    if(cells[0][0]==0)goto L_B584;
+    if(cells[2][2]==0)goto L_B634;
+    goto L_B638;
+L_B446:
+    if(cells[2][0]==0)goto L_B584;
+    if(cells[0][2]==0)goto L_B5BC;
+    goto L_B638;
+L_B458:
+    if(cells[0][0]==0)goto L_B5BC;
+    if(cells[2][2]==0)goto L_B478;
+    goto L_B638;
+L_B468:
+    if(cells[2][0]==0)goto L_B634;
+    if(cells[0][2]==0)goto L_B478;
+    goto L_B638;
+L_B478:return 7;
+L_B47C:
+    switch(direction) {
+    case 0:goto L_B63C;
+    case 1:goto L_B63C;
+    case 2:goto L_B518;
+    case 3:goto L_B518;
+    case 4:goto L_B5F8;
+    case 5:goto L_B63C;
+    case 6:goto L_B63C;
+    case 7:goto L_B63C;
+    default:goto L_B63C;
+    }
+L_B4B0:
+    switch(direction) {
+    case 0:goto L_B63C;
+    case 1:goto L_B63C;
+    case 2:goto L_B63C;
+    case 3:goto L_B63C;
+    case 4:goto L_B630;
+    case 5:goto L_B5C0;
+    case 6:goto L_B5C0;
+    case 7:goto L_B63C;
+    default:goto L_B63C;
+    }
+L_B4E4:
+    switch(direction) {
+    case 0:goto L_B518;
+    case 1:goto L_B63C;
+    case 2:goto L_B63C;
+    case 3:goto L_B63C;
+    case 4:goto L_B63C;
+    case 5:goto L_B63C;
+    case 6:goto L_B5F8;
+    case 7:goto L_B5F8;
+    default:goto L_B63C;
+    }
+L_B51C:
+    switch(direction) {
+    case 0:goto L_B5C0;
+    case 1:goto L_B630;
+    case 2:goto L_B630;
+    case 3:goto L_B63C;
+    case 4:goto L_B63C;
+    case 5:goto L_B63C;
+    case 6:goto L_B63C;
+    case 7:goto L_B63C;
+    default:goto L_B63C;
+    }
+L_B550:
+    switch(direction) {
+    case 0:goto L_B584;
+    case 1:goto L_B63C;
+    case 2:goto L_B63C;
+    case 3:goto L_B63C;
+    case 4:goto L_B63C;
+    case 5:goto L_B5BC;
+    case 6:goto L_B5BC;
+    case 7:goto L_B638;
+    default:goto L_B63C;
+    }
+L_B588:
+    switch(direction) {
+    case 0:goto L_B5C0;
+    case 1:goto L_B638;
+    case 2:goto L_B5BC;
+    case 3:goto L_B5BC;
+    case 4:goto L_B63C;
+    case 5:goto L_B63C;
+    case 6:goto L_B63C;
+    case 7:goto L_B63C;
+    default:goto L_B63C;
+    }
+L_B5C4:
+    switch(direction) {
+    case 0:goto L_B63C;
+    case 1:goto L_B634;
+    case 2:goto L_B634;
+    case 3:goto L_B638;
+    case 4:goto L_B5F8;
+    case 5:goto L_B63C;
+    case 6:goto L_B63C;
+    case 7:goto L_B63C;
+    default:goto L_B63C;
+    }
+L_B5FC:
+    switch(direction) {
+    case 0:goto L_B63C;
+    case 1:goto L_B63C;
+    case 2:goto L_B63C;
+    case 3:goto L_B63C;
+    case 4:goto L_B630;
+    case 5:goto L_B638;
+    case 6:goto L_B634;
+    case 7:goto L_B634;
+    default:goto L_B63C;
+    }
+L_B518:return 2;
+L_B584:return 3;
+L_B5BC:return 5;
+L_B5C0:return 8;
+L_B5F8:return 6;
+L_B630:return 4;
+L_B634:return 1;
+L_B638:return 0;
+L_B63C:return direction+1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B118);
+#endif
 extern u8 t06_displayB650 asm("gUnk_0300129C");
 extern u16 t06_doneB650 asm("gUnk_03001F40");
 void sub_0800B650(s32 a,s32 b,s32 c,u16 d,u16 e)

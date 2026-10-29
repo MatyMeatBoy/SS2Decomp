@@ -1,6 +1,29 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803B69C);
+void sub_0803B69C(s32 arg0) {
+    u16 n;
+    for (;;) {
+        sub_0802939C(arg0, 8);
+        sub_08028D98(arg0, -10, 0, 600);
+        sub_08029174(arg0, 8);
+        sub_08028D98(arg0, -4, 0, 10);
+        sub_0802939C(arg0, 9);
+        n = 100;
+        while (n != 0) {
+            sub_080003F0();
+            if (sub_080021A8() != 0) break;
+            n--;
+        }
+        sub_0802926C(arg0, 10);
+        n = 30;
+        while (n != 0) {
+            sub_080003F0();
+            if (sub_080021A8() != 0) break;
+            n--;
+        }
+        sub_08028D98(arg0, 14, 0, 20);
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803B720);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803BC3C);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803C008);

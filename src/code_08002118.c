@@ -1733,7 +1733,21 @@ loop_375:
                     sub_08065370((u8 *)&icons[var_r6], *temp_r5_6, (s32) &(&widths[0])[var_r6], (s32) (&heights[var_r6]), 1);
                 }
             }
-            sub_080659BC((u8 *)&icons[var_r6], (s32) *(u16 *)(var_r6 * 4 + ((u8 *)&gUnk_08366E0C)), (s32) *(u16 *)(var_r6 * 4 + (((u8 *)&gUnk_08366E0C) + 2)), x[(u32)var_r6], (s32) (&widths[0])[var_r6], 1);
+            {
+                register u8 *drawSpriteC7 asm("r0");
+                register u8 *drawBaseC7 asm("r2");
+                register u32 drawIndexC7 asm("r3");
+                register s32 drawXC7 asm("r1");
+                s32 drawYC7;
+                drawSpriteC7 = (u8 *)&icons[var_r6];
+                drawBaseC7 = (u8 *)&gUnk_08366E0C;
+                drawIndexC7 = var_r6 * 4;
+                drawXC7 = *(u16 *)(drawIndexC7 + (u32)drawBaseC7);
+                drawBaseC7 += 2;
+                drawIndexC7 = (u32)(drawIndexC7 + (u32)drawBaseC7);
+                drawYC7 = *(u16 *)drawIndexC7;
+                sub_080659BC(drawSpriteC7, drawXC7, drawYC7, x[(u32)var_r6], (s32) (&widths[0])[var_r6], 1);
+            }
         }
         sub_080003F0();
         continue;
