@@ -6272,30 +6272,32 @@ void sub_08014C04(void) {
     p->w26 = 0;
     p->w122 = 0;
 }
-#ifdef NONMATCHING
+extern u32 check14C(void) asm("sub_0801DE60");
 void sub_08014C8C(void) {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
     u16 value = p->w26;
     u32 next;
+    u16 step;
 
     if (sub_0800CCCC() == 0 && sub_0800CD34() == 0) {
-        if (sub_0801DE60() == 0) {
+        if (check14C() == 0) {
             sub_0805865C(value + 0x100);
         } else {
             sub_0805865C(value + 0xF9);
         }
     }
     next = 0x50;
-    if (p->wB6 == 0 && p->state == 5) {
-        u32 step = 1;
-        do {
-            if ((*(u16 *)((u8 *)p + 0xB2)) == next || (*(u16 *)((u8 *)p + 0xB2)) == step) {
-                next = (*(u16 *)((u8 *)p + 0xB2));
-                (*(u16 *)((u8 *)p + 0xDC))++;
-                step = (step + 3) & 0xFFFF;
+    step = 1;
+    while (p->wB6 == 0 && p->state == 5) {
+        u16 *type = (u16 *)((u8 *)p + 0xB2);
+        u32 *counter = (u32 *)((u8 *)p + 0xDC);
+            if (next != *type && *type == step) {
+                next = *type;
+                (*counter)++;
+                step = step + 3;
             }
             sub_080003F0();
-        } while (p->wB6 == 0 && p->state == 5);
+            asm("" : : "r"(type));
     }
     if (p->state != 0xE && p->state != 0xA && p->state != 0xB &&
         (p->flags & 0x2000) == 0) {
@@ -6306,9 +6308,9 @@ void sub_08014C8C(void) {
     p->w26 = 0;
     p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014C8C);
-#endif
+
+
+
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014D60);
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014E68);
 void sub_0801500C(u32 idx)
