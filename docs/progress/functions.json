@@ -11859,7 +11859,7 @@
       "evidence": [
         {
           "source": "src/code_0802FEA0.c",
-          "line": 2019,
+          "line": 2035,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t36AScript"
         }
       ]
