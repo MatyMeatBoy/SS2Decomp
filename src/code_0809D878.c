@@ -593,7 +593,7 @@ void sub_080A230C(void *unused, u16 delay)
     s32 radius;
     u8 tick, previous;
     {
-        register u16 *earlyTile asm("r8");
+        u16 *earlyTile;
         sub_0805865C(0xC2);
         i = 0;
         earlyTile = &tile;
