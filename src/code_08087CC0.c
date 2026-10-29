@@ -182,8 +182,10 @@ extern u8 *gStateB978 asm("gUnk_03005CF4");
 extern s16 gUnk_084AA9E0, gUnk_084AAB30, gUnk_084AAC80, gUnk_084AADD0, gUnk_084AAF20, gUnk_084AB070, gUnk_084AB1C0, gUnk_084AB310, gUnk_084AB460, gUnk_084AB5B0;
 extern u16 gTimeB978[] asm("gUnk_084F0C00");
 extern u8 gUnk_084F0C28[], gUnk_0850CAA8[];
+extern s32 B978PlayerTime[] asm("gUnk_03003D70");
 extern void sub_0802F208(void);
 void sub_0808B978(void) {
+    s32 hours83, minutes83, hours91, minutes91;
     u8 sp4[0x34];
     volatile u32 sp38;
     volatile u32 sp3C;
@@ -198,9 +200,9 @@ void sub_0808B978(void) {
     s32 temp_r0_7;
     s32 temp_r1;
     s32 var_r1;
-    s32 var_r8;
+    register s32 var_r8 asm("r8");
     u16 temp_r1_2;
-    s32 var_r6;
+    register s32 var_r6 asm("r6");
     u32 temp_r2;
     u32 temp_r4;
     u32 temp_r4_2;
@@ -209,8 +211,8 @@ void sub_0808B978(void) {
     u32 var_r1_3;
     register u32 temp_r5 asm("r5");
     register u32 temp_r5_2 asm("r5");
-    u8 temp_r5_3;
-    u8 temp_r5_4;
+    register u32 temp_r5_3 asm("r5");
+    register u32 temp_r5_4 asm("r5");
     u32 var_r7;
     register u32 entry_r7 asm("r7");
     register u32 saved_reg_r8 asm("r8");
@@ -247,6 +249,7 @@ block_6:
     sub_080003F4(0x09999000);
     temp_r2 = 0xFF & (*(u16 *)(gStateB978 + 0x36));
     var_r6 = gTimeB978[temp_r2];
+    asm("" : "+r"(var_r6));
     sp38 = 0;
     switch (temp_r2) {                              /* switch 2 */
     case 0:                                         /* switch 2 */
@@ -437,9 +440,19 @@ block_75:
             (*(u16 *)(gStateB978 + 0x58)) = 2;
             sub_080169C8();
 block_76:
-            temp_r5_3 = var_r7;
+            asm("" : "+r"(var_r8), "+r"(var_r6));
+            hours83 = var_r6 / 3600;
+            asm("" : "+r"(var_r7));
+            {
+                register u32 shifted asm("r0") = var_r7 << 24;
+                asm("" : "+r"(shifted));
+                temp_r5_3 = shifted >> 24;
+                asm("" : "+r"(temp_r5_3));
+            }
+            minutes83 = (var_r6 % 3600) / 60;
+goto test_83;
 loop_83:
-            if (*(s32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x90) > 0x1C1FF) {
+{
                 if (sub_0800CC98() == 0) {
                     temp_r0_6 = sub_0800CD8C();
                     if (temp_r0_6 == 0) {
@@ -447,19 +460,29 @@ loop_83:
                             sub_08065230(&sp4, 0, 0x20, 0x22U, temp_r0_6);
                             sub_08065230(&sp4, 0, 0x28, 0x17U, temp_r0_6);
                         }
-                        sub_0805FB7C(1, 4, (s32) var_r6 / 3600, temp_r5_3);
-                        sub_0805FB7C(4, 4, (s32) ((s32) var_r6 % 3600) / 60, temp_r5_3);
+                        sub_0805FB7C(1, 4, hours83, temp_r5_3);
+                        sub_0805FB7C(4, 4, minutes83, temp_r5_3);
                         sub_0805FB7C(7, 4, var_r8, temp_r5_3);
                     }
                 }
                 sub_08057624(1U);
-                goto loop_83;
+                test_83:
+if (*(s32 *)((u8 *)B978PlayerTime + sub_080020F4() * 0x14C) > 0x1C1FF) goto loop_83;
             }
             sub_080257D4(&gUnk_084F0C28, 0);
             sub_08056E24();
-            temp_r5_4 = var_r7;
+            hours91 = var_r6 / 3600;
+            asm("" : "+r"(var_r7));
+            {
+                register u32 shifted asm("r0") = var_r7 << 24;
+                asm("" : "+r"(shifted));
+                temp_r5_4 = shifted >> 24;
+                asm("" : "+r"(temp_r5_4));
+            }
+            minutes91 = (var_r6 % 3600) / 60;
+goto test_91;
 loop_91:
-            if (sub_08056E90() == 0) {
+{
                 if (sub_0800CC98() == 0) {
                     temp_r0_7 = sub_0800CD8C();
                     if (temp_r0_7 == 0) {
@@ -467,13 +490,14 @@ loop_91:
                             sub_08065230(&sp4, 0, 0x20, 0x22U, temp_r0_7);
                             sub_08065230(&sp4, 0, 0x28, 0x17U, temp_r0_7);
                         }
-                        sub_0805FB7C(1, 4, (s32) var_r6 / 3600, temp_r5_4);
-                        sub_0805FB7C(4, 4, (s32) ((s32) var_r6 % 3600) / 60, temp_r5_4);
+                        sub_0805FB7C(1, 4, hours91, temp_r5_4);
+                        sub_0805FB7C(4, 4, minutes91, temp_r5_4);
                         sub_0805FB7C(7, 4, var_r8, temp_r5_4);
                     }
                 }
                 sub_08057624(1U);
-                goto loop_91;
+                test_91:
+if (sub_08056E90() == 0) goto loop_91;
             }
             if ((s32) var_r6 > 0) {
                 u32 previous, elapsed;

@@ -96,6 +96,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     s32 local120;
     s32 local124;
     u32 local128;
+    s32 shutdown_end;
     s32 local12C;
     u16 * local130;
     s32 local134;
@@ -1228,13 +1229,15 @@ poll_368:
                 if ((T015L_FIELD(gUnk_03005CF4, u16 *, 0) != 0xB) && !(*(u32 *)((u8 *)gUnk_03003CE0 + 0x30 + 0x14C * sub_080020F4()) & 0x2000) && (((s32) arg0->f5A >> *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4())) & 1)) {
                     temp_r5 = sub_0801E46C((void *) gUnk_030034E0, sp118);
                     (local128) = 0x1E;
+                    shutdown_end = local128 - 31;
+                    asm volatile("" : "+r" (shutdown_end));
                     goto poll_376;
 loop_376:
                     sub_080003F0();
 poll_376:
                     temp_r0_26 = ((local128) << 0x10) + 0xFFFF0000;
                     (local128) = temp_r0_26 >> 0x10;
-                    if (((s32) temp_r0_26 >> 0x10) != -1) {
+                    if (((s32) temp_r0_26 >> 0x10) != shutdown_end) {
                         arg0->f18 = (s32) (arg0->f18 - 0x20);
                         T015L_sub_0806171C(arg0, temp_r5);
                         if (sub_08056E90() == 0) goto loop_376;

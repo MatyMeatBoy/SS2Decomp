@@ -213,6 +213,14 @@ extern M2C_UNK sub_080215E4;
 extern M2C_UNK sub_080216BC;
 extern M2C_UNK sub_080217D8;
 extern M2C_UNK sub_0802258C;
+extern void t071Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+extern void t071Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern s16 t071Damage(void *,s32) asm("sub_08068F9C");
+extern void t071Draw(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 t071Effect(void *,void *,s16) asm("sub_0801FB14");
+extern void t071Impact(void *,s32,s32) asm("sub_08079ED0");
+extern void t071Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern void t071Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 
 #endif // GUARD_VARIABLES_H
 extern void sub_08002694();

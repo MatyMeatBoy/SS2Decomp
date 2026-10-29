@@ -28,6 +28,14 @@ jobs:
           /usr/bin/python3 tools/scripts/test_sdk_reader_match.py
           /usr/bin/python3 tools/scripts/test_sdk_pattern_container.py
           /usr/bin/python3 tools/scripts/test_sdk_umul.py
+          /usr/bin/python3 tools/scripts/test_sdk_sound_match.py
+          /usr/bin/python3 tools/scripts/test_sdk_sound_runtime.py
+          /usr/bin/python3 tools/scripts/test_sdk_sub_flags.py
+          /usr/bin/python3 tools/scripts/test_sdk_text_literal_ownership.py
+          /usr/bin/python3 tools/scripts/test_sdk_text_literal_geometry.py
+          /usr/bin/python3 tools/scripts/test_sdk_text_literal_runtime.py
+          /usr/bin/python3 tools/scripts/test_sdk_text_literal_geometry.py --combined
+          /usr/bin/python3 tools/scripts/test_sdk_text_literal_runtime.py --combined
   progress:
     # Agents never commit docs/progress/*: it is regenerated here after every push to the main branch.
     if: github.event_name == 'push' && github.ref == 'refs/heads/claude/rom-decompilation-research-obsal6'

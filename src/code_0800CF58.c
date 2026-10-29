@@ -5217,12 +5217,20 @@ block_1676:
                         goto block_1781;
                     }
                     switch (temp_r0_163) {          /* switch 26 */
-                    case 0:                         /* switch 26 */
+                    case 0:                         /* switch 26 */ {
+                        u32 colorRedD368, colorWordD368, colorGreenD368;
                         temp_r3_60 = colorWaveTableD368[sp164];
+                        colorRedD368 = ((u32) temp_r3_60 << 0xC) >> 0x10;
+                        colorRedD368 &= 0x1F;
+                        colorWordD368 = (sp110 & ~0x1F) | colorRedD368;
                         temp_r0_164 = ((u32) (temp_r3_60 * 0x1F00) >> 0x10) & 0x1F;
-                        sp110 = (((((sp110 & ~0x1F) | (((u32) ((u32) temp_r3_60 << 0xC) >> 0x10) & 0x1F)) & 0xFFFFFC1F) | (temp_r0_164 << 5)) & 0xFFFF83FF) | (temp_r0_164 << 0xA);
+                        colorGreenD368 = temp_r0_164 << 5;
+                        colorWordD368 = (colorWordD368 & 0xFFFFFC1F) | colorGreenD368;
+                        temp_r0_164 <<= 0xA;
+                        sp110 = (colorWordD368 & 0xFFFF83FF) | temp_r0_164;
                         *(u16 *)(((((struct PlayerD368 *)arg0)->f0 + 0x10) << 5) + ((u8 *)&d368_gUnk_03001F40 + 0x1E)) = *(u16 *)&sp110;
                         break;
+                    }
                     case 1:                         /* switch 26 */
                         temp_r5_13 = colorWaveTableD368[sp164];
                         temp_r3_61 = ((s32) (temp_r5_13 * 5) >> 8) & 0x1F;

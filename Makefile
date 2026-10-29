@@ -61,6 +61,9 @@ CC1FLAGS_m4a_1_abi := -O2 -mthumb-interwork
 
 CC1_m4a_1_port := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_port := -O2 -mthumb-interwork
+CC1_m4a_1_sound := tools/agbcc_sdk_sound/bin/agbcc
+CC1FLAGS_m4a_1_sound := -O2 -mthumb-interwork -fprologue-bugfix -ftst -fthumb-text-literals -fsub-compare-flags
+
 CC1_m4a_1_engine := tools/agbcc_tst/bin/agbcc
 CC1FLAGS_m4a_1_engine := -O2 -mthumb-interwork -fprologue-bugfix -ftst
 
@@ -148,3 +151,9 @@ $(ROM): $(ELF)
 # Progress badges and treemap (docs/progress/*.svg), shown in README.md
 progress:
 	python3 tools/scripts/progress.py
+
+# Additional SDK options are isolated to SoundMain; accepted SDK compilers stay pinned.
+tools/agbcc_sdk_sound/installed: tools/install_agbcc_sdk_sound.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-lsr-halfword.patch tools/patches/agbcc-sdk-text-literals.patch tools/patches/agbcc-sdk-sub-after-literals.patch
+	sh tools/install_agbcc_sdk_sound.sh
+
+$(BUILD)/src/m4a_1_sound.o: Makefile tools/agbcc_sdk_sound/installed

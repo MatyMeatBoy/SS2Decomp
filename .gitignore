@@ -35,3 +35,5 @@ tools/bizhawk/
 tools/agbcc_tst/
 tools/agbcc_sdk_flags/
 tools/agbcc_arm_sdk/
+
+tools/agbcc_sdk_sound/
