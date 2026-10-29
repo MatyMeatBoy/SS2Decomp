@@ -537,6 +537,7 @@ void sub_080AB2F8(struct T112BActor *input112) {
     u8 var_r0_2;
     void *temp_r0;
     void *temp_r1_7;
+    u8 *selectedPlayer112;
     void *temp_r5;
     void *temp_r5_2;
 
@@ -694,8 +695,9 @@ block_38:
                 t112B_gUnk_03000434->fC = 2U;
                 t112B_gUnk_03000434->f1FC = (u8) ((0xF & t112B_gUnk_03000434->f1FC) | (t112B_sub_08096594(0) * 0x10));
                 temp_r1_6 = t112B_gUnk_03000434->f1FC << 0x18;
+                selectedPlayer112 = (0x14C * (temp_r1_6 >> 0x1C)) + (u8 *)gUnk_03003CE0;
                 t112B_sub_08095F10(t112B_gUnk_03000434, temp_r1_6 >> 0x1C);
-                temp_r1_7 = M2C_FIELD(((0x14C * (temp_r1_6 >> 0x1C)) + (u8 *)gUnk_03003CE0), void **, 0x148);
+                temp_r1_7 = M2C_FIELD(selectedPlayer112, void **, 0x148);
                 sp80 = (u16) M2C_FIELD(temp_r1_7, u16 *, 0) >> 4;
                 sp84 = (u32) (M2C_FIELD(temp_r1_7, u16 *, 2) << 0x14) >> 0x14;
                 t112B_gUnk_03000434->f68 = (u16) t112B_gUnk_03000434->f8;
