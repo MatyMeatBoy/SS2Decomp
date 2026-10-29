@@ -9575,8 +9575,8 @@ digraph calls {
   "sub_08080A78" -> "sub_0805D548" [label="asm,c"];
   "sub_08080A78" -> "sub_0805FAC0" [label="asm,c"];
   "sub_08080A78" -> "sub_0805FC80" [label="asm,c"];
-  "sub_080811E0" -> "sub_0801BA74" [label="asm"];
-  "sub_080811E0" -> "sub_0805FB7C" [label="asm"];
+  "sub_080811E0" -> "sub_0801BA74" [label="asm,c"];
+  "sub_080811E0" -> "sub_0805FB7C" [label="asm,c"];
   "sub_08081518" -> "sub_08000498" [label="asm,c"];
   "sub_08081518" -> "sub_0801A3D0" [label="asm,c"];
   "sub_08081518" -> "sub_0801A638" [label="asm,c"];
