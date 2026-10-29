@@ -753,7 +753,7 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     struct T06CellAEF4 *temp_r3;
     struct T06CellAEF4 *temp_r3_2;
     u16 var_r4;
-    u32 temp_r0;
+    register u32 temp_r0 asm("sl");
     u32 temp_r1;
     u32 temp_r1_2;
     u32 temp_r1_4;
@@ -768,6 +768,7 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
 
     sp0 = arg3;
     temp_r0 = (u32) (arg0 << 0x10) >> 0x13;
+    asm("" : "+r"(temp_r0));
     temp_r1 = (u32) (arg1 << 0x10) >> 0x13;
     if ((s32) temp_r0 > (s32) gUnk_03003170.mapW) {
         return;
@@ -775,8 +776,8 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     if (temp_r0 & 0x8000) {
         return;
     }
-    temp_r4 = (s16) temp_r1;
     sp18 = temp_r1 << 0x10;
+    temp_r4 = (s32)sp18 >> 16;
     if ((s32) temp_r4 > (s32) gUnk_03003170.mapH) {
         return;
     }
