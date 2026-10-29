@@ -491,7 +491,49 @@ void sub_08079CC4(u32 who, u32 a, u32 b, u32 c, u32 d)
     sub_08000274_2(t, e);
     gMasks9888[who] |= 1 << i;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079D84);
+struct SprD84 { s32 f0, f4, f8, fC, f10, f14, f18; u8 b1C[0x18]; };
+extern void sub_0800BC08_6(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u32 sub_08065370_5r(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void sub_08065158_5(void *, u32, u32, s32, s32) asm("sub_08065158");
+extern void sub_08068A00(s32, s32, void *);
+void sub_08079D84(struct Info9888 *info, u32 packed)
+{
+    struct SprD84 s;
+    u16 a3C;
+    u16 a3E;
+    s16 x40;
+    s16 y42;
+    s32 pos[2];
+    u16 done;
+    s32 r;
+    s32 x;
+    s32 y;
+    u8 k;
+    sub_080020F4();
+    sub_08065158_5(&s, 0x5008C, 1, -1, 0);
+    sub_08000AF0(0x17, (void *)s.fC, 2);
+    s.b1C[0] = 7;
+    s.b1C[1] = 8;
+    pos[0] = (packed & 0xFFFF) << 8;
+    pos[1] = (packed >> 16) << 8;
+    a3C = 0;
+    a3E = 0;
+    done = 0;
+    sub_08068A00(pos[0], pos[1], info);
+    while (sub_0800CB78() == 0 && done == 0) {
+        done = sub_08065370_5r(&s, 0x15, &a3C, &a3E, done);
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (r = sub_0800CCCC()) == 0) {
+            sub_0800BC08_6((s16)(x = pos[0] >> 8), (s16)(y = pos[1] >> 8), &x40, &y42, 16, r);
+            k = sub_0800BC44(x, y, 0);
+            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0() != 0)
+                k = 0;
+            if (gUnk_03002344 & 1)
+                sub_080659BC(&s, x40, y42 + 1, 0x15, a3C, k);
+        }
+        sub_080003F0();
+    }
+    gMasks9888[info->who] &= ~(1 << info->i);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079ED0);
 s32 sub_08079FD0(s32 arg0) {
     s16 temp_r1;
