@@ -915,8 +915,342 @@ finish:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806D7EC);
 #endif
+#ifdef NONMATCHING
+struct T072DBEffect { s16 timer; u16 owner, kind, level, a, b, c, d; s16 strength; u8 pad[22]; };
+struct T072DBPlayer { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072DBEffect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u16 ready; u8 padB8[10]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct T072DBArgs { u32 player, bit, f8, value, f10, level; };
+extern struct T072DBPlayer t072DBPlayers[] asm("gUnk_03003CE0");
+extern u32 t072DBFlags[] asm("gUnk_030063E0");
+void sub_0806DB1C(struct T072DBArgs *arg) {
+    u8 list[4];
+    s16 distances[6];
+    u32 x, y;
+    u32 bit;
+    u32 offset;
+    u16 level, range, count, i;
+    u32 player;
+    s32 local;
+    struct T072DBPlayer *p, *other, *costPlayer; u16 *wait, *ready;
+    struct T072DBEffect *e, *start;
+    u16 *sprite;
+    u16 dx, dy, cost;
+    s32 ax, ay, limit;
+    s32 duration, amount;
+    local = sub_080020F4();
+    player = arg->player;
+    bit = arg->bit;
+    level = arg->level;
+    range = level;
+    if (player <= 3) p = &t072DBPlayers[player];
+    if (local == player) {
+        costPlayer = &t072DBPlayers[sub_080020F4()];
+        cost = sub_0806898C(arg->value, arg->level) - 1;
+        costPlayer->resource -= cost;
+        if (costPlayer->resource < 0) costPlayer->resource = 0;
+    }
+    offset = player * 4;
+    wait = &p->wait;
+    while (*wait <= 6) {
+        if (p->state == 10) goto finish;
+        sub_080003F0();
+    }
+    sprite = p->sprite;
+    x = sprite[0] >> 4;
+    y = ((u32)sprite[1] << 20) >> 20;
+    count = 0;
+    i = 0;
+    ready = &p->ready;
+    goto testPlayers;
+nextPlayer:
+    other = &t072DBPlayers[i];
+    sprite = other->sprite;
+    if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) goto skipPlayer;
+    if (other->team != p->team || other->team == 0) goto skipPlayer;
+    dx = (sprite[0] >> 4) - x;
+    dy = (((u32)sprite[1] << 20) >> 20) - y;
+    if (range == 0) goto skipPlayer;
+    {
+        ax = (s16)dx >> 3;
+        if (ax < 0) ax = -ax;
+        limit = 12;
+        if (ax > limit) goto skipPlayer;
+        ay = (s16)dy >> 3;
+        if (ay < 0) ay = -ay;
+        if (ay > limit) goto skipPlayer;
+    }
+    distances[count] = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+    list[count++] = i;
+skipPlayer:
+    i++;
+testPlayers:
+    if (i < sub_08002164()) goto nextPlayer;
+    for (i = 0; i < count; i++) sub_08074DE8(list[i], 9);
+    while (*ready == 0) sub_080003F0();
+    if ((local == player || player > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x167);
+    if (local == player) {
+        e = p->effects;
+        i = 0;
+        start = e;
+        duration = (level * 10 + 40) * 60;
+        amount = level * 8;
+        do {
+            if (e->timer > 0 && t072DBPlayers[local].mode == 4 && e->kind == 3 && e->owner <= 99) {
+                if (e->level < level) {
+                    e->level = level;
+                    e->timer = duration;
+                    e->strength = level * 20;
+                }
+                goto clear;
+            }
+            i++; e++;
+        } while (i <= 7);
+        e = start; i = 0;
+        do {
+            if (e->timer == -1) {
+                e->owner = player; e->kind = 3; e->level = level;
+                e->timer = (level * 10 + 40) * 60;
+                amount = level * 8;
+                e->strength = level * 20;
+                break;
+            }
+            i++; e++;
+        } while (i <= 7);
+clear:
+        p->x24 = 0; p->x26 = 0;
+    } else {
+        for (i = 0; i < count && range != 0; i++) {
+            if (list[i] == local) {
+                p = &t072DBPlayers[local];
+                e = p->effects; i = 0;
+                duration = (level * 10 + 40) * 60;
+                amount = level * 8;
+                do {
+                    if (e->timer > 0 && e->owner <= 3 && t072DBPlayers[e->owner].mode == 4 && e->kind == 3) {
+                        if (e->level < level) {
+                            e->level = level; e->timer = duration;
+                            e->strength = level * 20;
+                        }
+                        goto finish;
+                    }
+                    i++; e++;
+                } while (i <= 7);
+                e = p->effects; i = 0;
+                do {
+                    if (e->timer == -1) {
+                        e->owner = player; e->kind = 3; e->level = level;
+                        e->timer = (level * 10 + 40) * 60;
+                        amount = level * 8;
+                        e->strength = level * 20;
+                        goto finish;
+                    }
+                    i++; e++;
+                } while (i <= 7);
+                goto finish;
+            }
+        }
+    }
+finish:
+    *(u32 *)((u8 *)t072DBFlags + offset) &= ~(1 << bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DB1C);
+#endif
+#ifdef NONMATCHING
+struct T072DESprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
+struct T072DEPlayer { u16 id; u8 pad2[0x1e]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 phase, wait, ready; u8 padB8[10]; s16 resource; u8 padC4[24]; u32 counter; u8 padE0[0x64]; u8 *config; u16 *sprite; };
+struct T072DEEnemy { u16 id; u8 pad2[6]; u16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4e]; u8 threshold; u8 pad22C[0xb4]; };
+struct T072DEArgs { u32 player, bit, target, value, f10, level; };
+extern struct T072DEPlayer t072DEPlayers[] asm("gUnk_03003CE0");
+extern struct T072DEEnemy *t072DEEnemies asm("gUnk_030056F4");
+extern u32 t072DEFlags[] asm("gUnk_030063E0");
+extern s16 t072DECosts[] asm("gUnk_084EBF1C");
+extern u16 t072DEDirections[] asm("gUnk_0849E730");
+void t072DEInit(void *,s32,s32,s32,s32) asm("sub_08065158");
+void t072DECoords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+void t072DEDraw(s16,s16,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+void t072DESend(struct T072DEArgs *) asm("sub_080694AC");
+void sub_0806DE94(struct T072DEArgs *arg) {
+    struct T072DESprite sprite;
+    u8 targets[8];
+    u8 delays[8];
+    u16 animation[6];
+    s16 timers[6];
+    s16 dx, dy;
+    struct T072DEPlayer *p, *q, *costPlayer;
+    struct T072DEEnemy *enemy, *caster;
+    u32 player, bit, originalLevel, total, done, nplayers;
+    u16 local, level, direction, selected, i;
+    s32 x, y, px, py, angle, ax, ay, radius, index;
+    u16 cost, delta;
+    u8 shade;
+    u16 *ready;
+    local = sub_080020F4();
+    player = arg->player; bit = arg->bit;
+    level = arg->level; originalLevel = level;
+    if (player <= 3) p = &t072DEPlayers[player];
+    else {
+        caster = (struct T072DEEnemy *)((u8 *)t072DEEnemies + player * 0x2E0 - 0xB80);
+        while (caster->wait < caster->threshold) {
+            if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || caster->state == 10 || caster->state == 11) {
+                t072DEFlags[player] &= ~(1 << bit); return;
+            }
+            sub_080003F0();
+        }
+    }
+    if (local != player) {
+        if (player > 3) {
+            cost = caster->resource - t072DECosts[arg->value * 12 + level + 3];
+            caster->resource = cost;
+            if ((s16)cost < 0) {
+                t072DEFlags[player] &= ~(1 << bit); caster->resource = 0; return;
+            }
+        }
+    } else {
+        costPlayer = &t072DEPlayers[sub_080020F4()];
+        delta = sub_0806898C(arg->value, arg->level) - 1;
+        costPlayer->resource -= delta;
+        if (costPlayer->resource < 0) costPlayer->resource = 0;
+    }
+    animation[0] = 0; timers[0] = 0; delays[0] = 0;
+    i = 1;
+    do {
+        animation[i] = 0; timers[i] = 0;
+        delays[i] = sub_080008C8() % 10U + 20 + delays[i-1];
+        i++;
+    } while (i <= 4);
+    if (player <= 3) {
+        if (originalLevel != 0) p->phase = 2;
+        while (p->phase <= 1) {
+            if (p->state == 10 || !(gGameState->flags & 2)) {
+                t072DEFlags[player] &= ~(1 << bit); return;
+            }
+            sub_080003F0();
+        }
+        if (player <= 3) {
+            x = (p->sprite[0] >> 4) << 8;
+            y = ((u32)p->sprite[1] << 20) >> 12;
+            direction = t072DEDirections[p->config[3] >> 4];
+        } else goto enemyOrigin;
+    } else {
+enemyOrigin:
+        x = caster->x; y = caster->y;
+        direction = t072DEDirections[caster->direction];
+    }
+    direction *= 2;
+    selected = 0; total = 0;
+    ready = &p->ready;
+    if (sub_0800CDF8() == 0) {
+        if (arg->target > 3) {
+            for (i = 0; i <= 4 && sub_0800CD8C() == 0; i++) {
+                if (!(gUnk_030056FC & (1 << i))) continue;
+                enemy = &t072DEEnemies[i];
+                if (enemy->state == 11 || enemy->active == 0) continue;
+                dx = (u32)(enemy->x - x) >> 8;
+                dy = ((u32)(enemy->y - y) << 8) >> 16;
+                angle = (u16)(((u32)(ArcTan2(dx,dy) << 16) >> 27) - (s16)direction);
+                if ((s16)angle > 16) angle = (u16)((s16)angle - 32);
+                angle = (s16)angle;
+                if (angle < 0) angle = (s16)-angle;
+                if (angle > 3) continue;
+                ax = dx; if (ax < 0) ax = -ax;
+                radius = level * 10 + 48;
+                if (ax >= radius) continue;
+                ay = dy; if (ay < 0) ay = -ay;
+                if (ay >= radius) continue;
+                targets[total] = i; total = (u16)(total + 1); selected++;
+            }
+        } else {
+            nplayers = sub_08002164();
+            for (i = 0; i < nplayers; i++) {
+                q = &t072DEPlayers[i];
+                if (sub_0800CD8C() != 0) break;
+                index = ((u8 *)q->sprite)[0] & 15;
+                if (index == 11 || index == 10 || index == 14) continue;
+                if (q->team == 0 || (((u8 *)q->sprite)[4] & 32) || (player <= 3 && q->team == p->team) || q->state == 11) continue;
+                dx = (q->sprite[0] >> 4) - (x >> 8);
+                dy = (((u32)q->sprite[1] << 20) >> 20) - (y >> 8);
+                angle = (u16)(((u32)(ArcTan2(dx,dy) << 16) >> 27) - (s16)direction);
+                if ((s16)angle > 16) angle = (u16)((s16)angle - 32);
+                angle = (s16)angle;
+                if (angle < 0) angle = (s16)-angle;
+                if (angle > 3) continue;
+                ax = dx; if (ax < 0) ax = -ax;
+                radius = level * 10 + 48;
+                if (ax >= radius) continue;
+                ay = dy; if (ay < 0) ay = -ay;
+                if (ay >= radius) continue;
+                targets[total] = i; total = (u16)(total + 1); selected++;
+            }
+        }
+    }
+    if ((local == player || player > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(level + 0x140);
+    t072DEInit(&sprite,0x5008B,8,-1,0);
+    sprite.f1C = 7; sprite.f1D = 8;
+    if (level > 6) level = 6;
+    done = 0;
+    if (selected != 0) {
+        while (done < total) {
+            if (player == sub_080020F4() && ((u16)(p->state - 11) <= 1 || sub_0800D11C() != 0)) break;
+            if (arg->target > 3) {
+                for (i = 0; i < total; i++) {
+                    enemy = &t072DEEnemies[targets[i]];
+                    t072DECoords((s16)(enemy->x >> 8),(s16)(enemy->y >> 8),&dx,&dy,48,0);
+                    shade = sub_0800BC44(x >> 8,y >> 8,0);
+                    if (delays[i] == 0) {
+                        if (sub_08065370(&sprite,level,(s32)&animation[i],(s32)&timers[i],0) != 0) {
+                            done = (u16)(done + 1); delays[i] = 240;
+                            if (local == player) {
+                                arg->target = enemy->id + 4;
+                                t072DESend(arg);
+                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(26);
+                            }
+                        }
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0() != 0) shade = 0;
+                            if ((gUnk_03002344 & 1) == (i & 1)) t072DEDraw(dx,dy,level,animation[i],shade,&sprite.f1C,sprite.f8,sprite.f0);
+                        }
+                    } else if (delays[i] != 240) delays[i]--;
+                }
+            } else {
+                for (i = 0; i < total; i++) {
+                    q = &t072DEPlayers[targets[i]];
+                    t072DECoords(q->sprite[0] >> 4,((u32)q->sprite[1] << 20) >> 20,&dx,&dy,48,0);
+                    shade = sub_0800BC44(x >> 8,y >> 8,0);
+                    if (delays[i] == 0) {
+                        if (sub_08065370(&sprite,level,(s32)&animation[i],(s32)&timers[i],0) != 0) {
+                            done = (u16)(done + 1); delays[i] = 240;
+                            if (local == targets[i]) {
+                                arg->target = (u16)q->id;
+                                t072DESend(arg);
+                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(26);
+                            }
+                        }
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (i & 1)) t072DEDraw(dx,dy,level,animation[i],shade,&sprite.f1C,sprite.f8,sprite.f0);
+                    } else if (delays[i] != 240) delays[i]--;
+                }
+            }
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (player & 1)) sub_08000AF0(23,sprite.fC,2);
+            sub_080003F0();
+        }
+    } else {
+        index = (s16)(t072DEDirections[((u8 *)p->sprite)[3] >> 4] * 16);
+        px = (x + gUnk_080B9704[index + 64] * 30) >> 8;
+        py = (y + gUnk_080B9704[index] * 30) >> 8;
+        do {
+            t072DECoords((s16)px,(s16)py,&dx,&dy,48,0);
+            shade = sub_0800BC44(px,py,0);
+            if (sub_08065370(&sprite,level,(s32)&animation[0],(s32)&timers[0],0) != 0) done = (u16)(done + 1);
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (player & 1)) t072DEDraw(dx,dy,level,animation[0],shade,&sprite.f1C,sprite.f8,sprite.f0);
+            sub_080003F0();
+        } while (done == 0);
+    }
+    while (*ready == 0) sub_080003F0();
+    if (player <= 3 && player != local) p->counter++;
+    t072DEFlags[player] &= ~(1 << bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DE94);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806E7D4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806F0CC);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806FE1C);

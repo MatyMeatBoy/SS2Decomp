@@ -1550,10 +1550,7 @@ loop_296:
                         }
                     case 2:                         /* switch 2 */
                     case 5:                         /* switch 2 */
-block_388:
-                        if ((s32) var_r6->f0 >= 0) {
-                            var_r6->f0 = (u16) var_r6->f0 - 1;
-                        }
+                        goto block_388;
                     }
                     break;
                 case 1:                             /* switch 2 */
@@ -1669,6 +1666,7 @@ block_372:
                     }
                     break;
                 }
+                goto effectAdvanceD368;
                 } else {
 
                     temp_r0_18 = var_r6->f4 - 1;
@@ -1717,8 +1715,7 @@ block_372:
                             if (var_r6->f0 == 1) {
                                 sp1CC = var_r3;
                                 d368_sub_0805867C(0x73);
-block_387:
-                                var_r3 = sp1CC;
+                                goto block_387;
                             }
                             break;
                         case 6:                     /* switch 3 */
@@ -1739,6 +1736,13 @@ block_387:
                     }
                     goto block_388;
                                 }
+block_387:
+                var_r3 = sp1CC;
+block_388:
+                if ((s32) var_r6->f0 >= 0) {
+                    var_r6->f0 = (u16) var_r6->f0 - 1;
+                }
+effectAdvanceD368:
                 temp_r4_7 = sp128 + 1;
                 sp128 = temp_r4_7;
                 var_r6 = var_r3;
@@ -3618,7 +3622,7 @@ retry63_1_done:
                 ((union RecordD368 *)temp_r2_21)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_15 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_94 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_15)->w1_b0_n6.value = ((s32) ((0 - temp_r0_94) | temp_r0_94) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_15)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_94) | (u32) temp_r0_94) >> 0x1F) & 0x20;
                 temp_r3_9 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_9)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
                 temp_r3_10 = ((struct PlayerD368 *)arg0)->f144;
@@ -3639,7 +3643,7 @@ retry63_1_done:
                 } else if (d368_sub_0801DF8C() == 0) {
                     temp_r0_95 = d368_sub_0800CC98();
                     temp_r3_13 = ((struct PlayerD368 *)arg0)->f144;
-                    ((union RecordD368 *)temp_r3_13)->w1_b19_n5.value = (u32) ((0 - temp_r0_95) | temp_r0_95) >> 0x1F;
+                    ((union RecordD368 *)temp_r3_13)->w1_b19_n5.value = (u32) ((0U - (u32) temp_r0_95) | (u32) temp_r0_95) >> 0x1F;
                     if ((s32) (s16) *sp1B8 < (s32) (s16) ((s16) *sp1B0 / 10)) {
                         temp_r2_23 = ((struct PlayerD368 *)arg0)->f144;
                         ((union RecordD368 *)temp_r2_23)->w1_b19_n5.value = ((u32) (0x18)) >> 3;
@@ -3670,7 +3674,7 @@ retry63_1_done:
                 ((union RecordD368 *)temp_r2_26)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_18 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_96 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_18)->w1_b0_n6.value = ((s32) ((0 - temp_r0_96) | temp_r0_96) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_18)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_96) | (u32) temp_r0_96) >> 0x1F) & 0x20;
                 temp_r3_14 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_14)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
                 temp_r3_15 = ((struct PlayerD368 *)arg0)->f144;
@@ -3724,7 +3728,7 @@ block_1152:
                 ((union RecordD368 *)temp_r2_30)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_21 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_97 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_21)->w1_b0_n6.value = ((s32) ((0 - temp_r0_97) | temp_r0_97) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_21)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_97) | (u32) temp_r0_97) >> 0x1F) & 0x20;
                 temp_r3_17 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_17)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
                 temp_r3_18 = ((struct PlayerD368 *)arg0)->f144;
@@ -3742,7 +3746,7 @@ block_1152:
                 ((union RecordD368 *)temp_r2_32)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_24 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_98 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_24)->w1_b0_n6.value = ((s32) ((0 - temp_r0_98) | temp_r0_98) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_24)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_98) | (u32) temp_r0_98) >> 0x1F) & 0x20;
                 temp_r3_20 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_20)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
 block_1155:
@@ -3839,7 +3843,7 @@ block_1155:
                             ((union RecordD368 *)temp_r2_37)->w1_b14_n3.value = ((u32) (0)) >> 14;
                             temp_r5_10 = ((struct PlayerD368 *)arg0)->f144;
                             temp_r0_104 = d368_sub_0800CCCC();
-                            ((union RecordD368 *)temp_r5_10)->w1_b0_n6.value = ((s32) ((0 - temp_r0_104) | temp_r0_104) >> 0x1F) & 0x20;
+                            ((union RecordD368 *)temp_r5_10)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_104) | (u32) temp_r0_104) >> 0x1F) & 0x20;
                             var_r0_29 = d368_sub_0807A028(1);
                             var_r3_7 = ((struct PlayerD368 *)arg0)->f144;
                             goto block_1221;
@@ -3899,7 +3903,7 @@ block_1200:
                         ((union RecordD368 *)temp_r3_28)->w1_b14_n3.value = ((struct PlayerD368 *)arg0)->f26;
                         temp_r4_30 = ((struct PlayerD368 *)arg0)->f144;
                         temp_r0_107 = d368_sub_0800CCCC();
-                        ((union RecordD368 *)temp_r4_30)->w1_b0_n6.value = ((s32) ((0 - temp_r0_107) | temp_r0_107) >> 0x1F) & 0x20;
+                        ((union RecordD368 *)temp_r4_30)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_107) | (u32) temp_r0_107) >> 0x1F) & 0x20;
                         temp_r0_108 = ((struct PlayerD368 *)arg0)->f10;
                         if (temp_r0_108 != 6) {
                             if (temp_r0_108 != 8) {
@@ -3970,7 +3974,7 @@ block_1213:
                 ((union RecordD368 *)temp_r2_41)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_33 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_109 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_33)->w1_b0_n6.value = ((s32) ((0 - temp_r0_109) | temp_r0_109) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_33)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_109) | (u32) temp_r0_109) >> 0x1F) & 0x20;
                 temp_r3_37 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_37)->w1_b6_n8.value = (u8) sp190;
                 temp_r3_38 = ((struct PlayerD368 *)arg0)->f144;
@@ -4024,7 +4028,7 @@ block_1221:
                 ((union RecordD368 *)temp_r3_44)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_36 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_110 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_36)->w1_b0_n6.value = ((s32) ((0 - temp_r0_110) | temp_r0_110) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_36)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_110) | (u32) temp_r0_110) >> 0x1F) & 0x20;
                 temp_r2_45 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r2_45)->w1_b6_n1.value = ((u32) (0)) >> 6;
                 temp_r0_111 = d368_sub_0801DE60();
@@ -4190,7 +4194,7 @@ block_1221:
                 ((union RecordD368 *)temp_r2_55)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_42 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_116 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_42)->w1_b0_n6.value = ((s32) ((0 - temp_r0_116) | temp_r0_116) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_42)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_116) | (u32) temp_r0_116) >> 0x1F) & 0x20;
                 temp_r2_56 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r2_56)->w1_b6_n4.value = ((u32) (0)) >> 6;
                 break;
@@ -4205,7 +4209,7 @@ block_1221:
                 ((union RecordD368 *)temp_r2_58)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_45 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_117 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_45)->w1_b0_n6.value = ((s32) ((0 - temp_r0_117) | temp_r0_117) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_45)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_117) | (u32) temp_r0_117) >> 0x1F) & 0x20;
                 temp_r3_46 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_46)->w1_b6_n6.value = ((struct PlayerD368 *)arg0)->f22;
                 temp_r0_118 = ((struct PlayerD368 *)arg0)->f22;
@@ -4236,7 +4240,7 @@ block_1221:
                 ((union RecordD368 *)temp_r3_53)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 temp_r4_46 = ((struct PlayerD368 *)arg0)->f144;
                 temp_r0_119 = d368_sub_0800CCCC();
-                ((union RecordD368 *)temp_r4_46)->w1_b0_n6.value = ((s32) ((0 - temp_r0_119) | temp_r0_119) >> 0x1F) & 0x20;
+                ((union RecordD368 *)temp_r4_46)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_119) | (u32) temp_r0_119) >> 0x1F) & 0x20;
                 temp_r0_120 = (void *) d368_sub_08007290(M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x132) | 0x110000);
                 temp_r3_54 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_54)->w1_b11_n8.value = M2C_FIELD(temp_r0_120, u32 *, 0xA4) & 0xF;

@@ -2506,8 +2506,146 @@ endSwitch:
 
 
 
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_080402F4);
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08040530);
+extern void camera402F4(s32, s32) asm("sub_0800BB80");
+struct Signed402F4 { u8 pad[0x80]; s16 x, y; };
+void sub_080402F4(void) {
+    s32 out[4];
+    register s32 *py asm("r6");
+    s32 *px2;
+    register s32 *py2 asm("r10");
+    s32 sx; register s32 sy asm("r5"); register s32 sx2 asm("r6"); register s32 sy2 asm("r5");
+    s32 i, i2;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetY;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX2, targetY2;
+    s32 step;
+    u16 n;
+    u32 task; s32 result; struct Player *p; register s32 player asm("r1"); register s32 offset asm("r2");
+    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
+    sub_0800D0F4();
+    result = sub_080020F4(); player = result;
+    if (result == 1) goto case1;
+    if (result > 1) goto upper;
+    if (result == 0) goto case0;
+    goto endSwitch;
+upper:
+    if (player == 2) goto case2;
+    if (player == 3) goto case3;
+    goto endSwitch;
+case0: sub_08028AAC(0, 0x6C, 0x80, 0); goto endSwitch;
+case1: sub_08028AAC(0, 0x84, 0x80, 0); goto endSwitch;
+case2: sub_08028AAC(0, 0x54, 0x80, 0); goto endSwitch;
+case3: sub_08028AAC(0, 0x9C, 0x80, 0);
+endSwitch:
+    sub_080290E4(0, 4);
+    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~2;
+    sub_08067D74();
+    n = 2; py = &out[1]; px2 = &out[2]; py2 = &out[3];
+    goto poll402F4; while (n != 0) { poll402F4: sub_080003F0(); if (sub_080021A8()) break; n--; }
+    if (!sub_0800CC98()) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (!sub_0801AAE0()) sub_080003F0();
+    }
+    sx = ((struct Signed402F4 *)&gUnk_03003170)->x;
+    sy = ((struct Signed402F4 *)&gUnk_03003170)->y; targetX.all = 0; targetY.all = 0xFFE80000;
+    for (i=0; i<=1024; i+=10) {
+        sub_080659F4(&out[0], sx, targetX.half.high, i);
+        sub_080659F4(py, sy, targetY.half.high, i);
+        camera402F4((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+    }
+    while (sub_0805F184()) sub_080003F0();
+    while (sub_0805EF90()) sub_080003F0();
+    task = sub_0805DF38(1, 15, 2, 0, -1, 0x1400EC);
+    while (!sub_0805EEFC((void *)task)) {
+        if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+        sub_080003F0();
+    }
+    step = 34; sx2 = ((struct Signed402F4 *)&gUnk_03003170)->x;
+    sy2 = ((struct Signed402F4 *)&gUnk_03003170)->y; targetX2.all = 0; targetY2.all = 0;
+    for (i2=0; i2<=1024; i2+=step) {
+        sub_080659F4(px2, sx2, targetX2.half.high, i2);
+        sub_080659F4(py2, sy2, targetY2.half.high, i2);
+        camera402F4((s16)out[2], (s16)out[3]);
+        sub_080003F0();
+    }
+    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
+    sub_0800D108();
+}
+extern void camera40530(s32, s32) asm("sub_0800BB80");
+struct Signed40530 { u8 pad[0x80]; s16 x, y; };
+void sub_08040530(void) {
+    s32 out[4];
+    register s32 *py asm("r6");
+    s32 *px2;
+    register s32 *py2 asm("r10");
+    s32 sx; register s32 sy asm("r5"); register s32 sx2 asm("r6"); register s32 sy2 asm("r5");
+    s32 i, i2;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetY;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX2, targetY2;
+    s32 step;
+    u16 n;
+    u32 task; s32 result; struct Player *p; register s32 player asm("r1"); register s32 offset asm("r2");
+    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags |= 1;
+    sub_0800D0F4();
+    result = sub_080020F4(); player = result;
+    if (result == 1) goto case1;
+    if (result > 1) goto upper;
+    if (result == 0) goto case0;
+    goto endSwitch;
+upper:
+    if (player == 2) goto case2;
+    if (player == 3) goto case3;
+    goto endSwitch;
+case0: sub_08028AAC(0, 0x6C, 0x80, 0); goto endSwitch;
+case1: sub_08028AAC(0, 0x84, 0x80, 0); goto endSwitch;
+case2: sub_08028AAC(0, 0x54, 0x80, 0); goto endSwitch;
+case3: sub_08028AAC(0, 0x9C, 0x80, 0);
+endSwitch:
+    sub_080290E4(0, 4);
+    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~2;
+    sub_08067D74();
+    n = 2; py = &out[1]; px2 = &out[2]; py2 = &out[3];
+    goto poll40530; while (n != 0) { poll40530: sub_080003F0(); if (sub_080021A8()) break; n--; }
+    if (!sub_0800CC98()) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (!sub_0801AAE0()) sub_080003F0();
+    }
+    sx = ((struct Signed40530 *)&gUnk_03003170)->x;
+    sy = ((struct Signed40530 *)&gUnk_03003170)->y; targetX.all = 0; targetY.all = 0xFFE80000;
+    for (i=0; i<=1024; i+=10) {
+        sub_080659F4(&out[0], sx, targetX.half.high, i);
+        sub_080659F4(py, sy, targetY.half.high, i);
+        camera40530((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+    }
+    while (sub_0805F184()) sub_080003F0();
+    while (sub_0805EF90()) sub_080003F0();
+    task = sub_0805DF38(1, 15, 2, 0, -1, 0x1400ED);
+    while (!sub_0805EEFC((void *)task)) {
+        if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+        sub_080003F0();
+    }
+    step = 34; sx2 = ((struct Signed40530 *)&gUnk_03003170)->x;
+    sy2 = ((struct Signed40530 *)&gUnk_03003170)->y; targetX2.all = 0; targetY2.all = 0;
+    for (i2=0; i2<=1024; i2+=step) {
+        sub_080659F4(px2, sx2, targetX2.half.high, i2);
+        sub_080659F4(py2, sy2, targetY2.half.high, i2);
+        camera40530((s16)out[2], (s16)out[3]);
+        sub_080003F0();
+    }
+    offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
+    sub_0800D108();
+}
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0804076C);
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08041030);
 struct T43Slot1b7c { s32 id; u8 p04[0x14]; u16 f18,f1a; u8 p1c[0x1a]; u16 f36; u32 f38,f3c,f40; void (*f44)(void); u8 p48[0x28]; };

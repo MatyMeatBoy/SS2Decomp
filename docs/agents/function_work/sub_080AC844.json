@@ -1,0 +1,25 @@
+{
+  "checkpoint": "TEAM6 shard113 draft1, parent 8fd795c24d0f9ef0cd1bd5f25b3405df423e87aa",
+  "areas": [
+    {
+      "evidence": "gv ASM read and m2c draft recovered entire function. Unique local struct/global/call aliases; six arguments to BC08, eight to 07870, fifth argument 1 to 65158/65370 restored from original stack stores. make nonmatching succeeds. This is compilation evidence only, not semantic equivalence.",
+      "id": "draft",
+      "label": "Complete compiling C draft",
+      "state": "done"
+    },
+    {
+      "evidence": "Actor field 0x200 is byte per STRB, coordinates are adjacent signed halfwords, candidate frame0x74 equals original. Isolated candidate3196 bytes versus3312 original. Wait loops14/132 rotated to original body-before-test placement. Many register/block differences remain; no near-match permuter run.",
+      "id": "layout",
+      "label": "Types, stack and control flow matching",
+      "state": "active"
+    },
+    {
+      "evidence": "Original ASM retained under normal build. make compare OK uses original ASM for this function; no C matching or equivalence claimed.",
+      "id": "match",
+      "label": "Full match with normal C",
+      "state": "pending"
+    }
+  ],
+  "address": "0x080AC844",
+  "updated_utc": "2026-10-29T05:22:21Z"
+}
