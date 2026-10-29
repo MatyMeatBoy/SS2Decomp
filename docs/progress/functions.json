@@ -2451,7 +2451,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 1931,
+          "line": 1944,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2474,7 +2474,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2252,
+          "line": 2265,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
@@ -10305,7 +10305,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4121,
+          "line": 4120,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -11850,14 +11850,14 @@
       "name": "sub_08037B04",
       "addr": 134445828,
       "size": 760,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08037B04",
       "canonical_symbol": "sub_08037B04",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08037B04",
       "name_status": "unidentified",
       "name_source": null,
