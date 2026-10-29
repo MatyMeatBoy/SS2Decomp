@@ -1582,5 +1582,80 @@ void sub_0808F6A8(void)
         sub_080003F0();
     }
 }
+/* Player (0x14C bytes) view with the fields used by the map warp handlers below */
+struct F9E0Vec { s32 x, y; };
+struct F9E0P {
+    u8 pad0[0x1C];
+    u16 w1C;
+    u16 pad1E;
+    u16 state;
+    u8 pad22[0xE];
+    u32 flags;
+    u8 pad34[0x2C];
+    u16 a60[2];
+    u8 pad64[4];
+    u8 b68;
+    u8 pad69[0x23];
+    struct F9E0Vec pos;
+    struct F9E0Vec pos2;
+    u8 pad9C[0x26];
+    u16 aC2[2];
+    u8 padC6[0x14C - 0xC6];
+};
+extern struct F9E0P F9E0pl[] asm("gUnk_03003CE0");
+extern u8 F9E0pos[] asm("gUnk_03003D6C");
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F700);
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F9E0);
+extern u32 gUnk_0850D4EC[];
+extern void sub_0808B978(void);
+extern void sub_0808CB58(void);
+extern void F9E0_AD04(void *, void *, s32) asm("sub_0800AD04");
+extern void F9E0_9930(u16, u32) asm("sub_08009930");
+extern s32 F9E0_A4A0(s32) asm("sub_0805A4A0");
+extern void F9E0_7328(u32, void (*)(void)) asm("sub_08057328");
+u32 sub_0808F9E0(u16 *arg)
+{
+    s32 idx;
+    u16 *rec;
+    struct F9E0P *p;
+    if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) == 0) {
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_08056E78();
+        sub_0800CCEC();
+        idx = sub_080020F4();
+        rec = &arg[F9E0_A4A0(*arg) * 18 + 2];
+        if (F9E0pl[idx].flags & 0x2000) {
+            F9E0pl[idx].flags &= 0xFFFFDFFD;
+            p = &F9E0pl[idx];
+            p->aC2[1] = p->a60[1];
+            p->aC2[0] = p->a60[0];
+        }
+        F9E0pl[idx].pos.x = rec[0] << 8;
+        F9E0pl[idx].pos.y = 0x1BE00;
+        F9E0pl[idx].pos2 = F9E0pl[idx].pos;
+        F9E0_9930(**(u16 **)&gUnk_03005CF4, *(u32 *)(*(u8 **)&gUnk_03005CF4 + 0x40));
+        while (sub_0800BA6C() == 0)
+            sub_080003F0();
+        gUnk_03003170.pad76 = 0x20;
+        { struct F9E0Vec *q = (struct F9E0Vec *)(F9E0pos + idx * 0x14C); F9E0_AD04(&q->x, &q->y, sub_0800CCCC()); }
+        *(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x10) = 1;
+        sub_08056E38();
+        if (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x36) & 0x8000)
+            F9E0_7328(0, sub_0808B978);
+        else
+            F9E0_7328(0, sub_0808CB58);
+    } else if (sub_08056E90() != 0) {
+        u8 *base;
+        sub_0800BB40();
+        sub_08056E64();
+        sub_0801A664(2, 5);
+        sub_080576C4();
+        sub_0800BB40();
+        sub_080570DC(1);
+        base = *(u8 **)&gUnk_03005CF4;
+        *(u32 *)(base + 0x71C) = gUnk_0850D4EC[*(u32 *)(base + 0x40)];
+        *(u16 *)(base + 0x10) = 0;
+        return 1;
+    }
+    return 0;
+}
