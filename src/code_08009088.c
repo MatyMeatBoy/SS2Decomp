@@ -8,7 +8,50 @@ void sub_08009088(u8 a, u8 b, u8 c, u8 d)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080090B0);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009138);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080092C8);
+extern u16 *bgBuffers005[4] asm("gUnk_03003460");
+extern void cameraMap005(u32 *,u32 *,u32) asm("sub_0800AD04");
+extern void rowMap005(struct Layer *,s16,s16) asm("sub_080094CC");
+extern void copyMap005(const void *,void *,u32) asm("sub_08001348");
+void sub_080092C8(u16 index, s16 *map, u16 x, u16 y)
+{
+    u32 posX;
+    s16 indexTwice;
+    u32 posY;
+    u16 *buffer;
+    int t;  // FAKE (decomp-permuter): a temporary for two unrelated values
+    u8 *tilemap;
+    u16 row;
+    u32 regOffset;
+
+    tilemap = (u8 *)map + 0x10;
+    tilemap += (u16)map[1] * map[0] * ((3 - index) << 1);
+    gUnk_03003170.layers[index].pad14 = index;
+    gUnk_03003170.layers[index].data = (u32)tilemap;
+    gUnk_03003170.layers[index].s10 = map[0];
+    gUnk_03003170.layers[index].s12 = map[1];
+    gUnk_03003170.layers[index].x = 0;
+    gUnk_03003170.layers[index].y = 0;
+    gUnk_03003170.layers[index].w0=0;
+    gUnk_03003170.layers[index].w1=0;
+    gUnk_03003170.layers[index].w2=0;
+    gUnk_03003170.layers[index].w3=0;
+    gUnk_03003170.layers[index].s16=1;
+    indexTwice = index * 2;
+    regOffset = indexTwice;
+    buffer = bgBuffers005[index];
+    posX = x << 11;
+    posY = y << 11;
+    cameraMap005(&posX, &posY, 0);
+    t = gUnk_03003170.scrollX;
+    gUnk_03003170.layers[index].x = (s16)t / 8;
+    gUnk_03003170.layers[index].y = (s16)gUnk_03003170.scrollY / 8;
+    for (row = gUnk_03003170.scrollY; row < (s16)gUnk_03003170.scrollY + 0x100; row += 8)
+        rowMap005(&gUnk_03003170.layers[index], gUnk_03003170.scrollX, row);
+    regOffset = index * 2;  // FAKE (decomp-permuter): computed again
+    t = ((*(vu16 *)(REG_ADDR_BG0CNT + regOffset) >> 8) & 0x1F) * 0x800;
+    copyMap005(buffer, (void *)(t + VRAM), 0x800);
+    sub_080003F0();
+}
 extern u16 *bgBuffers005[4] asm("gUnk_03003460");
 void sub_080093E4(struct Layer *entry, s16 x, s16 y)
 {
