@@ -151,7 +151,572 @@ block_9:
     return -1;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802AA28);
+#ifdef NONMATCHING
+struct Args028B8A4 { s32 x,y; u16 a,b; void (*callback)(void); u32 zero,pad; };
+extern void sub_0801AA34(s32);                                /* extern */
+extern void sub_0801AA8C(s32);                                /* extern */
+extern s32 sub_0801AB24();                                 /* extern */
+extern void sub_0801AB50(s32);                                /* extern */
+extern void sub_0801AB90(s32);                                /* extern */
+extern void sub_080290E4(s32, s32);                           /* extern */
+extern void sub_0802939C(s32, s32);                           /* extern */
+extern void sub_0802A228(s32, s32);                           /* extern */
+extern void sub_080576A8();                                   /* extern */
+extern void sub_0802C144(void);
+extern void sub_08031FF8(void);
+extern void sub_08032598(void);
+extern void sub_0803294C(void);
+extern void sub_08032DE4(void);
+extern void sub_08033198(void);
+extern void sub_08033B3C(void);
+extern void sub_0803F18C(void);
+extern void sub_0804534C(void);
+extern void sub_08045660(void);
+extern void sub_08056538(void);
+extern void sub_08059168(void);
+extern void sub_0805990C(void);
+
+void sub_0802B8A4(void) {
+    struct Args028B8A4 args;
+    s32 *var_r0;
+    s32 *var_r0_2;
+    s32 *var_r0_3;
+    s32 *var_r0_4;
+    s32 *var_r0_5;
+    s32 *var_r0_7;
+    s32 *var_r1;
+    s32 *var_r1_10;
+    s32 *var_r1_11;
+    s32 *var_r1_12;
+    s32 *var_r1_16;
+    s32 *var_r1_2;
+    s32 *var_r1_3;
+    s32 *var_r1_4;
+    s32 *var_r1_5;
+    s32 *var_r1_6;
+    s32 *var_r1_7;
+    s32 *var_r1_8;
+    s32 *var_r1_9;
+    s32 *var_r2_11;
+    s32 *var_r2_14;
+    s32 *var_r2_17;
+    s32 *var_r2_2;
+    s32 *var_r2_5;
+    s32 *var_r2_8;
+    s32 callback, taskCallback;
+    s32 temp_r0_6;
+    s32 temp_r0_7;
+    s32 temp_r2;
+    s32 temp_r4;
+    s32 temp_r4_2;
+    s32 temp_r4_3;
+    s32 temp_r4_4;
+    s32 temp_r4_5;
+    s32 temp_r6;
+    s32 temp_r6_2;
+    s32 temp_r7;
+    s32 var_r0_8;
+    s32 var_r1_15;
+    s32 var_r2_19;
+    s32 var_r4_4;
+    s32 var_r4_5;
+    s32 var_r5_6;
+    u16 var_r4_7;
+    u16 var_r4_8;
+    u32 temp_r0_4;
+    u32 temp_r0_9;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 var_r2;
+    u32 var_r2_10;
+    u32 var_r2_12;
+    u32 var_r2_13;
+    u32 var_r2_15;
+    u32 var_r2_16;
+    u32 var_r2_18;
+    u32 var_r2_20;
+    u32 var_r2_3;
+    u32 var_r2_4;
+    u32 var_r2_6;
+    u32 var_r2_7;
+    u32 var_r2_9;
+    u32 var_r3;
+    u32 var_r3_2;
+    u32 var_r4;
+    u32 var_r4_10;
+    u32 var_r4_2;
+    u32 var_r4_3;
+    u32 var_r4_6;
+    u32 var_r4_9;
+    u32 var_r5;
+    u32 var_r5_2;
+    u32 var_r5_3;
+    u32 var_r5_4;
+    u32 var_r5_5;
+    u32 var_r5_7;
+    u32 var_r6;
+    u8 *var_r0_10;
+    u8 *var_r0_6;
+    u8 *var_r0_9;
+    void *temp_r0;
+    void *temp_r0_10;
+    void *temp_r0_2;
+    void *temp_r0_3;
+    void *temp_r0_5;
+    void *temp_r0_8;
+    void *temp_r2_2;
+    void *var_r1_13;
+    void *var_r1_14;
+
+    temp_r6 = sub_080289C0(0x14, 0xC8, 0xB2);
+    var_r1 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == temp_r6) { var_r2_2 = var_r1; goto found028b1; }
+        var_r2++; var_r1 += 0x1C;
+    } while (var_r2 <= 14);
+    sub_080003F0(); var_r2_2 = NULL;
+found028b1:
+    if (var_r2_2 != NULL) {
+        *(u16 *)((u8 *)var_r2_2 + 0x18) = 8;
+        *(u16 *)((u8 *)var_r2_2 + 0x1A) = 4;
+        *(u32 *)((u8 *)var_r2_2 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_2 + 0x3C) | 0x10);
+    }
+    callback = (s32)sub_08031FF8;
+    asm("" : "+r"(callback));
+    var_r1_2 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_3 = 0;
+    do {
+        if (*var_r1_2 == temp_r6) { var_r0 = var_r1_2; goto found028b8; }
+        var_r2_3++; var_r1_2 += 0x1C;
+    } while (var_r2_3 <= 14);
+    sub_080003F0(); var_r0 = NULL;
+found028b8:
+    if (var_r0 != NULL) {
+        *(u32 *)((u8 *)var_r0 + 0x44) = callback;
+    }
+    taskCallback=(s32)sub_08032598; asm("" : "+r"(taskCallback));
+    var_r4 = gUnk_03005CF4+0xE34; var_r5=0; goto checkTask16;
+nextTask16:
+    var_r5++; var_r4+=0x28;
+checkTask16:
+    if(var_r5>29) goto doneTask16;
+    if(sub_08000470(var_r4)!=0) goto nextTask16;
+    while ((*(u32 *)((u8 *)var_r4 + 0x20) = temp_r0 = sub_08001494(0x400)) == 0) sub_080003F0();
+    *(u32 *)((u8 *)var_r4 + 0x8)=60; *(u32 *)((u8 *)var_r4 + 0xC)=taskCallback; *(u32 *)((u8 *)var_r4 + 0x10)=(u32)temp_r0+0x3FC; *(u32 *)((u8 *)var_r4 + 0x24)=0;
+    sub_08000274(var_r4,temp_r6);
+doneTask16:;
+
+    temp_r4 = sub_080289C0(0x15, 0x2E, 0x187);
+    var_r1_3 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_4 = 0;
+    do {
+        if (*var_r1_3 == temp_r4) { var_r2_5 = var_r1_3; goto found028b23; }
+        var_r2_4++; var_r1_3 += 0x1C;
+    } while (var_r2_4 <= 14);
+    sub_080003F0(); var_r2_5 = NULL;
+found028b23:
+    if (var_r2_5 != NULL) {
+        *(u16 *)((u8 *)var_r2_5 + 0x18) = 8;
+        *(u16 *)((u8 *)var_r2_5 + 0x1A) = 4;
+        *(u32 *)((u8 *)var_r2_5 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_5 + 0x3C) | 0x10);
+    }
+    callback = (s32)sub_0803294C;
+    asm("" : "+r"(callback));
+    var_r1_4 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_6 = 0;
+    do {
+        if (*var_r1_4 == temp_r4) { var_r0_2 = var_r1_4; goto found028b30; }
+        var_r2_6++; var_r1_4 += 0x1C;
+    } while (var_r2_6 <= 14);
+    sub_080003F0(); var_r0_2 = NULL;
+found028b30:
+    if (var_r0_2 != NULL) {
+        *(u32 *)((u8 *)var_r0_2 + 0x44) = callback;
+    }
+    temp_r4_2 = sub_080289C0(0x20039, 0x128, 0xA8);
+    var_r1_5 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_7 = 0;
+    do {
+        if (*var_r1_5 == temp_r4_2) { var_r2_8 = var_r1_5; goto found028b37; }
+        var_r2_7++; var_r1_5 += 0x1C;
+    } while (var_r2_7 <= 14);
+    sub_080003F0(); var_r2_8 = NULL;
+found028b37:
+    if (var_r2_8 != NULL) {
+        *(u16 *)((u8 *)var_r2_8 + 0x18) = 8;
+        *(u16 *)((u8 *)var_r2_8 + 0x1A) = 4;
+        *(u32 *)((u8 *)var_r2_8 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_8 + 0x3C) | 0x10);
+    }
+    callback = (s32)sub_08033B3C;
+    asm("" : "+r"(callback));
+    var_r1_6 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_9 = 0;
+    do {
+        if (*var_r1_6 == temp_r4_2) { var_r0_3 = var_r1_6; goto found028b44; }
+        var_r2_9++; var_r1_6 += 0x1C;
+    } while (var_r2_9 <= 14);
+    sub_080003F0(); var_r0_3 = NULL;
+found028b44:
+    if (var_r0_3 != NULL) {
+        *(u32 *)((u8 *)var_r0_3 + 0x44) = callback;
+    }
+    if ((sub_0800CF48() == 0) && !(((u16) *(u16 *)((u8 *)gUnk_03005CF4 + 0x4) >> 8) & 1)) {
+        temp_r4_3 = sub_080289C0(0x60017, 0x114, 0x116);
+    var_r1_7 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_10 = 0;
+    do {
+        if (*var_r1_7 == temp_r4_3) { var_r2_11 = var_r1_7; goto found028b53; }
+        var_r2_10++; var_r1_7 += 0x1C;
+    } while (var_r2_10 <= 14);
+    sub_080003F0(); var_r2_11 = NULL;
+found028b53:
+        if (var_r2_11 != NULL) {
+            *(u16 *)((u8 *)var_r2_11 + 0x18) = 8;
+            *(u16 *)((u8 *)var_r2_11 + 0x1A) = 4;
+            *(u32 *)((u8 *)var_r2_11 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_11 + 0x3C) | 0x10);
+        }
+    callback = (s32)sub_08059168;
+    asm("" : "+r"(callback));
+    var_r1_8 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_12 = 0;
+    do {
+        if (*var_r1_8 == temp_r4_3) { var_r0_4 = var_r1_8; goto found028b59; }
+        var_r2_12++; var_r1_8 += 0x1C;
+    } while (var_r2_12 <= 14);
+    sub_080003F0(); var_r0_4 = NULL;
+found028b59:
+        if (var_r0_4 != NULL) {
+            *(u32 *)((u8 *)var_r0_4 + 0x44) = callback;
+        }
+    }
+    temp_r4_4 = sub_080289C0(0x1C, 0xAE, 0xF9);
+    var_r1_9 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_13 = 0;
+    do {
+        if (*var_r1_9 == temp_r4_4) { var_r2_14 = var_r1_9; goto found028b65; }
+        var_r2_13++; var_r1_9 += 0x1C;
+    } while (var_r2_13 <= 14);
+    sub_080003F0(); var_r2_14 = NULL;
+found028b65:
+    if (var_r2_14 != NULL) {
+        *(u16 *)((u8 *)var_r2_14 + 0x18) = 8;
+        *(u16 *)((u8 *)var_r2_14 + 0x1A) = 4;
+        *(u32 *)((u8 *)var_r2_14 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_14 + 0x3C) | 0x10);
+    }
+    callback = (s32)sub_08032DE4;
+    asm("" : "+r"(callback));
+    var_r1_10 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_15 = 0;
+    do {
+        if (*var_r1_10 == temp_r4_4) { var_r0_5 = var_r1_10; goto found028b71; }
+        var_r2_15++; var_r1_10 += 0x1C;
+    } while (var_r2_15 <= 14);
+    sub_080003F0(); var_r0_5 = NULL;
+found028b71:
+    if (var_r0_5 != NULL) {
+        *(u32 *)((u8 *)var_r0_5 + 0x44) = callback;
+    }
+    if (sub_0800CE30() != 0) {
+        var_r0_6 = (u8 *)(gUnk_03005CF4 + 0x1C3);
+    } else {
+        var_r0_6 = (u8 *)(gUnk_03005CF4 + 0x1B7);
+    }
+    if (((s32) *var_r0_6 >> 2) & 1) {
+        temp_r4_5 = sub_080289C0(0x28, 0xBF, 0xF9);
+    var_r1_11 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_16 = 0;
+    do {
+        if (*var_r1_11 == temp_r4_5) { var_r2_17 = var_r1_11; goto found028b93; }
+        var_r2_16++; var_r1_11 += 0x1C;
+    } while (var_r2_16 <= 14);
+    sub_080003F0(); var_r2_17 = NULL;
+found028b93:
+        if (var_r2_17 != NULL) {
+            *(u16 *)((u8 *)var_r2_17 + 0x18) = 8;
+            *(u16 *)((u8 *)var_r2_17 + 0x1A) = 4;
+            *(u32 *)((u8 *)var_r2_17 + 0x3C) = (s32) (*(u32 *)((u8 *)var_r2_17 + 0x3C) | 0x10);
+        }
+    callback = (s32)sub_08033198;
+    asm("" : "+r"(callback));
+    var_r1_12 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+    var_r2_18 = 0;
+    do {
+        if (*var_r1_12 == temp_r4_5) { var_r0_7 = var_r1_12; goto found028b99; }
+        var_r2_18++; var_r1_12 += 0x1C;
+    } while (var_r2_18 <= 14);
+    sub_080003F0(); var_r0_7 = NULL;
+found028b99:
+        if (var_r0_7 != NULL) {
+            *(u32 *)((u8 *)var_r0_7 + 0x44) = callback;
+        }
+    } else {
+    taskCallback=(s32)sub_08045660; asm("" : "+r"(taskCallback));
+    var_r4_2 = gUnk_03005CF4+0xE34; var_r5_2=0; goto checkTask106;
+nextTask106:
+    var_r5_2++; var_r4_2+=0x28;
+checkTask106:
+    if(var_r5_2>29) goto doneTask106;
+    if(sub_08000470(var_r4_2)!=0) goto nextTask106;
+    while ((*(u32 *)((u8 *)var_r4_2 + 0x20) = temp_r0_2 = sub_08001494(0x400)) == 0) sub_080003F0();
+    *(u32 *)((u8 *)var_r4_2 + 0x8)=60; *(u32 *)((u8 *)var_r4_2 + 0xC)=taskCallback; *(u32 *)((u8 *)var_r4_2 + 0x10)=(u32)temp_r0_2+0x3FC; *(u32 *)((u8 *)var_r4_2 + 0x24)=0;
+    sub_08000274(var_r4_2,0);
+doneTask106:;
+
+    }
+    taskCallback=(s32)sub_08056538; asm("" : "+r"(taskCallback));
+    var_r4_3 = gUnk_03005CF4+0xE34; var_r5_3=0; goto checkTask114;
+nextTask114:
+    var_r5_3++; var_r4_3+=0x28;
+checkTask114:
+    if(var_r5_3>29) goto doneTask114;
+    if(sub_08000470(var_r4_3)!=0) goto nextTask114;
+    while ((*(u32 *)((u8 *)var_r4_3 + 0x20) = temp_r0_3 = sub_08001494(0x400)) == 0) sub_080003F0();
+    *(u32 *)((u8 *)var_r4_3 + 0x8)=60; *(u32 *)((u8 *)var_r4_3 + 0xC)=taskCallback; *(u32 *)((u8 *)var_r4_3 + 0x10)=(u32)temp_r0_3+0x3FC; *(u32 *)((u8 *)var_r4_3 + 0x24)=0;
+    sub_08000274(var_r4_3,0);
+doneTask114:;
+
+    if (sub_0800CE30() != 0) {
+        var_r0_8 = *(u32 *)((u8 *)gUnk_03005CF4 + 0x80);
+    } else {
+        var_r0_8 = *(u32 *)((u8 *)gUnk_03005CF4 + 0x78);
+    }
+    if (!(var_r0_8 & 0x10)) {
+
+    } else {
+        if (sub_0800CE30() != 0) {
+            var_r0_9 = (u8 *)(gUnk_03005CF4 + 0x1C3);
+        } else {
+            var_r0_9 = (u8 *)(gUnk_03005CF4 + 0x1B7);
+        }
+        temp_r6_2 = ((s32) *var_r0_9 >> 1) & 1;
+        temp_r2 = sub_080020F4();
+        var_r4_4 = 0;
+        var_r3 = 0;
+        var_r1_13 = (u8 *)gUnk_030034E0 + 0x150;
+        do {
+            if ((*(u16 *)((u8 *)var_r1_13 + 0x0) == 1) && (*(u16 *)((u8 *)var_r1_13 + 0x2) == 0x29)) {
+                var_r4_4 += 1;
+            }
+            var_r1_13 += 0x10;
+            var_r3 += 1;
+        } while (var_r3 <= 0x18U);
+        var_r4_5 = 0;
+        var_r3_2 = 0;
+        var_r1_14 = (u8 *)gUnk_030034E0 + 0x2E0;
+        do {
+            if ((*(u16 *)((u8 *)var_r1_14 + 0x0) == 1) && (*(u16 *)((u8 *)var_r1_14 + 0x2) == 0x29)) {
+                var_r4_5 += 1;
+            }
+            var_r1_14 += 0x10;
+            var_r3_2 += 1;
+        } while (var_r3_2 <= 0x4AU);
+        if ((temp_r6_2 == 0) && (temp_r2 == 0) && (var_r4_4 == 0) && (var_r4_5 == 0)) {
+            var_r4_6 = gUnk_03005CF4 + 0xE34;
+            var_r5_4 = 0;
+loop_144:
+            if (var_r5_4 <= 0x1DU) {
+                temp_r0_4 = sub_08000470(var_r4_6);
+                if (temp_r0_4 == 0) {
+                    args.x = 0x9700;
+                    args.y = 0x16D00;
+                    args.a = 0x10;
+                    args.b = 8;
+                    args.callback = &sub_0804534C;
+                    args.zero = 0;
+                    *(u32 *)((u8 *)var_r4_6 + 0x8) = 0x3C;
+                    temp_r0_5 = sub_08001494(0x400U);
+                    *(u32 *)((u8 *)var_r4_6 + 0x20) = temp_r0_5;
+                    *(u32 *)((u8 *)var_r4_6 + 0xC) = sub_0805A874;
+                    *(u32 *)((u8 *)var_r4_6 + 0x10) = (void *) (temp_r0_5 + 0x3FC);
+                    *(u32 *)((u8 *)var_r4_6 + 0x24) = temp_r0_4;
+                    sub_08000274(var_r4_6, (s32) &args, 1);
+                    sub_080003F0();
+                    sub_080003F0();
+                } else {
+                    var_r5_4 += 1;
+                    var_r4_6 += 0x28;
+                    goto loop_144;
+                }
+            }
+            sub_08068070((u32) &sub_0805990C, 0x14U);
+        }
+    }
+    if (sub_0800CE30() != 0) {
+        var_r0_10 = (u8 *)(gUnk_03005CF4 + 0x1C3);
+    } else {
+        var_r0_10 = (u8 *)(gUnk_03005CF4 + 0x1B7);
+    }
+    if (!(*var_r0_10 & 1)) {
+        if (sub_0800CC98() == 0) {
+            temp_r0_6 = sub_0801AB24();
+            switch (temp_r0_6) {                    /* switch 2; irregular */
+            case 0:                                 /* switch 2 */
+                sub_080576A8();
+                break;
+            case 1:                                 /* switch 2 */
+                sub_0801AB50(6);
+                break;
+            case 2:                                 /* switch 2 */
+                sub_0801AB90(6);
+                break;
+            }
+loop_216:
+            if (sub_0801AAE0() == 0) {
+                sub_080003F0();
+                goto loop_216;
+            }
+        }
+    } else {
+        temp_r2_2 = (void *)(0x14C * sub_080020F4() + (u32)gUnk_03003CE0);
+        *(u32 *)((u8 *)temp_r2_2 + 0x30) = (s32) (*(u32 *)((u8 *)temp_r2_2 + 0x30) | 1);
+        sub_0800D0F4();
+        temp_r7 = sub_080289C0(0x31, 0xF0, 0x190);
+        temp_r0_7 = sub_080020F4();
+        switch (temp_r0_7) {                        /* switch 1; irregular */
+        case 0:                                     /* switch 1 */
+            var_r2_19 = 0x1B8;
+            var_r1_15 = 0xF0;
+block_163:
+            sub_08028AAC(0, var_r1_15, var_r2_19, 0);
+            break;
+        case 1:                                     /* switch 1 */
+            var_r1_15 = 0x104;
+            var_r2_19 = 0x1C2;
+            goto block_163;
+        case 2:                                     /* switch 1 */
+            var_r2_19 = 0x1C2;
+            var_r1_15 = 0xDC;
+            goto block_163;
+        case 3:                                     /* switch 1 */
+            sub_08028AAC(0, 0xF0, 0x1CC, 0);
+            break;
+        }
+        sub_080290E4(0, 4);
+        var_r4_7 = 0x1E;
+loop_167:
+        sub_080003F0();
+        if (sub_080021A8() == 0) {
+            var_r4_7 -= 1;
+            if (var_r4_7 != 0) {
+                goto loop_167;
+            }
+        }
+        sub_0801AA34(0x1E);
+loop_170:
+        if (sub_0801AAE0() == 0) {
+            sub_080003F0();
+            goto loop_170;
+        }
+loop_173:
+        if (sub_0805F184() != 0) {
+            sub_080003F0();
+            goto loop_173;
+        }
+loop_176:
+        if (sub_0805EF90() != 0) {
+            sub_080003F0();
+            goto loop_176;
+        }
+        temp_r4_6 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x140482U);
+loop_179:
+        if (sub_0805EEFC((void *) temp_r4_6) == 0) {
+            sub_080003F0();
+            goto loop_179;
+        }
+        var_r4_8 = 0xA;
+loop_182:
+        sub_080003F0();
+        if (sub_080021A8() == 0) {
+            var_r4_8 -= 1;
+            if (var_r4_8 != 0) {
+                goto loop_182;
+            }
+        }
+    taskCallback=(s32)sub_0803F18C; asm("" : "+r"(taskCallback));
+    var_r4_9 = gUnk_03005CF4+0xE34; var_r5_5=0; goto checkTask185;
+nextTask185:
+    var_r5_5++; var_r4_9+=0x28;
+checkTask185:
+    if(var_r5_5>29) goto doneTask185;
+    if(sub_08000470(var_r4_9)!=0) goto nextTask185;
+    while ((*(u32 *)((u8 *)var_r4_9 + 0x20) = temp_r0_8 = sub_08001494(0x400)) == 0) sub_080003F0();
+    *(u32 *)((u8 *)var_r4_9 + 0x8)=60; *(u32 *)((u8 *)var_r4_9 + 0xC)=taskCallback; *(u32 *)((u8 *)var_r4_9 + 0x10)=(u32)temp_r0_8+0x3FC; *(u32 *)((u8 *)var_r4_9 + 0x24)=0;
+    sub_08000274(var_r4_9,temp_r0_7);
+doneTask185:;
+
+        sub_0802939C(temp_r7, 8);
+        sub_08028D98(temp_r7, 0, -0x12C, 0x12C);
+        var_r1_16 = (s32 *)(gUnk_03005CF4 + 0x7A4);
+        var_r2_20 = 0;
+loop_192:
+        if (*var_r1_16 != temp_r7) {
+            var_r2_20 += 1;
+            var_r1_16 += 0x1C;
+            if (var_r2_20 > 0xEU) {
+                sub_080003F0();
+                var_r1_16 = NULL;
+            } else {
+                goto loop_192;
+            }
+        }
+        if (var_r1_16 != NULL) {
+            *(u16 *)((u8 *)var_r1_16 + 0x36) = 4;
+        }
+        sub_0801AA8C(0x1E);
+loop_199:
+        if (sub_0801AAE0() == 0) {
+            sub_080003F0();
+            goto loop_199;
+        }
+        var_r5_6 = gUnk_03005CF4 + 0x7A4;
+        var_r6 = 0;
+        do {
+            temp_r4_7 = var_r5_6 + 0x48;
+            if (sub_08000470(temp_r4_7) != 0) {
+                sub_080003A8((s32) temp_r4_7);
+            }
+            var_r6 += 1;
+            var_r5_6 += 0x70;
+        } while (var_r6 <= 0xEU);
+        sub_0802A228(0, 2);
+    }
+    if ((sub_0800CF48() != 0) || (((u16) *(u16 *)((u8 *)gUnk_03005CF4 + 0x4) >> 8) & 1)) {
+        var_r4_10 = gUnk_03005CF4 + 0xE34;
+        var_r5_7 = 0;
+loop_221:
+        if (var_r5_7 <= 0x1DU) {
+            temp_r0_9 = sub_08000470(var_r4_10);
+            if (temp_r0_9 == 0) {
+                args.x = 0xF000;
+                args.y = 0x1C000;
+                args.a = 0x40;
+                args.b = 8;
+                args.callback = &sub_0802C144;
+                args.zero = 0;
+                *(u32 *)((u8 *)var_r4_10 + 0x8) = 0x3C;
+                temp_r0_10 = sub_08001494(0x400U);
+                *(u32 *)((u8 *)var_r4_10 + 0x20) = temp_r0_10;
+                *(u32 *)((u8 *)var_r4_10 + 0xC) = sub_0805A874;
+                *(u32 *)((u8 *)var_r4_10 + 0x10) = (void *) (temp_r0_10 + 0x3FC);
+                *(u32 *)((u8 *)var_r4_10 + 0x24) = temp_r0_9;
+                sub_08000274(var_r4_10, (s32) &args, 1);
+                sub_080003F0();
+                sub_080003F0();
+            } else {
+                var_r5_7 += 1;
+                var_r4_10 += 0x28;
+                goto loop_221;
+            }
+        }
+    }
+}
+
+
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802B8A4);
+#endif
 struct Task028C144 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 struct Args028C144 { s32 x,y; u16 a,b; void (*callback)(void); u32 zero, pad; };
 extern u8 *gs028C144 asm("gUnk_03005CF4");
@@ -227,7 +792,113 @@ done:
 
 
 
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802C2A0);
+extern s32 sub_0801AB24(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+extern void sub_0802939C(s32,s32);
+extern void sub_080576A8(void);
+extern void sub_0803188C(void);
+extern void sub_080319F0(void);
+extern void sub_08031B54(void);
+extern void sub_08031CB8(void);
+extern void sub_08031D88(void);
+extern void sub_08031E58(void);
+void sub_0802C2A0(void) {
+ s32 handle, cb, mode; register s32 bits asm("r1"); register s32 value asm("r0"); s32 *p, *res, *res2; u32 i; u8 *flag;
+ handle=sub_080289C0(0x20039,0x1A8,0xCF);
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res=p; goto found1; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res=0;
+found1:
+ if(res) { *(u16 *)((u8 *)res+0x18)=8; *(u16 *)((u8 *)res+0x1A)=0x22; res[15]|=0x10; }
+ cb=(s32)sub_0803188C;
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res2=p; goto found2; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res2=0;
+found2:
+ if(res2) res2[17]=cb;
+ handle=sub_080289C0(0x20039,0x1E8,0xCF);
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res=p; goto found3; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res=0;
+found3:
+ if(res) { *(u16 *)((u8 *)res+0x18)=8; *(u16 *)((u8 *)res+0x1A)=0x22; res[15]|=0x10; }
+ cb=(s32)sub_080319F0;
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res2=p; goto found4; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res2=0;
+found4:
+ if(res2) res2[17]=cb;
+ if(sub_0800CE30()) flag=(u8 *)(gUnk_03005CF4+0x1C5); else flag=(u8 *)(gUnk_03005CF4+0x1B9);
+ value=(s32)*flag; asm("" : "+r"(value)); bits=value>>5; bits &= 1; asm("" : "+r"(bits)); if(!bits) {
+ handle=sub_080289C0(7,0xDA,0xCF); sub_0802939C(handle,1);
+ sub_0802939C(sub_080289C0(8,0xF6,0xCF),2);
+ handle=sub_080289C0(6,0xE9,0xCF);
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res=p; goto found5; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res=0;
+found5:
+ if(res) { *(u16 *)((u8 *)res+0x18)=8; *(u16 *)((u8 *)res+0x1A)=0x22; res[15]|=0x10; }
+ cb=(s32)sub_08031B54;
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res2=p; goto found8; } i++; p+=0x1C; } while(i<=14);
+ goto fail8;
+ } else {
+ handle=sub_080289C0(7,0xE9,0xCF);
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res=p; goto found7; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res=0;
+found7:
+ if(res) { *(u16 *)((u8 *)res+0x18)=8; *(u16 *)((u8 *)res+0x1A)=0x22; res[15]|=0x10; }
+ sub_0802939C(handle,1);
+ cb=(s32)sub_08031B54;
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res2=p; goto found8; } i++; p+=0x1C; } while(i<=14);
+fail8:
+ sub_080003F0(); res2=0;
+found8:
+ if(res2) res2[17]=cb;
+ }
+ handle=sub_080289C0(0x20039,0x228,0xCF);
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res=p; goto found9; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res=0;
+found9:
+ if(res) { *(u16 *)((u8 *)res+0x18)=8; *(u16 *)((u8 *)res+0x1A)=0x22; res[15]|=0x10; }
+ cb=(s32)sub_08031CB8;
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res2=p; goto found10; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res2=0;
+found10:
+ if(res2) res2[17]=cb;
+ handle=sub_080289C0(0x20039,0xA8,0xC8);
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res=p; goto found11; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res=0;
+found11:
+ if(res) { *(u16 *)((u8 *)res+0x18)=8; *(u16 *)((u8 *)res+0x1A)=0x22; res[15]|=0x10; }
+ cb=(s32)sub_08031D88;
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res2=p; goto found12; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res2=0;
+found12:
+ if(res2) res2[17]=cb;
+ handle=sub_080289C0(0x20039,0x128,0xCF);
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res=p; goto found13; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res=0;
+found13:
+ if(res) { *(u16 *)((u8 *)res+0x18)=8; *(u16 *)((u8 *)res+0x1A)=0x22; res[15]|=0x10; }
+ cb=(s32)sub_08031E58;
+ p=(s32 *)(gUnk_03005CF4+0x7A4); i=0;
+ do { if (*p==handle) { res2=p; goto found14; } i++; p+=0x1C; } while(i<=14);
+ sub_080003F0(); res2=0;
+found14:
+ if(res2) res2[17]=cb;
+ if(sub_0800CC98()==0) { mode=sub_0801AB24(); switch(mode) { case 0:sub_080576A8();break; case 1:sub_0801AB50(6);break;case 2:sub_0801AB90(6);break;} while(sub_0801AAE0()==0) sub_080003F0(); }
+}
+
+
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802C674);
 void sub_08037B04(void);
 void sub_08030F54(void);

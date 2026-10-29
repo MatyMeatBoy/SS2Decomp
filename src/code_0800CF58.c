@@ -4093,7 +4093,7 @@ block_1221:
                                 M2C_FIELD((s32 *)&localRecord, u32 *, 4) = (M2C_FIELD((s32 *)&localRecord, u32 *, 4) & 0xFFFF0000) | localDamageD368;
                                 M2C_FIELD((s32 *)&localRecord, u32 *, 0) &= 0xFFFF00FF;
                                 M2C_FIELD((s32 *)&localRecord, u32 *, 0) = (M2C_FIELD((s32 *)&localRecord, u32 *, 0) & 0xFF00FFFF) | 0x200000;
-                                localDirectionD368 = ((u32) *((((u32) ArcTan2((s16) ((s32) ((M2C_FIELD(temp_r1_45, s32 *, 0x14) - ((struct PlayerD368 *)arg0)->f8C) << 8) >> 0x10), (s16) ((s32) ((M2C_FIELD(temp_r1_45, s32 *, 0x18) - ((struct PlayerD368 *)arg0)->f90) << 8) >> 0x10)) << 0x10) >> 0x1C) + (u8 *)&d368_gUnk_084790B4) << 0x18);
+                                localDirectionD368 = ((u32) *((((u32) ArcTan2((s16) ((s32) (((u32) M2C_FIELD(temp_r1_45, s32 *, 0x14) - (u32) ((struct PlayerD368 *)arg0)->f8C) << 8) >> 0x10), (s16) ((s32) (((u32) M2C_FIELD(temp_r1_45, s32 *, 0x18) - (u32) ((struct PlayerD368 *)arg0)->f90) << 8) >> 0x10)) << 0x10) >> 0x1C) + (u8 *)&d368_gUnk_084790B4) << 0x18);
                                 M2C_FIELD((s32 *)&localRecord, s32 *, 0) = (M2C_FIELD((s32 *)&localRecord, s32 *, 0) & 0xFFFFFF) | localDirectionD368;
                                 M2C_FIELD(temp_r1_45, s32 *, 0x54) = (s32) *sp1C8;
                                 M2C_FIELD((s32 *)&localRecord, s32 *, 0) = (M2C_FIELD((s32 *)&localRecord, s32 *, 0) & 0xFFFFFF00) | (u8) (M2C_FIELD(temp_r1_45, u8 *, 0) + 4);

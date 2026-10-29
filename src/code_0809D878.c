@@ -604,6 +604,38 @@ void sub_080A26D0(void)
   }
 
 }
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A2720);
+extern void t107Callback0(void) asm("sub_080A1FF4");
+extern void sub_080A230C(void);
+struct T107Task { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern struct T107Task *t107Pool0 asm("gUnk_03000350");
+extern struct T107Task *t107Pool1 asm("gUnk_03000354");
+void sub_080A2720(u8 mode, u16 arg) {
+    struct T107Task *t;
+    u8 i;
+    u32 limit;
+    if (mode == 0) t = t107Pool0;
+    else t = t107Pool1;
+    limit = 8;
+    i = 0;
+    goto check;
+next:
+    i++;
+    t++;
+check:
+    if (i >= limit) return;
+    if (sub_08000470((u32)t) != 0 || t->f8 != 0) goto next;
+    t->f20 = sub_08001494(0x400);
+    if (t->f20 == 0) return;
+    switch (mode) {
+    case 0: t->fC = (u32)t107Callback0; break;
+    case 1: t->fC = (u32)sub_080A230C; break;
+    }
+    t->f10 = t->f20 + 0x3FC;
+    t->f24 = 0;
+    t->f8 = 0x46;
+    sub_08000274((u32)t, mode, arg);
+}
+
+
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A27B8);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A35D0);
