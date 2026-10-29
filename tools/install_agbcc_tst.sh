@@ -16,9 +16,14 @@ fi
 printf '%s  %s\n' "$ARCHIVE_SHA" "$ARCHIVE" | sha256sum -c -
 printf '%s  %s\n' "$PATCH_SHA" "$PATCH" | sha256sum -c -
 python3 - "$ARCHIVE" "$DEST/source" <<'PY'
-import sys, zipfile
+import os, sys, zipfile
 with zipfile.ZipFile(sys.argv[1]) as archive:
     archive.extractall(sys.argv[2])
+    # ZipFile does not restore Unix modes; GCC invokes these scripts directly.
+    for entry in archive.infolist():
+        mode = (entry.external_attr >> 16) & 0o777
+        if mode:
+            os.chmod(os.path.join(sys.argv[2], entry.filename), mode)
 PY
 SOURCE="$DEST/source/agbcc-$REV"
 (cd "$SOURCE" && patch -p1 < "$PATCH")
