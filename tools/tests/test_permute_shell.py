@@ -36,8 +36,12 @@ class PermuterWrapperTests(unittest.TestCase):
              mock.patch.object(decomp, 'module_flags', return_value=decomp.CC1FLAGS), \
              mock.patch.object(decomp, 'assemble_orig', return_value='test_target'), \
              mock.patch.object(permute.subprocess, 'run', side_effect=run), \
+             mock.patch.object(permute, 'preserve_constraints', side_effect=lambda text: text), \
              mock.patch.dict(os.environ, {}, clear=False):
             permute.setup('test_target', str(candidate), str(root / 'case'))
+        # These tests cover the shell/compiler and real alias relocations even
+        # when the optional engine is absent. AST controls live in the guarded
+        # test_permute_constraints suite and exercise preservation separately.
         result = subprocess.run(['sh', (root / 'case/compile.sh').as_posix(),
                                  (root / 'case/base.c').as_posix(), '-o', (root / 'actual.o').as_posix()],
                                 capture_output=True, text=True)
@@ -70,7 +74,7 @@ class PermuterFailureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td, \
              mock.patch.object(sys, 'argv', ['permute.py', 'target', 'input.c', '--dir', td]), \
              mock.patch.object(permute, 'setup'), \
-             mock.patch.object(permute.subprocess, 'run', return_value=subprocess.CompletedProcess([], 19, '', 'compiler failed')), \
+             mock.patch.object(permute, 'validate_control', side_effect=SystemExit('baseline compilation failed: compiler failed')), \
              contextlib.redirect_stdout(io.StringIO()) as output:
             with self.assertRaises(SystemExit):
                 permute.main()
@@ -86,6 +90,7 @@ class PermuterExportTests(unittest.TestCase):
         with mock.patch.object(sys, 'argv', ['permute.py', 'test_target', 'input.c',
                                            '--dir', str(case), '--out', str(root / 'out')]), \
              mock.patch.object(permute, 'setup', return_value=aliases), \
+             mock.patch.object(permute, 'validate_control', return_value={'entire_object_equal': True}), \
              mock.patch.object(permute.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, '', '')), \
              contextlib.redirect_stdout(io.StringIO()):
             permute.main()
