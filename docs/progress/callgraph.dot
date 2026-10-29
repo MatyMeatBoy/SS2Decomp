@@ -2482,7 +2482,7 @@ digraph calls {
   "sub_08008500" -> "ObjAffineSet" [label="c"];
   "sub_08008500" -> "sub_08001348" [label="c"];
   "sub_080087AC" -> "sub_08001348" [label="c"];
-  "sub_080089DC" -> "sub_08001348" [label="asm"];
+  "sub_080089DC" -> "sub_08001348" [label="c"];
   "sub_08008C10" -> "sub_08008C1C" [label="c"];
   "sub_08008DB8" -> "sub_08001348" [label="c"];
   "sub_08009014" -> "sub_08007AA4" [label="c"];

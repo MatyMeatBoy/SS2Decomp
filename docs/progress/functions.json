@@ -3686,14 +3686,14 @@
       "name": "sub_080089DC",
       "addr": 134253020,
       "size": 564,
-      "state": "todo",
+      "state": "done",
       "module": "code_08006D24",
       "kind": "c",
       "cat": "game",
       "address": "0x080089DC",
       "canonical_symbol": "sub_080089DC",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_080089DC",
       "name_status": "unidentified",
       "name_source": null,
@@ -3734,7 +3734,7 @@
       "evidence": [
         {
           "source": "src/code_08006D24.c",
-          "line": 1219,
+          "line": 1367,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08008C1C_v"
         }
       ]
