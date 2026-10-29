@@ -16,7 +16,30 @@ extern s32 gUnk_03000324;
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809D878);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809E468);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EDFC);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EF84);
+extern u8 modeEF84105 asm("gUnk_03000320");
+s32 sub_0809EF84(void)
+{
+    register s32 status asm("r0")=sub_0800CD8C();
+    { register s32 checked asm("r1")=status; asm("" : "+r"(checked));
+    if(checked==0) {
+        register vu16 *statusReg asm("r3")=(vu16 *)0x04000004; asm("" : "+r"(statusReg));
+        if(!(1 & *statusReg)) {
+            u32 one=1; asm("" : "+r"(one));
+            do {} while(!(one & *statusReg));
+        }
+        switch(modeEF84105) {
+        case 3: case 5:
+            *(vu16 *)0x04000000 &= 0xFBFF;
+            break;
+        case 0:case 1:case 2:case 4:case 7:case 8:
+            *(vu16 *)0x04000000 |= 0x400;
+            break;
+        }
+    }
+    }
+    asm volatile("" : "+r"(status));
+    return status;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F018);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F4A8);
 void sub_0809F8C8(void) {
@@ -67,20 +90,28 @@ void sub_0809F998(void)
     gTP03000318->f8 = 0x3E;
     sub_08000274_3((u32)gTP03000318, 0, 0);
 }
-#ifdef NONMATCHING
+struct TaskPool105 { u32 next,state,priority,entry,sp,event,prev;u16 time,pad;u32 stack,onExit; };
+extern struct TaskPool105 *volatile pool105 asm("gUnk_03000324");
 void sub_0809F9F8(void)
 {
-    u8 *base = sub_08001494(0xA0);
-    u32 i;
-    gUnk_03000324 = base;
-    if (base != 0) {
-        for (i = 0; i < 4; i++)
-            *(u32 *)(base + i * 0x28 + 8) = 0;
+    struct TaskPool105 *base;
+    struct TaskPool105 *volatile *holder = &pool105;
+    s32 remaining;
+    u32 offset;
+    u32 clear;
+    base=sub_08001494(0xA0);
+    *holder=base;
+    if(base!=0) {
+        clear=0;
+        offset=0;
+        remaining=3;
+        do {
+            ((struct TaskPool105 *)(offset+(u32)*holder))->priority=clear;
+            offset+=0x28;
+            remaining--;
+        } while(remaining>=0);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F9F8);
-#endif
 void sub_0809FA28(void)
 {
     u8 *e;
