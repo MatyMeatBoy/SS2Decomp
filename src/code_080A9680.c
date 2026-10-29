@@ -2956,8 +2956,7 @@ void sub_080B0FC4(struct T116CActor *arg0) {
     t116C_sub_0801623C(arg0, &t116C_data, 0);
     t116C_sub_08019F60(temp_r0);
     sub_0801A0A4(arg0);
-    temp_r0_2 = t116C_sub_08016E04(arg0->f2D8, 0);
-    gUnk_030007A4 = temp_r0_2;
+    { register u16 *outHalf asm("r4") = &gUnk_030007A4; asm("" : "+r"(outHalf)); temp_r0_2 = t116C_sub_08016E04(arg0->f2D8, 0); *outHalf = temp_r0_2; }
     if ((u16)temp_r0_2 == 0xFFFF) {
         flags116 = &gUnk_030056FC;
         temp_r1 = temp_r0_2;
@@ -3542,7 +3541,6 @@ finalcheck116:
     if (sub_08056E90() == 0) goto loop_178;
     sub_080B2424();
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0FC4);
 #endif
