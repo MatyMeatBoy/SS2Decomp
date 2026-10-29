@@ -245,6 +245,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     s32 var_r0_3;
     register s32 var_r1 asm("r1");
     u16 *var_r0_6;
+    u16 *allyEffects68;
     u16 temp_r4_2;
     u16 temp_r4_4;
     u16 var_r0;
@@ -462,7 +463,8 @@ loop_69:
 ally4:
                                             var_r0_6=(u16 *)gUnk_084EBF1C; asm("" : "+r"(var_r0_6)); var_r0_6=(u16 *)((u8 *)var_r0_6+0x62); goto allyCall;
 ally7:
-                                            var_r0_6=&effects[M2C_FIELD(attack,u32 *,0x14)];
+                                            allyEffects68 = effects;
+                                            var_r0_6 = &allyEffects68[M2C_FIELD(attack,u32 *,0x14)];
 allyCall:
                                             temp_r4_4=*var_r0_6;
                                             sub_08029A7C(temp_r4_4,(s16)damage68_raw(attack,0),M2C_FIELD(attack,u32 *,0x14));
