@@ -2643,21 +2643,24 @@ extern void call66_0801AB50(s32) asm("sub_0801AB50");
 extern void call66_08088914(void) asm("sub_08088914");
 extern void call66_0800035C(void) asm("sub_0800035C");
 void sub_080066BC(void) {
+    void yield66(u64) asm("sub_080003F4");
     struct Stack66 S;
-    struct Peer66 *peer;
+    register struct Peer66 *peer asm("r4");
 
     const struct Coord66 *var_r7;
     s32 var_r0;
     s32 var_r0_2;
-    s32 var_r9;
-    u16 *var_r5;
-    u16 *var_r5_2;
+    register s32 var_r9 asm("r9");
+    register u16 *var_r5 asm("r5");
+    register u16 *var_r5_2 asm("r5");
     u32 oldTimer;
-    u32 var_r6;
-    u32 var_r6_2;
-    u32 var_r6_3;
-    u32 var_sl;
-    const struct Coord66 *var_r8;
+    register u32 var_r6 asm("r6");
+    register u32 var_r6_2 asm("r6");
+    register u32 var_r6_3 asm("r6");
+    register u32 var_sl asm("sl");
+    register const struct Coord66 *var_r8 asm("r8");
+    u32 hostZero;
+    u16 *initialCounts;
 
     /* Flowgraph is not reducible, falling back to gotos-only mode. */
 setup66(1, 0, 0, 0, 1);
@@ -2673,10 +2676,11 @@ sprite66(&S.gfx, 0x50001, 0, 3, 0);
     S.result = 0;
     var_sl = 0;
     S.active = 0;
-    S.count[3] = 0;
-    S.count[2] = *(u16 *)&S.result;
-    S.count[1] = *(u16 *)&S.result;
-    S.count[0] = *(u16 *)&S.result;
+    initialCounts=S.count;asm("" : "+r"(initialCounts));
+    initialCounts[3] = 0;
+    initialCounts[2] = *(u16 *)&S.result;
+    initialCounts[1] = *(u16 *)&S.result;
+    initialCounts[0] = *(u16 *)&S.result;
     if (sub_080020F4() != 0) {
         goto block_4;
     }
@@ -2717,24 +2721,26 @@ block_10:
     var_r9 = 0;
 sub_08065230(&S.gfx, (s32) coords66[0].x, (s32) coords66[0].y, 1U, 0);
     var_r6 = 1;
+    hostZero=0;asm("" : "+r"(hostZero));
     var_r8 = &coords66[1];
     var_r5 = &S.count[1];
     goto loop_20;
 block_11:
     peer = peer66(var_r6);
-    if (gUnk_03002730 & (1 << var_r6)) {
+    {u32 mask=1U<<var_r6;asm("" : "+r"(mask));var_r0=(u32)gUnk_03002730&mask;}
+    if (var_r0) {
         goto block_13;
     }
     *var_r5 += 1;
     goto block_14;
 block_13:
-    *var_r5 = 0;
+    *var_r5 = hostZero;
 block_14:
     if ((u32) *var_r5 <= 5U) {
         goto block_16;
     }
-    peer->unk8 = 0U;
-    peer->unk9 = 0U;
+    peer->unk8 = hostZero;
+    peer->unk9 = hostZero;
 block_16:
     if (peer->unk8 != 0x4F) {
         goto block_19;
@@ -2743,7 +2749,7 @@ block_16:
         goto block_19;
     }
     var_r9 += 1;
-sub_08065230(&S.gfx, (s32) var_r8->x, (s32) var_r8->y, 1U, 0);
+sub_08065230(&S.gfx, (s32) var_r8->x, (s32) var_r8->y, 1U, hostZero);
 block_19:
     var_r8++;
     var_r5++;
@@ -2842,7 +2848,8 @@ block_45:
     goto loop_61;
 block_46:
     peer = peer66(var_r6_2);
-    if (gUnk_03002730 & (1 << var_r6_2)) {
+    {u32 mask=1U<<var_r6_2;asm("" : "+r"(mask));var_r0=(u32)gUnk_03002730&mask;}
+    if (var_r0) {
         goto block_48;
     }
     *var_r5_2 += 1;
@@ -2958,7 +2965,7 @@ block_80:
         goto block_82;
     }
     call66_08088914();
-    call66_080003F4(0x5A112EBF, 2);
+    yield66(0x25A112EBFULL);
 block_82:
     sub_0800CB3C(1);
 block_83:
