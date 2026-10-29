@@ -89,11 +89,23 @@ the original register entry ABI.
 instruction bytes plus 2 alignment bytes). It assigns modulation depth and
 clears modulation when the depth is zero; condition and accesses are C.
 
-The other 18 configured entries retain their original INCLUDE_ASM bodies.
+`sub_080B6990` is a 2-byte C byte reader with preserved fall-through
+ABI. Its naked attribute intentionally emits no return: control enters the
+separately configured address validator immediately below it, as in the
+original. The reader has no inline assembly; the validator remains ASM and
+pending. `m4a_1_read` isolates these register reservations at 0x080B6978, including the unchanged jump-table copy that shares its
+validator literal pool.
+
+`sub_080B69AC` is a 2-byte C command-pointer reader with preserved
+fall-through ABI. Its naked body loads cmdPtr in r2, then enters the
+separately configured advance/validation tail immediately below it. There
+is no inline ASM in the C reader; the tail remains ASM and pending.
+
+The other 16 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 404 bytes / 18 functions
-become decompiled; the remaining 2656 bytes / 18 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 408 bytes / 20 functions
+become decompiled; the remaining 2652 bytes / 16 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 

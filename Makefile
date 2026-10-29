@@ -67,6 +67,9 @@ CC1FLAGS_m4a_1_commands := -O2 -mthumb-interwork
 CC1_m4a_1_mod := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_mod := -O2 -mthumb-interwork
 
+CC1_m4a_1_read := tools/agbcc/bin/old_agbcc
+CC1FLAGS_m4a_1_read := -O2 -mthumb-interwork
+
 CC1_m4a_1_jump := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_jump := -O2 -mthumb-interwork
 CC1_m4a_1_rest := tools/agbcc/bin/old_agbcc

@@ -31,13 +31,3 @@ void RealClearChain(void *arg)
 }
 
 INCLUDE_ASM("asm/nonmatchings/m4a_1", ply_fine);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", MPlayJumpTableCopy);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", sub_080B6990);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", sub_080B6992);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", sub_080B69AC);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", sub_080B69AE);
