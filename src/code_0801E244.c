@@ -83,42 +83,43 @@ void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E324);
 #endif
-#ifdef NONMATCHING
-u16 sub_0801E378(s32 arg0, u16 value)
+extern u32 statRead019(s32,s32) asm("sub_0801E0AC");
+u16 sub_0801E378(s32 arg0,u16 value)
 {
-    u8 mode = sub_0801DE60();
-    s32 first;
-    s32 second;
-
-    if (mode == 0 || mode == 3) {
-        s32 stat = mode == 0 ? 4 : 3;
-        first = sub_0801E0AC(arg0, stat);
-        second = sub_0801E0AC(arg0, stat);
-        value = (u16)(((s16)value + 2 * first) * (second + 10) / 10);
+    u8 mode=sub_0801DE60();
+    u32 first,second;
+    switch(mode) {
+    case 0:
+        first=(second=statRead019(arg0,4));
+        second=statRead019(arg0,4);
+        value=(s32)((u32)((s16)value+2*(u16)first)*((u16)second+10))/10;
+        break;
+    case 3:
+        first=statRead019(arg0,3);
+        second=statRead019(arg0,3);
+        value=(s32)((u32)((s16)value+2*(u16)first)*((u16)second+10))/10;
+        break;
     }
     return value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E378);
-#endif
-#ifdef NONMATCHING
-u16 sub_0801E3D8(s32 arg0, u16 value)
+u16 sub_0801E3D8(s32 arg0,u16 value)
 {
-    u8 mode = sub_0801DE60();
-    s32 first;
-    s32 second;
-
-    if (mode == 0 || mode == 3) {
-        s32 stat = mode == 0 ? 3 : 2;
-        first = sub_0801E0AC(arg0, stat);
-        second = sub_0801E0AC(arg0, stat);
-        value = (u16)(((s16)value + 2 * first) * (second + 10) / 10);
+    u8 mode=sub_0801DE60();
+    u32 first,second;
+    switch(mode) {
+    case 0:
+        first=(second=statRead019(arg0,3));
+        second=statRead019(arg0,3);
+        value=(s32)((u32)((s16)value+2*(u16)first)*((u16)second+10))/10;
+        break;
+    case 3:
+        first=statRead019(arg0,2);
+        second=statRead019(arg0,2);
+        value=(s32)((u32)((s16)value+2*(u16)first)*((u16)second+10))/10;
+        break;
     }
     return value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E3D8);
-#endif
 u16 sub_0801E438(s32 arg0, u32 arg1)
 {
     u16 value;
