@@ -2315,8 +2315,8 @@ void sub_080B0288(struct T116Actor *input116) {
     s32 end116;
     register struct T116Actor *arg0 asm("sl") = input116;
     u8 sp18[0x34];
-    u8 sp4C[0x34];
-    u8 sp80[0x34];
+    u8 storage4C[0x34]; register u8 *sp4C asm("r7");
+    u8 storage80[0x34]; register u8 *sp80 asm("r6");
     s16 spB4;
     s16 spB6;
     void *spB8;
@@ -2389,7 +2389,9 @@ void sub_080B0288(struct T116Actor *input116) {
     t116_sub_08019F60(spB8);
     sub_0801A0A4(arg0);
     t116_sub_08065158(sp18, 0x50089, 5, -1, 0);
+    sp4C=storage4C; asm("" : "+r"(sp4C));
     t116_sub_08065158(sp4C, 0x50087, 5, -1, 0);
+    sp80=storage80; asm("" : "+r"(sp80));
     t116_sub_08065158(sp80, 0x50088, 5, -1, 0);
     temp_r1 = *(s16 *)((u8 *)spB8 + 0x6) * 3;
     arg0->f1D6 = temp_r1;
@@ -2764,7 +2766,6 @@ block_123:
     }
     sub_08056E24();
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0288);
 #endif
