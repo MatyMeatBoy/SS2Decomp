@@ -531,8 +531,7 @@ block_134:
                 case 0:                             /* switch 3 */
                     var_r6 = &stack.main.f0;
                     if (((local10C) != arg0->fC) && ((local10C) != 1) && ((local10C) != 0xA)) {
-                        (local0) = 0;
-                        T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                        T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, 0);
                         asm volatile("");
                     }
                     (local10C) = (s32) arg0->fC;
@@ -543,8 +542,7 @@ block_134:
                 case 1:                             /* switch 3 */
                     var_r6 = &stack.main.f0;
                     if (((local10C) != arg0->fC) && ((local10C) != 0) && ((local10C) != 0xA)) {
-                        (local0) = 0;
-                        T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                        T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, 0);
                         asm volatile("");
                     }
                     (local10C) = (s32) arg0->fC;
@@ -554,8 +552,7 @@ block_134:
                     break;
                 case 2:                             /* switch 3 */
                     if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
-                        (local0) = 0;
-                        T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                        T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, 0);
                         asm volatile("");
                         *(local158) = 0;
                         (local10C) = (s32) arg0->fC;
