@@ -1507,7 +1507,206 @@ void sub_08061830(void *raw)
     }
     player->flags |= 8;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061910);
+extern u8 resetTaskA64[] asm("gUnk_03006110");
+extern u8 resetTaskB64[] asm("gUnk_03006160");
+extern u8 resetPlayers64[] asm("gUnk_030034F0");
+extern u8 resetTaskC64[] asm("gUnk_030061B0");
+extern u8 resetTaskD64[] asm("gUnk_03003C10");
+extern u8 resetTaskE64[] asm("gUnk_03006000");
+extern u8 resetTaskF64[] asm("gUnk_03003480");
+extern u8 resetTaskG64[] asm("gUnk_03006450");
+extern u16 resetScroll64[] asm("gUnk_03001250");
+extern u32 resetRunning64(void *) asm("sub_08000470");
+extern void resetKill64(void *) asm("sub_080003A8");
+extern void resetPrepare64(void) asm("sub_0805EFBC");
+extern void resetBg64(u32,u16 *) asm("sub_08000AA8");
+extern void resetMode64(s32) asm("sub_0801AB50");
+extern void resetFade64(s32) asm("sub_0801AA8C");
+extern void resetDisplay64(u32,u32,u32) asm("sub_080009F8");
+extern void resetEnable64(u32,u32,u32) asm("sub_080009C0");
+extern void resetSound64(u32) asm("sub_080570DC");
+void sub_08061910(void)
+{
+  union 
+  {
+    u32 raw;
+    struct 
+    {
+      u32 value : 16;
+      u32 upper : 16;
+    } bits;
+  } control;
+  u32 fill;
+  u16 i;
+  u8 *task;
+  u32 ready;
+  void *window;
+  resetDisplay64(0x7F00, 0, 1);
+  resetSound64(1);
+  resetPrepare64();
+  while (sub_0801AAE0() == 0)
+  {
+    sub_080003F0();
+  }
+
+  if (sub_0801AAF8() != 0)
+  {
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
+    {
+      sub_080003F0();
+    }
+
+  }
+  sub_08006C14();
+  for (i = 0; i < 60; i++)
+  {
+    sub_080003F0();
+  }
+
+  sub_0800CCB8();
+  sub_0800CBAC();
+  sub_0805EF2C();
+  task = resetTaskA64;
+  do
+  {
+    if (resetRunning64(task))
+    {
+      resetKill64(task);
+    }
+  }
+  while (0);
+  task += 0x28;
+  do
+  {
+    if (resetRunning64(task))
+    {
+      resetKill64(task);
+    }
+  }
+  while (0);
+  task = resetTaskB64;
+  do
+  {
+    if (resetRunning64(task))
+    {
+      resetKill64(task);
+    }
+  }
+  while (0);
+  task += 0x28;
+  do
+  {
+    if (resetRunning64(task))
+    {
+      resetKill64(task);
+    }
+  }
+  while (0);
+  for (i = 0; i < sub_08002164(); i++)
+  {
+    task = resetPlayers64 + (i * 0x28);
+    do
+    {
+      if (resetRunning64(task))
+      {
+        resetKill64(task);
+      }
+    }
+    while (0);
+  }
+
+  do
+  {
+    if (resetRunning64(resetTaskC64))
+    {
+      resetKill64(resetTaskC64);
+    }
+  }
+  while (0);
+  do
+  {
+    if (resetRunning64(resetTaskD64))
+    {
+      resetKill64(resetTaskD64);
+    }
+  }
+  while (0);
+  do
+  {
+    if (resetRunning64(resetTaskE64))
+    {
+      resetKill64(resetTaskE64);
+    }
+  }
+  while (0);
+  do
+  {
+    if (resetRunning64(resetTaskF64))
+    {
+      resetKill64(resetTaskF64);
+    }
+  }
+  while (0);
+  do
+  {
+    if (resetRunning64(resetTaskG64))
+    {
+      resetKill64(resetTaskG64);
+    }
+  }
+  while (0);
+  resetDisplay64(0x7F00, 0, 1);
+  sub_080003F0();
+  sub_080003F0();
+  sub_0805EF2C();
+  sub_080003F0();
+  sub_080003F0();
+  sub_0805EF2C();
+  sub_080003F0();
+  sub_080003F0();
+  sub_0805EF2C();
+  sub_080003F0();
+  sub_080003F0();
+  sub_0805EF2C();
+  fill = 0;
+  CpuSet(&fill, (void *) 0x0600E000, 0x05000200);
+  sub_080003F0();
+  sub_080003F0();
+  control.bits.value = 0x1C08;
+  resetBg64(0, (u16 *) (&control.raw));
+  ;
+  resetScroll64[2] = 0;
+  resetScroll64[3] = 0;
+  resetDisplay64(0x7F00, 0, 0);
+  resetEnable64(0x100, 0, 1);
+  resetMode64(6);
+  while ((ready = sub_0801AAE0()) == 0)
+  {
+    resetScroll64[2] = ready;
+    resetScroll64[3] = ready;
+    sub_0805EF2C();
+    sub_080003F0();
+  }
+
+  window = (void *) sub_0805DF38(0, 0, 0, 0, -1, 0x1404E2);
+  sub_0805F07C();
+  do
+  {
+    resetDisplay64(0, 0x2000, 1);
+    resetBg64(0, (u16 *) (&control.raw));
+    sub_080003F0();
+  }
+  while (sub_0805EEFC(window) == 0);
+  sub_0805EE6C(window);
+  resetFade64(10);
+  while (sub_0801AAE0() == 0)
+  {
+    sub_080003F0();
+  }
+
+  SoftReset(0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061B88);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061E44);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080624D8);
