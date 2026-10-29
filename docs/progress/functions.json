@@ -2451,7 +2451,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 1944,
+          "line": 1943,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2474,7 +2474,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2265,
+          "line": 2264,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
@@ -10876,14 +10876,14 @@
       "name": "sub_0802C144",
       "addr": 134398276,
       "size": 348,
-      "state": "todo",
+      "state": "done",
       "module": "code_08028AAC",
       "kind": "c",
       "cat": "game",
       "address": "0x0802C144",
       "canonical_symbol": "sub_0802C144",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0802C144",
       "name_status": "unidentified",
       "name_source": null,
@@ -12514,14 +12514,14 @@
       "name": "sub_0804076C",
       "addr": 134481772,
       "size": 2244,
-      "state": "todo",
+      "state": "done",
       "module": "code_0803B69C",
       "kind": "c",
       "cat": "game",
       "address": "0x0804076C",
       "canonical_symbol": "sub_0804076C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0804076C",
       "name_status": "unidentified",
       "name_source": null,
@@ -12531,14 +12531,14 @@
       "name": "sub_08041030",
       "addr": 134484016,
       "size": 2892,
-      "state": "todo",
+      "state": "done",
       "module": "code_0803B69C",
       "kind": "c",
       "cat": "game",
       "address": "0x08041030",
       "canonical_symbol": "sub_08041030",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08041030",
       "name_status": "unidentified",
       "name_source": null,
