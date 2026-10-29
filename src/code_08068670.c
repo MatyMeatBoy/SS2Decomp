@@ -1269,7 +1269,54 @@ INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DE94);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806E7D4);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806F0CC);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806FE1C);
+struct T06FE1CPlayer { u8 pad0[0x24]; u16 x24, x26; u8 pad28[0x8e]; u16 wait; u8 padB8[10]; s16 resource; u8 padC4[0x88]; };
+struct T06FE1CArgs { u32 player, bit, f8, value, f10, level; };
+extern struct T06FE1CPlayer t06FE1CPlayers[] asm("gUnk_03003CE0");
+extern u32 t06FE1CFlags[] asm("gUnk_030063E0");
+extern u16 gUnk_084EC1C0[];
+void sub_0806FE1C(struct T06FE1CArgs *arg)
+{
+    u8 buf[0x10];
+    u32 local;
+    u32 player;
+    u32 bit;
+    u16 level;
+    struct T06FE1CPlayer *p;
+    struct T06FE1CPlayer *costPlayer;
+    u16 cost;
+    u16 *wait;
+    u16 *e;
+    local = sub_080020F4();
+    player = arg->player;
+    bit = arg->bit;
+    level = arg->level;
+    if (player <= 3)
+        p = &t06FE1CPlayers[player];
+    if (local == player) {
+        costPlayer = &t06FE1CPlayers[sub_080020F4()];
+        cost = sub_0806898C(arg->value, arg->level) - 1;
+        costPlayer->resource -= cost;
+        if (costPlayer->resource < 0)
+            costPlayer->resource = 0;
+    }
+    while (p->wait == 0)
+        sub_080003F0();
+    if (local == player) {
+        if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+            sub_0805865C(0x2D);
+        e = (u16 *)sub_0801E164(&t06FE1CPlayers[player], 4);
+        if (e != NULL) {
+            u16 z = 0;
+            e[1] = player;
+            e[0] = (level * 5 + 15) * 60;
+            e[2] = 4;
+            e[3] = gUnk_084EC1C0[level] - 1;
+            p->x24 = z;
+            p->x26 = z;
+        }
+    }
+    t06FE1CFlags[player] &= ~(1 << bit);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806FF1C);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080710DC);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08072390);
