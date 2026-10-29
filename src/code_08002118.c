@@ -1765,8 +1765,8 @@ finish3984:
     ((void (*)(unsigned long long))sub_08000420)(0x25A112EBFULL);
     goto epilogue3984;
 block_374:
-        drawOne3984 = 1;
         var_r6 = 0;
+        drawOne3984 = 1;
 loop_375:
         if ((u32) (u16) (timer - 4) > 2U) {
             if (state == var_r6) {
