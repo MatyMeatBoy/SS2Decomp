@@ -1186,7 +1186,7 @@ void sub_0806B3C4(u8 *arg0) {
     s16 sp6C;
     s16 sp6E;
     u32 i;
-    register u32 random asm("r0");
+    u32 random;
     u8 *delayBase;
     u16 costDelta;
     u8 *dst,*prev;
@@ -1200,8 +1200,8 @@ void sub_0806B3C4(u8 *arg0) {
     s32 sp8C;
     s32 sp90;
     s32 sp94;
-    register u8 *costBase asm("r3");
-    register s16 *costPtr asm("r2");
+    u8 *costBase;
+    s16 *costPtr;
     u32 costOffset;
     s32 sp98;
     s32 sp9C;
@@ -1243,8 +1243,8 @@ void sub_0806B3C4(u8 *arg0) {
     u16 var_r3;
     u16 var_r3_2;
     u16 var_r8_2;
-    register u32 var_sl asm("r10");
-    register u32 temp_r0 asm("r9");
+    u32 var_sl;
+    u32 temp_r0;
     u32 temp_r0_8;
     u32 temp_r0_9;
     u32 temp_r1_3;
@@ -1352,51 +1352,8 @@ loop_15:
 block_21:
     var_r8_2 = 0;
     sp84 = 0;
-    if (sub_0800CDF8() != 0) {
-
-    } else if ((u32) (*(u32 *)((u8 *)sp70+0x8)) > 3U) {
-        i = 0;
-        do {
-            if (gUnk_030056FC & (1 << i)) {
-                temp_r4_3 = t073Enemies + (i * 0x2E0);
-                if (((*(u16 *)((u8 *)temp_r4_3+0xC)) != 0xB) && ((*(u8 *)((u8 *)temp_r4_3+0x1DC)) != 0)) {
-                    sp6C = (s16) ((u32) ((*(u32 *)((u8 *)temp_r4_3+0x14)) - sp78) >> 8);
-                    temp_r1_3 = (u32) (((*(u32 *)((u8 *)temp_r4_3+0x18)) - sp7C) << 8) >> 0x10;
-                    sp6E = (s16) temp_r1_3;
-                    temp_r0_6 = ((u32) (ArcTan2(sp6C, (s16) temp_r1_3) << 0x10) >> 0x1B) - (s16) sp8C;
-                    var_r1 = temp_r0_6;
-                    temp_r0_7 = (s16) temp_r0_6;
-                    if ((s32) temp_r0_7 > 0x10) {
-                        var_r1 = temp_r0_7 - 0x20;
-                    }
-                    var_r0 = (s16) var_r1;
-                    if ((s32) var_r0 < 0) {
-                        var_r0 = 0 - var_r0;
-                    }
-                    if ((s32) var_r0 <= 5) {
-                        var_r2 = sp6C;
-                        if ((s32) var_r2 < 0) {
-                            var_r2 = 0 - var_r2;
-                        }
-                        temp_r1_4 = (var_sl * 4) + t073Rects;
-                        if ((s32) var_r2 < (s32) (*(s16 *)((u8 *)temp_r1_4+0x0))) {
-                            var_r2_2 = sp6E;
-                            if ((s32) var_r2_2 < 0) {
-                                var_r2_2 = 0 - var_r2_2;
-                            }
-                            if ((s32) var_r2_2 < (s32) (*(s16 *)((u8 *)temp_r1_4+0x2))) {
-                                temp_r2_2 = sp84;
-                                sp84 = (u32) (u16) (temp_r2_2 + 1);
-                                sp44[temp_r2_2] = i;
-                                var_r8_2 += 1;
-                            }
-                        }
-                    }
-                }
-            }
-            i = (u16) (i + 1);
-        } while ((u32) i <= 4U);
-    } else {
+    if (sub_0800CDF8() == 0) {
+        if (*(u32 *)(sp70+8) <= 3U) {
         temp_r0_8 = sub_08002164();
         i = 0;
         if (sp84 >= temp_r0_8) {
@@ -1445,6 +1402,49 @@ block_21:
                 i = (u16) (i + 1);
             } while ((u32) i < temp_r0_8);
         }
+            } else {
+        i = 0;
+        do {
+            if (gUnk_030056FC & (1 << i)) {
+                temp_r4_3 = t073Enemies + (i * 0x2E0);
+                if (((*(u16 *)((u8 *)temp_r4_3+0xC)) != 0xB) && ((*(u8 *)((u8 *)temp_r4_3+0x1DC)) != 0)) {
+                    sp6C = (s16) ((u32) ((*(u32 *)((u8 *)temp_r4_3+0x14)) - sp78) >> 8);
+                    temp_r1_3 = (u32) (((*(u32 *)((u8 *)temp_r4_3+0x18)) - sp7C) << 8) >> 0x10;
+                    sp6E = (s16) temp_r1_3;
+                    temp_r0_6 = ((u32) (ArcTan2(sp6C, (s16) temp_r1_3) << 0x10) >> 0x1B) - (s16) sp8C;
+                    var_r1 = temp_r0_6;
+                    temp_r0_7 = (s16) temp_r0_6;
+                    if ((s32) temp_r0_7 > 0x10) {
+                        var_r1 = temp_r0_7 - 0x20;
+                    }
+                    var_r0 = (s16) var_r1;
+                    if ((s32) var_r0 < 0) {
+                        var_r0 = 0 - var_r0;
+                    }
+                    if ((s32) var_r0 <= 5) {
+                        var_r2 = sp6C;
+                        if ((s32) var_r2 < 0) {
+                            var_r2 = 0 - var_r2;
+                        }
+                        temp_r1_4 = (var_sl * 4) + t073Rects;
+                        if ((s32) var_r2 < (s32) (*(s16 *)((u8 *)temp_r1_4+0x0))) {
+                            var_r2_2 = sp6E;
+                            if ((s32) var_r2_2 < 0) {
+                                var_r2_2 = 0 - var_r2_2;
+                            }
+                            if ((s32) var_r2_2 < (s32) (*(s16 *)((u8 *)temp_r1_4+0x2))) {
+                                temp_r2_2 = sp84;
+                                sp84 = (u32) (u16) (temp_r2_2 + 1);
+                                sp44[temp_r2_2] = i;
+                                var_r8_2 += 1;
+                            }
+                        }
+                    }
+                }
+            }
+            i = (u16) (i + 1);
+        } while ((u32) i <= 4U);
+            }
     }
     t073Init(&sp10,0x50074,8,-1,0);
     sp10.f1C = 7;
@@ -1452,7 +1452,45 @@ block_21:
     if ((u32) var_sl > 6U) {
         var_sl = 6;
     }
-    if (var_r8_2 != 0) {
+    if (var_r8_2 == 0) {
+        temp_r1_9 = (s16) sp88;
+        sp78 += gUnk_080B9704[temp_r1_9 + 0x40] * 0x14;
+        sp7C += gUnk_080B9704[temp_r1_9] * 0x14;
+        sp80 = 0;
+        if (((sp90 == temp_r0) || (temp_r0 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+            sub_0805865C(var_sl + 0x11C);
+        }
+        if (sp80 != 0) {
+
+        } else {
+            temp_r4_7 = sp78 >> 8;
+            sp98 = temp_r4_7;
+            spA0 = (s32) sp7C >> 8;
+            spA4 = &sp6C;
+            sp9C = temp_r4_7 << 0x10;
+            do {
+                t073Coords(sp9C >> 0x10, (s32) (s16) spA0, spA4, &sp6E,0x30,0);
+                temp_r8_2 = (u8) sub_0800BC44((u32) sp98, (u32) spA0, 0U);
+                if (t073Animate(&sp10, var_sl, sp54, sp60, 0) != 0) {
+                    sp80 = (u32) (u16) (sp80 + 1);
+                }
+                if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
+                    if (!(gUnk_03002344 & 1)) {
+                        sub_08000AF0(0x17U, sp10.fC, 2U);
+                    }
+                    if (sub_0800CB9C() != 0) {
+                        if ((gUnk_03002344 & 1) == (temp_r0 & 1)) {
+                            t073Draw(*spA4,sp6E,var_sl,sp54[0],temp_r8_2,&sp10.f1C,sp10.f8,sp10.f0);
+                        }
+                    } else {
+                        t073Draw(*spA4,sp6E,var_sl,sp54[0],temp_r8_2,&sp10.f1C,sp10.f8,sp10.f0);
+                    }
+                }
+                sub_080003F0();
+            } while (sp80 == 0);
+        }
+        t073Spawn(sp78, sp7C, temp_r0, 3,var_sl);
+        } else {
         sp80 = 0;
 loop_170:
         if ((sp80 < sp84) && (sub_0800BA6C() != 0)) {
@@ -1602,45 +1640,7 @@ block_120:
                 goto loop_170;
             }
         }
-    } else {
-        temp_r1_9 = (s16) sp88;
-        sp78 += gUnk_080B9704[temp_r1_9 + 0x40] * 0x14;
-        sp7C += gUnk_080B9704[temp_r1_9] * 0x14;
-        sp80 = 0;
-        if (((sp90 == temp_r0) || (temp_r0 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-            sub_0805865C(var_sl + 0x11C);
         }
-        if (sp80 != 0) {
-
-        } else {
-            temp_r4_7 = sp78 >> 8;
-            sp98 = temp_r4_7;
-            spA0 = (s32) sp7C >> 8;
-            spA4 = &sp6C;
-            sp9C = temp_r4_7 << 0x10;
-            do {
-                t073Coords(sp9C >> 0x10, (s32) (s16) spA0, spA4, &sp6E,0x30,0);
-                temp_r8_2 = (u8) sub_0800BC44((u32) sp98, (u32) spA0, 0U);
-                if (t073Animate(&sp10, var_sl, sp54, sp60, 0) != 0) {
-                    sp80 = (u32) (u16) (sp80 + 1);
-                }
-                if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                    if (!(gUnk_03002344 & 1)) {
-                        sub_08000AF0(0x17U, sp10.fC, 2U);
-                    }
-                    if (sub_0800CB9C() != 0) {
-                        if ((gUnk_03002344 & 1) == (temp_r0 & 1)) {
-                            t073Draw(*spA4,sp6E,var_sl,sp54[0],temp_r8_2,&sp10.f1C,sp10.f8,sp10.f0);
-                        }
-                    } else {
-                        t073Draw(*spA4,sp6E,var_sl,sp54[0],temp_r8_2,&sp10.f1C,sp10.f8,sp10.f0);
-                    }
-                }
-                sub_080003F0();
-            } while (sp80 == 0);
-        }
-        t073Spawn(sp78, sp7C, temp_r0, 3,var_sl);
-    }
     if ((temp_r0 <= 3U) && ((*(u16 *)((u8 *)sp74+0xB6)) == 0)) {
         do {
             sub_080003F0();
