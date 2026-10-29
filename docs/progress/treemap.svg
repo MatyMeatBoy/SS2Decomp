@@ -7,7 +7,7 @@
 <rect x="12.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="22.0" y="46" fill="#e6edf3" font-size="11">C matching</text>
 <text x="22.0" y="69" fill="#3fb950" font-size="21" font-weight="600">26.73%</text>
-<text x="22.0" y="86" fill="#e6edf3" font-size="10">1429 / 1987 funciones C</text>
+<text x="22.0" y="86" fill="#e6edf3" font-size="10">1430 / 1987 funciones C</text>
 <rect x="259.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="269.0" y="46" fill="#e6edf3" font-size="11">Bibliotecas enlazadas</text>
 <text x="269.0" y="69" fill="#3fb950" font-size="21" font-weight="600">22 funciones</text>
@@ -19,7 +19,7 @@
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Histórico C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">26.82%</text>
-<text x="763.0" y="86" fill="#e6edf3" font-size="10">1451 / 2009 funciones</text>
+<text x="763.0" y="86" fill="#e6edf3" font-size="10">1452 / 2009 funciones</text>
 <svg x="0" y="104" xmlns="http://www.w3.org/2000/svg" width="1000" height="550" viewBox="0 0 1000 550" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
@@ -2103,7 +2103,7 @@
 <rect x="813.92" y="502.56" width="3.08" height="4.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HeapTotalFreeBlockSpan | sub_080016EC | confirmed  0x080016EC  32 bytes  [done]</title></rect>
 </g>
 <rect x="820.0" y="0" width="178.0" height="26" fill="#161b22"/>
-<text x="826.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">SDK libs: 81.68% (130/139)</text>
+<text x="826.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">SDK libs: 81.81% (131/139)</text>
 <g><title>m4a (5284 bytes)</title>
 <rect x="820.00" y="28.00" width="178.00" height="197.47" fill="#0d1117"/>
 <rect x="821.00" y="29.00" width="111.22" height="63.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CgbSound | CgbSound | existing  0x080B7C3C  1092 bytes  [done]</title></rect>
@@ -2196,121 +2196,124 @@
 <text x="824.0" y="236.5" fill="#e6edf3" font-size="10">agb_flash</text>
 </g>
 <g><title>m4a_1_engine (1344 bytes)</title>
-<rect x="820.00" y="315.76" width="94.63" height="94.48" fill="#0d1117"/>
-<rect x="821.00" y="316.76" width="78.57" height="49.00" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>MPlayMain | MPlayMain | existing  0x080B6B74  604 bytes  [todo]</title></rect>
-<rect x="821.00" y="365.76" width="78.57" height="43.48" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ply_note | ply_note | existing  0x080B6E24  536 bytes  [todo]</title></rect>
-<rect x="899.57" y="316.76" width="14.06" height="30.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TrackStop | TrackStop | existing  0x080B6DE0  68 bytes  [done]</title></rect>
-<rect x="899.57" y="347.59" width="14.06" height="29.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_endtie | ply_endtie | existing  0x080B703C  64 bytes  [done]</title></rect>
-<rect x="899.57" y="376.60" width="14.06" height="25.39" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>m4aSoundVSync | m4aSoundVSync | existing  0x080B6B3C  56 bytes  [todo]</title></rect>
-<rect x="899.57" y="401.98" width="14.06" height="7.25" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundCallR3Veneer | sub_080B6DD0 | confirmed  0x080B6DD0  16 bytes  [todo]</title></rect>
+<rect x="820.00" y="315.76" width="95.24" height="93.88" fill="#0d1117"/>
+<rect x="821.00" y="316.76" width="79.08" height="48.68" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>MPlayMain | MPlayMain | existing  0x080B6B74  604 bytes  [todo]</title></rect>
+<rect x="821.00" y="365.44" width="79.08" height="43.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ply_note | ply_note | existing  0x080B6E24  536 bytes  [todo]</title></rect>
+<rect x="900.08" y="316.76" width="14.15" height="30.63" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TrackStop | TrackStop | existing  0x080B6DE0  68 bytes  [done]</title></rect>
+<rect x="900.08" y="347.39" width="14.15" height="28.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_endtie | ply_endtie | existing  0x080B703C  64 bytes  [done]</title></rect>
+<rect x="900.08" y="376.21" width="14.15" height="25.22" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>m4aSoundVSync | m4aSoundVSync | existing  0x080B6B3C  56 bytes  [todo]</title></rect>
+<rect x="900.08" y="401.43" width="14.15" height="7.21" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundCallR3Veneer | sub_080B6DD0 | confirmed  0x080B6DD0  16 bytes  [todo]</title></rect>
 <rect x="821.0" y="316.8" width="73.2" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="824.0" y="326.8" fill="#e6edf3" font-size="10">m4a_1_engine</text>
 </g>
-<g><title>m4a_1 (1184 bytes)</title>
-<rect x="914.63" y="315.76" width="83.37" height="94.48" fill="#0d1117"/>
-<rect x="915.63" y="316.76" width="81.37" height="72.79" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundMainRAM | SoundMainRAM | existing  0x080B656C  932 bytes  [todo]</title></rect>
-<rect x="915.63" y="389.55" width="42.62" height="19.68" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundMain | SoundMain | existing  0x080B64E8  132 bytes  [todo]</title></rect>
-<rect x="958.25" y="389.55" width="15.50" height="19.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_fine | ply_fine | existing  0x080B6948  48 bytes  [done]</title></rect>
-<rect x="973.75" y="389.55" width="10.33" height="19.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RealClearChain | RealClearChain | existing  0x080B6928  32 bytes  [done]</title></rect>
-<rect x="984.08" y="389.55" width="12.92" height="11.81" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundMainBTM | SoundMainBTM | existing  0x080B6910  24 bytes  [todo]</title></rect>
-<rect x="984.08" y="401.36" width="12.92" height="7.87" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>umul3232H32 | umul3232H32 | existing  0x080B64D8  16 bytes  [todo]</title></rect>
-<rect x="915.6" y="316.8" width="34.0" height="13" fill="#0d1117" fill-opacity="0.75"/>
-<text x="918.6" y="326.8" fill="#e6edf3" font-size="10">m4a_1</text>
+<g><title>m4a_1 (1168 bytes)</title>
+<rect x="915.24" y="315.76" width="82.76" height="93.88" fill="#0d1117"/>
+<rect x="916.24" y="316.76" width="80.76" height="73.31" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundMainRAM | SoundMainRAM | existing  0x080B656C  932 bytes  [todo]</title></rect>
+<rect x="916.24" y="390.07" width="45.17" height="18.56" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundMain | SoundMain | existing  0x080B64E8  132 bytes  [todo]</title></rect>
+<rect x="961.41" y="390.07" width="16.43" height="18.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_fine | ply_fine | existing  0x080B6948  48 bytes  [done]</title></rect>
+<rect x="977.84" y="390.07" width="10.95" height="18.56" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RealClearChain | RealClearChain | existing  0x080B6928  32 bytes  [done]</title></rect>
+<rect x="988.79" y="390.07" width="8.21" height="18.56" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoundMainBTM | SoundMainBTM | existing  0x080B6910  24 bytes  [todo]</title></rect>
+<rect x="916.2" y="316.8" width="34.0" height="13" fill="#0d1117" fill-opacity="0.75"/>
+<text x="919.2" y="326.8" fill="#e6edf3" font-size="10">m4a_1</text>
 </g>
 <g><title>libgcc2 (1076 bytes)</title>
-<rect x="820.00" y="410.24" width="73.21" height="97.76" fill="#0d1117"/>
-<rect x="821.00" y="411.24" width="71.21" height="95.76" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__divdi3 | __divdi3 | existing  0x080B8F60  1076 bytes  [done]</title></rect>
-<rect x="821.0" y="411.2" width="45.2" height="13" fill="#0d1117" fill-opacity="0.75"/>
-<text x="824.0" y="421.2" fill="#e6edf3" font-size="10">libgcc2</text>
+<rect x="820.00" y="409.64" width="72.77" height="98.36" fill="#0d1117"/>
+<rect x="821.00" y="410.64" width="70.77" height="96.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__divdi3 | __divdi3 | existing  0x080B8F60  1076 bytes  [done]</title></rect>
+<rect x="821.0" y="410.6" width="45.2" height="13" fill="#0d1117" fill-opacity="0.75"/>
+<text x="824.0" y="420.6" fill="#e6edf3" font-size="10">libgcc2</text>
 </g>
 <g><title>libgcc_div (784 bytes)</title>
-<rect x="893.21" y="410.24" width="53.35" height="97.76" fill="#0d1117"/>
-<rect x="894.21" y="411.24" width="26.70" height="48.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__modsi3 | __modsi3 | existing  0x080B942C  208 bytes  [linked]</title></rect>
-<rect x="920.91" y="411.24" width="24.65" height="48.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__umodsi3 | __umodsi3 | existing  0x080B95E4  192 bytes  [linked]</title></rect>
-<rect x="894.21" y="460.10" width="35.83" height="25.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__divsi3 | __divsi3 | existing  0x080B9394  148 bytes  [linked]</title></rect>
-<rect x="894.21" y="486.00" width="35.83" height="21.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__udivsi3 | __udivsi3 | existing  0x080B956C  120 bytes  [linked]</title></rect>
-<rect x="930.05" y="460.10" width="15.51" height="45.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__muldi3 | __muldi3 | existing  0x080B94FC  112 bytes  [linked]</title></rect>
-<rect x="930.05" y="505.38" width="15.51" height="1.62" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__div0 | __div0 | existing  0x080B9428  4 bytes  [linked]</title></rect>
+<rect x="892.77" y="409.64" width="53.02" height="98.36" fill="#0d1117"/>
+<rect x="893.77" y="410.64" width="51.02" height="25.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__modsi3 | __modsi3 | existing  0x080B942C  208 bytes  [linked]</title></rect>
+<rect x="893.77" y="436.20" width="28.81" height="41.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__umodsi3 | __umodsi3 | existing  0x080B95E4  192 bytes  [linked]</title></rect>
+<rect x="922.58" y="436.20" width="22.21" height="41.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__divsi3 | __divsi3 | existing  0x080B9394  148 bytes  [linked]</title></rect>
+<rect x="893.77" y="477.99" width="25.94" height="29.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__udivsi3 | __udivsi3 | existing  0x080B956C  120 bytes  [linked]</title></rect>
+<rect x="919.71" y="477.99" width="25.08" height="28.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__muldi3 | __muldi3 | existing  0x080B94FC  112 bytes  [linked]</title></rect>
+<rect x="919.71" y="506.00" width="25.08" height="1.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>__div0 | __div0 | existing  0x080B9428  4 bytes  [linked]</title></rect>
 </g>
 <g><title>m4a_1_commands (236 bytes)</title>
-<rect x="946.56" y="410.24" width="51.44" height="30.52" fill="#0d1117"/>
-<rect x="947.56" y="411.24" width="15.08" height="19.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_voice | sub_080B6A6C | confirmed  0x080B6A6C  48 bytes  [done]</title></rect>
-<rect x="947.56" y="430.25" width="15.08" height="9.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_modt | sub_080B6AF8 | confirmed  0x080B6AF8  24 bytes  [done]</title></rect>
-<rect x="962.64" y="411.24" width="12.57" height="9.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_tempo | sub_080B6A44 | confirmed  0x080B6A44  20 bytes  [done]</title></rect>
-<rect x="962.64" y="420.74" width="12.57" height="9.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_keysh | sub_080B6A58 | confirmed  0x080B6A58  20 bytes  [done]</title></rect>
-<rect x="962.64" y="430.25" width="12.57" height="9.51" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_vol | sub_080B6A9C | confirmed  0x080B6A9C  20 bytes  [done]</title></rect>
-<rect x="975.21" y="411.24" width="10.89" height="10.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_pan | sub_080B6AB0 | confirmed  0x080B6AB0  20 bytes  [done]</title></rect>
-<rect x="986.11" y="411.24" width="10.89" height="10.97" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_bend | sub_080B6AC4 | confirmed  0x080B6AC4  20 bytes  [done]</title></rect>
-<rect x="975.21" y="422.20" width="13.62" height="8.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_bendr | sub_080B6AD8 | confirmed  0x080B6AD8  20 bytes  [done]</title></rect>
-<rect x="975.21" y="430.98" width="13.62" height="8.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_tune | sub_080B6B10 | confirmed  0x080B6B10  20 bytes  [done]</title></rect>
-<rect x="988.83" y="422.20" width="8.17" height="8.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_prio | sub_080B6A38 | confirmed  0x080B6A38  12 bytes  [done]</title></rect>
-<rect x="988.83" y="430.98" width="8.17" height="8.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_lfodl | sub_080B6AEC | confirmed  0x080B6AEC  12 bytes  [done]</title></rect>
+<rect x="945.79" y="409.64" width="52.21" height="30.07" fill="#0d1117"/>
+<rect x="946.79" y="410.64" width="15.32" height="18.71" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_voice | sub_080B6A6C | confirmed  0x080B6A6C  48 bytes  [done]</title></rect>
+<rect x="946.79" y="429.35" width="15.32" height="9.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_modt | sub_080B6AF8 | confirmed  0x080B6AF8  24 bytes  [done]</title></rect>
+<rect x="962.11" y="410.64" width="12.77" height="9.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_tempo | sub_080B6A44 | confirmed  0x080B6A44  20 bytes  [done]</title></rect>
+<rect x="962.11" y="419.99" width="12.77" height="9.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_keysh | sub_080B6A58 | confirmed  0x080B6A58  20 bytes  [done]</title></rect>
+<rect x="962.11" y="429.35" width="12.77" height="9.36" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_vol | sub_080B6A9C | confirmed  0x080B6A9C  20 bytes  [done]</title></rect>
+<rect x="974.87" y="410.64" width="11.06" height="10.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_pan | sub_080B6AB0 | confirmed  0x080B6AB0  20 bytes  [done]</title></rect>
+<rect x="985.94" y="410.64" width="11.06" height="10.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_bend | sub_080B6AC4 | confirmed  0x080B6AC4  20 bytes  [done]</title></rect>
+<rect x="974.87" y="421.43" width="13.83" height="8.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_bendr | sub_080B6AD8 | confirmed  0x080B6AD8  20 bytes  [done]</title></rect>
+<rect x="974.87" y="430.07" width="13.83" height="8.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_tune | sub_080B6B10 | confirmed  0x080B6B10  20 bytes  [done]</title></rect>
+<rect x="988.70" y="421.43" width="8.30" height="8.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_prio | sub_080B6A38 | confirmed  0x080B6A38  12 bytes  [done]</title></rect>
+<rect x="988.70" y="430.07" width="8.30" height="8.64" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_lfodl | sub_080B6AEC | confirmed  0x080B6AEC  12 bytes  [done]</title></rect>
 </g>
 <g><title>m4a_1_rest (96 bytes)</title>
-<rect x="946.56" y="440.75" width="25.72" height="24.83" fill="#0d1117"/>
-<rect x="947.56" y="441.75" width="16.80" height="22.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_pend | sub_080B69F4 | confirmed  0x080B69F4  68 bytes  [done]</title></rect>
-<rect x="964.36" y="441.75" width="6.92" height="22.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_patt | sub_080B69D8 | confirmed  0x080B69D8  28 bytes  [done]</title></rect>
+<rect x="945.79" y="439.71" width="26.10" height="24.46" fill="#0d1117"/>
+<rect x="946.79" y="440.71" width="17.07" height="22.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_pend | sub_080B69F4 | confirmed  0x080B69F4  68 bytes  [done]</title></rect>
+<rect x="963.86" y="440.71" width="7.03" height="22.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_patt | sub_080B69D8 | confirmed  0x080B69D8  28 bytes  [done]</title></rect>
 </g>
 <g><title>libc (96 bytes)</title>
-<rect x="972.28" y="440.75" width="25.72" height="24.83" fill="#0d1117"/>
-<rect x="973.28" y="441.75" width="23.72" height="22.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>memcpy | memcpy | existing  0x080B96A4  96 bytes  [linked]</title></rect>
+<rect x="971.90" y="439.71" width="26.10" height="24.46" fill="#0d1117"/>
+<rect x="972.90" y="440.71" width="24.10" height="22.46" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>memcpy | memcpy | existing  0x080B96A4  96 bytes  [linked]</title></rect>
 </g>
 <g><title>libagbsyscall (68 bytes)</title>
-<rect x="946.56" y="465.58" width="20.70" height="21.85" fill="#0d1117"/>
-<rect x="947.56" y="466.58" width="18.70" height="8.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoftReset | SoftReset | existing  0x080B8598  28 bytes  [asm]</title></rect>
-<rect x="947.56" y="474.76" width="5.61" height="7.78" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>VBlankIntrWait | VBlankIntrWait | existing  0x080B8590  8 bytes  [asm]</title></rect>
-<rect x="947.56" y="482.54" width="5.61" height="3.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ArcTan2 | ArcTan2 | existing  0x080B8570  4 bytes  [asm]</title></rect>
-<rect x="953.17" y="474.76" width="5.61" height="3.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>CpuFastSet | CpuFastSet | existing  0x080B8574  4 bytes  [asm]</title></rect>
-<rect x="953.17" y="478.65" width="5.61" height="3.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>CpuSet | CpuSet | existing  0x080B8578  4 bytes  [asm]</title></rect>
-<rect x="953.17" y="482.54" width="5.61" height="3.89" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>Div | Div | existing  0x080B857C  4 bytes  [asm]</title></rect>
-<rect x="958.78" y="474.76" width="3.74" height="5.84" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>LZ77UnCompWram | LZ77UnCompWram | existing  0x080B8580  4 bytes  [asm]</title></rect>
-<rect x="962.52" y="474.76" width="3.74" height="5.84" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ObjAffineSet | ObjAffineSet | existing  0x080B8584  4 bytes  [asm]</title></rect>
-<rect x="958.78" y="480.60" width="3.74" height="5.84" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>RegisterRamReset | RegisterRamReset | existing  0x080B8588  4 bytes  [asm]</title></rect>
-<rect x="962.52" y="480.60" width="3.74" height="5.84" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>Sqrt | Sqrt | existing  0x080B858C  4 bytes  [asm]</title></rect>
+<rect x="945.79" y="464.17" width="20.03" height="22.58" fill="#0d1117"/>
+<rect x="946.79" y="465.17" width="18.03" height="8.47" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>SoftReset | SoftReset | existing  0x080B8598  28 bytes  [asm]</title></rect>
+<rect x="946.79" y="473.64" width="5.41" height="8.07" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>VBlankIntrWait | VBlankIntrWait | existing  0x080B8590  8 bytes  [asm]</title></rect>
+<rect x="946.79" y="481.71" width="5.41" height="4.04" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ArcTan2 | ArcTan2 | existing  0x080B8570  4 bytes  [asm]</title></rect>
+<rect x="952.20" y="473.64" width="5.41" height="4.04" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>CpuFastSet | CpuFastSet | existing  0x080B8574  4 bytes  [asm]</title></rect>
+<rect x="952.20" y="477.68" width="5.41" height="4.04" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>CpuSet | CpuSet | existing  0x080B8578  4 bytes  [asm]</title></rect>
+<rect x="952.20" y="481.71" width="5.41" height="4.04" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>Div | Div | existing  0x080B857C  4 bytes  [asm]</title></rect>
+<rect x="957.61" y="473.64" width="3.61" height="6.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>LZ77UnCompWram | LZ77UnCompWram | existing  0x080B8580  4 bytes  [asm]</title></rect>
+<rect x="961.22" y="473.64" width="3.61" height="6.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>ObjAffineSet | ObjAffineSet | existing  0x080B8584  4 bytes  [asm]</title></rect>
+<rect x="957.61" y="479.70" width="3.61" height="6.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>RegisterRamReset | RegisterRamReset | existing  0x080B8588  4 bytes  [asm]</title></rect>
+<rect x="961.22" y="479.70" width="3.61" height="6.05" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>Sqrt | Sqrt | existing  0x080B858C  4 bytes  [asm]</title></rect>
 </g>
 <g><title>m4a_1_read (64 bytes)</title>
-<rect x="946.56" y="487.43" width="20.70" height="20.57" fill="#0d1117"/>
-<rect x="947.56" y="488.43" width="14.61" height="9.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundGuardSourceRead | sub_080B6992 | confirmed  0x080B6992  26 bytes  [done]</title></rect>
-<rect x="947.56" y="498.09" width="14.61" height="8.91" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>MPlayJumpTableCopy | MPlayJumpTableCopy | existing  0x080B6978  24 bytes  [todo]</title></rect>
-<rect x="962.17" y="488.43" width="4.09" height="13.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadTrackByteFromCursorGuarded | sub_080B69AE | confirmed  0x080B69AE  10 bytes  [done]</title></rect>
-<rect x="962.17" y="501.70" width="4.09" height="2.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadGuardedByte | sub_080B6990 | confirmed  0x080B6990  2 bytes  [done]</title></rect>
-<rect x="962.17" y="504.35" width="4.09" height="2.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadTrackByteGuarded | sub_080B69AC | confirmed  0x080B69AC  2 bytes  [done]</title></rect>
+<rect x="945.79" y="486.75" width="20.03" height="21.25" fill="#0d1117"/>
+<rect x="946.79" y="487.75" width="9.38" height="15.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundGuardSourceRead | sub_080B6992 | confirmed  0x080B6992  26 bytes  [done]</title></rect>
+<rect x="956.17" y="487.75" width="8.66" height="15.04" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>MPlayJumpTableCopy | MPlayJumpTableCopy | existing  0x080B6978  24 bytes  [todo]</title></rect>
+<rect x="946.79" y="502.79" width="12.88" height="4.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadTrackByteFromCursorGuarded | sub_080B69AE | confirmed  0x080B69AE  10 bytes  [done]</title></rect>
+<rect x="959.67" y="502.79" width="2.58" height="4.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadGuardedByte | sub_080B6990 | confirmed  0x080B6990  2 bytes  [done]</title></rect>
+<rect x="962.25" y="502.79" width="2.58" height="4.21" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadTrackByteGuarded | sub_080B69AC | confirmed  0x080B69AC  2 bytes  [done]</title></rect>
 </g>
 <g><title>libgcc_thumb (60 bytes)</title>
-<rect x="967.26" y="465.58" width="16.47" height="24.24" fill="#0d1117"/>
-<rect x="968.26" y="466.58" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r0 | _call_via_r0 | existing  0x080B8F24  4 bytes  [linked]</title></rect>
-<rect x="973.08" y="466.58" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r1 | _call_via_r1 | existing  0x080B8F28  4 bytes  [linked]</title></rect>
-<rect x="977.91" y="466.58" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r2 | _call_via_r2 | existing  0x080B8F2C  4 bytes  [linked]</title></rect>
-<rect x="968.26" y="471.03" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r3 | _call_via_r3 | existing  0x080B8F30  4 bytes  [linked]</title></rect>
-<rect x="973.08" y="471.03" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r4 | _call_via_r4 | existing  0x080B8F34  4 bytes  [linked]</title></rect>
-<rect x="977.91" y="471.03" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r5 | _call_via_r5 | existing  0x080B8F38  4 bytes  [linked]</title></rect>
-<rect x="968.26" y="475.48" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r6 | _call_via_r6 | existing  0x080B8F3C  4 bytes  [linked]</title></rect>
-<rect x="968.26" y="479.93" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r7 | _call_via_r7 | existing  0x080B8F40  4 bytes  [linked]</title></rect>
-<rect x="968.26" y="484.37" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r8 | _call_via_r8 | existing  0x080B8F44  4 bytes  [linked]</title></rect>
-<rect x="973.08" y="475.48" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r9 | _call_via_r9 | existing  0x080B8F48  4 bytes  [linked]</title></rect>
-<rect x="977.91" y="475.48" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_sl | _call_via_sl | existing  0x080B8F4C  4 bytes  [linked]</title></rect>
-<rect x="973.08" y="479.93" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_fp | _call_via_fp | existing  0x080B8F50  4 bytes  [linked]</title></rect>
-<rect x="973.08" y="484.37" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_ip | _call_via_ip | existing  0x080B8F54  4 bytes  [linked]</title></rect>
-<rect x="977.91" y="479.93" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_sp | _call_via_sp | existing  0x080B8F58  4 bytes  [linked]</title></rect>
-<rect x="977.91" y="484.37" width="4.82" height="4.45" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_lr | _call_via_lr | existing  0x080B8F5C  4 bytes  [linked]</title></rect>
+<rect x="965.82" y="464.17" width="17.24" height="23.16" fill="#0d1117"/>
+<rect x="966.82" y="465.17" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r0 | _call_via_r0 | existing  0x080B8F24  4 bytes  [linked]</title></rect>
+<rect x="971.90" y="465.17" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r1 | _call_via_r1 | existing  0x080B8F28  4 bytes  [linked]</title></rect>
+<rect x="976.98" y="465.17" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r2 | _call_via_r2 | existing  0x080B8F2C  4 bytes  [linked]</title></rect>
+<rect x="966.82" y="469.40" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r3 | _call_via_r3 | existing  0x080B8F30  4 bytes  [linked]</title></rect>
+<rect x="971.90" y="469.40" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r4 | _call_via_r4 | existing  0x080B8F34  4 bytes  [linked]</title></rect>
+<rect x="976.98" y="469.40" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r5 | _call_via_r5 | existing  0x080B8F38  4 bytes  [linked]</title></rect>
+<rect x="966.82" y="473.63" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r6 | _call_via_r6 | existing  0x080B8F3C  4 bytes  [linked]</title></rect>
+<rect x="966.82" y="477.86" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r7 | _call_via_r7 | existing  0x080B8F40  4 bytes  [linked]</title></rect>
+<rect x="966.82" y="482.09" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r8 | _call_via_r8 | existing  0x080B8F44  4 bytes  [linked]</title></rect>
+<rect x="971.90" y="473.63" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_r9 | _call_via_r9 | existing  0x080B8F48  4 bytes  [linked]</title></rect>
+<rect x="976.98" y="473.63" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_sl | _call_via_sl | existing  0x080B8F4C  4 bytes  [linked]</title></rect>
+<rect x="971.90" y="477.86" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_fp | _call_via_fp | existing  0x080B8F50  4 bytes  [linked]</title></rect>
+<rect x="971.90" y="482.09" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_ip | _call_via_ip | existing  0x080B8F54  4 bytes  [linked]</title></rect>
+<rect x="976.98" y="477.86" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_sp | _call_via_sp | existing  0x080B8F58  4 bytes  [linked]</title></rect>
+<rect x="976.98" y="482.09" width="5.08" height="4.23" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>_call_via_lr | _call_via_lr | existing  0x080B8F5C  4 bytes  [linked]</title></rect>
 </g>
 <g><title>m4a_1_abi (52 bytes)</title>
-<rect x="983.73" y="465.58" width="14.27" height="24.24" fill="#0d1117"/>
-<rect x="984.73" y="466.58" width="12.27" height="8.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_lfos_abi | ply_lfos | existing  0x080B70A4  20 bytes  [done]</title></rect>
-<rect x="984.73" y="475.14" width="12.27" height="8.55" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_mod_abi | ply_mod | existing  0x080B70B8  20 bytes  [done]</title></rect>
-<rect x="984.73" y="483.69" width="12.27" height="5.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ld_r3_tp_adr_i | ld_r3_tp_adr_i | existing  0x080B7098  12 bytes  [done]</title></rect>
+<rect x="983.06" y="464.17" width="14.94" height="23.16" fill="#0d1117"/>
+<rect x="984.06" y="465.17" width="12.94" height="8.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_lfos_abi | ply_lfos | existing  0x080B70A4  20 bytes  [done]</title></rect>
+<rect x="984.06" y="473.31" width="12.94" height="8.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_mod_abi | ply_mod | existing  0x080B70B8  20 bytes  [done]</title></rect>
+<rect x="984.06" y="481.44" width="12.94" height="4.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ld_r3_tp_adr_i | ld_r3_tp_adr_i | existing  0x080B7098  12 bytes  [done]</title></rect>
 </g>
 <g><title>m4a_1_jump (32 bytes)</title>
-<rect x="967.26" y="489.82" width="11.71" height="18.18" fill="#0d1117"/>
-<rect x="968.26" y="490.82" width="9.71" height="16.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_goto | sub_080B69B8 | confirmed  0x080B69B8  32 bytes  [done]</title></rect>
+<rect x="965.82" y="487.33" width="19.31" height="11.03" fill="#0d1117"/>
+<rect x="966.82" y="488.33" width="17.31" height="9.03" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_goto | sub_080B69B8 | confirmed  0x080B69B8  32 bytes  [done]</title></rect>
 </g>
 <g><title>m4a_1_mod (28 bytes)</title>
-<rect x="978.97" y="489.82" width="10.25" height="18.18" fill="#0d1117"/>
-<rect x="979.97" y="490.82" width="8.25" height="16.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>clear_modM | clear_modM | existing  0x080B707C  28 bytes  [done]</title></rect>
+<rect x="965.82" y="498.35" width="19.31" height="9.65" fill="#0d1117"/>
+<rect x="966.82" y="499.35" width="17.31" height="7.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>clear_modM | clear_modM | existing  0x080B707C  28 bytes  [done]</title></rect>
 </g>
 <g><title>m4a_1_port (24 bytes)</title>
-<rect x="989.22" y="489.82" width="8.78" height="18.18" fill="#0d1117"/>
-<rect x="990.22" y="490.82" width="6.78" height="16.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_port | sub_080B6B24 | confirmed  0x080B6B24  24 bytes  [done]</title></rect>
+<rect x="985.13" y="487.33" width="12.87" height="12.40" fill="#0d1117"/>
+<rect x="986.13" y="488.33" width="10.87" height="10.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>ply_port | sub_080B6B24 | confirmed  0x080B6B24  24 bytes  [done]</title></rect>
+</g>
+<g><title>m4a_1_mul (16 bytes)</title>
+<rect x="985.13" y="499.73" width="12.87" height="8.27" fill="#0d1117"/>
+<rect x="986.13" y="500.73" width="10.87" height="6.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>umul3232H32 | umul3232H32 | existing  0x080B64D8  16 bytes  [done]</title></rect>
 </g>
 <rect x="6" y="514" width="11" height="11" fill="#3fb950"/>
 <text x="21" y="524" fill="#e6edf3" font-size="11">C matching / enlazado</text>
@@ -2318,9 +2321,9 @@
 <text x="177" y="524" fill="#e6edf3" font-size="11">borrador / hitos de trabajo</text>
 <rect x="354" y="514" width="11" height="11" fill="#6e7681"/>
 <text x="369" y="524" fill="#e6edf3" font-size="11">sin C matching / ASM original</text>
-<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 26.82% de 757928 bytes de código, 1451/2009 funciones</text>
+<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 26.82% de 757928 bytes de código, 1452/2009 funciones</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Área = bytes de código. Relleno parcial amarillo = hitos registrados, no porcentaje matching ni estimación de tiempo.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Datos: 413 bloques incbin (15.3 MiB), 11 / 412 etiquetas descriptivas; comprensión: sin porcentaje.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11626 relaciones, 1156 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11626 relaciones, 1155 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
 </svg>
