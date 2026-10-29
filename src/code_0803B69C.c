@@ -3069,7 +3069,479 @@ loop_174:
     sub_0800D108();
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08041030);
+extern void t42b_camera(s32,s32) asm("sub_0800BB80");
+struct T42bCam { u8 pad[0x80]; s16 x,y; };
+extern void sub_08058F4C(void);
+void sub_08041030(s32 arg0, s32 arg1) {
+    s32 out[12];
+    s32 saved;
+    s32 *p0,*p1,*p2,*p3,*p4,*p5,*p6;
+    register s32 actor asm("r9");
+    register s32 *pxA asm("r7"), *pyA asm("r6");
+    register s32 *pxB asm("r7"), *pyB asm("r6");
+    register s32 lastStep asm("r9");
+    register s32 step asm("r10");
+    register s32 one asm("r4"); s32 flag;
+    union T42bFix { s32 all; struct { u16 lo; s16 hi; } h; };
+    union T42bFix tx0,ty0,tx1,tx2,ty2,tx3,tx4,ty4,tx5,ty5;
+    register union T42bFix ty1 asm("r10"),ty3 asm("r10");
+    s16 *var_r0_4;
+    s16 *var_r0_6;
+    s32 temp_r5;
+    s32 temp_r5_2;
+    s32 temp_r5_3;
+    s32 temp_r5_4;
+    s32 temp_r6;
+    s32 temp_r6_2;
+    s32 temp_r6_3;
+    s32 temp_r6_4;
+    s32 temp_r7;
+    s32 temp_r7_2;
+    register s32 temp_r8 asm("r8");
+    register s32 temp_r8_2 asm("r8");
+    register void (*cbInit)(void) asm("r5");
+    s32 *var_r0;
+    register void (*cbFinal)(void) asm("r4");
+    register s32 rawPose asm("r2");
+    register u16 poseVal asm("r4");
+    s32 *var_r0_3;
+    s32 *var_r0_5;
+    s32 *var_r0_7;
+    s32 *var_r1;
+    s32 *var_r1_2;
+    s32 *var_r1_4;
+    s32 *var_r1_5;
+    s32 *var_r1_6;
+    s32 *var_r1_7;
+    s32 *var_r1_8;
+    s32 *var_r2_2;
+    s32 *var_r2_6;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    register s32 temp_r0_4 asm("r5");
+    register s32 temp_r0_5 asm("r5");
+    s32 temp_r4;
+    s32 var_r1_3;
+    s32 var_r4_11;
+    s32 var_r4_2;
+    s32 var_r4_3;
+    s32 var_r4_5;
+    s32 var_r4_8;
+    s32 var_r4_9;
+    u16 var_r4;
+    u16 var_r4_10;
+    u16 var_r4_12;
+    u16 var_r4_13;
+    u16 var_r4_4;
+    u16 var_r4_6;
+    u16 var_r4_7;
+    u32 temp_r2_3;
+    u32 temp_r2_4;
+    u32 temp_r4_10;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 temp_r4_8;
+    u32 temp_r4_9;
+    u32 var_r2;
+    u32 var_r2_3;
+    u32 var_r2_4;
+    u32 var_r2_5;
+    u32 var_r2_7;
+    u32 var_r3;
+    u32 var_r3_2;
+    u8 *var_r0_2;
+    u8 *var_r2_8;
+    u8 *var_r2_9;
+    struct Player *temp_r2;
+    struct Player *temp_r2_2;
+    struct Player *temp_r2_5;
+
+    actor=arg0;
+    saved = arg1;
+    temp_r2 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    temp_r4 = sub_080289C0(0x1003B, 0x78, 0x52);
+    var_r1 = (s32 *)((u8 *)gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    p0 = &out[1];
+loop_1:
+    if (*var_r1==temp_r4) goto foundInit;
+    var_r2++; var_r1=(s32 *)((u8 *)var_r1+0x70);
+    if(var_r2<=14) goto loop_1;
+    sub_080003F0(); var_r2_2=0;
+contInit:
+    if (var_r2_2 != NULL) {
+        *(u16 *)((u8 *)var_r2_2 + 0x18) = 8;
+        *(u16 *)((u8 *)var_r2_2 + 0x1A) = 0x10;
+        *(s32 *)((u8 *)var_r2_2 + 0x3C) = (s32) (*(s32 *)((u8 *)var_r2_2 + 0x3C) | 0x10);
+    }
+    cbInit=sub_080308B4;
+    var_r1_2=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r2_3=0;
+loop_7:
+    if (*var_r1_2==temp_r4) goto foundInitCb;
+    var_r2_3++; var_r1_2=(s32 *)((u8 *)var_r1_2+0x70);
+    if(var_r2_3<=14) goto loop_7;
+    sub_080003F0(); var_r0=0;
+contInitCb:
+    if (var_r0) *(void (**)(void))((u8 *)var_r0+0x44)=cbInit;
+    temp_r0 = sub_0800CE30();
+    if (temp_r0 != 0) {
+        *(u8 *)((u8 *)gUnk_03005CF4+0x1BE) = 0;
+    } else {
+        goto zeroFlag;
+foundInitCb: var_r0=var_r1_2; goto contInitCb;
+foundInit: var_r2_2=var_r1; goto contInit;
+zeroFlag:
+        *(u8 *)((u8 *)gUnk_03005CF4+0x1B2) = (s8) temp_r0;
+    }
+    switch (sub_080020F4()) {
+    case 0: sub_08028AAC(0,0x6C,0x80,0); break;
+    case 1: sub_08028AAC(0,0x84,0x80,0); break;
+    case 2: sub_08028AAC(0,0x54,0x80,0); break;
+    case 3: sub_08028AAC(0,0x9C,0x80,0); break;
+    }
+    sub_080290E4(0, 4);
+    temp_r2_2 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~2);
+    sub_08067D74();
+    var_r4 = 2;
+    goto poll31;
+    while (var_r4 != 0) { poll31: sub_080003F0(); if(sub_080021A8()) break; var_r4--; }
+    if (sub_0800CC98() == 0) {
+        temp_r0_3 = sub_0801AB24();
+        switch (temp_r0_3) {                        /* switch 2; irregular */
+        case 0:                                     /* switch 2 */
+            sub_080576A8();
+            break;
+        case 1:                                     /* switch 2 */
+            sub_0801AB50(6);
+            break;
+        case 2:                                     /* switch 2 */
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    step=10;
+    temp_r6 = ((struct T42bCam *)&gUnk_03003170)->x;
+    temp_r5 = ((struct T42bCam *)&gUnk_03003170)->y;
+    var_r4_2 = 0; tx0.all=0; ty0.all=0xFFE80000;
+    do {
+        sub_080659F4(&out[0], (s32) temp_r6, tx0.h.hi, var_r4_2);
+        sub_080659F4(p0, (s32) temp_r5, ty0.h.hi, var_r4_2);
+        t42b_camera((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+        var_r4_2 += step;
+    } while (var_r4_2 <= 0x400);
+    one=1;
+    if (sub_0800CE30() != 0) {
+        var_r0_2 = (u8 *)gUnk_03005CF4 + 0x1C4;
+    } else {
+        goto flagFalse;
+foundPoseA: var_r0_5=var_r1_6; goto poseContA;
+flagFalse:
+        var_r0_2 = (u8 *)gUnk_03005CF4 + 0x1B8;
+    }
+    { register s32 v asm("r0")=*var_r0_2; asm("" : "+r"(v)); flag=(v>>6)&one; }
+    if (!flag) {
+        pxA=&out[2]; pyA=&out[3];
+        p1 = &out[4];
+        p2 = &out[5];
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_7 = sub_0805DF38(1,15,2,0,-1,0x1400FB);
+        while (!sub_0805EEFC((void *)temp_r4_7)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        temp_r8_2 = ((struct T42bCam *)&gUnk_03003170)->x;
+        temp_r5_4 = ((struct T42bCam *)&gUnk_03003170)->y;
+        var_r4_9 = 0; tx1.all=0; ty1.all=0x300000; asm("" : "+r"(ty1.all));
+        do {
+            { register s32 *a asm("r0")=pxA; register s32 b asm("r1")=temp_r8_2; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_9); }
+            { register s32 *a asm("r0")=pyA; register s32 b asm("r1")=temp_r5_4; register s32 z asm("r3")=ty1.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_9); }
+            t42b_camera((s16)out[2], (s16)out[3]);
+            sub_080003F0();
+            var_r4_9 += 0x22;
+        } while (var_r4_9 <= 0x400);
+        var_r4_10 = 0x28;
+    goto poll67;
+    while (var_r4_10 != 0) { poll67: sub_080003F0(); if(sub_080021A8()) break; var_r4_10--; }
+        temp_r0_5 = sub_080289C0(0x4002F, 0x78, 0xFA);
+        sub_0802939C(temp_r0_5, 8);
+        sub_08028AAC(temp_r0_5, 0x78, 0x95, 0x3C);
+        sub_0802939C(temp_r0_5, 0);
+        { register s32 scratch asm("r3"); asm("" : "=r"(scratch));
+        temp_r7_2 = ((struct T42bCam *)&gUnk_03003170)->x;
+        asm("" :: "r"(scratch));
+        temp_r6_4 = ((struct T42bCam *)&gUnk_03003170)->y; }
+        var_r4_11 = 0; tx2.all=0; ty2.all=0;
+        do {
+            sub_080659F4(p1, (s32) temp_r7_2, tx2.h.hi, var_r4_11);
+            sub_080659F4(p2, (s32) temp_r6_4, ty2.h.hi, var_r4_11);
+            t42b_camera((s16)out[4], (s16)out[5]);
+            sub_080003F0();
+            var_r4_11 += 0x22;
+        } while (var_r4_11 <= 0x400);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_8 = sub_0805DF38(1,15,2,0,-1,0x1400FC);
+        while (!sub_0805EEFC((void *)temp_r4_8)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        sub_0802939C(actor, 1);
+        sub_08028AAC(actor, 0x5D, 0x5E, 4);
+        sub_0802939C(actor, 6);
+        sub_08028AAC(actor, 0x32, 0x5E, 0x64);
+        sub_0802939C(actor, 3);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_9 = sub_0805DF38(1,15,2,0,-1,0x1400FD);
+        while (!sub_0805EEFC((void *)temp_r4_9)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        var_r4_12 = 0x3C;
+    goto poll94;
+    while (var_r4_12 != 0) { poll94: sub_080003F0(); if(sub_080021A8()) break; var_r4_12--; }
+        rawPose=actor; poseVal=4;
+        if ((u32)actor > 0x100000U) {
+            var_r1_6=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r3_2=0;
+poseSearchA:
+            if (*var_r1_6==rawPose) goto foundPoseA;
+            var_r3_2++; var_r1_6=(s32 *)((u8 *)var_r1_6+0x70);
+            if (var_r3_2<=14) goto poseSearchA;
+            sub_080003F0(); var_r0_5=0;
+poseContA:
+            if (var_r0_5) { var_r0_6=(s16 *)((u8 *)var_r0_5+0x42); goto poseStoreA; }
+        } else if (actor != 0) {
+            rawPose=actor-1;
+            if ((u32)rawPose<=4) {
+                register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;
+                register s32 off asm("r0")=rawPose*0x2E0;
+                register u8 *row asm("r1");
+                row=*base+off;
+                sub_08019EB8(*(u16 *)(row+2),4);
+            }
+        } else {
+            goto localPoseA;
+foundActorA: var_r2_6=var_r1_7; goto contActorA;
+foundActorCbA: var_r0_7=var_r1_8; goto contActorCbA;
+localPoseA:
+            { register s32 index asm("r0")=sub_080020F4(); register u32 base asm("r1"); register u8 *ptr asm("r0"); register s32 offset asm("r1");
+            index*=0x14C; base=(u32)gUnk_03003CE0; index+=base; ptr=(u8 *)index; asm("" : "+r"(ptr));
+            offset=0x11E; ptr+=offset; var_r0_6=(s16 *)ptr; }
+poseStoreA:
+            *var_r0_6=poseVal;
+        }
+        var_r4_13 = 0x3C;
+    goto poll112;
+    while (var_r4_13 != 0) { poll112: sub_080003F0(); if(sub_080021A8()) break; var_r4_13--; }
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_10 = sub_0805DF38(1,15,2,0,-1,0x1400FE);
+        while (!sub_0805EEFC((void *)temp_r4_10)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        sub_0802939C(temp_r0_5, 8);
+        sub_080290E4(temp_r0_5, 0);
+        sub_08028AAC(temp_r0_5, 0xBE, 0x95, 0x3C);
+        sub_0802939C(temp_r0_5, 0);
+        sub_080290E4(temp_r0_5, 0);
+        var_r1_7=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r2_5=0;
+searchActorA:
+        if (*var_r1_7==temp_r0_5) goto foundActorA;
+        var_r2_5++; var_r1_7=(s32 *)((u8 *)var_r1_7+0x70);
+        if (var_r2_5<=14) goto searchActorA;
+        sub_080003F0(); var_r2_6=0;
+contActorA:
+        if (var_r2_6 != NULL) {
+            *(u16 *)((u8 *)var_r2_6 + 0x18) = 8;
+            *(u16 *)((u8 *)var_r2_6 + 0x1A) = 4;
+            *(s32 *)((u8 *)var_r2_6 + 0x3C) = (s32) (*(s32 *)((u8 *)var_r2_6 + 0x3C) | 0x10);
+        }
+        cbFinal=sub_08058F4C;
+        var_r1_8=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r2_7=0;
+searchActorCbA:
+        if (*var_r1_8==temp_r0_5) goto foundActorCbA;
+        var_r2_7++; var_r1_8=(s32 *)((u8 *)var_r1_8+0x70);
+        if (var_r2_7<=14) goto searchActorCbA;
+        sub_080003F0(); var_r0_7=0;
+contActorCbA:
+        if (var_r0_7) *(void (**)(void))((u8 *)var_r0_7+0x44)=cbFinal;
+        if (sub_0800CE30() != 0) { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r1")=0x1C5; var_r2_8=base+off; }
+        else { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r3")=0x1B9; var_r2_8=base+off; }
+        { register u8 *ptr asm("r2")=var_r2_8; register u32 value asm("r1")=*ptr; register u32 bits asm("r0")=1; bits |= value; *ptr=bits; }
+        } else {
+        goto branchTrue;
+foundPoseB: var_r0_3=var_r1_4; goto poseContB;
+branchTrue:
+        pxB=&out[6]; pyB=&out[7];
+        p3 = &out[8];
+        p4 = &out[9];
+        p5 = &out[10];
+        p6 = &out[11];
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1,15,2,0,-1,0x1400F6);
+        while (!sub_0805EEFC((void *)temp_r4_2)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        temp_r8 = ((struct T42bCam *)&gUnk_03003170)->x;
+        temp_r5_2 = ((struct T42bCam *)&gUnk_03003170)->y;
+        var_r4_3 = 0; tx3.all=0; ty3.all=0x300000; asm("" : "+r"(ty3.all));
+        do {
+            { register s32 *a asm("r0")=pxB; register s32 b asm("r1")=temp_r8; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            { register s32 *a asm("r0")=pyB; register s32 b asm("r1")=temp_r5_2; register s32 z asm("r3")=ty3.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            t42b_camera((s16)out[6], (s16)out[7]);
+            sub_080003F0();
+            var_r4_3 += 0x22;
+        } while (var_r4_3 <= 0x400);
+        var_r4_4 = 0x28;
+    goto poll157;
+    while (var_r4_4 != 0) { poll157: sub_080003F0(); if(sub_080021A8()) break; var_r4_4--; }
+        temp_r0_4 = sub_080289C0(0x4002F, 0x78, 0xFA);
+        sub_0802939C(temp_r0_4, 8);
+        sub_08028AAC(temp_r0_4, 0x78, 0x95, 0x3C);
+        sub_0802939C(temp_r0_4, 0);
+        { register s32 scratch asm("r3"); asm("" : "=r"(scratch));
+        temp_r7 = ((struct T42bCam *)&gUnk_03003170)->x;
+        asm("" :: "r"(scratch));
+        temp_r6_2 = ((struct T42bCam *)&gUnk_03003170)->y; }
+        var_r4_5 = 0; tx4.all=0; ty4.all=0;
+        do {
+            sub_080659F4(p3, (s32) temp_r7, tx4.h.hi, var_r4_5);
+            sub_080659F4(p4, (s32) temp_r6_2, ty4.h.hi, var_r4_5);
+            t42b_camera((s16)out[8], (s16)out[9]);
+            sub_080003F0();
+            var_r4_5 += 0x22;
+        } while (var_r4_5 <= 0x400);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_3 = sub_0805DF38(1,15,2,0,-1,0x1400F7);
+        while (!sub_0805EEFC((void *)temp_r4_3)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        sub_0802939C(actor, 1);
+        sub_08028AAC(actor, 0x5D, 0x5E, 4);
+        sub_0802939C(actor, 6);
+        sub_08028AAC(actor, 0x32, 0x5E, 0x64);
+        sub_0802939C(actor, 3);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_4 = sub_0805DF38(1,15,2,0,-1,0x1400F8);
+        while (!sub_0805EEFC((void *)temp_r4_4)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        var_r4_6 = 0x3C;
+    goto poll184;
+    while (var_r4_6 != 0) { poll184: sub_080003F0(); if(sub_080021A8()) break; var_r4_6--; }
+        rawPose=actor; poseVal=4;
+        if ((u32)rawPose > 0x100000U) {
+            var_r1_4=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r3=0;
+poseSearchB:
+            if (*var_r1_4==rawPose) goto foundPoseB;
+            var_r3++; var_r1_4=(s32 *)((u8 *)var_r1_4+0x70);
+            if (var_r3<=14) goto poseSearchB;
+            sub_080003F0(); var_r0_3=0;
+poseContB:
+            if (var_r0_3) { var_r0_4=(s16 *)((u8 *)var_r0_3+0x42); goto poseStoreB; }
+        } else if (actor != 0) {
+            rawPose=actor-1;
+            if ((u32)rawPose<=4) {
+                register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;
+                register s32 off asm("r0")=rawPose*0x2E0;
+                register u8 *row asm("r1");
+                row=*base+off;
+                sub_08019EB8(*(u16 *)(row+2),4);
+            }
+        } else {
+            { register s32 index asm("r0")=sub_080020F4(); register u32 base asm("r1"); register u8 *ptr asm("r0"); register s32 offset asm("r1");
+            index*=0x14C; base=(u32)gUnk_03003CE0; index+=base; ptr=(u8 *)index; asm("" : "+r"(ptr));
+            offset=0x11E; ptr+=offset; var_r0_4=(s16 *)ptr; }
+poseStoreB:
+            *var_r0_4=poseVal;
+        }
+        var_r4_7 = 0x3C;
+    goto poll200;
+    while (var_r4_7 != 0) { poll200: sub_080003F0(); if(sub_080021A8()) break; var_r4_7--; }
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_5 = sub_0805DF38(1,15,2,0,-1,0x1400F9);
+        while (!sub_0805EEFC((void *)temp_r4_5)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        sub_0802939C(saved, 8);
+        sub_08028AAC(saved, 0xB0, 0x95, 0x28);
+        sub_080290E4(saved, 2);
+        sub_08028AAC(saved, 0x8C, 0x95, 0x1E);
+        sub_0802939C(saved, 0);
+        sub_080290E4(temp_r0_4, 6);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_6 = sub_0805DF38(1,15,2,0,-1,0x1400FA);
+        while (!sub_0805EEFC((void *)temp_r4_6)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        sub_0802939C(temp_r0_4, 8);
+        sub_080290E4(temp_r0_4, 0);
+        sub_08028AAC(temp_r0_4, 0x78, 0xEA, 0x3C);
+        var_r1_5 = (s32 *)((u8 *)gUnk_03005CF4 + 0x7A4);
+        var_r2_4 = 0;
+loop_224:
+        if (*var_r1_5 != temp_r0_4) {
+            var_r2_4 += 1;
+            var_r1_5 = (s32 *)((u8 *)var_r1_5 + 0x70);
+            if (var_r2_4 > 0xEU) {
+                sub_080003F0();
+                var_r1_5 = NULL;
+            } else {
+                goto loop_224;
+            }
+        }
+        if (var_r1_5 != NULL) {
+            *(u16 *)((u8 *)var_r1_5 + 0x36) = 4;
+        }
+        lastStep=34;
+        { register s32 scratch asm("r3"); asm("" : "=r"(scratch));
+        temp_r6_3 = ((struct T42bCam *)&gUnk_03003170)->x;
+        asm("" :: "r"(scratch));
+        temp_r5_3 = ((struct T42bCam *)&gUnk_03003170)->y; }
+        var_r4_8 = 0; tx5.all=0; ty5.all=0;
+        do {
+            sub_080659F4(p5, (s32) temp_r6_3, tx5.h.hi, var_r4_8);
+            sub_080659F4(p6, (s32) temp_r5_3, ty5.h.hi, var_r4_8);
+            t42b_camera((s16)out[10], (s16)out[11]);
+            sub_080003F0();
+            var_r4_8 += lastStep;
+        } while (var_r4_8 <= 0x400);
+        if (sub_0800CE30() != 0) {
+            { register u32 *ptr asm("r1")=(u32 *)((u8 *)gUnk_03005CF4+0x80); register u32 bits asm("r2")=16; *ptr |= bits; }
+        } else {
+            { register u32 *ptr asm("r2")=(u32 *)gUnk_03005CF4; register u32 bits asm("r1")=16; ptr[0x78/4] |= bits; }
+        }
+        }
+    if (sub_0800CE30() != 0) { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r1")=0x1C5; var_r2_9=base+off; }
+        else { register u8 *base asm("r0")=(u8 *)gUnk_03005CF4; register s32 off asm("r3")=0x1B9; var_r2_9=base+off; }
+        { register u8 *ptr asm("r2")=var_r2_9; register u32 value asm("r1")=*ptr; register u32 bits asm("r0")=32; bits |= value; *ptr=bits; }
+    temp_r2_5 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2_5->flags = (s32) (temp_r2_5->flags & ~1);
+    sub_0800D108();
+}
+
 struct T43Slot1b7c { s32 id; u8 p04[0x14]; u16 f18,f1a; u8 p1c[0x1a]; u16 f36; u32 f38,f3c,f40; void (*f44)(void); u8 p48[0x28]; };
 struct T43Tile1b7c { u8 pad[0x80]; s16 x,y; };
 extern struct T43Tile1b7c t43_tile1b7c asm("gUnk_03003170");

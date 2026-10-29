@@ -1109,7 +1109,7 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     if (local != player) {
         if (player > 3) {
             costEntry = (s16 *)((u8 *)t072DECosts + 6 + arg->value * 24 + level * 2);
-            cost = caster->resource - *costEntry;
+            cost = (u16)caster->resource - *costEntry;
             caster->resource = cost;
             if ((s16)cost < 0) {
                 t072DEFlags[player] &= ~(1 << bit); caster->resource = 0; return;
@@ -1165,7 +1165,7 @@ enemyOrigin:
                 angle = (u16)(((u32)(ArcTan2(dx,dy) << 16) >> 27) - (s16)direction);
                 if ((s16)angle > 16) angle = (u16)((s16)angle - 32);
                 angle = (s16)angle;
-                if (angle < 0) angle = (s16)-angle;
+                if (angle < 0) angle = -angle;
                 if (angle > 3) continue;
                 ax = dx; if (ax < 0) ax = -ax;
                 radius = level * 10 + 48;
@@ -1187,7 +1187,7 @@ enemyOrigin:
                 angle = (u16)(((u32)(ArcTan2(dx,dy) << 16) >> 27) - (s16)direction);
                 if ((s16)angle > 16) angle = (u16)((s16)angle - 32);
                 angle = (s16)angle;
-                if (angle < 0) angle = (s16)-angle;
+                if (angle < 0) angle = -angle;
                 if (angle > 3) continue;
                 ax = dx; if (ax < 0) ax = -ax;
                 radius = level * 10 + 48;

@@ -152,7 +152,81 @@ block_9:
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802AA28);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802B8A4);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802C144);
+struct Task028C144 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
+struct Args028C144 { s32 x,y; u16 a,b; void (*callback)(void); u32 zero, pad; };
+extern u8 *gs028C144 asm("gUnk_03005CF4");
+void sub_0802C144(void) {
+    struct Args028C144 args;
+    u32 result;
+    struct Task028C144 *task;
+    u32 i, free, index;
+    void (*callback)(void);
+    register struct Player *player asm("r2");
+    register u32 offset asm("r2");
+    offset = 0x14C * sub_080020F4();
+    asm("" : "+r"(offset));
+    player = (struct Player *)(offset + (u32)gUnk_03003CE0);
+    asm("" : "+r"(player));
+    player->flags |= 1;
+    sub_0800D0F4();
+    while (sub_0805F184() != 0) sub_080003F0();
+    result = sub_0805DF38(1,15,2,0,-2,0x1404E3);
+    while (sub_0805EEFC((void *)result) == 0) sub_080003F0();
+    if (sub_0805EF14((u8 *)result) != 0) {
+        sub_0802939C(0,8);
+        sub_080290E4(0,0);
+        sub_08028D98(0,0,32,20);
+    } else {
+        sub_0802939C(0,8);
+        sub_080290E4(0,4);
+        sub_08028D98(0,0,-20,20);
+        callback = sub_0802C144;
+        asm("" : "+r"(callback));
+        task = (struct Task028C144 *)(gs028C144 + 0xE34);
+        i = 0;
+        goto check;
+next:
+        i++;
+        task++;
+check:
+        if (i > 29) goto done;
+        free = sub_08000470((u32)task);
+        if (free != 0) goto next;
+        args.x = 0xF000;
+        args.y = 0x1C000;
+        args.a = 64;
+        args.b = 8;
+        args.callback = callback;
+        asm("" : "+r"(free));
+        { register u32 zero asm("r0") = 0;
+          asm("" : "+r"(zero) : "m"(args.callback));
+          args.zero = zero; }
+        task->f8 = 60;
+        task->f20 = sub_08001494(0x400);
+        task->fC = (u32)sub_0805A874;
+        task->f10 = task->f20 + 0x3FC;
+        task->f24 = free;
+        sub_08000274(task, &args, 1);
+        sub_080003F0();
+        sub_080003F0();
+    }
+done:
+    offset = 0x14C * sub_080020F4();
+    asm("" : "+r"(offset));
+    player = (struct Player *)(offset + (u32)gUnk_03003CE0);
+    asm("" : "+r"(player));
+    player->flags &= ~1;
+    sub_0800D108();
+    gUnk_03003CE0[sub_080020F4()].state = 0;
+}
+
+
+
+
+
+
+
+
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802C2A0);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802C674);
 void sub_08037B04(void);

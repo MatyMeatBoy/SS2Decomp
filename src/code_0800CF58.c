@@ -4086,7 +4086,7 @@ block_1221:
                         } else {
                             temp_r2_48 = ((struct PlayerD368 *)arg0)->f110;
                             if (temp_r2_48 > 3U) {
-                            temp_r1_45 = d368_gUnk_030056F4 + ((temp_r2_48 * 0x2E0) + 0xFFFFF480);
+                            temp_r1_45 = (u8 (*)[0x2E0])d368_gUnk_030056F4 + (temp_r2_48 - 4);
                             if (M2C_FIELD(temp_r1_45, u8 *, 0x1DC) != 0) {
                                 M2C_FIELD(temp_r1_45, s16 *, 0xC) = 0xA;
                                 localDamageD368 = (u16) ((s16) ((struct PlayerD368 *)arg0)->f38 * 4);
