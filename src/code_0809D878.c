@@ -501,10 +501,16 @@ void sub_080A1F88(void) {
     sub_08001538(gUnk_03000354);
     gUnk_03000354 = var_r5_2;
 }
-#ifdef NONMATCHING
 struct ActorA1FF4 { u16 id; u8 p2[6]; s16 facing; u16 pA, state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; s32 serial; };
 extern struct ActorA1FF4 *gActorA1FF4 asm("gUnk_03000348");
 struct AnimA1FF4 { u32 f0, f4, f8, fC; u8 p10[12]; u8 attr[24]; };
+struct PlayerA1FF4 {
+    u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
+    u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 x, y;
+    u8 p94[0x1C]; u16 effect; u8 pB2[0x32];
+    u32 serial[25]; u8 pad[0x14C-0xE4-100];
+};
+extern struct PlayerA1FF4 gPlayersA1FF4[] asm("gUnk_03003CE0");
 extern void sub_08065158(void *, u32, u16, s32, s32);
 extern void sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32);
 extern s32 sub_08007870(s16, s16, s32, u16, s32, void *, u32, u32);
@@ -515,19 +521,19 @@ void sub_080A1FF4(void *unused, u16 direction)
     s16 screenX, screenY;
     u16 tile, extra;
     u8 *aux;
-    s32 baseX, baseY, distance, count, phase, hit;
+    struct { s32 x, y; } base;
+    s32 distance, count, phase, hit;
     s32 x, y;
-    u16 angle, rawDx, radius;
+    u16 rawDx, radius;
     s16 dx, dy;
     u8 timer;
     aux = (u8 *)gActorA1FF4 + 0x204;
     sub_08065158(&anim, 0x5000C, gUnk_0300034C, -1, 1);
     anim.attr[0] = gUnk_0300034C;
-    baseX = gActorA1FF4->x;
-    baseY = gActorA1FF4->y;
-    angle = gUnk_085186DC[gActorA1FF4->facing];
-    baseX += gUnk_080B9704[angle + 0x40] << 5;
-    baseY += gUnk_080B9704[angle] << 5;
+    base.x = gActorA1FF4->x;
+    base.y = gActorA1FF4->y;
+    base.x += gUnk_080B9704[gUnk_085186DC[gActorA1FF4->facing] + 0x40] << 5;
+    base.y += gUnk_080B9704[gUnk_085186DC[gActorA1FF4->facing]] << 5;
     hit = 0;
     distance = 0;
     phase = (u8)(direction << 5);
@@ -536,49 +542,49 @@ void sub_080A1FF4(void *unused, u16 direction)
     do {
         if (timer != 0) {
             timer--;
-            x = baseX;
-            y = baseY;
+            x = base.x;
+            y = base.y;
             if (timer == 0) sub_0805865C(0xC3);
         } else {
             x = (u32)(distance * gUnk_080B9704[phase + 0x40]) >> 8;
             y = (u32)(distance * gUnk_080B9704[phase]) >> 8;
-            x += baseX;
-            y += baseY;
+            x += base.x;
+            y += base.y;
             distance += 0x200;
-            rawDx = (x >> 8) - (*(s32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x8C) >> 8);
+            rawDx = (x >> 8) - (gPlayersA1FF4[sub_080020F4()].x >> 8);
             dx = rawDx;
-            dy = ((y >> 8) + 12) - (*(s32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x90) >> 8);
+            dy = (y >> 8) - ((gPlayersA1FF4[sub_080020F4()].y >> 8) - 12);
             radius = Sqrt(dx * dx + dy * dy);
             if (hit == 0 && radius <= 23U &&
                 sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0 &&
                 gActorA1FF4->state != 11 &&
-                !(gUnk_03003CE0[sub_080020F4()].flags & 0x2000) &&
-                *((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x68) != 0 &&
-                gUnk_03003CE0[sub_080020F4()].state != 14 &&
-                gUnk_03003CE0[sub_080020F4()].state != 11 &&
-                gUnk_03003CE0[sub_080020F4()].state != 12 &&
-                *(u32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) != gActorA1FF4->serial) {
+                !(gPlayersA1FF4[sub_080020F4()].flags & 0x2000) &&
+                gPlayersA1FF4[sub_080020F4()].active != 0 &&
+                gPlayersA1FF4[sub_080020F4()].state != 14 &&
+                gPlayersA1FF4[sub_080020F4()].state != 11 &&
+                gPlayersA1FF4[sub_080020F4()].state != 12 &&
+                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) != gActorA1FF4->serial) {
                 if (sub_0800CE30() == 1) sub_08029CEC(0, 60, 2);
                 else sub_08029CEC(0, 30, 2);
-                *(u16 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0xB0) = 0xFFFE;
-                *(u32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) = gActorA1FF4->serial++;
+                gPlayersA1FF4[sub_080020F4()].effect = 0xFFFE;
+                *(u32 *)((u8 *)&gPlayersA1FF4[sub_080020F4()] + 0xE4 + gActorA1FF4->id * 4) = gActorA1FF4->serial++;
                 hit = 1;
             }
         }
-        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+            s32 zero = sub_0800CD34();
+            if (zero == 0) {
             sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + 0xD6) << 5), 1);
-            sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, 0, 0);
+            sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, zero, zero);
             sub_08065370(&anim, 8, (s32)&tile, (s32)&extra, 1);
-            sub_08007870(screenX, screenY, 8, tile, 0, anim.attr, anim.f8, anim.f0);
+            sub_08007870(screenX, screenY, 8, tile, zero, anim.attr, anim.f8, anim.f0);
+            }
         }
         sub_080003F0();
         count = (u16)(count - 1);
     } while (count != 0xFFFF);
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A1FF4);
-#endif
 #ifdef NONMATCHING
 struct ActorT107A230C { u16 id; u8 p2[6]; s16 facing; u16 pA, state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; s32 serial; };
 extern struct ActorT107A230C *gActorT107A230C asm("gUnk_03000348");
