@@ -232,3 +232,10 @@ objects with all incoming NZCV combinations, checks return PC/SP/r4-r11 and
 unchanged NZCV, and rejects a C spin loop whose r0 already equals the expected
 result. The test accepts optional `--deps DIR` on Windows and needs no ROM.
 The 16-byte split preserves the existing configured function and all totals.
+
+The ARM compiler is bootstrapped separately from verified, unmodified source by
+`tools/install_agbcc_arm_sdk.sh`. Its revision, archive hash, upstream build
+commands, retained GPL sources and portability checks are documented in
+`tools/patches/README.sdk-arm.md`. A fresh installer build reproduces the same
+16 bytes, the complete semantic fixture and the normal ROM. The dedicated
+Makefile compiler path is literal for decomp.py and other tooling consumers.

@@ -77,7 +77,7 @@ CC1FLAGS_m4a_1_jump := -O2 -mthumb-interwork
 CC1_m4a_1_rest := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_rest := -O2 -mthumb-interwork
 
-CC1_m4a_1_mul := tools/agbcc/bin/agbcc_arm
+CC1_m4a_1_mul := tools/agbcc_arm_sdk/bin/agbcc
 CC1FLAGS_m4a_1_mul := -O2 -mthumb-interwork -fomit-frame-pointer
 
 CC1_m4a_1 := tools/agbcc_tst/bin/agbcc
@@ -109,6 +109,11 @@ tools/agbcc_sdk_flags/installed: tools/install_agbcc_sdk_flags.sh tools/patches/
 	sh tools/install_agbcc_sdk_flags.sh
 
 $(BUILD)/src/m4a_1_read.o: Makefile tools/agbcc_sdk_flags/installed
+
+tools/agbcc_arm_sdk/installed: tools/install_agbcc_arm_sdk.sh
+	sh tools/install_agbcc_arm_sdk.sh
+
+$(BUILD)/src/m4a_1_mul.o: Makefile tools/agbcc_arm_sdk/installed
 
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)
