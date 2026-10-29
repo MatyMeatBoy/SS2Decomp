@@ -2312,6 +2312,7 @@ struct T116Actor {
 };
 extern struct T116Actor *t116_actor asm("gUnk_03000788");
 void sub_080B0288(struct T116Actor *input116) {
+    s32 end116;
     register struct T116Actor *arg0 asm("sl") = input116;
     u8 sp18[0x34];
     u8 sp4C[0x34];
@@ -2750,13 +2751,15 @@ block_123:
     if (!(*(s32 *)((0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0 + 0x30)) & 0x2000) && (t116_actor->f5A != 0)) {
         temp_r4 = sub_0801E46C((void *) gUnk_030034E0, spB8);
         spD8 = 0x1D;
+        end116 = -1;
+        asm("" : "+r"(end116));
         do {
             t116_actor->f18 = (s32) (t116_actor->f18 - 0x20);
             t116_sub_0806171C(t116_actor, temp_r4);
             sub_080003F0();
             temp_r0_15 = (spD8 << 0x10) + 0xFFFF0000;
             spD8 = temp_r0_15 >> 0x10;
-        } while (((s32) temp_r0_15 >> 0x10) != -1);
+        } while (((s32) temp_r0_15 >> 0x10) != end116);
         sub_0801E4CC((u8 *) gUnk_030034E0, temp_r4);
     }
     sub_08056E24();
