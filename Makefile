@@ -53,14 +53,16 @@ asm_deps = $(wildcard asm/nonmatchings/$(1)/*.s)
 
 # Per module compiler: agbcc by default, old_agbcc where the original code needs it.
 
+# SDK-only extension; the standard game compiler remains CC1 above.
+
 # The SDK's m4a.c was built with an older agbcc
 CC1_m4a_1_abi := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_abi := -O2 -mthumb-interwork
 
 CC1_m4a_1_port := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_port := -O2 -mthumb-interwork
-CC1_m4a_1_engine := tools/agbcc/bin/old_agbcc
-CC1FLAGS_m4a_1_engine := -O2 -mthumb-interwork
+CC1_m4a_1_engine := tools/agbcc_tst/bin/agbcc
+CC1FLAGS_m4a_1_engine := -O2 -mthumb-interwork -fprologue-bugfix -ftst
 
 CC1_m4a_1_commands := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_commands := -O2 -mthumb-interwork
@@ -75,8 +77,8 @@ CC1FLAGS_m4a_1_jump := -O2 -mthumb-interwork
 CC1_m4a_1_rest := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_rest := -O2 -mthumb-interwork
 
-CC1_m4a_1 := tools/agbcc/bin/old_agbcc
-CC1FLAGS_m4a_1 := -O2 -mthumb-interwork
+CC1_m4a_1 := tools/agbcc_tst/bin/agbcc
+CC1FLAGS_m4a_1 := -O2 -mthumb-interwork -fprologue-bugfix -ftst
 
 CC1_m4a := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a := -mthumb-interwork -Wimplicit -Wparentheses -O2 -fhex-asm
@@ -93,6 +95,12 @@ CC1FLAGS_agb_flash := -O1 -mthumb-interwork
 
 
 $(BUILD)/src/libgcc2.o: src/longlong.h
+
+# The opt-in compiler is isolated from the game compiler and built from pinned source.
+tools/agbcc_tst/installed: tools/install_agbcc_tst.sh tools/patches/agbcc-tst-eq-ne-only.patch
+	sh tools/install_agbcc_tst.sh
+
+$(BUILD)/src/m4a_1.o $(BUILD)/src/m4a_1_engine.o: Makefile tools/agbcc_tst/installed
 
 # C files: preprocess, compile with agbcc, assemble.
 $(BUILD)/src/%.o: src/%.c $$(call asm_deps,$$*) $$(wildcard include/*.h)

@@ -1,7 +1,8 @@
 # Incremental matching C for m4a_1
 
 The former assembly container is now `src/m4a_1.c`, compiled with
-`old_agbcc -O2 -mthumb-interwork`. All entries keep their original order
+`old_agbcc -O2 -mthumb-interwork` except the dedicated TST units described
+below. All entries keep their original order
 and canonical symbols. The linker selects only the C container object;
 there is no second assembly container in the link.
 
@@ -101,11 +102,31 @@ fall-through ABI. Its naked body loads cmdPtr in r2, then enters the
 separately configured advance/validation tail immediately below it. There
 is no inline ASM in the C reader; the tail remains ASM and pending.
 
-The other 16 configured entries retain their original INCLUDE_ASM bodies.
+`ply_fine` is C without inline assembly (46 instruction bytes plus
+2 alignment bytes). It releases every active channel in the track, removes
+its chain links through RealClearChain, then clears the track flags. Its
+local register bindings preserve the original operand/register order.
+
+The `m4a_1` and `m4a_1_engine` units use the isolated compiler installed by
+`tools/install_agbcc_tst.sh`, with `-O2 -mthumb-interwork
+-fprologue-bugfix -ftst`. The pinned upstream fork's TST optimization is
+restricted to equality tests by the versioned generic patch. Game compiler
+flags and the standard compiler installation are unchanged. The installer
+verifies archive/patch hashes and retains GPL source/license. The generic
+CPU-flag/ABI fixtures run in CI; see `tools/patches/README.sdk-tst.md`.
+
+`TrackStop` is C without inline assembly (68 bytes), using the SDK
+TST compiler for `m4a_1_engine`. It walks active-track channels, invokes
+the existing r3 callback veneer for compatible-sound oscillator shutdown,
+clears channel flags and owner links, then clears the track head. The r3
+register binding expresses the callback ABI; all traversal, masking,
+conditions, loads and stores are C.
+
+The other 14 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 408 bytes / 20 functions
-become decompiled; the remaining 2652 bytes / 16 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 524 bytes / 22 functions
+become decompiled; the remaining 2536 bytes / 14 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 
