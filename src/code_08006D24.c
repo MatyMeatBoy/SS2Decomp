@@ -1073,7 +1073,155 @@ u32 oamDrawMode004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
     root4ModeTiles += tile;
     return root4ModeVram + base * 32;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080089DC);
+struct OamCopy005
+{
+    u32 y:8;
+    u32 affineMode:2;
+    u32 objMode:2;
+    u32 mosaic:1;
+    u32 bpp:1;
+    u32 shape:2;
+    u32 x:9;
+    u32 matrixNum:5;
+    u32 size:2;
+    u16 tileNum:10;
+    u16 priority:2;
+    u16 paletteNum:4;
+    u16 affineParam;
+};
+
+// An object entry of a sprite frame: OAM attributes 0-2, y and x being
+// offsets from the sprite's position.
+struct SourceOamCopy005
+{
+    s8 y;
+    u8 unk1_0:6;
+    u8 shape:2;
+    s16 x:9;
+    u16 unk2_9:5;
+    u16 size:2;
+    u16 tileNum:10;
+    u16 tileHi:2;
+    u16 unk4_12:4;
+    u16 unk6;
+};
+
+struct FrameCopy005
+{
+    u16 unk0;
+    u16 count;         // +0x02 objects
+    u32 unk4;
+    s32 oams;          // +0x08 offset from the frame to its objects
+};
+
+struct AnimCopy005
+{
+    u16 unk0;
+    u16 unk2;
+    u16 frameCount;    // +0x04
+    u16 unk6;
+    s32 frames;        // +0x08 offset to u32 entries, frame index in the low half
+};
+
+struct RecordCopy005
+{
+    u16 unk0;
+    u16 animCount;     // +0x02
+    s32 frames;        // +0x04 offset to the struct FrameCopy005 array
+    s32 anims;         // +0x08 offset to the struct AnimCopy005 array
+};
+
+extern struct OamCopy005 oamCopy005[] asm("gUnk_03001330");
+extern u32 usedOamCopy005 asm("gUnk_030028B4");   // OAM entries used this frame
+extern u32 usedTilesCopy005 asm("gUnk_030028B8");   // object tiles used this frame (a guess)
+extern const u32 sizesCopy005[] asm("gUnk_0847842C");   // tiles by size, non-square shapes
+extern const u32 squaresCopy005[] asm("gUnk_0847843C");   // tiles by size, square objects
+
+extern void queueCopy005(const void *,void *,u32) asm("sub_08001348");
+extern u32 vramCopy005 asm("gUnk_030028BC");
+
+
+u32 sub_080089DC(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 mosaic, u8 *palettes,
+                 struct RecordCopy005 *record, u8 *tiles)
+{
+    struct FrameCopy005 *frames;
+    struct AnimCopy005 *entry;
+    struct SourceOamCopy005 *src;
+    struct SourceOamCopy005 *obj;
+    struct OamCopy005 *dest;
+    u32 vram;
+    u32 i;
+    u32 base;
+    u16 param;
+    u32 list;
+    u32 size;
+    u16 tile;
+    s32 objX;
+    s32 objY;
+    u32 count;
+
+    count = usedOamCopy005;
+    if (count > 127)
+        return -1;
+    if (record->animCount < anim)
+        return -1;
+    base = usedTilesCopy005;
+    frames = (struct FrameCopy005 *)(record->frames + (u32)record);
+    entry = (struct AnimCopy005 *)((u32)record + record->anims) + anim;
+    list = (u32)entry + entry->frames;
+    list += frame * 4;
+    frames += *(u16 *)list;
+    src = (struct SourceOamCopy005 *)((u8 *)frames + frames->oams);
+    dest = &oamCopy005[count];
+    vram = vramCopy005 + base * 32;
+    tile = 0;
+    size = 0;
+    for (i = 0; i < frames->count; i++, dest++, src++)
+    {
+        obj = src;
+        param = dest->affineParam;
+        *dest = *(struct OamCopy005 *)src;
+        dest->affineParam = param;
+        // the 9-bit x, sign-extended by hand
+        objX = dest->x << 23;
+        objX >>= 23;
+        objY = ((struct SourceOamCopy005 *)dest)->y;
+        objY += y;
+        objX += x;
+        if ((u32)(objX + 64) > 304 || objY > 160 || objY < -64)
+        {
+            dest->y = 160;
+            dest->shape = 0;
+            dest->size = 0;
+            dest--;
+            continue;
+        }
+        vram += size;
+        dest->objMode = 0;
+        dest->mosaic = mosaic;
+        dest->priority = priority;
+        dest->paletteNum = palettes[dest->paletteNum];
+        dest->x = objX;
+        dest->y = objY;
+        dest->tileNum = base + tile;
+        if (dest->shape)
+        {
+            size = sizesCopy005[dest->size];
+            tile += size;
+        }
+        else
+        {
+            size = squaresCopy005[dest->size];
+            tile += size;
+        }
+        if (++usedOamCopy005 > 127)
+            return 0;
+        size *= 32;
+        queueCopy005(tiles + ((obj->tileNum | (obj->tileHi << 10)) << 5), (void *)vram, size);
+    }
+    usedTilesCopy005 += tile;
+    return vramCopy005 + base * 32;
+}
 void sub_08008C10(void) {
     sub_08008C1C();
 }
