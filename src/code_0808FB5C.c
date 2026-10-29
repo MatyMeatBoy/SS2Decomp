@@ -285,7 +285,31 @@ u32 sub_0809021C(u32 arg0)
     }
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090290);
+struct State9029095 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36; };
+struct Player9029095 {u8 p0[0x1C];u16 action;u8 p1E[2];u16 state;u8 p22[0xE];u32 flags;u8 p34[0x34];u8 active;u8 rest[0xE3];};
+extern struct State9029095 *state9029095 asm("gUnk_03005CF4");
+extern struct Player9029095 players9029095[] asm("gUnk_03003CE0");
+u32 sub_08090290(u32 arg)
+{
+    struct State9029095 **holder=&state9029095;
+    u32 zero,one,firstIndex;
+    register struct Player9029095 *base asm("r5");
+    if((*holder)->mode==0) sub_0802704C(arg);
+    else if(sub_08056E90()) {
+        sub_080570DC(1);
+        sub_08056FB8(0,0);
+        firstIndex=sub_080020F4(); base=players9029095; asm volatile("" : : "r"(base));
+        { struct Player9029095 *player=(struct Player9029095 *)(firstIndex*0x14C+(u32)base);
+          u8 *active=&player->active; asm("" : "+r"(active)); zero=0;one=1;*active=one; }
+        sub_08056E78();
+        (*holder)->w36=zero;
+        { register u32 offset asm("r2"); u8 *flagsBase; offset=sub_080020F4()*0x14C; asm("" : "+r"(offset)); flagsBase=(u8 *)base+0x30; asm("" : "+r"(flagsBase) : "r"(offset)); offset+=(u32)flagsBase; *(u32 *)offset&=~2; }
+        base[sub_080020F4()].state=zero;
+        base[sub_080020F4()].action=4;
+        { struct State9029095 *finalState=*holder; finalState->w30=one; finalState->w24=one; }
+    }
+    return 0;
+}
 struct State9033095 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[0xE];u32 index;u8 p44[0x6D8];u32 resource; };
 struct Display9033095 {u8 p0[0x72];u16 delay;u8 p74[0x1C];u16 status;};
 extern struct State9033095 *state9033095 asm("gUnk_03005CF4");
