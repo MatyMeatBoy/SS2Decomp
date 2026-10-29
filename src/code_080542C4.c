@@ -215,7 +215,45 @@ void sub_08056D2C(void)
     sub_08001538(gUnk_03005CF4);
     gUnk_03005CF4 = 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056D80);
+extern s32 sub_08019FA8();
+struct Bits56D80 { u16 x0 : 7, x : 9; u16 y0 : 3, y : 9, y1 : 4; u8 f : 6; };
+u32 sub_08056D80(s16 *pos, u16 rx, u16 ry)
+{
+    u32 n = sub_08002164();
+    u32 found = 0;
+    u32 i;
+    u8 f;
+    if (sub_08019FA8() == 0)
+        return 0;
+    for (i = 0; i < n; i++) {
+        u8 *p = (u8 *)&gUnk_03003CE0[i];
+        struct Bits56D80 *b = *(struct Bits56D80 **)(p + 0x148);
+        s32 d;
+        s32 e;
+        f = b->f;
+        if (f & 0x20)
+            continue;
+        if (*(u32 *)(p + 0x30) & 0x2000)
+            continue;
+        {
+            u32 bx = b->x;
+            u32 by = b->y;
+            d = pos[0] - bx;
+            if (d < 0)
+                d = -d;
+            if (d >= rx)
+                continue;
+            e = pos[1] - by;
+            if (e < 0)
+                e = -e;
+            if (e < ry) {
+                found = 1;
+                break;
+            }
+        }
+    }
+    return found;
+}
 void sub_08056E24(void)
 {
     gGameState->flags |= 8;
