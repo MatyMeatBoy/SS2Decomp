@@ -812,7 +812,67 @@ loop_158:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098108);
 #endif
+#ifdef NONMATCHING
+struct Player98F {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
+struct Entity98F {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
+extern struct Player98F players98F[] asm("gUnk_03003CE0");
+extern struct Entity98F *entity98F asm("gUnk_030002D0");
+extern s32 atan98F(s16,s32) asm("ArcTan2");
+s32 sub_08098F2C_impl(void) asm("sub_08098F2C");
+s32 sub_08098F2C_impl(void)
+{
+    register u32 x asm("r4");
+    s32 y;
+    s32 player;
+    void *entity;
+    register u32 angle asm("r0");
+    u32 direction;
+    register u32 fraction asm("r1");
+    s32 result;
+    struct Player98F *lastBase;
+    x=(u32)((entity98F->x-*(s32 *)((u8 *)&gUnk_03003D6C+sub_080020F4()*0x14C))<<8)>>16;
+    y=entity98F->y-players98F[sub_080020F4()].y;
+    y=(y<<8)>>16;
+    x=(s16)x;
+    if(Sqrt(x*x+y*y)<=0x2F && sub_0800CDF8()==0 && sub_0800CCCC()==0 && sub_0800CD8C()==0 && entity98F->state!=0xB && !(players98F[sub_080020F4()].flags&0x2000) && players98F[sub_080020F4()].active!=0 && players98F[sub_080020F4()].state!=0xE && players98F[sub_080020F4()].state!=0xB && players98F[sub_080020F4()].state!=0xC && players98F[sub_080020F4()].seen[entity98F->index]!=entity98F->counter) {
+        players98F[sub_080020F4()].state=0xA;
+        players98F[sub_080020F4()].motion=0xFFFE;
+        player=sub_080020F4();
+        entity=entity98F;
+        players98F[player].angle=sub_0801ED8C(entity,&players98F[sub_080020F4()])+players98F[player].angle;
+        players98F[sub_080020F4()].seen[entity98F->index]=entity98F->counter;
+        x=(u32)((*(s32 *)((u8 *)&gUnk_03003D6C+sub_080020F4()*0x14C)-entity98F->x)<<8)>>16;
+        y=(players98F[sub_080020F4()].y-entity98F->y)<<8;
+        angle=atan98F((s16)x,y>>16)<<16;
+        asm("" : "+r"(angle));
+        fraction=angle<<3;
+        asm("" : "+r"(fraction), "+r"(angle));
+        direction=angle>>29;
+        if(fraction>0x80000000U) {
+            if(direction<=6) direction++; else direction=0;
+        }
+        switch(direction) {
+        default:
+            players98F[sub_080020F4()].direction=direction-2;
+            break;
+        case 0:
+            players98F[sub_080020F4()].direction=6;
+            break;
+        case 1:
+            players98F[sub_080020F4()].direction=7;
+            break;
+        }
+        players98F[sub_080020F4()].speed=0x400;
+        players98F[sub_080020F4()].timer=0x10;
+    }
+    lastBase=players98F;
+    result=sub_080020F4();
+    if(lastBase[result].timer==0) entity98F->counter++;
+
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098F2C);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809919C);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08099468);
 void sub_08099720(void) {
