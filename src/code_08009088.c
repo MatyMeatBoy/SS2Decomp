@@ -143,9 +143,128 @@ void sub_080094CC(struct Layer *entry, s16 x, s16 y)
     CpuSet(src + (count + tileY), dest + pos[1], (32 - count) & 0x1FFFFF);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009594);
+#ifdef NONMATCHING
+struct LoadSize005 { u16 width,height; };
+struct LoadState005 { struct Layer layers[4]; s16 *map; void *buffer; u16 *map0,*map1; struct LoadSize005 first; u16 width1,height1,mapW,mapH,scrollX,scrollY,f80,f82,offX,offY; u8 pad88[4]; u16 area,pad8E,index; u8 pad92[10]; u32 flags; u8 padA0[16]; u32 *record; };
+struct LoadArea005 { u8 pad[16]; u32 keys[25]; };
+struct LoadThread005 { u32 prev,next,priority; void (*entry)(void); void *sp; u8 pad14[12]; u32 stack,onExit; };
+struct LoadTile005 { u8 low; u8 hi:4; u8 hflip:1; u8 vflip:1; u8 palette:2; } __attribute__((packed));
+extern struct LoadState005 loadState005 asm("gUnk_03003170");
+extern struct LoadArea005 loadAreas005[] asm("gUnk_0847846C");
+extern struct LoadThread005 loadThread005 asm("gUnk_03003430");
+extern u8 loadStack005[] asm("gUnk_0300342C");
+extern void loadEntry005(void) asm("sub_0800A998");
+extern void displayMode005(u32,u32) asm("sub_08000990");
+extern void displayEnable005(u32,u32,u32) asm("sub_080009F8");
+extern void loadSetup005(u32 *,u32) asm("sub_08009138");
+extern u32 *loadRecord005(u32) asm("sub_08007290");
+union LoadBg005 { struct { u32 value:16; } bits; u16 raw; };
+s32 sub_08009930(u32 area,u32 index)
+{
+    s16 *map;
+    u32 i,j;
+    u16 width,height;
+    struct LoadTile005 *tile;
+    union LoadBg005 cnt;
+    if ((loadState005.flags & 1) || sub_08000470((u32)&loadThread005)) return 0;
+    loadThread005.entry=loadEntry005;
+    loadThread005.sp=loadStack005;
+    loadThread005.stack=0;
+    loadThread005.priority=0x50;
+    loadThread005.onExit=0;
+    loadState005.area=area; loadState005.index=index;
+    if (area==5 && sub_0800CDC0() && index==13) {
+        displayMode005(1,1);
+        displayEnable005(0x800,0,1);
+        sub_080009C0(0x1700,0,1);
+        cnt.bits.value=0x1D83; sub_08000AA8(1,&cnt.raw);
+        cnt.raw=0xBE81; sub_08000AA8(2,&cnt.raw);
+        sub_0800B650(0x2D,0x1D,0x06000000,0,15);
+        sub_0800B9F0(0x2C,0x1E);
+        tile=loadState005.buffer; loadState005.map0=(u16 *)tile;
+        for(i=0;i<32;i++) for(j=0;j<30;j++,tile++) {
+            tile->low=0; tile->hi=0; tile->hflip=0; tile->palette=1;
+        }
+        loadState005.f80=0; loadState005.f82=0; loadState005.offX=0; loadState005.offY=0;
+        loadState005.first.width=30; loadState005.first.height=32;
+        loadState005.width1=30; loadState005.height1=32;
+        loadState005.mapW=30; loadState005.mapH=32;
+        loadState005.flags=0; loadState005.scrollX=0; loadState005.scrollY=0;
+    } else {
+        loadState005.record=loadRecord005(loadAreas005[area].keys[index]);
+        loadSetup005(loadState005.record,area);
+        if(loadAreas005[area].keys[index]&0x40000000) loadState005.map=(s16 *)((u8 *)loadState005.record+16);
+        else loadState005.map=sub_08000BC8((u32 *)((u8 *)loadState005.record+16),&loadState005.buffer);
+        map=loadState005.map;
+        if(sub_0800CCCC()) loadState005.map1=(u16 *)((u8 *)map+(map[0]*map[1]*6+16));
+        else {
+            loadState005.map0=(u16 *)((u8 *)map+(map[0]*map[1]*6+16));
+            loadState005.mapW=map[0]; loadState005.mapH=map[1];
+        }
+        loadState005.f80=0; loadState005.f82=0; loadState005.offX=0; loadState005.offY=0;
+        width=map[0]; loadState005.first.width=width;
+        height=map[1]; loadState005.first.height=height;
+        loadState005.width1=width; loadState005.height1=height;
+        loadState005.flags=0; loadState005.scrollX=0; loadState005.scrollY=0;
+    }
+    sub_08000274(&loadThread005,0);
+    return 1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009930);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009B84);
+#ifdef NONMATCHING
+struct MapAnim005 { u8 pad[0x8C]; u16 area,pad8E,index; u8 pad92[14]; u16 frames[4],timers[4]; };
+struct MapPeriods005 { u16 periods[4]; u8 rest[108]; };
+extern struct MapAnim005 animState005 asm("gUnk_03003170");
+extern struct MapPeriods005 animPeriods005[] asm("gUnk_08478470");
+extern u16 animLimits005[2] asm("gUnk_08478F4C");
+void sub_0800A03C(void)
+{
+    u32 alternate,i;
+    u16 *frame,*timer,*period;
+    u16 old,value;
+    switch(animState005.area) {
+    case 0:case 1:case 2:case 3: break;
+    case 4: if(animState005.index==12) return; break;
+    case 8:
+        switch(animState005.index) {
+        case 2:case 4:case 6:case 8:case 10:case 12:case 14:case 17:return;
+        }
+        break;
+    case 11:case 12:case 14:return;
+    }
+    if(animState005.area==3 || animState005.area==6) alternate=1;
+    else alternate=0;
+    switch(animState005.area) {
+    case 13:return;
+    case 0:
+        switch(animState005.index) {case 2:case 5:return;}
+        break;
+    case 9:
+        switch(animState005.index) {case 0:case 2:case 4:case 6:case 8:case 12:case 13:case 15:return;}
+        break;
+    case 10:
+        switch(animState005.index) {case 0:case 1:case 3:case 13:case 15:case 16:case 19:return;}
+        break;
+    }
+    if ((u16)(animState005.area-7)<=1 && sub_0800CDC0()) return;
+    frame=(u16 *)((u32)&animState005+0xA0);
+    for(i=0;i<4;frame++,i++) {
+        period=&animPeriods005[animState005.area].periods[i];
+        if(*period) {
+            timer=&animState005.timers[i];
+            if(*period<=(*timer)++) {
+                *timer=0;
+                if(++*frame>=animLimits005[alternate]) *frame=0;
+            }
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A03C);
+#endif
 struct T06HeaderA298 {s16 w,h;u8 pad[12];};
 struct T06SysA298 {
     u8 pad[0x60];struct T06HeaderA298 *volatile header;void *allocation;
