@@ -67,20 +67,28 @@ void sub_0809F998(void)
     gTP03000318->f8 = 0x3E;
     sub_08000274_3((u32)gTP03000318, 0, 0);
 }
-#ifdef NONMATCHING
+struct TaskPool105 { u32 next,state,priority,entry,sp,event,prev;u16 time,pad;u32 stack,onExit; };
+extern struct TaskPool105 *volatile pool105 asm("gUnk_03000324");
 void sub_0809F9F8(void)
 {
-    u8 *base = sub_08001494(0xA0);
-    u32 i;
-    gUnk_03000324 = base;
-    if (base != 0) {
-        for (i = 0; i < 4; i++)
-            *(u32 *)(base + i * 0x28 + 8) = 0;
+    struct TaskPool105 *base;
+    struct TaskPool105 *volatile *holder = &pool105;
+    s32 remaining;
+    u32 offset;
+    u32 clear;
+    base=sub_08001494(0xA0);
+    *holder=base;
+    if(base!=0) {
+        clear=0;
+        offset=0;
+        remaining=3;
+        do {
+            ((struct TaskPool105 *)(offset+(u32)*holder))->priority=clear;
+            offset+=0x28;
+            remaining--;
+        } while(remaining>=0);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F9F8);
-#endif
 void sub_0809FA28(void)
 {
     u8 *e;
