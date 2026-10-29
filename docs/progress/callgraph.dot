@@ -2057,7 +2057,7 @@ digraph calls {
   "EraseFlashSector_LE" -> "SetReadFlash1" [label="c"];
   "FadeOutBody" -> "TrackStop" [label="c"];
   "IdentifyFlash" -> "ReadFlashId" [label="c"];
-  "MPlayJumpTableCopy" -> "sub_080B6992" [label="asm"];
+  "MPlayJumpTableCopy" -> "sub_080B6992" [label="c"];
   "MPlayMain" -> "Clear64byte" [label="asm"];
   "MPlayMain" -> "ClearChain" [label="asm"];
   "MPlayMain" -> "FadeOutBody" [label="asm"];

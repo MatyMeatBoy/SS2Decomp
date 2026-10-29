@@ -7,7 +7,7 @@
 <rect x="12.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="22.0" y="46" fill="#e6edf3" font-size="11">C matching</text>
 <text x="22.0" y="69" fill="#3fb950" font-size="21" font-weight="600">36.73%</text>
-<text x="22.0" y="86" fill="#e6edf3" font-size="10">1507 / 1987 funciones C</text>
+<text x="22.0" y="86" fill="#e6edf3" font-size="10">1508 / 1987 funciones C</text>
 <rect x="259.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="269.0" y="46" fill="#e6edf3" font-size="11">Bibliotecas enlazadas</text>
 <text x="269.0" y="69" fill="#3fb950" font-size="21" font-weight="600">22 funciones</text>
@@ -19,7 +19,7 @@
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Histórico C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">36.81%</text>
-<text x="763.0" y="86" fill="#e6edf3" font-size="10">1529 / 2009 funciones</text>
+<text x="763.0" y="86" fill="#e6edf3" font-size="10">1530 / 2009 funciones</text>
 <svg x="0" y="104" xmlns="http://www.w3.org/2000/svg" width="1000" height="550" viewBox="0 0 1000 550" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
@@ -2105,7 +2105,7 @@
 <rect x="813.92" y="502.56" width="3.08" height="4.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HeapTotalFreeBlockSpan | sub_080016EC | confirmed  0x080016EC  32 bytes  [done]</title></rect>
 </g>
 <rect x="820.0" y="0" width="178.0" height="26" fill="#161b22"/>
-<text x="826.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">SDK libs: 83.59% (135/139)</text>
+<text x="826.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">SDK libs: 83.78% (136/139)</text>
 <g><title>m4a (5284 bytes)</title>
 <rect x="820.00" y="28.00" width="178.00" height="197.47" fill="#0d1117"/>
 <rect x="821.00" y="29.00" width="111.22" height="63.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>CgbSound | CgbSound | existing  0x080B7C3C  1092 bytes  [done]</title></rect>
@@ -2281,7 +2281,7 @@
 <g><title>m4a_1_read (64 bytes)</title>
 <rect x="941.19" y="487.11" width="20.38" height="20.89" fill="#0d1117"/>
 <rect x="942.19" y="488.11" width="9.56" height="14.76" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundGuardSourceRead | sub_080B6992 | confirmed  0x080B6992  26 bytes  [done]</title></rect>
-<rect x="951.74" y="488.11" width="8.82" height="14.76" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>MPlayJumpTableCopy | MPlayJumpTableCopy | existing  0x080B6978  24 bytes  [todo]</title></rect>
+<rect x="951.74" y="488.11" width="8.82" height="14.76" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>MPlayJumpTableCopy | MPlayJumpTableCopy | existing  0x080B6978  24 bytes  [done]</title></rect>
 <rect x="942.19" y="502.87" width="13.13" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadTrackByteFromCursorGuarded | sub_080B69AE | confirmed  0x080B69AE  10 bytes  [done]</title></rect>
 <rect x="955.31" y="502.87" width="2.63" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadGuardedByte | sub_080B6990 | confirmed  0x080B6990  2 bytes  [done]</title></rect>
 <rect x="957.94" y="502.87" width="2.63" height="4.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>SoundReadTrackByteGuarded | sub_080B69AC | confirmed  0x080B69AC  2 bytes  [done]</title></rect>
@@ -2336,9 +2336,9 @@
 <text x="177" y="524" fill="#e6edf3" font-size="11">borrador / hitos de trabajo</text>
 <rect x="354" y="514" width="11" height="11" fill="#6e7681"/>
 <text x="369" y="524" fill="#e6edf3" font-size="11">sin C matching / ASM original</text>
-<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 36.81% de 757928 bytes de código, 1529/2009 funciones</text>
+<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 36.81% de 757928 bytes de código, 1530/2009 funciones</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Área = bytes de código. Relleno parcial amarillo = hitos registrados, no porcentaje matching ni estimación de tiempo.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Datos: 413 bloques incbin (15.3 MiB), 11 / 412 etiquetas descriptivas; comprensión: sin porcentaje.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11611 relaciones, 1280 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11611 relaciones, 1279 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
 </svg>
