@@ -713,7 +713,51 @@ divide:
     if(target>3 && *(u8 *)((u32)resistEnemies69+target*0x2E0-0x95A)==3) out[1]=0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080694AC);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080698D4);
+struct StatusSprite69 {u32 data,unk4,tiles;u8 *palette;s32 unk10;u32 paletteId,paletteCount;u8 style[16];s16 scale,step,max,min;};
+struct StatusPosition69 {u16 x,y,kind,unused6,unused8,slot;};
+extern vu32 statusMask69 asm("gUnk_0300641C");
+extern void statusInit69(struct StatusSprite69 *,u32,u32,s32,u32) asm("sub_08065158");
+extern u32 statusStep69(struct StatusSprite69 *,u32,u16 *,u16 *,u32) asm("sub_08065370");
+extern u32 statusCoords69(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern void statusDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+void sub_080698D4(struct StatusPosition69 *pos)
+{
+    struct StatusSprite69 obj;
+    s16 screenX;
+    s16 screenY;
+    u16 frame;
+    u16 timer;
+    u32 slot;
+    u16 kind;
+    u16 x;
+    u16 y;
+    u16 done;
+    u32 second;
+    slot=pos->slot;
+    kind=pos->kind;
+    x=pos->x;
+    y=pos->y;
+    statusInit69(&obj,0x5008C,8,-1,0);
+    obj.style[0]=7;
+    obj.style[1]=8;
+    switch(kind-1U) {
+    case 1:kind=29;break;
+    case 0:case 4:kind=28;break;
+    case 5:kind=32;break;
+    case 13:kind=13;break;
+    default:statusMask69 &= ~(1<<slot);return;
+    }
+    frame=0;
+    timer=0;
+    do {
+        statusCoords69((s16)x,(s16)y,&screenX,&screenY,0x30,0);
+        done=statusStep69(&obj,kind,&frame,&timer,0);
+        if(!sub_0800CC98() && !sub_0800CD8C() && (second=sub_0800CCCC())==0)
+            statusDraw69(screenX,screenY,kind,frame,second,obj.style,obj.tiles,obj.data);
+        sub_080003F0();
+    } while(!done);
+    statusMask69 &= ~(1<<slot);
+}
 struct Task9A30 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info9A30 { u16 x, y, c, d, b, i; };
 extern vu32 gMask9A30 asm("gUnk_0300641C");
