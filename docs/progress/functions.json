@@ -11811,14 +11811,14 @@
       "name": "sub_08035B18",
       "addr": 134437656,
       "size": 3548,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08035B18",
       "canonical_symbol": "sub_08035B18",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_08035B18",
       "name_status": "unidentified",
       "name_source": null,
@@ -11828,14 +11828,14 @@
       "name": "sub_080368F4",
       "addr": 134441204,
       "size": 3544,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x080368F4",
       "canonical_symbol": "sub_080368F4",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080368F4",
       "name_status": "unidentified",
       "name_source": null,
@@ -11859,7 +11859,7 @@
       "evidence": [
         {
           "source": "src/code_0802FEA0.c",
-          "line": 2075,
+          "line": 3114,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t36AScript"
         }
       ]

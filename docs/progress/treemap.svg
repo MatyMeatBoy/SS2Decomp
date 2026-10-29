@@ -79,8 +79,8 @@
 </g>
 <g><title>code_0802FEA0 (47100 bytes)</title>
 <rect x="0.00" y="205.06" width="163.52" height="151.57" fill="#0d1117"/>
-<rect x="1.00" y="206.06" width="37.90" height="48.02" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08035B18 | sub_08035B18 | unidentified  0x08035B18  3548 bytes  [todo]</title></rect>
-<rect x="1.00" y="254.08" width="37.90" height="47.96" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080368F4 | sub_080368F4 | unidentified  0x080368F4  3544 bytes  [todo]</title></rect>
+<rect x="1.00" y="206.06" width="37.90" height="48.02" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08035B18 | sub_08035B18 | unidentified  0x08035B18  3548 bytes  [nonmatch]</title></rect>
+<rect x="1.00" y="254.08" width="37.90" height="47.96" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080368F4 | sub_080368F4 | unidentified  0x080368F4  3544 bytes  [nonmatch]</title></rect>
 <rect x="1.00" y="302.04" width="37.90" height="28.69" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08033C40 | sub_08033C40 | unidentified  0x08033C40  2120 bytes  [done]</title></rect>
 <rect x="1.00" y="330.73" width="37.90" height="24.90" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080392B4 | sub_080392B4 | unidentified  0x080392B4  1840 bytes  [done]</title></rect>
 <rect x="38.90" y="206.06" width="28.85" height="31.15" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08037DFC | sub_08037DFC | unidentified  0x08037DFC  1752 bytes  [done]</title></rect>
@@ -2326,5 +2326,5 @@
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Área = bytes de código. Relleno parcial amarillo = hitos registrados, no porcentaje matching ni estimación de tiempo.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Datos: 413 bloques incbin (15.3 MiB), 11 / 412 etiquetas descriptivas; comprensión: sin porcentaje.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11615 relaciones, 1221 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11615 relaciones, 1224 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
 </svg>
