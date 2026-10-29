@@ -436,6 +436,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     s32 language = 2;
     s32 nextChar03984, nextChar13984, nextChar23984, nextChar33984, nextChar43984;
     s32 drawOffset3984;
+    s32 cursorYStep3984;
     u32 keyboardGap3984;
     s32 setupZero3984;
     u32 drawOne3984, ninthZero3984;
@@ -1275,14 +1276,11 @@ block_198:
                 }
                 var_r7 = var_r7 + 2;
                 textWidth3984 = sub_0801A638(var_r7);
-                temp_r4_16 = state * 4;
-                temp_r5_14 = temp_r4_16 + ((u8 *)&gUnk_08366E0C);
-                var_r4_2 = temp_r4_16 + (((u8 *)&gUnk_08366E0C) + 2);
-                ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, *temp_r5_14 - (drawOffset3984 = (textWidth3984 * 4) - 0x18), *var_r4_2 - 0x28);
+                ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, *(temp_r5_14 = (u16 *)((state * 4) + (u8 *)&gUnk_08366E0C)) - (drawOffset3984 = (textWidth3984 * 4) - 0x18), *(var_r4_2 = (u16 *)((state * 4) + (u8 *)&gUnk_08366E0C + 2)) - 0x28);
                 var_r7 = (u8 *)&cursor;
                     sub_08065230(var_r7, *temp_r5_14 - (drawOffset3984 = cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
                 var_r7 = (u8 *)&cursor;
-                    sub_08065230(var_r7, (drawOffset3984 = offsetY + 0x18) + *temp_r5_14 + (cursorY + 9), *var_r4_2 - 0x20, 3U, 1);
+                    sub_08065230(var_r7, (drawOffset3984 = offsetY + 0x18) + *temp_r5_14 + (cursorYStep3984 = cursorY + 9), *var_r4_2 - 0x20, 3U, 1);
                         }
 after198:
             if (!(gUnk_03002344 & 3)) {

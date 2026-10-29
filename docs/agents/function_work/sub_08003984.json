@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-28T23:54:31.777016+00:00",
-  "checkpoint": "16ff4f3d6bf25da759a0162eb4a2414c7c2d1529",
+  "updated_utc": "2026-10-29T00:01:47.246814+00:00",
+  "checkpoint": "288ef310f19065f54ebb6cdaa79d6b8393965c6c",
   "areas": [
     {
       "id": "flow",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C y highregs conservados. Estado3: asignaciones en operandos recuperan ADD24 al margenY antes de sumar coordenada; anchoTexto*4 menos24 antes de restar de x, como ASM04D16/04D54. CFG190/170/5 sin diferencias; seis replays simulados sin divergencias (diagnóstico acotado). Módulo real NO MATCH8320/8352; ROM fallback OK, NONMATCHING y check_tree pasan."
+      "evidence": "Frame0x54C y highregs conservados. Estado3: márgenes y anchoTexto agrupados, punterosX/Y calculados en argumentos; cursorY+9 ahora se carga/suma al final, como ASM04D54–04DC8. Última diferencia aislada cambia sólo seis instrucciones locales, sin más cambios al ensamblado. CFG190/170/5 limpio; seis replays simulados149frames sin divergencias, diagnóstico acotado. Módulo real NO MATCH8320/8352; ROM fallback OK/NM/check_tree."
     },
     {
       "id": "match",

@@ -2228,39 +2228,35 @@ block_590:
                             case 4:                 /* switch 5 */
                             case 6:                 /* switch 5 */
                                 temp_r4_10 = ((struct PlayerD368 *)arg0)->f10;
-                                if (temp_r4_10 != 5) {
-                                    if ((s32) temp_r4_10 <= 5) {
-                                        if (temp_r4_10 != 4) {
-
-                                        } else {
-                                            *sp1C8 += 1;
-                                            ((struct PlayerD368 *)arg0)->f20 = 5U;
-                                            d368_sub_0801551C();
-                                        }
-                                    } else if (temp_r4_10 != 9) {
-
-                                    } else {
-                                        var_r0_12 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
-                                        if (var_r0_12 != 0) {
-                                            if (d368_sub_0801DE60() == 6) {
-                                                if ((d368_sub_0801DEB8() != 0x11) || (*(((struct PlayerD368 *)arg0)->f0 + &d368_gUnk_03006430) == 0)) {
-                                                    ((struct PlayerD368 *)arg0)->f20 = temp_r4_10;
-                                                    *sp1C8 += 1;
-                                                } else {
-                                                    var_r0_11 = 0;
-                                                    goto block_581;
-                                                }
-                                            } else {
-                                                goto block_582;
-                                            }
-                                        } else {
-                                            goto block_588;
-                                        }
-                                    }
-                                } else {
+                                switch (temp_r4_10) {
+                                case 5:
                                     *sp1C8 += 1;
                                     ((struct PlayerD368 *)arg0)->f20 = temp_r4_10;
                                     d368_sub_0801551C();
+                                    break;
+                                case 9:
+                                    var_r0_12 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
+                                    if (var_r0_12 != 0) {
+                                        if (d368_sub_0801DE60() == 6) {
+                                            if ((d368_sub_0801DEB8() != 0x11) || (*(((struct PlayerD368 *)arg0)->f0 + &d368_gUnk_03006430) == 0)) {
+                                                ((struct PlayerD368 *)arg0)->f20 = temp_r4_10;
+                                                *sp1C8 += 1;
+                                            } else {
+                                                var_r0_11 = 0;
+                                                goto block_581;
+                                            }
+                                        } else {
+                                            goto block_582;
+                                        }
+                                    } else {
+                                        goto block_588;
+                                    }
+                                    break;
+                                case 4:
+                                    *sp1C8 += 1;
+                                    ((struct PlayerD368 *)arg0)->f20 = 5U;
+                                    d368_sub_0801551C();
+                                    break;
                                 }
                                 break;
                             case 7:                 /* switch 5 */
@@ -2525,47 +2521,43 @@ block_693:
                         case 4:                     /* switch 7 */
                         case 6:                     /* switch 7 */
                             temp_r4_12 = ((struct PlayerD368 *)arg0)->f10;
-                            if (temp_r4_12 != 5) {
-                                if ((s32) temp_r4_12 <= 5) {
-                                    if (temp_r4_12 != 4) {
-
-                                    } else {
-                                        *sp1C8 += 1;
-                                        ((struct PlayerD368 *)arg0)->f20 = 5U;
-                                        d368_sub_0801551C();
-                                    }
-                                } else if (temp_r4_12 != 9) {
-
-                                } else {
-                                    temp_r0_53 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
-                                    if (temp_r0_53 != 0) {
-                                        if (d368_sub_0801DE60() == 6) {
-                                            if ((d368_sub_0801DEB8() != 0x11) || (*(((struct PlayerD368 *)arg0)->f0 + &d368_gUnk_03006430) == 0)) {
-                                                ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
-                                                *sp1C8 += 1;
-                                            } else {
-                                                ((struct PlayerD368 *)arg0)->f26 = 0U;
-                                                ((struct PlayerD368 *)arg0)->f24 = 0U;
-                                                sp130 = 0;
-                                                sp134 = 0;
-                                                ((struct PlayerD368 *)arg0)->f20 = 0U;
-                                            }
-                                        } else {
-                                            ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
-                                            *sp1C8 += 1;
-                                        }
-                                    } else {
-                                        ((struct PlayerD368 *)arg0)->f26 = (u16) temp_r0_53;
-                                        ((struct PlayerD368 *)arg0)->f24 = (u16) temp_r0_53;
-                                        sp130 = 0;
-                                        sp134 = 0;
-                                        ((struct PlayerD368 *)arg0)->f20 = 0U;
-                                    }
-                                }
-                            } else {
+                            switch (temp_r4_12) {
+                            case 5:
                                 *sp1C8 += 1;
                                 ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
                                 d368_sub_0801551C();
+                                break;
+                            case 9:
+                                temp_r0_53 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
+                                if (temp_r0_53 != 0) {
+                                    if (d368_sub_0801DE60() == 6) {
+                                        if ((d368_sub_0801DEB8() != 0x11) || (*(((struct PlayerD368 *)arg0)->f0 + &d368_gUnk_03006430) == 0)) {
+                                            ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
+                                            *sp1C8 += 1;
+                                        } else {
+                                            ((struct PlayerD368 *)arg0)->f26 = 0U;
+                                            ((struct PlayerD368 *)arg0)->f24 = 0U;
+                                            sp130 = 0;
+                                            sp134 = 0;
+                                            ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                        }
+                                    } else {
+                                        ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
+                                        *sp1C8 += 1;
+                                    }
+                                } else {
+                                    ((struct PlayerD368 *)arg0)->f26 = (u16) temp_r0_53;
+                                    ((struct PlayerD368 *)arg0)->f24 = (u16) temp_r0_53;
+                                    sp130 = 0;
+                                    sp134 = 0;
+                                    ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                }
+                                break;
+                            case 4:
+                                *sp1C8 += 1;
+                                ((struct PlayerD368 *)arg0)->f20 = 5U;
+                                d368_sub_0801551C();
+                                break;
                             }
                             break;
                         case 7:                     /* switch 7 */

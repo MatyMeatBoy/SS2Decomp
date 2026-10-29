@@ -112,7 +112,46 @@ INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08049EBC);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A188);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A478);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A89C);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804AE48);
+struct T49TaskAE48 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
+extern u8 *t49_gsAE48 asm("gUnk_03005CF4");
+extern void t49_cbAE48(void) asm("sub_080567D4");
+static inline void t49_startAE48(void *callback, u32 arg)
+{
+    struct T49TaskAE48 *task = (struct T49TaskAE48 *)(t49_gsAE48 + 0xE34);
+    u32 i = 0;
+    u32 memory;
+    goto check;
+next:
+    i++;
+    task++;
+check:
+    if (i > 29) return;
+    if (sub_08000470((u32)task) != 0) goto next;
+    while ((task->memory = sub_08001494(0x400)) == 0) sub_080003F0();
+    memory = task->memory;
+    task->flags = 60;
+    task->callback = (u32)callback;
+    task->stack = memory + 0x3FC;
+    task->arg = 0;
+    sub_08000274(task, arg);
+}
+void sub_0804AE48(void)
+{
+    s32 zero;
+    t49_startAE48(t49_cbAE48, 0);
+    t49_startAE48(t49_cbAE48, 1);
+    zero = sub_0800CE30();
+    if (zero != 0) t49_gsAE48[0x1C1] = 0;
+    else t49_gsAE48[0x1B5] = zero;
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804AF80);
 extern u8 *t49_gsB054 asm("gUnk_03005CF4");
 extern void t49_spawnB054(void *, s32, s32) asm("sub_08068820");

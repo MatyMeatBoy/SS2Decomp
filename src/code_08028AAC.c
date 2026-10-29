@@ -2049,7 +2049,334 @@ found10:
         }
     }
 }
+extern void sub_0803C008(void);
+extern void sub_08031F28(void);
+extern void sub_080290E4(s32, s32);
+#ifdef NONMATCHING
+void sub_0802EA50(s32 arg0) {
+    s32 *var_r1;
+    u32 var_r2;
+    s32 *res;
+    s32 *res2;
+    s32 iVar2;
+    s32 dVar1;
+    s32 r;
+    u32 active;
+    s32 flag;
+    u8 *p;
+    u8 *p0, *pRead, *pWrite;
+    s32 raw;
+    u32 *flagdest;
+    u32 setmask;
+    struct Player *player;
+    s32 count;
+    u32 index;
+    s32 boolflag;
+    u32 one;
+    s32 *stateaddr;
+    u32 handle;
+    u8 saved;
+    s32 tally;
+    struct Player *first_player;
+    struct Player *second_player;
+    struct Player *last_player;
+
+
+    iVar2 = sub_080289C0(0x21, 0xB6, 0x87);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found1;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found1:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 0x14;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_0803C008;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found2;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found2:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    iVar2 = sub_080289C0(8, 0x38, 0x87);
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found3;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found3:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 0x14;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_08031F28;
+    var_r1 = (s32 *) (gUnk_03005CF4 + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found4;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found4:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    sub_0802939C(iVar2, 2);
+    active = sub_08002164();
+    if (sub_0800CE30()) p0 = (u8 *)(gUnk_03005CF4 + 0x1C5);
+    else p0 = (u8 *)(gUnk_03005CF4 + 0x1B9);
+    raw = *p0;
+    count = raw >> 3;
+    count = 1 & count;
+    if (count || active != 1) sub_08028AAC(6, 0x270F, 0x270F, 0);
+    if (arg0 != 0) {
+        sub_08028AAC(0, 0xB8, 0xA0, 0);
+        sub_080290E4(0, 4);
+    }
+    switch (arg0) {
+    case 1:
+    first_player = &gUnk_03003CE0[sub_080020F4()];
+    first_player->flags |= arg0;
+    sub_0800D0F4();
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+    tally = 0;
+    index = 0;
+    one = 1;
+    stateaddr = &gUnk_03005CF4;
+    do {
+        if (sub_0800CE30() != 0) {
+            if (!((one << index) & *(s32 *)(*stateaddr + 0x88))) goto no_bit;
+            goto increment;
+        }
+        if ((one << index) & *(s32 *)(*stateaddr + 0x84)) boolflag = 1;
+        else {
+no_bit:
+            boolflag = 0;
+        }
+        if (boolflag) {
+increment:
+            tally++;
+        }
+        index++;
+    } while (index <= 0xA);
+    count = tally;
+    if (sub_0800CE30()) pRead = (u8 *)(gUnk_03005CF4 + 0x1C0);
+    else pRead = (u8 *)(gUnk_03005CF4 + 0x1B4);
+    if (count != *pRead) {
+        switch (count) {
+        case 2:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401EA);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 3:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401EB);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 4:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401EC);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 5:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401ED);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 6:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401EE);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 7:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401EF);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 8:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401F0);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 9:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401F1);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 10:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401F2);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            break;
+        case 11:
+                while (sub_0805F184() != 0) sub_080003F0();
+            while (sub_0805EF90() != 0) sub_080003F0();
+            handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401F3);
+            while (sub_0805EEFC((void *)handle) == 0) {
+                if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+            if (!(gUnk_030027D0 & 0x20)) sub_08006D08(0x33);
+            if (sub_0800CE30()) {
+                flagdest = (u32 *)(gUnk_03005CF4 + 0x80);
+                setmask = 0x80000;
+                *flagdest = setmask | *flagdest;
+            } else {
+                flagdest = (u32 *)(gUnk_03005CF4 + 0x78);
+                setmask = 0x80000;
+                *flagdest = setmask | *flagdest;
+            }
+            break;
+        }
+        saved = count;
+        if (sub_0800CE30()) pWrite = (u8 *)(gUnk_03005CF4 + 0x1C0);
+        else pWrite = (u8 *)(gUnk_03005CF4 + 0x1B4);
+        *pWrite = saved;
+    }
+        goto cleanup;
+    case 2:
+        second_player = &gUnk_03003CE0[sub_080020F4()];
+        second_player->flags |= 1;
+        sub_0800D0F4();
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        handle = sub_0805DF38(1, 0xF, 2, 0, -1, 0x1401F4);
+        while (sub_0805EEFC((void *)handle) == 0) {
+            if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+cleanup:
+    last_player = &gUnk_03003CE0[sub_080020F4()];
+    last_player->flags &= ~1;
+    sub_0800D108();
+        break;
+    default:
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+        break;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802EA50);
+#endif
 extern void sub_0801AA34(s32);
 extern void sub_0802939C(s32, s32);
 extern void sub_0802F424(s32);
