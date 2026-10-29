@@ -3750,10 +3750,7 @@ block_1155:
                 }
                 switch (temp_r0_99) {               /* switch 17 */
                 case 0:                             /* switch 17 */
-block_1213:
-                    temp_r0_100 = d368_sub_0800CCCC();
-                    M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 4)) | (((s32) ((0 - temp_r0_100) | temp_r0_100) >> 0x1F) & 0x20));
-                    break;
+                    goto block_1213;
                 case 1:                             /* switch 17 */
                     if (((struct PlayerD368 *)arg0)->f10 != 5) {
 
@@ -3778,14 +3775,7 @@ block_1213:
                         ((union RecordD368 *)temp_r2_35)->w1_b14_n3.value = ((u32) (0)) >> 14;
                         temp_r3_24 = ((struct PlayerD368 *)arg0)->f144;
                         ((union RecordD368 *)temp_r3_24)->w1_b17_n3.value = M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x3C);
-block_1220:
-                        temp_r4_27 = *var_r5_10;
-                        temp_r0_102 = d368_sub_0800CCCC();
-                        M2C_FIELD(temp_r4_27, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(temp_r4_27, u8 *, 4)) | (((s32) ((0 - temp_r0_102) | temp_r0_102) >> 0x1F) & 0x20));
-                        var_r0_29 = d368_sub_0807A028(1);
-                        var_r3_7 = *var_r5_10;
-block_1221:
-                        ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u8) var_r0_29;
+                        goto block_1220;
                     }
                     break;
                 case 3:                             /* switch 17 */
@@ -3934,6 +3924,10 @@ block_1301:
                     }
                 }
                 break;
+block_1213:
+                temp_r0_100 = d368_sub_0800CCCC();
+                M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 4)) | (((s32) ((0 - temp_r0_100) | temp_r0_100) >> 0x1F) & 0x20));
+                break;
             case 8:                                 /* switch 16 */
                 temp_r2_40 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r2_40)->w0_b0_n4.value = temp_r3_8;
@@ -3975,7 +3969,15 @@ block_1301:
                 recordCallValue2 = d368_sub_0801DEB8();
                 temp_r3_41 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_41)->w1_b20_n5.value = recordCallValue2;
-                goto block_1220;
+block_1220:
+                temp_r4_27 = *var_r5_10;
+                temp_r0_102 = d368_sub_0800CCCC();
+                M2C_FIELD(temp_r4_27, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(temp_r4_27, u8 *, 4)) | (((s32) ((0 - temp_r0_102) | temp_r0_102) >> 0x1F) & 0x20));
+                var_r0_29 = d368_sub_0807A028(1);
+                var_r3_7 = *var_r5_10;
+block_1221:
+                ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = (u8) var_r0_29;
+                break;
             case 10:                                /* switch 16 */
                 temp_r2_44 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r2_44)->w0_b0_n4.value = temp_r3_8;
@@ -4494,30 +4496,8 @@ selectorDone49:
                             break;
                         case 2:                     /* switch 22 */
                             temp_r0_135 = ((struct PlayerD368 *)arg0)->f10;
-                            if (temp_r0_135 != 7) {
-                                if ((s32) temp_r0_135 <= 7) {
-                                    if (temp_r0_135 != 3) {
-
-                                    } else {
-                                        if (((u32) ((u32) M2C_FIELD(sp180, u16 *, 6) << 0x17) >> 0x1B) != 0) {
-                                            var_r1_18 = (u32) ((u32) M2C_FIELD(sp180, u16 *, 4) << 0x12) >> 0x18;
-                                            var_r2_12 = ((u32) ((u32) M2C_FIELD(sp180, u32 *, 4) << 0xF) >> 0x1D) | 0x8000;
-                                            var_r3_9 = M2C_FIELD(sp180, u8 *, 6);
-                                        } else {
-                                            var_r1_18 = (u32) ((u32) M2C_FIELD(sp180, u16 *, 4) << 0x12) >> 0x18;
-                                            var_r2_12 = (u32) ((u32) M2C_FIELD(sp180, u32 *, 4) << 0xF) >> 0x1D;
-                                            var_r3_9 = M2C_FIELD(sp180, u8 *, 6);
-                                        }
-                                        d368_sub_08076A88(((struct PlayerD368 *)arg0)->f0, var_r1_18, var_r2_12, (u32) (var_r3_9 << 0x1C) >> 0x1D);
-                                    }
-                                } else if (temp_r0_135 != 9) {
-
-                                } else {
-                                    var_r1_19 = 0x5011D;
-block_1438:
-                                    d368_sub_08065158(&sp10, var_r1_19, 0, -1, (0));
-                                }
-                            } else {
+                            switch (temp_r0_135) {
+                            case 7:
                                 if (((u32) ((u32) M2C_FIELD(sp180, u16 *, 6) << 0x17) >> 0x1B) != 0) {
                                     var_r1_20 = (u32) ((u32) M2C_FIELD(sp180, u16 *, 4) << 0x12) >> 0x18;
                                     var_r2_13 = ((u32) ((u32) M2C_FIELD(sp180, u32 *, 4) << 0xF) >> 0x1D) | 0x8000;
@@ -4528,6 +4508,22 @@ block_1438:
                                     var_r3_10 = M2C_FIELD(sp180, u8 *, 6);
                                 }
                                 d368_sub_080760E8(((struct PlayerD368 *)arg0)->f0, var_r1_20, var_r2_13, (u32) (var_r3_10 << 0x1C) >> 0x1D);
+                                break;
+                            case 3:
+                                        if (((u32) ((u32) M2C_FIELD(sp180, u16 *, 6) << 0x17) >> 0x1B) != 0) {
+                                            var_r1_18 = (u32) ((u32) M2C_FIELD(sp180, u16 *, 4) << 0x12) >> 0x18;
+                                            var_r2_12 = ((u32) ((u32) M2C_FIELD(sp180, u32 *, 4) << 0xF) >> 0x1D) | 0x8000;
+                                            var_r3_9 = M2C_FIELD(sp180, u8 *, 6);
+                                        } else {
+                                            var_r1_18 = (u32) ((u32) M2C_FIELD(sp180, u16 *, 4) << 0x12) >> 0x18;
+                                            var_r2_12 = (u32) ((u32) M2C_FIELD(sp180, u32 *, 4) << 0xF) >> 0x1D;
+                                            var_r3_9 = M2C_FIELD(sp180, u8 *, 6);
+                                        }
+                                        d368_sub_08076A88(((struct PlayerD368 *)arg0)->f0, var_r1_18, var_r2_12, (u32) (var_r3_9 << 0x1C) >> 0x1D);
+                                break;
+                            case 9:
+                                    var_r1_19 = 0x5011D;
+                                    goto block_1438;
                             }
                             break;
                         case 3:                     /* switch 22 */
@@ -4586,6 +4582,9 @@ block_1438:
                                 }
                                 d368_sub_08077444(((struct PlayerD368 *)arg0)->f0, var_r1_21, var_r2_14, var_r3_11, (var_r4_10));
                             }
+                            break;
+block_1438:
+                                    d368_sub_08065158(&sp10, var_r1_19, 0, -1, (0));
                             break;
                         case 8:                     /* switch 22 */
                             temp_r0_139 = ((struct PlayerD368 *)arg0)->f10;
@@ -4822,11 +4821,6 @@ block_1516:
                             d368_sub_08075494(((struct PlayerD368 *)arg0)->f0);
                         }
                         break;
-                    case 7:
-                        if ((s32) ((u32) M2C_FIELD(sp180, u8 *, 4) << 0x19) < 0) {
-                            d368_sub_080756EC(((struct PlayerD368 *)arg0)->f0);
-                        }
-                        break;
                     case 5:
                         if ((s32) ((u32) M2C_FIELD(sp180, u8 *, 4) << 0x19) < 0) {
                             temp_r0_153 = ((struct PlayerD368 *)arg0)->f10;
@@ -4847,6 +4841,11 @@ block_1516:
                                                     temp_r0_154 = (u8) M2C_FIELD(sp180, u8 *, 3) >> 4;
                                                     ((struct PlayerD368 *)arg0)->fB0 = (u16) temp_r0_154;
                                                     ((struct PlayerD368 *)arg0)->fB8 = (u16) temp_r0_154;
+                        }
+                        break;
+                    case 7:
+                        if ((s32) ((u32) M2C_FIELD(sp180, u8 *, 4) << 0x19) < 0) {
+                            d368_sub_080756EC(((struct PlayerD368 *)arg0)->f0);
                         }
                         break;
                     }

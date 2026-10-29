@@ -99,8 +99,103 @@ INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045F44);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08046490);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080469DC);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08046F28);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08047474);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804778C);
+struct Item47474 { u16 kind,id; u8 data[12]; };
+extern u8 *state47474 asm("gUnk_03005CF4");
+extern u8 *items47474 asm("gUnk_030034E0");
+extern void sub_0805990C(void);
+static inline u32 load47474(u16 *p) {register u32 v asm("r0")=*p;return v;}
+static inline u32 count47474(u32 n) { return n; }
+static inline u8 *find47474(u32 actor) { register u8 *p asm("r1");register u32 i asm("r3");register s32 raw asm("r0")=(s32)state47474;register u32 off asm("r3")=0x7A4;p=(u8 *)raw+off;i=0;do{if(*(u32 *)p==actor)return p;i++;p+=0x70;}while(i<=14);sub_080003F0();return 0; }
+void sub_08047474(u32 arg0) {
+ struct Item47474 cmd; u8 unused[16];
+ register u32 arg asm("r5")=arg0;
+ register s32 flag asm("r4"); register s32 offset asm("r1");
+ register struct Player *player asm("r1"); u8 *selected; register s32 count asm("r3"); register u32 i asm("r2"); struct Item47474 *item;
+ register u8 *data asm("r6"); u32 task; register u8 *entity asm("r1"); register u8 *found asm("r0"); register u32 j asm("r3"); register s32 left asm("r4"); u8 *slot; register u32 actor asm("r2"); u8 **itemsbase; register u32 v1 asm("r1"); register u32 v2 asm("r2"); register u8 *cmdaddr asm("r0"); register u8 *dataptr asm("r1"); register u32 off asm("r3"); register u32 n asm("r4");
+ register s32 raw asm("r0"); register u32 zero asm("r5");
+ offset=sub_080020F4();offset*=0x14C;player=(struct Player *)((u8 *)gUnk_03003CE0+offset);raw=player->flags;flag=1;player->flags=raw|flag;
+ sub_0800D0F4();sub_0802949C(arg,0);
+ if(sub_0800CE30()) selected=state47474+0x1C4;else {off=0x1B8;selected=state47474+off;}
+ raw=*selected;asm("" : "+r"(raw));raw>>=5;raw &= flag;
+ if(!raw) {
+ while(sub_0805F184())sub_080003F0();
+ while(sub_0805EF90())sub_080003F0();
+ task=sub_0805DF38(1,15,2,0,-1,0x14022B);
+ while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
+ count=0;i=0;item=(struct Item47474 *)(items47474+0x150);
+ do {if(load47474(&item->kind)==1 && item->id==0x2A)count++;item++;i++;}while(i<=24);
+ if(count>0) {
+ actor=arg;flag=3;if(actor>0x100000) {
+ found=find47474(actor);data=cmd.data;
+ if(found) *(u16 *)(found+0x42)=flag;
+ } else if(arg) {actor=arg-1;data=cmd.data;if(actor<=4){register u8 **base asm("r1")=(u8 **)&gUnk_030056F4;raw=actor*0x2E0;base=(u8 **)((u8 *)*base+raw);sub_08019EB8(*(u16 *)((u8 *)base+2),3);}}
+ else {raw=sub_080020F4()*0x14C;{register u8 *base asm("r1")=(u8 *)gUnk_03003CE0;raw+=(s32)base;v1=0x11E;raw+=v1;*(u16 *)raw=flag;}data=cmd.data;}
+ while(sub_0805F184())sub_080003F0();
+ while(sub_0805EF90())sub_080003F0();
+ task=sub_0805DF38(1,15,2,0,-1,0x14022D);
+ while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
+ left=1;j=0;itemsbase=&items47474;asm("" : "+r"(itemsbase));zero=0;
+ loopRemove:raw=(s32)*itemsbase;asm("" : "+r"(raw));slot=(u8 *)raw+j*16;
+ if(*(u16 *)(slot+0x150)!=1 || *(u16 *)(slot+0x152)!=0x2A || (left--,*(u16 *)(slot+0x150)=zero,*(u16 *)(slot+0x152)=zero,left!=0)) {j++;if(j<=24)goto loopRemove;}
+
+ v1=1;v2=0x2B;cmdaddr=(u8 *)&cmd;*(u16 *)cmdaddr=v1;*(u16 *)(cmdaddr+2)=v2;
+ n=0;dataptr=data;v2=0;do{dataptr[n]=v2;n++;}while(n<=11);
+ n=0;do{sub_0805AB20(&cmd);n++;}while(n<count47474(1));
+ sub_08068070((u32)sub_0805990C,13);if(!(gUnk_030027D0&0x20))sub_08006D08(0x33);
+ while(sub_0805F184())sub_080003F0();
+ while(sub_0805EF90())sub_080003F0();
+ task=sub_0805DF38(1,15,2,0,-1,0x14022E);
+ while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
+ }
+ } else {
+ while(sub_0805F184())sub_080003F0();
+ while(sub_0805EF90())sub_080003F0();
+ task=sub_0805DF38(1,15,2,0,-1,0x140230);
+ while(!sub_0805EEFC((void *)task)){if(sub_0800CDF8()){sub_0805EFBC();break;}sub_080003F0();}
+ }
+ {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
+}
+struct Camera778C { u8 pad[0x80]; s16 x,y; };
+struct Task778C { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
+extern u8 *state778C asm("gUnk_03005CF4");
+extern void camera778C(s32,s32) asm("sub_0800BB80");
+extern void sub_08047970(void);
+static inline u32 bool778C(u8 *base, u32 *unused) { register u32 bit asm("r4"); register u32 value asm("r0");bit=1;value=*(u32 *)(base+0x38);value &= bit;if(value)value=1;return value; }
+void sub_0804778C(void) {
+ volatile s32 out[2]; s32 sx,sy; register s32 i asm("r4"); register s32 step asm("sl"); register s32 *py asm("r5");
+ union { s32 all; struct { u16 low; s16 high; } half; } tx,ty;
+ struct Task778C *t; u32 n; register u32 j asm("r3"); register u8 *p asm("r2"); s32 flag; register s32 mask asm("r4"); register s32 offset asm("r1"); struct Player *player; register u32 cb asm("r6"); register u32 one asm("r6"); register u32 *bits asm("r5"); register u32 zero asm("r4"); register s32 raw asm("r0"); register s32 bit asm("r1");
+ mask=1;flag=bool778C(state778C,0);
+ if(flag) goto already;
+ offset=sub_080020F4();offset*=0x14C;player=(struct Player *)((u8 *)gUnk_03003CE0+offset);player->flags |= mask;
+ sub_0800D0F4();
+ step=0x400; sx=((struct Camera778C *)&gUnk_03003170)->x; sy=((struct Camera778C *)&gUnk_03003170)->y;
+ i=0; py=&out[1]; tx.all=0; ty.all=0xFF880000;
+ do {sub_080659F4(&out[0],sx,tx.half.high,i);sub_080659F4(py,sy,ty.half.high,i);camera778C((s16)out[0],(s16)out[1]);sub_080003F0();i+=step;}while(i<=0x400);
+ if(sub_0800CC98()==0) {
+ switch(sub_0801AB24()) {case 0:sub_080576A8();break;case 1:sub_0801AB50(6);break;case 2:sub_0801AB90(6);break;}
+ while(sub_0801AAE0()==0)sub_080003F0();
+ }
+ cb=(u32)sub_08047970;t=(struct Task778C *)(state778C+0xE34); n=0; goto check;
+ next: n++;t++;
+ check: if(n>29)goto done;
+ if(sub_08000470((u32)t)!=0)goto next;
+ goto alloc;
+ retry:sub_080003F0();
+ alloc:t->f20=sub_08001494(0x400);if(t->f20==0)goto retry;
+ t->f8=0x3C;t->fC=cb;t->f10=t->f20+0x3FC;t->f24=0;sub_08000274((u32)t,0);
+ done:p=state778C;bit=1;raw=*(s32 *)(p+0x38);*(s32 *)(p+0x38)=raw|bit;goto end;
+ already:
+ if(sub_0800CC98()==0) {
+ switch(sub_0801AB24()) {case 0:sub_080576A8();break;case 1:sub_0801AB50(6);break;case 2:sub_0801AB90(6);break;}
+ while(sub_0801AAE0()==0)sub_080003F0();
+ }
+ p=gUnk_030056F4;j=0;bits=(u32 *)&gUnk_030056FC;one=1;zero=0;
+ do {bit=one<<j;raw=*bits;raw &= bit;if((raw)&&*(u16 *)(p+0xC)==0xC)*(u16 *)(p+0xC)=zero;j++;raw=0x2E0;p+=raw;}while(j<=4);
+ sub_08019F04();
+ end:;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08047970);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08047B2C);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080480E8);
@@ -145,13 +240,16 @@ void sub_08049DC4(void) {
     }
 }
 
-#ifdef NONMATCHING
 struct T48TileE { u8 pad[0x80]; s16 x,y; };
 extern struct T48TileE t48tileE asm("gUnk_03003170");
 extern u8 *t48stateE asm("gUnk_03005CF4");
 extern void t48bbE(s32,s32) asm("sub_0800BB80");
 static inline void t48moveE(s16 step,s16 tx,s16 ty) {
- s32 a,b; s32 delta=step; s32 x=t48tileE.x,y=t48tileE.y; register s32 i asm("r4");
+ s32 a,b; register s32 delta asm("r9")=step; s32 x=t48tileE.x,y=t48tileE.y; register s32 i asm("r4");
+ i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbE((s16)a,(s16)b);sub_080003F0();i+=delta;asm("" : : "r"(i) : "sl");}while(i<=0x400);
+}
+static inline void t48moveFirstE(s16 step,s16 tx,s16 ty) {
+ s32 a,b; register s32 delta asm("sl")=step; s32 x=t48tileE.x,y=t48tileE.y; register s32 i asm("r4");
  i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbE((s16)a,(s16)b);sub_080003F0();i+=delta;asm("" : : "r"(i));}while(i<=0x400);
 }
 static inline void t48musicE(u32 track) { register u32 v asm("r1")=track; asm("" : "+r"(v)); gUnk_03005CF8=v; { register u32 bits asm("r1"); register u32 flags asm("r0")=gUnk_030027D0; asm("" : "+r"(flags)); bits=32; asm("" : "+r"(bits)); if(!(flags&bits)) sub_08006CB4(track); } }
@@ -168,7 +266,7 @@ void sub_08049EBC(void) {
  if(sub_0800CC98()==0) { switch(sub_0801AB24()) { case 0: sub_080576A8(); break; case 1: sub_0801AB50(6); break; case 2: sub_0801AB90(6); break; } while(sub_0801AAE0()==0) sub_080003F0(); }
  t48musicE(217);
  n=20; goto wait2; dec2: n--; if(n==0) goto end2; wait2: sub_080003F0(); if(sub_080021A8()==0) goto dec2; end2:;
- t48moveE(17,-off,-108);
+ t48moveFirstE(17,-off,-108);
  gp=t48stateE; asm("" : "+r"(gp)); mask=64; if(!(*(u32 *)(gp+0x38)&mask)) { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140030); }
  else { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140031); }
  asm("" : "+r"(req3));
@@ -180,9 +278,8 @@ void sub_08049EBC(void) {
  idx=sub_080020F4()*0x14C; asm("" : "+r"(idx)); p=(u8 *)gUnk_03003CE0+idx; *(u32 *)(p+0x30)&=~1;
  sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08049EBC);
-#endif
+
+
 struct T48TileA {u8 pad[128];s16 x,y;};
 struct T48TaskA {u32 f0,f4,f8;void (*fc)(void);u8 *f10;u32 f14,f18,f1c;u8 *f20;u32 f24;};
 extern struct T48TileA t48tileA asm("gUnk_03003170");
