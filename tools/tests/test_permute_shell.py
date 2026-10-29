@@ -36,11 +36,16 @@ class PermuterWrapperTests(unittest.TestCase):
              mock.patch.object(decomp, 'module_flags', return_value=decomp.CC1FLAGS), \
              mock.patch.object(decomp, 'assemble_orig', return_value='test_target'), \
              mock.patch.object(permute.subprocess, 'run', side_effect=run), \
+             mock.patch.object(permute, 'preserve_constraints', side_effect=lambda text: text), \
              mock.patch.dict(os.environ, {}, clear=False):
             permute.setup('test_target', str(candidate), str(root / 'case'))
-        control = permute.validate_control(str(root / 'case'), str(candidate))
-        self.assertTrue(control['entire_object_equal'])
-        shutil.copy2(root / 'case/baseline.o', root / 'actual.o')
+        # These tests cover the shell/compiler and real alias relocations even
+        # when the optional engine is absent. AST controls live in the guarded
+        # test_permute_constraints suite and exercise preservation separately.
+        result = subprocess.run(['sh', (root / 'case/compile.sh').as_posix(),
+                                 (root / 'case/base.c').as_posix(), '-o', (root / 'actual.o').as_posix()],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         error = decomp.compile_c(str(candidate), str(root / 'expected.o'), str(compiler), decomp.CC1FLAGS)
         self.assertFalse(error, error)
         self.assertEqual(decomp.normalized(str(root / 'actual.o'), 'test_target'),
