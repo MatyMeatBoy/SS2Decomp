@@ -822,8 +822,9 @@ extern s32 atan98F(s16,s32) asm("ArcTan2");
 s32 sub_08098F2C_impl(void) asm("sub_08098F2C");
 s32 sub_08098F2C_impl(void)
 {
+    extern u32 atanInputs98F(s32,s32) asm("ArcTan2");
     register u32 x asm("r4");
-    s32 y;
+    s32 y; register s32 firstY98F asm("r1");
     s32 player;
     void *entity;
     register u32 angle asm("r0");
@@ -832,19 +833,25 @@ s32 sub_08098F2C_impl(void)
     s32 result;
     struct Player98F *lastBase;
     x=(u32)((entity98F->x-*(s32 *)((u8 *)&gUnk_03003D6C+sub_080020F4()*0x14C))<<8)>>16;
-    y=entity98F->y-players98F[sub_080020F4()].y;
-    y=(y<<8)>>16;
+    firstY98F=entity98F->y-players98F[sub_080020F4()].y; asm("" : "+r"(firstY98F));
+    firstY98F=(u32)firstY98F<<8; asm("" : "+r"(firstY98F));
     x=(s16)x;
-    if(Sqrt(x*x+y*y)<=0x2F && sub_0800CDF8()==0 && sub_0800CCCC()==0 && sub_0800CD8C()==0 && entity98F->state!=0xB && !(players98F[sub_080020F4()].flags&0x2000) && players98F[sub_080020F4()].active!=0 && players98F[sub_080020F4()].state!=0xE && players98F[sub_080020F4()].state!=0xB && players98F[sub_080020F4()].state!=0xC && players98F[sub_080020F4()].seen[entity98F->index]!=entity98F->counter) {
+    if(Sqrt(({ register u32 squareX98F asm("r0"); squareX98F=x*x; firstY98F>>=16; squareX98F+=firstY98F*firstY98F; squareX98F; }))<=0x2F && sub_0800CDF8()==0 && sub_0800CCCC()==0 && sub_0800CD8C()==0 && entity98F->state!=0xB && !(players98F[sub_080020F4()].flags&0x2000) && players98F[sub_080020F4()].active!=0 && players98F[sub_080020F4()].state!=0xE && players98F[sub_080020F4()].state!=0xB && players98F[sub_080020F4()].state!=0xC && players98F[sub_080020F4()].seen[entity98F->index]!=entity98F->counter) {
         players98F[sub_080020F4()].state=0xA;
         players98F[sub_080020F4()].motion=0xFFFE;
         player=sub_080020F4();
         entity=entity98F;
-        players98F[player].angle=sub_0801ED8C(entity,&players98F[sub_080020F4()])+players98F[player].angle;
+        { register u32 delta98F asm("r0")=sub_0801ED8C(entity,&players98F[sub_080020F4()]);
+          register u16 *out98F asm("r1")=(u16 *)((u8 *)players98F+player*sizeof(struct Player98F));
+          register u32 old98F asm("r2");
+          asm("" : "+r"(out98F), "+r"(delta98F)); out98F=(u16 *)((u8 *)out98F+0x88); old98F=*out98F;
+          asm("" : "+r"(delta98F), "+r"(out98F), "+r"(old98F));
+          delta98F=delta98F+old98F; *out98F=delta98F; }
         players98F[sub_080020F4()].seen[entity98F->index]=entity98F->counter;
         x=(u32)((*(s32 *)((u8 *)&gUnk_03003D6C+sub_080020F4()*0x14C)-entity98F->x)<<8)>>16;
         y=(players98F[sub_080020F4()].y-entity98F->y)<<8;
-        angle=atan98F((s16)x,y>>16)<<16;
+        asm("" : "+r"(y)); x=(s16)x; asm("" : "+r"(x));
+        angle=atanInputs98F((s32)x,y>>16)<<16;
         asm("" : "+r"(angle));
         fraction=angle<<3;
         asm("" : "+r"(fraction), "+r"(angle));
