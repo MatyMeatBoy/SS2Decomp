@@ -735,14 +735,25 @@ finish:
     t070Flags[player]&=~(1<<bit);
 }
 #ifdef NONMATCHING
+struct T071Player {u16 id;u8 pad2[30];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 team;u8 pad69[89];u16 resource;u8 padC4[24];u32 counter;u8 padE0[4];u32 enemyHistory[5];u32 playerHistory[4];u8 pad108[64];u8 *sprite;};
+struct T071Enemy {u16 id,target;u8 pad4[4];s16 direction;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[52];u32 counter,lastHit; s16 owner;u8 pad5A[4];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[78];u8 threshold;u8 pad22C[180];};
+struct T071Args {u32 player,bit,target,value,unused,level;};
 struct T071Sprite { u32 f0,f4,f8,fC; u8 pad10[12]; u8 f1C,f1D; u8 pad1E[22]; };
-extern u8 t071Players[] asm("gUnk_03003CE0");
-extern u8 *t071Enemies asm("gUnk_030056F4");
-extern u32 t071Flags[] asm("gUnk_030063E0");
-extern u8 t071Costs[] asm("gUnk_084EBF1C");
-extern u8 t071Radius[] asm("gUnk_084EC17C");
-extern u8 t071Frames[] asm("gUnk_084790B4");
-extern u8 t071Offsets[] asm("gUnk_084EBEBC");
+/* local */ extern u8 t071Players[] asm("gUnk_03003CE0");
+/* local */ extern u8 *t071Enemies asm("gUnk_030056F4");
+/* local */ extern u32 t071Flags[] asm("gUnk_030063E0");
+/* local */ extern u8 t071Costs[] asm("gUnk_084EBF1C");
+/* local */ extern u8 t071Radius[] asm("gUnk_084EC17C");
+/* local */ extern u8 t071Frames[] asm("gUnk_084790B4");
+/* local */ extern u8 t071Offsets[] asm("gUnk_084EBEBC");
+/* local */ extern void t071Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+/* local */ extern void t071Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+/* local */ extern void t071Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+/* local */ extern void t071Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
+/* local */ extern s32 t071Effect(void *,void *,s16) asm("sub_0801FB14");
+/* local */ extern s16 t071Damage(void *,s32) asm("sub_08068F9C");
+/* local */ extern void t071Impact(void *,s32,s32) asm("sub_08079ED0");
+/* local */ extern void t071Draw(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
 void sub_0806ABC0(u8 *arg0) {
     struct T071Sprite sp10;
     s16 sp44;
@@ -751,6 +762,15 @@ void sub_0806ABC0(u8 *arg0) {
     s16 sp4A;
     s32 sp4C[2];
     s32 sp54;
+    register u8 *costBase asm("r3");
+    register s16 *costPtr asm("r2");
+    u32 costOffset;
+    u16 costDelta;
+    u32 contact;
+    u32 impact;
+    register s32 x asm("r10");
+    register s32 y asm("r9");
+    register u32 radius asm("r8");
     u16 i;
     u32 count;
     u8 *sp58;
@@ -784,23 +804,18 @@ void sub_0806ABC0(u8 *arg0) {
     s32 temp_r4_6;
     s32 temp_r5;
     s32 var_r0;
-    s32 var_r9_2;
-    s32 var_sl;
-    s32 var_sl_2;
     u16 temp_r0_2;
-    u16 temp_r0_3;
+    s32 temp_r0_3;
     u16 temp_r1_10;
-    u16 temp_r1_4;
+    s32 temp_r1_4;
     u16 temp_r1_9;
     u16 temp_r3;
     u16 temp_r3_3;
-    u16 temp_r8;
     u16 var_r0_2;
     u32 temp_r0;
     u32 temp_r1_6;
     u32 temp_r1_7;
     u32 temp_r1_8;
-    u32 var_r9;
     u8 temp_r1_11;
     u8 temp_r3_2;
     u8 var_r7;
@@ -816,10 +831,10 @@ void sub_0806ABC0(u8 *arg0) {
 
     sp58 = arg0;
     sp80 = sub_080020F4();
-    sp64 = (u32) (*(u16 *)((u8 *)arg0 + 0x8));
-    sp78 = (*(u32 *)((u8 *)sp58 + 0x0));
-    sp7C = (*(u32 *)((u8 *)sp58 + 0x4));
-    temp_r3 = (u16)(*(u32 *)((u8 *)sp58 + 0x14));
+    sp64 = (u32) ((u16)((struct T071Args *)arg0)->target);
+    sp78 = (((struct T071Args *)sp58)->player);
+    sp7C = (((struct T071Args *)sp58)->bit);
+    temp_r3 = (u16)(((struct T071Args *)sp58)->level);
     sp6C = (u32) temp_r3;
     sp70 = (s32) temp_r3;
     sp68 = (u32) temp_r3;
@@ -855,7 +870,7 @@ block_7:
         var_r0 = gUnk_030056FC & 1;
         sp8C = sp78 * 4;
 loop_11:
-        if ((var_r0 != 0) && ((*(u16 *)((u8 *)sp5C + 0x2)) == sp64)) {
+        if ((var_r0 != 0) && ((((struct T071Enemy *)sp5C)->target) == sp64)) {
             if ((u32) i > 4U) {
                 goto block_14;
             }
@@ -873,9 +888,9 @@ block_14:
     if (sp78 <= 3U) {
         temp_r1 = (0x14C * sp78) + t071Players;
         sp60 = temp_r1;
-        temp_r1_2 = (*(u8 * *)((u8 *)temp_r1 + 0x148));
-        var_sl = ((u16) (*(u16 *)((u8 *)temp_r1_2 + 0x0)) >> 4) << 8;
-        var_r9 = (u32) ((*(u16 *)((u8 *)temp_r1_2 + 0x2)) << 0x14) >> 0xC;
+        temp_r1_2 = (((struct T071Player *)temp_r1)->sprite);
+        x = ((u16) (*(u16 *)((u8 *)temp_r1_2 + 0x0)) >> 4) << 8;
+        y = (u32) ((*(u16 *)((u8 *)temp_r1_2 + 0x2)) << 0x14) >> 0xC;
         temp_r0 = (u8) (*(u8 *)((u8 *)temp_r1_2 + 0x3)) >> 4;
         sp74 = temp_r0;
         count = gUnk_0847AD0A[temp_r0];
@@ -883,19 +898,19 @@ block_14:
     }
     temp_r1_3 = t071Enemies + ((sp78 * 0x2E0) + 0xFFFFF480);
     sp5C = temp_r1_3;
-    var_sl = (*(u32 *)((u8 *)temp_r1_3 + 0x14));
-    var_r9 = (*(u32 *)((u8 *)temp_r1_3 + 0x18));
-    sp74 = (u32) (*(s16 *)((u8 *)temp_r1_3 + 0x8));
-    count = gUnk_0847AD0A[(*(s16 *)((u8 *)sp5C + 0x8))];
-    if ((u32) (*(u16 *)((u8 *)sp5C + 0x6A)) < (u32) (*(u8 *)((u8 *)sp5C + 0x22B))) {
+    x = (((struct T071Enemy *)temp_r1_3)->x);
+    y = (((struct T071Enemy *)temp_r1_3)->y);
+    sp74 = (u32) (((struct T071Enemy *)temp_r1_3)->direction);
+    count = gUnk_0847AD0A[(((struct T071Enemy *)sp5C)->direction)];
+    if ((u32) (((struct T071Enemy *)sp5C)->wait) < (u32) (((struct T071Enemy *)sp5C)->threshold)) {
         temp_r4 = (s32 *)((u8 *)t071Flags+sp8C);
 loop_19:
-        if ((sub_08056E90() != 0) || (sub_0800BA6C() == 0) || (temp_r0_2 = (*(u16 *)((u8 *)sp5C + 0xC)), (temp_r0_2 == 0xA)) || (temp_r0_2 == 0xB)) {
+        if ((sub_08056E90() != 0) || (sub_0800BA6C() == 0) || (temp_r0_2 = (((struct T071Enemy *)sp5C)->state), (temp_r0_2 == 0xA)) || (temp_r0_2 == 0xB)) {
             *temp_r4 &= ~(1 << sp7C);
             return;
         }
         sub_080003F0();
-        if ((u32) (*(u16 *)((u8 *)sp5C + 0x6A)) >= (u32) (*(u8 *)((u8 *)sp5C + 0x22B))) {
+        if ((u32) (((struct T071Enemy *)sp5C)->wait) >= (u32) (((struct T071Enemy *)sp5C)->threshold)) {
             goto block_25;
         }
         goto loop_19;
@@ -903,30 +918,34 @@ loop_19:
 block_25:
     if (sub_080020F4() != sp78) {
         if (sp78 > 3U) {
-            temp_r0_3 = (*(u16 *)((u8 *)sp5C + 0x5E)) - *(s16 *)((sp6C * 2) + ((*(u32 *)((u8 *)sp58 + 0xC)) * 0x18) + (t071Costs + 6));
-            (*(u16 *)((u8 *)sp5C + 0x5E)) = temp_r0_3;
+            costBase=t071Costs;
+            costOffset=sp6C*2+((struct T071Args *)sp58)->value*24;
+            costBase+=6; costPtr=(s16 *)(costOffset+(u32)costBase);
+            temp_r0_3=((struct T071Enemy *)sp5C)->resource-*costPtr;
+            (((struct T071Enemy *)sp5C)->resource) = temp_r0_3;
             if ((s32) (temp_r0_3 << 0x10) < 0) {
                 temp_r2 = (s32 *)((u8 *)t071Flags+sp8C);
                 *temp_r2 &= ~(1 << sp7C);
-                (*(u16 *)((u8 *)sp5C + 0x5E)) = 0U;
+                (((struct T071Enemy *)sp5C)->resource) = 0U;
                 return;
             }
         }
         goto block_31;
     }
     temp_r4_2 = (0x14C * sub_080020F4()) + t071Players;
-    temp_r1_4 = (*(u16 *)((u8 *)temp_r4_2 + 0xC2)) - (u16) (sub_0806898C((*(u32 *)((u8 *)sp58 + 0xC)), (s32) (*(u32 *)((u8 *)sp58 + 0x14))) - 1);
-    (*(u16 *)((u8 *)temp_r4_2 + 0xC2)) = temp_r1_4;
+    costDelta=sub_0806898C(((struct T071Args *)sp58)->value,((struct T071Args *)sp58)->level)-1;
+    temp_r1_4=((struct T071Player *)temp_r4_2)->resource-costDelta;
+    (((struct T071Player *)temp_r4_2)->resource) = temp_r1_4;
     if ((s32) (temp_r1_4 << 0x10) < 0) {
-        (*(u16 *)((u8 *)temp_r4_2 + 0xC2)) = 0U;
+        (((struct T071Player *)temp_r4_2)->resource) = 0U;
     }
 block_31:
     if ((sub_080020F4() == sp78) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
         sub_0805865C(sp6C + 0x147);
     }
     temp_r1_5 = (s16) count;
-    var_sl_2 = var_sl + (gUnk_080B9704[temp_r1_5 + 0x40] * 4);
-    var_r9_2 = var_r9 + (gUnk_080B9704[temp_r1_5] * 4);
+    x = x + (gUnk_080B9704[temp_r1_5 + 0x40] * 4);
+    y = y + (gUnk_080B9704[temp_r1_5] * 4);
     sp90 = count << 0x10;
     if (sp6C <= 4U) {
         t071Init(&sp10, 0x50051, 8, -1,0);
@@ -945,9 +964,10 @@ block_31:
     sp48 = 0;
     sp4A = 0;
     sp68 = (u32) ((sp68 << 0x13) + 0x140000) >> 0x10;
-    temp_r8 = *(u16 *)(((s32) (*(u32 *)((u8 *)sp58 + 0x14)) * 2) + t071Radius);
+    radius = *(u16 *)(((s32) (((struct T071Args *)sp58)->level) * 2) + t071Radius);
     sp84 = sp90;
     sp88 = sp90 >> 0x14;
+    impact=0;
 loop_122:
     temp_r1_6 = sp68;
     sp68 = (u32) (u16) (temp_r1_6 - 1);
@@ -955,40 +975,41 @@ loop_122:
         if (sp78 != sub_080020F4()) {
             goto block_42;
         }
-        if (((u32) (u16) ((*(u16 *)((u8 *)sp60 + 0x20)) - 0xB) > 1U) && (sub_0800D11C() == 0)) {
+        if (((u32) (u16) ((((struct T071Player *)sp60)->state) - 0xB) > 1U) && (sub_0800D11C() == 0)) {
 block_42:
+            contact=0;
             if (sp64 > 3U) {
                 i = 0;
 loop_44:
                 if (gUnk_030056FC & (1 << i)) {
                     temp_r4_3 = t071Enemies + (i * 0x2E0);
-                    if ((*(u8 *)((u8 *)temp_r4_3 + 0x1DC)) != 0) {
-                        sp44 = (s16) ((u32) ((*(u32 *)((u8 *)temp_r4_3 + 0x14)) - var_sl_2) >> 8);
-                        temp_r1_7 = (u32) (((*(u32 *)((u8 *)temp_r4_3 + 0x18)) - var_r9_2) << 8) >> 0x10;
+                    if ((((struct T071Enemy *)temp_r4_3)->active) != 0) {
+                        sp44 = (s16) ((u32) ((((struct T071Enemy *)temp_r4_3)->x) - x) >> 8);
+                        temp_r1_7 = (u32) (((((struct T071Enemy *)temp_r4_3)->y) - y) << 8) >> 0x10;
                         sp46 = (u16) temp_r1_7;
                         var_r0_3 = sp44;
                         if ((s32) var_r0_3 < 0) {
                             var_r0_3 = 0 - var_r0_3;
                         }
-                        if ((s32) var_r0_3 < (s32) temp_r8) {
+                        if ((s32) var_r0_3 < (s32) radius) {
                             var_r0_4 = (s16) temp_r1_7;
                             if ((s32) var_r0_4 < 0) {
                                 var_r0_4 = 0 - var_r0_4;
                             }
-                            if ((s32) var_r0_4 < (s32) temp_r8) {
-                                temp_r1_8 = (*(u32 *)((u8 *)sp58 + 0x0));
+                            if ((s32) var_r0_4 < (s32) radius) {
+                                temp_r1_8 = (((struct T071Args *)sp58)->player);
                                 if (temp_r1_8 <= 3U) {
                                     if (sp80 == temp_r1_8) {
-                                        if (((*(u16 *)((u8 *)temp_r4_3 + 0xC)) != 0xB) && ((*(u32 *)((u8 *)temp_r4_3 + 0x54)) != (*(u32 *)((u8 *)sp60 + 0xDC)))) {
-                                            goto block_130;
+                                        if (((((struct T071Enemy *)temp_r4_3)->state) != 0xB) && ((((struct T071Enemy *)temp_r4_3)->lastHit) != (((struct T071Player *)sp60)->counter))) {
+                                            contact=1; goto block_64;
                                         }
                                         goto block_63;
                                     }
-                                    (*(s16 *)((u8 *)temp_r4_3 + 0x58)) = (s16) temp_r1_8;
+                                    (((struct T071Enemy *)temp_r4_3)->owner) = (s16) temp_r1_8;
                                     goto block_63;
                                 }
-                                if ((sub_08002204() != 0) && ((*(u16 *)((u8 *)temp_r4_3 + 0x0)) != ((*(u32 *)((u8 *)sp58 + 0x0)) - 4)) && ((*(u16 *)((u8 *)temp_r4_3 + 0xC)) != 0xB) && ((*(u32 *)((u8 *)temp_r4_3 + 0x54)) != (*(u32 *)((u8 *)sp60 + 0xDC)))) {
-                                    goto block_130;
+                                if ((sub_08002204() != 0) && ((((struct T071Enemy *)temp_r4_3)->id) != ((((struct T071Args *)sp58)->player) - 4)) && ((((struct T071Enemy *)temp_r4_3)->state) != 0xB) && ((((struct T071Enemy *)temp_r4_3)->lastHit) != (((struct T071Player *)sp60)->counter))) {
+                                    contact=1; goto block_64;
                                 }
                                 goto block_63;
                             }
@@ -1005,35 +1026,36 @@ block_63:
                 goto loop_44;
             }
 block_64:
-            if (0 != 0) {
-                goto block_130;
+            if (contact != 0) {
+                impact=1; goto block_129;
             }
+            contact=0;
             count = sub_08002164();
-            if ((u32) (*(u32 *)((u8 *)sp58 + 0x0)) <= 3U) {
+            if ((u32) (((struct T071Args *)sp58)->player) <= 3U) {
                 i = 0;
                 if (count <= 0U) {
                     goto block_102;
                 }
 loop_70:
                 temp_r4_4 = (0x14C * i) + t071Players;
-                temp_r3_2 = (*(u8 *)((u8 *)temp_r4_4 + 0x68));
-                if (temp_r3_2 != (*(u8 *)((u8 *)sp60 + 0x68))) {
-                    temp_r2_2 = (*(u8 * *)((u8 *)temp_r4_4 + 0x148));
+                temp_r3_2 = (((struct T071Player *)temp_r4_4)->team);
+                if (temp_r3_2 != (((struct T071Player *)sp60)->team)) {
+                    temp_r2_2 = (((struct T071Player *)temp_r4_4)->sprite);
                     if ((((u32) ((*(u16 *)((u8 *)temp_r2_2 + 0x0)) << 0x1C) >> 0x1C) != 0xE) && (temp_r3_2 != 0)) {
-                        sp44 = ((u16) (*(u16 *)((u8 *)temp_r2_2 + 0x0)) >> 4) - (var_sl_2 >> 8);
-                        temp_r1_9 = ((u32) ((*(u16 *)((u8 *)temp_r2_2 + 0x2)) << 0x14) >> 0x14) - (var_r9_2 >> 8);
+                        sp44 = ((u16) (*(u16 *)((u8 *)temp_r2_2 + 0x0)) >> 4) - (x >> 8);
+                        temp_r1_9 = ((u32) ((*(u16 *)((u8 *)temp_r2_2 + 0x2)) << 0x14) >> 0x14) - (y >> 8);
                         sp46 = temp_r1_9;
                         var_r0_5 = sp44;
                         if ((s32) var_r0_5 < 0) {
                             var_r0_5 = 0 - var_r0_5;
                         }
-                        if ((s32) var_r0_5 < (s32) temp_r8) {
+                        if ((s32) var_r0_5 < (s32) radius) {
                             var_r0_6 = (s16) temp_r1_9;
                             if ((s32) var_r0_6 < 0) {
                                 var_r0_6 = 0 - var_r0_6;
                             }
-                            if (((s32) var_r0_6 < (s32) temp_r8) && (sp80 == i) && ((*(u16 *)((u8 *)temp_r4_4 + 0x20)) != 0xB) && (*(u32 *)(temp_r4_4 + 0xF8 + ((*(u16 *)((u8 *)sp60 + 0x0)) * 4)) != (*(u32 *)((u8 *)sp60 + 0xDC)))) {
-                                goto block_130;
+                            if (((s32) var_r0_6 < (s32) radius) && (sp80 == i) && ((((struct T071Player *)temp_r4_4)->state) != 0xB) && (*(u32 *)(temp_r4_4 + 0xF8 + ((((struct T071Player *)sp60)->id) * 4)) != (((struct T071Player *)sp60)->counter))) {
+                                contact=1; goto block_102;
                             }
                             goto block_83;
                         }
@@ -1051,25 +1073,25 @@ block_83:
             if (count > 0U) {
 loop_87:
                 temp_r4_5 = (0x14C * i) + t071Players;
-                if (!((*(u32 *)((u8 *)temp_r4_5 + 0x30)) & 0x2000)) {
-                    temp_r2_3 = (*(u8 * *)((u8 *)temp_r4_5 + 0x148));
-                    if ((((u32) ((*(u16 *)((u8 *)temp_r2_3 + 0x0)) << 0x1C) >> 0x1C) != 0xE) && ((*(u8 *)((u8 *)temp_r4_5 + 0x68)) != 0)) {
-                        temp_r3_3 = (*(u16 *)((u8 *)temp_r4_5 + 0x20));
+                if (!((((struct T071Player *)temp_r4_5)->flags) & 0x2000)) {
+                    temp_r2_3 = (((struct T071Player *)temp_r4_5)->sprite);
+                    if ((((u32) ((*(u16 *)((u8 *)temp_r2_3 + 0x0)) << 0x1C) >> 0x1C) != 0xE) && ((((struct T071Player *)temp_r4_5)->team) != 0)) {
+                        temp_r3_3 = (((struct T071Player *)temp_r4_5)->state);
                         if (temp_r3_3 != 0xC) {
-                            sp44 = ((u16) (*(u16 *)((u8 *)temp_r2_3 + 0x0)) >> 4) - (var_sl_2 >> 8);
-                            temp_r1_10 = ((u32) ((*(u16 *)((u8 *)temp_r2_3 + 0x2)) << 0x14) >> 0x14) - (var_r9_2 >> 8);
+                            sp44 = ((u16) (*(u16 *)((u8 *)temp_r2_3 + 0x0)) >> 4) - (x >> 8);
+                            temp_r1_10 = ((u32) ((*(u16 *)((u8 *)temp_r2_3 + 0x2)) << 0x14) >> 0x14) - (y >> 8);
                             sp46 = temp_r1_10;
                             var_r0_7 = sp44;
                             if ((s32) var_r0_7 < 0) {
                                 var_r0_7 = 0 - var_r0_7;
                             }
-                            if ((s32) var_r0_7 < (s32) temp_r8) {
+                            if ((s32) var_r0_7 < (s32) radius) {
                                 var_r0_8 = (s16) temp_r1_10;
                                 if ((s32) var_r0_8 < 0) {
                                     var_r0_8 = 0 - var_r0_8;
                                 }
-                                if (((s32) var_r0_8 < (s32) temp_r8) && (sp80 == i) && (temp_r3_3 != 0xB) && (*(u32 *)(temp_r4_5 + 0xE4 + ((*(u16 *)((u8 *)sp5C + 0x0)) * 4)) != (*(u32 *)((u8 *)sp5C + 0x50)))) {
-                                    goto block_130;
+                                if (((s32) var_r0_8 < (s32) radius) && (sp80 == i) && (temp_r3_3 != 0xB) && (*(u32 *)(temp_r4_5 + 0xE4 + ((((struct T071Enemy *)sp5C)->id) * 4)) != (((struct T071Enemy *)sp5C)->counter))) {
+                                    contact=1; goto block_102;
                                 }
                                 goto block_101;
                             }
@@ -1085,27 +1107,27 @@ block_101:
                 goto loop_87;
             }
 block_102:
-            if (0 != 0) {
-                goto block_130;
+            if (contact != 0) {
+                impact=1; goto block_129;
             }
-            temp_r1_11 = (u8) sub_0800AE50(var_sl_2, var_r9_2, 0U);
+            temp_r1_11 = (u8) sub_0800AE50(x, y, 0U);
             if ((0xF & temp_r1_11) && !(0x10 & temp_r1_11)) {
-                t071Spawn(var_sl_2,var_r9_2,sp78,0xD,sp70);
-                goto block_130;
+                t071Spawn(x,y,sp78,0xD,sp70);
+                impact=1; goto block_129;
             }
             if (sp78 == sp80) {
-                sp4C[0] = var_sl_2;
-                sp4C[1] = var_r9_2;
+                sp4C[0] = x;
+                sp4C[1] = y;
                 sp54 = 0x80008;
                 if (t071Effect(sp4C, &sp54, t071Damage(sp58, 0)) != 0) {
-                    goto block_130;
+                    impact=1; goto block_129;
                 }
             }
             temp_r1_12 = sp84 >> 0x10;
-            var_sl_2 += gUnk_080B9704[temp_r1_12 + 0x40] * 2;
-            var_r9_2 += gUnk_080B9704[temp_r1_12] * 2;
-            temp_r5 = var_sl_2 >> 8;
-            temp_r4_6 = var_r9_2 >> 8;
+            x += gUnk_080B9704[temp_r1_12 + 0x40] * 2;
+            y += gUnk_080B9704[temp_r1_12] * 2;
+            temp_r5 = x >> 8;
+            temp_r4_6 = y >> 8;
             t071Coords((s16)temp_r5,(s16)temp_r4_6,&sp44,&sp46,0x30,0);
             var_r7 = (u8) sub_0800BC44((u32) temp_r5, (u32) temp_r4_6, 0U);
             t071Animate(&sp10,(u16)(sp6C+*(u8 *)(sp88+t071Frames)),&sp48,&sp4A,1);
@@ -1127,13 +1149,14 @@ block_102:
         goto block_129;
     }
 block_129:
-    if (0 != 0) {
-block_130:
+    if (impact != 0) {
         temp_r1_13 = sp90 >> 0x10;
-        t071Impact(sp58, var_sl_2 + (gUnk_080B9704[temp_r1_13 + 0x40] * 2), var_r9_2 + (gUnk_080B9704[temp_r1_13] * 2));
+        x+=gUnk_080B9704[temp_r1_13+0x40]*2;
+        y+=gUnk_080B9704[temp_r1_13]*2;
+        t071Impact(sp58,x,y);
     }
     if ((sp78 <= 3U) && (sp78 != sp80)) {
-        (*(u32 *)((u8 *)sp60 + 0xDC)) = (s32) ((*(u32 *)((u8 *)sp60 + 0xDC)) + 1);
+        (((struct T071Player *)sp60)->counter) = (s32) ((((struct T071Player *)sp60)->counter) + 1);
     }
     temp_r2_5 = (s32 *)((u8 *)t071Flags+sp8C);
     *temp_r2_5 &= ~(1 << sp7C);
@@ -3039,18 +3062,33 @@ extern struct T072Player t072Players[] asm("gUnk_03003CE0");
 extern u32 t072Flags[] asm("gUnk_030063E0");
 void sub_0806D7EC(struct T072Args *arg) {
     u8 list[4];
-    u32 x, y;
-    u32 bit;
-    u32 offset;
-    u16 level, range, count, i;
-    u32 player;
+    u32 x;
+    u32 y;
     s32 local;
-    struct T072Player *p, *other, *costPlayer; u16 *wait;
-    struct T072Effect *e, *start;
+    u32 player;
+    u32 bit;
+    u16 level;
+    u16 range;
+    u16 i;
+    u16 j;
+    u16 count;
+    struct T072Player *p;
+    struct T072Player *q;
+    struct T072Player *other;
+    struct T072Effect *start;
+    struct T072Effect *e;
+    struct T072Effect *e2;
     u16 *sprite;
-    u16 dx, dy, cost;
-    s32 ax, ay, limit;
-    s32 duration, amount;
+    u16 dx;
+    u16 dy;
+    u16 cost;
+    s32 ax;
+    s32 ay;
+    s32 limit;
+    u32 found;
+    s32 duration;
+    s32 amount;
+
     local = sub_080020F4();
     player = arg->player;
     bit = arg->bit;
@@ -3058,111 +3096,114 @@ void sub_0806D7EC(struct T072Args *arg) {
     range = level;
     if (player <= 3) p = &t072Players[player];
     if (local == player) {
-        costPlayer = &t072Players[sub_080020F4()];
+        q = &t072Players[sub_080020F4()];
         cost = sub_0806898C(arg->value, arg->level) - 1;
-        costPlayer->resource -= cost;
-        if (costPlayer->resource < 0) costPlayer->resource = 0;
+        q->resource -= cost;
+        if (q->resource < 0) q->resource = 0;
     }
-    offset = player * 4;
-    wait = &p->wait;
-    while (*wait <= 6) {
-        if (p->state == 10) goto finish;
+    while (p->wait <= 6) {
+        if (p->state == 10) {
+            t072Flags[player] &= ~(1 << bit);
+            return;
+        }
         sub_080003F0();
     }
     if (local == player && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x168);
-    sprite = p->sprite;
-    x = sprite[0] >> 4;
-    y = ((u32)sprite[1] << 20) >> 20;
+    x = p->sprite[0] >> 4;
+    y = ((u32)p->sprite[1] << 20) >> 20;
     count = 0;
-    i = 0;
-    goto testPlayers;
-nextPlayer:
-    other = &t072Players[i];
-    sprite = other->sprite;
-    if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) goto skipPlayer;
-    if (other->team != p->team || other->team == 0) goto skipPlayer;
-    dx = (sprite[0] >> 4) - x;
-    dy = (((u32)sprite[1] << 20) >> 20) - y;
-    if (range != 5) {
-        ax = (s16)dx >> 3;
-        if (ax < 0) ax = -ax;
-        limit = (range + 1) * 2;
-        if (ax >= limit) goto skipPlayer;
-        ay = (s16)dy >> 3;
-        if (ay < 0) ay = -ay;
-        if (ay >= limit) goto skipPlayer;
+    for (i = 0; i < sub_08002164(); i++) {
+        other = &t072Players[i];
+        sprite = other->sprite;
+        if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) continue;
+        if (other->team != p->team || other->team == 0) continue;
+        dx = (sprite[0] >> 4) - x;
+        dy = (((u32)sprite[1] << 20) >> 20) - y;
+        if (range != 5) {
+            ax = (s16)dx >> 3;
+            if (ax < 0) ax = -ax;
+            limit = (range + 1) * 2;
+            if (ax >= limit) continue;
+            ay = (s16)dy >> 3;
+            if (ay < 0) ay = -ay;
+            if (ay >= limit) continue;
+        }
+        list[count] = i;
+        count++;
     }
-    list[count++] = i;
-skipPlayer:
-    i++;
-testPlayers:
-    if (i < sub_08002164()) goto nextPlayer;
     for (i = 0; i < count; i++) sub_08074DE8(list[i], 11);
     if (local == player) {
         e = p->effects;
-        i = 0;
+        j = 0;
         start = e;
-        duration = (level * 10 + 40) * 60;
-        amount = level * 8;
-        do {
+        found = 0;
+        for (; j < 8; j++, e++) {
             if (e->timer > 0 && e->owner <= 3 && t072Players[e->owner].mode == 4 && e->kind == 5) {
                 if (e->level <= level) {
                     e->owner = player;
                     e->level = level;
-                    e->timer = duration;
-                    e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                    e->timer = (level * 10 + 40) * 60;
+                    e->a = level * 8; e->b = level * 8; e->c = level * 8; e->d = level * 8;
                 }
-                goto clear;
-            }
-            i++; e++;
-        } while (i <= 7);
-        e = start; i = 0;
-        do {
-            if (e->timer == -1) {
-                e->owner = player; e->kind = 5; e->level = level;
-                e->timer = (level * 10 + 40) * 60;
-                amount = level * 8;
-                e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                found = 1;
                 break;
             }
-            i++; e++;
-        } while (i <= 7);
-clear:
-        p->x24 = 0; p->x26 = 0;
+        }
+        if (!found) {
+            e = start;
+            for (j = 0; j < 8; j++, e++) {
+                if (e->timer == -1) {
+                    e->owner = player;
+                    e->kind = 5;
+                    e->level = level;
+                    e->timer = (level * 10 + 40) * 60;
+                    ;
+                    e->a = level * 8; e->b = level * 8; e->c = level * 8; e->d = level * 8;
+                    break;
+                }
+            }
+        }
+        p->x24 = 0;
+        p->x26 = 0;
     } else {
         for (i = 0; i < count; i++) {
             if (list[i] == local) {
                 p = &t072Players[local];
-                e = p->effects; i = 0;
-                duration = (level * 10 + 40) * 60;
-                amount = level * 8;
-                do {
-                    if (e->timer > 0 && e->owner <= 3 && t072Players[e->owner].mode == 4 && e->kind == 5) {
-                        if (e->level <= level) {
-                            e->level = level; e->timer = duration;
-                            e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                e2 = p->effects;
+                found = 0;
+                ;
+                ;
+                for (i = 0; i < 8; i++, e2++) {
+                    if (e2->timer > 0 && e2->owner <= 3 && t072Players[e2->owner].mode == 4 && e2->kind == 5) {
+                        if (e2->level <= level) {
+                            e2->level = level;
+                            e2->timer = (level * 10 + 40) * 60;
+                            e2->a = level * 8; e2->b = level * 8; e2->c = level * 8; e2->d = level * 8;
                         }
-                        goto finish;
+                        found = 1;
+                        break;
                     }
-                    i++; e++;
-                } while (i <= 7);
-                e = p->effects; i = 0;
-                do {
-                    if (e->timer == -1) {
-                        e->owner = player; e->kind = 5; e->level = level;
-                        e->timer = (level * 10 + 40) * 60;
-                        amount = level * 8;
-                        e->a = amount; e->b = amount; e->c = amount; e->d = amount;
-                        goto finish;
+                }
+                if (!found) {
+                    e2 = p->effects;
+                    for (i = 0; i < 8; i++, e2++) {
+                        if (e2->timer == -1) {
+                            e2->owner = player;
+                            e2->kind = 5;
+                            e2->level = level;
+                            e2->timer = (level * 10 + 40) * 60;
+                    ;
+                            e2->a = level * 8; e2->b = level * 8; e2->c = level * 8; e2->d = level * 8;
+                            break;
+                        }
                     }
-                    i++; e++;
-                } while (i <= 7);
-                goto finish;
+                }
+                break;
             }
         }
     }
 finish:
-    *(u32 *)((u8 *)t072Flags + offset) &= ~(1 << bit);
+    t072Flags[player] &= ~(1 << bit);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806D7EC);

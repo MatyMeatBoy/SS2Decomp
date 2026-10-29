@@ -194,10 +194,10 @@ void sub_0800D368(void *arg0) {
     extern M2C_UNK d368_sub_0800BC08(u32, u32, s32 *, s16 *, s32, s32) asm("sub_0800BC08");
     extern M2C_UNK d368_sub_080137A0(u32) asm("sub_080137A0");
     extern M2C_UNK d368_sub_08013CEC(void *) asm("sub_08013CEC");
-    extern M2C_UNK d368_sub_08014D60() asm("sub_08014D60");
+    extern void d368_sub_08014D60() asm("sub_08014D60");
     extern M2C_UNK d368_sub_0801500C(u16) asm("sub_0801500C");
-    extern M2C_UNK d368_sub_080151E0() asm("sub_080151E0");
-    extern M2C_UNK d368_sub_0801551C() asm("sub_0801551C");
+    extern void d368_sub_080151E0() asm("sub_080151E0");
+    extern void d368_sub_0801551C() asm("sub_0801551C");
     extern M2C_UNK d368_sub_08015820(u16) asm("sub_08015820");
     extern M2C_UNK d368_sub_08015B20(u16) asm("sub_08015B20");
     extern M2C_UNK d368_sub_0801A664(s32, s32) asm("sub_0801A664");
@@ -2063,14 +2063,7 @@ block_530:
                 if (temp_r3_4 == 0) {
                     temp_r0_41 = ((struct PlayerD368 *)arg0)->f26;
                     if (temp_r0_41 == 0) {
-                        ((struct PlayerD368 *)arg0)->f24 = temp_r0_41;
-                        ((struct PlayerD368 *)arg0)->f26 = temp_r0_41;
-                        sp130 = 0;
-                        sp134 = 0;
-                        ((struct PlayerD368 *)arg0)->f20 = 0U;
-                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
-                        var_r1_7 = 0xFFDFFFFF;
-                        goto block_1024;
+                        goto state3ZeroStageD368;
                     } else {
                         ((struct PlayerD368 *)arg0)->f20 = 5U;
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
@@ -2193,6 +2186,17 @@ block_590:
                         ((struct PlayerD368 *)arg0)->fB4 = 0U;
                         *(u16 *)((arg0 + 0xB4) - 2) = 0;
                         sp144 = 0;
+                        break;
+state3ZeroStageD368:
+                        ((struct PlayerD368 *)arg0)->f24 = temp_r0_41;
+                        ((struct PlayerD368 *)arg0)->f26 = temp_r0_41;
+                        sp130 = 0;
+                        sp134 = 0;
+                        ((struct PlayerD368 *)arg0)->f20 = 0U;
+                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
+                        var_r1_7 = 0xFFDFFFFF;
+                        goto block_1024;
+
                     }
                 } else {
                     temp_r0_36 = d368_sub_0801E538();
@@ -2342,15 +2346,7 @@ block_627:
                 if (temp_r3_5 == 0) {
                     temp_r0_49 = ((struct PlayerD368 *)arg0)->f26;
                     if (temp_r0_49 == 0) {
-                        ((struct PlayerD368 *)arg0)->f26 = temp_r0_49;
-                        ((struct PlayerD368 *)arg0)->f24 = temp_r0_49;
-                        sp144 = 0;
-                        sp130 = 0;
-                        sp134 = 0;
-                        ((struct PlayerD368 *)arg0)->f20 = 0U;
-                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
-                        var_r1_7 = 0xFFDFFFFF;
-                        goto block_1024;
+                        goto state4ZeroStageD368;
                     }
                     if (((struct PlayerD368 *)arg0)->f10 != 9) {
                         temp_r0_50 = ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA) + *(u16 *)((((struct PlayerD368 *)arg0)->f26 * 2) + (u8 *)&d368_gUnk_0847ACE8);
@@ -2479,6 +2475,18 @@ block_693:
                     ((struct PlayerD368 *)arg0)->fB4 = 0U;
                     *(u16 *)((arg0 + 0xB4) - 2) = 0;
                     sp144 = 0;
+                    break;
+state4ZeroStageD368:
+                        ((struct PlayerD368 *)arg0)->f26 = temp_r0_49;
+                        ((struct PlayerD368 *)arg0)->f24 = temp_r0_49;
+                        sp144 = 0;
+                        sp130 = 0;
+                        sp134 = 0;
+                        ((struct PlayerD368 *)arg0)->f20 = 0U;
+                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
+                        var_r1_7 = 0xFFDFFFFF;
+                        goto block_1024;
+
                 } else {
                     if (directionD36874 == 0) {
                         var_r0_9 = 3;

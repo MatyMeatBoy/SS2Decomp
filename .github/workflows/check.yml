@@ -29,6 +29,7 @@ jobs:
           /usr/bin/python3 tools/scripts/test_sdk_pattern_container.py
           /usr/bin/python3 tools/scripts/test_sdk_umul.py
           /usr/bin/python3 tools/scripts/test_sdk_sound_match.py
+          /usr/bin/python3 tools/scripts/test_sdk_shared_pool.py
           /usr/bin/python3 tools/scripts/test_sdk_sound_runtime.py
           /usr/bin/python3 tools/scripts/test_sdk_sub_flags.py
           /usr/bin/python3 tools/scripts/test_sdk_text_literal_ownership.py
