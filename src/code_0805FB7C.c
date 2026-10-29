@@ -2304,9 +2304,9 @@ void sub_08065424(s32 x, s32 y, s32 number, u32 argStyle, u32 argDigits)
         } while (i < digits);
     }
 }
-#ifdef NONMATCHING
 extern u32 gUnk_084EBD4C[];
-extern u32 gUnk_03005740;
+extern u16 gTiles74[] asm("gUnk_084EBD74");
+extern u16 gBg5740[][32] asm("gUnk_03005740");
 extern void sub_0801A664(s32, s32);
 void sub_08065504(s32 x, s32 y, s32 number, u8 style, u8 digits)
 {
@@ -2316,39 +2316,25 @@ void sub_08065504(s32 x, s32 y, s32 number, u8 style, u8 digits)
     u8 *out;
     u32 i;
     s32 started;
-    s32 column;
     if (number < 0) number = 0x7FFFFFFF;
     value = number;
-    table = gUnk_084EBD4C + (10 - digits);
+    table = &gUnk_084EBD4C[10 - digits];
     out = buffer;
     i = 0;
-    if (i < digits) {
-        do {
-            *out = sub_08000498(&value, *table++);
-            i++;
-            out++;
-        } while (i < digits);
-    }
+    x++;
+    for (; i < digits; i++, out++)
+        *out = sub_08000498(&value, *table++);
     started = 0;
-    column = (x + 1) - digits;
+    x -= digits;
     out = buffer;
-    i = 0;
-    if (i < digits) {
-        do {
-            if (started != 0 || *out != 0 || i == digits - 1) {
-                started = 1;
-                *(u16 *)(column * 2 + (y << 6) + (u32)&gUnk_03005740) = *(u16 *)((style * 2) + (u32)&gUnk_084EBD74) + *out;
-            }
-            i++;
-            column++;
-            out++;
-        } while (i < digits);
+    for (i = 0; i < digits; i++, x++, out++) {
+        if (started != 0 || *out != 0 || i == digits - 1) {
+            started = 1;
+            gBg5740[y][x] = gTiles74[style] + *out;
+        }
     }
     sub_0801A664(y, 1);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08065504);
-#endif
 #ifdef NONMATCHING
 extern void textDraw66(s32, s32, s32) asm("sub_0801A3D0");
 void sub_080655CC(s32 x, s32 y, u16 *data, s32 align)
