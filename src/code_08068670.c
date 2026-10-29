@@ -762,17 +762,19 @@ void sub_0806ABC0(u8 *arg0) {
     s16 sp4A;
     s32 sp4C[2];
     s32 sp54;
-    register u8 *costBase asm("r3");
-    register s16 *costPtr asm("r2");
+    u8 *costBase;
+    s16 *costPtr;
     u32 costOffset;
     u16 costDelta;
     u32 contact;
     u32 impact;
-    register s32 x asm("r10");
-    register s32 y asm("r9");
-    register u32 radius asm("r8");
+    s32 x;
+    s32 y;
+    u32 radius;
     u16 i;
     u32 count;
+    u32 angle;
+    u32 waitMask;
     u8 *sp58;
     u8 *sp5C;
     u8 *sp60;
@@ -844,17 +846,18 @@ void sub_0806ABC0(u8 *arg0) {
         count = sub_08002164();
         i = 0;
         sp8C = sp78 * 4;
-        if (count > 0U) {
+        if ((u32)i < count) {
             if ((*(u16 *)((u8 *)t071Players + 0x0)) != sp64) {
-loop_4:
+                do {
                 i += 1;
                 if ((u32) i < count) {
                     if (*(u16 *)((0x14C * i) + t071Players) == sp64) {
                         goto block_6;
                     }
-                    goto loop_4;
+                    continue;
                 }
                 goto block_7;
+                } while (1);
             }
 block_6:
             if ((u32) i >= count) {
@@ -893,20 +896,21 @@ block_14:
         y = (u32) ((*(u16 *)((u8 *)temp_r1_2 + 0x2)) << 0x14) >> 0xC;
         temp_r0 = (u8) (*(u8 *)((u8 *)temp_r1_2 + 0x3)) >> 4;
         sp74 = temp_r0;
-        count = gUnk_0847AD0A[temp_r0];
+        angle = gUnk_0847AD0A[temp_r0];
         goto block_25;
     }
     temp_r1_3 = t071Enemies + ((sp78 * 0x2E0) + 0xFFFFF480);
     sp5C = temp_r1_3;
     x = (((struct T071Enemy *)temp_r1_3)->x);
     y = (((struct T071Enemy *)temp_r1_3)->y);
-    sp74 = (u32) (((struct T071Enemy *)temp_r1_3)->direction);
-    count = gUnk_0847AD0A[(((struct T071Enemy *)sp5C)->direction)];
+    sp74 = (u16) (((struct T071Enemy *)temp_r1_3)->direction);
+    angle = gUnk_0847AD0A[(((struct T071Enemy *)sp5C)->direction)];
     if ((u32) (((struct T071Enemy *)sp5C)->wait) < (u32) (((struct T071Enemy *)sp5C)->threshold)) {
         temp_r4 = (s32 *)((u8 *)t071Flags+sp8C);
+        waitMask=~(1 << sp7C);
 loop_19:
         if ((sub_08056E90() != 0) || (sub_0800BA6C() == 0) || (temp_r0_2 = (((struct T071Enemy *)sp5C)->state), (temp_r0_2 == 0xA)) || (temp_r0_2 == 0xB)) {
-            *temp_r4 &= ~(1 << sp7C);
+            *temp_r4 &= waitMask;
             return;
         }
         sub_080003F0();
@@ -943,10 +947,10 @@ block_31:
     if ((sub_080020F4() == sp78) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
         sub_0805865C(sp6C + 0x147);
     }
-    temp_r1_5 = (s16) count;
+    temp_r1_5 = (s16) angle;
     x = x + (gUnk_080B9704[temp_r1_5 + 0x40] * 4);
     y = y + (gUnk_080B9704[temp_r1_5] * 4);
-    sp90 = count << 0x10;
+    sp90 = angle << 0x10;
     if (sp6C <= 4U) {
         t071Init(&sp10, 0x50051, 8, -1,0);
         var_r0_2 = sp6C - 1;
@@ -968,19 +972,10 @@ block_31:
     sp84 = sp90;
     sp88 = sp90 >> 0x14;
     impact=0;
-loop_122:
-    temp_r1_6 = sp68;
-    sp68 = (u32) (u16) (temp_r1_6 - 1);
-    if ((temp_r1_6 != 0) && (sub_0800BA6C() != 0)) {
-        if (sp78 != sub_080020F4()) {
-            goto block_42;
-        }
-        if (((u32) (u16) ((((struct T071Player *)sp60)->state) - 0xB) > 1U) && (sub_0800D11C() == 0)) {
-block_42:
+    while ((temp_r1_6=sp68, sp68=(u16)(temp_r1_6-1), temp_r1_6 != 0) && (sub_0800BA6C() != 0) && ((sp78 != sub_080020F4()) || (((u32)(u16)(((struct T071Player *)sp60)->state-0xB)>1U) && (sub_0800D11C()==0)))) {
             contact=0;
             if (sp64 > 3U) {
-                i = 0;
-loop_44:
+                for(i=0;i <= 4U;i=(u16)(i+1)) {
                 if (gUnk_030056FC & (1 << i)) {
                     temp_r4_3 = t071Enemies + (i * 0x2E0);
                     if ((((struct T071Enemy *)temp_r4_3)->active) != 0) {
@@ -1018,12 +1013,8 @@ loop_44:
                         goto block_63;
                     }
                 }
-block_63:
-                i += 1;
-                if ((u32) i > 4U) {
-                    goto block_64;
+block_63: ;
                 }
-                goto loop_44;
             }
 block_64:
             if (contact != 0) {
@@ -1032,11 +1023,7 @@ block_64:
             contact=0;
             count = sub_08002164();
             if ((u32) (((struct T071Args *)sp58)->player) <= 3U) {
-                i = 0;
-                if (count <= 0U) {
-                    goto block_102;
-                }
-loop_70:
+                for(i=0;(u32)i<count;i=(u16)(i+1)) {
                 temp_r4_4 = (0x14C * i) + t071Players;
                 temp_r3_2 = (((struct T071Player *)temp_r4_4)->team);
                 if (temp_r3_2 != (((struct T071Player *)sp60)->team)) {
@@ -1062,16 +1049,11 @@ loop_70:
                         goto block_83;
                     }
                 }
-block_83:
-                i += 1;
-                if ((u32) i >= count) {
-                    goto block_102;
+block_83: ;
                 }
-                goto loop_70;
             }
-            i = 0;
             if (count > 0U) {
-loop_87:
+                for(i=0;(u32)i<count;i=(u16)(i+1)) {
                 temp_r4_5 = (0x14C * i) + t071Players;
                 if (!((((struct T071Player *)temp_r4_5)->flags) & 0x2000)) {
                     temp_r2_3 = (((struct T071Player *)temp_r4_5)->sprite);
@@ -1099,12 +1081,8 @@ loop_87:
                         }
                     }
                 }
-block_101:
-                i += 1;
-                if ((u32) i >= count) {
-                    goto block_102;
+block_101: ;
                 }
-                goto loop_87;
             }
 block_102:
             if (contact != 0) {
@@ -1139,14 +1117,11 @@ block_102:
                     var_r7 = 0;
                 }
                 if ((gUnk_03002344 & 1) == (sp78 & 1)) {
-                    temp_r2_4 = *(u8 *)((sp90 >> 0x14) + t071Frames) * 4;
+                    temp_r2_4 = *(u8 *)(sp88 + t071Frames) * 4;
                     t071Draw(sp44+*(s16 *)(temp_r2_4+t071Offsets),(s16)sp46+*(s16 *)(temp_r2_4+t071Offsets+2),(u16)(sp6C+sp74),sp48,var_r7,&sp10.f1C,sp10.f8,sp10.f0);
                 }
             }
             sub_080003F0();
-            goto loop_122;
-        }
-        goto block_129;
     }
 block_129:
     if (impact != 0) {
@@ -1161,6 +1136,11 @@ block_129:
     temp_r2_5 = (s32 *)((u8 *)t071Flags+sp8C);
     *temp_r2_5 &= ~(1 << sp7C);
 }
+
+
+
+
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806ABC0);
 #endif
