@@ -10,13 +10,13 @@ extern u8 *gP030056F4 asm("gUnk_030056F4");
 void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
 extern u8 gUnk_03003E28[];
 
-#ifdef NONMATCHING
 void sub_080153A4(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
-    u16 angle = (u16)(p->w26 * 40 + 0x80);
+    u16 angle;
     if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(p->w26 + 0xF9);
+    angle = (u16)(p->w26 * 40 + 0x80);
     while (p->wB6 == 0 && p->state == 5) {
         p->w1C = sub_08013E90((s16)angle, (s32 *)&p->pos8C, p->w1C,
                               (u16)sub_0800CCCC(), 0);
@@ -32,9 +32,6 @@ void sub_080153A4(void)
     p->w26 = 0;
     p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080153A4);
-#endif
 #ifdef NONMATCHING
 void sub_08015464(void)
 {
