@@ -497,10 +497,11 @@ def apply(func, cfile):
 
 def replace_nonmatching_draft(text, stub, code):
     """Replace a single fallback and its old draft, preserving outer guards."""
+    from source_index import functions, mask_noncode
+
     # Mask comments/strings without moving offsets. A documented #ifdef or stub
     # inside a comment must not be mistaken for live preprocessor structure.
-    literals = r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|//[^\n]*|/\*.*?\*/'
-    clean = re.sub(literals, lambda m: re.sub(r'[^\n]', ' ', m.group()), text, flags=re.S)
+    clean = mask_noncode(text)
     positions = [m.start() for m in re.finditer(re.escape(stub), text)
                  if clean[m.start():m.start() + len('INCLUDE_ASM')] == 'INCLUDE_ASM']
     if not positions:
@@ -517,9 +518,9 @@ def replace_nonmatching_draft(text, stub, code):
                 kind == 'if' and condition in ('defined(NONMATCHING)', 'definedNONMATCHING'))
             negative = (kind == 'ifndef' and condition == 'NONMATCHING') or (
                 kind == 'if' and condition in ('!defined(NONMATCHING)', '!definedNONMATCHING'))
-            stack.append(dict(start=match.start(), positive=positive,
+            stack.append(dict(start=match.start(), open_end=match.end(), positive=positive,
                               negative=negative, mentions_nm='NONMATCHING' in condition,
-                              otherwise=None, elif_=False))
+                              otherwise=None, otherwise_end=None, elif_=False))
         elif not stack:
             raise SystemExit('unbalanced preprocessor guard')
         elif kind == 'elif':
@@ -528,9 +529,11 @@ def replace_nonmatching_draft(text, stub, code):
             if stack[-1]['otherwise'] is not None:
                 raise SystemExit('duplicate #else in preprocessor guard')
             stack[-1]['otherwise'] = match.start()
+            stack[-1]['otherwise_end'] = match.end()
         else:
             block = stack.pop()
             block['end'] = match.end()
+            block['close_start'] = match.start()
             blocks.append(block)
     if stack:
         raise SystemExit('unterminated preprocessor guard')
@@ -550,6 +553,25 @@ def replace_nonmatching_draft(text, stub, code):
         start, end = block['start'], block['end']
         if len(re.findall(r'\bINCLUDE_ASM\s*\(', clean[start:end])) != 1:
             raise SystemExit('NONMATCHING guard contains other ASM fallbacks')
+        # One ASM stub alone does not prove exclusive ownership: either branch
+        # may also contain neighboring C or a feature guard around the stub.
+        # Accept only target definitions, the exact fallback, and the recognized
+        # enclosing NONMATCHING directives. Anything else stays untouched.
+        target = re.search(r',\s*(\w+)\s*\);$', stub).group(1)
+        removable = [(position, position + len(stub))]
+        for guard in enclosing:
+            removable.extend([(guard['start'], guard['open_end']),
+                              (guard['otherwise'], guard['otherwise_end']),
+                              (guard['close_start'], guard['end'])])
+        for definition in functions(text):
+            if (definition['name'] == target and definition['declaration_start'] >= start
+                    and definition['end'] < end):
+                removable.append((definition['declaration_start'], definition['end'] + 1))
+        remainder = list(clean[start:end])
+        for lower, upper in removable:
+            remainder[lower - start:upper - start] = ' ' * (upper - lower)
+        if ''.join(remainder).strip():
+            raise SystemExit('NONMATCHING guard contains other code or feature guards')
     replacement = '#ifdef NONMATCHING\n%s\n#else\n%s\n#endif' % (code, stub)
     return text[:start] + replacement + text[end:]
 

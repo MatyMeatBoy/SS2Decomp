@@ -60,15 +60,17 @@ class NonmatchingReplacementTests(unittest.TestCase):
         self.assertEqual(self.apply(old), self.apply(STUB + '\n'))
 
     def test_nested_condition_in_old_draft_is_removed(self):
-        old = '#ifdef NONMATCHING\n#if DETAIL\nint detail;\n#endif\n' + OLD + '\n#else\n' + STUB + '\n#endif\n'
+        body = 'int %s(void) {\n#if DETAIL\nreturn 2;\n#else\nreturn 1;\n#endif\n}' % FUNC
+        old = '#ifdef NONMATCHING\n' + body + '\n#else\n' + STUB + '\n#endif\n'
         updated = self.apply(old)
-        self.assertNotIn('detail', updated)
+        self.assertNotIn('DETAIL', updated)
 
     def test_previously_nested_inactive_draft_is_repaired(self):
-        old = '#ifdef NONMATCHING\n' + OLD + '\n#else\n#ifdef NONMATCHING\nint stale;\n#else\n' + STUB + '\n#endif\n#endif\n'
+        stale = 'int %s(void) { return 2; }' % FUNC
+        old = '#ifdef NONMATCHING\n' + OLD + '\n#else\n#ifdef NONMATCHING\n' + stale + '\n#else\n' + STUB + '\n#endif\n#endif\n'
         updated = self.apply(old)
         self.assertEqual(updated.count('#ifdef NONMATCHING'), 1)
-        self.assertNotIn('stale', updated)
+        self.assertNotIn(stale, updated)
 
     def test_outer_feature_guard_and_neighbor_are_preserved(self):
         prefix = '#if FEATURE\n'
@@ -100,6 +102,26 @@ class NonmatchingReplacementTests(unittest.TestCase):
     def test_foreign_fallback_in_same_guard_fails_closed(self):
         old = '#ifdef NONMATCHING\n' + OLD + '\n#else\n' + STUB + '\nINCLUDE_ASM("other", other);\n#endif\n'
         self.apply(old, error='other ASM')
+
+    def test_neighbor_c_function_in_fallback_is_not_deleted(self):
+        old = '#ifdef NONMATCHING\n' + OLD + '\n#else\n' + STUB + '\nint neighbor(void) { return 99; }\n#endif\n'
+        self.apply(old, error='other code')
+
+    def test_neighbor_c_function_in_draft_is_not_deleted(self):
+        old = '#ifdef NONMATCHING\n' + OLD + '\nint neighbor(void) { return 99; }\n#else\n' + STUB + '\n#endif\n'
+        self.apply(old, error='other code')
+
+    def test_neighbor_declaration_in_draft_is_not_deleted(self):
+        old = '#ifdef NONMATCHING\nint shared_flag;\n' + OLD + '\n#else\n' + STUB + '\n#endif\n'
+        self.apply(old, error='other code')
+
+    def test_nested_stale_wrapper_with_foreign_declaration_is_rejected(self):
+        old = '#ifdef NONMATCHING\n' + OLD + '\n#else\n#ifdef NONMATCHING\nint shared_flag;\n#else\n' + STUB + '\n#endif\n#endif\n'
+        self.apply(old, error='other code')
+
+    def test_feature_condition_in_fallback_is_not_removed(self):
+        old = '#ifdef NONMATCHING\n' + OLD + '\n#else\n#if FEATURE\n' + STUB + '\n#endif\n#endif\n'
+        self.apply(old, error='other code')
 
 
 if __name__ == '__main__':
