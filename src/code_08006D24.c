@@ -627,83 +627,99 @@ append:
     return e;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007AA4);
-#ifdef NONMATCHING
-struct SignedOam7CF0 { s32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; s32 x:9; u32 matrixNum:5; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
-struct SpriteBlock7CF0 { u16 flags,count; u32 field4,offset8; };
-extern u32 oamCount7CF0 asm("gUnk_030028B4");
-extern s32 tileBase7CF0 asm("gUnk_030028B8");
-extern u8 *tileVram7CF0 asm("gUnk_030028BC");
-extern struct SignedOam7CF0 oamBuffer7CF0[] asm("gUnk_03001330");
-extern s32 nonSquareTiles7CF0[] asm("gUnk_0847842C");
-extern s32 squareTiles7CF0[] asm("gUnk_0847843C");
-struct OamControl7CF0 { u8 priority:3; u8 mosaic:1; u8 mode:3; u8 high:1; } __attribute__((packed));
-struct Position7CF0 { s32 x,y; };
-s32 sub_08007CF0_impl(struct Position7CF0, u16, u16, u8, u8 *, struct SpriteBlock7CF0 *, u8 *) asm("sub_08007CF0");
-s32 sub_08007CF0_impl(struct Position7CF0 pos, u16 entry, u16 frameIndex, u8 priority, u8 *palette, struct SpriteBlock7CF0 *bankInput, u8 *graphics)
+struct Root4CopyOamData { u32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; u32 x:9; u32 matrixNum:5; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
+struct Root4CopySpriteOam { s8 y; u8 unk1_0:6; u8 shape:2; s16 x:9; u16 unk2_9:5; u16 size:2; u16 tileNum:10; u16 tileHi:2; u16 unk4_12:4; u16 unk6; };
+struct Root4CopySpriteFrame { u16 unk0; u16 count; u32 unk4; s32 oams; };
+struct Root4CopySpriteAnim { u16 unk0; u16 unk2; u16 frameCount; u16 unk6; s32 frames; };
+struct Root4CopySpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
+extern struct Root4CopyOamData root4CopyOam[] asm("gUnk_03001330");
+extern u32 root4CopyCount asm("gUnk_030028B4");
+extern u32 root4CopyTiles asm("gUnk_030028B8");
+extern const u32 root4CopyNonSquare[] asm("gUnk_0847842C");
+extern const u32 root4CopySquare[] asm("gUnk_0847843C");
+extern void root4CopyCopy(const void *src, void *dest, u32 size) asm("sub_08001348");
+extern u32 root4CopyVram asm("gUnk_030028BC");
+u32 oamDrawCopy004(s32,s32,u16,u16,u8,u8 *,struct Root4CopySpriteRecord *,u8 *) asm("sub_08007CF0");
+u32 oamDrawCopy004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
+                 struct Root4CopySpriteRecord *record, u8 *tiles)
 {
-    struct SpriteBlock7CF0 *bank;
-    struct SpriteBlock7CF0 *animation;
-    register struct SpriteBlock7CF0 *frame asm("r9");
-    register struct SignedOam7CF0 *source asm("r8"); struct SignedOam7CF0 *savedSource; register u32 cursor asm("r4"); u8 copiedFlags;
-    s32 base,tiles,x,y; register u32 total asm("sl");
-    u32 advance,index,next,initialCount;
-    u8 *destination;
-    u16 oldAffine,oldX;
-    if((initialCount=oamCount7CF0)>127 || (bank=bankInput, bank->count<entry)) return -1;
-    goto initialize;
-full:
-    return 0;
-initialize:
-    base=tileBase7CF0;
-    frame=(struct SpriteBlock7CF0 *)((u8 *)bank+bank->field4);
-    animation=(struct SpriteBlock7CF0 *)((u8 *)bank+bank->offset8+entry*12);
-    frame=(struct SpriteBlock7CF0 *)((u8 *)frame+*(u16 *)((u8 *)animation+animation->offset8+frameIndex*4)*12);
-    source=(struct SignedOam7CF0 *)((u8 *)frame+frame->offset8);
-    cursor=(u32)(oamBuffer7CF0+initialCount);
-    destination=tileVram7CF0+(base<<5);
-    total=0;advance=0;index=0;
-    if(frame->count==0)goto finish;
-loop:
-    savedSource=source;
-    oldAffine=((struct SignedOam7CF0 *)cursor)->affineParam;
-    *(struct SignedOam7CF0 *)cursor=*source;
-    ((struct SignedOam7CF0 *)cursor)->affineParam=oldAffine;
-    copiedFlags=((u8 *)cursor)[1] & ~0x0C; ((u8 *)cursor)[1]=copiedFlags;
-    
-    y=((struct SignedOam7CF0 *)cursor)->y+pos.y;
-    x=((struct SignedOam7CF0 *)cursor)->x+pos.x;
-    if((u32)(x+64)>304 || y>160 || y < -64) {
-        ((u8 *)cursor)[0]=160;((struct SignedOam7CF0 *)cursor)->shape=0;((struct SignedOam7CF0 *)cursor)->size=0;
+    struct Root4CopySpriteFrame *frames;
+    struct Root4CopySpriteAnim *entry;
+    struct Root4CopySpriteOam *src;
+    struct Root4CopySpriteOam *obj;
+    struct Root4CopyOamData *dest;
+    u32 vram;
+    u32 i;
+    u32 base;
+    u16 param;
+    u32 list;
+    u32 size;
+    u16 tile;
+    s32 objX;
+    s32 objY;
+    u32 count;
 
-        cursor-=8;
-        goto next;
+    count = root4CopyCount;
+    if (count > 127)
+        return -1;
+    if (record->animCount < anim)
+        return -1;
+    base = root4CopyTiles;
+    frames = (struct Root4CopySpriteFrame *)(record->frames + (u32)record);
+    entry = (struct Root4CopySpriteAnim *)((u32)record + record->anims) + anim;
+    list = (u32)entry + entry->frames;
+    list += frame * 4;
+    frames += *(u16 *)list;
+    src = (struct Root4CopySpriteOam *)((u8 *)frames + frames->oams);
+    dest = &root4CopyOam[count];
+    vram = root4CopyVram + base * 32;
+    tile = 0;
+    size = 0;
+    for (i = 0; i < frames->count; i++, dest++, src++)
+    {
+        obj = src;
+        param = dest->affineParam;
+        *dest = *(struct Root4CopyOamData *)src;
+        dest->affineParam = param;
+        dest->objMode = 0;
+
+        objX = dest->x << 23;
+        objX >>= 23;
+        objY = ((struct Root4CopySpriteOam *)dest)->y;
+        objY += y;
+        objX += x;
+        if ((u32)(objX + 64) > 304 || objY > 160 || objY < -64)
+        {
+            dest->y = 160;
+            dest->shape = 0;
+            dest->size = 0;
+            dest--;
+            continue;
+        }
+        vram += size;
+        dest->priority = priority;
+        dest->paletteNum = palettes[dest->paletteNum];
+        dest->x = objX;
+        dest->y = objY;
+        dest->tileNum = base + tile;
+        if (dest->shape)
+        {
+            size = root4CopyNonSquare[dest->size];
+            tile += size;
+        }
+        else
+        {
+            size = root4CopySquare[dest->size];
+            tile += size;
+        }
+        if (++root4CopyCount > 127)
+            return 0;
+        size *= 32;
+        root4CopyCopy(tiles + ((obj->tileNum | (obj->tileHi << 10)) << 5), (void *)vram, size);
     }
-    destination+=advance;
-    ((struct SignedOam7CF0 *)cursor)->priority=priority;
-    ((struct SignedOam7CF0 *)cursor)->paletteNum=palette[((struct SignedOam7CF0 *)cursor)->paletteNum];
-    ((struct SignedOam7CF0 *)cursor)->x=x;
-    ((u8 *)cursor)[0]=(u8)y;
-    ((struct SignedOam7CF0 *)cursor)->tileNum=total+base;
-    if((copiedFlags>>6)!=0)tiles=nonSquareTiles7CF0[((struct SignedOam7CF0 *)cursor)->size];
-    else tiles=squareTiles7CF0[((struct SignedOam7CF0 *)cursor)->size];
-    total=(u16)(total+tiles);
-    next=oamCount7CF0+1;
-    oamCount7CF0=next;
-    if(next>127)goto full;
-
-    advance=tiles<<5;
-    sub_08001348(graphics+((savedSource->tileNum|(savedSource->priority<<10))<<5),destination,advance);
-next:
-    index++;
-    cursor+=8;source++;
-    if(index<frame->count)goto loop;
-finish:
-    tileBase7CF0+=total;
-    return (s32)(tileVram7CF0+(base<<5));
+    root4CopyTiles += tile;
+    return root4CopyVram + base * 32;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007CF0);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007F0C);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080081D4);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008500);
