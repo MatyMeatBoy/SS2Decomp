@@ -281,7 +281,126 @@ s32 oamDraw004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 palette,
     }
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007434);
+struct Root4TileSpriteOam { s8 y; u8 unk1_0:6; u8 shape:2; s16 x:9; u16 unk2_9:5; u16 size:2; u16 tileNum:10; u16 tileHi:2; u16 unk4_12:4; u16 unk6; };
+struct Root4TileSpriteFrame { u16 unk0; u16 count; u32 unk4; s32 oams; };
+struct Root4TileSpriteAnim { u16 unk0; u16 unk2; u16 frameCount; u16 unk6; s32 frames; };
+struct Root4TileSpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
+extern void tileQueue004(const void *src, void *dest, u32 size) asm("sub_08001348");
+void oamFrameTiles004(u16, u16, struct Root4TileSpriteRecord *, u8 *, u8 *) asm("sub_08007434");
+void oamFrameTiles004(u16 anim, u16 frame, struct Root4TileSpriteRecord *record, u8 *tiles, u8 *vram)
+{
+    struct Root4TileSpriteFrame *frames;
+    struct Root4TileSpriteAnim *entry;
+    struct Root4TileSpriteOam *obj;
+    u32 anims;
+    u32 list;
+    u32 firstTile;
+    u32 i;
+    u8 *src;
+    u8 *dest;
+
+    frames = (struct Root4TileSpriteFrame *)(record->frames + (u32)record);
+    anims = (u32)record + record->anims;
+    entry = (struct Root4TileSpriteAnim *)(anim * sizeof(struct Root4TileSpriteAnim) + anims);
+    if (entry->frameCount > frame)
+    {
+        list = entry->frames + (u32)entry;
+        list += frame * 4;
+        frames += *(u16 *)list;
+
+        obj = (struct Root4TileSpriteOam *)frames->oams;
+        obj = (struct Root4TileSpriteOam *)((u32)obj + (u32)frames);
+        firstTile = obj->tileNum;
+        for (i = 0; i < frames->count; i++, obj++)
+        {
+            dest = vram + (obj->tileNum - firstTile) * 32;
+            src = tiles + obj->tileNum * 0x400;
+            switch (obj->shape)
+            {
+            case 0:
+                switch (obj->size)
+                {
+                case 0:
+                    { tileQueue004(src, dest, 0x20); src += 0x400; dest += 0x400; }
+                    break;
+                case 1:
+                    { tileQueue004(src, dest, 0x40); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x40); src += 0x400; dest += 0x400; }
+                    break;
+                case 2:
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    break;
+                case 3:
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    break;
+                }
+                break;
+            case 1:
+                switch (obj->size)
+                {
+                case 0:
+                    { tileQueue004(src, dest, 0x40); src += 0x400; dest += 0x400; }
+                    break;
+                case 1:
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    break;
+                case 2:
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    break;
+                case 4:
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x100); src += 0x400; dest += 0x400; }
+                    break;
+                }
+                break;
+            case 2:
+                switch (obj->size)
+                {
+                case 0:
+                    { tileQueue004(src, dest, 0x20); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x20); src += 0x400; dest += 0x400; }
+                    break;
+                case 1:
+                    { tileQueue004(src, dest, 0x20); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x20); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x20); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x20); src += 0x400; dest += 0x400; }
+                    break;
+                case 2:
+                    { tileQueue004(src, dest, 0x40); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x40); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x40); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x40); src += 0x400; dest += 0x400; }
+                    break;
+                case 4:
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    { tileQueue004(src, dest, 0x80); src += 0x400; dest += 0x400; }
+                    break;
+                }
+                break;
+            }
+        }
+    }
+}
 #ifdef NONMATCHING
 struct Position76C4 { s32 x,y; };
 struct Block76C4 { u16 flags,count; u32 offset4,offset8; };
