@@ -484,7 +484,137 @@ found:
     return (s32) temp_r4;
 }
 
+#ifdef NONMATCHING
+struct D854Window { u8 data[0x28]; u16 x, y, width, height; u8 state, number; u16 pad32; };
+struct D854Video { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V, win1V, winIn, winOut; };
+struct D854State { u8 pad[0x14A]; u16 palette; };
+extern struct D854Video d854_video asm("gUnk_03001250");
+extern struct D854State *d854_game asm("gUnk_03005CF4");
+extern u16 d854_paletteTable[] asm("gUnk_084EBD38");
+extern u16 d854_palette0 asm("gUnk_03001F40");
+extern u16 d854_tiles[] asm("gUnk_03005740");
+extern u8 gUnk_03005D70;
+extern void d854_endTask(void) asm("sub_0800035C");
+extern void d854_clearFlags(u16, u16, u16) asm("sub_080009F8");
+extern s32 d854_clearRows(u32, u32) asm("sub_0801A664");
+
+/* Animate a window's opening, steady display and closing states. */
+void d854_impl(void *arg) asm("sub_0805D854");
+void d854_impl(void *arg)
+{
+    struct D854Window *window = arg;
+    u32 width, height, delay;
+    s32 initialized;
+    u16 left, right, top, bottom, column, row;
+    s32 leftEdge, rightEdge, topEdge, bottomEdge;
+    window->state = 1;
+    d854_video.scrollX = 0;
+    d854_video.scrollY = 0;
+    delay = 0;
+    for (;;) {
+        switch (window->state) {
+        case 0:
+            gUnk_03005D70 &= ~(1 << window->number);
+            d854_endTask();
+            /* The scheduler normally does not return from d854_endTask. */
+        case 1:
+            width = 0;
+            height = 0;
+            window->state = 2;
+            d854_video.winIn = 0x101;
+            d854_video.winOut = 0x3F3F;
+            d854_palette0 = d854_paletteTable[d854_game->palette];
+            initialized = 0;
+            sub_08000B38();
+            sub_0805865C(0xDC);
+            break;
+        case 2:
+            if (sub_0800CC98() == 0) {
+                if (initialized == 0) {
+                    sub_080009C0(0, 0x4000, 1);
+                    d854_palette0 = d854_paletteTable[d854_game->palette];
+                    sub_08000B38();
+                    initialized = 1;
+                }
+                d854_video.winIn = 0x101;
+                d854_video.winOut = 0x3F3F;
+            }
+            width = (u16)(width + 2);
+            if (width >= window->width) {
+                width = window->width;
+                height = (u16)(height + 2);
+                if (height >= window->height) {
+                    height = window->height;
+                    window->state = 3;
+                }
+            }
+            break;
+        case 3:
+            if (sub_0800CC98() == 0) {
+                if (initialized == 0) {
+                    sub_080009C0(0, 0x4000, 1);
+                    d854_palette0 = d854_paletteTable[d854_game->palette];
+                    initialized = 1;
+                }
+                d854_palette0 = d854_paletteTable[d854_game->palette];
+                d854_video.winIn = 0x101;
+                d854_video.winOut = 0x3F3F;
+            }
+            break;
+        case 4:
+            height = (u16)(height - 2);
+            if (height & 0x8000) height = 0;
+            width = (u16)(width - 2);
+            if (width & 0x8000) width = 0;
+            if (width == 0 && height == 0) {
+                if (sub_0800CC98() == 0 && initialized == 1) {
+                    d854_clearFlags(0, 0x4000, 1);
+                    initialized = 0;
+                }
+                window->state = 5;
+                delay = 0;
+                d854_palette0 = 0;
+                sub_08000B38();
+            }
+            break;
+        case 5:
+            d854_clearRows(~(window->height >> 1) + window->y, window->height + 2);
+            if (delay++ > 3) window->state = 0;
+            break;
+        }
+        if (window->state != 5 && window->state != 0) {
+            left = window->x - (width >> 1);
+            right = (u16)(window->x + (width >> 1)) + (width & 1);
+            top = window->y - (height >> 1);
+            bottom = (u16)(window->y + (height >> 1)) + (height & 1);
+            if (sub_0800CC98() == 0) {
+                leftEdge = left - 1;
+                rightEdge = right + 1;
+                topEdge = top - 1;
+                bottomEdge = bottom + 1;
+                d854_tiles[leftEdge + topEdge * 32] = 0xF120;
+                d854_tiles[leftEdge + bottomEdge * 32] = 0xF126;
+                d854_tiles[rightEdge + topEdge * 32] = 0xF122;
+                d854_tiles[rightEdge + bottomEdge * 32] = 0xF128;
+                for (column = left; column <= right; column++) {
+                    d854_tiles[column + topEdge * 32] = 0xF121;
+                    d854_tiles[column + bottomEdge * 32] = 0xF127;
+                }
+                for (row = top; row <= bottom; row++) {
+                    d854_tiles[leftEdge + row * 32] = 0xF123;
+                    d854_tiles[rightEdge + row * 32] = 0xF125;
+                }
+                d854_video.win1H = (((leftEdge * 8) + 3) << 8) | (((right + 2) * 8) - 3);
+                d854_video.win1V = (((topEdge * 8) + 3) << 8) | (((bottom + 2) * 8) - 3);
+                d854_clearRows(~(window->height >> 1) + window->y, window->height + 3);
+            }
+        }
+        sub_080003F0();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D854);
+#endif
 #ifdef NONMATCHING
 struct DC1CWindow { u8 data[0x28]; u16 x, y, width, height; u8 state, number; u16 pad32; };
 struct DC1CVideo { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V, win1V; };
