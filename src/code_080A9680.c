@@ -2866,7 +2866,7 @@ void sub_080B0FC4(struct T116CActor *arg0) {
     s32 spB8;
     s32 *flags116;
     s32 spBC;
-    void *spC0;
+    void * volatile spC0;
     void *spC4;
     s32 spC8;
     s32 spCC;
