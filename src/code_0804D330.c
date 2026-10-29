@@ -3499,9 +3499,222 @@ void sub_080523D8(s32 arg0)
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0805247C);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080526B4);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080529E0);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08052D0C);
+static inline u32 t53_test3060(u8 *ptr, u32 mask)
+{ return *(u32 *)(ptr + 0x38) & mask; }
+static inline u32 t53_open37DC(u32 id, u32 bit)
+{
+    u32 d;
+    while(sub_0805F184())sub_080003F0();
+    while(sub_0805EF90())sub_080003F0();
+    d = sub_0805DF38(1,15,2,0,45,id);
+    {register u8 *base asm("r2")=t53_gs0E48;
+    register u32 mask asm("r1")=bit;
+    register u32 value asm("r0")=*(u32 *)(base+0x38);
+    *(u32 *)(base+0x38)=value|mask;}
+    return d;
+}
+extern void t53_cam37DC(s32, s32) asm("sub_0800BB80");
+struct Signed37DC { u8 pad[0x80]; s16 x, y; };
+void sub_080526B4(void)
+{
+    s32 out[4];
+    s32 sx, sy, sx2, sy2;
+    s32 i, i2, step, step2;
+    u16 n;
+    s32 off;
+    u32 dialog;
+    s32 k;
+    u8 flag;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX, targetY, targetX2, targetY2;
+    t53_lock0E48();
+    sub_0800D0F4();
+    if (sub_08002164() == 1) off = 0;
+    else switch (sub_080020F4()) {
+    case 0: off = -12; break;
+    case 1: off = 12; break;
+    case 2: off = -36; break;
+    case 3: off = 36; break;
+    }
+    sub_08028D98(0, (s16)off, 0, 0);
+    k = sub_0805A318();
+    for (n = 1; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
+    for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    step = 17;
+    sx = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX.all = -off << 16; targetY.all = 0xFFC00000;
+    for (i = 0; i <= 1024; i += step) {
+        sub_080659F4(&out[0], sx, targetX.half.high, i);
+        sub_080659F4(&out[1], sy, targetY.half.high, i);
+        t53_cam37DC((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+    }
+    flag = t53_has2060(t53_gs0E48, 2);
+    if (k && flag == 0) dialog = t53_open37DC(0x140099, 2);
+    else if (k == 0 && flag == 0) dialog = t53_open37DC(0x140093, 2);
+    else if (k) dialog = t53_open37DC(0x14009A, 2);
+    else dialog = t53_open37DC(0x140094, 2);
+    t53_dialogWait0E48(dialog);
+    step2 = 34;
+    sx2 = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy2 = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX2.all = 0; targetY2.all = 0;
+    for (i2 = 0; i2 <= 1024; i2 += step2) {
+        sub_080659F4(&out[2], sx2, targetX2.half.high, i2);
+        sub_080659F4(&out[3], sy2, targetY2.half.high, i2);
+        t53_cam37DC((s16)out[2], (s16)out[3]);
+        sub_080003F0();
+    }
+    {register u32 song asm("r1")=0xA5;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xA5);
+    {register u8 *base asm("r2")=t53_gs0E48;
+    register u32 value asm("r1")=*(u16 *)(base+4);
+    register u32 mask asm("r0")=32;
+    *(u16 *)(base+4)=mask|value;}
+    t53_unlock0E48();
+    sub_0800D108();
+}
+void sub_080529E0(void)
+{
+    s32 out[4];
+    s32 sx, sy, sx2, sy2;
+    s32 i, i2, step, step2;
+    u16 n;
+    s32 off;
+    u32 dialog;
+    s32 k;
+    u8 flag;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX, targetY, targetX2, targetY2;
+    t53_lock0E48();
+    sub_0800D0F4();
+    if (sub_08002164() == 1) off = 0;
+    else switch (sub_080020F4()) {
+    case 0: off = -12; break;
+    case 1: off = 12; break;
+    case 2: off = -36; break;
+    case 3: off = 36; break;
+    }
+    sub_08028D98(0, (s16)off, 0, 0);
+    k = sub_0805A318();
+    for (n = 1; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
+    for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    step = 17;
+    sx = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX.all = -off << 16; targetY.all = 0xFFC00000;
+    for (i = 0; i <= 1024; i += step) {
+        sub_080659F4(&out[0], sx, targetX.half.high, i);
+        sub_080659F4(&out[1], sy, targetY.half.high, i);
+        t53_cam37DC((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+    }
+    flag = t53_has2060(t53_gs0E48, 4);
+    if (k && flag == 0) dialog = t53_open37DC(0x14009C, 4);
+    else if (k == 0 && flag == 0) dialog = t53_open37DC(0x140096, 4);
+    else if (k) dialog = t53_open37DC(0x14009D, 4);
+    else dialog = t53_open37DC(0x140097, 4);
+    t53_dialogWait0E48(dialog);
+    step2 = 34;
+    sx2 = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy2 = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX2.all = 0; targetY2.all = 0;
+    for (i2 = 0; i2 <= 1024; i2 += step2) {
+        sub_080659F4(&out[2], sx2, targetX2.half.high, i2);
+        sub_080659F4(&out[3], sy2, targetY2.half.high, i2);
+        t53_cam37DC((s16)out[2], (s16)out[3]);
+        sub_080003F0();
+    }
+    {register u32 song asm("r1")=0xA5;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xA5);
+    {register u8 *base asm("r2")=t53_gs0E48;
+    register u32 value asm("r1")=*(u16 *)(base+4);
+    register u32 mask asm("r0")=32;
+    *(u16 *)(base+4)=mask|value;}
+    t53_unlock0E48();
+    sub_0800D108();
+}
+void sub_08052D0C(void)
+{
+    s32 out[4];
+    s32 sx, sy, sx2, sy2;
+    s32 i, i2, step, step2;
+    u16 n;
+    u32 dialog;
+    union { s32 all; struct {u16 low; s16 high;} half;} targetX, targetY, targetX2, targetY2;
+    t53_lock0E48();
+    sub_0800D0F4();
+    if (sub_08002164() == 1) sub_08028AAC(0, 0xA0, 0xD8, 0);
+    else switch (sub_080020F4()) {
+    case 0: sub_08028AAC(0, 0xA0, 0xD0, 0); break;
+    case 1: sub_08028AAC(0, 0xAE, 0xD6, 0); break;
+    case 2: sub_08028AAC(0, 0x94, 0xD6, 0); break;
+    case 3: sub_08028AAC(0, 0xA0, 0xDC, 0); break;
+    }
+    sub_080290E4(0, 5);
+    for (n = 1; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    {register u32 song asm("r1")=0xD9;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(0xD9);
+    for (n = 20; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    step = 17;
+    sx = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX.all = 0xA0 << 16; targetY.all = 0xFFB00000;
+    for (i = 0; i <= 1024; i += step) {
+        sub_080659F4(&out[0], sx, targetX.half.high, i);
+        sub_080659F4(&out[1], sy, targetY.half.high, i);
+        t53_cam37DC((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+    }
+    if (t53_test3060(t53_gs0E48, 1) == 0) dialog = t53_open37DC(0x140091, 1);
+    else dialog = t53_open37DC(0x140092, 1);
+    t53_dialogWait0E48(dialog);
+    step2 = 34;
+    sx2 = ((struct Signed37DC *)&gUnk_03003170)->x;
+    sy2 = ((struct Signed37DC *)&gUnk_03003170)->y;
+    targetX2.all = 0; targetY2.all = 0;
+    for (i2 = 0; i2 <= 1024; i2 += step2) {
+        sub_080659F4(&out[2], sx2, targetX2.half.high, i2);
+        sub_080659F4(&out[3], sy2, targetY2.half.high, i2);
+        t53_cam37DC((s16)out[2], (s16)out[3]);
+        sub_080003F0();
+    }
+    {register u32 song asm("r1")=11;gUnk_03005CF8=song;}
+    if (!(gUnk_030027D0 & 32)) sub_08006CB4(11);
+    {register u8 *base asm("r2")=t53_gs0E48;
+    register u32 value asm("r1")=*(u16 *)(base+4);
+    register u32 mask asm("r0")=32;
+    *(u16 *)(base+4)=mask|value;}
+    t53_unlock0E48();
+    sub_0800D108();
+}
 extern u8 *gGS2FE8 asm("gUnk_03005CF4");
 extern void sub_0805990C();
 extern void sub_0803E5D8();
@@ -3535,8 +3748,6 @@ void sub_08052FE8(void)
     sub_08068070((u32)sub_0803E5D8, 0);
 }
 extern void t53_cb3060(void) asm("sub_08053120");
-static inline u32 t53_test3060(u8 *ptr, u32 mask)
-{ return *(u32 *)(ptr + 0x38) & mask; }
 void sub_08053060(void)
 {
     if (t53_test3060(t53_gs2060, 4) == 0) t53_request2060(t53_cb3060, 0, 6);
@@ -3572,20 +3783,6 @@ void sub_08053120(s32 arg0)
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080531C4);
-static inline u32 t53_open37DC(u32 id, u32 bit)
-{
-    u32 d;
-    while(sub_0805F184())sub_080003F0();
-    while(sub_0805EF90())sub_080003F0();
-    d = sub_0805DF38(1,15,2,0,45,id);
-    {register u8 *base asm("r2")=t53_gs0E48;
-    register u32 mask asm("r1")=bit;
-    register u32 value asm("r0")=*(u32 *)(base+0x38);
-    *(u32 *)(base+0x38)=value|mask;}
-    return d;
-}
-extern void t53_cam37DC(s32, s32) asm("sub_0800BB80");
-struct Signed37DC { u8 pad[0x80]; s16 x, y; };
 void sub_08053510(void)
 {
     s32 out[4];
