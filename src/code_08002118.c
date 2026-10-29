@@ -442,6 +442,8 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u32 drawOne3984, ninthZero3984;
     u32 cleanupZero3984, cleanupMask3984, cleanupEnd3984;
     u32 firstName3984;
+    u32 deleteChar3984;
+    u32 nameZero3984;
     s32 textWidth3984;
     u32 input3984;
     u16 navKeys3984;
@@ -566,7 +568,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u8 *temp_r5;
     u8 *temp_r5_13;
     u8 *temp_r5_2;
-    u8 *temp_r5_7;
     u8 *temp_r6_3;
     u8 *temp_r6_4;
     u8 *temp_r6_5;
@@ -980,22 +981,22 @@ block_102:
             var_r7 += 2;
             var_r6 = 0;
             firstName3984 = *var_r7;
-            temp_r5_7 = arg0 + 0x10;
+            var_r5_3 = arg0 + 0x10;
             if (firstName3984 == 0xFF) {
                 M2C_FIELD(arg0, u8 *, 0x10) = 0xFD;
             } else {
 loop_107:
-                temp_r5_7[var_r6] = *(var_r7 + var_r6);
+                var_r5_3[var_r6] = *(var_r7 + var_r6);
                 var_r6 += 1;
                 if ((u32) var_r6 <= 8U) {
                     if (*(var_r7 + var_r6) == 0xFF) {
-                        temp_r5_7[var_r6] = 0xFD;
+                        var_r5_3[var_r6] = 0xFD;
                     } else {
                         goto loop_107;
                     }
                 }
             }
-            temp_r5_7[(nextChar03984 = var_r6 + 1)] = 0;
+            var_r5_3[(nextChar03984 = var_r6 + 1)] = nameZero3984 = 0;
             selection = 0xA;
             sub_08000E48();
             sub_080009F8(0x200, 0, 1);
@@ -1003,8 +1004,8 @@ loop_107:
 
             } else {
                 sub_0801A664(0, 2);
-                reg3984.h0 = 0;
-                var_r9 = (u16) sub_0801A638(temp_r5_7);
+                reg3984.h0 = nameZero3984;
+                var_r9 = (u16) sub_0801A638(var_r5_3);
                 next = var_r9;
                 current = 0;
                 bg.half = 0xD800;
@@ -1064,7 +1065,8 @@ loop_107:
                     (&buffer[0])[var_r6] = 0xFD;
                     var_r6 += 1;
                 } while ((u32) var_r6 <= 0x1FU);
-                text = ((u8 *(*)(s32))sub_08007290)((temp_r4_11 + 0x430) | 0x140000) + 2;
+                text = ((u8 *(*)(s32))sub_08007290)((temp_r4_11 + 0x430) | 0x140000);
+                text += 2;
                 selection = state;
             }
             temp_r0_6 = status;
@@ -1080,7 +1082,8 @@ loop_107:
                     text = temp_r3_3 + 3;
                 }
                 if (*text == 0xFD) {
-                    text = ((u8 *(*)(s32))sub_08007290)((temp_r4_11 + 0x430) | 0x140000) + 2;
+                    text = ((u8 *(*)(s32))sub_08007290)((temp_r4_11 + 0x430) | 0x140000);
+                    text += 2;
                 }
                 temp_r4_12 = oldCount;
                 temp_r6_3 = text;
@@ -1293,7 +1296,8 @@ after198:
                     cursorY = (s32) (u16) (temp_r3_5 - 1);
                 }
             }
-            var_r0_6 = ((u8 *(*)(s32))sub_08007290)(0x140442) + 2;
+            var_r7 = ((u8 *(*)(s32))sub_08007290)(0x140442);
+            var_r0_6 = var_r7 + 2;
             var_r1_6 = 0;
 block_206:
             sub_0801A3D0(var_r0_6, var_r1_6, 0U);
@@ -1503,8 +1507,9 @@ block_302:
                     } else {
                     temp_r0_15 = arg0 + 0x10;
                     temp_r2_5 = &temp_r0_15[var_r9];
+                    deleteChar3984 = *temp_r2_5;
                     var_r5_3 = temp_r0_15;
-                    if (*temp_r2_5 == 0x51) {
+                    if (deleteChar3984 == 0x51) {
                         var_r9 -= 1;
                         if (!(0x8000 & var_r9)) {
 

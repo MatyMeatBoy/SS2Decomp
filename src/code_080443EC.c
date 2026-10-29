@@ -236,15 +236,12 @@ done:
         break;
     }
 }
-#ifdef NONMATCHING
-struct T49PlayerB100 { u8 pad[0x30]; u32 flags; u8 tail[0x118]; };
 struct T49EntityB100 { u8 pad[12]; u16 state; u8 padE[0x22]; u32 x, y; void *callback; u32 arg; u8 tail[0x2A0]; };
-extern struct T49PlayerB100 t49_playersB100[] asm("gUnk_03003CE0");
 extern struct T49EntityB100 *t49_entitiesB100 asm("gUnk_030056F4");
 extern u8 *t49_gsB100 asm("gUnk_03005CF4");
 extern void t49_cbB100(void) asm("sub_0804B32C");
-static inline u32 t49_testB100(u32 mask)
-{ return gUnk_030056FC & mask; }
+static inline u32 t49_testB100(s32 *ptr, u32 mask)
+{ return *ptr & mask; }
 static inline void t49_waitMaskB100(s16 mask)
 {
     if ((gUnk_030056FC & mask) == 0) {
@@ -255,16 +252,26 @@ static inline void t49_bindB100(void *callback, u32 arg, s16 index)
 {
     struct T49EntityB100 *p;
     u32 i;
-    s32 slot = index;
+    register s32 slot asm("r6") = index;
+    u32 offset;
+    register struct T49EntityB100 **table asm("r1");
+    struct T49EntityB100 *entity;
+    register s32 *bits asm("r6");
+    register u32 one asm("r7");
     t49_waitMaskB100(arg);
-    p = t49_entitiesB100;
-    p[slot].callback = callback;
-    p[slot].arg = arg;
-    p[slot].x = 0;
-    p[slot].y = 0;
+    table = &t49_entitiesB100;
+    offset = slot * 0x2E0;
+    p = *table;
+    entity = (struct T49EntityB100 *)((u8 *)p + offset);
+    entity->callback = callback;
+    entity->arg = arg;
+    entity->x = 0;
+    entity->y = 0;
     i = 0;
+    bits = &gUnk_030056FC;
+    one = 1;
     do {
-        if (t49_testB100(1 << i) != 0 && p->state == 12) p->state = 0;
+        if (t49_testB100(bits, one << i) != 0 && p->state == 12) p->state = 0;
         i++;
         p++;
     } while (i <= 4);
@@ -290,25 +297,26 @@ static inline u8 *t49_selectB100(void)
     if (sub_0800CE30() != 0) return t49_offsetB100(t49_gsB100, 0x1C5);
     return t49_offsetB100(t49_gsB100, 0x1B9);
 }
-static inline struct T49PlayerB100 *t49_playerB100(s32 index)
-{
-    u32 address = index;
-    address *= 0x14C;
-    address += (u32)t49_playersB100;
-    return (struct T49PlayerB100 *)address;
-}
+
 static inline u32 t49_hasB100(u8 *ptr, u32 mask)
 { return *(u32 *)(ptr + 0x38) & mask; }
-static inline s32 t49_extractB100(s32 value)
-{ return (value >> 2) & 1; }
+static inline s8 t49_extractB100(u16 value)
+{ return ((s16)value / 4) & 1; }
+
+static inline void t49_lockB100(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
+static inline void t49_unlockB100(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
 void sub_0804B100(void)
 {
     u8 *selected;
-    s32 bit, alternate;
+    register s32 bit asm("r5");
+    register s32 raw asm("r0");
+    s32 alternate;
     u32 dialog;
-    struct T49PlayerB100 *player;
     selected = t49_selectB100();
-    bit = t49_extractB100(*selected);
+    raw = *selected;
+    bit = t49_extractB100(raw);
     if (bit == 0) t49_bindB100(t49_cbB100, 2, 1);
     else {
         sub_08028AAC(1, 9999, 9999, 0);
@@ -316,8 +324,7 @@ void sub_0804B100(void)
     }
     alternate = sub_0800CCCC();
     if (t49_hasB100(t49_gsB100, 16) == 0 && bit == 0 && alternate == 0) {
-        player = t49_playerB100(sub_080020F4());
-        player->flags |= 1;
+        t49_lockB100();
         sub_0800D0F4();
         t49_transitionB100();
         while (sub_0805F184() != 0) sub_080003F0();
@@ -325,15 +332,116 @@ void sub_0804B100(void)
         dialog = sub_0805DF38(1, 15, 2, 0, 45, 0x14003E);
         while (sub_0805EEFC((void *)dialog) == 0) sub_080003F0();
         t49_setFlagB100(t49_gsB100, 16);
-        player = t49_playerB100(sub_080020F4());
-        player->flags &= ~1;
+        t49_unlockB100();
         sub_0800D108();
     } else t49_transitionB100();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B100);
-#endif
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B32C);
+struct T49TaskB32C { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
+struct T49EntryB32C { u32 id, kind; u8 pad[0x2E]; u16 duration; u8 tail[0x38]; };
+extern u8 *t49_gsB32C asm("gUnk_03005CF4");
+extern void t49_cbB32C(void) asm("sub_0805A054");
+static inline u32 t49_claimB32C(u8 *base, u32 mask)
+{
+    u32 old = *(u32 *)(base + 0x38);
+    if (old & mask) return 1;
+    *(u32 *)(base + 0x38) = old | mask;
+    return 0;
+}
+static inline void t49_startB32C(void *callback, u32 arg)
+{
+    struct T49TaskB32C *task = (struct T49TaskB32C *)(t49_gsB32C + 0xE34);
+    u32 i = 0;
+    u32 memory;
+    goto check;
+next: i++; task++;
+check:
+    if (i > 29) return;
+    if (sub_08000470((u32)task) != 0) goto next;
+    while ((task->memory = sub_08001494(0x400)) == 0) sub_080003F0();
+    memory = task->memory;
+    task->flags = 60;
+    task->callback = (u32)callback;
+    task->stack = memory + 0x3FC;
+    task->arg = 0;
+    sub_08000274(task, arg);
+}
+static inline void t49_waitB32C(u16 timer)
+{
+    goto wait;
+next:
+    if (--timer == 0) return;
+wait:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto next;
+}
+static inline void t49_effectB32C(s32 x, s32 y)
+{ sub_08073E2C(x, y, 41, 1); }
+static inline void t49_lockB32C(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
+static inline void t49_unlockB32C(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+static inline struct T49EntryB32C *t49_findB32C(u32 id)
+{
+    struct T49EntryB32C *p = (struct T49EntryB32C *)(t49_gsB32C + 0x7A4);
+    u32 i;
+    for (i = 0; i <= 14; i++, p++) {
+        if (p->id == id) return p;
+    }
+    sub_080003F0();
+    return 0;
+}
+static inline u8 *t49_selectB32C(void)
+{
+    if (sub_0800CE30() != 0) return t49_gsB32C + 0x1C5;
+    return t49_gsB32C + 0x1B9;
+}
+void sub_0804B32C(void)
+{
+    u32 actor, dialog;
+    struct T49EntryB32C *entry;
+    u8 *selected;
+    if (sub_0800CCCC() != 0) goto finish;
+    if (t49_claimB32C(t49_gsB32C, 32) != 0) goto finish;
+    t49_lockB32C();
+    sub_0800D0F4();
+    sub_0801A388(2);
+    sub_0801A388(1);
+    sub_08028AAC(2, 120, 80, 10);
+    sub_08028AAC(2, 9999, 9999, 0);
+    t49_startB32C(t49_cbB32C, 2);
+    t49_waitB32C(30);
+    t49_effectB32C(0x7800, 0x5000);
+    t49_waitB32C(2);
+    t49_effectB32C(0x7000, 0x5000);
+    t49_effectB32C(0x7C00, 0x4800);
+    t49_waitB32C(2);
+    t49_effectB32C(0x8000, 0x5000);
+    t49_effectB32C(0x7400, 0x4800);
+    t49_waitB32C(8);
+    sub_08028AAC(1, 9999, 9999, 0);
+    t49_startB32C(t49_cbB32C, 1);
+    actor = sub_080289C0(15, 120, 80);
+    sub_080290E4(actor, 0);
+    sub_0802939C(actor, 20);
+    sub_08028AAC(actor, 120, 80, 0);
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+    dialog = sub_0805DF38(1, 15, 2, 0, 45, 0x14003F);
+    while (sub_0805EEFC((void *)dialog) == 0) sub_080003F0();
+    sub_0802939C(actor, 16);
+    sub_08028D98(actor, 0, 120, 100);
+    entry = t49_findB32C(actor);
+    if (entry != 0) entry->duration = 4;
+    t49_unlockB32C();
+    sub_0800D108();
+finish:
+    selected = t49_selectB32C();
+    {
+        register u32 value asm("r1") = *selected;
+        register u32 mask asm("r0") = 4;
+        *selected = mask | value;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B61C);
 #ifdef NONMATCHING
 extern void t49_BB80(s32, s32) asm("sub_0800BB80");
@@ -369,8 +477,241 @@ INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B8EC);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B984);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804BC38);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804BEF8);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804C150);
+struct T49TaskBEF8 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
+struct T49ReqBEF8 { s32 x, y; u16 w, h; void *callback; u32 arg, unused; };
+extern u8 *t49_gsBEF8 asm("gUnk_03005CF4");
+extern u8 *t49_itemsBEF8 asm("gUnk_030034E0");
+extern void t49_taskBEF8(void) asm("sub_0805A874");
+extern void t49_confirmBEF8(void) asm("sub_0804C150");
+extern void t49_scheduleBEF8(void *, u32) asm("sub_08068070");
+void sub_0804BEF8(u32 arg0);
+static inline u32 t49_flagBEF8(u16 mask)
+{
+    register u32 bit asm("r4") = mask;
+    register u8 *base asm("r0");
+    register u32 offset asm("r1");
+    s32 value;
+    if (sub_0800CE30() != 0) { base = t49_gsBEF8; offset = 0x1C4; }
+    else { base = t49_gsBEF8; offset = 0x1B8; }
+    base += offset;
+    value = *base;
+    return (value >> 6) & bit;
+}
+static inline void t49_lockBEF8(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
+static inline void t49_unlockBEF8(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+static inline void t49_spawnBEF8(void *callback, u32 arg, s32 x, s32 y, u16 w, u16 h)
+{
+    struct T49ReqBEF8 req;
+    struct T49TaskBEF8 *task = (struct T49TaskBEF8 *)(t49_gsBEF8 + 0xE34);
+    u32 i = 0, zero;
+    goto check;
+next: i++; task++;
+check:
+    if (i > 29) return;
+    zero = sub_08000470((u32)task);
+    if (zero != 0) goto next;
+    req.x = x;
+    req.y = y;
+    req.w = w;
+    req.h = h;
+    req.callback = callback;
+    req.arg = arg;
+    task->flags = 60;
+    task->memory = sub_08001494(0x400);
+    task->callback = (u32)t49_taskBEF8;
+    task->stack = task->memory + 0x3FC;
+    task->arg = zero;
+    sub_08000274(task, &req, 1);
+    sub_080003F0();
+    sub_080003F0();
+}
+static inline void t49_confirmScheduleBEF8(u32 player)
+{ t49_scheduleBEF8(t49_confirmBEF8, player); }
+void sub_0804BEF8(u32 arg0)
+{
+    u32 count;
+    u32 i;
+    u16 *p;
+    u32 dialog;
+    if (t49_flagBEF8(1) != 0) return;
+    t49_lockBEF8();
+    sub_0800D0F4();
+    count = 0;
+    i = 0;
+    p = (u16 *)(t49_itemsBEF8 + 0x150);
+    do {
+        if (p[0] == 1 && p[1] == 0x22) count++;
+        p += 8;
+        i++;
+    } while (i <= 24);
+    if (count != 0) {
+        while (sub_0805F184() != 0) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -2, 0x140045);
+        while (sub_0805EEFC((void *)dialog) == 0) sub_080003F0();
+        if (sub_0805EF14((u8 *)dialog) == 1) {
+            t49_confirmScheduleBEF8(sub_080020F4());
+        } else {
+            t49_spawnBEF8(sub_0804BEF8, arg0, 0xB700, 0xC800, 20, 14);
+        }
+    } else {
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, 45, 0x140044);
+        while (sub_0805EEFC((void *)dialog) == 0) sub_080003F0();
+        t49_spawnBEF8(sub_0804BEF8, arg0, 0xB700, 0xC800, 20, 14);
+    }
+    t49_unlockBEF8();
+    sub_0800D108();
+}
+struct T49EntryC150 { u32 id, kind; u8 pad[0x2E]; u16 duration; u8 tail[0x38]; };
+extern u8 *t49_gsC150 asm("gUnk_03005CF4");
+extern void t49_cbC150(void) asm("sub_0805A0EC");
+extern void t49_scheduleC150(void *, u32) asm("sub_08068070");
+extern void t49_BB80C150(s32, s32) asm("sub_0800BB80");
+
+
+static inline u8 t49_boolC150(u16 mask, u8 *base)
+{
+    u32 value = *(u32 *)(base + 0x38) & mask;
+    if (value != 0) value = 1;
+    return value;
+}
+static inline void t49_lockC150(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags |= 1; }
+static inline void t49_unlockC150(void)
+{ struct Player *p = &gUnk_03003CE0[sub_080020F4()]; p->flags &= ~1; }
+static inline void t49_waitC150(u16 timer)
+{
+    goto wait;
+next: if (--timer == 0) return;
+wait:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto next;
+}
+
+static inline struct T49EntryC150 *t49_findC150(u32 id)
+{
+    struct T49EntryC150 *p = (struct T49EntryC150 *)(t49_gsC150 + 0x7A4);
+    u32 i;
+    for (i = 0; i <= 14; i++, p++) if (p->id == id) return p;
+    sub_080003F0();
+    return 0;
+}
+static inline void t49_moveC150(s16 step, s16 tx, s16 ty)
+{
+    s32 a, b;
+    register s32 delta asm("sl") = step;
+    register s32 x asm("r6") = (s16)gUnk_03003170.f80;
+    s32 y = (s16)gUnk_03003170.f82;
+    s32 i;
+    for (i = 0; i <= 0x400; i += delta) {
+        sub_080659F4(&a, x, tx, i);
+        sub_080659F4(&b, y, ty, i);
+        t49_BB80C150((s16)a, (s16)b);
+        sub_080003F0();
+    }
+}
+static inline void t49_flagC150(u32 mask, u8 *ptr)
+{
+    register u8 *base asm("r0") = ptr;
+    register u32 value asm("r1") = *(u32 *)(base + 0x38);
+    value |= mask;
+    *(u32 *)(base + 0x38) = value;
+}
+static inline void t49_schedulePlayerC150(u32 player)
+{ register u32 id asm("r1") = player; t49_scheduleC150(t49_cbC150, id); }
+static inline u32 t49_gateC150(s32 alternate, u16 level)
+{
+    register s32 savedAlternate asm("r2") = alternate;
+    register u32 savedLevel asm("r1") = level;
+    register u32 first asm("r0") = 0;
+    register u32 second asm("r2");
+    if (savedAlternate == 0) first = 1;
+    second = 0;
+    if (savedLevel == 4) second = 1;
+    return first & second;
+}
+void sub_0804C150(u32 arg0)
+{
+    register u8 *selected asm("r1");
+    register u8 **gsAddress asm("r3");
+    u8 **savedAddress;
+    register u32 savedArg asm("r6") = arg0;
+    u16 mask;
+    register s32 alternate asm("r2");
+    register u32 level asm("r1");
+    u8 *game;
+    u32 dialog, actor;
+    u32 actorIndex, actorMask;
+    register u32 actorOne asm("r4");
+    struct T49EntryC150 *p;
+    if (sub_0800CE30() != 0) {
+        register u32 offset asm("r0") = 0x1C4;
+        gsAddress = &t49_gsC150;
+        selected = *gsAddress;
+        selected += offset;
+        goto selectionDone;
+actorFound:
+        actor = p->id;
+        goto actorReady;
+    } else {
+        register u32 offset asm("r2") = 0x1B8;
+        gsAddress = &t49_gsC150;
+        selected = *gsAddress;
+        selected += offset;
+    }
+selectionDone:
+    {
+        register u32 value asm("r2") = *selected;
+        register u32 byteMask asm("r0") = 64;
+        *selected = byteMask | value;
+    }
+    savedAddress = gsAddress;
+    game = *savedAddress;
+    if (t49_boolC150(mask = 4, game) != 0) return;
+    if (sub_080020F4() == 0) t49_schedulePlayerC150(savedArg);
+    t49_flagC150(mask, *savedAddress);
+    alternate = sub_0800CCCC();
+    level = gUnk_03003170.f90;
+    if (t49_gateC150(alternate, level)) {
+        t49_lockC150();
+        sub_0800D0F4();
+        sub_08028AAC(6, 9999, 9999, 0);
+        if ((gUnk_030027D0 & 32) == 0) sub_08006D08(35);
+        t49_waitC150(30);
+        sub_0805EFBC();
+        do { sub_080003F0(); } while (sub_0805F184() != 0);
+        t49_waitC150(4);
+        t49_lockC150();
+        sub_0800D0F4();
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, 45, 0x140046);
+        while (sub_0805EEFC((void *)dialog) == 0) sub_080003F0();
+        p = (struct T49EntryC150 *)(t49_gsC150 + 0x7A4);
+        actorIndex = 0;
+        actorOne = 1;
+        actorMask = *(u32 *)(t49_gsC150 + 0x54);
+        for (; actorIndex <= 14; actorIndex++, p++) {
+            if ((actorMask & (actorOne << actorIndex)) != 0 && p->kind == 19) goto actorFound;
+        }
+        actor = 0;
+actorReady:
+        sub_0802939C(actor, 8);
+        sub_08028AAC(actor, 184, 224, 20);
+        sub_080290E4(actor, 2);
+        sub_08028AAC(actor, 151, 224, 20);
+        sub_080290E4(actor, 0);
+        sub_08028AAC(actor, 151, 299, 40);
+        p = t49_findC150(actor);
+        if (p != 0) p->duration = 4;
+        t49_moveC150(34, 0, 0);
+        t49_unlockC150();
+        sub_0800D108();
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804C408);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804C4E8);
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804C5A8);

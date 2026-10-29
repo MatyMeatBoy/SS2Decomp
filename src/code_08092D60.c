@@ -237,6 +237,10 @@ void sub_08094638(u32 count,s32 choice)
     u16 indices[3],frames[3];
     struct {s32 x,y;} base;
     s32 screenX,screenY,result,active;
+    struct Sprite98c *sprite;
+    /* Reuse packed-coordinate halves across the three draws; still NONMATCHING. */
+    u16 posXBits;
+    u32 posYBits;
     u32 completed;
     s32 shifted=(s32)((u32)choice<<24);
     u8 limit=(u8)(count*2);
@@ -264,16 +268,19 @@ void sub_08094638(u32 count,s32 choice)
     do {
         sub_08000AF0(0x11,b.fC+0x100,1);
         back98c(&b,0,&indices[1],&frames[1],0);
-        pos.x=screenX;pos.y=screenY;
-        tall98c(pos.x,0x9E,0,indices[1],1,0,2,b.payload,b.f8,b.f0)->y=pos.y;
+        posXBits=screenX;posYBits=(u32)screenY<<16;
+        pos.x=posXBits;pos.y=(s32)posYBits>>16;
+        sprite=tall98c(pos.x,0x9E,0,indices[1],1,0,2,b.payload,b.f8,b.f0);
+        sprite->y=pos.y;
         sub_08000AF0(0x11,b.fC+0x100,1);
         result=step98c(&b,0,&indices[2],&frames[2],0);
-        pos.x=screenX;pos.y=screenY;
-        draw98c(pos.x,0x9F,0,indices[2],1,b.payload,b.f8,b.f0)->y=pos.y;
+        pos.x=posXBits;pos.y=(s32)posYBits>>16;
+        sprite=draw98c(pos.x,0x9F,0,indices[2],1,b.payload,b.f8,b.f0);
+        sprite->y=pos.y;
         sub_08000AF0(0x10,a.fC+0xE0,1);
         step98c(&a,0,&indices[0],&frames[0],1);
-        pos.x=screenX;pos.y=screenY;
-        draw98c(pos.x,pos.y,0,indices[0],0,a.payload,a.f8,a.f0);
+        pos.x=posXBits;pos.y=(s32)posYBits>>16;
+        sprite=draw98c(pos.x,pos.y,0,indices[0],0,a.payload,a.f8,a.f0);
         if(result) {
             u32 previous=completed;
             frames[2]=0;frames[1]=0;
@@ -376,7 +383,6 @@ void sub_08094A00(void)
     sub_08094EE4();
     sub_08000940();
 }
-#ifdef NONMATCHING
 struct Anim98b { u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24]; };
 struct Sprite98b {u32 f0,f4,f8; s32 y;};
 extern void init98b(struct Anim98b *,s32,s32,s32,s32) asm("sub_08065158");
@@ -389,11 +395,13 @@ void sub_08094AB8(s8 count, s32 choice)
 {
     struct Anim98b a,b,c;
     u16 indices[3],frames[3];
-    s32 x,y,orbitX,orbitY,radius;
+    struct { s32 x,y; } pos;
+    s32 orbitX,orbitY,radius;
     u8 angle;
     u16 timer;
     u8 i;
     s32 state;
+    struct Sprite98b *sprite;
     s32 shifted=(s32)((u32)choice<<24);
     u8 repetitions=(u8)(count*3);
     s32 selected=(s32)((u32)shifted+0xFF000000)>>24;
@@ -404,10 +412,10 @@ void sub_08094AB8(s8 count, s32 choice)
     b.payload[7]=0;
     c.payload[8]=1;
     switch(selected){
-    case 0:x=0x7800;y=0x7000;break;
-    case 1:x=0x7800;y=0x7000;break;
-    case 2:x=0x7800;y=0x6000;break;
-    case 3:x=0x8000;y=0x6800;break;
+    case 0:pos.x=0x7800;pos.y=0x7000;break;
+    case 1:pos.x=0x7800;pos.y=0x7000;break;
+    case 2:pos.x=0x7800;pos.y=0x6000;break;
+    case 3:pos.x=0x8000;pos.y=0x6800;break;
     }
     angle=0;timer=0;
     for(i=0;i<3;i++){
@@ -422,7 +430,7 @@ void sub_08094AB8(s8 count, s32 choice)
     do {
         switch(state){
         case 4:if(timer++>120){timer=0;state=3;sub_0805865C(0x19D);}break;
-        case 3:if(y<=0x11FFF)y+=0x1A0;else{radius=240;state=2;sub_0805865C(0x19C);}break;
+        case 3:if(pos.y<=0x11FFF)pos.y+=0x1A0;else{radius=240;state=2;sub_0805865C(0x19C);}break;
         case 2:
             if(radius!=0){
                 orbitX=radius*sine98b[angle+64]+0x7800;
@@ -439,18 +447,20 @@ void sub_08094AB8(s8 count, s32 choice)
         if((u32)state>2){
             sub_08000AF0(0x10,a.fC+0xE0,1);
             step98b(&a,0,&indices[0],&frames[0],1);
-            draw98b(x>>8,0,0,indices[0],0,a.payload,a.f8,a.f0)->y=y>>8;
+            sprite=draw98b(pos.x>>8,0,0,indices[0],0,a.payload,a.f8,a.f0);
+            sprite->y=pos.y>>8;
         }
         if(state==2){
             s32 ox,oy;
             sub_08000AF0(0x10,b.fC+0xE0,1);
             step98b(&b,0,&indices[1],&frames[1],1);
             ox=orbitX>>8;oy=orbitY>>8;
-            draw98b(ox,oy,0,indices[1],1,b.payload,b.f8,b.f0);
+            sprite=draw98b(ox,oy,0,indices[1],1,b.payload,b.f8,b.f0);
             if(drawFlag98b&1){
                 sub_08000AF0(0x11,c.fC+0x100,1);
                 step98b(&c,0,&indices[2],&frames[2],1);
-                drawTall98b(ox,0x9F,0,indices[2],1,0,1,c.payload,c.f8,c.f0)->y=oy;
+                sprite=drawTall98b(ox,0x9F,0,indices[2],1,0,1,c.payload,c.f8,c.f0);
+                sprite->y=oy;
             }
         }
         sub_080003F0();
@@ -461,9 +471,6 @@ void sub_08094AB8(s8 count, s32 choice)
     sub_080586D0(3);
     sub_08094EA4();sub_0800CC18();sub_0800CC68();sub_08098028();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094AB8);
-#endif
 #ifdef NONMATCHING
 s32 sub_08094DEC(void)
 {

@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-29T00:01:47.246814+00:00",
-  "checkpoint": "288ef310f19065f54ebb6cdaa79d6b8393965c6c",
+  "updated_utc": "2026-10-29T00:37:54.588788+00:00",
+  "checkpoint": "08e1b62c8fc2e844c1100ff438a480eabd12a9b3",
   "areas": [
     {
       "id": "flow",
@@ -31,7 +31,7 @@
       "id": "layout",
       "label": "Frame, bloques y registros",
       "state": "active",
-      "evidence": "Frame0x54C y highregs conservados. Estado3: márgenes y anchoTexto agrupados, punterosX/Y calculados en argumentos; cursorY+9 ahora se carga/suma al final, como ASM04D54–04DC8. Última diferencia aislada cambia sólo seis instrucciones locales, sin más cambios al ensamblado. CFG190/170/5 limpio; seis replays simulados149frames sin divergencias, diagnóstico acotado. Módulo real NO MATCH8320/8352; ROM fallback OK/NM/check_tree."
+      "evidence": "Frame0x54C/highregs conservados. Estados1/5 comparten puntero de nombre var_r5_3; cero del terminador vive hasta reg.h0 en estado8. Recupera destinoR5, ceroR4, fadeR6 y materialización original de arg0 en043E6–044A4; cambios locales. Borrado053F0 tiene prefijo250bytes idéntico en objetos (sólo evidencia local, no ROM C). CFG190/170/5 y seis replays149frames; diez casos de nombres longitudes0/1/8/9/12 y targets0/8,265frames completos sin divergencias. Diagnóstico acotado, C8324/8352 NO MATCH; ASM retenido."
     },
     {
       "id": "match",
