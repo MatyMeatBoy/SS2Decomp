@@ -1421,7 +1421,42 @@ void sub_08061688(s32 index)
     sub_08000274(&tasks64[index], index);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806171C);
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061830);
+/* SS1 player_rise_effect.c (52c0fa73870fab238941e32be7eff172e9bad71f), adapted to SS2 ASM. */
+struct RisePlayer64 { u8 pad0[0x30]; u32 flags; u8 pad34[0x58]; s32 x,y; };
+struct RiseSprite64 { u32 base,unused,data; u8 padC[0x10]; u8 attr[24]; };
+extern struct RiseSprite64 riseSprite64 asm("gUnk_03005D80");
+extern void riseCoords64(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+static inline u32 StepRise64(struct RiseSprite64 *obj,u16 anim,u16 *frame,u16 *timer,u32 loop)
+{
+    return sub_08008CC4(anim,frame,timer,(u8 *)obj->data,loop);
+}
+static inline void DrawRise64(struct RiseSprite64 *obj,u32 x,u32 y,u16 anim,u16 frame)
+{
+    sub_08007CF0(x,y,anim,frame,0,(s32)obj->attr,obj->data,obj->base);
+}
+void sub_08061830(void *raw)
+{
+    struct RisePlayer64 *player = raw;
+    struct RiseSprite64 *sprite = &riseSprite64;
+    s32 x = player->x;
+    s32 y = player->y;
+    s16 screenX,screenY;
+    u16 frame = 0;
+    u16 timer = 0;
+    u16 i;
+    sub_0805865C(0x25);
+    for (i = 47; i != 0xFFFF; i--) {
+        y -= 0x20;
+        riseCoords64(((x >> 8) << 16) >> 16,(y << 8) >> 16,&screenX,&screenY,0x30,0);
+        screenX -= 8;
+        screenY -= 8;
+        StepRise64(sprite,14,&frame,&timer,1);
+        if (sub_0800CC98() == 0)
+            DrawRise64(sprite,screenX,screenY,14,frame);
+        sub_080003F0();
+    }
+    player->flags |= 8;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061910);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061B88);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061E44);
