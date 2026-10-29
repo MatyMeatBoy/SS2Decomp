@@ -1310,7 +1310,7 @@ void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     s32 var_r0;
     register s32 var_r1_2 asm("r1");
     u16 *var_r2;
-    u16 temp_r0_3;
+    register u32 temp_r0_3 asm("r0");
     u16 temp_r0_6;
     u16 temp_r0_7;
     u16 temp_r0_8;
@@ -1348,8 +1348,11 @@ loop_5:
     } else {
         temp_r0_3 = var_r5->source;
         if ((u32) temp_r0_3 <= 3U) {
+            register u32 srcEdge18 asm("r1");
             baseAddress = (u32)rescueC8F0Records;
-            temp_r2 = 0x14C * temp_r0_3;
+            srcEdge18 = temp_r0_3;
+            asm("" : : "r"(srcEdge18));
+            temp_r2 = 0x14C * srcEdge18;
             temp_r1_2 = (u8 *)(temp_r2 + baseAddress);
             temp_r0_6 = (*(u16 *)(temp_r1_2 + 0xC));
             switch (temp_r0_6) {                    /* switch 1; irregular */
