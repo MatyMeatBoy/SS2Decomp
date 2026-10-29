@@ -555,25 +555,27 @@ void sub_0804B61C(void)
     t49_unlockB61C();
     sub_0800D108();
 }
-#ifdef NONMATCHING
-extern void t49_BB80(s32, s32) asm("sub_0800BB80");
+extern void t49_BB80B8EC(s32, s32) asm("sub_0800BB80");
 static inline void t49_moveB8EC(s16 step, s16 tx, s16 ty)
 {
-    s32 a, b;
+    volatile s32 a;
+    s32 b;
 
-    s32 delta = step;
-    s32 x = (s16)gUnk_03003170.f80;
+    register s32 delta asm("sl") = step;
+    register s32 x asm("r8") = (s16)gUnk_03003170.f80;
     s32 y = (s16)gUnk_03003170.f82;
+    s32 *outB = (s32 *)&b;
     s32 i;
     for (i = 0; i <= 0x400; i += delta) {
-        sub_080659F4(&a, x, tx, i);
-        sub_080659F4(&b, y, ty, i);
-        t49_BB80((s16)a, (s16)b);
+        sub_080659F4((s32 *)&a, x, tx, i);
+        sub_080659F4(outB, y, ty, i);
+        t49_BB80B8EC((s16)a, (s16)b);
         sub_080003F0();
     }
 }
 void sub_0804B8EC(s32 arg0)
 {
+    register s32 target asm("r6") = arg0;
     u16 timer = 100;
     goto wait;
 next:
@@ -582,12 +584,158 @@ wait:
     sub_080003F0();
     if (sub_080021A8() == 0) goto next;
 done:
-    t49_moveB8EC(2, arg0, -300);
+    t49_moveB8EC(2, target, -300);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B8EC);
-#endif
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804B984);
+
+
+
+
+
+struct T49TaskB984 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
+struct T49ReqB984 { s32 x, y; u16 w, h; void *callback; u32 arg, unused; };
+extern u8 *t49_gsB984 asm("gUnk_03005CF4");
+extern void t49_taskB984(void) asm("sub_0805A874");
+void sub_0804BEF8(u32 arg0);
+extern void t49_cbB984(void) asm("sub_0805A088");
+struct T49PacketB984 { u16 type, id; u8 args[12]; };
+static inline u32 t49_extractB984(s32 value,u32 mask) { return (value>>6)&mask; }
+static inline void t49_startB984(void *callback, u32 arg)
+{
+    struct T49TaskB984 *task = (struct T49TaskB984 *)(t49_gsB984 + 0xE34);
+    u32 i = 0;
+    u32 memory;
+    goto check;
+next:
+    i++;
+    task++;
+check:
+    if (i > 29) return;
+    if (sub_08000470((u32)task) != 0) goto next;
+    while ((task->memory = sub_08001494(0x400)) == 0) sub_080003F0();
+    memory = task->memory;
+    task->flags = 60;
+    task->callback = (u32)callback;
+    task->stack = memory + 0x3FC;
+    task->arg = 0;
+    sub_08000274(task, arg);
+}
+extern void t49_BB80B984(s32,s32) asm("sub_0800BB80");
+static inline void t49_moveB984(s16 tx,s16 ty)
+{
+    s32 a;
+    s32 b;
+    register s32 x asm("r8")=(s16)gUnk_03003170.f80;
+    s32 y=(s16)gUnk_03003170.f82;
+    s32 i;
+    s32 *outA;
+    s32 *outB;
+    i=0;
+    outA=(s32 *)&a;outB=&b;
+    for(;i<=0x400;i+=0x400) {
+        sub_080659F4(outA,x,tx,i);
+        sub_080659F4(outB,y,ty,i);
+        t49_BB80B984((s16)a,(s16)b);
+        sub_080003F0();
+    }
+}
+void sub_0804B984(void)
+{
+    union { struct T49PacketB984 packet; struct T49ReqB984 req; } data;
+    u32 oldFlag;
+    register u32 flag2 asm("r3");
+    register u32 bit1 asm("r0");
+    register u8 *selected asm("r1");
+    register u32 bit asm("r4")=1;
+    register u8 **base asm("r0");
+    register u32 selectedBit asm("r1");
+    register u32 state asm("r2");
+    register u8 **savedBase asm("r4");
+    u32 actor;
+    u32 j;
+    if (sub_0800CE30()) { register u32 offset asm("r2")=0x1C4; base=&t49_gsB984; selected=*base+offset; }
+    else { register u32 offset asm("r3")=0x1B8; base=&t49_gsB984; selected=*base+offset; }
+    selectedBit=t49_extractB984(*selected,bit);
+    savedBase=base;
+    { register u8 *game asm("r0")=*savedBase;
+    flag2=2;
+    state=*(u32 *)(game+0x38); }
+    flag2 &= state;
+    if(flag2!=0)flag2=1;
+    bit1=1;
+    bit1 &= state;
+    if(bit1!=0)bit1=1;
+    oldFlag=bit1;
+    if (selectedBit) { register u32 pos asm("r2")=9999; sub_08028AAC(6,pos,pos,0); }
+    else if (flag2) {
+        actor=sub_080289C0(19,184,187);
+        sub_08028AAC(6,184,202,0);
+        {
+    register void *callback asm("r8")=sub_0804BEF8;
+    struct T49TaskB984 *task = (struct T49TaskB984 *)(*savedBase + 0xE34);
+    u32 i = 0, zero;
+    goto check;
+next: i++; task++;
+check:
+    if (i > 29) goto footer;
+    zero = sub_08000470((u32)task);
+    if (zero != 0) goto next;
+    data.req.x = 0xB700;
+    data.req.y = 0xD200;
+    data.req.w = 20;
+    data.req.h = 5;
+    data.req.callback = callback;
+    data.req.arg = actor;
+    task->flags = 60;
+    task->memory = sub_08001494(0x400);
+    task->callback = (u32)t49_taskB984;
+    task->stack = task->memory + 0x3FC;
+    task->arg = zero;
+    sub_08000274(task, &data.req, 1);
+    sub_080003F0();
+    sub_080003F0();
+        }
+    } else {
+        t49_moveB984(0,-40);
+        actor=sub_080289C0(19,160,133);
+        sub_08028AAC(6,184,202,0);
+        { register u32 old asm("r1")=oldFlag;
+        if (!old) {
+            u32 alternate=sub_0800CE30();
+            if(alternate) {
+                register u32 id asm("r2");
+                struct T49PacketB984 *packet;
+                alternate=3;
+                id=0x23;
+                packet=&data.packet;
+                packet->type=alternate;packet->id=id;
+                for(j=0;j<=11;j++)data.packet.args[j]=0;
+                while(!sub_08067B9C(0x2100,0x6F00,&data.packet))sub_080003F0();
+            } else {
+                register u32 id asm("r2");
+                struct T49PacketB984 *packet;
+                alternate=3;
+                id=0x91;
+                packet=&data.packet;
+                packet->type=alternate;packet->id=id;
+                for(j=0;j<=11;j++)data.packet.args[j]=0;
+                while(!sub_08067B9C(0x2100,0x6F00,&data.packet))sub_080003F0();
+            }
+            { register u8 *game asm("r2")=t49_gsB984; register u32 mask asm("r1")=1; *(u32 *)(game+0x38)|=mask; }
+        }
+        }
+        t49_startB984(t49_cbB984,actor);
+    }
+footer:
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804BC38);
 struct T49TaskBEF8 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
 struct T49ReqBEF8 { s32 x, y; u16 w, h; void *callback; u32 arg, unused; };

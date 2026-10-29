@@ -183,6 +183,7 @@ block_c:
 #ifdef NONMATCHING
 /* Complete control-flow draft; matching and type audit remain in progress. */
 void sub_0800D368(void *arg0) {
+    void *retryRecord630, *retryRecord631;
     struct AnimD368 { s32 f0,f4,f8; void *fC; s32 f10,f14,f18; u8 f1C,f1D; u16 f1E; s32 f20,f24,f28,f2C,f30; };
     extern M2C_UNK d368_sub_0800035C() asm("sub_0800035C");
     extern s16 d368_sub_0800086C() asm("sub_0800086C");
@@ -3174,35 +3175,42 @@ block_940:
                             do {
                             temp_r0_81 = d368_sub_080008C8() % 3U;
                             sp128 = temp_r0_81;
-                            if (temp_r0_81 != 1) {
-                                if (temp_r0_81 >= 1U) {
-                                    if (temp_r0_81 != 2) {
-
-                                    } else {
-                                        if (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x120) != 0) {
-                                            goto block_968;
-                                        }
-                                        sp128 = 3;
-                                        var_r0_23 = 4;
-                                        goto block_970;
-                                    }
-                                } else {
-                                    if (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x100) == 0) {
-                                        sp128 = 3;
-                                        var_r0_23 = 1;
-                                        goto block_970;
-                                    }
-                                    goto block_968;
+                            switch (temp_r0_81) {
+                            case 0:
+                                retryRecord630 = d368_gUnk_030034E0 + 0x100;
+                                if (*(u16 *)retryRecord630 == 0) {
+                                    sp128 = 3;
+                                    var_r0_23 = 1;
+                                    goto retry63_0_reject;
                                 }
-                            } else if (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x110) == 0) {
-                                sp128 = 3;
-                                var_r0_23 = 2;
-block_970:
-                                var_r5_7 |= var_r0_23;
-                            } else {
-block_968:
-                                d368_sub_08066490(((struct PlayerD368 *)arg0)->f8C, ((struct PlayerD368 *)arg0)->f90, d368_gUnk_030034E0 + 0x100 + sp128 * 0x10);
+                                goto retry63_0_call;
+                            case 1:
+                                retryRecord630 = d368_gUnk_030034E0 + 0x110;
+                                if (*(u16 *)retryRecord630 == 0) {
+                                    sp128 = 3;
+                                    var_r0_23 = 2;
+                                    goto retry63_0_reject;
+                                }
+                                goto retry63_0_call;
+                            case 2:
+                                retryRecord630 = d368_gUnk_030034E0 + 0x120;
+                                if (*(u16 *)retryRecord630 == 0) {
+                                    goto retry63_0_thirdReject;
+                                }
+                                goto retry63_0_call;
+                            default:
+                                goto retry63_0_done;
                             }
+retry63_0_call:
+                            d368_sub_08066490(((struct PlayerD368 *)arg0)->f8C, ((struct PlayerD368 *)arg0)->f90, retryRecord630);
+                            goto retry63_0_done;
+retry63_0_thirdReject:
+                            sp128 = 3;
+                            var_r0_23 = 4;
+retry63_0_reject:
+                            var_r5_7 |= var_r0_23;
+retry63_0_done:
+                            ;
                             } while ((var_r5_7 != 7) && (sp128 == 3));
                             if (var_r5_7 != 7) {
                                 d368_sub_080137A0(sp128);
@@ -3469,35 +3477,42 @@ timerHighDecayD368:
                             do {
                             temp_r0_91 = d368_sub_080008C8() % 3U;
                             sp128 = temp_r0_91;
-                            if (temp_r0_91 != 1) {
-                                if (temp_r0_91 >= 1U) {
-                                    if (temp_r0_91 != 2) {
-
-                                    } else {
-                                        if (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x120) == 5) {
-                                            goto block_1097;
-                                        }
-                                        sp128 = 3;
-                                        var_r0_27 = 4;
-                                        goto block_1099;
-                                    }
-                                } else {
-                                    if (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x100) != 4) {
-                                        sp128 = 3;
-                                        var_r0_27 = 1;
-                                        goto block_1099;
-                                    }
-                                    goto block_1097;
+                            switch (temp_r0_91) {
+                            case 0:
+                                retryRecord631 = d368_gUnk_030034E0 + 0x100;
+                                if (*(u16 *)retryRecord631 != 4) {
+                                    sp128 = 3;
+                                    var_r0_27 = 1;
+                                    goto retry63_1_reject;
                                 }
-                            } else if (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x110) != 3) {
-                                sp128 = 3;
-                                var_r0_27 = 2;
-block_1099:
-                                var_r5_8 |= var_r0_27;
-                            } else {
-block_1097:
-                                d368_sub_08066490(((struct PlayerD368 *)arg0)->f8C, ((struct PlayerD368 *)arg0)->f90, d368_gUnk_030034E0 + 0x100 + sp128 * 0x10);
+                                goto retry63_1_call;
+                            case 1:
+                                retryRecord631 = d368_gUnk_030034E0 + 0x110;
+                                if (*(u16 *)retryRecord631 != 3) {
+                                    sp128 = 3;
+                                    var_r0_27 = 2;
+                                    goto retry63_1_reject;
+                                }
+                                goto retry63_1_call;
+                            case 2:
+                                retryRecord631 = d368_gUnk_030034E0 + 0x120;
+                                if (*(u16 *)retryRecord631 != 5) {
+                                    goto retry63_1_thirdReject;
+                                }
+                                goto retry63_1_call;
+                            default:
+                                goto retry63_1_done;
                             }
+retry63_1_call:
+                            d368_sub_08066490(((struct PlayerD368 *)arg0)->f8C, ((struct PlayerD368 *)arg0)->f90, retryRecord631);
+                            goto retry63_1_done;
+retry63_1_thirdReject:
+                            sp128 = 3;
+                            var_r0_27 = 4;
+retry63_1_reject:
+                            var_r5_8 |= var_r0_27;
+retry63_1_done:
+                            ;
                             } while ((var_r5_8 != 7) && (sp128 == 3));
                             if (var_r5_8 != 7) {
                                 d368_sub_080137A0(sp128);

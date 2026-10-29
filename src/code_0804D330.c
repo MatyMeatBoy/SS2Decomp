@@ -392,7 +392,7 @@ extern void sub_0804E7B8(s32);
 extern void sub_0804E628(s32);
 struct Task51E3 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern void taskStart51E3(void *,u32) asm("sub_08000274");
-static inline u32 testMask51E3(u32 value,u32 mask) { u32 result=value & mask; if(result)result=1; return result; }
+static inline u8 testMask51E3(u32 value,u32 mask) { u32 result=value & mask; if(result)result=1; return result; }
 struct WrapperTask51E3 { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
 struct Args51E3 { u32 a,b,c; void (*callback)(s32); void *data; u32 f; };
 void sub_0804E360(void) {
@@ -544,7 +544,6 @@ wrapper_check2:
     }
     }
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804E360);
 #endif
@@ -597,13 +596,14 @@ void sub_0804E628(s32 arg0) {
         }
     }
 }
-#ifdef NONMATCHING
 extern void sub_080290E4(s32,s32);
 extern void sub_08029174(s32,s32);
 extern void sub_0802939C(s32,s32);
 struct State51E7 { u8 pad[0x38]; u32 flags; };
 extern struct State51E7 *state51E7 asm("gUnk_03005CF4");
+static inline void firstEffect51E7(s32 value){sub_08073E2C(value,value,0x29,1);}
 void sub_0804E7B8(s32 arg0) {
+    s32 x,y;
     s32 *var_r1;
     s32 temp_r0;
     s32 temp_r2;
@@ -623,7 +623,8 @@ void sub_0804E7B8(s32 arg0) {
     case 1:
         state = state51E7;
         temp_r2 = state->flags;
-        if (temp_r2 & arg0) {
+        y=temp_r2 & arg0;
+        if (y) {
             return;
         }
         state->flags = (s32) (temp_r2 | arg0);
@@ -633,19 +634,19 @@ void sub_0804E7B8(s32 arg0) {
         temp_r1 = &gUnk_03003CE0[sub_080020F4()];
         temp_r1->flags |= arg0;
         sub_0800D0F4();
-        sub_08073E2C(0x4000, 0x4000, 0x29, 1);
+        firstEffect51E7(0x4000);
         for (var_r4=2;var_r4;var_r4--) {
             sub_080003F0();
             if (sub_080021A8()) break;
         }
-        sub_08073E2C(0x3800, 0x4000, 0x29, 1);
-        sub_08073E2C(0x4400, 0x3800, 0x29, 1);
+        x=0x3800; y=0x4000; sub_08073E2C(x,y,0x29,1);
+        x=0x4400; y=0x3800; sub_08073E2C(x,y,0x29,1);
         for (var_r4_2=2;var_r4_2;var_r4_2--) {
             sub_080003F0();
             if (sub_080021A8()) break;
         }
-        sub_08073E2C(0x4800, 0x4000, 0x29, 1);
-        sub_08073E2C(0x3C00, 0x3800, 0x29, 1);
+        x=0x4800; y=0x4000; sub_08073E2C(x,y,0x29,1);
+        x=0x3C00; y=0x3800; sub_08073E2C(x,y,0x29,1);
         for (var_r4_3=8;var_r4_3;var_r4_3--) {
             sub_080003F0();
             if (sub_080021A8()) break;
@@ -678,7 +679,8 @@ void sub_0804E7B8(s32 arg0) {
         while (sub_0805EF90() != 0) sub_080003F0();
         arg0 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x14005AU);
         while (sub_0805EEFC((void *) arg0) == 0) sub_080003F0();
-        sub_08028AAC(7, 0x270F, 0x270F, 0);
+        temp_r2=0x270F;
+        sub_08028AAC(7,temp_r2,temp_r2,0);
         temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
         temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
         sub_0800D108();
@@ -705,11 +707,6 @@ found:
         return;
     }
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804E7B8);
-#endif
 #ifdef NONMATCHING
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
@@ -974,6 +971,7 @@ extern void sub_0801AB90(s32);
 extern void sub_080576A8(void);
 extern void cameraMove51(s16,s16) asm("sub_0800BB80");
 union Fixed51EE { s32 whole; struct { u16 lo; s16 hi; } part; };
+struct Flag51EE { u32 pad; u16 flags; };
 void sub_0804EEA8(void) {
     s32 out[4];
     s32 *px2, *py2;
@@ -1059,12 +1057,11 @@ void sub_0804EEA8(void) {
     statusptr2 = &gUnk_03005CF8;
     *statusptr2 = status2;
     if (!(gUnk_030027D0 & 0x20)) sub_08006CB4(0xA5);
-    *(u16 *)(gUnk_03005CF4 + 4) = 0x20 | *(u16 *)(gUnk_03005CF4 + 4);
+    ((struct Flag51EE *)gUnk_03005CF4)->flags |= 32;
     player2 = &gUnk_03003CE0[sub_080020F4()];
     player2->flags &= ~1;
     sub_0800D108();
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804EEA8);
 #endif
@@ -1687,7 +1684,7 @@ void sub_0804FC3C(void) {
     register s32 temp_r5 asm("r5");
     register s32 temp_r6 asm("r6");
     register s32 temp_r6_2 asm("r6");
-    register s32 temp_r7 asm("r7");
+    s32 temp_r7;
     register s32 var_r5 asm("r5");
     register s32 firstStep asm("r10");
     register s32 firstYFixed asm("r9");
@@ -1695,6 +1692,11 @@ void sub_0804FC3C(void) {
     register s32 secondStep asm("r9");
     register s32 secondXFixed asm("r8");
     register s32 secondYFixed asm("r7");
+    register s32 shift0 asm("r0");
+    register s32 *a0 asm("r0");
+    register s32 a1 asm("r1");
+    register s32 a2 asm("r2");
+    register s32 a3 asm("r3");
     s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r0;
@@ -1702,7 +1704,9 @@ void sub_0804FC3C(void) {
     s32 var_r4_4;
     u16 var_r4;
     u16 var_r4_2;
-    u32 temp_r3;
+    register u32 temp_r3 asm("r3");
+    register u32 handle asm("r4");
+    register struct StateFC3C *state2 asm("r2");
     struct PlayerFC3C *temp_r2;
     struct PlayerFC3C *temp_r2_2;
 
@@ -1755,7 +1759,7 @@ after15:
         }
 while (sub_0801AAE0() == 0) sub_080003F0();
     }
-    gUnk_03005CF8 = 0xD9;
+    a1=0xD9; a0=(s32 *)&gUnk_03005CF8; *a0=a1;
     if (!(gUnk_030027D0 & 0x20)) {
         sub_08006CB4(0xD9U);
     }
@@ -1766,48 +1770,52 @@ var_r4_2--; if (var_r4_2 == 0) goto after32;
 wait32:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec32;
 after32:
-    firstStep = 0x11;
+    a3=0x11; firstStep=a3;
     temp_r7 = (s16) gUnk_03003170.f80;
     temp_r6 = (s16) gUnk_03003170.f82;
     var_r4_3 = 0;
-    var_r5 <<= 16;
+    shift0 = var_r5; var_r5 = shift0 << 16;
     firstYFixed = 0xFF900000;
     do {
-        sub_080659F4(&L.x, (s32) temp_r7, var_r5 >> 16, var_r4_3);
-        sub_080659F4(firstY, (s32) temp_r6, firstYFixed >> 16, var_r4_3);
+        a0=&L.x; a1=(s32) temp_r7; a2=var_r5 >> 16; a3=var_r4_3;
+        sub_080659F4(a0,a1,a2,a3);
+        a0=firstY; a1=(s32) temp_r6; a2=firstYFixed >> 16; a3=var_r4_3;
+        sub_080659F4(a0,a1,a2,a3);
         localFC3C_BB80((s16) L.x, (s16) L.y);
         sub_080003F0();
         var_r4_3 += firstStep;
     } while (var_r4_3 <= 0x400);
-    if (!(stateFC3C->eventFlags & 2)) {
+    a0=(s32 *)stateFC3C; a1=2;
+    if (!( ((struct StateFC3C *)a0)->eventFlags & a1)) {
 while (sub_0805F184() != 0) sub_080003F0();
 while (sub_0805EF90() != 0) sub_080003F0();
-        sp0 = 0x2D;
-        var_r0 = 0x140062;
+        temp_r3=sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140062);
     } else {
 while (sub_0805F184() != 0) sub_080003F0();
 while (sub_0805EF90() != 0) sub_080003F0();
-        sp0 = 0x2D;
-        var_r0 = 0x140063;
+        temp_r3=sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140063);
     }
-    sp4 = var_r0;
-    temp_r3 = sub_0805DF38(1U, 0xFU, 2U, 0U, sp0, sp4);
-    stateFC3C->eventFlags = (s32) (stateFC3C->eventFlags | 2);
-while (sub_0805EEFC((void *) temp_r3) == 0) sub_080003F0();
-    secondStep = 0x22;
+
+    state2=stateFC3C; a1=2;
+    state2->eventFlags |= a1;
+    handle=temp_r3;
+while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
+    shift0=0x22; secondStep=shift0;
     temp_r6_2 = (s16) gUnk_03003170.f80;
     temp_r5 = (s16) gUnk_03003170.f82;
     var_r4_4 = 0;
     secondXFixed = 0;
     secondYFixed = 0;
     do {
-        sub_080659F4(L.nextXp, (s32) temp_r6_2, secondXFixed >> 16, var_r4_4);
-        sub_080659F4(L.nextYp, (s32) temp_r5, secondYFixed >> 16, var_r4_4);
+        a0=L.nextXp; a1=(s32) temp_r6_2; a2=secondXFixed >> 16; a3=var_r4_4;
+        sub_080659F4(a0,a1,a2,a3);
+        a0=L.nextYp; a1=(s32) temp_r5; a2=secondYFixed >> 16; a3=var_r4_4;
+        sub_080659F4(a0,a1,a2,a3);
         localFC3C_BB80((s16) L.nextX, (s16) L.nextY);
         sub_080003F0();
         var_r4_4 += secondStep;
     } while (var_r4_4 <= 0x400);
-    gUnk_03005CF8 = 0xB;
+    a1=0xB; a0=(s32 *)&gUnk_03005CF8; *a0=a1;
     if (!(gUnk_030027D0 & 0x20)) {
         sub_08006CB4(0xBU);
     }
@@ -2254,7 +2262,7 @@ void sub_08050688(void) {
     register s32 temp_r5 asm("r5");
     register s32 temp_r6 asm("r6");
     register s32 temp_r6_2 asm("r6");
-    register s32 temp_r7 asm("r7");
+    s32 temp_r7;
     register s32 var_r5 asm("r5");
     register s32 firstStep asm("r10");
     register s32 firstYFixed asm("r9");
@@ -2262,6 +2270,11 @@ void sub_08050688(void) {
     register s32 secondStep asm("r9");
     register s32 secondXFixed asm("r8");
     register s32 secondYFixed asm("r7");
+    register s32 shift0 asm("r0");
+    register s32 *a0 asm("r0");
+    register s32 a1 asm("r1");
+    register s32 a2 asm("r2");
+    register s32 a3 asm("r3");
     s32 temp_r0;
     s32 temp_r0_2;
     s32 var_r0;
@@ -2269,7 +2282,9 @@ void sub_08050688(void) {
     s32 var_r4_4;
     u16 var_r4;
     u16 var_r4_2;
-    u32 temp_r3;
+    register u32 temp_r3 asm("r3");
+    register u32 handle asm("r4");
+    register struct StateF50688 *state2 asm("r2");
     struct PlayerF50688 *temp_r2;
     struct PlayerF50688 *temp_r2_2;
 
@@ -2325,7 +2340,7 @@ after15:
         }
 while (sub_0801AAE0() == 0) sub_080003F0();
     }
-    gUnk_03005CF8 = 0xD9;
+    a1=0xD9; a0=(s32 *)&gUnk_03005CF8; *a0=a1;
     if (!(gUnk_030027D0 & 0x20)) {
         sub_08006CB4(0xD9U);
     }
@@ -2340,39 +2355,43 @@ after32:
     temp_r7 = (s16) gUnk_03003170.f80;
     temp_r6 = (s16) gUnk_03003170.f82;
     var_r4_3 = 0;
-    var_r5 <<= 16;
+    shift0=var_r5; var_r5=shift0<<16;
     firstYFixed = 0xFFC00000;
     do {
-        sub_080659F4(&L.x, (s32) temp_r7, var_r5 >> 16, var_r4_3);
-        sub_080659F4(firstY, (s32) temp_r6, firstYFixed >> 16, var_r4_3);
+        a0=&L.x; a1=(s32) temp_r7; a2=var_r5 >> 16; a3=var_r4_3;
+        sub_080659F4(a0,a1,a2,a3);
+        a0=firstY; a1=(s32) temp_r6; a2=firstYFixed >> 16; a3=var_r4_3;
+        sub_080659F4(a0,a1,a2,a3);
         localF50688_BB80((s16) L.x, (s16) L.y);
         sub_080003F0();
         var_r4_3 += firstStep;
     } while (var_r4_3 <= 0x400);
-    if (!(stateF50688->eventFlags & 8)) {
+    a0=(s32 *)stateF50688; a1=8;
+    if (!( ((struct StateF50688 *)a0)->eventFlags & a1)) {
 while (sub_0805F184() != 0) sub_080003F0();
 while (sub_0805EF90() != 0) sub_080003F0();
-        sp0 = 0x2D;
-        var_r0 = 0x140066;
+        temp_r3=sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140066);
     } else {
 while (sub_0805F184() != 0) sub_080003F0();
 while (sub_0805EF90() != 0) sub_080003F0();
-        sp0 = 0x2D;
-        var_r0 = 0x140067;
+        temp_r3=sub_0805DF38(1U,0xFU,2U,0U,0x2D,0x140067);
     }
-    sp4 = var_r0;
-    temp_r3 = sub_0805DF38(1U, 0xFU, 2U, 0U, sp0, sp4);
-    stateF50688->eventFlags = (s32) (stateF50688->eventFlags | 8);
-while (sub_0805EEFC((void *) temp_r3) == 0) sub_080003F0();
-    secondStep = 0x22;
+
+    state2=stateF50688; a1=8;
+    state2->eventFlags |= a1;
+    handle=temp_r3;
+while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
+    shift0=0x22; secondStep=shift0;
     temp_r6_2 = (s16) gUnk_03003170.f80;
     temp_r5 = (s16) gUnk_03003170.f82;
     var_r4_4 = 0;
     secondXFixed = 0;
     secondYFixed = 0;
     do {
-        sub_080659F4(L.nextXp, (s32) temp_r6_2, secondXFixed >> 16, var_r4_4);
-        sub_080659F4(L.nextYp, (s32) temp_r5, secondYFixed >> 16, var_r4_4);
+        a0=L.nextXp; a1=(s32) temp_r6_2; a2=secondXFixed >> 16; a3=var_r4_4;
+        sub_080659F4(a0,a1,a2,a3);
+        a0=L.nextYp; a1=(s32) temp_r5; a2=secondYFixed >> 16; a3=var_r4_4;
+        sub_080659F4(a0,a1,a2,a3);
         localF50688_BB80((s16) L.nextX, (s16) L.nextY);
         sub_080003F0();
         var_r4_4 += secondStep;
@@ -2386,7 +2405,7 @@ while (sub_0805EEFC((void *) temp_r3) == 0) sub_080003F0();
     }
     if (slot != 0) slot->state = 4;
     sub_08028AAC(1,0xF0,0x90,0);
-    gUnk_03005CF8 = 0xB;
+    a1=0xB; a0=(s32 *)&gUnk_03005CF8; *a0=a1;
     if (!(gUnk_030027D0 & 0x20)) {
         sub_08006CB4(0xBU);
     }
