@@ -589,7 +589,7 @@ void sub_0800A998(void) {
                 sub_080003F0();
                 sub_080003F0();
             }
-            var_sl = 1;
+            {register u16 one asm("r3")=1;var_sl=one;}
             {register u32 value asm("r0")=t06_readA998(state);value&=~0xC;t06_writeA998(state,value);}
             {register u16 *level asm("r3")=&t06_levelA998;sub_0800A34C(*level,frame.result,1);}
             if (sub_0801AB24() == 0) {
@@ -661,7 +661,7 @@ s32 sub_0800AD04(s32 *px,s32 *py,s32 layer)
         *offset=value;
         offset=t06_offsetAD04(offset,6);
         temp=y;value=(s16)temp;
-        value+=*(volatile u16 *)offset;value-=96;
+        {register u16 loaded asm("r2")=*(volatile u16 *)offset;value+=loaded;}value-=96;
         offset=(u16 *)&sys->y;
         *offset=value;
     }

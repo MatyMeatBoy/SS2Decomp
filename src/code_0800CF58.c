@@ -424,6 +424,7 @@ void sub_0800D368(void *arg0) {
     s32 availableCount0, availableCount1;
     s16 *temp_r0;
     s16 *var_r1_16;
+    u32 stateFlagsD368;
     s16 *var_r1_4;
     s16 *var_r1_5;
     s16 *var_r9;
@@ -1875,15 +1876,13 @@ block_447:
                 if ((temp_r0_31 == 0) && (sp154 > 0x14U) && (((struct PlayerD368 *)arg0)->f10 == 0xA) && ((s32) (s16) *sp1B8 > 0)) {
                     if (d368_sub_0801DF8C() == 0) {
                         var_r1_4 = arg0 + 0x134;
-block_527:
-                        *var_r1_4 = 1;
+                        goto block_527;
                     } else {
                         ((struct PlayerD368 *)arg0)->f134 = (u16) temp_r0_31;
                     }
                 } else {
                     var_r1_5 = arg0 + 0x134;
-block_530:
-                    *var_r1_5 = 0;
+                    goto block_530;
                 }
                 break;
             case 1:                                 /* switch 4 */
@@ -2015,12 +2014,15 @@ loop_483:
                 if ((temp_r0_35 == 0) && (sp154 > 0x14U) && (((struct PlayerD368 *)arg0)->f10 == 0xA) && ((s32) (s16) *sp1B8 > 0)) {
                     if (d368_sub_0801DF8C() == 0) {
                         var_r1_4 = arg0 + 0x134;
-                        goto block_527;
+block_527:
+                        *var_r1_4 = 1;
+                        break;
                     }
                     ((struct PlayerD368 *)arg0)->f134 = (u16) temp_r0_35;
                 } else {
                     var_r1_5 = arg0 + 0x134;
-                    goto block_530;
+block_530:
+                    *var_r1_5 = 0;
                 }
                 break;
             case 3:                                 /* switch 4 */
@@ -2057,9 +2059,9 @@ loop_483:
                         sp130 = 0;
                         sp134 = 0;
                         ((struct PlayerD368 *)arg0)->f20 = 0U;
+                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
                         var_r1_7 = 0xFFDFFFFF;
-block_1024:
-                        ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 & var_r1_7);
+                        goto block_1024;
                     } else {
                         ((struct PlayerD368 *)arg0)->f20 = 5U;
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
@@ -2337,6 +2339,7 @@ block_627:
                         sp130 = 0;
                         sp134 = 0;
                         ((struct PlayerD368 *)arg0)->f20 = 0U;
+                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
                         var_r1_7 = 0xFFDFFFFF;
                         goto block_1024;
                     }
@@ -2651,13 +2654,13 @@ block_719:
                     if (((struct PlayerD368 *)arg0)->f10 == 1) {
 state5Move66:
                         if (directionD36874 != 0) {
-                            state5Destination67 = arg0 + 0x94;
-                            var_r5_6 = arg0 + 0x8C;
-                            *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
-                            var_r3_6 = d368_sub_0800CCCC();
+                        state5Destination67 = arg0 + 0x94;
+                        var_r5_6 = arg0 + 0x8C;
+                        *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
+                        var_r3_6 = d368_sub_0800CCCC();
                         var_r3_6 <<= 16;
                         var_r3_6 >>= 16;
-                            var_r0_15 = (s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
+                        var_r0_15 = (s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
                             var_r2_10 = directionD36874 - 1;
                             var_r2_10 <<= 16;
                             var_r2_10 >>= 16;
@@ -3337,6 +3340,7 @@ block_1002:
                 ((struct PlayerD368 *)arg0)->f26 = 0U;
                 sp130 = 0;
                 sp134 = 0;
+                stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
                 var_r1_7 = 0xFFDFFFFF;
                 goto block_1024;
             case 12:                                /* switch 4 */
@@ -3375,8 +3379,11 @@ block_1015:
                     var_r0_9 = 0;
                     goto block_627;
                 case 4:                             /* switch 14 */
+                    stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
                     var_r1_7 = -4;
-                    goto block_1024;
+block_1024:
+                    ((struct PlayerD368 *)arg0)->f30 = (u32) (stateFlagsD368 & var_r1_7);
+                    break;
                 case 7:                             /* switch 14 */
                     if (d368_sub_0805EEFC(sp17C) != 0) {
                         var_r0_9 = d368_sub_0805EF14(sp17C);
