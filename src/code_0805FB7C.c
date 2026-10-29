@@ -1707,7 +1707,66 @@ void sub_08061910(void)
 
   SoftReset(0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061B88);
+extern u8 linkEnemies64[] asm("gUnk_03004220");
+extern u32 linkMap64[] asm("gUnk_03003170");
+#define LKILL64(p) do { if(resetRunning64(p)) resetKill64(p); } while(0)
+#define LWAIT64() do { if(sub_080021A8()) return; sub_080003F0(); } while(0)
+void sub_08061B88(void)
+{
+    union { u32 raw; struct {u32 value:16;u32 upper:16;} bits; } control;
+    u32 i;
+    u8 *task;
+    void *window;
+    u32 ready;
+    sub_0800CDD0();
+    for(i=0;i<100;i++) LWAIT64();
+    sub_080021D4();
+    while(!sub_0801AAE0()) LWAIT64();
+    if(sub_0801AC78()) {
+        sub_0801ABE8(6);
+        while(!sub_0801AAE0()) LWAIT64();
+    }
+    resetScroll64[29]=0;
+    sub_0800CCEC();
+    linkMap64[39]|=12;
+    task=resetTaskD64; LKILL64(task);
+    task=resetTaskE64; LKILL64(task);
+    task=resetTaskF64; LKILL64(task);
+    for(i=0;i<5;i++) { task=linkEnemies64+i*40; LKILL64(task); }
+    sub_0805DE98();
+    task=resetTaskA64; LKILL64(task);
+    task+=40; LKILL64(task);
+    task=resetTaskB64; LKILL64(task);
+    task+=40; LKILL64(task);
+    for(i=0;i<sub_08002164();i++) {task=resetPlayers64+i*40;LKILL64(task);}
+    LWAIT64(); LWAIT64(); LWAIT64(); LWAIT64();
+    LWAIT64(); LWAIT64(); LWAIT64(); LWAIT64();
+    if((ready=sub_080021A8())!=0) return;
+    resetDisplay64(0x7F00,0,0);
+    resetEnable64(0x1100,0,1);
+    control.bits.value=0x1C08;
+    resetBg64(0,(u16*)&control.raw);
+    resetScroll64[2]=ready;resetScroll64[3]=ready;
+    sub_0805F07C();resetMode64(6);
+    while(!sub_0801AAE0()) sub_080003F0();
+    do {sub_080003F0();} while(!sub_0805EEFC(window));
+    sub_08006DAC();
+    for(i=0;i<60;i++) sub_080003F0();
+retry:
+    sub_08006C14();
+    if(!sub_0807A124()) {
+        do {sub_080003F0();} while(!sub_0805EEFC(window));
+        sub_0801ABE8(10);
+        while(!sub_0801AAE0()) sub_080003F0();
+        sub_0800CBAC();sub_0800CDE4();resetFade64(6);
+    } else {
+        sub_08006BF8();
+        do {sub_080003F0();} while(!sub_0805EEFC(window));
+        goto retry;
+    }
+    while(!sub_0801AAE0()) sub_080003F0();
+    SoftReset(0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061E44);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080624D8);
 struct T65Draw { u32 base; u32 unk4; u8 *data; u32 unkC; u8 pad[12]; u8 style; u8 rest[23]; };
