@@ -1,5 +1,5 @@
 {
-  "checkpoint": "TEAM6 shard113 draft1, parent 8fd795c24d0f9ef0cd1bd5f25b3405df423e87aa",
+  "checkpoint": "TEAM6 shard113 draft2, parent 719bedf193e65b5152f2a45503001c72b4d2e104",
   "areas": [
     {
       "evidence": "gv ASM read and m2c draft recovered entire function. Unique local struct/global/call aliases; six arguments to BC08, eight to 07870, fifth argument 1 to 65158/65370 restored from original stack stores. make nonmatching succeeds. This is compilation evidence only, not semantic equivalence.",
@@ -8,7 +8,7 @@
       "state": "done"
     },
     {
-      "evidence": "Actor field 0x200 is byte per STRB, coordinates are adjacent signed halfwords, candidate frame0x74 equals original. Isolated candidate3196 bytes versus3312 original. Wait loops14/132 rotated to original body-before-test placement. Many register/block differences remain; no near-match permuter run.",
+      "evidence": "Recovered prefix height initialization order, explicit x20 shift sequence, shared state handshake block and body-before-test exit waits153/162. Isolated candidate3200 versus3312 original, frame0x70 versus0x74: sp54 promoted to register. Wide loop/register/layout differences remain. Scoped fixed-register experiments rejected because later pointer hoisting overlaps r7. No near-match permuter run; no equivalence claim.",
       "id": "layout",
       "label": "Types, stack and control flow matching",
       "state": "active"
@@ -21,5 +21,5 @@
     }
   ],
   "address": "0x080AC844",
-  "updated_utc": "2026-10-29T05:22:21Z"
+  "updated_utc": "2026-10-29T05:29:37Z"
 }

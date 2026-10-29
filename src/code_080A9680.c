@@ -658,9 +658,9 @@ void sub_080AC844(struct Actor113844 *input) {
     s16 temp_r0_14;
     s16 temp_r0_17;
     s16 temp_r0_19;
-    s32 temp_r0_3;
+    register s32 temp_r0_3 asm("r0");
     s16 temp_r0_9;
-    s32 temp_r1_2;
+    register s32 temp_r1_2 asm("r1");
     s16 temp_r1_4;
     s16 temp_r2_2;
     s16 temp_r2_3;
@@ -690,6 +690,7 @@ void sub_080AC844(struct Actor113844 *input) {
     s32 temp_r1_6;
     s32 temp_r3;
     s32 temp_r4;
+    u32 exitBlink;
     s32 var_r0;
     s32 var_r0_3;
     s32 var_r0_4;
@@ -707,6 +708,9 @@ void sub_080AC844(struct Actor113844 *input) {
     u16 temp_r0_7;
     u16 temp_r0_8;
     u16 temp_r1;
+    u16 waitValue;
+    register u32 zero asm("r2");
+    register u16 *heightPtr asm("r0");
     u16 *tilePtr;
     u32 *maskPtr;
     u16 temp_r1_5;
@@ -720,7 +724,7 @@ void sub_080AC844(struct Actor113844 *input) {
     u32 var_r3_4;
     u32 var_r3_5;
     u8 temp_r0_20;
-    u8 temp_r0_6;
+    u32 temp_r0_6;
     u8 temp_r8;
     u8 temp_r8_2;
     u8 temp_r8_3;
@@ -738,11 +742,14 @@ void sub_080AC844(struct Actor113844 *input) {
     resourceInit113844(temp_r0);
     show113844(arg0);
     tilePtr = &tile113844;
+    asm("" : "+r"(tilePtr));
     temp_r0_2 = tileCall113844(arg0->unk2D8, arg0->unk2DA);
     *tilePtr = temp_r0_2;
     temp_r1 = temp_r0_2;
     if (temp_r1 == 0xFFFF) {
         maskPtr = &mask113844;
+        asm("" : "+r"(maskPtr));
+        waitValue = temp_r1;
 loop_2:
         arg0->unkC = 0xBU;
         if ((sub_0800CB78() != 0) || (sub_08056E90() != 0)) {
@@ -750,7 +757,7 @@ loop_2:
             return;
         }
         sub_080003F0();
-        if (tile113844 != temp_r1) {
+        if (tile113844 != waitValue) {
             goto block_6;
         }
         goto loop_2;
@@ -758,23 +765,40 @@ loop_2:
 block_6:
         init113844(&sprite113844, 0x5001F, tile113844, -1, 1);
     temp_r1_2 = sp48->unk6 * 3;
-    arg0->unk1D6 = temp_r1_2;
+    heightPtr = (u16 *)&arg0->unk1D6;
+    asm("" : "+r"(heightPtr));
+    zero = 0;
+    asm("" : "+r"(zero), "+r"(heightPtr));
+    *heightPtr = temp_r1_2;
     arg0->unk5C = temp_r1_2;
-    temp_r0_3 = sp48->unk4 * 0xA;
+    temp_r0_3 = sp48->unk4;
+    temp_r1_2 = temp_r0_3 << 1;
+    temp_r0_3 <<= 3;
+    asm("" : "+r"(temp_r0_3), "+r"(temp_r1_2));
+    temp_r0_3 += temp_r1_2;
     temp_r0_3 *= 2;
     arg0->unk1D4 = temp_r0_3;
     temp_r1_3 = (u8 *)arg0 + 0x5E;
     arg0->unk5E = temp_r0_3;
-    arg0->unk6C = 0;
-    *(u16 *)(temp_r1_3 + 0xC) = 0;
-    arg0->unk68 = 0;
-    arg0->unkC = 0U;
-    sp50 = 0;
-    sp54 = 0;
-    arg0->unk50 = 1;
-    sp70 = (u8 *)arg0 + 0x6C;
-    sp6C = (u16 *)(temp_r1_3 + 0xC);
-    sp68 = &arg0->unk68;
+    {
+        register u16 *p6C asm("r3");
+        register u16 *p6A asm("r1");
+        register u16 *p68 asm("r0");
+        p6C = &arg0->unk6C;
+        *p6C = zero;
+        p6A = (u16 *)(temp_r1_3 + 0xC);
+        *p6A = zero;
+        p68 = &arg0->unk68;
+        *p68 = zero;
+        arg0->unkC = zero;
+        sp50 = 0;
+        sp54 = zero;
+        arg0->unk50 = 1;
+        asm("" : "+r"(p6C), "+r"(p6A), "+r"(p68));
+        sp70 = p6C;
+        sp6C = p6A;
+        sp68 = p68;
+    }
     var_r4 = 0;
     do {
         var_r3 = 0;
@@ -864,9 +888,7 @@ loop_132:
                 } else {
                     arg0->unk1FE = 5U;
                     var_r1 = (u8 *)arg0 + 0x1FD;
-block_76:
-                    *var_r1 = 1;
-                    sub_08067C18();
+                    goto block_76;
                 }
                 break;
             case 4:                                 /* switch 1 */
@@ -964,13 +986,7 @@ block_63:
                         goto block_75;
                     }
                 } else {
-block_74:
-                    var_r1_2 = (u8 *)arg0 + 0x1FE;
-                    var_r0_2 = 5;
-block_75:
-                    *var_r1_2 = var_r0_2;
-                    var_r1 = (u8 *)arg0 + 0x1FD;
-                    goto block_76;
+                    goto block_74;
                 }
                 break;
             case 8:                                 /* switch 1 */
@@ -1009,6 +1025,16 @@ block_73:
                 } else {
                     goto block_74;
                 }
+                break;
+block_74:
+                var_r1_2 = (u8 *)arg0 + 0x1FE;
+                var_r0_2 = 5;
+block_75:
+                *var_r1_2 = var_r0_2;
+                var_r1 = (u8 *)arg0 + 0x1FD;
+block_76:
+                *var_r1 = 1;
+                sub_08067C18();
                 break;
             case 9:                                 /* switch 1 */
                 var_r3_5 = 0;
@@ -1162,8 +1188,10 @@ exit132:
     sub_080683CC();
     signal113844(arg0->unk2);
     sub_08068330(-0x21520532);
+    exitBlink = sp50 & 1;
+    goto poll153;
 loop_153:
-    if (sub_080682B8(-0x21520532) == 0) {
+    {
         if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
             temp_r0_24 = sub_0800CD34();
             if (temp_r0_24 == 0) {
@@ -1172,17 +1200,19 @@ loop_153:
                 temp_r8_2 = (u8) sub_0800BC44((u32) ((s32) pos113844.unk0 >> 8), (u32) ((s32) pos113844.unk4 >> 8), 0U);
                                 arg0->unk6E = (s16) anim113844(&sprite113844, *sp68, sp6C, sp70, 1);
                 bc113844((s32) (arg0->unk14 << 8) >> 0x10, (s32) (arg0->unk18 << 8) >> 0x10, &coordinates[0], &coordinates[1], 0, 0);
-                if (sp50 & 1) {
+                if (exitBlink) {
                 draw113844(coordinates[0], coordinates[1], *sp68, *sp6C, temp_r8_2, &sprite113844.unk1C, sprite113844.unk8, sprite113844.unk0);
                 }
             }
         }
         sub_080003F0();
-        goto loop_153;
     }
+poll153:
+    if (sub_080682B8(-0x21520532) == 0) goto loop_153;
     sub_08065E38(-0x21520532);
+    goto poll162;
 loop_162:
-    if (sub_08058DB0() != 0) {
+    {
         if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
             temp_r0_25 = sub_0800CD34();
             if (temp_r0_25 == 0) {
@@ -1191,14 +1221,15 @@ loop_162:
                 temp_r8_3 = (u8) sub_0800BC44((u32) ((s32) pos113844.unk0 >> 8), (u32) ((s32) pos113844.unk4 >> 8), 0U);
                                 arg0->unk6E = (s16) anim113844(&sprite113844, *sp68, sp6C, sp70, 1);
                 bc113844((s32) (arg0->unk14 << 8) >> 0x10, (s32) (arg0->unk18 << 8) >> 0x10, &coordinates[0], &coordinates[1], 0, 0);
-                if (sp50 & 1) {
+                if (exitBlink) {
                 draw113844(coordinates[0], coordinates[1], *sp68, *sp6C, temp_r8_3, &sprite113844.unk1C, sprite113844.unk8, sprite113844.unk0);
                 }
             }
         }
         sub_080003F0();
-        goto loop_162;
     }
+poll162:
+    if (sub_08058DB0() != 0) goto loop_162;
     fade113844(0);
     sp50 = 0x14;
     do {
@@ -1232,6 +1263,7 @@ loop_162:
     }
     sub_08056E24();
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
 #endif

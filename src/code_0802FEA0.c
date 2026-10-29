@@ -1547,9 +1547,10 @@ extern u8 *t034State asm("gUnk_03005CF4");
 struct T034Pos { s32 x,y; };
 static inline void t034Move34900(s32 a,s32 b,s32 c,s32 d) { sub_08028D98(a,b,c,d); }
 void sub_08034900(void) {
-    struct T034Pos pos;
-    s32 sp10;
-    u32 bits;
+    u32 lowValue = 0x20;
+    u32 lowMask = 0xFFFF0000;
+    u32 highMask = 0xFFFF;
+    struct { struct T034Pos pos; s32 sp10; u32 bits; } frame;
     struct Player *temp_r5;
     u32 temp_r4;
     u8 *var_r0;
@@ -1557,22 +1558,37 @@ void sub_08034900(void) {
     struct Player *temp_r2_2;
 
 loop_1:
-    sp10 = 0;
-    pos.x = 0x10000;
-    pos.y = 0x1C000;
-    bits = 0x100020;
+    frame.sp10 = 0;
+    frame.pos.x = 0x10000;
+    frame.pos.y = 0x1C000;
+    {
+        register u32 value asm("r0");
+        register u32 highValue asm("r1");
+        register u32 mask asm("r2");
+
+        value = frame.bits;
+        value &= lowMask;
+        mask = lowValue;
+        value |= mask;
+        highValue = 0x100000;
+        mask = highMask;
+        value &= mask;
+        value |= highValue;
+        frame.bits = value;
+    }
     temp_r5 = &gUnk_03003CE0[sub_080020F4()];
 goto test3;
 loop_3:
     sub_080003F0();
 test3:
-    if (t034Range((s32 *)((u8 *)temp_r5 + 0x8C), &pos.x, (u16 *)&sp10, (u16 *)&bits) == 0) {
+    if (t034Range((s32 *)((u8 *)temp_r5 + 0x8C), &frame.pos.x, (u16 *)&frame.sp10, (u16 *)&frame.bits) == 0) {
         goto loop_3;
     }
     if (sub_0800CE30() != 0) {
         var_r0 = t034State + 0x1BF;
     } else {
-        var_r0 = t034State + 0x1B3;
+        register u32 offset asm("r2") = 0x1B3;
+        var_r0 = t034State + offset;
     }
     if (*var_r0 != 2) {
         temp_r2 = &gUnk_03003CE0[sub_080020F4()];

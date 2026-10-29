@@ -1058,7 +1058,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DB1C);
 #ifdef NONMATCHING
 struct T072DESprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T072DEPlayer { u16 id; u8 pad2[0x1e]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 phase, wait, ready; u8 padB8[10]; s16 resource; u8 padC4[24]; u32 counter; u8 padE0[0x64]; u8 *config; u16 *sprite; };
-struct T072DEEnemy { u16 id; u8 pad2[6]; u16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4e]; u8 threshold; u8 pad22C[0xb4]; };
+struct T072DEEnemy { u16 id; u8 pad2[6]; s16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4e]; u8 threshold; u8 pad22C[0xb4]; };
 struct T072DEArgs { u32 player, bit, target, value, f10, level; };
 extern struct T072DEPlayer t072DEPlayers[] asm("gUnk_03003CE0");
 extern struct T072DEEnemy *t072DEEnemies asm("gUnk_030056F4");
@@ -1078,18 +1078,27 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     s16 dx, dy;
     struct T072DEPlayer *p, *q, *costPlayer;
     struct T072DEEnemy *enemy, *caster;
-    u32 player, bit, originalLevel, total, done, nplayers;
-    u16 local, level, direction, selected, i;
-    s32 x, y, px, py, angle, ax, ay, radius, index;
-    u16 cost, delta;
+    u32 nplayers, originalLevel;
+    s32 x, y;
+    u32 done, total;
+    u16 local;
+    u32 player, bit;
+    s32 px, py;
+    u16 level, direction, selected, i;
+    s32 angle, ax, ay, radius, index;
+    s32 cost; u16 delta;
     u8 shade;
     u16 *ready;
+    u8 *delayDst, *delayPrev;
+    u32 random, offset;
+    s16 *costEntry;
     local = sub_080020F4();
     player = arg->player; bit = arg->bit;
     level = arg->level; originalLevel = level;
     if (player <= 3) p = &t072DEPlayers[player];
     else {
-        caster = (struct T072DEEnemy *)((u8 *)t072DEEnemies + player * 0x2E0 - 0xB80);
+        offset = player * 0x2E0 - 0xB80;
+        caster = (struct T072DEEnemy *)((u32)t072DEEnemies + offset);
         while (caster->wait < caster->threshold) {
             if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || caster->state == 10 || caster->state == 11) {
                 t072DEFlags[player] &= ~(1 << bit); return;
@@ -1099,7 +1108,8 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     }
     if (local != player) {
         if (player > 3) {
-            cost = caster->resource - t072DECosts[arg->value * 12 + level + 3];
+            costEntry = (s16 *)((u8 *)t072DECosts + 6 + arg->value * 24 + level * 2);
+            cost = caster->resource - *costEntry;
             caster->resource = cost;
             if ((s16)cost < 0) {
                 t072DEFlags[player] &= ~(1 << bit); caster->resource = 0; return;
@@ -1115,7 +1125,12 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     i = 1;
     do {
         animation[i] = 0; timers[i] = 0;
-        delays[i] = sub_080008C8() % 10U + 20 + delays[i-1];
+        random = sub_080008C8();
+        delayDst = &delays[i];
+        delayPrev = &delays[i-1];
+        random %= 10U;
+        random += 20;
+        *delayDst = random + *delayPrev;
         i++;
     } while (i <= 4);
     if (player <= 3) {
@@ -1248,6 +1263,7 @@ enemyOrigin:
     if (player <= 3 && player != local) p->counter++;
     t072DEFlags[player] &= ~(1 << bit);
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DE94);
 #endif
