@@ -882,84 +882,75 @@ s32 sub_08098F2C_impl(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098F2C);
 #endif
-#ifdef NONMATCHING
-void sub_0809919C(u32 arg0, volatile s32 arg1) {
-    s16 temp_r0;
-    s16 temp_r1_2;
-    s32 var_r5;
-    s32 var_r6;
-    u32 temp_r1_3;
-    register u32 temp_r4 asm("r4");
-    u32 temp_r7; register struct Player98F *playersBase9919C asm("r9"); register u32 stride9919C asm("r8");
-    register u32 var_sl asm("sl");
-
-    switch(arg0) {
-    case 0:
-        var_r6=entity98F->x;
-        var_r5=entity98F->y+0x1000;
-        break;
-    case 1:
-        var_r6=entity98F->x-0x2800;
-        var_r5=entity98F->y+0x1000;
-        break;
-    case 2:
-        var_r6=entity98F->x-0x3000;
-        var_r5=entity98F->y-0x1000;
-        break;
-    case 3:
-        var_r6=entity98F->x-0x1800;
-        var_r5=entity98F->y-0x1800;
-        break;
-    case 4:
-        var_r6=entity98F->x;
-        var_r5=entity98F->y-0x1c00;
-        break;
-    case 5:
-        var_r6=entity98F->x+0x1800;
-        var_r5=entity98F->y-0x1800;
-        break;
-    case 6:
-        var_r6=entity98F->x+0x2800;
-        var_r5=entity98F->y-0x1000;
-        break;
-    case 7:
-        var_r6=entity98F->x+0x2800;
-        var_r5=entity98F->y+0x1000;
-        break;
-    }
-    arg1 = (s32) gUnk_0847AD0A[arg1];
-    var_sl = 9; playersBase9919C=players98F; stride9919C=sizeof(struct Player98F); asm("" : "+r"(playersBase9919C), "+r"(stride9919C));
-loop_14:
-    var_r6 += gUnk_080B9704[arg1 + 0x40];
-    var_r5 += gUnk_080B9704[arg1];
-    temp_r7 = (u32) ((var_r6 - (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).x) << 8) >> 0x10;
-    temp_r4 = (u32) ((var_r5 - (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).y) << 8) >> 0x10;
-    var_sl = var_sl << 0x10;
-    if (!(0xF0000 & var_sl)) {
-        sub_08065748(var_r6 >> 8, var_r5 >> 8, 5);
-    }
-    temp_r0 = (s16) temp_r7;
-    temp_r1_2 = (s16) temp_r4;
-    if (((u32) Sqrt((temp_r0 * temp_r0) + (temp_r1_2 * temp_r1_2)) <= 0x13U) && (sub_0800CDF8() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0) && (entity98F->state != 0xB) && !((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).flags & 0x2000) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).active != 0) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).state != 0xE) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).state != 0xB) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).state != 0xC) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).seen[entity98F->index] != entity98F->counter)) {
-        sub_08029CEC(1, 5, 1);
-        (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).motion = 0xFFFE;
-        (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).seen[entity98F->index] = entity98F->counter;
-    }
-    sub_080003F0();
-    temp_r1_3 = var_sl + 0xFFFF0000;
-    var_sl = temp_r1_3 >> 0x10;
-    if (((s32) temp_r1_3 >> 0x10) != -1) {
-        goto loop_14;
-    }
-    M2C_FIELD((void *)sub_0800048C(),u32 *,8) = 0;
-}
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809919C);
-#endif
 struct Player99468 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
 struct Entity99468 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern struct Player99468 players99468[] asm("gUnk_03003CE0");
 extern struct Entity99468 *entity99468 asm("gUnk_030002D0");
+extern void sub_08065748();
+void sub_0809919C(u32 corner, s32 dir)
+{
+    s32 x;
+    s32 y;
+    s16 dx;
+    s16 dy;
+    s16 count;
+
+    switch (corner) {
+    case 0:
+        x = entity99468->x;
+        y = entity99468->y + 0x1000;
+        break;
+    case 1:
+        x = entity99468->x - 0x2800;
+        y = entity99468->y + 0x1000;
+        break;
+    case 2:
+        x = entity99468->x - 0x3000;
+        y = entity99468->y - 0x1000;
+        break;
+    case 3:
+        x = entity99468->x - 0x1800;
+        y = entity99468->y - 0x1800;
+        break;
+    case 4:
+        x = entity99468->x;
+        y = entity99468->y - 0x1C00;
+        break;
+    case 5:
+        x = entity99468->x + 0x1800;
+        y = entity99468->y - 0x1800;
+        break;
+    case 6:
+        x = entity99468->x + 0x2800;
+        y = entity99468->y - 0x1000;
+        break;
+    case 7:
+        x = entity99468->x + 0x2800;
+        y = entity99468->y + 0x1000;
+        break;
+    }
+    dir = gUnk_0847AD0A[dir];
+    count = 9;
+    do {
+        x += gUnk_080B9704[dir + 0x40];
+        y += gUnk_080B9704[dir];
+        dx = (u32)((x - players99468[sub_080020F4()].x) << 8) >> 16;
+        dy = (u32)((y - players99468[sub_080020F4()].y) << 8) >> 16;
+        if ((count & 0xF) == 0)
+            sub_08065748(x >> 8, y >> 8, 5);
+        if (Sqrt(dx * dx + dy * dy) <= 0x13 && sub_0800CDF8() == 0 && sub_0800CCCC() == 0
+            && sub_0800CD8C() == 0 && entity99468->state != 0xB && !(players99468[sub_080020F4()].flags & 0x2000)
+            && players99468[sub_080020F4()].active != 0 && players99468[sub_080020F4()].state != 0xE
+            && players99468[sub_080020F4()].state != 0xB && players99468[sub_080020F4()].state != 0xC
+            && players99468[sub_080020F4()].seen[entity99468->index] != entity99468->counter) {
+            sub_08029CEC(1, 5, 1);
+            players99468[sub_080020F4()].motion = 0xFFFE;
+            players99468[sub_080020F4()].seen[entity99468->index] = entity99468->counter;
+        }
+        sub_080003F0();
+    } while (--count != -1);
+    *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
+}
 struct Sprite99468 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 void sub_08099468(u32 unused, s32 dir)
 {
