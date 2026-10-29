@@ -1440,6 +1440,7 @@ extern struct Actor113844 *actors113844[] asm("gUnk_03000448");
 extern struct Sprite113844 sprite113844 asm("gUnk_03000458");
 extern struct Pos113844 pos113844 asm("gUnk_03000490");
 extern s8 flags113844 asm("gUnk_030004B8");
+extern s8 flagsArray113844[5] asm("gUnk_030004B8");
 extern u16 tile113844 asm("gUnk_030004BE");
 extern u8 counter113844 asm("gUnk_030004C0"), timer113844 asm("gUnk_030004C1");
 extern u8 states113844[] asm("gUnk_030004C4");
@@ -1637,7 +1638,7 @@ block_6:
     } while ((s16)var_r4 <= 3);
     pos113844.unk0 = arg0->unk14 >> 8;
     pos113844.unk4 = (arg0->unk18 >> 8) + 16;
-    flags113844 = 0;
+    flagsArray113844[0] = 0;
     var_r4_2 = 1;
     temp_r7 = (u8 *)&pos113844 + 4;
     do {
@@ -1646,7 +1647,7 @@ block_6:
         temp_r1_6 = (temp_r2_2 - 1) * 8;
         *(s32 *)(temp_r3 + (u32)&pos113844) = *(s32 *)(temp_r1_6 + (u32)&pos113844);
         *(s32 *)(temp_r3 + (u32)temp_r7) = *(s32 *)(temp_r1_6 + (u32)temp_r7) - 16;
-        (&flags113844)[temp_r2_2] = 0;
+        flagsArray113844[temp_r2_2] = 0;
         temp_r2 = temp_r2_2 + 1;
         var_r4_2 = temp_r2;
     } while ((s16)temp_r2 <= 4);
@@ -1900,7 +1901,7 @@ block_86:
         *sp68 = arg0->unk8;
         pos113844.unk0 = (s32) ((s32) arg0->unk14 >> 8);
         pos113844.unk4 = (s32) ((s32) arg0->unk18 >> 8);
-        flags113844 = (s8) arg0->unk8;
+        flagsArray113844[0] = (s8) arg0->unk8;
         temp_r0_19 = (s16) arg0->unk8;
         switch (temp_r0_19) {                       /* switch 2 */
         case 1:                                     /* switch 2 */
