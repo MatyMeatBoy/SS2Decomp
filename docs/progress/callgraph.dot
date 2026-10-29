@@ -164,7 +164,7 @@ digraph calls {
   "sub_08007290" [label="ResolveMainResourceById"];
   "sub_080072A0" [label="sub_080072A0"];
   "sub_08007434" [label="sub_08007434"];
-  "sub_080076C4" [label="sub_080076C4"];
+  "sub_080076C4" [label="impl76C4"];
   "sub_08007870" [label="sub_08007870"];
   "sub_08007974" [label="sub_08007974"];
   "sub_08007AA4" [label="sub_08007AA4"];

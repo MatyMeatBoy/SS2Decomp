@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; no son C decompilado</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identificación</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">14.64%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">298 / 2035 nombres registrados</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">14.69%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">299 / 2035 nombres registrados</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Histórico C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">37.50%</text>
@@ -1549,7 +1549,7 @@
 <rect x="705.42" y="318.39" width="15.67" height="17.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080089DC | sub_080089DC | unidentified  0x080089DC  564 bytes  [todo]</title></rect>
 <rect x="721.09" y="318.39" width="15.56" height="17.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080087AC | sub_080087AC | unidentified  0x080087AC  560 bytes  [todo]</title></rect>
 <rect x="736.65" y="318.39" width="15.00" height="17.86" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08007CF0 | sub_08007CF0 | unidentified  0x08007CF0  540 bytes  [nonmatch]</title></rect>
-<rect x="705.42" y="336.25" width="11.66" height="18.22" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080076C4 | sub_080076C4 | unidentified  0x080076C4  428 bytes  [todo]</title></rect>
+<rect x="705.42" y="336.25" width="11.66" height="18.22" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>impl76C4 | sub_080076C4 | existing  0x080076C4  428 bytes  [nonmatch]</title></rect>
 <rect x="705.42" y="354.47" width="11.66" height="17.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080072A0 | sub_080072A0 | unidentified  0x080072A0  404 bytes  [todo]</title></rect>
 <rect x="717.08" y="336.25" width="12.39" height="12.17" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08007974 | sub_08007974 | unidentified  0x08007974  304 bytes  [nonmatch]</title></rect>
 <rect x="729.47" y="336.25" width="11.58" height="12.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetMainResourceCategoryCount | sub_08007164 | confirmed  0x08007164  284 bytes  [done]</title></rect>

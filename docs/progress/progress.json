@@ -5,15 +5,15 @@
   "funcs_total": 1870,
   "funcs_done": 1402,
   "percent": 36.711436055999314,
-  "funcs_drafts": 133,
-  "bytes_drafts": 204852,
-  "percent_with_drafts": 64.2027398436829,
+  "funcs_drafts": 134,
+  "bytes_drafts": 205280,
+  "percent_with_drafts": 64.26017778922957,
   "funcs_decompiled": 1402,
   "bytes_decompiled": 273556,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 335,
-  "bytes_pending": 266744,
+  "funcs_pending": 334,
+  "bytes_pending": 266316,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
@@ -51,15 +51,15 @@
   "funcs_total": 2009,
   "funcs_done": 1538,
   "percent": 37.50488173019073,
-  "funcs_drafts": 133,
-  "bytes_drafts": 204852,
-  "percent_with_drafts": 64.53277883915095,
+  "funcs_drafts": 134,
+  "bytes_drafts": 205280,
+  "percent_with_drafts": 64.58924858297885,
   "funcs_decompiled": 1516,
   "bytes_decompiled": 283320,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 338,
-  "bytes_pending": 268816,
+  "funcs_pending": 337,
+  "bytes_pending": 268388,
   "funcs_original_asm": 24,
   "bytes_original_asm": 1056,
   "funcs_decompilable": 1987,
@@ -75,12 +75,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 143,
-   "existing": 24,
+   "identified": 144,
+   "existing": 25,
    "confirmed": 119,
    "proposed": 0,
-   "unidentified": 1737,
-   "percent_identified": 7.6063829787234045
+   "unidentified": 1736,
+   "percent_identified": 7.659574468085107
   },
   "sdk": {
    "total": 155,
@@ -93,12 +93,12 @@
   },
   "all": {
    "total": 2035,
-   "identified": 298,
-   "existing": 153,
+   "identified": 299,
+   "existing": 154,
    "confirmed": 145,
    "proposed": 0,
-   "unidentified": 1737,
-   "percent_identified": 14.643734643734645
+   "unidentified": 1736,
+   "percent_identified": 14.692874692874692
   }
  },
  "data": {
@@ -114,6 +114,6 @@
   "nodes": 2035,
   "edges": 11608,
   "unresolved_calls": 1268,
-  "parsed_c_functions": 1646
+  "parsed_c_functions": 1647
  }
 }
