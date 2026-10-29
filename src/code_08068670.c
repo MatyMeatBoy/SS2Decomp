@@ -1797,7 +1797,7 @@ block_24:
 loop_28:
                 var_r4 += 1;
                 if ((u32) var_r4 < temp_r0_3) {
-                    temp_r0_4 = (0x14C * var_r4) + sp5C;
+                    temp_r0_4 = (0x14C * var_r4) + ((u8 *)gUnk_03003CE0);
                     sp5C = temp_r0_4;
                     if (T71B_U16(temp_r0_4,0x0) == sp60) {
                         goto block_30;
