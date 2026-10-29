@@ -1420,7 +1420,141 @@ void sub_0805CB04(s32 index, struct Record60 *out)
 
 
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB8C);
+#ifdef NONMATCHING
+struct PuzzleSlot61 { s32 x,y; u16 pad8,active; u32 padC; u16 type,value; u8 tail[12]; };
+struct PuzzleItem61 { u16 type,value; union { u32 wide; struct {u16 a;u8 b,c;} parts; } data; u8 last; u8 tail[7]; };
+extern struct PuzzleSlot61 *puzzleSlots61 asm("gUnk_03005D58");
+extern u32 puzzleBounds61[] asm("gUnk_084EBCE8");
+extern u16 puzzleRecipes61[] asm("gUnk_084EB8D8");
+s32 sub_0805CDF8(void) {
+    struct PuzzleSlot61 *sp0[4];
+    struct PuzzleItem61 sp10;
+    s16 temp_r1; u16 yBits; s32 xBits;
+    s32 temp_r2;
+    s32 temp_r3;
+    s32 var_r4_2;
+    s32 var_r6;
+    s32 var_r8;
+    s32 var_r9_2;
+    u16 *temp_r0_2;
+    u16 *var_r5;
+    u16 *var_r8_2;
+    u16 temp_r0_3;
+    u16 temp_r1_4;
+    u32 var_r7;
+    
+    
+    u32 var_r9;
+    struct PuzzleSlot61 **var_ip;
+    struct PuzzleSlot61 **var_r3;
+    struct PuzzleSlot61 **var_r5_2;
+    struct PuzzleSlot61 *temp_r0;
+    struct PuzzleSlot61 *temp_r1_2;
+    struct PuzzleSlot61 *temp_r1_3;
+    struct PuzzleSlot61 *temp_r2_2;
+    struct PuzzleSlot61 *var_r4;
+
+    var_r7 = 0;
+    var_ip = sp0;
+loop_1:
+    var_r4 = puzzleSlots61;
+    var_r8 = 0;
+    *var_ip = NULL;
+    var_r9 = 0;
+    do {
+        if (var_r4->active != 0) {
+            xBits=var_r4->x<<5; yBits=(u32)(var_r4->y<<5)>>16; temp_r2 = var_r7 * 0x10;
+            temp_r3 = xBits >> 16;
+            if ((u32) *(u32 *)(temp_r2 + (u8 *)puzzleBounds61) <= (u32) temp_r3) {
+                temp_r1 = yBits;
+                if (((u32) *(u32 *)(temp_r2 + ((u8 *)(puzzleBounds61 + 1))) <= (u32) temp_r1) && ((u32) *(u32 *)(temp_r2 + ((u8 *)(puzzleBounds61 + 2))) >= (u32) temp_r3) && ((u32) *(u32 *)(temp_r2 + ((u8 *)(puzzleBounds61 + 3))) >= (u32) temp_r1)) {
+                    var_r8 += 1;
+                    *var_ip = var_r4;
+                }
+            }
+        }
+        var_r9 += 1;
+        var_r4++;
+    } while (var_r9 <= 0xFU);
+    if (var_r8 != 1) {
+        goto block_32;
+    }
+    var_ip++;
+    var_r7 += 1;
+    if (var_r7 > 3U) {
+        if (puzzleRecipes61[0] == 0) {
+            goto block_32;
+        }
+        var_r8_2 = puzzleRecipes61;
+        var_r9_2 = 0;
+loop_15:
+        var_r6 = 0;
+        var_r7 = 0;
+        var_r5 = (u16 *)(var_r9_2 + (u8 *)puzzleRecipes61);
+        var_r4_2 = var_r9_2;
+        var_r3 = sp0;
+        do {
+            temp_r2_2 = *var_r3;
+            if ((temp_r2_2->type == *var_r5) && (temp_r2_2->value == *(u16 *)(var_r4_2 + ((u8 *)(puzzleRecipes61 + 1))))) {
+                var_r6 += 1;
+            }
+            var_r5 += 2;
+            var_r4_2 += 4;
+            var_r3++;
+            var_r7 += 1;
+        } while (var_r7 <= 3U);
+        if (var_r6 == 4) {
+            var_r7 = 0;
+            var_r5_2 = sp0;
+            do {
+                temp_r1_2 = *var_r5_2;
+                sub_08021EC8(temp_r1_2->x, temp_r1_2->y, 2);
+                temp_r1_3 = *var_r5_2;
+                sub_08058768((s32) temp_r1_3->x >> 8, (s32) temp_r1_3->y >> 8, 0);
+                sub_08057624(2U);
+                temp_r0 = *var_r5_2;
+                var_r5_2++;
+                temp_r0->active = 0;
+                sub_08057624(0xAU);
+                var_r7 += 1;
+            } while (var_r7 <= 3U);
+            temp_r0_2 = (u16 *)((u32)puzzleRecipes61 + var_r9_2 + 16);
+            temp_r1_4 = *temp_r0_2;
+            if (temp_r1_4 == 0xA) {
+                sp10.type = temp_r1_4;
+                sp10.data.wide = (s32) *(u16 *)((u32)puzzleRecipes61 + var_r9_2 + 18);
+            } else {
+                sp10.data.wide = 0;
+                sp10.type = (u16) *temp_r0_2;
+                sp10.value = (u16) *(u16 *)((u32)puzzleRecipes61 + var_r9_2 + 18);
+                temp_r0_3 = sp10.type;
+                if ((s32)temp_r0_3 > 5) goto item_ready; if ((s32)temp_r0_3 < 2) goto item_ready; {
+                    sp10.last = 0;
+                    sp10.data.parts.a = 0;
+                    sp10.data.parts.b = 0;
+                    sp10.data.parts.c = 0;
+                }
+            }
+item_ready:
+            if (sub_08002204() != 0) {
+                sub_08066490(0xF700U, 0x6E00U, (u32 *)&sp10);
+            }
+            sub_08021EC8(0xF700U, 0x6E00U, 6);
+            return 1;
+        }
+        var_r8_2 += 10;
+        var_r9_2 += 0x14;
+        if (*var_r8_2 == 0) {
+block_32:
+            return 0;
+        }
+        goto loop_15;
+    }
+    goto loop_1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CDF8);
+#endif
 s32 sub_0805CFA0(void) {
     u32 i;
     u8 *p;
