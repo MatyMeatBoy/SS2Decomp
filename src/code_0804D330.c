@@ -3476,7 +3476,28 @@ void sub_08052060(void)
         while(sub_0801AAE0()==0)sub_080003F0();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080523D8);
+void sub_080523D8(s32 arg0)
+{
+    u16 timer;
+    switch (arg0) {
+    case 0:
+        t53_spawnDF0(sub_080523D8, 1, 2);
+        break;
+    case 1:
+        t53_effectDF0(0xC800, 0x6800);
+        for (timer = 4; timer != 0; timer--) {
+            sub_080003F0();
+            if (sub_080021A8() != 0)
+                break;
+        }
+        t53_effectDF0(0xC000, 0x6800);
+        t53_effectDF0(0xD000, 0x6800);
+        if ((gUnk_030027D0 & 32) == 0) sub_08006D08(0x17B);
+        sub_08028AAC(7, 0xC8, 0x68, 0);
+        t53_flagDF0(t53_gsDF0, 16);
+        break;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0805247C);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080526B4);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080529E0);
@@ -3513,8 +3534,43 @@ void sub_08052FE8(void)
     }
     sub_08068070((u32)sub_0803E5D8, 0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053060);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053120);
+extern void t53_cb3060(void) asm("sub_08053120");
+static inline u32 t53_test3060(u8 *ptr, u32 mask)
+{ return *(u32 *)(ptr + 0x38) & mask; }
+void sub_08053060(void)
+{
+    if (t53_test3060(t53_gs2060, 4) == 0) t53_request2060(t53_cb3060, 0, 6);
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
+void sub_08053120(s32 arg0)
+{
+    u16 timer;
+    switch (arg0) {
+    case 0:
+        t53_spawnDF0(sub_08053120, 1, 1);
+        break;
+    case 1:
+        t53_effectDF0(0x10800, 0x5800);
+        for (timer = 4; timer != 0; timer--) {
+            sub_080003F0();
+            if (sub_080021A8() != 0)
+                break;
+        }
+        t53_effectDF0(0x10000, 0x5800);
+        t53_effectDF0(0x11000, 0x5800);
+        if ((gUnk_030027D0 & 32) == 0) sub_08006D08(0x17B);
+        sub_08028AAC(7, 0x108, 0x58, 0);
+        t53_flagDF0(t53_gsDF0, 4);
+        break;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080531C4);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053510);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080537DC);
