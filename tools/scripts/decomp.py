@@ -495,18 +495,100 @@ def apply(func, cfile):
     print("applied %s -> src/%s.c" % (func, mod))
 
 
+def replace_nonmatching_draft(text, stub, code):
+    """Replace a single fallback and its old draft, preserving outer guards."""
+    from source_index import functions, mask_noncode
+
+    # Mask comments/strings without moving offsets. A documented #ifdef or stub
+    # inside a comment must not be mistaken for live preprocessor structure.
+    clean = mask_noncode(text)
+    positions = [m.start() for m in re.finditer(re.escape(stub), text)
+                 if clean[m.start():m.start() + len('INCLUDE_ASM')] == 'INCLUDE_ASM']
+    if not positions:
+        raise SystemExit('stub not found: ' + stub)
+    if len(positions) != 1:
+        raise SystemExit('ambiguous duplicate stub: ' + stub)
+    position = positions[0]
+    stack, blocks = [], []
+    directive = r'^[ \t]*#[ \t]*(ifdef|ifndef|if|elif|else|endif)\b([^\n]*)'
+    for match in re.finditer(directive, clean, re.M):
+        kind, condition = match.group(1), re.sub(r'\s+', '', match.group(2))
+        if kind in ('if', 'ifdef', 'ifndef'):
+            positive = (kind == 'ifdef' and condition == 'NONMATCHING') or (
+                kind == 'if' and condition in ('defined(NONMATCHING)', 'definedNONMATCHING'))
+            negative = (kind == 'ifndef' and condition == 'NONMATCHING') or (
+                kind == 'if' and condition in ('!defined(NONMATCHING)', '!definedNONMATCHING'))
+            stack.append(dict(start=match.start(), open_end=match.end(), positive=positive,
+                              negative=negative, mentions_nm='NONMATCHING' in condition,
+                              otherwise=None, otherwise_end=None, elif_=False))
+        elif not stack:
+            raise SystemExit('unbalanced preprocessor guard')
+        elif kind == 'elif':
+            stack[-1]['elif_'] = True
+        elif kind == 'else':
+            if stack[-1]['otherwise'] is not None:
+                raise SystemExit('duplicate #else in preprocessor guard')
+            stack[-1]['otherwise'] = match.start()
+            stack[-1]['otherwise_end'] = match.end()
+        else:
+            block = stack.pop()
+            block['end'] = match.end()
+            block['close_start'] = match.start()
+            blocks.append(block)
+    if stack:
+        raise SystemExit('unterminated preprocessor guard')
+    enclosing = [b for b in blocks if b['start'] < position < b['end'] and b['mentions_nm']]
+    for block in enclosing:
+        otherwise = block['otherwise']
+        fallback = otherwise is not None and (
+            (block['positive'] and position > otherwise) or
+            (block['negative'] and position < otherwise))
+        if not fallback or block['elif_']:
+            raise SystemExit('target is not a standalone NONMATCHING fallback')
+    start, end = position, position + len(stub)
+    if enclosing:
+        # Also repair previously nested inactive drafts produced by the old
+        # inserter. Only the outermost target-only wrapper is replaced.
+        block = min(enclosing, key=lambda b: b['start'])
+        start, end = block['start'], block['end']
+        if len(re.findall(r'\bINCLUDE_ASM\s*\(', clean[start:end])) != 1:
+            raise SystemExit('NONMATCHING guard contains other ASM fallbacks')
+        # One ASM stub alone does not prove exclusive ownership: either branch
+        # may also contain neighboring C or a feature guard around the stub.
+        # Accept only target definitions, the exact fallback, and the recognized
+        # enclosing NONMATCHING directives. Anything else stays untouched.
+        target = re.search(r',\s*(\w+)\s*\);$', stub).group(1)
+        removable = [(position, position + len(stub))]
+        for guard in enclosing:
+            removable.extend([(guard['start'], guard['open_end']),
+                              (guard['otherwise'], guard['otherwise_end']),
+                              (guard['close_start'], guard['end'])])
+        for definition in functions(text):
+            if (definition['name'] == target and definition['declaration_start'] >= start
+                    and definition['end'] < end):
+                removable.append((definition['declaration_start'], definition['end'] + 1))
+        remainder = list(clean[start:end])
+        for lower, upper in removable:
+            remainder[lower - start:upper - start] = ' ' * (upper - lower)
+        if ''.join(remainder).strip():
+            raise SystemExit('NONMATCHING guard contains other code or feature guards')
+    replacement = '#ifdef NONMATCHING\n%s\n#else\n%s\n#endif' % (code, stub)
+    return text[:start] + replacement + text[end:]
+
+
 def apply_nonmatch(func, cfile):
-    """Keep equivalent but not matching C next to the asm, under #ifdef NONMATCHING."""
+    """Keep a C candidate next to its ASM; compilation is not equivalence."""
     path, mod = find_asm(func)
     src = os.path.join(ROOT, "src/%s.c" % mod)
-    vars_, protos, code = split_decls(open(cfile).read())
-    add_decls(os.path.join(ROOT, "include/variables.h"), "// AUTO-VARIABLES (keep this marker, decomp.py appends below it)", vars_)
-    text = open(src).read()
+    with open(cfile) as candidate:
+        vars_, protos, code = split_decls(candidate.read())
+    with open(src) as module:
+        text = module.read()
     stub = 'INCLUDE_ASM("asm/nonmatchings/%s", %s);' % (mod, func)
-    if stub not in text:
-        raise SystemExit("stub for %s not found in %s" % (func, src))
-    text = text.replace(stub, "#ifdef NONMATCHING\n%s\n#else\n%s\n#endif" % (code, stub))
-    open(src, "w").write(text)
+    text = replace_nonmatching_draft(text, stub, code)
+    add_decls(os.path.join(ROOT, "include/variables.h"), "// AUTO-VARIABLES (keep this marker, decomp.py appends below it)", vars_)
+    with open(src, "w") as module:
+        module.write(text)
     print("kept %s as NONMATCHING in src/%s.c" % (func, mod))
 
 
