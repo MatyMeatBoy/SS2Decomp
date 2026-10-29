@@ -560,7 +560,42 @@ nextEnemyPlayer:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068A00);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068F9C);
+struct Attack69 {u32 attacker,unk4,unk8,kind,power,level;};
+struct AttackPlayer69 {u8 pad0[0x3C];s16 value;u8 pad3E[0x14C-0x3E];};
+struct AttackTable69 {s16 power;u16 effect;u8 pad4[20];};
+extern struct AttackPlayer69 attackPlayers69[] asm("gUnk_03003CE0");
+extern u8 *attackEnemies69 asm("gUnk_030056F4");
+extern struct AttackTable69 attackTable69[] asm("gUnk_084EBF1C");
+extern u16 attackSpecial69[] asm("gUnk_084EC15C");
+extern u32 attackRoot69(s32) asm("Sqrt");
+extern u16 attackAdjust69(u16,u16,s32) asm("sub_08021D00");
+s32 sub_08068F9C(struct Attack69 *a,s32 target)
+{
+    s32 value;
+    s32 random;
+    s32 factor;
+    register u32 root asm("r0");
+    u32 packed;
+    u32 result;
+    u32 index;
+    u16 *special;
+    index=a->attacker;
+    if(index<=3) value=((struct AttackPlayer69 *)(index*0x14C+(u32)attackPlayers69))->value;
+    else { register u32 address asm("r1"); register u8 **base asm("r0"); base=&attackEnemies69; address=index*0x2E0; address+=(u32)*base; address-=0x978; value=*(s16 *)address; }
+    random=sub_080008C8()%20U+100;
+    if(a->kind!=19) {
+        root=attackRoot69(value+15);
+        factor=attackTable69[a->kind].power*(a->level+1);
+    } else {
+        root=attackRoot69(value+15);
+        special=attackSpecial69;
+        packed=a->level;
+        factor=special[packed>>16]*((packed&0xFFFF)+1);
+    }
+    result=(u32)(((a->power+20)*factor*(u16)root)*random)/27000U;
+    if(target!=0) result=attackAdjust69(attackTable69[a->kind].effect,(u16)result,target);
+    return (s16)result;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069080);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069224);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069388);
