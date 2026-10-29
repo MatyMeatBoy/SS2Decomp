@@ -1767,41 +1767,81 @@ void t65B_impl(s32 index)
     s16 xy[2];
     u16 sizes[4];
     s32 box[4];
-    s32 playerIndex=index;
-    u32 worldX;
+    volatile s32 playerIndex=index;
+    volatile u32 worldX;
     register u32 dialog asm("sl");
     u32 i;
-    u8 alternate;
+    register u32 alternate asm("r5");
+    register u32 one asm("r9");
+    register s16 *xPtr asm("r6");
+    s16 *yPtr;
+    u16 *volatile sizePtr;
+    register u16 *heightPtr asm("r5");
+    s32 *volatile boxPtr;
     u8 *out;
+    u32 currentPlayer;
+    register s32 testedIndex asm("r4");
+    register u8 *palettePtr asm("r4");
     register struct T65BPlayer *player asm("r8") = &t65B_players[playerIndex];
-    t65B_init(&draw,0x5005E,5,-1);
+    {register void *table asm("r6")=t65B_resources;
+    struct T65BPopup *descriptor=&draw;
+    s32 first,second,mem;
+    draw.resource=0x5005E;draw.style=5;draw.mode=-1;
+    first=sub_08006EE0(0x5005E,table);draw.data=(u8 *)first;
+    boxPtr=box;sizePtr=&sizes[0];heightPtr=&sizes[1];
+    asm("" : "+r"(heightPtr));
+    if(first) {
+        register u32 lowResource asm("r4")=0x5E;
+        second=sub_08006EE0(0x6005E,table);draw.base=second;
+        if(second) {
+            mem=sub_08006EE0(lowResource|0x80000,table);draw.sound=mem;
+            if(mem) {
+                i=0;do {draw.palette[i]=i;i++;} while(i<=15);
+                sub_080653B8(descriptor,0x120,0xE0,8);
+            }
+        }
+    }}
     draw.palette[0]=15;
-    worldX=0xB8-playerIndex*24;
-    box[0]=worldX<<8;
-    box[1]=0x13800;
+    {u32 value=0xB8-playerIndex*24;worldX=value;box[0]=value<<8;}
+    boxPtr[1]=0x13800;
     box[2]=0x80010;
     box[3]=0x1E0018;
-    sizes[0]=0;sizes[1]=0;
+    *sizePtr=0;*heightPtr=0;
     dialog=0;
     sub_0800CF20();
 goto check;
 loop:
-    t65B_position((s16)worldX,0x138,&xy[0],&xy[1],0x30,1);
-    sub_08008CC4(0,&sizes[0],&sizes[1],draw.data,1);
-    sub_08008CC4(1,&sizes[2],&sizes[3],draw.data,1);
-    if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && t65B_blocked==0) {
-        alternate=(u8)sub_0800BC44(worldX,0x138,1);
-        out=t65B_draw(xy[0],xy[1],0,sizes[0],alternate,draw.palette,draw.data,draw.base);
+    {register u32 worldInput asm("r1")=worldX;
+    register s32 rawX asm("r0");register s32 rawY asm("r1");
+    register u32 constantY asm("r2");register u32 flag asm("r2");register u32 initialOne asm("r3");
+    asm("" : "+r"(worldInput));rawX=worldInput<<16;asm("" : "+r"(rawX));
+    constantY=0x138;asm("" : "+r"(constantY));rawY=constantY<<16;asm("" : "+r"(rawY));
+    xPtr=&xy[0];yPtr=&xy[1];flag=0x30;initialOne=1;
+    asm("" : "+r"(rawX), "+r"(rawY), "+r"(xPtr), "+r"(yPtr));
+    asm("" : "+r"(flag), "+r"(initialOne) : "r"(rawX), "r"(rawY), "r"(xPtr), "r"(yPtr));one=initialOne;
+    t65B_position(rawX>>16,rawY>>16,xPtr,yPtr,flag,initialOne);}
+    sub_08008CC4(0,&sizes[0],&sizes[1],draw.data,one);
+    sub_08008CC4(1,&sizes[2],&sizes[3],draw.data,one);
+    if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && ({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0) {
+        {register u32 fade asm("r0")=sub_0800BC44(worldX,0x138,1);
+        register s32 drawX asm("r2")=*xPtr;
+        register s32 drawY asm("r1")=*yPtr;
+        register u16 *widths asm("r4")=sizePtr;
+        register u32 width asm("r3")=*widths;
+        asm("" : "+r"(fade), "+r"(drawX), "+r"(drawY), "+r"(width));
+        alternate=(u8)fade;
+        out=t65B_draw(drawX,drawY,0,width,alternate,({palettePtr=draw.palette;asm("" : "+r"(palettePtr));palettePtr;}),draw.data,draw.base);}
         *(u32 *)(out+12) -= 20;
-        if (t65B_flags & 1) t65B_overlay(xy[0],xy[1],1,sizes[2],alternate,draw.palette,draw.data,draw.base);
+        if (t65B_flags & one) t65B_overlay(*xPtr,*yPtr,1,sizes[2],alternate,palettePtr,draw.data,draw.base);
         sub_08000AF0(0x1F,(void *)draw.sound,1);
     }
-    if (playerIndex == sub_080020F4()) {
-        if ((t65B_blocked==0 && t65B_intersect(box,(u8 *)player+0x8C,box+2,box+3)) || dialog != 0) {
+    currentPlayer=sub_080020F4();testedIndex=playerIndex;asm("" : "+r"(testedIndex));
+    if (testedIndex == currentPlayer) {
+        if ((({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0 && t65B_intersect(boxPtr,(u8 *)player+0x8C,box+2,box+3)) || dialog != 0) {
             if (dialog == 0) {
-                if (!sub_0800CDF8() && (player->buttons & 1)) {
-                    player->flags |= 1;
-                    dialog=sub_0805DF38(1,14,25,2,-2,0x1404E0);
+                if (!sub_0800CDF8()) {
+                    register struct T65BPlayer *p asm("r4")=player;asm("" : "+r"(p));
+                    if(p->buttons&1) {p->flags|=1;dialog=sub_0805DF38(1,14,25,2,-2,0x1404E0);}
                 }
             } else if (sub_0805EEFC((void *)dialog)) {
                 if (sub_0805EF14((u8 *)dialog)) {
@@ -1811,13 +1851,20 @@ loop:
                     sub_0800CF34();
                     goto finish;
                 } else {
-                    player->flags &= ~1;
-                    dialog=0;
+                    {register struct T65BPlayer *p asm("r2")=player;asm("" : "+r"(p));p->flags&=~1;}
+                    {register u32 zero asm("r3")=0;asm("" : "+r"(zero));dialog=zero;}
                 }
             }
         }
     } else {
-        if ((player->entity[0]&15)==12 && ((*(u16 *)(player->entity+4)>>6)&63)==1) goto finish;
+        {register u8 *entity asm("r1")=player->entity;
+        register u32 state asm("r0")=entity[0];
+        asm("" : "+r"(entity), "+r"(state));
+        state<<=28;asm("" : "+r"(state));state>>=28;
+        if(state==12) {
+            state=*(u16 *)(entity+4);state<<=20;asm("" : "+r"(state));state>>=26;
+            if(state==1) goto finish;
+        }}
     }
     sub_080003F0();
     if (sub_0800CB78() || sub_0800CD00()) goto finish;
