@@ -875,6 +875,7 @@ void e0c4Impl(struct Task0C4 *task)
     u8 speed;
     u32 hold;
     u32 blink;
+    /* Original first reads uninitialized frame slot SP+0xB8 at 0805EA88. */
     u8 blinkTimer;
     u16 numIdx;
     u16 strIdx;
@@ -913,7 +914,7 @@ void e0c4Impl(struct Task0C4 *task)
     do {
         line = 0;
         do {
-            lines[0][line + k] = 0xFD;
+            lines[j][line] = 0xFD;
             line++;
         } while (line < 18);
         k += 30;
