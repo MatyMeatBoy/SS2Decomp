@@ -7793,11 +7793,11 @@ digraph calls {
   "sub_0805CB04" -> "sub_080008C8" [label="c"];
   "sub_0805CB04" -> "sub_0805C4FC" [label="c"];
   "sub_0805CB8C" -> "sub_080003F0" [label="asm"];
-  "sub_0805CDF8" -> "sub_08002204" [label="asm"];
-  "sub_0805CDF8" -> "sub_08021EC8" [label="asm"];
-  "sub_0805CDF8" -> "sub_08057624" [label="asm"];
-  "sub_0805CDF8" -> "sub_08058768" [label="asm"];
-  "sub_0805CDF8" -> "sub_08066490" [label="asm"];
+  "sub_0805CDF8" -> "sub_08002204" [label="asm,c"];
+  "sub_0805CDF8" -> "sub_08021EC8" [label="asm,c"];
+  "sub_0805CDF8" -> "sub_08057624" [label="asm,c"];
+  "sub_0805CDF8" -> "sub_08058768" [label="asm,c"];
+  "sub_0805CDF8" -> "sub_08066490" [label="asm,c"];
   "sub_0805D094" -> "sub_0805D210" [label="c"];
   "sub_0805D0E8" -> "sub_0805D278" [label="c"];
   "sub_0805D13C" -> "sub_0805D2E0" [label="c"];
