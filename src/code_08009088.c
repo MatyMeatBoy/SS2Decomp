@@ -736,7 +736,7 @@ u32 sub_0800AE50(s32 x,s32 y,u32 resourceId)
     return t06_decodeAE50(result,type);
 }
 #ifdef NONMATCHING
-struct T06CellAEF4 {u8 type,flags;};
+struct T06CellAEF4 {u8 type,flags;} __attribute__((packed));
 extern u16 t06_widthAEF4 asm("gUnk_030031E8");
 void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     s32 sp0;
