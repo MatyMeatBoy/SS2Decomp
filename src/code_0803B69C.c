@@ -315,8 +315,434 @@ end:
  *(u32 *)(p+0x30)&=~1;
  sub_0800D108();
 }
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803D99C);
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0803DE84);
+struct CmdD99C {u16 one,kind; u8 data[12];};
+struct PlayerD99C {u8 pad[32];u16 value;};
+struct TaskD99C {u32 f0,f4,f8,fC;void *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
+extern u8 *gStateD99C asm("gUnk_03005CF4");
+extern s32 sub_0801AB24(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+extern void sub_080290E4(s32,s32);
+extern void sub_08029174(s32,s32);
+extern void sub_080576A8(void);
+extern void sub_08059250(void);
+static inline u8 *findD99C(u32 arg) {
+ register u32 key asm("r5")=arg;
+ register u32 off asm("r2");
+ u8 *p;
+ u32 i;
+ off=0x7A4; p=gStateD99C+off;
+ for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
+ sub_080003F0(); return 0;
+}
+void sub_0803D99C(void) {
+    struct CmdD99C cmd;
+    register s32 offset asm("r2");
+    register u8 *var_r0 asm("r0");
+    u32 callback;
+    register struct TaskD99C *start asm("r0");
+    register u32 taskArg asm("r1");
+    u8 *var_r2_2;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    register s32 temp_r5 asm("r5");
+    u32 var_r4;
+    u16 var_r5;
+    u16 var_r5_10;
+    u16 var_r5_11;
+    u16 var_r5_12;
+    u16 var_r5_13;
+    u16 var_r5_2;
+    u16 var_r5_3;
+    u16 var_r5_4;
+    u16 var_r5_5;
+    u16 var_r5_7;
+    u16 var_r5_8;
+    u16 var_r5_9;
+    u32 temp_r4;
+    u32 temp_r5_2;
+    u32 temp_r5_3;
+    u32 var_r1_3;
+    u16 one,kind;
+    u32 var_r4_2;
+    struct TaskD99C *var_r5_6;
+    u8 *temp_r0_3;
+    u8 *temp_r2;
+    u8 *temp_r2_2;
+    u8 *temp_r2_3;
+
+
+    offset=sub_080020F4(); offset*=0x14C; temp_r2=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
+    sub_0800D0F4();
+    temp_r5 = sub_080289C0(0x6000D, 0x101, 0x4E);
+    var_r2_2=findD99C(temp_r5);
+    if (var_r2_2 != NULL) {
+        *(u16 *)(var_r2_2+0x18) = 8;
+        *(u16 *)(var_r2_2+0x1A) = 4;
+        *(u32 *)(var_r2_2+0x3C) = (s32) (*(u32 *)(var_r2_2+0x3C) | 0x10);
+    }
+    callback=(u32)sub_08059250;
+    var_r0=findD99C(temp_r5);
+    if (var_r0 != NULL) {
+        *(u32 *)(var_r0+0x44) = callback;
+    }
+    temp_r0 = sub_080020F4();
+    switch (temp_r0) {
+    case 0:
+        var_r4 = 0x12C;
+        break;
+    case 1:
+        var_r4 = 0x121;
+        break;
+    case 2:
+        var_r4 = 0x137;
+        break;
+    case 3:
+        var_r4 = 0x116;
+        break;
+    }
+    sub_08028AAC(0, (u16)var_r4, 0x52, 0);
+    offset=sub_080020F4(); offset*=0x14C; temp_r2_2=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_2+0x30) = (s32) (*(u32 *)(temp_r2_2+0x30) & ~2);
+    sub_08067D74();
+    sub_080290E4(0, 0);
+    sub_08029174(0, 0x25);
+    var_r5 = 2;
+
+    while(var_r5!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5--;}
+    if (sub_0800CC98() == 0) {
+        temp_r0_2 = sub_0801AB24();
+        switch (temp_r0_2) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while(sub_0801AAE0() == 0) sub_080003F0();
+    }
+    while(sub_0805F184() != 0) sub_080003F0();
+    while(sub_0805EF90() != 0) sub_080003F0();
+    temp_r5_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1401E1U);
+    while(sub_0805EEFC((void *) temp_r5_2)==0) { if(sub_0800CDF8()!=0) {sub_0805EFBC();break;} sub_080003F0();}
+    sub_08029174(0, 0x26);
+    var_r5_2 = 8;
+    while(var_r5_2!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_2--;}
+    sub_08029174(0, 0x22);
+    var_r5_3 = 8;
+    while(var_r5_3!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_3--;}
+    sub_08029174(0, 0x23);
+    var_r5_4 = 8;
+    while(var_r5_4!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_4--;}
+    sub_08029174(0, 0x24);
+    var_r5_5 = 0x50;
+    while(var_r5_5!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_5--;}
+    while(sub_0805F184() != 0) sub_080003F0();
+    while(sub_0805EF90() != 0) sub_080003F0();
+    temp_r5_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1401E1U);
+    while(sub_0805EEFC((void *) temp_r5_3)==0) { if(sub_0800CDF8()!=0) {sub_0805EFBC();break;} sub_080003F0();}
+    callback=(u32)sub_0805A9F4;
+    var_r5_6 = (struct TaskD99C *)(gStateD99C + 0xE34);
+    var_r4_2=0; goto taskCheck;
+taskNext: var_r4_2++; var_r5_6++;
+taskCheck:
+    if(var_r4_2<=29) {
+        if(sub_08000470((u32)var_r5_6)!=0) goto taskNext;
+        while((var_r5_6->f20=(u8 *)sub_08001494(0x400))==0) sub_080003F0();
+        temp_r0_3=var_r5_6->f20;
+        var_r5_6->f8=0x3C;
+        var_r5_6->fC=callback;
+        var_r5_6->f10=temp_r0_3+0x3FC;
+        var_r5_6->f24=0;
+        start=var_r5_6; taskArg=0x1E00043;
+        sub_08000274(start,taskArg);
+    }
+    sub_08029174(0, 0x26);
+    var_r5_7 = 7;
+    while(var_r5_7!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_7--;}
+    sub_08029174(0, 0x23);
+    var_r5_8 = 7;
+    while(var_r5_8!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_8--;}
+    sub_08029174(0, 0x26);
+    var_r5_9 = 7;
+    while(var_r5_9!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_9--;}
+    sub_08029174(0, 0x23);
+    var_r5_10 = 7;
+    while(var_r5_10!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_10--;}
+    sub_08029174(0, 0x26);
+    var_r5_11 = 7;
+    while(var_r5_11!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_11--;}
+    sub_08029174(0, 0x23);
+    var_r5_12 = 0x28;
+    while(var_r5_12!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_12--;}
+    sub_08029174(0, 0);
+    sub_080290E4(0, 1);
+    sub_08028AAC(0, (u16)var_r4, 0x4C, 0);
+    var_r5_13 = 3;
+    while(var_r5_13!=0) {sub_080003F0(); if(sub_080021A8()!=0) break; var_r5_13--;}
+    sub_08028AAC(0, (u16)var_r4, 0x4E, 0);
+    while(sub_0805F184() != 0) sub_080003F0();
+    while(sub_0805EF90() != 0) sub_080003F0();
+    temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1401E2U);
+    while(sub_0805EEFC((void *) temp_r4)==0) { if(sub_0800CDF8()!=0) {sub_0805EFBC();break;} sub_080003F0();}
+    one=1; kind=6; cmd.one=one;cmd.kind=kind;
+    var_r1_3 = 0;
+    do {
+        cmd.data[var_r1_3] = 0;
+        var_r1_3 += 1;
+    } while (var_r1_3 <= 0xBU);
+    while(sub_08067B9C(0x3B00U, 0x7D00U, &cmd) == 0) sub_080003F0();
+    offset=sub_080020F4(); offset*=0x14C; temp_r2_3=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_3+0x30) = (s32) (*(u32 *)(temp_r2_3+0x30) & ~1);
+    sub_0800D108();
+    ((struct PlayerD99C *)((u8 *)gUnk_03003CE0+0x14C*sub_080020F4()))->value=0;
+}
+
+struct PlayerDE84 {u8 pad[32];u16 value;};
+struct TaskDE84 {u32 f0,f4,f8,fC;void *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
+extern u8 *gStateDE84 asm("gUnk_03005CF4");
+extern void sub_08019EB8(u16,s32);
+extern void sub_0801AA34(s32);
+extern void sub_0801AA8C(s32);
+extern s32 sub_08021FE0(void *,s32 *,s32 *,s32 *);
+extern void sub_0802926C(s32,s32);
+extern void sub_0802939C(s32,s32);
+extern void sub_0802A228(s32,s32);
+extern void sub_08059890(void);
+extern void sub_0803E510(s32);
+extern void musicDE84(u32) asm("sub_08006CD0");
+extern u32 dialogDE84(u32,u32,u32,u32,s32,u32) asm("sub_0805DF38");
+static inline u8 *findDE84(u32 key) {
+ u8 *p=gStateDE84+0x7A4;u32 i;
+ for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
+ sub_080003F0();return 0;
+}
+static inline u8 *findSetDE84(u32 arg) {
+    register u32 key asm("r2")=arg;
+    u8 *p=gStateDE84+0x7A4;
+    u32 i;
+    for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
+    sub_080003F0(); return 0;
+}
+static inline void setDE84(u32 arg) {
+    register u32 value asm("r4");
+    register u32 key asm("r2")=arg;
+    register u8 *p asm("r0");
+    u32 idx;
+    value=3;
+    if(arg>0x100000) {p=findSetDE84(key);if(p) *(u16 *)(p+0x42)=value;}
+    else if(arg!=0) {
+        register u8 **address asm("r1");
+        register u8 *entry asm("r1");
+        register u32 off asm("r0");
+        idx=arg-1;
+        if(idx<5) {address=(u8 **)&gUnk_030056F4;off=idx*0x2E0;entry=*address;entry+=off;sub_08019EB8(*(u16 *)(entry+2),3);}
+    }
+    else {register u32 off asm("r0");off=sub_080020F4()*0x14C;p=(u8 *)gUnk_03003CE0+off;*(u16 *)(p+0x11E)=value;}
+}
+void sub_0803DE84(void) {
+    register s32 offset asm("r2");
+    s32 sp14;
+    s32 sp10;
+    struct {s32 x,y;} pos;
+    u32 callback;
+    u32 taskCallback;
+    u8 *var_r1_5;
+    u8 *var_r2_2;
+    s32 temp_r0;
+    s32 temp_r7;
+    u16 var_r4;
+    u16 var_r4_3;
+    u32 temp_r0_2;
+    u32 temp_r4;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    register u32 var_r0 asm("r0");
+    struct TaskDE84 *var_r4_2;
+    u32 var_r5;
+    u32 var_r5_2;
+    u8 *var_r0_4;
+    u8 *temp_r0_3;
+    u8 *temp_r2;
+    u8 *temp_r2_3;
+    u8 *temp_r2_4;
+    u8 *temp_r2_5;
+    u8 *temp_r2_6;
+    u8 *temp_r2_7;
+    u8 *temp_r4_4;
+    register u32 loopOne asm("r6");
+    u32 loopZero;
+    register volatile u32 *flagsAddress asm("r5");
+    register u32 musicValue asm("r1");
+
+    offset=sub_080020F4();offset*=0x14C;temp_r2=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
+    sub_0800D0F4();
+    temp_r7 = sub_080289C0(0xF, 0x42, 0xC0);
+    var_r2_2=findDE84(temp_r7);
+    if (var_r2_2 != NULL) {
+        *(u16 *)(var_r2_2+0x18) = 8;
+        *(u16 *)(var_r2_2+0x1A) = 4;
+        *(u32 *)(var_r2_2+0x3C) = (s32) (*(u32 *)(var_r2_2+0x3C) | 0x10);
+    }
+    sub_0802939C(temp_r7, 0x14);
+    sub_080290E4(temp_r7, 7);
+    sub_08028AAC(1, 0x270F, 0x270F, 0);
+    temp_r0 = sub_080020F4();
+    switch(temp_r0) {
+    case 0: sub_08028AAC(0,0x10A,0xC0,0);break;
+    case 1: sub_08028AAC(0,0x11A,0xB0,0);break;
+    case 2: sub_08028AAC(0,0x11A,0xD0,0);break;
+    case 3: sub_08028AAC(0,0x12A,0xC0,0);break;
+    }
+    sub_0801AA34(0x1E);
+    while(sub_0801AAE0() == 0) sub_080003F0();
+    temp_r0_2 = sub_08002164();
+    if (temp_r0_2 == 1) {
+        while(sub_0805F184() != 0) sub_080003F0();
+        while(sub_0805EF90() != 0) sub_080003F0();
+        var_r0 = dialogDE84(1U, 0xFU, 2U, 0U, 0x2D, 0x1404E4U);
+    } else {
+        while(sub_0805F184() != 0) sub_080003F0();
+        while(sub_0805EF90() != 0) sub_080003F0();
+        var_r0 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x1404E5U);
+    }
+    temp_r4=var_r0;
+    while(sub_0805EEFC((u8 *) temp_r4) == 0) sub_080003F0();
+    sub_0802939C(0, 8);
+    sub_080290E4(0, 2);
+    sub_08028D98(0, -0xA6, 0, 0x96);
+    sub_0802939C(0, 0);
+    while(sub_0805F184() != 0) sub_080003F0();
+    while(sub_0805EF90() != 0) sub_080003F0();
+    temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x1404E6U);
+    while(sub_0805EEFC((u8 *) temp_r4) == 0) sub_080003F0();
+    sub_08028AAC(1, 0xB5, 0xA8, 0);
+    sub_0802926C(1, 0x18);
+    sub_0802939C(1, 0);
+    sub_080290E4(temp_r7, 5);
+    setDE84(temp_r7);
+    while(sub_0805F184() != 0) sub_080003F0();
+    while(sub_0805EF90() != 0) sub_080003F0();
+    temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x1404E7U);
+    while(sub_0805EEFC((u8 *) temp_r4_2) == 0) sub_080003F0();
+    musicValue=0xA5;gUnk_03005CF8=musicValue;
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006CB4(0xA5U);
+    }
+    offset=sub_080020F4();offset*=0x14C;temp_r2_3=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_3+0x30) = (s32) (*(u32 *)(temp_r2_3+0x30) & ~1);
+    sub_0800D108();
+    ((struct PlayerDE84 *)((u8 *)gUnk_03003CE0+0x14C*sub_080020F4()))->value = 0;
+    {
+    u8 *var_r2_4;
+    u32 var_r3_2;
+    register u32 loopMask asm("r1");
+    register u32 stride asm("r0");
+    var_r2_4 = gUnk_030056F4;
+    var_r3_2=0;flagsAddress=(volatile u32 *)&gUnk_030056FC;loopOne=1;loopZero=0;
+    do {
+        loopMask=loopOne<<var_r3_2;
+        if ((*flagsAddress & loopMask) && (*(u16 *)(var_r2_4+0xC) == 0xC)) {
+            *(u16 *)(var_r2_4+0xC) = loopZero;
+        }
+        var_r3_2 += 1;
+        stride=0x2E0;var_r2_4+=stride;
+    } while (var_r3_2 <= 4U);
+    }
+    sub_08019F04();
+    do {
+        var_r4 = 1;
+        while(var_r4!=0) {sub_080003F0();if(sub_080021A8()!=0) break;var_r4--;}
+        if (!(((u16) *(u16 *)(gStateDE84+4) >> 4) & 1)) {
+            var_r5 = sub_08019C3C();
+        } else {
+            var_r5 = 1;
+        }
+    } while (var_r5 != 0);
+    musicDE84(gUnk_03005CF8);
+    gUnk_03005CF8 = (s32) var_r5;
+    sub_08015D74();
+    offset=sub_080020F4();offset*=0x14C;temp_r2_4=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_4+0x30) = (s32) (*(u32 *)(temp_r2_4+0x30) | 1);
+    sub_0800D0F4();
+    while(sub_0805F184() != 0) sub_080003F0();
+    while(sub_0805EF90() != 0) sub_080003F0();
+    temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1404E8U);
+    while(sub_0805EEFC((u8 *) temp_r4_3)==0) {if(sub_0800CDF8()!=0) {sub_0805EFBC();break;}sub_080003F0();}
+    {
+    register u8 *var_r0_3 asm("r0");
+    callback=(u32)sub_0803E510;
+    var_r0_3=findDE84(temp_r7);
+    if (var_r0_3 != NULL) {
+        *(u32 *)(var_r0_3+0x44) = callback;
+    }
+    }
+    offset=sub_080020F4();offset*=0x14C;temp_r2_5=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_5+0x30) = (s32) (*(u32 *)(temp_r2_5+0x30) & ~1);
+    sub_0800D108();
+    sp10 = 0;
+    pos.x = 0x7E00;
+    pos.y = 0x8600;
+    sp14 = 0x100040;
+    temp_r4_4 = (u8 *)gUnk_03003CE0+0x14C*sub_080020F4();
+    while(sub_08021FE0(temp_r4_4 + 0x8C, &pos.x, &sp10, &sp14) == 0) sub_080003F0();
+    offset=sub_080020F4();offset*=0x14C;temp_r2_6=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_6+0x30) = (s32) (*(u32 *)(temp_r2_6+0x30) | 1);
+    sub_0800D0F4();
+    taskCallback=(u32)sub_08059890;
+    var_r4_2 = (struct TaskDE84 *)(gStateDE84 + 0xE34);
+    var_r5_2=0;goto taskCheck;
+taskNext: var_r5_2++;var_r4_2++;
+taskCheck:
+    if(var_r5_2<=29) {
+        if(sub_08000470((u32)var_r4_2)!=0) goto taskNext;
+        while((var_r4_2->f20=(u8 *)sub_08001494(0x400))==0) sub_080003F0();
+        temp_r0_3=var_r4_2->f20;
+        var_r4_2->f8=0x3C;
+        var_r4_2->fC=taskCallback;
+        var_r4_2->f10=temp_r0_3+0x3FC;
+        var_r4_2->f24=0;
+        sub_08000274(var_r4_2,0);
+    }
+    while(sub_0805F184() != 0) sub_080003F0();
+    while(sub_0805EF90() != 0) sub_080003F0();
+    sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x1404EAU);
+    sub_0802939C(0, 8);
+    sub_080290E4(0, 4);
+    sub_08028AAC(0, 0x79, 0x6D, 0xFA);
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006D08(0x65U);
+    }
+    offset=sub_080020F4();offset*=0x14C;temp_r2_7=(u8 *)gUnk_03003CE0+offset;
+    *(u32 *)(temp_r2_7+0x30) = (s32) (*(u32 *)(temp_r2_7+0x30) | 2);
+    sub_08067D74();
+    sub_08068070((u32) sub_0803E5D8, 0U);
+    do {
+        var_r4_3 = 1;
+        while(var_r4_3!=0) {sub_080003F0();if(sub_080021A8()!=0) break;var_r4_3--;}
+        if (sub_0800CE30() != 0) {
+            var_r0_4 = gStateDE84 + 0x1C1;
+        } else {
+            var_r0_4 = gStateDE84 + 0x1B5;
+        }
+    } while (*var_r0_4 != temp_r0_2);
+    sub_0801AA8C(0x1E);
+    while(sub_0801AAE0() == 0) sub_080003F0();
+    sub_08015D98();
+    var_r1_5=findDE84(temp_r7);
+    if (var_r1_5 != NULL) {
+        *(u16 *)(var_r1_5+0x36) = 4;
+    }
+    sub_0802A228(0xC, 1);
+    ((struct PlayerDE84 *)((u8 *)gUnk_03003CE0+0x14C*sub_080020F4()))->value = 0;
+}
+
 struct E510Player { u8 pad[0x20]; u16 value; };
 extern void sub_08029174(s32, s32);
 void sub_0803E510(s32 arg0) {

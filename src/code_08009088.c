@@ -52,7 +52,425 @@ void sub_0800A298(u32 index)
     sys->header=map;}
     t06_updateA298();
 }
+#ifdef NONMATCHING
+extern s32 t06_musicA34C(u32) asm("sub_08058688");
+extern s32 t06_stopA34C(s32) asm("sub_080586B4");
+extern s32 t06_checkA34C(s32) asm("sub_08057AE8");
+void sub_0800A34C(u32 music, s32 previous, s32 changed) {
+    u32 selection;
+    if (sub_0800CB9C() == 0) {
+        if ((sub_0800CCCC() == 0) && (sub_0800D028() != 0)) {
+            goto block_127;
+        }
+        switch (music) {
+        case 0:
+            if (t06_checkA34C(0x1A) != 0) {
+                goto block_185;
+            }
+            sub_0805867C(0x34);
+            switch ((u32) gUnk_03003170.f90) {
+            case 0:
+                goto map_a;
+            case 1:
+            case 2:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+                goto map_db;
+            case 14:
+                goto map_14;
+            case 3:
+            case 4:
+            case 20:
+                goto map_da;
+            }
+            break;
+        case 10:
+            if (sub_0800CDC0() != 0) {
+                if (changed != 0) {
+                    switch (gUnk_03003170.f90) {
+                    case 17:
+                        break;
+                    case 20:
+                        goto block_160;
+                    case 18:
+                        if (sub_08056E50() == 0) {
+                            t06_musicA34C(31);
+                            return;
+                        }
+                        break;
+                    case 14:
+                        if (sub_08056E50() == 0) {
+                            t06_musicA34C(11);
+                            return;
+                        }
+                        break;
+                    default:
+                        goto block_178;
+                    }
+                }
+                else {
+                    if (gUnk_03003170.f90 != 18) return;
+                    if (sub_08056E50() == 0) goto block_170;
+                }
+            }
+        block_31:
+            t06_musicA34C(30);
+            return;
+        case 11:
+            t06_musicA34C(0x187U);
+            return;
+        case 12:
+            if (changed == 0) {
+                return;
+            }
+            if (gUnk_03003170.f90 != 0) {
+                return;
+            }
+            if (gUnk_030056FC != 0) {
+                goto block_195;
+            }
+            goto block_196;
+        case 14:
+            t06_musicA34C(0x186U);
+            return;
+        case 13:
+            if (changed != 0) {
+                goto block_173;
+            }
+            goto block_196;
+        case 15:
+        case 16:
+            if (sub_0800CDC0() == 0) {
+                t06_musicA34C(0x18DU);
+                return;
+            }
+        block_46:
+            if (sub_08056E50() != 0) {
+                goto block_177;
+            }
+            goto block_178;
+        case 17:
+            if (sub_0800CDC0() == 0) {
+                t06_musicA34C(0x18EU);
+                return;
+            }
+            goto block_46;
+        case 18:
+            if (sub_0800CDC0() == 0) {
+                t06_musicA34C(0x18FU);
+                return;
+            }
+            goto block_46;
+        case 19:
+            if (sub_0800CDC0() == 0) {
+                t06_musicA34C(0x190U);
+                return;
+            }
+            goto block_46;
+        case 20:
+            if (sub_0800CDC0() == 0) {
+                t06_musicA34C(0x191U);
+                return;
+            }
+            goto block_46;
+        case 21:
+            t06_musicA34C(3U);
+            return;
+        case 22:
+            if (sub_0800CDC0() == 0) {
+                t06_musicA34C(5U);
+                return;
+            }
+            goto block_46;
+        case 23:
+            if (sub_0800CDC0() == 0) {
+                t06_musicA34C(2U);
+                return;
+            }
+            goto block_46;
+        default:
+            if (sub_0800CDC0() == 0) {
+                switch (gUnk_03003170.curLevel) {
+                case 1:
+                    if ((gUnk_03003170.f90 == 4) && (sub_08056E50() == 0)) {
+                        if (sub_08058524(7) != 0) {
+                            goto block_195;
+                        }
+                        t06_musicA34C(0xC4U);
+                        return;
+                    }
+                    goto block_74;
+                case 7:
+                    if ((gUnk_03003170.f90 == 4) && (changed == 0)) {
+                        return;
+                    }
+                    goto block_74;
+                default:
+                block_74:
+                    t06_musicA34C(music);
+                    return;
+                }
+            }
+            else if (changed != 0) {
+                switch (music) {
+                default:
+                    goto block_87;
+                case 5:
+                    if (gUnk_03003170.f90 == 0xC) {
+                        if (sub_08056E50() != 0) {
+                            return;
+                        }
+                        goto block_195;
+                    }
+                block_87:
+                    if (!(gUnk_030056FC & 1)) {
+                        goto block_177;
+                    }
+                    goto block_178;
+                case 6:
+                    if (gUnk_03003170.f90 == 5) {
+                        if (sub_08056E50() == 0) {
+                            goto block_195;
+                        }
+                        t06_musicA34C(6U);
+                        return;
+                    }
+                    goto block_87;
+                case 8:
+                    if (gUnk_03003170.f90 != 0x12) {
+                        if (gUnk_03003170.f90 == 0) {
+                            return;
+                        }
+                        if (sub_08056E50() == 0) {
+                            goto block_195;
+                        }
+                        t06_musicA34C(8U);
+                        return;
+                    }
+                    goto block_87;
+                case 9:
+                    if ((gUnk_03003170.f90 == 4) || (gUnk_03003170.f90 == 0xC)) {
+                        if (sub_08056E50() == 0) {
+                            goto block_195;
+                        }
+                        t06_musicA34C(9U);
+                        return;
+                    }
+                    goto block_87;
+                }
+            }
+            else {
+                if (gUnk_03003170.curLevel != 8) {
+                    return;
+                }
+                goto block_46;
+            }
+            break;
+        }
+    }
+    else {
+        if ((sub_0800CCCC() != 0) || (sub_0800D028() == 0)) {
+            if (sub_0800CDC0() != 0) {
+                if ((changed != 0) && (sub_08056E50() == 0) && (sub_0800CDC0() != 0) && !(gUnk_030056FC & 1)) {
+                    if (previous != 0xD) {
+                        goto block_196;
+                    }
+                    goto block_177;
+                }
+                selection = music - 5;
+                switch (selection) {
+                case 0:
+                    if (gUnk_03003170.f90 == 0xC) {
+                        if (changed == 0) {
+                            return;
+                        }
+                        if (sub_08056E50() == 0) {
+                            goto block_195;
+                        }
+                    block_127:
+                        t06_musicA34C(0x40U);
+                        return;
+                    }
+                    if (changed == 0) {
+                        goto block_196;
+                    }
+                    goto block_87;
+                case 1:
+                    if (gUnk_03003170.f90 == 5) {
+                        goto block_196;
+                    }
+                    if (changed == 0) {
+                        return;
+                    }
+                    goto block_87;
+                case 3:
+                    switch (gUnk_03003170.f90) {
+                    case 13:
+                        if (changed == 0) {
+                            return;
+                        }
+                        if (sub_08056E50() == 0) {
+                            goto block_195;
+                        }
+                        else {
+                            goto block_196;
+                        }
+                    case 18:
+                        if (changed == 0) goto block_178;
+                        goto block_87;
+                    }
+                    break;
+                case 4:
+                    if (changed == 0) {
+                        return;
+                    }
+                    switch (gUnk_03003170.f90) {
+                    case 12:
+                    case 4:
+                        if (sub_08056E50() != 0) {
+                            goto block_196;
+                        }
+                        goto block_195;
+                    case 16:
+                        goto block_87;
+                    }
+                    break;
+                case 5:
+                    if (changed != 0) {
+                        if (gUnk_03003170.f90 == 0x14) {
+                        block_160:
+                            if (gUnk_030056FC & 1) {
+                                t06_musicA34C(12);
+                                return;
+                            }
+                            goto block_177;
+                        }
+                        if (gUnk_03003170.f90 != 0x12) {
+                            if (sub_08056E50() != 0) {
+                                goto block_196;
+                            }
+                            goto block_178;
+                        }
+                        goto block_168;
+                    }
+                    if (gUnk_03003170.f90 != 0x12) {
+                        return;
+                    }
+                block_168:
+                    if (sub_08056E50() != 0) {
+                        goto block_196;
+                    }
+                block_170:
+                    t06_musicA34C(31);
+                    return;
+                case 8:
+                    if (changed == 0) {
+                        return;
+                    }
+                block_173:
+                    t06_musicA34C(0x194);
+                    return;
+                default:
+                    if (changed == 0) {
+                        return;
+                    }
+                    if (!(gUnk_030056FC & 1)) {
+                    block_177:
+                        t06_musicA34C(13);
+                        return;
+                    }
+                block_178:
+                    t06_musicA34C(11);
+                    return;
+                }
+            }
+            else {
+                switch (gUnk_03003170.curLevel) {
+                case 0:
+                    if ((sub_0800CF48() == 0) && (sub_08057314() == 0)) {
+                        if (t06_checkA34C(0x1A) != 0) {
+                        block_185:
+                            t06_musicA34C(0x188U);
+                            return;
+                        }
+                        switch ((u32) gUnk_03003170.f90) {
+                        case 0:
+                        map_a:
+                            t06_musicA34C(0xAU);
+                            return;
+                        case 1:
+                        case 2:
+                        case 5:
+                        case 6:
+                        case 7:
+                        case 8:
+                        case 9:
+                        case 10:
+                        case 11:
+                        case 12:
+                        case 13:
+                        case 15:
+                        case 16:
+                        case 17:
+                        case 18:
+                        case 19:
+                        map_db:
+                            t06_musicA34C(0xDBU);
+                            return;
+                        case 14:
+                        map_14:
+                            t06_stopA34C(0xDB);
+                            sub_0805865C(0x34);
+                            return;
+                        case 3:
+                        case 4:
+                        case 20:
+                        map_da:
+                            t06_musicA34C(0xDAU);
+                            return;
+                        }
+                    }
+                    else {
+                        goto block_196;
+                    }
+                    break;
+                default:
+                    goto block_196;
+                case 12:
+                    if ((changed != 0) && (gUnk_03003170.f90 == 0)) {
+                        if (gUnk_030056FC != 0) {
+                        block_195:
+                            t06_musicA34C(165);
+                            return;
+                        }
+                    block_196:
+                        t06_stopA34C(0);
+                        return;
+                    }
+                    break;
+                }
+            }
+        }
+        else {
+            goto block_127;
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A34C);
+#endif
 #ifdef NONMATCHING
 struct T06PlayerA998 {u8 pad[0x8C];s32 x,y;u8 tail[0xB8];};
 struct T06SysA998 {

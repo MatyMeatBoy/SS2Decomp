@@ -398,6 +398,7 @@ void sub_0800D368(void *arg0) {
     s32 sp190;
     s32 sp194;
     s32 sp198;
+    s32 regenerationPeriodD368;
     s32 sp19C;
     s32 sp1A0;
     u32 sp1A4;
@@ -1475,25 +1476,20 @@ block_197:
 
             } else {
                 temp_r0_14 = d368_sub_0801DE60();
-                if (temp_r0_14 != 4) {
-                    if ((s32) temp_r0_14 <= 4) {
-                        if (temp_r0_14 != 1) {
-                            goto block_291;
-                        }
-                        goto block_290;
-                    }
-                    if (temp_r0_14 == 6) {
-                        goto block_290;
-                    }
-block_291:
-                    var_r2_3 = 0;
-                } else {
-block_290:
+                switch (temp_r0_14) {
+                case 1:
+                case 4:
+                case 6:
                     var_r2_3 = d368_sub_0801E0AC(d368_gUnk_030034E0 + 0x30, 7);
+                    break;
+                default:
+                    var_r2_3 = 0;
+                    break;
                 }
+                regenerationPeriodD368 = 0xBB80 / (s32) (((struct PlayerD368 *)arg0)->f3C + ((0x64 * (var_r2_3 + (s8) ((struct PlayerD368 *)arg0)->f70)) + 0xC8));
                 temp_r0_15 = sp198;
                 sp198 = temp_r0_15 + 1;
-                if ((s32) (0xBB80 / (s32) (((struct PlayerD368 *)arg0)->f3C + ((0x64 * (var_r2_3 + (s8) ((struct PlayerD368 *)arg0)->f70)) + 0xC8))) < temp_r0_15) {
+                if (regenerationPeriodD368 < temp_r0_15) {
                     sp198 = 0;
                     temp_r0_16 = *sp1B8 + 0xA;
                     *sp1B8 = temp_r0_16;

@@ -998,7 +998,7 @@ void sub_08060E44(s32 arg0) {
     s16 temp_r3;
     s16 temp_r5;
     s16 temp_r5_5;
-    s16 temp_r6;
+    s32 temp_r6;
     s16 var_r0;
     s16 var_r0_2;
     s16 var_r0_3;

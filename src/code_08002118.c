@@ -1240,7 +1240,23 @@ block_175:
             var_r7 = ((u8 *(*)(s32))sub_08007290)((M2C_FIELD(arg0, u8 *, 2) + 0x4C5) | 0x140000);
             if (state != 2) {
                 temp_r5_13 = var_r7 + 2;
-                ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r5_13, *(u16 *)((state * 4) + ((u8 *)&gUnk_08366E0C)) - (sub_0801A638(temp_r5_13) * 4), *(u16 *)((state * 4) + (((u8 *)&gUnk_08366E0C) + 2)) - 0x28);
+                {
+                    register u32 titleWidthC9 asm("r0");
+                    register u32 titleBaseC9 asm("r2");
+                    u32 titleIndexC9;
+                    register u32 titleXValueC9 asm("r1");
+                    titleWidthC9 = sub_0801A638(temp_r5_13);
+                    titleBaseC9 = (u32)&gUnk_08366E0C;
+                    titleIndexC9 = state * 4;
+                    titleXValueC9 = titleIndexC9 + titleBaseC9;
+                    titleXValueC9 = *(u16 *)titleXValueC9;
+                    titleXValueC9 -= titleWidthC9 * 4;
+                    titleBaseC9 += 2;
+                    titleBaseC9 = titleIndexC9 + titleBaseC9;
+                    titleBaseC9 = *(u16 *)titleBaseC9;
+                    titleBaseC9 -= 0x28;
+                    ((void (*)(const u8 *, s32, s32))sub_0801A764)(temp_r5_13, titleXValueC9, titleBaseC9);
+                }
                 switch (gUnk_03003470) {            /* switch 5 */
                 case 0:
                     offsetX = 0x23;
