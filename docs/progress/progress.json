@@ -113,7 +113,7 @@
  "callgraph": {
   "nodes": 2035,
   "edges": 11606,
-  "unresolved_calls": 1266,
+  "unresolved_calls": 1265,
   "parsed_c_functions": 1648
  }
 }
