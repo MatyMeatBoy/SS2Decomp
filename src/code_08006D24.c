@@ -204,7 +204,79 @@ s32 sub_08007290(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080072A0);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007434);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080076C4);
+#ifdef NONMATCHING
+struct Draw7870 { struct Draw7870 *prev,*next; s32 x,y; u16 a,b; u32 data0,data1,data2; u16 field20; u8 priority:3; u8 bit3:1; u8 bits4:3; u8 bit7:1; u8 pad23; u16 field24,field26,field28,pad2A; };
+extern struct Draw7870 *head7870 asm("gUnk_030028C0");
+extern struct Draw7870 *tail7870 asm("gUnk_030028C4");
+extern u32 count7870 asm("gUnk_030028C8");
+extern struct Draw7870 entries7870[] asm("gUnk_030028D0");
+s32 sub_08007870(s32 arg0, s32 arg1, u16 arg2, u16 arg3, u8 arg4, s32 arg5, s32 arg6, s32 arg7) {
+    register u32 temp_r5 asm("r5"); register s32 y7870 asm("r6")=arg1; register s32 x7870 asm("r8")=arg0; 
+    struct Draw7870 *temp_r0;
+    struct Draw7870 *temp_r1;
+    struct Draw7870 *temp_r4;
+    struct Draw7870 *var_r1;
+
+    temp_r5 = (u8) arg4;
+    if ((u32) count7870 > 0x31U) {
+        return 0;
+    }
+    temp_r4 = &entries7870[count7870];
+    count7870 += 1;
+    temp_r4->x = x7870;
+    temp_r4->y = y7870;
+    temp_r4->a = arg2;
+    temp_r4->b = arg3;
+    temp_r4->priority = temp_r5;
+    temp_r4->data2 = arg5;
+    temp_r4->data0 = arg6;
+    temp_r4->data1 = arg7;
+    temp_r4->prev = NULL;
+    temp_r4->next = NULL;
+    temp_r4->bit3 = 0; temp_r4->bits4 = 0;
+    temp_r4->field24 = 0;
+    temp_r4->field26 = 0;
+    temp_r4->field28 = 0;
+    temp_r1 = tail7870;
+    if(temp_r1==0) {
+        head7870=temp_r4;
+        tail7870=temp_r4;
+        temp_r4->prev=temp_r1;
+        temp_r4->next=temp_r1;
+        goto done;
+    }
+    var_r1=head7870;
+    goto check;
+insert_middle:
+    temp_r0->next=temp_r4;
+    temp_r4->next=var_r1;
+    temp_r4->prev=var_r1->prev;
+    var_r1->prev=temp_r4;
+    goto done;
+next:
+    var_r1=var_r1->next;
+check:
+    if(var_r1==0)goto append;
+    if(var_r1->y>=y7870)goto next;
+    if(var_r1->priority<temp_r5)goto next;
+    temp_r0=var_r1->prev;
+    if(temp_r0!=0)goto insert_middle;
+    head7870=temp_r4;
+    var_r1->prev=temp_r4;
+    temp_r4->next=var_r1;
+    goto done;
+append:
+    temp_r0=tail7870;
+    temp_r0->next=temp_r4;
+    temp_r4->prev=temp_r0;
+    temp_r4->next=0;
+    tail7870=temp_r4;
+done:
+    return (s32)temp_r4;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007870);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007974);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007AA4);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007CF0);
