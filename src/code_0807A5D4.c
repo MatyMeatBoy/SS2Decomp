@@ -1021,10 +1021,7 @@ block_168:
 block_169:
                                                                 temp_r1_14 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
                                                                 temp_r1_15 = temp_r1_14 + 0x150;
-                                                                M2C_FIELD(&sp4, s32 *, 0) = M2C_FIELD(temp_r1_14, s32 *, 0x150);
-                                                                M2C_FIELD(&sp4, s32 *, 4) = (s32) M2C_FIELD(temp_r1_15, s32 *, 4);
-                                                                M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(temp_r1_15, s32 *, 8);
-                                                                M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r1_15, s32 *, 0xC);
+                                                                *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r1_15;
                                                                 sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                                                                 sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
                                                                 temp_r0_14 = (u16) M2C_FIELD(&sp4, s32 *, 0) - 2;
@@ -1449,10 +1446,7 @@ block_54:
                         if (sub_0805AE34(gUnk_03006440 + 0xF4) != 0) {
                             temp_r0_28 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
                             temp_r0_29 = temp_r0_28 + 0x70;
-                            M2C_FIELD(&sp4, s32 *, 0) = M2C_FIELD(temp_r0_28, s32 *, 0x70);
-                            M2C_FIELD(&sp4, s32 *, 4) = (s32) M2C_FIELD(temp_r0_29, s32 *, 4);
-                            M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(temp_r0_29, s32 *, 8);
-                            M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_29, s32 *, 0xC);
+                            *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r0_29;
                             sub_0807BEA0(1U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
                             sp14 = (u32) temp_r7_2;
