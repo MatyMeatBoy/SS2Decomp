@@ -882,7 +882,7 @@ void sub_0809919C(u32 arg0, volatile s32 arg1) {
     s32 var_r6;
     u32 temp_r1_3;
     register u32 temp_r4 asm("r4");
-    register u32 temp_r7 asm("r7");
+    u32 temp_r7; register struct Player98F *playersBase9919C asm("r9"); register u32 stride9919C asm("r8");
     register u32 var_sl asm("sl");
 
     switch(arg0) {
@@ -920,22 +920,22 @@ void sub_0809919C(u32 arg0, volatile s32 arg1) {
         break;
     }
     arg1 = (s32) gUnk_0847AD0A[arg1];
-    var_sl = 9;
+    var_sl = 9; playersBase9919C=players98F; stride9919C=sizeof(struct Player98F); asm("" : "+r"(playersBase9919C), "+r"(stride9919C));
 loop_14:
     var_r6 += gUnk_080B9704[arg1 + 0x40];
     var_r5 += gUnk_080B9704[arg1];
-    temp_r7 = (u32) ((var_r6 - players98F[sub_080020F4()].x) << 8) >> 0x10;
-    temp_r4 = (u32) ((var_r5 - players98F[sub_080020F4()].y) << 8) >> 0x10;
+    temp_r7 = (u32) ((var_r6 - (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).x) << 8) >> 0x10;
+    temp_r4 = (u32) ((var_r5 - (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).y) << 8) >> 0x10;
     var_sl = var_sl << 0x10;
     if (!(0xF0000 & var_sl)) {
         sub_08065748(var_r6 >> 8, var_r5 >> 8, 5);
     }
     temp_r0 = (s16) temp_r7;
     temp_r1_2 = (s16) temp_r4;
-    if (((u32) Sqrt((temp_r0 * temp_r0) + (temp_r1_2 * temp_r1_2)) <= 0x13U) && (sub_0800CDF8() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0) && (entity98F->state != 0xB) && !(players98F[sub_080020F4()].flags & 0x2000) && (players98F[sub_080020F4()].active != 0) && (players98F[sub_080020F4()].state != 0xE) && (players98F[sub_080020F4()].state != 0xB) && (players98F[sub_080020F4()].state != 0xC) && (players98F[sub_080020F4()].seen[entity98F->index] != entity98F->counter)) {
+    if (((u32) Sqrt((temp_r0 * temp_r0) + (temp_r1_2 * temp_r1_2)) <= 0x13U) && (sub_0800CDF8() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0) && (entity98F->state != 0xB) && !((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).flags & 0x2000) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).active != 0) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).state != 0xE) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).state != 0xB) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).state != 0xC) && ((*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).seen[entity98F->index] != entity98F->counter)) {
         sub_08029CEC(1, 5, 1);
-        players98F[sub_080020F4()].motion = 0xFFFE;
-        players98F[sub_080020F4()].seen[entity98F->index] = entity98F->counter;
+        (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).motion = 0xFFFE;
+        (*((struct Player98F *)((u8 *)playersBase9919C+sub_080020F4()*stride9919C))).seen[entity98F->index] = entity98F->counter;
     }
     sub_080003F0();
     temp_r1_3 = var_sl + 0xFFFF0000;
