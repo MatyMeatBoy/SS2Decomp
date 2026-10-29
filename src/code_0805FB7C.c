@@ -1786,25 +1786,46 @@ void t65B_impl(s32 index)
     register s16 *xPtr asm("r6");
     s16 *yPtr;
     u16 *volatile sizePtr;
-    register u16 *heightPtr asm("r5");
+    u16 *heightPtr;
     s32 *volatile boxPtr;
     u8 *out;
+    register u32 callOne65 asm("r4");
     u32 currentPlayer;
     register s32 testedIndex asm("r4");
     register u8 *palettePtr asm("r4");
-    register struct T65BPlayer *player asm("r8") = &t65B_players[playerIndex];
-    {register void *table asm("r6")=t65B_resources;
+    register struct T65BPlayer *player asm("r8");
+    {
+        register u32 stride65 asm("r0") = 0x14C;
+        register u32 idx65 asm("r2");
+        register u32 product65 asm("r1");
+        asm("" : "+r"(stride65));
+        idx65 = playerIndex;
+        asm("" : "+r"(idx65) : "r"(stride65));
+        product65 = idx65;
+        product65 *= stride65;
+        asm("" : "+r"(product65));
+        player = (struct T65BPlayer *)((u8 *)t65B_players + product65);
+    }
+    {register void *table asm("r6");
+    register u32 resource65 asm("r0")=0x5005E;
+    register u32 style65 asm("r1");
+    register s32 mode65 asm("r2");
     struct T65BPopup *descriptor=&draw;
     s32 first,second,mem;
-    draw.resource=0x5005E;draw.style=5;draw.mode=-1;
-    first=sub_08006EE0(0x5005E,table);draw.data=(u8 *)first;
+    asm("" : "+r"(resource65), "+r"(descriptor));
+    style65=5;mode65=-1;
+    asm("" : "+r"(resource65), "+r"(style65), "+r"(mode65));
+    table=t65B_resources;
+    draw.resource=resource65;draw.style=style65;draw.mode=mode65;
+    first=sub_08006EE0(resource65,table);draw.data=(u8 *)first;
     boxPtr=box;sizePtr=&sizes[0];heightPtr=&sizes[1];
     asm("" : "+r"(heightPtr));
     if(first) {
         register u32 lowResource asm("r4")=0x5E;
         second=sub_08006EE0(0x6005E,table);draw.base=second;
         if(second) {
-            mem=sub_08006EE0(lowResource|0x80000,table);draw.sound=mem;
+            lowResource |= 0x80000; asm("" : "+r"(lowResource));
+            mem=sub_08006EE0(lowResource,table);draw.sound=mem;
             if(mem) {
                 i=0;do {draw.palette[i]=i;i++;} while(i<=15);
                 sub_080653B8(descriptor,0x120,0xE0,8);
@@ -1812,8 +1833,25 @@ void t65B_impl(s32 index)
         }
     }}
     draw.palette[0]=15;
-    {u32 value=0xB8-playerIndex*24;worldX=value;box[0]=value<<8;}
-    boxPtr[1]=0x13800;
+    {register u32 idxWorld65 asm("r1")=playerIndex;
+    register u32 offsetWorld65 asm("r0");
+    register u32 worldValue65 asm("r1");
+    register u32 scaledX65 asm("r0");
+    asm("" : "+r"(idxWorld65));
+    offsetWorld65=idxWorld65*24;
+    asm("" : "+r"(offsetWorld65));
+    worldValue65=0xB8;
+    asm("" : "+r"(worldValue65) : "r"(offsetWorld65));
+    worldValue65-=offsetWorld65;
+    asm("" : "+r"(worldValue65));
+    worldX=worldValue65;scaledX65=worldValue65<<8;
+    asm("" : "+r"(scaledX65));box[0]=scaledX65;}
+    {register u32 y65 asm("r3")=0x138;
+    register u32 scaledY65 asm("r0");
+    register s32 *ptr65 asm("r4");
+    asm("" : "+r"(y65));scaledY65=y65<<8;
+    asm volatile("" : "+r"(scaledY65) : : "memory");
+    ptr65=boxPtr;asm("" : "+r"(ptr65));ptr65[1]=scaledY65;}
     box[2]=0x80010;
     box[3]=0x1E0018;
     *sizePtr=0;*heightPtr=0;
@@ -1830,8 +1868,10 @@ loop:
     asm("" : "+r"(rawX), "+r"(rawY), "+r"(xPtr), "+r"(yPtr));
     asm("" : "+r"(flag), "+r"(initialOne) : "r"(rawX), "r"(rawY), "r"(xPtr), "r"(yPtr));one=initialOne;
     t65B_position(rawX>>16,rawY>>16,xPtr,yPtr,flag,initialOne);}
-    sub_08008CC4(0,&sizes[0],&sizes[1],draw.data,one);
-    sub_08008CC4(1,&sizes[2],&sizes[3],draw.data,one);
+    sub_08008CC4(0,&sizes[0],&sizes[1],draw.data,({callOne65=one;asm("" : "+r"(callOne65));callOne65;}));
+    {register u8 *data65 asm("r3")=draw.data;
+    asm volatile("" : "+r"(data65) : "r"(callOne65) : "r0","r1","r2","memory");
+    sub_08008CC4(1,&sizes[2],&sizes[3],data65,callOne65);}
     if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && ({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0) {
         {register u32 fade asm("r0")=sub_0800BC44(worldX,0x138,1);
         register s32 drawX asm("r2")=*xPtr;
@@ -1847,8 +1887,8 @@ loop:
     }
     currentPlayer=sub_080020F4();testedIndex=playerIndex;asm("" : "+r"(testedIndex));
     if (testedIndex == currentPlayer) {
-        if ((({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0 && t65B_intersect(boxPtr,(u8 *)player+0x8C,box+2,box+3)) || dialog != 0) {
-            if (dialog == 0) {
+        if ((({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0 && t65B_intersect(boxPtr,(u8 *)player+0x8C,box+2,box+3)) || ({register u32 prior65 asm("r2")=dialog;asm("" : "+r"(prior65));prior65;}) != 0) {
+            if (({register u32 now65 asm("r3")=dialog;asm("" : "+r"(now65));now65;}) == 0) {
                 if (!sub_0800CDF8()) {
                     register struct T65BPlayer *p asm("r4")=player;asm("" : "+r"(p));
                     if(p->buttons&1) {p->flags|=1;dialog=sub_0805DF38(1,14,25,2,-2,0x1404E0);}
