@@ -364,7 +364,7 @@ void sub_0800D368(void *arg0) {
     u32 angleWordD368;
     u32 localDamageD368;
     s32 stackArg0, stackArg1, stackArg2, stackArg3;
-    u32 sp110;
+    union ColorUnion297D368 { u32 word; struct { unsigned red:5, green:5, blue:5, unused:17; } bits; } colorStorage294D368;
     u32 sp114;
     s32 sp118;
     s32 sp11C;
@@ -1156,14 +1156,23 @@ void sub_0800D368(void *arg0) {
                     *temp_r1_4 |= 1;
                 }
             } else {
+                u16 *historyIndexD368, *historySlotD368, *historyArrayD368, *historyControllerD368;
+                u16 **historyBaseD368;
+                u32 historyPositionD368;
+                historyIndexD368 = &((struct PlayerD368 *)arg0)->f136;
+                historyPositionD368 = *historyIndexD368;
+                historyBaseD368 = &((struct PlayerD368 *)arg0)->f13C;
+                historyArrayD368 = *historyBaseD368;
+                historySlotD368 = (u16 *) ((historyPositionD368 << 1) + (u32) historyArrayD368);
                 temp_r4_2 = 0xF0 & d368_gUnk_0300130C;
-                *(((struct PlayerD368 *)arg0)->f136 + ((struct PlayerD368 *)arg0)->f13C) = temp_r4_2;
-                ((struct PlayerD368 *)arg0)->f136 = (u16) ((s32) (((struct PlayerD368 *)arg0)->f136 + 1) % 5);
+                *historySlotD368 = temp_r4_2;
+                ((struct PlayerD368 *)arg0)->f136 = (u16) ((s32) (*historyIndexD368 + 1) % 5);
                 if (temp_r4_2 != 0) {
                     sp128 = 0;
+                    historyControllerD368 = &d368_gUnk_0300130C;
                     var_r2 = ((struct PlayerD368 *)arg0)->f13C;
                     do {
-                        d368_gUnk_0300130C |= *var_r2;
+                        *historyControllerD368 |= *var_r2;
                         var_r2 += 0x1;
                         temp_r4_3 = sp128 + 1;
                         sp128 = temp_r4_3;
@@ -3788,8 +3797,7 @@ block_1155:
                 ((union RecordD368 *)temp_r3_22)->w1_b6_n4.value = ((struct PlayerD368 *)arg0)->f132;
                 temp_r0_99 = ((struct PlayerD368 *)arg0)->f64;
                 if ((u32) temp_r0_99 > 9U) {
-                    temp_r4_27 = ((struct PlayerD368 *)arg0)->f144;
-                    goto block_1213;
+                    goto recordClassDefault298D368;
                 }
                 switch (temp_r0_99) {               /* switch 17 */
                 case 0:                             /* switch 17 */
@@ -3878,6 +3886,9 @@ block_1155:
                     goto block_1213;
                 }
                 break;
+recordClassDefault298D368:
+                temp_r4_27 = ((struct PlayerD368 *)arg0)->f144;
+                goto block_1213;
             case 5:                                 /* switch 16 */
                 d368_sub_0801FDD0(arg0);
                 temp_r3_26 = ((struct PlayerD368 *)arg0)->f144;
@@ -5232,36 +5243,36 @@ block_1676:
                         temp_r3_60 = colorWaveTableD368[sp164];
                         colorRedD368 = ((u32) temp_r3_60 << 0xC) >> 0x10;
                         colorRedD368 &= 0x1F;
-                        colorWordD368 = (sp110 & ~0x1F) | colorRedD368;
+                        colorWordD368 = (colorStorage294D368.word & ~0x1F) | colorRedD368;
                         temp_r0_164 = ((u32) (temp_r3_60 * 0x1F00) >> 0x10) & 0x1F;
                         colorGreenD368 = temp_r0_164 << 5;
                         colorWordD368 = (colorWordD368 & 0xFFFFFC1F) | colorGreenD368;
                         temp_r0_164 <<= 0xA;
-                        sp110 = (colorWordD368 & 0xFFFF83FF) | temp_r0_164;
-                        renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = *(u16 *)&sp110;
+                        colorStorage294D368.word = (colorWordD368 & 0xFFFF83FF) | temp_r0_164;
+                        renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = *(u16 *)&colorStorage294D368.word;
                         break;
                     }
                     case 1:                         /* switch 26 */
                         temp_r5_13 = colorWaveTableD368[sp164];
                         temp_r3_61 = ((s32) (temp_r5_13 * 5) >> 8) & 0x1F;
-                        *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | temp_r3_61);
-                        *(u16 *)&sp110 = (u16) ((0xFFFFFC1F & *(u16 *)&sp110) | (temp_r3_61 << 5));
-                        var_r3_13 = &sp110;
+                        *(u8 *)&colorStorage294D368.word = (u8) ((-0x20 & *(u8 *)&colorStorage294D368.word) | temp_r3_61);
+                        *(u16 *)&colorStorage294D368.word = (u16) ((0xFFFFFC1F & *(u16 *)&colorStorage294D368.word) | (temp_r3_61 << 5));
+                        var_r3_13 = &colorStorage294D368.word;
                         var_r1_25 = ((s32) (temp_r5_13 * 0x1F) >> 8) & 0x1F;
                         goto block_1764;
                     case 2:                         /* switch 26 */
                         temp_r3_62 = colorWaveTableD368[sp164];
                         temp_r1_62 = ((s32) (temp_r3_62 * 0x1F) >> 8) & 0x1F;
-    *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | temp_r1_62);
-    *(u16 *)&sp110 = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&sp110) | (temp_r1_62 << 5));
-                        var_r3_13 = &sp110;
+                        colorStorage294D368.bits.red = temp_r1_62;
+                        colorStorage294D368.bits.green = temp_r1_62;
+                        var_r3_13 = &colorStorage294D368.word;
                         var_r1_25 = ((s32) (temp_r3_62 * 5) >> 7) & 0x1F;
                         goto block_1764;
                     case 4:                         /* switch 26 */
                         temp_r3_63 = colorWaveTableD368[sp164];
-    *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | (((s32) (0x16 * temp_r3_63) >> 8) & 0x1F));
-    *(u16 *)&sp110 = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&sp110) | ((((s32) (temp_r3_63 * 0x1F) >> 8) & 0x1F) << 5));
-                        var_r3_13 = &sp110;
+                        colorStorage294D368.bits.red = ((s32) (0x16 * temp_r3_63) >> 8) & 0x1F;
+                        colorStorage294D368.bits.green = ((s32) (temp_r3_63 * 0x1F) >> 8) & 0x1F;
+                        var_r3_13 = &colorStorage294D368.word;
                         var_r1_25 = ((s32) (temp_r3_63 * 5) >> 7) & 0x1F;
                         goto block_1764;
                     case 5:                         /* switch 26 */
@@ -5432,23 +5443,23 @@ block_1751:
                                 switch (temp_r0_161) {
                                 case 0:             /* switch 27 */
                                     temp_r3_56 = colorWaveTableD368[sp164];
-    *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | ((temp_r3_56 >> 4) & 0x1F));
+    *(u8 *)&colorStorage294D368.word = (u8) ((-0x20 & *(u8 *)&colorStorage294D368.word) | ((temp_r3_56 >> 4) & 0x1F));
                                     var_r1_25 = ((s32) (temp_r3_56 * 0x1F) >> 8) & 0x1F;
                                     goto block_1763;
                                 case 1:             /* switch 27 */
                                     temp_r3_57 = colorWaveTableD368[sp164];
                                     temp_r1_58 = ((s32) (temp_r3_57 * 5) >> 8) & 0x1F;
-    *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | temp_r1_58);
-    *(u16 *)&sp110 = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&sp110) | (temp_r1_58 << 5));
-                                    var_r3_13 = &sp110;
+    *(u8 *)&colorStorage294D368.word = (u8) ((-0x20 & *(u8 *)&colorStorage294D368.word) | temp_r1_58);
+    *(u16 *)&colorStorage294D368.word = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&colorStorage294D368.word) | (temp_r1_58 << 5));
+                                    var_r3_13 = &colorStorage294D368.word;
                                     var_r1_25 = ((s32) (temp_r3_57 * 0x1F) >> 8) & 0x1F;
                                     goto block_1764;
                                 case 2:             /* switch 27 */
                                     temp_r3_58 = colorWaveTableD368[sp164];
                                     temp_r1_59 = ((s32) (temp_r3_58 * 0x1F) >> 8) & 0x1F;
-    *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | temp_r1_59);
-    *(u16 *)&sp110 = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&sp110) | (temp_r1_59 << 5));
-                                    var_r3_13 = &sp110;
+    *(u8 *)&colorStorage294D368.word = (u8) ((-0x20 & *(u8 *)&colorStorage294D368.word) | temp_r1_59);
+    *(u16 *)&colorStorage294D368.word = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&colorStorage294D368.word) | (temp_r1_59 << 5));
+                                    var_r3_13 = &colorStorage294D368.word;
                                     var_r1_25 = ((s32) (temp_r3_58 * 5) >> 7) & 0x1F;
                                     goto block_1764;
                                 case 3:             /* switch 27 */
@@ -5456,9 +5467,9 @@ block_1751:
                                     goto block_1762;
                                 case 4:             /* switch 27 */
                                     temp_r3_59 = colorWaveTableD368[sp164];
-    *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | (((s32) (0x16 * temp_r3_59) >> 8) & 0x1F));
-    *(u16 *)&sp110 = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&sp110) | ((((s32) (temp_r3_59 * 0x1F) >> 8) & 0x1F) << 5));
-                                    var_r3_13 = &sp110;
+    *(u8 *)&colorStorage294D368.word = (u8) ((-0x20 & *(u8 *)&colorStorage294D368.word) | (((s32) (0x16 * temp_r3_59) >> 8) & 0x1F));
+    *(u16 *)&colorStorage294D368.word = (s16) ((0xFFFFFC1F & (u16) *(u16 *)&colorStorage294D368.word) | ((((s32) (temp_r3_59 * 0x1F) >> 8) & 0x1F) << 5));
+                                    var_r3_13 = &colorStorage294D368.word;
                                     var_r1_25 = ((s32) (temp_r3_59 * 5) >> 7) & 0x1F;
                                     goto block_1764;
                                 case 5:             /* switch 27 */
@@ -5466,13 +5477,13 @@ shared27_5:
                                     var_r0_36 = colorWaveTableD368[sp164];
 block_1762:
                                     var_r1_25 = ((s32) (var_r0_36 * 0x1F) >> 8) & 0x1F;
-                                    *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | var_r1_25);
+                                    *(u8 *)&colorStorage294D368.word = (u8) ((-0x20 & *(u8 *)&colorStorage294D368.word) | var_r1_25);
 block_1763:
-                                    *(u16 *)&sp110 = (u16) ((0xFFFFFC1F & *(u16 *)&sp110) | (var_r1_25 << 5));
-                                    var_r3_13 = &sp110;
+                                    *(u16 *)&colorStorage294D368.word = (u16) ((0xFFFFFC1F & *(u16 *)&colorStorage294D368.word) | (var_r1_25 << 5));
+                                    var_r3_13 = &colorStorage294D368.word;
 block_1764:
                                     M2C_FIELD(var_r3_13, u8 *, 1) = (u8) ((-0x7D & M2C_FIELD(var_r3_13, u8 *, 1)) | (var_r1_25 * 4));
-                                    renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = *(u16 *)&sp110;
+                                    renderColorEntriesD368[((struct PlayerD368 *)arg0)->f0 + 0x10].color = *(u16 *)&colorStorage294D368.word;
                                     break;
                                 case 12:            /* switch 27 */
                                     d368_sub_08065370(&sp44, 0xDU, (u16 *) &coordF8, &coordFA, (1));
