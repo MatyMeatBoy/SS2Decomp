@@ -3485,7 +3485,7 @@ block_32:
 #ifdef NONMATCHING
 struct T025Block270 { u32 w[10]; };
 struct T025Packet270 { u16 f0, f2; s32 f4; u8 p8[8]; };
-struct T025Player270 { u16 unk0; u8 p2[0x1A]; u16 unk1C; u8 p1E[2]; u16 unk20, unk22; u8 p24[6]; u16 unk2A; u8 p2C[4]; u32 flags; void *unk34; u8 p38[0x30]; u8 unk68; u8 p69[0x23]; s32 unk8C,unk90,unk94,unk98; u8 p9C[8]; s32 unkA4,unkA8; u8 pAC[0x16]; u16 unkC2,unkC4,unkC6; u8 pC8[0x80]; void *unk148; };
+struct T025Player270 { u16 unk0; u8 p2[0x1A]; u16 unk1C; u8 p1E[2]; u16 unk20, unk22; u8 p24[6]; u16 unk2A; u8 p2C[4]; u32 flags; void *unk34; u8 p38[0x30]; u8 unk68; u8 p69[0x23]; struct V2W12 pos8C,pos94; u8 p9C[8]; struct V2W12 posA4; u8 pAC[0x16]; u16 unkC2,unkC4,unkC6; u8 pC8[0x80]; void *unk148; };
 struct T025State270 { u16 f0,f2,f4; u8 p6[6]; u16 fC; u8 pE[2]; u16 f10; u8 p12[0x10]; u16 f22[11]; s32 f38,f3C,f40,f44,f48; u8 p4C[4]; s32 f50; u8 p54[0x18]; s32 f6C,f70; u8 p74[0x1C]; u16 f90,f92,f94; u8 p96[2]; s32 f98,f9C,fA0,fA4; u8 pA8[0xA0]; u16 f148; u8 p14A[0x5D2]; u16 *f71C; };
 extern struct T025State270 *t025State270 asm("gUnk_03005CF4");
 extern struct T025Player270 t025Players270[] asm("gUnk_03003CE0");
@@ -3513,6 +3513,8 @@ void sub_0802704C(s32 input) {
     s32 temp_r1;
     s32 temp_r1_5;
     s32 temp_r1_6;
+    u32 entryIndex;
+    u32 rowIndex;
     s32 temp_r2;
     s32 temp_r2_9;
     s32 temp_r3;
@@ -3529,6 +3531,12 @@ void sub_0802704C(s32 input) {
     u16 temp_r1_7;
     u16 temp_r1_8;
     u32 var_r1;
+    u32 copyCount;
+    u32 spawnCount;
+    u32 waitCount;
+    u32 sendCount;
+    u32 sendCount2;
+    u32 playerCount;
     u32 var_r4;
     void *temp_r0_10;
     void *temp_r0_11;
@@ -3547,7 +3555,6 @@ void sub_0802704C(s32 input) {
     void *temp_r2_5;
     void *temp_r2_6;
     void *temp_r2_8;
-    void *temp_r5;
     void *var_r5;
 
     arg0 = (u16 *)input;
@@ -3585,7 +3592,8 @@ check_loop_11:
     if (temp_r2 != 0) {
         t025State270->f22[*arg0] = (s16) temp_r2;
     }
-    temp_r5 = (u8 *)arg0 + (((u16) (t025State270->f22[*arg0] - 1) * 0x24) + 4);
+    entryIndex = *arg0;
+    var_r5 = (u8 *)arg0 + (((u16) (t025State270->f22[entryIndex] - 1) * 0x24) + 4);
     sub_08056F8C();
     t025State270->f4 = (u16) (0xFFEF & t025State270->f4);
     sub_0800CCEC();
@@ -3598,24 +3606,22 @@ check_loop_11:
             temp_r2_4 = &t025Players270[sub_080020F4()];
             M2C_FIELD(temp_r2_4, struct V2W12 *, 0xA4) = M2C_FIELD(t025State270, struct V2W12 *, 0xA0);
             temp_r4_3 = sub_080020F4();
-            temp_r0_6 = &t025Players270[sub_080020F4()];
-            M2C_FIELD(&t025Players270[temp_r4_3], struct V2W12 *, 0x8C) = M2C_FIELD(temp_r0_6, struct V2W12 *, 0xA4);
+            t025Players270[temp_r4_3].pos8C = t025Players270[sub_080020F4()].posA4;
             temp_r4_4 = sub_080020F4();
-            temp_r0_7 = &t025Players270[sub_080020F4()];
-            M2C_FIELD(&t025Players270[temp_r4_4], struct V2W12 *, 0x94) = M2C_FIELD(temp_r0_7, struct V2W12 *, 0xA4);
+            t025Players270[temp_r4_4].pos94 = t025Players270[sub_080020F4()].posA4;
             t025Players270[sub_080020F4()].unkC4 = (u16) t025State270->f90;
             t025Players270[sub_080020F4()].unkC2 = (u16) t025State270->f92;
             t025Players270[sub_080020F4()].unkC6 = (u16) t025State270->f94;
             t025Players270[sub_080020F4()].unk20 = (s16) temp_r0_2;
-            var_r4 = 0;
+            copyCount = 0;
             var_r6 = 0;
             do {
-                temp_r0_8 = (void *)t025State270 + var_r6;
                 temp_r1_2 = var_r6 + t025Players270[sub_080020F4()].unk34;
+                temp_r0_8 = (void *)t025State270 + var_r6;
                 M2C_FIELD(temp_r1_2, struct T025Block270 *, 0) = M2C_FIELD(temp_r0_8, struct T025Block270 *, 0x44C);
                 var_r6 += 0x28;
-                var_r4 += 1;
-            } while (var_r4 <= 7U);
+                copyCount += 1;
+            } while (copyCount <= 7U);
             t025State270->f50 = sub_08057C0C();
             t025State270->f70 = 0;
             gUnk_03003478 = t025State270->f9C;
@@ -3645,11 +3651,11 @@ check_loop_33:
                 sub_0800D140();
             }
             sub_0800D140();
-            t025Players270[sub_080020F4()].unk8C = M2C_FIELD(temp_r5, u16 *, 0x0) << 0xB;
-            t025Players270[sub_080020F4()].unk90 = M2C_FIELD(temp_r5, u16 *, 0x2) << 0xB;
-            t025Players270[sub_080020F4()].unk94 = M2C_FIELD(temp_r5, u16 *, 0x0) << 0xB;
-            t025Players270[sub_080020F4()].unk98 = M2C_FIELD(temp_r5, u16 *, 0x2) << 0xB;
-            t025Players270[sub_080020F4()].unk1C = (u16) M2C_FIELD(temp_r5, u16 *, 0x4);
+            t025Players270[sub_080020F4()].pos8C.x = M2C_FIELD(var_r5, u16 *, 0x0) << 0xB;
+            t025Players270[sub_080020F4()].pos8C.y = M2C_FIELD(var_r5, u16 *, 0x2) << 0xB;
+            t025Players270[sub_080020F4()].pos94.x = M2C_FIELD(var_r5, u16 *, 0x0) << 0xB;
+            t025Players270[sub_080020F4()].pos94.y = M2C_FIELD(var_r5, u16 *, 0x2) << 0xB;
+            t025Players270[sub_080020F4()].unk1C = (u16) M2C_FIELD(var_r5, u16 *, 0x4);
         }
         sub_080570DC(1);
         sub_080583EC();
@@ -3659,20 +3665,18 @@ check_loop_33:
         }
         t025Players270[sub_080020F4()].unk20 = 0;
     } else {
-        temp_r6 = t025Players270[sub_080020F4()].unkA4;
-        if ((temp_r6 == -1) && (t025Players270[sub_080020F4()].unkA8 == temp_r6)) {
-            t025Players270[sub_080020F4()].unk8C = M2C_FIELD(temp_r5, u16 *, 0x0) << 0xB;
-            t025Players270[sub_080020F4()].unk90 = M2C_FIELD(temp_r5, u16 *, 0x2) << 0xB;
-            t025Players270[sub_080020F4()].unk94 = M2C_FIELD(temp_r5, u16 *, 0x0) << 0xB;
-            t025Players270[sub_080020F4()].unk98 = M2C_FIELD(temp_r5, u16 *, 0x2) << 0xB;
-            t025Players270[sub_080020F4()].unk1C = (u16) M2C_FIELD(temp_r5, u16 *, 0x4);
+        temp_r6 = t025Players270[sub_080020F4()].posA4.x;
+        if ((temp_r6 == -1) && (t025Players270[sub_080020F4()].posA4.y == temp_r6)) {
+            t025Players270[sub_080020F4()].pos8C.x = M2C_FIELD(var_r5, u16 *, 0x0) << 0xB;
+            t025Players270[sub_080020F4()].pos8C.y = M2C_FIELD(var_r5, u16 *, 0x2) << 0xB;
+            t025Players270[sub_080020F4()].pos94.x = M2C_FIELD(var_r5, u16 *, 0x0) << 0xB;
+            t025Players270[sub_080020F4()].pos94.y = M2C_FIELD(var_r5, u16 *, 0x2) << 0xB;
+            t025Players270[sub_080020F4()].unk1C = (u16) M2C_FIELD(var_r5, u16 *, 0x4);
         } else {
             temp_r4 = sub_080020F4();
-            temp_r0_3 = &t025Players270[sub_080020F4()];
-            M2C_FIELD(&t025Players270[temp_r4], struct V2W12 *, 0x8C) = M2C_FIELD(temp_r0_3, struct V2W12 *, 0xA4);
+            t025Players270[temp_r4].pos8C = t025Players270[sub_080020F4()].posA4;
             temp_r4_2 = sub_080020F4();
-            temp_r0_4 = &t025Players270[sub_080020F4()];
-            M2C_FIELD(&t025Players270[temp_r4_2], struct V2W12 *, 0x94) = M2C_FIELD(temp_r0_4, struct V2W12 *, 0xA4);
+            t025Players270[temp_r4_2].pos94 = t025Players270[sub_080020F4()].posA4;
         }
         t025Players270[sub_080020F4()].unk1C = 0;
         t025Players270[sub_080020F4()].unk20 = 0xC;
@@ -3683,19 +3687,21 @@ check_loop_33:
     *temp_r2_7 &= 0xFFFFFBFF;
     sub_0800BB40();
     if (((sub_0800CF10() == 0) && (temp_r0_12 = t025State270->f0, (temp_r0_12 != 0xB)) && (temp_r0_12 != 0xC)) || (t025State270->f70 == 3)) {
-        var_r4 = 1;
+        spawnCount = 1;
         do {
-            temp_r3 = var_r4 * 8;
-            temp_r1_6 = (u16) (t025State270->f22[*arg0] - 1) * 0x24;
+            entryIndex = *arg0;
+            rowIndex = (u16)(t025State270->f22[entryIndex] - 1);
+            temp_r3 = spawnCount * 8;
+            temp_r1_6 = rowIndex * 0x24;
             temp_r2_8 = (u8 *)arg0 + (temp_r3 + temp_r1_6);
             if (M2C_FIELD(temp_r2_8, u16 *, 0x8) == 0xFFFF) {
                 sub_08026338(temp_r1_6 + 4 + (u8 *)arg0 + temp_r3);
                 sub_0800CD9C();
             } else if (M2C_FIELD(temp_r2_8, u16 *, 0x4) != 0) {
-                sub_080257D4(temp_r1_6 + 4 + (u8 *)arg0 + temp_r3, var_r4 - 1);
+                sub_080257D4((u8 *)arg0 + ((u16)(t025State270->f22[*arg0] - 1) * 0x24 + 4) + spawnCount * 8, spawnCount - 1);
             }
-            var_r4 += 1;
-        } while (var_r4 <= 3U);
+            spawnCount += 1;
+        } while (spawnCount <= 3U);
     }
     goto check_loop_60;
 loop_60:
@@ -3718,11 +3724,11 @@ check_loop_63:
         if (((sub_0800CDC0() == 0) && (t025State270->f0 != 0xB)) || ((u32) t025State270->f0 > 0xEU)) {
             t025State270->fC = 0;
             sub_08023F98(t025State270->f0, (u16) t025State270->f40);
-            var_r4 = 0;
+            waitCount = 0;
             do {
                 sub_080003F0();
-                var_r4 += 1;
-            } while (var_r4 <= 0x77U);
+                waitCount += 1;
+            } while (waitCount <= 0x77U);
         }
         t025State270->f70 = 0;
     }
@@ -3753,16 +3759,16 @@ check_loop_85:
                         var_r1 = 0;
                         do {
                             var_r5 = (u8 *)var_r6_2 + ((var_r1 * 0x24) + 4);
-                            var_r4 = 0;
+                            sendCount = 0;
 loop_97:
                             temp_r1_7 = M2C_FIELD(var_r5, u16 *, 0x4);
                             if (temp_r1_7 != 0) {
                                 sp0.f2 = temp_r1_7;
                                 sub_08066520(M2C_FIELD(var_r5, u16 *, 0x0) << 0xB, M2C_FIELD(var_r5, u16 *, 0x2) << 0xB, (u16) t025State270->f40, (u32 *)&sp0);
                             }
-                            var_r4 += 1;
+                            sendCount += 1;
                             var_r5 += 8;
-                            if (var_r4 <= 3U) {
+                            if (sendCount <= 3U) {
                                 goto loop_97;
                             }
                             var_r1 += 1;
@@ -3770,16 +3776,16 @@ loop_97:
                         break;
                     case 5:
                         var_r5 = (u8 *)var_r6_2 + (((u16) (t025State270->f22[5] - 1) * 0x24) + 4);
-                        var_r4 = 0;
+                        sendCount2 = 0;
                         do {
                             temp_r1_8 = M2C_FIELD(var_r5, u16 *, 0x4);
                             if (temp_r1_8 != 0) {
                                 sp0.f2 = temp_r1_8;
                                 sub_08066520(M2C_FIELD(var_r5, u16 *, 0x0) << 0xB, M2C_FIELD(var_r5, u16 *, 0x2) << 0xB, (u16) t025State270->f40, (u32 *)&sp0);
                             }
-                            var_r4 += 1;
+                            sendCount2 += 1;
                             var_r5 += 8;
-                        } while (var_r4 <= 3U);
+                        } while (sendCount2 <= 3U);
                         break;
                     }
                     var_r6_2 = (u16 *)((u8 *)var_r6_2 + 0x124);
@@ -3803,18 +3809,18 @@ loop_97:
     sub_08015C38();
     sub_0806617C();
     sub_08067D74();
-    var_r4 = 0;
+    playerCount = 0;
     goto check_loop_115;
 loop_115:
     {
-        temp_r2_9 = 0x14C * var_r4;
-        if (!(((u32) (M2C_FIELD(t025Players270[var_r4].unk148, u8 *, 4) << 0x1A) >> 0x1A) & 0x20)) {
-            sub_08065838(t025Players270[var_r4].unk0, 0x78);
+        temp_r2_9 = 0x14C * playerCount;
+        if (!(((u32) (M2C_FIELD(t025Players270[playerCount].unk148, u8 *, 4) << 0x1A) >> 0x1A) & 0x20)) {
+            sub_08065838(t025Players270[playerCount].unk0, 0x78);
         }
-        var_r4 += 1;
+        playerCount += 1;
     }
 check_loop_115:
-    if (var_r4 < sub_08002164()) goto loop_115;
+    if (playerCount < sub_08002164()) goto loop_115;
     if (sub_0800CB9C() != 0) {
         sub_08002298(0x50);
     }
@@ -4129,9 +4135,6 @@ void t025Effects27C(u16 *arg0) {
     u32 var_r3_2;
     u32 var_r5;
     u32 var_r8;
-    u32 var_r8_2;
-    u32 var_r8_3;
-    u32 var_r8_4;
     u32 var_sl;
     u8 temp_r0_3;
     u8 temp_r1_6;
@@ -4148,10 +4151,8 @@ void t025Effects27C(u16 *arg0) {
     struct T025Resource27C *temp_r2_6;
     void *temp_r6_2;
     void *var_r4;
-    void *var_r4_2;
     void *var_r6;
     struct T025Effect27C *var_r7;
-    struct T025Effect27C *var_r7_2;
     struct T025Effect27C *var_r9;
 
     var_r1 = arg0;
@@ -4238,20 +4239,20 @@ block_23:
 
     } else {
         arg8C += (u16) (M2C_FIELD(t025State27C, u16 *, 0x34) - 1) * 0x24;
-        var_r4_2 = arg8C;
+        var_r4 = arg8C;
         do {
-            if (M2C_FIELD(var_r4_2, u16 *, 0x4) != 0) {
+            if (M2C_FIELD(var_r4, u16 *, 0x4) != 0) {
                 temp_r1_3 = t025State27C + 0x160 + (var_r5 * 8);
                 if (M2C_FIELD(temp_r1_3, s32 *, 0x0) == 0) {
-                    var_r7->f0 = (s32) (M2C_FIELD(var_r4_2, u16 *, 0x0) << 0xB);
-                    var_r7->f4 = (s32) (M2C_FIELD(var_r4_2, u16 *, 0x2) << 0xB);
+                    var_r7->f0 = (s32) (M2C_FIELD(var_r4, u16 *, 0x0) << 0xB);
+                    var_r7->f4 = (s32) (M2C_FIELD(var_r4, u16 *, 0x2) << 0xB);
                 } else {
                     M2C_FIELD(var_r7, struct V2W12 *, 0) = M2C_FIELD(temp_r1_3, struct V2W12 *, 0);
                 }
-                temp_r2_3 = &t025Resources27C[M2C_FIELD(var_r4_2, u16 *, 0x4)];
+                temp_r2_3 = &t025Resources27C[M2C_FIELD(var_r4, u16 *, 0x4)];
                 var_r7->f20 = temp_r2_3;
                 var_r7->f10 = (s16) (temp_r2_3->f0 * 3);
-                var_r7->f16 = (u16) M2C_FIELD(var_r4_2, u16 *, 0x6);
+                var_r7->f16 = (u16) M2C_FIELD(var_r4, u16 *, 0x6);
                 if ((u32) temp_r2_3->f8 > 1U) {
                         t025Init27C(sprites[var_r5], M2C_FIELD(t025Config27C, s32 *, temp_r2_3->f8 * 0x10), 0xD, 1, 0);
                 } else {
@@ -4273,19 +4274,19 @@ block_23:
                 var_r7++;
                 var_r5 += 1;
             }
-            var_r4_2 += 8;
-        } while ((u32) var_r4_2 <= (u32) (arg8C + 0x18));
+            var_r4 += 8;
+        } while ((u32) var_r4 <= (u32) (arg8C + 0x18));
     }
     arg8A = var_r5;
     M2C_FIELD(t025State27C, s32 *, 0x48) = var_r5;
     M2C_FIELD(t025State27C, s32 *, 0x1E4C) = 0;
-    var_r8_2 = 0;
+    var_r8 = 0;
     do {
-        temp_r1_5 = var_r8_2 * 4;
+        temp_r1_5 = var_r8 * 4;
         M2C_FIELD(t025State27C, u8 *, 0x1E52 + temp_r1_5) = 0;
         M2C_FIELD(t025State27C, u16 *, 0x1E50 + temp_r1_5) = 0;
-        var_r8_2 += 1;
-    } while (var_r8_2 <= 3U);
+        var_r8 += 1;
+    } while (var_r8 <= 3U);
     if (arg8B != 0) {
         sub_08056FCC();
     }
@@ -4295,52 +4296,52 @@ block_23:
 
     } else {
 loop_50:
-        var_r7_2 = t025State27C + 0x58C;
+        var_r7 = t025State27C + 0x58C;
         arg87 = 0;
-        var_r8_3 = 0;
+        var_r8 = 0;
 loop_129:
-        if (var_r8_3 < arg8A) {
-            temp_r2_5 = t025State27C + 0x160 + (var_r8_3 * 8);
-            M2C_FIELD(temp_r2_5, struct V2W12 *, 0) = M2C_FIELD(var_r7_2, struct V2W12 *, 0);
-            M2C_FIELD(t025State27C, u8 *, 0x22C + var_r8_3) = (s8) var_r7_2->f14;
-            temp_r0_2 = var_r7_2->f14;
+        if (var_r8 < arg8A) {
+            temp_r2_5 = t025State27C + 0x160 + (var_r8 * 8);
+            M2C_FIELD(temp_r2_5, struct V2W12 *, 0) = M2C_FIELD(var_r7, struct V2W12 *, 0);
+            M2C_FIELD(t025State27C, u8 *, 0x22C + var_r8) = (s8) var_r7->f14;
+            temp_r0_2 = var_r7->f14;
             if (temp_r0_2 != 0) {
-                var_r9 = var_r7_2 + 1;
+                var_r9 = var_r7 + 1;
                 switch ((s32) temp_r0_2) {
                 case 11:
-                    temp_r4 = var_r7_2->f18;
+                    temp_r4 = var_r7->f18;
                     if (temp_r4 != 0) {
 
                     } else {
-                        t025Hide27C((u32) (var_r7_2->f0 << 8) >> 0x10, (u32) (var_r7_2->f4 << 8) >> 0x10, var_r7_2->f1A, var_r7_2->f1C, 0);
+                        t025Hide27C((u32) (var_r7->f0 << 8) >> 0x10, (u32) (var_r7->f4 << 8) >> 0x10, var_r7->f1A, var_r7->f1C, 0);
                         goto block_127;
                     }
                     break;
                 case 12:
-                    temp_r2_6 = var_r7_2->f20;
+                    temp_r2_6 = var_r7->f20;
                     temp_r1_6 = 0x80 & temp_r2_6->f6;
                     if (temp_r1_6 != 0) {
                         var_r0 = M2C_FIELD((t025Config27C + 4), s32 *, temp_r2_6->f8 * 0x10) + 2;
                     } else {
-                        t025Init27C(sprites[var_r8_3], 0x50053, 0xD, -1, 0);
+                        t025Init27C(sprites[var_r8], 0x50053, 0xD, -1, 0);
                         var_r0 = 6;
                     }
-                    var_r7_2->f8 = var_r0;
+                    var_r7->f8 = var_r0;
                     arg8D = 0;
-                    var_r9 = var_r7_2 + 1;
-                    if (var_r7_2->fE != 0) {
-                        var_r7_2->f14 = 0xBU;
+                    var_r9 = var_r7 + 1;
+                    if (var_r7->fE != 0) {
+                        var_r7->f14 = 0xBU;
                     }
                     goto block_116;
                 case 10:
-                    var_r7_2->f8 = (u16) (M2C_FIELD((t025Config27C + 4), s32 *, var_r7_2->f20->f8 * 0x10) + 1);
+                    var_r7->f8 = (u16) (M2C_FIELD((t025Config27C + 4), s32 *, var_r7->f20->f8 * 0x10) + 1);
                     arg8D = 0;
-                    if (var_r7_2->fE == 0) {
+                    if (var_r7->fE == 0) {
 
-                    } else if (var_r7_2->f10 != 0) {
-                        var_r7_2->f14 = (u16) arg8D;
+                    } else if (var_r7->f10 != 0) {
+                        var_r7->f14 = (u16) arg8D;
                     } else {
-                        if (var_r7_2->f16 != 0) {
+                        if (var_r7->f16 != 0) {
                             goto check_loop_70;
 loop_70:
                             sub_080003F0();
@@ -4348,13 +4349,13 @@ check_loop_70:
                             if (sub_08068558() == 0) goto loop_70;
                             M2C_FIELD(t025State27C, u16 *, 0x4) = (u16) (8 | M2C_FIELD(t025State27C, u16 *, 0x4));
                         }
-                                t025Hide27C((u32) (var_r7_2->f0 << 8) >> 0x10, (u32) (var_r7_2->f4 << 8) >> 0x10, var_r7_2->f1A, var_r7_2->f1C, 0);
-                        var_r7_2->f18 = 0U;
-                        var_r7_2->f14 = 0xCU;
-                        var_r7_2->fA = 0U;
-                        var_r7_2->fC = 0;
+                                t025Hide27C((u32) (var_r7->f0 << 8) >> 0x10, (u32) (var_r7->f4 << 8) >> 0x10, var_r7->f1A, var_r7->f1C, 0);
+                        var_r7->f18 = 0U;
+                        var_r7->f14 = 0xCU;
+                        var_r7->fA = 0U;
+                        var_r7->fC = 0;
                         if (sub_0800CCCC() == 0) {
-                            temp_r0_3 = var_r7_2->f20->f7;
+                            temp_r0_3 = var_r7->f20->f7;
                             switch (temp_r0_3) {
                             case 0:
                                 sub_0805865C(0x22);
@@ -4371,14 +4372,14 @@ check_loop_70:
 
                         } else if (M2C_FIELD(t025State27C, u16 *, 0x0) != 0xB) {
                             if (sub_0800CE30() != 0) {
-                                var_r3 = var_r7_2->f20->f10 + 0x32;
+                                var_r3 = var_r7->f20->f10 + 0x32;
                             } else {
-                                var_r3 = var_r7_2->f20->f10;
+                                var_r3 = var_r7->f20->f10;
                             }
-                            if (var_r7_2->f20->f10 == 0) {
+                            if (var_r7->f20->f10 == 0) {
                                 var_r3 = 0;
                             }
-                            if (t025Item27C((u32 *)&arg82, var_r3, var_r7_2->f12) == 0) {
+                            if (t025Item27C((u32 *)&arg82, var_r3, var_r7->f12) == 0) {
 
                             } else {
                                 if (((u32) gUnk_03003170.curLevel > 0xAU) && (arg82.f0 == 9)) {
@@ -4387,8 +4388,8 @@ check_loop_70:
                                 }
                                 if (sub_0800CCCC() != 0) {
 loop_98:
-                                    temp_r4_2 = var_r7_2->f0;
-                                    temp_r5 = var_r7_2->f4;
+                                    temp_r4_2 = var_r7->f0;
+                                    temp_r5 = var_r7->f4;
                                     if (sub_08066520(temp_r4_2, temp_r5, M2C_FIELD(gUnk_03003CE0, u16 *, 0x14C * sub_080020F4() + 0x2C), (u32 *)&arg82) == 0) {
                                         sub_080003F0();
                                         goto loop_98;
@@ -4398,7 +4399,7 @@ loop_98:
 loop_102:
                                     sub_080003F0();
 check_loop_102:
-                                    if (sub_08066520(var_r7_2->f0, var_r7_2->f4, t025Level27C, (u32 *)&arg82) == 0) goto loop_102;
+                                    if (sub_08066520(var_r7->f0, var_r7->f4, t025Level27C, (u32 *)&arg82) == 0) goto loop_102;
                                 }
                             }
                         } else {
@@ -4406,50 +4407,50 @@ check_loop_102:
 loop_105:
                             sub_080003F0();
 check_loop_105:
-                            if (sub_08066490(var_r7_2->f0, var_r7_2->f4, (u32 *)(t025State27C + 0x5C)) == 0) goto loop_105;
+                            if (sub_08066490(var_r7->f0, var_r7->f4, (u32 *)(t025State27C + 0x5C)) == 0) goto loop_105;
                         }
                     }
                     goto block_116;
                 }
             } else {
-                var_r7_2->f8 = (u16) M2C_FIELD((t025Config27C + 4), s32 *, var_r7_2->f20->f8 * 0x10);
+                var_r7->f8 = (u16) M2C_FIELD((t025Config27C + 4), s32 *, var_r7->f20->f8 * 0x10);
                 arg8D = 1;
-                var_r9 = var_r7_2 + 1;
+                var_r9 = var_r7 + 1;
 block_116:
-                temp_r6 = 0x34 * var_r8_3;
-                var_r7_2->fE = (u16) sub_08065370(sprites[var_r8_3], var_r7_2->f8, (s32)&var_r7_2->fA, (s32)&var_r7_2->fC, (s16)arg8D);
+                temp_r6 = 0x34 * var_r8;
+                var_r7->fE = (u16) sub_08065370(sprites[var_r8], var_r7->f8, (s32)&var_r7->fA, (s32)&var_r7->fC, (s16)arg8D);
                 if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (temp_r0_4 = sub_0800CD8C(), (temp_r0_4 == 0)) && (sub_0800BA6C() != 0)) {
-                    if (var_r7_2->f18 != 0) {
-                            t025Hide27C((u32) (var_r7_2->f0 << 8) >> 0x10, (u32) (var_r7_2->f4 << 8) >> 0x10, var_r7_2->f1A, var_r7_2->f1C, 1);
-                        var_r7_2->f18 = (u16) temp_r0_4;
+                    if (var_r7->f18 != 0) {
+                            t025Hide27C((u32) (var_r7->f0 << 8) >> 0x10, (u32) (var_r7->f4 << 8) >> 0x10, var_r7->f1A, var_r7->f1C, 1);
+                        var_r7->f18 = (u16) temp_r0_4;
                     }
-                    if ((arg87 == 0) && ((u32) var_r7_2->f20->f8 > 5U)) {
+                    if ((arg87 == 0) && ((u32) var_r7->f20->f8 > 5U)) {
                         arg87 = 1;
-                        sub_08000AF0(0x1DU, M2C_FIELD(sprites[var_r8_3], u32 *, 12) + 0x1A0, 1U);
+                        sub_08000AF0(0x1DU, M2C_FIELD(sprites[var_r8], u32 *, 12) + 0x1A0, 1U);
                     } else {
                         arg87 = 0;
                     }
-                    temp_r4_3 = (u8) sub_0800BC44((u32) ((s32) var_r7_2->f0 >> 8), (u32) ((s32) var_r7_2->f4 >> 8), 0U);
-                    t025Position27C((s32)(var_r7_2->f0 << 8) >> 16, (s32)(var_r7_2->f4 << 8) >> 16, &screenX, &screenY, 0x30, 0);
-                    t025Draw27C(screenX, screenY, var_r7_2->f8, var_r7_2->fA, temp_r4_3, sprites[var_r8_3] + 0x1C, M2C_FIELD(sprites[var_r8_3], u8 **, 8), M2C_FIELD(sprites[var_r8_3], u32 *, 0));
+                    temp_r4_3 = (u8) sub_0800BC44((u32) ((s32) var_r7->f0 >> 8), (u32) ((s32) var_r7->f4 >> 8), 0U);
+                    t025Position27C((s32)(var_r7->f0 << 8) >> 16, (s32)(var_r7->f4 << 8) >> 16, &screenX, &screenY, 0x30, 0);
+                    t025Draw27C(screenX, screenY, var_r7->f8, var_r7->fA, temp_r4_3, sprites[var_r8] + 0x1C, M2C_FIELD(sprites[var_r8], u8 **, 8), M2C_FIELD(sprites[var_r8], u32 *, 0));
                 } else {
 block_127:
-                    var_r7_2->f18 = 1U;
+                    var_r7->f18 = 1U;
                 }
             }
-            var_r8_3 += 1;
-            var_r7_2 = var_r9;
+            var_r8 += 1;
+            var_r7 = var_r9;
             goto loop_129;
         }
         sub_08066404();
         M2C_FIELD(t025State27C, s32 *, 0x1E4C) = 0;
-        var_r8_4 = 0;
+        var_r8 = 0;
         do {
-            temp_r1_7 = var_r8_4 * 4;
+            temp_r1_7 = var_r8 * 4;
             M2C_FIELD(t025State27C, u8 *, 0x1E52 + temp_r1_7) = 0;
             M2C_FIELD(t025State27C, u16 *, 0x1E50 + temp_r1_7) = 0;
-            var_r8_4 += 1;
-        } while (var_r8_4 <= 3U);
+            var_r8 += 1;
+        } while (var_r8 <= 3U);
         sub_080003F0();
         if (!(((u16) M2C_FIELD(t025State27C, u16 *, 0x4) >> 4) & 1) && (arg8A != 0)) {
             goto loop_50;

@@ -494,16 +494,25 @@ extern u8 t47BActors[] asm("gUnk_03003CE0");
 extern void sub_08019EB8(u16,s32);
 extern void sub_0802949C(s32,s32);
 void t47B2C(s32 arg0) asm("sub_08047B2C");
-#ifdef NONMATCHING
+struct T47BPlayer { u16 f0,id; u8 pad[0x2DC]; };
+extern struct T47BPlayer *t47BPlayerRows asm("gUnk_030056F4");
+void t47B2C(s32 arg0) asm("sub_08047B2C");
 void t47B2C(s32 arg0) {
     volatile s32 pos[2];
     register s32 *yp asm("r9");
     register s32 zeroX asm("r8");
     s32 zeroY;
     register s32 step asm("sl");
-    s32 temp_r5;
-    s32 temp_r6;
+    register s32 temp_r5 asm("r5");
+    register s32 temp_r6 asm("r6");
     s32 var_r4_3;
+    register s32 *call0 asm("r0");
+    register s32 call1 asm("r1");
+    register s32 call2 asm("r2");
+    register s32 call3 asm("r3");
+    register u32 h1 asm("r1");
+    register u32 h2 asm("r2");
+    register u32 h7 asm("r7");
     u16 var_r4;
     u16 var_r4_2;
     u32 temp_r4;
@@ -520,6 +529,7 @@ void t47B2C(s32 arg0) {
     u32 temp_r4_9;
     u8 *temp_r2;
 
+    asm("" ::: "r7");
     switch (arg0) {                                 /* irregular */
     case 0:
         var_r4 = 0x1E;
@@ -579,12 +589,12 @@ test31:
         if (sub_0805EEFC((void *) temp_r4_2) == 0) goto yield31;
         step=0x22;
         temp_r6 = t47BCamera[64];
-        temp_r5 = t47BCamera[65];
+        asm("" : "=r"(h1),"=r"(h2),"=r"(h7));temp_r5=t47BCamera[65];asm("" : : "r"(h1),"r"(h2),"r"(h7));
         var_r4_3 = 0;
-        zeroX=0;zeroY=0;
+        asm("" : "+r"(var_r4_3));zeroX=var_r4_3;zeroY=0;asm("" : "+r"(zeroY));
         do {
-            sub_080659F4((s32 *)&pos[0], (s32) temp_r6, zeroX >> 0x10, var_r4_3);
-            sub_080659F4(yp, (s32) temp_r5, zeroY >> 0x10, var_r4_3);
+            call0=(s32 *)&pos[0];call1=temp_r6;asm("" : "+r"(call0), "+r"(call1));call3=zeroX;asm("" : "+r"(call3));call2=call3>>16;call3=var_r4_3;sub_080659F4(call0,call1,call2,call3);
+            call0=yp;call1=temp_r5;asm("" : "+r"(call0), "+r"(call1));call2=zeroY>>16;call3=var_r4_3;sub_080659F4(call0,call1,call2,call3);
             t47BSetCamera((s16) pos[0], (s16) pos[1]);
             sub_080003F0();
             var_r4_3 += step;
@@ -784,14 +794,11 @@ test123:
         if (!(gUnk_030027D0 & 0x20)) {
             sub_08006D08(0x45U);
         }
-        sub_08019EB8(*(u16 *)(t47BPlayers+0x2E2), 3);
+        sub_08019EB8(t47BPlayerRows[1].id, 3);
         sub_0802949C(2, 0);
         return;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08047B2C);
-#endif
 struct T47Task { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u8 *t47State asm("gUnk_03005CF4");
 extern s32 sub_0801AB24(void);
