@@ -612,12 +612,16 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     sub_08000AA8(1U, &bg.half);
     bg.half = 0x1F03;
     sub_08000AA8(3U, &bg.half);
-    sub_0800BCDC(0x15, 3, 0x06000000, 0U, 0xFU);
-    sub_0800BCDC(0x16, 2, 0x06000000, 0U, 0xFU);
-    sub_0800B650(0x3B, 0x1B, 0x06000000, 0U, 0xFU);
-    sub_0800B650(0x40000017, 0x1A, 0x06000000, 0U, 0xFU);
-    sub_0800B650(0x12, 0x19, 0x06000000, 0U, 0xFU);
-    sub_0800B650(0x18, 0x18, 0x06000000, 0U, 0xFU);
+    {
+        register u32 vramC7 asm("r4") = 0x06000000;
+        register u32 paletteC7 asm("r5") = 0xF;
+        sub_0800BCDC(0x15, 3, vramC7, 0U, paletteC7);
+        sub_0800BCDC(0x16, 2, vramC7, 0U, paletteC7);
+        sub_0800B650(0x3B, 0x1B, vramC7, 0U, paletteC7);
+        sub_0800B650(0x40000017, 0x1A, vramC7, 0U, paletteC7);
+        sub_0800B650(0x12, 0x19, vramC7, 0U, paletteC7);
+        sub_0800B650(0x18, 0x18, vramC7, 0U, paletteC7);
+    }
     sub_0800903C(4, 8, 1, 8, 0x10, setupZero3984);
     sub_080009F8(0x200, 0, 1);
     handle = ((u8 *(*)(s32))sub_08007290)(0x10023);
@@ -1347,7 +1351,10 @@ block_221:
             sub_08065370(&panel[0], 5U, (s32) &y[1], (s32) &y[3], 1);
             if (current != 0) {
                 sub_08065230(&panel[0], 0xD2, 0x8E, 9U, 0);
-                sub_08065264(&panel[0], 0xE2, 0x8E, 5, (s32) M2C_FIELD(((u8 *)&y[0]), u16 *, 2));
+                {
+                    register u16 *panelReadC7 asm("r1") = (u16 *)temp_r5_2;
+                    sub_08065264(&panel[0], 0xE2, 0x8E, 5, (s32)panelReadC7[1]);
+                }
                 sub_08065230(&panel[0], 0xC2, 0x8E, 4U, (s32) *(u16 *)((u8 *)&y[0]));
             } else {
                 sub_08065230(&panel[0], 0xD2, 0x8E, 8U, (s32) current);

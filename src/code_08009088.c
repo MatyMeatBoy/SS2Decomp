@@ -169,7 +169,140 @@ u32 sub_0800AE50(s32 x,s32 y,u32 resourceId)
     type=*cell;
     return t06_decodeAE50(result,type);
 }
+#ifdef NONMATCHING
+struct T06CellAEF4 {u8 type,flags;};
+extern u16 t06_widthAEF4 asm("gUnk_030031E8");
+void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
+    s32 sp0;
+    struct T06CellAEF4 *sp4;
+    u32 sp8;
+    u32 spC;
+    u32 sp10;
+    u32 sp14;
+    u32 sp18;
+    s16 temp_r4;
+    s32 temp_r1_5;
+    s32 var_r2;
+    s32 var_r2_2;
+    struct T06CellAEF4 *temp_r3;
+    struct T06CellAEF4 *temp_r3_2;
+    u16 var_r4;
+    u32 temp_r0;
+    u32 temp_r1;
+    u32 temp_r1_2;
+    u32 temp_r1_4;
+    u32 temp_r2;
+    u32 temp_r2_2;
+    u32 var_r3;
+    u32 var_r3_2;
+    u32 var_r4_2;
+    u8 temp_r0_2;
+    u8 temp_r1_3;
+    u8 var_r0;
+
+    sp0 = arg3;
+    temp_r0 = (u32) (arg0 << 0x10) >> 0x13;
+    temp_r1 = (u32) (arg1 << 0x10) >> 0x13;
+    if ((s32) temp_r0 > (s32) gUnk_03003170.mapW) {
+        return;
+    }
+    if (temp_r0 & 0x8000) {
+        return;
+    }
+    temp_r4 = (s16) temp_r1;
+    sp18 = temp_r1 << 0x10;
+    if ((s32) temp_r4 > (s32) gUnk_03003170.mapH) {
+        return;
+    }
+    if (temp_r4 & 0x8000) {
+        return;
+    }
+    if (arg2 == 0) {
+        return;
+    }
+    if (arg3 == 0) {
+        return;
+    }
+    sp4 = (struct T06CellAEF4 *)gUnk_03003170.map0;
+    if (arg4 != 0) {
+        var_r3 = sp18 >> 0x10;
+        if (var_r3 >= (u32) (temp_r4 + sp0)) {
+            return;
+        }
+        temp_r2 = arg2 >> 1;
+        sp8 = temp_r2;
+        spC = temp_r0 + temp_r2;
+        do {
+            var_r4 = temp_r0 - sp8;
+            var_r2 = var_r4 << 0x10;
+            if ((u32) (s16) var_r4 < (u32) (sp8 + temp_r0)) {
+                do {
+                    temp_r3 = &sp4[(var_r2 >> 0x10) + (gUnk_03003170.mapW * (s16) var_r3)];
+                    if ((0xF & temp_r3->flags) && (temp_r1_3 = temp_r3->type, ((temp_r1_3 & 0xF) != 0xC))) {
+                        if (gUnk_03003170.curLevel == 0xB) {
+                            if (temp_r1_3 != 8) {
+                                temp_r3->type = 0xAU;
+                                var_r0 = (((u32) (*(u32 *)temp_r3 << 0x14) >> 0x1C) * 0x10) | 0xA;
+                                goto block_28;
+                            }
+                        } else {
+                            temp_r3->type = 0xAU;
+                            var_r0 = (((u32) (*(u32 *)temp_r3 << 0x14) >> 0x1C) * 0x10) | 0xA;
+                            goto block_28;
+                        }
+                    } else if (gUnk_03003170.curLevel == 0xB) {
+                        if (temp_r3->type != 8) {
+                            temp_r3->type = 0xCU;
+                        }
+                    } else {
+                        var_r0 = 0xC;
+block_28:
+                        temp_r3->type = var_r0;
+                    }
+                    temp_r3->flags = (u8) ((-0x10 & temp_r3->flags) | 1);
+                    var_r4 = (u16) ((u32) ((var_r4 << 0x10) + 0x10000) >> 0x10);
+                    var_r2 = var_r4 << 0x10;
+                } while ((u32) (s16) var_r4 < spC);
+            }
+            temp_r1_2 = (var_r3 << 0x10) + 0x10000;
+            var_r3 = temp_r1_2 >> 0x10;
+        } while ((u32) ((s32) temp_r1_2 >> 0x10) < (u32) (((s32) sp18 >> 0x10) + sp0));
+        return;
+    }
+    var_r3_2 = sp18 >> 0x10;
+    if (var_r3_2 < (u32) (temp_r4 + sp0)) {
+        temp_r2_2 = arg2 >> 1;
+        sp14 = temp_r0 + temp_r2_2;
+        sp10 = (temp_r0 - temp_r2_2) << 0x10;
+        do {
+            var_r4_2 = sp10 >> 0x10;
+            var_r2_2 = var_r4_2 << 0x10;
+            if ((u32) (s16) var_r4_2 < (u32) (temp_r0 + temp_r2_2)) {
+                do {
+                    temp_r3_2 = &sp4[(var_r2_2 >> 0x10) + (t06_widthAEF4 * (s16) var_r3_2)];
+                    temp_r0_2 = temp_r3_2->type;
+                    temp_r1_5 = temp_r0_2 & 0xF;
+                    if (temp_r1_5 == 0xC) {
+                        temp_r3_2->flags = (u8) (-0x10 & temp_r3_2->flags);
+                        temp_r3_2->type = 0U;
+                    } else if (temp_r1_5 == 0xA) {
+                        temp_r3_2->flags = (u8) ((-0x10 & temp_r3_2->flags) | ((temp_r0_2 >> 4) & 0xF));
+                        temp_r3_2->type = 0U;
+                    } else if (temp_r0_2 == 8) {
+                        temp_r3_2->flags = (u8) (-0x10 & temp_r3_2->flags);
+                    }
+                    var_r4_2 = (u32) ((var_r4_2 << 0x10) + 0x10000) >> 0x10;
+                    var_r2_2 = var_r4_2 << 0x10;
+                } while ((u32) (s16) var_r4_2 < sp14);
+            }
+            temp_r1_4 = (var_r3_2 << 0x10) + 0x10000;
+            var_r3_2 = temp_r1_4 >> 0x10;
+        } while ((u32) ((s32) temp_r1_4 >> 0x10) < (u32) (((s32) sp18 >> 0x10) + sp0));
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800AEF4);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B118);
 extern u8 t06_displayB650 asm("gUnk_0300129C");
 extern u16 t06_doneB650 asm("gUnk_03001F40");
@@ -226,7 +359,61 @@ void sub_0800B650(s32 a,s32 b,s32 c,u16 d,u16 e)
     sub_08000AF0(d,palette,palettes);
     t06_doneB650=0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800B7DC);
+extern u8 t06_displayB7DC asm("gUnk_0300129C");
+extern u16 t06_doneB7DC asm("gUnk_03001F40");
+void sub_0800B7DC(s32 a,s32 b,s32 c,u16 d,u16 e)
+{
+    u8 *map;
+    u32 palettes=e;
+    u32 *header=(u32 *)sub_08007290(a);
+    u8 *graphics=(u8 *)sub_08007290(*header+gUnk_03003470);
+    void *palette=(void *)sub_08007290((u16)*header|0x70000);
+    u16 i;
+    register u32 offset asm("r1");
+    u32 flag=0x40000000&a;
+    if(flag)map=(u8 *)header+4;
+    else {map=(u8 *)flag;map=sub_08000BC8(header+1,(void **)&map);}
+    if(!(t06_displayB7DC&128)) {
+        if(*header&0x10000000) {
+            if(*header&0x20000000) {
+                i=0;b<<=11;
+                do {
+                    register const void *source asm("r0");
+                    offset=i<<10;
+                    source=graphics+offset;
+                    offset+=0x4000;
+                    sub_08001348(source,(void *)(c+offset),0x400);
+                    sub_080003F0();i++;
+                }while(i<=15);
+            } else {
+                i=0;b<<=11;
+                do {
+                    offset=i<<10;
+                    sub_08001348(graphics+offset,(void *)(c+offset),0x400);
+                    sub_080003F0();i++;
+                }while(i<=15);
+            }
+        } else {
+            i=0;b<<=11;
+            do {
+                offset=i<<11;
+                sub_08001348(graphics+offset,(void *)(c+offset),0x800);
+                sub_080003F0();i++;
+            }while(i<=15);
+        }
+        sub_08001348(map,(void *)(VRAM+b),0x800);
+        sub_080003F0();
+    } else {
+        if(*header&0x10000000) {
+            if(*header&0x20000000)CpuFastSet(graphics,(void *)(c+0x4000),0x1000);
+            else CpuFastSet(graphics,(void *)c,0x1000);
+        } else CpuFastSet(graphics,(void *)c,0x2000);
+        CpuFastSet(map,(void *)(VRAM+(b<<11)),0x200);
+    }
+    if(!(a&0x40000000))sub_08001538((s32)map);
+    sub_08000AF0(d,palette,palettes);
+    t06_doneB7DC=0;
+}
 void sub_0800B974(u32 a, u32 b) {
     void *tmp;
     void *p;

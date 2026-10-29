@@ -1249,7 +1249,6 @@ check:
         while(!sub_0801AAE0())sub_080003F0();
     }
 }
-#ifdef NONMATCHING
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);
@@ -1260,7 +1259,7 @@ struct Flag50C6 { u32 pad; u16 flags; };
 void sub_0804C67C(void) {
     s32 out[4];
     s32 *px2, *py2;
-    s32 startX,startY;
+    s32 startX,startY,startX2,startY2;
     s32 t,step,step2; s32 offset;
     union Fixed50C6 targetX,targetY,targetX2,targetY2;
     u16 timer;
@@ -1305,13 +1304,14 @@ void sub_0804C67C(void) {
     statusptr = &gUnk_03005CF8;
     *statusptr = status;
     if (!(gUnk_030027D0 & 0x20)) sub_08006CB4(0xD9);
+    offset=-offset;
     for(timer=20;timer;timer--) { sub_080003F0(); if(sub_080021A8())break; }
     step = 0x11;
     startX = (s16)gUnk_03003170.f80;
     startY = (s16)gUnk_03003170.f82;
     targetY.whole = 0xFF8C0000;
     for(t=0;t<=0x400;t+=step) {
-        sub_080659F4(&out[0],startX,(s16)(-offset),t);
+        sub_080659F4(&out[0],startX,(s16)offset,t);
         sub_080659F4(&out[1],startY,targetY.part.hi,t);
         cameraMove50C6((s16)out[0],(s16)out[1]);
         sub_080003F0();
@@ -1333,13 +1333,13 @@ void sub_0804C67C(void) {
     t = handle;
     while(!sub_0805EEFC((void *)t))sub_080003F0();
     step2 = 0x22;
-    startX = (s16)gUnk_03003170.f80;
-    startY = (s16)gUnk_03003170.f82;
+    startX2 = (s16)gUnk_03003170.f80;
+    startY2 = (s16)gUnk_03003170.f82;
     targetX2.whole = 0;
     targetY2.whole = 0;
     for(t=0;t<=0x400;t+=step2) {
-        sub_080659F4(&out[2],startX,targetX2.part.hi,t);
-        sub_080659F4(&out[3],startY,targetY2.part.hi,t);
+        sub_080659F4(&out[2],startX2,targetX2.part.hi,t);
+        sub_080659F4(&out[3],startY2,targetY2.part.hi,t);
         cameraMove50C6((s16)out[2],(s16)out[3]);
         sub_080003F0();
     }
@@ -1352,9 +1352,6 @@ void sub_0804C67C(void) {
     player2->flags &= ~1;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804C67C);
-#endif
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);

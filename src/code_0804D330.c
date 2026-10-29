@@ -1,6 +1,228 @@
 #include "global.h"
 
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804D330);
+extern void sub_08019EB8(u16,s32);
+extern void sub_0802949C(s32,s32);
+extern void cameraMove50D3(s16,s16) asm("sub_0800BB80");
+struct Entity50D3 {u16 f0,kind;u8 pad[0x2DC];};
+extern struct Entity50D3 *entities50D3 asm("gUnk_030056F4");
+struct Task50D3 {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
+extern void taskStart50D3(void *,u32) asm("sub_08000274");
+struct Command50D3 {u16 one,kind;u8 data[12];};
+union Fixed50D3 {s32 whole;struct{u16 lo;s16 hi;}part;};
+void sub_0804D330(u32 arg0) {
+    s32 camY,camX;
+    struct Command50D3 cmd; struct Command50D3 *cmdp;
+    u32 cmdOne;register u32 cmdKind asm("r2");
+    u8 *bytes;u32 cmdZero;
+    u8 *sp20;
+    struct Task50D3 *task;u32 i,mem;s32 callback,step;
+    union Fixed50D3 targetX,targetY;
+    s32 temp_r7;
+    s32 temp_r8;
+    s32 var_r0;
+    s32 var_r4;
+    u32 temp_r4;
+    u32 temp_r4_10;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 temp_r4_8;
+    u32 temp_r4_9;
+    u32 var_r1;
+    u32 var_r1_2;
+    u32 var_r1_3;
+    u32 var_r1_4;
+    u32 var_r4_2;
+    u32 var_r4_3;
+    u32 var_r4_4;
+    u32 var_r4_5;
+    u32 var_r5;
+    u32 var_r5_2;
+    u32 var_r5_3;
+    u32 var_r5_4;
+    void *temp_r0;
+    void *temp_r0_2;
+    void *temp_r0_3;
+    void *temp_r0_4;
+    struct Player *temp_r2;
+
+    switch (arg0) {                                 /* irregular */
+    case 0:
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4 = sub_0805DF38(1,15,2,0,45,0x14004E);
+while(sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
+        step=0x22;
+        targetX.whole=0;targetY.whole=0xFFE20000;
+        temp_r8 = (s16) gUnk_03003170.f80;
+        temp_r7 = (s16) gUnk_03003170.f82;
+        var_r4 = 0;
+        do {
+            sub_080659F4(&camX, (s32) temp_r8, targetX.part.hi, var_r4);
+            sub_080659F4(&camY, (s32) temp_r7, targetY.part.hi, var_r4);
+            cameraMove50D3((s16)camX,(s16)camY);
+            sub_080003F0();
+            var_r4 += step;
+        } while (var_r4 <= 0x400);
+        temp_r2 = &gUnk_03003CE0[sub_080020F4()];
+        temp_r2->flags = (s32) (temp_r2->flags & ~1);
+        sub_0800D108();
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1,15,2,0,45,0x14004F);
+while(sub_0805EEFC((void *) temp_r4_2) == 0) sub_080003F0();
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_3 = sub_0805DF38(1,15,2,0,45,0x140050);
+        cmdOne=1;cmdKind=0x1C;cmdp=&cmd;cmdp->one=cmdOne;cmdp->kind=cmdKind;
+        var_r1=0;bytes=cmd.data;cmdZero=0;
+        do {
+            bytes[var_r1] = cmdZero;
+            var_r1 += 1;
+        } while (var_r1 <= 0xBU);
+while(sub_08067B9C(0xE800U, 0x8C00U, &cmd) == 0) sub_080003F0();
+while(sub_0805EEFC((void *) temp_r4_3) == 0) sub_080003F0();
+    callback = (s32)sub_0804D330;
+    task = (struct Task50D3 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D3(task,6);
+        break;
+    }
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_4 = sub_0805DF38(1,15,2,0,45,0x140051);
+while(sub_0805EEFC((void *) temp_r4_4) == 0) sub_080003F0();
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_5 = sub_0805DF38(1,15,2,0,45,0x140052);
+        sub_0805D37C(0xE800, 0x8C00, 6);
+        sub_080687A8();
+        cmdOne=1;cmdKind=2;cmdp=&cmd;cmdp->one=cmdOne;cmdp->kind=cmdKind;
+        var_r1_2=0;bytes=cmd.data;cmdZero=0;
+        do {
+            bytes[var_r1_2] = cmdZero;
+            var_r1_2 += 1;
+        } while (var_r1_2 <= 0xBU);
+while(sub_08067B9C(0xE800U, 0x8C00U, &cmd) == 0) sub_080003F0();
+while(sub_0805EEFC((void *) temp_r4_5) == 0) sub_080003F0();
+    callback = (s32)sub_0804D330;
+    task = (struct Task50D3 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D3(task,6);
+        break;
+    }
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_6 = sub_0805DF38(1,15,2,0,45,0x140053);
+while(sub_0805EEFC((void *) temp_r4_6) == 0) sub_080003F0();
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_7 = sub_0805DF38(1,15,2,0,45,0x140054);
+        sub_0805D37C(0xE800, 0x8C00, 6);
+        sub_080687A8();
+        cmdOne=1;cmdKind=0x2F;cmdp=&cmd;cmdp->one=cmdOne;cmdp->kind=cmdKind;
+        var_r1_3=0;bytes=cmd.data;cmdZero=0;
+        do {
+            bytes[var_r1_3] = cmdZero;
+            var_r1_3 += 1;
+        } while (var_r1_3 <= 0xBU);
+while(sub_08067B9C(0xE800U, 0x8C00U, &cmd) == 0) sub_080003F0();
+while(sub_0805EEFC((void *) temp_r4_7) == 0) sub_080003F0();
+    callback = (s32)sub_0804D330;
+    task = (struct Task50D3 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D3(task,6);
+        break;
+    }
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_8 = sub_0805DF38(1,15,2,0,45,0x140055);
+while(sub_0805EEFC((void *) temp_r4_8) == 0) sub_080003F0();
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_9 = sub_0805DF38(1,15,2,0,45,0x140056);
+        sub_0805D37C(0xE800, 0x8C00, 6);
+        sub_080687A8();
+        cmdOne=1;cmdKind=0x1A;cmdp=&cmd;cmdp->one=cmdOne;cmdp->kind=cmdKind;
+        var_r1_4=0;bytes=cmd.data;cmdZero=0;
+        do {
+            bytes[var_r1_4] = cmdZero;
+            var_r1_4 += 1;
+        } while (var_r1_4 <= 0xBU);
+while(sub_08067B9C(0xE800U, 0x8C00U, &cmd) == 0) sub_080003F0();
+while(sub_0805EEFC((void *) temp_r4_9) == 0) sub_080003F0();
+    callback = (s32)sub_0804D330;
+    task = (struct Task50D3 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D3(task,6);
+        break;
+    }
+while(sub_0805F184() != 0) sub_080003F0();
+while(sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_10 = sub_0805DF38(1,15,2,0,45,0x140057);
+while(sub_0805EEFC((void *) temp_r4_10) == 0) sub_080003F0();
+        sub_0805D37C(0xE800, 0x8C00, 6);
+        sub_080687A8();
+        return;
+    case 1:
+        sub_08019EB8(entities50D3[0].kind, 3);
+        var_r0 = 1;goto block_149;
+    case 2:
+        sub_08019EB8(entities50D3[1].kind, 3);
+        var_r0 = 2;
+        goto block_149;
+    case 3:
+        sub_08019EB8(entities50D3[2].kind, 3);
+        var_r0 = 3;
+        goto block_149;
+    case 4:
+        sub_08019EB8(entities50D3[3].kind, 3);
+        var_r0 = 4;
+        goto block_149;
+    case 5:
+        sub_08019EB8(entities50D3[4].kind, 3);
+        var_r0 = 5;
+block_149:
+        sub_0802949C(var_r0,0);return;
+    case 6:
+        sub_08028D98(1, 0, -4, 4);
+        sub_08028D98(1, 0, 4, 4);
+        sub_08028D98(2, 0, -4, 4);
+        sub_08028D98(2, 0, 4, 4);
+        sub_08028D98(4, 0, -4, 4);
+        sub_08028D98(4, 0, 4, 4);
+        sub_08028D98(5, 0, -4, 4);
+        sub_08028D98(5, 0, 4, 4);
+        return;
+    }
+}
 extern s32 sub_0801AB24(void);
 extern void sub_0801AB50(s32);
 extern void sub_0801AB90(s32);

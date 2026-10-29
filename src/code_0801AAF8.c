@@ -1262,7 +1262,225 @@ block_236:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
 #endif
+#ifdef NONMATCHING
+struct RescueC8F0Entity {
+u16 id;
+u8 pad2[10];
+u16 state;
+u8 padE[60];
+u16 value4A;
+s32 value4C;
+u8 pad50[12];
+s16 limit5C;
+u8 pad5E[4];
+u16 status;
+u8 pad64[2];
+u16 field66;
+u8 pad68[356];
+u16 field1CC;
+u16 field1CE;
+u8 pad1D0[45];
+u8 field1FD;
+u8 pad1FE[3];
+u8 field201;
+u8 pad202[2];
+u16 field204;
+u8 pad206[32];
+u8 field226;
+u8 pad227[181];
+u16 * link;
+};
+struct RescueC8F0Slot { s16 timer; u16 source, kind, value; u8 pad[0x10]; s32 scale; u8 tail[0xc]; };
+
+extern u8 rescueC8F0Records[] asm("gUnk_03003CE0");
+extern s32 rescueC8F0Test(s32 *, void *, s32 *, s32 *) asm("sub_08021FE0");
+void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
+    s32 zero;
+    s32 pos[2];
+    s32 sp8;
+    s32 spC;
+    s16 *var_r1;
+    s16 temp_r1;
+    s16 var_r0_2;
+    s32 temp_r0;
+    s32 temp_r0_5;
+    s32 temp_r2;
+    u32 baseAddress;
+    s32 var_r0;
+    s32 var_r1_2;
+    u16 *var_r2;
+    u16 temp_r0_3;
+    u16 temp_r0_6;
+    u16 temp_r0_7;
+    u16 temp_r0_8;
+    u16 temp_r0_9;
+    u32 temp_r0_4;
+    u32 var_r6;
+    u8 temp_r0_2;
+    u8 **temp_r1_3;
+    u8 *temp_r1_2;
+    u8 *temp_r6;
+    struct RescueC8F0Slot *var_r5;
+
+    temp_r6 = (u8 *)arg0 + 0x204;
+    temp_r0 = sub_08007290((*(u16 *)(temp_r6 + 0x28)) | 0xB0000);
+    sub_0801B264((void *)(temp_r0 + 0xB0), temp_r6, (void *)((u8 *)arg0 + 0x1CC));
+    temp_r0_2 = (*(u8 *)(temp_r0 + 0x9C));
+    zero = 0;
+    arg0->field1CC = (u16) temp_r0_2;
+    arg0->field1CC += arg0->field204;
+    arg0->field1CE = (u16) (*(u16 *)(temp_r6 + 0xA));
+    arg0->status = zero;
+    if (2 & arg0->field201) {
+        arg0->status = 8;
+    }
+    if (arg0->field226 == 3) {
+        return;
+    }
+    var_r5 = (struct RescueC8F0Slot *)((u8 *)arg0 + 0x8c);
+    var_r6 = 0;
+loop_5:
+    temp_r1 = var_r5->timer;
+    if (((s32) temp_r1 < 0) && (temp_r1 != -2)) {
+
+    } else {
+        temp_r0_3 = var_r5->source;
+        if ((u32) temp_r0_3 <= 3U) {
+            baseAddress = (u32)rescueC8F0Records;
+            temp_r2 = 0x14C * temp_r0_3;
+            temp_r1_2 = (u8 *)(baseAddress + temp_r2);
+            temp_r0_6 = (*(u16 *)(temp_r1_2 + 0xC));
+            switch (temp_r0_6) {                    /* switch 1; irregular */
+            case 3:                                 /* switch 1 */
+                temp_r0_7 = var_r5->kind;
+                switch (temp_r0_7) {                /* switch 2; irregular */
+                case 4:                             /* switch 2 */
+                    temp_r0_8 = (*(u16 *)(temp_r1_2 + 0x10));
+                    switch (temp_r0_8) {            /* switch 3; irregular */
+                    case 2:                         /* switch 3 */
+                        var_r2 = &arg0->field1CE;
+                        var_r1_2 = var_r5->value * 8;
+*var_r2 -= var_r1_2; break;
+                        break;
+                    case 4:                         /* switch 3 */
+                        var_r2 = &arg0->field1CE;
+                        var_r1_2 = var_r5->value * 0xC;
+                        *var_r2 -= var_r1_2; break;
+                    }
+                    var_r1 = (s16 *)&arg0->field1CE;
+                    if ((s32) (s16) arg0->field1CE >= 0) {
+
+                    } else {
+                        var_r0 = 0;
+                        *var_r1 = (s16) var_r0;
+                    }
+                    break;
+                case 6:                             /* switch 2 */
+                    temp_r1_3 = (u8 **)(temp_r2 + (rescueC8F0Records + 0x148));
+                    pos[0] = ((u16) (*(u16 *)(*temp_r1_3)) >> 4) << 8;
+                    pos[1] = (u32) ((*(u16 *)(*temp_r1_3 + 2)) << 0x14) >> 0xC;
+                    sp8 = 0x300030;
+                    spC = 0x10001;
+                    if (rescueC8F0Test(&pos[0], (u8 *)arg0 + 0x14, &sp8, &spC) == 0) {
+
+                    } else {
+                        temp_r0_9 = arg0->field1CC - (var_r5->value * 4);
+                        arg0->field1CC = temp_r0_9;
+                        if ((s32) (temp_r0_9 << 0x10) >= 0) {
+
+                        } else {
+                            arg0->field1CC = 0U;
+                        }
+                    }
+                    break;
+                }
+                break;
+            case 5:                                 /* switch 1 */
+                if (sub_0800CDC0() != 0) {
+
+                } else if (var_r5->kind != 6) {
+
+                } else {
+                    var_r1 = (s16 *)&arg0->status;
+                    var_r0 = 9;
+                    *var_r1 = (s16)var_r0; goto processed;
+                }
+                break;
+            case 7:                                 /* switch 1 */
+                if (var_r5->kind != 4) {
+
+                } else if ((sub_0800CDC0() == 0) && (arg0->field1FD = 1, (arg0->state != 0xA))) {
+
+                } else {
+                    var_r5->timer = -1;
+                }
+                break;
+            }
+        } else {
+            temp_r0_4 = var_r5->kind - 1;
+            switch (temp_r0_4) {                    /* switch 4; irregular */
+            case 1:                                 /* switch 4 */
+                var_r1 = (s16 *)&arg0->status;
+                var_r0 = 9;
+                *var_r1 = (s16)var_r0; goto processed;
+            case 2:                                 /* switch 4 */
+                arg0->status = 0xA;
+                arg0->field1FD = 1;
+                arg0->field201 = 0U;
+                break;
+            case 4:                                 /* switch 4 */
+                arg0->status = 0xC;
+                var_r0 = (s32) (arg0->link[1] << 0x10) >> 0x11;
+                var_r1 = (s16 *)((u8 *)arg0 + 0x206);
+                *var_r1 = (s16)var_r0; goto processed;
+            case 5:                                 /* switch 4 */
+                arg0->status = 0xD;
+                var_r0_2 = var_r5->timer;
+block_52:
+                if (((var_r0_2 % 60) << 0x10) == 0) {
+                    temp_r0_5 = (s32) (((var_r5->scale * 0xA) + 0x64) * var_r5->value) / 100;
+                    arg0->value4C = temp_r0_5;
+                    arg0->value4A = (u16) (arg0->value4A + temp_r0_5);
+                }
+                break;
+            case 6:                                 /* switch 4 */
+                arg0->status = 0xD;
+                var_r0_2 = var_r5->timer;
+                goto block_52;
+            case 0:                                 /* switch 4 */
+                if ((var_r5->timer == 0) && ((s32) (arg0->limit5C - arg0->value4A) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                    sub_08021DC4(arg0->id + 4);
+                    arg0->value4A = (u16) (var_r5->value + arg0->value4A);
+                    arg0->value4C = (s32) var_r5->value;
+                }
+                break;
+            case 3:                                 /* switch 4 */
+                if ((var_r5->timer == 0) && ((s32) (arg0->limit5C - arg0->value4A) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
+                    sub_08022180(arg0->id + 4);
+                    arg0->value4A = (u16) (var_r5->value + arg0->value4A);
+                    arg0->value4C = (s32) var_r5->value;
+                    var_r1 = (s16 *)&arg0->status;
+                    var_r0 = 0xB;
+                    *var_r1 = (s16)var_r0; goto processed;
+                }
+                break;
+            }
+        }
+processed:
+        if (var_r5->timer != -2) {
+            var_r5->timer = (s16) ((u16) var_r5->timer - 1);
+        }
+    }
+    var_r6 += 1;
+    var_r5++;
+    if (var_r6 <= 7U) {
+        goto loop_5;
+    }
+}
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801C8F0);
+#endif
 #ifdef NONMATCHING
 void sub_0801CC10(u32 arg0, s32 arg1)
 {
@@ -1664,7 +1882,110 @@ break;
 return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D7AC);
+struct RescueD7ACSlot { s16 timer; u16 source, kind, value; u8 pad[0x20]; };
+struct RescueD7ACRecord { u8 pad0[0xc]; u16 state; u8 padE[0x26]; struct RescueD7ACSlot *slots; u8 pad38[0x30]; u8 team; u8 tail[0xe3]; };
+extern struct RescueD7ACRecord rescueD7ACRecords[] asm("gUnk_03003CE0");
+extern u32 rescueD7ACEntities asm("gUnk_030056F4");
+extern u32 rescueD7ACMask asm("gUnk_030056FC");
+void sub_0801D7AC(s32 source, s32 target, u32 kind, s32 value) {
+ struct RescueD7ACRecord *p;
+ u32 baseAddress = (u32)rescueD7ACRecords;
+ struct RescueD7ACSlot *slot, *slot5;
+ u32 i, j;
+ s32 found;
+ volatile u16 zero;
+ u32 subtype, mask;
+ u8 *entity;
+ p = (struct RescueD7ACRecord *)(baseAddress + source * 0x14c);
+ switch (p->state) {
+case 0:
+if (rescueD7ACRecords[target].team != p->team) return;
+if (kind != 7) return;
+if (source == target) return;
+found = 0;
+slot = rescueD7ACRecords[target].slots;
+for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -2 && slot->kind == 7 && slot->source == source) { slot->value = value; found = 1; break; }
+ }
+ if (!found) {
+ slot = rescueD7ACRecords[target].slots;
+ for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -1) { slot->source = source; slot->timer = -2; slot->kind = 7; slot->value = value; break; }
+ }
+ }
+break;
+case 2:
+if (kind != 7) return;
+if (rescueD7ACRecords[target].team != p->team) return;
+found = 0;
+slot = rescueD7ACRecords[target].slots;
+for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -2 && slot->kind == 7 && slot->source == source) { slot->value = value; found = 1; break; }
+ }
+ if (!found) {
+ slot = rescueD7ACRecords[target].slots;
+ for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -1) { slot->source = source; slot->timer = -2; slot->kind = 7; slot->value = value; break; }
+ }
+ }
+break;
+case 5:
+if (kind != 7) return;
+found = 0;
+if (rescueD7ACRecords[target].team != p->team) return;
+slot5 = rescueD7ACRecords[target].slots;
+for (i = 0; i < 8; i++, slot5++) {
+ if (slot5->timer == -2 && slot5->kind == 7 && slot5->source == source) { slot5->value = value; found = 1; break; }
+ }
+ if (!found) {
+ slot5 = rescueD7ACRecords[target].slots;
+ for (i = 0; i < 8; i++, slot5++) {
+ if (slot5->timer == -1) { slot5->source = source; slot5->timer = -2; slot5->kind = 7; slot5->value = value; break; }
+ }
+ }
+break;
+case 3:
+mask = 0xff;
+if ((kind & mask) == 4) {
+ subtype = (kind >> 8) & mask;
+ if (subtype <= 3) {
+ if (rescueD7ACRecords[target].team == p->team) return;
+ slot = rescueD7ACRecords[subtype].slots;
+ for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -1) { zero = 0; CpuSet(&zero, slot, 0x1000014); slot->source = source; slot->timer = 120; slot->kind = 4; slot->value = value; }
+ }
+ } else {
+ for (j = 0; j < 5; j++) {
+ if (rescueD7ACMask & (1 << j)) {
+ entity = (u8 *)(j * 0x2e0 + rescueD7ACEntities);
+ if (subtype == *(u16 *)(entity + 2)) {
+ slot = (struct RescueD7ACSlot *)(entity + 0x8c);
+ for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -1) { zero = 0; CpuSet(&zero, slot, 0x1000014); slot->source = source; slot->timer = 120; slot->kind = 4; slot->value = value; }
+ }
+ return;
+ }
+ }
+ }
+ }
+ return;
+} else if ((kind & 0xff) == 6) {
+found = 0;
+slot = rescueD7ACRecords[target].slots;
+for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -2 && slot->kind == 6 && slot->source == source) { slot->value = value; found = 1; break; }
+ }
+ if (!found) {
+ slot = rescueD7ACRecords[target].slots;
+ for (i = 0; i < 8; i++, slot++) {
+ if (slot->timer == -1) { slot->source = source; slot->timer = -2; slot->kind = 6; slot->value = value; break; }
+ }
+ }
+}
+break;
+}
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DB94);
 void sub_0801DD9C(void) {
     sub_0801E024(&gUnk_03003CE0[sub_080020F4()]);
