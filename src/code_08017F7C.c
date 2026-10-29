@@ -579,16 +579,14 @@ block_208:
                         switch (temp_r0_16) {       /* switch 4; irregular */
                         case 0x0:                   /* switch 4 */
                             T015L_sub_08077D04(arg0->f0, (s16) var_r2_3);
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, 0);
                             asm volatile("");
 block_179:
                             var_r6 = &stack.main.f0;
                             break;
                         case 0x1:                   /* switch 4 */
                             T015L_sub_0807854C(arg0->f0, (s16) var_r2_3);
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, 0);
                             asm volatile("");
                             goto block_179;
                         case 0x2:                   /* switch 4 */
