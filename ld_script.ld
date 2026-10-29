@@ -67,6 +67,8 @@ SECTIONS
         build/src/m4a_1_jump.o(.text);
         build/src/m4a_1_rest.o(.text);
         build/src/m4a_1_commands.o(.text);
+        build/src/m4a_1_port.o(.text);
+        build/src/m4a_1_engine.o(.text);
         build/src/m4a_1_mod.o(.text);
         build/src/m4a_1_abi.o(.text);
         build/src/m4a.o(.text);

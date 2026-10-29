@@ -36,7 +36,7 @@ file-scope register bindings describe the helper contract. This scratch r0
 is not an ordinary returned C value (the original epilogue uses r0 for lr).
 The 32-byte `m4a_1_jump` unit isolates those reservations, and
 `m4a_1_rest` resumes ordinary C allocation at 0x080B69D8. All moved ASM
-bodies are byte-for-byte unchanged; the four contiguous modules still
+bodies are byte-for-byte unchanged; the contiguous modules still
 cover exactly the original 3060-byte / 36-function interval.
 
 `sub_080B6A38` at 0x080B6A38 uses C with minimal assembly ABI
@@ -46,7 +46,7 @@ the original return address in r12, and the only assembly statement is
 `bx ip`, required to return through that nonstandard register. No algorithm,
 loads, stores, arithmetic or condition is written in assembly in this body.
 The register-ABI `m4a_1_commands` unit starts here; the ordinary C modulation
-helper is isolated in `m4a_1_mod` at 0x080B707C. All six contiguous units
+helper is isolated in `m4a_1_mod` at 0x080B707C. The contiguous units
 still cover the same original interval, with no additional inventory
 functions. Remaining original ASM bodies were only moved, unmodified.
 
@@ -68,11 +68,32 @@ keyShift and marks pitch flags 0x0C; every fetch, operation and store is C.
 
 `sub_080B6A44` also uses C with minimal `bx ip` ABI return glue: tempo (20 instruction bytes; 20 inventory bytes).
 
-The other 23 configured entries retain their original INCLUDE_ASM bodies.
+`sub_080B6AF8` also uses C with minimal `bx ip` ABI return glue: modulation_type (24 instruction bytes; 24 inventory bytes).
+
+`sub_080B6A6C` also uses C with minimal `bx ip` ABI return glue: voice (46 instruction bytes; 48 inventory bytes).
+
+`sub_080B6B24` uses C with minimal `bx ip` ABI return glue (24
+bytes). It obtains a hardware register offset and a validated stream byte,
+then performs a volatile byte write to SOUND1CNT_L plus that offset. It
+has its own `m4a_1_port` unit at 0x080B6B24; `m4a_1_engine` resumes the
+remaining original ASM at 0x080B6B3C. This isolates its volatile r0 address
+register. No ASM algorithm or raw opcode replaces the C write.
+
+`ply_lfos` uses C with minimal `bx ip` ABI return glue (18
+instruction bytes plus 2 alignment bytes). It assigns lfoSpeed and clears
+modulation when the new speed is zero. The algorithm and condition are C;
+the C identifier alias only reconciles the public ordinary prototype with
+the original register entry ABI.
+
+`ply_mod` uses C with minimal `bx ip` ABI return glue (18
+instruction bytes plus 2 alignment bytes). It assigns modulation depth and
+clears modulation when the depth is zero; condition and accesses are C.
+
+The other 18 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 268 bytes / 13 functions
-become decompiled; the remaining 2792 bytes / 23 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 404 bytes / 18 functions
+become decompiled; the remaining 2656 bytes / 18 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 

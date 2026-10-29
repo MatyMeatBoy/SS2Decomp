@@ -9,6 +9,7 @@ register u32 sdkSavedReturn asm("r12");
 register u32 sdkLink asm("lr");
 
 void sub_080B69AC(void);
+void sub_080B6992(void);
 
 /* C algorithm; the single asm instruction is the nonstandard ABI return. */
 void sub_080B6A38(void) __attribute__((naked));
@@ -45,7 +46,30 @@ void sub_080B6A58(void) {
  asm("bx ip");
 }
 
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", sub_080B6A6C);
+void sub_080B6A6C(void) __attribute__((naked));
+void sub_080B6A6C(void) {
+ struct SdkToneWords {u32 first; u32 wave; u32 envelope;};
+ sdkSavedReturn=sdkLink;
+ sdkTemp=(u32)sdkTrack->cmdPtr;
+ sdkValue=*(u8 *)sdkTemp;
+ sdkTemp+=1;
+ sdkTrack->cmdPtr=(u8 *)sdkTemp;
+ sdkTemp=sdkValue<<1;
+ sdkTemp+=sdkValue;
+ sdkTemp<<=2;
+ sdkValue=(u32)((struct MusicPlayerInfo *)sdkR0)->tone;
+ sdkTemp+=sdkValue;
+ sdkValue=*(u32 *)sdkTemp;
+ sub_080B6992();
+ ((struct SdkToneWords *)&sdkTrack->tone)->first=sdkValue;
+ sdkValue=*(u32 *)(sdkTemp+4);
+ sub_080B6992();
+ ((struct SdkToneWords *)&sdkTrack->tone)->wave=sdkValue;
+ sdkValue=*(u32 *)(sdkTemp+8);
+ sub_080B6992();
+ ((struct SdkToneWords *)&sdkTrack->tone)->envelope=sdkValue;
+ asm("bx ip");
+}
 
 void sub_080B6A9C(void) __attribute__((naked));
 void sub_080B6A9C(void) {
@@ -105,7 +129,20 @@ void sub_080B6AEC(void) {
  asm("bx ip");
 }
 
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", sub_080B6AF8);
+void sub_080B6AF8(void) __attribute__((naked));
+void sub_080B6AF8(void) {
+ sdkSavedReturn=sdkLink;
+ sub_080B69AC();
+ sdkR0=sdkTrack->modT;
+ if(sdkR0!=sdkValue) {
+  sdkTrack->modT=sdkValue;
+  sdkValue=sdkTrack->flags;
+  sdkTemp=15;
+  sdkValue|=sdkTemp;
+  sdkTrack->flags=sdkValue;
+ }
+ asm("bx ip");
+}
 
 void sub_080B6B10(void) __attribute__((naked));
 void sub_080B6B10(void) {
@@ -119,17 +156,3 @@ void sub_080B6B10(void) {
  sdkTrack->flags=sdkValue;
  asm("bx ip");
 }
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", sub_080B6B24);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", m4aSoundVSync);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", MPlayMain);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", sub_080B6DD0);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", TrackStop);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", ply_note);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_commands", ply_endtie);
