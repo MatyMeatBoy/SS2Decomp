@@ -5736,150 +5736,173 @@ block_28:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080815F4);
 #endif
-#ifdef NONMATCHING
 struct Icon82960 { u16 unk0; s16 unk2; u32 zero; u8 flag; u8 pad[7]; };
-struct Stat82960 { u16 unk0; s16 unk2; };
+struct Stat82960 { volatile u16 unk0; u16 unk2; };
 struct Manager82960 { u8 pad[0x74]; struct { s32 y; s32 pad; } entries[6]; };
 struct Record82960 { u16 names[5][31]; u16 items[6]; u16 pad; struct Stat82960 stats[3]; };
-void sub_08082960(struct Record82960 *record) {
-    s32 icon_count;
-    u32 i;
-    s32 drawn;
+void sub_08082960(struct Record82960 *arg0) {
+    s32 var_r4;
+    u32 var_r5;
+    u32 var_r6;
+    u32 first_byte;
     u32 stat_y;
-    struct Icon82960 icon;
-    u8 name[40];
-    s32 magnitude;
-    s32 magnitude2;
-    s32 magnitude3;
-    s32 item_offset;
-    s32 text_id;
-    s32 resource_id;
-    u16 *entry;
-    u16 *item;
-    struct Stat82960 *stat;
-    u16 ch;
-    u16 next_ch;
-    u16 kind;
-    u16 stat_kind;
-    u8 *heading;
-    u8 *name_start;
-    u8 *out;
+    s32 icon_x;
+    struct Icon82960 sp4;
+    u8 sp14[40];
+    s16 var_r0;
+    s32 var_r3;
+    s32 var_r3_2;
+    s32 var_r3_3;
+    s32 temp_r2;
+    s32 temp_r2_2;
+    s32 var_r0_2;
+    u32 work1;
 
-    if (record == 0) {
+    u16 temp_r0;
+    u16 temp_r0_2;
+    u16 temp_r0_3;
+    u16 temp_r0_4;
+    u8 *var_r2;
+
+    if (arg0 == 0) {
         return;
     }
-    heading = (u8 *)sub_08007290(0x1403EC) + 2;
-    sub_0801A3D0(heading, (u16) (0xF - ((u32) sub_0801A638(heading) >> 1)), 3);
-    out = name;
-    i = 0;
-    ch = record->names[gUnk_03003470][0];
-    *out = ch;
-    name_start = out;
-    if (*out != 0) {
+    temp_r2_2 = sub_08007290(0x1403EC);
+    var_r4 = temp_r2_2 + 2;
+    sub_0801A3D0(((u8 *)var_r4), (u16) (0xF - ((u32) sub_0801A638(((u8 *)var_r4)) >> 1)), 3);
+    var_r2 = sp14;
+    var_r5 = 0;
+    temp_r0 = arg0->names[gUnk_03003470][0];
+    *var_r2 = temp_r0;
+    first_byte = (u32)temp_r0 << 24;
+    asm("" : "+r"(first_byte));
+    var_r4 = (s32)var_r2;
+    if (first_byte != 0) {
         do {
-            i++;
-            out++;
-            if (i > 30) break;
-            next_ch = record->names[gUnk_03003470][i];
-            *out = next_ch;
-        } while (*out != 0);
+            var_r5++;
+            var_r2++;
+            if (var_r5 > 30) break;
+            temp_r0_2 = arg0->names[gUnk_03003470][var_r5];
+            *var_r2 = temp_r0_2;
+        } while (*var_r2 != 0);
     }
-    *out = 0xFD;
-    sub_0801A3D0(name_start, (u16) (0xF - ((u32) sub_0801A638(name_start) >> 1)), 0x12);
-    icon_count = 0;
-    i = 0;
-    item = record->items;
+    *var_r2 = 0xFD;
+    sub_0801A3D0(((u8 *)var_r4), (u16) (0xF - ((u32) sub_0801A638(((u8 *)var_r4)) >> 1)), 0x12);
+    var_r4 = 0;
+    var_r5 = 0;
+    var_r3 = 0x8000;
+    var_r2 = (u8 *)arg0->items;
     do {
-        if (!(0x8000 & *item)) {
-            icon_count += 1;
+        work1 = *(u16 *)var_r2;
+        var_r0_2 = var_r3 & work1;
+        asm("" : "+r"(work1), "+r"(var_r0_2));
+        if (!var_r0_2) {
+            var_r4 += 1;
         }
-        item += 1;
-        i += 1;
-    } while (i <= 5U);
-    icon.zero = 0;
-    icon.flag = 0;
-    drawn = 0;
-    i = 0;
+        var_r2 += 2;
+        var_r5 += 1;
+    } while (var_r5 <= 5U);
+    sp4.zero = 0;
+    sp4.flag = 0;
+    var_r6 = 0;
+    var_r5 = 0;
     do {
-        item_offset = i * 2;
-        if (!(0x8000 & record->items[i])) {
-            switch (i) {
-            case 0: icon.unk0 = 2; break;
-            case 2: icon.unk0 = 3; break;
-            case 1: icon.unk0 = 4; break;
-            case 3: icon.unk0 = 5; break;
-            case 4: icon.unk0 = 6; break;
-            case 5: icon.unk0 = 7; break;
+        temp_r2 = var_r5 * 2;
+        if (!(0x8000 & arg0->items[var_r5])) {
+            switch (var_r5) {
+            case 0: sp4.unk0 = 2; break;
+            case 2: sp4.unk0 = 3; break;
+            case 1: sp4.unk0 = 4; break;
+            case 3: sp4.unk0 = 5; break;
+            case 4: sp4.unk0 = 6; break;
+            case 5: sp4.unk0 = 7; break;
             }
-            icon.unk2 = (u16) record->items[i];
-            sub_0805FC80(0x80 + ((drawn * 0x10) - (icon_count * 8)), 0x38 - ((struct Manager82960 *)gUnk_03006440)->entries[i].y, &icon, 0);
-            drawn += 1;
+            sp4.unk2 = (u16) arg0->items[var_r5];
+            icon_x = (var_r6 * 0x10) + 0x80;
+            sub_0805FC80(icon_x - (var_r4 * 8), 0x38 - ((struct Manager82960 *)gUnk_03006440)->entries[var_r5].y, &sp4, 0);
+            var_r6 += 1;
         }
-        i += 1;
-    } while (i <= 5U);
-    stat = record->stats;
-    drawn = 0;
-    i = 0;
-    if (stat != NULL) {
-        entry = (u16 *)stat;
+        var_r5 += 1;
+    } while (var_r5 <= 5U);
+    var_r4 = (s32)arg0->stats;
+    var_r6 = 0;
+    var_r5 = 0;
+    if (((struct Stat82960 *)var_r4) != NULL) {
+        work1 = (u32)var_r4;
 loop_24:
-        kind = *entry;
-        if ((kind != 0) && (kind != 0x29)) {
-            drawn += 1;
+        temp_r0_3 = *(u16 *)work1;
+        if ((temp_r0_3 != 0) && (temp_r0_3 != 0x29)) {
+            var_r6 += 1;
         }
-        entry += 2;
-        i += 1;
-        if ((i <= 2U) && (stat != NULL)) {
+        work1 += 4;
+        var_r5 += 1;
+        if ((var_r5 <= 2U) && (((struct Stat82960 *)var_r4) != NULL)) {
             goto loop_24;
         }
-        i = 0;
-        if (stat != NULL) {
+        var_r5 = 0;
+        if (((struct Stat82960 *)var_r4) != NULL) {
+do {
 loop_30:
-            stat_kind = stat->unk0;
-            if ((stat_kind != 0) && (stat_kind != 0x29)) {
-                if (stat->unk2 & 0x8000) {
-                    resource_id = (stat->unk0 * 2) + 0x2C4;
+            temp_r0_4 = ((struct Stat82960 *)var_r4)->unk0;
+            if ((temp_r0_4 != 0) && (temp_r0_4 != 0x29)) {
+                var_r0_2 = ((struct Stat82960 *)var_r4)->unk2;
+                temp_r2_2 = 0x8000;
+                work1 = temp_r2_2;
+                asm("" : "+r"(temp_r2_2), "+&r"(work1));
+                if (var_r0_2 & work1) {
+                    var_r0_2 = ((struct Stat82960 *)var_r4)->unk0 * 2;
+                    var_r3 = 0x2C4;
+                    asm("" : "+r"(var_r3), "+r"(var_r0_2));
+                    var_r0_2 += var_r3;
                 } else {
-                    resource_id = (stat->unk0 * 2) + 0x2C3;
+                    var_r0_2 = ((struct Stat82960 *)var_r4)->unk0 * 2;
+                    work1 = 0x2C3;
+
+                    var_r0_2 += work1;
                 }
-                text_id = sub_08007290(resource_id | 0x140000);
-                switch (drawn) {                 /* switch 2; irregular */
+                work1 = 0x140000;
+                var_r0_2 |= work1;
+                temp_r2_2 = sub_08007290(var_r0_2);
+                switch (var_r6) {                 /* switch 2; irregular */
                 case 1:                             /* switch 2 */
-                    magnitude = (s16) stat->unk2;
-                    if ((s32) magnitude < 0) {
-                        magnitude = 0 - magnitude;
+                    var_r3 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3 < 0) {
+                        var_r3 = 0 - var_r3;
                     }
-                    sub_08081518(0xF, 0xBU, text_id, (u16) magnitude, drawn);
+                    sub_08081518(0xF, 0xBU, temp_r2_2, (u16) var_r3, var_r6);
                     break;
                 case 2:                             /* switch 2 */
-                    stat_y = (u32) ((i << 0x11) + 0xA0000) >> 0x10;
-                    magnitude2 = (s16) stat->unk2;
-                    if ((s32) magnitude2 < 0) {
-                        magnitude2 = 0 - magnitude2;
+                    stat_y = (u32) ((var_r5 << 0x11) + 0xA0000) >> 0x10;
+                    var_r3_2 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3_2 < 0) {
+                        var_r3_2 = 0 - var_r3_2;
                     }
-                    sub_08081518(0xF, stat_y, text_id, (u16) magnitude2, 1U);
+                    sub_08081518(0xF, stat_y, temp_r2_2, (u16) var_r3_2, 1U);
                     break;
                 case 3:                             /* switch 2 */
-                    stat_y = (u32) ((i << 0x11) + 0x90000) >> 0x10;
-                    magnitude3 = (s16) stat->unk2;
-                    if ((s32) magnitude3 < 0) {
-                        magnitude3 = 0 - magnitude3;
+                    stat_y = (u32) ((var_r5 << 0x11) + 0x90000) >> 0x10;
+                    var_r3_3 = (s16) ((struct Stat82960 *)var_r4)->unk2;
+                    if ((s32) var_r3_3 < 0) {
+                        var_r3_3 = 0 - var_r3_3;
                     }
-                    sub_08081518(0xF, stat_y, text_id, (u16) magnitude3, 1U);
+                    sub_08081518(0xF, stat_y, temp_r2_2, (u16) var_r3_3, 1U);
                     break;
                 }
             }
-            stat += 1;
-            i += 1;
-            if ((i <= 2U) && (stat != NULL)) {
+            } while (0);
+    var_r4 += 4;
+            var_r5 += 1;
+            if ((var_r5 <= 2U) && (((struct Stat82960 *)var_r4) != NULL)) {
                 goto loop_30;
             }
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082960);
-#endif
+
+
+
+
+
 #ifdef NONMATCHING
 union Config82BB0 { u32 word; u16 half[2]; };
 struct Stage82BB0 { u8 pad[0x1FA]; u16 value; };

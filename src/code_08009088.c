@@ -52,7 +52,6 @@ void sub_0800A298(u32 index)
     sys->header=map;}
     t06_updateA298();
 }
-#ifdef NONMATCHING
 extern s32 t06_musicA34C(u32) asm("sub_08058688");
 extern s32 t06_stopA34C(s32) asm("sub_080586B4");
 extern s32 t06_checkA34C(s32) asm("sub_08057AE8");
@@ -322,6 +321,8 @@ void sub_0800A34C(u32 music, s32 previous, s32 changed) {
                             return;
                         }
                         if (sub_08056E50() == 0) {
+                            /* Preserve the separate success edge in the original CFG. */
+                            asm volatile("" : : : "cc");
                             goto block_195;
                         }
                         else {
@@ -468,9 +469,6 @@ void sub_0800A34C(u32 music, s32 previous, s32 changed) {
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A34C);
-#endif
 #ifdef NONMATCHING
 struct T06PlayerA998 {u8 pad[0x8C];s32 x,y;u8 tail[0xB8];};
 struct T06SysA998 {
