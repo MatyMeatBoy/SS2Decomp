@@ -5862,7 +5862,78 @@ void sub_08013C3C(u8 *arg0) {
         p += 0x2E0;
     } while (i <= 4);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08013CEC);
+struct Box13CEC { u32 w:16; u32 h:16; };
+extern s32 test13CEC(s32 *, s32 *, struct Box13CEC *, struct Box13CEC *) asm("sub_08021FE0");
+extern s32 blk13CEC(s32 *) asm("sub_08057068");
+void sub_08013CEC(u8 *arg0)
+{
+    struct Box13CEC size;
+    struct Box13CEC box;
+    s32 *pos;
+    u8 *e;
+    u32 i;
+    u32 hit;
+    s32 busy;
+    *(u32 *)&size = 0x00100010;
+    if (*(u32 *)(arg0 + 0x30) & 0x20)
+        return;
+    busy = sub_0800CCCC();
+    pos = (s32 *)(arg0 + 0x8C);
+    if (busy == 0 && !(*(u32 *)(arg0 + 0x30) & 0x40000)) {
+        e = gUnk_030056F4;
+        i = 0;
+        do {
+            if (!(*(u32 *)&gUnk_030056FC & (1 << i)))
+                goto next;
+            if ((u16)(*(u16 *)(e + 0xC) - 0xB) <= 1)
+                goto next;
+            box.w = e[0x22E];
+            if (box.w == 0)
+                goto next;
+            box.h = e[0x22F];
+            if (test13CEC(pos, (s32 *)(e + 0x14), &size, &box) == 0)
+                goto next;
+            hit = 0;
+            switch (*(s16 *)(arg0 + 0x1C)) {
+            case 0:
+                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18)) hit = 1;
+                break;
+            case 1:
+                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 2:
+                if (*pos > *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 3:
+                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 4:
+                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18)) hit = 1;
+                break;
+            case 5:
+                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 6:
+                if (*pos < *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 7:
+                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            }
+            if (hit) {
+                *pos = *(s32 *)(arg0 + 0x94);
+                *(s32 *)(arg0 + 0x90) = *(s32 *)(arg0 + 0x98);
+            }
+        next:
+            i = (u16)(i + 1);
+            e += 0x2E0;
+        } while (i <= 4);
+    }
+    if (blk13CEC(pos)) {
+        *pos = *(s32 *)(arg0 + 0x94);
+        *(s32 *)(arg0 + 0x90) = *(s32 *)(arg0 + 0x98);
+    }
+}
 u16 sub_08013E90(s32 arg0, s32 *arg1, u16 arg2, s32 arg3, s32 arg4) {
     u32 flags;
     u16 dir;
