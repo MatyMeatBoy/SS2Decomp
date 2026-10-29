@@ -896,7 +896,6 @@ u32 sub_08008CC4(u32 arg0, u16 *arg1, u16 *arg2, u8 *arg3, u32 arg4)
     }
     return ret;
 }
-#ifdef NONMATCHING
 s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {
     u16 *state = (u16 *)arg1;
@@ -906,17 +905,20 @@ s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     u8 *sub;
     u16 index = arg0;
     u16 count;
-    u32 result = 0;
+    u32 result;
 
     count = *(u16 *)(data + 2);
     if (count < index)
         return 0;
 
-    entry = data + *(u32 *)(data + 8) + index * 12;
+    entry = data + *(u32 *)(data + 8);
+    entry += index * 12;
     if (*state & 0x8000)
         *state = *(u16 *)(entry + 4) - 1;
 
-    sub = entry + *(u32 *)(entry + 8) + *state * 4;
+    sub = entry + *(u32 *)(entry + 8);
+    sub += *state * 4;
+    result = 0;
     if (*step & 0x8000) {
         *state -= 1;
         *step = *(u16 *)(sub + 2) - 1;
@@ -934,9 +936,6 @@ s32 sub_08008D38(u16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     }
     return result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008D38);
-#endif
 struct AnimHeader005 { u16 unk0; u16 count; u32 unk4; u32 animsOffset; };
 struct Anim005 { u32 unk0; u16 numFrames; u16 unk6; u32 framesOffset; };
 struct AnimFrame005 { u16 unk0; u16 duration; };
