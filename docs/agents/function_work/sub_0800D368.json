@@ -1,7 +1,7 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-10-29T09:58:08.616906+00:00",
-  "checkpoint": "TEAM6 verified candidate336 (base 5e2aeba09a942bcada5eefc97926621d2c64fc26, root commit pending)",
+  "updated_utc": "2026-10-29T11:00:52.306473+00:00",
+  "checkpoint": "TEAM6 verified candidate374, base 9c0828ac96323e15b8ee51104f5be474e2ec9907 (root commit pending)",
   "areas": [
     {
       "id": "flow",
@@ -12,7 +12,7 @@
     {
       "id": "compile",
       "state": "done",
-      "evidence": "Candidate336 serial gates: compare0 ROM OK using original ASM; nonmatching0; check_tree0. ActualNMmodule normalized bytes+relocations==standalone336!=original24700/25180B,502calls originalorder.",
+      "evidence": "Candidate374 serial compare0 ROM OK using original ASM; nonmatching0; check_tree0. ActualNMmodule==standalone374!=original24724/25180B,502calls exactoriginalorder.",
       "label": "Borrador C89 compilable"
     },
     {
@@ -36,7 +36,7 @@
     {
       "id": "layout",
       "state": "active",
-      "evidence": "Checkpoint336 base5e2aeba09a942bcada5eefc97926621d2c64fc26; original ASM revision40a78cd. ActualNMmodule==336!=original24700/25180B,502calls originalorder. Prior315-329 verified changes retained: fourbyte-table accessorders,FD20limit snapshot,threeFFmask/LSL11packings,directmodeD/8packetargs,byte6ORR/STRBR1. New336 natural five-u32 arrayclear keeps STMIA+same sp128counter and changes generatedASM ONLY moving MOV R1,0 before actor+E4 address materialization, exactly originalD49C-D4B6 order. ROMOKoriginalASM/NM0/tree0. Direction330-335 rejected/private, detailedhand off. Full C match pending.",
+      "evidence": "Checkpoint358 base9c0828ac96323e15b8ee51104f5be474e2ec9907; preserves336 typed byte tables, word clearing, 502calls and earlier verified changes. New338-350 and354 fourteen typed animation-table lookups restore original base/index order, second-array ADD0x2C and separate selector tails1191C/118F0. New351 dead-state variable reuse restores100DE-100E2 fC-load-before-destinationSUB4E. New358 explicitsp130 lowbyte masks restoreMOVFF/AND/STR in states3/4; registersremainwrong. Individual private ASM deltas;352/353/355/356/357 rejectedexactpriorcandidate. ActualNMmodule==358!=original24724/25180B,502calls exactoriginalorder. ROMOKoriginalASM/NM0/tree0; full match pending. New366-368 nativeu32[83] owner-table word12 view restores original D4DE-D4F0/D76C-D77C/DD44-DD5E base-before-multiply/ADDbase30/pointerroles; actualNMmodule==368!=original24724/25180B,502calls exactorder; ROMOKoriginalASM/NM0/tree0.359-363 ramp variants and364/365 ownerpointerviews rejected/private; full matching pending. New369-371 four actor-u16 AND operand reorderings restore original adjacentLDRHorderF484/F486,F6A8/F6AA,E6D0/E6D2,E9BC/E9BE; deltaonly8loadinstructions. ActualNMmodule==371!=original24724/25180B,502calls exactorder; serialROMOKoriginalASM/NM0/tree0, full matching pending. New372/373 commute threeu16 sums to restore original record/effect operand read order. New374 byte-before-word OR pack restores original access order, OR/STRR0 and subsequent MOVR8/STR4C/ADD62; other registers remain wrong. Private375/376 rejected, not source. ActualNMmodule==374!=original24724/25180B,502calls exactorder; serialROMOKoriginalASM/NM0/tree0; full matching pending.",
       "label": "Pila, registros y orden de bloques"
     },
     {

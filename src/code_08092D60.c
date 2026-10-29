@@ -538,7 +538,287 @@ void sub_08094EE4(void)
         }
     }
 }
+#ifdef NONMATCHING
+struct Anim94 {u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24];};
+struct Ent94 {s32 x,y; u8 state,visible,index,delay; u16 timer,anim,frame,tick,result,pad;};
+struct Pos94 {s32 x,y;};
+struct Ent94 *f94_08001494(s32) asm("sub_08001494"); void f94_08001538(void *) asm("sub_08001538"); void f94_080003F0(void) asm("sub_080003F0");
+ void f94_08065158(struct Anim94 *,s32,s32,s32,s32) asm("sub_08065158");
+s32 f94_08065370(struct Anim94 *,u16,u16 *,u16 *,s32) asm("sub_08065370");
+void f94_080087AC(s32,s32,u16,u16,s32,void *,u32,u32,s32) asm("sub_080087AC");
+s32 f94_08097B6C(s32,s32,s32,s32,s32) asm("sub_08097B6C"); void f94_080979D8(s32,s32,s32,s32,struct Pos94 *) asm("sub_080979D8");
+void f94_08000AF0(u32,u32,u32) asm("sub_08000AF0"); void f94_0801AB50(s32) asm("sub_0801AB50"); s32 f94_0801AAE0(void) asm("sub_0801AAE0"); void f94_0801ABE8(s32) asm("sub_0801ABE8"); s32 f94_080021A8(void) asm("sub_080021A8"); void f94_0805865C(s32) asm("sub_0805865C"); void f94_0805867C(s32) asm("sub_0805867C");
+extern struct Pos94 v94_0851863C[] asm("gUnk_0851863C");
+
+void f94_08007870(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870"); void f94_08007974(s32,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
+void f94_0800903C(s32,s32,s32,s32,s32,void *) asm("sub_0800903C"); void f94_080009F8(s32,s32,s32) asm("sub_080009F8"); s16 f94_0800086C(void) asm("sub_0800086C"); void f94_080953F8(void) asm("sub_080953F8"); void f94_08095610(u8) asm("sub_08095610"); void f94_080586D0(s32) asm("sub_080586D0"); void f94_0800CC18(void) asm("sub_0800CC18"); void f94_0800CC68(void) asm("sub_0800CC68"); void f94_08098028(void) asm("sub_08098028");
+extern s16 v94_080B9704[] asm("gUnk_080B9704"); extern u16 v94_03002344 asm("gUnk_03002344");
+struct Global94 {u8 pad[0x3a];u16 field;}; extern struct Global94 v94_03001250 asm("gUnk_03001250");
+void sub_08094F3C(s8 arg0, s32 arg1) {
+    u32 sp0;
+    u8 *sp4;
+    u32 sp8;
+    u8 *spC;
+    u32 sp10;
+    s32 sp14;
+    struct Anim94 sp18;
+    struct Anim94 sp4C;
+    u16 sp80, sp82;
+    u16 sp84;
+    u16 sp86;
+    s32 sp88;
+    s32 sp8C;
+    u32 sp90;
+    s32 sp94;
+    u32 sp98;
+    s32 sp9C;
+    s32 spA0;
+    s32 spA4;
+    s32 spA8;
+    s16 var_r0_2;
+    s16 var_r0_3;
+    s16 var_r0_4;
+    s16 var_r0_5;
+    u32 var_r7;
+    s32 temp_r6;
+    s32 var_r0;
+    s32 var_r1;
+    s32 var_r8;
+    u16 temp_r7;
+    u16 temp_r7_2;
+    u16 var_r3;
+    u32 temp_r0_2;
+    u32 temp_r1;
+    u32 temp_r1_2;
+    u32 var_r2;
+    u8 temp_r0;
+    u8 temp_r0_3;
+
+    sp9C = (s32) (u8) (arg0 * 3);
+    sp0 = 1;
+    f94_08065158(&sp18, ((s32) ((arg1 << 0x18) + 0xFF000000) >> 0x18) + 0x5002C, 7, -1, sp0);
+    sp18.payload[7] = 0;
+    sp0 = 1;
+    f94_08065158(&sp4C, 0x50030, 8, -1, sp0);
+    sp4C.payload[8] = 1;
+    sp88 = 0x7800;
+    sp8C = 0x5000;
+    sp86 = 0;
+    sp84 = 0;
+    sp82 = 0;
+    sp80 = 0;
+    spA0 = 0;
+    sp90 = 0;
+    sp94 = 0x10;
+    sp98 = 0;
+    f94_0801AB50(6);
+loop_2:
+    if (f94_0801AAE0() == 0) {
+        f94_080003F0();
+        goto loop_2;
+    }
+    v94_03001250.field = 0x3400;
+    spA4 = 4;
+    spA8 = 0x30;
+    var_r8 = 7;
+    f94_0805865C(0x198);
+loop_4:
+    sp0 = sp98;
+    sp4 = NULL;
+    f94_0800903C(spA4, spA8, 1, sp94, sp0, sp4);
+    temp_r0 = spA0 + 2;
+    spA0 = (s32) temp_r0;
+    f94_08095610(temp_r0);
+    f94_080953F8();
+    f94_08000AF0(0x10U, sp18.fC + 0xE0, 1U);
+    sp0 = 1;
+    f94_08065370(&sp18, 0U, &sp80, &sp82, sp0);
+    temp_r0_2 = var_r8 - 1;
+    switch (temp_r0_2) {                            /* irregular */
+    case 6:
+        temp_r1 = sp90;
+        sp90 = (u32) (u16) (temp_r1 + 1);
+        if (temp_r1 > 0x78U) {
+            sp90 = 0;
+            var_r8 = 6;
+        }
+        var_r0 = sp88 >> 8;
+        var_r1 = sp8C >> 8;
+        var_r3 = sp80;
+        sp0 = 2;
+        sp4 = NULL;
+        sp8 = 2;
+block_40:
+        spC = &sp18.payload[0];
+        sp10 = sp18.f8;
+        sp14 = sp18.f0;
+        f94_08007974(var_r0, var_r1, 0, var_r3, sp0, sp4, sp8, spC, sp10, sp14);
+        break;
+    case 5:
+        if (4 & sp90) {
+            sp90 = 0;
+            if (sp94 != 0) {
+                sp94 = (s32) (u8) (sp94 - 1);
+            } else {
+                v94_03001250.field = sp90;
+                f94_080009F8(0, 0x8000, 1);
+                spA4 = 0;
+                spA8 = 0x24;
+                sp94 = 0;
+                sp98 = 0;
+                var_r8 = 5;
+            }
+        } else {
+            sp90 = (u32) (u16) (sp90 + 1);
+        }
+        var_r0 = sp88 >> 8;
+        var_r1 = sp8C >> 8;
+        var_r3 = sp80;
+        sp0 = 2;
+        sp4 = NULL;
+        sp8 = 2;
+        goto block_40;
+    case 4:
+        if ((u32) sp94 <= 9U) {
+            sp94 = (s32) (u8) (sp94 + 1);
+        }
+        if (!(4 & sp90)) {
+block_37:
+            sp90 = (u32) (u16) (sp90 + 1);
+        } else {
+            sp90 = 0;
+            if (sp98 <= 0xFU) {
+                sp98 = (u32) (u8) (sp98 + 1);
+            } else {
+                f94_0805865C(0x199);
+                var_r8 = 4;
+            }
+        }
+block_38:
+        var_r0 = sp88 >> 8;
+        var_r1 = sp8C >> 8;
+        var_r3 = sp80;
+        sp0 = 0;
+        sp4 = NULL;
+        var_r2 = 1;
+block_39:
+        sp8 = var_r2;
+        goto block_40;
+    case 3:
+        if ((u32) sp94 <= 0xFU) {
+            sp94 = (s32) (u8) (sp94 + 1);
+        }
+        if (sp90 > 0x78U) {
+            sp90 = 0;
+            sp94 = 0x10;
+            sp98 = 0x10;
+            var_r8 = 3;
+        } else {
+            sp90 = (u32) (u16) (sp90 + 1);
+        }
+        var_r0 = sp88 >> 8;
+        var_r1 = sp8C >> 8;
+        var_r3 = sp80;
+        var_r2 = 0;
+        sp0 = 0;
+        sp4 = NULL;
+        goto block_39;
+    case 2:
+        if (4 & sp90) {
+            sp90 = 0;
+            if (sp94 != 0) {
+                sp94 = (s32) (u8) (sp94 - 1);
+            } else {
+                var_r0_2 = (s16) (f94_0800086C() % 48);
+                if ((s32) var_r0_2 < 0) {
+                    var_r0_2 = 0 - var_r0_2;
+                }
+                temp_r7 = (var_r7 & 0xFFFF0000) | (u16) (((s32) (v94_080B9704[spA0 + 0x40] * var_r0_2) >> 8) + 0x78);
+                var_r0_3 = (s16) (f94_0800086C() % 48);
+                if ((s32) var_r0_3 < 0) {
+                    var_r0_3 = 0 - var_r0_3;
+                }
+                var_r7 = temp_r7 | ((((s32) (v94_080B9704[spA0] * var_r0_3) >> 8) + 0x50) << 0x10);
+                sp94 = 0x10;
+                var_r8 = 2;
+                f94_0805865C(0x19A);
+            }
+        } else {
+            goto block_37;
+        }
+        goto block_38;
+    case 1:
+        sp0 = 0;
+        temp_r6 = f94_08065370(&sp4C, 0U, &sp84, &sp86, sp0);
+        if (v94_03002344 & 1) {
+            f94_08000AF0(0x11U, sp4C.fC + 0x100, 1U);
+            sp0 = 0;
+            sp4 = &sp4C.payload[0];
+            sp8 = sp4C.f8;
+            spC = (u8 *) sp4C.f0;
+            f94_08007870(var_r7, (s32) var_r7 >> 0x10, 0, sp84, sp0, sp4, sp8, spC);
+        }
+        if (temp_r6 != 0) {
+            sp86 = 0;
+            sp84 = 0;
+            var_r0_4 = (s16) (f94_0800086C() % 48);
+            if ((s32) var_r0_4 < 0) {
+                var_r0_4 = 0 - var_r0_4;
+            }
+            temp_r7_2 = (var_r7 & 0xFFFF0000) | (u16) (((s32) (v94_080B9704[spA0 + 0x40] * var_r0_4) >> 8) + 0x78);
+            var_r0_5 = (s16) (f94_0800086C() % 48);
+            if ((s32) var_r0_5 < 0) {
+                var_r0_5 = 0 - var_r0_5;
+            }
+            var_r7 = temp_r7_2 | ((((s32) (v94_080B9704[spA0] * var_r0_5) >> 8) + 0x50) << 0x10);
+            temp_r0_3 = sp9C - 1;
+            sp9C = (s32) temp_r0_3;
+            if (temp_r0_3 != 0) {
+                f94_0805865C(0x19A);
+                goto block_50;
+            }
+            goto block_51;
+        }
+block_50:
+        if (sp9C == 0) {
+block_51:
+            var_r8 = 1;
+        }
+        break;
+    case 0:
+        temp_r1_2 = sp90;
+        sp90 = (u32) (u16) (temp_r1_2 + 1);
+        if (temp_r1_2 > 0x78U) {
+            var_r8 = 0;
+        }
+        break;
+    }
+    f94_080003F0();
+    if (f94_080021A8() == 1) {
+        var_r8 = 0;
+    }
+    if (var_r8 != 0) {
+        goto loop_4;
+    }
+    f94_0801ABE8(6);
+loop_60:
+    if (f94_0801AAE0() == 0) {
+        f94_080003F0();
+        goto loop_60;
+    }
+    f94_080586D0(3);
+    f94_0800CC18();
+    f94_0800CC68();
+    f94_08098028();
+    v94_03001250.field = 0;
+    sp0 = 0;
+    sp4 = NULL;
+    f94_0800903C(0, 0, 0, 0, sp0, sp4);
+    f94_080009F8(0xF00, 0x8000, 0);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094F3C);
+#endif
 struct AffineControl98 {u16 scaleX,scaleY,x,y,dx,dy;u8 angle;};
 extern struct AffineControl98 affine98 asm("gUnk_03000280");
 extern u16 affineRegs98[] asm("gUnk_03001250");
@@ -625,7 +905,285 @@ void sub_08095610(u8 v)
 {
     gUnk_03000280.b0C = v;
 }
+#ifdef NONMATCHING
+struct Anim956 {u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24];};
+struct Ent956 {s32 x,y; u8 state,visible,index,delay; u16 timer,anim,frame,tick,result,pad;};
+struct Pos956 {s32 x,y;};
+struct Ent956 *f956_08001494(s32) asm("sub_08001494"); void f956_08001538(void *) asm("sub_08001538"); void f956_080003F0(void) asm("sub_080003F0");
+ void f956_08065158(struct Anim956 *,s32,s32,s32,s32) asm("sub_08065158");
+s32 f956_08065370(struct Anim956 *,u16,u16 *,u16 *,s32) asm("sub_08065370");
+void f956_080087AC(s32,s32,u16,u16,s32,void *,u32,u32,s32) asm("sub_080087AC");
+s32 f956_08097B6C(s32,s32,s32,s32,s32) asm("sub_08097B6C"); void f956_080979D8(s32,s32,s32,s32,struct Pos956 *) asm("sub_080979D8");
+void f956_08000AF0(u32,u32,u32) asm("sub_08000AF0"); void f956_0801AB50(s32) asm("sub_0801AB50"); s32 f956_0801AAE0(void) asm("sub_0801AAE0"); void f956_0801ABE8(s32) asm("sub_0801ABE8"); s32 f956_080021A8(void) asm("sub_080021A8"); void f956_0805865C(s32) asm("sub_0805865C"); void f956_0805867C(s32) asm("sub_0805867C");
+extern struct Pos956 positions956[] asm("gUnk_0851863C");
+void sub_0809561C(u8 arg0) {
+    struct Anim956 sp14, second;
+    u16 frame2, tick2;
+    s32 sp7C;
+    struct Pos956 sp84;
+    s32 sp8C;
+    s32 sp90;
+    struct Anim956 *sp94;
+    u8 *sp98;
+    u16 *sp9C;
+    u16 *spA0;
+    s32 temp_r1;
+    s32 var_r0_3;
+    s32 var_sl;
+    s8 temp_r0_2;
+    s8 temp_r1_3;
+    s8 temp_r1_7;
+    s8 temp_r2;
+    s8 temp_r2_2;
+    s8 temp_r4_2;
+    s8 temp_r5;
+    s8 var_r5;
+    s8 var_r5_2;
+    struct Ent956 *temp_r0_3;
+    struct Ent956 *temp_r0_6;
+    struct Ent956 *temp_r1_4;
+    struct Ent956 *temp_r1_6;
+    struct Ent956 *temp_r1_8;
+    struct Ent956 *temp_r2_3;
+    struct Ent956 *temp_r3;
+    struct Ent956 *temp_r4_3;
+    struct Ent956 *temp_r4_4;
+    struct Ent956 *temp_r6;
+    struct Ent956 *temp_r7;
+    struct Ent956 *var_r1_2;
+    struct Pos956 *temp_r4;
+    u16 temp_r0_7;
+    u16 temp_r0_8;
+    u16 temp_r0_9;
+    u16 temp_r2_4;
+    u16 var_r0;
+    u32 temp_r0_5;
+    u32 var_r5_3;
+    u8 temp_r0_10;
+    u8 temp_r0_11;
+    u8 temp_r0_4;
+    u8 temp_r1_2;
+    u8 temp_r1_5;
+    u8 var_r0_2;
+    u8 var_r1;
+
+    var_r1 = arg0;
+    if ((s32) (s8) arg0 > 0x14) {
+        var_r1 = 0x14;
+    }
+    temp_r1 = var_r1 << 0x18;
+    sp94 = &second;
+    spA0 = &tick2;
+    sp9C = &frame2;
+    sp98 = second.payload;
+    do {
+        temp_r7 = f956_08001494((s8) var_r1 * 0x18);
+        f956_080003F0();
+    } while (temp_r7 == NULL);
+    sp7C = 0;
+    temp_r0_2 = (s8) var_r1;
+    CpuSet(&sp7C, temp_r7, ((temp_r0_2 * 6) & 0x1FFFFF) | 0x05000000);
+    f956_08065158(&sp14, 0x50046, 7, -1, 1);
+    f956_08065158(sp94, 0x50047, 0, -1, 1);
+    sp14.payload[7] = 0;
+    sp94->payload[0] = 1;
+    f956_08000AF0(0x10U, sp14.fC + 0xE0, 1U);
+    f956_08000AF0(0x11U, sp94->fC, 1U);
+    var_r5 = 0;
+    if ((s32) temp_r0_2 > 0) {
+        do {
+            temp_r1_3 = var_r5;
+            temp_r0_3 = &temp_r7[temp_r1_3];
+            temp_r0_3->x = -0x2000;
+            temp_r0_3->y = 0xA000;
+            temp_r0_3->visible = 1;
+            temp_r1_2 = temp_r1_3 + 1;
+            var_r5 = (s8) temp_r1_2;
+        } while ((s32) (s8) temp_r1_2 < (s32) temp_r0_2);
+    }
+    sp8C = 0;
+    *spA0 = 0;
+    *sp9C = sp8C;
+    temp_r7->state = 1;
+    temp_r7->delay = 0x1E;
+    f956_0801AB50(6);
+loop_9:
+    if (f956_0801AAE0() == 0) {
+        f956_080003F0();
+        goto loop_9;
+    }
+loop_10:
+    sp90 = 0;
+    var_r5_2 = 0;
+    var_sl = 0;
+    if (temp_r1 <= 0) {
+
+    } else {
+loop_12:
+        temp_r2 = var_r5_2;
+        temp_r3 = &temp_r7[temp_r2];
+        temp_r0_4 = temp_r3->delay;
+        if (temp_r0_4 != 0) {
+            temp_r3->delay = temp_r0_4 - 1;
+        } else if (((s32) ((s8) var_r1 - 1) > (s32) temp_r2) && (temp_r3->state != 0)) {
+            temp_r1_4 = temp_r3 + 0x18;
+            if (temp_r1_4->state == 0) {
+                temp_r1_4->state = 1;
+                temp_r1_4->delay = 0x1E;
+            }
+        }
+        temp_r0_5 = temp_r7[var_r5_2].state - 1;
+        switch (temp_r0_5) {                        /* irregular */
+        case 0:
+            temp_r2_2 = var_r5_2;
+            temp_r6 = &temp_r7[temp_r2_2];
+            temp_r4 = &positions956[temp_r2_2];
+            if (f956_08097B6C(temp_r6->x, temp_r6->y, temp_r4->x, temp_r4->y, 2) != 0) {
+                temp_r6->anim = 2;
+                temp_r6->tick = 0;
+                temp_r6->frame = 0;
+                temp_r6->state = 2;
+            } else {
+                f956_080979D8(temp_r6->x, temp_r6->y, temp_r4->x, temp_r4->y, &sp84);
+                temp_r6->x += sp84.x;
+                temp_r6->y += sp84.y;
+            }
+            break;
+        case 1:
+            temp_r4_2 = var_r5_2;
+            if (temp_r4_2 == 0) {
+                temp_r1_5 = temp_r7->index;
+                if ((u32) temp_r1_5 <= 3U) {
+                    if (1 & temp_r1_5) {
+                        var_r0 = 3;
+                    } else {
+                        var_r0 = 2;
+                    }
+                    temp_r7->anim = var_r0;
+                    temp_r1_6 = &temp_r7[var_r5_2];
+                    temp_r1_6->index += 1;
+                } else {
+                    sp8C = 1;
+                    f956_0805865C(0x18A);
+                    temp_r7->timer = (u16) temp_r4_2;
+                    temp_r7->anim = sp8C;
+                    temp_r7->tick = (u16) temp_r4_2;
+                    temp_r7->frame = (u16) temp_r4_2;
+                    temp_r7->state = 3;
+                }
+            } else {
+                temp_r0_6 = &temp_r7[temp_r4_2];
+                temp_r0_6->timer = 0;
+                temp_r0_6->anim = 1;
+                temp_r0_6->tick = 0;
+                temp_r0_6->frame = 0;
+                temp_r0_6->state = 3;
+            }
+            break;
+        case 3:
+            temp_r2_3 = &temp_r7[var_r5_2];
+            temp_r0_7 = temp_r2_3->timer;
+            if ((u32) temp_r0_7 <= 0x77U) {
+                temp_r2_3->timer = temp_r0_7 + 1;
+            } else {
+                temp_r2_3->timer = 0;
+                temp_r2_3->anim = 2;
+                temp_r2_3->tick = 0;
+                temp_r2_3->frame = 0;
+                temp_r2_3->state = 5;
+            }
+            break;
+        case 4:
+            temp_r4_3 = &temp_r7[var_r5_2];
+            temp_r0_8 = temp_r4_3->timer;
+            if ((u32) temp_r0_8 <= 0x1DU) {
+                temp_r4_3->timer = temp_r0_8 + 1;
+            } else {
+                f956_0805865C(0x18B);
+                temp_r4_3->visible = 0;
+                temp_r4_3->result = 0;
+                temp_r4_3->anim = 7;
+                temp_r4_3->tick = 0;
+                temp_r4_3->frame = 0;
+                temp_r4_3->state = 6;
+            }
+            break;
+        case 5:
+            var_r1_2 = &temp_r7[var_r5_2];
+            temp_r2_4 = var_r1_2->result;
+            if (temp_r2_4 == 1) {
+                var_r1_2->timer = 0;
+                var_r1_2->visible = (u8) temp_r2_4;
+                var_r1_2->anim = temp_r2_4;
+                var_r1_2->tick = 0;
+                var_r1_2->frame = 0;
+                var_r0_2 = 7;
+block_43:
+                var_r1_2->state = var_r0_2;
+            }
+            break;
+        case 6:
+            var_r1_2 = &temp_r7[var_r5_2];
+            temp_r0_9 = var_r1_2->timer;
+            if ((u32) temp_r0_9 <= 0x59U) {
+                var_r1_2->timer = temp_r0_9 + 1;
+            } else {
+                var_r0_2 = 8;
+                goto block_43;
+            }
+            break;
+        }
+        temp_r0_10 = temp_r7[var_r5_2].state;
+        if (((u32) temp_r0_10 <= 3U) && (temp_r0_10 != 3)) {
+            sp90 = 1;
+        }
+        temp_r1_7 = var_r5_2;
+        if (temp_r7[temp_r1_7].state != 8) {
+            var_sl = 1;
+        }
+        temp_r0_11 = temp_r1_7 + 1;
+        var_r5_2 = (s8) temp_r0_11;
+        if ((s32) (temp_r0_11 << 0x18) < temp_r1) {
+            goto loop_12;
+        }
+    }
+    var_r5_3 = (u32) (temp_r1 + 0xFF000000) >> 0x18;
+    var_r0_3 = var_r5_3 << 0x18;
+    if (var_r0_3 >= 0) {
+        do {
+            temp_r1_8 = &temp_r7[var_r0_3 >> 0x18];
+            if (((u32) temp_r1_8->state <= 3U) && (sp90 == 0)) {
+                temp_r1_8->state = 4;
+            }
+            temp_r5 = (s8) var_r5_3;
+            temp_r4_4 = &temp_r7[temp_r5];
+            temp_r4_4->result = (u16) f956_08065370(&sp14, temp_r4_4->anim, &temp_r4_4->frame, &temp_r4_4->tick,  temp_r4_4->visible);
+            f956_080087AC((s32) temp_r4_4->x >> 8, (s32) temp_r4_4->y >> 8, temp_r4_4->anim, temp_r4_4->frame, 0, &sp14.payload[0], sp14.f8, sp14.f0, 0);
+            var_r5_3 = (u32) (u8) (temp_r5 - 1);
+            var_r0_3 = var_r5_3 << 0x18;
+        } while (var_r0_3 >= 0);
+    }
+    f956_08065370(sp94, (u16) sp8C, sp9C, spA0, 1);
+    f956_080087AC(0x20, 0x28, (u16) sp8C, *sp9C, 0, sp98, sp94->f8, second.f0, 0);
+    f956_080003F0();
+    if (f956_080021A8() == 1) {
+        var_sl = 0;
+    }
+    if (var_sl != 0) {
+        goto loop_10;
+    }
+    f956_0801ABE8(6);
+loop_63:
+    if (f956_0801AAE0() == 0) {
+        f956_080003F0();
+        goto loop_63;
+    }
+    f956_0805867C(0x18A);
+    f956_08001538(temp_r7);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809561C);
+#endif
 void sub_08095A60(void) {
     sub_08000A34(1, 0, 0, 0, 0);
     sub_080009F8(0xF00, 0, 0);
