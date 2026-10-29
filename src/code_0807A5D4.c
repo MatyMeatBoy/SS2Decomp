@@ -4001,196 +4001,199 @@ block_1051:
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C29C);
 #endif
 #ifdef NONMATCHING
-// Inventory drawing pass. The assembly remains the default until this draft
-// has been matched against the original ARM7 code.
 extern void sub_0805FC80(s32 x, s32 y, void *item, s32 mode);
 extern void sub_0805FAC0(s32 x, s32 y, s32 count, s32 mode);
 extern u32 sub_0805AE34(const u8 *item);
-extern s16 gUnk_084ECBB0[];
-extern s16 gUnk_084ECBB2[];
-extern s16 gUnk_084ECBBC[];
-
-#define SET_ITEM_DRAW_MODE(item, normalMode, outMode) \
-    do { \
-        u32 _ready = 1; \
-        switch (*(u16 *)(item)) { \
-        case 2: _ready = sub_0805AE34(item); break; \
-        case 3: _ready = sub_0805D278(item); break; \
-        case 4: _ready = sub_0805D210(item); break; \
-        case 5: _ready = sub_0805D2E0(item); break; \
-        } \
-        (outMode) = _ready == 0 ? (normalMode) + 2 : (normalMode); \
-    } while (0)
-
+struct XY0A78 { s16 x; s16 y; };
+extern struct XY0A78 gB0_0A78[] asm("gUnk_084ECBB0");
+extern struct XY0A78 gB2_0A78[] asm("gUnk_084ECBB2");
+extern struct XY0A78 gBC_0A78[] asm("gUnk_084ECBBC");
+extern u8 *gI_0A78 asm("gUnk_030034E0");
+extern u8 *gM_0A78 asm("gUnk_03006440");
+#define I8(o) (gI_0A78 + (o))
+#define ID0A78(i) (((struct { u8 pad[0x56]; u16 a[1]; } *)gI_0A78)->a[i])
+#define M32(o) (*(s32 *)(gM_0A78 + (o)))
+#define MODE0A78(item, m) \
+    switch (*(u16 *)(item)) { \
+    case 2: if (sub_0805AE34(item) == 0) m = 10; break; \
+    case 3: if (sub_0805D278(item) == 0) m = 10; break; \
+    case 4: if (sub_0805D210(item) == 0) m = 10; break; \
+    case 5: if (sub_0805D2E0(item) == 0) m = 10; break; \
+    }
 void sub_08080A78(void)
 {
-    u8 *inventory = (u8 *)gUnk_030034E0;
-    u8 *manager = (u8 *)gUnk_03006440;
-    u16 fallbackItem[2];
+    u8 *item;
     u32 i;
+    s32 mode;
+    u32 end;
+    u32 next;
+    struct XY0A78 *t;
+    u16 buf[6];
+    u32 s;
 
-    for (i = 0; i <= 0x18; i++) {
-        u8 *item = inventory + 0x150 + i * 0x10;
-        u32 mode;
-        u32 selected = *(u32 *)(manager + 0x1C) == 0 &&
-                       *(u32 *)(manager + 0x20) == i;
-
-        SET_ITEM_DRAW_MODE(item, 8, mode);
-        if (!selected || (gUnk_03002344 & 1))
-            sub_0805FC80((i % 5) * 0x10 + 0x58,
-                         (i / 5) * 0x10 + 0x20, item, mode);
-    }
-
-    i = *(u16 *)(inventory + 0x68) / 3;
-    {
-        u32 first = i * 3;
-        u8 *item = inventory + 0x70 + first * 0x10;
-        u32 slot;
-
-        for (slot = 0; slot < 3; slot++, item += 0x10) {
-            u32 index = first + slot;
-            u32 mode;
-            s16 x = gUnk_084ECBBC[slot * 2];
-            s16 y = gUnk_084ECBBC[slot * 2 + 1];
-
-            SET_ITEM_DRAW_MODE(item, 8, mode);
-            if (*(u32 *)(manager + 0x1C) == 1 &&
-                *(u32 *)(manager + 0x20) == index) {
-                if (gUnk_03002344 & 1)
-                    sub_0805FC80(x + 0x38, y + 0x10, item, mode);
-            } else if (*(u16 *)(inventory + 0x68) == index) {
-                sub_0805FC80(x + 0x38,
-                             y - (*(s32 *)(manager + 0x74) - 0x10), item, mode);
-            } else {
-                sub_0805FC80(x + 0x38, y + 0x10, item, mode);
-            }
+    item = I8(0x150);
+    for (i = 0; i <= 0x18; i++, item += 0x10) {
+        mode = 8;
+        MODE0A78(item, mode);
+        if (M32(0x1C) == 0 && M32(0x20) == i) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80((i % 5) * 16 + 0x58, (i / 5) * 16 + 0x20, item, mode);
+        } else {
+            sub_0805FC80((i % 5) * 16 + 0x58, (i / 5) * 16 + 0x20, item, mode);
         }
     }
 
-    if (*(u32 *)manager != 5) {
-        u8 *item = inventory + 0x100;
-        u32 mode;
-        s32 y = 0x30 - *(s32 *)(manager + 0x7C);
-
-        SET_ITEM_DRAW_MODE(item, 0, mode);
-        if (*(u32 *)(manager + 0x1C) != 2 || (gUnk_03002344 & 1))
-            sub_0805FC80(0x40, *(u32 *)(manager + 0x1C) == 2 ? 0x30 : y,
-                         item, mode);
-
-        item = inventory + 0x120;
-        SET_ITEM_DRAW_MODE(item, 0, mode);
-        y = 0x60 - *(s32 *)(manager + 0x8C);
-        if (*(u32 *)(manager + 0x1C) != 3 || (gUnk_03002344 & 1))
-            sub_0805FC80(0x3C, *(u32 *)(manager + 0x1C) == 3 ? 0x60 : y,
-                         item, mode);
-
-        item = inventory + 0x110;
-        SET_ITEM_DRAW_MODE(item, 0, mode);
-        y = 0x48 - *(s32 *)(manager + 0x84);
-        sub_0805FC80(0x40, y, item, mode);
-
-        if (*(u32 *)(manager + 0x1C) != 5 || (gUnk_03002344 & 1))
-            sub_0805FC80(0x0C, 0x40 - *(s32 *)(manager + 0x9C), inventory + 0x130, 8);
-        if (*(u32 *)(manager + 0x1C) != 6 || (gUnk_03002344 & 1))
-            sub_0805FC80(0x10, 0x60 - *(s32 *)(manager + 0x94), inventory + 0x140, 8);
+    s = (u16)(*(u16 *)I8(0x68) / 3) * 3;
+    end = s + 3;
+    item = I8(s * 16 + 0x70);
+    i = s;
+    if (i < end) {
+    t = gBC_0A78;
+    do {
+        mode = 8;
+        if (sub_0805AE34(item) == 0)
+            mode = 10;
+        if (M32(0x1C) == 1 && M32(0x20) == i) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80(t->x + 0x38, t->y + 0x10, item, mode);
+        } else if (*(u16 *)I8(0x68) == i) {
+            sub_0805FC80(t->x + 0x38, t->y - (s32)(M32(0x74) - 0x10), item, mode);
+        } else {
+            sub_0805FC80(t->x + 0x38, t->y + 0x10, item, mode);
+        }
+        t++;
+        i++;
+        item += 0x10;
+    } while (i < end);
     }
 
-    if (*(u32 *)manager == 2) {
-        u32 first = (*(u16 *)(inventory + 0x54) / 3) * 3;
-        for (i = first; i < first + 3; i++) {
-            u16 itemId = *(u16 *)(inventory + 0x56 + i * 2);
-            s32 found;
-            u8 *item;
-            u32 count = 0;
+    if (M32(0) != 5) {
+        item = I8(0x100);
+        mode = 0;
+        if (sub_0805D210(item) == 0)
+            mode = 2;
+        if (M32(0x1C) == 2) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80(0x40, 0x30, item, mode);
+        } else {
+            sub_0805FC80(0x40, 0x30 - M32(0x7C), item, mode);
+        }
+        item = I8(0x120);
+        mode = 0;
+        if (sub_0805D2E0(item) == 0)
+            mode = 2;
+        if (M32(0x1C) == 3) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80(0x3C, 0x60, item, mode);
+        } else {
+            sub_0805FC80(0x3C, 0x60 - M32(0x8C), item, mode);
+        }
+        item = I8(0x110);
+        mode = 0;
+        if (sub_0805D278(item) == 0)
+            mode = 2;
+        if (M32(0x1C) == 4) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80(0x40, 0x48 - M32(0x84), item, mode);
+        } else {
+            sub_0805FC80(0x40, 0x48 - M32(0x84), item, mode);
+        }
+        if (M32(0x1C) == 5) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80(0xC, 0x40 - M32(0x9C), I8(0x130), 8);
+        } else {
+            sub_0805FC80(0xC, 0x40 - M32(0x9C), I8(0x130), 8);
+        }
+        if (M32(0x1C) == 6) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80(0x10, 0x60 - M32(0x94), I8(0x140), 8);
+        } else {
+            sub_0805FC80(0x10, 0x60 - M32(0x94), I8(0x140), 8);
+        }
+    }
 
-            if (itemId == 0)
+    if (M32(0) == 2) {
+        s = (u16)(*(u16 *)I8(0x54) / 3) * 3;
+        end = s + 3;
+        for (i = s; i < end; i = next) {
+            u32 count;
+            s32 k;
+            next = i + 1;
+            if (ID0A78(i) == 0)
                 continue;
-            found = sub_0805D548(itemId - 1);
-            if (found >= 0) {
-                u8 *candidate = inventory + 0x150;
+            k = sub_0805D548(ID0A78(i) - 1);
+            if (k != -1) {
+                u8 *p;
                 u32 j;
-                item = inventory + 0x150 + found * 0x10;
-                for (j = 0; j <= 0x18; j++, candidate += 0x10) {
-                    if (*(u16 *)candidate == 1 &&
-                        *(u16 *)(candidate + 2) == *(u16 *)(item + 2))
+                item = I8(k * 16 + 0x150);
+                count = 0;
+                p = I8(0x150);
+                for (j = 0; j <= 0x18; j++, p += 0x10) {
+                    if (*(u16 *)p == 1 && *(u16 *)(item + 2) == *(u16 *)(p + 2))
                         count++;
                 }
             } else {
-                fallbackItem[0] = 1;
-                fallbackItem[1] = itemId - 1;
-                item = (u8 *)fallbackItem;
+                count = 0;
+                item = (u8 *)buf;
+                buf[0] = 1;
+                buf[1] = ID0A78(i) - 1;
             }
-            sub_0805FAC0(gUnk_084ECBB0[(2 - (i - first)) * 2] + 0xB8,
-                         gUnk_084ECBB2[(2 - (i - first)) * 2] + 0x18,
-                         count, 0);
-            sub_0805FC80(gUnk_084ECBB0[(2 - (i - first)) * 2] + 0xB8,
-                         gUnk_084ECBB2[(2 - (i - first)) * 2] + 0x10,
-                         item, 0);
+            sub_0805FAC0(gB0_0A78[end - next].x + 0xB8, gB2_0A78[end - next].x + 0x18, count, 0);
+            sub_0805FC80(gB0_0A78[end - next].x + 0xB8, gB2_0A78[end - next].x + 0x10, item, 0);
         }
     }
 
-    switch (*(u32 *)manager) {
-    case 3:
+    if (M32(0) == 3) {
         for (i = 0; i <= 0xB; i++) {
-            u8 *item = manager + 0x104 + i * 0x10;
-            u32 mode;
-            SET_ITEM_DRAW_MODE(item, 8, mode);
-            if (*(u32 *)(manager + 0x1C) == 0xB &&
-                *(u32 *)(manager + 0x20) == i) {
+            item = gM_0A78 + i * 16 + 0x104;
+            mode = 8;
+            MODE0A78(item, mode);
+            if (M32(0x1C) == 0xB && M32(0x20) == i) {
                 if (gUnk_03002344 & 1)
-                    sub_0805FC80((i % 3) * 0x10 + 0xB8,
-                                 (i / 3) * 0x10 + 0xB8, item, mode);
+                    sub_0805FC80((i % 3) * 16 + 0xB8, (i / 3) * 16 + 0xB8, item, mode);
             } else {
-                sub_0805FC80((i % 3) * 0x10 + 0xB8,
-                             (i / 3) * 0x10 + 0x20, item, mode);
+                sub_0805FC80((i % 3) * 16 + 0xB8, (i / 3) * 16 + 0x20, item, mode);
             }
         }
-        return;
-    case 4: {
-        u8 *item = manager + (*(u32 *)(manager + 0x44) * 0xF0) + 0x104;
+    } else if (M32(0) == 4) {
+        item = gM_0A78 + M32(0x44) * 0xF0 + 0x104;
         for (i = 0; i <= 0xE; i++, item += 0x10) {
-            u32 mode;
-            SET_ITEM_DRAW_MODE(item, 8, mode);
-            if (*(u32 *)(manager + 0x1C) == 0xD &&
-                *(u32 *)(manager + 0x20) == i) {
+            mode = 8;
+            MODE0A78(item, mode);
+            if (M32(0x1C) == 0xD && M32(0x20) == i) {
                 if (gUnk_03002344 & 1)
-                    sub_0805FC80((i % 3) * 0x10 + 0xB8,
-                                 (i / 3) * 0x10 + 0x20, item, mode);
+                    sub_0805FC80((i % 3) * 16 + 0xB8, (i / 3) * 16 + 0x20, item, mode);
             } else {
-                sub_0805FC80((i % 3) * 0x10 + 0xB8,
-                             (i / 3) * 0x10 + 0x20, item, mode);
+                sub_0805FC80((i % 3) * 16 + 0xB8, (i / 3) * 16 + 0x20, item, mode);
             }
         }
-        return;
-    }
-    case 6: {
-        u8 *item = manager + 0x104;
+    } else if (M32(0) == 6) {
+        item = gM_0A78 + 0x104;
         for (i = 0; i <= 2; i++, item += 0x10) {
-            u32 mode;
-            SET_ITEM_DRAW_MODE(item, 8, mode);
-            if (*(u32 *)(manager + 0x1C) != 0x10 ||
-                *(u32 *)(manager + 0x20) != i ||
-                (gUnk_03002344 & 1))
-                sub_0805FC80((i % 3) * 0x10 + 0xB8, 0x30, item, mode);
-        }
-        item = manager + 0x134;
-        {
-            u32 mode;
-            s32 y = *(s32 *)(manager + 0x54) + 0x60;
-            SET_ITEM_DRAW_MODE(item, 8, mode);
-            if (*(u32 *)(manager + 0x1C) == 0x11) {
+            mode = 8;
+            MODE0A78(item, mode);
+            if (M32(0x1C) == 0x10 && M32(0x20) == i) {
                 if (gUnk_03002344 & 1)
-                    sub_0805FC80(0xC8, y, item, mode);
+                    sub_0805FC80((i % 3) * 16 + 0xB8, 0x30, item, mode);
             } else {
-                y += gUnk_080B9704[manager[0x5C]] >> 5;
-                sub_0805FC80(0xC8, y, item, mode);
+                sub_0805FC80((i % 3) * 16 + 0xB8, 0x30, item, mode);
             }
         }
-        return;
-    }
+        mode = 8;
+        item = gM_0A78 + 0x134;
+        MODE0A78(item, mode);
+        if (M32(0x1C) == 0x11) {
+            if (gUnk_03002344 & 1)
+                sub_0805FC80(0xC8, M32(0x54) + 0x60, item, mode);
+        } else {
+            sub_0805FC80(0xC8, (gUnk_080B9704[M32(0x5C)] >> 5) + M32(0x54) + 0x60, item, mode);
+        }
     }
 }
-#undef SET_ITEM_DRAW_MODE
+#undef MODE0A78
+#undef I8
+#undef M32
+#undef ID0A78
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08080A78);
 #endif
