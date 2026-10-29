@@ -3498,7 +3498,29 @@ void sub_080523D8(s32 arg0)
         break;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0805247C);
+extern void t53_cb247C(void) asm("sub_080567D4");
+extern void t53_cbReq247C(void) asm("sub_0805A2E4");
+void sub_0805247C(void)
+{
+    register u32 one asm("r4");
+    if (sub_0800CE30()) t53_gs2060[0x1C1] = 0;
+    else t53_gs2060[0x1B5] = 0;
+    t53_start2060(t53_cb247C, 3);
+    t53_start2060(t53_cb247C, 4);
+    t53_start2060(t53_cb247C, 5);
+    one = 1;
+    {register u8 *p asm("r1"); if(sub_0800CE30())p=t53_gs2060+0x1C4; else p=t53_gs2060+0x1B8;
+    {register s32 value asm("r1") = *p; if ((value>>4)&one) sub_08028AAC(9, 9999, 9999, 0);
+    else t53_request2060(t53_cbReq247C, 0, 9);}}
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
 static inline u32 t53_test3060(u8 *ptr, u32 mask)
 { return *(u32 *)(ptr + 0x38) & mask; }
 static inline u32 t53_open37DC(u32 id, u32 bit)
