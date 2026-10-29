@@ -8408,11 +8408,9 @@ digraph calls {
   "sub_08068A00" -> "sub_08068F9C" [label="asm,c"];
   "sub_08068A00" -> "sub_080694AC" [label="asm,c"];
   "sub_08068A00" -> "sub_08069A30" [label="asm,c"];
-  "sub_08068F9C" -> "Sqrt" [label="asm"];
-  "sub_08068F9C" -> "__udivsi3" [label="asm"];
-  "sub_08068F9C" -> "__umodsi3" [label="asm"];
-  "sub_08068F9C" -> "sub_080008C8" [label="asm"];
-  "sub_08068F9C" -> "sub_08021D00" [label="asm"];
+  "sub_08068F9C" -> "Sqrt" [label="c"];
+  "sub_08068F9C" -> "sub_080008C8" [label="c"];
+  "sub_08068F9C" -> "sub_08021D00" [label="c"];
   "sub_08069080" -> "__divsi3" [label="asm"];
   "sub_08069080" -> "__udivsi3" [label="asm"];
   "sub_08069080" -> "__umodsi3" [label="asm"];
