@@ -1438,7 +1438,7 @@
 <rect x="607.44" y="404.97" width="27.37" height="21.80" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805BD5C | sub_0805BD5C | unidentified  0x0805BD5C  1196 bytes  [todo]</title></rect>
 <rect x="607.44" y="426.77" width="27.37" height="15.38" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805C7B8 | sub_0805C7B8 | unidentified  0x0805C7B8  844 bytes  [todo]</title></rect>
 <rect x="634.80" y="373.12" width="20.35" height="18.53" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805C208 | sub_0805C208 | unidentified  0x0805C208  756 bytes  [nonmatch]</title></rect>
-<rect x="655.15" y="373.12" width="16.69" height="18.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805CB8C | sub_0805CB8C | unidentified  0x0805CB8C  620 bytes  [todo]</title></rect>
+<rect x="655.15" y="373.12" width="16.69" height="18.53" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805CB8C | sub_0805CB8C | unidentified  0x0805CB8C  620 bytes  [nonmatch]</title></rect>
 <rect x="671.84" y="373.12" width="14.00" height="18.53" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0805B2C4 | sub_0805B2C4 | unidentified  0x0805B2C4  520 bytes  [todo]</title></rect>
 <rect x="634.80" y="391.65" width="12.84" height="18.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805AE94 | sub_0805AE94 | unidentified  0x0805AE94  468 bytes  [done]</title></rect>
 <rect x="634.80" y="409.83" width="12.84" height="16.47" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0805CDF8 | sub_0805CDF8 | unidentified  0x0805CDF8  424 bytes  [nonmatch]</title></rect>
@@ -1553,7 +1553,7 @@
 <rect x="705.42" y="354.47" width="11.66" height="17.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080072A0 | sub_080072A0 | unidentified  0x080072A0  404 bytes  [todo]</title></rect>
 <rect x="717.08" y="336.25" width="12.39" height="12.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08007974 | sub_08007974 | unidentified  0x08007974  304 bytes  [todo]</title></rect>
 <rect x="729.47" y="336.25" width="11.58" height="12.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetMainResourceCategoryCount | sub_08007164 | confirmed  0x08007164  284 bytes  [done]</title></rect>
-<rect x="741.05" y="336.25" width="10.60" height="12.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08007870 | sub_08007870 | unidentified  0x08007870  260 bytes  [todo]</title></rect>
+<rect x="741.05" y="336.25" width="10.60" height="12.17" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08007870 | sub_08007870 | unidentified  0x08007870  260 bytes  [nonmatch]</title></rect>
 <rect x="717.08" y="348.42" width="8.96" height="12.84" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08008F2C | sub_08008F2C | unidentified  0x08008F2C  232 bytes  [todo]</title></rect>
 <rect x="717.08" y="361.26" width="8.96" height="10.41" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08008DB8 | sub_08008DB8 | unidentified  0x08008DB8  188 bytes  [todo]</title></rect>
 <rect x="726.04" y="348.42" width="7.51" height="12.15" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08008E74 | sub_08008E74 | unidentified  0x08008E74  184 bytes  [todo]</title></rect>
