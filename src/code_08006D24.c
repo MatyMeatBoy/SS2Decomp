@@ -283,7 +283,74 @@ done:
 
 
 
+#ifdef NONMATCHING
+s32 sub_08007974(s32 arg0, s32 arg1, u32 arg2, u32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
+    register u32 temp_r6 asm("r6"); register s32 x7974 asm("r8")=arg0; s32 y7974=arg1; 
+    struct Draw7870 *temp_r0; register u32 priorityInput7974 asm("r0"); register u32 flipInput7974 asm("r1"); register u32 modeInput7974 asm("r4"); register u32 flip7974 asm("r9"); register u32 mode7974 asm("sl"); register u32 a7974 asm("ip"); register u32 b7974 asm("r2");
+    struct Draw7870 *temp_r1; register u32 zero7974 asm("r3"); register u32 *countAddr7974 asm("r4"); u32 countValue7974;
+    struct Draw7870 *temp_r5;
+    struct Draw7870 *var_r1; register struct Draw7870 **tailAddr7974 asm("r3"); register struct Draw7870 **headAddr7974 asm("r2");
+
+    priorityInput7974=arg4; flipInput7974=arg5; modeInput7974=arg6; asm("" : "+r"(priorityInput7974), "+r"(flipInput7974), "+r"(modeInput7974), "+r"(arg2), "+r"(arg3)); a7974=(u16)arg2; asm("" : "+r"(a7974)); b7974=(u16)arg3; asm("" : "+r"(b7974)); temp_r6=(u8)priorityInput7974; flip7974=(u8)flipInput7974; mode7974=(u8)modeInput7974; asm("" : "+r"(temp_r6), "+r"(flip7974), "+r"(mode7974));
+    countAddr7974=&count7870; countValue7974=*countAddr7974; if (countValue7974 > 0x31U) {
+        return 0;
+    }
+    temp_r5 = &entries7870[countValue7974];
+    *countAddr7974=countValue7974+1;
+    temp_r5->x = x7974;
+    temp_r5->y = y7974; zero7974=0; asm("" : "+r"(zero7974));
+    temp_r5->a = a7974;
+    temp_r5->b = b7974;
+    temp_r5->priority = temp_r6;
+    temp_r5->data2 = arg7;
+    temp_r5->data0 = arg8;
+    temp_r5->data1 = arg9;
+    temp_r5->prev = (struct Draw7870 *)zero7974;
+    temp_r5->next = (struct Draw7870 *)zero7974;
+    asm("" ::: "r8"); temp_r5->bit3 = flip7974; temp_r5->bits4 = mode7974;
+    temp_r5->field24 = zero7974;
+    temp_r5->field26 = zero7974;
+    temp_r5->field28 = zero7974;
+    temp_r1=tail7870; asm("" : "+r"(temp_r1) : : "r3"); tailAddr7974=&tail7870;
+    if(temp_r1==0) {
+        head7870=temp_r5;
+        *tailAddr7974=temp_r5;
+        temp_r5->prev=temp_r1;
+        temp_r5->next=temp_r1;
+        goto done;
+    }
+    var_r1=head7870; asm("" : "+r"(var_r1) : : "r2"); headAddr7974=&head7870;
+    goto check;
+insert_middle:
+    temp_r0->next=temp_r5;
+    temp_r5->next=var_r1;
+    temp_r5->prev=var_r1->prev;
+    var_r1->prev=temp_r5;
+    goto done;
+next:
+    var_r1=var_r1->next;
+check:
+    if(var_r1==0)goto append;
+    if(var_r1->y>=y7974)goto next;
+    if(var_r1->priority<temp_r6)goto next;
+    temp_r0=var_r1->prev;
+    if(temp_r0!=0)goto insert_middle;
+    *headAddr7974=temp_r5;
+    var_r1->prev=temp_r5;
+    temp_r5->next=var_r1;
+    goto done;
+append:
+    temp_r0=*tailAddr7974;
+    temp_r0->next=temp_r5;
+    temp_r5->prev=temp_r0;
+    { register u32 zero7974 asm("r0")=0; asm("" : "+r"(zero7974)); temp_r5->next=(struct Draw7870 *)zero7974; }
+    *tailAddr7974=temp_r5;
+done:
+    return (s32)temp_r5;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007974);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007AA4);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007CF0);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007F0C);
