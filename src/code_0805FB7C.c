@@ -1624,6 +1624,14 @@ static inline s32 t65C_init(struct T65CPopup *obj,u32 resource,s32 index,s32 siz
 void t65C_impl(s32) asm("sub_080636B0");
 void t65C_impl(s32 index)
 {
+    struct Remote65C {
+        u16 low4:4, x:12;
+        u16 y:12, upper4:4;
+        union {
+            struct {u8 value:6, upper2:2;} region;
+            struct {u8 low5:5;s8 bit5:1;u8 upper2:2;} bits;
+        } byte4;
+    };
     struct T65CPopup label,sprite;
     s16 xy[2];
     u16 sizes[6];
@@ -1636,8 +1644,8 @@ void t65C_impl(s32 index)
     u8 *color;
     t65C_init(&label,0x5005E,5,-1);
     label.palette[0]=15;
-    worldY=T65C_H(T65C_ENTITY(p),2)&0xFFF;
-    worldX=T65C_H(T65C_ENTITY(p),0)>>4;
+    worldY=((struct Remote65C *)T65C_ENTITY(p))->y;
+    worldX=((struct Remote65C *)T65C_ENTITY(p))->x;
     if (playerIndex==sub_080020F4()) sub_0800CEE8();
     sizes[2]=0;sizes[3]=0;
     sizes[4]=2;sizes[5]=0;
@@ -1665,13 +1673,13 @@ loop:
     if (sub_08058DB0()) goto skipDraw;
     if (sub_0800CD34()) goto skipDraw;
     if (sub_0800D11C()) goto skipDraw;
-    if (T65C_ENTITY(p)[4]&0x20) {
+    if (((struct Remote65C *)T65C_ENTITY(p))->byte4.bits.bit5<0) {
         if (sub_0800CCCC()) goto drawTest;
-        if (T65C_ENTITY(p)[4]&0x20) goto skipDraw;
+        if (((struct Remote65C *)T65C_ENTITY(p))->byte4.bits.bit5<0) goto skipDraw;
     }
     if (sub_0800CCCC()) goto skipDraw;
 drawTest:
-    if ((T65C_ENTITY(p)[4]&31)!=t65C_state.area) goto skipDraw;
+    if ((((struct Remote65C *)T65C_ENTITY(p))->byte4.region.value&~0x20U)!=t65C_state.area) goto skipDraw;
     sub_08000AF0(0x1F,(void *)label.sound,1);
     if (T65C_W(p,0x30)&0x2000) {
         if (!(t65C_flags&1)) {
