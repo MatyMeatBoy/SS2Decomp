@@ -1297,27 +1297,15 @@ block_88:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C208);
 #endif
-#ifdef NONMATCHING
-extern u8 lootTable60[] asm("gUnk_084E6DD8");
+struct LootT { u16 chance; u16 pad; u16 *groups[8]; };
+extern struct LootT gUnk_084E6DD8[];
 u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
 {
     u32 zero = 0;
-    u16 seed;
-    register u32 roll asm("r5");
-    register u32 offset asm("r1");
-    register u8 *base asm("r2");
-    register u32 special asm("r8");
-    register u32 scratch asm("r3");
+    u32 roll, special, n, i, hi;
+    u32 lo;
     u16 *group;
-    register u32 n asm("r7");
-    u16 *entry;
-    register u32 low asm("r2");
-    register u32 i asm("r1");
-    register u32 limit asm("r0");
-    register u32 address asm("r0");
-    register u16 type asm("r1");
-    u32 random;
-    u32 span;
+    u16 *e;
     CpuSet(&zero, out, 0x05000004);
     if (count == 0) {
         *(u16 *)out = count;
@@ -1325,58 +1313,43 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
         return 0;
     }
     count--;
-    seed = (u16)sub_080008C8();
-    roll = seed % 100U;
-    base = lootTable60;
-    address = count * 9;
-    offset = address << 2;
-    address = offset + (u32)base;
-    address = *(u16 *)address;
-    scratch = 0;
-    special = scratch;
-    if (address >= roll) special = 1;
+    roll = (u16)sub_080008C8();
+    roll %= 100;
+    if (gUnk_084E6DD8[count].chance >= roll) special = 1; else special = 0;
     if (category == 8) category = 6;
-    address = category << 2;
-    address += offset;
-    offset = (u32)(base + 4);
-    address += offset;
-    group = *(u16 **)address;
+    group = gUnk_084E6DD8[count].groups[category];
     n = group[0];
     roll = sub_080008C8();
     roll %= group[1] + 1U;
-    entry = group + 4;
-    low = 0;
-    for (i = 0; i < n; entry += 4) {
-        limit = entry[2];
-        if (low <= roll && limit >= roll) {
-            type = entry[0];
-            *(u16 *)out = type;
-            *(u16 *)(out + 2) = entry[1];
-            if (type == 0xA) {
+    e = group + 4;
+    lo = 0;
+    for (i = 0; i < n; i++, lo = hi + 1, e += 4) {
+        hi = e[2];
+        if (lo <= roll && hi >= roll) {
+            *(u16 *)out = e[0];
+            *(u16 *)(out + 2) = e[1];
+            if (*(u16 *)out == 10) {
+                u32 v;
                 *(u32 *)(out + 4) = roll;
-                random = sub_080008C8();
-                span = entry[1];
-                roll = random % ((span * 15) / 10U);
-                address = span / 2;
-                if (roll < address) roll = address;
+                roll = sub_080008C8();
+                v = e[1];
+                roll %= v * 15 / 10;
+                if (roll < v >> 1) roll = v >> 1;
                 *(u32 *)(out + 4) = roll;
             }
             break;
         }
-        i++;
-        low = limit + 1;
+        
     }
-    scratch = special;
-    if (scratch) sub_0805C208(out, 0);
+    if (special)
+        sub_0805C208(out, 0);
     if (*(u16 *)out == 9) {
-        *(u16 *)(out + 4) = sub_080008C8() % 10U + gUnk_03003170.curLevel * 10;
-        if (sub_0800CE30()) *(u16 *)(out + 4) += 100;
+        *(u16 *)(out + 4) = sub_080008C8() % 10 + gUnk_03003170.curLevel * 10;
+        if (sub_0800CE30())
+            *(u16 *)(out + 4) += 100;
     }
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C4FC);
-#endif
 #ifdef NONMATCHING
 u32 sub_0805C620(u8 *entity, u16 *out)
 {
