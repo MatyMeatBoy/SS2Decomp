@@ -925,7 +925,7 @@ block_106:
                                 var_r4_4 = (temp_r4_3 + 1) << 0x10;
                             } while (var_r4_4 < (s32) ((temp_r1_11 >> 0x10) << 0x10));
                         }
-                        temp_r2_3 = (M2C_FIELD(sp14, u16 *, 0x68) % 3) * 4;
+                        temp_r2_3 = (M2C_FIELD(sp14, u16 *, 0x68) - (s16)temp_r1_10) * 4;
                         sub_08007CF0(((7 - (s16) sp1C) * 8) + *(s16 *)(temp_r2_3 + ((u8 *)&gUnk_084EBDBC)), *(s16 *)(temp_r2_3 + ((u8 *)&gUnk_084EBDBE)) + 0x10, 7U, 0U, 0, (s32) (((u8 *)&gUnk_03005D80) + 0x1C), M2C_FIELD(((u8 *)&gUnk_03005D80), s32 *, 8), M2C_FIELD(((u8 *)&gUnk_03005D80), s32 *, 0));
                         sub_080003F0();
                         goto loop_111;

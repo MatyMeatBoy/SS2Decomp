@@ -413,6 +413,7 @@ void sub_0800D368(void *arg0) {
     struct EffectD368 *sp1CC;
     s32 sp1D0;
     s32 sp1D4;
+    u32 propagationBitD368, propagationMaskD368;
     void *lookupStats;
     u8 *actorArray;
     u32 recordCallValue0, recordCallValue1, recordCallValue2;
@@ -1568,7 +1569,11 @@ block_388:
                         } else {
                             var_r5 = 0;
                             do {
-                                if (((1 << var_r5) & d368_gUnk_030056FC) && ((sp1D4 = var_r5 * 2, temp_r1_11 = d368_gUnk_030056F4 + (var_r5 * 0x2E0), var_r1 = temp_r1_11 + 0x8C, var_r4 = 0, sp128 = 0, sp1D0 = (s32) M2C_FIELD(temp_r1_11, s16 *, 0x8C), (sp1D0 != -2)) || (M2C_FIELD(var_r1, u16 *, 4) != 6) || (M2C_FIELD(var_r1, u16 *, 2) != ((struct PlayerD368 *)arg0)->f0))) {
+                                propagationBitD368 = 1;
+                                propagationBitD368 <<= var_r5;
+                                propagationMaskD368 = d368_gUnk_030056FC;
+                                propagationMaskD368 &= propagationBitD368;
+                                if (propagationMaskD368 && ((sp1D4 = var_r5 * 2, temp_r1_11 = d368_gUnk_030056F4 + (var_r5 * 0x2E0), var_r1 = temp_r1_11 + 0x8C, var_r4 = 0, sp128 = 0, sp1D0 = (s32) M2C_FIELD(temp_r1_11, s16 *, 0x8C), (sp1D0 != -2)) || (M2C_FIELD(var_r1, u16 *, 4) != 6) || (M2C_FIELD(var_r1, u16 *, 2) != ((struct PlayerD368 *)arg0)->f0))) {
 loop_328:
                                     temp_r0_21 = sp128 + 1;
                                     sp128 = temp_r0_21;

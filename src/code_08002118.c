@@ -1047,9 +1047,25 @@ loop_107:
         } else {
             var_r7 = ((u8 *(*)(s32))sub_08007290)((state + 0x454) | 0x140000);
             var_r7 += 2;
-            ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, *(u16 *)(state * 4 + (u8 *)&gUnk_08366E0C) - sub_0801A638(var_r7) * 4, *(u16 *)(state * 4 + (u8 *)&gUnk_08366E0C + 2) - 0x28);
-            newX = *(u16 *)(state * 4 + (u8 *)&gUnk_08366E0C);
-            newY = *(u16 *)(state * 4 + (u8 *)&gUnk_08366E0C + 2);
+            {
+                register u32 titleWidthC8 asm("r0");
+                register u32 titleBaseC8 asm("r2");
+                register u32 titleIndexC8 asm("r4");
+                register u16 *titleXC8 asm("r5");
+                register u16 *titleYC8 asm("r4");
+                register s32 titleXValueC8 asm("r1");
+                titleWidthC8 = sub_0801A638(var_r7);
+                titleBaseC8 = (u32)&gUnk_08366E0C;
+                titleIndexC8 = state * 4;
+                titleXC8 = (u16 *)(titleIndexC8 + titleBaseC8);
+                titleXValueC8 = *titleXC8 - titleWidthC8 * 4;
+                titleBaseC8 += 2;
+                titleIndexC8 = titleIndexC8 + titleBaseC8;
+                titleYC8 = (u16 *)titleIndexC8;
+                ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, titleXValueC8, *titleYC8 - 0x28);
+                newX = *titleXC8;
+                newY = *titleYC8;
+            }
             temp_r4_11 = state * 2;
             var_r7 = ((u8 *(*)(s32))sub_08007290)((temp_r4_11 + 0x42F) | 0x140000);
             var_r7 += 2;
