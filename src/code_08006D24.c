@@ -201,7 +201,86 @@ s32 sub_08007280(M2C_UNK arg0) {
 s32 sub_08007290(s32 arg0) {
     return sub_08006EE0(arg0, &gUnk_08518938);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080072A0);
+struct Root4OamData { u32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; u32 x:9; u32 matrixNum:5; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
+struct Root4SpriteOam { s8 y; u8 unk1; u16 x:9; u16 unk2_9:7; u16 tileNum:10; u16 unk4_10:6; u16 unk6; };
+struct Root4SpriteFrame { u16 unk0; u16 count; u32 unk4; s32 oams; };
+struct Root4SpriteAnim { u16 unk0; u16 unk2; u16 frameCount; u16 unk6; s32 frames; };
+struct Root4SpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
+extern struct Root4OamData root4OamBuffer[] asm("gUnk_03001330");
+extern u32 root4OamUsed asm("gUnk_030028B4");
+s32 oamDraw004(s32,s32,u16,u16,u8,u8,struct Root4SpriteRecord *,u16) asm("sub_080072A0");
+s32 oamDraw004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 palette,
+                    struct Root4SpriteRecord *record, u16 tileBase)
+{
+    struct Root4SpriteFrame *frames;
+    u32 anims;
+    u32 list;
+    struct Root4SpriteAnim *entry;
+    struct Root4SpriteOam *src;
+    struct Root4OamData *dest;
+    u32 firstTile;
+    u32 i;
+    s32 objX;
+    s32 objY;
+    u32 count;
+
+    count = root4OamUsed;
+    if (count > 128)
+        return 0;
+    frames = (struct Root4SpriteFrame *)((u8 *)record + record->frames);
+    anims = (u32)record + record->anims;
+    if (anim < record->animCount)
+    {
+        entry = (struct Root4SpriteAnim *)(anim * sizeof(struct Root4SpriteAnim) + anims);
+        if (entry->frameCount > frame)
+        {
+            list = entry->frames + (u32)entry;
+            list += frame * 4;
+            frames += *(u16 *)list;
+            src = (struct Root4SpriteOam *)((u8 *)frames + frames->oams);
+            firstTile = src->tileNum;
+            dest = &root4OamBuffer[count];
+            for (i = 0; i < frames->count; i++, dest++, src++)
+            {
+                ((u16 *)dest)[0] = ((u16 *)src)[0];
+                ((u16 *)dest)[1] = ((u16 *)src)[1];
+                ((u16 *)dest)[2] = ((u16 *)src)[2];
+
+
+
+                do
+                {
+                    objX = ((struct Root4OamData *)src)->x << 23;
+                    objX >>= 23;
+                    objY = src->y;
+                    objY += y;
+                    objX += x;
+                } while (0);
+                dest->priority = priority;
+                dest->paletteNum = palette;
+                if ((u32)(objX + 64) > 304)
+                {
+                    dest->shape = 0;
+                    dest->size = 0;
+                    objY = 160;
+                }
+                if ((u32)(objY + 64) > 224)
+                {
+                    dest->shape = 0;
+                    dest->size = 0;
+                    objY = 160;
+                }
+                dest->x = objX;
+                dest->y = objY;
+                dest->tileNum -= firstTile;
+                dest->tileNum += tileBase;
+                if (++root4OamUsed > 128)
+                    return 0;
+            }
+        }
+    }
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007434);
 #ifdef NONMATCHING
 struct Position76C4 { s32 x,y; };
