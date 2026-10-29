@@ -1,0 +1,139 @@
+--- a/gcc/flags.h
++++ b/gcc/flags.h
+@@ -466,0 +467,2 @@
++
++extern int flag_thumb_postdec_flags;
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -597,0 +598 @@
++int flag_thumb_postdec_flags = 0;
+@@ -752,0 +754,2 @@
++    {"thumb-postdec-flags", &flag_thumb_postdec_flags, 1,
++     "Fuse original-value comparison with tied decrement"},
+@@ -2989,0 +2993,8 @@
++
++#ifdef MACHINE_DEPENDENT_PRE_FLOW
++    if (optimize > 0 && MACHINE_DEPENDENT_PRE_FLOW(insns))
++    {
++        insns = get_insns();
++        reg_scan(insns, max_reg_num(), 0);
++    }
++#endif
+--- a/gcc/thumb.h
++++ b/gcc/thumb.h
+@@ -1129,0 +1130,5 @@
++
++extern int flag_thumb_postdec_flags;
++
++extern int thumb_postdec_pre_flow(rtx);
++#define MACHINE_DEPENDENT_PRE_FLOW(INSNS) thumb_postdec_pre_flow(INSNS)
+--- a/gcc/thumb.md
++++ b/gcc/thumb.md
+@@ -1201,0 +1202,12 @@
++
++;; Compare the original value and update that same tied count. The RTL
++;; parallel reads its inputs before either output is written. SUBS old,#1
++;; computes exactly the same complete NZCV as CMP old,#1 for every u32.
++(define_insn "*thumb_postdec_compare"
++  [(set (match_operand:SI 0 "s_register_operand" "=l")
++        (plus:SI (match_operand:SI 1 "s_register_operand" "0")
++                 (const_int -1)))
++   (set (cc0) (compare (match_dup 1) (const_int 1)))]
++  "flag_thumb_postdec_flags && rtx_equal_p (operands[0], operands[1])"
++  "sub\\t%0, %0, #1"
++  [(set_attr "conds" "changed")])
+--- a/gcc/thumb.c
++++ b/gcc/thumb.c
+@@ -1736,0 +1737,92 @@
++
++/* Value equivalences are optional optimization facts; liveness is rebuilt
++   by the following flow pass. Other notes may delimit libcalls, EH, frames,
++   CC links or special allocator regions and must not be discarded here. */
++static int
++thumb_postdec_notes_safe(rtx insn)
++{
++    rtx note;
++    for (note = REG_NOTES(insn); note; note = XEXP(note,1))
++    {
++        enum reg_note kind = REG_NOTE_KIND(note);
++        if (kind != REG_EQUAL && kind != REG_EQUIV
++            && kind != REG_DEAD && kind != REG_UNUSED) return 0;
++    }
++    return 1;
++}
++
++/* Form the two simultaneous outputs before flow analysis and allocation.
++   Only a compiler-generated pseudo with exactly one definition and one use
++   can disappear. A hard/virtual/user register is never a dead-temp oracle. */
++int
++thumb_postdec_pre_flow(rtx first)
++{
++    rtx copy, next;
++    int changed = 0;
++    if (!flag_thumb_postdec_flags) return 0;
++    for (copy = first; copy; copy = next)
++    {
++        rtx cp, sub, cmp, sp, pp, tmp, count, scan, compare_set;
++        int mentions = 0, bad = 0;
++        next = NEXT_INSN(copy);
++        if (GET_CODE(copy) != INSN || RTX_FRAME_RELATED_P(copy)
++            || !thumb_postdec_notes_safe(copy)) continue;
++        cp = PATTERN(copy);
++        if (GET_CODE(cp) != SET) continue;
++        tmp = SET_DEST(cp); count = SET_SRC(cp);
++        if (GET_CODE(tmp) != REG || GET_MODE(tmp) != SImode
++            || REGNO(tmp) <= LAST_VIRTUAL_REGISTER || REG_USERVAR_P(tmp)
++            || GET_CODE(count) != REG || GET_MODE(count) != SImode
++            || (REGNO(count) >= 8 && REGNO(count) <= LAST_VIRTUAL_REGISTER))
++            continue;
++        sub = next_nonnote_insn(copy);
++        if (!sub || GET_CODE(sub) != INSN || RTX_FRAME_RELATED_P(sub)
++            || !thumb_postdec_notes_safe(sub)) continue;
++        sp = PATTERN(sub);
++        if (GET_CODE(sp) != SET || !rtx_equal_p(SET_DEST(sp),count)
++            || GET_CODE(SET_SRC(sp)) != PLUS
++            || !rtx_equal_p(XEXP(SET_SRC(sp),0),count)
++            || GET_CODE(XEXP(SET_SRC(sp),1)) != CONST_INT
++            || INTVAL(XEXP(SET_SRC(sp),1)) != -1) continue;
++        cmp = next_nonnote_insn(sub);
++        if (!cmp || GET_CODE(cmp) != INSN || RTX_FRAME_RELATED_P(cmp)
++            || !thumb_postdec_notes_safe(cmp)) continue;
++        pp = PATTERN(cmp);
++        if (GET_CODE(pp) != SET || SET_DEST(pp) != cc0_rtx
++            || GET_CODE(SET_SRC(pp)) != COMPARE
++            || !rtx_equal_p(XEXP(SET_SRC(pp),0),tmp)
++            || GET_CODE(XEXP(SET_SRC(pp),1)) != CONST_INT
++            || INTVAL(XEXP(SET_SRC(pp),1)) != 1) continue;
++        for (scan = first; scan; scan = NEXT_INSN(scan))
++        {
++            if (GET_CODE(scan) == INSN || GET_CODE(scan) == JUMP_INSN
++                || GET_CODE(scan) == CALL_INSN)
++            {
++                if (reg_mentioned_p(tmp,PATTERN(scan)))
++                {
++                    if (scan != copy && scan != cmp) bad = 1;
++                    mentions++;
++                }
++                if (REG_NOTES(scan) && reg_mentioned_p(tmp,REG_NOTES(scan)))
++                    bad = 1;
++                if (GET_CODE(scan) == CALL_INSN
++                    && CALL_INSN_FUNCTION_USAGE(scan)
++                    && reg_mentioned_p(tmp,CALL_INSN_FUNCTION_USAGE(scan)))
++                    bad = 1;
++            }
++        }
++        if (bad || mentions != 2) continue;
++        compare_set = copy_rtx(pp);
++        SET_SRC(compare_set) = gen_rtx_COMPARE(VOIDmode,count,GEN_INT(1));
++        PATTERN(sub) = gen_rtx_PARALLEL(VOIDmode,gen_rtvec(2,sp,compare_set));
++        INSN_CODE(sub) = -1;
++        /* The scalar equivalence no longer describes this two-output
++           insn. Pure value/liveness hints are safe to drop before reg_scan
++           and the first life_analysis; all structural notes rejected above. */
++        REG_NOTES(sub) = NULL_RTX;
++        delete_insn(copy);
++        delete_insn(cmp);
++        changed = 1;
++    }
++    return changed;
++}

@@ -41,3 +41,5 @@ tools/agbcc_sdk_sound/
 tools/agbcc_sdk_btm/
 
 tools/agbcc_sdk_vsync/
+
+tools/agbcc_sdk_postdec/

@@ -1,0 +1,33 @@
+{
+  "functions": [
+    "sgt",
+    "sle",
+    "seq",
+    "sne",
+    "sge",
+    "slt",
+    "ugt",
+    "ule",
+    "ueq",
+    "une",
+    "uge",
+    "ult",
+    "new_count",
+    "live_return",
+    "live_memory",
+    "live_global",
+    "live_asm",
+    "new_only",
+    "different_dest",
+    "different_source",
+    "wrong_const",
+    "call_gap",
+    "callback"
+  ],
+  "positive": [
+    "sgt",
+    "sle",
+    "ugt",
+    "ule"
+  ]
+}
