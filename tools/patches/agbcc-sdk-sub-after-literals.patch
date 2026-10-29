@@ -1,0 +1,39 @@
+--- a/gcc/flags.h
++++ b/gcc/flags.h
+@@ -465,0 +466,2 @@
++
++extern int flag_sub_compare_flags;
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -596,0 +597 @@
++int flag_sub_compare_flags = 0;
+@@ -751,0 +753,2 @@
++    {"sub-compare-flags", &flag_sub_compare_flags, 1,
++     "Reuse Thumb subtraction flags for the same original comparison"},
+--- a/gcc/thumb.h
++++ b/gcc/thumb.h
+@@ -359,2 +359,3 @@
+ extern int flag_thumb_halfword_align;
++extern int flag_sub_compare_flags;
+ extern int flag_thumb_text_literals;
+--- a/gcc/thumb.md
++++ b/gcc/thumb.md
+@@ -1183,0 +1184,18 @@
++
++;; A distinct destination leaves the original source unchanged. SUBS D,S,k and
++;; CMP S,k compute the same complete NZCV, for every condition consumer.
++;; GCC canonicalizes subtraction by an immediate into PLUS with a negative.
++(define_peephole
++  [(set (match_operand:SI 0 "s_register_operand" "=l")
++        (plus:SI (match_operand:SI 1 "s_register_operand" "l")
++                 (match_operand:SI 2 "const_int_operand" "n")))
++   (set (cc0) (compare (match_dup 1)
++                      (match_operand:SI 3 "const_int_operand" "n")))]
++  "flag_sub_compare_flags && GET_CODE (operands[0]) == REG
++   && GET_CODE (operands[1]) == REG
++   && REGNO (operands[0]) < 8
++   && REGNO (operands[1]) < 8
++   && REGNO (operands[0]) != REGNO (operands[1])
++   && INTVAL (operands[3]) >= 0 && INTVAL (operands[3]) <= 7
++   && INTVAL (operands[2]) == -INTVAL (operands[3])"
++  "sub\\t%0, %1, %3")

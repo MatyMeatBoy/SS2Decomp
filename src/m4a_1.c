@@ -2,10 +2,6 @@
 #include "global.h"
 
 /* The register bindings preserve the SDK helper's register contract. */
-INCLUDE_ASM("asm/nonmatchings/m4a_1", SoundMain);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", SoundMainRAM);
-
 INCLUDE_ASM("asm/nonmatchings/m4a_1", SoundMainBTM);
 
 void RealClearChain(void *arg)

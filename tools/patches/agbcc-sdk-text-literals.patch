@@ -1,0 +1,220 @@
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -596,0 +597 @@
++int flag_thumb_text_literals = 0;
+@@ -748,0 +750,2 @@
++    {"thumb-text-literals", &flag_thumb_text_literals, 1,
++     "Permit explicit readonly word objects as direct Thumb literals"},
+--- a/gcc/thumb.h
++++ b/gcc/thumb.h
+@@ -357,0 +358 @@
++extern int flag_thumb_text_literals;
+@@ -825,0 +827,3 @@
++  else if (flag_thumb_text_literals && GET_MODE_SIZE (MODE) == 4 \
++           && GET_CODE (X) == SYMBOL_REF && SYMBOL_REF_FLAG (X)) \
++    goto WIN; \
+@@ -1108,0 +1113,16 @@
++
++extern void thumb_encode_text_literal(tree);
++extern void thumb_validate_text_literals(FILE *);
++#define ENCODE_SECTION_INFO(DECL) thumb_encode_text_literal (DECL)
++#define REDO_SECTION_INFO_P(DECL) 1
++#define ASM_FILE_END(STREAM) thumb_validate_text_literals (STREAM)
++
++extern int thumb_valid_text_literal_type_attribute(tree, tree, tree, tree);
++#define VALID_MACHINE_TYPE_ATTRIBUTE(TYPE, ATTRIBUTES, IDENTIFIER, ARGS) \
++  thumb_valid_text_literal_type_attribute (TYPE, ATTRIBUTES, IDENTIFIER, ARGS)
++
++extern void thumb_note_text_literal_definition(tree);
++
++extern void thumb_note_text_literal_alias(tree);
++
++extern void thumb_register_text_literal_decl(tree);
+--- a/gcc/thumb.c
++++ b/gcc/thumb.c
+@@ -25,0 +26 @@
++#include "system.h"
+@@ -1522,0 +1524,15 @@
++    if (is_attribute_p("thumb_literal", attr))
++    {
++        if (!flag_thumb_text_literals)
++            error ("thumb_literal requires -fthumb-text-literals");
++        else if (args != NULL_TREE || TREE_CODE (decl) != VAR_DECL
++                 || DECL_CONTEXT (decl) != NULL_TREE
++                 || current_function_decl != NULL_TREE)
++            error ("thumb_literal applies only to file-scope word object declarations");
++        else if (TREE_ASM_WRITTEN (decl))
++            error ("thumb_literal must precede any object or alias emission");
++        else
++            thumb_register_text_literal_decl (decl);
++        return 1;
++    }
++
+@@ -1559,0 +1576,161 @@
++
++
++
++/* Explicit C readonly objects, never compiler-generated instruction bytes.
++   Register by C identity at attribute acceptance, independently of cached RTL.
++   Only the object-emission callback may establish ownership. */
++struct thumb_text_literal_record
++{
++    const char *name;
++    const char *asm_name;
++    tree owner;
++    struct thumb_text_literal_record *next;
++};
++static struct thumb_text_literal_record *thumb_text_literals;
++
++static const char *
++thumb_literal_copy_name(const char *name)
++{
++    char *copy = (char *) xmalloc (strlen (name) + 1);
++    strcpy (copy, name);
++    return copy;
++}
++
++static struct thumb_text_literal_record *
++thumb_literal_record(tree decl, int create)
++{
++    const char *name;
++    struct thumb_text_literal_record *record;
++    if (!DECL_NAME (decl))
++    {
++        if (create)
++            error ("thumb_literal requires a named C object");
++        return 0;
++    }
++    name = IDENTIFIER_POINTER (DECL_NAME (decl));
++    for (record = thumb_text_literals; record; record = record->next)
++        if (strcmp (record->name, name) == 0)
++            return record;
++    if (!create)
++        return 0;
++    record = (struct thumb_text_literal_record *) xmalloc (sizeof (*record));
++    record->name = thumb_literal_copy_name (name);
++    record->asm_name = 0;
++    record->owner = NULL_TREE;
++    record->next = thumb_text_literals;
++    thumb_text_literals = record;
++    return record;
++}
++
++void
++thumb_register_text_literal_decl(tree decl)
++{
++    thumb_literal_record (decl, 1);
++}
++
++static int
++thumb_text_literal_properties(tree decl)
++{
++    tree type = TREE_TYPE (decl);
++    if (TREE_CODE (decl) != VAR_DECL || !TREE_READONLY (decl)
++        || (TREE_CODE (type) != INTEGER_TYPE && TREE_CODE (type) != ENUMERAL_TYPE
++            && TREE_CODE (type) != POINTER_TYPE)
++        || int_size_in_bytes (type) != 4 || DECL_ALIGN (decl) < 32
++        || DECL_CONTEXT (decl) != NULL_TREE
++        || DECL_WEAK (decl) || DECL_ONE_ONLY (decl)
++        || !DECL_SECTION_NAME (decl)
++        || strcmp (TREE_STRING_POINTER (DECL_SECTION_NAME (decl)), ".text") != 0)
++    {
++        error_with_decl (decl, "thumb_literal `%s' requires a strong readonly four-byte .text object aligned to four");
++        return 0;
++    }
++    return 1;
++}
++
++void
++thumb_encode_text_literal(tree decl)
++{
++    rtx symbol;
++    struct thumb_text_literal_record *record;
++    if (!flag_thumb_text_literals || TREE_CODE (decl) != VAR_DECL
++        || !lookup_attribute ("thumb_literal", DECL_MACHINE_ATTRIBUTES (decl)))
++        return;
++    record = thumb_literal_record (decl, 1);
++    if (!record || !thumb_text_literal_properties (decl))
++        return;
++    if (!DECL_RTL (decl) || GET_CODE (DECL_RTL (decl)) != MEM
++        || GET_CODE (XEXP (DECL_RTL (decl), 0)) != SYMBOL_REF)
++        return;
++    symbol = XEXP (DECL_RTL (decl), 0);
++    SYMBOL_REF_FLAG (symbol) = 1;
++    if (!record->asm_name || strcmp (record->asm_name, XSTR (symbol, 0)) != 0)
++        record->asm_name = thumb_literal_copy_name (XSTR (symbol, 0));
++}
++
++void
++thumb_validate_text_literals(FILE *stream ATTRIBUTE_UNUSED)
++{
++    struct thumb_text_literal_record *record;
++    for (record = thumb_text_literals; record; record = record->next)
++        if (record->owner == NULL_TREE)
++            error ("thumb_literal `%s' needs a genuine C object definition in this translation unit", record->name);
++        else
++            thumb_text_literal_properties (record->owner);
++}
++
++int
++thumb_valid_text_literal_type_attribute(tree type ATTRIBUTE_UNUSED,
++                                        tree attributes ATTRIBUTE_UNUSED,
++                                        tree attr, tree args ATTRIBUTE_UNUSED)
++{
++    if (is_attribute_p ("thumb_literal", attr))
++        error ("thumb_literal applies only to file-scope object declarations");
++    return 0;
++}
++
++/* assemble_alias never reaches ASM_DECLARE_OBJECT_NAME. */
++void
++thumb_note_text_literal_definition(tree decl)
++{
++    struct thumb_text_literal_record *record;
++    if (!flag_thumb_text_literals || TREE_CODE (decl) != VAR_DECL
++        || !lookup_attribute ("thumb_literal", DECL_MACHINE_ATTRIBUTES (decl)))
++        return;
++    if (DECL_EXTERNAL (decl) || DECL_INITIAL (decl) == error_mark_node
++        || current_function_decl != NULL_TREE
++        || !thumb_text_literal_properties (decl))
++    {
++        error_with_decl (decl, "thumb_literal `%s' needs a strong file-scope C object definition");
++        return;
++    }
++    thumb_encode_text_literal (decl);
++    record = thumb_literal_record (decl, 0);
++    if (record)
++        record->owner = decl;
++}
++
++/* Reject aliases of protected C or assembler identities, even when attributes
++   and aliases occur in different declarations or in a different order. */
++void
++thumb_note_text_literal_alias(tree decl)
++{
++    const char *name;
++    struct thumb_text_literal_record *record;
++    if (!flag_thumb_text_literals || !DECL_RTL (decl)
++        || GET_CODE (DECL_RTL (decl)) != MEM
++        || GET_CODE (XEXP (DECL_RTL (decl), 0)) != SYMBOL_REF)
++        return;
++    if (lookup_attribute ("thumb_literal", DECL_MACHINE_ATTRIBUTES (decl))
++        || thumb_literal_record (decl, 0))
++    {
++        error_with_decl (decl, "thumb_literal `%s' cannot be an alias");
++        return;
++    }
++    name = XSTR (XEXP (DECL_RTL (decl), 0), 0);
++    for (record = thumb_text_literals; record; record = record->next)
++        if (record->asm_name && strcmp (record->asm_name, name) == 0)
++        {
++            error_with_decl (decl, "thumb_literal `%s' cannot be redefined as an alias");
++            return;
++        }
++}
+--- a/gcc/telf.h
++++ b/gcc/telf.h
+@@ -151,0 +152 @@
++      thumb_note_text_literal_alias (DECL1); \
+@@ -299,0 +301 @@
++      thumb_note_text_literal_definition (DECL); \
