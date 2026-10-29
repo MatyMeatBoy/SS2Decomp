@@ -1523,10 +1523,7 @@ block_262:
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x18);
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 4);
                                 temp_r1_22 = gUnk_03006440 + 0xF4;
-                                M2C_FIELD(gUnk_03006440, s32 *, 0xF4) = (s32) M2C_FIELD(gUnk_030034E0, u32 *, 0x100);
-                                M2C_FIELD(temp_r1_22, s32 *, 4) = (s32) M2C_FIELD(gUnk_030034E0, s32 *, 0x104);
-                                M2C_FIELD(temp_r1_22, s32 *, 8) = (s32) M2C_FIELD(gUnk_030034E0, s32 *, 0x108);
-                                M2C_FIELD(temp_r1_22, s32 *, 0xC) = (s32) M2C_FIELD((gUnk_030034E0 + 0x100), s32 *, 0xC);
+                                *(struct ItemCopy82 *)temp_r1_22 = *(const struct ItemCopy82 *)(gUnk_030034E0 + 0x100);
                                 M2C_FIELD(gUnk_03006440, s8 *, 0xFD) = 0;
                                 sub_0805D094();
 block_435:
@@ -1567,10 +1564,7 @@ block_291:
                             }
                         } else if (temp_r2_15 != 0xB) {
                             if (sub_0805D210(gUnk_03006440 + 0xF4) != 0) {
-                                M2C_FIELD(&sp4, s32 *, 0) = (s32) M2C_FIELD(gUnk_030034E0, u32 *, 0x100);
-                                M2C_FIELD(&sp4, s32 *, 4) = (s32) M2C_FIELD(gUnk_030034E0, s32 *, 0x104);
-                                M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(gUnk_030034E0, s32 *, 0x108);
-                                M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD((gUnk_030034E0 + 0x100), s32 *, 0xC);
+                                *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)(gUnk_030034E0 + 0x100);
                                 var_r1_5 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                                 var_r2_6 = gUnk_03006440 + 0xF4;
                                 var_r0_7 = 2;
