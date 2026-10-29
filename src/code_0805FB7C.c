@@ -566,6 +566,7 @@ extern M2C_UNK gUnk_084EBDBE;
 extern M2C_UNK gUnk_03005D80;
 
 void sub_080605D0(s32 arg0) {
+    extern u16 input605D0 asm("gUnk_03001324");
     s32 sp10;
     s32 sp14;
     struct Player *sp18;
@@ -665,7 +666,7 @@ loop_75:
                 if ((s32) temp_r0_2 < 0) {
                     sp1C = 0;
                 }
-                if (0x300 & gUnk_03001324) {
+                if (0x300 & input605D0) {
                     sp24 = 1;
                 }
                 temp_r1_3 = M2C_FIELD(sp18, u8 *, 0x77);
@@ -678,7 +679,7 @@ loop_75:
                     sp2C = (s32) temp_r0_3;
                     sp24 = 1;
                 }
-                if (0x200 & gUnk_03001324) {
+                if (0x200 & input605D0) {
                     temp_r0_4 = sp18->state;
                     if ((temp_r0_4 != 5) && (temp_r0_4 != 2)) {
                         temp_r0_5 = M2C_FIELD(sp14, u16 *, 0x68) + 1;
@@ -974,6 +975,7 @@ extern M2C_UNK gUnk_084EBE0A;
 extern M2C_UNK gUnk_03005D80;
 
 void sub_08060E44(s32 arg0) {
+    extern u16 input60E44 asm("gUnk_03001324");
     u8 sp10[16];
     s32 sp20;
     s32 sp24;
@@ -1092,7 +1094,7 @@ loop_79:
                 if ((s32) temp_r0_2 < 0) {
                     sp2C = 0;
                 }
-                if (0x300 & gUnk_03001324) {
+                if (0x300 & input60E44) {
                     sp34 = 1;
                 }
                 temp_r0_3 = M2C_FIELD(sp28, u8 *, 0x77);
@@ -1106,7 +1108,7 @@ loop_79:
                     sp34 = 1;
                 }
                 sp50 = sp24 + 0x54;
-                if (0x100 & gUnk_03001324) {
+                if (0x100 & input60E44) {
                     temp_r0_4 = M2C_FIELD(sp24, u16 *, 0x54) + 1;
                     M2C_FIELD(sp24, u16 *, 0x54) = temp_r0_4;
                     if ((u32) temp_r0_4 >= (u32) M2C_FIELD(sp28, u8 *, 0x78)) {
