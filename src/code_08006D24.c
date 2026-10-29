@@ -626,7 +626,100 @@ append:
     tail7870 = e;
     return e;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007AA4);
+struct Root4CtxOamData { u32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; u32 x:9; u32 matrixNum:5; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
+struct Root4CtxSpriteOam { s8 y; u8 unk1_0:6; u8 shape:2; s16 x:9; u16 unk2_9:5; u16 size:2; u16 tileNum:10; u16 tileHi:2; u16 unk4_12:4; u16 unk6; };
+struct Root4CtxSpriteFrame { u16 unk0; u16 count; u32 unk4; s32 oams; };
+struct Root4CtxSpriteAnim { u16 unk0; u16 unk2; u16 frameCount; u16 unk6; s32 frames; };
+struct Root4CtxSpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
+extern struct Root4CtxOamData root4CtxOam[] asm("gUnk_03001330");
+extern u32 root4CtxCount asm("gUnk_030028B4");
+extern u32 root4CtxTiles asm("gUnk_030028B8");
+extern const u32 root4CtxNonSquare[] asm("gUnk_0847842C");
+extern const u32 root4CtxSquare[] asm("gUnk_0847843C");
+extern void root4CtxCopy(const void *src, void *dest, u32 size) asm("sub_08001348");
+extern u32 root4CtxVram asm("gUnk_030028BC");
+struct Root4CtxDraw { u32 prev,next; s32 x,y; u16 anim,frame; struct Root4CtxSpriteRecord *record; u8 *tiles,*palettes; u16 pad20; u8 priority:3; u8 mosaic:1; u8 mode:3; u8 top:1; };
+u32 oamDrawCtx004(struct Root4CtxDraw *) asm("sub_08007AA4");
+u32 oamDrawCtx004(struct Root4CtxDraw *context)
+{
+    struct Root4CtxSpriteFrame *frames;
+    struct Root4CtxSpriteAnim *entry;
+    struct Root4CtxSpriteOam *src;
+    struct Root4CtxSpriteOam *obj;
+    struct Root4CtxOamData *dest;
+    u32 vram;
+    u32 i;
+    u32 base;
+    u16 param;
+    u32 list;
+    u32 size;
+    u16 tile;
+    s32 objX;
+    s32 objY;
+    u32 count;
+
+    count = root4CtxCount;
+    if (count > 127)
+        return -1;
+    if (context->record->animCount < context->anim)
+        return -1;
+    base = root4CtxTiles;
+    frames = (struct Root4CtxSpriteFrame *)(context->record->frames + (u32)context->record);
+    entry = (struct Root4CtxSpriteAnim *)((u32)context->record + context->record->anims) + context->anim;
+    list = (u32)entry + entry->frames;
+    list += context->frame * 4;
+    frames += *(u16 *)list;
+    src = (struct Root4CtxSpriteOam *)((u8 *)frames + frames->oams);
+    dest = &root4CtxOam[count];
+    vram = root4CtxVram + base * 32;
+    tile = 0;
+    size = 0;
+    for (i = 0; i < frames->count; i++, dest++, src++)
+    {
+        obj = src;
+        param = dest->affineParam;
+        *dest = *(struct Root4CtxOamData *)src;
+        dest->affineParam = param;
+        dest->objMode = context->mode;
+        dest->mosaic = context->mosaic;
+
+        objX = dest->x << 23;
+        objX >>= 23;
+        objY = ((struct Root4CtxSpriteOam *)dest)->y;
+        objY += context->y;
+        objX += context->x;
+        if ((u32)(objX + 64) > 304 || objY > 160 || objY < -64)
+        {
+            dest->y = 160;
+            dest->shape = 0;
+            dest->size = 0;
+            dest--;
+            continue;
+        }
+        vram += size;
+        dest->priority = context->priority;
+        dest->paletteNum = context->palettes[dest->paletteNum];
+        dest->x = objX;
+        dest->y = objY;
+        dest->tileNum = base + tile;
+        if (dest->shape)
+        {
+            size = root4CtxNonSquare[dest->size];
+            tile += size;
+        }
+        else
+        {
+            size = root4CtxSquare[dest->size];
+            tile += size;
+        }
+        if (++root4CtxCount > 127)
+            return 0;
+        size *= 32;
+        root4CtxCopy(context->tiles + ((obj->tileNum | (obj->tileHi << 10)) << 5), (void *)vram, size);
+    }
+    root4CtxTiles += tile;
+    return root4CtxVram + base * 32;
+}
 struct Root4CopyOamData { u32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; u32 x:9; u32 matrixNum:5; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
 struct Root4CopySpriteOam { s8 y; u8 unk1_0:6; u8 shape:2; s16 x:9; u16 unk2_9:5; u16 size:2; u16 tileNum:10; u16 tileHi:2; u16 unk4_12:4; u16 unk6; };
 struct Root4CopySpriteFrame { u16 unk0; u16 count; u32 unk4; s32 oams; };
