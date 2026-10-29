@@ -1962,7 +1962,7 @@ void menu5B(struct Menu5B *arg) {
     s32 var_r0_2;
     s32 var_r0_3;
     s32 var_r3_2;
-    s32 var_sl;
+    register s32 var_sl asm("sl");
     u32 temp_r0_2;
     u32 temp_r1;
     u32 temp_r2;
@@ -1970,12 +1970,12 @@ void menu5B(struct Menu5B *arg) {
     u32 temp_r6;
     u32 var_r3;
     u32 var_r6;
-    u32 var_r8;
+    register u32 var_r8 asm("r8");
     u8 *var_r4;
     u8 *var_r7;
     u8 temp_r1_2;
     u8 temp_r2_5;
-    u8 var_r9;
+    register u8 var_r9 asm("r9");
     u32 temp_r0_3;
 
 
@@ -1997,10 +1997,10 @@ void menu5B(struct Menu5B *arg) {
     start5B(3);
     spC4 = 0;
     spC8 = 0xA;
-    sp8[0] = *(u16 *)&spC4;
-    sp4[0] = *(u16 *)&spC4;
-    sp8[1] = *(u16 *)&spC4;
-    sp4[1] = *(u16 *)&spC4;
+    sp8[0] = *(volatile u16 *)&spC4;
+    sp4[0] = *(volatile u16 *)&spC4;
+    sp8[1] = *(volatile u16 *)&spC4;
+    sp4[1] = *(volatile u16 *)&spC4;
     spD0 = 0;
     spCC = 0;
     spD8 = 0;
