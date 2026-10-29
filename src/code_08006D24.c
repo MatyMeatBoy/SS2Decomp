@@ -1120,7 +1120,24 @@ struct DrawNode005 *sub_08008E74(u32 a,u32 b,u16 c,u16 d,u8 e,void *f,u32 g,u32 
     }
     return node;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008F2C);
+struct DrawNode005 *sub_08008F2C(u32 a,u32 b,u16 c,u16 d,u8 e,u8 flag,u8 bits,void *f,u32 g,u32 h)
+{
+    struct DrawNode005 *node;
+    if (usedDraw005 > 49) return 0;
+    node = &poolDraw005[usedDraw005];
+    usedDraw005++;
+    node->x=a; node->y=b; node->a=c; node->b=d;
+    node->mode=e;
+    node->f=f; node->g=g; node->h=h;
+    node->flag=flag; node->bits=bits;
+    node->c=0; node->d=0; node->e=0;
+    if (tailDraw005 != 0) {
+        tailDraw005->next=node; node->prev=tailDraw005; node->next=0; tailDraw005=node;
+    } else {
+        headDraw005=node; tailDraw005=node; node->prev=0; node->next=0;
+    }
+    return node;
+}
 void sub_08009014(void) {
     void *var_r4;
 
