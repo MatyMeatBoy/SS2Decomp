@@ -395,7 +395,167 @@ void sub_080793BC(u32 who)
     sub_08000274_3((u32)t, who, i);
     gMasks93BC[who] |= 1 << i;
 }
+#ifdef NONMATCHING
+struct Info458 { u32 who, i, a, c, d, b; };
+extern u32 gMasks458[] asm("gUnk_030063E0");
+struct Spr458 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
+struct Box458 { u16 w, h; };
+struct Pl458 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 active; u8 p69[5]; u8 b6E; u8 p6F[0x1D]; s32 pos[2]; u8 p94[0x74]; u32 lastHit; u8 p10C[0x40]; };
+struct En458 { u8 p0[0x14]; s32 pos[2]; u8 p1C[0x38]; u32 lastHit; u8 p58[0x184]; u8 active; u8 p1DD[0x51]; u8 bw, bh; u8 p230[0xB0]; };
+extern struct Pl458 gPl458[] asm("gUnk_03003CE0");
+extern struct En458 *gEn458 asm("gUnk_030056F4");
+extern void sub_08065158_458(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern void sub_08065370_458(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void sub_0800BC08_458(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void sub_08007870_458(s32, s32, u32, u32, u8, void *, u32, u32) asm("sub_08007870");
+extern void sub_0801FB14_458(s32 *, s32 *, u32) asm("sub_0801FB14");
+extern s32 sub_08021FE0_458(s32 *, s32 *, s32 *, struct Box458 *) asm("sub_08021FE0");
+extern void sub_0801F1C4_458(s32 *, void *, u32) asm("sub_0801F1C4");
+extern void sub_08029CEC_458(s32, s32, s32) asm("sub_08029CEC");
+extern void sub_0801FC34_458(s32 *, s32 *, u32) asm("sub_0801FC34");
+extern void sub_08022028_458(s32 *, void *, u32) asm("sub_08022028");
+extern void sub_08029A7C_458(s32, u32, s32) asm("sub_08029A7C");
+extern u8 *sub_08007290_458(u32) asm("sub_08007290");
+void sub_08079458(struct Info458 *info)
+{
+    struct Spr458 spr;
+    s16 dx, dy;
+    u16 frame, phase;
+    struct { s32 x, y; } pos;
+    s32 size;
+    struct Box458 box;
+    u16 dmg;
+    u32 k, who, i, big, local;
+    u8 *obj;
+    s32 timer;
+
+    u32 shade;
+    u16 j;
+    u32 r;
+    struct En458 *e;
+    struct Pl458 *p;
+    
+    local = sub_080020F4();
+    pos.x = info->a;
+    pos.y = info->b;
+    who = info->who;
+    i = info->i;
+    phase = 0;
+    frame = 0;
+    sub_08065158_458(&spr, 0x500AF, 0, 0x80000000, 0);
+    switch (info->c) {
+    case 0:
+        timer = 0xB4;
+        size = 0x00200030;
+        obj = sub_08007290_458(0x0010000D);
+        dmg = sub_080008C8() % 20;
+        dmg += 50;
+        big = 0;
+        break;
+    case 2:
+        timer = 0x78;
+        size = 0x00200030;
+        obj = sub_08007290_458(0x0010000D);
+        dmg = sub_080008C8() % 20;
+        dmg += 50;
+        big = 0;
+        break;
+    case 4:
+        timer = 0;
+        size = 0x00200030;
+        obj = sub_08007290_458(0x0010000D);
+        dmg = sub_080008C8() % 20;
+        dmg += 50;
+        big = 0;
+        break;
+    case 1:
+        timer = 0xB4;
+        size = 0x00300040;
+        obj = sub_08007290_458(0x0010000E);
+        dmg = sub_080008C8() % 40;
+        dmg += 100;
+        big = 1;
+        break;
+    case 3:
+        timer = 0x78;
+        size = 0x00300040;
+        obj = sub_08007290_458(0x0010000E);
+        dmg = sub_080008C8() % 40;
+        dmg += 100;
+        big = 1;
+        break;
+    case 5:
+        timer = 0;
+        size = 0x00300040;
+        obj = sub_08007290_458(0x0010000E);
+        dmg = sub_080008C8() % 40;
+        dmg += 100;
+        big = 1;
+        break;
+    }
+    k = obj[0xA8];
+    if (timer != 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(0x17C);
+    while (timer-- != 0) {
+        sub_0800BC08_458((pos.x << 8) >> 16, (pos.y << 8) >> 16, &dx, &dy, 0x30, 0);
+        shade = (u8)sub_0800BC44(pos.x >> 8, pos.y >> 8, 0);
+        sub_08065370_458(&spr, k, &frame, &phase, 1);
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+            u32 q = (u32)timer / 60;
+            sub_0805FAC0(dx, dy - 8, q + 1, q ? 2 : 1);
+            sub_08007870_458(dx, dy, 0, k, shade, &spr.f1C, spr.f8, spr.f0);
+        }
+        sub_080003F0();
+    }
+    sub_08022078(pos.x, pos.y);
+    if (sub_0800CCCC() == 0 && sub_0800CD34() == 0) {
+        if (big == 0)
+            sub_0805865C(0x2F);
+        else
+            sub_0805865C(0x30);
+    }
+    if (local == who || (sub_08002204() != 0 && who > 3)) {
+        sub_0801FC34_458((s32 *)&pos, &size, dmg);
+        for (j = 0; j <= 4; j++) {
+            if (*(u32 *)&gUnk_030056FC & (1 << j)) {
+                e = &gEn458[j];
+                if (e->active != 0) {
+                    box.w = e->bw;
+                    box.h = e->bh;
+                    if (sub_08021FE0_458((s32 *)&pos, e->pos, &size, &box))
+                        sub_0801F1C4_458((s32 *)&pos, e, dmg);
+                }
+            }
+        }
+    }
+    p = &gPl458[sub_080020F4()];
+    if (p->state != 14 && p->active != 0 && p->state != 11 && !(p->flags & 0x2000)) {
+        if (sub_0800CDF8() == 0 && sub_0800D1B0() == 0 && sub_0800CCCC() == 0) {
+            box.h = 0x10;
+            box.w = 0x10;
+            if (sub_08021FE0_458((s32 *)&pos, p->pos, &size, &box)) {
+                r = sub_080008C8() % 100;
+                if (p->b6E == 0 || r >= p->b6E) {
+                    sub_08029A7C_458(0, dmg, 1);
+                } else {
+                    sub_08022504(p->pos[0], p->pos[1]);
+                    dmg = dmg / 4 ? dmg / 4 : 1;
+                    sub_08029A7C_458(0, dmg, 1);
+                    sub_0805865C(0x164);
+                }
+            }
+        } else if (sub_0800CDC0() != 0 && gUnk_030056FC != 0) {
+            box.h = 0x10;
+            box.w = 0x10;
+            if (sub_08021FE0_458((s32 *)&pos, p->pos, &size, &box))
+                sub_08022028_458((s32 *)&pos, p, dmg);
+        }
+    }
+    gMasks458[who] &= ~(1 << i);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079458);
+#endif
 struct Task9888 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info9888 { u32 who, i, a, c, d, b; };
 extern u32 gMasks9888[] asm("gUnk_030063E0");
