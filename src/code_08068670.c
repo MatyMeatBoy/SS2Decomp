@@ -1301,18 +1301,33 @@ extern struct T072Player t072Players[] asm("gUnk_03003CE0");
 extern u32 t072Flags[] asm("gUnk_030063E0");
 void sub_0806D7EC(struct T072Args *arg) {
     u8 list[4];
-    u32 x, y;
-    u32 bit;
-    u32 offset;
-    u16 level, range, count, i;
-    u32 player;
+    u32 x;
+    u32 y;
     s32 local;
-    struct T072Player *p, *other, *costPlayer; u16 *wait;
-    struct T072Effect *e, *start;
+    u32 player;
+    u32 bit;
+    u16 level;
+    u16 range;
+    u16 i;
+    u16 j;
+    u16 count;
+    struct T072Player *p;
+    struct T072Player *q;
+    struct T072Player *other;
+    struct T072Effect *start;
+    struct T072Effect *e;
+    struct T072Effect *e2;
     u16 *sprite;
-    u16 dx, dy, cost;
-    s32 ax, ay, limit;
-    s32 duration, amount;
+    u16 dx;
+    u16 dy;
+    u16 cost;
+    s32 ax;
+    s32 ay;
+    s32 limit;
+    u32 found;
+    s32 duration;
+    s32 amount;
+
     local = sub_080020F4();
     player = arg->player;
     bit = arg->bit;
@@ -1320,111 +1335,114 @@ void sub_0806D7EC(struct T072Args *arg) {
     range = level;
     if (player <= 3) p = &t072Players[player];
     if (local == player) {
-        costPlayer = &t072Players[sub_080020F4()];
+        q = &t072Players[sub_080020F4()];
         cost = sub_0806898C(arg->value, arg->level) - 1;
-        costPlayer->resource -= cost;
-        if (costPlayer->resource < 0) costPlayer->resource = 0;
+        q->resource -= cost;
+        if (q->resource < 0) q->resource = 0;
     }
-    offset = player * 4;
-    wait = &p->wait;
-    while (*wait <= 6) {
-        if (p->state == 10) goto finish;
+    while (p->wait <= 6) {
+        if (p->state == 10) {
+            t072Flags[player] &= ~(1 << bit);
+            return;
+        }
         sub_080003F0();
     }
     if (local == player && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x168);
-    sprite = p->sprite;
-    x = sprite[0] >> 4;
-    y = ((u32)sprite[1] << 20) >> 20;
+    x = p->sprite[0] >> 4;
+    y = ((u32)p->sprite[1] << 20) >> 20;
     count = 0;
-    i = 0;
-    goto testPlayers;
-nextPlayer:
-    other = &t072Players[i];
-    sprite = other->sprite;
-    if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) goto skipPlayer;
-    if (other->team != p->team || other->team == 0) goto skipPlayer;
-    dx = (sprite[0] >> 4) - x;
-    dy = (((u32)sprite[1] << 20) >> 20) - y;
-    if (range != 5) {
-        ax = (s16)dx >> 3;
-        if (ax < 0) ax = -ax;
-        limit = (range + 1) * 2;
-        if (ax >= limit) goto skipPlayer;
-        ay = (s16)dy >> 3;
-        if (ay < 0) ay = -ay;
-        if (ay >= limit) goto skipPlayer;
+    for (i = 0; i < sub_08002164(); i++) {
+        other = &t072Players[i];
+        sprite = other->sprite;
+        if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) continue;
+        if (other->team != p->team || other->team == 0) continue;
+        dx = (sprite[0] >> 4) - x;
+        dy = (((u32)sprite[1] << 20) >> 20) - y;
+        if (range != 5) {
+            ax = (s16)dx >> 3;
+            if (ax < 0) ax = -ax;
+            limit = (range + 1) * 2;
+            if (ax >= limit) continue;
+            ay = (s16)dy >> 3;
+            if (ay < 0) ay = -ay;
+            if (ay >= limit) continue;
+        }
+        list[count] = i;
+        count++;
     }
-    list[count++] = i;
-skipPlayer:
-    i++;
-testPlayers:
-    if (i < sub_08002164()) goto nextPlayer;
     for (i = 0; i < count; i++) sub_08074DE8(list[i], 11);
     if (local == player) {
         e = p->effects;
-        i = 0;
+        j = 0;
         start = e;
-        duration = (level * 10 + 40) * 60;
-        amount = level * 8;
-        do {
+        found = 0;
+        for (; j < 8; j++, e++) {
             if (e->timer > 0 && e->owner <= 3 && t072Players[e->owner].mode == 4 && e->kind == 5) {
                 if (e->level <= level) {
                     e->owner = player;
                     e->level = level;
-                    e->timer = duration;
-                    e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                    e->timer = (level * 10 + 40) * 60;
+                    e->a = level * 8; e->b = level * 8; e->c = level * 8; e->d = level * 8;
                 }
-                goto clear;
-            }
-            i++; e++;
-        } while (i <= 7);
-        e = start; i = 0;
-        do {
-            if (e->timer == -1) {
-                e->owner = player; e->kind = 5; e->level = level;
-                e->timer = (level * 10 + 40) * 60;
-                amount = level * 8;
-                e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                found = 1;
                 break;
             }
-            i++; e++;
-        } while (i <= 7);
-clear:
-        p->x24 = 0; p->x26 = 0;
+        }
+        if (!found) {
+            e = start;
+            for (j = 0; j < 8; j++, e++) {
+                if (e->timer == -1) {
+                    e->owner = player;
+                    e->kind = 5;
+                    e->level = level;
+                    e->timer = (level * 10 + 40) * 60;
+                    ;
+                    e->a = level * 8; e->b = level * 8; e->c = level * 8; e->d = level * 8;
+                    break;
+                }
+            }
+        }
+        p->x24 = 0;
+        p->x26 = 0;
     } else {
         for (i = 0; i < count; i++) {
             if (list[i] == local) {
                 p = &t072Players[local];
-                e = p->effects; i = 0;
-                duration = (level * 10 + 40) * 60;
-                amount = level * 8;
-                do {
-                    if (e->timer > 0 && e->owner <= 3 && t072Players[e->owner].mode == 4 && e->kind == 5) {
-                        if (e->level <= level) {
-                            e->level = level; e->timer = duration;
-                            e->a = amount; e->b = amount; e->c = amount; e->d = amount;
+                e2 = p->effects;
+                found = 0;
+                ;
+                ;
+                for (i = 0; i < 8; i++, e2++) {
+                    if (e2->timer > 0 && e2->owner <= 3 && t072Players[e2->owner].mode == 4 && e2->kind == 5) {
+                        if (e2->level <= level) {
+                            e2->level = level;
+                            e2->timer = (level * 10 + 40) * 60;
+                            e2->a = level * 8; e2->b = level * 8; e2->c = level * 8; e2->d = level * 8;
                         }
-                        goto finish;
+                        found = 1;
+                        break;
                     }
-                    i++; e++;
-                } while (i <= 7);
-                e = p->effects; i = 0;
-                do {
-                    if (e->timer == -1) {
-                        e->owner = player; e->kind = 5; e->level = level;
-                        e->timer = (level * 10 + 40) * 60;
-                        amount = level * 8;
-                        e->a = amount; e->b = amount; e->c = amount; e->d = amount;
-                        goto finish;
+                }
+                if (!found) {
+                    e2 = p->effects;
+                    for (i = 0; i < 8; i++, e2++) {
+                        if (e2->timer == -1) {
+                            e2->owner = player;
+                            e2->kind = 5;
+                            e2->level = level;
+                            e2->timer = (level * 10 + 40) * 60;
+                    ;
+                            e2->a = level * 8; e2->b = level * 8; e2->c = level * 8; e2->d = level * 8;
+                            break;
+                        }
                     }
-                    i++; e++;
-                } while (i <= 7);
-                goto finish;
+                }
+                break;
             }
         }
     }
 finish:
-    *(u32 *)((u8 *)t072Flags + offset) &= ~(1 << bit);
+    t072Flags[player] &= ~(1 << bit);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806D7EC);
