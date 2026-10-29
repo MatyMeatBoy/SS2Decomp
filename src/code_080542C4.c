@@ -279,7 +279,36 @@ void sub_08056EA4(void) {
         sub_080003A8(gUnk_03005CF4 + 0x17E4);
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056ED0);
+struct Ent6ED0 { u32 a, b, c, d; u32 task[2]; u32 f18; void (*f1C)(); u32 f20; u32 pad[3]; u32 f30; u32 f34; };
+struct GS6ED0 { u8 pad[0x1D34]; struct Ent6ED0 ents[5]; };
+extern struct GS6ED0 *gs6ED0 asm("gUnk_03005CF4");
+extern void sub_0805A6B8();
+void sub_08056ED0(u32 a, u32 b, u32 c, u32 d)
+{
+    u32 i;
+    u32 r;
+    struct Ent6ED0 *e;
+    u32 mem;
+    i = 0;
+    while (1) {
+        if (i > 4) return;
+        r = sub_08000470((u32)gs6ED0->ents[i].task);
+        if (r == 0) break;
+        i++;
+    }
+    e = &gs6ED0->ents[i];
+    e->a = a;
+    e->b = b;
+    e->c = c;
+    e->d = d;
+    e->f1C = sub_0805A6B8;
+    mem = (u32)sub_08001494(0x400);
+    e->f30 = mem;
+    e->f20 = mem + 0x3FC;
+    e->f18 = 0x46;
+    e->f34 = r;
+    sub_08000274(e->task, e);
+}
 s32 sub_08056F78(void) {
     return ((u16) M2C_FIELD(gUnk_03005CF4, u16 *, 4) >> 5) & 1;
 }
