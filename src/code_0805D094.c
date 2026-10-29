@@ -819,7 +819,592 @@ slot_found:
     gUnk_03005D6C|=1<<task[0x70];
     return (u32)task;
 }
+#ifdef NONMATCHING
+struct Asset0C4 { s32 unk0; u32 unk4; s32 unk8; u8 *unkC; u32 unk10; u32 unk14; s32 unk18; u8 remap[16]; u8 tail[8]; };
+struct Window0C4 { u8 pad[0x30]; u8 state; u8 index; };
+struct Task0C4 {
+    u8 header[0x28];
+    struct Window0C4 *window;
+    struct Asset0C4 text;
+    u8 *script;
+    u16 *str;
+    u8 maxLines;
+    u8 x;
+    u8 y;
+    u8 pad6B;
+    u16 unk6C;
+    u16 col;
+    u8 index;
+    u8 pad71[3];
+    u32 state;
+    u16 unk78;
+    u16 unk7A;
+    u16 unk7C;
+    u16 unk7E;
+    u16 cursor;
+    u16 pad82;
+    s32 timer;
+};
+
+extern s32 sub_08000498(s32 *, u32);
+extern void text0C4(u8 *, u16, u32) asm("sub_0801A3D0");
+extern void sub_08065264(void *, s32, s32, u16, u16);
+extern s32 anim0C4(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern u16 keys0C4 asm("gUnk_03001324");
+extern u8 name0C4[] asm("gUnk_03003CE2");
+extern u8 name1C4[] asm("gUnk_03003E2E");
+extern u8 name2C4[] asm("gUnk_03003F7A");
+extern u8 name3C4[] asm("gUnk_030040C6");
+extern u8 gUnk_084EBD48[];
+extern void draw0C4(void *, s32, s32, u32, s32) asm("sub_08065230");
+
+void e0c4Impl(struct Task0C4 *task) asm("sub_0805E0C4");
+void e0c4Impl(struct Task0C4 *task)
+{
+    u8 lines[2][30];
+    struct Asset0C4 asset;
+    u8 numBuf[12];
+    u8 nameBuf[16];
+    s32 value;
+    u32 skip;
+    u16 scroll;
+    u16 line;
+    u32 drawFlag;
+    u16 sfx;
+    u8 delay;
+    u8 speed;
+    u32 hold;
+    u32 blink;
+    u8 blinkTimer;
+    u16 numIdx;
+    u16 strIdx;
+    u16 idx0;
+    u16 idx1;
+    u16 idx2;
+    u16 idx3;
+    u16 nameIdx;
+    u8 *playerName;
+    u32 voice;
+    u8 *num;
+    u8 *name;
+    register u8 *script asm("r8");
+    register u32 portrait asm("sl");
+    s32 *pValue;
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 first;
+    u32 started;
+    u8 *s;
+    u8 c;
+    struct Window0C4 *w;
+
+    script = task->script;
+    drawFlag = 0;
+    sfx = 0;
+    idx1 = 0;
+    idx2 = 0;
+    idx3 = 0;
+    pValue = &value;
+    num = numBuf;
+    name = nameBuf;
+    k = 0;
+    j = 0;
+    do {
+        line = 0;
+        do {
+            lines[0][line + k] = 0xFD;
+            line++;
+        } while (line < 18);
+        k += 30;
+        j++;
+    } while (j < 2);
+    c = *script;
+    if (c != 0)
+        portrait = (u8)(c - 1);
+    else
+        portrait = 0xFF;
+    script++;
+    voice = *script;
+    script++;
+    if (sub_0800CE30() != 0) {
+        if (portrait != 0xFF) {
+            if (portrait < 0x10) {
+                sub_08065158(&asset, 0x500A8, 0xF, -1, 0);
+            } else if (portrait < 0x20) {
+                sub_08065158(&asset, 0x500A7, 0xF, -1, 0);
+                portrait = (u8)(portrait - 0x10);
+            } else {
+                sub_08065158(&asset, 0x500C1, 0xF, -1, 0);
+                portrait = (u8)(portrait - 0x20);
+            }
+        }
+    } else {
+        if (portrait != 0xFF) {
+            if (portrait < 0x10) {
+                sub_08065158(&asset, 0x500A8, 0xF, -1, 0);
+            } else if (portrait < 0x20) {
+                sub_08065158(&asset, 0x500A7, 0xF, -1, 0);
+                portrait = (u8)(portrait - 0x10);
+            } else {
+                sub_08065158(&asset, 0x500C1, 0xF, -1, 0);
+                portrait = (u8)(portrait - 0x20);
+            }
+        }
+    }
+    *pValue = sub_0801E4B0();
+    s = num;
+    s[0] = sub_08000498(&value, 10000000);
+    s[1] = sub_08000498(&value, 1000000);
+    s[2] = sub_08000498(&value, 100000);
+    s[3] = sub_08000498(&value, 10000);
+    s[4] = sub_08000498(&value, 1000);
+    s[5] = sub_08000498(&value, 100);
+    s[6] = sub_08000498(&value, 10);
+    s[7] = value;
+    s[8] = 0;
+    numIdx = 0;
+    first = 0;
+    for (i = 0, s = num; i <= 8; i++, s++) {
+        if (*s == 0 && numIdx == 0) {
+            *s |= 0xFF;
+        } else {
+            *s += 0x41;
+            if (numIdx == 0)
+                first = i;
+            numIdx = 1;
+        }
+    }
+    for (i = 0; first <= 7; first++, i++)
+        num[i] = num[first];
+    num[i] = 0xFD;
+    i++;
+    num[i] = 0;
+
+    playerName = &name0C4[sub_080020F4() * 0x14C];
+    i = 0;
+    if ((name[i] = name0C4[i]) != 0xFD) {
+        do {
+            if (++i > 9)
+                break;
+        } while ((name[i] = name0C4[i]) != 0xFD);
+    }
+    if (sub_08002204() == 0) {
+        s = (u8 *)sub_08007290(0x1404DF) + 2;
+        for (; i <= 12; i++, s++) {
+            if ((name[i] = *s) > 0xF1)
+                goto found;
+        }
+        goto done;
+    found:
+        name[i] = 0xFD;
+        i++;
+        name[i] = 0;
+    } else {
+        i++;
+        name[i] = 0;
+    }
+done:
+    strIdx = 0;
+    numIdx = 0;
+    idx0 = 0;
+    nameIdx = 0;
+    delay = 1;
+    hold = 0;
+    blink = 0;
+    skip = 0;
+    speed = 1;
+    sub_080653CC();
+
+    for (;;) {
+        switch (task->state) {
+        case 0:
+            gUnk_03005D6C &= ~(1 << task->index);
+            sub_0800035C();
+        case 1:
+        {
+            u32 r = 0;
+            if (task->window->state == 3)
+                r = 1;
+            if (r) {
+                line = 0;
+                drawFlag = 1;
+                scroll = 0;
+                task->state = 3;
+            }
+            break;
+        }
+        case 2:
+            break;
+        case 3:
+            c = *script;
+            if (c == 0xFE) {
+                task->state = 4;
+                break;
+            }
+            if (c == 0xFF) {
+                if (line >= task->maxLines) {
+                    task->state = 4;
+                    script++;
+                    break;
+                }
+                line++;
+                task->col = 0;
+                script++;
+                break;
+            }
+            if (c == 0xFA) {
+                speed = 10;
+                script++;
+            } else if (c == 0xF9) {
+                speed = 20;
+                script++;
+            } else if (c == 0xF8) {
+                speed = 1;
+                script++;
+            } else if (c == 0xFD) {
+                task->state = 6;
+                break;
+            }
+            if (--delay != 0xFF && (keys0C4 & 3) == 0)
+                break;
+            if ((sfx++ & 3) == 0) {
+                if (voice != 0)
+                    sub_0805865C(voice + 0xC7);
+                else
+                    sub_0805865C(0xC8);
+            }
+            c = *script;
+            if (c == 0xFC) {
+                lines[line][task->col] = playerName[strIdx];
+                strIdx++;
+                if (playerName[strIdx] == 0) {
+                    script++;
+                    strIdx = 0;
+                    task->col--;
+                }
+            } else if (c == 0xF6) {
+                lines[line][task->col] = name0C4[idx0];
+                idx0++;
+                if (name0C4[idx0] == 0) {
+                    script++;
+                    idx0 = 0;
+                    task->col--;
+                }
+            } else if (c == 0xF4) {
+                lines[line][task->col] = name1C4[idx1];
+                idx1++;
+                if (name1C4[idx1] == 0) {
+                    script++;
+                    idx1 = 0;
+                    task->col--;
+                }
+            } else if (c == 0xF3) {
+                lines[line][task->col] = name2C4[idx2];
+                idx2++;
+                if (name2C4[idx2] == 0) {
+                    script++;
+                    idx2 = 0;
+                    task->col--;
+                }
+            } else if (c == 0xF2) {
+                lines[line][task->col] = name3C4[idx3];
+                idx3++;
+                if (name3C4[idx3] == 0) {
+                    script++;
+                    idx3 = 0;
+                    task->col--;
+                }
+            } else if (c == 0xF5) {
+                lines[line][task->col] = name[nameIdx];
+                nameIdx++;
+                if (name[nameIdx] == 0) {
+                    script++;
+                    nameIdx = 0;
+                    task->col--;
+                }
+            } else if (c == 0xFB) {
+                lines[line][task->col] = num[numIdx];
+                numIdx++;
+                if (num[numIdx] == 0) {
+                    script++;
+                    numIdx = 0;
+                    task->col--;
+                }
+            } else if (c == 0xFA) {
+                script++;
+            } else if (c == 0xF9) {
+                script++;
+            } else if (c == 0xF8) {
+                script++;
+            } else if (task->str != 0) {
+                lines[line][task->col] = task->str[strIdx];
+                strIdx++;
+                if (task->str[strIdx] == 0) {
+                    task->str = 0;
+                    strIdx = 0;
+                    task->col--;
+                }
+            } else {
+                lines[line][task->col] = c;
+                script++;
+            }
+            task->col++;
+            lines[line][task->col] = 0xFD;
+            if (task->timer < 0 && (keys0C4 & 3) != 0) {
+                c = *script;
+                while ((u8)(c + 3) > 2) {
+                    if (c == 0xFC || strIdx != 0) {
+                        lines[line][task->col] = playerName[strIdx];
+                        strIdx++;
+                        if (playerName[strIdx] == 0) {
+                            script++;
+                            strIdx = 0;
+                            task->col--;
+                        }
+                    } else if (c == 0xF6 || idx0 != 0) {
+                        lines[line][task->col] = name0C4[idx0];
+                        idx0++;
+                        if (playerName[idx0] == 0) {
+                            script++;
+                            idx0 = 0;
+                            task->col--;
+                        }
+                    } else if (c == 0xF5 || nameIdx != 0) {
+                        lines[line][task->col] = name[nameIdx];
+                        nameIdx++;
+                        if (name[nameIdx] == 0) {
+                            script++;
+                            nameIdx = 0;
+                            task->col--;
+                        }
+                    } else if (c == 0xFB || numIdx != 0) {
+                        lines[line][task->col] = num[numIdx];
+                        numIdx++;
+                        if (num[numIdx] == 0) {
+                            script++;
+                            numIdx = 0;
+                            task->col--;
+                        }
+                    } else if (task->str != 0) {
+                        lines[line][task->col] = task->str[strIdx];
+                        strIdx++;
+                        if (task->str[strIdx] == 0) {
+                            task->str = 0;
+                            strIdx = 0;
+                            task->col--;
+                        }
+                    } else {
+                        if (c > 0xF1)
+                            script++;
+                        lines[line][task->col] = *script;
+                        script++;
+                    }
+                    task->col++;
+                    c = *script;
+                }
+                lines[line][task->col] = 0xFD;
+                delay = speed;
+            } else {
+                delay = speed;
+            }
+            break;
+        case 4:
+            if (task->timer >= 0) {
+                skip = 1;
+            } else if (task->timer == -2) {
+                if (keys0C4 & 1) {
+                    hold = 0x8D;
+                    skip = 1;
+                }
+            } else {
+                if (keys0C4 & 1) {
+                    skip = 1;
+                    hold = 0x8D;
+                }
+            }
+            if (skip != 0 && hold++ > 0x8C) {
+                if (*script == 0xFE) {
+                    script++;
+                    c = *script;
+                    if (c == 0)
+                        portrait = 0xFF;
+                    else
+                        portrait = (u8)(c - 1);
+                    script++;
+                    voice = *script;
+                    if (sub_0800CE30() != 0) {
+                        if (portrait != 0xFF) {
+                            if (portrait < 0x10) {
+                                sub_08065158(&asset, 0x500A8, 0xF, -1, 0);
+                            } else if (portrait < 0x20) {
+                                sub_08065158(&asset, 0x500A7, 0xF, -1, 0);
+                                portrait = (u8)(portrait - 0x10);
+                            } else {
+                                sub_08065158(&asset, 0x500C1, 0xF, -1, 0);
+                                portrait = (u8)(portrait - 0x20);
+                            }
+                        }
+                    } else {
+                        if (portrait != 0xFF) {
+                            if (portrait < 0x10) {
+                                sub_08065158(&asset, 0x500A8, 0xF, -1, 0);
+                            } else if (portrait < 0x20) {
+                                sub_08065158(&asset, 0x500A7, 0xF, -1, 0);
+                                portrait = (u8)(portrait - 0x10);
+                            } else {
+                                sub_08065158(&asset, 0x500C1, 0xF, -1, 0);
+                                portrait = (u8)(portrait - 0x20);
+                            }
+                        }
+                    }
+                }
+                skip = 0;
+                hold = 0;
+                lines[0][0] = 0xFD;
+                lines[1][0] = 0xFD;
+                line = 0;
+                task->state = 3;
+                scroll = 0;
+                script++;
+                task->col = line;
+                delay = speed;
+                blink = 0;
+                break;
+            }
+            if (task->timer < 0) {
+                if (blinkTimer++ <= 0x1D)
+                    blink = 1;
+                else if (blinkTimer > 0x1D)
+                    blink = 0;
+                if (blinkTimer > 0x28)
+                    blinkTimer = 0;
+            }
+            break;
+        case 5:
+            if (--scroll == 0)
+                task->state = 3;
+            break;
+        case 6:
+            if (task->timer == -1) {
+                if (keys0C4 & 1) {
+                    drawFlag = 0;
+                    task->state = 7;
+                    w = task->window;
+                    if ((gUnk_03005D70 >> w->index) & 1) {
+                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                            w->state = 4;
+                            sub_0805865C(0xDD);
+                        }
+                    }
+                    blink = 0;
+                    break;
+                }
+                if (blinkTimer++ <= 0x1D)
+                    blink = 1;
+                else if (blinkTimer > 0x1D)
+                    blink = 0;
+                if (blinkTimer > 0x28)
+                    blinkTimer = 0;
+                break;
+            }
+            if (task->timer == -2) {
+                if (sub_08058DB0() == 0 && (keys0C4 & 0x20)) {
+                    if (task->cursor != 0)
+                        sub_0805865C(0xC6);
+                    task->cursor = 0;
+                    break;
+                }
+                if (sub_08058DB0() == 0 && (keys0C4 & 0x10)) {
+                    if (task->cursor != 1)
+                        sub_0805865C(0xC7);
+                    task->cursor = 1;
+                    break;
+                }
+                if (sub_08058DB0() == 0 && (keys0C4 & 1)) {
+                    sub_0805865C(0xF);
+                    drawFlag = 0;
+                    task->state = 7;
+                    w = task->window;
+                    if ((gUnk_03005D70 >> w->index) & 1) {
+                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                            w->state = 4;
+                            sub_0805865C(0xDD);
+                        }
+                    }
+                    break;
+                }
+                if (sub_08058DB0() == 0 && (keys0C4 & 2)) {
+                    sub_0805865C(0x10);
+                    task->cursor = 1;
+                    drawFlag = 0;
+                    task->state = 7;
+                    w = task->window;
+                    if ((gUnk_03005D70 >> w->index) & 1) {
+                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                            w->state = 4;
+                            sub_0805865C(0xDD);
+                        }
+                    }
+                    break;
+                }
+                break;
+            }
+            if (task->timer-- <= 0) {
+                drawFlag = 0;
+                blink = 0;
+                w = task->window;
+                if ((gUnk_03005D70 >> w->index) & 1) {
+                    if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                        w->state = 4;
+                        sub_0805865C(0xDD);
+                    }
+                }
+                task->state = 7;
+            }
+            break;
+        case 7:
+        {
+            u32 r;
+            drawFlag = 0;
+            r = 0;
+            if (task->window->state == 0)
+                r = 1;
+            if (r)
+                task->state = drawFlag;
+            break;
+        }
+        }
+        if (sub_0800CC98() == 0 && drawFlag != 0) {
+            for (i = 0; i <= line; i++)
+                text0C4(lines[i], task->x | 0, (u16)(scroll + task->y + i * 2));
+            if (blink != 0)
+                text0C4(gUnk_084EBD48, 0x1C, 0x11);
+            if (portrait != 0xFF) {
+                sub_08000AF0(0x1F, asset.unkC + portrait * 32, 1);
+                asset.remap[portrait] = 0xF;
+                draw0C4(&asset, task->x * 8 + 0x18, task->y * 8 - 0x28, portrait, 0);
+            }
+            if (task->state == 6 && task->timer == -2) {
+                if (task->cursor != 0) {
+                    anim0C4(&task->text, 5, &task->unk7A, &task->unk7E, 1);
+                    sub_08065230(&task->text, 0x78, task->y * 8 - 0x18, 9, 0);
+                    sub_08065264(&task->text, 0x88, task->y * 8 - 0x18, 5, task->unk7A);
+                    sub_08065230(&task->text, 0x68, task->y * 8 - 0x18, 4, task->unk78);
+                } else {
+                    anim0C4(&task->text, 4, &task->unk78, &task->unk7C, 1);
+                    sub_08065230(&task->text, 0x78, task->y * 8 - 0x18, 8, 0);
+                    sub_08065230(&task->text, 0x88, task->y * 8 - 0x18, 5, task->unk7A);
+                    sub_08065264(&task->text, 0x68, task->y * 8 - 0x18, 4, task->unk78);
+                }
+            }
+        }
+        sub_080003F0();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805E0C4);
+#endif
 s32 sub_0805EE6C(void *arg0) {
     s32 var_r0;
     register s32 var_r3 asm("r3");
