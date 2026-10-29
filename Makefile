@@ -77,6 +77,9 @@ CC1FLAGS_m4a_1_jump := -O2 -mthumb-interwork
 CC1_m4a_1_rest := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_rest := -O2 -mthumb-interwork
 
+CC1_m4a_1_mul := tools/agbcc/bin/agbcc_arm
+CC1FLAGS_m4a_1_mul := -O2 -mthumb-interwork -fomit-frame-pointer
+
 CC1_m4a_1 := tools/agbcc_tst/bin/agbcc
 CC1FLAGS_m4a_1 := -O2 -mthumb-interwork -fprologue-bugfix -ftst
 

@@ -2,8 +2,6 @@
 #include "global.h"
 
 /* The register bindings preserve the SDK helper's register contract. */
-INCLUDE_ASM("asm/nonmatchings/m4a_1", umul3232H32);
-
 INCLUDE_ASM("asm/nonmatchings/m4a_1", SoundMain);
 
 INCLUDE_ASM("asm/nonmatchings/m4a_1", SoundMainRAM);

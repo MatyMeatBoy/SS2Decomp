@@ -27,6 +27,7 @@ jobs:
           /usr/bin/python3 tools/scripts/test_sdk_trampoline_alignment.py --compiler tools/agbcc_sdk_flags/bin/agbcc --reference-compiler tools/agbcc_tst/bin/agbcc
           /usr/bin/python3 tools/scripts/test_sdk_reader_match.py
           /usr/bin/python3 tools/scripts/test_sdk_pattern_container.py
+          /usr/bin/python3 tools/scripts/test_sdk_umul.py
   progress:
     # Agents never commit docs/progress/*: it is regenerated here after every push to the main branch.
     if: github.event_name == 'push' && github.ref == 'refs/heads/claude/rom-decompilation-research-obsal6'
