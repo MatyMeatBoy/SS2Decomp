@@ -2226,7 +2226,7 @@ block_29:
         do {
             if ((1 << var_r7_2) & sp9C) {
                 temp_r4_5 = gUnk_030056F4 + (var_r7_2 * 0x2E0);
-                if ((T71C_U16(temp_r4_5,0xC) != 0xB) && (T71C_U16(temp_r4_5,0x1DC) != 0)) {
+                if ((T71C_U16(temp_r4_5,0xC) != 0xB) && (T71C_U8(temp_r4_5,0x1DC) != 0)) {
                     frame.x = (s16) ((u32) (T71C_U32(temp_r4_5,0x14) - var_r8) >> 8);
                     temp_r1_3 = (u32) ((T71C_U32(temp_r4_5,0x18) - var_r6) << 8) >> 0x10;
                     frame.y = (u16) temp_r1_3;
