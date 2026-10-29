@@ -1,0 +1,26 @@
+{
+  "functions": [
+    "byte_gt",
+    "byte_le",
+    "unproved",
+    "signed_byte",
+    "halfword",
+    "overflow",
+    "opaque_between",
+    "carry_condition",
+    "opaque_after",
+    "copied_reg",
+    "redefined",
+    "flow",
+    "carry_after",
+    "overflow_after",
+    "mixed_after",
+    "volatile_store",
+    "callback",
+    "call_between"
+  ],
+  "positive": [
+    "byte_gt",
+    "byte_le"
+  ]
+}
