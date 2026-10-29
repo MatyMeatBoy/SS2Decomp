@@ -2115,11 +2115,11 @@ digraph calls {
   "ply_lfos" -> "ld_r3_tp_adr_i" [label="c"];
   "ply_mod" -> "clear_modM" [label="c"];
   "ply_mod" -> "ld_r3_tp_adr_i" [label="c"];
-  "ply_note" -> "ClearChain" [label="asm"];
-  "ply_note" -> "MidiKeyToFreq" [label="asm"];
-  "ply_note" -> "TrkVolPitSet" [label="asm"];
-  "ply_note" -> "clear_modM" [label="asm"];
-  "ply_note" -> "sub_080B6DD0" [label="asm"];
+  "ply_note" -> "ClearChain" [label="asm,c"];
+  "ply_note" -> "MidiKeyToFreq" [label="asm,c"];
+  "ply_note" -> "TrkVolPitSet" [label="asm,c"];
+  "ply_note" -> "clear_modM" [label="asm,c"];
+  "ply_note" -> "sub_080B6DD0" [label="asm,c"];
   "sub_08000274" -> "sub_08000470" [label="asm"];
   "sub_08000274" -> "sub_08001204" [label="asm"];
   "sub_08000378" -> "sub_08001538" [label="asm"];
@@ -8113,7 +8113,7 @@ digraph calls {
   "sub_08063B80" -> "sub_080003F0" [label="asm,c"];
   "sub_08063B80" -> "sub_08000AF0" [label="asm,c"];
   "sub_08063B80" -> "sub_080020F4" [label="asm,c"];
-  "sub_08063B80" -> "sub_08006EE0" [label="asm"];
+  "sub_08063B80" -> "sub_08006EE0" [label="asm,c"];
   "sub_08063B80" -> "sub_08007870" [label="asm,c"];
   "sub_08063B80" -> "sub_08008CC4" [label="asm,c"];
   "sub_08063B80" -> "sub_08008E74" [label="asm,c"];
@@ -8133,7 +8133,7 @@ digraph calls {
   "sub_08063B80" -> "sub_0805DF38" [label="asm,c"];
   "sub_08063B80" -> "sub_0805EEFC" [label="asm,c"];
   "sub_08063B80" -> "sub_0805EF14" [label="asm,c"];
-  "sub_08063B80" -> "sub_080653B8" [label="asm"];
+  "sub_08063B80" -> "sub_080653B8" [label="asm,c"];
   "sub_08063E30" -> "CpuSet" [label="asm,c"];
   "sub_08063E30" -> "sub_080003F0" [label="asm,c"];
   "sub_08063E30" -> "sub_08000990" [label="asm,c"];
