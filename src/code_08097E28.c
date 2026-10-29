@@ -950,62 +950,88 @@ INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809919C);
 #ifdef NONMATCHING
 void sub_08099468(u32 unused,s32 arg1) {
     struct Sprite99468 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
-    struct Frame99468 {struct Sprite99468 sprite;s16 sx,sy;u16 tile;s16 rotation;s32 vx,vy;u32 count;s16 *volatile px,*volatile py;} frame;
+    struct Frame99468 {struct Sprite99468 sprite;s16 sx,sy;u16 tile;s16 rotation;s32 vx,vy;u32 count;s16 *px,*py;} frame;
     register u16 *tile99468 asm("sl");
     s16 temp_r4_3;
-    s32 temp_r1;
+    register s32 temp_r1 asm("r1");
+    register s16 *sin99468 asm("r2");
+    register u16 *dir99468 asm("r3");
+    register u32 byte99468 asm("r4");
     s32 temp_r1_2;
-    s32 temp_r4;
-    s32 temp_r5;
+    register s32 temp_r4 asm("r4");
+    register s32 temp_r5 asm("r5");
     s32 var_r0;
     s32 var_r0_2;
-    s32 var_r4;
     s32 var_r8;
     s32 var_r9;
-    u32 temp_r0;
+    register u32 temp_r0 asm("r0");
     u32 temp_r4_2;
-    u32 temp_r4_4;
+    register u32 temp_r4_4 asm("r4");
+    register u32 lookup99468 asm("r0");
 
-    temp_r1 = arg1 - 1;
-    if ((temp_r1 == 0) || (temp_r1 == 4)) {
-        frame.vy = (s32) (gUnk_080B9704[gUnk_085186DC[temp_r1]] * 0x180) / 304;
-        var_r4 = temp_r1 * 2;
+    temp_r1=arg1-1;
+    if(temp_r1==0 || temp_r1==4) {
+        register s16 *savedSin asm("r4")=gUnk_080B9704;
+        register u16 *savedDir asm("r5")=gUnk_085186DC;
+        register u32 savedByte asm("r6")=temp_r1*2;
+        asm("" : "+r"(savedSin), "+r"(savedDir), "+r"(savedByte));
+        frame.vy=(savedSin[*(u16 *)(savedByte+(u32)savedDir)]*0x180)/304;
+        sin99468=savedSin;
+        dir99468=savedDir;
+        byte99468=savedByte;
     } else {
-        var_r4 = temp_r1 * 2;
-        var_r0 = gUnk_080B9704[gUnk_085186DC[temp_r1]] * 0x180;
-        if (var_r0 < 0) {
-            var_r0 += 0xFF;
-        }
-        frame.vy = var_r0 >> 8;
+        sin99468=gUnk_080B9704;
+        dir99468=gUnk_085186DC;
+        byte99468=temp_r1*2;
+        asm("" : "+r"(sin99468), "+r"(dir99468), "+r"(byte99468));
+        var_r0=sin99468[*(u16 *)(byte99468+(u32)dir99468)]*0x180;
+        if(var_r0<0)var_r0+=0xFF;
+        frame.vy=var_r0>>8;
     }
-    var_r0_2 = gUnk_080B9704[*(u16 *)((u8 *)gUnk_085186DC+var_r4) + 0x40] * 0x180;
-    if (var_r0_2 < 0) {
-        var_r0_2 += 0xFF;
-    }
-    frame.vx = var_r0_2 >> 8;
-    var_r9 = entity98F->x;
+    {register u16 *entry asm("r0")=(u16 *)(byte99468+(u32)dir99468);asm("" : "+r"(entry));lookup99468=*entry;}
+    lookup99468+=0x40;
+    asm("" : "+r"(lookup99468));
+    var_r0_2=sin99468[lookup99468]*0x180;
+    if(var_r0_2<0)var_r0_2+=0xFF;
+    frame.vx=var_r0_2>>8;
+    {register s32 initialX asm("r3")=entity98F->x; var_r9=initialX;}
     var_r8 = entity98F->y;
     t071Init(&frame.sprite, 0x50130, 5, -1,0);
     sub_08000AF0(0x15U,(void *)(frame.sprite.fC+0x20),1U);
     frame.sprite.f1D = 5;
-    frame.count = 0x10D;
-    frame.px = &frame.sx;
-    frame.py = &frame.sy;
-    tile99468=&frame.tile;
+    {register u32 count asm("r4")=0x10D;frame.count=count;}
+    {register u32 px asm("r5")=(u32)&frame-16;asm("" : "+r"(px));px+=68;frame.px=(s16 *)px;}
+    {register s16 *py asm("r0")=&frame.sy;asm("" : "+r"(py));frame.py=py;}
+    {register u16 *tile asm("r1")=&frame.tile;asm("" : "+r"(tile));tile99468=tile;}
 loop_9:
-    var_r9 += frame.vx;
-    var_r8 += frame.vy;
-    temp_r5 = var_r9 >> 8;
-    temp_r4 = var_r8 >> 8;
-    t071Coords((s16)temp_r5,(s16)temp_r4,frame.px,frame.py,0,0);
+    {register s32 vx asm("r2")=frame.vx;asm("" : "+r"(vx));var_r9+=vx;}
+    {register s32 vy asm("r3")=frame.vy;asm("" : "+r"(vy));var_r8+=vy;}
+    {register s32 rawX asm("r4")=var_r9;
+     register s32 sx asm("r0");
+     register s32 sy asm("r1");
+     register s32 zero asm("r2");
+     temp_r5=rawX>>8;
+     sx=(s16)temp_r5;
+     asm("" : "+r"(sx));
+     {register s32 rawY asm("r1")=var_r8;temp_r4=rawY>>8;}
+     sy=(s16)temp_r4;
+     zero=0;
+     asm("" : "+r"(sx), "+r"(sy), "+r"(zero));
+     t071Coords(sx,sy,frame.px,frame.py,zero,zero);}
     if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
         t071Animate(&frame.sprite,10,tile99468,&frame.rotation,1);
-        t071Draw(*frame.px,*frame.py,10,*tile99468,(u8)sub_0800BC44(temp_r5,temp_r4,0),&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);
+        {register u32 mode asm("r0")=sub_0800BC44(temp_r5,temp_r4,0);
+         register s32 sx asm("r2")=*frame.px;
+         register s32 sy asm("r1")=*frame.py;
+         register u32 tile asm("r3")=*tile99468;
+         asm("" : "+r"(sx), "+r"(sy), "+r"(tile), "+r"(mode));
+         t071Draw(sx,sy,10,tile,(u8)mode,&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);}
+
     }
     temp_r4_2 = (u32) ((var_r9 - players98F[sub_080020F4()].x) << 8) >> 0x10;
-    temp_r4_3 = (s16) temp_r4_2;
-    temp_r1_2 = (s32) ((var_r8 - players98F[sub_080020F4()].y) << 8) >> 0x10;
-    if (((u32) Sqrt((temp_r4_3 * temp_r4_3) + (temp_r1_2 * temp_r1_2)) <= 0x13U) && (sub_0800CDF8() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0) && (entity98F->state != 0xB) && !(players98F[sub_080020F4()].flags & 0x2000) && (players98F[sub_080020F4()].active != 0) && (players98F[sub_080020F4()].state != 0xE) && (players98F[sub_080020F4()].state != 0xB) && (players98F[sub_080020F4()].state != 0xC) && (players98F[sub_080020F4()].seen[entity98F->index] != entity98F->counter)) {
+    temp_r1_2 = (var_r8 - players98F[sub_080020F4()].y) << 8;
+    temp_r4_3=(s16)temp_r4_2;
+    if (((u32) Sqrt((temp_r4_3 * temp_r4_3) + ((temp_r1_2>>16)*(temp_r1_2>>16))) <= 0x13U) && (sub_0800CDF8() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0) && (entity98F->state != 0xB) && !(players98F[sub_080020F4()].flags & 0x2000) && (players98F[sub_080020F4()].active != 0) && (players98F[sub_080020F4()].state != 0xE) && (players98F[sub_080020F4()].state != 0xB) && (players98F[sub_080020F4()].state != 0xC) && (players98F[sub_080020F4()].seen[entity98F->index] != entity98F->counter)) {
         sub_08029CEC(1, 0x1E, 5);
         players98F[sub_080020F4()].motion = 0xFFFE;
         players98F[sub_080020F4()].seen[entity98F->index] = entity98F->counter;
