@@ -2335,7 +2335,6 @@ void sub_08065504(s32 x, s32 y, s32 number, u8 style, u8 digits)
     }
     sub_0801A664(y, 1);
 }
-#ifdef NONMATCHING
 extern void textDraw66(s32, s32, s32) asm("sub_0801A3D0");
 void sub_080655CC(s32 x, s32 y, u16 *data, s32 align)
 {
@@ -2343,27 +2342,20 @@ void sub_080655CC(s32 x, s32 y, u16 *data, s32 align)
     s32 base;
     u16 offset;
     if (data != 0) {
-        switch ((u32)*data) {
+        switch (*data) {
         case 0: return;
         case 1: return;
-        case 2: goto draw;
-        case 3: goto draw;
-        case 4: goto draw;
-        case 5: goto draw;
+        case 2: case 3: base = sub_08007290(data[2] | 0x130000); break;
+        case 4: case 5: base = sub_08007290(data[2] | 0x130000); break;
         default: return;
         }
-    draw:
-        base = sub_08007290(data[2] | 0x130000);
         offset = 0;
         text = base + gUnk_03003470 * 31;
         if (align < 0)
             offset = -(((u32)sub_0801A638((u8 *)text) * 13) >> 1);
-        textDraw66(text, (u16)((s16)offset + x), (u16)y);
+        { s32 t = (s16)offset; textDraw66(text, (u16)(t + x), (u16)y); }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080655CC);
-#endif
 struct Task6654 { u32 f0, f4, f8; void (*fC)(); u8 *f10; u32 f14, f18, f1C; u8 *f20; u32 f24; };
 extern struct Task6654 task6654 asm("gUnk_03006000");
 void sub_08065654(void)
