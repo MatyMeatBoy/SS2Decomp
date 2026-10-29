@@ -50,4 +50,55 @@ void TrackStop(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
 
 INCLUDE_ASM("asm/nonmatchings/m4a_1_engine", ply_note);
 
-INCLUDE_ASM("asm/nonmatchings/m4a_1_engine", ply_endtie);
+void ply_endtie(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg) __attribute__((naked));
+void ply_endtie(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
+{
+    register struct MusicPlayerTrack *track asm("r1");
+    register u8 *cursor asm("r2");
+    register u32 key asm("r3");
+    register struct SoundChannel *channel asm("r1");
+    register u32 activeMask asm("r4");
+    register u32 stopMask asm("r5");
+    u32 threshold;
+    /* ABI glue only: preserve the two callee-saved mask registers. */
+    asm("push {r4, r5}");
+    track = arg;
+    cursor = track->cmdPtr;
+    key = *cursor;
+    /* Keep the constant local: late CSE retains CMP #0x80 / BHS. */
+    threshold = 0x80;
+    if (key >= threshold) goto old_key;
+    track->key = key;
+    cursor++;
+    track->cmdPtr = cursor;
+    goto loaded;
+old_key:
+    key = track->key;
+loaded:
+    channel = track->chan;
+    if (channel != 0)
+    {
+        activeMask = 0x83;
+        stopMask = 0x40;
+/* Explicit C loop keeps the SDK exit block inside the traversal. */
+loop:
+        {
+            register u32 flags asm("r2") = channel->statusFlags;
+            register u32 midiKey asm("r0");
+            if ((activeMask & flags) == 0) goto next;
+            if ((stopMask & flags) != 0) goto next;
+            midiKey = channel->midiKey;
+            if (midiKey != key) goto next;
+            midiKey = 0x40;
+            flags |= midiKey;
+            channel->statusFlags = flags;
+            goto done;
+next:
+            channel = channel->nextChannelPointer;
+            if (channel != 0) goto loop;
+        }
+    }
+done:
+    /* ABI glue only; all traversal, comparisons and writes above are C. */
+    asm("pop {r4, r5}\nbx lr");
+}

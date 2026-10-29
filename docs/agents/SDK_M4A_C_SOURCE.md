@@ -122,11 +122,23 @@ clears channel flags and owner links, then clears the track head. The r3
 register binding expresses the callback ABI; all traversal, masking,
 conditions, loads and stores are C.
 
-The other 14 configured entries retain their original INCLUDE_ASM bodies.
+`ply_endtie` uses C with minimal prologue/epilogue ABI assembly
+(64 bytes): push r4/r5, restore r4/r5 and return through lr. The matching
+C reads an optional MIDI key and searches for the first matching active,
+non-stopped channel, setting its release flag. Every access, mask, branch
+and traversal is C. The naked body has no hidden stack spills.
+
+Two source-shape details preserve its exact instructions without changing
+the compiler: a local `threshold = 0x80` delays constant folding and keeps
+CMP #128 / BHS rather than CMP #127 / BHI; explicit C labels/gotos avoid
+loop optimization moving the release block outside the traversal. The
+only assembly is the explicitly documented register-save/return ABI glue.
+
+The other 13 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 524 bytes / 22 functions
-become decompiled; the remaining 2536 bytes / 14 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 588 bytes / 23 functions
+become decompiled; the remaining 2472 bytes / 13 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 
