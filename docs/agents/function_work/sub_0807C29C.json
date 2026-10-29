@@ -1,0 +1,25 @@
+{
+  "address": "0x0807C29C",
+  "updated_utc": "2026-10-29T20:59:14.894863+00:00",
+  "checkpoint": "Typed first inventory-to-manager item copy; base d79463af. Function remains NONMATCHING.",
+  "areas": [
+    {
+      "id": "item-copy-first",
+      "label": "First inventory item copy as aligned 16-byte object",
+      "state": "done",
+      "evidence": "Local struct contains exactly four u32 words (16 bytes, 4-byte word alignment). Same source inventory slot +0x150 and destination manager +0xF4; original ASM loads three words before storing three, then copies fourth. Actual NONMATCHING module now emits LDMIA r0!,{r2,r3,r7}; STMIA r1!,{r2,r3,r7}; LDR r0,[r0]; STR r0,[r1], matching original copy shape/registers. Private candidate equals actual module bytes/relocations; frame0x3C retained and call order unchanged. Score5680->5686, size18276->18288 versus original18396; no full-match or global-equivalence claim."
+    },
+    {
+      "id": "remaining-structure",
+      "label": "Remaining state machine and item transfers",
+      "state": "pending",
+      "evidence": "Other item copies are unchanged; broad CFG/layout and register differences remain. Dispatch-to-label and first key-branch flattening privately produced byte-identical baseline and were rejected."
+    },
+    {
+      "id": "match",
+      "label": "Full match in normal C build",
+      "state": "pending",
+      "evidence": "Normal build retains original INCLUDE_ASM. compare OK, nonmatching and check_tree pass; this checkpoint adds zero matching bytes."
+    }
+  ]
+}
