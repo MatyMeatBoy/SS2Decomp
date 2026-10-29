@@ -441,7 +441,6 @@ u32 sub_0805AD18(void)
     id |= 0xB0000;
     return sub_08007290(id);
 }
-#ifdef NONMATCHING
 s32 impl_0805AD78(u32 index) asm("sub_0805AD78");
 s32 impl_0805AD78(u32 index)
 {
@@ -496,9 +495,6 @@ s32 impl_0805AD78(u32 index)
     }
     return sub_08065DAC();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AD78);
-#endif
 u32 sub_0805AE34(const u8 *item)
 {
     u8 *resource;
@@ -521,64 +517,50 @@ accept:
 reject:
     return 0;
 }
-#ifdef NONMATCHING
+extern u32 gUnk_084B24B0[];
+extern u32 gUnk_084B2504[];
 u32 sub_0805AE94(u8 *item)
 {
-    extern u32 priceLevels[] asm("gUnk_084B24B0");
-    extern u32 priceQualities[] asm("gUnk_084B2504");
     u32 flag = 0;
     u32 value = 0;
     u32 level = 0;
     u32 quality = 0;
     u32 multiplier = 10;
-    register u32 id asm("r0");
-    register u32 category asm("r1");
-    register u32 q0 asm("r0");
-    register u32 q2 asm("r2");
-    u32 result;
-    u8 *resource;
     switch (*(u16 *)item) {
     case 1:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000);
-        value = *(u32 *)(resource + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x100000) + 0x9C);
         break;
     case 2:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000);
-        value = *(u32 *)(resource + 0xA0);
-        flag = item[8]; level = item[6]; q0 = item[7]; quality = q0;
-        goto modifier;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xB0000) + 0xA0);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+        break;
     case 3:
-        id = *(u16 *)(item + 2);
-        category = 0xC0000;
-        goto shared;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xC0000) + 0x9C);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+        break;
     case 4:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000);
-        value = *(u32 *)(resource + 0x9C);
-        flag = item[8]; level = item[6]; q0 = item[7]; quality = q0;
-        goto modifier;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xD0000) + 0x9C);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
+        break;
     case 7:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000);
-        value = *(u32 *)(resource + 0x9C);
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x110000) + 0x9C);
         flag = 0; level = 0;
         break;
     case 5:
-        id = *(u16 *)(item + 2);
-        category = 0xE0000;
-shared:
-        id |= category;
-        resource = (u8 *)sub_08007290(id);
-        value = *(u32 *)(resource + 0x9C);
-        flag = item[8]; level = item[6]; q2 = item[7]; quality = q2;
-modifier:
-        if (*(u16 *)(item + 4) != 0) {
-            resource = (u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000);
-            multiplier = *(u16 *)(resource + 0x9C);
-        }
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xE0000) + 0x9C);
+        flag = item[8]; level = item[6]; quality = item[7];
+        if (*(u16 *)(item + 4) != 0)
+            multiplier = *(u16 *)((u8 *)sub_08007290((*(u16 *)(item + 4) - 1) | 0x130000) + 0x9C);
         break;
     case 6:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000);
-        value = *(u32 *)(resource + 0x9C);
-        flag = 0; level = 0; q0 = 0; quality = q0;
+        value = *(u32 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0xF0000) + 0x9C);
+        flag = 0; level = 0; quality = 0;
         break;
     case 9:
         sub_08007290(*(u16 *)(item + 2) | 0x150000);
@@ -594,26 +576,16 @@ modifier:
         value = *(u32 *)(item + 4);
         break;
     case 8:
-        resource = (u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000);
-        value = *(u16 *)(resource + 0x9C);
+        value = *(u16 *)((u8 *)sub_08007290(*(u16 *)(item + 2) | 0x120000) + 0x9C);
         break;
     }
-    if (flag != 0) goto one;
-    {
-        value = value * multiplier / 10;
-        value = value * priceLevels[level] / 10;
-        value = value * priceQualities[quality] / 10;
-        result = value;
-        goto done;
-    }
-one:
-    result = 1;
-done:
-    return result;
+    if (flag != 0)
+        return 1;
+    value = value * multiplier / 10;
+    value = value * gUnk_084B24B0[level] / 10;
+    value = value * gUnk_084B2504[quality] / 10;
+    return value;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805AE94);
-#endif
 u32 sub_0805B068(const u8 *item)
 {
     u32 divisor;
@@ -685,7 +657,6 @@ u32 sub_0805B0F0(void)
     first += second;
     return first;
 }
-#ifdef NONMATCHING
 void impl_0805B140(void) asm("sub_0805B140");
 void impl_0805B140(void)
 {
@@ -731,9 +702,6 @@ test:
             sub_080003F0();
     sub_08001538(secondaryTasks);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B140);
-#endif
 void sub_0805B21C(void)
 {
     extern u8 *slotsMemory asm("gUnk_03005D58");
@@ -770,84 +738,56 @@ void sub_0805B21C(void)
     sub_08000274((u32)task);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
-#ifdef NONMATCHING
 void sub_0805B4CC(s32 *x, s32 *y)
 {
-    extern u8 *slotsMemory asm("gUnk_03005D58");
-    extern u8 *freeGrid asm("gUnk_03000124");
-    s32 column = 0;
-    s32 row;
-    s32 nextColumn;
-    s32 nextRow;
-    s32 testX;
-    s32 testY;
-    s32 radius;
-    s32 first;
-    s32 gridOffset;
-    do {
-        testX = *x + ((column - 10) << 10);
-        row = 0;
-        nextColumn = column + 1;
-        do {
-            u32 collision;
-            testY = *y + ((row - 10) << 10);
-            collision = sub_0800AE50(testX, testY, 0) & 7;
-            nextRow = row + 1;
-            if (collision == 0) {
-                u8 *entry = slotsMemory;
-                u32 i = 0;
-                do {
-                    if (*(u16 *)(entry + 0xA) & 1) {
-                        s32 dx = (testX - *(s32 *)entry) >> 8;
+    s32 i, j, r;
+    s32 px, py;
+    for (i = 0; i <= 20; i++) {
+        px = *x + ((i - 10) << 10);
+        for (j = 0; j <= 20; j++) {
+            py = *y + ((j - 10) << 10);
+            if ((sub_0800AE50(px, py, 0) & 7) == 0) {
+                u32 k;
+                u32 id = 0;
+                u8 *e = *(u8 **)&gUnk_03005D58;
+                u8 *res;
+                for (k = 0; k <= 15; k++, e += 0x20) {
+                    if (*(u16 *)(e + 0xA) & 1) {
+                        s32 dx = (px - *(s32 *)e) >> 8;
                         s32 dy;
                         if (dx < 0) dx = -dx;
-                        dy = (testY - *(s32 *)(entry + 4)) >> 8;
+                        dy = (py - *(s32 *)(e + 4)) >> 8;
                         if (dy < 0) dy = -dy;
-                        if (dx <= 7 && dy <= 7 && *(u16 *)(entry + 8) == 0) goto occupied;
+                        if (dx <= 7 && dy <= 7 && id == *(u16 *)(e + 8)) {
+                            res = e;
+                            goto done;
+                        }
                     }
-                    i++;
-                    entry += 0x20;
-                } while (i <= 15);
-                entry = 0;
-occupied:
-                if (entry == 0) freeGrid[row * 21 + column] = 1;
-                else goto blocked;
-            } else {
-blocked:
-                freeGrid[row * 21 + column] = 0;
+                }
+                res = 0;
+            done:
+                if (res == 0) {
+                    (*(u8 **)&gUnk_03000124)[j * 21 + i] = 1;
+                    continue;
+                }
             }
-            row = nextRow;
-        } while (row <= 20);
-        column = nextColumn;
-    } while (column <= 20);
-    radius = 0;
-    gridOffset = 0;
-    do {
-        first = -radius;
-        for (column = first; column < radius; column++) {
-            testX = *x + (column << 10);
-            if (first < radius) {
-                s32 offset = gridOffset + column;
-                row = first;
-                do {
-                    testY = *y + (row << 10);
-                    if (freeGrid[offset + 0xDC] != 0) {
-                        *x = testX;
-                        *y = testY;
-                        return;
-                    }
-                    offset += 21;
-                    row++;
-                } while (row < radius);
+            (*(u8 **)&gUnk_03000124)[j * 21 + i] = 0;
+        }
+    }
+    for (r = 0; r <= 9; r++) {
+        for (i = -r; i < r; i++) {
+            px = *x + (i << 10);
+            for (j = -r; j < r; j++) {
+                py = *y + (j << 10);
+                if ((*(u8 **)&gUnk_03000124)[j * 21 + i + 220]) {
+                    *x = px;
+                    *y = py;
+                    return;
+                }
             }
         }
-        gridOffset -= 21;
-        radius++;
-    } while (radius <= 9);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B4CC);
-#endif
 struct Slot60 { u8 pad[10]; u16 flags; u16 age; u8 tail[18]; };
 extern struct Slot60 *slots60 asm("gUnk_03005D58");
 void *sub_0805B618(void)
