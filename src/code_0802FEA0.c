@@ -1271,7 +1271,6 @@ case5:
 done:
  {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}sub_0800D108();
 }
-#ifdef NONMATCHING
 extern void sub_08029174(s32,s32);
 extern void sub_0802926C(s32,s32);
 extern void sub_0802939C(s32,s32);
@@ -1283,7 +1282,14 @@ static inline u8 *t034Find34488(u32 key) {
  for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==key) return p;
  sub_080003F0(); return 0;
 }
-static inline void t034Move34488(s32 a,s32 b,s32 c,s32 d) { sub_08028D98(a,b,c,d); }
+static inline u8 *t034FindBound34488(u32 key) {
+ register u32 keyreg asm("r8") = key;
+ u8 *p=t034State34488+0x7A4;
+ u32 i;
+ for(i=0;i<15;i++,p+=0x70) if(*(u32 *)p==keyreg) return p;
+ sub_080003F0(); return 0;
+}
+static inline void t034Move34488(s32 a,s32 b,s32 c,s32 d) { register s32 rb asm("r9")=b; register s32 ra asm("r0")=a; sub_08028D98(ra,rb,c,d); }
 void sub_08034488(s32 arg0) {
     u8 *var_r0_2;
     u8 *var_r1;
@@ -1293,11 +1299,11 @@ void sub_08034488(s32 arg0) {
     u8 *var_r2_2;
     s32 temp_r0;
 
-    s32 temp_r8;
+    register s32 temp_r8 asm("r8");
     s32 var_r7;
     u16 ticks;
     s32 shiftByte;
-    s32 minus3;
+    register s32 minus3 asm("r9");
     void (*callback)(void);
     u32 var_r2;
     u32 var_r2_3;
@@ -1310,19 +1316,19 @@ void sub_08034488(s32 arg0) {
     } else {
         var_r0 = t034State34488 + 0x1B9;
     }
-    var_r7 = *var_r0;
-    var_r7 >>= 5;
+    shiftByte = *var_r0;
+    var_r7 = shiftByte >> 5;
     var_r7 &= 1;
     if (var_r7 == 0) goto loop_73;
     temp_r8 = sub_080289C0(6, 0x138, 0xFA);
-    var_r2_2 = t034Find34488(temp_r8);
+    var_r2_2 = t034FindBound34488(temp_r8);
     if (var_r2_2 != NULL) {
         *(u16 *)(var_r2_2 + 0x18) = 8;
         *(u16 *)(var_r2_2 + 0x1A) = 4;
         *(u32 *)(var_r2_2 + 0x3C) = (s32) (*(u32 *)(var_r2_2 + 0x3C) | 0x10);
     }
     callback = sub_080376CC;
-    var_r0_2 = t034Find34488(temp_r8);
+    var_r0_2 = t034FindBound34488(temp_r8);
     if (var_r0_2 != NULL) {
         *(u32 *)(var_r0_2 + 0x44) = (u32)callback;
     }
@@ -1537,9 +1543,6 @@ end_loop_87:;
         sub_08028AAC(arg0, 0xDA, 0xE9, 0x3C);
         goto loop_73;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08034488);
-#endif
 #ifdef NONMATCHING
 extern s32 t034Range(s32 *, s32 *, u16 *, u16 *) asm("sub_08021FE0");
 extern void sub_080290E4(s32,s32);
