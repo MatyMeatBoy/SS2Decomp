@@ -1551,7 +1551,7 @@
 <rect x="736.65" y="318.39" width="15.00" height="17.86" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08007CF0 | sub_08007CF0 | unidentified  0x08007CF0  540 bytes  [todo]</title></rect>
 <rect x="705.42" y="336.25" width="11.66" height="18.22" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080076C4 | sub_080076C4 | unidentified  0x080076C4  428 bytes  [todo]</title></rect>
 <rect x="705.42" y="354.47" width="11.66" height="17.20" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080072A0 | sub_080072A0 | unidentified  0x080072A0  404 bytes  [todo]</title></rect>
-<rect x="717.08" y="336.25" width="12.39" height="12.17" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08007974 | sub_08007974 | unidentified  0x08007974  304 bytes  [todo]</title></rect>
+<rect x="717.08" y="336.25" width="12.39" height="12.17" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08007974 | sub_08007974 | unidentified  0x08007974  304 bytes  [nonmatch]</title></rect>
 <rect x="729.47" y="336.25" width="11.58" height="12.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetMainResourceCategoryCount | sub_08007164 | confirmed  0x08007164  284 bytes  [done]</title></rect>
 <rect x="741.05" y="336.25" width="10.60" height="12.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08007870 | sub_08007870 | unidentified  0x08007870  260 bytes  [done]</title></rect>
 <rect x="717.08" y="348.42" width="8.96" height="12.84" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08008F2C | sub_08008F2C | unidentified  0x08008F2C  232 bytes  [todo]</title></rect>
