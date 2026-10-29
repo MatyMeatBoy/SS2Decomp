@@ -812,7 +812,77 @@ s32 sub_0807A2E0(u8 a)
     sub_08001538((s32)q);
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A378);
+struct Save378 { u32 w0; u8 p4[6]; u16 hA, hC; u8 pE[0xE]; u32 w1C, w20; u8 p24[8]; u32 w2C; };
+struct Sum378 { u8 valid, b1, b2, b3, b4, b5, b6, b7; u32 w8; u16 hC, hE; u8 name[12]; u32 a1C[8]; u32 a3C[12]; };
+struct Blk20_378 { u32 w[8]; };
+struct Blk30_378 { u32 w[12]; };
+extern struct Save378 *gSave378 asm("gUnk_030034E0");
+struct Opt378 { u32 w0, w4; u8 p8[0x14]; u16 h1C, h1E; u8 p20[0xC]; u32 w2C; };
+extern struct Opt378 *gSave4210_378 asm("gUnk_03004210");
+struct Pl378 { u8 p0[0x58]; struct Blk30_378 b58; u8 p88[0xC4]; };
+extern struct Pl378 gPl378[] asm("gUnk_03003CE0");
+extern s32 sub_0807A20C(u8);
+extern void sub_08013850();
+extern void CpuSet_378(void *, void *, u32) asm("CpuSet");
+u32 sub_0807A378(struct Sum378 *e)
+{
+    u32 ret;
+    u32 i, j;
+    u32 zero;
+    u32 t;
+    sub_08013850();
+    ret = 0;
+    i = 0;
+    zero = 0;
+    do {
+        if (sub_0807A20C(i) == 0) {
+            vu16 z = 0;
+            CpuSet_378((void *)&z, e, 0x01000036);
+            i++;
+        } else {
+            struct Save378 *s;
+            struct Opt378 *o;
+            e->valid = 1;
+            s = gSave378;
+            e->b1 = s->hA;
+            e->b2 = s->hC;
+            e->b3 = s->w20;
+            e->w8 = s->w1C;
+            o = gSave4210_378;
+            t = (o->w4 >> 12) & 1;
+            e->b5 = t;
+            e->b6 = zero;
+            e->b7 = zero;
+            if (t)
+                ret = 1;
+            switch (o->w0) {
+            case 3:
+            case 4:
+                e->hE = o->h1C;
+                e->hC = o->h1E;
+                if (o->w2C & 0x200)
+                    e->b7 = 1;
+                break;
+            default:
+                e->hE = zero;
+                e->hC = 0xFFFF;
+                break;
+            }
+            sub_0801E024(&gPl378[sub_080020F4()]);
+            sub_0801DD9C();
+            *(struct Blk20_378 *)e->a1C = *(struct Blk20_378 *)((u8 *)gSave378 + 0x10);
+            *(struct Blk30_378 *)e->a3C = gPl378[sub_080020F4()].b58;
+            j = 0;
+            i++;
+            do {
+                e->name[j] = ((u8 *)gSave378)[j];
+                j++;
+            } while (j <= 9);
+        }
+        e++;
+    } while (i <= 7);
+    return ret;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A4B4);
 u8 sub_0807A544(const u8 *data, u32 length)
 {
