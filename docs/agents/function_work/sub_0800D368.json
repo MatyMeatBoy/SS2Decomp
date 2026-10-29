@@ -1,7 +1,7 @@
 {
   "address": "0x0800D368",
-  "updated_utc": "2026-10-29T09:07:00.272709+00:00",
-  "checkpoint": "TEAM6 uncommitted candidate304 (base 34a1ec55)",
+  "updated_utc": "2026-10-29T09:19:08.786710+00:00",
+  "checkpoint": "TEAM6 verified candidate307 (base c2430f5e, uncommitted)",
   "areas": [
     {
       "id": "flow",
@@ -36,7 +36,7 @@
     {
       "id": "layout",
       "state": "active",
-      "evidence": "Checkpoint304, base34a1ec552bbc12cfb0ef7ed26c72624e8e740d1f; original ASM revision40a78cd. Normal C remains NONMATCHING: actual NM module normalized bytes/relocations==candidate304!=original,24692 versus25180 bytes,502 external/libgcc calls in original physical order. Latest serial gates: compare0 ROM OK USING ORIGINAL ASM; nonmatching0; check_tree0. Local evidenced advances: D784-D7C0 history slot/controller cursor retains reload after modulo; 10874/10A2A record dispatch/default placement; 129D8/12A94/12AD4/13052 first palette local RGB union preserves access widths; D5FC-D622 s16 f5E cursor restores address formation before timer truncation; D948-D956 AND operand order restores global-input u16 load before actor f18 u16. Remaining differences include register/stack lifetimes, mapbase+8C/+90 materialization, palette tail sharing and whole-function layout. No equivalence or full matching claim. First30 CFG divergence inventory and all detailed rejected/accepted hypotheses archived privately in build/try/TEAM6_HANDOFF.md, team6-first30-303.json and team6-layout-evidence-through303.txt. Area states unchanged(4/7); full match pending.",
+      "evidence": "Checkpoint304, base34a1ec552bbc12cfb0ef7ed26c72624e8e740d1f; original ASM revision40a78cd. Normal C remains NONMATCHING: actual NM module normalized bytes/relocations==candidate304!=original,24692 versus25180 bytes,502 external/libgcc calls in original physical order. Latest serial gates: compare0 ROM OK USING ORIGINAL ASM; nonmatching0; check_tree0. Local evidenced advances: D784-D7C0 history slot/controller cursor retains reload after modulo; 10874/10A2A record dispatch/default placement; 129D8/12A94/12AD4/13052 first palette local RGB union preserves access widths; D5FC-D622 s16 f5E cursor restores address formation before timer truncation; D948-D956 AND operand order restores global-input u16 load before actor f18 u16. Remaining differences include register/stack lifetimes, mapbase+8C/+90 materialization, palette tail sharing and whole-function layout. No equivalence or full matching claim. First30 CFG divergence inventory and all detailed rejected/accepted hypotheses archived privately in build/try/TEAM6_HANDOFF.md, team6-first30-303.json and team6-layout-evidence-through303.txt. Area states unchanged(4/7); full match pending. Checkpoint307 DB3C-DB46: commute two u16 AND operands, restoring f16 load R1 before f1A load R0. Delta exactly two loads; module==307!=original,24692/25180B,502 calls. ROMOK originalASM/NM/tree verified. Private candidates306/308-313 rejected; detailed evidence TEAM6_HANDOFF.md.",
       "label": "Pila, registros y orden de bloques"
     },
     {

@@ -1330,7 +1330,7 @@ block_124:
                             }
                         }
                     } else {
-                        if (!(((struct PlayerD368 *)arg0)->f1A & ((struct PlayerD368 *)arg0)->f16)) {
+                        if (!(((struct PlayerD368 *)arg0)->f16 & ((struct PlayerD368 *)arg0)->f1A)) {
                             goto block_197;
                         }
                         if (M2C_FIELD((u8 *)&d368_gUnk_03003170, u16 *, 0x8C) == 0xC) {
