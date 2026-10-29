@@ -166,3 +166,12 @@ tools/agbcc_sdk_btm/installed: tools/install_agbcc_sdk_btm.sh tools/patches/agbc
 	sh tools/install_agbcc_sdk_btm.sh
 
 $(BUILD)/src/m4a_1_btm.o: Makefile tools/agbcc_sdk_btm/installed
+
+# Signed byte-decrement flags are opt-in for the VSync shared container only.
+CC1_m4a_1_vsync := tools/agbcc_sdk_vsync/bin/agbcc
+CC1FLAGS_m4a_1_vsync := -O2 -mthumb-interwork -fprologue-bugfix -ftst -fthumb-text-literals -fthumb-byte-sub-flags
+
+tools/agbcc_sdk_vsync/installed: tools/install_agbcc_sdk_vsync.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-lsr-halfword.patch tools/patches/agbcc-sdk-text-literals.patch tools/patches/agbcc-sdk-sub-after-literals.patch tools/patches/agbcc-sdk-byte-sub-flags.patch
+	sh tools/install_agbcc_sdk_vsync.sh
+
+$(BUILD)/src/m4a_1_vsync.o: Makefile tools/agbcc_sdk_vsync/installed

@@ -1,0 +1,23 @@
+{
+  "private_only": true,
+  "source_revision": "1b1c4a81d13918ca55c39c1ccf83689691b03a25",
+  "archive_sha256": "7afb90d0fd3495cc19925a8cc454261bcceaf30ec4c138f5bd61a3302ef2c4b1",
+  "base_patches": {
+    "agbcc-tst-eq-ne-only.patch": "6e4c7ada5e1dd97a0c6a7c9c105e02ac68e1948bfdd945b892b111302b311ade",
+    "agbcc-sdk-lsr-halfword.patch": "6848bb2b38fb803a44c2f9e61b9af8aa00359ab2ca13df6973e6e8f3a13640cc",
+    "agbcc-sdk-text-literals.patch": "e1debb95c659c1bf027bc6f09f06e8aee6eeef23a0e13ae0100c6315f4abe389",
+    "agbcc-sdk-sub-after-literals.patch": "c84661d52844e6fc7ea818935883c725ba69cc28592933fd4c57ee770d82bd82"
+  },
+  "delta_sha256": "71131d9045c982c4bc9047af933a647e9cd4fdb001fc90bf192f37d97fa5f55b",
+  "option": "-fthumb-byte-sub-flags",
+  "default": 0,
+  "source_files_lf": {
+    "flags.h": "0b9b13a40dc9b9d15042a4465530c5f12a2b92404c11830c03926c577548b9de",
+    "toplev.c": "fadcffa3763ae38f9b7e7d4639e26151ba1b496a4e3e4ad105c1811243c7305c",
+    "thumb.h": "e454af0450d2d4298ee93fced615827b56037e9e884e97cec922e5696d4bdbe8",
+    "thumb.c": "e5ab24088b18dd47311154c95b6f8ba5cdbd85cce2d183ebb2e8894fa9911426",
+    "thumb.md": "ca1ed2b8cbc2ee6f3070f4dff18ea7fe420740c536dd55eb1a2d34708d6dd7b0",
+    "telf.h": "82f134dea94cbf8cf2acb00860d2fb6f7c8205818ffacfe42b34f74de25d39c8"
+  },
+  "scope": "QI unsigned load immediately followed by self SUB1, optional preserved STRB, CMP0 and unique GT/LE; flags dead both paths; no loops or carry generalization"
+}

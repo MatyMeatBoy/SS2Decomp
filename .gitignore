@@ -39,3 +39,5 @@ tools/agbcc_arm_sdk/
 tools/agbcc_sdk_sound/
 
 tools/agbcc_sdk_btm/
+
+tools/agbcc_sdk_vsync/

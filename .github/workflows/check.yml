@@ -34,6 +34,8 @@ jobs:
           /usr/bin/python3 tools/scripts/test_sdk_btm_flags.py
           /usr/bin/python3 tools/scripts/test_sdk_btm_registers.py
           /usr/bin/python3 tools/scripts/test_sdk_btm_rtl.py
+          /usr/bin/python3 tools/scripts/test_sdk_vsync_match.py
+          /usr/bin/python3 tools/scripts/test_sdk_vsync_flags.py
           /usr/bin/python3 tools/scripts/test_sdk_sound_runtime.py
           /usr/bin/python3 tools/scripts/test_sdk_sub_flags.py
           /usr/bin/python3 tools/scripts/test_sdk_text_literal_ownership.py
