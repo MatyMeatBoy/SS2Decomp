@@ -5759,15 +5759,13 @@ block_1860:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_0800D368);
 #endif
-#ifdef NONMATCHING
 /* Create the player entity for a link slot `id` (0..3). struct Player (0x14C bytes): +0 id, +0x20 state (0 local, 0xD remote),
  * +0x34 -> 8 x 0x28 byte slots, +0xAC -> 0x100 byte buffer, +0x13C/+0x140 -> local player template data,
  * +0x144 -> this slot's link SEND block (sub_08002118), +0x148 -> RECV block (sub_08002238).
  * The entity runs as task sub_0800D368 (per-player update), stack 0x680 (remote) or gUnk_03003590 (local). */
-/* Typed draft: frame/slot reloads and call ABI follow original ASM; NOT MATCHING. */
 struct T6Template135C4 { u8 pad[10]; u16 fA, fC; };
 extern struct T6Template135C4 *t6_template135 asm("gUnk_030034E0");
-struct T6Slot135 { u16 f0; u8 pad[38]; };
+struct T6Slot135 { u16 f0; u8 pad[6]; u8 f8[0x20]; };
 struct T6Player135 { u16 f0; u8 f2; u8 pad3[9]; u16 fC, fE; u8 pad10[0x10]; u16 f20; u8 pad22[0x12]; struct T6Slot135 *f34; u8 pad38[0x74]; void *fAC; u8 padB0[0x86]; u16 f136; u8 pad138[4]; void *f13C; void *f140; void *f144, *f148; };
 extern struct T6Player135 t6_players135[] asm("gUnk_03003CE0");
 struct T6Task135 { u32 f0, f4, f8; void (*fC)(void); u8 *f10; u32 f14, f18, f1C; void *f20; u32 f24; };
@@ -5776,65 +5774,50 @@ extern u8 t6_stack135[] asm("gUnk_03003590");
 extern void t6_update135(void) asm("sub_0800D368");
 extern void t6_start135(void *, void *) asm("sub_08000274");
 extern void *t6_send135(u32) asm("sub_08002118");
-struct T6Args135 { u32 a, b, c, d; };
-extern void t6_init135(struct T6Args135) asm("sub_0801E024");
+extern void t6_init135(struct T6Player135) asm("sub_0801E024");
+extern void t6_cpuset(const void *, void *, u32) asm("CpuSet");
 void sub_080135C4(u16 id) {
-    u8 buf[0x13C];
-    s16 zero;
+    vu16 zero;
     u8 *stack;
     u32 i;
-    s32 j;
     struct T6Player135 *pl;
-    struct T6Player135 *end;
-    struct T6Slot135 **slots;
     t6_players135[id].f144 = t6_send135(id);
     t6_players135[id].f148 = sub_08002238(id);
     pl = &t6_players135[id];
     pl->f0 = id;
     if (id != sub_080020F4()) {
         pl->f20 = 0xD;
-            t6_tasks135[id].f8 = 0x32;
+        t6_tasks135[id].f8 = 0x32;
         stack = sub_08001494(0x680);
         t6_tasks135[id].f20 = stack;
         t6_players135[id].f13C = 0;
         pl->f2 = 0xFE;
-        } else {
+    } else {
         t6_players135[id].f140 = t6_template135;
         pl->f20 = 0;
-            t6_tasks135[id].f8 = 0x31;
+        t6_tasks135[id].f8 = 0x31;
         stack = t6_stack135;
         t6_tasks135[id].f20 = 0;
         t6_players135[id].f13C = sub_08001494(10);
-        CpuSet(t6_template135, &t6_players135[id].f2, 10);
+        t6_cpuset(t6_template135, &t6_players135[id].f2, 10);
         pl->fC = t6_template135->fA;
         pl->fE = t6_template135->fC;
-        }
-    t6_players135[id].fAC = sub_08001494(0x100);
-    t6_players135[id].f34 = (struct T6Slot135 *)sub_08001494(0x140);
-    slots = &t6_players135[id].f34;
-    i = 0;
-    j = 0;
-    do {
-        ((struct T6Slot135 *)(j + (u8 *)*slots))->f0 = 0xFFFF;
-        zero = 0;
-        CpuSet(&zero, (u8 *)*slots + j + 8, 0x1000010);
-        j += 0x28;
-        i++;
-    } while (i <= 7);
-    end = &t6_players135[id];
-    end->f136 = 0;
-    if (id == sub_080020F4()) {
-        memcpy(buf, (u8 *)end + 0x10, 0x13C);
-        t6_init135(*(struct T6Args135 *)end);
     }
+    t6_players135[id].fAC = sub_08001494(0x100);
+    t6_players135[id].f34 = sub_08001494(0x140);
+    for (i = 0; i <= 7; i++) {
+        t6_players135[id].f34[i].f0 = 0xFFFF;
+        zero = 0;
+        t6_cpuset((void *)&zero, t6_players135[id].f34[i].f8, 0x1000010);
+    }
+    t6_players135[id].f136 = 0;
+    if (id == sub_080020F4())
+        t6_init135(t6_players135[id]);
     t6_tasks135[id].fC = t6_update135;
     t6_tasks135[id].f10 = stack + 0x67C;
     t6_tasks135[id].f24 = 0;
-    t6_start135((u8 *)&t6_tasks135[id], end);
+    t6_start135(&t6_tasks135[id], &t6_players135[id]);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080135C4);
-#endif
 struct Team6State137A0 { u8 pad[0x100]; u16 a, b; u8 c[12]; u16 d, e; u8 f[12]; u16 g, h; u8 j[12]; };
 extern struct Team6State137A0 *team6_state137A0 asm("gUnk_030034E0");
 void sub_080137A0(u32 arg0) {
