@@ -568,7 +568,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u8 *temp_r2_6;
     u8 *temp_r3;
     u8 *temp_r3_3;
-    u8 *temp_r4_19;
+    register u8 *temp_r4_19 asm("r4");
     u8 *temp_r4_7;
     u8 *temp_r5;
     u8 *temp_r5_13;
@@ -633,7 +633,11 @@ void sub_08003984(u8 *arg0, s32 arg1) {
         M2C_FIELD(temp_r5, s8 *, 0x1C) = var_r6;
         temp_r1 = var_r6 * 2;
         x[var_r6] = setupZero3984;
-        (&widths[0])[var_r6] = setupZero3984;
+        {
+            register u32 initWidthC8 asm("r0") = (u32)widths;
+            initWidthC8 += temp_r1;
+            *(u16 *)initWidthC8 = setupZero3984;
+        }
         heights[var_r6] = setupZero3984;
         var_r6 = (u16) (var_r6 + 1);
     } while ((u32) var_r6 <= 8U);
@@ -1059,7 +1063,8 @@ loop_107:
                 if ((u32) temp_r0_5 > 7U) {
                     index = 0;
                     prev = sub_080008C8();
-                    prev = (prev & 7) + 1;
+                    prev &= 7;
+                    prev += 1;
                 }
             }
             if (substate == 0) {

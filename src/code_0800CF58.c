@@ -371,6 +371,8 @@ void sub_0800D368(void *arg0) {
     void *sp12C;
     s32 sp130;
     s32 sp134;
+    s16 *thresholdStatD368;
+    s32 thresholdBias0D368, thresholdBias1D368, thresholdBias3D368, thresholdBias4D368;
     s32 sp138;
     s32 sp13C;
     u32 sp140;
@@ -632,18 +634,18 @@ void sub_0800D368(void *arg0) {
     s32 temp_r0_20;
     s32 temp_r0_26;
     s32 temp_r0_27;
-    s32 temp_r0_28;
+    u32 temp_r0_28;
     s32 temp_r0_29;
-    s32 temp_r0_32;
+    u32 temp_r0_32;
     s32 temp_r0_33;
-    s32 temp_r0_37;
+    u32 temp_r0_37;
     s32 temp_r0_38;
     s32 temp_r0_41;
-    s32 temp_r0_42;
-    s32 temp_r0_45;
+    u32 temp_r0_42;
+    u32 temp_r0_45;
     s32 temp_r0_46;
     s32 temp_r0_49;
-    s32 temp_r0_50;
+    u32 temp_r0_50;
     u32 temp_r0_57;
     s32 temp_r0_58;
     s32 temp_r0_5;
@@ -711,12 +713,12 @@ void sub_0800D368(void *arg0) {
     s32 var_r2_17;
     s32 var_r2_2;
     s32 var_r2_3;
-    s32 var_r2_4;
-    s32 var_r2_5;
-    s32 var_r2_6;
-    s32 var_r2_7;
-    s32 var_r2_8;
-    s32 var_r2_9;
+    u16 var_r2_4;
+    u16 var_r2_5;
+    u16 var_r2_6;
+    u16 var_r2_7;
+    u16 var_r2_8;
+    u16 var_r2_9;
     s32 var_r3_14;
     u32 var_r3_6;
     s32 var_r3_8;
@@ -1773,16 +1775,18 @@ block_387:
                     sp194 = 0xFFFF;
                 }
                 if (((struct PlayerD368 *)arg0)->f10 != 9) {
+                    thresholdBias0D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
                     var_r4_2 = 7;
                     var_r5_2 = arg0 + 0x64;
                     var_r3_2 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
+                    thresholdStatD368 = (s16 *) sp1B8;
 loop_410:
-                    temp_r0_28 = *var_r3_2 + ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA);
+                    temp_r0_28 = *var_r3_2 + thresholdBias0D368;
                     var_r2_4 = temp_r0_28;
                     if ((s32) (temp_r0_28 << 0x10) < 0) {
                         var_r2_4 = 0;
                     }
-                    if ((s32) (s16) *sp1B8 < (s32) (s16) var_r2_4) {
+                    if (*thresholdStatD368 < (s32) (s16) var_r2_4) {
                         var_r3_2 -= 0x1;
                         var_r4_2 -= 1;
                         if (var_r4_2 < 0) {
@@ -1917,16 +1921,18 @@ block_530:
                     sp194 = 0xFFFF;
                 }
                 if (((struct PlayerD368 *)arg0)->f10 != 9) {
+                    thresholdBias1D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
                     var_r4_4 = 7;
                     var_r5_3 = arg0 + 0x64;
                     var_r3_3 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
+                    thresholdStatD368 = (s16 *) sp1B8;
 loop_483:
-                    temp_r0_32 = *var_r3_3 + ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA);
+                    temp_r0_32 = *var_r3_3 + thresholdBias1D368;
                     var_r2_5 = temp_r0_32;
                     if ((s32) (temp_r0_32 << 0x10) < 0) {
                         var_r2_5 = 0;
                     }
-                    if ((s32) (s16) *sp1B8 < (s32) (s16) var_r2_5) {
+                    if (*thresholdStatD368 < (s32) (s16) var_r2_5) {
                         var_r3_3 -= 0x1;
                         var_r4_4 -= 1;
                         if (var_r4_4 < 0) {
@@ -2179,15 +2185,17 @@ block_590:
                     } else {
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
                             sp128 = d368_sub_0801D34C();
+                            thresholdBias3D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
                             var_r4_5 = 7;
                             var_r3_4 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
+                            thresholdStatD368 = (s16 *) sp1B8;
 loop_598:
-                            temp_r0_37 = *var_r3_4 + ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA);
+                            temp_r0_37 = *var_r3_4 + thresholdBias3D368;
                             var_r2_6 = temp_r0_37;
                             if ((s32) (temp_r0_37 << 0x10) < 0) {
                                 var_r2_6 = 0;
                             }
-                            if ((s32) (s16) *sp1B8 < (s32) (s16) var_r2_6) {
+                            if (*thresholdStatD368 < (s32) (s16) var_r2_6) {
                                 var_r3_4 -= 0x1;
                                 var_r4_5 -= 1;
                                 if (var_r4_5 < 0) {
@@ -2329,18 +2337,20 @@ block_627:
                     } else {
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
                             sp128 = d368_sub_0801D34C();
+                            thresholdBias4D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
                             var_r5_5 = 7;
                             var_r4_7 = arg0 + 0xD8;
                             var_sl = directionD36874 - 1;
                             var_r9 = arg0 + 0x40;
                             var_r3_5 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
+                            thresholdStatD368 = (s16 *) sp1B8;
 loop_703:
-                            temp_r0_45 = *var_r3_5 + ((s8) ((struct PlayerD368 *)arg0)->f6C * 0xA);
+                            temp_r0_45 = *var_r3_5 + thresholdBias4D368;
                             var_r2_8 = temp_r0_45;
                             if ((s32) (temp_r0_45 << 0x10) < 0) {
                                 var_r2_8 = 0;
                             }
-                            if ((s32) (s16) *sp1B8 < (s32) (s16) var_r2_8) {
+                            if (*thresholdStatD368 < (s32) (s16) var_r2_8) {
                                 var_r3_5 -= 0x1;
                                 var_r5_5 -= 1;
                                 if (var_r5_5 < 0) {
