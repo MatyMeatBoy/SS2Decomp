@@ -6,7 +6,28 @@ void sub_08009088(u8 a, u8 b, u8 c, u8 d)
 {
     gUnk_03001250[0x3c / 2] = a | (b << 4) | (c << 8) | (d << 12);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080090B0);
+extern void *buffersInit005[4] asm("gUnk_03003460");
+struct InitState005 { struct Layer layers[4]; u32 field60; void *field64; void *field68; u8 rest[0x20]; u16 level; u16 pad8E; u16 field90; };
+extern struct InitState005 stateInit005 asm("gUnk_03003170");
+extern u16 finishInit005(u16 *) asm("sub_0805700C");
+void sub_080090B0(void)
+{
+    u32 i;
+    buffersInit005[0] = 0;
+    stateInit005.layers[0].data = 0;
+    stateInit005.field64 = sub_08001494(0x20000);
+    stateInit005.field60 = 0;
+    for (i = 1; i < 4; i++) {
+        buffersInit005[i] = sub_08001494(0x800);
+        stateInit005.layers[i].data = 0;
+        stateInit005.layers[i].w2 = 0;
+        stateInit005.layers[i].w3 = 0;
+        stateInit005.layers[i].s16 = 1;
+    }
+    stateInit005.field68 = 0;
+    stateInit005.field90 = 0;
+    stateInit005.level = finishInit005(&stateInit005.field90);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009138);
 extern u16 *bgBuffers005[4] asm("gUnk_03003460");
 extern void cameraMap005(u32 *,u32 *,u32) asm("sub_0800AD04");
