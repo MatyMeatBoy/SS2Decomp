@@ -4550,7 +4550,6 @@ block_32:
     t025SelectState->f40 = (s32) temp_r4;
     t025SelectState->f0 = temp_r5;
 }
-#ifdef NONMATCHING
 struct T025Block270 { u32 w[10]; };
 struct T025Packet270 { u16 f0, f2; s32 f4; u8 p8[8]; };
 struct T025Player270 { u16 unk0; u8 p2[0x1A]; u16 unk1C; u8 p1E[2]; u16 unk20, unk22; u8 p24[6]; u16 unk2A; u8 p2C[4]; u32 flags; void *unk34; u8 p38[0x30]; u8 unk68; u8 p69[0x23]; struct V2W12 pos8C,pos94; u8 p9C[8]; struct V2W12 posA4; u8 pAC[0x16]; u16 unkC2,unkC4,unkC6; u8 pC8[0x80]; void *unk148; };
@@ -4841,33 +4840,26 @@ check_loop_85:
                         var_r1 = 0;
                         do {
                             var_r5 = (u8 *)var_r6_2 + ((var_r1 * 0x24) + 4);
-                            sendCount = 0;
-loop_97:
+                            for (sendCount = 0; sendCount <= 3U; sendCount++, var_r5 += 8) {
                             temp_r1_7 = M2C_FIELD(var_r5, u16 *, 0x4);
                             if (temp_r1_7 != 0) {
                                 sp0.f2 = temp_r1_7;
                                 sub_08066520(M2C_FIELD(var_r5, u16 *, 0x0) << 0xB, M2C_FIELD(var_r5, u16 *, 0x2) << 0xB, (u16) t025State270->f40, (u32 *)&sp0);
                             }
-                            sendCount += 1;
-                            var_r5 += 8;
-                            if (sendCount <= 3U) {
-                                goto loop_97;
                             }
                             var_r1 += 1;
                         } while (var_r1 <= 7U);
                         break;
                     case 5:
                         var_r5 = (u8 *)var_r6_2 + (((u16) (t025State270->f22[5] - 1) * 0x24) + 4);
-                        sendCount2 = 0;
-                        do {
+                        for (sendCount2 = 0; sendCount2 <= 3U; sendCount2++, var_r5 += 8) {
                             temp_r1_8 = M2C_FIELD(var_r5, u16 *, 0x4);
                             if (temp_r1_8 != 0) {
                                 sp0.f2 = temp_r1_8;
                                 sub_08066520(M2C_FIELD(var_r5, u16 *, 0x0) << 0xB, M2C_FIELD(var_r5, u16 *, 0x2) << 0xB, (u16) t025State270->f40, (u32 *)&sp0);
                             }
-                            sendCount2 += 1;
-                            var_r5 += 8;
-                        } while (sendCount2 <= 3U);
+                        }
+
                         break;
                     }
                     var_r6_2 = (u16 *)((u8 *)var_r6_2 + 0x124);
@@ -4902,8 +4894,8 @@ loop_97:
     goto check_loop_115;
 loop_115:
     {
-        temp_r2_9 = 0x14C * playerCount;
         if (!(((u32) (M2C_FIELD(t025Players270[playerCount].unk148, u8 *, 4) << 0x1A) >> 0x1A) & 0x20)) {
+
             sub_08065838(t025Players270[playerCount].unk0, 0x78);
         }
         playerCount += 1;
@@ -4916,9 +4908,6 @@ check_loop_115:
     sub_08068384();
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802704C);
-#endif
 struct T025Packet277 { u16 f0, f2; s32 f4; u8 p8[8]; };
 struct T025Player277 { u8 p0[0x2C]; u16 unk2C, unk2E; u8 p30[0x74]; s32 unkA4, unkA8; u8 pAC[0xA0]; };
 extern struct T025Player277 t025Players277[] asm("gUnk_03003CE0");
