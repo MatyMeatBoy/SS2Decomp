@@ -1347,34 +1347,8 @@ void t107MainD(void) {
     sp1C = 0;
     sp20 = 0;
     sp28 = (u32 *)t107Raw388;
-loop_49:
-    if ((t107D368->fC == 0xA) && (sp1C == 0)) {
-        sp1C = 8;
-    }
-    temp_r0_3 = sub_08058DB0();
-    if (temp_r0_3 == 0) {
-        t107DCall0801C8F0(t107D368);
-        temp_r0_4 = t107D368->f1FD;
-        switch (temp_r0_4) {                        /* irregular */
-        case 1:
-            t107D368->fC = (u16) temp_r0_3;
-            if (sub_080682B8((s32) t107D368->f0) != 0) {
-                t107D368->f1FD = (u8) t107D368->f1FE;
-                sub_08065E38((s32) t107D368->f0);
-            }
-            break;
-        case 3:
-            if (sub_08056F78() != 0) {
-                t107D368->f1FE = 8U;
-                t107D368->f1FD = 1U;
-                sub_08068330((s32) t107D368->f0);
-            }
-            break;
-        case 8:
-            t107D368->fC = (u16) temp_r0_3;
-            break;
-        }
-    }
+    goto loop_49;
+loop_body:
     if (gUnk_030003F1 != 0xFF) {
         if ((u8) gUnk_030003F0 == 1) {
             var_r0 = (gUnk_030003F1 * 2) + 1;
@@ -1503,6 +1477,37 @@ block_30:
         gUnk_030003F1 = gUnk_030003F2;
         sp2C = &sp14->fD6;
     }
+    goto cleanup;
+loop_49:
+    if ((t107D368->fC == 0xA) && (sp1C == 0)) {
+        sp1C = 8;
+    }
+    temp_r0_3 = sub_08058DB0();
+    if (temp_r0_3 == 0) {
+        t107DCall0801C8F0(t107D368);
+        temp_r0_4 = t107D368->f1FD;
+        switch (temp_r0_4) {                        /* irregular */
+        case 1:
+            t107D368->fC = (u16) temp_r0_3;
+            if (sub_080682B8((s32) t107D368->f0) != 0) {
+                t107D368->f1FD = (u8) t107D368->f1FE;
+                sub_08065E38((s32) t107D368->f0);
+            }
+            break;
+        case 3:
+            if (sub_08056F78() != 0) {
+                t107D368->f1FE = 8U;
+                t107D368->f1FD = 1U;
+                sub_08068330((s32) t107D368->f0);
+            }
+            break;
+        case 8:
+            t107D368->fC = (u16) temp_r0_3;
+            break;
+        }
+    }
+    goto loop_body;
+cleanup:
     t107DCall08067CA8(t107D368->f2);
     gUnk_030003EA = 0;
     temp_sl = gUnk_030003F1 + 1;
