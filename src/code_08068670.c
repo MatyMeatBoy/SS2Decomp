@@ -215,6 +215,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     register s16 signedDamage asm("r1");
     register s32 extended asm("r2");
     register u8 *sourceStatus asm("r1");
+    u8 *targetStatus68;
     s32 radius;
     register u32 id asm("r0");
     register u32 effect asm("r1");
@@ -425,8 +426,9 @@ remoteDone:
             } else {
 loop_69:
                 targetPlayerAlly = (0x14C * playerIndexAlly) + (u8 *)gUnk_03003CE0;
-                sourceStatus=sourcePlayer+0x68;
-                temp_r2_3 = M2C_FIELD(targetPlayerAlly, u8 *, 0x68);
+                targetStatus68 = targetPlayerAlly + 0x68;
+                sourceStatus = sourcePlayer + 0x68;
+                temp_r2_3 = *targetStatus68;
                 if (temp_r2_3 == *sourceStatus) {
 
                 } else {
