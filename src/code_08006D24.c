@@ -102,58 +102,7 @@ void sub_08006EC8(u16 s)
                     s);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006EE0);
-#ifdef NONMATCHING
-extern u32 g7164Tbl[] asm("gUnk_08518938");
-s32 sub_08007164(u32 id)
-{
-    u8 *p;
-    s32 r;
-    u8 *base = (u8 *)g7164Tbl;
-    struct { u32 a; u32 b; u32 off[10]; } *t = (void *)base;
-    id &= 0xFFF;
-    switch (id) {
-    case 7:
-        p = base + t->off[1];
-        break;
-    case 8:
-        p = base + t->off[6];
-        break;
-    case 9:
-        p = base + t->off[3];
-        break;
-    case 0: case 1: case 2: case 3: case 4: case 5: case 6:
-        p = base + t->off[id];
-        break;
-    case 11: return 0x2EB;
-    case 12: return 0x9E;
-    case 13: return 0x96;
-    case 14: return 0xB7;
-    case 15: return 0x60;
-    case 17: return 0x28;
-    case 16: return 0x64;
-    case 20: return 0x5D5;
-    case 18: return 0x91;
-    case 19: return 0x59;
-    case 21: return 5;
-    default: return 0;
-    }
-    switch (id) {
-    case 0: r = *(s32 *)p; break;
-    case 1: r = *(s32 *)p; break;
-    case 2: r = *(s32 *)p; break;
-    case 3: r = *(s32 *)p; break;
-    case 4: r = *(s32 *)p; break;
-    case 5: r = *(s32 *)p; break;
-    case 6: r = *(s32 *)p; break;
-    case 7: r = *(s32 *)p; break;
-    case 8: r = *(s32 *)p; break;
-    case 9: r = *(s32 *)p; break;
-    }
-    return r;
-}
-#else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007164);
-#endif
 s32 sub_08007280(M2C_UNK arg0) {
     return sub_08006EE0(arg0, &gUnk_08E3FB54);
 }
