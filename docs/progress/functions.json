@@ -2437,21 +2437,21 @@
       "name": "sub_08005B88",
       "addr": 134241160,
       "size": 1284,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x08005B88",
       "canonical_symbol": "sub_08005B88",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "menu5B",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 1947,
+          "line": 1946,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2460,21 +2460,21 @@
       "name": "sub_0800608C",
       "addr": 134242444,
       "size": 1208,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x0800608C",
       "canonical_symbol": "sub_0800608C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "menu6C",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2268,
+          "line": 2195,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
