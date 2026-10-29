@@ -422,7 +422,31 @@ u32 sub_080663A4(u32 index)
     root67Count++;
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066404);
+extern u8 *root67State asm("gUnk_03005CF4");
+u32 sub_08066404(void)
+{
+    u32 count = root67Count;
+    u8 *entry;
+    register u32 *source asm("r0");
+    u32 size,rem;
+    register u8 *destination asm("r1");
+    if(count>49) return 0;
+    source=(u32 *)(root67State+0x1E4C);
+    if(*source) {
+        entry=root67Entries+count*0x88;
+        *(u32 *)(entry+4)=1;
+        entry[0]=0x94;
+        source=(u32 *)(root67State+0x1E4C);
+        destination=entry+8;
+        CpuSet(source,destination,((*source+1)&0x1FFFFF)|0x04000000);
+        size=*(u32 *)(root67State+0x1E4C)*4+4;
+        rem=size&7;
+        if(rem) { size += 8; size -= rem; }
+        entry[1]=size>>3;
+        root67Count++;
+    }
+    return 1;
+}
 u32 sub_08066490(u32 a, u32 b, u32 *src)
 {
     u8 *p;
