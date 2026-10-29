@@ -5571,7 +5571,7 @@ block_1813:
                         var_r5_13 = 0x16;
                         goto block_1813;
                     }
-                    d368_sub_08065370(&sp44, (u16) sp138, &coordFC, &coordFE, (1));
+                    d368_sub_08065370(&sp44, sp138, &coordFC, &coordFE, (1));
                     if (d368_sub_0800CC98() != 0) {
 
                     } else if (d368_sub_0800CCCC() != 0) {

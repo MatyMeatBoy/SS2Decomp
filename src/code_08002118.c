@@ -1285,19 +1285,32 @@ block_175:
                 }
                 if ((u32) M2C_FIELD(arg0, u8 *, 2) <= 8U) {
                     var_r7 = (u8 *)&cursor;
-                    temp_r5_14 = menuIndexC9 + ((u8 *)&gUnk_08366E0C);
-                    sub_08065230(var_r7, (*temp_r5_14 - offsetX) - cursorX, *(var_r4_2 = (u16 *)(menuIndexC9 + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
+                    var_r4_2 = (u16 *)&gUnk_08366E0C;
+                    temp_r5_14 = (u16 *)(menuIndexC9 + (u8 *)var_r4_2);
+                    var_r1_7 = *temp_r5_14;
+                    var_r1_7 -= offsetX;
+                    var_r1_7 -= cursorX;
+                    var_r4_2 = (u16 *)((u32)var_r4_2 + 2);
+                    var_r4_2 = (u16 *)(menuIndexC9 + (u32)var_r4_2);
+                    sub_08065230(var_r7, var_r1_7, *var_r4_2 - 0x20, 3U, 2);
                     var_r1_7 = *temp_r5_14;
                     var_r1_7 += offsetY;
                     var_r1_7 += cursorY;
                 } else {
+                    s32 selectorStepC10;
                     var_r7 = (u8 *)&cursor;
-                    temp_r5_14 = menuIndexC9 + ((u8 *)&gUnk_08366E0C);
-                    sub_08065230(var_r7, (*temp_r5_14 - offsetX) - (cursorX + 5), *(var_r4_2 = (u16 *)(menuIndexC9 + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
+                    var_r4_2 = (u16 *)&gUnk_08366E0C;
+                    temp_r5_14 = (u16 *)(menuIndexC9 + (u8 *)var_r4_2);
+                    var_r1_7 = *temp_r5_14;
+                    var_r1_7 -= offsetX;
+                    var_r1_7 -= (selectorStepC10 = cursorX + 5);
+                    var_r4_2 = (u16 *)((u32)var_r4_2 + 2);
+                    var_r4_2 = (u16 *)(menuIndexC9 + (u32)var_r4_2);
+                    sub_08065230(var_r7, var_r1_7, *var_r4_2 - 0x20, 3U, 2);
                     var_r1_7 = *temp_r5_14;
                     var_r1_7 += offsetY;
                     {
-                        s32 selectorStepC10 = cursorY + 5;
+                        selectorStepC10 = cursorY + 5;
                         var_r1_7 += selectorStepC10;
                     }
                 }

@@ -3714,11 +3714,9 @@ check_loop_33:
             spawnCount += 1;
         } while (spawnCount <= 3U);
     }
-    goto check_loop_60;
-loop_60:
-    sub_080003F0();
-check_loop_60:
-    if (sub_08009930(t025State270->f0, t025State270->f40) == 0) goto loop_60;
+    while (sub_08009930(t025State270->f0, t025State270->f40) == 0) {
+        sub_080003F0();
+    }
     goto check_loop_63;
 loop_63:
     sub_080003F0();
@@ -3804,7 +3802,8 @@ loop_97:
             }
         }
     }
-    if (t025Rows270[t025State270->f0 - 1].x[t025State270->f40] != 0) {
+    var_r1 = t025Rows270[t025State270->f0 - 1].x[t025State270->f40];
+    if (var_r1 != 0) {
         sub_08057328(0);
     }
     sub_0800CEFC();

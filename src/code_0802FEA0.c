@@ -1979,7 +1979,211 @@ INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035A88);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035B18);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080368F4);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080376CC);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08037B04);
+struct T36Player { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 unk30; u8 pad34[0x118]; };
+struct T36Task { u32 f0, f4, unk8, unkC; u8 *unk10; u32 f14, f18, f1c; u8 *unk20; u32 unk24; };
+struct T36Actor { s32 id; u8 pad4[0x40]; u32 unk44; u8 pad48[0x28]; };
+extern struct T36Player t36Players[] asm("gUnk_03003CE0");
+extern u8 *t36State asm("gUnk_03005CF4");
+extern void sub_08059250(void);
+extern void sub_080290E4(s32, s32);
+extern void sub_08029174(s32, s32);
+extern void sub_0802939C(s32, s32);
+extern void sub_0802949C(s32, s32);
+extern void sub_0802996C(void);
+void sub_08037B04(s32 input) {
+    register s32 arg0 asm("r8") = input;
+    struct T36Actor *var_r0;
+    struct T36Actor *var_r1;
+    register s32 temp_r0 asm("r1");
+    register s32 raw asm("r0");
+    register u32 taskArg asm("r0");
+    u32 callback;
+    u16 var_r4_2;
+    u16 var_r5_2;
+    u16 var_r5_3;
+    u16 var_r5_4;
+    u16 var_r5_5;
+    u16 var_r5_6;
+    u16 var_r5_7;
+    u16 var_r5_8;
+    u32 temp_r4;
+    u32 var_r2;
+    u32 endCallback;
+    u32 var_r4;
+    struct T36Task *var_r5;
+    u32 var_r6;
+    u8 *temp_r0_2;
+    struct T36Player *temp_r2;
+    struct T36Player *temp_r2_2;
+
+    temp_r2 = &t36Players[sub_080020F4()];
+    temp_r2->unk30 = (s32) (temp_r2->unk30 | 1);
+    sub_0800D0F4();
+    sub_0802949C(arg0, 0);
+    while (sub_0805F184() != 0) sub_080003F0();
+    temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x1401DFU);
+    while (sub_0805EEFC((void *)temp_r4) == 0) sub_080003F0();
+    var_r4 = sub_0805EF14((u8 *) temp_r4);
+    if (var_r4 != 1) {
+
+    } else {
+        raw = sub_080020F4();
+        temp_r0 = raw;
+        asm("" : "+r"(temp_r0), "+r"(raw));
+        if (raw == 1) goto mode1;
+        if (raw > 1) goto upper_modes;
+        if (raw == 0) goto mode0;
+        goto mode_done;
+upper_modes:
+        if (temp_r0 == 2) goto mode2;
+        if (temp_r0 == 3) goto mode3;
+        goto mode_done;
+mode0: var_r4 = 0x12C; goto mode_done;
+mode1: var_r4 = 0x121; goto mode_done;
+mode2: var_r4 = 0x137; goto mode_done;
+found_actor:
+        var_r0 = var_r1;
+        goto actor_done;
+mode3: var_r4 = 0x116;
+mode_done:
+        sub_0802939C(0, 8);
+        sub_080290E4(0, 2);
+        sub_08028AAC(0, (s32) (u16) var_r4, 0x54, 0x3C);
+        callback = (u32)sub_0805A9F4;
+        var_r5 = (struct T36Task *)(t36State + 0xE34);
+        var_r6 = 0;
+        goto task_check;
+task_next:
+        var_r6++;
+        var_r5++;
+task_check:
+        if (var_r6 <= 29) {
+            if (sub_08000470((u32)var_r5) != 0) goto task_next;
+            while ((var_r5->unk20 = sub_08001494(0x400U)) == NULL) sub_080003F0();
+            temp_r0_2 = var_r5->unk20;
+            var_r5->unk8 = 0x3C;
+            var_r5->unkC = callback;
+            var_r5->unk10 = temp_r0_2 + 0x3FC;
+            var_r5->unk24 = 0;
+            taskArg = (u32)var_r5;
+            asm("" : "+r"(taskArg));
+            sub_08000274(taskArg, 0x01E00042);
+        }
+        sub_080290E4(0, 0);
+        sub_08029174(0, 0x23);
+        var_r5_2 = 0x3C;
+        goto wait_30;
+dec_30:
+        var_r5_2--;
+        if (var_r5_2 == 0) goto done_30;
+wait_30:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_30;
+done_30:;
+
+        sub_08028AAC(0, (s32) (u16) var_r4, 0x51, 0x3C);
+        var_r5_3 = 0x1E;
+        goto wait_33;
+dec_33:
+        var_r5_3--;
+        if (var_r5_3 == 0) goto done_33;
+wait_33:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_33;
+done_33:;
+
+        sub_08028AAC(0, (s32) (u16) var_r4, 0x54, 0x3C);
+        var_r5_4 = 0x1E;
+        goto wait_36;
+dec_36:
+        var_r5_4--;
+        if (var_r5_4 == 0) goto done_36;
+wait_36:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_36;
+done_36:;
+
+        sub_08028AAC(0, (s32) (u16) var_r4, 0x51, 0x3C);
+        var_r5_5 = 0x1E;
+        goto wait_39;
+dec_39:
+        var_r5_5--;
+        if (var_r5_5 == 0) goto done_39;
+wait_39:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_39;
+done_39:;
+
+        sub_08028AAC(0, (s32) (u16) var_r4, 0x54, 0x3C);
+        var_r5_6 = 0x1E;
+        goto wait_42;
+dec_42:
+        var_r5_6--;
+        if (var_r5_6 == 0) goto done_42;
+wait_42:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_42;
+done_42:;
+
+        sub_0802996C();
+        if (!(gUnk_030027D0 & 0x20)) {
+            sub_08006D08(0x91U);
+        }
+        var_r5_7 = 0x1E;
+        goto wait_47;
+dec_47:
+        var_r5_7--;
+        if (var_r5_7 == 0) goto done_47;
+wait_47:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_47;
+done_47:;
+
+        sub_08029174(0, 0);
+        sub_080290E4(0, 1);
+        sub_08028AAC(0, (s32) (u16) var_r4, 0x4C, 0);
+        var_r5_8 = 3;
+        goto wait_50;
+dec_50:
+        var_r5_8--;
+        if (var_r5_8 == 0) goto done_50;
+wait_50:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_50;
+done_50:;
+
+        sub_08028AAC(0, (s32) (u16) var_r4, 0x4E, 0);
+        var_r4_2 = 0x14;
+        goto wait_53;
+dec_53:
+        var_r4_2--;
+        if (var_r4_2 == 0) goto done_53;
+wait_53:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec_53;
+done_53:;
+
+        endCallback = (u32)sub_08059250;
+        var_r1 = (struct T36Actor *)(t36State + 0x7A4);
+        var_r2 = 0;
+        do {
+            if (var_r1->id == arg0) goto found_actor;
+            var_r2++;
+            var_r1++;
+        } while (var_r2 <= 14);
+        sub_080003F0();
+        var_r0 = NULL;
+actor_done:
+        if (var_r0 != NULL) {
+            var_r0->unk44 = endCallback;
+        }
+    }
+    temp_r2_2 = &t36Players[sub_080020F4()];
+    temp_r2_2->unk30 = (s32) (temp_r2_2->unk30 & ~1);
+    sub_0800D108();
+    t36Players[sub_080020F4()].unk20 = 0;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08037DFC);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080384D4);
 extern u8 *state3898C asm("gUnk_03005CF4");
