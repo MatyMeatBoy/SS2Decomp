@@ -401,71 +401,85 @@ void oamFrameTiles004(u16 anim, u16 frame, struct Root4TileSpriteRecord *record,
         }
     }
 }
-#ifdef NONMATCHING
-struct Position76C4 { s32 x,y; };
-struct Block76C4 { u16 flags,count; u32 offset4,offset8; };
-struct Oam76C4 { s32 y:8; u32 affine:2; u32 mode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; s32 x:9; u32 matrix:5; u32 size:2; u16 tile:10; u16 priority:2; u16 palette:4; u16 affineParam; };
-extern u32 count76C4 asm("gUnk_030028B4");
-extern s32 base76C4 asm("gUnk_030028B8");
-extern u8 *vram76C4 asm("gUnk_030028BC");
-extern struct Oam76C4 buffer76C4[] asm("gUnk_03001330");
-extern s32 nonSquare76C4[] asm("gUnk_0847842C");
-extern s32 square76C4[] asm("gUnk_0847843C");
-s32 impl76C4(struct Position76C4, u32, u32, u32, u8 *, struct Block76C4 *) asm("sub_080076C4");
-s32 impl76C4(struct Position76C4 pos, u32 entry, u32 frameIndex, u32 priority, u8 *palette, struct Block76C4 *bankRaw) {
-    register struct Block76C4 *animation asm("r1"); register u32 selector asm("r1"); register struct Block76C4 *frameAccess asm("r1"); register u32 byteOffset asm("r1"); register u32 zero asm("r0"); register struct Block76C4 *frame asm("ip");
-    register struct Oam76C4 *source asm("r6"); register struct Oam76C4 *out asm("r5");
-    u32 initial; register u32 index asm("r9"); u32 next;
-    register u32 total asm("r8"); s32 *tilePtr; struct Oam76C4 *savedSource;
-    register s32 base asm("sl"); register s32 x asm("r3"); register s32 y asm("r4"); s32 tiles; register u32 attr5 asm("r1"); register u32 work0 asm("r0"); register u32 work2 asm("r2");
-    register u32 savedEntry asm("r5"); register u32 priorityInput asm("r0")=priority; register struct Block76C4 *bank asm("r4")=bankRaw;
-    entry<<=16; asm("" : "+r"(entry)); entry>>=16; asm("" : "+r"(entry)); savedEntry=entry; asm("" : "+r"(savedEntry), "+r"(frameIndex), "+r"(priorityInput), "+r"(bank)); frameIndex<<=16; asm("" : "+r"(frameIndex)); frameIndex>>=16; asm("" : "+r"(frameIndex)); priority=(u8)priorityInput;
-    if((initial=count76C4)>128 || bank->count<entry)return -1;
-    goto initialize;
-full:return 0;
-initialize:
-    base=base76C4; asm("" : "+r"(base));
-    frame=(struct Block76C4 *)((u8 *)bank+bank->offset4); asm("" : "+r"(frame));
-    animation=(struct Block76C4 *)((u8 *)bank+bank->offset8); asm("" : "+r"(animation));
-    animation=(struct Block76C4 *)((u8 *)animation+savedEntry*12); asm("" : "+r"(animation));
-    animation=(struct Block76C4 *)((u8 *)animation+animation->offset8); asm("" : "+r"(animation));
-    animation=(struct Block76C4 *)((u8 *)animation+frameIndex*4); asm("" : "+r"(animation));
-    selector=*(u16 *)animation; asm("" : "+r"(selector));
-    frame=(struct Block76C4 *)((u8 *)frame+selector*12);
-    asm("" : "+r"(frame));
-    frameAccess=frame; asm("" : "+r"(frameAccess)); work0=frameAccess->offset8; asm("" : "+r"(work0)); source=(struct Oam76C4 *)((u8 *)frameAccess+work0);
-    byteOffset=initial<<3; asm("" : "+r"(byteOffset)); work0=(u32)buffer76C4; asm("" : "+r"(work0)); out=(struct Oam76C4 *)(byteOffset+work0);
-    asm("" : "+r"(source), "+r"(out));
-    zero=0; asm("" : "+r"(zero)); total=zero;index=zero; asm("" : "+r"(total), "+r"(index));
-    { register u32 frameCount asm("r1"); frameAccess=frame; asm("" : "+r"(frameAccess)); frameCount=frameAccess->count; asm("" : "+r"(frameCount)); if(total>=frameCount)goto finish; }
-loop:
-    savedSource=source;
-    *out=*source;
-    work0=((u16 *)source)[1]; x=(s32)(work0<<23)>>23;
-    y=source->y; work2=pos.y; asm("" : "+&r"(savedSource), "+r"(work0), "+r"(x), "+r"(y), "+r"(work2)); y=y+work2; work0=pos.x; asm("" : "+r"(work0)); x=x+work0;
-    attr5=3; work0=priority; work0 &=attr5; asm("" : "+r"(work0), "+r"(attr5)); work0<<=2;
-    work2=((u8 *)out)[5]; attr5=(work2 & ~0xC) | work0; ((u8 *)out)[5]=attr5;
-    work2=palette[attr5>>4]; work2<<=4; attr5 &=0xF; attr5|=work2; ((u8 *)out)[5]=attr5;
-    if((u32)(x+64)>304 || y>160 || y< -64) {
-        out->size=0;out->shape=0;y=160;
+struct Root4SeqOamData { u32 y:8; u32 affineMode:2; u32 objMode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; u32 x:9; u32 matrixNum:5; u32 size:2; u16 tileNum:10; u16 priority:2; u16 paletteNum:4; u16 affineParam; };
+struct Root4SeqSpriteOam { s8 y; u8 unk1_0:6; u8 shape:2; s16 x:9; u16 unk2_9:5; u16 size:2; u16 tileNum:10; u16 unk4_10:6; u16 unk6; };
+struct Root4SeqSpriteFrame { u16 unk0; u16 count; u32 unk4; s32 oams; };
+struct Root4SeqSpriteAnim { u16 unk0; u16 unk2; u16 frameCount; u16 unk6; s32 frames; };
+struct Root4SeqSpriteRecord { u16 unk0; u16 animCount; s32 frames; s32 anims; };
+extern struct Root4SeqOamData root4SeqOam[] asm("gUnk_03001330");
+extern u32 root4SeqCount asm("gUnk_030028B4");
+extern u32 root4SeqTiles asm("gUnk_030028B8");
+extern const u32 root4SeqNonSquare[] asm("gUnk_0847842C");
+extern const u32 root4SeqSquare[] asm("gUnk_0847843C");
+extern u32 root4SeqVram asm("gUnk_030028BC");
+u32 oamDrawSeq004(s32,s32,u16,u16,u8,u8 *,struct Root4SeqSpriteRecord *) asm("sub_080076C4");
+u32 oamDrawSeq004(s32 x, s32 y, u16 anim, u16 frame, u8 priority, u8 *palettes,
+                 struct Root4SeqSpriteRecord *record)
+{
+    struct Root4SeqSpriteFrame *frames;
+    struct Root4SeqSpriteAnim *entry;
+    struct Root4SeqSpriteOam *src;
+    struct Root4SeqOamData *dest;
+    u32 base;
+    u32 list;
+    struct Root4SeqSpriteOam *obj;
+    u32 shape;
+    u16 tile;
+    u32 i;
+    s32 objX;
+    s32 objY;
+    u32 count;
+
+    count = root4SeqCount;
+    if (count > 128)
+        return -1;
+    if (record->animCount < anim)
+        return -1;
+    base = root4SeqTiles;
+    frames = (struct Root4SeqSpriteFrame *)(record->frames + (u32)record);
+    entry = (struct Root4SeqSpriteAnim *)((u32)record + record->anims) + anim;
+    list = (u32)entry + entry->frames;
+    list += frame * 4;
+    frames += *(u16 *)list;
+    src = (struct Root4SeqSpriteOam *)((u8 *)frames + frames->oams);
+    dest = &root4SeqOam[count];
+    tile = 0;
+    for (i = 0; i < frames->count; i++, dest++, src++)
+    {
+
+
+        do
+        {
+            obj = src;
+            *dest = *(struct Root4SeqOamData *)src;
+            objX = ((u16 *)src)[1] << 23;
+            objX >>= 23;
+            objY = src->y;
+            objY += y;
+            objX += x;
+        } while (0);
+        dest->priority = priority;
+        dest->paletteNum = palettes[dest->paletteNum];
+        if ((u32)(objX + 64) > 304 || objY > 160 || objY < -64)
+        {
+            dest->size = 0;
+            dest->shape = 0;
+            objY = 160;
+        }
+        dest->x = objX;
+        dest->y = objY;
+        dest->tileNum = tile + base;
+        shape = obj->shape;
+        if (shape)
+            tile += root4SeqNonSquare[obj->size];
+        else
+            tile += root4SeqSquare[obj->size];
+        if (++root4SeqCount > 128)
+            return 0;
     }
-    attr5=0x1FF; work0=attr5; asm("" : "+r"(attr5), "+r"(work0)); x &=work0; attr5=((u16 *)out)[1]; work0=attr5 & ~0x1FF; work0|=x; ((u16 *)out)[1]=work0;
-    ((u8 *)out)[0]=(u8)y;
-    out->tile=total+base;
-    if(((u8 *)savedSource)[1]>>6) { tilePtr=&nonSquare76C4[savedSource->size]; asm("" : "+r"(tilePtr)); }
-    else { tilePtr=&square76C4[savedSource->size]; }
-    total=(u16)(total+*tilePtr);
-    next=count76C4+1;count76C4=next;
-    if(next>128)goto full;
-    index++;out++;source++;
-    if(index<frame->count)goto loop;
-finish:
-    base76C4+=total;
-    return (s32)(vram76C4+(base<<5));
+    root4SeqTiles += tile;
+    return root4SeqVram + base * 32;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080076C4);
-#endif
 struct Draw7870 { struct Draw7870 *prev,*next; s32 x,y; u16 a,b; u32 data0,data1,data2; u16 field20; u8 priority:3; u8 bit3:1; u8 bits4:3; u8 bit7:1; u8 pad23; u16 field24,field26,field28,pad2A; };
 extern struct Draw7870 *head7870 asm("gUnk_030028C0");
 extern struct Draw7870 *tail7870 asm("gUnk_030028C4");
