@@ -201,6 +201,7 @@ extern void sub_080997C0(u16,u16);
 #endif
 #ifdef NONMATCHING
 void sub_08098108(void *arg0) {
+    struct TaskFinal98108 { u8 pad[0x18]; s32 y; }; struct TaskFinal98108 *taskFinal98108;
     u16 *registration;
     s32 *registrationFlags;
     u32 sp10[13];
@@ -254,21 +255,21 @@ void sub_08098108(void *arg0) {
     s32 temp_r0_8;
     s32 temp_r1_4;
     s32 temp_r4;
-    s32 var_r5;
+    s32 var_r5; register s32 endFinal98108 asm("r4"); register s32 endFirst98108 asm("r5");
     u32 temp_r0_2;
     u16 temp_r0_9;
     u16 temp_r1;
     u32 var_r0_2;
     u32 temp_r0_10;
-    u32 temp_r0_20;
-    u32 temp_r0_21;
+    register u32 temp_r0_20 asm("r0"); register u32 firstCounter98108 asm("r1"); register u32 firstDelta98108 asm("r2");
+    register u32 temp_r0_21 asm("r0"); register u32 finalDelta98108 asm("r1");
     u32 temp_r0_7;
     u32 temp_r1_5;
     u32 temp_r1_6;
     u32 temp_r1_8;
     u32 temp_r1_9;
     u32 temp_r5;
-    u32 temp_r5_2;
+    register u32 temp_r5_2 asm("r5");
     u8 temp_r0_11;
     u8 temp_r0_12;
     u8 temp_r0_13;
@@ -784,23 +785,23 @@ loop_158:
     sub_080970CC(gUnk_030002D0, &sp10, *spD4, gUnk_030002D4);
     if (!(*((s32 *)((u8 *)&gUnk_03003CE0->flags+sub_080020F4()*0x14C)) & 0x2000) && (M2C_FIELD(gUnk_030002D0, u16 *, 0x5A) != 0)) {
         temp_r4 = sub_0801E46C((void *) gUnk_030034E0, sp7C);
-        spAC = 0x1D;
+        endFirst98108=0x1D; asm("" : : "r"(endFirst98108)); spAC=endFirst98108; endFirst98108=-1; asm("" : "+r"(endFirst98108));
         do {
-            M2C_FIELD(gUnk_030002D0, s32 *, 0x18) = (s32) (M2C_FIELD(gUnk_030002D0, s32 *, 0x18) - 0x20);
-            sub_0806171C(gUnk_030002D0, temp_r4);
+            taskFinal98108=(struct TaskFinal98108 *)gUnk_030002D0; taskFinal98108->y-=0x20;
+            sub_0806171C(taskFinal98108, temp_r4);
             sub_080003F0();
-            temp_r0_20 = (spAC << 0x10) + 0xFFFF0000;
-            spAC = temp_r0_20 >> 0x10;
-        } while (((s32) temp_r0_20 >> 0x10) != -1);
+            firstCounter98108=spAC; temp_r0_20=firstCounter98108<<16; asm("" : "+r"(temp_r0_20)); firstDelta98108=0xFFFF0000; temp_r0_20+=firstDelta98108;
+            spAC=temp_r0_20>>16; asm("" : "+r"(temp_r0_20) : "r"(firstCounter98108), "r"(firstDelta98108));
+        } while (((s32) temp_r0_20 >> 0x10) != endFirst98108);
         sub_0801E4CC((u8 *) gUnk_030034E0, temp_r4);
     }
-    spAC = 0x6F;
+    endFinal98108=0x6F; asm("" : : "r"(endFinal98108)); spAC=endFinal98108; endFinal98108=-1; asm("" : "+r"(endFinal98108));
     do {
         sub_080003F0();
         temp_r5_2 = spAC;
-        temp_r0_21 = (temp_r5_2 << 0x10) + 0xFFFF0000;
-        spAC = temp_r0_21 >> 0x10;
-    } while (((s32) temp_r0_21 >> 0x10) != -1);
+        temp_r0_21=temp_r5_2<<16; asm("" : "+r"(temp_r0_21)); finalDelta98108=0xFFFF0000; temp_r0_21+=finalDelta98108;
+        spAC=temp_r0_21>>16; asm("" : "+r"(temp_r0_21) : "r"(temp_r5_2), "r"(finalDelta98108));
+    } while (((s32) temp_r0_21 >> 0x10) != endFinal98108);
     sub_08067C18();
     while (sub_08067C08() == 0) {
         sub_080003F0();
