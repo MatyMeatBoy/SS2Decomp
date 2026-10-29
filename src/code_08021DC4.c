@@ -3221,7 +3221,70 @@ loop_356:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080245CC);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080257D4);
+extern void t24_callback257D4(void) asm("sub_080245CC");
+extern u32 t24_state asm("gUnk_03005CF4");
+void t24_start257D4(u32 arg0, s32 param1) asm("sub_080257D4");
+void t24_start257D4(u32 arg0, s32 param1) {
+    register s32 arg1 asm("r6") = param1;
+    register s32 temp_r0 asm("r8");
+    register s32 step asm("r4");
+    register s32 temp_r2 asm("r2");
+    s32 temp_r5;
+    register u32 mem asm("r1");
+    register char *base asm("r3");
+    register u32 addr asm("r0");
+    asm("" : "+r"(arg1) : "r"(&t24_state));
+    step = arg1 * 4;
+    asm("" : "+r"(step));
+    temp_r0 = (step + arg1) * 8;
+    asm("" : "+r"(temp_r0));
+    temp_r5 = temp_r0 + 0x17BC;
+    if (sub_08000470(t24_state + temp_r5) != 0) {
+        sub_080003A8(t24_state + temp_r5);
+    }
+    addr = t24_state + 0x17C8;
+    asm("" : "+r"(addr));
+    asm("" : : "r"(addr), "r"(temp_r0));
+    *(u32 *)(addr + temp_r0) = (u32)t24_callback257D4;
+goto alloc;
+retry: sub_080003F0();
+alloc:
+    mem = sub_08001494(0x400);
+    asm("" : "+r"(mem));
+    base = (char *)t24_state;
+    asm("" : "+r"(step) : "r"(arg1));
+    addr = step + arg1;
+    asm("" : "+r"(addr));
+    temp_r2 = addr * 8;
+    asm("" : "+r"(temp_r2), "+r"(base));
+    addr = (u32)(base + 0x17DC);
+    asm("" : "+r"(addr));
+    *(u32 *)(addr + temp_r2) = mem;
+    if (mem == 0) {
+        goto retry;
+    }
+    addr = (u32)(base + 0x17CC);
+    asm("" : "+r"(addr));
+    *(u32 *)(addr + temp_r2) = mem + 0x3FC;
+    addr = (u32)(base + 0x17C4);
+    asm("" : "+r"(addr));
+    *(u32 *)(addr + temp_r2) = 0x46;
+    addr = (u32)(base + 0x17E0);
+    asm("" : "+r"(addr));
+    *(u32 *)(addr + temp_r2) = 0;
+    addr = temp_r2 + 0x17BC;
+    asm("" : "+r"(addr));
+    sub_08000274(base + addr, arg0);
+}
+
+
+
+
+
+
+
+
+
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08025890);
 void sub_08026338(void *arg) {
     s32 *gp;

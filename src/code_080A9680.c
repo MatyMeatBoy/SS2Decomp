@@ -193,9 +193,202 @@ void sub_080AB2D8(void) {
     sub_08016ECC(gUnk_03000430);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AB2F8);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC214);
+struct P113214 { u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x34]; u16 c8,ca,cc; u8 padce[0x7e]; };
+extern struct P113214 p113214[] asm("gUnk_03003CE0");
+extern s32 *obj113214 asm("gUnk_03000434");
+extern u8 angle113214(s32,s32,s32,s32) asm("sub_08095FC8");
+void sub_080AC214(s32 arg0)
+{
+    struct P113214 *base;
+    s32 i, x;
+    register s32 offset asm("r0");
+    register u32 *flags asm("r1");
+    register s32 *coord asm("r1");
+    if ((arg0 << 24) != 0) return;
+    base = p113214;
+    if (base[sub_080020F4()].state == 11) return;
+    if (base[sub_080020F4()].state == 14) return;
+    if (base[sub_080020F4()].state == 12) return;
+    offset = 0x14C * sub_080020F4();
+    flags = &base->flags; asm("" : "+r"(offset), "+r"(flags));
+    if (*(u32 *)(offset + (u32)flags) & 0x2000) return;
+    if (base[sub_080020F4()].active == 0) return;
+    i = sub_080020F4();
+    offset = 0x14C * sub_080020F4();
+    coord = &base->x; asm("" : "+r"(offset), "+r"(coord));
+    x = *(s32 *)(offset + (u32)coord) >> 8;
+    offset = 0x14C * sub_080020F4();
+    coord = &base->y; asm("" : "+r"(offset), "+r"(coord));
+    base[i].ca = angle113214(x, *(s32 *)(offset + (u32)coord) >> 8, obj113214[5] >> 8, obj113214[6] >> 8);
+    base[sub_080020F4()].cc = 0x200;
+    base[sub_080020F4()].c8 = 1;
+}
+
+
+
+
+
+
+
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC2E8);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC5B4);
+struct P1135 { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 flags; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C; u8 pad90[0x20]; u16 unkB0; u8 padb2[0x16]; u16 unkC8,unkCA,unkCC; u8 padce[0x16]; u32 unkE4[0x1a]; };
+struct O1135 { u16 unk0; u8 pad2[10]; u16 unkC; u8 pade[6]; s32 unk14,unk18; u8 pad1c[0x34]; s32 unk50; };
+extern struct P1135 players1135[] asm("gUnk_03003CE0");
+extern struct O1135 *obj1135 asm("gUnk_03000434");
+extern s32 y1135 asm("gUnk_03003D70");
+extern u32 atan1135(s32,s32) asm("ArcTan2");
+extern s32 hit1135(void *,void *) asm("sub_0801ED8C");
+s32 sub_080AC5B4(void) {
+    volatile s32 sp0;
+    struct P1135 *base;
+    register s32 stride asm("r6");
+    register u32 indexWord asm("r1");
+    struct O1135 *object;
+    register u32 *slot asm("r1");
+    struct P1135 *tail;
+    struct O1135 **obj;
+    register s32 idx asm("r0");
+    s32 value;
+    register u32 fraction asm("r1");
+    register u32 half asm("r0");
+    register u32 one asm("r2");
+    register u32 *history asm("r9");
+    register s32 *xp asm("r10");
+    register s32 off asm("r0");
+    register u32 *fp asm("r1");
+    register s16 *var_r0 asm("r0");
+    s16 temp_r1;
+    s16 temp_r4_2;
+    register s32 var_r1 asm("r1");
+    s32 temp_r0;
+    register s32 temp_r5 asm("r5");
+    u32 temp_r0_2;
+    u32 temp_r4;
+    register u32 temp_r4_4 asm("r4");
+    register u32 var_r4 asm("r4");
+    register u32 angle asm("r0");
+    struct P1135 *temp_r1_2;
+    struct O1135 *temp_r4_3;
+    struct O1135 *initial;
+
+    sp0 = 0;
+    idx = sub_080020F4();
+    obj = &obj1135;
+    initial = *obj;
+    base = players1135;
+    stride = 0x14C;
+    idx *= stride;
+    asm("" : "+r"(idx), "+r"(stride));
+    xp = &base->unk8C;
+    asm("" : "+r"(xp));
+    temp_r4 = (u32) ((initial->unk14 - *(s32 *)(idx + (u32)xp)) << 8) >> 0x10;
+    temp_r4_2 = (s16) temp_r4;
+    temp_r1 = ((s32) ((*obj)->unk18 - *(s32 *)((stride * sub_080020F4()) + (u32)&y1135)) >> 8) - 8;
+    if ((u32) Sqrt((temp_r4_2 * temp_r4_2) + (temp_r1 * temp_r1)) > 0x27U) {
+
+    } else if (sub_0800CDF8() != 0) {
+
+    } else if (sub_0800CCCC() != 0) {
+
+    } else if (sub_0800CD8C() != 0) {
+
+    } else if ((*obj)->unkC == 0xB) {
+
+    } else if ((off = stride * sub_080020F4(), fp = &base->flags, *(u32 *)(off + (u32)fp) & 0x2000)) {
+
+    } else if ((*(struct P1135 *)(sub_080020F4() * stride + (u32)base)).unk68 == 0) {
+
+    } else if ((*(struct P1135 *)(sub_080020F4() * stride + (u32)base)).unk20 == 0xE) {
+
+    } else if ((*(struct P1135 *)(sub_080020F4() * stride + (u32)base)).unk20 == 0xB) {
+
+    } else if ((*(struct P1135 *)(sub_080020F4() * stride + (u32)base)).unk20 == 0xC) {
+
+    } else {
+        off = sub_080020F4();
+        object = *obj;
+        indexWord = object->unk0 * 4;
+        off *= stride;
+        asm("" : "+r"(off), "+r"(indexWord));
+        indexWord += off;
+        history = base->unkE4;
+        asm("" : "+r"(indexWord), "+r"(history));
+        slot = (u32 *)(indexWord + (u32)history);
+        if (*slot == object->unk50) goto done;
+        (*(struct P1135 *)(sub_080020F4() * stride + (u32)base)).unk20 = 0xA;
+        (*(struct P1135 *)(sub_080020F4() * stride + (u32)base)).unkB0 = 0xFFFE;
+        temp_r5 = sub_080020F4();
+        temp_r4_3 = *obj;
+        value = hit1135(temp_r4_3, &(*(struct P1135 *)(sub_080020F4() * stride + (u32)base)));
+        temp_r1_2 = &(*(struct P1135 *)(temp_r5 * stride + (u32)base));
+        temp_r1_2->unk88 = value * 2 + temp_r1_2->unk88;
+        off = sub_080020F4();
+        object = *obj;
+        indexWord = object->unk0 * 4;
+        off *= stride;
+        asm("" : "+r"(off), "+r"(indexWord));
+        indexWord += off;
+        slot = (u32 *)(indexWord + (u32)history);
+        asm("" : "+r"(slot), "+r"(object));
+        temp_r0 = object->unk50;
+        *slot = temp_r0;
+        object->unk50 = temp_r0 + 1;
+        asm("" : : "r"(object));
+        one = 1; asm("" : "+r"(one)); sp0 = one;
+        temp_r4_4 = (u32) ((*(s32 *)((stride * sub_080020F4()) + (u32)xp) - (*obj)->unk14) << 8) >> 0x10;
+        asm("" : "+r"(temp_r4_4));
+        temp_r1 = (s32) ((*(s32 *)((stride * sub_080020F4()) + (u32)&y1135) - (*obj)->unk18) << 8) >> 0x10;
+        temp_r4_4 = (s16)temp_r4_4;
+        asm("" : "+r"(temp_r4_4));
+        angle = atan1135(temp_r4_4, temp_r1) << 16;
+        asm("" : "+r"(angle));
+        fraction = angle << 3;
+        var_r4 = angle >> 29;
+        asm("" : "+r"(fraction), "+r"(var_r4));
+        half = 0x80000000;
+        asm("" : "+r"(half));
+        if (fraction > half) {
+            if (var_r4 <= 6U) {
+                var_r4 += 1;
+            } else {
+                var_r4 = 0;
+            }
+        }
+        if (var_r4 == 0) goto direction0;
+        if (var_r4 == 1) goto direction1;
+        {
+            {
+                idx = sub_080020F4();
+                tail = players1135;
+                asm("" : "+r"(tail));
+                var_r0 = (s16 *)(idx * 0x14C + (u32)tail);
+                var_r1 = var_r4 - 2;
+                var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); asm("" : "+r"(var_r0), "+r"(var_r1));
+            }
+            goto storeDirection;
+        }
+direction0:
+        idx = sub_080020F4(); tail = players1135; asm("" : "+r"(tail));
+        var_r0 = (s16 *)(idx * 0x14C + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 6;
+        asm("" : "+r"(var_r0), "+r"(var_r1));
+        goto storeDirection;
+direction1:
+        idx = sub_080020F4(); tail = players1135; asm("" : "+r"(tail));
+        var_r0 = (s16 *)(idx * 0x14C + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 7;
+        asm("" : "+r"(var_r0), "+r"(var_r1));
+storeDirection:
+        *var_r0 = var_r1;
+        players1135[sub_080020F4()].unkCC = 0x400;
+        players1135[sub_080020F4()].unkC8 = 0x16;
+        sub_0805865C(0xBB);
+    }
+done:
+    return sp0;
+}
+
+
+
+
 void sub_080AC81C(void)
 {
     sub_0805867C(0xC2);

@@ -3957,7 +3957,8 @@ block_1200:
                 break;
 block_1213:
                 temp_r0_100 = d368_sub_0800CCCC();
-                M2C_FIELD(temp_r4_27, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(temp_r4_27, u8 *, 4)) | (((s32) ((0 - temp_r0_100) | temp_r0_100) >> 0x1F) & 0x20));
+                temp_r0_100 = ((s32) ((0U - (u32) temp_r0_100) | (u32) temp_r0_100) >> 0x1F) & 0x20;
+                M2C_FIELD(temp_r4_27, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(temp_r4_27, u8 *, 4)) | temp_r0_100);
                 break;
             case 8:                                 /* switch 16 */
                 temp_r2_40 = ((struct PlayerD368 *)arg0)->f144;
@@ -4006,7 +4007,8 @@ block_1213:
 block_1220:
                 temp_r4_27 = *var_r5_10;
                 temp_r0_102 = d368_sub_0800CCCC();
-                M2C_FIELD(temp_r4_27, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(temp_r4_27, u8 *, 4)) | (((s32) ((0 - temp_r0_102) | temp_r0_102) >> 0x1F) & 0x20));
+                temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
+                M2C_FIELD(temp_r4_27, u8 *, 4) = (u8) ((-0x40 & M2C_FIELD(temp_r4_27, u8 *, 4)) | temp_r0_102);
                 var_r0_29 = d368_sub_0807A028(1);
                 var_r3_7 = *var_r5_10;
 block_1221:
