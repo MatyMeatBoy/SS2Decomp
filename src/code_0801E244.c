@@ -67,22 +67,19 @@ void sub_0801E2CC(s32 arg0, u32 arg1)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
 #endif
-#ifdef NONMATCHING
-void sub_0801E324(u16 arg0, u32 playerIndex, u16 arg2)
+struct RemoveEntry019 { u16 id:16; u16 type,key; u8 pad[34]; };
+struct RemovePlayer019 { u8 pad[0x34]; struct RemoveEntry019 *entries; u8 tail[0x114]; };
+extern struct RemovePlayer019 removePlayers019[] asm("gUnk_03003CE0");
+extern void removeEntries019(u32,u32,u32) asm("sub_0801E324");
+void removeEntries019(u32 type,u32 playerIndex,u32 key)
 {
-    u8 *player = (u8 *)gUnk_03003CE0 + playerIndex * 0x14C + 0x34;
-    u8 *entry = *(u8 **)player;
+    struct RemoveEntry019 *entry=removePlayers019[playerIndex].entries;
     u32 i;
-
-    for (i = 0; i < 8; i++, entry += 0x28) {
-        if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == arg2 &&
-            *(u16 *)(entry + 2) == arg0)
-            *(u16 *)entry = 0xFFFF;
+    for(i=0;i<8;i++,entry++) {
+        if((s16)entry->id!=-1 && entry->key==key && entry->type==type)
+            entry->id |= 0xFFFF;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E324);
-#endif
 extern u32 statRead019(s32,s32) asm("sub_0801E0AC");
 u16 sub_0801E378(s32 arg0,u16 value)
 {
