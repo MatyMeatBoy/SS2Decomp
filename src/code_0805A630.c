@@ -1419,7 +1419,84 @@ void sub_0805CB04(s32 index, struct Record60 *out)
 
 
 
+#ifdef NONMATCHING
+struct CB8CSlot { s32 x, y; u16 pad8; s16 active; u8 padC[0x14]; };
+struct CB8CBounds { u32 left, top, right, bottom; };
+struct CB8CColor { u16 value, pad; };
+struct CB8CLocal { u8 unused[16]; u8 counts[4]; u16 angles[4]; struct CB8CColor colors[4]; };
+extern struct CB8CSlot *cb8c_slots asm("gUnk_03005D58");
+extern struct CB8CBounds cb8c_bounds[] asm("gUnk_084EBCE8");
+extern struct CB8CColor cb8c_colors[] asm("gUnk_084EBD28");
+extern u8 cb8c_video[] asm("gUnk_03001F40");
+
+/* Pulse four palette colors when exactly one active slot occupies each
+ * rectangle; otherwise ease their RGB components toward neutral gray. */
+void sub_0805CB8C(void)
+{
+    struct CB8CLocal state;
+    struct CB8CSlot *particle;
+    struct CB8CColor *color;
+    u8 *bytes;
+    u32 i, j, component;
+    s32 x, y, step;
+    s16 sine;
+    for (i = 0; i < 4; i++) {
+        state.counts[i] = 0;
+        state.angles[i] = 0;
+        state.colors[i].value = 0;
+    }
+    for (;;) {
+        for (i = 0; i < 4; i++) {
+            particle = cb8c_slots;
+            state.counts[i] = 0;
+            for (j = 0; j < 16; j++, particle++) {
+                if (particle->active != 0) {
+                    x = (particle->x << 5) >> 16;
+                    if (cb8c_bounds[i].left <= (u32)x) {
+                        y = (s16)((particle->y << 5) >> 16);
+                        if (cb8c_bounds[i].top <= (u32)y &&
+                            cb8c_bounds[i].right >= (u32)x &&
+                            cb8c_bounds[i].bottom >= (u32)y)
+                            state.counts[i]++;
+                    }
+                }
+            }
+        }
+        for (i = 0; i < 4; i++) {
+            color = &state.colors[i];
+            bytes = (u8 *)&color->value;
+            if (state.counts[i] == 1) {
+                state.angles[i] = (state.angles[i] + 4) & 0x7F;
+                sine = gUnk_080B9704[(s16)state.angles[i]];
+                bytes[0] = (bytes[0] & 0xE0) |
+                    (((sine * (cb8c_colors[i].value & 31)) >> 8) & 31);
+                color->value = (color->value & 0xFC1F) |
+                    ((((sine * ((cb8c_colors[i].value >> 5) & 31)) >> 8) & 31) << 5);
+                bytes[1] = (bytes[1] & 0x83) |
+                    ((((sine * ((((u8 *)&cb8c_colors[i].value)[1] >> 2) & 31)) >> 8) & 31) << 2);
+            } else {
+                component = bytes[0] & 31;
+                step = (s32)(8 - component) >> 1;
+                if (step == 0) bytes[0] = (bytes[0] & 0xE0) | 8;
+                else bytes[0] = (bytes[0] & 0xE0) | ((component + step) & 31);
+                component = (color->value >> 5) & 31;
+                step = (s32)(8 - component) >> 1;
+                if (step == 0) color->value = (color->value & 0xFC1F) | 0x100;
+                else color->value = (color->value & 0xFC1F) | (((component + step) & 31) << 5);
+                component = (bytes[1] >> 2) & 31;
+                step = (s32)(8 - component) >> 1;
+                if (step == 0) bytes[1] = (bytes[1] & 0x83) | 0x20;
+                else bytes[1] = (bytes[1] & 0x83) | (((component + step) & 31) << 2);
+                state.angles[i] = 0;
+            }
+            *(u16 *)(cb8c_video + 0x1D8 + i * 2) = color->value;
+        }
+        sub_080003F0();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB8C);
+#endif
 #ifdef NONMATCHING
 struct PuzzleSlot61 { s32 x,y; u16 pad8,active; u32 padC; u16 type,value; u8 tail[12]; };
 struct PuzzleItem61 { u16 type,value; union { u32 wide; struct {u16 a;u8 b,c;} parts; } data; u8 last; u8 tail[7]; };
