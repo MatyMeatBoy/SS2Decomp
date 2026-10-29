@@ -26,6 +26,8 @@ jobs:
           /usr/bin/python3 tools/scripts/test_sdk_halfword_alignment.py --compiler tools/agbcc_sdk_flags/bin/agbcc --reference-compiler tools/agbcc_tst/bin/agbcc
           /usr/bin/python3 tools/scripts/test_sdk_trampoline_alignment.py --compiler tools/agbcc_sdk_flags/bin/agbcc --reference-compiler tools/agbcc_tst/bin/agbcc
           /usr/bin/python3 tools/scripts/test_sdk_reader_match.py
+          /usr/bin/python3 tools/scripts/test_sdk_postdec_flags.py
+          /usr/bin/python3 tools/scripts/test_sdk_postdec_rtl.py
           /usr/bin/python3 tools/scripts/test_sdk_pattern_container.py
           /usr/bin/python3 tools/scripts/test_sdk_umul.py
           /usr/bin/python3 tools/scripts/test_sdk_sound_match.py

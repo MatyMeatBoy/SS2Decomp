@@ -1,52 +1,55 @@
-/* C readers preserve their shared-entry fall-through ABI. */
+/* SDK reader container; JumpTableCopy is mixed C/ABI. All algorithms are C.
+ * Only SDK register-save/return/shared-entry transfers use ABI assembly. */
 #include "global.h"
-register struct MusicPlayerTrack *sdkTrack asm("r1");
+#define A __attribute__((section(".text"),aligned(4),thumb_literal))
+register u32 sdkR1 asm("r1");
 register u8 *sdkCursor asm("r2");
 register u32 sdkValue asm("r3");
+register u32 sdkReturn asm("r12");
+#define sdkTrack ((struct MusicPlayerTrack *)sdkR1)
 extern u32 sdkJumpTableTemplate[] asm("gUnk_080BB7E8");
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1_read", MPlayJumpTableCopy);
-
-asm(".align 2, 0");
-
-/* No return here: the original ABI falls into the validator entry below. */
-void sub_080B6990(void) __attribute__((naked));
-void sub_080B6990(void)
+extern const u32 *const sdkSharedTemplate asm("_080B69A8") A;
+/* ABI view: every original validator exit restores the incoming r0. */
+u32 *sdkValidateKeepR0(u32 *unused) asm("sub_080B6992") __attribute__((naked));
+void MPlayJumpTableCopy(MPlayFunc *unused) __attribute__((naked));
+void MPlayJumpTableCopy(MPlayFunc *unused)
 {
-    sdkValue = *sdkCursor;
+    register u32 *sdkDest asm("r0") = (u32 *)unused;
+    asm("mov %0,lr" : "=r"(sdkReturn));
+    sdkR1 = 36;
+    sdkCursor = (u8 *)sdkSharedTemplate;
+loop:
+    sdkValue = *(u32 *)sdkCursor;
+    sdkDest = sdkValidateKeepR0(sdkDest);
+    *sdkDest++ = sdkValue;
+    sdkCursor += 4;
+    if ((s32)sdkR1-- > 1) goto loop;
+    asm("bx %0" : : "r"(sdkReturn), "r"(sdkDest));
 }
-
-
-void sub_080B6992(void) __attribute__((naked));
-void sub_080B6992(void)
+asm(".align 2,0");
+void sub_080B6990(void) __attribute__((naked));
+/* This entry falls through into the validator, preserving the shared ABI. */
+void sub_080B6990(void) { sdkValue = *sdkCursor; }
+u32 *sdkValidateKeepR0(u32 *unused)
 {
-    register u32 scratch asm("r0");
-    /* ABI only: the protected-reader helper preserves its caller's r0. */
+    register u32 sdkR0 asm("r0");
     asm("push {r0}");
-    scratch = (u32)sdkCursor >> 25;
-    if (scratch != 0) goto done;
-    scratch = (u32)sdkJumpTableTemplate;
-    if ((u32)sdkCursor < scratch) goto clear;
-    scratch = (u32)sdkCursor >> 14;
-    if (scratch == 0) goto done;
+    sdkR0 = (u32)sdkCursor >> 25;
+    if (sdkR0 != 0) goto done;
+    sdkR0 = (u32)sdkSharedTemplate;
+    if ((u32)sdkCursor < sdkR0) goto clear;
+    sdkR0 = (u32)sdkCursor >> 14;
+    if (sdkR0 == 0) goto done;
 clear:
     sdkValue = 0;
 done:
-    asm("pop {r0}\nbx lr");
+    asm("pop {%0}" : "=r"(sdkR0));
+    return (u32 *)sdkR0;
 }
-
-/* Export the original shared data label for the sole C-generated literal. */
-asm(".set _080B69A8, . - 4");
-
-
-/* Shared-entry ABI falls through to the stream advance/validation tail. */
+asm("bx lr");
+const u32 *const sdkSharedTemplate asm("_080B69A8") A = sdkJumpTableTemplate;
 void sub_080B69AC(void) __attribute__((naked));
-void sub_080B69AC(void)
-{
-    sdkCursor = sdkTrack->cmdPtr;
-}
-
-/* Shared-entry ABI: preserve the caller's lr when entering the validator. */
+void sub_080B69AC(void) { sdkCursor = sdkTrack->cmdPtr; }
 void sub_080B69AE(void) __attribute__((naked));
 void sub_080B69AE(void)
 {

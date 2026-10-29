@@ -72,8 +72,8 @@ CC1FLAGS_m4a_1_commands := -O2 -mthumb-interwork
 CC1_m4a_1_mod := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_mod := -O2 -mthumb-interwork
 
-CC1_m4a_1_read := tools/agbcc_sdk_flags/bin/agbcc
-CC1FLAGS_m4a_1_read := -O2 -mthumb-interwork -fprologue-bugfix -ftst -flsr-flags -fthumb-halfword-align
+CC1_m4a_1_read := tools/agbcc_sdk_postdec/bin/agbcc
+CC1FLAGS_m4a_1_read := -O2 -mthumb-interwork -fprologue-bugfix -ftst -flsr-flags -fthumb-halfword-align -fthumb-text-literals -fthumb-postdec-flags
 
 CC1_m4a_1_jump := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_jump := -O2 -mthumb-interwork
@@ -175,3 +175,9 @@ tools/agbcc_sdk_vsync/installed: tools/install_agbcc_sdk_vsync.sh tools/patches/
 	sh tools/install_agbcc_sdk_vsync.sh
 
 $(BUILD)/src/m4a_1_vsync.o: Makefile tools/agbcc_sdk_vsync/installed
+
+# SDK reader only: generated-pseudo post-decrement comparison before flow.
+tools/agbcc_sdk_postdec/installed: tools/install_agbcc_sdk_postdec.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-lsr-halfword.patch tools/patches/agbcc-sdk-text-literals.patch tools/patches/agbcc-sdk-sub-after-literals.patch tools/patches/agbcc-sdk-postdec-preflow.patch
+	sh tools/install_agbcc_sdk_postdec.sh
+
+$(BUILD)/src/m4a_1_read.o: Makefile tools/agbcc_sdk_postdec/installed

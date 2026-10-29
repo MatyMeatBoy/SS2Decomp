@@ -1,0 +1,25 @@
+{
+  "private_only": true,
+  "source_revision": "1b1c4a81d13918ca55c39c1ccf83689691b03a25",
+  "archive_sha256": "7afb90d0fd3495cc19925a8cc454261bcceaf30ec4c138f5bd61a3302ef2c4b1",
+  "base_patches": {
+    "agbcc-tst-eq-ne-only.patch": "6e4c7ada5e1dd97a0c6a7c9c105e02ac68e1948bfdd945b892b111302b311ade",
+    "agbcc-sdk-lsr-halfword.patch": "6848bb2b38fb803a44c2f9e61b9af8aa00359ab2ca13df6973e6e8f3a13640cc",
+    "agbcc-sdk-text-literals.patch": "e1debb95c659c1bf027bc6f09f06e8aee6eeef23a0e13ae0100c6315f4abe389",
+    "agbcc-sdk-sub-after-literals.patch": "c84661d52844e6fc7ea818935883c725ba69cc28592933fd4c57ee770d82bd82"
+  },
+  "delta_sha256": "d43e95b7c508d540e3f3a2da117119af494ef2fdc86b8af4934a651b799acc95",
+  "default": 0,
+  "option": "-fthumb-postdec-flags",
+  "source_files_lf": {
+    "flags.h": "edfad4aa03aa355ae129dae62af499e579c251ef588d5e81e0bede46cd09efcc",
+    "toplev.c": "dbdf6a9adf17de7e2046c5e775fb10052aa5a7bfed2824e1080ef5d8b3a78a47",
+    "thumb.h": "755996f70dd791b934ce864dc02e660f711e96d9818b16b63f409c7ef13a3d7f",
+    "thumb.md": "7d0bf4e282a75d4fedf78613e04e0919262b1e9aff29fd227ffc090b00c780f6",
+    "thumb.c": "e606ae6994baa16d07e22409fce0cb22e76c21e6be2c562215d41b560c228666",
+    "telf.h": "82f134dea94cbf8cf2acb00860d2fb6f7c8205818ffacfe42b34f74de25d39c8"
+  },
+  "scope": "Pre-flow only: unique generated pseudo COPY oldcount; self SUB1; CMP oldcount,1 -> tied count update and full old-value comparison in PARALLEL; no hard/user/virtual TMP; all references/notes/callusage checked; structural notes reject",
+  "license": "GCC GPL-2.0-or-later; upstream COPYING retained",
+  "delta_path": "tools/patches/agbcc-sdk-postdec-preflow.patch"
+}
