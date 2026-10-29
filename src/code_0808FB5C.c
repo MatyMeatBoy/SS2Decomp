@@ -254,14 +254,12 @@ u32 sub_080903C4(u32 arg0)
 s32 sub_08090434(s32 arg0, s32 arg1) {
     return (s32) (arg1 * arg0) >> 8;
 }
-#ifdef NONMATCHING
-s32 sub_0809043C(s32 arg0, s32 arg1)
+s32 sub_0809043C(s32 a,s32 b)
 {
-    return (arg0 << 8) / arg1;
+    register s32 value asm("r2")=a;
+    asm("" : "+r"(value));
+    return (s32)((u32)value<<8)/b;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809043C);
-#endif
 s32 sub_0809044C(s32 arg0, s32 arg1)
 {
   unsigned long long new_var;
