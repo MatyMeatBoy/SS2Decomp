@@ -104,10 +104,146 @@ after:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FA68);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FB0C);
+struct PlayerFB0C { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct StateFB0C { u8 pad[4]; u16 flags; };
+extern struct PlayerFB0C playersFB0C[] asm("gUnk_03003CE0");
+extern struct StateFB0C *stateFB0C asm("gUnk_03005CF4");
+extern void sub_080586B4(s32);
+void sub_0804FB0C(void) {
+    s32 temp_r0;
+    u16 var_r4;
+    u32 temp_r4;
+    struct PlayerFB0C *temp_r2;
+    struct PlayerFB0C *temp_r2_2;
+
+    temp_r2 = &playersFB0C[sub_080020F4()];
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    if (sub_0800CB9C() == 0) {
+        if (!(gUnk_030027D0 & 0x20)) {
+            gUnk_03005CF8 = 0xA5;
+            sub_08006CB4(0xA5U);
+        }
+    } else {
+        sub_080586B4(0);
+    }
+    if (sub_0800CC98() == 0) {
+        temp_r0 = sub_0801AB24();
+        switch (temp_r0) {                          /* irregular */
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    var_r4 = 0x14;
+    goto wait;
+decrement:
+    var_r4--;
+    if (var_r4 == 0) goto after;
+wait:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto decrement;
+after:
+while (sub_0805F184() != 0) sub_080003F0();
+while (sub_0805EF90() != 0) sub_080003F0();
+    temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x140064U);
+while (sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
+    stateFB0C->flags = (u16) (0x20 | stateFB0C->flags);
+    temp_r2_2 = &playersFB0C[sub_080020F4()];
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
+    sub_0800D108();
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FC3C);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FF04);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080502DC);
+struct Player502DC { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
+struct Slot502DC { s32 id; u8 pad[0x32]; u16 state; u8 tail[0x38]; };
+struct State502DC { u8 pad0[4]; u16 flags; u8 pad6[0x7A4-6]; struct Slot502DC slots[15]; };
+extern struct State502DC *state502DC asm("gUnk_03005CF4");
+extern struct Player502DC players502DC[] asm("gUnk_03003CE0");
+extern void sub_0802939C(s32,s32);
+extern void sub_0802A01C(void);
+extern void sub_0805990C(void);
+void sub_080502DC(void) {
+    struct Slot502DC *slot;
+    struct Player502DC *player;
+    u16 ticks;
+    register u32 offset asm("r2");
+    register u32 waitHandle asm("r4");
+    u32 wait, handle, i;
+    s32 ui;
+    do {
+        ticks = 1;
+        goto wait1;
+dec1:
+        ticks--;
+        if (ticks == 0) goto after1;
+wait1:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto dec1;
+after1:
+        if (!((state502DC->flags >> 4) & 1)) wait = sub_08019C3C();
+        else wait = 1;
+    } while (wait != 0);
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    player = (struct Player502DC *)((u8 *)players502DC + offset);
+    player->flags |= 1;
+    sub_0800D0F4();
+    sub_08068070((u32)sub_0805990C, 15);
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+    handle = sub_0805DF38(1,15,2,0,0x2D,0x140069);
+    ticks = 30;
+    goto wait2;
+dec2:
+    ticks--;
+    if (ticks == 0) goto after2;
+wait2:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto dec2;
+after2:
+    ui = sub_080289C0(0x13,0x170,0x88);
+    ticks = 1;
+    goto wait3;
+dec3:
+    ticks--;
+    if (ticks == 0) goto after3;
+wait3:
+    sub_080003F0();
+    if (sub_080021A8() == 0) goto dec3;
+after3:
+    sub_08028AAC(1,0x270F,0x270F,0);
+    sub_0802A01C();
+    waitHandle = handle;
+    while (sub_0805EEFC((void *)waitHandle) == 0) sub_080003F0();
+    sub_0802939C(ui,10);
+    sub_08028AAC(ui,0x99,0x5D,0x64);
+    slot = state502DC->slots;
+    i = 0;
+    while (slot->id != ui) {
+        i++;
+        slot++;
+        if (i > 14) {
+            sub_080003F0();
+            slot = 0;
+            break;
+        }
+    }
+    if (slot != 0) slot->state = 4;
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    player = (struct Player502DC *)((u8 *)players502DC + offset);
+    player->flags &= ~1;
+    sub_0800D108();
+}
 struct TaskF50454 { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
 struct StateF50454 { u8 pad0[0x38]; u32 flags; u8 pad3C[0xE34-0x3C]; struct TaskF50454 tasks[30]; };
 extern struct StateF50454 *stateF50454 asm("gUnk_03005CF4");

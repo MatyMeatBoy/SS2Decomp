@@ -101,7 +101,59 @@ void sub_08006EC8(u16 s)
     m4aMPlayFadeOut((struct MusicPlayerInfo *)&gUnk_030075C0,
                     s);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006EE0);
+struct ResourceHeader6EE0 { u32 first, second; u32 offsets[10]; };
+struct ResourceBlock6EE0 { u32 count; u32 offsets[1]; };
+extern u8 gUnk_084506D0[], gUnk_08434738[], gUnk_0843B8C8[], gUnk_08442498[];
+extern u8 gUnk_084303B8[], gUnk_0844A820[], gUnk_0844EB50[], gUnk_0842A6D4[];
+extern u8 gUnk_084742BC[], gUnk_0842A38C[], gUnk_0847838C[];
+extern u8 *gUnk_0838AFF0[], *gUnk_084009A4[], *gUnk_08428C38[], *gUnk_083D8AEC[], *gUnk_083B0B4C[];
+s32 sub_08006EE0(s32 value, s32 *archive)
+{
+    u8 *resource;
+    struct ResourceHeader6EE0 *header = (struct ResourceHeader6EE0 *)archive;
+    u32 kind = ((u32)value << 4) >> 20;
+    switch (kind) {
+    case 7: resource = (u8 *)header + header->offsets[1]; break;
+    case 8: resource = (u8 *)header + header->offsets[6]; break;
+    case 9: resource = (u8 *)header + header->offsets[3]; break;
+    case 0: case 1: case 2: case 3: case 4: case 5: case 6:
+        resource = (u8 *)header + header->offsets[kind]; break;
+    case 11: resource = gUnk_084506D0 + 0xC4 * (value & 0xFFFF); break;
+    case 12: resource = gUnk_08434738 + 0xB8 * (value & 0xFFFF); break;
+    case 13: resource = gUnk_0843B8C8 + 0xB8 * (value & 0xFFFF); break;
+    case 14: resource = gUnk_08442498 + 0xB8 * (value & 0xFFFF); break;
+    case 15: resource = gUnk_084303B8 + 0xB4 * (value & 0xFFFF); break;
+    case 16: resource = gUnk_0844A820 + 0xAC * (value & 0xFFFF); break;
+    case 17: resource = gUnk_0844EB50 + 0xB0 * (value & 0xFFFF); break;
+    case 18: resource = gUnk_0842A6D4 + 0xA4 * (value & 0xFFFF); break;
+    case 19: resource = gUnk_084742BC + 0xB0 * (value & 0xFFFF); break;
+    case 20:
+        switch ((u32)gUnk_03003470) {
+        case 0: resource = gUnk_0838AFF0[value & 0xFFFF]; break;
+        case 1: resource = gUnk_084009A4[value & 0xFFFF]; break;
+        case 2: resource = gUnk_08428C38[value & 0xFFFF]; break;
+        case 4: resource = gUnk_083B0B4C[value & 0xFFFF]; break;
+        case 3: resource = gUnk_083D8AEC[value & 0xFFFF]; break;
+        }
+        break;
+    case 21: resource = gUnk_0842A38C + 0xA8 * (value & 0xFFFF); break;
+    case 22: resource = gUnk_0847838C; break;
+    default: return 0;
+    }
+    switch (kind) {
+    case 0: case 2:
+        { u32 offset = (value & 0xFFFF) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+    case 5:
+        { u32 offset = (value & 0xFFFF) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+    case 4:
+        { u32 offset = (value & 0xFFFF) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+    case 1: case 3: case 6:
+        { u32 offset = ((value & 0xFFFF) * 2) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+    case 7: case 8: case 9:
+        { u32 offset = ((value & 0xFFFF) * 2 + 1) << 2; register u8 *entry asm("r1") = resource + 4; entry += offset; resource += *(u32 *)entry; }; break;
+    }
+    return (s32)resource;
+}
 struct ResourceTable7164 { u32 first, second; u32 offsets[10]; };
 s32 sub_08007164(u32 value)
 {
