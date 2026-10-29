@@ -201,7 +201,7 @@ struct Position68 { s32 x, y; };
 s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     void sub_08029A7C(u32, s32, s32);
     void sub_08029B98(u32, u32, s32, s32, s32, s32);
-    s16 sub_08068F9C(void *, s32);
+    s16 damage68_raw(void *,s32) asm("sub_08068F9C");
     void sub_080694AC(void *);
     void sub_08069A30(s32, s32, u32, u16, u16);
     extern u8 gUnk_084EBF1C[];
@@ -211,7 +211,20 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     extern u32 enemyActive asm("gUnk_030056FC");
     u8 *sourceEnemy;
     u8 *sourcePlayer;
+    register u32 zero asm("r7");
+    register s16 signedDamage asm("r1");
+    register s32 extended asm("r2");
+    register u8 *sourceStatus asm("r1");
     s32 radius;
+    register u32 id asm("r0");
+    register u32 effect asm("r1");
+    register s16 damage asm("r2");
+    register u32 kind asm("r3");
+    register u16 *table asm("r4");
+    register u16 *effectPtr asm("r3");
+    register s32 radiusValue asm("r1");
+
+    u16 deltaY;
     s32 localPlayer;
     s16 temp_r1_3;
     s16 temp_r1_5;
@@ -220,16 +233,16 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     s32 var_r0_4;
     s32 var_r0_5;
     s32 var_r2;
-    s32 var_r2_2;
-    s32 var_r2_3;
+    register s32 var_r2_2 asm("r2");
+    register s32 var_r2_3 asm("r2");
     s32 temp_r0;
-    s32 localPlayerMask;
+    register s32 localPlayerMask asm("r10");
     s32 temp_r0_3;
     s32 temp_r0_4;
     s32 temp_r0_7;
-    s32 temp_r1;
+    register s32 temp_r1 asm("r1");
     s32 var_r0_3;
-    s32 var_r1;
+    register s32 var_r1 asm("r1");
     u16 *var_r0_6;
     u16 temp_r4_2;
     u16 temp_r4_4;
@@ -237,17 +250,17 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     u16 var_r1_2;
     u32 temp_r0_5;
     u32 temp_r0_6;
-    u32 temp_r2;
-    u32 playerCount;
-    u32 hitFlags;
-    u32 enemyIndex;
-    u32 playerIndexEnemy;
-    u32 playerIndexAlly;
-    u8 temp_r2_3;
-    u8 *enemyTargetPosition;
+    register u32 temp_r2 asm("r2");
+    register u32 playerCount asm("r10");
+    register u32 hitFlags asm("r8");
+    register u32 enemyIndex asm("r9");
+    register u32 playerIndexEnemy asm("r9");
+    register u32 playerIndexAlly asm("r9");
+    register u8 temp_r2_3 asm("r2");
+    register u8 *enemyTargetPosition asm("r1");
     u8 *enemyHitHistory;
     u8 *playerHitHistory;
-    u8 *allyTargetPosition;
+    register u8 *allyTargetPosition asm("r3");
     u8 *targetPlayerEnemy;
     u8 *targetPlayerAlly;
     u8 *targetEnemy;
@@ -264,22 +277,19 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     }
     hitFlags = 0;
     temp_r0 = M2C_FIELD(attack, u32 *, 0xC);
-    if (temp_r0 != 0xC) {
-        if (temp_r0 == 0xD) {
-            var_r0 = 0x16;
-        } else {
-            var_r0 = radii[M2C_FIELD(attack, u32 *, 0x14)];
-        }
-        radius = (s32) var_r0;
-    } else {
-        radius = 0x20;
-    }
+    if(temp_r0 == 12) goto radius32;
+    if(temp_r0 != 13) goto radiusTable;
+    var_r0=22; goto radiusStore;
+radius32: radiusValue=32; radius=radiusValue; goto radiusDone;
+radiusTable: var_r0=radii[M2C_FIELD(attack,u32 *,0x14)];
+radiusStore: radius=var_r0;
+radiusDone:
     /* Enemy slots are checked first when the target is not a player. */
     if ((u32) M2C_FIELD(attack, u32 *, 0x8) <= 3U) {
 
     } else {
         enemyIndex = 0;
-        localPlayerMask = 1 << localPlayer;
+        localPlayerMask = 1; localPlayerMask = localPlayerMask << localPlayer;
 loop_15:
         if (!(enemyActive & (1 << enemyIndex))) {
 
@@ -290,7 +300,9 @@ loop_15:
             } else if (M2C_FIELD(targetEnemy, u16 *, 0xC) == 0xB) {
 
             } else {
-                var_r1 = (s32) ((M2C_FIELD(targetEnemy, s32 *, 0x14) - pos.x) << 8) >> 0x10;
+                var_r1 = (M2C_FIELD(targetEnemy,s32 *,0x14)-pos.x)<<8;
+                deltaY = (u16) ((s16) ((u32) ((M2C_FIELD(targetEnemy, s32 *, 0x18) - pos.y) << 8) >> 0x10));
+                var_r1 >>= 16;
                 if (var_r1 < 0) {
                     var_r1 = 0 - var_r1;
                 }
@@ -298,69 +310,87 @@ loop_15:
                 if (var_r1 > (s32) temp_r2_2) {
 
                 } else {
-                    var_r0_2 = (s16) ((u32) ((M2C_FIELD(targetEnemy, s32 *, 0x18) - pos.y) << 8) >> 0x10);
+                    var_r0_2 = (s16) deltaY;
                     if ((s32) var_r0_2 < 0) {
                         var_r0_2 = 0 - var_r0_2;
                     }
                     if ((s32) var_r0_2 > (s32) temp_r2_2) {
 
                     } else {
-                        if (localPlayer != M2C_FIELD(attack, u32 *, 0x0)) {
+                        if (localPlayer == M2C_FIELD(attack, u32 *, 0x0)) {
+                            if (M2C_FIELD(targetEnemy, u32 *, 0x54) != M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
+                            M2C_FIELD(attack, u32 *, 0x8) = (u32) (M2C_FIELD(targetEnemy, u16 *, 0x0) + 4);
+                            temp_r0_4 = M2C_FIELD(attack, u32 *, 0xC);
+                            if(temp_r0_4==4) goto local4;
+                            if(temp_r0_4==7) goto local7;
+                            sub_080694AC(attack); goto localDone;
+local4:
+                            if(M2C_FIELD(targetEnemy,u8 *,0x226)!=1) goto localNormal;
+                            signedDamage=damage68_raw(attack,0); signedDamage=(s16)signedDamage; extended=signedDamage*15/10;
+                            id=M2C_FIELD(targetEnemy,u16 *,0);
+                            effectPtr=&attackEffect;
+                            effect=*effectPtr;
+                            kind=M2C_FIELD(attack,u32 *,0x14);
+                            goto callLocal;
+localNormal:
+                            damage=damage68_raw(attack,0); extended=(s16)damage;
+                            id=M2C_FIELD(targetEnemy,u16 *,0);
+                            effectPtr=&attackEffect;
+                            effect=*effectPtr;
+                            kind=M2C_FIELD(attack,u32 *,0x14);
+                            sub_08029B98(id,effect,extended,kind,0,0);
+                            goto localStore;
+local7:
+                            damage=damage68_raw(attack,0); extended=(s16)damage;
+                            id=M2C_FIELD(targetEnemy,u16 *,0);
+                            table=effects;
+                            kind=M2C_FIELD(attack,u32 *,0x14);
+                            effect=table[kind];
+callLocal:
+                            sub_08029B98(id,effect,extended,kind,0,0);
+localStore:
+                            M2C_FIELD(targetEnemy,u32 *,0x54)=M2C_FIELD(sourcePlayer,u32 *,0xDC);
+                            M2C_FIELD(targetEnemy,u16 *,0x5A)=localPlayerMask | M2C_FIELD(targetEnemy,u16 *,0x5A);
+localDone:
+                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                sub_0805865C(0x1A);
+                            }
+                            sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                            hitFlags = 2;
+                        }
+                        } else {
                             if ((sub_08002204() != 0) && ((u32) M2C_FIELD(attack, u32 *, 0x0) > 3U) && (M2C_FIELD(targetEnemy, u16 *, 0xC) != 0xB) && (M2C_FIELD(targetEnemy, u32 *, 0x54) != M2C_FIELD(sourcePlayer, u32 *, 0xDC))) {
-                                M2C_FIELD(targetEnemy, u16 *, 0x58) = 0;
+                                zero=0; M2C_FIELD(targetEnemy, u16 *, 0x58) = zero;
                                 M2C_FIELD(attack, u32 *, 0x8) = (u32) (M2C_FIELD(targetEnemy, u16 *, 0x0) + 4);
                                 temp_r0_3 = M2C_FIELD(attack, u32 *, 0xC);
-                                if (temp_r0_3 != 4) {
-                                    if (temp_r0_3 != 7) {
-                                        sub_080694AC(attack);
-                                    } else {
-                                        sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), effects[M2C_FIELD(attack, u32 *, 0x14)], sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14), 0, 0);
-                                        var_r0_3 = M2C_FIELD(sourceEnemy, u32 *, 0x50);
-                                        goto block_55;
-                                    }
-                                } else {
-                                    sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), attackEffect, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14), 0, 0);
-                                    var_r0_3 = M2C_FIELD(sourceEnemy, u32 *, 0x50);
-block_55:
-                                    M2C_FIELD(targetEnemy, u32 *, 0x54) = var_r0_3;
-                                    M2C_FIELD(targetEnemy, u16 *, 0x5A) = (u16) (localPlayerMask | M2C_FIELD(targetEnemy, u16 *, 0x5A));
-                                }
+                                if(temp_r0_3==4) goto remote4;
+                                if(temp_r0_3==7) goto remote7;
+                                sub_080694AC(attack); goto remoteDone;
+remote4:
+                                damage=damage68_raw(attack,0); extended=(s16)damage;
+                                id=M2C_FIELD(targetEnemy,u16 *,0);
+                                effectPtr=&attackEffect; effect=*effectPtr;
+                                kind=M2C_FIELD(attack,u32 *,0x14);
+                                sub_08029B98(id,effect,extended,kind,zero,zero);
+                                var_r0_3=M2C_FIELD(sourceEnemy,u32 *,0x50);
+                                goto remoteStore;
+remote7:
+                                damage=damage68_raw(attack,0); extended=(s16)damage;
+                                id=M2C_FIELD(targetEnemy,u16 *,0);
+                                table=effects; kind=M2C_FIELD(attack,u32 *,0x14);
+                                effect=table[kind];
+                                sub_08029B98(id,effect,extended,kind,zero,zero);
+                                var_r0_3=M2C_FIELD(sourceEnemy,u32 *,0x50);
+remoteStore:
+                                M2C_FIELD(targetEnemy,u32 *,0x54)=var_r0_3;
+                                M2C_FIELD(targetEnemy,u16 *,0x5A)=localPlayerMask | M2C_FIELD(targetEnemy,u16 *,0x5A);
+remoteDone:
                                 if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                     sub_0805865C(0x1A);
                                 }
                                 sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
                                 hitFlags = 2;
                             }
-                        } else if (M2C_FIELD(targetEnemy, u32 *, 0x54) == M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
-
-                        } else {
-                            M2C_FIELD(attack, u32 *, 0x8) = (u32) (M2C_FIELD(targetEnemy, u16 *, 0x0) + 4);
-                            temp_r0_4 = M2C_FIELD(attack, u32 *, 0xC);
-                            if (temp_r0_4 != 4) {
-                                if (temp_r0_4 != 7) {
-                                    sub_080694AC(attack);
-                                } else {
-                                    var_r2 = sub_08068F9C(attack, 0);
-                                    var_r1_2 = effects[M2C_FIELD(attack, u32 *, 0x14)];
-                                    goto block_40;
-                                }
-                            } else {
-                                if (M2C_FIELD(targetEnemy, u8 *, 0x226) == 1) {
-                                    var_r2 = (s32) (sub_08068F9C(attack, 0) * 0xF) / 10;
-                                    var_r1_2 = attackEffect;
-block_40:
-                                    sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), var_r1_2, var_r2, M2C_FIELD(attack, u32 *, 0x14), 0, 0);
-                                } else {
-                                    sub_08029B98(M2C_FIELD(targetEnemy, u16 *, 0x0), attackEffect, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14), 0, 0);
-                                }
-                                M2C_FIELD(targetEnemy, u32 *, 0x54) = (s32) M2C_FIELD(sourcePlayer, u32 *, 0xDC);
-                                M2C_FIELD(targetEnemy, u16 *, 0x5A) = (u16) (localPlayerMask | M2C_FIELD(targetEnemy, u16 *, 0x5A));
-                            }
-                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                sub_0805865C(0x1A);
-                            }
-                            sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
-                            hitFlags = 2;
                         }
                         hitFlags |= 1;
                     }
@@ -377,7 +407,73 @@ block_40:
 
     } else {
         playerCount = sub_08002164();
-        if ((u32) M2C_FIELD(attack, u32 *, 0x0) > 3U) {
+        if ((u32) M2C_FIELD(attack, u32 *, 0x0) <= 3U) {
+            playerIndexAlly = 0;
+            if (hitFlags >= playerCount) {
+
+            } else {
+loop_69:
+                targetPlayerAlly = (0x14C * playerIndexAlly) + (u8 *)gUnk_03003CE0;
+                sourceStatus=sourcePlayer+0x68;
+                temp_r2_3 = M2C_FIELD(targetPlayerAlly, u8 *, 0x68);
+                if (temp_r2_3 == *sourceStatus) {
+
+                } else {
+                    allyTargetPosition = M2C_FIELD(targetPlayerAlly, u8 * *, 0x148);
+                    temp_r0_6 = (u32) (M2C_FIELD(allyTargetPosition, u8 *, 0x0) << 0x1C) >> 0x1C;
+                    if(temp_r0_6!=14 && temp_r0_6!=11 && temp_r0_6!=10) {
+                        if (temp_r2_3 == 0) {
+
+                        } else if (!(((u32) (M2C_FIELD(allyTargetPosition, u8 *, 0x4) << 0x1A) >> 0x1A) & 0x20)) {
+                            var_r2_3 = (((u16) M2C_FIELD(allyTargetPosition, u16 *, 0x0) >> 4) - (pos.x >> 8));
+                            deltaY = (u16) ((s16) (u16) (((u32) (M2C_FIELD(allyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (pos.y >> 8)));
+                            var_r2_3 = (s16)var_r2_3;
+                            if ((s32) var_r2_3 < 0) {
+                                var_r2_3 = 0 - var_r2_3;
+                            }
+                            temp_r1_5 = (s16) radius;
+                            if ((s32) var_r2_3 <= (s32) temp_r1_5) {
+                                var_r0_5 = (s16) deltaY;
+                                if ((s32) var_r0_5 < 0) {
+                                    var_r0_5 = 0 - var_r0_5;
+                                }
+                                if ((s32) var_r0_5 <= (s32) temp_r1_5) {
+                                    if ((localPlayer == playerIndexAlly) && (M2C_FIELD(targetPlayerAlly, u16 *, 0x20) != 0xB)) {
+                                        playerHitHistory = targetPlayerAlly + 0xF8;
+                                        if (M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) != M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
+                                            M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerAlly, u16 *, 0x0);
+                                            temp_r0_7 = M2C_FIELD(attack, u32 *, 0xC);
+                                            if(temp_r0_7==4) goto ally4;
+                                            if(temp_r0_7==7) goto ally7;
+                                            sub_080694AC(attack); goto allyDone;
+ally4:
+                                            var_r0_6=(u16 *)gUnk_084EBF1C; var_r0_6=(u16 *)((u8 *)var_r0_6+0x62); goto allyCall;
+ally7:
+                                            var_r0_6=&effects[M2C_FIELD(attack,u32 *,0x14)];
+allyCall:
+                                            temp_r4_4=*var_r0_6;
+                                            sub_08029A7C(temp_r4_4,(s16)damage68_raw(attack,0),M2C_FIELD(attack,u32 *,0x14));
+allyDone:
+                                            M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) = M2C_FIELD(sourcePlayer, u32 *, 0xDC);
+                                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                                                sub_0805865C(0x1A);
+                                            }
+                                            sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
+                                            hitFlags = 2;
+                                        }
+                                    }
+                                    hitFlags |= 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                playerIndexAlly += 1;
+                if (playerIndexAlly < playerCount) {
+                    goto loop_69;
+                }
+            }
+        } else {
             playerIndexEnemy = 0;
             if (hitFlags >= playerCount) {
 
@@ -385,17 +481,22 @@ block_40:
 loop_105:
                 targetPlayerEnemy = (0x14C * playerIndexEnemy) + (u8 *)gUnk_03003CE0;
                 temp_r1 = M2C_FIELD(targetPlayerEnemy, u32 *, 0x30);
-                if (!(0x2000 & temp_r1) && !(temp_r1 & 0x400)) {
+                id=0x2000; id &= temp_r1;
+                if (id) goto nextEnemyPlayer;
+                id=0x400; temp_r1 &= id;
+                if (temp_r1==0) {
                     enemyTargetPosition = M2C_FIELD(targetPlayerEnemy, u8 * *, 0x148);
                     temp_r0_5 = (u32) (M2C_FIELD(enemyTargetPosition, u8 *, 0x0) << 0x1C) >> 0x1C;
                     if ((temp_r0_5 != 0xE) && (temp_r0_5 != 0xB) && (temp_r0_5 != 0xA) && (M2C_FIELD(targetPlayerEnemy, u8 *, 0x68) != 0)) {
-                        var_r2_2 = (s16)(((u16) M2C_FIELD(enemyTargetPosition, u16 *, 0x0) >> 4) - (pos.x >> 8));
+                        var_r2_2 = (((u16) M2C_FIELD(enemyTargetPosition, u16 *, 0x0) >> 4) - (pos.x >> 8));
+                        deltaY = (u16) ((s16) (u16) (((u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (pos.y >> 8)));
+                            var_r2_2 = (s16)var_r2_2;
                         if ((s32) var_r2_2 < 0) {
                             var_r2_2 = 0 - var_r2_2;
                         }
                         temp_r1_3 = (s16) radius;
                         if ((s32) var_r2_2 <= (s32) temp_r1_3) {
-                            var_r0_4 = (s16) (u16) (((u32) (M2C_FIELD(enemyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (pos.y >> 8));
+                            var_r0_4 = (s16) deltaY;
                             if ((s32) var_r0_4 < 0) {
                                 var_r0_4 = 0 - var_r0_4;
                             }
@@ -406,7 +507,7 @@ loop_105:
                                         M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerEnemy, u16 *, 0x0);
                                         if (M2C_FIELD(attack, u32 *, 0xC) == 4) {
                                             temp_r4_2 = M2C_FIELD(gUnk_084EBF1C, u16 *, 0x62);
-                                            sub_08029A7C(temp_r4_2, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14));
+                                            sub_08029A7C(temp_r4_2, (s16)damage68_raw(attack, 0), M2C_FIELD(attack, u32 *, 0x14));
                                         } else {
                                             sub_080694AC(attack);
                                         }
@@ -422,86 +523,16 @@ loop_105:
                         }
                     }
                 }
+nextEnemyPlayer:
                 playerIndexEnemy += 1;
                 if (playerIndexEnemy < playerCount) {
                     goto loop_105;
                 }
             }
-        } else {
-            playerIndexAlly = 0;
-            if (hitFlags >= playerCount) {
 
-            } else {
-loop_69:
-                targetPlayerAlly = (0x14C * playerIndexAlly) + (u8 *)gUnk_03003CE0;
-                temp_r2_3 = M2C_FIELD(targetPlayerAlly, u8 *, 0x68);
-                if (temp_r2_3 == M2C_FIELD(sourcePlayer, u8 *, 0x68)) {
-
-                } else {
-                    allyTargetPosition = M2C_FIELD(targetPlayerAlly, u8 * *, 0x148);
-                    temp_r0_6 = (u32) (M2C_FIELD(allyTargetPosition, u8 *, 0x0) << 0x1C) >> 0x1C;
-                    switch (temp_r0_6) {            /* irregular */
-                    case 14:
-                        break;
-                    case 11:
-                        break;
-                    case 10:
-                        break;
-                    default:
-                        if (temp_r2_3 == 0) {
-
-                        } else if (!(((u32) (M2C_FIELD(allyTargetPosition, u8 *, 0x4) << 0x1A) >> 0x1A) & 0x20)) {
-                            var_r2_3 = (s16)(((u16) M2C_FIELD(allyTargetPosition, u16 *, 0x0) >> 4) - (pos.x >> 8));
-                            if ((s32) var_r2_3 < 0) {
-                                var_r2_3 = 0 - var_r2_3;
-                            }
-                            temp_r1_5 = (s16) radius;
-                            if ((s32) var_r2_3 <= (s32) temp_r1_5) {
-                                var_r0_5 = (s16) (u16) (((u32) (M2C_FIELD(allyTargetPosition, u16 *, 0x2) << 0x14) >> 0x14) - (pos.y >> 8));
-                                if ((s32) var_r0_5 < 0) {
-                                    var_r0_5 = 0 - var_r0_5;
-                                }
-                                if ((s32) var_r0_5 <= (s32) temp_r1_5) {
-                                    if ((localPlayer == playerIndexAlly) && (M2C_FIELD(targetPlayerAlly, u16 *, 0x20) != 0xB)) {
-                                        playerHitHistory = targetPlayerAlly + 0xF8;
-                                        if (M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) != M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
-                                            M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerAlly, u16 *, 0x0);
-                                            temp_r0_7 = M2C_FIELD(attack, u32 *, 0xC);
-                                            if (temp_r0_7 != 4) {
-                                                if (temp_r0_7 != 7) {
-                                                    sub_080694AC(attack);
-                                                } else {
-                                                    var_r0_6 = &effects[M2C_FIELD(attack, u32 *, 0x14)];
-                                                    goto block_94;
-                                                }
-                                            } else {
-                                                var_r0_6 = (u16 *)(gUnk_084EBF1C + 0x62);
-block_94:
-                                                temp_r4_4 = *var_r0_6;
-                                                sub_08029A7C(temp_r4_4, sub_08068F9C(attack, 0), M2C_FIELD(attack, u32 *, 0x14));
-                                            }
-                                            M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) = M2C_FIELD(sourcePlayer, u32 *, 0xDC);
-                                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                                sub_0805865C(0x1A);
-                                            }
-                                            sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
-                                            hitFlags = 2;
-                                        }
-                                    }
-                                    hitFlags |= 1;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-                playerIndexAlly += 1;
-                if (playerIndexAlly < playerCount) {
-                    goto loop_69;
-                }
-            }
         }
     }
+
     return (s32) hitFlags;
 }
 #else

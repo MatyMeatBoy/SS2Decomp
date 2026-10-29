@@ -5211,8 +5211,7 @@ block_1763:
                                 var_r1_26 = *sp1C0;
                                 var_r2_16 = *sp1C4;
                                 var_r0_37 = (u16) coordF8;
-block_1768:
-                                d368_sub_08065230(&sp44.f0, var_r1_26, var_r2_16, 0xDU, ((s32) var_r0_37));
+                                goto block_1768;
                             }
                         }
                         break;
@@ -5225,8 +5224,7 @@ block_1768:
 
                             } else {
                                 var_r1_27 = *sp1C0;
-block_1771:
-                                d368_sub_080659BC(&sp44, var_r1_27, *sp1C4, 0xF, ((s32) (u16) coordF8), (1));
+                                goto block_1771;
                             }
                         }
                         break;
@@ -5234,11 +5232,7 @@ block_1771:
                         if (d368_sub_0800CC98() != 0) {
 
                         } else {
-                        shared27_8:
-                            d368_sub_08065370(&sp44, 0xAU, (u16 *) &coordF8, &coordFA, (1));
-                            if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
-                                d368_sub_08065230(&sp44.f0, *sp1C0, *sp1C4, 0xAU, ((s32) (u16) coordF8));
-                            }
+                            goto shared27_8;
                         }
                         break;
                     case 11:                        /* switch 26 */
@@ -5251,8 +5245,7 @@ block_1771:
                             } else if ((d368_gUnk_03002344 & 1) != (1 & ((struct PlayerD368 *)arg0)->f0)) {
 
                             } else {
-block_1776:
-                                d368_sub_08065230(&sp44.f0, *sp1C0, *sp1C4, 0xCU, ((s32) (u16) coordF8));
+                                goto block_1776;
                             }
                         }
                         break;
@@ -5261,17 +5254,9 @@ block_1776:
                         var_r0_36 = *(s16 *)((sp164 * 2) + (u8 *)&d368_gUnk_080B9704);
                         goto block_1762;
                     case 10:                        /* switch 26 */
-                    shared27_10:
-                        if (d368_sub_0800CC98() == 0) {
-                            d368_sub_08022180(((struct PlayerD368 *)arg0)->f0);
-                        }
-                        break;
+                        goto shared27_10;
                     case 13:                        /* switch 26 */
-                    shared27_13:
-                        if (d368_sub_0800CC98() == 0) {
-                            d368_sub_08021DC4(((struct PlayerD368 *)arg0)->f0);
-                        }
-                        break;
+                        goto shared27_13;
                     case 7:                         /* switch 26 */
                     case 9:                         /* switch 26 */
                     shared27_7:
@@ -5382,10 +5367,7 @@ block_1751:
                                     goto block_1781;
                                 }
                                 switch (temp_r0_161) {
-                        case 8: goto shared27_8;
                     case 5: goto shared27_5;
-                    case 10: goto shared27_10;
-                    case 13: goto shared27_13;
                     case 7: goto shared27_7;
                     case 9: goto shared27_9; /* switch 27 */
                                 case 0:             /* switch 27 */
@@ -5427,21 +5409,43 @@ block_1751:
                                         var_r1_26 = *sp1C0;
                                         var_r2_16 = *sp1C4;
                                         var_r0_37 = (u16) coordF8;
-                                        goto block_1768;
+block_1768:
+                                d368_sub_08065230(&sp44.f0, var_r1_26, var_r2_16, 0xDU, ((s32) var_r0_37));
                                     }
                                     break;
                                 case 6:             /* switch 27 */
                                     d368_sub_08065370(&sp44, 0xFU, (u16 *) &coordF8, &coordFA, (1));
                                     if (d368_gUnk_03002344 & 1) {
                                         var_r1_27 = *sp1C0;
-                                        goto block_1771;
+block_1771:
+                                d368_sub_080659BC(&sp44, var_r1_27, *sp1C4, 0xF, ((s32) (u16) coordF8), (1));
                                     }
+                                    break;
+                                case 8:             /* switch 27 */
+                        shared27_8:
+                            d368_sub_08065370(&sp44, 0xAU, (u16 *) &coordF8, &coordFA, (1));
+                            if ((d368_gUnk_03002344 & 1) == (1 & ((struct PlayerD368 *)arg0)->f0)) {
+                                d368_sub_08065230(&sp44.f0, *sp1C0, *sp1C4, 0xAU, ((s32) (u16) coordF8));
+                            }
                                     break;
                                 case 11:            /* switch 27 */
                                     if ((d368_sub_08065370(&sp44, 0xCU, (u16 *) &coordF8, &coordFA, (0)) == 0) && (d368_gUnk_03002344 & 1)) {
-                                        goto block_1776;
+block_1776:
+                                d368_sub_08065230(&sp44.f0, *sp1C0, *sp1C4, 0xCU, ((s32) (u16) coordF8));
                                     }
                                     break;
+                                case 10:             /* switch 27 */
+                    shared27_10:
+                        if (d368_sub_0800CC98() == 0) {
+                            d368_sub_08022180(((struct PlayerD368 *)arg0)->f0);
+                        }
+                        break;
+                                case 13:             /* switch 27 */
+                    shared27_13:
+                        if (d368_sub_0800CC98() == 0) {
+                            d368_sub_08021DC4(((struct PlayerD368 *)arg0)->f0);
+                        }
+                        break;
                                 }
                             }
                         }

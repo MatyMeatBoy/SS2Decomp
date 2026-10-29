@@ -465,7 +465,41 @@ void sub_08022504(s32 arg0, s32 arg1) {
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802258C);
+extern void t22_bc08(s16, s16, s16 *, s16 *, u32, s32) asm("sub_0800BC08");
+void t22_2258C(s32, s32) asm("sub_0802258C");
+void t22_2258C(s32 arg0, s32 arg1)
+{
+  s32 *new_var;
+  s16 x;
+  s16 y;
+  void *ctx;
+  s32 dy;
+  u32 i;
+  s32 z;
+  ctx = sub_080653CC();
+  if (1)
+  {
+    dy = 8;
+    dy = (arg0 >> 16) << dy;
+    i = 0;
+    while ((sub_0800CB78() == 0) && ((i++) <= 19))
+    {
+      if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0))
+      {
+        z = sub_0800CCCC();
+        if (z == 0)
+        {
+          t22_bc08((s16) (*(new_var = &arg0)), (s16) (dy >> 8), &x, &y, 16, z);
+          sub_08065230(ctx, x, y, 31, z);
+        }
+      }
+      dy -= 128;
+      sub_080003F0();
+    }
+
+  }
+  gUnk_03005CE4 &= ~(1 << arg1);
+}
 void sub_08022630(void) {
     u8 *p;
     u32 q;
