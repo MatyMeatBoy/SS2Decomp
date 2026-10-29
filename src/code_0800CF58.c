@@ -2608,10 +2608,10 @@ block_693:
                 temp_r0_55 = d368_sub_0801DE60();
                 switch (temp_r0_55) {
                 case 0:
-                    if (((struct PlayerD368 *)arg0)->f10 == 3) {
-                        goto state5Move66;
+                    if (((struct PlayerD368 *)arg0)->f10 != 3) {
+                        goto state5Zero66;
                     }
-                    goto state5Zero66;
+                    goto state5Move66;
                 case 5:
                     if ((((struct PlayerD368 *)arg0)->f10 == 8) && (directionD36874 != 0)) {
                         ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);

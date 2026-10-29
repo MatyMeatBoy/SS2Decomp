@@ -1191,11 +1191,10 @@ void sub_0804F128(void) {
     sub_0800D108();
     gUnk_03003CE0[sub_080020F4()].state = zero;
 }
-#ifdef NONMATCHING
-struct PrefixF390 { s32 out[20]; struct TileSys *level; s32 *p0,*p1,*p2,*p3; u32 iteration; };
 extern s16 cameraYF390 asm("gUnk_030031F2");
 extern void localF390_BB94(s16,s16) asm("sub_0800BB94");
 extern void localF390_97D18(s32,s32) asm("sub_08097D18");
+struct PrefixF390 { s32 out[20]; struct TileSys *level; s32 *p0,*p1,*p2,*p3; u32 iteration; };
 void sub_0804F390(void) {
     struct PrefixF390 L;
     register u32 progress0 asm("r0");
@@ -1433,7 +1432,12 @@ var_r4_5--; if (var_r4_5 == 0) goto after25;
 wait25:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec25;
 after25:
-    temp_r6_5=(s16)L.level->f80; temp_r5_4=cameraYF390;
+    asm volatile("" : "=r"(a1), "=r"(a2) : : "memory");
+    temp_r6_5=(s16)L.level->f80;
+    asm volatile("" : : "r"(a1), "r"(a2), "r"(temp_r6_5));
+    asm volatile("" : "=r"(a2), "=r"(a3) : : "memory");
+    temp_r5_4=cameraYF390;
+    asm volatile("" : : "r"(a2), "r"(a3), "r"(temp_r5_4));
     progress0=0; a2=0x200; asm("" : "+r"(a2)); step=a2;
     a3=0x400; asm("" : "+r"(a3)); limit=a3; zeroX=progress0; yFixed=0;
     do {
@@ -1549,9 +1553,7 @@ wait52:
 sub_080003F0(); if (sub_080021A8() == 0) goto dec52;
 after52:
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804F390);
-#endif
+
 extern void sub_0804FA68(s32);
 extern void sub_08050524(s32);
 extern s32 sub_0801AB24(void);
@@ -2458,7 +2460,6 @@ while (sub_0805EEFC((void *) handle) == 0) sub_080003F0();
     sub_0800D108();
 }
 
-#ifdef NONMATCHING
 struct Player509A8 { u8 pad[0x30]; u32 flags; u8 tail[0x14C-0x34]; };
 struct Entity509A8 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
 struct Task509A8 { u32 f0,f4,flags; void (*callback)(void); u8 *stack; u32 f14,f18,f1C; u8 *memory; u32 data; };
@@ -2467,10 +2468,6 @@ extern struct Player509A8 players509A8[] asm("gUnk_03003CE0");
 extern struct Entity509A8 *entities509A8 asm("gUnk_030056F4");
 extern struct State509A8 *state509A8 asm("gUnk_03005CF4");
 extern void local509A8_BB80(s16,s16) asm("sub_0800BB80");
-extern s32 sub_0801AB24(void);
-extern void sub_0801AB50(s32);
-extern void sub_0801AB90(s32);
-extern void sub_080576A8(void);
 extern void sub_0802A080(s32,s32,s32,s32);
 extern void sub_08050E48(void);
 extern void sub_08051A78(void);
@@ -2490,7 +2487,7 @@ void sub_080509A8(void) {
     register s32 a2 asm("r2");
     register s32 a3 asm("r3");
     s32 temp_r5;
-    s32 temp_r6;
+    register s32 temp_r6 asm("r6");
     s32 temp_r6_2;
     s32 temp_r7;
     register struct State509A8 *event2 asm("r2");
@@ -2501,7 +2498,7 @@ void sub_080509A8(void) {
     s32 temp_r0_3;
     s32 temp_r0_4;
     s32 var_r0_3;
-    s32 var_r4_2;
+    register s32 var_r4_2 asm("r4");
     s32 var_r4_5;
     register struct Player509A8 *temp_r1 asm("r1");
     u16 var_r4_4;
@@ -2531,7 +2528,7 @@ void sub_080509A8(void) {
     } else {
         var_r0 = (u8 *)state509A8 + 0x1B9;
     }
-    flag0=*var_r0; flag0 >>=1; if (flag0 & initialOne) goto special;
+    flag0=*var_r0; asm("" : "+r"(flag0)); flag0 >>=1; if (flag0 & initialOne) goto special;
     if (sub_080020F4() == 0) {
         callback = sub_08051A78;
         var_r4 = state509A8->tasks;
@@ -2565,8 +2562,9 @@ while ((temp_r0_2 = sub_08001494(0x400U), var_r4->memory = temp_r0_2, temp_r0_2 
     temp_r7 = (s16) gUnk_03003170.f80;
     temp_r6 = (s16) gUnk_03003170.f82;
     var_r4_2 = 0; firstY=&L.y;
-    L.nextXP = &L.nextX;
-    L.nextYP = &L.nextY; firstXFixed=0; firstYFixed=0xFF8C0000;
+    a2=(u32)&L.x; asm("" : "+r"(a2) : "r"(var_r4_2), "r"(firstY), "r"(temp_r6), "r"(temp_r7), "r"(var_r9) : "r0", "r1", "r3", "r8", "r10", "r12"); a2+=8; L.nextXP=(s32 *)a2;
+    a3=(u32)&L.x; asm("" : "+r"(a3)); a3+=12; L.nextYP=(s32 *)a3; firstXFixed=0;
+    flag0=0xFF8C0000; asm("" : "+r"(flag0)); firstYFixed=flag0;
     do {
         a0=&L.x; a1=temp_r7; a3=firstXFixed; a2=a3>>16; a3=var_r4_2;
         sub_080659F4(a0,a1,a2,a3);
@@ -2643,6 +2641,7 @@ after44:
     if (var_r0_3 != 0) {
         var_r0_3 = 1;
     }
+    asm("" : "+r"(var_r0_3));
     if (var_r0_3 != 0) {
         return;
     }
@@ -2743,9 +2742,6 @@ while (sub_0801AAE0() == 0) sub_080003F0();
         sub_08019F04();
         return;
     }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080509A8);
-#endif
 struct T53Entity0E48 { u16 f0,id; u8 pad[8]; u16 state; u8 tail[0x2D2]; };
 extern struct T53Entity0E48 *t53_entities0E48 asm("gUnk_030056F4");
 struct T53Task0E48 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };

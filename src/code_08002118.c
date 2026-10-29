@@ -445,6 +445,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u32 cleanupZero3984, cleanupMask3984, cleanupEnd3984;
     u32 firstName3984;
     u32 deleteChar3984;
+    u32 deleteMaskC6;
     u32 nameZero3984;
     s32 textWidth3984;
     u32 input3984;
@@ -1500,8 +1501,9 @@ block_302:
                         temp_r2_4[var_r9] = 0xFD;
                         temp_r2_4[(nextChar33984 = var_r9 + 1)] = (s8) temp_r4_22;
                         var_r9 -= 1;
+                        deleteMaskC6 = 0x8000 & var_r9;
                         var_r5_3 = temp_r2_4;
-                        if (0x8000 & var_r9) {
+                        if (deleteMaskC6) {
                             var_r9 = 0;
                             if (M2C_FIELD(arg0, u8 *, 0x10) == 0xFD) {
                                 timer = 3;
