@@ -13509,18 +13509,24 @@
       "name": "sub_0804BC38",
       "addr": 134528056,
       "size": 704,
-      "state": "todo",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x0804BC38",
       "canonical_symbol": "sub_0804BC38",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_0804BC38",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "t49_sceneBC38",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080443EC.c",
+          "line": 833,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
+        }
+      ]
     },
     {
       "name": "sub_0804BEF8",
@@ -13747,14 +13753,14 @@
       "name": "sub_0804E360",
       "addr": 134538080,
       "size": 712,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0804D330",
       "kind": "c",
       "cat": "game",
       "address": "0x0804E360",
       "canonical_symbol": "sub_0804E360",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0804E360",
       "name_status": "unidentified",
       "name_source": null,
@@ -34122,14 +34128,14 @@
       "name": "ld_r3_tp_adr_i",
       "addr": 134967448,
       "size": 12,
-      "state": "todo",
-      "module": "m4a_1",
+      "state": "done",
+      "module": "m4a_1_abi",
       "kind": "c",
       "cat": "lib",
       "address": "0x080B7098",
       "canonical_symbol": "ld_r3_tp_adr_i",
       "domain": "sdk",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "ld_r3_tp_adr_i",
       "name_status": "existing",
       "name_source": "canonical_symbol",
@@ -34145,7 +34151,7 @@
       "addr": 134967460,
       "size": 20,
       "state": "todo",
-      "module": "m4a_1",
+      "module": "m4a_1_abi",
       "kind": "c",
       "cat": "lib",
       "address": "0x080B70A4",
@@ -34167,7 +34173,7 @@
       "addr": 134967480,
       "size": 20,
       "state": "todo",
-      "module": "m4a_1",
+      "module": "m4a_1_abi",
       "kind": "c",
       "cat": "lib",
       "address": "0x080B70B8",
@@ -36674,12 +36680,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 125,
-      "existing": 6,
+      "identified": 126,
+      "existing": 7,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1755,
-      "percent_identified": 6.648936170212766
+      "unidentified": 1754,
+      "percent_identified": 6.702127659574468
     },
     "sdk": {
       "total": 155,
@@ -36692,12 +36698,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 280,
-      "existing": 135,
+      "identified": 281,
+      "existing": 136,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1755,
-      "percent_identified": 13.75921375921376
+      "unidentified": 1754,
+      "percent_identified": 13.808353808353809
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
