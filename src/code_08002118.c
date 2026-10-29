@@ -446,6 +446,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u32 firstName3984;
     u32 deleteChar3984;
     u32 deleteMaskC6;
+    u32 selectionZeroC6;
     u32 nameZero3984;
     s32 textWidth3984;
     u32 input3984;
@@ -480,6 +481,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     s32 offsetY;
     s32 newX;
     s32 newY;
+    u16 *menuWidthsC6, *menuHeightsC6;
     u16 *var_r1_8;
     s32 temp_r0;
     s32 temp_r1;
@@ -749,8 +751,10 @@ block_91:
                         state = 8;
                     }
                     temp_r1_2 = state;
-                    heights[temp_r1_2] = temp_r2_2;
-                    (&widths[0])[temp_r1_2] = temp_r2_2;
+                    menuWidthsC6 = &widths[temp_r1_2];
+                    menuHeightsC6 = &heights[temp_r1_2];
+                    *menuHeightsC6 = temp_r2_2;
+                    *menuWidthsC6 = temp_r2_2;
                     sub_0805865C(0xE);
                 } else if (!(0x80 & navKeys3984)) {
 
@@ -975,9 +979,10 @@ block_102:
         input3984 = keys3984;
         if (input3984 == 1) {
             sub_0805865C(0xF);
+            selectionZeroC6 = 0;
             M2C_FIELD(arg0, u8 *, 1) = (u8) state;
-            reg3984.h0 = 0;
-            gUnk_03003474 = 0;
+            reg3984.h0 = selectionZeroC6;
+            gUnk_03003474 = selectionZeroC6;
             sub_0801A664(0, 0xA);
             timer = 3;
             var_r7 = ((u8 *(*)(s32))sub_08007290)((state + 0x454) | 0x140000);

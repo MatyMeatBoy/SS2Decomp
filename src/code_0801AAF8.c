@@ -1297,9 +1297,373 @@ void sub_0801CC10(u32 arg0, s32 arg1)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801CC10);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801CCC8);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D028);
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D34C);
+struct RescueCCC8Record { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
+extern struct RescueCCC8Record rescueCCC8Records[] asm("gUnk_03003CE0");
+extern u8 *rescueCCC8Current asm("gUnk_030034E0");
+s32 sub_0801CCC8(void) {
+ struct RescueCCC8Record *p;
+ u16 kind;
+ u8 cls, v;
+ u8 *q, *item;
+ p = &rescueCCC8Records[sub_080020F4()];
+ kind = *(u16 *)(rescueCCC8Current + 0xa);
+ if (kind == 8) kind = 6;
+ cls = kind;
+ switch (cls) {
+case 0:
+ switch (p->kind) {
+case 1: return *(u16 *)(rescueCCC8Current + 52);
+case 2: return *(u16 *)(rescueCCC8Current + 56);
+case 3: return *(u16 *)(rescueCCC8Current + 60);
+}
+break;
+case 2:
+ switch (p->kind) {
+case 7: return *(u16 *)(rescueCCC8Current + 52);
+case 3: return *(u16 *)(rescueCCC8Current + 56);
+case 9:
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+if (v == 7) return *(u16 *)(rescueCCC8Current + 0x48);
+break;
+}
+break;
+case 3:
+ switch (p->kind) {
+case 2: return *(u16 *)(rescueCCC8Current + 52);
+case 4: return *(u16 *)(rescueCCC8Current + 56);
+}
+break;
+case 1:
+ switch (p->kind) {
+case 5: return *(u16 *)(rescueCCC8Current + 52);
+case 9:
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 1: return *(u16 *)(rescueCCC8Current + 56);
+case 2: return *(u16 *)(rescueCCC8Current + 60);
+case 3: return *(u16 *)(rescueCCC8Current + 64);
+case 4: return *(u16 *)(rescueCCC8Current + 68);
+case 5: return *(u16 *)(rescueCCC8Current + 72);
+case 6: return *(u16 *)(rescueCCC8Current + 76);
+}
+break;
+}
+break;
+case 6:
+ switch (p->kind) {
+case 5: return *(u16 *)(rescueCCC8Current + 52);
+case 9:
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 13: return *(u16 *)(rescueCCC8Current + 56);
+case 14: return *(u16 *)(rescueCCC8Current + 60);
+case 15: return *(u16 *)(rescueCCC8Current + 64);
+case 16: return *(u16 *)(rescueCCC8Current + 68);
+case 17: return *(u16 *)(rescueCCC8Current + 72);
+case 18: return *(u16 *)(rescueCCC8Current + 76);
+}
+break;
+}
+break;
+case 4:
+ switch (p->kind) {
+case 5: return *(u16 *)(rescueCCC8Current + 52);
+case 4: return *(u16 *)(rescueCCC8Current + 56);
+case 9:
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 8: return *(u16 *)(rescueCCC8Current + 60);
+case 9: return *(u16 *)(rescueCCC8Current + 64);
+case 10: return *(u16 *)(rescueCCC8Current + 68);
+case 11: return *(u16 *)(rescueCCC8Current + 72);
+case 12: return *(u16 *)(rescueCCC8Current + 76);
+}
+break;
+}
+break;
+case 5:
+ switch (p->kind) {
+case 6: return *(u16 *)(rescueCCC8Current + 52);
+case 8: return *(u16 *)(rescueCCC8Current + 56);
+}
+break;
+case 7:
+ switch (p->kind) {
+case 1: return *(u16 *)(rescueCCC8Current + 52);
+case 8: return *(u16 *)(rescueCCC8Current + 56);
+case 9:
+q = rescueCCC8Current + *(u16 *)(rescueCCC8Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 19: return *(u16 *)(rescueCCC8Current + 64);
+case 21: return *(u16 *)(rescueCCC8Current + 68);
+case 20: return *(u16 *)(rescueCCC8Current + 72);
+}
+break;
+}
+break;
+}
+return 0;
+}
+
+extern u8 *rescueD028Current asm("gUnk_030034E0");
+s32 sub_0801D028(u16 arg0) {
+ u16 kind;
+ u8 cls, v;
+ u8 *q, *item;
+ kind = *(u16 *)(rescueD028Current + 0xa);
+ if (kind == 8) kind = 6;
+ cls = kind;
+ switch (cls) {
+case 0:
+ switch (arg0) {
+case 1: return *(u16 *)(rescueD028Current + 52);
+case 2: return *(u16 *)(rescueD028Current + 56);
+case 3: return *(u16 *)(rescueD028Current + 60);
+}
+break;
+case 2:
+ switch (arg0) {
+case 7: return *(u16 *)(rescueD028Current + 52);
+case 3: return *(u16 *)(rescueD028Current + 56);
+case 9:
+q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+if (v == 7) return *(u16 *)(rescueD028Current + 0x48);
+break;
+}
+break;
+case 3:
+ switch (arg0) {
+case 2: return *(u16 *)(rescueD028Current + 52);
+case 4: return *(u16 *)(rescueD028Current + 56);
+}
+break;
+case 1:
+ switch (arg0) {
+case 5: return *(u16 *)(rescueD028Current + 52);
+case 9:
+q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 1: return *(u16 *)(rescueD028Current + 56);
+case 2: return *(u16 *)(rescueD028Current + 60);
+case 3: return *(u16 *)(rescueD028Current + 64);
+case 4: return *(u16 *)(rescueD028Current + 68);
+case 5: return *(u16 *)(rescueD028Current + 72);
+case 6: return *(u16 *)(rescueD028Current + 76);
+}
+break;
+}
+break;
+case 6:
+ switch (arg0) {
+case 5: return *(u16 *)(rescueD028Current + 52);
+case 9:
+q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 13: return *(u16 *)(rescueD028Current + 56);
+case 14: return *(u16 *)(rescueD028Current + 60);
+case 15: return *(u16 *)(rescueD028Current + 64);
+case 16: return *(u16 *)(rescueD028Current + 68);
+case 17: return *(u16 *)(rescueD028Current + 72);
+case 18: return *(u16 *)(rescueD028Current + 76);
+}
+break;
+}
+break;
+case 4:
+ switch (arg0) {
+case 5: return *(u16 *)(rescueD028Current + 52);
+case 4: return *(u16 *)(rescueD028Current + 56);
+case 9:
+q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 8: return *(u16 *)(rescueD028Current + 60);
+case 9: return *(u16 *)(rescueD028Current + 64);
+case 10: return *(u16 *)(rescueD028Current + 68);
+case 11: return *(u16 *)(rescueD028Current + 72);
+case 12: return *(u16 *)(rescueD028Current + 76);
+}
+break;
+}
+break;
+case 5:
+ switch (arg0) {
+case 6: return *(u16 *)(rescueD028Current + 52);
+case 8: return *(u16 *)(rescueD028Current + 56);
+}
+break;
+case 7:
+ switch (arg0) {
+case 1: return *(u16 *)(rescueD028Current + 52);
+case 8: return *(u16 *)(rescueD028Current + 56);
+case 9:
+q = rescueD028Current + *(u16 *)(rescueD028Current + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 19: return *(u16 *)(rescueD028Current + 64);
+case 21: return *(u16 *)(rescueD028Current + 68);
+case 20: return *(u16 *)(rescueD028Current + 72);
+}
+break;
+}
+break;
+}
+return 0;
+}
+
+struct RescueD34CRecord { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
+extern struct RescueD34CRecord rescueD34CRecords[] asm("gUnk_03003CE0");
+extern u8 *rescueD34CCurrent asm("gUnk_030034E0");
+s32 sub_0801D34C(void) {
+ struct RescueD34CRecord *p;
+ u8 *cap;
+ u16 kind;
+ u8 cls, v;
+ u8 *q, *item;
+ p = &rescueD34CRecords[sub_080020F4()];
+ cap = (u8 *)sub_0805AD18();
+ kind = *(u16 *)(rescueD34CCurrent + 0xa);
+ if (kind == 8) kind = 6;
+ cls = kind;
+ switch (cls) {
+case 0:
+ switch (p->kind) {
+case 1: return *(u16 *)(rescueD34CCurrent + 52);
+case 2: return *(u16 *)(rescueD34CCurrent + 56);
+case 3: return *(u16 *)(rescueD34CCurrent + 60);
+}
+break;
+case 2:
+ switch (p->kind) {
+case 7: return *(u16 *)(rescueD34CCurrent + 52);
+case 3: return *(u16 *)(rescueD34CCurrent + 56);
+case 9:
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+if (v == 7) return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 0x48) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 0x48);
+break;
+}
+break;
+case 3:
+ switch (p->kind) {
+case 2: return *(u16 *)(rescueD34CCurrent + 52);
+case 4: return *(u16 *)(rescueD34CCurrent + 56);
+}
+break;
+case 1:
+ switch (p->kind) {
+case 5: return *(u16 *)(rescueD34CCurrent + 52);
+case 9:
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 1: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 56) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 56);
+case 2: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
+case 3: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
+case 4: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
+case 5: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
+case 6: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 76) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 76);
+}
+break;
+}
+break;
+case 6:
+ switch (p->kind) {
+case 5: return *(u16 *)(rescueD34CCurrent + 52);
+case 9:
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 13: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 56) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 56);
+case 14: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
+case 15: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
+case 16: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
+case 17: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
+case 18: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 76) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 76);
+}
+break;
+}
+break;
+case 4:
+ switch (p->kind) {
+case 5: return *(u16 *)(rescueD34CCurrent + 52);
+case 4: return *(u16 *)(rescueD34CCurrent + 56);
+case 9:
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 8: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 60) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 60);
+case 9: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
+case 10: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
+case 11: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
+case 12: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 76) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 76);
+}
+break;
+}
+break;
+case 5:
+ switch (p->kind) {
+case 6: return *(u16 *)(rescueD34CCurrent + 52);
+case 8: return *(u16 *)(rescueD34CCurrent + 56);
+}
+break;
+case 7:
+ switch (p->kind) {
+case 1: return *(u16 *)(rescueD34CCurrent + 52);
+case 8: return *(u16 *)(rescueD34CCurrent + 56);
+case 9:
+q = rescueD34CCurrent + *(u16 *)(rescueD34CCurrent + 0x68) * 0x10;
+ if (q[0x79] == 0) item = 0;
+ else item = (u8 *)sub_08007290(*(u16 *)(q + 0x72) | 0xb0000);
+ if (item[0x9b] == 9) v = item[0xa7]; else v = 0;
+switch (v) {
+case 19: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 64) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 64);
+case 21: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 68) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 68);
+case 20: return *(u16 *)(cap + 0xac) < *(u16 *)(rescueD34CCurrent + 72) ? *(u16 *)(cap + 0xac) : *(u16 *)(rescueD34CCurrent + 72);
+}
+break;
+}
+break;
+}
+return 0;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801D7AC);
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DB94);
 void sub_0801DD9C(void) {

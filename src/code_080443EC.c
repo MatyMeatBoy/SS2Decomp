@@ -1457,5 +1457,294 @@ void sub_0804C948(void) {
         break;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804CBBC);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804D020);
+extern s32 sub_0801AB24(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+extern void sub_080576A8(void);
+extern void sub_0802A080(s32,s32,s32,s32);
+extern void sub_0804D020(void);
+extern void sub_0804D330(s32);
+extern void cameraMove50CB(s16,s16) asm("sub_0800BB80");
+struct Task50CB {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
+extern void taskStart50CB(void *,u32) asm("sub_08000274");
+union Fixed50CB {s32 whole;struct{u16 lo;s16 hi;}part;};
+static inline u8 test50CB(u32 value,u32 mask){u32 result=value&mask;if(result)result=1;return result;}
+void sub_0804CBBC(void){
+    s32 outY,outX;
+    u8 *state,*entry;
+    u32 flags,bit1,one,zero,idx;register u32 bit4 asm("r3");
+    s32 r,bitTemp,*entryFlags;
+    struct Player *player;
+    struct Task50CB *task;
+    s32 callback,status,*statusptr;
+    u32 i,mem;
+    s32 startX,startY,t,step;
+    union Fixed50CB targetX,targetY;
+    state=gUnk_03005CF4;bit4=4;flags=*(u32 *)(state+0x38);
+    bit4 &=flags;if(bit4)bit4=1;
+    one=1;bit1=test50CB(flags,one);
+    if(!bit1){
+        *(u32 *)(state+0x38)=flags|one;
+        player=&gUnk_03003CE0[sub_080020F4()];player->flags |=one;
+        sub_0800D0F4();
+        step=0x400;
+        startX=(s16)gUnk_03003170.f80;startY=(s16)gUnk_03003170.f82;
+        targetX.whole=0;targetY.whole=0xFF600000;
+        for(t=0;t<=0x400;t+=step){
+            sub_080659F4(&outX,startX,targetX.part.hi,t);
+            sub_080659F4(&outY,startY,targetY.part.hi,t);
+            cameraMove50CB((s16)outX,(s16)outY);sub_080003F0();
+        }
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+    callback = (s32)sub_0804D020;
+    task = (struct Task50CB *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50CB(task,0);
+        break;
+    }
+        status=0xC4;statusptr=&gUnk_03005CF8;*statusptr=status;
+        if(!(gUnk_030027D0&0x20))sub_08006CB4(0xC4);
+    }else if(!bit4){
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+    sub_0802A080(0xE8,0x8C,0x96,0x6E);
+    callback = (s32)sub_0804D330;
+    task = (struct Task50CB *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50CB(task,1);
+        break;
+    }
+    callback = (s32)sub_0804D330;
+    task = (struct Task50CB *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50CB(task,2);
+        break;
+    }
+    callback = (s32)sub_0804D330;
+    task = (struct Task50CB *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50CB(task,3);
+        break;
+    }
+    callback = (s32)sub_0804D330;
+    task = (struct Task50CB *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50CB(task,4);
+        break;
+    }
+    callback = (s32)sub_0804D330;
+    task = (struct Task50CB *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50CB(task,5);
+        break;
+    }
+    entry=gUnk_030056F4;idx=0;entryFlags=&gUnk_030056FC;callback=1;zero=0;
+clearFirst:
+    if((*entryFlags & (bitTemp=callback<<idx)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
+    idx++;entry+=0x2E0;
+    if(idx<=4)goto clearFirst;
+    sub_08019F04();
+    }else{
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+    entry=gUnk_030056F4;idx=0;entryFlags=&gUnk_030056FC;callback=1;zero=0;
+clearLast:
+    if((*entryFlags & (bitTemp=callback<<idx)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
+    idx++;entry+=0x2E0;
+    if(idx<=4)goto clearLast;
+    sub_08019F04();
+    }
+}
+extern s32 sub_0801AB24(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+extern void sub_080576A8(void);
+extern void sub_0804D330(s32);
+struct Task50D0 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
+extern void taskStart50D0(void *,u32) asm("sub_08000274");
+extern void sub_0802A080(s32,s32,s32,s32);
+extern void sub_080586B4(s32);
+void sub_0804D020(void) {
+    struct Task50D0 *task;
+    u32 i,mem;
+    s32 callback,callback2;
+    s32 r;
+    u32 held,mask;
+    u8 *state,*entry;
+    u32 *word;
+    u16 timer;
+    u32 idx,one,zero;
+    s32 bitTemp,*entryFlags;
+    callback = (s32)sub_0804D330;
+    task = (struct Task50D0 *)(gUnk_03005CF4 + 0xE34);
+    i=0; goto checkFirst;
+nextFirst: i++;task++;
+checkFirst: if(i<=29){
+        if (sub_08000470((u32)task)) goto nextFirst;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D0(task,0);
+        held=(u32)task;
+    }
+    sub_0802A080(0xE8,0x8C,0x96,0x6E);
+    state=gUnk_03005CF4;mask=4;*(u32 *)(state+0x38)=mask | *(u32 *)(state+0x38);
+    if(held && sub_08000470(held))sub_080003A8(held);
+    if(!sub_0800CB9C()){
+        if(!(gUnk_030027D0&0x20)){gUnk_03005CF8=4;sub_08006CB4(4);}
+    }else sub_080586B4(0);
+    for(timer=1;timer;timer--){sub_080003F0();if(sub_080021A8())break;}
+    sub_0805EFBC();
+    do{sub_080003F0();}while(sub_0805F184());
+    callback2 = (s32)sub_0804D330;
+    task = (struct Task50D0 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback2;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D0(task,1);
+        break;
+    }
+    callback2 = (s32)sub_0804D330;
+    task = (struct Task50D0 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback2;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D0(task,2);
+        break;
+    }
+    callback2 = (s32)sub_0804D330;
+    task = (struct Task50D0 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback2;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D0(task,3);
+        break;
+    }
+    callback2 = (s32)sub_0804D330;
+    task = (struct Task50D0 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback2;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D0(task,4);
+        break;
+    }
+    callback2 = (s32)sub_0804D330;
+    task = (struct Task50D0 *)(gUnk_03005CF4 + 0xE34);
+    for (i=0; i<=29; i++,task++) {
+        if (sub_08000470((u32)task)) continue;
+        while ((task->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        task->f8 = 0x3C;
+        task->fC = callback2;
+        task->f10 = mem + 0x3FC;
+        task->f24 = 0;
+        taskStart50D0(task,5);
+        break;
+    }
+    for(timer=30;timer;timer--){sub_080003F0();if(sub_080021A8())break;}
+    entry=gUnk_030056F4;idx=0;entryFlags=&gUnk_030056FC;held=1;zero=0;
+entryLoop:
+    if((*entryFlags & (bitTemp=held<<idx)) && *(u16 *)(entry+0xC)==0xC) *(u16 *)(entry+0xC)=zero;
+    idx++;entry+=0x2E0;
+    if(idx<=4)goto entryLoop;
+    sub_08019F04();
+}
