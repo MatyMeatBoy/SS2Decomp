@@ -565,7 +565,9 @@ extern void t107CCall08065158(void *, u32, u16, s32, s32) asm("sub_08065158");
 extern void t107CCall0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 t107CCall08007870(s16, s16, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
 extern void t107CCall08029CEC(s32, s32, s32) asm("sub_08029CEC");
-extern void t107Velocity(s32,s32,u32,s32,s32 *) asm("sub_08097978");
+/* ABI view: target coordinates use r2/r3; the output pointer follows on stack. */
+struct TargetXYT107 { s32 x, y; };
+extern void t107VelocityPair(s32,s32,struct TargetXYT107,s32 *) asm("sub_08097978");
 struct PlayerT107C {
     u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
     u8 p34[0x34]; u8 active; u8 p69[0x23]; s32 x, y;
@@ -577,11 +579,12 @@ void sub_080A230C(void *unused, u16 delay)
 {
     struct AnimT107A230C anim;
     u16 tile, extra;
+    u16 *tilePtr;
     s16 screenX, screenY;
     s32 velocity[2];
     u8 *aux;
     struct PlayerT107C *target;
-    volatile u32 angle, magnitude;
+    struct TargetXYT107 targetPoint;
     u32 count;
     s32 active, timer, hit;
     s32 x, y;
@@ -589,20 +592,25 @@ void sub_080A230C(void *unused, u16 delay)
     u16 i, rawDx, facing;
     s32 radius;
     u8 tick, previous;
-    sub_0805865C(0xC2);
-    i = 0;
-    while ((s32)i < delay * 20) { sub_080003F0(); i++; }
-    aux = (u8 *)gActorT107A230C + 0x204;
-    t107CCall08065158(&anim, 0x5000C, gUnk_0300034C, -1, 1);
-    *((u8 *)gActorT107A230C + 0x1FC) = (*((u8 *)gActorT107A230C + 0x1FC) & 15) | (sub_08096594(0) << 4);
-    target = &t107PlayersC[*((u8 *)gActorT107A230C + 0x1FC) >> 4];
-    sub_08097A38(0);
-    extra = 0; tile = 0; count = 0; tick = 0; hit = 0;
-    x = gActorT107A230C->x; y = gActorT107A230C->y;
-    facing = gUnk_085186DC[gActorT107A230C->facing];
-    x += gUnk_080B9704[facing + 0x40] << 5;
-    y += gUnk_080B9704[facing] << 5;
-    timer = 120; active = 1;
+    {
+        register u16 *earlyTile asm("r8");
+        sub_0805865C(0xC2);
+        i = 0;
+        earlyTile = &tile;
+        while ((s32)i < delay * 20) { sub_080003F0(); i++; }
+        aux = (u8 *)gActorT107A230C + 0x204;
+        t107CCall08065158(&anim, 0x5000C, gUnk_0300034C, -1, 1);
+        *((u8 *)gActorT107A230C + 0x1FC) = (*((u8 *)gActorT107A230C + 0x1FC) & 15) | (sub_08096594(0) << 4);
+        target = &t107PlayersC[*((u8 *)gActorT107A230C + 0x1FC) >> 4];
+        sub_08097A38(0);
+        extra = 0; *earlyTile = 0; count = 0; tick = 0; hit = 0;
+        x = gActorT107A230C->x; y = gActorT107A230C->y;
+        facing = gUnk_085186DC[gActorT107A230C->facing];
+        x += gUnk_080B9704[facing + 0x40] << 5;
+        y += gUnk_080B9704[facing] << 5;
+        timer = 120; active = 1;
+        tilePtr = earlyTile;
+    }
     do {
         if (timer != 0) timer = (u8)(timer - 1);
         else {
@@ -612,9 +620,9 @@ void sub_080A230C(void *unused, u16 delay)
                     u16 *data;
                     tick = 0;
                     data = target->data;
-                    angle = data[0] >> 4;
-                    magnitude = (((u32)data[1] << 20) >> 20) - 12;
-                    t107Velocity(x, y, angle, magnitude, velocity);
+                    targetPoint.x = data[0] >> 4;
+                    targetPoint.y = (((u32)data[1] << 20) >> 20) - 12;
+                    t107VelocityPair(x, y, targetPoint, velocity);
                     count = (u8)(count + 1);
                 }
             } else {
@@ -647,11 +655,11 @@ void sub_080A230C(void *unused, u16 delay)
             s32 zero;
             zero = sub_0800CC98();
             if (zero == 0) {
-                sub_08065370(&anim, 8, (s32)&tile, (s32)&extra, 1);
+                sub_08065370(&anim, 8, (s32)tilePtr, (s32)&extra, 1);
                 sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + 0xD6) << 5), 1);
                 anim.attr[0] = gUnk_0300034C;
                 t107CCall0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, zero, zero);
-                t107CCall08007870(screenX, screenY, 8, tile, zero, anim.attr, anim.f8, anim.f0);
+                t107CCall08007870(screenX, screenY, 8, *tilePtr, zero, anim.attr, anim.f8, anim.f0);
             }
         }
         sub_080003F0();
