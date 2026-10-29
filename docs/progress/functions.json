@@ -10859,14 +10859,14 @@
       "name": "sub_0802B8A4",
       "addr": 134396068,
       "size": 2208,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08028AAC",
       "kind": "c",
       "cat": "game",
       "address": "0x0802B8A4",
       "canonical_symbol": "sub_0802B8A4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0802B8A4",
       "name_status": "unidentified",
       "name_source": null,
@@ -11811,14 +11811,14 @@
       "name": "sub_08035B18",
       "addr": 134437656,
       "size": 3548,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08035B18",
       "canonical_symbol": "sub_08035B18",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08035B18",
       "name_status": "unidentified",
       "name_source": null,
@@ -11828,14 +11828,14 @@
       "name": "sub_080368F4",
       "addr": 134441204,
       "size": 3544,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x080368F4",
       "canonical_symbol": "sub_080368F4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080368F4",
       "name_status": "unidentified",
       "name_source": null,
@@ -11859,7 +11859,7 @@
       "evidence": [
         {
           "source": "src/code_0802FEA0.c",
-          "line": 3114,
+          "line": 2944,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t36AScript"
         }
       ]
@@ -31230,7 +31230,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 1281,
+          "line": 1280,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
@@ -31684,7 +31684,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 559,
+          "line": 562,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run6BE8"
         }
       ]
