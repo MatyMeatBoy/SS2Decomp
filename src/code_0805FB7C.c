@@ -140,7 +140,7 @@ unpack:
         worldX = pos.x >> 8;
         worldY = pos.y >> 8;
         sub_0800BC08(worldX, worldY, &screenX, &screenY, 16, camera);
-        if ((u32)((screenX + 16) << 16) > 0x1080000 || screenY < -16 || screenY > 168)
+        if (((u32)(screenX + 16) << 16) > 0x1080000 || screenY < -16 || screenY > 168)
             return;
         priority = sub_0800BC44(worldX, worldY, sub_0800CCCC());
         sub_08008E74((s16)screenX, screenY, 0, frame, priority, iconData63 + group * 0x34,
@@ -160,7 +160,7 @@ unpack:
         step = asset->step;
         value = step + asset->value;
         asset->value = value;
-        if ((s32)(step << 16) > 0 && (s16)value > asset->upper)
+        if ((s32)((u32)step << 16) > 0 && (s16)value > asset->upper)
             asset->step = -step;
         if ((s16)asset->step < 0 && (s16)asset->value < asset->lower)
             asset->step = -asset->step;
