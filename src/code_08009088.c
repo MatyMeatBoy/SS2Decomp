@@ -9,8 +9,75 @@ void sub_08009088(u8 a, u8 b, u8 c, u8 d)
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080090B0);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009138);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080092C8);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080093E4);
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_080094CC);
+extern u16 *bgBuffers005[4] asm("gUnk_03003460");
+void sub_080093E4(struct Layer *entry, s16 x, s16 y)
+{
+    s16 pos[2];
+    u16 *dest = bgBuffers005[entry->pad14];
+    u16 *src = (u16 *)entry->data;
+    u16 count;
+    u16 tileX;
+    u16 tileY;         // then the tile's offset in the tilemap
+    u16 i;
+
+    if (x < 0)
+        x = 0;
+    if (y < 0)
+        y = 0;
+    pos[0] = (x & 0xFF) >> 3;
+    pos[1] = (y & 0xFF) >> 3;
+    count = 32 - pos[1];
+    if (count > 21)
+        count = 21;
+    tileX = x >> 3;
+    tileY = y >> 3;
+    dest += pos[0];
+    src += tileX;
+    i = 0;
+    tileY *= entry->s10;
+    while (i < count)
+    {
+        dest[pos[1] * 32] = src[tileY];
+        i++;
+        pos[1]++;
+        tileY += entry->s10;
+    }
+    pos[1] = 0;
+    while (i < 21)
+    {
+        dest[pos[1] * 32] = src[tileY];
+        i++;
+        pos[1]++;
+        tileY += entry->s10;
+    }
+}
+
+extern u16 *bgBuffers005[4] asm("gUnk_03003460");
+void sub_080094CC(struct Layer *entry, s16 x, s16 y)
+{
+    s16 pos[2];
+    u16 *dest = bgBuffers005[entry->pad14];
+    u16 *src = (u16 *)entry->data;
+    u16 count;
+    u16 tileX;
+    u16 tileY;         // then the tile's offset in the tilemap
+
+    if (x < 0)
+        x = 0;
+    if (y < 0)
+        y = 0;
+    pos[0] = (x & 0xFF) >> 3;
+    pos[1] = (y & 0xFF) >> 3;
+    count = 32 - pos[0];
+    pos[1] = ((y & 0xFF) >> 3) * 32;
+    tileX = x >> 3;
+    tileY = y >> 3;
+    tileY *= entry->s10;
+    tileY += tileX;
+    if (count != 0)
+        CpuSet(src + tileY, dest + (pos[0] + pos[1]), count);
+    CpuSet(src + (count + tileY), dest + pos[1], (32 - count) & 0x1FFFFF);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009594);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009930);
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009B84);
