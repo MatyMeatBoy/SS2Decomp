@@ -1408,11 +1408,7 @@ loop_body:
                     sp0 = temp_r0_7;
                     sp4 = temp_r0_7;
                     t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
-                    sp0 = (s32) temp_r4;
-                    sp4 = (0x34 * (u8) gUnk_030003F0) + t107Raw39C;
-                    sp8 = *(u32 *)((u8 *)sp28 + (0x34 * (u8) gUnk_030003F0));
-                    spC = *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C));
-                    var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, sp0, (void *)sp4, sp8, spC);
+                    var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, temp_r4, (0x34 * (u8) gUnk_030003F0) + t107Raw39C, *(u32 *)((u8 *)sp28 + (0x34 * (u8) gUnk_030003F0)), *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C)));
                     sp0 = temp_r0_7;
                     sp4 = temp_r0_7;
                     t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
@@ -1425,11 +1421,7 @@ loop_body:
             sp0 = sp1C;
             sp4 = sp1C;
             t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
-            sp0 = (s32) temp_r4;
-            sp4 = (0x34 * (u8) gUnk_030003F0) + t107Raw39C;
-            sp8 = *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw388);
-            spC = *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C));
-            var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, sp0, (void *)sp4, sp8, spC);
+            var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, temp_r4, (0x34 * (u8) gUnk_030003F0) + t107Raw39C, *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw388), *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C)));
             sp0 = sp1C;
             sp4 = sp1C;
             t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
@@ -1540,11 +1532,7 @@ loop_70:
             sp0 = temp_r0_10;
             sp4 = temp_r0_10;
             t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
-            sp0 = (s32) var_r0_5;
-            sp4 = (0x34 * (u8) gUnk_030003F0) + t107Raw39C;
-            sp8 = *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x14));
-            spC = *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw380);
-            temp_r4_3 = t107DCall08007870(sp10, sp12 + 1, temp_sl, t107D368->f6A, sp0, (void *)sp4, sp8, spC);
+            temp_r4_3 = t107DCall08007870(sp10, sp12 + 1, temp_sl, t107D368->f6A, var_r0_5, (0x34 * (u8) gUnk_030003F0) + t107Raw39C, *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x14)), *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw380));
             sp0 = temp_r0_10;
             sp4 = temp_r0_10;
             t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
