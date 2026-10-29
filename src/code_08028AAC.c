@@ -2784,5 +2784,259 @@ found2:
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802F578);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802FA80);
+extern u8 *gState2F578 asm("gUnk_03005CF4");
+extern void cb2F578(void) asm("sub_0805990C");
+void sub_0802F578(void)
+{
+    register u32 offset asm("r2");
+    struct Player *p;
+    u8 *base;
+    u32 field;
+    u16 count;
+    register u32 raw asm("r1");
+    u32 dialog;
+    register u32 value asm("r4");
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
+    p->flags |= 1;
+    sub_0800D0F4();
+    if (sub_0800CE30()) field = *(u32 *)(gState2F578 + 0x7C);
+    else field = *(u32 *)(gState2F578 + 0x74);
+    if (field & 256) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310905);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 128) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310904);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 64) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310903);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 32) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310902);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 16) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310901);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 8) {
+        if (sub_0800CE30()) { base = gState2F578; field = 0x1C5; }
+        else { base = gState2F578; field = 0x1B9; }
+        raw = base[field]; raw &= 1; if (raw) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310898);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        if (sub_0800CE30()) { base = gState2F578; field = 0x1C5; }
+        else { base = gState2F578; field = 0x1B9; }
+        if ((base[field] >> 7) != 0) {
+            sub_08068070((u32)cb2F578, 0x16);
+            count = 100;
+            while (count != 0) {
+                sub_080003F0();
+                if (sub_080021A8()) break;
+                count--;
+            }
+            return;
+        }
+        } else {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310897);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        }
+    }
+    else if (field & 4) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310896);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 2) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310895);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 1) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310894);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310893);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
+    p->flags &= ~1;
+    sub_0800D108();
+}
+
+
+
+
+
+extern u8 *gState2FA80 asm("gUnk_03005CF4");
+void sub_0802FA80(void)
+{
+    register u32 offset asm("r2");
+    struct Player *p;
+    u8 *base;
+    u32 field;
+    u32 dialog;
+    register u32 value asm("r4");
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
+    p->flags |= 1;
+    sub_0800D0F4();
+    if (sub_0800CE30()) field = *(u32 *)(gState2FA80 + 0x7C);
+    else field = *(u32 *)(gState2FA80 + 0x74);
+    if (field & 256) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310916);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 128) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310915);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 64) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310914);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 32) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310913);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 16) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310912);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 8) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310911);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 4) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310910);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 2) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310909);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else if (field & 1) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310908);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    else  {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 1310907);
+        while (sub_0805EEFC((void *)dialog) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    offset = sub_080020F4();
+    offset *= 0x14C;
+    p = (struct Player *)((u8 *)gUnk_03003CE0 + offset);
+    p->flags &= ~1;
+    sub_0800D108();
+}

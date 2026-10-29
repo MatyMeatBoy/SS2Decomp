@@ -207,9 +207,240 @@ void sub_080A4CFC(s8 arg0) {
     gUnk_030003F0 = arg0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4D08);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A6258);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A6510);
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A66E0);
+struct T109P6258 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[2]; u16 fC8, fCA, fCC; u8 pCE[0x16]; u32 fE4[26]; };
+struct T109Obj6258 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x,y; u8 p1C[0x34]; u32 serial; };
+extern struct T109P6258 t109P6258[] asm("gUnk_03003CE0");
+extern struct T109Obj6258 *t109O6258 asm("gUnk_03000400");
+extern u8 gUnk_03000406;
+extern s32 t109Calc6258(struct T109Obj6258 *,struct T109P6258 *) asm("sub_0801ED8C");
+extern s32 t109X6258[] asm("gUnk_03003D6C");
+extern s32 t109Angle6258(s16,s16) asm("ArcTan2");
+s32 sub_080A6258(u8 arg0) {
+    s32 result = 0;
+    u16 dx;
+    s16 x,y,hp;
+    s32 i,j;
+    u32 angle, angle3;
+    s32 objx;
+    u32 direction;
+    s32 amount, value88;
+    s32 first, second, yy;
+    struct T109P6258 *base;
+    struct T109P6258 *dst;
+    s32 value;
+    struct T109Obj6258 *obj;
+    first = sub_080020F4();
+    objx = t109O6258->x >> 8;
+    base = t109P6258;
+    dx = objx - (t109X6258[first*0x53] >> 8);
+    second = sub_080020F4();
+    yy = (t109O6258->y >> 8) + 12;
+    y = yy - (t109P6258[second].y >> 8);
+    x = dx;
+    if ((u16)Sqrt(x*x+y*y) > 23) goto end;
+    if (sub_0800CDF8() != 0) goto end;
+    if (sub_0800CCCC() != 0) goto end;
+    if (sub_0800CD8C() != 0) goto end;
+    if (t109O6258->fC == 11) goto end;
+    if (t109P6258[sub_080020F4()].flags & 0x2000) goto end;
+    if (t109P6258[sub_080020F4()].f68 == 0) goto end;
+    if (t109P6258[sub_080020F4()].state == 14) goto end;
+    if (t109P6258[sub_080020F4()].state == 11) goto end;
+    if (t109P6258[sub_080020F4()].state == 12) goto end;
+    if (t109P6258[sub_080020F4()].fE4[t109O6258->id] == t109O6258->serial) goto end;
+    base[sub_080020F4()].state = 10;
+    t109P6258[sub_080020F4()].fB0 = 0xFFFE;
+    i = sub_080020F4();
+    obj = t109O6258;
+    amount = t109Calc6258(obj, &t109P6258[sub_080020F4()]);
+    value88 = t109P6258[i].f88;
+    t109P6258[i].f88 = amount + value88;
+    t109P6258[sub_080020F4()].fE4[t109O6258->id] = t109O6258->serial++;
+    dx = (t109X6258[sub_080020F4()*0x53] >> 8) - (t109O6258->x >> 8);
+    x = dx;
+    y = (t109P6258[sub_080020F4()].y >> 8) - (t109O6258->y >> 8);
+    angle = (u16)t109Angle6258(x,y);
+    angle3 = (u16)(angle << 3);
+    direction = angle >> 13;
+    if (angle3 > 0x8000) {
+        if (direction <= 6) direction++;
+        else direction = 0;
+    }
+    switch (direction) {
+    case 0:
+        t109P6258[sub_080020F4()].fCA = 6;
+        break;
+    case 1:
+        t109P6258[sub_080020F4()].fCA = 7;
+        break;
+    default:
+        t109P6258[sub_080020F4()].fCA = direction - 2;
+        break;
+    }
+    t109P6258[sub_080020F4()].fCC = 0x400;
+    t109P6258[sub_080020F4()].fC8 = 8;
+    if (arg0 != 0) {
+        hp = t109P6258[sub_080020F4()].fC4;
+        if (hp > t109P6258[sub_080020F4()].f88) {
+            gUnk_03000406 = 0;
+            sub_08015C14();
+            if (sub_0800CE68() != 0 || sub_0800CC98() != 0) sub_0800D038();
+        }
+    }
+    result = 1;
+end:
+    return result;
+}
+struct T109P6510 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x; s32 y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 fE4[26]; };
+struct T109Obj6510 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x; s32 y; u8 p1C[0x34]; u32 serial; };
+extern struct T109P6510 t109P6510[] asm("gUnk_03003CE0");
+extern struct T109Obj6510 *t109O6510 asm("gUnk_03000400");
+extern u8 gUnk_03000406;
+extern s32 t109Calc6510(struct T109Obj6510 *, struct T109P6510 *) asm("sub_0801ED8C");
+s32 sub_080A6510(void)
+{
+  s32 result = 0;
+  u16 dx;
+  s16 x;
+  s16 y;
+  s16 hp;
+  s32 i;
+  s32 j;
+  s32 amount;
+  s32 value;
+  struct T109P6510 *dst;
+  struct T109Obj6510 *obj;
+  dx = (t109O6510->x >> 8) - (t109P6510[sub_080020F4()].x >> 8);
+  y = (t109O6510->y >> 8) - (t109P6510[sub_080020F4()].y >> 8);
+  x = dx;
+  if (((u16) Sqrt((x * x) + (y * y))) > 47)
+  {
+    goto end;
+  }
+  if (gUnk_03000406 != 255)
+  {
+    goto end;
+  }
+  if (sub_0800CDF8() != 0)
+  {
+    goto end;
+  }
+  if (sub_0800CD8C() != 0)
+  {
+    goto end;
+  }
+  if (sub_0800CCCC() != 0)
+  {
+    goto end;
+  }
+  if (t109O6510->fC == 11)
+  {
+    goto end;
+  }
+  if (t109P6510[sub_080020F4()].flags & 0x2000)
+  {
+    goto end;
+  }
+  if (t109P6510[sub_080020F4()].f68 == 0)
+  {
+    goto end;
+  }
+  if (t109P6510[sub_080020F4()].state == 14)
+  {
+    goto end;
+  }
+  if (t109P6510[sub_080020F4()].state == 11)
+  {
+    goto end;
+  }
+  if (t109P6510[sub_080020F4()].state == 12)
+  {
+
+    goto end;
+  }
+  if (t109P6510[sub_080020F4()].fE4[t109O6510->id] == t109O6510->serial)
+  {
+    goto end;
+  }
+  t109P6510[sub_080020F4()].state = 10;
+  t109P6510[sub_080020F4()].fB0 = 0xFFFE;
+  i = sub_080020F4();
+  obj = t109O6510;
+  amount = t109Calc6510(obj, &t109P6510[sub_080020F4()]);
+  dst = &t109P6510[i];
+  value = dst->f88;
+  dst->f88 = amount + value;
+  t109P6510[sub_080020F4()].fE4[t109O6510->id] = t109O6510->serial++;
+  hp = t109P6510[sub_080020F4()].fC4;
+  if (hp > t109P6510[sub_080020F4()].f88)
+  {
+    gUnk_03000406 = 0;
+    sub_08015C14();
+    if ((sub_0800CE68() != 0) || (sub_0800CC98() != 0))
+    {
+      sub_0800D038();
+    }
+  }
+  result = 1;
+  end:
+  return result;
+
+}
+struct T109Player { u8 pad0[0x1C]; s16 f1C; u8 pad1E[0x6E]; s32 x, y, x2, y2; u8 pad9C[0x14]; u16 fB0; u8 padB2[0x9A]; };
+extern struct T109Player t109Players[] asm("gUnk_03003CE0");
+extern s32 t109X[] asm("gUnk_03003D6C");
+extern s32 t109Origin[2] asm("gUnk_085187B4");
+extern s32 t109Targets[][4][2] asm("gUnk_085187BC");
+extern void sub_08015CB4(void);
+extern void sub_08015D04(void);
+extern void sub_08029A7C(s32,s32,s32);
+s32 sub_080A66E0(u8 *arg0) {
+    s32 result = 0;
+    s32 i0;
+    s32 i1;
+    s32 i2;
+    s32 i3;
+    s32 i4;
+    s32 i5;
+    s32 i6;
+    s32 i7;
+    s32 mode;
+    struct T109Player *base;
+    s32 j;
+    if (gUnk_03000406 != 0xFF) {
+        if (*arg0 == 0) {
+            i0 = sub_080020F4();
+            t109Players[i0].x = t109Players[sub_080020F4()].x2 = t109Origin[0];
+            i1 = sub_080020F4();
+            t109Players[i1].y = t109Players[sub_080020F4()].y2 = t109Origin[1];
+            sub_08015CB4();
+        } else {
+            mode = sub_08002164() - 1;
+            i2 = sub_080020F4();
+            j = sub_080020F4();
+            base = t109Players;
+            t109X[i2 * 0x53] += (t109Targets[mode][j][0] - t109Origin[0]) / 20;
+            i3 = sub_080020F4();
+            t109Players[i3].y += (t109Targets[mode][sub_080020F4()][1] - t109Origin[1]) / 20;
+            i4 = sub_080020F4();
+            t109Players[i4].x2 = t109X[sub_080020F4() * 0x53];
+            i5 = sub_080020F4();
+            t109Players[i5].y2 = t109Players[sub_080020F4()].y;
+            base[sub_080020F4()].f1C = 5;
+        }
+        if (++*arg0 > 19) {
+            *arg0 = 0;
+            result = 1;
+            gUnk_03000406 = 0xFF;
+            sub_08015D04();
+            sub_08015C38();
+            t109Players[sub_080020F4()].fB0 = 0xFFFE;
+            if (sub_0800CE30() == 1) sub_08029A7C(0, 100, 3);
+            else sub_08029A7C(0, 70, 3);
+        }
+    }
+    return result;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A68B0);
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A6BE8);
 #ifdef NONMATCHING

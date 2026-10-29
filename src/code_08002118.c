@@ -1287,12 +1287,19 @@ block_175:
                     var_r7 = (u8 *)&cursor;
                     temp_r5_14 = menuIndexC9 + ((u8 *)&gUnk_08366E0C);
                     sub_08065230(var_r7, (*temp_r5_14 - offsetX) - cursorX, *(var_r4_2 = (u16 *)(menuIndexC9 + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
-                    var_r1_7 = *temp_r5_14 + offsetY + cursorY;
+                    var_r1_7 = *temp_r5_14;
+                    var_r1_7 += offsetY;
+                    var_r1_7 += cursorY;
                 } else {
                     var_r7 = (u8 *)&cursor;
                     temp_r5_14 = menuIndexC9 + ((u8 *)&gUnk_08366E0C);
                     sub_08065230(var_r7, (*temp_r5_14 - offsetX) - (cursorX + 5), *(var_r4_2 = (u16 *)(menuIndexC9 + (u8 *)&gUnk_08366E0C + 2)) - 0x20, 3U, 2);
-                    var_r1_7 = *temp_r5_14 + offsetY + (cursorY + 5);
+                    var_r1_7 = *temp_r5_14;
+                    var_r1_7 += offsetY;
+                    {
+                        s32 selectorStepC10 = cursorY + 5;
+                        var_r1_7 += selectorStepC10;
+                    }
                 }
                 goto block_198;
                         } else {
@@ -1319,10 +1326,20 @@ block_175:
                     break;
                 }
                 if ((u32) M2C_FIELD(arg0, u8 *, 2) <= 8U) {
-                    temp_r4_15 = state * 4;
-                    temp_r5_14 = temp_r4_15 + ((u8 *)&gUnk_08366E0C);
-                    var_r4_2 = temp_r4_15 + (((u8 *)&gUnk_08366E0C) + 2);
-                    ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7 + 2, *temp_r5_14 - 9, *var_r4_2 - 0x28);
+                    {
+                        register u8 *shortTextC10 asm("r0");
+                        u32 shortBaseC10;
+                        register u32 shortIndexC10 asm("r4");
+                        register s32 shortXC10 asm("r1");
+                        shortTextC10 = var_r7 + 2;
+                        shortBaseC10 = (u32)&gUnk_08366E0C;
+                        shortIndexC10 = state * 4;
+                        temp_r5_14 = (u16 *)(shortIndexC10 + shortBaseC10);
+                        shortXC10 = *temp_r5_14 - 9;
+                        shortBaseC10 += 2;
+                        var_r4_2 = (u16 *)(shortIndexC10 + shortBaseC10);
+                        ((void (*)(const u8 *, s32, s32))sub_0801A764)(shortTextC10, shortXC10, *var_r4_2 - 0x28);
+                    }
                     var_r7 = (u8 *)&cursor;
                     sub_08065230(var_r7, *temp_r5_14 - (drawOffset3984 = cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
                     var_r1_7 = (drawOffset3984 = offsetY + 0x18) + *temp_r5_14 + cursorY;

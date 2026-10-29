@@ -1141,7 +1141,7 @@ void sub_0800D368(void *arg0) {
                 temp_r0_5 = d368_sub_08016C88(((struct PlayerD368 *)arg0)->f8C, ((struct PlayerD368 *)arg0)->f90, ((struct PlayerD368 *)arg0)->f9C, ((struct PlayerD368 *)arg0)->fA0, (8));
                 ((struct PlayerD368 *)arg0)->f12 = temp_r0_5;
                 ((struct PlayerD368 *)arg0)->f14 = temp_r5;
-                if ((temp_r0_5 << 0x10) == 0) {
+                if (((u32) temp_r0_5 << 0x10) == 0) {
                     ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 & ~0x24);
                     temp_r1_4 = (d368_sub_080020F4() * 0x14C) + ((u8 *)&d368_gUnk_03003CE0 + 0x30);
                     *temp_r1_4 |= 1;
@@ -1467,7 +1467,7 @@ block_197:
             }
             temp_r0_13 = ((struct PlayerD368 *)arg0)->f114 - 1;
             ((struct PlayerD368 *)arg0)->f114 = temp_r0_13;
-            if ((s32) (temp_r0_13 << 0x10) <= 0) {
+            if ((s32) ((u32) temp_r0_13 << 0x10) <= 0) {
                 ((struct PlayerD368 *)arg0)->f114 = 0U;
             }
             ((struct PlayerD368 *)arg0)->f122 = (u16) (((struct PlayerD368 *)arg0)->f122 + 1);
@@ -1491,7 +1491,7 @@ block_197:
                 regenerationTermD368 = 100 * (var_r2_3 + (s8) ((struct PlayerD368 *)arg0)->f70) + 200;
                 var_r2_3 = 48000 / (regenerationBaseD368 + regenerationTermD368);
                 temp_r0_15 = sp198;
-                sp198 = temp_r0_15 + 1;
+                sp198 = (u32) temp_r0_15 + 1;
                 if (var_r2_3 < temp_r0_15) {
                     sp198 = 0;
                     temp_r0_16 = *sp1B8 + 0xA;
@@ -1687,7 +1687,7 @@ block_372:
                             if (0xF1 & ((struct PlayerD368 *)arg0)->f14) {
                                 temp_r1_10 = (u16) var_r6->f0 - 6;
                                 var_r6->f0 = temp_r1_10;
-                                if ((s32) (temp_r1_10 << 0x10) < 0) {
+                                if ((s32) ((u32) temp_r1_10 << 0x10) < 0) {
                                     var_r6->f0 = temp_r1_10 | 0xFFFF;
                                 }
                             }
@@ -2068,7 +2068,7 @@ block_1024:
                             }
                             temp_r1_24 = *sp1B8 - (s16) var_r2_7;
                             *sp1B8 = temp_r1_24;
-                            if ((s32) (temp_r1_24 << 0x10) < 0) {
+                            if ((s32) ((u32) temp_r1_24 << 0x10) < 0) {
                                 *sp1B8 = temp_r3_4;
                             }
                         }
@@ -2477,7 +2477,7 @@ block_719:
                         }
                         temp_r1_27 = *sp1B8 - (s16) var_r2_9;
                         *sp1B8 = temp_r1_27;
-                        if ((s32) (temp_r1_27 << 0x10) < 0) {
+                        if ((s32) ((u32) temp_r1_27 << 0x10) < 0) {
                             *sp1B8 = temp_r3_5;
                         }
                     }
@@ -2635,7 +2635,7 @@ block_693:
                         var_r3_6 = d368_sub_0800CCCC();
                         var_r3_6 <<= 16;
                         var_r3_6 >>= 16;
-                        var_r0_15 = (s32) ((u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
+                        var_r0_15 = (s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
                         var_r2_10 = (u16) ((struct PlayerD368 *)arg0)->f1C;
                         goto state5Call66;
                     }
@@ -2650,7 +2650,7 @@ state5Move66:
                             var_r3_6 = d368_sub_0800CCCC();
                         var_r3_6 <<= 16;
                         var_r3_6 >>= 16;
-                            var_r0_15 = (s32) ((u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
+                            var_r0_15 = (s32) ((u32) (u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
                             var_r2_10 = directionD36874 - 1;
                             var_r2_10 <<= 16;
                             var_r2_10 >>= 16;
@@ -2751,7 +2751,7 @@ state5Done66:
                                         goto block_809;
                                     }
                                     ((struct PlayerD368 *)arg0)->f24 = 0U;
-                                    temp_r0_59 = ((u32) (temp_r1_30 << 0x10) >> 0x11) - 1;
+                                    temp_r0_59 = ((u32) ((u32) temp_r1_30 << 0x10) >> 0x11) - 1;
                                     switch (temp_r0_59) {
                                     case 0: goto shared9_0;
                                     case 1: goto shared9_1;
@@ -2897,7 +2897,7 @@ block_809:
                                         goto block_862;
                                     }
                                     ((struct PlayerD368 *)arg0)->f24 = 0U;
-                                    temp_r0_63 = ((u32) (temp_r1_33 << 0x10) >> 0x11) - 1;
+                                    temp_r0_63 = ((u32) ((u32) temp_r1_33 << 0x10) >> 0x11) - 1;
                                     switch (temp_r0_63) {
                                     case 0: goto shared11_0;
                                     case 1: goto shared11_1;
