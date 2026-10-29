@@ -289,6 +289,7 @@ extern s16 gUnk_084ECBB0[];
 extern s16 gUnk_084ECBBC[];
 extern u32 gUnk_084ECBC8[];
 void sub_0807C29C(void) {
+    struct ItemCopy82 { u32 words[4]; };
     s32 sp4[4];
     u32 sp14;
     s32 sp18[4];
@@ -804,10 +805,8 @@ void sub_0807C29C(void) {
                                             M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x18);
                                             M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r3;
                                             temp_r1_2 = gUnk_03006440 + 0xF4;
-                                            M2C_FIELD(gUnk_03006440, s32 *, 0xF4) = (s32) M2C_FIELD(temp_r0_6, u32 *, 0x150);
-                                            M2C_FIELD(temp_r1_2, s32 *, 4) = (s32) M2C_FIELD(temp_r4_2, s32 *, 4);
-                                            M2C_FIELD(temp_r1_2, s32 *, 8) = (s32) M2C_FIELD(temp_r4_2, s32 *, 8);
-                                            M2C_FIELD(temp_r1_2, s32 *, 0xC) = (s32) M2C_FIELD(temp_r4_2, s32 *, 0xC);
+                                            /* Original copy loads/stores three words, then the fourth. */
+                                            *(struct ItemCopy82 *)temp_r1_2 = *(const struct ItemCopy82 *)temp_r4_2;
                                         } else {
                                             M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x18);
                                             M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r3;
