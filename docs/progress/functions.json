@@ -3451,18 +3451,24 @@
       "name": "sub_080072A0",
       "addr": 134247072,
       "size": 404,
-      "state": "todo",
+      "state": "done",
       "module": "code_08006D24",
       "kind": "c",
       "cat": "game",
       "address": "0x080072A0",
       "canonical_symbol": "sub_080072A0",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_080072A0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "oamDraw004",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 212,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: oamDraw004"
+        }
+      ]
     },
     {
       "name": "sub_08007434",
@@ -3499,7 +3505,7 @@
       "evidence": [
         {
           "source": "src/code_08006D24.c",
-          "line": 217,
+          "line": 296,
           "detail": "Existing C definition with an asm alias to the canonical symbol: impl76C4"
         }
       ]
@@ -3692,7 +3698,7 @@
       "evidence": [
         {
           "source": "src/code_08006D24.c",
-          "line": 513,
+          "line": 592,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08008C1C_v"
         }
       ]
@@ -20444,14 +20450,14 @@
       "name": "sub_08061830",
       "addr": 134617136,
       "size": 224,
-      "state": "todo",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x08061830",
       "canonical_symbol": "sub_08061830",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08061830",
       "name_status": "unidentified",
       "name_source": null,
@@ -20560,7 +20566,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 1519,
+          "line": 1554,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
@@ -23674,14 +23680,14 @@
       "name": "sub_080746A4",
       "addr": 134694564,
       "size": 372,
-      "state": "todo",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080746A4",
       "canonical_symbol": "sub_080746A4",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_080746A4",
       "name_status": "unidentified",
       "name_source": null,
@@ -23691,14 +23697,14 @@
       "name": "sub_08074818",
       "addr": 134694936,
       "size": 372,
-      "state": "todo",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08074818",
       "canonical_symbol": "sub_08074818",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08074818",
       "name_status": "unidentified",
       "name_source": null,
@@ -23708,14 +23714,14 @@
       "name": "sub_0807498C",
       "addr": 134695308,
       "size": 372,
-      "state": "todo",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x0807498C",
       "canonical_symbol": "sub_0807498C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0807498C",
       "name_status": "unidentified",
       "name_source": null,
@@ -23725,14 +23731,14 @@
       "name": "sub_08074B00",
       "addr": 134695680,
       "size": 372,
-      "state": "todo",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08074B00",
       "canonical_symbol": "sub_08074B00",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08074B00",
       "name_status": "unidentified",
       "name_source": null,
@@ -23742,14 +23748,14 @@
       "name": "sub_08074C74",
       "addr": 134696052,
       "size": 372,
-      "state": "todo",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08074C74",
       "canonical_symbol": "sub_08074C74",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08074C74",
       "name_status": "unidentified",
       "name_source": null,
@@ -36796,12 +36802,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 145,
-      "existing": 26,
+      "identified": 146,
+      "existing": 27,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1735,
-      "percent_identified": 7.712765957446808
+      "unidentified": 1734,
+      "percent_identified": 7.76595744680851
     },
     "sdk": {
       "total": 155,
@@ -36814,12 +36820,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 300,
-      "existing": 155,
+      "identified": 301,
+      "existing": 156,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1735,
-      "percent_identified": 14.742014742014742
+      "unidentified": 1734,
+      "percent_identified": 14.791154791154792
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
