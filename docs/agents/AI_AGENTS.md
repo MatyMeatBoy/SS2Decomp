@@ -1,4 +1,6 @@
 
+Coordinacion, contexto, rotaciones y gates: [COORDINATOR_WORKFLOW.md](COORDINATOR_WORKFLOW.md).
+
 ## Familia "hueco de tarea libre" (2026-10-28, +15 funciones)
 Asm: `ldr rX,=gTaskList; ldr r4,[rX]; movs r6,#0; b check` ... `bl sub_08000470` ... `ldr r5,[r4,#8]` ... `sub_08001494(0x400)` ... `sub_08000274`.
 Plantilla que casa (cambia símbolo, límite, f8, callback y argumentos):
