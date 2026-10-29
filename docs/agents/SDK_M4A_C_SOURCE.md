@@ -134,11 +134,11 @@ CMP #128 / BHS rather than CMP #127 / BHI; explicit C labels/gotos avoid
 loop optimization moving the release block outside the traversal. The
 only assembly is the explicitly documented register-save/return ABI glue.
 
-The other 9 configured entries retain their original INCLUDE_ASM bodies.
+The other 8 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 720 bytes / 27 functions
-become decompiled; the remaining 2340 bytes / 9 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 736 bytes / 28 functions
+become decompiled; the remaining 2324 bytes / 8 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 
@@ -211,3 +211,31 @@ against its original oracle, and rejects mutated comparison and stack-entry
 candidates. The original oracle is from a533caf3ac7046d9308910581c2af7688b29ce9c.
 This container check avoids forcing natural C function sizes to match the old
 combined symbol. Full normal ROM comparison remains mandatory and passes.
+
+`umul3232H32` at 0x080B64D8 is C with explicit interworking and result ABI
+assembly (16 bytes total), in its own `m4a_1_mul` translation unit. The existing
+ARM compiler generates UMULL from the C unsigned 64-bit product. The four-byte
+Thumb ADR/BX veneer enters the ARM body at 0x080B64DC. The only other assembly
+copies the upper product register to the SDK's r0 result and returns; ADD #0
+here is a non-flag-setting register copy. There is no multiplication opcode
+or other algorithm encoded in assembly source. The canonical C definition has
+an assembler alias for its ARM body; the public canonical Thumb entry retains
+its original symbol. This is mixed ABI glue, not pure C. No size overrides are
+used: the natural C body is 12 bytes and the complete container is 16 bytes.
+
+`test_sdk_umul.py` requires active C, exact complete bytes, Thumb/ARM symbol and
+mapping modes, and canonical linked bytes. GAS emits a standard R_ARM_V4BX
+marker for the explicit ARM return, while the original raw-word oracle has no
+marker; the test checks that exact relocation and proves it resolves without
+changing any byte. It runs 5,120 product cases each against original and C
+objects with all incoming NZCV combinations, checks return PC/SP/r4-r11 and
+unchanged NZCV, and rejects a C spin loop whose r0 already equals the expected
+result. The test accepts optional `--deps DIR` on Windows and needs no ROM.
+The 16-byte split preserves the existing configured function and all totals.
+
+The ARM compiler is bootstrapped separately from verified, unmodified source by
+`tools/install_agbcc_arm_sdk.sh`. Its revision, archive hash, upstream build
+commands, retained GPL sources and portability checks are documented in
+`tools/patches/README.sdk-arm.md`. A fresh installer build reproduces the same
+16 bytes, the complete semantic fixture and the normal ROM. The dedicated
+Makefile compiler path is literal for decomp.py and other tooling consumers.
