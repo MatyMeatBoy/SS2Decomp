@@ -1424,11 +1424,505 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061910);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061B88);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061E44);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080624D8);
+#ifdef NONMATCHING
+struct T65Draw { u32 base; u32 unk4; u8 *data; u32 unkC; u8 pad[12]; u8 style; u8 rest[23]; };
+struct T65Level { u16 count; u8 pad[114]; };
+extern struct T65Level t65_levels[] asm("gUnk_0847846C");
+extern u16 t65_level asm("gUnk_030031FE");
+struct T65State { u8 pad[0x8E]; u16 level, f90, area; };
+struct T65Video { u8 pad[0x3A]; u16 blend; };
+struct T65Player { u8 pad[0x30]; u32 flags; u8 rest[0x118]; };
+struct T65Pair { u16 x,y; };
+extern struct T65State t65_state asm("gUnk_03003170");
+extern struct T65Video t65_video asm("gUnk_03001250");
+extern struct T65Player t65_players[] asm("gUnk_03003CE0");
+void sub_0806335C(void)
+{
+    struct T65Draw a, b;
+    u16 ids[2], widths[2], heights[2];
+    u16 i;
+    u32 *flags;
+    sub_08000AF0(0x15, b.unkC, 1);
+    a.style = 5;
+    b.style = 5;
+    if (t65_state.area != 0) {
+        ids[0] = t65_state.level + 0x14;
+        if (t65_state.area == t65_levels[t65_state.level].count - 1) {
+            if (t65_state.level <= 8U)
+                ids[1] = t65_state.level + 0x1C;
+            else ids[1] = 0x23;
+        } else ids[1] = t65_state.area;
+        widths[0] = 0; widths[1] = 0;
+        heights[0] = 0; heights[1] = 0;
+        i = 1;
+        do {
+            t65_video.blend = 0x3030;
+            if (t65_level <= 8U) sub_08008CC4(ids[0], widths, heights, a.data, 1);
+            else sub_08008CC4(0x26, widths, heights, a.data, 1);
+            sub_08008CC4(ids[1], widths + 1, heights + 1, b.data, 1);
+            if (t65_level <= 8U) sub_08007CF0(0x78,0x36,ids[0],widths[0],0,(s32)&a.style,(s32)a.data,a.base);
+            else sub_08007CF0(0x78,0x36,0x26,widths[0],0,(s32)&a.style,(s32)a.data,a.base);
+            sub_08007CF0(0x78,0x6A,ids[1],widths[1],0,(s32)&b.style,(s32)b.data,b.base);
+            sub_080003F0();
+        } while (i++ <= 0x77U);
+        t65_video.blend = 0;
+    }
+    flags = &t65_players[sub_080020F4()].flags;
+    *flags &= ~0x80;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806335C);
+#endif
+#ifdef NONMATCHING
+struct T65Popup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
+extern u8 t65_popupResource[] asm("gUnk_08518938");
+extern u32 *t65_popupTasks asm("gUnk_0300602C");
+extern void t65_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern void t65_draw(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08007870");
+static inline s32 t65P_init(struct T65Popup *obj,u32 resource,s32 index,s32 size)
+{
+    void *table = t65_popupResource;
+    s32 mem,first,second,i;
+    obj->resource=resource;obj->style=index;obj->mode=size;
+    first=sub_08006EE0(resource,table); obj->data=(u8 *)first;
+    if (!first) return 0;
+    resource=(resource&0xFFFF)|0x60000;
+    second=sub_08006EE0(resource,table);obj->base=second;
+    if (!second) return 0;
+    mem=sub_08006EE0((resource&0xFFFF)|0x80000,table);obj->sound=mem;
+    if (!mem) return 0;
+    if (size>=0) sub_08000AF0(index+16,(void *)(mem+(index<<5)),size);
+    i=0;
+    do {obj->palette[i]=i;i++;} while ((u32)i<=15);
+    sub_080653B8(obj,0x120,0xE0,8);
+    return (s32)obj;
+}
+void t65_popupImplementation(u32,u32) asm("sub_080634D8");
+void t65_popupImplementation(u32 packed,u32 arg)
+{
+    struct T65Popup draw;
+    s16 xy[2];
+    u16 sizes[2];
+    u32 pos = packed;
+    u32 sound = arg >> 16;
+    u32 shifted;
+    u32 px,py;
+    u16 done;
+    u32 i;
+    t65P_init(&draw,0x50130,5,-1);
+    if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC() && !sub_0800CD34())
+        sub_08000AF0(sound+0x10,draw.sound+0x20,1);
+    draw.palette[0] = 5;
+    draw.palette[1] = *(u8 *)&sound;
+    py = pos >> 16;
+    px = (u16)pos;
+    sizes[0]=0;sizes[1]=0;
+    shifted = px << 16;
+    loop:
+        t65_position((s32)shifted>>16,(s16)py,&xy[0],&xy[1],0x30,0);
+        done = sub_08008CC4(10,&sizes[0],&sizes[1],draw.data,0);
+        if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC() && !sub_0800CD34()) {
+            if (*t65_popupTasks != 0)
+                t65_draw(xy[0],xy[1],10,sizes[0],(u8)sub_0800BC44(px,py,0),draw.palette,draw.data,draw.base);
+            else
+                sub_08007CF0(xy[0],xy[1],10,sizes[0],1,(s32)draw.palette,(s32)draw.data,draw.base);
+        }
+        sub_080003F0();
+    if (!sub_0800CED8() && !sub_0800CB78() && !sub_0800CD00() && done == 0) goto loop;
+    *(u32 *)((u8 *)sub_0800048C()+8)=0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080634D8);
+#endif
+#ifdef NONMATCHING
+struct T65CPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
+struct T65CPlayer { u8 bytes[0x14C]; };
+struct T65CResource { u32 id; u8 pad[84]; };
+struct T65CState { u8 pad[0x90]; u16 area; };
+extern struct T65CPlayer t65C_players[] asm("gUnk_03003CE0");
+extern struct T65CResource t65C_resourceTable[] asm("gUnk_08479140");
+extern struct T65CState t65C_state asm("gUnk_03003170");
+extern u8 t65C_resources[] asm("gUnk_08518938");
+extern u32 t65C_flags asm("gUnk_03002344");
+extern u8 *t65C_game asm("gUnk_03005CF4");
+extern void t65C_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern void t65C_overlay(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08008E74");
+#define T65C_H(p,o) (*(u16 *)((p)+(o)))
+#define T65C_W(p,o) (*(u32 *)((p)+(o)))
+#define T65C_ENTITY(p) (*(u8 **)((p)+0x148))
+static inline s32 t65C_init(struct T65CPopup *obj,u32 resource,s32 index,s32 size)
+{
+    void *table = t65C_resources;
+    s32 mem,first,second,i;
+    obj->resource=resource;obj->style=index;obj->mode=size;
+    first=sub_08006EE0(resource,table); obj->data=(u8 *)first;
+    if (!first) return 0;
+    resource=(resource&0xFFFF)|0x60000;
+    second=sub_08006EE0(resource,table);obj->base=second;
+    if (!second) return 0;
+    mem=sub_08006EE0((resource&0xFFFF)|0x80000,table);obj->sound=mem;
+    if (!mem) return 0;
+    if (size>=0) sub_08000AF0(index+16,(void *)(mem+(index<<5)),size);
+    i=0;
+    do {obj->palette[i]=i;i++;} while ((u32)i<=15);
+    sub_080653B8(obj,0x120,0xE0,8);
+    return (s32)obj;
+}
+void t65C_impl(s32) asm("sub_080636B0");
+void t65C_impl(s32 index)
+{
+    struct T65CPopup label,sprite;
+    s16 xy[2];
+    u16 sizes[6];
+    s32 playerIndex=index;
+    u32 worldX,worldY,frame,text;
+    u32 shifted;
+    s32 zero,cc;
+    u16 *spriteIndex;
+    u8 *p=t65C_players[playerIndex].bytes;
+    u8 *color;
+    t65C_init(&label,0x5005E,5,-1);
+    label.palette[0]=15;
+    worldY=T65C_H(T65C_ENTITY(p),2)&0xFFF;
+    worldX=T65C_H(T65C_ENTITY(p),0)>>4;
+    if (playerIndex==sub_080020F4()) sub_0800CEE8();
+    sizes[2]=0;sizes[3]=0;
+    sizes[4]=2;sizes[5]=0;
+    sizes[1]=0;
+    frame=0;
+    spriteIndex=(u16 *)(p+0x64);
+    t65C_init(&sprite,t65C_resourceTable[*spriteIndex].id,0,-1);
+    sprite.palette[0]=T65C_H(p,0);
+    zero=sub_0800CF80();
+    if (zero) goto cleanup;
+    sizes[1]=zero;sizes[0]=zero;
+    text=0x21;
+    if (playerIndex==sub_080020F4()) {
+        sub_0805865C(0x75);
+        T65C_H(p,0x1C)=zero;
+    }
+    shifted=frame<<16;
+    if ((s16)frame>159) goto cleanup;
+loop:
+    t65C_position((s16)worldX,(s16)worldY,xy,xy+1,0x30,0);
+    T65C_H(p,0xB6)=sub_08008CC4(0x21,sizes,sizes+1,sprite.data,1);
+    sub_08008CC4(0,sizes+2,sizes+3,label.data,1);
+    sub_08008CC4(1,sizes+4,sizes+5,label.data,1);
+    if (sub_0800CC98()) goto skipDraw;
+    if (sub_08058DB0()) goto skipDraw;
+    if (sub_0800CD34()) goto skipDraw;
+    if (sub_0800D11C()) goto skipDraw;
+    if (T65C_ENTITY(p)[4]&0x20) {
+        if (sub_0800CCCC()) goto drawTest;
+        if (T65C_ENTITY(p)[4]&0x20) goto skipDraw;
+    }
+    if (sub_0800CCCC()) goto skipDraw;
+drawTest:
+    if ((T65C_ENTITY(p)[4]&31)!=t65C_state.area) goto skipDraw;
+    sub_08000AF0(0x1F,(void *)label.sound,1);
+    if (T65C_W(p,0x30)&0x2000) {
+        if (!(t65C_flags&1)) {
+            sub_08007CF0(xy[0],xy[1]-((s32)shifted>>16),text,sizes[0],1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
+            sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+0x1C0),1);
+        }
+    } else {
+        sub_08007CF0(xy[0],xy[1]-((s32)shifted>>16),text,sizes[0],1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
+        if (*spriteIndex==9) {
+            sub_08000AF0(T65C_H(p,0)+16,(void *)sprite.sound,1);
+            color=p+0x66;
+        } else {
+            color=p+0x66;
+            sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(*color<<5)),1);
+        }
+        sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(*color<<5)),1);
+    }
+    sub_08007CF0(xy[0],xy[1]-(((s32)shifted>>16)+24),0,sizes[2],1,(s32)label.palette,(s32)label.data,label.base);
+    if (t65C_flags&1) t65C_overlay(xy[0],xy[1],1,sizes[4],3,label.palette,label.data,label.base);
+skipDraw:
+    sub_080003F0();
+    if (sub_0800CB78() || sub_0800CD00()) goto cleanup;
+    if (!sub_08056E90() && !sub_08058DB0()) frame=(u16)(frame+1);
+    shifted=frame<<16;
+    if ((s16)frame<=159) goto loop;
+cleanup:
+    if (sub_0800CDF8()) return;
+    while (sub_0800D11C()) sub_080003F0();
+    while ((zero=sub_0800D098())!=0) sub_080003F0();
+    if (playerIndex!=sub_080020F4()) return;
+    sub_0805867C(0x75);
+    p[0x68]=1;
+    cc=sub_0800CCCC();
+    if (cc) {
+        sub_08056FB8(T65C_H(p,0x2E),T65C_H(p,0x2C));
+        T65C_H(p,0x2E)=zero;T65C_H(p,0x2C)=zero;
+        return;
+    }
+    if (T65C_W(p,0x30)&0x2000) {
+        if (!sub_0800CF80()) {
+            sub_08056FB8(0,4);
+            T65C_H(t65C_game,0x36)=3;
+        } else {
+            sub_08026CD0(11,0,1);
+            T65C_H(t65C_game,0x36)=cc;
+            sub_0800CEFC();
+        }
+    } else {
+        sub_08056FB8(0,0);
+        T65C_H(t65C_game,0x36)=0;
+    }
+    sub_0800CCDC();
+}
+#undef T65C_H
+#undef T65C_W
+#undef T65C_ENTITY
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080636B0);
+#endif
+#ifdef NONMATCHING
+struct T65BPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
+struct T65BPlayer { u8 pad0[0x14]; u16 buttons; u8 pad16[10]; u16 state, substate; u8 pad24[12]; u32 flags; u8 pad34[0x114]; u8 *entity; };
+extern struct T65BPlayer t65B_players[] asm("gUnk_03003CE0");
+extern u8 t65B_resources[] asm("gUnk_08518938");
+extern u16 t65B_blocked asm("gUnk_03003200");
+extern u32 t65B_flags asm("gUnk_03002344");
+extern void t65B_position(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern u8 *t65B_draw(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08007870");
+extern void t65B_overlay(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08008E74");
+extern s32 t65B_intersect(s32 *,void *,s32 *,s32 *) asm("sub_08021FE0");
+static inline s32 t65B_init(struct T65BPopup *obj,u32 resource,s32 index,s32 size)
+{
+    void *table = t65B_resources;
+    s32 mem,first,second,i;
+    obj->resource=resource;obj->style=index;obj->mode=size;
+    first=sub_08006EE0(resource,table); obj->data=(u8 *)first;
+    if (!first) return 0;
+    resource=(resource&0xFFFF)|0x60000;
+    second=sub_08006EE0(resource,table);obj->base=second;
+    if (!second) return 0;
+    mem=sub_08006EE0((resource&0xFFFF)|0x80000,table);obj->sound=mem;
+    if (!mem) return 0;
+    if (size>=0) sub_08000AF0(index+16,(void *)(mem+(index<<5)),size);
+    i=0;
+    do {obj->palette[i]=i;i++;} while ((u32)i<=15);
+    sub_080653B8(obj,0x120,0xE0,8);
+    return (s32)obj;
+}
+void t65B_impl(s32) asm("sub_08063B80");
+void t65B_impl(s32 index)
+{
+    struct T65BPopup draw;
+    s16 xy[2];
+    u16 sizes[4];
+    s32 box[4];
+    s32 playerIndex=index;
+    u32 worldX;
+    register u32 dialog asm("sl");
+    u32 i;
+    u8 alternate;
+    u8 *out;
+    register struct T65BPlayer *player asm("r8") = &t65B_players[playerIndex];
+    t65B_init(&draw,0x5005E,5,-1);
+    draw.palette[0]=15;
+    worldX=0xB8-playerIndex*24;
+    box[0]=worldX<<8;
+    box[1]=0x13800;
+    box[2]=0x80010;
+    box[3]=0x1E0018;
+    sizes[0]=0;sizes[1]=0;
+    dialog=0;
+    sub_0800CF20();
+goto check;
+loop:
+    t65B_position((s16)worldX,0x138,&xy[0],&xy[1],0x30,1);
+    sub_08008CC4(0,&sizes[0],&sizes[1],draw.data,1);
+    sub_08008CC4(1,&sizes[2],&sizes[3],draw.data,1);
+    if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && t65B_blocked==0) {
+        alternate=(u8)sub_0800BC44(worldX,0x138,1);
+        out=t65B_draw(xy[0],xy[1],0,sizes[0],alternate,draw.palette,draw.data,draw.base);
+        *(u32 *)(out+12) -= 20;
+        if (t65B_flags & 1) t65B_overlay(xy[0],xy[1],1,sizes[2],alternate,draw.palette,draw.data,draw.base);
+        sub_08000AF0(0x1F,(void *)draw.sound,1);
+    }
+    if (playerIndex == sub_080020F4()) {
+        if ((t65B_blocked==0 && t65B_intersect(box,(u8 *)player+0x8C,box+2,box+3)) || dialog != 0) {
+            if (dialog == 0) {
+                if (!sub_0800CDF8() && (player->buttons & 1)) {
+                    player->flags |= 1;
+                    dialog=sub_0805DF38(1,14,25,2,-2,0x1404E0);
+                }
+            } else if (sub_0805EEFC((void *)dialog)) {
+                if (sub_0805EF14((u8 *)dialog)) {
+                    player->state=12;
+                    player->substate=1;
+                    sub_0800CEE8();
+                    sub_0800CF34();
+                    goto finish;
+                } else {
+                    player->flags &= ~1;
+                    dialog=0;
+                }
+            }
+        }
+    } else {
+        if ((player->entity[0]&15)==12 && ((*(u16 *)(player->entity+4)>>6)&63)==1) goto finish;
+    }
+    sub_080003F0();
+    if (sub_0800CB78() || sub_0800CD00()) goto finish;
+check:
+    if (sub_0800CCCC()) goto loop;
+finish:
+    sub_0800CF34();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08063B80);
+#endif
+#ifdef NONMATCHING
+struct T65EPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
+struct T65EPlayer { u8 bytes[0x14C]; };
+struct T65EResource { u32 id; u8 pad[84]; };
+struct T65EPoint { s32 x,y; };
+struct T65EVideo { u16 h0,h2,h4,h6,h8,hA,hC,hE; };
+extern struct T65EPlayer t65E_players[] asm("gUnk_03003CE0");
+extern struct T65EResource t65E_resourceTable[] asm("gUnk_08479140");
+extern struct T65EVideo t65E_video asm("gUnk_03001250");
+extern s16 t65E_display asm("gUnk_03001F40");
+extern u8 t65E_resources[] asm("gUnk_08518938");
+extern void t65E_bg(u32,u32,u32) asm("sub_080009F8");
+#define T65E_H(p,o) (*(u16 *)((p)+(o)))
+#define T65E_ENTITY(p) (*(u8 **)((p)+0x148))
+static inline s32 t65E_init(struct T65EPopup *obj,u32 resource,s32 index,s32 size)
+{
+    void *table = t65E_resources;
+    s32 mem,first,second,i;
+    obj->resource=resource;obj->style=index;obj->mode=size;
+    first=sub_08006EE0(resource,table); obj->data=(u8 *)first;
+    if (!first) return 0;
+    resource=(resource&0xFFFF)|0x60000;
+    second=sub_08006EE0(resource,table);obj->base=second;
+    if (!second) return 0;
+    mem=sub_08006EE0((resource&0xFFFF)|0x80000,table);obj->sound=mem;
+    if (!mem) return 0;
+    if (size>=0) sub_08000AF0(index+16,(void *)(mem+(index<<5)),size);
+    i=0;
+    do {obj->palette[i]=i;i++;} while ((u32)i<=15);
+    sub_080653B8(obj,0x120,0xE0,8);
+    return (s32)obj;
+}
+void sub_08063E30(void)
+{
+    struct T65EPopup sprites[4];
+    s32 delays[4],sounds[4];
+    struct T65EPoint trails[4][5];
+    struct T65EPoint velocities[4];
+    u32 fill,fillEnd,control;
+    u32 playerIndex,n,players,count,finished;
+    s32 j;
+    u8 *p;
+    sub_08000990(0,1);
+    control=(control&0xFFFF0000)|0x1D00;
+    sub_08000AA8(1,(u16 *)&control);
+    *(u16 *)&control=0x5900;
+    sub_08000AA8(2,(u16 *)&control);
+    *(u16 *)&control=0x5A00;
+    sub_08000AA8(3,(u16 *)&control);
+    fill=0;
+    CpuSet(&fill,(void *)0x0600C800,0x05000600);
+    sub_0800B650(0x3A,0x1D,0x06000000,0,15);
+    sub_0800B650(0x39,0x1A,0x06000000,0,15);
+    t65E_video.h4=0;t65E_video.h6=0;t65E_video.hA=0;t65E_video.hE=0;
+    t65E_video.h8=16;t65E_video.hC=0x100;
+    t65E_bg(0xF00,0,0);
+    sub_080009C0(0x1E00,0,1);
+    players=sub_08002164();
+    count=0;
+    for (playerIndex=0;playerIndex<players;playerIndex++) {
+        if ((T65E_ENTITY(t65E_players[playerIndex].bytes)[0]&15)==14) count++;
+    }
+    n=0;
+    for (playerIndex=0;playerIndex<players;playerIndex++) {
+        p=t65E_players[playerIndex].bytes;
+        if ((T65E_ENTITY(p)[0]&15)==14) {
+            t65E_init(sprites+n,t65E_resourceTable[T65E_H(p,0x64)].id,0,-1);
+            sprites[n].palette[0]=playerIndex;
+            delays[n]=n*10+10;
+            velocities[n].x=0;velocities[n].y=0;
+            sounds[n]=0;
+            j=4;
+            do {
+                trails[n][4-j].x=((n*24-count*12)+132)<<8;
+                trails[n][4-j].y=0xA000;
+                j--;
+            } while (j>=0);
+            n++;
+        }
+    }
+    sub_0801AB90(10);
+    t65E_display=-1;
+    sub_08000B38();
+loop:
+    if (sub_0800CDF8() || sub_080021A8()) return;
+    sub_0800903C(2,60,1,16,16,0);
+    t65E_video.h6+=4;t65E_video.h8+=3;t65E_video.hC-=3;
+    finished=0;
+    n=0;
+    for (playerIndex=0;playerIndex<players;playerIndex++) {
+        p=t65E_players[playerIndex].bytes;
+        if ((T65E_ENTITY(p)[0]&15)==14) {
+            if (delays[n]==0) {
+                if (!sounds[n]) {sub_0805865C(n+0xF0);sounds[n]=1;}
+                j=4;
+                do {trails[n][j].y=trails[n][j-1].y;j--;} while (j>0);
+                trails[n][0].y+=velocities[n].y;
+                velocities[n].y-=0x30;
+            } else delays[n]--;
+            if (trails[n][4].y<0) finished++;
+            j=4;
+            do {
+                sub_08007CF0(trails[n][4-j].x>>8,trails[n][4-j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0,(s32)sprites[n].palette,(s32)sprites[n].data,sprites[n].base);
+                j--;
+            } while (j>=0);
+            n++;
+        }
+    }
+    if (count!=finished) {sub_080003F0();goto loop;}
+    sub_0800903C(0,0,0,0,0,0);
+    sub_0801AA8C(30);
+loopEnd:
+    if (!sub_0801AAE0()) {
+        if (sub_0800CDF8() || sub_080021A8()) return;
+        t65E_video.h6+=4;
+        n=0;
+        for (playerIndex=0;playerIndex<players;playerIndex++) {
+            p=t65E_players[playerIndex].bytes;
+            if ((T65E_ENTITY(p)[0]&15)==14) {
+                if (!delays[n]) {
+                    j=4;
+                    do {trails[n][j].y=trails[n][j-1].y;j--;} while (j>0);
+                    trails[n][0].y+=velocities[n].y;
+                    velocities[n].y-=0x30;
+                } else delays[n]--;
+                j=4;
+                do {
+                    sub_08007CF0(trails[n][4-j].x>>8,trails[n][4-j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0,(s32)sprites[n].palette,(s32)sprites[n].data,sprites[n].base);
+                    j--;
+                } while (j>=0);
+                n++;
+            }
+        }
+        sub_080003F0();goto loopEnd;
+    }
+    fillEnd=0;
+    CpuSet(&fillEnd,(void *)0x06000000,0x05002000);
+    t65E_display=0;
+    sub_08000B38();
+    sub_080003F0();
+    t65E_bg(0xF00,0,1);
+}
+#undef T65E_H
+#undef T65E_ENTITY
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08063E30);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806441C);
 extern u8 *gA4210 asm("gUnk_03004210");
 extern u8 *gA5CF4 asm("gUnk_03005CF4");

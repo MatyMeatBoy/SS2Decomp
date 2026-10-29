@@ -145,10 +145,320 @@ void sub_08049DC4(void) {
     }
 }
 
+#ifdef NONMATCHING
+struct T48TileE { u8 pad[0x80]; s16 x,y; };
+extern struct T48TileE t48tileE asm("gUnk_03003170");
+extern u8 *t48stateE asm("gUnk_03005CF4");
+extern void t48bbE(s32,s32) asm("sub_0800BB80");
+static inline void t48moveE(s16 step,s16 tx,s16 ty) {
+ s32 a,b; register s32 delta asm("r9")=step; s32 x=t48tileE.x,y=t48tileE.y; s32 i;
+ for(i=0;i<=0x400;i+=delta) { sub_080659F4(&a,x,tx,i); sub_080659F4(&b,y,ty,i); t48bbE((s16)a,(s16)b); sub_080003F0(); }
+}
+static inline void t48moveFirstE(s16 step,s16 tx,s16 ty) {
+ s32 a,b; register s32 delta asm("sl")=step; register s32 destY asm("r9")=(s32)ty<<16; s32 x=t48tileE.x,y=t48tileE.y; s32 i;
+ for(i=0;i<=0x400;i+=delta) { sub_080659F4(&a,x,tx,i); asm("" : "+r"(destY)); sub_080659F4(&b,y,destY>>16,i); t48bbE((s16)a,(s16)b); sub_080003F0(); }
+}
+static inline void t48musicE(u32 track) { register u32 v asm("r1")=track; asm("" : "+r"(v)); gUnk_03005CF8=v; { register u32 bits asm("r1"); register u32 flags asm("r0")=gUnk_030027D0; asm("" : "+r"(flags)); bits=32; asm("" : "+r"(bits)); if(!(flags&bits)) sub_08006CB4(track); } }
+
+void sub_08049EBC(void) {
+ s32 off; u16 n; s32 v; u32 req; u8 *p; register s32 idx asm("r2"); register s32 mask asm("r1"); register u8 *gp asm("r0"); register u8 *gp2 asm("r2"); register u32 word asm("r0"); register u32 req3 asm("r3"); register u32 hv asm("r1");
+ idx=sub_080020F4()*0x14C; asm("" : "+r"(idx)); p=(u8 *)gUnk_03003CE0+idx;
+ *(u32 *)(p+0x30)|=1;
+ sub_0800D0F4();
+ if(sub_08002164()==1) off=0;
+ else switch(sub_080020F4()) { case 0: off=-12; break; case 1: off=12; break; case 2: off=-36; break; case 3: off=36; break; }
+ sub_08028AAC(0,(u16)(off+240),240,0);
+ n=1; goto wait1; dec1: n--; if(n==0) goto end1; wait1: sub_080003F0(); if(sub_080021A8()==0) goto dec1; end1:;
+ if(sub_0800CC98()==0) { switch(sub_0801AB24()) { case 0: sub_080576A8(); break; case 1: sub_0801AB50(6); break; case 2: sub_0801AB90(6); break; } while(sub_0801AAE0()==0) sub_080003F0(); }
+ t48musicE(217);
+ n=20; goto wait2; dec2: n--; if(n==0) goto end2; wait2: sub_080003F0(); if(sub_080021A8()==0) goto dec2; end2:;
+ t48moveFirstE(17,-off,-108);
+ gp=t48stateE; asm("" : "+r"(gp)); mask=64; if(!(*(u32 *)(gp+0x38)&mask)) { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140030); }
+ else { while(sub_0805F184()) sub_080003F0(); while(sub_0805EF90()) sub_080003F0(); req3=sub_0805DF38(1,15,2,0,45,0x140031); }
+ asm("" : "+r"(req3));
+ gp2=t48stateE; asm("" : "+r"(gp2)); mask=64; *(u32 *)(gp2+0x38)|=mask; req=req3;
+ while(sub_0805EEFC((void *)req)==0) sub_080003F0();
+ t48moveE(34,0,0);
+ t48musicE(11);
+ hv=*(u16 *)(t48stateE+4); asm("" : "+r"(hv)); word=hv|32; asm("" : "+r"(word)); *(u16 *)(t48stateE+4)=word;
+ idx=sub_080020F4()*0x14C; asm("" : "+r"(idx)); p=(u8 *)gUnk_03003CE0+idx; *(u32 *)(p+0x30)&=~1;
+ sub_0800D108();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08049EBC);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A188);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A478);
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804A89C);
+#endif
+struct T48TileA {u8 pad[128];s16 x,y;};
+struct T48TaskA {u32 f0,f4,f8;void (*fc)(void);u8 *f10;u32 f14,f18,f1c;u8 *f20;u32 f24;};
+extern struct T48TileA t48tileA asm("gUnk_03003170");
+extern u8 *t48stateA asm("gUnk_03005CF4");
+extern u8 *t48objA asm("gUnk_030056F4");
+extern void t48bbA(s32,s32) asm("sub_0800BB80");
+extern void sub_0804A478(void);
+extern void sub_0804A89C(void);
+static inline void t48taskA(void (*cb)(void),s32 arg) {
+ struct T48TaskA *p=(struct T48TaskA *)(t48stateA+0xE34); u32 i; u8 *mem;
+ i=0; goto check;
+ next: i++;p++;
+ check: if(i>29)return;
+ if(sub_08000470((u32)p))goto next;
+ while((p->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
+ p->f8=60;p->fc=cb;p->f10=mem+0x3fc;p->f24=0;sub_08000274((u32)p,arg);
+}
+static inline void t48moveA(s16 step,s16 tx,s16 ty) {
+ s32 a,b; s32 delta=step; s32 x=t48tileA.x,y=t48tileA.y; s32 i;
+ for(i=0;i<=0x400;i+=delta){sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbA((s16)a,(s16)b);sub_080003F0();}
+}
+static inline void t48modeA(void){if(sub_0800CC98()==0){switch(sub_0801AB24()){case 0:sub_080576A8();break;case 1:sub_0801AB50(6);break;case 2:sub_0801AB90(6);break;}while(sub_0801AAE0()==0)sub_080003F0();}}
+static inline void t48waitA(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
+static inline u32 t48boolA(u8 *p,u32 mask){u32 r=*(u32 *)(p+0x38)&mask;if(r)r=1;return r;}
+static inline void t48musicA(u32 track){register u32 v asm("r1")=track;asm("" : "+r"(v));gUnk_03005CF8=v;if(!(gUnk_030027D0&32))sub_08006CB4(track);}
+void sub_0804A188(void){
+ u32 bit;u8 *player;register u8 *base asm("r0");register u32 one asm("r4");register s32 *flags asm("r5"); register u8 *p asm("r2"); register u32 i asm("r3"); register u32 shifted asm("r1"); register u32 stride asm("r0");
+ base=t48stateA;asm("" : "+r"(base));one=1;bit=t48boolA(base,one); asm("" : "+r"(bit));
+ if(!bit){
+ player=(u8 *)gUnk_03003CE0+0x14c*sub_080020F4();*(u32 *)(player+0x30)|=one;sub_0800D0F4();*(u32 *)(t48stateA+0x38)|=one;
+ t48moveA(0x400,0,-60);t48taskA(sub_0804A478,0);t48waitA(2);t48modeA();t48musicA(196);
+return;
+}
+
+ t48modeA();sub_0802A080(140,130,200,100);t48taskA(sub_0804A89C,5);t48taskA(sub_0804A89C,6);t48waitA(30);
+ p=t48objA;i=0;flags=&gUnk_030056FC;asm("" : "+r"(flags));do{shifted=1<<i;asm("" : "+r"(shifted));if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;asm("" : "+r"(stride));p+=stride;}while(i<=4);sub_08019F04();return;
+
+}
+
+struct T48TileK {u8 pad[128];s16 x,y;};
+struct T48TaskK {u32 f0,f4,f8;void (*fc)(void);u8 *f10;u32 f14,f18,f1c;u8 *f20;u32 f24;};
+extern struct T48TileK t48tileK asm("gUnk_03003170");
+extern u8 *t48stateK asm("gUnk_03005CF4");
+extern u8 *t48objK asm("gUnk_030056F4");
+extern void t48bbK(s32,s32) asm("sub_0800BB80");
+extern void sub_0804A478(void);
+extern void sub_0804A89C(void);
+static inline void t48taskK(void (*cb)(void),s32 arg) {
+ struct T48TaskK *p=(struct T48TaskK *)(t48stateK+0xE34); u32 i; u8 *mem;
+ i=0; goto check;
+ next: i++;p++;
+ check: if(i>29)return;
+ if(sub_08000470((u32)p))goto next;
+ while((p->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
+ p->f8=60;p->fc=cb;p->f10=mem+0x3fc;p->f24=0;sub_08000274((u32)p,arg);
+}
+static inline void t48moveK(s16 step,s16 tx,s16 ty) {
+ s32 a,b; s32 delta=step; s32 x=t48tileK.x,y=t48tileK.y; register s32 i asm("r4");
+ i=0;do{sub_080659F4(&a,x,tx,i);sub_080659F4(&b,y,ty,i);t48bbK((s16)a,(s16)b);sub_080003F0();i+=delta;asm("" : : "r"(i));}while(i<=0x400);
+}
+static inline void t48waitK(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
+extern void t48actorK(s32) asm("sub_0804A89C");
+void sub_0804A478(void){
+ struct T48TaskK *t1,*t2,*t3,*t4;
+ register u8 *p asm("r2");register u32 i asm("r3");register s32 *flags asm("r5");register u32 shifted asm("r1");register u32 stride asm("r0");
+ t48actorK(0);t48moveK(34,0,-30);
+ {register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+ j=0;goto check1;next1:j++;task++;check1:if(j>29)goto end1;
+ if(sub_08000470((u32)task))goto next1;
+ while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
+ task->f8=60;task->fc=cb;task->f10=mem+0x3fc;task->f24=0;sub_08000274((u32)task,1);t1=task;
+ end1:;}
+{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+ j=0;goto check2;next2:j++;task++;check2:if(j>29)goto end2;
+ if(sub_08000470((u32)task))goto next2;
+ while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
+ task->f8=60;task->fc=cb;task->f10=mem+0x3fc;task->f24=0;sub_08000274((u32)task,2);t2=task;
+ end2:;}
+{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+ j=0;goto check3;next3:j++;task++;check3:if(j>29)goto end3;
+ if(sub_08000470((u32)task))goto next3;
+ while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
+ task->f8=60;task->fc=cb;task->f10=mem+0x3fc;task->f24=0;sub_08000274((u32)task,3);t3=task;
+ end3:;}
+{register void (*cb)() asm("r6")=sub_0804A89C;struct T48TaskK *task;u32 j;u8 *mem;asm("" : "+r"(cb));task=(struct T48TaskK *)(t48stateK+0xE34);
+ j=0;goto check4;next4:j++;task++;check4:if(j>29)goto end4;
+ if(sub_08000470((u32)task))goto next4;
+ while((task->f20=mem=sub_08001494(0x400))==0)sub_080003F0();
+ task->f8=60;task->fc=cb;task->f10=mem+0x3fc;task->f24=0;sub_08000274((u32)task,4);t4=task;
+ end4:;}
+
+ sub_0802A080(140,130,200,100);
+ if(t1&&sub_08000470((u32)t1))sub_080003A8((u32)t1);
+ if(t2&&sub_08000470((u32)t2))sub_080003A8((u32)t2);
+ if(t3&&sub_08000470((u32)t3))sub_080003A8((u32)t3);
+ if(t4&&sub_08000470((u32)t4))sub_080003A8((u32)t4);
+ t48waitK(1);sub_0805EFBC();do{sub_080003F0();}while(sub_0805F184());t48moveK(102,0,0);
+ t48taskK(sub_0804A89C,5);t48taskK(sub_0804A89C,6);t48waitK(30);
+ if(sub_0800CB9C()==0){if(!(gUnk_030027D0&32)){gUnk_03005CF8=2;sub_08006CB4(2);}}else sub_080586B4(0);
+ p=t48objK;i=0;flags=&gUnk_030056FC;asm("" : "+r"(flags));do{shifted=1<<i;asm("" : "+r"(shifted));if((*flags&shifted)&&*(u16 *)(p+12)==12)*(u16 *)(p+12)=0;i++;stride=0x2E0;asm("" : "+r"(stride));p+=stride;}while(i<=4);sub_08019F04();
+}
+
+struct T48SlotB {s32 id;u8 pad[0x32];u16 unk36;u8 tail[0x38];};
+struct T48ItemB {u16 unk0,unk2;u8 pad[12];};
+struct T48ReqB {u16 unk0,unk2;u8 pad[12];};
+struct T48PlayerB {u8 pad[0x30];u32 unk30;u8 tail[0x118];};
+extern u8 *t48stateB asm("gUnk_03005CF4");
+extern u8 *t48itemsB asm("gUnk_030034E0");
+extern u8 *t48objB asm("gUnk_030056F4");
+extern struct T48PlayerB t48playersB[] asm("gUnk_03003CE0");
+static inline void t48waitB(u16 n){goto check;next:n--;if(n==0)return;check:sub_080003F0();if(sub_080021A8()==0)goto next;}
+static inline struct T48SlotB *t48findB(s32 id){struct T48SlotB *p=(struct T48SlotB *)(t48stateB+0x7A4);u32 i;for(i=0;i<=14;i++,p++)if(p->id==id)return p;sub_080003F0();return 0;}
+static inline struct T48SlotB *t48findLastB(s32 id){struct T48SlotB *p;register u8 *base asm("r0")=t48stateB;register u32 off asm("r4");u32 i;asm("" : "+r"(base));off=0x7A4;asm("" : "+r"(off));p=(struct T48SlotB *)(base+off);for(i=0;i<=14;i++,p++)if(p->id==id)return p;sub_080003F0();return 0;}
+static inline u32 t48idB(struct T48ItemB *p){return p->unk0;}
+static inline s32 t48countB(u32 offset,u32 max){register s32 count asm("r3");register u32 i asm("r2");register struct T48ItemB *p asm("r1");register u8 *base asm("r0");register u32 off asm("r4");count=0;i=0;{register u8 **slot asm("r0")=&t48itemsB;base=*slot;}off=offset;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=max);return count;}
+static inline s32 t48countSecondB(u32 offset,u32 max){register s32 count asm("r3");register u32 i asm("r2");register struct T48ItemB *p asm("r1");register u8 *base asm("r0");register u32 off asm("r4");count=0;i=0;{register u8 **slot asm("r0")=&t48itemsB;base=*slot;}off=offset;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=max);return count;}
+static inline s32 t48bitB(s32 value,u32 unused){register s32 bit asm("r1")=value>>2;register s32 mask asm("r0")=1;asm("" : "+r"(mask));bit&=mask;asm("" : "+r"(bit));return bit;}
+static inline s32 t48byteB(u8 *p){register s32 v asm("r0")=*p;asm("" : "+r"(v));return v;}
+static inline void t48initB(struct T48ReqB *p,u32 id,u32 kind){register u32 a asm("r1")=id;register u32 b asm("r2")=kind;register struct T48ReqB *out asm("r0");asm("" : "+r"(a),"+r"(b));out=p;out->unk0=a;out->unk2=b;}
+static inline void t48clearB(u8 *dst){u32 i=0;register u8 *p asm("r2")=dst;do{p[i]=0;i++;}while(i<=11);}
+extern void t48implB(u32) asm("sub_0804A89C");
+void t48implB(u32 arg0) {
+    struct T48ReqB sp8;
+    struct T48SlotB *var_r1;
+    struct T48SlotB *var_r1_2;
+    register s32 temp_r5 asm("r5");
+    register s32 temp_r6 asm("r6");
+    s32 var_r0_2;
+    register u32 one asm("r0"); register struct T48ReqB *out asm("r1"); register u32 off6 asm("r4");
+
+    register u8 *obj asm("r0");
+    s32 var_r3;
+    s32 var_r3_2;
+    u16 var_r4;
+    u16 var_r4_2;
+    u16 var_r4_3;
+    u16 var_r4_4;
+    u16 var_r4_5;
+    u16 var_r4_6;
+    u16 var_r4_7;
+    u16 var_r4_8;
+    u16 var_r4_9;
+    u32 temp_r4;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 var_r1_5;
+    u32 var_r1_6;
+    u32 var_r2;
+    u32 var_r2_2;
+    u32 var_r2_3;
+    u32 var_r2_4;
+    u8 *var_r0;
+    struct T48PlayerB *temp_r2;
+    struct T48ItemB *var_r1_3;
+    struct T48ItemB *var_r1_4;
+
+    switch (arg0) {                                 /* irregular */
+    case 0:
+        temp_r5 = sub_080289C0(0x3004B, 0x60, 0x130);asm("" : "+r"(temp_r5));
+        temp_r6 = sub_080289C0(0x7004B, 0x38, 0x118);asm("" : "+r"(temp_r6));
+        t48waitB(30);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x140035U);
+        sub_08028D98(temp_r5, 0, -3, 3);
+        sub_08028D98(temp_r5, 0, 3, 3);
+        while (sub_0805EEFC((void *) temp_r4) == 0) sub_080003F0();
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x140036U);
+        sub_08028D98(temp_r6, 0, -3, 3);
+        sub_08028D98(temp_r6, 0, 3, 3);
+        while (sub_0805EEFC((void *) temp_r4_2) == 0) sub_080003F0();
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x140037U);
+        sub_08028D98(temp_r5, 0, -3, 3);
+        sub_08028D98(temp_r5, 0, 3, 3);
+        while (sub_0805EEFC((void *) temp_r4_3) == 0) sub_080003F0();
+        sub_0802939C(temp_r5, 8);
+        sub_080290E4(temp_r5, 4);
+        sub_08028AAC(temp_r5, 0x60, 0xCC, 0x28);
+        var_r1 = t48findB(temp_r5);
+        if (var_r1 != NULL) {
+            var_r1->unk36 = 4;
+        }
+        sub_0802939C(temp_r6, 8);
+        sub_080290E4(temp_r6, 5);
+        sub_08028AAC(temp_r6, 0x60, 0x104, 0x14);
+        sub_080290E4(temp_r6, 4);
+        sub_08028AAC(temp_r6, 0x60, 0xD2, 0x14);
+        var_r1_2 = t48findLastB(temp_r6);
+        if (var_r1_2 == NULL) {
+            return;
+        }
+        var_r1_2->unk36 = 4;
+        return;
+    case 1:
+        temp_r2 = &t48playersB[sub_080020F4()];
+        temp_r2->unk30 = (s32) (temp_r2->unk30 & ~1);
+        sub_0800D108();
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x140038U);
+        while (sub_0805EEFC((void *) temp_r4_4) == 0) sub_080003F0();
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        sub_0805DF38(1U, 0xFU, 2U, 0U, 0x2D, 0x140039U);
+        return;
+    case 2:
+                t48waitB(0x1F4);
+        sub_0802939C(1, 8);
+        sub_08028D98(1, 0x12, -0xC, 0xB4);
+        sub_08029174(1, 0);
+                t48waitB(0x28);
+        sub_080290E4(1, 2);
+        if (sub_080020F4() == 0) { register u8 *pad asm("r6");
+            {register s32 count asm("r3");register u32 i asm("r2");register struct T48ItemB *p asm("r1");register u8 **slot asm("r0");register u8 *base asm("r0");register u32 off asm("r4");count=0;i=0;pad=sp8.pad;slot=&t48itemsB;base=*slot;off=0x150;p=(struct T48ItemB *)(base+off);do{if(t48idB(p)==1&&p->unk2==35)count++;p++;i++;}while(i<=24);var_r3=count;}var_r3_2=t48countSecondB(0x2E0,74);
+            if (sub_0800CE30() != 0) {
+                var_r0 = t48stateB+0x1C5;
+            } else {
+                var_r0 = t48stateB+0x1B9;
+            }
+            if ((var_r3 + var_r3_2 + t48bitB(t48byteB(var_r0),1)) == 0) {
+                t48initB(&sp8,1,35);
+                t48clearB(pad);
+                while(sub_08067B9C(0x9300U, 0x8800U, &sp8) == 0)sub_080003F0();
+            } else {
+                one=1;out=&sp8;out->unk0=one;out->unk2=one;
+                t48clearB(pad);
+                while(sub_08067B9C(0x9300U, 0x8800U, &sp8) == 0)sub_080003F0();
+            }
+        }
+                t48waitB(0x28);
+        sub_080290E4(1, 3);
+                t48waitB(0x6E);
+        sub_0802939C(1, 8);
+        sub_08028D98(1, -0x12, 0xC, 0xB4);
+        var_r0_2 = 1;
+        goto block_108;
+    case 3:
+                t48waitB(0x1F4);
+        sub_0802939C(2, 8);
+        sub_08028D98(2, 0x12, -0xC, 0xB4);
+        sub_08029174(2, 0);
+                t48waitB(0xBE);
+        sub_0802939C(2, 8);
+        sub_08028D98(2, -0x12, 0xC, 0xB4);
+        var_r0_2 = 2;
+block_108:
+        sub_08029174(var_r0_2,0);return;
+    case 4:
+                t48waitB(0x1F4);
+        sub_08028D98(6, 0x12, -0xC, 0xB4);
+                t48waitB(0xBE);
+        sub_08028D98(6, -0x12, 0xC, 0xB4);
+        sub_08028AAC(6, 0x90, 0x88, 0);
+        sub_0805D37C(0x9300, 0x8800, 4);
+        sub_080687A8();
+        return;
+    case 5:
+        sub_08019EB8(*(u16 *)(t48objB+2), 3);
+        sub_0802949C(1, 0);
+        return;
+    case 6:
+        obj=t48objB;asm("" : "+r"(obj));off6=0x2E0;asm("" : "+r"(off6));sub_08019EB8(*(u16 *)(obj+off6+2), 3);
+        sub_0802949C(2, 0);
+        return;
+    }
+}
+
 struct T49TaskAE48 { u32 f0, f4, flags, callback, stack, f14, f18, f1C, memory, arg; };
 extern u8 *t49_gsAE48 asm("gUnk_03005CF4");
 extern void t49_cbAE48(void) asm("sub_080567D4");
