@@ -669,12 +669,12 @@ finish:
 
 
 
-#ifdef NONMATCHING
 extern u16 gFlagC020 asm("gUnk_03001324");
 extern u32 sub_08058260(void);
 void sub_0808C020_v(void) asm("sub_0808C020");
 
 extern void C020Launch(s32,s32,s32,s32,void (*)(void),u32) asm("sub_08057DD0");
+static inline __attribute__((always_inline)) void C020Forward(s32 a,s32 b,s32 c,s32 d,void (*e)(void),u32 f) { C020Launch(a,b,c,d,e,f); }
 void sub_0808C020_v(void)
 {
     s32 text;
@@ -685,7 +685,7 @@ void sub_0808C020_v(void)
     goto test;
 loop:
     if (sub_08058260() <= 0x149U) {
-        C020Launch(0x78, 0x14A, 0xF0, 0x50, sub_0808C020_v, flag);
+        C020Forward(0x78, 0x14A, 0xF0, 0x50, sub_0808C020_v, flag);
         return;
     }
     sub_08057624(1);
@@ -699,9 +699,6 @@ test:
     }
     player->flags |= 0x403;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808C020);
-#endif
 #ifdef NONMATCHING
 struct C0Item {u16 unk0;u8 unk2;u8 unk3;};
 struct C0Player {u8 p0[16];u16 unk10;u8 p12[10];s16 unk1C;u8 p1e[2];u16 state;u8 p22[14];u32 flags;u8 p34[48];u16 unk64;u8 p66[2];u8 unk68;u8 p69[35];s32 unk8C;s32 unk90;u8 p94[180];struct C0Item *unk148;};
