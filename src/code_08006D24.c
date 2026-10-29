@@ -102,7 +102,58 @@ void sub_08006EC8(u16 s)
                     s);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006EE0);
+#ifdef NONMATCHING
+extern u32 g7164Tbl[] asm("gUnk_08518938");
+s32 sub_08007164(u32 id)
+{
+    u8 *p;
+    s32 r;
+    u8 *base = (u8 *)g7164Tbl;
+    struct { u32 a; u32 b; u32 off[10]; } *t = (void *)base;
+    id &= 0xFFF;
+    switch (id) {
+    case 7:
+        p = base + t->off[1];
+        break;
+    case 8:
+        p = base + t->off[6];
+        break;
+    case 9:
+        p = base + t->off[3];
+        break;
+    case 0: case 1: case 2: case 3: case 4: case 5: case 6:
+        p = base + t->off[id];
+        break;
+    case 11: return 0x2EB;
+    case 12: return 0x9E;
+    case 13: return 0x96;
+    case 14: return 0xB7;
+    case 15: return 0x60;
+    case 17: return 0x28;
+    case 16: return 0x64;
+    case 20: return 0x5D5;
+    case 18: return 0x91;
+    case 19: return 0x59;
+    case 21: return 5;
+    default: return 0;
+    }
+    switch (id) {
+    case 0: r = *(s32 *)p; break;
+    case 1: r = *(s32 *)p; break;
+    case 2: r = *(s32 *)p; break;
+    case 3: r = *(s32 *)p; break;
+    case 4: r = *(s32 *)p; break;
+    case 5: r = *(s32 *)p; break;
+    case 6: r = *(s32 *)p; break;
+    case 7: r = *(s32 *)p; break;
+    case 8: r = *(s32 *)p; break;
+    case 9: r = *(s32 *)p; break;
+    }
+    return r;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007164);
+#endif
 s32 sub_08007280(M2C_UNK arg0) {
     return sub_08006EE0(arg0, &gUnk_08E3FB54);
 }
@@ -112,7 +163,84 @@ s32 sub_08007290(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080072A0);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007434);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080076C4);
+#ifdef NONMATCHING
+struct Spr7870 {
+    struct Spr7870 *prev;
+    struct Spr7870 *next;
+    s32 a8;
+    s32 aC;
+    u16 a10;
+    u16 a12;
+    s32 a14;
+    s32 a18;
+    s32 a1C;
+    u16 a20;
+    u8 prio:3;
+    u8 b3:1;
+    u8 b4:3;
+    u8 b7:1;
+    u8 a23;
+    u16 a24;
+    u16 a26;
+    u16 a28;
+};
+extern struct Spr7870 *g7870Head asm("gUnk_030028C0");
+extern struct Spr7870 *g7870Tail asm("gUnk_030028C4");
+extern struct Spr7870 g7870Pool[] asm("gUnk_030028D0");
+struct Spr7870 *sub_08007870(s32 a8, s32 aC, u16 a10, u16 a12, u8 prio, s32 a1C, s32 a14, s32 a18)
+{
+    struct Spr7870 *e;
+    struct Spr7870 *p;
+    if (g7870Count > 49)
+        return 0;
+    e = &g7870Pool[g7870Count++];
+    e->a8 = a8;
+    e->aC = aC;
+    e->a10 = a10;
+    e->a12 = a12;
+    e->prio = prio;
+    e->a1C = a1C;
+    e->a14 = a14;
+    e->a18 = a18;
+    e->prev = 0;
+    e->next = 0;
+    e->b3 = 0;
+    e->b4 = 0;
+    e->a24 = 0;
+    e->a26 = 0;
+    e->a28 = 0;
+    p = g7870Tail;
+    if (p == 0) {
+        g7870Head = e;
+        g7870Tail = e;
+        e->prev = p;
+        e->next = p;
+    } else {
+        for (p = g7870Head; p != 0; p = p->next) {
+            if (p->aC < aC && p->prio >= prio) {
+                if (p->prev == 0) {
+                    g7870Head = e;
+                    p->prev = e;
+                    e->next = p;
+                } else {
+                    p->prev->next = e;
+                    e->next = p;
+                    e->prev = p->prev;
+                    p->prev = e;
+                }
+                return e;
+            }
+        }
+        g7870Tail->next = e;
+        e->prev = g7870Tail;
+        e->next = 0;
+        g7870Tail = e;
+    }
+    return e;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007870);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007974);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007AA4);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007CF0);
