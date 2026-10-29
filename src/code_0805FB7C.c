@@ -1424,7 +1424,6 @@ INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061910);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061B88);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061E44);
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080624D8);
-#ifdef NONMATCHING
 struct T65Draw { u32 base; u32 unk4; u8 *data; u32 unkC; u8 pad[12]; u8 style; u8 rest[23]; };
 struct T65Level { u16 count; u8 pad[114]; };
 extern struct T65Level t65_levels[] asm("gUnk_0847846C");
@@ -1483,16 +1482,13 @@ void sub_0806335C(void)
             t65_measure(ids[1], widths + 1, heights + 1, b.data);
             if (t65_readLevel(lp) <= 8U) sub_08007CF0(0x78,0x36,ids[0],wp->x,0,(s32)ap,(s32)a.data,a.base);
             else sub_08007CF0(0x78,0x36,0x26,t65_width(wp),0,(s32)ap,(s32)a.data,a.base);
-            sub_08007CF0(0x78,0x6A,ids[1],wp->y,0,(s32)bp,(s32)b.data,b.base);
+            sub_08007CF0(0x78,0x6A,ids[1],wp->y,0,(s32)({register u8 *p asm("r1")=bp;asm("" : "+r"(p));p;}),(s32)b.data,b.base);
             sub_080003F0();
         } while (i++ <= 0x77U);
         t65_video.blend = 0;
     }
     t65_flags();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806335C);
-#endif
 #ifdef NONMATCHING
 struct T65Popup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 extern u8 t65_popupResource[] asm("gUnk_08518938");
