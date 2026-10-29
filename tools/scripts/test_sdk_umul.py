@@ -9,13 +9,6 @@ import subprocess
 import sys
 import tempfile
 
-from elftools.elf.elffile import ELFFile
-from elftools.elf.relocation import RelocationSection
-
-import decomp
-from source_index import functions
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--deps', type=Path)
@@ -23,11 +16,15 @@ def main():
     args = parser.parse_args()
     if args.deps:
         sys.path.insert(0, str(args.deps.resolve()))
+    from elftools.elf.elffile import ELFFile
+    from elftools.elf.relocation import RelocationSection
+    import decomp
+    from source_index import functions
     from unicorn import Uc, UC_ARCH_ARM, UC_MODE_THUMB
     from unicorn import arm_const as arm
     root = Path(decomp.ROOT)
     args.out.mkdir(parents=True, exist_ok=True)
-    work = Path(tempfile.mkdtemp(prefix='run_', dir=args.out.resolve()))
+    work = Path(tempfile.mkdtemp(prefix='run_', dir=args.out.absolute()))
 
     def run(command):
         result = subprocess.run(list(map(str, command)), cwd=root,
