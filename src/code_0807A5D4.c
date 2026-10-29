@@ -956,10 +956,7 @@ block_743:
 block_213:
                                                         sub_0805865C(0x18C);
                                                     } else {
-                                                        M2C_FIELD(&sp4, s32 *, 0) = (s32) M2C_FIELD(temp_r1_8, u32 *, 0x150);
-                                                        M2C_FIELD(&sp4, s32 *, 4) = (s32) M2C_FIELD(temp_r6_2, s32 *, 4);
-                                                        M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(temp_r6_2, s32 *, 8);
-                                                        M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r6_2, s32 *, 0xC);
+                                                        *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r6_2;
                                                         sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), sp34);
                                                         sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
                                                         sp14 = sp30;
@@ -971,10 +968,7 @@ block_213:
                                                 } else {
                                                     temp_r1_9 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
                                                     temp_r1_10 = temp_r1_9 + 0x150;
-                                                    M2C_FIELD(&sp4, s32 *, 0) = M2C_FIELD(temp_r1_9, s32 *, 0x150);
-                                                    M2C_FIELD(&sp4, s32 *, 4) = (s32) M2C_FIELD(temp_r1_10, s32 *, 4);
-                                                    M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(temp_r1_10, s32 *, 8);
-                                                    M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r1_10, s32 *, 0xC);
+                                                    *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r1_10;
                                                     var_r1 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                                                     var_r2_2 = gUnk_03006440 + 0xF4;
                                                     var_r0 = 0;
