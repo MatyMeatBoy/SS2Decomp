@@ -4570,9 +4570,9 @@ struct T025Rows270 { s32 x[25]; };
 extern struct T025Rows270 t025Rows270[] asm("gUnk_084B0AA0");
 
 void sub_0802704C(s32 input) {
-    register u8 *flagBase asm("r1");
-    register s32 flagOffset asm("r2");
-    register s32 flagIndex asm("r0");
+    u8 *flagBase;
+    s32 flagOffset;
+    s32 flagIndex;
     register s32 *flagTarget asm("r2");
     struct T025Player270 *endBase;
     s32 *endFlags;
@@ -5198,8 +5198,12 @@ extern u16 t025Level27C asm("gUnk_03003200");
 extern void t025Effects27C(u16 *) asm("sub_08027C1C");
 struct T025RuntimeEffects { u8 pad0[0x160]; struct V2W12 pos160[10]; u8 pad1B0[0x7C]; u8 active22C[10]; };
 extern struct T025RuntimeEffects *t025RuntimeEffects asm("gUnk_03005CF4");
+extern u8 t025ConfigFields27C[] asm("gUnk_084B1864");
 void t025Effects27C(u16 *arg0) {
     u8 *effectConfig;
+    register void **effectSlot asm("sl");
+    register u32 resourceValue asm("r0");
+    u32 resourceScaled;
     u8 sprites[10][0x34];
     struct T025Packet27C arg82;
     s16 screenX, screenY;
@@ -5291,7 +5295,9 @@ loop_12:
             }
             temp_r2 = &t025Resources27C[M2C_FIELD(var_r4, u16 *, 0x4)];
             var_r7->f20 = temp_r2;
-            var_r7->f10 = (s16) (temp_r2->f0 * 3);
+            resourceValue = temp_r2->f0;
+            resourceScaled = resourceValue * 3;
+            var_r7->f10 = resourceScaled;
             var_r7->f16 = (u16) M2C_FIELD(var_r4, u16 *, 0x6);
             if ((u32) temp_r2->f8 > 1U) {
                 t025Init27C(sprites[var_r5], M2C_FIELD(effectConfig, s32 *, temp_r2->f8 * 0x10), 0xD, 1, 0);
@@ -5389,46 +5395,26 @@ block_23:
     } else if (arg8A == 0) {
 
     } else {
+        effectSlot = &t025State27C;
 loop_50:
-        var_r7 = t025State27C + 0x58C;
+        var_r7 = (*effectSlot) + 0x58C;
         arg87 = 0;
         var_r8 = 0;
 loop_129:
         if (var_r8 < arg8A) {
-            temp_r2_5 = &t025RuntimeEffects->pos160[var_r8];
+            temp_r2_5 = &(*(struct T025RuntimeEffects **)effectSlot)->pos160[var_r8];
             M2C_FIELD(temp_r2_5, struct V2W12 *, 0) = M2C_FIELD(var_r7, struct V2W12 *, 0);
-            t025RuntimeEffects->active22C[var_r8] = (s8) var_r7->f14;
+            (*(struct T025RuntimeEffects **)effectSlot)->active22C[var_r8] = (s8) var_r7->f14;
             temp_r0_2 = var_r7->f14;
-            if (temp_r0_2 != 0) {
+            if (temp_r0_2 != 0) var_r9 = var_r7 + 1;
+            switch ((s32)temp_r0_2) {
+                case 0:
+                var_r7->f8 = (u16) M2C_FIELD(t025ConfigFields27C, s32 *, var_r7->f20->f8 * 0x10);
+                arg8D = 1;
                 var_r9 = var_r7 + 1;
-                switch ((s32) temp_r0_2) {
-                case 11:
-                    temp_r4 = var_r7->f18;
-                    if (temp_r4 != 0) {
-
-                    } else {
-                        t025Hide27C((u32) (var_r7->f0 << 8) >> 0x10, (u32) (var_r7->f4 << 8) >> 0x10, var_r7->f1A, var_r7->f1C, 0);
-                        goto block_127;
-                    }
-                    break;
-                case 12:
-                    temp_r2_6 = var_r7->f20;
-                    temp_r1_6 = 0x80 & temp_r2_6->f6;
-                    if (temp_r1_6 != 0) {
-                        var_r0 = M2C_FIELD((t025Config27C + 4), s32 *, temp_r2_6->f8 * 0x10) + 2;
-                    } else {
-                        t025Init27C(sprites[var_r8], 0x50053, 0xD, -1, 0);
-                        var_r0 = 6;
-                    }
-                    var_r7->f8 = var_r0;
-                    arg8D = 0;
-                    var_r9 = var_r7 + 1;
-                    if (var_r7->fE != 0) {
-                        var_r7->f14 = 0xBU;
-                    }
                     goto block_116;
                 case 10:
-                    var_r7->f8 = (u16) (M2C_FIELD((t025Config27C + 4), s32 *, var_r7->f20->f8 * 0x10) + 1);
+                    var_r7->f8 = (u16) (M2C_FIELD(t025ConfigFields27C, s32 *, var_r7->f20->f8 * 0x10) + 1);
                     arg8D = 0;
                     if (var_r7->fE == 0) {
 
@@ -5441,7 +5427,7 @@ loop_70:
                             sub_080003F0();
 check_loop_70:
                             if (sub_08068558() == 0) goto loop_70;
-                            M2C_FIELD(t025State27C, u16 *, 0x4) = (u16) (8 | M2C_FIELD(t025State27C, u16 *, 0x4));
+                            M2C_FIELD((*effectSlot), u16 *, 0x4) = (u16) (8 | M2C_FIELD((*effectSlot), u16 *, 0x4));
                         }
                                 t025Hide27C((u32) (var_r7->f0 << 8) >> 0x10, (u32) (var_r7->f4 << 8) >> 0x10, var_r7->f1A, var_r7->f1C, 0);
                         var_r7->f18 = 0U;
@@ -5464,7 +5450,7 @@ check_loop_70:
                         }
                         if (sub_08002204() == 0) {
 
-                        } else if (M2C_FIELD(t025State27C, u16 *, 0x0) != 0xB) {
+                        } else if (M2C_FIELD((*effectSlot), u16 *, 0x0) != 0xB) {
                             if (sub_0800CE30() != 0) {
                                 var_r3 = var_r7->f20->f10 + 0x32;
                             } else {
@@ -5501,15 +5487,37 @@ check_loop_102:
 loop_105:
                             sub_080003F0();
 check_loop_105:
-                            if (sub_08066490(var_r7->f0, var_r7->f4, (u32 *)(t025State27C + 0x5C)) == 0) goto loop_105;
+                            if (sub_08066490(var_r7->f0, var_r7->f4, (u32 *)((*effectSlot) + 0x5C)) == 0) goto loop_105;
                         }
                     }
                     goto block_116;
-                }
-            } else {
-                var_r7->f8 = (u16) M2C_FIELD((t025Config27C + 4), s32 *, var_r7->f20->f8 * 0x10);
-                arg8D = 1;
-                var_r9 = var_r7 + 1;
+                case 12:
+                    temp_r2_6 = var_r7->f20;
+                    temp_r1_6 = 0x80 & temp_r2_6->f6;
+                    if (temp_r1_6 != 0) {
+                        var_r0 = M2C_FIELD(t025ConfigFields27C, s32 *, temp_r2_6->f8 * 0x10) + 2;
+                    } else {
+                        t025Init27C(sprites[var_r8], 0x50053, 0xD, -1, 0);
+                        var_r0 = 6;
+                    }
+                    var_r7->f8 = var_r0;
+                    arg8D = 0;
+                    var_r9 = var_r7 + 1;
+                    if (var_r7->fE != 0) {
+                        var_r7->f14 = 0xBU;
+                    }
+                    goto block_116;
+                case 11:
+                    temp_r4 = var_r7->f18;
+                    if (temp_r4 != 0) {
+
+                    } else {
+                        t025Hide27C((u32) (var_r7->f0 << 8) >> 0x10, (u32) (var_r7->f4 << 8) >> 0x10, var_r7->f1A, var_r7->f1C, 0);
+                        goto block_127;
+                    }
+                    break;
+            }
+            goto after_effect_animation;
 block_116:
                 temp_r6 = 0x34 * var_r8;
                 var_r7->fE = (u16) sub_08065370(sprites[var_r8], var_r7->f8, (s32)&var_r7->fA, (s32)&var_r7->fC, (s16)arg8D);
@@ -5531,22 +5539,22 @@ block_116:
 block_127:
                     var_r7->f18 = 1U;
                 }
-            }
+after_effect_animation:
             var_r8 += 1;
             var_r7 = var_r9;
             goto loop_129;
         }
         sub_08066404();
-        M2C_FIELD(t025State27C, s32 *, 0x1E4C) = 0;
+        M2C_FIELD((*effectSlot), s32 *, 0x1E4C) = 0;
         var_r8 = 0;
         do {
             temp_r1_7 = var_r8 * 4;
-            M2C_FIELD(t025State27C, u8 *, 0x1E52 + temp_r1_7) = 0;
-            M2C_FIELD(t025State27C, u16 *, 0x1E50 + temp_r1_7) = 0;
+            M2C_FIELD((*effectSlot), u8 *, 0x1E52 + temp_r1_7) = 0;
+            M2C_FIELD((*effectSlot), u16 *, 0x1E50 + temp_r1_7) = 0;
             var_r8 += 1;
         } while (var_r8 <= 3U);
         sub_080003F0();
-        if (!(((u16) M2C_FIELD(t025State27C, u16 *, 0x4) >> 4) & 1) && (arg8A != 0)) {
+        if (!(((u16) M2C_FIELD((*effectSlot), u16 *, 0x4) >> 4) & 1) && (arg8A != 0)) {
             goto loop_50;
         }
     }

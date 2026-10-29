@@ -315,12 +315,21 @@ block_29:
                     sub_08065230(&sp4, 0, 0x28, 0x17U, temp_r0);
                 }
                 {
-                register s32 quotient asm("r2") = var_r6 / 3600;
+                register s32 numerator asm("r0") = var_r6;
+                register s32 denominator asm("r1") = 3600;
+                register s32 quotient asm("r2");
+                asm("" : "+r"(numerator), "+r"(denominator));
+                quotient = numerator / denominator;
                 asm("" : "+r"(quotient));
                 temp_r5 = (u8)var_r7;
                 sub_0805FB7C(1, 4, quotient, temp_r5);
                 }
-                temp_r0_2 = (s32) var_r6 % 3600;
+                {
+                register s32 numerator asm("r0") = var_r6;
+                register s32 denominator asm("r1") = 3600;
+                asm("" : "+r"(numerator), "+r"(denominator));
+                temp_r0_2 = numerator % denominator;
+                }
                 sub_0805FB7C(4, 4, temp_r0_2 / 60, temp_r5);
                 sub_0805FB7C(7, 4, (s32) (0x64 * (temp_r0_2 % 60)) / 60, temp_r5);
             }
@@ -346,7 +355,11 @@ scriptwait:
 block_44:
         divisor = 3600;
         asm("" : "+r"(divisor));
+        goto second_body;
 loop_48:
+        if (gUnk_03003CE0[sub_080020F4()].state == 0xB) goto finish;
+        if ((*(u16 *)(gStateB978 + 0xA)) != 1) goto block_64;
+second_body:
         temp_r4_2 = 0xFF & (*(u16 *)(gStateB978 + 0x36));
         if ((s32) var_r6 < (s32) (gTimeB978[temp_r4_2] >> 1)) {
             var_r7 = 1;
@@ -386,20 +399,13 @@ block_53:
             sp38 += 1;
         }
         sub_08057624(1U);
-        if ((s32) var_r6 > 0) {
-            if (gUnk_03003CE0[sub_080020F4()].state == 0xB) {
-
-            } else {
-                if ((*(u16 *)(gStateB978 + 0xA)) == 1) {
-                    goto loop_48;
-                }
-                goto block_64;
-            }
-        } else {
+        if (var_r6 > 0) goto loop_48;
+        goto block_64;
+        {
 block_64:
             if ((s32) var_r6 > 0) {
                 sub_08057624(3U);
-                var_r9 += 0x38;
+                var_r9 = (s16 *)((u8 *)var_r9 + 0x38);
                 goto scripts_test;
 block_67:
                 if ((s32) var_r6 > 0) {
@@ -532,7 +538,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808C020);
 #endif
 #ifdef NONMATCHING
 struct C0Item {u16 unk0;u8 unk2;u8 unk3;};
-struct C0Player {u8 p0[16];u16 unk10;u8 p12[10];s16 unk1C;u8 p1e[2];u16 state;u8 p22[14];u32 flags;u8 p34[48];u8 unk64;u8 p65[3];u8 unk68;u8 p69[35];s32 unk8C;s32 unk90;u8 p94[180];struct C0Item *unk148;};
+struct C0Player {u8 p0[16];u16 unk10;u8 p12[10];s16 unk1C;u8 p1e[2];u16 state;u8 p22[14];u32 flags;u8 p34[48];u16 unk64;u8 p66[2];u8 unk68;u8 p69[35];s32 unk8C;s32 unk90;u8 p94[180];struct C0Item *unk148;};
 
 extern struct C0Player gPlayersC0[] asm("gUnk_03003CE0");
 extern u16 gKeysC0[] asm("gUnk_03001250");

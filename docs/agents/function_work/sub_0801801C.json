@@ -1,0 +1,25 @@
+{
+  "checkpoint": "Draft v24: five shutdown loops rotated to original poll order; local +0x2C field load recovered. Isolated 7144/7132, NO MATCH.",
+  "areas": [
+    {
+      "evidence": "Original ASM frame 0x168 and stack offsets 0x10-0x103 reconstructed as packet, four 0x34 animation objects, coordinates and state. Candidate v17 retains frame 0x168. Fifty actor fields use observed nonoverlapping widths/signs. Outgoing call arguments restored; draft evidence only.",
+      "state": "done",
+      "label": "Reconstruct stack aggregates and call arguments",
+      "id": "stack_abi"
+    },
+    {
+      "evidence": "Resource retry block follows 0x08018058-0x08018092; outer polling rotated to follow body at 0x080199C4. Typed actor and stack aggregates retained. Rejected entry experiment: overlapping fixed r5 variables allowed compiler to overwrite the retry limit. Broad spill/register differences remain. v24 restores initial-forward-entry/yield-before-poll order at 0x08019A00-0x08019B46; typed local player view restores 0x2C halfword displacement. Broad register/spill differences remain.",
+      "state": "active",
+      "label": "Match control flow and register allocation",
+      "id": "cfg_registers"
+    },
+    {
+      "evidence": "NONMATCHING ASM fallback retained; v24 isolated check NO MATCH, 7144 versus 7132 bytes. No equivalence claim.",
+      "state": "pending",
+      "label": "Verify matching C in the normal ROM build",
+      "id": "full_match"
+    }
+  ],
+  "updated_utc": "2026-10-29T07:09:45.516948+00:00",
+  "address": "0x0801801C"
+}

@@ -1693,8 +1693,8 @@ loop_330:
         }
         switch (language) {                                /* switch 8; irregular */
         case 0:                                     /* switch 8 */
-            reg3984.h1 = 2;
-            reg3984.v1 = 2;
+            reg3984.h1 = language;
+            reg3984.v1 = language;
             break;
         case 1:                                     /* switch 8 */
             reg3984.h1 = 0x100;

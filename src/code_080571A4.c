@@ -318,7 +318,30 @@ void sub_080576EC(u16 x, u16 y, u16 duration)
         sub_080003F0();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080571A4", sub_08057780);
+void sub_08057780(u16 x, u16 y, u16 n)
+{
+    s32 ax;
+    s32 ay;
+    s16 step;
+    s32 sx;
+    s32 sy;
+    u16 i;
+    s16 t;
+    if (n != 0)
+        step = 0x400 / n;
+    sx = (s16)gUnk_03003170.f80;
+    sy = (s16)gUnk_03003170.f82;
+    i = 0;
+    do {
+        t = i;
+        sub_080659F4(&ax, sx, (s16)x, t);
+        sub_080659F4(&ay, sy, (s16)y, t);
+        ((void (*)(s32, s32))sub_0800BB94)((s16)ax, (s16)ay);
+        ((void (*)(s32, s32))sub_08097D18)(-ax, -ay);
+        sub_080003F0();
+        i = t + step;
+    } while ((s16)i <= 0x400);
+}
 void sub_0805782C(u32 arg)
 {
     s32 x, y;

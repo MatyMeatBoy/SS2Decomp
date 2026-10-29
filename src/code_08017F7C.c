@@ -51,7 +51,12 @@ s32 sub_08017F7C(void *arg0)
 
 
 
+struct T015LPollPlayer { u8 pad[0x2C]; u16 field2C; };
+extern struct T015LPollPlayer T015L_poll_players[] asm("gUnk_03003CE0");
 #ifdef NONMATCHING
+struct T015LActor { u16 f0; u16 f2; u16 f4; u16 f6; u16 f8; u8 padA[0x2]; u16 fC; u16 fE; u8 pad10[0x4]; s32 f14; s32 f18; s32 f1C; s32 f20; u8 pad24[0xC]; s32 f30; s32 f34; u8 pad38[0x4]; s32 f3C; u8 pad40[0x2]; s16 f42; s16 f44; u8 pad46[0x4]; s16 f4A; s32 f4C; s32 f50; s32 f54; u8 pad58[0x2]; u16 f5A; s16 f5C; s16 f5E; s16 f60; u16 f62; s16 f64; s16 f66; u16 f68; s16 f6A; s16 f6C; u16 f6E; u16 f70; u16 f72; s16 f74; u8 pad76[0x6]; u16 f7C; u16 f7E; s16 f80; s16 f82; u8 f84; u8 pad85[0x1]; u8 f86; u8 pad87[0x1]; u16 f88; u8 pad8A[0x14A]; s16 f1D4; s16 f1D6; u8 pad1D8[0x4]; s8 f1DC; u8 pad1DD[0x1F]; u8 f1FC; u8 f1FD; u8 f1FE; u8 pad1FF[0x2]; u8 f201; u8 pad202[0x24]; u8 f226; u8 pad227[0x1]; u16 f228; u8 pad22A[0xB6]; };
+struct T015LAnim { s32 f0,f4,f8,fC,f10,f14,f18; s8 data[24]; };
+struct T015LStack { u32 packet[4]; struct T015LAnim main,auxA,auxB,base; s16 x,y; u16 step; s16 state; u16 phase,phase2; s32 rng; u32 flags; };
 #define T015L_FIELD(p,t,o) (*(t)((u8 *)(p)+(o)))
 extern void T015L_sub_08007870(s16, s16, u16, u16, u32, void *, u32, u32) asm("sub_08007870");
 extern void T015L_sub_0800BC08(s32, s32, s16 *, void *, s32, void *) asm("sub_0800BC08");
@@ -76,9 +81,8 @@ extern void T015L_sub_0807854C(u16, s16) asm("sub_0807854C");
 extern void T015L_sub_08078B24(u16, s16) asm("sub_08078B24");
 extern u8 T015L_gUnk_08479140[] asm("gUnk_08479140");
 extern u8 T015L_gUnk_0848FA0C[] asm("gUnk_0848FA0C");
-void sub_0801801C(void *arg0) {
-    u32 frameWords[0xF4 / 4];
-    u8 *frame = (u8 *)frameWords;
+void sub_0801801C(struct T015LActor *arg0) {
+    struct T015LStack stack;
     s32 local0;
     void * local4;
     u32 local8;
@@ -165,140 +169,147 @@ void sub_0801801C(void *arg0) {
     u8 temp_r0_2;
     u8 var_r8;
 
-    sp118 = arg0 + 0x204;
-    (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
-    (local160) = arg0 + 0x2D8;
-    (local164) = arg0 + 0x2DA;
+    sp118 = (u8 *)arg0 + 0x204;
+    (local10C) = (s32) arg0->fC;
+    (local160) = (u8 *)arg0 + 0x2D8;
+    (local164) = (u8 *)arg0 + 0x2DA;
+    goto loop_5;
+retry_resource:
+    arg0->fC = 0xBU;
+    if ((sub_0800CB78() != 0) || (sub_08056E90() != 0)) {
+        gUnk_030056FC &= ~(1 << arg0->f0);
+        T015L_sub_080571A4(arg0->f86, arg0->f84, 1);
+        return;
+    }
+    sub_080003F0();
+    goto loop_5;
 loop_5:
     temp_r0 = T015L_sub_08016E04(T015L_FIELD(sp118, u16 *, 0xD4), T015L_FIELD(sp118, u16 *, 0xD6));
     (local114) = (s32) temp_r0;
-    if (temp_r0 != 0xFFFF) {
-        T015L_FIELD(arg0, u16 *, 0xC) = (u16) (local10C);
+    if (temp_r0 == 0xFFFF) goto retry_resource;
+    {
+        arg0->fC = (u16) (local10C);
         (local10C) = 0xFFFF;
         (local0) = 0;
-        T015L_sub_08065158(&(*(s32 *)(frame + 0xAC)), 0x50010, 0, -1, (local0));
+        T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, (local0));
+        asm volatile("");
         (local0) = 0;
-        T015L_sub_08065158(&(*(s32 *)(frame + 0x44)), 0x5008C, 0, -1, (local0));
+        T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, (local0));
+        asm volatile("");
         (local0) = 0;
-        T015L_sub_08065158(&(*(s32 *)(frame + 0x78)), 0x5008B, 0, -1, (local0));
+        T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, (local0));
+        asm volatile("");
         if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-            sub_08000AF0(0x17U, (*(u32 *)(frame + 0x50)), 2U);
+            sub_08000AF0(0x17U, stack.auxA.fC, 2U);
         }
-        (*(s8 *)(frame + 0x60)) = 7;
-        (*(s8 *)(frame + 0x61)) = 8;
-        (*(s8 *)(frame + 0x94)) = 7;
-        (*(s8 *)(frame + 0x95)) = 8;
-        T015L_FIELD(arg0, u16 *, 0x68) = (u16) T015L_FIELD(arg0, u16 *, 8);
-        T015L_FIELD(arg0, s16 *, 0x6C) = 0;
-        T015L_FIELD(arg0, s16 *, 0x6A) = 0;
+        stack.auxA.data[0] = 7;
+        stack.auxA.data[1] = 8;
+        stack.auxB.data[0] = 7;
+        stack.auxB.data[1] = 8;
+        arg0->f68 = (u16) arg0->f8;
+        arg0->f6C = 0;
+        arg0->f6A = 0;
         (local108) = 0xFFFF;
-        T015L_FIELD(arg0, s16 *, 0x64) = 0x1E;
-        T015L_FIELD(arg0, s16 *, 0x66) = 0;
-        temp_r2 = T015L_FIELD(arg0, u16 *, 0xC);
-        (local14C) = arg0 + 0x68;
-        (local154) = arg0 + 0x6C;
-        (local150) = arg0 + 0x6A;
-        (local144) = arg0 + 0x64;
-        (local148) = arg0 + 0x66;
+        arg0->f64 = 0x1E;
+        arg0->f66 = 0;
+        temp_r2 = arg0->fC;
+        (local14C) = (u8 *)arg0 + 0x68;
+        (local154) = (u8 *)arg0 + 0x6C;
+        (local150) = (u8 *)arg0 + 0x6A;
+        (local144) = (u8 *)arg0 + 0x64;
+        (local148) = (u8 *)arg0 + 0x66;
         switch (temp_r2) {                          /* switch 1; irregular */
         case 14:                                    /* switch 1 */
             (local11C) = 1;
-            T015L_FIELD(arg0, s8 *, 0x1DC) = 0;
+            arg0->f1DC = 0;
             break;
         case 15:                                    /* switch 1 */
             (local11C) = 0;
-            T015L_FIELD(arg0, s8 *, 0x1DC) = 0;
+            arg0->f1DC = 0;
             break;
         case 0:                                     /* switch 1 */
             (local11C) = 0;
-            T015L_FIELD(arg0, s8 *, 0x1DC) = 2;
+            arg0->f1DC = 2;
             break;
         }
-        temp_r0_2 = T015L_FIELD(arg0, u8 *, 0x226);
+        temp_r0_2 = arg0->f226;
         if (((s32) temp_r0_2 <= 7) && ((s32) temp_r0_2 >= 4)) {
-            T015L_FIELD(arg0, s8 *, 0x1DC) = 0;
+            arg0->f1DC = 0;
         }
         (local120) = 0xFFFF;
-        (local130) = arg0 + 0x74;
-        T015L_FIELD(arg0, s16 *, 0x74) = 1;
-        T015L_FIELD(arg0, s16 *, 0x44) = 0;
-        T015L_FIELD(arg0, u16 *, 6) = 0U;
-        T015L_FIELD(arg0, u16 *, 4) = 0U;
-        T015L_FIELD(arg0, s16 *, 0x42) = 0;
-        T015L_FIELD(arg0, s16 *, 0x44) = 0;
-        sp138 = (frame + 0xE6);
-        (*(s16 *)(frame + 0xE6)) = 0;
-        (*(u16 *)(frame + 0xE4)) = 0;
-        T015L_FIELD(arg0, s16 *, 0x60) = 0xFFC4;
-        T015L_FIELD(arg0, s32 *, 0x4C) = 0;
+        (local130) = (u8 *)arg0 + 0x74;
+        arg0->f74 = 1;
+        arg0->f44 = 0;
+        arg0->f6 = 0U;
+        arg0->f4 = 0U;
+        arg0->f42 = 0;
+        arg0->f44 = 0;
+        sp138 = ((u8 *)&stack.state);
+        stack.state = 0;
+        stack.step = 0;
+        arg0->f60 = 0xFFC4;
+        arg0->f4C = 0;
         (local104) = 0;
-        T015L_FIELD(arg0, s16 *, 0x4A) = 0;
-        T015L_FIELD(arg0, s32 *, 0x54) = (local120);
+        arg0->f4A = 0;
+        arg0->f54 = (local120);
         (local12C) = 1;
-        (*(u16 *)(frame + 0xEA)) = (local104);
-        (local13C) = (frame + 0xE8);
-        (*(u16 *)(frame + 0xE8)) = (u16) (local104);
-        (*(s32 *)(frame + 0xEC)) = (local104);
+        stack.phase2 = (local104);
+        (local13C) = ((u8 *)&stack.phase);
+        stack.phase = (u16) (local104);
+        stack.rng = (local104);
         temp_r0_3 = sub_08002164();
         temp_r0_4 = temp_r0_3 * 0xC;
         (local134) = temp_r0_4;
         T015L_FIELD(sp118, s16 *, 6) = (s16) ((u32) (T015L_FIELD(sp118, s16 *, 6) * *(u32 *)(temp_r0_4 + (u8 *)T015L_gUnk_0848FA0C)) / 100U);
         (local158) = (local130);
-        (local140) = arg0 + 0x60;
+        (local140) = (u8 *)arg0 + 0x60;
         if (temp_r0_3 > 1U) {
             T015L_FIELD(sp118, s16 *, 0) = (s16) ((u32) ((T015L_FIELD(sp118, s16 *, 0) + 2) * *(u32 *)((local134) + ((u8 *)T015L_gUnk_0848FA0C + 4))) / 100U);
         }
         temp_r0_5 = T015L_FIELD(sp118, s16 *, 6) * 3;
-        T015L_FIELD(arg0, s16 *, 0x1D6) = temp_r0_5;
-        T015L_FIELD(arg0, s16 *, 0x5C) = temp_r0_5;
+        arg0->f1D6 = temp_r0_5;
+        arg0->f5C = temp_r0_5;
         temp_r0_6 = T015L_FIELD(sp118, s16 *, 4) * 0xA * 2;
-        T015L_FIELD(arg0, s16 *, 0x1D4) = temp_r0_6;
-        T015L_FIELD(arg0, s16 *, 0x5E) = temp_r0_6;
+        arg0->f1D4 = temp_r0_6;
+        arg0->f5E = temp_r0_6;
         (local124) = 1;
-        (local15C) = arg0 + 0x5E + 0x1C;
-loop_341:
-        if (sub_0800CB78() == 0) {
-            if (1 & *(local15C)) {
-
-            } else {
-                temp_r0_7 = sub_08056E90();
-                if (temp_r0_7 != 0) {
-                    goto block_345;
-                }
+        (local15C) = (u8 *)arg0 + 0x5E + 0x1C;
+    goto loop_341;
+loop_body:
                 *(local158) += 1;
                 if ((sub_0800CB9C() != 0) && (sub_08002204() != 0)) {
                     temp_r0_8 = *(local140);
                     *(local140) = temp_r0_8 + 1;
                     if ((s32) (temp_r0_8 << 0x10) > 0x012C0000) {
-                        sub_080663A4((u32) T015L_FIELD(arg0, u16 *, 0));
+                        sub_080663A4((u32) arg0->f0);
                         *(local140) = (u16) temp_r0_7;
                     }
                 }
-                if (T015L_FIELD(arg0, u16 *, 0x228) == 0xFFFF) {
+                if (arg0->f228 == 0xFFFF) {
                     T015L_sub_08020680(arg0);
                     if ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20)) {
-                        T015L_FIELD(arg0, s32 *, 0x50) = (s32) (T015L_FIELD(arg0, s32 *, 0x50) + 1);
+                        arg0->f50 = (s32) (arg0->f50 + 1);
                     }
                 }
                 temp_r0_9 = sub_08065AE8();
                 if (temp_r0_9 == 0) {
                     T015L_sub_0801C8F0(arg0);
                     T015L_sub_08016F28(arg0);
-                    if ((u32) (u16) (T015L_FIELD(arg0, u16 *, 0x62) - 9) <= 1U) {
-                        T015L_FIELD(arg0, u16 *, 4) = (u16) temp_r0_9;
-                        T015L_FIELD(arg0, u16 *, 6) = (u16) temp_r0_9;
+                    if ((u32) (u16) (arg0->f62 - 9) <= 1U) {
+                        arg0->f4 = (u16) temp_r0_9;
+                        arg0->f6 = (u16) temp_r0_9;
                     }
                 } else {
-                    T015L_FIELD(arg0, u16 *, 4) = 0U;
-                    T015L_FIELD(arg0, u16 *, 6) = 0U;
+                    arg0->f4 = 0U;
+                    arg0->f6 = 0U;
                 }
-                temp_r0_10 = T015L_FIELD(arg0, u16 *, 0xC);
-                var_r5 = arg0 + 0x7C;
-                var_r9 = arg0 + 0x6E;
+                temp_r0_10 = arg0->fC;
+                var_r5 = (u8 *)arg0 + 0x7C;
+                var_r9 = (u8 *)arg0 + 0x6E;
                 switch ((u32) temp_r0_10) {         /* switch 2; irregular */
                 case 0:                             /* switch 2 */
                     var_r2 = 0;
-                    temp_r1 = T015L_FIELD(arg0, u16 *, 4);
+                    temp_r1 = arg0->f4;
                     if (0x40 & temp_r1) {
                         var_r2 = 5;
                     } else if (0x80 & temp_r1) {
@@ -321,77 +332,77 @@ loop_341:
                             var_r2 = 7;
                         }
                     }
-                    if ((T015L_FIELD(arg0, u8 *, 0x1FD) == 0xE) && (T015L_FIELD(arg0, u8 *, 0x1FE) == 2)) {
+                    if ((arg0->f1FD == 0xE) && (arg0->f1FE == 2)) {
                         *(local158) = T015L_FIELD(sp118, u16 *, 0x20) + 1;
                     }
-                    temp_r1_2 = T015L_FIELD(arg0, u16 *, 6);
+                    temp_r1_2 = arg0->f6;
                     if ((1 & temp_r1_2) && ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20))) {
-                        T015L_FIELD(arg0, u16 *, 0xC) = 2U;
+                        arg0->fC = 2U;
                         *(local154) = 0;
                         *(local150) = 0;
-                        var_r5 = arg0 + 0x7C;
-                        var_r9 = arg0 + 0x6E;
+                        var_r5 = (u8 *)arg0 + 0x7C;
+                        var_r9 = (u8 *)arg0 + 0x6E;
                     } else if ((2 & temp_r1_2) && ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20))) {
                         if (var_r2 != 0) {
                             var_r0 = var_r2 - 1;
                         } else {
-                            var_r0 = T015L_FIELD(arg0, u16 *, 8);
+                            var_r0 = arg0->f8;
                         }
-                        T015L_FIELD(arg0, u16 *, 8) = var_r0;
-                        T015L_FIELD(arg0, u16 *, 0xC) = 9U;
+                        arg0->f8 = var_r0;
+                        arg0->fC = 9U;
                         *(local154) = 0;
                         *(local150) = 0;
 block_120:
-                        var_r5 = arg0 + 0x7C;
-                        var_r9 = arg0 + 0x6E;
+                        var_r5 = (u8 *)arg0 + 0x7C;
+                        var_r9 = (u8 *)arg0 + 0x6E;
                     } else if (var_r2 != 0) {
-                        T015L_FIELD(arg0, u16 *, 0xC) = 1U;
-                        var_r5 = arg0 + 0x7C;
-                        var_r9 = arg0 + 0x6E;
+                        arg0->fC = 1U;
+                        var_r5 = (u8 *)arg0 + 0x7C;
+                        var_r9 = (u8 *)arg0 + 0x6E;
                     } else {
-                        sub_08015DC0(&(*(s32 *)(frame + 0xEC)));
+                        sub_08015DC0(&stack.rng);
 block_98:
-                        var_r5 = arg0 + 0x7C;
-                        var_r9 = arg0 + 0x6E;
+                        var_r5 = (u8 *)arg0 + 0x7C;
+                        var_r9 = (u8 *)arg0 + 0x6E;
                     }
                 default:                            /* switch 2 */
 block_125:
                     if (*var_r5 != 0) {
 block_126:
                         (local0) = 0;
-                        sub_08013E90((s32) T015L_FIELD(arg0, s16 *, 0x80), arg0 + 0x14, T015L_FIELD(arg0, u16 *, 0x7E), 0, ((local0)));
+                        sub_08013E90((s32) arg0->f80, (u8 *)arg0 + 0x14, arg0->f7E, 0, ((local0)));
                         temp_r0_11 = *var_r5 - 1;
                         *var_r5 = temp_r0_11;
                         temp_r3 = temp_r0_11;
                         if (temp_r3 == 0) {
-                            temp_r0_12 = T015L_FIELD(arg0, s16 *, 0x82);
+                            temp_r0_12 = arg0->f82;
                             if (temp_r0_12 != 0) {
                                 temp_r0_13 = (s32) (temp_r0_12 + ((u32) temp_r0_12 >> 0x1F)) >> 1;
                                 *var_r5 = (u16) temp_r0_13;
                                 if ((u32) (u16) temp_r0_13 > 3U) {
                                     *var_r5 = 4;
                                 }
-                                T015L_FIELD(arg0, s16 *, 0x82) = (s16) temp_r3;
+                                arg0->f82 = (s16) temp_r3;
                                 var_r0_2 = 0x200;
                                 goto block_134;
                             }
                             goto block_132;
                         }
-                        if (T015L_FIELD(arg0, s16 *, 0x82) == 0) {
+                        if (arg0->f82 == 0) {
 block_132:
-                            temp_r0_14 = (s32) ((u16) T015L_FIELD(arg0, s16 *, 0x80) << 0x10) >> 0x11;
-                            T015L_FIELD(arg0, s16 *, 0x80) = (s16) temp_r0_14;
+                            temp_r0_14 = (s32) ((u16) arg0->f80 << 0x10) >> 0x11;
+                            arg0->f80 = (s16) temp_r0_14;
                             if (temp_r0_14 <= 0x3F) {
                                 var_r0_2 = 0x40;
 block_134:
-                                T015L_FIELD(arg0, s16 *, 0x80) = var_r0_2;
+                                arg0->f80 = var_r0_2;
                             }
                         }
                     }
                     break;
                 case 1:                             /* switch 2 */
                     var_r2_2 = 0;
-                    temp_r1_3 = T015L_FIELD(arg0, u16 *, 4);
+                    temp_r1_3 = arg0->f4;
                     if (0x40 & temp_r1_3) {
                         var_r2_2 = 5;
                     } else if (0x80 & temp_r1_3) {
@@ -414,15 +425,15 @@ block_134:
                             var_r2_2 = 7;
                         }
                     }
-                    temp_r1_4 = T015L_FIELD(arg0, u16 *, 6);
+                    temp_r1_4 = arg0->f6;
                     if ((1 & temp_r1_4) && ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20))) {
                         if (var_r2_2 != 0) {
                             var_r0_3 = var_r2_2 - 1;
                         } else {
-                            var_r0_3 = T015L_FIELD(arg0, u16 *, 8);
+                            var_r0_3 = arg0->f8;
                         }
-                        T015L_FIELD(arg0, u16 *, 8) = var_r0_3;
-                        T015L_FIELD(arg0, u16 *, 0xC) = 2U;
+                        arg0->f8 = var_r0_3;
+                        arg0->fC = 2U;
                         *(local154) = 0;
                         *(local150) = 0;
                         *(local158) = 0;
@@ -432,57 +443,57 @@ block_134:
                         if (var_r2_2 != 0) {
                             var_r0_4 = var_r2_2 - 1;
                         } else {
-                            var_r0_4 = T015L_FIELD(arg0, u16 *, 8);
+                            var_r0_4 = arg0->f8;
                         }
-                        T015L_FIELD(arg0, u16 *, 8) = var_r0_4;
-                        T015L_FIELD(arg0, u16 *, 0xC) = 9U;
+                        arg0->f8 = var_r0_4;
+                        arg0->fC = 9U;
                         *(local154) = 0;
                         *(local150) = 0;
                         goto block_98;
                     }
                     if (var_r2_2 == 0) {
-                        T015L_FIELD(arg0, u16 *, 0xC) = var_r2_2;
-                        var_r5 = arg0 + 0x7C;
-                        var_r9 = arg0 + 0x6E;
+                        arg0->fC = var_r2_2;
+                        var_r5 = (u8 *)arg0 + 0x7C;
+                        var_r9 = (u8 *)arg0 + 0x6E;
                         goto block_125;
                     }
-                    T015L_FIELD(arg0, u16 *, 8) = (u16) (var_r2_2 - 1);
-                    var_r5 = arg0 + 0x7C;
-                    var_r9 = arg0 + 0x6E;
-                    if (T015L_FIELD(arg0, u16 *, 0x7C) != 0) {
+                    arg0->f8 = (u16) (var_r2_2 - 1);
+                    var_r5 = (u8 *)arg0 + 0x7C;
+                    var_r9 = (u8 *)arg0 + 0x6E;
+                    if (arg0->f7C != 0) {
                         goto block_126;
                     }
-                    T015L_sub_08015DE0(&(*(s32 *)(frame + 0xEC)), (s16) T015L_FIELD(sp118, s16 *, 8) >> (*(u32 *)(frame + 0xF0)));
+                    T015L_sub_08015DE0(&stack.rng, (s16) T015L_FIELD(sp118, s16 *, 8) >> stack.flags);
                     goto block_125;
                 case 2:                             /* switch 2 */
-                    sub_08015DC0(&(*(s32 *)(frame + 0xEC)));
-                    var_r5 = arg0 + 0x7C;
-                    var_r9 = arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (T015L_FIELD(arg0, u16 *, 0x6E) != 0)) {
-                        T015L_FIELD(arg0, s32 *, 0x50) = (s32) (T015L_FIELD(arg0, s32 *, 0x50) + 1);
-                        T015L_FIELD(arg0, u16 *, 0xC) = 0U;
+                    sub_08015DC0(&stack.rng);
+                    var_r5 = (u8 *)arg0 + 0x7C;
+                    var_r9 = (u8 *)arg0 + 0x6E;
+                    if ((*(local14C) == (local108)) && (arg0->f6E != 0)) {
+                        arg0->f50 = (s32) (arg0->f50 + 1);
+                        arg0->fC = 0U;
                         *(local158) = 0;
                     }
                     goto block_125;
                 case 9:                             /* switch 2 */
-                    sub_08015DC0(&(*(s32 *)(frame + 0xEC)));
-                    var_r5 = arg0 + 0x7C;
-                    var_r9 = arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (T015L_FIELD(arg0, u16 *, 0x6E) != 0) && ((local10C) == T015L_FIELD(arg0, u16 *, 0xC))) {
-                        T015L_FIELD(arg0, u16 *, 0xC) = 0U;
+                    sub_08015DC0(&stack.rng);
+                    var_r5 = (u8 *)arg0 + 0x7C;
+                    var_r9 = (u8 *)arg0 + 0x6E;
+                    if ((*(local14C) == (local108)) && (arg0->f6E != 0) && ((local10C) == arg0->fC)) {
+                        arg0->fC = 0U;
                         *(local158) = 0;
                     }
                     goto block_125;
                 case 10:                            /* switch 2 */
-                    sub_08015DC0(&(*(s32 *)(frame + 0xEC)));
-                    var_r5 = arg0 + 0x7C;
-                    var_r9 = arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (T015L_FIELD(arg0, u16 *, 0x6E) != 0) && ((local10C) == T015L_FIELD(arg0, u16 *, 0xC))) {
-                        T015L_FIELD(arg0, s8 *, 0x1DC) = 2;
+                    sub_08015DC0(&stack.rng);
+                    var_r5 = (u8 *)arg0 + 0x7C;
+                    var_r9 = (u8 *)arg0 + 0x6E;
+                    if ((*(local14C) == (local108)) && (arg0->f6E != 0) && ((local10C) == arg0->fC)) {
+                        arg0->f1DC = 2;
                         temp_r0_15 = T015L_sub_08019CE8(arg0);
                         *(local148) = temp_r0_15;
                         if ((temp_r0_15 << 0x10) == 0) {
-                            T015L_FIELD(arg0, u16 *, 0xC) = 0U;
+                            arg0->fC = 0U;
                         } else if (8 & *(local15C)) {
                             *(local144) = 0;
                             *(local148) = 0;
@@ -492,99 +503,106 @@ block_134:
                     }
                     goto block_125;
                 case 11:                            /* switch 2 */
-                    sub_08015DC0(&(*(s32 *)(frame + 0xEC)));
+                    sub_08015DC0(&stack.rng);
                     goto block_120;
                 case 15:                            /* switch 2 */
-                    var_r5 = arg0 + 0x7C;
-                    var_r9 = arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (T015L_FIELD(arg0, u16 *, 0x6E) != 0) && ((local10C) == T015L_FIELD(arg0, u16 *, 0xC))) {
-                        T015L_FIELD(arg0, u16 *, 0xC) = 0U;
-                        T015L_FIELD(arg0, s8 *, 0x1DC) = 2;
+                    var_r5 = (u8 *)arg0 + 0x7C;
+                    var_r9 = (u8 *)arg0 + 0x6E;
+                    if ((*(local14C) == (local108)) && (arg0->f6E != 0) && ((local10C) == arg0->fC)) {
+                        arg0->fC = 0U;
+                        arg0->f1DC = 2;
                     }
                     goto block_125;
                 }
-                if ((*(s32 *)(frame + 0xEC)) != 0) {
-                    T015L_FIELD(arg0, s32 *, 0x1C) = (s32) T015L_FIELD(arg0, s32 *, 0x14);
-                    T015L_FIELD(arg0, s32 *, 0x20) = (s32) T015L_FIELD(arg0, s32 *, 0x18);
+                if (stack.rng != 0) {
+                    arg0->f1C = (s32) arg0->f14;
+                    arg0->f20 = (s32) arg0->f18;
                     (local0) = 0;
-                    sub_08013E90((s16) T015L_FIELD(sp118, s16 *, 8) >> (*(u32 *)(frame + 0xF0)), arg0 + 0x14, T015L_FIELD(arg0, u16 *, 8), 0, ((local0)));
+                    sub_08013E90((s16) T015L_FIELD(sp118, s16 *, 8) >> stack.flags, (u8 *)arg0 + 0x14, arg0->f8, 0, ((local0)));
                 }
                 if (sub_0800CD8C() == 0) {
                     T015L_sub_08017C6C(arg0);
                 }
-                temp_r2_2 = T015L_FIELD(arg0, u16 *, 0xC);
-                var_r6 = &(*(s32 *)(frame + 0x10));
+                temp_r2_2 = arg0->fC;
+                var_r6 = &stack.main.f0;
                 switch (temp_r2_2) {                /* switch 3 */
                 case 0:                             /* switch 3 */
-                    var_r6 = &(*(s32 *)(frame + 0x10));
-                    if (((local10C) != T015L_FIELD(arg0, u16 *, 0xC)) && ((local10C) != 1) && ((local10C) != 0xA)) {
+                    var_r6 = &stack.main.f0;
+                    if (((local10C) != arg0->fC) && ((local10C) != 1) && ((local10C) != 0xA)) {
                         (local0) = 0;
                         T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                        asm volatile("");
                     }
-                    (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
+                    (local10C) = (s32) arg0->fC;
                     (local108) = 0xFFFF;
-                    *(local14C) = T015L_FIELD(arg0, u16 *, 8);
+                    *(local14C) = arg0->f8;
                     (local110) = 1;
                     break;
                 case 1:                             /* switch 3 */
-                    var_r6 = &(*(s32 *)(frame + 0x10));
-                    if (((local10C) != T015L_FIELD(arg0, u16 *, 0xC)) && ((local10C) != 0) && ((local10C) != 0xA)) {
+                    var_r6 = &stack.main.f0;
+                    if (((local10C) != arg0->fC) && ((local10C) != 0) && ((local10C) != 0xA)) {
                         (local0) = 0;
                         T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                        asm volatile("");
                     }
-                    (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
+                    (local10C) = (s32) arg0->fC;
                     (local108) = 0xFFFF;
-                    *(local14C) = T015L_FIELD(arg0, u16 *, 8) + 8;
+                    *(local14C) = arg0->f8 + 8;
                     (local110) = 1;
                     break;
                 case 2:                             /* switch 3 */
-                    if ((*(local14C) != (local108)) || (var_r6 = &(*(s32 *)(frame + 0x10)), ((local10C) != T015L_FIELD(arg0, u16 *, 0xC)))) {
+                    if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
                         (local0) = 0;
-                        T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                        T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                        asm volatile("");
                         *(local158) = 0;
-                        (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
-                        *(local14C) = T015L_FIELD(arg0, u16 *, 8);
-                        var_r6 = &(*(s32 *)(frame + 0x10));
+                        (local10C) = (s32) arg0->fC;
+                        *(local14C) = arg0->f8;
+                        var_r6 = &stack.main.f0;
                         (local108) = (s32) *(local14C);
-                        T015L_FIELD(arg0, s32 *, 0x50) = (s32) (T015L_FIELD(arg0, s32 *, 0x50) + 1);
+                        arg0->f50 = (s32) (arg0->f50 + 1);
                     }
                     T015L_sub_08020680(arg0);
 block_208:
                     (local110) = 0;
                     break;
                 case 9:                             /* switch 3 */
-                    if ((*(local14C) != (local108)) || (var_r6 = &(*(s32 *)(frame + 0x10)), ((local10C) != T015L_FIELD(arg0, u16 *, 0xC)))) {
+                    if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
                         (local10C) = (s32) temp_r2_2;
-                        *(local14C) = T015L_FIELD(arg0, u16 *, 8) + T015L_FIELD(sp118, u8 *, 0x26);
-                        if (2 & T015L_FIELD(arg0, u8 *, 0x201)) {
-                            var_r2_3 = ((u8) T015L_FIELD(arg0, u8 *, 0x1FC) >> 4) + 4;
+                        *(local14C) = arg0->f8 + T015L_FIELD(sp118, u8 *, 0x26);
+                        if (2 & arg0->f201) {
+                            var_r2_3 = ((u8) arg0->f1FC >> 4) + 4;
                         } else {
-                            var_r2_3 = (u8) T015L_FIELD(arg0, u8 *, 0x1FC) >> 4;
+                            var_r2_3 = (u8) arg0->f1FC >> 4;
                         }
-                        temp_r0_16 = T015L_FIELD(arg0, u8 *, 0x1FD) - 0x12;
-                        var_r6 = &(*(s32 *)(frame + 0x10));
+                        temp_r0_16 = arg0->f1FD - 0x12;
+                        var_r6 = &stack.main.f0;
                         switch (temp_r0_16) {       /* switch 4; irregular */
                         case 0x0:                   /* switch 4 */
-                            T015L_sub_08077D04(T015L_FIELD(arg0, u16 *, 0), (s16) var_r2_3);
+                            T015L_sub_08077D04(arg0->f0, (s16) var_r2_3);
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
 block_179:
-                            var_r6 = &(*(s32 *)(frame + 0x10));
+                            var_r6 = &stack.main.f0;
                             break;
                         case 0x1:                   /* switch 4 */
-                            T015L_sub_0807854C(T015L_FIELD(arg0, u16 *, 0), (s16) var_r2_3);
+                            T015L_sub_0807854C(arg0->f0, (s16) var_r2_3);
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x2:                   /* switch 4 */
-                            T015L_sub_08078B24(T015L_FIELD(arg0, u16 *, 0), (s16) var_r2_3);
+                            T015L_sub_08078B24(arg0->f0, (s16) var_r2_3);
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x3:                   /* switch 4 */
-                            T015L_sub_08078B24(T015L_FIELD(arg0, u16 *, 0), (s16) var_r2_3);
+                            T015L_sub_08078B24(arg0->f0, (s16) var_r2_3);
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0xD:                   /* switch 4 */
                         case 0xE:                   /* switch 4 */
@@ -593,10 +611,12 @@ block_179:
                         case 0x11:                  /* switch 4 */
                         case 0x12:                  /* switch 4 */
                         case 0x13:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFE2);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 1, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFE2);
+                            T015L_sub_0807386C(arg0->f0 + 4, 1, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x14:                  /* switch 4 */
                         case 0x15:                  /* switch 4 */
@@ -605,10 +625,12 @@ block_179:
                         case 0x18:                  /* switch 4 */
                         case 0x19:                  /* switch 4 */
                         case 0x1A:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFDB);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 2, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFDB);
+                            T015L_sub_0807386C(arg0->f0 + 4, 2, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x1B:                  /* switch 4 */
                         case 0x1C:                  /* switch 4 */
@@ -617,10 +639,12 @@ block_179:
                         case 0x1F:                  /* switch 4 */
                         case 0x20:                  /* switch 4 */
                         case 0x21:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) - 0x2D);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 3, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD - 0x2D);
+                            T015L_sub_0807386C(arg0->f0 + 4, 3, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x22:                  /* switch 4 */
                         case 0x23:                  /* switch 4 */
@@ -629,10 +653,12 @@ block_179:
                         case 0x26:                  /* switch 4 */
                         case 0x27:                  /* switch 4 */
                         case 0x28:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFCD);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 4, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFCD);
+                            T015L_sub_0807386C(arg0->f0 + 4, 4, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x29:                  /* switch 4 */
                         case 0x2A:                  /* switch 4 */
@@ -641,10 +667,12 @@ block_179:
                         case 0x2D:                  /* switch 4 */
                         case 0x2E:                  /* switch 4 */
                         case 0x2F:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFC6);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 5, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFC6);
+                            T015L_sub_0807386C(arg0->f0 + 4, 5, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x30:                  /* switch 4 */
                         case 0x31:                  /* switch 4 */
@@ -653,10 +681,12 @@ block_179:
                         case 0x34:                  /* switch 4 */
                         case 0x35:                  /* switch 4 */
                         case 0x36:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFBF);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 8, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFBF);
+                            T015L_sub_0807386C(arg0->f0 + 4, 8, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x37:                  /* switch 4 */
                         case 0x38:                  /* switch 4 */
@@ -665,10 +695,12 @@ block_179:
                         case 0x3B:                  /* switch 4 */
                         case 0x3C:                  /* switch 4 */
                         case 0x3D:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFB8);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 0xB, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFB8);
+                            T015L_sub_0807386C(arg0->f0 + 4, 0xB, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x3E:                  /* switch 4 */
                         case 0x3F:                  /* switch 4 */
@@ -677,10 +709,12 @@ block_179:
                         case 0x42:                  /* switch 4 */
                         case 0x43:                  /* switch 4 */
                         case 0x44:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFB1);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 0xD, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFB1);
+                            T015L_sub_0807386C(arg0->f0 + 4, 0xD, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x45:                  /* switch 4 */
                         case 0x46:                  /* switch 4 */
@@ -689,10 +723,12 @@ block_179:
                         case 0x49:                  /* switch 4 */
                         case 0x4A:                  /* switch 4 */
                         case 0x4B:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFAA);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 0xE, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFAA);
+                            T015L_sub_0807386C(arg0->f0 + 4, 0xE, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x4C:                  /* switch 4 */
                         case 0x4D:                  /* switch 4 */
@@ -701,10 +737,12 @@ block_179:
                         case 0x50:                  /* switch 4 */
                         case 0x51:                  /* switch 4 */
                         case 0x52:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFFA3);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 0xF, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFA3);
+                            T015L_sub_0807386C(arg0->f0 + 4, 0xF, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x53:                  /* switch 4 */
                         case 0x54:                  /* switch 4 */
@@ -713,10 +751,12 @@ block_179:
                         case 0x57:                  /* switch 4 */
                         case 0x58:                  /* switch 4 */
                         case 0x59:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFF9C);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 0x11, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFF9C);
+                            T015L_sub_0807386C(arg0->f0 + 4, 0x11, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         case 0x5A:                  /* switch 4 */
                         case 0x5B:                  /* switch 4 */
@@ -725,56 +765,61 @@ block_179:
                         case 0x5E:                  /* switch 4 */
                         case 0x5F:                  /* switch 4 */
                         case 0x60:                  /* switch 4 */
-                            (local0) = (s32) (u16) (T015L_FIELD(arg0, u8 *, 0x1FD) + 0xFF95);
-                            T015L_sub_0807386C(T015L_FIELD(arg0, u16 *, 0) + 4, 0x12, (s16) var_r2_3, (local0), (local0));
+                            (local0) = (s32) (u16) (arg0->f1FD + 0xFF95);
+                            T015L_sub_0807386C(arg0->f0 + 4, 0x12, (s16) var_r2_3, (local0), (local0));
+                            asm volatile("");
                             (local0) = 0;
-                            T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
+                            asm volatile("");
                             goto block_179;
                         }
-                        T015L_FIELD(arg0, s32 *, 0x50) = (s32) (T015L_FIELD(arg0, s32 *, 0x50) + 1);
+                        arg0->f50 = (s32) (arg0->f50 + 1);
                         var_r2_4 = *(local14C);
 block_207:
                         (local108) = (s32) var_r2_4;
                     }
                     goto block_208;
                 case 10:                            /* switch 3 */
-                    if ((*(local14C) != (local108)) || (var_r6 = &(*(s32 *)(frame + 0x10)), ((local10C) != T015L_FIELD(arg0, u16 *, 0xC)))) {
-                        var_r6 = &(*(s32 *)(frame + 0x10));
-                        if (((local10C) != T015L_FIELD(arg0, u16 *, 0xC)) && ((local10C) != 0) && ((local10C) != 1)) {
+                    if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
+                        var_r6 = &stack.main.f0;
+                        if (((local10C) != arg0->fC) && ((local10C) != 0) && ((local10C) != 1)) {
                             (local0) = 0;
                             T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                            asm volatile("");
                         }
                         if (((local10C) == 2) || ((local10C) == 9)) {
                             *(local158) = 0;
                         }
-                        (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
+                        (local10C) = (s32) arg0->fC;
                         *(local154) = 0;
                         *(local150) = 0;
                         *(local14C) = 0x10;
-                        *(local14C) = T015L_FIELD(arg0, u16 *, 8) + 0x10;
+                        *(local14C) = arg0->f8 + 0x10;
                         (local108) = (s32) *(local14C);
                     }
                     (local110) = 0;
                     break;
                 case 11:                            /* switch 3 */
                     if (*(local144) == 0x1E) {
-                        var_r6 = &(*(s32 *)(frame + 0x10));
-                        if (((local10C) != T015L_FIELD(arg0, u16 *, 0xC)) && ((local10C) != 0) && ((local10C) != 0xA) && ((local10C) != 1)) {
+                        var_r6 = &stack.main.f0;
+                        if (((local10C) != arg0->fC) && ((local10C) != 0) && ((local10C) != 0xA) && ((local10C) != 1)) {
                             (local0) = 0;
                             T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                            asm volatile("");
                         }
                         if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                             sub_0805865C(0x3F);
                         }
                         if (2 & *(local15C)) {
-                            T015L_FIELD(arg0, u16 *, 0x88) = (u16) T015L_FIELD(sp118, s8 *, 0x46);
+                            arg0->f88 = (u16) T015L_FIELD(sp118, s8 *, 0x46);
                         }
-                    } else if ((*(local14C) != (local108)) || (var_r6 = &(*(s32 *)(frame + 0x10)), ((local10C) != T015L_FIELD(arg0, u16 *, 0xC)))) {
-                        var_r6 = &(*(s32 *)(frame + 0x10));
+                    } else if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
+                        var_r6 = &stack.main.f0;
                         if (8 & *(local15C)) {
                             (local0) = 0;
                             T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                            (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
+                            asm volatile("");
+                            (local10C) = (s32) arg0->fC;
                             *(local154) = 0;
                             *(local150) = 0;
                             *(local14C) = 0x19;
@@ -784,70 +829,73 @@ block_207:
                     }
                     goto block_208;
                 case 12:                            /* switch 3 */
-                    temp_r0_17 = T015L_FIELD(arg0, u16 *, 0xE);
+                    temp_r0_17 = arg0->fE;
                     if (temp_r0_17 != 6) {
                         if ((s32) temp_r0_17 <= 6) {
                             if (temp_r0_17 != 5) {
-                                var_r6 = &(*(s32 *)(frame + 0x10));
+                                var_r6 = &stack.main.f0;
                             } else {
                                 (local0) = 0;
-                                T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                                *(local14C) = T015L_FIELD(arg0, u16 *, 8) + T015L_FIELD(arg0, u16 *, 0x70);
+                                T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                                asm volatile("");
+                                *(local14C) = arg0->f8 + arg0->f70;
                                 (local108) = (s32) *(local14C);
-                                (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
-                                (local110) = (s32) T015L_FIELD(arg0, u16 *, 0x72);
-                                T015L_FIELD(arg0, u16 *, 0xE) = 6U;
-                                var_r6 = &(*(s32 *)(frame + 0x10));
+                                (local10C) = (s32) arg0->fC;
+                                (local110) = (s32) arg0->f72;
+                                arg0->fE = 6U;
+                                var_r6 = &stack.main.f0;
                             }
                         } else {
-                            var_r6 = &(*(s32 *)(frame + 0x10));
+                            var_r6 = &stack.main.f0;
                             if (temp_r0_17 != 8) {
 
                             } else {
-                                if (T015L_FIELD(arg0, s32 *, 0x30) != 0) {
-                                    sub_08057328(T015L_FIELD(arg0, s32 *, 0x34));
+                                if (arg0->f30 != 0) {
+                                    sub_08057328(arg0->f34);
                                 } else {
-                                    sub_08057390(T015L_FIELD(arg0, s32 *, 0x3C), T015L_FIELD(arg0, void (**)(s32), 0x38));
+                                    sub_08057390(arg0->f3C, T015L_FIELD(arg0, void (**)(s32), 0x38));
                                 }
-                                T015L_FIELD(arg0, u16 *, 0xC) = 0U;
-                                var_r6 = &(*(s32 *)(frame + 0x10));
+                                arg0->fC = 0U;
+                                var_r6 = &stack.main.f0;
                             }
                         }
                     } else {
-                        *(local14C) = T015L_FIELD(arg0, u16 *, 8) + T015L_FIELD(arg0, u16 *, 0x70);
-                        var_r6 = &(*(s32 *)(frame + 0x10));
+                        *(local14C) = arg0->f8 + arg0->f70;
+                        var_r6 = &stack.main.f0;
                     }
                     break;
                 case 14:                            /* switch 3 */
                     (local0) = 0;
-                    T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                    T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                    asm volatile("");
                     temp_r1_5 = *(local144);
-                    var_r6 = &(*(s32 *)(frame + 0x10));
+                    var_r6 = &stack.main.f0;
                     if ((temp_r1_5 == 0) || (0x8000 & temp_r1_5)) {
-                        T015L_FIELD(arg0, s8 *, 0x1DC) = 2;
-                        T015L_FIELD(arg0, u16 *, 0xC) = 0U;
+                        arg0->f1DC = 2;
+                        arg0->fC = 0U;
                         (local11C) = 0;
                     }
                     break;
                 case 15:                            /* switch 3 */
                     (local0) = 0;
-                    T015L_sub_08065158(&(*(s32 *)(frame + 0x10)), *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                    var_r6 = &(*(s32 *)(frame + 0x10));
-                    if ((*(local14C) != (local108)) || ((local10C) != T015L_FIELD(arg0, u16 *, 0xC))) {
+                    T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
+                    asm volatile("");
+                    var_r6 = &stack.main.f0;
+                    if ((*(local14C) != (local108)) || ((local10C) != arg0->fC)) {
                         *(local14C) = 0x18;
                         (local108) = 0x18;
-                        (local10C) = (s32) T015L_FIELD(arg0, u16 *, 0xC);
+                        (local10C) = (s32) arg0->fC;
                     }
                     (local110) = 0;
                     break;
                 }
-                if ((T015L_FIELD(arg0, u16 *, 0xC) == 0xB) && (8 & *(local15C))) {
-                    var_r8 = (u8) sub_0800BC44((u32) ((s32) T015L_FIELD(arg0, s32 *, 0x14) >> 8), (u32) ((s32) T015L_FIELD(arg0, s32 *, 0x18) >> 8), 0U);
+                if ((arg0->fC == 0xB) && (8 & *(local15C))) {
+                    var_r8 = (u8) sub_0800BC44((u32) ((s32) arg0->f14 >> 8), (u32) ((s32) arg0->f18 >> 8), 0U);
                     if (gUnk_03003170.curLevel == 1) {
                         var_r8 = 3;
                     }
                 } else {
-                    var_r8 = (u8) sub_0800BC44((u32) ((s32) T015L_FIELD(arg0, s32 *, 0x14) >> 8), (u32) ((s32) T015L_FIELD(arg0, s32 *, 0x18) >> 8), 0U);
+                    var_r8 = (u8) sub_0800BC44((u32) ((s32) arg0->f14 >> 8), (u32) ((s32) arg0->f18 >> 8), 0U);
                 }
                 if (sub_0800CC88() != 0) {
                     var_r8 = gUnk_030034A8;
@@ -860,17 +908,17 @@ block_207:
                 *var_r9 = (s16) sub_08065370(var_r6, *(local14C), (s32) (local150), (s32) (local154), ((local0)));
                 (local0) = 0x30;
                 (local4) = NULL;
-                T015L_sub_0800BC08((s32) (T015L_FIELD(arg0, s32 *, 0x14) << 8) >> 0x10, (s32) (T015L_FIELD(arg0, s32 *, 0x18) << 8) >> 0x10, &(*(s16 *)(frame + 0xE0)), (frame + 0xE2), (local0), *(void **)(frame+4));
+                T015L_sub_0800BC08((s32) (arg0->f14 << 8) >> 0x10, (s32) (arg0->f18 << 8) >> 0x10, &stack.x, ((u8 *)&stack.y), (local0), *(void **)(((u8 *)&stack)+4));
                 if ((T015L_sub_08017EC8(arg0) != 0) || (temp_r1_6 = *(local15C), ((8 & temp_r1_6) != 0))) {
                     if (*(local148) != 0) {
                         temp_r1_7 = *(local144);
                         *(local144) = temp_r1_7 + 0xFFFF;
                         if ((2 & temp_r1_7) && (sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                         }
                         if (*(local144) == 0) {
                             goto block_345;
@@ -890,10 +938,10 @@ block_207:
 
                         } else {
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                         }
                     } else if (sub_0800CC98() != 0) {
 
@@ -905,67 +953,67 @@ block_207:
                         if (sub_0800CD8C() != 0) {
                             var_r2_5 = 0;
                         } else {
-                            var_r2_5 = T015L_FIELD(arg0, u16 *, 0x62);
+                            var_r2_5 = arg0->f62;
                         }
                         temp_r0_18 = (s32) ((var_r2_5 << 0x10) + 0xFFFC0000) >> 0x10;
                         switch ((u32) temp_r0_18) { /* switch 5; irregular */
                         case 4:                     /* switch 5 */
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             (local0) = 1;
-                            sub_08065370(&(*(s32 *)(frame + 0x44)), 0U, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0)));
-                            if ((gUnk_03002344 & 1) != (1 & T015L_FIELD(arg0, u16 *, 0))) {
+                            sub_08065370(&stack.auxA.f0, 0U, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
+                            if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
 
                             } else {
                                 (local0) = (s32) var_r8;
-                                (local4) = &(*(s8 *)(frame + 0x60));
-                                (local8) = (*(u32 *)(frame + 0x4C));
-                                (localC) = (*(s32 *)(frame + 0x44));
-                                T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)) - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0U, (*(u16 *)(frame + 0xE4)), (local0), *(void **)(frame+4), (local8), (localC));
+                                (local4) = &stack.auxA.data[0];
+                                (local8) = stack.auxA.f8;
+                                (localC) = stack.auxA.f0;
+                                T015L_sub_08007870(stack.x, stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0U, stack.step, (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             }
                             break;
                         case 5:                     /* switch 5 */
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             (local0) = 1;
-                            sub_08065370(&(*(s32 *)(frame + 0x44)), 0xAU, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0)));
-                            if ((gUnk_03002344 & 1) != (1 & T015L_FIELD(arg0, u16 *, 0))) {
+                            sub_08065370(&stack.auxA.f0, 0xAU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
+                            if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
 
                             } else {
                                 (local0) = (s32) var_r8;
-                                (local4) = &(*(s8 *)(frame + 0x60));
-                                (local8) = (*(u32 *)(frame + 0x4C));
-                                (localC) = (*(s32 *)(frame + 0x44));
-                                T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)) - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0xAU, (*(u16 *)(frame + 0xE4)), (local0), *(void **)(frame+4), (local8), (localC));
+                                (local4) = &stack.auxA.data[0];
+                                (local8) = stack.auxA.f8;
+                                (localC) = stack.auxA.f0;
+                                T015L_sub_08007870(stack.x, stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0xAU, stack.step, (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             }
                             break;
                         case 3:                     /* switch 5 */
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             (local0) = 1;
-                            sub_08065370(&(*(s32 *)(frame + 0x44)), 0xFU, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0)));
-                            if ((gUnk_03002344 & 1) != (1 & T015L_FIELD(arg0, u16 *, 0))) {
+                            sub_08065370(&stack.auxA.f0, 0xFU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
+                            if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
 
                             } else {
-                                var_r0_5 = (*(s16 *)(frame + 0xE0));
-                                var_r1 = (*(s16 *)(frame + 0xE2)) - (s8) T015L_FIELD(sp118, u8 *, 0x44);
-                                var_r3 = (*(u16 *)(frame + 0xE4));
+                                var_r0_5 = stack.x;
+                                var_r1 = stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44);
+                                var_r3 = stack.step;
                                 (local0) = (s32) var_r8;
-                                (local4) = &(*(s8 *)(frame + 0x60));
-                                (local8) = (*(u32 *)(frame + 0x4C));
-                                var_r2_6 = (*(s32 *)(frame + 0x44));
+                                (local4) = &stack.auxA.data[0];
+                                (local8) = stack.auxA.f8;
+                                var_r2_6 = stack.auxA.f0;
 block_286:
                                 (localC) = var_r2_6;
-                                T015L_sub_08007870(var_r0_5, var_r1, 0xFU, var_r3, (local0), *(void **)(frame+4), (local8), (localC));
+                                T015L_sub_08007870(var_r0_5, var_r1, 0xFU, var_r3, (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             }
                             break;
                         case 6:                     /* switch 5 */
@@ -973,49 +1021,49 @@ block_286:
                             switch (temp_r0_19) {   /* switch 6; irregular */
                             case 0:                 /* switch 6 */
                                 (local0) = 1;
-                                sub_08065370(&(*(s32 *)(frame + 0x44)), 9U, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0)));
+                                sub_08065370(&stack.auxA.f0, 9U, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
                                 (local0) = (s32) var_r8;
-                                (local4) = &(*(s8 *)(frame + 0x60));
-                                (local8) = (*(u32 *)(frame + 0x4C));
-                                (localC) = (*(s32 *)(frame + 0x44));
-                                T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), 9U, (*(u16 *)(frame + 0xE4)), (local0), *(void **)(frame+4), (local8), (localC));
+                                (local4) = &stack.auxA.data[0];
+                                (local8) = stack.auxA.f8;
+                                (localC) = stack.auxA.f0;
+                                T015L_sub_08007870(stack.x, stack.y, 9U, stack.step, (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                                 break;
                             case 1:                 /* switch 6 */
                                 (local0) = (s32) temp_r0_19;
-                                sub_08065370(&(*(s32 *)(frame + 0x78)), 0xEU, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0)));
+                                sub_08065370(&stack.auxB.f0, 0xEU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
                                 (local0) = (s32) var_r8;
-                                (local4) = &(*(s8 *)(frame + 0x94));
-                                (local8) = (*(u32 *)(frame + 0x80));
-                                (localC) = (*(s32 *)(frame + 0x78));
-                                T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), 0xEU, (*(u16 *)(frame + 0xE4)), (local0), *(void **)(frame+4), (local8), (localC));
+                                (local4) = &stack.auxB.data[0];
+                                (local8) = stack.auxB.f8;
+                                (localC) = stack.auxB.f0;
+                                T015L_sub_08007870(stack.x, stack.y, 0xEU, stack.step, (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                                 break;
                             case 2:                 /* switch 6 */
                                 (local0) = 1;
-                                sub_08065370(&(*(s32 *)(frame + 0x78)), 0xFU, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0)));
-                                var_r0_5 = (*(s16 *)(frame + 0xE0));
-                                var_r1 = (*(s16 *)(frame + 0xE2));
-                                var_r3 = (*(u16 *)(frame + 0xE4));
+                                sub_08065370(&stack.auxB.f0, 0xFU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
+                                var_r0_5 = stack.x;
+                                var_r1 = stack.y;
+                                var_r3 = stack.step;
                                 (local0) = (s32) var_r8;
-                                (local4) = &(*(s8 *)(frame + 0x94));
-                                (local8) = (*(u32 *)(frame + 0x80));
-                                var_r2_6 = (*(s32 *)(frame + 0x78));
+                                (local4) = &stack.auxB.data[0];
+                                (local8) = stack.auxB.f8;
+                                var_r2_6 = stack.auxB.f0;
                                 goto block_286;
                             }
                             break;
                         case 8:                     /* switch 5 */
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             (local0) = 0;
-                            if (sub_08065370(&(*(s32 *)(frame + 0x44)), 0xCU, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0))) != 0) {
+                            if (sub_08065370(&stack.auxA.f0, 0xCU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0))) != 0) {
 
-                            } else if ((gUnk_03002344 & 1) != (1 & T015L_FIELD(arg0, u16 *, 0))) {
+                            } else if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
 
                             } else {
-                                (local0) = (s32) (*(u16 *)(frame + 0xE4));
-                                sub_08065230(&(*(s32 *)(frame + 0x44)), (s32) (*(s16 *)(frame + 0xE0)), (s32) (*(s16 *)(frame + 0xE2)), 0xCU, ((local0)));
+                                (local0) = (s32) stack.step;
+                                sub_08065230(&stack.auxA.f0, (s32) stack.x, (s32) stack.y, 0xCU, ((local0)));
                             }
                             break;
                         case 0:                     /* switch 5 */
@@ -1024,41 +1072,41 @@ block_286:
 
                             } else {
                                 (local0) = temp_r0_20;
-                                if ((sub_08065370(&(*(s32 *)(frame + 0x44)), 0xBU, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0))) == 0) && ((gUnk_03002344 & 1) == (1 & T015L_FIELD(arg0, u16 *, 0)))) {
-                                    (local0) = (s32) (*(u16 *)(frame + 0xE4));
-                                    sub_08065230(&(*(s32 *)(frame + 0x44)), (s32) (*(s16 *)(frame + 0xE0)), (s32) (*(s16 *)(frame + 0xE2)), 0xBU, ((local0)));
+                                if ((sub_08065370(&stack.auxA.f0, 0xBU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0))) == 0) && ((gUnk_03002344 & 1) == (1 & arg0->f0))) {
+                                    (local0) = (s32) stack.step;
+                                    sub_08065230(&stack.auxA.f0, (s32) stack.x, (s32) stack.y, 0xBU, ((local0)));
                                 }
                             }
                             break;
                         case 9:                     /* switch 5 */
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             (local0) = 1;
-                            sub_08065370(&(*(s32 *)(frame + 0x44)), 0xDU, (s32) &(*(u16 *)(frame + 0xE4)), (s32) ((frame + 0xE6)), ((local0)));
-                            if ((gUnk_03002344 & 1) == (1 & T015L_FIELD(arg0, u16 *, 0))) {
+                            sub_08065370(&stack.auxA.f0, 0xDU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
+                            if ((gUnk_03002344 & 1) == (1 & arg0->f0)) {
                                 (local0) = (s32) var_r8;
-                                (local4) = &(*(s8 *)(frame + 0x60));
-                                (local8) = (*(u32 *)(frame + 0x4C));
-                                (localC) = (*(s32 *)(frame + 0x44));
-                                T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)) - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0xDU, (*(u16 *)(frame + 0xE4)), (local0), *(void **)(frame+4), (local8), (localC));
+                                (local4) = &stack.auxA.data[0];
+                                (local8) = stack.auxA.f8;
+                                (localC) = stack.auxA.f0;
+                                T015L_sub_08007870(stack.x, stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0xDU, stack.step, (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             }
                             break;
                         default:                    /* switch 5 */
-                            (*(s16 *)(frame + 0xE6)) = 0;
-                            (*(u16 *)(frame + 0xE4)) = 0;
+                            stack.state = 0;
+                            stack.step = 0;
                             (local0) = (s32) var_r8;
-                            (local4) = &(*(s8 *)(frame + 0x2C));
+                            (local4) = &stack.main.data[0];
                             (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = (*(s32 *)(frame + 0x10));
-                            T015L_sub_08007870((*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)), *(local14C), *(local150), (local0), *(void **)(frame+4), (local8), (localC));
+                            (localC) = stack.main.f0;
+                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), *(void **)(((u8 *)&stack)+4), (local8), (localC));
                             break;
                         }
                     }
 block_300:
-                    temp_r0_21 = T015L_FIELD(arg0, s32 *, 0x4C);
+                    temp_r0_21 = arg0->f4C;
                     if ((temp_r0_21 != 0) && ((local104) != temp_r0_21)) {
                         temp_r0_22 = T015L_sub_08019CE8(arg0);
                         *(local148) = temp_r0_22;
@@ -1070,7 +1118,7 @@ block_300:
                                 *(local144) = 0x1E;
                             }
                         }
-                        (local104) = T015L_FIELD(arg0, s32 *, 0x4C);
+                        (local104) = arg0->f4C;
                         (local120) = 0xA;
                         (local128) = 0;
                     }
@@ -1082,7 +1130,7 @@ block_300:
                         } else {
                             if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                 if (sub_0800CB9C() != 0) {
-                                    if ((gUnk_03002344 & 1) == (1 & T015L_FIELD(arg0, u16 *, 0))) {
+                                    if ((gUnk_03002344 & 1) == (1 & arg0->f0)) {
                                         T015L_sub_0801A120(arg0, (local104), (s16) (local128));
                                     }
                                 } else {
@@ -1096,10 +1144,10 @@ block_300:
                     } else {
                         (local120) = 0xFFFF;
                         (local104) = 0;
-                        T015L_FIELD(arg0, s32 *, 0x4C) = 0;
+                        arg0->f4C = 0;
                     }
                     if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-                        temp_r0_24 = T015L_FIELD(arg0, u8 *, 0x226);
+                        temp_r0_24 = arg0->f226;
                         if (((s32) temp_r0_24 <= 7) && ((s32) temp_r0_24 >= 4)) {
                             T015L_FIELD(var_r6, u8 *, 0x1D) = (u8) (local114);
                         }
@@ -1110,7 +1158,7 @@ block_300:
                     } else {
                         (local124) = 1;
                     }
-                    if (T015L_FIELD(arg0, u16 *, 0x88) != 0) {
+                    if (arg0->f88 != 0) {
                         if ((local12C) != 0) {
                             if ((2 & *(local15C)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                 sub_0805865C(0x9E);
@@ -1118,14 +1166,14 @@ block_300:
                             (local12C) = 0;
                         }
                         (local0) = 0;
-                        if (sub_08065370(&(*(s32 *)(frame + 0xAC)), T015L_FIELD(arg0, u16 *, 0x88), (s32) &(*(u16 *)(frame + 0xE8)), (s32) ((frame + 0xEA)), ((local0))) != 0) {
-                            T015L_FIELD(arg0, u16 *, 0x88) = 0U;
-                            (*(u16 *)(frame + 0xE8)) = 0;
-                            (*(u16 *)(frame + 0xEA)) = 0;
+                        if (sub_08065370(&stack.base.f0, arg0->f88, (s32) &stack.phase, (s32) (((u8 *)&stack.phase2)), ((local0))) != 0) {
+                            arg0->f88 = 0U;
+                            stack.phase = 0;
+                            stack.phase2 = 0;
                             (local12C) = 1;
                         } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-                            (local0) = (s32) (*(u16 *)(frame + 0xE8));
-                            sub_08065230(&(*(s32 *)(frame + 0xAC)), (s32) (*(s16 *)(frame + 0xE0)), (*(s16 *)(frame + 0xE2)) - 0x20, T015L_FIELD(arg0, u16 *, 0x88), ((local0)));
+                            (local0) = (s32) stack.phase;
+                            sub_08065230(&stack.base.f0, (s32) stack.x, stack.y - 0x20, arg0->f88, ((local0)));
                         }
                     }
                     sub_080003F0();
@@ -1133,63 +1181,63 @@ block_300:
                 }
                 *(local15C) = 1 | temp_r1_6;
                 goto block_345;
-            }
-        } else {
+loop_341:
+        if (sub_0800CB78() != 0) goto block_345;
+        if (1 & *(local15C)) goto actor_cleanup;
+        temp_r0_7 = sub_08056E90();
+        if (temp_r0_7 == 0) goto loop_body;
 block_345:
+        {
             if (1 & *(local15C)) {
 
             } else if (sub_08056E90() != 0) {
 
             } else {
+                goto poll_351;
 loop_351:
-                if ((T015L_sub_08067CA8(T015L_FIELD(arg0, u16 *, 2)) == 0) && (sub_08056E90() == 0)) {
-                    sub_080003F0();
-                    goto loop_351;
-                }
+                sub_080003F0();
+poll_351:
+                if ((T015L_sub_08067CA8(arg0->f2) == 0) && (sub_08056E90() == 0)) goto loop_351;
                 if (2 & *(local15C)) {
                     sub_08056E24();
+                    goto poll_356;
 loop_356:
-                    if (sub_08068558() == 0) {
-                        sub_080003F0();
-                        goto loop_356;
-                    }
+                    sub_080003F0();
+poll_356:
+                    if (sub_08068558() == 0) goto loop_356;
                 }
                 if (sub_08002204() != 0) {
                     temp_r0_25 = T015L_FIELD(gUnk_03005CF4, u16 *, 0);
-                    if ((temp_r0_25 != 0xB) && (temp_r0_25 != 0xD) && (T015L_sub_0805C620(arg0, &(*(u32 *)(frame + 0x0))) != 0)) {
+                    if ((temp_r0_25 != 0xB) && (temp_r0_25 != 0xD) && (T015L_sub_0805C620(arg0, &stack.packet[0]) != 0)) {
                         if (sub_0800CCCC() != 0) {
+                            goto poll_364;
 loop_364:
-                            if (sub_08066520((u32) T015L_FIELD(arg0, s32 *, 0x14), (u32) T015L_FIELD(arg0, s32 *, 0x18), (*(u16 *)((u8 *)gUnk_03003CE0 + 0x2C)), &(*(u32 *)(frame + 0x0))) == 0) {
-                                if (sub_08056E90() != 0) {
-
-                                } else {
-                                    sub_080003F0();
-                                    goto loop_364;
-                                }
-                            }
+                            sub_080003F0();
+poll_364:
+                            if ((sub_08066520((u32) arg0->f14, (u32) arg0->f18, T015L_poll_players[0].field2C, &stack.packet[0]) == 0) && (sub_08056E90() == 0)) goto loop_364;
                         } else {
+                            goto poll_368;
 loop_368:
-                            if ((sub_08066490((u32) T015L_FIELD(arg0, s32 *, 0x14), (u32) T015L_FIELD(arg0, s32 *, 0x18), &(*(u32 *)(frame + 0x0))) == 0) && (sub_08056E90() == 0)) {
-                                sub_080003F0();
-                                goto loop_368;
-                            }
+                            sub_080003F0();
+poll_368:
+                            if ((sub_08066490((u32) arg0->f14, (u32) arg0->f18, &stack.packet[0]) == 0) && (sub_08056E90() == 0)) goto loop_368;
                         }
                     }
-                    T015L_sub_080571A4(T015L_FIELD(arg0, u8 *, 0x86), T015L_FIELD(arg0, u8 *, 0x84), 3);
+                    T015L_sub_080571A4(arg0->f86, arg0->f84, 3);
                 }
-                if ((T015L_FIELD(gUnk_03005CF4, u16 *, 0) != 0xB) && !(*(u32 *)((u8 *)gUnk_03003CE0 + 0x30 + 0x14C * sub_080020F4()) & 0x2000) && (((s32) T015L_FIELD(arg0, u16 *, 0x5A) >> *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4())) & 1)) {
+                if ((T015L_FIELD(gUnk_03005CF4, u16 *, 0) != 0xB) && !(*(u32 *)((u8 *)gUnk_03003CE0 + 0x30 + 0x14C * sub_080020F4()) & 0x2000) && (((s32) arg0->f5A >> *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4())) & 1)) {
                     temp_r5 = sub_0801E46C((void *) gUnk_030034E0, sp118);
                     (local128) = 0x1E;
+                    goto poll_376;
 loop_376:
+                    sub_080003F0();
+poll_376:
                     temp_r0_26 = ((local128) << 0x10) + 0xFFFF0000;
                     (local128) = temp_r0_26 >> 0x10;
                     if (((s32) temp_r0_26 >> 0x10) != -1) {
-                        T015L_FIELD(arg0, s32 *, 0x18) = (s32) (T015L_FIELD(arg0, s32 *, 0x18) - 0x20);
+                        arg0->f18 = (s32) (arg0->f18 - 0x20);
                         T015L_sub_0806171C(arg0, temp_r5);
-                        if (sub_08056E90() == 0) {
-                            sub_080003F0();
-                            goto loop_376;
-                        }
+                        if (sub_08056E90() == 0) goto loop_376;
                     }
                     sub_0801E4CC((u8 *) gUnk_030034E0, temp_r5);
                     if (T015L_FIELD(gUnk_030034E0, u8 *, 0x13A) != 0) {
@@ -1199,30 +1247,25 @@ loop_376:
                 }
             }
         }
-        if (2 & T015L_FIELD(arg0, u8 *, 0x201)) {
+actor_cleanup:
+        if (2 & arg0->f201) {
             T015L_FIELD(gUnk_03005CF4, s16 *, 0xC) = 0;
         }
         if (1 & *(local15C)) {
-            T015L_sub_080571A4(T015L_FIELD(arg0, u8 *, 0x86), T015L_FIELD(arg0, u8 *, 0x84), 1);
+            T015L_sub_080571A4(arg0->f86, arg0->f84, 1);
         }
-        T015L_sub_08067E60(T015L_FIELD(arg0, u16 *, 2));
-        T015L_FIELD(arg0, s32 *, 0x1C) = (s32) T015L_FIELD(arg0, s32 *, 0x14);
-        T015L_FIELD(arg0, s32 *, 0x20) = (s32) T015L_FIELD(arg0, s32 *, 0x18);
-        gUnk_030056FC &= ~(1 << T015L_FIELD(arg0, u16 *, 0));
+        T015L_sub_08067E60(arg0->f2);
+        arg0->f1C = (s32) arg0->f14;
+        arg0->f20 = (s32) arg0->f18;
+        gUnk_030056FC &= ~(1 << arg0->f0);
         sub_08016ECC((local114));
         return;
     }
-    T015L_FIELD(arg0, u16 *, 0xC) = 0xBU;
-    if ((sub_0800CB78() != 0) || (sub_08056E90() != 0)) {
-        gUnk_030056FC &= ~(1 << T015L_FIELD(arg0, u16 *, 0));
-        T015L_sub_080571A4(T015L_FIELD(arg0, u8 *, 0x86), T015L_FIELD(arg0, u8 *, 0x84), 1);
-        return;
-    }
-    sub_080003F0();
-    goto loop_5;
+
 }
 
 #undef T015L_FIELD
+
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801801C);
 #endif

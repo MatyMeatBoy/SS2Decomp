@@ -5176,33 +5176,37 @@ block_1662:
                         }
                         if (!(M2C_FIELD(d368_gUnk_03006440, s32 *, 0x28) & 1)) {
                             if (sp128 != 0xC) {
-                                if (sp128 <= 0xCU) {
+                                if (sp128 <= 0xC) {
                                     if (sp128 != 0xA) {
                                         goto block_1674;
                                     }
-                                    var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                    var_r1_29 = sp10.fC + 0x180;
-                                    goto block_1676;
+                                    goto paletteFirstA_D368;
                                 }
                                 if (sp128 != 0xD) {
-block_1674:
-                                    if (((struct PlayerD368 *)arg0)->f64 == 9) {
-block_1675:
-                                        var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                        var_r1_29 = sp10.fC;
-                                        goto block_1676;
-                                    }
-                                    d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5), 1);
-                                } else {
-                                    var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                    var_r1_29 = sp10.fC + 0x1A0;
-                                    goto block_1676;
+                                    goto block_1674;
                                 }
-                            } else {
+                                goto paletteFirstD_D368;
+                            }
+                            var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
+                            var_r1_29 = sp10.fC + 0x1E0;
+                            goto block_1676;
+paletteFirstD_D368:
+                            var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
+                            var_r1_29 = sp10.fC + 0x1A0;
+                            goto block_1676;
+paletteFirstA_D368:
+                            var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
+                            var_r1_29 = sp10.fC + 0x180;
+                            goto block_1676;
+block_1674:
+                            if (((struct PlayerD368 *)arg0)->f64 == 9) {
+block_1675:
                                 var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                var_r1_29 = sp10.fC + 0x1E0;
+                                var_r1_29 = sp10.fC;
 block_1676:
                                 d368_sub_08000AF0(var_r0_39, var_r1_29, 1);
+                            } else {
+                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5), 1);
                             }
                         }
                     }
@@ -5293,20 +5297,14 @@ block_1676:
                         }
                         break;
                     case 3:                         /* switch 26 */
-                        var_r0_36 = colorWaveTableD368[sp164];
-                        goto block_1762;
+                        goto shared27_5;
                     case 10:                        /* switch 26 */
                         goto shared27_10;
                     case 13:                        /* switch 26 */
                         goto shared27_13;
                     case 7:                         /* switch 26 */
                     case 9:                         /* switch 26 */
-                    shared27_7:
-                    shared27_9:
-block_1781:
-                        coordF8 = 0;
-                        coordFA = 0;
-                        break;
+                        goto block_1781;
                     }
                 }
             } else {
@@ -5373,32 +5371,37 @@ block_1716:
                                             sp128 = 0;
                                         }
                                         if (sp128 != 0xC) {
-                                            if (sp128 <= 0xCU) {
+                                            if (sp128 <= 0xC) {
                                                 if (sp128 != 0xA) {
                                                     goto block_1749;
                                                 }
-                                                var_r0_35 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                                var_r1_24 = sp10.fC + 0x180;
-                                                goto block_1751;
+                                                goto paletteSecondA_D368;
                                             }
                                             if (sp128 != 0xD) {
-block_1749:
-                                                if (((struct PlayerD368 *)arg0)->f64 == 9) {
-                                                    var_r0_35 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                                    var_r1_24 = sp10.fC;
-                                                    goto block_1751;
-                                                }
-                                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5), 1);
-                                            } else {
-                                                var_r0_35 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                                var_r1_24 = sp10.fC + 0x1A0;
-                                                goto block_1751;
+                                                goto block_1749;
                                             }
-                                        } else {
+                                            goto paletteSecondD_D368;
+                                        }
+                                        var_r0_35 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
+                                        var_r1_24 = sp10.fC + 0x1E0;
+                                        goto block_1751;
+paletteSecondD_D368:
+                                        var_r0_35 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
+                                        var_r1_24 = sp10.fC + 0x1A0;
+                                        goto block_1751;
+paletteSecondA_D368:
+                                        var_r0_35 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
+                                        var_r1_24 = sp10.fC + 0x180;
+                                        goto block_1751;
+block_1749:
+                                        if (((struct PlayerD368 *)arg0)->f64 == 9) {
+paletteSecondBase_D368:
                                             var_r0_35 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                            var_r1_24 = sp10.fC + 0x1E0;
+                                            var_r1_24 = sp10.fC;
 block_1751:
                                             d368_sub_08000AF0(var_r0_35, var_r1_24, 1);
+                                        } else {
+                                            d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5), 1);
                                         }
                                     }
                                 }
@@ -5409,8 +5412,6 @@ block_1751:
                                     goto block_1781;
                                 }
                                 switch (temp_r0_161) {
-                    case 7: goto shared27_7;
-                    case 9: goto shared27_9; /* switch 27 */
                                 case 0:             /* switch 27 */
                                     temp_r3_56 = colorWaveTableD368[sp164];
     *(u8 *)&sp110 = (u8) ((-0x20 & *(u8 *)&sp110) | ((temp_r3_56 >> 4) & 0x1F));
@@ -5443,6 +5444,7 @@ block_1751:
                                     var_r1_25 = ((s32) (temp_r3_59 * 5) >> 7) & 0x1F;
                                     goto block_1764;
                                 case 5:             /* switch 27 */
+shared27_5:
                                     var_r0_36 = colorWaveTableD368[sp164];
 block_1762:
                                     var_r1_25 = ((s32) (var_r0_36 * 0x1F) >> 8) & 0x1F;
@@ -5499,6 +5501,12 @@ block_1776:
                             d368_sub_08021DC4(((struct PlayerD368 *)arg0)->f0);
                         }
                         break;
+                                case 7:             /* switch 27 */
+                                case 9:             /* switch 27 */
+block_1781:
+                                    coordF8 = 0;
+                                    coordFA = 0;
+                                    break;
                                 }
                             }
                         }
@@ -5821,7 +5829,179 @@ void sub_080137A0(u32 arg0) {
         break;
     }
 }
+#ifdef NONMATCHING
+struct Rec13850 { u16 a, b; u8 c[12]; };
+struct State13850 {
+    u8 b0[10];
+    u16 wA;
+    u16 wC;
+    u16 padE;
+    u16 w10, w12, w14, w16, w18, w1A;
+    u8 pad1C[8];
+    u8 o24[0x30];
+    u16 w54;
+    u16 w56[9];
+    u16 w68;
+    u16 w6A;
+    u32 l6C;
+    u8 pad70[0x90];
+    struct Rec13850 r5[5];
+    struct Rec13850 r[25];
+    struct Rec13850 s[75];
+    u8 pad790[0xC10 - 0x790];
+    u8 cC10[0x91];
+};
+struct Data13850 {
+    u8 pad0[0x70];
+    struct Rec13850 r[9];
+};
+extern struct State13850 *st13850 asm("gUnk_030034E0");
+extern u8 *dt13850 asm("gUnk_03004210");
+extern struct Data13850 *dts13850 asm("gUnk_03004210");
+void sub_08013850(void)
+{
+    struct State13850 *s;
+    u32 i, j;
+    u16 *p68, *p54, *p6A;
+    u8 bz;
+    u32 z;
+    u8 *o24;
+    u8 *p;
+    u8 *d;
+    sub_08001538((s32)st13850);
+    sub_08001538((s32)dt13850);
+    st13850 = sub_08001494(0xCA4);
+    dt13850 = sub_08001494(0x51C);
+    s = st13850;
+    i = 0;
+    bz = 0; z = 0;
+    o24 = s->o24;
+    p68 = &s->w68;
+    p54 = &s->w54;
+    p6A = &s->w6A;
+    do {
+        p = (u8 *)&gUnk_03003CE0[i];
+        *(u16 *)(p + 0x00) = z;
+        *(u16 *)(p + 0x12) = z;
+        *(u16 *)(p + 0x14) = z;
+        *(u16 *)(p + 0x1C) = z;
+        *(u16 *)(p + 0x22) = z;
+        *(u32 *)(p + 0x30) = z;
+        *(u16 *)(p + 0x20) = z;
+        *(u16 *)(p + 0x24) = z;
+        *(u16 *)(p + 0x2A) = z;
+        *(u16 *)(p + 0xC8) = z;
+        *(u16 *)(p + 0xCA) = z;
+        *(u16 *)(p + 0x38) = z;
+        *(u16 *)(p + 0x3A) = z;
+        *(u16 *)(p + 0x3C) = z;
+        *(u16 *)(p + 0x3E) = z;
+        *(u16 *)(p + 0x40) = z;
+        sub_0801E0BC(p + 0x4C, 0);
+        *(u16 *)(p + 0x58) = z;
+        *(u16 *)(p + 0x5A) = z;
+        *(u16 *)(p + 0x62) = z;
+        *(u16 *)(p + 0x60) = z;
+        *(u8 *)(p + 0x77) = bz;
+        *(u8 *)(p + 0x78) = bz;
+        *(u16 *)(p + 0x64) = z;
+        *(u8 *)(p + 0x66) = bz;
+        sub_0801E0BC(p + 0x7C, 0);
+        *(u16 *)(p + 0xC4) = z;
+        *(u16 *)(p + 0xC2) = z;
+        *(u16 *)(p + 0xC6) = z;
+        *(u32 *)(p + 0x8C) = z;
+        *(u32 *)(p + 0x90) = z;
+        *(u32 *)(p + 0xDC) = z;
+        *(u16 *)(p + 0x116) = z;
+        *(u16 *)(p + 0x88) = z;
+        *(u32 *)(p + 0x140) = z;
+        *(u32 *)(p + 0x144) = z;
+        *(u32 *)(p + 0x138) = z;
+        for (j = 0; j < 5; j++)
+            ((u32 *)(p + 0xE4))[j] = 0xFFFF;
+        for (j = 0; j < 4; j++)
+            ((u32 *)(p + 0xF8))[j] = 0xFFFF;
+        i++;
+    } while (i < 4);
+    for (i = 0; i < 10; i++)
+        s->b0[i] = 0;
+    s->wA = 0;
+    s->wC = 0;
+    s->w10 = 0;
+    s->w12 = 0;
+    s->w14 = 0;
+    s->w16 = 0;
+    s->w18 = 0;
+    s->w1A = 0;
+    sub_0801E0BC(o24, 0);
+    CpuFill16(0, dt13850, 0x51C);
+    for (i = 0; i < 25; i++) {
+        st13850->r[i].a = 0;
+        st13850->r[i].b = 0;
+        for (j = 0; j < 12; j++)
+            st13850->r[i].c[j] = 0;
+    }
+    for (i = 0; i < 9; i++) {
+        dts13850->r[i].a = 0;
+        dts13850->r[i].b = 0;
+        for (j = 0; j < 12; j++)
+            dts13850->r[i].c[j] = 0;
+    }
+    st13850->r5[0].a = 0;
+    st13850->r5[0].b = 0;
+    st13850->r5[1].a = 0;
+    st13850->r5[1].b = 0;
+    st13850->r5[2].a = 0;
+    st13850->r5[2].b = 0;
+    st13850->r5[4].a = 0;
+    st13850->r5[4].b = 0;
+    st13850->r5[3].a = 0;
+    st13850->r5[3].b = 0;
+    for (i = 0; i < 75; i++) {
+        st13850->s[i].a = 0;
+        st13850->s[i].b = 0;
+        for (j = 0; j < 12; j++)
+            st13850->s[i].c[j] = 0;
+    }
+    for (i = 0; i < 0x91; i++)
+        st13850->cC10[i] = 0;
+    for (i = 0; i < 9; i++)
+        st13850->w56[i] = 0;
+    for (i = 0; i < 4; i++)
+        sub_080137A0(i);
+    *p68 = 0;
+    *p54 = 0;
+    *p6A = 1;
+    s->l6C = 20000;
+    for (i = 0; i < 10; i++) {
+        (dt13850 + 0x1C6)[i] = 0;
+        ((u32 *)(dt13850 + 0x38))[i] = 0x57E3F;
+        ((u32 *)(dt13850 + 0x60))[i] = 99;
+        (dt13850 + 0x1D0)[i] = 0;
+        ((u32 *)(dt13850 + 0x88))[i] = 0x57E3F;
+        ((u32 *)(dt13850 + 0xB0))[i] = 99;
+    }
+    d = dt13850;
+    *(u32 *)(d + 0x14) = 1;
+    *(u32 *)(d + 0x18) = 1;
+    *(u16 *)(d + 0x1C) = 0;
+    *(u16 *)(d + 0x1E) = 0;
+    *(u32 *)(d + 0x4) = 0;
+    *(u32 *)(d + 0xC) = 0;
+    *(u16 *)(d + 0xDA) = 0;
+    *(u32 *)(d + 0x8) = 0x401;
+    *(u32 *)(d + 0x10) = 0x401;
+    *(u32 *)(d + 0x0) = 1;
+    *(u16 *)((u8 *)s + 0x30) = 0;
+    for (i = 0; i < 8; i++) {
+        ((u16 *)((u8 *)s + 0x34))[i * 2 + 1] = 0;
+        ((u16 *)((u8 *)s + 0x34))[i * 2] = 0;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08013850);
+#endif
 s32 sub_08013BC0(u8 *arg0) {
     u16 *p;
     u16 *q;
@@ -5875,7 +6055,78 @@ void sub_08013C3C(u8 *arg0) {
         p += 0x2E0;
     } while (i <= 4);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08013CEC);
+struct Box13CEC { u32 w:16; u32 h:16; };
+extern s32 test13CEC(s32 *, s32 *, struct Box13CEC *, struct Box13CEC *) asm("sub_08021FE0");
+extern s32 blk13CEC(s32 *) asm("sub_08057068");
+void sub_08013CEC(u8 *arg0)
+{
+    struct Box13CEC size;
+    struct Box13CEC box;
+    s32 *pos;
+    u8 *e;
+    u32 i;
+    u32 hit;
+    s32 busy;
+    *(u32 *)&size = 0x00100010;
+    if (*(u32 *)(arg0 + 0x30) & 0x20)
+        return;
+    busy = sub_0800CCCC();
+    pos = (s32 *)(arg0 + 0x8C);
+    if (busy == 0 && !(*(u32 *)(arg0 + 0x30) & 0x40000)) {
+        e = gUnk_030056F4;
+        i = 0;
+        do {
+            if (!(*(u32 *)&gUnk_030056FC & (1 << i)))
+                goto next;
+            if ((u16)(*(u16 *)(e + 0xC) - 0xB) <= 1)
+                goto next;
+            box.w = e[0x22E];
+            if (box.w == 0)
+                goto next;
+            box.h = e[0x22F];
+            if (test13CEC(pos, (s32 *)(e + 0x14), &size, &box) == 0)
+                goto next;
+            hit = 0;
+            switch (*(s16 *)(arg0 + 0x1C)) {
+            case 0:
+                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18)) hit = 1;
+                break;
+            case 1:
+                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 2:
+                if (*pos > *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 3:
+                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18) && *pos > *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 4:
+                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18)) hit = 1;
+                break;
+            case 5:
+                if (*(s32 *)(arg0 + 0x90) > *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 6:
+                if (*pos < *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            case 7:
+                if (*(s32 *)(arg0 + 0x90) < *(s32 *)(e + 0x18) && *pos < *(s32 *)(e + 0x14)) hit = 1;
+                break;
+            }
+            if (hit) {
+                *pos = *(s32 *)(arg0 + 0x94);
+                *(s32 *)(arg0 + 0x90) = *(s32 *)(arg0 + 0x98);
+            }
+        next:
+            i = (u16)(i + 1);
+            e += 0x2E0;
+        } while (i <= 4);
+    }
+    if (blk13CEC(pos)) {
+        *pos = *(s32 *)(arg0 + 0x94);
+        *(s32 *)(arg0 + 0x90) = *(s32 *)(arg0 + 0x98);
+    }
+}
 u16 sub_08013E90(s32 arg0, s32 *arg1, u16 arg2, s32 arg3, s32 arg4) {
     u32 flags;
     u16 dir;
