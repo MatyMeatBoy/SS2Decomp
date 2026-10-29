@@ -1841,7 +1841,7 @@ block_38:
     } else {
         var_r8 = T71B_U32(sp54,0x14);
         var_r7 = T71B_U32(sp54,0x18);
-        var_r0_2 = (u32) T71B_U16(sp54,0x8);
+        var_r0_2 = (u32) T71B_S16(sp54,0x8);
     }
     var_r6 = gUnk_0847AD0A[var_r0_2];
     switch (sp68) {                                 /* switch 2 */
@@ -2067,10 +2067,10 @@ void sub_0806C568(u32 *arg0) {
     u16 *spA4;
     s16 temp_r1_5;
     s16 var_r0_4;
-    s16 var_r1;
-    s16 var_r1_2;
-    s16 var_r1_3;
-    s16 var_r2;
+    s32 var_r1;
+    s32 var_r1_2;
+    s32 var_r1_3;
+    s32 var_r2;
     s32 *temp_r2;
     s32 *temp_r2_8;
     s32 *temp_r4_2;
@@ -2080,8 +2080,8 @@ void sub_0806C568(u32 *arg0) {
     s32 temp_r2_7;
     s32 temp_r4;
     s32 var_r8;
-    s8 var_r7_2;
-    s8 var_r7_3;
+    u16 var_r7_2;
+    u16 var_r7_3;
     u16 temp_r0_10;
     u16 temp_r0_2;
     u16 temp_r0_3;
@@ -2247,7 +2247,7 @@ block_29:
                     }
                 }
             }
-            var_r7_2 = (s8) (u16) (var_r7_2 + 1);
+            var_r7_2 = (u16) (var_r7_2 + 1);
         } while ((u32) var_r7_2 <= 4U);
     } else {
         temp_r0_6 = sub_08002164();
@@ -2263,7 +2263,7 @@ block_29:
                         temp_r1_4 = T71C_U8(temp_r2_2,0x68);
                         if (T71C_U8(sp78,0x68) != temp_r1_4) {
                             temp_r4_6 = T71C_PTR(temp_r2_2,0x148);
-                            temp_r0_7 = (u32) (T71C_U16(temp_r4_6,0x0) << 0x1C) >> 0x1C;
+                            temp_r0_7 = (u32) (T71C_U8(temp_r4_6,0x0) << 0x1C) >> 0x1C;
                             if ((temp_r0_7 != 0xB) && (temp_r0_7 != 0xA) && (temp_r0_7 != 0xE) && (temp_r1_4 != 0) && !(((u32) (T71C_U8(temp_r4_6,0x4) << 0x1A) >> 0x1A) & 0x20)) {
                                 frame.x = ((u16) T71C_U16(temp_r4_6,0x0) >> 4) - (var_r8 >> 8);
                                 var_r0 = T71C_U16(temp_r4_6,0x2);
@@ -2296,7 +2296,7 @@ block_46:
                         }
                     }
                 }
-                var_r7_3 = (s8) (u16) (var_r7_3 + 1);
+                var_r7_3 = (u16) (var_r7_3 + 1);
             } while ((u32) var_r7_3 < sp90);
         }
     }
