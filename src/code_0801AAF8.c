@@ -1262,7 +1262,6 @@ block_236:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
 #endif
-#ifdef NONMATCHING
 struct RescueC8F0Entity {
 u16 id;
 u8 pad2[10];
@@ -1296,7 +1295,6 @@ extern u8 rescueC8F0Records[] asm("gUnk_03003CE0");
 extern s32 rescueC8F0Test(s32 *, void *, s32 *, s32 *) asm("sub_08021FE0");
 void sub_0801C8F0(struct RescueC8F0Entity *arg0) {
     s32 zero;
-    register u32 hp18 asm("r3");
     s32 pos[2];
     s32 sp8;
     s32 spC;
@@ -1460,14 +1458,14 @@ block_52:
             case 0:                                 /* switch 4 */
                 if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08021DC4(arg0->id + 4);
-                    temp_r0_5 = var_r5->value; hp18 = *(u16 *)temp_r0; *(u16 *)temp_r0 = temp_r0_5 + hp18;
+                    *(u16 *)temp_r0 += var_r5->value;
                     arg0->value4C = (s32) var_r5->value;
                 }
                 break;
             case 3:                                 /* switch 4 */
                 if ((var_r5->timer == 0) && ((var_r1_2 = arg0->limit5C), (temp_r0 = (s32)&arg0->value4A), (var_r1_2 -= *(u16 *)temp_r0) > 0) && (arg0->state != 0xB) && (arg0->field66 == 0)) {
                     sub_08022180(arg0->id + 4);
-                    temp_r0_5 = var_r5->value; hp18 = *(u16 *)temp_r0; *(u16 *)temp_r0 = temp_r0_5 + hp18;
+                    *(u16 *)temp_r0 += var_r5->value;
                     arg0->value4C = (s32) var_r5->value;
                     var_r1 = (s16 *)&arg0->status;
                     var_r0 = 0xB;
@@ -1488,9 +1486,6 @@ processed:
     }
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801C8F0);
-#endif
 void sub_0801CC10(u32 arg0, s32 arg1)
 {
   u8 *p = (u8 *) (&gUnk_03003CE0[sub_080020F4()]);
