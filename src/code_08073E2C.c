@@ -559,7 +559,40 @@ void sub_0807A0E0(void *arg0)
 void sub_0807A120(void) {
 
 }
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A124);
+static inline u8 Sum_A124(const u8 *data, u32 length)
+{
+    u8 sum = 0;
+    const u8 *p = data;
+    u32 i;
+    for (i = 0; i < length; i++, p++)
+        sum += *p;
+    return ~sum;
+}
+u32 sub_0807A124(void)
+{
+    u32 sz = 0x1000;
+    u8 *p = sub_08001494(sz);
+    u8 *q = sub_08001494(sz);
+    u32 r;
+    memcpy(p, (void *)gUnk_030034E0, 0xCA4);
+    memcpy(q, gUnk_03004210, 0x51C);
+    p[0xCA4] = Sum_A124(p, 0xCA4);
+    q[0x51C] = Sum_A124(q, 0x51C);
+    sub_08001B14(*(u16 *)(gUnk_030034E0 + 0xE), p);
+    r = (u16)sub_08001B14(*(u16 *)(gUnk_030034E0 + 0xE) + 8, q);
+    if (r == 0) {
+        r = sub_08001B54(*(u16 *)(gUnk_030034E0 + 0xE), p);
+        r |= sub_08001B54(*(u16 *)(gUnk_030034E0 + 0xE) + 8, q);
+        if (r == 0) {
+            sub_08001538((s32)p);
+            sub_08001538((s32)q);
+            return 0;
+        }
+    }
+    sub_08001538((s32)p);
+    sub_08001538((s32)q);
+    return r;
+}
 extern void sub_08001B04_4(u32, u32, void *, u32) asm("sub_08001B04");
 static inline u8 Sum_A20C(const u8 *data, u32 length)
 {
