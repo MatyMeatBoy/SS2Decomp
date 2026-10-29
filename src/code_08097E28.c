@@ -873,7 +873,80 @@ s32 sub_08098F2C_impl(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098F2C);
 #endif
+#ifdef NONMATCHING
+void sub_0809919C(u32 arg0, volatile s32 arg1) {
+    s16 temp_r0;
+    s16 temp_r1_2;
+    s32 var_r5;
+    s32 var_r6;
+    u32 temp_r1_3;
+    register u32 temp_r4 asm("r4");
+    register u32 temp_r7 asm("r7");
+    register u32 var_sl asm("sl");
+
+    switch(arg0) {
+    case 0:
+        var_r6=entity98F->x;
+        var_r5=entity98F->y+0x1000;
+        break;
+    case 1:
+        var_r6=entity98F->x-0x2800;
+        var_r5=entity98F->y+0x1000;
+        break;
+    case 2:
+        var_r6=entity98F->x-0x3000;
+        var_r5=entity98F->y-0x1000;
+        break;
+    case 3:
+        var_r6=entity98F->x-0x1800;
+        var_r5=entity98F->y-0x1800;
+        break;
+    case 4:
+        var_r6=entity98F->x;
+        var_r5=entity98F->y-0x1c00;
+        break;
+    case 5:
+        var_r6=entity98F->x+0x1800;
+        var_r5=entity98F->y-0x1800;
+        break;
+    case 6:
+        var_r6=entity98F->x+0x2800;
+        var_r5=entity98F->y-0x1000;
+        break;
+    case 7:
+        var_r6=entity98F->x+0x2800;
+        var_r5=entity98F->y+0x1000;
+        break;
+    }
+    arg1 = (s32) gUnk_0847AD0A[arg1];
+    var_sl = 9;
+loop_14:
+    var_r6 += gUnk_080B9704[arg1 + 0x40];
+    var_r5 += gUnk_080B9704[arg1];
+    temp_r7 = (u32) ((var_r6 - players98F[sub_080020F4()].x) << 8) >> 0x10;
+    temp_r4 = (u32) ((var_r5 - players98F[sub_080020F4()].y) << 8) >> 0x10;
+    var_sl = var_sl << 0x10;
+    if (!(0xF0000 & var_sl)) {
+        sub_08065748(var_r6 >> 8, var_r5 >> 8, 5);
+    }
+    temp_r0 = (s16) temp_r7;
+    temp_r1_2 = (s16) temp_r4;
+    if (((u32) Sqrt((temp_r0 * temp_r0) + (temp_r1_2 * temp_r1_2)) <= 0x13U) && (sub_0800CDF8() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0) && (entity98F->state != 0xB) && !(players98F[sub_080020F4()].flags & 0x2000) && (players98F[sub_080020F4()].active != 0) && (players98F[sub_080020F4()].state != 0xE) && (players98F[sub_080020F4()].state != 0xB) && (players98F[sub_080020F4()].state != 0xC) && (players98F[sub_080020F4()].seen[entity98F->index] != entity98F->counter)) {
+        sub_08029CEC(1, 5, 1);
+        players98F[sub_080020F4()].motion = 0xFFFE;
+        players98F[sub_080020F4()].seen[entity98F->index] = entity98F->counter;
+    }
+    sub_080003F0();
+    temp_r1_3 = var_sl + 0xFFFF0000;
+    var_sl = temp_r1_3 >> 0x10;
+    if (((s32) temp_r1_3 >> 0x10) != -1) {
+        goto loop_14;
+    }
+    M2C_FIELD((void *)sub_0800048C(),u32 *,8) = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809919C);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08099468);
 void sub_08099720(void) {
     if (M2C_FIELD(gUnk_030002D0, s16 *, 0x5C) != 0) {
