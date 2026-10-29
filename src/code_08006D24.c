@@ -203,7 +203,62 @@ s32 sub_08007290(s32 arg0) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080072A0);
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007434);
+#ifdef NONMATCHING
+struct Position76C4 { s32 x,y; };
+struct Block76C4 { u16 flags,count; u32 offset4,offset8; };
+struct Oam76C4 { s32 y:8; u32 affine:2; u32 mode:2; u32 mosaic:1; u32 bpp:1; u32 shape:2; s32 x:9; u32 matrix:5; u32 size:2; u16 tile:10; u16 priority:2; u16 palette:4; u16 affineParam; };
+extern u32 count76C4 asm("gUnk_030028B4");
+extern s32 base76C4 asm("gUnk_030028B8");
+extern u8 *vram76C4 asm("gUnk_030028BC");
+extern struct Oam76C4 buffer76C4[] asm("gUnk_03001330");
+extern s32 nonSquare76C4[] asm("gUnk_0847842C");
+extern s32 square76C4[] asm("gUnk_0847843C");
+s32 impl76C4(struct Position76C4, u16, u16, u8, u8 *, struct Block76C4 *) asm("sub_080076C4");
+s32 impl76C4(struct Position76C4 pos, u16 entry, u16 frameIndex, u8 priority, u8 *palette, struct Block76C4 *bank) {
+    struct Block76C4 *animation,*frame;
+    struct Oam76C4 *source,*out;
+    u32 initial,index,next;
+    u16 total;
+    s32 base,x,y,tiles;
+    if((initial=count76C4)>128 || bank->count<entry)return -1;
+    goto initialize;
+full:return 0;
+initialize:
+    base=base76C4;
+    frame=(struct Block76C4 *)((u8 *)bank+bank->offset4);
+    animation=(struct Block76C4 *)((u8 *)bank+bank->offset8+entry*12);
+    frame=(struct Block76C4 *)((u8 *)frame+*(u16 *)((u8 *)animation+animation->offset8+frameIndex*4)*12);
+    source=(struct Oam76C4 *)((u8 *)frame+frame->offset8);
+    out=buffer76C4+initial;
+    total=0;index=0;
+    if(frame->count==0)goto finish;
+loop:
+    *out=*source;
+    x=source->x;
+    y=source->y+pos.y;
+    x+=pos.x;
+    out->priority=priority;
+    out->palette=palette[out->palette];
+    if((u32)(x+64)>304 || y>160 || y< -64) {
+        out->size=0;out->shape=0;y=160;
+    }
+    out->x=x;
+    ((u8 *)out)[0]=(u8)y;
+    out->tile=total+base;
+    if(((u8 *)source)[1]>>6)tiles=nonSquare76C4[source->size];
+    else tiles=square76C4[source->size];
+    total+=tiles;
+    next=count76C4+1;count76C4=next;
+    if(next>128)goto full;
+    index++;out++;source++;
+    if(index<frame->count)goto loop;
+finish:
+    base76C4+=total;
+    return (s32)(vram76C4+(base<<5));
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_080076C4);
+#endif
 struct Draw7870 { struct Draw7870 *prev,*next; s32 x,y; u16 a,b; u32 data0,data1,data2; u16 field20; u8 priority:3; u8 bit3:1; u8 bits4:3; u8 bit7:1; u8 pad23; u16 field24,field26,field28,pad2A; };
 extern struct Draw7870 *head7870 asm("gUnk_030028C0");
 extern struct Draw7870 *tail7870 asm("gUnk_030028C4");
