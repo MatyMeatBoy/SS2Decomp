@@ -720,36 +720,19 @@ u32 sub_0805EF90(void)
 
   return 0;
 }
-#ifdef NONMATCHING
-/* Original has a void epilogue; the existing s32 prototype needs separate tooling support. */
-s32 sub_0805EFBC(void) {
-    u32 base=gUnk_03005D68;
-    register u32 i asm("r6")=0;
-    do {
-        u32 flag=((s32)gUnk_03005D6C>>i)&1;
-        u32 next=i+1;
-        register u32 nextLow asm("r1");
-        register u32 clipped asm("r0");
-        if(flag) {
-            register u32 shifted asm("r5")=i<<4;
-            register u32 offset asm("r4");
-            register u32 sum asm("r0");
-            while((sum=shifted+i,offset=sum<<3,sub_0805EE6C((void *)(base+offset)))==0) {
+void sub_0805EFBC(void)
+{
+    u8 i;
+    u8 *base = *(u8 **)&gUnk_03005D68;
+    for (i = 0; i <= 3; i++) {
+        if ((gUnk_03005D6C >> i) & 1) {
+            while (sub_0805EE6C(base + i * 0x88) == 0)
                 sub_080003F0();
-                asm volatile("" : "+r" (shifted));
-            }
-            while(sub_0805EEFC((void *)(base+offset))==0) { sub_080003F0(); asm volatile("" : "+r" (offset)); }
+            while (sub_0805EEFC(base + i * 0x88) == 0)
+                sub_080003F0();
         }
-        nextLow=next;
-        asm volatile("" : "+r" (nextLow));
-        clipped=nextLow<<24;
-        asm volatile("" : "+r" (clipped));
-        i=clipped>>24;
-    } while(i<=3);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805EFBC);
-#endif
 void sub_0805F020(void)
 {
     void *src = sub_08007290((u8 *)(uintptr_t)gUnk_03003470 + 0x10010003);
