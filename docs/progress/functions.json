@@ -3948,14 +3948,14 @@
       "name": "sub_080092C8",
       "addr": 134255304,
       "size": 284,
-      "state": "todo",
+      "state": "done",
       "module": "code_08009088",
       "kind": "c",
       "cat": "game",
       "address": "0x080092C8",
       "canonical_symbol": "sub_080092C8",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_080092C8",
       "name_status": "unidentified",
       "name_source": null,
@@ -20502,14 +20502,14 @@
       "name": "sub_08061B88",
       "addr": 134617992,
       "size": 700,
-      "state": "todo",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x08061B88",
       "canonical_symbol": "sub_08061B88",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08061B88",
       "name_status": "unidentified",
       "name_source": null,
@@ -20584,7 +20584,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 1803,
+          "line": 1862,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
