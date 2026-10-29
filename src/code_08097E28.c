@@ -1010,15 +1010,13 @@ loop_9:
     {register s32 rawX asm("r4")=var_r9;
      register s32 sx asm("r0");
      register s32 sy asm("r1");
-     register s32 zero asm("r2");
-     temp_r5=rawX>>8;
+     asm("" : "+r"(rawX)); temp_r5=rawX>>8;
      sx=(s16)temp_r5;
      asm("" : "+r"(sx));
      {register s32 rawY asm("r1")=var_r8;temp_r4=rawY>>8;}
      sy=(s16)temp_r4;
-     zero=0;
-     asm("" : "+r"(sx), "+r"(sy), "+r"(zero));
-     t071Coords(sx,sy,frame.px,frame.py,zero,zero);}
+     asm("" : "+r"(sx), "+r"(sy));
+     t071Coords(sx,sy,({ register s16 *p asm("r2")=frame.px; asm("" : "+r"(p)); p; }),frame.py,0,0);}
     if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
         t071Animate(&frame.sprite,10,tile99468,&frame.rotation,1);
         {register u32 mode asm("r0")=sub_0800BC44(temp_r5,temp_r4,0);
