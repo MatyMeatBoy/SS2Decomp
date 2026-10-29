@@ -57,6 +57,16 @@ asm_deps = $(wildcard asm/nonmatchings/$(1)/*.s)
 CC1_m4a_1_abi := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_abi := -O2 -mthumb-interwork
 
+CC1_m4a_1_commands := tools/agbcc/bin/old_agbcc
+CC1FLAGS_m4a_1_commands := -O2 -mthumb-interwork
+CC1_m4a_1_mod := tools/agbcc/bin/old_agbcc
+CC1FLAGS_m4a_1_mod := -O2 -mthumb-interwork
+
+CC1_m4a_1_jump := tools/agbcc/bin/old_agbcc
+CC1FLAGS_m4a_1_jump := -O2 -mthumb-interwork
+CC1_m4a_1_rest := tools/agbcc/bin/old_agbcc
+CC1FLAGS_m4a_1_rest := -O2 -mthumb-interwork
+
 CC1_m4a_1 := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1 := -O2 -mthumb-interwork
 

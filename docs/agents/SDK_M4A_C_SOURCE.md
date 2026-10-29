@@ -28,11 +28,51 @@ the last two original ASM entries live in the separate contiguous
 function inventory entries or byte totals. The two remaining ASM files move
 to that module directory without content changes.
 
-The other 33 configured entries retain their original INCLUDE_ASM bodies.
+`sub_080B69B8` at 0x080B69B8 is matching C (32 bytes), implementing
+the sequence goto command. It assembles an unaligned little-endian target
+pointer and validates its low byte through the existing sub_080B6990 entry
+before assigning cmdPtr. Its r0 accumulator must survive that helper call;
+file-scope register bindings describe the helper contract. This scratch r0
+is not an ordinary returned C value (the original epilogue uses r0 for lr).
+The 32-byte `m4a_1_jump` unit isolates those reservations, and
+`m4a_1_rest` resumes ordinary C allocation at 0x080B69D8. All moved ASM
+bodies are byte-for-byte unchanged; the four contiguous modules still
+cover exactly the original 3060-byte / 36-function interval.
+
+`sub_080B6A38` at 0x080B6A38 uses C with minimal assembly ABI
+return glue (10 instruction bytes plus 2 alignment bytes), not pure C.
+The command fetch and priority assignment are C; its naked entry preserves
+the original return address in r12, and the only assembly statement is
+`bx ip`, required to return through that nonstandard register. No algorithm,
+loads, stores, arithmetic or condition is written in assembly in this body.
+The register-ABI `m4a_1_commands` unit starts here; the ordinary C modulation
+helper is isolated in `m4a_1_mod` at 0x080B707C. All six contiguous units
+still cover the same original interval, with no additional inventory
+functions. Remaining original ASM bodies were only moved, unmodified.
+
+`sub_080B6A58` at 0x080B6A58 also uses C with the same minimal
+`bx ip` ABI return (18 instruction bytes plus 2 alignment bytes). It reads
+keyShift and marks pitch flags 0x0C; every fetch, operation and store is C.
+
+`sub_080B6A9C` also uses C with minimal `bx ip` ABI return glue: volume (18 instruction bytes; 20 inventory bytes).
+
+`sub_080B6AB0` also uses C with minimal `bx ip` ABI return glue: pan (20 instruction bytes; 20 inventory bytes).
+
+`sub_080B6AC4` also uses C with minimal `bx ip` ABI return glue: bend (20 instruction bytes; 20 inventory bytes).
+
+`sub_080B6AD8` also uses C with minimal `bx ip` ABI return glue: bend_range (18 instruction bytes; 20 inventory bytes).
+
+`sub_080B6AEC` also uses C with minimal `bx ip` ABI return glue: lfo_delay (10 instruction bytes; 12 inventory bytes).
+
+`sub_080B6B10` also uses C with minimal `bx ip` ABI return glue: tune (20 instruction bytes; 20 inventory bytes).
+
+`sub_080B6A44` also uses C with minimal `bx ip` ABI return glue: tempo (20 instruction bytes; 20 inventory bytes).
+
+The other 23 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 72 bytes / 3 functions
-become decompiled; the remaining 2988 bytes / 33 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 268 bytes / 13 functions
+become decompiled; the remaining 2792 bytes / 23 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 
