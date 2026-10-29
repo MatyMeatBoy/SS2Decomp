@@ -96,10 +96,3 @@ void clear_modM(void *unused, struct MusicPlayerTrack *arg) {
  flags|=mask;
  track->flags=flags;
 }
-
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", ld_r3_tp_adr_i);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", ply_lfos);
-
-INCLUDE_ASM("asm/nonmatchings/m4a_1", ply_mod);

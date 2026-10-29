@@ -18,11 +18,21 @@ Original evidence: `asm/nonmatchings/m4a_1/RealClearChain.s` at revision
 2 alignment bytes). It clears modulation state and marks pitch or volume
 for update according to modT, keeping the original r1 track argument.
 
-The other 34 configured entries retain their original INCLUDE_ASM bodies.
+`ld_r3_tp_adr_i` at 0x080B7098 is matching C (10 instruction bytes
+plus 2 alignment bytes). It reads a track stream byte and advances cmdPtr,
+using the original r1 track, r2 cursor and r3 result ABI. File-scope register
+variables express this ABI without assembly instructions. Because those
+register reservations affect ordinary C register allocation, the helper and
+the last two original ASM entries live in the separate contiguous
+`m4a_1_abi` translation unit starting at 0x080B7098. The split changes no
+function inventory entries or byte totals. The two remaining ASM files move
+to that module directory without content changes.
+
+The other 33 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 60 bytes / 2 functions
-become decompiled; the remaining 3000 bytes / 34 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 72 bytes / 3 functions
+become decompiled; the remaining 2988 bytes / 33 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 

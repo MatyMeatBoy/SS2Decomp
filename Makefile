@@ -54,6 +54,9 @@ asm_deps = $(wildcard asm/nonmatchings/$(1)/*.s)
 # Per module compiler: agbcc by default, old_agbcc where the original code needs it.
 
 # The SDK's m4a.c was built with an older agbcc
+CC1_m4a_1_abi := tools/agbcc/bin/old_agbcc
+CC1FLAGS_m4a_1_abi := -O2 -mthumb-interwork
+
 CC1_m4a_1 := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1 := -O2 -mthumb-interwork
 
