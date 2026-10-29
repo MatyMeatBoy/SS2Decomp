@@ -12,3 +12,6 @@ SoundMainBTM: @ 0x080B6910
 	mov r4, ip
 	bx lr
 	thumb_func_end SoundMainBTM
+
+/* The next SDK entry is aligned with zero fill. */
+.align 2,0
