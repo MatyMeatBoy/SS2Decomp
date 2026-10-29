@@ -211,30 +211,33 @@ u32 sub_08065D50(void)
     gUnk_03006338++;
     return 1;
 }
-#ifdef NONMATCHING
-struct PL10 { u8 pad[0x10]; u16 w10; u8 pad2[0x14C - 0x12]; };
-/* Enqueue tag 0x83 (player's u16 at Player+0x10), coalescing with a pending 0x83 message. */
+struct Root67Player10 {u8 pad[0x10];u16 w10;u8 pad2[0x14C-0x12];};
 u32 sub_08065DAC(void)
 {
     u8 *p;
-    u32 n;
-    u32 i;
+    register u32 n asm("r2");
+    register u32 i asm("r3");
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
         r = 0;
     } else {
         p = (u8 *)(uintptr_t)gUnk_03006300;
-        for (i = 0; i < n; i++, p += 0x88) {
+        i = 0;
+        if (i < n) {
+          register u32 limit asm("r1") = n;
+          do {
             if (*(u32 *)(p + 4) == 1 && p[0] == 0x83) {
-                *(u32 *)(p + 8) = ((struct PL10 *)gUnk_03003CE0)[sub_080020F4()].w10;
+                *(u32 *)(p + 8) = ({ u32 id = sub_080020F4(); register struct Root67Player10 *base asm("r2") = (struct Root67Player10 *)gUnk_03003CE0; base[id].w10; });
                 goto done;
             }
+          i++; p += 0x88;
+          } while (i < limit);
         }
         p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
         *(u32 *)(p + 4) = 1;
         *p = 0x83;
-        *(u32 *)(p + 8) = ((struct PL10 *)gUnk_03003CE0)[sub_080020F4()].w10;
+        *(u32 *)(p + 8) = ({ u32 id = sub_080020F4(); register struct Root67Player10 *base asm("r2") = (struct Root67Player10 *)gUnk_03003CE0; base[id].w10; });
         p[1] = 1;
         gUnk_03006338++;
     done:
@@ -242,9 +245,7 @@ u32 sub_08065DAC(void)
     }
     return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065DAC);
-#endif
+
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065E38);
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065F08);
 u32 sub_08065FE8(void)
