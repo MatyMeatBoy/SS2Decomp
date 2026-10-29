@@ -849,25 +849,50 @@ extern s16 t47CCamera[] asm("gUnk_03003170");
 extern void t47CCallback(s32) asm("sub_08048570");
 extern void sub_0805A004(void);
 extern void sub_080586B4(s32);
-#ifdef NONMATCHING
+extern u32 t47CMask asm("gUnk_030056FC");
+extern void t47CSetCamera(s32,s32) asm("sub_0800BB80");
+static inline u32 t47CNorm0(u32 x){register u32 r asm("r0")=x;if(r!=0)r=1;return r;}
+static inline u32 t47CTest8(u8 *p){register u32 m asm("r0")=8;register u32 r asm("r1")=*(u32 *)(p+0x38);r&=m;if(r!=0)r=1;return r;}
 void sub_0804819C(void) {
-    s32 sp0;
-    s32 sp4;
-    s16 temp_r5;
-    s16 temp_r6_2;
+    volatile s32 pos[2];
+    void (*cb)(s32);
+    register s32 *yp asm("sl");
+    register s32 step asm("r9");
+    register s32 zeroX asm("r8");
+    s32 targetY;
+    register u32 hold0 asm("r1");
+    register u32 hold1 asm("r2");
+    register u32 hold2 asm("r7");
+
+    s32 temp_r5;
+    s32 temp_r6_2;
     s32 temp_r0;
     s32 temp_r0_3;
     s32 temp_r1;
+    register u8 **statebase asm("r4");
+    register u8 *initstate asm("r2");
+    register s32 initone asm("r5");
+    register u32 off5 asm("r5");
+    register u32 off1 asm("r1");
+    register u32 off2 asm("r2");
+    register s32 *call0 asm("r0");
+    register s32 call1 asm("r1");
+    register s32 call2 asm("r2");
+    register s32 call3 asm("r3");
+    register u32 initMask asm("r3");
+    register s32 raw asm("r0");
+    register u32 code asm("r1");
     s32 temp_r4;
     s32 temp_r6;
     s32 var_r0;
     s32 var_r1;
-    s32 var_r3_2;
-    s32 var_r3_3;
+    register s32 var_r3_2 asm("r3");
+    register s32 savedCount asm("r5");
+    register s32 var_r3_3 asm("r3");
     s32 var_r4_2;
-    u32 var_r2_2;
-    u32 var_r2_3;
-    u32 var_r3;
+    register u32 var_r2_2 asm("r2");
+    register u32 var_r2_3 asm("r2");
+    register u32 var_r3 asm("r3");
     struct T47CTask *var_r4;
     struct T47CTask *var_r4_3;
     struct T47CTask *var_r4_4;
@@ -881,97 +906,29 @@ void sub_0804819C(void) {
     u8 *temp_r2;
     u8 *var_r1_2;
     u8 *var_r1_3;
-    u8 *var_r2;
+    register u8 *var_r2 asm("r2");
+    register u32 *mask asm("r5");
+    register u32 one asm("r6");
+    register u32 zero asm("r4");
+    register u32 stride asm("r7");
 
-    temp_r1 = *(u32 *)(t47CState+0x38);
-    var_r0 = temp_r1 & 2;
-    if (var_r0 != 0) {
-        var_r0 = 1;
-    }
-    if (var_r0 != 0) {
-        if (sub_0800CC98() == 0) {
-            temp_r0 = sub_0801AB24();
-            switch (temp_r0) {                      /* switch 2; irregular */
-            case 0:                                 /* switch 2 */
-                sub_080576A8();
-                break;
-            case 1:                                 /* switch 2 */
-                sub_0801AB50(6);
-                break;
-            case 2:                                 /* switch 2 */
-                sub_0801AB90(6);
-                break;
-            }
-loop_66:
-            if (sub_0801AAE0() == 0) {
-                sub_080003F0();
-                goto loop_66;
-            }
-        }
-        var_r2 = t47CPlayers;
-        var_r3 = 0;
-        do {
-            if ((gUnk_030056FC & (1 << var_r3)) && (*(u16 *)(var_r2+12) == 0xC)) {
-                *(u16 *)(var_r2+12) = 0U;
-            }
-            var_r3 += 1;
-            var_r2 += 0x2E0;
-        } while (var_r3 <= 4U);
-        sub_08019F04();
-        var_r1 = *(u32 *)(t47CState+0x38) & 8;
-        if (var_r1 != 0) {
-            var_r1 = 1;
-        }
-        if (var_r1 == 0) {
-            var_r4 = (struct T47CTask *)(t47CState + 0xE34);
-            var_r5 = 0;
-loop_77:
-            if (var_r5 <= 0x1DU) {
-                if (sub_08000470(var_r4) == 0) {
-loop_81:
-                    temp_r0_2 = sub_08001494(0x400U);
-                    var_r4->f20 = temp_r0_2;
-                    if (temp_r0_2 == NULL) {
-                        sub_080003F0();
-                        goto loop_81;
-                    }
-                    var_r4->f8 = 0x3C;
-                    var_r4->fC = (u32)t47CCallback;
-                    var_r4->f10 = temp_r0_2 + 0x3FC;
-                    var_r4->f24 = 0;
-                    sub_08000274(var_r4, 1);
-                } else {
-                    var_r5 += 1;
-                    var_r4++;
-                    goto loop_77;
-                }
-            }
-            if (sub_08002164() == 1) {
-                sub_08068070((u32) sub_08059954, 7U);
-                gUnk_03005CF8 = 0xA5;
-                if (!(gUnk_030027D0 & 0x20)) {
-                    sub_08006CB4(0xA5U);
-                }
-            }
-        } else if (sub_0800CB9C() == 0) {
-            if (!(gUnk_030027D0 & 0x20)) {
-                gUnk_03005CF8 = 1;
-                sub_08006CB4(1U);
-            }
-        } else {
-            sub_080586B4(0);
-        }
-    } else {
-        *(u32 *)(t47CState+0x38) = (s32) (temp_r1 | 2);
+    statebase=&t47CState;initstate=*statebase;
+    initMask=2;
+    temp_r1 = *(u32 *)(initstate+0x38);
+    var_r0 = t47CNorm0(temp_r1&initMask);
+    if (var_r0 == 0) {
+        *(u32 *)(initstate+0x38) = (s32) (temp_r1 | initMask);
+        initone=1;
         if (sub_0800CE30() != 0) {
-            var_r0_2 = t47CState + 0x1C4;
+            var_r0_2 = *statebase + 0x1C4;
         } else {
-            var_r0_2 = t47CState + 0x1B8;
+            var_r0_2 = *statebase + 0x1B8;
         }
-        temp_r4 = ((s32) *var_r0_2 >> 6) & 1;
+        raw=*var_r0_2;asm("" : "+r"(raw));temp_r4=(raw>>6)&initone;
         temp_r6 = sub_080020F4();
         var_r3_2 = 0;
         var_r2_2 = 0;
+        yp=(s32 *)&pos[1];
         var_r1_2 = t47CItems + 0x150;
         do {
             if ((*(u16 *)var_r1_2 == 1) && (*(u16 *)(var_r1_2+2) == 0x22)) {
@@ -980,6 +937,7 @@ loop_81:
             var_r1_2 += 0x10;
             var_r2_2 += 1;
         } while (var_r2_2 <= 0x18U);
+        savedCount=var_r3_2;
         var_r3_3 = 0;
         var_r2_3 = 0;
         var_r1_3 = t47CItems + 0x2E0;
@@ -991,14 +949,14 @@ loop_81:
             var_r2_3 += 1;
         } while (var_r2_3 <= 0x4AU);
         if (temp_r6 == 0) {
-            if ((temp_r4 | var_r3_2 | var_r3_3) == 0) {
+            if ((temp_r4 | savedCount | var_r3_3) == 0) {
                 sub_08068820((u32)sub_0805A004, NULL, NULL);
             } else {
                 sub_08068820((u32)sub_0805A004, (void *)1, NULL);
             }
         }
         if (sub_08002164() == 1) {
-            gUnk_03005CF8 = 0xC4;
+            code=0xC4;gUnk_03005CF8 = code;
             if (!(gUnk_030027D0 & 0x20)) {
                 sub_08006CB4(0xC4U);
             }
@@ -1006,15 +964,17 @@ loop_81:
         temp_r2 = (0x14C * sub_080020F4()) + t47CActors;
         *(u32 *)(temp_r2+0x30) = (s32) (*(u32 *)(temp_r2+0x30) | 1);
         sub_0800D0F4();
+        step=0x400;
         temp_r6_2 = (s16) t47CCamera[64];
-        temp_r5 = (s16) t47CCamera[65];
+        asm("" : "=r"(hold0),"=r"(hold1),"=r"(hold2));temp_r5=t47CCamera[65];asm("" : : "r"(hold0),"r"(hold1),"r"(hold2));
         var_r4_2 = 0;
+        zeroX=0;targetY=0xFFDD0000;
         do {
-            sub_080659F4(&sp0, (s32) temp_r6_2, 0 >> 0x10, var_r4_2);
-            sub_080659F4(&sp4, (s32) temp_r5, 0xFFDD0000 >> 0x10, var_r4_2);
-            sub_0800BB80((u16) (s16) sp0, (u16) (s16) sp4);
+            call0=(s32 *)&pos[0];call1=temp_r6_2;asm("" : "+r"(call0), "+r"(call1));call3=zeroX;asm("" : "+r"(call3));call2=call3>>16;call3=var_r4_2;sub_080659F4(call0,call1,call2,call3);
+            sub_080659F4(yp, temp_r5, targetY >> 0x10, var_r4_2);
+            t47CSetCamera((s16)pos[0],(s16)pos[1]);
             sub_080003F0();
-            var_r4_2 += 0x400;
+            var_r4_2 += step;
         } while (var_r4_2 <= 0x400);
         if (sub_0800CC98() == 0) {
             temp_r0_3 = sub_0801AB24();
@@ -1029,64 +989,122 @@ loop_81:
                 sub_0801AB90(6);
                 break;
             }
-loop_37:
-            if (sub_0801AAE0() == 0) {
-                sub_080003F0();
-                goto loop_37;
-            }
+        goto test37;
+yield37:
+        sub_080003F0();
+test37:
+        if(sub_0801AAE0()==0) goto yield37;
         }
-        var_r4_3 = (struct T47CTask *)(t47CState + 0xE34);
-        var_r5_2 = 0;
-loop_40:
-        if (var_r5_2 <= 0x1DU) {
-            if (sub_08000470(var_r4_3) == 0) {
-loop_44:
-                temp_r0_4 = sub_08001494(0x400U);
-                var_r4_3->f20 = temp_r0_4;
-                if (temp_r0_4 == NULL) {
-                    sub_080003F0();
-                    goto loop_44;
+        cb=t47CCallback;
+        raw=(s32)t47CState;off5=0xE34;asm("" : "+r"(off5));var_r4_3=(struct T47CTask *)(raw+off5);
+        var_r5_2=0;
+        goto check0;
+next0:
+        var_r5_2++;var_r4_3++;
+check0:
+        if(var_r5_2>29) goto end0;
+        if(sub_08000470((u32)var_r4_3)!=0) goto next0;
+        goto alloc0;
+yield0:
+        sub_080003F0();
+alloc0:
+        temp_r0_4=sub_08001494(0x400);
+        var_r4_3->f20=temp_r0_4;
+        if(temp_r0_4==0) goto yield0;
+        var_r4_3->f8=60;var_r4_3->fC=(u32)cb;stride=0x3FC;asm("" : "+r"(stride));var_r4_3->f10=temp_r0_4+stride;var_r4_3->f24=0;
+        sub_08000274(var_r4_3,0);
+end0:
+        cb=t47CCallback;
+        raw=(s32)t47CState;off1=0xE34;asm("" : "+r"(off1));var_r4_4=(struct T47CTask *)(raw+off1);
+        var_r5_3=0;
+        goto check1;
+next1:
+        var_r5_3++;var_r4_4++;
+check1:
+        if(var_r5_3>29) goto end1;
+        if(sub_08000470((u32)var_r4_4)!=0) goto next1;
+        goto alloc1;
+yield1:
+        sub_080003F0();
+alloc1:
+        temp_r0_5=sub_08001494(0x400);
+        var_r4_4->f20=temp_r0_5;
+        if(temp_r0_5==0) goto yield1;
+        var_r4_4->f8=60;var_r4_4->fC=(u32)cb;off2=0x3FC;asm("" : "+r"(off2));raw=temp_r0_5+off2;var_r4_4->f10=raw;var_r4_4->f24=0;
+        sub_08000274(var_r4_4,1);
+end1:
+        return;
+    } else {
+        if (sub_0800CC98() == 0) {
+            temp_r0 = sub_0801AB24();
+            switch (temp_r0) {                      /* switch 2; irregular */
+            case 0:                                 /* switch 2 */
+                sub_080576A8();
+                break;
+            case 1:                                 /* switch 2 */
+                sub_0801AB50(6);
+                break;
+            case 2:                                 /* switch 2 */
+                sub_0801AB90(6);
+                break;
+            }
+        goto test66;
+yield66:
+        sub_080003F0();
+test66:
+        if(sub_0801AAE0()==0) goto yield66;
+        }
+        var_r2 = t47CPlayers;
+        var_r3 = 0;mask=&t47CMask;one=1;zero=0;
+        do {
+            if (((one<<var_r3)&*mask) && (*(u16 *)(var_r2+12) == 0xC)) {
+                *(u16 *)(var_r2+12) = zero;
+            }
+            var_r3 += 1;
+            stride=0x2E0;var_r2+=stride;
+        } while (var_r3 <= 4U);
+        sub_08019F04();
+        var_r1=t47CTest8(t47CState);
+        if (var_r1 == 0) {
+            cb=t47CCallback;
+        raw=0xE34;asm("" : "+r"(raw));var_r4=(struct T47CTask *)(t47CState+raw);
+        var_r5=0;
+        goto check2;
+next2:
+        var_r5++;var_r4++;
+check2:
+        if(var_r5>29) goto end2;
+        if(sub_08000470((u32)var_r4)!=0) goto next2;
+        goto alloc2;
+yield2:
+        sub_080003F0();
+alloc2:
+        temp_r0_2=sub_08001494(0x400);
+        var_r4->f20=temp_r0_2;
+        if(temp_r0_2==0) goto yield2;
+        var_r4->f8=60;var_r4->fC=(u32)cb;off2=0x3FC;asm("" : "+r"(off2));raw=temp_r0_2+off2;var_r4->f10=raw;var_r4->f24=0;
+        sub_08000274(var_r4,1);
+end2:
+            if (sub_08002164() == 1) {
+                sub_08068070((u32) sub_08059954, 7U);
+                code=0xA5;gUnk_03005CF8 = code;
+                if (!(gUnk_030027D0 & 0x20)) {
+                    sub_08006CB4(0xA5U);
                 }
-                var_r4_3->f8 = 0x3C;
-                var_r4_3->fC = (u32)t47CCallback;
-                var_r4_3->f10 = temp_r0_4 + 0x3FC;
-                var_r4_3->f24 = 0;
-                sub_08000274(var_r4_3, 0);
-            } else {
-                var_r5_2 += 1;
-                var_r4_3++;
-                goto loop_40;
             }
-        }
-        var_r4_4 = (struct T47CTask *)(t47CState + 0xE34);
-        var_r5_3 = 0;
-loop_48:
-        if (var_r5_3 > 0x1DU) {
-            return;
-        }
-        if (sub_08000470(var_r4_4) == 0) {
-loop_53:
-            temp_r0_5 = sub_08001494(0x400U);
-            var_r4_4->f20 = temp_r0_5;
-            if (temp_r0_5 == NULL) {
-                sub_080003F0();
-                goto loop_53;
+        } else if (sub_0800CB9C() == 0) {
+            if (!(gUnk_030027D0 & 0x20)) {
+                gUnk_03005CF8 = 1;
+                sub_08006CB4(1U);
             }
-            var_r4_4->f8 = 0x3C;
-            var_r4_4->fC = (u32)t47CCallback;
-            var_r4_4->f10 = temp_r0_5 + 0x3FC;
-            var_r4_4->f24 = 0;
-            sub_08000274(var_r4_4, 1);
-            return;
+        } else {
+            sub_080586B4(0);
         }
-        var_r5_3 += 1;
-        var_r4_4++;
-        goto loop_48;
-    }
+        }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804819C);
-#endif
+
+
+
 
 struct T47DTask { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 extern u8 *t47DState asm("gUnk_03005CF4");

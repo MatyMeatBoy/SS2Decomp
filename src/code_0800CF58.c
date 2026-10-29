@@ -3962,7 +3962,8 @@ block_1213:
                 ((union RecordD368 *)temp_r3_38)->w1_b20_n5.value = ((struct PlayerD368 *)arg0)->f26;
                 break;
             case 9:                                 /* switch 16 */
-                temp_r2_42 = ((struct PlayerD368 *)arg0)->f144;
+                var_r5_10 = arg0 + 0x144;
+                temp_r2_42 = *var_r5_10;
                 ((union RecordD368 *)temp_r2_42)->w0_b0_n4.value = temp_r3_8;
                 temp_r4_34 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r4_34)->w0_b4_n12.value = (s32) ((struct PlayerD368 *)arg0)->f8C >> 8;
@@ -3971,11 +3972,13 @@ block_1213:
                 temp_r2_43 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r2_43)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 if ((d368_sub_0801DE60() == 7) && (d368_sub_0801DEB8() == 0x13)) {
-                    var_r0_31 = (-0xF & M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 7)) | (sp170 * 2);
+                    temp_r2_42 = *var_r5_10;
+                    var_r0_31 = (-0xF & M2C_FIELD(temp_r2_42, u8 *, 7)) | (sp170 * 2);
                 } else {
-                    var_r0_31 = -0xF & M2C_FIELD(((struct PlayerD368 *)arg0)->f144, u8 *, 7);
+                    temp_r2_42 = *var_r5_10;
+                    var_r0_31 = -0xF & M2C_FIELD(temp_r2_42, u8 *, 7);
                 }
-                M2C_FIELD(((struct PlayerD368 *)arg0)->f144, s8 *, 7) = var_r0_31;
+                M2C_FIELD(temp_r2_42, s8 *, 7) = var_r0_31;
                 var_r5_10 = arg0 + 0x144;
                 temp_r3_39 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_39)->w1_b14_n3.value = ((struct PlayerD368 *)arg0)->f26;
