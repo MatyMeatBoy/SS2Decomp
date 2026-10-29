@@ -9911,14 +9911,14 @@
       "name": "sub_080226A4",
       "addr": 134358692,
       "size": 1980,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08021DC4",
       "kind": "c",
       "cat": "game",
       "address": "0x080226A4",
       "canonical_symbol": "sub_080226A4",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080226A4",
       "name_status": "unidentified",
       "name_source": null,
@@ -10231,7 +10231,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3087,
+          "line": 3305,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -10240,14 +10240,14 @@
       "name": "sub_0802704C",
       "addr": 134377548,
       "size": 1940,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08021DC4",
       "kind": "c",
       "cat": "game",
       "address": "0x0802704C",
       "canonical_symbol": "sub_0802704C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_0802704C",
       "name_status": "unidentified",
       "name_source": null,
@@ -10291,18 +10291,24 @@
       "name": "sub_08027C1C",
       "addr": 134380572,
       "size": 1868,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08021DC4",
       "kind": "c",
       "cat": "game",
       "address": "0x08027C1C",
       "canonical_symbol": "sub_08027C1C",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08027C1C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "t025Effects27C",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 4103,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
+        }
+      ]
     },
     {
       "name": "sub_08028368",
@@ -11538,14 +11544,14 @@
       "name": "sub_0803294C",
       "addr": 134424908,
       "size": 1176,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x0803294C",
       "canonical_symbol": "sub_0803294C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0803294C",
       "name_status": "unidentified",
       "name_source": null,
@@ -11606,14 +11612,14 @@
       "name": "sub_08033650",
       "addr": 134428240,
       "size": 1260,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08033650",
       "canonical_symbol": "sub_08033650",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08033650",
       "name_status": "unidentified",
       "name_source": null,
@@ -11640,14 +11646,14 @@
       "name": "sub_08033C40",
       "addr": 134429760,
       "size": 2120,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08033C40",
       "canonical_symbol": "sub_08033C40",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08033C40",
       "name_status": "unidentified",
       "name_source": null,
@@ -13261,14 +13267,14 @@
       "name": "sub_0804819C",
       "addr": 134513052,
       "size": 980,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x0804819C",
       "canonical_symbol": "sub_0804819C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0804819C",
       "name_status": "unidentified",
       "name_source": null,
@@ -13309,7 +13315,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 1381,
+          "line": 1399,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47EScript"
         }
       ]
@@ -13400,7 +13406,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 2611,
+          "line": 2629,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t48implB"
         }
       ]
@@ -13559,7 +13565,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 3480,
+          "line": 3498,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
         }
       ]
@@ -36742,12 +36748,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 136,
-      "existing": 17,
+      "identified": 137,
+      "existing": 18,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1744,
-      "percent_identified": 7.23404255319149
+      "unidentified": 1743,
+      "percent_identified": 7.287234042553192
     },
     "sdk": {
       "total": 155,
@@ -36760,12 +36766,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 291,
-      "existing": 146,
+      "identified": 292,
+      "existing": 147,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1744,
-      "percent_identified": 14.2997542997543
+      "unidentified": 1743,
+      "percent_identified": 14.34889434889435
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
