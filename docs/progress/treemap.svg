@@ -6,8 +6,8 @@
 <text x="12" y="20" fill="#e6edf3" font-size="15" font-weight="600">Shining Soul II | progreso verificado</text>
 <rect x="12.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="22.0" y="46" fill="#e6edf3" font-size="11">C matching</text>
-<text x="22.0" y="69" fill="#3fb950" font-size="21" font-weight="600">34.61%</text>
-<text x="22.0" y="86" fill="#e6edf3" font-size="10">1480 / 1987 funciones C</text>
+<text x="22.0" y="69" fill="#3fb950" font-size="21" font-weight="600">34.92%</text>
+<text x="22.0" y="86" fill="#e6edf3" font-size="10">1481 / 1987 funciones C</text>
 <rect x="259.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="269.0" y="46" fill="#e6edf3" font-size="11">Bibliotecas enlazadas</text>
 <text x="269.0" y="69" fill="#3fb950" font-size="21" font-weight="600">22 funciones</text>
@@ -18,12 +18,12 @@
 <text x="516.0" y="86" fill="#e6edf3" font-size="10">296 / 2035 nombres registrados</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Histórico C + linked</text>
-<text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">34.69%</text>
-<text x="763.0" y="86" fill="#e6edf3" font-size="10">1502 / 2009 funciones</text>
+<text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">35.00%</text>
+<text x="763.0" y="86" fill="#e6edf3" font-size="10">1503 / 2009 funciones</text>
 <svg x="0" y="104" xmlns="http://www.w3.org/2000/svg" width="1000" height="550" viewBox="0 0 1000 550" font-family="Segoe UI,Helvetica,Arial,sans-serif">
 <rect width="100%" height="100%" fill="#0d1117"/>
 <rect x="0.0" y="0" width="818.0" height="26" fill="#161b22"/>
-<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 33.88% (1371/1870)</text>
+<text x="6.0" y="18" fill="#e6edf3" font-size="13" font-weight="600">Juego / Game: 34.19% (1372/1870)</text>
 <g><title>code_0807A5D4 (55020 bytes)</title>
 <rect x="0.00" y="28.00" width="163.52" height="177.06" fill="#0d1117"/>
 <rect x="1.00" y="29.00" width="127.15" height="74.35" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0807C29C | sub_0807C29C | unidentified  0x0807C29C  18396 bytes  [nonmatch]</title></rect>
@@ -403,7 +403,7 @@
 <g><title>code_08028AAC (29684 bytes)</title>
 <rect x="288.23" y="163.48" width="131.55" height="118.74" fill="#0d1117"/>
 <rect x="289.23" y="164.48" width="35.95" height="52.56" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0802AA28 | sub_0802AA28 | unidentified  0x0802AA28  3708 bytes  [todo]</title></rect>
-<rect x="289.23" y="217.04" width="35.95" height="32.88" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0802C674 | sub_0802C674 | unidentified  0x0802C674  2320 bytes  [nonmatch]</title></rect>
+<rect x="289.23" y="217.04" width="35.95" height="32.88" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802C674 | sub_0802C674 | unidentified  0x0802C674  2320 bytes  [done]</title></rect>
 <rect x="289.23" y="249.92" width="35.95" height="31.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802B8A4 | sub_0802B8A4 | unidentified  0x0802B8A4  2208 bytes  [done]</title></rect>
 <rect x="325.18" y="164.48" width="34.90" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802EA50 | sub_0802EA50 | unidentified  0x0802EA50  1976 bytes  [done]</title></rect>
 <rect x="360.08" y="164.48" width="22.75" height="28.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802F578 | sub_0802F578 | unidentified  0x0802F578  1288 bytes  [done]</title></rect>
@@ -2322,9 +2322,9 @@
 <text x="177" y="524" fill="#e6edf3" font-size="11">borrador / hitos de trabajo</text>
 <rect x="354" y="514" width="11" height="11" fill="#6e7681"/>
 <text x="369" y="524" fill="#e6edf3" font-size="11">sin C matching / ASM original</text>
-<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 34.69% de 757928 bytes de código, 1502/2009 funciones</text>
+<text x="994" y="543" fill="#e6edf3" font-size="11" text-anchor="end">Matching + linked: 35.00% de 757928 bytes de código, 1503/2009 funciones</text>
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Área = bytes de código. Relleno parcial amarillo = hitos registrados, no porcentaje matching ni estimación de tiempo.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Datos: 413 bloques incbin (15.3 MiB), 11 / 412 etiquetas descriptivas; comprensión: sin porcentaje.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11615 relaciones, 1231 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Grafo: 2035 funciones, 11615 relaciones, 1230 llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución.</text>
 </svg>
