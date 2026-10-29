@@ -1779,9 +1779,8 @@ finish3984:
     goto epilogue3984;
 block_374:
         var_r6 = 0;
-        drawOne3984 = 1;
 loop_375:
-        if ((u32) (u16) (timer - 4) > 2U) {
+        if ((u32) (u16) (timer - 4) > (drawOne3984 = 1, 2U)) {
             if (state == var_r6) {
                 temp_r5_3 = &x[var_r6];
                 *temp_r5_3 = drawOne3984;

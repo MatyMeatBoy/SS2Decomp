@@ -2646,7 +2646,429 @@ endSwitch:
     offset = sub_080020F4(); offset *= 0x14C; p = (struct Player *)((u8 *)gUnk_03003CE0 + offset); p->flags &= ~1;
     sub_0800D108();
 }
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_0804076C);
+extern void t42_camera(s32,s32) asm("sub_0800BB80");
+extern void sub_080308B4(void);
+struct T42Cam { u8 pad[0x80]; s16 x,y; };
+void sub_0804076C(s32 arg0) {
+    s32 out[12];
+    s32 flagResult;
+    register s32 *py0 asm("r6");
+    register s32 *px1 asm("r7"); register s32 *py1 asm("r6"); register s32 *py2 asm("r10");
+    register s32 *px3 asm("r7"); register s32 *py3 asm("r6"); register s32 *py4 asm("r10");
+    union T42Fixed { s32 all; struct { u16 lo; s16 hi; } h; };
+    union T42Fixed tx0,ty0;
+    union T42Fixed tx1,tx3,tx5,ty5;
+    register union T42Fixed ty1 asm("r9"); register union T42Fixed ty3 asm("r9");
+    union T42Fixed tx2,ty2,tx4,ty4;
+    register s32 step asm("r10");
+    register s32 stepFinal asm("r9");
+    s32 sp38;
+    s32 *sp3C;
+    s32 *sp40;
+    s32 *sp44;
+    s32 *sp48;
+    s32 temp_r5;
+    s32 temp_r5_2;
+    s32 temp_r5_3;
+    s32 temp_r5_4;
+    s32 temp_r6;
+    s32 temp_r6_2;
+    s32 temp_r6_3;
+    s32 temp_r7;
+    s32 temp_r7_2;
+    s32 temp_r7_3;
+    register s32 temp_r8 asm("r8");
+    register s32 temp_r8_2 asm("r8");
+    register void (*cbA)(void) asm("r6");
+    register void (*cbB)(void) asm("r6");
+    s32 *var_r0_2;
+    s32 *var_r0_3;
+    s32 *var_r1_2;
+    s32 *var_r1_3;
+    s32 *var_r1_4;
+    s32 *var_r1_5;
+    s32 *var_r1_6;
+    s32 *var_r1_7;
+    s32 *var_r1_8;
+    s32 *var_r1_9;
+    s32 *var_r2_3;
+    s32 *var_r2_8;
+    s32 temp_r0;
+    s32 temp_r0_2;
+    register s32 temp_r0_3 asm("r5");
+    register s32 temp_r0_4 asm("r5");
+    s32 temp_r4_3;
+    s32 temp_r4_8;
+    s32 var_r1;
+    s32 var_r4_2;
+    s32 var_r4_3;
+    s32 var_r4_5;
+    s32 var_r4_6;
+    s32 var_r4_8;
+    s32 var_r4_9;
+    s8 *var_r0_4;
+    u16 var_r4;
+    u16 var_r4_4;
+    u16 var_r4_7;
+    u32 temp_r4;
+    u32 temp_r4_10;
+    u32 temp_r4_2;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 temp_r4_9;
+    u32 var_r2;
+    u32 var_r2_10;
+    u32 var_r2_2;
+    u32 var_r2_4;
+    u32 var_r2_5;
+    u32 var_r2_6;
+    u32 var_r2_7;
+    u32 var_r2_9;
+    u8 *var_r0;
+    register s32 flagOne asm("r4");
+    struct Player *temp_r2;
+    struct Player *temp_r2_2;
+    struct Player *temp_r2_3;
+
+    sp38 = arg0;
+    temp_r2 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    temp_r0 = sub_080020F4();
+    switch (temp_r0) {
+    case 0: sub_08028AAC(0,0x6C,0x80,0); break;
+    case 1: sub_08028AAC(0,0x84,0x80,0); break;
+    case 2: sub_08028AAC(0,0x54,0x80,0); break;
+    case 3: sub_08028AAC(0,0x9C,0x80,0); break;
+    }
+    sub_080290E4(0, 4);
+    temp_r2_2 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~2);
+    sub_08067D74();
+    var_r4 = 2;
+    py0=&out[1];
+    sp44 = &out[10];
+    sp48 = &out[11];
+    goto poll14;
+    while (var_r4 != 0) {
+    poll14:
+        sub_080003F0();
+        if (sub_080021A8()) break;
+        var_r4--;
+    }
+    if (sub_0800CC98() == 0) {
+        temp_r0_2 = sub_0801AB24();
+        switch (temp_r0_2) {                        /* switch 2; irregular */
+        case 0:                                     /* switch 2 */
+            sub_080576A8();
+            break;
+        case 1:                                     /* switch 2 */
+            sub_0801AB50(6);
+            break;
+        case 2:                                     /* switch 2 */
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    step=10;
+    temp_r7 = ((struct T42Cam *)&gUnk_03003170)->x;
+    temp_r5 = ((struct T42Cam *)&gUnk_03003170)->y;
+    var_r4_2 = 0; tx0.all=0; ty0.all=0xFFE80000;
+    do {
+        sub_080659F4(&out[0], (s32) temp_r7, tx0.h.hi, var_r4_2);
+        sub_080659F4(py0, (s32) temp_r5, ty0.h.hi, var_r4_2);
+        t42_camera((s16)out[0], (s16)out[1]);
+        sub_080003F0();
+        var_r4_2 += step;
+    } while (var_r4_2 <= 0x400);
+    flagOne=1;
+    if (sub_0800CE30() != 0) {
+        var_r0 = (u8 *)gUnk_03005CF4 + 0x1C4;
+    } else {
+        goto falseFlag;
+foundA: var_r2_8=var_r1_7; goto contA;
+foundCbA: var_r0_3=var_r1_8; goto contCbA;
+falseFlag:
+        var_r0 = (u8 *)gUnk_03005CF4 + 0x1B8;
+    }
+    { register s32 v asm("r0")=*var_r0; asm("" : "+r"(v)); v=(v>>6)&flagOne; flagResult=v; }
+    if (flagResult) {
+        px1=&out[2]; py1=&out[3];
+        sp3C = &out[4]; py2=&out[5];
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_6 = sub_0805DF38(1,15,2,0,-1,0x1400EE);
+        while (!sub_0805EEFC((void *)temp_r4_6)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        temp_r8_2 = ((struct T42Cam *)&gUnk_03003170)->x;
+        temp_r5_3 = ((struct T42Cam *)&gUnk_03003170)->y;
+        var_r4_6 = 0; tx1.all=0; ty1.all=0x300000; asm("" : "+r"(ty1.all));
+        do {
+            { register s32 *a asm("r0")=px1; register s32 b asm("r1")=temp_r8_2; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_6); }
+            { register s32 *a asm("r0")=py1; register s32 b asm("r1")=temp_r5_3; register s32 z asm("r3")=ty1.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_6); }
+            t42_camera((s16)out[2], (s16)out[3]);
+            sub_080003F0();
+            var_r4_6 += 0x22;
+        } while (var_r4_6 <= 0x400);
+        var_r4_7 = 0x28;
+    goto poll51;
+    while (var_r4_7 != 0) {
+    poll51:
+        sub_080003F0();
+        if (sub_080021A8()) break;
+        var_r4_7--;
+    }
+
+        temp_r0_4 = sub_080289C0(0x36, 0x78, 0xFA);
+        sub_0802939C(temp_r0_4, 0xE);
+        sub_08028AAC(temp_r0_4, 0x78, 0x95, 0x3C);
+        sub_0802939C(temp_r0_4, 4);
+        { register s32 scratch asm("r3");
+        asm("" : "=r"(scratch));
+        temp_r7_3 = ((struct T42Cam *)&gUnk_03003170)->x;
+        asm("" :: "r"(scratch));
+        temp_r6_2 = ((struct T42Cam *)&gUnk_03003170)->y; }
+        var_r4_8 = 0; tx2.all=0; ty2.all=0;
+        do {
+            sub_080659F4(sp3C, (s32) temp_r7_3, tx2.h.hi, var_r4_8);
+            sub_080659F4(py2, (s32) temp_r6_2, ty2.h.hi, var_r4_8);
+            t42_camera((s16)out[4], (s16)out[5]);
+            sub_080003F0();
+            var_r4_8 += 0x22;
+        } while (var_r4_8 <= 0x400);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_7 = sub_0805DF38(1,15,2,0,-1,0x1400EF);
+        while (!sub_0805EEFC((void *)temp_r4_7)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        var_r1_6 = (s32 *)((u8 *)gUnk_03005CF4 + 0x7A4);
+        var_r2_6 = 0;
+loop_66:
+        if (*var_r1_6 != sp38) {
+            var_r2_6 += 1;
+            var_r1_6 = (s32 *)((u8 *)var_r1_6 + 0x70);
+            if (var_r2_6 > 0xEU) {
+                sub_080003F0();
+                var_r1_6 = NULL;
+            } else {
+                goto loop_66;
+            }
+        }
+        if (var_r1_6 != NULL) {
+            *(u16 *)((u8 *)var_r1_6 + 0x36) = 4;
+        }
+        temp_r4_8 = sub_080289C0(0x40040, 0x78, 0x52);
+        var_r1_7=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r2_7=0;
+searchA:
+        if (*var_r1_7 == temp_r4_8) goto foundA;
+        var_r2_7++; var_r1_7=(s32 *)((u8 *)var_r1_7+0x70);
+        if (var_r2_7<=14) goto searchA;
+        sub_080003F0(); var_r2_8=0;
+contA:
+        if (var_r2_8 != NULL) {
+            *(u16 *)((u8 *)var_r2_8 + 0x18) = 8;
+            *(u16 *)((u8 *)var_r2_8 + 0x1A) = 0x10;
+            *(s32 *)((u8 *)var_r2_8 + 0x3C) = (s32) (*(s32 *)((u8 *)var_r2_8 + 0x3C) | 0x10);
+        }
+        cbA=sub_080308B4;
+        var_r1_8=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r2_9=0;
+searchCbA:
+        if (*var_r1_8 == temp_r4_8) goto foundCbA;
+        var_r2_9++; var_r1_8=(s32 *)((u8 *)var_r1_8+0x70);
+        if (var_r2_9<=14) goto searchCbA;
+        sub_080003F0(); var_r0_3=0;
+contCbA:
+        if (var_r0_3) *(void (**)(void))((u8 *)var_r0_3+0x44)=cbA;
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_9 = sub_0805DF38(1,15,2,0,-1,0x1400F0);
+        while (!sub_0805EEFC((void *)temp_r4_9)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        sub_0802939C(temp_r0_4, 0xD);
+        sub_08028AAC(temp_r0_4, 0x78, 0xEA, 0x3C);
+        var_r1_9 = (s32 *)((u8 *)gUnk_03005CF4 + 0x7A4);
+        var_r2_10 = 0;
+loop_96:
+        if (*var_r1_9 != temp_r0_4) {
+            var_r2_10 += 1;
+            var_r1_9 = (s32 *)((u8 *)var_r1_9 + 0x70);
+            if (var_r2_10 > 0xEU) {
+                sub_080003F0();
+                var_r1_9 = NULL;
+            } else {
+                goto loop_96;
+            }
+        }
+        if (var_r1_9 != NULL) {
+            *(u16 *)((u8 *)var_r1_9 + 0x36) = 4;
+        }
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_10 = sub_0805DF38(1,15,2,0,-1,0x1400F1);
+        while (!sub_0805EEFC((void *)temp_r4_10)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    } else {
+        goto falseBranch;
+foundB: var_r2_3=var_r1_3; goto contB;
+foundCbB: var_r0_2=var_r1_4; goto contCbB;
+falseBranch:
+        px3=&out[6]; py3=&out[7];
+        sp40 = &out[8]; py4=&out[9];
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4 = sub_0805DF38(1,15,2,0,-1,0x1400F2);
+        while (!sub_0805EEFC((void *)temp_r4)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        temp_r8 = ((struct T42Cam *)&gUnk_03003170)->x;
+        temp_r5_2 = ((struct T42Cam *)&gUnk_03003170)->y;
+        var_r4_3 = 0; tx3.all=0; ty3.all=0x300000; asm("" : "+r"(ty3.all));
+        do {
+            { register s32 *a asm("r0")=px3; register s32 b asm("r1")=temp_r8; register s32 z asm("r3")=0; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            { register s32 *a asm("r0")=py3; register s32 b asm("r1")=temp_r5_2; register s32 z asm("r3")=ty3.all; asm("" : "+r"(a), "+r"(b), "+r"(z)); sub_080659F4(a,b,z>>16,var_r4_3); }
+            t42_camera((s16)out[6], (s16)out[7]);
+            sub_080003F0();
+            var_r4_3 += 0x22;
+        } while (var_r4_3 <= 0x400);
+        var_r4_4 = 0x28;
+    goto poll129;
+    while (var_r4_4 != 0) {
+    poll129:
+        sub_080003F0();
+        if (sub_080021A8()) break;
+        var_r4_4--;
+
+    }
+        temp_r0_3 = sub_080289C0(0x36, 0x78, 0xFA);
+        sub_0802939C(temp_r0_3, 0xE);
+        sub_08028AAC(temp_r0_3, 0x78, 0x95, 0x3C);
+        sub_0802939C(temp_r0_3, 4);
+        { register s32 scratch asm("r3");
+        asm("" : "=r"(scratch));
+        temp_r7_2 = ((struct T42Cam *)&gUnk_03003170)->x;
+        asm("" :: "r"(scratch));
+        temp_r6 = ((struct T42Cam *)&gUnk_03003170)->y; }
+        var_r4_5 = 0; tx4.all=0; ty4.all=0;
+        do {
+            sub_080659F4(sp40, (s32) temp_r7_2, tx4.h.hi, var_r4_5);
+            sub_080659F4(py4, (s32) temp_r6, ty4.h.hi, var_r4_5);
+            t42_camera((s16)out[8], (s16)out[9]);
+            sub_080003F0();
+            var_r4_5 += 0x22;
+        } while (var_r4_5 <= 0x400);
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1,15,2,0,-1,0x1400F3);
+        while (!sub_0805EEFC((void *)temp_r4_2)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        var_r1_2 = (s32 *)((u8 *)gUnk_03005CF4 + 0x7A4);
+        var_r2 = 0;
+loop_144:
+        if (*var_r1_2 != sp38) {
+            var_r2 += 1;
+            var_r1_2 = (s32 *)((u8 *)var_r1_2 + 0x70);
+            if (var_r2 > 0xEU) {
+                sub_080003F0();
+                var_r1_2 = NULL;
+            } else {
+                goto loop_144;
+            }
+        }
+        if (var_r1_2 != NULL) {
+            *(u16 *)((u8 *)var_r1_2 + 0x36) = 4;
+        }
+        temp_r4_3 = sub_080289C0(0x40040, 0x78, 0x52);
+        var_r1_3=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r2_2=0;
+searchB:
+        if (*var_r1_3 == temp_r4_3) goto foundB;
+        var_r2_2++; var_r1_3=(s32 *)((u8 *)var_r1_3+0x70);
+        if (var_r2_2<=14) goto searchB;
+        sub_080003F0(); var_r2_3=0;
+contB:
+        if (var_r2_3 != NULL) {
+            *(u16 *)((u8 *)var_r2_3 + 0x18) = 8;
+            *(u16 *)((u8 *)var_r2_3 + 0x1A) = 0x10;
+            *(s32 *)((u8 *)var_r2_3 + 0x3C) = (s32) (*(s32 *)((u8 *)var_r2_3 + 0x3C) | 0x10);
+        }
+        cbB=sub_080308B4;
+        var_r1_4=(s32 *)((u8 *)gUnk_03005CF4+0x7A4); var_r2_4=0;
+searchCbB:
+        if (*var_r1_4 == temp_r4_3) goto foundCbB;
+        var_r2_4++; var_r1_4=(s32 *)((u8 *)var_r1_4+0x70);
+        if (var_r2_4<=14) goto searchCbB;
+        sub_080003F0(); var_r0_2=0;
+contCbB:
+        if (var_r0_2) *(void (**)(void))((u8 *)var_r0_2+0x44)=cbB;
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_4 = sub_0805DF38(1,15,2,0,-1,0x1400F4);
+        while (!sub_0805EEFC((void *)temp_r4_4)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        sub_0802939C(temp_r0_3, 0xD);
+        sub_08028AAC(temp_r0_3, 0x78, 0xEA, 0x3C);
+        var_r1_5 = (s32 *)((u8 *)gUnk_03005CF4 + 0x7A4);
+        var_r2_5 = 0;
+loop_174:
+        if (*var_r1_5 != temp_r0_3) {
+            var_r2_5 += 1;
+            var_r1_5 = (s32 *)((u8 *)var_r1_5 + 0x70);
+            if (var_r2_5 > 0xEU) {
+                sub_080003F0();
+                var_r1_5 = NULL;
+            } else {
+                goto loop_174;
+            }
+        }
+        if (var_r1_5 != NULL) {
+            *(u16 *)((u8 *)var_r1_5 + 0x36) = 4;
+        }
+        while (sub_0805F184() != 0) sub_080003F0();
+        while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_5 = sub_0805DF38(1,15,2,0,-1,0x1400F5);
+        while (!sub_0805EEFC((void *)temp_r4_5)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+        }
+    flagOne=4;
+    if (sub_0800CE30() != 0) {
+        var_r0_4 = (u8 *)gUnk_03005CF4 + 0x1BE;
+    } else {
+        var_r0_4 = (u8 *)gUnk_03005CF4 + 0x1B2;
+    }
+    *var_r0_4 = flagOne;
+    stepFinal=34;
+    temp_r6_3 = ((struct T42Cam *)&gUnk_03003170)->x;
+    temp_r5_4 = ((struct T42Cam *)&gUnk_03003170)->y;
+    var_r4_9 = 0; tx5.all=0; ty5.all=0;
+    do {
+        sub_080659F4(sp44, (s32) temp_r6_3, tx5.h.hi, var_r4_9);
+        sub_080659F4(sp48, (s32) temp_r5_4, ty5.h.hi, var_r4_9);
+        t42_camera((s16)out[10], (s16)out[11]);
+        sub_080003F0();
+        var_r4_9 += stepFinal;
+    } while (var_r4_9 <= 0x400);
+    temp_r2_3 = (struct Player *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0);
+    temp_r2_3->flags = (s32) (temp_r2_3->flags & ~1);
+    sub_0800D108();
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08041030);
 struct T43Slot1b7c { s32 id; u8 p04[0x14]; u16 f18,f1a; u8 p1c[0x1a]; u16 f36; u32 f38,f3c,f40; void (*f44)(void); u8 p48[0x28]; };
 struct T43Tile1b7c { u8 pad[0x80]; s16 x,y; };

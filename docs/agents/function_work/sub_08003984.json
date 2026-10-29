@@ -1,7 +1,7 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-10-29T05:10:39.306703+00:00",
-  "checkpoint": "0ee4455b26d9456c76a24747fc451f6c11ef60ce",
+  "updated_utc": "2026-10-29T05:36:16.370663+00:00",
+  "checkpoint": "9e2ab50a25b5705375f518c96e9ef38044386cc8",
   "areas": [
     {
       "id": "flow",
@@ -25,7 +25,7 @@
       "id": "types",
       "label": "Tipos y convenciones de llamadas",
       "state": "active",
-      "evidence": "Selector ctx+2: intermedios32 para decremento/incremento, store byte antes de prueba; incremento compara copia truncada8. Elimina truncación extra previa al decremento y restaura orden STRB→LSL/LSR en incremento, conforme ASM. Otras anchuras siguen en auditoría. CONT14: iniciar var_r6=0 antes de drawOne3984=1 mueve únicamente MOV R6,0 antes de MOV R2,1/MOV SL,R2; orden relativo conforme a 080057C0. Timer-4 todavía queda después del 1; no se afirma recuperación completa del prefijo. Sin cambios de slots ni otros opcodes en comparación diagnóstica; bytes/relocations completos NO MATCH."
+      "evidence": "Selector ctx+2: intermedios32 para decremento/incremento, store byte antes de prueba; incremento compara copia truncada8. Elimina truncación extra previa al decremento y restaura orden STRB→LSL/LSR en incremento, conforme ASM. Otras anchuras siguen en auditoría. CONT14: iniciar var_r6=0 antes de drawOne3984=1 mueve únicamente MOV R6,0 antes de MOV R2,1/MOV SL,R2; orden relativo conforme a 080057C0. Timer-4 todavía queda después del 1; no se afirma recuperación completa del prefijo. Sin cambios de slots ni otros opcodes en comparación diagnóstica; bytes/relocations completos NO MATCH. CONT19: asignar drawOne3984 en el operando derecho de la comparación del timer permite al compilador situar la inicialización de uno después del cálculo/cache timer-4, como en080057C0. Sólo cambia el prefijo de dibujo; registros de timer y uno todavía distintos del original. C8316/8352 frame54C, comparación exacta NO MATCH; no equivalencia demostrada ni función nueva matching."
     },
     {
       "id": "layout",
