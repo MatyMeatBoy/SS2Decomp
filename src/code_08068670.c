@@ -598,7 +598,39 @@ s32 sub_08068F9C(struct Attack69 *a,s32 target)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069080);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069224);
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069388);
+struct ResistPlayer69 {u8 pad0[0x73];s8 modifier;u8 pad74[0x14C-0x74];};
+extern struct ResistPlayer69 resistPlayers69[] asm("gUnk_03003CE0");
+extern u8 *resistEnemies69 asm("gUnk_030056F4");
+void sub_08069388(u8 *out,s16 *res,u16 magnitude,u16 kind,u16 target)
+{
+    s32 stat;
+    s32 numerator;
+    s32 divisor;
+    s32 probability;
+    u32 random;
+    random=sub_080008C8()%100U;
+    switch(kind-2U) {
+    case 0:
+        numerator=(s32)((u32)(100-res[1])*((u32)magnitude*10+5));divisor=100;
+        goto divide;
+    case 1:stat=res[2];goto half;
+    case 3:
+        numerator=(s32)((u32)(100-res[4])*((u32)magnitude*10+5));divisor=25;
+        goto divide;
+    case 4:case 5:
+        stat=res[5];
+half:
+        numerator=(s32)((u32)(100-stat)*((u32)magnitude*10+5));divisor=50;
+divide:
+        probability=numerator/divisor;
+        break;
+    default:probability=0;out[1]=0;break;
+    }
+    if(target==sub_080020F4() || (sub_0800CF80() && target<=3))
+        probability=((u32)probability*resistPlayers69[target].modifier)/100U;
+    out[1]=((u32)probability>random)?kind:0;
+    if(target>3 && *(u8 *)((u32)resistEnemies69+target*0x2E0-0x95A)==3) out[1]=0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080694AC);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080698D4);
 struct Task9A30 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
