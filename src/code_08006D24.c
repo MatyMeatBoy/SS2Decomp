@@ -102,7 +102,47 @@ void sub_08006EC8(u16 s)
                     s);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08006EE0);
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08007164);
+struct ResourceTable7164 { u32 first, second; u32 offsets[10]; };
+s32 sub_08007164(u32 value)
+{
+    register s32 result asm("r4");
+    u8 *base = (u8 *)&gUnk_08518938;
+    struct ResourceTable7164 *header = (struct ResourceTable7164 *)base;
+    u8 *resource;
+    u32 kind = value & 0xFFF;
+    switch (kind) {
+    case 7: resource = base + header->offsets[1]; break;
+    case 8: resource = base + header->offsets[6]; break;
+    case 9: resource = base + header->offsets[3]; break;
+    case 0: case 1: case 2: case 3: case 4: case 5: case 6:
+        resource = base + header->offsets[kind]; break;
+    case 11: return 0x2EB;
+    case 12: return 0x9E;
+    case 13: return 0x96;
+    case 14: return 0xB7;
+    case 15: return 0x60;
+    case 17: return 0x28;
+    case 16: return 0x64;
+    case 20: return 0x5D5;
+    case 18: return 0x91;
+    case 19: return 0x59;
+    case 21: return 5;
+    default: return 0;
+    }
+    switch (kind) {
+    case 0: result = *(s32 *)resource; break;
+    case 1: result = *(s32 *)resource; break;
+    case 2: result = *(s32 *)resource; break;
+    case 3: result = *(s32 *)resource; break;
+    case 4: result = *(s32 *)resource; break;
+    case 5: result = *(s32 *)resource; break;
+    case 6: result = *(s32 *)resource; break;
+    case 7: result = *(s32 *)resource; break;
+    case 8: result = *(s32 *)resource; break;
+    case 9: result = *(s32 *)resource; break;
+    }
+    return result;
+}
 s32 sub_08007280(M2C_UNK arg0) {
     return sub_08006EE0(arg0, &gUnk_08E3FB54);
 }

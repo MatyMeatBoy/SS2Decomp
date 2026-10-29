@@ -13,15 +13,240 @@ INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804EE20);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804EEA8);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804F128);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804F390);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804F998);
+extern void sub_0804FA68(s32);
+extern void sub_08050524(s32);
+extern s32 sub_0801AB24(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+extern void sub_080576A8(void);
+struct TaskF998 { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
+struct StateF998 { u8 pad0[0x38]; u32 flags; u8 pad3C[0xE34-0x3C]; struct TaskF998 tasks[30]; };
+extern struct StateF998 *stateF998 asm("gUnk_03005CF4");
+void sub_0804F998(void) {
+    u32 args[6];
+    struct TaskF998 *task;
+    register u32 i asm("r6");
+    register u32 zero asm("r5");
+    register u32 bit asm("r1");
+    register struct StateF998 *state asm("r2");
+    register u32 data asm("r0");
+    void (*callback)(s32);
+    state = stateF998;
+    bit = 1;
+    if (!(state->flags & bit)) {
+        callback = sub_0804FA68;
+        task = state->tasks;
+        i = 0;
+        goto check;
+next:
+        i++;
+        task++;
+check:
+        if (i <= 29) {
+            zero = sub_08000470((u32)task);
+            if (zero != 0) goto next;
+            args[3] = (u32)callback;
+            data = 0;
+            args[4] = data;
+            task->f8 = 0x3C;
+            task->f20 = sub_08001494(0x400);
+            task->fC = (u32)sub_0802A104;
+            task->f10 = task->f20 + 0x3FC;
+            task->f24 = zero;
+            sub_08000274(task, args, 6);
+            sub_080003F0();
+            sub_080003F0();
+        }
+    } else {
+        sub_08028AAC(7, 0x88, 0xC8, 0);
+    }
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
+#ifdef NONMATCHING
+struct StateFA68 { u8 pad[0x38]; u32 flags38; };
+extern struct StateFA68 *stateFA68 asm("gUnk_03005CF4");
+void sub_0804FA68(s32 arg0) {
+    u16 ticks;
+    register struct StateFA68 *state asm("r2");
+    register u32 bit asm("r1");
+    switch (arg0) {
+    case 0:
+        sub_08068820(sub_0804FA68, (void *)1, 0);
+        break;
+    case 1:
+        sub_08073E2C(0x8800, 0xC800, 0x29, 1);
+        ticks = 4;
+        goto wait;
+decrement:
+        ticks--;
+        if (ticks == 0) goto after;
+wait:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto decrement;
+after:
+        sub_08073E2C(0x8000, 0xC800, 0x29, 1);
+        sub_08073E2C(0x9000, 0xC800, 0x29, 1);
+        if (!(gUnk_030027D0 & 0x20)) sub_08006D08(0x17B);
+        sub_08028AAC(7, 0x88, 0xC8, 0);
+        state = stateFA68;
+        bit = 1;
+        state->flags38 |= bit;
+        break;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FA68);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FB0C);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FC3C);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_0804FF04);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080502DC);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08050454);
+struct TaskF50454 { u32 f0,f4,f8,fC; u8 *f10; u32 f14,f18,f1C; u8 *f20; u32 f24; };
+struct StateF50454 { u8 pad0[0x38]; u32 flags; u8 pad3C[0xE34-0x3C]; struct TaskF50454 tasks[30]; };
+extern struct StateF50454 *stateF50454 asm("gUnk_03005CF4");
+void sub_08050454(void) {
+    u32 args[6];
+    struct TaskF50454 *task;
+    register u32 i asm("r6");
+    register u32 zero asm("r5");
+    register u32 bit asm("r1");
+    register struct StateF50454 *state asm("r2");
+    register u32 data asm("r0");
+    void (*callback)(s32);
+    state = stateF50454;
+    bit = 2;
+    if (!(state->flags & bit)) {
+        callback = sub_08050524;
+        task = state->tasks;
+        i = 0;
+        goto check;
+next:
+        i++;
+        task++;
+check:
+        if (i <= 29) {
+            zero = sub_08000470((u32)task);
+            if (zero != 0) goto next;
+            args[3] = (u32)callback;
+            data = 0;
+            args[4] = data;
+            task->f8 = 0x3C;
+            task->f20 = sub_08001494(0x400);
+            task->fC = (u32)sub_0802A104;
+            task->f10 = task->f20 + 0x3FC;
+            task->f24 = zero;
+            sub_08000274(task, args, 6);
+            sub_080003F0();
+            sub_080003F0();
+        }
+    } else {
+        sub_08028AAC(7, 0x378, 0xA0, 0);
+    }
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
+#ifdef NONMATCHING
+struct State50524 { u8 pad[0x38]; u32 flags38; };
+extern struct State50524 *state50524 asm("gUnk_03005CF4");
+void sub_08050524(s32 arg0) {
+    u16 ticks;
+    register struct State50524 *state asm("r2");
+    register u32 bit asm("r1");
+    switch (arg0) {
+    case 0:
+        sub_08068820(sub_08050524, (void *)1, 0);
+        break;
+    case 1:
+        sub_08073E2C(0x37800, 0xA000, 0x29, 1);
+        ticks = 4;
+        goto wait;
+decrement:
+        ticks--;
+        if (ticks == 0) goto after;
+wait:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto decrement;
+after:
+        sub_08073E2C(0x37000, 0xA000, 0x29, 1);
+        sub_08073E2C(0x38000, 0xA000, 0x29, 1);
+        if (!(gUnk_030027D0 & 0x20)) sub_08006D08(0x17B);
+        sub_08028AAC(7, 0x378, 0xA0, 0);
+        state = state50524;
+        bit = 2;
+        state->flags38 |= bit;
+        break;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08050524);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080505C8);
+#endif
+struct State505C8 { u8 pad[0x38]; u32 flags; };
+struct Entity505C8 { u8 pad[0xC]; u16 state; u8 tail[0x2E0-0xE]; };
+extern struct State505C8 *state505C8 asm("gUnk_03005CF4");
+extern struct Entity505C8 *entities505C8 asm("gUnk_030056F4");
+void sub_080505C8(void) {
+    register u32 ticks asm("r4");
+    register u32 stride asm("r0");
+    register u32 i asm("r3");
+    register u32 bit asm("r1");
+    register u32 one asm("r6");
+    u16 zero;
+    register s32 *bits asm("r5");
+    register struct State505C8 *state asm("r0");
+    register struct State505C8 *state2 asm("r2");
+    register struct Entity505C8 *entity asm("r2");
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+    state = state505C8;
+    bit = 4;
+    if (!(state->flags & bit)) {
+        ticks = 30;
+        goto wait;
+decrement:
+        stride = ticks - 1;
+        ticks = (u16)stride;
+        if (ticks == 0) goto after;
+wait:
+        sub_080003F0();
+        if (sub_080021A8() == 0) goto decrement;
+after:
+        state2 = state505C8;
+        bit = 4;
+        state2->flags |= bit;
+    }
+    entity = entities505C8;
+    i = 0;
+    bits = &gUnk_030056FC;
+    one = 1;
+    zero = 0;
+    do {
+        bit = one << i;
+        if ((*bits & bit) && entity->state == 12) entity->state = zero;
+        i++;
+        stride = 0x2E0;
+        entity = (struct Entity505C8 *)((u8 *)entity + stride);
+    } while (i <= 4);
+    sub_08019F04();
+}
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08050688);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_080509A8);
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08050E48);

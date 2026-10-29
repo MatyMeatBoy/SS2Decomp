@@ -1308,7 +1308,209 @@ found12:
         }
     }
 }
+#ifdef NONMATCHING
+extern u8 *state30DE asm("gUnk_03005CF4");
+extern void sub_08038D18(void);
+extern void sub_0803898C(void);
+extern void sub_080392B4(void);
+extern s32 sub_0801AB24(void);
+extern void sub_080576A8(void);
+extern void sub_0801AB50(s32);
+extern void sub_0801AB90(s32);
+extern void sub_08044E34(void);
+extern void sub_08045E38(void);
+extern void sub_0802939C(s32, s32);
+struct TaskP30DE { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern void taskStart30DE(void *, u32) asm("sub_08000274");
+void sub_0802DE0C(void) {
+    s32 *var_r1;
+    u32 var_r2;
+    s32 *res;
+    s32 *res2;
+    s32 iVar2;
+    s32 dVar1;
+    s32 r;
+    s32 first, first_cb;
+    s32 mask, bits, bytebit;
+    s32 first_bits;
+    s32 mask2;
+    s32 raw;
+    s32 *word;
+    u8 *p;
+    struct TaskP30DE *t, *t2;
+    u32 i, i2, mem, mem2;
+    s32 cb, cb2;
+
+    first = sub_080289C0(0x25, 0xB5, 0xEC);
+    var_r1 = (s32 *) (state30DE + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == first) {
+            res = var_r1;
+            goto found1;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found1:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    first_cb = (s32) sub_08038D18;
+    var_r1 = (s32 *) (state30DE + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == first) {
+            res2 = var_r1;
+            goto found2;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found2:
+    if (res2 != NULL) {
+        res2[0x11] = first_cb;
+    }
+    mask = 1;
+    first_bits = mask & ((sub_0800CE30() != 0 ? (s32)*(u8 *)(state30DE + 0x1C4) : (s32)*(u8 *)(state30DE + 0x1B8)) >> 5);
+    if (first_bits) sub_0802939C(first, 1);
+    else {
+    cb = (s32) sub_08044E34;
+    t = (struct TaskP30DE *)(state30DE + 0xE34);
+    for (i = 0; i <= 0x1D; i++, t++) {
+        if (sub_08000470((u32)t) != 0) continue;
+        while ((t->f20 = mem = sub_08001494(0x400)) == 0) sub_080003F0();
+        t->f8 = 0x3C;
+        t->fC = cb;
+        t->f10 = mem + 0x3FC;
+        t->f24 = 0;
+        taskStart30DE(t, first);
+        break;
+    }
+    }
+    if (sub_0800CE30() != 0) { word = (s32 *)(state30DE + 0x80); mask2 = 0x80; bits = *word; }
+    else { word = (s32 *)(state30DE + 0x78); mask2 = 0x80; bits = *word; }
+    bits &= mask2;
+    if (sub_0800CE30() != 0) p = (u8 *)(state30DE + 0x1C3);
+    else p = (u8 *)(state30DE + 0x1B7);
+    raw = *p;
+    bytebit = raw >> 5;
+    bytebit &= 1;
+    if (!bits || bytebit) {
+    iVar2 = sub_080289C0(0x40029, 0xDD, 0x11E);
+    var_r1 = (s32 *) (state30DE + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found3;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found3:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_0803898C;
+    var_r1 = (s32 *) (state30DE + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found4;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found4:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    } else {
+    cb2 = (s32) sub_08045E38;
+    t2 = (struct TaskP30DE *)(state30DE + 0xE34);
+    for (i2 = 0; i2 <= 0x1D; i2++, t2++) {
+        if (sub_08000470((u32)t2) != 0) continue;
+        while ((t2->f20 = mem2 = sub_08001494(0x400)) == 0) sub_080003F0();
+        t2->f8 = 0x3C;
+        t2->fC = cb2;
+        t2->f10 = mem2 + 0x3FC;
+        t2->f24 = 0;
+        taskStart30DE(t2, 0);
+        break;
+    }
+    }
+    iVar2 = sub_080289C0(0x33, 0x11E, 0xFF);
+    var_r1 = (s32 *) (state30DE + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res = var_r1;
+            goto found5;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res = NULL;
+found5:
+    if (res != NULL) {
+        *(u16 *) ((u8 *) res + 0x18) = 8;
+        *(u16 *) ((u8 *) res + 0x1A) = 4;
+        res[0xF] |= 0x10;
+    }
+    dVar1 = (s32) sub_080392B4;
+    var_r1 = (s32 *) (state30DE + 0x7A4);
+    var_r2 = 0;
+    do {
+        if (*var_r1 == iVar2) {
+            res2 = var_r1;
+            goto found6;
+        }
+        var_r2 += 1;
+        var_r1 += 0x1C;
+    } while (var_r2 <= 0xEU);
+    sub_080003F0();
+    res2 = NULL;
+found6:
+    if (res2 != NULL) {
+        res2[0x11] = dVar1;
+    }
+    if (sub_0800CC98() == 0) {
+        r = sub_0801AB24();
+        switch (r) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0) {
+            sub_080003F0();
+        }
+    }
+}
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802DE0C);
+#endif
 extern void sub_08039F00(void);
 extern void sub_08059418(void);
 extern void sub_0803A8F0(void);
