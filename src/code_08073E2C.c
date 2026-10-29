@@ -58,11 +58,169 @@ INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074398);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074530);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080746A4);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074818);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807498C);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074B00);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074C74);
+struct EffectSprite77 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
+struct EffectEntity77 { u16 xRaw,yRaw; };
+struct EffectPlayer77 { u8 pad[0x148]; struct EffectEntity77 *entity; };
+struct EffectEnemy77 { u8 pad[0x14]; s32 x,y; u8 rest[0x2C4]; };
+extern struct EffectPlayer77 effectPlayers77[] asm("gUnk_03003CE0");
+extern struct EffectEnemy77 *effectEnemies77 asm("gUnk_030056F4");
+extern u32 effectMasks77[] asm("gUnk_030063E0");
+extern u32 effectFlags77 asm("gUnk_03002344");
+extern void effectInit77(struct EffectSprite77 *,u32,u32,s32,u32) asm("sub_08065158");
+extern u32 effectStep77(struct EffectSprite77 *,u16,u16 *,u16 *,u32) asm("sub_08065370");
+extern void effectPosition77(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern void effectDraw77(s32,s32,u16,u16,u8,void *,void *,u32) asm("sub_08007870");
+extern void effectPalette77(u32,void *,u32) asm("sub_08000AF0");
+void sub_080746A4(u32 who,u32 slot)
+{
+    struct EffectSprite77 sprite;
+    s16 x,y;
+    u16 frame,timer;
+    struct EffectPlayer77 *player;
+    struct EffectEnemy77 *enemy;
+    u16 done;
+    frame=0;timer=0;
+    effectInit77(&sprite,0x5008C,8,-1,0);
+    sprite.palette[0]=7;sprite.palette[1]=8;
+    done=0;
+    if(who<4) player=&effectPlayers77[who];
+    else enemy=&effectEnemies77[who-4];
+    while(!done) {
+        if(who<4) {
+            struct EffectEntity77 *entity=player->entity;
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+        } else {
+            effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
+        }
+        done=effectStep77(&sprite,18,&frame,&timer,0);
+        if(!sub_0800CC98()&&!sub_0800CD8C()&&!sub_0800CCCC()) {
+            if(!(effectFlags77&1)) effectPalette77(0x17,sprite.paletteResource,2);
+            effectDraw77(x,y+1,18,frame,1,sprite.palette,sprite.data,sprite.base);
+        }
+        sub_080003F0();
+    }
+    effectMasks77[who]&=~(1<<slot);
+}
+void sub_08074818(u32 who,u32 slot)
+{
+    struct EffectSprite77 sprite;
+    s16 x,y;
+    u16 frame,timer;
+    struct EffectPlayer77 *player;
+    struct EffectEnemy77 *enemy;
+    u16 done;
+    frame=0;timer=0;
+    effectInit77(&sprite,0x5008C,8,-1,0);
+    sprite.palette[0]=7;sprite.palette[1]=8;
+    done=0;
+    if(who<4) player=&effectPlayers77[who];
+    else enemy=&effectEnemies77[who-4];
+    while(!done) {
+        if(who<4) {
+            struct EffectEntity77 *entity=player->entity;
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+        } else {
+            effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
+        }
+        done=effectStep77(&sprite,17,&frame,&timer,0);
+        if(!sub_0800CC98()&&!sub_0800CD8C()&&!sub_0800CCCC()) {
+            if(!(effectFlags77&1)) effectPalette77(0x17,sprite.paletteResource,2);
+            effectDraw77(x,y+1,17,frame,1,sprite.palette,sprite.data,sprite.base);
+        }
+        sub_080003F0();
+    }
+    effectMasks77[who]&=~(1<<slot);
+}
+void sub_0807498C(u32 who,u32 slot)
+{
+    struct EffectSprite77 sprite;
+    s16 x,y;
+    u16 frame,timer;
+    struct EffectPlayer77 *player;
+    struct EffectEnemy77 *enemy;
+    u16 done;
+    frame=0;timer=0;
+    effectInit77(&sprite,0x5008C,8,-1,0);
+    sprite.palette[0]=7;sprite.palette[1]=8;
+    done=0;
+    if(who<4) player=&effectPlayers77[who];
+    else enemy=&effectEnemies77[who-4];
+    while(!done) {
+        if(who<4) {
+            struct EffectEntity77 *entity=player->entity;
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+        } else {
+            effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
+        }
+        done=effectStep77(&sprite,19,&frame,&timer,0);
+        if(!sub_0800CC98()&&!sub_0800CD8C()&&!sub_0800CCCC()) {
+            if(!(effectFlags77&1)) effectPalette77(0x17,sprite.paletteResource,2);
+            effectDraw77(x,y+1,19,frame,1,sprite.palette,sprite.data,sprite.base);
+        }
+        sub_080003F0();
+    }
+    effectMasks77[who]&=~(1<<slot);
+}
+void sub_08074B00(u32 who,u32 slot)
+{
+    struct EffectSprite77 sprite;
+    s16 x,y;
+    u16 frame,timer;
+    struct EffectPlayer77 *player;
+    struct EffectEnemy77 *enemy;
+    u16 done;
+    frame=0;timer=0;
+    effectInit77(&sprite,0x5008C,8,-1,0);
+    sprite.palette[0]=7;sprite.palette[1]=8;
+    done=0;
+    if(who<4) player=&effectPlayers77[who];
+    else enemy=&effectEnemies77[who-4];
+    while(!done) {
+        if(who<4) {
+            struct EffectEntity77 *entity=player->entity;
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+        } else {
+            effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
+        }
+        done=effectStep77(&sprite,1,&frame,&timer,0);
+        if(!sub_0800CC98()&&!sub_0800CD8C()&&!sub_0800CCCC()) {
+            if(!(effectFlags77&1)) effectPalette77(0x17,sprite.paletteResource,2);
+            effectDraw77(x,y+1,1,frame,1,sprite.palette,sprite.data,sprite.base);
+        }
+        sub_080003F0();
+    }
+    effectMasks77[who]&=~(1<<slot);
+}
+void sub_08074C74(u32 who,u32 slot)
+{
+    struct EffectSprite77 sprite;
+    s16 x,y;
+    u16 frame,timer;
+    struct EffectPlayer77 *player;
+    struct EffectEnemy77 *enemy;
+    u16 done;
+    frame=0;timer=0;
+    effectInit77(&sprite,0x5008D,8,-1,0);
+    sprite.palette[0]=7;sprite.palette[1]=8;
+    done=0;
+    if(who<4) player=&effectPlayers77[who];
+    else enemy=&effectEnemies77[who-4];
+    while(!done) {
+        if(who<4) {
+            struct EffectEntity77 *entity=player->entity;
+            effectPosition77(entity->xRaw>>4,({u32 rawY=entity->yRaw;rawY<<=20;asm("" : "+r"(rawY));rawY>>20;}),&x,&y,0x30,0);
+        } else {
+            effectPosition77((s32)((u32)enemy->x<<8)>>16,(s32)((u32)enemy->y<<8)>>16,&x,&y,0x30,0);
+        }
+        done=effectStep77(&sprite,9,&frame,&timer,0);
+        if(!sub_0800CC98()&&!sub_0800CD8C()&&!sub_0800CCCC()) {
+            if(!(effectFlags77&1)) effectPalette77(0x17,sprite.paletteResource,2);
+            effectDraw77(x,y-24,9,frame,0,sprite.palette,sprite.data,sprite.base);
+        }
+        sub_080003F0();
+    }
+    effectMasks77[who]&=~(1<<slot);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074DE8);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075088);
 struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
