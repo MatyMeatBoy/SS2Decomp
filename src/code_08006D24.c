@@ -1097,7 +1097,29 @@ void sub_08008DB8(u16 animId, u16 frame, struct AnimHeader005 *data, u8 *tiles, 
         animCopy005(src, out, size);
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008E74);
+struct DrawNode005 { struct DrawNode005 *prev,*next; u32 x,y; u16 a,b; u32 g,h; void *f; u16 pad20; u8 mode:3; u8 flag:1; u8 bits:3; u8 top:1; u8 pad23; u16 c,d,e,pad2A; };
+extern struct DrawNode005 *headDraw005 asm("gUnk_030028C0");
+extern struct DrawNode005 *tailDraw005 asm("gUnk_030028C4");
+extern u32 usedDraw005 asm("gUnk_030028C8");
+extern struct DrawNode005 poolDraw005[50] asm("gUnk_030028D0");
+struct DrawNode005 *sub_08008E74(u32 a,u32 b,u16 c,u16 d,u8 e,void *f,u32 g,u32 h)
+{
+    struct DrawNode005 *node;
+    if (usedDraw005 > 49) return 0;
+    node = &poolDraw005[usedDraw005];
+    usedDraw005++;
+    node->x=a; node->y=b; node->a=c; node->b=d;
+    node->mode=e;
+    node->f=f; node->g=g; node->h=h;
+    node->flag=0; node->bits=0;
+    node->c=0; node->d=0; node->e=0;
+    if (tailDraw005 != 0) {
+        tailDraw005->next=node; node->prev=tailDraw005; node->next=0; tailDraw005=node;
+    } else {
+        headDraw005=node; tailDraw005=node; node->prev=0; node->next=0;
+    }
+    return node;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08006D24", sub_08008F2C);
 void sub_08009014(void) {
     void *var_r4;
