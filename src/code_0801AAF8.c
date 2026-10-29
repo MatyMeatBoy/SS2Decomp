@@ -1264,26 +1264,35 @@ INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801C8F0);
 #ifdef NONMATCHING
-void sub_0801CC10(s32 index, s16 delta)
+void sub_0801CC10(u32 arg0, s32 arg1)
 {
-    u8 *target;
-    u8 *current = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
-    u8 *other = (u8 *)gUnk_03003CE0 + index * 0x14C;
-    s32 dx, dy;
-    target = *(u8 **)(other + 0x148);
-    dx = ((*(s32 *)(current + 0x8C) << 5) >> 16) - ((s16)(*(u16 *)target >> 7));
-    if (dx < 0) dx = -dx;
-    dy = ((*(s32 *)(current + 0x90) << 5) >> 16) - ((s16)((*(u16 *)(target + 2) << 20) >> 23));
-    if (dy < 0) dy = -dy;
-    if (current == other) {
-        s16 *value = (s16 *)(current + 0xC4);
-        if (*value > 0) *value += delta;
-    } else if (dx <= 13 && dy <= 9) {
-        s16 *value = (s16 *)(current + 0xC4);
-        if (*value > 0) *value += delta;
+    u8 *p = (u8 *)&gUnk_03003CE0[sub_080020F4()];
+    u8 *q = (u8 *)&gUnk_03003CE0[arg0];
+    s32 x; u32 y; u32 t1; u32 t0;
+    u16 *t;
+    s32 d; u16 dx; u16 dy;
+    s16 *c;
+    s16 *c1;
+    x = *(s32 *)(p + 0x8C) << 5;
+    y = (u32)(*(s32 *)(p + 0x90) << 5) >> 16;
+    t = *(u16 **)(q + 0x148);
+    t0 = t[0];
+    t1 = (u32)(t[1] << 20) >> 23;
+    d = (x >> 16) - (t0 >> 7);
+    if (d < 0) d = -d;
+    dx = d;
+    d = (s16)y - (s16)t1;
+    if (d < 0) d = -d;
+    dy = d;
+    if (p == q) {
+        c1 = (s16 *)(p + 0xC4);
+        c = c1;
+        if (*c1 > 0) *(u16 *)c1 = *(u16 *)c1 + arg1;
+    } else {
+        c = (s16 *)(p + 0xC4);
+        if ((s16)dx <= 13 && (s16)dy <= 9 && *c > 0) *(u16*)c = *(u16*)c + arg1;
     }
-    if (*(s16 *)(current + 0xC4) > *(s16 *)(current + 0x62))
-        *(u16 *)(current + 0xC4) = *(u16 *)(current + 0x62);
+    if (*c > *(s16 *)(p + 0x62)) *(u16*)c = *(u16 *)(p + 0x62);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801CC10);

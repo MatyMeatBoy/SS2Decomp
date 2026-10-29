@@ -578,11 +578,7 @@ void sub_0800D368(void *arg0) {
     s32 var_r5_5;
     s32 var_r5_7;
     s32 var_r5_8;
-    s32 var_r6_2;
-    s32 var_r6_4;
-    s32 var_r6_5;
-    s32 var_r6_6;
-    s32 var_r6_7;
+    s32 directionD36874;
     s32 var_r8;
     s32 var_r0_31;
     u16 *temp_r0_90;
@@ -725,7 +721,6 @@ void sub_0800D368(void *arg0) {
     s32 var_r3_6;
     s32 var_r3_8;
     s32 var_r5_4;
-    s32 var_r6_3;
     u32 *var_r3_13;
     u32 temp_r0_105;
     u32 temp_r0_113;
@@ -1756,13 +1751,13 @@ block_387:
         } else {
             switch (temp_r0_27) {                   /* switch 4 */
             case 0:                                 /* switch 4 */
-                var_r6_2 = 0;
+                directionD36874 = 0;
                 sp19C = 0;
                 sp130 = 0;
                 ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 & 0xFFDFFFFF);
                 temp_r1_17 = ((struct PlayerD368 *)arg0)->f12;
                 if (0xF0 & temp_r1_17) {
-                    var_r6_2 = 5;
+                    directionD36874 = 5;
                 }
                 temp_r2_7 = ((struct PlayerD368 *)arg0)->f18;
                 if (!(temp_r2_7 & temp_r1_17) || (sp154 += 1, ((temp_r2_7 & ((struct PlayerD368 *)arg0)->f14) != 0))) {
@@ -1849,7 +1844,7 @@ loop_410:
                             sp144 = 0;
                         }
                     }
-                } else if (var_r6_2 != 0) {
+                } else if (directionD36874 != 0) {
                     ((struct PlayerD368 *)arg0)->f20 = 1U;
                 } else {
                     temp_r1_19 = ((struct PlayerD368 *)arg0)->fD8;
@@ -1858,7 +1853,7 @@ loop_410:
                         temp_r0_30 = temp_r1_19 - 8;
                         ((struct PlayerD368 *)arg0)->fD8 = temp_r0_30;
                         if (temp_r0_30 <= 0) {
-                            ((struct PlayerD368 *)arg0)->fD8 = var_r6_2;
+                            ((struct PlayerD368 *)arg0)->fD8 = directionD36874;
                         }
                     } else {
                         var_r0_5 = temp_r1_19 - (temp_r1_19 >> 1);
@@ -1882,30 +1877,30 @@ block_530:
                 }
                 break;
             case 1:                                 /* switch 4 */
-                var_r6_3 = 0;
+                directionD36874 = 0;
                 sp19C = 0;
                 ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 & 0xFFDFFFFF);
                 temp_r1_20 = ((struct PlayerD368 *)arg0)->f12;
                 if (0x40 & temp_r1_20) {
-                    var_r6_3 = 5;
+                    directionD36874 = 5;
                 } else if (0x80 & temp_r1_20) {
-                    var_r6_3 = 1;
+                    directionD36874 = 1;
                 }
                 if (0x20 & temp_r1_20) {
-                    if (var_r6_3 == 5) {
-                        var_r6_3 = 4;
-                    } else if (var_r6_3 == 1) {
-                        var_r6_3 = 2;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 4;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 2;
                     } else {
-                        var_r6_3 = 3;
+                        directionD36874 = 3;
                     }
                 } else if (0x10 & temp_r1_20) {
-                    if (var_r6_3 == 5) {
-                        var_r6_3 = 6;
-                    } else if (var_r6_3 == 1) {
-                        var_r6_3 = 8;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 6;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 8;
                     } else {
-                        var_r6_3 = 7;
+                        directionD36874 = 7;
                     }
                 }
                 temp_r2_10 = ((struct PlayerD368 *)arg0)->f18;
@@ -1987,10 +1982,10 @@ loop_483:
                             sp144 = 0;
                         }
                     }
-                } else if (var_r6_3 == 0) {
-                    ((struct PlayerD368 *)arg0)->f20 = var_r6_3;
+                } else if (directionD36874 == 0) {
+                    ((struct PlayerD368 *)arg0)->f20 = directionD36874;
                 } else {
-                    ((struct PlayerD368 *)arg0)->f1C = (s16) (var_r6_3 - 1);
+                    ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);
                     temp_r3_3 = ((struct PlayerD368 *)arg0)->f40;
                     temp_r1_22 = ((struct PlayerD368 *)arg0)->fD8;
                     temp_r0_34 = (s32) (temp_r3_3 - temp_r1_22) >> 1;
@@ -2017,28 +2012,28 @@ loop_483:
                 }
                 break;
             case 3:                                 /* switch 4 */
-                var_r6_4 = 0;
+                directionD36874 = 0;
                 temp_r1_23 = ((struct PlayerD368 *)arg0)->f12;
                 if (0x40 & temp_r1_23) {
-                    var_r6_4 = 5;
+                    directionD36874 = 5;
                 } else if (0x80 & temp_r1_23) {
-                    var_r6_4 = 1;
+                    directionD36874 = 1;
                 }
                 if (0x20 & temp_r1_23) {
-                    if (var_r6_4 == 5) {
-                        var_r6_4 = 4;
-                    } else if (var_r6_4 == 1) {
-                        var_r6_4 = 2;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 4;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 2;
                     } else {
-                        var_r6_4 = 3;
+                        directionD36874 = 3;
                     }
                 } else if (0x10 & temp_r1_23) {
-                    if (var_r6_4 == 5) {
-                        var_r6_4 = 6;
-                    } else if (var_r6_4 == 1) {
-                        var_r6_4 = 8;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 6;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 8;
                     } else {
-                        var_r6_4 = 7;
+                        directionD36874 = 7;
                     }
                 }
                 temp_r3_4 = ((struct PlayerD368 *)arg0)->f18 & temp_r1_23;
@@ -2270,7 +2265,7 @@ block_612:
                             }
                         }
                     }
-                    if (var_r6_4 != 0) {
+                    if (directionD36874 != 0) {
                         var_r0_9 = 4;
 block_627:
                         ((struct PlayerD368 *)arg0)->f20 = var_r0_9;
@@ -2283,7 +2278,7 @@ block_627:
                             if (temp_r0_40 > 0) {
 
                             } else {
-                                *var_r4_6 = var_r6_4;
+                                *var_r4_6 = directionD36874;
                             }
                         } else {
                             var_r0_10 = var_r1_6 - (var_r1_6 >> 1);
@@ -2293,33 +2288,33 @@ block_627:
                 }
                 break;
             case 4:                                 /* switch 4 */
-                var_r6_5 = 0;
+                directionD36874 = 0;
                 temp_r1_25 = ((struct PlayerD368 *)arg0)->f12;
                 if (0x40 & temp_r1_25) {
-                    var_r6_5 = 5;
+                    directionD36874 = 5;
                 } else if (0x80 & temp_r1_25) {
-                    var_r6_5 = 1;
+                    directionD36874 = 1;
                 }
                 if (0x20 & temp_r1_25) {
-                    if (var_r6_5 == 5) {
-                        var_r6_5 = 4;
-                    } else if (var_r6_5 == 1) {
-                        var_r6_5 = 2;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 4;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 2;
                     } else {
-                        var_r6_5 = 3;
+                        directionD36874 = 3;
                     }
                 } else if (0x10 & temp_r1_25) {
-                    if (var_r6_5 == 5) {
-                        var_r6_5 = 6;
-                    } else if (var_r6_5 == 1) {
-                        var_r6_5 = 8;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 6;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 8;
                     } else {
-                        var_r6_5 = 7;
+                        directionD36874 = 7;
                     }
                 }
                 temp_r3_5 = ((struct PlayerD368 *)arg0)->f18 & temp_r1_25;
                 if (temp_r3_5 != 0) {
-                    if (var_r6_5 == 0) {
+                    if (directionD36874 == 0) {
                         var_r0_9 = 3;
                         goto block_627;
                     }
@@ -2329,14 +2324,14 @@ block_627:
                         ((struct PlayerD368 *)arg0)->f24 = (u16) temp_r0_44;
                         ((struct PlayerD368 *)arg0)->f26 = (u16) temp_r0_44;
                         var_r4_7 = arg0 + 0xD8;
-                        var_sl = var_r6_5 - 1;
+                        var_sl = directionD36874 - 1;
                         var_r9 = arg0 + 0x40;
                     } else {
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
                             sp128 = d368_sub_0801D34C();
                             var_r5_5 = 7;
                             var_r4_7 = arg0 + 0xD8;
-                            var_sl = var_r6_5 - 1;
+                            var_sl = directionD36874 - 1;
                             var_r9 = arg0 + 0x40;
                             var_r3_5 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
 loop_703:
@@ -2376,7 +2371,7 @@ loop_703:
                         if (sp128 > temp_r5_7) {
                             sp128 = temp_r5_7;
                             var_r4_7 = arg0 + 0xD8;
-                            var_sl = var_r6_5 - 1;
+                            var_sl = directionD36874 - 1;
                             var_r9 = arg0 + 0x40;
                             if (temp_r5_7 > (u32) ((struct PlayerD368 *)arg0)->f26) {
                                 sp128 = 0;
@@ -2385,7 +2380,7 @@ loop_703:
                             goto block_718;
                         }
                         var_r4_7 = arg0 + 0xD8;
-                        var_sl = var_r6_5 - 1;
+                        var_sl = directionD36874 - 1;
                         var_r9 = arg0 + 0x40;
                         if (sp128 > (u32) ((struct PlayerD368 *)arg0)->f26) {
                             sp128 = 0;
@@ -2586,28 +2581,28 @@ block_693:
                 }
                 break;
             case 5:                                 /* switch 4 */
-                var_r6_6 = 0;
+                directionD36874 = 0;
                 temp_r1_28 = ((struct PlayerD368 *)arg0)->f12;
                 if (0x40 & temp_r1_28) {
-                    var_r6_6 = 5;
+                    directionD36874 = 5;
                 } else if (0x80 & temp_r1_28) {
-                    var_r6_6 = 1;
+                    directionD36874 = 1;
                 }
                 if (0x20 & temp_r1_28) {
-                    if (var_r6_6 == 5) {
-                        var_r6_6 = 4;
-                    } else if (var_r6_6 == 1) {
-                        var_r6_6 = 2;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 4;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 2;
                     } else {
-                        var_r6_6 = 3;
+                        directionD36874 = 3;
                     }
                 } else if (0x10 & temp_r1_28) {
-                    if (var_r6_6 == 5) {
-                        var_r6_6 = 6;
-                    } else if (var_r6_6 == 1) {
-                        var_r6_6 = 8;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 6;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 8;
                     } else {
-                        var_r6_6 = 7;
+                        directionD36874 = 7;
                     }
                 }
                 temp_r0_55 = d368_sub_0801DE60();
@@ -2618,8 +2613,8 @@ block_693:
                     }
                     goto state5Zero66;
                 case 5:
-                    if ((((struct PlayerD368 *)arg0)->f10 == 8) && (var_r6_6 != 0)) {
-                        ((struct PlayerD368 *)arg0)->f1C = (s16) (var_r6_6 - 1);
+                    if ((((struct PlayerD368 *)arg0)->f10 == 8) && (directionD36874 != 0)) {
+                        ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);
                         state5Destination67 = arg0 + 0x94;
                         var_r5_6 = arg0 + 0x8C;
                         *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
@@ -2632,13 +2627,13 @@ block_693:
                 case 7:
                     if (((struct PlayerD368 *)arg0)->f10 == 1) {
 state5Move66:
-                        if (var_r6_6 != 0) {
+                        if (directionD36874 != 0) {
                             state5Destination67 = arg0 + 0x94;
                             var_r5_6 = arg0 + 0x8C;
                             *(struct PairD36867 *)state5Destination67 = *(struct PairD36867 *)var_r5_6;
                             var_r3_6 = (u16) d368_sub_0800CCCC();
                             var_r0_15 = (s32) ((u16) ((struct PlayerD368 *)arg0)->f40 << 0x10) >> 0x11;
-                            var_r2_10 = var_r6_6 - 1;
+                            var_r2_10 = directionD36874 - 1;
                             goto state5Call66;
                         }
                     }
@@ -2667,28 +2662,28 @@ state5Done66:
                 break;
             case 6:                                 /* switch 4 */
                 sp158 = 0;
-                var_r6_4 = 0;
+                directionD36874 = 0;
                 temp_r1_29 = ((struct PlayerD368 *)arg0)->f12;
                 if (0x40 & temp_r1_29) {
-                    var_r6_4 = 5;
+                    directionD36874 = 5;
                 } else if (0x80 & temp_r1_29) {
-                    var_r6_4 = 1;
+                    directionD36874 = 1;
                 }
                 if (0x20 & temp_r1_29) {
-                    if (var_r6_4 == 5) {
-                        var_r6_4 = 4;
-                    } else if (var_r6_4 == 1) {
-                        var_r6_4 = 2;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 4;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 2;
                     } else {
-                        var_r6_4 = 3;
+                        directionD36874 = 3;
                     }
                 } else if (0x10 & temp_r1_29) {
-                    if (var_r6_4 == 5) {
-                        var_r6_4 = 6;
-                    } else if (var_r6_4 == 1) {
-                        var_r6_4 = 8;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 6;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 8;
                     } else {
-                        var_r6_4 = 7;
+                        directionD36874 = 7;
                     }
                 }
                 if (d368_sub_0805D548(*(u16 *)(d368_gUnk_030034E0 + 0x56 + (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x54) * 2)) - 1) == -1) {
@@ -2788,7 +2783,7 @@ block_809:
                                 }
                             }
                         }
-                        if (var_r6_4 != 0) {
+                        if (directionD36874 != 0) {
                             var_r0_9 = 7;
                             goto block_627;
                         }
@@ -2800,7 +2795,7 @@ block_809:
                             temp_r0_40 = var_r1_6 - 8;
                             ((struct PlayerD368 *)arg0)->fD8 = temp_r0_40;
                             if (temp_r0_40 <= 0) {
-                                ((struct PlayerD368 *)arg0)->fD8 = var_r6_4;
+                                ((struct PlayerD368 *)arg0)->fD8 = directionD36874;
                             }
                         }
                     }
@@ -2808,28 +2803,28 @@ block_809:
                 break;
             case 7:                                 /* switch 4 */
                 sp158 = 0;
-                var_r6_7 = 0;
+                directionD36874 = 0;
                 temp_r1_31 = ((struct PlayerD368 *)arg0)->f12;
                 if (0x40 & temp_r1_31) {
-                    var_r6_7 = 5;
+                    directionD36874 = 5;
                 } else if (0x80 & temp_r1_31) {
-                    var_r6_7 = 1;
+                    directionD36874 = 1;
                 }
                 if (0x20 & temp_r1_31) {
-                    if (var_r6_7 == 5) {
-                        var_r6_7 = 4;
-                    } else if (var_r6_7 == 1) {
-                        var_r6_7 = 2;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 4;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 2;
                     } else {
-                        var_r6_7 = 3;
+                        directionD36874 = 3;
                     }
                 } else if (0x10 & temp_r1_31) {
-                    if (var_r6_7 == 5) {
-                        var_r6_7 = 6;
-                    } else if (var_r6_7 == 1) {
-                        var_r6_7 = 8;
+                    if (directionD36874 == 5) {
+                        directionD36874 = 6;
+                    } else if (directionD36874 == 1) {
+                        directionD36874 = 8;
                     } else {
-                        var_r6_7 = 7;
+                        directionD36874 = 7;
                     }
                 }
                 if (d368_sub_0805D548(*(u16 *)(d368_gUnk_030034E0 + 0x56 + (M2C_FIELD(d368_gUnk_030034E0, u16 *, 0x54) * 2)) - 1) == -1) {
@@ -2858,7 +2853,7 @@ block_809:
                             ((struct PlayerD368 *)arg0)->f20 = 0U;
                         }
                     } else {
-                        if (var_r6_7 == 0) {
+                        if (directionD36874 == 0) {
                             var_r0_9 = 6;
                             goto block_627;
                         }
@@ -2934,7 +2929,7 @@ block_862:
                                 }
                             }
                         }
-                        ((struct PlayerD368 *)arg0)->f1C = (s16) (var_r6_7 - 1);
+                        ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);
                         temp_r3_6 = ((struct PlayerD368 *)arg0)->f40;
                         temp_r1_34 = ((struct PlayerD368 *)arg0)->fD8;
                         temp_r0_65 = (s32) (temp_r3_6 - temp_r1_34) >> 1;
