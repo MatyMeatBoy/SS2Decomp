@@ -453,7 +453,7 @@ extern void t109Init68B0(void *,s32,u16,s32,s32) asm("sub_08065158");
 extern void t109Screen68B0(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
 extern void t109Draw68B0(s16,s16,s32,u16,s32,void *,s32,s32) asm("sub_08007870");
 extern void t109Anim68B0(void *,s32,u16 *,u16 *,s32) asm("sub_08065370");
-extern u32 t109Serial68B0[] asm("gUnk_03003DC4");
+extern u32 t109Serial68B0[][83] asm("gUnk_03003DC4");
 extern void t109Run68B0(u16) asm("sub_080A68B0");
 void t109Run68B0(u16 arg0) {
     u8 sprite[0x34];
@@ -463,7 +463,7 @@ void t109Run68B0(u16 arg0) {
     s32 speed, remaining;
     u8 wait;
     s32 delay;
-    s32 px, py;
+    s32 pos[2];
     u16 dx;
     s16 x,y;
     s32 i, amount, value;
@@ -484,17 +484,17 @@ void t109Run68B0(u16 arg0) {
     do {
         if (delay > wait) {
             wait++;
-            px = t109O68B0->x;
-            py = t109O68B0->y;
+            pos[0] = t109O68B0->x;
+            pos[1] = t109O68B0->y;
             if (delay <= wait) sub_0805865C(0x1A4);
         } else {
-            if (arg0 & 1) px += 0xC0;
-            py += speed;
+            if (arg0 & 1) pos[0] += 0xC0;
+            pos[1] += speed;
             speed += 18;
-            dx = (px >> 8) - (t109P68B0[sub_080020F4()].x >> 8);
+            dx = (pos[0] >> 8) - (t109P68B0[sub_080020F4()].x >> 8);
             x = dx;
             second = sub_080020F4();
-            yy = (py >> 8) + 12;
+            yy = (pos[1] >> 8) + 12;
             y = yy - (t109P68B0[second].y >> 8);
             if ((u16)Sqrt(x*x+y*y) > 15) goto contactDone;
             if (sub_0800CDF8() != 0) goto contactDone;
@@ -506,7 +506,7 @@ void t109Run68B0(u16 arg0) {
             if (t109P68B0[sub_080020F4()].state == 14) goto contactDone;
             if (t109P68B0[sub_080020F4()].state == 11) goto contactDone;
             if (t109P68B0[sub_080020F4()].state == 12) goto contactDone;
-            if (t109Serial68B0[sub_080020F4()*0x53+t109O68B0->id] == t109O68B0->serial) goto contactDone;
+            if (t109Serial68B0[sub_080020F4()][t109O68B0->id] == t109O68B0->serial) goto contactDone;
             t109P68B0[sub_080020F4()].state = 10;
             t109P68B0[sub_080020F4()].fB0 = 0xFFFE;
             i = sub_080020F4();
@@ -515,12 +515,12 @@ void t109Run68B0(u16 arg0) {
             dst = &t109P68B0[i];
             value = dst->f88;
             dst->f88 = amount + value;
-            t109Serial68B0[sub_080020F4()*0x53+t109O68B0->id] = t109O68B0->serial;
+            t109Serial68B0[sub_080020F4()][t109O68B0->id] = t109O68B0->serial;
 contactDone:
             if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
                 zero = sub_0800CD34();
                 if (zero == 0) {
-                    t109Screen68B0((s32)(px<<8)>>16,(s32)(py<<8)>>16,&outX,&outY,zero,zero);
+                    t109Screen68B0((s32)(pos[0]<<8)>>16,(s32)(pos[1]<<8)>>16,&outX,&outY,zero,zero);
                     sub_08000AF0(t109Index68B0+16,*(u8 **)(sprite+0xC)+(*(u16 *)(resource+0xD6)<<5),1);
                     t109Anim68B0(sprite,2,&frame,&tick,1);
                     t109Draw68B0(outX,outY,2,frame,zero,sprite+0x1C,*(s32 *)(sprite+8),*(s32 *)sprite);
@@ -529,7 +529,7 @@ contactDone:
         }
         sub_080003F0();
         if (sub_0800CED8() != 0 || sub_0800CB78() != 0 || (zero = sub_0800CD00()) != 0) {
-            *(s32 *)((u8 *)sub_0800048C()+8) = 0;
+            { s32 *task = (s32 *)sub_0800048C(); register s32 z asm("r0") = 0; task[2] = z; }
             return;
         }
         remaining = (u16)(remaining-1);

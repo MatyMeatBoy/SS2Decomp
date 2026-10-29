@@ -1943,7 +1943,30 @@ void sub_0803540C(void) {
     sub_0800D108();
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035914);
+extern void sub_08029174(s32, s32);
+void sub_08035914(s32 arg0) {
+    u16 timer;
+    for (;;) {
+        sub_08029174(arg0, 0);
+        timer = 200;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 1);
+        timer = 180;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 0);
+        timer = 120;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 1);
+        timer = 360;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 0);
+        timer = 180;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 1);
+        timer = 240;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+    }
+}
 void sub_080359E8(s32 arg0) {
     u16 count;
 start:
@@ -1991,7 +2014,24 @@ wait4:
     if (sub_080021A8() == 0) goto dec4;
     goto start;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035A88);
+extern void sub_08029174(s32, s32);
+void sub_08035A88(s32 arg0) {
+    u16 timer;
+    for (;;) {
+        sub_08029174(arg0, 0);
+        timer = 240;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 1);
+        timer = 240;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 2);
+        timer = 180;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+        sub_08029174(arg0, 3);
+        timer = 60;
+        for (; timer != 0; timer--) { sub_080003F0(); if (sub_080021A8() != 0) break; }
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035B18);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080368F4);
 struct T36ACmd { u16 unk0, unk2; u8 data[12]; };
