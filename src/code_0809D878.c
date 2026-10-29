@@ -169,9 +169,7 @@ void sub_0809FB18(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A05B4);
-#ifdef NONMATCHING
 struct EntryA099C { u8 pad[8]; u16 unk8, unkA; u8 rest[20]; };
-extern u32 gUnk_03003D70;
 struct PlayerA099C { u8 pad[0x8C]; u32 x, y, xx, yy; u8 rest[0xB0]; };
 extern struct PlayerA099C gPlayersA099C[] asm("gUnk_03003CE0");
 extern u8 gFlagA099C asm("gUnk_03000338");
@@ -181,95 +179,69 @@ extern u8 gValueA099C asm("gUnk_0300033B");
 extern void sub_08097D0C_A099C(s32, s32) asm("sub_08097D0C");
 extern void sub_0809689C(void);
 extern void sub_080968C0(void);
-extern s16 sub_08096AF4(void *, s32);
+extern s32 sub_08096AF4(void *, s32);
 extern void sub_08097D7C(u8, s8);
 extern void sub_08097E28(void *, s32);
-void sub_080A099C(void) {
-    s32 temp_r4;
-    s32 temp_r4_2;
-    u32 var_r0;
-    u16 temp_r4_3;
-    u8 var_r5;
-    struct EntryA099C *var_r4;
-    u32 timer;
-    u32 raw;
-    s32 signedValue;
+void sub_080A099C(void)
+{
+    s32 a;
+    u8 i;
+    struct EntryA099C *e;
 
     sub_0809689C();
     sub_08097D0C_A099C(0, 0x38);
     gUnk_03003170.width0 = 0x1E;
     gUnk_03003170.pad72 = 0x19;
-    gUnk_03003170.width1 = 0x1E;
-    gUnk_03003170.pad76 = 0x19;
+    gUnk_03003170.width1 = gUnk_03003170.width0;
+    gUnk_03003170.pad76 = gUnk_03003170.pad72;
     gFlagA099C = 0;
-while (1) {
-    sub_08097D7C((u8) gValueA099C, gUnk_0300033C);
-    if ((u8) gFlagA099C != 0) {
-        if ((u8) gFlag2A099C == 0) {
-            timer = gTimerA099C;
-            if (timer == 0) {
-                gTimerA099C = 0x14;
-                if ((u32) (u8) gValueA099C > 1U) {
-                    gValueA099C = (u8) gValueA099C - 1;
-                }
-                raw = (u8)gUnk_0300033C;
-                signedValue = gUnk_0300033C;
-                if (signedValue < 0) {
-                    if (signedValue < -6) {
-                        var_r0 = raw + 1;
-                        goto block_17;
+    for (;;) {
+        sub_08097D7C(gValueA099C, gUnk_0300033C);
+        if (gFlagA099C != 0) {
+            if (gFlag2A099C == 0) {
+                if (gTimerA099C != 0) {
+                    gTimerA099C--;
+                } else {
+                    gTimerA099C = 0x14;
+                    if (gValueA099C > 1)
+                        gValueA099C--;
+                    if (gUnk_0300033C < 0) {
+                        if (gUnk_0300033C < -6)
+                            gUnk_0300033C++;
+                    } else if (gUnk_0300033C > 6) {
+                        gUnk_0300033C--;
                     }
-                } else if (signedValue > 6) {
-                    var_r0 = raw - 1;
-                    goto block_17;
                 }
-            } else {
-                goto block_12;
             }
-        }
-    } else {
-        timer = gTimerA099C;
-        if (timer != 0) {
-block_12:
-            gTimerA099C = timer - 1;
         } else {
-        gTimerA099C = 0x14;
-        raw = (u8)gUnk_0300033C;
-        signedValue = gUnk_0300033C;
-        if (signedValue != 0) {
-            if (signedValue < 0) {
-                var_r0 = raw + 1;
+            if (gTimerA099C != 0) {
+                gTimerA099C--;
             } else {
-                var_r0 = raw - 1;
+                gTimerA099C = 0x14;
+                if (gUnk_0300033C != 0) {
+                    if (gUnk_0300033C < 0)
+                        gUnk_0300033C++;
+                    else
+                        gUnk_0300033C--;
+                }
             }
-block_17:
-            gUnk_0300033C = var_r0;
         }
-    }
-    }
-    sub_08097D0C_A099C(0, (s16) (0x64 - gUnk_03003170.scrollY));
-    sub_080968C0();
-    temp_r4 = sub_080020F4();
-    gPlayersA099C[temp_r4].xx = gPlayersA099C[sub_080020F4()].x;
-    temp_r4_2 = sub_080020F4();
-    gPlayersA099C[temp_r4_2].yy = *(u32 *)((u8 *)&gUnk_03003D70 + 0x14C * sub_080020F4());
-    temp_r4_3 = sub_08096AF4(&gPlayersA099C[sub_080020F4()].x, 1);
-    sub_08097E28(&gPlayersA099C[sub_080020F4()].x, (s16) temp_r4_3);
-    var_r4 = gUnk_03005D58;
-    var_r5 = 0;
-    do {
-        if ((1 & var_r4->unkA) && (((u16) var_r4->unk8 >> 5) == 0)) {
-            sub_08097E28(var_r4, (s16) sub_08096AF4(var_r4, 1));
+        sub_08097D0C_A099C(0, (s16)(0x64 - gUnk_03003170.scrollY));
+        sub_080968C0();
+        a = sub_080020F4();
+        gPlayersA099C[a].xx = gPlayersA099C[sub_080020F4()].x;
+        a = sub_080020F4();
+        gPlayersA099C[a].yy = gPlayersA099C[sub_080020F4()].y;
+        a = (u16)sub_08096AF4(&gPlayersA099C[sub_080020F4()].x, 1);
+        sub_08097E28(&gPlayersA099C[sub_080020F4()].x, (s16)a);
+        e = gUnk_03005D58;
+        for (i = 0; i <= 15; e++, i++) {
+            if ((e->unkA & 1) && (e->unk8 >> 5) == 0)
+                sub_08097E28(e, (s16)sub_08096AF4(e, 1));
         }
-        var_r4++;
-        var_r5 += 1;
-    } while ((u32) var_r5 <= 0xFU);
-    sub_080003F0();
+        sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A099C);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0B44);
 void sub_080A0F64(void) {
     if (M2C_FIELD(gUnk_0300032C, s16 *, 0x5C) != 0) {
