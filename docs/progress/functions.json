@@ -25787,14 +25787,14 @@
       "name": "sub_0808C020",
       "addr": 134791200,
       "size": 164,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08087CC0",
       "kind": "c",
       "cat": "game",
       "address": "0x0808C020",
       "canonical_symbol": "sub_0808C020",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0808C020_v",
       "name_status": "existing",
       "name_source": "c_definition_alias",
@@ -25824,7 +25824,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 717,
+          "line": 714,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C0C4_v"
         }
       ]
@@ -33338,14 +33338,14 @@
       "name": "SoundMainBTM",
       "addr": 134965520,
       "size": 24,
-      "state": "todo",
-      "module": "m4a_1",
+      "state": "done",
+      "module": "m4a_1_btm",
       "kind": "c",
       "cat": "lib",
       "address": "0x080B6910",
       "canonical_symbol": "SoundMainBTM",
       "domain": "sdk",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "SoundMainBTM",
       "name_status": "existing",
       "name_source": "canonical_symbol",
