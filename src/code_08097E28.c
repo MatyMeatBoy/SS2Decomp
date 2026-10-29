@@ -814,74 +814,55 @@ loop_158:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098108);
 #endif
-#ifdef NONMATCHING
 struct Player98F {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
 struct Entity98F {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern struct Player98F players98F[] asm("gUnk_03003CE0");
 extern struct Entity98F *entity98F asm("gUnk_030002D0");
-extern s32 atan98F(s16,s32) asm("ArcTan2");
-s32 sub_08098F2C_impl(void) asm("sub_08098F2C");
-s32 sub_08098F2C_impl(void)
+extern u16 delta98F(void *, void *) asm("sub_0801ED8C");
+u8 sub_08098F2C(void)
 {
-    extern u32 atanInputs98F(s32,s32) asm("ArcTan2");
-    register u32 x asm("r4");
-    s32 y; register s32 firstY98F asm("r1");
-    s32 player;
-    void *entity;
-    register u32 angle asm("r0");
-    u32 direction;
-    register u32 fraction asm("r1");
-    s32 result;
-    struct Player98F *lastBase;
-    x=(u32)((entity98F->x-*(s32 *)((u8 *)&gUnk_03003D6C+sub_080020F4()*0x14C))<<8)>>16;
-    firstY98F=entity98F->y-players98F[sub_080020F4()].y; asm("" : "+r"(firstY98F));
-    firstY98F=(u32)firstY98F<<8; asm("" : "+r"(firstY98F));
-    x=(s16)x;
-    if(Sqrt(({ register u32 squareX98F asm("r0"); squareX98F=x*x; firstY98F>>=16; squareX98F+=firstY98F*firstY98F; squareX98F; }))<=0x2F && sub_0800CDF8()==0 && sub_0800CCCC()==0 && sub_0800CD8C()==0 && entity98F->state!=0xB && !(players98F[sub_080020F4()].flags&0x2000) && players98F[sub_080020F4()].active!=0 && players98F[sub_080020F4()].state!=0xE && players98F[sub_080020F4()].state!=0xB && players98F[sub_080020F4()].state!=0xC && players98F[sub_080020F4()].seen[entity98F->index]!=entity98F->counter) {
-        players98F[sub_080020F4()].state=0xA;
-        players98F[sub_080020F4()].motion=0xFFFE;
-        player=sub_080020F4();
-        entity=entity98F;
-        { register u32 delta98F asm("r0")=sub_0801ED8C(entity,&players98F[sub_080020F4()]);
-          register u16 *out98F asm("r1")=(u16 *)((u8 *)players98F+player*sizeof(struct Player98F));
-          register u32 old98F asm("r2");
-          asm("" : "+r"(out98F), "+r"(delta98F)); out98F=(u16 *)((u8 *)out98F+0x88); old98F=*out98F;
-          asm("" : "+r"(delta98F), "+r"(out98F), "+r"(old98F));
-          delta98F=delta98F+old98F; *out98F=delta98F; }
-        players98F[sub_080020F4()].seen[entity98F->index]=entity98F->counter;
-        x=(u32)((*(s32 *)((u8 *)&gUnk_03003D6C+sub_080020F4()*0x14C)-entity98F->x)<<8)>>16;
-        y=(players98F[sub_080020F4()].y-entity98F->y)<<8;
-        asm("" : "+r"(y)); x=(s16)x; asm("" : "+r"(x));
-        angle=atanInputs98F((s32)x,y>>16)<<16;
-        asm("" : "+r"(angle));
-        fraction=angle<<3;
-        asm("" : "+r"(fraction), "+r"(angle));
-        direction=angle>>29;
-        if(fraction>0x80000000U) {
-            if(direction<=6) direction++; else direction=0;
+    s16 dx, dy;
+    u32 dir;
+    u16 a, lo;
+    s32 id;
+
+    dx = (entity98F->x - players98F[sub_080020F4()].x) >> 8;
+    dy = (entity98F->y - players98F[sub_080020F4()].y) >> 8;
+    if (Sqrt(dx * dx + dy * dy) <= 0x2F && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0
+        && entity98F->state != 0xB && !(players98F[sub_080020F4()].flags & 0x2000)
+        && players98F[sub_080020F4()].active != 0 && players98F[sub_080020F4()].state != 0xE
+        && players98F[sub_080020F4()].state != 0xB && players98F[sub_080020F4()].state != 0xC
+        && players98F[sub_080020F4()].seen[entity98F->index] != entity98F->counter) {
+        players98F[sub_080020F4()].state = 0xA;
+        players98F[sub_080020F4()].motion = 0xFFFE;
+        id = sub_080020F4();
+        players98F[id].angle += delta98F(entity98F, &players98F[sub_080020F4()]);
+        players98F[sub_080020F4()].seen[entity98F->index] = entity98F->counter;
+        dx = (players98F[sub_080020F4()].x - entity98F->x) >> 8;
+        dy = (players98F[sub_080020F4()].y - entity98F->y) >> 8;
+        a = ArcTan2(dx, dy);
+        lo = a << 3;
+        dir = a >> 13;
+        if (lo > 0x8000U) {
+            if (dir <= 6) dir++; else dir = 0;
         }
-        switch(direction) {
-        default:
-            players98F[sub_080020F4()].direction=direction-2;
-            break;
+        switch (dir) {
         case 0:
-            players98F[sub_080020F4()].direction=6;
+            players98F[sub_080020F4()].direction = 6;
             break;
         case 1:
-            players98F[sub_080020F4()].direction=7;
+            players98F[sub_080020F4()].direction = 7;
+            break;
+        default:
+            players98F[sub_080020F4()].direction = dir - 2;
             break;
         }
-        players98F[sub_080020F4()].speed=0x400;
-        players98F[sub_080020F4()].timer=0x10;
+        players98F[sub_080020F4()].speed = 0x400;
+        players98F[sub_080020F4()].timer = 0x10;
     }
-    lastBase=players98F;
-    result=sub_080020F4();
-    if(lastBase[result].timer==0) entity98F->counter++;
-
+    if (players98F[sub_080020F4()].timer == 0)
+        entity98F->counter++;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098F2C);
-#endif
 struct Player99468 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
 struct Entity99468 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern struct Player99468 players99468[] asm("gUnk_03003CE0");
