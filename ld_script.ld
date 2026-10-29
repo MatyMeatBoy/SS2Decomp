@@ -63,7 +63,7 @@ SECTIONS
         build/src/code_080A3D2C.o(.text);
         build/src/code_080A9680.o(.text);
         build/src/code_080B3648.o(.text);
-        build/asm/m4a_1.o(.text);
+        build/src/m4a_1.o(.text);
         build/src/m4a.o(.text);
         build/asm/libagbsyscall.o(.text);
         build/src/agb_flash.o(.text);
