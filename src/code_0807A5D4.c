@@ -4255,19 +4255,30 @@ void sub_080811E0(u8 *arg0) {
    switch(var_r0) {case 8:sp4[0]++;break;case 9:sp4[1]++;break;case 10:sp4[3]++;break;case 11:sp4[2]++;break;}
    break;
   case 2:case 3:case 4:case 5:
-   if (*((u8 *)var_r1+8)!=0) {sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));break;}
+   if (*((u8 *)var_r1+8)==0) {
+    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+0x30));
+   } else {
+    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+   }
+   break;
   default:
    sub_0801BA74(arg0,(s32)*(u8 **)(manager811+0xf0),sp4,sp24,(s32)(bank811+0x30));break;
   }
  } else {
-  switch(*(u16 *)(manager811+0xf4)) {
+  var_r1=manager811+0xf4;
+  switch(*(u16 *)var_r1) {
+  case 2:case 3:case 4:case 5:
+   if(manager811[0xfc]==0) {
+    sub_0801BA74(arg0,(s32)var_r1,sp4,sp24,(s32)(bank811+0x30));
+   } else {
+    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
+   }
+   break;
   case 1:
    sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));
    var_r0=*(u16 *)(manager811+0xf6);
    switch(var_r0) {case 8:sp4[0]++;break;case 9:sp4[1]++;break;case 10:sp4[3]++;break;case 11:sp4[2]++;break;}
    break;
-  case 2:case 3:case 4:case 5:
-   if(manager811[0xfc]!=0) {sub_0801BA74(arg0,0,sp4,sp24,(s32)(bank811+0x30));break;}
   default:
    sub_0801BA74(arg0,(s32)(manager811+0xf4),sp4,sp24,(s32)(bank811+0x30));break;
   }
