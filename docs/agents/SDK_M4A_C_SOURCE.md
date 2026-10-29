@@ -134,14 +134,51 @@ CMP #128 / BHS rather than CMP #127 / BHI; explicit C labels/gotos avoid
 loop optimization moving the release block outside the traversal. The
 only assembly is the explicitly documented register-save/return ABI glue.
 
-The other 13 configured entries retain their original INCLUDE_ASM bodies.
+The other 10 configured entries retain their original INCLUDE_ASM bodies.
 This does not claim the complete mixer or interpreter is C. Moving the
 3060-byte module from original_asm to c expands the C-decompilable
-denominator by 3060 bytes / 36 functions, while only 588 bytes / 23 functions
-become decompiled; the remaining 2472 bytes / 13 functions are pending.
+denominator by 3060 bytes / 36 functions, while only 652 bytes / 26 functions
+become decompiled; the remaining 2408 bytes / 10 functions are pending.
 This is a classification consequence of opening the module for incremental
 C conversion, not a change to historical totals.
 
 Verification: isolated bytes and relocations match; the integrated normal
 build produces `shiningsoul2_eu.gba: OK` with SHA-1
 `aa1288be9257337abdfe3034898cf6c7aa778fbc`.
+
+`sub_080B6992` at 0x080B6992 is C with minimal ABI assembly (26 bytes).
+Its C tests the stream pointer address ranges and clears the r3 value for
+untrusted addresses. The only instruction assembly saves/restores the caller's
+r0 and returns through lr; all shifts, comparisons and decisions are C.
+The dedicated reader TU opts into the reviewed generic LSR equality-flags and
+Thumb halfword function-alignment options. Its existing first reader remains
+word aligned with explicit section alignment metadata. The symbolic data alias
+`_080B69A8` names the sole C-generated literal shared by MPlayJumpTableCopy;
+it emits no algorithm or literal byte blob. Both callers and fall-through
+entries retain their original addresses. MPlayJumpTableCopy remains assembly.
+
+`tools/scripts/test_sdk_reader_match.py` compiles the active C through the
+normal Makefile and compares bytes and relocations for all five entries against
+the versioned original ASM oracle, without needing the ROM. The oracle comes
+from revision a533caf3ac7046d9308910581c2af7688b29ce9c. Full ROM comparison also
+passes. Compiler source and portable semantic/ABI regression commands are in
+`tools/patches/README.sdk-flags.md`.
+
+`sub_080B69AE` at 0x080B69AE also uses C with minimal shared-entry ABI
+assembly (8 instruction bytes plus its original 2 alignment bytes). C advances
+the track command pointer and reads the current byte. Its single terminal
+`b sub_080B6992` preserves the caller's lr while entering the shared validator;
+a normal C call emits BL and changes that register. This is explicit ABI glue,
+not pure C. There are no assembly decisions, loads, stores or arithmetic in
+this helper. The strict reader-container test now requires both definitions
+to be active C and still compares all five entries.
+
+`sub_080B69D8` at 0x080B69D8 is C with two minimal terminal ABI transfers
+(26 instruction bytes and the original 2 alignment bytes). C checks the
+pattern nesting depth, stores the return stream address and increments the
+depth. The C conditional selects a terminal branch to either the existing
+sequence jump helper or ply_fine, preserving the original caller's lr. Only
+those two direct unconditional tails are assembly. A local threshold of three
+preserves CMP #3 / BHS instead of folding into CMP #2 / BHI. The no-ROM SDK
+strict suite requires the active C definition and compares original bytes and
+relocations from revision a533caf3ac7046d9308910581c2af7688b29ce9c.

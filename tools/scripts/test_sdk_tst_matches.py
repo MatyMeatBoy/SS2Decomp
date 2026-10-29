@@ -11,7 +11,8 @@ import decomp
 from source_index import functions
 
 ROOT = Path(decomp.ROOT)
-CASES = (("m4a_1", "ply_fine"), ("m4a_1_engine", "TrackStop"))
+CASES = (("m4a_1", "ply_fine"), ("m4a_1_engine", "TrackStop"),
+         ("m4a_1_rest", "sub_080B69D8"))
 
 
 def main():

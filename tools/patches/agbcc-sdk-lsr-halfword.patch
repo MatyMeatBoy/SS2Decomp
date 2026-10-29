@@ -1,0 +1,49 @@
+--- a/gcc/flags.h
++++ b/gcc/flags.h
+@@ -462,0 +463,2 @@
++extern int flag_lsr_flags;
++extern int flag_thumb_halfword_align;
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -595,0 +596,2 @@
++int flag_lsr_flags = 0;
++int flag_thumb_halfword_align = 0;
+@@ -744,0 +747,4 @@
++    {"thumb-halfword-align", &flag_thumb_halfword_align, 1,
++     "Use the minimum halfword alignment for Thumb functions"},
++    {"lsr-flags", &flag_lsr_flags, 1,
++     "Use Thumb LSR flags for equality tests"},
+--- a/gcc/thumb.h
++++ b/gcc/thumb.h
+@@ -357 +357,2 @@
+-#define FUNCTION_BOUNDARY 32
++extern int flag_thumb_halfword_align;
++#define FUNCTION_BOUNDARY (flag_thumb_halfword_align ? 16 : 32)
+@@ -728,0 +730,2 @@
++/* The template contains ARM instructions, independently of Thumb function alignment. */
++#define TRAMPOLINE_ALIGNMENT 32
+--- a/gcc/thumb.md
++++ b/gcc/thumb.md
+@@ -842,0 +843,22 @@
++
++;; Opt-in LSR flags are equivalent to compare-with-zero only for EQ/NE.
++;; Immediate zero is excluded: Thumb LSR #0 encodes a shift of 32.
++(define_insn "*lsr_flags_dead"
++  [(set (cc0)
++        (lshiftrt:SI (match_operand:SI 1 "s_register_operand" "l")
++                     (match_operand:SI 2 "const_int_operand" "N")))
++   (clobber (match_scratch:SI 0 "=l"))]
++  "flag_lsr_flags && INTVAL (operands[2]) > 0
++   && next_insn_tests_no_inequality (insn)"
++  "lsr\\t%0, %1, %2")
++
++(define_insn "*lsr_flags_live"
++  [(set (cc0)
++        (lshiftrt:SI (match_operand:SI 1 "s_register_operand" "l")
++                     (match_operand:SI 2 "const_int_operand" "N")))
++   (set (match_operand:SI 0 "s_register_operand" "=l")
++        (lshiftrt:SI (match_dup 1) (match_dup 2)))]
++  "flag_lsr_flags && INTVAL (operands[2]) > 0
++   && next_insn_tests_no_inequality (insn)"
++  "lsr\\t%0, %1, %2")
++
