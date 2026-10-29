@@ -450,6 +450,7 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u32 nameZero3984;
     s32 textWidth3984;
     u32 input3984;
+    u32 confirmKeys3984;
     u16 navKeys3984;
     u16 widths[10], heights[10], x[10], y[4];
     struct Sprite3984 icons[9], labels[9];
@@ -984,8 +985,8 @@ block_102:
             }
             break;
         }
-        input3984 = keys3984;
-        if (input3984 == 1) {
+        confirmKeys3984 = keys3984;
+        if (confirmKeys3984 == 1) {
             sub_0805865C(0xF);
             selectionZeroC6 = 0;
             M2C_FIELD(arg0, u8 *, 1) = (u8) state;
@@ -1032,7 +1033,7 @@ loop_107:
                 timer = 5;
             }
             goto block_374;
-        } else if (input3984 == 2) {
+        } else if (confirmKeys3984 == 2) {
             sub_080009F8(0x200, 0, 1);
             sub_0805865C(0x10);
             sub_0801A664(0, 0xA);
@@ -1400,22 +1401,24 @@ block_206:
         }
         goto block_374;
     case 4:                                         /* switch 2 */
-        input3984 = keys3984;
-        if (0x20 & input3984) {
+    {
+        u32 panelKeys3984;
+        panelKeys3984 = keys3984;
+        if (0x20 & panelKeys3984) {
             if (current != 0) {
                 sub_0805865C(0xC6);
             }
             current = 0;
             goto block_221;
         }
-        if (0x10 & input3984) {
+        if (0x10 & panelKeys3984) {
             if (current == 0) {
                 sub_0805865C(0xC7);
             }
             current = 1;
             goto block_221;
         }
-        temp_r0_13 = input3984;
+        temp_r0_13 = panelKeys3984;
         if (temp_r0_13 == 1) {
             sub_0805865C(0xF);
             timer = 5;
@@ -1450,6 +1453,7 @@ block_221:
             ((void (*)(const u8 *, s32, s32))sub_0801A764)(arg0 + 0x10, 0x58U, 0x10U);
         }
         goto block_374;
+    }
     case 5:                                         /* switch 2 */
         sub_08000C08(8, 2);
         input3984 = keys3984;
