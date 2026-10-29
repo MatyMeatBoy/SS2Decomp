@@ -1,5 +1,5 @@
 {
-  "checkpoint": "Draft v25: shutdown poll order, typed +0x2C load and retained end marker. Isolated 7144/7132, NO MATCH.",
+  "checkpoint": "Retry sentinel and three initialization arguments checkpoint after PR78; candidate7180/original7132, NONMATCHING.",
   "areas": [
     {
       "evidence": "Original ASM frame 0x168 and stack offsets 0x10-0x103 reconstructed as packet, four 0x34 animation objects, coordinates and state. Candidate v17 retains frame 0x168. Fifty actor fields use observed nonoverlapping widths/signs. Outgoing call arguments restored; draft evidence only.",
@@ -8,18 +8,18 @@
       "id": "stack_abi"
     },
     {
-      "evidence": "Resource retry block follows 0x08018058-0x08018092; outer polling rotated to follow body at 0x080199C4. Typed actor and stack aggregates retained. Rejected entry experiment: overlapping fixed r5 variables allowed compiler to overwrite the retry limit. Broad spill/register differences remain. v24 restores initial-forward-entry/yield-before-poll order at 0x08019A00-0x08019B46; typed local player view restores 0x2C halfword displacement. Broad register/spill differences remain. v25 retains natural end marker across final yield and restores subs r4,#31 / cmp r0,r4 at 0x08019B04-0x08019B34 without fixed registers or CPU instructions.",
+      "evidence": "Resource retry block follows 0x08018058-0x08018092; outer polling rotated to follow body at 0x080199C4. Typed actor and stack aggregates retained. Rejected entry experiment: overlapping fixed r5 variables allowed compiler to overwrite the retry limit. Broad spill/register differences remain. v24 restores initial-forward-entry/yield-before-poll order at 0x08019A00-0x08019B46; typed local player view restores 0x2C halfword displacement. Broad register/spill differences remain. v25 retains natural end marker across final yield and restores subs r4,#31 / cmp r0,r4 at 0x08019B04-0x08019B34 without fixed registers or CPU instructions. New checkpoint: ordinary u32 retry sentinel initialized to0xFFFF with empty read/write witness keeps it in a callee-saved register across resource retries; no fixed-register binding. Three initial 65158 fifth arguments are direct zero rather than the reused outgoing temporary. Restores zeroR5, baseR9, auxAR8 and three STRzero outgoing stores; avoids saved-zero reloads. Candidate7180 versus prior7184; heuristic module score2115->2081 (original7132). Frame0x168 retained; full match remains pending. Private aggregate-word-home frame0x198/7684 and extra retained mask-pointer7188 were rejected.",
       "state": "active",
       "label": "Match control flow and register allocation",
       "id": "cfg_registers"
     },
     {
-      "evidence": "NONMATCHING ASM fallback retained; v25 isolated check NO MATCH, 7144 versus 7132 bytes. No equivalence claim.",
+      "evidence": "Normal original ASM fallback remains. Checkpoint7180 versus original7132, NO MATCH; no new matching bytes or full-function equivalence claim.",
       "state": "pending",
       "label": "Verify matching C in the normal ROM build",
       "id": "full_match"
     }
   ],
-  "updated_utc": "2026-10-29T07:14:21.533542+00:00",
+  "updated_utc": "2026-10-29T21:13:27.595800+00:00",
   "address": "0x0801801C"
 }

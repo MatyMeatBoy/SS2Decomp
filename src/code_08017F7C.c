@@ -87,6 +87,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     void * local4;
     u32 local8;
     u32 localC;
+    u32 failureLimit015;
     s32 local104;
     s32 local108;
     s32 local10C;
@@ -174,6 +175,9 @@ void sub_0801801C(struct T015LActor *arg0) {
     (local10C) = (s32) arg0->fC;
     (local160) = (u8 *)arg0 + 0x2D8;
     (local164) = (u8 *)arg0 + 0x2DA;
+    /* The original keeps the retry sentinel live across the polling calls. */
+    failureLimit015 = 0xFFFF;
+    asm("" : "+r"(failureLimit015));
     goto loop_5;
 retry_resource:
     arg0->fC = 0xBU;
@@ -187,18 +191,15 @@ retry_resource:
 loop_5:
     temp_r0 = T015L_sub_08016E04(T015L_FIELD(sp118, u16 *, 0xD4), T015L_FIELD(sp118, u16 *, 0xD6));
     (local114) = (s32) temp_r0;
-    if (temp_r0 == 0xFFFF) goto retry_resource;
+    if (temp_r0 == failureLimit015) goto retry_resource;
     {
         arg0->fC = (u16) (local10C);
         (local10C) = 0xFFFF;
-        (local0) = 0;
-        T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, (local0));
+        T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
         asm volatile("");
-        (local0) = 0;
-        T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, (local0));
+        T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
         asm volatile("");
-        (local0) = 0;
-        T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, (local0));
+        T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
         asm volatile("");
         if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
             sub_08000AF0(0x17U, stack.auxA.fC, 2U);
