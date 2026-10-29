@@ -174,15 +174,17 @@ u32 sub_080A98E0(u32 a, u32 b, u32 c, u32 d)
         return 1;
     return 0;
 }
-#ifdef NONMATCHING
-u32 sub_080A9910(s32 *a, s32 *b, s32 *c)
+struct V { s32 x, y; };
+s32 sub_080A9910(struct V *a, struct V *b, struct V *c)
 {
-    s32 cross = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
-    return cross > 0 ? 1 : (cross < 0 ? (u32)-1 : 0);
+    struct V v1, v2;
+    s32 res; s32 r;
+    v1.x = b->x - a->x;
+    v1.y = b->y - a->y;
+    v2.x = c->x - a->x;
+    v2.y = c->y - a->y;
+    r = v1.x * v2.y - v1.y * v2.x; res = 1; if (r <= 0) { res = 0; if (r < 0) res--; } return res;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9910);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9950);
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AB054);
 void sub_080AB2D8(void) {
