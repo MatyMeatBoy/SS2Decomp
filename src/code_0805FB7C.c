@@ -1420,7 +1420,57 @@ void sub_08061688(s32 index)
     tasks64[index].u24 = 0;
     sub_08000274(&tasks64[index], index);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806171C);
+/* SS1 number_above.c (52c0fa73870fab238941e32be7eff172e9bad71f), adapted to SS2 ASM. */
+struct NumberPlayer64 { u8 pad0[0x14]; s32 x,y; };
+struct NumberSprite64 { u32 base,unused,data; u8 padC[0x10]; u8 attr[24]; };
+extern struct NumberSprite64 numberSprite64 asm("gUnk_03005D80");
+extern const u32 numberPowers64[] asm("gUnk_084EBD4C");
+extern void numberCoords64(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+static inline void NumberDraw64(struct NumberSprite64 *obj,u32 x,u32 y,u16 anim,u16 frame)
+{
+    sub_08007CF0(x,y,anim,frame,0,(s32)obj->attr,obj->data,obj->base);
+}
+static inline void NumberDigits64(s32 x,s32 y,s32 number,u32 kind,u8 count)
+{
+    u8 digits[12];
+    s32 value;
+    u32 i,started;
+    u8 *p;
+    const u32 *table;
+    if (number < 0) number = 0x7FFFFFFF;
+    switch (kind) {
+    case 0: kind = 0; break;
+    case 1: kind = 1; break;
+    case 2: kind = 2; break;
+    case 3: kind = 13; break;
+    }
+    value = number;
+    table = &numberPowers64[10-count];
+    p = digits;
+    for (i = 0; i < count; i++,p++)
+        *p = sub_08000498(&value,*table++);
+    started = 0;
+    x -= (count-1)*6;
+    p = digits;
+    for (i = 0; i < count; i++,x += 6,p++) {
+        if (started || *p != 0 || i == count-1) {
+            started = 1;
+            NumberDraw64(&numberSprite64,x,y,kind,*p);
+        }
+    }
+}
+void sub_0806171C(void *raw,s32 value)
+{
+    struct NumberPlayer64 *object = raw;
+    u16 screenX,screenY;
+    u32 second;
+    if (sub_0800CCCC() != 0) return;
+    second = sub_0800CC98();
+    if (second != 0) return;
+    numberCoords64((object->x << 8) >> 16,(object->y << 8) >> 16,(s16 *)&screenX,(s16 *)&screenY,0x30,second);
+    NumberDigits64(screenX,screenY,value,2,4);
+    NumberDraw64(&numberSprite64,screenX-6,screenY-8,4,6);
+}
 /* SS1 player_rise_effect.c (52c0fa73870fab238941e32be7eff172e9bad71f), adapted to SS2 ASM. */
 struct RisePlayer64 { u8 pad0[0x30]; u32 flags; u8 pad34[0x58]; s32 x,y; };
 struct RiseSprite64 { u32 base,unused,data; u8 padC[0x10]; u8 attr[24]; };
