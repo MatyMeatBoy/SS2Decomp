@@ -7,7 +7,23 @@ INCLUDE_ASM("asm/nonmatchings/m4a_1_engine", m4aSoundVSync);
 
 INCLUDE_ASM("asm/nonmatchings/m4a_1_engine", MPlayMain);
 
-INCLUDE_ASM("asm/nonmatchings/m4a_1_engine", sub_080B6DD0);
+/* This 16-byte interval is mixed ABI/data: a register-indirect transfer
+ * (2 bytes plus alignment) and three genuine four-byte C objects. It does not
+ * convert either adjacent ASM routine. MPlayMain falls through here with its
+ * return address in r3; explicit callers put a callback in r3. */
+void sub_080B6DD0(u32 channel) __attribute__((naked));
+void sub_080B6DD0(u32 channel)
+{
+    asm("bx r3");
+}
+
+extern const u8 sdkCgbTable[] asm("gUnk_080BBA5C");
+const u8 *const sdkCgbTableAddress asm("_080B6DD4")
+    __attribute__((section(".text"), aligned(4))) = sdkCgbTable;
+struct SoundInfo **const sdkSharedSoundInfo asm("_080B6DD8")
+    __attribute__((section(".text"), aligned(4))) = &sdkSoundInfo;
+const u32 sdkSharedLockId asm("_080B6DDC")
+    __attribute__((section(".text"), aligned(4))) = ID_NUMBER;
 
 void TrackStop(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
 {

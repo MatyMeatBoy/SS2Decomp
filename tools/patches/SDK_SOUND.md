@@ -54,3 +54,14 @@ Private pre-activation evidence also checked three previously accepted SDK TUs:
 objects were identical with both options off, and with both on without literal
 attributes. Both full ROM links were exact. The activated normal build must
 still pass `make compare`; NONMATCHING must compile/link normally.
+
+
+The separate `sub_080B6DD0` interval uses the existing engine compiler and no new
+option. Its 16 bytes comprise a two-byte register-indirect ABI transfer, two-byte
+alignment and twelve bytes of genuine typed C objects shared by adjacent ASM.
+It is classified as mixed ABI/data, not a wholly C algorithm. The portable
+`test_sdk_shared_pool.py` compares all 676 bytes including 660 unchanged neighbor
+bytes, checks the real two-byte symbol and three object symbols, and executes
+both Thumb and ARM return targets with PC/LR/SP, all registers and NZCV checked.
+C-data and wrong-register source mutations must differ; a fresh Unicorn instance
+executes the latter so translated-code caching cannot mask the negative control.
