@@ -5269,11 +5269,9 @@ block_1763:
                         break;
                     case 8:                         /* switch 26 */
                         if (d368_sub_0800CC98() != 0) {
-
-                        } else {
-                            goto shared27_8;
+                            goto renderDoneD368;
                         }
-                        break;
+                        goto shared27_8;
                     case 11:                        /* switch 26 */
                         temp_r0_165 = d368_sub_0800CC98();
                         if (temp_r0_165 != 0) {
@@ -5491,6 +5489,7 @@ block_1776:
                     }
                 }
             }
+renderDoneD368:
             temp_r0_166 = ((struct PlayerD368 *)arg0)->fC;
             if (temp_r0_166 != 6) {
                 if ((s32) temp_r0_166 <= 6) {

@@ -3306,7 +3306,232 @@ void sub_08026338(void *arg) {
     *(s32 *)(base + 0x17E0) = 0;
     sub_08000274((M2C_UNK *) (base + off), (s32) arg);
 }
+#ifdef NONMATCHING
+struct T24Net080263B4 { u16 unk0, unk2; u8 pad4[3]; u8 unk7; };
+struct T24Player080263B4 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x58]; u32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net080263B4 *net; };
+struct T24Sprite080263B4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 payload[15]; u8 f2B; u8 pad2C[8]; };
+struct T24State080263B4 { u32 f0; u16 unk4; u8 pad6[0x3A]; u32 unk40; u8 pad44[0x184]; u8 grid[100]; };
+extern struct T24Player080263B4 t24_players080263B4[] asm("gUnk_03003CE0");
+extern struct T24State080263B4 *t24_state080263B4 asm("gUnk_03005CF4");
+extern struct { u8 pad[0x90]; u16 scene; } t24_scene080263B4 asm("gUnk_03003170");
+extern u16 t24_keys080263B4 asm("gUnk_03001324");
+extern void t24_callback080263B4(void) asm("sub_08024538");
+extern u8 *t24_call08007290_080263B4(u32) asm("sub_08007290");
+extern u32 sub_08002164(void);
+extern u32 t24_call0801A638_080263B4(void *) asm("sub_0801A638");
+extern void sub_08065158(void *, u32, u32, s32, u32);
+extern void t24_call08065370_080263B4(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern void sub_08008E74(s16, s16, u32, u16, u32, void *, u32, u32);
+extern void sub_0800BC08(s32, s32, s16 *, s16 *, u32, u32);
+void sub_080263B4(void) {
+    struct T24Sprite080263B4 sprite;
+    u16 frame, phase;
+    s16 x, y;
+    u8 *text;
+    s32 active;
+    u32 timer;
+    u32 nextCount;
+    u32 playerOffset;
+    s32 limit;
+    s32 temp_r4_2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r5;
+    struct T24Player080263B4 *temp_r6;
+    u16 temp_r4_3;
+    u16 temp_r4_4;
+    u32 temp_r0;
+    u32 temp_r0_2;
+    u32 temp_r1;
+    u32 temp_r2;
+    u32 var_r1;
+    u32 var_r2;
+    u32 var_r4;
+    u32 var_r5_2;
+    u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
+    u32 zero;
+    u8 *temp_r4;
+    struct T24Net080263B4 *temp_r2_2;
+
+    zero = 0;
+
+    frame = zero;
+    phase = zero;
+    active = 0;
+    text = t24_call08007290_080263B4(0x1403D3);
+    playerOffset = sub_080020F4() * 0x14C;
+
+    temp_r6 = (struct T24Player080263B4 *)((u8 *)t24_players080263B4 + playerOffset);
+
+    sub_08065158(&sprite, 0x5000D, 0xE, -1, zero);
+    sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
+    sprite.f2B = 0xE;
+    t24_state080263B4->unk4 = (u16) (0x100 | t24_state080263B4->unk4);
+    goto loop_48;
+retry_2:
+    sub_080003F0();
+loop_2:
+    if (sub_0800CDF8() != 0) goto retry_2;
+        if (sub_080021A8() != 0) {
+            return;
+        }
+        x = (s16) ((u32) temp_r6->unk8C >> 8);
+        y = (s16) ((u32) temp_r6->unk90 >> 8);
+        if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
+            limit = 0x78;
+
+            var_r0 = x - limit;
+            if (var_r0 < 0) {
+                var_r0 = 0 - var_r0;
+            }
+            if (var_r0 <= 0x17) {
+                limit = 0x140;
+
+                var_r0_2 = y - limit;
+                if (var_r0_2 < 0) {
+                    var_r0_2 = 0 - var_r0_2;
+                }
+                if (var_r0_2 <= 0xF) {
+                    if ((sub_0800CCCC() != 0) && (t24_scene080263B4.scene == 0)) {
+                        temp_r6->flags |= 0x800000;
+                        temp_r4 = text + 2;
+                        sub_0801A3D0(temp_r4, (u16) (0xF - ((u32) t24_call0801A638_080263B4(temp_r4) >> 1)), 0x12);
+                        temp_r2 = temp_r6->flags;
+                        temp_r4_2 = 0x400 & temp_r2;
+                        if (temp_r4_2 == 0) {
+                            if (1 & temp_r6->unk14) {
+                                temp_r6->flags = (temp_r2 | 0x403) & 0xFF7FFFFF;
+                                sub_08067D74();
+                                temp_r6->unkD8 = temp_r4_2;
+                            }
+                            timer = 0;
+                        } else {
+                            temp_r0 = timer;
+                            timer = temp_r0 + 1;
+                            if ((temp_r0 > 0x3CU) && (2 & t24_keys080263B4)) {
+                                temp_r6->flags = temp_r2 & 0xFFFFFBFF;
+                                sub_08057328(0, &t24_callback080263B4);
+                            }
+                        }
+                    }
+                    active = 1;
+                } else {
+                    goto block_23;
+                }
+            } else {
+                goto block_23;
+            }
+        } else {
+block_23:
+            if (active != 0) {
+                active = 0;
+                sub_0801A664(0x12, 2);
+            }
+            temp_r6->flags &= 0xFF7FFFFF;
+        }
+        if (sub_08002204() != 0) {
+            var_r5 = 0;
+            var_r4 = 0;
+            nextCount = var_r7 + 1;
+loop_37:
+            if (var_r4 < sub_08002164()) {
+                temp_r2_2 = t24_players080263B4[var_r4].net;
+                x = (s16) ((u16) temp_r2_2->unk0 >> 4);
+                temp_r1 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
+                y = (s16) temp_r1;
+                var_r0_3 = x - 0x78;
+                if (var_r0_3 < 0) {
+                    var_r0_3 = 0 - var_r0_3;
+                }
+                if (var_r0_3 <= 0x17) {
+                    var_r0_4 = temp_r1 - 0x140;
+                    if (var_r0_4 < 0) {
+                        var_r0_4 = 0 - var_r0_4;
+                    }
+                    if ((var_r0_4 <= 0xF) && ((s32) (temp_r2_2->unk7 << 0x1B) < 0)) {
+                        var_r5 += 1;
+                    }
+                }
+                var_r4 += 1;
+                goto loop_37;
+            }
+            var_r7 = nextCount;
+            if (var_r5 != sub_08002164()) {
+                var_r7 = 0;
+            }
+            if (var_r7 > 2U) {
+                sub_080687E8();
+                goto block_51;
+            }
+            goto block_42;
+        }
+block_42:
+        t24_call08065370_080263B4(&sprite, 0, &frame, &phase, 1);
+        if ((sub_0800CC98() == 0) && (sub_0800CCCC() != 0) && (sub_0800CD34() == 0)) {
+            temp_r4_3 = t24_scene080263B4.scene;
+            if (temp_r4_3 == 0) {
+                sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
+                sub_0800BC08(0x78, 0x140, &x, &y, 0x30, 0);
+                sub_08008E74(x, y, 0, frame, 3, sprite.payload, sprite.f8, sprite.f0);
+            }
+        }
+        sub_080003F0();
+loop_48:
+    if (!(((u16)t24_state080263B4->unk4 >> 4) & 1) && sub_0800D154() == 0) goto loop_2;
+block_51:
+    sub_0801A664(0x12, 2);
+    if (!(((u16) t24_state080263B4->unk4 >> 4) & 1) && (sub_0800D154() == 0)) {
+        var_r5_2 = 1;
+
+loop_55:
+        if (sub_0800CDF8() != 0) {
+            sub_080003F0();
+            goto loop_55;
+        }
+        if (sub_080021A8() == 0) {
+            t24_call08065370_080263B4(&sprite, 0, &frame, &phase, 1);
+            if ((sub_0800CC98() == 0) && (sub_0800CCCC() != 0)) {
+                temp_r4_4 = t24_scene080263B4.scene;
+                if (temp_r4_4 == 0) {
+                    sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
+                    sub_0800BC08(0x780000 >> 0x10, 0x01400000 >> 0x10, &x, &y, 0x30, 0);
+                    sub_08008E74(x, y, 0, frame, 3, sprite.payload, sprite.f8, sprite.f0);
+                }
+            }
+            sub_0801A664(0x12, 2);
+            sub_080003F0();
+            temp_r0_2 = var_r5_2;
+            var_r5_2 += 1;
+            if (temp_r0_2 > 5U) {
+                goto block_62;
+            }
+            goto loop_55;
+        }
+    } else {
+block_62:
+        temp_r6->flags &= 0xFF7FFFFF;
+        t24_state080263B4->unk4 = (u16) (0xFEFF & t24_state080263B4->unk4);
+        var_r1 = 0;
+        do {
+            var_r2 = 0;
+loop_64:
+            t24_state080263B4->grid[var_r2 + var_r1 * 5] = 0;
+            var_r2 += 1;
+            if (var_r2 <= 4U) {
+                goto loop_64;
+            }
+            var_r1 += 1;
+        } while (var_r1 <= 0x13U);
+        sub_080003F0();
+        sub_0801A664(0x12, 2);
+        sub_08057624(3U);
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080263B4);
+#endif
 void sub_080267DC(void) {
     s32 *gp;
     s32 off;
@@ -3327,7 +3552,229 @@ void sub_080267DC(void) {
     *(void **)(base + 0x17E0) = sub_0805A6A0;
     sub_08000274((M2C_UNK *) (base + off), (s32) sub_0805A6A0);
 }
+#ifdef NONMATCHING
+struct T24Net08026858 { u16 unk0, unk2; u8 pad4[3]; u8 unk7; };
+struct T24Player08026858 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x58]; u32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net08026858 *net; };
+struct T24Sprite08026858 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 payload[15]; u8 f2B; u8 pad2C[8]; };
+struct T24State08026858 { u32 f0; u16 unk4; u8 pad6[0x3A]; u32 unk40; u8 pad44[0x184]; u8 grid[100]; };
+extern struct T24Player08026858 t24_players08026858[] asm("gUnk_03003CE0");
+extern struct T24State08026858 *t24_state08026858 asm("gUnk_03005CF4");
+extern struct { u8 pad[0x90]; u16 scene; } t24_scene08026858 asm("gUnk_03003170");
+extern u16 t24_keys08026858 asm("gUnk_03001324");
+extern void t24_callback08026858(void) asm("sub_08024538");
+extern u8 *t24_call08007290_08026858(u32) asm("sub_08007290");
+extern u32 sub_08002164(void);
+extern u32 t24_call0801A638_08026858(void *) asm("sub_0801A638");
+extern void sub_08065158(void *, u32, u32, s32, u32);
+extern void t24_call08065370_08026858(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern void sub_08008E74(s16, s16, u32, u16, u32, void *, u32, u32);
+extern void sub_0800BC08(s32, s32, s16 *, s16 *, u32, u32);
+void sub_08026858(void) {
+    struct T24Sprite08026858 sprite;
+    u16 frame, phase;
+    s16 x, y;
+    u8 *text;
+    s32 active;
+    u32 timer, nextCount;
+    s32 temp_r0_2;
+    s32 temp_r0_3;
+    s32 temp_r4_2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r5;
+    s32 var_sl;
+    struct T24Player08026858 *temp_r6;
+    u32 temp_r0;
+    u32 temp_r0_4;
+    u32 temp_r1;
+    u32 temp_r1_2;
+    u32 temp_r2;
+    u32 var_r1;
+    u32 var_r2;
+    u32 var_r4;
+    u32 var_r5_2;
+    u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
+    u8 *temp_r4;
+    struct T24Net08026858 *temp_r2_2;
+
+    /* Original reads the prior r7 value before the first player-count pass. */
+    frame = 0;
+    phase = 0;
+    var_sl = 0;
+
+    text = t24_call08007290_08026858(0x1403D4);
+    temp_r6 = &t24_players08026858[sub_080020F4()];
+
+    sub_08065158(&sprite, 0x5000D, 0xE, -1, 0);
+    sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
+    sprite.f2B = 0xE;
+    if (sub_0800CF48() != 0) {
+        return;
+    }
+    temp_r1 = t24_state08026858->unk4 << 0x10;
+    if ((temp_r1 >> 0x18) & 1) {
+        return;
+    }
+    if ((temp_r1 >> 0x14) & 1) {
+        goto block_57;
+    }
+loop_8:
+    if (sub_0800CDF8() != 0) {
+        sub_080003F0();
+        goto loop_8;
+    }
+    if (sub_080021A8() != 0) {
+        return;
+    }
+    x = (s16) ((u32) temp_r6->unk8C >> 8);
+    y = (s16) ((u32) temp_r6->unk90 >> 8);
+    if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
+        var_r0 = x - 0xF0;
+        if (var_r0 < 0) {
+            var_r0 = 0 - var_r0;
+        }
+        if (var_r0 <= 0x17) {
+            var_r0_2 = y - 0x88;
+            if (var_r0_2 < 0) {
+                var_r0_2 = 0 - var_r0_2;
+            }
+            if (var_r0_2 <= 0xF) {
+                if ((sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
+                    temp_r4 = text + 2;
+                    sub_0801A3D0(temp_r4, (u16) (0xF - ((u32) t24_call0801A638_08026858(temp_r4) >> 1)), 0x12);
+                    temp_r2 = temp_r6->flags;
+                    temp_r4_2 = 0x400 & temp_r2;
+                    if (temp_r4_2 == 0) {
+                        if (1 & temp_r6->unk14) {
+                            temp_r6->flags = temp_r2 | 0x403;
+                            sub_08067D74();
+                            temp_r6->unkD8 = temp_r4_2;
+                        }
+                        timer = 0;
+                    } else {
+                        temp_r0 = timer;
+                        timer = temp_r0 + 1;
+                        if ((temp_r0 > 0x3CU) && (2 & t24_keys08026858)) {
+                            temp_r6->flags = temp_r2 & 0xFFFFFBFF;
+                            sub_08057328(0, &t24_callback08026858);
+                        }
+                    }
+                }
+                var_sl = 1;
+            } else {
+                goto block_29;
+            }
+        } else {
+            goto block_29;
+        }
+    } else {
+block_29:
+        if (var_sl != 0) {
+            var_sl = 0;
+
+            sub_0801A664(0x12, 2);
+        }
+        temp_r6->flags &= 0xFF7FFFFF;
+    }
+    if (sub_08002204() != 0) {
+        var_r5 = 0;
+        var_r4 = 0;
+        nextCount = var_r7 + 1;
+loop_43:
+        if (var_r4 < sub_08002164()) {
+            temp_r2_2 = t24_players08026858[var_r4].net;
+            x = (s16) ((u16) temp_r2_2->unk0 >> 4);
+            temp_r1_2 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
+            y = (s16) temp_r1_2;
+            var_r0_3 = x - 0xF0;
+            if (var_r0_3 < 0) {
+                var_r0_3 = 0 - var_r0_3;
+            }
+            if (var_r0_3 <= 0x17) {
+                var_r0_4 = temp_r1_2 - 0x88;
+                if (var_r0_4 < 0) {
+                    var_r0_4 = 0 - var_r0_4;
+                }
+                if ((var_r0_4 <= 0xF) && ((s32) (temp_r2_2->unk7 << 0x1B) < 0)) {
+                    var_r5 += 1;
+                }
+            }
+            var_r4 += 1;
+            goto loop_43;
+        }
+        var_r7 = nextCount;
+        if (var_r5 != sub_08002164()) {
+            var_r7 = 0;
+        }
+        if (var_r7 > 2U) {
+            t24_state08026858->unk40 = 0x92BC;
+loop_49:
+            if (sub_08067DC8() == 0) {
+                sub_080003F0();
+                goto loop_49;
+            }
+            goto block_57;
+        }
+        goto block_51;
+    }
+block_51:
+    t24_call08065370_08026858(&sprite, 1, &frame, &phase, 1);
+    temp_r0_2 = sub_0800CC98();
+    if ((temp_r0_2 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
+        sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
+        sub_0800BC08(0xF00000 >> 0x10, 0x880000 >> 0x10, &x, &y, 0x30, 0);
+        sub_08008E74(x, y, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
+    }
+    sub_080003F0();
+    if (!(((u16) t24_state08026858->unk4 >> 4) & 1)) {
+        goto loop_8;
+    }
+block_57:
+    sub_0805865C(0x24);
+    var_r5_2 = 1;
+loop_59:
+    if (sub_0800CDF8() != 0) {
+        sub_080003F0();
+        goto loop_59;
+    }
+    if (sub_080021A8() == 0) {
+        t24_call08065370_08026858(&sprite, 1, &frame, &phase, 1);
+        temp_r0_3 = sub_0800CC98();
+        if ((temp_r0_3 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
+            sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
+            sub_0800BC08(0xF00000 >> 0x10, 0x880000 >> 0x10, &x, &y, 0x30, 0);
+            sub_08008E74(x, y, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
+        }
+        sub_080003F0();
+        temp_r0_4 = var_r5_2;
+        var_r5_2 += 1;
+        if (temp_r0_4 > 0x63U) {
+            sub_0800D014();
+            var_r1 = 0;
+            do {
+                var_r2 = 0;
+loop_68:
+                t24_state08026858->grid[var_r2 + var_r1 * 5] = 0;
+                var_r2 += 1;
+                if (var_r2 <= 4U) {
+                    goto loop_68;
+                }
+                var_r1 += 1;
+            } while (var_r1 <= 0x13U);
+            sub_080003F0();
+            sub_0801A664(0x12, 2);
+            sub_0800CDAC();
+            sub_08057624(3U);
+        } else {
+            goto loop_59;
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08026858);
+#endif
 void sub_08026C54(void) {
     s32 *new_var2;
     s32 base;

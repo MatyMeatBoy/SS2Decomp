@@ -1978,7 +1978,227 @@ wait4:
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035A88);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08035B18);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080368F4);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080376CC);
+struct T36ACmd { u16 unk0, unk2; u8 data[12]; };
+struct T36AItem { u16 unk0, unk2; u8 data[12]; };
+struct T36AActor { u32 id; u8 pad4[0x3E]; u16 unk42; u8 pad44[0x2C]; };
+extern u8 *t36AState asm("gUnk_03005CF4");
+extern u8 *t36AInventory asm("gUnk_030034E0");
+extern u8 *t36AOther asm("gUnk_030056F4");
+extern void t36AEmit(struct T36ACmd *) asm("sub_0805AB20");
+extern void sub_0805990C(void);
+extern void sub_08019EB8(u16, s32);
+static inline u32 t36ATest(u8 *p, u32 one) { register s32 v asm("r0") = *p; asm("" : "+r"(v)); return (v >> 7) & one; }
+static inline u32 t36AHalf(u16 *p) { register u32 v asm("r0") = *p; asm("" : "+r"(v)); return v; }
+static inline void t36AInit(struct T36ACmd *pp, u32 aa, u32 bb) { register struct T36ACmd *p asm("r0"); register u32 a asm("r1")=aa; register u32 b asm("r2")=bb; asm("" : "+r"(a), "+r"(b)); p=pp; asm("" : "+r"(p)); p->unk0=a; p->unk2=b; }
+static inline u32 t36ALock(u32 idx) {
+ register u32 off asm("r1") = idx * 0x14C;
+ register u32 base asm("r0");
+ register struct Player *p asm("r1");
+ register u32 flags asm("r0");
+ register u32 one asm("r4");
+ asm("" : "+r"(off));
+ base=(u32)gUnk_03003CE0;
+ asm("" : "+r"(base));
+ p=(struct Player *)(off+base);
+ flags=p->flags;
+ asm("" : "+r"(flags));
+ one=1;
+ asm("" : "+r"(one));
+ p->flags=flags|one;
+ return one;
+}
+static inline u32 t36AMask(u32 *p) { register u32 m asm("r1")=0x100000; asm("" : "+r"(m)); return *p & m; }
+static inline void t36ASet80(void) { register u32 *p asm("r1")=(u32 *)(t36AState+0x80); register u32 m asm("r2")=0x100000; asm("" : "+r"(p), "+r"(m)); *p |= m; }
+static inline void t36ASet78(void) { register u8 *p asm("r2")=t36AState; register u32 m asm("r1")=0x100000; asm("" : "+r"(p), "+r"(m)); *(u32 *)(p+0x78) |= m; }
+static inline void t36APose(u32 idx, u32 value) { register u32 scaled asm("r0")=idx*0x14C; register u8 *p asm("r0"); register u32 off asm("r1"); asm("" : "+r"(scaled)); p=(u8 *)gUnk_03003CE0+scaled; asm("" : "+r"(p)); off=0x11E; asm("" : "+r"(p), "+r"(off)); *(u16 *)(p+off)=value; }
+static inline void t36AOtherPose(u32 idx) { register u8 **pp asm("r1")=&t36AOther; register u32 off asm("r0"); register u8 *p asm("r1"); asm("" : "+r"(pp)); off=idx*0x2E0; asm("" : "+r"(off)); p=*pp; p=p+off; asm("" : "+r"(p)); sub_08019EB8(*(u16 *)(p+2), 3); }
+static inline u32 t36ACount(u32 n) { return n; }
+static inline void t36AEmitMany(struct T36ACmd *p,u32 n) { u32 i=0; do { t36AEmit(p); i++; } while (i<n); }
+static inline u8 *t36AItemAddr(u8 *base,u32 idx) { register u8 *p asm("r0")=base; register u32 off asm("r1"); asm("" : "+r"(p)); off=idx*16; asm("" : "+r"(off)); return p+off; }
+void t36AScript(u32 input) asm("sub_080376CC");
+void t36AScript(u32 input) {
+    register u32 arg0 asm("r5") = input;
+    register u32 one asm("r4");
+    register u32 three asm("r4");
+    register u32 zero asm("r5");
+    register u32 ci asm("r4");
+    u8 **inventory;
+    register u8 *fill asm("r1");
+    register u32 fillzero asm("r2");
+    register u8 *data asm("r6");
+    struct T36ACmd sp8;
+    u8 extra[16];
+    struct T36AActor *var_r0_3;
+    struct T36AActor *var_r1_2;
+    s32 var_r0_2;
+    s32 var_r3;
+    s32 var_r4;
+    register struct Player *temp_r1 asm("r1");
+    register u32 temp_r2 asm("r2");
+    register u32 actorKey asm("r2");
+    u32 temp_r4;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 var_r2;
+    register u32 var_r3_2 asm("r3");
+    u32 var_r3_3;
+    u32 var_r4_2;
+    u32 var_r4_3;
+    u32 var_r4_4;
+    u32 var_r4_5;
+    u8 *var_r0;
+    u8 *temp_r1_2;
+    struct Player *temp_r2_2;
+    struct T36AItem *var_r1;
+
+    one = t36ALock(sub_080020F4());
+    asm("" : "+r"(one));
+    sub_0800D0F4();
+    if (sub_0800CE30() != 0) {
+        var_r0 = t36AState + 0x1C3;
+    } else {
+        var_r0 = t36AState + 0x1B7;
+    }
+    if (!t36ATest(var_r0, one)) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140286U);
+    while (sub_0805EEFC((void *)temp_r4_2) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+        if (sub_0800CE30() != 0) {
+            var_r0_2 = t36AMask((u32 *)(t36AState + 0x80));
+        } else {
+            var_r0_2 = t36AMask((u32 *)(t36AState + 0x78));
+        }
+        if (!var_r0_2) {
+            if (!(gUnk_030027D0 & 0x20)) {
+                sub_08006D08(0x32U);
+            }
+            if (sub_0800CE30() != 0) {
+                t36ASet80();
+            } else {
+                goto set78;
+actor_found:
+                var_r0_3 = var_r1_2;
+                goto actor_done;
+set78:
+                t36ASet78();
+            }
+        }
+        var_r3 = 0;
+        var_r2 = 0;
+        var_r1 = (struct T36AItem *)(t36AInventory + 0x150);
+        do {
+            if ((t36AHalf(&var_r1->unk0) == 1) && (var_r1->unk2 == 0x2D)) {
+                var_r3 += 1;
+            }
+            var_r1++;
+            var_r2 += 1;
+        } while (var_r2 <= 0x18U);
+        if (var_r3 <= 0) {
+
+        } else if (sub_080020F4() != 0) {
+
+        } else {
+            actorKey = arg0;
+            asm("" : "+r"(actorKey));
+            three = 3;
+            if (actorKey > 0x100000U) {
+                var_r1_2 = (struct T36AActor *)(t36AState + 0x7A4);
+                var_r3_2 = 0;
+                do {
+                    if (var_r1_2->id == actorKey) goto actor_found;
+                    var_r3_2++;
+                    var_r1_2++;
+                } while (var_r3_2 <= 14);
+                sub_080003F0();
+                var_r0_3 = NULL;
+actor_done:
+                if (var_r0_3 != NULL) {
+                    var_r0_3->unk42 = three;
+                }
+            } else if (arg0 != 0) {
+                temp_r2 = arg0 - 1;
+                if (temp_r2 <= 4U) {
+                    t36AOtherPose(temp_r2);
+                }
+            } else {
+                t36APose(sub_080020F4(), three);
+            }
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+            temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140287U);
+    while (sub_0805EEFC((void *)temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+            data = sp8.data;
+            var_r4 = 1;
+            var_r3_3 = 0;
+            inventory=&t36AInventory;
+            asm("" : "+r"(inventory));
+            zero = 0;
+loop_57:
+            temp_r1_2 = t36AItemAddr(*inventory, var_r3_3);
+            if (((*(u16 *)(temp_r1_2 + 0x150)) != 1) || ((*(u16 *)(temp_r1_2 + 0x152)) != 0x2D) || (var_r4 -= 1, (*(u16 *)(temp_r1_2 + 0x150)) = zero, (*(u16 *)(temp_r1_2 + 0x152)) = zero, (var_r4 != 0))) {
+                var_r3_3 += 1;
+                if (var_r3_3 <= 0x18U) {
+                    goto loop_57;
+                }
+            }
+            if (sub_0800CE30() == 0) {
+                t36AInit(&sp8, 6, 0x37);
+                ci = 0;
+                fill=data;
+                fillzero=0;
+                asm("" : "+r"(fill), "+r"(fillzero));
+                do {
+                    fill[ci] = fillzero;
+                    ci += 1;
+                } while (ci <= 0xBU);
+                var_r4_3=0; do { t36AEmit(&sp8); var_r4_3++; } while (var_r4_3 < t36ACount(1));
+                sub_08068070((u32) &sub_0805990C, 7U);
+                if (!(gUnk_030027D0 & 0x20)) {
+                    sub_08006D08(0x33U);
+                }
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+                temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140288U);
+                while (sub_0805EEFC((void *)temp_r4_4) == 0) {
+                    if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; }
+                    sub_080003F0();
+                }
+            } else {
+                t36AInit(&sp8, 6, 0x38);
+                ci = 0;
+                fill=data;
+                fillzero=0;
+                asm("" : "+r"(fill), "+r"(fillzero));
+                do {
+                    fill[ci] = fillzero;
+                    ci += 1;
+                } while (ci <= 0xBU);
+                var_r4_5=0; do { t36AEmit(&sp8); var_r4_5++; } while (var_r4_5 < t36ACount(1));
+                sub_08068070((u32) &sub_0805990C, 7U);
+                if (!(gUnk_030027D0 & 0x20)) {
+                    sub_08006D08(0x33U);
+                }
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+                temp_r4_5 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140289U);
+    while (sub_0805EEFC((void *)temp_r4_5) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+            }
+        }
+    } else {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14028AU);
+    while (sub_0805EEFC((void *)temp_r4) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    }
+    temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
+    sub_0800D108();
+}
+
+
 struct T36Player { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 unk30; u8 pad34[0x118]; };
 struct T36Task { u32 f0, f4, unk8, unkC; u8 *unk10; u32 f14, f18, f1c; u8 *unk20; u32 unk24; };
 struct T36Actor { s32 id; u8 pad4[0x40]; u32 unk44; u8 pad48[0x28]; };
@@ -2185,7 +2405,109 @@ actor_done:
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08037DFC);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080384D4);
+extern u8 *t36DState asm("gUnk_03005CF4");
+extern void sub_0802949C(s32,s32);
+extern void sub_08029788(s32);
+static inline u32 t36DTest(u8 *p) { register s32 v asm("r0")=*p; register s32 shifted asm("r1"); register u32 mask asm("r0"); asm("" : "+r"(v)); shifted=v>>2; asm("" : "+r"(shifted)); mask=1; return shifted&mask; }
+void sub_080384D4(s32 arg0) {
+    register s32 var_r1 asm("r1");
+    register u8 *base asm("r0");
+    s32 var_r4;
+    u32 temp_r4;
+    u32 temp_r4_10;
+    u32 temp_r4_11;
+    u32 temp_r4_2;
+    u32 temp_r4_3;
+    u32 temp_r4_4;
+    u32 temp_r4_5;
+    u32 temp_r4_6;
+    u32 temp_r4_7;
+    u32 temp_r4_8;
+    u32 temp_r4_9;
+    struct Player *temp_r2;
+    struct Player *temp_r2_2;
+
+    temp_r2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2->flags = (s32) (temp_r2->flags | 1);
+    sub_0800D0F4();
+    sub_0802949C(arg0, 0);
+    if (sub_0800CE30() != 0) {
+        var_r4 = (*(u32 *)(t36DState+0x7C));
+    } else {
+        var_r4 = (*(u32 *)(t36DState+0x74));
+    }
+    if (sub_0800CE30() != 0) {
+        base=t36DState;
+        asm("" : "+r"(base));
+        var_r1 = 0x1C6;
+    } else {
+        base=t36DState;
+        asm("" : "+r"(base));
+        var_r1 = 0x1BA;
+    }
+    if (t36DTest(base + var_r1)) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140121U);
+    while (sub_0805EEFC((void *)temp_r4) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (0x100 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140120U);
+    while (sub_0805EEFC((void *)temp_r4_2) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (0x80 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14011FU);
+    while (sub_0805EEFC((void *)temp_r4_3) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (0x40 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14011EU);
+    while (sub_0805EEFC((void *)temp_r4_4) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (0x20 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_5 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14011DU);
+    while (sub_0805EEFC((void *)temp_r4_5) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (0x10 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_6 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14011CU);
+    while (sub_0805EEFC((void *)temp_r4_6) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (8 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_7 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14011BU);
+    while (sub_0805EEFC((void *)temp_r4_7) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (4 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_8 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14011AU);
+    while (sub_0805EEFC((void *)temp_r4_8) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (2 & var_r4) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_9 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140119U);
+    while (sub_0805EEFC((void *)temp_r4_9) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else if (var_r4 & 1) {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_10 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140118U);
+    while (sub_0805EEFC((void *)temp_r4_10) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    } else {
+    while (sub_0805F184() != 0) sub_080003F0();
+    while (sub_0805EF90() != 0) sub_080003F0();
+        temp_r4_11 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x140117U);
+    while (sub_0805EEFC((void *)temp_r4_11) == 0) { if (sub_0800CDF8() != 0) { sub_0805EFBC(); break; } sub_080003F0(); }
+    }
+    sub_08029788(arg0);
+    temp_r2_2 = &gUnk_03003CE0[sub_080020F4()];
+    temp_r2_2->flags = (s32) (temp_r2_2->flags & ~1);
+    sub_0800D108();
+}
+
+
 extern u8 *state3898C asm("gUnk_03005CF4");
 struct Cmd3898C { u16 kind, value; u8 data[12]; };
 extern void emit3898C(struct Cmd3898C *) asm("sub_0805AB20");

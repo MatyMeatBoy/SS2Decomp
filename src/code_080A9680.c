@@ -230,7 +230,212 @@ void sub_080AC214(s32 arg0)
 
 
 
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC2E8);
+struct P1132 { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 flags; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C,unk90; u8 pad94[0x1c]; u16 unkB0; u8 padb2[0x16]; u16 unkC8,unkCA,unkCC; u8 padce[0x16]; u32 unkE4[0x1a]; };
+struct O1132 { u16 unk0; u8 pad2[10]; u16 unkC; u8 pade[6]; s32 unk14,unk18; u8 pad1c[0x34]; s32 unk50; };
+extern struct P1132 players1132[] asm("gUnk_03003CE0");
+extern struct O1132 *obj1132 asm("gUnk_03000434");
+extern s32 y1132 asm("gUnk_03003D70");
+extern u32 atan1132(s32,s32) asm("ArcTan2");
+extern s32 hit1132(void *,void *) asm("sub_0801ED8C");
+s32 sub_080AC2E8(u8 arg0) {
+    register u32 sp0 asm("r10");
+    register u32 arg asm("r9");
+    u16 dy;
+    u32 dyword;
+    s16 dxSigned,dySigned;
+    register struct O1132 *source asm("r6");
+    register struct O1132 *firstSource asm("r2");
+    register s32 *yp asm("r4");
+    struct P1132 *base;
+    register s32 stride asm("r6");
+    register u32 indexWord asm("r1");
+    struct O1132 *object;
+    register u32 *slot asm("r1");
+    struct P1132 *tail;
+    struct O1132 **obj;
+    register s32 idx asm("r0");
+    register s32 value asm("r0");
+    register s32 hitValue asm("r0");
+    register struct O1132 **initialObj asm("r6");
+    register struct P1132 *initialBase asm("r4");
+    register s32 initialStride asm("r5");
+    register u32 boolValue asm("r1");
+    register u32 fraction asm("r1");
+    register u32 half asm("r0");
+    register u32 one asm("r2");
+    register u32 *history asm("r8");
+    s32 *xp;
+    register s32 off asm("r0");
+    register u32 *fp asm("r1");
+    register s16 *var_r0 asm("r0");
+    s16 temp_r1;
+    s16 temp_r4_2;
+    register s32 var_r1 asm("r1");
+    s32 temp_r0;
+    register s32 temp_r5 asm("r5");
+    u32 temp_r0_2;
+    u32 temp_r4;
+    register u32 temp_r4_4 asm("r8");
+    register u32 var_r4 asm("r4");
+    register u32 angle asm("r0");
+    struct P1132 *temp_r1_2;
+    struct O1132 *temp_r4_3;
+    struct O1132 *initial;
+
+    arg = arg0;
+    sp0 = 0;
+    if (arg != 0) {
+        initialBase = players1132;
+        boolValue = initialBase[sub_080020F4()].unkC8;
+        sp0 = (u32)(-boolValue | boolValue) >> 31;
+    }
+    idx = sub_080020F4();
+    initialObj = &obj1132;
+    firstSource = *initialObj;
+    initialBase = players1132;
+    initialStride = 0x14C;
+    indexWord = idx * initialStride;
+    angle = (u32)initialBase + 0x8C;
+    asm("" : "+r"(indexWord), "+r"(angle));
+    indexWord += angle;
+    asm("" : "+r"(indexWord));
+    angle = firstSource->unk14;
+    indexWord = *(u32 *)indexWord;
+    angle = (u32)((angle - indexWord) << 8) >> 16;
+    asm("" : "+r"(angle));
+    temp_r4_4 = angle;
+    idx = sub_080020F4();
+    source = *initialObj;
+    indexWord = source->unk18 >> 8;
+    off = idx * initialStride;
+    asm("" : "+r"(indexWord), "+r"(off));
+    yp = &initialBase->unk90;
+    value = (*(s32 *)(off + (u32)yp) >> 8) + 16;
+    asm("" : "+r"(value), "+r"(indexWord));
+    indexWord -= value;
+    indexWord <<= 16;
+    asm("" : "+r"(indexWord));
+    dy = indexWord >> 16;
+    if (source->unk18 < *(s32 *)(sub_080020F4() * initialStride + (u32)yp)) dyword = (dy << 16) + 0xFFF40000;
+    else dyword = (dy << 16) + 0x100000;
+    dy = dyword >> 16;
+    asm("" : "+r"(dy));
+    dxSigned = temp_r4_4;
+    dySigned = dy;
+    hitValue = Sqrt(dxSigned * dxSigned + dySigned * dySigned);
+    if (arg != 0) goto done;
+    if ((u32)hitValue > 0x2FU) {
+
+    } else if (sub_0800CDF8() != 0) {
+
+    } else if (sub_0800CCCC() != 0) {
+
+    } else if (sub_0800CD8C() != 0) {
+
+    } else if ((obj = &obj1132, (*obj)->unkC) == 0xB) {
+
+    } else if ((off = sub_080020F4(), base = players1132, stride = 0x14C, off *= stride, fp = &base->flags, *(u32 *)(off + (u32)fp) & 0x2000)) {
+
+    } else if ((*(struct P1132 *)(sub_080020F4() * stride + (u32)base)).unk68 == 0) {
+
+    } else if ((*(struct P1132 *)(sub_080020F4() * stride + (u32)base)).unk20 == 0xE) {
+
+    } else if ((*(struct P1132 *)(sub_080020F4() * stride + (u32)base)).unk20 == 0xB) {
+
+    } else if ((*(struct P1132 *)(sub_080020F4() * stride + (u32)base)).unk20 == 0xC) {
+
+    } else {
+        off = sub_080020F4();
+        object = *obj;
+        indexWord = object->unk0 * 4;
+        off *= stride;
+        asm("" : "+r"(off), "+r"(indexWord));
+        indexWord += off;
+        history = base->unkE4;
+        asm("" : "+r"(indexWord), "+r"(history));
+        slot = (u32 *)(indexWord + (u32)history);
+        if (*slot == object->unk50) goto done;
+        (*(struct P1132 *)(sub_080020F4() * stride + (u32)base)).unk20 = 0xA;
+        (*(struct P1132 *)(sub_080020F4() * stride + (u32)base)).unkB0 = 0xFFFE;
+        temp_r5 = sub_080020F4();
+        temp_r4_3 = *obj;
+        hitValue = hit1132(temp_r4_3, &(*(struct P1132 *)(sub_080020F4() * stride + (u32)base)));
+        temp_r1_2 = &(*(struct P1132 *)(temp_r5 * stride + (u32)base));
+        hitValue += temp_r1_2->unk88;
+        temp_r1_2->unk88 = hitValue;
+        off = sub_080020F4();
+        object = *obj;
+        indexWord = object->unk0 * 4;
+        off *= stride;
+        asm("" : "+r"(off), "+r"(indexWord));
+        indexWord += off;
+        slot = (u32 *)(indexWord + (u32)history);
+        asm("" : "+r"(slot), "+r"(object));
+        temp_r0 = object->unk50;
+        *slot = temp_r0;
+        object->unk50 = temp_r0 + 1;
+        asm("" : : "r"(object));
+
+        off = sub_080020F4() * stride;
+        fp = (u32 *)&base->unk8C;
+        asm("" : "+r"(off), "+r"(fp));
+        temp_r4_4 = (u32)((*(s32 *)(off + (u32)fp) - (*obj)->unk14) << 8) >> 16;
+        off = sub_080020F4() * stride;
+        fp = (u32 *)&base->unk90;
+        asm("" : "+r"(off), "+r"(fp));
+        temp_r1 = (s32)((*(s32 *)(off + (u32)fp) - (*obj)->unk18) << 8) >> 16;
+        angle = atan1132((s16)temp_r4_4, temp_r1) << 16;
+        asm("" : "+r"(angle));
+        fraction = angle << 3;
+        var_r4 = angle >> 29;
+        asm("" : "+r"(fraction), "+r"(var_r4));
+        half = 0x80000000;
+        asm("" : "+r"(half));
+        if (fraction > half) {
+            if (var_r4 <= 6U) {
+                var_r4 += 1;
+            } else {
+                var_r4 = 0;
+            }
+        }
+        if (var_r4 == 0) goto direction0;
+        if (var_r4 == 1) goto direction1;
+        {
+            {
+                idx = sub_080020F4();
+                tail = players1132;
+                asm("" : "+r"(tail));
+                var_r0 = (s16 *)(idx * 0x14C + (u32)tail);
+                var_r1 = var_r4 - 2;
+                var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); asm("" : "+r"(var_r0), "+r"(var_r1));
+            }
+            goto storeDirection;
+        }
+direction0:
+        idx = sub_080020F4(); tail = players1132; asm("" : "+r"(tail));
+        var_r0 = (s16 *)(idx * 0x14C + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 6;
+        asm("" : "+r"(var_r0), "+r"(var_r1));
+        goto storeDirection;
+direction1:
+        idx = sub_080020F4(); tail = players1132; asm("" : "+r"(tail));
+        var_r0 = (s16 *)(idx * 0x14C + (u32)tail); var_r0 = (s16 *)((u8 *)var_r0 + 0xCA); var_r1 = 7;
+        asm("" : "+r"(var_r0), "+r"(var_r1));
+storeDirection:
+        *var_r0 = var_r1;
+        players1132[sub_080020F4()].unkCC = 0x200;
+        players1132[sub_080020F4()].unkC8 = 0x10;
+        sp0 = 1;
+    }
+done:
+    return sp0;
+}
+
+
+
+
+
+
+
 struct P1135 { u8 pad0[0x20]; u16 unk20; u8 pad22[14]; u32 flags; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C; u8 pad90[0x20]; u16 unkB0; u8 padb2[0x16]; u16 unkC8,unkCA,unkCC; u8 padce[0x16]; u32 unkE4[0x1a]; };
 struct O1135 { u16 unk0; u8 pad2[10]; u16 unkC; u8 pade[6]; s32 unk14,unk18; u8 pad1c[0x34]; s32 unk50; };
 extern struct P1135 players1135[] asm("gUnk_03003CE0");
