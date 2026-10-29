@@ -3224,12 +3224,10 @@ digraph calls {
   "sub_0801E024" -> "sub_0806617C" [label="c"];
   "sub_0801E278" -> "sub_0801DB94" [label="asm,c"];
   "sub_0801E2CC" -> "sub_0801DB94" [label="asm,c"];
-  "sub_0801E378" -> "__divsi3" [label="asm"];
-  "sub_0801E378" -> "sub_0801DE60" [label="asm,c"];
-  "sub_0801E378" -> "sub_0801E0AC" [label="asm,c"];
-  "sub_0801E3D8" -> "__divsi3" [label="asm"];
-  "sub_0801E3D8" -> "sub_0801DE60" [label="asm,c"];
-  "sub_0801E3D8" -> "sub_0801E0AC" [label="asm,c"];
+  "sub_0801E378" -> "sub_0801DE60" [label="c"];
+  "sub_0801E378" -> "sub_0801E0AC" [label="c"];
+  "sub_0801E3D8" -> "sub_0801DE60" [label="c"];
+  "sub_0801E3D8" -> "sub_0801E0AC" [label="c"];
   "sub_0801E438" -> "sub_0801DE60" [label="c"];
   "sub_0801E438" -> "sub_0801E0AC" [label="c"];
   "sub_0801E46C" -> "sub_080020F4" [label="c"];
