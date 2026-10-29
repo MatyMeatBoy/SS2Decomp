@@ -609,7 +609,38 @@ void sub_08069A30(s32 x, s32 y, u32 b, u16 c, u16 d)
     sub_08000274_2(t, e);
     gMask9A30 |= 1 << i;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069AEC);
+struct Effect69 { u32 data,unk4,tiles; u8 *palette; s32 unk10; u32 paletteId,paletteCount; u8 style[16]; s16 scale,step,max,min; };
+extern vu32 effectMask69 asm("gUnk_0300641C");
+extern u32 effectStep69(struct Effect69 *,u16,u16 *,u16 *,u32) asm("sub_08065370");
+extern u32 effectCoords69(s32,s32,s16 *,s16 *,u32,u32) asm("sub_0800BC08");
+extern void effectDraw69(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+void sub_08069AEC(u32 pos,u32 slot)
+{
+    struct Effect69 obj;
+    u16 frame;
+    u16 timer;
+    s16 screenX;
+    s16 screenY;
+    s16 x;
+    s16 y;
+    u16 done;
+    u32 second;
+    slot &= 0xFFFF;
+    x=pos;
+    y=pos>>16;
+    obj.style[5]=8;
+    timer=0;
+    frame=0;
+    do {
+        done=effectStep69(&obj,0,&frame,&timer,0);
+        if(!sub_0800CC98() && !sub_0800CD8C() && (second=sub_0800CCCC())==0) {
+            effectCoords69(x,y,&screenX,&screenY,0x30,second);
+            effectDraw69(screenX,screenY+1,0,frame,second,obj.style,obj.tiles,obj.data);
+        }
+        sub_080003F0();
+    } while(!done);
+    effectMask69 &= ~(1<<slot);
+}
 struct Task9BBC { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMask0300641C asm("gUnk_0300641C");
 extern struct Task9BBC *gTasks03006370 asm("gUnk_03006370");
