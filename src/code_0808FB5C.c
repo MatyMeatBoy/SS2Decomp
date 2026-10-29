@@ -183,7 +183,38 @@ u32 sub_08090008(u32 arg0)
     }
     return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0809007C);
+struct State9007C95 { u8 p0[0xC];u16 wC;u8 pE[2];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[0xE];u32 index;u8 p44[0x6D8];u32 resource; };
+struct Display9007C95 {u8 p0[0x8C];u16 x,p8E,y;};
+extern struct State9007C95 *state9007C95 asm("gUnk_03005CF4");
+extern struct Display9007C95 display9007C95 asm("gUnk_03003170");
+extern u32 table9007C95[] asm("gUnk_08513680");
+u32 sub_0809007C(u32 arg)
+{
+    struct State9007C95 **holder=&state9007C95;
+    struct State9007C95 *state;
+    u16 mode=(*holder)->mode;
+    u32 i;
+    if(mode==0) {
+        sub_0802704C(arg);
+        if(sub_0800CDC0()) {
+            (*holder)->wC=mode;
+            sub_08023F98(display9007C95.x,display9007C95.y);
+            for(i=0;i<=0x77;i++) sub_080003F0();
+        }
+    } else if(sub_08056E90()) {
+        sub_0801ABE8(3);
+        sub_0800BB40();
+        while(!sub_0801AAE0()) sub_080003F0();
+        sub_0800BB40();
+        state=state9007C95;
+        state->resource=table9007C95[state->index];
+        state->mode=0;
+        state->w30=1;
+        state->w24=1;
+        return 1;
+    }
+    return 0;
+}
 struct State9011C95 { u8 p0[0x10];u16 mode;u8 p12[0x12];u16 w24;u8 p26[0xA];u16 w30;u8 p32[4];u16 w36;u8 p38[0x3C];u32 flags; };
 struct Player9011C95 {u8 p0[0x20];u16 state;u8 p22[0xE];u32 flags;u8 rest[0x118];};
 extern struct State9011C95 *state9011C95 asm("gUnk_03005CF4");
