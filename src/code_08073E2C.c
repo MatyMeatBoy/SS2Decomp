@@ -561,7 +561,26 @@ void sub_0807A120(void) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A124);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A20C);
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A2E0);
+s32 sub_0807A2E0(u8 a)
+{
+    u8 *p = sub_08001494(0xCA8);
+    u8 *q = sub_08001494(0x520);
+    u8 *t;
+    u32 i;
+    for (t = p, i = 0; i <= 0xCA7; i++)
+        *t++ = 0;
+    p[0xCA4] = 0;
+    while ((u16)sub_08001B14(a, p))
+        ;
+    for (t = q, i = 0; i <= 0x51F; i++)
+        *t++ = 0;
+    q[0x51C] = 0;
+    while ((u16)sub_08001B14(a + 8, q))
+        ;
+    sub_08001538((s32)p);
+    sub_08001538((s32)q);
+    return 1;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A378);
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A4B4);
 u8 sub_0807A544(const u8 *data, u32 length)
