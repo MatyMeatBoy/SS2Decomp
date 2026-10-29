@@ -3692,7 +3692,7 @@
       "evidence": [
         {
           "source": "src/code_08006D24.c",
-          "line": 505,
+          "line": 514,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08008C1C_v"
         }
       ]
