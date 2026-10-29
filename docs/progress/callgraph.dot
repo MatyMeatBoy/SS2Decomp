@@ -13666,10 +13666,7 @@ digraph calls {
   "sub_080B6448" -> "sub_08000274" [label="asm,c"];
   "sub_080B6448" -> "sub_08000470" [label="asm,c"];
   "sub_080B6448" -> "sub_08001494" [label="asm,c"];
-  "sub_080B69AE" -> "sub_080B6992" [label="asm"];
   "sub_080B69B8" -> "sub_080B6990" [label="c"];
-  "sub_080B69D8" -> "ply_fine" [label="asm"];
-  "sub_080B69D8" -> "sub_080B69B8" [label="asm"];
   "sub_080B6A38" -> "sub_080B69AC" [label="c"];
   "sub_080B6A44" -> "sub_080B69AC" [label="c"];
   "sub_080B6A58" -> "sub_080B69AC" [label="c"];
