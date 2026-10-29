@@ -1328,7 +1328,20 @@ block_198:
                 }
                 var_r7 = var_r7 + 2;
                 textWidth3984 = sub_0801A638(var_r7);
-                ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, *(temp_r5_14 = (u16 *)((state * 4) + (u8 *)&gUnk_08366E0C)) - (drawOffset3984 = (textWidth3984 * 4) - 0x18), *(var_r4_2 = (u16 *)((state * 4) + (u8 *)&gUnk_08366E0C + 2)) - 0x28);
+                {
+                    register u32 longBaseC9 asm("r2");
+                    u32 longStateC9;
+                    register u32 longIndexC9 asm("r4");
+                    register s32 longXC9 asm("r1");
+                    longBaseC9 = (u32)&gUnk_08366E0C;
+                    longStateC9 = state;
+                    longIndexC9 = longStateC9 * 4;
+                    temp_r5_14 = (u16 *)(longIndexC9 + longBaseC9);
+                    longXC9 = *temp_r5_14 - (drawOffset3984 = textWidth3984 * 4 - 0x18);
+                    longBaseC9 += 2;
+                    var_r4_2 = (u16 *)(longIndexC9 + longBaseC9);
+                    ((void (*)(const u8 *, s32, s32))sub_0801A764)(var_r7, longXC9, *var_r4_2 - 0x28);
+                }
                 var_r7 = (u8 *)&cursor;
                     sub_08065230(var_r7, *temp_r5_14 - (drawOffset3984 = cursorX + 0x10), *var_r4_2 - 0x20, 3U, 2);
                 var_r7 = (u8 *)&cursor;
@@ -1876,6 +1889,7 @@ void sub_08005A24(u32 range, s32 percent)
     sub_08001538((s32)backup);
 }
 #ifdef NONMATCHING
+extern u16 pressed5B asm("gUnk_03001324");
 struct Menu5B { u8 pad[5], f5, f6, f7; };
 struct Task5B {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
 extern struct Task5B task5B asm("gUnk_03002840");
@@ -1964,11 +1978,11 @@ void menu5B(struct Menu5B *arg) {
 loop_1:
     temp_r0 = sub_0801AAE0();
     if (temp_r0 == 0) {
-        gUnk_03001324 = (u16) temp_r0;
+        pressed5B = (u16) temp_r0;
     }
     switch (var_sl) {                               /* irregular */
     case 0:
-        if (gUnk_03001324 == 1) {
+        if (pressed5B == 1) {
             if (spC4 == 1) {
                 if (spC0->f5 == 0) {
                     var_sl = 3;
@@ -1984,19 +1998,19 @@ loop_1:
             sub_0805865C(0xF);
             goto block_43;
         }
-        if ((spC4 == 1) && (0x40 & gUnk_03001324)) {
+        if ((spC4 == 1) && (0x40 & pressed5B)) {
             sub_0805865C(0xE);
             spE8 = 0x2C;
             spC4 = 0;
             goto block_43;
         }
-        if ((spC4 == 0) && (0x80 & gUnk_03001324)) {
+        if ((spC4 == 0) && (0x80 & pressed5B)) {
             sub_0805865C(0xE);
             spE8 = 0x52;
             spC4 = 1;
             goto block_43;
         }
-        if (gUnk_03001324 != 2) {
+        if (pressed5B != 2) {
             goto block_43;
         }
         sub_0805865C(0x10);
@@ -2033,7 +2047,7 @@ loop_24:
                 sub_0805865C(0xE);
             }
             var_r9 = 1;
-        } else if (gUnk_03001324 == 1) {
+        } else if (pressed5B == 1) {
             var_sl = 3;
             sub_0805865C(0xF);
             fade5B(0, 0xA);
@@ -2041,7 +2055,7 @@ loop_24:
             spEC = sub_0800115C(spEC);
             sub_08001108((u8) spF0);
             reg5B(0x200, 0, 1);
-        } else if (gUnk_03001324 == 2) {
+        } else if (pressed5B == 2) {
             var_sl = 0;
             spE4 = 8;
             sub_0805865C(0x10);
@@ -2194,7 +2208,319 @@ loop_85:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08005B88);
 #endif
+#ifdef NONMATCHING
+extern u16 pressed6C asm("gUnk_03001324");
+struct Menu6C { u8 pad[5], f5, f6, f7; };
+struct Task6C {u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24;};
+extern struct Task6C task6C asm("gUnk_03002840");
+extern u16 data6C asm("gUnk_080B99D4");
+extern u8 *resource6C(u32) asm("sub_08007290");
+extern void sprite6C(void *,u32,s32,s32,s32) asm("sub_08065158");
+extern void text6C(u8 *,u16,u16) asm("sub_0801A3D0");
+extern void copy6C(void *,const void *,u32) asm("memcpy");
+extern void mode6C(s32) asm("sub_0801A6D4");
+extern void fade6C(s32,s32) asm("sub_0801A664");
+extern void reg6C(s32,s32,s32) asm("sub_080009F8");
+extern void start6C(s32) asm("sub_0801AB50");
+extern void callback6C(void) asm("sub_08002B70");
+extern u16 keys6C asm("gUnk_03001308");
+extern void sub_080066A8(void);
+void menu6C(struct Menu6C *) asm("sub_0800608C");
+void menu6C(struct Menu6C *arg) {
+    u16 sp4[2],sp8[2];
+    u8 spC[0x34],sp40[0x34],sp74[4],sp78[33],sp9C[36];
+    struct Menu6C *spC0;
+    s32 spC4,spC8;
+    u32 spCC;
+    s32 spD0;
+    u32 spD4,spD8;
+    s32 spDC,spE0,spE4,spE8;
+    u32 spEC;
+    s32 spF0;
+    s32 temp_r0;
+    s32 temp_r1_4;
+    s32 temp_r2;
+    s32 var_r0;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r3_2;
+    s32 var_sl;
+    u32 temp_r0_2;
+    u32 temp_r1;
+    u32 temp_r1_2;
+    u32 temp_r1_3;
+    u32 temp_r6;
+    u32 var_r3;
+    u32 var_r6;
+    u32 var_r8;
+    u8 *var_r4;
+    u8 *var_r7;
+    u8 temp_r1_5;
+    u8 temp_r2_2;
+    u8 var_r9;
+    u32 temp_r0_3;
+
+
+    spC0 = arg;
+    copy6C(&sp74, &data6C, 2);
+    sprite6C(&sp40, 0x50002, 0, -1, 0);
+    sprite6C(&spC, 0x50006, 0, -1, 0);
+    mode6C(0);
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    fade6C(0, 0x13);
+    reg6C(0xE00, 0, 1);
+    start6C(3);
+    spC4 = 0;
+    spC8 = 0xA;
+    sp8[0] = *(u16 *)&spC4;
+    sp4[0] = *(u16 *)&spC4;
+    sp8[1] = *(u16 *)&spC4;
+    sp4[1] = *(u16 *)&spC4;
+    spD0 = 0;
+    spCC = 0;
+    spD8 = 0;
+    spE8 = 0x52;
+    spE4 = 8;
+    spDC = 8;
+    spE0 = 0x52;
+    var_r9 = spC0->f7;
+    var_sl = 0;
+    spC4 = 1;
+    spF0 = (s32) (u8) sub_08001108(0x6EU);
+    spEC = sub_0800115C((u32) sub_080066A8);
+    sub_08000D8C();
+loop_1:
+    temp_r0 = sub_0801AAE0();
+    if (temp_r0 == 0) {
+        pressed6C = (u16) temp_r0;
+    }
+    if (var_sl == 0) goto state0;
+    if (var_sl == 1) goto state1;
+    goto block_34;
+state0:
+    if (pressed6C == 1) {
+    if (spC4 == 1) {
+        var_sl = 3;
+        if (spC0->f5 != 0) {
+            var_sl = 1;
+            spE8 = 0x62;
+            spE4 = 0x3C;
+        }
+    } else {
+        var_sl = 3;
+    }
+    sub_0805865C(0xF);
+        goto block_34;
+    }
+    if (pressed6C == 2) {
+    sub_0805865C(0x10);
+    sub_0801ABE8(6);
+loop_16:
+    if (sub_0801AAE0() == 0) {
+        sub_080003F0();
+        goto loop_16;
+    }
+    sub_08000E48();
+    sub_0800115C(spEC);
+    sub_08001108((u8) spF0);
+    if (sub_08000470((u32) &task6C) != 0) {
+        sub_080003A8((s32) &task6C);
+    }
+    temp_r0_3 = (u32) sub_08001494(0x1000U);
+    task6C.fC = (u32)callback6C;
+    task6C.f10 = temp_r0_3 + 0xFFC;
+    task6C.f20 = temp_r0_3;
+    task6C.f8 = 1;
+    task6C.f24 = 0;
+    sub_08000274(&task6C, 0);
+    fade6C(0, 0x14);
+    sub_080003F0();
+    return;
+    }
+    goto block_34;
+state1:
+    if (0x20 & keys6C) {
+        if ((spC4 == 1) && (var_r9 == 1)) {
+            sub_0805865C(0xE);
+        }
+        var_r9 = 0;
+    } else if (0x10 & keys6C) {
+        if ((spC4 == 1) && (var_r9 == 0)) {
+            sub_0805865C(0xE);
+        }
+        var_r9 = 1;
+    } else if (pressed6C == 1) {
+        var_sl = 3;
+        var_r9 = 0;
+        sub_0805865C(0xF);
+        fade6C(0, 0xA);
+        sub_08000E48();
+        spEC = sub_0800115C(spEC);
+        sub_08001108((u8) spF0);
+        reg6C(0x200, 0, 1);
+    } else if (pressed6C == 2) {
+        var_sl = 0;
+        spE4 = 8;
+        sub_0805865C(0x10);
+        spE8 = 0x52;
+    }
+    goto block_34;
+block_34:
+    if (spC0->f5 != 0) {
+        sub_08065230(&spC, 0x50, 0x64, 0x26U, (s32) ((u32) ((0 - var_r9) | var_r9) >> 0x1F));
+        var_r0 = 0;
+        if (var_r9 == 0) {
+            var_r0 = 1;
+        }
+        sub_08065230(&spC, 0x78, 0x64, 0x27U, var_r0);
+    }
+    temp_r6 = spE8 - spE0;
+    temp_r1 = spE4 - spDC;
+    if (spC8 != spC4) {
+        spD4 = 0;
+        spD0 = 0;
+        var_r3 = 0;
+        spCC = 0;
+        spD8 = 0;
+        gUnk_03003474 = 0;
+        do {
+            (sp78)[var_r3] = 0xFD;
+            var_r3 += 1;
+        } while (var_r3 <= 0x1FU);
+        var_r7 = resource6C(0x140453) + 2;
+        spC8 = spC4;
+    }
+    temp_r0_2 = spCC;
+    spCC = temp_r0_2 + 1;
+    if (temp_r0_2 > 2U) {
+        spCC = 0;
+        if (*var_r7 == 0xFF) {
+            var_r7 += 1;
+        }
+        if (*var_r7 == 0xFE) {
+            var_r7 += 3;
+        }
+        if (*var_r7 == 0xFD) {
+            var_r7 = resource6C(0x140453) + 2;
+        }
+        (sp78)[spD8] = *var_r7;
+        var_r7 += 1;
+        temp_r1_2 = spD8 + 1;
+        spD8 = temp_r1_2;
+        if (temp_r1_2 > 0x1FU) {
+            spD8 = 0;
+            sp78[32] = 0xFD;
+            spD0 = 1;
+        }
+    }
+    if (spD0 != 0) {
+        gUnk_03003474 += 1;
+        temp_r1_3 = spD4 + 1;
+        spD4 = temp_r1_3;
+        if (temp_r1_3 > 7U) {
+            spD4 = 0;
+            spCC = 0xA;
+        } else {
+            spCC = 0;
+        }
+    }
+    text6C(sp78, 0, 0xEU);
+    temp_r1_4 = spE0 + ((s32) (temp_r6 + (temp_r6 >> 0x1F)) >> 1);
+    spE0 = temp_r1_4;
+    var_r0_2 = spE8 - temp_r1_4;
+    if (var_r0_2 < 0) {
+        var_r0_2 = 0 - var_r0_2;
+    }
+    if (var_r0_2 <= 1) {
+        spE0 = spE8;
+    }
+    temp_r2 = spDC + ((s32) ((temp_r1 >> 0x1F) + temp_r1) >> 1);
+    spDC = temp_r2;
+    var_r0_3 = spE4 - temp_r2;
+    if (var_r0_3 < 0) {
+        var_r0_3 = 0 - var_r0_3;
+    }
+    if (var_r0_3 <= 1) {
+        spDC = spE4;
+    }
+    sub_08065230(&spC, spDC, spE0, 0x15U, 0);
+    var_r4 = resource6C(0x14044D) + 2;
+    var_r8 = 0;
+    var_r6 = 0x40000;
+loop_64:
+    var_r3_2 = 0;
+    temp_r1_5 = *var_r4;
+    if (temp_r1_5 != 0xFD) {
+        sp9C[0] = temp_r1_5;
+        if (temp_r1_5 != 0xFF) {
+loop_66:
+            var_r3_2 += 1;
+            var_r4 += 1;
+            temp_r2_2 = *var_r4;
+            if (temp_r2_2 != 0xFD) {
+                (sp9C)[var_r3_2] = temp_r2_2;
+                if (temp_r2_2 == 0xFF) {
+                    goto block_68;
+                }
+                goto loop_66;
+            }
+        } else {
+block_68:
+            var_r4 += 1;
+        }
+    }
+    (sp9C)[var_r3_2] = 0xFD;
+    if (var_r3_2 != 0) {
+        text6C(sp9C, 2, var_r6 >> 0x10);
+        if (*var_r4 != 0xFD) {
+            var_r6 += 0x20000;
+            var_r8 += 1;
+            if (var_r8 <= 1U) {
+                goto loop_64;
+            }
+        }
+    }
+    text6C(resource6C(0x140450) + 2, 2, 9U);
+    sub_080003F0();
+    if (var_sl != 3) {
+        goto loop_1;
+    }
+    sub_0801ABE8(6);
+loop_76:
+    if (sub_0801AAE0() == 0) {
+        sub_080003F0();
+        goto loop_76;
+    }
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    fade6C(0, 0x14);
+    sub_080003F0();
+    fade6C(0, 0x14);
+    sub_080003F0();
+    if (spC4 == 0) {
+        spC0->f6 = 0;
+    } else {
+        spC0->f6 = 1;
+    }
+    sub_08000420(0x5A112EBF);
+    return;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800608C);
+#endif
 void sub_08006544(void) {
     gUnk_0300001C = 0;
 }
@@ -2263,6 +2589,7 @@ void sub_080066A8(void) {
     *(s16 *)0x04000010 = (s16) gUnk_03003474;
 }
 #ifdef NONMATCHING
+extern u16 pressed66 asm("gUnk_03001324");
 struct Stack66 { u8 gfx[0x34]; u16 count[4], a, b; u32 display; s32 result,active; u32 mode; };
 struct Peer66 {u8 pad[8];u8 unk8,unk9,unkA,unkB,unkC;};
 struct Coord66 {u16 x,y;};
@@ -2394,7 +2721,7 @@ loop_20:
     }
 sub_08065370(&S.gfx, 2U, (s32) &S.a, (s32) &S.b, 1);
 sub_08065230(&S.gfx, 0x78, 0x3C, 2U, (s32) S.a);
-    if (!(1 & gUnk_03001324)) {
+    if (!(1 & pressed66)) {
         goto block_27;
     }
     if (S.active != 0) {
@@ -2443,7 +2770,7 @@ block_36:
     peer->unkA = (u8) (0xFD & peer->unkA);
     S.mode = 0;
 block_37:
-    if (2 & gUnk_03001324) {
+    if (2 & pressed66) {
         goto block_39;
     }
     goto block_68;
@@ -2523,7 +2850,7 @@ loop_61:
     if (var_r6_2 < sub_08002164()) {
         goto block_46;
     }
-    if (!(2 & gUnk_03001324)) {
+    if (!(2 & pressed66)) {
         goto block_65;
     }
     if (S.active != 0) {

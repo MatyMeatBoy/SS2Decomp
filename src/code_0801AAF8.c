@@ -1481,40 +1481,60 @@ processed:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801C8F0);
 #endif
-#ifdef NONMATCHING
 void sub_0801CC10(u32 arg0, s32 arg1)
 {
-    u8 *p = (u8 *)&gUnk_03003CE0[sub_080020F4()];
-    u8 *q = (u8 *)&gUnk_03003CE0[arg0];
-    s32 x; u32 y; u32 t1; u32 t0;
-    u16 *t;
-    s32 d; u16 dx; u16 dy;
-    s16 *c;
-    s16 *c1;
-    x = *(s32 *)(p + 0x8C) << 5;
-    y = (u32)(*(s32 *)(p + 0x90) << 5) >> 16;
-    t = *(u16 **)(q + 0x148);
-    t0 = t[0];
-    t1 = (u32)(t[1] << 20) >> 23;
-    d = (x >> 16) - (t0 >> 7);
-    if (d < 0) d = -d;
-    dx = d;
-    d = (s16)y - (s16)t1;
-    if (d < 0) d = -d;
-    dy = d;
-    if (p == q) {
-        c1 = (s16 *)(p + 0xC4);
-        c = c1;
-        if (*c1 > 0) *(u16 *)c1 = *(u16 *)c1 + arg1;
-    } else {
-        c = (s16 *)(p + 0xC4);
-        if ((s16)dx <= 13 && (s16)dy <= 9 && *c > 0) *(u16*)c = *(u16*)c + arg1;
+  u8 *p = (u8 *) (&gUnk_03003CE0[sub_080020F4()]);
+  u8 *q = (u8 *) (&gUnk_03003CE0[arg0]);
+  s32 x;
+  u32 y;
+  u32 t1;
+  u32 t0;
+  u16 *t;
+  s32 d;
+  u16 dx;
+  u16 dy;
+  s16 *c;
+  s16 *c1;
+  x = (*((s32 *) (p + 0x8C))) << 5;
+  y = ((u32) ((*((s32 *) (p + 0x90))) << 5)) >> 16;
+  t = *((u16 **) (q + 0x148));
+  t0 = t[0];
+  dy = ((u32) (t[1] << 20)) >> 23;
+  d = (x >> 16) - (t0 >> 7);
+  if (d < 0)
+  {
+    d = -d;
+  }
+  dx = d;
+  d = ((s16) y) - ((s16) dy);
+  if (d < 0)
+  {
+    d = -d;
+  }
+  dy = d;
+  if (p == q)
+  {
+    c1 = (s16 *) (p + 0xC4);
+    c = c1;
+    dx = *((u16 *) c1);
+    if (((s16) dx) > 0)
+    {
+      *((u16 *) c1) = dx + arg1;
     }
-    if (*c > *(s16 *)(p + 0x62)) *(u16*)c = *(u16 *)(p + 0x62);
+  }
+  else
+  {
+    ;
+    if (((((s16) dx) <= 13) && (((s16) dy) <= 9)) && ((*((s16 *) (p + 0xC4))) > 0))
+    {
+      *((u16 *) ((s16 *) (p + 0xC4))) = (*((u16 *) ((s16 *) (p + 0xC4)))) + arg1;
+    }
+  }
+  if ((*((s16 *) (p + 0xC4))) > (*((s16 *) (p + 0x62))))
+  {
+    *((u16 *) ((s16 *) (p + 0xC4))) = *((u16 *) (p + 0x62));
+  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801CC10);
-#endif
 struct RescueCCC8Record { u8 pad[0x10]; u16 kind; u8 tail[0x13a]; };
 extern struct RescueCCC8Record rescueCCC8Records[] asm("gUnk_03003CE0");
 extern u8 *rescueCCC8Current asm("gUnk_030034E0");
