@@ -6115,7 +6115,7 @@ extern u16 d739Dirs[] asm("gUnk_0849E730");
 extern u8 d739Kinds[] asm("gUnk_084EBF1C");
 void d739Init(void *,s32,s32,s32,s32) asm("sub_08065158");
 void d739Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
-void d739Draw(s16,s16,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+void d739Draw(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
 s16 d739Calc(u8 *,void *) asm("sub_08068F9C");
 void d739PlayerHit(u16,s16,s32) asm("sub_08029A7C");
 void d739Hit(u16,u16,s16,u32,s32,s32) asm("sub_08029B98");
