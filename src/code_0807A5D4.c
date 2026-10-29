@@ -8522,7 +8522,639 @@ void sub_08085534(s32 arg0, s32 arg1)
     } while (i != 0xFFFF);
     *(u32 *)(sub_0800048C() + 8) = 0;
 }
+#ifdef NONMATCHING
+struct Shop6478 {
+    u32 running;
+    s32 cat;
+    s32 cursor;
+    s32 shown;
+    s32 index;
+    u32 grid;
+    u32 mode;
+    u32 unk1C;
+    u32 unk20;
+    s16 x;
+    s16 y;
+    s16 tx;
+    s16 ty;
+    u8 sprite[0x34];
+};
+struct ShopEntry855D4 { u16 id; u16 cat; };
+struct Save855D4 {
+    u8 pad0[0x150];
+    struct { u16 type; u16 id; u8 pad[0xC]; } slots[25];
+    u8 pad2E0[0xC10 - 0x2E0];
+    u8 counts[1];
+};
+struct Item855D4 {
+    s16 unk0, unk2, unk4, unk6, unk8;
+    u8 padA[6];
+    s32 unk10;
+    s16 unk14, unk16, unk18, unk1A, unk1C, unk1E;
+    u8 pad20[2];
+    u8 unk22;
+    u8 pad23[0x45 - 0x23];
+    s8 unk45;
+    u8 pad46[0xD4 - 0x46];
+    u16 unkD4;
+    u16 unkD6;
+};
+struct Win855D4 {
+    u8 pad0[0x8C];
+    struct { u16 id; u8 pad[6]; u8 data[0x20]; } slots[8];
+    s16 atk;
+    s16 def;
+    u8 pad1D0[0x204 - 0x1D0];
+    u8 item[0xD8];
+    u8 pad2DC[4];
+};
+struct Sprite855D4 { u8 pad0[0xC]; u32 unkC; u8 pad10[0xC]; u8 unk1C; u8 pad1D[0x34 - 0x1D]; };
+struct Frame855D4 {
+    u8 name[0x20];
+    u8 desc[5][0x20];
+    u8 pad_c8[8];
+    struct Win855D4 win;
+    struct Sprite855D4 spriteB;
+    u8 spriteA[0x34];
+    struct { u16 type; u16 id; u8 pad[0xC]; } use;
+    struct { s32 x; s32 y; } pts[25];
+    s32 speed[25];
+    s32 pos[25];
+    u8 state[25];
+    u16 zero;
+    u32 bg;
+    s32 ox;
+    s32 oy;
+};
+
+extern struct Shop6478 *gShop855D4 asm("gUnk_03006478");
+extern struct Save855D4 *gSave855D4 asm("gUnk_030034E0");
+extern const struct ShopEntry855D4 gTable855D4[] asm("gUnk_084ECC2C");
+extern u16 gKeys855D4 asm("gUnk_03001324");
+extern u16 gRep855D4 asm("gUnk_03001308");
+extern u16 gKey130C855D4 asm("gUnk_0300130C");
+extern u16 gBgOfs855D4[] asm("gUnk_03001250");
+extern s32 gLang855D4 asm("gUnk_03003470");
+extern const s16 gSin855D4[] asm("gUnk_080B9704");
+extern const u8 gNoName855D4[] asm("gUnk_084ECE8E");
+extern const struct Item855D4 gNoItem855D4 asm("gUnk_084ECEB0");
+extern const struct Item855D4 gItemsA855D4[] asm("gUnk_0847AC64");
+extern const struct Item855D4 gItemsB855D4[] asm("gUnk_0848529C");
+extern const u32 gAnim855D4[][0x16] asm("gUnk_08479140");
+extern const u16 gGridText855D4[] asm("gUnk_084ECE74");
+
+extern void f855_009F8(s32, s32, s32) asm("sub_080009F8");
+extern void f855_009C0(s32, s32, s32) asm("sub_080009C0");
+extern void f855_00AA8(u16, u32 *) asm("sub_08000AA8");
+extern void f855_0B650(s32, s32, s32, u16, u16) asm("sub_0800B650");
+extern void f855_0B7DC(s32, s32, s32, u16, u16) asm("sub_0800B7DC");
+extern void f855_0CF90(void) asm("sub_0800CF90");
+extern void f855_1A664(s32, s32) asm("sub_0801A664");
+extern s32 f855_003F0(void) asm("sub_080003F0");
+extern void f855_65158(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern u32 f855_008C8(void) asm("sub_080008C8");
+extern void f855_1AA34(s32) asm("sub_0801AA34");
+extern void f855_1AA8C(s32) asm("sub_0801AA8C");
+extern s32 f855_1AAE0(void) asm("sub_0801AAE0");
+extern s32 f855_0CDF8(void) asm("sub_0800CDF8");
+extern void f855_0CCB8(void) asm("sub_0800CCB8");
+extern void f855_0CE54(void) asm("sub_0800CE54");
+extern void f855_659F4(s32 *, s32, s32, s32) asm("sub_080659F4");
+extern void f855_65230(void *, s32, s32, u16, s32) asm("sub_08065230");
+extern void f855_5865C(s32) asm("sub_0805865C");
+extern void f855_020F4(void) asm("sub_080020F4");
+extern u8 *f855_07290(s32) asm("sub_08007290");
+extern void f855_00AF0(u32, const void *, u32) asm("sub_08000AF0");
+extern void f855_CpuSet(const void *, void *, u32) asm("CpuSet");
+extern void f855_00C08(s16, s16) asm("sub_08000C08");
+extern s32 f855_58DB0(void) asm("sub_08058DB0");
+extern s32 f855_021A8(void) asm("sub_080021A8");
+extern s32 f855_5AB20(void *) asm("sub_0805AB20");
+extern s32 f855_0CE30(void) asm("sub_0800CE30");
+extern void f855_1A3D0(const u8 *, u16, u16) asm("sub_0801A3D0");
+extern void *f855_memcpy(void *, const void *, u32) asm("memcpy");
+extern void f855_1C8F0(struct Win855D4 *) asm("sub_0801C8F0");
+extern void f855_5FB7C(s32, s32, s32, s32) asm("sub_0805FB7C");
+extern u32 f855_1A638(u8 *) asm("sub_0801A638");
+extern void f855_659BC(void *, s32, s32, u16, s32, s32) asm("sub_080659BC");
+extern void f855_1ABE8(s32) asm("sub_0801ABE8");
+extern void f855_57624(u16) asm("sub_08057624");
+extern void f855_0CFA4(void) asm("sub_0800CFA4");
+extern void f855_00420(s32) asm("sub_08000420");
+
+s32 sub_080855D4(void)
+{
+    struct Frame855D4 L;
+    struct Win855D4 *win;
+    const struct Item855D4 *item;
+    const u8 *s;
+    u8 *text;
+    u32 n;
+    u32 i;
+    u32 j;
+    u32 lines;
+    u32 count;
+    u32 last;
+    u8 c;
+
+    f855_009F8(0x200, 0, 1);
+    f855_009C0(0x1D00, 0, 1);
+    L.bg = (L.bg & 0xFFFF0000) | 0x1E00;
+    f855_00AA8(3, &L.bg);
+    gBgOfs855D4[1] = 0;
+    gBgOfs855D4[0] = 0;
+    gBgOfs855D4[3] = 0;
+    gBgOfs855D4[2] = 0;
+    gBgOfs855D4[5] = 0;
+    gBgOfs855D4[4] = 0;
+    gBgOfs855D4[7] = 0;
+    gBgOfs855D4[6] = 0;
+    f855_0B650(0x47, 0x1E, 0x06000000, 0, 0xF);
+    f855_0CF90();
+    f855_1A664(0, 0x14);
+    f855_003F0();
+    f855_003F0();
+    f855_1A664(0, 0x14);
+    f855_003F0();
+
+    n = 0;
+    for (i = 0; i <= 0x18; i++) {
+        if (gSave855D4->slots[i].type == 8) {
+            u8 *cnt = &gSave855D4->counts[gSave855D4->slots[i].id];
+            if (*cnt <= 0x62) {
+                (*cnt)++;
+                gSave855D4->slots[i].type = 0;
+                gSave855D4->slots[i].id = 0;
+                n++;
+            }
+        }
+    }
+    f855_65158(L.spriteA, 0x500AF, 1, -1, 0);
+    for (i = 0; i < n; i++) {
+        u8 r = f855_008C8();
+        L.pts[i].x = gSin855D4[r + 0x40] * 0xF0 + 0x78;
+        L.pts[i].y = gSin855D4[r] * 0xF0 + 0x50;
+        L.pos[i] = 0;
+        L.speed[i] = (f855_008C8() & 0xF) + 8;
+        L.state[i] = 0;
+    }
+    f855_1AA34(0x1E);
+    while (f855_1AAE0() == 0) {
+        if (f855_0CDF8() != 0)
+        {
+            f855_0CCB8();
+            f855_0CE54();
+            return;
+        }
+        f855_003F0();
+    }
+    while (!(gKeys855D4 & 1)) {
+        if (f855_0CDF8() != 0)
+        {
+            f855_0CCB8();
+            f855_0CE54();
+            return;
+        }
+        for (i = 0; i < n; i++) {
+            f855_659F4(&L.ox, L.pts[i].x, 0x7800, L.pos[i]);
+            f855_659F4(&L.oy, L.pts[i].y, 0x5000, L.pos[i]);
+            if (L.state[i] != 2)
+                f855_65230(L.spriteA, L.ox >> 8, L.oy >> 8, 0, 0x1D);
+            L.pos[i] += L.speed[i];
+            if (L.pos[i] > 0x200 && L.state[i] == 0) {
+                f855_5865C(0x60);
+                L.state[i] = 1;
+            }
+            if (L.pos[i] > 0x3FF) {
+                L.pos[i] = 0x400;
+                L.speed[i] = 0;
+                L.state[i] = 2;
+            }
+        }
+        f855_003F0();
+        if (gKeys855D4 & 2)
+            goto exit;
+    }
+    f855_5865C(0x177);
+    f855_1AA8C(0x3C);
+    win = &L.win;
+    while (f855_1AAE0() == 0) {
+        for (i = 0; i < n; i++) {
+            f855_659F4(&L.ox, L.pts[i].x, 0x7800, L.pos[i]);
+            f855_659F4(&L.oy, L.pts[i].y, 0x5000, L.pos[i]);
+            if (L.state[i] == 0)
+                f855_65230(L.spriteA, L.ox >> 8, L.oy >> 8, 0, 0x1D);
+            L.pos[i] += L.speed[i];
+            if (L.pos[i] > 0x3FF) {
+                L.pos[i] = 0x400;
+                if (L.state[i] == 0) {
+                    f855_5865C(0x60);
+                    L.state[i] = 1;
+                    L.speed[i] = 0;
+                }
+            }
+        }
+        f855_003F0();
+    }
+    f855_020F4();
+    f855_0B7DC(0x2E, 0x1A, 0x06000000, 0, 1);
+    f855_0B650(0x30, 0x1B, 0x06000000, 0, 1);
+    f855_0B650(0x2F, 0x1E, 0x06000000, 0, 1);
+    f855_0B650(0x31, 0x1F, 0x06000000, 0, 2);
+    f855_0B650(0x49, 0x1D, 0x06000000, 0, 0xF);
+    f855_00AF0(0xF, f855_07290(0x70016) + 0x1E0, 1);
+    switch (gLang855D4) {
+    case 0:
+        f855_65158(gShop855D4->sprite, 0x50006, 0, -1, 0);
+        break;
+    case 1:
+        f855_65158(gShop855D4->sprite, 0x50007, 0, -1, 0);
+        break;
+    case 2:
+        f855_65158(gShop855D4->sprite, 0x50008, 0, -1, 0);
+        break;
+    case 3:
+        f855_65158(gShop855D4->sprite, 0x50009, 0, -1, 0);
+        break;
+    case 4:
+        f855_65158(gShop855D4->sprite, 0x5000A, 0, -1, 0);
+        break;
+    }
+    f855_009F8(0x200, 0, 1);
+    f855_009C0(0x1F00, 0, 1);
+    *(u16 *)&L.bg = 0x5A01;
+    f855_00AA8(1, &L.bg);
+    *(u16 *)&L.bg = 0x5E01;
+    f855_00AA8(2, &L.bg);
+    *(u16 *)&L.bg = 0x1D03;
+    f855_00AA8(3, &L.bg);
+    gShop855D4->mode = 0;
+    gShop855D4->cat = 0;
+    gShop855D4->cursor = 0;
+    gShop855D4->index = 0;
+    gShop855D4->running = 1;
+    gShop855D4->grid = 0;
+    for (i = 0; i <= 7; i++) {
+        win->slots[i].id = 0xFFFF;
+        L.zero = 0;
+        f855_CpuSet(&L.zero, win->slots[i].data, 0x01000018);
+    }
+    for (count = 0; gTable855D4[count].cat != 0x64; count++)
+        last = gTable855D4[count].cat;
+    f855_003F0();
+    f855_1A664(0, 0x13);
+    f855_003F0();
+    f855_00C08(0xC, 2);
+    f855_1AA34(0x14);
+
+    while (gShop855D4->running != 0) {
+        s32 r = f855_0CDF8();
+        if (r != 0)
+        {
+            f855_0CCB8();
+            f855_0CE54();
+            return;
+        }
+        if (f855_1AAE0() == 0 || f855_58DB0() != 0) {
+            gKeys855D4 = r;
+            gRep855D4 = r;
+            gKey130C855D4 = r;
+        }
+        if (f855_021A8() != 0)
+            return;
+        switch (gShop855D4->mode) {
+        case 0:
+            if (gRep855D4 & 0x80) {
+                if (gTable855D4[gShop855D4->index + gShop855D4->cursor + 1].cat == gShop855D4->cat) {
+                    gShop855D4->cursor++;
+                    f855_5865C(0xE);
+                }
+            } else if (gRep855D4 & 0x40) {
+                if (gShop855D4->cursor != 0) {
+                    gShop855D4->cursor--;
+                    f855_5865C(0xE);
+                }
+            } else if (gKeys855D4 & 0x100) {
+                f855_5865C(0x177);
+                if (++gShop855D4->cat > last)
+                    gShop855D4->cat = 0;
+                for (j = 0; gTable855D4[j].cat != gShop855D4->cat; j++)
+                    ;
+                gShop855D4->index = j;
+                f855_1A664(0, 0x13);
+                gShop855D4->cursor = 0;
+            } else if (gKeys855D4 & 0x200) {
+                f855_5865C(0x177);
+                if (--gShop855D4->cat < 0)
+                    gShop855D4->cat = last;
+                for (j = 0; gTable855D4[j].cat != gShop855D4->cat; j++)
+                    ;
+                gShop855D4->index = j;
+                f855_1A664(0, 0x13);
+                gShop855D4->cursor = 0;
+            } else if (gKeys855D4 & 1) {
+                f855_5865C(0xF);
+                gShop855D4->index += gShop855D4->cursor;
+                gShop855D4->shown = gShop855D4->index + 1;
+                gShop855D4->mode = 1;
+                f855_1A664(0, 0x13);
+            } else if (gKeys855D4 & 2) {
+                f855_5865C(0x10);
+                gShop855D4->running = 0;
+            }
+            break;
+        case 1:
+            if (gKeys855D4 & 1) {
+                gShop855D4->mode = 3;
+                f855_5865C(0xF);
+            } else if (gKeys855D4 & 2) {
+                for (j = 0; gTable855D4[j].cat != gShop855D4->cat; j++)
+                    ;
+                gShop855D4->index = j;
+                gShop855D4->mode = 0;
+                f855_1A664(0, 0x13);
+                f855_5865C(0x10);
+            } else if (gRep855D4 & 0x20) {
+                if (--gShop855D4->index < 0)
+                    gShop855D4->index = 0;
+                f855_5865C(0x177);
+            } else if (gRep855D4 & 0x10) {
+                if (++gShop855D4->index >= count)
+                    gShop855D4->index = count - 1;
+                f855_5865C(0x177);
+            } else if (gKeys855D4 & 0x177) {
+                gShop855D4->index += 10;
+                if (gShop855D4->index >= count)
+                    gShop855D4->index = count - 1;
+                f855_5865C(0x177);
+            } else if (gKeys855D4 & 0x200) {
+                gShop855D4->index -= 10;
+                if (gShop855D4->index < 0)
+                    gShop855D4->index = 0;
+                f855_5865C(0x177);
+            }
+            break;
+        case 3:
+            if (gKeys855D4 & 1) {
+                if (gShop855D4->grid == 0xD
+                    && gSave855D4->counts[gTable855D4[gShop855D4->index].id] != 0) {
+                    L.use.type = 8;
+                    L.use.id = gTable855D4[gShop855D4->index].id;
+                    if (f855_5AB20(&L.use) != 0) {
+                        s32 k;
+                        gSave855D4->counts[gTable855D4[gShop855D4->index].id]--;
+                        k = gShop855D4->index;
+                        gShop855D4->shown = k + 1;
+                        if (gSave855D4->counts[gTable855D4[k].id] == 0)
+                            gShop855D4->mode = 1;
+                        f855_5865C(0x26);
+                    } else {
+                        f855_5865C(0x61);
+                    }
+                }
+            } else if (gKeys855D4 & 2) {
+                gShop855D4->shown = gShop855D4->index + 1;
+                gShop855D4->mode = 1;
+                f855_5865C(0xE);
+            } else if (gRep855D4 & 0x20) {
+                gShop855D4->grid &= ~1;
+                f855_5865C(0xE);
+            } else if (gRep855D4 & 0x10) {
+                gShop855D4->grid |= 1;
+                f855_5865C(0xE);
+            } else if (gRep855D4 & 0x40) {
+                if (gShop855D4->grid > 1) {
+                    gShop855D4->grid -= 2;
+                    f855_5865C(0xE);
+                }
+            } else if (gRep855D4 & 0x80) {
+                if (gShop855D4->grid <= 0xB) {
+                    gShop855D4->grid += 2;
+                    f855_5865C(0xE);
+                }
+            }
+            break;
+        }
+
+        switch (gShop855D4->mode) {
+        case 0:
+            gBgOfs855D4[2] = 0;
+            gBgOfs855D4[3] = 0;
+            gBgOfs855D4[4] = 0;
+            gBgOfs855D4[5] = 0;
+            for (i = 0; gTable855D4[gShop855D4->index + i].cat == gShop855D4->cat; i++) {
+                u16 id = gTable855D4[gShop855D4->index + i].id;
+                if (gSave855D4->counts[id] != 0) {
+                    u8 *data = f855_07290(id | 0x120000);
+                    f855_0CE30();
+                    s = data + gLang855D4 * 0x1F;
+                } else {
+                    s = gNoName855D4;
+                }
+                j = 0;
+                c = *s;
+                while (c != 0) {
+                    L.name[j] = c;
+                    j++;
+                    s++;
+                    c = *s;
+                }
+                L.name[j] = 0xFD;
+                f855_1A3D0(L.name, 5, i * 2 + 2);
+            }
+            gShop855D4->tx = 0x20;
+            gShop855D4->ty = gShop855D4->cursor * 16 + 0x18;
+            f855_65230(gShop855D4->sprite, gShop855D4->x, gShop855D4->y, 0x15, 0);
+            gShop855D4->shown = 0x64;
+            f855_5FB7C(0xE, 0x13, gShop855D4->index + (gShop855D4->cursor + 1), 0);
+            f855_5FB7C(0x12, 0x13, count, 0);
+            break;
+        case 3:
+            {
+                u32 g = gShop855D4->grid;
+                gShop855D4->tx = (g & 1) * 0x48 + 0x74;
+                gShop855D4->ty = (g >> 1) * 8 + 0x24;
+            }
+        case 1:
+            gBgOfs855D4[4] = 0x100;
+            gBgOfs855D4[5] = 0;
+            gBgOfs855D4[2] = 0x100;
+            gBgOfs855D4[3] = 0;
+            if (gShop855D4->shown != gShop855D4->index) {
+                u16 id = gTable855D4[gShop855D4->index].id;
+                if (gSave855D4->counts[id] != 0) {
+                    u8 *data = f855_07290(id | 0x120000);
+                    if (f855_0CE30() != 0)
+                        item = &gItemsB855D4[*(u16 *)(data + 0x9E)];
+                    else
+                        item = &gItemsA855D4[*(u16 *)(data + 0x9E)];
+                    s = data + gLang855D4 * 0x1F;
+                } else {
+                    item = &gNoItem855D4;
+                    s = gNoName855D4;
+                }
+                f855_memcpy(win->item, item, 0xD8);
+                j = 0;
+                c = *s;
+                while (c != 0) {
+                    L.name[j] = c;
+                    j++;
+                    s++;
+                    c = *s;
+                }
+                L.name[j] = 0xFD;
+                text = f855_07290(*(u16 *)(f855_07290(gTable855D4[gShop855D4->index].id | 0x120000) + 0xA2) | 0x140000);
+                s = text + 2;
+                lines = 0;
+                j = 0;
+                while (*s != 0xFD) {
+                    c = *s;
+                    if (c == 0xFF) {
+                        L.desc[lines][j] = 0xFD;
+                        lines++;
+                        j = 0;
+                    } else {
+                        L.desc[lines][j] = c;
+                        j++;
+                    }
+                    s++;
+                }
+                L.desc[lines][j] = 0xFD;
+                f855_1C8F0(win);
+                f855_5FB7C(0x14, 4, win->atk, 0);
+                f855_5FB7C(0x14, 5, win->def, 0);
+                f855_5FB7C(0x14, 6, item->unk8, 0);
+                f855_5FB7C(0x14, 7, item->unk0, 0);
+                f855_5FB7C(0x14, 8, item->unk2, 0);
+                f855_5FB7C(0x14, 9, item->unk4, 0);
+                f855_5FB7C(0x14, 0xA, item->unk6, 0);
+                f855_5FB7C(0x1B, 4, item->unk14, 0);
+                f855_5FB7C(0x1B, 5, item->unk16, 0);
+                f855_5FB7C(0x1B, 6, item->unk18, 0);
+                f855_5FB7C(0x1B, 7, item->unk1A, 0);
+                f855_5FB7C(0x1B, 8, item->unk1C, 0);
+                f855_5FB7C(0x1B, 9, item->unk1E, 0);
+                gShop855D4->shown = gShop855D4->index;
+                f855_65158(&L.spriteB, gAnim855D4[item->unkD4 + 0xA][0], 4, -1, 0);
+                L.spriteB.unk1C = 4;
+                f855_00AF0(0x14, (void *)(L.spriteB.unkC + (item->unkD6 << 5)), 1);
+                f855_5FB7C(0xE, 0x13, gShop855D4->index + 1, 0);
+                f855_5FB7C(0x12, 0x13, count, 0);
+                f855_5FB7C(0x1B, 0xB, gSave855D4->counts[gTable855D4[gShop855D4->index].id], 0);
+            }
+            f855_5FB7C(0x11, 0xC, item->unk6 * 3, 0);
+            f855_5FB7C(0x11, 0xD, item->unk4 * 2, 0);
+            f855_5FB7C(9, 0xD, item->unk10, 0);
+            switch (item->unk22) {
+            case 0:
+                break;
+            case 1:
+                text = f855_07290(0x140541);
+                goto show;
+            case 2:
+                text = f855_07290(0x140540);
+            default:
+            show:
+                if (gSave855D4->counts[gTable855D4[gShop855D4->index].id] != 0)
+                    f855_1A3D0(text + 2, 0x12, 0xC);
+                break;
+            }
+            f855_1A3D0(L.name, 0x10 - (f855_1A638(L.name) >> 1), 1);
+            f855_659BC(gShop855D4->sprite, 0xBC, 0x55, 0x25, 0, 1);
+            if (gShop855D4->mode == 3) {
+                if (gShop855D4->grid == 0xD)
+                    f855_65230(gShop855D4->sprite, gShop855D4->x, gShop855D4->y + 8, 0xB, 0);
+                else
+                    f855_65230(gShop855D4->sprite, gShop855D4->x, gShop855D4->y, 0xB, 0);
+                if (gShop855D4->grid <= 0xC) {
+                    f855_1A664(0xF, 4);
+                    text = f855_07290(gGridText855D4[gShop855D4->grid] | 0x140000);
+                    f855_1A3D0(text + 2, 1, 0xF);
+                } else {
+                    f855_1A664(0xF, 4);
+                    text = f855_07290(0x140542);
+                    s = text + 2;
+                    lines = 0;
+                    j = 0;
+                    while (*s != 0xFD) {
+                        c = *s;
+                        if (c == 0xFF) {
+                            L.desc[lines][j] = 0xFD;
+                            lines++;
+                            j = 0;
+                        } else {
+                            L.desc[lines][j] = c;
+                            j++;
+                        }
+                        s++;
+                    }
+                    L.desc[lines][j] = 0xFD;
+                    f855_1A3D0(L.desc[0], 2, 0xF);
+                    f855_1A3D0(L.desc[1], 2, 0x11);
+                }
+            } else if (gSave855D4->counts[gTable855D4[gShop855D4->index].id] != 0) {
+                f855_1A3D0(L.desc[0], 1, 0xF);
+                f855_1A3D0(L.desc[1], 1, 0x11);
+            } else {
+                f855_1A664(0xF, 4);
+            }
+            {
+                u16 id = gTable855D4[gShop855D4->index].id;
+                if (gSave855D4->counts[id] != 0) {
+                    switch (id) {
+                    case 0x75:
+                    case 0x76:
+                    case 0x77:
+                        f855_659BC(&L.spriteB, 0x34, 0x48, 0, 0, 3);
+                        break;
+                    case 0x66:
+                    case 0x67:
+                    case 0x68:
+                        f855_659BC(&L.spriteB, 0x34, 0x5C, 0, 0, 3);
+                        break;
+                    case 0x90:
+                        f855_659BC(&L.spriteB, 0x34, 0x59, 0, 0, 3);
+                        break;
+                    case 0x84:
+                    case 0x85:
+                    case 0x86:
+                        f855_659BC(&L.spriteB, 0x34, 0x56, 0, 0, 3);
+                        break;
+                    default:
+                        switch (item->unk45) {
+                        case 0:
+                            f855_659BC(&L.spriteB, 0x34, 0x50, 0, 0, 3);
+                            break;
+                        case 1:
+                            f855_659BC(&L.spriteB, 0x34, 0x56, 0, 0, 3);
+                            break;
+                        case 2:
+                            f855_659BC(&L.spriteB, 0x34, 0x5C, 0, 0, 3);
+                            break;
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+        gShop855D4->x += (gShop855D4->tx - gShop855D4->x) / 2;
+        gShop855D4->y += (gShop855D4->ty - gShop855D4->y) / 2;
+        f855_003F0();
+    }
+exit:
+    f855_1ABE8(6);
+    while (f855_1AAE0() == 0)
+        f855_003F0();
+    f855_57624(0x1E);
+    f855_00AF0(0xF, f855_07290(0x70003) + 0x1E0, 1);
+    f855_1A664(0, 0x14);
+    f855_0CFA4();
+    f855_00420(0x11201100);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080855D4);
+#endif
 void sub_080867E0(void) {
     sub_08001538(gUnk_03006478);
     gUnk_03006478 = 0;
