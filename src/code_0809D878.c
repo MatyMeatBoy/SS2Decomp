@@ -16,7 +16,30 @@ extern s32 gUnk_03000324;
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809D878);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809E468);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EDFC);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EF84);
+extern u8 modeEF84105 asm("gUnk_03000320");
+s32 sub_0809EF84(void)
+{
+    register s32 status asm("r0")=sub_0800CD8C();
+    { register s32 checked asm("r1")=status; asm("" : "+r"(checked));
+    if(checked==0) {
+        register vu16 *statusReg asm("r3")=(vu16 *)0x04000004; asm("" : "+r"(statusReg));
+        if(!(1 & *statusReg)) {
+            u32 one=1; asm("" : "+r"(one));
+            do {} while(!(one & *statusReg));
+        }
+        switch(modeEF84105) {
+        case 3: case 5:
+            *(vu16 *)0x04000000 &= 0xFBFF;
+            break;
+        case 0:case 1:case 2:case 4:case 7:case 8:
+            *(vu16 *)0x04000000 |= 0x400;
+            break;
+        }
+    }
+    }
+    asm volatile("" : "+r"(status));
+    return status;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F018);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F4A8);
 void sub_0809F8C8(void) {
