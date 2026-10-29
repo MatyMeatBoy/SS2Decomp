@@ -1,26 +1,26 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 192836,
+  "bytes_done": 194828,
   "funcs_total": 1870,
-  "funcs_done": 1321,
-  "percent": 25.87874688654127,
-  "funcs_drafts": 101,
-  "bytes_drafts": 129840,
-  "percent_with_drafts": 43.30337971313235,
-  "funcs_decompiled": 1321,
-  "bytes_decompiled": 192836,
+  "funcs_done": 1324,
+  "percent": 26.146074894786565,
+  "funcs_drafts": 102,
+  "bytes_drafts": 130616,
+  "percent_with_drafts": 43.67484754788285,
+  "funcs_decompiled": 1324,
+  "bytes_decompiled": 194828,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 448,
-  "bytes_pending": 422476,
+  "funcs_pending": 444,
+  "bytes_pending": 419708,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 25.87874688654127
+  "percent_decompiled": 26.146074894786565
  },
  "lib": {
   "bytes_total": 12776,
@@ -47,26 +47,26 @@
  },
  "all": {
   "bytes_total": 757928,
-  "bytes_done": 203288,
+  "bytes_done": 205280,
   "funcs_total": 2009,
-  "funcs_done": 1452,
-  "percent": 26.8215450544115,
-  "funcs_drafts": 101,
-  "bytes_drafts": 129840,
-  "percent_with_drafts": 43.95245986426151,
-  "funcs_decompiled": 1430,
-  "bytes_decompiled": 202348,
+  "funcs_done": 1455,
+  "percent": 27.08436685278813,
+  "funcs_drafts": 102,
+  "bytes_drafts": 130616,
+  "percent_with_drafts": 44.317666057989676,
+  "funcs_decompiled": 1433,
+  "bytes_decompiled": 204340,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 456,
-  "bytes_pending": 424800,
+  "funcs_pending": 452,
+  "bytes_pending": 422032,
   "funcs_original_asm": 24,
   "bytes_original_asm": 1056,
   "funcs_decompilable": 1987,
   "bytes_decompilable": 756988,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 26.730674726679947
+  "percent_decompiled": 26.993822887549076
  },
  "asm": {
   "bytes": 1056,
@@ -112,8 +112,8 @@
  },
  "callgraph": {
   "nodes": 2035,
-  "edges": 11626,
-  "unresolved_calls": 1155,
-  "parsed_c_functions": 1528
+  "edges": 11623,
+  "unresolved_calls": 1170,
+  "parsed_c_functions": 1532
  }
 }
