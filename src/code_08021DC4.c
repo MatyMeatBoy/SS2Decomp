@@ -4337,7 +4337,7 @@ end_poll:
             asm("" : "+r"(temp_r0_3));
             if ((temp_r0_3 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
                 sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-                sub_0800BC08((s16)(xpos >> 16), 0x880000 >> 0x10, endX, endY, 0x30, 0);
+                sub_0800BC08((s16)(xpos >> 16), 0x880000 >> 0x10, endX, endY, 0x30, temp_r0_3);
                 sub_08008E74(*endX, *endY, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
             }
             sub_080003F0();
