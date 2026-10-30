@@ -194,10 +194,7 @@ s32 sub_0806898C(s32 arg0, s32 arg1)
         return 0;
     return (s16)(result + 1);
 }
-#ifdef NONMATCHING
 struct Position68 { s32 x, y; };
-/* Resolve an area attack against nearby enemies or players. The result
- * combines target-present (1) and effect-applied (2) flags. */
 s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     void sub_08029A7C(u32, s32, s32);
     void sub_08029B98(u32, u32, s32, s32, s32, s32);
@@ -487,7 +484,14 @@ loop_69:
                                         allyHistoryValue68 = *(u32 *)historyIndex68;
                                         allyCounterValue68 = *(u32 *)allyCounterAddress68;
 
-                                        playerHitHistory = allyHistoryAddress68;
+/* Preserve both pointers in the original order. The unused
+                                         * output disappears after the compiler places the copies. */
+                                        if (allyHistoryValue68 != allyCounterValue68) {
+                                            playerHitHistory = allyHistoryAddress68;
+                                        } else {
+                                            asm("" : "=r"(temp_r0));
+                                            playerHitHistory = allyHistoryAddress68;
+                                        }
                                         if (allyHistoryValue68 != allyCounterValue68) {
                                             M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerAlly, u16 *, 0x0);
                                             temp_r0_7 = M2C_FIELD(attack, u32 *, 0xC);
@@ -595,9 +599,6 @@ nextEnemyPlayer:
 
     return (s32) hitFlags;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068A00);
-#endif
 struct Attack69 {u32 attacker,unk4,unk8,kind,power,level;};
 struct AttackPlayer69 {u8 pad0[0x3C];s16 value;u8 pad3E[0x14C-0x3E];};
 struct AttackTable69 {s16 power;u16 effect;u8 pad4[20];};
