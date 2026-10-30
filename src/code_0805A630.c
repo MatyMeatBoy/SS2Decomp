@@ -1498,7 +1498,6 @@ void sub_0805CB8C(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB8C);
 #endif
-#ifdef NONMATCHING
 struct PuzzleSlot61 { s32 x,y; u16 pad8,active; u32 padC; u16 type,value; u8 tail[12]; };
 struct PuzzleItem61 { u16 type,value; union { u32 wide; struct {u16 a;u8 b,c;} parts; } data; u8 last; u8 tail[7]; };
 extern struct PuzzleSlot61 *puzzleSlots61 asm("gUnk_03005D58");
@@ -1507,16 +1506,23 @@ extern u16 puzzleRecipes61[] asm("gUnk_084EB8D8");
 s32 sub_0805CDF8(void) {
     struct PuzzleSlot61 *sp0[4];
     struct PuzzleItem61 sp10;
-    s16 temp_r1; u16 yBits; s32 xBits;
+    register struct PuzzleItem61 *item asm("r4");
+    register s32 temp_r1 asm("r1");
+    register u32 yBits asm("r6");
+    register s32 xBits asm("r1");
+    register u32 shifted asm("r0");
     s32 temp_r2;
-    s16 temp_r3;
+    register s32 temp_r3 asm("r3");
     s32 var_r4_2;
     s32 var_r6;
-    u32 var_r8;
+    register u32 var_r8 asm("r8");
     u16 *temp_r0_2;
     register u8 *base asm("r2");
+    register u32 *bounds asm("r5");
+    register u8 *bp asm("r0");
+    register u16 *recipes asm("r1");
     register u8 *p asm("r0");
-    u16 *var_r5;
+    register u16 *var_r5 asm("r5");
     u16 *recipeValues;
     struct PuzzleSlot61 **slotsBase;
     register s32 temp_r0_3 asm("r0");
@@ -1542,13 +1548,26 @@ loop_1:
     var_r9 = 0;
     do {
         if (var_r4->active != 0) {
-            xBits=var_r4->x<<5; yBits=(u32)(var_r4->y<<5)>>16; temp_r2 = var_r7 * 0x10;
+            xBits = var_r4->x << 5;
+            shifted = var_r4->y << 5;
+            yBits = shifted >> 16;
+            bounds = puzzleBounds61;
+            temp_r2 = var_r7 * 0x10;
+            bp = (u8 *)((u32)temp_r2 + (u32)bounds);
             temp_r3 = xBits >> 16;
-            if ((u32) *(u32 *)(temp_r2 + (u8 *)puzzleBounds61) <= (u32) temp_r3) {
-                temp_r1 = yBits;
-                if (((u32) *(u32 *)(temp_r2 + ((u8 *)(puzzleBounds61 + 1))) <= (u32) temp_r1) && ((u32) *(u32 *)(temp_r2 + ((u8 *)(puzzleBounds61 + 2))) >= (u32) temp_r3) && ((u32) *(u32 *)(temp_r2 + ((u8 *)(puzzleBounds61 + 3))) >= (u32) temp_r1)) {
-                    var_r8 += 1;
-                    *var_ip = var_r4;
+            if ((u32)*(u32 *)bp <= (u32)temp_r3) {
+                bp = (u8 *)bounds + 4;
+                bp = (u8 *)((u32)temp_r2 + (u32)bp);
+                temp_r1 = (s16)yBits;
+                if ((u32)*(u32 *)bp <= (u32)temp_r1) {
+                    bp = (u8 *)bounds + 8;
+                    if ((u32)*(u32 *)((u32)temp_r2+(u32)bp) >= (u32)temp_r3) {
+                        bp = (u8 *)bounds + 12;
+                        if ((u32)*(u32 *)((u32)temp_r2+(u32)bp) >= (u32)temp_r1) {
+                            var_r8 += 1;
+                            *var_ip = var_r4;
+                        }
+                    }
                 }
             }
         }
@@ -1561,16 +1580,19 @@ loop_1:
     var_ip++;
     var_r7 += 1;
     if (var_r7 > 3U) {
-        if (puzzleRecipes61[0] == 0) {
+        recipes = puzzleRecipes61;
+        if (*recipes == 0) {
             goto block_32;
         }
-        var_r8 = (u32)puzzleRecipes61;
+        var_r8 = (u32)recipes;
+        slotsBase = (struct PuzzleSlot61 **)var_r8;
         var_r9 = 0;
-        recipeValues = puzzleRecipes61 + 1;
+        recipeValues = (u16 *)(var_r8 + 2);
 loop_15:
         var_r6 = 0;
         var_r7 = 0;
-        var_r5 = (u16 *)(var_r9 + (u8 *)puzzleRecipes61);
+        var_r5 = (u16 *)var_r9;
+        var_r5 = (u16 *)((u8 *)var_r5 + (u32)slotsBase);
         var_r4_2 = var_r9;
         var_r3 = sp0;
         do {
@@ -1585,6 +1607,7 @@ loop_15:
         } while (var_r7 <= 3U);
         if (var_r6 == 4) {
             var_r7 = 0;
+            item = &sp10;
             var_r5_2 = sp0;
             do {
                 temp_r1_2 = *var_r5_2;
@@ -1599,53 +1622,54 @@ loop_15:
                 var_r7 += 1;
             } while (var_r7 <= 3U);
             base = (u8 *)puzzleRecipes61;
-            asm("" : "+r"(base));
+
             p=base+16;
             asm("" : "+r"(p));
             temp_r0_2=(u16 *)(p+var_r9);
             temp_r1_4 = *temp_r0_2;
             if (temp_r1_4 == 0xA) {
-                sp10.type = temp_r1_4;
+                item->type = temp_r1_4;
                 p=base+18; asm("" : "+r"(p));
-                sp10.data.wide = (s32) *(u16 *)(p + var_r9);
+                item->data.wide = (s32) *(u16 *)(p + var_r9);
             } else {
-                sp10.data.wide = 0;
-                sp10.type = (u16) *temp_r0_2;
+                item->data.wide = 0;
+                item->type = (u16) *temp_r0_2;
                 p=base+18; asm("" : "+r"(p));
-                sp10.value = (u16) *(u16 *)(p + var_r9);
-                temp_r0_3 = sp10.type; asm("" : "+r"(temp_r0_3));
+                item->value = (u16) *(u16 *)(p + var_r9);
+                temp_r0_3 = item->type; asm("" : "+r"(temp_r0_3));
                 switch (temp_r0_3) {
                 case 2:
                 case 3:
                 case 4:
                 case 5:
-                    sp10.last = 0;
-                    sp10.data.parts.a = 0;
-                    sp10.data.parts.b = 0;
-                    sp10.data.parts.c = 0;
+                    item->last = 0;
+                    item->data.parts.a = 0;
+                    item->data.parts.b = 0;
+                    item->data.parts.c = 0;
                     break;
                 }
             }
 item_ready:
             if (sub_08002204() != 0) {
-                sub_08066490(0xF700U, 0x6E00U, (u32 *)&sp10);
+                sub_08066490(0xF700U, 0x6E00U, (u32 *)item);
             }
             sub_08021EC8(0xF700U, 0x6E00U, 6);
             return 1;
         }
         var_r8 += 20;
         var_r9 += 0x14;
-        if (*(u16 *)var_r8 == 0) {
+        {
+            register u16 *test asm("r1") = (u16 *)var_r8;
+            asm("" : "+r"(test));
+            if (*test == 0) {
 block_32:
-            return 0;
+                return 0;
+            }
+            goto loop_15;
         }
-        goto loop_15;
     }
     goto loop_1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CDF8);
-#endif
 s32 sub_0805CFA0(void) {
     u32 i;
     u8 *p;
