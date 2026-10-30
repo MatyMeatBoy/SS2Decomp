@@ -711,13 +711,14 @@ void sub_08066720(u8 *msg)
     u8 **peerCursor;
     u8 **readCursor;
     u32 half;
+    u32 initialId;
     register u32 length asm("r0");
     u8 *buf, *q;
     register u8 *src asm("r6");
 
     *(u32 *)(msg + 4) = 2;
-    state.myId = sub_080020F4();
-    buf = sub_08002118() + 8;
+    initialId=sub_080020F4();state.myId=initialId;
+    buf = sub_08002118(initialId) + 8;
     i=0;peerCursor=state.peers;
     for (; i < sub_08002164(); i++) {
         register u8 *peerAddr asm("r0")=(u8 *)sub_08002238(i);
