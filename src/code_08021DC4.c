@@ -4206,9 +4206,12 @@ poll_input:
         }
         if (var_r0 <= 0x17) {
             {
-                register s32 limit asm("r2") = 0x88;
+                register s32 limit asm("r2");
+                register s32 value asm("r0") = y;
+                asm("" : "+r"(value));
+                limit = 0x88;
                 asm("" : "+r"(limit));
-                var_r0_2 = y - limit;
+                var_r0_2 = value - limit;
             }
             if (var_r0_2 < 0) {
                 var_r0_2 = 0 - var_r0_2;
@@ -4286,11 +4289,11 @@ scan_check:
         }
         if (var_r7 > 2U) {
             t24_state08026858->unk40 = 0x92BC;
-loop_49:
-            if (sub_08067DC8() == 0) {
-                sub_080003F0();
-                goto loop_49;
-            }
+            goto ready_check;
+ready_yield:
+            sub_080003F0();
+ready_check:
+            if (sub_08067DC8() == 0) goto ready_yield;
             goto block_57;
         }
         goto block_51;
