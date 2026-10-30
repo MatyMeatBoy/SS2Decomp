@@ -74,7 +74,47 @@ s32 sub_08095E70(struct Motion95 *p, s16 x, s16 y)
     }
     return (u8)p->unk8;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095F10);
+struct TargetF10 { u16 x, y; };
+struct PlayerF10 { u8 pad[0x148]; struct TargetF10 *target; };
+extern struct PlayerF10 playersF10[] asm("gUnk_03003CE0");
+extern s32 angleF10(s16, s16) asm("ArcTan2");
+s32 sub_08095F10(struct Motion95 *p, u8 index)
+{
+    s32 rawX, rawY, dx, dy;
+    struct TargetF10 *target;
+    u16 x, y;
+    u32 packedY;
+    u16 angle;
+    u32 bits, octant;
+    s16 direction;
+    rawX = p->unk14 << 8;
+    rawY = p->unk18 << 8;
+    target = playersF10[index].target;
+    x = target->x;
+    packedY = (u32)target->y << 20;
+    dx = (x >> 4) - (rawX >> 16);
+    y = packedY >> 20;
+    dy = y - (rawY >> 16);
+    angle = angleF10((s16)dx, (s16)dy);
+    bits = (u32)angle << 19;
+    octant = (u32)angle >> 13;
+    if (bits > 0x80000000U) {
+        if (octant <= 6U) octant++;
+        else octant = 0;
+    }
+    switch (octant) {
+    case 0: direction = 6; goto store;
+    case 1: direction = 7; goto store;
+    case 2: direction = 0; goto store;
+    case 3: direction = 1; goto store;
+    case 4: direction = 2; goto store;
+    case 5: direction = 3; goto store;
+    case 6: direction = 4; goto store;
+    case 7: direction = 5;
+    store: p->unk8 = direction;
+    }
+    return (u8)p->unk8;
+}
 extern s32 arcTan2_99(s16, s16) asm("ArcTan2");
 s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     u16 angle;
