@@ -2452,10 +2452,7 @@ void sub_0808AFE8_v(void) {
     struct AnimAF91 { u8 p0[0xC]; u32 data; u8 p10[0xC]; u8 flags; u8 p1D[0x17]; };
     struct RecordAF91 { u32 words[4]; };
     /* The original stack places the animation at sp+8 and records at sp+0x48. */
-    struct { struct AnimAF91 anim; u8 pad[12]; struct RecordAF91 records[30]; struct AnimAF91 arg86, arg93; } work;
-    u16 argA0;
-    s32 *argAD;
-    u16 *argA8;
+    struct { struct AnimAF91 anim; u8 pad[12]; struct RecordAF91 records[30]; struct AnimAF91 arg86, arg93; u16 argA0; u16 align; } work;
     u8 *var_r0;
     s32 *var_r2;
     s32 temp_r0;
@@ -2498,9 +2495,6 @@ void sub_0808AFE8_v(void) {
     extern u32 sub_08058878(u32, u32);
     extern u32 sub_08058900(u32);
     extern u32 sub_08058934(u32);
-    u32 argA1, argA2, argA7, argA9;
-    s32 argA3, argA5, argA6, argAA, argAE;
-    u8 *argA4, *argAB, *argAC;
     extern u16 keysAF91[] asm("gUnk_03001250");
     extern u8 *stateAF91 asm("gUnk_03005CF4");
     extern u8 playersAF91[] asm("gUnk_03003CE0");
@@ -2534,6 +2528,20 @@ void sub_0808AFE8_v(void) {
     extern u16 data084AB5B8AF91[] asm("gUnk_084AB5B8");
 
 
+    u32 argA1;
+    u32 argA2;
+    s32 argA3;
+    u8 * argA4;
+    s32 argA5;
+    s32 argA6;
+    u32 argA7;
+    u16 * argA8;
+    u32 argA9;
+    s32 argAA;
+    u8 * argAB;
+    u8 * argAC;
+    s32 * argAD;
+    s32 argAE;
     keysAF91[0] = 0;
     keysAF91[1] = 0xFFFD;
     keysAF91[3] = 0;
@@ -2550,10 +2558,10 @@ void sub_0808AFE8_v(void) {
     argA4 = (u8 *)sub_080653CC();
     sub_080009F8(0x200, 0, 1);
     sub_080009C0(0x1D00, 0, 1);
-    argA0 = 0x5E0A;
-    sub_08000AA8(2U, &argA0);
-    argA0 = 0x1D03;
-    sub_08000AA8(3U, &argA0);
+    work.argA0 = 0x5E0A;
+    sub_08000AA8(2U, &work.argA0);
+    work.argA0 = 0x1D03;
+    sub_08000AA8(3U, &work.argA0);
     argA1 = 0U;
     temp_r0 = sub_0800CE30();
     argA3 = 0;
