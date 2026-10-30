@@ -22,51 +22,56 @@ s32 sub_0801E244(s32 arg0, s32 arg1)
   }
   goto loop_1;
 }
-#ifdef NONMATCHING
-void sub_0801E278(s32 arg0, u32 arg1)
+void sub_0801E278(s32 arg0,u32 arg1)
 {
-    u8 *entry;
-    s32 i;
-
-    while (1) {
-        entry = *(u8 **)(arg0 + 0x34);
-        for (i = 0; i < 8; i++, entry += 0x28) {
-            if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == arg1 &&
-                *(u16 *)(entry + 2) == 100) {
-                break;
-            }
-        }
-
-        if (i == 8) {
-            break;
-        }
-        sub_0801DB94(*(u16 *)arg0, entry, 0);
+    u32 i;
+    u8 *entry,*found;
+    register u32 type asm("r8")=100;
+    register s32 invalid=-1;
+    asm("" : "+r"(type));
+again:
+    entry=*(u8 **)(arg0+0x34);
+    i=0;
+scan:
+    if(*(s16 *)entry!=invalid && *(u16 *)(entry+4)==arg1 && type==*(u16 *)(entry+2)) {
+        found=entry;
+    } else {
+        i++;
+        entry+=0x28;
+        if(i>7) found=0;
+        else goto scan;
+    }
+    if(found) {
+        sub_0801DB94(*(u16 *)arg0,found,0);
+        asm("" : "+r"(found));
+        if(found) goto again;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E278);
-#endif
-#ifdef NONMATCHING
-void sub_0801E2CC(s32 arg0, u32 arg1)
+void sub_0801E2CC(s32 arg0,u32 arg1)
 {
-    u8 *entry;
-    s32 i;
-
-    while (1) {
-        entry = *(u8 **)(arg0 + 0x8C);
-        for (i = 0; i < 8; i++, entry += 0x28) {
-            if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == arg1 &&
-                *(u16 *)(entry + 2) == 100)
-                break;
-        }
-        if (i == 8)
-            break;
-        sub_0801DB94(*(u16 *)arg0 + 4, entry, 0);
+    u32 i;
+    u8 *entry,*found;
+    register u32 type asm("r8")=100;
+    register s32 invalid=-1;
+    asm("" : "+r"(type));
+again:
+    entry=(u8 *)(arg0+0x8C);
+    i=0;
+scan:
+    if(*(s16 *)entry!=invalid && *(u16 *)(entry+4)==arg1 && type==*(u16 *)(entry+2)) {
+        found=entry;
+    } else {
+        i++;
+        entry+=0x28;
+        if(i>7) found=0;
+        else goto scan;
+    }
+    if(found) {
+        sub_0801DB94(*(u16 *)arg0+4,found,0);
+        asm("" : "+r"(found));
+        if(found) goto again;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
-#endif
 struct RemoveEntry019 { u16 id:16; u16 type,key; u8 pad[34]; };
 struct RemovePlayer019 { u8 pad[0x34]; struct RemoveEntry019 *entries; u8 tail[0x114]; };
 extern struct RemovePlayer019 removePlayers019[] asm("gUnk_03003CE0");
