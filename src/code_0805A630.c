@@ -1548,8 +1548,8 @@ loop_1:
     var_r9 = 0;
     do {
         if (var_r4->active != 0) {
-            xBits = var_r4->x << 5;
-            shifted = var_r4->y << 5;
+            xBits = (u32)var_r4->x << 5;
+            shifted = (u32)var_r4->y << 5;
             yBits = shifted >> 16;
             bounds = puzzleBounds61;
             temp_r2 = var_r7 * 0x10;
