@@ -2260,7 +2260,19 @@ inner:
             dst = &t109P6BE8[i];
             value = dst->f88;
             dst->f88 = amount + value;
-            t109P6BE8[sub_080020F4()].fE4[t109O6BE8->id] = t109O6BE8->serial++;
+            {
+                s32 player = sub_080020F4();
+                register struct T109Obj6BE8 *p asm("r2");
+                register struct T109Obj6BE8 **a asm("r3") = &t109O6BE8;
+                register u32 *destination asm("r1");
+                register u32 oldSerial asm("r0");
+                asm("" : "+r"(a));
+                p = *a;
+                destination = &t109P6BE8[player].fE4[p->id];
+                oldSerial = p->serial;
+                *destination = oldSerial;
+                p->serial = oldSerial + 1;
+            }
 
             pHit->hit = 1;
 nextParticle:
