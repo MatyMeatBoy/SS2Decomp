@@ -2545,7 +2545,7 @@ void sub_0808AFE8_v(void) {
     sub_0800B974(0x36U, 0x1EU);
     sub_0800B974(0x3CU, 0x1FU);
     sub_0800B650(0x35, 0x1D, 0x06000000, 0U, 0xF);
-    {register u8 *save asm("r2")=saveAF91;register u16 *stages asm("r1")=stagesAF91;register u8 *state asm("r0")=stateAF91;register u32 delta asm("r3")=0x14a;register u32 value asm("r0");value=*(u16 *)(state+delta);value=stages[value];delta+=0xb0;*(u16 *)(save+delta)=value;}
+    {register u8 *save asm("r2")=saveAF91;register u16 *stages asm("r1")=stagesAF91;register u8 *state asm("r0")=stateAF91;register u32 delta asm("r3")=0x14a;register u32 value asm("r0");value=*(u16 *)(state+delta);value=stages[value];delta+=0xb0;{register u8 *dest asm("r1")=save+delta;asm("" : : "r"(delta));*(u16 *)dest=value;}}
     sub_08065158(&work.anim, 0x50067, 9, -1, 0);
     argA4 = (u8 *)sub_080653CC();
     sub_080009F8(0x200, 0, 1);
