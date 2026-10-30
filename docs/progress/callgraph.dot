@@ -10973,8 +10973,6 @@ digraph calls {
   "sub_08091E94" -> "sub_080003F0" [label="asm"];
   "sub_08091E94" -> "sub_08001494" [label="asm"];
   "sub_08091E94" -> "sub_08001538" [label="asm"];
-  "sub_08091F20" -> "__udivsi3" [label="asm"];
-  "sub_08091F20" -> "__umodsi3" [label="asm"];
   "sub_080920A0" -> "sub_0805865C" [label="c"];
   "sub_080920E4" -> "sub_08000274" [label="c"];
   "sub_080920E4" -> "sub_08001494" [label="c"];
@@ -10990,8 +10988,7 @@ digraph calls {
   "sub_08092348" -> "sub_08000274" [label="c"];
   "sub_08092348" -> "sub_080003F0" [label="c"];
   "sub_08092348" -> "sub_08001494" [label="c"];
-  "sub_080923B4" -> "_call_via_r2" [label="asm"];
-  "sub_080923B4" -> "sub_08000420" [label="asm,c"];
+  "sub_080923B4" -> "sub_08000420" [label="c"];
   "sub_080923FC" -> "__modsi3" [label="asm"];
   "sub_080923FC" -> "sub_080003F0" [label="asm"];
   "sub_080923FC" -> "sub_0800086C" [label="asm"];
