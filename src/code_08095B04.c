@@ -192,7 +192,51 @@ void sub_0809689C(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080968C0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080969CC);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096AF4);
+struct PointAF4 { s32 x, y; };
+s32 sub_08096AF4(struct PointAF4 *input, u32 arg1) {
+    register struct PointAF4 *arg0 asm("r4") = input;
+    s32 temp_r1;
+    register u32 mode asm("r6");
+    register s32 sample asm("r0");
+    u32 deltaBits;
+    u8 *sineBase;
+    register s32 wave asm("r1");
+    s32 temp_r2;
+    s32 var_r0;
+    s32 var_r1;
+    s32 var_r5;
+
+    mode = (u8)arg1;
+    var_r5 = 0;
+    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
+        if (mode != 0) {
+            temp_r1 = arg0->x + ((s8) gUnk_030002A0.b0D * 0x10);
+            arg0->x = temp_r1;
+            var_r5 = 0x8000 - temp_r1;
+            sample = gUnk_080B9704[(u8)(gUnk_030002A0.pad0E - gUnk_030002A0.b0D)];
+            wave = sample * var_r5;
+            var_r1 = wave >> 8;
+            goto block_10;
+        }
+        temp_r2 = arg0->x;
+        var_r5 = temp_r2 + 0xFFFF8000;
+        if (var_r5 < 0) {
+            var_r5 = 0 - var_r5;
+        }
+        deltaBits = (gUnk_030002A0.pad0E - gUnk_030002A0.b0D) << 24;
+        sineBase = (u8 *)gUnk_080B9704;
+        var_r1 = (s32)(var_r5 * *(s16 *)((deltaBits >> 23) + sineBase)) >> 8;
+        if (temp_r2 > 0x8000) {
+            var_r0 = arg0->y - var_r1;
+        } else {
+block_10:
+            var_r0 = arg0->y + var_r1;
+        }
+        arg0->y = var_r0;
+    }
+    return (s32) (s16) var_r5;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096BA8);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096D40);
 struct PaletteStep99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
