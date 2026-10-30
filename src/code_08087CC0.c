@@ -1337,10 +1337,10 @@ s32 sub_0808AC08(u8 *table)
         position = (u16 *)(table + stateAC0891->row * 0x24 + 4);
         sub_0800CCDC();
         offset = sub_080020F4() * 0x14C;
-        player = playersAC0891 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
-        *(struct PosAC0891 *)(player + 0x94) = *(struct PosAC0891 *)(player + 0x8C);
+        {register u8 *base asm("r3")=playersAC0891; register u8 *px asm("r1")=base+0x8C; px+=offset;
+        *(u32 *)px=(u32)position[0]<<8;
+        px=base+0x90;px+=offset;*(u32 *)px=(u32)position[1]<<8;
+        player=base+offset;*(struct PosAC0891 *)(player+0x94)=*(struct PosAC0891 *)(player+0x8C);}
         sub_08009930(0, 0x12);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
