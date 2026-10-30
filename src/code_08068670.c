@@ -712,7 +712,189 @@ divide:
     out[1]=((u32)probability>random)?kind:0;
     if(target>3 && *(u8 *)((u32)resistEnemies69+target*0x2E0-0x95A)==3) out[1]=0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080694AC);
+struct HitAttack69 {u32 attacker,unk4,target,kind,power,level;};
+struct HitPacket69 {union {u32 word;u8 byte[4];struct {u32 who:8,kind:8,flags:8; s32 direction:8;} bits;} control;union {u32 word;u16 half[2];struct {u32 amount:16,upper:16;} bits;} value;};
+struct HitTable69 {s16 power;u16 effect;u8 pad4[20];};
+extern u8 hitPlayers69[] asm("gUnk_03003CE0");
+extern u8 *hitEnemies69 asm("gUnk_030056F4");
+extern u8 *hitStats69 asm("gUnk_030034E0");
+extern struct HitTable69 hitTable69[] asm("gUnk_084EBF1C");
+extern u16 hitSpecial69[] asm("gUnk_084EC16C");
+extern u8 hitDirections69[] asm("gUnk_084790B4");
+extern s16 hitDamage69(void *,void *) asm("sub_08068F9C");
+extern void hitStatus69(void *,void *,u32,u32,u32) asm("sub_08069388");
+extern void hitAux69(void *,u32,u32,u32,u32,s32) asm("sub_08069080");
+extern void hitRecover69(u32,u32,void *) asm("sub_08069224");
+extern u32 hitArc69(s32,s32) asm("ArcTan2");
+extern void hitDisplay69(void *) asm("sub_080660EC");
+extern void *hitFreeSlot69(void *,u32) asm("sub_0801E104");
+/* Empty constraints retain the original register/address lifetimes; they emit no instructions. */
+void sub_080694AC(struct HitAttack69 *arg0) {
+    struct HitPacket69 packet;
+    register s32 var_r0_2 asm("r0");
+    s32 *var_r1_3;
+    s32 temp_r0;
+    s32 temp_r0_4;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    register s32 var_r1 asm("r1");
+    register s32 var_r1_2 asm("r1");
+    register s32 var_r2 asm("r2");
+    s32 var_r4;
+    u16 temp_r4;
+    u16 temp_r4_2;
+    u32 temp_r2;
+    u32 temp_r2_2;
+    u8 *var_r0;
+    u8 *var_r5;
+    u8 *var_r7;
+    u8 *var_r8;
+    void *temp_r0_2;
+    void *temp_r0_3;
+    void *temp_r2_3;
+    void *var_r9;
+    void *var_sl;
+
+    if (sub_08058DB0() != 0) {
+        return;
+    }
+    if (sub_0800CDF8() != 0) {
+        return;
+    }
+    packet.control.word &= 0xFFFF00FF;
+    temp_r2 = arg0->attacker;
+    if (temp_r2 <= 3U) {
+        var_r8 = (0x14C * temp_r2) + hitPlayers69;
+    } else {
+        var_r9 = hitEnemies69 + ((temp_r2 * 0x2E0) + 0xFFFFF480);
+    }
+    temp_r2_2 = arg0->target;
+    if (temp_r2_2 <= 3U) {
+        var_r7 = (0x14C * temp_r2_2) + hitPlayers69;
+        var_sl = (u8 *)(0x7C+(u32)var_r7);
+        var_r4 = 8;
+        (*(u32 *)((u8 *)(var_r7)+0x110)) = 0;
+        var_r0 = var_r7 + 0x68;
+    } else {
+        { register u8 **base asm("r1"); register u32 offset asm("r0"); base=&hitEnemies69; offset=temp_r2_2*0x2E0; offset-=0xB80; var_r5=(u8 *)((u32)*base+offset); }
+        var_sl = var_r5 + 0x218;
+        var_r4 = 1;
+        var_r0 = var_r5 + 0x1DC;
+    }
+    if (*var_r0 == 0) {
+        return;
+    }
+    packet.value.bits.amount = (u16)(hitDamage69(arg0,var_sl)/var_r4);
+    if (arg0->kind == 0x13) {
+        temp_r4 = hitSpecial69[arg0->level];
+        if ((u32) temp_r4 >= (u32) (sub_080008C8() % 100U)) {
+            packet.control.word = (packet.control.word & 0xFFFF00FF) | 0x300;
+        }
+    }
+    if (arg0->kind == 0xC) {
+        if ((*(u32 *)((u8 *)(var_r5)+0x210)) == 0xFF) {
+            packet.control.word &= 0xFF00FFFF;
+        } else {
+            packet.control.word = (packet.control.word & 0xFF00FFFF) | 0x100000;
+        }
+        if ((u32) arg0->attacker <= 3U) {
+            if ((u32) arg0->target <= 3U) {
+                temp_r2_3 = (*(u32 *)((u8 *)(var_r7)+0x148));
+                var_r0_2 = (s16)(((u16) (*(u16 *)((u8 *)(temp_r2_3)+0x0)) >> 4) - ((s32) (*(u32 *)((u8 *)(var_r8)+0x8C)) >> 8));
+                var_r1 = (((u32) ((*(u16 *)((u8 *)(temp_r2_3)+0x2)) << 0x14) >> 0x14) - ((s32) (*(u32 *)((u8 *)(var_r8)+0x90)) >> 8)) << 0x10;
+            } else {
+                var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r5)+0x14)) - (*(u32 *)((u8 *)(var_r8)+0x8C))) << 8) >> 0x10);
+                { register u32 *base asm("r2"); base=(u32 *)(var_r8+0x90); var_r1_2=*(u32 *)(var_r5+0x18); var_r2=*base; }
+                asm("" : "+r"(var_r2));
+                goto block_27;
+            }
+        } else {
+            if ((u32) arg0->target <= 3U) {
+                var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r7)+0x8C)) - (*(u32 *)((u8 *)(var_r9)+0x14))) << 8) >> 0x10);
+                { register u32 *source asm("r1"); register u32 *target asm("r2"); source=(u32 *)(var_r7+0x90); target=(u32 *)(var_r8+0x90); var_r1_2=*source; var_r2=*target; }
+            } else {
+                var_r0_2 = (s16) ((s32) (((*(u32 *)((u8 *)(var_r5)+0x14)) - (*(u32 *)((u8 *)(var_r9)+0x14))) << 8) >> 0x10);
+                var_r1_2 = (*(u32 *)((u8 *)(var_r5)+0x18));
+                var_r2 = (*(u32 *)((u8 *)(var_r9)+0x18));
+            }
+block_27:
+            var_r1 = (var_r1_2 - var_r2) << 8;
+        }
+        { register u32 angle asm("r0"); register u32 mask asm("r2"); angle=(u32)(hitArc69(var_r0_2,var_r1>>16)<<16)>>28; angle<<=24; mask=0xFFFFFF; asm("" : "+r"(mask)); packet.control.word=(packet.control.word&mask)|angle; }
+        asm("" : : : "memory");
+        { register u8 *table asm("r1"); register u32 header asm("r2"); register u32 direction asm("r1"); register u8 *entry asm("r0"); table=hitDirections69; header=packet.control.word; entry=(u8 *)((s8)(header>>24)+(u32)table); direction=*entry; direction<<=24; packet.control.word=(0xFFFFFF&header)|direction; }
+    } else {
+        packet.control.bits.flags=0; packet.control.bits.direction=0;
+    }
+    if ((u32) arg0->target <= 3U) {
+        packet.control.bits.who=*(u8 *)var_r7;
+        if (arg0->target == sub_080020F4()) {
+            (*(u16 *)((u8 *)(var_r7)+0x20)) = 0xA;
+            (*(u16 *)((u8 *)(var_r7)+0x88)) = (u16) (packet.value.half[0] + (*(u16 *)((u8 *)(var_r7)+0x88)));
+            sub_0801F320(var_r7, (u8 *) &packet);
+        }
+        hitStatus69(&packet, var_sl, (u16) arg0->level, hitTable69[arg0->kind].effect, (s32) (u16) arg0->target);
+        if (arg0->kind == 0x12) {
+            packet.control.byte[1] = 0U;
+        }
+        if ((u32) arg0->attacker <= 3U) {
+            { register u32 index asm("r0"); register u8 *base asm("r1"); index=*(u16 *)var_r8; index<<=2; base=var_r7+0xF8; asm("" : "+r"(base)); base+=index; var_r1_3=(s32 *)base; }
+            var_r0_4 = (*(u32 *)((u8 *)(var_r8)+0xDC));
+        } else {
+            { register u32 index asm("r0"); register u8 *base asm("r1"); index=*(u16 *)var_r9; index<<=2; base=var_r7+0xE4; asm("" : "+r"(base)); base+=index; var_r1_3=(s32 *)base; }
+            var_r0_4 = (*(u32 *)((u8 *)(var_r9)+0x50));
+        }
+        *var_r1_3 = var_r0_4;
+        if (arg0->target == sub_080020F4()) {
+            temp_r0_3 = sub_0801E1A4(var_r7, (s32) packet.control.byte[1]);
+            if (temp_r0_3 != NULL) {
+                sub_0801DB94((s32) (u16) (*(u16 *)((u8 *)(var_r7)+0x0)), temp_r0_3, (s32) packet.control.byte[1]);
+            } else {
+                temp_r0_4 = sub_0801E164(var_r7, (s32) packet.control.byte[1]);
+                if (temp_r0_4 != 0) {
+                    sub_0801DB94((s32) (u16) (*(u16 *)((u8 *)(var_r7)+0x0)), (void *) temp_r0_4, (s32) packet.control.byte[1]);
+                }
+            }
+        }
+        temp_r4_2 = (u16) (*(u16 *)((u8 *)(var_r7)+0x0));
+        if (temp_r4_2 == sub_080020F4()) {
+            (*(u32 *)((u8 *)(var_r7)+0xE0)) = (s32) hitTable69[arg0->kind].effect;
+            hitRecover69(packet.control.byte[1], packet.value.half[0], hitStats69 + 0x24);
+        }
+    } else {
+        (*(u16 *)((u8 *)(var_r5)+0xC)) = 0xA;
+        packet.control.byte[0] = (s8) (*(u16 *)((u8 *)(var_r5)+0x2));
+        { register u16 *sum asm("r2"); register struct HitPacket69 *record asm("r1"); register u32 amount asm("r0"); sum=(u16 *)(var_r5+0x4A); record=&packet; amount=record->value.half[0]; amount+=*sum; *sum=amount;
+        (*(u32 *)((u8 *)(var_r5)+0x4C)) = record->value.half[0];
+        sub_0801F2CC(var_r5,(u8 *)record); }
+        if ((u32) arg0->attacker <= 3U) {
+            var_r0_3 = (*(u32 *)((u8 *)(var_r8)+0xDC));
+        } else {
+            { register u8 *source asm("r1"); source=var_r9; asm("" : "+r"(source)); var_r0_3=*(u32 *)(source+0x50); }
+        }
+        (*(u32 *)((u8 *)(var_r5)+0x54)) = var_r0_3;
+        { register u32 attacker asm("r1"); attacker=arg0->attacker; *(u16 *)(var_r5+0x58)=attacker; }
+        (*(u16 *)((u8 *)(var_r5)+0x5A)) = (u16) ((1 << *(volatile u32 *)&arg0->attacker) | (*(u16 *)((u8 *)(var_r5)+0x5A)));
+        hitStatus69(&packet, var_sl, (u16) arg0->level, hitTable69[arg0->kind].effect, (s32) (u16) arg0->target);
+        if (arg0->kind == 0x12) {
+            packet.control.byte[1] = 0U;
+        }
+        { register u32 stateOffset asm("r2"); register u8 *stateAddress asm("r0"); stateOffset=0x226; asm("" : "+r"(stateOffset)); stateAddress=var_r5+stateOffset; asm("" : "+r"(stateAddress));
+        if (*stateAddress != 3) {
+            temp_r0 = sub_0801E244((s32) var_r5, (s32) packet.control.byte[1]);
+            if (temp_r0 != 0) {
+                sub_0801DB94((*(u16 *)((u8 *)(var_r5)+0x0)) + 4, (void *) temp_r0, (s32) packet.control.byte[1]);
+            } else {
+                temp_r0_2 = hitFreeSlot69(var_r5,0);
+                if (temp_r0_2 != NULL) {
+                    sub_0801DB94((*(u16 *)((u8 *)(var_r5)+0x0)) + 4, temp_r0_2, (s32) packet.control.byte[1]);
+                }
+            }
+        }
+        } hitDisplay69(&packet);
+    }
+    hitAux69(var_sl, packet.value.half[0], arg0->level, arg0->attacker, arg0->target, (s32) hitTable69[arg0->kind].effect);
+}
 struct StatusSprite69 {u32 data,unk4,tiles;u8 *palette;s32 unk10;u32 paletteId,paletteCount;u8 style[16];s16 scale,step,max,min;};
 struct StatusPosition69 {u16 x,y,kind,unused6,unused8,slot;};
 extern vu32 statusMask69 asm("gUnk_0300641C");
