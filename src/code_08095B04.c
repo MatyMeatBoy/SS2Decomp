@@ -870,7 +870,49 @@ void sub_080968C0(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080969CC);
+struct ScaleControl99 { u16 scaleX, scaleY, w4, w6, w8, wA; u8 b0C, b0D, pad0E, b0F; };
+extern struct ScaleControl99 scaleControl99 asm("gUnk_030002A0");
+void sub_080969CC(void) {
+    u32 sumX, sumY;
+    s16 sineA, sineB, sineD;
+    s32 sineC;
+    register u32 lastY asm("r5");
+    s32 temp_r5;
+    s32 temp_r6;
+    u16 temp_r0;
+    u16 temp_r4;
+    u16 temp_r7;
+    u16 temp_r8;
+    u16 temp_r9;
+
+    sineA = gUnk_080B9704[scaleControl99.b0D + 0x40];
+    temp_r9 = sub_08090434((s32)sineA, sub_08090494(scaleControl99.scaleX));
+    sineB = gUnk_080B9704[scaleControl99.b0D];
+    temp_r8 = sub_08090434((s32)sineB, sub_08090494(scaleControl99.scaleX));
+    sineC = -gUnk_080B9704[scaleControl99.b0D];
+    temp_r7 = sub_08090434(sineC, sub_08090494(scaleControl99.scaleY));
+    sineD = gUnk_080B9704[scaleControl99.b0D + 0x40];
+    temp_r0 = sub_08090434((s32)sineD, sub_08090494(scaleControl99.scaleY));
+    sumX = scaleControl99.w8;
+    sumX += scaleControl99.w4;
+    sumY = scaleControl99.wA;
+    lastY = scaleControl99.w6;
+    sumY += lastY;
+    temp_r6 = (((0x78 - (s16) sumX) << 8) - ((s16) temp_r9 * 0x78)) - ((s16) temp_r8 * 0x50);
+    temp_r4 = temp_r0;
+    temp_r5 = (((0x78 - (s16) sumY) << 8) - ((s16) temp_r7 * 0x78)) - ((s16) temp_r0 * 0x50);
+    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
+        gUnk_03001250[8] = temp_r9;
+        gUnk_03001250[9] = temp_r8;
+        gUnk_03001250[10] = temp_r7;
+        gUnk_03001250[11] = temp_r4;
+        gUnk_03001250[12] = temp_r6;
+        gUnk_03001250[14] = temp_r5;
+        gUnk_03001250[13] = (s16) (temp_r6 >> 0x10);
+        gUnk_03001250[15] = (s16) (temp_r5 >> 0x10);
+    }
+}
+
 struct PointAF4 { s32 x, y; };
 s32 sub_08096AF4(struct PointAF4 *input, u32 arg1) {
     register struct PointAF4 *arg0 asm("r4") = input;
