@@ -510,8 +510,8 @@ void sub_080A47A0(void)
  register s16 *sx asm("r10"); register s16 *sy asm("r9");
  frame.metadata=object10847+0x204;frame.rotation=0;frame.tile=0;sx=&frame.sx;sy=&frame.sy;
  for(;;){
-  while(frame10847==0)sub_080003F0();
-  if(side10847==1)animation=frame10847+5;else animation=frame10847;
+  {u8 current=frame10847;while(current==0){sub_080003F0();current=frame10847;}
+  if(side10847==1)animation=current+5;else animation=current;}
   frame.x=F_10847(object10847,s32,0x14);frame.y=F_10847(object10847,s32,0x18);
   frame.x+=offsetX10847[direction10847*2];frame.y+=offsetY10847[direction10847*2];
   sprites10847[side10847].style=palette10847;
