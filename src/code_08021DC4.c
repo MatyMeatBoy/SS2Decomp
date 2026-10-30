@@ -4235,7 +4235,11 @@ poll_input:
                         timer = temp_r0 + 1;
                         if ((temp_r0 > 0x3CU) && (2 & t24_keys08026858)) {
                             temp_r6->flags = temp_r2 & 0xFFFFFBFF;
-                            sub_08057328(0, &t24_callback08026858);
+                            {
+                                register s32 zero asm("r0") = 0;
+                                asm("" : "+r"(zero));
+                                sub_08057328(zero, &t24_callback08026858);
+                            }
                         }
                     }
                 }
