@@ -4324,12 +4324,14 @@ block_51:
         sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
         {
             register u32 xbase asm("r1") = 0xF0;
-            register u32 ybase asm("r2") = 0x88;
+            register u32 ybase asm("r2");
             register u32 xbits asm("r0");
             register u32 ybits asm("r1");
             asm("" : "+r"(xbase));
             xbits = xbase << 16;
-            asm("" : "+r"(xbits), "+r"(ybase));
+            asm("" : "+r"(xbits));
+            ybase = 0x88;
+            asm("" : "+r"(ybase));
             ybits = ybase << 16;
             asm("" : "+r"(xbits), "+r"(ybits));
             sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), &x, &y, 0x30, temp_r0_2);
