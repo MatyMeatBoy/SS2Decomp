@@ -45,7 +45,58 @@ s32 sub_08095B04(struct Motion95 *p, s32 speed)
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095D1C);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095E70);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095F10);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095FC8);
+extern s32 arcTan2_99(s16, s16) asm("ArcTan2");
+s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
+    u16 angle;
+    u32 temp_r0;
+    u32 var_r2;
+    register u32 result asm("r2");
+    s32 dx, dy;
+    u32 roundBits;
+
+    dx = arg2 - arg0;
+    dy = arg3 - arg1;
+    angle = arcTan2_99((s16)dx, (s16)dy);
+    temp_r0 = angle;
+    roundBits = temp_r0 << 19;
+    var_r2 = temp_r0 >> 13;
+    if (roundBits > 0x80000000U) {
+        if (var_r2 <= 6U) {
+            var_r2 += 1;
+        } else {
+            var_r2 = 0;
+        }
+    }
+    switch (var_r2) {
+    case 0:
+        result = 6;
+        break;
+    case 1:
+        result = 7;
+        break;
+    case 2:
+        result = 0;
+        break;
+    case 3:
+        result = 1;
+        break;
+    case 4:
+        result = 2;
+        break;
+    case 5:
+        result = 3;
+        break;
+    case 6:
+        result = 4;
+        break;
+    case 7:
+        result = 5;
+        break;
+    default: result = var_r2; break;
+    }
+    return (s32) (u8) result;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096060);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096154);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096274);
@@ -54,23 +105,21 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096494);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096594);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096640);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080967D0);
-#ifdef NONMATCHING
+struct Ctrl99 { u16 scaleX, scaleY, x, y, a, b; u8 c, d, e, f; };
+extern struct Ctrl99 ctrl99 asm("gUnk_030002A0");
 void sub_0809689C(void)
 {
-    gUnk_030002A0.w4 = 0;
-    gUnk_030002A0.w6 = 0;
-    gUnk_030002A0.w8 = 0;
-    gUnk_030002A0.wA = 0;
-    gUnk_030002A0.b0C = 0;
-    gUnk_030002A0.b0D = 0;
-    gUnk_030002A0.pad0E = 0;
-    gUnk_030002A0.b0F = 0;
-    gUnk_030002A0.w4 = 0x100;
-    gUnk_030002A0.w6 = 0x100;
+    ctrl99.y = 0;
+    ctrl99.x = 0;
+    ctrl99.b = 0;
+    ctrl99.a = 0;
+    ctrl99.c = 0;
+    ctrl99.e = 0;
+    ctrl99.d = 0;
+    ctrl99.f = 0;
+    ctrl99.scaleY = 0x100;
+    ctrl99.scaleX = 0x100;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_0809689C);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080968C0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080969CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096AF4);
