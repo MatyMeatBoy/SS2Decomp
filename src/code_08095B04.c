@@ -167,7 +167,86 @@ s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     return (s32) (u8) result;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096060);
+struct MotionStart99 { u32 unk0; u16 code, phase; s16 direction; u8 padA[10]; s32 x, y, previousX, previousY; };
+extern s32 angleStart99(s16, s16) asm("ArcTan2");
+extern s8 motionStart99(struct MotionStart99 *, u32, u32, u32) asm("sub_08096060");
+s8 motionStart99(struct MotionStart99 *arg0, u32 arg1, u32 arg2, u32 arg3) {
+    s32 rawX, dxWide, dyWide;
+    register s32 rawY asm("r4");
+    register s32 limit asm("r4");
+    s32 saveX, saveY;
+    u16 distance, angle;
+    u32 bits;
+    s16 temp_r6;
+    s16 temp_r7;
+    s16 var_r0;
+    s8 var_r8;
+    u32 temp_r0;
+    u32 var_r2;
+
+    rawX = arg0->x << 8;
+    rawY = arg0->y << 8;
+    dxWide = (s16)arg1 - (rawX >> 16);
+    dyWide = (s16)arg2 - (rawY >> 16);
+    limit = arg3;
+    limit <<= 16;
+    limit >>= 16;
+    temp_r7 = dxWide;
+    temp_r6 = dyWide;
+    distance = Sqrt(temp_r7 * temp_r7 + temp_r6 * temp_r6);
+    var_r8 = 1;
+    if (limit > (s32)distance) var_r8 = 0;
+    angle = angleStart99(temp_r7, temp_r6);
+    bits = (u32)angle << 19;
+    var_r2 = (u32)angle >> 13;
+    if (bits > 0x80000000U) {
+        if (var_r2 <= 6U) var_r2++;
+        else var_r2 = 0;
+    }
+    switch (var_r2) {
+    case 0:
+        arg0->direction = 6;
+        var_r0 = 0x10;
+        goto block_16;
+    case 1:
+        arg0->direction = 7;
+        var_r0 = 0x90;
+        goto block_16;
+    case 2:
+        arg0->direction = 0;
+        var_r0 = 0x80;
+        goto block_16;
+    case 3:
+        arg0->direction = 1;
+        var_r0 = 0xA0;
+        goto block_16;
+    case 4:
+        arg0->direction = 2;
+        var_r0 = 0x20;
+        goto block_16;
+    case 5:
+        arg0->direction = 3;
+        var_r0 = 0x60;
+        goto block_16;
+    case 6:
+        arg0->direction = 4;
+        var_r0 = 0x40;
+        goto block_16;
+    case 7:
+        arg0->direction = 5;
+        var_r0 = 0x50;
+    block_16:
+        arg0->code = var_r0;
+        break;
+    }
+    arg0->phase = 0;
+    saveX = arg0->x;
+    saveY = arg0->y;
+    arg0->previousX = saveX;
+    arg0->previousY = saveY;
+    return var_r8;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096154);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096274);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096394);
