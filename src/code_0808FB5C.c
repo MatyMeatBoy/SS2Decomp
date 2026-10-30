@@ -1934,90 +1934,70 @@ append:
     *text = (ones + 0x41000000U) >> 24;
     text[1] = 0xFD;
 }
-#ifdef NONMATCHING
-s32 sub_08091F9C(u8 *arg0, u8 *arg1) {
-    u8 *var_r1;
-    u8 *var_r3;
-    u8 temp_r0;
-    u8 temp_r2;
-    u8 var_r0;
-    u8 var_r0_2;
-    u8 var_r4;
+extern u32 language096F asm("gUnk_03003470");
+s32 sub_08091F9C(u8 *source,u8 *output)
+{
+    u32 mode;
+    u8 count;
+    register u8 *cursor asm("r3");
+    register u32 a asm("r2");
+    u8 c;
+    register u32 test asm("r0");
+    cursor=source;
+    asm("" : "+r"(cursor));
+    mode=language096F;
+    if(mode==0) goto ascii;
+    asm("" : "+r"(mode));
+    if(mode<=4) goto extended;
+ascii:
+    count=0;
+    goto read_ascii;
+ascii_body:
+    if((u8)a==0x20) { test=0x51; goto ascii_store; }
+    if((u8)(a-0x41)<=0x19) { test=a-0x40; asm("" : "+r"(test)); goto ascii_store; }
+    if((u8)(a-0x61)<=0x19) { test=a-0x40; goto ascii_store; }
+    if((u8)(a-0x30)>9) goto finish_ascii;
+    test=a+0x10;
+ascii_store:
+    *output=test;
+    cursor++;output++;count++;
+    if(count>0xFE) goto done;
+read_ascii:
+    test=*cursor;
+    a=test;
+    asm("" : "+r"(a) : "r"(test));
+    if(a!=0) goto ascii_body;
+finish_ascii:
+    *output=0xFD;
+    goto done;
+finish_extended:
+    test=0xFD;
+    goto store_extended;
+extended:
+    count=0;
+    goto read_extended;
+extended_body:
+    if(test==0x20) *output=0x51;
+    else if((u8)(c-0x41)<=0x19 || (u8)(c-0x61)<=0x19) *output=c-0x40;
+    else if((u8)(c-0x30)<=9) *output=c+0xF;
+    else *output=c;
+    cursor++;output++;count++;
+    if(count>0xFE) goto done;
+read_extended:
+    c=*cursor;
+    test=c;
+    asm("" : "+r"(test) : "r"(c));
+    if(test==0) goto finish_extended;
+    if(test!=0xFD) goto extended_body;
+store_extended:
+    *output=test;
+done:
 
-    var_r1 = arg1;
-    var_r3 = arg0;
-    if ((gUnk_03003470 == 0) || ((u32) gUnk_03003470 > 4U)) {
-        var_r4 = 0;
-loop_12:
-        temp_r0 = *var_r3;
-        if (temp_r0 == 0) {
-            goto block_13;
-        }
-        if (temp_r0 == 0x20) {
-            var_r0 = 0x51;
-            goto block_11;
-        }
-        if ((u32) (u8) (temp_r0 - 0x41) <= 0x19U) {
-            var_r0 = temp_r0 - 0x40;
-            goto block_11;
-        }
-        if ((u32) (u8) (temp_r0 - 0x61) <= 0x19U) {
-            var_r0 = temp_r0 - 0x40;
-            goto block_11;
-        }
-        if ((u32) (u8) (temp_r0 - 0x30) <= 9U) {
-            var_r0 = temp_r0 + 0x10;
-block_11:
-            *var_r1 = var_r0;
-            var_r3 += 1;
-            var_r1 += 1;
-            var_r4 += 1;
-            if ((u32) var_r4 <= 0xFEU) {
-                goto loop_12;
-            }
-        } else {
-block_13:
-            var_r0_2 = 0xFD;
-            goto block_27;
-        }
-    } else {
-        var_r4 = 0;
-loop_25:
-        temp_r2 = *var_r3;
-        var_r0_2 = temp_r2;
-        switch (var_r0_2) {                         /* irregular */
-        case 0x0:
-            var_r0_2 = 0xFD;
-        case 0xFD:
-block_27:
-            *var_r1 = var_r0_2;
-            break;
-        case 0x20:
-            *var_r1 = 0x51;
-block_24:
-            var_r3 += 1;
-            var_r1 += 1;
-            var_r4 += 1;
-            if ((u32) var_r4 <= 0xFEU) {
-                goto loop_25;
-            }
-            break;
-        default:
-            if (((u32) (u8) (temp_r2 - 0x41) <= 0x19U) || ((u32) (u8) (temp_r2 - 0x61) <= 0x19U)) {
-                *var_r1 = temp_r2 - 0x40;
-            } else if ((u32) (u8) (temp_r2 - 0x30) <= 9U) {
-                *var_r1 = temp_r2 + 0xF;
-            } else {
-                *var_r1 = temp_r2;
-            }
-            goto block_24;
-        }
-    }
-    return (s32) (u8) (var_r4 - 1);
+    return (u8)(count-1);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091F9C);
-#endif
+
+
+
 u32 sub_08092080(void)
 {
     if (gUnk_03000168 == 0xD)
