@@ -506,7 +506,99 @@ loop_170:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080445E8);
 #endif
+#ifdef NONMATCHING
+void sub_08044D1C(void) {
+    struct Actor4D1C45 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
+    struct Actor4D1C45 *var_r0_3;
+    struct Actor4D1C45 *var_r1;
+    struct Actor4D1C45 *var_r1_2;
+    struct Actor4D1C45 *var_r2_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    u16 var_r4;
+    u16 var_r4_2;
+    u32 var_r2;
+    u32 var_r2_3;
+    u8 *var_r0;
+    u8 *var_r0_2;
+    extern u8 *state4D1C45 asm("gUnk_03005CF4");
+    extern void callback4D1C45(void) asm("sub_08034F64");
+
+    do {
+        if (sub_0800CE30() != 0) {
+            var_r0_2 = state4D1C45 + 0x1C5;
+        } else {
+            var_r0_2 = state4D1C45 + 0x1B9;
+        }
+        temp_r5 = ((s32) *var_r0_2 >> 2) & 1;
+        var_r4 = 1;
+loop_6:
+        sub_080003F0();
+        if (sub_080021A8() == 0) {
+            var_r4 -= 1;
+            if (var_r4 != 0) {
+                goto loop_6;
+            }
+        }
+        if (sub_0800CE30() != 0) {
+            var_r0 = state4D1C45 + 0x1C5;
+        } else {
+            var_r0 = state4D1C45 + 0x1B9;
+        }
+    } while (temp_r5 == (((s32) *var_r0 >> 2) & 1));
+    var_r4_2 = 0x1F4;
+loop_15:
+    sub_080003F0();
+    if (sub_080021A8() == 0) {
+        var_r4_2 -= 1;
+        if (var_r4_2 != 0) {
+            goto loop_15;
+        }
+    }
+    temp_r4 = sub_080289C0(0xF, 0x128, 0x197);
+    var_r1 = (struct Actor4D1C45 *)(state4D1C45 + 0x7A4);
+    var_r2 = 0;
+loop_17:
+    if (var_r1->id != temp_r4) {
+        var_r2 += 1;
+        var_r1++;
+        if (var_r2 > 0xEU) {
+            sub_080003F0();
+            var_r2_2 = NULL;
+        } else {
+            goto loop_17;
+        }
+    } else {
+        var_r2_2 = var_r1;
+    }
+    if (var_r2_2 != NULL) {
+        var_r2_2->x = 8;
+        var_r2_2->y = 4;
+        var_r2_2->flags = (s32) (var_r2_2->flags | 0x10);
+    }
+    var_r1_2 = (struct Actor4D1C45 *)(state4D1C45 + 0x7A4);
+    var_r2_3 = 0;
+loop_23:
+    if (var_r1_2->id != temp_r4) {
+        var_r2_3 += 1;
+        var_r1_2++;
+        if (var_r2_3 > 0xEU) {
+            sub_080003F0();
+            var_r0_3 = NULL;
+        } else {
+            goto loop_23;
+        }
+    } else {
+        var_r0_3 = var_r1_2;
+    }
+    if (var_r0_3 != NULL) {
+        var_r0_3->callback = (u32)callback4D1C45;
+    }
+    sub_0802939C(temp_r4, 0x11);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08044D1C);
+#endif
 void sub_08044E34(s32 arg0) {
     register s32 arg asm("r8") = arg0;
     s32 *base;
@@ -573,7 +665,98 @@ wait:
     if (sub_080021A8() == 0) goto dec;
     goto loop;
 }
+#ifdef NONMATCHING
+void sub_08045660(void) {
+    struct Actor566045 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
+    struct Actor566045 *var_r0_3;
+    struct Actor566045 *var_r1;
+    struct Actor566045 *var_r1_2;
+    struct Actor566045 *var_r2_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    u16 var_r4;
+    u16 var_r4_2;
+    u32 var_r2;
+    u32 var_r2_3;
+    u8 *var_r0;
+    u8 *var_r0_2;
+    extern u8 *state566045 asm("gUnk_03005CF4");
+    extern void callback566045(void) asm("sub_08033198");
+
+    do {
+        if (sub_0800CE30() != 0) {
+            var_r0_2 = state566045 + 0x1C3;
+        } else {
+            var_r0_2 = state566045 + 0x1B7;
+        }
+        temp_r5 = ((s32) *var_r0_2 >> 2) & 1;
+        var_r4 = 1;
+loop_6:
+        sub_080003F0();
+        if (sub_080021A8() == 0) {
+            var_r4 -= 1;
+            if (var_r4 != 0) {
+                goto loop_6;
+            }
+        }
+        if (sub_0800CE30() != 0) {
+            var_r0 = state566045 + 0x1C3;
+        } else {
+            var_r0 = state566045 + 0x1B7;
+        }
+    } while (temp_r5 == (((s32) *var_r0 >> 2) & 1));
+    var_r4_2 = 0xF0;
+loop_15:
+    sub_080003F0();
+    if (sub_080021A8() == 0) {
+        var_r4_2 -= 1;
+        if (var_r4_2 != 0) {
+            goto loop_15;
+        }
+    }
+    temp_r4 = sub_080289C0(0x28, 0xBF, 0xF9);
+    var_r1 = (struct Actor566045 *)(state566045 + 0x7A4);
+    var_r2 = 0;
+loop_17:
+    if (var_r1->id != temp_r4) {
+        var_r2 += 1;
+        var_r1++;
+        if (var_r2 > 0xEU) {
+            sub_080003F0();
+            var_r2_2 = NULL;
+        } else {
+            goto loop_17;
+        }
+    } else {
+        var_r2_2 = var_r1;
+    }
+    if (var_r2_2 != NULL) {
+        var_r2_2->x = 8;
+        var_r2_2->y = 4;
+        var_r2_2->flags = (s32) (var_r2_2->flags | 0x10);
+    }
+    var_r1_2 = (struct Actor566045 *)(state566045 + 0x7A4);
+    var_r2_3 = 0;
+loop_23:
+    if (var_r1_2->id != temp_r4) {
+        var_r2_3 += 1;
+        var_r1_2++;
+        if (var_r2_3 > 0xEU) {
+            sub_080003F0();
+            var_r0_3 = NULL;
+        } else {
+            goto loop_23;
+        }
+    } else {
+        var_r0_3 = var_r1_2;
+    }
+    if (var_r0_3 != NULL) {
+        var_r0_3->callback = (u32)callback566045;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045660);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045764);
 struct Bits5AFC { u8 b0:5; u8 b5:1; u8 b6:1; u8 b7:1; };
 extern u8 *gGS5AFC asm("gUnk_03005CF4");
@@ -597,7 +780,98 @@ void sub_08045AFC(void)
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045B68);
+#ifdef NONMATCHING
+void sub_08045E38(void) {
+    struct Actor5E3845 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
+    struct Actor5E3845 *var_r0_3;
+    struct Actor5E3845 *var_r1;
+    struct Actor5E3845 *var_r1_2;
+    struct Actor5E3845 *var_r2_2;
+    s32 temp_r4;
+    s32 temp_r5;
+    u16 var_r4;
+    u16 var_r4_2;
+    u32 var_r2;
+    u32 var_r2_3;
+    u8 *var_r0;
+    u8 *var_r0_2;
+    extern u8 *state5E3845 asm("gUnk_03005CF4");
+    extern void callback5E3845(void) asm("sub_0803898C");
+
+    do {
+        if (sub_0800CE30() != 0) {
+            var_r0_2 = state5E3845 + 0x1C3;
+        } else {
+            var_r0_2 = state5E3845 + 0x1B7;
+        }
+        temp_r5 = ((s32) *var_r0_2 >> 5) & 1;
+        var_r4 = 1;
+loop_6:
+        sub_080003F0();
+        if (sub_080021A8() == 0) {
+            var_r4 -= 1;
+            if (var_r4 != 0) {
+                goto loop_6;
+            }
+        }
+        if (sub_0800CE30() != 0) {
+            var_r0 = state5E3845 + 0x1C3;
+        } else {
+            var_r0 = state5E3845 + 0x1B7;
+        }
+    } while (temp_r5 == (((s32) *var_r0 >> 5) & 1));
+    var_r4_2 = 0xF0;
+loop_15:
+    sub_080003F0();
+    if (sub_080021A8() == 0) {
+        var_r4_2 -= 1;
+        if (var_r4_2 != 0) {
+            goto loop_15;
+        }
+    }
+    temp_r4 = sub_080289C0(0x40026, 0xDD, 0x11E);
+    var_r1 = (struct Actor5E3845 *)(state5E3845 + 0x7A4);
+    var_r2 = 0;
+loop_17:
+    if (var_r1->id != temp_r4) {
+        var_r2 += 1;
+        var_r1++;
+        if (var_r2 > 0xEU) {
+            sub_080003F0();
+            var_r2_2 = NULL;
+        } else {
+            goto loop_17;
+        }
+    } else {
+        var_r2_2 = var_r1;
+    }
+    if (var_r2_2 != NULL) {
+        var_r2_2->x = 8;
+        var_r2_2->y = 4;
+        var_r2_2->flags = (s32) (var_r2_2->flags | 0x10);
+    }
+    var_r1_2 = (struct Actor5E3845 *)(state5E3845 + 0x7A4);
+    var_r2_3 = 0;
+loop_23:
+    if (var_r1_2->id != temp_r4) {
+        var_r2_3 += 1;
+        var_r1_2++;
+        if (var_r2_3 > 0xEU) {
+            sub_080003F0();
+            var_r0_3 = NULL;
+        } else {
+            goto loop_23;
+        }
+    } else {
+        var_r0_3 = var_r1_2;
+    }
+    if (var_r0_3 != NULL) {
+        var_r0_3->callback = (u32)callback5E3845;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045E38);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045F44);
 struct Item46490 { u16 kind,id; u8 data[12]; };
 extern u8 *state46490 asm("gUnk_03005CF4");
