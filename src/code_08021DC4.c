@@ -1953,7 +1953,11 @@ void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
     { volatile s32 result = sub_0800CF80(); if (result) sp10 = 0xF0; else sp10 = 0x18; }
     temp_r3 = arg0->x << 0xB;
     temp_r1 = gUnk_0849E730[arg1];
-    temp_r5 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5) + 0x80);
+    {
+        s32 offset = (temp_r1 << 5) + 0x80;
+        asm("" : "+r"(offset));
+        temp_r5 = *(s16 *)((u8 *)gUnk_080B9704 + offset);
+    }
     sp4 = temp_r3 + (var_r7 * temp_r5);
     temp_r2 = arg0->y << 0xB;
     temp_r4 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5));
