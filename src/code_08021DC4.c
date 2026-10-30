@@ -5357,9 +5357,9 @@ void t025Effects27C(u16 *arg0) {
     register u8 temp_r0_3 asm("r0");
     u8 temp_r1_6;
     u8 temp_r4_3;
-    void *temp_r1;
+    register void *temp_r1 asm("r1");
     void *temp_r1_2;
-    void *temp_r1_3;
+    register void *temp_r1_3 asm("r1");
     void *temp_r1_4;
     struct T025Resource27C *temp_r2;
     struct T025Resource27C *temp_r2_2;
