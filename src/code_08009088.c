@@ -886,7 +886,7 @@ static inline void t06_finishAD04(struct T06SysAD04 *base)
         saved->relY=(u16)*y-saved->offY;
     } else {
         *x=base->offX+base->relX;
-        {register u8 offset asm("r4")=0x82;register u16 *relative asm("r1")=&base->relY;register u32 value asm("r1")=*relative;register u32 other asm("r2")=*(u16 *)((u8 *)base+offset);*y=value+other;}
+        {register u32 offset asm("r4")=0x82;register u32 other asm("r2")=*(u16 *)((u8 *)base+offset);register u32 value asm("r1")=base->relY;*y=value+other;}
     }
 }
 static inline u16 *t06_offsetAD04(u16 *p,u16 offset) {return (u16 *)((u8 *)p+offset);}
