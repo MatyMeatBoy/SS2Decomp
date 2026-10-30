@@ -154,7 +154,6 @@ void sub_08002304(void) {
         sub_08000420(0x1F40);
     }
 }
-#ifdef NONMATCHING
 extern u16 screen000[] asm("gUnk_03001250");
 extern const u16 languages000[] asm("gUnk_08366DC0");
 extern u16 repeatMenu000 asm("gUnk_03001308");
@@ -166,6 +165,11 @@ void sub_0800232C(void) {
     s32 sp38;
     s32 temp_r0;
     u32 zero;
+    register u32 menuInput asm("r1");
+    register u32 rightMask asm("r2");
+    u32 navigationCondition;
+    register u32 navigationCopy asm("r0");
+    register u32 configValue asm("r0");
     register s32 var_r6 asm("r6");
     u32 var_r4;
     u32 var_r4_2;
@@ -178,7 +182,9 @@ void sub_0800232C(void) {
         sub_080009C0(0x200, 0, 0);
         sp38 = (sp38 & 0xFFFF0000) | 0x1C08;
         sub_08000AA8(0U, (u16 *) &sp38);
-        *(u16 *)&sp38 = 0x1D03;
+        configValue=0x1D03;
+        asm("" : : "r"(configValue));
+        *(u16 *)&sp38 = configValue;
         sub_08000AA8(1U, (u16 *) &sp38);
         sub_0800BCDC(0, 1, 0x06000000, 0U, 0x10U);
         sub_08000940();
@@ -189,9 +195,13 @@ void sub_0800232C(void) {
         sub_080009C0(0x200, 0, 1);
         zero=0;
         asm("" : "+r"(zero));
-        *(u16 *)&sp38 = 0x1C08;
+        configValue=0x1C08;
+        asm("" : : "r"(configValue));
+        *(u16 *)&sp38 = configValue;
         sub_08000AA8(0U, (u16 *) &sp38);
-        *(u16 *)&sp38 = 0x1D03;
+        configValue=0x1D03;
+        asm("" : : "r"(configValue));
+        *(u16 *)&sp38 = configValue;
         sub_08000AA8(1U, (u16 *) &sp38);
         sub_0800BCDC(0, 1, 0x06000000, 0U, 0x10U);
         screen000[2] = zero;
@@ -232,27 +242,34 @@ void sub_0800232C(void) {
                 var_r4_2 = 1;
                 sub_08006D08(0xEU);
                 var_r6 = 0x10;
-            } else if (0x80 & repeatMenu000) {
-block_30:
-                sub_08006D08(0xEU);
-                var_r4_2 = 3;
+            } else {
+                if (!(0x80 & repeatMenu000)) break;
+                goto block_30;
             }
             break;
         case 1:
-            if (0x10 & repeatMenu000) {
+            menuInput=repeatMenu000;
+            rightMask=0x10;
+            if (rightMask & menuInput) {
                 sub_08006D08(0xEU);
                 var_r4_2 = 2;
                 var_r6 = 0x10;
-            } else if (0x20 & repeatMenu000) {
+            } else if (0x20 & menuInput) {
                 sub_08006D08(0xEU);
                 var_r4_2 = 0;
                 var_r6 = 0x20;
-            } else if (0x80 & repeatMenu000) {
-                if (var_r6 & 0x10) {
+            } else if (0x80 & menuInput) {
+                navigationCopy=var_r6;
+                asm("" : : "r"(navigationCopy));
+                navigationCondition=navigationCopy & rightMask;
+                asm("" : : "r"(rightMask));
+                if (navigationCondition) {
                     sub_08006D08(0xEU);
                     var_r4_2 = 4;
                 } else {
-                    goto block_30;
+block_30:
+                    sub_08006D08(0xEU);
+                    var_r4_2 = 3;
                 }
             }
             break;
@@ -264,21 +281,28 @@ block_30:
             }
             if (0x80 & repeatMenu000) {
                 var_r4_2 = 4;
-block_46:
-                sub_08006D08(0xEU);
+                goto block_46;
             }
             break;
         case 3:
-            if (0x10 & repeatMenu000) {
+            menuInput=repeatMenu000;
+            rightMask=0x10;
+            if (rightMask & menuInput) {
                 var_r4_2 = 4;
                 var_r6 = 0x10;
                 goto block_46;
             }
-            if (0x40 & repeatMenu000) {
-                if (var_r6 & 0x10) {
+            if (0x40 & menuInput) {
+                navigationCopy=var_r6;
+                asm("" : : "r"(navigationCopy));
+                navigationCondition=navigationCopy & rightMask;
+                asm("" : : "r"(rightMask));
+                if (navigationCondition) {
                     var_r4_2 = 1;
+                    asm("" : : "r"(var_r4_2));
                 } else {
                     var_r4_2 = 0;
+                    asm("" : : "r"(var_r4_2));
                 }
                 goto block_46;
             }
@@ -292,10 +316,12 @@ block_46:
             if (0x40 & repeatMenu000) {
                 if (0x10 & var_r6) {
                     var_r4_2 = 2;
-                    goto block_46;
+block_46:
+                    sub_08006D08(0xEU);
+                } else {
+                    var_r4_2 = 1;
+                    sub_08006D08(0xEU);
                 }
-                var_r4_2 = 1;
-                sub_08006D08(0xEU);
             }
             break;
         }
@@ -312,9 +338,6 @@ block_46:
     sub_080003F0();
     sub_08000420(0x14);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_0800232C);
-#endif
 void sub_08002658(void)
 {
     s32 temp_r2;
