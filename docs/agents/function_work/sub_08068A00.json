@@ -1,13 +1,13 @@
 {
   "address": "0x08068A00",
-  "updated_utc": "2026-10-30T00:33:54.252755+00:00",
-  "checkpoint": "c3afc96e23b1d16aefafc5ce34ebb1ff304eb191",
+  "updated_utc": "2026-10-30T00:42:05.075888+00:00",
+  "checkpoint": "8291f7336e979b986f4c1f6162b8ad96212ad889",
   "areas": [
     {
       "id": "compile",
       "label": "Borrador completo compilable",
       "state": "done",
-      "evidence": "Checkpoint c3afc96e: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores. El C sigue NONMATCHING y no se ha probado equivalente."
+      "evidence": "Checkpoint 8291f733: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores. Hooks activos. El C sigue NONMATCHING y no se ha probado equivalente."
     },
     {
       "id": "abi",
@@ -25,13 +25,13 @@
       "id": "layout",
       "label": "Bloques, frame y vidas útiles",
       "state": "active",
-      "evidence": "Checkpoint c3afc96e: preparación del estado enemigo remoto +0x5A usa puntero r2, estado previo r1 y máscara r0, como ASM 0x08068CA8..0x08068CB2. nmscore del módulo real baja 153 a 149; tamaño candidato 1428, original 1436. El diff aislado elimina las 8 líneas de discrepancia de ese bloque. Persisten asignación del radio 32, cargas sourceEnemy posteriores a las llamadas, OR de flags, historiales de jugadores y pools. Variantes que empeoran registros posteriores se descartaron; no se ejecutó permuter porque el diff sigue amplio."
+      "evidence": "Checkpoint 8291f733: bloque de radio 0x08068A62..0x08068A8E reproduce mov/str r1 en caso32 y carga/store r0 para 22 y tabla, conservando frame0x20, pos en sp+8/+12 y radio en sp+24. Temporal de tabla u32 evita dos extensiones artificiales que generaba u16 forzado en r0. Estado enemigo remoto +0x5A conserva puntero r2, estado r1 y máscara r0 del checkpoint anterior. nmscore del módulo real baja 149 a145; tamaño1432 frente a1436 original. Persisten preparación de llamadas, OR de flags, historiales de jugadores y pools. Variantes con puntero explícito source+DC empeoran layout y se descartaron; sin permuter por diff amplio."
     },
     {
       "id": "match",
       "label": "Coincidencia íntegra de C y ROM",
       "state": "pending",
-      "evidence": "Checkpoint c3afc96e continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original / 1428 candidato). ROM normal verificada mediante fallback ASM; ningún nuevo match ni equivalencia C afirmados."
+      "evidence": "Checkpoint 8291f733 continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original /1432 candidato). ROM normal verificada mediante fallback ASM; ningún nuevo match ni equivalencia C afirmados."
     }
   ],
   "regions": []
