@@ -2222,7 +2222,7 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
     s32 sp8;
     s32 spC;
     s32 sp10;
-    struct Anim923FC a;
+    struct Anim923FC a,b;
     s32 xsFC[11], ysFC[11];
     u16 delayFC[12], speedFC[12], accelFC[12];
 
@@ -2270,7 +2270,6 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
     u16 *temp_r1_15;
     u16 *temp_r2_3;
     u16 *temp_r2_4;
-    struct Anim923FC b;
     u16 *var_r4;
     u16 temp_r0_5;
     u16 temp_r0_9;
@@ -2301,12 +2300,13 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
 
     sp11C = (s32) arg0;
     sp120 = (s32) arg1;
-    sp0 = 1;
-    init923FC(&a, 0x50022, 7, -1, sp0);
-    sp0 = 1;
-    init923FC(&b, 0x50026, 8, -1, sp0);
-    a.payload[7] = 0;
-    b.payload[8] = 1;
+    { register s32 neg asm("r5") = -1;
+      register s32 one asm("r4") = 1;
+      asm("" : "+r"(neg), "+r"(one));
+      init923FC(&a, 0x50022, 7, neg, one);
+      init923FC(&b, 0x50026, 8, neg, one);
+      a.payload[7] = 0;
+      b.payload[8] = one; }
     sp128 = 0xD4;
     cache923FC[0] = 8;
     cache923FC[1] = 0U;
