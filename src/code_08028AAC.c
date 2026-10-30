@@ -145,7 +145,35 @@ void sub_0802A19C(void) {
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A228);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A590);
+struct ColorA590 {u32 r:5;u32 g:5;u32 b:5;u32 unused:1;};
+extern struct ColorA590 paletteA590[] asm("gUnk_03001F40");
+extern void copyA590(const void *,void *,u32) asm("CpuSet");
+void sub_0802A590(u16 first,u16 count)
+{
+    struct ColorA590 *backup;
+    struct ColorA590 *dest;
+    struct ColorA590 *source;
+    u32 total;
+    u32 index;
+    u16 gray;
+    backup=sub_08001494((u32)count<<5);
+    dest=(struct ColorA590 *)((u8 *)paletteA590+((u32)first<<5));
+    copyA590(dest,backup,((u32)count*8)|0x04000000);
+    total=(u32)count*16;
+    source=backup;
+    index=0;
+    while(index<total) {
+        gray=(u16)(((u32)source->r+source->g+source->b)/3);
+        dest->r=gray;
+        dest->g=gray;
+        dest->b=gray;
+        index++;
+        dest=(struct ColorA590 *)((u8 *)dest+2);
+        source=(struct ColorA590 *)((u8 *)source+2);
+    }
+    sub_08000B38();
+    sub_08001538((s32)backup);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A644);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A7DC);
 s32 sub_0802A9B0(void) {
