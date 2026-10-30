@@ -4527,31 +4527,40 @@ void sub_080435C4(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_080435C4);
 #endif
-#ifdef NONMATCHING
-extern u8 *state44 asm("gUnk_03005CF4");
-extern u8 players44[] asm("gUnk_03003CE0");
 void callback5990C44(u32) asm("sub_0805990C");
 void reaction4385044(void) asm("sub_08043850");
+extern u8 *state44 asm("gUnk_03005CF4");
+extern u8 players44[] asm("gUnk_03003CE0");
 void sub_08043664_ptr(void *) asm("sub_08043664");
 void sub_08043664_ptr(void *arg0)
 {
     u8 *player;
     s32 offset;
+    u8 *flag;
+    u32 flags;
+    register s32 stride asm("r1");
+    register s32 index asm("r0");
+    register u8 *playerFirst asm("r1");
+    register s32 one asm("r4");
+    register s32 raw asm("r0");
     u32 message,id;
-    player=players44+0x14C*sub_080020F4();
-    *(u32 *)(player+0x30)|=1;
+    index=sub_080020F4();
+    stride=0x14C;
+    stride*=index;
+    playerFirst=players44+stride;
+    flags=*(u32 *)(playerFirst+0x30);
+    one=1;
+    flags|=one;
+    *(u32 *)(playerFirst+0x30)=flags;
     sub_0800D0F4();
-    offset=sub_0800CE30()?0x1C6:0x1BA;
-    if(!((state44[offset]>>4)&1)) {
-        if(sub_080020F4()!=0) {
-            while(sub_0805F184())sub_080003F0();
-            while(sub_0805EF90())sub_080003F0();
-            message=sub_0805DF38(1,15,2,0,-1,0x14020A);
-            while(!sub_0805EEFC((void *)message)) {
-                if(sub_0800CDF8()){sub_0805EFBC();break;}
-                sub_080003F0();
-            }
-        } else {
+    if(sub_0800CE30()) flag=state44+0x1C6;
+    else flag=state44+0x1BA;
+    raw=*flag;
+    asm("" : "+r"(raw));
+    offset=raw>>4;
+    offset&=one;
+    if(!offset) {
+        if(sub_080020F4()==0) {
             while(sub_0805F184())sub_080003F0();
             message=sub_0805DF38(1,15,2,0,-2,0x140207);
             while(!sub_0805EEFC((void *)message))sub_080003F0();
@@ -4575,15 +4584,20 @@ void sub_08043664_ptr(void *arg0)
                     sub_080003F0();
                 }
             }
+        } else {
+            while(sub_0805F184())sub_080003F0();
+            while(sub_0805EF90())sub_080003F0();
+            message=sub_0805DF38(1,15,2,0,-1,0x14020A);
+            while(!sub_0805EEFC((void *)message)) {
+                if(sub_0800CDF8()){sub_0805EFBC();break;}
+                sub_080003F0();
+            }
         }
     }
     player=players44+0x14C*sub_080020F4();
     *(u32 *)(player+0x30)&=~1;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08043664);
-#endif
 #ifdef NONMATCHING
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
