@@ -1,0 +1,43 @@
+{
+  "address": "0x0808C0C4",
+  "updated_utc": "2026-10-30T00:49:33+00:00",
+  "checkpoint": "Third pass based on e5af876c and main 67a03e51. NONMATCHING retained: original/candidate 2708/2708 bytes; frame 368/368; approximate nmscore 783, not a match.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Compiling C89 draft",
+      "state": "done",
+      "evidence": "Serial make compare reproduces the original ROM using the retained ASM fallback; make nonmatching compiles the draft. Second-pass e5af876c checks passed on main 67a03e51; third-pass checks repeated before this report commit."
+    },
+    {
+      "id": "frame",
+      "label": "Original stack frame size",
+      "state": "done",
+      "evidence": "Original ASM sub sp,#0x170. Third-pass actual module nmdiff and isolated decomp check both emit sub sp,#368. Grouped menu words preserve the original 0x15C..0x16C word order; this does not establish every temporary spill or register."
+    },
+    {
+      "id": "accesses",
+      "label": "Pointer and ABI audit",
+      "state": "active",
+      "evidence": "b0219731 fixes the second portrait draw sixth argument from s32-pointer +0x1C (112 bytes) to byte-pointer +0x1C (28 bytes), as original ASM before sub_08007870. All six draw argument groups now pass explicit byte addresses. Full type/ABI equivalence remains unproven."
+    },
+    {
+      "id": "cfg",
+      "label": "Menu and confirmation CFG",
+      "state": "active",
+      "evidence": "Third pass keeps five explicit resource-init switch arms and positions cancel sound 0x10/restart and yield/retry blocks to follow original _0808C220 and _0808C6AE roles. Local strict comparison remains NO MATCH; complete CFG equivalence is not claimed."
+    },
+    {
+      "id": "registers",
+      "label": "Registers and instruction order",
+      "state": "active",
+      "evidence": "Measured module nmscore 982 -> 795 -> 783 across pointer/frame/CFG checkpoints. Remaining differences include initial table-base hoisting/registers, background-word load order, portrait loop registers, scalar state loads and literal pool layout. No permuter or forced registers used for this large diff."
+    },
+    {
+      "id": "match",
+      "label": "Full matching normal C build",
+      "state": "pending",
+      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains the active normal-build implementation. A 2708-byte compiling candidate is not binary equivalence; strict nmdiff reports NO MATCH."
+    }
+  ]
+}
