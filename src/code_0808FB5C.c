@@ -1866,16 +1866,18 @@ loop_2:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091CF8);
 #endif
-#ifdef NONMATCHING
 extern u32 heapState096 asm("gUnk_0300016C");
 void sub_08091E94(void)
 {
     u8 *memory;
+    u32 *heapAddress;
     u8 *volatile parts[4];
     s32 state;
     u16 count;
+    heapAddress=&heapState096;
+    asm("" : "+r"(heapAddress));
     memory = (u8 *)sub_08001494(0x110);
-    heapState096 = (u32)memory;
+    *heapAddress = (u32)memory;
     parts[0] = memory;
     parts[1] = (u8 *)((u32)memory + 0x44);
     parts[2] = (u8 *)((u32)memory + 0x88);
@@ -1883,7 +1885,7 @@ void sub_08091E94(void)
     count = 0;
     state = 0;
     if (memory != 0) {
-        do {
+loop:
             switch (state) {
             case 0: state = 1; break;
             case 1: state = 2; break;
@@ -1894,16 +1896,15 @@ void sub_08091E94(void)
                 break;
             }
             sub_080003F0();
-        } while (state != 0xFF && heapState096 != 0);
+        if (state != 0xFF && heapState096 != 0) goto loop;
         if (heapState096 != 0) {
             sub_08001538(heapState096);
             heapState096 = 0;
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091E94);
-#endif
+
+
 void sub_08091F20(u16 number, u8 *text)
 {
     u8 count;
