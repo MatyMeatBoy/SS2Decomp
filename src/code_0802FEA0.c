@@ -489,8 +489,108 @@ void sub_08030B28(s32 arg)
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08030F54);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803145C);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08031580);
+extern u8 *state32 asm("gUnk_03005CF4");
+extern u8 players32[] asm("gUnk_03003CE0");
+void sub_0803145C(void)
+{
+    u8 *player;
+    register u8 *firstPlayer asm("r1");
+    u32 flags;
+    u8 *flag;
+    u32 message;
+    register s32 stride asm("r1");
+    register s32 firstIndex asm("r0");
+    register s32 lastOffset asm("r2");
+    register s32 raw asm("r0");
+    register s32 one asm("r4");
+    firstIndex = sub_080020F4();
+    stride = 0x14C;
+    stride *= firstIndex;
+    firstPlayer = players32 + stride;
+    flags = *(u32 *)(firstPlayer + 0x30);
+    one = 1;
+    flags |= one;
+    *(u32 *)(firstPlayer + 0x30) = flags;
+    sub_0800D0F4();
+    if (sub_0800CE30()) flag = state32 + 0x1C6;
+    else flag = state32 + 0x1BA;
+    raw = *flag;
+    asm("" : "+r"(raw));
+    raw >>= 2;
+    if (!(raw & one)) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        message = sub_0805DF38(1,15,2,0,-1,0x14016F);
+        while (sub_0805EEFC((void *)message) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    } else {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        message = sub_0805DF38(1,15,2,0,-1,0x140170);
+        while (sub_0805EEFC((void *)message) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    lastOffset = sub_080020F4();
+    stride = 0x14C;
+    lastOffset *= stride;
+    player = players32 + lastOffset;
+    *(u32 *)(player + 0x30) &= ~1;
+    sub_0800D108();
+}
+void sub_08031580(void)
+{
+    u8 *player;
+    register u8 *firstPlayer asm("r1");
+    u32 flags;
+    u8 *flag;
+    u32 message;
+    register s32 stride asm("r1");
+    register s32 firstIndex asm("r0");
+    register s32 lastOffset asm("r2");
+    register s32 raw asm("r0");
+    register s32 one asm("r4");
+    firstIndex = sub_080020F4();
+    stride = 0x14C;
+    stride *= firstIndex;
+    firstPlayer = players32 + stride;
+    flags = *(u32 *)(firstPlayer + 0x30);
+    one = 1;
+    flags |= one;
+    *(u32 *)(firstPlayer + 0x30) = flags;
+    sub_0800D0F4();
+    if (sub_0800CE30()) flag = state32 + 0x1C6;
+    else flag = state32 + 0x1BA;
+    raw = *flag;
+    asm("" : "+r"(raw));
+    raw >>= 2;
+    if (!(raw & one)) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        message = sub_0805DF38(1,15,2,0,-1,0x140171);
+        while (sub_0805EEFC((void *)message) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    } else {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        message = sub_0805DF38(1,15,2,0,-1,0x140172);
+        while (sub_0805EEFC((void *)message) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    lastOffset = sub_080020F4();
+    stride = 0x14C;
+    lastOffset *= stride;
+    player = players32 + lastOffset;
+    *(u32 *)(player + 0x30) &= ~1;
+    sub_0800D108();
+}
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080316A4);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803188C);
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080319F0);
