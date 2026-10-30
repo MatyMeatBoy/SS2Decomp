@@ -364,30 +364,34 @@ u32 queuePlayerBlob067(void)
     }
     return r;
 }
-#ifdef NONMATCHING
-extern u8 gPlayer38[] asm("gUnk_03003D18");
-/* Enqueue tag 0x8F (local player's 8-word block at Player+0x38), coalescing with a pending 0x8F. */
-u32 sub_08066220(void)
+u32 queuePlayerState067(void) asm("sub_08066220");
+extern u8 root67Player38Payload[] asm("gUnk_03003D18");
+u32 queuePlayerState067(void)
 {
     u8 *p;
-    u32 n;
-    u32 i;
+    register u32 n asm("r2");
+    register u32 i asm("r3");
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
         r = 0;
     } else {
         p = (u8 *)(uintptr_t)gUnk_03006300;
-        for (i = 0; i < n; i++, p += 0x88) {
+        i = 0;
+        if (i < n) {
+          register u32 limit asm("r1") = n;
+          do {
             if (*(u32 *)(p + 4) == 1 && p[0] == 0x8F) {
-                CpuSet(gPlayer38 + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+                CpuSet(root67Player38Payload + sub_080020F4() * 0x14C, p + 8, 0x04000008);
                 goto done;
             }
+          i++; p += 0x88;
+          } while (i < limit);
         }
         p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
         *(u32 *)(p + 4) = 1;
         *p = 0x8F;
-        CpuSet(gPlayer38 + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+        CpuSet(root67Player38Payload + sub_080020F4() * 0x14C, p + 8, 0x04000008);
         p[1] = 4;
         gUnk_03006338++;
     done:
@@ -395,9 +399,6 @@ u32 sub_08066220(void)
     }
     return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066220);
-#endif
 #ifdef NONMATCHING
 extern u8 *gEntArr asm("gUnk_030056F4");
 /* Enqueue tag 0x91 (entity `idx` velocity words at +0x1FC), coalescing with a pending 0x91 for the same entity id. */
