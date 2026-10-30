@@ -59,7 +59,7 @@ void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *
     u32 rhythm, key, priority, cgb, type, value, flags, release, currentPriority;
     s32 remaining, pitch;
     sound = sdkSoundInfo;
-    track->gateTime = noteClock121[cmd];
+    { register u32 gate asm("r0")=noteClock121[cmd]; asm("" : "+r"(gate)); track->gateTime=gate; }
     {
         register u8 *stream asm("r3") = track->cmdPtr;
         register u32 byte asm("r0") = *stream;
@@ -73,7 +73,7 @@ void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *
         stream++;
         byte = *stream;
         if (byte >= threshold) goto stream_save121;
-        track->gateTime += byte;
+        *(volatile u8 *)&track->gateTime += byte;
         stream++;
 stream_save121:
         track->cmdPtr = stream;
