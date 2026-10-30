@@ -698,14 +698,22 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     f94_0805865C(0x198);
 loop_4:
     sp0 = sp98;
-    sp4 = NULL;
+    {
+        register u32 zero asm("r0") = 0;
+        asm("" : "+r"(zero));
+        sp4 = (u8 *)zero;
+    }
     f94_0800903C(spA4, spA8, 1, sp94, sp0, sp4);
     temp_r0 = spA0 + 2;
     spA0 = (s32) temp_r0;
     f94_08095610(temp_r0);
     f94_080953F8();
     f94_08000AF0(0x10U, sp18.fC + 0xE0, 1U);
-    sp0 = 1;
+    {
+        register u32 one asm("r0") = 1;
+        asm("" : "+r"(one));
+        sp0 = one;
+    }
     f94_08065370(&sp18, 0U, &sp80, &sp82, sp0);
     temp_r0_2 = var_r8 - 1;
     switch (temp_r0_2) {                            /* irregular */
@@ -755,8 +763,12 @@ loop_4:
         f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 1, sp18.payload, sp18.f8, sp18.f0);
         break;
     case 3:
-        if ((u32) sp94 <= 0xFU) {
-            sp94 = (s32) (u8) (sp94 + 1);
+        {
+            register s32 value asm("r4") = sp94;
+            asm("" : "+r"(value));
+            if ((u32)value <= 0xFU) {
+                sp94 = (s32)(u8)(value + 1);
+            }
         }
         if (sp90 > 0x78U) {
             sp90 = 0;
