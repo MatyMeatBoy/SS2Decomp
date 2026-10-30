@@ -1027,8 +1027,18 @@ void sub_0806690C(u32 peer)
             if (peer != sub_080020F4()) {
                 u8 *src = (u8 *)&d[1];
                 for (i = 0; i < d[0]; i++, src += 4) {
-                    u8 *slot = *(u8 **)gRxEntities;
-                    (void)slot;
+                    u8 *slot = gRxGameState + src[2] * 0x24;
+                    u16 state = *(u16 *)(slot + 0x5A0);
+                    if (state != 0xB && state != 0xC) {
+                        *(u16 *)(slot + 0x59C) -= *(u16 *)src;
+                        slot = gRxGameState + src[2] * 0x24;
+                        if (*(u16 *)(slot + 0x59C) & 0x8000)
+                            *(u16 *)(slot + 0x59C) = 0;
+                        slot = gRxGameState + src[2] * 0x24;
+                        *(u16 *)(slot + 0x59E) = src[3];
+                        slot = gRxGameState + src[2] * 0x24;
+                        *(u16 *)(slot + 0x5A0) = 0xA;
+                    }
                 }
             }
             break;
