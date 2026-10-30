@@ -5877,7 +5877,7 @@ void sub_08013850(void)
     struct State13850 *s;
     u32 i, j;
     u16 *p68, *p54, *p6A;
-    u8 bz;
+    register u8 bz asm("r9");
     u32 z;
     u8 *o24;
     u8 *p;
@@ -5888,7 +5888,7 @@ void sub_08013850(void)
     dt13850 = sub_08001494(0x51C);
     s = st13850;
     i = 0;
-    bz = 0; z = 0;
+    bz = 0; asm volatile("" : "+r"(bz)); z = 0;
     o24 = s->o24;
     p68 = &s->w68;
     p54 = &s->w54;
@@ -5916,6 +5916,7 @@ void sub_08013850(void)
         *(u16 *)(p + 0x5A) = z;
         *(u16 *)(p + 0x62) = z;
         *(u16 *)(p + 0x60) = z;
+        asm volatile("" : "+r"(bz));
         *(u8 *)(p + 0x77) = bz;
         *(u8 *)(p + 0x78) = bz;
         *(u16 *)(p + 0x64) = z;
