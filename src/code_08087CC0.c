@@ -1644,7 +1644,7 @@ s32 sub_08089EC4(u8 *table)
     struct State9EC491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos9EC491 { u32 x, y; };
     register const u16 *position asm("r4");
-    register u8 *player asm("r3");
+    register u8 *player asm("r2");
     s32 *coordinates;
     extern struct State9EC491 *state9EC491 asm("gUnk_03005CF4");
     extern u8 players9EC491[] asm("gUnk_03003CE0");
@@ -1659,7 +1659,7 @@ s32 sub_08089EC4(u8 *table)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + state9EC491->row * 0x24 + 4);
+        {register u32 delta asm("r4")=state9EC491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
         sub_0800CCDC();
         offset = sub_080020F4() * 0x14C;
         {register u8 *base asm("r3")=players9EC491; register u8 *px asm("r1")=base+0x8C; px+=offset;
