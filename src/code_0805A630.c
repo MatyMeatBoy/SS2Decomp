@@ -1303,7 +1303,7 @@ u32 sub_0805C620(u8 *entity, u16 *out)
     u16 *entry;
     u16 type;
     u32 limit;
-    u32 chance;
+    u16 chance;
     u32 mode;
     u16 category;
     u32 result;
@@ -1330,10 +1330,10 @@ u32 sub_0805C620(u8 *entity, u16 *out)
         chance = *((u8 *)gUnk_03003CE0 + *(u16 *)(entity + 0x58) * 0x14C + 0x74);
         mode = sub_08002164();
         switch (mode) {
-        case 1: chance = (u8)(chance + 0x10); break;
-        case 2: chance = (u8)(chance + 0x15); break;
-        case 3: chance = (u8)(chance + 0x1A); break;
-        case 4: chance = (u8)(chance + 0x20); break;
+        case 1: chance = (u16)(chance + 0x10); break;
+        case 2: chance = (u16)(chance + 0x15); break;
+        case 3: chance = (u16)(chance + 0x1A); break;
+        case 4: chance = (u16)(chance + 0x20); break;
         }
         if (chance <= roll) return 0;
         if (sub_0800CE30()) {
