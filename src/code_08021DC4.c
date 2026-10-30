@@ -1930,7 +1930,7 @@ void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
     s32 var_r7;
     s32 var_r9;
     s32 var_sl;
-    struct Player *temp_r8;
+    register struct Player *temp_r8 asm("r8");
     u32 temp_r4_2;
     u32 temp_r5_2;
     struct Remote2413C **var_r7_2;
