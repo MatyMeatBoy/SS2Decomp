@@ -365,7 +365,121 @@ s32 sub_08096154(struct NearEntity99 *entity, s32 *inputLimit)
     }
     return result;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096274);
+s32 sub_08096274(struct NearEntity99 *entity, s32 *inputLimit)
+{
+    register s32 *limit asm("sl") = inputLimit;
+    s32 entries[8];
+    volatile s32 firstOffset;
+    s32 offset;
+    register s32 dx asm("r5");
+    register s32 dy asm("r6");
+    register s32 x asm("r9");
+    register s32 y asm("r8");
+    register s32 *distance asm("r3");
+    s32 *firstDistance, *firstIndex, *other;
+    register s32 a asm("r1");
+    register s32 b asm("r0");
+    register s32 indexSwap asm("r2");
+    register struct NearPlayer99 *player asm("r4");
+    u16 *target;
+    register u32 i asm("r2");
+    u32 count, j, next, flags;
+    register u32 sortIndex asm("r2");
+    register u32 temp0 asm("r0");
+    register u32 temp1 asm("r1");
+    register u32 temp7 asm("r7");
+    register s32 *base1 asm("r1");
+    register s32 *base2 asm("r2");
+    register s32 *resultLimit asm("r7");
+    u16 length;
+    s32 result;
+    count = sub_08002164();
+    x = entity->x >> 8;
+    y = entity->y >> 8;
+    player = nearPlayers99;
+    i = 0;
+    if (i < count) {
+        distance = entries;
+        do {
+            firstOffset = i * 8;
+            *distance = 0x7FFFFFFF;
+            flags = player->flags;
+            if (flags & 0x2000) goto skip;
+            if (flags & 0x40002) goto skip;
+            target = player->target;
+            if (((u32)(*(u8 *)target << 28) >> 28) != 11) {
+                temp0 = target[0] >> 4;
+                temp7 = x;
+                dx = temp7 - temp0;
+                temp0 = (u32)(target[1] << 20) >> 20;
+                temp1 = y;
+                dy = temp1 - temp0;
+                *distance = dx * dx + dy * dy;
+            }
+            temp0 = (u32)&entries[1];
+            temp7 = firstOffset;
+            *(s32 *)(temp0 + temp7) = i;
+        skip:
+            distance += 2;
+            i++;
+            player++;
+        } while (i < count);
+    }
+    sortIndex = 0;
+    if (sortIndex < count) {
+        do {
+            next = sortIndex + 1;
+            j = next;
+            if (next < count) {
+                temp0 = sortIndex * 8;
+                base1 = entries;
+                firstDistance = (s32 *)((u32)base1 + temp0);
+                base1 = &entries[1];
+                firstIndex = (s32 *)((u32)base1 + temp0);
+                temp0 = next * 8;
+                indexSwap = (u32)entries;
+                asm("" : "+r"(indexSwap));
+                other = (s32 *)(temp0 + indexSwap);
+                do {
+                    a = *firstDistance;
+                    b = other[0];
+                    if (a < b) {
+                        b ^= a;
+                        *firstDistance = b;
+                        a = other[0];
+                        a ^= b;
+                        other[0] = a;
+                        b = *firstDistance;
+                        b ^= a;
+                        *firstDistance = b;
+                        indexSwap = *firstIndex;
+                        b = other[1];
+                        indexSwap ^= b;
+                        *firstIndex = indexSwap;
+                        a = other[1];
+                        a ^= indexSwap;
+                        other[1] = a;
+                        b = *firstIndex;
+                        b ^= a;
+                        *firstIndex = b;
+                    }
+                    other += 2;
+                    j++;
+                } while (j < count);
+            }
+            sortIndex = next;
+        } while (sortIndex < count);
+    }
+    length = Sqrt(entries[0]);
+    resultLimit = limit;
+    if ((s32)length <= *resultLimit) {
+        *resultLimit = length;
+        result = entries[1];
+    } else {
+        result = 10;
+    }
+    return result;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096394);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096494);
 struct SelectPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u8 *target; };
