@@ -1216,6 +1216,7 @@ s32 sub_08089500(u8 *input) {
     s32 temp_r2_5;
     register s32 temp_r6 asm("r6");
     s32 var_r0;
+    register u8 *posBase asm("r1");
     u8 *temp_r0;
     register u8 *temp_r4 asm("r4");
     u8 *temp_r4_2;
@@ -1266,29 +1267,50 @@ loop_4:
         } else {
             sub_080657C4(temp_r6, 1);
         }
-        switch (temp_r6) {                          /* irregular */
-        default:
-            temp_r2_4 = 0x14C * temp_r6;
-            *(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_4 + 0x8C) = 0x12C00;
-            *(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_4 + 0x90) = 0x5200;
-            break;
-        case 1:
-            *(u32 *)((u8 *)gUnk_03003CE0 + 0x1D8) = 0x12100;
+        if (temp_r6 == 1) goto pos1;
+        if ((u32)temp_r6 < 1) goto posDefault;
+        if (temp_r6 == 2) goto pos2;
+        if (temp_r6 == 3) goto pos3;
+posDefault:
+            { register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
+              register s32 index asm("r2");
+              register u8 *dst asm("r0");
+              asm("" : "+r"(base)); index = 0x14C * temp_r6;
+              asm("" : "+r"(index)); temp_r2_4 = index;
+              dst = base + 0x8C; asm("" : "+r"(dst)); dst += index;
+              *(u32 *)dst = 0x12C00;
+              dst = base + 0x90; asm("" : "+r"(dst)); dst += index;
+              *(u32 *)dst = 0x5200; posBase = base; }
+            goto posDone;
+pos1:
+            { register u32 offset asm("r0") = 0x1D8;
+              register u8 *dst asm("r2");
+              posBase = (u8 *)gUnk_03003CE0;
+              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
+              asm("" : "+r"(dst)); *(u32 *)dst = 0x12100; }
             var_r0 = 0x1DC;
 block_20:
-            *(u32 *)((u8 *)gUnk_03003CE0 + var_r0) = 0x5200;
-            break;
-        case 2:
-            *(u32 *)((u8 *)gUnk_03003CE0 + 0x324) = 0x13700;
+            *(u32 *)(posBase + var_r0) = 0x5200;
+            goto posDone;
+pos2:
+            { register u32 offset asm("r0") = 0x324;
+              register u8 *dst asm("r2");
+              posBase = (u8 *)gUnk_03003CE0;
+              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
+              asm("" : "+r"(dst)); *(u32 *)dst = 0x13700; }
             var_r0 = 0x328;
             goto block_20;
-        case 3:
-            *(u32 *)((u8 *)gUnk_03003CE0 + 0x470) = 0x11600;
+pos3:
+            { register u32 offset asm("r0") = 0x470;
+              register u8 *dst asm("r2");
+              posBase = (u8 *)gUnk_03003CE0;
+              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
+              asm("" : "+r"(dst)); *(u32 *)dst = 0x11600; }
             var_r0 = 0x474;
             goto block_20;
-        }
+posDone:
         temp_r2_5 = 0x14C * temp_r6;
-        temp_r4_2 = temp_r2_5 + (u8 *)gUnk_03003CE0;
+        temp_r4_2 = temp_r2_5 + posBase;
         *(u16 *)(temp_r4_2 + 0x20) = 0;
         temp_r2_6 = (s32 *)(temp_r2_5 + ((u8 *)gUnk_03003CE0 + 0x30));
         *temp_r2_6 = (s32 *)((*temp_r2_6 & 0xFFFFDFDB) | 2);
