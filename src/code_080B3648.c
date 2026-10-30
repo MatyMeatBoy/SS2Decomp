@@ -12,7 +12,63 @@ void sub_080B6178(void);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B3648);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B44F0);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4690);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4A7C);
+struct B4A7CPlayer {
+    u8 pad0[0x20]; u16 state; u8 pad22[0x30 - 0x22];
+    u32 flags; u8 pad34[0x68 - 0x34]; u8 active;
+    u8 pad69[0x8C - 0x69]; s32 x, y;
+    u8 pad94[0xC8 - 0x94]; u16 time, result, delay;
+    u8 tail[0x14C - 0xCE];
+};
+extern struct B4A7CPlayer playersB4A7C[] asm("gUnk_03003CE0");
+extern u8 sub_08095FC8(s32, s32, s32, s32);
+struct B4A7CTarget { s32 x, y; };
+void sub_080B4A7C(struct B4A7CTarget target)
+{
+    struct B4A7CPlayer *player;
+    struct B4A7CPlayer *players = playersB4A7C;
+    u32 index;
+    u32 targetIndex;
+    s32 x, y;
+    register u8 *field asm("r1");
+    register u16 *dst asm("r0");
+    register u32 output asm("r1");
+    index = sub_080020F4();
+    player = &players[index];
+    if (player->state == 0xB) return;
+    index = sub_080020F4();
+    player = &players[index];
+    if (player->state == 0xE) return;
+    index = sub_080020F4();
+    player = &players[index];
+    if (player->state == 0xC) return;
+    index = sub_080020F4();
+    player = &players[index];
+    field = (u8 *)players + 0x30;
+    if (*(u32 *)(field + index * 0x14C) & 0x2000) return;
+    index = sub_080020F4();
+    player = &players[index];
+    if (!player->active) return;
+    targetIndex = sub_080020F4();
+    index = sub_080020F4();
+    player = &players[index];
+    field = (u8 *)players + 0x8C;
+    x = *(s32 *)(field + index * 0x14C) >> 8;
+    index = sub_080020F4();
+    player = &players[index];
+    field = (u8 *)players + 0x90;
+    y = *(s32 *)(field + index * 0x14C) >> 8;
+    players[targetIndex].result = sub_08095FC8(x, y, target.x >> 8, target.y >> 8);
+    index = sub_080020F4();
+    player = &players[index];
+    dst = &player->delay;
+    output = 0x90;
+    output <<= 2;
+    *dst = output;
+    index = sub_080020F4();
+    player = &players[index];
+    dst = &player->time;
+    *dst = 8;
+}
 void sub_080B4B48(void)
 {
   u8 var_r2;
