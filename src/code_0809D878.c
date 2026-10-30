@@ -15,7 +15,41 @@ extern s32 gUnk_03000324;
 
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809D878);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809E468);
+#ifdef NONMATCHING
+extern u16 v0c asm("gUnk_0300030C");
+extern u8 v0e asm("gUnk_0300030E");
+extern u16 v1e asm("gUnk_0300031E");
+extern u8 v20 asm("gUnk_03000320");
+extern s16 wave[] asm("gUnk_080B9704");
+void sub_0809EDFC(void) {
+ volatile u16 *status=(volatile u16 *)0x04000004;
+ while (!(*status & 2)) {}
+ switch (v20) {
+ case 0:
+ case 1:
+ case 8:
+  *(volatile u16 *)0x0400001A=v0c;
+  v0c--;
+  v0c=(s16)v0c%255;
+  v0e++;
+  *(volatile u16 *)0x04000018=(wave[v0e]*3)>>7;
+  if(v20 != 0) *(volatile u16 *)0x04000052=(v1e&31)|0xE00;
+  break;
+ case 2:
+  *(volatile u16 *)0x04000018=0;
+ case 4:
+ case 6:
+ case 7:
+  *(volatile u16 *)0x04000000 &= 0xFBFF;
+  break;
+ case 5:
+  *(volatile u16 *)0x04000000 |= 0x400;
+  break;
+ }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EDFC);
+#endif
 extern u8 modeEF84105 asm("gUnk_03000320");
 s32 sub_0809EF84(void)
 {
