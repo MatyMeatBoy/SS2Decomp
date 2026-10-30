@@ -4173,9 +4173,12 @@ void sub_08026858(void) {
     }
     temp_r1 = t24_state08026858->unk4 << 0x10;
     {
-        register u32 one asm("r3") = 1;
+        register u32 first asm("r0") = temp_r1 >> 0x18;
+        register u32 one asm("r3");
+        asm("" : "+r"(first));
+        one = 1;
         asm("" : "+r"(one));
-        if ((temp_r1 >> 0x18) & one) {
+        if (first & one) {
             return;
         }
         if ((temp_r1 >> 0x14) & one) {
