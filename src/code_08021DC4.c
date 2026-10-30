@@ -5293,7 +5293,7 @@ extern void t025Init27C(void *,u32,s32,s32,s32) asm("sub_08065158");
 extern void t025Hide27C(u32,u32,u32,u32,s32) asm("sub_0800AEF4");
 extern void t025Position27C(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
 extern void t025Draw27C(s32,s32,u32,u32,u32,void *,u8 *,u32) asm("sub_08007870");
-extern s32 t025Item27C(u32 *,u16,u16) asm("sub_0805C4FC");
+extern u32 t025Item27C(u8 *,u32,u32) asm("sub_0805C4FC");
 extern u16 t025Level27C asm("gUnk_03003200");
 extern void t025Effects27C(u16 *) asm("sub_08027C1C");
 struct T025RuntimeEffects { u8 pad0[0x160]; struct V2W12 pos160[10]; u8 pad1B0[0x7C]; u8 active22C[10]; };
@@ -5327,7 +5327,7 @@ void t025Effects27C(u16 *arg0) {
     u16 temp_r0_2;
     u16 temp_r4;
     u16 var_r0;
-    u16 var_r3;
+    u32 var_r3;
     u32 temp_r4_2;
     u32 temp_r5;
     u32 var_r3_2;
@@ -5579,7 +5579,7 @@ check_loop_70:
                             if (var_r7->f20->f10 == 0) {
                                 var_r3 = 0;
                             }
-                            if (t025Item27C((u32 *)&arg82, var_r3, var_r7->f12) == 0) {
+                            if (t025Item27C((u8 *)&arg82, var_r3, var_r7->f12) == 0) {
 
                             } else {
                                 if (((u32) gUnk_03003170.curLevel > 0xAU) && (arg82.f0 == 9)) {
