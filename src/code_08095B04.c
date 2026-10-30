@@ -54,23 +54,21 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096494);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096594);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096640);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080967D0);
-#ifdef NONMATCHING
+struct Ctrl99 { u16 scaleX, scaleY, x, y, a, b; u8 c, d, e, f; };
+extern struct Ctrl99 ctrl99 asm("gUnk_030002A0");
 void sub_0809689C(void)
 {
-    gUnk_030002A0.w4 = 0;
-    gUnk_030002A0.w6 = 0;
-    gUnk_030002A0.w8 = 0;
-    gUnk_030002A0.wA = 0;
-    gUnk_030002A0.b0C = 0;
-    gUnk_030002A0.b0D = 0;
-    gUnk_030002A0.pad0E = 0;
-    gUnk_030002A0.b0F = 0;
-    gUnk_030002A0.w4 = 0x100;
-    gUnk_030002A0.w6 = 0x100;
+    ctrl99.y = 0;
+    ctrl99.x = 0;
+    ctrl99.b = 0;
+    ctrl99.a = 0;
+    ctrl99.c = 0;
+    ctrl99.e = 0;
+    ctrl99.d = 0;
+    ctrl99.f = 0;
+    ctrl99.scaleY = 0x100;
+    ctrl99.scaleX = 0x100;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_0809689C);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080968C0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080969CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096AF4);
