@@ -1509,12 +1509,14 @@ s32 sub_0805CDF8(void) {
     struct PuzzleItem61 sp10;
     s16 temp_r1; u16 yBits; s32 xBits;
     s32 temp_r2;
-    s32 temp_r3;
+    s16 temp_r3;
     s32 var_r4_2;
     s32 var_r6;
     u32 var_r8;
     u16 *temp_r0_2;
     u16 *var_r5;
+    u16 *recipeValues;
+    struct PuzzleSlot61 **slotsBase;
     u16 temp_r0_3;
     u16 temp_r1_4;
     u32 var_r7;
@@ -1526,12 +1528,13 @@ s32 sub_0805CDF8(void) {
     struct PuzzleSlot61 *temp_r1_2;
     struct PuzzleSlot61 *temp_r1_3;
     struct PuzzleSlot61 *temp_r2_2;
-    struct PuzzleSlot61 *var_r4;
+    register struct PuzzleSlot61 *var_r4 asm("r4");
 
     var_r7 = 0;
+    slotsBase = &puzzleSlots61;
     var_ip = sp0;
 loop_1:
-    var_r4 = puzzleSlots61;
+    var_r4 = *slotsBase;
     var_r8 = 0;
     *var_ip = NULL;
     var_r9 = 0;
@@ -1561,6 +1564,7 @@ loop_1:
         }
         var_r8 = (u32)puzzleRecipes61;
         var_r9 = 0;
+        recipeValues = puzzleRecipes61 + 1;
 loop_15:
         var_r6 = 0;
         var_r7 = 0;
@@ -1569,7 +1573,7 @@ loop_15:
         var_r3 = sp0;
         do {
             temp_r2_2 = *var_r3;
-            if ((temp_r2_2->type == *var_r5) && (temp_r2_2->value == *(u16 *)(var_r4_2 + ((u8 *)(puzzleRecipes61 + 1))))) {
+            if ((temp_r2_2->type == *var_r5) && (temp_r2_2->value == *(u16 *)(var_r4_2 + ((u8 *)recipeValues)))) {
                 var_r6 += 1;
             }
             var_r5 += 2;
