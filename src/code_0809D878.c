@@ -15,7 +15,68 @@ extern s32 gUnk_03000324;
 
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809D878);
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809E468);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809EDFC);
+extern volatile u16 v0c asm("gUnk_0300030C");
+extern volatile u8 v0e asm("gUnk_0300030E");
+extern volatile u16 v1e asm("gUnk_0300031E");
+extern u8 v20 asm("gUnk_03000320");
+extern s32 mod104(s32, s32) asm("__modsi3");
+extern s16 wave[] asm("gUnk_080B9704");
+s32 sub_0809EDFC(void) {
+ register s32 arg asm("r0");
+ register volatile u16 *status asm("r3")=(volatile u16 *)0x04000004;
+ register u8 *mode asm("r5");
+ u32 bit;
+ asm("" : "=r"(arg));
+ bit=*status & 2;
+ mode=&v20;
+ if (!bit) { u32 two=2; asm("" : "+r"(two)); do {} while (!(*status & two)); }
+ switch (*mode) {
+ case 0:
+  *(volatile u16 *)0x0400001A=v0c;
+  v0c--;
+  { register s32 result asm("r1"); register volatile u16 *display asm("r4"); register s16 *waves asm("r3"); register volatile u8 *counter asm("r2");
+  result=mod104((s16)v0c,255);
+  v0c=result;
+  asm("" : "=r"(arg));
+  display=(volatile u16 *)0x04000018; waves=wave; counter=&v0e;
+  asm("" : "+r"(display), "+r"(waves), "+r"(counter));
+  (*counter)++;
+  *display=(waves[*counter]*3)>>7; }
+  break;
+ case 2:
+  *(volatile u16 *)0x04000018=0;
+  *(volatile u16 *)0x04000000 &= 0xFBFF;
+  break;
+ case 4:
+  *(volatile u16 *)0x04000000 &= 0xFBFF;
+  break;
+ case 5:
+  *(volatile u16 *)0x04000000 |= 0x400;
+  break;
+ case 6:
+  *(volatile u16 *)0x04000000 &= 0xFBFF;
+  break;
+ case 7:
+  *(volatile u16 *)0x04000000 &= 0xFBFF;
+  break;
+ case 1:
+ case 8:
+  *(volatile u16 *)0x0400001A=v0c;
+  v0c--;
+  { register s32 result asm("r1"); register volatile u16 *display asm("r4"); register s16 *waves asm("r3"); register volatile u8 *counter asm("r2");
+  result=mod104((s16)v0c,255);
+  v0c=result;
+  asm("" : "=r"(arg));
+  display=(volatile u16 *)0x04000018; waves=wave; counter=&v0e;
+  asm("" : "+r"(display), "+r"(waves), "+r"(counter));
+  (*counter)++;
+  *display=(waves[*counter]*3)>>7; }
+  *(volatile u16 *)0x04000052=(v1e&31)|0xE00;
+  break;
+ }
+ asm volatile("" : "+r"(arg));
+ return arg;
+}
 extern u8 modeEF84105 asm("gUnk_03000320");
 s32 sub_0809EF84(void)
 {
