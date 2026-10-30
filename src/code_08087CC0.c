@@ -4209,14 +4209,21 @@ loop_27:
     if (sp5C[sub_080020F4()] == 0) {
         sub_08015C14();
     }
-    (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = 0U;
-    var_r4 = 0;
-    var_r0 = countBase;
-    do {
-        *var_r0 = 0;
-        var_r0 += 1;
-        var_r4 += 1;
-    } while (var_r4 <= 3U);
+    {
+        register u32 zero asm("r1");
+        register u8 *state asm("r0") = *(u8 **)&gUnk_03005CF4 + 0x5A;
+        asm("" : "+r"(state));
+        zero = 0;
+        asm("" : "+r"(zero));
+        *(u16 *)state = zero;
+        var_r4 = 0;
+        var_r0 = countBase;
+        do {
+            *var_r0 = zero;
+            var_r0 += 1;
+            var_r4 += 1;
+        } while (var_r4 <= 3U);
+    }
     var_r4 = 0;
     while (var_r4 < sub_08002164()) {
         temp_r2 = 0x14C * var_r4;
