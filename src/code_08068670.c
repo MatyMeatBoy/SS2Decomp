@@ -396,7 +396,13 @@ remote7:
                                 var_r0_3=M2C_FIELD(sourceEnemy,u32 *,0x50);
 remoteStore:
                                 M2C_FIELD(targetEnemy,u32 *,0x54)=var_r0_3;
-                                M2C_FIELD(targetEnemy,u16 *,0x5A)=localPlayerMask | M2C_FIELD(targetEnemy,u16 *,0x5A);
+                                {
+                                    register u16 *status68 asm("r2") = (u16 *)(targetEnemy + 0x5A);
+                                    register u32 oldStatus68 asm("r1") = *status68;
+                                    register u32 maskStatus68 asm("r0") = localPlayerMask;
+                                    asm("" : "+r"(status68), "+r"(oldStatus68), "+r"(maskStatus68));
+                                    *status68 = maskStatus68 | oldStatus68;
+                                }
 remoteDone:
                                 if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                     sub_0805865C(0x1A);
