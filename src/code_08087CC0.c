@@ -1918,18 +1918,19 @@ s32 sub_0808A380(u8 *table)
     }
     return 0;
 }
-#ifdef NONMATCHING
-s32 sub_0808A4D4(u8 *table)
+s32 sub_0808A4D4(u8 *input)
 {
     struct StateA4D491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct PosA4D491 { u32 x, y; };
     struct ExitA4D491 { u16 x, y, destination, unused; };
-    const u16 *position;
+    register u8 *table asm("r8")=input;
+    register const u16 *position asm("r5");
     u8 *player;
     s32 *coordinates;
-    const struct ExitA4D491 *exit;
+    register const struct ExitA4D491 *exit asm("r5");
     u32 exitIndex;
     s32 difference;
+    register u8 *laterBase asm("r5"); register u32 laterStride asm("r4");
     extern struct StateA4D491 *stateA4D491 asm("gUnk_03005CF4");
     extern u8 playersA4D491[] asm("gUnk_03003CE0");
     extern u8 coordsA4D491[] asm("gUnk_03003D6C");
@@ -1937,19 +1938,19 @@ s32 sub_0808A4D4(u8 *table)
     extern void callbackA4D491(void) asm("sub_0802D800");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    s32 myId, offset;
+    register s32 myId asm("r4"); register s32 offset asm("r2");
 
     if (stateA4D491->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + stateA4D491->row * 0x24 + 4);
+        {register u32 delta asm("r0")=stateA4D491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        offset = sub_080020F4() * 0x14C;
-        player = playersA4D491 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
-        *(struct PosA4D491 *)(player + 0x94) = *(struct PosA4D491 *)(player + 0x8C);
+        {register u8 *base asm("r3"); register u8 *px asm("r1");
+        offset=sub_080020F4();base=playersA4D491;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        *(u32 *)px=(u32)position[0]<<8;
+        px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
+        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct PosA4D491 *)(p+0x94)=*(struct PosA4D491 *)(p+0x8C);}}
         sub_08009930(0, 7);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -1963,7 +1964,7 @@ s32 sub_0808A4D4(u8 *table)
     } else {
     player = playersA4D491 + sub_080020F4() * 0x14C;
     for (exitIndex = 1; exitIndex <= 3; exitIndex++) {
-        exit = (const struct ExitA4D491 *)(table + stateA4D491->row * 0x24 + 4 + exitIndex * 8);
+        {register u32 row asm("r0")=stateA4D491->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitA4D491 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1988,7 +1989,8 @@ s32 sub_0808A4D4(u8 *table)
         }
     }
     }
-    if ((*(s32 *)(playersA4D491 + sub_080020F4() * 0x14C + 0x8C) >> 11) <= 1) {
+    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1"); laterBase=playersA4D491;laterStride=0x14c;idx*=laterStride;p=laterBase+0x8C;
+    idx+=(u32)p; if ((*(s32 *)idx >> 11) <= 1) {
         sub_08015ED4();
         sub_0801ABE8(3);
         sub_0800BB40();
@@ -2002,7 +2004,8 @@ s32 sub_0808A4D4(u8 *table)
         stateA4D491->active = 0;
         return 1;
     }
-    if ((*(s32 *)(playersA4D491 + sub_080020F4() * 0x14C + 0x90) >> 11) > 0x24) {
+    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1"); idx*=laterStride;p=laterBase+0x90;
+    idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x24) {
         sub_08015ED4();
         sub_0801ABE8(3);
         sub_0800BB40();
@@ -2017,10 +2020,9 @@ s32 sub_0808A4D4(u8 *table)
         return 1;
     }
     return 0;
+    }
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A4D4);
-#endif
 s32 sub_0808A744(u8 *table)
 {
     struct StateA74491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
