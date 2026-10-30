@@ -2089,12 +2089,12 @@ void sub_0806C568(u32 *arg0) {
     u16 temp_r3_2;
     u16 var_r0;
     u16 var_r0_2;
-    u16 var_r0_3;
-    u16 var_r0_5;
+    register u16 var_r0_3 asm("r0");
+    register u16 var_r0_5 asm("r0");
     u16 var_r7;
     u16 var_r7_4;
     u16 var_r7_5;
-    u16 var_r7_6;
+    register u16 var_r7_6 asm("r7");
     u16 var_r7_7;
     u16 var_sl;
     u32 temp_r0;
