@@ -1870,7 +1870,7 @@ void sub_0806BE24(void *arg0) {
     s32 sp84;
     s16 *var_r1_2;
     s16 temp_r0_8;
-    s16 temp_r0_9;
+    register s16 temp_r0_9 asm("r0");
     s16 temp_r1_7;
     s16 temp_r2_2;
     s16 temp_r4_5;
@@ -1896,7 +1896,7 @@ void sub_0806BE24(void *arg0) {
     u16 temp_r0_5;
     u16 temp_r0_6;
     u16 temp_r1_3;
-    u16 temp_r3;
+    register u16 temp_r3 asm("r3");
     u16 temp_r4_6;
     u16 var_r0_3;
     u16 var_r4;
