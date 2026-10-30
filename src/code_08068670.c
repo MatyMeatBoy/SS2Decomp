@@ -194,10 +194,7 @@ s32 sub_0806898C(s32 arg0, s32 arg1)
         return 0;
     return (s16)(result + 1);
 }
-#ifdef NONMATCHING
 struct Position68 { s32 x, y; };
-/* Resolve an area attack against nearby enemies or players. The result
- * combines target-present (1) and effect-applied (2) flags. */
 s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     void sub_08029A7C(u32, s32, s32);
     void sub_08029B98(u32, u32, s32, s32, s32, s32);
@@ -479,14 +476,22 @@ loop_69:
                                 if ((s32) var_r0_5 <= (s32) temp_r1_5) {
                                     if ((localPlayer == playerIndexAlly) && (M2C_FIELD(targetPlayerAlly, u16 *, 0x20) != 0xB)) {
                                         historyIndex68 = M2C_FIELD(sourcePlayer, u16 *, 0) * 4;
-                                        asm("" : "+r"(historyIndex68));
                                         allyHistoryAddress68 = targetPlayerAlly + 0xF8;
+                                        historyIndex68 = (u32)allyHistoryAddress68 + historyIndex68;
+                                        asm("" : "+r"(historyIndex68));
                                         allyCounterAddress68 = sourcePlayer + 0xDC;
 
-                                        allyHistoryValue68 = M2C_FIELD(allyHistoryAddress68, u32 *, historyIndex68);
+                                        allyHistoryValue68 = *(u32 *)historyIndex68;
                                         allyCounterValue68 = *(u32 *)allyCounterAddress68;
 
-                                        playerHitHistory = allyHistoryAddress68;
+/* Preserve both pointers in the original order. The unused
+                                         * output disappears after the compiler places the copies. */
+                                        if (allyHistoryValue68 != allyCounterValue68) {
+                                            playerHitHistory = allyHistoryAddress68;
+                                        } else {
+                                            asm("" : "=r"(temp_r0));
+                                            playerHitHistory = allyHistoryAddress68;
+                                        }
                                         if (allyHistoryValue68 != allyCounterValue68) {
                                             M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerAlly, u16 *, 0x0);
                                             temp_r0_7 = M2C_FIELD(attack, u32 *, 0xC);
@@ -502,7 +507,9 @@ allyCall:
                                             temp_r4_4=*var_r0_6;
                                             sub_08029A7C(temp_r4_4,(s16)damage68_raw(attack,0),M2C_FIELD(attack,u32 *,0x14));
 allyDone:
-                                            M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) = M2C_FIELD(sourcePlayer, u32 *, 0xDC);
+                                            historyIndex68 = M2C_FIELD(sourcePlayer, u16 *, 0) * 4;
+                                            historyIndex68 = (u32)playerHitHistory + historyIndex68;
+                                            *(u32 *)historyIndex68 = M2C_FIELD(sourcePlayer, u32 *, 0xDC);
                                             if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                                 sub_0805865C(0x1A);
                                             }
@@ -551,22 +558,24 @@ loop_105:
                             if ((s32) var_r0_4 <= (s32) temp_r1_3) {
                                 if ((localPlayer == playerIndexEnemy) && (sub_0800CCCC() == 0) && (M2C_FIELD(targetPlayerEnemy, u16 *, 0x20) != 0xB)) {
                                     historyIndex68 = M2C_FIELD(sourceEnemy, u16 *, 0x0) * 4;
-                                    asm("" : "+r"(historyIndex68));
+
                                     historyAddress68 = targetPlayerEnemy + 0xE4;
                                     historyValue68 = M2C_FIELD(historyAddress68, u32 *, historyIndex68);
-                                    asm("" : "+r"(historyAddress68), "+r"(historyValue68));
+
                                     historyIndex68 = M2C_FIELD(sourceEnemy, u32 *, 0x50);
-                                    asm("" : "+r"(historyIndex68), "+r"(historyAddress68));
+
                                     enemyHitHistory = historyAddress68;
                                     if (historyValue68 != historyIndex68) {
                                         M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerEnemy, u16 *, 0x0);
                                         if (M2C_FIELD(attack, u32 *, 0xC) == 4) {
-                                            {u8 *effectBase=gUnk_084EBF1C;asm("" : "+r"(effectBase));effectBase+=0x62;temp_r4_2=*(u16 *)effectBase;}
+                                            {u8 *effectBase=gUnk_084EBF1C;effectBase+=0x62;temp_r4_2=*(u16 *)effectBase;}
                                             sub_08029A7C(temp_r4_2, (s16)damage68_raw(attack, 0), M2C_FIELD(attack, u32 *, 0x14));
                                         } else {
                                             sub_080694AC(attack);
                                         }
-                                        M2C_FIELD(enemyHitHistory, u32 *, M2C_FIELD(sourceEnemy, u16 *, 0x0) * 4) = M2C_FIELD(sourceEnemy, u32 *, 0x50);
+                                        historyIndex68 = M2C_FIELD(sourceEnemy, u16 *, 0) * 4;
+                                        historyIndex68 = (u32)enemyHitHistory + historyIndex68;
+                                        *(u32 *)historyIndex68 = M2C_FIELD(sourceEnemy, u32 *, 0x50);
                                         if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
                                             sub_0805865C(0x1A);
                                         }
@@ -590,9 +599,6 @@ nextEnemyPlayer:
 
     return (s32) hitFlags;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08068A00);
-#endif
 struct Attack69 {u32 attacker,unk4,unk8,kind,power,level;};
 struct AttackPlayer69 {u8 pad0[0x3C];s16 value;u8 pad3E[0x14C-0x3E];};
 struct AttackTable69 {s16 power;u16 effect;u8 pad4[20];};

@@ -1,37 +1,37 @@
 {
   "address": "0x08068A00",
-  "updated_utc": "2026-10-30T01:05:03.488659+00:00",
-  "checkpoint": "6b4f6e90cd7f8a1fec2f5a086ff7d21f73cd5b96",
+  "updated_utc": "2026-10-30T01:43:09.900620+00:00",
+  "checkpoint": "c1503736322197da6813107ac6ef74e18a11efc4",
   "areas": [
     {
       "id": "compile",
-      "label": "Borrador completo compilable",
+      "label": "Complete compiling C function",
       "state": "done",
-      "evidence": "Checkpoint 6b4f6e90: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores; hooks activos. El C sigue NONMATCHING y no se ha probado equivalente."
+      "evidence": "Active C replaces the NONMATCHING wrapper and the original ASM file. make -j1 compare prints shiningsoul2_eu.gba: OK; make -j1 nonmatching exits 0; check_tree reports 0 errors."
     },
     {
       "id": "abi",
-      "label": "ABI de posición y tipos de acceso",
-      "state": "active",
-      "evidence": "ASM 0x08068A00..0x08068A1C guarda r0/r1 antes de copiar r2. Position68 por valor reproduce ese prólogo; seis callers revisados usan posición r0/r1 y attack r2. Tipo C original aún no probado. Cargas de estado de jugador son ldrb; posiciones empaquetadas combinan ldrh y campos de 4/12 bits."
+      "label": "Position ABI and access types",
+      "state": "done",
+      "evidence": "Position68 is passed by value in r0/r1, with attack in r2. The canonical active C passed the strict whole-module revalidation (good 1, bad 0, errors 0) and the linked ROM comparison. Packed position fields retain original halfword loads and 4/12-bit extraction."
     },
     {
       "id": "flow",
-      "label": "Filtros e historiales de objetivos",
-      "state": "active",
-      "evidence": "ASM: cinco slots enemigos (0x08068AA6..0x08068CF2) preceden búsqueda de jugadores; flags 1/2. Historial enemigo +0x54; historiales jugador +0xE4/+0xF8. Borrador conserva rama que lee sourcePlayer sin inicializar para source>3, como el slot sp+0x14 del original. Auditoría de operandos completa pendiente."
+      "label": "Target filters and hit histories",
+      "state": "done",
+      "evidence": "Matching C preserves the five enemy slots before player scans, the result flags 1/2, enemy history +0x54, and player histories +0xE4/+0xF8. Full original bytes and relocations are reproduced; no new semantic function name is claimed."
     },
     {
       "id": "layout",
-      "label": "Bloques, frame y vidas útiles",
-      "state": "active",
-      "evidence": "Checkpoint 6b4f6e90 reproduce OR de flags enemigo con mov r0,r8 / movs r1,1 / orrs r0,r1 / mov r8,r0 y mantiene transición de índice r2/r3 (ASM 0x08068CCA..0x08068CF2). Se conservan sólo tres barreras nuevas: valor2 remoto r3, flags r0 y paso r2; minimización de32 combinaciones descartó restricciones redundantes. Historial/radio/frame del checkpoint anterior conservados. Tamaño1436 igual al original; nmscore del módulo real133 a129; diff aislado30 a22 líneas. Persisten orden de preparación del historial aliado, operandos conmutados en dos sumas, rama expandida y pools. Formas C de suma/casts/arrays y orden de declaraciones no mejoraron; no se repitió permuter."
+      "label": "Blocks, frame and pointer lifetimes",
+      "state": "done",
+      "evidence": "The 1436-byte function matches. Explicit history effective-address formation restores the original ADD operand order. Removing four unnecessary tail barriers avoids an expanded conditional branch. GCSE inserts the source-counter preservation copy at the end of the predecessor block; a duplicated history-pointer assignment with an unused empty-asm output in the alternate arm makes the later CFG simplification preserve r7 before r5. The unused output emits no instruction. Scratch RTL diagnostics and the normal compiler/ROM checks confirmed the final order."
     },
     {
       "id": "match",
-      "label": "Coincidencia íntegra de C y ROM",
-      "state": "pending",
-      "evidence": "Checkpoint 6b4f6e90 continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original /1436 candidato). Igualdad de tamaño y puntuaciones no prueban match. ROM normal verificada con fallback ASM; ninguna función nueva matching."
+      "label": "Exact active C and linked ROM match",
+      "state": "done",
+      "evidence": "Commit c1503736322197da6813107ac6ef74e18a11efc4: strict isolated decomp.check MATCH, active-C revalidate --from selection reports OK sub_08068A00 (good 1, bad 0, errors 0), make -j1 compare prints shiningsoul2_eu.gba: OK, make -j1 nonmatching exits 0, and check_tree reports 0 errors. Original ASM fallback deleted. Adds 1436 matching C bytes."
     }
   ],
   "regions": []
