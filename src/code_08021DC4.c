@@ -1960,12 +1960,12 @@ void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
         asm("" : "+r"(offset));
         temp_r5 = *(s16 *)((u8 *)gUnk_080B9704 + offset);
     }
-    sp4 = temp_r3 + (var_r7 * temp_r5);
+    sp4 = temp_r3 + (temp_r5 * var_r7);
     temp_r2 = arg0->y << 0xB;
     temp_r4 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5));
-    sp0 = temp_r2 + (var_r7 * temp_r4);
+    sp0 = temp_r2 + (temp_r4 * var_r7);
     temp_r0 = 0 - (var_r7 + 8);
-    spC = temp_r3 + (temp_r0 * temp_r5);
+    spC = temp_r3 + (temp_r5 * temp_r0);
     sp8 = temp_r2 + (temp_r4 * temp_r0);
     if (sp4 < 0) {
         sp4 = 0;
