@@ -937,7 +937,9 @@ static inline void t06_finishAD04(struct T06SysAD04 *base)
         saved->relY=(u16)*y-saved->offY;
     } else {
         *x=base->offX+base->relX;
-        {register u32 offset asm("r4")=0x82;register u32 other asm("r2")=*(u16 *)((u8 *)base+offset);register u32 value asm("r1")=base->relY;*y=value+other;}
+        {register u32 offset asm("r4")=0x82;u32 other;register u32 value asm("r1");
+         value=base->relY; asm("" : "+r"(offset), "+r"(value));
+         other=*(u16 *)(offset+(u32)base); *y=value+other;}
     }
 }
 static inline u16 *t06_offsetAD04(u16 *p,u16 offset) {return (u16 *)((u8 *)p+offset);}
@@ -1040,6 +1042,7 @@ u32 sub_0800AE50(s32 x,s32 y,u32 resourceId)
 struct T06CellAEF4 {u8 type,flags;} __attribute__((packed));
 extern u16 t06_widthAEF4 asm("gUnk_030031E8");
 void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
+    u32 a, b;
     s32 sp0;
     struct T06CellAEF4 *sp4;
     u32 sp8;
@@ -1060,17 +1063,19 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     u32 temp_r1_4;
     u32 temp_r2;
     u32 temp_r2_2;
-    u32 var_r3;
-    u32 var_r3_2;
+    register u32 var_r3 asm("r3");
+    register u32 var_r3_2 asm("r3");
     u32 var_r4_2;
     u8 temp_r0_2;
     u8 temp_r1_3;
     u8 var_r0;
 
     sp0 = arg3;
-    temp_r0 = ((u32)arg0 << 0x10) >> 0x13;
+    a = (u32)arg0 << 0x10; b = (u32)arg1 << 0x10;
+    asm("" : "+r"(a), "+r"(b));
+    temp_r0 = a >> 0x13;
     asm("" : "+r"(temp_r0));
-    temp_r1 = ((u32)arg1 << 0x10) >> 0x13;
+    temp_r1 = b >> 0x13;
     if ((s32) temp_r0 > (s32) gUnk_03003170.mapW) {
         return;
     }
