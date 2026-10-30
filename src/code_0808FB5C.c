@@ -1376,8 +1376,10 @@ void sub_080914F0(void) {
 loop_9:
     switch (var_r6) {                               /* switch 2; irregular */
     case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_2;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
         if (temp_r1_2 <= 0x8000) {
             switch (temp_r7) {                      /* switch 3; irregular */
             case 0:                                 /* switch 3 */
@@ -1388,11 +1390,12 @@ loop_9:
                 break;
             }
             var_r9 = 0;
-            sp10 = var_r9;
-            temp_r0->payload[0] = var_r9;
+            { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
+            { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
             temp_r0->frame = 0xAU;
-            temp_r0->next = var_r9;
-            temp_r0->tick = var_r9;
+            { register s32 z asm("r1") = var_r9;
+              register u16 *target asm("r0") = &temp_r0->next;
+              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
             var_r6 = 1;
         }
         break;
@@ -1414,8 +1417,10 @@ loop_9:
         }
         break;
     case 2:                                         /* switch 2 */
-        temp_r1_3 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_3;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
         if (temp_r1_3 <= (-0x1000)) {
             sp14 = 0;
             var_r6 = 6;
@@ -1500,8 +1505,10 @@ void sub_08091714(void) {
 loop_9:
     switch (var_r6) {                               /* switch 2; irregular */
     case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_2;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
         if (temp_r1_2 <= 0x8000) {
             switch (temp_r7) {                      /* switch 3; irregular */
             case 0:                                 /* switch 3 */
@@ -1512,11 +1519,12 @@ loop_9:
                 break;
             }
             var_r9 = 0;
-            sp10 = var_r9;
-            temp_r0->payload[0] = var_r9;
+            { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
+            { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
             temp_r0->frame = 0xAU;
-            temp_r0->next = var_r9;
-            temp_r0->tick = var_r9;
+            { register s32 z asm("r1") = var_r9;
+              register u16 *target asm("r0") = &temp_r0->next;
+              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
             var_r6 = 1;
         }
         break;
@@ -1538,8 +1546,10 @@ loop_9:
         }
         break;
     case 2:                                         /* switch 2 */
-        temp_r1_3 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_3;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
         if (temp_r1_3 <= (-0x1000)) {
             sp14 = 0;
             var_r6 = 6;
@@ -1624,8 +1634,10 @@ void sub_08091938(void) {
 loop_9:
     switch (var_r6) {                               /* switch 2; irregular */
     case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_2;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
         if (temp_r1_2 <= 0x8000) {
             switch (temp_r7) {                      /* switch 3; irregular */
             case 0:                                 /* switch 3 */
@@ -1636,11 +1648,12 @@ loop_9:
                 break;
             }
             var_r9 = 0;
-            sp10 = var_r9;
-            temp_r0->payload[0] = var_r9;
+            { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
+            { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
             temp_r0->frame = 0xAU;
-            temp_r0->next = var_r9;
-            temp_r0->tick = var_r9;
+            { register s32 z asm("r1") = var_r9;
+              register u16 *target asm("r0") = &temp_r0->next;
+              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
             var_r6 = 1;
         }
         break;
@@ -1662,8 +1675,10 @@ loop_9:
         }
         break;
     case 2:                                         /* switch 2 */
-        temp_r1_3 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_3;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
         if (temp_r1_3 <= (-0x1000)) {
             sp14 = 0;
             var_r6 = 6;
@@ -1807,63 +1822,76 @@ extern void palette096_08091CF8(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091CF8(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091CF8(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_08091CF8(void) {
-    s32 sp10;
-    s32 sp14;
+    volatile s32 sp10;
+    volatile s32 sp14;
     s32 temp_r1;
     s32 temp_r1_2;
     s32 var_r6;
-    s32 var_r9;
+    register s32 var_r9 asm("r9");
+    register s32 zero asm("r10");
+    register u16 *next asm("r8");
+    register u32 *heap asm("r4");
     u16 temp_r0_2;
     struct Anim096_08091CF8 *temp_r0;
 
-    temp_r0 = (struct Anim096_08091CF8 *)sub_08001494(0x44U);
-    heap096_08091CF8 = (u32)temp_r0;
+    heap = &heap096_08091CF8;
+    asm("" : : "r"(heap));
+    temp_r0 = (struct Anim096_08091CF8 *)(*heap = sub_08001494(0x44U));
     sub_0800086C();
-    init096_08091CF8(temp_r0, 0x50019, 0, -1, 0);
-    temp_r0->payload[0] = 0;
+    zero = 0;
+    init096_08091CF8(temp_r0, 0x50019, 0, -1, zero);
+    temp_r0->payload[0] = zero;
     temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
+    temp_r0->next = zero;
+    temp_r0->tick = zero;
     temp_r0->x = 0x10000;
     temp_r0->y = 0x5800;
     sp10 = 1;
-    sp14 = 0;
+    { register s32 z asm("r0") = 0; asm("" : "+r"(z)); sp14 = z; }
     var_r6 = 0;
-    if (heap096_08091CF8 == 0) {
+    { register u32 current asm("r0") = *heap;
+      asm("" : "+r"(current));
+      next = &temp_r0->next;
+      asm("" : "+r"(zero));
+      if (current == 0) {
         return;
+      }
     }
 loop_2:
     switch (var_r6) {                               /* irregular */
     case 0:
-        temp_r1 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r0") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1 = value; temp_r0->x = value; }
         if (temp_r1 <= 0x8000) {
-            if (0 == 0) {
+            if (zero == 0) {
                 init096_08091CF8(temp_r0, 0x5001A, 0, -1, var_r6);
             }
-            sp10 = 0;
+            { register s32 z asm("r0") = 0; asm("" : "+r"(z)); sp10 = z; }
             temp_r0->payload[0] = (s8) var_r6;
             temp_r0->frame = 0xAU;
-            temp_r0->next = (s16) var_r6;
+            *next = (s16) var_r6;
             temp_r0->tick = (u16) var_r6;
             var_r6 = 1;
         }
         break;
     case 1:
         if (var_r9 != 0) {
-            if (0 == 0) {
-                init096_08091CF8(temp_r0, 0x50019, 0, -1, 0);
+            if (zero == 0) {
+                init096_08091CF8(temp_r0, 0x50019, 0, -1, zero);
             }
-            sp10 = 1;
-            temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
+            { register s32 one asm("r0") = 1; asm("" : "+r"(one)); sp10 = one; }
+            { register s32 z asm("r1") = 0; asm("" : "+r"(z));
+              temp_r0->frame = 0xAU; *next = z; temp_r0->tick = z; }
             var_r6 = 2;
         }
         break;
     case 2:
-        temp_r1_2 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_2;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r0") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
         if (temp_r1_2 <= (-0x1000)) {
             sp14 = 0;
             var_r6 = 6;
@@ -1878,7 +1906,8 @@ loop_2:
         break;
     }
     palette096_08091CF8(0x10U, temp_r0->fC, 1U);
-    var_r9 = step096_08091CF8(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
+    { register s32 stepArg asm("r0") = sp10; asm("" : "+r"(stepArg));
+      var_r9 = step096_08091CF8(temp_r0, temp_r0->frame, &temp_r0->tick, next, stepArg); }
     draw096_08091CF8((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
     sub_080003F0();
     if ((var_r6 != 0xFF) && (heap096_08091CF8 != 0)) {
@@ -2201,14 +2230,14 @@ extern void draw923FC(s32,s32,u16,s32,s32,void *,u32,u32) asm("sub_08007870");
 extern void drawSpecial923FC(s32,s32,u16,s32,s32,void *,u32,u32,s32) asm("sub_080087AC");
 extern void fade923FC(s32,s32,s32,s32,s32,void *) asm("sub_0800903C");
 extern s16 random923FC(void) asm("sub_0800086C");
-void sub_080923FC_u8(u8,u8) asm("sub_080923FC");
-void sub_080923FC_u8(u8 arg0, u8 arg1) {
+void sub_080923FC_u8(u32,u32) asm("sub_080923FC");
+void sub_080923FC_u8(u32 arg0, u32 arg1) {
     s32 sp0;
     void *sp4;
     s32 sp8;
     s32 spC;
     s32 sp10;
-    struct Anim923FC a;
+    struct Anim923FC a,b;
     s32 xsFC[11], ysFC[11];
     u16 delayFC[12], speedFC[12], accelFC[12];
 
@@ -2256,7 +2285,6 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
     u16 *temp_r1_15;
     u16 *temp_r2_3;
     u16 *temp_r2_4;
-    struct Anim923FC b;
     u16 *var_r4;
     u16 temp_r0_5;
     u16 temp_r0_9;
@@ -2281,34 +2309,43 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
     u32 temp_r0_3;
     u32 temp_r1_3;
     u32 temp_r1_9;
-    u32 var_r8_2;
-    u32 var_r9;
+    register u32 var_r8_2 asm("r8");
+    register u32 var_r9 asm("r9");
     u8 var_r6;
 
-    sp11C = (s32) arg0;
-    sp120 = (s32) arg1;
-    sp0 = 1;
-    init923FC(&a, 0x50022, 7, -1, sp0);
-    sp0 = 1;
-    init923FC(&b, 0x50026, 8, -1, sp0);
-    a.payload[7] = 0;
-    b.payload[8] = 1;
+    sp11C = (u8)arg0;
+    sp120 = (u8)arg1;
+    { register s32 neg asm("r5");
+      register s32 one asm("r4");
+      register s32 anim asm("r1") = 0x50022;
+      asm("" : "+r"(anim));
+      neg = -1; one = 1;
+      asm("" : "+r"(neg), "+r"(one));
+      init923FC(&a, anim, 7, neg, one);
+      init923FC(&b, 0x50026, 8, neg, one);
+      a.payload[7] = 0;
+      b.payload[8] = one; }
     sp128 = 0xD4;
     cache923FC[0] = 8;
     cache923FC[1] = 0U;
     cache923FC[2] = 8U;
     cache923FC[3] = 0U;
-    v923FC_254 = 8;
-    v923FC_250 = 8;
-    v923FC_252 = -0xCU;
+    { register u16 *p250 asm("r2") = &v923FC_250;
+      asm("" : : "r"(p250));
+      v923FC_254 = 8; *p250 = 8; }
+    { register u16 *p252 asm("r1") = &v923FC_252;
+      register s32 negative asm("r2"); register s32 value asm("r0");
+      asm("" : "+r"(p252)); negative = -12;
+      asm("" : "+r"(negative)); value = negative;
+      asm("" : "+r"(value)); *p252 = value; }
     v923FC_256 = 0xC;
-    sp130 = 3;
+    { register s32 three asm("r3") = 3; asm("" : "+r"(three)); sp130 = three; }
     sub_0801AB50(6);
+    goto test_2;
 loop_2:
-    if (sub_0801AAE0() == 0) {
-        sub_080003F0();
-        goto loop_2;
-    }
+    sub_080003F0();
+test_2:
+    if (sub_0801AAE0() == 0) goto loop_2;
     sub_0805865C(0xF7);
     var_r8 = 0x3C;
     sub_08092E28(6);
@@ -2670,11 +2707,11 @@ loop_110:
         }
     }
     sub_0801ABE8(6);
+    goto test_127;
 loop_127:
-    if (sub_0801AAE0() == 0) {
-        sub_080003F0();
-        goto loop_127;
-    }
+    sub_080003F0();
+test_127:
+    if (sub_0801AAE0() == 0) goto loop_127;
     sp0 = 0;
     sp4 = NULL;
     fade923FC(0, 0, 0, 0, sp0, sp4);

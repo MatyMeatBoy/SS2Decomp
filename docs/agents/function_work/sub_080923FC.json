@@ -1,0 +1,31 @@
+{
+  "address": "0x080923FC",
+  "updated_utc": "2026-10-30T14:10:57Z",
+  "checkpoint": "Final readiness wait checkpoint; NONMATCHING, heuristic distance 624 versus 739 before this work.",
+  "areas": [
+    {
+      "id": "sprite_placement",
+      "label": "Recover initial sprite placement",
+      "state": "done",
+      "evidence": "Original ASM initializes 0x34-byte sprite objects at sp+0x14 and sp+0x48. Candidate bdc8d41f places both objects there and emits the same entry argument truncation and setup instructions; frame size still differs."
+    },
+    {
+      "id": "first_wait",
+      "label": "Recover the first wait-loop order",
+      "state": "done",
+      "evidence": "ASM branches first to the readiness test, yields on failure, and then retests. Candidate 33937a8a preserves that order; the final readiness wait follows the same ASM-observed order. Normal ROM and NONMATCHING builds passed."
+    },
+    {
+      "id": "remaining_code",
+      "label": "Resolve remaining frame and control-flow differences",
+      "state": "active",
+      "evidence": "Candidate is 2280 bytes versus original 2236, with differing frame size and substantial register and control-flow differences. Heuristic distance 624 is only a prioritization metric."
+    },
+    {
+      "id": "full_match",
+      "label": "Verify matching C in the normal ROM build",
+      "state": "pending",
+      "evidence": "The original ASM fallback remains active; there are zero new matching bytes and no full-function equivalence claim."
+    }
+  ]
+}
