@@ -579,66 +579,53 @@ void sub_0801F79C(u8 *source,u8 *target,u8 *attack,s32 flags)
 
 
 
-#ifdef NONMATCHING
 extern u8 *scene02099 asm("gUnk_03005CF4");
-extern u8 players02099[] asm("gUnk_03003CE0");
-extern void damage02099(u32,u16,u8) asm("sub_08028368");
+extern void damage02099(u32,u32,u8) asm("sub_08028368");
 struct Size02099 { u32 width:16; u32 height:16; };
-s32 sub_0801F99C(void *arg0, void *arg1)
+struct Item02099 { s32 x,y; u8 pad8[8]; u16 hp; u16 f12; u16 state; u8 pad16[10]; u8 *data; };
+struct Player02099 { u8 pad0[0x58]; u16 power; u8 pad5A[0x14C-0x5A]; };
+extern struct Player02099 gPl02099[] asm("gUnk_03003CE0");
+static inline s32 coll02099(s32 *pos,struct Item02099 *item,u16 *box,struct Size02099 *sz)
+{
+    s32 dx,dy,r;
+    dx=(pos[0]-item->x)>>8;
+    dy=(pos[1]-item->y)>>8;
+    if((dx<0?-dx:dx)<=(box[0]+sz->width)>>1 && (dy<0?-dy:dy)<=(box[1]+sz->height)>>1) r=1; else r=0;
+    return r;
+}
+s32 sub_0801F99C(s32 *pos, u16 *box)
 {
     struct Size02099 size;
-    u8 *item;
-    u8 *data;
-    u32 count;
+    struct Item02099 *item;
     u32 index;
-    s32 dx;
-    s32 dy;
-    s32 hit;
-    u16 power;
-    u16 defense;
-    u16 damage;
-    u32 random;
-    count=*(u32 *)(scene02099+0x48);
-    if(count==0) return 0;
-    item=scene02099+0x58C;
-    for(index=0;index< count;index++,item+=0x24) {
-        if((u16)(*(u16 *)(item+0x14)-10)<=2) goto next;
-        data=*(u8 **)(item+0x20);
-        if(data[6]&3) goto next;
-        asm("" : : "r"(&size) : "memory");
-        size.width=*(u16 *)(data+0xC);
-        size.height=*(u16 *)(*(u8 **)(item+0x20)+0xE);
-        asm("" : : "r"(&size) : "memory");
-        dx=(*(s32 *)arg0-*(s32 *)item)>>8;
-        if(dx<0) dx=-dx;
-        if(dx <= (s32)(*(u16 *)arg1+size.width)>>1) {
-            dy=(*(s32 *)((u8 *)arg0+4)-*(s32 *)(item+4))>>8;
-            if(dy<0) dy=-dy;
-            hit=1;
-            if(dy>(s32)(*(u16 *)((u8 *)arg1+2)+size.height)>>1) hit=0;
-        } else hit=0;
-        if(hit) {
-            power=*(u16 *)(players02099+0x14C*sub_080020F4()+0x58);
-            defense=*(u16 *)(*(u8 **)(item+0x20)+2);
+    register u32 dm asm("r0");
+    u16 power,defense,random;
+    u32 damage;
+    if(*(u32 *)(scene02099+0x48)==0) return 0;
+    item=(struct Item02099 *)(scene02099+0x58C);
+    for(index=0;index<*(u32 *)(scene02099+0x48);index++,item++) {
+        if((u16)(item->state-10)<=2) continue;
+        if(item->data[6]&3) continue;
+        size.width=*(u16 *)(item->data+0xC);
+        size.height=*(u16 *)(item->data+0xE);
+        if(coll02099(pos,item,box,&size)) {
+            power=gPl02099[sub_080020F4()].power;
+            defense=*(u16 *)(item->data+2);
             random=((((u16)sub_080008C8()%50U)<<16)+0x640000)>>16;
-            damage=(u16)((u16)((s32)(random*((s32)(power*power*10)/(s32)(power+defense)))/100)/10U);
-            if(damage==0) damage=1;
-            *(u16 *)(item+0x10)-=damage;
-            *(u16 *)(item+0x12)=sub_0801DE60();
+            dm=(u16)((u16)((s32)(random*((s32)(power*power*10)/(s32)(power+defense)))/100)/10U);
+            if(dm==0) dm=1;
+            damage=dm;
+            item->hp-=damage;
+            item->f12=(u8)sub_0801DE60();
             sub_0805865C(0x1A);
-            if(*(u16 *)(item+0x10)&0x8000) *(u16 *)(item+0x10)=0;
+            if(item->hp&0x8000) item->hp=0;
             damage02099(index,damage,sub_0801DE60());
-            *(u16 *)(item+0x14)=10;
+            item->state=10;
             return 1;
         }
-next:
-        count=*(u32 *)(scene02099+0x48);
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F99C);
-#endif
 extern u8 sub_0801DE60(void);
 extern u8 *scene02014 asm("gUnk_03005CF4");
 extern u8 players02014[] asm("gUnk_03003CE0");
