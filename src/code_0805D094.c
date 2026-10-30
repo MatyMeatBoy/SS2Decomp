@@ -503,8 +503,9 @@ void d854_impl(void *arg) asm("sub_0805D854");
 void d854_impl(void *arg)
 {
     struct D854Window *window = arg;
-    u32 width, height, delay;
-    s32 initialized;
+    u16 width, height;
+    u32 delay;
+    register s32 initialized asm("r7");
     u16 left, right, top, bottom, column, row;
     s32 leftEdge, rightEdge, topEdge, bottomEdge;
     window->state = 1;
