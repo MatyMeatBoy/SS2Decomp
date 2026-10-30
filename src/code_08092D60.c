@@ -305,8 +305,6 @@ void sub_08094638(u32 count,s32 choice)
     struct Anim98c a,b;
     u16 indices[3],frames[3];
     struct {s32 x,y;} base;
-    struct {s32 x,y;} screen;
-    s32 result,active;
     struct Sprite98c *sprite;
     u32 completed;
     s32 shifted=(s32)((u32)choice<<24);
@@ -332,6 +330,7 @@ void sub_08094638(u32 count,s32 choice)
         indices[1]=*(u16 *)(table+4)-1;
     }
     sub_0801AB50(6);
+    { s32 result,active; struct {s32 x,y;} screen;
     screen.x=base.x>>8;screen.y=base.y>>8;
     while(!sub_0801AAE0())sub_080003F0();
     regs98c[0x1D]=0x3233;
@@ -373,6 +372,7 @@ void sub_08094638(u32 count,s32 choice)
     sub_080586D0(3);sub_08094968();sub_0800CC18();sub_0800CC68();sub_08098028();
     regs98c[0x1D]=0;
     sub_080009F8(0xF00,0x8000,0);
+    }
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094638);
