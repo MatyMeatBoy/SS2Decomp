@@ -2264,7 +2264,7 @@ s32 sub_080A705C(void) {
     s16 temp_r1_3;
     s16 temp_r4_6;
     s16 temp_r4_8;
-    s32 *temp_r4_2;
+    register s32 *temp_r4_2 asm("r4");
     s32 *temp_r5;
     s32 *temp_r5_2;
     s32 temp_r0_2;
@@ -2285,7 +2285,7 @@ s32 sub_080A705C(void) {
     u16 temp_r4_5;
     u8 *temp_r2;
     u8 *temp_r3_3;
-    u8 temp_r0;
+    register u8 temp_r0 asm("r0");
     u8 temp_r0_5;
     u8 temp_r0_8;
     u8 temp_r0_9;
@@ -2477,6 +2477,7 @@ extern u16 taskIndexA756C asm("gUnk_03000404");
 extern M2C_UNK gUnk_03003D78;
 extern M2C_UNK gUnk_03003E28;
 void sub_080A756C(void) {
+    register s32 minus asm("r8") = -1;
     u8 ctx1[0x34];
     u8 ctx2[0x34];
     u16 sp78;
@@ -2511,7 +2512,7 @@ void sub_080A756C(void) {
     s32 spE4;
     s32 spE8;
     s32 spEC;
-    s16 *var_r4;
+    register s16 *var_r4 asm("r4");
     s16 temp_r3_3;
     s32 *temp_r1_4;
     s32 *temp_r2;
@@ -2542,11 +2543,11 @@ void sub_080A756C(void) {
     void *temp_r1_2;
     void *temp_r7;
 
-    taskIndexA756C = 4;
-    callA756C_08065158(ctx1, 0x5000F, 0, -1, 1);
+    taskIndexA756C = 4; asm("" : "+r"(minus));
+    callA756C_08065158(ctx1, 0x5000F, 0, minus, 1);
     M2C_FIELD(ctx1, s8 *, 0x1C) = (s8) taskIndexA756C;
     sub_08000AF0(taskIndexA756C + 0x10, M2C_FIELD(ctx1,s32*,0xC), 1U);
-    callA756C_08065158(ctx2, 0x50010, 0, -1, 0);
+    callA756C_08065158(ctx2, 0x50010, 0, minus, 0);
     spBC = 0;
     sp82 = 0;
     sp80 = spBC;
