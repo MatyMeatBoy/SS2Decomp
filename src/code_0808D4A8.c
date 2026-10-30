@@ -458,7 +458,7 @@ void sub_0808DB38(u32 arg)
     s32 hit, sound;
     s32 height;
     s32 speed;
-    u8 priority;
+    register u32 priority asm("r4");
     s32 *sprite;
     s32 *posptr;
     void *texture;
@@ -482,7 +482,13 @@ void sub_0808DB38(u32 arg)
         register u32 boxwidth asm("r4") = 0x10;
         size = 0x100010;
         player = &gUnk_03003CE0[sub_080020F4()];
-        box = (((box & maskhi) | boxwidth) & masklo) | 0x80000;
+        {
+            register u32 b asm("r0") = ((box & maskhi) | boxwidth) & masklo;
+            register u32 upper asm("r1") = 0x80000;
+            asm("" : "+r"(b), "+r"(upper));
+            b |= upper;
+            box = b;
+        }
     }
     hit = 1;
     sound = 1;
@@ -517,9 +523,17 @@ void sub_0808DB38(u32 arg)
             sub_08065370(anim, 1, (s32)secondptr, (s32)(secondptr + 1), 1);
             if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
                 sub_0800BC08((s16)(pos[0] >> 8), (s16)(posptr[1] >> 8), screenXptr, screenYptr, 0x30, 0);
-                priority = sub_0800BC44(pos[0] >> 8, posptr[1] >> 8, 0);
-                sub_08007870(*screenXptr, *screenYptr - 1, 1, *secondptr, 3, texture, anim[2], anim[0]);
-                sprite = sub_08007870(*screenXptr, *screenYptr, 0, firstptr[0], priority, texture, anim[2], anim[0]);
+                priority = (u8)sub_0800BC44(pos[0] >> 8, posptr[1] >> 8, 0);
+                {
+                    register u16 *sx asm("r1") = screenXptr;
+                    asm("" : "+r"(sx));
+                    sub_08007870(*sx, *screenYptr - 1, 1, *secondptr, 3, texture, anim[2], anim[0]);
+                }
+                {
+                    register u16 *sx asm("r1") = screenXptr;
+                    asm("" : "+r"(sx));
+                    sprite = sub_08007870(*sx, *screenYptr, 0, firstptr[0], priority, texture, anim[2], anim[0]);
+                }
                 sprite[3] -= height >> 8;
             }
             sub_080003F0();
