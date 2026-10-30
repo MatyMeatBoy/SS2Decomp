@@ -521,7 +521,6 @@ void sub_080760E8(u32 who, u32 a, u32 b, u32 c)
     gMasks60E8[who] |= 1 << i;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080761A4);
-#ifdef NONMATCHING
 struct TaskA88 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct InfoA88 { u32 who, i, a, pad, c, b; };
 struct PlayerA88 { u8 pad[0x20]; u16 state; u8 pad22[6]; u16 f28; u8 pad2a[0xf8]; u16 f122; u8 pad124[0x28]; };
@@ -534,16 +533,27 @@ extern void taskA88(void *) asm("sub_08000274");
 void sub_08076A88(u32 who, u32 a, u32 b, u32 c) {
     register u32 aa asm("r10") = a;
     register u32 bb asm("r9") = b;
-    u32 i = 0;
-    vu32 *m = &masksA88[who];
+    register u32 cc asm("r3") = c;
+    register u32 scratch asm("r3");
+    volatile u32 saved_c;
+    register u32 result asm("r0");
+    u32 i;
+    vu32 *m;
     u32 mem;
     struct TaskA88 *t;
-    struct InfoA88 *e;
-    struct PlayerA88 *p;
-    if (*m & 1) do {
+    register struct InfoA88 *e asm("r1");
+    struct PlayerA88 *p; /* Allocation failure uses incoming r5, as in the original. */
+    asm("" : "+r"(aa), "+r"(bb), "+r"(cc));
+    saved_c = cc;
+    asm("" : : : "memory");
+    i = 0;
+    { vu32 *mb = masksA88; m = &mb[who]; }
+    { register u32 one asm("r1") = 1; asm("" : "+r"(one));
+    if (*m & one) do {
         i++;
         if (i > 15) break;
     } while (*m & (1 << i));
+    }
     if (i > 15) {
         if (who == sub_080020F4()) {
             p = &playersA88[who];
@@ -555,34 +565,39 @@ void sub_08076A88(u32 who, u32 a, u32 b, u32 c) {
         }
     } else {
         mem = sub_08001494(0x800);
-        t = (struct TaskA88 *)(listsA88[who] + i * 0x28);
+        { u8 *base = listsA88[who]; t = (struct TaskA88 *)(i * 0x28 + (u32)base); }
         t->f20 = mem;
         if (mem == 0) {
             if (who == sub_080020F4() && p->state == 5) {
                 p->state = 0;
                 p->f122 = 0;
 set_b:
-                p->f28 = bb;
+                scratch = bb;
+                asm("" : "+r"(scratch));
+                p->f28 = scratch;
             }
         } else {
-            e = (struct InfoA88 *)(infoA88[who] + i * 0x18);
+            { u8 *base = infoA88[who]; e = (struct InfoA88 *)(i * 0x18 + (u32)base); }
             e->who = who;
             e->i = i;
             e->a = aa;
-            e->b = bb;
-            e->c = c;
+            scratch = bb;
+            asm("" : "+r"(scratch));
+            e->b = scratch;
+            e->c = saved_c;
             t->f8 = 0x34;
             t->fC = (u32)sub_080761A4;
-            t->f10 = mem + 0x7fc;
+            scratch = 0x7fc;
+            asm("" : "+r"(scratch));
+            result = mem + scratch;
+            asm("" : "+r"(result));
+            t->f10 = result;
             t->f24 = 0;
             taskA88(t);
             masksA88[who] |= 1 << i;
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08076A88);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08076BA0);
 struct Task7444 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info7444 { u32 who, i, a, pad, cd, b; };
