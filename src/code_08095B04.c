@@ -172,9 +172,100 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096154);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096274);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096394);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096494);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096594);
+struct SelectPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u8 *target; };
+extern struct SelectPlayer99 selectPlayers99[] asm("gUnk_03003CE0");
+s32 sub_08096594(u8 arg0)
+{
+    register s32 selected asm("r4");
+    struct SelectPlayer99 *player;
+    register u32 count asm("r5");
+    u32 flags;
+    register u32 i asm("r3");
+    register u32 mode asm("r6");
+    u32 rawFlag;
+    u32 offset;
+    struct SelectPlayer99 *base;
+    count = sub_08002164();
+    i = 0;
+    if (i < count) {
+        rawFlag = gUnk_03000290[arg0];
+        base = selectPlayers99;
+        mode = 1;
+        mode &= rawFlag;
+    loop:
+        if (mode != 0) {
+            switch (i) {
+            case 0: selected = count - 1; break;
+            case 1: selected = 0; break;
+            case 2: selected = 1; if (count == 4) selected = 2; break;
+            case 3: selected = 1; break;
+            }
+        } else {
+            switch (i) {
+            case 0: selected = 0; break;
+            case 1: selected = count - 1; break;
+            case 2: selected = 2; if (count == 4) selected = 1; break;
+            case 3: selected = 2; break;
+            }
+        }
+        offset = selected * 0x14C;
+        player = (void *)(offset + (u32)base);
+        flags = player->flags;
+        if (flags & 0x2000) goto next;
+        if (flags & 0x40002) goto next;
+        if (((u32)(*player->target << 28) >> 28) != 11) goto done;
+    next:
+        i++;
+        if (i < count) goto loop;
+    }
+ done:
+    return selected;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096640);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080967D0);
+extern u16 shakeScale99 asm("gUnk_0300029C");
+struct ShakeView99 { u8 pad[0x18]; u16 vertical; };
+extern struct ShakeView99 *shakeView99 asm("gUnk_030034E0");
+extern struct Task *shakeTask99 asm("gUnk_03000298");
+extern void shakeOffset99(u32, s32) asm("sub_0800BB80");
+extern void shakeRoutine99(u32) asm("sub_080967D0");
+void shakeRoutine99(u32 arg0) {
+    struct ShakeView99 *view;
+    s16 temp_r1;
+    s32 temp_r0_3;
+    s32 var_r0;
+    u16 var_r4;
+    u16 var_r5;
+    u32 temp_r0;
+    u8 temp_r0_2;
+    u8 var_r6;
+
+    var_r6 = 0;
+    var_r5 = arg0;
+    do {
+        temp_r0_2 = var_r6;
+        var_r6 = temp_r0_2 + 1;
+        temp_r0_3 = (s32) (gUnk_080B9704[(u8)(temp_r0_2 % 90U)] * 0xC0000) >> 0x18;
+        var_r4 = (u16) temp_r0_3;
+        temp_r1 = (s16) temp_r0_3;
+        if (1 & temp_r1) {
+            var_r4 = 0 - temp_r1;
+        }
+        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
+            shakeOffset99(0U, (s16)var_r4);
+            view = shakeView99;
+            var_r0 = (s32) (shakeScale99 << 0x10) >> 0x11;
+        } else {
+            view = shakeView99;
+            var_r0 = (s32) shakeScale99;
+        }
+        view->vertical = (s16) var_r0;
+        sub_080003F0();
+        temp_r0 = (var_r5 << 0x10) + 0xFFFF0000;
+        var_r5 = (u16) (temp_r0 >> 0x10);
+    } while (((s32) temp_r0 >> 0x10) != -1);
+    shakeView99->vertical = (u16) shakeScale99;
+    shakeTask99->u8 = 0;
+}
 struct Ctrl99 { u16 scaleX, scaleY, x, y, a, b; u8 c, d, e, f; };
 extern struct Ctrl99 ctrl99 asm("gUnk_030002A0");
 void sub_0809689C(void)
