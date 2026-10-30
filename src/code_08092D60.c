@@ -572,12 +572,13 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     s32 spA0;
     s32 spA4;
     s32 spA8;
-    s16 var_r0_2;
-    s16 var_r0_3;
-    s16 var_r0_4;
-    s16 var_r0_5;
+    s32 var_r0_2;
+    s32 var_r0_3;
+    s32 var_r0_4;
+    s32 var_r0_5;
     struct {s32 x:16,y:16;} particle;
-    s16 randomValue,tableValue;
+    s16 randomValue;
+    s32 tableValue;
     s32 temp_r6;
     register s32 var_r8 asm("r8");
     u32 temp_r0_2;
