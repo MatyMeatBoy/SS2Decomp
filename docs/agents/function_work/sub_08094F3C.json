@@ -1,7 +1,7 @@
 {
   "address": "0x08094F3C",
-  "updated_utc": "2026-10-30T02:57:10.571321+00:00",
-  "checkpoint": "Verified halfword-buffer checkpoint following local e1291394. NONMATCHING retained: original/candidate 1212/1212 bytes, frame 172/172, actual-module approximate nmscore 117 and strict NO MATCH.",
+  "updated_utc": "2026-10-30T02:58:17.345659+00:00",
+  "checkpoint": "Verified code checkpoint 54b0b64a4c1294a12d54ee1ccc36e8ccef30edc3, rebased on main 3abeb43a. NONMATCHING retained: original/candidate 1212/1212 bytes, frame 172/172, actual-module approximate nmscore 117 and strict NO MATCH.",
   "areas": [
     {
       "id": "compile",

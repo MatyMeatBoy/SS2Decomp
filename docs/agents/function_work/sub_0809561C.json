@@ -1,7 +1,7 @@
 {
   "address": "0x0809561C",
-  "updated_utc": "2026-10-30T02:40:16.710605+00:00",
-  "checkpoint": "Verified original 164-byte frame checkpoint on main f9cc10b3. NONMATCHING retained: original/candidate 1090/1084 bytes, actual-module approximate nmscore 209 and strict NO MATCH.",
+  "updated_utc": "2026-10-30T02:58:17.356353+00:00",
+  "checkpoint": "Verified code checkpoint 5d7d12adc1cfc7f9285d465fefab8cb7dd799be5, rebased on main 3abeb43a. NONMATCHING retained: original/candidate 1090/1084 bytes, frame 164/164, actual-module approximate nmscore 209 and strict NO MATCH.",
   "areas": [
     {
       "id": "compile",
