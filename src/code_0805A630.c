@@ -1512,17 +1512,13 @@ s32 sub_0805CDF8(void) {
     s32 temp_r3;
     s32 var_r4_2;
     s32 var_r6;
-    s32 var_r8;
-    s32 var_r9_2;
+    u32 var_r8;
     u16 *temp_r0_2;
     u16 *var_r5;
-    u16 *var_r8_2;
     u16 temp_r0_3;
     u16 temp_r1_4;
     u32 var_r7;
-    
-    
-    u32 var_r9;
+    s32 var_r9;
     struct PuzzleSlot61 **var_ip;
     struct PuzzleSlot61 **var_r3;
     struct PuzzleSlot61 **var_r5_2;
@@ -1563,13 +1559,13 @@ loop_1:
         if (puzzleRecipes61[0] == 0) {
             goto block_32;
         }
-        var_r8_2 = puzzleRecipes61;
-        var_r9_2 = 0;
+        var_r8 = (u32)puzzleRecipes61;
+        var_r9 = 0;
 loop_15:
         var_r6 = 0;
         var_r7 = 0;
-        var_r5 = (u16 *)(var_r9_2 + (u8 *)puzzleRecipes61);
-        var_r4_2 = var_r9_2;
+        var_r5 = (u16 *)(var_r9 + (u8 *)puzzleRecipes61);
+        var_r4_2 = var_r9;
         var_r3 = sp0;
         do {
             temp_r2_2 = *var_r3;
@@ -1596,15 +1592,15 @@ loop_15:
                 sub_08057624(0xAU);
                 var_r7 += 1;
             } while (var_r7 <= 3U);
-            temp_r0_2 = (u16 *)((u32)puzzleRecipes61 + var_r9_2 + 16);
+            temp_r0_2 = (u16 *)((u32)puzzleRecipes61 + var_r9 + 16);
             temp_r1_4 = *temp_r0_2;
             if (temp_r1_4 == 0xA) {
                 sp10.type = temp_r1_4;
-                sp10.data.wide = (s32) *(u16 *)((u32)puzzleRecipes61 + var_r9_2 + 18);
+                sp10.data.wide = (s32) *(u16 *)((u32)puzzleRecipes61 + var_r9 + 18);
             } else {
                 sp10.data.wide = 0;
                 sp10.type = (u16) *temp_r0_2;
-                sp10.value = (u16) *(u16 *)((u32)puzzleRecipes61 + var_r9_2 + 18);
+                sp10.value = (u16) *(u16 *)((u32)puzzleRecipes61 + var_r9 + 18);
                 temp_r0_3 = sp10.type;
                 if ((s32)temp_r0_3 > 5) goto item_ready; if ((s32)temp_r0_3 < 2) goto item_ready; {
                     sp10.last = 0;
@@ -1620,9 +1616,9 @@ item_ready:
             sub_08021EC8(0xF700U, 0x6E00U, 6);
             return 1;
         }
-        var_r8_2 += 10;
-        var_r9_2 += 0x14;
-        if (*var_r8_2 == 0) {
+        var_r8 += 20;
+        var_r9 += 0x14;
+        if (*(u16 *)var_r8 == 0) {
 block_32:
             return 0;
         }
