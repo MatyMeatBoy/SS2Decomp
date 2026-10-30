@@ -20042,7 +20042,7 @@
       "evidence": [
         {
           "source": "src/code_0805D094.c",
-          "line": 862,
+          "line": 863,
           "detail": "Existing C definition with an asm alias to the canonical symbol: e0c4Impl"
         }
       ]
@@ -25909,7 +25909,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3445,
+          "line": 3448,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C020_v"
         }
       ]
@@ -25932,7 +25932,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3483,
+          "line": 3486,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C0C4_v"
         }
       ]
