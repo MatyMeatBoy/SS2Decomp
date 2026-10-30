@@ -436,7 +436,44 @@ void sub_08075494(u32 who)
     sub_08000274_3((u32)t, who, i);
     gMasks5494[who] |= 1 << i;
 }
+#ifdef NONMATCHING
+void sub_08075520(u32 who,u32 slot)
+{
+    struct EffectSprite77 sprite;
+    struct EffectPlayer77 *player;
+    struct EffectEntity77 *entity;
+    s16 x,y;
+    u16 frame,timer,done,i;
+    u8 visible;
+    frame=0;timer=0;
+    effectInit77(&sprite,0x5008D,8,-1,0);
+    sprite.palette[0]=7;sprite.palette[1]=8;
+    done=0;
+    player=&effectPlayers77[who];
+    while ((player->entity->xRaw & 15)==10) sub_080003F0();
+    while (!done) {
+        entity=player->entity;
+        effectPosition77(entity->xRaw>>4,entity->yRaw & 0xFFF,&x,&y,0x30,0);
+        entity=player->entity;
+        visible=sub_0800BC44(entity->xRaw>>4,entity->yRaw & 0xFFF,(((u8 *)entity)[4] >> 5)&1);
+        done=effectStep77(&sprite,8,&frame,&timer,0);
+        if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
+            if (!(effectFlags77&1)) effectPalette77(0x17,sprite.paletteResource,2);
+            effectDraw77(x,y+1,8,frame,visible,sprite.palette,sprite.data,sprite.base);
+        }
+        sub_080003F0();
+    }
+    if (who==sub_080020F4()) gUnk_03003CE0[who].flags |= 0x40000;
+    if (who!=sub_080020F4()) gUnk_03003CE0[who].flags |= 0x80000;
+    i=0;
+    do { i++; sub_080003F0(); } while (i<=0x3B);
+    if (who==sub_080020F4()) gUnk_03003CE0[who].flags &= ~0x40000;
+    if (who!=sub_080020F4()) gUnk_03003CE0[who].flags &= ~0x80000;
+    effectMasks77[who] &= ~(1<<slot);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075520);
+#endif
 extern void sub_08075520();
 void sub_080756EC(u32 who)
 {
