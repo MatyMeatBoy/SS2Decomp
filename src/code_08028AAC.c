@@ -18,7 +18,64 @@ INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029A7C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029B98);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029CEC);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029E0C);
+#ifdef NONMATCHING
+struct PackedF54 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};
+struct RefF54 {struct PackedF54 *position;u8 padding[0x148];};
+struct TaskF54 {u32 f0,f4,f8,fC;u8 *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
+extern struct RefF54 refsF54[] asm("gUnk_03003E28");
+extern u8 *stateF54 asm("gUnk_03005CF4");
+extern void finishF54(void) asm("sub_0800035C");
+extern s32 overlapF54(struct V2W12 *,struct V2W12 *,u32 *,u32 *) asm("sub_08021FE0");
+extern void startF54(struct TaskF54 *,u32) asm("sub_08000274");
+void sub_08029F54(s32 x,s32 y,u32 low,s32 high,volatile u32 callback)
+{
+    struct V2W12 center;
+    struct V2W12 player;
+    u32 mask,range,narrowed;
+    u32 index,next,slot;
+    s32 hit;
+    struct RefF54 *base;
+    struct RefF54 *reference;
+    struct TaskF54 *task;
+    u8 *memory;
+    narrowed=low<<16;
+    mask=0x200018;
+    center.x=(u32)x<<8;
+    center.y=(u32)y<<8;
+    high=(u32)high<<16;
+    range=(narrowed>>16)|(u32)high;
+    index=0;
+    base=refsF54;
+    while(index<sub_08002164()) {
+        reference=(struct RefF54 *)(index*0x14C+(u32)base);
+        player.x=reference->position->x<<8;
+        player.y=reference->position->y<<8;
+        hit=overlapF54(&player,&center,&mask,&range);
+        next=index+1;
+        if(hit) {
+            task=(struct TaskF54 *)(stateF54+0xE34);
+            slot=0;
+            while(slot<=0x1D) {
+                if(sub_08000470((u32)task)==0) {
+                    while((task->f20=memory=sub_08001494(0x400))==0)sub_080003F0();
+                    task->f8=0x3C;
+                    task->fC=callback;
+                    task->f10=memory+0x3FC;
+                    task->f24=0;
+                    startF54(task,0);
+                    break;
+                }
+                slot++;
+                task++;
+            }
+            finishF54();
+        }
+        index=next;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029F54);
+#endif
 void sub_0802A01C(void)
 {
   u8 *p = gUnk_030056F4;
@@ -37,7 +94,43 @@ void sub_0802A01C(void)
   }
   while (i <= 4);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A080);
+struct PackedA080 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};
+struct RefA080 {struct PackedA080 *position;u8 padding[0x148];};
+extern struct RefA080 refsA080[] asm("gUnk_03003E28");
+extern s32 overlapA080(struct V2W12 *,struct V2W12 *,u32 *,u32 *) asm("sub_08021FE0");
+void sub_0802A080(s32 x,s32 y,u32 low,s32 high)
+{
+    struct V2W12 center;
+    struct V2W12 player;
+    u32 mask;
+    u32 narrowed;
+    u32 range;
+    s32 wait;
+    u32 index;
+    u32 flag;
+    struct RefA080 *reference;
+    struct RefA080 *base;
+    narrowed=low<<16;
+    mask=0;
+    center.x=(u32)x<<8;
+    center.y=(u32)y<<8;
+    high=(u32)high<<16;
+    range=(narrowed>>16)|(u32)high;
+    base=refsA080;
+    do {
+        wait=1;
+        index=0;
+        while(index<sub_08002164()) {
+            reference=(struct RefA080 *)(index*0x14C+(u32)base);
+            player.x=reference->position->x<<8;
+            player.y=reference->position->y<<8;
+            flag=reference->position->flags; flag&=0x20;
+            if(!flag && overlapA080(&player,&center,&mask,&range))wait=0;
+            index++;
+        }
+        sub_080003F0();
+    } while(wait);
+}
 struct TaskP2A1 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u8 *gGS2A1 asm("gUnk_03005CF4");
 extern void sub_08000274_2(void *, u32) asm("sub_08000274");
@@ -109,7 +202,35 @@ void sub_0802A19C(void) {
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A228);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A590);
+struct ColorA590 {u32 r:5;u32 g:5;u32 b:5;u32 unused:1;};
+extern struct ColorA590 paletteA590[] asm("gUnk_03001F40");
+extern void copyA590(const void *,void *,u32) asm("CpuSet");
+void sub_0802A590(u16 first,u16 count)
+{
+    struct ColorA590 *backup;
+    struct ColorA590 *dest;
+    struct ColorA590 *source;
+    u32 total;
+    u32 index;
+    u16 gray;
+    backup=sub_08001494((u32)count<<5);
+    dest=(struct ColorA590 *)((u8 *)paletteA590+((u32)first<<5));
+    copyA590(dest,backup,((u32)count*8)|0x04000000);
+    total=(u32)count*16;
+    source=backup;
+    index=0;
+    while(index<total) {
+        gray=(u16)(((u32)source->r+source->g+source->b)/3);
+        dest->r=gray;
+        dest->g=gray;
+        dest->b=gray;
+        index++;
+        dest=(struct ColorA590 *)((u8 *)dest+2);
+        source=(struct ColorA590 *)((u8 *)source+2);
+    }
+    sub_08000B38();
+    sub_08001538((s32)backup);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A644);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A7DC);
 s32 sub_0802A9B0(void) {
