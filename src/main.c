@@ -157,24 +157,33 @@ void sub_080009C0_u16(u16 a, u16 b, u16 write)
     if (write)
         REG_DISPCNT = second;
 }
-#ifdef NONMATCHING
-void sub_080009F8(u16 a, u16 b, u16 write)
+extern u16 display000 asm("gUnk_0300129C");
+void clearDisplay000(u32,u32,u32) asm("sub_080009F8");
+void clearDisplay000(u32 a,u32 b,u32 write)
 {
+    register u32 aa asm("r0")=a<<16;
+    register u32 bb asm("r1")=b<<16;
+    register u32 ww asm("r2")=write<<16;
     register u32 first asm("r3");
-    u16 value;
-    u32 second;
-    first = a & 0x1F00;
-    value = *(u16 *)&gUnk_0300129C;
-    first = value & ~first;
-    second = b & 0xE000;
-    first &= ~second;
-    *(u16 *)&gUnk_0300129C = first;
-    if (write)
-        REG_DISPCNT = first;
+    register u32 incoming asm("r0");
+    register u32 second asm("r0");
+    u32 middle;
+    u16 *pointer;
+    asm("" : "+r"(aa),"+r"(bb),"+r"(ww));
+    first=(aa&0x1F000000U)>>16;
+    asm("" : "+r"(first));
+    pointer=&display000;
+    incoming=*pointer;
+    asm("" : "+r"(incoming));
+    middle=incoming&~first;
+    asm("" : "+r"(middle) : "r"(incoming));
+    first=middle;
+    second=(bb&0xE0000000U)>>16;
+    asm("" : "+r"(second));
+    first&=~second;
+    *pointer=first;
+    if (ww) *(volatile u16 *)0x04000000=first;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main", sub_080009F8);
-#endif
 void sub_08000A34(u16 a, u16 b, u16 c, u16 unused, u16 write)
 {
     gUnk_0300129C.frameSelect = c != 0;
