@@ -1632,19 +1632,11 @@ void sub_0800BBD8(u16 i, u16 a, u16 b)
         gUnk_03003170.layers[i].w1 = b;
     }
 }
-#ifdef NONMATCHING
-u32 sub_0800BC08(s32 x, s32 y, s16 *out_x, s16 *out_y)
-{
-    u8 *base = (u8 *)&gUnk_03003170;
-    s32 ox = *(u16 *)(base + 0x84) + *(u16 *)(base + 0x7C);
-    s32 oy = *(u16 *)(base + 0x86) + *(u16 *)(base + 0x7E);
-    *out_x = (s16)(x - ox);
-    *out_y = (s16)(y - oy);
+u32 sub_0800BC08(s16 x, s16 y, s16 *out_x, s16 *out_y) {
+    *out_x = (s16)x - (gUnk_03003170.scrollX + gUnk_03003170.offX);
+    *out_y = (s16)y - (gUnk_03003170.scrollY + gUnk_03003170.offY);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BC08);
-#endif
 #ifdef NONMATCHING
 u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
 {
