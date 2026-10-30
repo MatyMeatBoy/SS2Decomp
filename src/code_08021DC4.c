@@ -4126,7 +4126,7 @@ void sub_08026858(void) {
     s32 active;
     u32 timer, nextCount;
     s32 temp_r0_2;
-    s32 temp_r0_3;
+    register s32 temp_r0_3 asm("r4");
     s32 temp_r4_2;
     s32 var_r0;
     s32 var_r0_2;
@@ -4334,6 +4334,7 @@ end_poll:
         if (sub_080021A8() == 0) {
             t24_call08065370_08026858(&sprite, 1, &frame, &phase, 1);
             temp_r0_3 = sub_0800CC98();
+            asm("" : "+r"(temp_r0_3));
             if ((temp_r0_3 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
                 sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
                 sub_0800BC08((s16)(xpos >> 16), 0x880000 >> 0x10, endX, endY, 0x30, 0);
