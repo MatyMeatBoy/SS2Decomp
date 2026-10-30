@@ -4146,7 +4146,7 @@ void sub_08026858(void) {
     u32 var_r5_2;
     u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
     u8 *temp_r4;
-    struct T24Net08026858 *temp_r2_2;
+    register struct T24Net08026858 *temp_r2_2 asm("r2");
 
     /* Original reads the prior r7 value before the first player-count pass. */
     frame = 0;
@@ -4255,9 +4255,11 @@ block_29:
         var_r5 = 0;
         var_r4 = 0;
         nextCount = var_r7 + 1;
-loop_43:
-        if (var_r4 < sub_08002164()) {
+        goto scan_check;
+scan_body:
+        {
             temp_r2_2 = t24_players08026858[var_r4].net;
+            asm("" : "+r"(temp_r2_2));
             x = (s16) ((u16) temp_r2_2->unk0 >> 4);
             temp_r1_2 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
             y = (s16) temp_r1_2;
@@ -4275,8 +4277,9 @@ loop_43:
                 }
             }
             var_r4 += 1;
-            goto loop_43;
         }
+scan_check:
+        if (var_r4 < sub_08002164()) goto scan_body;
         var_r7 = nextCount;
         if (var_r5 != sub_08002164()) {
             var_r7 = 0;
