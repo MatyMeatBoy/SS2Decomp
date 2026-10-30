@@ -4203,7 +4203,7 @@ void sub_0808CB58(void) {
             asm("" : "+r"(idx));
             tableIndex = idx - 3;
         }
-        tableOffset = ((tableIndex << 1) + tableIndex) << 1;
+        tableOffset = (s32)((((u32)tableIndex << 1) + (u32)tableIndex) << 1);
         {
             register u32 addr asm("r0") = tableOffset;
             asm("" : "+r"(addr));
@@ -4216,7 +4216,7 @@ void sub_0808CB58(void) {
             asm("" : "+r"(idx));
             idx -= 3;
             asm("" : "+r"(idx));
-            tableOffset = ((idx << 1) + idx) << 1;
+            tableOffset = (s32)((((u32)idx << 1) + (u32)idx) << 1);
         }
         {
             register u32 addr asm("r1") = tableOffset;
@@ -4234,7 +4234,7 @@ void sub_0808CB58(void) {
             asm("" : "+r"(idx));
             tableIndex = idx - 3;
         }
-        tableOffset = ((tableIndex << 1) + tableIndex) << 1;
+        tableOffset = (s32)((((u32)tableIndex << 1) + (u32)tableIndex) << 1);
         {
             register u32 addr asm("r0") = tableOffset;
             asm("" : "+r"(addr));
