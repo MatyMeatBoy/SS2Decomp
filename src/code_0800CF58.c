@@ -5930,9 +5930,22 @@ void sub_08013850(void)
         *(u32 *)(p + 0xDC) = z;
         *(u16 *)(p + 0x116) = z;
         *(u16 *)(p + 0x88) = z;
-        *(u32 *)(p + 0x140) = z;
-        *(u32 *)(p + 0x144) = z;
-        *(u32 *)(p + 0x138) = z;
+        {
+            register u32 first asm("r3") = 0xA0;
+            register u32 last asm("r1");
+            asm("" : "+r"(first));
+            first <<= 1;
+            asm("" : "+r"(first));
+            *(u32 *)(p + first) = z;
+            asm volatile("" : "+r"(first));
+            *(u32 *)(p + 0x144) = z;
+            last = 0x9C;
+            asm("" : "+r"(last));
+            last <<= 1;
+            asm("" : "+r"(last));
+            *(u32 *)(p + last) = z;
+            asm volatile("" : "+r"(last));
+        }
         for (j = 0; j < 5; j++)
             ((u32 *)(p + 0xE4))[j] = 0xFFFF;
         for (j = 0; j < 4; j++)
