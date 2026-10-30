@@ -5,9 +5,9 @@ Existing descriptive identifiers and confirmed catalog names count as identified
 
 | Domain | All functions | Existing | Confirmed | Proposed | Unidentified | Identified |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| game | 1880 | 44 | 119 | 0 | 1717 | 8.67% |
+| game | 1880 | 45 | 119 | 0 | 1716 | 8.72% |
 | sdk | 155 | 129 | 26 | 0 | 0 | 100.00% |
-| all | 2035 | 173 | 145 | 0 | 1717 | 15.63% |
+| all | 2035 | 174 | 145 | 0 | 1716 | 15.68% |
 
 SDK/game here describes catalog origin; module categories used by progress metrics remain unchanged.
 
