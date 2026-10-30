@@ -11316,7 +11316,7 @@ digraph calls {
   "sub_08095B04" -> "sub_08095D1C" [label="c"];
   "sub_08095E70" -> "ArcTan2" [label="asm"];
   "sub_08095F10" -> "ArcTan2" [label="asm"];
-  "sub_08095FC8" -> "ArcTan2" [label="asm"];
+  "sub_08095FC8" -> "ArcTan2" [label="c"];
   "sub_08096060" -> "ArcTan2" [label="asm"];
   "sub_08096060" -> "Sqrt" [label="asm"];
   "sub_08096154" -> "Sqrt" [label="asm"];
