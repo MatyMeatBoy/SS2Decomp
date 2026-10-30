@@ -406,7 +406,8 @@ extern s32 angle1084520(s16,s16) asm("ArcTan2");
 extern s32 damage1084520(void*,void*) asm("sub_0801ED8C");
 #define F_1084520(p,t,o) (*(t*)((u8*)(p)+(o)))
 void sub_080A4520(void) {
-    s16 *var_r0;
+    register s16 *var_r0 asm("r0");
+    register s32 dir asm("r1");
     s16 temp_r1;
     s16 temp_r4_2;
     s32 var_r1;
@@ -449,18 +450,22 @@ void sub_080A4520(void) {
         players1084520[sub_080020F4()].fB0 = 0xFFFE;
         temp_r5 = sub_080020F4();
         temp_r4_3 = object1084520;
-        var_r1 = damage1084520(temp_r4_3, &players1084520[sub_080020F4()]);
-        temp_r1_2 = &players1084520[temp_r5];
-        F_1084520(temp_r1_2,u16,0x88) = (u16) (var_r1 + F_1084520(temp_r1_2,u16,0x88));
+        {
+            register s32 d asm("r0") = damage1084520(temp_r4_3, &players1084520[sub_080020F4()]);
+            register u8 *p asm("r1") = (u8 *)&players1084520[temp_r5] + 0x88;
+            register u32 t asm("r2") = *(u16 *)p;
+            asm("" : "+r"(d), "+r"(t), "+r"(p));
+            *(u16 *)p = d + t;
+        }
         players1084520[sub_080020F4()].history[F_1084520(object1084520,u16,0)] = F_1084520(object1084520,u32,0x50);
         temp_r4_4 = ((s32) F_1084520(x1084520+0x14C*sub_080020F4(),s32,0) >> 8) - ((s32) F_1084520(object1084520,s32,0x14) >> 8);
-        new_var = ((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) F_1084520(object1084520,s32,0x18) >> 8);
+        new_var = (((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) F_1084520(object1084520,s32,0x18) >> 8));
         temp_r0 = (u32)angle1084520((s16) temp_r4_4, (s16) new_var) << 0x10;
         {
-            register u32 remainder asm("r1") = temp_r0 * 8;
+            register u32 r asm("r1") = temp_r0 * 8;
             var_r4 = temp_r0 >> 0x1D;
-            asm("" : "+r"(remainder), "+r"(var_r4));
-            if (remainder > 0x80000000U) {
+            asm("" : "+r"(r), "+r"(var_r4));
+            if (r > 0x80000000U) {
                 if (var_r4 <= 6U) {
                     var_r4 += 1;
                 } else {
@@ -468,34 +473,53 @@ void sub_080A4520(void) {
                 }
             }
         }
-        if (var_r4 != 0) {
-            if (var_r4 != 1) {
-                {
-                    u32 i = sub_080020F4();
-                    u8 *p = (u8 *)players1084520 + i * 0x14C;
-                    asm("" : "+r"(p));
-                    var_r1 = var_r4 - 2;
-                    var_r0 = (s16 *)(p + 0xCA);
-                }
-            } else {
-                {
-                    u32 i = sub_080020F4();
-                    u8 *p = (u8 *)players1084520 + i * 0x14C;
-                    asm("" : "+r"(p));
-                    var_r0 = (s16 *)(p + 0xCA);
-                }
-                var_r1 = 7;
-            }
-        } else {
-            {
-                    u32 i = sub_080020F4();
-                    u8 *p = (u8 *)players1084520 + i * 0x14C;
-                    asm("" : "+r"(p));
-                    var_r0 = (s16 *)(p + 0xCA);
-                }
-            var_r1 = 6;
+        if (var_r4 == 0) goto zero;
+        if (var_r4 == 1) goto one;
+        {
+            register u32 i asm("r0") = sub_080020F4();
+            register u8 *base asm("r2") = (u8 *)players1084520;
+            u8 *p;
+            asm("" : "+r"(i), "+r"(base));
+            i *= 0x14C;
+            asm("" : "+r"(i));
+            i += (u32)base;
+            asm("" : "+r"(i));
+            p = (u8 *)i;
+            var_r0 = (s16 *)(p + 0xCA);
         }
-        *var_r0 = var_r1;
+        dir = var_r4 - 2;
+        goto store;
+zero:
+        {
+            register u32 i asm("r0") = sub_080020F4();
+            register u8 *base asm("r2") = (u8 *)players1084520;
+            u8 *p;
+            asm("" : "+r"(i), "+r"(base));
+            i *= 0x14C;
+            asm("" : "+r"(i));
+            i += (u32)base;
+            asm("" : "+r"(i));
+            p = (u8 *)i;
+            var_r0 = (s16 *)(p + 0xCA);
+        }
+        dir = 6;
+        goto store;
+one:
+        {
+            register u32 i asm("r0") = sub_080020F4();
+            register u8 *base asm("r2") = (u8 *)players1084520;
+            u8 *p;
+            asm("" : "+r"(i), "+r"(base));
+            i *= 0x14C;
+            asm("" : "+r"(i));
+            i += (u32)base;
+            asm("" : "+r"(i));
+            p = (u8 *)i;
+            var_r0 = (s16 *)(p + 0xCA);
+        }
+        dir = 7;
+store:
+        *var_r0 = dir;
         players1084520[sub_080020F4()].fCC = 0x400;
         players1084520[sub_080020F4()].fC8 = 0x10;
     }
