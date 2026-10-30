@@ -9157,7 +9157,41 @@ void sub_080867F8(void)
     sub_08000274_2(&gTask6450b, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08086860);
+#ifdef NONMATCHING
+void sub_08087788(u32 palette, u32 fade)
+{
+    u16 entry = palette;
+    u16 width = palette >> 16;
+    u16 duration = fade >> 16;
+    u32 target = fade & 0x1F;
+    u16 *buffer;
+    u16 *dest;
+    u32 frame;
+    u32 i;
+    u32 count;
+    u16 color;
+    s32 red, green, blue;
+    buffer = sub_08001494(width << 5);
+    dest = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
+    CpuSet(dest, buffer, (width << 3) | 0x04000000);
+    count = width << 4;
+    for (frame = 0; frame < duration; frame++) {
+        dest = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
+        for (i = 0; i < count; i++) {
+            color = buffer[i];
+            red = (color & 0x1F) + ((s32)target - (color & 0x1F)) * (s32)frame / duration;
+            green = ((color >> 5) & 0x1F) + ((s32)target - ((color >> 5) & 0x1F)) * (s32)frame / duration;
+            blue = ((color >> 10) & 0x1F) + ((s32)target - ((color >> 10) & 0x1F)) * (s32)frame / duration;
+            dest[i] = (dest[i] & 0x8000) | (red & 0x1F) | ((green & 0x1F) << 5) | ((blue & 0x1F) << 10);
+        }
+        sub_08000B38();
+        sub_080003F0();
+    }
+    sub_08001538((u32)buffer);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08087788);
+#endif
 #ifdef NONMATCHING
 void sub_080878AC(u32 arg0, s32 *state)
 {
