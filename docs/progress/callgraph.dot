@@ -1644,7 +1644,7 @@ digraph calls {
   "sub_08096AF4" [label="sub_08096AF4"];
   "sub_08096BA8" [label="sub_08096BA8"];
   "sub_08096D40" [label="sub_08096D40"];
-  "sub_08096E20" [label="sub_08096E20"];
+  "sub_08096E20" [label="paletteStep99"];
   "sub_08096EFC" [label="AddPalette16ChannelOffset"];
   "sub_08096FA0" [label="sub_08096FA0"];
   "sub_080970CC" [label="sub_080970CC"];
@@ -11314,7 +11314,7 @@ digraph calls {
   "sub_08095AD8" -> "sub_0809561C" [label="c"];
   "sub_08095AD8" -> "sub_08098028" [label="c"];
   "sub_08095B04" -> "sub_08095D1C" [label="c"];
-  "sub_08095E70" -> "ArcTan2" [label="asm"];
+  "sub_08095E70" -> "ArcTan2" [label="c"];
   "sub_08095F10" -> "ArcTan2" [label="asm"];
   "sub_08095FC8" -> "ArcTan2" [label="c"];
   "sub_08096060" -> "ArcTan2" [label="asm"];
@@ -11352,7 +11352,6 @@ digraph calls {
   "sub_08096AF4" -> "sub_0800CD34" [label="asm"];
   "sub_08096AF4" -> "sub_0800CD8C" [label="asm"];
   "sub_08096D40" -> "__divsi3" [label="asm"];
-  "sub_08096E20" -> "__divsi3" [label="asm"];
   "sub_08096FA0" -> "sub_080003F0" [label="asm"];
   "sub_08096FA0" -> "sub_08000AF0" [label="asm"];
   "sub_08096FA0" -> "sub_08007870" [label="asm"];

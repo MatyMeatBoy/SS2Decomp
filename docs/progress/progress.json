@@ -1,26 +1,26 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 310184,
+  "bytes_done": 310728,
   "funcs_total": 1870,
-  "funcs_done": 1502,
-  "percent": 41.62694322769046,
+  "funcs_done": 1505,
+  "percent": 41.69994846688998,
   "funcs_drafts": 104,
   "bytes_drafts": 205240,
-  "percent_with_drafts": 69.17031692862665,
-  "funcs_decompiled": 1502,
-  "bytes_decompiled": 310184,
+  "percent_with_drafts": 69.24332216782616,
+  "funcs_decompiled": 1505,
+  "bytes_decompiled": 310728,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 264,
-  "bytes_pending": 229728,
+  "funcs_pending": 261,
+  "bytes_pending": 229184,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 41.62694322769046
+  "percent_decompiled": 41.69994846688998
  },
  "lib": {
   "bytes_total": 12776,
@@ -47,26 +47,26 @@
  },
  "all": {
   "bytes_total": 757928,
-  "bytes_done": 320888,
+  "bytes_done": 321432,
   "funcs_total": 2009,
-  "funcs_done": 1638,
-  "percent": 42.33753074170634,
+  "funcs_done": 1641,
+  "percent": 42.40930536937545,
   "funcs_drafts": 105,
   "bytes_drafts": 205776,
-  "percent_with_drafts": 69.48733916678101,
-  "funcs_decompiled": 1616,
-  "bytes_decompiled": 319948,
+  "percent_with_drafts": 69.55911379445013,
+  "funcs_decompiled": 1619,
+  "bytes_decompiled": 320492,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 266,
-  "bytes_pending": 231264,
+  "funcs_pending": 263,
+  "bytes_pending": 230720,
   "funcs_original_asm": 24,
   "bytes_original_asm": 1056,
   "funcs_decompilable": 1987,
   "bytes_decompilable": 756988,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 42.265927597267066
+  "percent_decompiled": 42.33779135204257
  },
  "asm": {
   "bytes": 1056,
@@ -75,12 +75,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 158,
-   "existing": 39,
+   "identified": 159,
+   "existing": 40,
    "confirmed": 119,
    "proposed": 0,
-   "unidentified": 1722,
-   "percent_identified": 8.404255319148936
+   "unidentified": 1721,
+   "percent_identified": 8.457446808510639
   },
   "sdk": {
    "total": 155,
@@ -93,12 +93,12 @@
   },
   "all": {
    "total": 2035,
-   "identified": 313,
-   "existing": 168,
+   "identified": 314,
+   "existing": 169,
    "confirmed": 145,
    "proposed": 0,
-   "unidentified": 1722,
-   "percent_identified": 15.38083538083538
+   "unidentified": 1721,
+   "percent_identified": 15.42997542997543
   }
  },
  "data": {
@@ -112,8 +112,8 @@
  },
  "callgraph": {
   "nodes": 2035,
-  "edges": 11521,
-  "unresolved_calls": 1235,
-  "parsed_c_functions": 1717
+  "edges": 11520,
+  "unresolved_calls": 1232,
+  "parsed_c_functions": 1720
  }
 }

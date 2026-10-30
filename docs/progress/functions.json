@@ -28911,14 +28911,14 @@
       "name": "sub_08095E70",
       "addr": 134831728,
       "size": 160,
-      "state": "todo",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08095E70",
       "canonical_symbol": "sub_08095E70",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08095E70",
       "name_status": "unidentified",
       "name_source": null,
@@ -29200,31 +29200,37 @@
       "name": "sub_08096E20",
       "addr": 134835744,
       "size": 220,
-      "state": "todo",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08096E20",
       "canonical_symbol": "sub_08096E20",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08096E20",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "paletteStep99",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 160,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: paletteStep99"
+        }
+      ]
     },
     {
       "name": "sub_08096EFC",
       "addr": 134835964,
       "size": 164,
-      "state": "todo",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08096EFC",
       "canonical_symbol": "sub_08096EFC",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "AddPalette16ChannelOffset",
       "name_status": "confirmed",
       "name_source": "catalog",
@@ -36874,12 +36880,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 158,
-      "existing": 39,
+      "identified": 159,
+      "existing": 40,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1722,
-      "percent_identified": 8.404255319148936
+      "unidentified": 1721,
+      "percent_identified": 8.457446808510639
     },
     "sdk": {
       "total": 155,
@@ -36892,12 +36898,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 313,
-      "existing": 168,
+      "identified": 314,
+      "existing": 169,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1722,
-      "percent_identified": 15.38083538083538
+      "unidentified": 1721,
+      "percent_identified": 15.42997542997543
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
