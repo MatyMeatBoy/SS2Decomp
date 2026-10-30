@@ -43,7 +43,37 @@ s32 sub_08095B04(struct Motion95 *p, s32 speed)
     return old;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095D1C);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095E70);
+extern s32 angleE70(s16, s16) asm("ArcTan2");
+s32 sub_08095E70(struct Motion95 *p, s16 x, s16 y)
+{
+    s32 rawX, rawY, dx, dy;
+    u16 angle;
+    u32 bits, octant;
+    s16 direction;
+    rawX = p->unk14 << 8;
+    rawY = p->unk18 << 8;
+    dx = x - (rawX >> 16);
+    dy = y - (rawY >> 16);
+    angle = angleE70((s16)dx, (s16)dy);
+    bits = (u32)angle << 19;
+    octant = (u32)angle >> 13;
+    if (bits > 0x80000000U) {
+        if (octant <= 6U) octant++;
+        else octant = 0;
+    }
+    switch (octant) {
+    case 0: direction = 6; goto store;
+    case 1: direction = 7; goto store;
+    case 2: direction = 0; goto store;
+    case 3: direction = 1; goto store;
+    case 4: direction = 2; goto store;
+    case 5: direction = 3; goto store;
+    case 6: direction = 4; goto store;
+    case 7: direction = 5;
+    store: p->unk8 = direction;
+    }
+    return (u8)p->unk8;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095F10);
 extern s32 arcTan2_99(s16, s16) asm("ArcTan2");
 s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
