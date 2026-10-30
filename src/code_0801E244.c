@@ -639,123 +639,227 @@ next:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F99C);
 #endif
-#ifdef NONMATCHING
+extern u8 sub_0801DE60(void);
 extern u8 *scene02014 asm("gUnk_03005CF4");
 extern u8 players02014[] asm("gUnk_03003CE0");
 extern void damage02014(u32,s32,u8) asm("sub_08028368");
-struct Size02014 { u32 width:16; u32 height:16; };
+union Size02014 { volatile u32 word; struct { u32 width:16; u32 height:16; } fields; };
 s32 sub_0801FB14(void *arg0, void *arg1, s32 damage)
 {
-    struct Size02014 size;
+    union Size02014 size;
     u8 *item;
-    u8 *data;
+    register u8 *data asm("r2");
     u32 count;
-    u32 index;
+    register u32 refreshed asm("r0");
+    register u32 index asm("r6");
     s32 dx;
     s32 dy;
-    s32 hit;
+    register s32 hit asm("r0");
+    register u32 sizeWord asm("r0");
+    register u32 width asm("r2");
+    register u32 heightBits asm("r2");
+    register u32 keepMask asm("r1");
+    register u8 *position asm("r12") = arg0;
+    u16 *bounds = arg1;
+    register union Size02014 *sizePtr asm("r5");
+    register s32 savedDamage asm("r8") = damage;
+    register u8 **sceneAddress asm("r9");
+    register u8 *initialScene asm("r1");
+    register u32 initialCount asm("r2");
+    s32 rawX, rawY;
 
 
 
 
-    count=*(u32 *)(scene02014+0x48);
+    initialScene=scene02014;
+    initialCount=*(u32 *)(initialScene+0x48);
+    asm("" : : "r"(initialCount));
+    sceneAddress=&scene02014;
+    count=initialCount;
     if(count==0) return 0;
-    item=scene02014+0x58C;
-    for(index=0;index< count;index++,item+=0x24) {
+    item=initialScene+0x58C;
+    index=0;
+    if(index<count) do {
         if((u16)(*(u16 *)(item+0x14)-10)<=2) goto next;
         data=*(u8 **)(item+0x20);
         if(data[6]&3) goto next;
-        asm("" : : "r"(&size) : "memory");
-        size.width=*(u16 *)(data+0xC);
-        size.height=*(u16 *)(*(u8 **)(item+0x20)+0xE);
-        asm("" : : "r"(&size) : "memory");
-        dx=(*(s32 *)arg0-*(s32 *)item)>>8;
+
+        width=*(u16 *)(data+0xC);
+        keepMask=0xFFFF0000;
+        sizeWord=size.word;
+        sizeWord=(sizeWord&keepMask)|width;
+        size.word=sizeWord;
+        heightBits=(u32)*(u16 *)(*(u8 **)(item+0x20)+0xE)<<16;
+        keepMask=0xFFFF;
+        sizeWord=(sizeWord&keepMask)|heightBits;
+        size.word=sizeWord;
+        sizePtr=&size;
+        {
+            register s32 *coordinates asm("r1") = (s32 *)position;
+            rawX=coordinates[0]-*(s32 *)item;
+            rawY=coordinates[1]-*(s32 *)(item+4);
+        }
+        dy=rawY>>8;
+        dx=rawX>>8;
         if(dx<0) dx=-dx;
-        if(dx <= (s32)(*(u16 *)arg1+size.width)>>1) {
-            dy=(*(s32 *)((u8 *)arg0+4)-*(s32 *)(item+4))>>8;
-            if(dy<0) dy=-dy;
+        {
+        if(dx <= (s32)(bounds[0]+size.fields.width)>>1) {
+
+            register s32 absoluteY asm("r2") = dy;
+            register u32 boundHeight asm("r1");
+            register u32 objectHeight asm("r0");
+            if(absoluteY<0) absoluteY=-absoluteY;
+            boundHeight=bounds[1];
+            asm("" : "+r"(boundHeight));
+            objectHeight=sizePtr->fields.height;
+            boundHeight=boundHeight+objectHeight;
+            boundHeight=(s32)boundHeight>>1;
             hit=1;
-            if(dy>(s32)(*(u16 *)((u8 *)arg1+2)+size.height)>>1) hit=0;
+            if(absoluteY>(s32)boundHeight) hit=0;
         } else hit=0;
+        }
+        asm("" : "+r"(hit));
         if(hit) {
-            *(u16 *)(item+0x10)-=damage;
+            register u32 zero asm("r5");
+            register u32 reduced asm("r0")=*(u16 *)(item+0x10);
+            register s32 damageCopy asm("r2")=savedDamage;
+            asm("" : "+r"(damageCopy) : "r"(reduced));
+            reduced-=damageCopy;
+            zero=0;
+            *(u16 *)(item+0x10)=reduced;
             *(u16 *)(item+0x12)=sub_0801DE60();
             if(*(u16 *)(item+0x10)&0x8000) {
                 damage02014(index,0xFFF,sub_0801DE60());
-                *(u16 *)(item+0x10)=0;
+                *(u16 *)(item+0x10)=zero;
             } else {
-                damage02014(index,damage,sub_0801DE60());
+                damage02014(index,savedDamage,sub_0801DE60());
             }
             *(u16 *)(item+0x14)=10;
             return 1;
         }
 next:
-        count=*(u32 *)(scene02014+0x48);
-    }
+        index++;
+        item+=0x24;
+        {
+            register u8 **address asm("r1") = sceneAddress;
+            refreshed=*(u32 *)(*address+0x48);
+        }
+    } while(index<refreshed);
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FB14);
-#endif
-#ifdef NONMATCHING
+extern u8 sub_0801DE60(void);
 extern u8 *scene02034 asm("gUnk_03005CF4");
-extern u8 players02034[] asm("gUnk_03003CE0");
-extern void damage02034(u32,s32,u8) asm("sub_08028368");
-struct Size02034 { u32 width:16; u32 height:16; };
-void sub_0801FC34(void *arg0, void *arg1, s32 damage)
+extern s32 damage02034(u32, s32, u8) asm("sub_08028368");
+union Size02034 { volatile u32 word; struct { u32 width:16; u32 height:16; } fields; };
+/* Preserve r0 on skipped entries and the effect helper's result on hits. */
+s32 sub_0801FC34(void *arg0, void *arg1, s32 damage)
 {
-    struct Size02034 size;
+    union Size02034 size;
     u8 *item;
-    u8 *data;
-    u32 count;
+    register u8 *position asm("r10") = arg0;
+    register s32 result asm("r0") = (s32)position;
+    register u16 *bounds asm("r9") = arg1;
+    register s32 savedDamage asm("r8") = damage;
+    register u8 **sceneAddress asm("r12");
+    register u8 **initialAddress asm("r1");
+    register u8 *initialScene asm("r2");
+    register u32 initialCount asm("r3");
     u32 index;
-    s32 dx;
-    s32 dy;
-    s32 hit;
-
-
-
-
-    count=*(u32 *)(scene02034+0x48);
-    if(count==0) return;
-    item=scene02034+0x58C;
-    for(index=0;index< count;index++,item+=0x24) {
+    register u32 refreshed asm("r1");
+    register u8 *data asm("r3");
+    register u32 sizeWord asm("r1");
+    register u32 width asm("r3");
+    register u32 heightBits asm("r3");
+    register u32 keepMask asm("r2");
+    register union Size02034 *sizePtr asm("r6");
+    register s32 dy asm("r5");
+    register s32 hit asm("r1");
+    s32 rawX, dx;
+    register s32 rawY asm("r1");
+    initialAddress=&scene02034;
+    initialScene=*initialAddress;
+    initialCount=*(u32 *)(initialScene+0x48);
+    asm("" : : "r"(initialCount));
+    sceneAddress=initialAddress;
+    if(initialCount==0) return 0;
+    item=initialScene+0x58C;
+    index=0;
+    if(index<initialCount) do {
         if((u16)(*(u16 *)(item+0x14)-10)<=2) goto next;
         data=*(u8 **)(item+0x20);
         if(data[6]&1) goto next;
-        asm("" : : "r"(&size) : "memory");
-        size.width=*(u16 *)(data+0xC);
-        size.height=*(u16 *)(*(u8 **)(item+0x20)+0xE);
-        asm("" : : "r"(&size) : "memory");
-        dx=(*(s32 *)arg0-*(s32 *)item)>>8;
-        dy=(*(s32 *)((u8 *)arg0+4)-*(s32 *)(item+4))>>8;
+        width=*(u16 *)(data+0xC);
+        keepMask=0xFFFF0000;
+        sizeWord=size.word;
+        sizeWord=(sizeWord&keepMask)|width;
+        size.word=sizeWord;
+        heightBits=(u32)*(u16 *)(*(u8 **)(item+0x20)+0xE)<<16;
+        keepMask=0xFFFF;
+        sizeWord=(sizeWord&keepMask)|heightBits;
+        size.word=sizeWord;
+        sizePtr=&size;
+        {
+            register s32 *coordinates asm("r2") = (s32 *)position;
+            rawX=coordinates[0]-*(s32 *)item;
+            rawY=coordinates[1];
+            {
+                register s32 otherY asm("r2") = *(s32 *)(item+4);
+                asm("" : "+r"(rawY), "+r"(otherY));
+                rawY-=otherY;
+            }
+        }
+        dy=rawY>>8;
+        dx=rawX>>8;
         if(dx<0) dx=-dx;
-        if(dx <= (s32)(*(u16 *)arg1+size.width)>>1) {
-
-            if(dy<0) dy=-dy;
-            hit=1;
-            if(dy>(s32)(*(u16 *)((u8 *)arg1+2)+size.height)>>1) hit=0;
-        } else hit=0;
+        {
+            register u16 *widthBounds asm("r2") = bounds;
+            if(dx <= (s32)(widthBounds[0]+size.fields.width)>>1) {
+                register s32 absoluteY asm("r3") = dy;
+                register u32 boundHeight asm("r2");
+                register u32 objectHeight asm("r1");
+                if(absoluteY<0) absoluteY=-absoluteY;
+                {
+                register u16 *heightBounds asm("r1") = bounds;
+                boundHeight=heightBounds[1];
+                asm("" : "+r"(boundHeight));
+                objectHeight=sizePtr->fields.height;
+                boundHeight=boundHeight+objectHeight;
+                boundHeight=(s32)boundHeight>>1;
+                hit=1;
+                if(absoluteY>(s32)boundHeight) hit=0;
+                }
+            } else hit=0;
+        }
+        asm("" : "+r"(hit));
         if(hit) {
-            *(u16 *)(item+0x10)-=damage;
+            register u32 zero asm("r5");
+            register u32 reduced asm("r0")=*(u16 *)(item+0x10);
+            register s32 damageCopy asm("r2")=savedDamage;
+            asm("" : "+r"(damageCopy) : "r"(reduced));
+            reduced-=damageCopy;
+            zero=0;
+            *(u16 *)(item+0x10)=reduced;
             *(u16 *)(item+0x12)=sub_0801DE60();
             if(*(u16 *)(item+0x10)&0x8000) {
-                *(u16 *)(item+0x10)=0;
-                damage02034(index,0xFFF,sub_0801DE60());
+                *(u16 *)(item+0x10)=zero;
+                result=damage02034(index,0xFFF,sub_0801DE60());
             } else {
-                damage02034(index,damage,sub_0801DE60());
+                result=damage02034(index,savedDamage,sub_0801DE60());
             }
             *(u16 *)(item+0x14)=10;
-
+            sceneAddress=&scene02034;
         }
 next:
-        count=*(u32 *)(scene02034+0x48);
-    }
-    return;
+        index++;
+        item+=0x24;
+        {
+            register u8 **address asm("r2") = sceneAddress;
+            refreshed=*(u32 *)(*address+0x48);
+        }
+        asm("" : "+r"(result));
+    } while(index<refreshed);
+    return result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FC34);
-#endif
 struct Sh20FD64 { u8 pad0[0x62]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
 void sub_0801FD64(void *arg0)
 {
