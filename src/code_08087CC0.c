@@ -730,6 +730,8 @@ void sub_0808C0C4_v(void) {
         s32 sp16C;
     } menu;
     u32 loopCounterC0;
+    /* This product dies before r3 becomes the draw call fourth argument. */
+    register u32 countTripletC0 asm("r3");
     u8 *portraitBaseC0;
     u8 *portraitTableC0;
     struct C0Player *playerTableC0;
@@ -918,8 +920,8 @@ loop_24BodyC0:
     if (temp_r4_3 == 0) {
         countsC0 = sp150;
         temp_r1_2 = (u8) temp_r1->unk3 >> 4;
-        temp_r2 = countsC0[temp_r1_2] * 3;
-        temp_r2 = ((temp_r1_2 * 9) + temp_r2) * 2;
+        countTripletC0 = countsC0[temp_r1_2] * 3;
+        temp_r2 = ((temp_r1_2 * 9) + countTripletC0) * 2;
         sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
         if (sub_080020F4() == loopCounterC0) {
             temp_r1_3 = &countsC0[((struct C0Player *)((u8 *)gPlayersC0 + var_r9))->unk1C];
@@ -1155,8 +1157,8 @@ loop_103BodyC0:
         temp_r4_16 = (u16) temp_r1_9->unk0 >> 4;
         if (temp_r4_16 == 0) {
             temp_r1_10 = (u8) temp_r1_9->unk3 >> 4;
-            temp_r2_4 = countsC0[temp_r1_10] * 3;
-            temp_r2_4 = ((temp_r1_10 * 9) + temp_r2_4) * 2;
+            countTripletC0 = countsC0[temp_r1_10] * 3;
+            temp_r2_4 = ((temp_r1_10 * 9) + countTripletC0) * 2;
             sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_4), *(u16 *)(coordsBaseC0 + temp_r2_4 + 2), *(u16 *)(coordsThirdC0 + temp_r2_4), 0, temp_r4_16, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_6 = &countsC0[(u8) (*temp_r7)->unk3 >> 4];
             *temp_r0_6 += 1;
@@ -1188,8 +1190,8 @@ loop_111BodyC0:
         temp_r4_18 = (u16) temp_r1_11->unk0 >> 4;
         if (temp_r4_18 == 0) {
             temp_r1_12 = (u8) temp_r1_11->unk3 >> 4;
-            temp_r2_5 = countsC0[temp_r1_12] * 3;
-            temp_r2_5 = ((temp_r1_12 * 9) + temp_r2_5) * 2;
+            countTripletC0 = countsC0[temp_r1_12] * 3;
+            temp_r2_5 = ((temp_r1_12 * 9) + countTripletC0) * 2;
             sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_5), *(u16 *)(coordsBaseC0 + temp_r2_5 + 2), *(u16 *)(coordsThirdC0 + temp_r2_5), 0, temp_r4_18, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_8 = &countsC0[(u8) (*temp_r7_2)->unk3 >> 4];
             *temp_r0_8 += 1;
@@ -1227,8 +1229,8 @@ loop_121BodyC0:
         temp_r4_21 = (u16) temp_r1_13->unk0 >> 4;
         if (temp_r4_21 == 0) {
             temp_r1_14 = (u8) temp_r1_13->unk3 >> 4;
-            temp_r2_6 = countsC0[temp_r1_14] * 3;
-            temp_r2_6 = ((temp_r1_14 * 9) + temp_r2_6) * 2;
+            countTripletC0 = countsC0[temp_r1_14] * 3;
+            temp_r2_6 = ((temp_r1_14 * 9) + countTripletC0) * 2;
             sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_6), *(u16 *)(coordsBaseC0 + temp_r2_6 + 2), *(u16 *)(coordsThirdC0 + temp_r2_6), 0, temp_r4_21, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_9 = &countsC0[(u8) (*temp_r7_3)->unk3 >> 4];
             *temp_r0_9 += 1;
@@ -1273,8 +1275,8 @@ loop_133BodyC0:
         temp_r4_24 = (u16) temp_r1_15->unk0 >> 4;
         if (temp_r4_24 == 0) {
             temp_r1_16 = (u8) temp_r1_15->unk3 >> 4;
-            temp_r2_7 = countsC0[temp_r1_16] * 3;
-            temp_r2_7 = ((temp_r1_16 * 9) + temp_r2_7) * 2;
+            countTripletC0 = countsC0[temp_r1_16] * 3;
+            temp_r2_7 = ((temp_r1_16 * 9) + countTripletC0) * 2;
             sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_7), *(u16 *)(coordsBaseC0 + temp_r2_7 + 2), *(u16 *)(coordsThirdC0 + temp_r2_7), 0, temp_r4_24, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_10 = &countsC0[(u8) (*temp_r7_4)->unk3 >> 4];
             *temp_r0_10 += 1;
