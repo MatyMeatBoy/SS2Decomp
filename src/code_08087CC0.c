@@ -1322,13 +1322,12 @@ block_31:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089500);
 #endif
-#ifdef NONMATCHING
 s32 sub_08089784(u8 *table)
 {
     struct State978491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos978491 { u32 x, y; };
     register const u16 *position asm("r4");
-    register u8 *player asm("r3");
+    register u8 *player asm("r2");
     s32 *coordinates;
     extern struct State978491 *state978491 asm("gUnk_03005CF4");
     extern u8 players978491[] asm("gUnk_03003CE0");
@@ -1344,17 +1343,17 @@ s32 sub_08089784(u8 *table)
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + state978491->row * 0x24 + 4);
+        {register u32 delta asm("r4")=state978491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        offset = sub_080020F4() * 0x14C;
-        {register u8 *base asm("r3")=players978491; register u8 *px asm("r1")=base+0x8C; px+=offset;
+        {register u8 *base asm("r3"); register u8 *px asm("r1");
+        offset=sub_080020F4();base=players978491;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
-        px=base+0x90;px+=offset;*(u32 *)px=(u32)position[1]<<8;
-        player=base+offset;*(struct Pos978491 *)(player+0x94)=*(struct Pos978491 *)(player+0x8C);}
+        px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
+        offset+=(u32)base;player=(u8 *)offset;*(struct Pos978491 *)(player+0x94)=*(struct Pos978491 *)(player+0x8C);}
         sub_08009930(0, 5);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
-        *(u16 *)(profile978491 + 0x76) = 0x20;
+        {register u8 *p asm("r0")=profile978491; register u32 v asm("r1");asm("" : "+r"(p)); p+=0x76;v=0x20;*(u16 *)p=v;}
         coordinates = (s32 *)(coords978491 + myId * 0x14C);
         sub_0800AD04(coordinates, coordinates + 1, sub_0800CCCC());
         sub_08057328(0, (u32)callback978491);
@@ -1363,7 +1362,8 @@ s32 sub_08089784(u8 *table)
         state978491->active = 1;
         sub_08015C38();
     }
-    if ((*(s32 *)(players978491 + sub_080020F4() * 0x14C + 0x90) >> 11) > 0x1E) {
+    {register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1")=players978491; register u32 stride asm("r2")=0x14c; idx*=stride;p+=0x90;
+    idx+=(u32)p; if ((*(s32 *)idx >> 11) > 0x1E) {
         sub_08015ED4();
         sub_0801ABE8(3);
         sub_0800BB40();
@@ -1378,10 +1378,8 @@ s32 sub_08089784(u8 *table)
         return 1;
     }
     return 0;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089784);
-#endif
 #ifdef NONMATCHING
 s32 sub_080898D4(u8 *table)
 {
