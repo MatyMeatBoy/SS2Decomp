@@ -4198,9 +4198,12 @@ poll_input:
     y = (s16) ((u32) temp_r6->unk90 >> 8);
     if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
         {
-            register s32 value asm("r0") = x;
+            register s32 scratch asm("r3");
+            register s32 value asm("r0");
             register s32 limit asm("r2");
-            asm("" : "+r"(value));
+            asm("" : "=r"(scratch));
+            value = x;
+            asm("" : "+r"(value), "+r"(scratch));
             limit = 0xF0;
             asm("" : "+r"(limit));
             var_r0 = value - limit;
@@ -4210,9 +4213,12 @@ poll_input:
         }
         if (var_r0 <= 0x17) {
             {
+                register s32 scratch asm("r2");
                 register s32 limit asm("r2");
-                register s32 value asm("r0") = y;
-                asm("" : "+r"(value));
+                register s32 value asm("r0");
+                asm("" : "=r"(scratch));
+                value = y;
+                asm("" : "+r"(value), "+r"(scratch));
                 limit = 0x88;
                 asm("" : "+r"(limit));
                 var_r0_2 = value - limit;
@@ -4232,10 +4238,18 @@ poll_input:
                             sub_08067D74();
                             temp_r6->unkD8 = temp_r4_2;
                         }
-                        timer = 0;
+                        {
+                            register u32 reset asm("r3") = 0;
+                            asm("" : "+r"(reset));
+                            timer = reset;
+                        }
                     } else {
                         temp_r0 = timer;
-                        timer = temp_r0 + 1;
+                        {
+                            register u32 next asm("r1") = temp_r0;
+                            asm("" : "+r"(next));
+                            timer = next + 1;
+                        }
                         if ((temp_r0 > 0x3CU) && (2 & t24_keys08026858)) {
                             temp_r6->flags = temp_r2 & 0xFFFFFBFF;
                             {
