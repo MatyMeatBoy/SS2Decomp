@@ -4173,9 +4173,12 @@ void sub_08026858(void) {
     }
     temp_r1 = t24_state08026858->unk4 << 0x10;
     {
-        register u32 one asm("r3") = 1;
+        register u32 first asm("r0") = temp_r1 >> 0x18;
+        register u32 one asm("r3");
+        asm("" : "+r"(first));
+        one = 1;
         asm("" : "+r"(one));
-        if ((temp_r1 >> 0x18) & one) {
+        if (first & one) {
             return;
         }
         if ((temp_r1 >> 0x14) & one) {
@@ -4195,18 +4198,27 @@ poll_input:
     y = (s16) ((u32) temp_r6->unk90 >> 8);
     if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
         {
-            register s32 limit asm("r2") = 0xF0;
+            register s32 scratch asm("r3");
+            register s32 value asm("r0");
+            register s32 limit asm("r2");
+            asm("" : "=r"(scratch));
+            value = x;
+            asm("" : "+r"(value), "+r"(scratch));
+            limit = 0xF0;
             asm("" : "+r"(limit));
-            var_r0 = x - limit;
+            var_r0 = value - limit;
         }
         if (var_r0 < 0) {
             var_r0 = 0 - var_r0;
         }
         if (var_r0 <= 0x17) {
             {
+                register s32 scratch asm("r2");
                 register s32 limit asm("r2");
-                register s32 value asm("r0") = y;
-                asm("" : "+r"(value));
+                register s32 value asm("r0");
+                asm("" : "=r"(scratch));
+                value = y;
+                asm("" : "+r"(value), "+r"(scratch));
                 limit = 0x88;
                 asm("" : "+r"(limit));
                 var_r0_2 = value - limit;
@@ -4226,13 +4238,25 @@ poll_input:
                             sub_08067D74();
                             temp_r6->unkD8 = temp_r4_2;
                         }
-                        timer = 0;
+                        {
+                            register u32 reset asm("r3") = 0;
+                            asm("" : "+r"(reset));
+                            timer = reset;
+                        }
                     } else {
                         temp_r0 = timer;
-                        timer = temp_r0 + 1;
+                        {
+                            register u32 next asm("r1") = temp_r0;
+                            asm("" : "+r"(next));
+                            timer = next + 1;
+                        }
                         if ((temp_r0 > 0x3CU) && (2 & t24_keys08026858)) {
                             temp_r6->flags = temp_r2 & 0xFFFFFBFF;
-                            sub_08057328(0, &t24_callback08026858);
+                            {
+                                register s32 zero asm("r0") = 0;
+                                asm("" : "+r"(zero));
+                                sub_08057328(zero, &t24_callback08026858);
+                            }
                         }
                     }
                 }
@@ -4288,9 +4312,13 @@ scan_body:
         }
 scan_check:
         if (var_r4 < sub_08002164()) goto scan_body;
-        var_r7 = nextCount;
-        if (var_r5 != sub_08002164()) {
-            var_r7 = 0;
+        {
+            register u32 total asm("r0") = sub_08002164();
+            asm volatile("" : "+r"(total) : : "memory");
+            var_r7 = nextCount;
+            if (var_r5 != total) {
+                var_r7 = 0;
+            }
         }
         if (var_r7 > 2U) {
             t24_state08026858->unk40 = 0x92BC;
@@ -4308,7 +4336,20 @@ block_51:
     temp_r0_2 = sub_0800CC98();
     if ((temp_r0_2 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
         sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-        sub_0800BC08(0xF00000 >> 0x10, 0x880000 >> 0x10, &x, &y, 0x30, 0);
+        {
+            register u32 xbase asm("r1") = 0xF0;
+            register u32 ybase asm("r2");
+            register u32 xbits asm("r0");
+            register u32 ybits asm("r1");
+            asm("" : "+r"(xbase));
+            xbits = xbase << 16;
+            asm("" : "+r"(xbits));
+            ybase = 0x88;
+            asm("" : "+r"(ybase));
+            ybits = ybase << 16;
+            asm("" : "+r"(xbits), "+r"(ybits));
+            sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), &x, &y, 0x30, temp_r0_2);
+        }
         sub_08008E74(x, y, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
     }
     sub_080003F0();
@@ -4338,10 +4379,12 @@ end_poll:
                 {
                     register u32 ybase asm("r2") = 0x88;
                     register u32 ybits asm("r1");
-                    register u32 xbits asm("r3") = xpos;
+                    register u32 xbits asm("r3");
                     asm("" : "+r"(ybase));
                     ybits = ybase << 16;
-                    asm("" : "+r"(ybits), "+r"(xbits));
+                    asm("" : "+r"(ybits));
+                    xbits = xpos;
+                    asm("" : "+r"(xbits));
                     sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), endX, endY, 0x30, temp_r0_3);
                 }
                 sub_08008E74(*endX, *endY, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
@@ -4352,18 +4395,23 @@ end_poll:
             if (temp_r0_4 > 0x63U) {
                 sub_0800D014();
                 {
+                    register u32 row asm("r1") = 0;
                     register struct T24State08026858 **state asm("r6") = &t24_state08026858;
                     register u32 zero asm("r5") = 0;
-                    register u32 row asm("r1") = 0;
                     asm("" : "+r"(state), "+r"(zero), "+r"(row));
                     do {
                         register u32 col asm("r2") = 0;
-                        register u32 rowOffset asm("r3") = row * 5;
+                        register u32 four asm("r0") = row << 2;
                         register u32 next asm("r4") = row + 1;
+                        register u32 rowOffset asm("r3");
+                        asm("" : "+r"(four), "+r"(next));
+                        rowOffset = four + row;
                         do {
+                            register struct T24State08026858 *base asm("r0") = *state;
+                            register u32 idx asm("r1") = col + rowOffset;
                             register u32 gridOffset asm("r7") = offsetof(struct T24State08026858, grid);
-                            asm("" : "+r"(gridOffset));
-                            *((u8 *)*state + gridOffset + rowOffset + col) = zero;
+                            asm("" : "+r"(base), "+r"(idx), "+r"(gridOffset));
+                            *((u8 *)base + gridOffset + idx) = zero;
                             col++;
                         } while (col <= 4);
                         row = next;
