@@ -54,9 +54,104 @@ void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d)
     sub_08000274_2(t, gInfo3E2C + off);
     gMask3E2C |= 1 << i;
 }
+#ifdef NONMATCHING
+extern u8 players076EE8[] asm("gUnk_03003CE0");
+extern u8 *enemies076EE8 asm("gUnk_030056F4");
+extern u16 directions076EE8[] asm("gUnk_0849E730");
+#define F_076EE8(p,t,o) (*(t*)((u8*)(p)+(o)))
+extern u32 active076EE8 asm("gUnk_030056FC");
+u16 sub_08073EE8(u16 width,s32 range)
+{
+ u8 *player,*candidate,*sprite;u32 best,nearest,index,count;u16 distance,angle;s32 dx,dy,difference,offset;
+ player=players076EE8+sub_080020F4()*0x14C;best=0xFFFF;nearest=-1;
+ if(sub_0800CF80()){
+  count=sub_08002164();index=0;
+  while(index<count){
+   candidate=players076EE8+index*0x14C;
+   if(player[0x68]!=candidate[0x68] && candidate[0x68]!=0){
+    sprite=F_076EE8(candidate,u8*,0x148);
+    dx=(F_076EE8(sprite,u16,0)>>4)-(F_076EE8(player,s32,0x8C)>>8);
+    dy=(F_076EE8(sprite,u16,2)&0xFFF)-(F_076EE8(player,s32,0x90)>>8);
+angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
+    sprite=*(u8**)(player+0x148);angle-=directions076EE8[sprite[3]>>4];
+    if((s16)angle>8)angle=(s16)angle-16;
+    if((s16)angle<-8)angle=(s16)angle+16;
+    difference=(s16)angle;if(difference<0)difference=-difference;
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<(u32)range && distance<best){nearest=index;best=distance;}}
+   }
+   index++;
+  }
+  if(nearest!=-1U)return F_076EE8(players076EE8+nearest*0x14C,u16,0);
+ }
+ best=0xFFFF;nearest=-1;index=0;offset=0;
+ do{
+  if(active076EE8 & (1<<index)){
+   candidate=enemies076EE8+offset;
+   if(F_076EE8(candidate,u16,0xC)!=11 && F_076EE8(candidate,s16,0x5C)!=0 && candidate[0x1DC]!=0){
+    dx=(F_076EE8(candidate,s32,0x14)-F_076EE8(player,s32,0x8C))>>8;
+    dy=(F_076EE8(candidate,s32,0x18)-F_076EE8(player,s32,0x90))>>8;
+angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
+    sprite=*(u8**)(player+0x148);angle-=directions076EE8[sprite[3]>>4];
+    if((s16)angle>8)angle=(s16)angle-16;
+    if((s16)angle<-8)angle=(s16)angle+16;
+    difference=(s16)angle;if(difference<0)difference=-difference;
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<(u32)range && distance<best){nearest=index;best=distance;}}
+   }
+  }
+  offset+=0x2E0;index++;
+ }while(index<=4);
+ if(nearest!=-1U)return F_076EE8(enemies076EE8+nearest*0x2E0,u16,2);
+ return 0xFF;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
+#ifdef NONMATCHING
+struct Position076398 {u16 x,y;};
+struct Player076398 {u16 id;u8 pad2[0x66];u8 team;u8 pad69[0xDF];struct Position076398 *position;};
+extern struct Player076398 players076398[] asm("gUnk_03003CE0");
+extern u8 *enemies076398 asm("gUnk_030056F4");
+#define F_076398(p,t,o) (*(t*)((u8*)(p)+(o)))
+extern s32 nearest076398(u16,u16,s32,s32,s32) asm("sub_08074398");
+extern u32 active076398 asm("gUnk_030056FC");
+s32 nearest076398(u16 self,u16 excluded,s32 x,s32 y,s32 range)
+{
+ u32 best,index,nearest,count;u8 *team,*selfTeam,*enemy;struct Position076398 **position,*point;s32 dx,dy,offset;u16 distance;
+ if(sub_0800CF80()){
+  best=0xFFFF;nearest=-1;count=sub_08002164();index=0;
+  if(index<count){
+   selfTeam=(u8*)(self*0x14C+(u32)players076398)+0x68;
+   position=(struct Position076398**)((u8*)players076398+0x148);team=(u8*)players076398+0x68;
+   do{
+    if(self!=index && *selfTeam!=*team && *team!=0){
+     point=*position;dx=(point->x>>4)-(x>>8);dy=(point->y&0xFFF)-(y>>8);
+     distance=Sqrt(dx*dx+dy*dy);
+     if(range>distance && best>distance){best=distance;nearest=index;}
+    }
+    position=(struct Position076398**)((u8*)position+0x14C);team+=0x14C;index++;
+   }while(index<count);
+  }
+  if(nearest!=-1U)return players076398[nearest].id;
+ }
+ best=0xFFFF;nearest=-1;index=0;offset=0;
+ do{
+  if(active076398 & (1<<index)){
+   enemy=enemies076398+offset;
+   if(F_076398(enemy,u16,2)!=excluded && F_076398(enemy,u16,0xC)!=11 && F_076398(enemy,s16,0x5C)!=0 && enemy[0x1DC]!=0){
+    dx=(F_076398(enemy,s32,0x14)-x)>>8;dy=(F_076398(enemy,s32,0x18)-y)>>8;
+    distance=Sqrt(dx*dx+dy*dy);
+    if(range>distance && best>distance){best=distance;nearest=index;}
+   }
+  }
+  offset+=0x2E0;index++;
+ }while(index<=4);
+ if(nearest!=-1U)return F_076398(enemies076398+nearest*0x2E0,u16,2);
+ return 0xFF;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074398);
+#endif
 struct EffectSprite77 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct EffectEntity77 { u16 xRaw,yRaw; };
 struct EffectPlayer77 { u8 pad[0x148]; struct EffectEntity77 *entity; };

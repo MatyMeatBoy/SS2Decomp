@@ -7402,4 +7402,38 @@ INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08072D5C);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0807356C);
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0807386C);
+#ifdef NONMATCHING
+struct Sprite076CF4 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
+struct Frame076CF4 {struct Sprite076CF4 sprite;u16 tile,rotation;s16 sx,sy;u32 wx,wy,mode,animation;s32 fx,fy;};
+extern u32 animate076CF4(void*,u16,u16*,u16*,s32) asm("sub_08065370");
+extern u32 flags076CF4 asm("gUnk_030063E0");
+extern void coords076CF4(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
+extern void draw076CF4(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
+extern void init076CF4(void*,s32,s32,s32,s32) asm("sub_08065158");
+void sub_08073CF4(u32 *args)
+{
+ struct Frame076CF4 frame;u16 finished,animation;u8 mode;s32 paused;s16 *screenX,*screenY;
+ init076CF4(&frame.sprite,0x5008C,1,-1,0);
+ frame.sprite.f1C=7;frame.sprite.f1D=8;
+ sub_08000AF0(23,(void*)frame.sprite.fC,2);
+ frame.mode=args[2];frame.wx=args[5]>>8;frame.wy=args[4]>>8;frame.animation=args[3];
+ frame.tile=0;finished=0;frame.rotation=0;frame.fx=frame.wx<<16;frame.fy=frame.wy<<16;
+ do{
+  if(sub_0800CC98()==0){
+   paused=sub_0800CD8C();
+   if(paused==0){
+    mode=sub_0800BC44(frame.wx,frame.wy,sub_0800CCCC());
+    animation=frame.animation;
+    finished=animate076CF4(&frame.sprite,animation,&frame.tile,&frame.rotation,paused);
+    screenX=&frame.sx;screenY=&frame.sy; coords076CF4(frame.fx>>16,frame.fy>>16,screenX,screenY,16,(void*)paused);
+    if(frame.mode!=0)draw076CF4(*screenX,*screenY+1,animation,frame.tile,mode,&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);
+    else sub_08065230(&frame.sprite,*screenX,*screenY,animation,frame.tile);
+   }
+  }
+  sub_080003F0();
+ }while(finished==0);
+ flags076CF4 &= ~(1<<args[1]);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08073CF4);
+#endif
