@@ -84,9 +84,9 @@ Touch only your assigned functions and keep them in address order.
 Each additional worker needs its own prepared clone or worktree and its own
 exclusive claim. Never run competing builds, edits or commit hooks in one checkout.
 Keep a short progress/handoff note. If you stop, preserve your candidates and
-release the shard. The coordinator may reclaim a shard after five minutes of
-verified inactivity, preserving its unmerged head first; a live build, permuter
-or active PR review counts as work. Do not remove another contributor's claim.
+release the shard. The coordinator may reclaim or release a shard after ten
+minutes of verified inactivity, preserving its unmerged head and private work
+first; a live build, permuter or active PR review counts as work. Do not remove another contributor's claim.
 Recheck ownership before resuming after an interruption.
 
 ## Deliver small, verified pull requests
