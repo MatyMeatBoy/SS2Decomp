@@ -4175,8 +4175,7 @@ void sub_0808CB58(void) {
         { register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); tableIndex = idx - 3; }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
         temp_r5 = *(u16 *)(table + tableOffset);
-        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
-        tableOffset = ((tableIndex << 1) + tableIndex) << 1;
+        { register s32 idx asm("r0") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); idx -= 3; asm("" : "+r"(idx)); tableOffset = ((idx << 1) + idx) << 1; }
         table += 2;
         tableY = (var_r6 * 10) + *(u16 *)(tableOffset + table);
         sub_08028AAC(0, temp_r5, tableY, 0);
