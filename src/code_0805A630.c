@@ -858,382 +858,186 @@ extern u8 gUnk_08478310[];
 extern u8 gUnk_08478338[];
 extern u8 gUnk_08478378[];
 
-s32 sub_0805C208(void *arg0, s32 arg1) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    u8 *var_r5;
-    u8 *var_r5_4;
-    s32 temp_r0_2;
-    s32 var_r7;
-    s32 var_r8;
-    s32 var_r9;
-    s32 var_sl;
-    s8 var_r1;
-    u8 *var_r2;
-    u8 *var_r2_2;
-    u8 *var_r2_3;
-    u8 *var_r2_4;
-    u8 *var_r5_2;
-    u8 *var_r5_3;
-    u8 *var_r5_5;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 temp_r1_5;
-    u16 temp_r7;
-    u16 var_r3;
-    u16 var_r3_2;
-    u16 var_r3_3;
-    u32 temp_r1_3;
-    u32 temp_r1_4;
-    u32 temp_r2;
-    u32 temp_r2_2;
-    u32 temp_r2_3;
-    u32 temp_r7_2;
-    u32 temp_r7_3;
-    u32 var_r0;
-    u32 var_r4;
-    u32 var_r4_2;
-    u32 var_r4_3;
-    u32 var_r4_4;
-    u32 var_r4_5;
-    u32 var_r4_6;
-    u32 var_r4_7;
+struct C208Slot { u16 type; u16 arg; u16 bonus; u8 element; u8 level; u8 flag; };
+struct C208Range { u16 value; u16 upper; };
+s32 sub_0805C208(void *arg0, s32 arg1)
+{
+    u8 *objs[4];
+    struct C208Slot *slot;
+    u32 flags;
+    u32 rollElement;
+    u32 rollBonus;
+    u32 rollLevel;
+    struct C208Range *table;
+    u32 count;
+    u32 low;
+    u32 i;
+    u32 r;
+    u8 *p;
 
-    /* Flowgraph is not reducible, falling back to gotos-only mode. */
-    var_r9 = arg1;
-    var_sl = 0;
-    var_r7 = 0;
-    var_r8 = 0;
-    temp_r0 = M2C_FIELD(arg0, u16 *, 0x0);
-    if (temp_r0 == 3) {
-        goto block_25;
+    slot = arg0;
+    flags = arg1;
+    rollElement = 0;
+    rollBonus = 0;
+    rollLevel = 0;
+    switch (slot->type) {
+    case 2:
+        objs[0] = (u8 *)sub_08007290(slot->arg | 0xB0000);
+        if (objs[0][0x9B] == 9) {
+            table = (struct C208Range *)gUnk_08478044;
+            r = sub_080008C8();
+            if ((r & 0xF) <= 7)
+                goto bonusAndLevel;
+            goto bonus;
+        }
+        table = (struct C208Range *)gUnk_08477F3C;
+        r = sub_080008C8() & 0xF;
+        if (r <= 2) {
+            rollLevel = 1;
+            rollElement = 1;
+        bonus:
+            rollBonus = 1;
+            break;
+        }
+        if (r <= 7) {
+            r = sub_080008C8() & 0xF;
+            if (r <= 4) {
+            bonusAndLevel:
+                rollBonus = 1;
+                rollLevel = 1;
+                break;
+            }
+            if (r <= 10) {
+                rollLevel = 1;
+                rollElement = 1;
+                break;
+            }
+            rollElement = 1;
+            goto bonus;
+        }
+        r = sub_080008C8() & 0xF;
+        if (r <= 4) {
+            rollLevel = 1;
+            break;
+        }
+        if (r <= 9)
+            goto bonus;
+        rollElement = 1;
+        break;
+    case 5:
+        objs[1] = (u8 *)sub_08007290(slot->arg | 0xE0000);
+        table = objs[1][0xA0] ? (struct C208Range *)gUnk_08478220 : (struct C208Range *)gUnk_08478158;
+        rollLevel = 0;
+        break;
+    case 3:
+        objs[3] = (u8 *)sub_08007290(slot->arg | 0xC0000);
+        table = (struct C208Range *)gUnk_08478158;
+        rollLevel = 0;
+        break;
+    case 4:
+        objs[2] = (u8 *)sub_08007290(slot->arg | 0xD0000);
+        table = (struct C208Range *)gUnk_08478158;
+        rollLevel = 0;
+        break;
+    default:
+        return 1;
     }
-    if ((s32) temp_r0 > 3) {
-        goto block_4;
+    if (slot->type <= 5 && slot->type >= 3) {
+        r = sub_080008C8() & 0xF;
+        if (r <= 7) {
+            r = sub_080008C8() & 0xF;
+            if (r <= 7)
+                goto pickBonus;
+            rollElement = 1;
+        } else {
+            rollBonus = 1;
+            rollElement = 1;
+        }
     }
-    if (temp_r0 == 2) {
-        goto block_7;
+    if (rollBonus) {
+    pickBonus:
+        count = table[0].value;
+        r = sub_080008C8();
+        r %= table[0].upper;
+        table++;
+        for (low = 0, i = 0; i < count; i++, table++) {
+            if (low <= r && table->upper >= r) {
+                slot->bonus = table->value;
+                break;
+            }
+            low = table->upper;
+        }
     }
-    goto block_28;
-block_4:
-    if (temp_r0 == 4) {
-        goto block_26;
+    if (rollLevel) {
+        table = (struct C208Range *)gUnk_084782F4;
+        count = table[0].value + 1;
+        r = sub_080008C8();
+        r %= table[0].upper + 1;
+        table++;
+        for (low = 0, i = 0; i < count; i++, table++) {
+            if (low <= r && table->upper >= r) {
+                slot->level = table->value;
+                break;
+            }
+            low = table->upper + 1;
+        }
     }
-    if (temp_r0 == 5) {
-        goto block_23;
+    if (rollElement) {
+        if (flags & 1)
+            table = (struct C208Range *)gUnk_08478378;
+        else if (sub_0800CE30())
+            table = (struct C208Range *)gUnk_08478338;
+        else
+            table = (struct C208Range *)gUnk_08478310;
+        count = table[0].value + 1;
+        r = sub_080008C8();
+        r %= table[0].upper + 1;
+        table++;
+        for (low = 0, i = 0; i < count; i++, table++) {
+            if (low <= r && table->upper >= r) {
+                slot->element = table->value;
+                break;
+            }
+            low = table->upper + 1;
+        }
     }
-    goto block_28;
-block_7:
-    temp_r0_2 = sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xB0000);
-    sp0 = temp_r0_2;
-    if (M2C_FIELD(temp_r0_2, u8 *, 0x9B) != 9) {
-        goto block_10;
+    switch (slot->type) {
+    case 2:
+        for (i = 0, p = objs[0] + 0xB0; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearA;
+        break;
+    case 3:
+        for (i = 0, p = objs[3] + 0xA4; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearB;
+        break;
+    case 4:
+        for (i = 0, p = objs[2] + 0xA4; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearA;
+        break;
+    clearA:
+        slot->bonus = 0;
+        slot->element = 0;
+        slot->level = 0;
+        flags = 1;
+        break;
+    clearB:
+        slot->bonus = 0;
+        slot->element = 0;
+        slot->level = 0;
+        flags = 1;
+        break;
+    case 5:
+        for (i = 0, p = objs[1] + 0xA4; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearB;
+        break;
     }
-    var_r5 = gUnk_08478044;
-    var_r0 = sub_080008C8();
-    if ((u32) (0xF & var_r0) <= 7U) {
-        goto block_15;
-    }
-    goto block_12;
-block_10:
-    var_r5 = gUnk_08477F3C;
-    var_r0 = sub_080008C8();
-    temp_r2 = var_r0 & 0xF;
-    if (temp_r2 > 2U) {
-        goto block_13;
-    }
-    var_r8 = 1;
-    var_sl = 1;
-block_12:
-    var_r7 = 1;
-    goto block_29;
-block_13:
-    if (temp_r2 > 7U) {
-        goto block_19;
-    }
-    var_r0 = sub_080008C8();
-    temp_r2_2 = var_r0 & 0xF;
-    if (temp_r2_2 > 4U) {
-        goto block_16;
-    }
-block_15:
-    var_r7 = 1;
-    var_r8 = 1;
-    goto block_29;
-block_16:
-    if (temp_r2_2 > 0xAU) {
-        goto block_18;
-    }
-    var_r8 = 1;
-    var_sl = 1;
-    goto block_29;
-block_18:
-    var_sl = 1;
-    goto block_12;
-block_19:
-    var_r0 = sub_080008C8();
-    temp_r2_3 = var_r0 & 0xF;
-    if (temp_r2_3 > 4U) {
-        goto block_21;
-    }
-    var_r8 = 1;
-    goto block_29;
-block_21:
-    if (temp_r2_3 <= 9U) {
-        goto block_12;
-    }
-    var_sl = 1;
-    goto block_29;
-block_23:
-    var_r0 = (u32) sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xE0000);
-    sp4 = (s32) var_r0;
-    var_r5 = gUnk_08478158;
-    if (M2C_FIELD(var_r0, u8 *, 0xA0) == 0) {
-        goto block_27;
-    }
-    var_r5 = gUnk_08478220;
-    goto block_27;
-block_25:
-    var_r0 = (u32) sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xC0000);
-    spC = (s32) var_r0;
-    var_r5 = gUnk_08478158;
-    var_r8 = 0;
-    goto block_29;
-block_26:
-    var_r0 = (u32) sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xD0000);
-    sp8 = (s32) var_r0;
-    var_r5 = gUnk_08478158;
-block_27:
-    var_r8 = 0;
-    goto block_29;
-block_28:
-    return 1;
-block_29:
-    temp_r1 = M2C_FIELD(arg0, u16 *, 0x0);
-    if ((s32) temp_r1 > 5) {
-        goto block_35;
-    }
-    if ((s32) temp_r1 < 3) {
-        goto block_35;
-    }
-    var_r0 = sub_080008C8();
-    if ((u32) (var_r0 & 0xF) > 7U) {
-        goto block_34;
-    }
-    var_r0 = sub_080008C8();
-    if ((u32) (var_r0 & 0xF) <= 7U) {
-        goto block_36;
-    }
-    var_sl = 1;
-    goto block_35;
-block_34:
-    var_r7 = 1;
-    var_sl = 1;
-block_35:
-    if (var_r7 == 0) {
-        goto block_42;
-    }
-block_36:
-    temp_r7 = M2C_FIELD(var_r5, u16 *, 0x0);
-    var_r0 = sub_080008C8() % (u16) M2C_FIELD(var_r5, u16 *, 0x2);
-    var_r5_2 = var_r5 + 4;
-    var_r4 = 0;
-    if ((u32) temp_r7 <= 0U) {
-        goto block_42;
-    }
-    var_r3 = M2C_FIELD(var_r5_2, u16 *, 0x2);
-    if (var_r0 >= 0U) {
-        goto block_40;
-    }
-loop_38:
-    var_r4 += 1;
-    temp_r1_2 = var_r3;
-    var_r5_2 += 4;
-    if (var_r4 >= (u32) temp_r7) {
-        goto block_42;
-    }
-    var_r3 = M2C_FIELD(var_r5_2, u16 *, 0x2);
-    if ((u32) temp_r1_2 > var_r0) {
-        goto loop_38;
-    }
-block_40:
-    if ((u32) var_r3 < var_r0) {
-        goto loop_38;
-    }
-    M2C_FIELD(arg0, u16 *, 0x4) = (u16) *(u16 *)var_r5_2;
-block_42:
-    if (var_r8 == 0) {
-        goto block_49;
-    }
-    temp_r7_2 = M2C_FIELD(gUnk_084782F4, u16 *, 0x0) + 1;
-    var_r0 = sub_080008C8() % (u32) (M2C_FIELD(gUnk_084782F4, u16 *, 0x2) + 1);
-    var_r5_3 = gUnk_084782F4 + 4;
-    var_r4_2 = 0;
-    if (temp_r7_2 <= 0U) {
-        goto block_49;
-    }
-    var_r3_2 = M2C_FIELD(var_r5_3, u16 *, 0x2);
-    if (var_r0 >= 0U) {
-        goto block_47;
-    }
-loop_45:
-    var_r4_2 += 1;
-    temp_r1_3 = var_r3_2 + 1;
-    var_r5_3 += 4;
-    if (var_r4_2 >= temp_r7_2) {
-        goto block_49;
-    }
-    var_r3_2 = M2C_FIELD(var_r5_3, u16 *, 0x2);
-    if (temp_r1_3 > var_r0) {
-        goto loop_45;
-    }
-block_47:
-    if ((u32) var_r3_2 < var_r0) {
-        goto loop_45;
-    }
-    M2C_FIELD(arg0, u8 *, 0x7) = (s8) *(u16 *)var_r5_3;
-block_49:
-    if (var_sl == 0) {
-        goto block_60;
-    }
-    if (!(1 & var_r9)) {
-        goto block_52;
-    }
-    var_r5_4 = gUnk_08478378;
-    goto block_54;
-block_52:
-    var_r5_4 = gUnk_08478310;
-    if (sub_0800CE30() == 0) {
-        goto block_54;
-    }
-    var_r5_4 = gUnk_08478338;
-block_54:
-    temp_r7_3 = M2C_FIELD(var_r5_4, u16 *, 0x0) + 1;
-    var_r0 = sub_080008C8() % (u32) (M2C_FIELD(var_r5_4, u16 *, 0x2) + 1);
-    var_r5_5 = var_r5_4 + 4;
-    var_r4_3 = 0;
-    if (temp_r7_3 <= 0U) {
-        goto block_60;
-    }
-    var_r3_3 = M2C_FIELD(var_r5_5, u16 *, 0x2);
-    if (var_r0 >= 0U) {
-        goto block_58;
-    }
-loop_56:
-    var_r4_3 += 1;
-    temp_r1_4 = var_r3_3 + 1;
-    var_r5_5 += 4;
-    if (var_r4_3 >= temp_r7_3) {
-        goto block_60;
-    }
-    var_r3_3 = M2C_FIELD(var_r5_5, u16 *, 0x2);
-    if (temp_r1_4 > var_r0) {
-        goto loop_56;
-    }
-block_58:
-    if ((u32) var_r3_3 < var_r0) {
-        goto loop_56;
-    }
-    M2C_FIELD(arg0, u8 *, 0x6) = (s8) *(u16 *)var_r5_5;
-block_60:
-    temp_r1_5 = M2C_FIELD(arg0, u16 *, 0x0);
-    if (temp_r1_5 == 3) {
-        goto block_71;
-    }
-    if ((s32) temp_r1_5 > 3) {
-        goto block_64;
-    }
-    if (temp_r1_5 == 2) {
-        goto block_67;
-    }
-    goto block_84;
-block_64:
-    if (temp_r1_5 == 4) {
-        goto block_75;
-    }
-    if (temp_r1_5 == 5) {
-        goto block_81;
-    }
-    goto block_84;
-block_67:
-    var_r4_4 = 0;
-    var_r2 = sp0 + 0xB0;
-loop_68:
-    if (*(u16 *)var_r2 != 0) {
-        goto block_79;
-    }
-    var_r2 += 4;
-    var_r4_4 += 1;
-    if (var_r4_4 <= 2U) {
-        goto loop_68;
-    }
-    goto block_84;
-block_71:
-    var_r4_5 = 0;
-    var_r2_2 = spC + 0xA4;
-loop_72:
-    if (*(u16 *)var_r2_2 != 0) {
-        goto block_80;
-    }
-    var_r2_2 += 4;
-    var_r4_5 += 1;
-    if (var_r4_5 <= 2U) {
-        goto loop_72;
-    }
-    goto block_84;
-block_75:
-    var_r4_6 = 0;
-    var_r2_3 = sp8 + 0xA4;
-loop_76:
-    if (*(u16 *)var_r2_3 != 0) {
-        goto block_79;
-    }
-    var_r2_3 += 4;
-    var_r4_6 += 1;
-    if (var_r4_6 <= 2U) {
-        goto loop_76;
-    }
-    goto block_84;
-block_79:
-    M2C_FIELD(arg0, u16 *, 0x4) = 0U;
-    M2C_FIELD(arg0, u8 *, 0x6) = 0;
-    M2C_FIELD(arg0, u8 *, 0x7) = 0;
-    var_r9 = 1;
-    goto block_84;
-block_80:
-    M2C_FIELD(arg0, u16 *, 0x4) = 0U;
-    M2C_FIELD(arg0, u8 *, 0x6) = 0;
-    M2C_FIELD(arg0, u8 *, 0x7) = 0;
-    var_r9 = 1;
-    goto block_84;
-block_81:
-    var_r4_7 = 0;
-    var_r2_4 = sp4 + 0xA4;
-loop_82:
-    if (*(u16 *)var_r2_4 != 0) {
-        goto block_80;
-    }
-    var_r2_4 += 4;
-    var_r4_7 += 1;
-    if (var_r4_7 <= 2U) {
-        goto loop_82;
-    }
-block_84:
-    if (M2C_FIELD(arg0, u32 *, 0x4) == 0) {
-        goto block_88;
-    }
-    var_r1 = 1;
-    if (!(var_r9 & 1)) {
-        goto block_87;
-    }
-    var_r1 = 0;
-block_87:
-    M2C_FIELD(arg0, u8 *, 0x8) = var_r1;
-block_88:
-    return (s32) var_r0;
+    if (*(u32 *)&slot->bonus != 0)
+        slot->flag = (flags & 1) ? 0 : 1;
+    /* Only unknown slot types return a value (1); callers ignore it. */
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C208);
