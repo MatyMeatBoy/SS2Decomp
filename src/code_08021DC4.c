@@ -4132,9 +4132,9 @@ void sub_08026858(void) {
     s32 var_r0_2;
     s32 var_r0_3;
     s32 var_r0_4;
-    s32 var_r5;
-    s32 var_sl;
-    struct T24Player08026858 *temp_r6;
+    register s32 var_r5 asm("r5");
+    register s32 var_sl asm("r10");
+    register struct T24Player08026858 *temp_r6 asm("r6");
     u32 temp_r0;
     u32 temp_r0_4;
     u32 temp_r1;
@@ -4152,40 +4152,64 @@ void sub_08026858(void) {
     frame = 0;
     phase = 0;
     var_sl = 0;
+    asm("" : "+r"(var_sl));
 
     text = t24_call08007290_08026858(0x1403D4);
-    temp_r6 = &t24_players08026858[sub_080020F4()];
+    {
+        register u32 index asm("r0") = sub_080020F4();
+        register u32 stride asm("r1") = 0x14C;
+        asm("" : "+r"(index), "+r"(stride));
+        stride *= index;
+        {
+            register u8 *base asm("r0") = (u8 *)t24_players08026858;
+            asm("" : "+r"(base), "+r"(stride));
+            temp_r6 = (struct T24Player08026858 *)(stride + (u32)base);
+        }
+    }
 
-    sub_08065158(&sprite, 0x5000D, 0xE, -1, 0);
+    sub_08065158(&sprite, 0x5000D, 0xE, -1, var_sl);
     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
     sprite.f2B = 0xE;
     if (sub_0800CF48() != 0) {
         return;
     }
     temp_r1 = t24_state08026858->unk4 << 0x10;
-    if ((temp_r1 >> 0x18) & 1) {
-        return;
-    }
-    if ((temp_r1 >> 0x14) & 1) {
-        goto block_57;
+    {
+        register u32 one asm("r3") = 1;
+        asm("" : "+r"(one));
+        if ((temp_r1 >> 0x18) & one) {
+            return;
+        }
+        if ((temp_r1 >> 0x14) & one) {
+            goto block_57;
+        }
     }
 loop_8:
-    if (sub_0800CDF8() != 0) {
-        sub_080003F0();
-        goto loop_8;
-    }
+    goto poll_input;
+retry_input:
+    sub_080003F0();
+poll_input:
+    if (sub_0800CDF8() != 0) goto retry_input;
     if (sub_080021A8() != 0) {
         return;
     }
     x = (s16) ((u32) temp_r6->unk8C >> 8);
     y = (s16) ((u32) temp_r6->unk90 >> 8);
     if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
-        var_r0 = x - 0xF0;
+        {
+            register s32 limit asm("r2") = 0xF0;
+            asm("" : "+r"(limit));
+            var_r0 = x - limit;
+        }
         if (var_r0 < 0) {
             var_r0 = 0 - var_r0;
         }
         if (var_r0 <= 0x17) {
-            var_r0_2 = y - 0x88;
+            {
+                register s32 limit asm("r2") = 0x88;
+                asm("" : "+r"(limit));
+                var_r0_2 = y - limit;
+            }
             if (var_r0_2 < 0) {
                 var_r0_2 = 0 - var_r0_2;
             }
