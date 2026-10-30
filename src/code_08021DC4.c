@@ -1461,7 +1461,7 @@ void sub_08023A3C(s32 *arg0, u32 arg1) {
     s32 sp38;
     u32 sp3C;
     s32 *sp40;
-    struct Event23A3C *var_r4;
+    register struct Event23A3C *var_r4 asm("r4");
     s32 *var_r3;
     s32 *var_r3_2;
     s32 temp_r0_2;
@@ -1493,7 +1493,7 @@ void sub_08023A3C(s32 *arg0, u32 arg1) {
     u8 temp_r0_5;
     u32 var_r4_5;
     u32 var_r5_2;
-    u32 var_r6;
+    register u32 var_r6 asm("r6");
     u32 var_r6_2;
     u32 var_r6_3;
     u32 var_r6_4;
@@ -1930,7 +1930,7 @@ void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
     s32 var_r7;
     s32 var_r9;
     s32 var_sl;
-    struct Player *temp_r8;
+    register struct Player *temp_r8 asm("r8");
     u32 temp_r4_2;
     u32 temp_r5_2;
     struct Remote2413C **var_r7_2;
@@ -1950,11 +1950,7 @@ void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
     if ((state2413C->mode == 3) && (gUnk_03003170.f90 == 0xC)) {
         var_r7 = 0x18;
     }
-    if (sub_0800CF80() != 0) {
-        sp10 = 0xF0;
-    } else {
-        sp10 = 0x18;
-    }
+    { volatile s32 result = sub_0800CF80(); if (result) sp10 = 0xF0; else sp10 = 0x18; }
     temp_r3 = arg0->x << 0xB;
     temp_r1 = gUnk_0849E730[arg1];
     temp_r5 = *(s16 *)((u8 *)gUnk_080B9704 + (temp_r1 << 5) + 0x80);
