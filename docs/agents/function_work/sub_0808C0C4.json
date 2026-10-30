@@ -1,13 +1,13 @@
 {
   "address": "0x0808C0C4",
-  "updated_utc": "2026-10-30T00:55:26.1468505Z",
-  "checkpoint": "Verified code checkpoint fda0937a8201698100ae3b5765a82a3492182a2a rebased on main 256588dd. NONMATCHING retained: original/candidate 2708/2708 bytes; frame 368/368; approximate nmscore 783, not a match.",
+  "updated_utc": "2026-10-30T01:03:33.7504816Z",
+  "checkpoint": "Verified fourth-pass code checkpoint a07ea4224fba4bae89ff98d4249d6e8bcafc1066 rebased on main ed8eddb3. NONMATCHING retained: original/candidate 2708/2688 bytes; frame 368/368; approximate nmscore 673, not a match.",
   "areas": [
     {
       "id": "compile",
       "label": "Compiling C89 draft",
       "state": "done",
-      "evidence": "Serial make compare reproduces the original ROM using the retained ASM fallback; make nonmatching compiles the draft. Second-pass e5af876c checks passed on main 67a03e51; third-pass checks repeated before this report commit."
+      "evidence": "Fourth-pass serial make compare prints shiningsoul2_eu.gba: OK with the retained original ASM fallback; make nonmatching compiles the draft; check_tree reports 0 errors. Actual module strict nmdiff still reports NO MATCH."
     },
     {
       "id": "frame",
@@ -19,25 +19,25 @@
       "id": "accesses",
       "label": "Pointer and ABI audit",
       "state": "active",
-      "evidence": "b0219731 fixes the second portrait draw sixth argument from s32-pointer +0x1C (112 bytes) to byte-pointer +0x1C (28 bytes), as original ASM before sub_08007870. All six draw argument groups now pass explicit byte addresses. Full type/ABI equivalence remains unproven."
+      "evidence": "b0219731 fixes the second portrait draw sixth argument from s32-pointer +0x1C (112 bytes) to byte-pointer +0x1C (28 bytes), as original ASM before sub_08007870. All six draw argument groups now pass explicit byte addresses. Full type/ABI equivalence remains unproven. Fourth pass binds the item-pointer field to original gUnk_03003E28 and the early draw third-coordinate table to gUnk_084F0C34. Later coordinate/count bases initialize on every incoming wait/draw loop path."
     },
     {
       "id": "cfg",
       "label": "Menu and confirmation CFG",
       "state": "active",
-      "evidence": "Third pass keeps five explicit resource-init switch arms and positions cancel sound 0x10/restart and yield/retry blocks to follow original _0808C220 and _0808C6AE roles. Local strict comparison remains NO MATCH; complete CFG equivalence is not claimed."
+      "evidence": "Third pass keeps five explicit resource-init switch arms and positions cancel sound 0x10/restart and yield/retry blocks to follow original _0808C220 and _0808C6AE roles. Local strict comparison remains NO MATCH; complete CFG equivalence is not claimed. Fourth pass represents first portrait initialization with an explicit jump to the bottom test and stable portrait/player/table bases, matching original _0808C178/_0808C1AE loop roles without inline ASM."
     },
     {
       "id": "registers",
       "label": "Registers and instruction order",
       "state": "active",
-      "evidence": "Measured module nmscore 982 -> 795 -> 783 across pointer/frame/CFG checkpoints. Remaining differences include initial table-base hoisting/registers, background-word load order, portrait loop registers, scalar state loads and literal pool layout. No permuter or forced registers used for this large diff."
+      "evidence": "Measured actual-module nmscore 982 -> 795 -> 783 -> 673 across pointer/frame/CFG/table-base checkpoints. Fourth pass candidate 2688 versus original 2708 bytes, frame 368 exact. Remaining differences include initial loop registers, background-word load order, scalar state loads and literal pool layout. No permuter or forced registers used for this large diff; flat-state/volatile-spill experiments were discarded."
     },
     {
       "id": "match",
       "label": "Full matching normal C build",
       "state": "pending",
-      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains the active normal-build implementation. A 2708-byte compiling candidate is not binary equivalence; strict nmdiff reports NO MATCH."
+      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active in the normal build. The 2688-byte fourth-pass draft is not binary equivalence; strict module nmdiff reports NO MATCH."
     }
   ]
 }

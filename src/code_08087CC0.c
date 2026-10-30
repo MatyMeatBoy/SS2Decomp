@@ -710,6 +710,8 @@ extern u16 gHeldC0 asm("gUnk_03001308");
 extern u8 *gStateC0 asm("gUnk_03005CF4");
 extern u8 gPortraitC0[] asm("gUnk_08479140");
 extern u8 gCoordsC0[] asm("gUnk_084F0C30");
+extern u8 gCoordsThirdC0[] asm("gUnk_084F0C34");
+extern struct C0Item *gItemsC0 asm("gUnk_03003E28");
 extern void sub_0808C0C4_v(void) asm("sub_0808C0C4");
 void sub_0808C0C4_v(void) {
     u16 sp10[2];
@@ -727,6 +729,12 @@ void sub_0808C0C4_v(void) {
         s32 sp168;
         s32 sp16C;
     } menu;
+    u8 *portraitBaseC0;
+    u8 *portraitTableC0;
+    struct C0Player *playerTableC0;
+    u8 *coordsBaseC0;
+    u8 *coordsThirdC0;
+    u16 *countsC0;
     u8 *temp_r4;
     s16 temp_r1_4;
     s16 temp_r1_5;
@@ -846,12 +854,20 @@ void sub_0808C0C4_v(void) {
     sub_08000AA8(2U, &menu.sp15C);
     *(u16 *)&menu.sp15C = 0x1F03;
     sub_08000AA8(3U, &menu.sp15C);
-    for (var_r6 = 0; var_r6 < sub_08002164(); var_r6++) {
-        temp_r4 = sp80 + (0x34 * var_r6);
-        temp_r0 = &gPlayersC0[var_r6];
-        sub_08065158(temp_r4, *(u32 *)(gPortraitC0 + temp_r0->unk10 * 4 + temp_r0->unk64 * 0x58), 0, -1, 0);
-        temp_r4[0x1C] = (s8) var_r6;
-    }
+    var_r6 = 0;
+    portraitBaseC0 = sp80;
+    portraitTableC0 = gPortraitC0;
+    playerTableC0 = gPlayersC0;
+    goto portraitCheckC0;
+portraitBodyC0:
+    temp_r4 = portraitBaseC0 + (0x34 * var_r6);
+    temp_r0 = &playerTableC0[var_r6];
+    sub_08065158(temp_r4, *(u32 *)(portraitTableC0 + temp_r0->unk10 * 4 + temp_r0->unk64 * 0x58), 0, -1, 0);
+    temp_r4[0x1C] = (s8) var_r6;
+    var_r6++;
+portraitCheckC0:
+    if (var_r6 < sub_08002164())
+        goto portraitBodyC0;
     switch (gUnk_03003470) {
     case 0:
         sub_08065158(&sp4C, 0x50002, 0, 0x80000000, 0);
@@ -915,7 +931,7 @@ loop_24:
             temp_r2 = ((temp_r1_2 * 9) + ((&sp150[0])[temp_r1_2] * 3)) * 2;
             temp_r4_4 = 0x34 * var_r6_3;
             temp_r5 = sp80 + temp_r4_4;
-            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsC0 + temp_r2 + 4), 0, temp_r4_3, (u8 *)temp_r5 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_4), *temp_r5);
+            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, (u8 *)temp_r5 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_4), *temp_r5);
             if (sub_080020F4() == var_r6_3) {
                 temp_r1_3 = &(&sp150[0])[((struct C0Player *)((u8 *)gPlayersC0 + var_r9))->unk1C];
                 *temp_r1_3 += 1;
@@ -1006,7 +1022,7 @@ loop_54:
             goto loop_54;
         }
         var_r6_5 = 0;
-        var_r7 = &gPlayersC0[0].unk148;
+        var_r7 = &gItemsC0;
 loop_59:
         if (var_r6_5 < sub_08002164()) {
             temp_r1_7 = *var_r7;
@@ -1016,7 +1032,7 @@ loop_59:
                 temp_r2_3 = ((temp_r3_2 * 9) + ((&sp150[0])[temp_r3_2] * 3)) * 2;
                 temp_r5_2 = 0x34 * var_r6_5;
                 temp_r4_12 = sp80 + temp_r5_2;
-                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsC0 + temp_r2_3 + 4), 0, temp_r4_11, (u8 *)temp_r4_12 + 0x1C, *(s32 *)(sp80 + 8 + temp_r5_2), *temp_r4_12);
+                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, (u8 *)temp_r4_12 + 0x1C, *(s32 *)(sp80 + 8 + temp_r5_2), *temp_r4_12);
             }
             var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C);
             var_r6_5 += 1;
@@ -1106,19 +1122,22 @@ block_94:
             var_r0_4 += 1;
             var_r6_7 += 1;
         } while (var_r6_7 <= 4U);
+        coordsBaseC0 = gCoordsC0;
+        coordsThirdC0 = coordsBaseC0 + 4;
+        countsC0 = sp150;
         var_r6_8 = 0;
 loop_103:
         if (var_r6_8 < sub_08002164()) {
-            temp_r7 = &gPlayersC0[var_r6_8].unk148;
+            temp_r7 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * var_r6_8);
             temp_r1_9 = *temp_r7;
             temp_r4_16 = (u16) temp_r1_9->unk0 >> 4;
             if (temp_r4_16 == 0) {
                 temp_r1_10 = (u8) temp_r1_9->unk3 >> 4;
-                temp_r2_4 = ((temp_r1_10 * 9) + ((&sp150[0])[temp_r1_10] * 3)) * 2;
+                temp_r2_4 = ((temp_r1_10 * 9) + (countsC0[temp_r1_10] * 3)) * 2;
                 temp_r4_17 = 0x34 * var_r6_8;
                 temp_r5_3 = sp80 + temp_r4_17;
-                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_4), *(u16 *)(gCoordsC0 + temp_r2_4 + 2), *(u16 *)(gCoordsC0 + temp_r2_4 + 4), 0, temp_r4_16, (u8 *)temp_r5_3 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_17), *temp_r5_3);
-                temp_r0_6 = &(&sp150[0])[(u8) (*temp_r7)->unk3 >> 4];
+                sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_4), *(u16 *)(coordsBaseC0 + temp_r2_4 + 2), *(u16 *)(coordsThirdC0 + temp_r2_4), 0, temp_r4_16, (u8 *)temp_r5_3 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_17), *temp_r5_3);
+                temp_r0_6 = &countsC0[(u8) (*temp_r7)->unk3 >> 4];
                 *temp_r0_6 += 1;
             }
             var_r6_8 += 1;
@@ -1148,8 +1167,11 @@ loop_103:
     sub_0805865C(0xF);
 loop_113:
     if (sub_08067C18() == 0) {
+        coordsBaseC0 = gCoordsC0;
+        coordsThirdC0 = coordsBaseC0 + 4;
+        countsC0 = sp150;
         var_r6_9 = 0;
-        var_r0_5 = &sp150[0];
+        var_r0_5 = countsC0;
         do {
             *var_r0_5 = 0;
             var_r0_5 += 1;
@@ -1158,16 +1180,16 @@ loop_113:
         var_r6_10 = 0;
 loop_111:
         if (var_r6_10 < sub_08002164()) {
-            temp_r7_2 = &gPlayersC0[var_r6_10].unk148;
+            temp_r7_2 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * var_r6_10);
             temp_r1_11 = *temp_r7_2;
             temp_r4_18 = (u16) temp_r1_11->unk0 >> 4;
             if (temp_r4_18 == 0) {
                 temp_r1_12 = (u8) temp_r1_11->unk3 >> 4;
-                temp_r2_5 = ((temp_r1_12 * 9) + ((&sp150[0])[temp_r1_12] * 3)) * 2;
+                temp_r2_5 = ((temp_r1_12 * 9) + (countsC0[temp_r1_12] * 3)) * 2;
                 temp_r4_19 = 0x34 * var_r6_10;
                 temp_r5_4 = sp80 + temp_r4_19;
-                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_5), *(u16 *)(gCoordsC0 + temp_r2_5 + 2), *(u16 *)(gCoordsC0 + temp_r2_5 + 4), 0, temp_r4_18, (u8 *)temp_r5_4 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_19), *temp_r5_4);
-                temp_r0_8 = &(&sp150[0])[(u8) (*temp_r7_2)->unk3 >> 4];
+                sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_5), *(u16 *)(coordsBaseC0 + temp_r2_5 + 2), *(u16 *)(coordsThirdC0 + temp_r2_5), 0, temp_r4_18, (u8 *)temp_r5_4 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_19), *temp_r5_4);
+                temp_r0_8 = &countsC0[(u8) (*temp_r7_2)->unk3 >> 4];
                 *temp_r0_8 += 1;
             }
             var_r6_10 += 1;
@@ -1180,8 +1202,11 @@ loop_111:
     }
 loop_123:
     if (sub_08067C08() == 0) {
+        coordsBaseC0 = gCoordsC0;
+        coordsThirdC0 = coordsBaseC0 + 4;
+        countsC0 = sp150;
         var_r6_11 = 0;
-        var_r0_6 = &sp150[0];
+        var_r0_6 = countsC0;
         do {
             *var_r0_6 = 0;
             var_r0_6 += 1;
@@ -1190,16 +1215,16 @@ loop_123:
         var_r6_12 = 0;
 loop_121:
         if (var_r6_12 < sub_08002164()) {
-            temp_r7_3 = &gPlayersC0[var_r6_12].unk148;
+            temp_r7_3 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * var_r6_12);
             temp_r1_13 = *temp_r7_3;
             temp_r4_21 = (u16) temp_r1_13->unk0 >> 4;
             if (temp_r4_21 == 0) {
                 temp_r1_14 = (u8) temp_r1_13->unk3 >> 4;
-                temp_r2_6 = ((temp_r1_14 * 9) + ((&sp150[0])[temp_r1_14] * 3)) * 2;
+                temp_r2_6 = ((temp_r1_14 * 9) + (countsC0[temp_r1_14] * 3)) * 2;
                 temp_r4_22 = 0x34 * var_r6_12;
                 temp_r5_5 = sp80 + temp_r4_22;
-                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_6), *(u16 *)(gCoordsC0 + temp_r2_6 + 2), *(u16 *)(gCoordsC0 + temp_r2_6 + 4), 0, temp_r4_21, (u8 *)temp_r5_5 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_22), *temp_r5_5);
-                temp_r0_9 = &(&sp150[0])[(u8) (*temp_r7_3)->unk3 >> 4];
+                sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_6), *(u16 *)(coordsBaseC0 + temp_r2_6 + 2), *(u16 *)(coordsThirdC0 + temp_r2_6), 0, temp_r4_21, (u8 *)temp_r5_5 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_22), *temp_r5_5);
+                temp_r0_9 = &countsC0[(u8) (*temp_r7_3)->unk3 >> 4];
                 *temp_r0_9 += 1;
             }
             var_r6_12 += 1;
@@ -1219,8 +1244,11 @@ loop_121:
     sub_0801AA8C(0x1E);
 loop_135:
     if (sub_0801AAE0() == 0) {
+        coordsBaseC0 = gCoordsC0;
+        coordsThirdC0 = coordsBaseC0 + 4;
+        countsC0 = sp150;
         var_r6_13 = 0;
-        var_r0_7 = &sp150[0];
+        var_r0_7 = countsC0;
         do {
             *var_r0_7 = 0;
             var_r0_7 += 1;
@@ -1229,16 +1257,16 @@ loop_135:
         var_r6_14 = 0;
 loop_133:
         if (var_r6_14 < sub_08002164()) {
-            temp_r7_4 = &gPlayersC0[var_r6_14].unk148;
+            temp_r7_4 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * var_r6_14);
             temp_r1_15 = *temp_r7_4;
             temp_r4_24 = (u16) temp_r1_15->unk0 >> 4;
             if (temp_r4_24 == 0) {
                 temp_r1_16 = (u8) temp_r1_15->unk3 >> 4;
-                temp_r2_7 = ((temp_r1_16 * 9) + ((&sp150[0])[temp_r1_16] * 3)) * 2;
+                temp_r2_7 = ((temp_r1_16 * 9) + (countsC0[temp_r1_16] * 3)) * 2;
                 temp_r4_25 = 0x34 * var_r6_14;
                 temp_r5_6 = sp80 + temp_r4_25;
-                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_7), *(u16 *)(gCoordsC0 + temp_r2_7 + 2), *(u16 *)(gCoordsC0 + temp_r2_7 + 4), 0, temp_r4_24, (u8 *)temp_r5_6 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_25), *temp_r5_6);
-                temp_r0_10 = &(&sp150[0])[(u8) (*temp_r7_4)->unk3 >> 4];
+                sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_7), *(u16 *)(coordsBaseC0 + temp_r2_7 + 2), *(u16 *)(coordsThirdC0 + temp_r2_7), 0, temp_r4_24, (u8 *)temp_r5_6 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_25), *temp_r5_6);
+                temp_r0_10 = &countsC0[(u8) (*temp_r7_4)->unk3 >> 4];
                 *temp_r0_10 += 1;
             }
             var_r6_14 += 1;
