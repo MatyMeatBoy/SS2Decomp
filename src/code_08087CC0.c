@@ -4181,8 +4181,12 @@ void sub_0808CB58(void) {
     stride = 0x14C;
     var_r5 = players + 0x68;
     while ((var_r4 < sub_08002164()) && (sub_080020F4() != var_r4)) {
-        if (*((players + stride * sub_080020F4()) + 0x68) == *var_r5) {
-            var_r6 += 1;
+        {
+            register u32 off asm("r0") = stride * sub_080020F4();
+            asm("" : "+r"(off));
+            if (*((u8 *)(off + (u32)players) + 0x68) == *var_r5) {
+                var_r6 += 1;
+            }
         }
         var_r5 += 0x14C;
         var_r4 += 1;
@@ -4190,26 +4194,64 @@ void sub_0808CB58(void) {
     players2 = (u8 *)gUnk_03003CE0;
     if (*((players2 + 0x14C * sub_080020F4()) + 0x68) != 0) {
         table = gUnk_084F0C8A;
-        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
+        {
+            register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68);
+            asm("" : "+r"(idx));
+            tableIndex = idx - 3;
+        }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
-        temp_r5 = *(u16 *)(table + tableOffset);
-        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
-        tableOffset = ((tableIndex << 1) + tableIndex) << 1;
-        table += 2;
-        tableY = (var_r6 * 10) + *(u16 *)(tableOffset + table);
+        {
+            register u32 addr asm("r0") = tableOffset;
+            asm("" : "+r"(addr));
+            addr += (u32)table;
+            asm("" : "+r"(addr));
+            temp_r5 = *(u16 *)addr;
+        }
+        {
+            register s32 idx asm("r0") = *((players2 + 0x14C * sub_080020F4()) + 0x68);
+            asm("" : "+r"(idx));
+            idx -= 3;
+            asm("" : "+r"(idx));
+            tableOffset = ((idx << 1) + idx) << 1;
+        }
+        {
+            register u32 addr asm("r1") = tableOffset;
+            register u8 *base asm("r0");
+            asm("" : "+r"(addr));
+            base = table + 2;
+            asm("" : "+r"(base), "+r"(addr));
+            addr += (u32)base;
+            asm("" : "+r"(addr));
+            tableY = (var_r6 * 10) + *(u16 *)addr;
+        }
         sub_08028AAC(0, temp_r5, tableY, 0);
-        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
+        {
+            register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68);
+            asm("" : "+r"(idx));
+            tableIndex = idx - 3;
+        }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
-        table += 2;
-        sub_080290E4(0, *(s16 *)(tableOffset + table));
+        table += 4;
+        {
+            register u32 addr asm("r0") = tableOffset;
+            asm("" : "+r"(addr));
+            addr += (u32)table;
+            asm("" : "+r"(addr));
+            sub_080290E4(0, *(s16 *)addr);
+        }
     } else {
         table = gUnk_084F0C8A;
         sub_08028AAC(0, (s32) (u16) ((var_r6 << 5) + *(u16 *)(table + 0x18)), (s32) *(u16 *)(table + 0x1A), 0);
         sub_080290E4(0, *(s16 *)(table + 0x1C));
     }
     var_r4 = 0;
-    var_r6_2 = sp5C;
-    var_r5_2 = ((u8 *)gUnk_03003CE0 + 0x68);
+    asm("" : "+r"(var_r4));
+    {
+        register u8 *base asm("r0") = (u8 *)gUnk_03003CE0;
+        asm("" : "+r"(base));
+        var_r6_2 = sp5C;
+        var_r5_2 = base + 0x68;
+    }
     while (var_r4 < sub_08002164()) {
         *var_r6_2 = (s32) *var_r5_2;
         var_r6_2 += 1;
@@ -4225,38 +4267,82 @@ loop_27:
     if (sp5C[sub_080020F4()] == 0) {
         sub_08015C14();
     }
-    (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = 0U;
-    var_r4 = 0;
-    var_r0 = countBase;
-    do {
-        *var_r0 = 0;
-        var_r0 += 1;
-        var_r4 += 1;
-    } while (var_r4 <= 3U);
+    {
+        register u32 zero asm("r1");
+        register u8 *state asm("r0") = *(u8 **)&gUnk_03005CF4 + 0x5A;
+        asm("" : "+r"(state));
+        zero = 0;
+        asm("" : "+r"(zero));
+        *(u16 *)state = zero;
+        var_r4 = 0;
+        var_r0 = countBase;
+        do {
+            *var_r0 = zero;
+            var_r0 += 1;
+            var_r4 += 1;
+        } while (var_r4 <= 3U);
+    }
     var_r4 = 0;
     while (var_r4 < sub_08002164()) {
-        temp_r2 = 0x14C * var_r4;
-        current = (u8 *)gUnk_03003CE0 + temp_r2;
-        if ((((u32) (**(u8 **)(current + 0x148) << 0x1C) >> 0x1C) != 0xB) && !(*(u32 *)(current + 0x30) & 0x2000)) {
-            temp_r0 = *(current + 0x68);
-            if (temp_r0 != 0) {
-                temp_r0_2 = &countBase[temp_r0 - 3];
-                *temp_r0_2 += 1;
+        {
+            register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
+            register u32 offset asm("r2");
+            register u8 *ptr asm("r0");
+            asm("" : "+r"(base));
+            offset = 0x14C * var_r4;
+            asm("" : "+r"(offset));
+            ptr = base + 0x148;
+            asm("" : "+r"(ptr));
+            ptr = (u8 *)(offset + (u32)ptr);
+            asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+            if (((u32) (**(u8 **)ptr << 0x1C) >> 0x1C) != 0xB) {
+                ptr = base + 0x30;
+                asm("" : "+r"(ptr));
+                ptr = (u8 *)(offset + (u32)ptr);
+                asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+                if (!(*(u32 *)ptr & 0x2000)) {
+                    {
+                        register u32 address asm("r0") = offset + (u32)base;
+                        register u8 *team asm("r1");
+                        asm("" : "+r"(address));
+                        team = (u8 *)address;
+                        asm("" : "+r"(team));
+                        team += 0x68;
+                        temp_r0 = *team;
+                    }
+                    if (temp_r0 != 0) {
+                        register s32 index asm("r0") = temp_r0 - 3;
+                        register s32 *counter asm("r0");
+                        register s32 value asm("r1");
+                        asm("" : "+r"(index));
+                        counter = &countBase[index];
+                        asm("" : "+r"(counter));
+                        value = *counter;
+                        asm("" : "+r"(value));
+                        *counter = value + 1;
+                    }
+                }
             }
         }
         var_r4 += 1;
     }
-    var_r2 = 0;
-    var_r4 = 0;
-    var_r1 = countBase;
-    do {
-        if (*var_r1 != 0) {
-            var_r2 += 1;
-            (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = var_r4;
-        }
-        var_r1 += 1;
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 3U);
+    {
+        register u8 **state asm("r3");
+        var_r2 = 0;
+        var_r4 = 0;
+        asm("" : "+r"(var_r2), "+r"(var_r4));
+        state = (u8 **)&gUnk_03005CF4;
+        asm("" : "+r"(state));
+        var_r1 = countBase;
+        do {
+            if (*var_r1 != 0) {
+                var_r2 += 1;
+                *(u16 *)(*state + 0x5A) = var_r4;
+            }
+            var_r1 += 1;
+            var_r4 += 1;
+        } while ((u32) var_r4 <= 3U);
+    }
     if (var_r2 <= 1U) {
         temp_r0_3 = var_r5_3;
         var_r5_3 += 1;
@@ -4289,9 +4375,25 @@ next_player:
             var_r4 += 1;
 check_player:
             if (var_r4 >= sub_08002164()) goto found_player;
-            temp_r2_2 = 0x14C * var_r4;
-            if (*(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x30) & 0x2000) goto next_player;
-            if (*((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x68) == 0) goto next_player;
+            {
+                register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
+                register u32 offset asm("r2");
+                register u8 *ptr asm("r0");
+                asm("" : "+r"(base));
+                offset = 0x14C * var_r4;
+                asm("" : "+r"(offset));
+                ptr = base;
+                asm("" : "+r"(ptr));
+                ptr += 0x30;
+                asm("" : "+r"(ptr));
+                ptr = (u8 *)(offset + (u32)ptr);
+                asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+                if (*(u32 *)ptr & 0x2000) goto next_player;
+                ptr = (u8 *)(offset + (u32)base);
+                asm("" : "+r"(ptr));
+                ptr += 0x68;
+                if (*ptr == 0) goto next_player;
+            }
 found_player:
             switch (var_r4) {
             case 0: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x1401FB); break;
@@ -4308,15 +4410,36 @@ found_player:
             case 3: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x140202); break;
             }
         }
-        *((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x68) = 0;
+        {
+            register u32 index asm("r0") = sub_080020F4();
+            register u8 *base asm("r2");
+            asm("" : "+r"(index));
+            base = (u8 *)gUnk_03003CE0;
+            asm("" : "+r"(base));
+            *(base + index * 0x14C + 0x68) = 0;
+        }
         sub_0806617C();
         while (sub_0805EEFC((void *)var_sl) == 0) sub_080003F0();
     }
     sub_080257D4(&gUnk_084F0C28, 0);
     sub_08056E24();
     if (sp5C[sub_080020F4()] == 0) {
-        temp_r2_3 = (s32 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x30);
-        *temp_r2_3 |= 0x400;
+        {
+            register u32 index asm("r0") = sub_080020F4();
+            register u8 *base asm("r1");
+            register u32 offset asm("r2");
+            register s32 *target asm("r2");
+            asm("" : "+r"(index));
+            base = (u8 *)gUnk_03003CE0;
+            asm("" : "+r"(base));
+            offset = index * 0x14C;
+            asm("" : "+r"(offset));
+            base += 0x30;
+            asm("" : "+r"(base));
+            target = (s32 *)(base + offset);
+            asm("" : "+r"(target));
+            *target |= 0x400;
+        }
         sub_08067D74();
     }
     while (sub_08056E90() == 0) sub_08057624(1U);
