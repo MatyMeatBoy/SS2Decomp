@@ -2207,7 +2207,6 @@ s32 sub_0808A984(u8 *table)
     }
     return 0;
 }
-#ifdef NONMATCHING
 s32 sub_0808AA70(u8 *table)
 {
     struct StateAA7091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
@@ -2216,9 +2215,10 @@ s32 sub_0808AA70(u8 *table)
     register const u16 *position asm("r5");
     u8 *player;
     s32 *coordinates;
-    const struct ExitAA7091 *exit;
-    u16 exitIndex;
+    register const struct ExitAA7091 *exit asm("r5");
+    u32 exitIndex;
     s32 difference;
+    register u32 zero asm("r8");
     extern struct StateAA7091 *stateAA7091 asm("gUnk_03005CF4");
     extern u8 playersAA7091[] asm("gUnk_03003CE0");
     extern u8 coordsAA7091[] asm("gUnk_03003D6C");
@@ -2226,19 +2226,19 @@ s32 sub_0808AA70(u8 *table)
     extern void callbackAA7091(void) asm("sub_08059FBC");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    s32 myId, offset;
+    register s32 myId asm("r4"); register s32 offset asm("r2");
 
     if (stateAA7091->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + stateAA7091->row * 0x24 + 4);
+        {register u32 delta asm("r0")=stateAA7091->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        offset = sub_080020F4() * 0x14C;
-        {register u8 *base asm("r3")=playersAA7091; register u8 *px asm("r1")=base+0x8C; px+=offset;
+        {register u8 *base asm("r3"); register u8 *px asm("r1");
+        offset=sub_080020F4();base=playersAA7091;asm("" : "+r"(base));offset*=0x14C;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
         *(u32 *)px=(u32)position[0]<<8;
-        px=base+0x90;px+=offset;*(u32 *)px=(u32)position[1]<<8;
-        player=base+offset;*(struct PosAA7091 *)(player+0x94)=*(struct PosAA7091 *)(player+0x8C);}
+        px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
+        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct PosAA7091 *)(p+0x94)=*(struct PosAA7091 *)(p+0x8C);}}
         sub_08009930(0, 0x11);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
@@ -2251,8 +2251,9 @@ s32 sub_0808AA70(u8 *table)
         return 0;
     }
     player = playersAA7091 + sub_080020F4() * 0x14C;
-    for (exitIndex = 1; exitIndex <= 3; exitIndex++) {
-        exit = (const struct ExitAA7091 *)(table + stateAA7091->row * 0x24 + 4 + exitIndex * 8);
+    exitIndex=1;{register struct StateAA7091 **p asm("r6")=&stateAA7091;asm("" : "=r"(zero) : "r"(p), "0"(0));}
+    for (; exitIndex <= 3; exitIndex++) {
+        {register u32 row asm("r0")=stateAA7091->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct ExitAA7091 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -2265,20 +2266,20 @@ s32 sub_0808AA70(u8 *table)
             sub_0800BB40();
             if (exitIndex == 1)
                 stateAA7091->row = exitIndex;
-            else
-                stateAA7091->row = 0;
-            stateAA7091->destination = exit->destination;
-            stateAA7091->script = scriptsAA7091[exit->destination];
-            stateAA7091->step = 0;
-            stateAA7091->active = 0;
+            else {
+                register struct StateAA7091 *p asm("r0")=stateAA7091;
+                register u32 z asm("r1")=zero;
+                p->row=z;
+            }
+            {register struct StateAA7091 *p asm("r1")=stateAA7091;
+            p->destination=exit->destination;
+            p->script=scriptsAA7091[exit->destination];
+            p->step=zero;p->active=zero;}
             return 1;
         }
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808AA70);
-#endif
 s32 sub_0808AC08(u8 *input)
 {
     struct StateAC0891 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
