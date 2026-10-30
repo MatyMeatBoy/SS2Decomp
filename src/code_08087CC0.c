@@ -1468,17 +1468,17 @@ s32 sub_080898D4(u8 *input)
     return 0;
     }
 }
-#ifdef NONMATCHING
 s32 sub_08089AE4(u8 *table)
 {
     struct State9AE491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos9AE491 { u32 x, y; };
     struct Exit9AE491 { u16 x, y, destination, unused; };
-    const u16 *position;
+    register const u16 *position asm("r6");
     u8 *player;
     s32 *coordinates;
-    const struct Exit9AE491 *exit;
-    u16 exitIndex;
+    register const struct Exit9AE491 *exit asm("r6");
+    u32 exitIndex;
+    register u32 zero asm("r8");
     s32 difference;
     extern struct State9AE491 *state9AE491 asm("gUnk_03005CF4");
     extern u8 players9AE491[] asm("gUnk_03003CE0");
@@ -1487,21 +1487,21 @@ s32 sub_08089AE4(u8 *table)
     extern void callback9AE491(void) asm("sub_0802D2C8");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    s32 myId, offset;
+    register s32 myId asm("r8"); register s32 offset asm("r2");
 
     if (state9AE491->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + state9AE491->row * 0x24 + 4);
+        {register u32 delta asm("r0")=state9AE491->row*0x24;delta+=4;asm("" : "+r"(delta));position=(u16 *)(table+delta);}
         sub_0800CCDC();
-        offset = sub_080020F4() * 0x14C;
-        player = players9AE491 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
-        *(struct Pos9AE491 *)(player + 0x94) = *(struct Pos9AE491 *)(player + 0x8C);
+        {register u8 *base asm("r4"); register u8 *px asm("r1"); register u32 stride asm("r5");
+        offset=sub_080020F4();base=players9AE491;asm("" : "+r"(base));stride=0x14c;offset*=stride;px=base+0x8C;px=(u8 *)((u32)offset+(u32)px);
+        *(u32 *)px=(u32)position[0]<<8;
+        px=base+0x90;px=(u8 *)((u32)offset+(u32)px);*(u32 *)px=(u32)position[1]<<8;
+        {register u8 *p asm("r2");offset+=(u32)base;p=(u8 *)offset;*(struct Pos9AE491 *)(p+0x94)=*(struct Pos9AE491 *)(p+0x8C);}
         sub_0800CCDC();
-        *(u32 *)(players9AE491 + myId * 0x14C + 0x30) &= 0x2000;
+        {register u32 *flags asm("r2");register s32 index asm("r2")=myId;index*=stride;base+=0x30;index+=(u32)base;flags=(u32 *)index;*flags &= 0x2000;}}
         sub_08067D74();
         sub_08009930(0, 6);
         while (sub_0800BA6C() == 0)
@@ -1516,8 +1516,9 @@ s32 sub_08089AE4(u8 *table)
         return 0;
     }
     player = players9AE491 + sub_080020F4() * 0x14C;
-    for (exitIndex = 1; exitIndex <= 3; exitIndex++) {
-        exit = (const struct Exit9AE491 *)(table + state9AE491->row * 0x24 + 4 + exitIndex * 8);
+    exitIndex=1;zero=0;
+    for (; exitIndex <= 3; exitIndex++) {
+        {register u32 row asm("r0")=state9AE491->row*0x24;register u32 col asm("r1");row+=4;asm("" : "+r"(row));row=(u32)table+row;col=exitIndex*8;exit=(const struct Exit9AE491 *)(row+col);}
         difference = (*(s32 *)(player + 0x8C) >> 11) - exit->x;
         if (difference < 0)
             difference = -difference;
@@ -1532,18 +1533,13 @@ s32 sub_08089AE4(u8 *table)
                 state9AE491->row = exitIndex;
             else if (exitIndex == 2)
                 state9AE491->row = exitIndex;
-            state9AE491->destination = exit->destination;
-            state9AE491->script = scripts9AE491[exit->destination];
-            state9AE491->step = 0;
-            state9AE491->active = 0;
+            {register struct State9AE491 *p asm("r1")=state9AE491;
+            p->destination=exit->destination;p->script=scripts9AE491[exit->destination];p->step=zero;p->active=zero;}
             return 1;
         }
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089AE4);
-#endif
 #ifdef NONMATCHING
 s32 sub_08089CA0(u8 *table)
 {
