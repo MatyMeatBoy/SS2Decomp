@@ -62,7 +62,7 @@ extern u16 directions076EE8[] asm("gUnk_0849E730");
 extern u32 active076EE8 asm("gUnk_030056FC");
 u16 sub_08073EE8(u16 width,s32 range)
 {
- u8 *player,*candidate,*sprite;u32 best,nearest,index,count;u16 distance,angle;s32 dx,dy,difference,offset;
+ u8 *player,*candidate,*sprite;u32 best,nearest,index,count;u16 distance,angle;register u32 angleRaw asm("r0");s32 dx,dy,difference,offset;
  player=players076EE8+sub_080020F4()*0x14C;best=0xFFFF;nearest=-1;
  if(sub_0800CF80()){
   count=sub_08002164();index=0;
@@ -71,13 +71,13 @@ u16 sub_08073EE8(u16 width,s32 range)
    if(player[0x68]!=candidate[0x68] && candidate[0x68]!=0){
     sprite=F_076EE8(candidate,u8*,0x148);
     dx=(F_076EE8(sprite,u16,0)>>4)-(F_076EE8(player,s32,0x8C)>>8);
-    dy=(F_076EE8(sprite,u16,2)&0xFFF)-(F_076EE8(player,s32,0x90)>>8);
-angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
-    sprite=*(u8**)(player+0x148);angle-=directions076EE8[sprite[3]>>4];
+    dy=(((u32)F_076EE8(sprite,u16,2)<<20)>>20)-(F_076EE8(player,s32,0x90)>>8);
+angleRaw=(u32)ArcTan2(dx,dy)+0x400; asm("" : "+r"(angleRaw));
+    sprite=*(u8**)(player+0x148);angle=(angleRaw>>12)-directions076EE8[sprite[3]>>4];
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<(u32)range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if((u32)range>distance && best>distance){best=distance;nearest=index;}}
    }
    index++;
   }
@@ -90,12 +90,12 @@ angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
    if(F_076EE8(candidate,u16,0xC)!=11 && F_076EE8(candidate,s16,0x5C)!=0 && candidate[0x1DC]!=0){
     dx=(F_076EE8(candidate,s32,0x14)-F_076EE8(player,s32,0x8C))>>8;
     dy=(F_076EE8(candidate,s32,0x18)-F_076EE8(player,s32,0x90))>>8;
-angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
-    sprite=*(u8**)(player+0x148);angle-=directions076EE8[sprite[3]>>4];
+angleRaw=(u32)ArcTan2(dx,dy)+0x400; asm("" : "+r"(angleRaw));
+    sprite=*(u8**)(player+0x148);angle=(angleRaw>>12)-directions076EE8[sprite[3]>>4];
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<(u32)range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if((u32)range>distance && best>distance){best=distance;nearest=index;}}
    }
   }
   offset+=0x2E0;index++;
@@ -114,7 +114,7 @@ extern u16 directions07614C[] asm("gUnk_0849E730");
 #define F_07614C(p,t,o) (*(t*)((u8*)(p)+(o)))
 s32 sub_0807414C(u8 *player,u16 width,u32 range)
 {
- u8 *candidate,*sprite,*ownSprite;u32 best,nearest,index,count;u16 distance,angle;s32 dx,dy,difference,offset;
+ u8 *candidate,*sprite,*ownSprite;u32 best,nearest,index,count;u16 distance,angle;register u32 angleRaw asm("r0");s32 dx,dy,difference,offset;
  best=0xFFFF;nearest=-1;
  if(sub_0800CF80()){
   count=sub_08002164();index=0;
@@ -123,13 +123,13 @@ s32 sub_0807414C(u8 *player,u16 width,u32 range)
    if(player[0x68]!=candidate[0x68] && candidate[0x68]!=0){
     sprite=F_07614C(candidate,u8*,0x148);ownSprite=F_07614C(player,u8*,0x148);
     dx=(F_07614C(sprite,u16,0)>>4)-(F_07614C(ownSprite,u16,0)>>4);
-    dy=(F_07614C(sprite,u16,2)&0xFFF)-(F_07614C(ownSprite,u16,2)&0xFFF);
-angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
-    sprite=*(u8**)(player+0x148);angle-=directions07614C[sprite[3]>>4];
+    dy=(((u32)F_07614C(sprite,u16,2)<<20)>>20)-(((u32)F_07614C(ownSprite,u16,2)<<20)>>20);
+angleRaw=(u32)ArcTan2(dx,dy)+0x400; asm("" : "+r"(angleRaw));
+    sprite=*(u8**)(player+0x148);angle=(angleRaw>>12)-directions07614C[sprite[3]>>4];
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(range>distance && best>distance){best=distance;nearest=index;}}
    }
    index++;
   }
@@ -141,13 +141,13 @@ angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
    candidate=enemies07614C+offset;
    if(F_07614C(candidate,u16,0xC)!=11 && F_07614C(candidate,s16,0x5C)!=0 && candidate[0x1DC]!=0){
     ownSprite=F_07614C(player,u8*,0x148);dx=(F_07614C(candidate,s32,0x14)>>8)-(F_07614C(ownSprite,u16,0)>>4);
-    dy=(F_07614C(candidate,s32,0x18)>>8)-(F_07614C(ownSprite,u16,2)&0xFFF);
-angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
-    sprite=*(u8**)(player+0x148);angle-=directions07614C[sprite[3]>>4];
+    dy=(F_07614C(candidate,s32,0x18)>>8)-(((u32)F_07614C(ownSprite,u16,2)<<20)>>20);
+angleRaw=(u32)ArcTan2(dx,dy)+0x400; asm("" : "+r"(angleRaw));
+    sprite=*(u8**)(player+0x148);angle=(angleRaw>>12)-directions07614C[sprite[3]>>4];
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(range>distance && best>distance){best=distance;nearest=index;}}
    }
   }
   offset+=0x2E0;index++;
