@@ -1,7 +1,7 @@
 {
   "address": "0x0808C0C4",
-  "updated_utc": "2026-10-30T00:49:33+00:00",
-  "checkpoint": "Third pass based on e5af876c and main 67a03e51. NONMATCHING retained: original/candidate 2708/2708 bytes; frame 368/368; approximate nmscore 783, not a match.",
+  "updated_utc": "2026-10-30T00:55:26.1468505Z",
+  "checkpoint": "Verified code checkpoint fda0937a8201698100ae3b5765a82a3492182a2a rebased on main 256588dd. NONMATCHING retained: original/candidate 2708/2708 bytes; frame 368/368; approximate nmscore 783, not a match.",
   "areas": [
     {
       "id": "compile",
