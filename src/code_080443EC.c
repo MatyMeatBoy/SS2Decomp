@@ -65,6 +65,7 @@ extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
 extern u8 *records44 asm("gUnk_030056F4");
 extern u8 *inventory44 asm("gUnk_030034E0");
+extern u32 audioFlags44 asm("gUnk_030027D0");
 void sub_080445E8(s32 arg0, u32 arg1) {
     struct GrantM44 sp8;
     struct CurrencyM44 sp18;
