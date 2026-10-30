@@ -5962,16 +5962,37 @@ void sub_08013850(void)
         for (j = 0; j < 12; j++)
             dts13850->r[i].c[j] = 0;
     }
-    st13850->r5[0].a = 0;
-    st13850->r5[0].b = 0;
-    st13850->r5[1].a = 0;
-    st13850->r5[1].b = 0;
-    st13850->r5[2].a = 0;
-    st13850->r5[2].b = 0;
-    st13850->r5[4].a = 0;
-    st13850->r5[4].b = 0;
-    st13850->r5[3].a = 0;
-    st13850->r5[3].b = 0;
+    {
+        register u8 *base asm("r1");
+        register u32 zero asm("r2") = 0;
+        register u32 even asm("r3");
+        register u32 odd asm("r6");
+        register struct State13850 **state asm("r6");
+        asm("" : "+r"(zero));
+        state = &st13850;
+        asm("" : "+r"(state));
+        base = (u8 *)*state;
+        asm("" : "+r"(base));
+        even = 0x80;
+        asm("" : "+r"(even));
+        even <<= 1;
+        asm("" : "+r"(even));
+        *(u16 *)(base + even) = zero;
+        odd = 0x81;
+        asm("" : "+r"(odd));
+        odd <<= 1;
+        asm("" : "+r"(odd));
+        *(u16 *)(base + odd) = zero;
+        even += 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+        odd += 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+        even += 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+        odd += 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+        even += 32; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+        odd += 32; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+        even -= 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+        odd -= 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+        asm volatile("" : "+r"(even), "+r"(odd), "+r"(base));
+    }
     for (i = 0; i < 75; i++) {
         st13850->s[i].a = 0;
         st13850->s[i].b = 0;
