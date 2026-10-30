@@ -552,7 +552,7 @@ extern struct Pos94 v94_0851863C[] asm("gUnk_0851863C");
 
 void f94_08007870(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870"); void f94_08007974(s32,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
 void f94_0800903C(s32,s32,s32,s32,s32,void *) asm("sub_0800903C"); void f94_080009F8(s32,s32,s32) asm("sub_080009F8"); s16 f94_0800086C(void) asm("sub_0800086C"); void f94_080953F8(void) asm("sub_080953F8"); void f94_08095610(u8) asm("sub_08095610"); void f94_080586D0(s32) asm("sub_080586D0"); void f94_0800CC18(void) asm("sub_0800CC18"); void f94_0800CC68(void) asm("sub_0800CC68"); void f94_08098028(void) asm("sub_08098028");
-extern s16 v94_080B9704[] asm("gUnk_080B9704"); extern u16 v94_03002344 asm("gUnk_03002344");
+extern s16 v94_080B9704[] asm("gUnk_080B9704"); extern u32 v94_03002344 asm("gUnk_03002344");
 struct Global94 {u8 pad[0x3a];u16 field;}; extern struct Global94 v94_03001250 asm("gUnk_03001250");
 void sub_08094F3C(s8 arg0, s32 arg1) {
     u32 sp0;
@@ -579,7 +579,7 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     struct {s32 x:16,y:16;} particle;
     s16 randomValue,tableValue;
     s32 temp_r6;
-    s32 var_r8;
+    register s32 var_r8 asm("r8");
     u32 temp_r0_2;
     u32 temp_r1;
     u32 temp_r1_2;
