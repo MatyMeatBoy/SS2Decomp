@@ -628,13 +628,15 @@ s32 sub_0808A008(u8 *table)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A008);
 #endif
-#ifdef NONMATCHING
 s32 sub_0808A294(u8 *table)
 {
     struct StateA29491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
     struct PosA29491 { u32 x, y; };
-    const u16 *position;
+    register const u16 *position asm("r4");
     u8 *player;
+    register u8 *playerBase asm("r3");
+    register u32 playerOffset asm("r2");
+    register u8 *field asm("r1");
     s32 *coordinates;
     extern struct StateA29491 *stateA29491 asm("gUnk_03005CF4");
     extern u8 playersA29491[] asm("gUnk_03003CE0");
@@ -642,18 +644,26 @@ s32 sub_0808A294(u8 *table)
     extern void callbackA29491(void) asm("sub_0802D8C4");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    s32 myId, offset;
+    s32 myId;
 
     if (stateA29491->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + stateA29491->row * 0x24 + 4);
+        position = (u16 *)(table + (stateA29491->row * 0x24 + 4));
         sub_0800CCDC();
-        offset = sub_080020F4() * 0x14C;
-        player = playersA29491 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
+        playerOffset = sub_080020F4();
+        playerBase = playersA29491;
+        playerOffset *= 0x14C;
+        field = playerBase;
+        field += 0x8C;
+        field = (u8 *)(playerOffset + (u32)field);
+        *(u32 *)field = (u32)position[0] << 8;
+        field = playerBase;
+        field += 0x90;
+        field = (u8 *)(playerOffset + (u32)field);
+        *(u32 *)field = (u32)position[1] << 8;
+        player = (u8 *)(playerOffset + (u32)playerBase);
         *(struct PosA29491 *)(player + 0x94) = *(struct PosA29491 *)(player + 0x8C);
         sub_08009930(0, 0xE);
         while (sub_0800BA6C() == 0)
@@ -670,9 +680,6 @@ s32 sub_0808A294(u8 *table)
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A294);
-#endif
 #ifdef NONMATCHING
 s32 sub_0808A380(u8 *table)
 {
@@ -836,13 +843,15 @@ s32 sub_0808A4D4(u8 *table)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A4D4);
 #endif
-#ifdef NONMATCHING
 s32 sub_0808A744(u8 *table)
 {
     struct StateA74491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
     struct PosA74491 { u32 x, y; };
-    const u16 *position;
+    register const u16 *position asm("r4");
     u8 *player;
+    register u8 *playerBase asm("r3");
+    register u32 playerOffset asm("r2");
+    register u8 *field asm("r1");
     s32 *coordinates;
     extern struct StateA74491 *stateA74491 asm("gUnk_03005CF4");
     extern u8 playersA74491[] asm("gUnk_03003CE0");
@@ -850,18 +859,26 @@ s32 sub_0808A744(u8 *table)
     extern void callbackA74491(void) asm("sub_0802DAF0");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    s32 myId, offset;
+    s32 myId;
 
     if (stateA74491->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + stateA74491->row * 0x24 + 4);
+        position = (u16 *)(table + (stateA74491->row * 0x24 + 4));
         sub_0800CCDC();
-        offset = sub_080020F4() * 0x14C;
-        player = playersA74491 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
+        playerOffset = sub_080020F4();
+        playerBase = playersA74491;
+        playerOffset *= 0x14C;
+        field = playerBase;
+        field += 0x8C;
+        field = (u8 *)(playerOffset + (u32)field);
+        *(u32 *)field = (u32)position[0] << 8;
+        field = playerBase;
+        field += 0x90;
+        field = (u8 *)(playerOffset + (u32)field);
+        *(u32 *)field = (u32)position[1] << 8;
+        player = (u8 *)(playerOffset + (u32)playerBase);
         *(struct PosA74491 *)(player + 0x94) = *(struct PosA74491 *)(player + 0x8C);
         sub_08009930(0, 0xA);
         while (sub_0800BA6C() == 0)
@@ -878,9 +895,6 @@ s32 sub_0808A744(u8 *table)
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A744);
-#endif
 #ifdef NONMATCHING
 s32 sub_0808A830(u8 *table)
 {
@@ -941,13 +955,15 @@ s32 sub_0808A830(u8 *table)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A830);
 #endif
-#ifdef NONMATCHING
 s32 sub_0808A984(u8 *table)
 {
     struct StateA98491 { u8 p0[0x10]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; };
     struct PosA98491 { u32 x, y; };
-    const u16 *position;
+    register const u16 *position asm("r4");
     u8 *player;
+    register u8 *playerBase asm("r3");
+    register u32 playerOffset asm("r2");
+    register u8 *field asm("r1");
     s32 *coordinates;
     extern struct StateA98491 *stateA98491 asm("gUnk_03005CF4");
     extern u8 playersA98491[] asm("gUnk_03003CE0");
@@ -955,18 +971,26 @@ s32 sub_0808A984(u8 *table)
     extern void callbackA98491(void) asm("sub_0802E444");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    s32 myId, offset;
+    s32 myId;
 
     if (stateA98491->step == 0) {
         while (sub_0801AAE0() == 0)
             sub_080003F0();
         myId = sub_080020F4();
-        position = (u16 *)(table + stateA98491->row * 0x24 + 4);
+        position = (u16 *)(table + (stateA98491->row * 0x24 + 4));
         sub_0800CCDC();
-        offset = sub_080020F4() * 0x14C;
-        player = playersA98491 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
+        playerOffset = sub_080020F4();
+        playerBase = playersA98491;
+        playerOffset *= 0x14C;
+        field = playerBase;
+        field += 0x8C;
+        field = (u8 *)(playerOffset + (u32)field);
+        *(u32 *)field = (u32)position[0] << 8;
+        field = playerBase;
+        field += 0x90;
+        field = (u8 *)(playerOffset + (u32)field);
+        *(u32 *)field = (u32)position[1] << 8;
+        player = (u8 *)(playerOffset + (u32)playerBase);
         *(struct PosA98491 *)(player + 0x94) = *(struct PosA98491 *)(player + 0x8C);
         sub_08009930(0, 0xF);
         while (sub_0800BA6C() == 0)
@@ -983,9 +1007,6 @@ s32 sub_0808A984(u8 *table)
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A984);
-#endif
 #ifdef NONMATCHING
 s32 sub_0808AA70(u8 *table)
 {
@@ -1215,18 +1236,27 @@ s32 sub_0808AD90(u8 *table)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808AD90);
 #endif
-#ifdef NONMATCHING
 void sub_0808AFA4(const u16 *pos)
 {
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14C;
-    *(u32 *)(state + 0x8C) = (u32)pos[0] << 8;
-    *(u32 *)(state + 0x90) = (u32)pos[1] << 8;
-    *(u32 *)(state + 0x94) = *(u32 *)(state + 0x8C);
-    *(u32 *)(state + 0x98) = *(u32 *)(state + 0x90);
+    struct PositionPairAFA4 { u32 x, y; };
+    register u8 *base asm("r3");
+    register u32 offset asm("r2");
+    register u8 *field asm("r1");
+    u8 *state;
+    offset = sub_080020F4();
+    base = (u8 *)gUnk_03003CE0;
+    offset *= 0x14C;
+    field = base;
+    field += 0x8C;
+    field = (u8 *)(offset + (u32)field);
+    *(u32 *)field = (u32)pos[0] << 8;
+    field = base;
+    field += 0x90;
+    field = (u8 *)(offset + (u32)field);
+    *(u32 *)field = (u32)pos[1] << 8;
+    state = (u8 *)(offset + (u32)base);
+    *(struct PositionPairAFA4 *)(state + 0x94) = *(struct PositionPairAFA4 *)(state + 0x8C);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808AFA4);
-#endif
 #ifdef NONMATCHING
 extern void sub_0808AFE8_v(void) asm("sub_0808AFE8");
 void sub_0808AFE8_v(void) {
