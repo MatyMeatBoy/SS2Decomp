@@ -872,7 +872,119 @@ s32 sub_08096594(u8 arg0)
  done:
     return selected;
 }
+#ifdef NONMATCHING
+struct Body99640 {u16 index;u8 pad2[10];u16 state;u8 padE[6];s32 x,y;u8 pad1C[0x212];u8 radiusX,radiusY;u8 tail[0xB0];};
+/* Layout-only padding matches unused stack slots in the original frame. */
+struct Frame99640 {u8 reserved[0x1C];u32 index,rx,ry;s32 x,y;};
+extern struct Body99640 *bodies99640 asm("gUnk_030056F4");
+extern u32 active99640 asm("gUnk_030056FC");
+extern s16 sine99640[] asm("gUnk_080B9704");
+extern u8 directions99640[] asm("gUnk_085186EC");
+extern u16 angles99640[] asm("gUnk_0849E730");
+extern u16 query99640(u8,s32,s32,s32) asm("sub_0800B118");
+extern u32 sqrt99640(s32) asm("Sqrt");
+extern u16 angle99640(s32,s32) asm("ArcTan2");
+void sub_08096640(struct Body99640 *arg0)
+{
+    volatile struct Frame99640 frame;
+    register struct Body99640 *self asm("r10")=arg0;
+    register struct Body99640 *other asm("r9");
+    s32 rx;
+    register s32 ry asm("r8");
+    s32 dx,dy,absolute;
+    register u32 loopIndex asm("r5");
+    register u32 dxBits asm("r1");
+    register struct Body99640 *entry0 asm("r0")=arg0;
+    register struct Body99640 *low1 asm("r1"), *low3 asm("r3"), *low5 asm("r5");
+    register u32 tmp0 asm("r0"),tmp1 asm("r1"),tmp2 asm("r2"),tmp3 asm("r3"),tmp5 asm("r5");
+    register u32 distance asm("r4");
+    u32 rawAngle;
+    register s16 *trig asm("r4");
+    register u32 angle asm("r2"),newAngle asm("r1");
+    u16 hit;
+    register s32 outX asm("r3"),outY asm("r2");
+    /* Empty constraints preserve register lifetimes without algorithm ASM. */
+    asm("" : : "r"(self));
+    frame.x=entry0->x;
+    low1=self;
+    tmp1=low1->y; frame.y=tmp1;
+    frame.rx=self->radiusX;
+    frame.ry=self->radiusY;
+    other=bodies99640;
+    tmp2=0;
+    frame.index=tmp2;
+    do {
+        loopIndex=frame.index;
+        low3=self;
+        tmp3=low3->index;
+        if(loopIndex!=tmp3 && (active99640 & (1<<loopIndex)) && (tmp0=(low5=self)->state)!=11) {
+            tmp0=other->radiusX; tmp1=frame.rx; rx=tmp1+tmp0;
+            tmp0=other->radiusY; tmp2=frame.ry; tmp2=tmp2+tmp0; ry=tmp2;
+            low3=other;
+            dxBits=low3->x;
+            tmp5=frame.x;
+            dxBits=(u32)(tmp5-dxBits)<<8;
+            tmp0=low3->y; tmp2=frame.y; tmp0=(tmp2-tmp0)<<8; tmp2=tmp0>>16;
+            dx=(s32)dxBits>>16;
+            absolute=dx;
+            if(absolute<0) absolute=-absolute;
+            if((absolute>>3)<=0) {
+                tmp0=tmp2<<16;
+                dy=(s32)tmp0>>16;
+                absolute=dy;
+                if(absolute<0) absolute=-absolute;
+                if(absolute<=0) {
+                    distance=sqrt99640(dx*dx+dy*dy);
+                    asm("" : "+r"(distance));
+                    distance=(u16)distance;
+                    rawAngle=(u32)(angle99640(dx,dy)<<16)>>24;
+                    angle=(u16)rawAngle;
+                    rx=(u16)(rx-distance);
+                    tmp3=ry;
+                    distance=tmp3-distance;
+                    distance=(u16)distance;
+                    ry=distance;
+                    trig=sine99640;
+                    tmp1=angle+64;
+                    tmp1<<=1; tmp1+=(u32)trig;
+
+                    tmp1=(s32)*(s16 *)tmp1; asm("" : : "r"(tmp3)); tmp1*=rx;
+                    tmp5=frame.x; outX=tmp5+tmp1;
+                    angle<<=1; angle+=(u32)trig;
+
+                    tmp1=(s32)*(s16 *)angle;
+                    tmp2=ry; tmp2*=tmp1; tmp1=tmp2;
+                    tmp5=frame.y; outY=tmp5+tmp1;
+                    hit=query99640(directions99640[(rawAngle<<16)>>20],outX,outY,0);
+                    if(hit) {
+                        tmp0=((u32)hit-1)<<16;
+                        tmp1=(u32)angles99640; tmp0>>=15; tmp0+=tmp1;
+                        newAngle=(u16)(*(u16 *)tmp0*16);
+                        tmp0=newAngle+64;
+                        tmp0<<=1; tmp0+=(u32)trig;
+
+                        tmp0=(s32)*(s16 *)tmp0; asm("" : : "r"(tmp3), "r"(tmp5)); tmp0*=rx;
+                        tmp5=frame.x; outX=tmp5+tmp0;
+                        newAngle<<=1; newAngle+=(u32)trig;
+
+                        tmp0=(s32)*(s16 *)newAngle; asm("" : : "r"(tmp5));
+                        tmp5=ry;  tmp5*=tmp0; asm("" : : "r"(tmp5)); tmp0=tmp5; asm("" : "+r"(tmp0));
+                        tmp1=frame.y; outY=tmp1+tmp0;
+                        low5=self;
+                        low5->x=outX;
+                        low5->y=outY;
+                    }
+                }
+            }
+        }
+        frame.index=(u16)(frame.index+1);
+        tmp0=0x2E0; asm("" : : "r"(tmp0)); other=(struct Body99640 *)((u8 *)other+tmp0);
+        tmp1=frame.index;
+    } while(tmp1<=4);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096640);
+#endif
 extern u16 shakeScale99 asm("gUnk_0300029C");
 struct ShakeView99 { u8 pad[0x18]; u16 vertical; };
 extern struct ShakeView99 *shakeView99 asm("gUnk_030034E0");
@@ -1370,7 +1482,139 @@ void sub_08096FA0(u8 arg0)
     }
     *(u32 *)(state99FA0+8)=0;
 }
+#ifdef NONMATCHING
+
+struct Entity9970CC {
+    u8 pad0[0x14];
+    s32 x, y;
+    u8 pad1C[0x4C];
+    u16 animation, tile, rotation;
+};
+struct Sprite9970CC {
+    u32 f0, f4, f8;
+    u16 *palette;
+    u8 pad10[12];
+    u8 payload[24];
+};
+struct Color9970CC { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+struct Frame9970CC {
+    /* Outgoing arguments occupy SP+0..17; this object begins at SP+18. */
+    u16 palette[16];
+    s16 screenX, screenY;
+    volatile u32 counter;
+    u16 *volatile animationPtr;
+    u16 *volatile tilePtr;
+    u16 *volatile rotationPtr;
+    s16 *volatile screenXPtr;
+    s16 *volatile screenYPtr;
+    volatile u32 uploadBank;
+    u8 *volatile payloadPtr;
+    volatile u32 paletteIndex;
+};
+extern s32 fade9970CC(u16 *, u8, u16, u16) asm("sub_08096E20");
+extern s32 animate9970CC(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void coords9970CC(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void draw9970CC(s32, s32, u32, u32, u32, u32, u32, void *, u32, u32) asm("sub_08007974");
+
+s32 sub_080970CC(struct Entity9970CC *inputEntity,
+                struct Sprite9970CC *sprite, u16 bank, u16 slot)
+{
+    struct Frame9970CC frame;
+    register struct Entity9970CC *entity asm("r6") = inputEntity;
+    /* This register holds the slot during copying, then the screen-X address. */
+    register u32 high10 asm("sl") = slot;
+    /* Reuse the bank offset as the animation wave phase after the copy. */
+    register u32 phase asm("r9");
+    /* RGB mask during copying; animation state afterwards. */
+    register u32 state asm("r8");
+    register u32 paletteIndex asm("r4");
+    u32 elapsed, oldElapsed, oldCounter;
+    u16 i;
+    s16 j;
+    u16 component;
+    struct Color9970CC *dst;
+    volatile struct Color9970CC *src;
+
+    sprite->payload[0] = (u8)high10;
+    i = 0;
+    frame.screenXPtr = &frame.screenX;
+    frame.screenYPtr = &frame.screenY;
+    phase = (u32)bank << 4;
+    state = 31;
+    asm("" : "+r"(state));
+    do {
+        j = (s16)i;
+        src = (void *)((u8 *)sprite->palette + (phase + j) * 2);
+        dst = (void *)((u8 *)frame.palette + j * 2);
+        component = src->r;
+        dst->r = component & state;
+        component = src->g;
+        dst->g = component;
+        component = src->b;
+        dst->b = component & state;
+        /* Do not initialize or copy the unused high palette bit. */
+        i = (u16)(j + 1);
+    } while ((s16)i <= 15);
+
+    frame.counter = 0;
+    phase = 0;
+    elapsed = 0;
+    state = 2;
+    frame.uploadBank = high10 + 16;
+    frame.rotationPtr = &entity->rotation;
+    frame.payloadPtr = sprite->payload;
+    frame.animationPtr = &entity->animation;
+    frame.tilePtr = &entity->tile;
+    high10 = (u32)frame.screenXPtr;
+    for (;;) {
+        phase = (phase + 1) & 15;
+        oldCounter = frame.counter;
+        frame.counter = (u8)(oldCounter + 1);
+        if (oldCounter & 1)
+            sub_08009088(0, 0, phase, 0);
+        else
+            sub_08009088(0, 0, 0, phase);
+
+        if (state == 2) {
+            oldElapsed = elapsed;
+            elapsed = (u16)(oldElapsed + 1);
+            /* The old value, not the incremented count, controls this branch. */
+            if (oldElapsed > 60) {
+                elapsed = 0;
+                state = 1;
+            }
+        } else if (state == 1) {
+            elapsed = (u16)(elapsed + 1);
+            if ((u8)fade9970CC(frame.palette, 2, elapsed, 60)) {
+                elapsed = 0;
+                state = 0;
+            }
+        }
+        sub_08000AF0(frame.uploadBank, frame.palette, 1);
+        paletteIndex = sub_0800BC44(entity->x >> 8, entity->y >> 8, 0);
+        asm("" : "+r"(paletteIndex));
+        paletteIndex = (u8)paletteIndex;
+        frame.paletteIndex = paletteIndex;
+        animate9970CC(sprite, *frame.animationPtr,
+                     frame.tilePtr, frame.rotationPtr, 1);
+        coords9970CC((s32)((u32)entity->x << 8) >> 16,
+                    (s32)((u32)entity->y << 8) >> 16,
+                    (s16 *)high10, frame.screenYPtr, 0, 0);
+        draw9970CC(*(s16 *)high10, *frame.screenYPtr,
+                  *frame.animationPtr, *frame.tilePtr,
+                  frame.paletteIndex, 1, 0, frame.payloadPtr,
+                  sprite->f8, sprite->f0);
+        sub_08000B38();
+        sub_080003F0();
+        if (state == 0)
+            break;
+    }
+    sub_08009088(0, 0, 0, 0);
+    return 1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
 struct FadeColor100 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern void sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
