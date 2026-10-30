@@ -1,7 +1,7 @@
 {
   "address": "0x0806690C",
-  "updated_utc": "2026-10-30T02:45:41.432105+00:00",
-  "checkpoint": "77c4ddb22a3811f77282d960789cd2a0e9aec4a4",
+  "updated_utc": "2026-10-30T02:49:30.786475+00:00",
+  "checkpoint": "2f8b01c22e7b9b79bdafa4eb6897307e3617889b",
   "areas": [
     {
       "id": "compile",
@@ -25,13 +25,13 @@
       "id": "dispatch",
       "label": "Payload effects and queue handling",
       "state": "active",
-      "evidence": "Restored omitted hit cases 9/10, damage records, distinct host spawn cases 20/21/22, pickup cases 24/25, item effects 27/28, entity effect case 33, local player state case 38, synchronized state case 42 and three byte flags. Corrected the byte access at gUnk_03006220, game-state flag 1 for case 32 and the life reset shared by cases 8/47. Current original and candidate each contain 107 physical calls; tail sharing differs (original CpuSet 4/sub_0801DB94 7, candidate 3/8). Further field, ABI and CFG review remains necessary; call counts do not prove equivalence. Independent read-only review found no newly omitted outer case or missing required argument among the 42 callees with known signatures. Case 26 (tag 0x9B) and case 47 were moved to their original dispatch order; further exact CFG comparison remains necessary."
+      "evidence": "Restored omitted hit cases 9/10, damage records, distinct host spawn cases 20/21/22, pickup cases 24/25, item effects 27/28, entity effect case 33, local player state case 38, synchronized state case 42 and three byte flags. Corrected the byte access at gUnk_03006220, game-state flag 1 for case 32 and the life reset shared by cases 8/47. Original has 107 physical calls, candidate 106; CpuSet tail sharing differs (original 4, candidate 3), while every other physical call count agrees. Further field, ABI and CFG review remains necessary; call counts do not prove equivalence. Independent read-only review found no newly omitted outer case or missing required argument among the 42 callees with known signatures. Case 26 (tag 0x9B) and case 47 were moved to their original dispatch order; further exact CFG comparison remains necessary. Follow-up CFG audit found and restored the effect+6 halfword store for a nonnull entity effect in case 10: 0x08066F48 branches through 0x08066F8C to 0x08066FBC. A second reader confirmed that shared tail; the earlier broad review was insufficient to prove equivalence."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4208 bytes; both frames are 296 bytes, approximate score 1259. The retained ASM fallback reproduces the ROM. make -j1 compare prints shiningsoul2_eu.gba: OK, make -j1 nonmatching exits 0, and check_tree reports 0 errors. No new matching C bytes are claimed."
+      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4200 bytes; both frames are 296 bytes, approximate score 1257. The retained ASM fallback reproduces the ROM. make -j1 compare prints shiningsoul2_eu.gba: OK, make -j1 nonmatching exits 0, and check_tree reports 0 errors. No new matching C bytes are claimed."
     }
   ],
   "regions": []
