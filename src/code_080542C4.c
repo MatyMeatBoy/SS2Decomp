@@ -592,60 +592,38 @@ void sub_08055BA4(void)
         i = (i + 1) & 31;
     }
 }
-#ifdef NONMATCHING
 void sub_08055D1C(void);
-void sub_08055C58(void) {
-    u8 *var_r0;
-    u8 *var_r1;
-    u8 *var_r1_2;
-    u8 *var_r2_2;
-    s32 temp_r0;
-    s32 temp_r4;
-    u32 var_r2;
-    u32 var_r2_3;
-
-    temp_r4 = sub_080289C0(0x3E, 0x78, 0x60);
-    var_r1 = gUnk_03005CF4 + 0x7A4;
-    var_r2 = 0;
-loop_1:
-    if (*(u32 *)var_r1 != temp_r4) {
-        var_r2 += 1;
-        var_r1 += 0x70;
-        if (var_r2 > 0xEU) {
-            sub_080003F0();
-            var_r2_2 = NULL;
-        } else {
-            goto loop_1;
-        }
-    } else {
-        var_r2_2 = var_r1;
+static inline u8 *find56(s32 id)
+{
+    u8 *p = gUnk_03005CF4 + 0x7A4;
+    u32 i = 0;
+    do {
+        if (*(s32 *)p == id)
+            return p;
+        i++;
+        p += 0x70;
+    } while (i <= 14);
+    sub_080003F0();
+    return NULL;
+}
+void sub_08055C58(void)
+{
+    s32 id = sub_080289C0(0x3E, 0x78, 0x60);
+    u8 *p;
+    u8 *q;
+    void (*cb)(void);
+    p = find56(id);
+    if (p != NULL) {
+        *(u16 *)(p + 0x18) = 8;
+        *(u16 *)(p + 0x1A) = 0x1E;
+        *(u32 *)(p + 0x3C) |= 0x10;
     }
-    if (var_r2_2 != NULL) {
-        *(u16 *)(var_r2_2 + 0x18) = 8;
-        *(u16 *)(var_r2_2 + 0x1A) = 0x1E;
-        *(u32 *)(var_r2_2 + 0x3C) = (s32) (*(u32 *)(var_r2_2 + 0x3C) | 0x10);
-    }
-    var_r1_2 = gUnk_03005CF4 + 0x7A4;
-    var_r2_3 = 0;
-loop_7:
-    if (*(u32 *)var_r1_2 != temp_r4) {
-        var_r2_3 += 1;
-        var_r1_2 += 0x70;
-        if (var_r2_3 > 0xEU) {
-            sub_080003F0();
-            var_r0 = NULL;
-        } else {
-            goto loop_7;
-        }
-    } else {
-        var_r0 = var_r1_2;
-    }
-    if (var_r0 != NULL) {
-        *(void (**)(void))(var_r0 + 0x44) = sub_08055D1C;
-    }
+    cb = sub_08055D1C;
+    q = find56(id);
+    if (q != NULL)
+        *(void (**)(void))(q + 0x44) = cb;
     if (sub_0800CC98() == 0) {
-        temp_r0 = sub_0801AB24();
-        switch (temp_r0) {                          /* irregular */
+        switch (sub_0801AB24()) {
         case 0:
             sub_080576A8();
             break;
@@ -656,18 +634,10 @@ loop_7:
             sub_0801AB90(6);
             break;
         }
-loop_25:
-        if (sub_0801AAE0() == 0) {
+        while (sub_0801AAE0() == 0)
             sub_080003F0();
-            goto loop_25;
-        }
     }
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055C58);
-#endif
 #ifdef NONMATCHING
 void sub_08055D1C(void) {
     s16 temp_r6;
