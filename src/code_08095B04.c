@@ -45,7 +45,58 @@ s32 sub_08095B04(struct Motion95 *p, s32 speed)
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095D1C);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095E70);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095F10);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095FC8);
+extern s32 arcTan2_99(s16, s16) asm("ArcTan2");
+s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
+    u16 angle;
+    u32 temp_r0;
+    u32 var_r2;
+    register u32 result asm("r2");
+    s32 dx, dy;
+    u32 roundBits;
+
+    dx = arg2 - arg0;
+    dy = arg3 - arg1;
+    angle = arcTan2_99((s16)dx, (s16)dy);
+    temp_r0 = angle;
+    roundBits = temp_r0 << 19;
+    var_r2 = temp_r0 >> 13;
+    if (roundBits > 0x80000000U) {
+        if (var_r2 <= 6U) {
+            var_r2 += 1;
+        } else {
+            var_r2 = 0;
+        }
+    }
+    switch (var_r2) {
+    case 0:
+        result = 6;
+        break;
+    case 1:
+        result = 7;
+        break;
+    case 2:
+        result = 0;
+        break;
+    case 3:
+        result = 1;
+        break;
+    case 4:
+        result = 2;
+        break;
+    case 5:
+        result = 3;
+        break;
+    case 6:
+        result = 4;
+        break;
+    case 7:
+        result = 5;
+        break;
+    default: result = var_r2; break;
+    }
+    return (s32) (u8) result;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096060);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096154);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096274);
