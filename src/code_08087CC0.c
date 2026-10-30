@@ -4178,14 +4178,14 @@ void sub_0808CB58(void) {
         table = gUnk_084F0C8A;
         { register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); tableIndex = idx - 3; }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
-        temp_r5 = *(u16 *)(table + tableOffset);
+        { register u32 addr asm("r0") = tableOffset; asm("" : "+r"(addr)); addr += (u32)table; asm("" : "+r"(addr)); temp_r5 = *(u16 *)addr; }
         { register s32 idx asm("r0") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); idx -= 3; asm("" : "+r"(idx)); tableOffset = ((idx << 1) + idx) << 1; }
-        { register s32 off asm("r1") = tableOffset; register u8 *base asm("r0"); register u8 *addr asm("r1"); asm("" : "+r"(off)); base = table + 2; asm("" : "+r"(base), "+r"(off)); addr = base + off; asm("" : "+r"(addr)); tableY = (var_r6 * 10) + *(u16 *)addr; }
+        { register u32 addr asm("r1") = tableOffset; register u8 *base asm("r0"); asm("" : "+r"(addr)); base = table + 2; asm("" : "+r"(base), "+r"(addr)); addr += (u32)base; asm("" : "+r"(addr)); tableY = (var_r6 * 10) + *(u16 *)addr; }
         sub_08028AAC(0, temp_r5, tableY, 0);
         { register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); tableIndex = idx - 3; }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
         table += 4;
-        { register u8 *addr asm("r0") = tableOffset + table; asm("" : "+r"(addr)); sub_080290E4(0, *(s16 *)addr); }
+        { register u32 addr asm("r0") = tableOffset; asm("" : "+r"(addr)); addr += (u32)table; asm("" : "+r"(addr)); sub_080290E4(0, *(s16 *)addr); }
     } else {
         table = gUnk_084F0C8A;
         sub_08028AAC(0, (s32) (u16) ((var_r6 << 5) + *(u16 *)(table + 0x18)), (s32) *(u16 *)(table + 0x1A), 0);
