@@ -1243,7 +1243,7 @@ s32 sub_0808AA70(u8 *table)
     struct StateAA7091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct PosAA7091 { u32 x, y; };
     struct ExitAA7091 { u16 x, y, destination, unused; };
-    const u16 *position;
+    register const u16 *position asm("r5");
     u8 *player;
     s32 *coordinates;
     const struct ExitAA7091 *exit;
@@ -1265,10 +1265,10 @@ s32 sub_0808AA70(u8 *table)
         position = (u16 *)(table + stateAA7091->row * 0x24 + 4);
         sub_0800CCDC();
         offset = sub_080020F4() * 0x14C;
-        player = playersAA7091 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
-        *(struct PosAA7091 *)(player + 0x94) = *(struct PosAA7091 *)(player + 0x8C);
+        {register u8 *base asm("r3")=playersAA7091; register u8 *px asm("r1")=base+0x8C; px+=offset;
+        *(u32 *)px=(u32)position[0]<<8;
+        px=base+0x90;px+=offset;*(u32 *)px=(u32)position[1]<<8;
+        player=base+offset;*(struct PosAA7091 *)(player+0x94)=*(struct PosAA7091 *)(player+0x8C);}
         sub_08009930(0, 0x11);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
