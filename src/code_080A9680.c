@@ -2099,7 +2099,57 @@ poll162:
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AD534);
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080ADE30);
+struct Player114DE {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
+struct Entity114DE {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
+extern s32 x114DE[] asm("gUnk_03003D6C");
+extern struct Player114DE players114DE[] asm("gUnk_03003CE0");
+extern u16 delta114DE(void *, void *) asm("sub_0801ED8C");
+s32 sub_080ADE30(struct Entity114DE *entity102A5)
+{
+    s16 dx, dy;
+    u32 result = 0;
+    u32 dir;
+    u16 a, lo;
+    s32 id;
+
+    dx = (entity102A5->x - x114DE[({ s32 i=sub_080020F4(); asm("" : : "r"(players114DE)); i; })*83]) >> 8;
+    dy = (entity102A5->y - players114DE[sub_080020F4()].y) >> 8;
+    if (Sqrt(dx * dx + dy * dy) <= 0x0F && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0
+        && entity102A5->state != 0xE && entity102A5->state != 0xB && entity102A5->state != 0xA
+        && players114DE[sub_080020F4()].timer == 0 && !(players114DE[sub_080020F4()].flags & 0x2000)
+        && players114DE[sub_080020F4()].active != 0 && players114DE[sub_080020F4()].state != 0xE
+        && players114DE[sub_080020F4()].state != 0xB && players114DE[sub_080020F4()].state != 0xC
+        && players114DE[sub_080020F4()].seen[entity102A5->index] != entity102A5->counter) {
+        players114DE[sub_080020F4()].state = 0xA;
+        players114DE[sub_080020F4()].motion = 0xFFFE;
+        id = sub_080020F4();
+        players114DE[id].angle += delta114DE(entity102A5, &players114DE[sub_080020F4()]);
+        { s32 i; register u32 index asm("r1"); register u32 *dest asm("r1"); register u32 n asm("r0"); i=sub_080020F4(); index=entity102A5->index; index <<= 2; asm("" : "+r"(index), "+r"(i)); index += i*0x14c; asm("" : "+r"(index)); dest=(u32 *)((u8 *)players114DE+0xe4+index); n=entity102A5->counter; asm("" : "+r"(n), "+r"(dest)); *dest=n; entity102A5->counter=n+1; }
+        dx = (x114DE[sub_080020F4()*83] - entity102A5->x) >> 8;
+        dy = (players114DE[sub_080020F4()].y - entity102A5->y) >> 8;
+        a = ArcTan2(dx, dy);
+        lo = a << 3;
+        dir = a >> 13;
+        if (lo > 0x8000U) {
+            if (dir <= 6) dir++; else dir = 0;
+        }
+        switch (dir) {
+        case 0:
+            players114DE[sub_080020F4()].direction = 6;
+            break;
+        case 1:
+            players114DE[sub_080020F4()].direction = 7;
+            break;
+        default:
+            players114DE[sub_080020F4()].direction = dir - 2;
+            break;
+        }
+        players114DE[sub_080020F4()].speed = 0x400;
+        players114DE[sub_080020F4()].timer = 8;
+        result = 1;
+    }
+    return result;
+}
 void sub_080AE080(void) {
     if (M2C_FIELD(gUnk_03000440, s16 *, 0x5C) != 0) {
         sub_080AE0E4();
