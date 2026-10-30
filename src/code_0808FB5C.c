@@ -1807,63 +1807,76 @@ extern void palette096_08091CF8(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091CF8(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091CF8(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_08091CF8(void) {
-    s32 sp10;
-    s32 sp14;
+    volatile s32 sp10;
+    volatile s32 sp14;
     s32 temp_r1;
     s32 temp_r1_2;
     s32 var_r6;
-    s32 var_r9;
+    register s32 var_r9 asm("r9");
+    register s32 zero asm("r10");
+    register u16 *next asm("r8");
+    register u32 *heap asm("r4");
     u16 temp_r0_2;
     struct Anim096_08091CF8 *temp_r0;
 
-    temp_r0 = (struct Anim096_08091CF8 *)sub_08001494(0x44U);
-    heap096_08091CF8 = (u32)temp_r0;
+    heap = &heap096_08091CF8;
+    asm("" : : "r"(heap));
+    temp_r0 = (struct Anim096_08091CF8 *)(*heap = sub_08001494(0x44U));
     sub_0800086C();
-    init096_08091CF8(temp_r0, 0x50019, 0, -1, 0);
-    temp_r0->payload[0] = 0;
+    zero = 0;
+    init096_08091CF8(temp_r0, 0x50019, 0, -1, zero);
+    temp_r0->payload[0] = zero;
     temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
+    temp_r0->next = zero;
+    temp_r0->tick = zero;
     temp_r0->x = 0x10000;
     temp_r0->y = 0x5800;
     sp10 = 1;
-    sp14 = 0;
+    { register s32 z asm("r0") = 0; asm("" : "+r"(z)); sp14 = z; }
     var_r6 = 0;
-    if (heap096_08091CF8 == 0) {
+    { register u32 current asm("r0") = *heap;
+      asm("" : "+r"(current));
+      next = &temp_r0->next;
+      asm("" : "+r"(zero));
+      if (current == 0) {
         return;
+      }
     }
 loop_2:
     switch (var_r6) {                               /* irregular */
     case 0:
-        temp_r1 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r0") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1 = value; temp_r0->x = value; }
         if (temp_r1 <= 0x8000) {
-            if (0 == 0) {
+            if (zero == 0) {
                 init096_08091CF8(temp_r0, 0x5001A, 0, -1, var_r6);
             }
-            sp10 = 0;
+            { register s32 z asm("r0") = 0; asm("" : "+r"(z)); sp10 = z; }
             temp_r0->payload[0] = (s8) var_r6;
             temp_r0->frame = 0xAU;
-            temp_r0->next = (s16) var_r6;
+            *next = (s16) var_r6;
             temp_r0->tick = (u16) var_r6;
             var_r6 = 1;
         }
         break;
     case 1:
         if (var_r9 != 0) {
-            if (0 == 0) {
-                init096_08091CF8(temp_r0, 0x50019, 0, -1, 0);
+            if (zero == 0) {
+                init096_08091CF8(temp_r0, 0x50019, 0, -1, zero);
             }
-            sp10 = 1;
-            temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
+            { register s32 one asm("r0") = 1; asm("" : "+r"(one)); sp10 = one; }
+            { register s32 z asm("r1") = 0; asm("" : "+r"(z));
+              temp_r0->frame = 0xAU; *next = z; temp_r0->tick = z; }
             var_r6 = 2;
         }
         break;
     case 2:
-        temp_r1_2 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_2;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r0") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
         if (temp_r1_2 <= (-0x1000)) {
             sp14 = 0;
             var_r6 = 6;
@@ -1878,7 +1891,8 @@ loop_2:
         break;
     }
     palette096_08091CF8(0x10U, temp_r0->fC, 1U);
-    var_r9 = step096_08091CF8(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
+    { register s32 stepArg asm("r0") = sp10; asm("" : "+r"(stepArg));
+      var_r9 = step096_08091CF8(temp_r0, temp_r0->frame, &temp_r0->tick, next, stepArg); }
     draw096_08091CF8((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
     sub_080003F0();
     if ((var_r6 != 0xFF) && (heap096_08091CF8 != 0)) {
