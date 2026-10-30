@@ -739,8 +739,8 @@ void sub_0808C0C4_v(void) {
     u8 *coordsThirdC0;
     u16 *countsC0;
     u8 *temp_r4;
-    s16 temp_r1_4;
-    s16 temp_r1_5;
+    s32 temp_r1_4;
+    s32 temp_r1_5;
     s32 *temp_r4_12;
     s32 *temp_r5;
     s32 *temp_r5_3;
@@ -760,7 +760,7 @@ void sub_0808C0C4_v(void) {
     s32 temp_r4_25;
     s32 temp_r4_4;
     s32 temp_r5_2;
-    s32 temp_r6;
+    register s32 temp_r6 asm("r6");
     s32 var_r2;
     s32 var_r9;
     struct C0Player *temp_r0;
@@ -781,9 +781,17 @@ void sub_0808C0C4_v(void) {
     u16 *var_r0_7;
     u16 *var_r1_2;
     u16 temp_r0_4;
+    u16 selectedValueC0;
+    /* These values expire before the selected player fields are loaded. */
+    register u32 playerStrideC0 asm("r1");
+    register s32 selectedOffsetC0 asm("r0");
+    register struct C0Player *selectedBaseC0 asm("r2");
     u16 temp_r0_7;
     u16 temp_r1_6;
     u16 temp_r2_2;
+    /* Keep raw bits for halfword arithmetic and derive both comparison views. */
+    u32 downShiftedC0;
+    register s32 downResultC0 asm("r0");
     u16 temp_r3;
     u16 temp_r4_9;
     u32 temp_r1_10;
@@ -821,10 +829,10 @@ void sub_0808C0C4_v(void) {
     struct C0Item *temp_r1_15;
     struct C0Item *temp_r1_7;
     struct C0Item *temp_r1_9;
-    struct C0Player *temp_r4_5;
-    struct C0Player *temp_r4_6;
-    struct C0Player *temp_r4_7;
-    struct C0Player *temp_r4_8;
+    register struct C0Player *temp_r4_5 asm("r4");
+    register struct C0Player *temp_r4_6 asm("r4");
+    register struct C0Player *temp_r4_7 asm("r4");
+    register struct C0Player *temp_r4_8 asm("r4");
 
     gKeysC0[0x2 / 2] = 0;
     gKeysC0[0x0 / 2] = 0;
@@ -938,30 +946,41 @@ loop_24CheckC0:
         goto loop_24BodyC0;
     temp_r6 = sub_080020F4();
     if (0x20 & gHeldC0) {
-        temp_r4_5 = &gPlayersC0[temp_r6];
+        playerStrideC0 = 0x14C;
+        selectedOffsetC0 = temp_r6 * playerStrideC0;
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_5 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
+        selectedValueC0 = (u16)temp_r4_5->unk1C;
         temp_r1_4 = (s16) temp_r4_5->unk1C;
         if ((temp_r1_4 != 1) && (temp_r1_4 != 3)) {
 
         } else {
-            temp_r4_5->unk1C = (u16) (temp_r4_5->unk1C - 1);
+            temp_r4_5->unk1C = (u16) (selectedValueC0 - 1);
             goto block_47;
         }
         goto block_81;
     }
     if (0x10 & gHeldC0) {
-        temp_r4_6 = &gPlayersC0[temp_r6];
+        playerStrideC0 = 0x14C;
+        selectedOffsetC0 = temp_r6 * playerStrideC0;
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_6 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
+        selectedValueC0 = (u16)temp_r4_6->unk1C;
         temp_r1_5 = (s16) temp_r4_6->unk1C;
         if ((temp_r1_5 != 0) && (temp_r1_5 != 2)) {
 
         } else {
-            temp_r4_6->unk1C = (u16) (temp_r4_6->unk1C + 1);
+            temp_r4_6->unk1C = (u16) (selectedValueC0 + 1);
             goto block_47;
         }
         goto block_81;
     }
     temp_r3 = 0x40 & gHeldC0;
     if (temp_r3 != 0) {
-        temp_r4_7 = &gPlayersC0[temp_r6];
+        playerStrideC0 = 0x14C;
+        selectedOffsetC0 = temp_r6 * playerStrideC0;
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_7 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
         temp_r0_4 = temp_r4_7->unk1C;
         if ((u32) temp_r0_4 <= 1U) {
             temp_r4_7->unk1C = 4U;
@@ -977,13 +996,19 @@ loop_24CheckC0:
         goto block_81;
     }
     if (0x80 & gHeldC0) {
-        temp_r4_8 = &gPlayersC0[temp_r6];
+        playerStrideC0 = 0x14C;
+        selectedOffsetC0 = temp_r6 * playerStrideC0;
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_8 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
         temp_r2_2 = temp_r4_8->unk1C;
-        if ((u32) temp_r2_2 <= 1U) {
-            temp_r4_8->unk1C = (u16) (temp_r2_2 + 2);
+        downShiftedC0 = (u32)temp_r2_2 << 16;
+        if ((downShiftedC0 >> 16) <= 1U) {
+            downResultC0 = temp_r2_2 + 2;
+            temp_r4_8->unk1C = (u16)downResultC0;
             goto block_47;
         }
-        if ((s16) temp_r2_2 != 4) {
+        downResultC0 = (s32)downShiftedC0 >> 16;
+        if (downResultC0 != 4) {
 
         } else {
             temp_r4_8->unk1C = temp_r3;
