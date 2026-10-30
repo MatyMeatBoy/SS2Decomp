@@ -263,9 +263,8 @@ u32 sub_08065DAC(void)
     return r;
 }
 
-#ifdef NONMATCHING
-extern u32 gRingIdx[] asm("gUnk_03006210");
-extern s32 gRingBufE38[] asm("gUnk_03006260");
+struct PeerRingE38 { s32 values[10]; };
+extern struct PeerRingE38 peerRingsE38[] asm("gUnk_03006260");
 void removeRingMessage67(s32 needle) asm("sub_08065E38");
 void removeRingMessage67(s32 needle)
 {
@@ -273,19 +272,16 @@ void removeRingMessage67(s32 needle)
     count = sub_08002164();
     for (peer = 0; peer < count; peer++) {
         for (j = 0; j <= gRingIdx[peer]; j++) {
-            if (gRingBufE38[peer * 10 + j] == needle) {
+            if (peerRingsE38[peer].values[j] == needle) {
                 for (k = j; k < gRingIdx[peer]; k++)
-                    gRingBufE38[peer * 10 + k] = gRingBufE38[peer * 10 + k + 1];
-                gRingBufE38[peer * 10 + k] = -1;
+                    peerRingsE38[peer].values[k] = peerRingsE38[peer].values[k + 1];
+                peerRingsE38[peer].values[k] = -1;
                 gRingIdx[peer]--;
                 break;
             }
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065E38);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065F08);
 u32 sub_08065FE8(void)
 {
