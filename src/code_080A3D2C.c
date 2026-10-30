@@ -397,14 +397,12 @@ loop_68:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
 #endif
-#ifdef NONMATCHING
 struct Player1084520 {u8 pad0[0x20];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 active;u8 pad69[31];u16 timer;u8 pad8A[2];s32 x,y;u8 pad94[28];u16 fB0;u8 padB2[22];u16 fC8,fCA,fCC;u8 padCE[22];u32 history[5];u8 padF8[84];};
 extern struct Player1084520 players1084520[] asm("gUnk_03003CE0");
 extern u8 x1084520[] asm("gUnk_03003D6C");
 extern u8 *object1084520 asm("gUnk_03000364");
 extern s32 angle1084520(s16,s16) asm("ArcTan2");
 extern s32 damage1084520(void*,void*) asm("sub_0801ED8C");
-#define F_1084520(p,t,o) (*(t*)((u8*)(p)+(o)))
 void sub_080A4520(void) {
     register s16 *var_r0 asm("r0");
     register s32 dir asm("r1");
@@ -420,9 +418,14 @@ void sub_080A4520(void) {
     void *temp_r1_2;
     void *temp_r4_3;
 
-    temp_r4 = ((s32) F_1084520(object1084520,s32,0x14) >> 8) - ((s32) F_1084520(x1084520+0x14C*sub_080020F4(),s32,0) >> 8);
+    {
+        u32 i = sub_080020F4();
+        s32 x = (s32)(*(s32 *)((u8 *)(object1084520) + (0x14))) >> 8;
+        asm("" : "+r"(x) : "r"(players1084520));
+        temp_r4 = x - ((s32)(*(s32 *)((u8 *)(x1084520 + 0x14C * i) + (0))) >> 8);
+    }
     temp_r4_2 = (s16) temp_r4;
-    temp_r1 = ((s32) F_1084520(object1084520,s32,0x18) >> 8) - ((s32) players1084520[sub_080020F4()].y >> 8);
+    temp_r1 = ((s32) (*(s32 *)((u8 *)(object1084520) + (0x18))) >> 8) - ((s32) players1084520[sub_080020F4()].y >> 8);
     if ((u32) Sqrt((temp_r4_2 * temp_r4_2) + (temp_r1 * temp_r1)) > 0x27U) {
 
     } else if (sub_0800CDF8() != 0) {
@@ -431,7 +434,7 @@ void sub_080A4520(void) {
 
     } else if (sub_0800CCCC() != 0) {
 
-    } else if (F_1084520(object1084520,u16,0xC) == 0xB) {
+    } else if ((*(u16 *)((u8 *)(object1084520) + (0xC))) == 0xB) {
 
     } else if (players1084520[sub_080020F4()].flags & 0x2000) {
 
@@ -443,7 +446,7 @@ void sub_080A4520(void) {
 
     } else if (players1084520[sub_080020F4()].state == 0xC) {
 
-    } else if (players1084520[sub_080020F4()].history[F_1084520(object1084520,u16,0)] == F_1084520(object1084520,u32,0x50)) {
+    } else if (players1084520[sub_080020F4()].history[(*(u16 *)((u8 *)(object1084520) + (0)))] == (*(u32 *)((u8 *)(object1084520) + (0x50)))) {
 
     } else {
         players1084520[sub_080020F4()].state = 0xA;
@@ -452,14 +455,22 @@ void sub_080A4520(void) {
         temp_r4_3 = object1084520;
         {
             register s32 d asm("r0") = damage1084520(temp_r4_3, &players1084520[sub_080020F4()]);
-            register u8 *p asm("r1") = (u8 *)&players1084520[temp_r5] + 0x88;
-            register u32 t asm("r2") = *(u16 *)p;
-            asm("" : "+r"(d), "+r"(t), "+r"(p));
-            *(u16 *)p = d + t;
+            register u32 i asm("r1") = temp_r5;
+            register u8 *base asm("r7") = (u8 *)players1084520;
+            register u32 t asm("r2");
+            asm("" : "+r"(d), "+r"(i), "+r"(base));
+            i *= 0x14c;
+            asm("" : "+r"(i));
+            i += (u32)base;
+            asm("" : "+r"(i));
+            i += 0x88;
+            t = *(u16 *)i;
+            asm("" : "+r"(d), "+r"(i), "+r"(t));
+            *(u16 *)i = d + t;
         }
-        players1084520[sub_080020F4()].history[F_1084520(object1084520,u16,0)] = F_1084520(object1084520,u32,0x50);
-        temp_r4_4 = ((s32) F_1084520(x1084520+0x14C*sub_080020F4(),s32,0) >> 8) - ((s32) F_1084520(object1084520,s32,0x14) >> 8);
-        new_var = (((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) F_1084520(object1084520,s32,0x18) >> 8));
+        players1084520[sub_080020F4()].history[(*(u16 *)((u8 *)(object1084520) + (0)))] = (*(u32 *)((u8 *)(object1084520) + (0x50)));
+        temp_r4_4 = ((s32) (*(s32 *)((u8 *)(x1084520+0x14C*sub_080020F4()) + (0))) >> 8) - ((s32) (*(s32 *)((u8 *)(object1084520) + (0x14))) >> 8);
+        new_var = (((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) (*(s32 *)((u8 *)(object1084520) + (0x18))) >> 8));
         temp_r0 = (u32)angle1084520((s16) temp_r4_4, (s16) new_var) << 0x10;
         {
             register u32 r asm("r1") = temp_r0 * 8;
@@ -485,9 +496,9 @@ void sub_080A4520(void) {
             i += (u32)base;
             asm("" : "+r"(i));
             p = (u8 *)i;
+            dir = var_r4 - 2;
             var_r0 = (s16 *)(p + 0xCA);
         }
-        dir = var_r4 - 2;
         goto store;
 zero:
         {
@@ -524,14 +535,11 @@ store:
         players1084520[sub_080020F4()].fC8 = 0x10;
     }
     if (players1084520[sub_080020F4()].fC8 == 0) {
-        F_1084520(object1084520,u32,0x50) = (s32) (F_1084520(object1084520,u32,0x50) + 1);
+        (*(u32 *)((u8 *)(object1084520) + (0x50))) = (s32) ((*(u32 *)((u8 *)(object1084520) + (0x50))) + 1);
     }
 }
 
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A4520);
-#endif
 #ifdef NONMATCHING
 struct Sprite10847 {u32 f0,f4,f8;u8 *palette;u8 pad10[12];u8 style,paletteId;u8 pad1E[22];};
 struct Oam10847 {u32 f0,f4;s32 x,y;};
