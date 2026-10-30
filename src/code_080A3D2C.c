@@ -3782,10 +3782,15 @@ s32 sub_080A92C0(u32 argument)
             register s16 *screenX asm("r5") = &local.screenX;
             register s16 *screenY asm("r6") = &local.screenY;
             asm("" : "+r"(screenX), "+r"(screenY));
-            screenEffect111((local.x << 8) >> 16, (local.y << 8) >> 16, screenX, screenY, zero, zero);
+            { register s32 x asm("r1") = local.x;
+              register s32 y asm("r2"), xCoord asm("r0");
+              asm("" : "+r"(x)); xCoord = (x << 8) >> 16;
+              asm("" : "+r"(xCoord)); y = local.y; asm("" : "+r"(y));
+              screenEffect111(xCoord, (y << 8) >> 16, screenX, screenY, zero, zero); }
             sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)local.sprite.fC + (*(u16 *)(effectObject111 + 0x2DA) << 5), 1);
             animateEffect111(&local.sprite, 3, frame, &local.tick, zero);
-            layer = sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
+            { register u32 l asm("r1") = (u8)sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
+              asm("" : "+r"(l)); layer = l; }
             if (kind != 0)
                 *(s32 *)(drawEffect111(*screenX, 0x10, 3, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY;
             else
