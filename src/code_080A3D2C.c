@@ -448,8 +448,9 @@ void sub_080A4520(void) {
         players1084520[sub_080020F4()].fB0 = 0xFFFE;
         temp_r5 = sub_080020F4();
         temp_r4_3 = object1084520;
+        var_r1 = damage1084520(temp_r4_3, &players1084520[sub_080020F4()]);
         temp_r1_2 = &players1084520[temp_r5];
-        F_1084520(temp_r1_2,u16,0x88) = (u16) (damage1084520(temp_r4_3, &players1084520[sub_080020F4()]) + F_1084520(temp_r1_2,u16,0x88));
+        F_1084520(temp_r1_2,u16,0x88) = (u16) (var_r1 + F_1084520(temp_r1_2,u16,0x88));
         players1084520[sub_080020F4()].history[F_1084520(object1084520,u16,0)] = F_1084520(object1084520,u32,0x50);
         temp_r4_4 = ((s32) F_1084520(x1084520+0x14C*sub_080020F4(),s32,0) >> 8) - ((s32) F_1084520(object1084520,s32,0x14) >> 8);
         temp_r0 = (u32)angle1084520((s16) temp_r4_4, (s16) (((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) F_1084520(object1084520,s32,0x18) >> 8))) << 0x10;
