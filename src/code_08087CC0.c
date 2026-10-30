@@ -4275,19 +4275,17 @@ loop_27:
             asm("" : "+r"(offset));
             ptr = base + 0x148;
             asm("" : "+r"(ptr));
-            ptr += offset;
+            ptr = (u8 *)(offset + (u32)ptr);
             asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
             if (((u32) (**(u8 **)ptr << 0x1C) >> 0x1C) != 0xB) {
                 ptr = base + 0x30;
                 asm("" : "+r"(ptr));
-                ptr += offset;
+                ptr = (u8 *)(offset + (u32)ptr);
                 asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
                 if (!(*(u32 *)ptr & 0x2000)) {
                     {
-                        register u32 address asm("r0") = offset;
+                        register u32 address asm("r0") = offset + (u32)base;
                         register u8 *team asm("r1");
-                        asm("" : "+r"(address));
-                        address += (u32)base;
                         asm("" : "+r"(address));
                         team = (u8 *)address;
                         asm("" : "+r"(team));
