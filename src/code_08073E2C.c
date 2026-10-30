@@ -106,7 +106,59 @@ angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
 #endif
+#ifdef NONMATCHING
+extern u8 players07614C[] asm("gUnk_03003CE0");
+extern u8 *enemies07614C asm("gUnk_030056F4");
+extern u32 active07614C asm("gUnk_030056FC");
+extern u16 directions07614C[] asm("gUnk_0849E730");
+#define F_07614C(p,t,o) (*(t*)((u8*)(p)+(o)))
+s32 sub_0807414C(u8 *player,u16 width,u32 range)
+{
+ u8 *candidate,*sprite,*ownSprite;u32 best,nearest,index,count;u16 distance,angle;s32 dx,dy,difference,offset;
+ best=0xFFFF;nearest=-1;
+ if(sub_0800CF80()){
+  count=sub_08002164();index=0;
+  while(index<count){
+   candidate=players07614C+index*0x14C;
+   if(player[0x68]!=candidate[0x68] && candidate[0x68]!=0){
+    sprite=F_07614C(candidate,u8*,0x148);ownSprite=F_07614C(player,u8*,0x148);
+    dx=(F_07614C(sprite,u16,0)>>4)-(F_07614C(ownSprite,u16,0)>>4);
+    dy=(F_07614C(sprite,u16,2)&0xFFF)-(F_07614C(ownSprite,u16,2)&0xFFF);
+angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
+    sprite=*(u8**)(player+0x148);angle-=directions07614C[sprite[3]>>4];
+    if((s16)angle>8)angle=(s16)angle-16;
+    if((s16)angle<-8)angle=(s16)angle+16;
+    difference=(s16)angle;if(difference<0)difference=-difference;
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<range && distance<best){nearest=index;best=distance;}}
+   }
+   index++;
+  }
+  if(nearest!=-1U)return F_07614C(players07614C+nearest*0x14C,u16,0);
+ }
+ best=0xFFFF;nearest=-1;index=0;offset=0;
+ do{
+  if(active07614C & (1<<index)){
+   candidate=enemies07614C+offset;
+   if(F_07614C(candidate,u16,0xC)!=11 && F_07614C(candidate,s16,0x5C)!=0 && candidate[0x1DC]!=0){
+    ownSprite=F_07614C(player,u8*,0x148);dx=(F_07614C(candidate,s32,0x14)>>8)-(F_07614C(ownSprite,u16,0)>>4);
+    dy=(F_07614C(candidate,s32,0x18)>>8)-(F_07614C(ownSprite,u16,2)&0xFFF);
+angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
+    sprite=*(u8**)(player+0x148);angle-=directions07614C[sprite[3]>>4];
+    if((s16)angle>8)angle=(s16)angle-16;
+    if((s16)angle<-8)angle=(s16)angle+16;
+    difference=(s16)angle;if(difference<0)difference=-difference;
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<range && distance<best){nearest=index;best=distance;}}
+   }
+  }
+  offset+=0x2E0;index++;
+ }while(index<=4);
+ if(nearest!=-1U)return F_07614C(enemies07614C+nearest*0x2E0,u16,2);
+ return 0xFF;
+}
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
+#endif
 #ifdef NONMATCHING
 struct Position076398 {u16 x,y;};
 struct Player076398 {u16 id;u8 pad2[0x66];u8 team;u8 pad69[0xDF];struct Position076398 *position;};
