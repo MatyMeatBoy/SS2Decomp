@@ -2294,8 +2294,8 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     u32 temp_r0_3;
     u32 temp_r1_3;
     u32 temp_r1_9;
-    u32 var_r8_2;
-    u32 var_r9;
+    register u32 var_r8_2 asm("r8");
+    register u32 var_r9 asm("r9");
     u8 var_r6;
 
     sp11C = (u8)arg0;
