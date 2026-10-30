@@ -559,15 +559,12 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     u8 *sp4;
     u32 sp8;
     u8 *spC;
-    u32 sp10;
-    s32 sp14;
     struct Anim94 sp18;
     struct Anim94 sp4C;
     u16 sp80, sp82;
     u16 sp84;
     u16 sp86;
-    s32 sp88;
-    s32 sp8C;
+    struct Pos94 base;
     u32 sp90;
     s32 sp94;
     u32 sp98;
@@ -579,30 +576,26 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     s16 var_r0_3;
     s16 var_r0_4;
     s16 var_r0_5;
-    u32 var_r7;
+    struct {s32 x:16,y:16;} particle;
+    s16 randomValue,tableValue;
     s32 temp_r6;
-    s32 var_r0;
-    s32 var_r1;
     s32 var_r8;
-    u16 temp_r7;
-    u16 temp_r7_2;
-    u16 var_r3;
     u32 temp_r0_2;
     u32 temp_r1;
     u32 temp_r1_2;
-    u32 var_r2;
     u8 temp_r0;
     u8 temp_r0_3;
+    s32 shifted=(s32)((u32)arg1<<24);
 
     sp9C = (s32) (u8) (arg0 * 3);
     sp0 = 1;
-    f94_08065158(&sp18, ((s32) ((arg1 << 0x18) + 0xFF000000) >> 0x18) + 0x5002C, 7, -1, sp0);
+    f94_08065158(&sp18, ((s32) ((u32)shifted + 0xFF000000) >> 0x18) + 0x5002C, 7, -1, sp0);
     sp18.payload[7] = 0;
     sp0 = 1;
     f94_08065158(&sp4C, 0x50030, 8, -1, sp0);
     sp4C.payload[8] = 1;
-    sp88 = 0x7800;
-    sp8C = 0x5000;
+    base.x = 0x7800;
+    base.y = 0x5000;
     sp86 = 0;
     sp84 = 0;
     sp82 = 0;
@@ -612,11 +605,7 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     sp94 = 0x10;
     sp98 = 0;
     f94_0801AB50(6);
-loop_2:
-    if (f94_0801AAE0() == 0) {
-        f94_080003F0();
-        goto loop_2;
-    }
+    while (f94_0801AAE0() == 0) f94_080003F0();
     v94_03001250.field = 0x3400;
     spA4 = 4;
     spA8 = 0x30;
@@ -642,17 +631,7 @@ loop_4:
             sp90 = 0;
             var_r8 = 6;
         }
-        var_r0 = sp88 >> 8;
-        var_r1 = sp8C >> 8;
-        var_r3 = sp80;
-        sp0 = 2;
-        sp4 = NULL;
-        sp8 = 2;
-block_40:
-        spC = &sp18.payload[0];
-        sp10 = sp18.f8;
-        sp14 = sp18.f0;
-        f94_08007974(var_r0, var_r1, 0, var_r3, sp0, sp4, sp8, spC, sp10, sp14);
+        f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 2, NULL, 2, sp18.payload, sp18.f8, sp18.f0);
         break;
     case 5:
         if (4 & sp90) {
@@ -671,13 +650,8 @@ block_40:
         } else {
             sp90 = (u32) (u16) (sp90 + 1);
         }
-        var_r0 = sp88 >> 8;
-        var_r1 = sp8C >> 8;
-        var_r3 = sp80;
-        sp0 = 2;
-        sp4 = NULL;
-        sp8 = 2;
-        goto block_40;
+        f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 2, NULL, 2, sp18.payload, sp18.f8, sp18.f0);
+        break;
     case 4:
         if ((u32) sp94 <= 9U) {
             sp94 = (s32) (u8) (sp94 + 1);
@@ -694,16 +668,8 @@ block_37:
                 var_r8 = 4;
             }
         }
-block_38:
-        var_r0 = sp88 >> 8;
-        var_r1 = sp8C >> 8;
-        var_r3 = sp80;
-        sp0 = 0;
-        sp4 = NULL;
-        var_r2 = 1;
-block_39:
-        sp8 = var_r2;
-        goto block_40;
+        f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 1, sp18.payload, sp18.f8, sp18.f0);
+        break;
     case 3:
         if ((u32) sp94 <= 0xFU) {
             sp94 = (s32) (u8) (sp94 + 1);
@@ -716,29 +682,26 @@ block_39:
         } else {
             sp90 = (u32) (u16) (sp90 + 1);
         }
-        var_r0 = sp88 >> 8;
-        var_r1 = sp8C >> 8;
-        var_r3 = sp80;
-        var_r2 = 0;
-        sp0 = 0;
-        sp4 = NULL;
-        goto block_39;
+        f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 0, sp18.payload, sp18.f8, sp18.f0);
+        break;
     case 2:
         if (4 & sp90) {
             sp90 = 0;
             if (sp94 != 0) {
                 sp94 = (s32) (u8) (sp94 - 1);
             } else {
-                var_r0_2 = (s16) (f94_0800086C() % 48);
+                randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0 + 0x40];
+                var_r0_2 = (s16) (randomValue % 48);
                 if ((s32) var_r0_2 < 0) {
                     var_r0_2 = 0 - var_r0_2;
                 }
-                temp_r7 = (var_r7 & 0xFFFF0000) | (u16) (((s32) (v94_080B9704[spA0 + 0x40] * var_r0_2) >> 8) + 0x78);
-                var_r0_3 = (s16) (f94_0800086C() % 48);
+                particle.x = ((s32)(tableValue * var_r0_2) >> 8) + 0x78;
+                randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0];
+                var_r0_3 = (s16) (randomValue % 48);
                 if ((s32) var_r0_3 < 0) {
                     var_r0_3 = 0 - var_r0_3;
                 }
-                var_r7 = temp_r7 | ((((s32) (v94_080B9704[spA0] * var_r0_3) >> 8) + 0x50) << 0x10);
+                particle.y = ((s32)(tableValue * var_r0_3) >> 8) + 0x50;
                 sp94 = 0x10;
                 var_r8 = 2;
                 f94_0805865C(0x19A);
@@ -746,7 +709,8 @@ block_39:
         } else {
             goto block_37;
         }
-        goto block_38;
+        f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 1, sp18.payload, sp18.f8, sp18.f0);
+        break;
     case 1:
         sp0 = 0;
         temp_r6 = f94_08065370(&sp4C, 0U, &sp84, &sp86, sp0);
@@ -756,21 +720,23 @@ block_39:
             sp4 = &sp4C.payload[0];
             sp8 = sp4C.f8;
             spC = (u8 *) sp4C.f0;
-            f94_08007870(var_r7, (s32) var_r7 >> 0x10, 0, sp84, sp0, sp4, sp8, spC);
+            f94_08007870(particle.x, particle.y, 0, sp84, sp0, sp4, sp8, spC);
         }
         if (temp_r6 != 0) {
             sp86 = 0;
             sp84 = 0;
-            var_r0_4 = (s16) (f94_0800086C() % 48);
+            randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0 + 0x40];
+                var_r0_4 = (s16) (randomValue % 48);
             if ((s32) var_r0_4 < 0) {
                 var_r0_4 = 0 - var_r0_4;
             }
-            temp_r7_2 = (var_r7 & 0xFFFF0000) | (u16) (((s32) (v94_080B9704[spA0 + 0x40] * var_r0_4) >> 8) + 0x78);
-            var_r0_5 = (s16) (f94_0800086C() % 48);
+            particle.x = ((s32)(tableValue * var_r0_4) >> 8) + 0x78;
+            randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0];
+                var_r0_5 = (s16) (randomValue % 48);
             if ((s32) var_r0_5 < 0) {
                 var_r0_5 = 0 - var_r0_5;
             }
-            var_r7 = temp_r7_2 | ((((s32) (v94_080B9704[spA0] * var_r0_5) >> 8) + 0x50) << 0x10);
+            particle.y = ((s32)(tableValue * var_r0_5) >> 8) + 0x50;
             temp_r0_3 = sp9C - 1;
             sp9C = (s32) temp_r0_3;
             if (temp_r0_3 != 0) {
@@ -801,11 +767,7 @@ block_51:
         goto loop_4;
     }
     f94_0801ABE8(6);
-loop_60:
-    if (f94_0801AAE0() == 0) {
-        f94_080003F0();
-        goto loop_60;
-    }
+    while (f94_0801AAE0() == 0) f94_080003F0();
     f94_080586D0(3);
     f94_0800CC18();
     f94_0800CC68();
