@@ -64,8 +64,54 @@ void sub_08092E28(s8 arg0) {
 s16 sub_08092E34(void) {
     return gUnk_0300025A;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092E40);
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092EB4);
+extern u8 gB03000258 asm("gUnk_03000258");
+extern u8 gB03000259 asm("gUnk_03000259");
+extern u8 gB0300025C asm("gUnk_0300025C");
+void sub_08092E40(void)
+{
+    u8 index = 0;
+    u8 active;
+    s32 value;
+    gB03000259 = 1;
+    gB0300025C = 1;
+    do {
+        gUnk_0300025A = gUnk_080B9704[index] * gB03000258;
+        value = gUnk_0300025A;
+        if (value < 0)
+            value += 63;
+        gUnk_0300025A = value >> 6;
+        gUnk_0300025A = gUnk_0300025A % gB03000258;
+        index += gB0300025C;
+        sub_080003F0();
+        active = gB03000259;
+    } while (active != 0);
+    *(u32 *)(sub_0800048C() + 8) = active;
+}
+extern u16 gH03001250[] asm("gUnk_03001250");
+void sub_08092EB4(void)
+{
+    union { u32 word; u16 half[2]; } config;
+    u32 zero = 0;
+    sub_08000A34(1, 0, 0, 0, zero);
+    sub_080009F8(0xF00, 0, 0);
+    sub_08000990(0, 0);
+    sub_080009C0(0x1300, 0, 0);
+    config.half[0] = 0x1802;
+    sub_08000AA8(0, config.half);
+    sub_080921E4(0xA, 0x18);
+    config.half[0] = 0x1C41;
+    sub_08000AA8(1, config.half);
+    sub_080921E4(0xB, 0x1C);
+    gH03001250[1] = zero;
+    gH03001250[0] = zero;
+    gH03001250[3] = zero;
+    gH03001250[2] = zero;
+    sub_0800CBF8(1);
+    sub_0800CC48(1);
+    sub_08098010(1);
+    sub_080933A0();
+    sub_08000940();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092F58);
 extern u8 gB03000267 asm("gUnk_03000267");
 extern u8 gB03000266 asm("gUnk_03000266");
@@ -130,7 +176,30 @@ u16 sub_08093498(void)
   }
   return r;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080934D4);
+void sub_080934D4(void)
+{
+    union { u32 word; u16 half[2]; } config;
+    u32 zero = 0;
+    sub_08000A34(1, 0, 0, 0, zero);
+    sub_080009F8(0xF00, 0, 0);
+    sub_08000990(0, 0);
+    sub_080009C0(0x1300, 0, 0);
+    config.half[0] = 0x1800;
+    sub_08000AA8(0, config.half);
+    sub_080921E4(6, 0x18);
+    config.half[0] = 0x1C02;
+    sub_08000AA8(1, config.half);
+    sub_080921E4(7, 0x1C);
+    gH03001250[0] = zero;
+    gH03001250[1] = 0x30;
+    gH03001250[2] = zero;
+    gH03001250[3] = zero;
+    sub_0800903C(0, 0, 0, 0, zero, zero);
+    sub_0800CBF8(2);
+    sub_0800CC48(2);
+    sub_08098010(2);
+    sub_08000940();
+}
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080941B4);
