@@ -4397,61 +4397,113 @@ draw:
     }
     sub_0805FB7C(0xF, 0xF, (s16) sp4[1], var_r3_12);
 }
-#ifdef NONMATCHING
 extern s32 decimalDivisors8518[] asm("gUnk_084EBD5C");
-void sub_08081518(u16 arg0, u16 arg1, u8 *arg2, u16 arg3, s32 arg4)
+extern s32 sub_08000498(s32 *, s32);
+extern s32 sub_0801A638(u8 *);
+extern void sub_0801A3D0(u8 *, u32, u32);
+void sub_08081518(u32 arg0, u32 arg1, u8 *arg2, u32 arg3, volatile s32 arg4)
 {
-    u8 text[0x20];
-    u32 number;
-    u16 offset;
-    u32 started;
-    u8 *out;
-    s32 *divisor;
-    u16 digit;
+    struct {
+        u8 text[0x20];
+        s32 number;
+        u32 y;
+        /* Preserve the two caller-clobbered pointers in the original spill slots. */
+        u8 *volatile source;
+        s32 *volatile num;
+    } frame;
+    register u32 savedX asm("r10") = (u16)arg0;
+    register u32 savedNumber asm("r9");
+    register u32 length asm("r8");
+    register u8 *source asm("r2");
     s32 *num;
-    u8 token;
-    u16 length = 0;
-    u8 *source = arg2 + 2;
-
+    u32 token;
+    register u8 *out asm("r4");
+    u16 digit;
+    register s32 *divisor asm("r6");
+    u32 started;
+    u16 offset;
+    asm("" : "+r"(savedX));
+    frame.y = (u16)arg1;
+    savedNumber = (u16)arg3;
+    source = arg2 + 2;
+    length = 0;
     goto checkToken;
 processToken:
     if (token == 0xF7) {
-        number = arg3;
+        register u32 numberCopy asm("r1") = savedNumber;
+        asm("" : "+r"(numberCopy));
+        frame.number = numberCopy;
         divisor = decimalDivisors8518;
-        out = text + length;
+        out = frame.text + length;
         started = 0;
         digit = 0;
-        num = (s32 *)&number;
-
+        num = &frame.number;
         source++;
         do {
-            *out = sub_08000498(num, *divisor) + 0x41;
-            if (started || *out != 0x41 || digit == 5) {
+            u32 value;
+            register s32 denominator asm("r1") = *divisor;
+            register s32 *callNum asm("r0") = num;
+            asm("" : "+r"(denominator), "+r"(callNum));
+            frame.source = source;
+            frame.num = num;
+            value = sub_08000498(callNum, denominator) + 0x41;
+            *out = value;
+            source = frame.source;
+            num = frame.num;
+            asm("" : "+r"(divisor), "+r"(out));
+            if (started || (u8)value != 0x41 || digit == 5) {
                 out++;
                 started = 1;
-                length++;
+                length = (u16)(length + 1);
             }
-            digit++;
+            {
+                u32 nextDigit = digit + 1;
+                digit = (u16)nextDigit;
+            }
             divisor++;
         } while (digit <= 5);
     } else {
-        text[length++] = token;
+        u32 oldLength = length;
+        length = (u16)(oldLength + 1);
+        frame.text[oldLength] = token;
         source++;
     }
 checkToken:
-    if ((token = *source) != 0xFD)
+    token = *source;
+    if (token != 0xFD)
         goto processToken;
-
-    text[length] = 0xFD;
-    if (arg4 & 1)
-        offset = -((u32)sub_0801A638(text) >> 1);
-    else
-        offset = 0;
-    sub_0801A3D0(text, (u16)(arg0 + offset), arg1);
+    {
+        register u8 *end asm("r0") = frame.text;
+        register u32 terminator asm("r1");
+        asm("" : "+r"(end));
+        end += length;
+        asm("" : "+r"(end));
+        terminator = 0xFD;
+        *end = terminator;
+    }
+    {
+        register u32 mask asm("r0") = 1;
+        register u32 flags asm("r2");
+        asm("" : "+r"(mask));
+        flags = arg4;
+        flags &= mask;
+        if (flags)
+            offset = -((u32)sub_0801A638(frame.text) >> 1);
+        else
+            offset = 0;
+    }
+    {
+        /* A byte offset keeps agbcc's base/offset operand order; never dereferenced. */
+        register u8 *xCopy asm("r4") = (u8 *)savedX;
+        register u32 drawX asm("r1");
+        register u8 *drawText asm("r0");
+        asm("" : "+r"(xCopy));
+        drawX = (u16)(u32)(xCopy + offset);
+        drawText = frame.text;
+        asm("" : "+r"(drawText) : "r"(drawX));
+        sub_0801A3D0(drawText, drawX, frame.y);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08081518);
-#endif
 #ifdef NONMATCHING
 extern u8 text85[] asm("gUnk_03000128");
 extern u8 table85[] asm("gUnk_08479140");
