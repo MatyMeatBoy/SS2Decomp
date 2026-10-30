@@ -1058,7 +1058,7 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     struct T06CellAEF4 *temp_r3_2;
     u16 var_r4;
     register u32 temp_r0 asm("sl");
-    u32 temp_r1;
+    register u32 temp_r1 asm("r1");
     u32 temp_r1_2;
     u32 temp_r1_4;
     u32 temp_r2;
@@ -1066,7 +1066,7 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     register u32 var_r3 asm("r3");
     register u32 var_r3_2 asm("r3");
     u32 var_r4_2;
-    u8 temp_r0_2;
+    register u8 temp_r0_2 asm("r0");
     u8 temp_r1_3;
     u8 var_r0;
 
