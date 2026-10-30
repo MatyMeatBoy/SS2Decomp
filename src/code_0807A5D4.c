@@ -5955,7 +5955,6 @@ loop_30:
 
 
 
-#ifdef NONMATCHING
 struct Record82BB0 { u16 w0, w2; s32 data[3]; };
 struct ManagerRecords82BB0 { u8 pad[0x104]; struct Record82BB0 records[4]; };
 union Config82BB0 { u32 word; u16 half[2]; };
@@ -6276,7 +6275,7 @@ block_61:
         asm("" : "+r"(mode_offset82BB0), "+r"(mode_index82BB0) : "r"(mode_slot82BB0));
         mode_offset82BB0 += 0x2E0;
         asm("" : "+r"(mode_offset82BB0) : "r"(mode_slot82BB0));
-        sub_080852CC(mode_offset82BB0 + (s32)*mode_slot82BB0);
+        { register s32 slot82BB0 asm("r1") = (s32)*mode_slot82BB0; register s32 sum82BB0 asm("r0") = slot82BB0; sum82BB0 = slot82BB0 + mode_offset82BB0; sub_080852CC(sum82BB0); }
         break;
     case 8:                                         /* switch 5 */
         var_r6 = 0;
@@ -6506,9 +6505,6 @@ block_61:
     sub_08085398();
     sub_08000420(0x11201100);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08082BB0);
-#endif
 void sub_0808381C(u32 index)
 {
     /* Empty constraints preserve the original register lifetimes and truncations. */
