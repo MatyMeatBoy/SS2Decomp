@@ -450,7 +450,7 @@ extern void sub_08029A7C(s32, s32, s32);
 void sub_0808DB38(u32 arg)
 {
     u32 anim[13];
-    u16 first[2], second[2];
+    u16 frames[4];
     u16 screen[2];
     s32 pos[2];
     u32 size, box;
@@ -492,63 +492,88 @@ void sub_0808DB38(u32 arg)
     }
     hit = 1;
     sound = 1;
-    firstptr = first;
-    attrptr = &firstptr[1];
-    if ((pos[0] >> 8) > 45) {
-        register u16 *screenXptr asm("r9");
-        register u16 *screenYptr asm("r6");
-        register u16 *secondptr asm("r5");
-        posptr = pos;
-        screenXptr = &screen[0];
-        screenYptr = &screen[1];
-        texture = &anim[7];
-        do {
-            pos[0] += 0xFFFFFE00;
-            height += speed;
-            speed -= 0x28;
-            if (height <= 0) {
-                height = 1;
-                speed = -(speed >> 1);
-            }
-            if (speed > 0 && sound) {
-                if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
-                sound = 0;
-            }
-            if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
-                hit = 0;
-                sub_08029A7C(0, 0x10, 1);
-            }
-            sub_08065370(anim, 0, (s32)&firstptr[0], (s32)attrptr, 1);
-            secondptr = second;
-            sub_08065370(anim, 1, (s32)secondptr, (s32)(secondptr + 1), 1);
-            if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
-                sub_0800BC08((s16)(pos[0] >> 8), (s16)(posptr[1] >> 8), screenXptr, screenYptr, 0x30, 0);
-                priority = (u8)sub_0800BC44(pos[0] >> 8, posptr[1] >> 8, 0);
+    {
+        register s32 xraw asm("r1") = pos[0];
+        register s32 xshift asm("r0") = xraw >> 8;
+        firstptr = frames;
+        attrptr = &frames[1];
+        asm("" : "+r"(xraw), "+r"(xshift));
+        if (xshift > 45) {
+            register u16 *screenXptr asm("r9");
+            register u16 *screenYptr asm("r6");
+            register u16 *secondptr asm("r5");
+            posptr = pos;
+            screenXptr = &screen[0];
+            screenYptr = &screen[1];
+            texture = &anim[7];
+            do {
                 {
-                    register u16 *sx asm("r1") = screenXptr;
-                    asm("" : "+r"(sx));
-                    sub_08007870(*sx, *screenYptr - 1, 1, *secondptr, 3, texture, anim[2], anim[0]);
+                    register s32 newx asm("r0") = 0xFFFFFE00 + xraw;
+                    asm("" : "+r"(newx));
+                    pos[0] = newx;
                 }
-                {
-                    register u16 *sx asm("r1") = screenXptr;
-                    asm("" : "+r"(sx));
-                    sprite = sub_08007870(*sx, *screenYptr, 0, firstptr[0], priority, texture, anim[2], anim[0]);
+                height += speed;
+                speed -= 0x28;
+                if (height <= 0) {
+                    height = 1;
+                    speed = -(speed >> 1);
                 }
-                sprite[3] -= height >> 8;
-            }
-            sub_080003F0();
-        } while ((pos[0] >> 8) > 45);
+                if (speed > 0 && sound) {
+                    if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
+                    sound = 0;
+                }
+                if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
+                    hit = 0;
+                    sub_08029A7C(0, 0x10, 1);
+                }
+                sub_08065370(anim, 0, (s32)&firstptr[0], (s32)attrptr, 1);
+                asm("" : "+r"(firstptr));
+                secondptr = firstptr + 2;
+                sub_08065370(anim, 1, (s32)secondptr, (s32)(secondptr + 1), 1);
+                if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
+                    sub_0800BC08((s16)(pos[0] >> 8), (s16)(posptr[1] >> 8), screenXptr, screenYptr, 0x30, 0);
+                    priority = (u8)sub_0800BC44(pos[0] >> 8, posptr[1] >> 8, 0);
+                    {
+                        register u16 *sx asm("r1") = screenXptr;
+                        asm("" : "+r"(sx));
+                        sub_08007870(*sx, *screenYptr - 1, 1, *secondptr, 3, texture, anim[2], anim[0]);
+                    }
+                    {
+                        register u16 *sx asm("r1") = screenXptr;
+                        asm("" : "+r"(sx));
+                        sprite = sub_08007870(*sx, *screenYptr, 0, firstptr[0], priority, texture, anim[2], anim[0]);
+                    }
+                    sprite[3] -= height >> 8;
+                }
+                sub_080003F0();
+                xraw = pos[0];
+            } while ((xraw >> 8) > 45);
+        }
     }
     if (!sub_0800CCCC()) sub_0805865C(0x29);
     sub_08065158(anim, 0x50053, 0, -1, 0);
     *attrptr = 0;
     firstptr[0] = 0;
-    while (!sub_08065370(anim, 6, (s32)&firstptr[0], (s32)attrptr, 0)) {
-        if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
-            sub_0800BC08((s16)(pos[0] >> 8), (s16)(pos[1] >> 8), &screen[0], &screen[1], 0x30, 0);
-            sub_08007870(screen[0], screen[1], 6, firstptr[0], (u8)sub_0800BC44(pos[0] >> 8, pos[1] >> 8, 0), &anim[7], anim[2], anim[0]);
+    {
+        register u16 *copy asm("r7") = firstptr;
+        register s32 *position asm("r6") = pos;
+        register u16 *sx asm("r5") = &screen[0];
+        register u16 *sy asm("r4") = &screen[1];
+        asm("" : "+r"(copy), "+r"(sx), "+r"(sy), "+r"(position));
+        while (!sub_08065370(anim, 6, (s32)copy, (s32)attrptr, 0)) {
+            if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
+                sub_0800BC08((s16)(pos[0] >> 8), (s16)(position[1] >> 8), sx, sy, 0x30, 0);
+                {
+                    register u32 pr asm("r0") = sub_0800BC44(pos[0] >> 8, position[1] >> 8, 0);
+                    register u32 x asm("r2") = *sx;
+                    register u32 y asm("r1") = *sy;
+                    register u32 frame asm("r3") = *copy;
+                    asm("" : "+r"(pr), "+r"(x), "+r"(y), "+r"(frame));
+                    sub_08007870(x, y, 6, frame, (u8)pr, &anim[7], anim[2], anim[0]);
+                }
+            }
+            sub_080003F0();
         }
-        sub_080003F0();
     }
 }
 
