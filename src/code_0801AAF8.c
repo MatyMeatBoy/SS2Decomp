@@ -2030,7 +2030,78 @@ break;
 }
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DB94);
+struct StatusRecord019 { s16 counter; u16 category,key; s16 amount; u8 pad8[16]; u32 active; u8 tail[12]; };
+void sub_0801DB94(s32 owner,void *record,s32 status)
+{
+    struct StatusRecord019 *entry=record;
+    u8 *player,*monster;
+    s32 amount;
+    register u32 random;
+    u32 duration;
+    s32 hp;
+    if((u32)owner<=3) player=(u8 *)gUnk_03003CE0+(u32)owner*0x14C;
+    else monster=(u8 *)gUnk_030056F4+((u32)owner*0x2E0-0xB80);
+    entry->category=100;
+    switch((u32)status-1) {
+    case 0:
+        entry->key=1;
+        duration=4;
+        goto finish;
+    case 1:
+        if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x182);
+        entry->key=3;
+        random=sub_080008C8()%60;
+        duration=random+240;
+        goto finish;
+    case 2:
+        sub_08021E44(owner,1);
+        if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x184);
+        entry->key=2;
+        random=sub_080008C8()%80;
+        if((u32)owner<=3) entry->counter=random+120;
+        else entry->counter=random+100;
+        return;
+    case 4:
+        if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x181);
+        entry->key=5;
+        random=sub_080008C8()%300;
+        duration=random+600;
+        goto finish;
+    case 3:
+        if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x185);
+        entry->key=4;
+        duration=4;
+        goto finish;
+    case 5:
+        if((u32)owner<=3) hp=*(s16 *)(player+0x62);
+        else hp=*(s16 *)(monster+0x1D6);
+        amount=hp/25;
+        if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x183);
+        entry->amount=amount;
+        entry->active=1;
+        entry->key=6;
+        random=sub_080008C8()%6+10;
+        duration=random*60-1;
+        goto finish;
+    case 6:
+        if((u32)owner<=3) hp=*(s16 *)(player+0x62);
+        else hp=*(s16 *)(monster+0x1D6);
+        amount=hp*8/100;
+        if(!sub_0800CCCC() && !sub_0800CD34()) sub_0805865C(0x183);
+        entry->amount=amount;
+        entry->key=7;
+        random=sub_080008C8()%6+10;
+        entry->counter=random*60-1;
+        entry->active=1;
+        return;
+    default:
+        entry->key=0;
+        duration=0xFFFF;
+        goto finish;
+    }
+finish:
+    entry->counter=duration;
+}
 void sub_0801DD9C(void) {
     sub_0801E024(&gUnk_03003CE0[sub_080020F4()]);
 }
