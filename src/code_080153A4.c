@@ -448,7 +448,60 @@ void sub_080169C8(void) {
     *word1 = zero;
     *word2 = zero;
 }
+#ifdef NONMATCHING
+extern u8 *volatile objects014raw asm("gUnk_030056F4");
+extern u32 active014raw asm("gUnk_030056FC");
+extern u16 bits014raw asm("gUnk_03005724");
+extern u8 *volatile cache014raw asm("gUnk_030042E8");
+void sub_08016A7C(s32 arg0) {
+    s32 temp_r1;
+    s32 var_r4;
+    s32 var_r4_2;
+    u32 var_r2;
+    u32 var_r2_2;
+    u32 var_r3_2;
+    u8 *temp_r0;
+    u8 *temp_r1_2;
+    u8 *var_r3;
+    u32 byteMask;
+
+    var_r3 = objects014raw;
+    var_r4 = 0;
+    var_r2 = 0;
+    do {
+        temp_r1 = 1 << var_r2;
+        if ((active014raw & temp_r1) && (*(s32 *)(var_r3+0x2C) == arg0)) {
+            var_r4 |= temp_r1;
+        }
+        var_r2 += 1;
+        var_r3 += 0x2E0;
+    } while (var_r2 <= 4U);
+    var_r3_2 = 0;
+    var_r4_2 = 0;
+    do {
+        if ((1 << var_r3_2) & var_r4) {
+            temp_r0 = var_r4_2 + objects014raw;
+            *(u16 *)(temp_r0+0x7A) = (u16) (1 | *(u16 *)(temp_r0+0x7A));
+        }
+        var_r4_2 += 0x2E0;
+        var_r3_2 += 1;
+    } while (var_r3_2 <= 4U);
+    var_r2_2 = 0;
+    byteMask=0xFF;
+    asm("" : "+r"(byteMask));
+    do {
+        if (((s32) bits014raw >> var_r2_2) & 1) {
+            temp_r1_2 = (var_r2_2 * 8) + cache014raw;
+            if (*(s32 *)temp_r1_2 == arg0) {
+                temp_r1_2[4] = (u8) (temp_r1_2[4] | byteMask);
+            }
+        }
+        var_r2_2 += 1;
+    } while (var_r2_2 <= 1U);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
 s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
 {
@@ -551,7 +604,64 @@ void sub_08016D40(u8 *object, u16 arg) {
         *(u16 *)(object + 4) = zero;
     }
 }
+#ifdef NONMATCHING
+extern volatile u32 refFlags014 asm("gUnk_030056F8");
+extern u8 refData014[36] asm("gUnk_03005700");
+s32 sub_08016E04(s32 arg0, u16 arg1) {
+    u8 *var_r3_2;
+    u32 *temp_r0;
+    s32 temp_r1_2;
+    s32 var_r2;
+    s32 var_r5;
+    u16 temp_r1;
+    u32 var_r3;
+    u32 var_r4;
+    u32 var_r4_2;
+    u32 var_r6;
+    u32 flagsSnapshot;
+
+    temp_r1 = arg1;
+    var_r4 = 0;
+    var_r3 = 0x40000;
+    var_r2 = 0;
+loop_1:
+    if ((refFlags014 & (1 << var_r4)) && (*(s32 *)(var_r2 + refData014) == arg0) && (*(u32 *)(var_r2 + (refData014 + 4)) == temp_r1)) {
+        temp_r0 = (u32 *)(var_r2 + (refData014 + 8));
+        *temp_r0 += 1;
+        return (s32) (var_r3 >> 0x10);
+    }
+    var_r3 += 0x10000;
+    var_r2 += 0xC;
+    var_r4 += 1;
+    if (var_r4 > 2U) {
+        var_r4_2 = 0;
+        var_r6 = 0x40000;
+        var_r3_2 = refData014;
+        var_r5 = 0;
+loop_7:
+        temp_r1_2 = 1 << var_r4_2;
+        flagsSnapshot=refFlags014;
+        if (!(flagsSnapshot & temp_r1_2)) {
+            *(s32 *)var_r3_2 = arg0;
+            *(u32 *)(var_r5 + (refData014 + 4)) = (s32) temp_r1;
+            *(u32 *)(var_r3_2+8) = 1;
+            refFlags014 = flagsSnapshot | temp_r1_2;
+            return (s32) (var_r6 >> 0x10);
+        }
+        var_r6 += 0x10000;
+        var_r3_2 += 0xC;
+        var_r5 += 0xC;
+        var_r4_2 += 1;
+        if (var_r4_2 > 2U) {
+            return 0xFFFF;
+        }
+        goto loop_7;
+    }
+    goto loop_1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
+#endif
 extern u32 gW6ECC_56F8 asm("gUnk_030056F8");
 extern u32 gT6ECC_5700 asm("gUnk_03005700");
 void sub_08016ECC_u16(u16 arg0) asm("sub_08016ECC");
