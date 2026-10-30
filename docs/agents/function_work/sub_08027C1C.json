@@ -1,7 +1,7 @@
 {
   "address": "0x08027C1C",
-  "updated_utc": "2026-10-30T02:00:30.358708+00:00",
-  "checkpoint": "84c78a4ceb6b67ad894a869d3f7f6031ff7c88bb",
+  "updated_utc": "2026-10-30T02:13:20.531817+00:00",
+  "checkpoint": "f4304a679a0d98c76108da6b415c06654a744c43",
   "areas": [
     {
       "id": "compile",
@@ -19,19 +19,19 @@
       "id": "initialization",
       "label": "Effect record and configuration initialization",
       "state": "active",
-      "evidence": "The draft scans input record kinds 8/9 at stride 0x124, initializes effect records at runtime+0x58C, and uses position/active tables at +0x160/+0x22C. A single canonical global-pointer view and an explicit gUnk_084B186C configuration-tail alias reduce avoidable CSE differences. Exact register/literal-pool order remains unresolved."
+      "evidence": "The draft scans input record kinds 8/9 at stride 0x124, initializes effect records at runtime+0x58C, and uses position/active tables at +0x160/+0x22C. One canonical global-pointer view and an explicit gUnk_084B186C configuration-tail alias reduce avoidable CSE differences. Configuration setup is confined to its guarded phases; one pointer carrier serves configuration base, configuration tail and later next-effect roles. Exact register and literal-pool order remains unresolved."
     },
     {
       "id": "animation",
       "label": "Animation state loop and helper arguments",
       "state": "active",
-      "evidence": "The draft retains state cases 0/10/11/12, sprite helper calls, packet/item handling and display/hide calls. The original uses a bottom-tested effect-count loop and pointer roles r7=current, r9=next, sl=state global address. Candidate pointer allocation, helper argument order and CFG still differ; no semantic equivalence is inferred from compilation."
+      "evidence": "The draft retains state cases 0/10/11/12, sprite helper calls, packet/item handling and display/hide calls. Its main effect loop is now bottom-tested under the existing nonzero effect-count guard, matching the observed ASM loop boundary. Reusing a pointer carrier across disjoint phases improves allocation toward r9=next and sl=state-global address without additional fixed-register bindings. Helper argument order, remaining temporaries and CFG still differ; no semantic equivalence is inferred from compilation."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH: original 1868 bytes, candidate 1856 bytes. Approximate nmscore decreases from 395 to 356; this is ranking evidence only. The ROM comparison passes using the retained ASM fallback. No new matching C bytes are claimed."
+      "evidence": "Strict module comparison remains NO MATCH: original 1868 bytes, candidate 1864 bytes. Approximate nmscore decreases from 395 initially to 356 at the frame checkpoint and now 333; this is ranking evidence only. make -j1 compare prints shiningsoul2_eu.gba: OK using the retained ASM fallback; make -j1 nonmatching exits 0; check_tree reports 0 errors. No new matching C bytes are claimed."
     }
   ],
   "regions": []
