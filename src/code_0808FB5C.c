@@ -1576,24 +1576,27 @@ extern void palette096_08091938(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091938(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091938(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_08091938(void) {
-    s32 sp10;
-    s32 sp14;
+    volatile s32 sp10;
+    volatile s32 sp14;
     s16 temp_r0_2;
     s16 temp_r1;
-    s16 var_r0;
+    s32 var_r0;
     s32 temp_r1_2;
     s32 temp_r1_3;
     s32 var_r6;
-    s32 var_r9;
+    register s32 var_r9 asm("r9");
     u16 temp_r0_3;
     u8 temp_r7;
     struct Anim096_08091938 *temp_r0;
 
-    temp_r0 = (struct Anim096_08091938 *)sub_08001494(0x44U);
-    heap096_08091938 = (u32)temp_r0;
+    {
+        register u32 *heap asm("r4") = &heap096_08091938;
+        asm("" : : "r"(heap));
+        temp_r0 = (struct Anim096_08091938 *)(*heap = sub_08001494(0x44U));
+    }
     temp_r0_2 = sub_0800086C();
     temp_r1 = temp_r0_2;
-    var_r0 = temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2);
+    var_r0 = (s16)(temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2));
     if ((s32) var_r0 < 0) {
         var_r0 = 0 - var_r0;
     }
@@ -1632,11 +1635,12 @@ loop_9:
                 init096_08091938(temp_r0, 0x50038, 0, -1, var_r6);
                 break;
             }
-            sp10 = 0;
-            temp_r0->payload[0] = 0;
+            var_r9 = 0;
+            sp10 = var_r9;
+            temp_r0->payload[0] = var_r9;
             temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
+            temp_r0->next = var_r9;
+            temp_r0->tick = var_r9;
             var_r6 = 1;
         }
         break;
