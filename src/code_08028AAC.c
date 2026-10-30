@@ -13,11 +13,156 @@ INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802926C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802939C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802949C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029788);
+#ifdef NONMATCHING
+void sub_0802996C(void) {
+ s32 index, handle; struct Player *p; u8 *q,*base; u32 offset; u32 *flags;
+ index=sub_080020F4(); base=(u8*)gUnk_03003CE0; offset=index*0x14C; handle=(s32)(offset+(u32)base); p=(struct Player*)handle;
+ q=(u8*)p+0x62; asm("" : "+r"(q)); { u16 v=*(u16*)q; q+=0x62; *(u16*)q=v; q-=0x64; v=*(u16*)q; q=(u8*)p+0xC2; *(u16*)q=v; q-=0x5A; *q=1; } flags=(u32*)(offset+(u32)(base+0x30)); *flags &= 0xFFFFDFFD;
+ p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,6,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
+ p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,7,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
+ p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,5,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
+ p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,4,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
+ p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,2,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802996C);
+#endif
+#ifdef NONMATCHING
+#define H_A7(p,n) (*(u16*)((p)+(n)))
+#define W_A7(p,n) (*(u32*)((p)+(n)))
+extern void initA7C(void*,void*,u16,u16,u32) asm("sub_08069388");
+extern void runA7C(void*,u16,s32,u32,u32,u32) asm("sub_08069080");
+extern u32 valueA7C(u16,u16,void*) asm("sub_08021D00");
+void sub_08029A7C(u32 action,u32 amount,volatile s32 argument)
+{
+ u8 result[8]; u8 *player,*effect; u32 flags; s32 handle; u16 value,kind,narrowAction;
+ player=(u8*)&gUnk_03003CE0[sub_080020F4()];
+ if(sub_0800CDF8()==0 && sub_08058DB0()==0){
+  kind=H_A7(player,0x20);
+  if(kind!=14 && player[0x68]!=0 && kind!=11){
+   flags=W_A7(player,0x30)&0x2000;
+   if(flags==0 && kind!=10){
+    value=sub_08021C74(amount,H_A7(player,0x5A),200);
+    effect=player+0x4C;
+    narrowAction=action; initA7C(result,effect,argument,narrowAction,H_A7(player,0));
+    handle=sub_0801E164(player,0);
+    if(handle)sub_0801DB94(H_A7(player,0),(void*)handle,result[1]);
+    value=valueA7C(narrowAction,value,effect);
+    H_A7(player,0x20)=10; H_A7(player,0x88)+=value;
+    W_A7(player,0x110)=flags; H_A7(player,0xC8)=flags; H_A7(player,0xCA)=flags; W_A7(player,0xE0)=flags;
+    if(H_A7(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_A7(player,0xC)+0x45);
+    runA7C(effect,value,argument,0,H_A7(player,0),action);
+   }
+  }
+ }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029A7C);
+#endif
+#ifdef NONMATCHING
+struct ResultB98 {u8 a,b,c,d;u16 value;u16 pad;};
+#define H_B9(p,n) (*(u16*)((p)+(n)))
+#define W_B9(p,n) (*(u32*)((p)+(n)))
+extern void finishB98(void*) asm("sub_080660EC");
+extern void initB98(void*,void*,u16,u16,u32) asm("sub_08069388");
+extern void *lookupB98(u8*,u32) asm("sub_0801E104");
+extern void runB98(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
+extern u32 valueB98(u16,u16,void*) asm("sub_08021D00");
+void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u32 arg4,u32 arg5)
+{
+ struct {struct ResultB98 result; u32 saved4,saved5;} frame; u8 *object,*effect; u16 value; void *handle;
+ frame.saved4=(u16)arg4; frame.saved5=(u16)arg5;
+ if(!(gUnk_030056FC & (1<<index)))return;
+ object=(u8*)gUnk_030056F4+index*0x2E0;
+ if(object[0x1DC] && H_B9(object,0xC)!=11 && H_B9(object,0xC)!=10){
+  value=sub_08021C74(amount,H_B9(object,0x1CE),200);
+  if(object[0x226]!=3){
+   initB98(&frame.result,object+0x218,argument,action,(u16)(H_B9(object,0)+4));
+   handle=lookupB98(object,0);
+   if(handle)sub_0801DB94(H_B9(object,0)+4,handle,frame.result.b);
+  }
+  effect=object+0x218; value=valueB98(action,value,effect);
+  H_B9(object,0xC)=10;
+  frame.result.value=value;frame.result.a=H_B9(object,2);frame.result.c=*(u8*)&frame.saved4;frame.result.d=*(u8*)&frame.saved5;
+  sub_0801F2CC(object,(u8*)&frame.result);
+  H_B9(object,0x58)=sub_080020F4(); H_B9(object,0x4A)=value;W_B9(object,0x4C)=value;
+  H_B9(object,0x5A)|=1<<sub_080020F4();
+  finishB98(&frame.result);
+  if(object[0x226]!=3)runB98(effect,frame.result.value,argument,index,index+4,action);
+ }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029B98);
+#endif
+#ifdef NONMATCHING
+#define H_CE(p,n) (*(u16*)((p)+(n)))
+#define W_CE(p,n) (*(u32*)((p)+(n)))
+extern u8 *stateCEC asm("gUnk_030034E0");
+extern void extraCEC(u32,u16,u8*) asm("sub_08069224");
+extern void initCEC(void*,void*,u16,u16,u32) asm("sub_08069388");
+extern void runCEC(void*,u16,s32,u32,u32,u32) asm("sub_08069080");
+extern u32 valueCEC(u16,u16,void*) asm("sub_08021D00");
+void sub_08029CEC(u32 action,u32 amount,volatile s32 argument)
+{
+ u8 result[8]; u8 *player,*effect; u32 flags; s32 handle; u16 value,kind,narrowAction;
+ player=(u8*)&gUnk_03003CE0[sub_080020F4()];
+ if(sub_0800CDF8()==0 && sub_08058DB0()==0){
+  kind=H_CE(player,0x20);
+  if(kind!=14 && player[0x68]!=0 && kind!=11){
+   flags=W_CE(player,0x30)&0x2000;
+   if(flags==0 && kind!=10){
+    value=amount;
+    effect=player+0x4C;
+    narrowAction=action; initCEC(result,effect,argument,narrowAction,H_CE(player,0));
+    handle=sub_0801E164(player,0);
+    if(handle)sub_0801DB94(H_CE(player,0),(void*)handle,result[1]);
+    value=valueCEC(narrowAction,value,effect);
+    W_CE(player,0xE0)=action; extraCEC(action,value,stateCEC+0x24); H_CE(player,0x20)=10; H_CE(player,0x88)+=value;
+    W_CE(player,0x110)=flags; H_CE(player,0xC8)=flags; H_CE(player,0xCA)=flags;
+    if(H_CE(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_CE(player,0xC)+0x45);
+    runCEC(effect,value,argument,0,H_CE(player,0),action);
+   }
+  }
+ }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029CEC);
+#endif
+#ifdef NONMATCHING
+struct ResultE0C {u8 a,b,c,d;u16 value;u16 pad;};
+#define H_E0(p,n) (*(u16*)((p)+(n)))
+#define W_E0(p,n) (*(u32*)((p)+(n)))
+extern void finishE0C(void*) asm("sub_080660EC");
+extern void initE0C(void*,void*,u16,u16,u32) asm("sub_08069388");
+extern void *lookupE0C(u8*,u32) asm("sub_0801E104");
+extern void runE0C(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
+extern u32 valueE0C(u16,u16,void*) asm("sub_08021D00");
+void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u32 arg4,u32 arg5)
+{
+ struct {struct ResultE0C result; u32 saved4,saved5;} frame; u8 *object,*effect; u16 value; void *handle;
+ frame.saved4=(u16)arg4; frame.saved5=(u16)arg5;
+ if(!(gUnk_030056FC & (1<<index)))return;
+ object=(u8*)gUnk_030056F4+index*0x2E0;
+ if(object[0x1DC] && H_E0(object,0xC)!=11 && H_E0(object,0xC)!=10){
+  value=amount;
+  if(object[0x226]!=3){
+   initE0C(&frame.result,object+0x218,argument,action,(u16)(H_E0(object,0)+4));
+   handle=lookupE0C(object,0);
+   if(handle)sub_0801DB94(H_E0(object,0)+4,handle,frame.result.b);
+  }
+  effect=object+0x218; value=valueE0C(action,value,effect);
+  H_E0(object,0xC)=10; H_E0(object,0x4A)=value; W_E0(object,0x4C)=value;
+  frame.result.value=value;frame.result.c=*(u8*)&frame.saved4;frame.result.a=H_E0(object,2);frame.result.d=*(u8*)&frame.saved5; if(frame.result.c&0x80)frame.result.c=0; if(object[0x210]==0xFF)frame.result.c=0;
+  sub_0801F2CC(object,(u8*)&frame.result);
+  H_E0(object,0x58)=sub_080020F4();
+
+  finishE0C(&frame.result);
+  if(object[0x226]!=3)runE0C(effect,frame.result.value,argument,index,index+4,action);
+ }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029E0C);
+#endif
 #ifdef NONMATCHING
 struct PackedF54 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};
 struct RefF54 {struct PackedF54 *position;u8 padding[0x148];};
