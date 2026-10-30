@@ -1207,26 +1207,23 @@ extern u8 playerCoord89500[] asm("gUnk_03003D6C");
 void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
 void callback3D99C_090(void) asm("sub_0803D99C");
 void callback2CF84_090(void) asm("sub_0802CF84");
-s32 sub_08089500(u8 *arg0) {
+s32 sub_08089500(u8 *input) {
     u32 sprite[13];
+    register u8 *arg0 asm("r4") = input;
     s32 *temp_r2_3;
     s32 *temp_r2_6;
-    s32 temp_r2;
     s32 temp_r2_4;
     s32 temp_r2_5;
-    s32 temp_r6;
+    register s32 temp_r6 asm("r6");
     s32 var_r0;
+    register u8 *posBase asm("r1");
     u8 *temp_r0;
-    u8 *temp_r2_2;
-    u8 *temp_r4;
+    register u8 *temp_r4 asm("r4");
     u8 *temp_r4_2;
     u8 *temp_r4_3;
 
     if (*(u16 *)(gUnk_03005CF4 + 0x10) != 0) {
-        if (sub_08088B6C(arg0, 4) != 0) {
-            return 1;
-        }
-        goto block_31;
+        goto earlyExit;
     }
 loop_4:
     if (sub_0801AAE0() == 0) {
@@ -1236,14 +1233,27 @@ loop_4:
     temp_r6 = sub_080020F4();
     temp_r4 = arg0 + ((*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24) + 4);
     if (sub_0800CF10() == 0) {
-        temp_r2 = 0x14C * sub_080020F4();
-        *(u32 *)((u8 *)gUnk_03003CE0 + temp_r2 + 0x8C) = *(u16 *)temp_r4 << 8;
-        *(u32 *)((u8 *)gUnk_03003CE0 + temp_r2 + 0x90) = *(u16 *)(temp_r4 + 2) << 8;
-        temp_r2_2 = temp_r2 + (u8 *)gUnk_03003CE0;
-        *(u32 *)(temp_r2_2 + 0x94) = (s32) *(u32 *)(temp_r2_2 + 0x8C);
-        *(u32 *)(temp_r2_2 + 0x98) = (s32) *(u32 *)(temp_r2_2 + 0x90);
-        temp_r2_3 = (s32 *)((0x14C * temp_r6) + ((u8 *)gUnk_03003CE0 + 0x30));
-        *temp_r2_3 &= 0xFFFFDFD9;
+        { register s32 player asm("r0") = sub_080020F4();
+          register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
+          register s32 index asm("r2");
+          register u8 *dst asm("r1");
+          asm("" : "+r"(player), "+r"(base)); index = 0x14C * player;
+          asm("" : "+r"(index));
+          dst = base + 0x8C; asm("" : "+r"(dst)); dst += index;
+          *(u32 *)dst = *(u16 *)temp_r4 << 8;
+          dst = base + 0x90; asm("" : "+r"(dst)); dst += index;
+          *(u32 *)dst = *(u16 *)(temp_r4 + 2) << 8;
+          { register u8 *p asm("r2") = base + index;
+            register u8 *q asm("r4");
+            register u32 x asm("r0"), y asm("r1");
+            asm("" : "+r"(p)); q = p + 0x94; p += 0x8C;
+            asm("" : "+r"(p), "+r"(q));
+            x = *(u32 *)p; y = *(u32 *)(p + 4);
+            asm("" : "+r"(x), "+r"(y));
+            *(u32 *)q = x; *(u32 *)(q + 4) = y; }
+          index = 0x14C * temp_r6; asm("" : "+r"(index));
+          base += 0x30; asm("" : "+r"(base));
+          temp_r2_3 = (s32 *)(index + base); *temp_r2_3 &= 0xFFFFDFD9; }
     } else {
         if (sub_0800CDC0() != 0) {
             sub_08056F8C();
@@ -1257,29 +1267,50 @@ loop_4:
         } else {
             sub_080657C4(temp_r6, 1);
         }
-        switch (temp_r6) {                          /* irregular */
-        default:
-            temp_r2_4 = 0x14C * temp_r6;
-            *(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_4 + 0x8C) = 0x12C00;
-            *(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_4 + 0x90) = 0x5200;
-            break;
-        case 1:
-            *(u32 *)((u8 *)gUnk_03003CE0 + 0x1D8) = 0x12100;
+        if (temp_r6 == 1) goto pos1;
+        if ((u32)temp_r6 < 1) goto posDefault;
+        if (temp_r6 == 2) goto pos2;
+        if (temp_r6 == 3) goto pos3;
+posDefault:
+            { register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
+              register s32 index asm("r2");
+              register u8 *dst asm("r0");
+              asm("" : "+r"(base)); index = 0x14C * temp_r6;
+              asm("" : "+r"(index)); temp_r2_4 = index;
+              dst = base + 0x8C; asm("" : "+r"(dst)); dst += index;
+              *(u32 *)dst = 0x12C00;
+              dst = base + 0x90; asm("" : "+r"(dst)); dst += index;
+              *(u32 *)dst = 0x5200; posBase = base; }
+            goto posDone;
+pos1:
+            { register u32 offset asm("r0") = 0x1D8;
+              register u8 *dst asm("r2");
+              posBase = (u8 *)gUnk_03003CE0;
+              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
+              asm("" : "+r"(dst)); *(u32 *)dst = 0x12100; }
             var_r0 = 0x1DC;
 block_20:
-            *(u32 *)((u8 *)gUnk_03003CE0 + var_r0) = 0x5200;
-            break;
-        case 2:
-            *(u32 *)((u8 *)gUnk_03003CE0 + 0x324) = 0x13700;
+            *(u32 *)(posBase + var_r0) = 0x5200;
+            goto posDone;
+pos2:
+            { register u32 offset asm("r0") = 0x324;
+              register u8 *dst asm("r2");
+              posBase = (u8 *)gUnk_03003CE0;
+              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
+              asm("" : "+r"(dst)); *(u32 *)dst = 0x13700; }
             var_r0 = 0x328;
             goto block_20;
-        case 3:
-            *(u32 *)((u8 *)gUnk_03003CE0 + 0x470) = 0x11600;
+pos3:
+            { register u32 offset asm("r0") = 0x470;
+              register u8 *dst asm("r2");
+              posBase = (u8 *)gUnk_03003CE0;
+              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
+              asm("" : "+r"(dst)); *(u32 *)dst = 0x11600; }
             var_r0 = 0x474;
             goto block_20;
-        }
+posDone:
         temp_r2_5 = 0x14C * temp_r6;
-        temp_r4_2 = temp_r2_5 + (u8 *)gUnk_03003CE0;
+        temp_r4_2 = temp_r2_5 + posBase;
         *(u16 *)(temp_r4_2 + 0x20) = 0;
         temp_r2_6 = (s32 *)(temp_r2_5 + ((u8 *)gUnk_03003CE0 + 0x30));
         *temp_r2_6 = (s32 *)((*temp_r2_6 & 0xFFFFDFDB) | 2);
@@ -1316,6 +1347,8 @@ loop_24:
     sub_08015C38();
 block_31:
     return 0;
+earlyExit:
+    return sub_08088B6C(arg0, 4) != 0;
 }
 
 
