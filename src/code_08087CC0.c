@@ -888,11 +888,12 @@ block_10:
     menu.sp168 = (s32) (u8) sub_08001108(0x88U);
     menu.sp164 = sub_0800115C((u32) sub_0808528C);
     sub_08000D8C();
+    goto loop_14CheckC0;
 loop_14:
-    if (sub_0801AAE0() == 0) {
-        sub_080003F0();
+    sub_080003F0();
+loop_14CheckC0:
+    if (sub_0801AAE0() == 0)
         goto loop_14;
-    }
 loop_15:
     gPlayersC0[sub_080020F4()].unk90 = 0;
     gPlayersC0[sub_080020F4()].unk8C = 0;
@@ -941,8 +942,7 @@ loop_24CheckC0:
 
         } else {
             temp_r4_5->unk1C = (u16) (temp_r4_5->unk1C - 1);
-block_47:
-            sub_0805865C(0xE);
+            goto block_47;
         }
         goto block_81;
     }
@@ -989,13 +989,17 @@ block_47:
         }
         goto block_81;
     }
+    goto selectionCheckC0;
+block_47:
+    sub_0805865C(0xE);
+    goto block_81;
+selectionCheckC0:
     if (gFlagC0 != 1) {
         goto block_81;
     }
     temp_r4_9 = (&sp150[0])[gPlayersC0[temp_r6].unk1C];
     if ((s32) temp_r4_9 >= (s32) sub_08002164()) {
-        sub_0805865C(0x61);
-        goto block_81;
+        goto errorFullC0;
     }
     var_r6_4 = 0;
     do {
@@ -1041,9 +1045,9 @@ loop_59BodyC0:
     } while (var_r5_2 <= 4U);
     var_r5_3 = 0;
     var_r2 = 0;
+    goto loop_69CheckC0;
 loop_69:
-    menu.sp16C = var_r2;
-    if (var_r5_3 < sub_08002164()) {
+    {
         temp_r4_13 = (struct C0Item **)((u8 *)gPlayersC0 + 0x148 + var_r2);
         if (((u16) (*temp_r4_13)->unk0 >> 4) == 0) {
             menu.sp16C = var_r2;
@@ -1057,8 +1061,11 @@ loop_69:
         }
         var_r2 += 0x14C;
         var_r5_3 += 1;
-        goto loop_69;
     }
+loop_69CheckC0:
+    menu.sp16C = var_r2;
+    if (var_r5_3 < sub_08002164())
+        goto loop_69;
     loopCounterC0 = 0;
     var_r5_4 = 0;
     var_r1_2 = &sp150[0];
@@ -1070,8 +1077,7 @@ loop_69:
         var_r5_4 += 1;
     } while (var_r5_4 <= 3U);
     if (loopCounterC0 <= 1U) {
-        sub_0805865C(0x61);
-        goto block_81;
+        goto errorSingleC0;
     }
     gPlayersC0[sub_080020F4()].unk90 = 0x100;
     if (gPlayersC0[sub_080020F4()].unk1C != 4) {
@@ -1083,6 +1089,11 @@ loop_69:
     sub_0805865C(0xF);
     gFlagC0 = 0;
     goto loop_82;
+errorFullC0:
+    sub_0805865C(0x61);
+    goto block_81;
+errorSingleC0:
+    sub_0805865C(0x61);
 block_81:
     sub_080003F0();
     goto loop_16;
@@ -1092,6 +1103,27 @@ loop_82:
             menu.sp160 = 0;
             sub_0805865C(0xC6);
         }
+        goto block_94;
+    }
+    if (0x10 & gFlagC0) {
+        if (menu.sp160 == 0) {
+            menu.sp160 = 1;
+            sub_0805865C(0xC7);
+        }
+        goto block_94;
+    }
+    temp_r0_7 = gFlagC0;
+    if (temp_r0_7 != 1) {
+        if (temp_r0_7 == 2) {
+            goto block_10;
+        }
+        goto block_94;
+    }
+    if (menu.sp160 != 0) {
+        goto block_10;
+    }
+    sub_0805865C(0xF);
+    goto loop_113CheckC0;
 block_94:
         temp_r4_15 = sub_08007290(0x1401F7) + 2;
         sub_0801A3D0(temp_r4_15, (u16) (0xF - ((u32) sub_0801A638(temp_r4_15) >> 1)), 0x12);
@@ -1138,28 +1170,8 @@ loop_103BodyC0:
             goto loop_103BodyC0;
         sub_080003F0();
         goto loop_82;
-    }
-    if (0x10 & gFlagC0) {
-        if (menu.sp160 == 0) {
-            menu.sp160 = 1;
-            sub_0805865C(0xC7);
-        }
-        goto block_94;
-    }
-    temp_r0_7 = gFlagC0;
-    if (temp_r0_7 != 1) {
-        if (temp_r0_7 == 2) {
-            goto block_10;
-        }
-        goto block_94;
-        goto loop_82;
-    }
-    if (menu.sp160 != 0) {
-        goto block_10;
-    }
-    sub_0805865C(0xF);
 loop_113:
-    if (sub_08067C18() == 0) {
+    {
         coordsBaseC0 = gCoordsC0;
         coordsThirdC0 = coordsBaseC0 + 4;
         countsC0 = sp150;
@@ -1193,10 +1205,13 @@ loop_111BodyC0:
         temp_r4_20 = sub_08007290(0x1401F8) + 2;
         sub_0801A3D0(temp_r4_20, (u16) (0xF - ((u32) sub_0801A638(temp_r4_20) >> 1)), 0x12);
         sub_080003F0();
-        goto loop_113;
     }
+loop_113CheckC0:
+    if (sub_08067C18() == 0)
+        goto loop_113;
+    goto loop_123CheckC0;
 loop_123:
-    if (sub_08067C08() == 0) {
+    {
         coordsBaseC0 = gCoordsC0;
         coordsThirdC0 = coordsBaseC0 + 4;
         countsC0 = sp150;
@@ -1230,8 +1245,10 @@ loop_121BodyC0:
         temp_r4_23 = sub_08007290(0x1401F8) + 2;
         sub_0801A3D0(temp_r4_23, (u16) (0xF - ((u32) sub_0801A638(temp_r4_23) >> 1)), 0x12);
         sub_080003F0();
-        goto loop_123;
     }
+loop_123CheckC0:
+    if (sub_08067C08() == 0)
+        goto loop_123;
     sub_08067BF8();
     if (sub_08002204() != 0) {
         gPlayersC0[0].unk90 = 0x200;
@@ -1239,8 +1256,9 @@ loop_121BodyC0:
     sub_0806617C();
     sub_08066220();
     sub_0801AA8C(0x1E);
+    goto loop_135CheckC0;
 loop_135:
-    if (sub_0801AAE0() == 0) {
+    {
         coordsBaseC0 = gCoordsC0;
         coordsThirdC0 = coordsBaseC0 + 4;
         countsC0 = sp150;
@@ -1272,8 +1290,10 @@ loop_133BodyC0:
         if (loopCounterC0 < sub_08002164())
             goto loop_133BodyC0;
         sub_080003F0();
-        goto loop_135;
     }
+loop_135CheckC0:
+    if (sub_0801AAE0() == 0)
+        goto loop_135;
     sub_0801A664(0, 0x14);
     sub_0800CFA4();
     (*(u32 *)(gStateC0 + 0x40)) = 1;
