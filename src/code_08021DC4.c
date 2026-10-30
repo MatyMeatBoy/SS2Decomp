@@ -4266,7 +4266,14 @@ scan_body:
             x = (s16) ((u16) temp_r2_2->unk0 >> 4);
             temp_r1_2 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
             y = (s16) temp_r1_2;
-            var_r0_3 = x - 0xF0;
+            {
+                register s32 value asm("r0") = x;
+                register s32 limit asm("r3");
+                asm("" : "+r"(value));
+                limit = 0xF0;
+                asm("" : "+r"(limit));
+                var_r0_3 = value - limit;
+            }
             if (var_r0_3 < 0) {
                 var_r0_3 = 0 - var_r0_3;
             }
