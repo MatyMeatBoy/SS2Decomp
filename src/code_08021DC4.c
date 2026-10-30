@@ -3893,7 +3893,7 @@ void sub_080263B4(void) {
     u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
     register u32 zero asm("r10");
     u8 *temp_r4;
-    struct T24Net080263B4 *temp_r2_2;
+    register struct T24Net080263B4 *temp_r2_2 asm("r2");
 
     zero = 0;
     asm("" : "+r"(zero));
@@ -3988,10 +3988,18 @@ block_23:
             nextCount = var_r7 + 1;
             while (var_r4 < sub_08002164()) {
                 temp_r2_2 = t24_players080263B4[var_r4].net;
+                asm("" : "+r"(temp_r2_2));
                 x = (s16) ((u16) temp_r2_2->unk0 >> 4);
                 temp_r1 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
                 y = (s16) temp_r1;
-                var_r0_3 = x - 0x78;
+                {
+                    register s32 value asm("r0") = x;
+                    register s32 bound asm("r3");
+                    asm("" : "+r"(value));
+                    bound = 0x78;
+                    asm("" : "+r"(bound));
+                    var_r0_3 = value - bound;
+                }
                 if (var_r0_3 < 0) {
                     var_r0_3 = 0 - var_r0_3;
                 }
