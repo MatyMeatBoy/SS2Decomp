@@ -3872,7 +3872,6 @@ void sub_080263B4(void) {
     s32 active;
     u32 timer;
     u32 nextCount;
-    u32 playerOffset;
     s32 limit;
     s32 temp_r4_2;
     s32 var_r0;
@@ -3880,7 +3879,7 @@ void sub_080263B4(void) {
     s32 var_r0_3;
     s32 var_r0_4;
     s32 var_r5;
-    struct T24Player080263B4 *temp_r6;
+    register struct T24Player080263B4 *temp_r6 asm("r6");
     u16 temp_r4_3;
     u16 temp_r4_4;
     u32 temp_r0;
@@ -3892,19 +3891,28 @@ void sub_080263B4(void) {
     u32 var_r4;
     u32 var_r5_2;
     u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
-    u32 zero;
+    register u32 zero asm("r10");
     u8 *temp_r4;
     struct T24Net080263B4 *temp_r2_2;
 
     zero = 0;
+    asm("" : "+r"(zero));
 
     frame = zero;
     phase = zero;
     active = 0;
     text = t24_call08007290_080263B4(0x1403D3);
-    playerOffset = sub_080020F4() * 0x14C;
-
-    temp_r6 = (struct T24Player080263B4 *)((u8 *)t24_players080263B4 + playerOffset);
+    {
+        register u32 index asm("r0") = sub_080020F4();
+        register u32 stride asm("r1") = 0x14C;
+        asm("" : "+r"(index), "+r"(stride));
+        stride *= index;
+        {
+            register u8 *base asm("r0") = (u8 *)t24_players080263B4;
+            asm("" : "+r"(base), "+r"(stride));
+            temp_r6 = (struct T24Player080263B4 *)(stride + (u32)base);
+        }
+    }
 
     sub_08065158(&sprite, 0x5000D, 0xE, -1, zero);
     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
@@ -3976,8 +3984,7 @@ block_23:
             var_r5 = 0;
             var_r4 = 0;
             nextCount = var_r7 + 1;
-loop_37:
-            if (var_r4 < sub_08002164()) {
+            while (var_r4 < sub_08002164()) {
                 temp_r2_2 = t24_players080263B4[var_r4].net;
                 x = (s16) ((u16) temp_r2_2->unk0 >> 4);
                 temp_r1 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
@@ -3996,7 +4003,6 @@ loop_37:
                     }
                 }
                 var_r4 += 1;
-                goto loop_37;
             }
             var_r7 = nextCount;
             if (var_r5 != sub_08002164()) {
