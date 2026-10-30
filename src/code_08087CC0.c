@@ -4241,17 +4241,23 @@ loop_27:
         }
         var_r4 += 1;
     }
-    var_r2 = 0;
-    var_r4 = 0;
-    var_r1 = countBase;
-    do {
-        if (*var_r1 != 0) {
-            var_r2 += 1;
-            (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A)) = var_r4;
-        }
-        var_r1 += 1;
-        var_r4 += 1;
-    } while ((u32) var_r4 <= 3U);
+    {
+        register u8 **state asm("r3");
+        var_r2 = 0;
+        var_r4 = 0;
+        asm("" : "+r"(var_r2), "+r"(var_r4));
+        state = (u8 **)&gUnk_03005CF4;
+        asm("" : "+r"(state));
+        var_r1 = countBase;
+        do {
+            if (*var_r1 != 0) {
+                var_r2 += 1;
+                *(u16 *)(*state + 0x5A) = var_r4;
+            }
+            var_r1 += 1;
+            var_r4 += 1;
+        } while ((u32) var_r4 <= 3U);
+    }
     if (var_r2 <= 1U) {
         temp_r0_3 = var_r5_3;
         var_r5_3 += 1;
