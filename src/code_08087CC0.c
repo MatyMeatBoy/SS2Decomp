@@ -2451,6 +2451,7 @@ extern void sub_0808AFE8_v(void) asm("sub_0808AFE8");
 void sub_0808AFE8_v(void) {
     struct AnimAF91 { u8 p0[0xC]; u32 data; u8 p10[0xC]; u8 flags; u8 p1D[0x17]; };
     struct RecordAF91 { u32 words[4]; };
+    struct AnimAF91 arg86, arg93, anim;
     struct RecordAF91 records[30];
     u16 argA0;
     s32 *argAD;
@@ -2492,7 +2493,6 @@ void sub_0808AFE8_v(void) {
     u8 *var_r4;
     u8 *var_r4_3;
     u8 *var_r4_4;
-    struct AnimAF91 anim, arg86, arg93;
     extern u16 gUnk_03001308;
     extern u32 sub_08058878(u32, u32);
     extern u32 sub_08058900(u32);
