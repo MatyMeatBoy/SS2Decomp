@@ -140,6 +140,7 @@ extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
 /* The damage timer tests its old value after storing the decremented value.
  * Remaining matching differences are arithmetic selection and registers. */
+static inline void d654InitAnimation(u32 *a, u32 b, u32 c, s32 d, s32 e) { sub_08065158(a, b, c, d, e); }
 void sub_0808D654(u8 *arg0) {
     u32 anim[26];
     s16 x, y;
@@ -168,7 +169,11 @@ void sub_0808D654(u8 *arg0) {
     temp_r0 = (*(u16 *)(arg0 + 0x0)) + (*(u16 *)(arg0 + 0x2));
     zero = 0;
     (*(u16 *)(arg0 + 0x2)) = temp_r0;
-    temp_r4 = arg0 + 0x204;
+    {
+        register u32 off asm("r2") = 0x204;
+        asm("" : "+r"(off));
+        temp_r4 = arg0 + off;
+    }
     sub_08019F60(temp_r4);
     (*(u16 *)(arg0 + 0x6C)) = zero;
     paletteInit = (u16 *)(arg0 + 0x6A);
@@ -198,7 +203,7 @@ loop_60:
         temp_r4_2 = (*(u16 *)(arg0 + 0xC));
         switch (temp_r4_2) {                        /* irregular */
         case 0:
-            sub_08065158(anim, 0x5005D, 5, -1, temp_r4_2);
+            d654InitAnimation(anim, 0x5005D, 5, -1, temp_r4_2);
             (*(u16 *)(arg0 + 0x68)) = temp_r4_2;
             break;
         case 10:
@@ -274,24 +279,57 @@ block_41:
             temp_r0_6 = timer;
             timer = (s32) (u16) (temp_r0_6 - 1);
             timerMask = 0x8000;
-            if (!(temp_r0_6 & timerMask)) {
-                if (damage == 0) {
-                    timer = 0xFFFF;
+            asm("" : "+r"(timerMask));
+            {
+                register u32 maskcopy asm("r1") = timerMask;
+                asm("" : "+r"(maskcopy));
+                if (!(temp_r0_6 & maskcopy)) {
+                    register s32 checked asm("r3") = damage;
+                    asm("" : "+r"(checked));
+                    if (checked == 0) {
+                        register u32 limit asm("r4") = 0xFFFF;
+                        asm("" : "+r"(limit));
+                        timer = limit;
+                    } else {
+                        if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                            register u32 raw asm("r0") = offset;
+                            asm("" : "+r"(raw));
+                            sub_0801A120(arg0, damage, (s16)raw);
+                        }
+                        {
+                            register s32 bits asm("r1");
+                            register u32 bit asm("r0") = 2;
+                            asm("" : "+r"(bit));
+                            bits = timer;
+                            asm("" : "+r"(bits));
+                            if (bit & bits) {
+                                register u32 raw asm("r2") = offset;
+                                register u32 shifted asm("r0");
+                                register u32 mask asm("r3");
+                                asm("" : "+r"(raw));
+                                shifted = raw << 16;
+                                asm("" : "+r"(shifted));
+                                mask = 0xFFFF0000;
+                                asm("" : "+r"(mask));
+                                offset = (u32)(shifted + mask) >> 0x10;
+                            }
+                        }
+                    }
                 } else {
-                    if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                        sub_0801A120(arg0, damage, (s16) offset);
-                    }
-                    if (2 & timer) {
-                        offset = (u32) ((offset << 0x10) + 0xFFFF0000) >> 0x10;
-                    }
+                    register u32 limit asm("r4") = 0xFFFF;
+                    register s32 z asm("r0");
+                    asm("" : "+r"(limit));
+                    timer = limit;
+                    z = 0;
+                    asm("" : "+r"(z));
+                    damage = z;
+                    (*(s32 *)(arg0 + 0x4C)) = z;
                 }
-            } else {
-                timer = 0xFFFF;
-                damage = 0;
-                (*(s32 *)(arg0 + 0x4C)) = 0;
             }
             if ((sub_0800CCCC() == 0) && ((gUnk_03002344 & 1) == (1 & (*(u16 *)(arg0 + 0x0))))) {
-                sub_08000AF0(layer + 0x10, anim[3], 1U);
+                register u32 data asm("r1") = anim[3];
+                asm("" : "+r"(data));
+                sub_08000AF0(layer + 0x10, (void *)data, 1U);
             }
             sub_080003F0();
             goto loop_check;
