@@ -7112,12 +7112,23 @@ void sub_08072D5C(u8 *arg0) {
     ready75 = (u16 *)((u8 *)frame.sp74 + 0xB2);
     asm("" : "+r"(ready75));
     frame.spA0 = frame.sp90 * 4;
+    { register u32 zero asm("r8") = 0;
+    register u8 *delays asm("r6") = &frame.delays[0];
+    asm("" : "+r"(zero), "+r"(delays));
     do {
-        frame.xs[var_r7] = 0;
-        frame.ys[var_r7] = 0;
-        (&frame.delays[0])[var_r7] = (sub_080008C8() % 20U) + 0xA + (&frame.delays[0])[var_r7 - 1];
+        frame.xs[var_r7] = zero;
+        frame.ys[var_r7] = zero;
+        { u32 raw = sub_080008C8();
+          register u8 *dst asm("r5") = delays + var_r7;
+          register u32 index asm("r4") = var_r7 - 1;
+          register u32 sum asm("r0");
+          register u32 prev asm("r4");
+          asm("" : "+r"(dst), "+r"(index));
+          prev = (u32)(delays + index); asm("" : "+r"(prev));
+          sum = raw % 20U; sum += 0xA; asm("" : "+r"(sum));
+          prev = *(u8 *)prev; asm("" : "+r"(prev)); *dst = sum + prev; }
         var_r7 += 1;
-    } while ((u32) var_r7 <= 4U);
+    } while ((u32) var_r7 <= 4U); }
     if (frame.sp78 != 0) {
         *ready75 = 2U;
     }
