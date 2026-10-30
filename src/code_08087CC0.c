@@ -2562,19 +2562,19 @@ void sub_0808AFE8_v(void) {
 
 
     u32 argA1;
-    u32 argA2;
-    s32 argA3;
+    s32 * argAD;
+    s32 argAA;
+    s32 argA6;
+    u8 * argAC;
     u8 * argA4;
     s32 argA5;
-    s32 argA6;
+    s32 argAE;
+    u32 argA2;
     u32 argA7;
+    u8 * argAB;
     u16 * argA8;
     u32 argA9;
-    s32 argAA;
-    u8 * argAB;
-    u8 * argAC;
-    s32 * argAD;
-    s32 argAE;
+    s32 argA3;
     keysAF91[0] = 0;
     keysAF91[1] = 0xFFFD;
     keysAF91[3] = 0;
@@ -2607,6 +2607,8 @@ void sub_0808AFE8_v(void) {
     var_r3 = 0;
     do {
         var_r6 = 0;
+        {
+        u32 next = var_r8 + 1;
         temp_r0_2 = var_r8 * 0x30;
         var_r4 = temp_r0_2 + argAB;
         var_r2 = (s32 *)(temp_r0_2 + argAC);
@@ -2636,7 +2638,8 @@ loop_4:
         if (var_r6 <= 2U) {
             goto loop_4;
         }
-        var_r8 += 1;
+        var_r8 = next;
+        }
     } while (var_r8 <= 9U);
     argA7 = 0U;
     argA6 = 0;
@@ -2651,11 +2654,11 @@ loop_4:
     argA9 = sub_0800115C((u32) sub_0808528C);
     sub_08000D8C();
     sub_0801AB50(6);
-loop_11:
-    if (sub_0801AAE0() == 0) {
-        sub_080003F0();
-        goto loop_11;
-    }
+    goto wcheck;
+wloop:
+    sub_080003F0();
+wcheck:
+    if (sub_0801AAE0() == 0) goto wloop;
 loop_12:
     if (argA5 == 0) {
         var_r8_2 = 0;
