@@ -5294,14 +5294,23 @@ loop_12:
             }
             var_r7->f14 = (s16) ((struct T025RuntimeEffects *)t025State27C)->active22C[var_r5];
             temp_r2_2 = var_r7->f20;
-            temp_r1_2 = ((u8 *)var_r9) + 4;
-            var_r7->f8 = (s16) M2C_FIELD(temp_r1_2, s32 *, temp_r2_2->f8 * 0x10);
-            var_r7->fA = 0;
-            var_r7->fC = 0;
-            var_r7->fE = 0;
+            { register u32 index asm("r0") = temp_r2_2->f8 * 0x10;
+              register u8 *config asm("r1");
+              asm("" : "+r"(index)); config = ((u8 *)var_r9) + 4;
+              asm("" : "+r"(config)); temp_r1_2 = config;
+              var_r7->f8 = (s16) M2C_FIELD(temp_r1_2, s32 *, index); }
+            { register s32 zero asm("r3") = 0; asm("" : "+r"(zero));
+              var_r7->fA = zero; var_r7->fC = zero; var_r7->fE = zero; }
             var_r7->f18 = 1;
-            var_r7->f1A = (s16) M2C_FIELD(temp_r1_2, s32 *, temp_r2_2->f8 * 0x10 + 4);
-            var_r7->f1C = (s16) M2C_FIELD(t025ConfigTail27C, s32 *, temp_r2_2->f8 * 0x10);
+            { register u32 index asm("r0") = temp_r2_2->f8 * 0x10;
+              register u8 *config asm("r1") = (u8 *)temp_r1_2;
+              asm("" : "+r"(index)); config += 4; asm("" : "+r"(config));
+              var_r7->f1A = (s16) M2C_FIELD(config, s32 *, index); }
+            { register u32 index asm("r0") = temp_r2_2->f8 * 0x10;
+              register u8 *config asm("r6");
+              asm("" : "+r"(index)); config = t025ConfigTail27C;
+              asm("" : "+r"(config));
+              var_r7->f1C = (s16) M2C_FIELD(config, s32 *, index); }
             if (var_r7->f16 != 0) {
                 arg8B += 1;
             }
