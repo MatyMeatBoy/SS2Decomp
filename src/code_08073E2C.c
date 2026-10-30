@@ -71,13 +71,13 @@ u16 sub_08073EE8(u16 width,s32 range)
    if(player[0x68]!=candidate[0x68] && candidate[0x68]!=0){
     sprite=F_076EE8(candidate,u8*,0x148);
     dx=(F_076EE8(sprite,u16,0)>>4)-(F_076EE8(player,s32,0x8C)>>8);
-    dy=(F_076EE8(sprite,u16,2)&0xFFF)-(F_076EE8(player,s32,0x90)>>8);
+    dy=(((u32)F_076EE8(sprite,u16,2)<<20)>>20)-(F_076EE8(player,s32,0x90)>>8);
 angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
     sprite=*(u8**)(player+0x148);angle-=directions076EE8[sprite[3]>>4];
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<(u32)range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if((u32)range>distance && best>distance){best=distance;nearest=index;}}
    }
    index++;
   }
@@ -95,7 +95,7 @@ angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<(u32)range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if((u32)range>distance && best>distance){best=distance;nearest=index;}}
    }
   }
   offset+=0x2E0;index++;
