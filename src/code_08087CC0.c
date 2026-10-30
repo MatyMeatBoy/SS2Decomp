@@ -4192,8 +4192,13 @@ void sub_0808CB58(void) {
         sub_080290E4(0, *(s16 *)(table + 0x1C));
     }
     var_r4 = 0;
-    var_r6_2 = sp5C;
-    var_r5_2 = ((u8 *)gUnk_03003CE0 + 0x68);
+    asm("" : "+r"(var_r4));
+    {
+        register u8 *base asm("r0") = (u8 *)gUnk_03003CE0;
+        asm("" : "+r"(base));
+        var_r6_2 = sp5C;
+        var_r5_2 = base + 0x68;
+    }
     while (var_r4 < sub_08002164()) {
         *var_r6_2 = (s32) *var_r5_2;
         var_r6_2 += 1;
