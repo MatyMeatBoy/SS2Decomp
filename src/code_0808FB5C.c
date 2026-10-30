@@ -2315,10 +2315,13 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     { register u16 *p250 asm("r2") = &v923FC_250;
       asm("" : : "r"(p250));
       v923FC_254 = 8; *p250 = 8; }
-    { register s32 negative asm("r2") = -12;
-      asm("" : "+r"(negative)); v923FC_252 = negative; }
+    { register u16 *p252 asm("r1") = &v923FC_252;
+      register s32 negative asm("r2"); register s32 value asm("r0");
+      asm("" : "+r"(p252)); negative = -12;
+      asm("" : "+r"(negative)); value = negative;
+      asm("" : "+r"(value)); *p252 = value; }
     v923FC_256 = 0xC;
-    sp130 = 3;
+    { register s32 three asm("r3") = 3; asm("" : "+r"(three)); sp130 = three; }
     sub_0801AB50(6);
     goto test_2;
 loop_2:
