@@ -1661,6 +1661,7 @@ void sub_08034900(void) {
     struct Player *temp_r2;
     struct Player *temp_r2_2;
 
+    asm volatile("" : "=m"(frame.bits));
     asm volatile("" : : : "r7");
     ptr10=&frame.sp10; asm("" : "+r"(ptr10));
 loop_1:
