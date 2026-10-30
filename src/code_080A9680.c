@@ -2217,7 +2217,6 @@ void sub_080AE184(void)
     obj[2] -= 0x40;
     gUnk_030056FC &= ~(1 << *(u16 *)gUnk_03000448[obj[2]]);
 }
-#ifdef NONMATCHING
 struct Entry114E {u8 *actor; u8 pad[0xA8];};
 extern struct Entry114E entries114E[] asm("gUnk_030004D0");
 extern u32 history114E[][83] asm("gUnk_03003DC4");
@@ -2231,7 +2230,7 @@ void sub_080AE1B4(void)
     s16 count;
     s32 allocation[4];
     u8 *actor;
-    { register u32 zero asm("r4")=0; asm("" : "+r"(zero)); for (i=0;i<=3;i++) for (j=0;j<=4;j++) history114E[i][j]=zero; }
+    { register u32 zero asm("r4"); register u32 stride asm("ip"); register u8 *cnt asm("r7"); register u32 *hist asm("r6"); i=0; asm("" : "+r"(i)); cnt=&count114E; asm("" : : "r"(cnt)); stride=0x14c; asm("" : : "r"(stride)); hist=(u32 *)history114E; asm("" : : "r"(hist)); zero=0; asm("" : "+r"(zero)); do { for (j=0;j<=4;j++) *(u32 *)((u8 *)history114E+i*stride+j*4)=zero; i++; } while(i<=3); }
     count114E=sub_08002164();
     sub_080AF2BC();
     for (i=0;i<count114E;i++) sub_080AF350(i);
@@ -2272,9 +2271,6 @@ void sub_080AE1B4(void)
     }
     sub_08056E24();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE1B4);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE420);
 void sub_080AF2AC(void) {
     sub_080AF304();
