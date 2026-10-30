@@ -1942,8 +1942,8 @@ void sub_0801A7AC(void)
     /* These addresses remain live across the yields in both fade loops. */
     register u16 *progress asm("r4"); register u16 *period asm("r5");
     s16 *fadeLevel;
-    s32 flag2, flag16;
-    u32 delta, total;
+    register s32 flag2 asm("r2"); s32 flag16;
+    register u32 delta asm("r0"); u32 total;
     s32 signedDelta;
     flags16 = 1;
     step = &gUnk_03000026;
