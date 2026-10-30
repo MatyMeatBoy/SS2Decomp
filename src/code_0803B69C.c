@@ -5017,35 +5017,72 @@ void sub_080440EC(void)
         sub_0800D108();
     }
 }
-#ifdef NONMATCHING
-extern u8 *state44 asm("gUnk_03005CF4");
-extern u8 players44[] asm("gUnk_03003CE0");
 void sub_080441C0(void)
 {
-    s32 flagOffset;
-    u32 id,message;
+    u8 *flag;
     u8 *player;
-    flagOffset=sub_0800CE30()?0x1C6:0x1BA;
-    if ((state44[flagOffset]>>4)&1) return;
-    player=players44+0x14C*sub_080020F4();
-    *(u32 *)(player+0x30)|=1;
+    register u8 *playerFirst asm("r1");
+    u32 flags;
+    u32 message;
+    register s32 offset asm("r2");
+    register s32 multiplier asm("r1");
+    register s32 bit asm("r1");
+    register s32 one asm("r0");
+    register s32 raw asm("r0");
+    register s32 stride asm("r1");
+    register s32 index asm("r0");
+    register s32 one2 asm("r4");
+    if (sub_0800CE30())
+        flag = state44 + 0x1C6;
+    else
+        flag = state44 + 0x1BA;
+    raw = *flag;
+    asm("" : "+r"(raw));
+    bit = raw >> 4;
+    one = 1;
+    bit &= one;
+    if (bit != 0) return;
+    index = sub_080020F4();
+    stride = 0x14C;
+    stride *= index;
+    playerFirst = players44 + stride;
+    flags = *(u32 *)(playerFirst + 0x30);
+    one2 = 1;
+    flags |= one2;
+    *(u32 *)(playerFirst + 0x30) = flags;
     sub_0800D0F4();
-    flagOffset=sub_0800CE30()?0x1C5:0x1B9;
-    id=((state44[flagOffset]>>2)&1)?0x140211:0x140212;
-    while(sub_0805F184())sub_080003F0();
-    while(sub_0805EF90())sub_080003F0();
-    message=sub_0805DF38(1,15,2,0,-1,id);
-    while(!sub_0805EEFC((void *)message)) {
-        if(sub_0800CDF8()){sub_0805EFBC();break;}
-        sub_080003F0();
+    if (sub_0800CE30())
+        flag = state44 + 0x1C5;
+    else
+        flag = state44 + 0x1B9;
+    raw = *flag;
+    asm("" : "+r"(raw));
+    bit = raw >> 2;
+    bit &= one2;
+    if (bit != 0) {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        message = sub_0805DF38(1, 15, 2, 0, -1, 0x140211);
+        while (sub_0805EEFC((void *)message) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    } else {
+        while (sub_0805F184()) sub_080003F0();
+        while (sub_0805EF90()) sub_080003F0();
+        message = sub_0805DF38(1, 15, 2, 0, -1, 0x140212);
+        while (sub_0805EEFC((void *)message) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
     }
-    player=players44+0x14C*sub_080020F4();
-    *(u32 *)(player+0x30)&=~1;
+    offset = sub_080020F4();
+    multiplier = 0x14C;
+    offset *= multiplier;
+    player = players44 + offset;
+    *(u32 *)(player + 0x30) &= ~1;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_080441C0);
-#endif
 void sub_08044318(void)
 {
     u8 *flag;
