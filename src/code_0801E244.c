@@ -254,7 +254,59 @@ void sub_0801E594(void *arg0)
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801EF14);
+struct CombatCtx019 { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
+struct CombatActor019 { u8 pad[0x1CC]; u16 attack,defense; u8 pad1D0[0x34]; struct CombatCtx019 ctx; };
+s32 sub_0801EF14(void *arg0,void *arg1)
+{
+    struct CombatActor019 *src=arg0,*dst=arg1;
+    u8 *record;
+    register struct CombatCtx019 *ctx=&src->ctx;
+    register u16 *resists;
+    register u32 varianceWord;
+    register u16 *defensePtr;
+    u16 attack,defense,variance,resistance,result,firstDamage,element;
+    u32 damage;
+    s32 scaled,weighted,r;
+    record=(u8 *)sub_08007290(ctx->key|0xB0000);
+    defensePtr=&dst->defense;
+    attack=src->attack;
+    defense=*defensePtr;
+    varianceWord=(u16)sub_080008C8()%50;
+    varianceWord<<=16;
+    varianceWord+=0x640000;
+    variance=varianceWord>>16;
+    scaled=(s32)((u32)attack*attack*10)/(attack+defense);
+    weighted=(s32)((u32)scaled*variance)/200;
+    {
+        register u32 quotient asm("r1")=(u16)weighted;
+        asm("" : "+r"(quotient));
+        firstDamage=quotient/10U;
+    }
+    if(!firstDamage) firstDamage=1;
+    element=*(u16 *)(record+0xBC);
+    damage=firstDamage;
+    resists=dst->ctx.resist;
+    switch(element-1U) {
+    case 0: resistance=resists[0]; goto attenuate;
+    case 1: resistance=resists[1]; goto attenuate;
+    case 2: resistance=resists[2]; goto attenuate;
+    case 3: resistance=resists[3]; goto attenuate;
+    case 4: resistance=resists[4]; goto attenuate;
+    case 5:case 6: resistance=resists[5];
+attenuate:
+        damage=(u16)((s32)(damage*5000)/((s16)resistance*(s16)resistance+2500));
+        if(damage&0x8000) damage=1;
+        break;
+    }
+    {
+        register u32 finishWord asm("r0")=damage;
+        asm("" : "+r"(finishWord));
+        finishWord<<=16;
+        result=finishWord>>16;
+        if((s32)finishWord<=0) result=1;
+        return result;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
 #ifdef NONMATCHING
 struct Sh20F1C4Packet { u8 player:8; u8 power:8; u8 impulse:8; s32 direction:8; u32 amount:16; u32 unused:16; };
