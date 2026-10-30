@@ -28,7 +28,58 @@ void sub_080090B0(void)
     stateInit005.field90 = 0;
     stateInit005.level = finishInit005(&stateInit005.field90);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009138);
+struct Level9138 { u16 count, flags; u8 pad[0x70]; };
+extern struct Level9138 levels9138[] asm("gUnk_0847846C");
+union Bg9138 { struct { u32 value:16; } bits; u16 raw; };
+extern u16 done9138 asm("gUnk_03001F40");
+extern void mode9138(u32,u32) asm("sub_08000990");
+extern void enable9138(u32,u32,u32) asm("sub_080009F8");
+extern void bg9138(u32,void *) asm("sub_08000AA8");
+extern u32 *record9138(u32) asm("sub_08007290");
+void sub_08009138(s32 *arg0, s32 arg1) {
+    union Bg9138 bg;
+    register u32 *tiles asm("r6");
+    u32 *palette;
+    u16 i;
+    s32 level = arg1;
+    register u32 alloc asm("r9"); /* Original reads incoming r9 before freeing it. */
+    mode9138(0,0);
+    enable9138(0x1f00,0,1);
+    bg.bits.value = 0x1c08;
+    bg9138(0,&bg.raw);
+    if (level == 6) {
+        register u8 *base asm("r0") = (u8 *)levels9138;
+        register u32 off asm("r1") = 0x2b8;
+        asm("" : "+r"(base), "+r"(off));
+        base += off;
+        asm("" : "+r"(base));
+        bg.raw = 0x1d40 | ((struct Level9138 *)base)->flags;
+        gUnk_03001250[0x3c / 2] = 0x21;
+    } else {
+        bg.raw = 0x1d00 | levels9138[level].flags;
+    }
+    bg9138(1,&bg.raw);
+    bg.raw = 0x1e02; bg9138(2,&bg.raw);
+    bg.raw = 0x1f03; bg9138(3,&bg.raw);
+    tiles = record9138(*arg0);
+    palette = record9138((u16)*arg0 | 0x90000);
+    i = 0;
+    do {
+        if (sub_0800CDF8() || sub_0800CB78()) { sub_080013F8(); return; }
+        sub_08001348((u32)tiles + (i << 11), 0x6000000 + (i << 11), 0x800);
+        sub_080003F0();
+        i++;
+    } while (i <= 15);
+    if (*arg0 < 0) {
+        if (level == 0x10 || level == 0x16) sub_08000AF0(0,(void *)((u32)palette + 0x200),15);
+        else sub_08000AF0(0,palette,15);
+    } else sub_08000AF0(0,palette,15);
+    if (gUnk_03003170.curLevel == 4 && sub_0800CDC0()) sub_080009C0(0x1b00,0,1);
+    else if (gUnk_03003170.curLevel != 13) sub_080009C0(0x1f00,0,1);
+    sub_08001538(alloc);
+    done9138 = 0;
+    sub_080003F0();
+}
 extern u16 *bgBuffers005[4] asm("gUnk_03003460");
 extern void cameraMap005(u32 *,u32 *,u32) asm("sub_0800AD04");
 extern void rowMap005(struct Layer *,s16,s16) asm("sub_080094CC");
