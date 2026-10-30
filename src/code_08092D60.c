@@ -920,6 +920,8 @@ void sub_0809561C(u8 arg0) {
     struct Anim956 sp14, second;
     struct {s32 clear; u16 frame,tick;} state956;
     struct Pos956 sp84;
+    register s32 *clearPtr asm("r5");
+    register u8 *flagPtr asm("r10");
     s32 sp8C;
     s32 sp90;
     struct Anim956 *sp94;
@@ -927,6 +929,7 @@ void sub_0809561C(u8 arg0) {
     u16 *sp9C;
     u16 *spA0;
     register s32 temp_r1 asm("r9");
+    register s32 allocationCount asm("r4");
     s32 var_r0_3;
     s32 var_sl;
     s8 temp_r0_2;
@@ -971,20 +974,23 @@ void sub_0809561C(u8 arg0) {
         var_r1 = 0x14;
     }
     temp_r1 = var_r1 << 0x18;
+    clearPtr = &state956.clear;
     sp94 = &second;
+    flagPtr = &sp14.payload[7];
     spA0 = &state956.tick;
     sp9C = &state956.frame;
     sp98 = second.payload;
+    {register s32 count asm("r1"); count=(s8)(temp_r1 >> 24); allocationCount=count*3;}
     do {
-        temp_r7 = f956_08001494((s8) (temp_r1 >> 24) * 0x18);
+        temp_r7 = f956_08001494(allocationCount << 3);
         f956_080003F0();
     } while (temp_r7 == NULL);
     state956.clear = 0;
     temp_r0_2 = (s8) (temp_r1 >> 24);
-    CpuSet(&state956.clear, temp_r7, ((temp_r0_2 * 6) & 0x1FFFFF) | 0x05000000);
+    CpuSet(clearPtr, temp_r7, ((temp_r0_2 * 6) & 0x1FFFFF) | 0x05000000);
     f956_08065158(&sp14, 0x50046, 7, -1, 1);
     f956_08065158(sp94, 0x50047, 0, -1, 1);
-    sp14.payload[7] = 0;
+    *flagPtr = 0;
     sp94->payload[0] = 1;
     f956_08000AF0(0x10U, sp14.fC + 0xE0, 1U);
     f956_08000AF0(0x11U, sp94->fC, 1U);
