@@ -718,7 +718,7 @@ void sub_0808C0C4_v(void) {
     u16 sp14[2];
     u8 sp18[0x34];
     u8 sp4C[0x34];
-    u8 sp80[0xD0];
+    struct { s32 resource; s32 unknown4; s32 data8; u8 tail[40]; } portraitsC0[4];
     u16 sp150[6];
 
     /* Persistent menu words occupy original stack offsets 0x15C..0x16C. */
@@ -730,6 +730,8 @@ void sub_0808C0C4_v(void) {
         s32 sp16C;
     } menu;
     u32 loopCounterC0;
+    /* This product dies before r3 becomes the draw call fourth argument. */
+    register u32 countTripletC0 asm("r3");
     u8 *portraitBaseC0;
     u8 *portraitTableC0;
     struct C0Player *playerTableC0;
@@ -843,7 +845,7 @@ void sub_0808C0C4_v(void) {
     *(u16 *)&menu.sp15C = 0x1F03;
     sub_08000AA8(3U, &menu.sp15C);
     loopCounterC0 = 0;
-    portraitBaseC0 = sp80;
+    portraitBaseC0 = ((u8 *)portraitsC0);
     portraitTableC0 = gPortraitC0;
     playerTableC0 = gPlayersC0;
     goto portraitCheckC0;
@@ -916,16 +918,16 @@ loop_24BodyC0:
     temp_r1 = *temp_r0_2;
     temp_r4_3 = (u16) temp_r1->unk0 >> 4;
     if (temp_r4_3 == 0) {
+        countsC0 = sp150;
         temp_r1_2 = (u8) temp_r1->unk3 >> 4;
-        temp_r2 = ((temp_r1_2 * 9) + ((&sp150[0])[temp_r1_2] * 3)) * 2;
-        temp_r4_4 = 0x34 * loopCounterC0;
-        temp_r5 = sp80 + temp_r4_4;
-        sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, (u8 *)temp_r5 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_4), *temp_r5);
+        countTripletC0 = countsC0[temp_r1_2] * 3;
+        temp_r2 = ((temp_r1_2 * 9) + countTripletC0) * 2;
+        sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
         if (sub_080020F4() == loopCounterC0) {
-            temp_r1_3 = &(&sp150[0])[((struct C0Player *)((u8 *)gPlayersC0 + var_r9))->unk1C];
+            temp_r1_3 = &countsC0[((struct C0Player *)((u8 *)gPlayersC0 + var_r9))->unk1C];
             *temp_r1_3 += 1;
         } else {
-            temp_r0_3 = &(&sp150[0])[(u8) (*temp_r0_2)->unk3 >> 4];
+            temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4];
             *temp_r0_3 += 1;
         }
     }
@@ -1022,10 +1024,9 @@ loop_59BodyC0:
         temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
         if (temp_r4_11 == 0) {
             temp_r3_2 = (u8) temp_r1_7->unk3 >> 4;
-            temp_r2_3 = ((temp_r3_2 * 9) + ((&sp150[0])[temp_r3_2] * 3)) * 2;
-            temp_r5_2 = 0x34 * loopCounterC0;
-            temp_r4_12 = sp80 + temp_r5_2;
-            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, (u8 *)temp_r4_12 + 0x1C, *(s32 *)(sp80 + 8 + temp_r5_2), *temp_r4_12);
+            temp_r2_3 = (&sp150[0])[temp_r3_2] * 3;
+            temp_r2_3 = ((temp_r3_2 * 9) + temp_r2_3) * 2;
+            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
         }
         var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C);
         loopCounterC0 += 1;
@@ -1156,10 +1157,9 @@ loop_103BodyC0:
         temp_r4_16 = (u16) temp_r1_9->unk0 >> 4;
         if (temp_r4_16 == 0) {
             temp_r1_10 = (u8) temp_r1_9->unk3 >> 4;
-            temp_r2_4 = ((temp_r1_10 * 9) + (countsC0[temp_r1_10] * 3)) * 2;
-            temp_r4_17 = 0x34 * loopCounterC0;
-            temp_r5_3 = sp80 + temp_r4_17;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_4), *(u16 *)(coordsBaseC0 + temp_r2_4 + 2), *(u16 *)(coordsThirdC0 + temp_r2_4), 0, temp_r4_16, (u8 *)temp_r5_3 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_17), *temp_r5_3);
+            countTripletC0 = countsC0[temp_r1_10] * 3;
+            temp_r2_4 = ((temp_r1_10 * 9) + countTripletC0) * 2;
+            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_4), *(u16 *)(coordsBaseC0 + temp_r2_4 + 2), *(u16 *)(coordsThirdC0 + temp_r2_4), 0, temp_r4_16, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_6 = &countsC0[(u8) (*temp_r7)->unk3 >> 4];
             *temp_r0_6 += 1;
         }
@@ -1190,10 +1190,9 @@ loop_111BodyC0:
         temp_r4_18 = (u16) temp_r1_11->unk0 >> 4;
         if (temp_r4_18 == 0) {
             temp_r1_12 = (u8) temp_r1_11->unk3 >> 4;
-            temp_r2_5 = ((temp_r1_12 * 9) + (countsC0[temp_r1_12] * 3)) * 2;
-            temp_r4_19 = 0x34 * loopCounterC0;
-            temp_r5_4 = sp80 + temp_r4_19;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_5), *(u16 *)(coordsBaseC0 + temp_r2_5 + 2), *(u16 *)(coordsThirdC0 + temp_r2_5), 0, temp_r4_18, (u8 *)temp_r5_4 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_19), *temp_r5_4);
+            countTripletC0 = countsC0[temp_r1_12] * 3;
+            temp_r2_5 = ((temp_r1_12 * 9) + countTripletC0) * 2;
+            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_5), *(u16 *)(coordsBaseC0 + temp_r2_5 + 2), *(u16 *)(coordsThirdC0 + temp_r2_5), 0, temp_r4_18, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_8 = &countsC0[(u8) (*temp_r7_2)->unk3 >> 4];
             *temp_r0_8 += 1;
         }
@@ -1230,10 +1229,9 @@ loop_121BodyC0:
         temp_r4_21 = (u16) temp_r1_13->unk0 >> 4;
         if (temp_r4_21 == 0) {
             temp_r1_14 = (u8) temp_r1_13->unk3 >> 4;
-            temp_r2_6 = ((temp_r1_14 * 9) + (countsC0[temp_r1_14] * 3)) * 2;
-            temp_r4_22 = 0x34 * loopCounterC0;
-            temp_r5_5 = sp80 + temp_r4_22;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_6), *(u16 *)(coordsBaseC0 + temp_r2_6 + 2), *(u16 *)(coordsThirdC0 + temp_r2_6), 0, temp_r4_21, (u8 *)temp_r5_5 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_22), *temp_r5_5);
+            countTripletC0 = countsC0[temp_r1_14] * 3;
+            temp_r2_6 = ((temp_r1_14 * 9) + countTripletC0) * 2;
+            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_6), *(u16 *)(coordsBaseC0 + temp_r2_6 + 2), *(u16 *)(coordsThirdC0 + temp_r2_6), 0, temp_r4_21, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_9 = &countsC0[(u8) (*temp_r7_3)->unk3 >> 4];
             *temp_r0_9 += 1;
         }
@@ -1277,10 +1275,9 @@ loop_133BodyC0:
         temp_r4_24 = (u16) temp_r1_15->unk0 >> 4;
         if (temp_r4_24 == 0) {
             temp_r1_16 = (u8) temp_r1_15->unk3 >> 4;
-            temp_r2_7 = ((temp_r1_16 * 9) + (countsC0[temp_r1_16] * 3)) * 2;
-            temp_r4_25 = 0x34 * loopCounterC0;
-            temp_r5_6 = sp80 + temp_r4_25;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_7), *(u16 *)(coordsBaseC0 + temp_r2_7 + 2), *(u16 *)(coordsThirdC0 + temp_r2_7), 0, temp_r4_24, (u8 *)temp_r5_6 + 0x1C, *(s32 *)(sp80 + 8 + temp_r4_25), *temp_r5_6);
+            countTripletC0 = countsC0[temp_r1_16] * 3;
+            temp_r2_7 = ((temp_r1_16 * 9) + countTripletC0) * 2;
+            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_7), *(u16 *)(coordsBaseC0 + temp_r2_7 + 2), *(u16 *)(coordsThirdC0 + temp_r2_7), 0, temp_r4_24, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
             temp_r0_10 = &countsC0[(u8) (*temp_r7_4)->unk3 >> 4];
             *temp_r0_10 += 1;
         }
