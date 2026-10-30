@@ -2692,11 +2692,11 @@ loop_110:
         }
     }
     sub_0801ABE8(6);
+    goto test_127;
 loop_127:
-    if (sub_0801AAE0() == 0) {
-        sub_080003F0();
-        goto loop_127;
-    }
+    sub_080003F0();
+test_127:
+    if (sub_0801AAE0() == 0) goto loop_127;
     sp0 = 0;
     sp4 = NULL;
     fade923FC(0, 0, 0, 0, sp0, sp4);
