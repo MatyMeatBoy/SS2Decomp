@@ -186,10 +186,10 @@ void sub_0808D654(u8 *arg0) {
     (*(s16 *)(arg0 + 0x1D6)) = temp_r0;
     (*(s16 *)(arg0 + 0x5C)) = temp_r0;
     temp_r0_2 = *(s16 *)(temp_r4 + 4);
-    scaledStat = temp_r0_2 << 1;
-    temp_r0_2 <<= 3;
+    scaledStat = temp_r0_2 * 2;
+    temp_r0_2 *= 8;
     temp_r0_2 += scaledStat;
-    temp_r0_2 <<= 1;
+    temp_r0_2 *= 2;
     (*(s16 *)(arg0 + 0x1D4)) = temp_r0_2;
     (*(s16 *)(arg0 + 0x5E)) = temp_r0_2;
     (*(u16 *)(arg0 + 0xC)) = zero;
@@ -229,7 +229,7 @@ loop_60:
         drawFlags = 0;
         layer = 5;
         animBytes[28] = layer;
-        sub_0800BC08((s32) ((*(s32 *)(arg0 + 0x14)) << 8) >> 0x10, (s32) ((*(s32 *)(arg0 + 0x18)) << 8) >> 0x10, &x, &y, 0x30, drawFlags);
+        sub_0800BC08((s32) ((u32)(*(s32 *)(arg0 + 0x14)) << 8) >> 0x10, (s32) ((u32)(*(s32 *)(arg0 + 0x18)) << 8) >> 0x10, &x, &y, 0x30, drawFlags);
         if (flashing != 0) {
             if ((1 & var_sl) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
                 sub_08007870(x, y, (*(u16 *)(arg0 + 0x68)), *palette, temp_r8, &anim[7], anim[2], anim[0]);
@@ -272,7 +272,7 @@ loop_60:
 block_41:
             temp_r0_5 = (*(s32 *)(arg0 + 0x4C));
             if ((temp_r0_5 != 0) && (damage != temp_r0_5)) {
-                if ((sub_08019CE8(arg0) << 0x10) != 0) {
+                if (((u32)sub_08019CE8(arg0) << 0x10) != 0) {
                     var_sl = 0xA;
                 }
                 damage = (*(s32 *)(arg0 + 0x4C));
