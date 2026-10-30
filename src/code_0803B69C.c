@@ -4527,8 +4527,125 @@ void sub_080435C4(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_080435C4);
 #endif
+#ifdef NONMATCHING
+extern u8 *state44 asm("gUnk_03005CF4");
+extern u8 players44[] asm("gUnk_03003CE0");
+void callback5990C44(u32) asm("sub_0805990C");
+void reaction4385044(void) asm("sub_08043850");
+void actorEvent43664Draft44(void *) asm("sub_08043664");
+void actorEvent43664Draft44(void *arg0)
+{
+    u8 *player;
+    s32 offset;
+    u32 message,id;
+    player=players44+0x14C*sub_080020F4();
+    *(u32 *)(player+0x30)|=1;
+    sub_0800D0F4();
+    offset=sub_0800CE30()?0x1C6:0x1BA;
+    if(!((state44[offset]>>4)&1)) {
+        if(sub_080020F4()!=0) {
+            while(sub_0805F184())sub_080003F0();
+            while(sub_0805EF90())sub_080003F0();
+            message=sub_0805DF38(1,15,2,0,-1,0x14020A);
+            while(!sub_0805EEFC((void *)message)) {
+                if(sub_0800CDF8()){sub_0805EFBC();break;}
+                sub_080003F0();
+            }
+        } else {
+            while(sub_0805F184())sub_080003F0();
+            message=sub_0805DF38(1,15,2,0,-2,0x140207);
+            while(!sub_0805EEFC((void *)message))sub_080003F0();
+            if(sub_0805EF14((void *)message)) {
+                sub_08068070((u32)callback5990C44,0x1C);
+                id=0x140208;
+                while(sub_0805F184())sub_080003F0();
+                while(sub_0805EF90())sub_080003F0();
+                message=sub_0805DF38(1,15,2,0,-1,id);
+                while(!sub_0805EEFC((void *)message)) {
+                    if(sub_0800CDF8()){sub_0805EFBC();break;}
+                    sub_080003F0();
+                }
+                sub_08068820((void *)reaction4385044,arg0,NULL);
+            } else {
+                while(sub_0805F184())sub_080003F0();
+                while(sub_0805EF90())sub_080003F0();
+                message=sub_0805DF38(1,15,2,0,-1,0x140209);
+                while(!sub_0805EEFC((void *)message)) {
+                    if(sub_0800CDF8()){sub_0805EFBC();break;}
+                    sub_080003F0();
+                }
+            }
+        }
+    }
+    player=players44+0x14C*sub_080020F4();
+    *(u32 *)(player+0x30)&=~1;
+    sub_0800D108();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08043664);
+#endif
+#ifdef NONMATCHING
+extern u8 *state44 asm("gUnk_03005CF4");
+extern u8 players44[] asm("gUnk_03003CE0");
+extern u8 *records44 asm("gUnk_030056F4");
+void sub_08043850(void)
+{
+    u8 *slot,*player;
+    u32 actor,i,record;
+    u16 timer;
+    actor=0;
+    slot=state44+0x7A4;
+    for(i=0;i<15;i++,slot+=0x70) {
+        if ((*(u32 *)(state44+0x54)&(1U<<i)) && *(u32 *)(slot+4)==0x41) {
+            actor=*(u32 *)slot;
+            break;
+        }
+    }
+    sub_08029174(actor,2);
+    timer=30;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    sub_0802939C(actor,1);
+    timer=60;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    sub_08029174(actor,2);
+    timer=60;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    sub_0802939C(actor,3);
+    timer=60;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    sub_08029174(actor,2);
+    timer=30;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    sub_08029174(actor,4);
+    timer=10;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    sub_08029174(actor,5);
+    timer=60;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    if(actor>0x100000U) {
+        slot=state44+0x7A4;
+        for(i=0;i<15;i++,slot+=0x70)if(*(u32 *)slot==actor)break;
+        if(i==15){sub_080003F0();slot=NULL;}
+        if(slot)*(u16 *)(slot+0x42)=1;
+    } else if(actor) {
+        record=actor-1;
+        if(record<=4)sub_08019EB8(*(u16 *)(records44+record*0x2E0+2),1);
+    } else {
+        player=players44+0x14C*sub_080020F4();
+        *(u16 *)(player+0x11E)=1;
+    }
+    sub_0802926C(actor,6);
+    timer=250;
+    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    sub_0802926C(actor,7);
+    sub_0802A7DC();
+    player=players44+0x14C*sub_080020F4();
+    *(u32 *)(player+0x30)|=1;
+    sub_0800D0F4();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08043850);
+#endif
 #ifdef NONMATCHING
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
@@ -4790,7 +4907,35 @@ void sub_080440EC(void)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_080440EC);
 #endif
+#ifdef NONMATCHING
+extern u8 *state44 asm("gUnk_03005CF4");
+extern u8 players44[] asm("gUnk_03003CE0");
+void sub_080441C0(void)
+{
+    s32 flagOffset;
+    u32 id,message;
+    u8 *player;
+    flagOffset=sub_0800CE30()?0x1C6:0x1BA;
+    if ((state44[flagOffset]>>4)&1) return;
+    player=players44+0x14C*sub_080020F4();
+    *(u32 *)(player+0x30)|=1;
+    sub_0800D0F4();
+    flagOffset=sub_0800CE30()?0x1C5:0x1B9;
+    id=((state44[flagOffset]>>2)&1)?0x140211:0x140212;
+    while(sub_0805F184())sub_080003F0();
+    while(sub_0805EF90())sub_080003F0();
+    message=sub_0805DF38(1,15,2,0,-1,id);
+    while(!sub_0805EEFC((void *)message)) {
+        if(sub_0800CDF8()){sub_0805EFBC();break;}
+        sub_080003F0();
+    }
+    player=players44+0x14C*sub_080020F4();
+    *(u32 *)(player+0x30)&=~1;
+    sub_0800D108();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_080441C0);
+#endif
 #ifdef NONMATCHING
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
