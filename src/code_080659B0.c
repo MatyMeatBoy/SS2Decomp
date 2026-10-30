@@ -1058,8 +1058,10 @@ void sub_0806690C(u32 peer)
                     for (i = 0; i < 5; i++) {
                         if ((gRxEntityMask & (1 << i)) && hit[0] == *(u16 *)(RX_ENT(i) + 2)) {
                             effect = (u8 *)x_sub_0801E104(RX_ENT(i), 0);
-                            if (effect != 0)
+                            if (effect != 0) {
                                 x_sub_0801DB94(i + 4, effect, hit[1]);
+                                *(u16 *)(effect + 6) = *(u16 *)(hit + 4);
+                            }
                             break;
                         }
                     }
