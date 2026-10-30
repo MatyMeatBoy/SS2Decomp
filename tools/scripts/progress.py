@@ -206,7 +206,7 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
     legend = 42
     full_h = height
     height -= legend
-    groups = [("game", "Juego / Game"), ("lib", "SDK libs")]
+    groups = [("game", "Game code"), ("lib", "SDK libs")]
     sizes = {g: sum(m["size"] for m in modules if m["cat"] == g) for g, _ in groups}
     total = sum(sizes.values())
     parts = []
@@ -240,7 +240,7 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
                 work = f.get("work_progress", {}) if f["state"] != "done" else {}
                 areas = work.get("areas", [])
                 completed = sum(a["state"] == "done" for a in areas)
-                work_label = ("%d/%d hitos; no es matching" % (completed,len(areas))) if areas else ""
+                work_label = ("%d/%d milestones; not a match" % (completed,len(areas))) if areas else ""
                 if areas:
                     col, edge = GREY_DARK, YELLOW_DARK
                 parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" stroke="%s" '
@@ -250,7 +250,7 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
                 if areas:
                     parts.append('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f" fill="%s" pointer-events="none"/>' % (fx,fy,max(fw,0.1)*completed/len(areas),max(fh,0.1),YELLOW))
                     if fw > 85 and fh > 45:
-                        parts.append('<text x="%.1f" y="%.1f" fill="%s" font-size="9" text-anchor="middle" pointer-events="none">%d/%d hitos</text>' % (fx+fw/2,fy+fh/2+17,FG,completed,len(areas)))
+                        parts.append('<text x="%.1f" y="%.1f" fill="%s" font-size="9" text-anchor="middle" pointer-events="none">%d/%d milestones</text>' % (fx+fw/2,fy+fh/2+17,FG,completed,len(areas)))
                 display = f.get("display_name", f["name"])
                 if fw > 100 and fh > 28 and (f.get("name_status") in ("confirmed", "existing") or areas) and fy + fh / 2 > my + 20:
                     limit = max(4, int((fw - 10) / 5.5))
@@ -266,13 +266,13 @@ def _code_treemap_svg(modules, summary, width=1000, height=540):
         gx += gw
     lx = 6
     ly = height + 6
-    for col, txt in ((GREEN, "C matching / enlazado"), (YELLOW, "borrador / hitos de trabajo"),
-                     (GREY, "sin C matching / ASM original")):
+    for col, txt in ((GREEN, "matching C / linked"), (YELLOW, "draft / work milestones"),
+                     (GREY, "no matching C / original ASM")):
         parts.append('<rect x="%d" y="%d" width="11" height="11" fill="%s"/>' % (lx, ly, col))
         parts.append('<text x="%d" y="%d" fill="%s" font-size="11">%s</text>' % (lx + 15, ly + 10, FG, escape(txt)))
         lx += 30 + len(txt) * 6
     s = summary["all"]
-    tot = "Matching + linked: %.2f%% de %d bytes de código, %d/%d funciones" % (
+    tot = "Matching + linked: %.2f%% of %d code bytes, %d/%d functions" % (
         s["percent"], s["bytes_total"], s["funcs_done"], s["funcs_total"])
     parts.append('<text x="%d" y="%d" fill="%s" font-size="11" text-anchor="end">%s</text>' % (
         width - 6, ly + 29, FG, escape(tot)))
@@ -285,15 +285,15 @@ def treemap_svg(modules, summary, width=1000, height=740):
     all_ = summary["all"]
     names = summary.get("identification", {}).get("all", {})
     parts = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" role="img" aria-labelledby="progress-title progress-desc" font-family="Segoe UI,Helvetica,Arial,sans-serif">' % (width,height,width,height),
-             '<title id="progress-title">Shining Soul II: progreso de código e identificación</title>',
-             '<desc id="progress-desc">C matching, bibliotecas enlazadas y nombres se miden por separado. Los datos conservados no tienen porcentaje de comprensión.</desc>',
+             '<title id="progress-title">Shining Soul II: code and identification progress</title>',
+             '<desc id="progress-desc">Matching C, linked libraries and names are measured separately. Preserved data has no understanding percentage.</desc>',
              '<rect width="100%%" height="100%%" fill="%s"/>' % BG,
-             '<text x="12" y="20" fill="%s" font-size="15" font-weight="600">Shining Soul II | progreso verificado</text>' % FG]
+             '<text x="12" y="20" fill="%s" font-size="15" font-weight="600">Shining Soul II | verified progress</text>' % FG]
     cards = [
-        ("C matching", "%.2f%%" % all_["percent_decompiled"], "%d / %d funciones C" % (all_["funcs_decompiled"],all_["funcs_decompilable"]), GREEN),
-        ("Bibliotecas enlazadas", str(all_["funcs_linked"]) + " funciones", "%d bytes; no son C decompilado" % all_["bytes_linked"], GREEN),
-        ("Identificación", "%.2f%%" % names.get("percent_identified",0), "%d / %d nombres registrados" % (names.get("identified",0),names.get("total",0)), GREEN),
-        ("Histórico C + linked", "%.2f%%" % all_["percent"], "%d / %d funciones" % (all_["funcs_done"],all_["funcs_total"]), FG)]
+        ("Matching C", "%.2f%%" % all_["percent_decompiled"], "%d / %d C functions" % (all_["funcs_decompiled"],all_["funcs_decompilable"]), GREEN),
+        ("Linked libraries", str(all_["funcs_linked"]) + " functions", "%d bytes; not decompiled C" % all_["bytes_linked"], GREEN),
+        ("Identification", "%.2f%%" % names.get("percent_identified",0), "%d / %d registered names" % (names.get("identified",0),names.get("total",0)), GREEN),
+        ("Historical C + linked", "%.2f%%" % all_["percent"], "%d / %d functions" % (all_["funcs_done"],all_["funcs_total"]), FG)]
     card_width = (width - 60) / 4
     for i,(label,value,detail,color) in enumerate(cards):
         x = 12 + i * (card_width + 12)
@@ -308,9 +308,9 @@ def treemap_svg(modules, summary, width=1000, height=740):
     data = summary.get("data", {})
     graph = summary.get("callgraph", {})
     lines = [
-        "Área = bytes de código. Relleno parcial amarillo = hitos registrados, no porcentaje matching ni estimación de tiempo.",
-        "Datos: %d bloques incbin (%.1f MiB), %d / %d etiquetas descriptivas; comprensión: sin porcentaje." % (data.get("incbin_count",0),data.get("incbin_bytes",0)/1048576,data.get("labels_descriptive",0),data.get("labels_total",0)),
-        "Grafo: %d funciones, %d relaciones, %d llamadas sin resolver. Derivado de fuentes, no es el flujo completo de ejecución." % (graph.get("nodes",0),graph.get("edges",0),graph.get("unresolved_calls",0))]
+        "Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.",
+        "Data: %d incbin blocks (%.1f MiB), %d / %d descriptive labels; understanding: no percentage." % (data.get("incbin_count",0),data.get("incbin_bytes",0)/1048576,data.get("labels_descriptive",0),data.get("labels_total",0)),
+        "Graph: %d functions, %d edges, %d unresolved calls. Source-derived; not a complete runtime graph." % (graph.get("nodes",0),graph.get("edges",0),graph.get("unresolved_calls",0))]
     for i,line in enumerate(lines):
         parts.append('<text x="12" y="%d" fill="%s" font-size="11">%s</text>' % (y+i*18,FG,escape(line)))
     parts.append('</svg>')

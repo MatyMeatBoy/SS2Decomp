@@ -41,6 +41,17 @@ CI regenerates the [complete function/name inventory](docs/progress/functions.js
 [raw data inventory](docs/progress/data_inventory.json) without a ROM. The graph
 records source observations and unresolved calls; it is not a complete runtime graph.
 
+## Join the collaboration
+
+Start with the [contributor quick start](docs/agents/QUICKSTART.md). On Windows,
+**download the [ROM-free toolkit](SS2Decomp-toolkit-Windows.zip) into your own
+folder, extract it there and start with its bootstrap script**. Each contributor
+and agent needs an independent checkout and an exclusive shard assignment.
+Bring your own EU ROM; it is never included in the toolkit or uploaded to Git.
+
+Public guides, progress labels and tables, commit messages, and pull-request
+text use **English** so contributors can coordinate across communities.
+
 ## Building
 
 The ROM is **not** included. You need your own dump, saved as `baserom.gba`:
