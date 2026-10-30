@@ -142,10 +142,26 @@ void sub_080B640C(void)
 #ifdef NONMATCHING
 void sub_080B6448(u32 a, u32 b)
 {
-    u8 *obj=*(u8 **)0x030007EC; u32 mem; if(!obj||sub_08000470((u32)obj)||*(u32 *)(obj+8))return;
-    mem=sub_08001494(0x400); *(u32 *)(obj+0x20)=mem; if(!mem)return;
-    *(u32 *)(obj+0x10)=mem+0x3FC; *(u32 *)(obj+0xC)=(u32)sub_080B6178;
-    *(u32 *)(obj+0x24)=0; *(u32 *)(obj+8)=0x3B; sub_08000274_4(obj,b,a,0);
+    u8 **pp = &gPtr030007EC;
+    u8 *obj;
+    u32 mem;
+    u32 z;
+    if (*pp == 0 || sub_08000470((u32)*pp) != 0)
+        return;
+    obj = *pp;
+    z = *(u32 *)(obj + 8);
+    if (z != 0)
+        return;
+    mem = sub_08001494(0x400);
+    obj = *pp;
+    *(u32 *)(obj + 0x20) = mem;
+    if (mem == 0)
+        return;
+    *(u32 *)(obj + 0x10) = mem + 0x3FC;
+    *(u32 *)(obj + 0xC) = (u32)sub_080B6178;
+    *(u32 *)(obj + 0x24) = z;
+    *(u32 *)(obj + 8) = 0x3B;
+    sub_08000274_4(obj, a, b, z);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6448);
@@ -153,10 +169,12 @@ INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6448);
 #ifdef NONMATCHING
 void sub_080B64A4(void)
 {
-    u8 *base = gUnk_030056F4;
-    u32 i;
+    void *volatile *base;
+    u8 i;
+    i = 1;
+    base = &gUnk_030056F4;
     for (i = 1; i <= 4; i++)
-        *(u16 *)(base + i * 0x60 - 0x20 + 0x7A) |= 1;
+        *(u16 *)((u8 *)*base + i * 0x2E0 + 0x7A) |= 1;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B64A4);
