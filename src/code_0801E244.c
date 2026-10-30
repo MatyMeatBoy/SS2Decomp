@@ -308,13 +308,14 @@ attenuate:
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
-#ifdef NONMATCHING
+extern s32 sub_080020F4(void);
+extern void sub_0801F2CC(u8 *,u8 *);
 struct Sh20F1C4Packet { u8 player:8; u8 power:8; u8 impulse:8; s32 direction:8; u32 amount:16; u32 unused:16; };
 void sub_0801F1C4(void *position, u8 *object, u16 amount)
 {
     struct Sh20F1C4Packet packet;
     u16 angle;
-    u32 impulse;
+    register u32 impulse asm("r2");
     extern u8 gUnk_084790B4[];
     extern void sub_080660EC(void *);
     *(u16 *)(object + 0xC) = 10;
@@ -325,24 +326,44 @@ void sub_0801F1C4(void *position, u8 *object, u16 amount)
                     (s32)((*(s32 *)(object + 0x18) - *((s32 *)position + 1)) << 8) >> 16);
     packet.direction = gUnk_084790B4[angle >> 12];
     packet.player = object[2];
+    asm("" ::: "r1", "r2");
     *(u16 *)(object + 0x4A) = packet.amount + *(u16 *)(object + 0x4A);
     *(u32 *)(object + 0x4C) = packet.amount;
-    *(u16 *)(object + 0x62) = packet.power;
-    impulse = packet.impulse;
+    {
+        register u32 power asm("r0") = packet.power;
+        asm("" : "+r"(power));
+        *(u16 *)(object + 0x62) = power;
+    }
+    {
+        register u32 shifted asm("r1") = *(u32 *)&packet << 8;
+        asm("" : "+r"(shifted));
+        impulse = shifted >> 24;
+    }
     *(u16 *)(object + 0x7C) = impulse;
-    if (impulse & 0x80)
-        packet.impulse = 0;
+    {
+        register u32 check asm("r1") = impulse;
+        asm("" : "+r"(check));
+        if (check & 0x80)
+            *(u32 *)&packet &= 0xFF00FFFF;
+    }
     if (*(u32 *)(object + 0x210) == 0xFF)
-        packet.impulse = 0;
+        *(u32 *)&packet &= 0xFF00FFFF;
     sub_0801F2CC(object, (u8 *)&packet);
-    *(s16 *)(object + 0x7E) = packet.direction;
+    {
+        register s32 direction asm("r0") = packet.direction;
+        asm("" : "+r"(direction));
+        *(s16 *)(object + 0x7E) = direction;
+    }
     *(u16 *)(object + 0x58) = 100;
-    *(u16 *)(object + 0x5A) |= 1 << *(u16 *)&gUnk_03003CE0[sub_080020F4()];
+    {
+        s32 selected = sub_080020F4();
+        register u16 *flags asm("r3") = (u16 *)(object + 0x5A);
+        register u32 players asm("r2") = (u32)gUnk_03003CE0;
+        asm("" : "+r"(flags), "+r"(players));
+        *flags |= 1 << *(u16 *)(players + selected * 0x14C);
+    }
     sub_080660EC(&packet);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F1C4);
-#endif
 struct Sh20F2CC { u8 pad[0x7C]; u16 duration; s16 direction; u16 speed; u16 value; };
 struct Sh20F2CCData { u8 pad[2]; u8 value; s8 direction; };
 void sub_0801F2CC(u8 *object, u8 *data)
