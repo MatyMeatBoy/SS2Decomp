@@ -785,9 +785,13 @@ void sub_0808C0C4_v(void) {
     /* These values expire before the selected player fields are loaded. */
     register u32 playerStrideC0 asm("r1");
     register s32 selectedOffsetC0 asm("r0");
+    register struct C0Player *selectedBaseC0 asm("r2");
     u16 temp_r0_7;
     u16 temp_r1_6;
     u16 temp_r2_2;
+    /* Keep raw bits for halfword arithmetic and derive both comparison views. */
+    u32 downShiftedC0;
+    register s32 downResultC0 asm("r0");
     u16 temp_r3;
     u16 temp_r4_9;
     u32 temp_r1_10;
@@ -944,7 +948,8 @@ loop_24CheckC0:
     if (0x20 & gHeldC0) {
         playerStrideC0 = 0x14C;
         selectedOffsetC0 = temp_r6 * playerStrideC0;
-        temp_r4_5 = (struct C0Player *)((u8 *)gPlayersC0 + selectedOffsetC0);
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_5 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
         selectedValueC0 = (u16)temp_r4_5->unk1C;
         temp_r1_4 = (s16) temp_r4_5->unk1C;
         if ((temp_r1_4 != 1) && (temp_r1_4 != 3)) {
@@ -958,7 +963,8 @@ loop_24CheckC0:
     if (0x10 & gHeldC0) {
         playerStrideC0 = 0x14C;
         selectedOffsetC0 = temp_r6 * playerStrideC0;
-        temp_r4_6 = (struct C0Player *)((u8 *)gPlayersC0 + selectedOffsetC0);
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_6 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
         selectedValueC0 = (u16)temp_r4_6->unk1C;
         temp_r1_5 = (s16) temp_r4_6->unk1C;
         if ((temp_r1_5 != 0) && (temp_r1_5 != 2)) {
@@ -973,7 +979,8 @@ loop_24CheckC0:
     if (temp_r3 != 0) {
         playerStrideC0 = 0x14C;
         selectedOffsetC0 = temp_r6 * playerStrideC0;
-        temp_r4_7 = (struct C0Player *)((u8 *)gPlayersC0 + selectedOffsetC0);
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_7 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
         temp_r0_4 = temp_r4_7->unk1C;
         if ((u32) temp_r0_4 <= 1U) {
             temp_r4_7->unk1C = 4U;
@@ -991,13 +998,17 @@ loop_24CheckC0:
     if (0x80 & gHeldC0) {
         playerStrideC0 = 0x14C;
         selectedOffsetC0 = temp_r6 * playerStrideC0;
-        temp_r4_8 = (struct C0Player *)((u8 *)gPlayersC0 + selectedOffsetC0);
+        selectedBaseC0 = gPlayersC0;
+        temp_r4_8 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
         temp_r2_2 = temp_r4_8->unk1C;
-        if ((u32) temp_r2_2 <= 1U) {
-            temp_r4_8->unk1C = (u16) (temp_r2_2 + 2);
+        downShiftedC0 = (u32)temp_r2_2 << 16;
+        if ((downShiftedC0 >> 16) <= 1U) {
+            downResultC0 = temp_r2_2 + 2;
+            temp_r4_8->unk1C = (u16)downResultC0;
             goto block_47;
         }
-        if ((s16) temp_r2_2 != 4) {
+        downResultC0 = (s32)downShiftedC0 >> 16;
+        if (downResultC0 != 4) {
 
         } else {
             temp_r4_8->unk1C = temp_r3;
