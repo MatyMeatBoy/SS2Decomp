@@ -561,7 +561,76 @@ u32 sub_080665B0(u32 value)
     }
     return r;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066624);
+extern u8 *syncData67 asm("gUnk_03004210");
+extern u32 checkCount67 asm("gUnk_03006338");
+u32 sub_08066624(void)
+{
+    u8 *entry;
+    register u8 *dst asm("r3");
+    register u32 i asm("r1");
+    register u32 limit asm("r2");
+    register u8 **dataAddress asm("r12");
+    register u8 **branchAddress asm("r2");
+    register u32 offset asm("r5");
+    register u8 **readAddress asm("r6");
+    u32 *counter;
+    register u8 *src asm("r1");
+    u32 y;
+    u32 flag;
+    limit = checkCount67;
+    if (limit > 0x31) return 0;
+    entry = (u8 *)(uintptr_t)gUnk_03006300 + limit * 0x88;
+    *(u32 *)(entry + 4) = 1;
+    entry[0] = 0xAB;
+    if (sub_0800CE30() != 0) {
+        branchAddress = &syncData67;
+        src = *branchAddress;
+        *(u32 *)(entry + 8) = *(u32 *)(src + 12);
+        y = *(u32 *)(src + 16);
+    } else {
+        branchAddress = &syncData67;
+        src = *branchAddress;
+        *(u32 *)(entry + 8) = *(u32 *)(src + 4);
+        y = *(u32 *)(src + 8);
+    }
+    *(u32 *)(entry + 12) = y;
+    dataAddress = branchAddress;
+    dst = entry + 16;
+    limit = 7;
+    i = 0;
+    counter = &gUnk_03006338;
+    readAddress = &syncData67;
+    asm("" : "+r"(counter), "+r"(readAddress));
+    offset = 0x140;
+    do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+    i = 0;
+    if (i < limit) {
+        readAddress = &syncData67;
+        asm("" : "+r"(readAddress));
+        offset = 0x14C;
+        do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+    }
+    limit = 5;
+    i = 0;
+    readAddress = &syncData67;
+    asm("" : "+r"(readAddress));
+    offset = 0x147;
+    do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+    i = 0;
+    if (i < limit) {
+        readAddress = &syncData67;
+        asm("" : "+r"(readAddress));
+        offset = 0x153;
+        do { register u8 *read asm("r0"); read=*readAddress; read+=offset; read+=i; *dst++=*read; i++; } while (i < limit);
+    }
+    flag = 0;
+    branchAddress = dataAddress;
+    if (*(u32 *)*branchAddress == 1) flag = 1;
+    *dst = flag;
+    entry[1] = 5;
+    (*counter)++;
+    return 1;
+}
 #ifdef NONMATCHING
 /* Link message broadcast (lobby data sync). msg[0] = tag, msg[1] = number of 8-byte chunks, msg+8 = payload.
  * Writes into our MultiSio send block (sub_08002118(myId) + 8): [0]=id/cmd, [1]=cmd (0xB1 announce, 0xB2 chunk, 0x80 idle),
