@@ -9030,9 +9030,9 @@ digraph calls {
   "sub_080761A4" -> "sub_0805AD18" [label="asm"];
   "sub_080761A4" -> "sub_08065158" [label="asm"];
   "sub_080761A4" -> "sub_08065370" [label="asm"];
-  "sub_08076A88" -> "sub_08000274" [label="asm"];
-  "sub_08076A88" -> "sub_08001494" [label="asm"];
-  "sub_08076A88" -> "sub_080020F4" [label="asm"];
+  "sub_08076A88" -> "sub_08000274" [label="c"];
+  "sub_08076A88" -> "sub_08001494" [label="c"];
+  "sub_08076A88" -> "sub_080020F4" [label="c"];
   "sub_08076BA0" -> "ArcTan2" [label="asm"];
   "sub_08076BA0" -> "memcpy" [label="asm"];
   "sub_08076BA0" -> "sub_080003F0" [label="asm"];
