@@ -441,7 +441,6 @@ s32 sub_080A66E0(u8 *arg0) {
     }
     return result;
 }
-#ifdef NONMATCHING
 struct T109P68B0 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x; s32 y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 fE4[26]; };
 struct T109Obj68B0 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x; s32 y; u8 p1C[0x34]; u32 serial; };
 extern struct T109P68B0 t109P68B0[] asm("gUnk_03003CE0");
@@ -516,7 +515,7 @@ void t109Run68B0(u16 arg0) {
             dst = &t109P68B0[i];
             value = dst->f88;
             dst->f88 = amount + value;
-            t109Serial68B0[sub_080020F4()][t109O68B0->id] = t109O68B0->serial;
+            { s32 who = sub_080020F4(); register __typeof__(t109O68B0) *slot asm("r3") = &t109O68B0; __typeof__(t109O68B0) ob; asm("" : "+r"(slot)); ob = *slot; t109Serial68B0[who][ob->id] = ob->serial; }
 contactDone:
             if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
                 zero = sub_0800CD34();
@@ -541,9 +540,6 @@ contactDone:
     task = (s32 *)sub_0800048C();
     task[2] = zero;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A68B0);
-#endif
 #ifdef NONMATCHING
 struct T109P6BE8 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x; s32 y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 fE4[26]; };
 struct T109Obj6BE8 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x; s32 y; u8 p1C[0x34]; u32 serial; };
