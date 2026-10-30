@@ -1,7 +1,7 @@
 {
   "address": "0x0808C0C4",
-  "updated_utc": "2026-10-30T01:01:44.252999+00:00",
-  "checkpoint": "Fourth-pass verified source based on 26ab5c78 and main 256588dd. NONMATCHING retained: original/candidate 2708/2688 bytes; frame 368/368; approximate nmscore 673, not a match. Previous published code checkpoint fda0937a remains in history.",
+  "updated_utc": "2026-10-30T01:03:33.7504816Z",
+  "checkpoint": "Verified fourth-pass code checkpoint a07ea4224fba4bae89ff98d4249d6e8bcafc1066 rebased on main ed8eddb3. NONMATCHING retained: original/candidate 2708/2688 bytes; frame 368/368; approximate nmscore 673, not a match.",
   "areas": [
     {
       "id": "compile",
