@@ -2451,8 +2451,8 @@ extern void sub_0808AFE8_v(void) asm("sub_0808AFE8");
 void sub_0808AFE8_v(void) {
     struct AnimAF91 { u8 p0[0xC]; u32 data; u8 p10[0xC]; u8 flags; u8 p1D[0x17]; };
     struct RecordAF91 { u32 words[4]; };
-    struct AnimAF91 arg86, arg93, anim;
-    struct RecordAF91 records[30];
+    /* The original stack places the animation at sp+8 and records at sp+0x48. */
+    struct { struct AnimAF91 anim; u8 pad[12]; struct RecordAF91 records[30]; struct AnimAF91 arg86, arg93; } work;
     u16 argA0;
     s32 *argAD;
     u16 *argA8;
@@ -2476,12 +2476,12 @@ void sub_0808AFE8_v(void) {
     u16 *var_r2_2;
     u16 *var_r3_2;
     u16 *var_r5;
-    u16 *var_r7;
+    register u16 *var_r7 asm("r7");
     u32 temp_r8;
-    u32 var_r6;
+    register u32 var_r6 asm("r6");
     u32 var_r6_2;
     u32 var_r6_3;
-    u32 var_r8;
+    register u32 var_r8 asm("r8");
     u32 var_r8_2;
     u8 *temp_r4_3;
     u8 *temp_r4_6;
@@ -2493,6 +2493,7 @@ void sub_0808AFE8_v(void) {
     u8 *var_r4;
     u8 *var_r4_3;
     u8 *var_r4_4;
+
     extern u16 gUnk_03001308;
     extern u32 sub_08058878(u32, u32);
     extern u32 sub_08058900(u32);
@@ -2545,7 +2546,7 @@ void sub_0808AFE8_v(void) {
     sub_0800B974(0x3CU, 0x1FU);
     sub_0800B650(0x35, 0x1D, 0x06000000, 0U, 0xF);
     *(u16 *)(saveAF91 + 0x1FA) = stagesAF91[*(u16 *)(stateAF91 + 0x14A)];
-    sub_08065158(&anim, 0x50067, 9, -1, 0);
+    sub_08065158(&work.anim, 0x50067, 9, -1, 0);
     argA4 = (u8 *)sub_080653CC();
     sub_080009F8(0x200, 0, 1);
     sub_080009C0(0x1D00, 0, 1);
@@ -2560,8 +2561,8 @@ void sub_0808AFE8_v(void) {
         argA3 = 0xA;
     }
     var_r8 = 0;
-    argAB = (u8 *)records;
-    argAC = (u8 *)records + 4;
+    argAB = (u8 *)work.records;
+    argAC = (u8 *)work.records + 4;
     var_r3 = 0;
     do {
         var_r6 = 0;
@@ -2620,7 +2621,7 @@ loop_12:
         var_r4_2 = 0x30;
 loop_14:
         if ((var_r8_2 <= 9U) && (sub_080589D8((s32) var_r8_2) != 0)) {
-                            sub_080659BC(&anim, var_r4_2, 0x10, 0U, 0, 1);
+                            sub_080659BC(&work.anim, var_r4_2, 0x10, 0U, 0, 1);
             var_r4_2 += 0x10;
             var_r8_2 += 1;
             goto loop_14;
@@ -2724,15 +2725,15 @@ block_84:
                 var_r0 = tableAAF91;
             }
             temp_r7 = var_r1 + var_r0;
-            sub_08065158(&arg86, *(u32 *)((((*(u16 *)(temp_r7 + 0xD4)) + 0xA) * 0x58) + objectsAF91), 4, -1, 0);
-            arg86.flags = 4;
-            sub_08000AF0(0x14U, (void *)(arg86.data + ((*(u16 *)(temp_r7 + 0xD6)) << 5)), 1U);
-            sub_08065230(&arg86, 0x90, 0x38, 1U, 0);
+            sub_08065158(&work.arg86, *(u32 *)((((*(u16 *)(temp_r7 + 0xD4)) + 0xA) * 0x58) + objectsAF91), 4, -1, 0);
+            work.arg86.flags = 4;
+            sub_08000AF0(0x14U, (void *)(work.arg86.data + ((*(u16 *)(temp_r7 + 0xD6)) << 5)), 1U);
+            sub_08065230(&work.arg86, 0x90, 0x38, 1U, 0);
             temp_r4_4 = sub_080020F4();
             temp_r1 = *(u32 *)(((*(u16 *)(playersAF91 + 0x14C * temp_r4_4 + 0x10)) * 4) + ((*(u16 *)(playersAF91 + 0x14C * sub_080020F4() + 0x64)) * 0x58) + objectsAF91);
-            sub_08065158(&arg93, temp_r1, 0, -1, 0);
-            sub_08065230(&arg93, 0x60, 0x68, 5U, 0);
-            sub_08000AF0(0x10U, (void *)(arg93.data + ((*(u8 *)(playersAF91 + 0x14C * sub_080020F4() + 0x66)) << 5)), 1U);
+            sub_08065158(&work.arg93, temp_r1, 0, -1, 0);
+            sub_08065230(&work.arg93, 0x60, 0x68, 5U, 0);
+            sub_08000AF0(0x10U, (void *)(work.arg93.data + ((*(u8 *)(playersAF91 + 0x14C * sub_080020F4() + 0x66)) << 5)), 1U);
             keysAF91[4] = 0;
         }
         sub_080003F0();
@@ -2863,14 +2864,14 @@ block_105:
             goto block_105;
         }
         temp_r7_2 = ((0xFFF & *argA8) * 0xD8) + tableAAF91;
-            sub_08065158(&arg86, *(u32 *)((0x58 * ((*(u16 *)(temp_r7_2 + 0xD4)) + 0xA)) + objectsAF91), 4, -1, 0);
-        arg86.flags = 4;
-        sub_08000AF0(0x14U, (void *)(arg86.data + ((*(u16 *)(temp_r7_2 + 0xD6)) << 5)), 1U);
-            sub_08065230(&arg86, 0x90, 0x38, 1U, 0);
+            sub_08065158(&work.arg86, *(u32 *)((0x58 * ((*(u16 *)(temp_r7_2 + 0xD4)) + 0xA)) + objectsAF91), 4, -1, 0);
+        work.arg86.flags = 4;
+        sub_08000AF0(0x14U, (void *)(work.arg86.data + ((*(u16 *)(temp_r7_2 + 0xD6)) << 5)), 1U);
+            sub_08065230(&work.arg86, 0x90, 0x38, 1U, 0);
         temp_r4_7 = sub_080020F4();
         temp_r1_2 = *(u32 *)(((*(u16 *)(playersAF91 + 0x14C * temp_r4_7 + 0x10)) * 4) + (0x58 * (*(u16 *)(playersAF91 + 0x14C * sub_080020F4() + 0x64))) + objectsAF91);
-            sub_08065158(&arg93, temp_r1_2, 0, -1, 0);
-            sub_08065230(&arg93, 0x60, 0x68, 5U, 0);
+            sub_08065158(&work.arg93, temp_r1_2, 0, -1, 0);
+            sub_08065230(&work.arg93, 0x60, 0x68, 5U, 0);
         sub_080003F0();
         goto loop_107;
     }
