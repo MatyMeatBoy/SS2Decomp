@@ -1600,11 +1600,11 @@
 <rect x="752.65" y="300.23" width="65.35" height="72.44" fill="#0d1117"/>
 <rect x="753.65" y="301.23" width="22.11" height="17.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097658 | sub_08097658 | unidentified  0x08097658  800 bytes  [done]</title></rect>
 <rect x="775.76" y="301.23" width="14.81" height="17.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08095B04 | sub_08095B04 | unidentified  0x08095B04  536 bytes  [done]</title></rect>
-<rect x="790.58" y="301.23" width="13.60" height="17.95" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080970CC | sub_080970CC | unidentified  0x080970CC  492 bytes  [todo]</title></rect>
+<rect x="790.58" y="301.23" width="13.60" height="17.95" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080970CC | sub_080970CC | unidentified  0x080970CC  492 bytes  [nonmatch]</title></rect>
 <rect x="804.18" y="301.23" width="12.82" height="17.95" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080972B8 | sub_080972B8 | unidentified  0x080972B8  464 bytes  [todo]</title></rect>
 <rect x="753.65" y="319.17" width="15.23" height="15.11" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08097488 | sub_08097488 | unidentified  0x08097488  464 bytes  [done]</title></rect>
 <rect x="753.65" y="334.28" width="15.23" height="13.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08096BA8 | sub_08096BA8 | unidentified  0x08096BA8  408 bytes  [done]</title></rect>
-<rect x="753.65" y="347.57" width="15.23" height="13.03" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08096640 | sub_08096640 | unidentified  0x08096640  400 bytes  [todo]</title></rect>
+<rect x="753.65" y="347.57" width="15.23" height="13.03" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08096640 | sub_08096640 | unidentified  0x08096640  400 bytes  [nonmatch]</title></rect>
 <rect x="753.65" y="360.59" width="15.23" height="11.07" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08095D1C | sub_08095D1C | unidentified  0x08095D1C  340 bytes  [done]</title></rect>
 <rect x="768.88" y="319.17" width="12.32" height="12.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08096FA0 | sub_08096FA0 | unidentified  0x08096FA0  300 bytes  [done]</title></rect>
 <rect x="781.20" y="319.17" width="12.15" height="12.08" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080969CC | sub_080969CC | unidentified  0x080969CC  296 bytes  [done]</title></rect>

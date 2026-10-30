@@ -29088,14 +29088,14 @@
       "name": "sub_08096640",
       "addr": 134833728,
       "size": 400,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08096640",
       "canonical_symbol": "sub_08096640",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_08096640",
       "name_status": "unidentified",
       "name_source": null,
@@ -29119,7 +29119,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 882,
+          "line": 994,
           "detail": "Existing C definition with an asm alias to the canonical symbol: shakeRoutine99"
         }
       ]
@@ -29244,7 +29244,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 1262,
+          "line": 1374,
           "detail": "Existing C definition with an asm alias to the canonical symbol: paletteStep99"
         }
       ]
@@ -29297,14 +29297,14 @@
       "name": "sub_080970CC",
       "addr": 134836428,
       "size": 492,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x080970CC",
       "canonical_symbol": "sub_080970CC",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080970CC",
       "name_status": "unidentified",
       "name_source": null,
@@ -31799,7 +31799,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 1952,
+          "line": 1976,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run68B0"
         }
       ]
@@ -31822,7 +31822,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2053,
+          "line": 2077,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run6BE8"
         }
       ]
