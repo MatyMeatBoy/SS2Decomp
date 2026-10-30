@@ -413,8 +413,8 @@ void sub_080A4520(void) {
     s32 temp_r5;
     u16 temp_r4;
     u16 temp_r4_4;
-    u32 temp_r0;
-    u32 var_r4;
+    register u32 temp_r0 asm("r0");
+    register u32 var_r4 asm("r4");
     void *temp_r1_2;
     void *temp_r4_3;
 
