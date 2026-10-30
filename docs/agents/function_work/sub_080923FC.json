@@ -1,7 +1,7 @@
 {
   "address": "0x080923FC",
-  "updated_utc": "2026-10-30T13:57:39Z",
-  "checkpoint": "Draft checkpoint bdc8d41f; NONMATCHING, heuristic distance 632 versus 739 before this work.",
+  "updated_utc": "2026-10-30T14:05:04Z",
+  "checkpoint": "Private checkpoint 4ec5d9e5; NONMATCHING, heuristic distance 632 versus 739 before this work.",
   "areas": [
     {
       "id": "sprite_placement",
@@ -13,7 +13,7 @@
       "id": "first_wait",
       "label": "Recover the first wait-loop order",
       "state": "done",
-      "evidence": "ASM branches first to the readiness test, yields on failure, and then retests. Candidate 33937a8a preserves that order; the normal ROM and NONMATCHING builds passed."
+      "evidence": "ASM branches first to the readiness test, yields on failure, and then retests. Candidate 33937a8a preserves that order; 4ec5d9e5 applies the same ASM-observed order to the final readiness wait. Normal ROM and NONMATCHING builds passed."
     },
     {
       "id": "remaining_code",
