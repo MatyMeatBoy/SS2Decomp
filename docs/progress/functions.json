@@ -21415,35 +21415,47 @@
       "name": "sub_08065E38",
       "addr": 134635064,
       "size": 208,
-      "state": "todo",
+      "state": "done",
       "module": "code_080659B0",
       "kind": "c",
       "cat": "game",
       "address": "0x08065E38",
       "canonical_symbol": "sub_08065E38",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08065E38",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "removeRingMessage67",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 269,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: removeRingMessage67"
+        }
+      ]
     },
     {
       "name": "sub_08065F08",
       "addr": 134635272,
       "size": 224,
-      "state": "todo",
+      "state": "done",
       "module": "code_080659B0",
       "kind": "c",
       "cat": "game",
       "address": "0x08065F08",
       "canonical_symbol": "sub_08065F08",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08065F08",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "removeAllRingMessages67",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 286,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: removeAllRingMessages67"
+        }
+      ]
     },
     {
       "name": "sub_08065FE8",
@@ -21514,7 +21526,7 @@
       "evidence": [
         {
           "source": "src/code_080659B0.c",
-          "line": 342,
+          "line": 376,
           "detail": "Existing C definition with an asm alias to the canonical symbol: queuePlayerBlob067"
         }
       ]
@@ -21537,7 +21549,7 @@
       "evidence": [
         {
           "source": "src/code_080659B0.c",
-          "line": 377,
+          "line": 411,
           "detail": "Existing C definition with an asm alias to the canonical symbol: queuePlayerState067"
         }
       ]
@@ -23105,14 +23117,14 @@
       "name": "sub_08068A00",
       "addr": 134646272,
       "size": 1436,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08068670",
       "kind": "c",
       "cat": "game",
       "address": "0x08068A00",
       "canonical_symbol": "sub_08068A00",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08068A00",
       "name_status": "unidentified",
       "name_source": null,
@@ -36862,12 +36874,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 156,
-      "existing": 37,
+      "identified": 158,
+      "existing": 39,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1724,
-      "percent_identified": 8.297872340425531
+      "unidentified": 1722,
+      "percent_identified": 8.404255319148936
     },
     "sdk": {
       "total": 155,
@@ -36880,12 +36892,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 311,
-      "existing": 166,
+      "identified": 313,
+      "existing": 168,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1724,
-      "percent_identified": 15.282555282555283
+      "unidentified": 1722,
+      "percent_identified": 15.38083538083538
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
