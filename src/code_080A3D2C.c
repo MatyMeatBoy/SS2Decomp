@@ -2246,7 +2246,7 @@ s32 sub_080A705C(void) {
     u8 var_r0;
     u8 var_r9;
     u8 var_r9_2;
-    u8 var_r9_3;
+    register u8 var_r9_3 asm("r9");
     void *temp_r1_4;
     void *temp_r4;
     void *temp_r4_4;
