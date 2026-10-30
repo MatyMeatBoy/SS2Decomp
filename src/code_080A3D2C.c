@@ -611,7 +611,13 @@ wait_frame:
      output=draw10847(x,y,animation,frame.tile,mode,styles10847+side10847*0x34,F_10847(styles10847+side10847*0x34,u32,-0x14),F_10847(styles10847+side10847*0x34,u32,-0x1C));
     }
     coords10847((s32)(frame.x<<8)>>16,(s32)(frame.y<<8)>>16,sx,sy,paused,(void*)paused);
-    output->x=frame.sx;output->y=frame.sy;
+    {
+     register s16 *p asm("r3") = sx;
+     register s16 *q asm("r1");
+     output->x = *p;
+     q = sy;
+     output->y = *q;
+    }
    }
   }
   sub_080003F0();if(sub_0800CED8()!=0 || sub_0800CB78()!=0 || sub_0800CD00()!=0)break;
