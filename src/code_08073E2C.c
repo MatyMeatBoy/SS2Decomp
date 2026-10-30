@@ -470,7 +470,58 @@ void sub_08074C74(u32 who,u32 slot)
     }
     effectMasks77[who]&=~(1<<slot);
 }
+#ifdef NONMATCHING
+struct Task4DE8 { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
+extern u32 masks4DE8[] asm("gUnk_030063E0");
+extern u8 *lists4DE8[] asm("gUnk_030063B0");
+extern void spawn4DE8(void *,u32,u32) asm("sub_08000274");
+void sub_08074DE8(u32 who, s32 type) {
+    u32 i, mem;
+    vu32 *mask;
+    struct Task4DE8 *t;
+    void (*fn)();
+    if (who <= 3) {
+        i = 0; mask = &masks4DE8[who];
+        while (*mask & (1 << i)) { i++; if (i > 15) return; }
+        if (i > 15) return;
+        switch (type) {
+        case 8: fn=sub_08074530; goto setup;
+        case 10: fn=sub_080746A4; goto setup;
+        case 9: fn=sub_08074818; goto setup;
+        case 11: fn=sub_0807498C; goto setup;
+        case 6: fn=sub_08074B00; goto setup;
+        case 20: fn=sub_08074C74; goto setup;
+        default: return;
+        }
+    } else {
+        i = 0; mask = &masks4DE8[who];
+        while (*mask & (1 << i)) { i++; if (i > 15) return; }
+        if (i > 15) return;
+        switch (type) {
+        case 8: fn=sub_08074530; goto setup;
+        case 10: fn=sub_080746A4; goto setup;
+        case 9: fn=sub_08074818; goto setup;
+        case 11: fn=sub_0807498C; goto setup;
+        case 6: fn=sub_08074B00; goto setup;
+        case 20: fn=sub_08074C74; goto setup;
+        default: return;
+        }
+    }
+setup:
+    t = (struct Task4DE8 *)(lists4DE8[who] + i * 0x28);
+    t->fC = (u32)fn;
+    mem = sub_08001494(0x680);
+    t = (struct Task4DE8 *)(lists4DE8[who] + i * 0x28);
+    t->f20 = mem;
+    if (mem != 0) {
+        t->f8 = 0x34; t->f10 = mem + 0x67c; t->f24 = 0;
+        spawn4DE8(t,who,i);
+        masks4DE8[who] |= 1 << i;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08074DE8);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075088);
 struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks5494[] asm("gUnk_030063E0");
