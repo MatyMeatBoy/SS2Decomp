@@ -1,7 +1,7 @@
 {
   "address": "0x080923FC",
-  "updated_utc": "2026-10-30T14:05:04Z",
-  "checkpoint": "Final readiness wait checkpoint; NONMATCHING, heuristic distance 632 versus 739 before this work.",
+  "updated_utc": "2026-10-30T14:10:57Z",
+  "checkpoint": "Final readiness wait checkpoint; NONMATCHING, heuristic distance 624 versus 739 before this work.",
   "areas": [
     {
       "id": "sprite_placement",
@@ -19,7 +19,7 @@
       "id": "remaining_code",
       "label": "Resolve remaining frame and control-flow differences",
       "state": "active",
-      "evidence": "Candidate is 2280 bytes versus original 2236, with differing frame size and substantial register and control-flow differences. Heuristic distance 632 is only a prioritization metric."
+      "evidence": "Candidate is 2280 bytes versus original 2236, with differing frame size and substantial register and control-flow differences. Heuristic distance 624 is only a prioritization metric."
     },
     {
       "id": "full_match",
