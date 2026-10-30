@@ -453,7 +453,107 @@ loop_24:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055974);
 #endif
+#ifdef NONMATCHING
+struct TaskPayload55A60 { u32 unknown[3]; void (*callback)(s32); u32 value; };
+void sub_08055BA4(void);
+void sub_0805A350(s32);
+void sub_08055A60(void) {
+    struct TaskPayload55A60 payload;
+    u32 temp_r0_2;
+    u32 temp_r0_4;
+    u8 *var_r4;
+    u8 *var_r4_2;
+    u8 *var_r4_3;
+    u32 var_r5;
+    u32 var_r6;
+    u32 var_r6_2;
+    u32 var_r8;
+    void *temp_r0;
+    void *temp_r0_3;
+    void *temp_r0_5;
+
+    {
+        /* The no-free-slot path retains the incoming r8 payload. */
+        register u32 incoming asm("r8");
+        asm volatile("" : "=r"(incoming));
+        var_r8 = incoming;
+    }
+    var_r4 = gUnk_03005CF4 + 0xE34;
+    var_r5 = 0;
+loop_2:
+    if (var_r5 <= 0x1DU) {
+        if (sub_08000470(var_r4) == 0) {
+loop_6:
+            temp_r0 = sub_08001494(0x400U);
+            *(void * *)(var_r4 + 0x20) = temp_r0;
+            if (temp_r0 == NULL) {
+                sub_080003F0();
+                goto loop_6;
+            }
+            *(u32 *)(var_r4 + 0x8) = 0x3C;
+            *(u32 *)(var_r4 + 0xC) = (u32) &sub_08055BA4;
+            *(void * *)(var_r4 + 0x10) = (void *) ((u8 *)temp_r0 + 0x3FC);
+            *(u32 *)(var_r4 + 0x24) = 0;
+            sub_08000274(var_r4, 0);
+            var_r8 = (u32)var_r4;
+        } else {
+            var_r5 += 1;
+            var_r4 += 0x28;
+            goto loop_2;
+        }
+    }
+    var_r4_2 = gUnk_03005CF4 + 0xE34;
+    var_r6 = 0;
+loop_10:
+    if (var_r6 <= 0x1DU) {
+        temp_r0_2 = sub_08000470(var_r4_2);
+        if (temp_r0_2 == 0) {
+            payload.callback = sub_0805A384;
+            payload.value = var_r8;
+            *(u32 *)(var_r4_2 + 0x8) = 0x3C;
+            temp_r0_3 = sub_08001494(0x400U);
+            *(void * *)(var_r4_2 + 0x20) = temp_r0_3;
+            *(u32 *)(var_r4_2 + 0xC) = (u32) sub_0802A104;
+            *(void * *)(var_r4_2 + 0x10) = (void *) ((u8 *)temp_r0_3 + 0x3FC);
+            *(u32 *)(var_r4_2 + 0x24) = temp_r0_2;
+            sub_08000274(var_r4_2, &payload, 6);
+            sub_080003F0();
+            sub_080003F0();
+        } else {
+            var_r6 += 1;
+            var_r4_2 += 0x28;
+            goto loop_10;
+        }
+    }
+    var_r4_3 = gUnk_03005CF4 + 0xE34;
+    var_r6_2 = 0;
+loop_15:
+    if (var_r6_2 <= 0x1DU) {
+        temp_r0_4 = sub_08000470(var_r4_3);
+        if (temp_r0_4 == 0) {
+            payload.callback = sub_0805A350;
+            payload.value = 0;
+            *(u32 *)(var_r4_3 + 0x8) = 0x3C;
+            temp_r0_5 = sub_08001494(0x400U);
+            *(void * *)(var_r4_3 + 0x20) = temp_r0_5;
+            *(u32 *)(var_r4_3 + 0xC) = (u32) sub_0802A104;
+            *(void * *)(var_r4_3 + 0x10) = (void *) ((u8 *)temp_r0_5 + 0x3FC);
+            *(u32 *)(var_r4_3 + 0x24) = temp_r0_4;
+            sub_08000274(var_r4_3, &payload, 8);
+            sub_080003F0();
+            sub_080003F0();
+        } else {
+            var_r6_2 += 1;
+            var_r4_3 += 0x28;
+            goto loop_15;
+        }
+    }
+}
+
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055A60);
+#endif
 #ifdef NONMATCHING
 struct PositionTable56 { u32 value[5]; };
 extern struct PositionTable56 positions56 asm("gUnk_080BB6D0");
