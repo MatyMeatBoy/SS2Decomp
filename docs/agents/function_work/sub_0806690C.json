@@ -1,0 +1,32 @@
+{
+  "address": "0x0806690C",
+  "updated_utc": "2026-10-30T02:37:50.747541+00:00",
+  "checkpoint": "d210b626e59fd3db5ee53319bcce56efce3ba71d",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Complete compiling dispatch draft",
+      "state": "done",
+      "evidence": "All 48 top-level tag cases (0x81 through 0xB0) now have C draft handlers. make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; make -j1 nonmatching exits 0; check_tree reports 0 errors. This is a compiling checkpoint, not proof of equivalent C."
+    },
+    {
+      "id": "transport",
+      "label": "Announce, chunk receipt and acknowledgement control flow",
+      "state": "active",
+      "evidence": "ASM 0x0806690C\u20130x08066A1A and fresh m2c output were checked. The draft now preserves the announce-wait flag and the doubled chunk index on the timeout exit. The local ID is passed explicitly to sub_08002118. Stack field placement and register allocation remain different."
+    },
+    {
+      "id": "dispatch",
+      "label": "Payload effects and queue handling",
+      "state": "active",
+      "evidence": "Restored omitted hit cases 9/10, damage records, distinct host spawn cases 20/21/22, pickup cases 24/25, item effects 27/28, entity effect case 33, local player state case 38, synchronized state case 42 and three byte flags. Corrected the byte access at gUnk_03006220, game-state flag 1 for case 32 and the life reset shared by cases 8/47. Current original and candidate each contain 107 physical calls; tail sharing differs (original CpuSet 4/sub_0801DB94 7, candidate 3/8). Further field, ABI and CFG review remains necessary; call counts do not prove equivalence."
+    },
+    {
+      "id": "match",
+      "label": "Exact active C and linked ROM match",
+      "state": "pending",
+      "evidence": "Strict module comparison is NO MATCH: original 4444 bytes, candidate 4216 bytes; frame 296 versus 300 bytes, approximate score 1309. The retained ASM fallback reproduces the ROM. No new matching C bytes are claimed."
+    }
+  ],
+  "regions": []
+}
