@@ -1641,8 +1641,11 @@ loop_144:
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08099838);
 #endif
 extern s32 x102A5[] asm("gUnk_03003D6C");
-extern struct Entity98F *entity102A5 asm("gUnk_030002DC");
-#ifdef NONMATCHING
+struct Player102A5 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
+struct Entity102A5 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
+extern struct Player102A5 players102A5[] asm("gUnk_03003CE0");
+extern struct Entity102A5 *entity102A5 asm("gUnk_030002DC");
+extern u16 delta102A5(void *, void *) asm("sub_0801ED8C");
 u8 sub_0809A5E0(void)
 {
     s16 dx, dy;
@@ -1651,20 +1654,20 @@ u8 sub_0809A5E0(void)
     u16 a, lo;
     s32 id;
 
-    dx = (entity102A5->x - x102A5[sub_080020F4()*83]) >> 8;
-    dy = (entity102A5->y - players98F[sub_080020F4()].y) >> 8;
+    { register s32 k asm("r0"); register struct Entity102A5 *e asm("r1"); k=sub_080020F4(); e=entity102A5; asm("" : "+r"(k), "+r"(e)); asm("" : : "r"(players102A5)); dx=(e->x-x102A5[k*83])>>8; }
+    dy = (entity102A5->y - players102A5[sub_080020F4()].y) >> 8;
     if (Sqrt(dx * dx + dy * dy) <= 0x2F && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0
-        && entity102A5->state != 0xB && !(players98F[sub_080020F4()].flags & 0x2000)
-        && players98F[sub_080020F4()].active != 0 && players98F[sub_080020F4()].state != 0xE
-        && players98F[sub_080020F4()].state != 0xB && players98F[sub_080020F4()].state != 0xC
-        && players98F[sub_080020F4()].seen[entity102A5->index] != entity102A5->counter) {
-        players98F[sub_080020F4()].state = 0xA;
-        players98F[sub_080020F4()].motion = 0xFFFE;
+        && entity102A5->state != 0xB && !(players102A5[sub_080020F4()].flags & 0x2000)
+        && players102A5[sub_080020F4()].active != 0 && players102A5[sub_080020F4()].state != 0xE
+        && players102A5[sub_080020F4()].state != 0xB && players102A5[sub_080020F4()].state != 0xC
+        && players102A5[sub_080020F4()].seen[entity102A5->index] != entity102A5->counter) {
+        players102A5[sub_080020F4()].state = 0xA;
+        players102A5[sub_080020F4()].motion = 0xFFFE;
         id = sub_080020F4();
-        players98F[id].angle += delta98F(entity102A5, &players98F[sub_080020F4()]);
-        { s32 i = sub_080020F4(); struct Entity98F *e = entity102A5; u32 n = e->counter; players98F[i].seen[e->index] = n; e->counter = n + 1; }
+        players102A5[id].angle += delta102A5(entity102A5, &players102A5[sub_080020F4()]);
+        { s32 i; register u32 index asm("r1"); register u32 *dest asm("r1"); register u32 n asm("r0"); struct Entity102A5 *e; i=sub_080020F4(); e=entity102A5; index=e->index; index<<=2; asm("" : "+r"(index)); index+=i*0x14c; asm("" : "+r"(index)); dest=(u32 *)((u8 *)players102A5+0xe4+index); n=e->counter; asm("" : "+r"(n), "+r"(dest)); *dest=n; e->counter=n+1; }
         dx = (x102A5[sub_080020F4()*83] - entity102A5->x) >> 8;
-        dy = (players98F[sub_080020F4()].y - entity102A5->y) >> 8;
+        dy = (players102A5[sub_080020F4()].y - entity102A5->y) >> 8;
         a = ArcTan2(dx, dy);
         lo = a << 3;
         dir = a >> 13;
@@ -1673,24 +1676,21 @@ u8 sub_0809A5E0(void)
         }
         switch (dir) {
         case 0:
-            players98F[sub_080020F4()].direction = 6;
+            players102A5[sub_080020F4()].direction = 6;
             break;
         case 1:
-            players98F[sub_080020F4()].direction = 7;
+            players102A5[sub_080020F4()].direction = 7;
             break;
         default:
-            players98F[sub_080020F4()].direction = dir - 2;
+            players102A5[sub_080020F4()].direction = dir - 2;
             break;
         }
-        players98F[sub_080020F4()].speed = 0x400;
-        players98F[sub_080020F4()].timer = 8;
+        players102A5[sub_080020F4()].speed = 0x400;
+        players102A5[sub_080020F4()].timer = 8;
         result = 1;
     }
     return result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809A5E0);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809A834);
 void sub_0809ADE8(void) {
     if (M2C_FIELD(gUnk_030002DC, s16 *, 0x5C) != 0) {
