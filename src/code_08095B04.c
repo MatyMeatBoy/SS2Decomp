@@ -1066,7 +1066,61 @@ void sub_08096EFC(u16 *palette, s8 amount)
         i++;
     } while (i <= 15U);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096FA0);
+struct Sprite99FA0 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
+extern s32 view99FA0[2] asm("gUnk_030002C8");
+extern u8 *state99FA0 asm("gUnk_030002C0");
+extern void init99FA0(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern u32 animate99FA0(void *,u32,volatile u16 *,volatile u16 *,s32) asm("sub_08065370");
+extern void coords99FA0(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern u8 *draw99FA0(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+void sub_08096FA0(u8 arg0)
+{
+    struct Sprite99FA0 sprite;
+    /* Preserve the two halfword slots and their initialization order. */
+    volatile u16 tile,rotation;
+    struct {s16 sx,sy;} screen;
+    u32 counter,oldCounter;
+    register u32 animation asm("r9")=arg0;
+    register u32 finished asm("r10");
+    register s32 *view asm("r6");
+    s16 *screenX,*screenY;
+    s32 paused;
+    s32 blocked;
+    register u32 palette asm("r4");
+    u8 *drawn;
+    /* The original reads incoming r10 until the first unpaused animation tick. */
+    asm("" : "=r"(finished));
+    init99FA0(&sprite,0x50020,8,-1,1);
+    sprite.f1C=7;sprite.f1D=8;
+    rotation=0;tile=0;counter=0;
+    sub_0805865C(0x1A5);
+    view=view99FA0;
+    screenY=&screen.sy;screenX=&screen.sx;
+    for(;;) {
+        paused=sub_0800CD8C();
+        if(paused==0)
+            finished=(u16)animate99FA0(&sprite,animation,&tile,&rotation,paused);
+        if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0) {
+            blocked=sub_0800CD34();
+            if(blocked==0) {
+                sub_08000AF0(23,(void *)sprite.fC,2);
+                palette=sub_0800BC44(view[0]>>8,view[1]>>8,0);
+                asm("" : "+r"(palette));
+                palette=(u8)palette;
+                coords99FA0((s32)(view[0]<<8)>>16,(s32)(view[1]<<8)>>16,screenX,screenY,blocked,(void *)blocked);
+                drawn=draw99FA0(*screenX,0,animation,tile,palette,&sprite.f1C,sprite.f8,sprite.f0);
+                *(s32 *)(drawn+0xC)=*screenY;
+            }
+        }
+        sub_080003F0();
+        if(finished==0) continue;
+        oldCounter=counter;
+        counter=(u16)(oldCounter+1);
+        /* Preserve the original unsigned BHI backedge. */
+        if(oldCounter<=0x3B) break;
+    }
+    *(u32 *)(state99FA0+8)=0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
 struct FadeColor100 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
