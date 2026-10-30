@@ -1,0 +1,37 @@
+{
+  "address": "0x0809561C",
+  "updated_utc": "2026-10-30T02:40:16.710605+00:00",
+  "checkpoint": "Verified original 164-byte frame checkpoint on main f9cc10b3. NONMATCHING retained: original/candidate 1090/1084 bytes, actual-module approximate nmscore 209 and strict NO MATCH.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Compiling C89 draft",
+      "state": "done",
+      "evidence": "Serial make compare prints shiningsoul2_eu.gba: OK with the original ASM fallback. make nonmatching compiles the complete module; check_tree reports 0 errors. This does not prove equivalent C."
+    },
+    {
+      "id": "frame",
+      "label": "Original stack frame size and fixed words",
+      "state": "done",
+      "evidence": "Original ASM reserves 164 bytes. Actual-module NONMATCHING output also reserves 164 bytes. A local two-word object keeps animation and seen at the original stack offsets 140 and 144; struct/array objects and pointer slots retain offsets 20 through 160. Signed high-byte extraction via (s8)((u32)shiftedCount >> 24) prevents the cached count spill while combine emits the original ASRS operation. No new inline ASM constraints or register bindings were added."
+    },
+    {
+      "id": "cfg",
+      "label": "Entity-state dispatch and loop flow",
+      "state": "active",
+      "evidence": "The draft retains all eight switch-table entries, including empty case 7, and the original separate state <= 3 and state != 3 tests. Physical call sequence and complete branch/ABI equivalence still need final verification."
+    },
+    {
+      "id": "registers",
+      "label": "Register allocation and instruction order",
+      "state": "active",
+      "evidence": "The extra active/count stack words are gone, but main-loop active currently uses r8 and the shifted entity index uses r6, while original uses sl and r8. Several initialization pointer calculations and loads differ. Candidate size is 1084 versus original 1090 bytes; approximate module score remains 209 and strict nmdiff reports NO MATCH."
+    },
+    {
+      "id": "match",
+      "label": "Full matching normal C build",
+      "state": "pending",
+      "evidence": "asm/nonmatchings/code_08092D60/sub_0809561C.s remains active. Matching frame size is not matching C; strict byte/relocation comparison remains negative."
+    }
+  ]
+}

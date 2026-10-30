@@ -896,8 +896,7 @@ void sub_0809561C(u8 arg0) {
     struct Pos956 sp84;
     register s32 *clearPtr asm("r5");
     register u8 *flagPtr asm("r10");
-    s32 sp8C;
-    s32 sp90;
+    struct {s32 animation,seen;} flags956;
     struct Anim956 *sp94;
     u8 *sp98;
     u16 *sp9C;
@@ -980,9 +979,9 @@ void sub_0809561C(u8 arg0) {
             var_r5 = (s8) temp_r1_2;
         } while ((s32) (s8) temp_r1_2 < (s32) temp_r0_2);
     }
-    sp8C = 0;
+    flags956.animation = 0;
     *spA0 = 0;
-    *sp9C = sp8C;
+    *sp9C = flags956.animation;
     temp_r7->state = 1;
     temp_r7->delay = 0x1E;
     f956_0801AB50(6);
@@ -992,7 +991,7 @@ loop_9:
         goto loop_9;
     }
 loop_10:
-    sp90 = 0;
+    flags956.seen = 0;
     var_r5_2 = 0;
     var_sl = 0;
     if (temp_r1 <= 0) {
@@ -1004,7 +1003,7 @@ loop_12:
         temp_r0_4 = temp_r3->delay;
         if (temp_r0_4 != 0) {
             temp_r3->delay = temp_r0_4 - 1;
-        } else if (((s32) ((s8) (temp_r1 >> 24) - 1) > (s32) temp_r2) && (temp_r3->state != 0)) {
+        } else if (((s32) ((s8) ((u32)temp_r1 >> 24) - 1) > (s32) temp_r2) && (temp_r3->state != 0)) {
             temp_r1_4 = temp_r3 + 1;
             if (temp_r1_4->state == 0) {
                 temp_r1_4->state = 1;
@@ -1042,10 +1041,10 @@ loop_12:
                     temp_r1_6 = &temp_r7[var_r5_2];
                     temp_r1_6->index += 1;
                 } else {
-                    sp8C = 1;
+                    flags956.animation = 1;
                     f956_0805865C(0x18A);
                     temp_r7->timer = (u16) temp_r4_2;
-                    temp_r7->anim = sp8C;
+                    temp_r7->anim = flags956.animation;
                     temp_r7->tick = (u16) temp_r4_2;
                     temp_r7->frame = (u16) temp_r4_2;
                     temp_r7->state = 3;
@@ -1117,7 +1116,7 @@ block_43:
         temp_r0_10 = temp_r7[var_r5_2].state;
         if ((u32)temp_r0_10 <= 3U) {
             asm("" : "+r"(temp_r0_10));
-            if(temp_r0_10 != 3)sp90=1;
+            if(temp_r0_10 != 3)flags956.seen=1;
         }
         temp_r1_7 = var_r5_2;
         if (temp_r7[temp_r1_7].state != 8) {
@@ -1134,7 +1133,7 @@ block_43:
     if (var_r0_3 >= 0) {
         do {
             temp_r1_8 = &temp_r7[var_r0_3 >> 0x18];
-            if (((u32) temp_r1_8->state <= 3U) && (sp90 == 0)) {
+            if (((u32) temp_r1_8->state <= 3U) && (flags956.seen == 0)) {
                 temp_r1_8->state = 4;
             }
             temp_r5 = (s8) var_r5_3;
@@ -1145,8 +1144,8 @@ block_43:
             var_r0_3 = var_r5_3 << 0x18;
         } while (var_r0_3 >= 0);
     }
-    f956_08065370(sp94, (u16) sp8C, sp9C, spA0, 1);
-    f956_080087AC(0x20, 0x28, (u16) sp8C, *sp9C, 0, sp98, sp94->f8, second.f0, 0);
+    f956_08065370(sp94, (u16) flags956.animation, sp9C, spA0, 1);
+    f956_080087AC(0x20, 0x28, (u16) flags956.animation, *sp9C, 0, sp98, sp94->f8, second.f0, 0);
     f956_080003F0();
     if (f956_080021A8() == 1) {
         var_sl = 0;
