@@ -2312,9 +2312,11 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
     cache923FC[1] = 0U;
     cache923FC[2] = 8U;
     cache923FC[3] = 0U;
-    v923FC_254 = 8;
-    v923FC_250 = 8;
-    v923FC_252 = -0xCU;
+    { register u16 *p250 asm("r2") = &v923FC_250;
+      asm("" : : "r"(p250));
+      v923FC_254 = 8; *p250 = 8; }
+    { register s32 negative asm("r2") = -12;
+      asm("" : "+r"(negative)); v923FC_252 = negative; }
     v923FC_256 = 0xC;
     sp130 = 3;
     sub_0801AB50(6);
