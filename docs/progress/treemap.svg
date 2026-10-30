@@ -831,7 +831,8 @@
 <g><title>code_08087CC0 (22504 bytes)</title>
 <rect x="419.79" y="383.48" width="95.10" height="124.52" fill="#0d1117"/>
 <rect x="420.79" y="384.48" width="33.04" height="43.51" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08087CC0 | sub_08087CC0 | unidentified  0x08087CC0  2836 bytes  [todo]</title></rect>
-<rect x="453.82" y="384.48" width="31.55" height="43.51" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0808C0C4_v | sub_0808C0C4 | existing  0x0808C0C4  2708 bytes  [nonmatch]</title></rect>
+<rect x="453.82" y="384.48" width="31.55" height="43.51" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_0808C0C4_v | sub_0808C0C4 | existing | 2/6 milestones; not a match  0x0808C0C4  2708 bytes  [nonmatch]</title></rect>
+<rect x="453.82" y="384.48" width="10.52" height="43.51" fill="#d29922" pointer-events="none"/>
 <rect x="485.37" y="384.48" width="28.52" height="43.51" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_0808AFE8 | sub_0808AFE8 | unidentified  0x0808AFE8  2448 bytes  [todo]</title></rect>
 <rect x="420.79" y="427.99" width="24.17" height="35.73" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0808B978 | sub_0808B978 | unidentified  0x0808B978  1704 bytes  [done]</title></rect>
 <rect x="420.79" y="463.72" width="24.17" height="26.92" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0808CB58 | sub_0808CB58 | unidentified  0x0808CB58  1284 bytes  [nonmatch]</title></rect>
