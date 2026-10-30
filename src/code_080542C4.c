@@ -554,23 +554,26 @@ loop_15:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055A60);
 #endif
-#ifdef NONMATCHING
 struct PositionTable56 { u32 value[5]; };
 extern struct PositionTable56 positions56 asm("gUnk_080BB6D0");
-struct Route56 { u32 index; u16 delay; u16 pad; };
-extern struct Route56 routes56[32] asm("gUnk_080BB6E4");
+extern u8 routes56[256] asm("gUnk_080BB6E4");
 void sub_08055BA4(void)
 {
     struct PositionTable56 positions = positions56;
-    struct Route56 routes[32];
+    u8 routes[256];
     s32 i;
     u16 wait;
+    u8 *p; s32 off;
+
     memcpy(routes, routes56, sizeof(routes));
+
     i = 0;
+    p = routes;
     for (;;) {
-        sub_08028AAC(6, 120, (u16)positions.value[routes[i].index], 0);
+        off = i * 8;
+        sub_08028AAC(6, 120, (u16)positions.value[*(u32 *)(p + off)], 0);
         sub_08028D98(6, 0, -28, 10);
-        wait = routes[i].delay;
+        wait = *(u16 *)(routes + 4 + off);
         while (wait != 0) {
             sub_080003F0();
             if (sub_080021A8() != 0) break;
@@ -579,17 +582,16 @@ void sub_08055BA4(void)
         sub_08028D98(6, 0, 28, 10);
         sub_08028AAC(6, 9999, 9999, 0);
         wait = 30;
+        goto body;
         do {
-            sub_080003F0();
-            if (sub_080021A8() != 0) break;
             wait--;
-        } while (wait != 0);
+            if (wait == 0) break;
+        body:
+            sub_080003F0();
+        } while (sub_080021A8() == 0);
         i = (i + 1) & 31;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055BA4);
-#endif
 #ifdef NONMATCHING
 void sub_08055D1C(void);
 void sub_08055C58(void) {
