@@ -2292,8 +2292,8 @@ void sub_0806C568(u32 *arg0) {
     u16 var_r7_3;
     u16 temp_r0_10;
     u16 temp_r0_2;
-    u16 temp_r0_3;
-    u16 temp_r1;
+    register u16 temp_r0_3 asm("r0");
+    register u32 temp_r1 asm("r1");
     u16 temp_r2_5;
     u16 temp_r3_2;
     u16 var_r0;
@@ -2333,7 +2333,7 @@ void sub_0806C568(u32 *arg0) {
     void *temp_r4_8;
     void *temp_r4_9;
     void *temp_r5;
-    void *var_r9;
+    register void *var_r9 asm("r9");
 
     sp74 = arg0;
     sp8C = (s32) (u16) sub_080020F4();
@@ -2378,7 +2378,7 @@ block_10:
         goto block_16;
     }
     temp_r4_3 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0);
-    temp_r1 = T71C_U16(temp_r4_3,0xC2) - (u16) (sub_0806898C(T71C_U32(sp74,0xC), (s32) T71C_U32(sp74,0x14)) - 1);
+    { register u32 cost asm("r0") = (u16)(sub_0806898C(T71C_U32(sp74,0xC), (s32) T71C_U32(sp74,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = T71C_U16(temp_r4_3,0xC2) - cost; }
     T71C_U16(temp_r4_3,0xC2) = temp_r1;
     if ((s32) (temp_r1 << 0x10) < 0) {
         T71C_U16(temp_r4_3,0xC2) = 0U;
