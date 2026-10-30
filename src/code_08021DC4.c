@@ -4315,7 +4315,18 @@ block_51:
     temp_r0_2 = sub_0800CC98();
     if ((temp_r0_2 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
         sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-        sub_0800BC08(0xF00000 >> 0x10, 0x880000 >> 0x10, &x, &y, 0x30, 0);
+        {
+            register u32 xbase asm("r1") = 0xF0;
+            register u32 ybase asm("r2") = 0x88;
+            register u32 xbits asm("r0");
+            register u32 ybits asm("r1");
+            asm("" : "+r"(xbase));
+            xbits = xbase << 16;
+            asm("" : "+r"(xbits), "+r"(ybase));
+            ybits = ybase << 16;
+            asm("" : "+r"(xbits), "+r"(ybits));
+            sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), &x, &y, 0x30, temp_r0_2);
+        }
         sub_08008E74(x, y, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
     }
     sub_080003F0();
