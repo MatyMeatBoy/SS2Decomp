@@ -167,11 +167,565 @@ s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     return (s32) (u8) result;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096060);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096154);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096274);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096394);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096494);
+struct MotionStart99 { u32 unk0; u16 code, phase; s16 direction; u8 padA[10]; s32 x, y, previousX, previousY; };
+extern s32 angleStart99(s16, s16) asm("ArcTan2");
+extern s8 motionStart99(struct MotionStart99 *, u32, u32, u32) asm("sub_08096060");
+s8 motionStart99(struct MotionStart99 *arg0, u32 arg1, u32 arg2, u32 arg3) {
+    s32 rawX, dxWide, dyWide;
+    register s32 rawY asm("r4");
+    register s32 limit asm("r4");
+    s32 saveX, saveY;
+    u16 distance, angle;
+    u32 bits;
+    s16 temp_r6;
+    s16 temp_r7;
+    s16 var_r0;
+    s8 var_r8;
+    u32 temp_r0;
+    u32 var_r2;
+
+    rawX = arg0->x << 8;
+    rawY = arg0->y << 8;
+    dxWide = (s16)arg1 - (rawX >> 16);
+    dyWide = (s16)arg2 - (rawY >> 16);
+    limit = arg3;
+    limit <<= 16;
+    limit >>= 16;
+    temp_r7 = dxWide;
+    temp_r6 = dyWide;
+    distance = Sqrt(temp_r7 * temp_r7 + temp_r6 * temp_r6);
+    var_r8 = 1;
+    if (limit > (s32)distance) var_r8 = 0;
+    angle = angleStart99(temp_r7, temp_r6);
+    bits = (u32)angle << 19;
+    var_r2 = (u32)angle >> 13;
+    if (bits > 0x80000000U) {
+        if (var_r2 <= 6U) var_r2++;
+        else var_r2 = 0;
+    }
+    switch (var_r2) {
+    case 0:
+        arg0->direction = 6;
+        var_r0 = 0x10;
+        goto block_16;
+    case 1:
+        arg0->direction = 7;
+        var_r0 = 0x90;
+        goto block_16;
+    case 2:
+        arg0->direction = 0;
+        var_r0 = 0x80;
+        goto block_16;
+    case 3:
+        arg0->direction = 1;
+        var_r0 = 0xA0;
+        goto block_16;
+    case 4:
+        arg0->direction = 2;
+        var_r0 = 0x20;
+        goto block_16;
+    case 5:
+        arg0->direction = 3;
+        var_r0 = 0x60;
+        goto block_16;
+    case 6:
+        arg0->direction = 4;
+        var_r0 = 0x40;
+        goto block_16;
+    case 7:
+        arg0->direction = 5;
+        var_r0 = 0x50;
+    block_16:
+        arg0->code = var_r0;
+        break;
+    }
+    arg0->phase = 0;
+    saveX = arg0->x;
+    saveY = arg0->y;
+    arg0->previousX = saveX;
+    arg0->previousY = saveY;
+    return var_r8;
+}
+
+struct NearEntity99 { u8 pad[0x14]; s32 x, y; };
+struct NearPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u16 *target; };
+extern struct NearPlayer99 nearPlayers99[] asm("gUnk_03003CE0");
+s32 sub_08096154(struct NearEntity99 *entity, s32 *inputLimit)
+{
+    register s32 *limit asm("sl") = inputLimit;
+    s32 entries[8];
+    volatile s32 firstOffset;
+    s32 offset;
+    register s32 dx asm("r5");
+    register s32 dy asm("r6");
+    register s32 x asm("r9");
+    register s32 y asm("r8");
+    register s32 *distance asm("r3");
+    s32 *firstDistance, *firstIndex, *other;
+    register s32 a asm("r1");
+    register s32 b asm("r0");
+    register s32 indexSwap asm("r2");
+    register struct NearPlayer99 *player asm("r4");
+    u16 *target;
+    register u32 i asm("r2");
+    u32 count, j, next, flags;
+    register u32 sortIndex asm("r2");
+    register u32 temp0 asm("r0");
+    register u32 temp1 asm("r1");
+    register u32 temp7 asm("r7");
+    register s32 *base1 asm("r1");
+    register s32 *base2 asm("r2");
+    register s32 *resultLimit asm("r7");
+    u16 length;
+    s32 result;
+    count = sub_08002164();
+    x = entity->x >> 8;
+    y = entity->y >> 8;
+    player = nearPlayers99;
+    i = 0;
+    if (i < count) {
+        distance = entries;
+        do {
+            firstOffset = i * 8;
+            *distance = 0x7FFFFFFF;
+            flags = player->flags;
+            if (flags & 0x2000) goto skip;
+            if (flags & 0x40002) goto skip;
+            target = player->target;
+            if (((u32)(*(u8 *)target << 28) >> 28) != 11) {
+                temp0 = target[0] >> 4;
+                temp7 = x;
+                dx = temp7 - temp0;
+                temp0 = (u32)(target[1] << 20) >> 20;
+                temp1 = y;
+                dy = temp1 - temp0;
+                *distance = dx * dx + dy * dy;
+            }
+            temp0 = (u32)&entries[1];
+            temp7 = firstOffset;
+            *(s32 *)(temp0 + temp7) = i;
+        skip:
+            distance += 2;
+            i++;
+            player++;
+        } while (i < count);
+    }
+    sortIndex = 0;
+    if (sortIndex < count) {
+        do {
+            next = sortIndex + 1;
+            j = next;
+            if (next < count) {
+                temp0 = sortIndex * 8;
+                base1 = entries;
+                firstDistance = (s32 *)((u32)base1 + temp0);
+                base1 = &entries[1];
+                firstIndex = (s32 *)((u32)base1 + temp0);
+                temp0 = next * 8;
+                indexSwap = (u32)entries;
+                asm("" : "+r"(indexSwap));
+                other = (s32 *)(temp0 + indexSwap);
+                do {
+                    a = *firstDistance;
+                    b = other[0];
+                    if (a > b) {
+                        b ^= a;
+                        *firstDistance = b;
+                        a = other[0];
+                        a ^= b;
+                        other[0] = a;
+                        b = *firstDistance;
+                        b ^= a;
+                        *firstDistance = b;
+                        indexSwap = *firstIndex;
+                        b = other[1];
+                        indexSwap ^= b;
+                        *firstIndex = indexSwap;
+                        a = other[1];
+                        a ^= indexSwap;
+                        other[1] = a;
+                        b = *firstIndex;
+                        b ^= a;
+                        *firstIndex = b;
+                    }
+                    other += 2;
+                    j++;
+                } while (j < count);
+            }
+            sortIndex = next;
+        } while (sortIndex < count);
+    }
+    length = Sqrt(entries[0]);
+    resultLimit = limit;
+    if ((s32)length <= *resultLimit) {
+        *resultLimit = length;
+        result = entries[1];
+    } else {
+        result = 10;
+    }
+    return result;
+}
+s32 sub_08096274(struct NearEntity99 *entity, s32 *inputLimit)
+{
+    register s32 *limit asm("sl") = inputLimit;
+    s32 entries[8];
+    volatile s32 firstOffset;
+    s32 offset;
+    register s32 dx asm("r5");
+    register s32 dy asm("r6");
+    register s32 x asm("r9");
+    register s32 y asm("r8");
+    register s32 *distance asm("r3");
+    s32 *firstDistance, *firstIndex, *other;
+    register s32 a asm("r1");
+    register s32 b asm("r0");
+    register s32 indexSwap asm("r2");
+    register struct NearPlayer99 *player asm("r4");
+    u16 *target;
+    register u32 i asm("r2");
+    u32 count, j, next, flags;
+    register u32 sortIndex asm("r2");
+    register u32 temp0 asm("r0");
+    register u32 temp1 asm("r1");
+    register u32 temp7 asm("r7");
+    register s32 *base1 asm("r1");
+    register s32 *base2 asm("r2");
+    register s32 *resultLimit asm("r7");
+    u16 length;
+    s32 result;
+    count = sub_08002164();
+    x = entity->x >> 8;
+    y = entity->y >> 8;
+    player = nearPlayers99;
+    i = 0;
+    if (i < count) {
+        distance = entries;
+        do {
+            firstOffset = i * 8;
+            *distance = 0x7FFFFFFF;
+            flags = player->flags;
+            if (flags & 0x2000) goto skip;
+            if (flags & 0x40002) goto skip;
+            target = player->target;
+            if (((u32)(*(u8 *)target << 28) >> 28) != 11) {
+                temp0 = target[0] >> 4;
+                temp7 = x;
+                dx = temp7 - temp0;
+                temp0 = (u32)(target[1] << 20) >> 20;
+                temp1 = y;
+                dy = temp1 - temp0;
+                *distance = dx * dx + dy * dy;
+            }
+            temp0 = (u32)&entries[1];
+            temp7 = firstOffset;
+            *(s32 *)(temp0 + temp7) = i;
+        skip:
+            distance += 2;
+            i++;
+            player++;
+        } while (i < count);
+    }
+    sortIndex = 0;
+    if (sortIndex < count) {
+        do {
+            next = sortIndex + 1;
+            j = next;
+            if (next < count) {
+                temp0 = sortIndex * 8;
+                base1 = entries;
+                firstDistance = (s32 *)((u32)base1 + temp0);
+                base1 = &entries[1];
+                firstIndex = (s32 *)((u32)base1 + temp0);
+                temp0 = next * 8;
+                indexSwap = (u32)entries;
+                asm("" : "+r"(indexSwap));
+                other = (s32 *)(temp0 + indexSwap);
+                do {
+                    a = *firstDistance;
+                    b = other[0];
+                    if (a < b) {
+                        b ^= a;
+                        *firstDistance = b;
+                        a = other[0];
+                        a ^= b;
+                        other[0] = a;
+                        b = *firstDistance;
+                        b ^= a;
+                        *firstDistance = b;
+                        indexSwap = *firstIndex;
+                        b = other[1];
+                        indexSwap ^= b;
+                        *firstIndex = indexSwap;
+                        a = other[1];
+                        a ^= indexSwap;
+                        other[1] = a;
+                        b = *firstIndex;
+                        b ^= a;
+                        *firstIndex = b;
+                    }
+                    other += 2;
+                    j++;
+                } while (j < count);
+            }
+            sortIndex = next;
+        } while (sortIndex < count);
+    }
+    length = Sqrt(entries[0]);
+    resultLimit = limit;
+    if ((s32)length <= *resultLimit) {
+        *resultLimit = length;
+        result = entries[1];
+    } else {
+        result = 10;
+    }
+    return result;
+}
+s32 sub_08096394(s32 inputX, s32 inputY)
+{
+    register s32 rawY asm("r5") = inputY;
+    register s32 rawX asm("r4") = inputX;
+    s32 entries[8];
+    register u32 firstOffset asm("sl");
+    s32 offset;
+    register s32 dx asm("r6");
+    register s32 dy asm("r7");
+    register s32 x asm("r9");
+    register s32 y asm("r8");
+    register s32 *distance asm("r3");
+    register s32 *firstDistance asm("r6");
+    s32 *firstIndex, *other;
+    register s32 a asm("r1");
+    register s32 b asm("r0");
+    register s32 indexSwap asm("r2");
+    register struct NearPlayer99 *player asm("r4");
+    register u16 *target asm("r1");
+    register u32 i asm("r2");
+    register u32 count asm("ip");
+    u32 flags;
+    u32 j;
+    register u32 next asm("r5");
+    register u32 sortIndex asm("r2");
+    register u32 temp0 asm("r0");
+    register u32 temp1 asm("r1");
+    register u32 temp7 asm("r5");
+    register s32 *base1 asm("r1");
+    register s32 *base2 asm("r2");
+    register s32 *resultLimit asm("r7");
+    u16 length;
+    s32 result;
+    count = sub_08002164();
+    temp0 = rawX >> 8;
+    asm("" : "+r"(temp0));
+    x = temp0;
+    rawX = rawY >> 8;
+    asm("" : "+r"(rawX));
+    y = rawX;
+    player = nearPlayers99;
+    i = 0;
+    if (i < count) {
+        distance = entries;
+        do {
+            temp1 = i * 8;
+            asm("" : "+r"(temp1));
+            firstOffset = temp1;
+            *distance = 0x7FFFFFFF;
+            flags = player->flags;
+            if (flags & 0x2000) goto skip;
+            if (flags & 0x40002) goto skip;
+            temp7 = 0x148;
+            asm("" : "+r"(temp7));
+            temp0 = (u32)player + temp7;
+            asm("" : "+r"(temp0));
+            target = *(u16 **)temp0;
+            if (((u32)(*(u8 *)target << 28) >> 28) != 11) {
+                temp0 = target[0] >> 4;
+                temp7 = x;
+                dx = temp7 - temp0;
+                temp0 = (u32)(target[1] << 20) >> 20;
+                temp1 = y;
+                dy = temp1 - temp0;
+                *distance = dx * dx + dy * dy;
+            }
+            temp0 = (u32)&entries[1];
+            *(s32 *)(temp0 + firstOffset) = i;
+        skip:
+            distance += 2;
+            i++;
+            temp7 = 0x14C;
+            asm("" : "+r"(temp7));
+            player = (void *)((u32)player + temp7);
+        } while (i < count);
+    }
+    sortIndex = 0;
+    if (sortIndex < count) {
+        do {
+            next = sortIndex + 1;
+            j = next;
+            asm("" : "+r"(j));
+            if (next < count) {
+                temp0 = sortIndex * 8;
+                base1 = entries;
+                firstDistance = (s32 *)((u32)base1 + temp0);
+                base1 = &entries[1];
+                firstIndex = (s32 *)((u32)base1 + temp0);
+                temp0 = next * 8;
+                indexSwap = (u32)entries;
+                other = (s32 *)(temp0 + indexSwap);
+                do {
+                    a = *firstDistance;
+                    b = other[0];
+                    if (a > b) {
+                        b ^= a;
+                        *firstDistance = b;
+                        a = other[0];
+                        a ^= b;
+                        other[0] = a;
+                        b = *firstDistance;
+                        b ^= a;
+                        *firstDistance = b;
+                        indexSwap = *firstIndex;
+                        b = other[1];
+                        indexSwap ^= b;
+                        *firstIndex = indexSwap;
+                        a = other[1];
+                        a ^= indexSwap;
+                        other[1] = a;
+                        b = *firstIndex;
+                        b ^= a;
+                        *firstIndex = b;
+                    }
+                    other += 2;
+                    j++;
+                } while (j < count);
+            }
+            sortIndex = next;
+        } while (sortIndex < count);
+    }
+    return entries[1];
+}
+s32 sub_08096494(s32 inputX, s32 inputY)
+{
+    register s32 rawY asm("r5") = inputY;
+    register s32 rawX asm("r4") = inputX;
+    s32 entries[8];
+    register u32 firstOffset asm("sl");
+    s32 offset;
+    register s32 dx asm("r6");
+    register s32 dy asm("r7");
+    register s32 x asm("r9");
+    register s32 y asm("r8");
+    register s32 *distance asm("r3");
+    register s32 *firstDistance asm("r6");
+    s32 *firstIndex, *other;
+    register s32 a asm("r1");
+    register s32 b asm("r0");
+    register s32 indexSwap asm("r2");
+    register struct NearPlayer99 *player asm("r4");
+    register u16 *target asm("r1");
+    register u32 i asm("r2");
+    register u32 count asm("ip");
+    u32 flags;
+    u32 j;
+    register u32 next asm("r5");
+    register u32 sortIndex asm("r2");
+    register u32 temp0 asm("r0");
+    register u32 temp1 asm("r1");
+    register u32 temp7 asm("r5");
+    register s32 *base1 asm("r1");
+    register s32 *base2 asm("r2");
+    register s32 *resultLimit asm("r7");
+    u16 length;
+    s32 result;
+    count = sub_08002164();
+    temp0 = rawX >> 8;
+    asm("" : "+r"(temp0));
+    x = temp0;
+    rawX = rawY >> 8;
+    asm("" : "+r"(rawX));
+    y = rawX;
+    player = nearPlayers99;
+    i = 0;
+    if (i < count) {
+        distance = entries;
+        do {
+            temp1 = i * 8;
+            asm("" : "+r"(temp1));
+            firstOffset = temp1;
+            *distance = 0x7FFFFFFF;
+            flags = player->flags;
+            if (flags & 0x2000) goto skip;
+            if (flags & 0x40002) goto skip;
+            temp7 = 0x148;
+            asm("" : "+r"(temp7));
+            temp0 = (u32)player + temp7;
+            asm("" : "+r"(temp0));
+            target = *(u16 **)temp0;
+            if (((u32)(*(u8 *)target << 28) >> 28) != 11) {
+                temp0 = target[0] >> 4;
+                temp7 = x;
+                dx = temp7 - temp0;
+                temp0 = (u32)(target[1] << 20) >> 20;
+                temp1 = y;
+                dy = temp1 - temp0;
+                *distance = dx * dx + dy * dy;
+            }
+            temp0 = (u32)&entries[1];
+            *(s32 *)(temp0 + firstOffset) = i;
+        skip:
+            distance += 2;
+            i++;
+            temp7 = 0x14C;
+            asm("" : "+r"(temp7));
+            player = (void *)((u32)player + temp7);
+        } while (i < count);
+    }
+    sortIndex = 0;
+    if (sortIndex < count) {
+        do {
+            next = sortIndex + 1;
+            j = next;
+            asm("" : "+r"(j));
+            if (next < count) {
+                temp0 = sortIndex * 8;
+                base1 = entries;
+                firstDistance = (s32 *)((u32)base1 + temp0);
+                base1 = &entries[1];
+                firstIndex = (s32 *)((u32)base1 + temp0);
+                temp0 = next * 8;
+                indexSwap = (u32)entries;
+                other = (s32 *)(temp0 + indexSwap);
+                do {
+                    a = *firstDistance;
+                    b = other[0];
+                    if (a < b) {
+                        b ^= a;
+                        *firstDistance = b;
+                        a = other[0];
+                        a ^= b;
+                        other[0] = a;
+                        b = *firstDistance;
+                        b ^= a;
+                        *firstDistance = b;
+                        indexSwap = *firstIndex;
+                        b = other[1];
+                        indexSwap ^= b;
+                        *firstIndex = indexSwap;
+                        a = other[1];
+                        a ^= indexSwap;
+                        other[1] = a;
+                        b = *firstIndex;
+                        b ^= a;
+                        *firstIndex = b;
+                    }
+                    other += 2;
+                    j++;
+                } while (j < count);
+            }
+            sortIndex = next;
+        } while (sortIndex < count);
+    }
+    return entries[1];
+}
 struct SelectPlayer99 { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; u8 *target; };
 extern struct SelectPlayer99 selectPlayers99[] asm("gUnk_03003CE0");
 s32 sub_08096594(u8 arg0)
