@@ -28912,14 +28912,14 @@
       "name": "sub_08095D1C",
       "addr": 134831388,
       "size": 340,
-      "state": "todo",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08095D1C",
       "canonical_symbol": "sub_08095D1C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08095D1C",
       "name_status": "unidentified",
       "name_source": null,
@@ -28994,7 +28994,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 173,
+          "line": 270,
           "detail": "Existing C definition with an asm alias to the canonical symbol: motionStart99"
         }
       ]
@@ -29119,7 +29119,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 785,
+          "line": 882,
           "detail": "Existing C definition with an asm alias to the canonical symbol: shakeRoutine99"
         }
       ]
@@ -29244,7 +29244,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 1013,
+          "line": 1110,
           "detail": "Existing C definition with an asm alias to the canonical symbol: paletteStep99"
         }
       ]
