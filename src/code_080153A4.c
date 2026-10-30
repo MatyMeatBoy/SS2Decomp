@@ -289,30 +289,33 @@ void sub_080161A4(void) {
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801623C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801641C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801674C);
-#ifdef NONMATCHING
 struct Record1681C { u8 *source; u8 kind, sound; u16 extra; };
 struct State1681C { u16 x,y,flags,index,f8,fA,fC,fE,kind,sound; u8 *source; };
 extern struct Record1681C *volatile records1681C asm("gUnk_030042E8");
 extern s32 step1681C(struct State1681C *) asm("sub_0801641C");
 extern s32 position1681C(s32 *) asm("sub_08017F7C");
 extern void sound1681C(u8,u32,s32) asm("sub_080571A4");
-/* The task creator sub_080168FC supplies slot index 0 or 1. */
 void sub_0801681C(u16 index) {
     struct State1681C state;
     struct { s32 x, y; } coords;
-    struct Record1681C *record;
+    register struct Record1681C *record asm("r3");
+    register struct Record1681C *loaded asm("r0");
+    register u32 value asm("r1");
+    register struct State1681C *statePtr asm("r2");
     u8 *source, *entry;
     s32 kind;
     s32 *pos;
-    record = (struct Record1681C *)(index * 8 + (u8 *)records1681C);
+    loaded = records1681C;
+    record = (struct Record1681C *)(index * 8 + (u32)loaded);
     source = record->source;
     kind = record->kind & ~0x80;
+    statePtr = &state;
     entry = source + kind * 8;
-    state.x = *(u16 *)(entry + 0xA);
-    state.y = *(u16 *)(entry + 0xC);
+    statePtr->x = *(u16 *)(entry + 0xA);
+    statePtr->y = *(u16 *)(entry + 0xC);
     state.source = source;
-    state.flags = *(u16 *)(entry + 8);
-    state.f8 = *(u16 *)(entry + 0xE);
+    statePtr->flags = *(u16 *)(entry + 8);
+    statePtr->f8 = *(u16 *)(entry + 0xE);
     state.kind = record->kind;
     state.sound = record->sound;
     state.fC = *(u16 *)(source + 0x32);
@@ -320,9 +323,12 @@ void sub_0801681C(u16 index) {
     state.index = record->extra + kind;
     state.fA = *(u16 *)(source + 0x30);
     coords.x = state.x << 11;
-    coords.y = state.y << 11;
+    value = state.y << 11;
+    coords.y = value;
     pos = &coords.x;
-    while ((0x4000 & state.flags) || position1681C(pos) != 0) {
+    for (;;) {
+        value = state.flags;
+        if (!(0x4000 & value) && position1681C(pos) == 0) break;
         sub_080003F0();
         if (sub_0800CB78() != 0 || sub_08056E90() != 0 || records1681C[index].kind == 0xFF || step1681C(&state) != 0)
             goto done;
@@ -332,9 +338,6 @@ done:
     sub_080003F0();
     gUnk_03005724 &= ~(1u << index);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801681C);
-#endif
 #ifdef NONMATCHING
 extern volatile u16 bits168FC asm("gUnk_03005724");
 struct Pair168FC { u32 first, second; };
