@@ -329,7 +329,55 @@ block_10:
 }
 
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096BA8);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096D40);
+struct PaletteLerp99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+s32 sub_08096D40(u16 *initialPalette, u16 *target, u16 frame, u16 duration)
+{
+    u16 *palette;
+    u8 i;
+    register u32 low0 asm("r0");
+    register u32 low1 asm("r1");
+    register s16 op1 asm("r1");
+    register s16 op0 asm("r0");
+    u16 current;
+    register u32 packed asm("r5");
+    struct PaletteLerp99 *dst;
+    volatile struct PaletteLerp99 *src;
+    s32 done = 1;
+    if (frame < duration) {
+        i = 0;
+        palette = initialPalette - 1;
+        do {
+            u16 *entry = target;
+            target++;
+            palette++;
+            dst = (void *)palette;
+            src = (void *)palette;
+            low1 = *(volatile u32 *)palette;
+            low1 <<= 27;
+            current = low1 >> 27;
+            packed = *(u32 *)entry;
+            low0 = (packed << 27) >> 27;
+            op1 = current;
+            dst->r = current + (s32)((low0 - op1) * frame) / (s32)duration;
+            low1 = *(volatile u32 *)palette;
+            low1 <<= 22;
+            current = low1 >> 27;
+            low0 = (packed << 22) >> 27;
+            op1 = current;
+            dst->g = current + (s32)((low0 - op1) * frame) / (s32)duration;
+            low0 = *(volatile u32 *)palette;
+            low0 <<= 17;
+            current = low0 >> 27;
+            packed = (packed << 17) >> 27;
+            op0 = current;
+            dst->b = current + (s32)((packed - op0) * frame) / (s32)duration;
+            dst->unused = 0;
+            i++;
+        } while (i <= 15U);
+        done = 0;
+    }
+    return done;
+}
 struct PaletteStep99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern s32 paletteStep99(u16 *, u8, u16, u16) asm("sub_08096E20");
 s32 paletteStep99(u16 *palette, u8 amount, u16 frame, u16 duration)
