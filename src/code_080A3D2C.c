@@ -582,7 +582,12 @@ wait_frame:
    asm("" : "+r"(y));
    frame.y = y;
   }
-  frame.x+=offsetX10847[direction10847*2];frame.y+=offsetY10847[direction10847*2];
+  {
+   u32 i = direction10847 * 2;
+   asm("" : "+r"(i));
+   frame.x += offsetX10847[i];
+   frame.y += offsetY10847[i];
+  }
   sprites10847[side10847].style=palette10847;
   sub_08000AF0(palette10847+16,sprites10847[side10847].palette+(F_10847(frame.metadata,u16,0xD6)<<5),1);
   if(sub_0800CD8C()==0)animate10847(&sprites10847[side10847],animation,&frame.tile,&frame.rotation,0);
