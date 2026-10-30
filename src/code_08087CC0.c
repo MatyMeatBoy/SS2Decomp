@@ -14,7 +14,60 @@ extern u32 gUnk_084F26E4[];
 extern u32 gUnk_084F4818[];
 
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08087CC0);
+#ifdef NONMATCHING
+struct Route090 { s16 x, y, endX, endY; s32 resource; u16 tile; u16 pad; u32 flags, duration; };
+void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
+void draw090(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
+void sub_080887D4(void *arg0, void *arg1)
+{
+    u32 sprite[13];
+    u16 frame;
+    u16 frameWait;
+    s32 position[2];
+    s32 tile;
+    u32 step;
+    s32 flip;
+    u32 progress;
+    u32 fixed;
+    struct Route090 *route;
+    route = arg1;
+    sub_080003F4(0xF1FFF111);
+    if (route->duration == 0) return;
+    do {
+        spriteInit090(sprite, route->resource, 1, -1, 0);
+        progress = 0;
+        frame = 0;
+        frameWait = 0;
+        step = 1024U / route->duration;
+        flip = route->flags & 1;
+        fixed = route->flags & 2;
+        if (fixed != 0) {
+            sub_08000AF0(*(u16 *)((u8 *)arg0 + 0x40) + 20, (u8 *)sprite[3] + 0x120, 1);
+            *((u8 *)sprite + 0x25) = *(u8 *)((u8 *)arg0 + 0x40) + 4;
+            tile = 0;
+            frame = route->tile;
+        } else {
+            sub_08000AF0(*(u16 *)((u8 *)arg0 + 0x40) + 20, (void *)sprite[3], 1);
+            *((u8 *)sprite + 0x1C) = *(u8 *)((u8 *)arg0 + 0x40) + 4;
+            tile = route->tile;
+            fixed = 0;
+        }
+        do {
+            sub_080659F4(&position[0], route->x, route->endX, progress);
+            sub_080659F4(&position[1], route->y, route->endY, progress);
+            progress += step;
+            if (fixed == 0) sub_08065370(sprite, route->tile, (s32)&frame, (s32)&frameWait, flip);
+            draw090(position[0], position[1], tile, frame, 0, (u8 *)sprite + 0x1C, sprite[2], sprite[0]);
+            sub_080003F0();
+            if (sub_080021A8() != 0) return;
+        } while (progress <= 1023U);
+        route++;
+    } while (route->duration != 0);
+}
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_080887D4);
+#endif
 struct Task6450 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct Task6450 gTask6450 asm("gUnk_03006450");
 void sub_08088914(void)
@@ -145,8 +198,155 @@ u32 sub_08088B6C(u8 *tbl, u32 arg1)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088C24);
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088F30);
+#ifdef NONMATCHING
+extern u8 playerCoord89204[] asm("gUnk_03003D6C");
+extern u32 sceneTable89204[] asm("gUnk_084F0AC0");
+void callback2AA28_090(void) asm("sub_0802AA28");
+s32 sub_08089204(u8 *arg0) {
+    s32 *temp_r5;
+    s32 temp_r2;
+    s32 temp_r8;
+    u8 *temp_r2_2;
+    u8 *temp_r4;
+    u8 *temp_r6;
+
+    if (*(u16 *)(gUnk_03005CF4 + 0x10) == 0) {
+loop_3:
+        if (sub_0801AAE0() == 0) {
+            sub_080003F0();
+            goto loop_3;
+        }
+        temp_r8 = sub_080020F4();
+        temp_r6 = arg0 + ((*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24) + 4);
+        sub_0800CCDC();
+        temp_r5 = (s32 *)((u8 *)gUnk_03003CE0 + 0x14C * temp_r8 + 0x30);
+        if (*temp_r5 & 0x2000) {
+            sub_0802996C();
+        }
+        *temp_r5 &= 0xFFFFFBFF;
+        sub_08067D74();
+        temp_r2 = 0x14C * sub_080020F4();
+        *(u32 *)(temp_r2 + (u8 *)gUnk_03003CE0 + 0x8C) = *(u16 *)(temp_r6) << 8;
+        *(u32 *)(temp_r2 + (u8 *)gUnk_03003CE0 + 0x90) = *(u16 *)(temp_r6 + 2) << 8;
+        temp_r2_2 = temp_r2 + (u8 *)gUnk_03003CE0;
+        *(u32 *)(temp_r2_2 + 0x94) = (s32) *(u32 *)(temp_r2_2 + 0x8C);
+        *(u32 *)(temp_r2_2 + 0x98) = (s32) *(u32 *)(temp_r2_2 + 0x90);
+        sub_08009930(0, 2);
+loop_8:
+        if (sub_0800BA6C() == 0) {
+            sub_080003F0();
+            goto loop_8;
+        }
+        *(u16 *)((u8 *)&gUnk_03003170 + 0x76) = 0x20;
+        temp_r4 = (0x14C * temp_r8) + playerCoord89204;
+        sub_0800AD04(temp_r4, temp_r4 + 4, sub_0800CCCC());
+        *(u16 *)(gUnk_03005CF4 + 0x10) = 1U;
+        *(u16 *)(gUnk_03005CF4 + 0x1C) = 1;
+        sub_08015C38();
+        sub_08015EF8();
+        sub_08057328(0, callback2AA28_090);
+    }
+    if (((s32) *(s32 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4() + 0x90) >> 0xB) == 0x1F) {
+        sub_08015ED4();
+        sub_0801ABE8(3);
+        sub_0800BB40();
+loop_13:
+        if (sub_0801AAE0() == 0) {
+            sub_080003F0();
+            goto loop_13;
+        }
+        sub_0800BB40();
+        *(u16 *)(gUnk_03005CF4 + 0x36) = 2U;
+        *(u16 *)(gUnk_03005CF4 + 2) = 8;
+        *(u32 *)(gUnk_03005CF4 + 0x71C) = (s32) sceneTable89204[8];
+        *(u16 *)(gUnk_03005CF4 + 0x10) = 0U;
+        *(u16 *)(gUnk_03005CF4 + 0x1C) = 0;
+        return 1;
+    }
+    return 0;
+}
+
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089204);
+#endif
+#ifdef NONMATCHING
+extern u8 playerCoord89384[] asm("gUnk_03003D6C");
+extern u32 sceneTable89384[] asm("gUnk_084F0AC0");
+void callback2C674_090(void) asm("sub_0802C674");
+s32 sub_08089384(u8 *arg0) {
+    s32 temp_r2;
+    s32 temp_r7;
+    u8 *temp_r0;
+    u8 *temp_r2_2;
+    u8 *temp_r4;
+    u8 *temp_r4_2;
+
+    if (*(u16 *)(gUnk_03005CF4 + 0x10) == 0) {
+loop_3:
+        if (sub_0801AAE0() == 0) {
+            sub_080003F0();
+            goto loop_3;
+        }
+        temp_r7 = sub_080020F4();
+        temp_r4 = arg0 + ((*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24) + 4);
+        sub_0800CCDC();
+        temp_r2 = 0x14C * sub_080020F4();
+        *(u32 *)(temp_r2 + (u8 *)gUnk_03003CE0 + 0x8C) = *(u16 *)(temp_r4) << 8;
+        *(u32 *)(temp_r2 + (u8 *)gUnk_03003CE0 + 0x90) = *(u16 *)(temp_r4 + 2) << 8;
+        temp_r2_2 = temp_r2 + (u8 *)gUnk_03003CE0;
+        *(u32 *)(temp_r2_2 + 0x94) = (s32) *(u32 *)(temp_r2_2 + 0x8C);
+        *(u32 *)(temp_r2_2 + 0x98) = (s32) *(u32 *)(temp_r2_2 + 0x90);
+        temp_r0 = (0x14C * temp_r7) + (u8 *)gUnk_03003CE0;
+        *(u32 *)(temp_r0 + 0x94) = (s32) *(u32 *)(temp_r0 + 0x8C);
+        *(u32 *)(temp_r0 + 0x98) = (s32) *(u32 *)(temp_r0 + 0x90);
+        if (sub_08057B98(0xA) != 0) {
+            sub_08009930(0, 0x14);
+        } else {
+            sub_08009930(0, 3);
+        }
+loop_8:
+        if (sub_0800BA6C() == 0) {
+            sub_080003F0();
+            goto loop_8;
+        }
+        temp_r4_2 = (0x14C * temp_r7) + playerCoord89384;
+        sub_0800AD04(temp_r4_2, temp_r4_2 + 4, sub_0800CCCC());
+        sub_08057328(0, callback2C674_090);
+        sub_08015EF8();
+        sub_08015C38();
+        *(u16 *)(gUnk_03005CF4 + 0x10) = 1U;
+        *(u16 *)(gUnk_03005CF4 + 0x1C) = 1;
+        goto block_17;
+    }
+    if (sub_08088B6C(arg0, 3) != 0) {
+        return 1;
+    }
+    if ((s32) ((s32) *(s32 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4() + 0x90) >> 0xB) > 0x37) {
+        sub_08015ED4();
+        sub_0801ABE8(3);
+        sub_0800BB40();
+loop_15:
+        if (sub_0801AAE0() == 0) {
+            sub_080003F0();
+            goto loop_15;
+        }
+        sub_0800BB40();
+        *(u16 *)(gUnk_03005CF4 + 0x36) = 3U;
+        *(u16 *)(gUnk_03005CF4 + 2) = 0;
+        *(u32 *)(gUnk_03005CF4 + 0x71C) = (s32) sceneTable89384[0];
+        *(u16 *)(gUnk_03005CF4 + 0x10) = 0U;
+        *(u16 *)(gUnk_03005CF4 + 0x1C) = 0;
+        return 1;
+    }
+block_17:
+    return 0;
+}
+
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089384);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089500);
 #ifdef NONMATCHING
 s32 sub_08089784(u8 *table)
