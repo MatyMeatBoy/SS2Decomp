@@ -163,7 +163,6 @@ void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u32 arg4,u32 arg5
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029E0C);
 #endif
-#ifdef NONMATCHING
 struct PackedF54 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};
 struct RefF54 {struct PackedF54 *position;u8 padding[0x148];};
 struct TaskF54 {u32 f0,f4,f8,fC;u8 *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
@@ -204,7 +203,7 @@ void sub_08029F54(s32 x,s32 y,u32 low,s32 high,volatile u32 callback)
                 if(sub_08000470((u32)task)==0) {
                     while((task->f20=memory=sub_08001494(0x400))==0)sub_080003F0();
                     task->f8=0x3C;
-                    task->fC=callback;
+                    { register u32 cb asm("r2") = callback; task->fC=cb; }
                     task->f10=memory+0x3FC;
                     task->f24=0;
                     startF54(task,0);
@@ -218,9 +217,6 @@ void sub_08029F54(s32 x,s32 y,u32 low,s32 high,volatile u32 callback)
         index=next;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029F54);
-#endif
 void sub_0802A01C(void)
 {
   u8 *p = gUnk_030056F4;
