@@ -338,27 +338,38 @@ done:
     sub_080003F0();
     gUnk_03005724 &= ~(1u << index);
 }
-#ifdef NONMATCHING
 extern volatile u16 bits168FC asm("gUnk_03005724");
 struct Pair168FC { u32 first, second; };
 extern struct Pair168FC *pairs168FC asm("gUnk_030042E8");
 extern struct Task *volatile tasks168FC asm("gUnk_030056F0");
+extern struct Task *volatile runtimeTasks168FC asm("gUnk_030056F0");
 extern void callback168FC(void) asm("sub_0801681C");
 extern void sound168FC(u8,u8,s32) asm("sub_080571A4");
 s32 sub_080168FC(struct Pair168FC *arg) {
     u16 index;
-    s32 mask;
-    struct Task *task;
-    u32 memory;
+    register s32 mask asm("r0");
+    register volatile u16 *bitPointer asm("r2");
+    register u32 one asm("r1");
+    register struct Task *task asm("r1");
+    register struct Task *initialBase asm("r1");
+    register struct Task *initialTask asm("r0");
+    register u32 factor asm("r2");
+    register u32 stackOffset asm("r3");
+    register u32 top asm("r0");
+    register u32 memory asm("r2");
+    register u32 offset4 asm("r5");
+    register u32 taskState asm("r6");
     index = 0;
-    mask = bits168FC;
+    bitPointer = &bits168FC;
+    mask = *bitPointer;
+    one = 1;
     goto test;
 next:
     index++;
     if (index > 1) goto full;
-    mask = (s32)bits168FC >> index;
+    mask = (s32)*bitPointer >> index;
 test:
-    if (mask & 1) goto next;
+    if (mask & one) goto next;
     if (index > 1) {
 full:
         if (sub_08002204() != 0)
@@ -366,27 +377,31 @@ full:
         return -1;
     }
     pairs168FC[index] = *arg;
-    tasks168FC[index].uC = callback168FC;
+    initialBase = tasks168FC;
+    factor = index * 4;
+    initialTask = (struct Task *)((factor + index) * 8 + (u32)initialBase);
+    initialTask->uC = callback168FC;
+    offset4 = factor;
+    taskState = index + 0x96;
     for (;;) {
         memory = sub_08001494(0x200);
-        task = tasks168FC;
-        task = (struct Task *)(index * 0x28 + (u8 *)task);
+        task = runtimeTasks168FC;
+        task = (struct Task *)((offset4 + index) * 8 + (u32)task);
         task->u20 = memory;
         if (memory != 0) break;
         sub_080003F0();
     }
-    task->u10 = memory + 0x1FC;
-    task->u8 = index + 0x96;
+    stackOffset = 0x1FC;
+    top = memory + stackOffset;
+    task->u10 = top;
+    task->u8 = taskState;
     task->u18 = 0;
     task->u0 = 0;
     task->u24 = 0;
     sub_08000274(task, index);
-    bits168FC |= 1u << index;
+    bits168FC |= 1 << index;
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080168FC);
-#endif
 extern void sound169C8(u8,u8,s32) asm("sub_080571A4");
 void sub_080169C8(void) {
     register u32 i asm("r5");
