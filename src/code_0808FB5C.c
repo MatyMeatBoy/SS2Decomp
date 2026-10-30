@@ -942,6 +942,7 @@ block_20:
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090B84);
 #endif
 #ifdef NONMATCHING
+extern s16 random095_08090E38(void) asm("sub_0800086C");
 struct Anim095_08090E38 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_08090E38 asm("gUnk_0300016C");
 extern void init095_08090E38(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -965,7 +966,7 @@ void sub_08090E38(void) {
 
     temp_r0 = (struct Anim095_08090E38 *)sub_08001494(0x44U);
     heap095_08090E38 = (u32)temp_r0;
-    var_r0 = (s16) (sub_0800086C() % 3);
+    var_r0 = (s16) (random095_08090E38() % 3);
     if ((s32) var_r0 < 0) {
         var_r0 = 0 - var_r0;
     }
@@ -1078,6 +1079,7 @@ block_45:
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090E38);
 #endif
 #ifdef NONMATCHING
+extern s16 random095_080910A8(void) asm("sub_0800086C");
 struct Anim095_080910A8 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_080910A8 asm("gUnk_0300016C");
 extern void init095_080910A8(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -1100,7 +1102,7 @@ void sub_080910A8(void) {
 
     temp_r0 = (struct Anim095_080910A8 *)sub_08001494(0x44U);
     heap095_080910A8 = (u32)temp_r0;
-    temp_r0_2 = sub_0800086C();
+    temp_r0_2 = random095_080910A8();
     temp_r1 = temp_r0_2;
     var_r0 = temp_r1 - (((s32) (temp_r1 + ((u32) (temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2);
     if ((s32) var_r0 < 0) {
@@ -1198,6 +1200,7 @@ loop_9:
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080910A8);
 #endif
 #ifdef NONMATCHING
+extern s16 random095_080912CC(void) asm("sub_0800086C");
 struct Anim095_080912CC {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_080912CC asm("gUnk_0300016C");
 extern void init095_080912CC(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -1220,7 +1223,7 @@ void sub_080912CC(void) {
 
     temp_r0 = (struct Anim095_080912CC *)sub_08001494(0x44U);
     heap095_080912CC = (u32)temp_r0;
-    temp_r0_2 = sub_0800086C();
+    temp_r0_2 = random095_080912CC();
     temp_r1 = temp_r0_2;
     var_r0 = temp_r1 - (((s32) (temp_r1 + ((u32) (temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2);
     if ((s32) var_r0 < 0) {
