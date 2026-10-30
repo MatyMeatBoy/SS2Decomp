@@ -4236,8 +4236,7 @@ loop_27:
         if ((((u32) (**(u8 **)(current + 0x148) << 0x1C) >> 0x1C) != 0xB) && !(*(u32 *)(current + 0x30) & 0x2000)) {
             temp_r0 = *(current + 0x68);
             if (temp_r0 != 0) {
-                temp_r0_2 = &countBase[temp_r0 - 3];
-                *temp_r0_2 += 1;
+                { register s32 index asm("r0") = temp_r0 - 3; register s32 *counter asm("r0"); register s32 value asm("r1"); asm("" : "+r"(index)); counter = &countBase[index]; asm("" : "+r"(counter)); value = *counter; asm("" : "+r"(value)); *counter = value + 1; }
             }
         }
         var_r4 += 1;
