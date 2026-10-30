@@ -288,7 +288,47 @@ void sub_080161A4(void) {
 }
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801623C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801641C);
+#ifdef NONMATCHING
+extern u32 poolFlags014 asm("gUnk_030056FC");
+extern void startPool014(void *,void *) asm("sub_08000274");
+extern u8 *poolObjects014 asm("gUnk_030056F4");
+extern u8 taskArray014[] asm("gUnk_03004220");
+s32 sub_0801674C(s32 arg0,s32 arg1) {
+    s32 *task;
+    s32 offset;
+    s32 slot;
+    s32 index;
+    u8 *memory;
+    u8 *object;
+    index=0;
+loop_1:
+    if ((1<<index)&poolFlags014) {
+        index++;
+        if(index>4) slot=-1; else goto loop_1;
+    } else slot=index;
+    if(slot>=0) {
+        poolFlags014|=1<<slot;
+        object=poolObjects014+slot*0x2E0;
+        *(u16 *)object=slot;
+        *(u32 *)(object+0x50)=(slot+4)<<24;
+        offset=slot*0x28;
+        *(s32 *)(taskArray014+0xC+offset)=arg0;
+        memory=(u8 *)sub_08001494(0x800);
+        *(u8 **)(taskArray014+0x20+offset)=memory;
+        *(u8 **)(taskArray014+0x10+offset)=memory+0x7FC;
+        *(s32 *)(taskArray014+8+offset)=0x3C;
+        *(s32 *)(taskArray014+0x18+offset)=0;
+        task=(s32 *)(taskArray014+offset);
+        *task=0;
+        *(s32 *)(taskArray014+0x24+offset)=arg1;
+        startPool014(task,object);
+        return 1;
+    }
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801674C);
+#endif
 struct Record1681C { u8 *source; u8 kind, sound; u16 extra; };
 struct State1681C { u16 x,y,flags,index,f8,fA,fC,fE,kind,sound; u8 *source; };
 extern struct Record1681C *volatile records1681C asm("gUnk_030042E8");
