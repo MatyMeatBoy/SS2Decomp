@@ -767,7 +767,11 @@ loop_4:
             register s32 value asm("r4") = sp94;
             asm("" : "+r"(value));
             if ((u32)value <= 0xFU) {
-                sp94 = (s32)(u8)(value + 1);
+                register u32 next asm("r0") = value;
+                asm("" : "+r"(next));
+                next += 1;
+                asm("" : "+r"(next));
+                sp94 = (s32)(u8)next;
             }
         }
         if (sp90 > 0x78U) {
@@ -781,30 +785,37 @@ loop_4:
         f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 0, sp18.payload, sp18.f8, sp18.f0);
         break;
     case 2:
-        if (4 & sp90) {
-            sp90 = 0;
-            if (sp94 != 0) {
-                sp94 = (s32) (u8) (sp94 - 1);
+        {
+            register u32 mask asm("r0") = 4;
+            register u32 timer asm("r4");
+            asm("" : "+r"(mask));
+            timer = sp90;
+            asm("" : "+r"(timer));
+            if (mask & timer) {
+                sp90 = 0;
+                if (sp94 != 0) {
+                    sp94 = (s32) (u8) (sp94 - 1);
+                } else {
+                    randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0 + 0x40];
+                    var_r0_2 = (s16) (randomValue % 48);
+                    if ((s32) var_r0_2 < 0) {
+                        var_r0_2 = 0 - var_r0_2;
+                    }
+                    particle.x = ((s32)(tableValue * var_r0_2) >> 8) + 0x78;
+                    randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0];
+                    var_r0_3 = (s16) (randomValue % 48);
+                    if ((s32) var_r0_3 < 0) {
+                        var_r0_3 = 0 - var_r0_3;
+                    }
+                    particle.y = ((s32)(tableValue * var_r0_3) >> 8) + 0x50;
+                    sp94 = 0x10;
+                    var_r8 = 2;
+                    f94_0805865C(0x19A);
+                }
             } else {
-                randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0 + 0x40];
-                var_r0_2 = (s16) (randomValue % 48);
-                if ((s32) var_r0_2 < 0) {
-                    var_r0_2 = 0 - var_r0_2;
-                }
-                particle.x = ((s32)(tableValue * var_r0_2) >> 8) + 0x78;
-                randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0];
-                var_r0_3 = (s16) (randomValue % 48);
-                if ((s32) var_r0_3 < 0) {
-                    var_r0_3 = 0 - var_r0_3;
-                }
-                particle.y = ((s32)(tableValue * var_r0_3) >> 8) + 0x50;
-                sp94 = 0x10;
-                var_r8 = 2;
-                f94_0805865C(0x19A);
-            }
-        } else {
 block_37:
-            sp90 = (u32) (u16) (sp90 + 1);
+                sp90 = (u32) (u16) (sp90 + 1);
+            }
         }
         f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 1, sp18.payload, sp18.f8, sp18.f0);
         break;
