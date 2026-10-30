@@ -45,46 +45,112 @@ void AgbMain(void)
     gUnk_030012E0[9] = 0;
     sub_0800023C(gUnk_030012E0);
 }
-#ifdef NONMATCHING
+extern u16 oldKeys000 asm("gUnk_03001298"), nowKeys000 asm("gUnk_0300130C");
+extern u16 pressedKeys000 asm("gUnk_03001324"), timerKeys000 asm("gUnk_03001320");
+extern u16 repeatKeys000 asm("gUnk_03001308"), delayKeys000 asm("gUnk_03002340");
+extern u16 releaseKeys000 asm("gUnk_03001328"), firstDelay000 asm("gUnk_03001730");
+extern u16 nextDelay000 asm("gUnk_03002348");
 void sub_08000760(void)
 {
-    extern u16 keyOld asm("gUnk_03001298");
-    extern u16 keyNow asm("gUnk_0300130C");
-    extern u16 keyPressed asm("gUnk_03001324");
-    extern u16 keyTimer asm("gUnk_03001320");
-    extern u16 keyRepeat asm("gUnk_03001308");
-    extern u16 keyDelay asm("gUnk_03002340");
-    extern u16 keyReleased asm("gUnk_03001328");
-    u32 high;
-    u32 low;
-    volatile u16 *a = &keyOld, *b = &keyNow;
-    u32 old = *b, now;
-    *a = old;
-    now = REG_KEYINPUT ^ 0x3FF;
-    *b = now; keyPressed = now & ~old;
-    high = now & 0xF0;
-    low = old & 0xF0;
-    if (low == high) {
-        u16 *timer = &keyTimer;
-        u16 count = ++*timer, limit = *(u16 *)&gUnk_03001730;
-        if (count == limit) keyRepeat = high;
-        else if (count > limit) {
-            u16 *delay = &keyDelay;
-            if ((*delay)++ > *(u16 *)&gUnk_03002348) {
-                keyRepeat = high; *delay = 0; *timer = limit;
-            } else keyRepeat = 0;
-        } else keyRepeat = 0;
+    register volatile u16 *oldp asm("r4");
+    register volatile u16 *nowp asm("r3");
+    volatile u16 *savedOld;
+    register volatile u16 *savedNow asm("r4");
+    register u32 old asm("r2"), now asm("r1"), constant asm("r5");
+    register u32 scratch asm("r0"), pressed asm("r5"), direction asm("r6"), oldDirection asm("r0");
+    register u16 *pressedp asm("r0");
+    register u16 *timer asm("r5");
+    register u32 count asm("r0"), limit asm("r3"), compareLimit asm("r1");
+    register u16 *limitp asm("r1"), *delayp asm("r2");
+    register u32 next asm("r1"), oldDelay asm("r0");
+    register u16 *resetTimer asm("r2"), *resetDelay asm("r1");
+    register volatile u16 *released asm("r2");
+    register u32 byte asm("r1"), one asm("r5"), two asm("r4");
+    u32 condition;
+    oldp=&oldKeys000;
+    asm("" : "+r"(oldp));
+    nowp=&nowKeys000;
+    old=*nowp;
+    *oldp=old;
+    now=*(volatile u16 *)0x04000130;
+    constant=0x3FF;
+    asm("" : "+r"(constant));
+    scratch=constant;
+    asm("" : "+r"(scratch) : "r"(constant));
+    now^=scratch;
+    *nowp=now;
+    pressedp=&pressedKeys000;
+    asm("" : "+r"(pressedp));
+    pressed=now&~old;
+    *pressedp=pressed;
+    oldDirection=0xF0;
+    direction=oldDirection&now;
+    oldDirection&=old;
+    savedOld=oldp;
+    savedNow=nowp;
+    asm("" : "+r"(savedOld),"+r"(savedNow));
+    if(oldDirection==direction) {
+        timer=&timerKeys000;
+        count=*timer+1;
+        *timer=count;
+        limitp=&firstDelay000;
+        limit=*limitp;
+        count=(u16)count;
+        compareLimit=limit;
+        asm("" : "+r"(compareLimit) : "r"(limit));
+        if(count==compareLimit) repeatKeys000=direction;
+        else if(count>compareLimit) {
+            delayp=&delayKeys000;
+            oldDelay=*delayp;
+            next=oldDelay+1;
+            *delayp=next;
+            limitp=&nextDelay000;
+            asm("" : "+r"(oldDelay));
+            oldDelay=(u16)oldDelay;
+            compareLimit=*limitp;
+            if(oldDelay>compareLimit) {
+                repeatKeys000=direction;
+                *delayp=0;
+                *timer=limit;
+            } else repeatKeys000=0;
+        } else repeatKeys000=0;
     } else {
-        keyRepeat = now & ~old;
-        keyDelay = 0; keyTimer = 0;
+        repeatKeys000=pressed;
+        resetTimer=&timerKeys000;
+        resetDelay=&delayKeys000;
+        asm("" : "+r"(resetTimer),"+r"(resetDelay));
+        *resetDelay=0;
+        *resetTimer=0;
     }
-    keyReleased = 0;
-    if ((*(volatile u8 *)a & 1) && !(*(volatile u8 *)b & 1)) keyReleased |= 1;
-    if ((*(volatile u8 *)a & 2) && !(*(volatile u8 *)b & 2)) keyReleased |= 2;
+    nowp=savedNow;
+    oldp=savedOld;
+    released=&releaseKeys000;
+    *released=0;
+    byte=*(volatile u8 *)oldp;
+    asm("" : : "r"(byte));
+    one=1;
+    condition=one&byte;
+    asm("" : : "r"(condition),"r"(one),"r"(byte));
+    if(condition) {
+        byte=*(volatile u8 *)nowp;
+        asm("" : : "r"(byte));
+        condition=one&byte;
+        asm("" : : "r"(condition),"r"(one),"r"(byte));
+        if(!condition) *released=one;
+    }
+    byte=*(volatile u8 *)oldp;
+    asm("" : : "r"(byte));
+    two=2;
+    condition=two&byte;
+    asm("" : : "r"(condition),"r"(two),"r"(byte));
+    if(condition) {
+        byte=*(volatile u8 *)nowp;
+        asm("" : : "r"(byte));
+        condition=two&byte;
+        asm("" : : "r"(condition),"r"(two),"r"(byte));
+        if(!condition) *released|=2;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main", sub_08000760);
-#endif
 s16 sub_0800086C(void)
 {
   s32 i;
