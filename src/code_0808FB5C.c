@@ -1504,8 +1504,10 @@ void sub_08091714(void) {
 loop_9:
     switch (var_r6) {                               /* switch 2; irregular */
     case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_2;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
         if (temp_r1_2 <= 0x8000) {
             switch (temp_r7) {                      /* switch 3; irregular */
             case 0:                                 /* switch 3 */
@@ -1542,8 +1544,10 @@ loop_9:
         }
         break;
     case 2:                                         /* switch 2 */
-        temp_r1_3 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_3;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
         if (temp_r1_3 <= (-0x1000)) {
             sp14 = 0;
             var_r6 = 6;
@@ -1628,8 +1632,10 @@ void sub_08091938(void) {
 loop_9:
     switch (var_r6) {                               /* switch 2; irregular */
     case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_2;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
         if (temp_r1_2 <= 0x8000) {
             switch (temp_r7) {                      /* switch 3; irregular */
             case 0:                                 /* switch 3 */
@@ -1666,8 +1672,10 @@ loop_9:
         }
         break;
     case 2:                                         /* switch 2 */
-        temp_r1_3 = temp_r0->x + (-0x100);
-        temp_r0->x = temp_r1_3;
+        { register s32 value asm("r1") = temp_r0->x;
+          register s32 delta asm("r4") = -0x100;
+          asm("" : "+r"(value), "+r"(delta));
+          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
         if (temp_r1_3 <= (-0x1000)) {
             sp14 = 0;
             var_r6 = 6;
