@@ -586,7 +586,65 @@ next:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FB14);
 #endif
+#ifdef NONMATCHING
+extern u8 *scene02034 asm("gUnk_03005CF4");
+extern u8 players02034[] asm("gUnk_03003CE0");
+extern void damage02034(u32,s32,u8) asm("sub_08028368");
+struct Size02034 { u32 width:16; u32 height:16; };
+void sub_0801FC34(void *arg0, void *arg1, s32 damage)
+{
+    struct Size02034 size;
+    u8 *item;
+    u8 *data;
+    u32 count;
+    u32 index;
+    s32 dx;
+    s32 dy;
+    s32 hit;
+
+
+
+
+    count=*(u32 *)(scene02034+0x48);
+    if(count==0) return;
+    item=scene02034+0x58C;
+    for(index=0;index< count;index++,item+=0x24) {
+        if((u16)(*(u16 *)(item+0x14)-10)<=2) goto next;
+        data=*(u8 **)(item+0x20);
+        if(data[6]&1) goto next;
+        asm("" : : "r"(&size) : "memory");
+        size.width=*(u16 *)(data+0xC);
+        size.height=*(u16 *)(*(u8 **)(item+0x20)+0xE);
+        asm("" : : "r"(&size) : "memory");
+        dx=(*(s32 *)arg0-*(s32 *)item)>>8;
+        dy=(*(s32 *)((u8 *)arg0+4)-*(s32 *)(item+4))>>8;
+        if(dx<0) dx=-dx;
+        if(dx <= (s32)(*(u16 *)arg1+size.width)>>1) {
+
+            if(dy<0) dy=-dy;
+            hit=1;
+            if(dy>(s32)(*(u16 *)((u8 *)arg1+2)+size.height)>>1) hit=0;
+        } else hit=0;
+        if(hit) {
+            *(u16 *)(item+0x10)-=damage;
+            *(u16 *)(item+0x12)=sub_0801DE60();
+            if(*(u16 *)(item+0x10)&0x8000) {
+                *(u16 *)(item+0x10)=0;
+                damage02034(index,0xFFF,sub_0801DE60());
+            } else {
+                damage02034(index,damage,sub_0801DE60());
+            }
+            *(u16 *)(item+0x14)=10;
+
+        }
+next:
+        count=*(u32 *)(scene02034+0x48);
+    }
+    return;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FC34);
+#endif
 struct Sh20FD64 { u8 pad0[0x62]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
 void sub_0801FD64(void *arg0)
 {
