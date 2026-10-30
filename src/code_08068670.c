@@ -248,7 +248,7 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     u16 *allyEffects68;
     u16 temp_r4_2;
     u16 temp_r4_4;
-    u16 var_r0;
+    register u32 var_r0 asm("r0");
     u16 var_r1_2;
     u32 temp_r0_5;
     u32 temp_r0_6;
@@ -285,7 +285,11 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     if(temp_r0 == 12) goto radius32;
     if(temp_r0 != 13) goto radiusTable;
     var_r0=22; goto radiusStore;
-radius32: radiusValue=32; radius=radiusValue; goto radiusDone;
+radius32:
+    radiusValue = 32;
+    radius = radiusValue;
+    asm volatile("" : : "r"(radiusValue));
+    goto radiusDone;
 radiusTable: var_r0=radii[M2C_FIELD(attack,u32 *,0x14)];
 radiusStore: radius=var_r0;
 radiusDone:
