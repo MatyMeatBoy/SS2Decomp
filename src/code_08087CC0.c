@@ -1033,7 +1033,7 @@ loop_59:
                 sp0 = temp_r4_11;
                 temp_r5_2 = 0x34 * var_r6_5;
                 temp_r4_12 = sp80 + temp_r5_2;
-                sp4 = temp_r4_12 + 0x1C;
+                sp4 = (u8 *)temp_r4_12 + 0x1C;
                 sp8 = *(s32 *)(sp80 + 8 + temp_r5_2);
                 spC = *temp_r4_12;
                 sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsC0 + temp_r2_3 + 4), 0, sp0, sp4, sp8, spC);
