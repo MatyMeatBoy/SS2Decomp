@@ -1,34 +1,48 @@
 #include "global.h"
 
-#ifdef NONMATCHING
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
 void sub_080443EC(void)
 {
-    s32 flagOffset;
+    u8 *flag;
     u32 message;
     u8 *player;
-    if (sub_0800CE30()) flagOffset=0x1C6;
-    else flagOffset=0x1BA;
-    if (!((state44[flagOffset] >> 4) & 1)) {
-        player=players44+0x14C*sub_080020F4();
-        *(u32 *)(player+0x30)|=1;
+    register s32 offset asm("r2");
+    register s32 multiplier asm("r1");
+    register s32 bit asm("r1");
+    register s32 one asm("r0");
+    register s32 raw asm("r0");
+    if (sub_0800CE30())
+        flag = state44 + 0x1C6;
+    else
+        flag = state44 + 0x1BA;
+    raw = *flag;
+    asm("" : "+r"(raw));
+    bit = raw >> 4;
+    one = 1;
+    bit &= one;
+    if (bit == 0) {
+        offset = sub_080020F4();
+        multiplier = 0x14C;
+        offset *= multiplier;
+        player = players44 + offset;
+        *(u32 *)(player + 0x30) |= 1;
         sub_0800D0F4();
         while (sub_0805F184()) sub_080003F0();
         while (sub_0805EF90()) sub_080003F0();
-        message=sub_0805DF38(1,15,2,0,-1,0x1400DD);
-        while (sub_0805EEFC((void *)message)==0) {
-            if (sub_0800CDF8()) {sub_0805EFBC();break;}
+        message = sub_0805DF38(1, 15, 2, 0, -1, 0x1400DD);
+        while (sub_0805EEFC((void *)message) == 0) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
             sub_080003F0();
         }
-        player=players44+0x14C*sub_080020F4();
-        *(u32 *)(player+0x30)&=~1;
+        offset = sub_080020F4();
+        multiplier = 0x14C;
+        offset *= multiplier;
+        player = players44 + offset;
+        *(u32 *)(player + 0x30) &= ~1;
         sub_0800D108();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080443EC);
-#endif
 #ifdef NONMATCHING
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
