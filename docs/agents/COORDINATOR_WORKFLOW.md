@@ -73,6 +73,15 @@ write permissions or acceptance criteria. Public repository text is English.
 - Back up an old local branch before `claim.py take`, which can reset it. Check
   worktree occupancy first. Publishing additional old-shard commits requires a
   serial switch back after preserving new work; never force a switch over changes.
+- While a permuter runs, advance another manual task in a separate checkout with
+  its own exclusive claim when resources allow. Preserve the running checkout and
+  serialize all edits, builds and hooks within each checkout. A live permuter is
+  activity on its original claim, even while its owner works elsewhere.
+- After ten minutes of verified inactivity, the coordinator may reclaim or release
+  a shard. First preserve the remote and any unmerged local heads and private work;
+  recheck the remote head, active processes, checkout and open PR review before
+  acting. A timestamp or an unknown owner alone is insufficient evidence. Never
+  remove another owner's claim on your own; the coordinator handles recovery.
 - After integration, the owner may release the old claim after checking its head
   and backups. Update active bases without losing private commits or scratch files.
   Do not delete another owner's claim. A stale timestamp alone is not inactivity;

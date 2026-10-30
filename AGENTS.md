@@ -19,9 +19,9 @@ language preference in private conversation.
 
 Prefer free shards with useful existing drafts or preserved work before empty
 ones; compare recovery work with current main to avoid duplicating landed code.
-A coordinator may reclaim a shard after five minutes of verified inactivity,
-preserving its unmerged head first. A live build/permuter or active PR review is
-work; a timestamp or stale lock alone is not. Do not delete someone else's claim
+A coordinator may reclaim or release a shard after ten minutes of verified
+inactivity, preserving its unmerged head and private work first. A live
+build/permuter or active PR review is work; a timestamp or stale lock alone is not. Do not delete someone else's claim
 on your own. Check ownership again before resuming edits after an interruption.
 
 ## Up to 10+ agents at once without stepping on each other
@@ -94,8 +94,10 @@ A compiling NONMATCHING draft is not proven equivalent C. CI regenerates names,
 source-callgraph and data reports alongside progress; never commit `docs/progress/*`.
 
 Serialize edits, builds and commit hooks within each checkout; parallelize only
-between independent checkouts. If overlapping builds truncated intermediates,
-stop them and force a rebuild before trusting compare/nonmatching results.
+between independent checkouts. While a permuter runs, use a separate checkout and
+exclusive shard claim to advance another manual task when resources allow; keep
+the permuter checkout, claim and candidates intact until its run is complete.
+If overlapping builds truncated intermediates, stop them and force a rebuild before trusting compare/nonmatching results.
 
 
 ## Progress of large functions
