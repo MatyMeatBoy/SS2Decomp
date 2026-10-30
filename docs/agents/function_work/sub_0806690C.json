@@ -1,7 +1,7 @@
 {
   "address": "0x0806690C",
-  "updated_utc": "2026-10-30T02:49:30.786475+00:00",
-  "checkpoint": "2f8b01c22e7b9b79bdafa4eb6897307e3617889b",
+  "updated_utc": "2026-10-30T02:58:06.961322+00:00",
+  "checkpoint": "8a37a250443fff30177ade53a55821c08edaa637",
   "areas": [
     {
       "id": "compile",
@@ -25,13 +25,13 @@
       "id": "dispatch",
       "label": "Payload effects and queue handling",
       "state": "active",
-      "evidence": "Restored omitted hit cases 9/10, damage records, distinct host spawn cases 20/21/22, pickup cases 24/25, item effects 27/28, entity effect case 33, local player state case 38, synchronized state case 42 and three byte flags. Corrected the byte access at gUnk_03006220, game-state flag 1 for case 32 and the life reset shared by cases 8/47. Original has 107 physical calls, candidate 106; CpuSet tail sharing differs (original 4, candidate 3), while every other physical call count agrees. Further field, ABI and CFG review remains necessary; call counts do not prove equivalence. Independent read-only review found no newly omitted outer case or missing required argument among the 42 callees with known signatures. Case 26 (tag 0x9B) and case 47 were moved to their original dispatch order; further exact CFG comparison remains necessary. Follow-up CFG audit found and restored the effect+6 halfword store for a nonnull entity effect in case 10: 0x08066F48 branches through 0x08066F8C to 0x08066FBC. A second reader confirmed that shared tail; the earlier broad review was insufficient to prove equivalence."
+      "evidence": "All 48 outer tag cases have compiling C draft handlers. The entity branch of hit case 9 now precedes the player branch as in the physical ASM. Cases 20/21 share their creation call after both guarded prologues, while case 22 has its own result lifetime and independent CpuSet. The shared sub_08056E24 call is last. An objdump relocation audit confirms all 107 physical call targets in exactly the original order; this does not establish arguments, CFG or semantic equivalence. The nonnull entity effect path in case 10 includes the original effect+6 halfword store after sub_0801DB94, verified against 0x08066F48\u21920x08066F8C\u21920x08066FBC. Earlier read-only review was insufficient to prove that tail; further exact comparison remains required."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4200 bytes; both frames are 296 bytes, approximate score 1257. The retained ASM fallback reproduces the ROM. make -j1 compare prints shiningsoul2_eu.gba: OK, make -j1 nonmatching exits 0, and check_tree reports 0 errors. No new matching C bytes are claimed."
+      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4268 bytes; both frames are 296 bytes, approximate score 1190 (previous 1257). All 107 physical call targets have the original order. The retained ASM fallback reproduces the ROM. After rebase on 3abeb43a, make -j1 compare prints shiningsoul2_eu.gba: OK, make -j1 nonmatching exits 0, and check_tree reports 0 errors. No new matching C bytes are claimed."
     }
   ],
   "regions": []
