@@ -21364,14 +21364,14 @@
       "name": "sub_08065CA8",
       "addr": 134634664,
       "size": 168,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080659B0",
       "kind": "c",
       "cat": "game",
       "address": "0x08065CA8",
       "canonical_symbol": "sub_08065CA8",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08065CA8",
       "name_status": "unidentified",
       "name_source": null,
@@ -21514,7 +21514,7 @@
       "evidence": [
         {
           "source": "src/code_080659B0.c",
-          "line": 325,
+          "line": 342,
           "detail": "Existing C definition with an asm alias to the canonical symbol: queuePlayerBlob067"
         }
       ]
@@ -21537,7 +21537,7 @@
       "evidence": [
         {
           "source": "src/code_080659B0.c",
-          "line": 360,
+          "line": 377,
           "detail": "Existing C definition with an asm alias to the canonical symbol: queuePlayerState067"
         }
       ]

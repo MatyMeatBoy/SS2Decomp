@@ -8251,8 +8251,8 @@ digraph calls {
   "sub_08065C50" -> "sub_080003F0" [label="c"];
   "sub_08065C50" -> "sub_08000470" [label="c"];
   "sub_08065C50" -> "sub_08001494" [label="c"];
-  "sub_08065CA8" -> "sub_08001494" [label="asm,c"];
-  "sub_08065CA8" -> "sub_08067AFC" [label="asm,c"];
+  "sub_08065CA8" -> "sub_08001494" [label="c"];
+  "sub_08065CA8" -> "sub_08067AFC" [label="c"];
   "sub_08065DAC" -> "sub_080020F4" [label="c"];
   "sub_08065E38" -> "sub_08002164" [label="asm"];
   "sub_08065F08" -> "sub_08002164" [label="asm"];
