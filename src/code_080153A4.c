@@ -289,9 +289,141 @@ void sub_080161A4(void) {
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801623C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801641C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801674C);
+#ifdef NONMATCHING
+struct Record1681C { u8 *source; u8 kind, sound; u16 extra; };
+struct State1681C { u16 x,y,flags,index,f8,fA,fC,fE,kind,sound; u8 *source; };
+extern struct Record1681C *volatile records1681C asm("gUnk_030042E8");
+extern s32 step1681C(struct State1681C *) asm("sub_0801641C");
+extern s32 position1681C(s32 *) asm("sub_08017F7C");
+extern void sound1681C(u8,u32,s32) asm("sub_080571A4");
+/* The task creator sub_080168FC supplies slot index 0 or 1. */
+void sub_0801681C(u16 index) {
+    struct State1681C state;
+    struct { s32 x, y; } coords;
+    struct Record1681C *record;
+    u8 *source, *entry;
+    s32 kind;
+    s32 *pos;
+    record = (struct Record1681C *)(index * 8 + (u8 *)records1681C);
+    source = record->source;
+    kind = record->kind & ~0x80;
+    entry = source + kind * 8;
+    state.x = *(u16 *)(entry + 0xA);
+    state.y = *(u16 *)(entry + 0xC);
+    state.source = source;
+    state.flags = *(u16 *)(entry + 8);
+    state.f8 = *(u16 *)(entry + 0xE);
+    state.kind = record->kind;
+    state.sound = record->sound;
+    state.fC = *(u16 *)(source + 0x32);
+    state.fE = *(u16 *)(source + 0x34);
+    state.index = record->extra + kind;
+    state.fA = *(u16 *)(source + 0x30);
+    coords.x = state.x << 11;
+    coords.y = state.y << 11;
+    pos = &coords.x;
+    while ((0x4000 & state.flags) || position1681C(pos) != 0) {
+        sub_080003F0();
+        if (sub_0800CB78() != 0 || sub_08056E90() != 0 || records1681C[index].kind == 0xFF || step1681C(&state) != 0)
+            goto done;
+    }
+    sound1681C((u8)state.sound, (u8)state.kind & 0x7F, 1);
+done:
+    sub_080003F0();
+    gUnk_03005724 &= ~(1u << index);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801681C);
+#endif
+#ifdef NONMATCHING
+extern volatile u16 bits168FC asm("gUnk_03005724");
+struct Pair168FC { u32 first, second; };
+extern struct Pair168FC *pairs168FC asm("gUnk_030042E8");
+extern struct Task *volatile tasks168FC asm("gUnk_030056F0");
+extern void callback168FC(void) asm("sub_0801681C");
+extern void sound168FC(u8,u8,s32) asm("sub_080571A4");
+s32 sub_080168FC(struct Pair168FC *arg) {
+    u16 index;
+    s32 mask;
+    struct Task *task;
+    u32 memory;
+    index = 0;
+    mask = bits168FC;
+    goto test;
+next:
+    index++;
+    if (index > 1) goto full;
+    mask = (s32)bits168FC >> index;
+test:
+    if (mask & 1) goto next;
+    if (index > 1) {
+full:
+        if (sub_08002204() != 0)
+            sound168FC(((u8 *)arg)[5], ((u8 *)arg)[4], 1);
+        return -1;
+    }
+    pairs168FC[index] = *arg;
+    tasks168FC[index].uC = callback168FC;
+    for (;;) {
+        memory = sub_08001494(0x200);
+        task = tasks168FC;
+        task = (struct Task *)(index * 0x28 + (u8 *)task);
+        task->u20 = memory;
+        if (memory != 0) break;
+        sub_080003F0();
+    }
+    task->u10 = memory + 0x1FC;
+    task->u8 = index + 0x96;
+    task->u18 = 0;
+    task->u0 = 0;
+    task->u24 = 0;
+    sub_08000274(task, index);
+    bits168FC |= 1u << index;
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080168FC);
+#endif
+#ifdef NONMATCHING
+extern void sound169C8(u8,u8,s32) asm("sub_080571A4");
+extern u32 gA03005700[] asm("gUnk_03005700");
+extern u32 gW030056F8 asm("gUnk_030056F8");
+extern u32 gW030056FC asm("gUnk_030056FC");
+extern u8 *gP030056F4 asm("gUnk_030056F4");
+void sub_080169C8(void) {
+    u32 i, taskOffset, objectOffset, j, secondOffset, k;
+    u8 *task, *object;
+    u32 *entry;
+    i = 0; objectOffset = 0; taskOffset = 0;
+    do {
+        task = (u8 *)&gUnk_03004220 + taskOffset;
+        if (sub_08000470((u32)task) != 0) {
+            sub_080003A8((s32)task);
+            object = objectOffset + gP030056F4;
+            *(u16 *)(object + 0x5C) = 0;
+            *(u16 *)(object + 0xC) = 11;
+            sound169C8(object[0x86], object[0x84], 3);
+        }
+        objectOffset += 0x2E0; taskOffset += 0x28; i++;
+    } while (i <= 4);
+    j = 0; secondOffset = 0;
+    do {
+        if (sub_08000470(gUnk_030056F0 + secondOffset) != 0)
+            sub_080003A8(gUnk_030056F0 + secondOffset);
+        secondOffset += 0x28; j++;
+    } while (j <= 1);
+    k = 0; entry = gA03005700;
+    do {
+        entry[2] = 0; entry[1] = 0; entry[0] = 0;
+        entry += 3; k++;
+    } while (k <= 2);
+    gUnk_03005724 = 0;
+    gW030056FC = 0;
+    gW030056F8 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080169C8);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
 s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
