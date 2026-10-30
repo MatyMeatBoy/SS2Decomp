@@ -2222,27 +2222,34 @@ void sub_080AF304(void)
         gEntriesAF304 = 0;
     }
 }
-#ifdef NONMATCHING
-void sub_080AF350(u32 kind)
+extern u8 *gEntriesAF350C asm("gUnk_03000784");
+extern volatile u8 gEntryCountAF350C asm("gUnk_03000780");
+void sub_080AF350(u8 kind)
 {
-    u8 *entry = *(u8 **)0x03000784;
-    u8 count = *(u8 *)0x03000780;
-    u32 i, mem;
-    for (i = 0; i < count; i++, entry += 0x28) {
-        if (sub_08000470((u32)entry) || *(u32 *)(entry + 8) != 0) continue;
-        mem = sub_08001494(0x400);
-        *(u32 *)(entry + 0x20) = mem;
-        *(u32 *)(entry + 0x10) = mem + 0x3FC;
-        *(u32 *)(entry + 0xC) = (u32)sub_080AE420;
-        *(u32 *)(entry + 0x24) = (u32)sub_080AF3C4;
-        *(u32 *)(entry + 8) = (kind & 0xFF) + 0x44;
-        sub_08000274(entry, kind & 0xFF);
+    u8 *entry = gEntriesAF350C;
+    u8 i = 0;
+    u32 mem;
+    register u8 count asm("r6");
+    goto check;
+next:
+    i++;
+    entry += 0x28;
+check:
+    if (i >= gEntryCountAF350C)
         return;
-    }
+    if (sub_08000470((u32)entry) != 0 || *(u32 *)(entry + 8) != 0)
+        goto next;
+    count = gEntryCountAF350C;
+    if (i >= count)
+        return;
+    mem = sub_08001494(0x400);
+    *(u32 *)(entry + 0x20) = mem;
+    *(u32 *)(entry + 0x10) = mem + 0x3FC;
+    *(u32 *)(entry + 0xC) = (u32)sub_080AE420;
+    *(u32 *)(entry + 0x24) = (u32)sub_080AF3C4;
+    *(u32 *)(entry + 8) = kind + 0x44;
+    sub_08000274(entry, kind);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF350);
-#endif
 extern u8 *gP03000784 asm("gUnk_03000784");
 extern u8 gB03000780 asm("gUnk_03000780");
 extern u8 gArr030004D0[] asm("gUnk_030004D0");
