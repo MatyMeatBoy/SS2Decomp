@@ -4172,7 +4172,7 @@ void sub_0808CB58(void) {
     players2 = (u8 *)gUnk_03003CE0;
     if (*((players2 + 0x14C * sub_080020F4()) + 0x68) != 0) {
         table = gUnk_084F0C8A;
-        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
+        { register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); tableIndex = idx - 3; }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
         temp_r5 = *(u16 *)(table + tableOffset);
         tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
@@ -4180,7 +4180,7 @@ void sub_0808CB58(void) {
         table += 2;
         tableY = (var_r6 * 10) + *(u16 *)(tableOffset + table);
         sub_08028AAC(0, temp_r5, tableY, 0);
-        tableIndex = *((players2 + 0x14C * sub_080020F4()) + 0x68) - 3;
+        { register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); tableIndex = idx - 3; }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
         table += 2;
         sub_080290E4(0, *(s16 *)(tableOffset + table));
