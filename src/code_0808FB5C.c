@@ -2215,8 +2215,8 @@ extern void draw923FC(s32,s32,u16,s32,s32,void *,u32,u32) asm("sub_08007870");
 extern void drawSpecial923FC(s32,s32,u16,s32,s32,void *,u32,u32,s32) asm("sub_080087AC");
 extern void fade923FC(s32,s32,s32,s32,s32,void *) asm("sub_0800903C");
 extern s16 random923FC(void) asm("sub_0800086C");
-void sub_080923FC_u8(u8,u8) asm("sub_080923FC");
-void sub_080923FC_u8(u8 arg0, u8 arg1) {
+void sub_080923FC_u8(u32,u32) asm("sub_080923FC");
+void sub_080923FC_u8(u32 arg0, u32 arg1) {
     s32 sp0;
     void *sp4;
     s32 sp8;
@@ -2298,8 +2298,8 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
     u32 var_r9;
     u8 var_r6;
 
-    sp11C = (s32) arg0;
-    sp120 = (s32) arg1;
+    sp11C = (u8)arg0;
+    sp120 = (u8)arg1;
     { register s32 neg asm("r5") = -1;
       register s32 one asm("r4") = 1;
       asm("" : "+r"(neg), "+r"(one));
