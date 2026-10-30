@@ -353,8 +353,8 @@ s32 sub_08089784(u8 *table)
 {
     struct State978491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
     struct Pos978491 { u32 x, y; };
-    const u16 *position;
-    u8 *player;
+    register const u16 *position asm("r4");
+    register u8 *player asm("r3");
     s32 *coordinates;
     extern struct State978491 *state978491 asm("gUnk_03005CF4");
     extern u8 players978491[] asm("gUnk_03003CE0");
@@ -364,7 +364,7 @@ s32 sub_08089784(u8 *table)
     extern void callback978491(void) asm("sub_0802D050");
     extern s32 sub_08009930(u32, u32);
     extern s32 sub_0800AD04(s32 *, s32 *, s32);
-    s32 myId, offset;
+    s32 myId; register s32 offset asm("r2");
 
     if (state978491->step == 0) {
         while (sub_0801AAE0() == 0)
@@ -373,10 +373,10 @@ s32 sub_08089784(u8 *table)
         position = (u16 *)(table + state978491->row * 0x24 + 4);
         sub_0800CCDC();
         offset = sub_080020F4() * 0x14C;
-        player = players978491 + offset;
-        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
-        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
-        *(struct Pos978491 *)(player + 0x94) = *(struct Pos978491 *)(player + 0x8C);
+        {register u8 *base asm("r3")=players978491; register u8 *px asm("r1")=base+0x8C; px+=offset;
+        *(u32 *)px=(u32)position[0]<<8;
+        px=base+0x90;px+=offset;*(u32 *)px=(u32)position[1]<<8;
+        player=base+offset;*(struct Pos978491 *)(player+0x94)=*(struct Pos978491 *)(player+0x8C);}
         sub_08009930(0, 5);
         while (sub_0800BA6C() == 0)
             sub_080003F0();
