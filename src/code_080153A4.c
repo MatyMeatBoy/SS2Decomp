@@ -10,13 +10,13 @@ extern u8 *gP030056F4 asm("gUnk_030056F4");
 void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
 extern u8 gUnk_03003E28[];
 
-#ifdef NONMATCHING
 void sub_080153A4(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
-    u16 angle = (u16)(p->w26 * 40 + 0x80);
+    u16 angle;
     if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(p->w26 + 0xF9);
+    angle = (u16)(p->w26 * 40 + 0x80);
     while (p->wB6 == 0 && p->state == 5) {
         p->w1C = sub_08013E90((s16)angle, (s32 *)&p->pos8C, p->w1C,
                               (u16)sub_0800CCCC(), 0);
@@ -32,41 +32,47 @@ void sub_080153A4(void)
     p->w26 = 0;
     p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080153A4);
-#endif
-#ifdef NONMATCHING
 void sub_08015464(void)
 {
-    u16 *done;
-    u16 mode;
-    u8 *state = (u8 *)gUnk_03003CE0 + sub_080020F4() * 0x14A;
-    u16 saved = *(u16 *)(state + 0x26);
-    if (*(u16 *)(state + 0x20) != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+    struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
+    u16 saved = p->w26;
+    register u16 *done asm("r6");
+    u32 initial;
+    if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(saved + 0xF9);
-    done = (u16 *)(state + 0xB6);
-    if (*done == 0 && *(u16 *)(state + 0x20) == 5) {
-        u32 *counter = (u32 *)(state + 0xDC);
-        do {
-            u16 type = *(u16 *)(state + 0xB2);
-            if ((type == 2 || type == 5 || type == 7) && *(u16 *)(state + 0xB4) == 1)
-                (*counter)++;
+    {
+        register u16 *view asm("r0") = &p->wB6;
+        register u32 loaded asm("r1") = *view;
+        asm("" : "+r"(view), "+r"(loaded));
+        done = view;
+        initial = loaded;
+        asm("" : "+r"(done));
+    }
+    while (initial == 0 && p->state == 5) {
+        u32 *counter = (u32 *)((u8 *)p + 0xDC);
+            switch (*(u16 *)((u8 *)p + 0xB2)) {
+            case 2:
+            case 5:
+            case 7:
+                if (*(u16 *)((u8 *)p + 0xB4) == 1)
+                    (*counter)++;
+                break;
+            }
             sub_080003F0();
-        } while (*done == 0 && *(u16 *)(state + 0x20) == 5);
+            initial = *done;
+
     }
-    mode = *(u16 *)(state + 0x20);
-    if (mode < 0xA || mode > 0xB) {
-        if ((*(u32 *)(state + 0x30) & 0x4000) == 0)
-            *(u16 *)(state + 0x20) = 0;
+    if ((u16)(p->state - 10) > 1) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
     }
-    *(u16 *)(state + 0x24) = 0;
-    *(u16 *)(state + 0x28) = saved;
-    *(u16 *)(state + 0x26) = 0;
-    *(u16 *)(state + 0x122) = 0;
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015464);
-#endif
+
+
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801551C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015620);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080156FC);
