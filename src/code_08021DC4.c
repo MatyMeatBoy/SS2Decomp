@@ -4352,9 +4352,9 @@ end_poll:
             if (temp_r0_4 > 0x63U) {
                 sub_0800D014();
                 {
+                    register u32 row asm("r1") = 0;
                     register struct T24State08026858 **state asm("r6") = &t24_state08026858;
                     register u32 zero asm("r5") = 0;
-                    register u32 row asm("r1") = 0;
                     asm("" : "+r"(state), "+r"(zero), "+r"(row));
                     do {
                         register u32 col asm("r2") = 0;
