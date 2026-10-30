@@ -1,13 +1,13 @@
 {
   "address": "0x0808C0C4",
-  "updated_utc": "2026-10-30T01:42:35.797389+00:00",
-  "checkpoint": "Verified eighth-pass code checkpoint a698bfc3 (rebased on main ef9794f0). NONMATCHING retained: original/candidate 2708/2700 bytes; frame 368/368; approximate nmscore 426, not a match.",
+  "updated_utc": "2026-10-30T01:58:17.417910+00:00",
+  "checkpoint": "Verified ninth-pass code checkpoint b93c8dac based on main ef9794f0. NONMATCHING retained: original/candidate 2708/2700 bytes; frame 368/368; approximate nmscore 400, not a match.",
   "areas": [
     {
       "id": "compile",
       "label": "Compiling C89 draft",
       "state": "done",
-      "evidence": "Eighth-pass serial make compare prints shiningsoul2_eu.gba: OK with original ASM fallback; make nonmatching compiles the draft; check_tree reports 0 errors. Actual-module strict nmdiff remains NO MATCH."
+      "evidence": "Ninth-pass serial make compare prints shiningsoul2_eu.gba: OK with original ASM fallback; make nonmatching compiles the draft; check_tree reports 0 errors. Actual-module strict nmdiff remains NO MATCH."
     },
     {
       "id": "frame",
@@ -31,13 +31,13 @@
       "id": "registers",
       "label": "Registers and instruction order",
       "state": "active",
-      "evidence": "Actual-module nmscore 982 -> 795 -> 783 -> 673 -> 595 -> 544 -> 491 -> 459 -> 426. Eighth-pass candidate 2700 versus original 2708 bytes, frame 368 exact. The 100 physical calls retain the original callee sequence. A local register u32 countTripletC0 asm(\"r3\") recovers count*3 before category*9 in the first and four wait/draw loops; its value dies before r3 becomes the fourth draw argument. No ASM bodies, barriers or opcodes were added. Remaining differences include persistent menu aggregate base, player/item pointer allocation, portrait base arithmetic, temporary spills and branch encodings. No permuter retained."
+      "evidence": "Actual-module nmscore 982 -> 795 -> 783 -> 673 -> 595 -> 544 -> 491 -> 459 -> 426 -> 400. Ninth-pass candidate 2700 versus original 2708 bytes, frame 368 exact. The 100 physical calls retain the original callee sequence. The count*3 product uses a short r3 lifetime ending before the fourth draw argument. Direction decisions use signed32 comparison views and a saved unsigned16 arithmetic view; narrow ID r6/player-pointer r4/stride r1/offset r0 bindings recover the four original index multiplications. r1/r0 stride/offset values expire before field loads, and no caller-clobbered binding is live over a call. No ASM bodies, empty barriers or opcodes were added. Remaining differences include persistent menu aggregate base, player/item base arithmetic, portrait base arithmetic, spills, some signed/down selection arithmetic and branch encodings. No permuter retained."
     },
     {
       "id": "match",
       "label": "Full matching normal C build",
       "state": "pending",
-      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active. The 2700-byte eighth-pass draft is not binary equivalence; actual-module strict nmdiff reports NO MATCH."
+      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active. The 2700-byte ninth-pass draft is not binary equivalence; actual-module strict nmdiff reports NO MATCH."
     }
   ]
 }
