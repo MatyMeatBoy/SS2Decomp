@@ -334,16 +334,13 @@ void sub_080B6448(u32 a, u32 b)
     second = b;
     sub_08000274_4(taskArg, first, second, z);
 }
-#ifdef NONMATCHING
 void sub_080B64A4(void)
 {
-    void *volatile *base;
+    register void *volatile *base asm("r4");
     u8 i;
+    asm("" : : : "r5");
     i = 1;
     base = &gUnk_030056F4;
     for (i = 1; i <= 4; i++)
         *(u16 *)((u8 *)*base + i * 0x2E0 + 0x7A) |= 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B64A4);
-#endif
