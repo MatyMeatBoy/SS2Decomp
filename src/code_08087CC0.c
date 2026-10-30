@@ -570,7 +570,6 @@ loop_86:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08087CC0);
 #endif
-#ifdef NONMATCHING
 struct Route090 { s16 x, y, endX, endY; s32 resource; u16 tile; u16 pad; u32 flags, duration; };
 void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
 void draw090(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
@@ -599,7 +598,7 @@ void sub_080887D4(void *arg0, void *arg1)
         fixed = route->flags & 2;
         if (fixed != 0) {
             sub_08000AF0(*(u16 *)((u8 *)arg0 + 0x40) + 20, (u8 *)sprite[3] + 0x120, 1);
-            *((u8 *)sprite + 0x25) = *(u8 *)((u8 *)arg0 + 0x40) + 4;
+            {register u32 value asm("r0")=*(u8 *)((u8 *)arg0+0x40)+4; asm("" : "+r"(value)); *((u8 *)sprite+0x25)=value;}
             tile = 0;
             frame = route->tile;
         } else {
@@ -621,9 +620,6 @@ void sub_080887D4(void *arg0, void *arg1)
     } while (route->duration != 0);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_080887D4);
-#endif
 struct Task6450 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern struct Task6450 gTask6450 asm("gUnk_03006450");
 void sub_08088914(void)
