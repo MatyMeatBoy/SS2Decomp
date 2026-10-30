@@ -804,5 +804,3 @@ void sub_0801B6F4(s16 *p, s16 delta);
 void sub_0801B720(s16 *p, s16 delta);
 void sub_0801CC10(u32 arg0, s32 arg1);
 void sub_08057780(u16 x, u16 y, u16 n);
-
-void sub_08091F20(u16 number, u8 *text);
