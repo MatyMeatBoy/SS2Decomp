@@ -22,51 +22,56 @@ s32 sub_0801E244(s32 arg0, s32 arg1)
   }
   goto loop_1;
 }
-#ifdef NONMATCHING
-void sub_0801E278(s32 arg0, u32 arg1)
+void sub_0801E278(s32 arg0,u32 arg1)
 {
-    u8 *entry;
-    s32 i;
-
-    while (1) {
-        entry = *(u8 **)(arg0 + 0x34);
-        for (i = 0; i < 8; i++, entry += 0x28) {
-            if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == arg1 &&
-                *(u16 *)(entry + 2) == 100) {
-                break;
-            }
-        }
-
-        if (i == 8) {
-            break;
-        }
-        sub_0801DB94(*(u16 *)arg0, entry, 0);
+    u32 i;
+    u8 *entry,*found;
+    register u32 type asm("r8")=100;
+    register s32 invalid=-1;
+    asm("" : "+r"(type));
+again:
+    entry=*(u8 **)(arg0+0x34);
+    i=0;
+scan:
+    if(*(s16 *)entry!=invalid && *(u16 *)(entry+4)==arg1 && type==*(u16 *)(entry+2)) {
+        found=entry;
+    } else {
+        i++;
+        entry+=0x28;
+        if(i>7) found=0;
+        else goto scan;
+    }
+    if(found) {
+        sub_0801DB94(*(u16 *)arg0,found,0);
+        asm("" : "+r"(found));
+        if(found) goto again;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E278);
-#endif
-#ifdef NONMATCHING
-void sub_0801E2CC(s32 arg0, u32 arg1)
+void sub_0801E2CC(s32 arg0,u32 arg1)
 {
-    u8 *entry;
-    s32 i;
-
-    while (1) {
-        entry = *(u8 **)(arg0 + 0x8C);
-        for (i = 0; i < 8; i++, entry += 0x28) {
-            if (*(s16 *)entry != -1 && *(u16 *)(entry + 4) == arg1 &&
-                *(u16 *)(entry + 2) == 100)
-                break;
-        }
-        if (i == 8)
-            break;
-        sub_0801DB94(*(u16 *)arg0 + 4, entry, 0);
+    u32 i;
+    u8 *entry,*found;
+    register u32 type asm("r8")=100;
+    register s32 invalid=-1;
+    asm("" : "+r"(type));
+again:
+    entry=(u8 *)(arg0+0x8C);
+    i=0;
+scan:
+    if(*(s16 *)entry!=invalid && *(u16 *)(entry+4)==arg1 && type==*(u16 *)(entry+2)) {
+        found=entry;
+    } else {
+        i++;
+        entry+=0x28;
+        if(i>7) found=0;
+        else goto scan;
+    }
+    if(found) {
+        sub_0801DB94(*(u16 *)arg0+4,found,0);
+        asm("" : "+r"(found));
+        if(found) goto again;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E2CC);
-#endif
 struct RemoveEntry019 { u16 id:16; u16 type,key; u8 pad[34]; };
 struct RemovePlayer019 { u8 pad[0x34]; struct RemoveEntry019 *entries; u8 tail[0x114]; };
 extern struct RemovePlayer019 removePlayers019[] asm("gUnk_03003CE0");
@@ -249,7 +254,59 @@ void sub_0801E594(void *arg0)
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801EF14);
+struct CombatCtx019 { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
+struct CombatActor019 { u8 pad[0x1CC]; u16 attack,defense; u8 pad1D0[0x34]; struct CombatCtx019 ctx; };
+s32 sub_0801EF14(void *arg0,void *arg1)
+{
+    struct CombatActor019 *src=arg0,*dst=arg1;
+    u8 *record;
+    register struct CombatCtx019 *ctx=&src->ctx;
+    register u16 *resists;
+    register u32 varianceWord;
+    register u16 *defensePtr;
+    u16 attack,defense,variance,resistance,result,firstDamage,element;
+    u32 damage;
+    s32 scaled,weighted,r;
+    record=(u8 *)sub_08007290(ctx->key|0xB0000);
+    defensePtr=&dst->defense;
+    attack=src->attack;
+    defense=*defensePtr;
+    varianceWord=(u16)sub_080008C8()%50;
+    varianceWord<<=16;
+    varianceWord+=0x640000;
+    variance=varianceWord>>16;
+    scaled=(s32)((u32)attack*attack*10)/(attack+defense);
+    weighted=(s32)((u32)scaled*variance)/200;
+    {
+        register u32 quotient asm("r1")=(u16)weighted;
+        asm("" : "+r"(quotient));
+        firstDamage=quotient/10U;
+    }
+    if(!firstDamage) firstDamage=1;
+    element=*(u16 *)(record+0xBC);
+    damage=firstDamage;
+    resists=dst->ctx.resist;
+    switch(element-1U) {
+    case 0: resistance=resists[0]; goto attenuate;
+    case 1: resistance=resists[1]; goto attenuate;
+    case 2: resistance=resists[2]; goto attenuate;
+    case 3: resistance=resists[3]; goto attenuate;
+    case 4: resistance=resists[4]; goto attenuate;
+    case 5:case 6: resistance=resists[5];
+attenuate:
+        damage=(u16)((s32)(damage*5000)/((s16)resistance*(s16)resistance+2500));
+        if(damage&0x8000) damage=1;
+        break;
+    }
+    {
+        register u32 finishWord asm("r0")=damage;
+        asm("" : "+r"(finishWord));
+        finishWord<<=16;
+        result=finishWord>>16;
+        if((s32)finishWord<=0) result=1;
+        return result;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
 #ifdef NONMATCHING
 struct Sh20F1C4Packet { u8 player:8; u8 power:8; u8 impulse:8; s32 direction:8; u32 amount:16; u32 unused:16; };
