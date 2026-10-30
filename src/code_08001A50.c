@@ -198,85 +198,167 @@ void sub_08001BE4(void)
     gLinkState = 0;
     sub_0800035C();
 }
-#ifdef NONMATCHING
-extern u32 gLinkFlags asm("gUnk_030027D0");
-extern u32 gLinkState asm("gUnk_03002730");
-extern u8 gLinkRxBuf[] asm("gUnk_03002710");
-extern u8 gLinkPeerBufs[] asm("gUnk_03002770");
-#define LINK_CUR() (((gLinkFlags & 2) != 0) ? ((*(vu32 *)0x04000128 << 26) >> 30) : 0)
+/* SS1 link_handshake.c @52c0fa73870fab238941e32be7eff172e9bad71f, adapted packet stride0x18 and SS2 globals. */
 
-static inline u8 *LinkBuf(u32 idx, u32 cur)
+
+#define LINK_ACTIVE_HS000 (1 << 1)
+
+struct LinkEntryHS000
 {
-    u32 j;
-    u8 *p = gLinkPeerBufs;
-    for (j = 0; j < 4; j++, p += 0x18) {
-        if (idx == j) {
-            if (j == cur)
-                return gLinkRxBuf;
-            return p;
+    u8 unk0[0x8];
+    u8 tag0;           // +0x08 handshake: 'O' 'K' ...
+    u8 tag1;
+    u8 tag2;
+    u8 tag3;
+    u8 unkC[0xC];
+};
+
+extern u32 flagsHS000 asm("gUnk_030027D0");
+extern u32 stateHS000 asm("gUnk_03002730");
+extern struct LinkEntryHS000 selfHS000 asm("gUnk_03002710");
+extern struct LinkEntryHS000 peersHS000[4] asm("gUnk_03002770");
+
+static inline u32 IsLinkActiveHS000(void)
+{
+    return (flagsHS000 >> 1) & 1;
+}
+
+static inline u32 IsLinkMasterHS000(void)
+{
+    if (flagsHS000 & LINK_ACTIVE_HS000)
+        return (stateHS000 >> 7) & 1;
+    return 1;
+}
+
+static inline u32 GetLinkIdHS000(void)
+{
+    u32 id;
+
+    if (flagsHS000 & LINK_ACTIVE_HS000)
+        id = (*(vu32 *)0x04000128 << 26) >> 30;
+    else
+        id = 0;
+    return id;
+}
+
+static inline struct LinkEntryHS000 *GetLinkEntryHS000(u32 id)
+{
+    u32 myId;
+    u32 i;
+
+    if (flagsHS000 & LINK_ACTIVE_HS000)
+        myId = (*(vu32 *)0x04000128 << 26) >> 30;
+    else
+        myId = 0;
+
+    for (i = 0; i < 4; i++)
+    {
+        if (id == i)
+        {
+            if (i == myId)
+                return &selfHS000;
+            return &peersHS000[i];
         }
     }
-    return 0;
+    return NULL;
+}
+
+static inline struct LinkEntryHS000 *GetClientEntryHS000(u32 id)
+{
+    register u32 myId asm("r0");
+    u32 i;
+
+    if (flagsHS000 & LINK_ACTIVE_HS000)
+        myId = (*(vu32 *)0x04000128 << 26) >> 30;
+    else
+        myId = 0;
+
+    for (i = 0; i < 4; i++)
+    {
+        if (id == i)
+        {
+            if (i == myId)
+                return &selfHS000;
+            return &peersHS000[i];
+        }
+    }
+    return NULL;
+}
+
+static inline u32 GetLinkPlayerCountHS000(void)
+{
+    u32 i;
+    u32 count;
+
+    if (IsLinkActiveHS000())
+    {
+        for (i = 0, count = 0; i < 4; i++)
+        {
+            if (stateHS000 & (0x100 << i))
+                count++;
+        }
+    }
+    else
+        count = 1;
+    return count;
 }
 
 s32 sub_08001DF0(u8 tag)
 {
-    u32 ack;
-    u32 n;
+    struct LinkEntryHS000 *entry;
+    u32 id;
+    u32 count;
+    u32 players;
     u32 i;
-    u32 k;
-    u32 parent;
-    u8 *buf;
 
-    if (((gLinkFlags >> 1) & 1) == 0)
-        return 1;
-    if ((gLinkFlags & 2) != 0)
-        parent = (gLinkState >> 7) & 1;
-    else
-        parent = 1;
-    if (parent) {
-        ack = 0;
-        if ((gLinkFlags >> 1) & 1) {
-            n = 0;
-            for (k = 0; k < 4; k++) {
-                if ((0x100 << k) & gLinkState)
-                    n++;
+    if (IsLinkActiveHS000())
+    {
+        if (IsLinkMasterHS000())
+        {
+            count = 0;
+            players = GetLinkPlayerCountHS000();
+            for (i = 1; i < players; i++)
+            {
+                entry = GetLinkEntryHS000(i);
+                do  // FAKE (maybe a macro, decomp-permuter): only matches inside a do/while(0)
+                {
+                    if (((u8 *)entry)[8] == 'O' && ((u8 *)entry)[9] == 'K' && ((u8 *)entry)[10] == tag)
+                        count++;
+                } while (0);
             }
-        } else {
-            n = 1;
+            if (count >= players - 1)
+            {
+                entry = GetLinkEntryHS000(0);
+                ((u8 *)entry)[8] = 'N';
+                ((u8 *)entry)[9] = 'O';
+                ((u8 *)entry)[10] = 'S';
+                ((u8 *)entry)[11] = 'S';
+                return 0;
+            }
+            entry = GetLinkEntryHS000(0);
+            ((u8 *)entry)[8] = 'O';
+            ((u8 *)entry)[9] = 'K';
+            ((u8 *)entry)[10] = 'S';
+            ((u8 *)entry)[11] = tag;
         }
-        for (i = 1; i < n; i++) {
-            buf = LinkBuf(i, LINK_CUR());
-            if (buf[8] == 0x4F && buf[9] == 0x4B && buf[10] == tag)
-                ack++;
+        else
+        {
+            id = GetLinkIdHS000();
+            do  // FAKE (maybe a macro, decomp-permuter)
+            {
+                entry = GetClientEntryHS000(id);
+                ((u8 *)entry)[8] = 'O';
+                ((u8 *)entry)[9] = 'K';
+                ((u8 *)entry)[10] = tag;
+                entry = GetClientEntryHS000(0);
+                if (((u8 *)entry)[8] != 'O' && ((u8 *)entry)[9] != 'K' && ((u8 *)entry)[10] != 'S'
+                 && ((u8 *)entry)[11] != tag)
+                    return 0;
+            } while (0);
         }
-        if (ack >= n - 1) {
-            buf = LinkBuf(0, LINK_CUR());
-            buf[8] = 0x4E;
-            buf[9] = 0x4F;
-            buf[10] = 0x53;
-            buf[11] = 0x53;
-            return 0;
-        }
-        buf = LinkBuf(0, LINK_CUR());
-        buf[8] = 0x4F;
-        buf[9] = 0x4B;
-        buf[10] = 0x53;
-        buf[11] = tag;
-        return 1;
     }
-    buf = LinkBuf(LINK_CUR(), LINK_CUR());
-    buf[8] = 0x4F;
-    buf[9] = 0x4B;
-    buf[10] = tag;
-    buf = LinkBuf(0, LINK_CUR());
-    if (buf[8] == 0x4F || buf[9] == 0x4B || buf[10] == 0x53 || buf[11] == tag)
-        return 1;
-    return 0;
+    return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08001A50", sub_08001DF0);
-#endif
 void sub_0800207C(void)
 {
     gUnk_030027D0 = 0x80000000;
