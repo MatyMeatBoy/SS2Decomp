@@ -515,8 +515,7 @@ void sub_08056494(void)
 extern u8 table56538[] asm("gUnk_084B1D40");
 s32 sub_08021FE0(void *, s32 *, s32 *, s32 *);
 void sub_08056538(s32 arg0) {
-    s32 sp0;
-    s32 sp4;
+    s32 position[2];
     s32 sp8;
     s32 spC;
     s32 temp_r1;
@@ -529,12 +528,12 @@ void sub_08056538(s32 arg0) {
 
     temp_r1 = arg0 * 0x1C;
     sp8 = 0;
-    sp0 = (u32)*(s32 *)(table56538 + temp_r1) << 8;
-    sp4 = (u32)*(s32 *)(table56538 + temp_r1 + 4) << 8;
+    position[0] = (u32)*(s32 *)(table56538 + temp_r1) << 8;
+    position[1] = (u32)*(s32 *)(table56538 + temp_r1 + 4) << 8;
     spC = *(u16 *)(table56538 + temp_r1 + 8) | ((u32)*(u16 *)(table56538 + temp_r1 + 0xC) << 16);
     temp_r6 = (u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4();
 loop_2:
-    if (sub_08021FE0(temp_r6 + 0x8C, &sp0, &sp8, &spC) == 0) {
+    if (sub_08021FE0(temp_r6 + 0x8C, position, &sp8, &spC) == 0) {
         sub_080003F0();
         goto loop_2;
     }
@@ -578,7 +577,86 @@ loop_13:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056538);
 #endif
+#ifdef NONMATCHING
+extern u8 table5664C[] asm("gUnk_084B1D78");
+extern u32 audioFlags5664C asm("gUnk_030027D0");
+s32 sub_08021FE0(void *, s32 *, s32 *, s32 *);
+void sub_0805664C(s32 arg0) {
+    s32 position[2];
+    s32 sp8;
+    s32 spC;
+    s32 temp_r1;
+    s32 temp_r2_2;
+    u8 *temp_r4;
+    u8 *var_r4;
+    u32 var_r5;
+    u8 *temp_r0;
+    u8 *temp_r1_2;
+    u8 *temp_r1_3;
+    u8 *temp_r1_4;
+    u8 *temp_r2;
+
+    temp_r1 = arg0 * 0x18;
+    sp8 = 0;
+    position[0] = (u32)*(s32 *)(table5664C + temp_r1) << 8;
+    position[1] = (u32)*(s32 *)(table5664C + temp_r1 + 4) << 8;
+    spC = *(u16 *)(table5664C + temp_r1 + 8) | ((u32)*(u16 *)(table5664C + temp_r1 + 0xC) << 16);
+    temp_r4 = (u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4();
+loop_3:
+    if ((sub_08021FE0(temp_r4 + 0x8C, position, &sp8, &spC) == 0) || !(1 & *(u16 *)(temp_r4 + 0x14))) {
+        if (sub_08058608() == 0) {
+            sub_080003F0();
+            goto loop_3;
+        }
+    }
+    if (sub_0800CCCC() != 1) {
+        temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+        *(u32 *)(temp_r2 + 0x30) = (s32) (*(u32 *)(temp_r2 + 0x30) | 1);
+        sub_0800D0F4();
+        temp_r1_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+        *(u32 *)(temp_r1_2 + 0x30) = (s32) (*(u32 *)(temp_r1_2 + 0x30) | 2);
+        sub_08067D74();
+        if (!(audioFlags5664C & 0x20)) {
+            sub_08006D08(0x24U);
+        }
+        temp_r2_2 = arg0 * 0x18;
+        sub_08028AAC(0, (s32) *(u16 *)(table5664C + temp_r2_2 + 0x10), (s32) *(u16 *)(table5664C + temp_r2_2 + 0x14), 0x5A);
+        temp_r1_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+        *(u32 *)(temp_r1_3 + 0x30) = (s32) (*(u32 *)(temp_r1_3 + 0x30) & ~2);
+        sub_08067D74();
+        temp_r1_4 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
+        *(u32 *)(temp_r1_4 + 0x30) = (s32) (*(u32 *)(temp_r1_4 + 0x30) & ~1);
+        sub_0800D108();
+        var_r4 = gUnk_03005CF4 + 0xE34;
+        var_r5 = 0;
+loop_10:
+        if (var_r5 <= 0x1DU) {
+            if (sub_08000470(var_r4) == 0) {
+loop_14:
+                temp_r0 = sub_08001494(0x400U);
+                *(void * *)(var_r4 + 0x20) = temp_r0;
+                if (temp_r0 == NULL) {
+                    sub_080003F0();
+                    goto loop_14;
+                }
+                *(u32 *)(var_r4 + 0x8) = 0x3C;
+                *(void (**)(s32))(var_r4 + 0xC) = sub_0805664C;
+                *(void * *)(var_r4 + 0x10) = (void *) (temp_r0 + 0x3FC);
+                *(u32 *)(var_r4 + 0x24) = 0;
+                sub_08000274(var_r4, arg0);
+            } else {
+                var_r5 += 1;
+                var_r4 += 0x28;
+                goto loop_10;
+            }
+        }
+    }
+}
+
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_0805664C);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
 void sub_08056CB4(u32 value)
 {
