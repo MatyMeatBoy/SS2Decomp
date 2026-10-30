@@ -1,37 +1,37 @@
 {
   "address": "0x08068A00",
-  "updated_utc": "2026-10-28T20:40:45.096506+00:00",
-  "checkpoint": "e962dec0fb5b28414dfc735af3501c1ed01c0ccb",
+  "updated_utc": "2026-10-30T00:33:54.252755+00:00",
+  "checkpoint": "c3afc96e23b1d16aefafc5ce34ebb1ff304eb191",
   "areas": [
     {
       "id": "compile",
       "label": "Borrador completo compilable",
       "state": "done",
-      "evidence": "Checkpoint e962dec: make -j1 nonmatching exit 0; make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; check_tree 0 errores. Esto no demuestra equivalencia del C."
+      "evidence": "Checkpoint c3afc96e: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores. El C sigue NONMATCHING y no se ha probado equivalente."
     },
     {
       "id": "abi",
-      "label": "ABI de posición y tipos de acceso",
+      "label": "ABI de posiciÃ³n y tipos de acceso",
       "state": "active",
-      "evidence": "ASM 0x08068A00..0x08068A1C guarda r0/r1 antes de copiar r2. Position68 por valor reproduce ese prólogo; seis callers revisados usan posición r0/r1 y attack r2. Tipo C original aún no probado. Cargas de estado de jugador son ldrb; posiciones empaquetadas combinan ldrh y campos de 4/12 bits."
+      "evidence": "ASM 0x08068A00..0x08068A1C guarda r0/r1 antes de copiar r2. Position68 por valor reproduce ese prÃ³logo; seis callers revisados usan posiciÃ³n r0/r1 y attack r2. Tipo C original aÃºn no probado. Cargas de estado de jugador son ldrb; posiciones empaquetadas combinan ldrh y campos de 4/12 bits."
     },
     {
       "id": "flow",
       "label": "Filtros e historiales de objetivos",
       "state": "active",
-      "evidence": "ASM: cinco slots enemigos (0x08068AA6..0x08068CF2) preceden búsqueda de jugadores; flags 1/2. Historial enemigo +0x54; historiales jugador +0xE4/+0xF8. Borrador conserva rama que lee sourcePlayer sin inicializar para source>3, como el slot sp+0x14 del original. Auditoría de operandos completa pendiente."
+      "evidence": "ASM: cinco slots enemigos (0x08068AA6..0x08068CF2) preceden bÃºsqueda de jugadores; flags 1/2. Historial enemigo +0x54; historiales jugador +0xE4/+0xF8. Borrador conserva rama que lee sourcePlayer sin inicializar para source>3, como el slot sp+0x14 del original. AuditorÃ­a de operandos completa pendiente."
     },
     {
       "id": "layout",
-      "label": "Bloques, frame y vidas útiles",
+      "label": "Bloques, frame y vidas Ãºtiles",
       "state": "active",
-      "evidence": "Original frame 0x20, flags r8, índices r9, máscara/límite sl. Candidato de salida común asigna flags r8 naturalmente pero añade mov r8,r0 en salida temprana; NO MATCH. Candidatos con deltas u16 reproducen orden de cargas X/Y en bloque enemigo, pero persisten diferencias de preparación de llamadas y pools. Candidatos conservados en build/try; no aplicados."
+      "evidence": "Checkpoint c3afc96e: preparación del estado enemigo remoto +0x5A usa puntero r2, estado previo r1 y máscara r0, como ASM 0x08068CA8..0x08068CB2. nmscore del módulo real baja 153 a 149; tamaño candidato 1428, original 1436. El diff aislado elimina las 8 líneas de discrepancia de ese bloque. Persisten asignación del radio 32, cargas sourceEnemy posteriores a las llamadas, OR de flags, historiales de jugadores y pools. Variantes que empeoran registros posteriores se descartaron; no se ejecutó permuter porque el diff sigue amplio."
     },
     {
       "id": "match",
-      "label": "Coincidencia íntegra de C y ROM",
+      "label": "Coincidencia Ã­ntegra de C y ROM",
       "state": "pending",
-      "evidence": "sub_08068A00 continúa NONMATCHING. nmdiff estricto del checkpoint: NO MATCH (1436/1316 bytes). Ningún candidato nuevo ha producido coincidencia íntegra; tamaños y registros no son prueba de equivalencia."
+      "evidence": "Checkpoint c3afc96e continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original / 1428 candidato). ROM normal verificada mediante fallback ASM; ningún nuevo match ni equivalencia C afirmados."
     }
   ],
   "regions": []
