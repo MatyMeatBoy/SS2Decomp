@@ -416,18 +416,29 @@ remoteDone:
                                     sub_0805865C(0x1A);
                                 }
                                 sub_08069A30(pos.x, pos.y, M2C_FIELD(attack, u32 *, 0x0), (u16) M2C_FIELD(attack, u32 *, 0xC), (s32) (u16) M2C_FIELD(attack, u32 *, 0x14));
-                                hitFlags = 2;
+                                {
+                                    register u32 remoteFlags68 asm("r3") = 2;
+                                    asm("" : "+r"(remoteFlags68));
+                                    hitFlags = remoteFlags68;
+                                }
                             }
                         }
-                        hitFlags |= 1;
+                        {
+                            register u32 flagLeft68 asm("r0") = hitFlags;
+                            asm("" : "+r"(flagLeft68));
+                            flagLeft68 |= 1;
+                            hitFlags = flagLeft68;
+                        }
                     }
                 }
             }
         }
-        enemyIndex += 1;
-        if (enemyIndex <= 4U) {
-            goto loop_15;
+        {
+            register u32 step68 asm("r2") = 1;
+            asm("" : "+r"(step68));
+            enemyIndex += step68;
         }
+        if (enemyIndex <= 4U) goto loop_15;
     }
     /* Only search players if no enemy target was in range. */
     if (hitFlags != 0) {
