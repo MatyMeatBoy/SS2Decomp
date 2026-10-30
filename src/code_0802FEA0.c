@@ -1643,23 +1643,26 @@ end_loop_87:;
         sub_08028AAC(arg0, 0xDA, 0xE9, 0x3C);
         goto loop_73;
 }
-#ifdef NONMATCHING
 extern s32 t034Range(s32 *, s32 *, u16 *, u16 *) asm("sub_08021FE0");
 extern void sub_080290E4(s32,s32);
 extern u8 *t034State asm("gUnk_03005CF4");
 struct T034Pos { s32 x,y; };
 static inline void t034Move34900(s32 a,s32 b,s32 c,s32 d) { sub_08028D98(a,b,c,d); }
 void sub_08034900(void) {
-    u32 lowValue = 0x20;
+    register u32 lowValue asm("r9") = 0x20;
     u32 lowMask = 0xFFFF0000;
-    u32 highMask = 0xFFFF;
+    register u32 highMask asm("r8") = 0xFFFF;
     struct { struct T034Pos pos; s32 sp10; u32 bits; } frame;
-    struct Player *temp_r5;
-    u32 temp_r4;
+    register struct Player *temp_r5 asm("r5");
+    register s32 *ptr10 asm("r6");
+    register u32 *bits asm("r4");
+    register u32 temp_r4 asm("r4");
     u8 *var_r0;
     struct Player *temp_r2;
     struct Player *temp_r2_2;
 
+    asm volatile("" : : : "r7");
+    ptr10=&frame.sp10; asm("" : "+r"(ptr10));
 loop_1:
     frame.sp10 = 0;
     frame.pos.x = 0x10000;
@@ -1679,12 +1682,13 @@ loop_1:
         value |= highValue;
         frame.bits = value;
     }
-    temp_r5 = &gUnk_03003CE0[sub_080020F4()];
+    { register u32 index asm("r0") = sub_080020F4(); register u32 stride asm("r1") = 0x14c; register struct Player *base asm("r0"); stride*=index; asm("" : "+r"(stride)); base=gUnk_03003CE0; asm("" : "+r"(base)); temp_r5=(struct Player *)(stride + (u32)base); }
+    bits=&frame.bits; asm("" : "+r"(bits));
 goto test3;
 loop_3:
     sub_080003F0();
 test3:
-    if (t034Range((s32 *)((u8 *)temp_r5 + 0x8C), &frame.pos.x, (u16 *)&frame.sp10, (u16 *)&frame.bits) == 0) {
+    if (t034Range((s32 *)((u8 *)temp_r5 + 0x8C), &frame.pos.x, (u16 *)ptr10, (u16 *)bits) == 0) {
         goto loop_3;
     }
     if (sub_0800CE30() != 0) {
@@ -1731,9 +1735,6 @@ test16:
         goto loop_1;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08034900);
-#endif
 extern u8 *t034State34A5C asm("gUnk_03005CF4");
 void sub_08034A5C(void) {
     s32 var_r1;
