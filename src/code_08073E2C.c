@@ -123,13 +123,13 @@ s32 sub_0807414C(u8 *player,u16 width,u32 range)
    if(player[0x68]!=candidate[0x68] && candidate[0x68]!=0){
     sprite=F_07614C(candidate,u8*,0x148);ownSprite=F_07614C(player,u8*,0x148);
     dx=(F_07614C(sprite,u16,0)>>4)-(F_07614C(ownSprite,u16,0)>>4);
-    dy=(F_07614C(sprite,u16,2)&0xFFF)-(F_07614C(ownSprite,u16,2)&0xFFF);
+    dy=(((u32)F_07614C(sprite,u16,2)<<20)>>20)-(((u32)F_07614C(ownSprite,u16,2)<<20)>>20);
 angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
     sprite=*(u8**)(player+0x148);angle-=directions07614C[sprite[3]>>4];
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(range>distance && best>distance){best=distance;nearest=index;}}
    }
    index++;
   }
@@ -141,13 +141,13 @@ angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
    candidate=enemies07614C+offset;
    if(F_07614C(candidate,u16,0xC)!=11 && F_07614C(candidate,s16,0x5C)!=0 && candidate[0x1DC]!=0){
     ownSprite=F_07614C(player,u8*,0x148);dx=(F_07614C(candidate,s32,0x14)>>8)-(F_07614C(ownSprite,u16,0)>>4);
-    dy=(F_07614C(candidate,s32,0x18)>>8)-(F_07614C(ownSprite,u16,2)&0xFFF);
+    dy=(F_07614C(candidate,s32,0x18)>>8)-(((u32)F_07614C(ownSprite,u16,2)<<20)>>20);
 angle=((u32)ArcTan2(dx,dy)+0x400)>>12;
     sprite=*(u8**)(player+0x148);angle-=directions07614C[sprite[3]>>4];
     if((s16)angle>8)angle=(s16)angle-16;
     if((s16)angle<-8)angle=(s16)angle+16;
     difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(distance<range && distance<best){nearest=index;best=distance;}}
+    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(range>distance && best>distance){best=distance;nearest=index;}}
    }
   }
   offset+=0x2E0;index++;
