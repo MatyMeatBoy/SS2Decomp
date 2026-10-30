@@ -10309,7 +10309,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4483,
+          "line": 4503,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -10383,7 +10383,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5302,
+          "line": 5322,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -23367,14 +23367,14 @@
       "name": "sub_0806B3C4",
       "addr": 134656964,
       "size": 2656,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08068670",
       "kind": "c",
       "cat": "game",
       "address": "0x0806B3C4",
       "canonical_symbol": "sub_0806B3C4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0806B3C4",
       "name_status": "unidentified",
       "name_source": null,
@@ -25869,7 +25869,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 2451,
+          "line": 2484,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808AFE8_v"
         }
       ]
@@ -25909,7 +25909,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3403,
+          "line": 3445,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C020_v"
         }
       ]
@@ -25932,7 +25932,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3441,
+          "line": 3483,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C0C4_v"
         }
       ]
@@ -29196,14 +29196,14 @@
       "name": "sub_08096BA8",
       "addr": 134835112,
       "size": 408,
-      "state": "todo",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08096BA8",
       "canonical_symbol": "sub_08096BA8",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08096BA8",
       "name_status": "unidentified",
       "name_source": null,
@@ -29244,7 +29244,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 1110,
+          "line": 1262,
           "detail": "Existing C definition with an asm alias to the canonical symbol: paletteStep99"
         }
       ]
