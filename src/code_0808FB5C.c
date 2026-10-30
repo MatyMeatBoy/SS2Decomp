@@ -2300,10 +2300,13 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
 
     sp11C = (u8)arg0;
     sp120 = (u8)arg1;
-    { register s32 neg asm("r5") = -1;
-      register s32 one asm("r4") = 1;
+    { register s32 neg asm("r5");
+      register s32 one asm("r4");
+      register s32 anim asm("r1") = 0x50022;
+      asm("" : "+r"(anim));
+      neg = -1; one = 1;
       asm("" : "+r"(neg), "+r"(one));
-      init923FC(&a, 0x50022, 7, neg, one);
+      init923FC(&a, anim, 7, neg, one);
       init923FC(&b, 0x50026, 8, neg, one);
       a.payload[7] = 0;
       b.payload[8] = one; }
