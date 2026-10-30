@@ -434,7 +434,6 @@ void sub_0801F320(u8 *object, u8 *data)
     ((struct Sh20F320 *)object)->value = initial;
   }
 }
-#ifdef NONMATCHING
 extern u8 directions02074[] asm("gUnk_084790B4");
 extern u8 players02074[] asm("gUnk_03003CE0");
 extern u8 *inventory02074 asm("gUnk_030034E0");
@@ -487,8 +486,7 @@ void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
                 sub_0805865C(0x132);
             }
         }
-        dealt=packet.amount;
-        *(u16 *)(source+0xC4)+=(s32)(dealt*(s8)source[0x6A])/100;
+        *(u16 *)(source+0xC4)+=(s32)((dealt=packet.amount)*(s8)source[0x6A])/100;
         *(u16 *)(source+0xC2)+=((s32)(dealt*(s8)source[0x6B])/100)*10;
         if(*(s16 *)(source+0xC4)>*(s16 *)(source+0x62)) *(u16 *)(source+0xC4)=*(u16 *)(source+0x62);
         if(*(s16 *)(source+0xC2)>*(s16 *)(source+0x60)) *(u16 *)(source+0xC2)=*(u16 *)(source+0x60);
@@ -502,18 +500,20 @@ void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
     }
     if(packet.power==3) sub_08021E44(*(u16 *)target+4,1);
     packet.player=*(u16 *)(target+2);
-    *(u16 *)(target+0x5A)|=1<<*(u16 *)(players02074+0x14C*sub_080020F4());
+    { u32 i=sub_080020F4(); u16 *p=(u16 *)(target+0x5A); u8 *pl=players02074; *p|=1<<*(u16 *)(pl+i*0x14C); }
+
     *(u32 *)(target+0x54)=*(u32 *)(source+0xDC);
     *(u16 *)(target+0x4A)+=packet.amount&0x7FFF;
     *(u32 *)(target+0x4C)=packet.amount;
-    *(u16 *)(target+0x62)=packet.power;
+    { u8 pw=packet.power; *(u16 *)(target+0x62)=pw; }
     if(target[0x226]!=3) {
         *(u16 *)(target+0x6C)=0;
         *(u16 *)(target+0x6A)=0;
-        *(u16 *)(target+0x68)=0xFFFE;
+        {u16 *q=(u16 *)(target+0x68); u16 k=0xFFFE; *q=k;}
+
     }
     sub_0801F2CC(target,(u8 *)&packet);
-    *(u16 *)(target+0x58)=*(u16 *)source;
+    { u16 sid=*(u16 *)source; *(u16 *)(target+0x58)=sid; }
     notify02074(&packet);
     display02074(target+0x218,*(u16 *)(target+0x4A),0,*(u16 *)source,*(u16 *)target+4,*(u16 *)(attack+0xBC));
     if(*(u16 *)(source+0xC)==5) {
@@ -522,9 +522,6 @@ void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
     }
     if(critical) critical02074(*(u16 *)(target+2));
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F374);
-#endif
 extern u8 directions02079[] asm("gUnk_084790B4");
 extern u16 amount02079(void *,void *,void *,s32) asm("sub_0801E988");
 extern void hit02079(void *,void *,s32,u16,s32) asm("sub_08069388");
