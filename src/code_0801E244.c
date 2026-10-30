@@ -413,7 +413,97 @@ void sub_0801F320(u8 *object, u8 *data)
     ((struct Sh20F320 *)object)->value = initial;
   }
 }
+#ifdef NONMATCHING
+extern u8 directions02074[] asm("gUnk_084790B4");
+extern u8 players02074[] asm("gUnk_03003CE0");
+extern u8 *inventory02074 asm("gUnk_030034E0");
+extern u16 amount02074(void *,void *,void *,s32) asm("sub_0801E5B0");
+extern void hit02074(void *,void *,s32,u16,s32) asm("sub_08069388");
+extern void notify02074(void *) asm("sub_080660EC");
+extern void display02074(void *,u16,s32,u16,s32,s32) asm("sub_08069080");
+extern void status02074(u16,s32) asm("sub_080680B4");
+extern void *lookup02074(u8 *,s32) asm("sub_0801E104");
+extern void critical02074(u16) asm("sub_08068030");
+struct Packet02074 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
+void sub_0801F374(u8 *source,u8 *target,u8 *attack,s32 flags)
+{
+    struct Packet02074 packet;
+    u32 critical;
+    u16 angle;
+    u16 dealt;
+    s16 chance;
+    s32 status;
+    void *other;
+    if(sub_080682A4()!=0) return;
+    critical=0;
+    if(flags&1) {
+        packet.amount=amount02074(source,target,attack,1)|0x8000;
+        packet.power=0;
+        packet.impulse=0;
+        packet.direction=0;
+    } else {
+        *(u16 *)(target+0xC)=10;
+        packet.amount=amount02074(source,target,attack,0);
+        packet.impulse=attack[0xA9];
+        packet.impulse+=source[0x72];
+        packet.impulse-=*(u32 *)(target+0x210);
+        if(packet.impulse&0x80) packet.impulse=0;
+        if(*(u32 *)(target+0x210)==0xFF) packet.impulse=0;
+        angle=ArcTan2((s32)((*(s32 *)(target+0x14)-*(s32 *)(source+0x8C))<<8)>>16,(s32)((*(s32 *)(target+0x18)-*(s32 *)(source+0x90))<<8)>>16);
+        packet.direction=directions02074[angle>>12];
+        if(*(u16 *)(source+0x20)==5 && *(u16 *)(source+0x10)==8)
+            packet.amount=(s32)(packet.amount*(((u32)(*(u32 *)(*(u8 **)(source+0x148)+4)<<15)>>29)+5))/10;
+        if(target[0x226]==1 && source[0x76]!=0)
+            packet.amount=(s32)(packet.amount*source[0x76])/10;
+        if(target[0x226]==2 && source[0x75]!=0)
+            packet.amount=(s32)(packet.amount*source[0x75])/10;
+        if(*(u16 *)(source+0xC)==2) {
+            if(target[0x226]==1)
+                packet.amount=(s32)(packet.amount*((u16)sub_0801E0AC((s32)(inventory02074+0x30),4)*4+10))/10;
+            chance=(s32)(100*sub_0801E0AC((s32)(inventory02074+0x30),3))/((s16)(*(s16 *)(target+0x208)/5)+50);
+            if((u32)chance>sub_080008C8()%100U) {
+                critical=1;
+                sub_0805865C(0x132);
+            }
+        }
+        dealt=packet.amount;
+        *(u16 *)(source+0xC4)+=(s32)(dealt*(s8)source[0x6A])/100;
+        *(u16 *)(source+0xC2)+=((s32)(dealt*(s8)source[0x6B])/100)*10;
+        if(*(s16 *)(source+0xC4)>*(s16 *)(source+0x62)) *(u16 *)(source+0xC4)=*(u16 *)(source+0x62);
+        if(*(s16 *)(source+0xC2)>*(s16 *)(source+0x60)) *(u16 *)(source+0xC2)=*(u16 *)(source+0x60);
+    }
+    hit02074(&packet,target+0x218,0,*(u16 *)(attack+0xBC),(u16)(*(u16 *)target+4));
+    status=sub_0801E244((s32)target,packet.power);
+    if(status!=0) sub_0801DB94(*(u16 *)target+4,(void *)status,packet.power);
+    else {
+        other=lookup02074(target,0);
+        if(other!=0) sub_0801DB94(*(u16 *)target+4,other,packet.power);
+    }
+    if(packet.power==3) sub_08021E44(*(u16 *)target+4,1);
+    packet.player=*(u16 *)(target+2);
+    *(u16 *)(target+0x5A)|=1<<*(u16 *)(players02074+0x14C*sub_080020F4());
+    *(u32 *)(target+0x54)=*(u32 *)(source+0xDC);
+    *(u16 *)(target+0x4A)+=packet.amount&0x7FFF;
+    *(u32 *)(target+0x4C)=packet.amount;
+    *(u16 *)(target+0x62)=packet.power;
+    if(target[0x226]!=3) {
+        *(u16 *)(target+0x6C)=0;
+        *(u16 *)(target+0x6A)=0;
+        *(u16 *)(target+0x68)=0xFFFE;
+    }
+    sub_0801F2CC(target,(u8 *)&packet);
+    *(u16 *)(target+0x58)=*(u16 *)source;
+    notify02074(&packet);
+    display02074(target+0x218,*(u16 *)(target+0x4A),0,*(u16 *)source,*(u16 *)target+4,*(u16 *)(attack+0xBC));
+    if(*(u16 *)(source+0xC)==5) {
+        chance=sub_0801E0AC((s32)(inventory02074+0x30),6);
+        if((u32)chance>(sub_080008C8()&0x3F)) status02074(*(u16 *)(target+2),6);
+    }
+    if(critical) critical02074(*(u16 *)(target+2));
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F374);
+#endif
 extern u8 directions02079[] asm("gUnk_084790B4");
 extern u16 amount02079(void *,void *,void *,s32) asm("sub_0801E988");
 extern void hit02079(void *,void *,s32,u16,s32) asm("sub_08069388");
