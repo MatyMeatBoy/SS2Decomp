@@ -817,11 +817,11 @@ void sub_0808C0C4_v(void) {
     u32 var_r5_3;
     u32 var_r5_4;
     u32 var_r6_4;
-    u8 *temp_r4_10;
-    u8 *temp_r4_15;
-    u8 *temp_r4_20;
-    u8 *temp_r4_23;
-    u8 *temp_r4_2;
+    register u8 *temp_r4_10 asm("r4");
+    register u8 *temp_r4_15 asm("r4");
+    register u8 *temp_r4_20 asm("r4");
+    register u8 *temp_r4_23 asm("r4");
+    register u8 *temp_r4_2 asm("r4");
     struct C0Item **temp_r0_2;
     struct C0Item **temp_r4_13;
     struct C0Item **temp_r7;
