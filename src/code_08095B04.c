@@ -42,7 +42,104 @@ s32 sub_08095B04(struct Motion95 *p, s32 speed)
     if(old!=p->unk8) old=1; else old=0;
     return old;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095D1C);
+struct Map99D1C { u8 pad0[0x68]; u16 *tiles; u32 pad6C; u16 width,height; };
+extern struct Map99D1C map99D1C asm("gUnk_03003170");
+s32 sub_08095D1C(u8 direction, s32 x, s32 y)
+{
+    u8 cells[9];
+    volatile s32 baseX;
+    u16 *volatile tiles;
+    register u32 dir asm("r9") = direction;
+    register s32 baseY asm("r8");
+    register struct Map99D1C *info asm("r12");
+    register struct Map99D1C *initialInfo asm("r0");
+    register u32 widthOffset asm("r3");
+    u8 *scratch7;
+    register u16 *widthPtr asm("r10");
+    register s32 i asm("r5"), j asm("r2"), nextI asm("r6"), px asm("r4"), py asm("r3");
+    register u32 width asm("r1");
+    register s32 offset0 asm("r0");
+    register u8 *base3 asm("r3"), *dest1 asm("r1"), *dest3 asm("r3");
+    y = (s32)((u32)y + 0x200);
+    baseX = x >> 11;
+    baseY = y >> 11;
+    initialInfo = &map99D1C;
+    tiles = initialInfo->tiles;
+    i = -1;
+    info = initialInfo;
+    /* Stage the field offset before adding the metadata address. */
+    widthOffset = 0x70;
+    asm("" : "+r"(widthOffset));
+    widthOffset += (u32)info;
+    widthPtr = (u16 *)widthOffset;
+    do {
+        scratch7 = (u8 *)baseX;
+        px = (s32)scratch7 + i;
+        j = -1;
+        nextI = i + 1;
+        do {
+            offset0 = baseY;
+            asm("" : "+r"(offset0));
+            py = offset0 + j;
+            if (px <= 0 || py <= 0 || px >= (s32)(width = ({
+                scratch7 = (u8 *)widthPtr;
+                /* Keep the width address in a low scratch register. */
+                asm("" : "+l"(scratch7) : : "r0", "r1");
+                *(u16 *)scratch7;
+            })) || py >= info->height) {
+                j++;
+                offset0 = j*3 + 1;
+                offset0 = i + offset0;
+                base3 = cells;
+                dest1 = base3 + offset0;
+                *dest1 = 1;
+            } else {
+                width *= py;
+                width = px + width;
+                width <<= 1;
+                scratch7 = (u8 *)tiles;
+                width = (u32)scratch7 + width;
+                j++;
+                offset0 = j*3 + 1;
+                offset0 = i + offset0;
+                scratch7 = cells;
+                dest3 = scratch7 + offset0;
+                *dest3 = (*(u32 *)width << 20) >> 28;
+            }
+        } while(j <= 1);
+        i = nextI;
+    } while(i <= 1);
+    switch(cells[4]) {
+    case 1:
+        switch(dir) {
+        case 2: return 7;
+        case 4: return 1;
+        case 6: return 3;
+        case 1:
+            if(!cells[0]) goto four;
+            if(!cells[8]) goto eight;
+            goto six;
+        case 3:
+            if(!cells[6]) goto two;
+            if(!cells[2]) goto six;
+            goto eight;
+        case 5:
+            if(!cells[0]) goto four;
+            if(cells[8]) goto two;
+        eight: return 8;
+        case 7:
+            if(cells[6]) goto testTwo;
+        two: return 2;
+        testTwo:
+            if(cells[2]) goto four;
+        six: return 6;
+        case 0:
+        four: return 4;
+        }
+    case 0:
+    default: return dir + 1;
+    }
+}
 extern s32 angleE70(s16, s16) asm("ArcTan2");
 s32 sub_08095E70(struct Motion95 *p, s16 x, s16 y)
 {
