@@ -1294,73 +1294,99 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
 #ifdef NONMATCHING
 u32 sub_0805C620(u8 *entity, u16 *out)
 {
-    u32 zero = 0;
-    u8 *extra = entity + 0x204;
-    u32 low = 0;
+    extern u8 c620Players[] asm("gUnk_03003CE0");
+    u32 zero;
+    u8 *extra;
+    u32 low;
     u32 roll;
     u32 i;
-    u32 offset;
     u16 *entry;
+    u32 offset;
+    u32 *p214;
     u16 type;
-    u32 limit;
+    u32 t2;
     u16 chance;
-    u32 mode;
-    u16 category;
+    u32 ok;
     u32 result;
+
+    extra = entity + 0x204;
+    zero = 0;
     CpuSet(&zero, out, 0x05000004);
+    low = 0;
     roll = (u16)sub_080008C8();
+    i = 0;
+    p214 = (u32 *)(entity + 0x214);
     entry = (u16 *)(entity + 0x230);
-    offset = 0;
-    for (i = 0; i <= 2; i++, entry += 4, offset += 8) {
-        type = entry[0];
+    /* No-op do/while(0): moves agbcc register allocation closer to the original. */
+    do {
+        offset = 0;
+loop:
+        type = t2 = entry[0];
         if (type != 0) {
-            limit = *(u32 *)(extra + 0x30 + offset);
-            if (low <= roll && limit >= roll) {
+            if (low <= roll && *(u32 *)(extra + 0x30 + offset) >= roll) {
                 out[0] = type;
                 out[1] = entry[1];
-                if (type == 9) out[2] = *(u32 *)(entity + 0x214);
-                break;
+                if (t2 == 9)
+                    out[2] = *p214;
+                goto done;
             }
-            low = (u16)(limit + 1);
+            low = (u16)(*(u32 *)(extra + 0x30 + offset) + 1);
         }
-    }
-    if (out[0] == 0) {
-        roll = (u8)sub_080008C8();
-        if (*(u16 *)(entity + 0x58) > 3) *(u16 *)(entity + 0x58) = 0;
-        chance = *((u8 *)gUnk_03003CE0 + *(u16 *)(entity + 0x58) * 0x14C + 0x74);
-        mode = sub_08002164();
-        switch (mode) {
-        case 1: chance = (u16)(chance + 0x10); break;
-        case 2: chance = (u16)(chance + 0x15); break;
-        case 3: chance = (u16)(chance + 0x1A); break;
-        case 4: chance = (u16)(chance + 0x20); break;
-        }
-        if (chance <= roll) return 0;
-        if (sub_0800CE30()) {
-            category = *(u16 *)(entity + 0x78);
-            if (category != 0) result = sub_0805C4FC(out, (u16)(category + 50), 0);
-            else result = 0;
-        } else result = sub_0805C4FC(out, *(u16 *)(entity + 0x78), 0);
-        type = out[0];
-        if (type == 9) out[2] = *(u32 *)(entity + 0x214);
-        else if (type == 10) {
-            if (!(entity[0x227] & 1)) {
+        entry += 4;
+        offset += 8;
+        i++;
+        if (i <= 2)
+            goto loop;
+done:
+        if (out[0] != 0) {
+            if (out[0] == 10 && !(entity[0x227] & 1)) {
                 out[0] = 0;
                 out[1] = 0;
                 return 0;
             }
-        } else if (type > 10) {
+            return 1;
+        }
+        roll = (u8)sub_080008C8();
+        ok = 0;
+        if (*(u16 *)(entity + 0x58) > 3)
+            *(u16 *)(entity + 0x58) = 0;
+        chance = c620Players[*(u16 *)(entity + 0x58) * 0x14C + 0x74];
+        switch (sub_08002164()) {
+        case 1: chance += 0x10; break;
+        case 2: chance += 0x15; break;
+        case 3: chance += 0x1A; break;
+        case 4: chance += 0x20; break;
+        }
+        if (chance > roll)
+            ok = 1;
+        if (ok == 0)
+            return 0;
+        if (sub_0800CE30()) {
+            u16 category = *(u16 *)(entity + 0x78);
+            if (category == 0)
+                result = 0;
+            else
+                result = sub_0805C4FC((u8 *)out, category + 50, 0);
+        } else {
+            result = sub_0805C4FC((u8 *)out, *(u16 *)(entity + 0x78), 0);
+        }
+    } while (0);
+    /* Types 9 and 10 (flag set) fall off the end: the original returns whatever is in r0. */
+    type = out[0];
+    if (type == 9) {
+        out[2] = *(u32 *)(entity + 0x214);
+    } else if (type == 10) {
+        if (!(entity[0x227] & 1)) {
             out[0] = 0;
+            out[1] = 0;
             return 0;
         }
+    } else if (type > 10) {
+        out[0] = 0;
+        return 0;
+    } else {
         return result;
     }
-    if (out[0] == 10 && !(entity[0x227] & 1)) {
-        out[0] = 0;
-        out[1] = 0;
-        return 0;
-    }
-    return 1;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C620);
