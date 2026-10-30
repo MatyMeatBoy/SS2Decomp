@@ -281,7 +281,41 @@ void sub_0809689C(void)
     ctrl99.scaleY = 0x100;
     ctrl99.scaleX = 0x100;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080968C0);
+void sub_080968C0(void) {
+    u32 sumX, sumY;
+    register u32 lastY asm("r5");
+    s32 temp_r5;
+    s32 temp_r6;
+    u16 temp_r0;
+    u16 temp_r4;
+    u16 temp_r7;
+    u16 temp_r8;
+    u16 temp_r9;
+
+    temp_r9 = (u16) sub_08090434((s32) gUnk_080B9704[gUnk_030002A0.b0D + 0x40], 0x100);
+    temp_r8 = (u16) sub_08090434((s32) gUnk_080B9704[gUnk_030002A0.b0D], 0x100);
+    temp_r7 = (u16) sub_08090434(0 - gUnk_080B9704[gUnk_030002A0.b0D], 0x100);
+    temp_r0 = (u16) sub_08090434((s32) gUnk_080B9704[gUnk_030002A0.b0D + 0x40], 0x100);
+    sumX = gUnk_030002A0.w8;
+    sumX += gUnk_030002A0.w4;
+    sumY = gUnk_030002A0.wA;
+    lastY = gUnk_030002A0.w6;
+    sumY += lastY;
+    temp_r6 = (((0x78 - (s16) sumX) << 8) - ((s16) temp_r9 * 0x78)) - ((s16) temp_r8 * 0x50);
+    temp_r4 = temp_r0;
+    temp_r5 = (((0x78 - (s16) sumY) << 8) - ((s16) temp_r7 * 0x78)) - ((s16) temp_r0 * 0x50);
+    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
+        gUnk_03001250[8] = temp_r9;
+        gUnk_03001250[9] = temp_r8;
+        gUnk_03001250[10] = temp_r7;
+        gUnk_03001250[11] = temp_r4;
+        gUnk_03001250[12] = temp_r6;
+        gUnk_03001250[14] = temp_r5;
+        gUnk_03001250[13] = (s16) (temp_r6 >> 0x10);
+        gUnk_03001250[15] = (s16) (temp_r5 >> 0x10);
+    }
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080969CC);
 struct PointAF4 { s32 x, y; };
 s32 sub_08096AF4(struct PointAF4 *input, u32 arg1) {
