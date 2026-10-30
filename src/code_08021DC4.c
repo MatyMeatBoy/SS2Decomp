@@ -1946,9 +1946,11 @@ void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
     sp1C = (s32) arg0->flags;
     sp24 = (u32) (0 - (4 & sp1C)) >> 0x1F;
     sp1C &= 3;
-    var_r7 = 0x20;
-    if ((state2413C->mode == 3) && (gUnk_03003170.f90 == 0xC)) {
-        var_r7 = 0x18;
+    {
+        u32 mode = state2413C->mode;
+        asm("" : "+r"(mode));
+        var_r7 = 0x20;
+        if (mode == 3 && gUnk_03003170.f90 == 0xC) var_r7 = 0x18;
     }
     { volatile s32 result = sub_0800CF80(); if (result) sp10 = 0xF0; else sp10 = 0x18; }
     temp_r3 = arg0->x << 0xB;
@@ -1971,10 +1973,19 @@ void sub_0802413C_void(struct Input2413C *arg0, s32 arg1) {
     if (sp0 < 0) {
         sp0 = 0;
     }
-    M2C_FIELD(temp_r8, s16 *, 0x26) = 0;
-    M2C_FIELD(temp_r8, s16 *, 0x24) = 0;
-    M2C_FIELD(temp_r8, s8 *, 0x68) = 0;
-    sp2C = &M2C_FIELD(temp_r8, s8 *, 0x68);
+    {
+        struct P23 { u8 pad0[0x24]; s16 w24, w26; u8 pad28[0x40]; s8 b68; };
+        register struct P23 *p asm("r2") = (struct P23 *)temp_r8;
+        asm("" : "+r"(p));
+        p->w26 = 0;
+        p->w24 = 0;
+        p->b68 = 0;
+        sp2C = &p->b68;
+    }
+    goto loop_16;
+loop_wait:
+    if (sub_0800CCCC() != 0) return;
+    sub_08057624(1U);
 loop_16:
     if ((temp_r8->state != 0xE) && (sub_0800CD8C() == 0) && (temp_r8->state != 5)) {
         sub_08015C5C(sp4 >> 8, sp0 >> 8);
@@ -2118,11 +2129,7 @@ loop_77:
         sub_08057624(1U);
         goto loop_23;
     }
-    if (sub_0800CCCC() != 0) {
-        return;
-    }
-    sub_08057624(1U);
-    goto loop_16;
+    goto loop_wait;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_0802413C);
