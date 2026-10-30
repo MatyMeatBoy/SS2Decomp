@@ -8279,7 +8279,7 @@ digraph calls {
   "sub_08066520" -> "sub_0802230C" [label="c"];
   "sub_08066520" -> "sub_0805B4CC" [label="c"];
   "sub_080665B0" -> "sub_0800CFF0" [label="c"];
-  "sub_08066624" -> "sub_0800CE30" [label="asm"];
+  "sub_08066624" -> "sub_0800CE30" [label="c"];
   "sub_08066720" -> "memcpy" [label="asm,c"];
   "sub_08066720" -> "sub_080003F0" [label="asm,c"];
   "sub_08066720" -> "sub_080020F4" [label="asm,c"];
