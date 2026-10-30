@@ -199,7 +199,66 @@ s32 sub_0808A294(u8 *table)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A294);
 #endif
+#ifdef NONMATCHING
+s32 sub_0808A380(u8 *table)
+{
+    struct StateA38091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
+    struct PosA38091 { u32 x, y; };
+    const u16 *position;
+    u8 *player;
+    s32 *coordinates;
+    extern struct StateA38091 *stateA38091 asm("gUnk_03005CF4");
+    extern u8 playersA38091[] asm("gUnk_03003CE0");
+    extern u8 coordsA38091[] asm("gUnk_03003D6C");
+    extern u32 scriptsA38091[] asm("gUnk_084F0AC0");
+    extern void callbackA38091(void) asm("sub_0802DE0C");
+    extern s32 sub_08009930(u32, u32);
+    extern s32 sub_0800AD04(s32 *, s32 *, s32);
+    s32 myId, offset;
+
+    if (stateA38091->step == 0) {
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        myId = sub_080020F4();
+        position = (u16 *)(table + stateA38091->row * 0x24 + 4);
+        sub_0800CCDC();
+        offset = sub_080020F4() * 0x14C;
+        player = playersA38091 + offset;
+        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
+        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
+        *(struct PosA38091 *)(player + 0x94) = *(struct PosA38091 *)(player + 0x8C);
+        sub_08009930(0, 0xB);
+        while (sub_0800BA6C() == 0)
+            sub_080003F0();
+        coordinates = (s32 *)(coordsA38091 + myId * 0x14C);
+        sub_0800AD04(coordinates, coordinates + 1, sub_0800CCCC());
+        sub_08057328(0, (u32)callbackA38091);
+        sub_08015EF8();
+        sub_08015C38();
+        stateA38091->step = 1;
+        stateA38091->active = 1;
+    } else if (sub_08088B6C(table, 0) != 0) {
+        return 1;
+    }
+    if ((*(s32 *)(playersA38091 + sub_080020F4() * 0x14C + 0x90) >> 11) > 0x25) {
+        sub_08015ED4();
+        sub_0801ABE8(3);
+        sub_0800BB40();
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_0800BB40();
+        stateA38091->row = 2;
+        stateA38091->destination = 0xA;
+        stateA38091->script = scriptsA38091[10];
+        stateA38091->step = 0;
+        stateA38091->active = 0;
+        return 1;
+    }
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A380);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A4D4);
 #ifdef NONMATCHING
 s32 sub_0808A744(u8 *table)
@@ -246,7 +305,66 @@ s32 sub_0808A744(u8 *table)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A744);
 #endif
+#ifdef NONMATCHING
+s32 sub_0808A830(u8 *table)
+{
+    struct StateA83091 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
+    struct PosA83091 { u32 x, y; };
+    const u16 *position;
+    u8 *player;
+    s32 *coordinates;
+    extern struct StateA83091 *stateA83091 asm("gUnk_03005CF4");
+    extern u8 playersA83091[] asm("gUnk_03003CE0");
+    extern u8 coordsA83091[] asm("gUnk_03003D6C");
+    extern u32 scriptsA83091[] asm("gUnk_084F0AC0");
+    extern void callbackA83091(void) asm("sub_0802E110");
+    extern s32 sub_08009930(u32, u32);
+    extern s32 sub_0800AD04(s32 *, s32 *, s32);
+    s32 myId, offset;
+
+    if (stateA83091->step == 0) {
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        myId = sub_080020F4();
+        position = (u16 *)(table + stateA83091->row * 0x24 + 4);
+        sub_0800CCDC();
+        offset = sub_080020F4() * 0x14C;
+        player = playersA83091 + offset;
+        *(u32 *)(player + 0x8C) = (u32)position[0] << 8;
+        *(u32 *)(player + 0x90) = (u32)position[1] << 8;
+        *(struct PosA83091 *)(player + 0x94) = *(struct PosA83091 *)(player + 0x8C);
+        sub_08009930(0, 9);
+        while (sub_0800BA6C() == 0)
+            sub_080003F0();
+        coordinates = (s32 *)(coordsA83091 + myId * 0x14C);
+        sub_0800AD04(coordinates, coordinates + 1, sub_0800CCCC());
+        sub_08057328(0, (u32)callbackA83091);
+        sub_08015EF8();
+        sub_08015C38();
+        stateA83091->step = 1;
+        stateA83091->active = 1;
+    } else if (sub_08088B6C(table, 1) != 0) {
+        return 1;
+    }
+    if ((*(s32 *)(playersA83091 + sub_080020F4() * 0x14C + 0x90) >> 11) > 0x25) {
+        sub_08015EF8();
+        sub_0801ABE8(3);
+        sub_0800BB40();
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_0800BB40();
+        stateA83091->row = 2;
+        stateA83091->destination = 0xD;
+        stateA83091->script = scriptsA83091[13];
+        stateA83091->step = 0;
+        stateA83091->active = 0;
+        return 1;
+    }
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808A830);
+#endif
 #ifdef NONMATCHING
 s32 sub_0808A984(u8 *table)
 {
