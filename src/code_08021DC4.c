@@ -4365,10 +4365,12 @@ end_poll:
                 {
                     register u32 ybase asm("r2") = 0x88;
                     register u32 ybits asm("r1");
-                    register u32 xbits asm("r3") = xpos;
+                    register u32 xbits asm("r3");
                     asm("" : "+r"(ybase));
                     ybits = ybase << 16;
-                    asm("" : "+r"(ybits), "+r"(xbits));
+                    asm("" : "+r"(ybits));
+                    xbits = xpos;
+                    asm("" : "+r"(xbits));
                     sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), endX, endY, 0x30, temp_r0_3);
                 }
                 sub_08008E74(*endX, *endY, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
