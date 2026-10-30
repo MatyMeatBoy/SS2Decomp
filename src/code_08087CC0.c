@@ -1677,7 +1677,8 @@ s32 sub_08089EC4(u8 *table)
         state9EC491->active = 1;
         sub_08015C38();
     }
-    if ((*(s32 *)(players9EC491 + sub_080020F4() * 0x14C + 0x90) >> 11) > 0x25) {
+    { register s32 idx asm("r0")=sub_080020F4(); register u8 *p asm("r1")=players9EC491; register u32 stride asm("r2")=0x14c; idx*=stride;p+=0x90;
+    if ((*(s32 *)(p+idx) >> 11) > 0x25) {
         sub_08015ED4();
         sub_0801ABE8(3);
         sub_0800BB40();
@@ -1692,6 +1693,7 @@ s32 sub_08089EC4(u8 *table)
         return 1;
     }
     return 0;
+    }
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089EC4);
