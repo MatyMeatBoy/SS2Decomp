@@ -6373,7 +6373,49 @@ void sub_08015150(void)
 
 
 
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_080151E0);
+extern void sub_08015090(void);
+extern void sub_08015150(void);
+struct View151E {u8 pad0[16];u16 mode;u8 pad12[14];u16 state;u8 pad22[14];u32 flags;u8 pad34[0x118];};
+extern struct View151E players151E[] asm("gUnk_03003CE0");
+void sub_080151E0(void)
+{
+    u32 index = sub_080020F4();
+    u32 mem;
+    if (sub_08000470((u32)&gTasks03003C40[index]) != 0) {
+        register struct View151E *base asm("r3") = players151E;
+        u32 offset;
+        struct View151E *p;
+        asm("" : "+r"(base));
+        offset = index * sizeof(*base);
+        p = (struct View151E *)(offset + (u32)base);
+        if ((u16)(p->state - 10) > 1) {
+            register u32 *flags asm("r0") = &base->flags;
+            u32 masked;
+            asm("" : "+r"(flags));
+            masked = *(u32 *)(offset + (u32)flags) & 0x2000;
+            if (masked == 0)
+                p->state = masked;
+        }
+    } else {
+        switch (players151E[index].mode) {
+        case 2:
+            gTasks03003C40[index].fC = (u32)sub_08015090;
+            break;
+        case 4:
+            gTasks03003C40[index].fC = (u32)sub_08015150;
+            break;
+        default:
+            return;
+        }
+        gTasks03003C40[index].f8 = 0x34;
+        while ((gTasks03003C40[index].f20 = mem = sub_08001494(0x400)) == 0)
+            sub_080003F0();
+        gTasks03003C40[index].f10 = mem + 0x3FC;
+        gTasks03003C40[index].f24 = 0;
+        sub_08000274(&gTasks03003C40[index]);
+    }
+}
+
 void sub_080152CC(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
