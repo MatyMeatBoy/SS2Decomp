@@ -1230,7 +1230,38 @@ u32 sub_0807A378(struct Sum378 *e)
     } while (i <= 7);
     return ret;
 }
+#ifdef NONMATCHING
+u32 sub_0807A4B4(struct Sum378 *entries, u8 index)
+{
+    struct Sum378 *entry;
+    struct Save378 *save;
+    u32 i;
+    sub_08013850(entries);
+    sub_0800CB30();
+    if (sub_0807A20C(index) == 0) {
+        save = gSave378;
+        entry = &entries[index];
+        save->hA = entry->b1;
+        save->hC = entry->b2;
+        *(u16 *)((u8 *)save + 0xE) = index;
+        *(u8 *)((u8 *)entries + 4) = 0;
+        for (i = 0; i <= 9; i++)
+            ((u8 *)gSave378)[i] = entry->name[i];
+        sub_0801ACB8();
+    } else {
+        entry = &entries[index];
+        if (entry->b7 != 0)
+            sub_0800CE08();
+        if (entry->b6 != 0) {
+            for (i = 0; i <= 15; i++)
+                *(u16 *)((u8 *)gUnk_03004210 + i * 32 + 0x1E6) = 0;
+        }
+    }
+    return 1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807A4B4);
+#endif
 u8 sub_0807A544(const u8 *data, u32 length)
 {
     u8 sum = 0;
