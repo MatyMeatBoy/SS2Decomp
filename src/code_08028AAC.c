@@ -540,7 +540,55 @@ void sub_0802A590(u16 first,u16 count)
     sub_08000B38();
     sub_08001538((s32)backup);
 }
+#ifdef NONMATCHING
+struct FrameA644 {u8 text[0x80];u32 nameIndex;u32 tick;};
+extern u8 nameA644[] asm("gUnk_03003CE2");
+extern void clearA644(s32,s32) asm("sub_0801A664");
+extern void drawA644(u8*,s32,u32) asm("sub_0801A3D0");
+void sub_0802A644(s32 id)
+{
+ struct FrameA644 frame;u8 *stream,*line;u32 row,column,tick,nextTick,i,y,offset;u16 wait;s32 remaining;u8 code,index;
+ stream=(u8*)sub_08007290(0x140000|id)+2;
+ row=0;column=0;tick=0;frame.nameIndex=0;frame.text[0]=0xFD;frame.text[0x20]=0xFD;
+ while(*stream!=0xFD){
+  nextTick=tick+1;
+  if(tick>5){
+   code=*stream;
+   switch(code){
+   case 0xFF:
+    column=0;row++;
+    if(row>1){frame.text[0]=0xFD;frame.text[0x20]=0xFD;row=0;}
+    else frame.text[row<<5]=0xFD;
+    stream++;break;
+   case 0xFC:
+    offset=row<<5;frame.text[offset+column]=nameA644[frame.nameIndex];column++;frame.text[offset+column]=0xFD;
+    index=frame.nameIndex+1;frame.nameIndex=index;
+    if(nameA644[index]==0){stream++;frame.nameIndex=0;column--;}
+    break;
+   case 0xFE:
+    frame.text[0]=0xFD;frame.text[0x20]=0xFD;row=0;column=0;stream+=3;
+    wait=180;do{sub_080003F0();if(sub_080021A8())break;wait--;}while(wait);
+    break;
+   default:
+    offset=row<<5;frame.text[offset+column]=code;stream++;column++;frame.text[offset+column]=0xFD;break;
+   }
+   nextTick=0;
+  }
+  i=0;y=0xF0000;line=frame.text;
+  do{frame.tick=nextTick;drawA644(line,1,y>>16);y+=0x20000;line+=0x20;i++;}while(i<=1);
+  sub_080003F0();tick=frame.tick;
+ }
+ remaining=179;
+ do{
+  i=0;
+  if(row>0){y=0xF0000;line=frame.text;do{drawA644(line,1,y>>16);y+=0x20000;line+=0x20;i++;}while(i<row);}
+  sub_080003F0();remaining--;
+ }while(remaining!=-1);
+ clearA644(15,4);sub_080003F0();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A644);
+#endif
 extern void sub_080009F8(s32,s32,s32);
 extern void sub_0801AA8C(s32);
 extern void sub_0801AB90(s32);
