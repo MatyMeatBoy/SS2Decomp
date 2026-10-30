@@ -42,28 +42,23 @@ void sub_080A49A8(void)
     gUnk_030056FC = 0;
     sub_08016ECC(gUnkVu16_030003E8);
 }
-#ifdef NONMATCHING
+struct Task10849EC {u32 f0,f4,f8;};
+extern u8 byte108EA asm("gUnk_030003EA");
+extern u8 byte108F0 asm("gUnk_030003F0");
+extern u8 byte108EF asm("gUnk_030003EF");
+extern u8 byte108F2 asm("gUnk_030003F2");
+extern u8 byte108F1 asm("gUnk_030003F1");
+extern u8 array108EC[] asm("gUnk_030003EC");
+extern u8 array108F8[] asm("gUnk_030003F8");
+extern struct Task10849EC *task108 asm("gUnk_03000358");
 void sub_080A49EC(void)
 {
-    u32 i;
-    u32 task;
-
-    *(u8 *)0x030003EA = 0;
-    *(u8 *)0x030003F0 = 0;
-    *(u8 *)0x030003EF = 0;
-    *(u8 *)0x030003F2 = 0;
-    *(u8 *)0x030003F1 = 0;
-    for (i = 0; i <= 2; i++) {
-        *(u8 *)(0x030003EC + i) = 0;
-        *(u8 *)(0x030003F8 + i) = 0;
-    }
-    task = (u32)sub_08001494(0x28);
-    gUnk_03000358 = task;
-    *(u32 *)(task + 8) = 0;
+ u8 i;
+ byte108F1=byte108F2=byte108EF=byte108F0=byte108EA=0;
+ for(i=0;i<=2;i++)array108F8[i]=array108EC[i]=0;
+ task108=(struct Task10849EC*)sub_08001494(0x28);
+ task108->f8=0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A49EC);
-#endif
 void sub_080A4A54(void) {
     if (sub_08000470(gUnk_03000358) != 0) {
         sub_080003A8(gUnk_03000358);
