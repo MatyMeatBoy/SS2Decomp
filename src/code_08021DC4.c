@@ -4291,9 +4291,13 @@ scan_body:
         }
 scan_check:
         if (var_r4 < sub_08002164()) goto scan_body;
-        var_r7 = nextCount;
-        if (var_r5 != sub_08002164()) {
-            var_r7 = 0;
+        {
+            register u32 total asm("r0") = sub_08002164();
+            asm volatile("" : "+r"(total) : : "memory");
+            var_r7 = nextCount;
+            if (var_r5 != total) {
+                var_r7 = 0;
+            }
         }
         if (var_r7 > 2U) {
             t24_state08026858->unk40 = 0x92BC;
