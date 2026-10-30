@@ -6326,7 +6326,28 @@ void sub_0801500C(u32 idx)
     gTasks03003C40[idx].f24 = 0;
     sub_08000274_2(&gTasks03003C40[idx], idx);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08015090);
+void sub_08015090(void)
+{
+    struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
+    u16 index = p->w26;
+    while (p->wB6 == 0 && p->state == 5) {
+        u16 direction;
+        p->pos94 = p->pos8C;
+        direction = sub_0800CCCC();
+        p->w1C = sub_08013E90((s32)(gUnk_0847AD1C[index] << 3) / 10 + p->w40,
+                             (s32 *)&p->pos8C, p->w1C, direction, 0);
+        sub_08013CEC((u8 *)p);
+        sub_080003F0();
+    }
+    if ((u16)(p->state - 10) > 1) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
 void sub_08015150(void)
 {
     struct PlayerW12 *p = (struct PlayerW12 *)&gUnk_03003CE0[sub_080020F4()];
