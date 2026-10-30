@@ -3683,7 +3683,7 @@ extern void animateEffect111(void *, u32, u16 *, u16 *, s32) asm("sub_08065370")
 extern u8 *drawEffect111(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
 s32 sub_080A92C0(u32 argument)
 {
-    u16 kind = argument;
+    register u32 kind asm("r9") = (u16)argument;
     struct { struct SpriteEffect111 sprite; s16 screenX, screenY; u16 frame, tick; s32 velocity[2]; s32 x, y, range, end, hit; } local;
     s32 ix, iy, iflags, itable, offset, saveIndex, saveOffset;
     u32 dx;
@@ -3764,9 +3764,18 @@ s32 sub_080A92C0(u32 argument)
             sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)local.sprite.fC + (*(u16 *)(effectObject111 + 0x2DA) << 5), 1);
             animateEffect111(&local.sprite, 3, &local.frame, &local.tick, zero);
             layer = sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
-            *(s32 *)(drawEffect111(local.screenX, kind != 0 ? 0x10 : 0xA0, 3, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY;
-            *(s32 *)(drawEffect111(local.screenX + 0x20, kind != 0 ? 0x10 : 0xA0, 4, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x10;
-            *(s32 *)(drawEffect111(local.screenX + 0x40, kind != 0 ? 0x10 : 0xA0, 5, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x20;
+            if (kind != 0)
+                *(s32 *)(drawEffect111(local.screenX, 0x10, 3, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY;
+            else
+                *(s32 *)(drawEffect111(local.screenX, 0xA0, 3, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY;
+            if (kind != 0)
+                *(s32 *)(drawEffect111(local.screenX + 0x20, 0x10, 4, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x10;
+            else
+                *(s32 *)(drawEffect111(local.screenX + 0x20, 0xA0, 4, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x10;
+            if (kind != 0)
+                *(s32 *)(drawEffect111(local.screenX + 0x40, 0x10, 5, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x20;
+            else
+                *(s32 *)(drawEffect111(local.screenX + 0x40, 0xA0, 5, local.frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x20;
         }
         sub_080003F0();
     }
