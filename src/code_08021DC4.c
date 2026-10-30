@@ -1461,7 +1461,7 @@ void sub_08023A3C(s32 *arg0, u32 arg1) {
     s32 sp38;
     u32 sp3C;
     s32 *sp40;
-    struct Event23A3C *var_r4;
+    register struct Event23A3C *var_r4 asm("r4");
     s32 *var_r3;
     s32 *var_r3_2;
     s32 temp_r0_2;
@@ -1493,7 +1493,7 @@ void sub_08023A3C(s32 *arg0, u32 arg1) {
     u8 temp_r0_5;
     u32 var_r4_5;
     u32 var_r5_2;
-    u32 var_r6;
+    register u32 var_r6 asm("r6");
     u32 var_r6_2;
     u32 var_r6_3;
     u32 var_r6_4;
