@@ -1575,7 +1575,7 @@ loop_15:
         var_r3 = sp0;
         do {
             temp_r2_2 = *var_r3;
-            if ((temp_r2_2->type == *var_r5) && (temp_r2_2->value == *(u16 *)(var_r4_2 + ((u8 *)recipeValues)))) {
+            if ((temp_r2_2->type == *var_r5) && (temp_r2_2->value == *(u16 *)((u32)var_r4_2 + (u32)recipeValues))) {
                 var_r6 += 1;
             }
             var_r5 += 2;
@@ -1614,11 +1614,16 @@ loop_15:
                 p=base+18; asm("" : "+r"(p));
                 sp10.value = (u16) *(u16 *)(p + var_r9);
                 temp_r0_3 = sp10.type; asm("" : "+r"(temp_r0_3));
-                if ((s32)temp_r0_3 > 5) goto item_ready; if ((s32)temp_r0_3 < 2) goto item_ready; {
+                switch (temp_r0_3) {
+                case 2:
+                case 3:
+                case 4:
+                case 5:
                     sp10.last = 0;
                     sp10.data.parts.a = 0;
                     sp10.data.parts.b = 0;
                     sp10.data.parts.c = 0;
+                    break;
                 }
             }
 item_ready:
