@@ -450,8 +450,7 @@ extern void sub_08029A7C(s32, s32, s32);
 void sub_0808DB38(u32 arg)
 {
     u32 anim[13];
-    u16 frames[4];
-    u16 screen[2];
+    u16 frames[6];
     s32 pos[2];
     u32 size, box;
     struct Player *player;
@@ -503,8 +502,8 @@ void sub_0808DB38(u32 arg)
             register u16 *screenYptr asm("r6");
             register u16 *secondptr asm("r5");
             posptr = pos;
-            screenXptr = &screen[0];
-            screenYptr = &screen[1];
+            screenXptr = &frames[4];
+            screenYptr = &frames[5];
             texture = &anim[7];
             do {
                 {
@@ -555,10 +554,13 @@ void sub_0808DB38(u32 arg)
     *attrptr = 0;
     firstptr[0] = 0;
     {
-        register u16 *copy asm("r7") = firstptr;
+        register u16 *copy = firstptr;
         register s32 *position asm("r6") = pos;
-        register u16 *sx asm("r5") = &screen[0];
-        register u16 *sy asm("r4") = &screen[1];
+        register u16 *sx asm("r5");
+        register u16 *sy asm("r4");
+
+        sx = copy + 4;
+        sy = sx + 1;
         asm("" : "+r"(copy), "+r"(sx), "+r"(sy), "+r"(position));
         while (!sub_08065370(anim, 6, (s32)copy, (s32)attrptr, 0)) {
             if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
