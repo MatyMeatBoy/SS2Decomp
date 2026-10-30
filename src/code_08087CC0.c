@@ -791,7 +791,8 @@ void sub_0808C0C4_v(void) {
     register u32 playerStrideC0 asm("r1");
     register s32 selectedOffsetC0 asm("r0");
     register struct C0Player *selectedBaseC0 asm("r2");
-    u16 temp_r0_7;
+    register u16 temp_r0_7 asm("r1");
+    register u32 confirmFlagsC0 asm("r0");
     u16 temp_r1_6;
     u16 temp_r2_2;
     /* Keep raw bits for halfword arithmetic and derive both comparison views. */
@@ -1143,32 +1144,33 @@ block_81:
     sub_080003F0();
     goto loop_16;
 loop_82:
-    if (0x20 & gFlagC0) {
+    temp_r0_7 = gFlagC0;
+    if (0x20 & temp_r0_7) {
         if (menu.sp160 == 1) {
             menu.sp160 = 0;
             sub_0805865C(0xC6);
         }
         goto block_94;
     }
-    if (0x10 & gFlagC0) {
+    if (0x10 & temp_r0_7) {
         if (menu.sp160 == 0) {
             menu.sp160 = 1;
             sub_0805865C(0xC7);
         }
         goto block_94;
     }
-    temp_r0_7 = gFlagC0;
-    if (temp_r0_7 != 1) {
-        if (temp_r0_7 == 2) {
+    confirmFlagsC0 = temp_r0_7;
+    switch (confirmFlagsC0) {
+    case 1:
+        if (menu.sp160 != 0)
             goto block_10;
-        }
+        sub_0805865C(0xF);
+        goto loop_113CheckC0;
+    case 2:
+        goto block_10;
+    default:
         goto block_94;
     }
-    if (menu.sp160 != 0) {
-        goto block_10;
-    }
-    sub_0805865C(0xF);
-    goto loop_113CheckC0;
 block_94:
         temp_r4_15 = sub_08007290(0x1401F7) + 2;
         sub_0801A3D0(temp_r4_15, (u16) (0xF - ((u32) sub_0801A638(temp_r4_15) >> 1)), 0x12);
