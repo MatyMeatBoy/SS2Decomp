@@ -8264,7 +8264,7 @@ digraph calls {
   "sub_0806617C" -> "sub_080020F4" [label="c"];
   "sub_08066220" -> "CpuSet" [label="c"];
   "sub_08066220" -> "sub_080020F4" [label="c"];
-  "sub_080662C4" -> "CpuSet" [label="asm,c"];
+  "sub_080662C4" -> "CpuSet" [label="c"];
   "sub_08066404" -> "CpuSet" [label="c"];
   "sub_08066490" -> "CpuSet" [label="c"];
   "sub_08066490" -> "sub_08002164" [label="c"];
