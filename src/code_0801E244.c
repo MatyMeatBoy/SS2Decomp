@@ -418,19 +418,21 @@ INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F79C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F99C);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FB14);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FC34);
-#ifdef NONMATCHING
 struct Sh20FD64 { u8 pad0[0x62]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
 void sub_0801FD64(void *arg0)
 {
 
     u16 amount;
     u8 rate;
-    u8 blocked;
+    u32 blocked;
+    u8 *rateAddress;
     if (((struct Sh20FD64 *)arg0)->previous != ((struct Sh20FD64 *)arg0)->current && ((struct Sh20FD64 *)arg0)->enabled != 0) {
-        rate = ((struct Sh20FD64 *)arg0)->rate;
+        rateAddress=&((struct Sh20FD64 *)arg0)->rate;
+        rate = *rateAddress;
         blocked = (u8)(0x80 & rate);
         if (blocked == 0 && rate != 0) {
-            amount = (s32)(((struct Sh20FD64 *)arg0)->amount * ((struct Sh20FD64 *)arg0)->rate) / 100;
+            asm("" : : : "memory");
+            amount = (s32)(((struct Sh20FD64 *)arg0)->amount * *rateAddress) / 100;
             if (amount == 0)
                 amount = 1;
             ((struct Sh20FD64 *)arg0)->accumulator = amount + ((struct Sh20FD64 *)arg0)->accumulator;
@@ -439,9 +441,6 @@ void sub_0801FD64(void *arg0)
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FD64);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FDD0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020680);
 extern void t21_BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
