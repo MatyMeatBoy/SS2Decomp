@@ -4143,7 +4143,7 @@ void sub_08026858(void) {
     u32 var_r1;
     u32 var_r2;
     u32 var_r4;
-    u32 var_r5_2;
+    register u32 var_r5_2 asm("r5");
     u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
     u8 *temp_r4;
     register struct T24Net08026858 *temp_r2_2 asm("r2");
@@ -4320,41 +4320,48 @@ block_51:
 block_57:
     sub_0805865C(0x24);
     var_r5_2 = 1;
+    {
+        register s16 *endX = &x;
+        register s16 *endY asm("r6") = &y;
+        register u32 xpos asm("r8") = 0xF00000;
+        asm("" : "+r"(endX), "+r"(endY), "+r"(xpos));
 loop_59:
-    if (sub_0800CDF8() != 0) {
+        goto end_poll;
+end_yield:
         sub_080003F0();
-        goto loop_59;
-    }
-    if (sub_080021A8() == 0) {
-        t24_call08065370_08026858(&sprite, 1, &frame, &phase, 1);
-        temp_r0_3 = sub_0800CC98();
-        if ((temp_r0_3 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
-            sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-            sub_0800BC08(0xF00000 >> 0x10, 0x880000 >> 0x10, &x, &y, 0x30, 0);
-            sub_08008E74(x, y, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
-        }
-        sub_080003F0();
-        temp_r0_4 = var_r5_2;
-        var_r5_2 += 1;
-        if (temp_r0_4 > 0x63U) {
-            sub_0800D014();
-            var_r1 = 0;
-            do {
-                var_r2 = 0;
-loop_68:
-                t24_state08026858->grid[var_r2 + var_r1 * 5] = 0;
-                var_r2 += 1;
-                if (var_r2 <= 4U) {
-                    goto loop_68;
-                }
-                var_r1 += 1;
-            } while (var_r1 <= 0x13U);
+end_poll:
+        if (sub_0800CDF8() != 0) goto end_yield;
+        if (sub_080021A8() == 0) {
+            t24_call08065370_08026858(&sprite, 1, &frame, &phase, 1);
+            temp_r0_3 = sub_0800CC98();
+            if ((temp_r0_3 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
+                sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
+                sub_0800BC08((s16)(xpos >> 16), 0x880000 >> 0x10, endX, endY, 0x30, 0);
+                sub_08008E74(*endX, *endY, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
+            }
             sub_080003F0();
-            sub_0801A664(0x12, 2);
-            sub_0800CDAC();
-            sub_08057624(3U);
-        } else {
-            goto loop_59;
+            temp_r0_4 = var_r5_2;
+            var_r5_2 += 1;
+            if (temp_r0_4 > 0x63U) {
+                sub_0800D014();
+                var_r1 = 0;
+                do {
+                    var_r2 = 0;
+loop_68:
+                    t24_state08026858->grid[var_r2 + var_r1 * 5] = 0;
+                    var_r2 += 1;
+                    if (var_r2 <= 4U) {
+                        goto loop_68;
+                    }
+                    var_r1 += 1;
+                } while (var_r1 <= 0x13U);
+                sub_080003F0();
+                sub_0801A664(0x12, 2);
+                sub_0800CDAC();
+                sub_08057624(3U);
+            } else {
+                goto loop_59;
+            }
         }
     }
 }
