@@ -1,13 +1,13 @@
 {
   "address": "0x0808C0C4",
-  "updated_utc": "2026-10-30T02:55:14.944733+00:00",
-  "checkpoint": "Verified twelfth-pass code checkpoint 7a63a809 (rebased on main 9cf79f1e). NONMATCHING retained: original/candidate 2708/2712 bytes; frame 368/368; approximate nmscore 378, not a match. The first 214 normalized bytes and their relocations match exactly.",
+  "updated_utc": "2026-10-30T02:59:20.585838+00:00",
+  "checkpoint": "Verified thirteenth-pass code checkpoint 8a0c4bb6 (rebased on main 3abeb43a). NONMATCHING retained: original/candidate 2708/2700 bytes; frame 368/368; approximate nmscore 365, not a match. The first 214 normalized bytes and their relocations match exactly.",
   "areas": [
     {
       "id": "compile",
       "label": "Compiling C89 draft",
       "state": "done",
-      "evidence": "Twelfth-pass serial make compare prints shiningsoul2_eu.gba: OK with original ASM fallback; make nonmatching compiles the draft; check_tree reports 0 errors. Actual-module strict nmdiff remains NO MATCH."
+      "evidence": "Thirteenth-pass serial make compare prints shiningsoul2_eu.gba: OK with original ASM fallback; make nonmatching compiles the draft; check_tree reports 0 errors. Actual-module strict nmdiff remains NO MATCH."
     },
     {
       "id": "frame",
@@ -31,13 +31,13 @@
       "id": "registers",
       "label": "Registers and instruction order",
       "state": "active",
-      "evidence": "Actual-module nmscore 982 -> 795 -> 783 -> 673 -> 595 -> 544 -> 491 -> 459 -> 426 -> 400 -> 387 -> 381 -> 378. Current candidate/original 2712/2708 bytes, frame 368 exact; the 4-byte size difference is not hidden by the score. Strict decomp.normalized proves the first 0xD6 (214) bytes and all relocation records inside that prefix identical between original ASM and the real module object. All 100 physical calls retain the original callee sequence. Short BG and portrait lookup bindings recover the prefix, while captured r1 flags and an r0 unsigned selector follow original confirmation dataflow. No ASM bodies, empty barriers or opcodes were added. Remaining differences include r3=-1 call argument preparation, persistent menu aggregate accesses, pointer arithmetic, spills, up-result allocation and branch encodings. No permuter retained."
+      "evidence": "Actual-module nmscore 982 -> 795 -> 783 -> 673 -> 595 -> 544 -> 491 -> 459 -> 426 -> 400 -> 387 -> 381 -> 378 -> 365. Current candidate/original 2700/2708 bytes, frame 368 exact. Strict decomp.normalized proves the first 0xD6 (214) bytes and relocation records inside that prefix identical between original ASM and the real module object. All 100 physical calls retain the original callee sequence. BG and portrait lookup bindings recover the prefix; captured r1 flags and an r0 unsigned selector follow original confirmation dataflow. Five short text-pointer r4 lifetimes recover the original return-pointer-plus-two instruction without changing callee signatures; r4 is preserved across the width/draw calls as in the original. No ASM bodies, empty barriers or opcodes were added. Remaining differences include r3=-1 call argument preparation, persistent menu aggregate accesses, pointer arithmetic, spills, up-result allocation and branch encodings. No permuter retained."
     },
     {
       "id": "match",
       "label": "Full matching normal C build",
       "state": "pending",
-      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active. The verified 214-byte prefix and 368-byte frame do not prove full binary equivalence; the 2712-byte current draft still differs from the 2708-byte original and strict nmdiff reports NO MATCH."
+      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active. The verified 214-byte prefix and 368-byte frame do not prove full binary equivalence; the 2700-byte current draft still differs from the 2708-byte original and strict nmdiff reports NO MATCH."
     }
   ]
 }
