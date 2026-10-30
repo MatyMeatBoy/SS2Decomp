@@ -1514,10 +1514,12 @@ s32 sub_0805CDF8(void) {
     s32 var_r6;
     u32 var_r8;
     u16 *temp_r0_2;
+    register u8 *base asm("r2");
+    register u8 *p asm("r0");
     u16 *var_r5;
     u16 *recipeValues;
     struct PuzzleSlot61 **slotsBase;
-    u16 temp_r0_3;
+    register s32 temp_r0_3 asm("r0");
     u16 temp_r1_4;
     u32 var_r7;
     s32 var_r9;
@@ -1596,16 +1598,22 @@ loop_15:
                 sub_08057624(0xAU);
                 var_r7 += 1;
             } while (var_r7 <= 3U);
-            temp_r0_2 = (u16 *)((u32)puzzleRecipes61 + var_r9 + 16);
+            base = (u8 *)puzzleRecipes61;
+            asm("" : "+r"(base));
+            p=base+16;
+            asm("" : "+r"(p));
+            temp_r0_2=(u16 *)(p+var_r9);
             temp_r1_4 = *temp_r0_2;
             if (temp_r1_4 == 0xA) {
                 sp10.type = temp_r1_4;
-                sp10.data.wide = (s32) *(u16 *)((u32)puzzleRecipes61 + var_r9 + 18);
+                p=base+18; asm("" : "+r"(p));
+                sp10.data.wide = (s32) *(u16 *)(p + var_r9);
             } else {
                 sp10.data.wide = 0;
                 sp10.type = (u16) *temp_r0_2;
-                sp10.value = (u16) *(u16 *)((u32)puzzleRecipes61 + var_r9 + 18);
-                temp_r0_3 = sp10.type;
+                p=base+18; asm("" : "+r"(p));
+                sp10.value = (u16) *(u16 *)(p + var_r9);
+                temp_r0_3 = sp10.type; asm("" : "+r"(temp_r0_3));
                 if ((s32)temp_r0_3 > 5) goto item_ready; if ((s32)temp_r0_3 < 2) goto item_ready; {
                     sp10.last = 0;
                     sp10.data.parts.a = 0;
