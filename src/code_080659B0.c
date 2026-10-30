@@ -294,13 +294,12 @@ u32 sub_0806603C(s32 *src)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806603C);
 #endif
-#ifdef NONMATCHING
-/* Enqueue tag 0x8A (hit event: u8 target, u8 kind, u8 b, u8 c, s16 damage...), merging damage into a pending 0x8A for the same target. */
 u32 sub_080660EC(u8 *src)
 {
     u8 *p;
-    u32 i;
-    u32 n;
+    u8 *payload;
+    register u32 i asm("r3");
+    register u32 n asm("r2");
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
@@ -308,10 +307,10 @@ u32 sub_080660EC(u8 *src)
     } else {
         p = (u8 *)(uintptr_t)gUnk_03006300;
         for (i = 0; i < n; i++, p += 0x88) {
-            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8A && p[8] == src[0]) {
-                *(s16 *)(p + 0xC) += *(s16 *)(src + 8);
-                p[0xB] = src[3];
-                p[10] = src[2];
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8A && (payload = p + 8)[0] == src[0]) {
+                *(u16 *)(payload + 4) += *(u16 *)(src + 4);
+                payload[3] = src[3];
+                payload[2] = src[2];
                 goto done;
             }
         }
@@ -326,9 +325,6 @@ u32 sub_080660EC(u8 *src)
     }
     return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080660EC);
-#endif
 u32 queuePlayerBlob067(void) asm("sub_0806617C");
 extern u8 root67Payload[] asm("gUnk_03003D38");
 u32 queuePlayerBlob067(void)
