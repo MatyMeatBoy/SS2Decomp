@@ -566,4 +566,25 @@ void sub_080923B4(u32 index, u32 packed)
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080923B4);
 #endif
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080923FC);
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08092CB8);
+void sub_08092CB8(void)
+{
+    union { u32 word; u16 half[2]; } config;
+    u32 zero = 0;
+    sub_08000A34(1, 0, 0, 0, zero);
+    sub_080009F8(0xF00, 0, 0);
+    sub_08000990(0, 0);
+    sub_080009C0(0x1300, 0, 0);
+    config.half[0] = 0x1803;
+    sub_08000AA8(1, config.half);
+    sub_080921E4(1, 0x18);
+    config.half[0] = 0x1C02;
+    sub_08000AA8(0, config.half);
+    sub_080921E4(2, 0x1C);
+    sub_0800903C(0, 0, 0, 0, zero, zero);
+    sub_0800CBF8(1);
+    sub_0800CC48(1);
+    sub_08098010(1);
+    sub_08092DC4();
+    sub_08092D60();
+    sub_08000940();
+}
