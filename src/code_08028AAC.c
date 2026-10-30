@@ -37,7 +37,43 @@ void sub_0802A01C(void)
   }
   while (i <= 4);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A080);
+struct PackedA080 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};
+struct RefA080 {struct PackedA080 *position;u8 padding[0x148];};
+extern struct RefA080 refsA080[] asm("gUnk_03003E28");
+extern s32 overlapA080(struct V2W12 *,struct V2W12 *,u32 *,u32 *) asm("sub_08021FE0");
+void sub_0802A080(s32 x,s32 y,u32 low,s32 high)
+{
+    struct V2W12 center;
+    struct V2W12 player;
+    u32 mask;
+    u32 narrowed;
+    u32 range;
+    s32 wait;
+    u32 index;
+    u32 flag;
+    struct RefA080 *reference;
+    struct RefA080 *base;
+    narrowed=low<<16;
+    mask=0;
+    center.x=(u32)x<<8;
+    center.y=(u32)y<<8;
+    high=(u32)high<<16;
+    range=(narrowed>>16)|(u32)high;
+    base=refsA080;
+    do {
+        wait=1;
+        index=0;
+        while(index<sub_08002164()) {
+            reference=(struct RefA080 *)(index*0x14C+(u32)base);
+            player.x=reference->position->x<<8;
+            player.y=reference->position->y<<8;
+            flag=reference->position->flags; flag&=0x20;
+            if(!flag && overlapA080(&player,&center,&mask,&range))wait=0;
+            index++;
+        }
+        sub_080003F0();
+    } while(wait);
+}
 struct TaskP2A1 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u8 *gGS2A1 asm("gUnk_03005CF4");
 extern void sub_08000274_2(void *, u32) asm("sub_08000274");
