@@ -82,7 +82,41 @@ INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5E64);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5F94);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6068);
+extern u8 gTick6068 asm("gUnk_030007E8");
+extern u8 gOtherTick6068 asm("gUnk_030007E9");
+extern u8 gFlag6068 asm("gUnk_030007EA");
+struct Display6068 { u8 pad[0x30]; u16 item30; u16 pad32; u16 item34; u16 pad36; u16 item38; u16 item3A; };
+extern struct Display6068 gDisplay6068 asm("gUnk_03001250");
+extern void setScreen6068(u32, u32, u32) asm("sub_080009C0");
+extern void resetScreen6068(u32, u32, u32) asm("sub_080009F8");
+u32 sub_080B6068(void)
+{
+    register volatile u8 *tickPtr asm("r1");
+    volatile u8 *otherPtr;
+    struct Display6068 *display;
+    register u32 tick asm("r2");
+    register u32 current asm("r3");
+    sub_080586B4(0);
+    gFlag6068 = 1;
+    if (sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+        setScreen6068(0x1F00, 0x2000, 1);
+        gDisplay6068.item38 = 0x3F;
+        gDisplay6068.item3A = 0x3B;
+    }
+    tickPtr = &gTick6068;
+    tick = *tickPtr + 1;
+    *tickPtr = tick;
+    otherPtr = &gOtherTick6068;
+    display = &gDisplay6068;
+    current = *tickPtr;
+    display->item30 = (current << 8) | (0xF0 - current);
+    current = *otherPtr;
+    display->item34 = (current << 8) | (0xA0 - current);
+    if ((u8)tick <= 0x77)
+        return 0;
+    resetScreen6068(0x400, 0, 1);
+    return 1;
+}
 extern u8 *gTask60F4 asm("gUnk_030007EC");
 extern u32 gMask60F4 asm("gUnk_030056FC");
 extern u8 *gIcons60F4 asm("gUnk_030056F4");
