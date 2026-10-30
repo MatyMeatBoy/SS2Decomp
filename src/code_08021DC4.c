@@ -4140,8 +4140,6 @@ void sub_08026858(void) {
     u32 temp_r1;
     u32 temp_r1_2;
     u32 temp_r2;
-    u32 var_r1;
-    u32 var_r2;
     u32 var_r4;
     register u32 var_r5_2 asm("r5");
     u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
@@ -4353,17 +4351,24 @@ end_poll:
             var_r5_2 += 1;
             if (temp_r0_4 > 0x63U) {
                 sub_0800D014();
-                var_r1 = 0;
-                do {
-                    var_r2 = 0;
-loop_68:
-                    t24_state08026858->grid[var_r2 + var_r1 * 5] = 0;
-                    var_r2 += 1;
-                    if (var_r2 <= 4U) {
-                        goto loop_68;
-                    }
-                    var_r1 += 1;
-                } while (var_r1 <= 0x13U);
+                {
+                    register struct T24State08026858 **state asm("r6") = &t24_state08026858;
+                    register u32 zero asm("r5") = 0;
+                    register u32 row asm("r1") = 0;
+                    asm("" : "+r"(state), "+r"(zero), "+r"(row));
+                    do {
+                        register u32 col asm("r2") = 0;
+                        register u32 rowOffset asm("r3") = row * 5;
+                        register u32 next asm("r4") = row + 1;
+                        do {
+                            register u32 gridOffset asm("r7") = offsetof(struct T24State08026858, grid);
+                            asm("" : "+r"(gridOffset));
+                            *((u8 *)*state + gridOffset + rowOffset + col) = zero;
+                            col++;
+                        } while (col <= 4);
+                        row = next;
+                    } while (row <= 0x13);
+                }
                 sub_080003F0();
                 sub_0801A664(0x12, 2);
                 sub_0800CDAC();
