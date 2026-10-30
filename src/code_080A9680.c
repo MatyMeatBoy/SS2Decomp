@@ -2231,7 +2231,7 @@ void sub_080AE1B4(void)
     s16 count;
     s32 allocation[4];
     u8 *actor;
-    for (i=0;i<=3;i++) for (j=0;j<=4;j++) history114E[i][j]=0;
+    { register u32 zero asm("r4")=0; asm("" : "+r"(zero)); for (i=0;i<=3;i++) for (j=0;j<=4;j++) history114E[i][j]=zero; }
     count114E=sub_08002164();
     sub_080AF2BC();
     for (i=0;i<count114E;i++) sub_080AF350(i);
@@ -2251,9 +2251,9 @@ void sub_080AE1B4(void)
     while (sub_08058DB0()) sub_080003F0();
     if (!(gUnk_03003CE0[sub_080020F4()].flags&0x2000)) {
         for (i=0;i<count114E;i++) {
-            actor=entries114E[i].actor;
-            if (*(u16 *)(actor+0x5A)) {
-                *(s32 *)(actor+0x214)=sub_0800CE30()==1 ? 0x55 : 0x28;
+            if (*(u16 *)(entries114E[i].actor+0x5A)) {
+                if (sub_0800CE30()==1) *(s32 *)(entries114E[i].actor+0x214)=0x55;
+                else *(s32 *)(entries114E[i].actor+0x214)=0x28;
                 allocation[i]=sub_0801E46C((void *)gUnk_030034E0,entries114E[i].actor+0x204);
             }
         }
