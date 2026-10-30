@@ -346,7 +346,171 @@ void sub_0802A19C(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A228);
+struct StateA228 {u16 f0;u8 pad2[2];u16 flags;u8 pad6[0xA];u16 f10;u8 pad12[0x24];u16 f36;u8 pad38[8];u32 f40;u8 pad44[0x6D8];u32 table;};
+extern struct StateA228 *stateA228 asm("gUnk_03005CF4");
+extern u32 gUnk_084F0AC0[];
+extern u32 gUnk_084F26E4[];
+extern u32 gUnk_084F4818[];
+extern u32 gUnk_084F794C[];
+extern u32 gUnk_084FA298[];
+extern u32 gUnk_084FD06C[];
+extern u32 gUnk_0850008C[];
+extern u32 gUnk_085028BC[];
+extern u32 gUnk_085060D4[];
+extern u32 gUnk_08508B54[];
+extern u32 gUnk_0850C6E8[];
+extern u32 gUnk_0850D4EC[];
+extern u32 gUnk_0850DE28[];
+extern u32 gUnk_0850EAC4[];
+extern u32 gUnk_0850ED20[];
+extern u32 gUnk_0850F894[];
+extern u32 gUnk_08510530[];
+extern u32 gUnk_08511538[];
+extern u32 gUnk_08512670[];
+extern u32 gUnk_08513680[];
+extern u32 gUnk_08514FAC[];
+extern u32 gUnk_08515FCC[];
+extern u32 gUnk_08517220[];
+extern u32 gUnk_0851810C[];
+void sub_0802A228(u32 arg0, s32 arg1) {
+    register u32 *var_r1 asm("r1");
+    u32 *var_r3; struct StateA228 *current;
+    u16 var_r4;
+
+    sub_0800BB40();
+    for(var_r4=5;var_r4;var_r4--){sub_080003F0();if(sub_080021A8())break;}
+    switch (arg0) {                                 /* irregular */
+    case 0:
+        sub_0800CCDC();
+        stateA228->table = (s32) gUnk_084F0AC0[arg1];
+        stateA228->f36 = 0;
+        break;
+    case 1:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_084F26E4;
+        goto block_30;
+    case 2:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_084F4818;
+        goto block_30;
+    case 3:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_084F794C;
+        goto block_30;
+    case 4:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_084FA298;
+        goto block_30;
+    case 5:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_084FD06C;
+        goto block_30;
+    case 6:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0850008C;
+        goto block_30;
+    case 7:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_085028BC;
+        goto block_30;
+    case 8:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_085060D4;
+        goto block_30;
+    case 9:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08508B54;
+        goto block_30;
+    case 10:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0850C6E8;
+        goto block_30;
+    case 11:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0850D4EC;
+        goto block_30;
+    case 12:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0850DE28;
+        goto block_30;
+    case 13:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0850EAC4;
+        goto block_30;
+    case 14:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0850ED20;
+        goto block_30;
+    case 15:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0850F894;
+        goto block_30;
+    case 16:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08510530;
+        goto block_30;
+    case 17:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08511538;
+        goto block_30;
+    case 18:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08512670;
+        goto block_30;
+    case 19:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08513680;
+        goto block_30;
+    case 20:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08514FAC;
+        goto block_30;
+    case 21:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08515FCC;
+        goto block_30;
+    case 22:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_08517220;
+        goto block_30;
+    case 23:
+        sub_0800CCEC();
+        current=stateA228; var_r3 = &current->table;
+        var_r1 = gUnk_0851810C;
+block_30:
+        asm("" : : "r"(var_r1));
+        *var_r3 = var_r1[arg1];
+        current->flags = (u16) (0x10 | current->flags);
+        break;
+    }
+    stateA228->f10 = 0;
+    stateA228->f40 = arg1;
+    stateA228->f0 = (s16) arg0;
+    sub_08028918();
+}
+
 struct ColorA590 {u32 r:5;u32 g:5;u32 b:5;u32 unused:1;};
 extern struct ColorA590 paletteA590[] asm("gUnk_03001F40");
 extern void copyA590(const void *,void *,u32) asm("CpuSet");
