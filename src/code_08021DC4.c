@@ -4198,9 +4198,12 @@ poll_input:
     y = (s16) ((u32) temp_r6->unk90 >> 8);
     if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
         {
-            register s32 limit asm("r2") = 0xF0;
+            register s32 value asm("r0") = x;
+            register s32 limit asm("r2");
+            asm("" : "+r"(value));
+            limit = 0xF0;
             asm("" : "+r"(limit));
-            var_r0 = x - limit;
+            var_r0 = value - limit;
         }
         if (var_r0 < 0) {
             var_r0 = 0 - var_r0;
