@@ -414,8 +414,120 @@ void sub_0801F320(u8 *object, u8 *data)
   }
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F374);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F79C);
+extern u8 directions02079[] asm("gUnk_084790B4");
+extern u16 amount02079(void *,void *,void *,s32) asm("sub_0801E988");
+extern void hit02079(void *,void *,s32,u16,s32) asm("sub_08069388");
+extern void notify02079(void *) asm("sub_080660EC");
+extern void display02079(void *,s32,s32,u16,s32,s32) asm("sub_08069080");
+struct Packet02079 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
+void sub_0801F79C(u8 *source,u8 *target,u8 *attack,s32 flags)
+{
+    struct Packet02079 packet;
+
+
+
+    u8 *position;
+    void *display;
+    struct Packet02079 *packetAddress;
+    u32 *history;
+    u32 historyIndex;
+    u16 angle;
+    if(flags&1) {
+        packet.amount=amount02079(source,target,attack,1)|0x8000;
+        packet.power=0;
+        packet.impulse=0;
+        packet.direction=0;
+    } else {
+        packet.amount=amount02079(source,target,attack,0);
+        packet.impulse=attack[0xA9];
+        position=*(u8 **)(target+0x148);
+        angle=ArcTan2((s16)((*(u16 *)position>>4)-(*(s32 *)(source+0x8C)>>8)),(s16)(((u32)((u32)*(u16 *)(position+2)<<20)>>20)-(*(s32 *)(source+0x90)>>8)));
+        packet.direction=directions02079[angle>>12];
+        if(*(u16 *)(source+0x20)==5 && *(u16 *)(source+0x10)==8)
+            packet.amount=(s32)(packet.amount*(((u32)(*(u32 *)(*(u8 **)(source+0x148)+4)<<15)>>29)+5))/10;
+    }
+    packetAddress=&packet;
+    display=target+0x4C;
+    hit02079(packetAddress,display,1,*(u16 *)(attack+0xBC),*(u16 *)target);
+    *(u16 *)(source+0xC4)+=(s32)((packetAddress->amount&0xFFFF7FFF)*(s8)source[0x6A])/100;
+    *(u16 *)(source+0xC2)+=((s32)((packetAddress->amount&0xFFFF7FFF)*((s32)((u32)source[0x6B]<<24)>>24))/100)*10;
+    if(*(s16 *)(source+0xC4)>*(s16 *)(source+0x62)) *(u16 *)(source+0xC4)=*(u16 *)(source+0x62);
+    if(*(s16 *)(source+0xC2)>*(s16 *)(source+0x60)) *(u16 *)(source+0xC2)=*(u16 *)(source+0x60);
+    historyIndex=*(u16 *)source*4;
+    history=(u32 *)(target+0xF8);
+    asm("" : "+r"(history) : "r"(historyIndex));
+    *(u32 *)((u8 *)history+historyIndex)=*(u32 *)(source+0xDC);
+    packetAddress->player=*(u16 *)target;
+    notify02079(packetAddress);
+    display02079(display,packetAddress->amount&0x7FFF,0,*(u16 *)source,*(u16 *)target,*(u16 *)(attack+0xBC));
+}
+
+
+
+
+
+
+
+#ifdef NONMATCHING
+extern u8 *scene02099 asm("gUnk_03005CF4");
+extern u8 players02099[] asm("gUnk_03003CE0");
+extern void damage02099(u32,u16,u8) asm("sub_08028368");
+struct Size02099 { u32 width:16; u32 height:16; };
+s32 sub_0801F99C(void *arg0, void *arg1)
+{
+    struct Size02099 size;
+    u8 *item;
+    u8 *data;
+    u32 count;
+    u32 index;
+    s32 dx;
+    s32 dy;
+    s32 hit;
+    u16 power;
+    u16 defense;
+    u16 damage;
+    u32 random;
+    count=*(u32 *)(scene02099+0x48);
+    if(count==0) return 0;
+    item=scene02099+0x58C;
+    for(index=0;index< count;index++,item+=0x24) {
+        if((u16)(*(u16 *)(item+0x14)-10)<=2) goto next;
+        data=*(u8 **)(item+0x20);
+        if(data[6]&3) goto next;
+        asm("" : : "r"(&size) : "memory");
+        size.width=*(u16 *)(data+0xC);
+        size.height=*(u16 *)(*(u8 **)(item+0x20)+0xE);
+        asm("" : : "r"(&size) : "memory");
+        dx=(*(s32 *)arg0-*(s32 *)item)>>8;
+        if(dx<0) dx=-dx;
+        if(dx <= (s32)(*(u16 *)arg1+size.width)>>1) {
+            dy=(*(s32 *)((u8 *)arg0+4)-*(s32 *)(item+4))>>8;
+            if(dy<0) dy=-dy;
+            hit=1;
+            if(dy>(s32)(*(u16 *)((u8 *)arg1+2)+size.height)>>1) hit=0;
+        } else hit=0;
+        if(hit) {
+            power=*(u16 *)(players02099+0x14C*sub_080020F4()+0x58);
+            defense=*(u16 *)(*(u8 **)(item+0x20)+2);
+            random=((((u16)sub_080008C8()%50U)<<16)+0x640000)>>16;
+            damage=(u16)((u16)((s32)(random*((s32)(power*power*10)/(s32)(power+defense)))/100)/10U);
+            if(damage==0) damage=1;
+            *(u16 *)(item+0x10)-=damage;
+            *(u16 *)(item+0x12)=sub_0801DE60();
+            sub_0805865C(0x1A);
+            if(*(u16 *)(item+0x10)&0x8000) *(u16 *)(item+0x10)=0;
+            damage02099(index,damage,sub_0801DE60());
+            *(u16 *)(item+0x14)=10;
+            return 1;
+        }
+next:
+        count=*(u32 *)(scene02099+0x48);
+    }
+    return 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F99C);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FB14);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801FC34);
 struct Sh20FD64 { u8 pad0[0x62]; s16 amount; u8 pad64[4]; u8 enabled; u8 rate; u8 pad6A[0x20]; u16 accumulator; u8 pad8C[0x50]; u32 current; u32 pending; u8 padE4[0x28]; u32 previous; };
