@@ -1940,7 +1940,7 @@ void sub_0801A7AC(void)
     struct Transition16Display *screen;
     s16 *savedStep;
     /* These addresses remain live across the yields in both fade loops. */
-    register u16 *progress asm("r4"); register u16 *period asm("r5");
+    register u16 *progress asm("r4");
     s16 *fadeLevel;
     s32 flag2; s32 flag16;
     register u16 delta asm("r0"); u32 total;
@@ -1952,6 +1952,7 @@ again:
     sub_080003F4(100);
     flag2 = (s16)(flags16 & 2);
     if (flag2 != 0) {
+        register u16 *period asm("r5");
         display16.f40 = 255;
         flag2 = 0;
         if (*step > 0) level16 = flag2;
@@ -1969,13 +1970,18 @@ fade:
         *progress = total;
         signedDelta = (s16)delta;
         if (signedDelta > 0 && *period < (u16)total) goto finished;
-        if (signedDelta < 0 && (total & 0x8000)) goto finished;
+        if (signedDelta < 0) {
+            register u32 mask asm("r3") = 0x8000;
+            asm("" : "+r"(mask));
+            if (total & mask) goto finished;
+        }
         sub_080003F0();
         goto fade;
     }
     flag16 = (s16)(flags16 & 16);
     if (flag16 != 0) {
         struct Transition16Display *inner;
+        register u16 *period asm("r6");
         /* Original blend loop retains display+0x44 independently of its base. */
         u16 *blendRegister;
         if (*step > 0) level16 = flag2;
@@ -1993,13 +1999,21 @@ blend:
         *progress = total;
         signedDelta = (s16)delta;
         if (signedDelta > 0 && *period < (u16)total) goto finished;
-        if (signedDelta < 0 && (total & 0x8000)) goto finished;
+        if (signedDelta < 0) {
+            register u32 mask asm("r3") = 0x8000;
+            asm("" : "+r"(mask));
+            if (total & mask) goto finished;
+        }
         sub_080003F0();
         goto blend;
 finished:
         if (*savedStep < 0) gUnk_03000022 = 0;
     } else {
-        gUnk_03000020 = 2;
+        {
+            register u16 n asm("r1") = 2;
+            asm("" : "+r"(n));
+            gUnk_03000020 = n;
+        }
         if (gUnk_03000026 > 0) {
             screen->f3A = 0x3F3F;
             screen->f38 = flag16;
@@ -2023,7 +2037,17 @@ finished:
             sub_080003F0();
         }
     }
-    { s32 mask = -23; flags16 &= mask; }
+    {
+        register u16 *p asm("r0") = (u16 *)&flags16;
+        register u32 value asm("r1") = *p;
+        register s32 mask asm("r4") = -23;
+        register s32 bits asm("r2");
+        asm("" : "+r"(p), "+r"(value), "+r"(mask));
+        bits = mask;
+        asm("" : "+r"(bits));
+        value &= bits;
+        *p = value;
+    }
     goto again;
 }
 #else
