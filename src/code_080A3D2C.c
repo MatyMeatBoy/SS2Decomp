@@ -454,12 +454,16 @@ void sub_080A4520(void) {
         players1084520[sub_080020F4()].history[F_1084520(object1084520,u16,0)] = F_1084520(object1084520,u32,0x50);
         temp_r4_4 = ((s32) F_1084520(x1084520+0x14C*sub_080020F4(),s32,0) >> 8) - ((s32) F_1084520(object1084520,s32,0x14) >> 8);
         temp_r0 = (u32)angle1084520((s16) temp_r4_4, (s16) (((s32) players1084520[sub_080020F4()].y >> 8) - ((s32) F_1084520(object1084520,s32,0x18) >> 8))) << 0x10;
-        var_r4 = temp_r0 >> 0x1D;
-        if ((u32) (temp_r0 * 8) > 0x80000000U) {
-            if (var_r4 <= 6U) {
-                var_r4 += 1;
-            } else {
-                var_r4 = 0;
+        {
+            register u32 remainder asm("r1") = temp_r0 * 8;
+            var_r4 = temp_r0 >> 0x1D;
+            asm("" : "+r"(remainder), "+r"(var_r4));
+            if (remainder > 0x80000000U) {
+                if (var_r4 <= 6U) {
+                    var_r4 += 1;
+                } else {
+                    var_r4 = 0;
+                }
             }
         }
         if (var_r4 != 0) {
