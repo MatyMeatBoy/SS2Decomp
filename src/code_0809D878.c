@@ -260,7 +260,101 @@ void sub_0809FB18(void)
     sub_08000274_1((u32)t);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
+#ifdef NONMATCHING
+struct Sprite105 {u32 base,pad4,data,palette,pad10,pad14,pad18;u8 payload[24];};
+struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[0x286];u16 paletteOffset;};
+struct Player105 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 health;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x32];u32 seen[26];};
+struct Obj105 {u32 p0,p4,p8;s32 y;};
+extern struct Actor105 *actor105 asm("gUnk_0300032C");
+extern u16 variant105 asm("gUnk_03000330");
+extern struct Player105 players105[] asm("gUnk_03003CE0");
+extern void init105(void *,u32,u32,s32,s32) asm("sub_08065158");
+extern u32 step105(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
+extern void move105(s32 *,s32) asm("sub_08096AF4");
+extern void screen105(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern struct Obj105 *draw105(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 damage105(void *,void *) asm("sub_0801ED8C");
+extern void camera105(u32) asm("sub_080A107C");
+extern void shake105(s32,u32) asm("sub_08097D3C");
+extern void sub_08097D64(void);
+
+extern void sub_080A104C(void);
+extern void sub_080A1058(void);
+void sub_080A05B4(u32 kind,void *done)
+{
+    struct Sprite105 spr;
+    s32 pos[2];
+    s32 targetX;
+    s32 timer,animDone,contact,started;
+    u16 elapsed;
+    volatile u16 animation;
+    volatile u16 other;
+    u16 frame,phase;
+    s16 sx,sy,dx,dy;
+    u8 shade;
+    s32 i,damage;
+    struct Actor105 *actor;
+    struct Obj105 *object;
+    kind=(u8)kind;
+    init105(&spr,0x5000A,variant105,-1,1);
+    spr.payload[0]=variant105;
+    switch ((s32)kind) {
+    case 0: animation=kind;pos[0]=0x2000;goto target8000;
+    case 1: animation=kind;goto target2000;
+    case 2: animation=kind;goto targetE000;
+    case 3: animation=kind;pos[0]=0xE000;targetX=0x8000;break;
+    default: animation=0;pos[0]=0x2000;
+ target8000: targetX=0x8000;break;
+ target2000: pos[0]=0x2000;targetX=0x2000;break;
+ targetE000: pos[0]=0xE000;targetX=0xE000;break;
+    }
+    other=animation+10;pos[1]=0x7600;
+    animDone=0;phase=0;frame=(u16)animDone;elapsed=0;started=0;contact=0;timer=90;
+    do {
+        move105(pos,0);
+        if (!sub_0800CD8C()) animDone=(u16)step105(&spr,animation,&frame,&phase,0);
+        if (!sub_0800CCCC() && !sub_0800CD34() && !sub_0800CC98()) {
+            sub_08000AF0(variant105+16,spr.palette+(actor105->paletteOffset<<5),1);
+            screen105((pos[0]<<8)>>16,(pos[1]<<8)>>16,&sx,&sy,0,0);
+            object=draw105(sx,0x9F,animation,frame,2,spr.payload,spr.data,spr.base);object->y=sy;
+            if (frame) {
+                shade=sub_0800BC44(pos[0]>>8,pos[1]>>8,0);
+                object=draw105(sx,0x9F,other,frame-1,shade,spr.payload,spr.data,spr.base);object->y=sy;
+            }
+        }
+        if (!contact && frame==2 && phase==0) {
+            sub_0805865C(0xC0);
+            dx=(targetX>>8)-(players105[sub_080020F4()].x>>8);
+            dy=0x88-(players105[sub_080020F4()].y>>8);
+            if (Sqrt(dx*dx+dy*dy)<=0x27 && !sub_0800CDF8() && !sub_0800CD8C() && !sub_0800CCCC()
+                && actor105->state!=11 && !(players105[sub_080020F4()].flags&0x2000)
+                && players105[sub_080020F4()].active && players105[sub_080020F4()].state!=14
+                && players105[sub_080020F4()].state!=11 && players105[sub_080020F4()].state!=12
+                && players105[sub_080020F4()].seen[actor105->index]!=actor105->serial) {
+                players105[sub_080020F4()].state=10;
+                players105[sub_080020F4()].motion=0xFFFE;
+                i=sub_080020F4(); actor=actor105;
+                damage=damage105(actor,&players105[sub_080020F4()]);
+                players105[i].health+=damage;
+                i=sub_080020F4();actor=actor105;
+                players105[i].seen[actor->index]=actor->serial;actor->serial++;
+                contact=1;
+            }
+        }
+        if (!started && frame==2 && phase==0) {
+            started=1;camera105(20);
+            if (kind<=1) shake105(-0x20,20);else shake105(0x20,20);
+            sub_08097D64();sub_080A1070(4);sub_080A104C();sub_0805865C(0xBE);
+        }
+        if (animDone || elapsed++ > 0x3B) timer=(u16)(timer-1);
+        sub_080003F0();
+    } while (timer);
+    *(u8 *)done=1;sub_080A1058();*(u32 *)((u8 *)sub_0800048C()+8)=0;
+}
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A05B4);
+#endif
 struct EntryA099C { u8 pad[8]; u16 unk8, unkA; u8 rest[20]; };
 struct PlayerA099C { u8 pad[0x8C]; u32 x, y, xx, yy; u8 rest[0xB0]; };
 extern struct PlayerA099C gPlayersA099C[] asm("gUnk_03003CE0");
