@@ -507,23 +507,32 @@ void sub_0808DB38(u32 arg)
             texture = &anim[7];
             do {
                 {
-                    register s32 newx asm("r0") = 0xFFFFFE00 + xraw;
-                    asm("" : "+r"(newx));
-                    pos[0] = newx;
+                    register u32 delta asm("r2") = 0xFFFFFE00;
+                    register s32 nextX asm("r0");
+                    asm("" : "+r"(delta));
+                    nextX = delta + xraw;
+                    asm("" : "+r"(nextX));
+                    pos[0] = nextX;
                 }
                 height += speed;
                 speed -= 0x28;
-                if (height <= 0) {
-                    height = 1;
-                    speed = -(speed >> 1);
+                {
+                    register s32 heightCheck asm("r0") = height;
+                    asm("" : "+r"(heightCheck));
+                    if (heightCheck <= 0) {
+                        height = 1;
+                        speed = -(speed >> 1);
+                    }
                 }
                 if (speed > 0 && sound) {
                     if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
                     sound = 0;
                 }
                 if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
-                    hit = 0;
-                    sub_08029A7C(0, 0x10, 1);
+                    register u32 zero asm("r0") = 0;
+                    asm("" : "+r"(zero));
+                    hit = zero;
+                    sub_08029A7C(zero, 0x10, 1);
                 }
                 sub_08065370(anim, 0, (s32)&firstptr[0], (s32)attrptr, 1);
                 asm("" : "+r"(firstptr));
