@@ -2217,7 +2217,64 @@ void sub_080AE184(void)
     obj[2] -= 0x40;
     gUnk_030056FC &= ~(1 << *(u16 *)gUnk_03000448[obj[2]]);
 }
+#ifdef NONMATCHING
+struct Entry114E {u8 *actor; u8 pad[0xA8];};
+extern struct Entry114E entries114E[] asm("gUnk_030004D0");
+extern u32 history114E[][83] asm("gUnk_03003DC4");
+extern u8 count114E asm("gUnk_03000780");
+extern void sub_080AF2BC(void);
+extern void sub_080AF350(u8);
+extern void sub_0806171C(void *,s32);
+void sub_080AE1B4(void)
+{
+    u8 i,j,clear;
+    s16 count;
+    s32 allocation[4];
+    u8 *actor;
+    for (i=0;i<=3;i++) for (j=0;j<=4;j++) history114E[i][j]=0;
+    count114E=sub_08002164();
+    sub_080AF2BC();
+    for (i=0;i<count114E;i++) sub_080AF350(i);
+    sub_08097FE4();sub_08097A4C();sub_08067C18();
+    while (!sub_08067C08()) sub_080003F0();
+    sub_08067BF8();
+    while (!sub_0800CB78() && !sub_08056E90()) {
+        clear=0;
+        for (i=0;i<count114E;i++) if (*(s16 *)(entries114E[i].actor+0x5C)==0) clear++;
+        if (clear==count114E) break;
+        sub_080003F0();
+    }
+    gUnk_030056FC=0;
+    sub_080683CC();sub_08068330(0xDEADFACE);
+    while (!sub_080682B8(0xDEADFACE)) sub_080003F0();
+    sub_08065E38(0xDEADFACE);
+    while (sub_08058DB0()) sub_080003F0();
+    if (!(gUnk_03003CE0[sub_080020F4()].flags&0x2000)) {
+        for (i=0;i<count114E;i++) {
+            actor=entries114E[i].actor;
+            if (*(u16 *)(actor+0x5A)) {
+                *(s32 *)(actor+0x214)=sub_0800CE30()==1 ? 0x55 : 0x28;
+                allocation[i]=sub_0801E46C((void *)gUnk_030034E0,entries114E[i].actor+0x204);
+            }
+        }
+        count=29;
+        do {
+            for (i=0;i<count114E;i++) {
+                actor=entries114E[i].actor;
+                if (*(u16 *)(actor+0x5A)) {
+                    *(s32 *)(actor+0x18)-=0x20;
+                    sub_0806171C(actor,allocation[i]);
+                }
+            }
+            sub_080003F0();
+        } while (--count!=-1);
+        for (i=0;i<count114E;i++) if (*(u16 *)(entries114E[i].actor+0x5A)) sub_0801E4CC((u8 *)gUnk_030034E0,allocation[i]);
+    }
+    sub_08056E24();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE1B4);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE420);
 void sub_080AF2AC(void) {
     sub_080AF304();
