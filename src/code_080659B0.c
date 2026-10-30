@@ -282,7 +282,23 @@ void removeRingMessage67(s32 needle)
         }
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065F08);
+void removeAllRingMessages67(s32 needle) asm("sub_08065F08");
+void removeAllRingMessages67(s32 needle)
+{
+    u32 peer, count, j, k;
+    count = sub_08002164();
+    for (peer = 0; peer < count; peer++) {
+        for (j = 0; j <= gRingIdx[peer]; j++) {
+            if (peerRingsE38[peer].values[j] == needle) {
+                for (k = j; k < gRingIdx[peer]; k++)
+                    peerRingsE38[peer].values[k] = peerRingsE38[peer].values[k + 1];
+                peerRingsE38[peer].values[k] = -1;
+                gRingIdx[peer]--;
+
+            }
+        }
+    }
+}
 u32 sub_08065FE8(void)
 {
     u32 *n = (u32 *)0x03006338;
