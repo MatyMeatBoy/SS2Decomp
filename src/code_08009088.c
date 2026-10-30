@@ -1046,9 +1046,9 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     s32 sp0;
     struct T06CellAEF4 *sp4;
     u32 sp8;
-    u32 spC;
+    register u32 spC asm("r9");
     u32 sp10;
-    u32 sp14;
+    register u32 sp14 asm("r9");
     u32 sp18;
     s16 temp_r4;
     s32 temp_r1_5;
