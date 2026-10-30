@@ -3691,7 +3691,7 @@ s32 sub_080A92C0(u32 argument)
     s32 ix, iy, iflags, itable, offset, saveIndex, saveOffset;
     u32 dx;
     s32 dy;
-    u16 distance;
+    register u32 distance asm("r0");
     struct PlayerEffect111 *base;
     s32 *px, *py, *table, *saveTable, *saveDst;
     u32 *flags;
@@ -3735,11 +3735,21 @@ s32 sub_080A92C0(u32 argument)
         base = effectPlayers111;
         ix *= 0x14C;
         px = &base->x;
-        dx = (u32)((local.x - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
-        iy = 0x14C * sub_080020F4();
+        { register s32 playerX asm("r4") = *(s32 *)((u8 *)px + ix);
+          register s32 effectX asm("r1") = local.x;
+          asm("" : "+r"(playerX), "+r"(effectX));
+          playerX = effectX - playerX; asm("" : "+r"(playerX));
+          dx = (u32)(playerX << 8) >> 16; }
+        { register s32 player asm("r0") = sub_080020F4();
+          asm("" : "+r"(player)); iy = 0x14C * player; }
         py = &base->y;
-        dy = (local.y - *(s32 *)((u8 *)py + iy)) << 8;
-        distance = Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16));
+        { register s32 playerY asm("r1") = *(s32 *)((u8 *)py + iy);
+          register s32 effectY asm("r2") = local.y;
+          asm("" : "+r"(playerY), "+r"(effectY));
+          playerY = effectY - playerY; asm("" : "+r"(playerY));
+          dy = playerY << 8; }
+        distance = (u16)Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16));
+        asm("" : "+r"(distance));
         if (local.hit == 0 && distance <= 11 && sub_0800CDF8() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && *(u16 *)(effectObject111 + 0xC) != 11) {
             iflags = 0x14C * sub_080020F4();
             flags = &base->flags;
@@ -3769,22 +3779,25 @@ s32 sub_080A92C0(u32 argument)
             }
         }
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CD34()) == 0) {
-            screenEffect111((local.x << 8) >> 16, (local.y << 8) >> 16, &local.screenX, &local.screenY, zero, zero);
+            register s16 *screenX asm("r5") = &local.screenX;
+            register s16 *screenY asm("r6") = &local.screenY;
+            asm("" : "+r"(screenX), "+r"(screenY));
+            screenEffect111((local.x << 8) >> 16, (local.y << 8) >> 16, screenX, screenY, zero, zero);
             sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)local.sprite.fC + (*(u16 *)(effectObject111 + 0x2DA) << 5), 1);
             animateEffect111(&local.sprite, 3, frame, &local.tick, zero);
             layer = sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
             if (kind != 0)
-                *(s32 *)(drawEffect111(local.screenX, 0x10, 3, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY;
+                *(s32 *)(drawEffect111(*screenX, 0x10, 3, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY;
             else
-                *(s32 *)(drawEffect111(local.screenX, 0xA0, 3, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY;
+                *(s32 *)(drawEffect111(*screenX, 0xA0, 3, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY;
             if (kind != 0)
-                *(s32 *)(drawEffect111(local.screenX + 0x20, 0x10, 4, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x10;
+                *(s32 *)(drawEffect111(*screenX + 0x20, 0x10, 4, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x10;
             else
-                *(s32 *)(drawEffect111(local.screenX + 0x20, 0xA0, 4, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x10;
+                *(s32 *)(drawEffect111(*screenX + 0x20, 0xA0, 4, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x10;
             if (kind != 0)
-                *(s32 *)(drawEffect111(local.screenX + 0x40, 0x10, 5, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x20;
+                *(s32 *)(drawEffect111(*screenX + 0x40, 0x10, 5, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x20;
             else
-                *(s32 *)(drawEffect111(local.screenX + 0x40, 0xA0, 5, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = local.screenY - 0x20;
+                *(s32 *)(drawEffect111(*screenX + 0x40, 0xA0, 5, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x20;
         }
         sub_080003F0();
     }
