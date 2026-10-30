@@ -1332,7 +1332,7 @@ void sub_080914F0(void) {
     s32 sp14;
     s16 temp_r0_2;
     s16 temp_r1;
-    s16 var_r0;
+    s32 var_r0;
     s32 temp_r1_2;
     s32 temp_r1_3;
     s32 var_r6;
@@ -1345,7 +1345,7 @@ void sub_080914F0(void) {
     heap096_080914F0 = (u32)temp_r0;
     temp_r0_2 = sub_0800086C();
     temp_r1 = temp_r0_2;
-    var_r0 = temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2);
+    var_r0 = (s16)(temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2));
     if ((s32) var_r0 < 0) {
         var_r0 = 0 - var_r0;
     }
