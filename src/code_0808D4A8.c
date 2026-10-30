@@ -128,7 +128,6 @@ s32 sub_0808D594(s32 arg)
 fail:
     return 0;
 }
-#ifdef NONMATCHING
 extern u8 gUnk_084A1910[];
 extern void sub_0801623C(void *, void *, s32);
 extern void sub_08019F60(void *);
@@ -138,8 +137,6 @@ extern void sub_0801C8F0(void *);
 extern u32 sub_08065158(void *, u32, u32, s32, s32);
 extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
-/* The damage timer tests its old value after storing the decremented value.
- * Remaining matching differences are arithmetic selection and registers. */
 static inline void d654InitAnimation(u32 *a, u32 b, u32 c, s32 d, s32 e) { sub_08065158(a, b, c, d, e); }
 void sub_0808D654(u8 *arg0) {
     u32 anim[26];
@@ -178,8 +175,14 @@ void sub_0808D654(u8 *arg0) {
     (*(u16 *)(arg0 + 0x6C)) = zero;
     paletteInit = (u16 *)(arg0 + 0x6A);
     *paletteInit = zero;
-    (*(u16 *)(arg0 + 0x68)) = zero;
-    temp_r0 = (*(s16 *)(temp_r4 + 0x6)) * 3;
+    {
+        register u8 *hold asm("r0") = arg0 + 0x68;
+        s32 val;
+        *(u16 *)hold = zero;
+        val = *(s16 *)(temp_r4 + 6);
+        asm volatile("" : : "r"(hold) : "memory");
+        temp_r0 = val * 3;
+    }
     (*(s16 *)(arg0 + 0x1D6)) = temp_r0;
     (*(s16 *)(arg0 + 0x5C)) = temp_r0;
     temp_r0_2 = *(s16 *)(temp_r4 + 4);
@@ -344,9 +347,6 @@ done:
     sub_08016ECC(5);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808D654);
-#endif
 u32 sub_0808D9AC(u32 arg)
 {
     u8 *base;
