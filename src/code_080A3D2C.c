@@ -2240,7 +2240,7 @@ s32 sub_080A705C(void) {
     s16 temp_r1_3;
     s16 temp_r4_6;
     s16 temp_r4_8;
-    s32 *temp_r4_2;
+    register s32 *temp_r4_2 asm("r4");
     s32 *temp_r5;
     s32 *temp_r5_2;
     s32 temp_r0_2;
@@ -2261,7 +2261,7 @@ s32 sub_080A705C(void) {
     u16 temp_r4_5;
     u8 *temp_r2;
     u8 *temp_r3_3;
-    u8 temp_r0;
+    register u8 temp_r0 asm("r0");
     u8 temp_r0_5;
     u8 temp_r0_8;
     u8 temp_r0_9;
