@@ -3872,13 +3872,13 @@ void sub_080263B4(void) {
     s32 active;
     u32 timer;
     u32 nextCount;
-    s32 limit;
+    register s32 limit asm("r2");
     s32 temp_r4_2;
     s32 var_r0;
     s32 var_r0_2;
     s32 var_r0_3;
     s32 var_r0_4;
-    s32 var_r5;
+    register s32 var_r5 asm("r5");
     register struct T24Player080263B4 *temp_r6 asm("r6");
     u16 temp_r4_3;
     u16 temp_r4_4;
@@ -3930,6 +3930,7 @@ loop_2:
         y = (s16) ((u32) temp_r6->unk90 >> 8);
         if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
             limit = 0x78;
+            asm("" : "+r"(limit));
 
             var_r0 = x - limit;
             if (var_r0 < 0) {
@@ -3937,6 +3938,7 @@ loop_2:
             }
             if (var_r0 <= 0x17) {
                 limit = 0x140;
+                asm("" : "+r"(limit));
 
                 var_r0_2 = y - limit;
                 if (var_r0_2 < 0) {
