@@ -7,7 +7,65 @@ void sub_0802939C(s32, s32);
 
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08028AAC);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08028D98);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_080290E4);
+extern u8 *scene026E4 asm("gUnk_03005CF4");
+struct Monster026E4 {u8 pad[8];u16 value;u8 tail[0x2D6];};
+extern struct Monster026E4 *monsters026E4 asm("gUnk_030056F4");
+struct Player026E4 {u8 pad[0x1C];u16 value;u8 tail[0x12E];};
+extern struct Player026E4 players026E4[] asm("gUnk_03003CE0");
+void task026E4(u32,u32) asm("sub_080290E4");
+void task026E4(u32 id,u32 value)
+{
+    u8 *row;
+    u8 *found;
+    u32 index;
+    register u32 key asm("r2");
+    register u32 savedValue asm("r5");
+    register u32 offset asm("r1");
+    register struct Monster026E4 **monsterAddress asm("r0");
+    register u32 playerIndex asm("r0");
+    register struct Player026E4 *playerBase asm("r1");
+    key=id;
+    asm("" : "+r"(key));
+    savedValue=(u16)value;
+    asm("" : "+r"(savedValue));
+    if(key>0x100000U) {
+        row=scene026E4+0x7A4;
+        index=0;
+search:
+        if(*(u32 *)row==key) goto matched;
+        index++;
+        row+=0x70;
+        if(index<=14) goto search;
+        sub_080003F0();
+        found=0;
+consume:
+        asm("" : "+r"(found));
+        if(found!=0) {
+            *(u16 *)(found+0x24)=savedValue;
+            *(u16 *)(found+0x36)=3;
+            do { sub_080003F0(); } while(*(u16 *)(found+0x36)==3);
+        }
+        goto done;
+matched:
+        found=row;
+        goto consume;
+    } else if(key!=0) {
+        key--;
+        if(key<=4) {
+            monsterAddress=&monsters026E4;
+            offset=key*0x2E0;
+            asm("" : "+r"(offset) : "r"(monsterAddress) : "memory");
+            *(u16 *)((u8 *)*monsterAddress+offset+8)=savedValue;
+        }
+    } else {
+        playerIndex=sub_080020F4()*0x14C;
+        playerBase=players026E4;
+        asm("" : "+r"(playerIndex), "+r"(playerBase));
+        ((struct Player026E4 *)(playerIndex+(u32)playerBase))->value=savedValue;
+    }
+done:
+    return;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029174);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802926C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802939C);
