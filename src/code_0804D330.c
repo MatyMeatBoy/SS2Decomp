@@ -4053,7 +4053,41 @@ void sub_08053A80(void)
     sub_08019F04();
 }
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053B24);
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053C5C);
+void sub_08053C5C(void)
+{
+    u8 *base;
+    register u8 *entity asm("r2");
+    register u32 i asm("r3");
+    register u32 one asm("r6");
+    register u32 zero asm("r4");
+    register u32 stride asm("r0");
+    register u32 nextOffset asm("r1");
+    register s32 *flags asm("r5");
+    sub_0802A080(0x71, 0xE3, 0xA0, 0x3C);
+    base = gUnk_030056F4;
+    sub_08019EB8(*(u16 *)(base + 2), 3);
+    base = gUnk_030056F4;
+    nextOffset = 0x2E0;
+    base += nextOffset;
+    sub_08019EB8(*(u16 *)(base + 2), 3);
+    if (!(gUnk_030027D0 & 0x20))
+        sub_08006D08(0x17E);
+    sub_08028D98(1, 0, 8, 0);
+    sub_08028D98(2, 0, 8, 0);
+    entity = gUnk_030056F4;
+    i = 0;
+    flags = &gUnk_030056FC;
+    one = 1;
+    zero = 0;
+    do {
+        if ((*flags & (one << i)) && *(u16 *)(entity + 0xC) == 12)
+            *(u16 *)(entity + 0xC) = zero;
+        i++;
+        stride = 0x2E0;
+        entity += stride;
+    } while (i <= 4);
+    sub_08019F04();
+}
 void sub_08053CF4(void)
 {
     struct E2E0a *p;
