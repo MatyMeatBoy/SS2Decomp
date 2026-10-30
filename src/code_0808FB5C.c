@@ -1393,8 +1393,9 @@ loop_9:
             { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
             { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
             temp_r0->frame = 0xAU;
-            { register s32 z asm("r1") = var_r9; asm("" : "+r"(z));
-              temp_r0->next = z; temp_r0->tick = z; }
+            { register s32 z asm("r1") = var_r9;
+              register u16 *target asm("r0") = &temp_r0->next;
+              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
             var_r6 = 1;
         }
         break;
@@ -1521,8 +1522,9 @@ loop_9:
             { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
             { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
             temp_r0->frame = 0xAU;
-            { register s32 z asm("r1") = var_r9; asm("" : "+r"(z));
-              temp_r0->next = z; temp_r0->tick = z; }
+            { register s32 z asm("r1") = var_r9;
+              register u16 *target asm("r0") = &temp_r0->next;
+              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
             var_r6 = 1;
         }
         break;
@@ -1649,8 +1651,9 @@ loop_9:
             { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
             { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
             temp_r0->frame = 0xAU;
-            { register s32 z asm("r1") = var_r9; asm("" : "+r"(z));
-              temp_r0->next = z; temp_r0->tick = z; }
+            { register s32 z asm("r1") = var_r9;
+              register u16 *target asm("r0") = &temp_r0->next;
+              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
             var_r6 = 1;
         }
         break;
