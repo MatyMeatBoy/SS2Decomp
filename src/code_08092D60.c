@@ -918,8 +918,7 @@ void f956_08000AF0(u32,u32,u32) asm("sub_08000AF0"); void f956_0801AB50(s32) asm
 extern struct Pos956 positions956[] asm("gUnk_0851863C");
 void sub_0809561C(u8 arg0) {
     struct Anim956 sp14, second;
-    u16 frame2, tick2;
-    s32 sp7C;
+    struct {s32 clear; u16 frame,tick;} state956;
     struct Pos956 sp84;
     s32 sp8C;
     s32 sp90;
@@ -927,7 +926,7 @@ void sub_0809561C(u8 arg0) {
     u8 *sp98;
     u16 *sp9C;
     u16 *spA0;
-    s32 temp_r1;
+    register s32 temp_r1 asm("r9");
     s32 var_r0_3;
     s32 var_sl;
     s8 temp_r0_2;
@@ -973,16 +972,16 @@ void sub_0809561C(u8 arg0) {
     }
     temp_r1 = var_r1 << 0x18;
     sp94 = &second;
-    spA0 = &tick2;
-    sp9C = &frame2;
+    spA0 = &state956.tick;
+    sp9C = &state956.frame;
     sp98 = second.payload;
     do {
-        temp_r7 = f956_08001494((s8) var_r1 * 0x18);
+        temp_r7 = f956_08001494((s8) (temp_r1 >> 24) * 0x18);
         f956_080003F0();
     } while (temp_r7 == NULL);
-    sp7C = 0;
-    temp_r0_2 = (s8) var_r1;
-    CpuSet(&sp7C, temp_r7, ((temp_r0_2 * 6) & 0x1FFFFF) | 0x05000000);
+    state956.clear = 0;
+    temp_r0_2 = (s8) (temp_r1 >> 24);
+    CpuSet(&state956.clear, temp_r7, ((temp_r0_2 * 6) & 0x1FFFFF) | 0x05000000);
     f956_08065158(&sp14, 0x50046, 7, -1, 1);
     f956_08065158(sp94, 0x50047, 0, -1, 1);
     sp14.payload[7] = 0;
@@ -1025,7 +1024,7 @@ loop_12:
         temp_r0_4 = temp_r3->delay;
         if (temp_r0_4 != 0) {
             temp_r3->delay = temp_r0_4 - 1;
-        } else if (((s32) ((s8) var_r1 - 1) > (s32) temp_r2) && (temp_r3->state != 0)) {
+        } else if (((s32) ((s8) (temp_r1 >> 24) - 1) > (s32) temp_r2) && (temp_r3->state != 0)) {
             temp_r1_4 = temp_r3 + 1;
             if (temp_r1_4->state == 0) {
                 temp_r1_4->state = 1;
