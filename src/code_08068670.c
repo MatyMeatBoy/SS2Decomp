@@ -3500,7 +3500,6 @@ void sub_0806D4A4(struct T072D4Args *arg) {
 finish:
     t072D4Flags[player] &= ~(1 << bit);
 }
-#ifdef NONMATCHING
 struct T072Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
 struct T072Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
 struct T072Args { u32 player, bit, f8, value, f10, level; };
@@ -3574,8 +3573,7 @@ void sub_0806D7EC(struct T072Args *arg) {
             if (ay < 0) ay = -ay;
             if (ay >= limit) continue;
         }
-        list[count] = i;
-        count++;
+        { u16 old = count; count++; asm("" : "+r"(count)); list[old] = i; }
     }
     for (i = 0; i < count; i++) sub_08074DE8(list[i], 11);
     if (local == player) {
@@ -3651,9 +3649,6 @@ void sub_0806D7EC(struct T072Args *arg) {
 finish:
     t072Flags[player] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806D7EC);
-#endif
 #ifdef NONMATCHING
 struct T072DBEffect { s16 timer; u16 owner, kind, level, a, b, c, d; s16 strength; u8 pad[22]; };
 struct T072DBPlayer { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072DBEffect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u16 ready; u8 padB8[10]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
