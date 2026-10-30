@@ -688,21 +688,41 @@ u32 sub_08066624(void)
     (*counter)++;
     return 1;
 }
-#ifdef NONMATCHING
+extern void sub_08066720();
+extern u8 *sub_08002118();
+void sub_08064E14(void);
+void sub_0806690C(u32 peer);
+void sub_08065A1C(u32 a, s32 frames);
+extern u32 sub_08001638(u32 size);
+extern void sub_0806335C(void);
+extern M2C_UNK sub_08000274_task(void *) __asm__("sub_08000274");
+
+extern s32 gUnk_03006030;
+
 /* Link message broadcast (lobby data sync). msg[0] = tag, msg[1] = number of 8-byte chunks, msg+8 = payload.
- * Writes into our MultiSio send block (sub_08002118(myId) + 8): [0]=id/cmd, [1]=cmd (0xB1 announce, 0xB2 chunk, 0x80 idle),
+ * Writes into our MultiSio send block (sub_08002118(state.myId) + 8): [0]=id/cmd, [1]=cmd (0xB1 announce, 0xB2 chunk, 0x80 idle),
  * [2]=chunk number, [4..11]=8 payload bytes. Peers acknowledge by echoing bytes into their own block at offset 0x14+id. */
 void sub_08066720(u8 *msg)
 {
-    u8 *peers[4];
-    u32 myId, n, i, k, acked, pos, lastPos, wait, j;
-    u8 *buf, *src, *q;
+    struct {u8 *peers[4];volatile u32 myId;u32 lastPos;} state;
+
+    u32 n, k, acked, wait, j;
+    register u32 i asm("r4");
+    u8 **peerCursor;
+    u8 **readCursor;
+    u32 half;
+    register u32 length asm("r0");
+    u8 *buf, *q;
+    register u8 *src asm("r6");
 
     *(u32 *)(msg + 4) = 2;
-    myId = sub_080020F4();
-    buf = sub_08002118(myId) + 8;
-    for (i = 0; i < sub_08002164(); i++)
-        peers[i] = (u8 *)sub_08002238(i) + 0x14 + myId;
+    state.myId = sub_080020F4();
+    buf = sub_08002118() + 8;
+    i=0;peerCursor=state.peers;
+    for (; i < sub_08002164(); i++) {
+        register u8 *peerAddr asm("r0")=(u8 *)sub_08002238(i);
+        peerAddr+=0x14;*peerCursor++=peerAddr+state.myId;
+    }
     n = sub_08002164();
     for (;;) {
         do {
@@ -711,44 +731,53 @@ void sub_08066720(u8 *msg)
             buf[2] = msg[1];
             sub_080003F0();
             acked = 0;
-            for (k = 0; k < n; k++) {
-                if (*peers[k] == msg[0])
-                    acked++;
+            i=0;
+            if(i<n) {
+                u8 tag=msg[0];
+                readCursor=state.peers;
+                do {
+                    if(**readCursor==tag)acked++;
+                    readCursor++;i++;
+                }while(i<n);
             }
         } while (acked < n);
         wait = 0;
-        lastPos = 0;
-        pos = 0;
-        if (msg[1] != 0) {
+        {register u32 zero asm("r0")=0;asm("" : "+r"(zero));state.lastPos=zero;}
+        length=msg[1];i=0;
+        if (length != 0) {
             src = msg + 8;
             do {
                 buf[1] = 0xB2;
-                buf[0] = myId;
-                buf[2] = (pos >> 1) + 1;
+                {register u8 *frame asm("r0")=(u8 *)&state;buf[0]=frame[16];}
+                half=i>>1;buf[2]=half+1;
                 *(u32 *)(buf + 4) = *(u32 *)src;
                 *(u32 *)(buf + 8) = *(u32 *)(src + 4);
                 sub_080003F0();
                 acked = 0;
                 for (k = 0; k < n; k++) {
-                    if (0x7F - (pos >> 1) == *peers[k])
+                    if (0x7F - half == *state.peers[k])
                         acked++;
                 }
                 if (acked == n) {
                     src += 8;
-                    pos += 2;
-                    lastPos = pos;
-                    wait = 0;
-                } else if (lastPos == pos) {
-                    wait++;
+                    i += 2;
+                    state.lastPos = i;
+                    {register u32 zero asm("r1")=0;asm("" : "+r"(zero));wait=zero;}
+                } else if (state.lastPos == i) {
+                    {register u32 one asm("r1")=1;asm("" : "+r"(one));wait+=one;}
                 }
-                if (wait > 0x3C)
-                    goto retry;
-            } while (pos < msg[1] * 2);
+                {register u32 currentWait asm("r0")=wait;
+                 if(currentWait>0x3C)goto retry;}
+            } while (i < msg[1] * 2);
         }
         if (wait > 0x3C)
             continue;
-        buf[2] = pos + 1;
+        {register u32 next asm("r0")=i+1;asm("" : "+r"(next));buf[2]=next;}
         sub_0800224C();
+        break;
+    retry:
+        ;
+    }
         gUnk_03006338--;
         if ((s32)gUnk_03006338 < 0)
             gUnk_03006338 = 0;
@@ -758,13 +787,7 @@ void sub_08066720(u8 *msg)
         *(u32 *)(q + j * 0x88 + 4) = 0;
         buf[1] = 0x80;
         return;
-    retry:
-        ;
-    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066720);
-#endif
 /* Link sender task spawner: when the first queued message (gUnk_03006300[0], 0x88 bytes) is pending (+4 == 1),
  * start sub_08066720 as a task on it (task object = *gUnk_03006368, stack 0x800). */
 void sub_08066898(void)
