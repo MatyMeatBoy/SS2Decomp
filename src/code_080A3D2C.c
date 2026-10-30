@@ -507,10 +507,11 @@ extern struct Oam10847 *draw10847(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08
 void sub_080A47A0(void)
 {
  struct Frame10847 frame;u8 animation,mode;s32 paused;struct Oam10847 *output;
- frame.metadata=object10847+0x204;frame.rotation=0;frame.tile=0;
+ register s16 *sx asm("r10"); register s16 *sy asm("r9");
+ frame.metadata=object10847+0x204;frame.rotation=0;frame.tile=0;sx=&frame.sx;sy=&frame.sy;
  for(;;){
-  while(frame10847==0)sub_080003F0();
-  if(side10847==1)animation=frame10847+5;else animation=frame10847;
+  {u8 current=frame10847;while(current==0){sub_080003F0();current=frame10847;}
+  if(side10847==1)animation=current+5;else animation=current;}
   frame.x=F_10847(object10847,s32,0x14);frame.y=F_10847(object10847,s32,0x18);
   frame.x+=offsetX10847[direction10847*2];frame.y+=offsetY10847[direction10847*2];
   sprites10847[side10847].style=palette10847;
@@ -519,9 +520,9 @@ void sub_080A47A0(void)
   if(sub_08098004()&1)mode=sub_08097FF8();else mode=sub_0800BC44(frame.x>>8,frame.y>>8,0);
   if(sub_0800CCCC()==0 && sub_0800CC98()==0){
    paused=sub_0800CD34();if(paused==0){
-    coords10847((s32)(F_10847(object10847,s32,0x14)<<8)>>16,(s32)(F_10847(object10847,s32,0x18)<<8)>>16,&frame.sx,&frame.sy,paused,(void*)paused);
+    coords10847((s32)(F_10847(object10847,s32,0x14)<<8)>>16,(s32)(F_10847(object10847,s32,0x18)<<8)>>16,sx,sy,paused,(void*)paused);
     output=draw10847(frame.sx,frame.sy+1,animation,frame.tile,mode,styles10847+side10847*0x34,F_10847(styles10847+side10847*0x34,u32,-0x14),F_10847(styles10847+side10847*0x34,u32,-0x1C));
-    coords10847((s32)(frame.x<<8)>>16,(s32)(frame.y<<8)>>16,&frame.sx,&frame.sy,paused,(void*)paused);
+    coords10847((s32)(frame.x<<8)>>16,(s32)(frame.y<<8)>>16,sx,sy,paused,(void*)paused);
     output->x=frame.sx;output->y=frame.sy;
    }
   }
