@@ -438,7 +438,35 @@ INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091938);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091B5C);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091CF8);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091E94);
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091F20);
+void sub_08091F20(u16 number, u8 *text)
+{
+    u8 count;
+    u8 hundreds;
+    u16 remainder;
+    u8 tens;
+    u32 ones;
+    count = 0;
+    goto check;
+next:
+    text++;
+    count++;
+    if (count > 0xFEU)
+        goto append;
+check:
+    if (*text != 0 && *text != 0xFD)
+        goto next;
+append:
+    *text = 0x51;
+    text++;
+    hundreds = number / 100U;
+    remainder = number % 100U;
+    tens = remainder / 10U;
+    ones = (remainder % 10U) << 24;
+    *text++ = hundreds + 0x41;
+    *text++ = tens + 0x41;
+    *text = (ones + 0x41000000U) >> 24;
+    text[1] = 0xFD;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091F9C);
 u32 sub_08092080(void)
 {
