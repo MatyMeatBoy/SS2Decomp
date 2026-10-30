@@ -4163,8 +4163,12 @@ void sub_0808CB58(void) {
     stride = 0x14C;
     var_r5 = players + 0x68;
     while ((var_r4 < sub_08002164()) && (sub_080020F4() != var_r4)) {
-        if (*((players + stride * sub_080020F4()) + 0x68) == *var_r5) {
-            var_r6 += 1;
+        {
+            register u32 off asm("r0") = stride * sub_080020F4();
+            asm("" : "+r"(off));
+            if (*((u8 *)(off + (u32)players) + 0x68) == *var_r5) {
+                var_r6 += 1;
+            }
         }
         var_r5 += 0x14C;
         var_r4 += 1;
