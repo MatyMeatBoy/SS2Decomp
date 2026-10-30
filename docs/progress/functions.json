@@ -386,14 +386,14 @@
       "name": "sub_08000760",
       "addr": 134219616,
       "size": 268,
-      "state": "nonmatch",
+      "state": "done",
       "module": "main",
       "kind": "c",
       "cat": "game",
       "address": "0x08000760",
       "canonical_symbol": "sub_08000760",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08000760",
       "name_status": "unidentified",
       "name_source": null,
@@ -578,7 +578,7 @@
       "evidence": [
         {
           "source": "src/main.c",
-          "line": 162,
+          "line": 228,
           "detail": "Existing C definition with an asm alias to the canonical symbol: clearDisplay000"
         }
       ]
@@ -1931,14 +1931,14 @@
       "name": "sub_08001DF0",
       "addr": 134225392,
       "size": 652,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08001A50",
       "kind": "c",
       "cat": "game",
       "address": "0x08001DF0",
       "canonical_symbol": "sub_08001DF0",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "LinkWaitBarrier",
       "name_status": "confirmed",
       "name_source": "catalog",
@@ -2290,14 +2290,14 @@
       "name": "sub_0800232C",
       "addr": 134226732,
       "size": 812,
-      "state": "todo",
+      "state": "done",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x0800232C",
       "canonical_symbol": "sub_0800232C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0800232C",
       "name_status": "unidentified",
       "name_source": null,
@@ -2457,7 +2457,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 1946,
+          "line": 2129,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2480,7 +2480,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2195,
+          "line": 2378,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
@@ -9297,14 +9297,14 @@
       "name": "sub_0801FD64",
       "addr": 134348132,
       "size": 108,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0801E244",
       "kind": "c",
       "cat": "game",
       "address": "0x0801FD64",
       "canonical_symbol": "sub_0801FD64",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0801FD64",
       "name_status": "unidentified",
       "name_source": null,
@@ -31371,14 +31371,14 @@
       "name": "sub_080A3D2C",
       "addr": 134888748,
       "size": 2036,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A3D2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080A3D2C",
       "canonical_symbol": "sub_080A3D2C",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080A3D2C",
       "name_status": "unidentified",
       "name_source": null,
@@ -31388,14 +31388,14 @@
       "name": "sub_080A4520",
       "addr": 134890784,
       "size": 640,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A3D2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080A4520",
       "canonical_symbol": "sub_080A4520",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080A4520",
       "name_status": "unidentified",
       "name_source": null,
@@ -31405,14 +31405,14 @@
       "name": "sub_080A47A0",
       "addr": 134891424,
       "size": 520,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A3D2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080A47A0",
       "canonical_symbol": "sub_080A47A0",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080A47A0",
       "name_status": "unidentified",
       "name_source": null,
@@ -31711,14 +31711,14 @@
       "name": "sub_080A4D08",
       "addr": 134892808,
       "size": 5456,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A3D2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080A4D08",
       "canonical_symbol": "sub_080A4D08",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080A4D08",
       "name_status": "unidentified",
       "name_source": null,
@@ -31793,7 +31793,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 453,
+          "line": 1931,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run68B0"
         }
       ]
@@ -31816,7 +31816,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 557,
+          "line": 2035,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run6BE8"
         }
       ]
