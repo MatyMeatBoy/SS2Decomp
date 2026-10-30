@@ -394,107 +394,80 @@ void sub_08055974(void)
             sub_080003F0();
     }
 }
-#ifdef NONMATCHING
-struct TaskPayload55A60 { u32 unknown[3]; void (*callback)(s32); u32 value; };
+struct T56Task { u32 f0,f4,f8,fC,f10,f14,f18,f1C,f20,f24; };
 void sub_08055BA4(void);
+void sub_0805A384(s32);
 void sub_0805A350(s32);
-void sub_08055A60(void) {
-    struct TaskPayload55A60 payload;
-    u32 temp_r0_2;
-    u32 temp_r0_4;
-    u8 *var_r4;
-    u8 *var_r4_2;
-    u8 *var_r4_3;
-    u32 var_r5;
-    u32 var_r6;
-    u32 var_r6_2;
-    u32 var_r8;
-    void *temp_r0;
-    void *temp_r0_3;
-    void *temp_r0_5;
-
-    {
-        /* The no-free-slot path retains the incoming r8 payload. */
-        register u32 incoming asm("r8");
-        asm volatile("" : "=r"(incoming));
-        var_r8 = incoming;
-    }
-    var_r4 = gUnk_03005CF4 + 0xE34;
-    var_r5 = 0;
-loop_2:
-    if (var_r5 <= 0x1DU) {
-        if (sub_08000470(var_r4) == 0) {
-loop_6:
-            temp_r0 = sub_08001494(0x400U);
-            *(void * *)(var_r4 + 0x20) = temp_r0;
-            if (temp_r0 == NULL) {
+void sub_08055A60(void)
+{
+    u32 args[6];
+    void (*cb)(void) = sub_08055BA4;
+    struct T56Task *task = (struct T56Task *)(gUnk_03005CF4 + 0xE34);
+    u32 i;
+    void (*cb2)(s32);
+    u8 *stack;
+    struct T56Task *last;
+    for (i = 0; i <= 0x1D; i++, task++) {
+        if (sub_08000470(task) == 0) {
+            while ((stack = sub_08001494(0x400), task->f20 = (u32)stack) == 0)
                 sub_080003F0();
-                goto loop_6;
-            }
-            *(u32 *)(var_r4 + 0x8) = 0x3C;
-            *(u32 *)(var_r4 + 0xC) = (u32) &sub_08055BA4;
-            *(void * *)(var_r4 + 0x10) = (void *) ((u8 *)temp_r0 + 0x3FC);
-            *(u32 *)(var_r4 + 0x24) = 0;
-            sub_08000274(var_r4, 0);
-            var_r8 = (u32)var_r4;
-        } else {
-            var_r5 += 1;
-            var_r4 += 0x28;
-            goto loop_2;
+            task->f8 = 0x3C;
+            task->fC = (u32)cb;
+            task->f10 = (u32)(stack + 0x3FC);
+            task->f24 = 0;
+            sub_08000274(task, 0);
+            last = task;
+            break;
         }
     }
-    var_r4_2 = gUnk_03005CF4 + 0xE34;
-    var_r6 = 0;
-loop_10:
-    if (var_r6 <= 0x1DU) {
-        temp_r0_2 = sub_08000470(var_r4_2);
-        if (temp_r0_2 == 0) {
-            payload.callback = sub_0805A384;
-            payload.value = var_r8;
-            *(u32 *)(var_r4_2 + 0x8) = 0x3C;
-            temp_r0_3 = sub_08001494(0x400U);
-            *(void * *)(var_r4_2 + 0x20) = temp_r0_3;
-            *(u32 *)(var_r4_2 + 0xC) = (u32) sub_0802A104;
-            *(void * *)(var_r4_2 + 0x10) = (void *) ((u8 *)temp_r0_3 + 0x3FC);
-            *(u32 *)(var_r4_2 + 0x24) = temp_r0_2;
-            sub_08000274(var_r4_2, &payload, 6);
-            sub_080003F0();
-            sub_080003F0();
-        } else {
-            var_r6 += 1;
-            var_r4_2 += 0x28;
-            goto loop_10;
-        }
-    }
-    var_r4_3 = gUnk_03005CF4 + 0xE34;
-    var_r6_2 = 0;
-loop_15:
-    if (var_r6_2 <= 0x1DU) {
-        temp_r0_4 = sub_08000470(var_r4_3);
-        if (temp_r0_4 == 0) {
-            payload.callback = sub_0805A350;
-            payload.value = 0;
-            *(u32 *)(var_r4_3 + 0x8) = 0x3C;
-            temp_r0_5 = sub_08001494(0x400U);
-            *(void * *)(var_r4_3 + 0x20) = temp_r0_5;
-            *(u32 *)(var_r4_3 + 0xC) = (u32) sub_0802A104;
-            *(void * *)(var_r4_3 + 0x10) = (void *) ((u8 *)temp_r0_5 + 0x3FC);
-            *(u32 *)(var_r4_3 + 0x24) = temp_r0_4;
-            sub_08000274(var_r4_3, &payload, 8);
-            sub_080003F0();
-            sub_080003F0();
-        } else {
-            var_r6_2 += 1;
-            var_r4_3 += 0x28;
-            goto loop_15;
-        }
+    {
+    register u32 j asm("r6");
+    register u32 f asm("r5");
+    cb2 = sub_0805A384;
+    task = (struct T56Task *)(gUnk_03005CF4 + 0xE34);
+    j = 0;
+    goto check;
+next:
+    j++;
+    task++;
+check:
+    if (j > 29) goto third;
+    f = sub_08000470(task);
+    if (f != 0) goto next;
+    args[3] = (u32)cb2;
+    args[4] = (u32)last;
+    task->f8 = 0x3C;
+    task->f20 = sub_08001494(0x400);
+    task->fC = (u32)sub_0802A104;
+    task->f10 = task->f20 + 0x3FC;
+    task->f24 = f;
+    sub_08000274(task, args, 6);
+    sub_080003F0();
+    sub_080003F0();
+third:
+    cb2 = sub_0805A350;
+    task = (struct T56Task *)(gUnk_03005CF4 + 0xE34);
+    j = 0;
+    goto check2;
+next2:
+    j++;
+    task++;
+check2:
+    if (j > 29) return;
+    f = sub_08000470(task);
+    if (f != 0) goto next2;
+    args[3] = (u32)cb2;
+    args[4] = 0;
+    task->f8 = 0x3C;
+    task->f20 = sub_08001494(0x400);
+    task->fC = (u32)sub_0802A104;
+    task->f10 = task->f20 + 0x3FC;
+    task->f24 = f;
+    sub_08000274(task, args, 8);
+    sub_080003F0();
+    sub_080003F0();
     }
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055A60);
-#endif
 struct PositionTable56 { u32 value[5]; };
 extern struct PositionTable56 positions56 asm("gUnk_080BB6D0");
 extern u8 routes56[256] asm("gUnk_080BB6E4");
