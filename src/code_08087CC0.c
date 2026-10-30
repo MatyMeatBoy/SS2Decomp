@@ -4185,7 +4185,7 @@ void sub_0808CB58(void) {
         { register s32 idx asm("r1") = *((players2 + 0x14C * sub_080020F4()) + 0x68); asm("" : "+r"(idx)); tableIndex = idx - 3; }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
         table += 4;
-        sub_080290E4(0, *(s16 *)(tableOffset + table));
+        { register u8 *addr asm("r0") = tableOffset + table; asm("" : "+r"(addr)); sub_080290E4(0, *(s16 *)addr); }
     } else {
         table = gUnk_084F0C8A;
         sub_08028AAC(0, (s32) (u16) ((var_r6 << 5) + *(u16 *)(table + 0x18)), (s32) *(u16 *)(table + 0x1A), 0);
