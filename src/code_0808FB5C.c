@@ -532,7 +532,44 @@ void sub_08092190(void)
     gTask0170.f10 = gTask0170.f20 + 0x3FC;
     sub_08000274_3((u32)&gTask0170, 0, 0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080921E4);
+extern s16 vramFlag096 asm("gUnk_03001F40");
+s32 sub_080921E4(u32 id, s32 block)
+{
+    void *buffer;
+    u32 *resource;
+    u8 *tiles;
+    s32 palette;
+    u8 i;
+    u32 offset;
+    resource = (u32 *)sub_08007280(id);
+    tiles = (u8 *)sub_08007280(*resource);
+    palette = sub_08007280((u16)*resource | 0x70000);
+    i = 0;
+    do {
+        offset = i << 11;
+        sub_08001348(tiles + offset, (void *)(offset + 0x06000000), 0x800);
+        sub_080003F0();
+        i++;
+    } while (i <= 15U);
+    if (id & 0x40000000) {
+        buffer = resource + 1;
+        sub_08001348(buffer, (void *)((block << 11) + 0x06000000), 0x800);
+        sub_080003F0();
+    } else {
+        buffer = 0;
+        buffer = sub_08000BC8(resource + 1, &buffer);
+        sub_08001348(buffer, (void *)((block << 11) + 0x06000000), 0x800);
+        i = 0;
+        do {
+            sub_080003F0();
+            i++;
+        } while (i <= 7U);
+        if (buffer != 0) sub_08001538((s32)buffer);
+    }
+    sub_08000AF0(0, (void *)palette, 0x10);
+    vramFlag096 = 0;
+    return palette;
+}
 void sub_080922B4(void)
 {
     volatile Handler *a = (volatile Handler *)&gUnk_03000210;
