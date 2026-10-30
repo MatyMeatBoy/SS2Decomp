@@ -648,7 +648,7 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     struct {s32 x:16,y:16;} particle;
     s16 randomValue;
     s32 tableValue;
-    s32 temp_r6;
+    register s32 temp_r6 asm("r6");
     register s32 var_r8 asm("r8");
     u32 temp_r0_2;
     u32 temp_r1;
@@ -998,9 +998,9 @@ void sub_0809561C(u8 arg0) {
     u16 *sp9C;
     u16 *spA0;
     register s32 temp_r1 asm("r9");
-    register s32 allocationCount asm("r4");
+    s32 allocationCount;
     s32 var_r0_3;
-    s32 var_sl;
+    register s32 var_sl asm("sl");
     s8 temp_r0_2;
     s8 temp_r1_3;
     s8 temp_r1_7;
@@ -1017,9 +1017,9 @@ void sub_0809561C(u8 arg0) {
     struct Ent956 *temp_r1_8;
     struct Ent956 *temp_r2_3;
     struct Ent956 *temp_r3;
-    struct Ent956 *temp_r4_3;
+    register struct Ent956 *temp_r4_3 asm("r4");
     struct Ent956 *temp_r4_4;
-    struct Ent956 *temp_r6;
+    register struct Ent956 *temp_r6 asm("r6");
     struct Ent956 *temp_r7;
     struct Ent956 *var_r1_2;
     struct Pos956 *temp_r4;
@@ -1047,8 +1047,8 @@ void sub_0809561C(u8 arg0) {
     sp94 = &second;
     flagPtr = &sp14.payload[7];
     spA0 = &state956.tick;
-    sp9C = &state956.frame;
     sp98 = second.payload;
+    sp9C = &state956.frame;
     {register s32 count asm("r1"); count=(s8)(temp_r1 >> 24); allocationCount=count*3;}
     do {
         temp_r7 = f956_08001494(allocationCount << 3);
