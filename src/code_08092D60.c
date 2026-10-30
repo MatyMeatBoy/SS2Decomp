@@ -1026,7 +1026,7 @@ loop_12:
         if (temp_r0_4 != 0) {
             temp_r3->delay = temp_r0_4 - 1;
         } else if (((s32) ((s8) var_r1 - 1) > (s32) temp_r2) && (temp_r3->state != 0)) {
-            temp_r1_4 = temp_r3 + 0x18;
+            temp_r1_4 = temp_r3 + 1;
             if (temp_r1_4->state == 0) {
                 temp_r1_4->state = 1;
                 temp_r1_4->delay = 0x1E;
