@@ -95,7 +95,192 @@ INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054904);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054CE8);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054FB8);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055174);
+#ifdef NONMATCHING
+void sub_0805664C(s32);
+void sub_08055558(void) {
+    s32 temp_r0_7;
+    u8 *var_r4;
+    u8 *var_r4_2;
+    u8 *var_r4_3;
+    u8 *var_r4_4;
+    u8 *var_r4_5;
+    u8 *var_r4_6;
+    u32 var_r5;
+    u32 var_r5_2;
+    u32 var_r5_3;
+    u32 var_r5_4;
+    u32 var_r5_5;
+    u32 var_r5_6;
+    void *temp_r0;
+    void *temp_r0_2;
+    void *temp_r0_3;
+    void *temp_r0_4;
+    void *temp_r0_5;
+    void *temp_r0_6;
+
+    var_r4 = gUnk_03005CF4 + 0xE34;
+    var_r5 = 0;
+loop_2:
+    if (var_r5 <= 0x1DU) {
+        if (sub_08000470(var_r4) == 0) {
+loop_6:
+            temp_r0 = sub_08001494(0x400U);
+            *(void * *)(var_r4 + 0x20) = temp_r0;
+            if (temp_r0 == NULL) {
+                sub_080003F0();
+                goto loop_6;
+            }
+            *(u32 *)(var_r4 + 0x8) = 0x3C;
+            *(void (**)(s32))(var_r4 + 0xC) = &sub_0805664C;
+            *(void * *)(var_r4 + 0x10) = (void *) ((u8 *)temp_r0 + 0x3FC);
+            *(u32 *)(var_r4 + 0x24) = 0;
+            sub_08000274(var_r4, 0x33);
+        } else {
+            var_r5 += 1;
+            var_r4 += 0x28;
+            goto loop_2;
+        }
+    }
+    var_r4_2 = gUnk_03005CF4 + 0xE34;
+    var_r5_2 = 0;
+loop_10:
+    if (var_r5_2 <= 0x1DU) {
+        if (sub_08000470(var_r4_2) == 0) {
+loop_14:
+            temp_r0_2 = sub_08001494(0x400U);
+            *(void * *)(var_r4_2 + 0x20) = temp_r0_2;
+            if (temp_r0_2 == NULL) {
+                sub_080003F0();
+                goto loop_14;
+            }
+            *(u32 *)(var_r4_2 + 0x8) = 0x3C;
+            *(void (**)(s32))(var_r4_2 + 0xC) = &sub_0805664C;
+            *(void * *)(var_r4_2 + 0x10) = (void *) ((u8 *)temp_r0_2 + 0x3FC);
+            *(u32 *)(var_r4_2 + 0x24) = 0;
+            sub_08000274(var_r4_2, 0x34);
+        } else {
+            var_r5_2 += 1;
+            var_r4_2 += 0x28;
+            goto loop_10;
+        }
+    }
+    var_r4_3 = gUnk_03005CF4 + 0xE34;
+    var_r5_3 = 0;
+loop_18:
+    if (var_r5_3 <= 0x1DU) {
+        if (sub_08000470(var_r4_3) == 0) {
+loop_22:
+            temp_r0_3 = sub_08001494(0x400U);
+            *(void * *)(var_r4_3 + 0x20) = temp_r0_3;
+            if (temp_r0_3 == NULL) {
+                sub_080003F0();
+                goto loop_22;
+            }
+            *(u32 *)(var_r4_3 + 0x8) = 0x3C;
+            *(void (**)(s32))(var_r4_3 + 0xC) = &sub_0805664C;
+            *(void * *)(var_r4_3 + 0x10) = (void *) ((u8 *)temp_r0_3 + 0x3FC);
+            *(u32 *)(var_r4_3 + 0x24) = 0;
+            sub_08000274(var_r4_3, 0x35);
+        } else {
+            var_r5_3 += 1;
+            var_r4_3 += 0x28;
+            goto loop_18;
+        }
+    }
+    var_r4_4 = gUnk_03005CF4 + 0xE34;
+    var_r5_4 = 0;
+loop_26:
+    if (var_r5_4 <= 0x1DU) {
+        if (sub_08000470(var_r4_4) == 0) {
+loop_30:
+            temp_r0_4 = sub_08001494(0x400U);
+            *(void * *)(var_r4_4 + 0x20) = temp_r0_4;
+            if (temp_r0_4 == NULL) {
+                sub_080003F0();
+                goto loop_30;
+            }
+            *(u32 *)(var_r4_4 + 0x8) = 0x3C;
+            *(void (**)(s32))(var_r4_4 + 0xC) = &sub_0805664C;
+            *(void * *)(var_r4_4 + 0x10) = (void *) ((u8 *)temp_r0_4 + 0x3FC);
+            *(u32 *)(var_r4_4 + 0x24) = 0;
+            sub_08000274(var_r4_4, 0x36);
+        } else {
+            var_r5_4 += 1;
+            var_r4_4 += 0x28;
+            goto loop_26;
+        }
+    }
+    var_r4_5 = gUnk_03005CF4 + 0xE34;
+    var_r5_5 = 0;
+loop_34:
+    if (var_r5_5 <= 0x1DU) {
+        if (sub_08000470(var_r4_5) == 0) {
+loop_38:
+            temp_r0_5 = sub_08001494(0x400U);
+            *(void * *)(var_r4_5 + 0x20) = temp_r0_5;
+            if (temp_r0_5 == NULL) {
+                sub_080003F0();
+                goto loop_38;
+            }
+            *(u32 *)(var_r4_5 + 0x8) = 0x3C;
+            *(void (**)(s32))(var_r4_5 + 0xC) = &sub_0805664C;
+            *(void * *)(var_r4_5 + 0x10) = (void *) ((u8 *)temp_r0_5 + 0x3FC);
+            *(u32 *)(var_r4_5 + 0x24) = 0;
+            sub_08000274(var_r4_5, 0x37);
+        } else {
+            var_r5_5 += 1;
+            var_r4_5 += 0x28;
+            goto loop_34;
+        }
+    }
+    var_r4_6 = gUnk_03005CF4 + 0xE34;
+    var_r5_6 = 0;
+loop_42:
+    if (var_r5_6 <= 0x1DU) {
+        if (sub_08000470(var_r4_6) == 0) {
+loop_46:
+            temp_r0_6 = sub_08001494(0x400U);
+            *(void * *)(var_r4_6 + 0x20) = temp_r0_6;
+            if (temp_r0_6 == NULL) {
+                sub_080003F0();
+                goto loop_46;
+            }
+            *(u32 *)(var_r4_6 + 0x8) = 0x3C;
+            *(void (**)(s32))(var_r4_6 + 0xC) = &sub_0805664C;
+            *(void * *)(var_r4_6 + 0x10) = (void *) ((u8 *)temp_r0_6 + 0x3FC);
+            *(u32 *)(var_r4_6 + 0x24) = 0;
+            sub_08000274(var_r4_6, 0x38);
+        } else {
+            var_r5_6 += 1;
+            var_r4_6 += 0x28;
+            goto loop_42;
+        }
+    }
+    if (sub_0800CC98() == 0) {
+        temp_r0_7 = sub_0801AB24();
+        switch (temp_r0_7) {                        /* irregular */
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+loop_59:
+        if (sub_0801AAE0() == 0) {
+            sub_080003F0();
+            goto loop_59;
+        }
+    }
+}
+
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055558);
+#endif
 #ifdef NONMATCHING
 void sub_0805664C(s32);
 void sub_080557CC(void) {
