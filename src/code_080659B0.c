@@ -1103,9 +1103,17 @@ void sub_0806690C(u32 peer)
         case 0x29:
             x_sub_08079CC4(d[0] & 0xFFFF, d[1], d[2], (d[0] >> 16) & 0xFFFF, d[3]);
             break;
+        case 0x1A:
+            x_sub_0805D4C4((u16)d[0]);
+            break;
         case 0x2B:
+            gRxByteA = d[0];
+            break;
         case 0x2C:
+            gRxByteB = d[0];
+            break;
         case 0x2D:
+            gRxByteC = d[0];
             break;
         case 0x2F: /* tag 0xB0: entity id == d[0] -> state 10, flag 0x80 */
             for (i = 0; i < 5; i++) {
