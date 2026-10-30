@@ -4532,8 +4532,8 @@ extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
 void callback5990C44(u32) asm("sub_0805990C");
 void reaction4385044(void) asm("sub_08043850");
-void actorEvent43664Draft44(void *) asm("sub_08043664");
-void actorEvent43664Draft44(void *arg0)
+void sub_08043664_ptr(void *) asm("sub_08043664");
+void sub_08043664_ptr(void *arg0)
 {
     u8 *player;
     s32 offset;
