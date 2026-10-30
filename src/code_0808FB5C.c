@@ -467,8 +467,246 @@ s32 sub_08090494(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080904A4);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090B84);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090E38);
+#ifdef NONMATCHING
+struct Anim095_080910A8 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
+extern u32 heap095_080910A8 asm("gUnk_0300016C");
+extern void init095_080910A8(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern void palette095_080910A8(u32,u32,u32) asm("sub_08000AF0");
+extern s32 step095_080910A8(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
+extern void draw095_080910A8(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+void sub_080910A8(void) {
+    s32 sp10;
+    s32 sp14;
+    s16 temp_r0_2;
+    s16 temp_r1;
+    s16 var_r0;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 var_r6;
+    s32 var_r9;
+    u16 temp_r0_3;
+    u8 temp_r7;
+    struct Anim095_080910A8 *temp_r0;
+
+    temp_r0 = (struct Anim095_080910A8 *)sub_08001494(0x44U);
+    heap095_080910A8 = (u32)temp_r0;
+    temp_r0_2 = sub_0800086C();
+    temp_r1 = temp_r0_2;
+    var_r0 = temp_r1 - (((s32) (temp_r1 + ((u32) (temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2);
+    if ((s32) var_r0 < 0) {
+        var_r0 = 0 - var_r0;
+    }
+    temp_r7 = (u8) var_r0;
+    switch (temp_r7) {                              /* switch 1; irregular */
+    case 0:                                         /* switch 1 */
+        init095_080910A8(temp_r0, 0x50022, 0, -1, (s32) temp_r7);
+        break;
+    case 1:                                         /* switch 1 */
+        init095_080910A8(temp_r0, 0x50023, 0, -1, 0);
+        break;
+    }
+    temp_r0->payload[0] = 0;
+    temp_r0->frame = 0xAU;
+    temp_r0->next = 0;
+    temp_r0->tick = 0U;
+    temp_r0->x = 0x10000;
+    temp_r0->y = 0x5800;
+    sp10 = 1;
+    sp14 = 0;
+    var_r6 = 0;
+    if (heap095_080910A8 == 0) {
+        return;
+    }
+loop_9:
+    switch (var_r6) {                               /* switch 2; irregular */
+    case 0:                                         /* switch 2 */
+        temp_r1_2 = temp_r0->x + 0xFFFFFF00;
+        temp_r0->x = temp_r1_2;
+        if (temp_r1_2 <= 0x8000) {
+            switch (temp_r7) {                      /* switch 3; irregular */
+            case 0:                                 /* switch 3 */
+                init095_080910A8(temp_r0, 0x50024, 0, -1, var_r6);
+                break;
+            case 1:                                 /* switch 3 */
+                init095_080910A8(temp_r0, 0x50025, 0, -1, var_r6);
+                break;
+            }
+            sp10 = 0;
+            temp_r0->payload[0] = 0;
+            temp_r0->frame = 0xAU;
+            temp_r0->next = 0;
+            temp_r0->tick = 0U;
+            var_r6 = 1;
+        }
+        break;
+    case 1:                                         /* switch 2 */
+        if (var_r9 != 0) {
+            switch (temp_r7) {                      /* switch 4; irregular */
+            case 0:                                 /* switch 4 */
+                init095_080910A8(temp_r0, 0x50022, 0, -1, (s32) temp_r7);
+                break;
+            case 1:                                 /* switch 4 */
+                init095_080910A8(temp_r0, 0x50023, 0, -1, 0);
+                break;
+            }
+            sp10 = 1;
+            temp_r0->frame = 0xAU;
+            temp_r0->next = 0;
+            temp_r0->tick = 0U;
+            var_r6 = 2;
+        }
+        break;
+    case 2:                                         /* switch 2 */
+        temp_r1_3 = temp_r0->x + 0xFFFFFF00;
+        temp_r0->x = temp_r1_3;
+        if (temp_r1_3 <= ((s32)0xFFFFF000)) {
+            sp14 = 0;
+            var_r6 = 6;
+        }
+        break;
+    case 6:                                         /* switch 2 */
+        temp_r0_3 = sp14 + 1;
+        sp14 = (s32) temp_r0_3;
+        if (temp_r0_3 == 0x3D) {
+            var_r6 = 0xFF;
+        }
+        break;
+    }
+    palette095_080910A8(0x10U, temp_r0->fC, 1U);
+    var_r9 = step095_080910A8(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
+    draw095_080910A8((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
+    sub_080003F0();
+    if ((var_r6 != 0xFF) && (heap095_080910A8 != 0)) {
+        goto loop_9;
+    }
+    if (heap095_080910A8 != 0) {
+        sub_08001538((s32) heap095_080910A8);
+        heap095_080910A8 = 0;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080910A8);
+#endif
+#ifdef NONMATCHING
+struct Anim095_080912CC {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
+extern u32 heap095_080912CC asm("gUnk_0300016C");
+extern void init095_080912CC(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern void palette095_080912CC(u32,u32,u32) asm("sub_08000AF0");
+extern s32 step095_080912CC(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
+extern void draw095_080912CC(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
+void sub_080912CC(void) {
+    s32 sp10;
+    s32 sp14;
+    s16 temp_r0_2;
+    s16 temp_r1;
+    s16 var_r0;
+    s32 temp_r1_2;
+    s32 temp_r1_3;
+    s32 var_r6;
+    s32 var_r9;
+    u16 temp_r0_3;
+    u8 temp_r7;
+    struct Anim095_080912CC *temp_r0;
+
+    temp_r0 = (struct Anim095_080912CC *)sub_08001494(0x44U);
+    heap095_080912CC = (u32)temp_r0;
+    temp_r0_2 = sub_0800086C();
+    temp_r1 = temp_r0_2;
+    var_r0 = temp_r1 - (((s32) (temp_r1 + ((u32) (temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2);
+    if ((s32) var_r0 < 0) {
+        var_r0 = 0 - var_r0;
+    }
+    temp_r7 = (u8) var_r0;
+    switch (temp_r7) {                              /* switch 1; irregular */
+    case 0:                                         /* switch 1 */
+        init095_080912CC(temp_r0, 0x5001D, 0, -1, (s32) temp_r7);
+        break;
+    case 1:                                         /* switch 1 */
+        init095_080912CC(temp_r0, 0x5001F, 0, -1, 0);
+        break;
+    }
+    temp_r0->payload[0] = 0;
+    temp_r0->frame = 0xAU;
+    temp_r0->next = 0;
+    temp_r0->tick = 0U;
+    temp_r0->x = 0x10000;
+    temp_r0->y = 0x5800;
+    sp10 = 1;
+    sp14 = 0;
+    var_r6 = 0;
+    if (heap095_080912CC == 0) {
+        return;
+    }
+loop_9:
+    switch (var_r6) {                               /* switch 2; irregular */
+    case 0:                                         /* switch 2 */
+        temp_r1_2 = temp_r0->x + 0xFFFFFF00;
+        temp_r0->x = temp_r1_2;
+        if (temp_r1_2 <= 0x8000) {
+            switch (temp_r7) {                      /* switch 3; irregular */
+            case 0:                                 /* switch 3 */
+                init095_080912CC(temp_r0, 0x5001E, 0, -1, var_r6);
+                break;
+            case 1:                                 /* switch 3 */
+                init095_080912CC(temp_r0, 0x50021, 0, -1, var_r6);
+                break;
+            }
+            sp10 = 0;
+            temp_r0->payload[0] = 0;
+            temp_r0->frame = 0xAU;
+            temp_r0->next = 0;
+            temp_r0->tick = 0U;
+            var_r6 = 1;
+        }
+        break;
+    case 1:                                         /* switch 2 */
+        if (var_r9 != 0) {
+            switch (temp_r7) {                      /* switch 4; irregular */
+            case 0:                                 /* switch 4 */
+                init095_080912CC(temp_r0, 0x5001D, 0, -1, (s32) temp_r7);
+                break;
+            case 1:                                 /* switch 4 */
+                init095_080912CC(temp_r0, 0x5001F, 0, -1, 0);
+                break;
+            }
+            sp10 = 1;
+            temp_r0->frame = 0xAU;
+            temp_r0->next = 0;
+            temp_r0->tick = 0U;
+            var_r6 = 2;
+        }
+        break;
+    case 2:                                         /* switch 2 */
+        temp_r1_3 = temp_r0->x + 0xFFFFFF00;
+        temp_r0->x = temp_r1_3;
+        if (temp_r1_3 <= ((s32)0xFFFFF000)) {
+            sp14 = 0;
+            var_r6 = 6;
+        }
+        break;
+    case 6:                                         /* switch 2 */
+        temp_r0_3 = sp14 + 1;
+        sp14 = (s32) temp_r0_3;
+        if (temp_r0_3 == 0x3D) {
+            var_r6 = 0xFF;
+        }
+        break;
+    }
+    palette095_080912CC(0x10U, temp_r0->fC, 1U);
+    var_r9 = step095_080912CC(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
+    draw095_080912CC((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
+    sub_080003F0();
+    if ((var_r6 != 0xFF) && (heap095_080912CC != 0)) {
+        goto loop_9;
+    }
+    if (heap095_080912CC != 0) {
+        sub_08001538((s32) heap095_080912CC);
+        heap095_080912CC = 0;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080912CC);
+#endif
 #ifdef NONMATCHING
 struct Anim096_080914F0 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_080914F0 asm("gUnk_0300016C");
