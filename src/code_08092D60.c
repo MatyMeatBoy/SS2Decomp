@@ -669,8 +669,7 @@ loop_4:
             sp94 = (s32) (u8) (sp94 + 1);
         }
         if (!(4 & sp90)) {
-block_37:
-            sp90 = (u32) (u16) (sp90 + 1);
+            goto block_37;
         } else {
             sp90 = 0;
             if (sp98 <= 0xFU) {
@@ -719,7 +718,8 @@ block_37:
                 f94_0805865C(0x19A);
             }
         } else {
-            goto block_37;
+block_37:
+            sp90 = (u32) (u16) (sp90 + 1);
         }
         f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 1, sp18.payload, sp18.f8, sp18.f0);
         break;
@@ -1111,10 +1111,13 @@ block_43:
                 goto block_43;
             }
             break;
+        case 7:
+            break;
         }
         temp_r0_10 = temp_r7[var_r5_2].state;
-        if (((u32) temp_r0_10 <= 3U) && (temp_r0_10 != 3)) {
-            sp90 = 1;
+        if ((u32)temp_r0_10 <= 3U) {
+            asm("" : "+r"(temp_r0_10));
+            if(temp_r0_10 != 3)sp90=1;
         }
         temp_r1_7 = var_r5_2;
         if (temp_r7[temp_r1_7].state != 8) {
