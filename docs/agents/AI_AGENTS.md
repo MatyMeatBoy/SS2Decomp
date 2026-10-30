@@ -1,14 +1,18 @@
+# Matching decompilation guide for AI contributors
 
-Coordinacion, contexto, rotaciones y gates: [COORDINATOR_WORKFLOW.md](COORDINATOR_WORKFLOW.md).
+Coordination, context, rotations and verification gates: [COORDINATOR_WORKFLOW.md](COORDINATOR_WORKFLOW.md). Setup: [CONTRIBUTING.md](../../CONTRIBUTING.md). Current ownership comes from `python3 tools/scripts/claim.py status` and `claim.py who FUNC`; historical examples below do not reserve functions or report current progress.
 
-## Familia "hueco de tarea libre" (2026-10-28, +15 funciones)
-Asm: `ldr rX,=gTaskList; ldr r4,[rX]; movs r6,#0; b check` ... `bl sub_08000470` ... `ldr r5,[r4,#8]` ... `sub_08001494(0x400)` ... `sub_08000274`.
-Plantilla que casa (cambia símbolo, límite, f8, callback y argumentos):
+## Free task slot family: historical matching pattern
+
+Recorded on 2026-10-28 for 15 functions. Assembly shape: `ldr rX,=gTaskList; ldr r4,[rX]; movs r6,#0; b check` ... `bl sub_08000470` ... `ldr r5,[r4,#8]` ... `sub_08001494(0x400)` ... `sub_08000274`.
+
+Matching template: adjust the symbol, limit, f8 value, callback and arguments to the original assembly.
+
 ```c
-struct TaskPXXXX { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };   /* nombre ÚNICO por módulo (handapply lo exige) */
+struct TaskPXXXX { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; }; /* UNIQUE name per module, required by handapply */
 extern struct TaskPXXXX *gTP asm("gUnk_XXXXXXXX");
 void f(u16 arg) {
-  struct TaskPXXXX *t = gTP; u32 z; u8 i;          /* i u8 si hay lsls #0x18; u32 si no */
+  struct TaskPXXXX *t = gTP; u32 z; u8 i; /* u8 for lsls #0x18; otherwise u32 */
   i = 0; goto check;
 next: i++; t = (struct TaskPXXXX *)((u8 *)t + 0x28);
 check: if (i > N) return;
@@ -17,62 +21,55 @@ check: if (i > N) return;
   do { t->f10 = t->f20 + 0x3FC; t->fC = (u32)cb; t->f24 = z; t->f8 = 0x40; sub_08000274_2(t, arg); } while (0);
 }
 ```
-- Con `cmp r0,#0; beq` sobre el global antes del bucle: `if (gTP == 0) return; t = gTP;` (no inicializar t antes).
-- Una sola tarea (sin bucle): `if (sub_08000470(gTP) == 0 && gTP->f8 != 0) return; mem = alloc; t = gTP; t->f20 = mem; ...`.
-- Prototipo de header incompatible (p.ej. `s32 f()` y el original es void): define `void f_v(...) asm("f");` en vez de cambiar el header.
-- `static inline` de varias líneas (checksum inlined): handapply no lo copia; insértalo a mano antes de la función.
-- Parámetros guardados en pila al entrar (`str r0,[sp]; str r1,[sp,#4]`) = struct pasado por valor (`struct V2W12 pos`).
-- Una constante usada dos veces y guardada en registro (`mov sl, r0` con 0x18): ponla en una variable local.
- Patrones que ya resolvieron muchos borradores (úsalos primero)
-- **No uses direcciones literales** (`*(u32 *)0x03005CF4`): el original usa el símbolo `gUnk_03005CF4`.
-- **Globals con el tipo correcto mediante alias** (no cambies la declaración existente):
-  `extern struct GameState *gGameState asm("gUnk_03005CF4");` o `extern u16 gUnkVu16_030002F0 asm("gUnk_030002F0");`
-  (van en `include/variables.h`; `tools/scripts/try_aliases.py` prueba estas reescrituras en lote).
-- `*(u16 *)gUnk_X` cuando el asm hace un solo `ldrh` sobre la dirección → la variable es u16 (alias), no un puntero.
-- **No partas expresiones en temporales** si el asm carga los globals en otro orden; escribe la expresión en una línea
-  (p.ej. `gUnk_030056FC &= ~(1 << *(u16 *)tabla[obj[2]]);`).
-- Si el original termina en `pop {r1}; bx r1` la función **devuelve** algo (`return sub_X(...)`); `pop {r0}` = void.
-- Parámetros `u16/u8` añaden `lsl/lsr`; si el asm no los tiene, declara el parámetro `u32`/`s32`.
-- Puntero local a estructura (`struct Player *p = &gUnk_03003CE0[i]; p->state = 0;`) en vez de offsets sueltos.
-- Frame de pila sin uso (`sub sp,#N`) = array local sin usar `u8 buf[N];`.
-- Booleanos: `u32 r = 0; if (c) r = 1; return r;`.
-- Comparaciones `ble/bgt` = con signo, `bls/bhi` = sin signo: ajusta el tipo.
 
-## Reglas
-- No borres ni cambies líneas existentes de `include/*.h` (solo añade). No cambies el Makefile.
-- No conviertas a C el asm escrito a mano (`asm/m4a_1.s`, `asm/sched.s`, `asm/crt0.s`).
-- Mantén las funciones en orden de dirección (`python tools/scripts/sort_module.py`) y sin `INCLUDE_ASM` duplicados.
-- Nunca subas `baserom.gba`.
+- If the global has a `cmp r0,#0; beq` check before the loop, use `if (gTP == 0) return; t = gTP;`, without initializing t earlier.
+- For one task without a loop: `if (sub_08000470(gTP) == 0 && gTP->f8 != 0) return; mem = alloc; t = gTP; t->f20 = mem; ...`.
+- If a header prototype conflicts with the actual entry ABI, for example `s32 f()` where the original is void, declare `void f_v(...) asm("f");` instead of rewriting the header.
+- `handapply` does not copy a multiline `static inline` helper, such as an inlined checksum. Insert it manually before the target function and verify the module.
+- Entry stores such as `str r0,[sp]; str r1,[sp,#4]` can indicate a structure passed by value (`struct V2W12 pos`).
+- A constant used twice and retained in a register, such as `mov sl,r0` for 0x18, can need a local variable.
 
-## Autocorrección (si algo se rompe)
-- `make compare` falla → `python tools/scripts/first_shift.py` dice qué función cambia el layout; `python tools/scripts/revalidate.py --apply`
-  devuelve a borrador toda función que no coincida.
-- `make nonmatching` falla → `python tools/scripts/c89fix.py` y `python tools/scripts/fix_decls.py nonmatching`.
-- Tras aplicar una función queda un borrador viejo → `python tools/scripts/unwrap_matched.py`.
+## Patterns that resolved many drafts
 
-## Protecciones automáticas
-- Una definición C con nombre distinto del símbolo exportado (`void nombre(void) asm("sub_XXXXXXXX");`)
-  se aplica por su símbolo canónico: `handapply.py MODULO sub_XXXXXXXX.c` o `apply_permuted.py archivo_o_directorio`.
-  Conservan el nombre C, alias y tipos locales; no reescribas el header canónico para forzar su tipo.
-  El caso con alias verifica el target dentro del módulo normal y compila NONMATCHING, con rollback exacto;
-  `handapply` requiere igualmente `make compare` antes de darlo por terminado. Una función por candidato.
-  Límites y pruebas: [ALIAS_APPLICATION_AUDIT.md](ALIAS_APPLICATION_AUDIT.md).
-- `tools/hooks/pre-commit`: `check_tree.py` + `make compare` + `make nonmatching` antes de cada commit.
-- GitHub Actions (`.github/workflows/check.yml`): en cada push compila todos los módulos (normal y NONMATCHING) y corre `check_tree.py`.
-  Si sale en rojo, arréglalo antes de seguir.
+- **Use symbols, not literal addresses.** Replace views such as `*(u32 *)0x03005CF4` with the canonical `gUnk_03005CF4` symbol.
+- **Use aliases for the correct global type without changing an existing declaration:** `extern struct GameState *gGameState asm("gUnk_03005CF4");` or `extern u16 gUnkVu16_030002F0 asm("gUnk_030002F0");`. Header additions must be append-only; local aliases can preserve shared declarations. `tools/scripts/try_aliases.py` tests such rewrites in batches, subject to shard scope.
+- If `*(u16 *)gUnk_X` corresponds to one `ldrh` directly from the global address, the object may be a u16 alias rather than a pointer.
+- **Do not split expressions into temporaries** when the original loads globals in another order. A single expression can preserve the required order, for example `gUnk_030056FC &= ~(1 << *(u16 *)table[obj[2]]);`.
+- An epilogue `pop {r1}; bx r1` often preserves a return value, such as `return sub_X(...)`; `pop {r0}` commonly belongs to a void function. Confirm the full ABI and callers rather than relying on the epilogue alone.
+- `u16`/`u8` parameters can introduce `lsl/lsr`. If the original has no truncation, a `u32`/`s32` parameter may be the appropriate declaration.
+- Use a typed local structure pointer, for example `struct Player *p = &gUnk_03003CE0[i]; p->state = 0;`, rather than unrelated raw offsets.
+- An apparently unused stack frame (`sub sp,#N`) can reflect a local array `u8 buf[N];`. Treat this as a source-shape clue, not permission to invent memory accesses.
+- Boolean result shape: `u32 r = 0; if (c) r = 1; return r;`.
+- `ble/bgt` are signed comparisons; `bls/bhi` are unsigned. Choose the type accordingly.
 
-## Estado / siguiente trabajo (online) — actualizado
-Objetivo del usuario: sustituir las esperas del cable link por un sistema online moderno. Leer `docs/LINK_CABLE.md` (transporte, flags, bloques)
-y `docs/LINK_MESSAGES.md` (catálogo de mensajes 0x81..0xB0, productores y efectos del receptor).
-Herramientas nuevas (todas verifican la ROM): `nmscore.py [--unwrap]` (puntúa todos los drafts y desenvuelve los que casan),
-`nmdiff.py FUNC` (diff real de un draft NONMATCHING contra el asm), `addnm.py FUNC file.c` (inserta C escrito a mano como draft, compara,
-desenvuelve si casa), `unwrap_func.py`, `families.py`, `refscan.py`, `loopfix.py`. SIEMPRE `make compare` + `make nonmatching` antes de commit.
-Trucos que casaron: función variádica para `push {r2,r3}`; llamada por cast `((void(*)(s32))f)(x)` para evitar lsl/lsr de params u16;
-bucles `for (i=0,e=base;i<N;i++){...; e+=0x28;}` + `i=0; G=i`; constante 0 en variable declarada; `if(x) return 0; else return 1;`;
-funciones no-void sin `return` para epílogo `pop {r1}`; parámetros con dirección tomada (`&a`) cuando el original los guarda en pila.
-CUIDADO: el veredicto de nmdiff exige MISMO tamaño (el relleno `.short 0` cambia la posición de todo lo siguiente).
-Pendiente online (sin casar): sub_08066720 (broadcast, draft a 4 bytes), sub_0806690C (receptor, draft documentado), sub_080135C4
-(crea entidad jugador), sub_08001DF0 (barrera), sub_08066404/08065DAC (senders 0x94/0x83, drafts), sub_08066490/08066520 (0x95/0x96),
-sub_0800D368 (update por jugador, 12k líneas), resto de senders sin productor casado (ver tabla "-" en LINK_MESSAGES.md).
-Siguiente: sub_08065CA8 (init de la cola), sub_0806603C/080660EC/0806617C/08066220/080662C4/08066624, sub_08066CB.. (ver `sync_funcs`:
-funciones que llaman a productores o tocan gUnk_03006300/03006338).
+## Rules
+
+- Do not remove or change existing `include/*.h` lines; append only. Do not change the Makefile inside a shard branch.
+- Do not convert handwritten assembly (`asm/m4a_1.s`, `asm/sched.s`, `asm/crt0.s`) through the ordinary shard workflow. For the separately approved SDK work, consult the explicit boundaries in [SDK_M4A_C_SOURCE.md](SDK_M4A_C_SOURCE.md).
+- Keep functions in address order (`python3 tools/scripts/sort_module.py`) and avoid duplicate `INCLUDE_ASM` entries.
+- Never upload `baserom.gba`.
+- A function is complete only after the normal integrated build prints `shiningsoul2_eu.gba: OK` from `make compare`. Compilation, heuristic scores and isolated matches do not replace this gate.
+
+## Recovery when a check fails
+
+- If `make compare` fails, `python3 tools/scripts/first_shift.py` identifies the first layout change. `python3 tools/scripts/revalidate.py --apply` can restore proven mismatches to drafts; use the owned-function selection rules in [MATCH_VERIFICATION.md](MATCH_VERIFICATION.md#revalidation-of-canonical-exports-and-c-aliases). Global rollback is coordinator work.
+- If `make nonmatching` fails, use `python3 tools/scripts/c89fix.py` and `python3 tools/scripts/fix_decls.py nonmatching`.
+- If an old draft remains after application, inspect it with `python3 tools/scripts/unwrap_matched.py`, within the permitted ownership scope and with normal ROM verification.
+
+## Automatic safeguards
+
+- A C definition whose identifier differs from its exported symbol, such as `void name(void) asm("sub_XXXXXXXX");`, is applied by canonical symbol: `handapply.py MODULE sub_XXXXXXXX.c` or `apply_permuted.py FILE_OR_DIRECTORY`. These tools preserve the C name, alias and local types; do not rewrite the canonical header to force a type. Alias application checks the target in its normal module and compiles NONMATCHING with exact rollback. `handapply` still requires a successful `make compare` before completion. Use one function per candidate. See [ALIAS_APPLICATION_AUDIT.md](ALIAS_APPLICATION_AUDIT.md) for limits and tests.
+- `tools/hooks/pre-commit` runs `check_tree.py`, `make compare` and `make nonmatching` before each commit. Never bypass it.
+- GitHub Actions (`.github/workflows/check.yml`) builds all normal and NONMATCHING modules and runs `check_tree.py` on each push. Repair failing checks before continuing delivery.
+
+## Current work and archived link research
+
+For live availability, run `python3 tools/scripts/claim.py status`; before touching a function, run `claim.py who FUNC`. Inspect the current source and generated progress reports, described in [PROGRESS_AND_NAMES.md](PROGRESS_AND_NAMES.md), rather than treating this page as a pending-function list.
+
+The link-cable research described transport, flags and blocks in [LINK_CABLE.md](../LINK_CABLE.md), and message IDs 0x81–0xB0, producers and receiver effects in [LINK_MESSAGES.md](../LINK_MESSAGES.md). Those are research references, not current ownership or completion claims.
+
+Tools recorded during that work include `nmscore.py [--unwrap]`, `nmdiff.py FUNC`, `addnm.py FUNC file.c`, `unwrap_func.py`, `families.py`, `refscan.py` and `loopfix.py`. Use `yellow.py --shard N` or `yellow.py --only OWNED_FUNCTIONS`; pass only owned modules to `nmscore.py`. Scope every other batch to the owned shard. Always run `make compare` and `make nonmatching` before committing. `nmdiff` requires exact size and normalized byte/relocation equality; padding such as `.short 0` affects subsequent layout. See [MATCH_VERIFICATION.md](MATCH_VERIFICATION.md).
+
+Historical source-shape experiments included a variadic function for `push {r2,r3}`, a call cast `((void(*)(s32))f)(x)` to avoid u16 parameter truncation, loops shaped as `for (i=0,e=base;i<N;i++){...;e+=0x28;}`, `i=0; G=i`, a declared zero variable, `if(x) return 0; else return 1;`, and address-taken parameters (`&a`) for entry stack stores. An old experiment also used a non-void definition without `return` to shape an epilogue; this is not proof of a valid return contract. Audit the original ABI and defined behavior before reusing an experiment.
+
+The former online work list mentioned `sub_08066720`, `sub_0806690C`, `sub_080135C4`, `sub_08001DF0`, `sub_08066404`, `sub_08065DAC`, `sub_08066490`, `sub_08066520`, `sub_0800D368`, `sub_08065CA8`, `sub_0806603C`, `sub_080660EC`, `sub_0806617C`, `sub_08066220`, `sub_080662C4`, `sub_08066624` and the `sub_08066CB..` family, with `sync_funcs` references to producers or globals `gUnk_03006300`/`gUnk_03006338`. These identifiers preserve historical research context only. Recheck current source, progress and exclusive claims before choosing any of them; old distances and pending labels are not current evidence.
