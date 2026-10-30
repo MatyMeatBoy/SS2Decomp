@@ -4357,9 +4357,25 @@ next_player:
             var_r4 += 1;
 check_player:
             if (var_r4 >= sub_08002164()) goto found_player;
-            temp_r2_2 = 0x14C * var_r4;
-            if (*(u32 *)((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x30) & 0x2000) goto next_player;
-            if (*((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x68) == 0) goto next_player;
+            {
+                register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
+                register u32 offset asm("r2");
+                register u8 *ptr asm("r0");
+                asm("" : "+r"(base));
+                offset = 0x14C * var_r4;
+                asm("" : "+r"(offset));
+                ptr = base;
+                asm("" : "+r"(ptr));
+                ptr += 0x30;
+                asm("" : "+r"(ptr));
+                ptr = (u8 *)(offset + (u32)ptr);
+                asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+                if (*(u32 *)ptr & 0x2000) goto next_player;
+                ptr = (u8 *)(offset + (u32)base);
+                asm("" : "+r"(ptr));
+                ptr += 0x68;
+                if (*ptr == 0) goto next_player;
+            }
 found_player:
             switch (var_r4) {
             case 0: var_sl = sub_0805DF38(1, 0xE, 0x19, 2, -1, 0x1401FB); break;
