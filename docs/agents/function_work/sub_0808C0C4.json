@@ -1,13 +1,13 @@
 {
   "address": "0x0808C0C4",
-  "updated_utc": "2026-10-30T02:08:44.057254+00:00",
-  "checkpoint": "Verified tenth-pass code checkpoint baae8b50 (rebased on main 39ce0f36). NONMATCHING retained: original/candidate 2708/2708 bytes; frame 368/368; approximate nmscore 387, not a match.",
+  "updated_utc": "2026-10-30T02:59:20.585838+00:00",
+  "checkpoint": "Verified thirteenth-pass code checkpoint 8a0c4bb6 (rebased on main 3abeb43a). NONMATCHING retained: original/candidate 2708/2700 bytes; frame 368/368; approximate nmscore 365, not a match. The first 214 normalized bytes and their relocations match exactly.",
   "areas": [
     {
       "id": "compile",
       "label": "Compiling C89 draft",
       "state": "done",
-      "evidence": "Tenth-pass serial make compare prints shiningsoul2_eu.gba: OK with original ASM fallback; make nonmatching compiles the draft; check_tree reports 0 errors. Actual-module strict nmdiff remains NO MATCH."
+      "evidence": "Thirteenth-pass serial make compare prints shiningsoul2_eu.gba: OK with original ASM fallback; make nonmatching compiles the draft; check_tree reports 0 errors. Actual-module strict nmdiff remains NO MATCH."
     },
     {
       "id": "frame",
@@ -25,19 +25,19 @@
       "id": "cfg",
       "label": "Menu and confirmation CFG",
       "state": "active",
-      "evidence": "Third pass keeps five explicit resource-init switch arms and positions cancel sound 0x10/restart and yield/retry blocks to follow original _0808C220 and _0808C6AE roles. Local strict comparison remains NO MATCH; complete CFG equivalence is not claimed. Fourth pass represents first portrait initialization with an explicit jump to the bottom test and stable portrait/player/table bases, matching original _0808C178/_0808C1AE loop roles without inline ASM. Fifth pass shares the non-overlapping unsigned loop counters and represents six further portrait loops as an initial jump to their bottom test. The outer eight-frame counter remains independent. No calls or draw arguments were removed from the C bodies. Sixth pass places separate full/single-selection error sound blocks at original C6A0/C6A8 roles, common directional sound after all four controls, confirmation decisions before common drawing, and explicit bottom checks for count and wait/status loops. Initial entries still pass through their tests. All 100 physical call sites now have the same callee sequence as original; complete branch/ABI equivalence remains unproven."
+      "evidence": "Third pass keeps five explicit resource-init switch arms and positions cancel sound 0x10/restart and yield/retry blocks to follow original _0808C220 and _0808C6AE roles. Local strict comparison remains NO MATCH; complete CFG equivalence is not claimed. Fourth pass represents first portrait initialization with an explicit jump to the bottom test and stable portrait/player/table bases, matching original _0808C178/_0808C1AE loop roles without inline ASM. Fifth pass shares the non-overlapping unsigned loop counters and represents six further portrait loops as an initial jump to their bottom test. The outer eight-frame counter remains independent. No calls or draw arguments were removed from the C bodies. Sixth pass places separate full/single-selection error sound blocks at original C6A0/C6A8 roles, common directional sound after all four controls, confirmation decisions before common drawing, and explicit bottom checks for count and wait/status loops. Initial entries still pass through their tests. All 100 physical call sites now have the same callee sequence as original; complete branch/ABI equivalence remains unproven. Twelfth pass captures confirmation flags once at loop entry, following the original single halfword load, then promotes that captured value once for switch decisions 1/2/default. The former draft reloaded the global before confirmation. Register r1 captured bits and r0 selector values die before every sound/draw call; full CFG equivalence remains unproven."
     },
     {
       "id": "registers",
       "label": "Registers and instruction order",
       "state": "active",
-      "evidence": "Actual-module nmscore 982 -> 795 -> 783 -> 673 -> 595 -> 544 -> 491 -> 459 -> 426 -> 400 -> 387. Tenth-pass candidate/original both 2708 bytes, frame 368 exact; equal sizes do not prove a match. The 100 physical calls retain the original callee sequence. Direction decisions retain raw unsigned16 arithmetic and signed32 comparison views; the down decision explicitly derives the original unsigned/signed views from a shifted word, preserving raw bits for its truncated increment. Short ID r6/player-pointer r4/stride r1/offset r0/base r2/result r0 bindings follow disjoint lives, with no caller-clobbered binding live over a call. The down decision instruction sequence now follows the original arithmetic and sign handling. No ASM bodies, empty barriers or opcodes were added. Remaining differences include persistent menu aggregate base, some pointer base arithmetic, spills, up-result allocation and branch encodings. No permuter retained."
+      "evidence": "Actual-module nmscore 982 -> 795 -> 783 -> 673 -> 595 -> 544 -> 491 -> 459 -> 426 -> 400 -> 387 -> 381 -> 378 -> 365. Current candidate/original 2700/2708 bytes, frame 368 exact. Strict decomp.normalized proves the first 0xD6 (214) bytes and relocation records inside that prefix identical between original ASM and the real module object. All 100 physical calls retain the original callee sequence. BG and portrait lookup bindings recover the prefix; captured r1 flags and an r0 unsigned selector follow original confirmation dataflow. Five short text-pointer r4 lifetimes recover the original return-pointer-plus-two instruction without changing callee signatures; r4 is preserved across the width/draw calls as in the original. No ASM bodies, empty barriers or opcodes were added. Remaining differences include r3=-1 call argument preparation, persistent menu aggregate accesses, pointer arithmetic, spills, up-result allocation and branch encodings. No permuter retained."
     },
     {
       "id": "match",
       "label": "Full matching normal C build",
       "state": "pending",
-      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active. Equal 2708-byte size and 368-byte frame do not prove binary equivalence; actual-module strict nmdiff reports NO MATCH."
+      "evidence": "Original asm/nonmatchings/code_08087CC0/sub_0808C0C4.s remains active. The verified 214-byte prefix and 368-byte frame do not prove full binary equivalence; the 2700-byte current draft still differs from the 2708-byte original and strict nmdiff reports NO MATCH."
     }
   ]
 }
