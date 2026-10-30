@@ -3670,16 +3670,17 @@ void sub_080B2330(void)
     if (p != 0)
         *(u32 *)(p + 8) = 0;
 }
-#ifdef NONMATCHING
 void sub_080B236C(u32 a, u32 b)
 {
+    register u32 first asm("r6") = a;
     u8 **pp = &gPtr030007A8;
     u8 *obj;
     u32 mem;
     u32 z;
+    register void *taskArg asm("r0");
+    register u32 second asm("r2");
     if (*pp == 0 || sub_08000470((u32)*pp) != 0) return;
-    obj = *pp;
-    z = *(u32 *)(obj + 8);
+    z = *(u32 *)(*pp + 8);
     if (z != 0) return;
     mem = sub_08001494(0x400);
     obj = *pp;
@@ -3689,11 +3690,10 @@ void sub_080B236C(u32 a, u32 b)
     *(u32 *)(obj + 0xC) = (u32)sub_080B2058;
     *(u32 *)(obj + 0x24) = z;
     *(u32 *)(obj + 8) = 0x3B;
-    sub_08000274_4(obj, a, b, z);
+    taskArg = obj;
+    second = b;
+    sub_08000274_4(taskArg, first, second, z);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B236C);
-#endif
 #ifdef NONMATCHING
 void sub_080B23C8(void)
 {
