@@ -140,6 +140,7 @@ extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
 /* The damage timer tests its old value after storing the decremented value.
  * Remaining matching differences are arithmetic selection and registers. */
+static inline void d654InitAnimation(u32 *a, u32 b, u32 c, s32 d, s32 e) { sub_08065158(a, b, c, d, e); }
 void sub_0808D654(u8 *arg0) {
     u32 anim[26];
     s16 x, y;
@@ -202,7 +203,7 @@ loop_60:
         temp_r4_2 = (*(u16 *)(arg0 + 0xC));
         switch (temp_r4_2) {                        /* irregular */
         case 0:
-            sub_08065158(anim, 0x5005D, 5, -1, temp_r4_2);
+            d654InitAnimation(anim, 0x5005D, 5, -1, temp_r4_2);
             (*(u16 *)(arg0 + 0x68)) = temp_r4_2;
             break;
         case 10:
