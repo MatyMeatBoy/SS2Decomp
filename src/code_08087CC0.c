@@ -4266,21 +4266,45 @@ loop_27:
     }
     var_r4 = 0;
     while (var_r4 < sub_08002164()) {
-        temp_r2 = 0x14C * var_r4;
-        current = (u8 *)gUnk_03003CE0 + temp_r2;
-        if ((((u32) (**(u8 **)(current + 0x148) << 0x1C) >> 0x1C) != 0xB) && !(*(u32 *)(current + 0x30) & 0x2000)) {
-            temp_r0 = *(current + 0x68);
-            if (temp_r0 != 0) {
-                {
-                    register s32 index asm("r0") = temp_r0 - 3;
-                    register s32 *counter asm("r0");
-                    register s32 value asm("r1");
-                    asm("" : "+r"(index));
-                    counter = &countBase[index];
-                    asm("" : "+r"(counter));
-                    value = *counter;
-                    asm("" : "+r"(value));
-                    *counter = value + 1;
+        {
+            register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
+            register u32 offset asm("r2");
+            register u8 *ptr asm("r0");
+            asm("" : "+r"(base));
+            offset = 0x14C * var_r4;
+            asm("" : "+r"(offset));
+            ptr = base + 0x148;
+            asm("" : "+r"(ptr));
+            ptr += offset;
+            asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+            if (((u32) (**(u8 **)ptr << 0x1C) >> 0x1C) != 0xB) {
+                ptr = base + 0x30;
+                asm("" : "+r"(ptr));
+                ptr += offset;
+                asm("" : "+r"(ptr), "+r"(base), "+r"(offset));
+                if (!(*(u32 *)ptr & 0x2000)) {
+                    {
+                        register u32 address asm("r0") = offset;
+                        register u8 *team asm("r1");
+                        asm("" : "+r"(address));
+                        address += (u32)base;
+                        asm("" : "+r"(address));
+                        team = (u8 *)address;
+                        asm("" : "+r"(team));
+                        team += 0x68;
+                        temp_r0 = *team;
+                    }
+                    if (temp_r0 != 0) {
+                        register s32 index asm("r0") = temp_r0 - 3;
+                        register s32 *counter asm("r0");
+                        register s32 value asm("r1");
+                        asm("" : "+r"(index));
+                        counter = &countBase[index];
+                        asm("" : "+r"(counter));
+                        value = *counter;
+                        asm("" : "+r"(value));
+                        *counter = value + 1;
+                    }
                 }
             }
         }
