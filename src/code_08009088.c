@@ -28,7 +28,6 @@ void sub_080090B0(void)
     stateInit005.field90 = 0;
     stateInit005.level = finishInit005(&stateInit005.field90);
 }
-#ifdef NONMATCHING
 struct Level9138 { u16 count, flags; u8 pad[0x70]; };
 extern struct Level9138 levels9138[] asm("gUnk_0847846C");
 union Bg9138 { struct { u32 value:16; } bits; u16 raw; };
@@ -39,7 +38,8 @@ extern void bg9138(u32,void *) asm("sub_08000AA8");
 extern u32 *record9138(u32) asm("sub_08007290");
 void sub_08009138(s32 *arg0, s32 arg1) {
     union Bg9138 bg;
-    u32 *tiles, *palette;
+    register u32 *tiles asm("r6");
+    u32 *palette;
     u16 i;
     s32 level = arg1;
     register u32 alloc asm("r9"); /* Original reads incoming r9 before freeing it. */
@@ -48,7 +48,12 @@ void sub_08009138(s32 *arg0, s32 arg1) {
     bg.bits.value = 0x1c08;
     bg9138(0,&bg.raw);
     if (level == 6) {
-        bg.raw = 0x1d40 | levels9138[6].flags;
+        register u8 *base asm("r0") = (u8 *)levels9138;
+        register u32 off asm("r1") = 0x2b8;
+        asm("" : "+r"(base), "+r"(off));
+        base += off;
+        asm("" : "+r"(base));
+        bg.raw = 0x1d40 | ((struct Level9138 *)base)->flags;
         gUnk_03001250[0x3c / 2] = 0x21;
     } else {
         bg.raw = 0x1d00 | levels9138[level].flags;
@@ -75,9 +80,6 @@ void sub_08009138(s32 *arg0, s32 arg1) {
     done9138 = 0;
     sub_080003F0();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009138);
-#endif
 extern u16 *bgBuffers005[4] asm("gUnk_03003460");
 extern void cameraMap005(u32 *,u32 *,u32) asm("sub_0800AD04");
 extern void rowMap005(struct Layer *,s16,s16) asm("sub_080094CC");
