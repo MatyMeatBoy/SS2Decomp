@@ -7848,22 +7848,31 @@ extern u32 flags076CF4 asm("gUnk_030063E0");
 extern void coords076CF4(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
 extern void draw076CF4(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
 extern void init076CF4(void*,s32,s32,s32,s32) asm("sub_08065158");
-void sub_08073CF4(u32 *args)
+void sub_08073CF4(u32 *arg0)
 {
- struct Frame076CF4 frame;u16 finished,animation;u8 mode;s32 paused;s16 *screenX,*screenY;
+ struct Frame076CF4 frame;register u32 *args asm("r9")=arg0;
+ register u32 finished asm("r10");u16 animation;u8 mode;s32 paused;s16 *screenX,*screenY;
  init076CF4(&frame.sprite,0x5008C,1,-1,0);
  frame.sprite.f1C=7;frame.sprite.f1D=8;
  sub_08000AF0(23,(void*)frame.sprite.fC,2);
- frame.mode=args[2];frame.wx=args[5]>>8;frame.wy=args[4]>>8;frame.animation=args[3];
- frame.tile=0;finished=0;frame.rotation=0;frame.fx=frame.wx<<16;frame.fy=frame.wy<<16;
+ { register u32 *p asm("r0")=args; asm("" : "+r"(p)); frame.mode=p[2]; }
+ { register u32 *p asm("r1")=args;
+   register u32 anim asm("r2");
+   asm("" : "+r"(p)); frame.wx=p[5]>>8; frame.wy=p[4]>>8;
+   anim=p[3]; asm("" : "+r"(anim)); frame.animation=anim; }
+ { register u16 *tile asm("r1")=&frame.tile; asm("" : "+r"(tile)); *tile=0; }
+ finished=0;frame.rotation=0;frame.fx=frame.wx<<16;frame.fy=frame.wy<<16;
  do{
   if(sub_0800CC98()==0){
    paused=sub_0800CD8C();
    if(paused==0){
-    mode=sub_0800BC44(frame.wx,frame.wy,sub_0800CCCC());
+    { register s32 clear asm("r2")=sub_0800CCCC();
+      asm("" : "+r"(clear)); mode=sub_0800BC44(frame.wx,frame.wy,clear); }
     animation=frame.animation;
-    finished=animate076CF4(&frame.sprite,animation,&frame.tile,&frame.rotation,paused);
-    screenX=&frame.sx;screenY=&frame.sy; coords076CF4(frame.fx>>16,frame.fy>>16,screenX,screenY,16,(void*)paused);
+    finished=(u16)animate076CF4(&frame.sprite,animation,&frame.tile,&frame.rotation,paused);
+    screenX=&frame.sx;screenY=&frame.sy;
+    { register s32 size asm("r0")=16; asm("" : "+r"(size));
+      coords076CF4(frame.fx>>16,frame.fy>>16,screenX,screenY,size,(void*)paused); }
     if(frame.mode!=0)draw076CF4(*screenX,*screenY+1,animation,frame.tile,mode,&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);
     else sub_08065230(&frame.sprite,*screenX,*screenY,animation,frame.tile);
    }
