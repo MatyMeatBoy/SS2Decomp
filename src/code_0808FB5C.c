@@ -2318,11 +2318,11 @@ void sub_080923FC_u8(u8 arg0, u8 arg1) {
     v923FC_256 = 0xC;
     sp130 = 3;
     sub_0801AB50(6);
+    goto test_2;
 loop_2:
-    if (sub_0801AAE0() == 0) {
-        sub_080003F0();
-        goto loop_2;
-    }
+    sub_080003F0();
+test_2:
+    if (sub_0801AAE0() == 0) goto loop_2;
     sub_0805865C(0xF7);
     var_r8 = 0x3C;
     sub_08092E28(6);
