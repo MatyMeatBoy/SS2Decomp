@@ -834,7 +834,7 @@ extern u32 gRxEntityMask asm("gUnk_030056FC");
 extern u8 *gRxGameState asm("gUnk_03005CF4");
 extern u32 gRxRingIdx[] asm("gUnk_03006210");
 extern u32 gRxRing[] asm("gUnk_03006260");
-extern u32 gRxFlag asm("gUnk_03006220");
+extern u8 gRxFlag asm("gUnk_03006220");
 extern u8 *gRxQueue asm("gUnk_03006300");
 extern u32 gRxQueueCount asm("gUnk_03006338");
 extern u32 gRxLinkState asm("gUnk_03002730");
@@ -859,25 +859,31 @@ extern u8 gRxByteC asm("gUnk_03006228");
 void sub_0806690C(u32 peer)
 {
     u32 d[64];
-    u32 myId, i, chunks, tag, cnt, last, wait, idx;
-    u8 *ack, *blk, *pl, *ent, *e;
+    u32 itemData[4];
+    u32 myId;
+    u8 *ack, *blk;
+    u32 chunks;
+    s32 tag;
+    u32 i, cnt, last, wait, idx, spawnKind;
+    u32 *spawnTail;
+    u8 *spawnRecord;
+    u8 *pl, *ent, *e;
 
     myId = sub_080020F4();
     ack = sub_08002118(myId) + 0x14 + peer;
     blk = (u8 *)sub_08002238(peer) + 8;
     for (;;) {
         /* phase A: wait for an announce */
-        for (;;) {
-            tag = 0;
+        cnt = 1;
+        do {
             sub_080003F0();
-            if (blk[0] == 0xB1 && blk[1] > 0x80 && blk[1] < 0xB1) {
-                chunks = blk[2];
+            if (blk[0] == 0xB1 && (s32)blk[1] <= 0xB0 && (s32)blk[1] >= 0x81) {
+                cnt = 0;
                 tag = blk[1];
+                chunks = blk[2];
             }
             *ack = 0x80;
-            if (tag != 0)
-                break;
-        }
+        } while (cnt != 0);
         /* phase B: ack the tag until the sender starts the chunks */
         cnt = 0;
         do {
@@ -899,8 +905,9 @@ void sub_0806690C(u32 peer)
             do {
                 idx = blk[2] - 1;
                 if (idx < 0x100) {
-                    d[idx * 2] = *(u32 *)(blk + 4);
-                    d[idx * 2 + 1] = *(u32 *)(blk + 8);
+                    idx *= 2;
+                    d[idx] = *(u32 *)(blk + 4);
+                    d[idx + 1] = *(u32 *)(blk + 8);
                     *ack = 0x80 - blk[2];
                     sub_080003F0();
                     if (last == blk[2]) {
@@ -911,12 +918,12 @@ void sub_0806690C(u32 peer)
                         last = blk[2];
                     }
                     if (wait > 0x3C)
-                        goto restart;
+                        break;
                     idx = blk[2] - 1;
                 }
             } while (idx < chunks);
         }
-        if (wait > 0x3C)
+        if (wait > 0x3C && idx < chunks)
             continue;
         *ack = blk[2];
         sub_0800224C();
@@ -976,8 +983,100 @@ void sub_0806690C(u32 peer)
                 }
             }
             break;
-        case 9: /* player-vs-player / player-vs-entity hit (see docs/LINK_MESSAGES.md) */
+        case 0x2F: /* tag 0xB0: entity id == d[0] -> state 10, flag 0x80 */
+            for (i = 0; i < 5; i++) {
+                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                    ent = RX_ENT(i);
+                    *(u16 *)(ent + 0x7A) |= 0x80;
+                    *(u16 *)(ent + 0xC) = 10;
+                    *(u16 *)(ent + 0x4A) = *(u16 *)(ent + 0x5C);
+                    *(u32 *)(ent + 0x4C) = *(u16 *)(ent + 0x4A);
+                    break;
+                }
+            }
+            break;
+        case 9: /* Player or entity hit, payload bytes 0/1 and halfword 4. */
+            if (peer != sub_080020F4()) {
+                u8 *hit = (u8 *)d;
+                u8 *effect;
+                u32 roll;
+                if (hit[0] <= 3) {
+                    if (hit[0] == sub_080020F4()) {
+                        x_sub_0801F320(RX_PL(sub_080020F4()), hit);
+                        ent = RX_PL(sub_080020F4());
+                        *(u16 *)(ent + 0x88) += *(u16 *)(hit + 4) & 0x7FFF;
+                        *(u32 *)(RX_PL(sub_080020F4()) + 0x110) = peer + 1;
+                        roll = x_sub_080008C8() % 100U;
+                        if ((u32)(s8)RX_PL(sub_080020F4())[0x6D] < roll) {
+                            *(u16 *)(RX_PL(sub_080020F4()) + 0x20) = 10;
+                            effect = (u8 *)x_sub_0801E1A4(RX_PL(sub_080020F4()), hit[1]);
+                            if (effect != 0) {
+                                x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                            } else {
+                                effect = (u8 *)x_sub_0801E164(RX_PL(sub_080020F4()), 0);
+                                if (effect != 0)
+                                    x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                            }
+                        }
+                        if (hit[1] == 3)
+                            x_sub_08021E44(sub_080020F4(), 1);
+                    }
+                } else {
+                    for (i = 0; i < 5; i++) {
+                        if ((gRxEntityMask & (1 << i)) && hit[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                            ent = RX_ENT(i);
+                            if (!(*(u16 *)(hit + 4) & 0x8000))
+                                *(u16 *)(ent + 0xC) = 10;
+                            ent = RX_ENT(i);
+                            *(u16 *)(ent + 0x58) = peer;
+                            *(u16 *)(ent + 0x4A) += *(u16 *)(hit + 4) & 0x7FFF;
+                            *(u32 *)(ent + 0x4C) = *(u16 *)(hit + 4);
+                            *(u16 *)(ent + 0x62) = hit[1];
+                            if (ent[0x226] != 3)
+                                *(u16 *)(ent + 0x5A) |= 1 << peer;
+                            x_sub_0801F2CC(RX_ENT(i), hit);
+                            effect = (u8 *)x_sub_0801E244(RX_ENT(i), hit[1]);
+                            if (effect != 0) {
+                                x_sub_0801DB94(*(u16 *)RX_ENT(i) + 4, effect, hit[1]);
+                            } else {
+                                effect = (u8 *)x_sub_0801E104(RX_ENT(i), 0);
+                                if (effect != 0)
+                                    x_sub_0801DB94(*(u16 *)RX_ENT(i) + 4, effect, hit[1]);
+                            }
+                            if (hit[1] == 3)
+                                x_sub_08021E44(*(u16 *)RX_ENT(i) + 4, 1);
+                        }
+                    }
+                }
+            }
+            break;
         case 10:
+            {
+                u8 *hit = (u8 *)d;
+                u8 *effect;
+                if (hit[0] > 3) {
+                    for (i = 0; i < 5; i++) {
+                        if ((gRxEntityMask & (1 << i)) && hit[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                            effect = (u8 *)x_sub_0801E104(RX_ENT(i), 0);
+                            if (effect != 0) {
+                                x_sub_0801DB94(i + 4, effect, hit[1]);
+                                *(u16 *)(effect + 6) = *(u16 *)(hit + 4);
+                            }
+                            break;
+                        }
+                    }
+                } else if (hit[0] == sub_080020F4()) {
+                    effect = (u8 *)x_sub_0801E1A4(RX_PL(sub_080020F4()), hit[1]);
+                    if (effect != 0) {
+                        x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                    } else {
+                        effect = (u8 *)x_sub_0801E164(RX_PL(sub_080020F4()), 0);
+                        if (effect != 0)
+                            x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                    }
+                    *(u16 *)(effect + 6) = *(u16 *)(hit + 4);
+                }
+            }
             break;
         case 0xB:
             if (peer != sub_080020F4())
@@ -1027,21 +1126,60 @@ void sub_0806690C(u32 peer)
             if (peer != sub_080020F4()) {
                 u8 *src = (u8 *)&d[1];
                 for (i = 0; i < d[0]; i++, src += 4) {
-                    u8 *slot = *(u8 **)gRxEntities;
-                    (void)slot;
+                    u8 *slot = gRxGameState + src[2] * 0x24;
+                    u16 state = *(u16 *)(slot + 0x5A0);
+                    if (state != 0xB && state != 0xC) {
+                        *(u16 *)(slot + 0x59C) -= *(u16 *)src;
+                        slot = gRxGameState + src[2] * 0x24;
+                        if (*(u16 *)(slot + 0x59C) & 0x8000)
+                            *(u16 *)(slot + 0x59C) = 0;
+                        slot = gRxGameState + src[2] * 0x24;
+                        *(u16 *)(slot + 0x59E) = src[3];
+                        slot = gRxGameState + src[2] * 0x24;
+                        *(u16 *)(slot + 0x5A0) = 0xA;
+                    }
                 }
             }
             break;
-        case 0x14: /* host only: spawn from payload, re-enqueue as tag 0x98 */
+        case 0x14: /* Host spawn, using the sender's equipped record type. */
+            if (sub_080020F4() == 0) {
+                spawnKind = (*(u8 **)(RX_PL(peer) + 0x148))[4] & 0x3F;
+                spawnTail = &d[2];
+spawn_record:
+                spawnRecord = (u8 *)x_sub_0805B2C4(d[0], d[1], spawnKind, spawnTail);
+                if (sub_08002164() > 1)
+                    x_sub_0802230C(*(u32 *)spawnRecord, *(u32 *)(spawnRecord + 4), 1);
+                if (gRxQueueCount <= 0x31) {
+                    e = gRxQueue + gRxQueueCount * 0x88;
+                    *(u32 *)(e + 4) = 1;
+                    e[0] = 0x98;
+                    CpuSet(spawnRecord, e + 8, 0x04000008);
+                    e[1] = 4;
+                    gRxQueueCount++;
+                }
+            }
+            break;
         case 0x15:
+            if (sub_080020F4() == 0) {
+                spawnKind = (u16)d[2];
+                spawnTail = &d[3];
+                goto spawn_record;
+            }
+            break;
         case 0x16:
             if (sub_080020F4() == 0) {
-                u8 *r = (u8 *)x_sub_0805B2C4(d[0], d[1], d[2] & 0xFFFF, &d[3]);
-                if (sub_08002164() > 1)
-                    x_sub_0802230C(*(u32 *)r, *(u32 *)(r + 4), 1);
-                RX_ENQ(0x98, 4, e);
-                if (gRxQueueCount != 0 && e != 0)
-                    CpuSet(r, e + 8, 0x04000008);
+                u8 **recordSlot = (u8 **)(RX_PL(peer) + 0x148);
+                if (x_sub_0805D37C(d[0], d[1], (*recordSlot)[4] & 0x3F) == 0) {
+                    spawnRecord = (u8 *)x_sub_0805B2C4(d[0], d[1], (*recordSlot)[4] & 0x3F, &d[2]);
+                    if (gRxQueueCount <= 0x31) {
+                        e = gRxQueue + gRxQueueCount * 0x88;
+                        *(u32 *)(e + 4) = 1;
+                        e[0] = 0x98;
+                        CpuSet(spawnRecord, e + 8, 0x04000008);
+                        e[1] = 4;
+                        gRxQueueCount++;
+                    }
+                }
             }
             break;
         case 0x17:
@@ -1049,6 +1187,126 @@ void sub_0806690C(u32 peer)
                 u32 *q = (u32 *)x_sub_0805B618();
                 for (i = 0; i < 8; i++)
                     q[i] = d[i];
+            }
+            break;
+        case 0x18:
+            if (sub_080020F4() == 0) {
+                u8 *record = (u8 *)x_sub_0805D460((u16)d[0]);
+                if (record == 0) {
+                    if (gRxQueueCount <= 0x31) {
+                        e = gRxQueue + gRxQueueCount * 0x88;
+                        *(u32 *)(e + 4) = 1;
+                        e[0] = 0x9A;
+                        *(u32 *)(e + 8) = (u16)peer << 16;
+                        *(u32 *)(e + 12) = *(u16 *)(record + 12);
+                        e[1] = 1;
+                        gRxQueueCount++;
+                    }
+                } else {
+                    *(u16 *)(record + 10) = 2;
+                    if (gRxQueueCount <= 0x31) {
+                        e = gRxQueue + gRxQueueCount * 0x88;
+                        *(u32 *)(e + 4) = 1;
+                        e[0] = 0x9A;
+                        *(u32 *)(e + 8) = ((u16)peer << 16) | 1;
+                        *(u32 *)(e + 12) = *(u16 *)(record + 12);
+                        e[1] = 1;
+                        gRxQueueCount++;
+                    }
+                }
+            }
+            break;
+        case 0x19:
+            if ((d[0] >> 16) == myId) {
+                if ((u16)d[0] != 0) {
+                    u8 *record;
+                    u8 *item;
+                    if (myId == 0)
+                        record = (u8 *)x_sub_0805D498((u16)d[1]);
+                    else
+                        record = (u8 *)x_sub_0805D460((u16)d[1]);
+                    item = record + 16;
+                    if (x_sub_0805AB20(item) != 0) {
+                        if (gRxQueueCount <= 0x31) {
+                            e = gRxQueue + gRxQueueCount * 0x88;
+                            *(u32 *)(e + 4) = 1;
+                            e[0] = 0x9B;
+                            *(u32 *)(e + 8) = *(u16 *)(record + 12);
+                            e[1] = 1;
+                            gRxQueueCount++;
+                        }
+                        x_sub_0805865C(0x26);
+                    } else {
+                        if (gRxQueueCount <= 0x31) {
+                            e = gRxQueue + gRxQueueCount * 0x88;
+                            *(u32 *)(e + 4) = 1;
+                            e[0] = 0x9B;
+                            *(u32 *)(e + 8) = *(u16 *)(record + 12);
+                            e[1] = 1;
+                            gRxQueueCount++;
+                        }
+                        x_sub_08066490(*(u32 *)record, *(u32 *)(record + 4), item);
+                    }
+                }
+                *(u32 *)(RX_PL(myId) + 0x30) &= 0xFFFFBFFF;
+            }
+            break;
+        case 0x1A:
+            x_sub_0805D4C4((u16)d[0]);
+            break;
+        case 0x1B:
+            {
+                u8 *target = (u8 *)x_sub_08019BF8(d[0] >> 16);
+                u8 *item = (u8 *)x_sub_08007290((u16)d[0] | 0x100000);
+                u8 *effect;
+                s32 limit;
+                switch (*(u16 *)(item + 0xA0) - 1) {
+                case 0:
+                case 18:
+                    *(u16 *)(target + 0x5C) += (s32)(*(u16 *)(item + 0xA2) * (d[1] * 40 + 100)) / 100;
+                    limit = *(s16 *)(target + 0x20A) * 3;
+                    if (*(s16 *)(target + 0x5C) > limit)
+                        *(u16 *)(target + 0x5C) = limit;
+                    break;
+                case 5:
+                    *(u16 *)(target + 0x204) += *(u16 *)(item + 0xA2);
+                    break;
+                case 6:
+                    *(u16 *)(target + 0x206) += *(u16 *)(item + 0xA2);
+                    break;
+                case 7:
+                    *(u16 *)(target + 0x208) += *(u16 *)(item + 0xA2);
+                    break;
+                case 8:
+                    *(u16 *)(target + 0x20A) += *(u16 *)(item + 0xA2);
+                    break;
+                case 9:
+                    effect = (u8 *)x_sub_0801E104(target, 0);
+                    if (effect != 0) {
+                        x_sub_0801DB94(*(u16 *)target + 4, effect, 6);
+                        *(u32 *)(effect + 0x18) = d[1];
+                    }
+                    break;
+                case 10:
+                    effect = (u8 *)x_sub_0801E104(target, 0);
+                    if (effect != 0) {
+                        x_sub_0801DB94(*(u16 *)target + 4, effect, 7);
+                        *(u32 *)(effect + 0x18) = d[1];
+                    }
+                    break;
+                }
+            }
+            break;
+        case 0x1C:
+            if ((u16)d[0] == myId) {
+                *(u16 *)itemData = 1;
+                *((u16 *)itemData + 1) = d[0] >> 16;
+                if (x_sub_0805BD5C(itemData, d[1]) == 0) {
+                    if (x_sub_0805AB20(itemData) == 0)
+                        x_sub_08066490(*(u32 *)(RX_PL(myId) + 0x8C), *(u32 *)(RX_PL(myId) + 0x90), itemData);
+                } else if (itemData[0] == 0x60001 && x_sub_0800CC98() != 0) {
+                    *(u32 *)(gRxMiscP + 0x24) = 0;
+                }
             }
             break;
         case 0x1D: /* tag 0x9E */
@@ -1068,7 +1326,21 @@ void sub_0806690C(u32 peer)
                 if ((gRxEntityMask & (1 << i)) && (d[0] & 0xFF) == *(u16 *)(RX_ENT(i) + 2)) {
                     *(u8 *)(RX_ENT(i) + 0x201) |= 2; /* shared tail at 0x08066AFC */
                     *(u16 *)(RX_ENT(i) + 0x8A) = 0;
-                    *(u16 *)(gRxGameState + 0xC) = 0;
+                    *(u16 *)(gRxGameState + 0xC) = 1;
+                    break;
+                }
+            }
+            break;
+        case 0x21:
+            for (i = 0; i < 5; i++) {
+                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                    u8 *effect = (u8 *)x_sub_0801E104(RX_ENT(i), d[1]);
+                    if (effect != 0) {
+                        *(u16 *)(effect + 4) = d[1];
+                        *(u16 *)(effect + 2) = peer;
+                        if (*(u16 *)(RX_PL(*(u16 *)(effect + 2)) + 0xC) == 5 && *(u16 *)(effect + 4) == 6)
+                            *(u16 *)effect = 0x168;
+                    }
                 }
             }
             break;
@@ -1084,6 +1356,44 @@ void sub_0806690C(u32 peer)
         case 0x25:
             *(u16 *)(pl + 0x11E) = d[0];
             break;
+        case 0x26:
+            if (d[0] == myId) {
+                u32 playerStride = 0x14C;
+                u32 playerOffset;
+                u8 *playerBase = (u8 *)gUnk_03003CE0;
+                u8 *player;
+                u32 *role;
+                asm("" : "+r"(playerStride));
+                playerOffset = myId * playerStride;
+                player = playerBase + playerOffset;
+                *(u16 *)(player + 0xC4) = *(u16 *)(player + 0x62);
+                *(u32 *)(player + 0x30) &= 0xFFFFDFFF;
+                player[0x68] = 1;
+                if (*(u16 *)(player + 0x20) == 0xB)
+                    *(u16 *)(player + 0x20) = 0;
+                if (gRxQueueCount <= 0x31) {
+                    e = gRxQueue + gRxQueueCount * 0x88;
+                    *(u32 *)(e + 4) = 1;
+                    e[0] = 0x8C;
+                    *(u32 *)(e + 8) = *(u32 *)(RX_PL(sub_080020F4()) + 0x30);
+                    e[1] = 1;
+                    gRxQueueCount++;
+                }
+                sub_0806617C();
+                role = (u32 *)(playerBase + 0xE0 + playerOffset);
+                x_sub_08022200(*(u16 *)player, *role);
+                switch (*role - 1) {
+                case 0: *(u16 *)(gRxProfile + 0x24) += 1; break;
+                case 1: *(u16 *)(gRxProfile + 0x26) += 1; break;
+                case 2: *(u16 *)(gRxProfile + 0x28) += 1; break;
+                case 3: *(u16 *)(gRxProfile + 0x2A) += 1; break;
+                case 4: *(u16 *)(gRxProfile + 0x2C) += 1; break;
+                case 5: *(u16 *)(gRxProfile + 0x2E) += 1; break;
+                }
+            }
+            x_sub_0805865C(0x91);
+            x_sub_08074DE8(d[0], 8);
+            break;
         case 0x27:
             x_sub_08079888(d[0] & 0xFFFF, d[1], d[2], (d[0] >> 16) & 0xFFFF, d[3]);
             break;
@@ -1093,18 +1403,39 @@ void sub_0806690C(u32 peer)
         case 0x29:
             x_sub_08079CC4(d[0] & 0xFFFF, d[1], d[2], (d[0] >> 16) & 0xFFFF, d[3]);
             break;
-        case 0x2B:
-        case 0x2C:
-        case 0x2D:
-            break;
-        case 0x2F: /* tag 0xB0: entity id == d[0] -> state 10, flag 0x80 */
-            for (i = 0; i < 5; i++) {
-                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                    *(u16 *)(RX_ENT(i) + 0x7A) |= 0x80;
-                    *(u16 *)(RX_ENT(i) + 0xC) = 10;
-                    break;
-                }
+        case 0x2A:
+            if (x_sub_0800CE30() != 0) {
+                *(u32 *)(gRxGameState + 0x7C) = d[0];
+                *(u32 *)(gRxGameState + 0x80) = d[1];
+                *(u32 *)(gRxGameState + 0x74) = 0;
+                *(u32 *)(gRxGameState + 0x78) = 0;
+            } else {
+                *(u32 *)(gRxGameState + 0x74) = d[0];
+                *(u32 *)(gRxGameState + 0x78) = d[1];
+                *(u32 *)(gRxGameState + 0x7C) = 0;
+                *(u32 *)(gRxGameState + 0x80) = 0;
             }
+            {
+                u8 *src = (u8 *)&d[2];
+                for (i = 0; i < 7; i++)
+                    gRxGameState[0x1B0 + i] = *src++;
+                for (i = 0; i < 7; i++)
+                    gRxGameState[0x1BC + i] = *src++;
+                for (i = 0; i < 5; i++)
+                    gRxGameState[0x1B7 + i] = *src++;
+                for (i = 0; i < 5; i++)
+                    gRxGameState[0x1C3 + i] = *src++;
+                *(u32 *)(gRxGameState + 0x70) = *src != 0 ? 1 : 2;
+            }
+            break;
+        case 0x2B:
+            gRxByteA = d[0];
+            break;
+        case 0x2C:
+            gRxByteB = d[0];
+            break;
+        case 0x2D:
+            gRxByteC = d[0];
             break;
         default:
             break;

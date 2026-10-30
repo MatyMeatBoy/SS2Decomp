@@ -1,0 +1,38 @@
+{
+  "address": "0x0806690C",
+  "updated_utc": "2026-10-30T02:49:30.786475+00:00",
+  "checkpoint": "2f8b01c22e7b9b79bdafa4eb6897307e3617889b",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Complete compiling dispatch draft",
+      "state": "done",
+      "evidence": "All 48 top-level tag cases (0x81 through 0xB0) now have C draft handlers. make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; make -j1 nonmatching exits 0; check_tree reports 0 errors. This is a compiling checkpoint, not proof of equivalent C."
+    },
+    {
+      "id": "frame",
+      "label": "Original 296-byte local frame",
+      "state": "done",
+      "evidence": "Module disassembly now allocates exactly 0x128 bytes. Declaration order reproduces myId/ack/block/chunks/tag at SP+0x114/0x118/0x11C/0x120/0x124. The extra SP+0x128 slot came from retaining the player stride across sub_080020F4 in case 38. An empty register constraint on the earlier stride separates that pseudo value, so the later constant is rematerialized without an extra spill. No source ASM opcodes were added."
+    },
+    {
+      "id": "transport",
+      "label": "Announce, chunk receipt and acknowledgement control flow",
+      "state": "active",
+      "evidence": "ASM 0x0806690C\u20130x08066A1A and fresh m2c output were checked. The draft now preserves the announce-wait flag and the doubled chunk index on the timeout exit. The local ID is passed explicitly to sub_08002118. The five protocol stack fields and frame size now match; register allocation and remaining instruction/control-flow ordering differ."
+    },
+    {
+      "id": "dispatch",
+      "label": "Payload effects and queue handling",
+      "state": "active",
+      "evidence": "Restored omitted hit cases 9/10, damage records, distinct host spawn cases 20/21/22, pickup cases 24/25, item effects 27/28, entity effect case 33, local player state case 38, synchronized state case 42 and three byte flags. Corrected the byte access at gUnk_03006220, game-state flag 1 for case 32 and the life reset shared by cases 8/47. Original has 107 physical calls, candidate 106; CpuSet tail sharing differs (original 4, candidate 3), while every other physical call count agrees. Further field, ABI and CFG review remains necessary; call counts do not prove equivalence. Independent read-only review found no newly omitted outer case or missing required argument among the 42 callees with known signatures. Case 26 (tag 0x9B) and case 47 were moved to their original dispatch order; further exact CFG comparison remains necessary. Follow-up CFG audit found and restored the effect+6 halfword store for a nonnull entity effect in case 10: 0x08066F48 branches through 0x08066F8C to 0x08066FBC. A second reader confirmed that shared tail; the earlier broad review was insufficient to prove equivalence."
+    },
+    {
+      "id": "match",
+      "label": "Exact active C and linked ROM match",
+      "state": "pending",
+      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4200 bytes; both frames are 296 bytes, approximate score 1257. The retained ASM fallback reproduces the ROM. make -j1 compare prints shiningsoul2_eu.gba: OK, make -j1 nonmatching exits 0, and check_tree reports 0 errors. No new matching C bytes are claimed."
+    }
+  ],
+  "regions": []
+}
