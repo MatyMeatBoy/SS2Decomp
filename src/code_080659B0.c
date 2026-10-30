@@ -263,37 +263,32 @@ u32 sub_08065FE8(void)
     }
     return 0;
 }
-#ifdef NONMATCHING
-/* Enqueue tag 0x86 (8-byte block {ptr, idx}) if the referenced slot is visible/valid and no 0x86 is in flight. */
+extern u8 gLinkFlagByte asm("gUnk_03006220");
+extern s32 sub_08017F7C(s32 *);
+extern u32 root67QueueCountCheck asm("gUnk_03006338");
 u32 sub_0806603C(s32 *src)
 {
     s32 pos[2];
-    s32 base;
-    u32 idx;
+    int stride;
+    register u8 *base asm("r1");
     u8 *p;
-    if (gUnk_03006338 < 0x32) {
-        base = *src;
-        idx = *(u8 *)(src + 1) & 0x7F;
-        pos[0] = *(s16 *)(base + idx * 8 + 10) << 11;
-        pos[1] = *(s16 *)(base + idx * 8 + 12) << 11;
-        if ((*(u16 *)(base + idx * 8 + 8) & 0x4000) != 0 || sub_08017F7C(pos) != 0) {
-            if (gLinkFlagByte == 0) {
-                gLinkFlagByte = 1;
-                p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
-                *(u32 *)(p + 4) = 1;
-                *p = 0x86;
-                CpuSet(src, p + 8, 0x04000002);
-                p[1] = 1;
-                gUnk_03006338++;
-                return 1;
-            }
-        }
+    stride = 8;
+    if (root67QueueCountCheck > 0x31 ||
+        ((base = (u8 *)*src,
+          pos[0] = *(s16 *)(((*(u8 *)(src + 1) & ~0x80) * stride) + base + 10) << 11,
+          pos[1] = *(s16 *)(((*(u8 *)(src + 1) & ~0x80) * stride) + base + 12) << 11,
+          (*(u16 *)((base += ((*(u8 *)(src + 1) & ~0x80) * stride)) + 8) & 0x4000) == 0) && sub_08017F7C(pos) == 0) || gLinkFlagByte != 0) {
+        return 0;
     }
-    return 0;
+    gLinkFlagByte++;
+    p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+    *(u32 *)(p + 4) = 1;
+    *p = 0x86;
+    CpuSet(src, p + 8, 0x04000002);
+    p[1] = 1;
+    gUnk_03006338++;
+    return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806603C);
-#endif
 u32 sub_080660EC(u8 *src)
 {
     u8 *p;
