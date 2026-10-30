@@ -847,7 +847,203 @@ void *sub_0805B618(void)
 
 
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B688);
+#ifdef NONMATCHING
+struct BD5CPlayer {
+    u16 id;
+    u8 pad2[0x1E];
+    u16 state;
+    u16 f22;
+    u8 pad24[0xC];
+    u32 flags;
+    u8 pad34[0x2C];
+    s16 maxMp;
+    s16 maxHp;
+    u16 f64;
+    u8 pad66[2];
+    u8 f68;
+    u8 pad69[0x59];
+    s16 mp;
+    s16 hp;
+    u8 padC6[0x86];
+};
+struct BD5CMap { u8 pad0[0x10]; s16 stat10; s16 stat12; s16 stat14; s16 stat16; };
+extern struct BD5CPlayer bd5cPlayers[] asm("gUnk_03003CE0");
+extern struct BD5CMap *bd5cMap asm("gUnk_030034E0");
+extern u32 sub_080665B0(u32);
+extern void sub_08074DE8(u32, s32);
+s32 sub_0805BD5C(u16 *item, s32 level)
+{
+    struct BD5CPlayer *player;
+    u8 *obj;
+    u32 zero;
+    u16 kind;
+    s16 amount;
+    u8 *p;
+
+    player = &bd5cPlayers[sub_080020F4()];
+    if (item == NULL)
+        return 0;
+    if (sub_0800CDF8())
+        return 0;
+    if (player->state == 0xB)
+        return 0;
+    zero = player->flags & 0x2000;
+    if (zero)
+        return 0;
+    if (item[0] != 1)
+        return 0;
+    obj = (u8 *)sub_08007290(item[1] | 0x100000);
+    kind = *(u16 *)(obj + 0xA0);
+    if (kind == 1 || kind == 0x13) {
+        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        if (player->hp >= player->maxHp)
+            goto fail;
+        player->hp += amount;
+        if (player->maxHp < player->hp)
+            player->hp = player->maxHp;
+        else if (player->hp < 0)
+            player->hp = zero;
+        if (*(u16 *)(obj + 0xA2) != 0)
+            sub_08074DE8(player->id, 8);
+        if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
+            player->flags &= ~0x20000;
+        sub_0805865C(0x91);
+    } else if (kind == 2) {
+        if (player->mp >= player->maxMp)
+            goto fail;
+        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        player->mp += amount * 10;
+        if (player->maxMp < player->mp)
+            player->mp = player->maxMp;
+        else if (player->mp < 0)
+            player->mp = zero;
+        sub_0805865C(0x91);
+    } else if (kind == 6) {
+        if (bd5cMap->stat10 > 499)
+            goto fail;
+        bd5cMap->stat10++;
+    } else if (kind == 7) {
+        if (bd5cMap->stat12 > 499)
+            goto fail;
+        bd5cMap->stat12++;
+    } else if (kind == 9) {
+        if (bd5cMap->stat16 > 332)
+            goto fail;
+        bd5cMap->stat16++;
+    } else if (kind == 8) {
+        if (bd5cMap->stat14 > 499)
+            goto fail;
+        bd5cMap->stat14++;
+    } else if (kind == 3) {
+        p = (u8 *)sub_0801E1D8(player, 6, 100);
+        if (p != NULL) {
+            sub_0801DB94(player->id, p, 0);
+            sub_0805867C(0x73);
+            p = (u8 *)sub_0801E1D8(player, 7, 100);
+            if (p != NULL)
+                sub_0801DB94(player->id, p, 0);
+        } else {
+            p = (u8 *)sub_0801E1D8(player, 7, 100);
+            if (p == NULL)
+                goto fail;
+            sub_0801DB94(player->id, p, 0);
+            sub_0805867C(0x73);
+        }
+    } else if (kind == 5) {
+        goto fail;
+    } else if (kind == 0xC) {
+        goto fail;
+    } else if (kind == 4) {
+        if (player->f68 == 0)
+            goto fail;
+        if (sub_08058DB0())
+            goto fail;
+        if (sub_0800D11C())
+            goto fail;
+        if (sub_0800CCCC())
+            goto fail;
+        if (player->state == 5)
+            goto fail;
+        if (sub_0800CDC0())
+            goto fail;
+        if (player->f64 > 9)
+            goto fail;
+        if (gUnk_03003170.curLevel == 11)
+            goto fail;
+        if (gUnk_03003170.curLevel == 14)
+            goto fail;
+        if (gUnk_03003170.curLevel == 2 && gUnk_03003170.f90 == 7)
+            goto fail;
+        if (gUnk_03003170.curLevel == 5 && gUnk_03003170.f90 == 10)
+            goto fail;
+        if (gUnk_03003170.curLevel == 8 && gUnk_03003170.f90 == 0x11)
+            goto fail;
+        if (gUnk_03003170.curLevel == 0x13 && gUnk_03003170.f90 == 2)
+            goto fail;
+        if (gUnk_03003170.curLevel == 0x15 && (gUnk_03003170.f90 == 2 || gUnk_03003170.f90 == 4))
+            goto fail;
+        sub_0805865C(0x75);
+        player->state = 0xC;
+        player->f22 = 1;
+        sub_08015C14();
+    } else if (kind == 10) {
+        if (sub_0800D1B0())
+            goto fail;
+        if ((p = (u8 *)sub_0801E1D8(player, 6, 100)) != NULL
+            || (p = (u8 *)sub_0801E1D8(player, 7, 100)) != NULL
+            || (p = (u8 *)sub_0801E164(player, 0)) != NULL) {
+            sub_0801DB94(player->id, p, 6);
+            *(s32 *)(p + 0x18) = level;
+            sub_0805865C(0x73);
+            return 1;
+        }
+        goto fail;
+    } else if (kind == 11) {
+        if (sub_0800D1B0())
+            goto fail;
+        if ((p = (u8 *)sub_0801E1D8(player, 6, 100)) == NULL
+            && (p = (u8 *)sub_0801E1D8(player, 7, 100)) == NULL
+            && (p = (u8 *)sub_0801E164(player, 0)) == NULL)
+            goto fail;
+        sub_0801DB94(player->id, p, 7);
+        *(s32 *)(p + 0x18) = level;
+        sub_0805865C(0x73);
+    } else if (kind == 0xD) {
+        goto fail;
+    } else if (kind == 0xE) {
+        goto fail;
+    } else if (kind == 0x10) {
+        sub_080665B0(*(u16 *)(obj + 0xA2));
+        return 0;
+    } else if (kind == 0x11) {
+        player->mp = player->maxMp;
+        player->hp = player->maxHp;
+    } else if (kind == 0x12) {
+        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        if (player->hp >= player->maxHp)
+            goto fail;
+        player->hp += amount;
+        if (player->maxHp < player->hp)
+            player->hp = player->maxHp;
+        else if (player->hp < 0)
+            player->hp = 0;
+        if (*(u16 *)(obj + 0xA2) != 0)
+            sub_08074DE8(player->id, 8);
+        if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
+            player->flags &= ~0x20000;
+        sub_0805865C(0x91);
+    } else {
+    fail:
+        sub_0805865C(0x61);
+        return 0;
+    }
+    if (kind != 1)
+        sub_0805865C(0x20);
+    return 1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805BD5C);
+#endif
 #ifdef NONMATCHING
 extern u8 gUnk_08477F3C[];
 extern u8 gUnk_08478044[];
