@@ -1,19 +1,19 @@
 {
   "address": "0x080923FC",
   "updated_utc": "2026-10-30T13:57:39Z",
-  "checkpoint": "Private draft checkpoint 318f8c98; NONMATCHING, heuristic distance 632 versus 739 before this work.",
+  "checkpoint": "Draft checkpoint bdc8d41f; NONMATCHING, heuristic distance 632 versus 739 before this work.",
   "areas": [
     {
       "id": "sprite_placement",
       "label": "Recover initial sprite placement",
       "state": "done",
-      "evidence": "Original ASM initializes 0x34-byte sprite objects at sp+0x14 and sp+0x48. Candidate 318f8c98 places both objects there and emits the same entry argument truncation and setup instructions; frame size still differs."
+      "evidence": "Original ASM initializes 0x34-byte sprite objects at sp+0x14 and sp+0x48. Candidate bdc8d41f places both objects there and emits the same entry argument truncation and setup instructions; frame size still differs."
     },
     {
       "id": "first_wait",
       "label": "Recover the first wait-loop order",
       "state": "done",
-      "evidence": "ASM branches first to the readiness test, yields on failure, and then retests. Candidate f44d69f5 preserves that order; the normal ROM and NONMATCHING builds passed."
+      "evidence": "ASM branches first to the readiness test, yields on failure, and then retests. Candidate 33937a8a preserves that order; the normal ROM and NONMATCHING builds passed."
     },
     {
       "id": "remaining_code",
