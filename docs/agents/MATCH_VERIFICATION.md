@@ -1,96 +1,57 @@
-# Qué demuestra un match
+# What proves a match
 
-Una función está terminada cuando el C integrado produce la ROM original:
-`make compare` debe imprimir `shiningsoul2_eu.gba: OK`. Un borrador compilable,
-un diff parecido o un `MATCH` aislado no sustituyen esa comprobación.
+A function is complete when its integrated C produces the original ROM: `make compare` must print `shiningsoul2_eu.gba: OK`. A compiling draft, a similar diff or an isolated `MATCH` does not replace that check.
 
-## Fallo corregido: `MATCH (positions only)`
+## Corrected failure: `MATCH (positions only)`
 
-La heurística antigua de `nmdiff.py` y `nmscore.py` ordenaba las líneas añadidas
-y eliminadas del diff y reemplazaba destinos de ramas por `X`. Eso podía ocultar
-cambios reales de orden, control de flujo o relocations.
+The old `nmdiff.py` and `nmscore.py` heuristic sorted added and removed diff lines and replaced branch targets with `X`. This could hide real changes in ordering, control flow or relocations.
 
-Ejemplo ARM Thumb reproducido con el ensamblador real:
+ARM Thumb example reproduced with the real assembler:
 
 ```asm
-/* Original: devuelve 2 */       /* Distinto: devuelve 1 */
+/* Original: returns 2 */       /* Different: returns 1 */
 movs r0, #1                    adds r0, #1
 adds r0, #1                    movs r0, #1
 bx lr                          bx lr
 ```
 
-Los bytes son distintos y el orden importa, pero las líneas del diff se
-cancelaban al ordenarlas. La herramienta antigua podía anunciar `MATCH` y
-`nmscore.py --unwrap` podía eliminar el ASM de ese borrador incorrecto.
+The bytes differ and order matters, but sorting made the diff lines cancel out. The old tool could report `MATCH`, and `nmscore.py --unwrap` could remove the original ASM from that incorrect draft.
 
-El veredicto corregido usa exclusivamente los bytes y relocations normalizados
-de `decomp.compare`. La distancia relajada solo sirve para priorizar candidatos:
+The corrected verdict uses only normalized bytes and relocations from `decomp.compare`. Relaxed distance only prioritizes candidates:
 
-| Resultado | Significado |
+| Result | Meaning |
 |---|---|
-| `nmdiff.py`: `MATCH`, exit 0 | Bytes y relocations normalizados iguales |
-| `nmdiff.py`: `NO MATCH`, exit 1 | Existe diferencia; no autoriza unwrap |
-| `nmscore.py`: 0 | Comparación exacta; puede desenvolver la función seleccionada |
-| `nmscore.py`: positivo | Distancia aproximada, incluso si las líneas relajadas se cancelan |
-| `nmscore.py`: -1 | No se pudo compilar/comparar |
+| `nmdiff.py`: `MATCH`, exit 0 | Normalized bytes and relocations are equal. |
+| `nmdiff.py`: `NO MATCH`, exit 1 | A difference exists; unwrapping is not authorized. |
+| `nmscore.py`: 0 | Exact comparison; the selected function can be unwrapped. |
+| `nmscore.py`: positive | Approximate distance, even when relaxed diff lines cancel out. |
+| `nmscore.py`: -1 | Compilation or comparison failed. |
 
-Una diferencia aislada también puede deberse al contexto del módulo o los pools.
-No la conviertas en `MATCH` por semejanza: cualquier aplicación experimental debe
-ser reversible y verificarse con la ROM completa. El script `addnm.py` consulta
-el texto de `nmdiff.py`; la salida `NO MATCH` conserva el borrador.
+An isolated difference can also come from module context or literal pools. Do not call it a match based on similarity: any experimental application must be reversible and checked against the full ROM. `addnm.py` reads the `nmdiff.py` verdict; `NO MATCH` preserves the draft.
 
-## Fallo corregido: addends y opcodes borrados por el comparador
+## Corrected failure: erased relocation addends and opcodes
 
-El normalizador también borraba cuatro bytes en toda relocation distinta de
-ABS32. En ELF ARM de tipo REL, esos bytes contienen el addend y parte de la
-instrucción: `bl external_target+2` no equivale a `bl external_target+4`.
-También desaparecía el registro de `bx r0` frente a `bx r1` con R_ARM_V4BX.
-Se conservan ahora los bytes y la identidad de destino de esas relocations.
+The normalizer also erased four bytes for every non-ABS32 relocation. In ARM ELF REL objects, those bytes contain the addend and part of the instruction: `bl external_target+2` is not equivalent to `bl external_target+4`. The register distinction between `bx r0` and `bx r1` also disappeared with R_ARM_V4BX. The comparison now preserves the bytes and target identity of these relocations.
 
-Las referencias a otras secciones conservan su nombre real. No se confunden
-`.target` y `.other`, ni se resta la posición del llamador a un ABS32 que apunta
-a otra sección. Las pruebas usan objetos Thumb y ARM reales, y comprueban que
-llamadas válidas a símbolos globales definidos/indefinidos siguen coincidiendo
-al cambiar el padding del objeto.
+References to other sections retain their actual names. `.target` and `.other` are not conflated, and the caller's position is not subtracted from an ABS32 reference to another section. Tests use real Thumb and ARM objects and check that valid calls to defined and undefined global symbols still match when object padding changes.
 
-La compensación de PC y el addend forman parte de la relocation, como define
-la [especificación ELF de Arm](https://github.com/ARM-software/abi-aa/blob/main/aaelf32/aaelf32.rst#5611-addends-and-pc-bias-compensation).
-La comparación aislada no verifica el contenido de datos externos ni sustituye
-la ROM enlazada completa.
+PC bias and the addend are part of a relocation, as defined by the [Arm ELF specification](https://github.com/ARM-software/abi-aa/blob/main/aaelf32/aaelf32.rst#5611-addends-and-pc-bias-compensation). An isolated comparison neither verifies external data contents nor replaces the complete linked ROM.
 
-## Fallo corregido: orden de declaraciones en `handapply.py`
+## Corrected failure: declaration order in `handapply.py`
 
-Insertar cada declaración en el mismo punto invertía el orden del candidato.
-Por ejemplo, un `extern` de array podía quedar antes de la definición de su
-`struct`. Con agbcc, ese contexto puede cambiar cargas/stores aunque el candidato
-aislado hubiera coincidido.
+Inserting each declaration at the same location reversed the candidate's declaration order. For example, an array `extern` could precede its `struct` definition. With agbcc, that context can change loads or stores even when the isolated candidate matched.
 
-Las declaraciones se insertan como un bloque ordenado antes de la función
-objetivo, también cuando el tipo existente aparece a mitad del módulo.
-Se identifican tipos por su tag y tokens, no por una línea con espacios exactos.
-Un tipo posterior, condicional o conflictivo hace abortar antes de escribir:
-usa un alias/tipo local único y vuelve a verificar. Las declaraciones de otros
-shards no se mueven ni reescriben.
+Declarations are inserted as one ordered block before the target function, including when an existing type appears midway through a module. Types are identified by tag and tokens, not by exact whitespace on one line. A later, conditional or conflicting type causes an abort before writing: use a unique local type or alias and verify again. Declarations from other shards are not moved or rewritten.
 
-Todos los candidatos de un lote se validan antes de escribir el módulo o borrar
-ASM. Si falla el segundo archivo, no se deja el primero parcialmente aplicado.
-Esto no elimina la obligación de verificar y revertir si falla la ROM final.
+All candidates in a batch are validated before writing the module or deleting ASM. A failure in the second file does not leave the first partly applied. This does not remove the requirement to verify the final ROM and revert a failing application.
 
-## Auditoría y comprobaciones obligatorias
+## Audit evidence and required checks
 
-La incidencia se reprodujo con objetos ARM reales, además de fixtures de cambios
-de orden, ramas y relocations. Las pruebas fallaban con la heurística antigua.
-La regresión también cubre el orden de tipos/externs de `handapply.py`.
+The issue was reproduced using real ARM objects and fixtures covering instruction order, branches and relocations. Those tests failed with the old heuristic. Regression coverage also includes type/extern declaration order in `handapply.py`.
 
-La auditoría de la integración publicada `367ca1d` hizo una reconstrucción
-completa (`make -B -j2 compare`) sin confiar en objetos cacheados. Pasó y la ROM
-generada coincidió con el dump europeo, SHA-1
-`aa1288be9257337abdfe3034898cf6c7aa778fbc`.
-El fallo de diagnóstico es grave para la automatización; esta auditoría no
-encontró corrupción de la ROM publicada. No se deben contar diagnósticos
-históricos como funciones nuevas sin verificar sus entregas.
+The audit of published integration `367ca1d` performed a full rebuild (`make -B -j2 compare`) without relying on cached objects. It passed, and the generated ROM matched the European dump with SHA-1 `aa1288be9257337abdfe3034898cf6c7aa778fbc`. The diagnostic failure was serious for automation; that audit found no corruption of the published ROM. Historical diagnostic results must not be counted as new completed functions without verifying their deliveries.
 
-Antes de cada entrega:
+Before every delivery:
 
 ```sh
 make -j1 compare
@@ -98,19 +59,15 @@ make -j1 nonmatching
 python3 tools/scripts/check_tree.py
 ```
 
-Al cambiar tipos compartidos, aplicar por otra vía, diagnosticar una diferencia
-de contexto o investigar falsos matches, fuerza la reconstrucción afectada y
-repite la comparación completa. Nunca omitas los hooks.
+When changing shared types, applying through another path, diagnosing context differences or investigating false matches, force the affected rebuild and repeat the full comparison. Never bypass hooks.
 
-Pruebas del workflow:
+Workflow regression tests:
 
 ```sh
 python3 -m unittest discover -s tools/tests -p 'test_*.py' -v
 ```
 
-Las pruebas de objetos reales usan `arm-none-eabi-as`, `arm-none-eabi-objdump` y
-`pyelftools` (disponibles en CI); las demás pruebas no necesitan ROM ni agbcc.
-
+Real-object tests use `arm-none-eabi-as`, `arm-none-eabi-objdump` and `pyelftools`, available in CI. Other tests do not need a ROM or agbcc.
 
 ## Revalidation of canonical exports and C aliases
 
