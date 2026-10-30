@@ -1027,72 +1027,37 @@ void sub_08056494(void)
     Clr53A80(gP030056F4);
     sub_08019F04();
 }
-#ifdef NONMATCHING
-extern u8 table56538[] asm("gUnk_084B1D40");
+struct Scene56 { s32 x; s32 y; u32 lo; u32 hi; s32 a; s32 b; u32 wait; };
+extern struct Scene56 scenes56[] asm("gUnk_084B1D40");
 s32 sub_08021FE0(void *, s32 *, s32 *, s32 *);
-void sub_08056538(s32 arg0) {
-    s32 position[2];
-    s32 sp8;
-    s32 spC;
-    s32 temp_r1;
-    s32 temp_r4;
-    u8 *temp_r6;
-    u16 var_r4;
-    u8 *var_r4_2;
-    u32 var_r5;
-    void *temp_r0;
-
-    temp_r1 = arg0 * 0x1C;
-    sp8 = 0;
-    position[0] = (u32)*(s32 *)(table56538 + temp_r1) << 8;
-    position[1] = (u32)*(s32 *)(table56538 + temp_r1 + 4) << 8;
-    spC = *(u16 *)(table56538 + temp_r1 + 8) | ((u32)*(u16 *)(table56538 + temp_r1 + 0xC) << 16);
-    temp_r6 = (u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4();
-loop_2:
-    if (sub_08021FE0(temp_r6 + 0x8C, position, &sp8, &spC) == 0) {
+static inline void Walk56(u32 x, u32 y, u32 a, u32 b)
+{
+    u32 pos[2];
+    u32 result;
+    u32 packed;
+    u8 *entry;
+    a <<= 16;
+    result = 0;
+    pos[0] = x << 8;
+    pos[1] = y << 8;
+    b <<= 16;
+    packed = (a >> 16) | b;
+    entry = (u8 *)&gUnk_03003CE0[sub_080020F4()];
+    while (sub_08021FE0(entry + 0x8C, pos, &result, &packed) == 0)
         sub_080003F0();
-        goto loop_2;
-    }
-    temp_r4 = arg0 * 0x1C;
-    sub_08029CEC(*(s32 *)(table56538 + temp_r4 + 0x10), *(s32 *)(table56538 + temp_r4 + 0x14), 1);
-    var_r4 = *(u16 *)(table56538 + temp_r4 + 0x18);
-loop_5:
-    if (var_r4 != 0) {
-        sub_080003F0();
-        if (sub_080021A8() == 0) {
-            var_r4 -= 1;
-            goto loop_5;
-        }
-    }
-    var_r4_2 = gUnk_03005CF4 + 0xE34;
-    var_r5 = 0;
-loop_9:
-    if (var_r5 <= 0x1DU) {
-        if (sub_08000470(var_r4_2) == 0) {
-loop_13:
-            temp_r0 = sub_08001494(0x400U);
-            *(void * *)(var_r4_2 + 0x20) = temp_r0;
-            if (temp_r0 == NULL) {
-                sub_080003F0();
-                goto loop_13;
-            }
-            *(u32 *)(var_r4_2 + 0x8) = 0x3C;
-            *(void (**)(s32))(var_r4_2 + 0xC) = sub_08056538;
-            *(void * *)(var_r4_2 + 0x10) = (void *) ((u8 *)temp_r0 + 0x3FC);
-            *(u32 *)(var_r4_2 + 0x24) = 0;
-            sub_08000274(var_r4_2, arg0);
-        } else {
-            var_r5 += 1;
-            var_r4_2 += 0x28;
-            goto loop_9;
-        }
-    }
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08056538);
-#endif
+void sub_08056538(s32 arg0)
+{
+    u16 wait;
+    Walk56(scenes56[arg0].x, scenes56[arg0].y, (u16)scenes56[arg0].lo, (u16)scenes56[arg0].hi);
+    sub_08029CEC(scenes56[arg0].a, scenes56[arg0].b, 1);
+    for (wait = scenes56[arg0].wait; wait != 0; wait--) {
+        sub_080003F0();
+        if (sub_080021A8() != 0)
+            break;
+    }
+    spawn56(sub_08056538, arg0);
+}
 #ifdef NONMATCHING
 extern u8 table5664C[] asm("gUnk_084B1D78");
 extern u32 audioFlags5664C asm("gUnk_030027D0");
