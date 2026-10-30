@@ -1,13 +1,13 @@
 {
   "address": "0x08068A00",
-  "updated_utc": "2026-10-30T00:56:24.694488+00:00",
-  "checkpoint": "950367ffd6d9f1169522ede8757494fcf0785a8a",
+  "updated_utc": "2026-10-30T01:05:03.488659+00:00",
+  "checkpoint": "6b4f6e90cd7f8a1fec2f5a086ff7d21f73cd5b96",
   "areas": [
     {
       "id": "compile",
       "label": "Borrador completo compilable",
       "state": "done",
-      "evidence": "Checkpoint 950367ff: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores; hooks activos. El C sigue NONMATCHING y no se ha probado equivalente."
+      "evidence": "Checkpoint 6b4f6e90: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores; hooks activos. El C sigue NONMATCHING y no se ha probado equivalente."
     },
     {
       "id": "abi",
@@ -25,13 +25,13 @@
       "id": "layout",
       "label": "Bloques, frame y vidas útiles",
       "state": "active",
-      "evidence": "Checkpoint 950367ff conserva radio y frame del anterior. Caso remoto4 recarga sourceEnemy en r1 tras llamada; la asignación natural de remoto7 queda en r2. Limpieza de +0x58 calcula dirección antes de cero r7. Historial aliado (ASM 0x08068D9C..0x08068DE4) calcula índice r0, dirección r2, valor r3 y contador r1/r0 antes de conservar historial entre llamadas. Tamaño ahora1436, igual al original; nmscore del módulo real145 a133. Diff aislado30 líneas cambiadas, sin prueba de equivalencia: quedan orden de cargas/copias del historial, OR de flags, orden de sumandos, una rama y pools. Permuter240s/jobs2 no halló mejora; control previo entire_object_equal=true para objeto normal y AST transformado (3544 bytes, SHA256 a812b3904bba8fc79d377a8c601706d287cdd18476e20c797dd4427b20afd8b2)."
+      "evidence": "Checkpoint 6b4f6e90 reproduce OR de flags enemigo con mov r0,r8 / movs r1,1 / orrs r0,r1 / mov r8,r0 y mantiene transición de índice r2/r3 (ASM 0x08068CCA..0x08068CF2). Se conservan sólo tres barreras nuevas: valor2 remoto r3, flags r0 y paso r2; minimización de32 combinaciones descartó restricciones redundantes. Historial/radio/frame del checkpoint anterior conservados. Tamaño1436 igual al original; nmscore del módulo real133 a129; diff aislado30 a22 líneas. Persisten orden de preparación del historial aliado, operandos conmutados en dos sumas, rama expandida y pools. Formas C de suma/casts/arrays y orden de declaraciones no mejoraron; no se repitió permuter."
     },
     {
       "id": "match",
       "label": "Coincidencia íntegra de C y ROM",
       "state": "pending",
-      "evidence": "Checkpoint 950367ff continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original /1436 candidato). La igualdad de tamaño y las puntuaciones no prueban match. ROM normal verificada con fallback ASM; ninguna función nueva matching."
+      "evidence": "Checkpoint 6b4f6e90 continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original /1436 candidato). Igualdad de tamaño y puntuaciones no prueban match. ROM normal verificada con fallback ASM; ninguna función nueva matching."
     }
   ],
   "regions": []
