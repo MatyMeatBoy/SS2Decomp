@@ -579,84 +579,54 @@ void sub_08055C58(void)
             sub_080003F0();
     }
 }
-#ifdef NONMATCHING
-void sub_08055D1C(void) {
-    s16 temp_r6;
-    s16 temp_r6_2;
-    s16 temp_r8;
-    s16 temp_r8_2;
-    u8 *temp_r2;
-    u8 *temp_r2_2;
-
-    temp_r2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(u32 *)(temp_r2 + 0x30) = (s32) (*(u32 *)(temp_r2 + 0x30) | 1);
-    sub_0800D0F4();
-    if (sub_0800CE30() != 0) {
-        sub_0800CE40();
-        sub_0801ABE8(6);
-loop_3:
-        if (sub_0801AAE0() == 0) {
-            sub_080003F0();
-            goto loop_3;
-        }
-        sub_0800BB54();
+extern u8 gS03003170_56[] asm("gUnk_03003170");
+static inline void Keep55D1C(u8 *b, u32 n)
+{
+    s16 *px = (s16 *)(b + 0x7C);
+    s32 x = *px;
+    s16 *py = (s16 *)(b + 0x7E);
+    s32 y = *py;
+    sub_08084F9C(n);
+    sub_080003F4(0x11201100);
+    *px = x;
+    *py = y;
+}
+static inline void Fade55D1C(u32 n)
+{
+    sub_0800CE40();
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
         sub_080003F0();
+    sub_0800BB54();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_0800CCA8();
+    Keep55D1C(gS03003170_56, n);
+    sub_0800CCB8();
+    sub_08000420(0x514C8);
+    sub_0800CE54();
+    while (sub_0801AAE0() == 0)
         sub_080003F0();
-        sub_080003F0();
-        sub_080003F0();
-        sub_0800CCA8();
-        temp_r8 = (s16) gUnk_03003170.scrollX;
-        temp_r6 = (s16) gUnk_03003170.scrollY;
-        sub_08084F9C(4);
-        sub_080003F4(0x11201100);
-        gUnk_03003170.scrollX = (u16) temp_r8;
-        gUnk_03003170.scrollY = (u16) temp_r6;
-        sub_0800CCB8();
-        sub_08000420(0x514C8);
-        sub_0800CE54();
-loop_6:
-        if (sub_0801AAE0() == 0) {
-            sub_080003F0();
-            goto loop_6;
-        }
-    } else {
-        sub_0800CE40();
-        sub_0801ABE8(6);
-loop_10:
-        if (sub_0801AAE0() == 0) {
-            sub_080003F0();
-            goto loop_10;
-        }
-        sub_0800BB54();
-        sub_080003F0();
-        sub_080003F0();
-        sub_080003F0();
-        sub_080003F0();
-        sub_0800CCA8();
-        temp_r8_2 = (s16) gUnk_03003170.scrollX;
-        temp_r6_2 = (s16) gUnk_03003170.scrollY;
-        sub_08084F9C(3);
-        sub_080003F4(0x11201100);
-        gUnk_03003170.scrollX = (u16) temp_r8_2;
-        gUnk_03003170.scrollY = (u16) temp_r6_2;
-        sub_0800CCB8();
-        sub_08000420(0x514C8);
-        sub_0800CE54();
-loop_13:
-        if (sub_0801AAE0() == 0) {
-            sub_080003F0();
-            goto loop_13;
-        }
+}
+void sub_08055D1C(void)
+{
+    {
+    struct Player *p = &gUnk_03003CE0[sub_080020F4()];
+    p->flags |= 1;
     }
-    temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-    *(u32 *)(temp_r2_2 + 0x30) = (s32) (*(u32 *)(temp_r2_2 + 0x30) & ~1);
+    sub_0800D0F4();
+    if (sub_0800CE30() != 0)
+        Fade55D1C(4);
+    else
+        Fade55D1C(3);
+    {
+    struct Player *p = &gUnk_03003CE0[sub_080020F4()];
+    p->flags &= ~1;
+    }
     sub_0800D108();
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055D1C);
-#endif
 #ifdef NONMATCHING
 struct TaskPayload55E74 { u32 unknown[3]; void (*callback)(u32); s32 value; };
 void sub_080560D0(u32);
