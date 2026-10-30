@@ -4,6 +4,13 @@ Goal: C that compiles with agbcc (GCC 2.95 ARM) to a byte-identical ROM.
 `make compare` must print `shiningsoul2_eu.gba: OK` before every commit.
 Multi-agent rules (shards, claim/land/pr): AGENTS.md. User writes Spanish; keep replies terse. Commit only to the working branch, no PR unless asked.
 
+## Public collaboration language
+
+Use English for repository documentation, progress tables, commit messages and
+PR titles/descriptions. Read [the quick start](docs/agents/QUICKSTART.md): Windows
+contributors download the ROM-free toolkit into their own folder, extract it
+there and bootstrap an independent checkout before claiming work.
+
 ## Setup (local)
 Human guide: CONTRIBUTING.md. Linux/WSL: apt `binutils-arm-none-eabi gcc-arm-none-eabi make python3 git gcc`.
 Windows: MSYS2, prefix every shell with `export PATH="/c/msys64/ucrt64/bin:/c/msys64/usr/bin:$PATH"` (the WindowsApps python3 stub is not Python).
@@ -40,7 +47,7 @@ agent-written C is valid agbcc C89). `tools/scripts/c89fix.py` converts C99 styl
 ## Workflow per function
 1. `GHIDRA_OUT=ghi tools/scripts/gv.sh sub_08001234` -> Ghidra C + original asm. Ghidra is the reading aid; it is NOT compile-matching C.
 2. Draft: `python3 tools/scripts/decomp.py m2c sub_08001234` (m2c draft) or write C by hand.
-3. Check one function in isolation (object-level, ignores reloc names): `python3 tools/scripts/decomp.py check FUNC file.c`.
+3. Check one function in isolation (strict bytes and relocation identity; the full ROM check is still required): `python3 tools/scripts/decomp.py check FUNC file.c`.
 4. Apply: `python3 tools/scripts/apply_permuted.py file.c` (extracts function + externs, checks with the module compiler, applies,
    rebuilds the whole ROM, rolls back if sha1 differs). Accepts several functions per file or a directory of .c.
 5. Near miss (score small): `python3 tools/scripts/permute.py FUNC file.c --time 120`, or batch `permute_batch.py DRAFTDIR SCORES.txt --max-score 12`,
@@ -58,12 +65,15 @@ Ghidra regeneration (needs Ghidra 11.x): `analyzeHeadless proj proj -import base
 - Far jumps use `bl`, switch tables `mov pc, rN`; epilogues `pop {r0}; bx r0`.
 - Unused stack frame: original `sub sp,#N ... add sp,#N` with nothing else = an unused local array; `u8 buf[N];` reproduces it (sub_0806888C: `s32 f(void){ u8 buf[0x88]; return 1; }`).
   If the frame is bigger than the code needs, add a dead `u8 buf[N]` / `u32 pad[k]` local. `push {r2,r3}` ... `add sp,#8` = variadic function: `void f(u32 a, u32 b, u32 c, ...){}` (named params shift which of r0-r3 are pushed).
-- Do not retype globals (gUnk_03005CF4 s32, gUnk_03003478) piecemeal: it broke other functions. Retype only with a full consistent rewrite.
+- Do not retype globals (gUnk_03005CF4 s32, gUnk_03003478) piecemeal: it broke other functions. Use a local C alias with the canonical assembler label; do not rewrite shared declarations.
 - Permuter output is preprocessed: only take the function body (apply_permuted does this).
 
 - Callee proto has u16 param but original passes s32 without lsl/lsr: call via cast `((void (*)(s32))f)(x)`; callee proto `()`-style (K&R) when original passes nothing extra (sub_080687A8).
 
-## Status (see `python3 tools/scripts/progress.py`)
-838/1973 functions matched (5.93% bytes), 366 yellow drafts. Libs: m4a 54/56, flash 24/24. Near misses: sub_0800BAA4, sub_0800BC44/BC08/BCA0/BD1C,
-sub_0806849C/84F4/854C (0xFF byte stores), sub_08056E24/E64/FA4/FCC + sub_0805A6F0 (GameState pointer typing),
-sub_0805EF84, sub_0809043C (`(a<<8)/b`), sub_08001B04 (ReadFlash arg count), sub_08006B2C, sub_0800CB3C. MultiSio code not located yet.
+## Current status
+
+Use `python3 tools/scripts/claim.py status` for available shards and
+`python3 tools/scripts/progress.py --out build/progress` for current metrics.
+The generated reports in docs/progress are updated by CI. Historical function
+counts and near-match lists are not current assignments; verify main and claim
+ownership before editing any function.

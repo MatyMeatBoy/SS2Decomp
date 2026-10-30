@@ -35,10 +35,10 @@ class ProgressGraphicTests(unittest.TestCase):
         modules[0]['funcs'][0].update(display_name='TaskWaitForSignal', name_status='confirmed')
         svg = progress.treemap_svg(modules, summary)
         ET.fromstring(svg)
-        for text in ('C matching', 'Bibliotecas enlazadas', 'Identificación', 'Histórico C + linked',
-                     'TaskWaitForSignal', 'sub_08000618', 'Datos:', 'sin porcentaje', 'Grafo:'):
+        for text in ('Matching C', 'Linked libraries', 'Identification', 'Historical C + linked',
+                     'TaskWaitForSignal', 'sub_08000618', 'Data:', 'no percentage', 'Graph:'):
             self.assertIn(text, svg)
-        self.assertNotIn('100.00% de datos', svg)
+        self.assertNotIn('100.00% data', svg)
         self.assertEqual(summary['all']['funcs_decompiled'], 1)
         self.assertEqual(summary['all']['funcs_linked'], 1)
         self.assertNotIn('fill="' + progress.BLUE + '"', svg)
@@ -52,8 +52,8 @@ class ProgressGraphicTests(unittest.TestCase):
         summary = progress.summarize(modules)
         svg = progress.treemap_svg(modules,summary)
         ET.fromstring(svg)
-        self.assertIn('1/2 hitos',svg)
-        self.assertIn('no es matching',svg)
+        self.assertIn('1/2 milestones',svg)
+        self.assertIn('not a match',svg)
         self.assertEqual(summary['all']['bytes_done'],0)
 
     def test_existing_callers_without_extended_inventory_still_render(self):

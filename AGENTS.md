@@ -4,11 +4,32 @@ Matching decompilation of Shining Soul II (GBA, EU). A function is done only whe
 `shiningsoul2_eu.gba: OK`. Setup, tools and C rules: [CONTRIBUTING.md](CONTRIBUTING.md). Tricks that matched
 hundreds of functions: [docs/agents/AI_AGENTS.md](docs/agents/AI_AGENTS.md). User writes Spanish; be terse.
 
+## New collaborators: start in your own folder
+
+Read [the contributor quick start](docs/agents/QUICKSTART.md) before editing code.
+On Windows, download the [ROM-free toolkit](SS2Decomp-toolkit-Windows.zip) into
+an individual folder, extract it there and bootstrap a new checkout from that
+folder. Supply your own EU ROM locally. Never share a working tree with another
+contributor or agent. On Linux/WSL/macOS use the native setup in CONTRIBUTING.md.
+
+All public repository text is **English**: documentation, generated progress
+captions and tables, work-area labels, proposed semantic names, commits, PR titles
+and descriptions. Keep canonical ROM symbols unchanged. Respect the user's
+language preference in private conversation.
+
+Prefer free shards with useful existing drafts or preserved work before empty
+ones; compare recovery work with current main to avoid duplicating landed code.
+A coordinator may reclaim a shard after five minutes of verified inactivity,
+preserving its unmerged head first. A live build/permuter or active PR review is
+work; a timestamp or stale lock alone is not. Do not delete someone else's claim
+on your own. Check ownership again before resuming edits after an interruption.
+
 ## Up to 10+ agents at once without stepping on each other
 
 1. **One checkout per agent** (never share a working tree):
    `git worktree add ../ss2-<agent> origin/claude/rom-decompilation-research-obsal6` (or a separate clone),
-   then inside it `sh tools/setup_tools.sh` (or symlink/copy `tools/agbcc`, `baserom.gba`).
+   then follow the quick start in that checkout: use the toolkit on Windows or
+   `sh tools/setup_tools.sh` for native setup (or reuse local tools and your own ROM).
 2. **Claim a shard** (atomic: the server accepts only one push of `shard/NNN`):
    ```sh
    python3 tools/scripts/claim.py status              # free shards, most yellow drafts first
