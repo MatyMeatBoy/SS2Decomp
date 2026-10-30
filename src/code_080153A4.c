@@ -384,14 +384,19 @@ full:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080168FC);
 #endif
-#ifdef NONMATCHING
 extern void sound169C8(u8,u8,s32) asm("sub_080571A4");
-extern u32 gA03005700[] asm("gUnk_03005700");
-extern u32 gW030056F8 asm("gUnk_030056F8");
-extern u32 gW030056FC asm("gUnk_030056FC");
-extern u8 *gP030056F4 asm("gUnk_030056F4");
 void sub_080169C8(void) {
-    u32 i, taskOffset, objectOffset, j, secondOffset, k;
+    register u32 i asm("r5");
+    u32 taskOffset;
+    u32 objectOffset;
+    register u32 j asm("r5");
+    register u32 secondOffset asm("r4");
+    s32 *secondBase;
+    register u32 loopZero asm("r1");
+    register u32 k asm("r5");
+    u16 *flag;
+    u32 *word1, *word2;
+    u32 zero;
     u8 *task, *object;
     u32 *entry;
     i = 0; objectOffset = 0; taskOffset = 0;
@@ -399,31 +404,32 @@ void sub_080169C8(void) {
         task = (u8 *)&gUnk_03004220 + taskOffset;
         if (sub_08000470((u32)task) != 0) {
             sub_080003A8((s32)task);
-            object = objectOffset + gP030056F4;
+            object = (u8 *)(objectOffset + (u32)gP030056F4);
             *(u16 *)(object + 0x5C) = 0;
             *(u16 *)(object + 0xC) = 11;
             sound169C8(object[0x86], object[0x84], 3);
         }
         objectOffset += 0x2E0; taskOffset += 0x28; i++;
     } while (i <= 4);
-    j = 0; secondOffset = 0;
+    j = 0; secondBase = &gUnk_030056F0; secondOffset = 0;
     do {
-        if (sub_08000470(gUnk_030056F0 + secondOffset) != 0)
-            sub_080003A8(gUnk_030056F0 + secondOffset);
+        if (sub_08000470(*secondBase + secondOffset) != 0)
+            sub_080003A8(*secondBase + secondOffset);
         secondOffset += 0x28; j++;
     } while (j <= 1);
-    k = 0; entry = gA03005700;
+    k = 0;
+    flag = &gUnk_03005724; word1 = &gW030056FC; word2 = &gW030056F8;
+    loopZero = 0;
+    entry = gA03005700;
     do {
-        entry[2] = 0; entry[1] = 0; entry[0] = 0;
+        entry[2] = loopZero; entry[1] = loopZero; entry[0] = loopZero;
         entry += 3; k++;
     } while (k <= 2);
-    gUnk_03005724 = 0;
-    gW030056FC = 0;
-    gW030056F8 = 0;
+    zero = 0;
+    *flag = zero;
+    *word1 = zero;
+    *word2 = zero;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080169C8);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
 s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
