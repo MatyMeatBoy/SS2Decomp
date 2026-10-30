@@ -2142,7 +2142,7 @@ void sub_0806BE24(void *arg0) {
     s32 temp_r4;
     s32 temp_r4_7;
     s32 temp_r5;
-    s32 temp_r6;
+    register s32 temp_r6 asm("r6");
     s32 var_r0;
     s32 var_r1;
     s32 var_r7_2;
@@ -2518,7 +2518,7 @@ INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806BE24);
  extern s16 t71CRange[] asm("gUnk_084EC12C");
 void sub_0806C568(u32 *arg0) {
     struct { u32 desc[13]; u8 targets[8]; u16 xs[6], ys[6], timers[6]; s16 x, y; } frame;
-    u32 *sp74;
+    u32 * volatile sp74;
     void *sp78;
     s32 sp7C;
     u32 sp80;
@@ -3024,7 +3024,7 @@ void sub_0806CDF0(void *arg0) {
     u16 var_r5_4;
     u16 var_r5_5;
     u16 var_r7_2;
-    u32 temp_r0;
+    register u32 temp_r0 asm("r10");
     u32 temp_r0_9;
     u32 var_r5;
     u8 temp_r0_4;
