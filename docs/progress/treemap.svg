@@ -515,7 +515,8 @@
 <rect x="289.23" y="451.70" width="43.33" height="32.04" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>t24_gate25890 | sub_08025890 | existing  0x08025890  2728 bytes  [nonmatch]</title></rect>
 <rect x="289.23" y="483.74" width="43.33" height="23.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080226A4 | sub_080226A4 | unidentified  0x080226A4  1980 bytes  [done]</title></rect>
 <rect x="332.56" y="397.48" width="33.54" height="29.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0802704C | sub_0802704C | unidentified  0x0802704C  1940 bytes  [done]</title></rect>
-<rect x="366.10" y="397.48" width="32.29" height="29.44" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>t025Effects27C | sub_08027C1C | existing  0x08027C1C  1868 bytes  [nonmatch]</title></rect>
+<rect x="366.10" y="397.48" width="32.29" height="29.44" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>t025Effects27C | sub_08027C1C | existing | 2/5 milestones; not a match  0x08027C1C  1868 bytes  [nonmatch]</title></rect>
+<rect x="366.10" y="397.48" width="12.92" height="29.44" fill="#d29922" pointer-events="none"/>
 <rect x="398.39" y="397.48" width="20.40" height="29.44" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08023A3C | sub_08023A3C | unidentified  0x08023A3C  1180 bytes  [nonmatch]</title></rect>
 <rect x="332.56" y="426.92" width="26.49" height="20.44" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080263B4 | sub_080263B4 | unidentified  0x080263B4  1064 bytes  [nonmatch]</title></rect>
 <rect x="332.56" y="447.36" width="26.49" height="20.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08022E60 | sub_08022E60 | unidentified  0x08022E60  1044 bytes  [done]</title></rect>
