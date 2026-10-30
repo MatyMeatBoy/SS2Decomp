@@ -1936,13 +1936,13 @@ void sub_0801A7AC(void)
     extern s16 level16 asm("gUnk_03001294");
     extern s16 displayLevel16 asm("gUnk_03001F40");
 
-    register s16 *step asm("r9");
+    s16 *step;
     struct Transition16Display *screen;
-    register s16 *savedStep asm("r10");
+    s16 *savedStep;
     /* These addresses remain live across the yields in both fade loops. */
     register u16 *progress asm("r4"); register u16 *period asm("r5");
     s16 *fadeLevel;
-    register s32 flag2 asm("r2"); s32 flag16;
+    s32 flag2; s32 flag16;
     register u16 delta asm("r0"); u32 total;
     s32 signedDelta;
     flags16 = 1;
@@ -1981,9 +1981,9 @@ fade:
         if (*step > 0) level16 = flag2;
         else level16 = 16;
         inner = &display16;
-        blendRegister = &inner->f44;
         progress = &gUnk_03000022;
         period = &gUnk_03000020;
+        blendRegister = &inner->f44;
         savedStep = &gUnk_03000026;
 blend:
         inner->f40 = 255;
