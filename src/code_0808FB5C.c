@@ -438,7 +438,35 @@ INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091938);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091B5C);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091CF8);
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091E94);
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091F20);
+void sub_08091F20(u16 number, u8 *text)
+{
+    u8 count;
+    u8 hundreds;
+    u16 remainder;
+    u8 tens;
+    u32 ones;
+    count = 0;
+    goto check;
+next:
+    text++;
+    count++;
+    if (count > 0xFEU)
+        goto append;
+check:
+    if (*text != 0 && *text != 0xFD)
+        goto next;
+append:
+    *text = 0x51;
+    text++;
+    hundreds = number / 100U;
+    remainder = number % 100U;
+    tens = remainder / 10U;
+    ones = (remainder % 10U) << 24;
+    *text++ = hundreds + 0x41;
+    *text++ = tens + 0x41;
+    *text = (ones + 0x41000000U) >> 24;
+    text[1] = 0xFD;
+}
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091F9C);
 u32 sub_08092080(void)
 {
@@ -548,23 +576,26 @@ void sub_08092348(u8 a, u8 b, u8 c)
 s32 sub_080923B0(void) {
     return 3;
 }
-#ifdef NONMATCHING
-void sub_080923B4(u32 index, u32 packed)
+typedef void (*Callback096)(s32, s32);
+extern Callback096 callbacks096A[] asm("gUnk_03000210");
+extern Callback096 callbacks096B[] asm("gUnk_03000230");
+void sub_080923B4(s32 indexInput, u32 packedInput)
 {
-    s32 a;
-    s32 b;
-    u32 slot;
-    typedef void (*Callback)(s32, s32);
-    a = (s8)(packed >> 8);
-    b = (s8)packed;
-    slot = index * 4;
-    ((Callback *)((u8 *)gUnk_03000210 + slot))[0](a, b);
-    ((Callback *)((u8 *)gUnk_03000230 + slot))[0](a, b);
+    register s32 slot asm("r5") = indexInput;
+    register s32 bits asm("r4") = packedInput;
+    register Callback096 *table asm("r0");
+    register s32 high asm("r6");
+    asm("" : : "r"(bits));
+    bits <<= 16;
+    table = callbacks096A;
+    slot = (slot << 24) >> 22;
+    table = (Callback096 *)(slot + (u32)table);
+    high = bits >> 24;
+    bits = (bits << 8) >> 24;
+    (*table)(high, bits);
+    (*(Callback096 *)((u8 *)callbacks096B + slot))(high, bits);
     sub_08000420(0x12001111);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080923B4);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080923FC);
 void sub_08092CB8(void)
 {
