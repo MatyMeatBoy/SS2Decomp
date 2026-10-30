@@ -562,8 +562,8 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     struct Anim94 sp18;
     struct Anim94 sp4C;
     u16 sp80, sp82;
-    u16 sp84;
-    u16 sp86;
+    u16 sp84[1];
+    u16 sp86[1];
     struct Pos94 base;
     u32 sp90;
     s32 sp94;
@@ -600,15 +600,19 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     one=1;
     sp0 = one;
     f94_08065158(&sp18, animationId, 7, negativeOne, sp0);
-    zero=0; asm("" : "+r"(zero));
-    sp18.payload[7] = zero;
+    {
+        register u8 *zeroDestination asm("r0")=&sp18.payload[7];
+        asm("" : : "r"(zeroDestination));
+        zero=0; asm("" : "+r"(zero));
+        *zeroDestination = zero;
+    }
     sp0 = one;
     f94_08065158(&sp4C, 0x50030, 8, negativeOne, sp0);
     sp4C.payload[8] = one;
     base.x = 0x7800;
     base.y = 0x5000;
-    sp86 = zero;
-    sp84 = zero;
+    sp86[0] = zero;
+    sp84[0] = zero;
     sp82 = zero;
     sp80 = zero;
     }
@@ -725,18 +729,18 @@ block_37:
         break;
     case 1:
         sp0 = 0;
-        temp_r6 = f94_08065370(&sp4C, 0U, &sp84, &sp86, sp0);
+        temp_r6 = f94_08065370(&sp4C, 0U, &sp84[0], &sp86[0], sp0);
         if (v94_03002344 & 1) {
             f94_08000AF0(0x11U, sp4C.fC + 0x100, 1U);
             sp0 = 0;
             sp4 = &sp4C.payload[0];
             sp8 = sp4C.f8;
             spC = (u8 *) sp4C.f0;
-            f94_08007870(particle.x, particle.y, 0, sp84, sp0, sp4, sp8, spC);
+            f94_08007870(particle.x, particle.y, 0, sp84[0], sp0, sp4, sp8, spC);
         }
         if (temp_r6 != 0) {
-            sp86 = 0;
-            sp84 = 0;
+            sp86[0] = 0;
+            sp84[0] = 0;
             randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0 + 0x40];
                 var_r0_4 = (s16) (randomValue % 48);
             if ((s32) var_r0_4 < 0) {

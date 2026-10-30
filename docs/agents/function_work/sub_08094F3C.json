@@ -1,0 +1,43 @@
+{
+  "address": "0x08094F3C",
+  "updated_utc": "2026-10-30T02:57:10.571321+00:00",
+  "checkpoint": "Verified halfword-buffer checkpoint following local e1291394. NONMATCHING retained: original/candidate 1212/1212 bytes, frame 172/172, actual-module approximate nmscore 117 and strict NO MATCH.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Compiling C89 draft",
+      "state": "done",
+      "evidence": "Serial normal make compare prints shiningsoul2_eu.gba: OK with the original ASM fallback. make nonmatching compiles the complete module; check_tree reports 0 errors."
+    },
+    {
+      "id": "frame",
+      "label": "Original frame and object geometry",
+      "state": "done",
+      "evidence": "The actual-module candidate reserves the original 172-byte frame. The second animation index and tick are separate one-element u16 buffers at original stack offsets 132 and 134; both animation records remain 52 bytes and other local offsets are preserved."
+    },
+    {
+      "id": "setup",
+      "label": "Initial animation setup prefix",
+      "state": "done",
+      "evidence": "Actual-module strict nmdiff first differs immediately after the first sub_0801AB50 call: original mov r9,r4 versus candidate mov sl,r4. Earlier normalized instructions and relocation entries match, including the byte payload address computation before the zero store. Its added input-only r0 constraint emits no opcode and dies before the next call; no caller-clobbered binding is live across a call."
+    },
+    {
+      "id": "cfg",
+      "label": "State dispatch and shared increment",
+      "state": "active",
+      "evidence": "The draft positions the shared timer increment after the random-particle case, matching the original block order. Complete CFG and ABI equivalence are not claimed before a full match."
+    },
+    {
+      "id": "registers",
+      "label": "Register allocation and instruction order",
+      "state": "active",
+      "evidence": "Actual-module approximate distance improves from 121 to 117; isolated distance improves from 107 to 82. The persistent first index pointer currently uses sl rather than original r9. Case 1 holds zero in r6 and the animation-step result in r9, while original uses r5 and r6. Equal function/frame sizes are not a match."
+    },
+    {
+      "id": "match",
+      "label": "Full matching normal C build",
+      "state": "pending",
+      "evidence": "asm/nonmatchings/code_08092D60/sub_08094F3C.s remains active and strict nmdiff reports NO MATCH."
+    }
+  ]
+}
