@@ -2729,11 +2729,11 @@ void sub_0806CDF0(void *arg0) {
     s32 sp20;
     s32 sp24;
     s32 sp28;
-    s16 temp_r1_4;
+    register s16 temp_r1_4 asm("r1");
     s16 temp_r1_6;
     s16 temp_r2_5;
-    s16 temp_r2_7;
-    s16 var_r1_3;
+    register s16 temp_r2_7 asm("r2");
+    register s16 var_r1_3 asm("r1");
     s32 *temp_r2_3;
     s32 *temp_r4;
     s32 *var_r2;
@@ -2745,13 +2745,13 @@ void sub_0806CDF0(void *arg0) {
     s32 var_r0_3;
     s32 var_r0_4;
     s32 var_r1;
-    u16 *var_r0_6;
+    register u16 *var_r0_6 asm("r0");
     u16 temp_r0_2;
-    u16 temp_r0_3;
+    register u16 temp_r0_3 asm("r0");
     u16 temp_r0_6;
     u16 temp_r0_7;
-    u16 temp_r0_8;
-    u16 temp_r1;
+    register u16 temp_r0_8 asm("r0");
+    u32 temp_r1;
     u16 temp_r1_3;
     u16 temp_r1_5;
     u16 temp_r1_7;
@@ -2827,7 +2827,7 @@ block_12:
         goto block_19;
     }
     temp_r4_2 = &t71CDFPlayers[sub_080020F4()];
-    temp_r1 = temp_r4_2->fC2 - (u16) (sub_0806898C(T71_U32(arg0,0xC), (s32) T71_U32(arg0,0x14)) - 1);
+    { register u32 cost asm("r0") = (u16)(sub_0806898C(T71_U32(arg0,0xC), (s32) T71_U32(arg0,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = temp_r4_2->fC2 - cost; }
     temp_r4_2->fC2 = temp_r1;
     if ((s32) (temp_r1 << 0x10) < 0) {
         temp_r4_2->fC2 = 0U;
