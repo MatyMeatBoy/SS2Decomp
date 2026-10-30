@@ -4116,18 +4116,13 @@ loop_135CheckC0:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808C0C4);
 #endif
-#ifdef NONMATCHING
 extern u8 gUnk_084F0C28[];
 extern u8 gUnk_084F0C8A[];
-extern void sub_0802F208(void);
 extern void sub_080003F4(s32);
 extern u32 sub_08065158(void *, u32, u32, s32, s32);
 extern void sub_080290E4(s32, s32);
 extern void sub_080257D4(void *, s32);
 extern void sub_0801A664(s32, s32);
-/* The first team-count loop stops at the local player, as in the original.
- * Only indices 0..3 select a winner message; the original skips other indices.
- * Explicit shifts retain subtraction before table scaling; registers still differ. */
 void sub_0808CB58(void) {
     u32 anim[13];
     s32 counts[4];
@@ -4518,9 +4513,6 @@ found_player:
     sub_0801A664(0, 0x14);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808CB58);
-#endif
 extern void sub_0808D118(void);
 void sub_0808D05C(void)
 {
