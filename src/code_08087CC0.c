@@ -750,7 +750,6 @@ void sub_0808C0C4_v(void) {
     s32 temp_r4_4;
     s32 temp_r5_2;
     s32 temp_r6;
-    s32 var_r1;
     s32 var_r2;
     s32 var_r9;
     struct C0Player *temp_r0;
@@ -855,19 +854,20 @@ void sub_0808C0C4_v(void) {
     }
     switch (gUnk_03003470) {
     case 0:
-        var_r1 = 0x50002;
-block_9:
-        sub_08065158(&sp4C, var_r1, 0, 0x80000000, 0);
+        sub_08065158(&sp4C, 0x50002, 0, 0x80000000, 0);
         break;
     case 1:
-        var_r1 = 0x5015B;
-        goto block_9;
+        sub_08065158(&sp4C, 0x5015B, 0, 0x80000000, 0);
+        break;
     case 2:
-        var_r1 = 0x5015C;
-        goto block_9;
+        sub_08065158(&sp4C, 0x5015C, 0, 0x80000000, 0);
+        break;
     case 3:
-        var_r1 = 0x5015D;
-        goto block_9;
+        sub_08065158(&sp4C, 0x5015D, 0, 0x80000000, 0);
+        break;
+block_10:
+        sub_0805865C(0x10);
+        goto loop_15;
     case 4:
         sub_08065158(&sp4C, 0x5015E, 0, 0x80000000, 0);
         break;
@@ -939,9 +939,7 @@ loop_24:
 block_47:
             sub_0805865C(0xE);
         }
-block_81:
-        sub_080003F0();
-        goto loop_16;
+        goto block_81;
     }
     if (0x10 & gHeldC0) {
         temp_r4_6 = &gPlayersC0[temp_r6];
@@ -1077,6 +1075,10 @@ loop_69:
     }
     sub_0805865C(0xF);
     gFlagC0 = 0;
+    goto loop_82;
+block_81:
+    sub_080003F0();
+    goto loop_16;
 loop_82:
     if (0x20 & gFlagC0) {
         if (menu.sp160 == 1) {
@@ -1135,9 +1137,7 @@ loop_103:
     temp_r0_7 = gFlagC0;
     if (temp_r0_7 != 1) {
         if (temp_r0_7 == 2) {
-block_10:
-            sub_0805865C(0x10);
-            goto loop_15;
+            goto block_10;
         }
         goto block_94;
         goto loop_82;
