@@ -1,7 +1,7 @@
 {
   "address": "0x08068A00",
-  "updated_utc": "2026-10-30T01:05:03.488659+00:00",
-  "checkpoint": "6b4f6e90cd7f8a1fec2f5a086ff7d21f73cd5b96",
+  "updated_utc": "2026-10-30T01:28:34.421546+00:00",
+  "checkpoint": "be86241019c07e65c5da75b63ff6709c00952e4f",
   "areas": [
     {
       "id": "compile",
@@ -11,27 +11,27 @@
     },
     {
       "id": "abi",
-      "label": "ABI de posición y tipos de acceso",
+      "label": "ABI de posiciÃ³n y tipos de acceso",
       "state": "active",
-      "evidence": "ASM 0x08068A00..0x08068A1C guarda r0/r1 antes de copiar r2. Position68 por valor reproduce ese prólogo; seis callers revisados usan posición r0/r1 y attack r2. Tipo C original aún no probado. Cargas de estado de jugador son ldrb; posiciones empaquetadas combinan ldrh y campos de 4/12 bits."
+      "evidence": "ASM 0x08068A00..0x08068A1C guarda r0/r1 antes de copiar r2. Position68 por valor reproduce ese prÃ³logo; seis callers revisados usan posiciÃ³n r0/r1 y attack r2. Tipo C original aÃºn no probado. Cargas de estado de jugador son ldrb; posiciones empaquetadas combinan ldrh y campos de 4/12 bits."
     },
     {
       "id": "flow",
       "label": "Filtros e historiales de objetivos",
       "state": "active",
-      "evidence": "ASM: cinco slots enemigos (0x08068AA6..0x08068CF2) preceden búsqueda de jugadores; flags 1/2. Historial enemigo +0x54; historiales jugador +0xE4/+0xF8. Borrador conserva rama que lee sourcePlayer sin inicializar para source>3, como el slot sp+0x14 del original. Auditoría de operandos completa pendiente."
+      "evidence": "ASM: cinco slots enemigos (0x08068AA6..0x08068CF2) preceden bÃºsqueda de jugadores; flags 1/2. Historial enemigo +0x54; historiales jugador +0xE4/+0xF8. Borrador conserva rama que lee sourcePlayer sin inicializar para source>3, como el slot sp+0x14 del original. AuditorÃ­a de operandos completa pendiente."
     },
     {
       "id": "layout",
-      "label": "Bloques, frame y vidas útiles",
+      "label": "Bloques, frame y vidas Ãºtiles",
       "state": "active",
-      "evidence": "Checkpoint 6b4f6e90 reproduce OR de flags enemigo con mov r0,r8 / movs r1,1 / orrs r0,r1 / mov r8,r0 y mantiene transición de índice r2/r3 (ASM 0x08068CCA..0x08068CF2). Se conservan sólo tres barreras nuevas: valor2 remoto r3, flags r0 y paso r2; minimización de32 combinaciones descartó restricciones redundantes. Historial/radio/frame del checkpoint anterior conservados. Tamaño1436 igual al original; nmscore del módulo real133 a129; diff aislado30 a22 líneas. Persisten orden de preparación del historial aliado, operandos conmutados en dos sumas, rama expandida y pools. Formas C de suma/casts/arrays y orden de declaraciones no mejoraron; no se repitió permuter."
+      "evidence": "Follow-up to be862410: explicit history index/address arithmetic fixes both store ADD operand orders. Moving the existing ally index barrier after effective-address formation fixes the ally load. Removing all four unnecessary enemy-player tail barriers restores the original short branch; removing them individually did not. Candidate and original are 1436 bytes; strict normalized isolated objects have identical relocations and only two differing bytes, at offsets 0x3C0/0x3C2: preservation moves r5<-r2 and r7<-r1 remain reversed. Permuter searches of 300 seconds before tail cleanup and 180 seconds afterwards found no improvement. The .short differences in textual disassembly are mapping artifacts, not additional byte mismatches."
     },
     {
       "id": "match",
-      "label": "Coincidencia íntegra de C y ROM",
+      "label": "Coincidencia Ã­ntegra de C y ROM",
       "state": "pending",
-      "evidence": "Checkpoint 6b4f6e90 continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original /1436 candidato). Igualdad de tamaño y puntuaciones no prueban match. ROM normal verificada con fallback ASM; ninguna función nueva matching."
+      "evidence": "Still NONMATCHING. Strict module/isolated comparison is NO MATCH; the two preservation MOVs remain reversed. make -j1 compare prints shiningsoul2_eu.gba: OK using the original ASM fallback; make -j1 nonmatching exits 0; check_tree reports 0 errors. No newly matching bytes are claimed."
     }
   ],
   "regions": []
