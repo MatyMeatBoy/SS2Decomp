@@ -137,9 +137,121 @@ void sub_080B4BB8(u8 a, u16 arg)
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5E64);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5F94);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6068);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B60F4);
+extern volatile u8 gTick5F94 asm("gUnk_030007E8");
+extern volatile u8 gOtherTick5F94 asm("gUnk_030007E9");
+extern volatile u8 gFlag5F94 asm("gUnk_030007EA");
+extern s16 gTable5F94[] asm("gUnk_080B9704");
+extern void setScreen5F94(u32, u32, u32) asm("sub_080009C0");
+extern void setScroll5F94(u32, s32, u32) asm("sub_0800BBD8");
+extern void draw5F94(u32, u32, u32, u32, u32, u32) asm("sub_0800903C");
+void sub_080B5F94(void)
+{
+    u32 x;
+    u32 y;
+    u8 i;
+    s32 base;
+    s32 dx;
+    s32 dy;
+    s32 sample;
+    register u32 drawN asm("r3");
+    u16 n;
+    gTick5F94 = 0;
+    gOtherTick5F94 = 0;
+    gFlag5F94 = 0;
+    y = 0;
+    x = 0;
+    i = 0;
+    base = 6;
+    dx = 0xAA;
+    dy = 0x2A;
+    for (;;) {
+        sample = gTable5F94[i];
+        n = (sample >> 6) + base;
+        i += 2;
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+            if (gFlag5F94 == 0) {
+                setScreen5F94(0x1F00, 0, 1);
+                x -= dx;
+                y += dy;
+                setScroll5F94(1, (s32)x >> 8, 0);
+                setScroll5F94(3, (s32)y >> 8, 0);
+            } else {
+                base = 8;
+                dx = 0x2A;
+                dy = 0x15;
+                x -= 0x2A;
+                y += 0x15;
+                setScroll5F94(1, (s32)x >> 8, 0);
+                setScroll5F94(3, (s32)y >> 8, 0);
+            }
+            drawN = n;
+            draw5F94(2, 0x3C, 1, drawN, 0x10, 0);
+        }
+        sub_080003F0();
+    }
+}
+extern u8 gTick6068 asm("gUnk_030007E8");
+extern u8 gOtherTick6068 asm("gUnk_030007E9");
+extern u8 gFlag6068 asm("gUnk_030007EA");
+struct Display6068 { u8 pad[0x30]; u16 item30; u16 pad32; u16 item34; u16 pad36; u16 item38; u16 item3A; };
+extern struct Display6068 gDisplay6068 asm("gUnk_03001250");
+extern void setScreen6068(u32, u32, u32) asm("sub_080009C0");
+extern void resetScreen6068(u32, u32, u32) asm("sub_080009F8");
+u32 sub_080B6068(void)
+{
+    register volatile u8 *tickPtr asm("r1");
+    volatile u8 *otherPtr;
+    struct Display6068 *display;
+    register u32 tick asm("r2");
+    register u32 current asm("r3");
+    sub_080586B4(0);
+    gFlag6068 = 1;
+    if (sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+        setScreen6068(0x1F00, 0x2000, 1);
+        gDisplay6068.item38 = 0x3F;
+        gDisplay6068.item3A = 0x3B;
+    }
+    tickPtr = &gTick6068;
+    tick = *tickPtr + 1;
+    *tickPtr = tick;
+    otherPtr = &gOtherTick6068;
+    display = &gDisplay6068;
+    current = *tickPtr;
+    display->item30 = (current << 8) | (0xF0 - current);
+    current = *otherPtr;
+    display->item34 = (current << 8) | (0xA0 - current);
+    if ((u8)tick <= 0x77)
+        return 0;
+    resetScreen6068(0x400, 0, 1);
+    return 1;
+}
+extern u8 *gTask60F4 asm("gUnk_030007EC");
+extern u32 gMask60F4 asm("gUnk_030056FC");
+extern u8 *gIcons60F4 asm("gUnk_030056F4");
+extern u16 gArray60F4[] asm("gUnk_030007D4");
+void clearTask60F4(void) asm("sub_080B60F4");
+void clearTask60F4(void)
+{
+    u8 **task = &gTask60F4;
+    u8 i;
+    if (*task != 0) {
+        if (sub_08000470((u32)*task) != 0)
+            sub_080003A8((u32)*task);
+        sub_08001538((u32)*task);
+        *task = 0;
+        i = 1;
+        do {
+            if (gMask60F4 & (1 << i))
+                *(u16 *)(gIcons60F4 + i * 0x2E0 + 0x7A) |= 1;
+            i++;
+        } while (i <= 4);
+        i = 0;
+        do {
+            gArray60F4[i] = 0;
+            i++;
+        } while (i <= 1);
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6178);
 void sub_080B6324(void) {
     if (M2C_FIELD(gUnk_030007DC, s16 *, 0x5C) != 0) {
@@ -195,17 +307,18 @@ void sub_080B640C(void)
     if (p != 0)
         *(u32 *)(p + 8) = 0;
 }
-#ifdef NONMATCHING
 void sub_080B6448(u32 a, u32 b)
 {
+    register u32 first asm("r6") = a;
     u8 **pp = &gPtr030007EC;
     u8 *obj;
     u32 mem;
     u32 z;
+    register void *taskArg asm("r0");
+    register u32 second asm("r2");
     if (*pp == 0 || sub_08000470((u32)*pp) != 0)
         return;
-    obj = *pp;
-    z = *(u32 *)(obj + 8);
+    z = *(u32 *)(*pp + 8);
     if (z != 0)
         return;
     mem = sub_08001494(0x400);
@@ -217,11 +330,10 @@ void sub_080B6448(u32 a, u32 b)
     *(u32 *)(obj + 0xC) = (u32)sub_080B6178;
     *(u32 *)(obj + 0x24) = z;
     *(u32 *)(obj + 8) = 0x3B;
-    sub_08000274_4(obj, a, b, z);
+    taskArg = obj;
+    second = b;
+    sub_08000274_4(taskArg, first, second, z);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6448);
-#endif
 #ifdef NONMATCHING
 void sub_080B64A4(void)
 {
