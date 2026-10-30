@@ -1668,7 +1668,7 @@ void sub_0806BE24(void *arg0) {
     s32 *temp_r2;
     s32 *temp_r4_2;
     s32 *temp_r4_4;
-    s32 *var_r2;
+    register s32 *var_r2 asm("r2");
     s32 temp_r0_7;
     s32 temp_r1_5;
     s32 temp_r3_2;
@@ -1686,7 +1686,7 @@ void sub_0806BE24(void *arg0) {
     u16 temp_r0_2;
     u16 temp_r0_5;
     u16 temp_r0_6;
-    u16 temp_r1_3;
+    register u32 temp_r1_3 asm("r1");
     register u16 temp_r3 asm("r3");
     u16 temp_r4_6;
     u16 var_r0_3;
@@ -1698,10 +1698,10 @@ void sub_0806BE24(void *arg0) {
     u32 temp_r0_3;
     u32 temp_r1;
     u32 var_r0_2;
-    u32 var_r2_2;
+    register u32 var_r2_2 asm("r2");
     u32 var_r7;
     u8 temp_r1_6;
-    u8 var_r5_2;
+    register u8 var_r5_2 asm("r5");
     void *temp_r1_2;
     void *temp_r1_4;
     void *temp_r2_3;
@@ -1778,7 +1778,7 @@ block_10:
         goto block_24;
     }
     temp_r4_3 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0);
-    temp_r1_3 = T71B_U16(temp_r4_3,0xC2) - (u16) (sub_0806898C(T71B_U32(sp4C,0xC), (s32) T71B_U32(sp4C,0x14)) - 1);
+    { register u32 cost asm("r0")=(u16)(sub_0806898C(T71B_U32(sp4C,0xC), (s32) T71B_U32(sp4C,0x14))-1); asm("" : "+r"(cost)); temp_r1_3=T71B_U16(temp_r4_3,0xC2)-cost; }
     T71B_U16(temp_r4_3,0xC2) = temp_r1_3;
     if ((s32) (temp_r1_3 << 0x10) < 0) {
         T71B_U16(temp_r4_3,0xC2) = 0U;
@@ -2089,12 +2089,12 @@ void sub_0806C568(u32 *arg0) {
     u16 temp_r3_2;
     u16 var_r0;
     u16 var_r0_2;
-    u16 var_r0_3;
-    u16 var_r0_5;
+    register u16 var_r0_3 asm("r0");
+    register u16 var_r0_5 asm("r0");
     u16 var_r7;
     u16 var_r7_4;
     u16 var_r7_5;
-    u16 var_r7_6;
+    register u16 var_r7_6 asm("r7");
     u16 var_r7_7;
     u16 var_sl;
     u32 temp_r0;
@@ -2543,9 +2543,9 @@ void sub_0806CDF0(void *arg0) {
     u16 temp_r0_7;
     register u16 temp_r0_8 asm("r0");
     u32 temp_r1;
-    u16 temp_r1_3;
+    register u16 temp_r1_3 asm("r1");
     u16 temp_r1_5;
-    u16 temp_r1_7;
+    register u16 temp_r1_7 asm("r1");
     u16 temp_r2;
     u16 temp_r2_4;
     u16 temp_r2_6;
