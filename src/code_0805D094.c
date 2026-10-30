@@ -630,7 +630,7 @@ void sub_0805DC1C(u8 x, u8 y, u8 width, u8 height)
     struct DC1CWindow *window;
     u8 index, limit;
     u16 left, right, top, bottom, column, row;
-    u32 halfWidth, halfHeight;
+    u16 halfWidth, halfHeight;
     s32 leftEdge, rightEdge, topEdge, bottomEdge;
     u16 horizontal, vertical;
     index = 0;
