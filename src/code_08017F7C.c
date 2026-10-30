@@ -2037,7 +2037,17 @@ finished:
             sub_080003F0();
         }
     }
-    { s32 mask = -23; flags16 &= mask; }
+    {
+        register u16 *p asm("r0") = (u16 *)&flags16;
+        register u32 value asm("r1") = *p;
+        register s32 mask asm("r4") = -23;
+        register s32 bits asm("r2");
+        asm("" : "+r"(p), "+r"(value), "+r"(mask));
+        bits = mask;
+        asm("" : "+r"(bits));
+        value &= bits;
+        *p = value;
+    }
     goto again;
 }
 #else
