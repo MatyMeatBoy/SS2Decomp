@@ -156,7 +156,30 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096AF4);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096BA8);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096D40);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096E20);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096EFC);
+struct Palette99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+void sub_08096EFC(u16 *palette, s8 amount)
+{
+    u8 i = 0;
+    u16 component;
+    struct Palette99 *dst;
+    volatile struct Palette99 *src;
+    do {
+        dst = (void *)palette;
+        src = (void *)palette;
+        palette++;
+        component = src->r + amount;
+        if (component > 31U) component = 31;
+        dst->r = component;
+        component = src->g + amount;
+        if (component > 31U) component = 31;
+        dst->g = component;
+        component = src->b + amount;
+        if (component > 31U) component = 31;
+        dst->b = component;
+        dst->unused = 0;
+        i++;
+    } while (i <= 15U);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096FA0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
