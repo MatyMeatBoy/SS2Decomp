@@ -157,14 +157,13 @@ void sub_080009C0_u16(u16 a, u16 b, u16 write)
     if (write)
         REG_DISPCNT = second;
 }
-#ifdef NONMATCHING
 void sub_080009F8(u16 a, u16 b, u16 write)
 {
     register u32 first asm("r3");
-    u16 value;
+    register u32 value asm("r5");
     u32 second;
     first = a & 0x1F00;
-    value = *(u16 *)&gUnk_0300129C;
+    { register u32 tmp asm("r0") = *(u16 *)&gUnk_0300129C; asm("" : "+r"(tmp)); value = tmp; asm("" : "+r"(value)); }
     first = value & ~first;
     second = b & 0xE000;
     first &= ~second;
@@ -172,9 +171,6 @@ void sub_080009F8(u16 a, u16 b, u16 write)
     if (write)
         REG_DISPCNT = first;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main", sub_080009F8);
-#endif
 void sub_08000A34(u16 a, u16 b, u16 c, u16 unused, u16 write)
 {
     gUnk_0300129C.frameSelect = c != 0;
