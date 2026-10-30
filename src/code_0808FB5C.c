@@ -154,8 +154,8 @@ void sub_0808FD88(void) {
     if (sub_08002204() != 0) sub_08067DC8();
     while (sub_08056E90() == 0 && sub_080021A8() == 0) sub_08057624(1);
 }
-#ifdef NONMATCHING
-extern u8 *stateFE0495 asm("gUnk_03005CF4");
+struct StateFE0495 {u8 pad[0x10];u16 gate;u8 pad12[0x12];u16 f24;u8 pad26[10];u16 f30;u8 pad32[4];u16 f36;};
+extern struct StateFE0495 *stateFE0495 asm("gUnk_03005CF4");
 extern u8 playersFE0495[] asm("gUnk_03003CE0");
 extern void callbackFE0495(void) asm("sub_0805CB8C");
 extern void installFE0495(u32,void (*)(void)) asm("sub_08057328");
@@ -163,35 +163,52 @@ extern void startFE0495(s32) asm("sub_0802704C");
 extern void modeFE0495(s32) asm("sub_080570DC");
 s32 sub_0808FE04(s32 arg)
 {
-    register s32 incoming asm("r4");
-    u8 *p;
-    asm("" : "=r"(incoming));
-    if (*(u16 *)(stateFE0495+0x10) != 0) {
+    register s32 stride asm("r4");
+    register u8 *base asm("r5");
+    register u32 one asm("r6");
+    register u32 zero asm("r8");
+    struct StateFE0495 **pp;
+    register u8 *p asm("r0");
+    register u32 *flags asm("r2");
+    register u32 index asm("r2");
+    register struct StateFE0495 *state asm("r0");
+    asm("" : "=r"(stride));
+    pp=&stateFE0495;
+    asm("" : "+r"(pp));
+    if ((*pp)->gate != 0) {
         if (!sub_08056E90()) return 0;
-        sub_08058404(incoming);
+        sub_08058404(stride);
         modeFE0495(1);
         sub_08056FB8(0,0);
-        p=playersFE0495+0x14C*sub_080020F4();
-        p[0x68]=1;
+        p=(u8 *)sub_080020F4();
+        base=playersFE0495;
+        stride=0x14C;
+        p=(u8 *)((u32)p*stride+(u32)base);
+        p+=0x68;
+        zero=0;
+        one=1;
+        *p=one;
         sub_08056E78();
-        *(u16 *)(stateFE0495+0x36)=0;
-        p=playersFE0495+0x14C*sub_080020F4();
-        *(u32 *)(p+0x30)&=~2;
-        p=playersFE0495+0x14C*sub_080020F4();
-        *(u16 *)(p+0x20)=0;
-        p=playersFE0495+0x14C*sub_080020F4();
+        state=*pp;
+        state->f36=zero;
+        index=sub_080020F4();
+        index*=stride;
+        p=base+0x30;
+        flags=(u32 *)(index+(u32)p);
+        *flags&=~2;
+        p=(u8 *)((u32)sub_080020F4()*stride+(u32)base);
+        *(u16 *)(p+0x20)=zero;
+        p=(u8 *)((u32)sub_080020F4()*stride+(u32)base);
         *(u16 *)(p+0x1C)=4;
-        *(u16 *)(stateFE0495+0x30)=1;
-        *(u16 *)(stateFE0495+0x24)=1;
+        state=*pp;
+        state->f30=one;
+        state->f24=one;
         return 1;
     }
     startFE0495(arg);
     installFE0495(0,callbackFE0495);
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_0808FE04);
-#endif
 u32 sub_0808FEB8(u32 arg0)
 {
     u8 *gs;
