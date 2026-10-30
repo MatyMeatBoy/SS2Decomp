@@ -1,98 +1,147 @@
-# Coordinacion de matching: practicas verificadas
+# Matching coordination: verified practices
 
-Este documento complementa [AGENTS.md](../../AGENTS.md),
-[CONTRIBUTING.md](../../CONTRIBUTING.md) y
-[MATCH_VERIFICATION.md](MATCH_VERIFICATION.md). No cambia los claims,
-los permisos de escritura ni el criterio de aceptacion.
+This guide supplements [AGENTS.md](../../AGENTS.md),
+[CONTRIBUTING.md](../../CONTRIBUTING.md) and
+[MATCH_VERIFICATION.md](MATCH_VERIFICATION.md). It does not expand ownership,
+write permissions or acceptance criteria. Public repository text is English.
 
-## Medir el resultado correcto
+## Measure real matching C
 
-- Informar `all.percent_decompiled` y `all.funcs_decompiled` del reporte,
-  con la revision verificada. `all.percent` incluye bibliotecas enlazadas.
-- Un draft compilable, un score mejor, el mismo tamano o un replay con mocks
-  no son matching. No contar esos avances como bytes C terminados.
-- Registrar por shard funciones y bytes matching entregados, tiempo transcurrido,
-  drafts pendientes y esfuerzo utilizado. Comparar tareas de dificultad similar;
-  no atribuir a un modelo el trabajo heredado de otro ni extrapolar una ETA.
+- Report `all.percent_decompiled`, `all.funcs_decompiled` and
+  `all.funcs_decompilable`, with the verified revision. `all.percent` includes
+  linked libraries and is not real matching C coverage.
+- Compiling drafts, improved scores, equal sizes and mock replays are not matches.
+  Separate private candidates, published matches and integrated matches. Pending
+  PR bytes do not increase main's percentage.
+- Record delivered functions/bytes, elapsed time, remaining drafts and effort per
+  shard. Credit inherited work and other contributors separately. Different shard
+  difficulty prevents a fair model ranking or a reliable completion ETA.
 
-## Mantener escritores activos sin duplicarlos
+## Keep writers active without duplicating them
 
-- Usar un checkout exclusivo por escritor y el numero/modelo/esfuerzo acordados.
-  Respetar el propietario incluso si otro agente encuentra una solucion.
-- Un PID existente no prueba que el worker siga activo: Windows puede reutilizarlo
-  para `agbcc` u otro proceso. Comprobar ejecutable, checkout, archivo de salida
-  esperado y hora de creacion. No volcar lineas de comando completas al informe.
-- Una observacion fallida o un timeout no prueba que el proceso termino. Reobservar
-  el mismo proceso antes de reanudarlo. Un turno terminado con el proceso aun vivo
-  tampoco autoriza iniciar otro escritor en ese checkout.
-- Antes de reiniciar, comprobar que no queda otro Codex con ese checkout, que los
-  hijos de builds ya terminaron y que el handoff explica el estado del arbol.
-  Conservar trabajo sin commit; nunca limpiar un checkout para hacerlo arrancable.
+- One exclusive checkout per writer; respect the agreed count, model and effort.
+  The coordinator counts as a writer. Retry capacity errors without silently
+  substituting a model. Preserve ownership when another agent suggests a solution.
+- Check `claim.py who FUNC` before edits and after interruptions. A displayed `?`
+  after removal of the claim commit does not mean the remote shard lock is free.
+  Inspect the actual remote head and preserved delivery history.
+- Check executable, checkout, expected output and creation time before trusting a
+  PID: Windows reuses them. A timeout, lost tool session or completed chat turn
+  does not prove a build ended. Inspect logs and children before restarting.
+  Do not print full process command lines in public handoffs.
+- Serialize edits, builds, permuters, rebases and commit hooks in each checkout.
+  Parallelize between independent checkouts only. Preserve uncommitted work;
+  never clean it away to make a worker restartable.
 
-## Conservar contexto para experimentar
+## Choose work by evidence and bound experiments
 
-- Leer las guias requeridas, el ultimo checkpoint y los descartes relevantes.
-  Consultar el historial por marcadores; no reimprimirlo entero en cada sesion.
-- Acotar la salida habitual de comandos, por ejemplo a 1500 tokens. Guardar builds
-  y diffs completos en `build/try/`; mostrar salida de error, codigo de retorno,
-  `shiningsoul2_eu.gba: OK` y el rango de ASM necesario para la decision.
-- Antes de cada variante escribir: candidato/base y hash, hipotesis, rango ASM
-  afectado y cambio esperado. Revisar si ya se descarto la misma hipotesis con esa
-  base y esos flags. Una base distinta puede justificar reensayar; documentarlo.
-- El handoff actual debe localizar: shard/claim, HEAD, ultimo commit entregado,
-  candidato vigente, compiler/flags, resultados reales de gates, logs, descartes
-  y siguiente hipotesis concreta. Separar el resumen vigente del historial.
-- No reconstruir un draft desde cero ni volver a ejecutar una matriz amplia por
-  perder contexto. Preservar candidatos privados y avances de registros/CFG.
+- Prefer free shards with useful drafts or recovery checkpoints. Compare current
+  main before recovery. Check remote availability and `git worktree list`; never
+  reset a branch checked out elsewhere.
+- Within a shard, try approachable yellow drafts, then assembly from small to
+  large. Follow `gv -> m2c -> types/check -> near-diff permuter -> apply -> ROM`.
+  Known source donors can avoid a fresh translation, but audit SS2 strides,
+  layouts, argument counts and signedness before reuse.
+- Start with one concrete source-shape hypothesis. Reassess a small function
+  after about 10–15 minutes. After about 30 minutes without a match, preserve a
+  compiling draft and move on unless the user explicitly requested otherwise.
+  A resumed chat does not reset the clock.
+- Use the permuter for a genuinely small register/order diff. Equal byte size
+  with broad CFG/frame differences is insufficient. A 120-second, two-job probe
+  was a useful initial budget in the October 30 session, not a universal optimum.
+  Respect assigned resources and verify the process actually ended.
+- Preserve results and exclusions. Repeat a failed search only with a new
+  hypothesis or changed base/flags. Prefer fresh short functions over another
+  hour of declaration permutations on an exhausted family.
+- Giant functions keep one owner. Reviewers may read and propose hypotheses;
+  they do not edit or build in the owner's checkout. Region work requires the
+  subclaims and contracts described in AGENTS.md.
 
-## Elegir trabajo por evidencia
+## Preserve context and rotate while a PR is frozen
 
-- En cada shard, primero amarillos abordables y luego ASM de menor a mayor tamano.
-  Mantener el flujo gv -> m2c -> check -> permuter cercano -> apply -> ROM.
-- Usar el permuter cuando el diff real sea pequeno, no porque coincida el tamano.
-  Limitarlo al shard y a los recursos asignados; no ejecutar lotes globales.
-- Tras unos 30 minutos sin match, conservar un draft compilable y pasar a otra
-  funcion con hipotesis nuevas, salvo instruccion explicita del usuario para
-  mantener esa funcion. Un cambio de contexto no debe reiniciar ese reloj.
-  Dejar evidencia de lo agotado para el siguiente propietario.
-- Al rotar, conservar primero commits, drafts y candidatos privados necesarios,
-  entregar los commits y solo despues liberar el claim. Usar una nueva mirada
-  sobre amarillos sin repetir las matrices anteriores.
-- Las gigantes mantienen un propietario exclusivo. Un revisor puede leer y
-  proponer hipotesis; no compila ni edita el checkout del propietario. No repartir
-  regiones hasta disponer de los subclaims y contratos exigidos por AGENTS.md.
+- Read the latest checkpoint and exclusions; search historical markers rather
+  than replaying whole transcripts. Store complete logs/diffs under ignored
+  `build/`; show bounded output, exit codes and the relevant ASM.
+- Record candidate/base hash, compiler flags, hypothesis, ASM range and expected
+  change. Handoffs locate claim, checkout, HEAD, published head, current candidate,
+  gates/logs, discarded approaches and next hypothesis. Separate current state
+  from history. Never recreate drafts or broad search matrices just to regain context.
+- A frozen PR need not leave its writer idle. Preserve its exact head in a named
+  local backup plus private candidates. From the same clean exclusive checkout,
+  take a new free shard atomically; retain the old remote claim until its PR lands.
+  The old delivery stays frozen. There is still only one active writer/checkout.
+- Back up an old local branch before `claim.py take`, which can reset it. Check
+  worktree occupancy first. Publishing additional old-shard commits requires a
+  serial switch back after preserving new work; never force a switch over changes.
+- After integration, the owner may release the old claim after checking its head
+  and backups. Update active bases without losing private commits or scratch files.
+  Do not delete another owner's claim. A stale timestamp alone is not inactivity;
+  a live build/permuter or active PR review counts as work.
 
-## Integrar sin cruces de asignacion
+## Integrate all ready PRs and verify the remote base
 
-- Medir el intervalo acordado desde la publicacion real, no desde la captura ni
-  desde el inicio de un build. Priorizar PRs y entregas verificables ya listas.
-- Serializar rotaciones y capturas. Congelar SHA base/HEAD, shard y checkout por
-  entrega; comprobar que el manifiesto y la rama siguen siendo los mismos antes
-  de aplicar. Una rotacion puede cambiar HEAD a main mientras se toma una captura.
-- Rechazar una entrega que arrastre commits de claim, integraciones ajenas o
-  reportes generados por el bot: eso indica una base equivocada, no cambios propios.
-- Ejecutar gates combinados y hooks normales antes de publicar. Actualizar el
-  ultimo SHA entregado solo tras un push exitoso y para la misma asignacion/base.
-- Si hay conflicto con una funcion ya matching en main, preservar main. Ante una
-  recuperacion, identificar que commits ya se aplicaron o publicaron; no repetir
-  una tanda completa sobre una integracion parcial.
-- `docs/progress/*` lo publica CI. `publish_progress.py` vuelve a generar desde el
-  tip remoto si otra publicacion gana la carrera; no ocultar fallos del push.
+- Maintain the agreed cadence independently of implementation work. Record actual
+  successful integration time and next due time in UTC. A build start, snapshot
+  or chat wakeup is not an integration. Enumerate all open PRs each run.
+- Freeze base/head SHA, shard and checkout per delivery. Review actual changes,
+  primary author/committer and CI for those heads; recheck before merging. Reject
+  accidental claim commits, unrelated integration history and generated reports
+  in worker deliveries. A rotation can change the branch during a stale snapshot.
+- For this project's authorized identity, verify `gh api user` is `MatyMeatBoy`
+  immediately before publication/merging. New code commits use author/committer
+  `MatyMeatBoy <108221324+MatyMeatBoy@users.noreply.github.com>`. Preserve genuine
+  coauthor credits; GitHub platform merge signatures are normal.
+- Correct unauthorized primary identities before integration without changing
+  content: preserve the old head, rewrite using normal hooks, compare old/new
+  commit trees and use an exact lease for published branches. Recheck head and CI.
+  Never bypass hooks or force a merge with failing checks.
+- Validate the combined candidate with `make compare` (ROM OK), `make nonmatching`
+  and `check_tree.py`. Use owned selections for strict module revalidation where
+  appropriate. Isolated matches and worker reports do not replace these gates.
+- Merge only reviewed, unchanged heads with successful CI. Fetch the resulting
+  remote base, verify its source and run normal ROM/NONMATCHING/tree gates there.
+  Record SHA, logs, metrics and remaining PRs before updating worker bases.
+- If main already matches a function, preserve main during conflict resolution.
+  Identify landed commits before resuming a partial batch; do not replay blindly
+  or start a second build over a live validation.
+- CI owns `docs/progress/*`; workers never commit generated reports.
+  `publish_progress.py` regenerates from the remote tip if another publisher wins
+  a race; do not hide push failures. PRs opened during a batch remain pending
+  until their own review, CI and joint gates finish; report them explicitly.
 
-## Herramientas y SDK: evidencia antes de ampliar el alcance
+## Enforce deadlines independently of the integration cadence
 
-- Los cambios de herramientas van en su propia rama/PR, nunca en un shard.
-  Reproducir el fallo antes del fix y revisar el caso que el test realmente cubre.
-- Un rechazo de GAS no es un rechazo del compilador. Un test que nunca activa una
-  optimizacion no prueba esa optimizacion. Comprobar positivos, negativos y flags.
-- Para un backend nuevo: fuente fijada y hashes, parches separados, reconstruccion
-  independiente, opt-in generico y default-off, invariancia sin activar, fixtures
-  reales y candidato estricto antes de incorporarlo a produccion.
-- Si el usuario autoriza convertir SDK originalmente escrito en ASM, mantener
-  calculos, memoria y condiciones en C. El glue ABI minimo autorizado debe quedar
-  explicito; no esconder algoritmos en ASM, blobs o parches del objeto.
-- Verificar simbolos activos, relocaciones, datos C reales y el contenedor completo.
-  Contar solo el intervalo convertido: verificar SoundMain junto con SoundMainRAM
-  no convierte los bytes ASM de SoundMainRAM en C.
-- Nombres propuestos requieren direccion canonica, evidencia y revision. El
-  coordinador consolida el catalogo en otra rama; no renombrar desde un shard.
+- Check the absolute cutoff before implementations, long tools or merges. At the
+  deadline stop new work, preserve candidates/checkpoints and reservations, stop
+  owned experiments and pause the existing automation when instructed.
+- A late heartbeat performs closure only; it does not authorize catch-up merges
+  after the cutoff. Report verified integrated metrics and pending PRs separately.
+  Never create a duplicate automation or silently extend the run.
+
+## Tooling and SDK: evidence before expanding scope
+
+- Tool changes belong in a dedicated branch/PR, never a shard. Reproduce failures
+  first and check that tests exercise the claimed behavior. GAS rejection is not
+  compiler rejection; check positive and negative cases with actual flags.
+- New backends require pinned sources/hashes, separate patches, independent
+  rebuilds, generic opt-in/default-off behavior, unchanged default output, real
+  fixtures and a strict candidate before production use.
+- Separately authorized SDK conversions keep calculations, memory and conditions
+  in C. Make minimal authorized ABI glue explicit; do not hide algorithms in ASM,
+  blobs or object patches. Verify active symbols, relocations, data and full ROM.
+  Count converted intervals only, not adjacent handwritten assembly.
+- Proposed names require canonical addresses, evidence and revision. The coordinator
+  consolidates the catalog on a dedicated branch; workers do not mass rename.
+
+## October 30 evidence: useful paths, not a controlled speed test
+
+- SS1 recovery plus ABI/layout auditing closed `sub_08001DF0` (652 bytes, PR251),
+  avoiding a new translation. CFG placement and typed stack writes closed
+  `sub_0800232C` (812 bytes, PR251), where register searches had missed structure.
+- Packet-pointer lifetime across calls closed `sub_0801F79C` (512 bytes, PR254).
+  Explicit ASCII/extended-loop structure closed `sub_08091F9C` (228 bytes, PR257).
+- Rotation to096 produced `sub_08091E94` (140 bytes, PR255) while previous deliveries
+  were frozen. Rotation to026 produced a verified 144-byte candidate in PR259,
+  still pending integration at the deadline; do not count it as landed.
+- Several equal-size animation candidates remained nonmatching after bounded
+  experiments. Their preserved drafts are recovery material, not matches.

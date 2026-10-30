@@ -42,6 +42,52 @@ check: if (i > N) return;
 - Boolean result shape: `u32 r = 0; if (c) r = 1; return r;`.
 - `ble/bgt` are signed comparisons; `bls/bhi` are unsigned. Choose the type accordingly.
 
+## Source-shape lessons verified on October 30
+
+Use these as hypotheses against the original ASM, not as mechanical rewrites.
+The examples below passed the normal module and whole-ROM gates. Ownership and
+current source still need checking before reuse.
+
+- **Recover source before retranslating.** The SS1 donor for `sub_08001DF0`
+  needed a 16-to-24-byte packet layout adjustment and separate client/server
+  register lifetimes. Reusing its control flow closed 652 bytes (PR251).
+  Similarity scores alone do not justify copying layouts or ABI declarations.
+- **Fix types and stack layout before register pressure.** In `sub_0800232C`,
+  m2c missed three halfword writes into a stack configuration word. Restore the
+  observed access widths and preserved high bits. Do not initialize an incoming
+  register to zero when the original reads its incoming value. CFG label placement
+  inside the original switch arms mattered more than declaration permutations
+  for this 812-byte match (PR251).
+- **Separate truncated and widened values.** Keep an `s16` remainder distinct
+  from an `s32` absolute value when the ASM truncates before abs, but not after it.
+  This improved an animation candidate; it did not prove that function matched.
+- **Audit call arguments against ASM and callers.** m2c can omit stack arguments
+  or infer a return from a live r0. Use local ABI aliases rather than retyping
+  shared headers. Position pairs passed by address may need two-element arrays;
+  a byte pointer is safer than an inferred unknown-word stride until types are known.
+- **Preserve the right lifetime, not every register.** For `sub_0801F79C`, a packet
+  pointer retained across calls reproduced the saved-register allocation (PR254).
+  For `sub_08000760`, a native saved value worked where overlapping fixed-register
+  temporaries let GCC fold branches incorrectly. Inspect emitted control flow:
+  fixed registers and empty constraints are not proof of correct C behavior.
+- **Mirror physical CFG where necessary.** Distinct ASCII/extended loops and a
+  narrow character test closed `sub_08091F9C` (PR257). A targeted empty constraint
+  prevented unwanted cross-jumping of two otherwise similar branches. Keep empty
+  constraints minimal; never replace calculations with instruction opcodes.
+- **Keep aliases local when possible.** Inspect `addnm.py`/application diffs:
+  helpers may insert declarations into shared headers. Preserve existing lines,
+  move new function-specific aliases into the module when appropriate, and rerun
+  normal gates. Do not accept unrelated declaration reorderings from a helper.
+- **Use valid-syntax m2c output as a typed draft, not a match.** Its `M2C_FIELD`
+  accesses can retain inferred widths while repairing complex drafts. Audit byte
+  offsets, stack arrays and outgoing arguments; generated stack/register context
+  can still confuse pointer and integer roles. Preserve unsuccessful candidates.
+
+Keep normal module flags unchanged. Equal sizes, isolated checks and heuristic
+scores never replace `make compare` and `make nonmatching`. Stop repeated small
+permutations after the bounded experiment; see the rotation and handoff rules in
+[COORDINATOR_WORKFLOW.md](COORDINATOR_WORKFLOW.md).
+
 ## Rules
 
 - Do not remove or change existing `include/*.h` lines; append only. Do not change the Makefile inside a shard branch.
