@@ -28928,14 +28928,14 @@
       "name": "sub_08095F10",
       "addr": 134831888,
       "size": 184,
-      "state": "todo",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08095F10",
       "canonical_symbol": "sub_08095F10",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08095F10",
       "name_status": "unidentified",
       "name_source": null,
@@ -29149,14 +29149,14 @@
       "name": "sub_08096AF4",
       "addr": 134834932,
       "size": 180,
-      "state": "todo",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08096AF4",
       "canonical_symbol": "sub_08096AF4",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08096AF4",
       "name_status": "unidentified",
       "name_source": null,
@@ -29214,7 +29214,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 160,
+          "line": 244,
           "detail": "Existing C definition with an asm alias to the canonical symbol: paletteStep99"
         }
       ]
