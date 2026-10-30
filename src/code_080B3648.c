@@ -83,7 +83,33 @@ INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5E64);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5F94);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6068);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B60F4);
+extern u8 *gTask60F4 asm("gUnk_030007EC");
+extern u32 gMask60F4 asm("gUnk_030056FC");
+extern u8 *gIcons60F4 asm("gUnk_030056F4");
+extern u16 gArray60F4[] asm("gUnk_030007D4");
+void clearTask60F4(void) asm("sub_080B60F4");
+void clearTask60F4(void)
+{
+    u8 **task = &gTask60F4;
+    u8 i;
+    if (*task != 0) {
+        if (sub_08000470((u32)*task) != 0)
+            sub_080003A8((u32)*task);
+        sub_08001538((u32)*task);
+        *task = 0;
+        i = 1;
+        do {
+            if (gMask60F4 & (1 << i))
+                *(u16 *)(gIcons60F4 + i * 0x2E0 + 0x7A) |= 1;
+            i++;
+        } while (i <= 4);
+        i = 0;
+        do {
+            gArray60F4[i] = 0;
+            i++;
+        } while (i <= 1);
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6178);
 void sub_080B6324(void) {
     if (M2C_FIELD(gUnk_030007DC, s16 *, 0x5C) != 0) {
