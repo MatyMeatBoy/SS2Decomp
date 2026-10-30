@@ -43,7 +43,37 @@ s32 sub_08095B04(struct Motion95 *p, s32 speed)
     return old;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095D1C);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095E70);
+extern s32 angleE70(s16, s16) asm("ArcTan2");
+s32 sub_08095E70(struct Motion95 *p, s16 x, s16 y)
+{
+    s32 rawX, rawY, dx, dy;
+    u16 angle;
+    u32 bits, octant;
+    s16 direction;
+    rawX = p->unk14 << 8;
+    rawY = p->unk18 << 8;
+    dx = x - (rawX >> 16);
+    dy = y - (rawY >> 16);
+    angle = angleE70((s16)dx, (s16)dy);
+    bits = (u32)angle << 19;
+    octant = (u32)angle >> 13;
+    if (bits > 0x80000000U) {
+        if (octant <= 6U) octant++;
+        else octant = 0;
+    }
+    switch (octant) {
+    case 0: direction = 6; goto store;
+    case 1: direction = 7; goto store;
+    case 2: direction = 0; goto store;
+    case 3: direction = 1; goto store;
+    case 4: direction = 2; goto store;
+    case 5: direction = 3; goto store;
+    case 6: direction = 4; goto store;
+    case 7: direction = 5;
+    store: p->unk8 = direction;
+    }
+    return (u8)p->unk8;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095F10);
 extern s32 arcTan2_99(s16, s16) asm("ArcTan2");
 s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
@@ -125,8 +155,64 @@ INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080969CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096AF4);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096BA8);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096D40);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096E20);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096EFC);
+struct PaletteStep99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+extern s32 paletteStep99(u16 *, u8, u16, u16) asm("sub_08096E20");
+s32 paletteStep99(u16 *palette, u8 amount, u16 frame, u16 duration)
+{
+    u8 i;
+    s32 signedAmount;
+    u16 offset, component;
+    struct PaletteStep99 *dst;
+    volatile struct PaletteStep99 *src;
+    s32 done = 1;
+    if (frame < duration) {
+        i = 0;
+        signedAmount = (s32)amount << 24;
+        do {
+            dst = (void *)palette;
+            src = (void *)palette;
+            palette++;
+            offset = (signedAmount >> 24) * frame / (s32)duration;
+            component = offset + src->r;
+            if (component > 31U) component = 31;
+            dst->r = component;
+            component = offset + src->g;
+            if (component > 31U) component = 31;
+            dst->g = component;
+            component = offset + src->b;
+            if (component > 31U) component = 31;
+            dst->b = component;
+            dst->unused = 0;
+            i++;
+        } while (i <= 15U);
+        done = 0;
+    }
+    return done;
+}
+struct Palette99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+void sub_08096EFC(u16 *palette, s8 amount)
+{
+    u8 i = 0;
+    u16 component;
+    struct Palette99 *dst;
+    volatile struct Palette99 *src;
+    do {
+        dst = (void *)palette;
+        src = (void *)palette;
+        palette++;
+        component = src->r + amount;
+        if (component > 31U) component = 31;
+        dst->r = component;
+        component = src->g + amount;
+        if (component > 31U) component = 31;
+        dst->g = component;
+        component = src->b + amount;
+        if (component > 31U) component = 31;
+        dst->b = component;
+        dst->unused = 0;
+        i++;
+    } while (i <= 15U);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096FA0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
