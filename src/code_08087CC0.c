@@ -730,6 +730,11 @@ void sub_0808C0C4_v(void) {
         s32 sp16C;
     } menu;
     u32 loopCounterC0;
+    register u32 bgMaskC0 asm("r1");
+    register u16 *bgHalfC0 asm("r5");
+    register u32 bgValueC0 asm("r0");
+    register u32 portraitLookupC0 asm("r1");
+    register u32 portraitRowC0 asm("r0");
     /* This product dies before r3 becomes the draw call fourth argument. */
     register u32 countTripletC0 asm("r3");
     u8 *portraitBaseC0;
@@ -848,10 +853,18 @@ void sub_0808C0C4_v(void) {
     sub_080653CC();
     sub_080009F8(0x200, 0, 1);
     sub_080009C0(0x1D00, 0, 1);
-    menu.sp15C = (s32) ((menu.sp15C & 0xFFFF0000) | 0x1E0A);
-    sub_08000AA8(2U, &menu.sp15C);
-    *(u16 *)&menu.sp15C = 0x1F03;
-    sub_08000AA8(3U, &menu.sp15C);
+    /* The BG API consumes the low half of this preserved word. */
+    bgMaskC0 = 0xFFFF0000;
+    bgValueC0 = menu.sp15C;
+    bgValueC0 &= bgMaskC0;
+    bgMaskC0 = 0x1E0A;
+    bgValueC0 |= bgMaskC0;
+    menu.sp15C = bgValueC0;
+    bgHalfC0 = (u16 *)&menu.sp15C;
+    sub_08000AA8(2U, bgHalfC0);
+    bgValueC0 = 0x1F03;
+    *(u16 *)&menu.sp15C = bgValueC0;
+    sub_08000AA8(3U, bgHalfC0);
     loopCounterC0 = 0;
     portraitBaseC0 = ((u8 *)portraitsC0);
     portraitTableC0 = gPortraitC0;
@@ -859,8 +872,14 @@ void sub_0808C0C4_v(void) {
     goto portraitCheckC0;
 portraitBodyC0:
     temp_r4 = portraitBaseC0 + (0x34 * loopCounterC0);
-    temp_r0 = &playerTableC0[loopCounterC0];
-    sub_08065158(temp_r4, *(u32 *)(portraitTableC0 + temp_r0->unk10 * 4 + temp_r0->unk64 * 0x58), 0, -1, 0);
+    temp_r0 = (struct C0Player *)(loopCounterC0 * 0x14C + (u32)playerTableC0);
+    /* Accumulate both table offsets before materializing the resource. */
+    portraitLookupC0 = temp_r0->unk10 * 4;
+    portraitRowC0 = temp_r0->unk64 * 0x58;
+    portraitLookupC0 += portraitRowC0;
+    portraitLookupC0 += (u32)portraitTableC0;
+    portraitLookupC0 = *(u32 *)portraitLookupC0;
+    sub_08065158(temp_r4, portraitLookupC0, 0, -1, 0);
     temp_r4[0x1C] = (s8) loopCounterC0;
     loopCounterC0++;
 portraitCheckC0:
