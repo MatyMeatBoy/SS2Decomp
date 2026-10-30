@@ -289,9 +289,165 @@ void sub_080161A4(void) {
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801623C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801641C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801674C);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801681C);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080168FC);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080169C8);
+struct Record1681C { u8 *source; u8 kind, sound; u16 extra; };
+struct State1681C { u16 x,y,flags,index,f8,fA,fC,fE,kind,sound; u8 *source; };
+extern struct Record1681C *volatile records1681C asm("gUnk_030042E8");
+extern s32 step1681C(struct State1681C *) asm("sub_0801641C");
+extern s32 position1681C(s32 *) asm("sub_08017F7C");
+extern void sound1681C(u8,u32,s32) asm("sub_080571A4");
+void sub_0801681C(u16 index) {
+    struct State1681C state;
+    struct { s32 x, y; } coords;
+    register struct Record1681C *record asm("r3");
+    register struct Record1681C *loaded asm("r0");
+    register u32 value asm("r1");
+    register struct State1681C *statePtr asm("r2");
+    u8 *source, *entry;
+    s32 kind;
+    s32 *pos;
+    loaded = records1681C;
+    record = (struct Record1681C *)(index * 8 + (u32)loaded);
+    source = record->source;
+    kind = record->kind & ~0x80;
+    statePtr = &state;
+    entry = source + kind * 8;
+    statePtr->x = *(u16 *)(entry + 0xA);
+    statePtr->y = *(u16 *)(entry + 0xC);
+    state.source = source;
+    statePtr->flags = *(u16 *)(entry + 8);
+    statePtr->f8 = *(u16 *)(entry + 0xE);
+    state.kind = record->kind;
+    state.sound = record->sound;
+    state.fC = *(u16 *)(source + 0x32);
+    state.fE = *(u16 *)(source + 0x34);
+    state.index = record->extra + kind;
+    state.fA = *(u16 *)(source + 0x30);
+    coords.x = state.x << 11;
+    value = state.y << 11;
+    coords.y = value;
+    pos = &coords.x;
+    for (;;) {
+        value = state.flags;
+        if (!(0x4000 & value) && position1681C(pos) == 0) break;
+        sub_080003F0();
+        if (sub_0800CB78() != 0 || sub_08056E90() != 0 || records1681C[index].kind == 0xFF || step1681C(&state) != 0)
+            goto done;
+    }
+    sound1681C((u8)state.sound, (u8)state.kind & 0x7F, 1);
+done:
+    sub_080003F0();
+    gUnk_03005724 &= ~(1u << index);
+}
+extern volatile u16 bits168FC asm("gUnk_03005724");
+struct Pair168FC { u32 first, second; };
+extern struct Pair168FC *pairs168FC asm("gUnk_030042E8");
+extern struct Task *volatile tasks168FC asm("gUnk_030056F0");
+extern struct Task *volatile runtimeTasks168FC asm("gUnk_030056F0");
+extern void callback168FC(void) asm("sub_0801681C");
+extern void sound168FC(u8,u8,s32) asm("sub_080571A4");
+s32 sub_080168FC(struct Pair168FC *arg) {
+    u16 index;
+    register s32 mask asm("r0");
+    register volatile u16 *bitPointer asm("r2");
+    register u32 one asm("r1");
+    register struct Task *task asm("r1");
+    register struct Task *initialBase asm("r1");
+    register struct Task *initialTask asm("r0");
+    register u32 factor asm("r2");
+    register u32 stackOffset asm("r3");
+    register u32 top asm("r0");
+    register u32 memory asm("r2");
+    register u32 offset4 asm("r5");
+    register u32 taskState asm("r6");
+    index = 0;
+    bitPointer = &bits168FC;
+    mask = *bitPointer;
+    one = 1;
+    goto test;
+next:
+    index++;
+    if (index > 1) goto full;
+    mask = (s32)*bitPointer >> index;
+test:
+    if (mask & one) goto next;
+    if (index > 1) {
+full:
+        if (sub_08002204() != 0)
+            sound168FC(((u8 *)arg)[5], ((u8 *)arg)[4], 1);
+        return -1;
+    }
+    pairs168FC[index] = *arg;
+    initialBase = tasks168FC;
+    factor = index * 4;
+    initialTask = (struct Task *)((factor + index) * 8 + (u32)initialBase);
+    initialTask->uC = callback168FC;
+    offset4 = factor;
+    taskState = index + 0x96;
+    for (;;) {
+        memory = sub_08001494(0x200);
+        task = runtimeTasks168FC;
+        task = (struct Task *)((offset4 + index) * 8 + (u32)task);
+        task->u20 = memory;
+        if (memory != 0) break;
+        sub_080003F0();
+    }
+    stackOffset = 0x1FC;
+    top = memory + stackOffset;
+    task->u10 = top;
+    task->u8 = taskState;
+    task->u18 = 0;
+    task->u0 = 0;
+    task->u24 = 0;
+    sub_08000274(task, index);
+    bits168FC |= 1 << index;
+    return 0;
+}
+extern void sound169C8(u8,u8,s32) asm("sub_080571A4");
+void sub_080169C8(void) {
+    register u32 i asm("r5");
+    u32 taskOffset;
+    u32 objectOffset;
+    register u32 j asm("r5");
+    register u32 secondOffset asm("r4");
+    s32 *secondBase;
+    register u32 loopZero asm("r1");
+    register u32 k asm("r5");
+    u16 *flag;
+    u32 *word1, *word2;
+    u32 zero;
+    u8 *task, *object;
+    u32 *entry;
+    i = 0; objectOffset = 0; taskOffset = 0;
+    do {
+        task = (u8 *)&gUnk_03004220 + taskOffset;
+        if (sub_08000470((u32)task) != 0) {
+            sub_080003A8((s32)task);
+            object = (u8 *)(objectOffset + (u32)gP030056F4);
+            *(u16 *)(object + 0x5C) = 0;
+            *(u16 *)(object + 0xC) = 11;
+            sound169C8(object[0x86], object[0x84], 3);
+        }
+        objectOffset += 0x2E0; taskOffset += 0x28; i++;
+    } while (i <= 4);
+    j = 0; secondBase = &gUnk_030056F0; secondOffset = 0;
+    do {
+        if (sub_08000470(*secondBase + secondOffset) != 0)
+            sub_080003A8(*secondBase + secondOffset);
+        secondOffset += 0x28; j++;
+    } while (j <= 1);
+    k = 0;
+    flag = &gUnk_03005724; word1 = &gW030056FC; word2 = &gW030056F8;
+    loopZero = 0;
+    entry = gA03005700;
+    do {
+        entry[2] = loopZero; entry[1] = loopZero; entry[0] = loopZero;
+        entry += 3; k++;
+    } while (k <= 2);
+    zero = 0;
+    *flag = zero;
+    *word1 = zero;
+    *word2 = zero;
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
 s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
@@ -367,7 +523,34 @@ s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
   }
   return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016D40);
+extern s32 aimD40(s32,s32,s32,s32,s32) asm("sub_08016C88");
+void sub_08016D40(u8 *object, u16 arg) {
+    u8 *source;
+    u16 *volatile *packed;
+    u32 zero;
+    u32 count;
+    u16 *counter;
+    if (object[0x201] & 2) {
+        source = gP030056F4 + (object[0x1FC] >> 4) * 0x2E0;
+        *(s32 *)(object + 0x24) = *(s32 *)(source + 0x14) >> 8;
+        *(s32 *)(object + 0x28) = *(s32 *)(source + 0x18) >> 8;
+    } else {
+        source = (u8 *)gUnk_03003CE0 + (object[0x1FC] >> 4) * 0x14C;
+        packed = (u16 *volatile *)(source + 0x148);
+        *(s32 *)(object + 0x24) = (*packed)[0] >> 4;
+        *(s32 *)(object + 0x28) = ((u32)(*packed)[1] << 20) >> 20;
+    }
+    if (gUnk_03002344 % 25 == *(u16 *)object * 5)
+        *(u16 *)(object + 4) = aimD40(*(s32 *)(object + 0x14), *(s32 *)(object + 0x18), *(s32 *)(object + 0x24), *(s32 *)(object + 0x28), (s16)arg);
+    counter = (u16 *)(object + 0x44);
+    count = *counter + 1;
+    zero = 0;
+    *counter = count;
+    if ((u16)count > 180) {
+        *counter = zero;
+        *(u16 *)(object + 4) = zero;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
 extern u32 gW6ECC_56F8 asm("gUnk_030056F8");
 extern u32 gT6ECC_5700 asm("gUnk_03005700");
