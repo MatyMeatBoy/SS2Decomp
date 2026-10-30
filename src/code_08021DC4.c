@@ -4358,12 +4358,17 @@ end_poll:
                     asm("" : "+r"(state), "+r"(zero), "+r"(row));
                     do {
                         register u32 col asm("r2") = 0;
-                        register u32 rowOffset asm("r3") = row * 5;
+                        register u32 four asm("r0") = row << 2;
                         register u32 next asm("r4") = row + 1;
+                        register u32 rowOffset asm("r3");
+                        asm("" : "+r"(four), "+r"(next));
+                        rowOffset = four + row;
                         do {
+                            register struct T24State08026858 *base asm("r0") = *state;
+                            register u32 idx asm("r1") = col + rowOffset;
                             register u32 gridOffset asm("r7") = offsetof(struct T24State08026858, grid);
-                            asm("" : "+r"(gridOffset));
-                            *((u8 *)*state + gridOffset + rowOffset + col) = zero;
+                            asm("" : "+r"(base), "+r"(idx), "+r"(gridOffset));
+                            *((u8 *)base + gridOffset + idx) = zero;
                             col++;
                         } while (col <= 4);
                         row = next;
