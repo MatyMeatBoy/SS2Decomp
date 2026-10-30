@@ -263,44 +263,38 @@ u32 sub_08065FE8(void)
     }
     return 0;
 }
-#ifdef NONMATCHING
-/* Enqueue tag 0x86 (8-byte block {ptr, idx}) if the referenced slot is visible/valid and no 0x86 is in flight. */
+extern u8 gLinkFlagByte asm("gUnk_03006220");
+extern s32 sub_08017F7C(s32 *);
+extern u32 root67QueueCountCheck asm("gUnk_03006338");
 u32 sub_0806603C(s32 *src)
 {
     s32 pos[2];
-    s32 base;
-    u32 idx;
+    int stride;
+    register u8 *base asm("r1");
     u8 *p;
-    if (gUnk_03006338 < 0x32) {
-        base = *src;
-        idx = *(u8 *)(src + 1) & 0x7F;
-        pos[0] = *(s16 *)(base + idx * 8 + 10) << 11;
-        pos[1] = *(s16 *)(base + idx * 8 + 12) << 11;
-        if ((*(u16 *)(base + idx * 8 + 8) & 0x4000) != 0 || sub_08017F7C(pos) != 0) {
-            if (gLinkFlagByte == 0) {
-                gLinkFlagByte = 1;
-                p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
-                *(u32 *)(p + 4) = 1;
-                *p = 0x86;
-                CpuSet(src, p + 8, 0x04000002);
-                p[1] = 1;
-                gUnk_03006338++;
-                return 1;
-            }
-        }
+    stride = 8;
+    if (root67QueueCountCheck > 0x31 ||
+        ((base = (u8 *)*src,
+          pos[0] = *(s16 *)(((*(u8 *)(src + 1) & ~0x80) * stride) + base + 10) << 11,
+          pos[1] = *(s16 *)(((*(u8 *)(src + 1) & ~0x80) * stride) + base + 12) << 11,
+          (*(u16 *)((base += ((*(u8 *)(src + 1) & ~0x80) * stride)) + 8) & 0x4000) == 0) && sub_08017F7C(pos) == 0) || gLinkFlagByte != 0) {
+        return 0;
     }
-    return 0;
+    gLinkFlagByte++;
+    p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+    *(u32 *)(p + 4) = 1;
+    *p = 0x86;
+    CpuSet(src, p + 8, 0x04000002);
+    p[1] = 1;
+    gUnk_03006338++;
+    return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806603C);
-#endif
-#ifdef NONMATCHING
-/* Enqueue tag 0x8A (hit event: u8 target, u8 kind, u8 b, u8 c, s16 damage...), merging damage into a pending 0x8A for the same target. */
 u32 sub_080660EC(u8 *src)
 {
     u8 *p;
-    u32 i;
-    u32 n;
+    u8 *payload;
+    register u32 i asm("r3");
+    register u32 n asm("r2");
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
@@ -308,10 +302,10 @@ u32 sub_080660EC(u8 *src)
     } else {
         p = (u8 *)(uintptr_t)gUnk_03006300;
         for (i = 0; i < n; i++, p += 0x88) {
-            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8A && p[8] == src[0]) {
-                *(s16 *)(p + 0xC) += *(s16 *)(src + 8);
-                p[0xB] = src[3];
-                p[10] = src[2];
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8A && (payload = p + 8)[0] == src[0]) {
+                *(u16 *)(payload + 4) += *(u16 *)(src + 4);
+                payload[3] = src[3];
+                payload[2] = src[2];
                 goto done;
             }
         }
@@ -326,34 +320,69 @@ u32 sub_080660EC(u8 *src)
     }
     return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080660EC);
-#endif
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806617C);
-#ifdef NONMATCHING
-extern u8 gPlayer38[] asm("gUnk_03003D18");
-/* Enqueue tag 0x8F (local player's 8-word block at Player+0x38), coalescing with a pending 0x8F. */
-u32 sub_08066220(void)
+u32 queuePlayerBlob067(void) asm("sub_0806617C");
+extern u8 root67Payload[] asm("gUnk_03003D38");
+u32 queuePlayerBlob067(void)
 {
     u8 *p;
-    u32 n;
-    u32 i;
+    register u32 n asm("r2");
+    register u32 i asm("r3");
     u32 r;
     n = gUnk_03006338;
     if (n > 0x31) {
         r = 0;
     } else {
         p = (u8 *)(uintptr_t)gUnk_03006300;
-        for (i = 0; i < n; i++, p += 0x88) {
-            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8F) {
-                CpuSet(gPlayer38 + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+        i = 0;
+        if (i < n) {
+          register u32 limit asm("r1") = n;
+          do {
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8E) {
+                CpuSet(root67Payload + sub_080020F4() * 0x14C, p + 8, 0x0400000C);
                 goto done;
             }
+          i++; p += 0x88;
+          } while (i < limit);
+        }
+        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
+        *(u32 *)(p + 4) = 1;
+        *p = 0x8E;
+        CpuSet(root67Payload + sub_080020F4() * 0x14C, p + 8, 0x0400000C);
+        p[1] = 6;
+        gUnk_03006338++;
+    done:
+        r = 1;
+    }
+    return r;
+}
+u32 queuePlayerState067(void) asm("sub_08066220");
+extern u8 root67Player38Payload[] asm("gUnk_03003D18");
+u32 queuePlayerState067(void)
+{
+    u8 *p;
+    register u32 n asm("r2");
+    register u32 i asm("r3");
+    u32 r;
+    n = gUnk_03006338;
+    if (n > 0x31) {
+        r = 0;
+    } else {
+        p = (u8 *)(uintptr_t)gUnk_03006300;
+        i = 0;
+        if (i < n) {
+          register u32 limit asm("r1") = n;
+          do {
+            if (*(u32 *)(p + 4) == 1 && p[0] == 0x8F) {
+                CpuSet(root67Player38Payload + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+                goto done;
+            }
+          i++; p += 0x88;
+          } while (i < limit);
         }
         p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
         *(u32 *)(p + 4) = 1;
         *p = 0x8F;
-        CpuSet(gPlayer38 + sub_080020F4() * 0x14C, p + 8, 0x04000008);
+        CpuSet(root67Player38Payload + sub_080020F4() * 0x14C, p + 8, 0x04000008);
         p[1] = 4;
         gUnk_03006338++;
     done:
@@ -361,9 +390,6 @@ u32 sub_08066220(void)
     }
     return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08066220);
-#endif
 #ifdef NONMATCHING
 extern u8 *gEntArr asm("gUnk_030056F4");
 /* Enqueue tag 0x91 (entity `idx` velocity words at +0x1FC), coalescing with a pending 0x91 for the same entity id. */
