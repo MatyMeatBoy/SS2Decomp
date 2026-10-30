@@ -5353,7 +5353,7 @@ void t025Effects27C(u16 *arg0) {
     u32 var_r3_2;
     u32 var_r5;
     u32 var_r8;
-    u32 var_sl;
+    register u32 var_sl asm("sl");
     u8 temp_r0_3;
     u8 temp_r1_6;
     u8 temp_r4_3;
