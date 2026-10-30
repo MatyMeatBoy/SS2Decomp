@@ -414,7 +414,60 @@ void sub_0801F320(u8 *object, u8 *data)
   }
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F374);
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F79C);
+extern u8 directions02079[] asm("gUnk_084790B4");
+extern u16 amount02079(void *,void *,void *,s32) asm("sub_0801E988");
+extern void hit02079(void *,void *,s32,u16,s32) asm("sub_08069388");
+extern void notify02079(void *) asm("sub_080660EC");
+extern void display02079(void *,s32,s32,u16,s32,s32) asm("sub_08069080");
+struct Packet02079 {u8 player:8;u8 power:8;u8 impulse:8;s32 direction:8;u32 amount:16;u32 unused:16;};
+void sub_0801F79C(u8 *source,u8 *target,u8 *attack,s32 flags)
+{
+    struct Packet02079 packet;
+
+
+
+    u8 *position;
+    void *display;
+    struct Packet02079 *packetAddress;
+    u32 *history;
+    u32 historyIndex;
+    u16 angle;
+    if(flags&1) {
+        packet.amount=amount02079(source,target,attack,1)|0x8000;
+        packet.power=0;
+        packet.impulse=0;
+        packet.direction=0;
+    } else {
+        packet.amount=amount02079(source,target,attack,0);
+        packet.impulse=attack[0xA9];
+        position=*(u8 **)(target+0x148);
+        angle=ArcTan2((s16)((*(u16 *)position>>4)-(*(s32 *)(source+0x8C)>>8)),(s16)(((u32)((u32)*(u16 *)(position+2)<<20)>>20)-(*(s32 *)(source+0x90)>>8)));
+        packet.direction=directions02079[angle>>12];
+        if(*(u16 *)(source+0x20)==5 && *(u16 *)(source+0x10)==8)
+            packet.amount=(s32)(packet.amount*(((u32)(*(u32 *)(*(u8 **)(source+0x148)+4)<<15)>>29)+5))/10;
+    }
+    packetAddress=&packet;
+    display=target+0x4C;
+    hit02079(packetAddress,display,1,*(u16 *)(attack+0xBC),*(u16 *)target);
+    *(u16 *)(source+0xC4)+=(s32)((packetAddress->amount&0xFFFF7FFF)*(s8)source[0x6A])/100;
+    *(u16 *)(source+0xC2)+=((s32)((packetAddress->amount&0xFFFF7FFF)*((s32)((u32)source[0x6B]<<24)>>24))/100)*10;
+    if(*(s16 *)(source+0xC4)>*(s16 *)(source+0x62)) *(u16 *)(source+0xC4)=*(u16 *)(source+0x62);
+    if(*(s16 *)(source+0xC2)>*(s16 *)(source+0x60)) *(u16 *)(source+0xC2)=*(u16 *)(source+0x60);
+    historyIndex=*(u16 *)source*4;
+    history=(u32 *)(target+0xF8);
+    asm("" : "+r"(history) : "r"(historyIndex));
+    *(u32 *)((u8 *)history+historyIndex)=*(u32 *)(source+0xDC);
+    packetAddress->player=*(u16 *)target;
+    notify02079(packetAddress);
+    display02079(display,packetAddress->amount&0x7FFF,0,*(u16 *)source,*(u16 *)target,*(u16 *)(attack+0xBC));
+}
+
+
+
+
+
+
+
 #ifdef NONMATCHING
 extern u8 *scene02099 asm("gUnk_03005CF4");
 extern u8 players02099[] asm("gUnk_03003CE0");
