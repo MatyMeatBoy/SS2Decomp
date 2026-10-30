@@ -358,11 +358,11 @@ extern u16 gUnk_0300130C;
 
 void sub_08002694(void)
 {
-    u16 *sl;
+    register u16 *sl asm("r10");
     s32 var_r4;
     s32 var_r6;
     s32 var_r8;
-    s32 var_r9;
+    register s32 var_r9 asm("r9");
     struct {
         u8 sp4[0x34];
         u16 sp38;
