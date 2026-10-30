@@ -52,7 +52,7 @@ and PR titles/descriptions are written in **English**.
    bootstrap without `--build`; add your ROM and build afterwards.
 
 In each new terminal, enter your checkout and run `source toolkit-env.sh`.
-The toolkit's `README-ES.txt` also contains the original Spanish setup notes.
+The toolkit's `README.txt` includes the same setup steps in English.
 On Linux, WSL or macOS, follow the native setup in [CONTRIBUTING.md](../../CONTRIBUTING.md)
 in an independent clone; the packaged Windows executables are not native tools.
 
