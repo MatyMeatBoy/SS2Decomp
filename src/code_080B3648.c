@@ -81,7 +81,59 @@ void sub_080B4BB8(u8 a, u16 arg)
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5E64);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5F94);
+extern volatile u8 gTick5F94 asm("gUnk_030007E8");
+extern volatile u8 gOtherTick5F94 asm("gUnk_030007E9");
+extern volatile u8 gFlag5F94 asm("gUnk_030007EA");
+extern s16 gTable5F94[] asm("gUnk_080B9704");
+extern void setScreen5F94(u32, u32, u32) asm("sub_080009C0");
+extern void setScroll5F94(u32, s32, u32) asm("sub_0800BBD8");
+extern void draw5F94(u32, u32, u32, u32, u32, u32) asm("sub_0800903C");
+void sub_080B5F94(void)
+{
+    u32 x;
+    u32 y;
+    u8 i;
+    s32 base;
+    s32 dx;
+    s32 dy;
+    s32 sample;
+    register u32 drawN asm("r3");
+    u16 n;
+    gTick5F94 = 0;
+    gOtherTick5F94 = 0;
+    gFlag5F94 = 0;
+    y = 0;
+    x = 0;
+    i = 0;
+    base = 6;
+    dx = 0xAA;
+    dy = 0x2A;
+    for (;;) {
+        sample = gTable5F94[i];
+        n = (sample >> 6) + base;
+        i += 2;
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+            if (gFlag5F94 == 0) {
+                setScreen5F94(0x1F00, 0, 1);
+                x -= dx;
+                y += dy;
+                setScroll5F94(1, (s32)x >> 8, 0);
+                setScroll5F94(3, (s32)y >> 8, 0);
+            } else {
+                base = 8;
+                dx = 0x2A;
+                dy = 0x15;
+                x -= 0x2A;
+                y += 0x15;
+                setScroll5F94(1, (s32)x >> 8, 0);
+                setScroll5F94(3, (s32)y >> 8, 0);
+            }
+            drawN = n;
+            draw5F94(2, 0x3C, 1, drawN, 0x10, 0);
+        }
+        sub_080003F0();
+    }
+}
 extern u8 gTick6068 asm("gUnk_030007E8");
 extern u8 gOtherTick6068 asm("gUnk_030007E9");
 extern u8 gFlag6068 asm("gUnk_030007EA");
