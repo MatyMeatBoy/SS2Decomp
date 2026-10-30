@@ -569,9 +569,10 @@ void sub_080A47A0(void)
    asm("" : "+r"(ptr));
 wait_frame:
    current = *ptr;
+   asm("" : "+r"(current));
    if (current == 0) { sub_080003F0(); goto wait_frame; }
    if (side10847 == 1) animation = current + 5;
-   else animation = *ptr;
+   else animation = frame10847;
   }
   {
    register s32 x asm("r1") = F_10847(object10847,s32,0x14);
@@ -583,10 +584,18 @@ wait_frame:
    frame.y = y;
   }
   {
-   u32 i = direction10847 * 2;
-   asm("" : "+r"(i));
-   frame.x += offsetX10847[i];
-   frame.y += offsetY10847[i];
+   register u32 i asm("r1") = direction10847 * 4;
+   register s16 *table asm("r2") = offsetX10847;
+   register s32 value asm("r0");
+   register s32 old asm("r4");
+   value = *(s16 *)((u8 *)table + i);
+   old = frame.x;
+   asm("" : "+r"(value), "+r"(old));
+   frame.x = old + value;
+   value = *(s16 *)((u8 *)offsetY10847 + i);
+   old = frame.y;
+   asm("" : "+r"(value), "+r"(old));
+   frame.y = old + value;
   }
   sprites10847[side10847].style=palette10847;
   sub_08000AF0(palette10847+16,sprites10847[side10847].palette+(F_10847(frame.metadata,u16,0xD6)<<5),1);
