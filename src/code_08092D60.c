@@ -589,18 +589,29 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     s32 shifted=(s32)((u32)arg1<<24);
 
     sp9C = (s32) (u8) (arg0 * 3);
-    sp0 = 1;
-    f94_08065158(&sp18, ((s32) ((u32)shifted + 0xFF000000) >> 0x18) + 0x5002C, 7, -1, sp0);
-    sp18.payload[7] = 0;
-    sp0 = 1;
-    f94_08065158(&sp4C, 0x50030, 8, -1, sp0);
-    sp4C.payload[8] = 1;
+    /* Keep the original initialization lifetimes; the empty constraint emits no code. */
+    {
+    register s32 negativeOne asm("r6");
+    register s32 one asm("r4");
+    register s32 zero asm("r5");
+    register s32 animationId asm("r1");
+    animationId=((s32) ((u32)shifted + 0xFF000000) >> 0x18) + 0x5002C;
+    negativeOne=-1;
+    one=1;
+    sp0 = one;
+    f94_08065158(&sp18, animationId, 7, negativeOne, sp0);
+    zero=0; asm("" : "+r"(zero));
+    sp18.payload[7] = zero;
+    sp0 = one;
+    f94_08065158(&sp4C, 0x50030, 8, negativeOne, sp0);
+    sp4C.payload[8] = one;
     base.x = 0x7800;
     base.y = 0x5000;
-    sp86 = 0;
-    sp84 = 0;
-    sp82 = 0;
-    sp80 = 0;
+    sp86 = zero;
+    sp84 = zero;
+    sp82 = zero;
+    sp80 = zero;
+    }
     spA0 = 0;
     sp90 = 0;
     sp94 = 0x10;
