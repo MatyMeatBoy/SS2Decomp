@@ -367,7 +367,34 @@ s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
   }
   return 0;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016D40);
+extern s32 aimD40(s32,s32,s32,s32,s32) asm("sub_08016C88");
+void sub_08016D40(u8 *object, u16 arg) {
+    u8 *source;
+    u16 *volatile *packed;
+    u32 zero;
+    u32 count;
+    u16 *counter;
+    if (object[0x201] & 2) {
+        source = gP030056F4 + (object[0x1FC] >> 4) * 0x2E0;
+        *(s32 *)(object + 0x24) = *(s32 *)(source + 0x14) >> 8;
+        *(s32 *)(object + 0x28) = *(s32 *)(source + 0x18) >> 8;
+    } else {
+        source = (u8 *)gUnk_03003CE0 + (object[0x1FC] >> 4) * 0x14C;
+        packed = (u16 *volatile *)(source + 0x148);
+        *(s32 *)(object + 0x24) = (*packed)[0] >> 4;
+        *(s32 *)(object + 0x28) = ((u32)(*packed)[1] << 20) >> 20;
+    }
+    if (gUnk_03002344 % 25 == *(u16 *)object * 5)
+        *(u16 *)(object + 4) = aimD40(*(s32 *)(object + 0x14), *(s32 *)(object + 0x18), *(s32 *)(object + 0x24), *(s32 *)(object + 0x28), (s16)arg);
+    counter = (u16 *)(object + 0x44);
+    count = *counter + 1;
+    zero = 0;
+    *counter = count;
+    if ((u16)count > 180) {
+        *counter = zero;
+        *(u16 *)(object + 4) = zero;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
 extern u32 gW6ECC_56F8 asm("gUnk_030056F8");
 extern u32 gT6ECC_5700 asm("gUnk_03005700");
