@@ -860,10 +860,14 @@ void sub_0806690C(u32 peer)
 {
     u32 d[64];
     u32 itemData[4];
-    u32 myId, i, chunks, tag, cnt, last, wait, idx, spawnKind;
+    u32 myId;
+    u8 *ack, *blk;
+    u32 chunks;
+    s32 tag;
+    u32 i, cnt, last, wait, idx, spawnKind;
     u32 *spawnTail;
     u8 *spawnRecord;
-    u8 *ack, *blk, *pl, *ent, *e;
+    u8 *pl, *ent, *e;
 
     myId = sub_080020F4();
     ack = sub_08002118(myId) + 0x14 + peer;
@@ -976,6 +980,18 @@ void sub_0806690C(u32 peer)
                         *(u32 *)(ent + 0x4C) = *(u16 *)(ent + 0x4A);
                         break;
                     }
+                }
+            }
+            break;
+        case 0x2F: /* tag 0xB0: entity id == d[0] -> state 10, flag 0x80 */
+            for (i = 0; i < 5; i++) {
+                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                    ent = RX_ENT(i);
+                    *(u16 *)(ent + 0x7A) |= 0x80;
+                    *(u16 *)(ent + 0xC) = 10;
+                    *(u16 *)(ent + 0x4A) = *(u16 *)(ent + 0x5C);
+                    *(u32 *)(ent + 0x4C) = *(u16 *)(ent + 0x4A);
+                    break;
                 }
             }
             break;
@@ -1233,6 +1249,9 @@ spawn_record:
                 *(u32 *)(RX_PL(myId) + 0x30) &= 0xFFFFBFFF;
             }
             break;
+        case 0x1A:
+            x_sub_0805D4C4((u16)d[0]);
+            break;
         case 0x1B:
             {
                 u8 *target = (u8 *)x_sub_08019BF8(d[0] >> 16);
@@ -1337,8 +1356,14 @@ spawn_record:
             break;
         case 0x26:
             if (d[0] == myId) {
-                u8 *player = RX_PL(myId);
-                u32 *role = (u32 *)(player + 0xE0);
+                u32 playerStride = 0x14C;
+                u32 playerOffset;
+                u8 *playerBase = (u8 *)gUnk_03003CE0;
+                u8 *player;
+                u32 *role;
+                asm("" : "+r"(playerStride));
+                playerOffset = myId * playerStride;
+                player = playerBase + playerOffset;
                 *(u16 *)(player + 0xC4) = *(u16 *)(player + 0x62);
                 *(u32 *)(player + 0x30) &= 0xFFFFDFFF;
                 player[0x68] = 1;
@@ -1353,6 +1378,7 @@ spawn_record:
                     gRxQueueCount++;
                 }
                 sub_0806617C();
+                role = (u32 *)(playerBase + 0xE0 + playerOffset);
                 x_sub_08022200(*(u16 *)player, *role);
                 switch (*role - 1) {
                 case 0: *(u16 *)(gRxProfile + 0x24) += 1; break;
@@ -1400,9 +1426,6 @@ spawn_record:
                 *(u32 *)(gRxGameState + 0x70) = *src != 0 ? 1 : 2;
             }
             break;
-        case 0x1A:
-            x_sub_0805D4C4((u16)d[0]);
-            break;
         case 0x2B:
             gRxByteA = d[0];
             break;
@@ -1411,18 +1434,6 @@ spawn_record:
             break;
         case 0x2D:
             gRxByteC = d[0];
-            break;
-        case 0x2F: /* tag 0xB0: entity id == d[0] -> state 10, flag 0x80 */
-            for (i = 0; i < 5; i++) {
-                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                    ent = RX_ENT(i);
-                    *(u16 *)(ent + 0x7A) |= 0x80;
-                    *(u16 *)(ent + 0xC) = 10;
-                    *(u16 *)(ent + 0x4A) = *(u16 *)(ent + 0x5C);
-                    *(u32 *)(ent + 0x4C) = *(u16 *)(ent + 0x4A);
-                    break;
-                }
-            }
             break;
         default:
             break;
