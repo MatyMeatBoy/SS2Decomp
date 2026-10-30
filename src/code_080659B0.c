@@ -158,42 +158,59 @@ void sub_08065C50(u32 arg)
         sub_08000274((u32)&gTaskC50, arg);
     }
 }
-#ifdef NONMATCHING
-/* Link message layer init: allocs the task object (0x28), the 0xA0 ack area, the 50-entry send queue (0x1A90) and resets the
- * per-peer ring buffers (4 peers x 10 words, index table). */
+extern u8 gLinkFlagByte asm("gUnk_03006220");
 extern u32 gRingIdx[] asm("gUnk_03006210");
 extern u32 gRingBuf[] asm("gUnk_03006260");
 void sub_08065CA8(void)
 {
-    u32 i, j;
-    u8 *e;
-    u32 *rp;
+    register u32 clear asm("r2");
+    register u32 i asm("r3");
+    register u32 j asm("r2");
+    register u8 *e asm("r0");
+    register u32 *rp asm("r1");
+    register u32 offset asm("r1");
+    u32 next;
+    register u32 fill asm("r4");
+    register u32 zero asm("r5");
+    u32 *idxBase;
+    register u32 *ringBase asm("r6");
 
+    asm("" : : : "r4", "r5", "r6", "r7");
     gUnk_03006368 = (s32)sub_08001494(0x28);
     gUnk_03006258 = (s32)sub_08001494(0xA0);
-    e = sub_08001494(0x1A90);
-    gUnk_03006300 = (s32)e;
+    gUnk_03006300 = (s32)(e = sub_08001494(0x1A90));
     gUnk_03006338 = 0;
     gUnk_0300636C = 0xFF;
     gUnk_03006224 = 0xFF;
     gUnk_03006228 = 0xFF;
     gLinkFlagByte = 0;
-    for (i = 0; i < 0x32; i++) {
+    clear = 0;
+    do {
         *(u32 *)(e + 4) = 0;
         *(u16 *)(e + 2) = 0;
+        clear++;
         e += 0x88;
-    }
-    for (i = 0; i < 4; i++) {
-        gRingIdx[i] = 0;
-        rp = gRingBuf + i * 10;
-        for (j = 0; j < 10; j++)
-            *rp++ = 0xFFFFFFFF;
-    }
+    } while (clear < 0x32);
+    i = 0;
+    idxBase = gRingIdx;
+    ringBase = gRingBuf;
+    asm("" : "+r"(idxBase), "+r"(ringBase));
+    fill = -1;
+    zero = 0;
+    do {
+        offset = i << 2;
+        *(u32 *)(offset + (u32)idxBase) = zero;
+        j = 0;
+        next = i + 1;
+        rp = (u32 *)((offset + i) * 8 + (u32)ringBase);
+        do {
+            *rp++ = fill;
+            j++;
+        } while (j < 10);
+        i = next;
+    } while (i < 4);
     sub_08067AFC();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_08065CA8);
-#endif
 u32 sub_08065D50(void)
 {
     u8 *entry;
