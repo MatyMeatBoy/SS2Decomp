@@ -976,8 +976,86 @@ void sub_0806690C(u32 peer)
                 }
             }
             break;
-        case 9: /* player-vs-player / player-vs-entity hit (see docs/LINK_MESSAGES.md) */
+        case 9: /* Player or entity hit, payload bytes 0/1 and halfword 4. */
+            if (peer != sub_080020F4()) {
+                u8 *hit = (u8 *)d;
+                u8 *effect;
+                u32 roll;
+                if (hit[0] <= 3) {
+                    if (hit[0] == sub_080020F4()) {
+                        x_sub_0801F320(RX_PL(sub_080020F4()), hit);
+                        ent = RX_PL(sub_080020F4());
+                        *(u16 *)(ent + 0x88) += *(u16 *)(hit + 4) & 0x7FFF;
+                        *(u32 *)(RX_PL(sub_080020F4()) + 0x110) = peer + 1;
+                        roll = x_sub_080008C8() % 100U;
+                        if ((u32)(s8)RX_PL(sub_080020F4())[0x6D] < roll) {
+                            *(u16 *)(RX_PL(sub_080020F4()) + 0x20) = 10;
+                            effect = (u8 *)x_sub_0801E1A4(RX_PL(sub_080020F4()), hit[1]);
+                            if (effect != 0) {
+                                x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                            } else {
+                                effect = (u8 *)x_sub_0801E164(RX_PL(sub_080020F4()), 0);
+                                if (effect != 0)
+                                    x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                            }
+                        }
+                        if (hit[1] == 3)
+                            x_sub_08021E44(sub_080020F4(), 1);
+                    }
+                } else {
+                    for (i = 0; i < 5; i++) {
+                        if ((gRxEntityMask & (1 << i)) && hit[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                            ent = RX_ENT(i);
+                            if (!(*(u16 *)(hit + 4) & 0x8000))
+                                *(u16 *)(ent + 0xC) = 10;
+                            ent = RX_ENT(i);
+                            *(u16 *)(ent + 0x58) = peer;
+                            *(u16 *)(ent + 0x4A) += *(u16 *)(hit + 4) & 0x7FFF;
+                            *(u32 *)(ent + 0x4C) = *(u16 *)(hit + 4);
+                            *(u16 *)(ent + 0x62) = hit[1];
+                            if (ent[0x226] != 3)
+                                *(u16 *)(ent + 0x5A) |= 1 << peer;
+                            x_sub_0801F2CC(RX_ENT(i), hit);
+                            effect = (u8 *)x_sub_0801E244(RX_ENT(i), hit[1]);
+                            if (effect != 0) {
+                                x_sub_0801DB94(*(u16 *)RX_ENT(i) + 4, effect, hit[1]);
+                            } else {
+                                effect = (u8 *)x_sub_0801E104(RX_ENT(i), 0);
+                                if (effect != 0)
+                                    x_sub_0801DB94(*(u16 *)RX_ENT(i) + 4, effect, hit[1]);
+                            }
+                            if (hit[1] == 3)
+                                x_sub_08021E44(*(u16 *)RX_ENT(i) + 4, 1);
+                        }
+                    }
+                }
+            }
+            break;
         case 10:
+            {
+                u8 *hit = (u8 *)d;
+                u8 *effect;
+                if (hit[0] > 3) {
+                    for (i = 0; i < 5; i++) {
+                        if ((gRxEntityMask & (1 << i)) && hit[0] == *(u16 *)(RX_ENT(i) + 2)) {
+                            effect = (u8 *)x_sub_0801E104(RX_ENT(i), 0);
+                            if (effect != 0)
+                                x_sub_0801DB94(i + 4, effect, hit[1]);
+                            break;
+                        }
+                    }
+                } else if (hit[0] == sub_080020F4()) {
+                    effect = (u8 *)x_sub_0801E1A4(RX_PL(sub_080020F4()), hit[1]);
+                    if (effect != 0) {
+                        x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                    } else {
+                        effect = (u8 *)x_sub_0801E164(RX_PL(sub_080020F4()), 0);
+                        if (effect != 0)
+                            x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
+                    }
+                    *(u16 *)(effect + 6) = *(u16 *)(hit + 4);
+                }
+            }
             break;
         case 0xB:
             if (peer != sub_080020F4())
