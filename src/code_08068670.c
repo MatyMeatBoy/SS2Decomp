@@ -7122,10 +7122,18 @@ void sub_08072D5C(u8 *arg0) {
         *ready75 = 2U;
     }
     if ((u32) *ready75 <= 1U) {
-        temp_r4_2 = (s32 *)(frame.spA0 + ((u8 *)d75Flags));
+        register u32 mask asm("r5");
+        { register u8 *base asm("r0") = (u8 *)d75Flags;
+          register u32 offset asm("r2") = frame.spA0;
+          asm("" : "+r"(base), "+r"(offset));
+          temp_r4_2 = (s32 *)(base + offset); }
+        { register u32 one asm("r0") = 1;
+          register u32 index asm("r3") = frame.sp94;
+          asm("" : "+r"(one), "+r"(index)); mask = ~(one << index); }
+        asm("" : "+r"(mask));
 loop_11:
         if ((D75_U16(frame.sp74,0x20) == 0xA) || !(2 & D75_U16(gUnk_03005CF4,0x4))) {
-            *temp_r4_2 &= ~(1 << frame.sp94);
+            *temp_r4_2 &= mask;
             return;
         }
         sub_080003F0();
