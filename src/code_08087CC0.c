@@ -4240,10 +4240,11 @@ void sub_0808CB58(void) {
             tableIndex = idx - 3;
         }
         tableOffset = ((tableIndex << 1) + tableIndex) << 1;
-        table += 4;
         {
             register u32 addr asm("r0") = tableOffset;
             asm("" : "+r"(addr));
+            table += 4;
+            asm("" : "+r"(table));
             addr += (u32)table;
             asm("" : "+r"(addr));
             sub_080290E4(0, *(s16 *)addr);
@@ -4273,8 +4274,18 @@ void sub_0808CB58(void) {
     sub_080003F4(0x09999000);
     var_r5_3 = 0;
 loop_27:
-    if (sp5C[sub_080020F4()] == 0) {
-        sub_08015C14();
+    {
+        register u32 index asm("r0") = sub_080020F4();
+        register s32 *base asm("r1");
+        register u32 address asm("r0");
+        asm("" : "+r"(index));
+        index <<= 2;
+        asm("" : "+r"(index));
+        base = sp5C;
+        asm("" : "+r"(base));
+        address = (u32)base + index;
+        asm("" : "+r"(address));
+        if (*(s32 *)address == 0) sub_08015C14();
     }
     {
         register u32 zero asm("r1");
@@ -4432,7 +4443,20 @@ found_player:
     }
     sub_080257D4(&gUnk_084F0C28, 0);
     sub_08056E24();
-    if (sp5C[sub_080020F4()] == 0) {
+    {
+        register u32 index asm("r0") = sub_080020F4();
+        register s32 *base asm("r2");
+        register u32 address asm("r0");
+        asm("" : "+r"(index));
+        index <<= 2;
+        asm("" : "+r"(index));
+        base = sp5C;
+        asm("" : "+r"(base));
+        address = (u32)base + index;
+        asm("" : "+r"(address));
+        var_r0_2 = *(s32 *)address;
+    }
+    if (var_r0_2 == 0) {
         {
             register u32 index asm("r0") = sub_080020F4();
             register u8 *base asm("r1");
@@ -4445,17 +4469,42 @@ found_player:
             asm("" : "+r"(offset));
             base += 0x30;
             asm("" : "+r"(base));
-            target = (s32 *)(base + offset);
+            target = (s32 *)(offset + (u32)base);
             asm("" : "+r"(target));
             *target |= 0x400;
         }
         sub_08067D74();
     }
     while (sub_08056E90() == 0) sub_08057624(1U);
-    if ((sp5C[sub_080020F4()] - 3) == (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A))) {
+    {
+        register u32 index asm("r0") = sub_080020F4();
+        register s32 *base asm("r1");
+        register u32 address asm("r0");
+        asm("" : "+r"(index));
+        index <<= 2;
+        asm("" : "+r"(index));
+        base = sp5C;
+        asm("" : "+r"(base));
+        address = (u32)base + index;
+        asm("" : "+r"(address));
+        var_r0_2 = *(s32 *)address;
+    }
+    if ((var_r0_2 - 3) == (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x5A))) {
         (*(u16 *)(*(u8 **)&gUnk_03005CF4 + 0x58)) = 0;
     } else {
-        var_r1_2 = sp5C[sub_080020F4()];
+        {
+            register u32 index asm("r0") = sub_080020F4();
+            register s32 *base asm("r2");
+            register u32 address asm("r0");
+            asm("" : "+r"(index));
+            index <<= 2;
+            asm("" : "+r"(index));
+            base = sp5C;
+            asm("" : "+r"(base));
+            address = (u32)base + index;
+            asm("" : "+r"(address));
+            var_r1_2 = *(s32 *)address;
+        }
         if (var_r1_2 == 0) {
             var_r0_3 = (s16 *)(*(u8 **)&gUnk_03005CF4 + 0x58);
         } else {
