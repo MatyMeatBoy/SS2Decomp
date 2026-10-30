@@ -3673,17 +3673,23 @@ void sub_080B2330(void)
 #ifdef NONMATCHING
 void sub_080B236C(u32 a, u32 b)
 {
-    u8 *obj = *(u8 **)0x030007A8;
+    u8 **pp = &gPtr030007A8;
+    u8 *obj;
     u32 mem;
-    if (obj == 0 || sub_08000470((u32)obj) || *(u32 *)(obj + 8) != 0) return;
+    u32 z;
+    if (*pp == 0 || sub_08000470((u32)*pp) != 0) return;
+    obj = *pp;
+    z = *(u32 *)(obj + 8);
+    if (z != 0) return;
     mem = sub_08001494(0x400);
+    obj = *pp;
     *(u32 *)(obj + 0x20) = mem;
     if (mem == 0) return;
     *(u32 *)(obj + 0x10) = mem + 0x3FC;
     *(u32 *)(obj + 0xC) = (u32)sub_080B2058;
-    *(u32 *)(obj + 0x24) = 0;
+    *(u32 *)(obj + 0x24) = z;
     *(u32 *)(obj + 8) = 0x3B;
-    sub_08000274_4(obj, b, a, 0);
+    sub_08000274_4(obj, a, b, z);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B236C);
