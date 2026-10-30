@@ -5253,7 +5253,7 @@ extern struct T025RuntimeEffects *t025RuntimeEffects asm("gUnk_03005CF4");
 extern u8 t025ConfigFields27C[] asm("gUnk_084B1864");
 void t025Effects27C(u16 *arg0) {
 
-    u8 *secondConfig;
+    register u8 *secondConfig asm("r6");
     void **effectSlot;
     register u32 resourceValue asm("r0");
     u32 resourceScaled;
@@ -5424,14 +5424,21 @@ block_23:
                         t025Init27C(sprites[var_r5], M2C_FIELD(secondConfig, s32 *, temp_r2_3->f8 * 0x10), 0xD, -1, 0);
                 }
                 var_r7->f14 = (s16) ((struct T025RuntimeEffects *)t025State27C)->active22C[var_r5];
-                temp_r2_4 = var_r7->f20;
-                temp_r1_4 = secondConfig + 4;
-                var_r7->f8 = (s16) M2C_FIELD(temp_r1_4, s32 *, temp_r2_4->f8 * 0x10);
+                { register struct T025Resource27C *resource asm("r2") = var_r7->f20;
+                  register u32 index asm("r0");
+                  register u8 *config asm("r1");
+                  asm("" : "+r"(resource)); temp_r2_4 = resource;
+                  index = resource->f8 * 0x10; asm("" : "+r"(index));
+                  config = secondConfig + 4; asm("" : "+r"(config)); temp_r1_4 = config;
+                  var_r7->f8 = (s16) M2C_FIELD(config, s32 *, index); }
                 var_r7->fA = 0;
                 var_r7->fC = 0;
                 var_r7->fE = 0;
                 var_r7->f18 = 1;
-                var_r7->f1A = (s16) M2C_FIELD(temp_r1_4, s32 *, temp_r2_4->f8 * 0x10 + 4);
+                { register u32 index asm("r0") = temp_r2_4->f8 * 0x10;
+                  register u8 *config asm("r1") = (u8 *)temp_r1_4;
+                  asm("" : "+r"(index)); config += 4; asm("" : "+r"(config));
+                  var_r7->f1A = (s16) M2C_FIELD(config, s32 *, index); }
                 var_r7->f1C = (s16) M2C_FIELD(var_r9, s32 *, temp_r2_4->f8 * 0x10);
                 if (var_r7->f16 != 0) {
                     arg8B += 1;
