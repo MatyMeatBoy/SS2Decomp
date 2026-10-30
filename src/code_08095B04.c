@@ -1055,7 +1055,159 @@ block_10:
     return (s32) (s16) var_r5;
 }
 
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096BA8);
+
+struct SplinePoint996BA8 { s32 x, y; };
+struct SplineFrame996BA8 {
+    s32 weights[4];
+    struct SplinePoint996BA8 *out;
+    s32 twiceCube;
+    s32 lastWeight;
+    u32 reserved1C;
+    struct SplinePoint996BA8 *reverseEnd;
+};
+extern struct SplinePoint996BA8 *points996BA8 asm("gUnk_030002B0");
+extern s16 count996BA8 asm("gUnk_030002B4");
+extern s16 tangentScale996BA8 asm("gUnk_030002B6");
+
+s32 sub_08096BA8(u32 inputIndex, s32 t, u32 inputMode,
+                struct SplinePoint996BA8 *output)
+{
+    volatile struct SplineFrame996BA8 frame;
+    register u32 index asm("r6") = inputIndex;
+    register u32 mode asm("r8");
+    register s32 square asm("r3");
+    register s32 cube asm("r4");
+    s32 twiceCube;
+    register s32 threeSquare asm("r2");
+    register u32 modeLow asm("r1");
+    s32 firstWeight;
+    register s32 secondWeight asm("ip");
+    register s32 firstTangentWeight asm("sl");
+
+    asm("" : "+r"(index), "=r"(mode) : "1"(inputMode));
+
+    frame.out = output;
+    square = (s32)((u32)t * (u32)t) >> 12;
+    cube = (s32)((u32)t * (u32)square) >> 12;
+    twiceCube = (s32)((u32)cube << 13);
+    frame.twiceCube = twiceCube;
+    threeSquare = (s32)(((u32)square * 3) << 12);
+    firstWeight = ((s32)((u32)twiceCube - (u32)threeSquare) >> 12) + 4096;
+    frame.weights[0] = firstWeight;
+    twiceCube = frame.twiceCube;
+    secondWeight = (s32)((u32)threeSquare - (u32)twiceCube) >> 12;
+    frame.weights[1] = secondWeight;
+    firstTangentWeight = (s32)((u32)cube -
+        (u32)((s32)((u32)square << 13) >> 12) + (u32)t);
+    frame.weights[2] = firstTangentWeight;
+    cube = (s32)((u32)cube - (u32)square);
+    frame.lastWeight = cube;
+    frame.weights[3] = cube;
+
+    modeLow=mode;
+    switch (modeLow) {
+    case 0: {
+        register struct SplinePoint996BA8 *p asm("r2");
+        register s16 *scaleAddress asm("r6");
+        register s32 start asm("r3"), scale asm("r4");
+        s32 end;
+        register s32 endLoad4 asm("r4"), endCache8 asm("r8");
+        register u32 bits0 asm("r0"), bits2 asm("r2"), bits5 asm("r5");
+        register struct SplinePoint996BA8 *outX asm("r4"), *outY asm("r5");
+        register u32 sum asm("r1"), tangent asm("r0");
+
+        /* Keep the unsigned comparison, even if count is smaller than four. */
+        bits0=(s32)count996BA8;
+        asm("" : "+r"(bits0) : "r"(modeLow));
+        if (index > bits0 - 4)
+            return 1;
+        bits0 = (u32)points996BA8;
+        bits2 = index << 3;
+        p = (struct SplinePoint996BA8 *)(bits2 + bits0);
+        start = p[0].x;
+        sum = (u32)firstWeight * (u32)start;
+        endLoad4 = p[2].x;
+        endCache8 = endLoad4;
+        sum += (u32)secondWeight * (u32)endLoad4;
+        scaleAddress = &tangentScale996BA8;
+        scale = *scaleAddress;
+        tangent = ((u32)p[1].x - (u32)start) * (u32)scale;
+        sum += (u32)firstTangentWeight * tangent;
+        tangent = (u32)p[3].x;
+        bits5 = (u32)endCache8;
+        tangent = (tangent - bits5) * (u32)scale;
+        sum += tangent * (u32)frame.lastWeight;
+        sum=(s32)sum>>12; outX=frame.out; outX->x=sum;
+
+        start = p[0].y;
+        sum = (u32)firstWeight * (u32)start;
+        end = p[2].y;
+        sum += (u32)secondWeight * (u32)end;
+        /* Reload after the output write; the original does not cache this. */
+        scale = *scaleAddress;
+        tangent = ((u32)p[1].y - (u32)start) * (u32)scale;
+        sum += (u32)firstTangentWeight * tangent;
+        tangent = ((u32)p[3].y - (u32)end) * (u32)scale;
+        scale = frame.lastWeight;
+        sum += tangent * (u32)scale;
+        sum=(s32)sum>>12; outY=frame.out; outY->y=sum;
+        break;
+    }
+    case 1: {
+        register struct SplinePoint996BA8 *p asm("r6"), *before asm("r9"), *beforeEnd asm("r8");
+        struct SplinePoint996BA8 *reverseEnd;
+        register u32 bits0 asm("r0"), bits1 asm("r1"), bits5 asm("r5");
+        register s32 start asm("r2"), end asm("r4"), scale asm("r3");
+        register struct SplinePoint996BA8 *outX asm("r3"), *outY asm("r3");
+        register u32 sum asm("r1"), tangent asm("r0");
+
+        /* There is deliberately no upper bound check in reverse mode. */
+        if (index <= 2)
+            return 1;
+        bits1 = (u32)points996BA8;
+        bits0 = index << 3;
+        p = (struct SplinePoint996BA8 *)(bits0 + bits1);
+        start = p[0].x;
+        sum = (u32)firstWeight * (u32)start;
+        reverseEnd = p - 2;
+        frame.reverseEnd = reverseEnd;
+        end = reverseEnd->x;
+        sum += (u32)secondWeight * (u32)end;
+        scale = tangentScale996BA8;
+        bits5 = (u32)-8;
+        asm("" : "+r"(bits5));
+        bits5 += (u32)p;
+        before = (struct SplinePoint996BA8 *)bits5;
+        tangent = ((u32)((struct SplinePoint996BA8 *)bits5)->x - (u32)start) * (u32)scale;
+        sum += (u32)firstTangentWeight * tangent;
+        bits5 = (u32)-24;
+        asm("" : "+r"(bits5));
+        bits5 += (u32)p;
+        beforeEnd = (struct SplinePoint996BA8 *)bits5;
+        tangent = ((u32)((struct SplinePoint996BA8 *)bits5)->x - (u32)end) * (u32)scale;
+        sum += tangent * (u32)frame.lastWeight;
+        sum=(s32)sum>>12; outX=frame.out; outX->x=sum;
+
+        start = p[0].y;
+        sum = (u32)firstWeight * (u32)start;
+        bits5 = (u32)frame.reverseEnd;
+        end = ((struct SplinePoint996BA8 *)bits5)->y;
+        sum += (u32)secondWeight * (u32)end;
+        bits0 = (u32)&tangentScale996BA8;
+        asm("" : "+r"(bits0));
+        scale = *(s16 *)bits0;
+        bits5 = (u32)before;
+        tangent = ((u32)((struct SplinePoint996BA8 *)bits5)->y - (u32)start) * (u32)scale;
+        sum += (u32)firstTangentWeight * tangent;
+        bits5 = (u32)beforeEnd;
+        tangent = ((u32)((struct SplinePoint996BA8 *)bits5)->y - (u32)end) * (u32)scale;
+        sum += tangent * (u32)frame.lastWeight;
+        sum=(s32)sum>>12; outY=frame.out; outY->y=sum;
+        break;
+    }
+    }
+    return 0;
+}
 struct PaletteLerp99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 s32 sub_08096D40(u16 *initialPalette, u16 *target, u16 frame, u16 duration)
 {
