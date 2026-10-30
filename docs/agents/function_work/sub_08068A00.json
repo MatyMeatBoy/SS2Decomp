@@ -1,13 +1,13 @@
 {
   "address": "0x08068A00",
-  "updated_utc": "2026-10-30T00:42:05.075888+00:00",
-  "checkpoint": "8291f7336e979b986f4c1f6162b8ad96212ad889",
+  "updated_utc": "2026-10-30T00:56:24.694488+00:00",
+  "checkpoint": "950367ffd6d9f1169522ede8757494fcf0785a8a",
   "areas": [
     {
       "id": "compile",
       "label": "Borrador completo compilable",
       "state": "done",
-      "evidence": "Checkpoint 8291f733: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores. Hooks activos. El C sigue NONMATCHING y no se ha probado equivalente."
+      "evidence": "Checkpoint 950367ff: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0; check_tree 0 errores; hooks activos. El C sigue NONMATCHING y no se ha probado equivalente."
     },
     {
       "id": "abi",
@@ -25,13 +25,13 @@
       "id": "layout",
       "label": "Bloques, frame y vidas útiles",
       "state": "active",
-      "evidence": "Checkpoint 8291f733: bloque de radio 0x08068A62..0x08068A8E reproduce mov/str r1 en caso32 y carga/store r0 para 22 y tabla, conservando frame0x20, pos en sp+8/+12 y radio en sp+24. Temporal de tabla u32 evita dos extensiones artificiales que generaba u16 forzado en r0. Estado enemigo remoto +0x5A conserva puntero r2, estado r1 y máscara r0 del checkpoint anterior. nmscore del módulo real baja 149 a145; tamaño1432 frente a1436 original. Persisten preparación de llamadas, OR de flags, historiales de jugadores y pools. Variantes con puntero explícito source+DC empeoran layout y se descartaron; sin permuter por diff amplio."
+      "evidence": "Checkpoint 950367ff conserva radio y frame del anterior. Caso remoto4 recarga sourceEnemy en r1 tras llamada; la asignación natural de remoto7 queda en r2. Limpieza de +0x58 calcula dirección antes de cero r7. Historial aliado (ASM 0x08068D9C..0x08068DE4) calcula índice r0, dirección r2, valor r3 y contador r1/r0 antes de conservar historial entre llamadas. Tamaño ahora1436, igual al original; nmscore del módulo real145 a133. Diff aislado30 líneas cambiadas, sin prueba de equivalencia: quedan orden de cargas/copias del historial, OR de flags, orden de sumandos, una rama y pools. Permuter240s/jobs2 no halló mejora; control previo entire_object_equal=true para objeto normal y AST transformado (3544 bytes, SHA256 a812b3904bba8fc79d377a8c601706d287cdd18476e20c797dd4427b20afd8b2)."
     },
     {
       "id": "match",
       "label": "Coincidencia íntegra de C y ROM",
       "state": "pending",
-      "evidence": "Checkpoint 8291f733 continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original /1432 candidato). ROM normal verificada mediante fallback ASM; ningún nuevo match ni equivalencia C afirmados."
+      "evidence": "Checkpoint 950367ff continúa NONMATCHING: nmdiff/decomp.check estricto NO MATCH (1436 original /1436 candidato). La igualdad de tamaño y las puntuaciones no prueban match. ROM normal verificada con fallback ASM; ninguna función nueva matching."
     }
   ],
   "regions": []

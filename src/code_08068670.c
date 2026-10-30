@@ -269,6 +269,10 @@ s32 sub_08068A00(struct Position68 pos, u8 *attack) {
     u8 *targetPlayerEnemy;
     u8 *targetPlayerAlly;
     u8 *targetEnemy;
+    register u8 *allyHistoryAddress68 asm("r2");
+    register u32 allyHistoryValue68 asm("r3");
+    register u8 *allyCounterAddress68 asm("r1");
+    register u32 allyCounterValue68 asm("r0");
 
     localPlayer = (s32) (u16) sub_080020F4();
     if ((sub_08058DB0() != 0) || (sub_0800CDF8() != 0)) {
@@ -377,7 +381,7 @@ localDone:
                         }
                         } else {
                             if ((sub_08002204() != 0) && ((u32) M2C_FIELD(attack, u32 *, 0x0) > 3U) && (M2C_FIELD(targetEnemy, u16 *, 0xC) != 0xB) && (M2C_FIELD(targetEnemy, u32 *, 0x54) != M2C_FIELD(sourcePlayer, u32 *, 0xDC))) {
-                                zero=0; M2C_FIELD(targetEnemy, u16 *, 0x58) = zero;
+                                { register u16 *clearStatus68 asm("r0") = (u16 *)(targetEnemy + 0x58); asm("" : "+r"(clearStatus68)); zero=0; *clearStatus68 = zero; }
                                 M2C_FIELD(attack, u32 *, 0x8) = (u32) (M2C_FIELD(targetEnemy, u16 *, 0x0) + 4);
                                 temp_r0_3 = M2C_FIELD(attack, u32 *, 0xC);
                                 if(temp_r0_3==4) goto remote4;
@@ -389,7 +393,7 @@ remote4:
                                 effectPtr=&attackEffect; effect=*effectPtr;
                                 kind=M2C_FIELD(attack,u32 *,0x14);
                                 sub_08029B98(id,effect,extended,kind,zero,zero);
-                                var_r0_3=M2C_FIELD(sourceEnemy,u32 *,0x50);
+                                { register u8 *remoteSource68 asm("r1") = sourceEnemy; asm("" : "+r"(remoteSource68)); var_r0_3=M2C_FIELD(remoteSource68,u32 *,0x50); }
                                 goto remoteStore;
 remote7:
                                 damage=damage68_raw(attack,0); extended=(s16)damage;
@@ -463,8 +467,16 @@ loop_69:
                                 }
                                 if ((s32) var_r0_5 <= (s32) temp_r1_5) {
                                     if ((localPlayer == playerIndexAlly) && (M2C_FIELD(targetPlayerAlly, u16 *, 0x20) != 0xB)) {
-                                        playerHitHistory = targetPlayerAlly + 0xF8;
-                                        if (M2C_FIELD(playerHitHistory, u32 *, M2C_FIELD(sourcePlayer, u16 *, 0x0) * 4) != M2C_FIELD(sourcePlayer, u32 *, 0xDC)) {
+                                        historyIndex68 = M2C_FIELD(sourcePlayer, u16 *, 0) * 4;
+                                        asm("" : "+r"(historyIndex68));
+                                        allyHistoryAddress68 = targetPlayerAlly + 0xF8;
+                                        allyCounterAddress68 = sourcePlayer + 0xDC;
+
+                                        allyHistoryValue68 = M2C_FIELD(allyHistoryAddress68, u32 *, historyIndex68);
+                                        allyCounterValue68 = *(u32 *)allyCounterAddress68;
+
+                                        playerHitHistory = allyHistoryAddress68;
+                                        if (allyHistoryValue68 != allyCounterValue68) {
                                             M2C_FIELD(attack, u32 *, 0x8) = (u32) M2C_FIELD(targetPlayerAlly, u16 *, 0x0);
                                             temp_r0_7 = M2C_FIELD(attack, u32 *, 0xC);
                                             if(temp_r0_7==4) goto ally4;
