@@ -1603,7 +1603,6 @@ u32 sub_0805F184(void)
 
   return (long long) 0;
 }
-#ifdef NONMATCHING
 struct Asset62 { s32 unk0; u32 unk4; s32 unk8; s32 unkC; u32 unk10; u32 unk14; s32 unk18; u8 remap[16]; u8 tail[8]; };
 extern struct Asset62 asset62_03005D80 asm("gUnk_03005D80");
 extern struct Asset62 asset62_03005DC0 asm("gUnk_03005DC0");
@@ -1621,563 +1620,62 @@ extern struct Asset62 asset62_03006040 asm("gUnk_03006040");
 extern struct Asset62 asset62_03006074 asm("gUnk_03006074");
 extern struct Asset62 asset62_030060A8 asm("gUnk_030060A8");
 extern struct Asset62 asset62_030060DC asm("gUnk_030060DC");
-s32 sub_0805F1B0(void) {
-    {
-        struct Asset62 *p=&asset62_03006040;
-        u32 id=0x5000B;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
+static inline void load62(u32 id,struct Asset62 *p,s32 a,s32 b,void *t) {
+    u32 i;
+    s32 data;
+    p->unk10=id;
+    p->unk14=a;
+    p->unk18=b;
+    p->unk8=data=sub_08006EE0(id,t);
+    if(data!=0) {
+        id&=0xFFFF;
+        p->unk0=data=sub_08006EE0(id|0x60000,t);
         if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
+            p->unkC=data=sub_08006EE0(id|0x80000,t);
             if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03006074;
-        u32 id=0x50003;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_030060A8;
-        u32 id=0x50004;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_030060DC;
-        u32 id=0x50005;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    switch(gUnk_03003470) {
-    case 0:
-    {
-        struct Asset62 *p=&asset62_03005D80;
-        u32 id=0x50006;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=4;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
+                if(b>=0)
                     sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-        break;
-    case 1:
-    {
-        struct Asset62 *p=&asset62_03005D80;
-        u32 id=0x50007;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=4;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-        break;
-    case 2:
-    {
-        struct Asset62 *p=&asset62_03005D80;
-        u32 id=0x50008;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=4;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-        break;
-    case 3:
-    {
-        struct Asset62 *p=&asset62_03005D80;
-        u32 id=0x50009;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=4;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-        break;
-    case 4:
-    {
-        struct Asset62 *p=&asset62_03005D80;
-        u32 id=0x5000a;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=4;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-                    sub_08000AF0(p->unk14+16,(void *)(data+(p->unk14<<5)),p->unk18);
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-        break;
-    }
-    {
-        struct Asset62 *p=&asset62_03005DC0;
-        u32 id=0x500A3;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005DF4;
-        u32 id=0x500A1;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005E28;
-        u32 id=0x500A4;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005E5C;
-        u32 id=0x500A2;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005E90;
-        u32 id=0x500DB;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005EC4;
-        u32 id=0x500DC;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005EF8;
-        u32 id=0x500DE;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005F2C;
-        u32 id=0x500DD;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005F60;
-        u32 id=0x500BD;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005F94;
-        u32 id=0x500AF;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
-            }
-        }
-    }
-    {
-        struct Asset62 *p=&asset62_03005FC8;
-        u32 id=0x500F1;
-        u32 i;
-        u8 *map;
-        s32 data;
-        p->unk10=id;
-        p->unk14=9;
-        p->unk18=-1;
-        data=sub_08006EE0(id,&gUnk_08518938);
-        p->unk8=data;
-        if(data!=0) {
-            id&=0xFFFF;
-            data=sub_08006EE0(id|0x60000,&gUnk_08518938);
-            p->unk0=data;
-            if(data!=0) {
-                data=sub_08006EE0(id|0x80000,&gUnk_08518938);
-                p->unkC=data;
-                if(data!=0) {
-
-                    map=p->remap;
-                    for(i=0;i<=15;i++) map[i]=i;
-                    sub_080653B8(p,0x120,0xE0,8);
-                }
+                for(i=0;i<=15;i++) p->remap[i]=i;
+                sub_080653B8(p,0x120,0xE0,8);
             }
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805F1B0);
-#endif
+void sub_0805F1B0_void(void) asm("sub_0805F1B0");
+void sub_0805F1B0_void(void) {
+    load62(0x5000B,&asset62_03006040,9,-1,&gUnk_08518938);
+    load62(0x50003,&asset62_03006074,9,-1,&gUnk_08518938);
+    load62(0x50004,&asset62_030060A8,9,-1,&gUnk_08518938);
+    load62(0x50005,&asset62_030060DC,9,-1,&gUnk_08518938);
+    switch(gUnk_03003470) {
+    case 0:
+        load62(0x50006,&asset62_03005D80,9,4,&gUnk_08518938);
+        break;
+    case 1:
+        load62(0x50007,&asset62_03005D80,9,4,&gUnk_08518938);
+        break;
+    case 2:
+        load62(0x50008,&asset62_03005D80,9,4,&gUnk_08518938);
+        break;
+    case 3:
+        load62(0x50009,&asset62_03005D80,9,4,&gUnk_08518938);
+        break;
+    case 4:
+        load62(0x5000a,&asset62_03005D80,9,4,&gUnk_08518938);
+        break;
+    }
+    load62(0x500A3,&asset62_03005DC0,9,-1,&gUnk_08518938);
+    load62(0x500A1,&asset62_03005DF4,9,-1,&gUnk_08518938);
+    load62(0x500A4,&asset62_03005E28,9,-1,&gUnk_08518938);
+    load62(0x500A2,&asset62_03005E5C,9,-1,&gUnk_08518938);
+    load62(0x500DB,&asset62_03005E90,9,-1,&gUnk_08518938);
+    load62(0x500DC,&asset62_03005EC4,9,-1,&gUnk_08518938);
+    load62(0x500DE,&asset62_03005EF8,9,-1,&gUnk_08518938);
+    load62(0x500DD,&asset62_03005F2C,9,-1,&gUnk_08518938);
+    load62(0x500BD,&asset62_03005F60,9,-1,&gUnk_08518938);
+    load62(0x500AF,&asset62_03005F94,9,-1,&gUnk_08518938);
+    load62(0x500F1,&asset62_03005FC8,9,-1,&gUnk_08518938);
+}
 struct NumAsset63 { u32 f0, f4, f8; u8 data[40]; };
 extern struct NumAsset63 numAssets63[] asm("gUnk_03006040");
 void sub_0805FAC0(s32 x, s32 y, u32 value, u8 style)
