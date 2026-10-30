@@ -27,7 +27,376 @@ extern s32 gUnk_03000408;
 void sub_080A68B0(void);
 extern s32 gUnk_0300040C;
 
+#ifdef NONMATCHING
+extern u8 *object1083D asm("gUnk_03000364");
+extern u8 *slots1083D[] asm("gUnk_03000370");
+extern u8 sprites1083D[] asm("gUnk_03000380");
+extern u8 spriteData1083D[] asm("gUnk_03000388");
+extern u8 styles1083D[] asm("gUnk_0300039C");
+extern u16 palette1083D asm("gUnk_030003E8");
+extern u8 flags1083D[] asm("gUnk_030003EC");
+extern u8 directions1083D[] asm("gUnk_030003F4");
+extern u8 frames1083D[] asm("gUnk_030003F8");
+extern u8 config1083D[] asm("gUnk_084A6DB8");
+extern u8 offsets1083D[] asm("gUnk_08518754");
+extern u8 players1083D[] asm("gUnk_03003CE0");
+extern u8 *stage1083D asm("gUnk_030034E0");
+extern void init1083D(void*,void*,u16) asm("sub_0801623C");
+extern u16 status1083D(void*) asm("sub_08019CE8");
+extern void prepare1083D(void*) asm("sub_08019F60");
+extern void impact1083D(void*,s32,s16) asm("sub_0801A120");
+extern void state1083D(void*) asm("sub_0801C8F0");
+extern void shift1083D(void*,s32) asm("sub_0806171C");
+extern void cleanup1083D(u16) asm("sub_08067CA8");
+extern u32 animate1083D(void*,u16,u16*,u16*,s32) asm("sub_08065370");
+extern void coords1083D(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
+extern u8 *draw1083D(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
+#define F_1083D(p,t,o) (*(t*)((u8*)(p)+(o)))
+extern void actor1083D(u16) asm("sub_080A3D2C");
+void actor1083D(u16 arg0) {
+    s32 sp0;
+    s32 sp4;                                        /* compiler-managed */
+    s32 sp8;
+    s32 spC;
+    s16 sp10;
+    s16 sp12;
+    u8 *sp14;
+    s32 sp18;
+    s32 sp1C;
+    s32 sp20;
+    u32 sp24;
+    s32 sp28;
+    u8 *sp2C;
+    u16 *sp30;
+    s32 sp34;
+    s16 *temp_r7;
+    s16 temp_r0_3;
+    s16 temp_r0_4;
+    u8 **temp_r4;
+    u8 **temp_r5_3;
+    u8 *temp_r0_2;
+    u8 *temp_r0_5;
+    u8 *temp_r1;
+    u8 *temp_r1_10;
+    u8 *temp_r1_2;
+    u8 *temp_r1_5;
+    u8 *temp_r1_8;
+    u8 *temp_r1_9;
+    u8 *temp_r2;
+    u8 *temp_r2_2;
+    u8 *temp_r2_3;
+    u8 *temp_r3_2;
+    u8 *temp_r6;
+    s32 temp_r0_10;
+    s32 temp_r0_11;
+    s32 temp_r0_12;
+    s32 temp_r0_13;
+    s32 temp_r0_6;
+    s32 temp_r0_8;
+    s32 temp_r0_9;
+    s32 temp_r1_6;
+    s32 temp_r1_7;
+    s32 temp_r5_4;
+    s32 var_r0_3;
+    s32 var_r1_2;
+    s8 *var_r0;
+    s8 var_r1;
+    u16 temp_r0;
+    u16 temp_r4_5;
+    u16 temp_r5;
+    u32 temp_r0_14;
+    u8 *temp_r1_11;
+    u8 *temp_r3;
+    u8 *temp_r4_3;
+    u8 temp_r0_7;
+    u8 temp_r4_4;
+    u8 var_r0_2;
+    u8 var_r0_4;
+    void **temp_r4_2;
+    void **temp_r4_6;
+    void **temp_r4_8;
+    void **temp_r6_2;
+    void *temp_r0_15;
+    void *temp_r1_12;
+    void *temp_r1_13;
+    void *temp_r1_3;
+    void *temp_r1_4;
+    void *temp_r3_3;
+    void *temp_r4_7;
+    void *temp_r5_2;
+    void *var_r4;
+
+    temp_r0 = arg0;
+    temp_r5 = temp_r0 + 2;
+    gUnk_030056FC |= 1 << temp_r5;
+    temp_r4 = &slots1083D[temp_r0];
+    temp_r0_2 = gUnk_030056F4 + ((temp_r0 * 0x2E0) + 0x5C0);
+    *temp_r4 = temp_r0_2;
+    sub_0801A0A4(temp_r0_2);
+    init1083D(*temp_r4, config1083D, temp_r5);
+    temp_r6 = *temp_r4 + 0x204;
+    sp14 = temp_r6;
+    prepare1083D(temp_r6);
+    temp_r2 = *temp_r4;
+    temp_r0_3 = F_1083D(temp_r6,s16,0x6) * 3;
+    F_1083D(temp_r2,u16,0x1D6) = temp_r0_3;
+    F_1083D(temp_r2,u16,0x5C) = temp_r0_3;
+    temp_r2_2 = *temp_r4;
+    temp_r0_4 = F_1083D(sp14,s16,0x4) * 0xA * 2;
+    F_1083D(temp_r2_2,u16,0x1D4) = temp_r0_4;
+    F_1083D(temp_r2_2,u16,0x5E) = temp_r0_4;
+    F_1083D(*temp_r4,u16,0x48) = (u16) gUnk_03003170.f90;
+    F_1083D(*temp_r4,u16,0xC) = 0;
+    temp_r1 = *temp_r4;
+    F_1083D(temp_r1,u32,0x50) = (s32) F_1083D(object1083D,u32,0x50);
+    F_1083D(temp_r1,u16,0x0) = temp_r5;
+    temp_r1_2 = *temp_r4;
+    F_1083D(temp_r1_2,u16,0x2) = (u16) (F_1083D(temp_r1_2,u16,0x0) + 4);
+    temp_r2_3 = *temp_r4;
+    F_1083D(temp_r2_3,u8,0x1FC) = (u8) ((-0x10 & F_1083D(temp_r2_3,u8,0x1FC)) | (0xF & (u8) F_1083D(temp_r2_3,u16,0x0)));
+    temp_r0_5 = *temp_r4;
+    F_1083D(temp_r0_5,u16,0x202) = (u16) F_1083D(temp_r0_5,u16,0x2);
+    F_1083D(*temp_r4,u8,0x200) = 0xFF;
+    F_1083D(*temp_r4,u8,0x1FD) = 3;
+    F_1083D(*temp_r4,u8,0x1FE) = 3;
+    F_1083D(*temp_r4,u16,0xC) = 0;
+    sp1C = 0;
+    sp20 = 0;
+    sp34 = temp_r0 * 4;
+    sp2C = spriteData1083D;
+loop_48:
+    if ((F_1083D(slots1083D[temp_r0],u16,0xC) == 0xA) && (sp1C == 0)) {
+        sp1C = 8;
+    }
+    temp_r0_6 = sub_08058DB0();
+    if (temp_r0_6 == 0) {
+        temp_r4_2 = (u8**)((u8*)slots1083D+sp34);
+        state1083D(*temp_r4_2);
+        temp_r1_3 = *temp_r4_2;
+        temp_r0_7 = F_1083D(temp_r1_3,u8,0x1FD);
+        switch (temp_r0_7) {                        /* irregular */
+        case 1:
+            F_1083D(temp_r1_3,u16,0xC) = (s16) temp_r0_6;
+            if (sub_080682B8((s32) F_1083D(*temp_r4_2,u16,0x0)) != 0) {
+                temp_r1_4 = *temp_r4_2;
+                F_1083D(temp_r1_4,u8,0x1FD) = (u8) F_1083D(temp_r1_4,u8,0x1FE);
+                sub_08065E38((s32) F_1083D(*temp_r4_2,u16,0x0));
+            }
+            break;
+        case 3:
+            if (sub_08056F78() != 0) {
+                F_1083D(*temp_r4_2,u8,0x1FE) = 8U;
+                F_1083D(*temp_r4_2,u8,0x1FD) = 1U;
+                sub_08068330((s32) F_1083D(*temp_r4_2,u16,0x0));
+            }
+            break;
+        case 8:
+            F_1083D(temp_r1_3,u16,0xC) = (s16) temp_r0_6;
+            break;
+        }
+    }
+    temp_r4_3 = temp_r0 + frames1083D;
+    if (*temp_r4_3 != 0) {
+        temp_r1_5 = *temp_r4;
+        if (F_1083D(temp_r1_5,u16,0x5C) != 0) {
+            sub_0801A0A4(temp_r1_5);
+        }
+        if ((u8) gUnk_030003F0 == 1) {
+            sp28 = (s32) (u8) (*temp_r4_3 + 5);
+        } else {
+            sp28 = (s32) *temp_r4_3;
+        }
+        temp_r6_2 = (u8**)((u8*)slots1083D+sp34);
+        temp_r5_2 = *temp_r6_2;
+        temp_r1_6 = F_1083D(object1083D,s32,0x14);
+        F_1083D(temp_r5_2,s32,0x14) = temp_r1_6;
+        temp_r0_8 = F_1083D(object1083D,s32,0x18);
+        F_1083D(temp_r5_2,s32,0x18) = temp_r0_8;
+        temp_r3 = directions1083D + temp_r0;
+        F_1083D(temp_r5_2,s32,0x14) = (s32) (temp_r1_6 + F_1083D(offsets1083D+*temp_r3*4,s16,0));
+        F_1083D(temp_r5_2,s32,0x18) = (s32) (temp_r0_8 + F_1083D(offsets1083D+*temp_r3*4,s16,2));
+        if (*temp_r3 == 0) {
+            F_1083D(temp_r5_2,u8,0x22E) = 0x20;
+            var_r0 = *temp_r6_2 + 0x22F;
+            var_r1 = 0x28;
+        } else {
+            F_1083D(temp_r5_2,u8,0x22E) = 0x20;
+            var_r0 = *temp_r6_2 + 0x22F;
+            var_r1 = 0x10;
+        }
+        *var_r0 = var_r1;
+        F_1083D(sprites1083D+0x34*(u8)gUnk_030003F0,u8,0x1C) = (s8) palette1083D;
+        sub_08000AF0(palette1083D + 0x10, F_1083D(sprites1083D+0x34*(u8)gUnk_030003F0,u8*,0xC) + (F_1083D(sp14,u16,0xD6) << 5), 1U);
+        temp_r1_7 = sub_0800CD8C();
+        sp30 = (u16*)(sp14 + 0xD6);
+        if (temp_r1_7 == 0) {
+            temp_r3_2 = *temp_r4;
+            sp0 = temp_r1_7;
+            F_1083D(*temp_r4,u16,0x6E) = (s16) animate1083D((0x34 * (u8) gUnk_030003F0) + sprites1083D, (u16) sp28, (u16*)(temp_r3_2 + 0x6A), (u16*)(temp_r3_2 + 0x6C), sp0);
+        }
+        if (1 & sub_08098004()) {
+            var_r0_2 = sub_08097FF8();
+        } else {
+            temp_r1_8 = *temp_r4;
+            var_r0_2 = (u8) sub_0800BC44((u32) ((s32) F_1083D(temp_r1_8,s32,0x14) >> 8), (u32) ((s32) F_1083D(temp_r1_8,s32,0x18) >> 8), 0U);
+        }
+        temp_r4_4 = var_r0_2;
+        if (sp1C != 0) {
+            temp_r0_9 = sp1C;
+            sp1C = (s32) (u16) (temp_r0_9 - 1);
+            if (!(1 & temp_r0_9)) {
+
+            } else if (sub_0800CCCC() != 0) {
+
+            } else if (sub_0800CC98() != 0) {
+
+            } else {
+                temp_r0_10 = sub_0800CD34();
+                if (temp_r0_10 != 0) {
+
+                } else {
+                    sp0 = temp_r0_10;
+                    sp4 = temp_r0_10;
+                    coords1083D((s32) (F_1083D(object1083D,s32,0x14) << 8) >> 0x10, (s32) (F_1083D(object1083D,s32,0x18) << 8) >> 0x10, &sp10, &sp12, sp0, (void*)sp4);
+                    sp0 = (s32) temp_r4_4;
+                    sp4 = (0x34 * (u8) gUnk_030003F0) + styles1083D;
+                    sp8 = F_1083D(sp2C+0x34*(u8)gUnk_030003F0,u32,0);
+                    spC = F_1083D(styles1083D+0x34*(u8)gUnk_030003F0,u32,-0x1C);
+                    var_r4 = draw1083D(sp10, sp12 + 1, sp28, F_1083D(*temp_r4,u16,0x6A), sp0, (void*)sp4, sp8, spC);
+                    temp_r1_9 = *temp_r4;
+                    var_r0_3 = (s32) (F_1083D(temp_r1_9,s32,0x14) << 8) >> 0x10;
+                    var_r1_2 = (s32) (F_1083D(temp_r1_9,s32,0x18) << 8) >> 0x10;
+                    sp0 = temp_r0_10;
+                    sp4 = temp_r0_10;
+                    goto block_29;
+                }
+            }
+        } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
+            sp0 = sp1C;
+            sp4 = sp1C;
+            coords1083D((s32) (F_1083D(object1083D,s32,0x14) << 8) >> 0x10, (s32) (F_1083D(object1083D,s32,0x18) << 8) >> 0x10, &sp10, &sp12, sp0, (void*)sp4);
+            sp0 = (s32) temp_r4_4;
+            sp4 = (0x34 * (u8) gUnk_030003F0) + styles1083D;
+            sp8 = F_1083D(spriteData1083D+0x34*(u8)gUnk_030003F0,u32,0);
+            spC = F_1083D(styles1083D+0x34*(u8)gUnk_030003F0,u32,-0x1C);
+            var_r4 = draw1083D(sp10, sp12 + 1, sp28, F_1083D(*temp_r4,u16,0x6A), sp0, (void*)sp4, sp8, spC);
+            temp_r1_10 = *temp_r4;
+            var_r0_3 = (s32) (F_1083D(temp_r1_10,s32,0x14) << 8) >> 0x10;
+            var_r1_2 = (s32) (F_1083D(temp_r1_10,s32,0x18) << 8) >> 0x10;
+            sp0 = sp1C;
+            sp4 = sp1C;
+block_29:
+            coords1083D(var_r0_3, var_r1_2, &sp10, &sp12, sp0, (void*)sp4);
+            F_1083D(var_r4,s32,0x8) = (s32) sp10;
+            F_1083D(var_r4,s32,0xC) = (s32) sp12;
+        }
+        temp_r0_11 = F_1083D(*temp_r4,u32,0x4C);
+        if ((temp_r0_11 != 0) && (sp18 != temp_r0_11)) {
+            sp18 = temp_r0_11;
+            sp20 = 0xA;
+            sp24 = 0;
+        }
+        if (sp20 != 0) {
+            if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+                impact1083D(*temp_r4, sp18, (s16) sp24);
+            }
+            if (2 & sp20) {
+                sp24 = (u32) ((sp24 << 0x10) + 0xFFFF0000) >> 0x10;
+            }
+            sp20 = (s32) (u16) (sp20 - 1);
+        } else {
+            sp18 = 0;
+            F_1083D(*(u8**)((u8*)slots1083D+sp34),u32,0x4C) = 0;
+        }
+        temp_r1_11 = temp_r0 + flags1083D;
+        if ((*temp_r1_11 == 1) && (F_1083D(*(u8**)((u8*)slots1083D+sp34),u16,0x6E) != 0)) {
+            *temp_r1_11 = 0;
+        }
+        if ((status1083D(*temp_r4) << 0x10) != 0) {
+            sub_080003F0();
+        } else {
+            sub_080003F0();
+            goto loop_48;
+        }
+    } else {
+        temp_r5_3 = (u8**)((u8*)slots1083D+sp34);
+        temp_r4_5 = status1083D(*temp_r5_3);
+        sp30 = (u16*)(sp14 + 0xD6);
+        if (temp_r4_5 == 0) {
+            *(flags1083D + temp_r0) = (s8) temp_r4_5;
+            sub_0801A0B0(*temp_r5_3);
+            F_1083D(*temp_r5_3,u8,0x22E) = (s8) temp_r4_5;
+            F_1083D(*temp_r5_3,u8,0x22F) = (s8) temp_r4_5;
+            sub_080003F0();
+            goto loop_48;
+        }
+    }
+    temp_r4_6 = (u8**)((u8*)slots1083D+sp34);
+    cleanup1083D(F_1083D(*temp_r4_6,u16,0x2));
+    *(flags1083D + temp_r0) = 0;
+    sp1C = 0x14;
+    temp_r7 = &sp12;
+loop_68:
+    F_1083D(sprites1083D+0x34*(u8)gUnk_030003F0,u8,0x1C) = (s8) palette1083D;
+    sub_08000AF0(palette1083D + 0x10, F_1083D(sprites1083D+0x34*(u8)gUnk_030003F0,u8*,0xC) + (*sp30 << 5), 1U);
+    temp_r0_12 = sub_0800CD8C();
+    if (temp_r0_12 == 0) {
+        temp_r3_3 = *temp_r4_6;
+        sp0 = temp_r0_12;
+        F_1083D(*temp_r4_6,u16,0x6E) = (s16) animate1083D(((u8) gUnk_030003F0 * 0x34) + sprites1083D, (u16) sp28, (u16*)(temp_r3_3 + 0x6A), (u16*)(temp_r3_3 + 0x6C), sp0);
+    }
+    if (1 & sub_08098004()) {
+        var_r0_4 = sub_08097FF8();
+    } else {
+        temp_r1_12 = *temp_r4_6;
+        var_r0_4 = (u8) sub_0800BC44((u32) ((s32) F_1083D(temp_r1_12,s32,0x14) >> 8), (u32) ((s32) F_1083D(temp_r1_12,s32,0x18) >> 8), 0U);
+    }
+    if ((1 & sp1C) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
+        temp_r0_13 = sub_0800CD34();
+        if (temp_r0_13 == 0) {
+            sp0 = temp_r0_13;
+            sp4 = temp_r0_13;
+            coords1083D((s32) (F_1083D(object1083D,s32,0x14) << 8) >> 0x10, (s32) (F_1083D(object1083D,s32,0x18) << 8) >> 0x10, &sp10, temp_r7, sp0, (void*)sp4);
+            sp0 = (s32) var_r0_4;
+            sp4 = ((u8) gUnk_030003F0 * 0x34) + styles1083D;
+            sp8 = *(((u8) gUnk_030003F0 * 0x34) + (styles1083D - 0x14));
+            spC = *(((u8) gUnk_030003F0 * 0x34) + sprites1083D);
+            temp_r4_7 = draw1083D(sp10, sp12 + 1, sp28, F_1083D(*temp_r4_6,u16,0x6A), sp0, (void*)sp4, sp8, spC);
+            temp_r1_13 = *temp_r4_6;
+            sp0 = temp_r0_13;
+            sp4 = temp_r0_13;
+            coords1083D((s32) (F_1083D(temp_r1_13,s32,0x14) << 8) >> 0x10, (s32) (F_1083D(temp_r1_13,s32,0x18) << 8) >> 0x10, &sp10, temp_r7, sp0, (void*)sp4);
+            F_1083D(temp_r4_7,s32,0x8) = (s32) sp10;
+            F_1083D(temp_r4_7,s32,0xC) = (s32) sp12;
+        }
+    }
+    sub_080003F0();
+    sp1C = (s32) (u16) (sp1C - 1);
+    if (sp1C != 0xFFFF) {
+        goto loop_68;
+    }
+    if (!(F_1083D(players1083D+0x14C*sub_080020F4(),u32,0x30) & 0x2000)) {
+        temp_r4_8 = (u8**)((u8*)slots1083D+sp34);
+        if (F_1083D(*temp_r4_8,u16,0x5A) != 0) {
+            temp_r5_4 = sub_0801E46C((void *) stage1083D, sp14);
+            sp24 = 0x1D;
+            do {
+                temp_r0_15 = *temp_r4_8;
+                F_1083D(temp_r0_15,s32,0x18) = (s32) (F_1083D(temp_r0_15,s32,0x18) - 0x20);
+                shift1083D(temp_r0_15, temp_r5_4);
+                sub_080003F0();
+                temp_r0_14 = (sp24 << 0x10) + 0xFFFF0000;
+                sp24 = temp_r0_14 >> 0x10;
+            } while (((s32) temp_r0_14 >> 0x10) != -1);
+            sub_0801E4CC((u8 *) stage1083D, temp_r5_4);
+        }
+    }
+}
+
+
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
+#endif
 #ifdef NONMATCHING
 struct Player1084520 {u8 pad0[0x20];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 active;u8 pad69[31];u16 timer;u8 pad8A[2];s32 x,y;u8 pad94[28];u16 fB0;u8 padB2[22];u16 fC8,fCA,fCC;u8 padCE[22];u32 history[5];u8 padF8[84];};
 extern struct Player1084520 players1084520[] asm("gUnk_03003CE0");
