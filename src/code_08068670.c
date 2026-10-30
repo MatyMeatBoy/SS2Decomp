@@ -7861,25 +7861,34 @@ void sub_08073CF4(u32 *arg0)
    asm("" : "+r"(p)); frame.wx=p[5]>>8; frame.wy=p[4]>>8;
    anim=p[3]; asm("" : "+r"(anim)); frame.animation=anim; }
  { register u16 *tile asm("r1")=&frame.tile; asm("" : "+r"(tile)); *tile=0; }
- finished=0;frame.rotation=0;frame.fx=frame.wx<<16;frame.fy=frame.wy<<16;
+ finished=0;frame.rotation=0;frame.fx=frame.wx<<16;
+ { register s32 y asm("r1")=frame.wy; asm("" : "+r"(y)); frame.fy=y<<16; }
  do{
   if(sub_0800CC98()==0){
    paused=sub_0800CD8C();
    if(paused==0){
     { register s32 clear asm("r2")=sub_0800CCCC();
       asm("" : "+r"(clear)); mode=sub_0800BC44(frame.wx,frame.wy,clear); }
-    animation=frame.animation;
+    { register u32 a asm("r2")=frame.animation;
+      register u32 scaled asm("r0");
+      asm("" : "+r"(a)); scaled=a<<16; asm("" : "+r"(scaled));
+      animation=scaled>>16; }
     finished=(u16)animate076CF4(&frame.sprite,animation,&frame.tile,&frame.rotation,paused);
     screenX=&frame.sx;screenY=&frame.sy;
     { register s32 size asm("r0")=16; asm("" : "+r"(size));
       coords076CF4(frame.fx>>16,frame.fy>>16,screenX,screenY,size,(void*)paused); }
-    if(frame.mode!=0)draw076CF4(*screenX,*screenY+1,animation,frame.tile,mode,&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);
-    else sub_08065230(&frame.sprite,*screenX,*screenY,animation,frame.tile);
+    { register u32 selected asm("r3")=frame.mode; asm("" : "+r"(selected));
+      if(selected!=0)draw076CF4(*screenX,*screenY+1,animation,frame.tile,mode,&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);
+      else sub_08065230(&frame.sprite,*screenX,*screenY,animation,frame.tile); }
    }
   }
   sub_080003F0();
- }while(finished==0);
- flags076CF4 &= ~(1<<args[1]);
+  { register u32 result asm("r0")=finished; asm("" : "+r"(result));
+    if(result!=0)break; }
+ }while(1);
+ { register u32 *p asm("r1")=args; register u32 index asm("r0");
+   asm("" : "+r"(p)); index=p[1]; asm("" : "+r"(index));
+   flags076CF4 &= ~(1<<index); }
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08073CF4);
