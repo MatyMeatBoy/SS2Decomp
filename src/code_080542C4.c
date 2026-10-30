@@ -388,49 +388,41 @@ void sub_080558D0(void)
     Clr53A80(gP030056F4);
     sub_08019F04();
 }
-#ifdef NONMATCHING
 void sub_08055A60(void);
-void sub_08055974(void) {
-    s32 temp_r0_2;
-    u8 *var_r4;
-    u32 var_r5;
-    u8 *var_r0;
-    void *temp_r0;
-
-    var_r4 = gUnk_03005CF4 + 0xE34;
-    var_r5 = 0;
-loop_2:
-    if (var_r5 <= 0x1DU) {
-        if (sub_08000470(var_r4) == 0) {
-loop_6:
-            temp_r0 = sub_08001494(0x400U);
-            *(void **)(var_r4 + 0x20) = temp_r0;
-            if (temp_r0 == NULL) {
+void sub_08055974(void)
+{
+    void (*cb)(void) = sub_08055A60;
+    u8 *task = gUnk_03005CF4 + 0xE34;
+    u32 i;
+    u8 *stack;
+    u8 *flag;
+    for (i = 0; i <= 0x1D; i++, task += 0x28) {
+        if (sub_08000470(task) == 0) {
+            while ((stack = sub_08001494(0x400), *(u8 **)(task + 0x20) = stack) == NULL)
                 sub_080003F0();
-                goto loop_6;
-            }
-            *(u32 *)(var_r4 + 8) = 0x3C;
-            *(void (**)(void))(var_r4 + 0xC) = &sub_08055A60;
-            *(void **)(var_r4 + 0x10) = (void *) ((u8 *)temp_r0 + 0x3FC);
-            *(u32 *)(var_r4 + 0x24) = 0;
-            sub_08000274(var_r4, 0);
-        } else {
-            var_r5 += 1;
-            var_r4 += 0x28;
-            goto loop_2;
+            *(u32 *)(task + 8) = 0x3C;
+            *(void (**)(void))(task + 0xC) = cb;
+            *(u8 **)(task + 0x10) = stack + 0x3FC;
+            *(u32 *)(task + 0x24) = 0;
+            sub_08000274(task, 0);
+            break;
         }
     }
-    if (sub_0800CE30() != 0) {
-        var_r0 = gUnk_03005CF4 + 0x1C6;
-    } else {
-        var_r0 = gUnk_03005CF4 + 0x1BA;
-    }
-    if (*var_r0 & 1) {
-        sub_08028AAC(8, 0x270F, 0x270F, 0);
+    {
+        register u32 v asm("r1");
+        register u32 one asm("r0");
+        if (sub_0800CE30() != 0)
+            flag = gUnk_03005CF4 + 0x1C6;
+        else
+            flag = gUnk_03005CF4 + 0x1BA;
+        v = *flag;
+        one = 1;
+        v &= one;
+        if (v)
+            sub_08028AAC(8, 9999, 9999, 0);
     }
     if (sub_0800CC98() == 0) {
-        temp_r0_2 = sub_0801AB24();
-        switch (temp_r0_2) {                        /* irregular */
+        switch (sub_0801AB24()) {
         case 0:
             sub_080576A8();
             break;
@@ -441,18 +433,10 @@ loop_6:
             sub_0801AB90(6);
             break;
         }
-loop_24:
-        if (sub_0801AAE0() == 0) {
+        while (sub_0801AAE0() == 0)
             sub_080003F0();
-            goto loop_24;
-        }
     }
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055974);
-#endif
 #ifdef NONMATCHING
 struct TaskPayload55A60 { u32 unknown[3]; void (*callback)(s32); u32 value; };
 void sub_08055BA4(void);
