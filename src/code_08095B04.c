@@ -74,7 +74,47 @@ s32 sub_08095E70(struct Motion95 *p, s16 x, s16 y)
     }
     return (u8)p->unk8;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08095F10);
+struct TargetF10 { u16 x, y; };
+struct PlayerF10 { u8 pad[0x148]; struct TargetF10 *target; };
+extern struct PlayerF10 playersF10[] asm("gUnk_03003CE0");
+extern s32 angleF10(s16, s16) asm("ArcTan2");
+s32 sub_08095F10(struct Motion95 *p, u8 index)
+{
+    s32 rawX, rawY, dx, dy;
+    struct TargetF10 *target;
+    u16 x, y;
+    u32 packedY;
+    u16 angle;
+    u32 bits, octant;
+    s16 direction;
+    rawX = p->unk14 << 8;
+    rawY = p->unk18 << 8;
+    target = playersF10[index].target;
+    x = target->x;
+    packedY = (u32)target->y << 20;
+    dx = (x >> 4) - (rawX >> 16);
+    y = packedY >> 20;
+    dy = y - (rawY >> 16);
+    angle = angleF10((s16)dx, (s16)dy);
+    bits = (u32)angle << 19;
+    octant = (u32)angle >> 13;
+    if (bits > 0x80000000U) {
+        if (octant <= 6U) octant++;
+        else octant = 0;
+    }
+    switch (octant) {
+    case 0: direction = 6; goto store;
+    case 1: direction = 7; goto store;
+    case 2: direction = 0; goto store;
+    case 3: direction = 1; goto store;
+    case 4: direction = 2; goto store;
+    case 5: direction = 3; goto store;
+    case 6: direction = 4; goto store;
+    case 7: direction = 5;
+    store: p->unk8 = direction;
+    }
+    return (u8)p->unk8;
+}
 extern s32 arcTan2_99(s16, s16) asm("ArcTan2");
 s32 sub_08095FC8(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     u16 angle;
@@ -152,7 +192,51 @@ void sub_0809689C(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080968C0);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080969CC);
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096AF4);
+struct PointAF4 { s32 x, y; };
+s32 sub_08096AF4(struct PointAF4 *input, u32 arg1) {
+    register struct PointAF4 *arg0 asm("r4") = input;
+    s32 temp_r1;
+    register u32 mode asm("r6");
+    register s32 sample asm("r0");
+    u32 deltaBits;
+    u8 *sineBase;
+    register s32 wave asm("r1");
+    s32 temp_r2;
+    s32 var_r0;
+    s32 var_r1;
+    s32 var_r5;
+
+    mode = (u8)arg1;
+    var_r5 = 0;
+    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
+        if (mode != 0) {
+            temp_r1 = arg0->x + ((s8) gUnk_030002A0.b0D * 0x10);
+            arg0->x = temp_r1;
+            var_r5 = 0x8000 - temp_r1;
+            sample = gUnk_080B9704[(u8)(gUnk_030002A0.pad0E - gUnk_030002A0.b0D)];
+            wave = sample * var_r5;
+            var_r1 = wave >> 8;
+            goto block_10;
+        }
+        temp_r2 = arg0->x;
+        var_r5 = temp_r2 + 0xFFFF8000;
+        if (var_r5 < 0) {
+            var_r5 = 0 - var_r5;
+        }
+        deltaBits = (gUnk_030002A0.pad0E - gUnk_030002A0.b0D) << 24;
+        sineBase = (u8 *)gUnk_080B9704;
+        var_r1 = (s32)(var_r5 * *(s16 *)((deltaBits >> 23) + sineBase)) >> 8;
+        if (temp_r2 > 0x8000) {
+            var_r0 = arg0->y - var_r1;
+        } else {
+block_10:
+            var_r0 = arg0->y + var_r1;
+        }
+        arg0->y = var_r0;
+    }
+    return (s32) (s16) var_r5;
+}
+
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096BA8);
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096D40);
 struct PaletteStep99 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
