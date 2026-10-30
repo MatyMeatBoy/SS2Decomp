@@ -441,44 +441,67 @@ u32 queuePlayerState067(void)
     }
     return r;
 }
-#ifdef NONMATCHING
-extern u8 *gEntArr asm("gUnk_030056F4");
-/* Enqueue tag 0x91 (entity `idx` velocity words at +0x1FC), coalescing with a pending 0x91 for the same entity id. */
+struct PacketC467 { u8 tag,length; u16 unused; u32 active; struct { u32 first; u16 second,id; u8 rest[120]; } payload; };
+struct EntityC467 {u16 unused,id;u8 pad[0x1F8];u32 velocity[2];u8 tail[0xDC];};
+extern struct PacketC467 *packetsC467 asm("gUnk_03006300");
+extern struct EntityC467 *entitiesC467 asm("gUnk_030056F4");
 u32 sub_080662C4(s32 idx)
 {
-    u8 *p;
-    u8 *ent;
+    struct PacketC467 *p;
+    register u32 n asm("r2");
     u32 i;
-    u32 n;
-    u32 r;
-    n = gUnk_03006338;
-    if (n > 0x31) {
-        r = 0;
-    } else {
-        p = (u8 *)(uintptr_t)gUnk_03006300;
-        for (i = 0; i < n; i++, p += 0x88) {
-            if (*(u32 *)(p + 4) == 1 && p[0] == 0x91) {
-                ent = gEntArr + idx * 0x2E0;
-                if (*(s16 *)(p + 0xE) == *(s16 *)(ent + 2)) {
-                    CpuSet(ent + 0x1FC, p + 8, 0x04000002);
-                    goto done;
-                }
+    register u32 twice asm("r3");
+    register u32 savedTwice asm("r8");
+    register void *payload asm("r1");
+    struct EntityC467 *ent;
+    register u32 rawOffset asm("r0");
+    n=gUnk_03006338;
+    if(n>49)return 0;
+    p=packetsC467;
+    i=0;
+    twice=idx*2; savedTwice=twice;
+    if(i<n) {
+    register u32 offset asm("r12");
+
+    u32 limit;
+    register struct EntityC467 **entityAddr asm("r9");
+    register struct PacketC467 *scan asm("r2");
+    rawOffset=twice+idx;rawOffset*=8;rawOffset-=idx;rawOffset*=32;offset=rawOffset;
+    limit=n;scan=p;
+    entityAddr=&entitiesC467;
+    asm("" : "+r"(entityAddr));
+    do {
+        if(scan->active==1 && scan->tag==0x91) {
+            payload=&p->payload;
+            { register struct EntityC467 **addr asm("r3")=entityAddr;
+              ent=(struct EntityC467 *)(offset+(u32)*addr); }
+            if(scan->payload.id==ent->id) {
+            CpuSet(ent->velocity,payload,0x04000002);
+            return 1;
             }
         }
-        p = (u8 *)(uintptr_t)gUnk_03006300 + gUnk_03006338 * 0x88;
-        *(u32 *)(p + 4) = 1;
-        *p = 0x91;
-        CpuSet(gEntArr + idx * 0x2E0 + 0x1FC, p + 8, 0x04000002);
-        p[1] = 1;
-        gUnk_03006338++;
-    done:
-        r = 1;
+        i++;scan++;p++;
+    }while(i<limit);
     }
-    return r;
+    rawOffset=gUnk_03006338*0x88;
+    { register struct PacketC467 **qaddr asm("r3")=&packetsC467;
+      p=(struct PacketC467 *)((u32)*qaddr+rawOffset); }
+    p->active=1;p->tag=0x91;
+    {
+        register u32 entityOffset asm("r1");
+        register struct EntityC467 **entityAddress asm("r2");
+        register u32 payloadOffset asm("r3");
+        entityOffset=((savedTwice+idx)*8-idx)*32;
+        entityAddress=&entitiesC467;
+        rawOffset=(u32)*entityAddress+entityOffset;
+        payloadOffset=0x1FC;asm("" : "+r"(payloadOffset));rawOffset+=payloadOffset;
+        payload=&p->payload;
+        CpuSet((void *)rawOffset,payload,0x04000002);
+    }
+    p->length=1;
+    {u32 *finishCount=&gUnk_03006338;asm("" : : "l"(finishCount) : "r0","r1","r2","r3","r4","r5","r6");(*finishCount)++;}
+    return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_080662C4);
-#endif
 extern volatile u32 root67Count asm("gUnk_03006338");
 extern u8 *root67Entries asm("gUnk_03006300");
 extern u8 *root67Sources asm("gUnk_030056F4");
