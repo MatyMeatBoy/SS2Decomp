@@ -377,7 +377,108 @@ void sub_0802A590(u16 first,u16 count)
     sub_08001538((s32)backup);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A644);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A7DC);
+extern void sub_080009F8(s32,s32,s32);
+extern void sub_0801AA8C(s32);
+extern void sub_0801AB90(s32);
+extern void sub_0805DC1C(s32,s32,s32,s32);
+extern void sub_0808899C(void);
+extern void sub_0802A590(u16,u16);
+extern void sub_0802A644(s32);
+void sub_0802A7DC(void)
+{
+  u16 wait;
+  struct Player *player;
+  u8 *task;
+  u32 i;
+  u32 handle; s32 *counter;
+  sub_0801AC24(10);
+  for (wait = 12; wait; wait--)
+  {
+    sub_080003F0();
+    if (sub_080021A8())
+    {
+      break;
+    }
+  }
+
+  player = &gUnk_03003CE0[sub_080020F4()];
+  player->flags |= 1;
+  sub_0800D0F4();
+  if (!(gUnk_030027D0 & 0x20))
+  {
+    sub_08006D08(0x180);
+  }
+  gGameState->flags = 0x200 | gGameState->flags;
+  sub_0805DC1C(4, 2, 18, 10);
+  sub_0802A590(0, 23);
+  gUnk_03001250[0x38 / 2] = 0xFFFF;
+  gUnk_03001250[0x3A / 2] = 0xE1E1;
+  gUnk_03001250[0x32 / 2] = 0x23C5;
+  gUnk_03001250[0x36 / 2] = 0x1773;
+  for (wait = 1; wait; wait--)
+  {
+    sub_080003F0();
+    if (sub_080021A8())
+    {
+      break;
+    }
+  }
+
+  sub_080009C0(0, 0x4000, 1);
+  sub_0801AB90(10);
+  for (wait = 12; wait; wait--)
+  {
+    sub_080003F0();
+    if (sub_080021A8())
+    {
+      break;
+    }
+  }
+
+  sub_0802A644(0x49A);
+  sub_0802A644(0x49B);
+  sub_0802A644(0x49C);
+  sub_0802A644(0x49D);
+  counter=&gUnk_03005CF8; asm("" : "+r"(counter));
+  sub_08006C30(30);
+  *counter = 0;
+  sub_0801AA8C(30);
+  while (!sub_0801AAE0())
+  {
+    sub_080003F0();
+  }
+
+  sub_080009F8(0, 0x4000, 1);
+  task = ((u8 *) gGameState) + 0x7A4;
+  i = 0;
+  do
+  {
+    handle = (u32) (task + 0x48);
+    if (sub_08000470(handle))
+    {
+      sub_080003A8(handle);
+    }
+    i++;
+    task += 0x70;
+  }
+  while (i <= 14);
+  sub_0800D108();
+  sub_0800D0F4();
+  ;
+  (&gUnk_03003CE0[sub_080020F4()])->flags |= 2;
+  sub_08067D74();
+  *((u32 *) (((u8 *) (&gUnk_03003CE0[sub_080020F4()])) + 0x8C)) = 0x12C00;
+  for (wait = 10; wait; wait--)
+  {
+    sub_080003F0();
+    if (sub_080021A8())
+    {
+      break;
+    }
+  }
+
+  sub_0808899C();
+}
 s32 sub_0802A9B0(void) {
     register u32 var_r5 asm("r5") = 0x533;
     register u8 **seqAddr asm("r6");
