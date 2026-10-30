@@ -43,34 +43,59 @@ void sub_080443EC(void)
         sub_0800D108();
     }
 }
-#ifdef NONMATCHING
-extern u8 *state44 asm("gUnk_03005CF4");
-extern u8 players44[] asm("gUnk_03003CE0");
 void sub_080444C0(void)
 {
-    u32 actor,message,id,i;
-    s32 offset;
+    register u32 actor asm("r4");
+    register u32 message asm("r5");
+    u32 i;
+    register s32 upperOffset asm("r1");
+    register s32 lowerOffset asm("r2");
     u8 *slot;
+    register u8 *flag asm("r0");
     actor=sub_080289C0(0x9000D,0xF0,0xE6);
-    offset=sub_0800CE30()?0x1BF:0x1B3;
-    id=(state44[offset]==5)?0x1401C6:0x1401C4;
-    while(sub_0805F184())sub_080003F0();
-    while(sub_0805EF90())sub_080003F0();
-    message=sub_0805DF38(1,15,2,0,0x2D,id);
+    if (sub_0800CE30()) {
+        upperOffset = 0x1BF;
+        flag = state44 + upperOffset;
+    } else {
+        lowerOffset = 0x1B3;
+        flag = state44 + lowerOffset;
+    }
+    if (*flag != 5) {
+        while(sub_0805F184())sub_080003F0();
+        while(sub_0805EF90())sub_080003F0();
+        message=sub_0805DF38(1,15,2,0,0x2D,0x1401C4);
+    } else {
+        while(sub_0805F184())sub_080003F0();
+        while(sub_0805EF90())sub_080003F0();
+        message=sub_0805DF38(1,15,2,0,0x2D,0x1401C6);
+    }
     sub_08028AAC(actor,0xF0,0x88,0x3C);
     slot=state44+0x7A4;
-    for(i=0;i<15;i++,slot+=0x70) {
-        if(*(u32 *)slot==actor)break;
+    i=0;
+    while (*(u32 *)slot != actor) {
+        i++;
+        slot += 0x70;
+        if (i > 14) {
+            sub_080003F0();
+            slot = NULL;
+            break;
+        }
     }
-    if(i==15){sub_080003F0();slot=NULL;}
     if(slot)*(u16 *)(slot+0x36)=4;
-    offset=sub_0800CE30()?0x1BF:0x1B3;
-    state44[offset]=5;
-    while(!sub_0805EEFC((void *)message))sub_080003F0();
+    actor = 5;
+    asm("" : "+r"(actor));
+    if (sub_0800CE30()) {
+        upperOffset = 0x1BF;
+        flag = state44 + upperOffset;
+    } else {
+        lowerOffset = 0x1B3;
+        flag = state44 + lowerOffset;
+    }
+    *flag=actor;
+    actor=message;
+    while(!sub_0805EEFC((void *)actor))sub_080003F0();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080444C0);
-#endif
+
 #ifdef NONMATCHING
 struct GrantM44 {s16 type,id;u8 payload[12];};
 struct CurrencyM44 {s16 type;u16 padding;s32 amount;};
