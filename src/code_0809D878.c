@@ -259,7 +259,298 @@ void sub_0809FB18(void)
     t->f24 = 0;
     sub_08000274_1((u32)t);
 }
+#ifdef NONMATCHING
+/* Opaque actor/resource layouts are expressed only at audited ARM offsets. */
+#define B9FB6C(p,o) (*(u8 *)((u8 *)(p)+(o)))
+#define H9FB6C(p,o) (*(u16 *)((u8 *)(p)+(o)))
+#define S9FB6C(p,o) (*(s16 *)((u8 *)(p)+(o)))
+#define W9FB6C(p,o) (*(u32 *)((u8 *)(p)+(o)))
+#define I9FB6C(p,o) (*(s32 *)((u8 *)(p)+(o)))
+#define P9FB6C(p,o) ((u16 *)((u8 *)(p)+(o)))
+struct Sprite9FB6C {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
+extern u8 *actor9FB6C asm("gUnk_0300032C");
+extern u16 palette9FB6C asm("gUnk_03000330");
+extern u32 active9FB6C asm("gUnk_030056FC");
+extern u32 seen9FB6C[][83] asm("gUnk_03003DC4");
+extern u8 players9FB6C[] asm("gUnk_03003CE0");
+extern void *inventory9FB6C asm("gUnk_030034E0");
+extern u8 config9FB6C[] asm("gUnk_084A3EB0");
+extern void setup9FB6C(void *,void *,s32) asm("sub_0801623C");
+extern void resourceInit9FB6C(void *) asm("sub_08019F60");
+extern u32 allocate9FB6C(u32,u32) asm("sub_08016E04");
+extern void init9FB6C(void *,u32,u32,s32,s32) asm("sub_08065158");
+extern u32 anim9FB6C(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
+extern void screen9FB6C(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern void draw9FB6C(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern void update9FB6C(void *) asm("sub_0801C8F0");
+extern void float9FB6C(void *,s32,s32) asm("sub_0801A120");
+extern u32 dead9FB6C(void *) asm("sub_08019CE8");
+extern s32 random9FB6C(void) asm("sub_0800086C");
+extern void callback9FB6C(u32,u8 *) asm("sub_080A0FEC");
+extern void reset9FB6C(void) asm("sub_0806849C");
+extern void paletteFree9FB6C(u32) asm("sub_08067CA8");
+extern void transition9FB6C(void *,void *,u32,u32,u32) asm("sub_080972B8");
+extern s32 reward9FB6C(void *,void *) asm("sub_0801E46C");
+extern void rise9FB6C(void *,s32) asm("sub_0806171C");
+extern void rewardDone9FB6C(void *,s32) asm("sub_0801E4CC");
+extern void soundStop9FB6C(s32) asm("sub_080586B4");
+extern void sound9FB6C(s32) asm("sub_08058688");
+
+/* Expanded independently in each end phase; no extra helper call is introduced.
+ * Both post-animation and pre-draw global actor reloads are significant. */
+#define END_RENDER9FB6C() do { \
+    fresh=actor9FB6C; \
+    animResult=anim9FB6C(&sprite,H9FB6C(fresh,0x68),P9FB6C(fresh,0x6A),P9FB6C(fresh,0x6C),1); \
+    fresh=actor9FB6C; \
+    H9FB6C(fresh,0x6E)=animResult; \
+    screen9FB6C((s32)(W9FB6C(fresh,0x14)<<8)>>16,(s32)(W9FB6C(fresh,0x18)<<8)>>16,&sx,&sy,zero,zero); \
+    sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1); \
+    fresh=actor9FB6C; \
+    draw9FB6C(sx,sy,H9FB6C(fresh,0x68),H9FB6C(fresh,0x6A),2,sprite.payload,sprite.data,sprite.base); \
+} while(0)
+
+void sub_0809FB6C(void *input)
+{
+    struct Sprite9FB6C sprite;
+    u8 callbackDone;
+    s16 sx,sy;
+    u8 *resource;
+    s32 lastDamage,flash;
+    u32 elapsed,rounds;
+    s32 angle;
+    u32 amplitudeY;
+    s32 finished;
+    u16 *animation,*frame,*tick;
+    u8 *actor,*fresh;
+    u16 floatingTimer;
+    s16 floatingOffset;
+    u32 amplitudeX;
+    s16 player,entry,randomValue,remainder;
+    u32 value,oldElapsed,animResult;
+    u16 allocation;
+    u8 priority;
+    s32 zero,reward;
+    u16 endTimer;
+
+    actor=input;
+    actor9FB6C=actor;
+    resource=actor+0x204;
+    setup9FB6C(actor,config9FB6C,0);
+    resourceInit9FB6C(resource);
+    sub_0801A0A4(actor);
+    allocation=allocate9FB6C(H9FB6C(actor,0x2D8),H9FB6C(actor,0x2DA));
+    palette9FB6C=allocation;
+    if(allocation==0xFFFF) {
+        do {
+            H9FB6C(actor,0xC)=11;
+            if(sub_0800CB78()!=0 || sub_08056E90()!=0) {
+                active9FB6C&=~(1U<<H9FB6C(actor,0));
+                return;
+            }
+            sub_080003F0();
+        } while(palette9FB6C==0xFFFF);
+    }
+    init9FB6C(&sprite,0x50009,palette9FB6C,-1,1);
+    sprite.payload[0]=palette9FB6C;
+    value=(s16)(S9FB6C(resource,6)*3);
+    H9FB6C(actor,0x1D6)=value; H9FB6C(actor,0x5C)=value;
+    value=(s16)(S9FB6C(resource,4)*20);
+    H9FB6C(actor,0x1D4)=value; H9FB6C(actor,0x5E)=value;
+    H9FB6C(actor,0xC)=0;
+    floatingTimer=0;flash=0;
+    H9FB6C(actor,0x6C)=0; H9FB6C(actor,0x6A)=0; H9FB6C(actor,0x68)=0;
+    B9FB6C(actor,0x1FD)=3; B9FB6C(actor,0x1FE)=3;
+    sub_08097FE4();sub_08097A4C();sub_08097C4C();sub_080A0FA8();
+    sub_080A1170();sub_080A10B8();sub_080A10FC();sub_08097D70();
+    W9FB6C(actor,0x50)=1;
+    tick=P9FB6C(actor,0x6C);frame=P9FB6C(actor,0x6A);animation=P9FB6C(actor,0x68);
+    player=0;
+    do {
+        entry=0;
+        do {
+            seen9FB6C[player][entry]=0;
+            entry=(s16)(entry+1);
+        } while(entry<=4);
+        player=(s16)(player+1);
+    } while(player<=3);
+    angle=0;elapsed=0;rounds=0;amplitudeX=0;amplitudeY=0;
+    B9FB6C(actor,0x1FC)=(B9FB6C(actor,0x1FC)&0xF0)|(B9FB6C(actor,0)&0xF);
+    H9FB6C(actor,0x202)=H9FB6C(actor,2);
+    B9FB6C(actor,0x200)=0xFF;
+    H9FB6C(actor,8)=(u16)elapsed;
+    finished=0;
+    sub_08067C18();
+    while(sub_08067C08()==0) sub_080003F0();
+    sub_08067BF8();reset9FB6C();
+    while(sub_0800CB78()==0 && sub_08056E90()==0) {
+        if(H9FB6C(actor,0xC)==10 && flash==0) flash=8;
+        if(sub_08058DB0()==0) {
+            update9FB6C(actor);
+            if(sub_08056F78()!=0) {
+                if(amplitudeX<=47) amplitudeX=(u8)(amplitudeX+1); else amplitudeX=48;
+                if(amplitudeY<=5) amplitudeY=(u8)(amplitudeY+1); else amplitudeY=6;
+                W9FB6C(actor,0x14)=(u32)(s32)gUnk_080B9704[angle+64]*amplitudeX+0x8000U;
+                W9FB6C(actor,0x18)=(u32)(s32)gUnk_080B9704[angle]*amplitudeY+0x5800U;
+                angle=(u8)(angle+1);
+            }
+            switch((u32)B9FB6C(actor,0x1FD)-1) {
+            case 0:
+                H9FB6C(actor,0xC)=0;
+                if(sub_08067C08()!=0) {
+                    B9FB6C(actor,0x1FD)=B9FB6C(actor,0x1FE);
+                    sub_08067BF8();
+                }
+                break;
+            case 1:
+                H9FB6C(actor,0xC)=0;
+                value=(u8)sub_08068490();B9FB6C(actor,0x200)=value;
+                if(value!=0xFF) {
+                    B9FB6C(actor,0x1FE)=5;B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                }
+                break;
+            case 2:
+                if(sub_08056F78()!=0) {
+                    sub_080A1094();sub_08097D64();
+                    B9FB6C(actor,0x1FE)=10;B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                }
+                break;
+            case 3:
+                H9FB6C(actor,0xC)=1;W9FB6C(actor,0x50)++;
+                if(rounds>1) {
+                    rounds=0;B9FB6C(actor,0x1FE)=7;B9FB6C(actor,0x1FD)=1;
+                    sub_08067C18();sub_080A11B4();
+                } else {
+                    callbackDone=0;
+                    if(sub_08002204()==1) {
+                        randomValue=(s16)random9FB6C();
+                        remainder=(s16)(randomValue%4);
+                        if(remainder<0) remainder=-remainder;
+                        B9FB6C(actor,0x200)=remainder;
+                        if(sub_08068450(B9FB6C(actor,0x200))==1) {
+                            B9FB6C(actor,0x1FE)=2;B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                        }
+                    } else {
+                        B9FB6C(actor,0x200)=0xFF;B9FB6C(actor,0x1FE)=2;
+                        B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                    }
+                }
+                break;
+            case 4:
+                H9FB6C(actor,0xC)=2;sub_0805865C(0xBD);
+                callback9FB6C(B9FB6C(actor,0x200),&callbackDone);
+                B9FB6C(actor,0x200)=0xFF;B9FB6C(actor,0x1FE)=6;
+                B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                break;
+            case 5:
+                H9FB6C(actor,0xC)=2;
+                if(callbackDone==1) {
+                    sub_080A1058();rounds=(u8)(rounds+1);elapsed=0;
+                    B9FB6C(actor,0x1FD)=1;B9FB6C(actor,0x1FE)=10;sub_08067C18();
+                }
+                break;
+            case 6:
+                H9FB6C(actor,0xC)=2;elapsed=0;
+                B9FB6C(actor,0x1FD)=1;B9FB6C(actor,0x1FE)=10;sub_08067C18();
+                break;
+            case 9:
+                H9FB6C(actor,0xC)=0;oldElapsed=elapsed;elapsed=(u16)(oldElapsed+1);
+                if(oldElapsed>180) {
+                    B9FB6C(actor,0x1FD)=1;B9FB6C(actor,0x1FE)=4;sub_08067C18();
+                }
+                break;
+            }
+        }
+        if(sub_0800CD8C()==0) H9FB6C(actor,0x6E)=anim9FB6C(&sprite,*animation,frame,tick,1);
+        if(sub_08098004()&1) priority=(u8)sub_08097FF8();else priority=2;
+        screen9FB6C((s32)(W9FB6C(actor,0x14)<<8)>>16,(s32)(W9FB6C(actor,0x18)<<8)>>16,&sx,&sy,0,0);
+        value=flash;
+        if(value!=0) {
+            flash=(u16)(value-1);
+            if((value&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
+                sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+                draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
+            }
+        } else if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
+            sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+            draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
+        }
+        value=W9FB6C(actor,0x4C);
+        if(value!=0 && (u32)lastDamage!=value) {
+            lastDamage=value;floatingTimer=10;floatingOffset=0;
+        }
+        if(floatingTimer!=0) {
+            if(sub_0800CC98()==0 && sub_0800CCCC()==0 && sub_0800CD34()==0)
+                float9FB6C(actor,lastDamage,floatingOffset);
+            if(floatingTimer&2) floatingOffset=(s16)(floatingOffset-1);
+            floatingTimer=(u16)(floatingTimer-1);
+        } else {lastDamage=0;W9FB6C(actor,0x4C)=floatingTimer;}
+        if((u16)dead9FB6C(actor)!=0) finished=1;
+        sub_080003F0();
+        if(finished!=0) break;
+    }
+    active9FB6C=0;
+    sub_080A1058();sub_080A0FC4();sub_080A118C();sub_08097C6C();
+    fresh=actor9FB6C;
+    H9FB6C(fresh,0x6C)=0;H9FB6C(fresh,0x6A)=0;H9FB6C(fresh,0x68)=0;
+    floatingOffset=0;floatingTimer=10;
+    do {
+        if(sub_0800CCCC()==0 && sub_0800CC98()==0) {
+            zero=sub_0800CD34();
+            if(zero==0) {
+                END_RENDER9FB6C();
+                float9FB6C(actor,lastDamage,floatingOffset);
+            }
+        }
+        if(floatingTimer&2) floatingOffset=(s16)(floatingOffset-1);
+        sub_080003F0();floatingTimer=(u16)(floatingTimer-1);
+    } while(floatingTimer!=0xFFFF);
+    sub_080683CC();paletteFree9FB6C(H9FB6C(actor9FB6C,2));
+    sub_08068330((s32)0xDEADFACEU);
+    while(sub_080682B8((s32)0xDEADFACEU)==0) {
+        if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0) {
+            zero=sub_0800CD34();if(zero==0) {END_RENDER9FB6C();}
+        }
+        sub_080003F0();
+    }
+    sub_08065E38((s32)0xDEADFACEU);
+    while(sub_08058DB0()!=0) {
+        if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0) {
+            zero=sub_0800CD34();if(zero==0) {END_RENDER9FB6C();}
+        }
+        sub_080003F0();
+    }
+    soundStop9FB6C(0);sub_080A10AC();
+    if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CD34()==0) {
+        sound9FB6C(13);
+        transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource,0xD6),palette9FB6C,2);
+    }
+    player=sub_080020F4();
+    if(!(W9FB6C(players9FB6C+player*0x14C,0x30)&0x2000) && H9FB6C(actor9FB6C,0x5A)!=0) {
+        reward=reward9FB6C(inventory9FB6C,resource);
+        endTimer=29;
+        do {
+            fresh=actor9FB6C;W9FB6C(fresh,0x18)-=0x20;
+            rise9FB6C(fresh,reward);sub_080003F0();endTimer=(u16)(endTimer-1);
+        } while((s16)endTimer!=-1);
+        rewardDone9FB6C(inventory9FB6C,reward);
+    }
+    endTimer=111;
+    do {sub_080003F0();endTimer=(u16)(endTimer-1);} while((s16)endTimer!=-1);
+    sub_08067C18();while(sub_08067C08()==0) sub_080003F0();sub_08067BF8();
+    while((u8)sub_080A1088()!=0) sub_080003F0();
+    sub_08056E24();while(sub_08056E90()==0) sub_080003F0();
+    sub_080A10D4();
+}
+#undef END_RENDER9FB6C
+#undef B9FB6C
+#undef H9FB6C
+#undef S9FB6C
+#undef W9FB6C
+#undef I9FB6C
+#undef P9FB6C
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
+#endif
 #ifdef NONMATCHING
 struct Sprite105 {u32 base,pad4,data,palette,pad10,pad14,pad18;u8 payload[24];};
 struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[0x286];u16 paletteOffset;};
