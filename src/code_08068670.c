@@ -6381,6 +6381,8 @@ loop_47:
 block_77:
     {
 
+                /* No-op do/while(0): moves agbcc register allocation closer to the original. */
+                do {
                 if ((u32) D739_U32(sp80,0x8) <= 3U) {
                     var_r9_5 = 0;
                     if (sp9C <= 0U) {
@@ -6537,6 +6539,7 @@ loop_114:
                         }
                     }
                 }
+                } while (0);
                 sub_080003F0();
 
     }
