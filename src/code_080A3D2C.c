@@ -569,9 +569,10 @@ void sub_080A47A0(void)
    asm("" : "+r"(ptr));
 wait_frame:
    current = *ptr;
+   asm("" : "+r"(current));
    if (current == 0) { sub_080003F0(); goto wait_frame; }
    if (side10847 == 1) animation = current + 5;
-   else animation = *ptr;
+   else animation = frame10847;
   }
   {
    register s32 x asm("r1") = F_10847(object10847,s32,0x14);
@@ -582,7 +583,20 @@ wait_frame:
    asm("" : "+r"(y));
    frame.y = y;
   }
-  frame.x+=offsetX10847[direction10847*2];frame.y+=offsetY10847[direction10847*2];
+  {
+   register u32 i asm("r1") = direction10847 * 4;
+   register s16 *table asm("r2") = offsetX10847;
+   register s32 value asm("r0");
+   register s32 old asm("r4");
+   value = *(s16 *)((u8 *)table + i);
+   old = frame.x;
+   asm("" : "+r"(value), "+r"(old));
+   frame.x = old + value;
+   value = *(s16 *)((u8 *)offsetY10847 + i);
+   old = frame.y;
+   asm("" : "+r"(value), "+r"(old));
+   frame.y = old + value;
+  }
   sprites10847[side10847].style=palette10847;
   sub_08000AF0(palette10847+16,sprites10847[side10847].palette+(F_10847(frame.metadata,u16,0xD6)<<5),1);
   if(sub_0800CD8C()==0)animate10847(&sprites10847[side10847],animation,&frame.tile,&frame.rotation,0);
@@ -606,7 +620,13 @@ wait_frame:
      output=draw10847(x,y,animation,frame.tile,mode,styles10847+side10847*0x34,F_10847(styles10847+side10847*0x34,u32,-0x14),F_10847(styles10847+side10847*0x34,u32,-0x1C));
     }
     coords10847((s32)(frame.x<<8)>>16,(s32)(frame.y<<8)>>16,sx,sy,paused,(void*)paused);
-    output->x=frame.sx;output->y=frame.sy;
+    {
+     register s16 *p asm("r3") = sx;
+     register s16 *q asm("r1");
+     output->x = *p;
+     q = sy;
+     output->y = *q;
+    }
    }
   }
   sub_080003F0();if(sub_0800CED8()!=0 || sub_0800CB78()!=0 || sub_0800CD00()!=0)break;
