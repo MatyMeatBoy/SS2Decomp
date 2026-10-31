@@ -846,7 +846,288 @@ void *sub_0805B618(void)
 
 
 
+#ifdef NONMATCHING
+struct B688Anim { s32 f0, f4, f8, fC, f10, f14, f18; u8 data[24]; };
+struct B688Item { u16 kind; u16 id; u8 rest[12]; };
+struct B688Pos { s32 x, y; };
+struct B688Size { u16 w, h; };
+struct B688Shape { u16 f0; u16 f2; u8 f4; u8 pad5; u16 f6; };
+struct B688Player {
+    u16 id;
+    u8 pad2[0x1E];
+    u16 state;
+    u8 pad22[0xE];
+    u32 flags;
+    u8 pad34[0x114];
+    struct B688Shape *shape;
+};
+struct B688Obj { u8 pad0[0xA0]; u16 kind; u8 padA2[2]; u32 hitMask; u8 gfx; };
+extern struct B688Player b688Players[] asm("gUnk_03003CE0");
+extern u8 *b688Map asm("gUnk_030034E0");
+extern u8 *b688Enemies asm("gUnk_030056F4");
+extern void b688_sub_08065158(struct B688Anim *, u32, u32, u32, u32) asm("sub_08065158");
+extern s32 b688_sub_08021FE0(struct B688Pos *, void *, void *, void *) asm("sub_08021FE0");
+extern void b688_sub_08068144(u32) asm("sub_08068144");
+extern void b688_sub_08067F4C(u32, u32, u32) asm("sub_08067F4C");
+extern void b688_sub_08067F04(u32, u32, u32) asm("sub_08067F04");
+extern void b688_sub_0806818C(u32, u32, s32, s32, u32) asm("sub_0806818C");
+extern void b688_sub_0806823C(u32, u32, s32, s32, u32) asm("sub_0806823C");
+extern void b688_sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void b688_sub_08007870(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+void sub_0805B688(u16 who, u16 itemId)
+{
+    struct B688Anim anim;
+    struct B688Item item;
+    s16 screenX, screenY;
+    struct B688Pos pos;
+    struct B688Pos other;
+    struct B688Size size;
+    struct B688Size size2;
+    s32 x, y;
+    u32 self;
+    u32 itemArg;
+    struct B688Player *player;
+    struct B688Obj *obj;
+    u32 enemyKey;
+    s32 speed;
+    s32 height;
+    s32 bounces;
+    s32 velocity;
+    u16 hit;
+    u32 dir;
+    u32 gfx;
+    u32 me;
+    u32 power;
+    u16 angle;
+    u16 i;
+    u8 *enemy;
+    u32 *hitMask;
+    u32 ok;
+    u32 pal;
+    s32 z;
+    u32 n;
+
+    self = who;
+    itemArg = itemId;
+    player = &b688Players[self];
+    me = (u16)sub_080020F4();
+    b688_sub_08065158(&anim, 0x500F1, 0, 0x80000000, 0);
+    power = (u32)(player->shape->f6 << 23) >> 27;
+    item.kind = 1;
+    item.id = itemArg;
+    obj = (struct B688Obj *)sub_08007290(itemArg | 0x100000);
+    gfx = obj->gfx;
+    x = (player->shape->f0 >> 4) << 8;
+    y = (u32)(player->shape->f2 << 20) >> 12;
+    height = 0x1000;
+    angle = gUnk_0847AD0A[player->shape->pad5 >> 4];
+    if (player->state != 0xD && !sub_0800CCCC() && !sub_0800CD34())
+        sub_0805865C(0x17);
+    dir = player->shape->pad5 >> 4;
+    speed = power * 4 + 8;
+    bounces = 0;
+    velocity = -0x100;
+    x += (speed * (gUnk_080B9704[(s16)angle + 0x40] * 2)) / 10;
+    y += (speed * (gUnk_080B9704[(s16)angle] * 2)) / 10;
+    if (sub_0801DE60() == 0)
+        power = sub_0801E0AC((s32)(b688Map + 0x30), 5);
+    else
+        power = 0;
+
+    while (bounces <= 1) {
+        hit = 0;
+        if (sub_08056E90()) {
+            hit = 1;
+            break;
+        }
+        pos.x = x;
+        pos.y = y;
+        *(u32 *)&size = 0x80008;
+        *(u32 *)&size2 = 0x200018;
+        hitMask = &obj->hitMask;
+        if (*hitMask & 1) {
+            for (i = 0; i < sub_08002164() && hit == 0; i++) {
+                struct B688Shape *s;
+                if (i == self)
+                    continue;
+                s = b688Players[i].shape;
+                if ((s->f0 & 0xF) == 0xE || (s->f0 & 0xF) == 0xC)
+                    continue;
+                if ((s->f4 & 0x3F) & 0x20)
+                    continue;
+                if (b688Players[i].flags & 0x400)
+                    continue;
+                other.x = (s->f0 >> 4) << 8;
+                other.y = (u32)(b688Players[i].shape->f2 << 20) >> 12;
+                if (!b688_sub_08021FE0(&pos, &other, &size, &size2))
+                    continue;
+                if (self == me) {
+                    switch (obj->kind) {
+                    case 5:
+                        if (gUnk_03003170.curLevel != 11) {
+                            if (b688Players[i].flags & 0x2000)
+                                b688_sub_08068144(i);
+                            else
+                                b688_sub_08067F4C(itemArg, i, power);
+                        }
+                        break;
+                    case 13:
+                        b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
+                        break;
+                    case 14:
+                        b688_sub_0806818C(player->id, 5, pos.x, pos.y, power);
+                        break;
+                    case 15:
+                        b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
+                        break;
+                    default:
+                        b688_sub_08067F4C(itemArg, i, power);
+                        break;
+                    }
+                    hit = 1;
+                } else {
+                    hit = 1;
+                }
+            }
+        }
+        if (hit)
+            return;
+        if (*hitMask & 0x3E) {
+            for (i = 0; i <= 4; i++) {
+                if (!(gUnk_030056FC & (1 << i)))
+                    continue;
+                enemy = b688Enemies + i * 0x2E0;
+                if (*(u16 *)(enemy + 0xC) == 0xC)
+                    continue;
+                if (enemy[0x1DC] == 0 && !(*hitMask & 0x3C))
+                    continue;
+                size2.w = enemy[0x22E];
+                size2.h = enemy[0x22F];
+                if (!b688_sub_08021FE0(&pos, enemy + 0x14, &size, &size2))
+                    continue;
+                /* enemyKey is never initialised in the original (stack slot +0x88). */
+                ok = 0;
+                if (*(u16 *)(enemy + 0xC) != 0xB)
+                    ok = *(u32 *)(enemy + 0x54) != enemyKey;
+                if (!ok)
+                    continue;
+                if (enemy[0x1DC] == 0) {
+                    switch (enemy[0x226]) {
+                    case 4:
+                        if (!(*hitMask & 4))
+                            continue;
+                        *(u16 *)(enemy + 0xC) = 0xC;
+                        *(u16 *)(enemy + 0xE) = 8;
+                        break;
+                    case 5:
+                        if (!(*hitMask & 8))
+                            continue;
+                        *(u16 *)(enemy + 0xC) = 0xC;
+                        *(u16 *)(enemy + 0xE) = 8;
+                        break;
+                    case 6:
+                        if (!(*hitMask & 0x10))
+                            continue;
+                        *(u16 *)(enemy + 0xC) = 0xC;
+                        *(u16 *)(enemy + 0xE) = 8;
+                        break;
+                    case 7:
+                        if (!(*hitMask & 0x20))
+                            continue;
+                        *(u16 *)(enemy + 0xC) = 0xC;
+                        *(u16 *)(enemy + 0xE) = 8;
+                        break;
+                    }
+                    if (*(u16 *)(enemy + 0xC) == 0xC) {
+                        hit++;
+                        break;
+                    }
+                } else {
+                    hit = 1;
+                    if (self == sub_080020F4()) {
+                        switch (obj->kind) {
+                        case 13:
+                            b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
+                            break;
+                        case 14:
+                            b688_sub_0806818C(player->id, 5, pos.x, pos.y, power);
+                            break;
+                        case 15:
+                            b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
+                            break;
+                        case 18:
+                            b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
+                            break;
+                        default:
+                            b688_sub_08067F04(itemArg, *(u16 *)(enemy + 2), power);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        if ((s16)hit)
+            return;
+        if (obj->kind <= 15 && obj->kind >= 13)
+            sub_08013E90((speed << 8) / 10, &pos.x, dir, 4, (s16)hit);
+        else
+            sub_08013E90((speed << 8) / 10, &pos.x, dir, 0, 0);
+        x = pos.x;
+        y = pos.y;
+        if (power)
+            power--;
+        height -= velocity;
+        velocity += 0x40;
+        if (height < 0) {
+            speed >>= 2;
+            velocity = -(0x100 >> bounces);
+            bounces++;
+            height = 0x100;
+        }
+        if (!sub_0800CC98() && !sub_0800CD8C() && !(z = sub_0800CCCC())) {
+            b688_sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, 0x30, z);
+            pal = (u8)sub_0800BC44(x >> 8, y >> 8, 0);
+            b688_sub_08007870(screenX, screenY - (height >> 8), 0, gfx, pal, anim.data, anim.f8, anim.f0);
+            b688_sub_08007870(screenX, screenY, 0, 0xFE, pal, anim.data, anim.f8, anim.f0);
+        }
+        sub_080003F0();
+    }
+    if (hit)
+        return;
+    if (self != me)
+        return;
+    switch (obj->kind) {
+    case 13:
+        b688_sub_0806818C(player->id, 2, pos.x, pos.y, power);
+        n = 5;
+        break;
+    case 14:
+        b688_sub_0806818C(player->id, 3, pos.x, pos.y, power);
+        n = 5;
+        break;
+    case 15:
+        b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
+        n = 5;
+        break;
+    default:
+        sub_08066520(x, y, gUnk_03003170.f90, (u32 *)&item);
+        n = 30;
+        break;
+    }
+    sub_0805B4CC(&x, &y);
+    while (n--) {
+        if (!sub_0800CC98() && !sub_0800CD8C() && !(z = sub_0800CCCC())) {
+            b688_sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, 0x30, z);
+            pal = (u8)sub_0800BC44(x >> 8, y >> 8, 0);
+            b688_sub_08007870(screenX, screenY, 0, gfx, pal, anim.data, anim.f8, anim.f0);
+            b688_sub_08007870(screenX, screenY, 0, 0xFE, pal, anim.data, anim.f8, anim.f0);
+        }
+        sub_080003F0();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B688);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805BD5C);
 #ifdef NONMATCHING
 extern u8 gUnk_08477F3C[];
