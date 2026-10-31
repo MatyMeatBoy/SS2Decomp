@@ -101,7 +101,177 @@ s32 sub_0809EF84(void)
     asm volatile("" : "+r"(status));
     return status;
 }
+#ifdef NONMATCHING
+struct Packed9F018 { u16 x,y; };
+union Tail9F018 { u32 seen[26]; struct {u32 pad[25]; struct Packed9F018 *visual;} remote; };
+struct Player9F018 {
+    u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags;
+    u8 p34[0x34]; u8 active; u8 p69[0x1F]; u16 health,p8A;
+    s32 x,y; u8 p94[0x1C]; u16 motion; u8 pB2[0x32]; union Tail9F018 tail;
+};
+struct Actor9F018 {
+    u16 id; u8 p2[10]; u16 state; u8 pE[6]; s32 x,y;
+    u8 p1C[0x34]; u32 serial; u8 p54[0x286]; u16 paletteOffset;
+};
+struct Sprite9F018 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
+struct Draw9F018 {u32 p0[3];s32 y;};
+extern struct Player9F018 players9F018[] asm("gUnk_03003CE0");
+extern struct Actor9F018 *actor9F018 asm("gUnk_03000310");
+extern u16 variant9F018 asm("gUnk_03000314");
+extern void init9F018(void *,u32,u32,s32,s32) asm("sub_08065158");
+extern void anim9F018(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
+extern void screen9F018(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern struct Draw9F018 *draw9F018(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern void vector9F018(s32,s32,s32,s32,s32 *) asm("sub_08097978");
+extern void effect9F018(s32,s32,s32) asm("sub_08029CEC");
+
+void sub_0809F018(u16 kind)
+{
+    struct Sprite9F018 sprite;
+    u16 frame,tick;
+    s16 screenX,screenY;
+    s32 velocity[2];
+    u32 inputKind;
+    s32 posX,posY;
+    u32 count,remaining,countdown,hit;
+    s32 *velocityPtr;
+    s32 targetX,targetY;
+    struct Packed9F018 *visual;
+    struct Actor9F018 *actor;
+    struct Draw9F018 *object;
+    s32 zero,player;
+    s16 dx,dy;
+    u16 distance;
+    u32 animation,serial;
+
+    inputKind=kind;
+    init9F018(&sprite,0x50008,variant9F018,-1,1);
+    count=sub_08002164();
+    if(inputKind!=0 && count==1) goto finish9F018;
+    if(inputKind==2 && count<=2) goto finish9F018;
+    if(inputKind==3 && count!=4) goto finish9F018;
+    tick=0;frame=0;hit=0;remaining=420;countdown=270;
+    sub_0805865C(0xB5);
+    velocityPtr=velocity;
+    do {
+        if(countdown!=0) {
+            countdown=(u16)(countdown-1);
+            posX=actor9F018->x;
+            posY=actor9F018->y;
+            if(count==1) {
+                if(inputKind==0) {
+                    targetX=(s32)((u32)players9F018[0].x<<8)>>16;
+                    targetY=((s32)((u32)players9F018[0].y<<8)>>16)-12;
+                }
+            } else {
+                switch(inputKind) {
+                case 0:
+                    if(sub_080020F4()==0) {
+                        targetX=(s32)((u32)players9F018[0].x<<8)>>16;
+                        targetY=(s32)((u32)players9F018[0].y<<8)>>16;
+                    } else {
+                        visual=players9F018[0].tail.remote.visual;
+                        targetX=visual->x>>4;targetY=visual->y&0xFFF;
+                    }
+                    break;
+                case 1:
+                    if(sub_080020F4()==1) {
+                        targetX=(s32)((u32)players9F018[1].x<<8)>>16;
+                        targetY=(s32)((u32)players9F018[1].y<<8)>>16;
+                    } else {
+                        visual=players9F018[1].tail.remote.visual;
+                        targetX=visual->x>>4;targetY=visual->y&0xFFF;
+                    }
+                    break;
+                case 2:
+                    if(count>2) {
+                        if(sub_080020F4()==2) {
+                            targetX=(s32)((u32)players9F018[2].x<<8)>>16;
+                            targetY=(s32)((u32)players9F018[2].y<<8)>>16;
+                        } else {
+                            visual=players9F018[2].tail.remote.visual;
+                            targetX=visual->x>>4;targetY=visual->y&0xFFF;
+                        }
+                    }
+                    break;
+                case 3:
+                    if(count==4) {
+                        if(sub_080020F4()==3) {
+                            targetX=(s32)((u32)players9F018[3].x<<8)>>16;
+                            targetY=(s32)((u32)players9F018[3].y<<8)>>16;
+                        } else {
+                            visual=players9F018[3].tail.remote.visual;
+                            targetX=visual->x>>4;targetY=visual->y&0xFFF;
+                        }
+                    }
+                    break;
+                }
+            }
+            /* Invalid kinds deliberately leave the incoming target values unspecified. */
+            vector9F018(posX,posY,targetX,targetY,velocityPtr);
+        } else {
+            posX=(s32)((u32)posX+(u32)velocity[0]*3);
+            posY=(s32)((u32)posY+(u32)velocityPtr[1]*3);
+        }
+        if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0) {
+            zero=sub_0800CD34();
+            if(zero==0) {
+                sprite.payload[0]=variant9F018;
+                sub_08000AF0(variant9F018+16,sprite.palette+(actor9F018->paletteOffset<<5),1);
+                anim9F018(&sprite,10,&frame,&tick,1);
+                screen9F018((s32)((u32)posX<<8)>>16,(s32)((u32)posY<<8)>>16,&screenX,&screenY,zero,zero);
+                if(countdown!=0) {
+                    if(inputKind==0) {
+                        if(countdown<=90 && (countdown&1)) animation=8;
+                        else animation=0;
+                        object=draw9F018(screenX,160,animation,frame,inputKind,sprite.payload,sprite.data,sprite.base);
+                        object->y=screenY;
+                    }
+                } else {
+                    object=draw9F018(screenX,160,8,frame,countdown,sprite.payload,sprite.data,sprite.base);
+                    object->y=screenY;
+                }
+            }
+        }
+        if(countdown==1) sub_0805865C(0xB6);
+        if(countdown==0) {
+            player=sub_080020F4();
+            dx=(posX>>8)-(players9F018[player].x>>8);
+            player=sub_080020F4();
+            dy=((posY>>8)+12)-(players9F018[player].y>>8);
+            distance=Sqrt((u32)((s32)dx*dx)+(u32)((s32)dy*dy));
+            if(hit!=0) goto next9F018;
+            if(distance>11) goto next9F018;
+            if(sub_0800CDF8()!=0) goto next9F018;
+            if(sub_0800CCCC()!=0) goto next9F018;
+            if(sub_0800CD8C()!=0) goto next9F018;
+            if(actor9F018->state==11) goto next9F018;
+            if(players9F018[sub_080020F4()].flags&0x2000) goto next9F018;
+            if(players9F018[sub_080020F4()].active==0) goto next9F018;
+            if(players9F018[sub_080020F4()].state==14) goto next9F018;
+            if(players9F018[sub_080020F4()].state==11) goto next9F018;
+            if(players9F018[sub_080020F4()].state==12) goto next9F018;
+            player=sub_080020F4();actor=actor9F018;
+            if(players9F018[player].tail.seen[actor->id]==actor->serial) goto next9F018;
+            if(sub_0800CE30()==1) effect9F018(2,40,1);
+            else effect9F018(2,12,1);
+            players9F018[sub_080020F4()].motion=0xFFFE;
+            player=sub_080020F4();actor=actor9F018;
+            serial=actor->serial;
+            players9F018[player].tail.seen[actor->id]=serial;
+            actor->serial=serial+1;
+            hit=1;
+        }
+next9F018:
+        sub_080003F0();
+        remaining=(u16)(remaining-1);
+    } while(remaining!=0xFFFF);
+finish9F018:
+    *(u32 *)((u8 *)sub_0800048C()+8)=0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F018);
+#endif
 #ifdef NONMATCHING
 struct Actor9F4A8 {
     u16 id; u8 pad2[10]; u16 state; u8 padE[6];
