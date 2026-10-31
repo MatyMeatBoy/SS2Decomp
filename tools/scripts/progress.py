@@ -3,8 +3,9 @@
 
 A function counts as decompiled when it is in a C module (src/<module>.c) and
 is no longer pulled in with INCLUDE_ASM.  Modules marked "asm" in
-tools/config/modules.cfg are original hand written assembly (crt0, m4a_1,
-libgcc thunks...) and are shown separately.
+tools/config/modules.cfg, and functions listed in tools/config/original_asm.txt,
+are original hand written assembly (crt0, m4a_1, libgcc thunks...) and are
+shown separately.
 
 Usage: progress.py [--out docs/progress] [--json]
 Also exports evidence-backed names, a source call graph and raw data inventory.
@@ -63,9 +64,17 @@ def load(root=None):
     return funcs, mods
 
 
+def load_original_asm(root=None):
+    path = Path(ROOT if root is None else root, "tools/config/original_asm.txt")
+    if not path.exists():
+        return set()
+    return {line.split("#")[0].strip() for line in path.read_text(encoding="utf-8").splitlines()} - {""}
+
+
 def collect(root=None, code_end=CODE_END, include_prelude=False):
     root = ROOT if root is None else root
     funcs, mods = load(root)
+    original_asm = load_original_asm(root)
     if include_prelude and any(a < mods[0][0] for a in funcs):
         mods.insert(0, (0x08000000, "crt0", "asm", "game"))
     entries = sorted(a for a in funcs if include_prelude or a >= 0x0800023C)
@@ -91,7 +100,7 @@ def collect(root=None, code_end=CODE_END, include_prelude=False):
             e = entries[j + 1] if j + 1 < len(entries) else code_end
             e = min(e, mend)
             name = funcs[a]
-            if kind == "asm":
+            if kind == "asm" or (kind == "c" and name in original_asm and name in stubbed):
                 state = "asm"
             elif kind == "linked":
                 state = "done"
@@ -125,8 +134,8 @@ def summarize(modules):
             "decompiled": [f for m in ms if m["kind"] == "c" for f in m["funcs"] if f["state"] == "done"],
             "linked": [f for m in ms if m["kind"] == "linked" for f in m["funcs"]],
             "pending": [f for m in ms if m["kind"] == "c" for f in m["funcs"] if f["state"] == "todo"],
-            "original_asm": [f for m in ms if m["kind"] == "asm" for f in m["funcs"]],
-            "decompilable": [f for m in ms if m["kind"] == "c" for f in m["funcs"]],
+            "original_asm": [f for m in ms for f in m["funcs"] if f["state"] == "asm"],
+            "decompilable": [f for m in ms if m["kind"] == "c" for f in m["funcs"] if f["state"] != "asm"],
             "all": [f for m in ms for f in m["funcs"]],
         }
         for label, functions in partitions.items():
