@@ -1594,7 +1594,6 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
 #endif
-#ifdef NONMATCHING
 struct Entity9972B8 {
     u8 pad0[0x14]; s32 x, y; u8 pad1C[0x4C];
     u16 animation, tile, rotation;
@@ -1633,13 +1632,13 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
     register u32 tailAddress4 asm("r4"), tailZero4 asm("r4");
     register s32 tailX asm("r0"), tailY asm("r1");
     u16 tailAnimation, tailTile;
+    register u32 scratch2 asm("r2"), scratch3 asm("r3"), scratch4 asm("r4");
 
     u32 bankBits, slotBits;
     register u32 priorityBits asm("r0");
     register u32 zero0 asm("r0");
     entity = inputEntity;
     image = inputImage;
-    asm volatile("" : "+r"(entity), "+r"(image));
     priorityBits = inputPriority;
     bankBits = bank << 16;
     slotBits = slot << 16;
@@ -1647,7 +1646,6 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
     priority = (u8)priorityBits;
     image->payload[0] = (u8)palNum;
     zero0 = 0;
-    asm("" : : "r"(zero0));
     i = 0;
     screenXPtr = &screenX;
     screenYPtr = &screenY;
@@ -1676,7 +1674,6 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
         u8 oldAlternate;
         {
             register u32 nextPhase asm("r1") = (phase + 1) << 16;
-            asm("" : "+r"(nextPhase));
             phase = (0xF0000U & nextPhase) >> 16;
         }
         oldAlternate = alternate++;
@@ -1701,16 +1698,15 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
         tailY = ((struct Entity9972B8 *)tailAddress3)->y;
         tailY = (s32)((u32)tailY << 8) >> 16;
         tailZero4 = 0;
-        asm("" : : "r"(tailAddress3), "r"(tailZero4));
         coords9972B8(tailX, tailY, (s16 *)palNum, screenYPtr,
                      tailZero4, tailZero4);
-        /* Ordinary pointees retain the signed-halfword load ABI. */
+        /* Keep scratch values defined while constraining the signed loads. */
         tailAddress1 = palNum;
-        asm("" : : "r"(tailAddress1));
+        asm volatile("" : "=r"(scratch3), "=r"(scratch4) : "r"(tailAddress1));
         tailX = *(s16 *)tailAddress1;
+        asm volatile("" : "=r"(scratch2) : "r"(scratch3), "r"(scratch4));
         tailAddress3 = (u32)screenYPtr;
-        tailZero4 = 0;
-        asm("" : : "r"(tailAddress3), "r"(tailZero4));
+        asm("" : : "r"(tailAddress3));
         tailY = *(s16 *)tailAddress3;
         tailAddress3 = (u32)field68;
         tailAnimation = *(u16 *)tailAddress3;
@@ -1724,9 +1720,6 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
     scroll9972B8(0, 0, 0, 0);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
-#endif
 struct FadeColor100 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern void sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
 extern void sub_08007974(s16,s16,u16,u16,u32,u32,u32,void *,u32,void *);
