@@ -6829,7 +6829,7 @@ loop_74:
                         if (temp_r0_7 == 0) {
                             temp_r4_6 = var_r7 * 2;
 
-                            if (sub_08065370(frame.desc, 0xAU, (s32) (&frame.xs[temp_r4_6 / 2]), (s32) (&frame.ys[temp_r4_6 / 2]), 0) != 0) {
+                            if (sub_08065370(frame.desc, 0xAU, (s32) (&frame.xs[temp_r4_6 / 2]), (s32) (&frame.ys[var_r7 * 2 / 2]), 0) != 0) {
                                 frame.sp84 = (u32) (u16) (frame.sp84 + 1);
                                 D75_U8(temp_r5_2,0x3C) = 0xF0U;
                                 if (frame.sp8C == *temp_r0_6) {
@@ -6859,7 +6859,7 @@ loop_74:
                                     sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
                                 }
 
-                                d75Draw(*frame.spA4, *frame.spA8, 0xA, frame.xs[temp_r4_6 / 2], temp_r9_2, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
+                                d75Draw(*frame.spA4, *frame.spA8, 0xA, frame.xs[var_r7 * 2 / 2], temp_r9_2, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
                             }
                         } else if (temp_r0_7 != 0xF0) {
                             D75_U8(temp_r5_2,0x3C) = (u8) (temp_r0_7 - 1);
