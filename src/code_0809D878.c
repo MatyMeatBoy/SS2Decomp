@@ -319,7 +319,7 @@ void sub_080A05B4(u32 kind,void *done)
             object=draw105(sx,0x9F,animation,frame,2,spr.payload,spr.data,spr.base);object->y=sy;
             if (frame) {
                 shade=sub_0800BC44(pos[0]>>8,pos[1]>>8,0);
-                object=draw105(sx,0x9F,other,frame-1,shade,spr.payload,spr.data,spr.base);object->y=sy;
+                object=draw105(sx,0x9F,other,(u16)(frame-1),shade,spr.payload,spr.data,spr.base);object->y=sy;
             }
         }
         if (!contact && frame==2 && phase==0) {
