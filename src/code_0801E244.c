@@ -1143,327 +1143,178 @@ echeck:
 }
 #undef COPY4
 #ifdef NONMATCHING
-extern void *getter020680(s32) asm("sub_08007290");
-extern u16 call020680_ArcTan2(s16,s16) asm("ArcTan2");
-extern u16 call020680_sub_080008C8(void) asm("sub_080008C8");
-extern s32 call020680_sub_080020F4(void) asm("sub_080020F4");
-extern s32 call020680_sub_08002204(void) asm("sub_08002204");
-extern s32 call020680_sub_0800CCCC(void) asm("sub_0800CCCC");
-extern s32 call020680_sub_0800CDF8(void) asm("sub_0800CDF8");
-extern s32 call020680_sub_0800D11C(void) asm("sub_0800D11C");
-extern s32 call020680_sub_0801AC78(void) asm("sub_0801AC78");
-extern void call020680_sub_0801DB94(u16, s32, u8) asm("sub_0801DB94");
-extern s32 call020680_sub_0801E164(void *, s32) asm("sub_0801E164");
-extern s32 call020680_sub_0801E1A4(void *, u8) asm("sub_0801E1A4");
-extern u16 call020680_sub_0801ED8C(void *, void *) asm("sub_0801ED8C");
-extern u16 call020680_sub_0801EF14(void *, void *) asm("sub_0801EF14");
-extern s32 call020680_sub_0801F024(void *, u16, void *, void *, s32, s32) asm("sub_0801F024");
-extern void call020680_sub_0801F2CC(void *, u32 *) asm("sub_0801F2CC");
-extern void call020680_sub_0801F320(void *, u32 *) asm("sub_0801F320");
-extern void call020680_sub_08022504(s32, s32) asm("sub_08022504");
-extern void call020680_sub_0805865C(s32) asm("sub_0805865C");
-extern s32 call020680_sub_08058DB0(void) asm("sub_08058DB0");
-extern s32 call020680_sub_08065AE8(void) asm("sub_08065AE8");
-extern void call020680_sub_080660EC(u32 *) asm("sub_080660EC");
-extern void call020680_sub_08069080(void *, u16, s32, s32, s32, s32) asm("sub_08069080");
-extern void call020680_sub_08069224(u8, u16, s32) asm("sub_08069224");
-extern void call020680_sub_08069388(u32 *, void *, s32, u16, s32) asm("sub_08069388");
-extern u8 *data020680_030034E0 asm("gUnk_030034E0");
-extern u8 data020680_03003CE0 asm("gUnk_03003CE0");
-extern u8 *data020680_030056F4 asm("gUnk_030056F4");
-extern u32 data020680_030056FC asm("gUnk_030056FC");
-extern u8 data020680_084790B4 asm("gUnk_084790B4");
-void sub_08020680(void *arg0) {
-    u32 packet[2];
-    u32 sp10;
-    void *sp14;
-    void *sp18;
-    s16 temp_r1_5;
-    s16 temp_r1_8;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r1_2;
-    s32 temp_r1_4;
-    s32 temp_r1_7;
-    s32 var_r1;
-    s32 var_r1_3;
-    u16 temp_r0_4;
-    u16 temp_r1;
-    u16 temp_r1_3;
-    u16 temp_r2;
-    u16 temp_r2_2;
-    u16 temp_r2_3;
-    u16 temp_r4;
-    u16 temp_r4_2;
-    u16 var_r1_2;
-    u16 var_r4;
-    u16 var_r9;
-    u16 var_r9_2;
-    u32 temp_r0_7;
-    u32 temp_r1_6;
-    u32 temp_r1_9;
-    u32 temp_r2_4;
-    u32 temp_r3;
-    u32 temp_r3_2;
-    u32 var_r2;
-    u8 temp_r0;
-    void *temp_r0_2;
-    void *temp_r0_3;
-    void *temp_r5;
-    void *temp_r5_2;
-    void *temp_r5_3;
-    void *temp_r6;
-
-    if (call020680_sub_0800CDF8() != 0) {
+struct Packet20680 {u32 player:8;u32 power:8;u32 impulse:8;u32 direction:8;u32 amount:16;u32 unused:16;};
+extern u8 *inv20680 asm("gUnk_030034E0");
+extern u8 players20680[] asm("gUnk_03003CE0");
+struct PH20680 {u8 pad[0xE4]; u32 hist[8];};
+struct P20680 {u16 id; u8 pad[0x14A];};
+extern struct P20680 plArr20680[] asm("gUnk_03003CE0");
+extern u8 *enemies20680 asm("gUnk_030056F4");
+extern u32 mask20680 asm("gUnk_030056FC");
+extern u8 dirs20680[] asm("gUnk_084790B4");
+extern u8 *atk20680(u32) asm("sub_08007290");
+extern s32 test20680(u8 *,u16,u8 *,u8 *,s32,s32) asm("sub_0801F024");
+extern u16 amtA20680(u8 *,u8 *) asm("sub_0801EF14");
+extern u16 amtB20680(u8 *,u8 *) asm("sub_0801ED8C");
+extern void hit20680(struct Packet20680 *,u8 *,s32,u16,s32) asm("sub_08069388");
+extern void disp20680(u8 *,u16,s32,s32,s32,s32) asm("sub_08069080");
+extern void notify20680(struct Packet20680 *) asm("sub_080660EC");
+extern void apply20680(u8 *,struct Packet20680 *) asm("sub_0801F2CC");
+extern void applyB20680(u8 *,struct Packet20680 *) asm("sub_0801F320");
+extern void exp20680(u8,u16,u8 *) asm("sub_08069224");
+extern void *statA20680(u8 *,u8) asm("sub_0801E1A4");
+extern void *statB20680(u8 *,s32) asm("sub_0801E164");
+extern void stat20680(u16,void *,u8) asm("sub_0801DB94");
+extern void counter20680(u32,u32) asm("sub_08022504");
+static inline s32 roll20680(s16 *a,s16 *b){ u16 c=((*a+10)*125)/(*a+*b+20); u16 r=(u16)sub_080008C8()%100; s32 x=(s16)c; return x>=r; }
+static inline s32 seen20680(u32 *h,u8 *e){ return *(u32 *)((*(u16 *)e<<2)+(u8 *)h)!=*(u32 *)(e+0x50); }
+void sub_08020680(u8 *e)
+{
+    struct Packet20680 packet;
+    u32 i;
+    u8 *atk;
+    u8 *disp;
+    u8 *t;
+    u8 *p;
+    u16 mode;
+    u16 chance;
+    u16 r;
+    u16 dmg;
+    u16 q;
+    s32 ok;
+    u8 zz;
+    u16 angle;
+    u32 *hist;
+    void *st;
+    if(sub_0800CDF8()!=0) return;
+    if(sub_0800D11C()!=0) return;
+    if(sub_0801AC78()==0) return;
+    if(sub_08065AE8()!=0) return;
+    if(*(u16 *)(e+0x228)==0xFFFF && sub_0800CCCC()==0) mode=2; else mode=*(u16 *)(e+0xC);
+    switch(e[0x1FD]){case 19: case 20: return;}
+    if(mode!=2) return;
+    if(*(u16 *)(e+0x228)!=0xFFFF) {
+        if(*(u16 *)(e+0x6A)!=*(u16 *)(e+0x228)) return;
+        if(*(u16 *)(e+0x6C)!=1) return;
+    }
+    atk=atk20680(*(u16 *)(e+0x22C)|0xB0000);
+    if(atk[0x9B]==7) return;
+    if(e[0x201]&(u8)mode) {
+        if(sub_08002204()==0) return;
+        i=0;
+        disp=e+0x218;
+        for(;i<5;i++) {
+            if(i==*(u16 *)e) continue;
+            if(!(mask20680&(1<<i))) continue;
+            t=enemies20680+i*0x2E0;
+            if((u16)(*(u16 *)(t+0xC)-11)<=1) continue;
+            ok=*(u32 *)(e+0x50)!=*(u32 *)(t+0x54);
+            if(*(s16 *)(t+0x5C)-*(u16 *)(t+0x4A)<=0) ok=0;
+            if(t[0x1DC]==0) ok=0;
+            if(!ok) continue;
+            if(test20680(atk,*(u16 *)(e+8),e+0x14,t+0x14,t[0x22E],t[0x22F])==0) continue;
+            if(!roll20680((s16 *)(e+0x206),(s16 *)(t+0x206))) continue;
+            sub_0805865C(0x1A);
+            packet.amount=amtA20680(e,t);
+            packet.power=atk[0xBC];
+            packet.impulse=atk[0xA9];
+            packet.impulse-=*(u32 *)(t+0x210);
+            if(packet.impulse&0x80) packet.impulse=0;
+            if(*(u32 *)(t+0x210)==0xFF) packet.impulse=0;
+            angle=ArcTan2((s32)((*(s32 *)(t+0x14)-*(s32 *)(e+0x14))<<8)>>16,(s32)((*(s32 *)(t+0x18)-*(s32 *)(e+0x18))<<8)>>16);
+            packet.direction=dirs20680[angle>>12];
+            *(u16 *)(t+0xC)=10;
+            *(u32 *)(t+0x54)=*(u32 *)(e+0x50);
+            packet.player=t[2];
+            *(u16 *)(t+0x4A)+=packet.amount;
+            *(u32 *)(t+0x4C)=packet.amount;
+            {u16 *a=(u16 *)(t+0x68); u16 v=0xFFFE; *a=v;}
+            hit20680(&packet,disp,0,*(u16 *)(atk+0xBC),(u16)(*(u16 *)e+4));
+            {u8 pw=packet.power; *(u16 *)(t+0x62)=pw;}
+            apply20680(t,&packet);
+            {u16 sid=*(u16 *)e; *(u16 *)(t+0x58)=sid;}
+            *(u16 *)(t+0x5A)|=1<<plArr20680[sub_080020F4()].id;
+            notify20680(&packet);
+            disp20680(disp,packet.amount,0,*(u16 *)e+4,*(u16 *)e+4,*(u16 *)(atk+0xBC));
+        }
         return;
     }
-    if (call020680_sub_0800D11C() != 0) {
-        return;
-    }
-    if (call020680_sub_0801AC78() == 0) {
-        return;
-    }
-    if (call020680_sub_08065AE8() != 0) {
-        return;
-    }
-    if ((M2C_FIELD(arg0, u16 *, 0x228) != 0xFFFF) || (var_r4 = 2, (call020680_sub_0800CCCC() != 0))) {
-        var_r4 = M2C_FIELD(arg0, u16 *, 0xC);
-    }
-    temp_r0 = M2C_FIELD(arg0, u8 *, 0x1FD);
-    if (((s32) temp_r0 <= 0x14) && ((s32) temp_r0 >= 0x13)) {
-        return;
-    }
-    if (var_r4 != 2) {
-        return;
-    }
-    temp_r1 = M2C_FIELD(arg0, u16 *, 0x228);
-    if (temp_r1 != 0xFFFF) {
-        if (M2C_FIELD(arg0, u16 *, 0x6A) != temp_r1) {
-            return;
-        }
-        if (M2C_FIELD(arg0, u16 *, 0x6C) != 1) {
-            return;
-        }
-        goto block_21;
-    }
-block_21:
-    temp_r0_2 = getter020680(M2C_FIELD(arg0, u16 *, 0x22C) | 0xB0000);
-    sp14 = temp_r0_2;
-    if (M2C_FIELD(temp_r0_2, u8 *, 0x9B) == 7) {
-        return;
-    }
-    if (!(var_r4 & M2C_FIELD(arg0, u8 *, 0x201))) {
-        temp_r6 = (call020680_sub_080020F4() * 0x14C) + &data020680_03003CE0;
-        temp_r1_2 = M2C_FIELD(temp_r6, s32 *, 0x30);
-        if (var_r4 & temp_r1_2) {
-            return;
-        }
-        if (0x2000 & temp_r1_2) {
-            return;
-        }
-        if (temp_r1_2 & 0x400) {
-            return;
-        }
-        if (call020680_sub_08058DB0() != 0) {
-            return;
-        }
-        if (M2C_FIELD(temp_r6, s16 *, 0x114) != 0) {
-            return;
-        }
-        if (M2C_FIELD(temp_r6, u8 *, 0x68) == 0) {
-            return;
-        }
-        temp_r1_3 = M2C_FIELD(temp_r6, u16 *, 0x20);
-        if ((u32) (u16) (temp_r1_3 - 0xA) <= 1U) {
-            return;
-        }
-        switch (temp_r1_3) {                        /* irregular */
-        case 13:
-            return;
-        case 12:
-            return;
-        case 14:
-            return;
-        default:
-            if (call020680_sub_0800CCCC() != 0) {
-                return;
-            }
-            temp_r5 = temp_r6 + 0xE4;
-            temp_r1_4 = M2C_FIELD(temp_r5,s32 *,M2C_FIELD(arg0,u16 *,0)*4) ^ M2C_FIELD(arg0, s32 *, 0x50);
-            if ((s32) ((0 - temp_r1_4) | temp_r1_4) >= 0) {
-                return;
-            }
-            temp_r0_3 = getter020680(M2C_FIELD(arg0, u16 *, 0x22C) | 0xB0000);
-            sp14 = temp_r0_3;
-            if (call020680_sub_0801F024(temp_r0_3, M2C_FIELD(arg0, u16 *, 8), arg0 + 0x14, temp_r6 + 0x8C, 0x10, 0x10) == 0) {
-                return;
-            }
-            temp_r1_5 = M2C_FIELD(arg0, s16 *, 0x206);
-            temp_r4 = (u16) ((s32) ((temp_r1_5 + 0xA) * 0x7D) / (s32) (temp_r1_5 + M2C_FIELD(temp_r6, s16 *, 0x3A) + 0x14));
-            var_r1 = 0;
-            if ((s32) (s16) temp_r4 >= (s32) (u16) (call020680_sub_080008C8() % 100U)) {
-                var_r1 = 1;
-            }
-            if (var_r1 == 0) {
-                M2C_FIELD(temp_r5,s32 *,M2C_FIELD(arg0,u16 *,0)*4) = M2C_FIELD(arg0, s32 *, 0x50);
-                call020680_sub_0805865C(0x55);
+    p=players20680+0x14C*sub_080020F4();
+    if(mode&*(u32 *)(p+0x30)) return;
+    if(*(u32 *)(p+0x30)&0x2000) return;
+    if(*(u32 *)(p+0x30)&0x400) return;
+    if(sub_08058DB0()!=0) return;
+    if(*(s16 *)(p+0x114)!=0) return;
+    if(p[0x68]==0) return;
+    if((u16)(*(u16 *)(p+0x20)-10)<=1) return;
+    if(*(u16 *)(p+0x20)==13) return;
+    if(*(u16 *)(p+0x20)==12) return;
+    if(*(u16 *)(p+0x20)==14) return;
+    if(sub_0800CCCC()!=0) return;
+    ok=((struct PH20680 *)p)->hist[*(u16 *)e]!=*(u32 *)(e+0x50);
+    hist=(u32 *)(p+0xE4);
+    if(!ok) return;
+    atk=atk20680(*(u16 *)(e+0x22C)|0xB0000);
+    if(test20680(atk,*(u16 *)(e+8),e+0x14,p+0x8C,16,16)==0) return;
+    if(roll20680((s16 *)(e+0x206),(s16 *)(p+0x3A))) {
+        r=sub_080008C8()%100;
+        if(p[0x6E]==0 || r>=p[0x6E]) {
+            *(u16 *)(p+0x20)=10;
+            {u16 *a=(u16 *)(p+0xB0); u16 v=0xFFFE; *a=v;}
+            dmg=amtB20680(e,p);
+            if(dmg&0x8000) {
+                sub_0805865C(0x27);
+                dmg&=0x7FFF;
             } else {
-                temp_r2 = (u16) (call020680_sub_080008C8() % 100U);
-                if ((M2C_FIELD(temp_r6, u8 *, 0x6E) != 0) && ((u32) temp_r2 < (u32) M2C_FIELD(temp_r6, u8 *, 0x6E))) {
-                    call020680_sub_08022504(M2C_FIELD(temp_r6, s32 *, 0x8C), M2C_FIELD(temp_r6, s32 *, 0x90));
-                    var_r9 = call020680_sub_0801ED8C(arg0, temp_r6);
-                    if (0x8000 & var_r9) {
-                        var_r9 &= 0x7FFF;
-                    }
-                    temp_r2_2 = M2C_FIELD(temp_r6, u16 *, 0x8A);
-                    temp_r1_6 = var_r9 >> 2;
-                    if (temp_r1_6 != 0) {
-                        var_r1_2 = temp_r2_2 + temp_r1_6;
-                    } else {
-                        var_r1_2 = temp_r2_2 + 1;
-                    }
-                    M2C_FIELD(temp_r6, u16 *, 0x8A) = var_r1_2;
-                    M2C_FIELD(temp_r5,s32 *,M2C_FIELD(arg0,u16 *,0)*4) = M2C_FIELD(arg0, s32 *, 0x50);
-                    M2C_FIELD(temp_r6, s32 *, 0x110) = (s32) (M2C_FIELD(arg0, u16 *, 0) + 5);
-                    call020680_sub_0805865C(0x164);
-                    temp_r2_3 = (u16) (call020680_sub_080008C8() % 100U);
-                    if ((M2C_FIELD(temp_r6, u8 *, 0x6F) != 0) && ((u32) temp_r2_3 <= (u32) M2C_FIELD(temp_r6, u8 *, 0x6F))) {
-                        M2C_FIELD(&packet[0], u16 *, 4) = (u16) (var_r9 - temp_r1_6);
-                        M2C_FIELD(&packet[0], u8 *, 1) = 0U;
-                        M2C_FIELD(&packet[0], u8 *, 2) = 0U;
-                        M2C_FIELD(&packet[0], s8 *, 3) = 0;
-                        M2C_FIELD(arg0, u16 *, 0xC) = 0xAU;
-                        M2C_FIELD(arg0, s32 *, 0x54) = (s32) M2C_FIELD(temp_r6, s32 *, 0xDC);
-                        M2C_FIELD(&packet[0], s8 *, 0) = (s8) M2C_FIELD(arg0, u16 *, 2);
-                        M2C_FIELD(arg0, u16 *, 0x4A) = (u16) (M2C_FIELD(&packet[0], u16 *, 4) + M2C_FIELD(arg0, u16 *, 0x4A));
-                        M2C_FIELD(arg0, s32 *, 0x4C) = (s32) M2C_FIELD(&packet[0], u16 *, 4);
-                        M2C_FIELD(arg0, s16 *, 0x62) = (s16) M2C_FIELD(&packet[0], u8 *, 1);
-                        call020680_sub_0801F2CC(arg0, &packet[0]);
-                        M2C_FIELD(arg0, u16 *, 0x58) = (u16) M2C_FIELD(temp_r6, u16 *, 0);
-                        M2C_FIELD(arg0, u16 *, 0x5A) = (u16) ((1 << M2C_FIELD(temp_r6, u16 *, 0)) | M2C_FIELD(arg0, u16 *, 0x5A));
-                        if (M2C_FIELD(arg0, u8 *, 0x226) != 3) {
-                            M2C_FIELD(arg0, s16 *, 0x68) = 0xFFFE;
-                        }
-                        call020680_sub_080660EC(&packet[0]);
-                        return;
-                    }
-                    return;
-                }
-                M2C_FIELD(temp_r6, u16 *, 0x20) = 0xAU;
-                M2C_FIELD(temp_r6, s16 *, 0xB0) = 0xFFFE;
-                var_r9_2 = call020680_sub_0801ED8C(arg0, temp_r6);
-                if (0x8000 & var_r9_2) {
-                    call020680_sub_0805865C(0x27);
-                    var_r9_2 &= 0x7FFF;
-                } else {
-                    call020680_sub_0805865C(0x1A);
-                    temp_r0_4 = M2C_FIELD(temp_r6, u16 *, 0xC);
-                    if (temp_r0_4 == 8) {
-                        call020680_sub_0805865C(0x4B);
-                    } else {
-                        call020680_sub_0805865C(temp_r0_4 + 0x45);
-                    }
-                }
-                M2C_FIELD(temp_r6, u16 *, 0x88) = (u16) (M2C_FIELD(temp_r6, u16 *, 0x88) + var_r9_2);
-                M2C_FIELD(temp_r5,s32 *,M2C_FIELD(arg0,u16 *,0)*4) = M2C_FIELD(arg0, s32 *, 0x50);
-                M2C_FIELD(temp_r6, s32 *, 0x110) = (s32) (M2C_FIELD(arg0, u16 *, 0) + 5);
-                M2C_FIELD(&packet[0], u8 *, 2) = (u8) M2C_FIELD(sp14, u8 *, 0xA9);
-                call020680_sub_0801F320(temp_r6, &packet[0]);
-                M2C_FIELD(temp_r6, u16 *, 0xD0) = (u16) M2C_FIELD(arg0, u16 *, 8);
-                temp_r5_2 = temp_r6 + 0x4C;
-                call020680_sub_08069388(&packet[0], temp_r5_2, 0, M2C_FIELD(sp14, u16 *, 0xBC), (s32) M2C_FIELD(temp_r6, u16 *, 0));
-                M2C_FIELD(temp_r6, s32 *, 0xE0) = (s32) M2C_FIELD(&packet[0], u8 *, 1);
-                call020680_sub_08069224(M2C_FIELD(&packet[0], u8 *, 1), var_r9_2, data020680_030034E0 + 0x24);
-                temp_r0_5 = call020680_sub_0801E1A4(temp_r6, M2C_FIELD(&packet[0], u8 *, 1));
-                if (temp_r0_5 != 0) {
-                    call020680_sub_0801DB94(M2C_FIELD(temp_r6, u16 *, 0), temp_r0_5, M2C_FIELD(&packet[0], u8 *, 1));
-                } else {
-                    temp_r0_6 = call020680_sub_0801E164(temp_r6, 0);
-                    if (temp_r0_6 != 0) {
-                        call020680_sub_0801DB94(M2C_FIELD(temp_r6, u16 *, 0), temp_r0_6, M2C_FIELD(&packet[0], u8 *, 1));
-                    }
-                }
-                call020680_sub_08069080(temp_r5_2, var_r9_2, 0, M2C_FIELD(arg0, u16 *, 0) + 4, (s32) M2C_FIELD(temp_r6, u16 *, 0), (s32) M2C_FIELD(sp14, u16 *, 0xBC));
-                return;
+                sub_0805865C(0x1A);
+                {u16 w=*(u16 *)(p+0xC); if(w==8) sub_0805865C(0x4B);
+                else sub_0805865C(w+0x45);}
             }
-            break;
+            *(u16 *)(p+0x88)+=dmg;
+            hist[*(u16 *)e]=*(u32 *)(e+0x50);
+            *(u32 *)(p+0x110)=*(u16 *)e+5;
+            packet.impulse=atk[0xA9];
+            applyB20680(p,&packet);
+            {u16 a8=*(u16 *)(e+8); *(u16 *)(p+0xD0)=a8;}
+            hit20680(&packet,p+0x4C,0,*(u16 *)(atk+0xBC),*(u16 *)p);
+            *(u32 *)(p+0xE0)=packet.power;
+            exp20680(packet.power,dmg,inv20680+0x24);
+            st=statA20680(p,packet.power);
+            if(st!=0) stat20680(*(u16 *)p,st,packet.power);
+            else {
+                st=statB20680(p,0);
+                if(st!=0) stat20680(*(u16 *)p,st,packet.power);
+            }
+            disp20680(p+0x4C,dmg,0,*(u16 *)e+4,*(u16 *)p,*(u16 *)(atk+0xBC));
+            return;
         }
+        counter20680(*(u32 *)(p+0x8C),*(u32 *)(p+0x90));
+        dmg=amtB20680(e,p);
+        if(dmg&0x8000) dmg&=0x7FFF;
+        *(u16 *)(p+0x8A)+=(dmg>>2)?(zz=0,dmg>>2):(zz=0,1);
+        hist[*(u16 *)e]=*(u32 *)(e+0x50);
+        *(u32 *)(p+0x110)=*(u16 *)e+5;
+        sub_0805865C(0x164);
+        r=sub_080008C8()%100;
+        if(p[0x6F]==0 || r>p[0x6F]) return;
+        packet.amount=dmg-(dmg>>2);
+        packet.power=zz;
+        packet.impulse=zz;
+        packet.direction=zz;
+        *(u16 *)(e+0xC)=10;
+        *(u32 *)(e+0x54)=*(u32 *)(p+0xDC);
+        packet.player=*(u16 *)(e+2);
+        *(u16 *)(e+0x4A)+=packet.amount;
+        *(u32 *)(e+0x4C)=packet.amount;
+        {u8 pw=packet.power; *(u16 *)(e+0x62)=pw;}
+        apply20680(e,&packet);
+        {u16 sid=*(u16 *)p; *(u16 *)(e+0x58)=sid;}
+        *(u16 *)(e+0x5A)|=1<<*(u16 *)p;
+        if(e[0x226]!=3) {u16 *a=(u16 *)(e+0x68); u16 v=0xFFFE; *a=v;}
+        notify20680(&packet);
     } else {
-        if (call020680_sub_08002204() == 0) {
-            return;
-        }
-        sp10 = 0;
-        sp18 = arg0 + 0x218;
-loop_28:
-        if (sp10 == M2C_FIELD(arg0, u16 *, 0)) {
-
-        } else if (!(data020680_030056FC & (1 << sp10))) {
-
-        } else {
-            temp_r5_3 = data020680_030056F4 + (sp10 * 0x2E0);
-            if ((u32) (u16) (M2C_FIELD(temp_r5_3, u16 *, 0xC) - 0xB) <= 1U) {
-
-            } else {
-                temp_r1_7 = M2C_FIELD(arg0, s32 *, 0x50) ^ M2C_FIELD(temp_r5_3, s32 *, 0x54);
-                var_r2 = (u32) ((0 - temp_r1_7) | temp_r1_7) >> 0x1F;
-                if ((s32) (M2C_FIELD(temp_r5_3, s16 *, 0x5C) - M2C_FIELD(temp_r5_3, u16 *, 0x4A)) <= 0) {
-                    var_r2 = 0;
-                }
-                if (M2C_FIELD(temp_r5_3, u8 *, 0x1DC) == 0) {
-                    var_r2 = 0;
-                }
-                if (var_r2 == 0) {
-
-                } else if (call020680_sub_0801F024(sp14, M2C_FIELD(arg0, u16 *, 8), arg0 + 0x14, temp_r5_3 + 0x14, (s32) M2C_FIELD(temp_r5_3, u8 *, 0x22E), (s32) M2C_FIELD(temp_r5_3, u8 *, 0x22F)) == 0) {
-
-                } else {
-                    temp_r1_8 = M2C_FIELD(arg0, s16 *, 0x206);
-                    temp_r4_2 = (u16) ((s32) ((temp_r1_8 + 0xA) * 0x7D) / (s32) (temp_r1_8 + M2C_FIELD(temp_r5_3, s16 *, 0x206) + 0x14));
-                    var_r1_3 = 0;
-                    if ((s32) (s16) temp_r4_2 >= (s32) (u16) (call020680_sub_080008C8() % 100U)) {
-                        var_r1_3 = 1;
-                    }
-                    if (var_r1_3 == 0) {
-
-                    } else {
-                        call020680_sub_0805865C(0x1A);
-                        packet[1] = (packet[1] & 0xFFFF0000) | call020680_sub_0801EF14(arg0, temp_r5_3);
-                        temp_r1_9 = (packet[0] & 0xFFFF00FF) | ((u8) M2C_FIELD(sp14, u16 *, 0xBC) << 8);
-                        packet[0] = temp_r1_9;
-                        temp_r2_4 = (0xFF00FFFF & temp_r1_9) | (M2C_FIELD(sp14, u8 *, 0xA9) << 0x10);
-                        packet[0] = temp_r2_4;
-                        temp_r3 = (0xFF00FFFF & temp_r2_4) | ((u32) (((temp_r2_4 >> 0x10) - M2C_FIELD(temp_r5_3, s32 *, 0x210)) << 0x18) >> 8);
-                        packet[0] = temp_r3;
-                        if (0x80 & (temp_r3 >> 0x10)) {
-                            packet[0] = temp_r3 & 0xFF00FFFF;
-                        }
-                        if (M2C_FIELD(temp_r5_3, s32 *, 0x210) == 0xFF) {
-                            packet[0] &= 0xFF00FFFF;
-                        }
-                        temp_r0_7 = (packet[0] & 0xFFFFFF) | (*(((u32) (call020680_ArcTan2((s32) ((M2C_FIELD(temp_r5_3, s32 *, 0x14) - M2C_FIELD(arg0, s32 *, 0x14)) << 8) >> 0x10, (s32) ((M2C_FIELD(temp_r5_3, s32 *, 0x18) - M2C_FIELD(arg0, s32 *, 0x18)) << 8) >> 0x10) << 0x10) >> 0x1C) + &data020680_084790B4) << 0x18);
-                        packet[0] = temp_r0_7;
-                        M2C_FIELD(temp_r5_3, u16 *, 0xC) = 0xAU;
-                        M2C_FIELD(temp_r5_3, s32 *, 0x54) = (s32) M2C_FIELD(arg0, s32 *, 0x50);
-                        packet[0] = (temp_r0_7 & 0xFFFFFF00) | M2C_FIELD(temp_r5_3, u8 *, 2);
-                        M2C_FIELD(temp_r5_3, u16 *, 0x4A) = (u16) (M2C_FIELD(&packet[0], u16 *, 4) + M2C_FIELD(temp_r5_3, u16 *, 0x4A));
-                        M2C_FIELD(temp_r5_3, s32 *, 0x4C) = (s32) M2C_FIELD(&packet[0], u16 *, 4);
-                        M2C_FIELD(temp_r5_3, s16 *, 0x68) = 0xFFFE;
-                        call020680_sub_08069388(&packet[0], sp18, 0, M2C_FIELD(sp14, u16 *, 0xBC), (s32) (u16) (M2C_FIELD(arg0, u16 *, 0) + 4));
-                        M2C_FIELD(temp_r5_3, s16 *, 0x62) = (s16) M2C_FIELD(&packet[0], u8 *, 1);
-                        call020680_sub_0801F2CC(temp_r5_3, &packet[0]);
-                        M2C_FIELD(temp_r5_3, u16 *, 0x58) = (u16) M2C_FIELD(arg0, u16 *, 0);
-                        M2C_FIELD(temp_r5_3, u16 *, 0x5A) = (u16) ((1 << *(u16 *)((call020680_sub_080020F4() * 0x14C) + (u8 *)&data020680_03003CE0)) | M2C_FIELD(temp_r5_3, u16 *, 0x5A));
-                        call020680_sub_080660EC(&packet[0]);
-                        call020680_sub_08069080(sp18, M2C_FIELD(&packet[0], u16 *, 4), 0, M2C_FIELD(arg0, u16 *, 0) + 4, M2C_FIELD(arg0, u16 *, 0) + 4, (s32) M2C_FIELD(sp14, u16 *, 0xBC));
-                    }
-                }
-            }
-        }
-        temp_r3_2 = sp10 + 1;
-        sp10 = temp_r3_2;
-        if (temp_r3_2 <= 4U) {
-            goto loop_28;
-        }
+        ((struct PH20680 *)p)->hist[*(u16 *)e]=*(u32 *)(e+0x50);
+        sub_0805865C(0x55);
     }
 }
 #else

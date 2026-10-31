@@ -4007,7 +4007,7 @@ extern s16 gUnk_084ECBBC[];
 void sub_08080A78(void)
 {
     u32 i;
-    u32 end, first;
+    u32 end;
     u8 *item;
     s32 mode;
     u32 r;
@@ -4034,10 +4034,11 @@ void sub_08080A78(void)
 
     {
         s16 *t;
-        first = (u16)(F16(INV, 0x68) / 3) * 3; i = first;
+        u32 first;
+        first = (u16)(F16(INV, 0x68) / 3) * 3;
         end = first + 3;
         item = INV + (first * 0x10 + 0x70);
-        for (t = gUnk_084ECBBC; i < end; t += 2, i++, item += 0x10) {
+        for (i = first, t = gUnk_084ECBBC; i < end; t += 2, i++, item += 0x10) {
             mode = 8;
             if (sub_0805AE34(item) == 0)
                 mode = 10;
@@ -4045,7 +4046,7 @@ void sub_08080A78(void)
                 if (gUnk_03002344 & 1)
                     sub_0805FC80(t[0] + 0x38, t[1] + 0x10, item, mode);
             } else if (F16(INV, 0x68) == i) {
-                sub_0805FC80(t[0] + 0x38, t[1] - (*(s32 *)(MGR + 0x74) - 0x10), item, mode);
+                { s32 x = t[0] + 0x38; s32 y = t[1]; s32 sc = *(s32 *)(MGR + 0x74) - 0x10; sub_0805FC80(x, y - sc, item, mode); }
             } else {
                 sub_0805FC80(t[0] + 0x38, t[1] + 0x10, item, mode);
             }
@@ -4097,44 +4098,50 @@ void sub_08080A78(void)
     }
 
     if (F32(MGR, 0) == 2) {
-        first = (u16)(F16(INV, 0x54) / 3) * 3; i = first;
+        struct A78Ids { u8 pad[0x56]; u16 ids[3]; };
+        u32 first = (u16)(F16(INV, 0x54) / 3) * 3;
         end = first + 3;
-        for (; i < end; i = next) {
-            u16 id = ((u16 *)(INV + 0x56))[i];
-            s32 found;
-            u32 count;
-            u32 k;
-            next = i + 1;
-            if (id == 0)
-                continue;
-            found = sub_0805D548(id - 1);
-            if (found != -1) {
-                u8 *c;
-                u32 j;
-                item = INV + found * 0x10 + 0x150;
-                count = 0;
-                j = 0;
-                c = INV + 0x150;
-                for (; j <= 0x18; j++, c += 0x10) {
-                    if (F16(c, 0) == 1 && F16(item, 2) == F16(c, 2))
-                        count++;
+        for (i = first; i < end; i++) {
+            {
+            if (((struct A78Ids *)INV)->ids[i] != 0) {
+                s32 found;
+                u32 count;
+                found = sub_0805D548(((struct A78Ids *)INV)->ids[i] - 1);
+                if (found != -1) {
+                    u8 *c;
+                    u32 j;
+                    item = INV + (found * 0x10 + 0x150);
+                    count = 0;
+                    for (j = 0; j <= 0x18; j++) {
+                        if (F16(INV, j * 0x10 + 0x150) == 1 && F16(item, 2) == F16(INV, j * 0x10 + 0x152))
+                            count++;
+                    }
+                } else {
+                    count = 0;
+                    item = (u8 *)buf;
+                    buf[0] = 1;
+                    buf[1] = ((struct A78Ids *)INV)->ids[i] - 1;
                 }
-            } else {
-                count = 0;
-                item = (u8 *)buf;
-                buf[0] = 1;
-                buf[1] = ((u16 *)(INV + 0x56))[i] - 1;
+                {
+                u32 k = i + 1;
+                sub_0805FAC0(gUnk_084ECBB0[(end - k) * 2] + 0xB8, gUnk_084ECBB2[(end - k) * 2] + 0x18, count, 0);
+                sub_0805FC80(gUnk_084ECBB0[(end - k) * 2] + 0xB8, gUnk_084ECBB2[(end - k) * 2] + 0x10, item, 0);
+                }
             }
-            k = end - next;
-            sub_0805FAC0(gUnk_084ECBB0[k * 2] + 0xB8, gUnk_084ECBB2[k * 2] + 0x18, count, 0);
-            sub_0805FC80(gUnk_084ECBB0[k * 2] + 0xB8, gUnk_084ECBB2[k * 2] + 0x10, item, 0);
+            }
         }
     }
 
     if (F32(MGR, 0) == 3) {
         for (i = 0; i <= 0xB; i++) {
             item = MGR + (i * 0x10 + 0x104);
-            ITEM_MODE(item, mode, L1)
+            mode = 8;
+            switch (*(u16 *)item) {
+            case 2: if (sub_0805AE34(item) == 0) mode = 10; break;
+            case 3: if (sub_0805D278(item) == 0) mode = 10; break;
+            case 4: if (sub_0805D210(item) == 0) mode = 10; break;
+            case 5: if (sub_0805D2E0(item) == 0) mode = 10; break;
+            }
             if (F32(MGR, 0x1C) == 0xB && F32(MGR, 0x20) == i) {
                 if (gUnk_03002344 & 1)
                     sub_0805FC80((i % 3) * 0x10 + 0xB8, (i / 3) * 0x10 + 0xB8, item, mode);
@@ -4142,9 +4149,15 @@ void sub_08080A78(void)
                 sub_0805FC80((i % 3) * 0x10 + 0xB8, (i / 3) * 0x10 + 0x20, item, mode);
         }
     } else if (F32(MGR, 0) == 4) {
-        item = MGR + F32(MGR, 0x44) * 0xF0 + 0x104;
+        item = MGR + (F32(MGR, 0x44) * 0xF0 + 0x104);
         for (i = 0; i <= 0xE; i++, item += 0x10) {
-            ITEM_MODE(item, mode, L2)
+            mode = 8;
+            switch (*(u16 *)item) {
+            case 2: if (sub_0805AE34(item) == 0) mode = 10; break;
+            case 3: if (sub_0805D278(item) == 0) mode = 10; break;
+            case 4: if (sub_0805D210(item) == 0) mode = 10; break;
+            case 5: if (sub_0805D2E0(item) == 0) mode = 10; break;
+            }
             if (F32(MGR, 0x1C) == 0xD && F32(MGR, 0x20) == i) {
                 if (gUnk_03002344 & 1)
                     sub_0805FC80((i % 3) * 0x10 + 0xB8, (i / 3) * 0x10 + 0x20, item, mode);
@@ -4154,20 +4167,32 @@ void sub_08080A78(void)
     } else if (F32(MGR, 0) == 6) {
         item = MGR + 0x104;
         for (i = 0; i <= 2; i++, item += 0x10) {
-            ITEM_MODE(item, mode, L3)
+            mode = 8;
+            switch (*(u16 *)item) {
+            case 2: if (sub_0805AE34(item) == 0) mode = 10; break;
+            case 3: if (sub_0805D278(item) == 0) mode = 10; break;
+            case 4: if (sub_0805D210(item) == 0) mode = 10; break;
+            case 5: if (sub_0805D2E0(item) == 0) mode = 10; break;
+            }
             if (F32(MGR, 0x1C) == 0x10 && F32(MGR, 0x20) == i) {
                 if (gUnk_03002344 & 1)
                     sub_0805FC80((i % 3) * 0x10 + 0xB8, 0x30, item, mode);
             } else
                 sub_0805FC80((i % 3) * 0x10 + 0xB8, 0x30, item, mode);
         }
+        mode = 8;
         item = MGR + 0x134;
-        ITEM_MODE(item, mode, L4)
+        switch (*(u16 *)item) {
+        case 2: if (sub_0805AE34(item) == 0) mode = 10; break;
+        case 3: if (sub_0805D278(item) == 0) mode = 10; break;
+        case 4: if (sub_0805D210(item) == 0) mode = 10; break;
+        case 5: if (sub_0805D2E0(item) == 0) mode = 10; break;
+        }
         if (F32(MGR, 0x1C) == 0x11) {
             if (gUnk_03002344 & 1)
                 sub_0805FC80(0xC8, F32(MGR, 0x54) + 0x60, item, mode);
         } else
-            sub_0805FC80(0xC8, (gUnk_080B9704[F32(MGR, 0x5C)] >> 5) + F32(MGR, 0x54) + 0x60, item, mode);
+            { s32 s = ((s16 *)gUnk_080B9704)[F32(MGR, 0x5C)]; sub_0805FC80(0xC8, (s >> 5) + F32(MGR, 0x54) + 0x60, item, mode); }
     }
 }
 #undef MGR
