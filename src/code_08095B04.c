@@ -1615,7 +1615,132 @@ s32 sub_080970CC(struct Entity9970CC *inputEntity,
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080972B8);
+struct Entity9972B8 {
+    u8 pad0[0x14]; s32 x, y; u8 pad1C[0x4C];
+    u16 animation, tile, rotation;
+};
+struct Sprite9972B8 {
+    u32 f0, f4, f8; u16 *palette; u8 pad10[12]; u8 payload[24];
+};
+struct Color9972B8 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
+extern void scroll9972B8(u32, u32, u32, u32) asm("sub_08009088");
+extern s32 fade9972B8(u16 *, s32, u16, s32) asm("sub_08096E20");
+extern s32 animate9972B8(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern void coords9972B8(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern void draw9972B8(s16, s16, u16, u16, u32, u32, u32, void *, u32, void *) asm("sub_08007974");
+
+s32 sub_080972B8(struct Entity9972B8 *inputEntity,
+                struct Sprite9972B8 *inputImage, u32 bank, u32 slot,
+                volatile u32 inputPriority)
+{
+    register struct Entity9972B8 *entity asm("r8");
+    register struct Sprite9972B8 *image asm("r6");
+    /* SL holds the palette slot first, then the cached screen-X address. */
+    register u32 palNum asm("sl");
+    u32 priority;
+    u16 palette[16];
+    s16 screenX, screenY;
+    s16 i;
+    u8 alternate;
+    u16 *field68, *field6A, *field6C;
+    s16 *screenXPtr, *screenYPtr;
+    u32 uploadPal;
+    void *imageAttr;
+    register u32 phase asm("r9");
+    u16 frame;
+    s32 state;
+    register u32 tailAddress1 asm("r1"), tailAddress3 asm("r3");
+    register u32 tailAddress4 asm("r4"), tailZero4 asm("r4");
+    register s32 tailX asm("r0"), tailY asm("r1");
+    u16 tailAnimation, tailTile;
+    register u32 scratch2 asm("r2"), scratch3 asm("r3"), scratch4 asm("r4");
+
+    u32 bankBits, slotBits;
+    register u32 priorityBits asm("r0");
+    register u32 zero0 asm("r0");
+    entity = inputEntity;
+    image = inputImage;
+    priorityBits = inputPriority;
+    bankBits = bank << 16;
+    slotBits = slot << 16;
+    palNum = slotBits >> 16;
+    priority = (u8)priorityBits;
+    image->payload[0] = (u8)palNum;
+    zero0 = 0;
+    i = 0;
+    screenXPtr = &screenX;
+    screenYPtr = &screenY;
+    phase = bankBits >> 12;
+    for (; i < 16; i++) {
+        volatile struct Color9972B8 *src;
+        struct Color9972B8 *dst;
+        src = (void *)((u8 *)image->palette + (phase + i) * 2);
+        dst = (void *)&palette[i];
+        /* The original leaves bit15 of each local color untouched. */
+        dst->r = src->r;
+        dst->g = src->g;
+        dst->b = src->b;
+    }
+    alternate = 0;
+    phase = 0;
+    frame = 0;
+    state = 2;
+    uploadPal = palNum + 16;
+    field6C = &entity->rotation;
+    imageAttr = image->payload;
+    field68 = &entity->animation;
+    field6A = &entity->tile;
+    palNum = (u32)screenXPtr;
+    do {
+        u8 oldAlternate;
+        {
+            register u32 nextPhase asm("r1") = (phase + 1) << 16;
+            phase = (0xF0000U & nextPhase) >> 16;
+        }
+        oldAlternate = alternate++;
+        if (oldAlternate & 1) scroll9972B8(0, 0, phase, 0);
+        else scroll9972B8(0, 0, 0, phase);
+        if (state != 1) {
+            /* Compare the old frame value, not the incremented one. */
+            if (state == 2 && frame++ > 60) { frame = 0; state = 1; }
+        } else {
+            frame++;
+            if ((u8)fade9972B8(palette, 2, frame, 60) != 0) {
+                frame = 0;
+                state = 0;
+            }
+        }
+        sub_08000AF0(uploadPal, palette, 1);
+        animate9972B8(image, *field68, field6A, field6C, 1);
+        /* Keep the shared entity address in low r3 while extracting both axes. */
+        tailAddress3 = (u32)entity;
+        tailX = ((struct Entity9972B8 *)tailAddress3)->x;
+        tailX = (s32)((u32)tailX << 8) >> 16;
+        tailY = ((struct Entity9972B8 *)tailAddress3)->y;
+        tailY = (s32)((u32)tailY << 8) >> 16;
+        tailZero4 = 0;
+        coords9972B8(tailX, tailY, (s16 *)palNum, screenYPtr,
+                     tailZero4, tailZero4);
+        /* Keep scratch values defined while constraining the signed loads. */
+        tailAddress1 = palNum;
+        asm volatile("" : "=r"(scratch3), "=r"(scratch4) : "r"(tailAddress1));
+        tailX = *(s16 *)tailAddress1;
+        asm volatile("" : "=r"(scratch2) : "r"(scratch3), "r"(scratch4));
+        tailAddress3 = (u32)screenYPtr;
+        asm("" : : "r"(tailAddress3));
+        tailY = *(s16 *)tailAddress3;
+        tailAddress3 = (u32)field68;
+        tailAnimation = *(u16 *)tailAddress3;
+        tailAddress4 = (u32)field6A;
+        tailTile = *(u16 *)tailAddress4;
+        draw9972B8(tailX, tailY, tailAnimation, tailTile,
+                   priority, 1, 0, imageAttr, image->f8, (void *)image->f0);
+        sub_08000B38();
+        sub_080003F0();
+    } while (state != 0);
+    scroll9972B8(0, 0, 0, 0);
+    return 1;
+}
 struct FadeColor100 { u32 r:5; u32 g:5; u32 b:5; u32 unused:1; };
 extern void sub_0800BC08(s32,s32,s16 *,s16 *,u32,u32);
 extern void sub_08007974(s16,s16,u16,u16,u32,u32,u32,void *,u32,void *);
