@@ -847,7 +847,203 @@ void *sub_0805B618(void)
 
 
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B688);
+#ifdef NONMATCHING
+struct BD5CPlayer {
+    u16 id;
+    u8 pad2[0x1E];
+    u16 state;
+    u16 f22;
+    u8 pad24[0xC];
+    u32 flags;
+    u8 pad34[0x2C];
+    s16 maxMp;
+    s16 maxHp;
+    u16 f64;
+    u8 pad66[2];
+    u8 f68;
+    u8 pad69[0x59];
+    s16 mp;
+    s16 hp;
+    u8 padC6[0x86];
+};
+struct BD5CMap { u8 pad0[0x10]; s16 stat10; s16 stat12; s16 stat14; s16 stat16; };
+extern struct BD5CPlayer bd5cPlayers[] asm("gUnk_03003CE0");
+extern struct BD5CMap *bd5cMap asm("gUnk_030034E0");
+extern u32 sub_080665B0(u32);
+extern void sub_08074DE8(u32, s32);
+s32 sub_0805BD5C(u16 *item, s32 level)
+{
+    struct BD5CPlayer *player;
+    u8 *obj;
+    u32 zero;
+    u16 kind;
+    s16 amount;
+    u8 *p;
+
+    player = &bd5cPlayers[sub_080020F4()];
+    if (item == NULL)
+        return 0;
+    if (sub_0800CDF8())
+        return 0;
+    if (player->state == 0xB)
+        return 0;
+    zero = player->flags & 0x2000;
+    if (zero)
+        return 0;
+    if (item[0] != 1)
+        return 0;
+    obj = (u8 *)sub_08007290(item[1] | 0x100000);
+    kind = *(u16 *)(obj + 0xA0);
+    if (kind == 1 || kind == 0x13) {
+        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        if (player->hp >= player->maxHp)
+            goto fail;
+        player->hp += amount;
+        if (player->maxHp < player->hp)
+            player->hp = player->maxHp;
+        else if (player->hp < 0)
+            player->hp = zero;
+        if (*(u16 *)(obj + 0xA2) != 0)
+            sub_08074DE8(player->id, 8);
+        if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
+            player->flags &= ~0x20000;
+        sub_0805865C(0x91);
+    } else if (kind == 2) {
+        if (player->mp >= player->maxMp)
+            goto fail;
+        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        player->mp += amount * 10;
+        if (player->maxMp < player->mp)
+            player->mp = player->maxMp;
+        else if (player->mp < 0)
+            player->mp = zero;
+        sub_0805865C(0x91);
+    } else if (kind == 6) {
+        if (bd5cMap->stat10 > 499)
+            goto fail;
+        bd5cMap->stat10++;
+    } else if (kind == 7) {
+        if (bd5cMap->stat12 > 499)
+            goto fail;
+        bd5cMap->stat12++;
+    } else if (kind == 9) {
+        if (bd5cMap->stat16 > 332)
+            goto fail;
+        bd5cMap->stat16++;
+    } else if (kind == 8) {
+        if (bd5cMap->stat14 > 499)
+            goto fail;
+        bd5cMap->stat14++;
+    } else if (kind == 3) {
+        p = (u8 *)sub_0801E1D8(player, 6, 100);
+        if (p != NULL) {
+            sub_0801DB94(player->id, p, 0);
+            sub_0805867C(0x73);
+            p = (u8 *)sub_0801E1D8(player, 7, 100);
+            if (p != NULL)
+                sub_0801DB94(player->id, p, 0);
+        } else {
+            p = (u8 *)sub_0801E1D8(player, 7, 100);
+            if (p == NULL)
+                goto fail;
+            sub_0801DB94(player->id, p, 0);
+            sub_0805867C(0x73);
+        }
+    } else if (kind == 5) {
+        goto fail;
+    } else if (kind == 0xC) {
+        goto fail;
+    } else if (kind == 4) {
+        if (player->f68 == 0)
+            goto fail;
+        if (sub_08058DB0())
+            goto fail;
+        if (sub_0800D11C())
+            goto fail;
+        if (sub_0800CCCC())
+            goto fail;
+        if (player->state == 5)
+            goto fail;
+        if (sub_0800CDC0())
+            goto fail;
+        if (player->f64 > 9)
+            goto fail;
+        if (gUnk_03003170.curLevel == 11)
+            goto fail;
+        if (gUnk_03003170.curLevel == 14)
+            goto fail;
+        if (gUnk_03003170.curLevel == 2 && gUnk_03003170.f90 == 7)
+            goto fail;
+        if (gUnk_03003170.curLevel == 5 && gUnk_03003170.f90 == 10)
+            goto fail;
+        if (gUnk_03003170.curLevel == 8 && gUnk_03003170.f90 == 0x11)
+            goto fail;
+        if (gUnk_03003170.curLevel == 0x13 && gUnk_03003170.f90 == 2)
+            goto fail;
+        if (gUnk_03003170.curLevel == 0x15 && (gUnk_03003170.f90 == 2 || gUnk_03003170.f90 == 4))
+            goto fail;
+        sub_0805865C(0x75);
+        player->state = 0xC;
+        player->f22 = 1;
+        sub_08015C14();
+    } else if (kind == 10) {
+        if (sub_0800D1B0())
+            goto fail;
+        if ((p = (u8 *)sub_0801E1D8(player, 6, 100)) != NULL
+            || (p = (u8 *)sub_0801E1D8(player, 7, 100)) != NULL
+            || (p = (u8 *)sub_0801E164(player, 0)) != NULL) {
+            sub_0801DB94(player->id, p, 6);
+            *(s32 *)(p + 0x18) = level;
+            sub_0805865C(0x73);
+            return 1;
+        }
+        goto fail;
+    } else if (kind == 11) {
+        if (sub_0800D1B0())
+            goto fail;
+        if ((p = (u8 *)sub_0801E1D8(player, 6, 100)) == NULL
+            && (p = (u8 *)sub_0801E1D8(player, 7, 100)) == NULL
+            && (p = (u8 *)sub_0801E164(player, 0)) == NULL)
+            goto fail;
+        sub_0801DB94(player->id, p, 7);
+        *(s32 *)(p + 0x18) = level;
+        sub_0805865C(0x73);
+    } else if (kind == 0xD) {
+        goto fail;
+    } else if (kind == 0xE) {
+        goto fail;
+    } else if (kind == 0x10) {
+        sub_080665B0(*(u16 *)(obj + 0xA2));
+        return 0;
+    } else if (kind == 0x11) {
+        player->mp = player->maxMp;
+        player->hp = player->maxHp;
+    } else if (kind == 0x12) {
+        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        if (player->hp >= player->maxHp)
+            goto fail;
+        player->hp += amount;
+        if (player->maxHp < player->hp)
+            player->hp = player->maxHp;
+        else if (player->hp < 0)
+            player->hp = 0;
+        if (*(u16 *)(obj + 0xA2) != 0)
+            sub_08074DE8(player->id, 8);
+        if ((player->flags & 0x20000) && player->hp >= player->maxHp >> 1)
+            player->flags &= ~0x20000;
+        sub_0805865C(0x91);
+    } else {
+    fail:
+        sub_0805865C(0x61);
+        return 0;
+    }
+    if (kind != 1)
+        sub_0805865C(0x20);
+    return 1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805BD5C);
+#endif
 #ifdef NONMATCHING
 extern u8 gUnk_08477F3C[];
 extern u8 gUnk_08478044[];
@@ -858,382 +1054,186 @@ extern u8 gUnk_08478310[];
 extern u8 gUnk_08478338[];
 extern u8 gUnk_08478378[];
 
-s32 sub_0805C208(void *arg0, s32 arg1) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    u8 *var_r5;
-    u8 *var_r5_4;
-    s32 temp_r0_2;
-    s32 var_r7;
-    s32 var_r8;
-    s32 var_r9;
-    s32 var_sl;
-    s8 var_r1;
-    u8 *var_r2;
-    u8 *var_r2_2;
-    u8 *var_r2_3;
-    u8 *var_r2_4;
-    u8 *var_r5_2;
-    u8 *var_r5_3;
-    u8 *var_r5_5;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 temp_r1_5;
-    u16 temp_r7;
-    u16 var_r3;
-    u16 var_r3_2;
-    u16 var_r3_3;
-    u32 temp_r1_3;
-    u32 temp_r1_4;
-    u32 temp_r2;
-    u32 temp_r2_2;
-    u32 temp_r2_3;
-    u32 temp_r7_2;
-    u32 temp_r7_3;
-    u32 var_r0;
-    u32 var_r4;
-    u32 var_r4_2;
-    u32 var_r4_3;
-    u32 var_r4_4;
-    u32 var_r4_5;
-    u32 var_r4_6;
-    u32 var_r4_7;
+struct C208Slot { u16 type; u16 arg; u16 bonus; u8 element; u8 level; u8 flag; };
+struct C208Range { u16 value; u16 upper; };
+s32 sub_0805C208(void *arg0, s32 arg1)
+{
+    u8 *objs[4];
+    struct C208Slot *slot;
+    u32 flags;
+    u32 rollElement;
+    u32 rollBonus;
+    u32 rollLevel;
+    struct C208Range *table;
+    u32 count;
+    u32 low;
+    u32 i;
+    u32 r;
+    u8 *p;
 
-    /* Flowgraph is not reducible, falling back to gotos-only mode. */
-    var_r9 = arg1;
-    var_sl = 0;
-    var_r7 = 0;
-    var_r8 = 0;
-    temp_r0 = M2C_FIELD(arg0, u16 *, 0x0);
-    if (temp_r0 == 3) {
-        goto block_25;
+    slot = arg0;
+    flags = arg1;
+    rollElement = 0;
+    rollBonus = 0;
+    rollLevel = 0;
+    switch (slot->type) {
+    case 2:
+        objs[0] = (u8 *)sub_08007290(slot->arg | 0xB0000);
+        if (objs[0][0x9B] == 9) {
+            table = (struct C208Range *)gUnk_08478044;
+            r = sub_080008C8();
+            if ((r & 0xF) <= 7)
+                goto bonusAndLevel;
+            goto bonus;
+        }
+        table = (struct C208Range *)gUnk_08477F3C;
+        r = sub_080008C8() & 0xF;
+        if (r <= 2) {
+            rollLevel = 1;
+            rollElement = 1;
+        bonus:
+            rollBonus = 1;
+            break;
+        }
+        if (r <= 7) {
+            r = sub_080008C8() & 0xF;
+            if (r <= 4) {
+            bonusAndLevel:
+                rollBonus = 1;
+                rollLevel = 1;
+                break;
+            }
+            if (r <= 10) {
+                rollLevel = 1;
+                rollElement = 1;
+                break;
+            }
+            rollElement = 1;
+            goto bonus;
+        }
+        r = sub_080008C8() & 0xF;
+        if (r <= 4) {
+            rollLevel = 1;
+            break;
+        }
+        if (r <= 9)
+            goto bonus;
+        rollElement = 1;
+        break;
+    case 5:
+        objs[1] = (u8 *)sub_08007290(slot->arg | 0xE0000);
+        table = objs[1][0xA0] ? (struct C208Range *)gUnk_08478220 : (struct C208Range *)gUnk_08478158;
+        rollLevel = 0;
+        break;
+    case 3:
+        objs[3] = (u8 *)sub_08007290(slot->arg | 0xC0000);
+        table = (struct C208Range *)gUnk_08478158;
+        rollLevel = 0;
+        break;
+    case 4:
+        objs[2] = (u8 *)sub_08007290(slot->arg | 0xD0000);
+        table = (struct C208Range *)gUnk_08478158;
+        rollLevel = 0;
+        break;
+    default:
+        return 1;
     }
-    if ((s32) temp_r0 > 3) {
-        goto block_4;
+    if (slot->type <= 5 && slot->type >= 3) {
+        r = sub_080008C8() & 0xF;
+        if (r <= 7) {
+            r = sub_080008C8() & 0xF;
+            if (r <= 7)
+                goto pickBonus;
+            rollElement = 1;
+        } else {
+            rollBonus = 1;
+            rollElement = 1;
+        }
     }
-    if (temp_r0 == 2) {
-        goto block_7;
+    if (rollBonus) {
+    pickBonus:
+        count = table[0].value;
+        r = sub_080008C8();
+        r %= table[0].upper;
+        table++;
+        for (low = 0, i = 0; i < count; i++, table++) {
+            if (low <= r && table->upper >= r) {
+                slot->bonus = table->value;
+                break;
+            }
+            low = table->upper;
+        }
     }
-    goto block_28;
-block_4:
-    if (temp_r0 == 4) {
-        goto block_26;
+    if (rollLevel) {
+        table = (struct C208Range *)gUnk_084782F4;
+        count = table[0].value + 1;
+        r = sub_080008C8();
+        r %= table[0].upper + 1;
+        table++;
+        for (low = 0, i = 0; i < count; i++, table++) {
+            if (low <= r && table->upper >= r) {
+                slot->level = table->value;
+                break;
+            }
+            low = table->upper + 1;
+        }
     }
-    if (temp_r0 == 5) {
-        goto block_23;
+    if (rollElement) {
+        if (flags & 1)
+            table = (struct C208Range *)gUnk_08478378;
+        else if (sub_0800CE30())
+            table = (struct C208Range *)gUnk_08478338;
+        else
+            table = (struct C208Range *)gUnk_08478310;
+        count = table[0].value + 1;
+        r = sub_080008C8();
+        r %= table[0].upper + 1;
+        table++;
+        for (low = 0, i = 0; i < count; i++, table++) {
+            if (low <= r && table->upper >= r) {
+                slot->element = table->value;
+                break;
+            }
+            low = table->upper + 1;
+        }
     }
-    goto block_28;
-block_7:
-    temp_r0_2 = sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xB0000);
-    sp0 = temp_r0_2;
-    if (M2C_FIELD(temp_r0_2, u8 *, 0x9B) != 9) {
-        goto block_10;
+    switch (slot->type) {
+    case 2:
+        for (i = 0, p = objs[0] + 0xB0; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearA;
+        break;
+    case 3:
+        for (i = 0, p = objs[3] + 0xA4; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearB;
+        break;
+    case 4:
+        for (i = 0, p = objs[2] + 0xA4; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearA;
+        break;
+    clearA:
+        slot->bonus = 0;
+        slot->element = 0;
+        slot->level = 0;
+        flags = 1;
+        break;
+    clearB:
+        slot->bonus = 0;
+        slot->element = 0;
+        slot->level = 0;
+        flags = 1;
+        break;
+    case 5:
+        for (i = 0, p = objs[1] + 0xA4; i <= 2; i++, p += 4)
+            if (*(u16 *)p != 0)
+                goto clearB;
+        break;
     }
-    var_r5 = gUnk_08478044;
-    var_r0 = sub_080008C8();
-    if ((u32) (0xF & var_r0) <= 7U) {
-        goto block_15;
-    }
-    goto block_12;
-block_10:
-    var_r5 = gUnk_08477F3C;
-    var_r0 = sub_080008C8();
-    temp_r2 = var_r0 & 0xF;
-    if (temp_r2 > 2U) {
-        goto block_13;
-    }
-    var_r8 = 1;
-    var_sl = 1;
-block_12:
-    var_r7 = 1;
-    goto block_29;
-block_13:
-    if (temp_r2 > 7U) {
-        goto block_19;
-    }
-    var_r0 = sub_080008C8();
-    temp_r2_2 = var_r0 & 0xF;
-    if (temp_r2_2 > 4U) {
-        goto block_16;
-    }
-block_15:
-    var_r7 = 1;
-    var_r8 = 1;
-    goto block_29;
-block_16:
-    if (temp_r2_2 > 0xAU) {
-        goto block_18;
-    }
-    var_r8 = 1;
-    var_sl = 1;
-    goto block_29;
-block_18:
-    var_sl = 1;
-    goto block_12;
-block_19:
-    var_r0 = sub_080008C8();
-    temp_r2_3 = var_r0 & 0xF;
-    if (temp_r2_3 > 4U) {
-        goto block_21;
-    }
-    var_r8 = 1;
-    goto block_29;
-block_21:
-    if (temp_r2_3 <= 9U) {
-        goto block_12;
-    }
-    var_sl = 1;
-    goto block_29;
-block_23:
-    var_r0 = (u32) sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xE0000);
-    sp4 = (s32) var_r0;
-    var_r5 = gUnk_08478158;
-    if (M2C_FIELD(var_r0, u8 *, 0xA0) == 0) {
-        goto block_27;
-    }
-    var_r5 = gUnk_08478220;
-    goto block_27;
-block_25:
-    var_r0 = (u32) sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xC0000);
-    spC = (s32) var_r0;
-    var_r5 = gUnk_08478158;
-    var_r8 = 0;
-    goto block_29;
-block_26:
-    var_r0 = (u32) sub_08007290(M2C_FIELD(arg0, u16 *, 0x2) | 0xD0000);
-    sp8 = (s32) var_r0;
-    var_r5 = gUnk_08478158;
-block_27:
-    var_r8 = 0;
-    goto block_29;
-block_28:
-    return 1;
-block_29:
-    temp_r1 = M2C_FIELD(arg0, u16 *, 0x0);
-    if ((s32) temp_r1 > 5) {
-        goto block_35;
-    }
-    if ((s32) temp_r1 < 3) {
-        goto block_35;
-    }
-    var_r0 = sub_080008C8();
-    if ((u32) (var_r0 & 0xF) > 7U) {
-        goto block_34;
-    }
-    var_r0 = sub_080008C8();
-    if ((u32) (var_r0 & 0xF) <= 7U) {
-        goto block_36;
-    }
-    var_sl = 1;
-    goto block_35;
-block_34:
-    var_r7 = 1;
-    var_sl = 1;
-block_35:
-    if (var_r7 == 0) {
-        goto block_42;
-    }
-block_36:
-    temp_r7 = M2C_FIELD(var_r5, u16 *, 0x0);
-    var_r0 = sub_080008C8() % (u16) M2C_FIELD(var_r5, u16 *, 0x2);
-    var_r5_2 = var_r5 + 4;
-    var_r4 = 0;
-    if ((u32) temp_r7 <= 0U) {
-        goto block_42;
-    }
-    var_r3 = M2C_FIELD(var_r5_2, u16 *, 0x2);
-    if (var_r0 >= 0U) {
-        goto block_40;
-    }
-loop_38:
-    var_r4 += 1;
-    temp_r1_2 = var_r3;
-    var_r5_2 += 4;
-    if (var_r4 >= (u32) temp_r7) {
-        goto block_42;
-    }
-    var_r3 = M2C_FIELD(var_r5_2, u16 *, 0x2);
-    if ((u32) temp_r1_2 > var_r0) {
-        goto loop_38;
-    }
-block_40:
-    if ((u32) var_r3 < var_r0) {
-        goto loop_38;
-    }
-    M2C_FIELD(arg0, u16 *, 0x4) = (u16) *(u16 *)var_r5_2;
-block_42:
-    if (var_r8 == 0) {
-        goto block_49;
-    }
-    temp_r7_2 = M2C_FIELD(gUnk_084782F4, u16 *, 0x0) + 1;
-    var_r0 = sub_080008C8() % (u32) (M2C_FIELD(gUnk_084782F4, u16 *, 0x2) + 1);
-    var_r5_3 = gUnk_084782F4 + 4;
-    var_r4_2 = 0;
-    if (temp_r7_2 <= 0U) {
-        goto block_49;
-    }
-    var_r3_2 = M2C_FIELD(var_r5_3, u16 *, 0x2);
-    if (var_r0 >= 0U) {
-        goto block_47;
-    }
-loop_45:
-    var_r4_2 += 1;
-    temp_r1_3 = var_r3_2 + 1;
-    var_r5_3 += 4;
-    if (var_r4_2 >= temp_r7_2) {
-        goto block_49;
-    }
-    var_r3_2 = M2C_FIELD(var_r5_3, u16 *, 0x2);
-    if (temp_r1_3 > var_r0) {
-        goto loop_45;
-    }
-block_47:
-    if ((u32) var_r3_2 < var_r0) {
-        goto loop_45;
-    }
-    M2C_FIELD(arg0, u8 *, 0x7) = (s8) *(u16 *)var_r5_3;
-block_49:
-    if (var_sl == 0) {
-        goto block_60;
-    }
-    if (!(1 & var_r9)) {
-        goto block_52;
-    }
-    var_r5_4 = gUnk_08478378;
-    goto block_54;
-block_52:
-    var_r5_4 = gUnk_08478310;
-    if (sub_0800CE30() == 0) {
-        goto block_54;
-    }
-    var_r5_4 = gUnk_08478338;
-block_54:
-    temp_r7_3 = M2C_FIELD(var_r5_4, u16 *, 0x0) + 1;
-    var_r0 = sub_080008C8() % (u32) (M2C_FIELD(var_r5_4, u16 *, 0x2) + 1);
-    var_r5_5 = var_r5_4 + 4;
-    var_r4_3 = 0;
-    if (temp_r7_3 <= 0U) {
-        goto block_60;
-    }
-    var_r3_3 = M2C_FIELD(var_r5_5, u16 *, 0x2);
-    if (var_r0 >= 0U) {
-        goto block_58;
-    }
-loop_56:
-    var_r4_3 += 1;
-    temp_r1_4 = var_r3_3 + 1;
-    var_r5_5 += 4;
-    if (var_r4_3 >= temp_r7_3) {
-        goto block_60;
-    }
-    var_r3_3 = M2C_FIELD(var_r5_5, u16 *, 0x2);
-    if (temp_r1_4 > var_r0) {
-        goto loop_56;
-    }
-block_58:
-    if ((u32) var_r3_3 < var_r0) {
-        goto loop_56;
-    }
-    M2C_FIELD(arg0, u8 *, 0x6) = (s8) *(u16 *)var_r5_5;
-block_60:
-    temp_r1_5 = M2C_FIELD(arg0, u16 *, 0x0);
-    if (temp_r1_5 == 3) {
-        goto block_71;
-    }
-    if ((s32) temp_r1_5 > 3) {
-        goto block_64;
-    }
-    if (temp_r1_5 == 2) {
-        goto block_67;
-    }
-    goto block_84;
-block_64:
-    if (temp_r1_5 == 4) {
-        goto block_75;
-    }
-    if (temp_r1_5 == 5) {
-        goto block_81;
-    }
-    goto block_84;
-block_67:
-    var_r4_4 = 0;
-    var_r2 = sp0 + 0xB0;
-loop_68:
-    if (*(u16 *)var_r2 != 0) {
-        goto block_79;
-    }
-    var_r2 += 4;
-    var_r4_4 += 1;
-    if (var_r4_4 <= 2U) {
-        goto loop_68;
-    }
-    goto block_84;
-block_71:
-    var_r4_5 = 0;
-    var_r2_2 = spC + 0xA4;
-loop_72:
-    if (*(u16 *)var_r2_2 != 0) {
-        goto block_80;
-    }
-    var_r2_2 += 4;
-    var_r4_5 += 1;
-    if (var_r4_5 <= 2U) {
-        goto loop_72;
-    }
-    goto block_84;
-block_75:
-    var_r4_6 = 0;
-    var_r2_3 = sp8 + 0xA4;
-loop_76:
-    if (*(u16 *)var_r2_3 != 0) {
-        goto block_79;
-    }
-    var_r2_3 += 4;
-    var_r4_6 += 1;
-    if (var_r4_6 <= 2U) {
-        goto loop_76;
-    }
-    goto block_84;
-block_79:
-    M2C_FIELD(arg0, u16 *, 0x4) = 0U;
-    M2C_FIELD(arg0, u8 *, 0x6) = 0;
-    M2C_FIELD(arg0, u8 *, 0x7) = 0;
-    var_r9 = 1;
-    goto block_84;
-block_80:
-    M2C_FIELD(arg0, u16 *, 0x4) = 0U;
-    M2C_FIELD(arg0, u8 *, 0x6) = 0;
-    M2C_FIELD(arg0, u8 *, 0x7) = 0;
-    var_r9 = 1;
-    goto block_84;
-block_81:
-    var_r4_7 = 0;
-    var_r2_4 = sp4 + 0xA4;
-loop_82:
-    if (*(u16 *)var_r2_4 != 0) {
-        goto block_80;
-    }
-    var_r2_4 += 4;
-    var_r4_7 += 1;
-    if (var_r4_7 <= 2U) {
-        goto loop_82;
-    }
-block_84:
-    if (M2C_FIELD(arg0, u32 *, 0x4) == 0) {
-        goto block_88;
-    }
-    var_r1 = 1;
-    if (!(var_r9 & 1)) {
-        goto block_87;
-    }
-    var_r1 = 0;
-block_87:
-    M2C_FIELD(arg0, u8 *, 0x8) = var_r1;
-block_88:
-    return (s32) var_r0;
+    if (*(u32 *)&slot->bonus != 0)
+        slot->flag = (flags & 1) ? 0 : 1;
+    /* Only unknown slot types return a value (1); callers ignore it. */
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C208);
@@ -1294,78 +1294,266 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
 #ifdef NONMATCHING
 u32 sub_0805C620(u8 *entity, u16 *out)
 {
-    u32 zero = 0;
-    u8 *extra = entity + 0x204;
-    u32 low = 0;
+    extern u8 c620Players[] asm("gUnk_03003CE0");
+    u32 zero;
+    u8 *extra;
+    u32 low;
     u32 roll;
     u32 i;
-    u32 offset;
     u16 *entry;
+    u32 offset;
+    u32 *p214;
     u16 type;
-    u32 limit;
+    u32 t2;
     u16 chance;
-    u32 mode;
-    u16 category;
+    u32 ok;
     u32 result;
+
+    extra = entity + 0x204;
+    zero = 0;
     CpuSet(&zero, out, 0x05000004);
+    low = 0;
     roll = (u16)sub_080008C8();
+    i = 0;
+    p214 = (u32 *)(entity + 0x214);
     entry = (u16 *)(entity + 0x230);
-    offset = 0;
-    for (i = 0; i <= 2; i++, entry += 4, offset += 8) {
-        type = entry[0];
+    /* No-op do/while(0): moves agbcc register allocation closer to the original. */
+    do {
+        offset = 0;
+loop:
+        type = t2 = entry[0];
         if (type != 0) {
-            limit = *(u32 *)(extra + 0x30 + offset);
-            if (low <= roll && limit >= roll) {
+            if (low <= roll && *(u32 *)(extra + 0x30 + offset) >= roll) {
                 out[0] = type;
                 out[1] = entry[1];
-                if (type == 9) out[2] = *(u32 *)(entity + 0x214);
-                break;
+                if (t2 == 9)
+                    out[2] = *p214;
+                goto done;
             }
-            low = (u16)(limit + 1);
+            low = (u16)(*(u32 *)(extra + 0x30 + offset) + 1);
         }
-    }
-    if (out[0] == 0) {
-        roll = (u8)sub_080008C8();
-        if (*(u16 *)(entity + 0x58) > 3) *(u16 *)(entity + 0x58) = 0;
-        chance = *((u8 *)gUnk_03003CE0 + *(u16 *)(entity + 0x58) * 0x14C + 0x74);
-        mode = sub_08002164();
-        switch (mode) {
-        case 1: chance = (u16)(chance + 0x10); break;
-        case 2: chance = (u16)(chance + 0x15); break;
-        case 3: chance = (u16)(chance + 0x1A); break;
-        case 4: chance = (u16)(chance + 0x20); break;
-        }
-        if (chance <= roll) return 0;
-        if (sub_0800CE30()) {
-            category = *(u16 *)(entity + 0x78);
-            if (category != 0) result = sub_0805C4FC(out, (u16)(category + 50), 0);
-            else result = 0;
-        } else result = sub_0805C4FC(out, *(u16 *)(entity + 0x78), 0);
-        type = out[0];
-        if (type == 9) out[2] = *(u32 *)(entity + 0x214);
-        else if (type == 10) {
-            if (!(entity[0x227] & 1)) {
+        entry += 4;
+        offset += 8;
+        i++;
+        if (i <= 2)
+            goto loop;
+done:
+        if (out[0] != 0) {
+            if (out[0] == 10 && !(entity[0x227] & 1)) {
                 out[0] = 0;
                 out[1] = 0;
                 return 0;
             }
-        } else if (type > 10) {
+            return 1;
+        }
+        roll = (u8)sub_080008C8();
+        ok = 0;
+        if (*(u16 *)(entity + 0x58) > 3)
+            *(u16 *)(entity + 0x58) = 0;
+        chance = c620Players[*(u16 *)(entity + 0x58) * 0x14C + 0x74];
+        switch (sub_08002164()) {
+        case 1: chance += 0x10; break;
+        case 2: chance += 0x15; break;
+        case 3: chance += 0x1A; break;
+        case 4: chance += 0x20; break;
+        }
+        if (chance > roll)
+            ok = 1;
+        if (ok == 0)
+            return 0;
+        if (sub_0800CE30()) {
+            u16 category = *(u16 *)(entity + 0x78);
+            if (category == 0)
+                result = 0;
+            else
+                result = sub_0805C4FC((u8 *)out, category + 50, 0);
+        } else {
+            result = sub_0805C4FC((u8 *)out, *(u16 *)(entity + 0x78), 0);
+        }
+    } while (0);
+    /* Types 9 and 10 (flag set) fall off the end: the original returns whatever is in r0. */
+    type = out[0];
+    if (type == 9) {
+        out[2] = *(u32 *)(entity + 0x214);
+    } else if (type == 10) {
+        if (!(entity[0x227] & 1)) {
             out[0] = 0;
+            out[1] = 0;
             return 0;
         }
+    } else if (type > 10) {
+        out[0] = 0;
+        return 0;
+    } else {
         return result;
     }
-    if (out[0] == 10 && !(entity[0x227] & 1)) {
-        out[0] = 0;
-        out[1] = 0;
-        return 0;
-    }
-    return 1;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C620);
 #endif
+#ifdef NONMATCHING
+struct C7B8Slot { u16 type; u16 arg; u16 f4; u8 f6, f7, f8, f9; u8 padA[6]; };
+struct C7B8Entry { s16 type; u16 arg; };
+struct C7B8Pick { u32 index; u32 used; };
+extern u8 *c7b8Map asm("gUnk_030034E0");
+extern struct C7B8Entry c7b8TableA[][20][12] asm("gUnk_084E7BE8");
+extern struct C7B8Entry c7b8TableB[][20][12] asm("gUnk_084E99E8");
+extern struct C7B8Entry c7b8TableC[][12] asm("gUnk_084EB7E8");
+/* Callers ignore the result; the original has no return value. */
+s32 sub_0805C7B8(u32 mode)
+{
+    struct C7B8Pick picks[12];
+    u32 area;
+    struct C7B8Slot *slotsA;
+    struct C7B8Slot *slotsB;
+    struct C7B8Slot *slotsC;
+    struct C7B8Slot *dst;
+    struct C7B8Entry *entry;
+    u32 count;
+    u32 bits;
+    u32 i;
+    u32 empty;
+    u32 picked;
+    u32 n;
+    u16 type;
+
+    if (sub_0800CE30()) {
+        count = 10;
+        slotsA = (struct C7B8Slot *)(c7b8Map + 0x9D0);
+        slotsB = (struct C7B8Slot *)(c7b8Map + 0xA90);
+        slotsC = (struct C7B8Slot *)(c7b8Map + 0xB50);
+    } else {
+        count = 0;
+        slotsA = (struct C7B8Slot *)(c7b8Map + 0x790);
+        slotsB = (struct C7B8Slot *)(c7b8Map + 0x850);
+        slotsC = (struct C7B8Slot *)(c7b8Map + 0x910);
+    }
+    bits = sub_08057CEC();
+    for (i = 1; i <= 9; i++)
+        if ((1 << i) & bits)
+            count++;
+    if (sub_0800CE30()) {
+        if (count > 19)
+            count = 19;
+    } else if (count > 9) {
+        count = 9;
+    }
+    area = sub_0801DE60();
+
+    empty = 0;
+    picked = 0;
+    entry = c7b8TableA[area][count];
+    for (i = 0; i <= 11; i++) {
+        slotsA[i].type = entry[i].type;
+        slotsA[i].arg = entry[i].arg;
+        slotsA[i].f4 = 0;
+        slotsA[i].f6 = 0;
+        slotsA[i].f7 = 0;
+        slotsA[i].f8 = 0;
+        if (entry[i].type != 0) {
+            if (entry[i].type == -1) {
+                slotsA[i].type = 0;
+                empty++;
+            } else {
+                picks[picked].index = i;
+                picks[picked].used = 0;
+                picked++;
+            }
+        }
+    }
+    n = sub_080008C8() % (empty + 1);
+    if (n != 0) {
+        for (i = 0; i < n; i++) {
+            u32 k = sub_080008C8() % picked;
+            if (picks[k].used == 0)
+                picks[k].used = 1;
+            else
+                i--;
+        }
+        dst = &slotsA[9];
+        for (i = 0; i < picked; i++) {
+            if (picks[i].used != 0) {
+                *dst = slotsA[picks[i].index];
+                slotsA[i].f4 = 0;
+                slotsA[i].f6 = 0;
+                slotsA[i].f7 = 0;
+                slotsA[i].f8 = 0;
+                sub_0805C208(dst, 1);
+                dst++;
+            }
+        }
+    }
+
+    empty = 0;
+    picked = 0;
+    entry = c7b8TableB[area][count];
+    for (i = 0; i <= 11; i++) {
+        slotsB[i].type = entry[i].type;
+        slotsB[i].arg = entry[i].arg;
+        slotsB[i].f4 = 0;
+        slotsB[i].f6 = 0;
+        slotsB[i].f7 = 0;
+        slotsB[i].f8 = 0;
+        if (entry[i].type != 0) {
+            if (entry[i].type == -1) {
+                slotsB[i].type = 0;
+                empty++;
+            } else {
+                picks[picked].index = i;
+                picks[picked].used = 0;
+                picked++;
+            }
+        }
+    }
+    n = sub_080008C8() % (empty + 1);
+    if (n != 0) {
+        for (i = 0; i < n; i++) {
+            u32 k = sub_080008C8() % picked;
+            if (picks[k].used == 0)
+                picks[k].used = 1;
+            else
+                i--;
+        }
+        dst = &slotsB[9];
+        for (i = 0; i < picked; i++) {
+            if (picks[i].used != 0) {
+                *dst = slotsB[picks[i].index];
+                slotsB[i].f4 = 0;
+                slotsB[i].f6 = 0;
+                slotsB[i].f7 = 0;
+                slotsB[i].f8 = 0;
+                sub_0805C208(dst, 1);
+                dst++;
+            }
+        }
+    }
+
+    if (mode > 1)
+        mode = 0;
+    entry = c7b8TableC[mode];
+    for (i = 0; i <= 11; i++) {
+        type = slotsC[i].type = entry[i].type;
+        slotsC[i].arg = entry[i].arg;
+        if (type == 2) {
+            slotsC[i].f8 = 0;
+            slotsC[i].f4 = 0;
+            slotsC[i].f6 = 0;
+            slotsC[i].f7 = 0;
+            slotsC[i].f9 = 0;
+        }
+        if (slotsC[i].type == 0xFFFF) {
+            if (sub_080008C8() & 1) {
+                sub_0805C4FC((u8 *)&slotsC[i], 0x14, mode);
+            } else {
+                slotsC[i].type = 0;
+                slotsC[i].arg = 0;
+            }
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C7B8);
+#endif
 struct Record60 { u16 type, value, timer; u8 a, b, c, d; u8 tail[6]; };
 void sub_0805CB04(s32 index, struct Record60 *out)
 {
