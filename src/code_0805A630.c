@@ -1575,6 +1575,7 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
 #ifdef NONMATCHING
 u32 sub_0805C620(u8 *entity, u16 *out)
 {
+    u8 (*playerBytes)[];
     extern u8 c620Players[] asm("gUnk_03003CE0");
     u32 zero;
     u8 *extra;
@@ -1594,10 +1595,11 @@ u32 sub_0805C620(u8 *entity, u16 *out)
     zero = 0;
     CpuSet(&zero, out, 0x05000004);
     low = 0;
+    type = 0x230; /* offset of the drop table; reused as a temp, aids allocation */
     roll = (u16)sub_080008C8();
     i = 0;
     p214 = (u32 *)(entity + 0x214);
-    entry = (u16 *)(entity + 0x230);
+    entry = (u16 *)(entity + type);
     /* No-op do/while(0): moves agbcc register allocation closer to the original. */
     do {
         offset = 0;
@@ -1620,18 +1622,21 @@ loop:
             goto loop;
 done:
         if (out[0] != 0) {
-            if (out[0] == 10 && !(entity[0x227] & 1)) {
-                out[0] = 0;
-                out[1] = 0;
-                return 0;
-            }
+            do {
+                if (out[0] == 10 && !(entity[0x227] & 1)) {
+                    out[0] = 0;
+                    out[1] = 0;
+                    return 0;
+                }
+            } while (0);
             return 1;
         }
         roll = (u8)sub_080008C8();
         ok = 0;
         if (*(u16 *)(entity + 0x58) > 3)
             *(u16 *)(entity + 0x58) = 0;
-        chance = c620Players[*(u16 *)(entity + 0x58) * 0x14C + 0x74];
+        playerBytes = &c620Players;
+        chance = (*playerBytes)[4 * (83 * *(u16 *)(entity + 0x58)) + 0x74];
         switch (sub_08002164()) {
         case 1: chance += 0x10; break;
         case 2: chance += 0x15; break;
