@@ -199,7 +199,94 @@ void sub_080934D4(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
+#ifdef NONMATCHING
+extern s16 sin41B4[] asm("gUnk_080B9704");
+static inline s16 abs41B4(s16 v) { if (v < 0) v = -v; return v; }
+s32 sub_080941B4(void)
+{
+    s16 counter, state; s32 x, y, b; u8 phaseB, phaseA; s32 a; s16 limit; s32 r;
+    counter = 0;
+    state = 0;
+    phaseB = 0;
+    phaseA = 0;
+    y = 0;
+    x = 0;
+    a = 6;
+    b = 10;
+    r = (s16)(rand41B4() % 20);
+    if (r < 0) r = -r;
+    limit = r + 10;
+    for (;;) {
+        switch (state) {
+        case 0:
+            a = 6;
+            b = 10;
+            g41B4_026C = 0;
+            if (g41B4_0274 == 0)
+                break;
+            if ((s16)limit < (s16)counter++) {
+                counter = 0;
+                r = (s16)(rand41B4() % 4);
+                if (r < 0) r = -r;
+                limit = r + 2;
+                state = 1;
+            }
+            break;
+        case 1:
+            a = 0x16;
+            b = 10;
+            g41B4_026C = 1;
+            if (limit == counter++) {
+                counter = 0;
+                r = (s16)(rand41B4() % 2);
+                if (r < 0) r = -r;
+                limit = r + 2;
+                state = 2;
+            }
+            break;
+        case 2:
+            a = 0x16;
+            b = 0x1A;
+            g41B4_026C = 1;
+            if (gUnk_03000275 != 0) {
+                if ((s16)++counter == 13)
+                    gUnk_03000275 = 2;
+            } else if (limit == counter++) {
+                counter = 0;
+                r = (s16)(rand41B4() % 4);
+                if (r < 0) r = -r;
+                limit = r + 2;
+                state = 3;
+            }
+            break;
+        case 3:
+            a = 6;
+            b = 0x1A;
+            g41B4_026C = 1;
+            if (limit == counter++) {
+                counter = 0;
+                r = (s16)(rand41B4() % 20);
+                if (r < 0) r = -r;
+                limit = r + 10;
+                state = 0;
+            }
+            break;
+        }
+        sub_0800903C(1, 0x32, 1, a, b, 0);
+        x -= 0x200;
+        gUnk_03001250[0] = x >> 8;
+        gUnk_03001250[1] = ((sin41B4[phaseA] * 3) >> 6) + 12;
+        phaseA += 2;
+        y -= 0x44;
+        gUnk_03001250[2] = y >> 8;
+        gUnk_03001250[3] = 12 - ((sin41B4[phaseB] * 3) >> 7);
+        phaseB++;
+        sub_080003F0();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080941B4);
+#endif
 void sub_080943F8(void)
 {
     union { u32 word; u16 half[2]; } config;
