@@ -5,12 +5,12 @@ void sub_080867F8(void);
 
 void sub_0802939C(s32, s32);
 
-#ifdef NONMATCHING
-struct Actor028AAC { u32 id; u8 p4[4]; s32 x, y, tx, ty; u8 p18[0x58]; };
-struct Obj028AAC { s32 x, y; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
+typedef struct { s32 x, y; } Vec028AAC;
+struct Actor028AAC { u32 id; u8 p4[4]; Vec028AAC pos, target; u8 p18[0x58]; };
+struct Obj028AAC { Vec028AAC pos; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
 struct State028AAC { u8 p0[0x7A4]; struct Actor028AAC actors[15]; };
-struct Enemy028AAC { u8 p0[0x14]; s32 x, y, px, py, tx, ty; u8 p2C[0x2B4]; };
-struct Player028AAC { u8 p0[0x8C]; s32 x, y, px, py, tx, ty; u8 pA4[0xA8]; };
+struct Enemy028AAC { u8 p0[0x14]; Vec028AAC pos, prev, target; u8 p2C[0x2B4]; };
+struct Player028AAC { u8 p0[0x8C]; Vec028AAC pos, prev, target; u8 pA4[0xA8]; };
 extern struct State028AAC *state028AAC asm("gUnk_03005CF4");
 extern struct Enemy028AAC *enemies028AAC asm("gUnk_030056F4");
 extern struct Player028AAC players028AAC[] asm("gUnk_03003CE0");
@@ -31,13 +31,13 @@ static inline struct Actor028AAC *find028AAC(u32 id)
     sub_080003F0();
     return NULL;
 }
-/* Move an actor, map object, enemy or the local player to (x, y), either at
- * once or interpolated over `frames` frames. */
-void sub_08028AAC_v(u32 who, u16 x, u16 y, u16 frames) asm("sub_08028AAC");
-void sub_08028AAC_v(u32 who, u16 x, u16 y, u16 frames)
+void sub_08028AAC_v(u32 who, s32 ax, s32 ay, s32 af) asm("sub_08028AAC");
+void sub_08028AAC_v(u32 who, s32 ax, s32 ay, s32 af)
 {
-    u32 t;
-    s32 sx, sy;
+    u32 t, step;
+    s32 x, y, frames;
+    Vec028AAC s;
+    x = (u16)ax; y = (u16)ay; frames = (u16)af;
 
     if (who > 0x100000) {
         struct Actor028AAC *a = find028AAC(who);
@@ -45,46 +45,46 @@ void sub_08028AAC_v(u32 who, u16 x, u16 y, u16 frames)
             return;
         if (frames != 0) {
             t = 0;
-            a->tx = x << 8;
-            a->ty = y << 8;
-            sx = a->x;
-            sy = a->y;
+            step = 0x400 / frames;
+            a->target.x = x << 8;
+            a->target.y = y << 8;
+            s = a->pos;
             do {
-                lerp028AAC(&a->x, sx, a->tx, t);
-                lerp028AAC(&a->y, sy, a->ty, t);
-                t += 0x400 / frames;
+                lerp028AAC(&a->pos.x, s.x, a->target.x, t);
+                lerp028AAC(&a->pos.y, s.y, a->target.y, t);
+                t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
             return;
         }
-        a->x = x << 8;
-        a->y = y << 8;
+        a->pos.x = x << 8;
+        a->pos.y = y << 8;
         sub_080003F0();
         return;
     }
     if (who > 5) {
         struct Obj028AAC *o = (struct Obj028AAC *)((u8 *)state028AAC + (who * 0x24 + 0x4B4));
         if (frames != 0) {
-            s32 tx, ty;
+            Vec028AAC d;
             t = 0;
-            tx = x << 8;
-            ty = y << 8;
-            sx = o->x;
-            sy = o->y;
+            step = 0x400 / frames;
+            d.x = x << 8;
+            d.y = y << 8;
+            s = o->pos;
             do {
-                mark028AAC(o->x >> 8, o->y >> 8, o->f1A, o->f1C, 0);
-                lerp028AAC(&o->x, sx, tx, t);
-                lerp028AAC(&o->y, sy, ty, t);
-                mark028AAC(o->x >> 8, o->y >> 8, o->f1A, o->f1C, 1);
-                t += 0x400 / frames;
+                mark028AAC(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, 0);
+                lerp028AAC(&o->pos.x, s.x, d.x, t);
+                lerp028AAC(&o->pos.y, s.y, d.y, t);
+                mark028AAC(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, 1);
+                t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
             return;
         }
-        mark028AAC(o->x >> 8, o->y >> 8, o->f1A, o->f1C, frames);
-        o->x = x << 8;
-        o->y = y << 8;
-        mark028AAC(o->x >> 8, o->y >> 8, o->f1A, o->f1C, 1);
+        mark028AAC(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, frames);
+        o->pos.x = x << 8;
+        o->pos.y = y << 8;
+        mark028AAC(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, 1);
         sub_080003F0();
         return;
     }
@@ -96,24 +96,22 @@ void sub_08028AAC_v(u32 who, u16 x, u16 y, u16 frames)
         e = &enemies028AAC[who];
         if (frames != 0) {
             t = 0;
-            e->tx = x << 8;
-            e->ty = y << 8;
-            sx = e->x;
-            sy = e->y;
+            step = 0x400 / frames;
+            e->target.x = x << 8;
+            e->target.y = y << 8;
+            s = e->pos;
             do {
-                lerp028AAC(&e->x, sx, e->tx, t);
-                lerp028AAC(&e->y, sy, e->ty, t);
-                e->px = e->x;
-                e->py = e->y;
-                t += 0x400 / frames;
+                lerp028AAC(&e->pos.x, s.x, e->target.x, t);
+                lerp028AAC(&e->pos.y, s.y, e->target.y, t);
+                e->prev = e->pos;
+                t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
             return;
         }
-        e->x = x << 8;
-        e->y = y << 8;
-        e->px = e->x;
-        e->py = e->y;
+        e->pos.x = x << 8;
+        e->pos.y = y << 8;
+        e->prev = e->pos;
         sub_080003F0();
         return;
     }
@@ -121,38 +119,32 @@ void sub_08028AAC_v(u32 who, u16 x, u16 y, u16 frames)
         struct Player028AAC *p = &players028AAC[sub_080020F4()];
         if (frames != 0) {
             t = 0;
-            p->tx = x << 8;
-            p->ty = y << 8;
-            sx = p->x;
-            sy = p->y;
+            step = 0x400 / frames;
+            p->target.x = x << 8;
+            p->target.y = y << 8;
+            s = p->pos;
             do {
-                lerp028AAC(&p->x, sx, p->tx, t);
-                lerp028AAC(&p->y, sy, p->ty, t);
-                p->px = p->x;
-                p->py = p->y;
-                t += 0x400 / frames;
+                lerp028AAC(&p->pos.x, s.x, p->target.x, t);
+                lerp028AAC(&p->pos.y, s.y, p->target.y, t);
+                p->prev = p->pos;
+                t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
-            p->px = p->x;
-            p->py = p->y;
+            p->prev = p->pos;
             return;
         }
-        p->x = x << 8;
-        p->y = y << 8;
-        p->px = p->x;
-        p->py = p->y;
+        p->pos.x = x << 8;
+        p->pos.y = y << 8;
+        p->prev = p->pos;
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08028AAC);
-#endif
-#ifdef NONMATCHING
-struct Actor028D98 { u32 id; u8 p4[4]; s32 x, y, tx, ty; u8 p18[0x58]; };
-struct Obj028D98 { s32 x, y; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
+typedef struct { s32 x, y; } Vec028D98;
+struct Actor028D98 { u32 id; u8 p4[4]; Vec028D98 pos, target; u8 p18[0x58]; };
+struct Obj028D98 { Vec028D98 pos; u8 p8[0x12]; u16 f1A, f1C; u8 p1E[6]; };
 struct State028D98 { u8 p0[0x7A4]; struct Actor028D98 actors[15]; };
-struct Enemy028D98 { u8 p0[0x14]; s32 x, y, px, py, tx, ty; u8 p2C[0x2B4]; };
-struct Player028D98 { u8 p0[0x8C]; s32 x, y, px, py, tx, ty; u8 pA4[0xA8]; };
+struct Enemy028D98 { u8 p0[0x14]; Vec028D98 pos, prev, target; u8 p2C[0x2B4]; };
+struct Player028D98 { u8 p0[0x8C]; Vec028D98 pos, prev, target; u8 pA4[0xA8]; };
 extern struct State028D98 *state028D98 asm("gUnk_03005CF4");
 extern struct Enemy028D98 *enemies028D98 asm("gUnk_030056F4");
 extern struct Player028D98 players028D98[] asm("gUnk_03003CE0");
@@ -173,67 +165,60 @@ static inline struct Actor028D98 *find028D98(u32 id)
     sub_080003F0();
     return NULL;
 }
-/* Move an actor, map object, enemy or the local player by (dx, dy) pixels,
- * either at once or interpolated over `frames` frames. */
-void sub_08028D98_v() asm("sub_08028D98");
-void sub_08028D98_v(u32 who, u32 dx, u32 dy, s32 frames)
+void sub_08028D98_v(u32 who, s32 ax, s32 ay, s32 af) asm("sub_08028D98");
+void sub_08028D98_v(u32 who, s32 ax, s32 ay, s32 af)
 {
-    s32 sx, sy;
-
-    frames = (u16)frames; dx = (u16)dx; dy = (u16)dy;
+    u32 t, step;
+    s32 x, y, frames;
+    Vec028D98 s;
+    x = (u16)ax; y = (u16)ay; frames = (u16)af;
 
     if (who > 0x100000) {
         struct Actor028D98 *a = find028D98(who);
         if (a == NULL)
             return;
         if (frames != 0) {
-            u32 t, step;
             t = 0;
             step = 0x400 / frames;
-            a->tx = a->x + ((s16)dx << 8);
-            a->ty = a->y + ((s16)dy << 8);
-            sx = a->x;
-            sy = a->y;
+            a->target.x = a->pos.x + ((s16)x << 8);
+            a->target.y = a->pos.y + ((s16)y << 8);
+            s = a->pos;
             do {
-                lerp028D98(&a->x, sx, a->tx, t);
-                lerp028D98(&a->y, sy, a->ty, t);
+                lerp028D98(&a->pos.x, s.x, a->target.x, t);
+                lerp028D98(&a->pos.y, s.y, a->target.y, t);
                 t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
             return;
         }
-        a->x += (s16)dx << 8;
-        a->y += (s16)dy << 8;
+        a->pos.x += (s16)x << 8;
+        a->pos.y += (s16)y << 8;
         sub_080003F0();
         return;
     }
     if (who > 5) {
         struct Obj028D98 *o = (struct Obj028D98 *)((u8 *)state028D98 + (who * 0x24 + 0x4B4));
         if (frames != 0) {
-            u32 t, step;
+            Vec028D98 d;
             t = 0;
             step = 0x400 / frames;
-            {
-            s32 tx, ty;
-            tx = o->x + ((s16)dx << 8);
-            ty = o->y + ((s16)dy << 8);
-            sx = o->x;
-            sy = o->y;
+            d.x = o->pos.x + ((s16)x << 8);
+            d.y = o->pos.y + ((s16)y << 8);
+            s = o->pos;
             do {
-                mark028D98(o->x >> 8, o->y >> 8, o->f1A, o->f1C, 0);
-                lerp028D98(&o->x, sx, tx, t);
-                lerp028D98(&o->y, sy, ty, t);
-                mark028D98(o->x >> 8, o->y >> 8, o->f1A, o->f1C, 1);
+                mark028D98(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, 0);
+                lerp028D98(&o->pos.x, s.x, d.x, t);
+                lerp028D98(&o->pos.y, s.y, d.y, t);
+                mark028D98(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, 1);
                 t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
-            }
             return;
         }
-        mark028D98(o->x >> 8, o->y >> 8, o->f1A, o->f1C, frames);
-        o->x += (s16)dx << 8;
-        o->y += (s16)dy << 8;
-        mark028D98(o->x >> 8, o->y >> 8, o->f1A, o->f1C, 1);
+        mark028D98(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, frames);
+        o->pos.x += (s16)x << 8;
+        o->pos.y += (s16)y << 8;
+        mark028D98(o->pos.x >> 8, o->pos.y >> 8, o->f1A, o->f1C, 1);
         sub_080003F0();
         return;
     }
@@ -244,62 +229,50 @@ void sub_08028D98_v(u32 who, u32 dx, u32 dy, s32 frames)
             return;
         e = &enemies028D98[who];
         if (frames != 0) {
-            u32 t, step;
             t = 0;
             step = 0x400 / frames;
-            e->tx = e->x + ((s16)dx << 8);
-            e->ty = e->y + ((s16)dy << 8);
-            sx = e->x;
-            sy = e->y;
+            e->target.x = e->pos.x + ((s16)x << 8);
+            e->target.y = e->pos.y + ((s16)y << 8);
+            s = e->pos;
             do {
-                lerp028D98(&e->x, sx, e->tx, t);
-                lerp028D98(&e->y, sy, e->ty, t);
-                e->px = e->x;
-                e->py = e->y;
+                lerp028D98(&e->pos.x, s.x, e->target.x, t);
+                lerp028D98(&e->pos.y, s.y, e->target.y, t);
+                e->prev = e->pos;
                 t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
             return;
         }
-        e->x += (s16)dx << 8;
-        e->y += (s16)dy << 8;
-        e->px = e->x;
-        e->py = e->y;
+        e->pos.x += (s16)x << 8;
+        e->pos.y += (s16)y << 8;
+        e->prev = e->pos;
         sub_080003F0();
         return;
     }
     {
         struct Player028D98 *p = &players028D98[sub_080020F4()];
         if (frames != 0) {
-            u32 t, step;
             t = 0;
             step = 0x400 / frames;
-            p->tx = p->x + ((s16)dx << 8);
-            p->ty = p->y + ((s16)dy << 8);
-            sx = p->x;
-            sy = p->y;
+            p->target.x = p->pos.x + ((s16)x << 8);
+            p->target.y = p->pos.y + ((s16)y << 8);
+            s = p->pos;
             do {
-                lerp028D98(&p->x, sx, p->tx, t);
-                lerp028D98(&p->y, sy, p->ty, t);
-                p->px = p->x;
-                p->py = p->y;
+                lerp028D98(&p->pos.x, s.x, p->target.x, t);
+                lerp028D98(&p->pos.y, s.y, p->target.y, t);
+                p->prev = p->pos;
                 t += step;
                 sub_080003F0();
             } while (t <= 0x3FF);
-            p->px = p->x;
-            p->py = p->y;
+            p->prev = p->pos;
             return;
         }
-        p->x += (s16)dx << 8;
-        p->y += (s16)dy << 8;
-        p->px = p->x;
-        p->py = p->y;
+        p->pos.x += (s16)x << 8;
+        p->pos.y += (s16)y << 8;
+        p->prev = p->pos;
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08028D98);
-#endif
 extern u8 *scene026E4 asm("gUnk_03005CF4");
 struct Monster026E4 {u8 pad[8];u16 value;u8 tail[0x2D6];};
 extern struct Monster026E4 *monsters026E4 asm("gUnk_030056F4");
