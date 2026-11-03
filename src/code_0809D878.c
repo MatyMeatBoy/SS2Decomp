@@ -1836,7 +1836,7 @@ void sub_080A0B44(void)
     struct DrawA0B44 *object;
     struct ActorA0B44 *actor;
     s16 dx, dy;
-    u16 distance;
+    s32 distance;
     u32 serial;
 
     ref = &actorA0B44;
@@ -1918,7 +1918,7 @@ void sub_080A0B44(void)
         player = sub_080020F4();
         dx = (posX >> 8) - (playersA0B44[player].x >> 8);
         player = sub_080020F4();
-        dy = ((posY >> 8) + 12) - (playersA0B44[player].y >> 8);
+        dy = (s16)((posY >> 8) + 12) - (playersA0B44[player].y >> 8);
         distance = Sqrt(dx * dx + dy * dy);
         if (hit != 0) goto next;
         if (distance > 15) goto next;

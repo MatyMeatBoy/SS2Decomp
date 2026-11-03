@@ -1,0 +1,10 @@
+shard 106 notes (nov03-w3)
+
+sub_080A0B44: fresh draft (structs, no register asm), 1072 vs 1056 bytes. Control flow, stack
+  layout of sprites/frames and call args match. Spill slots 0x8c.. follow declaration order
+  (sub, target, posX, posY, targetX, targetY, done, count, tick, animArg, timer, steps, running, hit).
+  Left: register allocation. ROM keeps &gUnk_0300032C in sl from the function start (used for
+  (*actor)->x/y in the draw block and the serial update; the hit checks reload it into r4),
+  state in r7, anim (u8) in r9, posX/posY spilled. Ours folds the address and gives posX/posY
+  sl/r7, state r9. A local `T **ref = &gUnk_0300032C` gets constant-folded. Permuter 5 min: nothing.
+  `state == 0 || state == 1` gives the unsigned `cmp r7,#1; bhi`; switch on s32 state gives bgt.
