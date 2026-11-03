@@ -1,10 +1,10 @@
-shard 98 notes (nov03-w1)
 
-sub_08094638: in-tree draft is exact size; the ONLY diff is spill-slot order of the loop-hoisted
-  address pseudos (35 diff lines). ROM slots ascending: 0xA8 copy of b.payload, 0xAC b.payload
-  (sp+0x68), 0xB0 &indices[1], 0xB4 &indices[2], 0xB8 &frames[0], 0xBC base.x>>8, 0xC0 &frames[1],
-  0xC4 base.y>>8, 0xC8 &frames[2], 0xCC a.payload (sp+0x34). Slots follow pseudo number (expand
-  order), so the source order of the first use of each address decides it. Replacing the `screen`
-  locals by `base.x >> 8` inside the loop changes the order but does not fix it (43). Permuter 5 min
-  on the draft: nothing. Idea: try reordering the init statements / init loop (frames before
+nov03-w4 (sub_08094638, ~25 min): slot order is ascending pseudo number (inner-block user vars get
+  the lowest slots, loop-created ones follow). ROM regno order: b.payload copy, b.payload, &ind[1],
+  &ind[2], &fr[0], x, &fr[1], y, &fr[2], a.payload. Draft order: x, y (screen locals), copy,
+  &ind[2], &fr[0], &fr[1], &fr[2], a.payload, b.payload, &ind[1]. With `base.x >> 8` inside the
+  loop: copy, a.payload, b.payload, x, y, &ind[1], &ind[2], &fr[0..2] (43 lines). Explicit pointer
+  locals declared in ROM order and assigned before the init loop: wrong frame (692 bytes, 291 lines);
+  the ROM really uses loop.c-hoisted pseudos, so the order comes from the loop movables.
+/ init loop (frames before
   indices), or a struct holding indices+frames.
