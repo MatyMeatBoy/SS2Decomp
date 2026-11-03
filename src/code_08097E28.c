@@ -2783,7 +2783,7 @@ struct EntCC2C {
     s32 x, y; u8 p1c[0x2c]; u16 f48; u8 p4a[2]; s32 f4c; s32 f50, f54;
     u8 p58[2]; u16 f5a; s16 f5c; s16 f5e; u8 p60[8]; u16 f68, f6a, f6c, f6e;
     u8 p70[0x164]; s16 f1d4, f1d6; u8 p1d8[0x24];
-    u32 lo:4; u32 hi:4;
+    u8 lo:4; u8 hi:4;
     u8 f1fd, f1fe, p1ff; u8 f200; u8 p201; u16 f202;
     struct SubCC2C sub;
 };
@@ -2832,6 +2832,14 @@ static inline u8 prepCC2C(struct EntCC2C *ent, struct SprCC2C *spr, struct SubCC
         ent->f6e = animCC2C(spr, *p68, p6a, p6c, flag);
     coordsCC2C((s16)(ent->x >> 8), (s16)(ent->y >> 8), sx, sy, 0, 0);
     return pal;
+}
+
+static inline void frameB(struct EntCC2C *ent, struct SprCC2C *spr, struct SubCC2C *sub, u32 palNo,
+    u16 *p68, u16 *p6a, u16 *p6c, s32 flag, s16 *sx, s16 *sy, u16 blink)
+{
+    u8 pal = prepCC2C(ent, spr, sub, palNo, p68, p6a, p6c, flag, sx, sy);
+    if ((blink & 1) && s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0)
+        drawCC2C(*sx, *sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
 }
 
 void sub_0809CC2C_(u8 idx)
@@ -3034,9 +3042,7 @@ out:
     maskCC2C &= ~(1 << tblCC2C[idx]->f0);
     blink = 20;
     do {
-        pal = prepCC2C(ent, spr, sub, palNo, p68, p6a, p6c, flag, &sx, &sy);
-        if ((blink & 1) && s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0)
-            drawCC2C(sx, sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
+        frameB(ent, spr, sub, palNo, p68, p6a, p6c, flag, &sx, &sy, blink);
         yieldCC2C();
     } while (--blink != 0xFFFF);
     if (!(playersCC2C[s080020F4()].flags & 0x2000)) {
