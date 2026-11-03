@@ -1,6 +1,5 @@
 #include "global.h"
 
-#ifdef NONMATCHING
 s32 sub_080290E4();
 void sub_080542C4(s32 arg0)
 {
@@ -9,11 +8,14 @@ void sub_080542C4(s32 arg0)
     s32 h;
     s32 raw;
     u32 one;
+    struct Player *pl2;
     struct Player *pl;
+    s32 set;
 
     pl = &gUnk_03003CE0[sub_080020F4()];
+    raw = pl->flags;
     one = 1;
-    pl->flags |= one;
+    pl->flags = raw | one;
     sub_0800D0F4();
     if (sub_0800CE30() != 0)
         p = (u8 *)gUnk_03005CF4 + 0x1C7;
@@ -26,7 +28,8 @@ void sub_080542C4(s32 arg0)
         q = (u8 *)gUnk_03005CF4 + 0x1C7;
     else
         q = (u8 *)gUnk_03005CF4 + 0x1BB;
-    *q = 2 | *q;
+    set = 2 | *q;
+    *q = set;
     while (sub_0805F184() != 0)
         sub_080003F0();
     while (sub_0805EF90() != 0)
@@ -44,13 +47,11 @@ void sub_080542C4(s32 arg0)
         sub_080003F0();
     sub_08028AAC(2, 0x138, 0xC8, 0);
     sub_08028AAC(1, 0x270F, 0x270F, 0);
-    { u32 idx = sub_080020F4(); pl = &gUnk_03003CE0[idx]; }
-    pl->flags &= ~1;
+    pl2 = (struct Player *)(sub_080020F4() * sizeof(struct Player));
+    pl2 = (struct Player *)((u8 *)pl2 + (u32)gUnk_03003CE0);
+    pl2->flags &= ~1;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080542C4);
-#endif
 extern u32 sub_0805990C;
 s32 sub_080290E4();
 static inline void spawn54(void (*cb)(void), s32 arg)
