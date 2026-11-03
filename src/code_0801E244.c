@@ -591,10 +591,21 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 #endif
-#ifdef NONMATCHING
 struct CombatCtxD8C { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
 struct CombatActorD8C { u8 pad[0x1CC]; u16 attack,defense; s16 evade; u8 pad1D2[0x32]; struct CombatCtxD8C ctx; };
 struct TargetD8C { u8 pad[0xC]; u16 kind; u8 padE[0x6E]; u16 resist[6]; u8 pad88[0x4A]; u16 f5A_dummy; };
+static inline s32 inl_ED8C(u16 arg0, u16 arg1, u32 arg2) {
+    u16 temp_r5;
+    u16 var_r0;
+
+    temp_r5 = arg0;
+    var_r0 = (u16) ((s32) (((u32) ((((u16) sub_080008C8() % 50U) << 0x10) + 0x640000) >> 0x10) * ((s32) (temp_r5 * temp_r5 * 0xA) / (s32) (temp_r5 + arg1))) / (s32) arg2);
+    var_r0 /= 10;
+    if (var_r0 == 0) {
+        var_r0 = 1;
+    }
+    return (s32) var_r0;
+}
 u32 sub_0801ED8C(void *arg0, void *arg1)
 {
   struct CombatActorD8C *src = arg0;
@@ -627,17 +638,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   {
     divisor = 200;
   }
-  attack = src->attack;
-  rnd = ((u16) sub_080008C8()) % 50;
-  variance = rnd + 100;
-  scaled = ((s32) ((((u32) attack) * attack) * 10)) / (defense += attack);
-  weighted = ((s32) (((u32) scaled) * variance)) / ((s32) divisor);
-  firstDamage = weighted;
-  firstDamage /= 10;
-  if (!firstDamage)
-  {
-    firstDamage = 1;
-  }
+  firstDamage = inl_ED8C(src->attack, defense, divisor);
   element = *((u16 *) (record + 0xBC));
   damage = firstDamage;
   resists = (u16 *) (dst + 0x7C);
@@ -706,9 +707,6 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   { u32 hi = 0x8000; hi |= result; return hi; }
   return result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
-#endif
 struct CombatCtx019 { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
 struct CombatActor019 { u8 pad[0x1CC]; u16 attack,defense; u8 pad1D0[0x34]; struct CombatCtx019 ctx; };
 s32 sub_0801EF14(void *arg0,void *arg1)

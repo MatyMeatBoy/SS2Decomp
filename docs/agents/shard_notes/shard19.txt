@@ -1,10 +1,10 @@
-
-nov03-w4: sub_0801ED8C draft 13 -> 2 real diff lines (only `adds r6,r6,r5` vs ROM `adds r5,r5,r6`).
-  - Tail: `if (divisor == 100) { u32 hi = 0x8000; hi |= result; return hi; } return result;` puts
-    the OR straight into r0 and keeps the two separate returns; no `defense = 0x8000` reuse needed.
-  - defense must be s32 and written `(defense += attack)`: the extra set/use (4 refs) raises its
-    global-alloc priority above dst/divisor (ROM: defense r6, dst r7, divisor r8). But then the sum
-    lands in defense's reg; ROM puts it in attack's (r5). `attack + defense` / `attack += defense`
+sub_0801ED8C: MATCHED (nov03-w4). Key: the damage roll is an inline copy of sub_08021C74
+  (`inl_ED8C(src->attack, defense, divisor)`, u16 attack/defense params, u32 divisor param) with
+  `var = (u16)(...); var /= 10;` as two statements. The param copy gives `adds r5,r5,r6`.
+  Tail: `if (divisor == 100) { u32 hi = 0x8000; hi |= result; return hi; } return result;`.
+  sub_0801E5B0 / sub_0801E988 still differ at the inl_08021D00 entry (ROM truncates `lsls r5`
+  into r2 there but later passes result to inl_08021CE4 without truncation).
+attack's (r5). `attack + defense` / `attack += defense`
     lose the priority (defense -> r8). No-op extra uses (casts, &=0xFFFF) are optimized out.
   - finishWord register-asm block still needed (clean forms are 386 bytes).
 core for these two is meaningless; check with
