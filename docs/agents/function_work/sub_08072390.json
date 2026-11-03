@@ -1,6 +1,6 @@
 {
   "address": "0x08072390",
-  "updated_utc": "2026-11-03T12:00:00+00:00",
+  "updated_utc": "2026-11-03T18:00:00+00:00",
   "checkpoint": "56420854",
   "areas": [
     {
@@ -18,14 +18,14 @@
     {
       "id": "regalloc",
       "label": "Register allocation",
-      "state": "pending",
-      "evidence": "Remaining ~140 diff lines are a register cascade: the hit counter (u16 count) gets r4 instead of r7 in the target-gather loops, so player is reloaded into r1 and &player->done takes slot 0xC0 instead of 0xD4 (temporaries shift +4). From the lreg dump, count priority (10 refs/432 insns) beats num (3 refs/93 insns); in the original num is allocated first. Permuter (30 min) found nothing."
+      "state": "done",
+      "evidence": "num computed in the for-init (loop-weighted refs) puts count in r7; a separate dy for the enemy-loop Y range check fixes the local temps; three single-use temporaries raise max_cuid so the GCSE hash table has 539 buckets and the done pointer gets the last spill slot (sp+0xD4)."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
-      "state": "pending",
-      "evidence": "Not matched yet."
+      "state": "done",
+      "evidence": "Active C; make compare prints shiningsoul2_eu.gba: OK, ASM file removed."
     }
   ],
   "regions": []

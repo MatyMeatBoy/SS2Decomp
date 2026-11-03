@@ -6090,7 +6090,6 @@ block_303:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080710DC);
 #endif
-#ifdef NONMATCHING
 struct T39Pos { u16 h0; u16 h2; };
 struct T39Rng { s16 x, y; };
 struct T39Pl { u16 h0; u8 p2[0x20 - 2]; u16 state; u8 p22[0x4C - 0x22]; u8 b4C[0x68 - 0x4C]; u8 team; u8 p69[0xB2 - 0x69]; u16 ready; u8 pB4[2]; u16 done; u8 pB8[0xC2 - 0xB8]; u16 hp; u8 pC4[0x148 - 0xC4]; struct T39Pos *pos; u8 p14C[0x14C - 0x14C]; };
@@ -6135,11 +6134,12 @@ void sub_08072390(struct T39Arg *arg0) {
     u16 count;
     u32 num;
     s32 dx;
+    s32 dy;
     s16 idx;
     u32 raw;
     u16 chance;
 
-    myId = (u16)sub_080020F4();
+    { u16 t = sub_080020F4(); myId = t; }
     owner = arg0->owner;
     bit = arg0->bit;
     lv = arg0->w14;
@@ -6168,23 +6168,20 @@ void sub_08072390(struct T39Arg *arg0) {
     }
     if (lv != 0)
         player->ready = 2;
-    if (player->ready <= 1) {
-        do {
-            if (player->state == 10 || !(gGameState->flags & 2)) {
-                gT39Flags[owner] &= ~(1 << bit);
-                return;
-            }
-            sub_080003F0();
-        } while (player->ready <= 1);
+    while (player->ready <= 1) {
+        if (player->state == 10 || !(gGameState->flags & 2)) {
+            gT39Flags[owner] &= ~(1 << bit);
+            return;
+        }
+        sub_080003F0();
     }
     sx = (player->pos->h0 >> 4) << 8;
-    sy = (u32)(player->pos->h2 << 20) >> 12;
-    n = 0;
+    { u32 h = (u32)(player->pos->h2 << 20) >> 20; sy = h << 8; }
     count = 0;
+    n = 0;
     if (sub_0800CDF8() == 0) {
         if (arg0->mode <= 3) {
-            num = sub_08002164();
-            for (i = 0; i < num && sub_0800CD8C() == 0; i++) {
+            for (num = sub_08002164(), i = 0; i < num && sub_0800CD8C() == 0; i++) {
                 p = &gT39Players[i];
                 if (owner <= 3 && p->team == player->team)
                     continue;
@@ -6214,9 +6211,9 @@ void sub_08072390(struct T39Arg *arg0) {
                 dx = x;
                 if (dx < 0) dx = -dx;
                 if (dx >= gT39Ranges[kind].x) continue;
-                dx = y;
-                if (dx < 0) dx = -dx;
-                if (dx >= gT39Ranges[kind].y) continue;
+                dy = y;
+                if (dy < 0) dy = -dy;
+                if (dy >= gT39Ranges[kind].y) continue;
                 targets[n++] = i;
                 count++;
             }
@@ -6260,7 +6257,7 @@ void sub_08072390(struct T39Arg *arg0) {
                     u8 *tp = &targets[i];
                     p = &gT39Players[*tp];
                     t39Coords(p->pos->h0 >> 4, (u32)(p->pos->h2 << 20) >> 20, &x, &y, 0x30, 0);
-                    pal = (u8)sub_0800BC44(sx >> 8, sy >> 8, 0);
+                    { u8 c = sub_0800BC44(sx >> 8, sy >> 8, 0); pal = c; }
                     if (delays[i] == 0) {
                         heights[i] -= speeds[i];
                         speeds[i] += 0x20;
@@ -6342,9 +6339,6 @@ void sub_08072390(struct T39Arg *arg0) {
         sub_080003F0();
     gT39Flags[owner] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08072390);
-#endif
 struct T75Pos { u16 h0; u16 h2; };
 struct T75Rng { s16 x, y; };
 struct T75Pl { u8 p0[0x20]; u16 state; u8 p22[0x3C - 0x22]; s16 s3C; u8 p3E[0x48 - 0x3E]; s32 w48; u8 p4C[0x68 - 0x4C]; u8 team; u8 p69[0xB2 - 0x69]; u16 ready; u8 pB4[2]; u16 done; u8 pB8[0xC2 - 0xB8]; u16 hp; u8 pC4[0x148 - 0xC4]; struct T75Pos *pos; };
