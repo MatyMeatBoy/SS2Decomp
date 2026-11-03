@@ -147,40 +147,35 @@ void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u32 arg4,u32 arg5
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029B98);
 #endif
-#ifdef NONMATCHING
 #define H_CE(p,n) (*(u16*)((p)+(n)))
 #define W_CE(p,n) (*(u32*)((p)+(n)))
 extern u8 *stateCEC asm("gUnk_030034E0");
 extern void extraCEC(u32,u16,u8*) asm("sub_08069224");
 extern void initCEC(void*,void*,u16,u16,u32) asm("sub_08069388");
 extern void runCEC(void*,u16,s32,u32,u32,u32) asm("sub_08069080");
-extern u32 valueCEC(u16,u16,void*) asm("sub_08021D00");
-void sub_08029CEC(u32 action,u32 amount,volatile s32 argument)
+extern u16 valueCEC(u16,u16,void*) asm("sub_08021D00");
+void sub_08029CEC(u32 action,u32 amount,s32 argument)
 {
- u8 result[8]; u8 *player,*effect; u32 flags; s32 handle; u16 value,kind,narrowAction;
+ u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
  player=(u8*)&gUnk_03003CE0[sub_080020F4()];
  if(sub_0800CDF8()==0 && sub_08058DB0()==0){
   kind=H_CE(player,0x20);
   if(kind!=14 && player[0x68]!=0 && kind!=11){
    flags=W_CE(player,0x30)&0x2000;
    if(flags==0 && kind!=10){
-    value=amount;
-    effect=player+0x4C;
-    narrowAction=action; initCEC(result,effect,argument,narrowAction,H_CE(player,0));
+    res=result;
+    initCEC(result,player+0x4C,argument,action,H_CE(player,0));
     handle=sub_0801E164(player,0);
-    if(handle)sub_0801DB94(H_CE(player,0),(void*)handle,result[1]);
-    value=valueCEC(narrowAction,value,effect);
-    W_CE(player,0xE0)=action; extraCEC(action,value,stateCEC+0x24); H_CE(player,0x20)=10; H_CE(player,0x88)+=value;
+    if(handle)sub_0801DB94(H_CE(player,0),(void*)handle,res[1]);
+    amount=valueCEC(action,amount,player+0x4C);
+    W_CE(player,0xE0)=action; extraCEC(action,amount,stateCEC+0x24); H_CE(player,0x20)=10; H_CE(player,0x88)+=amount;
     W_CE(player,0x110)=flags; H_CE(player,0xC8)=flags; H_CE(player,0xCA)=flags;
     if(H_CE(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_CE(player,0xC)+0x45);
-    runCEC(effect,value,argument,0,H_CE(player,0),action);
+    runCEC(player+0x4C,amount,argument,0,H_CE(player,0),action);
    }
   }
  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029CEC);
-#endif
 #ifdef NONMATCHING
 struct ResultE0C {u8 a,b,c,d;u16 value;u16 pad;};
 #define H_E0(p,n) (*(u16*)((p)+(n)))
