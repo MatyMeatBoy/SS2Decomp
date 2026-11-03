@@ -1,0 +1,10 @@
+sub_08087A5C (nov03-w4): draft 604 vs 612 bytes. Findings:
+  - Fade loop: declare `s16 a, b;` (`++a > 15`, `--b <= 0`) and call sub_0800903C through a local
+    prototype `extern void f(u32,u32,u32,u16,s16,u32) asm("sub_0800903C")` passing a, b directly:
+    the ROM passes b raw (HImode param) and computes b<<16 before the call, which this reproduces
+    (fade block then matches up to register choice; mode ends up in sl as in the ROM).
+  - Name expansion: ROM hoists `gUnk_03003CE0 + 2` into sl (0xF6 case: player 0 name) and keeps
+    0xFD in ip; cases F4/F3/F2 are players 1..3 (+0x14E/+0x29A/+0x3E6 = k*0x14C + 2) sharing the
+    `*d = name[col]` tail. Draft folds +2 into `ldrb [r0,#2]`: write it as a per-case `name`
+    pointer with a common tail.
+  - Count in r8, mode r9 then sl; draft swaps r8/r9 at entry.
