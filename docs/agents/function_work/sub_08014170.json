@@ -1,7 +1,7 @@
 {
   "address": "0x08014170",
-  "updated_utc": "2026-11-03T08:10:00Z",
-  "checkpoint": "nov03-w6 shard 12: complete compilable NONMATCHING draft in src/code_0800CF58.c",
+  "updated_utc": "2026-11-03T13:21:43Z",
+  "checkpoint": "nov03-w5 shard 12: NONMATCHING draft rewritten without asm barriers; spill-slot order of the nine loop-hoisted addresses now matches.",
   "areas": [
     {
       "id": "flow",
@@ -19,7 +19,7 @@
       "id": "layout",
       "label": "Frame, spill slots and registers",
       "state": "active",
-      "evidence": "Frame 0xFC and every stack slot (sprites sp8/sp3C, nibble structs 0x78/0x84/0x90, coords 0x9C/0x9E, tile 0xA0/0xA2, color 0xA4, spills 0xA8-0xF8) match the original. Inline level helper with asm barriers (ldrb+lsl/asr of 0x6C, x*5 before i=7, table+14) fixed the spill slot order. Remaining differences: reload register rotation (r0-r7 choices) throughout, bar-1 else-branch store cross-jump, bar2/bar3 reload of display value, and state 3-4 level clamp now written per arm (matches the duplicated cmp lv,m blocks), remaining f26 load order before lv=m. Normalized-opcode diff about 60 lines; exact compare NO MATCH."
+      "evidence": "Frame and every stack slot match, including the nine hoisted invariants at 0xD8-0xF8. Key finding: their slot order follows GCSE PRE reaching-reg creation, i.e. expression hash-table bucket order (hash % N, N = max_cuid/2+1). The original needs N=579 (or 605); the draft now reaches N=579 naturally (dropped the redundant third f26 clamp; check with agbcc -dG, 'Expression hash table (579 buckets'). The 'changed' flag is the same variable as loop index i (gives r5 like the original), the level result/clamp use i and j, mx3 is computed as max = stats[0x28]; max += f79. Inline level helper is plain C (no asm). Remaining: bar n/bound register swap (r3/r2), bar-3 stats+0xA0 register, ldrb+lsl/asr of f6C (draft gives ldrsb), cross-jumped f26 clamp tails in the state 3-4 branch. Normalized diff ~266 lines (was ~1180)."
     },
     {
       "id": "match",

@@ -6304,27 +6304,15 @@ extern u16 gPal14170[] asm("gUnk_03001F40");
 extern u16 gBg14170[] asm("gUnk_03005740");
 extern u8 *gSave14170 asm("gUnk_030034E0");
 
-static inline u16 level14170(struct Actor14170 *arg0)
+static inline s32 level14170(struct Actor14170 *a)
 {
     s32 i;
-    u8 raw;
-    s32 half;
-    u16 *table;
-    s32 delta;
-    raw = arg0->f6C;
-    asm("" : "+r"(raw));
-    half = (s8)raw * 5;
-    asm("" : "+r"(half));
-    i = 7;
-    table = gUnk_0847ACE8;
-    delta = half * 2;
-    table += 7;
-    asm("" : "+r"(table), "+r"(delta));
-    for (; i >= 0; table--, i--) {
-        u16 threshold = delta + *table;
+    s8 lvl = a->f6C;
+    for (i = 7; i >= 0; i--) {
+        u16 threshold = lvl * 10 + gUnk_0847ACE8[i];
         if ((s16)threshold < 0)
             threshold = 0;
-        if (arg0->fC2 >= (s16)threshold)
+        if (a->fC2 >= (s16)threshold)
             return i;
     }
     return 0;
@@ -6353,7 +6341,7 @@ void hud14170(struct Actor14170 *arg0)
     u16 blink;
     u16 dhp, dmp, dx3;
     u16 mhp, mmp, mx3;
-    u32 changed;
+
     u16 n;
     u16 i;
     u16 j;
@@ -6388,10 +6376,10 @@ void hud14170(struct Actor14170 *arg0)
             sub_080003F0();
         }
 
-        changed = (s16)dhp != arg0->fC4;
+        i = (s16)dhp != arg0->fC4;
         if ((s16)mhp != arg0->f62)
-            changed = 1;
-        if (changed) {
+            i = 1;
+        if (i) {
             if (arg0->fC4 > arg0->f62) {
                 arg0->fC4 = arg0->f62;
                 dhp = arg0->fC4;
@@ -6457,10 +6445,10 @@ void hud14170(struct Actor14170 *arg0)
             sub_08001348(buf1, (void *)0x06008060, 0xA0);
         }
 
-        changed = (s16)dmp != arg0->fC2;
+        i = (s16)dmp != arg0->fC2;
         if ((s16)mmp != arg0->f60)
-            changed = 1;
-        if (changed) {
+            i = 1;
+        if (i) {
             if (arg0->fC2 > arg0->f60)
                 arg0->fC2 = arg0->f60;
             dmp = arg0->fC2;
@@ -6503,10 +6491,10 @@ void hud14170(struct Actor14170 *arg0)
             sub_08001348(buf2, (void *)0x06008160, 0xA0);
         }
 
-        changed = (s16)dx3 != arg0->fC6;
+        i = (s16)dx3 != arg0->fC6;
         stats = (u32 *)sub_08007290(*(u16 *)(gSave14170 + 0x132) | 0x110000);
         if ((s16)mx3 != stats[0xA0 / 4] + arg0->f79)
-            changed = 1;
+            i = 1;
         if (arg0->fC6 >= stats[0xA0 / 4] + arg0->f79) {
             fade -= 8;
             fade &= 0xFF;
@@ -6521,11 +6509,11 @@ void hud14170(struct Actor14170 *arg0)
             color.b = 0;
             gPal14170[0xFF] = *(u16 *)&color;
         }
-        if (changed) {
+        if (i) {
             if (arg0->fC6 > stats[0xA0 / 4] + arg0->f79)
                 arg0->fC6 = stats[0xA0 / 4] + arg0->f79;
             dx3 = arg0->fC6;
-            mx3 = max = stats[0xA0 / 4] + arg0->f79;
+            max = stats[0xA0 / 4]; max += arg0->f79; mx3 = max;
             cur = dx3;
             v = dx3;
             if (cur <= 0)
@@ -6566,21 +6554,17 @@ void hud14170(struct Actor14170 *arg0)
 
         if (sub_0800CC98() == 0) {
             if ((u16)(arg0->f20 - 3) <= 1) {
-                u16 lv;
-                u16 m;
                 t071Coords((arg0->f8C << 8) >> 16, (arg0->f90 << 8) >> 16, &sx, &sy, 0x30, 0);
                 if (arg0->f10 != 9) {
-                    lv = lv14170();
-                    m = level14170(arg0);
-                    if (lv > m) lv = m; if (lv > arg0->f26) lv = 0;
+                    i = lv14170();
+                    j = level14170(arg0);
+                    if (i > j) i = j; if (i > arg0->f26) i = 0;
                 } else {
-                    lv = lv14170();
-                    m = sub_08079FD0(sub_0801DEB8()) - 1;
-                    if (lv > m) lv = m; if (lv > arg0->f26) lv = 0;
+                    i = lv14170();
+                    j = sub_08079FD0(sub_0801DEB8()) - 1;
+                    if (i > j) i = j; if (i > arg0->f26) i = 0;
                 }
-                
-                if (lv > arg0->f26) lv = 0;
-                if (lv != 0) {
+                if (i != 0) {
                     if (arg0->f26 <= 0xF && arg0->f20 != 5) {
                         anim14170(spr1, arg0->f26 + 6, &tile, &tmp, 1);
                         draw14170(spr1, sx, sy - 0x20, arg0->f26 + 6, tile);
