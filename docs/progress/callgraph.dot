@@ -2686,11 +2686,11 @@ digraph calls {
   "sub_0800BEC0" -> "sub_08067C08" [label="asm"];
   "sub_0800BEC0" -> "sub_08067C18" [label="asm"];
   "sub_0800BEC0" -> "sub_08068384" [label="asm"];
-  "sub_0800C9F4" -> "CpuSet" [label="asm"];
-  "sub_0800C9F4" -> "sub_080003F0" [label="asm"];
-  "sub_0800C9F4" -> "sub_08000B38" [label="asm"];
-  "sub_0800C9F4" -> "sub_08001494" [label="asm"];
-  "sub_0800C9F4" -> "sub_08001538" [label="asm"];
+  "sub_0800C9F4" -> "CpuSet" [label="asm,c"];
+  "sub_0800C9F4" -> "sub_080003F0" [label="asm,c"];
+  "sub_0800C9F4" -> "sub_08000B38" [label="asm,c"];
+  "sub_0800C9F4" -> "sub_08001494" [label="asm,c"];
+  "sub_0800C9F4" -> "sub_08001538" [label="asm,c"];
   "sub_0800CB3C" -> "sub_08000274" [label="c"];
   "sub_0800CB3C" -> "sub_08001494" [label="c"];
   "sub_0800CBCC" -> "sub_08002164" [label="c"];
