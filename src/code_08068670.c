@@ -3602,8 +3602,7 @@ s32 t6f_sub_08056E90() asm("sub_08056E90");
 u8 t6f_sub_0805865C(s32) asm("sub_0805865C");
 s32 t6f_sub_08058DB0() asm("sub_08058DB0");
 s32 t6f_sub_0806898C(s32, s32) asm("sub_0806898C");
-struct T6fPos { u16 h0; u16 h2; u8 b4; };
-struct T6fPosB { u32 kind : 4; u32 hi : 4; u32 b1 : 8; u32 b2 : 8; u32 b3 : 8; u32 f4 : 6; };
+struct T6fPos { u32 kind : 4; u32 x : 12; u32 y : 12; u32 dir : 4; u32 f4 : 6; };
 struct T6fPl { u16 id; u8 p2[0x20 - 2]; u16 state; u8 p22[0x30 - 0x22]; u32 flags; u8 p34[0x68 - 0x34]; u8 team; u8 p69[0xC2 - 0x69]; u16 hp; u8 pC4[0xDC - 0xC4]; s32 hits; u8 pE0[0x148 - 0xE0]; struct T6fPos *pos; };
 struct T6fEn { u16 id; u16 uid; u8 p4[8 - 4]; s16 dir; u8 pA[0xC - 0xA]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x50 - 0x1C]; s32 hits; u8 p54[0x5A - 0x54]; u16 hitMask; u8 p5C[0x5E - 0x5C]; u16 mp; u8 p60[0x6A - 0x60]; u16 h6A; u8 p6C[0x1DC - 0x6C]; u8 alive; u8 p1DD[0x22B - 0x1DD]; u8 b22B; u8 p22C[0x2E0 - 0x22C]; };
 struct T6fArg { u32 owner; s32 bit; u16 target; u8 pA[2]; s32 kind; u8 p10[4]; s32 level; };
@@ -3719,7 +3718,7 @@ void sub_0806FF1C(struct T6fArg *arg0) {
             me->hp = 0;
     }
     if (owner <= 3) {
-        frame = ((u8 *)pl->pos)[3] >> 4;
+        frame = pl->pos->dir;
         dir = gT6fDirs[(s16)frame];
     } else {
         frame = en->dir;
@@ -3784,8 +3783,8 @@ restart:
                     goto end;
             }
             if (owner <= 3) {
-                sx = (pl->pos->h0 >> 4) << 8;
-                sy = ((u32)(pl->pos->h2 << 20) >> 20) << 8;
+                sx = pl->pos->x << 8;
+                sy = pl->pos->y << 8;
                 if (owner == myId) {
                     if ((gT6fFrame & 1) == (owner & 1)) {
                         target = t6fSeekMe(0x20, 0x64);
@@ -3801,7 +3800,7 @@ restart:
                 sx = en->x;
                 sy = en->y;
                 if (target <= 3) {
-                    if (!(((struct T6fPosB *)gT6fPlayers[target].pos)->f4 & 0x20))
+                    if (!(gT6fPlayers[target].pos->f4 & 0x20))
                         goto found;
                 } else {
                     target = t6fSeekEn(en->id + 4, 0xFF, sx, sy, 100);
@@ -3832,7 +3831,7 @@ restart:
                 goto end;
             if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
                 goto end;
-            if (((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
+            if (pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
                 goto end;
         }
 
@@ -3881,9 +3880,9 @@ restart:
             if (target != 0xFF) {
                 if (hit)
                     goto strike;
-                if (target <= 3 && tp->team != pl->team && ((struct T6fPosB *)tp->pos)->kind != 0xE && tp->team != 0) {
-                    x = (tp->pos->h0 >> 4) - (sx >> 8);
-                    y = ((u32)(tp->pos->h2 << 20) >> 20) - (sy >> 8);
+                if (target <= 3 && tp->team != pl->team && tp->pos->kind != 0xE && tp->team != 0) {
+                    x = tp->pos->x - (sx >> 8);
+                    y = tp->pos->y - (sy >> 8);
                     dx = x;
                     if (dx < 0) dx = -dx;
                     if (dx <= 15) {
@@ -3900,11 +3899,11 @@ restart:
                 goto end;
             if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
                 goto end;
-            if (((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
+            if (pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
                 goto end;
             if (target <= 3) {
-                x = (tp->pos->h0 >> 4) - (sx >> 8);
-                y = ((u32)(tp->pos->h2 << 20) >> 20) - (sy >> 8);
+                x = tp->pos->x - (sx >> 8);
+                y = tp->pos->y - (sy >> 8);
             } else {
                 x = (te->x - sx) >> 8;
                 y = (te->y - sy) >> 8;
@@ -3972,9 +3971,9 @@ restart:
                 }
             }
             if (target != 0xFF && !hit2) {
-                if (target <= 3 && tp->team != pl->team && ((struct T6fPosB *)tp->pos)->kind != 0xE && tp->team != 0) {
-                    x = (tp->pos->h0 >> 4) - (sx >> 8);
-                    y = ((u32)(tp->pos->h2 << 20) >> 20) - (sy >> 8);
+                if (target <= 3 && tp->team != pl->team && tp->pos->kind != 0xE && tp->team != 0) {
+                    x = tp->pos->x - (sx >> 8);
+                    y = tp->pos->y - (sy >> 8);
                     dx = x;
                     if (dx < 0) dx = -dx;
                     if (dx <= 15) {
@@ -4003,7 +4002,7 @@ restart:
                 goto end;
             if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
                 goto end;
-            if (((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
+            if (pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
                 goto end;
             if (done) {
                 if (target <= 3) {
@@ -4018,7 +4017,7 @@ restart:
                 else
                     en->hits++;
             }
-            if ((target <= 3 ? ((struct T6fPosB *)tp->pos)->kind : te->state) == 0xB)
+            if ((target <= 3 ? tp->pos->kind : te->state) == 0xB)
                 goto lost;
             if (done) {
                 count--;
@@ -4057,12 +4056,12 @@ restart:
             if (owner <= 3) {
                 if (owner == myId) {
                     pos = pl->pos;
-                    x = (pos->h0 >> 4) - (sx >> 8);
-                    y = ((u32)(pos->h2 << 20) >> 20) - (sy >> 8);
+                    x = pos->x - (sx >> 8);
+                    y = pos->y - (sy >> 8);
                 } else {
                     pos = gT6fPlayers[owner].pos;
-                    x = (pos->h0 >> 4) - (sx >> 8);
-                    y = ((u32)(pos->h2 << 20) >> 20) - (sy >> 8);
+                    x = pos->x - (sx >> 8);
+                    y = pos->y - (sy >> 8);
                 }
             } else {
                 x = (te->x - sx) >> 8;
@@ -4090,17 +4089,17 @@ restart:
                 goto end;
             if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
                 goto end;
-            if (((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
+            if (pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0 || t6f_sub_0800D11C() != 0)
                 goto end;
         }
     home:
         if (owner <= 3) {
             if (owner == myId) {
-                x = (sx >> 8) - (pl->pos->h0 >> 4);
-                y = (sy >> 8) - ((u32)(pl->pos->h2 << 20) >> 20);
+                x = (sx >> 8) - pl->pos->x;
+                y = (sy >> 8) - pl->pos->y;
             } else {
-                x = (sx >> 8) - (gT6fPlayers[owner].pos->h0 >> 4);
-                y = (sy >> 8) - ((u32)(gT6fPlayers[owner].pos->h2 << 20) >> 20);
+                x = (sx >> 8) - gT6fPlayers[owner].pos->x;
+                y = (sy >> 8) - gT6fPlayers[owner].pos->y;
             }
         } else {
             x = (sx - te->x) >> 8;
@@ -4250,8 +4249,8 @@ void sub_080710DC(struct T6fArg *arg0) {
     base <<= 3;
     count += 4;
     if (owner <= 3) {
-        cx = (pl->pos->h0 >> 4) << 8;
-        cy = ((u32)(pl->pos->h2 << 20) >> 20) << 8;
+        cx = pl->pos->x << 8;
+        cy = pl->pos->y << 8;
     } else {
         cx = en->x;
         cy = en->y;
@@ -4269,9 +4268,9 @@ restart:
         if (timer++ > 0x3C) {
             u16 r;
             if (owner <= 3) {
-                cx = (pl->pos->h0 >> 4) << 8;
-                cy = ((u32)(pl->pos->h2 << 20) >> 20) << 8;
-                frame = ((u8 *)pl->pos)[3] >> 4;
+                cx = pl->pos->x << 8;
+                cy = pl->pos->y << 8;
+                frame = pl->pos->dir;
                 dir = gT6gDirs[frame] * 16;
                 if (seek++ <= 5)
                     goto orbit;
@@ -4286,7 +4285,7 @@ restart:
                 frame = en->dir;
                 dir = gT6gDirs[en->dir] * 16;
                 if (target <= 3) {
-                    if (((struct T6fPosB *)gT6fPlayers[target].pos)->f4 & 0x20)
+                    if (gT6fPlayers[target].pos->f4 & 0x20)
                         goto orbit;
                     goto found;
                 }
@@ -4351,7 +4350,7 @@ restart:
             goto end;
         if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
             goto end;
-        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+        if (t6f_sub_0800D11C() != 0 || pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
             goto end;
     }
 
@@ -4405,9 +4404,9 @@ tracked:
         if (arg0->owner <= 3) {
             for (i = 0; i < num; i++) {
                 p = &gT6fPlayers[i];
-                if (p->team != pl->team && ((struct T6fPosB *)p->pos)->kind != 0xE && p->team != 0) {
-                    x = (p->pos->h0 >> 4) - (sx >> 8);
-                    y = ((u32)(p->pos->h2 << 20) >> 20) - (sy >> 8);
+                if (p->team != pl->team && p->pos->kind != 0xE && p->team != 0) {
+                    x = p->pos->x - (sx >> 8);
+                    y = p->pos->y - (sy >> 8);
                     dx = x;
                     if (dx < 0) dx = -dx;
                     if (dx <= 0xB) {
@@ -4421,9 +4420,9 @@ tracked:
         } else {
             for (i = 0; i < num; i++) {
                 p = &gT6fPlayers[i];
-                if (!(p->flags & 0x2000) && ((struct T6fPosB *)p->pos)->kind != 0xE && p->team != 0) {
-                    x = (p->pos->h0 >> 4) - (sx >> 8);
-                    y = ((u32)(p->pos->h2 << 20) >> 20) - (sy >> 8);
+                if (!(p->flags & 0x2000) && p->pos->kind != 0xE && p->team != 0) {
+                    x = p->pos->x - (sx >> 8);
+                    y = p->pos->y - (sy >> 8);
                     dx = x;
                     if (dx < 0) dx = -dx;
                     if (dx <= 0xB) {
@@ -4440,11 +4439,11 @@ tracked:
             goto strike;
         if (t6f_sub_08056E90() != 0 && owner <= 3 && (gT6fPlayers[owner].flags & 2))
             goto end;
-        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+        if (t6f_sub_0800D11C() != 0 || pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
             goto end;
         if (target <= 3) {
-            x = (tp->pos->h0 >> 4) - (sx >> 8);
-            y = ((u32)(tp->pos->h2 << 20) >> 20) - (sy >> 8);
+            x = tp->pos->x - (sx >> 8);
+            y = tp->pos->y - (sy >> 8);
         } else {
             x = (te->x - sx) >> 8;
             y = (te->y - sy) >> 8;
@@ -4513,7 +4512,7 @@ strike:
             goto end;
         if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
             goto end;
-        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+        if (t6f_sub_0800D11C() != 0 || pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
             goto end;
         if (done) {
             t6gBurst(sx, sy, arg0);
@@ -4522,7 +4521,7 @@ strike:
             else
                 en->hits++;
         }
-        if ((target <= 3 ? ((struct T6fPosB *)tp->pos)->kind : te->state) == 0xB)
+        if ((target <= 3 ? tp->pos->kind : te->state) == 0xB)
             goto lost;
         if (done) {
             count--;
@@ -4537,8 +4536,8 @@ lost:
         goto end;
     for (;;) {
         if (owner <= 3) {
-            x = (pl->pos->h0 >> 4) - (sx >> 8);
-            y = ((u32)(pl->pos->h2 << 20) >> 20) - (sy >> 8);
+            x = pl->pos->x - (sx >> 8);
+            y = pl->pos->y - (sy >> 8);
         } else {
             x = (te->x - sx) >> 8;
             y = (te->y - sy) >> 8;
@@ -4582,7 +4581,7 @@ lost:
             goto end;
         if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
             goto end;
-        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+        if (t6f_sub_0800D11C() != 0 || pl->pos->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
             goto end;
     }
 end:
