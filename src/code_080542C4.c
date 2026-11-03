@@ -1,7 +1,53 @@
 #include "global.h"
 
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080542C4);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_0805442C);
+extern u32 sub_0805990C;
+s32 sub_080290E4();
+static inline void spawn54(void (*cb)(void), s32 arg)
+{
+    u8 *task = (u8 *)gUnk_03005CF4 + 0xE34;
+    u32 i;
+    u8 *stack;
+    for (i = 0; i <= 0x1D; i++, task += 0x28) {
+        if (sub_08000470((u32)task) == 0) {
+            while ((stack = sub_08001494(0x400), *(u8 **)(task + 0x20) = stack) == NULL)
+                sub_080003F0();
+            *(u32 *)(task + 8) = 0x3C;
+            *(void (**)(void))(task + 0xC) = cb;
+            *(u8 **)(task + 0x10) = stack + 0x3FC;
+            *(u32 *)(task + 0x24) = 0;
+            sub_08000274(task, arg);
+            break;
+        }
+    }
+}
+void sub_0805442C(s32 arg0)
+{
+    u16 n;
+    u32 *flags = (u32 *)(gUnk_03005CF4 + 0x38);
+    u32 f;
+    u32 m = 2;
+
+    if ((f = *flags) & m)
+        return;
+    *flags = f | m;
+    sub_08068070((u32)&sub_0805990C, 5);
+    if (sub_0800CCCC() == 0) {
+        spawn54(sub_08054514, 0);
+        for (n = 1; n != 0; n--) {
+            sub_080003F0();
+            if (sub_080021A8() != 0)
+                break;
+        }
+        if ((gUnk_030027D0 & 0x20) == 0)
+            sub_08006D08(0x75);
+        sub_080290E4(arg0, 0);
+        sub_08028D98(arg0, 0, -0xC8, 0xC8);
+        sub_08006D5C(0x75);
+    } else {
+        sub_08028D98(arg0, 0, -0xC8, 0xC8);
+    }
+}
 void sub_08054514(void) {
     u8 *var_r1;
     u8 *var_r1_2;
