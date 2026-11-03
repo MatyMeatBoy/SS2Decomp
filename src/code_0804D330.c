@@ -4237,15 +4237,15 @@ void sub_08053E3C(void)
     pl->flags = f | one;
     sub_0800D0F4();
     if (sub_0800CE30() != 0)
-        p = (u8 *)gUnk_03005CF4 + 0x1C7;
+        p = t53_gs0E48 + 0x1C7;
     else
-        p = (u8 *)gUnk_03005CF4 + 0x1BB;
+        p = t53_gs0E48 + 0x1BB;
     raw = *p;
     seen = (raw >> 1) & one;
     if (sub_0800CE30() != 0)
-        p = (u8 *)gUnk_03005CF4 + 0x1C3;
+        p = t53_gs0E48 + 0x1C3;
     else
-        p = (u8 *)gUnk_03005CF4 + 0x1B7;
+        p = t53_gs0E48 + 0x1B7;
     raw = *p;
     done = (raw >> 5) & 1;
     if (done != 0) {
@@ -4264,8 +4264,6 @@ void sub_08053E3C(void)
             bind53E(sub_080542C4, 1, 0);
             bind53E(sub_0805442C, 2, 1);
             fade53E();
-            while (sub_0805F184()) sub_080003F0();
-            while (sub_0805EF90()) sub_080003F0();
             t53_dialog0E48(0x140283);
             pan53B(0, 0, 40);
         } else {
