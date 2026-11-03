@@ -1,13 +1,11 @@
-Shard 6 notes (worker/006). Compiler: old_agbcc (code_08009088).
 
-sub_0800AE50 (89 asm): tile lookup (x>>11, y>>11, map from table gUnk_0847846C+0x10 + idx*4 or map0/mapW).
-  Best: 152 vs 162 bytes. Matched: arg2 branch and curLevel/f90 selection structure. Unmatched: tail
-  (ldrb/cmp/bne truncation ordering, lo/hi nibble register choice). Permuter best 315 (from 730), no match.
-  Ideas not tried: u8 return type with separate b variable; load order via explicit temp u32.
-
-sub_0800A298 (90 asm): tile setup (f90 store, table lookup, sub_08000BC8 call, map0/map1 update).
-  Best: 168 vs 180 bytes. Diff: register/load order around table base (ldr r4 early, ldrh curLevel into r1 directly),
-  and the write-back-then-reread of pad60 (orig reads gUnk.0x60 back after str).
+Round 6 (nov03-w3): sub_0800AD04 draft diff = one insn: orig `movs r4,#0x82 ... ldrh r2,[r4,r3]` (offY via reg+reg),
+  draft gives `adds r4,r4,r3; ldrh r2,[r4]` (+2 bytes). combine never folds a barrier'd/hard-reg offset into ldrh [r,r];
+  tried pseudo+asm barrier, u8/u16 index forms, global vs base, saved(ip) base: no fold. Real build: 42 bytes differ.
+  sub_0800AEF4: fresh clean C (u32 params masked, s16 x/y, s16 j/i loops, curLevel==0xB duplicated set block, w>>1 in
+  loop) did not beat the existing register-asm draft (my diff ~167 vs draft ~150 normalized lines). Facts: s16 j/i are
+  right (entry test uses lsrs of y<<16); h lives at sp0, y<<16 at sp18; set branch does not hoist x-half.
+he write-back-then-reread of pad60 (orig reads gUnk.0x60 back after str).
 
 sub_0800AD04 (177 asm): camera scroll clamp. Best 312 vs 330 bytes.
   Diff: sign-extension of scroll temps (orig: lsl16/asr16 at use site), layout of arg2!=0 branch
