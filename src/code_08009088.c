@@ -193,7 +193,96 @@ void sub_080094CC(struct Layer *entry, s16 x, s16 y)
         CpuSet(src + tileY, dest + (pos[0] + pos[1]), count);
     CpuSet(src + (count + tileY), dest + pos[1], (32 - count) & 0x1FFFFF);
 }
+#ifdef NONMATCHING
+void sub_08009594(u16 index, u16 dx, u16 dy, s32 force)
+{
+    u16 *offsets = gUnk_03001250;
+    struct Layer *layer = &gUnk_03003170.layers[index];
+    u16 x, y;
+    u16 tileDX, tileDY;
+    u16 pos;
+    s16 i;
+    u32 update;
+    u32 vram;
+
+    if (layer->s16) {
+        s32 t;
+        t = (s16)dx; t += layer->w2; x = t;
+        t = (s16)dy; t += layer->w3; y = t;
+    } else {
+        x = layer->w2;
+        y = layer->w3;
+    }
+    if (!layer->data)
+        return;
+    switch (gUnk_03003170.curLevel) {
+    case 5:
+        update = gUnk_03003170.f90 != 13;
+        break;
+    case 8:
+        if (index == 3) {
+            switch (gUnk_03003170.f90) {
+            case 2: case 4: case 6: case 8: case 10: case 12: case 14:
+                goto skip;
+            }
+        }
+        goto scroll;
+    case 10:
+        if ((u16)(index - 1) <= 1) {
+            s16 t = (s16)y / 8 - layer->y;
+            if (t <= -30)
+                layer->y = 21;
+            else if (t > 29)
+                layer->y = 20;
+        }
+        goto scroll;
+    default:
+        update = 1;
+        break;
+    }
+    if (!update)
+        goto skip;
+scroll:
+    tileDX = (s16)x / 8 - layer->x;
+    tileDY = (s16)y / 8 - layer->y;
+    if ((s16)tileDX > 0) {
+        pos = (s16)x + 0xF1;
+        sub_080093E4(layer, pos, y);
+        pos -= 8;
+        for (i = 0; i < (s16)tileDX; i++)
+            sub_080093E4(layer, (s16)pos - i * 8, y);
+    } else if ((s16)tileDX < 0) {
+        pos = (s16)x - 8;
+        sub_080093E4(layer, pos, y);
+        pos += 8;
+        for (i = 0; i < -(s16)tileDX; i++)
+            sub_080093E4(layer, (s16)pos + i * 8, y);
+    }
+    if ((s16)tileDY > 0) {
+        pos = (s16)y + 0xA1;
+        sub_080094CC(layer, x - 8, pos);
+        for (i = 0; i < (s16)tileDY; i++)
+            sub_080094CC(layer, x - 8, (s16)pos - i * 8);
+    } else if ((s16)tileDY < 0) {
+        sub_080094CC(layer, x - 8, y);
+        for (i = 0; i < -(s16)tileDY; i++)
+            sub_080094CC(layer, x - 8, (s16)y + i * 8);
+    }
+    vram = ((*(vu16 *)(REG_ADDR_BG0CNT + index * 2) >> 8) & 0x1F) * 0x800 + VRAM;
+    if (tileDX || tileDY || force)
+        sub_08001348(bgBuffers005[index], (void *)vram, 0x800);
+    if (tileDX || force)
+        layer->x = (s16)x / 8;
+    if (tileDY || force)
+        layer->y = (s16)y / 8;
+skip:
+    offsets += layer->pad14 * 2;
+    offsets[0] = ((s16)x + gUnk_03003170.offX + layer->w0) & 0xFF;
+    offsets[1] = ((s16)y + gUnk_03003170.offY + layer->w1) & 0xFF;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009594);
+#endif
 struct LoadSize005 { u16 width,height; };
 struct LoadState005 { struct Layer layers[4]; s16 *map; void *buffer; u16 *map0,*map1; struct LoadSize005 first; u16 width1,height1,mapW,mapH,scrollX,scrollY,f80,f82,offX,offY; u8 pad88[4]; u16 area,pad8E,index; u8 pad92[10]; u32 flags; u8 padA0[16]; u32 *record; };
 struct LoadArea005 { u8 pad[16]; u32 keys[25]; };
