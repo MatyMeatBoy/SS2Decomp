@@ -1,8 +1,8 @@
-  (nov03-w3, later) sub_0807414C: permuter refuses the register-asm draft (control differs); the
-  clean version (no register asm in diffB414C) is 45 lines and permuter --allow-control-diff 5 min
-  produced nothing usable (291 lines in the real compile).
-EQUIV const -> rematerialized `movs rX,#0; cmp rX,#0` in both branches).
-  Left: in the first loop p=&players[i] lands in r1 (ROM r3). Permuter 3 min: nothing.
+nov03-w2: sub_0807356C (14 lines, p in r1 vs ROM r3): tried `players + i`, byte-offset p, (s32)i, u32 i (size
+  breaks), team via players[i], register p, pos via players[i], p/pos declared inside the loop body, inverted flag
+  test; none moves p. In the ROM the 0x148 constant gets r1 (p must conflict with it), ours gives it r2 and ties
+  p to the mul result. Permuter 5 min more: nothing.
+ermuter 3 min: nothing.
 sub_08073EE8 / sub_0807414C: `e = &enemies[nearest]; return e->f2;` fixes the enemy return
   (ROM uses a pointer reg). Remaining diffs are reload-register rotation only
   ([sp] spill reloads r1/r2 vs r2/r3). A fresh version without inline helpers puts
