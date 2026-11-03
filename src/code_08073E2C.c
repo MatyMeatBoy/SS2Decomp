@@ -138,53 +138,80 @@ u16 sub_08073EE8(u16 width, s32 range)
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
 #endif
 #ifdef NONMATCHING
-extern u8 players07614C[] asm("gUnk_03003CE0");
-extern u8 *enemies07614C asm("gUnk_030056F4");
+extern struct Ply076EE8 players07614C[] asm("gUnk_03003CE0");
+extern struct Ene076EE8 *enemies07614C asm("gUnk_030056F4");
 extern u32 active07614C asm("gUnk_030056FC");
 extern u16 directions07614C[] asm("gUnk_0849E730");
-#define F_07614C(p,t,o) (*(t*)((u8*)(p)+(o)))
-s32 sub_0807414C(u8 *player,u16 width,u32 range)
+s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
 {
- u8 *candidate,*sprite,*ownSprite;u32 best,nearest,index,count;u16 distance,angle;register u32 angleRaw asm("r0");s32 dx,dy,difference,offset;
- best=0xFFFF;nearest=-1;
- if(sub_0800CF80()){
-  count=sub_08002164();index=0;
-  while(index<count){
-   candidate=players07614C+index*0x14C;
-   if(player[0x68]!=candidate[0x68] && candidate[0x68]!=0){
-    sprite=F_07614C(candidate,u8*,0x148);ownSprite=F_07614C(player,u8*,0x148);
-    dx=(F_07614C(sprite,u16,0)>>4)-(F_07614C(ownSprite,u16,0)>>4);
-    dy=(((u32)F_07614C(sprite,u16,2)<<20)>>20)-(((u32)F_07614C(ownSprite,u16,2)<<20)>>20);
-angleRaw=(u32)ArcTan2(dx,dy)+0x400; asm("" : "+r"(angleRaw));
-    sprite=*(u8**)(player+0x148);angle=(angleRaw>>12)-directions07614C[sprite[3]>>4];
-    if((s16)angle>8)angle=(s16)angle-16;
-    if((s16)angle<-8)angle=(s16)angle+16;
-    difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(range>distance && best>distance){best=distance;nearest=index;}}
-   }
-   index++;
-  }
-  if(nearest!=-1U)return F_07614C(players07614C+nearest*0x14C,u16,0);
- }
- best=0xFFFF;nearest=-1;index=0;offset=0;
- do{
-  if(active07614C & (1<<index)){
-   candidate=enemies07614C+offset;
-   if(F_07614C(candidate,u16,0xC)!=11 && F_07614C(candidate,s16,0x5C)!=0 && candidate[0x1DC]!=0){
-    ownSprite=F_07614C(player,u8*,0x148);dx=(F_07614C(candidate,s32,0x14)>>8)-(F_07614C(ownSprite,u16,0)>>4);
-    dy=(F_07614C(candidate,s32,0x18)>>8)-(((u32)F_07614C(ownSprite,u16,2)<<20)>>20);
-angleRaw=(u32)ArcTan2(dx,dy)+0x400; asm("" : "+r"(angleRaw));
-    sprite=*(u8**)(player+0x148);angle=(angleRaw>>12)-directions07614C[sprite[3]>>4];
-    if((s16)angle>8)angle=(s16)angle-16;
-    if((s16)angle<-8)angle=(s16)angle+16;
-    difference=(s16)angle;if(difference<0)difference=-difference;
-    if(difference<=width){distance=Sqrt(dx*dx+dy*dy);if(range>distance && best>distance){best=distance;nearest=index;}}
-   }
-  }
-  offset+=0x2E0;index++;
- }while(index<=4);
- if(nearest!=-1U)return F_07614C(enemies07614C+nearest*0x2E0,u16,2);
- return 0xFF;
+    struct Ply076EE8 *cand;
+    struct Ene076EE8 *e;
+    u32 best, nearest, count, i, offset;
+    s32 dx, dy, d;
+    u16 angle, dist;
+
+    best = 0xFFFF;
+    nearest = -1;
+    if (sub_0800CF80()) {
+        count = sub_08002164();
+        for (i = 0; i < count; i++) {
+            cand = &players07614C[i];
+            if (player->team != cand->team && cand->team != 0) {
+                dx = (cand->pos->x >> 4) - (player->pos->x >> 4);
+                dy = ((u32)(cand->pos->y << 20) >> 20) - ((u32)(player->pos->y << 20) >> 20);
+                angle = ((u32)((u16)ArcTan2(dx, dy) + 0x400) >> 12) - directions07614C[((u8 *)player->pos)[3] >> 4];
+                if ((s16)angle > 8)
+                    angle = (s16)angle - 16;
+                if ((s16)angle < -8)
+                    angle = (s16)angle + 16;
+                d = (s16)angle;
+                if (d < 0)
+                    d = -d;
+                if (d <= width) {
+                    dist = Sqrt(dx * dx + dy * dy);
+                    if (range > dist && best > dist) {
+                        best = dist;
+                        nearest = i;
+                    }
+                }
+            }
+        }
+        if (nearest != -1)
+            return players07614C[nearest].f0;
+    }
+    best = 0xFFFF;
+    nearest = -1;
+    i = 0;
+    offset = 0;
+    do {
+        if (active07614C & (1 << i)) {
+            e = (struct Ene076EE8 *)((u8 *)enemies07614C + offset);
+            if (e->state != 11 && e->hp != 0 && e->alive != 0) {
+                dx = (e->x >> 8) - (player->pos->x >> 4);
+                dy = (e->y >> 8) - ((u32)(player->pos->y << 20) >> 20);
+                angle = ((u32)((u16)ArcTan2(dx, dy) + 0x400) >> 12) - directions07614C[((u8 *)player->pos)[3] >> 4];
+                if ((s16)angle > 8)
+                    angle = (s16)angle - 16;
+                if ((s16)angle < -8)
+                    angle = (s16)angle + 16;
+                d = (s16)angle;
+                if (d < 0)
+                    d = -d;
+                if (d <= width) {
+                    dist = Sqrt(dx * dx + dy * dy);
+                    if (range > dist && best > dist) {
+                        best = dist;
+                        nearest = i;
+                    }
+                }
+            }
+        }
+        offset += sizeof(struct Ene076EE8);
+        i++;
+    } while (i <= 4);
+    if (nearest == -1)
+        return 0xFF;
+    return enemies07614C[nearest].f2;
 }
 
 #else
