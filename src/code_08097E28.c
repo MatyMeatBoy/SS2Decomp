@@ -2818,30 +2818,6 @@ extern s32 s080020F4(void) asm("sub_080020F4");
 extern void yieldCC2C(void) asm("sub_080003F0");
 
 void sub_0809CC2C_(u8 idx) asm("sub_0809CC2C");
-static inline u8 prepCC2C(struct EntCC2C *ent, struct SprCC2C *spr, struct SubCC2C *sub, u32 palNo,
-    u16 *p68, u16 *p6a, u16 *p6c, s32 flag, s16 *sx, s16 *sy)
-{
-    u8 pal;
-    spr->f1C[0] = palNo;
-    sub_08000AF0(palNo + 0x10, (void *)(spr->fC + sub->fd6 * 32), 1);
-    if (sub_08098004() & 1)
-        pal = sub_08097FF8();
-    else
-        pal = sub_0800BC44(ent->x >> 8, ent->y >> 8, 0);
-    if (s0800CD8C() == 0)
-        ent->f6e = animCC2C(spr, *p68, p6a, p6c, flag);
-    coordsCC2C((s16)(ent->x >> 8), (s16)(ent->y >> 8), sx, sy, 0, 0);
-    return pal;
-}
-
-static inline void frameB(struct EntCC2C *ent, struct SprCC2C *spr, struct SubCC2C *sub, u32 palNo,
-    u16 *p68, u16 *p6a, u16 *p6c, s32 flag, s16 *sx, s16 *sy, u16 blink)
-{
-    u8 pal = prepCC2C(ent, spr, sub, palNo, p68, p6a, p6c, flag, sx, sy);
-    if ((blink & 1) && s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0)
-        drawCC2C(*sx, *sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
-}
-
 void sub_0809CC2C_(u8 idx)
 {
     struct SprCC2C spr1;
@@ -2893,7 +2869,7 @@ void sub_0809CC2C_(u8 idx)
     ent->f2 = idx + 5;
     ent->f50 = 1;
     ent->f54 = 0;
-    ent->lo = idx + 1;
+    ent->lo = ent->f0;
     ent->f202 = ent->f2;
     ent->f200 = 0xFF;
     ent->f1fd = 2;
@@ -2916,6 +2892,7 @@ void sub_0809CC2C_(u8 idx)
     p6c = &ent->f6c;
     p6a = &ent->f6a;
     p68 = &ent->f68;
+    do {
     if (r == 1) {
         limit = 90;
         speed = 0x100;
@@ -3003,11 +2980,19 @@ void sub_0809CC2C_(u8 idx)
         }
         if (prevFrame != *p68 || prevMode != mode) {
             prevMode = mode;
-            prevFrame = *p68;
+            prevFrame = ent->f68;
             *p6c = 0;
             *p6a = 0;
         }
-        pal = prepCC2C(ent, spr, sub, palNo, p68, p6a, p6c, flag, &sx, &sy);
+        spr->f1C[0] = palNo;
+        sub_08000AF0(palNo + 0x10, (void *)(spr->fC + sub->fd6 * 32), 1);
+        if (sub_08098004() & 1)
+            pal = sub_08097FF8();
+        else
+            pal = sub_0800BC44(ent->x >> 8, ent->y >> 8, 0);
+        if (s0800CD8C() == 0)
+            ent->f6e = animCC2C(spr, *p68, p6a, p6c, flag);
+        coordsCC2C((s16)(ent->x >> 8), (s16)(ent->y >> 8), &sx, &sy, 0, 0);
         if (blink != 0) {
             if ((blink-- & 1) && s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0)
                 drawCC2C(sx, sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
@@ -3042,7 +3027,17 @@ out:
     maskCC2C &= ~(1 << tblCC2C[idx]->f0);
     blink = 20;
     do {
-        frameB(ent, spr, sub, palNo, p68, p6a, p6c, flag, &sx, &sy, blink);
+        spr->f1C[0] = palNo;
+        sub_08000AF0(palNo + 0x10, (void *)(spr->fC + sub->fd6 * 32), 1);
+        if (sub_08098004() & 1)
+            pal = sub_08097FF8();
+        else
+            pal = sub_0800BC44(ent->x >> 8, ent->y >> 8, 0);
+        if (s0800CD8C() == 0)
+            ent->f6e = animCC2C(spr, *p68, p6a, p6c, flag);
+        coordsCC2C((s16)(ent->x >> 8), (s16)(ent->y >> 8), &sx, &sy, 0, 0);
+        if ((blink & 1) && s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0)
+            drawCC2C(sx, sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
         yieldCC2C();
     } while (--blink != 0xFFFF);
     if (!(playersCC2C[s080020F4()].flags & 0x2000)) {
@@ -3058,6 +3053,7 @@ out:
             sub_0801E4CC((u8 *)heapCC2C, h);
         }
     }
+    } while (0);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809CC2C);
