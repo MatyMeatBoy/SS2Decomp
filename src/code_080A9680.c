@@ -2051,8 +2051,9 @@ poll162:
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
 #endif
 #ifdef NONMATCHING
-// sub_080AD534: exact control flow, ~54 diff lines: register choice in the init (slot/base
-// pointers r4/r5 vs ROM r5/r6), x*20 synthesis, two literal-load orders.
+// sub_080AD534: exact control flow, ~52 diff lines: register choice in the init (slot/base
+// pointers r4/r5 vs ROM r5/r6, idx+1 not reusing the idx copy), x*20 synthesis (ROM (x*10)*2),
+// one literal-load order (&pos[idx]).
 struct ResAD534 { u8 p0[4]; s16 f4, f6; };
 struct ActorAD534 {
     u16 f0, f2;
@@ -2226,7 +2227,7 @@ void sub_080AD534_v(u32 idx)
                     frame = 0;
                     n = 0;
                     for (k = 1; k <= 4; k++) {
-                        if ((1 << k) & maskAD534)
+                        if (maskAD534 & (1 << k))
                             n++;
                     }
                     if (n - 1 == idx)

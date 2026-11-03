@@ -1,0 +1,13 @@
+shard 114 notes (nov03-w3, 2026-11-03)
+
+sub_080AD534: fresh C draft, exact control flow, ~52 diff lines (regalloc only). Findings:
+  - s16 `shake` with plain `shake--` gives ROM's `(x << 16) + 0xFFFF0000` decrement (u16 does not).
+  - `{ s32 v = sin[angle[dir] + 0x40]; p->x += v >> 4; }` keeps ldrsh + asrs (direct form merges).
+  - init stores need a local actor pointer for the zero group, then block-local pointers for the
+    two `q->f5C = q->f1D6 = ...` chains (ROM stores 1D6 first).
+  - hit check: separate `hit` local (reusing the fall-loop handle var put it in r6).
+  - gUnk_03000474 literal = &sprite.f1C (gUnk_03000458 + 0x1C); f8/f0 read via the same base.
+  Left: init slot/base in r4/r5 (ROM r5/r6, mask ptr r4 and idx+1 reusing the r2 copy of idx);
+  x*20 synthesized as (x*5)*4 instead of ((x<<3)+(x<<1))<<1; &pos[idx] literal order.
+  Permuter 5 min: nothing.
+sub_080AE420 (1808 asm lines): not started (Ghidra read only).
