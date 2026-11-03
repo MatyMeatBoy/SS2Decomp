@@ -287,7 +287,199 @@ void sub_080161A4(void) {
     gUnk_030056F4 = NULL;
 }
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801623C);
+#ifdef NONMATCHING
+struct Src1641C { u16 x; u16 y; u16 flags; u16 f6; u16 f8; u16 fA; u16 fC; u16 fE; u16 f10; u16 f12; s32 f14; };
+struct Pt1641C { s32 x, y; };
+struct Slot1641C { u8 f0[0x28]; };
+struct Obj1641C {
+    u16 id;             /* 0x000 */
+    u16 f2;             /* 0x002 */
+    u8 pad4[4];
+    u16 f8;             /* 0x008 */
+    u8 padA[2];
+    u16 fC;             /* 0x00C */
+    u8 padE[6];
+    struct Pt1641C pos; /* 0x014 */
+    struct Pt1641C prev;/* 0x01C */
+    s32 f24;            /* 0x024 */
+    s32 f28;            /* 0x028 */
+    s32 f2C;            /* 0x02C */
+    s32 f30, f34, f38, f3C; /* 0x030 */
+    u16 f40;            /* 0x040 */
+    u8 pad42[6];
+    u16 f48;            /* 0x048 */
+    u8 pad4A[6];
+    s32 f50;            /* 0x050 */
+    s32 f54;            /* 0x054 */
+    u8 pad58[2];
+    u16 f5A;            /* 0x05A */
+    u8 pad5C[4];
+    u16 f60;            /* 0x060 */
+    u16 f62;            /* 0x062 */
+    u8 pad64[0x12];
+    u16 f76;            /* 0x076 */
+    u16 f78;            /* 0x078 */
+    u16 f7A;            /* 0x07A */
+    u16 f7C;            /* 0x07C */
+    u8 pad7E[2];
+    u16 f80;            /* 0x080 */
+    u8 pad82[2];
+    u16 f84;            /* 0x084 */
+    u16 f86;            /* 0x086 */
+    u16 f88;            /* 0x088 */
+    u8 pad8A[2];
+    struct { u16 head; u8 pad[6]; u8 body[0x20]; } slots[8]; /* 0x08C */
+    u8 pad1CC[0x10];
+    u8 f1DC;            /* 0x1DC */
+    u8 pad1DD[0x1F];
+    s8 f1FC;            /* 0x1FC */
+    u8 f1FD;            /* 0x1FD */
+    u8 f1FE;            /* 0x1FE */
+    u8 f1FF;            /* 0x1FF */
+    u8 pad200;
+    u8 f201;            /* 0x201 */
+    u16 f202;           /* 0x202 */
+    u8 data[0xD8];      /* 0x204 */
+    u8 *src;            /* 0x2DC */
+};
+extern u32 poolFlags1641C asm("gUnk_030056FC");
+extern struct Obj1641C *poolObjects1641C asm("gUnk_030056F4");
+extern struct Task tasks1641C[] asm("gUnk_03004220");
+extern u8 table1641C[] asm("gUnk_0847AD3C");
+extern u8 stacks1641C[] asm("gUnk_030046EC");
+extern void taskMain1641C(void) asm("sub_0801801C");
+extern void startTask1641C(void *, void *) asm("sub_08000274");
+struct Plr1641C { u8 pad0[0x2C]; u16 w2C; u8 pad2E[0x14C - 0x2E]; };
+extern struct Plr1641C players1641C[] asm("gUnk_03003CE0");
+s32 sub_0801641C(struct Src1641C *src)
+{
+    s32 i;
+    s32 slot;
+    struct Obj1641C *obj;
+    s32 index;
+    u8 *data;
+    u16 *flags;
+    u32 k;
+    s8 *bits;
+    s32 lo;
+    u16 zero16;
+    u8 zero8;
+    u32 nib;
+
+    if (sub_0800CDC0() != 0) {
+        for (i = 4; i >= 0; i--) {
+            if (((1 << i) & poolFlags1641C) == 0) {
+                slot = i;
+                goto found;
+            }
+        }
+    } else {
+        for (i = 0; i <= 4; i++) {
+            if (((1 << i) & poolFlags1641C) == 0) {
+                slot = i;
+                goto found;
+            }
+        }
+    }
+    slot = -1;
+found:
+    if (slot < 0)
+        return 0;
+    poolFlags1641C |= 1 << slot;
+    obj = &poolObjects1641C[slot];
+    index = (src->flags & 0xFFF) - 1;
+    if (sub_0800CE30() != 0)
+        index += 0xC5;
+    data = table1641C + index * 0xD8;
+    if ((src->f10 & 0x80) && ((s8 *)data)[0x47] != 0)
+        data += 0xD8;
+    obj->src = data;
+    zero8 = 0;
+    zero16 = 0;
+    obj->id = slot;
+    bits = &obj->f1FC;
+    nib = 0xF;
+    lo = slot & nib;
+    *bits = (*bits & ~0xF) | lo;
+    obj->f2 = src->f6;
+    obj->pos.x = src->x << 11;
+    obj->pos.y = src->y << 11;
+    obj->f24 = src->x << 3;
+    obj->f28 = src->y << 3;
+    obj->prev = obj->pos;
+    obj->f2C = src->f14;
+    memcpy(obj->data, data, 0xD8);
+    obj->f8 = src->f8;
+    obj->f84 = src->f10 & 0xFF7F;
+    obj->f86 = src->f12;
+    obj->f5A = zero16;
+    obj->f62 = zero16;
+    obj->f7C = zero16;
+    obj->f80 = zero16;
+    obj->f54 = 100;
+    obj->f7A = zero16;
+    obj->f1FD = zero8;
+    obj->f201 = 1;
+    *bits &= nib;
+    obj->f1FE = zero8;
+    obj->f1FF = zero8;
+    obj->f202 = obj->f2;
+    flags = &obj->f7A;
+    if (src->flags & 0x4000) {
+        *flags |= 0x44;
+        obj->f201 = zero8;
+        obj->f1FD = 0xFF;
+    }
+    if (sub_0800CCCC() != 0)
+        obj->f48 = players1641C[sub_080020F4()].w2C;
+    else
+        obj->f48 = gUnk_03003170.f90;
+    obj->f50 = (slot + 4) << 24;
+    obj->f60 = 0;
+    obj->f40 = 0;
+    obj->f76 = obj->id + 1;
+    obj->f78 = src->fC;
+    obj->f88 = 0;
+    obj->f30 = 0;
+    obj->f38 = 0;
+    obj->f34 = 0;
+    obj->f3C = 0;
+    for (k = 0; k <= 7; k++) {
+        obj->slots[k].head = 0xFFFF;
+        CpuFill16(0, obj->slots[k].body, 0x30);
+    }
+    if (src->flags & 0x8000)
+        *flags |= 2;
+    if (src->flags & 0x2000)
+        *flags |= 8;
+    obj->f1DC = 0;
+    switch (src->fE) {
+    case 0:
+        obj->fC = 0xE;
+        break;
+    case 1:
+        obj->fC = 0xF;
+        break;
+    case 2:
+        obj->fC = 0;
+        break;
+    default:
+        obj->fC = 0;
+        break;
+    }
+    tasks1641C[slot].uC = taskMain1641C;
+    tasks1641C[slot].u10 = (s32)(stacks1641C + (slot << 10));
+    tasks1641C[slot].u20 = 0;
+    tasks1641C[slot].u8 = 0x3C;
+    tasks1641C[slot].u18 = 0;
+    tasks1641C[slot].u0 = 0;
+    tasks1641C[slot].u24 = 0;
+    startTask1641C(&tasks1641C[slot], obj);
+    return 1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801641C);
+#endif
 extern u32 poolFlags014 asm("gUnk_030056FC");
 extern void startPool014(void *,void *) asm("sub_08000274");
 extern u8 *poolObjects014 asm("gUnk_030056F4");
@@ -486,55 +678,40 @@ void sub_080169C8(void) {
     *word2 = zero;
 }
 #ifdef NONMATCHING
-extern u8 *volatile objects014raw asm("gUnk_030056F4");
-extern u32 active014raw asm("gUnk_030056FC");
-extern u16 bits014raw asm("gUnk_03005724");
-extern u8 *volatile cache014raw asm("gUnk_030042E8");
-void sub_08016A7C(s32 arg0) {
-    s32 temp_r1;
-    s32 var_r4;
-    s32 var_r4_2;
-    u32 var_r2;
-    u32 var_r2_2;
-    u32 var_r3_2;
-    u8 *temp_r0;
-    u8 *temp_r1_2;
-    u8 *var_r3;
-    u32 byteMask;
+struct Obj16A7C { u8 pad0[0x2C]; s32 owner; u8 pad30[0x7A - 0x30]; u16 flags; u8 pad7C[0x2E0 - 0x7C]; };
+struct Rec16A7C { s32 owner; u8 kind; u8 pad[3]; };
+extern struct Obj16A7C *objects16A7C asm("gUnk_030056F4");
+extern u32 active16A7C asm("gUnk_030056FC");
+extern u16 bits16A7C asm("gUnk_03005724");
+extern struct Rec16A7C *records16A7C asm("gUnk_030042E8");
+void sub_08016A7C(s32 owner)
+{
+    struct Obj16A7C *obj;
+    s32 mask;
+    s32 found;
+    u32 i;
+    u32 k;
+    u32 j;
 
-    var_r3 = objects014raw;
-    var_r4 = 0;
-    var_r2 = 0;
+    obj = objects16A7C;
+    mask = 0;
+    i = 0;
     do {
-        temp_r1 = 1 << var_r2;
-        if ((active014raw & temp_r1) && (*(s32 *)(var_r3+0x2C) == arg0)) {
-            var_r4 |= temp_r1;
-        }
-        var_r2 += 1;
-        var_r3 += 0x2E0;
-    } while (var_r2 <= 4U);
-    var_r3_2 = 0;
-    var_r4_2 = 0;
-    do {
-        if ((1 << var_r3_2) & var_r4) {
-            temp_r0 = var_r4_2 + objects014raw;
-            *(u16 *)(temp_r0+0x7A) = (u16) (1 | *(u16 *)(temp_r0+0x7A));
-        }
-        var_r4_2 += 0x2E0;
-        var_r3_2 += 1;
-    } while (var_r3_2 <= 4U);
-    var_r2_2 = 0;
-    byteMask=0xFF;
-    asm("" : "+r"(byteMask));
-    do {
-        if (((s32) bits014raw >> var_r2_2) & 1) {
-            temp_r1_2 = (var_r2_2 * 8) + cache014raw;
-            if (*(s32 *)temp_r1_2 == arg0) {
-                temp_r1_2[4] = (u8) (temp_r1_2[4] | byteMask);
-            }
-        }
-        var_r2_2 += 1;
-    } while (var_r2_2 <= 1U);
+        s32 bit = 1 << i;
+        if ((active16A7C & bit) && obj->owner == owner)
+            mask |= bit;
+        i++;
+        obj++;
+    } while (i <= 4);
+    found = mask;
+    for (j = 0; j <= 4; j++) {
+        if ((1 << j) & found)
+            objects16A7C[j].flags |= 1;
+    }
+    for (k = 0; k <= 1; k++) {
+        if ((bits16A7C >> k) & 1 && records16A7C[k].owner == owner)
+            records16A7C[k].kind |= 0xFF;
+    }
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
@@ -700,59 +877,31 @@ void sub_08016D40(u8 *object, u16 arg) {
     }
 }
 #ifdef NONMATCHING
-extern volatile u32 refFlags014 asm("gUnk_030056F8");
-extern u8 refData014[36] asm("gUnk_03005700");
-s32 sub_08016E04(s32 arg0, u16 arg1) {
-    u8 *var_r3_2;
-    u32 *temp_r0;
-    s32 temp_r1_2;
-    s32 var_r2;
-    s32 var_r5;
-    u16 temp_r1;
-    u32 var_r3;
-    u32 var_r4;
-    u32 var_r4_2;
-    u32 var_r6;
-    u32 flagsSnapshot;
+struct Reg16E04 { s32 key; s32 sub; s32 count; };
+extern u32 used16E04 asm("gUnk_030056F8");
+extern struct Reg16E04 regs16E04[] asm("gUnk_03005700");
+u16 sub_08016E04(s32 key, u16 sub)
+{
+    u32 i;
+    u32 j;
 
-    temp_r1 = arg1;
-    var_r4 = 0;
-    var_r3 = 0x40000;
-    var_r2 = 0;
-loop_1:
-    if ((refFlags014 & (1 << var_r4)) && (*(s32 *)(var_r2 + refData014) == arg0) && (*(u32 *)(var_r2 + (refData014 + 4)) == temp_r1)) {
-        temp_r0 = (u32 *)(var_r2 + (refData014 + 8));
-        *temp_r0 += 1;
-        return (s32) (var_r3 >> 0x10);
-    }
-    var_r3 += 0x10000;
-    var_r2 += 0xC;
-    var_r4 += 1;
-    if (var_r4 > 2U) {
-        var_r4_2 = 0;
-        var_r6 = 0x40000;
-        var_r3_2 = refData014;
-        var_r5 = 0;
-loop_7:
-        temp_r1_2 = 1 << var_r4_2;
-        flagsSnapshot=refFlags014;
-        if (!(flagsSnapshot & temp_r1_2)) {
-            *(s32 *)var_r3_2 = arg0;
-            *(u32 *)(var_r5 + (refData014 + 4)) = (s32) temp_r1;
-            *(u32 *)(var_r3_2+8) = 1;
-            refFlags014 = flagsSnapshot | temp_r1_2;
-            return (s32) (var_r6 >> 0x10);
+    for (i = 0; i <= 2; i++) {
+        if ((used16E04 & (1 << i)) && regs16E04[i].key == key && regs16E04[i].sub == sub) {
+            regs16E04[i].count++;
+            return i + 4;
         }
-        var_r6 += 0x10000;
-        var_r3_2 += 0xC;
-        var_r5 += 0xC;
-        var_r4_2 += 1;
-        if (var_r4_2 > 2U) {
-            return 0xFFFF;
-        }
-        goto loop_7;
     }
-    goto loop_1;
+    for (j = 0; j <= 2; j++) {
+        u32 bit = 1 << j;
+        if (!(used16E04 & bit)) {
+            regs16E04[j].key = key;
+            regs16E04[j].sub = sub;
+            regs16E04[j].count = 1;
+            used16E04 |= bit;
+            return j + 4;
+        }
+    }
+    return 0xFFFF;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
