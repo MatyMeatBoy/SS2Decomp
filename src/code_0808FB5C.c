@@ -1348,7 +1348,7 @@ loop_9:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080912CC);
 #endif
-#ifdef NONMATCHING
+extern s16 random096(void) asm("sub_0800086C");
 struct Anim096_080914F0 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_080914F0 asm("gUnk_0300016C");
 extern void init096_080914F0(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -1356,128 +1356,103 @@ extern void palette096_080914F0(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_080914F0(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_080914F0(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_080914F0(void) {
-    volatile s32 sp10;
-    volatile s32 sp14;
-    s16 temp_r0_2;
-    s16 temp_r1;
-    s32 var_r0;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r6;
-    register s32 var_r9 asm("r9");
-    u16 temp_r0_3;
-    u8 temp_r7;
-    struct Anim096_080914F0 *temp_r0;
+    struct Anim096_080914F0 *a;
+    s32 flag;
+    u16 timer;
+    s32 state;
+    s32 done;
+    u8 variant;
+    s16 r;
+    u32 h;
+    u16 *next;
 
-    {
-        register u32 *heap asm("r4") = &heap096_080914F0;
-        asm("" : : "r"(heap));
-        temp_r0 = (struct Anim096_080914F0 *)(*heap = sub_08001494(0x44U));
-    }
-    temp_r0_2 = sub_0800086C();
-    temp_r1 = temp_r0_2;
-    var_r0 = (s16)(temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2));
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    temp_r7 = (u8) var_r0;
-    switch (temp_r7) {                              /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        init096_080914F0(temp_r0, 0x5002B, 0, -1, (s32) temp_r7);
+    a = (struct Anim096_080914F0 *)(heap096_080914F0 = (u32)sub_08001494(0x44));
+    r = random096() % 2;
+    variant = r < 0 ? -r : r;
+    switch (variant) {
+    case 0:
+        init096_080914F0(a, 0x5002B, 0, -1, 0);
         break;
-    case 1:                                         /* switch 1 */
-        init096_080914F0(temp_r0, 0x5002A, 0, -1, 0);
+    case 1:
+        init096_080914F0(a, 0x5002A, 0, -1, 0);
         break;
     }
-    temp_r0->payload[0] = 0;
-    temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
-    temp_r0->x = 0x10000;
-    temp_r0->y = 0x5800;
-    sp10 = 1;
-    sp14 = 0;
-    var_r6 = 0;
-    if (heap096_080914F0 == 0) {
+    a->payload[0] = 0;
+    a->frame = 10;
+    a->next = 0;
+    a->tick = 0;
+    a->x = 0x10000;
+    a->y = 0x5800;
+    flag = 1;
+    timer = 0;
+    state = 0;
+    h = heap096_080914F0;
+    next = &a->next;
+    if (h == 0)
         return;
-    }
-loop_9:
-    switch (var_r6) {                               /* switch 2; irregular */
-    case 0:                                         /* switch 2 */
-        { register s32 value asm("r1") = temp_r0->x;
-          register s32 delta asm("r4") = -0x100;
-          asm("" : "+r"(value), "+r"(delta));
-          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
-        if (temp_r1_2 <= 0x8000) {
-            switch (temp_r7) {                      /* switch 3; irregular */
-            case 0:                                 /* switch 3 */
-                init096_080914F0(temp_r0, 0x5002C, 0, -1, var_r6);
-                break;
-            case 1:                                 /* switch 3 */
-                init096_080914F0(temp_r0, 0x5002D, 0, -1, var_r6);
-                break;
+    for (;;) {
+        switch (state) {
+        case 0:
+            a->x -= 0x100;
+            if (a->x <= 0x8000) {
+                switch (variant) {
+                case 0:
+                    init096_080914F0(a, 0x5002C, 0, -1, 0);
+                    break;
+                case 1:
+                    init096_080914F0(a, 0x5002D, 0, -1, 0);
+                    break;
+                }
+                done = 0;
+                flag = 0;
+                a->payload[0] = 0;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 1;
             }
-            var_r9 = 0;
-            { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
-            { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
-            temp_r0->frame = 0xAU;
-            { register s32 z asm("r1") = var_r9;
-              register u16 *target asm("r0") = &temp_r0->next;
-              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
-            var_r6 = 1;
-        }
-        break;
-    case 1:                                         /* switch 2 */
-        if (var_r9 != 0) {
-            switch (temp_r7) {                      /* switch 4; irregular */
-            case 0:                                 /* switch 4 */
-                init096_080914F0(temp_r0, 0x5002B, 0, -1, (s32) temp_r7);
-                break;
-            case 1:                                 /* switch 4 */
-                init096_080914F0(temp_r0, 0x5002A, 0, -1, 0);
-                break;
+            break;
+        case 1:
+            if (done != 0) {
+                switch (variant) {
+                case 0:
+                    init096_080914F0(a, 0x5002B, 0, -1, 0);
+                    break;
+                case 1:
+                    init096_080914F0(a, 0x5002A, 0, -1, 0);
+                    break;
+                }
+                flag = 1;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 2;
             }
-            sp10 = 1;
-            temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
-            var_r6 = 2;
+            break;
+        case 2:
+            a->x -= 0x100;
+            if (a->x <= -0x1000) {
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (++timer == 61)
+                state = 0xFF;
+            break;
         }
-        break;
-    case 2:                                         /* switch 2 */
-        { register s32 value asm("r1") = temp_r0->x;
-          register s32 delta asm("r4") = -0x100;
-          asm("" : "+r"(value), "+r"(delta));
-          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
-        if (temp_r1_3 <= (-0x1000)) {
-            sp14 = 0;
-            var_r6 = 6;
-        }
-        break;
-    case 6:                                         /* switch 2 */
-        temp_r0_3 = sp14 + 1;
-        sp14 = (s32) temp_r0_3;
-        if (temp_r0_3 == 0x3D) {
-            var_r6 = 0xFF;
-        }
-        break;
-    }
-    palette096_080914F0(0x10U, temp_r0->fC, 1U);
-    var_r9 = step096_080914F0(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
-    draw096_080914F0((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
-    sub_080003F0();
-    if ((var_r6 != 0xFF) && (heap096_080914F0 != 0)) {
-        goto loop_9;
+        palette096_080914F0(0x10, a->fC, 1);
+        done = step096_080914F0(a, a->frame, &a->tick, next, flag);
+        draw096_080914F0(a->x >> 8, a->y >> 8, a->frame, a->tick, 0, a->payload, a->f8, a->f0);
+        sub_080003F0();
+        if (state == 0xFF || heap096_080914F0 == 0)
+            break;
     }
     if (heap096_080914F0 != 0) {
-        sub_08001538((s32) heap096_080914F0);
+        sub_08001538(heap096_080914F0);
         heap096_080914F0 = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080914F0);
-#endif
-#ifdef NONMATCHING
 struct Anim096_08091714 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_08091714 asm("gUnk_0300016C");
 extern void init096_08091714(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -1485,128 +1460,103 @@ extern void palette096_08091714(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091714(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091714(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_08091714(void) {
-    volatile s32 sp10;
-    volatile s32 sp14;
-    s16 temp_r0_2;
-    s16 temp_r1;
-    s32 var_r0;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r6;
-    register s32 var_r9 asm("r9");
-    u16 temp_r0_3;
-    u8 temp_r7;
-    struct Anim096_08091714 *temp_r0;
+    struct Anim096_08091714 *a;
+    s32 flag;
+    u16 timer;
+    s32 state;
+    s32 done;
+    u8 variant;
+    s16 r;
+    u32 h;
+    u16 *next;
 
-    {
-        register u32 *heap asm("r4") = &heap096_08091714;
-        asm("" : : "r"(heap));
-        temp_r0 = (struct Anim096_08091714 *)(*heap = sub_08001494(0x44U));
-    }
-    temp_r0_2 = sub_0800086C();
-    temp_r1 = temp_r0_2;
-    var_r0 = (s16)(temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2));
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    temp_r7 = (u8) var_r0;
-    switch (temp_r7) {                              /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        init096_08091714(temp_r0, 0x50030, 0, -1, (s32) temp_r7);
+    a = (struct Anim096_08091714 *)(heap096_08091714 = (u32)sub_08001494(0x44));
+    r = random096() % 2;
+    variant = r < 0 ? -r : r;
+    switch (variant) {
+    case 0:
+        init096_08091714(a, 0x50030, 0, -1, 0);
         break;
-    case 1:                                         /* switch 1 */
-        init096_08091714(temp_r0, 0x50031, 0, -1, 0);
+    case 1:
+        init096_08091714(a, 0x50031, 0, -1, 0);
         break;
     }
-    temp_r0->payload[0] = 0;
-    temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
-    temp_r0->x = 0x10000;
-    temp_r0->y = 0x5800;
-    sp10 = 1;
-    sp14 = 0;
-    var_r6 = 0;
-    if (heap096_08091714 == 0) {
+    a->payload[0] = 0;
+    a->frame = 10;
+    a->next = 0;
+    a->tick = 0;
+    a->x = 0x10000;
+    a->y = 0x5800;
+    flag = 1;
+    timer = 0;
+    state = 0;
+    h = heap096_08091714;
+    next = &a->next;
+    if (h == 0)
         return;
-    }
-loop_9:
-    switch (var_r6) {                               /* switch 2; irregular */
-    case 0:                                         /* switch 2 */
-        { register s32 value asm("r1") = temp_r0->x;
-          register s32 delta asm("r4") = -0x100;
-          asm("" : "+r"(value), "+r"(delta));
-          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
-        if (temp_r1_2 <= 0x8000) {
-            switch (temp_r7) {                      /* switch 3; irregular */
-            case 0:                                 /* switch 3 */
-                init096_08091714(temp_r0, 0x50033, 0, -1, var_r6);
-                break;
-            case 1:                                 /* switch 3 */
-                init096_08091714(temp_r0, 0x50032, 0, -1, var_r6);
-                break;
+    for (;;) {
+        switch (state) {
+        case 0:
+            a->x -= 0x100;
+            if (a->x <= 0x8000) {
+                switch (variant) {
+                case 0:
+                    init096_08091714(a, 0x50033, 0, -1, 0);
+                    break;
+                case 1:
+                    init096_08091714(a, 0x50032, 0, -1, 0);
+                    break;
+                }
+                done = 0;
+                flag = 0;
+                a->payload[0] = 0;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 1;
             }
-            var_r9 = 0;
-            { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
-            { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
-            temp_r0->frame = 0xAU;
-            { register s32 z asm("r1") = var_r9;
-              register u16 *target asm("r0") = &temp_r0->next;
-              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
-            var_r6 = 1;
-        }
-        break;
-    case 1:                                         /* switch 2 */
-        if (var_r9 != 0) {
-            switch (temp_r7) {                      /* switch 4; irregular */
-            case 0:                                 /* switch 4 */
-                init096_08091714(temp_r0, 0x50030, 0, -1, (s32) temp_r7);
-                break;
-            case 1:                                 /* switch 4 */
-                init096_08091714(temp_r0, 0x50031, 0, -1, 0);
-                break;
+            break;
+        case 1:
+            if (done != 0) {
+                switch (variant) {
+                case 0:
+                    init096_08091714(a, 0x50030, 0, -1, 0);
+                    break;
+                case 1:
+                    init096_08091714(a, 0x50031, 0, -1, 0);
+                    break;
+                }
+                flag = 1;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 2;
             }
-            sp10 = 1;
-            temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
-            var_r6 = 2;
+            break;
+        case 2:
+            a->x -= 0x100;
+            if (a->x <= -0x1000) {
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (++timer == 61)
+                state = 0xFF;
+            break;
         }
-        break;
-    case 2:                                         /* switch 2 */
-        { register s32 value asm("r1") = temp_r0->x;
-          register s32 delta asm("r4") = -0x100;
-          asm("" : "+r"(value), "+r"(delta));
-          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
-        if (temp_r1_3 <= (-0x1000)) {
-            sp14 = 0;
-            var_r6 = 6;
-        }
-        break;
-    case 6:                                         /* switch 2 */
-        temp_r0_3 = sp14 + 1;
-        sp14 = (s32) temp_r0_3;
-        if (temp_r0_3 == 0x3D) {
-            var_r6 = 0xFF;
-        }
-        break;
-    }
-    palette096_08091714(0x10U, temp_r0->fC, 1U);
-    var_r9 = step096_08091714(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
-    draw096_08091714((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
-    sub_080003F0();
-    if ((var_r6 != 0xFF) && (heap096_08091714 != 0)) {
-        goto loop_9;
+        palette096_08091714(0x10, a->fC, 1);
+        done = step096_08091714(a, a->frame, &a->tick, next, flag);
+        draw096_08091714(a->x >> 8, a->y >> 8, a->frame, a->tick, 0, a->payload, a->f8, a->f0);
+        sub_080003F0();
+        if (state == 0xFF || heap096_08091714 == 0)
+            break;
     }
     if (heap096_08091714 != 0) {
-        sub_08001538((s32) heap096_08091714);
+        sub_08001538(heap096_08091714);
         heap096_08091714 = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091714);
-#endif
-#ifdef NONMATCHING
 struct Anim096_08091938 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_08091938 asm("gUnk_0300016C");
 extern void init096_08091938(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -1614,127 +1564,103 @@ extern void palette096_08091938(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step096_08091938(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw096_08091938(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_08091938(void) {
-    volatile s32 sp10;
-    volatile s32 sp14;
-    s16 temp_r0_2;
-    s16 temp_r1;
-    s32 var_r0;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 var_r6;
-    register s32 var_r9 asm("r9");
-    u16 temp_r0_3;
-    u8 temp_r7;
-    struct Anim096_08091938 *temp_r0;
+    struct Anim096_08091938 *a;
+    s32 flag;
+    u16 timer;
+    s32 state;
+    s32 done;
+    u8 variant;
+    s16 r;
+    u32 h;
+    u16 *next;
 
-    {
-        register u32 *heap asm("r4") = &heap096_08091938;
-        asm("" : : "r"(heap));
-        temp_r0 = (struct Anim096_08091938 *)(*heap = sub_08001494(0x44U));
-    }
-    temp_r0_2 = sub_0800086C();
-    temp_r1 = temp_r0_2;
-    var_r0 = (s16)(temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2));
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    temp_r7 = (u8) var_r0;
-    switch (temp_r7) {                              /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        init096_08091938(temp_r0, 0x50035, 0, -1, (s32) temp_r7);
+    a = (struct Anim096_08091938 *)(heap096_08091938 = (u32)sub_08001494(0x44));
+    r = random096() % 2;
+    variant = r < 0 ? -r : r;
+    switch (variant) {
+    case 0:
+        init096_08091938(a, 0x50035, 0, -1, 0);
         break;
-    case 1:                                         /* switch 1 */
-        init096_08091938(temp_r0, 0x50037, 0, -1, 0);
+    case 1:
+        init096_08091938(a, 0x50037, 0, -1, 0);
         break;
     }
-    temp_r0->payload[0] = 0;
-    temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
-    temp_r0->x = 0x10000;
-    temp_r0->y = 0x5800;
-    sp10 = 1;
-    sp14 = 0;
-    var_r6 = 0;
-    if (heap096_08091938 == 0) {
+    a->payload[0] = 0;
+    a->frame = 10;
+    a->next = 0;
+    a->tick = 0;
+    a->x = 0x10000;
+    a->y = 0x5800;
+    flag = 1;
+    timer = 0;
+    state = 0;
+    h = heap096_08091938;
+    next = &a->next;
+    if (h == 0)
         return;
-    }
-loop_9:
-    switch (var_r6) {                               /* switch 2; irregular */
-    case 0:                                         /* switch 2 */
-        { register s32 value asm("r1") = temp_r0->x;
-          register s32 delta asm("r4") = -0x100;
-          asm("" : "+r"(value), "+r"(delta));
-          value += delta; asm("" : "+r"(value)); temp_r1_2 = value; temp_r0->x = value; }
-        if (temp_r1_2 <= 0x8000) {
-            switch (temp_r7) {                      /* switch 3; irregular */
-            case 0:                                 /* switch 3 */
-                init096_08091938(temp_r0, 0x50036, 0, -1, var_r6);
-                break;
-            case 1:                                 /* switch 3 */
-                init096_08091938(temp_r0, 0x50038, 0, -1, var_r6);
-                break;
+    for (;;) {
+        switch (state) {
+        case 0:
+            a->x -= 0x100;
+            if (a->x <= 0x8000) {
+                switch (variant) {
+                case 0:
+                    init096_08091938(a, 0x50036, 0, -1, 0);
+                    break;
+                case 1:
+                    init096_08091938(a, 0x50038, 0, -1, 0);
+                    break;
+                }
+                done = 0;
+                flag = 0;
+                a->payload[0] = 0;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 1;
             }
-            var_r9 = 0;
-            { register s32 z asm("r1") = 0; asm("" : "+r"(z)); sp10 = z; }
-            { register s32 z asm("r4") = var_r9; asm("" : "+r"(z)); temp_r0->payload[0] = z; }
-            temp_r0->frame = 0xAU;
-            { register s32 z asm("r1") = var_r9;
-              register u16 *target asm("r0") = &temp_r0->next;
-              asm("" : "+r"(z), "+r"(target)); *target = z; temp_r0->tick = z; }
-            var_r6 = 1;
-        }
-        break;
-    case 1:                                         /* switch 2 */
-        if (var_r9 != 0) {
-            switch (temp_r7) {                      /* switch 4; irregular */
-            case 0:                                 /* switch 4 */
-                init096_08091938(temp_r0, 0x50035, 0, -1, (s32) temp_r7);
-                break;
-            case 1:                                 /* switch 4 */
-                init096_08091938(temp_r0, 0x50037, 0, -1, 0);
-                break;
+            break;
+        case 1:
+            if (done != 0) {
+                switch (variant) {
+                case 0:
+                    init096_08091938(a, 0x50035, 0, -1, 0);
+                    break;
+                case 1:
+                    init096_08091938(a, 0x50037, 0, -1, 0);
+                    break;
+                }
+                flag = 1;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 2;
             }
-            sp10 = 1;
-            temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
-            var_r6 = 2;
+            break;
+        case 2:
+            a->x -= 0x100;
+            if (a->x <= -0x1000) {
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (++timer == 61)
+                state = 0xFF;
+            break;
         }
-        break;
-    case 2:                                         /* switch 2 */
-        { register s32 value asm("r1") = temp_r0->x;
-          register s32 delta asm("r4") = -0x100;
-          asm("" : "+r"(value), "+r"(delta));
-          value += delta; asm("" : "+r"(value)); temp_r1_3 = value; temp_r0->x = value; }
-        if (temp_r1_3 <= (-0x1000)) {
-            sp14 = 0;
-            var_r6 = 6;
-        }
-        break;
-    case 6:                                         /* switch 2 */
-        temp_r0_3 = sp14 + 1;
-        sp14 = (s32) temp_r0_3;
-        if (temp_r0_3 == 0x3D) {
-            var_r6 = 0xFF;
-        }
-        break;
-    }
-    palette096_08091938(0x10U, temp_r0->fC, 1U);
-    var_r9 = step096_08091938(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
-    draw096_08091938((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
-    sub_080003F0();
-    if ((var_r6 != 0xFF) && (heap096_08091938 != 0)) {
-        goto loop_9;
+        palette096_08091938(0x10, a->fC, 1);
+        done = step096_08091938(a, a->frame, &a->tick, next, flag);
+        draw096_08091938(a->x >> 8, a->y >> 8, a->frame, a->tick, 0, a->payload, a->f8, a->f0);
+        sub_080003F0();
+        if (state == 0xFF || heap096_08091938 == 0)
+            break;
     }
     if (heap096_08091938 != 0) {
-        sub_08001538((s32) heap096_08091938);
+        sub_08001538(heap096_08091938);
         heap096_08091938 = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08091938);
-#endif
 struct Anim096_08091B5C {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_08091B5C asm("gUnk_0300016C");
 extern void init096_08091B5C(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -1752,7 +1678,7 @@ void sub_08091B5C(void) {
     u16 *next;
 
     a = (struct Anim096_08091B5C *)(heap096_08091B5C = (u32)sub_08001494(0x44));
-    sub_0800086C();
+    random096();
     variant = 0;
     init096_08091B5C(a, 0x50027, 0, -1, variant);
     a->payload[0] = variant;
@@ -1835,7 +1761,7 @@ void sub_08091CF8(void) {
     u16 *next;
 
     a = (struct Anim096_08091CF8 *)(heap096_08091CF8 = (u32)sub_08001494(0x44));
-    sub_0800086C();
+    random096();
     variant = 0;
     init096_08091CF8(a, 0x50019, 0, -1, variant);
     a->payload[0] = variant;
