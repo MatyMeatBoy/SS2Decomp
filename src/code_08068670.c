@@ -5227,199 +5227,159 @@ extern void callback0760710DC(void*) asm("sub_080710DC");
 extern void callback076072390(void*) asm("sub_08072390");
 extern void callback076072D5C(void*) asm("sub_08072D5C");
 extern void callback07607356C(void*) asm("sub_0807356C");
-void sub_0807386C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    void (*var_r1)(void*);
-    s32 *temp_r2;
-    s32 *temp_r2_2;
-    s32 temp_r3;
-    u16 temp_r1;
-    u32 temp_r0_2;
-    u32 var_r4;
-    u32 var_r4_2;
-    u32 var_r4_3;
-    void *temp_r0;
-    void *temp_r0_3;
-    void *temp_r3_2;
-    void *temp_r4;
-    void *temp_r5;
-    void *temp_r6;
-    void *var_r0;
-    void *var_r5;
-    void *var_r5_2;
+struct Task07386C { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern struct Ply07356C players07386C[] asm("gUnk_03003CE0");
+extern struct Task07386C *tasks07386C[] asm("gUnk_030063B0");
+extern vu32 flags07386C[] asm("gUnk_030063E0");
+static inline struct Task07386C *task07386C(u32 who, u32 i)
+{
+    u8 *p = (u8 *)tasks07386C[who];
+    return (struct Task07386C *)(i * 0x28 + (u32)p);
+}
+void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
+{
+    struct Ply07356C *player;
+    u32 i;
+    u32 *a;
+    u32 mem;
+    struct Task07386C *t;
+    vu32 *m;
 
-    temp_r6 = (0x14C * arg0) + players07686C;
-    var_r4 = 0;
-    temp_r2 = (s32*)&flags07686C[arg0];
-    if (*temp_r2 & 1) {
-loop_2:
-        var_r4 += 1;
-        if (var_r4 > 0xFU) {
+    player = &players07386C[who];
+    i = 0;
+    m = &flags07386C[who];
+    while (*m & (1 << i)) {
+        i++;
+        if (i > 0xF)
             return;
-        }
-        if (!(*temp_r2 & (1 << var_r4))) {
-            goto block_5;
-        }
-        goto loop_2;
     }
-block_5:
-    if (var_r4 > 0xFU) {
+    if (i > 0xF)
         return;
+    {
+        u8 *p = args07686C[who];
+        a = (u32 *)(i * 0x18 + (u32)p);
     }
-    temp_r3 = arg0 * 4;
-    temp_r0 = (var_r4 * 0x18) + args07686C[arg0];
-    F_07686C(temp_r0,u32,0x0) = arg0;
-    F_07686C(temp_r0,u32,0x4) = var_r4;
-    F_07686C(temp_r0,u32,0x8) = arg2;
-    F_07686C(temp_r0,u32,0xC) = arg1;
-    F_07686C(temp_r0,u32,0x14) = arg3;
-    F_07686C(temp_r0,u32,0x10) = arg4;
-    temp_r0_2 = arg1 - 1;
-    switch (temp_r0_2) {                            /* irregular */
-    case 0:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback076069C44;
-block_48:
-        F_07686C(var_r0,u32,0xC) = var_r1;
-    default:
-        temp_r0_3 = sub_08001494(0x800U);
-        temp_r3_2 = (var_r4 * 0x28) + tasks07686C[arg0];
-        F_07686C(temp_r3_2,u8*,0x20) = temp_r0_3;
-        if (temp_r0_3 != NULL) {
-            F_07686C(temp_r3_2,u32,0x8) = 0x34;
-            F_07686C(temp_r3_2,u8*,0x10) = (void *) (temp_r0_3 + 0x7FC);
-            F_07686C(temp_r3_2,u32,0x24) = sub_0807A120;
-            start07686C(temp_r3_2, args07686C[arg0] + (var_r4 * 0x18));
-            temp_r2_2 = (s32*)&flags07686C[arg0];
-            *temp_r2_2 |= 1 << var_r4;
-            if (arg0 == sub_080020F4()) {
-                refresh07686C(players07686C+arg0*0x14C);
-            }
-        }
-        return;
+    a[0] = who;
+    a[1] = i;
+    a[2] = c;
+    a[3] = kind;
+    a[5] = d;
+    a[4] = e;
+    switch (kind) {
     case 1:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606A19C;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback076069C44;
+        break;
     case 2:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606B3C4;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback07606A19C;
+        break;
     case 3:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606BE24;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback07606B3C4;
+        break;
     case 4:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606C568;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback07606BE24;
+        break;
     case 5:
-        if (arg0 == sub_080020F4()) {
-            temp_r4 = (var_r4 * 0x18) + args07686C[arg0];
-            temp_r5 = (0x14C * sub_080020F4()) + players07686C;
-            temp_r1 = F_07686C(temp_r5,u16,0xC2) - (u16) (sub_0806898C(F_07686C(temp_r4,u32,0xC), F_07686C(temp_r4,u32,0x14)) - 1);
-            F_07686C(temp_r5,u16,0xC2) = temp_r1;
-            if ((s32) (temp_r1 << 0x10) < 0) {
-                F_07686C(temp_r5,u16,0xC2) = 0U;
-            }
-            var_r5 = F_07686C(temp_r6,u8*,0x34);
-            sub_0805865C(0x165);
-            var_r4_2 = 0;
-loop_20:
-            if (((s32) F_07686C(var_r5,s16,0x0) > 0) && (F_07686C(var_r5,u16,0x4) == 6) && (F_07686C(var_r5,u16,0x2) == arg0)) {
-                if ((u32) F_07686C(var_r5,u16,0x6) < (u32) F_07686C(temp_r6,u16,0x26)) {
-                    F_07686C(var_r5,u16,0x2) = (u16) arg0;
-                    F_07686C(var_r5,u16,0x6) = (u16) F_07686C(temp_r6,u16,0x26);
-                    F_07686C(var_r5,s16,0x0) = (s16) (((F_07686C(var_r5,u16,0x6) * 0xA) + 0x28) * 0x3C);
-                }
-            } else {
-                var_r4_2 += 1;
-                var_r5 += 0x28;
-                if (var_r4_2 > 7U) {
-                    if (0 == 0) {
-                        var_r5_2 = F_07686C(temp_r6,u8*,0x34);
-                        var_r4_3 = 0;
-loop_29:
-                        if (F_07686C(var_r5_2,s16,0x0) != -1) {
-                            var_r4_3 += 1;
-                            var_r5_2 += 0x28;
-                            if (var_r4_3 <= 7U) {
-                                goto loop_29;
-                            }
-                        } else {
-                            F_07686C(var_r5_2,u16,0x2) = (s16) arg0;
-                            F_07686C(var_r5_2,u16,0x4) = 6;
-                            F_07686C(var_r5_2,u16,0x6) = (u16) F_07686C(temp_r6,u16,0x26);
-                            F_07686C(var_r5_2,s16,0x0) = (s16) (((F_07686C(var_r5_2,u16,0x6) * 0xA) + 0x28) * 0x3C);
-                        }
-                    }
-                } else {
-                    goto loop_20;
-                }
-            }
-            refresh07686C(players07686C+arg0*0x14C);
-        }
-        effect07686C(arg0, 6);
-        return;
-    case 7:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606CDF0;
-        goto block_48;
-    case 8:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606DB1C;
-        goto block_48;
-    case 9:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606D4A4;
-        goto block_48;
-    case 10:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606D7EC;
-        goto block_48;
-    case 11:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606A88C;
-        goto block_48;
-    case 12:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606ABC0;
-        goto block_48;
-    case 15:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606FE1C;
-        goto block_48;
-    case 13:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606DE94;
-        goto block_48;
-    case 14:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606E7D4;
-        goto block_48;
-    case 16:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606FF1C;
-        goto block_48;
-    case 17:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07606F0CC;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback07606C568;
+        break;
     case 6:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback0760710DC;
-        goto block_48;
+        if (who == sub_080020F4()) {
+            u32 *a = (u32 *)(args07686C[who] + i * 0x18);
+            struct Ply07356C *me = &players07386C[sub_080020F4()];
+            u16 cost = sub_0806898C(a[3], a[5]) - 1;
+            struct Buff07356C *b;
+            u32 j;
+            u8 found;
+
+            me->mp -= cost;
+            if ((s16)me->mp < 0)
+                me->mp = 0;
+            b = player->buffs;
+            sub_0805865C(0x165);
+            found = 0;
+            for (j = 0; j <= 7; j++, b++) {
+                if (b->timer > 0 && b->type == 6 && b->owner == who) {
+                    if (b->level < player->f26) {
+                        b->owner = who;
+                        b->level = player->f26;
+                        b->timer = (b->level * 10 + 40) * 60;
+                    }
+                    found = 1;
+                    break;
+                }
+            }
+            if (!found) {
+                b = player->buffs;
+                for (j = 0; j <= 7; j++, b++) {
+                    if (b->timer == -1) {
+                        b->owner = who;
+                        b->type = 6;
+                        b->level = player->f26;
+                        b->timer = (b->level * 10 + 40) * 60;
+                        break;
+                    }
+                }
+            }
+            refresh07686C(&players07386C[who]);
+        }
+        effect07686C(who, 6);
+        return;
+    case 8:
+        task07386C(who, i)->fC = (u32)callback07606CDF0;
+        break;
+    case 9:
+        task07386C(who, i)->fC = (u32)callback07606DB1C;
+        break;
+    case 10:
+        task07386C(who, i)->fC = (u32)callback07606D4A4;
+        break;
+    case 11:
+        task07386C(who, i)->fC = (u32)callback07606D7EC;
+        break;
+    case 12:
+        task07386C(who, i)->fC = (u32)callback07606A88C;
+        break;
+    case 13:
+        task07386C(who, i)->fC = (u32)callback07606ABC0;
+        break;
+    case 16:
+        task07386C(who, i)->fC = (u32)callback07606FE1C;
+        break;
+    case 14:
+        task07386C(who, i)->fC = (u32)callback07606DE94;
+        break;
+    case 15:
+        task07386C(who, i)->fC = (u32)callback07606E7D4;
+        break;
+    case 17:
+        task07386C(who, i)->fC = (u32)callback07606FF1C;
+        break;
     case 18:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback076072390;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback07606F0CC;
+        break;
+    case 7:
+        task07386C(who, i)->fC = (u32)callback0760710DC;
+        break;
     case 19:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback07607356C;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback076072390;
+        break;
     case 20:
-        var_r0 = (var_r4 * 0x28) + tasks07686C[arg0];
-        var_r1 = &callback076072D5C;
-        goto block_48;
+        task07386C(who, i)->fC = (u32)callback07607356C;
+        break;
+    case 21:
+        task07386C(who, i)->fC = (u32)callback076072D5C;
+        break;
+    }
+    mem = sub_08001494(0x800);
+    t = task07386C(who, i);
+    t->f20 = mem;
+    if (mem != 0) {
+        t->f8 = 0x34;
+        t->f10 = mem + 0x7FC;
+        t->f24 = (u32)sub_0807A120;
+        start07686C(t, args07686C[who] + i * 0x18);
+        flags07386C[who] |= 1 << i;
+        if (who == sub_080020F4())
+            refresh07686C(&players07386C[who]);
     }
 }
 
