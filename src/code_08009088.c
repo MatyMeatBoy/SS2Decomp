@@ -267,7 +267,92 @@ s32 sub_08009930(u32 area,u32 index)
     sub_08000274(&loadThread005,0);
     return 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009B84);
+struct TileAnim9B84 { u8 pad[0x8C]; u16 area,pad8E,index; u8 pad92[14]; u16 frames[4],timers[4]; u32 *record; };
+struct Periods9B84 { u16 periods[4]; u8 rest[108]; };
+extern struct TileAnim9B84 tileAnim005 asm("gUnk_03003170");
+extern struct Periods9B84 animPeriods9B84[] asm("gUnk_08478470");
+extern u16 animLimits9B84[2] asm("gUnk_08478F4C");
+void sub_08009B84(void)
+{
+    u32 alternate,i;
+    s32 div;
+    u32 src;
+    switch(tileAnim005.area) {
+    case 0:case 1:case 2:case 3: break;
+    case 4: if(tileAnim005.index==12) return; break;
+    case 8:
+        switch(tileAnim005.index) {
+        case 2:case 4:case 6:case 8:case 10:case 12:case 14:case 17:return;
+        }
+        break;
+    case 11:case 12:case 14:return;
+    }
+    if(tileAnim005.area==3 || tileAnim005.area==6) alternate=1;
+    else alternate=0;
+    switch(tileAnim005.area) {
+    case 0:
+        switch(tileAnim005.index) {case 2:case 5:return;}
+        if(tileAnim005.index!=0) sub_0800903C(0,0,0,0,0,0);
+        if(tileAnim005.index==1) return;
+        break;
+    case 1:case 2:case 3:
+        if(!sub_0800CDC0()) sub_0800903C(0,0,0,0,0,0);
+        break;
+    case 4:
+        if(!sub_0800CDC0() && !sub_0800CC98()) sub_0800903C(6,0x10,1,0xD,0,0);
+        break;
+    case 5:
+        if(!sub_0800CC98() && sub_0800CDC0()) sub_0800903C(0,0,0,0,0,0);
+        break;
+    case 6:
+        if(!sub_0801AAE0()) sub_0800903C(2,0x1C,1,3,0x10,0);
+        break;
+    case 7:
+        if(!sub_0800CDC0()) sub_0800903C(2,0x10,1,7,8,0);
+        break;
+    case 9:
+        switch(tileAnim005.index) {
+        case 1:case 3:case 5:case 7:case 9:case 11:case 14:
+            if(!sub_0800CC98()) sub_0800903C(2,0x1C,1,3,0x10,0);
+            break;
+        case 0:case 2:case 6:case 13:
+            if(!sub_0800CC98()) sub_0800903C(2,0x10,1,7,8,0);
+            break;
+        default:
+            sub_0800903C(0,0,0,0,0,0);
+            break;
+        }
+        switch(tileAnim005.index) {case 0:case 2:case 4:case 6:case 8:case 12:case 13:case 15:return;}
+        break;
+    case 10:
+        switch(tileAnim005.index) {
+        case 0:case 1:case 3:case 13:case 15:case 16:case 19:return;
+        case 20:
+            if(!sub_0800CC98()) sub_0800903C(2,0x1C,1,3,0x10,0);
+            break;
+        }
+        break;
+    case 13:
+        if(!sub_0800CC98()) sub_0800903C(2,0x3C,1,3,0x10,0);
+        return;
+    case 19:
+        if(!sub_0800CC98()) sub_0800903C(4,0x10,1,7,8,0);
+        break;
+    }
+    if ((u16)(tileAnim005.area-7)<=1 && sub_0800CDC0()) return;
+    div=0x20/animLimits9B84[alternate];
+    src=sub_08007290(*tileAnim005.record);
+    for(i=0;i<4;i++) {
+        if(animPeriods9B84[tileAnim005.area].periods[i]) {
+            if(animPeriods9B84[tileAnim005.area].periods[i]<=tileAnim005.timers[i]++) {
+                tileAnim005.timers[i]=0;
+                if(++tileAnim005.frames[i]>=animLimits9B84[alternate]) tileAnim005.frames[i]=0;
+            }
+            if(tileAnim005.timers[i]==0)
+                sub_08001348((void *)(src+0x7000+i*0x400+((tileAnim005.frames[i]*div)<<5)),(void *)(0x06007000+i*0x400),div<<5);
+        }
+    }
+}
 #ifdef NONMATCHING
 struct MapAnim005 { u8 pad[0x8C]; u16 area,pad8E,index; u8 pad92[14]; u16 frames[4],timers[4]; };
 struct MapPeriods005 { u16 periods[4]; u8 rest[108]; };
@@ -277,9 +362,6 @@ extern u16 animLimits005[2] asm("gUnk_08478F4C");
 void sub_0800A03C(void)
 {
     u32 alternate,i;
-    u16 *frame,*timer,*period;
-    u16 *limit;
-    u32 off;
     switch(animState005.area) {
     case 0:case 1:case 2:case 3: break;
     case 4: if(animState005.index==12) return; break;
@@ -305,16 +387,11 @@ void sub_0800A03C(void)
         break;
     }
     if ((u16)(animState005.area-7)<=1 && sub_0800CDC0()) return;
-    frame=(u16 *)((u32)&animState005+0xA0);
-    limit=&animLimits005[alternate];
-    for(i=0;i<4;frame++,i++) {
-        off=i*2;
-        period=(u16 *)(off+animState005.area*0x74+(u32)animPeriods005);
-        if(*period) {
-            timer=(u16 *)(off+((u32)&animState005+0xA8));
-            if(*period<=(*timer)++) {
-                *timer=0;
-                if(++*frame>=*limit) *frame=0;
+    for(i=0;i<4;i++) {
+        if(animPeriods005[animState005.area].periods[i]) {
+            if(animPeriods005[animState005.area].periods[i]<=animState005.timers[i]++) {
+                animState005.timers[i]=0;
+                if(++animState005.frames[i]>=animLimits005[alternate]) animState005.frames[i]=0;
             }
         }
     }
