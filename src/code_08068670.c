@@ -5123,7 +5123,7 @@ void sub_0807356C(struct Arg07356C *arg0)
     for (i = 0; i < sub_08002164(); i++) {
         p = &players07656C[i];
         pos = p->pos;
-        if (!((pos->f4 >> 5) & 1) && (owner > 3 || p->team == player->team)) {
+        if ((s32)(pos->f4 << 26) >= 0 && (owner > 3 || p->team == player->team)) {
             dx = (pos->x >> 4) - x;
             dy = ((u32)(pos->y << 20) >> 20) - y;
             if (level != 0) {
