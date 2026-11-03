@@ -1,10 +1,11 @@
 
-nov03-w4: sub_0800AD04 clean struct version (CamAD04 view of gUnk_03003170: w0/h0/w1/h1 @0x70,
-  x/y s16 @0x7C, offX/offY @0x80, relX/relY @0x88, flags @0x9C; u16 x/y from `(u32)(*p << 8) >> 16`,
-  writeback `*p = (u8)*p + ((s16)x << 8)`) is 320 bytes / 262 lines: the ROM keeps layer in r4,
-  sign-extends (s16)x before adding offX (ours folds it away), and shares the clamp tail between the
-  layer branches. Moving the center step into an inline taking s32 made it 340. Register draft stays best.
-xisting register-asm draft (my diff ~167 vs draft ~150 normalized lines). Facts: s16 j/i are
+nov03-w3: sub_0800AD04 register draft is 4 diff lines: only the offY load in the finish else-branch
+  (ROM `movs r4,#0x82 ... ldrh r2,[r4,r3]` = reload of an out-of-range offset into an index reg;
+  ours `adds r4,r4,r3; ldrh r4,[r4,#0]`). Tried: other in r2, base+offset/byte-pointer/array
+  index forms, (u16 *)base)[0x41], global field access in the else-branch, volatile offX/offY,
+  dropping the asm barrier (10-12 lines). Clean struct C (no register asm) is 163 lines: the ROM
+  keeps the (s16)x sign extension before `+ offX` and agbcc folds it in every plain form tried.
+s: s16 j/i are
   right (entry test uses lsrs of y<<16); h lives at sp0, y<<16 at sp18; set branch does not hoist x-half.
 he write-back-then-reread of pad60 (orig reads gUnk.0x60 back after str).
 
