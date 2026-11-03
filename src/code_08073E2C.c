@@ -1146,7 +1146,7 @@ void sub_080785F4(u32 who, u32 arg)
     s32 pos[2];
     u32 size;
     u16 tgt;
-    u32 bit;
+    u16 bit;
     u32 pal;
     s32 n;
     u16 a;
@@ -1159,13 +1159,14 @@ void sub_080785F4(u32 who, u32 arg)
     struct Ply85F4 *tp;
     struct Ply85F4 *p;
     struct Ene85F4 *q;
-    u32 t;
+    s32 t;
     s32 ang;
     u16 *dp;
     u16 diff;
     s32 x, y;
     u16 i;
     u8 c;
+    u8 c2;
     s32 sx, sy;
     s32 spd;
 
@@ -1200,24 +1201,34 @@ void sub_080785F4(u32 who, u32 arg)
         dx = (u32)(te->x - x) >> 8;
         dy = (u32)(te->y - y) >> 8;
     }
-    ang = atan85F4(dx, dy);
-    ang = (u16)ang >> 8;
-    if (ang > 0x80)
-        ang += 0xFFFFFF00;
-    a = ang;
-
-    if ((s16)a < 0)
-        a = (s16)a + 0x100;
-    if ((s16)a > 0x100)
-        a = (s16)a + 0xFFFFFF00;
-    dp = &dir85F4[e->dir];
-    diff = ((s16)a >> 4) - *dp;
-    if ((s16)diff > 8)
-        diff = (s16)diff - 16;
-    if ((s16)diff < 0)
-        diff = -(s16)diff;
-    if ((s16)diff > 3)
-        a = *dp;
+    ang = (u16)atan85F4(dx, dy) >> 8;
+    {
+        u16 t2 = ang;
+        if (ang > 0x80)
+            t2 = ang - 0x100;
+        a = t2;
+    }
+    {
+        s16 sa = a;
+        if (sa < 0)
+            a = sa + 0x100;
+    }
+    {
+        s16 sa = a;
+        if (sa > 0x100)
+            a = sa - 0x100;
+    }
+    diff = ((s16)a >> 4) - dir85F4[e->dir];
+    {
+        s16 sd = diff;
+        if (sd > 8)
+            diff = sd - 16;
+    }
+    t = (s16)diff;
+    if ((s32)t < 0)
+        t = -t;
+    if ((s32)t > 3)
+        a = dir85F4[e->dir];
     sub_08007290(e->f22C | 0xB0000);
     dir = e->dir;
     while (e->wait < e->threshold) {
@@ -1230,72 +1241,63 @@ void sub_080785F4(u32 who, u32 arg)
     n = n * 8 + 10;
     if (sub_0800CD34() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0)
         sub_0805865C(0x17);
-    if (n-- == 0)
-        goto done;
-    {
-        {
-        loop:
-            hit = 0;
-            if (tgt <= 3) {
-                p = &p85F4[local];
-                dx = (u32)(p->x - x) >> 8;
-                dy = (u32)(p->y - y) >> 8;
-                if ((dx < 0 ? -dx : dx) > 7 || (dy < 0 ? -dy : dy) > 7)
-                    goto check;
-                if ((u32)(((u8 *)p->pos)[0] << 28) >> 28 == 0xE || p->team == 0)
-                    goto next;
-                if (p->flags & 2)
-                    goto check;
-                hit85F4(e->id + 4, x, y, kind + 4, hit);
-                hit = 1;
-                goto done;
-            } else {
-                for (i = 0; i <= 4; i++) {
-                    if (!(e85F4Mask & (1 << i)))
-                        continue;
-                    q = &e85F4Base[i];
-                    if (!q->active)
-                        continue;
-                    dx = (q->x >> 8) - x;
-                    dy = (q->y >> 8) - y;
-                    if ((dx < 0 ? -dx : dx) <= 7 && (dy < 0 ? -dy : dy) <= 7) {
-                        hit85F4(e->id + 4, x, y, kind + 4, 0);
-                        hit = 1;
-                        break;
-                    }
+    while (n-- != 0) {
+        hit = 0;
+        spd = 20;
+        if (tgt <= 3) {
+            tp = &p85F4[local];
+            dx = (u32)(tp->x - x) >> 8;
+            dy = (u32)(tp->y - y) >> 8;
+            if ((dx < 0 ? -dx : dx) <= 7 && (dy < 0 ? -dy : dy) <= 7) {
+                if ((u32)(((u8 *)tp->pos)[0] << 28) >> 28 == 0xE || tp->team == 0)
+                    continue;
+                if (!(tp->flags & 2)) {
+                    hit85F4(e->id + 4, x, y, kind + 4, hit);
+                    hit = 1;
+                    break;
                 }
             }
-        check:
-            if (hit)
-                goto clear;
-            pos[0] = x;
-            pos[1] = y;
-            size = 0x80008;
-            if (effect85F4(pos, &size, 0) != 0)
-                goto done;
-            c = sub_0800AE50(x, y, 0);
-            if ((c & 0xF) && !(c & 0x10))
-                goto done;
-            spd = 20;
-            x += sin85F4[(s16)a + 0x40] * spd / 10;
-            y += sin85F4[(s16)a] * spd / 10;
-            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
-                sx = x >> 8;
-                sy = y >> 8;
-                coords85F4((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
-                c = sub_0800BC44(sx, sy, 0);
-                sub_080659BC(&spr, dx + off85F4[(s16)dir].x, dy + off85F4[(s16)dir].y, 0, pal, c);
+        } else {
+            for (i = 0; i <= 4; i++) {
+                if (!(e85F4Mask & (1 << i)))
+                    continue;
+                te = &e85F4Base[i];
+                if (!te->active)
+                    continue;
+                dx = (te->x >> 8) - x;
+                dy = (te->y >> 8) - y;
+                if ((dx < 0 ? -dx : dx) <= 7 && (dy < 0 ? -dy : dy) <= 7) {
+                    hit85F4(e->id + 4, x, y, kind + 4, 0);
+                    hit = 1;
+                    break;
+                }
             }
-            sub_080003F0();
-            if (sub_0800CB78() != 0 || sub_0800CD00() != 0)
-                goto done;
-            if (((e->f7A & 1) && sub_08056E90() != 0) || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
-                hit = 1;
-                goto done;
-            }
-        next:
-            if (n-- != 0)
-                goto loop;
+        }
+        if (hit)
+            goto clear;
+        pos[0] = x;
+        pos[1] = y;
+        size = 0x80008;
+        if (effect85F4(pos, &size, 0) != 0)
+            break;
+        c = sub_0800AE50(x, y, 0);
+        if ((c & 0xF) && !(c & 0x10))
+            break;
+        x += sin85F4[(s16)a + 0x40] * spd / 10;
+        y += sin85F4[(s16)a] * spd / 10;
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+            sx = x >> 8;
+            sy = y >> 8;
+            coords85F4((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
+            c2 = sub_0800BC44(sx, sy, 0);
+            sub_080659BC(&spr, dx + off85F4[(s16)dir].x, dy + off85F4[(s16)dir].y, 0, pal, c2);
+        }
+        sub_080003F0();
+        if (sub_0800CB78() != 0 || sub_0800CD00() != 0)
+            break;
+        if (((e->f7A & 1) && sub_08056E90() != 0) || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
+            hit = 1;
+            break;
         }
     }
 done:
