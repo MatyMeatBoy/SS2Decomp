@@ -941,7 +941,6 @@ block_20:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090B84);
 #endif
-#ifdef NONMATCHING
 extern s16 random095_08090E38(void) asm("sub_0800086C");
 struct Anim095_08090E38 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_08090E38 asm("gUnk_0300016C");
@@ -950,135 +949,112 @@ extern void palette095_08090E38(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_08090E38(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_08090E38(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_08090E38(void) {
-    s32 sp10;
-    s32 sp14;
-    s16 var_r0;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 var_r1;
-    s32 var_r1_2;
-    s32 var_r1_3;
-    s32 var_r6;
-    s32 var_r9;
-    u16 temp_r0_2;
-    u8 temp_r7;
-    struct Anim095_08090E38 *temp_r0;
+    struct Anim095_08090E38 *a;
+    s32 flag;
+    u16 timer;
+    s32 state;
+    s32 done;
+    u8 variant;
+    s16 r;
+    u32 h;
+    u16 *next;
 
-    temp_r0 = (struct Anim095_08090E38 *)sub_08001494(0x44U);
-    heap095_08090E38 = (u32)temp_r0;
-    var_r0 = (s16) (random095_08090E38() % 3);
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    temp_r7 = (u8) var_r0;
-    switch (temp_r7) {                              /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        var_r1 = 0x50012;
-block_10:
-        init095_08090E38(temp_r0, var_r1, 0, -1, 0);
+    a = (struct Anim095_08090E38 *)(heap095_08090E38 = (u32)sub_08001494(0x44));
+    r = random095_08090E38() % 3;
+    variant = r < 0 ? -r : r;
+    switch (variant) {
+    case 0:
+        init095_08090E38(a, 0x50012, 0, -1, 0);
         break;
-    case 1:                                         /* switch 1 */
-        var_r1 = 0x50013;
-        goto block_10;
-    case 2:                                         /* switch 1 */
-        init095_08090E38(temp_r0, 0x50014, 0, -1, 0);
+    case 1:
+        init095_08090E38(a, 0x50013, 0, -1, 0);
+        break;
+    case 2:
+        init095_08090E38(a, 0x50014, 0, -1, 0);
         break;
     }
-    temp_r0->payload[0] = 0;
-    temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
-    temp_r0->x = 0x10000;
-    temp_r0->y = 0x5800;
-    sp10 = 1;
-    sp14 = 0;
-    var_r6 = 0;
-    if (heap095_08090E38 == 0) {
+    a->payload[0] = 0;
+    a->frame = 10;
+    a->next = 0;
+    a->tick = 0;
+    a->x = 0x10000;
+    a->y = 0x5800;
+    flag = 1;
+    timer = 0;
+    state = 0;
+    h = heap095_08090E38;
+    next = &a->next;
+    if (h == 0)
         return;
-    }
-loop_14:
-    switch (var_r6) {                               /* switch 2; irregular */
-    case 2:                                         /* switch 2 */
-        temp_r1 = temp_r0->x + 0xFFFFFF00;
-        temp_r0->x = temp_r1;
-        if (temp_r1 <= ((s32)0xFFFFF000)) {
-            sp14 = 0;
-            var_r6 = 6;
-        }
-        break;
-    case 6:                                         /* switch 2 */
-        temp_r0_2 = sp14 + 1;
-        sp14 = (s32) temp_r0_2;
-        if (temp_r0_2 == 0x3D) {
-            var_r6 = 0xFF;
-        }
-        break;
-    case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + 0xFFFFFF00;
-        temp_r0->x = temp_r1_2;
-        if (temp_r1_2 > 0x8000) {
-
-        } else {
-            switch (temp_r7) {                      /* switch 3; irregular */
-            case 0:                                 /* switch 3 */
-                var_r1_2 = 0x50015;
-block_33:
-                init095_08090E38(temp_r0, var_r1_2, 0, -1, var_r6);
-                break;
-            case 1:                                 /* switch 3 */
-                var_r1_2 = 0x50016;
-                goto block_33;
-            case 2:                                 /* switch 3 */
-                init095_08090E38(temp_r0, 0x50017, 0, -1, var_r6);
-                break;
+    for (;;) {
+        switch (state) {
+        case 0:
+            a->x -= 0x100;
+            if (a->x <= 0x8000) {
+                switch (variant) {
+                case 0:
+                    init095_08090E38(a, 0x50015, 0, -1, 0);
+                    break;
+                case 1:
+                    init095_08090E38(a, 0x50016, 0, -1, 0);
+                    break;
+                case 2:
+                    init095_08090E38(a, 0x50017, 0, -1, 0);
+                    break;
+                }
+                done = 0;
+                flag = 0;
+                a->payload[0] = 0;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 1;
             }
-            sp10 = 0;
-            temp_r0->payload[0] = 0;
-            temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
-            var_r6 = 1;
-        }
-        break;
-    case 1:                                         /* switch 2 */
-        if (var_r9 != 0) {
-            switch (temp_r7) {                      /* switch 4; irregular */
-            case 0:                                 /* switch 4 */
-                var_r1_3 = 0x50012;
-block_45:
-                init095_08090E38(temp_r0, var_r1_3, 0, -1, 0);
-                break;
-            case 1:                                 /* switch 4 */
-                var_r1_3 = 0x50013;
-                goto block_45;
-            case 2:                                 /* switch 4 */
-                init095_08090E38(temp_r0, 0x50014, 0, -1, 0);
-                break;
+            break;
+        case 1:
+            if (done != 0) {
+                switch (variant) {
+                case 0:
+                    init095_08090E38(a, 0x50012, 0, -1, 0);
+                    break;
+                case 1:
+                    init095_08090E38(a, 0x50013, 0, -1, 0);
+                    break;
+                case 2:
+                    init095_08090E38(a, 0x50014, 0, -1, 0);
+                    break;
+                }
+                flag = 1;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 2;
             }
-            sp10 = 1;
-            temp_r0->frame = 0xAU;
-            temp_r0->next = 0;
-            temp_r0->tick = 0U;
-            var_r6 = 2;
+            break;
+        case 2:
+            a->x -= 0x100;
+            if (a->x <= -0x1000) {
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (++timer == 61)
+                state = 0xFF;
+            break;
         }
-        break;
-    }
-    palette095_08090E38(0x10U, temp_r0->fC, 1U);
-    var_r9 = step095_08090E38(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
-    draw095_08090E38((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
-    sub_080003F0();
-    if ((var_r6 != 0xFF) && (heap095_08090E38 != 0)) {
-        goto loop_14;
+        palette095_08090E38(0x10, a->fC, 1);
+        done = step095_08090E38(a, a->frame, &a->tick, next, flag);
+        draw095_08090E38(a->x >> 8, a->y >> 8, a->frame, a->tick, 0, a->payload, a->f8, a->f0);
+        sub_080003F0();
+        if (state == 0xFF || heap095_08090E38 == 0)
+            break;
     }
     if (heap095_08090E38 != 0) {
-        sub_08001538((s32) heap095_08090E38);
+        sub_08001538(heap095_08090E38);
         heap095_08090E38 = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090E38);
-#endif
-#ifdef NONMATCHING
 extern s16 random095_080910A8(void) asm("sub_0800086C");
 struct Anim095_080910A8 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_080910A8 asm("gUnk_0300016C");
@@ -1087,133 +1063,103 @@ extern void palette095_080910A8(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_080910A8(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_080910A8(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
 void sub_080910A8(void) {
-    s32 sp10;
-    s32 sp14;
-    s32 minus, enter0, enter1, leave0, leave1;
-    register s32 reset1 asm("r1");
-    register s32 reset0 asm("r0");
-    register s32 delta4 asm("r4");
-    s16 temp_r0_2;
-    s16 temp_r1;
-    s32 var_r0;
-    register s32 temp_r1_2 asm("r1");
-    register s32 temp_r1_3 asm("r1");
-    s32 var_r6;
-    register s32 var_r9 asm("r9");
-    u16 temp_r0_3;
-    u8 temp_r7;
-    struct Anim095_080910A8 *temp_r0;
+    struct Anim095_080910A8 *a;
+    s32 flag;
+    u16 timer;
+    s32 state;
+    s32 done;
+    u8 variant;
+    s16 r;
+    u32 h;
+    u16 *next;
 
-    heap095_080910A8 = (u32)sub_08001494(0x44U);
-    temp_r0 = (struct Anim095_080910A8 *)heap095_080910A8;
-    temp_r0_2 = random095_080910A8();
-    temp_r1 = temp_r0_2;
-    var_r0 = (s16)(temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2));
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    temp_r7 = (u8) var_r0;
-    switch (temp_r7) {                              /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        init095_080910A8(temp_r0, 0x50022, 0, -1, (s32) temp_r7);
+    a = (struct Anim095_080910A8 *)(heap095_080910A8 = (u32)sub_08001494(0x44));
+    r = random095_080910A8() % 2;
+    variant = r < 0 ? -r : r;
+    switch (variant) {
+    case 0:
+        init095_080910A8(a, 0x50022, 0, -1, 0);
         break;
-    case 1:                                         /* switch 1 */
-        init095_080910A8(temp_r0, 0x50023, 0, -1, 0);
+    case 1:
+        init095_080910A8(a, 0x50023, 0, -1, 0);
         break;
     }
-    temp_r0->payload[0] = 0;
-    temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
-    temp_r0->x = 0x10000;
-    temp_r0->y = 0x5800;
-    sp10 = 1;
-    minus = -1; enter0 = 0x50024; enter1 = 0x50025; leave0 = 0x50022; leave1 = 0x50023;
-    sp14 = 0;
-    var_r6 = 0;
-    if (heap095_080910A8 == 0) {
+    a->payload[0] = 0;
+    a->frame = 10;
+    a->next = 0;
+    a->tick = 0;
+    a->x = 0x10000;
+    a->y = 0x5800;
+    flag = 1;
+    timer = 0;
+    state = 0;
+    h = heap095_080910A8;
+    next = &a->next;
+    if (h == 0)
         return;
-    }
-loop_9:
-    switch (var_r6) {                               /* switch 2; irregular */
-    case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + 0xFFFFFF00;
-        temp_r0->x = temp_r1_2;
-        if (temp_r1_2 <= 0x8000) {
-            switch (temp_r7) {                      /* switch 3; irregular */
-            case 0:                                 /* switch 3 */
-                init095_080910A8(temp_r0, enter0, 0, minus, var_r6);
-                break;
-            case 1:                                 /* switch 3 */
-                init095_080910A8(temp_r0, enter1, 0, minus, var_r6);
-                break;
+    for (;;) {
+        switch (state) {
+        case 0:
+            a->x -= 0x100;
+            if (a->x <= 0x8000) {
+                switch (variant) {
+                case 0:
+                    init095_080910A8(a, 0x50024, 0, -1, 0);
+                    break;
+                case 1:
+                    init095_080910A8(a, 0x50025, 0, -1, 0);
+                    break;
+                }
+                done = 0;
+                flag = 0;
+                a->payload[0] = 0;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 1;
             }
-            var_r9 = 0;
-            asm("" : "+r"(var_r9));
-            sp10 = 0;
-            temp_r0->payload[0] = var_r9;
-            temp_r0->frame = 0xAU;
-            reset1 = var_r9;
-            temp_r0->next = reset1;
-            temp_r0->tick = reset1;
-            var_r6 = 1;
-        }
-        break;
-    case 1:                                         /* switch 2 */
-        if (var_r9 != 0) {
-            switch (temp_r7) {                      /* switch 4; irregular */
-            case 0:                                 /* switch 4 */
-                init095_080910A8(temp_r0, leave0, 0, minus, (s32) temp_r7);
-                break;
-            case 1:                                 /* switch 4 */
-                init095_080910A8(temp_r0, leave1, 0, minus, 0);
-                break;
+            break;
+        case 1:
+            if (done != 0) {
+                switch (variant) {
+                case 0:
+                    init095_080910A8(a, 0x50022, 0, -1, 0);
+                    break;
+                case 1:
+                    init095_080910A8(a, 0x50023, 0, -1, 0);
+                    break;
+                }
+                flag = 1;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 2;
             }
-            reset1 = 1;
-            sp10 = reset1;
-            temp_r0->frame = 0xAU;
-            reset0 = 0;
-            temp_r0->next = reset0;
-            temp_r0->tick = reset0;
-            var_r6 = 2;
+            break;
+        case 2:
+            a->x -= 0x100;
+            if (a->x <= -0x1000) {
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (++timer == 61)
+                state = 0xFF;
+            break;
         }
-        break;
-    case 2:                                         /* switch 2 */
-        temp_r1_3 = temp_r0->x;
-        delta4 = -0x100;
-        asm("" : "+r"(delta4));
-        temp_r1_3 += delta4;
-        temp_r0->x = temp_r1_3;
-        if (temp_r1_3 <= ((s32)0xFFFFF000)) {
-            minus = -1; enter0 = 0x50024; enter1 = 0x50025; leave0 = 0x50022; leave1 = 0x50023;
-    sp14 = 0;
-            var_r6 = 6;
-        }
-        break;
-    case 6:                                         /* switch 2 */
-        temp_r0_3 = sp14 + 1;
-        sp14 = (s32) temp_r0_3;
-        if (temp_r0_3 == 0x3D) {
-            var_r6 = 0xFF;
-        }
-        break;
-    }
-    palette095_080910A8(0x10U, temp_r0->fC, 1U);
-    var_r9 = step095_080910A8(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
-    draw095_080910A8((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
-    sub_080003F0();
-    if ((var_r6 != 0xFF) && (heap095_080910A8 != 0)) {
-        goto loop_9;
+        palette095_080910A8(0x10, a->fC, 1);
+        done = step095_080910A8(a, a->frame, &a->tick, next, flag);
+        draw095_080910A8(a->x >> 8, a->y >> 8, a->frame, a->tick, 0, a->payload, a->f8, a->f0);
+        sub_080003F0();
+        if (state == 0xFF || heap095_080910A8 == 0)
+            break;
     }
     if (heap095_080910A8 != 0) {
-        sub_08001538((s32) heap095_080910A8);
+        sub_08001538(heap095_080910A8);
         heap095_080910A8 = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080910A8);
-#endif
-#ifdef NONMATCHING
 extern s16 random095_080912CC(void) asm("sub_0800086C");
 struct Anim095_080912CC {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_080912CC asm("gUnk_0300016C");
@@ -1222,132 +1168,103 @@ extern void palette095_080912CC(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_080912CC(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_080912CC(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
 void sub_080912CC(void) {
-    s32 sp10;
-    s32 sp14;
-    s32 minus, enter0, enter1, leave0, leave1;
-    register s32 reset1 asm("r1");
-    register s32 reset0 asm("r0");
-    register s32 delta4 asm("r4");
-    s16 temp_r0_2;
-    s16 temp_r1;
-    s32 var_r0;
-    register s32 temp_r1_2 asm("r1");
-    register s32 temp_r1_3 asm("r1");
-    s32 var_r6;
-    register s32 var_r9 asm("r9");
-    u16 temp_r0_3;
-    u8 temp_r7;
-    struct Anim095_080912CC *temp_r0;
+    struct Anim095_080912CC *a;
+    s32 flag;
+    u16 timer;
+    s32 state;
+    s32 done;
+    u8 variant;
+    s16 r;
+    u32 h;
+    u16 *next;
 
-    heap095_080912CC = (u32)sub_08001494(0x44U);
-    temp_r0 = (struct Anim095_080912CC *)heap095_080912CC;
-    temp_r0_2 = random095_080912CC();
-    temp_r1 = temp_r0_2;
-    var_r0 = (s16)(temp_r1 - (((s32) (temp_r1 + (((u32)(u16)temp_r0_2 << 0x10) >> 0x1F)) >> 1) * 2));
-    if ((s32) var_r0 < 0) {
-        var_r0 = 0 - var_r0;
-    }
-    temp_r7 = (u8) var_r0;
-    switch (temp_r7) {                              /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        init095_080912CC(temp_r0, 0x5001D, 0, -1, (s32) temp_r7);
+    a = (struct Anim095_080912CC *)(heap095_080912CC = (u32)sub_08001494(0x44));
+    r = random095_080912CC() % 2;
+    variant = r < 0 ? -r : r;
+    switch (variant) {
+    case 0:
+        init095_080912CC(a, 0x5001D, 0, -1, 0);
         break;
-    case 1:                                         /* switch 1 */
-        init095_080912CC(temp_r0, 0x5001F, 0, -1, 0);
+    case 1:
+        init095_080912CC(a, 0x5001F, 0, -1, 0);
         break;
     }
-    temp_r0->payload[0] = 0;
-    temp_r0->frame = 0xAU;
-    temp_r0->next = 0;
-    temp_r0->tick = 0U;
-    temp_r0->x = 0x10000;
-    temp_r0->y = 0x5800;
-    sp10 = 1;
-    minus = -1; enter0 = 0x5001E; enter1 = 0x50021; leave0 = 0x5001D; leave1 = 0x5001F;
-    sp14 = 0;
-    var_r6 = 0;
-    if (heap095_080912CC == 0) {
+    a->payload[0] = 0;
+    a->frame = 10;
+    a->next = 0;
+    a->tick = 0;
+    a->x = 0x10000;
+    a->y = 0x5800;
+    flag = 1;
+    timer = 0;
+    state = 0;
+    h = heap095_080912CC;
+    next = &a->next;
+    if (h == 0)
         return;
-    }
-loop_9:
-    switch (var_r6) {                               /* switch 2; irregular */
-    case 0:                                         /* switch 2 */
-        temp_r1_2 = temp_r0->x + 0xFFFFFF00;
-        temp_r0->x = temp_r1_2;
-        if (temp_r1_2 <= 0x8000) {
-            switch (temp_r7) {                      /* switch 3; irregular */
-            case 0:                                 /* switch 3 */
-                init095_080912CC(temp_r0, enter0, 0, minus, var_r6);
-                break;
-            case 1:                                 /* switch 3 */
-                init095_080912CC(temp_r0, enter1, 0, minus, var_r6);
-                break;
+    for (;;) {
+        switch (state) {
+        case 0:
+            a->x -= 0x100;
+            if (a->x <= 0x8000) {
+                switch (variant) {
+                case 0:
+                    init095_080912CC(a, 0x5001E, 0, -1, 0);
+                    break;
+                case 1:
+                    init095_080912CC(a, 0x50021, 0, -1, 0);
+                    break;
+                }
+                done = 0;
+                flag = 0;
+                a->payload[0] = 0;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 1;
             }
-            var_r9 = 0;
-            asm("" : "+r"(var_r9));
-            sp10 = 0;
-            temp_r0->payload[0] = var_r9;
-            temp_r0->frame = 0xAU;
-            reset1 = var_r9;
-            temp_r0->next = reset1;
-            temp_r0->tick = reset1;
-            var_r6 = 1;
-        }
-        break;
-    case 1:                                         /* switch 2 */
-        if (var_r9 != 0) {
-            switch (temp_r7) {                      /* switch 4; irregular */
-            case 0:                                 /* switch 4 */
-                init095_080912CC(temp_r0, leave0, 0, minus, (s32) temp_r7);
-                break;
-            case 1:                                 /* switch 4 */
-                init095_080912CC(temp_r0, leave1, 0, minus, 0);
-                break;
+            break;
+        case 1:
+            if (done != 0) {
+                switch (variant) {
+                case 0:
+                    init095_080912CC(a, 0x5001D, 0, -1, 0);
+                    break;
+                case 1:
+                    init095_080912CC(a, 0x5001F, 0, -1, 0);
+                    break;
+                }
+                flag = 1;
+                a->frame = 10;
+                *next = 0;
+                a->tick = 0;
+                state = 2;
             }
-            reset1 = 1;
-            sp10 = reset1;
-            temp_r0->frame = 0xAU;
-            reset0 = 0;
-            temp_r0->next = reset0;
-            temp_r0->tick = reset0;
-            var_r6 = 2;
+            break;
+        case 2:
+            a->x -= 0x100;
+            if (a->x <= -0x1000) {
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (++timer == 61)
+                state = 0xFF;
+            break;
         }
-        break;
-    case 2:                                         /* switch 2 */
-        temp_r1_3 = temp_r0->x;
-        delta4 = -0x100;
-        asm("" : "+r"(delta4));
-        temp_r1_3 += delta4;
-        temp_r0->x = temp_r1_3;
-        if (temp_r1_3 <= ((s32)0xFFFFF000)) {
-            minus = -1; enter0 = 0x5001E; enter1 = 0x50021; leave0 = 0x5001D; leave1 = 0x5001F;
-    sp14 = 0;
-            var_r6 = 6;
-        }
-        break;
-    case 6:                                         /* switch 2 */
-        temp_r0_3 = sp14 + 1;
-        sp14 = (s32) temp_r0_3;
-        if (temp_r0_3 == 0x3D) {
-            var_r6 = 0xFF;
-        }
-        break;
-    }
-    palette095_080912CC(0x10U, temp_r0->fC, 1U);
-    var_r9 = step095_080912CC(temp_r0, temp_r0->frame, &temp_r0->tick, &temp_r0->next, sp10);
-    draw095_080912CC((s32) temp_r0->x >> 8, (s32) temp_r0->y >> 8, temp_r0->frame, temp_r0->tick, 0, temp_r0->payload, temp_r0->f8, temp_r0->f0);
-    sub_080003F0();
-    if ((var_r6 != 0xFF) && (heap095_080912CC != 0)) {
-        goto loop_9;
+        palette095_080912CC(0x10, a->fC, 1);
+        done = step095_080912CC(a, a->frame, &a->tick, next, flag);
+        draw095_080912CC(a->x >> 8, a->y >> 8, a->frame, a->tick, 0, a->payload, a->f8, a->f0);
+        sub_080003F0();
+        if (state == 0xFF || heap095_080912CC == 0)
+            break;
     }
     if (heap095_080912CC != 0) {
-        sub_08001538((s32) heap095_080912CC);
+        sub_08001538(heap095_080912CC);
         heap095_080912CC = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080912CC);
-#endif
 extern s16 random096(void) asm("sub_0800086C");
 struct Anim096_080914F0 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap096_080914F0 asm("gUnk_0300016C");
