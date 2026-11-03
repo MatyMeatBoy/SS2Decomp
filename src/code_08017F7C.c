@@ -132,10 +132,14 @@ void sub_0801801C(struct T015LActor *arg0) {
     T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0)
         sub_08000AF0(0x17, (void *)stack.auxA.fC, 2);
-    stack.auxA.data[0] = 7;
-    stack.auxA.data[1] = 8;
-    stack.auxB.data[0] = 7;
-    stack.auxB.data[1] = 8;
+    {
+        struct T015LAnim *aux = &stack.auxA;
+        aux->data[0] = 7;
+        aux->data[1] = 8;
+        aux = &stack.auxB;
+        aux->data[0] = 7;
+        aux->data[1] = 8;
+    }
     arg0->f68 = arg0->f8;
     arg0->f6C = 0;
     arg0->f6A = 0;
@@ -183,7 +187,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     if (count > 1)
         sp118->f0 = (u32)((sp118->f0 + 2) * T015L_scales[count].b) / 100;
     arg0->f5C = arg0->f1D6 = sp118->f6 * 3;
-    arg0->f5E = arg0->f1D4 = sp118->f4 * 20;
+    arg0->f5E = arg0->f1D4 = (sp118->f4 * 2 + (sp118->f4 << 3)) * 2;
     local124 = 1;
 
     while (sub_0800CB78() == 0 && !(T015L_F7A & 1) && sub_08056E90() == 0) {
