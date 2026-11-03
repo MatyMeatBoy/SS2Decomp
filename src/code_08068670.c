@@ -3603,7 +3603,7 @@ u8 t6f_sub_0805865C(s32) asm("sub_0805865C");
 s32 t6f_sub_08058DB0() asm("sub_08058DB0");
 s32 t6f_sub_0806898C(s32, s32) asm("sub_0806898C");
 struct T6fPos { u16 h0; u16 h2; u8 b4; };
-struct T6fPosB { u32 kind : 4; u32 hi : 4; u8 b1; u8 b2; u8 b3; u8 f4 : 6; };
+struct T6fPosB { u32 kind : 4; u32 hi : 4; u32 b1 : 8; u32 b2 : 8; u32 b3 : 8; u32 f4 : 6; };
 struct T6fPl { u16 id; u8 p2[0x20 - 2]; u16 state; u8 p22[0x30 - 0x22]; u32 flags; u8 p34[0x68 - 0x34]; u8 team; u8 p69[0xC2 - 0x69]; u16 hp; u8 pC4[0xDC - 0xC4]; s32 hits; u8 pE0[0x148 - 0xE0]; struct T6fPos *pos; };
 struct T6fEn { u16 id; u16 uid; u8 p4[8 - 4]; s16 dir; u8 pA[0xC - 0xA]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x50 - 0x1C]; s32 hits; u8 p54[0x5A - 0x54]; u16 hitMask; u8 p5C[0x5E - 0x5C]; u16 mp; u8 p60[0x6A - 0x60]; u16 h6A; u8 p6C[0x1DC - 0x6C]; u8 alive; u8 p1DD[0x22B - 0x1DD]; u8 b22B; u8 p22C[0x2E0 - 0x22C]; };
 struct T6fArg { u32 owner; s32 bit; u16 target; u8 pA[2]; s32 kind; u8 p10[4]; s32 level; };
