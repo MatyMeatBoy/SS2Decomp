@@ -1303,7 +1303,337 @@ set_b:
         }
     }
 }
+#ifdef NONMATCHING
+struct Arg6BA0 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u16 f10; u16 spread; u32 flags; };
+struct Spr6BA0 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
+struct Ent6BA0 { u16 xRaw, yRaw; };
+struct Ply6BA0 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[8]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x13]; struct Ent6BA0 *entity2; struct Ent6BA0 *entity; };
+struct Ene6BA0 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[0xB0]; };
+struct Box6BA0 { u32 w:16; u32 h:16; };
+struct Pos6BA0 { s32 x, y; };
+extern struct Ply6BA0 p6BA0[] asm("gUnk_03003CE0");
+extern struct Ene6BA0 *e6BA0Base asm("gUnk_030056F4");
+extern u32 e6BA0Mask asm("gUnk_030056FC");
+extern u32 m6BA0[] asm("gUnk_030063E0");
+extern u8 *inv6BA0 asm("gUnk_030034E0");
+extern u16 dir6BA0[] asm("gUnk_0847AD0A");
+extern s16 sin6BA0[] asm("gUnk_080B9704");
+extern s16 off6BA0[][2] asm("gUnk_084EBEBC");
+extern void init6BA0(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern void pos6BA0(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern void draw6BA0(s32, s32, u16, u16, u8, void *, void *, u32) asm("sub_08007870");
+extern void *tmpl6BA0(void) asm("sub_0805AD18");
+extern s32 roll6BA0(s32, s32) asm("sub_080223A4");
+extern s32 test6BA0(struct Pos6BA0 *, void *, struct Box6BA0 *, struct Box6BA0 *) asm("sub_08021FE0");
+extern s32 wall6BA0(struct Pos6BA0 *, struct Box6BA0 *) asm("sub_0801F99C");
+extern void hitE6BA0(void *, void *, void *, s32) asm("sub_0801F374");
+extern void hitP6BA0(void *, void *, void *, s32) asm("sub_0801F79C");
+extern void pre6BA0(void *) asm("sub_0801FD64");
+extern s16 atan6BA0(s16, s16) asm("ArcTan2");
+
+static inline s32 move6BA0(s32 v, s32 spd)
+{
+    return v * spd;
+}
+
+void sub_08076BA0(struct Arg6BA0 *arg)
+{
+    struct Spr6BA0 spr;
+    u8 atk[0xC4];
+    s16 dx, dy;
+    struct Pos6BA0 pos;
+    struct Pos6BA0 opos;
+    struct Box6BA0 box;
+    struct Box6BA0 box2;
+    struct Ene6BA0 *e;
+    u32 target;
+    u32 lo;
+    u32 serial;
+    u32 kind;
+    s32 x, y;
+    s32 iter;
+    u32 dirIdx;
+    u16 local;
+    u32 slot;
+    u32 who;
+    s32 power;
+    u32 big;
+    u32 spread;
+    struct Ply6BA0 *p;
+    struct Ply6BA0 *q;
+    struct Ene6BA0 *e2;
+    u32 d;
+    u16 j;
+    u32 cnt;
+    u16 ang;
+    s32 t;
+    s32 hit;
+    s32 ok;
+    u8 c;
+    u8 shade;
+    s32 sx, sy;
+
+    local = sub_080020F4();
+    init6BA0(&spr, 0x5002E, 0, 0x80000000, 0);
+    target = arg->target;
+    who = arg->who;
+    slot = arg->slot;
+    kind = (u16)arg->flags;
+    spread = arg->spread;
+    big = (u32)-(arg->flags & 0x8000) >> 31;
+    if (spread != 0) {
+        spread--;
+        target = 0xFF;
+    }
+    p = &p6BA0[who];
+    x = (p->entity->xRaw >> 4) << 8;
+    y = (u32)(p->entity->yRaw << 20) >> 12;
+    lo = (u32)(((u8 *)p->entity)[0] << 28) >> 28;
+    if (who == local) {
+        serial = (u16)p->serial;
+        memcpy(atk, tmpl6BA0(), 0xC4);
+        if (*(u16 *)(atk + 0xBC) == 0)
+            *(u16 *)(atk + 0xBC) = inv6BA0[*(u16 *)(inv6BA0 + 0x68) * 16 + 0x77];
+        if (kind != 0)
+            power = p->power * 3;
+        else
+            power = p->power;
+    }
+    if (target > 3) {
+        for (j = 0; j <= 4; j++) {
+            if (e6BA0Mask & (1 << j)) {
+                e = &e6BA0Base[j];
+                if (e->state != 11)
+                    if (e->f2 == target)
+                        goto found;
+            }
+        }
+    found:
+        if (j > 4)
+            target = 0xFF;
+    }
+    if (target != 0xFF) {
+        if (target > 3) {
+            dx = (e->x - x) >> 8;
+            dy = (e->y - y) >> 8;
+            ang = (u16)atan6BA0(dx, dy) >> 8;
+            t = ang;
+            if (t > 0x80)
+                ang = t - 0x100;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
+            {
+                s16 sa = ang;
+                if (sa > 0x100)
+                    ang = sa - 0x100;
+            }
+        } else {
+            struct Ent6BA0 *te = p6BA0[target].entity;
+            dx = (te->xRaw >> 4) - (x >> 8);
+            dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
+            ang = (u16)atan6BA0(dx, dy) >> 8;
+            t = ang;
+            if (t > 0x80)
+                ang = t - 0x100;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
+            {
+                s16 sa = ang;
+                if (sa > 0x100)
+                    ang = sa - 0x100;
+            }
+        }
+    } else {
+        ang = dir6BA0[((u8 *)p->entity)[3] >> 4];
+        switch (spread) {
+        case 1:
+            ang += 8;
+            break;
+        case 2:
+            ang -= 8;
+            break;
+        }
+        {
+            s16 sa = ang;
+            if (sa > 0x100)
+                ang = sa - 0x100;
+        }
+        {
+            s16 sa = ang;
+            if (sa < 0)
+                ang = sa + 0x100;
+        }
+    }
+    if (target == 0xFF)
+        target = arg->target;
+    x += move6BA0(sin6BA0[(s16)ang + 0x40] * 2, 5);
+    y += move6BA0(sin6BA0[(s16)ang] * 2, 5);
+    while (p->ready < 2) {
+        if (p->state == 10) {
+            m6BA0[who] &= ~(1 << slot);
+            return;
+        }
+        sub_080003F0();
+    }
+    iter = 10;
+    if (p->state != 13 && !sub_0800CCCC() && !sub_0800CD34())
+        sub_0805865C(0x1D);
+    if (who == local)
+        pre6BA0(&p6BA0[who]);
+    dirIdx = ((u8 *)p->entity2)[3] >> 4;
+    while (iter-- != 0 && !sub_08056E90() && p->state != 11 && p->state != 12 && !sub_0800D11C()) {
+        hit = 0;
+        pos.x = x;
+        pos.y = y;
+        box.w = 8;
+        box.h = 8;
+        if (target <= 3) {
+            box2.w = 0x10;
+            box2.h = 0x10;
+            cnt = sub_08002164();
+            for (j = 0; j < cnt && !sub_0800CDF8(); j++) {
+                if (who == j)
+                    continue;
+                q = &p6BA0[j];
+                if (q->team == p->team)
+                    continue;
+                if ((u32)(((u8 *)q->entity)[0] << 28) >> 28 == 14)
+                    continue;
+                opos.x = (q->entity->xRaw >> 4) << 8;
+                opos.y = (u32)(q->entity->yRaw << 20) >> 12;
+                if (!test6BA0(&pos, &opos, &box, &box2))
+                    continue;
+                ok = 0;
+                if (q->state != 11 && q->hist[who] != serial && !(q->flags & 0x2000))
+                    ok = 1;
+                if (!ok)
+                    continue;
+                if (roll6BA0(power, q->power)) {
+                    if (big) {
+                        atk[0xA9] += 0x18;
+                        sub_08022100(q->id);
+                        p->flags |= 0x200000;
+                    }
+                    if (who == sub_080020F4()) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitP6BA0(p, q, atk, 0);
+                        p->state = s;
+                        p->f26 = f;
+                        q->hist[p->id] = serial;
+                    }
+                    if (big)
+                        p->flags &= ~0x200000;
+                } else if (!(sub_0800086C() & 1)) {
+                    if (who == sub_080020F4()) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitP6BA0(p, q, atk, 1);
+                        p->state = s;
+                        p->f26 = f;
+                        q->hist[p->id] = serial;
+                    }
+                } else if (who == sub_080020F4()) {
+                    sub_080223F4(q->entity->xRaw >> 4, (u32)(q->entity->yRaw << 20) >> 20);
+                    q->hist[p->id] = serial;
+                    if (!sub_0800CCCC() && !sub_0800CD34())
+                        sub_0805865C(0x55);
+                }
+                hit = 1;
+            }
+        } else {
+            for (j = 0; j <= 4 && !hit && !sub_0800CDF8(); j++) {
+                if (!(e6BA0Mask & (1 << j)))
+                    continue;
+                e2 = &e6BA0Base[j];
+                if (e2->team == p->team || e2->team == 0)
+                    continue;
+                box2.w = e2->w;
+                box2.h = e2->h;
+                if (!test6BA0(&pos, &e2->x, &box, &box2))
+                    continue;
+                ok = 0;
+                if (e2->state != 11 && e2->serial != serial && !((e2->hp - e2->dmg) & 0x8000))
+                    ok = e2->hp != e2->dmg;
+                if (!ok)
+                    continue;
+                if (roll6BA0(power, e2->power)) {
+                    if (big) {
+                        atk[0xA9] += 0x18;
+                        sub_08022100(e->id + 4);
+                        p->flags |= 0x200000;
+                    }
+                    if (who == local) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitE6BA0(p, e2, atk, 0);
+                        p->state = s;
+                        p->f26 = f;
+                        e2->owner = who;
+                        e2->hitMask |= 1 << who;
+                    }
+                    if (big)
+                        p->flags &= ~0x200000;
+                } else if (!(sub_0800086C() & 1)) {
+                    u16 s = p->state;
+                    u16 f;
+                    p->state = lo;
+                    f = p->f26;
+                    p->f26 = kind;
+                    hitE6BA0(p, e2, atk, 1);
+                    p->state = s;
+                    p->f26 = f;
+                    e2->owner = local;
+                    e2->hitMask |= 1 << local;
+                } else {
+                    sub_080223F4(e2->x, e2->y);
+                    e2->serial = serial;
+                    if (!sub_0800CCCC() && !sub_0800CD34())
+                        sub_0805865C(0x55);
+                }
+                hit = 1;
+            }
+        }
+        if (who == local && wall6BA0(&pos, &box))
+            hit = 1;
+        if (hit)
+            break;
+        c = sub_0800AE50(x, y, 0);
+        if ((c & 0xF) && !(c & 0x10))
+            break;
+        x += move6BA0(sin6BA0[(s16)ang + 0x40], 5);
+        y += move6BA0(sin6BA0[(s16)ang], 5);
+        if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
+            pos6BA0((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(sx, sy, 0);
+            d = dirIdx;
+            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
+                shade = 0;
+            draw6BA0(dx + off6BA0[(s16)d][0], dy + off6BA0[(s16)d][1], d, 0, shade, spr.palette, spr.data, spr.base);
+        }
+        sub_080003F0();
+    }
+end:
+    m6BA0[who] &= ~(1 << slot);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08076BA0);
+#endif
 struct Task7444 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info7444 { u32 who, i, a, pad, cd, b; };
 extern u32 gMasks7444[] asm("gUnk_030063E0");
