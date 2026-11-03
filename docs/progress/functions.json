@@ -33171,14 +33171,14 @@
       "name": "sub_080B4690",
       "addr": 134956688,
       "size": 1004,
-      "state": "todo",
+      "state": "done",
       "module": "code_080B3648",
       "kind": "c",
       "cat": "game",
       "address": "0x080B4690",
       "canonical_symbol": "sub_080B4690",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_080B4690",
       "name_status": "unidentified",
       "name_source": null,
@@ -33355,7 +33355,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 428,
+          "line": 550,
           "detail": "Existing C definition with an asm alias to the canonical symbol: clearTask60F4"
         }
       ]
@@ -33378,7 +33378,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 469,
+          "line": 591,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B6178_v"
         }
       ]
