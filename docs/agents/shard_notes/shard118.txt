@@ -1,15 +1,14 @@
-shard 118 notes (nov03-w4)
 
-sub_080B44F0 (416 bytes): src draft is 400 bytes (b lands in r7, x tied to the ox param copy).
-  Writing `x = b->x; x += ox; y = b->y; y += oy;` and the player delta as
-  `dx = players[id()].x; dx = (u16)((x - dx) >> 8); dy = ...; dy = (s16)((y - dy) >> 8);` (s32 dx/dy)
-  puts b in r8 and loads px into its own reg like the ROM (424 bytes). Remaining: ROM computes
-  x/y with fresh dests (`adds r6, r1, r0`, ox stays in r1), loads the players base after the first
-  call, and the reload round-robin (r1,r2,r3) is one step off (ours r1,r2). Permuter 2x5 min: nothing.
-sub_080B4690: not attempted (same hit-player tail as sub_080B44F0, big spilled frame).
-
-sub_080B44F0: MATCHED (nov03-w1). Keys: x/y as an 8-byte struct local {s32 x,y} (DImode pair r6:r7),
-  `hit` a plain s32 (spilled pseudo, not volatile), px read inline in the dx expression.
-  The same tail likely applies to sub_080B4690.
-sub_080B4690: MATCHED (nov03-w1). pos and the aim target are 8-byte structs passed by value to
-  sub_08097978 (spilled DImode pseudos at sp+0x58/0x60); t[1]&0xFFF written as (u32)(t[1]<<20)>>20.
+sub_080B3648 (3752 bytes, boss-arena player loop, 3 jump tables): MATCHED (nov03-w3), fresh C.
+  Keys (should transfer to siblings sub_080B4C34, sub_080B280C, sub_080AD534):
+  - The actor global is accessed as `gAct->field` everywhere (no long-lived local pointer: a shared
+    pseudo for `a` shifts the whole reload round-robin); short block-local pointers only where the ROM
+    keeps the value in a low reg (fC switch, lastAnim check, post-loop mask).
+  - `gAct = a0 = (struct Act *)&((struct E2E0 *)gBase)[1];` and `gMask &= ~(1 << (p = gAct)->f0);`
+    put the global's address load before the RHS (ROM order).
+  - Screen pos: `struct { s16 x, y; } pos;` (gives sl=&pos, y via [sl,#2]).
+  - Aim target: 8-byte struct local, passed as two scalar args (tgt.x, tgt.y).
+  - lastAnim u16, animId u16 (fixes the double f68 load and the crossjumped `str r0,[sp,#0x14c]`).
+  - x*20: `{ s32 t = x * 2; v = ((x << 3) + t) * 2; }`.
+  - Duplicated switch arms the ROM keeps separate (dir 0/1/2/3 position cases) must be written twice.
+  Scoring helper: compare with branch targets/pool padding normalized (difflib), size first.
