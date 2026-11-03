@@ -4310,7 +4310,7 @@ restart:
         if (turn > 0x80)
             a = ang - 0x100;
         else if (turn < -0x80)
-            a = ang | 0x100;
+            { a = ang; a |= 0x100; }
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
