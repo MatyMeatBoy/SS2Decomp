@@ -872,10 +872,7 @@ s32 sub_08096594(u8 arg0)
  done:
     return selected;
 }
-#ifdef NONMATCHING
 struct Body99640 {u16 index;u8 pad2[10];u16 state;u8 padE[6];s32 x,y;u8 pad1C[0x212];u8 radiusX,radiusY;u8 tail[0xB0];};
-/* Layout-only padding matches unused stack slots in the original frame. */
-struct Frame99640 {u8 reserved[0x1C];u32 index,rx,ry;s32 x,y;};
 extern struct Body99640 *bodies99640 asm("gUnk_030056F4");
 extern u32 active99640 asm("gUnk_030056FC");
 extern s16 sine99640[] asm("gUnk_080B9704");
@@ -886,105 +883,56 @@ extern u32 sqrt99640(s32) asm("Sqrt");
 extern u16 angle99640(s32,s32) asm("ArcTan2");
 void sub_08096640(struct Body99640 *arg0)
 {
-    volatile struct Frame99640 frame;
-    register struct Body99640 *self asm("r10")=arg0;
-    register struct Body99640 *other asm("r9");
-    s32 rx;
-    register s32 ry asm("r8");
-    s32 dx,dy,absolute;
-    register u32 loopIndex asm("r5");
-    register u32 dxBits asm("r1");
-    register struct Body99640 *entry0 asm("r0")=arg0;
-    register struct Body99640 *low1 asm("r1"), *low3 asm("r3"), *low5 asm("r5");
-    register u32 tmp0 asm("r0"),tmp1 asm("r1"),tmp2 asm("r2"),tmp3 asm("r3"),tmp5 asm("r5");
-    register u32 distance asm("r4");
-    u32 rawAngle;
-    register s16 *trig asm("r4");
-    register u32 angle asm("r2"),newAngle asm("r1");
+    struct Body99640 *self = arg0;
+    struct Body99640 *other;
+    u16 i;
+    u32 baseRx, baseRy;
+    s32 x, y;
+    s32 rx, ry;
+    s16 dx, dy;
+    u16 dist;
+    u16 ang;
     u16 hit;
-    register s32 outX asm("r3"),outY asm("r2");
-    /* Empty constraints preserve register lifetimes without algorithm ASM. */
-    asm("" : : "r"(self));
-    frame.x=entry0->x;
-    low1=self;
-    tmp1=low1->y; frame.y=tmp1;
-    frame.rx=self->radiusX;
-    frame.ry=self->radiusY;
-    other=bodies99640;
-    tmp2=0;
-    frame.index=tmp2;
-    do {
-        loopIndex=frame.index;
-        low3=self;
-        tmp3=low3->index;
-        if(loopIndex!=tmp3 && (active99640 & (1<<loopIndex)) && (tmp0=(low5=self)->state)!=11) {
-            tmp0=other->radiusX; tmp1=frame.rx; rx=tmp1+tmp0;
-            tmp0=other->radiusY; tmp2=frame.ry; tmp2=tmp2+tmp0; ry=tmp2;
-            low3=other;
-            dxBits=low3->x;
-            tmp5=frame.x;
-            dxBits=(u32)(tmp5-dxBits)<<8;
-            tmp0=low3->y; tmp2=frame.y; tmp0=(tmp2-tmp0)<<8; tmp2=tmp0>>16;
-            dx=(s32)dxBits>>16;
-            absolute=dx;
-            if(absolute<0) absolute=-absolute;
-            if((absolute>>3)<=0) {
-                tmp0=tmp2<<16;
-                dy=(s32)tmp0>>16;
-                absolute=dy;
-                if(absolute<0) absolute=-absolute;
-                if(absolute<=0) {
-                    distance=sqrt99640(dx*dx+dy*dy);
-                    asm("" : "+r"(distance));
-                    distance=(u16)distance;
-                    rawAngle=(u32)(angle99640(dx,dy)<<16)>>24;
-                    angle=(u16)rawAngle;
-                    rx=(u16)(rx-distance);
-                    tmp3=ry;
-                    distance=tmp3-distance;
-                    distance=(u16)distance;
-                    ry=distance;
-                    trig=sine99640;
-                    tmp1=angle+64;
-                    tmp1<<=1; tmp1+=(u32)trig;
+    s32 nx, ny;
+    u8 pad[0x1C];
 
-                    tmp1=(s32)*(s16 *)tmp1; asm("" : : "r"(tmp3)); tmp1*=rx;
-                    tmp5=frame.x; outX=tmp5+tmp1;
-                    angle<<=1; angle+=(u32)trig;
-
-                    tmp1=(s32)*(s16 *)angle;
-                    tmp2=ry; tmp2*=tmp1; tmp1=tmp2;
-                    tmp5=frame.y; outY=tmp5+tmp1;
-                    hit=query99640(directions99640[(rawAngle<<16)>>20],outX,outY,0);
-                    if(hit) {
-                        tmp0=((u32)hit-1)<<16;
-                        tmp1=(u32)angles99640; tmp0>>=15; tmp0+=tmp1;
-                        newAngle=(u16)(*(u16 *)tmp0*16);
-                        tmp0=newAngle+64;
-                        tmp0<<=1; tmp0+=(u32)trig;
-
-                        tmp0=(s32)*(s16 *)tmp0; asm("" : : "r"(tmp3), "r"(tmp5)); tmp0*=rx;
-                        tmp5=frame.x; outX=tmp5+tmp0;
-                        newAngle<<=1; newAngle+=(u32)trig;
-
-                        tmp0=(s32)*(s16 *)newAngle; asm("" : : "r"(tmp5));
-                        tmp5=ry;  tmp5*=tmp0; asm("" : : "r"(tmp5)); tmp0=tmp5; asm("" : "+r"(tmp0));
-                        tmp1=frame.y; outY=tmp1+tmp0;
-                        low5=self;
-                        low5->x=outX;
-                        low5->y=outY;
-                    }
-                }
-            }
+    x = self->x;
+    y = self->y;
+    baseRx = self->radiusX;
+    baseRy = self->radiusY;
+    other = bodies99640;
+    for (i = 0; i <= 4; i++, other++) {
+        if (i == self->index)
+            continue;
+        if (!(active99640 & (1 << i)))
+            continue;
+        if (self->state == 11)
+            continue;
+        rx = baseRx + other->radiusX;
+        ry = baseRy + other->radiusY;
+        dx = (s32)((x - other->x) << 8) >> 16;
+        dy = (u32)((y - other->y) << 8) >> 16;
+        if (((dx < 0 ? -dx : dx) >> 3) > 0)
+            continue;
+        if ((dy < 0 ? -dy : dy) > 0)
+            continue;
+        dist = sqrt99640(dx * dx + dy * dy);
+        ang = (u32)(angle99640(dx, dy) << 16) >> 24;
+        rx = (u16)(rx - dist);
+        ry = (u16)(ry - dist);
+        nx = x + sine99640[ang + 64] * rx;
+        ny = y + sine99640[ang] * ry;
+        hit = query99640(directions99640[ang >> 4], nx, ny, 0);
+        if (hit) {
+            hit--;
+            ang = angles99640[hit] << 4;
+            nx = x + sine99640[ang + 64] * rx;
+            ny = y + sine99640[ang] * ry;
+            self->x = nx;
+            self->y = ny;
         }
-        frame.index=(u16)(frame.index+1);
-        tmp0=0x2E0; asm("" : : "r"(tmp0)); other=(struct Body99640 *)((u8 *)other+tmp0);
-        tmp1=frame.index;
-    } while(tmp1<=4);
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_08096640);
-#endif
 extern u16 shakeScale99 asm("gUnk_0300029C");
 struct ShakeView99 { u8 pad[0x18]; u16 vertical; };
 extern struct ShakeView99 *shakeView99 asm("gUnk_030034E0");
