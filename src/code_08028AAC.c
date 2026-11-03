@@ -231,7 +231,161 @@ void sub_0802939C_v(u32 target, u16 val)
         p->f22 = 5;
     }
 }
+#ifdef NONMATCHING
+struct Vec02949C { s32 x, y; };
+struct ActorPos02949C { u32 id; u8 p4[4]; struct Vec02949C pos; u8 p10[0x14]; s16 dir; u16 goal; u8 p28[0x48]; };
+struct State02949C { u8 p0[0x7A4]; struct ActorPos02949C actors[15]; };
+struct EnemyPos02949C { u8 p0[8]; s16 dir; u16 goal; u8 pC[8]; struct Vec02949C pos; u8 p1C[0x2C4]; };
+struct PlayerPos02949C { u8 p0[0x1C]; s16 dir; u16 goal; u8 p20[0x6C]; struct Vec02949C pos; u8 p94[0xB8]; };
+extern struct State02949C *state02949C asm("gUnk_03005CF4");
+extern struct EnemyPos02949C *enemies02949C asm("gUnk_030056F4");
+extern struct PlayerPos02949C players02949C[] asm("gUnk_03003CE0");
+extern u8 dirTable02949C[] asm("gUnk_084790B4");
+extern void face02949C(u32, s32) asm("sub_080290E4");
+static inline void wait02949C(u16 n)
+{
+    while (n) {
+        sub_080003F0();
+        if (sub_080021A8())
+            break;
+        n--;
+    }
+}
+static inline struct ActorPos02949C *find02949C(u32 id)
+{
+    struct ActorPos02949C *p = state02949C->actors;
+    u32 i;
+
+    i = 0;
+    do {
+        if (p->id == id)
+            return p;
+        i++;
+        p++;
+    } while (i <= 14);
+    sub_080003F0();
+    return NULL;
+}
+/* Turn `who` step by step until it faces `toward` (actor id, enemy 1..5 or
+ * local player 0 for both). */
+void sub_0802949C_v(u32 who, u32 toward) asm("sub_0802949C");
+void sub_0802949C_v(u32 who, u32 toward)
+{
+    struct ActorPos02949C *a;
+    struct EnemyPos02949C *e;
+    struct PlayerPos02949C *p;
+    struct Vec02949C from, to;
+    u8 want;
+    s16 step, cur;
+
+    if (who > 0x100000) {
+        a = find02949C(who);
+        if (a == NULL)
+            return;
+        from = a->pos;
+    } else if (who != 0) {
+        who--;
+        if (who > 4)
+            return;
+        e = &enemies02949C[who];
+        from = e->pos;
+        who++;
+    } else {
+        p = &players02949C[sub_080020F4()];
+        from = p->pos;
+    }
+    if (toward > 0x100000) {
+        struct ActorPos02949C *t = find02949C(toward);
+        if (t == NULL)
+            return;
+        to = t->pos;
+    } else if (toward != 0) {
+        struct EnemyPos02949C *t;
+        toward--;
+        if (toward > 4)
+            return;
+        t = &enemies02949C[toward];
+        to = t->pos;
+    } else {
+        struct PlayerPos02949C *t = &players02949C[sub_080020F4()];
+        to = t->pos;
+    }
+    if (who > 0x100000)
+        a->goal = a->dir;
+    else if (who != 0)
+        e->goal = e->dir;
+    else
+        p->goal = p->dir;
+    want = dirTable02949C[((u32)(ArcTan2((to.x - from.x) >> 8, (to.y - from.y) >> 8) << 16) + 0x08000000) >> 28];
+    {
+        u16 now;
+
+        if (who > 0x100000)
+            now = a->dir;
+        else if (who != 0)
+            now = e->dir;
+        else
+            now = p->dir;
+        cur = now - want;
+    }
+    {
+        s32 d = cur;
+
+        if (d >= 0) {
+            step = 1;
+            if (d <= 4)
+                step = -1;
+        } else {
+            d = -d;
+            step = -1;
+            if (d <= 4)
+                step = 1;
+        }
+    }
+    if (who > 0x100000) {
+        cur = a->dir;
+        if (a->dir == want)
+            return;
+        do {
+            face02949C(who, cur);
+            wait02949C(2);
+            cur = cur + step;
+            if (cur > 7)
+                cur = 0;
+            else if (cur < 0)
+                cur = 7;
+        } while (a->dir != want);
+    } else if (who != 0) {
+        cur = e->dir;
+        if (e->dir == want)
+            return;
+        do {
+            face02949C(who, cur);
+            wait02949C(2);
+            cur = cur + step;
+            if (cur > 7)
+                cur = 0;
+            else if (cur < 0)
+                cur = 7;
+        } while (e->dir != want);
+    } else {
+        cur = p->dir;
+        if (p->dir == want)
+            return;
+        do {
+            face02949C(who, cur);
+            wait02949C(2);
+            cur = cur + step;
+            if (cur > 7)
+                cur = 0;
+            else if (cur < 0)
+                cur = 7;
+        } while (p->dir != want);
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802949C);
+#endif
 struct Actor029788 { u32 id; u8 p4[0x20]; s16 dir; u16 goal; u8 p28[0x48]; };
 struct State029788 { u8 p0[0x7A4]; struct Actor029788 actors[15]; };
 struct Enemy029788 { u8 p0[8]; s16 dir; u8 pA[0x2D6]; };
