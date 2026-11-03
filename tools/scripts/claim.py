@@ -222,17 +222,24 @@ def cmd_take(agent, want=None):
 
 def cmd_land():
     b = current_shard()
-    for attempt in range(6):
+    verified = None  # main commit our last successful make compare was based on
+    for attempt in range(12):
         mb = rebase_on_main()
         guard(b, mb)
-        make_compare()
+        base = git("rev-parse", "origin/" + mb)
+        # CI's "progress: update" commits only touch docs/progress; they cannot change the ROM,
+        # so a compare verified on an earlier main stays valid and we just retry the push.
+        moved = git("diff", "--name-only", verified, base).splitlines() if verified else ["?"]
+        if any(not p.startswith("docs/progress/") for p in moved):
+            make_compare()
+        verified = base
         r = subprocess.run(["git", "push", "-q", "origin", "HEAD:refs/heads/" + mb], cwd=ROOT, capture_output=True, text=True)
         if r.returncode == 0:
             git("push", "-q", "--force-with-lease", "origin", "%s:refs/heads/%s" % (b, remote_shard(b)), check=False)
             print("landed on %s" % mb)
             return
         print("main moved, retrying (%d)" % (attempt + 1))
-    sys.exit("could not land after 6 attempts")
+    sys.exit("could not land after 12 attempts")
 
 
 def cmd_pr():
