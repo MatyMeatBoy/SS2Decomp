@@ -12,6 +12,8 @@ usage: claim.py status                   shards with work left, drafts (yellow) 
        claim.py pr                       same checks, but push shard/NNN and open a pull request (gh) instead
        claim.py who FUNC                 which shard owns FUNC and who claimed it (check before touching anything)
        claim.py release [SHARD]          free the shard (delete the remote branch) when done or abandoned
+       claim.py stale [HOURS] [--release] claims idle for HOURS (default 24) and their unlanded commits;
+                                         --release frees those with nothing unlanded (coordinator)
 Run every agent in its own clone or worktree:  git worktree add ../ss2-AGENT origin/MAIN
 """
 import glob
@@ -20,6 +22,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -241,8 +244,31 @@ def cmd_release(s=None):
     print("released %s" % b)
 
 
+def cmd_stale(*args):
+    hours = float(next((x for x in args if not x.startswith("-")), 24))
+    release = "--release" in args
+    own, sh, mb = owners(), shards(), main_branch()
+    git("fetch", "-q", "origin", mb)
+    now = time.time()
+    print("shard  idle_h  unlanded  left  owner")
+    for s in sorted(own):
+        ref = "origin/shard/%03d" % s
+        idle = (now - int(git("log", "-1", "--format=%ct", ref))) / 3600.0
+        if idle < hours:
+            continue
+        # Patch-equivalent commits already on main (rebased lands) are not counted.
+        unlanded = [l for l in git("cherry", "-v", "origin/" + mb, ref).splitlines()
+                    if l.startswith("+") and not re.search(r" claim shard \d+ ", l)]
+        left = sh.get(s, [0])[0]
+        print("%5d  %6.0f  %8d  %4d  %s" % (s, idle, len(unlanded), left, own[s]))
+        if release and not unlanded:
+            git("push", "-q", "origin", "--delete", "shard/%03d" % s, check=False)
+            print("       released")
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
-    if not a or a[0] not in ("status", "take", "land", "pr", "release", "who"):
+    if not a or a[0] not in ("status", "take", "land", "pr", "release", "who", "stale"):
         sys.exit(__doc__)
-    {"status": cmd_status, "take": cmd_take, "land": cmd_land, "pr": cmd_pr, "release": cmd_release, "who": cmd_who}[a[0]](*a[1:])
+    {"status": cmd_status, "take": cmd_take, "land": cmd_land, "pr": cmd_pr, "release": cmd_release, "who": cmd_who,
+     "stale": cmd_stale}[a[0]](*a[1:])
