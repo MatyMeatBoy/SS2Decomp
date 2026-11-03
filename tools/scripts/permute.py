@@ -155,7 +155,7 @@ arm-none-eabi-as -mcpu=arm7tdmi -o "$3" "$T/out.s"
     return []  # Labels are already present in opaque source, including exports.
 
 
-def validate_control(d, cfile):
+def validate_control(d, cfile, allow_diff=False):
     """Compile the unrandomized AST and require the complete normal object."""
     sys.path.insert(0, PERMUTER)
     from src.candidate import Candidate
@@ -194,7 +194,10 @@ def validate_control(d, cfile):
     with open(os.path.join(d, "control.json"), "w") as output:
         json.dump(result, output, indent=2)
     if expected != actual:
-        raise SystemExit("permuter control differs from normal object; no randomization started")
+        if not allow_diff:
+            raise SystemExit("permuter control differs from normal object; no randomization started "
+                             "(--allow-control-diff searches anyway; verify results with apply_permuted.py)")
+        print("warning: permuter control differs from normal object; scores are relative to the control")
     return result
 
 
@@ -235,10 +238,12 @@ def main():
     ap.add_argument("--jobs", type=int, default=1)
     ap.add_argument("--out", default=os.path.join(ROOT, "build/permuter_results"))
     ap.add_argument("--dir")
+    ap.add_argument("--allow-control-diff", action="store_true",
+                    help="search even if the reprinted control does not compile to the normal object")
     args = ap.parse_args()
     d = args.dir or tempfile.mkdtemp(prefix="perm_%s_" % args.func)
     aliases = setup(args.func, args.cfile, d)
-    validate_control(d, args.cfile)
+    validate_control(d, args.cfile, args.allow_control_diff)
     try:
         result = subprocess.run([sys.executable, os.path.join(PERMUTER, "permuter.py"), d, "-j", str(args.jobs),
                                  "--stop-on-zero", "--best-only", "--quiet"], timeout=args.time)
