@@ -19,17 +19,26 @@ extern u16 hit0B44F0(void *, void *) asm("sub_0801ED8C");
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range) asm("sub_080B44F0");
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
 {
-    s32 hit;
+    volatile s32 hit;
     s32 x, y;
     u16 dx;
-    s32 dy;
+    u32 ry;
+    s32 xx, sy;
+    u16 dist;
+    s32 i;
 
     hit = 0;
-    x = ox + b->x;
-    y = oy + b->y;
-    dx = (u32)((x - players0B44F0[sub_080020F4()].x) << 8) >> 16;
-    dy = (s32)((y - players0B44F0[sub_080020F4()].y) << 8) >> 16;
-    if ((u16)Sqrt((s16)dx * (s16)dx + dy * dy) < range && !sub_0800CDF8() && !sub_0800CCCC()
+    x = b->x + ox;
+    y = b->y + oy;
+    {
+        s32 px = players0B44F0[sub_080020F4()].x;
+        dx = (u32)((x - px) << 8) >> 16;
+    }
+    ry = (y - players0B44F0[sub_080020F4()].y) << 8;
+    xx = (s16)dx * (s16)dx;
+    sy = (s32)ry >> 16;
+    dist = Sqrt(xx + sy * sy);
+    if (dist < range && !sub_0800CDF8() && !sub_0800CCCC()
         && !sub_0800CD8C() && b->state != 11
         && !(players0B44F0[sub_080020F4()].flags & 0x2000)
         && players0B44F0[sub_080020F4()].alive != 0
@@ -39,7 +48,8 @@ s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
         && players0B44F0[sub_080020F4()].hitIds[b->index] != b->hitId) {
         players0B44F0[sub_080020F4()].state = 10;
         players0B44F0[sub_080020F4()].fB0 = 0xFFFE;
-        players0B44F0[sub_080020F4()].hp += hit0B44F0(b, &players0B44F0[sub_080020F4()]);
+        i = sub_080020F4();
+        players0B44F0[i].hp += hit0B44F0(b, &players0B44F0[sub_080020F4()]);
         players0B44F0[sub_080020F4()].hitIds[b->index] = b->hitId++;
         hit = 1;
     }
