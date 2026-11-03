@@ -592,9 +592,143 @@ void sub_08031580(void)
     sub_0800D108();
 }
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080316A4);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_0803188C);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080319F0);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08031B54);
+#define MENU_FLAGS_VALUE_31() (sub_0800CE30() ? *(u8 *)(gUnk_03005CF4 + 0x1C5) : *(u8 *)(gUnk_03005CF4 + 0x1B9))
+#define MENU_FLAGS_PTR_31() (sub_0800CE30() ? (u8 *)(gUnk_03005CF4 + 0x1C5) : (u8 *)(gUnk_03005CF4 + 0x1B9))
+void sub_0803188C(void)
+{
+    s32 x, y;
+    struct Player *pl;
+    s32 v;
+    s32 one;
+    u8 *p;
+    s32 mask;
+
+    pl = &gUnk_03003CE0[sub_080020F4()];
+    v = pl->flags;
+    one = 1;
+    pl->flags = v | one;
+    sub_0800D0F4();
+    v = MENU_FLAGS_VALUE_31();
+    if ((v >> 6) & one) {
+        p = MENU_FLAGS_PTR_31();
+        mask = ~0x40;
+        *p = mask & *p;
+        sub_0805C7B8((MENU_FLAGS_VALUE_31() >> 5) & 1);
+    }
+    sub_0800CE40();
+    sub_0801ABE8(6);
+    while (!sub_0801AAE0())
+        sub_080003F0();
+    sub_0800BB54();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_0800CCA8();
+    x = (s16)gUnk_03003170.scrollX;
+    y = (s16)gUnk_03003170.scrollY;
+    sub_08084F9C(5);
+    sub_080003F4(0x11201100);
+    gUnk_03003170.scrollX = x;
+    gUnk_03003170.scrollY = y;
+    sub_0800CCB8();
+    sub_08000420(0x514C8);
+    sub_0800CE54();
+    while (!sub_0801AAE0())
+        sub_080003F0();
+    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    sub_0800D108();
+}
+void sub_080319F0(void)
+{
+    s32 x, y;
+    struct Player *pl;
+    s32 v;
+    s32 one;
+    u8 *p;
+    s32 mask;
+
+    pl = &gUnk_03003CE0[sub_080020F4()];
+    v = pl->flags;
+    one = 1;
+    pl->flags = v | one;
+    sub_0800D0F4();
+    v = MENU_FLAGS_VALUE_31();
+    if ((v >> 6) & one) {
+        p = MENU_FLAGS_PTR_31();
+        mask = ~0x40;
+        *p = mask & *p;
+        sub_0805C7B8((MENU_FLAGS_VALUE_31() >> 5) & 1);
+    }
+    sub_0800CE40();
+    sub_0801ABE8(6);
+    while (!sub_0801AAE0())
+        sub_080003F0();
+    sub_0800BB54();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_0800CCA8();
+    x = (s16)gUnk_03003170.scrollX;
+    y = (s16)gUnk_03003170.scrollY;
+    sub_08084F9C(6);
+    sub_080003F4(0x11201100);
+    gUnk_03003170.scrollX = x;
+    gUnk_03003170.scrollY = y;
+    sub_0800CCB8();
+    sub_08000420(0x514C8);
+    sub_0800CE54();
+    while (!sub_0801AAE0())
+        sub_080003F0();
+    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    sub_0800D108();
+}
+void sub_08031B54(void)
+{
+    s32 x, y;
+    struct Player *pl;
+    s32 v;
+    s32 one;
+    u8 *p;
+    s32 mask;
+
+    pl = &gUnk_03003CE0[sub_080020F4()];
+    v = pl->flags;
+    one = 1;
+    pl->flags = v | one;
+    sub_0800D0F4();
+    v = MENU_FLAGS_VALUE_31();
+    if ((v >> 6) & one) {
+        p = MENU_FLAGS_PTR_31();
+        mask = ~0x40;
+        *p = mask & *p;
+        sub_0805C7B8((MENU_FLAGS_VALUE_31() >> 5) & 1);
+    }
+    sub_0800CE40();
+    sub_0801ABE8(6);
+    while (!sub_0801AAE0())
+        sub_080003F0();
+    sub_0800BB54();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_0800CCA8();
+    x = (s16)gUnk_03003170.scrollX;
+    y = (s16)gUnk_03003170.scrollY;
+    sub_08084F9C(1);
+    sub_080003F4(0x11201100);
+    gUnk_03003170.scrollX = x;
+    gUnk_03003170.scrollY = y;
+    sub_0800CCB8();
+    sub_08000420(0x514C8);
+    sub_0800CE54();
+    while (!sub_0801AAE0())
+        sub_080003F0();
+    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    sub_0800D108();
+}
 extern u8 gS03003170[] asm("gUnk_03003170");
 static inline void Keep31CB8(u8 *b, u32 n)
 {
