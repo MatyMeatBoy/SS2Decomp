@@ -3841,7 +3841,7 @@ restart:
             tp = &gT6fPlayers[target];
         } else {
             for (i = 0; i <= 4; i++) {
-                if ((1 << i) & gT6fEnemyMask) {
+                if (gT6fEnemyMask & (1 << i)) {
                     if (gT6fEnemies[i].uid == target) {
                         te = &gT6fEnemies[i];
                         goto tracked;
@@ -4360,7 +4360,7 @@ found:
         tp = &gT6fPlayers[target];
     } else {
         for (i = 0; i <= 4; i++) {
-            if ((1 << i) & gT6fEnemyMask) {
+            if (gT6fEnemyMask & (1 << i)) {
                 if (gT6fEnemies[i].uid == target) {
                     te = &gT6fEnemies[i];
                     goto tracked;
