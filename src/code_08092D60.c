@@ -534,7 +534,217 @@ void sub_08093584(s8 arg0, u8 arg1)
     sub_08098028();
     sub_0800903C(0, 0, 0, 0, 0, 0);
 }
+#ifdef NONMATCHING
+extern s16 rand3BAC(void) asm("sub_0800086C");
+extern u8 palStep3BAC(void *, u32, u16, s32) asm("sub_08096D40");
+extern u8 palFlash3BAC(void *, s32, u16, s32) asm("sub_08096E20");
+extern void draw3BAC(s16, s16, s32, s32, s32, void *, u32, u32, s32) asm("sub_080087AC");
+extern void draw3BACc(s16, s16, u16, u16, s32, void *, u32, u32) asm("sub_08007870");
+extern s32 anim3BAC(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern u8 gUnk_0300026C;
+extern struct Pos2F58 g3BAC_851C asm("gUnk_0851851C");
+extern struct Pos2F58 g3BAC_854C[] asm("gUnk_0851854C");
+extern struct Pos2F58 g3BAC_857C[] asm("gUnk_0851857C");
+extern struct Pos2F58 g3BAC_85BC[] asm("gUnk_085185BC");
+extern struct Pos2F58 g3BAC_85FC[] asm("gUnk_085185FC");
+
+void sub_08093BAC(s8 arg0, u8 arg1)
+{
+    struct Spr2F58 spr[2];
+    struct Spr2F58 sprC;
+    u8 pal[0x20];
+    s32 alive[4];
+    u16 anim[4];
+    u16 h1[4];
+    u16 h2[4];
+    u8 frame[4];
+    struct Pos2F58 pos;
+    struct Spr2F58 *cur;
+    struct Pos2F58 posA, posB;
+    s32 hits, limit;
+    u16 timer;
+    s16 cnt;
+    s16 wait;
+    s32 flag, flag2;
+    u32 state; s32 palstate;
+    s32 sfx, running;
+    u8 phase;
+    u8 i;
+    u8 idx;
+
+    idx = arg1 - 1;
+    limit = arg0 * 4;
+    spr2F58Init(&spr[0], 0x50027, 7, -1, 1);
+    spr2F58Init(&spr[1], (s8)idx + 0x50027, 7, -1, 1);
+    spr2F58Init(&sprC, 0x5002B, 8, -1, 1);
+    pal2F58Load(pal, spr[1].fC + 0xE0);
+    for (i = 0; i < 4; i++) {
+        anim[i] = h1[i] = h2[i] = frame[i] = 0;
+        alive[i] = 1;
+    }
+    gUnk_0300026C = hits = 0;
+    cnt = 0;
+    palstate = 0;
+    state = 0;
+    sfx = 0;
+    phase = 0;
+    running = 1;
+    flag2 = 1;
+    flag = 2;
+    sub_0801AB50(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_0805865C(0xF4);
+    do {
+        switch ((s8)idx) {
+        case 0: posB.x = 0x7000; posB.y = 0x7000; break;
+        case 1: posB.x = 0x7000; posB.y = 0x6800; break;
+        case 2: posB.x = 0x7800; posB.y = 0x6800; break;
+        case 3: posB.x = 0x7A00; posB.y = 0x6000; break;
+        }
+        posB.y += gUnk_080B9704[phase] << 4;
+        switch (state) {
+        case 0:
+            cur = &spr[0];
+            if ((s8)idx == 3)
+                wait = 0xB4;
+            else
+                wait = 0x3C;
+            move2F58(&g3BAC_851C, 6, 2, 0x12);
+            posA.x = g3BAC_851C.x;
+            posA.y = g3BAC_851C.y;
+            state = 1;
+            break;
+        case 1:
+            cur = &spr[0];
+            if (wait < cnt) {
+                if (pos2F58Get(0, &pos) != 0) {
+                    switch ((s8)idx) {
+                    case 0: move2F58(&g3BAC_854C, 6, 1, 0x14); break;
+                    case 1: move2F58(&g3BAC_857C, 8, 1, 0xE); break;
+                    case 2: move2F58(&g3BAC_85BC, 8, 1, 0xE); break;
+                    case 3: move2F58(&g3BAC_85FC, 8, 1, 0xE); break;
+                    }
+                    flag = 1;
+                    flag2 = 0;
+                    cnt = 0;
+                    state = 2;
+                }
+                posA.x = pos.x;
+                posA.y = pos.y;
+            } else
+                cnt++;
+            break;
+        case 2:
+            cur = &spr[1];
+            if (pos2F58Get(0, &pos) != 0) {
+                palstate = 1;
+                cnt = 0;
+                sfx = 0;
+                state = 3;
+                sub_0805865C(0xF6);
+            }
+            posA.x = pos.x;
+            posA.y = pos.y;
+            break;
+        case 3:
+            if (cnt > 0x78) {
+                if (gUnk_0300026C != 0)
+                    palstate = 3;
+                else
+                    palstate = 0;
+                sub_080944A8();
+                i = 0;
+            loop3:
+                    if (alive[i] != 0) {
+                        h1[i] = h2[i] = 0;
+                        anim[i] = abs((s16)(rand3BAC() % 8));
+                    }
+                    sprC.f24 = 1;
+                    sub_08000AF0(0x11, (void *)(sprC.fC + 0x100), 1);
+                    alive[i] = anim3BAC(&sprC, anim[i], &h1[i], &h2[i], 0);
+                    if (frame[i]++ & 1)
+                        draw3BACc(posB.x >> 8, posB.y >> 8, anim[i], h1[i], 0, sprC.f1C, sprC.f8, sprC.f0);
+                                i++;
+                if (i <= 3) goto loop3;
+                if (sfx == 0) {
+                    sfx = 1;
+                    sub_0805865C(0xF5);
+                }
+                if (alive[0] != 0) {
+                    hits++;
+                    if (limit == hits) {
+                        sub_080586D0(3);
+                        sub_08094490();
+                        cnt = 0;
+                        state = 4;
+                    } else if (!(hits & 3))
+                        sfx = 0;
+                }
+            } else
+                cnt++;
+            switch ((s8)idx) {
+            case 0: posA.x = g3BAC_854C[5].x; posA.y = g3BAC_854C[5].y; break;
+            case 1: posA.x = g3BAC_857C[7].x; posA.y = g3BAC_857C[7].y; break;
+            case 2: posA.x = g3BAC_85BC[7].x; posA.y = g3BAC_85BC[7].y; break;
+            case 3: posA.x = g3BAC_85FC[7].x; posA.y = g3BAC_85FC[7].y; break;
+            }
+            posA.y += gUnk_080B9704[phase] << 4;
+            phase++;
+            break;
+        case 4:
+            if (sub_0809449C() == 2)
+                running = 0;
+            switch ((s8)idx) {
+            case 0: posA.x = g3BAC_854C[5].x; posA.y = g3BAC_854C[5].y; break;
+            case 1: posA.x = g3BAC_857C[7].x; posA.y = g3BAC_857C[7].y; break;
+            case 2: posA.x = g3BAC_85BC[7].x; posA.y = g3BAC_85BC[7].y; break;
+            case 3: posA.x = g3BAC_85FC[7].x; posA.y = g3BAC_85FC[7].y; break;
+            }
+            posA.y += gUnk_080B9704[phase] << 4;
+            phase++;
+            break;
+        }
+        cur->f23 = 0;
+        switch (palstate) {
+        case 0:
+            sub_08000AF0(0x10, (void *)(cur->fC + 0xE0), 1);
+            timer = 0;
+            break;
+        case 1:
+            if (palFlash3BAC(pal, 4, ++timer, 0x10)) {
+                timer = 0;
+                palstate = 2;
+            }
+            sub_08000AF0(0x10, pal, 1);
+            break;
+        case 2:
+            if (palStep3BAC(pal, cur->fC + 0xE0, ++timer, 0x10))
+                palstate = 0;
+            sub_08000AF0(0x10, pal, 1);
+            break;
+        case 3:
+            pal2F58Fade(pal, 6);
+            sub_08000AF0(0x10, pal, 1);
+            pal2F58Fade(pal, -6);
+            break;
+        }
+        draw3BAC(posA.x >> 8, posA.y >> 8, 0, 0, flag, cur->f1C, cur->f8, cur->f0, flag2);
+        sub_080003F0();
+        if (sub_080021A8() == 1)
+            running = 0;
+    } while (running != 0);
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_080944F0();
+    sub_0800CC18();
+    sub_0800CC68();
+    sub_08098028();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
+#endif
 extern s16 rand41B4(void) asm("sub_0800086C");
 extern u8 g41B4_026C asm("gUnk_0300026C");
 extern u8 g41B4_0274 asm("gUnk_03000274");
