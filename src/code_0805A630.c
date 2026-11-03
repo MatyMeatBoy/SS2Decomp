@@ -772,37 +772,40 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
     mode = 0;
     if (kind & 0x20)
         mode = kind;
-    for (a = 0; a <= 20; a++) {
-        px = x + ((a - 10) << 10);
-        for (b = 0; b <= 20; b++) {
-            py = y + ((b - 10) << 10);
-            if ((sub_0800AE50(px, py, mode) & 7) == 0) {
-                u32 k;
-                u8 *f = *(u8 **)&gUnk_03005D58;
-                u8 *res;
-                for (k = 0; k <= 15; k++, f += 0x20) {
-                    if (*(u16 *)(f + 0xA) & 1) {
-                        s32 dx = (px - *(s32 *)f) >> 8;
-                        s32 dy;
-                        if (dx < 0) dx = -dx;
-                        dy = (py - *(s32 *)(f + 4)) >> 8;
-                        if (dy < 0) dy = -dy;
-                        if (dx <= 7 && dy <= 7 && kind == *(u16 *)(f + 8)) {
-                            res = f;
-                            goto done;
+    /* the extra loop level (do/while 0) reproduces the register priorities: kind gets spilled */
+    do {
+        for (a = 0; a <= 20; a++) {
+            px = x + ((a - 10) << 10);
+            for (b = 0; b <= 20; b++) {
+                py = y + ((b - 10) << 10);
+                if ((sub_0800AE50(px, py, mode) & 7) == 0) {
+                    u32 k;
+                    u8 *f = *(u8 **)&gUnk_03005D58;
+                    u8 *res;
+                    for (k = 0; k <= 15; k++, f += 0x20) {
+                        if (*(u16 *)(f + 0xA) & 1) {
+                            s32 dx = (px - *(s32 *)f) >> 8;
+                            s32 dy;
+                            if (dx < 0) dx = -dx;
+                            dy = (py - *(s32 *)(f + 4)) >> 8;
+                            if (dy < 0) dy = -dy;
+                            if (dx <= 7 && dy <= 7 && kind == *(u16 *)(f + 8)) {
+                                res = f;
+                                goto done;
+                            }
                         }
                     }
+                    res = 0;
+                done:
+                    if (res == 0) {
+                        (*(u8 **)&gUnk_03000124)[b * 21 + a] = 1;
+                        continue;
+                    }
                 }
-                res = 0;
-            done:
-                if (res == 0) {
-                    (*(u8 **)&gUnk_03000124)[b * 21 + a] = 1;
-                    continue;
-                }
+                (*(u8 **)&gUnk_03000124)[b * 21 + a] = 0;
             }
-            (*(u8 **)&gUnk_03000124)[b * 21 + a] = 0;
         }
-    }
+    } while (0);
     e = *(u8 **)&gUnk_03005D58;
     for (i = 0; i <= 15; i++, e += 0x20) {
         if (!(*(u16 *)(e + 0xA) & 3)) {
