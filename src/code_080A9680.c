@@ -626,7 +626,11 @@ loop_body112:
                 if (sub_08067C08() == 0) {
 
                 } else {
-                    t112B_gUnk_03000434->f1FD = (u8) t112B_gUnk_03000434->f1FE;
+                    {
+                        register struct T112BActor *state112 asm("r1") = t112B_gUnk_03000434;
+                        asm("" : : "r"(state112));
+                        state112->f1FD = state112->f1FE;
+                    }
                     sub_08067BF8();
                 }
                 break;
@@ -676,7 +680,13 @@ loop_body112:
             case 3:
                 sp90 = 2;
                 t112B_gUnk_03000434->fC = 2U;
-                t112B_gUnk_03000434->f1FC_hi = t112B_sub_08096594(0);
+                {
+                    u32 next112 = t112B_sub_08096594(0);
+                    register u8 *state112 asm("r3") = (u8 *)t112B_gUnk_03000434 + 0x1FC;
+                    asm("" : : "r"(state112));
+                    next112 <<= 4;
+                    *state112 = (*state112 & 0xF) | next112;
+                }
                 selectedPlayer112 = (u8 *)&gUnk_03003CE0[t112B_gUnk_03000434->f1FC_hi];
                 t112B_sub_08095F10(t112B_gUnk_03000434, t112B_gUnk_03000434->f1FC_hi);
                 temp_r1_7 = M2C_FIELD(selectedPlayer112, void **, 0x148);
@@ -736,8 +746,12 @@ loop_body112:
                 break;
             case 6:
                 sp90 = 2;
-                t112B_gUnk_03000434->fC = 2U;
-                t112B_gUnk_03000434->f68 = 0xAU;
+                {
+                    register struct T112BActor *state112 asm("r1") = t112B_gUnk_03000434;
+                    asm("" : : "r"(state112));
+                    state112->fC = 2;
+                    state112->f68 = 0xA;
+                }
                 sp98 = 1;
                 t112B_sub_080AC214(spC4);
                 spC4 = t112B_sub_080AC2E8(spC4);
