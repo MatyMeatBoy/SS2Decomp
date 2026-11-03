@@ -933,29 +933,25 @@ u32 sub_0808E488(u32 arg)
     }
     return 0;
 }
-#ifdef NONMATCHING
 extern void initE530(void*,u32,u32,s32,u32) asm("sub_08065158");
 extern void coordE530(s16,s16,u16*,u16*,s32,s32) asm("sub_0800BC08");
-extern void *drawE530(u16,u16,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
+extern s32 visE530(s32,s32,s32) asm("sub_0800BC44");
+extern void *drawE530(u16,u16,u32,u32,u8,void*,u32,u32) asm("sub_08007870");
 extern void spawnE530(s32,s32,s32,s32,s32) asm("sub_08079888");
-/* returns nothing; the header declares s32, so define it under an alias */
 void sub_0808E530_v(u32 arg) asm("sub_0808E530");
 void sub_0808E530_v(u32 arg)
 {
     u8 sprite[0x34];
     u16 outX, outY;
     u32 frame;
-    u32 mode;
-    s32 x, y, height, velocity;
-    s32 fixedX;
-    s32 narrowX;
-    s32 narrowY;
-    u16 *px, *py;
+    struct { s32 x, y; } pos; /* 8-byte struct kept in r4:r5 */
+    s32 height, velocity;
+    u8 *object;
+    s32 vis;
 
     if (sub_0800CCCC() == 0) {
         initE530(sprite, 0x500F1, 0, -1, 0);
-        mode = arg >> 16;
-        switch (mode & 0xFF) {
+        switch ((arg >> 16) & 0xFF) {
         case 0:
             frame = 14;
             break;
@@ -963,41 +959,32 @@ void sub_0808E530_v(u32 arg)
             frame = 15;
             break;
         }
-        x = (arg & 0xFFFF) << 8;
-        y = 0x5000;
+        pos.x = (arg & 0xFFFF) << 8;
+        pos.y = 0x5000;
         height = 0x5000;
         velocity = 0;
         sub_080020F4();
-        fixedX = x >> 8;
-        px = &outX;
-        narrowX = fixedX << 16;
-        narrowY = (y >> 8) << 16;
-        py = &outY;
-        loop:
+        while (1) {
             height += velocity;
             velocity -= 32;
             if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0 && sub_0800CD8C() == 0) {
-                u8 visible;
-                u8 *object;
-                coordE530(narrowX >> 16, narrowY >> 16, px, py, 48, 0);
-                visible = sub_0800BC44(fixedX, 80, 0);
-                object = drawE530(*px, *py, 0, frame, visible, sprite + 0x1C, M2C_FIELD(sprite, u32 *, 8), M2C_FIELD(sprite, u32 *, 0));
-                M2C_FIELD(object, s32 *, 0xC) -= height >> 8;
+                coordE530(pos.x >> 8, pos.y >> 8, &outX, &outY, 48, 0);
+                vis = visE530(pos.x >> 8, pos.y >> 8, 0);
+                object = drawE530(outX, outY, 0, frame, vis, sprite + 0x1C, *(u32 *)(sprite + 8), *(u32 *)sprite);
+                *(s32 *)(object + 0xC) -= height >> 8;
             }
             sub_080003F0();
-            if (sub_08056E90() == 0 && height > 0)
-                goto loop;
+            if (sub_08056E90() != 0 || height <= 0)
+                break;
+        }
         if (sub_08056E90() == 0) {
-            if ((mode & 0xFF) != 0)
-                spawnE530(4, x, y, 5, 0);
+            if (((arg >> 16) & 0xFF) != 0)
+                spawnE530(4, pos.x, pos.y, 5, 0);
             else
-                spawnE530(4, x, y, 4, 0);
+                spawnE530(4, pos.x, pos.y, 4, 0);
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808E530);
-#endif
 extern u32 tableE66C[] asm("gUnk_085060D4");
 extern void taskE94C(void) asm("sub_0808E94C");
 extern void taskE970(void) asm("sub_0808E970");

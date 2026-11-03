@@ -6,6 +6,6 @@ sub_0808F1E4: draft added, 1216/1220. Spill slots match with locals declared
   zero stores at init, `hitOff - 1` form ((x<<16)+0xFFFF0000>>16 in ROM), the
   `& 0x8000` constant copy, operand order of the *20 multiply.
 
-sub_0808E530: (nov03-w4) loop must be a real loop (while(1) with break) so loop.c
-  hoists x>>8 etc.; ROM keeps y=0x5000 in r5 (not rematerialized) and vel in sl;
-  decl order / init chains did not change allocation. Existing draft 310/314.
+sub_0808E530: MATCHED (nov03-w1). Key: x,y were an 8-byte struct local {s32 x,y} (DImode
+  pseudo in r4:r5, so y is not const-propagated); switch and final test both use (arg>>16)&0xFF
+  (gcse CSE gives the spilled copy); vis result in an s32 local passed to a u8 param.
