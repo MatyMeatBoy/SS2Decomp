@@ -1,15 +1,15 @@
-shard 76 notes (nov03-w1)
 
-sub_0807386C: matched (reuse slot index i as kind-6 buff loop counter; read
-  flags[who] directly; load args[who] via `u8 **q = &args[who]` before i*0x18).
-sub_0807356C: draft same size, ~14 normalized lines left.
-  - ROM bit-5 test is `ldrb; lsls #26; blt`: `(s32)(pos->f4 << 26) >= 0` gives it,
-    but then the loop's player pointer p lands in r1 instead of r3 (`!(f4 & 0x20)`
-    keeps p in r3 but uses ands). Bitfields (packed or not) all produce ands.
-  - else-branch: `found` lives in r8 (set before the buff loop); ROM folds it to
-    `movs r0,#0; cmp r0,#0`. The self branch folds correctly. Tried u8/u32/s32,
-    for vs while outer loop, ordering; permuter 5 min: nothing.
-sub_08073CF4: only reload-register choice for spilled fx/fy/anim/selected differs
+nov03-w3:
+sub_08073CF4: MATCHED. The fx/fy "spills" were loop-invariant hoists of (s16)wx/(s16)wy
+  passed to sub_0800BC08 (no fx/fy variables at all).
+sub_0807356C: now 14 lines (no register asm): a single function-level `u8 found` set to 0
+  once (REG_EQUIV const -> rematerialized `movs rX,#0; cmp rX,#0` in both branches).
+  Left: in the first loop p=&players[i] lands in r1 (ROM r3). Permuter 3 min: nothing.
+sub_08073EE8 / sub_0807414C: `e = &enemies[nearest]; return e->f2;` fixes the enemy return
+  (ROM uses a pointer reg). Remaining diffs are reload-register rotation only
+  ([sp] spill reloads r1/r2 vs r2/r3). A fresh version without inline helpers puts
+  the table load after the index; the inline-helper shape is required.
+gister choice for spilled fx/fy/anim/selected differs
   (ROM r0,r1 for the fx/fy init, ours r2,r3; round-robin spill reg shift by one).
   Permuter 5 min, decl orders, init forms: no change.
 sub_08073EE8 / sub_0807414C: inline must take `u32 a` (draft truncates
