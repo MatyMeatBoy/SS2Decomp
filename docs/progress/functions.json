@@ -25550,14 +25550,14 @@
       "name": "sub_08089204",
       "addr": 134779396,
       "size": 384,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08087CC0",
       "kind": "c",
       "cat": "game",
       "address": "0x08089204",
       "canonical_symbol": "sub_08089204",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08089204",
       "name_status": "unidentified",
       "name_source": null,
@@ -25567,14 +25567,14 @@
       "name": "sub_08089384",
       "addr": 134779780,
       "size": 380,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08087CC0",
       "kind": "c",
       "cat": "game",
       "address": "0x08089384",
       "canonical_symbol": "sub_08089384",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08089384",
       "name_status": "unidentified",
       "name_source": null,
@@ -25887,7 +25887,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 2480,
+          "line": 2467,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808AFE8_v"
         }
       ]
@@ -25927,7 +25927,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3444,
+          "line": 3431,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C020_v"
         }
       ]
@@ -25950,7 +25950,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3482,
+          "line": 3469,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C0C4_v"
         }
       ]
