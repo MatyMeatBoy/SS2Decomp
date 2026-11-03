@@ -7,10 +7,8 @@ sub_0802949C: draft 744/748 bytes, only `lsrs r4,r0,#16; lsls r0,r4,#16` missing
   sign-extending it). Tried u16 cur (breaks loop regs), separate u16 temp,
   (s16)(u16) casts, inline step helper: combine always folds it.
   `want = idx; want = table[want];` was the fix for want in r7.
-sub_080283C4: ROM strength-reduces the u16 return `(u16)i` into a giv
-  (r4 = i<<16, -0x10000 per iteration) in both loops; draft recomputes
-  lsl/lsr at return and spills `sub` to the stack. Return/loop type variants and
-  5 min permuter did not help.
+sub_080283C4: matched (nov03-w4): the giv was the return value i + 4 (ids 4..6),
+  not i; the draft returned the wrong value.
 sub_08028AAC: needs `step = 0x400 / frames;` hoisted right after `t = 0;`
   (ROM computes __divsi3 before the target stores); remaining diff is mostly
   register allocation of the u16 params (ROM reuses x/frames regs for sx/sy).
