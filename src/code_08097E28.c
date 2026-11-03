@@ -2782,16 +2782,19 @@ extern u16 sqrtD374(s32) asm("Sqrt");
 extern u16 atanD374(s16,s16) asm("ArcTan2");
 extern u16 hitD374(void *,void *) asm("sub_0801ED8C");
 s32 sub_0809D374(struct ObjectD374 *o) {
-    u32 x = (u32)(o->x << 8) >> 16;
-    u32 y = (u32)(o->y << 8) >> 16;
-    u32 px = playersD374[sub_080020F4()].pos->x >> 4;
-    u32 py = ((u32)playersD374[sub_080020F4()].pos->y << 20) >> 20;
-    s16 dx,dy;
-    s32 ret = 0;
+    u16 x = (u32)(o->x << 8) >> 16;
+    u16 y = (u32)(o->y << 8) >> 16;
+    struct PlayerD374 *pl = playersD374;
+    u32 px = pl[sub_080020F4()].pos->x >> 4;
+    u32 py = ((u32)pl[sub_080020F4()].pos->y << 20) >> 20;
+    s16 dx, dy;
+    s32 ret;
     u32 angle, direction, rem;
     px -= (s16)x;
-    dy = py - (s16)y;
+    py -= (s16)y;
     dx = px;
+    dy = py;
+    ret = 0;
     if (sqrtD374(dx * dx + dy * dy) <= 47) {
         angle = atanD374(dx,dy);
         rem = angle << 19;

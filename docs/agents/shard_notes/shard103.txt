@@ -1,0 +1,12 @@
+Shard 103 notes (nov03-w2, 2026-11-03)
+
+sub_0809D374: draft improved (decomp.py 115 -> 83 diff lines; real remaining diff is small). `px -= (s16)x;
+  py -= (s16)y; dx = px; dy = py;` keeps the original sign-extensions; loading `pl = playersD374` into a local
+  before the first sub_080020F4() call reproduces the early `ldr r0,=gUnk_03003CE0; mov r8,r0`.
+  Remaining: original adds 0x148 into the base register in place (`subs r1,#4; add r8,r1; add r0,r8`, base+0x148
+  CSE'd for both pos loads); ours keeps the base in sl and 0x148 in r8 (extra push of sl, 8 bytes larger).
+  Tried u8*/u32 base arithmetic in every association, &pl->pos tail struct, ptr arithmetic, (u8) index,
+  symbol directly (then the base load moves after the call and gets spilled).
+sub_0809C4E8: draft diff 341. Original references players[n].y and players[n].pos through separate literal
+  symbols (gUnk_03003D70, gUnk_03003E28, gUnk_03003EBC, gUnk_03003F74, gUnk_03004008, gUnk_030040C0,
+  gUnk_03004154, gUnk_0300420C) while .x is r9(=gUnk_03003CE0)+offset. Not worked on further.
