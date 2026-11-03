@@ -31377,14 +31377,14 @@
       "name": "sub_080A230C",
       "addr": 134882060,
       "size": 908,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x080A230C",
       "canonical_symbol": "sub_080A230C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080A230C",
       "name_status": "unidentified",
       "name_source": null,
@@ -31476,7 +31476,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 2999,
+          "line": 2995,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
