@@ -200,6 +200,9 @@ void sub_080934D4(void)
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
 #ifdef NONMATCHING
+extern s16 rand41B4(void) asm("sub_0800086C");
+extern u8 g41B4_026C asm("gUnk_0300026C");
+extern u8 g41B4_0274 asm("gUnk_03000274");
 extern s16 sin41B4[] asm("gUnk_080B9704");
 static inline s16 abs41B4(s16 v) { if (v < 0) v = -v; return v; }
 s32 sub_080941B4(void)
