@@ -1,7 +1,7 @@
 {
   "address": "0x08014170",
-  "updated_utc": "2026-11-03T13:21:43Z",
-  "checkpoint": "nov03-w5 shard 12: NONMATCHING draft rewritten without asm barriers; spill-slot order of the nine loop-hoisted addresses now matches.",
+  "updated_utc": "2026-11-03T13:39:01Z",
+  "checkpoint": "nov03-w5 shard 12: clamp rewritten as if (i > j) { i = j; if (i > f26) i = 0; } else if (i > f26) i = 0; per arm; candidate length now equals the original (1221 insns).",
   "areas": [
     {
       "id": "flow",
@@ -19,7 +19,7 @@
       "id": "layout",
       "label": "Frame, spill slots and registers",
       "state": "active",
-      "evidence": "Frame and every stack slot match, including the nine hoisted invariants at 0xD8-0xF8. Key finding: their slot order follows GCSE PRE reaching-reg creation, i.e. expression hash-table bucket order (hash % N, N = max_cuid/2+1). The original needs N=579 (or 605); the draft now reaches N=579 naturally (dropped the redundant third f26 clamp; check with agbcc -dG, 'Expression hash table (579 buckets'). The 'changed' flag is the same variable as loop index i (gives r5 like the original), the level result/clamp use i and j, mx3 is computed as max = stats[0x28]; max += f79. Inline level helper is plain C (no asm). Remaining: bar n/bound register swap (r3/r2), bar-3 stats+0xA0 register, ldrb+lsl/asr of f6C (draft gives ldrsb), cross-jumped f26 clamp tails in the state 3-4 branch. Normalized diff ~266 lines (was ~1180)."
+      "evidence": "Frame and every stack slot match. The nine loop-hoisted addresses get slots in GCSE PRE reaching-reg order = expression hash-bucket order (hash % N, N = max_cuid/2+1, see agbcc -dG 'Expression hash table (N buckets'); the original needs N=579 or 605. The current draft has N=585 (normalized diff ~216 lines); padding it to N=605 with 40 empty asm statements gives ~152 lines and the exact original slot order, so the real source has ~12 fewer (or ~40 more) RTL insns at GCSE time. The previous form (if (i > j) i = j; if (i > f26) i = 0;) reaches N=579 but cross-jumps worse (~266). 'changed' is the loop index i (r5); the level result/clamp use i and j. Remaining: bar n/bound register swap (r3/r2), bar-3 C6 store reload, ldrb+lsl/asr of f6C (draft gives ldrsb), i = j placed after (orig: before) the f26 reload in the clamp."
     },
     {
       "id": "match",

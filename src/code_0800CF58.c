@@ -6304,20 +6304,6 @@ extern u16 gPal14170[] asm("gUnk_03001F40");
 extern u16 gBg14170[] asm("gUnk_03005740");
 extern u8 *gSave14170 asm("gUnk_030034E0");
 
-static inline s32 level14170(struct Actor14170 *a)
-{
-    s32 i;
-    s8 lvl = a->f6C;
-    for (i = 7; i >= 0; i--) {
-        u16 threshold = lvl * 10 + gUnk_0847ACE8[i];
-        if ((s16)threshold < 0)
-            threshold = 0;
-        if (a->fC2 >= (s16)threshold)
-            return i;
-    }
-    return 0;
-}
-
 void hud14170(struct Actor14170 *arg0) asm("sub_08014170");
 void hud14170(struct Actor14170 *arg0)
 {
@@ -6344,6 +6330,7 @@ void hud14170(struct Actor14170 *arg0)
 
     u16 n;
     u16 i;
+    u16 lim;
     u16 j;
     u32 *stats;
     u32 max;
@@ -6557,12 +6544,28 @@ void hud14170(struct Actor14170 *arg0)
                 t071Coords((arg0->f8C << 8) >> 16, (arg0->f90 << 8) >> 16, &sx, &sy, 0x30, 0);
                 if (arg0->f10 != 9) {
                     i = lv14170();
-                    j = level14170(arg0);
-                    if (i > j) i = j; if (i > arg0->f26) i = 0;
+                    {
+                        s32 li;
+                        s32 ret;
+                        s8 lvl = arg0->f6C;
+                        for (li = 7; li >= 0; li--) {
+                            u16 threshold = lvl * 10 + gUnk_0847ACE8[li];
+                            if ((s16)threshold < 0)
+                                threshold = 0;
+                            if (arg0->fC2 >= (s16)threshold) {
+                                ret = li;
+                                goto found;
+                            }
+                        }
+                        ret = 0;
+                    found:
+                        j = ret;
+                    }
+                    if (i > j) { i = j; if (i > arg0->f26) i = 0; } else if (i > arg0->f26) i = 0;
                 } else {
                     i = lv14170();
                     j = sub_08079FD0(sub_0801DEB8()) - 1;
-                    if (i > j) i = j; if (i > arg0->f26) i = 0;
+                    if (i > j) { i = j; if (i > arg0->f26) i = 0; } else if (i > arg0->f26) i = 0;
                 }
                 if (i != 0) {
                     if (arg0->f26 <= 0xF && arg0->f20 != 5) {
