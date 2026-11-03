@@ -29106,14 +29106,14 @@
       "name": "sub_08096640",
       "addr": 134833728,
       "size": 400,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08095B04",
       "kind": "c",
       "cat": "game",
       "address": "0x08096640",
       "canonical_symbol": "sub_08096640",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08096640",
       "name_status": "unidentified",
       "name_source": null,
@@ -29137,7 +29137,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 994,
+          "line": 942,
           "detail": "Existing C definition with an asm alias to the canonical symbol: shakeRoutine99"
         }
       ]
@@ -29262,7 +29262,7 @@
       "evidence": [
         {
           "source": "src/code_08095B04.c",
-          "line": 1374,
+          "line": 1322,
           "detail": "Existing C definition with an asm alias to the canonical symbol: paletteStep99"
         }
       ]

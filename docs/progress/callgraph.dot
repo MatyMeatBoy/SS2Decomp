@@ -11156,9 +11156,9 @@ digraph calls {
   "sub_08096394" -> "sub_08002164" [label="c"];
   "sub_08096494" -> "sub_08002164" [label="c"];
   "sub_08096594" -> "sub_08002164" [label="c"];
-  "sub_08096640" -> "ArcTan2" [label="asm,c"];
-  "sub_08096640" -> "Sqrt" [label="asm,c"];
-  "sub_08096640" -> "sub_0800B118" [label="asm,c"];
+  "sub_08096640" -> "ArcTan2" [label="c"];
+  "sub_08096640" -> "Sqrt" [label="c"];
+  "sub_08096640" -> "sub_0800B118" [label="c"];
   "sub_080967D0" -> "sub_080003F0" [label="c"];
   "sub_080967D0" -> "sub_0800BB80" [label="c"];
   "sub_080967D0" -> "sub_0800CC98" [label="c"];
