@@ -3758,17 +3758,14 @@ void sub_080B236C(u32 a, u32 b)
     second = b;
     sub_08000274_4(taskArg, first, second, z);
 }
-#ifdef NONMATCHING
+struct Ene0B23C8 { u8 pad0[0x7A]; u16 flags; u8 pad7C[0x264]; };
+extern struct Ene0B23C8 *enemies0B23C8 asm("gUnk_030056F4");
 void sub_080B23C8(void)
 {
-    u8 *base = *(u8 **)0x030056F4;
-    u32 i;
+    u8 i;
     for (i = 1; i <= 4; i++)
-        *(u16 *)(base + i * 0x2E0 + 0x7A) |= 1;
+        enemies0B23C8[i].flags |= 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B23C8);
-#endif
 void sub_080B23FC(void) {
     do {
         gUnk_030007AC = sub_08001494(0x28);
