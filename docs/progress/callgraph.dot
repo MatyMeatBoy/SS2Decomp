@@ -7627,11 +7627,11 @@ digraph calls {
   "sub_0805C4FC" -> "sub_080008C8" [label="c"];
   "sub_0805C4FC" -> "sub_0800CE30" [label="c"];
   "sub_0805C4FC" -> "sub_0805C208" [label="c"];
-  "sub_0805C620" -> "CpuSet" [label="asm,c"];
-  "sub_0805C620" -> "sub_080008C8" [label="asm,c"];
-  "sub_0805C620" -> "sub_08002164" [label="asm,c"];
-  "sub_0805C620" -> "sub_0800CE30" [label="asm,c"];
-  "sub_0805C620" -> "sub_0805C4FC" [label="asm,c"];
+  "sub_0805C620" -> "CpuSet" [label="c"];
+  "sub_0805C620" -> "sub_080008C8" [label="c"];
+  "sub_0805C620" -> "sub_08002164" [label="c"];
+  "sub_0805C620" -> "sub_0800CE30" [label="c"];
+  "sub_0805C620" -> "sub_0805C4FC" [label="c"];
   "sub_0805C7B8" -> "__umodsi3" [label="asm"];
   "sub_0805C7B8" -> "sub_080008C8" [label="asm,c"];
   "sub_0805C7B8" -> "sub_0800CE30" [label="asm,c"];
