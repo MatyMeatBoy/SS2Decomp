@@ -354,7 +354,186 @@ void sub_080934D4(void)
     sub_08098010(2);
     sub_08000940();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
+extern s16 rand3584(void) asm("sub_0800086C");
+extern s32 palStep3584(void *, u32, u16, s32) asm("sub_08096D40");
+int abs(int);
+struct Part3584 { s32 x, y; s16 vx, vy; u16 h1, h2; u8 phase, amp, type; };
+
+void sub_08093584(s8 arg0, u8 arg1)
+{
+    struct Part3584 parts[20];
+    struct Spr2F58 sprA;
+    struct Spr2F58 sprB;
+    u8 pal[0x20];
+    u16 hA, h2;
+    s8 idx;
+    struct Pos2F58 pos;
+    s32 target;
+    u16 timer, timer2;
+    u16 cnt, total;
+    u8 level;
+    s32 flag;
+    u8 n;
+    u8 i;
+    u32 state;
+    s32 r;
+
+    idx = arg1 - 1;
+    n = arg0 * 4;
+    if (n > 20)
+        n = 20;
+    { u16 k = arg0 + 1; total = k; total *= n; }
+    cnt = 0;
+    spr2F58Init(&sprA, idx + 0x50031, 7, -1, 1);
+    sprA.f23 = cnt;
+    spr2F58Init(&sprB, 0x50035, 8, -1, 1);
+    sprB.f24 = 1;
+    switch (idx) {
+    case 0: pos.x = 0x8800; pos.y = 0x12000; target = 0x6800; break;
+    case 1: pos.x = 0x8000; pos.y = 0x12000; target = 0x5A00; break;
+    case 2: pos.x = 0x7800; pos.y = 0x12000; target = 0x5000; break;
+    case 3: pos.x = 0x8000; pos.y = 0x12000; target = 0x5800; break;
+    }
+    level = 0x10;
+    flag = 0;
+    hA = 0;
+    h2 = flag;
+    for (i = 0; i < 20; i++) {
+        parts[i].h2 = 0;
+        parts[i].h1 = 0;
+        parts[i].phase = 0;
+        parts[i].type = abs((s16)(rand3584() % 2)) + 1;
+        parts[i].amp = abs((s16)(rand3584() % 12));
+        if (parts[i].type == 1)
+            parts[i].x = 0;
+        else
+            parts[i].x = 0xF000;
+        parts[i].y = (abs((s16)(rand3584() % 140)) + 16) << 8;
+        parts[i].vx = (abs((s16)(rand3584() % 20)) + 10) << 5;
+        parts[i].vy = abs((s16)(rand3584() % 4)) * 8;
+    }
+    pal2F58Load(pal, sprA.fC + 0xE0);
+    pal2F58Fade(pal, 0x1F);
+    timer = 0;
+    timer2 = 0;
+    state = 5;
+    sub_0801AB50(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    do {
+        switch (state) {
+        case 5:
+            if (timer2++ <= 0x17) {
+                gUnk_03001250[1]--;
+                gUnk_03001250[3]++;
+            }
+            level = 0x10;
+            if (target < pos.y)
+                pos.y -= 0x200;
+            else {
+                timer = 0;
+                state = 4;
+                sub_0805865C(0x19E);
+            }
+            break;
+        case 4:
+            flag = 0;
+            if (palStep3584(pal, sprA.fC + 0xE0, ++timer, 0x78) != 0) {
+                timer = 0;
+                state = 3;
+            }
+            break;
+        case 3:
+            flag = 1;
+            if (timer++ & 3) {
+                timer = 0;
+                if (level != 0)
+                    level--;
+                else {
+                    state = 2;
+                    sub_0805865C(0x19F);
+                }
+            }
+            break;
+        case 2:
+            for (i = 0; i < n; i++) {
+                switch (parts[i].type) {
+                case 1:
+                    if ((parts[i].x >> 8) <= 0x10F)
+                        parts[i].x += parts[i].vx;
+                    else
+                        parts[i].type = 0;
+                    break;
+                case 2:
+                    if ((parts[i].x >> 8) > -0x20)
+                        parts[i].x -= parts[i].vx;
+                    else
+                        parts[i].type = 0;
+                    break;
+                }
+                if ((parts[i].y >> 8) <= 0xBF)
+                    parts[i].y += parts[i].vy;
+                else
+                    parts[i].type = 0;
+                if (parts[i].type == 0) {
+                    cnt++;
+                    parts[i].h2 = 0;
+                    parts[i].h1 = 0;
+                    parts[i].phase = 0;
+                    parts[i].type = abs((s16)(rand3584() % 2)) + 1;
+                    parts[i].amp = abs((s16)(rand3584() % 12));
+                    if (parts[i].type == 1)
+                        parts[i].x = 0;
+                    else
+                        parts[i].x = 0xF000;
+                    parts[i].y = (abs((s16)(rand3584() % 140)) + 16) << 8;
+                    parts[i].vx = (abs((s16)(rand3584() % 20)) + 10) << 5;
+                    parts[i].vy = abs((s16)(rand3584() % 4)) * 8;
+                }
+            }
+            if (cnt >= total) {
+                timer = 0;
+                state = 1;
+            }
+            break;
+        case 1:
+            if (timer++ <= 0x59)
+                state = 0;
+            break;
+        }
+        if (state == 2) {
+            sub_08000AF0(0x11, (void *)(sprB.fC + 0x100), 1);
+            for (i = 0; i < n; i++) {
+                spr2F58Anim(&sprB, 0, &parts[i].h1, &parts[i].h2, 1);
+                if (gUnk_03002344 & 1)
+                    spr2F58DrawA((parts[i].x + gUnk_080B9704[parts[i].phase + 0x40] * parts[i].amp) >> 8,
+                                 (parts[i].y + gUnk_080B9704[parts[i].phase] * parts[i].amp) >> 8,
+                                 0, parts[i].h1, 0, sprB.f1C, sprB.f8, sprB.f0);
+                parts[i].phase += 2;
+            }
+        }
+        if (state > 2) {
+            sub_0800903C(0x10, 0x23, 0, level, 0x10, 0);
+            if (state == 4)
+                sub_08000AF0(0x10, pal, 1);
+            else
+                sub_08000AF0(0x10, (void *)(sprA.fC + 0xE0), 1);
+            spr2F58Anim(&sprA, 0, &hA, &h2, 1);
+            spr2F58DrawB(pos.x >> 8, pos.y >> 8, 0, hA, 1, 0, flag, sprA.f1C, sprA.f8, sprA.f0);
+        }
+        sub_080003F0();
+        if (sub_080021A8() == 1)
+            state = 0;
+    } while (state != 0);
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_080586D0(3);
+    sub_0800CC18();
+    sub_0800CC68();
+    sub_08098028();
+    sub_0800903C(0, 0, 0, 0, 0, 0);
+}
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
 extern s16 rand41B4(void) asm("sub_0800086C");
 extern u8 g41B4_026C asm("gUnk_0300026C");
