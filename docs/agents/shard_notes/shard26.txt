@@ -1,8 +1,11 @@
-sub_08028AAC, sub_08028D98: MATCHED (nov03-w5). Keys: positions as `struct { s32 x, y; }` (start = obj->pos
-  is a DImode pair r5:r6/r6:r7; `e->prev = e->pos` struct copy gives the ldr/ldr/str/str), params declared
-  s32 and copied into NEW locals `x = (u16)ax; ...` (single-set pseudos keep nonzero_bits, so the mark
-  args after `pos = x << 8` are just `lsrs #8`; signed frames -> __divsi3), step = 0x400/frames right after t = 0.
-..6),
+shard 26 notes (nov03-w1)
+
+sub_080289C0: matched (inline the actor lookup with labels: none -> goto find,
+  found: a = p; goto wait; find loop with its own counter).
+sub_0802949C: matched (nov03-w4): `cur = X->dir - want` written per branch (cross-jump
+  merges the tails after combine, keeping the u16->s16 pair), and ArcTan2 args as
+  `s16 dx, dy` locals.
+sub_080283C4: matched (nov03-w4): the giv was the return value i + 4 (ids 4..6),
   not i; the draft returned the wrong value.
 sub_08028AAC: needs `step = 0x400 / frames;` hoisted right after `t = 0;`
   (ROM computes __divsi3 before the target stores); remaining diff is mostly
@@ -20,3 +23,7 @@ sub_08028D98: sibling of sub_08028AAC (relative move, `(s16)dx << 8`); draft
 sub_080284F4: matched (nov03-w4): separate address-taken locals declared in
   frame order (sx, sy, u, v, pos, size, done), `switch` with empty cases 0 and 2,
   `!(u8)((f4 >> 7) & 1)` to keep the constant 1 in a register.
+sub_08028AAC, sub_08028D98: MATCHED (nov03-w5). Keys: positions as `struct { s32 x, y; }` (start = obj->pos
+  is a DImode pair r5:r6/r6:r7; `e->prev = e->pos` struct copy gives the ldr/ldr/str/str), params declared
+  s32 and copied into NEW locals `x = (u16)ax; ...` (single-set pseudos keep nonzero_bits, so the mark
+  args after `pos = x << 8` are just `lsrs #8`; signed frames -> __divsi3), step = 0x400/frames right after t = 0.
