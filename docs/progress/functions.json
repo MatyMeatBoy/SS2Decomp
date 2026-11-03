@@ -30573,14 +30573,14 @@
       "name": "sub_0809D878",
       "addr": 134862968,
       "size": 3056,
-      "state": "todo",
+      "state": "done",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x0809D878",
       "canonical_symbol": "sub_0809D878",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_0809D878",
       "name_status": "unidentified",
       "name_source": null,
@@ -30604,7 +30604,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 33,
+          "line": 439,
           "detail": "Existing C definition with an asm alias to the canonical symbol: taskE468"
         }
       ]
@@ -31392,7 +31392,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 2414,
+          "line": 2820,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
