@@ -6787,7 +6787,6 @@ struct Plr14 {
 };
 extern struct Plr14 players14[] asm("gUnk_03003CE0");
 extern void sub_080760E8();
-#ifdef NONMATCHING
 void sub_08014E68(s32 index)
 {
     struct Plr14 *p = &players14[index];
@@ -6805,19 +6804,18 @@ void sub_08014E68(s32 index)
     while (p->wB6 == 0 && p->info->kind == 5) {
         if (sub_080020F4() == index) {
             u32 dir = 0;
-            u16 keys = p->keys;
-            if (keys & 0x40)
+            if (p->keys & 0x40)
                 dir = 5;
-            else if (keys & 0x80)
+            else if (p->keys & 0x80)
                 dir = 1;
-            if (keys & 0x20) {
+            if (p->keys & 0x20) {
                 if (dir == 5)
                     dir = 4;
                 else if (dir == 1)
                     dir = 2;
                 else
                     dir = 3;
-            } else if (keys & 0x10) {
+            } else if (p->keys & 0x10) {
                 if (dir == 5)
                     dir = 6;
                 else if (dir == 1)
@@ -6849,9 +6847,6 @@ void sub_08014E68(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014E68);
-#endif
 void sub_0801500C(u32 idx)
 {
     u32 mem;

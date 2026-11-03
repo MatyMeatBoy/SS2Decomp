@@ -125,6 +125,7 @@ struct Plr15 {
     struct Info15 *info;
 };
 extern struct Plr15 players15[] asm("gUnk_03003CE0");
+void sub_08077444();
 void sub_0801551C(void)
 {
     s32 index = sub_080020F4();
