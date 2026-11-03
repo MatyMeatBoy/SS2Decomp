@@ -1,6 +1,6 @@
 shard 7 notes (nov03-w4)
 
-sub_0800C9F4: draft 316/316, only the g-channel multiply uses r2 instead of r1.
-  Needed: u16 *dst/src with bitfield casts (the u16 bitfield struct is 4 bytes in
-  agbcc), `n = count * 16` before scale/phase, and an s64 temp for the b product
-  (w = scale * src->b; v = (u32)w >> 10) -- a natural form for that is still open.
+sub_0800C9F4: matched (nov03-w4). u16 *dst/src with bitfield casts (the u16
+  bitfield struct is 4 bytes in agbcc), `n = count * 16` before scale/phase,
+  `count = scale` reused for the g/b products and an s64 temp for the b product
+  (found by permuter).

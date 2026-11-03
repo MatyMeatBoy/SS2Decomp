@@ -1950,7 +1950,6 @@ void sub_0800BD5C(s32 arg) {
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BEC0);
-#ifdef NONMATCHING
 struct Rgb0C9F4 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord0C9F4 { u32 r:5, g:5, b:5, x:1; };
 /* Pulse a palette range: scale each color of a saved copy by a sine
@@ -1968,23 +1967,25 @@ void sub_0800C9F4(u32 range, s32 *done)
 
     while ((copy = sub_08001494(count << 5)) == 0)
         sub_080003F0();
-    CpuSet(((u8 *)&gUnk_03001F40) + start * 32, copy, (count * 8) | 0x04000000);
+    CpuSet((u8 *)&gUnk_03001F40 + start * 32, copy, (count * 8) | 0x04000000);
     n = count * 16;
     scale = 100;
     phase = 0;
     while (*done == 0) {
-        dst = (u16 *)(((u8 *)&gUnk_03001F40) + start * 32);
+        dst = (u16 *)((u8 *)&gUnk_03001F40 + start * 32);
         src = copy;
         for (i = 0; i < n; i++, dst++, src++) {
             v = (u32)(scale * ((struct RgbWord0C9F4 *)src)->r) >> 10;
             if (v > 31)
                 v = 31;
+            /* `count` is dead here; reusing it for the scale keeps ROM regalloc */
+            count = scale;
             ((struct Rgb0C9F4 *)dst)->r = v;
-            v = (u32)(scale * ((struct RgbWord0C9F4 *)src)->g) >> 10;
+            v = (u32)(count * ((struct RgbWord0C9F4 *)src)->g) >> 10;
             if (v > 31)
                 v = 31;
             ((struct Rgb0C9F4 *)dst)->g = v;
-            w = scale * ((struct RgbWord0C9F4 *)src)->b;
+            w = count * ((struct RgbWord0C9F4 *)src)->b;
             v = (u32)w >> 10;
             if (v > 31)
                 v = 31;
@@ -1999,9 +2000,6 @@ void sub_0800C9F4(u32 range, s32 *done)
     }
     sub_08001538(copy);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800C9F4);
-#endif
 void sub_0800CB30(void) {
     gUnk_03003478 = 0;
 }
