@@ -1,9 +1,7 @@
-
-nov03-w3:
-sub_08073CF4: MATCHED. The fx/fy "spills" were loop-invariant hoists of (s16)wx/(s16)wy
-  passed to sub_0800BC08 (no fx/fy variables at all).
-sub_0807356C: now 14 lines (no register asm): a single function-level `u8 found` set to 0
-  once (REG_EQUIV const -> rematerialized `movs rX,#0; cmp rX,#0` in both branches).
+  (nov03-w3, later) sub_0807414C: permuter refuses the register-asm draft (control differs); the
+  clean version (no register asm in diffB414C) is 45 lines and permuter --allow-control-diff 5 min
+  produced nothing usable (291 lines in the real compile).
+EQUIV const -> rematerialized `movs rX,#0; cmp rX,#0` in both branches).
   Left: in the first loop p=&players[i] lands in r1 (ROM r3). Permuter 3 min: nothing.
 sub_08073EE8 / sub_0807414C: `e = &enemies[nearest]; return e->f2;` fixes the enemy return
   (ROM uses a pointer reg). Remaining diffs are reload-register rotation only
