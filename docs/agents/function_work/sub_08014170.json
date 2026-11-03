@@ -1,7 +1,7 @@
 {
   "address": "0x08014170",
-  "updated_utc": "2026-11-03T13:39:01Z",
-  "checkpoint": "nov03-w5 shard 12: clamp rewritten as if (i > j) { i = j; if (i > f26) i = 0; } else if (i > f26) i = 0; per arm; candidate length now equals the original (1221 insns).",
+  "updated_utc": "2026-11-03T18:00:00Z",
+  "checkpoint": "nov03-w3 shard 12: natural source now reaches GCSE N=579 (exact slot order, no padding); diff 230 lines (was 238).",
   "areas": [
     {
       "id": "flow",
@@ -19,7 +19,7 @@
       "id": "layout",
       "label": "Frame, spill slots and registers",
       "state": "active",
-      "evidence": "Frame and every stack slot match. The nine loop-hoisted addresses get slots in GCSE PRE reaching-reg order = expression hash-bucket order (hash % N, N = max_cuid/2+1, see agbcc -dG 'Expression hash table (N buckets'); the original needs N=579 or 605. The current draft has N=585 (normalized diff ~216 lines); padding it to N=605 with 40 empty asm statements gives ~152 lines and the exact original slot order, so the real source has ~12 fewer (or ~40 more) RTL insns at GCSE time. The previous form (if (i > j) i = j; if (i > f26) i = 0;) reaches N=579 but cross-jumps worse (~266). 'changed' is the loop index i (r5); the level result/clamp use i and j. Remaining: bar n/bound register swap (r3/r2), bar-3 C6 store reload, ldrb+lsl/asr of f6C (draft gives ldrsb), i = j placed after (orig: before) the f26 reload in the clamp."
+      "evidence": "Frame and every stack slot match. Slot order of the nine loop-hoisted addresses follows GCSE expression hash order (N = buckets, agbcc -dG); the source now gives N=579 naturally with the exact original slot order. Changes: level lookup written as s32 b5 = (s8)f6C * 5; then t = tbl[li]; threshold = b5 * 2 + t (reproduces ldrb+lsl/asr, *5 before li=7, table before <<1, and 'adds r0, r6, r0'; same code also fits sub_08015E84 standalone); clamp per arm as if (i > j) { k = f26; i = j; if (i > k) i = 0; } else { k = f26; if (i > k) i = 0; } with later k <= 0xF / k + 6 (load now precedes i = j); 'cur = dmp = fC2' and 'cur = dx3 = fC6' chained assignments (bar-2 v reload almost right). Remaining: n vs bound r3/r2 swap in bars 1-2 (global-alloc priority: n refs 30/live 83 beats the loop copy), li/ptr r4/r3 swap in lookup loop (li pri 0.72 vs ptr 0.69), bar-3 fC6 store reuses address reg, clamp tmp/k register choice (orig: load r0, copy r1 in all four paths), else-draw reuses k instead of reloading f26."
     },
     {
       "id": "match",

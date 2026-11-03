@@ -6331,6 +6331,7 @@ void hud14170(struct Actor14170 *arg0)
     u16 n;
     u16 i;
     u16 lim;
+    u16 k;
     u16 j;
     u32 *stats;
     u32 max;
@@ -6438,9 +6439,8 @@ void hud14170(struct Actor14170 *arg0)
         if (i) {
             if (arg0->fC2 > arg0->f60)
                 arg0->fC2 = arg0->f60;
-            dmp = arg0->fC2;
+            cur = dmp = arg0->fC2;
             mmp = arg0->f60;
-            cur = dmp;
             v = dmp;
             if (cur <= 0)
                 v = 0;
@@ -6499,9 +6499,8 @@ void hud14170(struct Actor14170 *arg0)
         if (i) {
             if (arg0->fC6 > stats[0xA0 / 4] + arg0->f79)
                 arg0->fC6 = stats[0xA0 / 4] + arg0->f79;
-            dx3 = arg0->fC6;
+            cur = dx3 = arg0->fC6;
             max = stats[0xA0 / 4]; max += arg0->f79; mx3 = max;
-            cur = dx3;
             v = dx3;
             if (cur <= 0)
                 v = 0;
@@ -6547,9 +6546,10 @@ void hud14170(struct Actor14170 *arg0)
                     {
                         s32 li;
                         s32 ret;
-                        s8 lvl = arg0->f6C;
+                        s32 b5 = (s8)arg0->f6C * 5;
                         for (li = 7; li >= 0; li--) {
-                            u16 threshold = lvl * 10 + gUnk_0847ACE8[li];
+                            s32 t = gUnk_0847ACE8[li];
+                            u16 threshold = b5 * 2 + t;
                             if ((s16)threshold < 0)
                                 threshold = 0;
                             if (arg0->fC2 >= (s16)threshold) {
@@ -6561,15 +6561,15 @@ void hud14170(struct Actor14170 *arg0)
                     found:
                         j = ret;
                     }
-                    if (i > j) { i = j; if (i > arg0->f26) i = 0; } else if (i > arg0->f26) i = 0;
+                    if (i > j) { k = arg0->f26; i = j; if (i > k) i = 0; } else { k = arg0->f26; if (i > k) i = 0; }
                 } else {
                     i = lv14170();
                     j = sub_08079FD0(sub_0801DEB8()) - 1;
-                    if (i > j) { i = j; if (i > arg0->f26) i = 0; } else if (i > arg0->f26) i = 0;
+                    if (i > j) { k = arg0->f26; i = j; if (i > k) i = 0; } else { k = arg0->f26; if (i > k) i = 0; }
                 }
                 if (i != 0) {
-                    if (arg0->f26 <= 0xF && arg0->f20 != 5) {
-                        anim14170(spr1, arg0->f26 + 6, &tile, &tmp, 1);
+                    if (k <= 0xF && arg0->f20 != 5) {
+                        anim14170(spr1, k + 6, &tile, &tmp, 1);
                         draw14170(spr1, sx, sy - 0x20, arg0->f26 + 6, tile);
                     }
                 } else if (arg0->f20 != 5) {
