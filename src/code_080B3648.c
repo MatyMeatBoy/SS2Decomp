@@ -172,7 +172,102 @@ void sub_080B4BB8(u8 a, u16 arg)
  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080B4690; t->f24 = z; t->f8 = arg + 0x40; sub_08000274_3((u32)t, a, arg); } while (0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
+struct Player0B5B90 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 b68; u8 p69[0x23]; s32 x, y; u8 p94[0x1C]; u16 wB0; u8 pB2[0x16]; u16 knock, dir, speed; u8 pCE[0x16]; u32 hits[4]; u8 pF4[0x14C - 0xF4]; };
+struct Boss0B5B90 { u16 slot; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
+extern struct Player0B5B90 players0B5B90[] asm("gUnk_03003CE0");
+extern struct Boss0B5B90 *boss0B5B90 asm("gUnk_030007DC");
+extern s32 atan0B5B90(s16, s16) asm("ArcTan2");
+/* Damage and knock back the player when it touches the boss. */
+u32 sub_080B5B90(u8 kind)
+{
+    u8 k;
+    u16 dist;
+    u16 dx;
+    u32 dy;
+    u32 rx, ry;
+    s32 sy;
+    s32 xx;
+    u32 ret;
+    u32 dir;
+
+    k = kind;
+    rx = (boss0B5B90->x - players0B5B90[sub_080020F4()].x) << 8;
+    dx = rx >> 16;
+    ry = (boss0B5B90->y - players0B5B90[sub_080020F4()].y) << 8;
+    xx = (s16)dx * (s16)dx;
+    dy = ry >> 16;
+    sy = (s32)ry >> 16;
+    dist = Sqrt(xx + sy * sy);
+    ret = 0;
+    if (dist > 19)
+        goto out;
+    if (boss0B5B90->active == 0 || boss0B5B90->state == 11)
+        goto out;
+    if (sub_0800CDF8() || sub_0800CD8C() || sub_0800CCCC())
+        goto out;
+    if (players0B5B90[sub_080020F4()].flags & 0x2000)
+        goto out;
+    if (players0B5B90[sub_080020F4()].b68 == 0)
+        goto out;
+    if (players0B5B90[sub_080020F4()].state == 14 || players0B5B90[sub_080020F4()].state == 11
+        || players0B5B90[sub_080020F4()].state == 12)
+        goto out;
+    if (sub_0800CE30() == 1) {
+        switch (k) {
+        case 1: sub_08029A7C(0, 200, 4); break;
+        case 2: sub_08029A7C(1, 150, 4); break;
+        case 3: sub_08029A7C(2, 150, 4); break;
+        case 4: sub_08029A7C(0, 200, 4); break;
+        case 5: sub_08029A7C(3, 150, 4); break;
+        case 6: sub_08029A7C(4, 150, 4); break;
+        case 7: sub_08029A7C(6, 150, 4); break;
+        case 0: default: sub_08029A7C(5, 150, 4); break;
+        }
+    } else {
+        switch (kind) {
+        case 0: sub_08029A7C(5, 60, 2); break;
+        case 1: sub_08029A7C(0, 90, 2); break;
+        case 2: sub_08029A7C(1, 60, 2); break;
+        case 3: sub_08029A7C(2, 60, 2); break;
+        case 4: sub_08029A7C(0, 90, 2); break;
+        case 5: sub_08029A7C(3, 60, 2); break;
+        case 6: sub_08029A7C(4, 60, 2); break;
+        case 7: sub_08029A7C(6, 60, 2); break;
+        default: sub_08029A7C(5, 60, 2); break;
+        }
+    }
+    players0B5B90[sub_080020F4()].wB0 = 0xFFFE;
+    players0B5B90[sub_080020F4()].hits[boss0B5B90->slot] = boss0B5B90->hitId++;
+    ret = 0x28;
+    {
+        u32 a = atan0B5B90(dx, dy) << 16;
+        u32 frac;
+        asm("" : "+r"(a));
+        frac = a << 3;
+        dir = a >> 29;
+        if (frac > 0x80000000) {
+            if (dir <= 6)
+                dir++;
+            else
+                dir = 0;
+        }
+    }
+    switch (dir) {
+    case 0:
+        players0B5B90[sub_080020F4()].dir = 6;
+        break;
+    case 1:
+        players0B5B90[sub_080020F4()].dir = 7;
+        break;
+    default:
+        players0B5B90[sub_080020F4()].dir = dir - 2;
+        break;
+    }
+    players0B5B90[sub_080020F4()].speed = 0x400;
+    players0B5B90[sub_080020F4()].knock = 8;
+out:
+    return ret;
+}
 struct Enemy0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x2E]; u16 hp; u8 p4C[8]; u32 hitId; u8 p58[0x24]; u16 knock, dir, speed; u8 p82[0x25E]; };
 struct Boss0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
 extern struct Enemy0B5E64 *enemies0B5E64 asm("gUnk_030056F4");
