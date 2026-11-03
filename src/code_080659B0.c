@@ -985,8 +985,9 @@ restart:
         do {
             *ack = tag;
             sub_080003F0();
-            c = 0xB3;
-            if (gRxLinkState & (1 << peer)) {
+            if (!(gRxLinkState & (1 << peer)))
+                c = 0xB3;
+            else {
                 c = blk[1];
                 wait++;
                 if (wait > 0x3C)
