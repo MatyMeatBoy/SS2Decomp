@@ -1467,27 +1467,23 @@ restart:
             break;
         case 0x26:
             if (d[0] == myId) {
-                struct RxPlayer *pp;
-                u32 *role;
-                pp = &gRxPlayers[myId];
-                pp->fC4 = pp->f62;
-                *(u32 *)(gRxPl30 + myId * 0x14C) &= 0xFFFFDFFF;
-                pp->f68 = 1;
-                if (pp->f20 == 0xB)
-                    pp->f20 = 0;
+                gRxPlayers[myId].fC4 = gRxPlayers[myId].f62;
+                *(u32 *)(&gRxPlayers[myId].f30) &= 0xFFFFDFFF;
+                gRxPlayers[myId].f68 = 1;
+                if (gRxPlayers[myId].f20 == 0xB)
+                    gRxPlayers[myId].f20 = 0;
                 if (gRxQueueCount <= 0x31) {
                     u8 *e;
                     e = gRxQueue + gRxQueueCount * 0x88;
                     *(u32 *)(e + 4) = 1;
                     e[0] = 0x8C;
-                    *(u32 *)(e + 8) = *(u32 *)((u8 *)&gRxPlayers[0].f30 + sub_080020F4() * 0x14C);
+                    *(u32 *)(e + 8) = *(u32 *)(&gRxPlayers[sub_080020F4()].f30);
                     e[1] = 1;
                     gRxQueueCount++;
                 }
                 sub_0806617C();
-                role = &gRxPlayers[myId].fE0;
-                x_sub_08022200(*(u16 *)pp, *role);
-                switch (*role - 1) {
+                x_sub_08022200(*(u16 *)&gRxPlayers[myId], gRxPlayers[myId].fE0);
+                switch (gRxPlayers[myId].fE0 - 1) {
                 case 0: *(u16 *)(gRxProfile + 0x24) += 1; break;
                 case 1: *(u16 *)(gRxProfile + 0x26) += 1; break;
                 case 2: *(u16 *)(gRxProfile + 0x28) += 1; break;
