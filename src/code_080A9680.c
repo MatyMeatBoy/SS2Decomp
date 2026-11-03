@@ -4232,8 +4232,9 @@ void sub_080B2780(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030007C8);
 }
-// sub_080B280C: fresh C draft, exact size (3644 bytes) and block order; remaining diff is register
-// choice (&pal not hoisted to sl, x*20 synthesis, arg order in the case-9 aim call).
+// sub_080B280C: 8 bytes over; everything outside states 9/13/14 matches. Left: in the aim call
+// p = &players[i] ties to the base reg (ROM: to the 0x14C mult reg), which shifts the reload-register
+// rotation (dir/sel/0x148 reloads) in the following cases and breaks one cross-jump (+8 bytes).
 #ifdef NONMATCHING
 struct Res280C { u8 p0[4]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
 struct Actor280C {
@@ -4307,11 +4308,13 @@ void unload280C(void *, s32) asm("sub_0801E4CC");
 u8 shade280C(s32, s32, s32) asm("sub_0800BC44");
 u8 shade2_280C(void) asm("sub_08097FF8");
 
+static inline void aimAt280C(s32 tx, s32 ty) { actor280C->f8 = aim280C(actor280C->f14 >> 8, actor280C->f18 >> 8, tx, ty); }
+
 void sub_080B280C(void)
 {
     struct Spr280C spr[3];
     u16 pal[16];
-    s16 sx, sy;
+    struct { s16 x, y; } sc;
     struct Pos280C pos;
     struct Res280C *res;
     s32 lastHit;
@@ -4321,7 +4324,7 @@ void sub_080B280C(void)
     s32 animMode;
     u16 frame;
     s16 shake;
-    s32 anim2;
+    u16 anim2;
     s32 sel;
     s32 dir;
     u8 done;
@@ -4331,7 +4334,7 @@ void sub_080B280C(void)
     s32 first;
     u8 b;
     s32 h;
-    struct Actor280C *a;
+    struct Actor280C *a, *a1, *a2, *a3, *a4;
     u16 *t;
     struct Player280C *p;
 
@@ -4339,7 +4342,7 @@ void sub_080B280C(void)
     res = &((struct Actor280C *)base280C)->res;
     setup280C(actor280C, image280C, 0);
     sub_0801A0A4(actor280C);
-    { struct Actor280C *q = actor280C; q->f5C = q->f1D6 = res->f6 * 3; q->f5E = q->f1D4 = (res->f4 * 10) << 1; q->f1FD = 1; }
+    { struct Actor280C *q = actor280C; q->f5C = q->f1D6 = res->f6 * 3; { s32 t2 = res->f4 * 2; q->f5E = q->f1D4 = t2 * 10; } q->f1FD = 1; }
     actor280C->f1FE = 1;
     a = actor280C;
     a->fC = 0;
@@ -4350,12 +4353,12 @@ void sub_080B280C(void)
     spr[0].f1C = tile280C;
     spr[1].f1C = tile280C;
     spr[2].f1C = tile280C;
-    a = actor280C;
-    a->f6C = 0;
-    a->f6A = 0;
-    a->f68 = 0;
+    a1 = actor280C;
+    a1->f6C = 0;
+    a1->f6A = 0;
+    a1->f68 = 0;
     lastAnim = 0xFFFF;
-    a->f1FC_lo = a->f0;
+    a1->f1FC_lo = a1->f0;
     actor280C->f202 = actor280C->f2;
     actor280C->f200 = 0xFF;
     flash = 0;
@@ -4465,10 +4468,9 @@ void sub_080B280C(void)
                 flagB280C = 1;
                 if (first == 0) {
                     actor280C->f1FC_hi = pick280C(1);
-                    a = actor280C;
-                    p = &players280C[a->f1FC_hi];
+                    p = &players280C[actor280C->f1FC_hi];
                     t = (u16 *)p->f148;
-                    actor280C->f8 = aim280C(a->f14 >> 8, a->f18 >> 8, t[0] >> 4, (u32)(t[1] << 20) >> 20);
+                    aimAt280C(t[0] >> 4, (u32)(t[1] << 20) >> 20);
                 }
                 wave280C(first, 0);
                 wave280C(first, 1);
@@ -4496,7 +4498,7 @@ void sub_080B280C(void)
                 if (first == 0) {
                     p = &players280C[pick280C(1)];
                     t = (u16 *)p->f148;
-                    actor280C->f8 = aim280C(actor280C->f14 >> 8, actor280C->f18 >> 8, t[0] >> 4, (u32)(t[1] << 20) >> 20);
+                    aimAt280C(t[0] >> 4, (u32)(t[1] << 20) >> 20);
                 }
                 if (frame++ <= 180) {
                     switch (dir) {
@@ -4520,7 +4522,7 @@ void sub_080B280C(void)
                 if (first == 0) {
                     p = &players280C[pick280C(1)];
                     t = (u16 *)p->f148;
-                    actor280C->f8 = aim280C(actor280C->f14 >> 8, actor280C->f18 >> 8, t[0] >> 4, (u32)(t[1] << 20) >> 20);
+                    aimAt280C(t[0] >> 4, (u32)(t[1] << 20) >> 20);
                 }
                 if (sfxTimer == 0) {
                     sfxTimer = 1;
@@ -4548,14 +4550,14 @@ void sub_080B280C(void)
                 }
                 break;
             case 20:
-                a = actor280C;
-                a->fC = 0;
+                a3 = actor280C;
+                a3->fC = 0;
                 flagB280C = 0;
                 flagC280C = 0;
                 if (frame++ > 120) {
                     frame = 0;
                     sfxTimer = 60;
-                    a->f1FE = 4;
+                    a3->f1FE = 4;
                     actor280C->f1FD = 2;
                     sub_08068330(actor280C->f0);
                 }
@@ -4638,24 +4640,23 @@ void sub_080B280C(void)
             b = shade280C(actor280C->f14 >> 8, actor280C->f18 >> 8, 0);
         if (sub_0800CD8C() == 0)
             actor280C->f6E = anim280C(&spr[sel], actor280C->f68, &actor280C->f6A, &actor280C->f6C, animMode);
-        proj280C((s16)(actor280C->f14 >> 8), (s16)(actor280C->f18 >> 8), &sx, &sy, 0, 0);
+        proj280C((s16)(actor280C->f14 >> 8), (s16)(actor280C->f18 >> 8), &sc.x, &sc.y, 0, 0);
         if (flash != 0) {
             u16 old = flash;
             flash--;
             if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
-                draw280C(sx, sy, actor280C->f68, actor280C->f6A, b, &spr[sel].f1C, spr[sel].f8, spr[sel].f0);
+                draw280C(sc.x, sc.y, actor280C->f68, actor280C->f6A, b, &spr[sel].f1C, spr[sel].f8, spr[sel].f0);
         } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
-            draw280C(sx, sy, actor280C->f68, actor280C->f6A, b, &spr[sel].f1C, spr[sel].f8, spr[sel].f0);
+            draw280C(sc.x, sc.y, actor280C->f68, actor280C->f6A, b, &spr[sel].f1C, spr[sel].f8, spr[sel].f0);
         }
         if (sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0 && (frameCnt280C & 1)) {
             u8 *r;
-            proj280C((s16)(actor280C->f14 >> 8), (s16)(actor280C->f18 >> 8), &sx, &sy, 0, 0);
-            r = draw280C(sx, 1, anim2, 0, (u8)(b + 1), &spr[sel].f1C, spr[sel].f8, spr[sel].f0);
-            *(s32 *)(r + 0xC) = sy;
+            proj280C((s16)(actor280C->f14 >> 8), (s16)(actor280C->f18 >> 8), &sc.x, &sc.y, 0, 0);
+            r = draw280C(sc.x, 1, anim2, 0, (u8)(b + 1), &spr[sel].f1C, spr[sel].f8, spr[sel].f0);
+            *(s32 *)(r + 0xC) = sc.y;
         }
-        h = actor280C->f4C;
-        if (h != 0 && lastHit != h) {
-            lastHit = h;
+        if (actor280C->f4C != 0 && lastHit != actor280C->f4C) {
+            lastHit = actor280C->f4C;
             hitTimer = 10;
             shake = 0;
         }
@@ -4677,11 +4678,11 @@ void sub_080B280C(void)
     ((u8 *)actor280C)[0x22E] = 0;
     ((u8 *)actor280C)[0x22F] = 0;
     sel = 0;
-    a = actor280C;
-    a->f68 = dir;
-    a->f6C = 0;
-    a->f6A = sel;
-    free280C(a->f2);
+    a4 = actor280C;
+    a4->f68 = dir;
+    a4->f6C = 0;
+    a4->f6A = sel;
+    free280C(a4->f2);
     sfx280C(0xBD);
     finish280C(actor280C, spr, res->fD6, tile280C);
     if (!(players280C[sub_080020F4()].flags & 0x2000) && actor280C->f5A != 0) {
