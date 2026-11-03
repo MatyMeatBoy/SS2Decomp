@@ -232,7 +232,121 @@ void sub_0802939C_v(u32 target, u16 val)
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802949C);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029788);
+struct Actor029788 { u32 id; u8 p4[0x20]; s16 dir; u16 goal; u8 p28[0x48]; };
+struct State029788 { u8 p0[0x7A4]; struct Actor029788 actors[15]; };
+struct Enemy029788 { u8 p0[8]; s16 dir; u8 pA[0x2D6]; };
+struct Player029788 { u8 p0[0x1C]; s16 dir; u16 goal; u8 p20[0x12C]; };
+extern struct State029788 *state029788 asm("gUnk_03005CF4");
+extern struct Enemy029788 *enemies029788 asm("gUnk_030056F4");
+extern struct Player029788 players029788[] asm("gUnk_03003CE0");
+extern void face029788(u32, s32) asm("sub_080290E4");
+static inline struct Actor029788 *find029788(u32 id)
+{
+    struct Actor029788 *p = state029788->actors;
+    u32 i;
+
+    i = 0;
+    do {
+        if (p->id == id)
+            return p;
+        i++;
+        p++;
+    } while (i <= 14);
+    sub_080003F0();
+    return NULL;
+}
+static inline void wait029788(u16 n)
+{
+    while (n) {
+        sub_080003F0();
+        if (sub_080021A8())
+            break;
+        n--;
+    }
+}
+/* Turn an actor (id > 0x100000), enemy (1..5) or the local player (0) one
+ * step at a time toward its goal direction. The enemy path never loads its
+ * goal or difference (original bug, kept). */
+void sub_08029788_v(u32 target) asm("sub_08029788");
+void sub_08029788_v(u32 target)
+{
+    struct Actor029788 *a;
+    struct Enemy029788 *e;
+    struct Player029788 *p;
+    u16 goal;
+    s16 step, cur;
+
+    if (target > 0x100000) {
+        a = find029788(target);
+        if (a == NULL)
+            return;
+        goal = a->goal;
+        cur = a->dir - goal;
+    } else if (target != 0) {
+        target--;
+        if (target > 4)
+            return;
+        e = &enemies029788[target];
+    } else {
+        p = &players029788[sub_080020F4()];
+        goal = p->goal;
+        cur = p->dir - goal;
+    }
+    {
+        s32 d = cur;
+
+        if (d >= 0) {
+            step = 1;
+            if (d <= 4)
+                step = -1;
+        } else {
+            d = -d;
+            step = -1;
+            if (d <= 4)
+                step = 1;
+        }
+    }
+    if (target > 0x100000) {
+        cur = a->dir;
+        if (a->dir == goal)
+            return;
+        do {
+            face029788(target, (s16)cur);
+            wait029788(2);
+            cur = (s16)cur + (s16)step;
+            if ((s16)cur > 7)
+                cur = 0;
+            else if ((s16)cur < 0)
+                cur = 7;
+        } while (a->dir != goal);
+    } else if (target != 0) {
+        cur = e->dir;
+        if (e->dir == goal)
+            return;
+        do {
+            face029788(target, (s16)cur);
+            wait029788(2);
+            cur = (s16)cur + (s16)step;
+            if ((s16)cur > 7)
+                cur = 0;
+            else if ((s16)cur < 0)
+                cur = 7;
+        } while (e->dir != goal);
+    } else {
+        cur = p->dir;
+        if (p->dir == goal)
+            return;
+        do {
+            face029788(target, (s16)cur);
+            wait029788(2);
+            cur = (s16)cur + (s16)step;
+            if ((s16)cur > 7)
+                cur = 0;
+            else if ((s16)cur < 0)
+                cur = 7;
+        } while (p->dir != goal);
+    }
+}
 struct P96C { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[0x14C-0xC6]; };
 extern struct P96C players96C[] asm("gUnk_03003CE0");
 #define DRAIN_96C(n) p=&players96C[index]; do { h=(void*)sub_0801E1D8(p,n,100); if(h) {sub_0801DB94(p->id,h,0); asm("":"+r"(h));} } while(h)
