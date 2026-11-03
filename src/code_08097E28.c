@@ -2581,7 +2581,74 @@ void sub_0809C1B4(u16 arg0)
     taskC1B4()->f8 = 0;
 }
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C4E8);
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C8F4);
+struct PlayerC8F4 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1f]; u16 f88; u8 p8a[2]; s32 x, y; u8 p94[0x1c]; u16 fb0; u8 pb2[0x16]; u16 fc8, fca, fcc; u8 pce[0x16]; u32 fe4[26]; };
+extern struct PlayerC8F4 playersC8F4[] asm("gUnk_03003CE0");
+extern u16 atanC8F4(s16, s16) asm("ArcTan2");
+extern u16 hitC8F4(void *, void *) asm("sub_0801ED8C");
+
+void sub_0809C8F4_(struct ObjC1B4 *o) asm("sub_0809C8F4");
+void sub_0809C8F4_(struct ObjC1B4 *o)
+{
+    struct SprC1B4 spr;
+    s16 sx, sy;
+    u16 frame, h2;
+    u16 timer;
+    s32 hit;
+    s32 ox, oy;
+    u16 dx, dy;
+    u16 d;
+    s32 n;
+    u32 angle, rem, dir;
+
+    initC1B4(&spr, 0x50005, 0, -1, 1);
+    spr.f1C[0] = palC1B4;
+    hit = 0;
+    timer = 180;
+    do {
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0 && (timer & 1)) {
+            sub_08000AF0(palC1B4 + 0x10, (void *)spr.fC, 1);
+            coordsC1B4((s16)(o->x >> 8), (s16)(o->y >> 8), &sx, &sy, 0, 0);
+            animC1B4(&spr, 0x19, &frame, &h2, 1);
+            drawC1B4(sx, sy + 1, 0x19, frame, 0, spr.f1C, spr.f8, spr.f0)[3] = sy - 0x17;
+        }
+        ox = o->x;
+        oy = o->y;
+        dx = (ox >> 8) - (playersC8F4[sub_080020F4()].x >> 8);
+        dy = (oy >> 8) - (playersC8F4[sub_080020F4()].y >> 8);
+        d = sqrtC1B4((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+        if (hit == 0 && d <= 0x2F
+            && sub_0800CDF8() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && o->fc != 11
+            && !(playersC8F4[sub_080020F4()].flags & 0x2000) && playersC8F4[sub_080020F4()].f68
+            && playersC8F4[sub_080020F4()].state != 14 && playersC8F4[sub_080020F4()].state != 11
+            && playersC8F4[sub_080020F4()].state != 12
+            && playersC8F4[sub_080020F4()].fe4[o->f0] != o->f50) {
+            hit = 1;
+            playersC8F4[sub_080020F4()].fb0 = 0xFFFE;
+            playersC8F4[sub_080020F4()].state = 10;
+            n = sub_080020F4();
+            playersC8F4[n].f88 += hitC8F4(o, &playersC8F4[sub_080020F4()]);
+            playersC8F4[sub_080020F4()].fe4[o->f0] = o->f50++;
+            dx = (playersC8F4[sub_080020F4()].x >> 8) - (o->x >> 8);
+            dy = (playersC8F4[sub_080020F4()].y >> 8) - (o->y >> 8);
+            angle = atanC8F4(dx, dy);
+            rem = angle << 19;
+            dir = angle >> 13;
+            if (rem > 0x80000000U) {
+                if (dir <= 6) dir++; else dir = 0;
+            }
+            switch (dir) {
+            case 0: playersC8F4[sub_080020F4()].fca = 6; break;
+            case 1: playersC8F4[sub_080020F4()].fca = 7; break;
+            default: playersC8F4[sub_080020F4()].fca = dir - 2; break;
+            }
+            playersC8F4[sub_080020F4()].fcc = 0x400;
+            playersC8F4[sub_080020F4()].fc8 = 8;
+            sub_0805865C(0xE2);
+        }
+        sub_080003F0();
+    } while (--timer != 0xFFFF);
+    taskC1B4()->f8 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809CC2C);
 #ifdef NONMATCHING
 struct PosD374 { u16 x, y; };
