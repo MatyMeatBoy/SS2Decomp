@@ -569,7 +569,6 @@ void clearTask60F4(void)
         } while (i <= 1);
     }
 }
-#ifdef NONMATCHING
 struct Spr0B6178 { s32 f0, f4, f8, fC, f10, f14, f18; u8 b1C[0x18]; };
 struct Task0B6178 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u8 *ptr0B6178 asm("gUnk_030007DC");
@@ -587,8 +586,10 @@ extern s32 busy0B6178(u32) asm("sub_0801A040");
 extern u16 open0B6178(void *, u32, u32) asm("sub_08019FD8");
 extern void show0B6178(u32, u32) asm("sub_0801A0BC");
 /* Same effect sequence as sub_080B2058 for the second boss arena. */
-void sub_080B6178_v(s32 arg0, s32 arg1) asm("sub_080B6178");
-void sub_080B6178_v(s32 arg0, s32 arg1)
+/* The position is passed by value as an 8-byte struct (r0/r1 copied as one pair), like sub_080B2058. */
+struct PosB6178 { s32 x, y; };
+void sub_080B6178_v(struct PosB6178 pos) asm("sub_080B6178");
+void sub_080B6178_v(struct PosB6178 pos)
 {
     struct Spr0B6178 s;
     u16 a44;
@@ -613,8 +614,10 @@ void sub_080B6178_v(s32 arg0, s32 arg1)
     a44 = 0;
     cnt = 0;
     sub_0805865C(0x1A5);
-    xs = (x = arg0 >> 8) << 16;
-    ys = (y = arg1 >> 8) << 16;
+    x = pos.x >> 8;
+    y = pos.y >> 8;
+    xs = x << 16;
+    ys = y << 16;
     do {
         s32 paused;
         if ((paused = sub_0800CD8C()) == 0)
@@ -632,7 +635,7 @@ void sub_080B6178_v(s32 arg0, s32 arg1)
         for (i = 0, arr = arr0B6178; i <= 1; i++) {
             e = (u16 *)(i * 2 + (u32)arr);
             if (busy0B6178(*e) == 0) {
-                *e = open0B6178(data0B6178, font0B6178 >> 4, font0B6178 & 0xF);
+                { register u32 f asm("r0") = font0B6178; *e = open0B6178(data0B6178, f >> 4, f & 0xF); }
                 show0B6178(*e, 3);
                 do
                     sub_080003F0();
@@ -644,9 +647,6 @@ void sub_080B6178_v(s32 arg0, s32 arg1)
     unlock0B6178(ptr0B6178);
     task0B6178->f8 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6178);
-#endif
 void sub_080B6324(void) {
     if (M2C_FIELD(gUnk_030007DC, s16 *, 0x5C) != 0) {
         sub_080B60F4();
