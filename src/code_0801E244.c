@@ -256,11 +256,61 @@ struct Atk5B0 { u8 pad0[0x10]; u16 kind; u8 pad12[0xA]; u16 dir; u8 pad1E[2]; u1
 struct Tgt5B0 { u8 pad0[2]; u16 id; u8 pad4[4]; u16 dir; u8 padA[2]; u16 kind; u8 padE[6]; s32 x, y; u8 pad1C[0x1B2]; u16 defense; u8 pad1D0[0x48]; u16 resist[6]; };
 extern u8 *combat5B0 asm("gUnk_030034E0");
 extern u32 notify5B0(u16, u16) asm("sub_08067FE0");
+static inline s32 inl_08021C74(u16 arg0, u16 arg1, u16 arg2) {
+    u16 temp_r5;
+    u16 var_r0;
+
+    temp_r5 = arg0;
+    var_r0 = (u16) ((u16) ((s32) (((u32) ((((u16) sub_080008C8() % 50U) << 0x10) + 0x640000) >> 0x10) * ((s32) (temp_r5 * temp_r5 * 0xA) / (s32) (temp_r5 + arg1))) / (s32) arg2) / 10U);
+    if (var_r0 == 0) {
+        var_r0 = 1;
+    }
+    return (s32) var_r0;
+}
+static inline u16 inl_08021CE4(u16 arg0, u16 arg1) {
+    return ((arg1 + 0x64) * arg0) / 0x64;
+}
+static inline s32 inl_08021D00(u16 arg0, u16 arg1, u16 *arg2) {
+    s16 temp_r1;
+    u16 var_r3;
+    u32 temp_r0;
+
+    var_r3 = arg1;
+    temp_r0 = arg0 - 1;
+    if (temp_r0 <= 6) {
+        switch (temp_r0) {
+        case 0:
+            temp_r1 = arg2[0];
+            break;
+        case 1:
+            temp_r1 = arg2[1];
+            break;
+        case 2:
+            temp_r1 = arg2[2];
+            break;
+        case 3:
+            temp_r1 = arg2[3];
+            break;
+        case 4:
+            temp_r1 = arg2[4];
+            break;
+        case 5:
+        case 6:
+            temp_r1 = arg2[5];
+            break;
+        }
+        var_r3 = (u16)((s32)(var_r3 * 0x1388) / (s32)((temp_r1 * temp_r1) + 0x9C4));
+        if (var_r3 & 0x8000) {
+            var_r3 = 1;
+        }
+    }
+    return var_r3;
+}
 s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
 {
     u8 *ctx;
     s32 defense;
-    u32 divisor;
+    u16 divisor;
     s32 power;
     u16 attack;
     u16 mode;
@@ -360,43 +410,17 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
     } else {
         power = (u16)atk->base;
     }
-    attack = power;
-    varianceWord = ((u16)sub_080008C8()) % 50;
-    varianceWord <<= 16;
-    varianceWord += 0x640000;
-    variance = varianceWord >> 16;
-    firstDamage = (u16)((s32)(variance * ((s32)((u32)attack * attack * 10) / (attack + defense))) / (s32)divisor) / 10U;
-    if (!firstDamage)
-        firstDamage = 1;
-    result = firstDamage;
+    result = inl_08021C74(power, defense, divisor);
     if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
-        element = *(u16 *)(record + 0xBC);
-        damage = (u16)result;
-        resists = tgt->resist;
-        switch (element - 1U) {
-        case 0: resistance = resists[0]; goto attenuate;
-        case 1: resistance = resists[1]; goto attenuate;
-        case 2: resistance = resists[2]; goto attenuate;
-        case 3: resistance = resists[3]; goto attenuate;
-        case 4: resistance = resists[4]; goto attenuate;
-        case 5: case 6: resistance = resists[5];
-        attenuate:
-            damage = (u16)((s32)(damage * 5000) / ((s16)resistance * (s16)resistance + 2500));
-            if (damage & 0x8000)
-                damage = 1;
-            break;
-        }
         {
-            register u32 finishWord asm("r0") = damage;
-            asm("" : "+r"(finishWord));
-            finishWord <<= 16;
-            result = finishWord >> 16;
-            if ((s32)finishWord <= 0)
+            s16 t = inl_08021D00(*(u16 *)(record + 0xBC), result, tgt->resist);
+            result = (u16)t;
+            if (t <= 0)
                 result = 1;
         }
     }
     if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
-        result = (u16)(result * ((u16)(sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10) + 100) / 100);
+        result = inl_08021CE4(result, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
         sub_0805865C(0x27);
     }
     if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
@@ -428,7 +452,7 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
 {
     u8 *ctx;
     s32 defense;
-    u32 divisor;
+    u16 divisor;
     s32 power;
     u16 attack;
     u16 mode;
@@ -528,45 +552,19 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
     } else {
         power = (u16)atk->base;
     }
-    attack = power;
-    varianceWord = ((u16)sub_080008C8()) % 50;
-    varianceWord <<= 16;
-    varianceWord += 0x640000;
-    variance = varianceWord >> 16;
-    firstDamage = (u16)((s32)(variance * ((s32)((u32)attack * attack * 10) / (attack + defense))) / (s32)divisor) / 10U;
-    if (!firstDamage)
-        firstDamage = 1;
-    result = firstDamage;
+    result = inl_08021C74(power, defense, divisor);
     if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
-        element = *(u16 *)(record + 0xBC);
-        damage = (u16)result;
-        resists = tgt->resist;
-        switch (element - 1U) {
-        case 0: resistance = resists[0]; goto attenuate;
-        case 1: resistance = resists[1]; goto attenuate;
-        case 2: resistance = resists[2]; goto attenuate;
-        case 3: resistance = resists[3]; goto attenuate;
-        case 4: resistance = resists[4]; goto attenuate;
-        case 5: case 6: resistance = resists[5];
-        attenuate:
-            damage = (u16)((s32)(damage * 5000) / ((s16)resistance * (s16)resistance + 2500));
-            if (damage & 0x8000)
-                damage = 1;
-            break;
-        }
         {
-            register u32 finishWord asm("r0") = damage;
-            asm("" : "+r"(finishWord));
-            finishWord <<= 16;
-            result = finishWord >> 16;
-            if ((s32)finishWord <= 0)
+            s16 t = inl_08021D00(*(u16 *)(record + 0xBC), result, tgt->resist);
+            result = (u16)t;
+            if (t <= 0)
                 result = 1;
         }
     }
     if (atk->type == 5)
-        result = (u16)(result * 110 / 100);
+        result = inl_08021CE4(result, 10);
     if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
-        result = (u16)(result * ((u16)(sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10) + 100) / 100);
+        result = inl_08021CE4(result, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
     }
     if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
         notify5B0((tgt->id << 8) | 4, sub_0801E0AC((s32)(combat5B0 + 0x30), 4));

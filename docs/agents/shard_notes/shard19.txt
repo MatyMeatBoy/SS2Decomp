@@ -1,19 +1,18 @@
-Shard 19 notes (worker/019). Remaining functions after 14 matches.
 
-sub_0801E0D0 (code_0801AAF8, leaf, 6x halfword add dst+=src):
-  best permuter score 395 (base 485), not converged. Tried: a+b / b+a / u16 / s32 / u32 temps,
-  statement forms. Compiler loads dst first, original loads src into r2 first.
-sub_0801E438 (code_0801E244): MATCHED (switch with a full per-case call; a shared call after the switch does not match).
-OLD NOTE: Shift tail matches with (x<<19)>>16 and result kept in r4.
-  Branch layout differs: original is beq A; cmp 3; beq B; b end, with a shared call after both blocks.
-  Tried: if/else-if, switch, goto, nested if, ternary, n-accumulate. None matched.
-sub_0801E550 (code_0801E244): near. +0x34 pointer load folds into the gUnk symbol; original keeps an
-  explicit `adds r2,#52` before the index add. Struct-member form (&gUnk[idx].x) and base variables
-  still fold. Use permuter or an explicit intermediate that the compiler cannot fold.
-sub_0801E594 (code_0801E244): near. Loop `*(u16*)p |= 0xFFFF` with stride 0x28, 8 iterations.
-  Compiler keeps the mask in r0 and moves the loaded value to r4 (original: mask in r3, value in r0).
-  Tried: u16/s32/u32 mask, volatile, for/do-while. Permuter did not converge.
-sub_0801E324 (code_0801E244): same loop as E594 with the match-side `|= 0xFFFF` and the index sum.
+Update (nov03-w2):
+sub_0801E5B0 / sub_0801E988: rewritten with the module's real damage helpers inlined as static inline copies
+  (inl_08021C74 = variance/attack/defense damage incl. clamp, inl_08021D00 = element resistance, inl_08021CE4 =
+  percent boost). Divisor must be u16 (helper arg). Both now exact size; E5B0 diff 21 lines, E988 57 lines.
+  Remaining (both): original converts the damage arg on entry to the resist helper (`lsls r0,r5,#16; lsrs r2,r0,#16`,
+  element in r1) but NOT on entry to the boost helper (`adds r4,r5,#0`); ours does the opposite. Tried helper param
+  types u16/u32/s32, return types, result u16/u32/s32/s16, separate fd/power variables, (u16) casts: no change.
+  Note: nm_drafts.py export drops the static inline helpers, so its score for these two is meaningless; check with
+  the whole NONMATCHING block (helpers live in the E5B0 block).
+sub_0801ED8C: only the tail differs (draft score 585). Original keeps two separate `adds r0,r4; b end` returns
+  (sound path and non-crit path) plus `movs r0,#0x80; lsls; orrs r0,r4`. All tail rewrites without the
+  `defense = 0x8000` reuse shift register allocation (dst r6 vs r7). Note D8C's quotient code differs from the
+  C74 helper (lsrs r1 / adds r0,r1), so it is not a plain inline of sub_08021C74.
+as E594 with the match-side `|= 0xFFFF` and the index sum.
 sub_0801E278 / sub_0801E2CC (code_0801E244): search loop plus repeated sub_0801DB94 calls. The
   original compares 100 in a high register (`cmp r8, r0`). Structure attempts did not match.
 sub_0801E378 (code_0801E244): arithmetic ((s16)arg1 + 2*first) * (second+10) / 10 via __divsi3.
