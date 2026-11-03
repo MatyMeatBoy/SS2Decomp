@@ -4052,7 +4052,59 @@ void sub_08053A80(void)
     Clr53A80(gP030056F4);
     sub_08019F04();
 }
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053B24);
+void sub_08053C5C(void);
+static inline void spawn53B(void (*cb)(void), s32 arg)
+{
+    u8 *task = (u8 *)gUnk_03005CF4 + 0xE34;
+    u32 i;
+    u8 *stack;
+    for (i = 0; i <= 0x1D; i++, task += 0x28) {
+        if (sub_08000470((u32)task) == 0) {
+            while ((stack = sub_08001494(0x400), *(u8 **)(task + 0x20) = stack) == NULL)
+                sub_080003F0();
+            *(u32 *)(task + 8) = 0x3C;
+            *(void (**)(void))(task + 0xC) = cb;
+            *(u8 **)(task + 0x10) = stack + 0x3FC;
+            *(u32 *)(task + 0x24) = 0;
+            sub_08000274(task, arg);
+            break;
+        }
+    }
+}
+static inline void pan53B(u16 x, u16 y, u16 duration)
+{
+    s32 step;
+    s32 startX;
+    s32 startY;
+    s32 i;
+    s32 outX, outY;
+    if (duration)
+        step = 1024 / (s32)duration;
+    startX = ((struct Signed37DC *)&gUnk_03003170)->x;
+    startY = ((struct Signed37DC *)&gUnk_03003170)->y;
+    for (i = 0; i <= 1024; i += step) {
+        sub_080659F4(&outX, startX, (s16)x, i);
+        sub_080659F4(&outY, startY, (s16)y, i);
+        t53_cam37DC((s16)outX, (s16)outY);
+        sub_080003F0();
+    }
+}
+void sub_08053B24(void)
+{
+    u16 n;
+
+    pan53B(0, -20, 1);
+    for (n = 1; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+    spawn53B(sub_08053C5C, 1);
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
 void sub_08053C5C(void)
 {
     u8 *base;
