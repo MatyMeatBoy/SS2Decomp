@@ -13,7 +13,413 @@ void sub_080A05B4(u32 mode, void *state);
 
 extern s32 gUnk_03000324;
 
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809D878);
+#define BD878(p,o) (*(u8 *)((u8 *)(p)+(o)))
+#define HD878(p,o) (*(u16 *)((u8 *)(p)+(o)))
+#define SD878(p,o) (*(s16 *)((u8 *)(p)+(o)))
+#define ID878(p,o) (*(s32 *)((u8 *)(p)+(o)))
+#define PD878(p,o) ((u16 *)((u8 *)(p)+(o)))
+struct SpriteD878 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
+struct PlayerD878 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
+struct PosD878 {s32 x,y;};
+struct ObjD878 {u32 f0,f4,f8;s32 fC;};
+struct ResD878 {u8 p0[4];s16 f4;s16 f6;u8 p8[0xCE];u16 fD6;};
+struct ActorD878 {
+    u16 f0; u16 f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 state; u8 pE[6];
+    s32 x; s32 y; u8 p1C[0x30]; s32 damage; s32 f50; u8 p54[6]; u16 f5A; u16 f5C; u16 f5E;
+    u8 p60[8]; u16 anim; u16 frame; u16 tick; u16 f6E; u8 p70[0x164]; u16 f1D4; u16 f1D6;
+    u8 p1D8[0x24]; u8 lo:4; u8 hi:4; u8 phase; u8 next; u8 p1FF; u8 f200; u8 p201; u16 f202;
+    u8 res[0xD4]; u16 f2D8; u16 f2DA;
+};
+extern struct ActorD878 *actorD878 asm("gUnk_03000310");
+extern u16 paletteD878 asm("gUnk_03000314");
+extern u32 activeD878 asm("gUnk_030056FC");
+extern u32 seenD878[][83] asm("gUnk_03003DC4");
+extern struct PlayerD878 playersD878[] asm("gUnk_03003CE0");
+extern void *inventoryD878 asm("gUnk_030034E0");
+extern u8 *stateD878 asm("gUnk_03005CF4");
+extern u8 tilesD878[] asm("gUnk_03003170");
+extern u8 configD878[] asm("gUnk_084A2748");
+extern struct PosD878 pointsD878[] asm("gUnk_08518724");
+extern s16 waveD878[] asm("gUnk_080B9704");
+extern void setupD878(void *,void *,s32) asm("sub_0801623C");
+extern void resourceInitD878(void *) asm("sub_08019F60");
+extern u32 allocateD878(u16,u16) asm("sub_08016E04");
+extern void initD878(void *,u32,u32,s32,s32) asm("sub_08065158");
+extern u16 animD878(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
+extern void screenD878(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern struct ObjD878 *drawD878(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern void updateD878(void *) asm("sub_0801C8F0");
+extern void floatD878(void *,s32,s32) asm("sub_0801A120");
+extern u16 deadD878(void *) asm("sub_08019CE8");
+extern u8 moveD878(void *,struct PosD878,s32,s32,s32) asm("sub_08097AC0");
+extern void paletteFreeD878(u32) asm("sub_08067CA8");
+extern void transitionD878(void *,void *,u32,u32) asm("sub_080970CC");
+extern s32 rewardD878(void *,void *) asm("sub_0801E46C");
+extern void riseD878(void *,s32) asm("sub_0806171C");
+extern void rewardDoneD878(void *,s32) asm("sub_0801E4CC");
+extern void soundStopD878(s32) asm("sub_080586B4");
+extern void soundD878(s32) asm("sub_08058688");
+extern s32 windowD878(s32,s32,s32,s32,s32,s32) asm("sub_0805DF38");
+extern s32 windowDoneD878(s32) asm("sub_0805EEFC");
+extern void sub_0809F998(void);
+extern void sub_0809F9F8(void);
+extern void sub_0809FB18(void);
+extern void sub_0809FA64(u16);
+
+#define RENDER_D878() { \
+    s32 zero; \
+    playersD878[sub_080020F4()].flags |= 1; \
+    if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) { \
+        zero = sub_0800CD34(); \
+        if (zero == 0) { \
+            sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1); \
+            priority = sub_0800BC44(actorD878->x >> 8, actorD878->y >> 8, 0); \
+            sprite.payload[0] = paletteD878; \
+            animD878(&sprite, actorD878->anim, &actorD878->frame, &actorD878->tick, zero); \
+            screenD878((actorD878->x << 8) >> 16, (actorD878->y << 8) >> 16, &sx, &sy, zero, zero); \
+            drawD878(sx, sy, actorD878->anim, actorD878->frame, priority, sprite.payload, sprite.data, sprite.base); \
+        } \
+    } \
+    sub_080003F0(); \
+}
+
+void sub_0809D878(void *input)
+{
+    struct SpriteD878 sprite;
+    s16 sx;
+    s16 sy;
+    u8 *resource;
+    struct PosD878 target;
+    s32 lastDamage;
+    u16 lastAnim;
+    s32 animFlag;
+    u16 flash;
+    u16 floatingTimer;
+    u16 elapsed;
+    s16 floatingOffset;
+    u8 wave;
+    u8 count;
+    u8 idx;
+    s32 finished;
+    u16 *frame;
+    u16 *tick;
+    u16 *pal;
+    struct ActorD878 *actor;
+    u16 *animation;
+    s32 mode;
+    u8 priority;
+    s8 cur;
+    s16 player;
+    s16 entry;
+    s32 value;
+    s32 reward;
+    s32 dmg;
+    u32 old;
+    u16 alloc;
+    struct ObjD878 *obj;
+
+    actor = input;
+    actorD878 = actor;
+    resource = actor->res;
+    setupD878(actor, configD878, 0);
+    resourceInitD878(resource);
+    sub_0801A0A4(actor);
+    alloc = paletteD878 = allocateD878(actor->f2D8, actor->f2DA);
+    if (alloc == 0xFFFF) {
+        do {
+            actor->state = 11;
+            if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
+                activeD878 &= ~(1 << actor->f0);
+                return;
+            }
+            sub_080003F0();
+        } while (paletteD878 == 0xFFFF);
+    }
+    initD878(&sprite, 0x50007, paletteD878, -1, 1);
+    sprite.payload[0] = paletteD878;
+    actor->f5C = actor->f1D6 = SD878(resource, 6) * 3;
+    value = SD878(resource, 4) * 2;
+    actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
+    actor->phase = 2;
+    actor->next = 2;
+    actor->state = 0;
+    mode = 0;
+    lastAnim = 0xFFFF;
+    flash = 0;
+    floatingTimer = 0;
+    sub_08097FE4();
+    sub_08097A4C();
+    sub_08097C4C();
+    sub_0809F918();
+    sub_0809F998();
+    sub_0809F9F8();
+    sub_0809FACC();
+    gUnk_03003170.pad72 = 0x1E;
+    actor->tick = floatingTimer;
+    actor->frame = floatingTimer;
+    actor->anim = floatingTimer;
+    idx = 0;
+    count = 0;
+    elapsed = 0;
+    wave = 0;
+    player = 0;
+    actor->f50 = 1;
+    tick = &actor->tick;
+    frame = &actor->frame;
+    animation = &actor->anim;
+    pal = PD878(resource, 0xD6);
+    do {
+        entry = 0;
+        do {
+            *(u32 *)((u8 *)seenD878 + entry * 4 + player * 0x14C) = 0;
+            entry++;
+        } while (entry <= 4);
+        player++;
+    } while (player <= 3);
+    actor->lo = *(u8 *)actor;
+    actor->f202 = actor->f2;
+    actor->f200 = 0xFF;
+    finished = 0;
+    sub_08067C18();
+    while (sub_08067C08() == 0)
+        sub_080003F0();
+    sub_08067BF8();
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (actor->state == 10 && flash == 0)
+            flash = 8;
+        if (sub_08058DB0() == 0) {
+            updateD878(actor);
+            switch (actor->phase) {
+            case 1:
+                actor->state = 0;
+                if (sub_08067C08() != 0) {
+                    actor->phase = actor->next;
+                    sub_08067BF8();
+                }
+                break;
+            case 2:
+                mode = 0;
+                if (sub_08056F78() != 0) {
+                    actor->next = 3;
+                    actor->phase = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 3:
+                mode = 1;
+                actor->state = mode;
+                cur = idx;
+                target.x = pointsD878[cur].x >> 8;
+                target.y = pointsD878[cur].y >> 8;
+                if (moveD878(actor, target, 0x140, 8, 0) == 0) {
+                    elapsed = 0;
+                    idx = cur + 1;
+                    if ((s8)idx == 5)
+                        idx = 0;
+                    actor->next = 4;
+                    actor->phase = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 4:
+                mode = 2;
+                actor->state = mode;
+                if (++elapsed > 0x3B) {
+                    elapsed = 0;
+                    if (++count == 6) {
+                        count = 0;
+                        actor->next = 7;
+                    } else if (count & 1) {
+                        actor->next = 5;
+                        sub_0809FA64(0);
+                        sub_0809FA64(1);
+                        sub_0809FA64(2);
+                        sub_0809FA64(3);
+                    } else {
+                        actor->next = 6;
+                        sub_0809FB18();
+                    }
+                    actor->phase = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 5:
+                mode = 2;
+                actor->state = mode;
+                if (elapsed++ > 0x3C) {
+                    elapsed = 0;
+                    actor->next = 3;
+                    actor->phase = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 6:
+                mode = 2;
+                actor->state = mode;
+                if (elapsed++ > 0xB4) {
+                    elapsed = 0;
+                    actor->next = 3;
+                    actor->phase = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 7:
+                mode = 2;
+                actor->state = mode;
+                sub_0809F90C();
+                actor->next = 8;
+                actor->phase = 1;
+                sub_08067C18();
+                break;
+            case 8:
+                mode = 2;
+                actor->state = mode;
+                actor->next = 5;
+                actor->phase = 1;
+                sub_08067C18();
+                break;
+            }
+            { s32 t = waveD878[wave += 2]; actor->y += t >> 1; }
+        }
+        switch (mode) {
+        case 0:
+            *animation = actor->f8;
+            animFlag = 1;
+            break;
+        case 1:
+            *animation = actor->f8 + 8;
+            animFlag = 1;
+            break;
+        case 2:
+            if (actor->phase == 5) {
+                *animation = actor->f8 + 8;
+                animFlag = 1;
+            } else {
+                *animation = 0x18;
+                animFlag = 0;
+            }
+            break;
+        }
+        if (lastAnim != actorD878->anim) {
+            lastAnim = actorD878->anim;
+            actorD878->tick = 0;
+            actorD878->frame = 0;
+        }
+        sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1);
+        if (sub_08098004() & 1)
+            priority = sub_08097FF8();
+        else
+            priority = sub_0800BC44(actor->x >> 8, actor->y >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            actor->f6E = animD878(&sprite, *animation, frame, tick, animFlag);
+        screenD878((actor->x << 8) >> 16, (actor->y << 8) >> 16, &sx, &sy, 0, 0);
+        if (flash != 0) {
+            old = flash;
+            flash = old - 1;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                { obj = drawD878(sx, 0xA0, *animation, *frame, priority, sprite.payload, sprite.data, sprite.base); obj->fC = sy; }
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            { obj = drawD878(sx, 0xA0, *animation, *frame, priority, sprite.payload, sprite.data, sprite.base); obj->fC = sy; }
+        }
+        dmg = actor->damage;
+        if (dmg != 0 && lastDamage != dmg) {
+            lastDamage = dmg;
+            floatingTimer = 10;
+            floatingOffset = 0;
+        }
+        if (floatingTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                floatD878(actor, lastDamage, floatingOffset);
+            if (floatingTimer & 2)
+                floatingOffset--;
+            floatingTimer--;
+        } else {
+            lastDamage = 0;
+            actor->damage = floatingTimer;
+        }
+        if (deadD878(actor) != 0)
+            finished = 1;
+        sub_080003F0();
+        if (finished != 0)
+            break;
+    }
+    activeD878 = 0;
+    playersD878[sub_080020F4()].flags |= 1;
+    sub_0809FAEC();
+    sub_0809FA28();
+    sub_08097C6C();
+    actorD878->tick = 0;
+    actorD878->frame = 0;
+    actorD878->anim = 0;
+    floatingOffset = 0;
+    floatingTimer = 10;
+    do {
+        s32 zero;
+        playersD878[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            zero = sub_0800CD34();
+            if (zero == 0) {
+                sub_08000AF0(paletteD878 + 0x10, (u8 *)sprite.palette + (*pal << 5), 1);
+                priority = sub_0800BC44(actorD878->x >> 8, actorD878->y >> 8, 0);
+                sprite.payload[0] = paletteD878;
+                animD878(&sprite, actorD878->anim, &actorD878->frame, &actorD878->tick, zero);
+                screenD878((actorD878->x << 8) >> 16, (actorD878->y << 8) >> 16, &sx, &sy, zero, zero);
+                drawD878(sx, sy, actorD878->anim, actorD878->frame, priority, sprite.payload, sprite.data, sprite.base);
+                floatD878(actor, lastDamage, floatingOffset);
+            }
+        }
+        if (floatingTimer & 2)
+            floatingOffset--;
+        sub_080003F0();
+        floatingTimer--;
+    } while (floatingTimer != 0xFFFF);
+    sub_080683CC();
+    paletteFreeD878(actor->f2);
+    sub_08068330(0xDEADFACE);
+    while (sub_080682B8(0xDEADFACE) == 0)
+        RENDER_D878();
+    sub_08065E38(0xDEADFACE);
+    while (sub_08058DB0() != 0)
+        RENDER_D878();
+    soundStopD878(0);
+    ID878(stateD878, 0x720) = windowD878(1, 0xE, 0x19, 2, 0x3C, 0x140047);
+    while (windowDoneD878(ID878(stateD878, 0x720)) == 0)
+        RENDER_D878();
+    playersD878[sub_080020F4()].flags &= ~1;
+    soundD878(0xD);
+    transitionD878(actorD878, &sprite, *pal, paletteD878);
+    if (!(playersD878[sub_080020F4()].flags & 0x2000) && actorD878->f5A != 0) {
+        reward = rewardD878(inventoryD878, resource);
+        floatingOffset = 0x1D;
+        do {
+            struct ActorD878 *g = actorD878;
+            g->y -= 0x20;
+            riseD878(g, reward);
+            sub_080003F0();
+            floatingOffset--;
+        } while (floatingOffset != -1);
+        rewardDoneD878(inventoryD878, reward);
+    }
+    floatingOffset = 0x6F;
+    do {
+        sub_080003F0();
+        floatingOffset--;
+    } while (floatingOffset != -1);
+    sub_08067C18();
+    while (sub_08067C08() == 0)
+        sub_080003F0();
+    sub_08067BF8();
+    sub_08056E24();
+    while (sub_08056E90() == 0)
+        sub_080003F0();
+    sub_0809F934();
+}
+#undef RENDER_D878
+#undef BD878
+#undef HD878
+#undef SD878
+#undef ID878
+#undef PD878
 union BgE468 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; };
 struct PlayerE468 {u8 p0[0xC8];u16 timer;s16 direction;u16 speed;u8 pCE[0x7E];};
 extern struct PlayerE468 playersE468[] asm("gUnk_03003CE0");
