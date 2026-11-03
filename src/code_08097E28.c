@@ -2772,7 +2772,290 @@ void sub_0809C8F4_(struct ObjC1B4 *o)
     } while (--timer != 0xFFFF);
     taskC1B4()->f8 = 0;
 }
+#ifdef NONMATCHING
+struct SprCC2C { u32 f0, f4, f8, fC; u8 pad10[0xC]; u8 f1C[7]; u8 f23; u8 f24; u8 pad25[0xF]; };
+struct PosCC2C { u16 x, y; };
+struct XYCC2C { u32 x, y; };
+struct PlayerCC2C { u8 p0[0x30]; u32 flags; u8 p34[0x114]; struct PosCC2C *pos; };
+struct SubCC2C { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fd6; };
+struct EntCC2C {
+    u16 f0, f2; u8 p4[4]; u16 f8; u8 pa[2]; u16 fc; u8 pe[6];
+    s32 x, y; u8 p1c[0x2c]; u16 f48; u8 p4a[2]; s32 f4c; s32 f50, f54;
+    u8 p58[2]; u16 f5a; s16 f5c; s16 f5e; u8 p60[8]; u16 f68, f6a, f6c, f6e;
+    u8 p70[0x164]; s16 f1d4, f1d6; u8 p1d8[0x24];
+    u32 lo:4; u32 hi:4;
+    u8 f1fd, f1fe, p1ff; u8 f200; u8 p201; u16 f202;
+    struct SubCC2C sub;
+};
+extern struct PlayerCC2C playersCC2C[] asm("gUnk_03003CE0");
+extern u8 *entsCC2C asm("gUnk_030056F4");
+extern u32 maskCC2C asm("gUnk_030056FC");
+extern struct EntCC2C *tblCC2C[] asm("gUnk_03000300");
+extern struct EntCC2C *objCC2C asm("gUnk_030002EC");
+extern s32 heapCC2C asm("gUnk_030034E0");
+struct TileCC2C { u8 p[0x90]; u16 f90; };
+extern struct TileCC2C tileCC2C asm("gUnk_03003170");
+extern u8 srcCC2C[] asm("gUnk_084A1910");
+extern void initCC2C(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern u16 animCC2C(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void drawCC2C(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern void coordsCC2C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void setupCC2C(void *, void *, s32) asm("sub_0801623C");
+extern void s19F60(void) asm("sub_08019F60");
+extern u8 s96594(u8) asm("sub_08096594");
+extern u8 s97AC0(void *, struct XYCC2C, u32, s32, s32) asm("sub_08097AC0");
+extern u8 s9D374(void *) asm("sub_0809D374");
+extern void s1C8F0(void *) asm("sub_0801C8F0");
+extern void s96640(void *) asm("sub_08096640");
+extern void s1A120(void *, s32, s16) asm("sub_0801A120");
+extern u16 s19CE8(void *) asm("sub_08019CE8");
+extern void s6171C(void *, s32) asm("sub_0806171C");
+extern s32 s0800CD8C(void) asm("sub_0800CD8C");
+extern s32 s0800CCCC(void) asm("sub_0800CCCC");
+extern s32 s0800CC98(void) asm("sub_0800CC98");
+extern s32 s0800CD34(void) asm("sub_0800CD34");
+extern s32 s080020F4(void) asm("sub_080020F4");
+extern void yieldCC2C(void) asm("sub_080003F0");
+
+void sub_0809CC2C_(u8 idx) asm("sub_0809CC2C");
+static inline u8 prepCC2C(struct EntCC2C *ent, struct SprCC2C *spr, struct SubCC2C *sub, u32 palNo,
+    u16 *p68, u16 *p6a, u16 *p6c, s32 flag, s16 *sx, s16 *sy)
+{
+    u8 pal;
+    spr->f1C[0] = palNo;
+    sub_08000AF0(palNo + 0x10, (void *)(spr->fC + sub->fd6 * 32), 1);
+    if (sub_08098004() & 1)
+        pal = sub_08097FF8();
+    else
+        pal = sub_0800BC44(ent->x >> 8, ent->y >> 8, 0);
+    if (s0800CD8C() == 0)
+        ent->f6e = animCC2C(spr, *p68, p6a, p6c, flag);
+    coordsCC2C((s16)(ent->x >> 8), (s16)(ent->y >> 8), sx, sy, 0, 0);
+    return pal;
+}
+
+void sub_0809CC2C_(u8 idx)
+{
+    struct SprCC2C spr1;
+    struct SprCC2C spr2;
+    s16 sx, sy;
+
+    struct EntCC2C *ent;
+    struct SubCC2C *sub;
+    struct SprCC2C *spr;
+    struct XYCC2C t;
+    struct PosCC2C *pos;
+    s32 last;
+    u32 speed;
+    s32 mode;
+    u32 prevFrame, prevMode;
+    u16 blink;
+    u16 flash;
+    s32 flag;
+    u16 timer;
+    u16 limit;
+    s16 shake;
+    u8 done;
+    u16 *p68, *p6a, *p6c;
+    u8 pal;
+    u32 palNo;
+    u32 v;
+    struct EntCC2C **pp;
+    s32 h;
+    s32 r;
+    struct PlayerCC2C *pl;
+    s16 *p5c;
+
+
+    palNo = 6;
+    ent = (struct EntCC2C *)(entsCC2C + (idx * 0x2e0 + 0x2e0));
+    sub_0801A0A4(ent);
+    maskCC2C |= 1 << (idx + 1);
+    tblCC2C[idx] = ent;
+    switch (idx) {
+    case 0: ent->x = 0x890E; break;
+    case 1: ent->x = 0x14945; break;
+    }
+    ent->y = 0xDC50;
+    setupCC2C(ent, srcCC2C, idx + 1);
+    sub = &ent->sub;
+    s19F60();
+    ent->f48 = tileCC2C.f90;
+    ent->f0 = idx + 1;
+    ent->f2 = idx + 5;
+    ent->f50 = 1;
+    ent->f54 = 0;
+    ent->lo = idx + 1;
+    ent->f202 = ent->f2;
+    ent->f200 = 0xFF;
+    ent->f1fd = 2;
+    initCC2C(&spr1, 0x5004C, 6, -1, 0);
+    initCC2C(&spr2, 0x5004B, 6, -1, 0);
+    ent->f5c = ent->f1d6 = sub->f6 * 3;
+    ent->f5e = ent->f1d4 = (sub->f4 << 1) * 10;
+    ent->f6c = 0;
+    ent->f6a = 0;
+    ent->f68 = 0;
+    ent->fc = 0;
+    mode = 0;
+    prevFrame = 0xFFFF;
+    prevMode = 0xFFFF;
+    flash = 0;
+    blink = 0;
+    done = 0;
+    r = sub_0800CE30();
+    p5c = &ent->f5c;
+    p6c = &ent->f6c;
+    p6a = &ent->f6a;
+    p68 = &ent->f68;
+    if (r == 1) {
+        limit = 90;
+        speed = 0x100;
+    } else {
+        limit = 180;
+        speed = 0x80;
+    }
+    while (gUnk_030002E8 == 0 ? sub_0801A0B0(ent) : sub_0801A0A4(ent), objCC2C->f5c != 0) {
+        if (ent->fc == 10 && blink == 0)
+            blink = 8;
+        if (sub_08058DB0() == 0) {
+            s1C8F0(ent);
+            switch (ent->f1fd) {
+            case 1:
+                ent->fc = 0;
+                if (sub_080682B8(ent->f0)) {
+                    ent->f1fd = ent->f1fe;
+                    sub_08065E38(ent->f0);
+                }
+                break;
+            case 2:
+                mode = 0;
+                if (sub_08056F78()) {
+                    ent->f1fe = 4;
+                    ent->f1fd = 1;
+                    sub_08068330(ent->f0);
+                }
+                break;
+            case 4:
+                mode = 1;
+                ent->fc = 1;
+                ent->hi = s96594(idx);
+                pl = &playersCC2C[ent->hi];
+                pos = pl->pos;
+                t.x = pos->x >> 4;
+                t.y = ((u32)pos->y << 20) >> 20;
+                if (s97AC0(ent, t, speed, 0x30, mode) == 0) {
+                    sub_08097A38(idx);
+                    ent->f1fe = 6;
+                    ent->f1fd = 1;
+                    sub_08068330(ent->f0);
+                }
+                break;
+            case 6:
+                mode = 2;
+                ent->fc = 2;
+                if (*p6a == 1 && *p6c == 0 && done == 0)
+                    done = s9D374(ent);
+                if (ent->f6e != 0) {
+                    done = 0;
+                    timer = 0;
+                    ent->f1fe = 8;
+                    ent->f1fd = 1;
+                    sub_08068330(ent->f0);
+                }
+                break;
+            case 8:
+                mode = 0;
+                ent->fc = 0;
+                if (timer++ >= limit) {
+                    ent->f1fe = 4;
+                    ent->f1fd = 1;
+                    sub_08068330(ent->f0);
+                }
+                break;
+            }
+        }
+        s96640(ent);
+        switch (mode) {
+        case 0:
+            spr = &spr1;
+            *p68 = ent->f8;
+            flag = 1;
+            break;
+        case 1:
+            spr = &spr1;
+            *p68 = ent->f8 + 8;
+            flag = 1;
+            break;
+        case 2:
+            spr = &spr2;
+            *p68 = ent->f8;
+            flag = 0;
+            break;
+        }
+        if (prevFrame != *p68 || prevMode != mode) {
+            prevMode = mode;
+            prevFrame = *p68;
+            *p6c = 0;
+            *p6a = 0;
+        }
+        pal = prepCC2C(ent, spr, sub, palNo, p68, p6a, p6c, flag, &sx, &sy);
+        if (blink != 0) {
+            if ((blink-- & 1) && s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0)
+                drawCC2C(sx, sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
+        } else if (s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0) {
+            drawCC2C(sx, sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
+        }
+        v = ent->f4c;
+        if (v != 0 && last != v) {
+            last = v;
+            flash = 10;
+            shake = 0;
+        }
+        if (flash != 0) {
+            if (s0800CC98() == 0 && s0800CCCC() == 0 && s0800CD34() == 0)
+                s1A120(ent, last, shake);
+            if (flash & 2)
+                shake--;
+            flash--;
+        } else {
+            last = 0;
+            ent->f4c = 0;
+        }
+        if (s19CE8(ent) != 0) {
+            yieldCC2C();
+            goto out;
+        }
+        yieldCC2C();
+    }
+    *p5c = 0;
+    ent->fc = 11;
+out:
+    maskCC2C &= ~(1 << tblCC2C[idx]->f0);
+    blink = 20;
+    do {
+        pal = prepCC2C(ent, spr, sub, palNo, p68, p6a, p6c, flag, &sx, &sy);
+        if ((blink & 1) && s0800CCCC() == 0 && s0800CC98() == 0 && s0800CD34() == 0)
+            drawCC2C(sx, sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
+        yieldCC2C();
+    } while (--blink != 0xFFFF);
+    if (!(playersCC2C[s080020F4()].flags & 0x2000)) {
+        pp = &tblCC2C[idx];
+        if ((*pp)->f5a != 0) {
+            h = sub_0801E46C((void *)heapCC2C, sub);
+            shake = 0x1d;
+            do {
+                (*pp)->y -= 0x20;
+                s6171C(*pp, h);
+                yieldCC2C();
+            } while (--shake != -1);
+            sub_0801E4CC((u8 *)heapCC2C, h);
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809CC2C);
+#endif
 #ifdef NONMATCHING
 struct PosD374 { u16 x, y; };
 struct PlayerD374 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1f]; u16 f88; u8 p8a[0x26]; u16 fb0; u8 pb2[0x32]; u32 fe4[25]; struct PosD374 *pos; };
