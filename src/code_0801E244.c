@@ -600,7 +600,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   struct CombatActorD8C *src = arg0;
   u8 *dst = arg1;
   u8 *record;
-  register u32 varianceWord;
+  u16 rnd;
   u16 attack;
   u16 defense;
   u16 variance;
@@ -614,7 +614,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   u16 *resists;
   u16 resistance;
   {
-    register struct CombatCtxD8C *ctx = &src->ctx;
+    struct CombatCtxD8C *ctx = &src->ctx;
     record = (u8 *) sub_08007290(ctx->key | 0xB0000);
   }
   defense = *((u16 *) (dst + 0x5A));
@@ -628,21 +628,12 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
     divisor = 200;
   }
   attack = src->attack;
-  varianceWord = ((u16) sub_080008C8()) % 50;
-  varianceWord <<= 16;
-  varianceWord += 0x640000;
-  variance = varianceWord >> 16;
+  rnd = ((u16) sub_080008C8()) % 50;
+  variance = rnd + 100;
   scaled = ((s32) ((((u32) attack) * attack) * 10)) / (attack + defense);
   weighted = ((s32) (((u32) scaled) * variance)) / ((s32) divisor);
-  {
-
-
-
-
-        register u32 quotient asm("r1")=(u16)weighted;
-asm("" : "+r"(quotient));
-    firstDamage = quotient / 10U;
-  }
+  firstDamage = weighted;
+  firstDamage /= 10;
   if (!firstDamage)
   {
     firstDamage = 1;
