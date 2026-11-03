@@ -3875,7 +3875,277 @@ enemyOrigin:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DE94);
 #endif
+#ifdef NONMATCHING
+struct ArgE7D4 { u32 player, bit, target, value, f10, level; };
+struct SprE7D4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
+struct SprBitsE7D4 { u8 lo:4; u8 hi:4; u8 b1, b2, b3; u8 b4:6; u8 b4hi:2; };
+struct PlyE7D4 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 fB2; u8 padB4[2]; u16 fB6; u8 padB8[10]; u16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct EneE7D4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x42]; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 team; u8 pad1DD[0x4E]; u8 threshold; u8 pad22C[2]; u8 w, h; u8 pad230[0xB0]; };
+struct BoxE7D4 { u32 w:16; u32 h:16; };
+struct PosE7D4 { s32 x, y; };
+extern struct PlyE7D4 pE7D4[] asm("gUnk_03003CE0");
+extern u8 *eE7D4Base asm("gUnk_030056F4");
+extern u32 eE7D4Mask asm("gUnk_030056FC");
+extern u32 fE7D4[] asm("gUnk_030063E0");
+extern u32 flagsE7D4 asm("gUnk_03002344");
+extern u16 dirE7D4[] asm("gUnk_0849E730");
+extern s16 sinE7D4[] asm("gUnk_080B9704");
+extern u8 costE7D4[] asm("gUnk_084EBF1C");
+extern struct BoxE7D4 rangeE7D4[] asm("gUnk_084EC1A0");
+extern void initE7D4(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern void coordsE7D4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 animE7D4(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void spawnE7D4(s32, s32, u32, s32, s32) asm("sub_08069A30");
+extern void sendE7D4(void *) asm("sub_080694AC");
+extern void drawE7D4(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern void palE7D4(u32, u32, u32) asm("sub_08000AF0");
+extern s32 testE7D4(struct PosE7D4 *, void *, struct BoxE7D4 *, struct BoxE7D4 *) asm("sub_08021FE0");
+
+void sub_0806E7D4(struct ArgE7D4 *arg)
+{
+    struct SprE7D4 spr;
+    u8 hits[5];
+    u8 delay[5];
+    u16 frame[5];
+    u16 timer[5];
+    s16 dx, dy;
+    struct PosE7D4 pos;
+    struct PosE7D4 opos;
+    struct BoxE7D4 box;
+    struct BoxE7D4 box2;
+    struct PlyE7D4 *p;
+    u32 level;
+    u32 level2;
+    s32 x, y;
+    u16 done;
+    u16 count;
+    u16 local;
+    u32 player;
+    u32 bit;
+    struct EneE7D4 *e;
+    struct PlyE7D4 *q;
+    struct EneE7D4 *e2;
+    u16 i;
+    u16 nhit;
+    u32 n;
+    u8 shade;
+    u8 c;
+    u16 a;
+    s32 sx, sy;
+
+    local = sub_080020F4();
+    player = arg->player;
+    bit = arg->bit;
+    level = (u16)arg->level;
+    level2 = level;
+    if (player <= 3) {
+        p = &pE7D4[player];
+    } else {
+        e = (struct EneE7D4 *)(eE7D4Base + (player * 0x2E0 + 0xFFFFF480));
+        while (e->wait < e->threshold) {
+            if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
+                fE7D4[player] &= ~(1 << bit);
+                return;
+            }
+            sub_080003F0();
+        }
+    }
+    if (local != player) {
+        if (player > 3) {
+            u8 *costBase = costE7D4;
+            u32 costOffset = level * 2 + arg->value * 24;
+            s16 *cost;
+            s32 resource;
+            costBase += 6;
+            cost = (s16 *)(costOffset + (u32)costBase);
+            resource = e->resource - *cost;
+            e->resource = resource;
+            if ((s16)resource < 0) {
+                fE7D4[player] &= ~(1 << bit);
+                e->resource = 0;
+                return;
+            }
+        }
+    } else {
+        struct PlyE7D4 *cp = &pE7D4[sub_080020F4()];
+        u16 delta = sub_0806898C(arg->value, arg->level) - 1;
+        cp->resource -= delta;
+        if ((s16)cp->resource < 0)
+            cp->resource = 0;
+    }
+    frame[0] = 0;
+    timer[0] = 0;
+    delay[0] = 0;
+    for (i = 1; i <= 4; i++) {
+        frame[i] = 0;
+        timer[i] = 0;
+        delay[i] = 10 + delay[i - 1] + sub_080008C8() % 20;
+    }
+    if (player <= 3) {
+        if (level2 != 0)
+            p->fB2 = 2;
+        x = (p->sprite[0] >> 4) << 8;
+        y = (u32)(p->sprite[1] << 20) >> 12;
+    } else {
+        x = e->x;
+        y = e->y;
+    }
+    pos.x = x;
+    pos.y = y;
+    nhit = 0;
+    count = 0;
+    if (!sub_0800CDF8()) {
+        if (arg->target <= 3) {
+            n = sub_08002164();
+            *(u32 *)&box = 0x80008;
+            for (i = 0; i < n; i++) {
+                q = &pE7D4[i];
+                if (player <= 3) {
+                    u32 t;
+                    if (q->team == p->team)
+                        continue;
+                    t = (u32)(((u8 *)q->sprite)[0] << 28) >> 28;
+                    if (t == 10 || t == 14)
+                        continue;
+                }
+                if (((struct SprBitsE7D4 *)q->sprite)->b4 & 0x20)
+                    continue;
+                if (q->team == 0)
+                    continue;
+                if ((u32)(((u8 *)q->sprite)[0] << 28) >> 28 == 14)
+                    continue;
+                if (q->state == 11)
+                    continue;
+                opos.x = (q->sprite[0] >> 4) << 8;
+                opos.y = (u32)(q->sprite[1] << 20) >> 12;
+                if (testE7D4(&pos, &opos, &rangeE7D4[level], &box)) {
+                    hits[count++] = i;
+                    nhit++;
+                }
+            }
+        } else {
+            for (i = 0; i <= 4; i++) {
+                if (!(eE7D4Mask & (1 << i)))
+                    continue;
+                e2 = (struct EneE7D4 *)(eE7D4Base + i * 0x2E0);
+                if (e2->state == 11)
+                    continue;
+                if (e2->team == 0)
+                    continue;
+                box2.w = e2->w;
+                box2.h = e2->h;
+                if (testE7D4(&pos, &e2->x, &rangeE7D4[level], &box2)) {
+                    hits[count++] = i;
+                    nhit++;
+                }
+            }
+        }
+    }
+    if ((local == player || player > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(level + 0x140);
+    initE7D4(&spr, 0x5008B, 8, -1, 0);
+    spr.f1C = 7;
+    spr.f1D = 8;
+    if (level > 6)
+        level = 6;
+    if (nhit == 0) {
+        if (player <= 3)
+            a = dirE7D4[((u8 *)p->sprite)[3] >> 4] << 4;
+        else
+            a = dirE7D4[e->dir] << 4;
+        x += sinE7D4[(s16)a + 0x40] * 30;
+        y += sinE7D4[(s16)a] * 30;
+        done = 0;
+        sx = x >> 8;
+        sy = y >> 8;
+        do {
+            coordsE7D4((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(sx, sy, 0);
+            if (animE7D4(&spr, level, &frame[0], &timer[0], 0))
+                done++;
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                if (sub_0800CB9C()) {
+                    if ((flagsE7D4 & 1) == (player & 1))
+                        drawE7D4(dx, dy, level + 7, frame[0], shade, &spr.f1C, spr.f8, spr.f0);
+                } else {
+                    drawE7D4(dx, dy, level + 7, frame[0], shade, &spr.f1C, spr.f8, spr.f0);
+                }
+            }
+            sub_080003F0();
+        } while (done == 0);
+        spawnE7D4(x, y, player, 15, level);
+    } else {
+        done = 0;
+        while (done < count && (player != sub_080020F4() || ((u16)(p->state - 11) > 1 && sub_0800D11C() == 0))) {
+            if (arg->target <= 3) {
+                for (i = 0; i < count; i++) {
+                    q = &pE7D4[hits[i]];
+                    coordsE7D4(q->sprite[0] >> 4, (u32)(q->sprite[1] << 20) >> 20, &dx, &dy, 0x30, 0);
+                    shade = sub_0800BC44(q->sprite[0] >> 4, (u32)(q->sprite[1] << 20) >> 20, 0);
+                    if (delay[i] == 0) {
+                        if (animE7D4(&spr, (u16)(level + 7), &frame[i], &timer[i], 0)) {
+                            done++;
+                            delay[i] = 0xF0;
+                            if (local == hits[i]) {
+                                arg->target = q->id;
+                                sendE7D4(arg);
+                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                                    sub_0805865C(0x1A);
+                            }
+                            spawnE7D4((q->sprite[0] >> 4) << 8, (u32)(q->sprite[1] << 20) >> 12, player, 15, level);
+                        }
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(flagsE7D4 & 1))
+                                palE7D4(0x17, spr.fC, 2);
+                            if (sub_0800CB9C() == 0 || (flagsE7D4 & 1) == (player & 1))
+                                drawE7D4(dx, dy, level + 7, frame[i], shade, &spr.f1C, spr.f8, spr.f0);
+                        }
+                    } else if (delay[i] != 0xF0) {
+                        delay[i]--;
+                    }
+                }
+            } else {
+                for (i = 0; i < count; i++) {
+                    e2 = (struct EneE7D4 *)(eE7D4Base + hits[i] * 0x2E0);
+                    coordsE7D4((s16)(e2->x >> 8), (s16)(e2->y >> 8), &dx, &dy, 0x30, 0);
+                    shade = sub_0800BC44(e2->x >> 8, e2->y >> 8, 0);
+                    if (delay[i] == 0) {
+                        if (animE7D4(&spr, (u16)(level + 7), &frame[i], &timer[i], 0)) {
+                            done++;
+                            delay[i] = 0xF0;
+                            if (local == player) {
+                                arg->target = e2->id + 4;
+                                sendE7D4(arg);
+                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                                    sub_0805865C(0x1A);
+                            }
+                            spawnE7D4(e2->x, e2->y, player, 15, level);
+                        }
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(flagsE7D4 & 1))
+                                palE7D4(0x17, spr.fC, 2);
+                            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
+                                shade = 0;
+                            if (sub_0800CB9C() == 0 || (flagsE7D4 & 1) == (player & 1))
+                                drawE7D4(dx, dy, level + 7, frame[i], shade, &spr.f1C, spr.f8, spr.f0);
+                        }
+                    } else if (delay[i] != 0xF0) {
+                        delay[i]--;
+                    }
+                }
+            }
+            sub_080003F0();
+        }
+    }
+    if (player <= 3) {
+        while (p->fB6 == 0)
+            sub_080003F0();
+    }
+    fE7D4[player] &= ~(1 << bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806E7D4);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806F0CC);
 struct T06FE1CPlayer { u8 pad0[0x24]; u16 x24, x26; u8 pad28[0x8e]; u16 wait; u8 padB8[10]; s16 resource; u8 padC4[0x88]; };
 struct T06FE1CArgs { u32 player, bit, f8, value, f10, level; };
