@@ -23966,14 +23966,14 @@
       "name": "sub_08075520",
       "addr": 134698272,
       "size": 460,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08075520",
       "canonical_symbol": "sub_08075520",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08075520",
       "name_status": "unidentified",
       "name_source": null,
@@ -26593,10 +26593,16 @@
       "canonical_symbol": "sub_0808E530",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_0808E530",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "sub_0808E530_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 943,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808E530_v"
+        }
+      ]
     },
     {
       "name": "sub_0808E66C",
@@ -28193,14 +28199,14 @@
       "name": "sub_080941B4",
       "addr": 134824372,
       "size": 580,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08092D60",
       "kind": "c",
       "cat": "game",
       "address": "0x080941B4",
       "canonical_symbol": "sub_080941B4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "TaskScrollBg0Bg1WithRandomBlendState",
       "name_status": "confirmed",
       "name_source": "catalog",
@@ -37006,12 +37012,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 180,
-      "existing": 61,
+      "identified": 181,
+      "existing": 62,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1700,
-      "percent_identified": 9.574468085106384
+      "unidentified": 1699,
+      "percent_identified": 9.627659574468085
     },
     "sdk": {
       "total": 155,
@@ -37024,12 +37030,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 335,
-      "existing": 190,
+      "identified": 336,
+      "existing": 191,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1700,
-      "percent_identified": 16.461916461916463
+      "unidentified": 1699,
+      "percent_identified": 16.511056511056513
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
