@@ -2662,7 +2662,372 @@ loopEnd:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08063E30);
 #endif
+#ifdef NONMATCHING
+struct Chr441 { u32 kind:4; u32 kindHi:28; u32 lo:11; u32 level:8; u32 cls:5; u32 hi:8; };
+struct PL441 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 b68; u8 pad69[0x5D]; u16 hC6; u8 padC8[0x80]; struct Chr441 *chr; };
+struct PE441 { struct Chr441 *chr; u8 pad[0x148]; };
+struct TS441 { u8 pad0[0x7C]; s16 scrollX; s16 scrollY; u8 pad80[0xC]; u16 curLevel; u16 pad8E; u16 f90; };
+struct Obj441 { s32 f0, f4, f8, fC, f10, f14, f18; u8 data[16]; };
+struct Pop441 { s32 base, unk4, data, sound, resource, style, mode; u8 palette[24]; };
+struct Res441 { u32 b0:8; u32 b1:8; u32 b2:8; s32 b3:8; u16 h4; u16 h6; };
+struct Ene441 { u16 h0; u16 h2; u8 pad4[8]; u16 hC; u8 padE[0x3C]; u16 h4A; u32 w4C; u8 pad50[8]; u16 h58; u16 h5A; u8 pad5C[6]; u16 h62; u8 pad64[0x18]; u16 h7C; u16 h7E;
+    u8 pad80[0x14E]; s16 h1CE; u8 pad1D0[0xC]; u8 b1DC; u8 pad1DD[0x3B]; u8 b218[0xE]; u8 b226; };
+struct Tbl441 { u16 a; u16 b; };
+extern struct PL441 pl441[] asm("gUnk_03003CE0");
+extern struct PE441 pe441[] asm("gUnk_03003E28");
+extern struct TS441 ts441 asm("gUnk_03003170");
+extern struct Obj441 obj441 asm("gUnk_03005D80");
+extern struct Tbl441 tblA441[] asm("gUnk_084EBE84");
+extern struct Tbl441 tblB441[] asm("gUnk_084EBE86");
+extern u8 res441[] asm("gUnk_08518938");
+extern u8 *ene441 asm("gUnk_030056F4");
+extern u32 eneMask441 asm("gUnk_030056FC");
+extern u16 video441[] asm("gUnk_03001250");
+s32 f441_sub_0801E244(void *, u32) asm("sub_0801E244");
+s32 f441_sub_0801E104(void *, s32) asm("sub_0801E104");
+void f441_sub_0801DB94(s32, s32, u32) asm("sub_0801DB94");
+s32 f441_sub_08021C74(s32, s32, s32) asm("sub_08021C74");
+s32 f441_sub_08021D00(s32, s32, void *) asm("sub_08021D00");
+void f441_sub_08069388(void *, void *, s32, s32, s32) asm("sub_08069388");
+void f441_sub_08069080(void *, s32, s32, s32, s32, s32) asm("sub_08069080");
+void f441_sub_080660EC(void *) asm("sub_080660EC");
+void f441_sub_08092348(s32, s32, s32) asm("sub_08092348");
+void f441_sub_080009F8(s32, s32, s32) asm("sub_080009F8");
+void f441_sub_0800A34C(s32, s32, s32) asm("sub_0800A34C");
+void f441_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
+void f441_sub_080003F4(s32) asm("sub_080003F4");
+void f441_sub_0801A6D4(s32) asm("sub_0801A6D4");
+void f441_sub_0801A664(s32, s32) asm("sub_0801A664");
+void f441_sub_08007CF0(s32, s32, s32, s32, s32, s32, s32, s32) asm("sub_08007CF0");
+u32 f441_sub_08008CC4(u32, u16 *, u16 *, s32, u32) asm("sub_08008CC4");
+u32 f441_sub_080923B0(void) asm("sub_080923B0");
+
+static inline s32 init441(struct Pop441 *obj, u32 resource, s32 index, s32 size)
+{
+    void *table = res441;
+    s32 mem;
+    s32 first;
+    s32 second;
+    s32 i;
+    obj->resource = resource;
+    obj->style = index;
+    obj->mode = size;
+    first = sub_08006EE0(resource, table);
+    obj->data = first;
+    if (first == 0) return 0;
+    resource = (resource & 0xFFFF) | 0x60000;
+    second = sub_08006EE0(resource, table);
+    obj->base = second;
+    if (second == 0) return 0;
+    mem = sub_08006EE0((resource & 0xFFFF) | 0x80000, table);
+    obj->sound = mem;
+    if (mem == 0) return 0;
+    if (size >= 0)
+        f441_sub_08000AF0(obj->style + 0x10, mem + (obj->style << 5), obj->mode);
+    i = 0;
+    do {
+        obj->palette[i] = i;
+        i++;
+    } while ((u32)i <= 15);
+    sub_080653B8(obj, 0x120, 0xE0, 8);
+    return (s32)obj;
+}
+
+void BattleResult441(u16 *arg0, u32 arg1) asm("sub_0806441C");
+void BattleResult441(u16 *arg0, u32 arg1)
+{
+    struct Pop441 obj;
+    u16 levels[4];
+    u16 classes[4];
+    u16 w58;
+    u16 w5A;
+    u16 fill[2];
+    struct Res441 res;
+    u32 flag;
+    u32 hi;
+    u32 type;
+    s32 cnt7;
+    u16 mask;
+    u16 i;
+    u16 cnt;
+    u16 val;
+    u16 sum;
+    u16 c;
+    u32 n;
+    s32 sx, sy;
+    s32 m;
+    struct Obj441 *o = &obj441;
+    struct Ene441 *e;
+    s32 dmg;
+    s32 r;
+    struct Chr441 *chr;
+    struct PE441 *pe;
+    struct PL441 *plp;
+
+    if (sub_0800BA6C() && !sub_0805F184() && !sub_0800CC98() && !sub_0800CCCC() && !sub_0800CE68() && !sub_0800CDF8() && !sub_0800D11C()) {
+        pl441[sub_080020F4()].b68 = 0;
+        while (sub_0801AC78() == 0)
+            sub_080003F0();
+        sub_0800BB54();
+        mask = 0;
+        i = 0;
+        pe = pe441;
+        for (; i < sub_08002164(); i++) {
+            chr = pe[i].chr;
+            if (chr->kind == 0xE) {
+                mask |= 1 << i;
+                levels[i] = chr->level;
+                classes[i] = pe[i].chr->cls;
+            } else {
+                levels[i] = 0;
+                classes[i] = 100;
+            }
+        }
+        sub_0800CD68();
+        sub_0801AC24(0x3C);
+        switch (ts441.curLevel) {
+        case 4:
+            if (sub_0800CDC0())
+                f441_sub_080009F8(0x400, 0, 1);
+            break;
+        case 6:
+            f441_sub_080009F8(0x200, 0, 1);
+            break;
+        case 8:
+            if (sub_0800CDC0())
+                f441_sub_080009F8(0x200, 0, 1);
+            break;
+        case 9:
+            switch (ts441.f90) {
+            case 1: case 3: case 5: case 7: case 9: case 11: case 14:
+                f441_sub_080009F8(0x200, 0, 1);
+                break;
+            }
+            break;
+        case 10:
+            if (sub_0800CDC0())
+                f441_sub_080009F8(0x200, 0, 1);
+            break;
+        case 13:
+            f441_sub_080009F8(0x200, 0, 1);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_08015C14();
+        sub_08015D2C();
+        sub_080003F0();
+        sub_080003F0();
+        sub_08063E30();
+        if (sub_0800CDF8())
+            return;
+        if (sub_080021A8())
+            return;
+        hi = (arg1 & 0xFF00) >> 8;
+        arg1 &= 0xFF;
+        cnt = 0;
+        for (i = 0; i < sub_08002164(); i++) {
+            plp = &pl441[i]; if (plp->chr->kind == 0xE)
+                cnt++;
+        }
+        sx = ts441.scrollX;
+        sy = ts441.scrollY;
+        f441_sub_08092348((s8)arg1, (s8)hi, (s8)cnt);
+        f441_sub_080003F4(0x12001111);
+        sub_0800CBEC();
+        sub_08057624(10);
+        sub_08000420(0x514C8);
+        ts441.scrollX = sx;
+        ts441.scrollY = sy;
+        sub_0805F07C();
+        f441_sub_08000AF0(obj441.f14 + 0x10, obj441.fC + (obj441.f14 << 5), obj441.f18);
+        init441(&obj, 0x5008C, 0, -1);
+        f441_sub_08000AF0(0x17, obj.sound, 2);
+        f441_sub_0801A6D4(0);
+        f441_sub_0801A664(0, 0x14);
+        *(u32 *)fill = 0;
+        CpuSet(fill, (void *)0x0600E000, 0x05000200);
+        video441[0] = 0;
+        video441[1] = 0;
+        if (!(pl441[sub_080020F4()].flags & 0x400) && sub_0800CF10() == 0) {
+            sub_08015D50();
+            sub_08067D74();
+        }
+        if (pl441[sub_080020F4()].state == 0xE)
+            pl441[sub_080020F4()].hC6 = 0;
+        sub_0800CBEC();
+        sub_0800CD78();
+        n = 0;
+        if (sub_0800CF10() == 0)
+            pl441[sub_080020F4()].state = 0;
+        while (sub_08068330(0x586) == 0)
+            sub_080003F0();
+        while (sub_080682B8(0x586) == 0) {
+            if (++n > 0x708)
+                break;
+            sub_080003F0();
+        }
+        sub_08065E38(0x586);
+        while (sub_0801AC78() == 0)
+            sub_080003F0();
+        f441_sub_0800A34C(ts441.curLevel, 0, 1);
+        if (cnt > 1) {
+            val = 0;
+            for (i = 0; i < sub_08002164(); i++) {
+                if (i != sub_080020F4())
+                    val += tblA441[levels[i]].a;
+            }
+            val = (val >> 1) + tblA441[hi].a;
+            switch (cnt) {
+            case 2: m = 15; break;
+            case 3: m = 20; break;
+            case 4: m = 25; break;
+            default: m = 10; break;
+            }
+            val = val * m / 10;
+            val = val * (sub_080008C8() % 50 + 100) / 100;
+        } else {
+            val = tblA441[hi].a * (sub_080008C8() % 50 + 100) / 100;
+        }
+        switch (arg1) {
+        case 6: val = hi * 100; break;
+        case 7:
+            type = 0;
+            c = 0;
+            for (i = 0; i < sub_08002164(); i++) {
+                if (classes[i] == 7)
+                    c++;
+            }
+            cnt7 = (u16)(c + 11);
+            break;
+        case 1: type = 2; break;
+        case 2: type = 3; break;
+        case 3: type = 6; break;
+        case 4: type = 4; break;
+        case 5: type = 5; break;
+        case 0: type = 1; break;
+        }
+        res.b2 = 0;
+        res.b3 = 0;
+        if (*arg0 == sub_080020F4()) {
+            i = 0;
+            do {
+                if ((eneMask441 & (1 << i)) && (e = (struct Ene441 *)(ene441 + i * 0x2E0), e->b1DC != 0)) {
+                    switch (arg1) {
+                    default:
+                        f441_sub_08069388(&res, e->b218, tblB441[classes[*arg0]].a, type, e->h0 + 4);
+                        dmg = (u16)f441_sub_08021D00(type, val, e->b218);
+                        break;
+                    case 6:
+                        if ((u8)f441_sub_080923B0() == 6) {
+                            dmg = 0;
+                        } else {
+                            f441_sub_08069388(&res, e->b218, 100, 7, *arg0);
+                            dmg = (u16)f441_sub_08021D00(type, val, e->b218);
+                        }
+                        break;
+                    case 7:
+                        dmg = (u16)((f441_sub_08021C74(val, e->h1CE, 200) * cnt7) / 8);
+                        break;
+                    }
+                    res.h4 = dmg;
+                    e->hC = 10;
+                    e->h4A = res.h4;
+                    e->w4C = e->h4A;
+                    e->h7C = res.b2;
+                    e->h7E = res.b3;
+                    e->h58 = *arg0;
+                    e->h62 = res.b1;
+                    res.b0 = e->h2;
+                    if (e->b226 != 3) {
+                        r = f441_sub_0801E244(e, res.b1);
+                        if (r != 0) {
+                            f441_sub_0801DB94(e->h0 + 4, r, res.b1);
+                        } else {
+                            r = f441_sub_0801E104(e, 0);
+                            if (r != 0)
+                                f441_sub_0801DB94(e->h0 + 4, r, res.b1);
+                        }
+                    }
+                    f441_sub_080660EC(&res);
+                    e->h5A |= mask;
+                    f441_sub_08069080(e->b218, res.h4, tblB441[classes[*arg0]].a, *arg0, e->h0 + 4, type);
+                }
+                i++;
+            } while (i <= 4);
+        } else {
+            i = 0;
+            do {
+                if (eneMask441 & (1 << i)) {
+                    e = (struct Ene441 *)(ene441 + i * 0x2E0);
+                    e->h5A |= mask;
+                }
+                i++;
+            } while (i <= 4);
+        }
+        if (eneMask441 != 0)
+            sub_0805865C(0x1A);
+        sub_08057624(10);
+        if (!(pl441[sub_080020F4()].flags & 0x2400) && sub_0800CF10() == 0)
+            pl441[sub_080020F4()].b68 = 1;
+        sub_0806617C();
+        if (!(pl441[sub_080020F4()].flags & 0x400) && sub_0800D11C() == 0)
+            sub_08015C38();
+    } else {
+        if (sub_0800CC98() == 0)
+            sub_08015C14();
+        sub_0800CD68();
+        w58 = 0;
+        w5A = 0;
+        pl441[sub_080020F4()].state = 0;
+        pl441[sub_080020F4()].b68 = 0;
+        while (sub_08058DB0() == 0)
+            sub_080003F0();
+        goto check;
+    loop:
+        {
+            if (sub_0800CC98() == 0)
+                sub_08015C14();
+            flag = 0;
+            for (i = 0; i < sub_08002164(); i++) {
+                if (pe441[i].chr->kind == 0xE)
+                    flag = 1;
+            }
+            if (i == 1)
+                goto done;
+            f441_sub_08008CC4(0x21, &w58, &w5A, o->f8, 1);
+            f441_sub_08007CF0(0x78, 0x3C, 0x21, w58, 0, (s32)o->data, o->f8, o->f0);
+            sub_080003F0();
+        }
+    check:
+        if (flag)
+            goto loop;
+    done:
+        if ((r = sub_0800CF10()) == 0)
+            pl441[sub_080020F4()].state = r;
+        sub_0806617C();
+        n = 0;
+        while (sub_08068330(0x586) == 0)
+            sub_080003F0();
+        while (sub_080682B8(0x586) == 0) {
+            if (++n > 0x708)
+                break;
+            sub_080003F0();
+        }
+        sub_08065E38(0x586);
+        if (!(pl441[sub_080020F4()].flags & 0x2400) && sub_0800CF10() == 0)
+            pl441[sub_080020F4()].b68 = 1;
+        if (sub_0800CC98() == 0 && sub_0800CF10() == 0 && sub_0805F184() == 0) {
+            f441_sub_0800A34C(ts441.curLevel, 0, 1);
+            sub_08015C38();
+        }
+        sub_0800CBEC();
+        sub_0800CD78();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806441C);
+#endif
 extern u8 *gA4210 asm("gUnk_03004210");
 extern u8 *gA5CF4 asm("gUnk_03005CF4");
 #define W64E(p, o) (*(u32 *)((p) + (o)))
