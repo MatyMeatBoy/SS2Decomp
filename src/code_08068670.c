@@ -3585,9 +3585,6 @@ void sub_0806FE1C(struct T06FE1CArgs *arg)
     t06FE1CFlags[player] &= ~(1 << bit);
 }
 #ifdef NONMATCHING
-#ifndef M2C_FIELD
-#define M2C_FIELD(p,t,o) (*(t)((u8 *)(p)+(o)))
-#endif
 u16 t6f_Sqrt(s32) asm("Sqrt");
 u8 t6f_sub_080003F0() asm("sub_080003F0");
 u8 t6f_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
@@ -4832,9 +4829,6 @@ block_307:
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806FF1C);
 #endif
 #ifdef NONMATCHING
-#ifndef M2C_FIELD
-#define M2C_FIELD(p,t,o) (*(t)((u8 *)(p)+(o)))
-#endif
 u16 t6g_Sqrt(s32) asm("Sqrt");
 u8 t6g_sub_080003F0() asm("sub_080003F0");
 u8 t6g_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
