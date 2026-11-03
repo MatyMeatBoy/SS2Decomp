@@ -750,9 +750,12 @@ u32 sub_08088B6C(u8 *tbl, u32 arg1)
 }
 struct Pos090 { s32 x, y; };
 struct Player090 {
-    u8 pad0[0x20];
+    u8 pad0[0x1C];
+    u16 w1C;                /* 0x1C */
+    u16 pad1E;
     u16 state;              /* 0x20 */
-    u8 pad22[0xE];
+    u16 w22;                /* 0x22 */
+    u8 pad24[0xC];
     u32 flags;              /* 0x30 */
     u8 pad34[0x34];
     u8 b68;                 /* 0x68 */
@@ -764,167 +767,132 @@ struct Player090 {
 extern struct Player090 players090[] asm("gUnk_03003CE0");
 struct Warp090 { u16 x, y; };
 struct Warp8_090 { u16 x, y, dest, pad; };
-#ifdef NONMATCHING
 extern u8 playerCoord88C24[] asm("gUnk_03003D6C");
 extern u32 sceneTable88C24[] asm("gUnk_084F0AC0");
 void callback2B8A4_090(void) asm("sub_0802B8A4");
 s32 sub_08088C24(u8 *arg0) {
-    s16 temp_r0;
-    s32 *temp_r2;
-    s32 *temp_r2_4;
-    s32 *temp_r6_2;
-    s32 *var_r2;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1_2;
-    s32 temp_r2_2;
-    s32 temp_r4_3;
-    s32 temp_r6;
-    s32 temp_r7;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    u8 *temp_r0_4;
-    u8 *temp_r1;
-    u8 *temp_r2_3;
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *temp_r4_4;
-    u8 *temp_r4_5;
+    struct Warp090 *w;
+    s32 idx;
+    s32 cf;
+    s32 r;
+    s32 d;
+    struct Player090 *p;
+    struct Player090 *q2;
 
-    if (*(u16 *)(gUnk_03005CF4 + 0x10) != 0) {
-        temp_r0 = sub_08088B6C(arg0, 0);
-        if (temp_r0 != 0) {
-            return 1;
-        }
-        if ((s32) ((s32) *(s32 *)((u8 *)gUnk_03003CE0 + (0x14C * sub_080020F4()) + 0x90) >> 0xB) > 0x39) {
-            temp_r2 = (s32 *)((0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0 + 0x30));
-            *temp_r2 |= 2;
-            sub_08067D74();
-            sub_0800BB40();
-            sub_080586D0(2);
-            sub_0801ABE8(3);
-            sub_0800D0A8();
-            sub_080003F4(0xBBA);
-            sub_080570DC(*(u16 *)(gUnk_03005CF4 + 0x0));
-            *(u16 *)(gUnk_03005CF4 + 0x58) = temp_r0;
-            return 1;
-        }
-        temp_r1 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0;
-        var_r0 = ((s32) *(s32 *)(temp_r1 + 0x8C) >> 0xB) - 6;
-        if (var_r0 < 0) {
-            var_r0 = 0 - var_r0;
-        }
-        if ((var_r0 <= 1) && (((s32) *(s32 *)(temp_r1 + 0x90) >> 0xB) == 9)) {
-            sub_08015ED4();
-            sub_0801ABE8(3);
-            sub_0800BB40();
-loop_23:
-            if (sub_0801AAE0() == 0) {
-                sub_080003F0();
-                goto loop_23;
+    if (*(u16 *)(gUnk_03005CF4 + 0x10) == 0) {
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        w = (struct Warp090 *)(arg0 + (*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24 + 4));
+        idx = sub_080020F4();
+        cf = sub_0800CF10();
+        if (cf == 0) {
+            s32 j = sub_080020F4();
+            players090[j].pos8C.x = w->x << 8;
+            players090[j].pos8C.y = w->y << 8;
+            players090[j].pos94 = players090[j].pos8C;
+            p = &players090[idx];
+            p->state = 0;
+            if (players090[idx].flags & 0x2000) {
+                players090[idx].flags &= ~0x2000;
+                sub_0802996C();
+                p->b68 = 1;
+                sub_0806617C();
             }
-            sub_0800BB40();
-            *(u16 *)(gUnk_03005CF4 + 0x36) = 3U;
-            *(u16 *)(gUnk_03005CF4 + 0x2) = 0xA;
-            var_r2 = (s32 *)(gUnk_03005CF4 + 0x71C);
-            var_r0_2 = sceneTable88C24[10];
-            goto block_33;
+        } else {
+            sub_0800903C(0, 0, 0, 0, 0, 0);
+            players090[idx].pos8C.x = 0xB800 - idx * 0x1800;
+            players090[idx].pos8C.y = 0x14000;
+            sub_080657C4(idx, 1);
+            sub_0800CEFC();
+            p = &players090[idx];
+            p->state = 0xC;
+            p->w22 = 2;
+            p->w1C = 0;
         }
-        var_r0_3 = ((s32) *(s32 *)(temp_r1 + 0x8C) >> 0xB) - 0x35;
-        if (var_r0_3 < 0) {
-            var_r0_3 = 0 - var_r0_3;
+        players090[idx].pos94 = players090[idx].pos8C;
+        sub_0800CCDC();
+        sub_08009930(0, 0);
+        while (sub_0800BA6C() == 0)
+            sub_080003F0();
+        {
+            u8 *q = (0x14C * idx) + playerCoord88C24;
+            sub_0800AD04(q, q + 4, sub_0800CCCC());
         }
-        if ((var_r0_3 <= 1) && (((s32) *(s32 *)(temp_r1 + 0x90) >> 0xB) == 9)) {
-            sub_08015ED4();
-            sub_0801ABE8(3);
-            sub_0800BB40();
-loop_31:
-            if (sub_0801AAE0() == 0) {
-                sub_080003F0();
-                goto loop_31;
-            }
-            sub_0800BB40();
-            *(u16 *)(gUnk_03005CF4 + 0x36) = 3U;
-            *(u16 *)(gUnk_03005CF4 + 0x2) = 0xD;
-            var_r2 = (s32 *)(gUnk_03005CF4 + 0x71C);
-            var_r0_2 = sceneTable88C24[13];
-block_33:
-            *var_r2 = (s32 *)(var_r0_2);
-            *(u16 *)(gUnk_03005CF4 + 0x10) = 0;
-            *(u16 *)(gUnk_03005CF4 + 0x1C) = 0;
-            return 1;
+        {
+            u8 *gs = (u8 *)gUnk_03005CF4;
+            *(u16 *)(gs + 0x10) = 1;
+            *(u16 *)(gs + 0x1C) = 1;
         }
-        goto block_34;
+        *(u32 *)((0x14C * idx) + (playerCoord88C24 - 0x5C)) &= 0x2000;
+        sub_08067D74();
+        sub_08057624(0xA);
+        sub_08057328(0, callback2B8A4_090);
+        sub_08015EF8();
+        sub_08015C38();
+        return 0;
     }
-loop_4:
-    if (sub_0801AAE0() == 0) {
-        sub_080003F0();
-        goto loop_4;
+    r = sub_08088B6C(arg0, 0);
+    if (r != 0)
+        return 1;
+    if ((players090[sub_080020F4()].pos8C.y >> 11) > 0x39) {
+        players090[sub_080020F4()].flags |= 2;
+        sub_08067D74();
+        sub_0800BB40();
+        sub_080586D0(2);
+        sub_0801ABE8(3);
+        sub_0800D0A8();
+        sub_080003F4(0xBBA);
+        sub_080570DC(*(u16 *)gUnk_03005CF4);
+        *(u16 *)(gUnk_03005CF4 + 0x58) = r;
+        return 1;
     }
-    temp_r4 = arg0 + ((*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24) + 4);
-    temp_r7 = sub_080020F4();
-    temp_r0_2 = sub_0800CF10();
-    if (temp_r0_2 == 0) {
-        temp_r2_2 = 0x14C * sub_080020F4();
-        *(s32 *)((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x8C) = *(u16 *)temp_r4 << 8;
-        *(s32 *)((u8 *)gUnk_03003CE0 + temp_r2_2 + 0x90) = *(u16 *)(temp_r4 + 2) << 8;
-        temp_r2_3 = temp_r2_2 + (u8 *)gUnk_03003CE0;
-        *(s32 *)(temp_r2_3 + 0x94) = (s32) *(s32 *)(temp_r2_3 + 0x8C);
-        *(u32 *)(temp_r2_3 + 0x98) = (s32) *(u32 *)(temp_r2_3 + 0x90);
-        temp_r0_3 = 0x14C * temp_r7;
-        temp_r4_2 = temp_r0_3 + (u8 *)gUnk_03003CE0;
-        *(u16 *)(temp_r4_2 + 0x20) = (s16) temp_r0_2;
-        temp_r2_4 = (s32 *)(temp_r0_3 + ((u8 *)gUnk_03003CE0 + 0x30));
-        temp_r1_2 = *temp_r2_4;
-        if (0x2000 & temp_r1_2) {
-            *temp_r2_4 = (s32 *)(temp_r1_2 & 0xFFFFDFFF);
-            sub_0802996C();
-            *(u8 *)(temp_r4_2 + 0x68) = 1;
-            sub_0806617C();
+    q2 = &players090[sub_080020F4()];
+    d = (q2->pos8C.x >> 11) - 6;
+    if (d < 0)
+        d = -d;
+    if (d <= 1 && (q2->pos8C.y >> 11) == 9) {
+        sub_08015ED4();
+        sub_0801ABE8(3);
+        sub_0800BB40();
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_0800BB40();
+        {
+            u8 *gs = (u8 *)gUnk_03005CF4;
+            u16 zero = 0;
+            *(u16 *)(gs + 0x36) = 3;
+            *(u16 *)(gs + 2) = 10;
+            *(u32 *)(gs + 0x71C) = sceneTable88C24[10];
+            *(u16 *)(gs + 0x10) = zero;
+            *(u16 *)(gs + 0x1C) = zero;
         }
-    } else {
-        sub_0800903C(0, 0, 0, 0, 0, 0);
-        temp_r4_3 = 0x14C * temp_r7;
-        *(s32 *)((u8 *)gUnk_03003CE0 + temp_r4_3 + 0x8C) = 0xB800 - (temp_r7 * 0x1800);
-        *(s32 *)((u8 *)gUnk_03003CE0 + temp_r4_3 + 0x90) = 0x14000;
-        sub_080657C4(temp_r7, 1);
-        sub_0800CEFC();
-        temp_r4_4 = temp_r4_3 + (u8 *)gUnk_03003CE0;
-        *(u16 *)(temp_r4_4 + 0x20) = 0xC;
-        *(u16 *)(temp_r4_4 + 0x22) = 2;
-        *(u16 *)(temp_r4_4 + 0x1C) = 0;
+        return 1;
     }
-    temp_r0_4 = (u8 *)gUnk_03003CE0 + 0x14C * temp_r7;
-    *(s32 *)(temp_r0_4 + 0x94) = (s32) *(s32 *)(temp_r0_4 + 0x8C);
-    *(s32 *)(temp_r0_4 + 0x98) = *(s32 *)(temp_r0_4 + 0x90);
-    sub_0800CCDC();
-    sub_08009930(0, 0);
-loop_11:
-    if (sub_0800BA6C() == 0) {
-        sub_080003F0();
-        goto loop_11;
+    d = (q2->pos8C.x >> 11) - 0x35;
+    if (d < 0)
+        d = -d;
+    if (d <= 1 && (q2->pos8C.y >> 11) == 9) {
+        sub_08015ED4();
+        sub_0801ABE8(3);
+        sub_0800BB40();
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_0800BB40();
+        {
+            u8 *gs = (u8 *)gUnk_03005CF4;
+            u16 zero = 0;
+            *(u16 *)(gs + 0x36) = 3;
+            *(u16 *)(gs + 2) = 13;
+            *(u32 *)(gs + 0x71C) = sceneTable88C24[13];
+            *(u16 *)(gs + 0x10) = zero;
+            *(u16 *)(gs + 0x1C) = zero;
+        }
+        return 1;
     }
-    temp_r6 = 0x14C * temp_r7;
-    temp_r4_5 = temp_r6 + playerCoord88C24;
-    sub_0800AD04(temp_r4_5, temp_r4_5 + 4, sub_0800CCCC());
-    *(u16 *)(gUnk_03005CF4 + 0x10) = 1U;
-    *(u16 *)(gUnk_03005CF4 + 0x1C) = 1;
-    temp_r6_2 = (s32 *)(temp_r6 + (playerCoord88C24 - 0x5C));
-    *temp_r6_2 &= 0x2000;
-    sub_08067D74();
-    sub_08057624(0xAU);
-    sub_08057328(0, callback2B8A4_090);
-    sub_08015EF8();
-    sub_08015C38();
-block_34:
     return 0;
 }
 
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088C24);
-#endif
 extern u8 playerCoord88F30[] asm("gUnk_03003D6C");
 extern u32 sceneTable88F30[] asm("gUnk_084F0AC0");
 void callback2C2A0_090(void) asm("sub_0802C2A0");
