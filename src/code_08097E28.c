@@ -3058,7 +3058,6 @@ out:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809CC2C);
 #endif
-#ifdef NONMATCHING
 struct PosD374 { u16 x, y; };
 struct PlayerD374 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1f]; u16 f88; u8 p8a[0x26]; u16 fb0; u8 pb2[0x32]; u32 fe4[25]; struct PosD374 *pos; };
 struct ObjectD374 { u16 f0; u8 p2[6]; s16 f8; u16 fa, fc; u8 pe[6]; s32 x,y; u8 p1c[0x34]; s32 f50; };
@@ -3069,14 +3068,23 @@ extern u16 hitD374(void *,void *) asm("sub_0801ED8C");
 s32 sub_0809D374(struct ObjectD374 *o) {
     u16 x = (u32)(o->x << 8) >> 16;
     u16 y = (u32)(o->y << 8) >> 16;
-    struct PlayerD374 *pl = playersD374;
-    u32 px = pl[sub_080020F4()].pos->x >> 4;
-    u32 py = ((u32)pl[sub_080020F4()].pos->y << 20) >> 20;
+    u8 *positionBaseD374 = (u8 *)playersD374;
+    s32 indexD374;
+    u32 scaledIndexD374;
+    u32 px;
+    register u32 py asm("r1");
     s16 dx, dy;
     s32 ret;
     u32 angle, direction, rem;
+    asm("" : "+r"(positionBaseD374));
+    indexD374 = sub_080020F4();
+    scaledIndexD374 = indexD374 * 0x14C;
+    /* Share the position-slot base across both player lookups. */
+    positionBaseD374 += 0x148;
+    px = (*(struct PosD374 **)(positionBaseD374 + scaledIndexD374))->x >> 4;
+    py = (u32)(*(struct PosD374 **)(positionBaseD374 + sub_080020F4() * 0x14C))->y << 20;
     px -= (s16)x;
-    py -= (s16)y;
+    py = (py >> 20) - (s16)y;
     dx = px;
     dy = py;
     ret = 0;
@@ -3101,9 +3109,6 @@ s32 sub_0809D374(struct ObjectD374 *o) {
     }
     return ret;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809D374);
-#endif
 void sub_0809D558(void) {
     gUnk_030002E8 = 1;
 }
