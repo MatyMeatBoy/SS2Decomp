@@ -3667,7 +3667,8 @@ void sub_0806FF1C(struct T6fArg *arg0) {
     u8 pal;
     u16 a;
     u8 ang;
-    s32 d;
+    s32 dx;
+    s32 dy;
     u16 done;
     u16 fr;
     u8 t;
@@ -3840,9 +3841,8 @@ restart:
         } else {
             for (i = 0; i <= 4; i++) {
                 if ((1 << i) & gT6fEnemyMask) {
-                    struct T6fEn *e = &gT6fEnemies[i];
-                    if (e->uid == target) {
-                        te = e;
+                    if (gT6fEnemies[i].uid == target) {
+                        te = &gT6fEnemies[i];
                         goto tracked;
                     }
                 }
@@ -3864,12 +3864,12 @@ restart:
                             if (e->alive) {
                                 x = (e->x - sx) >> 8;
                                 y = (e->y - sy) >> 8;
-                                d = x;
-                                if (d < 0) d = -d;
-                                if (d <= 7) {
-                                    d = y;
-                                    if (d < 0) d = -d;
-                                    if (d <= 7)
+                                dx = x;
+                                if (dx < 0) dx = -dx;
+                                if (dx <= 7) {
+                                    dy = y;
+                                    if (dy < 0) dy = -dy;
+                                    if (dy <= 7)
                                         hit = 1;
                                 }
                             }
@@ -3883,12 +3883,12 @@ restart:
                 if (target <= 3 && tp->team != pl->team && ((struct T6fPosB *)tp->pos)->kind != 0xE && tp->team != 0) {
                     x = (tp->pos->h0 >> 4) - (sx >> 8);
                     y = ((u32)(tp->pos->h2 << 20) >> 20) - (sy >> 8);
-                    d = x;
-                    if (d < 0) d = -d;
-                    if (d <= 15) {
-                        d = y;
-                        if (d < 0) d = -d;
-                        if (d <= 15)
+                    dx = x;
+                    if (dx < 0) dx = -dx;
+                    if (dx <= 15) {
+                        dy = y;
+                        if (dy < 0) dy = -dy;
+                        if (dy <= 15)
                             hit = 1;
                     }
                 }
@@ -3916,7 +3916,7 @@ restart:
                 a = ang - 0x100;
             else if (ang - (s16)dir < -0x80)
                 a = ang | 0x100;
-            { s32 sa = (s16)a; s32 sd = (s16)dir; s16 dd = sa - sd; dir = sd + dd; }
+            { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
             if ((s16)dir < 0)
                 dir += 0x100;
             if ((s16)dir > 0x100)
@@ -3958,12 +3958,12 @@ restart:
                         if (e->alive) {
                             x = (e->x - sx) >> 8;
                             y = (e->y - sy) >> 8;
-                            d = x;
-                            if (d < 0) d = -d;
-                            if (d <= 0x1F) {
-                                d = y;
-                                if (d < 0) d = -d;
-                                if (d <= 0x1F)
+                            dx = x;
+                            if (dx < 0) dx = -dx;
+                            if (dx <= 0x1F) {
+                                dy = y;
+                                if (dy < 0) dy = -dy;
+                                if (dy <= 0x1F)
                                     hit2 = 1;
                             }
                         }
@@ -3974,12 +3974,12 @@ restart:
                 if (target <= 3 && tp->team != pl->team && ((struct T6fPosB *)tp->pos)->kind != 0xE && tp->team != 0) {
                     x = (tp->pos->h0 >> 4) - (sx >> 8);
                     y = ((u32)(tp->pos->h2 << 20) >> 20) - (sy >> 8);
-                    d = x;
-                    if (d < 0) d = -d;
-                    if (d <= 15) {
-                        d = y;
-                        if (d < 0) d = -d;
-                        if (d <= 15)
+                    dx = x;
+                    if (dx < 0) dx = -dx;
+                    if (dx <= 15) {
+                        dy = y;
+                        if (dy < 0) dy = -dy;
+                        if (dy <= 15)
                             hit2 = 1;
                     }
                 }
@@ -4076,7 +4076,7 @@ restart:
                 a = ang - 0x100;
             else if (ang - (s16)dir < -0x80)
                 a = ang | 0x100;
-            { s32 sa = (s16)a; s32 sd = (s16)dir; s16 dd = sa - sd; dir = sd + dd; }
+            { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
             if ((s16)dir < 0)
                 dir += 0x100;
             if ((s16)dir > 0x100)
