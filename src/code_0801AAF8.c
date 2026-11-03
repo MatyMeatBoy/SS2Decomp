@@ -2126,21 +2126,18 @@ void sub_0801DF08(void) {
     *(u16 *) (p + 0x20) = 0;
     *(u32 *) (p + 0x30) = 0x40;
 }
-#ifdef NONMATCHING
-u32 sub_0801DF4C(u16 id)
+struct MonDF4C { u16 f0; u16 id; u8 pad[0x2DC]; };
+extern struct MonDF4C *monstersDF4C asm("gUnk_030056F4");
+void sub_0801DF4C(u32 id)
 {
+    struct MonDF4C *monster;
     u32 i;
-    u8 *base = *(u8 **)0x030056F4;
-    if (*(u16 *)(base + 2) == id)
-        return 0;
-    for (i = 1; i <= 4; i++)
-        if (*(u16 *)(base + i * 0x2E0 + 2) == id)
-            return i;
-    return 5;
+    for (i = 0; i <= 4; i++) {
+        monster = &monstersDF4C[i];
+        if (monster->id == id)
+            break;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801DF4C);
-#endif
 s32 sub_0801DF80(void) {
     return gUnk_030034E0;
 }
