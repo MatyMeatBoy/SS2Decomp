@@ -1047,7 +1047,141 @@ void sub_08031F28(void)
     sub_0800D108();
 }
 INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08031FF8);
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08032598);
+struct Msg598 { u16 a, b; u8 data[12]; };
+void sub_08032598(s32 arg)
+{
+    s32 v;
+    s32 one;
+    s32 one2;
+    s32 t;
+    register u8 *p asm("r1");
+    u32 i;
+    u32 j;
+    s32 k;
+    u16 n;
+    struct Msg598 msg;
+    struct Task *task;
+    void *self;
+    s32 mem;
+    s32 bits;
+    s32 a, b;
+
+    sub_0802939C(arg, 8);
+    one = 1;
+    v = ((sub_0800CE30() ? *(u8 *)(gUnk_03005CF4 + 0x1C4) : *(u8 *)(gUnk_03005CF4 + 0x1B8)) >> 1) & one;
+    if (sub_08002164() == 1 && v == 0) {
+        for (k = 0; k < 0x70; k++) {
+            sub_080290E4(arg, 2);
+            sub_08028AAC(arg, 0xB4, 0xB2, 0x14);
+            sub_080290E4(arg, 3);
+            sub_08028AAC(arg, 0xA5, 0xA8, 0x14);
+            sub_080290E4(arg, 4);
+            sub_08028AAC(arg, 0xA5, 0x99, 0x14);
+            sub_080290E4(arg, 5);
+            sub_08028AAC(arg, 0xB4, 0x8F, 0x14);
+            sub_080290E4(arg, 6);
+            sub_08028AAC(arg, 0xC8, 0x8F, 0x14);
+            sub_080290E4(arg, 7);
+            sub_08028AAC(arg, 0xD7, 0x99, 0x14);
+            sub_080290E4(arg, 0);
+            sub_08028AAC(arg, 0xD7, 0xA8, 0x14);
+            sub_080290E4(arg, 1);
+            sub_08028AAC(arg, 0xC8, 0xB2, 0x14);
+        }
+        sub_080290E4(arg, 0);
+        sub_0802939C(arg, 0x10);
+        bits = 2;
+        if (sub_0800CE30()) {
+            p = (u8 *)gUnk_03005CF4;
+            p += 0x1C4;
+        } else {
+            p = (u8 *)gUnk_03005CF4;
+            p += 0x1B8;
+        }
+        *p = bits | *p;
+        a = 6;
+        b = 0x59;
+        msg.a = a;
+        msg.b = b;
+        for (j = 0; j < 12; j++)
+            msg.data[j] = 0;
+        while (!sub_08067B9C(0xC000, 0xBC00, &msg))
+            sub_080003F0();
+        sub_08028AAC(arg, 0xBE, 0xB2, 0x1E);
+        for (n = 0x3C; n != 0; n--) {
+            sub_080003F0();
+            if (sub_080021A8())
+                break;
+        }
+        sub_0802939C(arg, 0x11);
+        for (n = 100; n != 0; n--) {
+            sub_080003F0();
+            if (sub_080021A8())
+                break;
+        }
+        sub_080290E4(arg, 2);
+        sub_0802939C(arg, 8);
+        sub_08028AAC(arg, 0xB4, 0xB2, 0xA);
+    } else {
+        sub_080290E4(arg, 2);
+        sub_08028AAC(arg, 0xB4, 0xB2, 0x14);
+    }
+    one2 = 1;
+    one = 1;
+    do {
+        sub_080290E4(arg, 3);
+        sub_08028AAC(arg, 0xA5, 0xA8, 0x14);
+        sub_080290E4(arg, 4);
+        sub_08028AAC(arg, 0xA5, 0x99, 0x14);
+        sub_080290E4(arg, 5);
+        sub_08028AAC(arg, 0xB4, 0x8F, 0x14);
+        sub_080290E4(arg, 6);
+        sub_08028AAC(arg, 0xC8, 0x8F, 0x14);
+        sub_080290E4(arg, 7);
+        sub_08028AAC(arg, 0xD7, 0x99, 0x14);
+        sub_080290E4(arg, 0);
+        sub_08028AAC(arg, 0xD7, 0xA8, 0x14);
+        sub_080290E4(arg, 1);
+        sub_08028AAC(arg, 0xC8, 0xB2, 0x14);
+        sub_080290E4(arg, 2);
+        sub_08028AAC(arg, 0xB4, 0xB2, 0x14);
+        if (sub_0800CE30()) {
+            t = *(u8 *)(gUnk_03005CF4 + 0x1C4);
+            v = (t >> 1) & one;
+        } else {
+            t = *(u8 *)(gUnk_03005CF4 + 0x1B8);
+            v = (t >> 1) & one2;
+        }
+    } while (sub_08002164() != 1 || v != 0);
+    sub_080290E4(arg, 3);
+    sub_08028AAC(arg, 0xA5, 0xA8, 0x14);
+    sub_080290E4(arg, 4);
+    sub_08028AAC(arg, 0xA5, 0x99, 0x14);
+    sub_080290E4(arg, 5);
+    sub_08028AAC(arg, 0xB4, 0x8F, 0x14);
+    sub_080290E4(arg, 6);
+    sub_08028AAC(arg, 0xC8, 0x8F, 0x14);
+    sub_080290E4(arg, 7);
+    sub_08028AAC(arg, 0xD7, 0x99, 0x14);
+    sub_080290E4(arg, 0);
+    sub_08028AAC(arg, 0xD7, 0xA8, 0x14);
+    sub_080290E4(arg, 1);
+    sub_08028AAC(arg, 0xC8, 0xB2, 0x14);
+    self = sub_08032598;
+    task = (struct Task *)(gUnk_03005CF4 + 0xE34);
+    for (i = 0; i <= 0x1D; i++, task++) {
+        if (!sub_08000470((u32)task)) {
+            while ((task->u20 = mem = (s32)sub_08001494(0x400)) == 0)
+                sub_080003F0();
+            task->u8 = 0x3C;
+            task->uC = self;
+            task->u10 = mem + 0x3FC;
+            task->u24 = 0;
+            sub_08000274(task, arg);
+            break;
+        }
+    }
+}
 extern u8 *state3294C asm("gUnk_03005CF4");
 void sub_0803294C(u32 arg0) {
  register u32 arg asm("r5")=arg0;
