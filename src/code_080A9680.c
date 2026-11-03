@@ -3666,8 +3666,9 @@ void sub_080B2058(s32 arg0, s32 arg1)
         sub_080003F0();
     } while (done == 0 || cnt++ > 0x3B);
     if (*(s16 *)(gPtr030007A0 + 0x5C) != 0 && sub_08002204() != 0) {
-        for (i = 0; i <= 1; i++) {
-            e = &gArr03000798[i];
+        u16 *arr;
+        for (i = 0, arr = gArr03000798; i <= 1; i++) {
+            e = (u16 *)(i * 2 + (u32)arr);
             if (sub_0801A040_1(*e) == 0) {
                 *e = sub_08019FD8_3(gData084AA580, 0, gByte0300079C);
                 sub_0801A0BC_2(*e, 3);
