@@ -1361,7 +1361,7 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     u32 rollBonus;
     u32 rollLevel;
     struct C208Range *table;
-    u32 count;
+    u32 count1, count2, count3;
     u32 low;
     u32 i;
     u32 r;
@@ -1451,11 +1451,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     }
     if (rollBonus) {
     pickBonus:
-        count = table[0].value;
+        count1 = table[0].value;
         r = sub_080008C8();
         r %= table[0].upper;
         table++;
-        for (low = 0, i = 0; i < count; i++, low = table->upper, table++) {
+        for (low = 0, i = 0; i < count1; i++, low = table->upper, table++) {
             if (low <= r && table->upper >= r) {
                 slot->bonus = table->value;
                 break;
@@ -1464,11 +1464,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     }
     if (rollLevel) {
         table = (struct C208Range *)gUnk_084782F4;
-        count = table[0].value + 1;
+        count2 = table[0].value + 1;
         r = sub_080008C8();
         r %= table[0].upper + 1;
         table++;
-        for (low = 0, i = 0; i < count; i++, low = table->upper + 1, table++) {
+        for (low = 0, i = 0; i < count2; i++, low = table->upper + 1, table++) {
             if (low <= r && table->upper >= r) {
                 slot->level = table->value;
                 break;
@@ -1482,11 +1482,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
             table = (struct C208Range *)gUnk_08478338;
         else
             table = (struct C208Range *)gUnk_08478310;
-        count = table[0].value + 1;
+        count3 = table[0].value + 1;
         r = sub_080008C8();
         r %= table[0].upper + 1;
         table++;
-        for (low = 0, i = 0; i < count; i++, low = table->upper + 1, table++) {
+        for (low = 0, i = 0; i < count3; i++, low = table->upper + 1, table++) {
             if (low <= r && table->upper >= r) {
                 slot->element = table->value;
                 break;
@@ -1761,13 +1761,13 @@ s32 sub_0805C7B8(u32 mode)
         slotsA[i].f7 = 0;
         slotsA[i].f8 = 0;
         if (entry[i].type != 0) {
-            if (entry[i].type == -1) {
-                slotsA[i].type = 0;
-                empty++;
-            } else {
+            if (entry[i].type != -1) {
                 picks[picked].index = i;
                 picks[picked].used = 0;
                 picked++;
+            } else {
+                slotsA[i].type = 0;
+                empty++;
             }
         }
     }
@@ -1805,13 +1805,13 @@ s32 sub_0805C7B8(u32 mode)
         slotsB[i].f7 = 0;
         slotsB[i].f8 = 0;
         if (entry[i].type != 0) {
-            if (entry[i].type == -1) {
-                slotsB[i].type = 0;
-                empty++;
-            } else {
+            if (entry[i].type != -1) {
                 picks[picked].index = i;
                 picks[picked].used = 0;
                 picked++;
+            } else {
+                slotsB[i].type = 0;
+                empty++;
             }
         }
     }
