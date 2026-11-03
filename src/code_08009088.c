@@ -194,13 +194,14 @@ void sub_080094CC(struct Layer *entry, s16 x, s16 y)
     CpuSet(src + (count + tileY), dest + pos[1], (32 - count) & 0x1FFFFF);
 }
 #ifdef NONMATCHING
-void sub_08009594(u16 index, u16 dx, u16 dy, s32 force)
+/* Returns nothing useful; the original epilogue keeps r0 (pop {r1}), so it is non-void. */
+s32 sub_08009594(u16 index, u16 dx, u16 dy, s32 force)
 {
     u16 *offsets = gUnk_03001250;
     struct Layer *layer = &gUnk_03003170.layers[index];
-    u16 x, y;
+    s16 x, y;
     u16 tileDX, tileDY;
-    u16 pos;
+    s16 pos;
     s16 i;
     u32 update;
     u32 vram;
@@ -250,23 +251,23 @@ scroll:
         sub_080093E4(layer, pos, y);
         pos -= 8;
         for (i = 0; i < (s16)tileDX; i++)
-            sub_080093E4(layer, (s16)pos - i * 8, y);
+            sub_080093E4(layer, (s16)pos - (i << 3), y);
     } else if ((s16)tileDX < 0) {
         pos = (s16)x - 8;
         sub_080093E4(layer, pos, y);
         pos += 8;
-        for (i = 0; i < -(s16)tileDX; i++)
-            sub_080093E4(layer, (s16)pos + i * 8, y);
+        for (i = 0; i < (s16)-tileDX; i++)
+            sub_080093E4(layer, (s16)pos + (i << 3), y);
     }
     if ((s16)tileDY > 0) {
         pos = (s16)y + 0xA1;
-        sub_080094CC(layer, x - 8, pos);
+        sub_080094CC(layer, (s16)x - 8, pos);
         for (i = 0; i < (s16)tileDY; i++)
-            sub_080094CC(layer, x - 8, (s16)pos - i * 8);
+            sub_080094CC(layer, (s16)x - 8, (s16)pos - (i << 3));
     } else if ((s16)tileDY < 0) {
-        sub_080094CC(layer, x - 8, y);
-        for (i = 0; i < -(s16)tileDY; i++)
-            sub_080094CC(layer, x - 8, (s16)y + i * 8);
+        sub_080094CC(layer, (s16)x - 8, y);
+        for (i = 0; i < (s16)-tileDY; i++)
+            sub_080094CC(layer, (s16)x - 8, (s16)y + (i << 3));
     }
     vram = ((*(vu16 *)(REG_ADDR_BG0CNT + index * 2) >> 8) & 0x1F) * 0x800 + VRAM;
     if (tileDX || tileDY || force)
@@ -277,8 +278,15 @@ scroll:
         layer->y = (s16)y / 8;
 skip:
     offsets += layer->pad14 * 2;
-    offsets[0] = ((s16)x + gUnk_03003170.offX + layer->w0) & 0xFF;
-    offsets[1] = ((s16)y + gUnk_03003170.offY + layer->w1) & 0xFF;
+    {
+        s32 a, b;
+        a = (s16)x; a = (s16)(a + gUnk_03003170.offX);
+        b = (s16)y; b = (s16)(b + gUnk_03003170.offY);
+        a = (s16)(a + layer->w0);
+        b = (s16)(b + layer->w1);
+        offsets[0] = a & 0xFF;
+        offsets[1] = b & 0xFF;
+    }
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009594);
@@ -464,7 +472,6 @@ void sub_0800A03C(void)
     if(animState005.area==3 || animState005.area==6) alternate=1;
     else alternate=0;
     switch(animState005.area) {
-    case 13:return;
     case 0:
         switch(animState005.index) {case 2:case 5:return;}
         break;
@@ -474,6 +481,7 @@ void sub_0800A03C(void)
     case 10:
         switch(animState005.index) {case 0:case 1:case 3:case 13:case 15:case 16:case 19:return;}
         break;
+    case 13:return;
     }
     if ((u16)(animState005.area-7)<=1 && sub_0800CDC0()) return;
     for(i=0;i<4;i++) {
