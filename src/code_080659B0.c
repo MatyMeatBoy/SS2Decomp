@@ -927,6 +927,8 @@ struct RxGs {
     struct RxSlot { u16 hp; u16 f59E; u16 state; u8 p6[0x1E]; } slot[4];
 };
 extern struct RxGs *gRxGs asm("gUnk_03005CF4");
+struct RxGs2 { u8 p0[0x1B0]; struct { u8 a[7]; u8 b[5]; } grp[2]; };
+extern struct RxGs2 *gRxGs2 asm("gUnk_03005CF4");
 #define RX_ENT(i) (gRxEntities + (i) * 0x2E0)
 #define RX_ENQ(tag, chunks, e) \
     do { \
@@ -1464,28 +1466,28 @@ restart:
         case 0x26:
             if (d[0] == myId) {
                 u32 off;
+                u8 *base;
                 struct RxPlayer *pp;
                 u32 *role;
-                u32 one;
+                base = (u8 *)gRxPlayers;
                 off = myId * 0x14C;
-                pp = (struct RxPlayer *)((u8 *)gRxPlayers + off);
+                pp = (struct RxPlayer *)(base + off);
                 pp->fC4 = pp->f62;
                 *(u32 *)(gRxPl30 + off) &= 0xFFFFDFFF;
-                one = 1;
-                pp->f68 = one;
+                pp->f68 = 1;
                 if (pp->f20 == 0xB)
                     pp->f20 = 0;
                 if (gRxQueueCount <= 0x31) {
                     u8 *e;
                     e = gRxQueue + gRxQueueCount * 0x88;
-                    *(u32 *)(e + 4) = one;
+                    *(u32 *)(e + 4) = 1;
                     e[0] = 0x8C;
                     *(u32 *)(e + 8) = *(u32 *)(gRxPl30 + sub_080020F4() * 0x14C);
-                    e[1] = one;
+                    e[1] = 1;
                     gRxQueueCount++;
                 }
                 sub_0806617C();
-                role = (u32 *)((u8 *)gRxPlayers + 0xE0 + off);
+                role = &gRxPlayers[myId].fE0;
                 x_sub_08022200(*(u16 *)pp, *role);
                 switch (*role - 1) {
                 case 0: *(u16 *)(gRxProfile + 0x24) += 1; break;
@@ -1510,13 +1512,13 @@ restart:
             break;
         case 0x2A:
             if (x_sub_0800CE30() != 0) {
-                u8 *gs = gRxGameState;
+                u8 *gs = ((u8 *)gRxGs2);
                 *(u32 *)(gs + 0x7C) = d[0];
                 *(u32 *)(gs + 0x80) = d[1];
                 *(u32 *)(gs + 0x74) = 0;
                 *(u32 *)(gs + 0x78) = 0;
             } else {
-                u8 *gs = gRxGameState;
+                u8 *gs = ((u8 *)gRxGs2);
                 *(u32 *)(gs + 0x74) = d[0];
                 *(u32 *)(gs + 0x78) = d[1];
                 *(u32 *)(gs + 0x7C) = 0;
@@ -1527,18 +1529,18 @@ restart:
                 u32 n, k;
                 n = 7;
                 for (k = 0; k < n; k++)
-                    (gRxGameState + 0x1B0)[k] = *src++;
+                    gRxGs2->grp[0].a[k] = *src++;
                 for (k = 0; k < n; k++)
-                    (gRxGameState + 0x1BC)[k] = *src++;
+                    gRxGs2->grp[1].a[k] = *src++;
                 n = 5;
                 for (k = 0; k < n; k++)
-                    (gRxGameState + 0x1B7)[k] = *src++;
+                    gRxGs2->grp[0].b[k] = *src++;
                 for (k = 0; k < n; k++)
-                    (gRxGameState + 0x1C3)[k] = *src++;
+                    gRxGs2->grp[1].b[k] = *src++;
                 if (*src != 0)
-                    *(u32 *)(gRxGameState + 0x70) = 1;
+                    *(u32 *)(((u8 *)gRxGs2) + 0x70) = 1;
                 else
-                    *(u32 *)(gRxGameState + 0x70) = 2;
+                    *(u32 *)(((u8 *)gRxGs2) + 0x70) = 2;
             }
             break;
         case 0x2B:
