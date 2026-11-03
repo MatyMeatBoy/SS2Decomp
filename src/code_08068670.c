@@ -5082,11 +5082,11 @@ void sub_08072D5C(struct T75Arg *arg0) {
         sub_080003F0();
     gT75Flags[owner] &= ~(1 << bit);
 }
-#ifdef NONMATCHING
 struct Buff07356C { s16 timer; u16 owner; u16 type; u16 level; u8 pad8[0x20]; };
 struct Pos07356C { u16 x; u16 y; u8 f4; };
 struct Ply07356C { u8 pad0[0x24]; u16 f24; u16 f26; u8 pad28[0xC]; struct Buff07356C *buffs; u8 pad38[0x2C]; u16 state; u8 pad66[2]; u8 team; u8 pad69[0x59]; u16 mp; u8 padC4[0x84]; struct Pos07356C *pos; };
 struct Arg07356C { u32 owner; u32 bit; u8 pad8[4]; s32 fC; u8 pad10[4]; u32 level; };
+#ifdef NONMATCHING
 extern struct Ply07356C players07656C[] asm("gUnk_03003CE0");
 extern u32 flags07656C[] asm("gUnk_030063E0");
 extern void effect07656C(s32,u32) asm("sub_08074DE8");
@@ -5198,7 +5198,6 @@ void sub_0807356C(struct Arg07356C *arg0)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0807356C);
 #endif
-#ifdef NONMATCHING
 extern u8 players07686C[] asm("gUnk_03003CE0");
 extern u8 *args07686C[] asm("gUnk_03006380");
 extern u8 *tasks07686C[] asm("gUnk_030063B0");
@@ -5243,12 +5242,10 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
     u32 *a;
     u32 mem;
     struct Task07386C *t;
-    vu32 *m;
 
     player = &players07386C[who];
     i = 0;
-    m = &flags07386C[who];
-    while (*m & (1 << i)) {
+    while (flags07386C[who] & (1 << i)) {
         i++;
         if (i > 0xF)
             return;
@@ -5283,11 +5280,11 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
         break;
     case 6:
         if (who == sub_080020F4()) {
-            u32 *a = (u32 *)(args07686C[who] + i * 0x18);
+            u8 **q = &args07686C[who];
+            u32 *a = (u32 *)(i * 0x18 + (u32)*q);
             struct Ply07356C *me = &players07386C[sub_080020F4()];
             u16 cost = sub_0806898C(a[3], a[5]) - 1;
             struct Buff07356C *b;
-            u32 j;
             u8 found;
 
             me->mp -= cost;
@@ -5296,7 +5293,7 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
             b = player->buffs;
             sub_0805865C(0x165);
             found = 0;
-            for (j = 0; j <= 7; j++, b++) {
+            for (i = 0; i <= 7; i++, b++) {
                 if (b->timer > 0 && b->type == 6 && b->owner == who) {
                     if (b->level < player->f26) {
                         b->owner = who;
@@ -5309,7 +5306,7 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
             }
             if (!found) {
                 b = player->buffs;
-                for (j = 0; j <= 7; j++, b++) {
+                for (i = 0; i <= 7; i++, b++) {
                     if (b->timer == -1) {
                         b->owner = who;
                         b->type = 6;
@@ -5382,11 +5379,6 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
             refresh07686C(&players07386C[who]);
     }
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0807386C);
-#endif
 #ifdef NONMATCHING
 struct Sprite076CF4 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 struct Frame076CF4 {struct Sprite076CF4 sprite;u16 tile,rotation;s16 sx,sy;u32 wx,wy,mode,animation;s32 fx,fy;};
