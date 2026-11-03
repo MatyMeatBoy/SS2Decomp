@@ -2580,7 +2580,130 @@ void sub_0809C1B4(u16 arg0)
     } while (--timer != 0xFFFF);
     taskC1B4()->f8 = 0;
 }
+#ifdef NONMATCHING
+struct PosC4E8 { u16 x, y; };
+struct PlayerC4E8 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x23]; s32 x, y; u8 p94[0x1c]; u16 fb0; u8 pb2[0x32]; u32 fe4[25]; struct PosC4E8 *pos; };
+extern struct PlayerC4E8 playersC4E8[] asm("gUnk_03003CE0");
+extern struct ObjC1B4 *objC4E8 asm("gUnk_030002EC");
+struct XYC4E8 { s32 x, y; };
+extern u8 aimC4E8(s32, s32, s32, s32) asm("sub_08095FC8");
+extern void moveC4E8(s32, struct XYC4E8 *, u8) asm("sub_08097BA4");
+
+void sub_0809C4E8(u16 which)
+{
+    struct SprC1B4 spr;
+    s16 sx, sy;
+    u16 frame, h2;
+    struct XYC4E8 pos;
+    u32 nplayers;
+    u16 timer;
+    u8 delay;
+    s32 hit;
+    s32 tx, ty;
+    u16 dx, dy;
+    u16 d;
+
+    initC1B4(&spr, 0x50005, 0, -1, 1);
+    spr.f1C[0] = palC1B4;
+    nplayers = sub_08002164();
+    hit = 0;
+    timer = 360;
+    delay = 120;
+    sub_0805865C(0xE6);
+    do {
+        if (nplayers == 1) {
+            if (which != 0)
+                goto end;
+            tx = (s16)(playersC4E8[0].x >> 8);
+            ty = (s16)(playersC4E8[0].y >> 8);
+        } else {
+            switch (which) {
+            case 0:
+                if (sub_080020F4() == 0) {
+                    tx = (s16)(playersC4E8[0].x >> 8);
+                    ty = (s16)(playersC4E8[0].y >> 8);
+                } else {
+                    tx = playersC4E8[0].pos->x >> 4;
+                    ty = ((u32)playersC4E8[0].pos->y << 20) >> 20;
+                }
+                break;
+            case 1:
+                if (sub_080020F4() == 1) {
+                    tx = (s16)(playersC4E8[1].x >> 8);
+                    ty = (s16)(playersC4E8[1].y >> 8);
+                } else {
+                    tx = playersC4E8[1].pos->x >> 4;
+                    ty = ((u32)playersC4E8[1].pos->y << 20) >> 20;
+                }
+                break;
+            case 2:
+                if (nplayers <= 2)
+                    goto end;
+                if (sub_080020F4() == 2) {
+                    tx = (s16)(playersC4E8[2].x >> 8);
+                    ty = (s16)(playersC4E8[2].y >> 8);
+                } else {
+                    tx = playersC4E8[2].pos->x >> 4;
+                    ty = ((u32)playersC4E8[2].pos->y << 20) >> 20;
+                }
+                break;
+            case 3:
+                if (nplayers != 4)
+                    goto end;
+                if (sub_080020F4() == 3) {
+                    tx = (s16)(playersC4E8[3].x >> 8);
+                    ty = (s16)(playersC4E8[3].y >> 8);
+                } else {
+                    tx = playersC4E8[3].pos->x >> 4;
+                    ty = ((u32)playersC4E8[3].pos->y << 20) >> 20;
+                }
+                break;
+            }
+        }
+        if (delay != 0) {
+            delay--;
+            pos.x = objC4E8->x;
+            pos.y = objC4E8->y;
+            if (delay == 0)
+                sub_0805865C(0xE7);
+        } else {
+            moveC4E8(0xF8, &pos, aimC4E8(pos.x >> 8, pos.y >> 8, tx, ty));
+        }
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            sub_08000AF0(palC1B4 + 0x10, (void *)spr.fC, 1);
+            coordsC1B4((s16)(pos.x >> 8), (s16)(pos.y >> 8), &sx, &sy, 0, 0);
+            if (delay != 0) {
+                if (which == 0 && sub_0800CD8C() == 0) {
+                    animC1B4(&spr, 0x1A, &frame, &h2, 1);
+                    drawC1B4(sx, sy + 2, 0x1A, frame, 0, spr.f1C, spr.f8, spr.f0)[3] = sy;
+                }
+            } else if ((timer & 1) && sub_0800CD8C() == 0) {
+                animC1B4(&spr, 0x1A, &frame, &h2, 1);
+                drawC1B4(sx, sy, 0x1A, frame, delay, spr.f1C, spr.f8, spr.f0);
+            }
+        }
+        dx = (pos.x >> 8) - (playersC4E8[sub_080020F4()].x >> 8);
+        dy = (pos.y >> 8) + 12 - (playersC4E8[sub_080020F4()].y >> 8);
+        d = sqrtC1B4((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+        if (delay == 0 && hit == 0 && d <= 15
+            && sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && sub_0800CDF8() == 0 && objC4E8->fc != 11
+            && !(playersC4E8[sub_080020F4()].flags & 0x2000) && playersC4E8[sub_080020F4()].f68
+            && playersC4E8[sub_080020F4()].state != 14 && playersC4E8[sub_080020F4()].state != 11
+            && playersC4E8[sub_080020F4()].state != 12
+            && playersC4E8[sub_080020F4()].fe4[objC4E8->f0] != objC4E8->f50) {
+            sub_08029CEC(0, 0x46, 5);
+            playersC4E8[sub_080020F4()].fb0 = 0xFFFE;
+            playersC4E8[sub_080020F4()].fe4[objC4E8->f0] = objC4E8->f50++;
+            hit = 1;
+        }
+        sub_080003F0();
+    } while (--timer != 0xFFFF);
+end:
+    taskC1B4()->f8 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C4E8);
+#endif
 struct PlayerC8F4 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1f]; u16 f88; u8 p8a[2]; s32 x, y; u8 p94[0x1c]; u16 fb0; u8 pb2[0x16]; u16 fc8, fca, fcc; u8 pce[0x16]; u32 fe4[26]; };
 extern struct PlayerC8F4 playersC8F4[] asm("gUnk_03003CE0");
 extern u16 atanC8F4(s16, s16) asm("ArcTan2");
