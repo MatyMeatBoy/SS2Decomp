@@ -909,173 +909,102 @@ block_53:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08044EB4);
 #endif
-#ifdef NONMATCHING
+extern u8 *state534C45 asm("gUnk_03005CF4");
+extern void callbackA874534C45(void) asm("sub_0805A874");
+extern void callback9968534C45(void) asm("sub_08059968");
+extern u32 flags534C45 asm("gUnk_030027D0");
+struct Spawn534C45 { u32 x, y; u16 w, h; void *cb; u32 zero; u8 pad[12]; };
+struct Cmd534C45 { u16 kind, value; u8 data[12]; };
+extern void emit534C45(struct Cmd534C45 *) asm("sub_0805AB20");
+static inline u32 count534C45(u32 n) { return n; }
+#define FX534C45(next, check)                                              \
+    {                                                           \
+        void *cb = sub_0804534C;                                \
+        u8 *task = state534C45 + 0xE34;                         \
+        u32 i;                                                  \
+        u32 r;                                                  \
+        u8 *buf;                                                \
+        i = 0;                                                  \
+        goto check;                                             \
+    next:                                                       \
+        i++;                                                    \
+        task += 0x28;                                           \
+    check:                                                      \
+        if (i > 0x1D) goto done;                                \
+        r = sub_08000470((u32)task);                            \
+        if (r != 0) goto next;                                          asm("" : "+r"(r));                                      \
+        u.args.x = 0x9700;                                      \
+        u.args.y = 0x16D00;                                     \
+        u.args.w = 0x10;                                        \
+        u.args.h = 8;                                           \
+        u.args.cb = cb;                                         \
+        { register u32 z asm("r0") = 0;                                   asm("" : "+r"(z) : "m"(u.args.cb));                             u.args.zero = z; }                                    \
+        *(u32 *)(task + 8) = 0x3C;                              \
+        buf = sub_08001494(0x400);                              \
+        *(u8 **)(task + 0x20) = buf;                            \
+        *(u32 *)(task + 0xC) = (u32)callbackA874534C45;         \
+        *(u8 **)(task + 0x10) = buf + 0x3FC;                    \
+        *(u32 *)(task + 0x24) = r;                              \
+        sub_08000274_(task, (u32)&u.args, 1);                   \
+        sub_080003F0();                                         \
+        sub_080003F0();                                         \
+    }
+static inline s32 result534C45(void) {
+    s32 v = sub_0805CFA0();
+    register s32 r asm("r1");
+    r = 1;
+    if (v < 0) r = 0;
+    return r;
+}
 void sub_0804534C(void) {
-    extern u8 *state534C45 asm("gUnk_03005CF4");
-    extern u8 players534C45[] asm("gUnk_03003CE0");
-    extern void callback9968534C45(void) asm("sub_08059968");
-    extern void callbackA874534C45(void) asm("sub_0805A874");
-    extern u32 flags534C45 asm("gUnk_030027D0");
-    struct Spawn534C45 { u32 x, y; u16 width, height; void (*callback)(void); u32 zero; } spawn;
-    s32 var_r1;
-    u32 temp_r0;
-    u32 temp_r0_3;
-    u32 temp_r4;
-    u32 temp_r4_2;
-    u32 temp_r4_3;
-    u8 *var_r4;
-    u32 var_r4_2;
-    u32 var_r4_3;
-    u8 *var_r4_4;
-    u32 var_r5;
-    u32 var_r5_2;
-    u8 *temp_r0_2;
-    u8 *temp_r0_4;
-    u8 *temp_r2;
-    u8 *temp_r2_2;
-    extern void sub_0805AB20(void *);
-
-    temp_r2 = (0x14C * sub_080020F4()) + players534C45;
-    (*(u32 *)(temp_r2 + 0x30)) = (s32) ((*(u32 *)(temp_r2 + 0x30)) | 1);
+    u32 dlg;
+    u32 i;
+    union { struct Cmd534C45 cmd; struct Spawn534C45 args; } u;
+    register u32 a asm("r1");
+    register u32 b asm("r2");
+    register struct Cmd534C45 *c asm("r0");
+    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags |= 1;}
     sub_0800D0F4();
-loop_2:
-    if (sub_0805F184() != 0) {
-        sub_080003F0();
-        goto loop_2;
-    }
-    temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x14021CU);
-loop_5:
-    if (sub_0805EEFC((u8 *) temp_r4) == 0) {
-        sub_080003F0();
-        goto loop_5;
-    }
-    if (sub_0805EF14((u8 *) temp_r4) == 0) {
-        var_r4 = state534C45 + 0xE34;
-        var_r5 = 0;
-loop_46:
-        if (var_r5 <= 0x1DU) {
-            temp_r0 = sub_08000470(var_r4);
-            if (temp_r0 == 0) {
-                spawn.x = 0x9700;
-                spawn.y = 0x16D00;
-                spawn.width = 0x10;
-                spawn.height = 8;
-                spawn.callback = sub_0804534C;
-                spawn.zero = 0;
-                (*(u32 *)(var_r4 + 0x8)) = 0x3C;
-                temp_r0_2 = sub_08001494(0x400U);
-                (*(u32 *)(var_r4 + 0x20)) = temp_r0_2;
-                (*(u32 *)(var_r4 + 0xC)) = callbackA874534C45;
-                (*(u32 *)(var_r4 + 0x10)) = (u8 *) (temp_r0_2 + 0x3FC);
-                (*(u32 *)(var_r4 + 0x24)) = temp_r0;
-                sub_08000274(var_r4, &spawn, 1);
+    while (sub_0805F184()) sub_080003F0();
+    dlg = sub_0805DF38(1, 15, 2, 0, -2, 0x14021C);
+    while (!sub_0805EEFC((void *)dlg)) sub_080003F0();
+    if (sub_0805EF14((u8 *)dlg)) {
+        if (result534C45()) {
+            if (!(flags534C45 & 0x20)) sub_08006D08(0x33);
+            a = 1;
+            b = 0x29;
+            c = &u.cmd;
+            c->kind = a;
+            c->value = b;
+            i = 0;
+            do { u.cmd.data[i] = 0; i++; } while (i <= 11);
+            i = 0;
+            do { emit534C45(&u.cmd); i++; } while (i < count534C45(1));
+            sub_08068070((u32)callback9968534C45, 0x14);
+            while (sub_0805F184()) sub_080003F0();
+            while (sub_0805EF90()) sub_080003F0();
+            dlg = sub_0805DF38(1, 15, 2, 0, -1, 0x14021D);
+            while (!sub_0805EEFC((void *)dlg)) {
+                if (sub_0800CDF8()) { sub_0805EFBC(); break; }
                 sub_080003F0();
-                sub_080003F0();
-            } else {
-                var_r5 += 1;
-                var_r4 += 0x28;
-                goto loop_46;
-            }
-        }
-    } else {
-        var_r1 = 1;
-        if (sub_0805CFA0() < 0) {
-            var_r1 = 0;
-        }
-        if (var_r1 != 0) {
-            if (!(flags534C45 & 0x20)) {
-                sub_08006D08(0x33U);
-            }
-            (*(u16 *)&spawn.x) = 1;
-            *((u16 *)&spawn.x + 1) = 0x29;
-            var_r4_2 = 0;
-            do {
-                *((u8 *)&spawn.y + var_r4_2) = 0;
-                var_r4_2 += 1;
-            } while (var_r4_2 <= 0xBU);
-            var_r4_3 = 0;
-            do {
-                sub_0805AB20(&spawn);
-                var_r4_3 += 1;
-            } while (var_r4_3 < 1U);
-            sub_08068070((u32) (u32)callback9968534C45, 0x14U);
-loop_19:
-            if (sub_0805F184() != 0) {
-                sub_080003F0();
-                goto loop_19;
-            }
-loop_22:
-            if (sub_0805EF90() != 0) {
-                sub_080003F0();
-                goto loop_22;
-            }
-            temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14021DU);
-loop_25:
-            if (sub_0805EEFC((u8 *) temp_r4_2) != 0) {
-
-            } else if (sub_0800CDF8() != 0) {
-                sub_0805EFBC();
-            } else {
-                sub_080003F0();
-                goto loop_25;
             }
         } else {
-loop_30:
-            if (sub_0805F184() != 0) {
+            while (sub_0805F184()) sub_080003F0();
+            while (sub_0805EF90()) sub_080003F0();
+            dlg = sub_0805DF38(1, 15, 2, 0, -1, 0x14021E);
+            while (!sub_0805EEFC((void *)dlg)) {
+                if (sub_0800CDF8()) { sub_0805EFBC(); break; }
                 sub_080003F0();
-                goto loop_30;
             }
-loop_33:
-            if (sub_0805EF90() != 0) {
-                sub_080003F0();
-                goto loop_33;
-            }
-            temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x14021EU);
-loop_36:
-            if (sub_0805EEFC((u8 *) temp_r4_3) == 0) {
-                if (sub_0800CDF8() != 0) {
-                    sub_0805EFBC();
-                } else {
-                    sub_080003F0();
-                    goto loop_36;
-                }
-            }
-            var_r4_4 = state534C45 + 0xE34;
-            var_r5_2 = 0;
-loop_41:
-            if (var_r5_2 <= 0x1DU) {
-                temp_r0_3 = sub_08000470(var_r4_4);
-                if (temp_r0_3 == 0) {
-                    spawn.x = 0x9700;
-                    spawn.y = 0x16D00;
-                    spawn.width = 0x10;
-                    spawn.height = 8;
-                    spawn.callback = sub_0804534C;
-                    spawn.zero = 0;
-                    (*(u32 *)(var_r4_4 + 0x8)) = 0x3C;
-                    temp_r0_4 = sub_08001494(0x400U);
-                    (*(u32 *)(var_r4_4 + 0x20)) = temp_r0_4;
-                    (*(u32 *)(var_r4_4 + 0xC)) = callbackA874534C45;
-                    (*(u32 *)(var_r4_4 + 0x10)) = (u8 *) (temp_r0_4 + 0x3FC);
-                    (*(u32 *)(var_r4_4 + 0x24)) = temp_r0_3;
-                    sub_08000274(var_r4_4, &spawn, 1);
-                    sub_080003F0();
-                    sub_080003F0();
-                } else {
-                    var_r5_2 += 1;
-                    var_r4_4 += 0x28;
-                    goto loop_41;
-                }
-            }
+            FX534C45(next1, check1);
         }
+    } else {
+        FX534C45(next2, check2);
     }
-    temp_r2_2 = (0x14C * sub_080020F4()) + players534C45;
-    (*(u32 *)(temp_r2_2 + 0x30)) = (s32) ((*(u32 *)(temp_r2_2 + 0x30)) & ~1);
+done:
+    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_0804534C);
-#endif
 void sub_080455F0(s32 arg0) {
     register s32 arg asm("r5") = arg0;
     register s32 mask asm("r6");
