@@ -1,7 +1,8 @@
-- nov03-w2: sub_0806F0CC first draft (3376 vs 3408 bytes, same call sequence, ~1500 diff lines). Layout notes:
-  spill slots follow declaration order (e2 0x54, e3 0x58, e 0x5c, p 0x60, p2 0x64, target 0x68, lvl 0x6c,
-  level 0x70, drain 0x74, angle 0x78, hit 0x7c, player 0x80, bit 0x84, self 0x88); lvl (3-bit field of
-  sprite word 1) and the flight counter share slot 0x6c (ROM hoists lvl<<19 into r6 before the target search);
+- nov03-w4: sub_0806E7D4 draft is exact size (2296); only r8/r9 swapped: ROM gives `shade` (BC44
+  result) r8 and the loop-hoisted y>>8 / &hits[i] pseudos r9; ours the reverse. Tried: shade
+  u16/u32/s32 (size changes), decl order, splitting shade per branch or sharing shadeB (worse),
+  explicit sx/sy before the do-loop (29), permuter 5 min (no improvement).
+hare slot 0x6c (ROM hoists lvl<<19 into r6 before the target search);
   x/y live in sl/r9, dir d in r8 (d<<16 spilled to 0xac). The turn step keeps `(s16)t - (s16)angle` as a
   separate truncated diff (ours folds it) and t |= 0x100 is not re-truncated; y offsets use
   `(u32)(spr[1] << 20) >> 20`. Hit loop draws with dy + offs[k].y + 2 (ROM loads gUnk_084EBEBE).
