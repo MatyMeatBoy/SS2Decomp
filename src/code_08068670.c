@@ -4008,7 +4008,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
                     if (t == 10 || t == 14)
                         continue;
                 }
-                if (((struct SprBitsE7D4 *)q->sprite)->b4 & 0x20)
+                if ((u32)(((u8 *)q->sprite)[4] << 26) >> 26 & 0x20)
                     continue;
                 if (q->team == 0)
                     continue;
@@ -4056,11 +4056,9 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
         x += sinE7D4[(s16)a + 0x40] * 30;
         y += sinE7D4[(s16)a] * 30;
         done = 0;
-        sx = x >> 8;
-        sy = y >> 8;
         do {
-            coordsE7D4((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
-            shade = sub_0800BC44(sx, sy, 0);
+            coordsE7D4((s16)(x >> 8), (s16)(y >> 8), &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(x >> 8, y >> 8, 0);
             if (animE7D4(&spr, level, &frame[0], &timer[0], 0))
                 done++;
             if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
