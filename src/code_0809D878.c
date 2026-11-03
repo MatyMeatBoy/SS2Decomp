@@ -1794,6 +1794,7 @@ struct ActorA0B44 {
     u8 pad54[0x1B0]; struct SubA0B44 sub;
 };
 struct PosA0B44 { u16 x, y; };
+typedef struct { s32 x, y; } VecA0B44;
 struct PlayerA0B44 {
     u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags;
     u8 pad34[0x34]; u8 active; u8 pad69[0x23];
@@ -1809,7 +1810,7 @@ extern void initA0B44(void *, u32, u32, s32, s32) asm("sub_08065158");
 extern u32 animA0B44(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern void screenA0B44(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern struct DrawA0B44 *drawA0B44(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
-extern void vectorA0B44(s32, s32, s32, s32, s32 *) asm("sub_08097978");
+extern void vectorA0B44(VecA0B44, VecA0B44, s32 *) asm("sub_08097978");
 extern void effectA0B44(s32, s32, s32) asm("sub_08029CEC");
 extern s32 pickA0B44(s32) asm("sub_08096594");
 extern void setupA0B44(s32) asm("sub_08097A38");
@@ -1820,10 +1821,11 @@ void sub_080A0B44(void)
     u16 frame1, tick1, frame2, tick2;
     s16 screenX, screenY;
     s32 velocity[2];
-    struct ActorA0B44 **ref;
+    register struct ActorA0B44 **ref asm("sl");
     struct SubA0B44 *sub;
     struct PlayerA0B44 *target;
-    s32 posX, posY, targetX, targetY;
+    VecA0B44 pos;
+    VecA0B44 tgt;
     u16 done, count;
     u8 tick;
     u32 animArg;
@@ -1887,13 +1889,13 @@ void sub_080A0B44(void)
                 timer = 0;
                 if (steps <= 16) {
                     steps++;
-                    targetX = target->pos->x >> 4;
-                    targetY = ((u32)(target->pos->y << 20) >> 20) - 12;
-                    vectorA0B44(posX, posY, targetX, targetY, velocity);
+                    tgt.x = target->pos->x >> 4;
+                    tgt.y = ((u32)(target->pos->y << 20) >> 20) - 12;
+                    vectorA0B44(pos, tgt, velocity);
                 }
             }
-            posX += velocity[0];
-            posY += velocity[1];
+            pos.x += velocity[0];
+            pos.y += velocity[1];
             if (count++ > 480)
                 running = 0;
             break;
@@ -1904,21 +1906,25 @@ void sub_080A0B44(void)
             palette = &sub->paletteOffset;
             if (state == 0 || state == 1) {
                 sub_08000AF0(variantA0B44 + 16, sprite1.palette + (*palette << 5), 1);
-                screenA0B44((s32)((u32)(*ref)->x << 8) >> 16, (s32)((u32)(*ref)->y << 8) >> 16, &screenX, &screenY, zero, zero);
+                {
+                    struct ActorA0B44 *a = *ref;
+                    screenA0B44((s32)((u32)a->x << 8) >> 16, (s32)((u32)a->y << 8) >> 16, &screenX, &screenY, zero, zero);
+                }
                 object = drawA0B44(screenX, 0x9F, 4, frame1, 2, sprite1.payload, sprite1.data, sprite1.base);
                 object->y = screenY;
-                posX = (*ref)->x + 0x1000;
-                posY = (*ref)->y - 0x3000;
+                {
+                    struct ActorA0B44 *a = *ref;
+                    pos.x = a->x + 0x1000;
+                    pos.y = a->y - 0x3000;
+                }
             }
             sub_08000AF0(variantA0B44 + 16, sprite2.palette + (*palette << 5), 1);
-            screenA0B44((s32)((u32)posX << 8) >> 16, (s32)((u32)posY << 8) >> 16, &screenX, &screenY, zero, zero);
+            screenA0B44((s32)((u32)pos.x << 8) >> 16, (s32)((u32)pos.y << 8) >> 16, &screenX, &screenY, zero, zero);
             object = drawA0B44(screenX, 0x9F, anim, frame2, 1, sprite2.payload, sprite2.data, sprite2.base);
             object->y = screenY;
         }
-        player = sub_080020F4();
-        dx = (posX >> 8) - (playersA0B44[player].x >> 8);
-        player = sub_080020F4();
-        dy = (s16)((posY >> 8) + 12) - (playersA0B44[player].y >> 8);
+        dx = (pos.x >> 8) - (playersA0B44[sub_080020F4()].x >> 8);
+        dy = (s16)((pos.y >> 8) + 12) - (playersA0B44[sub_080020F4()].y >> 8);
         distance = Sqrt(dx * dx + dy * dy);
         if (hit != 0) goto next;
         if (distance > 15) goto next;
@@ -1931,9 +1937,7 @@ void sub_080A0B44(void)
         if (playersA0B44[sub_080020F4()].state == 14) goto next;
         if (playersA0B44[sub_080020F4()].state == 11) goto next;
         if (playersA0B44[sub_080020F4()].state == 12) goto next;
-        player = sub_080020F4();
-        actor = actorA0B44;
-        if (playersA0B44[player].seen[actor->id] == actor->serial) goto next;
+        if (playersA0B44[sub_080020F4()].seen[actorA0B44->id] == actorA0B44->serial) goto next;
         if (sub_0800CE30() == 1)
             effectA0B44(5, 60, 7);
         else
@@ -1941,9 +1945,7 @@ void sub_080A0B44(void)
         playersA0B44[sub_080020F4()].motion = 0xFFFE;
         player = sub_080020F4();
         actor = *ref;
-        serial = actor->serial;
-        playersA0B44[player].seen[actor->id] = serial;
-        actor->serial = serial + 1;
+        playersA0B44[player].seen[actor->id] = actor->serial++;
         hit = 1;
     next:
         sub_080003F0();
