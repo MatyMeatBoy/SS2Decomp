@@ -938,48 +938,59 @@ extern void initE530(void*,u32,u32,s32,u32) asm("sub_08065158");
 extern void coordE530(s16,s16,u16*,u16*,s32,s32) asm("sub_0800BC08");
 extern void *drawE530(u16,u16,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
 extern void spawnE530(s32,s32,s32,s32,s32) asm("sub_08079888");
-s32 sub_0808E530(u32 arg)
+void sub_0808E530(u32 arg)
 {
     u8 sprite[0x34];
-    u16 outX,outY;
+    u16 outX, outY;
     u32 frame;
     u32 mode;
-    s32 x,y,height,velocity;
+    s32 x, y, height, velocity;
     s32 fixedX;
     s32 narrowX;
-    u32 type;
-    u16 *px,*py;
-    if (sub_0800CCCC()!=0) return;
-    initE530(sprite,0x500F1,0,-1,0);
-    mode=arg>>16;
-    type=mode&0xFF;
-    switch (type) { case 0: frame=14; break; case 1: frame=15; break; }
-    x=(arg&0xFFFF)<<8;
-    y=0x5000;
-    height=0x5000;
-    velocity=0;
-    sub_080020F4();
-    fixedX=x>>8;
-    px=&outX;
-    narrowX=fixedX<<16;
-    py=&outY;
-    do {
-        height+=velocity;
-        velocity-=32;
-        if (sub_0800CC98()==0 && sub_0800CCCC()==0 && sub_0800CD34()==0 && sub_0800CD8C()==0) {
-            u8 visible;
-            u8 *object;
-            coordE530(narrowX>>16,80,px,py,48,0);
-            visible=sub_0800BC44(fixedX,80,0);
-            object=drawE530(*px,*py,0,frame,visible,sprite+0x1C,M2C_FIELD(sprite,u32*,8),M2C_FIELD(sprite,u32*,0));
-            M2C_FIELD(object,s32*,0xC)-=height>>8;
+    s32 narrowY;
+    u16 *px, *py;
+
+    if (sub_0800CCCC() == 0) {
+        initE530(sprite, 0x500F1, 0, -1, 0);
+        mode = arg >> 16;
+        switch (mode & 0xFF) {
+        case 0:
+            frame = 14;
+            break;
+        case 1:
+            frame = 15;
+            break;
         }
-        sub_080003F0();
-        if (sub_08056E90()!=0) break;
-    } while (height>0);
-    if (sub_08056E90()==0) {
-        if ((mode&0xFF)!=0) spawnE530(4,x,y,5,0);
-        else spawnE530(4,x,y,4,0);
+        x = (arg & 0xFFFF) << 8;
+        y = 0x5000;
+        height = 0x5000;
+        velocity = 0;
+        sub_080020F4();
+        fixedX = x >> 8;
+        px = &outX;
+        narrowX = fixedX << 16;
+        narrowY = (y >> 8) << 16;
+        py = &outY;
+        loop:
+            height += velocity;
+            velocity -= 32;
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0 && sub_0800CD8C() == 0) {
+                u8 visible;
+                u8 *object;
+                coordE530(narrowX >> 16, narrowY >> 16, px, py, 48, 0);
+                visible = sub_0800BC44(fixedX, 80, 0);
+                object = drawE530(*px, *py, 0, frame, visible, sprite + 0x1C, M2C_FIELD(sprite, u32 *, 8), M2C_FIELD(sprite, u32 *, 0));
+                M2C_FIELD(object, s32 *, 0xC) -= height >> 8;
+            }
+            sub_080003F0();
+            if (sub_08056E90() == 0 && height > 0)
+                goto loop;
+        if (sub_08056E90() == 0) {
+            if ((mode & 0xFF) != 0)
+                spawnE530(4, x, y, 5, 0);
+            else
+                spawnE530(4, x, y, 4, 0);
+        }
     }
 }
 #else
