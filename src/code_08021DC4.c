@@ -5795,7 +5795,56 @@ void sub_08028498(u16 arg0)
   }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080284F4);
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08028830);
+struct Pos028830 { u16 x; u16 y; };
+struct Ply028830 { u8 pad0[0x148]; struct Pos028830 *pos; };
+struct Box028830 { s32 a, b; };
+struct Arg028830 { struct Box028830 box; u32 c; s32 d, e; };
+extern struct Ply028830 players028830[] asm("gUnk_03003CE0");
+extern s32 overlap028830(s32 *, struct Box028830 *, s32 *, u32 *) asm("sub_08021FE0");
+extern void done028830(s32, s32) asm("sub_08057328");
+/* Optionally wait until no player overlaps the area, then wait until one
+ * does and fire the area's callback. */
+void sub_08028830_v(struct Arg028830 *arg, s32 waitClear) asm("sub_08028830");
+void sub_08028830_v(struct Arg028830 *arg, s32 waitClear)
+{
+    s32 pos[2];
+    struct Box028830 box;
+    s32 zero;
+    u32 c;
+    s32 d, e;
+    u32 i;
+    s32 hit;
+
+    zero = 0;
+    box = arg->box;
+    c = arg->c;
+    d = arg->d;
+    e = arg->e;
+    if (waitClear) {
+        do {
+            hit = 0;
+            for (i = 0; i < sub_08002164(); i++) {
+                pos[0] = (players028830[i].pos->x >> 4) << 8;
+                pos[1] = (u32)(players028830[i].pos->y << 20) >> 12;
+                if (overlap028830(pos, &box, &zero, &c))
+                    hit = 1;
+            }
+            sub_080003F0();
+        } while (hit);
+    }
+    for (;;) {
+        for (i = 0; i < sub_08002164(); i++) {
+            struct Pos028830 *p = players028830[i].pos;
+            pos[0] = (p->x >> 4) << 8;
+            pos[1] = (u32)(p->y << 20) >> 12;
+            if (overlap028830(pos, &box, &zero, &c))
+                goto found;
+        }
+        sub_080003F0();
+    }
+found:
+    done028830(e, d);
+}
 void sub_08028918(void) {
     s32 keep;
     s32 p;
