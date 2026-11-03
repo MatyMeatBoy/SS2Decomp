@@ -251,7 +251,6 @@ void sub_0801E594(void *arg0)
   }
   while (i <= 7);
 }
-#ifdef NONMATCHING
 struct Atk5B0 { u8 pad0[0x10]; u16 kind; u8 pad12[0xA]; u16 dir; u8 pad1E[2]; u16 type; u8 pad22[4]; u16 skill; u16 magic; u8 pad2A[6]; u32 flags; u8 pad34[8]; u16 bonus; u8 pad3E[0x1A]; s16 base; u8 pad5A[2]; s16 evade; u8 pad5E[0x54]; u16 level; u8 padB4[0x6E]; u16 mind; u8 pad124[0x1C]; u8 *ctx; };
 struct Tgt5B0 { u8 pad0[2]; u16 id; u8 pad4[4]; u16 dir; u8 padA[2]; u16 kind; u8 padE[6]; s32 x, y; u8 pad1C[0x1B2]; u16 defense; u8 pad1D0[0x48]; u16 resist[6]; };
 extern u8 *combat5B0 asm("gUnk_030034E0");
@@ -271,12 +270,14 @@ static inline s32 inl_08021C74(u16 arg0, u16 arg1, u16 arg2) {
 static inline u16 inl_08021CE4(u16 arg0, u16 arg1) {
     return ((arg1 + 0x64) * arg0) / 0x64;
 }
-static inline s32 inl_08021D00(u16 arg0, u16 arg1, u16 *arg2) {
+static inline s32 inl_08021D00(u16 arg0, s32 arg1, u8 *base, s32 off) {
+    u16 *arg2;
     s16 temp_r1;
     u16 var_r3;
     u32 temp_r0;
 
     var_r3 = arg1;
+    arg2 = (u16 *)(base + off);
     temp_r0 = arg0 - 1;
     if (temp_r0 <= 6) {
         switch (temp_r0) {
@@ -319,7 +320,7 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
     register u32 varianceWord;
     u16 variance;
     u16 firstDamage;
-    s32 result;
+    u16 result;
     u32 damage;
     u16 resistance;
     u16 element;
@@ -414,14 +415,17 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
     result = inl_08021C74(power, defense, divisor);
     if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
         {
-            s16 t = inl_08021D00(*(u16 *)(record + 0xBC), result, tgt->resist);
-            result = (u16)t;
-            if (t <= 0)
+            register u32 fw asm("r0") = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x218);
+            asm("" : "+r"(fw));
+            fw <<= 16;
+            result = fw >> 16;
+            if ((s32)fw <= 0)
                 result = 1;
         }
     }
     if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
-        result = inl_08021CE4(result, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
+        register u32 cur asm("r4") = result;
+        result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
         sub_0805865C(0x27);
     }
     if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
@@ -443,10 +447,6 @@ s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
     }
     return result;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
-#endif
-#ifdef NONMATCHING
 struct Pos988 { u16 a; u8 b, c; };
 struct Tgt988 { u16 id; u8 pad2[0x1E]; u16 kind; u8 pad22[0x38]; u16 defense; u8 pad5C[0x20]; u16 resist[6]; u8 pad88[0xC0]; struct Pos988 *pos; };
 s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
@@ -461,7 +461,7 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
     register u32 varianceWord;
     u16 variance;
     u16 firstDamage;
-    s32 result;
+    u16 result;
     u32 damage;
     u16 resistance;
     u16 element;
@@ -556,16 +556,19 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
     result = inl_08021C74(power, defense, divisor);
     if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
         {
-            s16 t = inl_08021D00(*(u16 *)(record + 0xBC), result, tgt->resist);
-            result = (u16)t;
-            if (t <= 0)
+            register u32 fw asm("r0") = inl_08021D00(*(u16 *)(record + 0xBC), result, (u8 *)tgt, 0x7C);
+            asm("" : "+r"(fw));
+            fw <<= 16;
+            result = fw >> 16;
+            if ((s32)fw <= 0)
                 result = 1;
         }
     }
     if (atk->type == 5)
         result = inl_08021CE4(result, 10);
     if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
-        result = inl_08021CE4(result, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
+        register u32 cur asm("r4") = result;
+        result = inl_08021CE4(cur, sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10);
     }
     if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
         notify5B0((tgt->id << 8) | 4, sub_0801E0AC((s32)(combat5B0 + 0x30), 4));
@@ -584,14 +587,13 @@ s32 sub_0801E988(struct Atk5B0 *atk, struct Tgt988 *tgt, u8 *record, s32 noCrit)
         if (d <= 1)
             result = (u16)((s16)result * (sub_0801E0AC((s32)(combat5B0 + 0x30), 7) * 3 + 10) / 10);
     }
-    result = (u16)((s16)result / 4);
-    if ((s16)result == 0)
-        result = 1;
-    return result;
+    {
+        register s32 fin asm("r5") = (u16)((s16)result / 4);
+        if ((s16)fin == 0)
+            fin = 1;
+        return fin;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
-#endif
 struct CombatCtxD8C { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
 struct CombatActorD8C { u8 pad[0x1CC]; u16 attack,defense; s16 evade; u8 pad1D2[0x32]; struct CombatCtxD8C ctx; };
 struct TargetD8C { u8 pad[0xC]; u16 kind; u8 padE[0x6E]; u16 resist[6]; u8 pad88[0x4A]; u16 f5A_dummy; };
