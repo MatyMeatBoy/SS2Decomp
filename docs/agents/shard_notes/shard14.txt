@@ -1,22 +1,15 @@
-Shard 14 (code_080153A4), worker/014 - notes on functions not yet matched
 
-sub_08016ECC (47 asm lines, 90 bytes): best draft 86-88 bytes, no match.
-  Diff is register allocation: original keeps the flags pointer in r7 and the bit in r6.
-  Tried: u16/u32 index, explicit fp pointer, offset vs base-pointer forms. Permuter best score 465.
-
-sub_080169C8 (86 lines, 180 bytes): near. Loop counters use do/while <= with u32 i.
-  Remaining diff is register order: arg counter/offset swapped (i in r5, off in r6 expected).
-  Permuter best score 505.
-
-sub_08016A7C (95 lines, 180 bytes): draft 168 bytes, missing r8/r9 spill pattern. Permuter best 1535.
-
-sub_080168FC (102 lines, 204 bytes): near. Only register allocation differs (arg in r5, i in r4 expected).
-  Goto-mirrored loop and retry-alloc layout matched the structure. Permuter best 1005.
-
-sub_08016C88 (97 lines, 184 bytes): near. Only 2-3 instruction diffs around qy/t shift placement.
-  Matching draft: see git history of this file (not committed). Permuter best score 90.
-
-Later attempts (after main merge):
+nov03-w1: sub_08016F28 (1622 asm lines) fresh NONMATCHING draft, 1627 vs 1637 disasm lines, ~470 lines differ
+  (mostly register allocation + jump-table offsets). Structure that matched:
+  - weighted roll (rand%100 over 3 {result,chance} entries) is a static inline in the shape of sub_0801A2F0
+    (goto loop; register asm r3 for i, r2 for roll) called 11x on ai->tables[k] (self+0x254+12k).
+  - nearest-entity search as inline helper taking s32 *dist (like sub_08016B30's signature) -> sl=&dist hoist.
+  - angle: inline dir16F28(self, s16 x, s16 y) with `dx = -(self->x>>8) + x` temps; entity x passed as e->x>>8.
+  - target nibble read via u8 bitfield (thi:4) but written via raw byte; store dir in each branch.
+  - ai = &self->ai (0x204) must NOT be used for 0x224 inside the switch (self->ai.f20) or ai steals r7 from act.
+  Remaining: ai/&f62 swap r8<->r9, dir/tx/ty regs (orig r6/r8/r7), spread loop hoisting (orig keeps &used in sl,
+  &objs in r8, 0x200 in r7), players[idx] multiply operand order, small switch case layout differences.
+fter main merge):
 sub_080169C8: best permuter score 375 (300 s run). Still register order (i/off).
 sub_080168FC: best permuter score 1090 (300 s run).
 sub_08016D40 (99 lines, 196 bytes): draft 188 bytes, permuter best 1675. Shifts/field-offset ordering differ.

@@ -1388,7 +1388,457 @@ void sub_08016ECC_u16(u16 arg0)
     }
   }
 }
+#ifdef NONMATCHING
+struct Pos16F28 { u32 kind:4; u32 x:12; u32 y:12; u32 pad2:4; u32 f4:6; u32 f4b:2; };
+struct Plr16F28 { u8 pad0[0x148]; struct Pos16F28 *pos; };
+extern struct Plr16F28 players16F28[] asm("gUnk_03003CE0");
+struct Roll16F28 { u8 result; u8 chance; u8 pad[2]; };
+struct AI16F28 {
+    u8 pad0[0x10];
+    s32 f10;                 /* 0x214 */
+    u8 pad14[0xC];
+    u16 f20;                 /* 0x224 */
+    u8 pad22[0x26];
+    u16 near48;              /* 0x24C */
+    u16 mid4A;               /* 0x24E */
+    u16 hp4C;                /* 0x250 */
+    u16 f4E;                 /* 0x252 */
+    struct Roll16F28 tables[11][3]; /* 0x254 */
+    u8 pad2D8[8];
+};
+struct Obj16F28 {
+    u16 id;
+    u16 f2;
+    u16 input;               /* 0x04 */
+    u16 f6;
+    u16 f8;
+    u16 fA;
+    u16 state;               /* 0x0C */
+    u8 padE[6];
+    s32 x;                   /* 0x14 */
+    s32 y;                   /* 0x18 */
+    u8 pad1C[8];
+    s32 tx;                  /* 0x24 */
+    s32 ty;                  /* 0x28 */
+    u8 pad2C[0x16];
+    u16 f42;
+    u16 f44;
+    u8 pad46[0x16];
+    s16 hp;                  /* 0x5C */
+    u8 pad5E[4];
+    u16 f62;
+    u8 pad64[0xA];
+    u16 f6E;
+    u8 pad70[4];
+    u16 f74;
+    u8 pad76[4];
+    u16 f7A;
+    u8 pad7C[0xE];
+    u16 f8A;
+    u8 pad8C[0x14A];
+    s16 maxhp;               /* 0x1D6 */
+    u8 pad1D8[0x24];
+    u8 tlo:4;                /* 0x1FC */
+    u8 thi:4;
+    u8 action;               /* 0x1FD */
+    u8 phase;                /* 0x1FE */
+    u8 pad1FF;
+    u8 dir;                  /* 0x200 */
+    u8 flags;                /* 0x201 */
+    u8 pad202[2];
+    struct AI16F28 ai;       /* 0x204 */
+};
+struct GS16F28 { u8 pad0[0xC]; u16 fC; };
+extern struct GS16F28 *gs16F28 asm("gUnk_03005CF4");
+extern u32 used16F28 asm("gUnk_030056FC");
+extern struct Obj16F28 *objs16F28 asm("gUnk_030056F4");
+struct Lead16F28 { u8 pad0[0x20]; s32 f20; };
+extern struct Lead16F28 *lead16F28 asm("gUnk_030034E0");
+extern u8 dirs16F28[] asm("gUnk_084790B4");
+extern u8 dirIdx16F28[] asm("gUnk_084790C4");
+extern s16 sin16F28[] asm("gUnk_080B9704");
+extern u16 ang16F28[] asm("gUnk_0847AD0A");
+extern u32 frame16F28 asm("gUnk_03002344");
+extern s32 aim16F28(s32, s32, s32, s32, s32) asm("sub_08016C88");
+extern void follow16F28(struct Obj16F28 *, u32) asm("sub_08016D40");
+extern s32 nearest16F28(struct Obj16F28 *, s32 *) asm("sub_08016B30");
+extern void notify16F28(u32) asm("sub_080662C4");
+
+static inline u8 roll16F28(struct Roll16F28 *t)
+{
+    register u32 i asm("r3");
+    register u32 r asm("r2");
+    u8 sum;
+    u8 res;
+    r = (u8)(sub_080008C8() % 100U);
+    res = 0xFF;
+    i = 0;
+    sum = t->chance;
+    goto test;
+loop:
+    i++;
+    t++;
+    if (i > 2)
+        goto end;
+    sum += t->chance;
+test:
+    if (r >= sum)
+        goto loop;
+    res = t->result;
+end:
+    return res;
+}
+
+struct Vec16F28 { s32 x, y; };
+#define TGT(o) (((u8 *)(o))[0x1FC])
+
+static inline u32 dir16F28(struct Obj16F28 *self, s16 x, s16 y)
+{
+    s32 dx = -(self->x >> 8) + x;
+    s32 dy = -(self->y >> 8) + y;
+    return (u32)((ArcTan2(dx, dy) << 16) + 0x8000000) >> 28;
+}
+
+static inline u32 nearestEnt16F28(struct Obj16F28 *self, s32 *dist)
+{
+    s32 best = -1;
+    s32 bestD = 0xFFFF;
+    u32 i;
+    u32 off = 0;
+    for (i = 0; i <= 4; off += 0x2E0, i++) {
+        struct Obj16F28 *e;
+        if ((used16F28 & (1 << i)) && (e = (struct Obj16F28 *)((u8 *)objs16F28 + off)) != self) {
+            s32 dx = (e->x - self->x) >> 8;
+            s32 dy = (e->y - self->y) >> 8;
+            u16 d = Sqrt(dx * dx + dy * dy);
+            if (bestD > d) {
+                bestD = d;
+                best = i;
+            }
+        }
+    }
+    if (best == -1)
+        return 0xFF;
+    *dist = bestD;
+    return best;
+}
+
+void sub_08016F28(struct Obj16F28 *self)
+{
+    u8 act;
+    s32 dist;
+    u32 active;
+    u32 dir;
+    u32 tx, ty;
+    struct AI16F28 *ai;
+
+    ai = &self->ai;
+    act = 0xFF;
+
+    if (self->flags & 2) {
+        if (++self->f8A > 900) {
+            self->flags &= ~2;
+            gs16F28->fC = 0;
+            self->f8A = 0;
+        }
+    }
+    {
+        u32 r = sub_08002204();
+        active = (-r | r) >> 31;
+    }
+    if (active) {
+        if (self->state == 10 && self->f6E != 0) {
+            act = roll16F28(ai->tables[0]);
+            self->flags |= 1;
+        }
+        if (self->action == 0xE) {
+            if (self->phase > 1 && act == 0xFF && self->f74 == 1) {
+                act = roll16F28(ai->tables[1]);
+                self->flags |= 1;
+            }
+        } else if (act == 0xFF && self->f74 == 1) {
+            act = roll16F28(ai->tables[1]);
+            self->flags |= 1;
+        }
+        if (self->f62 == 10)
+            self->flags &= ~1;
+    }
+    if (self->flags & 1) {
+        if (active) {
+            if (act == 0xFF) {
+                u32 t;
+                dist = 0xF0;
+                if (self->flags & 2) {
+                    { u32 t = nearestEnt16F28(self, &dist) << 4; TGT(self) = (TGT(self) & 0xF) | t; }
+                } else {
+                    { u32 t = nearest16F28(self, &dist) << 4; TGT(self) = (TGT(self) & 0xF) | t; }
+                }
+                if (self->thi <= 9) {
+                    s32 diff;
+                    if (self->flags & 2)
+                        diff = objs16F28[self->thi].ai.f10 - ai->f10;
+                    else
+                        diff = lead16F28->f20 - ai->f10;
+                    if (ai->f4E < diff) {
+                        if (dist < ai->near48)
+                            act = roll16F28(ai->tables[8]);
+                        else if (dist < ai->mid4A)
+                            act = roll16F28(ai->tables[9]);
+                        else
+                            act = roll16F28(ai->tables[10]);
+                    }
+                    if (act == 0xFF) {
+                        u16 pct = self->hp * 100 / self->maxhp;
+                        if (ai->hp4C > pct) {
+                            if (dist < ai->near48)
+                                act = roll16F28(ai->tables[5]);
+                            else if (dist < ai->mid4A)
+                                act = roll16F28(ai->tables[6]);
+                            else
+                                act = roll16F28(ai->tables[7]);
+                        }
+                        if (act == 0xFF) {
+                            if (dist <= ai->near48)
+                                act = roll16F28(ai->tables[2]);
+                            else if (dist <= ai->mid4A)
+                                act = roll16F28(ai->tables[3]);
+                            else
+                                act = roll16F28(ai->tables[4]);
+                        }
+                    }
+                } else {
+                    act = 1;
+                    TGT(self) &= 0xF;
+                }
+            }
+            if (act == 0xD && self->f74 < ai->f20 && self->action != 0xFF)
+                act = self->action;
+            if (act != 0xFF) {
+                self->flags &= ~1;
+                if (self->action != act) {
+                    u32 i;
+                    u32 off;
+                    self->phase = 0;
+                    self->action = act;
+                    if (self->flags & 2) {
+                        struct Obj16F28 *e = &objs16F28[self->thi];
+                        dir = dir16F28(self, e->x >> 8, e->y >> 8);
+                        self->dir = dir;
+                    } else {
+                        struct Plr16F28 *pl = &players16F28[self->thi];
+                        if ((s32)(*((u8 *)pl->pos + 4) << 26) < 0)
+                            self->flags |= 1;
+                        dir = dir16F28(self, pl->pos->x, pl->pos->y);
+                        self->dir = dir;
+                    }
+                    {
+                        u32 i;
+                        u32 off;
+                        struct Obj16F28 **objsp = &objs16F28;
+                        for (i = 0, off = 0; i <= 4; off += 0x2E0, i++) {
+                            if (self->id != i && (used16F28 & (1 << i))) {
+                                struct Obj16F28 *e = (struct Obj16F28 *)((u8 *)*objsp + off);
+                                if (self->dir == e->dir) {
+                                    if (++self->dir > 15)
+                                        self->dir = 0;
+                                }
+                            }
+                        }
+                    }
+                    notify16F28(self->id);
+                }
+            } else {
+                self->action = 0;
+            }
+        }
+        self->phase = 0;
+    }
+    if (self->flags & 2) {
+        struct Obj16F28 *e = &objs16F28[self->thi];
+        dir = dir16F28(self, e->x >> 8, e->y >> 8);
+        tx = (u32)(e->x << 8) >> 16;
+        ty = (u32)(e->y << 8) >> 16;
+    } else {
+        struct Plr16F28 *pl = &players16F28[self->thi];
+        if ((s32)(*((u8 *)pl->pos + 4) << 26) < 0)
+            self->flags |= 1;
+        dir = dir16F28(self, pl->pos->x, pl->pos->y);
+        tx = pl->pos->x;
+        ty = pl->pos->y;
+    }
+    switch (self->action) {
+    case 1:
+        self->f6 = 0;
+        self->input = 0;
+        self->f42 = 0;
+        if (!active)
+            break;
+        if (++self->phase > 30)
+            self->flags |= 1;
+        break;
+    case 2:
+        self->f6 = 0;
+        self->input = 0;
+        self->f42 = 0;
+        if (!active)
+            break;
+        if (++self->phase > 60)
+            self->flags |= 1;
+        break;
+    case 3:
+        self->f6 = 0;
+        self->input = 0;
+        self->f42 = 0;
+        if (!active)
+            break;
+        if (++self->phase > 90)
+            self->flags |= 1;
+        break;
+    case 4:
+        follow16F28(self, ai->near48);
+        self->f6 = 0;
+        if (!active)
+            break;
+        if (self->f7A & 0x20)
+            self->input = 0;
+        if (self->input == 0) {
+            self->flags |= 1;
+            self->f8 = dirs16F28[dir];
+        }
+        break;
+    case 5:
+        follow16F28(self, ai->mid4A);
+        self->f6 = 0;
+        if (!active)
+            break;
+        if (self->f7A & 0x20)
+            self->input = 0;
+        if (self->input == 0) {
+            self->flags |= 1;
+            self->f8 = dirs16F28[dir];
+        }
+        break;
+    case 6: {
+        struct Vec16F28 v;
+        u32 a = dirs16F28[dirIdx16F28[self->dir]];
+        u32 speed = ai->near48;
+        v.x = tx << 8;
+        v.y = ty << 8;
+        if (speed & 0x8000)
+            speed = 0;
+        self->ty = sin16F28[ang16F28[a]] * speed + v.y;
+        self->tx = sin16F28[ang16F28[a] + 0x40] * speed + v.x;
+        self->ty >>= 8;
+        self->tx >>= 8;
+        if (frame16F28 % 25 == self->id * 5)
+            self->input = aim16F28(self->x, self->y, self->tx, self->ty, 8);
+        if (++self->f44 > 180) {
+            self->f44 = 0;
+            self->input = 0;
+        }
+        self->f6 = 0;
+        if (!active)
+            break;
+        if (self->f7A & 0x20)
+            self->input = 0;
+        if (self->input == 0) {
+            self->flags |= 1;
+            self->f8 = dirs16F28[dir];
+        }
+        break;
+    }
+    case 7: {
+        struct Vec16F28 v;
+        u32 a = dirs16F28[dirIdx16F28[self->dir]];
+        u32 speed = ai->mid4A;
+        v.x = tx << 8;
+        v.y = ty << 8;
+        if (speed & 0x8000)
+            speed = 0;
+        self->ty = sin16F28[ang16F28[a]] * speed + v.y;
+        self->tx = sin16F28[ang16F28[a] + 0x40] * speed + v.x;
+        self->ty >>= 8;
+        self->tx >>= 8;
+        if (frame16F28 % 25 == self->id * 5)
+            self->input = aim16F28(self->x, self->y, self->tx, self->ty, 8);
+        if (++self->f44 > 180) {
+            self->f44 = 0;
+            self->input = 0;
+        }
+        self->f6 = 0;
+        if (!active)
+            break;
+        if (self->f7A & 0x20)
+            self->input = 0;
+        if (self->input == 0) {
+            self->flags |= 1;
+            self->f8 = dirs16F28[dir];
+        }
+        break;
+    }
+    case 8: case 9: case 10: case 11: case 12:
+    case 15: case 16: case 17:
+    case 22: case 23: case 24: case 25: case 26: case 27: case 28: case 29: case 30:
+        break;
+    case 13:
+        self->f8 = dirs16F28[dir];
+        self->f6 = 1;
+        self->input = 1;
+        self->f42 = 0;
+        if (!active)
+            break;
+        if (self->f74 > self->ai.f20)
+            self->flags |= 1;
+        break;
+    case 14:
+        self->f6 = 1;
+        self->input = 1;
+        self->f42 = 0;
+        if (!active)
+            break;
+        switch (self->phase) {
+        case 0:
+            self->f8 = dirs16F28[dir];
+            if (self->f74 > self->ai.f20)
+                self->phase++;
+            break;
+        case 1:
+            if (self->state == 0)
+                self->phase = 2;
+            break;
+        case 2:
+            self->flags |= 1;
+            break;
+        }
+        break;
+    case 18: case 19: case 20: case 21:
+        self->f8 = dirs16F28[dir];
+        self->f6 = 2;
+        self->input = 2;
+        self->f42 = 0;
+        if (!active)
+            break;
+        if (self->f74 > self->ai.f20)
+            self->flags |= 1;
+        break;
+    case 31: case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39: case 40: case 41: case 42: case 43: case 44: case 45: case 46: case 47: case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57: case 58: case 59: case 60: case 61: case 62: case 63: case 64: case 65: case 66: case 67: case 68: case 69: case 70: case 71: case 72: case 73: case 74: case 75: case 76: case 77: case 78: case 79: case 80: case 81: case 82: case 83: case 84: case 85: case 86: case 87: case 88: case 89: case 90: case 91: case 92: case 93: case 94: case 95: case 96: case 97: case 98: case 99: case 100: case 101: case 102: case 103: case 104: case 105: case 106: case 107: case 108: case 109: case 110: case 111: case 112: case 113: case 114:
+        self->f8 = dirs16F28[dir];
+        self->f6 = 2;
+        self->input = 2;
+        if (!active)
+            break;
+        if (self->f74 > self->ai.f20)
+            self->flags |= 1;
+        break;
+    default:
+        if (!(self->f7A & 4))
+            self->flags |= 1;
+        break;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
+#endif
 struct T015CEntity { u16 id; u8 pad2[0xA]; u16 kind; u8 padE[6]; s32 x,y; u8 pad1C[0x5A]; u16 cursor; u8 pad78[2]; u16 flags; u8 pad7C[0x194]; u32 active; u8 pad214[0x1A]; u8 radius; };
 extern struct T015CEntity *T015CEntities asm("gUnk_030056F4");
 extern u8 T015CDirections[] asm("gUnk_084790B4");
