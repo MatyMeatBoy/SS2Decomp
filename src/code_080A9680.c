@@ -3625,8 +3625,9 @@ void sub_080B1FD4(void)
             gArr03000798[i] = 0;
     }
 }
-#ifdef NONMATCHING
-void sub_080B2058(s32 arg0, s32 arg1)
+struct PosB58 { s32 x, y; };
+/* The position is passed by value as an 8-byte struct (r0/r1 copied as one DImode pair). */
+void sub_080B2058(struct PosB58 pos)
 {
     struct Spr2200 s;
     u16 a44;
@@ -3651,8 +3652,10 @@ void sub_080B2058(s32 arg0, s32 arg1)
     a44 = 0;
     cnt = 0;
     sub_0805865C(0x1A5);
-    xs = (x = arg0 >> 8) << 16;
-    ys = (y = arg1 >> 8) << 16;
+    x = pos.x >> 8;
+    y = pos.y >> 8;
+    xs = x << 16;
+    ys = y << 16;
     do {
         s32 paused;
         if ((paused = sub_0800CD8C()) == 0)
@@ -3682,9 +3685,6 @@ void sub_080B2058(s32 arg0, s32 arg1)
     sub_0801A0A4_1(gPtr030007A0);
     gTaskP030007A8->f8 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B2058);
-#endif
 s32 sub_080B2200(void)
 {
     struct Spr2200 s;

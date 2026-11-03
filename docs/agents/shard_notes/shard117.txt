@@ -1,9 +1,9 @@
-Shard 117 notes (nov03-w5, 2026-11-03)
 
-sub_080B2058 (draft in src/code_080A9680.c, score 29; identical twin: sub_080B6178 in code_080B3648, shard 119):
-  Only diff is the x/y setup after sub_0805865C(0x1A5). Original: arg1 copied to r7, arg0 to r6, then
-  `asrs r1,r6,#8; mov r9,r1; asrs r6,r7,#8; mov r8,r6; lsls r1,#16; str [sp,#0x50]; mov r2,r8; lsls r2; str [sp,#0x54]`.
-  Draft: arg1 ties to y (both r8, `mov r8,r1` in prologue): global alloc prefers y's reg for the dying arg;
+nov03-w2: sub_080B2058 MATCHED. Key: the two args are one 8-byte struct passed by value
+  (`struct PosB58 { s32 x, y; }; void sub_080B2058(struct PosB58 pos)`): the prologue copies r1 first into a
+  DImode pair r6:r7, so neither half ties to x/y. Then `x = pos.x >> 8; y = pos.y >> 8; xs = x << 16; ys = y << 16;`.
+  The twin sub_080B6178 (code_080B3648, shard 119) should match with the same change.
+oth r8, `mov r8,r1` in prologue): global alloc prefers y's reg for the dying arg;
   whichever shift is computed second ties its arg. Reload in the original never reuses the dying arg reg
   (x's reload reg is r1), as if neither arg dies at its shift.
   Tried (all 29 or worse): decl orders, register x/y/xs/ys, u32/s32 mixes, copies of args (top / block),
