@@ -5518,45 +5518,46 @@ extern void draw076CF4(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
 extern void init076CF4(void*,s32,s32,s32,s32) asm("sub_08065158");
 void sub_08073CF4(u32 *arg0)
 {
- struct Frame076CF4 frame;register u32 *args asm("r9")=arg0;
- register u32 finished asm("r10");u16 animation;u8 mode;s32 paused;s16 *screenX,*screenY;
- init076CF4(&frame.sprite,0x5008C,1,-1,0);
- frame.sprite.f1C=7;frame.sprite.f1D=8;
- sub_08000AF0(23,(void*)frame.sprite.fC,2);
- { register u32 *p asm("r0")=args; asm("" : "+r"(p)); frame.mode=p[2]; }
- { register u32 *p asm("r1")=args;
-   register u32 anim asm("r2");
-   asm("" : "+r"(p)); frame.wx=p[5]>>8; frame.wy=p[4]>>8;
-   anim=p[3]; asm("" : "+r"(anim)); frame.animation=anim; }
- { register u16 *tile asm("r1")=&frame.tile; asm("" : "+r"(tile)); *tile=0; }
- finished=0;frame.rotation=0;frame.fx=frame.wx<<16;
- { register s32 y asm("r1")=frame.wy; asm("" : "+r"(y)); frame.fy=y<<16; }
- do{
-  if(sub_0800CC98()==0){
-   paused=sub_0800CD8C();
-   if(paused==0){
-    { register s32 clear asm("r2")=sub_0800CCCC();
-      asm("" : "+r"(clear)); mode=sub_0800BC44(frame.wx,frame.wy,clear); }
-    { register u32 a asm("r2")=frame.animation;
-      register u32 scaled asm("r0");
-      asm("" : "+r"(a)); scaled=a<<16; asm("" : "+r"(scaled));
-      animation=scaled>>16; }
-    finished=(u16)animate076CF4(&frame.sprite,animation,&frame.tile,&frame.rotation,paused);
-    screenX=&frame.sx;screenY=&frame.sy;
-    { register s32 size asm("r0")=16; asm("" : "+r"(size));
-      coords076CF4(frame.fx>>16,frame.fy>>16,screenX,screenY,size,(void*)paused); }
-    { register u32 selected asm("r3")=frame.mode; asm("" : "+r"(selected));
-      if(selected!=0)draw076CF4(*screenX,*screenY+1,animation,frame.tile,mode,&frame.sprite.f1C,frame.sprite.f8,frame.sprite.f0);
-      else sub_08065230(&frame.sprite,*screenX,*screenY,animation,frame.tile); }
-   }
-  }
-  sub_080003F0();
-  { register u32 result asm("r0")=finished; asm("" : "+r"(result));
-    if(result!=0)break; }
- }while(1);
- { register u32 *p asm("r1")=args; register u32 index asm("r0");
-   asm("" : "+r"(p)); index=p[1]; asm("" : "+r"(index));
-   flags076CF4 &= ~(1<<index); }
+    struct Sprite076CF4 sprite;
+    u16 tile, rotation;
+    s16 sx, sy;
+    u32 wx, wy, selected, anim;
+    s32 fx, fy;
+    u32 finished;
+    u8 mode;
+    s32 paused;
+    u16 animation;
+    s16 *screenX, *screenY;
+
+    init076CF4(&sprite, 0x5008C, 1, -1, 0);
+    sprite.f1C = 7;
+    sprite.f1D = 8;
+    sub_08000AF0(23, (void *)sprite.fC, 2);
+    selected = arg0[2];
+    wx = arg0[5] >> 8;
+    wy = arg0[4] >> 8;
+    anim = arg0[3];
+    tile = 0;
+    finished = 0;
+    rotation = finished;
+    fx = wx << 16;
+    fy = wy << 16;
+    do {
+        if (sub_0800CC98() == 0 && (paused = sub_0800CD8C()) == 0) {
+            mode = sub_0800BC44(wx, wy, sub_0800CCCC());
+            animation = anim;
+            finished = (u16)animate076CF4(&sprite, animation, &tile, &rotation, paused);
+            screenX = &sx;
+            screenY = &sy;
+            coords076CF4(fx >> 16, fy >> 16, screenX, screenY, 16, (void *)paused);
+            if (selected != 0)
+                draw076CF4(*screenX, *screenY + 1, animation, tile, mode, &sprite.f1C, sprite.f8, sprite.f0);
+            else
+                sub_08065230(&sprite, *screenX, *screenY, animation, tile);
+        }
+        sub_080003F0();
+    } while (finished == 0);
+    flags076CF4 &= ~(1 << arg0[1]);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08073CF4);
