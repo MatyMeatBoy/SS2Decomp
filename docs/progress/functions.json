@@ -23382,14 +23382,14 @@
       "name": "sub_0806A19C",
       "addr": 134652316,
       "size": 1776,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08068670",
       "kind": "c",
       "cat": "game",
       "address": "0x0806A19C",
       "canonical_symbol": "sub_0806A19C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0806A19C",
       "name_status": "unidentified",
       "name_source": null,
@@ -31470,7 +31470,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 2989,
+          "line": 3000,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
