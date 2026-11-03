@@ -1953,7 +1953,6 @@ INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BEC0);
 #ifdef NONMATCHING
 struct Rgb0C9F4 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord0C9F4 { u32 r:5, g:5, b:5, x:1; };
-extern u8 pal0C9F4[] asm("gUnk_03001F40");
 /* Pulse a palette range: scale each color of a saved copy by a sine
  * brightness until *done becomes non-zero, then free the copy. */
 void sub_0800C9F4(u32 range, s32 *done)
@@ -1961,33 +1960,35 @@ void sub_0800C9F4(u32 range, s32 *done)
     u16 start = range;
     u32 count = range >> 16;
     u16 *copy;
-    struct Rgb0C9F4 *dst;
+    u16 *dst;
     u16 *src;
     u32 i, n, v;
+    s64 w;
     u16 scale, phase;
 
     while ((copy = sub_08001494(count << 5)) == 0)
         sub_080003F0();
-    CpuSet(pal0C9F4 + start * 32, copy, (count * 8) | 0x04000000);
+    CpuSet(((u8 *)&gUnk_03001F40) + start * 32, copy, (count * 8) | 0x04000000);
     n = count * 16;
     scale = 100;
     phase = 0;
     while (*done == 0) {
-        dst = (struct Rgb0C9F4 *)(pal0C9F4 + start * 32);
+        dst = (u16 *)(((u8 *)&gUnk_03001F40) + start * 32);
         src = copy;
         for (i = 0; i < n; i++, dst++, src++) {
             v = (u32)(scale * ((struct RgbWord0C9F4 *)src)->r) >> 10;
             if (v > 31)
                 v = 31;
-            dst->r = v;
+            ((struct Rgb0C9F4 *)dst)->r = v;
             v = (u32)(scale * ((struct RgbWord0C9F4 *)src)->g) >> 10;
             if (v > 31)
                 v = 31;
-            dst->g = v;
-            v = (u32)(scale * ((struct RgbWord0C9F4 *)src)->b) >> 10;
+            ((struct Rgb0C9F4 *)dst)->g = v;
+            w = scale * ((struct RgbWord0C9F4 *)src)->b;
+            v = (u32)w >> 10;
             if (v > 31)
                 v = 31;
-            dst->b = v;
+            ((struct Rgb0C9F4 *)dst)->b = v;
         }
         sub_08000B38();
         sub_080003F0();
