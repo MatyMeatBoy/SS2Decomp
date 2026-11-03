@@ -1647,27 +1647,25 @@ u32 sub_0800BC08(s16 x, s16 y, s16 *out_x, s16 *out_y) {
 #ifdef NONMATCHING
 u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
 {
-    u8 *state = (u8 *)0x03003170;
-    u32 *map;
-    u32 width;
-    u32 index;
-    u32 tile;
+    u8 *map;
+    u16 *w;
+    register u32 r asm("r0");
 
+    x >>= 3;
+    y >>= 3;
     if (alternate != 0) {
-        map = *(u32 **)(state + 0x6C);
-        width = *(u16 *)(state + 0x74);
+        map = (u8 *)gUnk_03003170.map1;
+        w = &gUnk_03003170.width1;
     } else {
-        map = *(u32 **)(state + 0x68);
-        width = *(u16 *)(state + 0x70);
+        map = (u8 *)gUnk_03003170.map0;
+        w = &gUnk_03003170.width0;
     }
-    index = (x >> 3) + (y >> 3) * width;
-    tile = *(u32 *)((u8 *)map + index * 2);
-    switch ((tile >> 14) & 3) {
-    case 0: return 2;
-    case 1: return 1;
-    case 2: return 3;
-    default: return 0;
+    switch ((s32)(*(u32 *)(map + (x + y * *w) * 2) << 16 >> 30)) {
+    case 0: r = 2; break;
+    case 1: r = 1; break;
+    case 2: r = 3; break;
     }
+    return r;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BC44);
@@ -1675,10 +1673,10 @@ INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BC44);
 #ifdef NONMATCHING
 u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 {
-    u8 *map; u16 *w; s32 ix, iy;
-    if (which == 0) { map = (u8 *)gUnk_03003170.map0; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width0; }
-    else { map = (u8 *)gUnk_03003170.map1; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width1; }
-    return map[(ix + iy * *w) * 2];
+    register u16 *map asm("r3"); u16 *w; register s32 ix asm("r1"); register s32 iy asm("r2");
+    if (which != 0) { map = gUnk_03003170.map1; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width1; }
+    else { map = gUnk_03003170.map0; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width0; }
+    return *(u8 *)&map[ix + iy * *w];
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BCA0);
