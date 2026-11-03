@@ -753,7 +753,6 @@ void sub_0801623C(struct Obj1623C *obj, struct Src1623C *src, u32 idx)
     if (((struct Entry1623C *)src)[idx + 1].flags & 0x2000)
         obj->w7A |= 8;
 }
-#ifdef NONMATCHING
 struct Src1641C { u16 x; u16 y; u16 flags; u16 f6; u16 f8; u16 fA; u16 fC; u16 fE; u16 f10; u16 f12; s32 f14; };
 struct Pt1641C { s32 x, y; };
 struct Slot1641C { u8 f0[0x28]; };
@@ -815,6 +814,7 @@ extern u8 table1641C[] asm("gUnk_0847AD3C");
 extern u8 stacks1641C[] asm("gUnk_030046EC");
 extern void taskMain1641C(void) asm("sub_0801801C");
 extern void startTask1641C(void *, void *) asm("sub_08000274");
+extern void cpuset1641C(const void *, void *, u32) asm("CpuSet");
 struct Plr1641C { u8 pad0[0x2C]; u16 w2C; u8 pad2E[0x14C - 0x2E]; };
 extern struct Plr1641C players1641C[] asm("gUnk_03003CE0");
 s32 sub_0801641C(struct Src1641C *src)
@@ -824,12 +824,11 @@ s32 sub_0801641C(struct Src1641C *src)
     struct Obj1641C *obj;
     s32 index;
     u8 *data;
-    u16 *flags;
     u32 k;
     s8 *bits;
     s32 lo;
-    u16 zero16;
     u8 zero8;
+    u16 zero16;
     u32 nib;
 
     if (sub_0800CDC0() != 0) {
@@ -860,9 +859,9 @@ found:
     if ((src->f10 & 0x80) && ((s8 *)data)[0x47] != 0)
         data += 0xD8;
     obj->src = data;
+    obj->id = slot;
     zero8 = 0;
     zero16 = 0;
-    obj->id = slot;
     bits = &obj->f1FC;
     nib = 0xF;
     lo = slot & nib;
@@ -890,9 +889,8 @@ found:
     obj->f1FE = zero8;
     obj->f1FF = zero8;
     obj->f202 = obj->f2;
-    flags = &obj->f7A;
     if (src->flags & 0x4000) {
-        *flags |= 0x44;
+        obj->f7A |= 0x44;
         obj->f201 = zero8;
         obj->f1FD = 0xFF;
     }
@@ -911,13 +909,15 @@ found:
     obj->f34 = 0;
     obj->f3C = 0;
     for (k = 0; k <= 7; k++) {
+        vu16 fill;
         obj->slots[k].head = 0xFFFF;
-        CpuFill16(0, obj->slots[k].body, 0x30);
+        fill = 0;
+        cpuset1641C((void *)&fill, obj->slots[k].body, 0x01000018);
     }
     if (src->flags & 0x8000)
-        *flags |= 2;
+        obj->f7A |= 2;
     if (src->flags & 0x2000)
-        *flags |= 8;
+        obj->f7A |= 8;
     obj->f1DC = 0;
     switch (src->fE) {
     case 0:
@@ -943,9 +943,6 @@ found:
     startTask1641C(&tasks1641C[slot], obj);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801641C);
-#endif
 extern u32 poolFlags014 asm("gUnk_030056FC");
 extern void startPool014(void *,void *) asm("sub_08000274");
 extern u8 *poolObjects014 asm("gUnk_030056F4");
