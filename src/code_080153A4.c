@@ -9,6 +9,21 @@ extern u8 *gP030056F4 asm("gUnk_030056F4");
 
 void sub_0800BC08(s32, s32, u16 *, s16 *, s32, s32);
 extern u8 gUnk_03003E28[];
+extern u32 *gUnk_084B139C[];
+extern u32 *gUnk_084B13BC[];
+extern u32 *gUnk_084B13E4[];
+extern u32 *gUnk_084B1420[];
+extern u32 *gUnk_084B1454[];
+extern u32 *gUnk_084B148C[];
+extern u32 *gUnk_084B14D0[];
+extern u32 *gUnk_084B1504[];
+extern u32 *gUnk_084B154C[];
+extern u32 *gUnk_084B1590[];
+extern u32 *gUnk_084B15E4[];
+extern u32 *gUnk_084B15E8[];
+extern u32 *gUnk_084B15F8[];
+extern u32 *gUnk_084B160C[];
+extern u32 *gUnk_084B1610[];
 
 void sub_080153A4(void)
 {
@@ -73,13 +88,304 @@ void sub_08015464(void)
 }
 
 
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801551C);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015620);
+extern struct Task tasks15[] asm("gUnk_03003C40");
+struct PlrKind15 { u8 pad0[0xC]; u16 sub; u8 padE[2]; u16 kind; u8 pad12[0x14C - 0x12]; };
+extern struct PlrKind15 kinds15[] asm("gUnk_03003CE0");
+void sub_080156FC();
+void sub_080152CC();
+struct Info15 { u32 kind:4; u32 mid:24; u32 top:4; u32 lo:14; u32 level:3; u32 hi:15; };
+struct Plr15 {
+    u16 id;
+    u8 pad2[0x1A];
+    u16 w1C;
+    u8 pad1E[2];
+    u16 state;
+    u8 pad22[2];
+    s16 w24;
+    u16 w26;
+    u16 w28;
+    u8 pad2A[6];
+    u32 flags;
+    u8 pad34[0xC];
+    s16 w40;
+    u8 pad42[0x4A];
+    struct V2W12 pos8C;
+    struct V2W12 pos94;
+    u8 pad9C[0xB0 - 0x9C];
+    u16 wB0;
+    u16 wB2;
+    u16 wB4;
+    u16 wB6;
+    u16 wB8;
+    u8 padBA[0xDC - 0xBA];
+    s32 counterDC;
+    u8 padE0[0x122 - 0xE0];
+    u16 w122;
+    u8 pad124[0x148 - 0x124];
+    struct Info15 *info;
+};
+extern struct Plr15 players15[] asm("gUnk_03003CE0");
+void sub_0801551C(void)
+{
+    s32 index = sub_080020F4();
+    s32 memory;
+    if (sub_08000470((u32)&tasks15[index]) != 0) {
+        if (sub_080020F4() == index && (u16)(gUnk_03003CE0[index].state - 10) > 1) {
+            if ((gUnk_03003CE0[index].flags & 0x2000) == 0)
+                gUnk_03003CE0[index].state = 0;
+        }
+        return;
+    }
+    switch (kinds15[index].kind) {
+    case 5:
+        if (kinds15[index].sub != 4)
+            tasks15[index].uC = sub_08015464;
+        else
+            tasks15[index].uC = sub_080153A4;
+        break;
+    case 4:
+        tasks15[index].uC = sub_080152CC;
+        break;
+    default:
+        return;
+    }
+    tasks15[index].u8 = 0x34;
+    while ((tasks15[index].u20 = memory = (s32)sub_08001494(0x400)) == 0)
+        sub_080003F0();
+    tasks15[index].u10 = memory + 0x3FC;
+    tasks15[index].u24 = 0;
+    sub_08000274(&tasks15[index]);
+}
+void sub_08015620(s32 index)
+{
+    u8 unused[0x34];
+    struct Plr15 *p = &players15[index];
+    s32 self = sub_080020F4();
+    u32 level;
+    u32 timer;
+    p->w122 = 0;
+    level = p->info->level;
+    timer = (level + 3) * 8;
+    if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(level + 0x100);
+    while (timer != 0 && p->state == 5) {
+        if (p->wB6 != 0) {
+            timer = ((timer << 16) + 0xFFFF0000) >> 16;
+            if (index == self && (timer & 0xF) == 0)
+                p->counterDC++;
+        }
+        sub_080003F0();
+    }
+    if (index == self && (u16)(p->state - 10) > 1) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
+#ifdef NONMATCHING
+void sub_080156FC(s32 index)
+{
+    struct Plr15 *p = &players15[index];
+    u32 count;
+    u32 frame;
+    count = p->info->level;
+    p->wB0 = p->info->top;
+    switch (count) {
+    case 1:
+        count = 5;
+        p->wB0 += 0x10;
+        break;
+    case 2:
+        count = 5;
+        p->wB0 += 0x10;
+        break;
+    case 3:
+        count = 5;
+        p->wB0 += 0x10;
+        break;
+    case 4:
+        count = 5;
+        p->wB0 += 0x10;
+        break;
+    case 5:
+        count = 5;
+        p->wB0 += 0x10;
+        break;
+    case 6:
+        count = 5;
+        p->wB0 += 0x10;
+        break;
+    case 7:
+        count = 5;
+        p->wB0 += 0x10;
+        break;
+    }
+    p->wB8 = p->wB0;
+    frame = 0;
+    while (count != 0 && p->info->kind == 5) {
+        if (!(p->wB2 & 1) && p->wB4 == 2 && count != 0) {
+            p->counterDC++;
+            sub_08077444(p->id, sub_0807A028(1), count, count, ++frame);
+            if (frame > 2)
+                frame = 0;
+            count--;
+        }
+        sub_080003F0();
+    }
+    if (sub_080020F4() == index && (u16)(p->state - 10) > 1) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080156FC);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015820);
+#endif
+void sub_08015820(s32 index)
+{
+    s32 memory;
+    if (sub_08000470((u32)&tasks15[index]) != 0) {
+        if (sub_080020F4() == index && (u16)(gUnk_03003CE0[index].state - 10) > 1) {
+            if ((gUnk_03003CE0[index].flags & 0x2000) == 0)
+                gUnk_03003CE0[index].state = 0;
+        }
+        return;
+    }
+    switch (kinds15[index].kind) {
+    case 1:
+        tasks15[index].uC = sub_08015620;
+        break;
+    case 8:
+        tasks15[index].uC = sub_080156FC;
+        break;
+    default:
+        return;
+    }
+    tasks15[index].u8 = 0x34;
+    while ((tasks15[index].u20 = memory = (s32)sub_08001494(0x400)) == 0)
+        sub_080003F0();
+    tasks15[index].u10 = memory + 0x3FC;
+    tasks15[index].u24 = 0;
+    sub_08000274(&tasks15[index], index);
+}
+#ifdef NONMATCHING
+void sub_08015914(s32 index)
+{
+    struct Plr15 *p = &players15[index];
+    struct Info15 *info = p->info;
+    u32 level;
+    u32 count;
+    u8 v;
+    level = info->level;
+    v = info->top;
+    p->wB0 = v + 8;
+    count = 2;
+    p->wB8 = v + 8;
+    if (p->info->kind == 5) {
+        for (;;) {
+            if ((p->wB2 == 1 || p->wB2 == 3) && p->wB4 == 1)
+                p->counterDC++;
+            if (p->wB6 != 0 && count != 0) {
+                if (--count == 0) {
+                    p->wB6 = count;
+                    p->wB2 = count;
+                    p->wB4 = count;
+                }
+            }
+            p->pos94 = p->pos8C;
+            p->w1C = sub_08013E90(((s32)gUnk_0847AD1C[level] >> 1) + p->w40, &p->pos8C, p->w1C,
+                                  (u16)sub_0800CCCC(), 0);
+            sub_08013CEC(p);
+            sub_080003F0();
+            if (count == 0 || p->info->kind != 5)
+                break;
+        }
+    }
+    if (sub_080020F4() == index && (u16)(p->state - 10) > 1) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015914);
+#endif
+#ifdef NONMATCHING
+void sub_08015A48(s32 index)
+{
+    struct Plr15 *p = &players15[index];
+    struct Info15 *info = p->info;
+    u32 count;
+    s32 v;
+    count = info->level;
+    v = info->top;
+    p->wB0 = v = 8 + v;
+    count++;
+    p->wB8 = v;
+    if (count != 0 && p->info->kind == 5) {
+        for (;;) {
+            if (p->wB6 != 0 && count != 0) {
+                count--;
+                p->counterDC++;
+                p->wB6 = 0;
+                p->wB2 = 0;
+                p->wB4 = 0;
+            }
+            sub_080003F0();
+            if (count == 0 || p->info->kind != 5)
+                break;
+        }
+    }
+    if (sub_080020F4() == index && p->info->kind - 10 > 1) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015A48);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015B20);
+#endif
+void sub_08015914();
+void sub_08015A48();
+void sub_08015B20(s32 index)
+{
+    s32 memory;
+    if (sub_08000470((u32)&tasks15[index]) != 0) {
+        if (sub_080020F4() == index && (u16)(gUnk_03003CE0[index].state - 10) > 1) {
+            if ((gUnk_03003CE0[index].flags & 0x2000) == 0)
+                gUnk_03003CE0[index].state = 0;
+        }
+        return;
+    }
+    switch (kinds15[index].kind) {
+    case 6:
+        tasks15[index].uC = sub_08015914;
+        break;
+    case 8:
+        tasks15[index].uC = sub_08015A48;
+        break;
+    default:
+        return;
+    }
+    tasks15[index].u8 = 0x34;
+    while ((tasks15[index].u20 = memory = (s32)sub_08001494(0x400)) == 0)
+        sub_080003F0();
+    tasks15[index].u10 = memory + 0x3FC;
+    tasks15[index].u24 = 0;
+    sub_08000274(&tasks15[index], index);
+}
 void sub_08015C14(void) {
 
     gUnk_03003CE0[sub_080020F4()].flags |= 1;
@@ -221,8 +527,57 @@ void sub_08015EF8(void) {
 u32 sub_08015F20(void) {
     return (gUnk_03003CE0[sub_080020F4()].flags >> 2) & 1;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015F44);
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801602C);
+u32 sub_08015F44(s32 level)
+{
+    register u32 **table asm("r0");
+    u32 result;
+    u32 last = gUnk_0847846C[level].count - 1;
+    switch (level) {
+    case 1: table = gUnk_084B139C; break;
+    case 2: table = gUnk_084B13BC; break;
+    case 3: table = gUnk_084B13E4; break;
+    case 4: table = gUnk_084B1420; break;
+    case 5: table = gUnk_084B1454; break;
+    case 6: table = gUnk_084B148C; break;
+    case 7: table = gUnk_084B14D0; break;
+    case 8: table = gUnk_084B1504; break;
+    case 9: table = gUnk_084B154C; break;
+    case 10: table = gUnk_084B1590; break;
+    case 11: table = gUnk_084B15E4; break;
+    case 12: table = gUnk_084B15E8; break;
+    case 13: table = gUnk_084B15F8; break;
+    case 14: table = gUnk_084B160C; break;
+    case 15: table = gUnk_084B1610; break;
+    default: return result;
+    }
+    result = *table[last];
+    return result;
+}
+u32 sub_0801602C(s32 level)
+{
+    u32 *entry;
+    u32 result;
+    switch (level) {
+    case 1: entry = gUnk_084B139C[0]; break;
+    case 2: entry = gUnk_084B13BC[0]; break;
+    case 3: entry = gUnk_084B13E4[0]; break;
+    case 4: entry = gUnk_084B1420[0]; break;
+    case 5: entry = gUnk_084B1454[11]; break;
+    case 6: entry = gUnk_084B148C[5]; break;
+    case 7: entry = gUnk_084B14D0[0]; break;
+    case 8: entry = gUnk_084B1504[14]; break;
+    case 9: entry = gUnk_084B154C[16]; break;
+    case 10: entry = gUnk_084B1590[3]; break;
+    case 11: entry = gUnk_084B15E4[0]; break;
+    case 12: entry = gUnk_084B15E8[0]; break;
+    case 13: entry = gUnk_084B15F8[0]; break;
+    case 14: entry = gUnk_084B160C[0]; break;
+    case 15: entry = gUnk_084B1610[0]; break;
+    default: return result;
+    }
+    result = *entry;
+    return result;
+}
 void sub_08016114(void)
 {
     u8 *p;
