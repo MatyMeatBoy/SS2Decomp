@@ -33261,14 +33261,14 @@
       "name": "sub_080B5B90",
       "addr": 134962064,
       "size": 724,
-      "state": "todo",
+      "state": "done",
       "module": "code_080B3648",
       "kind": "c",
       "cat": "game",
       "address": "0x080B5B90",
       "canonical_symbol": "sub_080B5B90",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_080B5B90",
       "name_status": "unidentified",
       "name_source": null,
@@ -33278,14 +33278,14 @@
       "name": "sub_080B5E64",
       "addr": 134962788,
       "size": 304,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080B3648",
       "kind": "c",
       "cat": "game",
       "address": "0x080B5E64",
       "canonical_symbol": "sub_080B5E64",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080B5E64",
       "name_status": "unidentified",
       "name_source": null,
@@ -33343,7 +33343,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 337,
+          "line": 426,
           "detail": "Existing C definition with an asm alias to the canonical symbol: clearTask60F4"
         }
       ]
@@ -33366,7 +33366,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 378,
+          "line": 467,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B6178_v"
         }
       ]
