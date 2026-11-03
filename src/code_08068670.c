@@ -4117,1261 +4117,483 @@ end:
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806FF1C);
 #endif
 #ifdef NONMATCHING
-u16 t6g_Sqrt(s32) asm("Sqrt");
-u8 t6g_sub_080003F0() asm("sub_080003F0");
-u8 t6g_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
-s32 t6g_sub_080020F4() asm("sub_080020F4");
-u32 t6g_sub_08002164() asm("sub_08002164");
-u8 t6g_sub_0800AE50(s32, s32, s32) asm("sub_0800AE50");
-s32 t6g_sub_0800BA6C() asm("sub_0800BA6C");
-void t6g_sub_0800BC08() asm("sub_0800BC08");
-u8 t6g_sub_0800BC44(s32, s32, s32) asm("sub_0800BC44");
-s32 t6g_sub_0800CB9C() asm("sub_0800CB9C");
-s32 t6g_sub_0800CC98() asm("sub_0800CC98");
-u8 *t6g_sub_0800CCCC() asm("sub_0800CCCC");
-s32 t6g_sub_0800CD34() asm("sub_0800CD34");
-s32 t6g_sub_0800CD8C() asm("sub_0800CD8C");
-s32 t6g_sub_0800CDC0() asm("sub_0800CDC0");
-s32 t6g_sub_0800CF10() asm("sub_0800CF10");
-s32 t6g_sub_0800D11C() asm("sub_0800D11C");
-s32 t6g_sub_0801DF8C() asm("sub_0801DF8C");
-s32 t6g_sub_08056E90() asm("sub_08056E90");
-u8 t6g_sub_0805865C(s32) asm("sub_0805865C");
-s32 t6g_sub_08058DB0() asm("sub_08058DB0");
-s32 t6g_sub_0806898C(s32, s32) asm("sub_0806898C");
-u8 t6g_sub_08068A00(s32, s32, void *) asm("sub_08068A00");
-u16 t6g_sub_08073EE8(s32, s32) asm("sub_08073EE8");
-u16 t6g_sub_0807414C(void *, s32, s32) asm("sub_0807414C");
-u16 t6g_sub_0807A040(u16, s32, s32, s32) asm("sub_0807A040");
-extern s32 t6g_gUnk_03002344 asm("gUnk_03002344");
-extern u8 t6g_gUnk_03003170 asm("gUnk_03003170");
-extern u8 t6g_gUnk_03003CE0 asm("gUnk_03003CE0");
-extern u8 t6g_gUnk_03003D10 asm("gUnk_03003D10");
-extern u8 t6g_gUnk_03003E28 asm("gUnk_03003E28");
-extern void *t6g_gUnk_030056F4 asm("gUnk_030056F4");
-extern s32 t6g_gUnk_030056FC asm("gUnk_030056FC");
-extern void *t6g_gUnk_03005CF4 asm("gUnk_03005CF4");
-extern u8 t6g_gUnk_030063E0 asm("gUnk_030063E0");
-extern u8 t6g_gUnk_03006410 asm("gUnk_03006410");
-extern u8 t6g_gUnk_080B9704 asm("gUnk_080B9704");
-extern u8 t6g_gUnk_084790B4 asm("gUnk_084790B4");
-extern u8 t6g_gUnk_0849E730 asm("gUnk_0849E730");
-extern u8 t6g_gUnk_084EBF1C asm("gUnk_084EBF1C");
-extern u8 t6g_gUnk_084EC1D0 asm("gUnk_084EC1D0");
-extern void t6g_sub_08065158() asm("sub_08065158");
-extern u16 t6g_sub_08065370() asm("sub_08065370");
-extern void t6g_sub_08007870() asm("sub_08007870");
-void sub_080710DC(void *arg0) {
+extern u8 gT6gBusy[] asm("gUnk_03006410");
+extern s16 gT6gRadius[] asm("gUnk_084EC1D0");
+extern u16 gT6gDirs[] asm("gUnk_0849E730");
+u16 t6gSeekEn(u16, s32, s32, s32) asm("sub_0807A040");
+void t6gBurst(s32, s32, void *) asm("sub_08068A00");
+s32 t6gSolo(void) asm("sub_0800CB9C");
 
-    u8 anim[0x34];
-    s16 sp4A;
-    s16 sp44;
-    s16 sp46;
-    s16 sp48;
-    void *sp4C;
-    void *sp50;
-    void *sp54;
-    void *sp58;
-    u8 *sp5C;
-    u32 sp60;
-    u32 sp64;
-    s32 sp68;
-    s32 sp6C;
-    s32 sp70;
-    u32 sp74;
-    s32 sp78;
-    u32 sp7C;
-    s32 sp80;
-    u32 sp84;
-    u32 sp88;
-    s32 sp8C;
-    u32 sp90;
-    s32 sp94;
-    s32 *sp98;
-    s32 *sp9C;
-    s32 spA0;
-    s16 *spA4;
-    s16 *spA8;
-    s32 spAC;
-    u8 *temp_r0_15;
-    u8 *temp_r0_25;
-    s16 temp_r0_10;
-    s16 temp_r0_11;
-    s16 temp_r0_12;
-    s16 temp_r0_13;
-    s16 temp_r0_14;
-    s16 temp_r0_16;
-    s16 temp_r0_17;
-    s16 temp_r0_18;
-    s16 temp_r0_21;
-    s16 temp_r0_22;
-    s16 temp_r0_23;
-    s16 temp_r1_10;
-    s16 temp_r1_12;
-    s16 temp_r1_14;
-    s16 temp_r1_16;
-    s16 temp_r1_19;
-    s16 temp_r1_21;
-    s16 temp_r1_8;
-    s16 temp_r2_6;
-    s16 temp_r4_3;
-    s16 temp_r4_7;
-    s16 temp_r5_2;
-    s16 var_r0_3;
-    s16 var_r0_4;
-    s16 var_r0_5;
-    s16 var_r1_2;
-    s16 var_r1_3;
-    s16 var_r1_4;
-    s16 var_r9;
-    s32 *temp_r2;
-    s32 *temp_r4;
-    s32 *var_r2;
-    s32 temp_r1_15;
-    s32 temp_r1_20;
-    s32 temp_r1_6;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r4_11;
-    s32 temp_r4_5;
-    s32 temp_r4_8;
-    s32 temp_r5_3;
-    s32 temp_r5_4;
-    s32 temp_r5_5;
-    s32 temp_r7_2;
-    s32 var_r0;
-    s32 var_r0_7;
-    s32 var_r1;
-    u8 *temp_r0_4;
-    u8 *temp_r1_4;
-    u16 temp_r0;
-    u16 temp_r0_2;
-    u16 temp_r0_8;
-    u16 temp_r0_9;
-    u16 temp_r1_11;
-    u16 temp_r1_17;
-    u16 temp_r1_22;
-    u32 temp_r1_3;
-    u16 temp_r4_10;
-    u16 temp_r4_4;
-    u16 temp_r4_9;
-    u16 temp_r6;
-    u16 temp_r6_4;
-    u16 temp_r7;
-    u16 var_r0_2;
-    u16 var_r5_2;
-    u16 var_r5_3;
-    u16 var_r5_4;
-    u16 var_r5_6;
-    u16 var_r5_7;
-    u16 var_r5_8;
-    u16 var_r5_9;
-    u16 var_r7;
-    u16 var_r8;
-    u16 var_r8_2;
-    u16 var_r8_3;
-    u16 var_r8_4;
-    u16 var_r8_5;
-    u32 temp_r0_19;
-    u32 temp_r0_20;
-    u32 temp_r0_24;
-    u32 temp_r0_3;
-    u32 temp_r0_5;
-    u32 temp_r0_6;
-    u32 temp_r0_7;
-    u32 temp_r1;
-    u32 temp_r1_9;
-    u32 temp_r6_2;
-    u32 temp_r6_3;
-    u32 var_r0_6;
-    u32 var_r2_2;
-    u32 var_r2_3;
-    u32 var_r2_4;
-    u32 var_r2_5;
-    u32 var_r5;
-    u32 var_r9_2;
-    u32 var_sl;
-    u8 *temp_r1_5;
-    u8 *temp_r1_7;
-    u8 *temp_r2_4;
-    u8 *temp_r2_5;
-    u8 *temp_r5;
-    u8 temp_r1_18;
-    u8 temp_r4_6;
-    u8 var_r5_10;
-    u8 var_r5_11;
-    u8 var_r5_12;
-    u8 var_r5_5;
-    void *temp_r1_13;
-    void *temp_r1_2;
-    void *temp_r2_2;
-    void *temp_r2_3;
-    void *temp_r3_3;
-    void *temp_r3_4;
-    void *temp_r3_5;
-    void *temp_r4_2;
+void sub_080710DC(struct T6fArg *arg0) {
+    struct T6fDesc desc;
+    s16 f0, f1;
+    s16 x, y;
+    struct T6fEn *te;
+    struct T6fEn *en;
+    struct T6fPl *pl;
+    struct T6fPl *tp;
+    u16 target;
+    u16 base;
+    u16 count;
+    u16 level;
+    s32 sx;
+    u16 frame;
+    u32 myId;
+    u32 owner;
+    s32 bit;
+    u32 timer;
+    u32 seek;
+    s32 cx, cy;
+    s32 sy;
+    u16 dir;
+    s32 orbit;
+    u16 i;
+    u32 num;
+    s32 hit;
+    u8 pal;
+    u16 a;
+    u8 ang;
+    s32 dx, dy;
+    u16 done;
+    u8 t;
+    s16 idx;
+    struct T6fPl *p;
 
+    bit = arg0->bit;
+    if (gT6gBusy[arg0->owner]) {
+        gT6fFlags[arg0->owner] &= ~(1 << bit);
+        return;
+    }
+    owner = arg0->owner;
+    gT6gBusy[owner] = 1;
+    target = arg0->target;
+    { u32 lv = *(u16 *)&arg0->level; count = lv; level = lv; base = lv; }
+    myId = t6f_sub_080020F4();
+    if (owner <= 3) {
+        pl = &gT6fPlayers[owner];
+    } else {
+        en = &gT6fEnemies[owner - 4];
+        while (en->h6A < en->b22B) {
+            if (t6f_sub_08056E90() != 0 || t6f_sub_0800BA6C() == 0 || en->state == 10 || en->state == 11) {
+                gT6fFlags[owner] &= ~(1 << bit);
+                gT6gBusy[owner] = 0;
+                return;
+            }
+            t6f_sub_080003F0();
+        }
+    }
+    f0 = 0;
+    f1 = 0;
+    if (t6f_sub_080020F4() != owner) {
+        if (owner > 3) {
+            en->mp -= gT6fCost[arg0->kind][base + 3];
+            if ((s16)en->mp < 0) {
+                gT6fFlags[owner] &= ~(1 << bit);
+                en->mp = 0;
+                gT6gBusy[owner] = 0;
+                return;
+            }
+        }
+    } else {
+        struct T6fPl *me = &gT6fPlayers[t6f_sub_080020F4()];
+        u32 power = (u16)(t6f_sub_0806898C(arg0->kind, arg0->level) - 1);
+        me->hp -= power;
+        if ((s16)me->hp < 0)
+            me->hp = 0;
+    }
+    if (target <= 3) {
+        num = t6f_sub_08002164();
+        for (i = 0; i < num; i++) {
+            if (t6f_sub_080020F4() == i)
+                continue;
+            tp = &gT6fPlayers[i];
+            if (tp->id == target)
+                goto found0;
+        }
+        target = 0xFFFF;
+    } else {
+        for (i = 0; i <= 4; i++) {
+            te = &gT6fEnemies[i];
+            if ((gT6fEnemyMask & (1 << i)) && te->uid == target)
+                goto found0;
+        }
+        target = 0xFFFF;
+    }
+found0:
+    if (base <= 6) {
+        t6fInit(&desc, 0x5008F, 8, -1, 0);
+        base = base - 1;
+    } else {
+        t6fInit(&desc, 0x50090, 8, -1, 0);
+        base = 0;
+    }
+    desc.f1C = 7;
+    desc.f1D = 8;
+    if (target <= 3) {
+        num = t6f_sub_08002164();
+        for (i = 0; i < num; i++) {
+            tp = &gT6fPlayers[i];
+            if (tp->id == target)
+                break;
+        }
+        if (i >= num)
+            target = 0xFFFF;
+    } else {
+        for (i = 0; i <= 4; i++) {
+            te = &gT6fEnemies[i];
+            if ((gT6fEnemyMask & (1 << i)) && te->uid == target)
+                break;
+        }
+        if (i > 4)
+            target = 0xFFFF;
+    }
+    f0 = 0;
+    f1 = 0;
+    base <<= 3;
+    count += 4;
+    if (owner <= 3) {
+        cx = (pl->pos->h0 >> 4) << 8;
+        cy = ((u32)(pl->pos->h2 << 20) >> 20) << 8;
+    } else {
+        cx = en->x;
+        cy = en->y;
+    }
+    sx = cx;
+    sy = cy;
+    timer = 0x3C;
+    if ((t6f_sub_080020F4() == owner || owner > 3) && t6f_sub_0800CCCC() == 0 && t6f_sub_0800CD34() == 0)
+        t6f_sub_0805865C(level + 0x139);
 
-    sp4C = (void *)(arg0);
-    sp80 = M2C_FIELD(arg0, s32 *, 4);
-    temp_r1 = M2C_FIELD(sp4C, u32 *, 0);
-    temp_r5 = (u8 *)(temp_r1 + &t6g_gUnk_03006410);
-    if (*temp_r5 == 0) {
-        goto block_2;
-    }
-    var_r2 = (s32 *)((temp_r1 * 4) + &t6g_gUnk_030063E0);
-    var_r1 = 1 << sp80;
-    goto block_303;
-block_2:
-    sp7C = temp_r1;
-    *temp_r5 = 1;
-    sp60 = (u32) M2C_FIELD(sp4C, u16 *, 8);
-    temp_r6 = M2C_FIELD(sp4C, u16 *, 0x14);
-    sp68 = (s32) temp_r6;
-    sp6C = (s32) temp_r6;
-    sp64 = (u32) temp_r6;
-    sp78 = t6g_sub_080020F4();
-    if (sp7C > 3U) {
-        goto block_4;
-    }
-    sp58 = (void *)((0x14C * sp7C) + &t6g_gUnk_03003CE0);
-    spAC = sp7C * 4;
-    goto block_12;
-block_4:
-    temp_r1_2 = (void *)(t6g_gUnk_030056F4 + ((sp7C * 0x2E0) + 0xFFFFF480));
-    sp54 = (void *)(temp_r1_2);
-    temp_r3 = sp7C * 4;
-    spAC = temp_r3;
-    if ((u32) M2C_FIELD(temp_r1_2, u16 *, 0x6A) >= (u32) M2C_FIELD(temp_r1_2, u8 *, 0x22B)) {
-        goto block_12;
-    }
-    temp_r4 = (s32 *)(temp_r3 + &t6g_gUnk_030063E0);
-loop_6:
-    if (t6g_sub_08056E90() != 0) {
-        goto block_10;
-    }
-    if (t6g_sub_0800BA6C() == 0) {
-        goto block_10;
-    }
-    temp_r0 = M2C_FIELD(sp54, u16 *, 0xC);
-    if (temp_r0 == 0xA) {
-        goto block_10;
-    }
-    if (temp_r0 != 0xB) {
-        goto block_11;
-    }
-block_10:
-    *temp_r4 &= ~(1 << sp80);
-    *temp_r5 = 0;
-    return;
-block_11:
-    t6g_sub_080003F0();
-    if ((u32) M2C_FIELD(sp54, u16 *, 0x6A) < (u32) M2C_FIELD(sp54, u8 *, 0x22B)) {
-        goto loop_6;
-    }
-block_12:
-    sp44 = 0;
-    sp46 = 0;
-    if (t6g_sub_080020F4() == sp7C) {
-        goto block_16;
-    }
-    if (sp7C <= 3U) {
-        goto block_18;
-    }
-    temp_r0_2 = M2C_FIELD(sp54, u16 *, 0x5E) - *(s16 *)((sp64 * 2) + (M2C_FIELD(sp4C, s32 *, 0xC) * 0x18) + (&t6g_gUnk_084EBF1C + 6));
-    M2C_FIELD(sp54, u16 *, 0x5E) = temp_r0_2;
-    if ((s32) (temp_r0_2 << 0x10) >= 0) {
-        goto block_18;
-    }
-    temp_r2 = (s32 *)(spAC + &t6g_gUnk_030063E0);
-    *temp_r2 &= ~(1 << sp80);
-    M2C_FIELD(sp54, u16 *, 0x5E) = 0U;
-    *(sp7C + &t6g_gUnk_03006410) = 0;
-    return;
-block_16:
-    temp_r4_2 = (void *)((0x14C * t6g_sub_080020F4()) + &t6g_gUnk_03003CE0);
-    temp_r1_3 = M2C_FIELD(temp_r4_2, u16 *, 0xC2) - (u16) (t6g_sub_0806898C(M2C_FIELD(sp4C, s32 *, 0xC), M2C_FIELD(sp4C, s32 *, 0x14)) - 1);
-    M2C_FIELD(temp_r4_2, u16 *, 0xC2) = temp_r1_3;
-    if ((s32) (temp_r1_3 << 0x10) >= 0) {
-        goto block_18;
-    }
-    M2C_FIELD(temp_r4_2, u16 *, 0xC2) = 0U;
-block_18:
-    if (sp60 > 3U) {
-        goto block_26;
-    }
-    temp_r6_2 = t6g_sub_08002164();
-    var_r5 = 0;
-    var_r7 = sp68 + 4;
-    goto loop_21;
-block_20:
-    var_r5 = (u32) (u16) (var_r5 + 1);
-loop_21:
-    if (var_r5 >= temp_r6_2) {
-        goto block_25;
-    }
-    if (t6g_sub_080020F4() == var_r5) {
-        goto block_20;
-    }
-    temp_r1_4 = (u8 *)((0x14C * var_r5) + &t6g_gUnk_03003CE0);
-    sp5C = (u8 *)(temp_r1_4);
-    if (*(u16 *)temp_r1_4 != sp60) {
-        goto block_20;
-    }
-    goto block_33;
-block_25:
-    sp60 = 0xFFFF;
-    goto block_33;
-block_26:
-    var_r5_2 = 0;
-    sp50 = (void *)(t6g_gUnk_030056F4);
-    var_r7 = sp68 + 4;
-    if (!(t6g_gUnk_030056FC & 1)) {
-        goto loop_28;
-    }
-    if (M2C_FIELD(t6g_gUnk_030056F4, u16 *, 2) == sp60) {
-        goto block_31;
-    }
-loop_28:
-    var_r5_2 += 1;
-    if ((u32) var_r5_2 > 4U) {
-        goto block_32;
-    }
-    sp50 = (void *)(t6g_gUnk_030056F4 + (var_r5_2 * 0x2E0));
-    if (!(t6g_gUnk_030056FC & (1 << var_r5_2))) {
-        goto loop_28;
-    }
-    if (M2C_FIELD(sp50, u16 *, 2) != sp60) {
-        goto loop_28;
-    }
-block_31:
-    if ((u32) var_r5_2 <= 4U) {
-        goto block_33;
-    }
-block_32:
-    sp60 = 0xFFFF;
-block_33:
-    if (sp64 > 6U) {
-        goto block_35;
-    }
-    t6g_sub_08065158(anim, 0x5008FU, 8U, -1, (0));
-    sp64 = (u32) (u16) (sp64 - 1);
-    goto block_36;
-block_35:
-    t6g_sub_08065158(anim, 0x50090U, 8U, -1, (0));
-    sp64 = 0;
-block_36:
-    M2C_FIELD(anim, s8 *, 0x1C) = 7;
-    M2C_FIELD(anim, s8 *, 0x1D) = 8;
-    if (sp60 > 3U) {
-        goto block_44;
-    }
-    temp_r0_3 = t6g_sub_08002164();
-    var_r5_3 = 0;
-    var_r2_2 = sp64 << 0x13;
-    if (temp_r0_3 <= 0U) {
-        goto block_43;
-    }
-    sp5C = (u8 *)(&t6g_gUnk_03003CE0);
-    if (*(u16 *)&t6g_gUnk_03003CE0 == sp60) {
-        goto block_42;
-    }
-loop_40:
-    var_r5_3 += 1;
-    if ((u32) var_r5_3 >= temp_r0_3) {
-        goto block_43;
-    }
-    temp_r0_4 = (u8 *)((0x14C * var_r5_3) + &t6g_gUnk_03003CE0);
-    sp5C = (u8 *)(temp_r0_4);
-    if (*(u16 *)temp_r0_4 != sp60) {
-        goto loop_40;
-    }
-block_42:
-    if ((u32) var_r5_3 < temp_r0_3) {
-        goto block_51;
-    }
-block_43:
-    sp60 = 0xFFFF;
-    goto block_51;
-block_44:
-    var_r5_4 = 0;
-    sp50 = (void *)(t6g_gUnk_030056F4);
-    var_r0 = t6g_gUnk_030056FC & 1;
-    var_r2_2 = sp64 << 0x13;
-    goto loop_47;
-block_45:
-    var_r5_4 += 1;
-    if ((u32) var_r5_4 > 4U) {
-        goto block_50;
-    }
-    sp50 = (void *)(t6g_gUnk_030056F4 + (var_r5_4 * 0x2E0));
-    var_r0 = t6g_gUnk_030056FC & (1 << var_r5_4);
-loop_47:
-    if (var_r0 == 0) {
-        goto block_45;
-    }
-    if (M2C_FIELD(sp50, u16 *, 2) != sp60) {
-        goto block_45;
-    }
-    if ((u32) var_r5_4 <= 4U) {
-        goto block_51;
-    }
-block_50:
-    sp60 = 0xFFFF;
-block_51:
-    sp44 = 0;
-    sp46 = 0;
-    sp64 = var_r2_2 >> 0x10;
-    sp68 = (s32) var_r7;
-    if (sp7C > 3U) {
-        goto block_53;
-    }
-    temp_r1_5 = (u8 *)(M2C_FIELD(sp58, u8 **, 0x148));
-    sp8C = ((u16) M2C_FIELD(temp_r1_5, u16 *, 0) >> 4) << 8;
-    sp90 = (u32) (M2C_FIELD(temp_r1_5, u16 *, 2) << 0x14) >> 0xC;
-    goto block_54;
-block_53:
-    sp8C = M2C_FIELD(sp54, s32 *, 0x14);
-    sp90 = M2C_FIELD(sp54, u32 *, 0x18);
-block_54:
-    sp70 = sp8C;
-    var_sl = sp90;
-    sp84 = 0x3C;
-    if (t6g_sub_080020F4() == sp7C) {
-        goto block_56;
-    }
-    if (sp7C <= 3U) {
-        goto loop_59;
-    }
-block_56:
-    if (t6g_sub_0800CCCC() != NULL) {
-        goto loop_59;
-    }
-    if (t6g_sub_0800CD34() != 0) {
-        goto loop_59;
-    }
-    t6g_sub_0805865C(sp6C + 0x139);
-loop_59:
-    var_r9 = 0x80;
-    sp88 = 0;
-    temp_r1_6 = 0x14C * sp7C;
-    sp94 = temp_r1_6;
-    sp98 = (s32 *)(temp_r1_6 + (&t6g_gUnk_03003CE0 + 0x30));
-loop_60:
-    temp_r0_5 = sp84;
-    sp84 = temp_r0_5 + 1;
-    if (temp_r0_5 <= 0x3CU) {
-        goto block_73;
-    }
-    if (sp7C > 3U) {
-        goto block_66;
-    }
-    temp_r1_7 = (u8 *)(M2C_FIELD(sp58, u8 **, 0x148));
-    sp8C = ((u16) M2C_FIELD(temp_r1_7, u16 *, 0) >> 4) << 8;
-    sp90 = (u32) (M2C_FIELD(temp_r1_7, u16 *, 2) << 0x14) >> 0xC;
-    temp_r0_6 = (u8) M2C_FIELD(temp_r1_7, u8 *, 3) >> 4;
-    sp74 = temp_r0_6;
-    var_r8 = *(u16 *)((temp_r0_6 * 2) + &t6g_gUnk_0849E730) * 0x10;
-    temp_r0_7 = sp88;
-    sp88 = temp_r0_7 + 1;
-    if (temp_r0_7 <= 5U) {
-        goto block_73;
-    }
-    sp88 = 0;
-    if (sp7C != sp78) {
-        goto block_65;
-    }
-    var_r0_2 = t6g_sub_08073EE8(0x20, 0x64);
-    goto block_71;
-block_65:
-    var_r0_2 = t6g_sub_0807414C(sp94 + &t6g_gUnk_03003CE0, 0x20, 0x64);
-    goto block_71;
-block_66:
-    sp8C = M2C_FIELD(sp54, s32 *, 0x14);
-    sp90 = M2C_FIELD(sp54, u32 *, 0x18);
-    sp74 = (u32) M2C_FIELD(sp54, u16 *, 8);
-    var_r8 = *(u16 *)(((s16) M2C_FIELD(sp54, u16 *, 8) * 2) + &t6g_gUnk_0849E730) * 0x10;
-    if (sp60 > 3U) {
-        goto block_70;
-    }
-    if (((u32) (M2C_FIELD(*(void * *)((0x14C * sp60) + &t6g_gUnk_03003E28), u8 *, 4) << 0x1A) >> 0x1A) & 0x20) {
-        goto block_69;
-    }
-    goto block_115;
-block_69:
-    goto block_73;
-block_70:
-    var_r0_2 = t6g_sub_0807A040((u16) (M2C_FIELD(sp54, u16 *, 0) + 4), 0xFF, sp70, (s32) var_sl);
-block_71:
-    temp_r0_8 = var_r0_2;
-    sp60 = (u32) temp_r0_8;
-    if (temp_r0_8 == 0xFF) {
-        goto block_73;
-    }
-    goto block_115;
-block_73:
-    temp_r0_9 = (s16) var_r8 + var_r9;
-    var_r8_2 = temp_r0_9;
-    temp_r0_10 = (s16) temp_r0_9;
-    if ((s32) temp_r0_10 <= 0xFF) {
-        goto block_75;
-    }
-    var_r8_2 = temp_r0_10 + 0xFFFFFF00;
-block_75:
-    temp_r0_11 = (s16) var_r8_2;
-    if ((s32) temp_r0_11 >= 0) {
-        goto block_77;
-    }
-    var_r8_2 = temp_r0_11 + 0x100;
-block_77:
-    temp_r5_2 = (s16) var_r8_2;
-    temp_r1_8 = *(s16 *)((sp6C * 2) + &t6g_gUnk_084EC1D0);
-    sp8C += temp_r1_8 * *(s16 *)(((temp_r5_2 + 0x40) * 2) + &t6g_gUnk_080B9704);
-    sp90 += temp_r1_8 * *(s16 *)((temp_r5_2 * 2) + &t6g_gUnk_080B9704);
-    sp48 = (s16) ((u32) (sp8C - sp70) >> 8);
-    temp_r1_9 = (u32) ((sp90 - var_sl) << 8) >> 0x10;
-    sp4A = (s16) temp_r1_9;
-    var_r2_3 = (u32) (ArcTan2(sp48, (s16) temp_r1_9) << 0x10) >> 0x18;
-    temp_r3_2 = var_r2_3 - temp_r5_2;
-    spA4 = (s16 *)(&sp48);
-    spA8 = (s16 *)(&sp4A);
-    if (temp_r3_2 <= 0x80) {
-        goto block_79;
-    }
-    var_r2_3 = (u32) (u16) (var_r2_3 + 0xFFFFFF00);
-    goto block_81;
-block_79:
-    if (temp_r3_2 >= -0x80) {
-        goto block_81;
-    }
-    var_r2_3 |= 0x100;
-block_81:
-    temp_r1_10 = (s16) var_r8_2;
-    temp_r1_11 = temp_r1_10 + (s16) ((s16) var_r2_3 - temp_r1_10);
-    var_r8_3 = temp_r1_11;
-    temp_r0_12 = (s16) temp_r1_11;
-    if ((s32) temp_r0_12 >= 0) {
-        goto block_83;
-    }
-    var_r8_3 = temp_r0_12 + 0x100;
-block_83:
-    temp_r0_13 = (s16) var_r8_3;
-    if ((s32) temp_r0_13 <= 0x100) {
-        goto block_85;
-    }
-    var_r8_3 = temp_r0_13 + 0xFFFFFF00;
-block_85:
-    var_r8 = (u16) (u8) var_r8_3;
-    temp_r4_3 = (s16) (u8) var_r8_3;
-    sp74 = (u32) *(((s32) ((u8) var_r8_3 << 0x10) >> 0x14) + &t6g_gUnk_084790B4);
-    temp_r0_14 = *spA4;
-    temp_r1_12 = *spA8;
-    if ((u32) t6g_Sqrt((temp_r0_14 * temp_r0_14) + (temp_r1_12 * temp_r1_12)) <= 8U) {
-        goto block_87;
-    }
-    sp70 += (s32) (*(s16 *)(((temp_r4_3 + 0x40) * 2) + &t6g_gUnk_080B9704) * 8) / 10;
-    var_sl += (s32) (*(s16 *)((temp_r4_3 * 2) + &t6g_gUnk_080B9704) * 8) / 10;
-block_87:
-    var_r9 = (s16) (u8) ((u32) ((var_r9 << 0x10) + 0x40000) >> 0x10);
-    if (!(4 & M2C_FIELD(t6g_gUnk_03005CF4, u16 *, 4))) {
-        goto block_89;
-    }
-    goto block_101;
-block_89:
-    temp_r4_4 = sp64 + sp74;
-    t6g_sub_08065370(anim, (u32) temp_r4_4, &sp44, &sp46, (1));
-    if (t6g_sub_0800CC98() != 0) {
-        goto block_101;
-    }
-    if (t6g_sub_0800CD8C() != 0) {
-        goto block_101;
-    }
-    temp_r0_15 = (u8 *)(t6g_sub_0800CCCC());
-    if (temp_r0_15 != NULL) {
-        goto block_101;
-    }
-    if (t6g_gUnk_03002344 & 1) {
-        goto block_94;
-    }
-    t6g_sub_08000AF0(0x17, (*(u32 *)(anim + 12)), 2);
-block_94:
-    temp_r5_3 = sp70 >> 8;
-    temp_r4_5 = (s32) var_sl >> 8;
-    t6g_sub_0800BC08((s16) temp_r5_3, (s16) temp_r4_5, spA4, spA8, (0x30), (temp_r0_15));
-    var_r5_5 = t6g_sub_0800BC44(temp_r5_3, temp_r4_5, 0);
-    if (M2C_FIELD(&t6g_gUnk_03003170, u16 *, 0x8C) != 4) {
-        goto block_97;
-    }
-    if (t6g_sub_0800CDC0() == 0) {
-        goto block_97;
-    }
-    var_r5_5 = 0;
-block_97:
-    if (t6g_sub_0800CB9C() == 0) {
-        goto block_100;
-    }
-    if ((t6g_gUnk_03002344 & 1) != (sp7C & 1)) {
-        goto block_101;
-    }
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r4_4, (u16) sp44, ((s32) var_r5_5), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-    goto block_101;
-block_100:
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r4_4, (u16) sp44, ((s32) var_r5_5), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-block_101:
-    t6g_sub_080003F0();
-    if (sp7C != sp78) {
-        goto block_106;
-    }
-    if (t6g_sub_08058DB0() != 0) {
-        goto block_302;
-    }
-    if (t6g_sub_0801DF8C() != 0) {
-        goto block_302;
-    }
-    if (M2C_FIELD(sp58, u16 *, 0x20) == 0xB) {
-        goto block_302;
-    }
-    if (t6g_sub_0800D11C() != 0) {
-        goto block_302;
-    }
-block_106:
-    if (t6g_sub_08056E90() != 0) {
-        goto block_302;
-    }
-    if (sp7C > 3U) {
-        goto block_109;
-    }
-    if (*sp98 & 2) {
-        goto block_302;
-    }
-block_109:
-    if (t6g_sub_0800D11C() != 0) {
-        goto block_302;
-    }
-    if (((u32) (*M2C_FIELD(sp58, u8 **, 0x148) << 0x1C) >> 0x1C) == 0xC) {
-        goto block_302;
-    }
-    if (t6g_sub_08058DB0() != 0) {
-        goto block_302;
-    }
-    if (*sp98 & 0x2400) {
-        goto block_302;
-    }
-    if (t6g_sub_0800CF10() != 0) {
-        goto block_302;
-    }
-    goto loop_60;
-block_115:
-    if (sp60 > 3U) {
-        goto block_119;
-    }
-    sp5C = (u8 *)((0x14C * sp60) + &t6g_gUnk_03003CE0);
-    goto block_123;
-block_117:
-    sp50 = (void *)(temp_r1_13);
-    goto block_123;
-block_118:
-    sp84 = 0;
-    goto block_264;
-block_119:
-    var_r5_6 = 0;
-loop_120:
-    if (!((1 << var_r5_6) & t6g_gUnk_030056FC)) {
-        goto block_122;
-    }
-    temp_r1_13 = (void *)((var_r5_6 * 0x2E0) + t6g_gUnk_030056F4);
-    if (M2C_FIELD(temp_r1_13, u16 *, 2) == sp60) {
-        goto block_117;
-    }
-block_122:
-    var_r5_6 += 1;
-    if ((u32) var_r5_6 <= 4U) {
-        goto loop_120;
-    }
-block_123:
-    sp84 = 0;
-    sp9C = (s32 *)((0x14C * sp7C) + &t6g_gUnk_03003D10);
-loop_124:
-    if (sp7C != sp78) {
-        goto block_129;
-    }
-    if (t6g_sub_08058DB0() != 0) {
-        goto block_302;
-    }
-    if (t6g_sub_0801DF8C() != 0) {
-        goto block_302;
-    }
-    if (M2C_FIELD(sp58, u16 *, 0x20) == 0xB) {
-        goto block_302;
-    }
-    if (t6g_sub_0800D11C() != 0) {
-        goto block_302;
-    }
-block_129:
-    var_r9_2 = 0;
-    if (sp60 != 0xFFFF) {
-        goto block_131;
-    }
-    goto block_176;
-block_131:
-    if (sp60 <= 3U) {
-        goto block_143;
-    }
-    var_r5_7 = 0;
-loop_133:
-    if (!((1 << var_r5_7) & t6g_gUnk_030056FC)) {
-        goto block_142;
-    }
-    temp_r3_3 = (void *)(t6g_gUnk_030056F4 + (var_r5_7 * 0x2E0));
-    if (M2C_FIELD(temp_r3_3, u8 *, 0x1DC) == 0) {
-        goto block_142;
-    }
-    sp48 = (s16) ((s32) (M2C_FIELD(temp_r3_3, s32 *, 0x14) - sp70) >> 8);
-    sp4A = (s16) ((s32) (M2C_FIELD(temp_r3_3, s32 *, 0x18) - var_sl) >> 8);
-    var_r0_3 = sp48;
-    spA8 = (s16 *)(&sp4A);
-    if ((s32) var_r0_3 >= 0) {
-        goto block_137;
-    }
-    var_r0_3 = 0 - var_r0_3;
-block_137:
-    if ((s32) var_r0_3 > 7) {
-        goto block_142;
-    }
-    var_r1_2 = *spA8;
-    if ((s32) var_r1_2 >= 0) {
-        goto block_140;
-    }
-    var_r1_2 = 0 - var_r1_2;
-block_140:
-    if ((s32) var_r1_2 > 7) {
-        goto block_142;
-    }
-    var_r9_2 = 1;
-block_142:
-    var_r5_7 += 1;
-    if ((u32) var_r5_7 <= 4U) {
-        goto loop_133;
-    }
-block_143:
-    if (sp60 != 0xFFFF) {
-        goto block_145;
-    }
-    goto block_176;
-block_145:
-    if (var_r9_2 == 0) {
-        goto block_147;
-    }
-    goto block_224;
-block_147:
-    temp_r6_3 = t6g_sub_08002164();
-    if ((u32) M2C_FIELD(sp4C, u32 *, 0) > 3U) {
-        goto block_163;
-    }
-    var_r5_8 = 0;
-    if (var_r9_2 < temp_r6_3) {
-        goto block_150;
-    }
-    goto block_176;
-block_150:
-loop_151:
-    temp_r2_2 = (void *)((0x14C * var_r5_8) + &t6g_gUnk_03003CE0);
-    temp_r4_6 = M2C_FIELD(temp_r2_2, u8 *, 0x68);
-    if (temp_r4_6 == M2C_FIELD(sp58, u8 *, 0x68)) {
-        goto block_161;
-    }
-    temp_r3_4 = (void *)(M2C_FIELD(temp_r2_2, void **, 0x148));
-    if (((u32) (M2C_FIELD(temp_r3_4, u8 *, 0) << 0x1C) >> 0x1C) == 0xE) {
-        goto block_161;
-    }
-    if (temp_r4_6 == 0) {
-        goto block_161;
-    }
-    sp48 = (s16) (((u16) M2C_FIELD(temp_r3_4, u16 *, 0) >> 4) - (sp70 >> 8));
-    sp4A = (s16) (((u32) (M2C_FIELD(temp_r3_4, u16 *, 2) << 0x14) >> 0x14) - ((s32) var_sl >> 8));
-    var_r0_4 = sp48;
-    spA8 = (s16 *)(&sp4A);
-    if ((s32) var_r0_4 >= 0) {
-        goto block_156;
-    }
-    var_r0_4 = 0 - var_r0_4;
-block_156:
-    if ((s32) var_r0_4 > 0xB) {
-        goto block_161;
-    }
-    var_r1_3 = *spA8;
-    if ((s32) var_r1_3 >= 0) {
-        goto block_159;
-    }
-    var_r1_3 = 0 - var_r1_3;
-block_159:
-    if ((s32) var_r1_3 > 0xB) {
-        goto block_161;
-    }
-    var_r9_2 = 1;
-block_161:
-    var_r5_8 += 1;
-    if ((u32) var_r5_8 < temp_r6_3) {
-        goto loop_151;
-    }
-    goto block_176;
-block_163:
-    var_r5_9 = 0;
-    if (var_r9_2 >= temp_r6_3) {
-        goto block_176;
-    }
-loop_165:
-    temp_r2_3 = (void *)((0x14C * var_r5_9) + &t6g_gUnk_03003CE0);
-    if (M2C_FIELD(temp_r2_3, s32 *, 0x30) & 0x2000) {
-        goto block_175;
-    }
-    temp_r3_5 = (void *)(M2C_FIELD(temp_r2_3, void **, 0x148));
-    if (((u32) (M2C_FIELD(temp_r3_5, u8 *, 0) << 0x1C) >> 0x1C) == 0xE) {
-        goto block_175;
-    }
-    if (M2C_FIELD(temp_r2_3, u8 *, 0x68) == 0) {
-        goto block_175;
-    }
-    sp48 = (s16) (((u16) M2C_FIELD(temp_r3_5, u16 *, 0) >> 4) - (sp70 >> 8));
-    sp4A = (s16) (((u32) (M2C_FIELD(temp_r3_5, u16 *, 2) << 0x14) >> 0x14) - ((s32) var_sl >> 8));
-    var_r0_5 = sp48;
-    spA8 = (s16 *)(&sp4A);
-    if ((s32) var_r0_5 >= 0) {
-        goto block_170;
-    }
-    var_r0_5 = 0 - var_r0_5;
-block_170:
-    if ((s32) var_r0_5 > 0xB) {
-        goto block_175;
-    }
-    var_r1_4 = *spA8;
-    if ((s32) var_r1_4 >= 0) {
-        goto block_173;
-    }
-    var_r1_4 = 0 - var_r1_4;
-block_173:
-    if ((s32) var_r1_4 > 0xB) {
-        goto block_175;
-    }
-    var_r9_2 = 1;
-block_175:
-    var_r5_9 += 1;
-    if ((u32) var_r5_9 < temp_r6_3) {
-        goto loop_165;
-    }
-block_176:
-    if (var_r9_2 == 0) {
-        goto block_178;
-    }
-    goto block_224;
-block_178:
-    if (t6g_sub_08056E90() == 0) {
-        goto block_182;
-    }
-    if (sp7C > 3U) {
-        goto block_182;
-    }
-    if (!(*sp9C & 2)) {
-        goto block_182;
-    }
-    goto block_302;
-block_182:
-    if (t6g_sub_0800D11C() == 0) {
-        goto block_184;
-    }
-    goto block_302;
-block_184:
-    if (((u32) (*M2C_FIELD(sp58, u8 **, 0x148) << 0x1C) >> 0x1C) != 0xC) {
-        goto block_186;
-    }
-    goto block_302;
-block_186:
-    if (t6g_sub_08058DB0() == 0) {
-        goto block_188;
-    }
-    goto block_302;
-block_188:
-    if (!(*sp9C & 0x2400)) {
-        goto block_190;
-    }
-    goto block_302;
-block_190:
-    if (t6g_sub_0800CF10() == 0) {
-        goto block_192;
-    }
-    goto block_302;
-block_192:
-    if (sp60 > 3U) {
-        goto block_194;
-    }
-    temp_r2_4 = (u8 *)(M2C_FIELD(sp5C, u8 **, 0x148));
-    sp48 = (s16) (((u16) M2C_FIELD(temp_r2_4, u16 *, 0) >> 4) - (sp70 >> 8));
-    sp4A = (s16) (((u32) (M2C_FIELD(temp_r2_4, u16 *, 2) << 0x14) >> 0x14) - ((s32) var_sl >> 8));
-    spA4 = (s16 *)(&sp48);
-    spA8 = (s16 *)(&sp4A);
-    goto block_195;
-block_194:
-    sp48 = (s16) ((s32) (M2C_FIELD(sp50, s32 *, 0x14) - sp70) >> 8);
-    sp4A = (s16) ((s32) (M2C_FIELD(sp50, s32 *, 0x18) - var_sl) >> 8);
-    spA4 = (s16 *)(&sp48);
-    spA8 = (s16 *)(&sp4A);
-block_195:
-    temp_r0_16 = *spA4;
-    temp_r1_14 = *spA8;
-    if ((u32) t6g_Sqrt((temp_r0_16 * temp_r0_16) + (temp_r1_14 * temp_r1_14)) > 7U) {
-        goto block_197;
-    }
-    goto block_224;
-block_197:
-    var_r2_4 = (u32) (ArcTan2(*spA4, *spA8) << 0x10) >> 0x18;
-    temp_r1_15 = var_r2_4 - (s16) var_r8;
-    if (temp_r1_15 <= 0x80) {
-        goto block_199;
-    }
-    var_r2_4 = (u32) (u16) (var_r2_4 + 0xFFFFFF00);
-    goto block_201;
-block_199:
-    if (temp_r1_15 >= -0x80) {
-        goto block_201;
-    }
-    var_r2_4 |= 0x100;
-block_201:
-    temp_r1_16 = (s16) var_r8;
-    temp_r1_17 = temp_r1_16 + (s16) ((s16) var_r2_4 - temp_r1_16);
-    var_r8_4 = temp_r1_17;
-    temp_r0_17 = (s16) temp_r1_17;
-    if ((s32) temp_r0_17 >= 0) {
-        goto block_203;
-    }
-    var_r8_4 = temp_r0_17 + 0x100;
-block_203:
-    temp_r0_18 = (s16) var_r8_4;
-    if ((s32) temp_r0_18 <= 0x100) {
-        goto block_205;
-    }
-    var_r8_4 = temp_r0_18 + 0xFFFFFF00;
-block_205:
-    temp_r0_19 = (u32) (0xFF0000 & (var_r8_4 << 0x10)) >> 0x10;
-    var_r8 = (u16) temp_r0_19;
-    temp_r4_7 = (s16) temp_r0_19;
-    sp74 = (u32) *(((s32) (temp_r0_19 << 0x10) >> 0x14) + &t6g_gUnk_084790B4);
-    temp_r1_18 = t6g_sub_0800AE50(sp70, (s32) var_sl, 0);
-    if (!(0xF & temp_r1_18)) {
-        goto block_207;
-    }
-    if (!(0x10 & temp_r1_18)) {
-        goto block_208;
-    }
-block_207:
-    sp70 += *(s16 *)(((temp_r4_7 + 0x40) * 2) + &t6g_gUnk_080B9704) * 3;
-    var_sl += *(s16 *)((temp_r4_7 * 2) + &t6g_gUnk_080B9704) * 3;
-    sp84 = 0;
-    goto block_210;
-block_208:
-    temp_r0_20 = sp84;
-    sp84 = temp_r0_20 + 1;
-    if (temp_r0_20 <= 0x78U) {
-        goto block_210;
-    }
-    goto block_118;
-block_210:
-    temp_r5_4 = sp70 >> 8;
-    temp_r4_8 = (s32) var_sl >> 8;
-    t6g_sub_0800BC08((s16) temp_r5_4, (s16) temp_r4_8, spA4, spA8, (0x30), (NULL));
-    var_r5_10 = t6g_sub_0800BC44(temp_r5_4, temp_r4_8, 0);
-    temp_r4_9 = sp64 + sp74;
-    t6g_sub_08065370(anim, (u32) temp_r4_9, &sp44, &sp46, (1));
-    if (4 & M2C_FIELD(t6g_gUnk_03005CF4, u16 *, 4)) {
-        goto block_223;
-    }
-    if (t6g_sub_0800CC98() != 0) {
-        goto block_223;
-    }
-    if (t6g_sub_0800CD8C() != 0) {
-        goto block_223;
-    }
-    if (t6g_sub_0800CCCC() != NULL) {
-        goto block_223;
-    }
-    if (t6g_gUnk_03002344 & 1) {
-        goto block_216;
-    }
-    t6g_sub_08000AF0(0x17, (*(u32 *)(anim + 12)), 2);
-block_216:
-    if (M2C_FIELD(&t6g_gUnk_03003170, u16 *, 0x8C) != 4) {
-        goto block_219;
-    }
-    if (t6g_sub_0800CDC0() == 0) {
-        goto block_219;
-    }
-    var_r5_10 = 0;
-block_219:
-    if (t6g_sub_0800CB9C() == 0) {
-        goto block_222;
-    }
-    if ((t6g_gUnk_03002344 & 1) != (sp7C & 1)) {
-        goto block_223;
-    }
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r4_9, (u16) sp44, ((s32) var_r5_10), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-    goto block_223;
-block_222:
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r4_9, (u16) sp44, ((s32) var_r5_10), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-block_223:
-    t6g_sub_080003F0();
-    goto loop_124;
-block_224:
-    spA4 = (s16 *)(&sp48);
-    spA8 = (s16 *)(&sp4A);
-    temp_r7 = sp64 + sp74;
-    spA0 = (s32) var_sl >> 8;
-    temp_r7_2 = sp70 >> 8;
-loop_225:
-    t6g_sub_0800BC08((s16) temp_r7_2, (s16) spA0, spA4, spA8, (0x30), (NULL));
-    var_r5_11 = t6g_sub_0800BC44(temp_r7_2, spA0, 0);
-    temp_r6_4 = t6g_sub_08065370(anim, (u32) temp_r7, &sp44, &sp46, (0));
-    if (4 & M2C_FIELD(t6g_gUnk_03005CF4, u16 *, 4)) {
-        goto block_238;
-    }
-    if (t6g_sub_0800CC98() != 0) {
-        goto block_238;
-    }
-    if (t6g_sub_0800CD8C() != 0) {
-        goto block_238;
-    }
-    if (t6g_sub_0800CCCC() != NULL) {
-        goto block_238;
-    }
-    if (t6g_gUnk_03002344 & 1) {
-        goto block_231;
-    }
-    t6g_sub_08000AF0(0x17, (*(u32 *)(anim + 12)), 2);
-block_231:
-    if (M2C_FIELD(&t6g_gUnk_03003170, u16 *, 0x8C) != 4) {
-        goto block_234;
-    }
-    if (t6g_sub_0800CDC0() == 0) {
-        goto block_234;
-    }
-    var_r5_11 = 0;
-block_234:
-    if (t6g_sub_0800CB9C() == 0) {
-        goto block_237;
-    }
-    if ((t6g_gUnk_03002344 & 1) != (sp7C & 1)) {
-        goto block_238;
-    }
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r7, (u16) sp44, ((s32) var_r5_11), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-    goto block_238;
-block_237:
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r7, (u16) sp44, ((s32) var_r5_11), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-block_238:
-    t6g_sub_080003F0();
-    if (t6g_sub_08056E90() == 0) {
-        goto block_240;
-    }
-    goto block_302;
-block_240:
-    if (sp7C > 3U) {
-        goto block_243;
-    }
-    if (!(*(u32 *)((sp7C * 0x14C) + &t6g_gUnk_03003D10) & 2)) {
-        goto block_243;
-    }
-    goto block_302;
-block_243:
-    if (t6g_sub_0800D11C() == 0) {
-        goto block_245;
-    }
-    goto block_302;
-block_245:
-    if (((u32) (*M2C_FIELD(sp58, u8 **, 0x148) << 0x1C) >> 0x1C) != 0xC) {
-        goto block_247;
-    }
-    goto block_302;
-block_247:
-    if (t6g_sub_08058DB0() == 0) {
-        goto block_249;
-    }
-    goto block_302;
-block_249:
-    if (!(*(u32 *)((sp7C * 0x14C) + &t6g_gUnk_03003D10) & 0x2400)) {
-        goto block_251;
-    }
-    goto block_302;
-block_251:
-    if (t6g_sub_0800CF10() == 0) {
-        goto block_253;
-    }
-    goto block_302;
-block_253:
-    if (temp_r6_4 == 0) {
-        goto block_257;
-    }
-    t6g_sub_08068A00(sp70, (s32) var_sl, sp4C);
-    if (sp7C > 3U) {
-        goto block_256;
-    }
-    M2C_FIELD(sp58, s32 *, 0xDC) = (s32) (M2C_FIELD(sp58, s32 *, 0xDC) + 1);
-    goto block_257;
-block_256:
-    M2C_FIELD(sp54, s32 *, 0x50) = (s32) (M2C_FIELD(sp54, s32 *, 0x50) + 1);
-block_257:
-    if (sp60 > 3U) {
-        goto block_259;
-    }
-    var_r0_6 = (u32) (*M2C_FIELD(sp5C, u8 **, 0x148) << 0x1C) >> 0x1C;
-    goto block_260;
-block_259:
-    var_r0_6 = (u32) M2C_FIELD(sp50, u16 *, 0xC);
-block_260:
-    if (var_r0_6 == 0xB) {
-        goto block_264;
-    }
-    if (temp_r6_4 != 0) {
-        goto block_263;
-    }
-    goto loop_225;
-block_263:
-    sp68 = (s32) (u16) (sp68 - 1);
-    sp46 = 0;
-    sp44 = 0;
-block_264:
-    if (sp68 != 0) {
-        goto block_266;
-    }
-    goto block_302;
-block_266:
-loop_267:
-    if (sp7C > 3U) {
-        goto block_269;
-    }
-    temp_r2_5 = (u8 *)(M2C_FIELD(sp58, u8 **, 0x148));
-    *spA4 = (s16) (((u16) M2C_FIELD(temp_r2_5, u16 *, 0) >> 4) - (sp70 >> 8));
-    var_r0_7 = ((u32) (M2C_FIELD(temp_r2_5, u16 *, 2) << 0x14) >> 0x14) - ((s32) var_sl >> 8);
-    goto block_270;
-block_269:
-    *spA4 = (s16) ((s32) (M2C_FIELD(sp50, s32 *, 0x14) - sp70) >> 8);
-    var_r0_7 = (s32) (M2C_FIELD(sp50, s32 *, 0x18) - var_sl) >> 8;
-block_270:
-    *spA8 = (s16) var_r0_7;
-    temp_r0_21 = *spA4;
-    temp_r1_19 = *spA8;
-    if ((u32) t6g_Sqrt((temp_r0_21 * temp_r0_21) + (temp_r1_19 * temp_r1_19)) <= 7U) {
-        goto loop_59;
-    }
-    var_r2_5 = (u32) (ArcTan2(*spA4, *spA8) << 0x10) >> 0x18;
-    temp_r1_20 = var_r2_5 - (s16) var_r8;
-    if (temp_r1_20 <= 0x80) {
-        goto block_273;
-    }
-    var_r2_5 = (u32) (u16) (var_r2_5 + 0xFFFFFF00);
-    goto block_275;
-block_273:
-    if (temp_r1_20 >= -0x80) {
-        goto block_275;
-    }
-    var_r2_5 |= 0x100;
-block_275:
-    temp_r1_21 = (s16) var_r8;
-    temp_r1_22 = temp_r1_21 + (s16) ((s16) var_r2_5 - temp_r1_21);
-    var_r8_5 = temp_r1_22;
-    temp_r0_22 = (s16) temp_r1_22;
-    if ((s32) temp_r0_22 >= 0) {
-        goto block_277;
-    }
-    var_r8_5 = temp_r0_22 + 0x100;
-block_277:
-    temp_r0_23 = (s16) var_r8_5;
-    if ((s32) temp_r0_23 <= 0x100) {
-        goto block_279;
-    }
-    var_r8_5 = temp_r0_23 + 0xFFFFFF00;
-block_279:
-    temp_r0_24 = (u32) (0xFF0000 & (var_r8_5 << 0x10)) >> 0x10;
-    var_r8 = (u16) temp_r0_24;
-    temp_r2_6 = (s16) temp_r0_24;
-    sp74 = (u32) *(((s32) (temp_r0_24 << 0x10) >> 0x14) + &t6g_gUnk_084790B4);
-    sp70 += *(s16 *)(((temp_r2_6 + 0x40) * 2) + &t6g_gUnk_080B9704) * 3;
-    var_sl += *(s16 *)((temp_r2_6 * 2) + &t6g_gUnk_080B9704) * 3;
-    if (!(4 & M2C_FIELD(t6g_gUnk_03005CF4, u16 *, 4))) {
-        goto block_281;
-    }
-    goto block_293;
-block_281:
-    temp_r4_10 = sp64 + sp74;
-    t6g_sub_08065370(anim, (u32) temp_r4_10, &sp44, &sp46, (1));
-    if (t6g_sub_0800CC98() != 0) {
-        goto block_293;
-    }
-    if (t6g_sub_0800CD8C() != 0) {
-        goto block_293;
-    }
-    temp_r0_25 = (u8 *)(t6g_sub_0800CCCC());
-    if (temp_r0_25 != NULL) {
-        goto block_293;
-    }
-    if (t6g_gUnk_03002344 & 1) {
-        goto block_286;
-    }
-    t6g_sub_08000AF0(0x17, (*(u32 *)(anim + 12)), 2);
-block_286:
-    temp_r5_5 = sp70 >> 8;
-    temp_r4_11 = (s32) var_sl >> 8;
-    t6g_sub_0800BC08((s16) temp_r5_5, (s16) temp_r4_11, spA4, spA8, (0x30), (temp_r0_25));
-    var_r5_12 = t6g_sub_0800BC44(temp_r5_5, temp_r4_11, 0);
-    if (M2C_FIELD(&t6g_gUnk_03003170, u16 *, 0x8C) != 4) {
-        goto block_289;
-    }
-    if (t6g_sub_0800CDC0() == 0) {
-        goto block_289;
-    }
-    var_r5_12 = 0;
-block_289:
-    if (t6g_sub_0800CB9C() == 0) {
-        goto block_292;
-    }
-    if ((t6g_gUnk_03002344 & 1) != (sp7C & 1)) {
-        goto block_293;
-    }
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r4_10, (u16) sp44, ((s32) var_r5_12), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-    goto block_293;
-block_292:
-    t6g_sub_08007870(*spA4, *spA8, (u32) temp_r4_10, (u16) sp44, ((s32) var_r5_12), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)(anim + 0))));
-block_293:
-    t6g_sub_080003F0();
-    if (t6g_sub_08056E90() != 0) {
-        goto block_302;
-    }
-    if (sp7C > 3U) {
-        goto block_296;
-    }
-    if (*(u32 *)((sp7C * 0x14C) + &t6g_gUnk_03003D10) & 2) {
-        goto block_302;
-    }
-block_296:
-    if (t6g_sub_0800D11C() != 0) {
-        goto block_302;
-    }
-    if (((u32) (*M2C_FIELD(sp58, u8 **, 0x148) << 0x1C) >> 0x1C) == 0xC) {
-        goto block_302;
-    }
-    if (t6g_sub_08058DB0() != 0) {
-        goto block_302;
-    }
-    if (*(u32 *)((sp7C * 0x14C) + &t6g_gUnk_03003D10) & 0x2400) {
-        goto block_302;
-    }
-    if (t6g_sub_0800CF10() != 0) {
-        goto block_302;
-    }
-    goto loop_267;
-block_302:
-    *(sp7C + &t6g_gUnk_03006410) = 0;
-    var_r2 = (s32 *)(spAC + &t6g_gUnk_030063E0);
-    var_r1 = 1 << sp80;
-block_303:
-    *var_r2 &= ~var_r1;
-    return;
+restart:
+    orbit = 0x80;
+    seek = 0;
+    for (;;) {
+        if (timer++ > 0x3C) {
+            if (owner <= 3) {
+                cx = (pl->pos->h0 >> 4) << 8;
+                cy = ((u32)(pl->pos->h2 << 20) >> 20) << 8;
+                frame = ((u8 *)pl->pos)[3] >> 4;
+                dir = gT6gDirs[frame] * 16;
+                if (seek++ > 5) {
+                    seek = 0;
+                    if (owner == myId)
+                        target = t6fSeekMe(0x20, 0x64);
+                    else
+                        target = t6fSeekPl(&gT6fPlayers[owner], 0x20, 0x64);
+                    if (target != 0xFF)
+                        goto found;
+                }
+            } else {
+                cx = en->x;
+                cy = en->y;
+                frame = en->dir;
+                dir = gT6gDirs[en->dir] * 16;
+                if (target <= 3) {
+                    if (!(((struct T6fPosB *)gT6fPlayers[target].pos)->f4 & 0x20))
+                        goto found;
+                } else {
+                    target = t6gSeekEn(en->id + 4, 0xFF, sx, sy);
+                    if (target != 0xFF)
+                        goto found;
+                }
+            }
+        }
+        dir = (s16)dir + orbit;
+        if ((s16)dir > 0xFF)
+            dir = (s16)dir - 0x100;
+        if ((s16)dir < 0)
+            dir = (s16)dir + 0x100;
+        idx = dir;
+        cx += gT6gRadius[level] * gT6fSin[idx + 0x40];
+        cy += gT6gRadius[level] * gT6fSin[idx];
+        x = (u32)(cx - sx) >> 8;
+        y = (u32)((cy - sy) << 8) >> 16;
+        a = (u32)(ArcTan2(x, y) << 16) >> 24;
+        ang = a;
+        if (ang - idx > 0x80)
+            a = ang - 0x100;
+        else if (ang - idx < -0x80)
+            a = ang | 0x100;
+        { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
+        if ((s16)dir < 0)
+            dir += 0x100;
+        if ((s16)dir > 0x100)
+            dir -= 0x100;
+        dir = (u8)dir;
+        idx = (u8)dir;
+        frame = gT6fFrames[idx >> 4];
+        if (t6fSqrt(x * x + y * y) > 8) {
+            sx += gT6fSin[idx + 0x40] * 8 / 10;
+            sy += gT6fSin[idx] * 8 / 10;
+        }
+        orbit = (s16)(u8)(orbit + 4);
+        if (!(gT6fCtl->h4 & 4)) {
+            u8 *q;
+            t6fAnim(&desc, (u16)(base + frame), &f0, &f1, 1);
+            if (t6f_sub_0800CC98() == 0 && t6f_sub_0800CD8C() == 0 && (q = t6f_sub_0800CCCC()) == 0) {
+                if (!(gT6fFrame & 1))
+                    t6f_sub_08000AF0(0x17, desc.fC, 2);
+                t6fCoords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, (s32)q);
+                pal = t6fPal(sx >> 8, sy >> 8, 0);
+                if (gT6fTile.h8C == 4 && t6f_sub_0800CDC0() != 0)
+                    pal = 0;
+                if (t6gSolo() != 0) {
+                    if ((gT6fFrame & 1) == (owner & 1))
+                        t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+                } else {
+                    t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+                }
+            }
+        }
+        t6f_sub_080003F0();
+        if (owner == myId) {
+            if (t6f_sub_08058DB0() != 0 || t6f_sub_0801DF8C() != 0 || pl->state == 11 || t6f_sub_0800D11C() != 0)
+                goto end;
+        }
+        if (t6f_sub_08056E90() != 0)
+            goto end;
+        if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
+            goto end;
+        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+            goto end;
+    }
+
+found:
+    if (target <= 3) {
+        tp = &gT6fPlayers[target];
+    } else {
+        for (i = 0; i <= 4; i++) {
+            if ((1 << i) & gT6fEnemyMask) {
+                if (gT6fEnemies[i].uid == target) {
+                    te = &gT6fEnemies[i];
+                    goto tracked;
+                }
+            }
+        }
+    }
+tracked:
+    timer = 0;
+    for (;;) {
+        if (owner == myId) {
+            if (t6f_sub_08058DB0() != 0 || t6f_sub_0801DF8C() != 0 || pl->state == 11 || t6f_sub_0800D11C() != 0)
+                goto end;
+        }
+        hit = 0;
+        if (target == 0xFFFF)
+            goto check;
+        if (target > 3) {
+            for (i = 0; i <= 4; i++) {
+                if ((1 << i) & gT6fEnemyMask) {
+                    struct T6fEn *e = &gT6fEnemies[i];
+                    if (e->alive) {
+                        x = (e->x - sx) >> 8;
+                        y = (e->y - sy) >> 8;
+                        dx = x;
+                        if (dx < 0) dx = -dx;
+                        if (dx <= 7) {
+                            dy = y;
+                            if (dy < 0) dy = -dy;
+                            if (dy <= 7)
+                                hit = 1;
+                        }
+                    }
+                }
+            }
+        }
+        if (target == 0xFFFF)
+            goto check;
+        if (hit)
+            goto strike;
+        num = t6f_sub_08002164();
+        if (arg0->owner <= 3) {
+            for (i = 0; i < num; i++) {
+                p = &gT6fPlayers[i];
+                if (p->team != pl->team && ((struct T6fPosB *)p->pos)->kind != 0xE && p->team != 0) {
+                    x = (p->pos->h0 >> 4) - (sx >> 8);
+                    y = ((u32)(p->pos->h2 << 20) >> 20) - (sy >> 8);
+                    dx = x;
+                    if (dx < 0) dx = -dx;
+                    if (dx <= 0xB) {
+                        dy = y;
+                        if (dy < 0) dy = -dy;
+                        if (dy <= 0xB)
+                            hit = 1;
+                    }
+                }
+            }
+        } else {
+            for (i = 0; i < num; i++) {
+                p = &gT6fPlayers[i];
+                if (!(p->flags & 0x2000) && ((struct T6fPosB *)p->pos)->kind != 0xE && p->team != 0) {
+                    x = (p->pos->h0 >> 4) - (sx >> 8);
+                    y = ((u32)(p->pos->h2 << 20) >> 20) - (sy >> 8);
+                    dx = x;
+                    if (dx < 0) dx = -dx;
+                    if (dx <= 0xB) {
+                        dy = y;
+                        if (dy < 0) dy = -dy;
+                        if (dy <= 0xB)
+                            hit = 1;
+                    }
+                }
+            }
+        }
+    check:
+        if (hit)
+            goto strike;
+        if (t6f_sub_08056E90() != 0 && owner <= 3 && (gT6fPlayers[owner].flags & 2))
+            goto end;
+        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+            goto end;
+        if (target <= 3) {
+            x = (tp->pos->h0 >> 4) - (sx >> 8);
+            y = ((u32)(tp->pos->h2 << 20) >> 20) - (sy >> 8);
+        } else {
+            x = (te->x - sx) >> 8;
+            y = (te->y - sy) >> 8;
+        }
+        if (t6fSqrt(x * x + y * y) <= 7)
+            goto strike;
+        a = (u32)(ArcTan2(x, y) << 16) >> 24;
+        ang = a;
+        if (ang - (s16)dir > 0x80)
+            a = ang - 0x100;
+        else if (ang - (s16)dir < -0x80)
+            a = ang | 0x100;
+        { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
+        if ((s16)dir < 0)
+            dir += 0x100;
+        if ((s16)dir > 0x100)
+            dir -= 0x100;
+        dir = (u32)(0xFF0000 & (dir << 16)) >> 16;
+        idx = dir;
+        frame = gT6fFrames[idx >> 4];
+        t = t6fTerrain(sx, sy, 0);
+        if (!(t & 0xF) || (t & 0x10)) {
+            sx += gT6fSin[idx + 0x40] * 3;
+            sy += gT6fSin[idx] * 3;
+            timer = 0;
+        } else if (timer++ > 0x78) {
+            timer = 0;
+            goto lost;
+        }
+        t6fCoords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, 0);
+        pal = t6fPal(sx >> 8, sy >> 8, 0);
+        t6fAnim(&desc, (u16)(base + frame), &f0, &f1, 1);
+        if (!(gT6fCtl->h4 & 4) && t6f_sub_0800CC98() == 0 && t6f_sub_0800CD8C() == 0 && t6f_sub_0800CCCC() == 0) {
+            if (!(gT6fFrame & 1))
+                t6f_sub_08000AF0(0x17, desc.fC, 2);
+            if (gT6fTile.h8C == 4 && t6f_sub_0800CDC0() != 0)
+                pal = 0;
+            if (t6gSolo() != 0) {
+                if ((gT6fFrame & 1) == (owner & 1))
+                    t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+            } else {
+                t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+            }
+        }
+        t6f_sub_080003F0();
+    }
+
+strike:
+    for (;;) {
+        t6fCoords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, 0);
+        pal = t6fPal(sx >> 8, sy >> 8, 0);
+        done = t6fAnim(&desc, (u16)(base + frame), &f0, &f1, 0);
+        if (!(gT6fCtl->h4 & 4) && t6f_sub_0800CC98() == 0 && t6f_sub_0800CD8C() == 0 && t6f_sub_0800CCCC() == 0) {
+            if (!(gT6fFrame & 1))
+                t6f_sub_08000AF0(0x17, desc.fC, 2);
+            if (gT6fTile.h8C == 4 && t6f_sub_0800CDC0() != 0)
+                pal = 0;
+            if (t6gSolo() != 0) {
+                if ((gT6fFrame & 1) == (owner & 1))
+                    t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+            } else {
+                t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+            }
+        }
+        t6f_sub_080003F0();
+        if (t6f_sub_08056E90() != 0)
+            goto end;
+        if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
+            goto end;
+        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+            goto end;
+        if (done) {
+            t6gBurst(sx, sy, arg0);
+            if (owner <= 3)
+                pl->hits++;
+            else
+                en->hits++;
+        }
+        if ((target <= 3 ? ((struct T6fPosB *)tp->pos)->kind : te->state) == 0xB)
+            goto lost;
+        if (done) {
+            count--;
+            f1 = 0;
+            f0 = 0;
+            goto lost;
+        }
+    }
+
+lost:
+    if (count == 0)
+        goto end;
+    for (;;) {
+        if (owner <= 3) {
+            x = (pl->pos->h0 >> 4) - (sx >> 8);
+            y = ((u32)(pl->pos->h2 << 20) >> 20) - (sy >> 8);
+        } else {
+            x = (te->x - sx) >> 8;
+            y = (te->y - sy) >> 8;
+        }
+        if (t6fSqrt(x * x + y * y) <= 7)
+            goto restart;
+        a = (u32)(ArcTan2(x, y) << 16) >> 24;
+        ang = a;
+        if (ang - (s16)dir > 0x80)
+            a = ang - 0x100;
+        else if (ang - (s16)dir < -0x80)
+            a = ang | 0x100;
+        { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
+        if ((s16)dir < 0)
+            dir += 0x100;
+        if ((s16)dir > 0x100)
+            dir -= 0x100;
+        dir = (u32)(0xFF0000 & (dir << 16)) >> 16;
+        idx = dir;
+        frame = gT6fFrames[idx >> 4];
+        sx += gT6fSin[idx + 0x40] * 3;
+        sy += gT6fSin[idx] * 3;
+        if (!(gT6fCtl->h4 & 4)) {
+            u8 *q;
+            t6fAnim(&desc, (u16)(base + frame), &f0, &f1, 1);
+            if (t6f_sub_0800CC98() == 0 && t6f_sub_0800CD8C() == 0 && (q = t6f_sub_0800CCCC()) == 0) {
+                if (!(gT6fFrame & 1))
+                    t6f_sub_08000AF0(0x17, desc.fC, 2);
+                t6fCoords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, (s32)q);
+                pal = t6fPal(sx >> 8, sy >> 8, 0);
+                if (gT6fTile.h8C == 4 && t6f_sub_0800CDC0() != 0)
+                    pal = 0;
+                if (t6gSolo() != 0) {
+                    if ((gT6fFrame & 1) == (owner & 1))
+                        t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+                } else {
+                    t6fDraw(x, y, (u16)(base + frame), f0, pal, &desc.f1C, desc.f8, desc.f0);
+                }
+            }
+        }
+        t6f_sub_080003F0();
+        if (t6f_sub_08056E90() != 0)
+            goto end;
+        if (owner <= 3 && (gT6fPlayers[owner].flags & 2))
+            goto end;
+        if (t6f_sub_0800D11C() != 0 || ((struct T6fPosB *)pl->pos)->kind == 0xC || t6f_sub_08058DB0() != 0 || (gT6fPlayers[owner].flags & 0x2400) || t6f_sub_0800CF10() != 0)
+            goto end;
+    }
+end:
+    gT6gBusy[owner] = 0;
+    gT6fFlags[owner] &= ~(1 << bit);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080710DC);
