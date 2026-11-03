@@ -23,54 +23,54 @@
   "percent_decompiled": 49.33865842136906
  },
  "lib": {
-  "bytes_total": 12776,
+  "bytes_total": 10704,
   "bytes_done": 10704,
-  "funcs_total": 139,
+  "funcs_total": 136,
   "funcs_done": 136,
-  "percent": 83.78209142141516,
-  "funcs_drafts": 1,
-  "bytes_drafts": 536,
-  "percent_with_drafts": 87.97745773324985,
+  "percent": 100.0,
+  "funcs_drafts": 0,
+  "bytes_drafts": 0,
+  "percent_with_drafts": 100.0,
   "funcs_decompiled": 114,
   "bytes_decompiled": 9764,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 2,
-  "bytes_pending": 1536,
-  "funcs_original_asm": 10,
-  "bytes_original_asm": 68,
-  "funcs_decompilable": 117,
-  "bytes_decompilable": 11836,
+  "funcs_pending": 0,
+  "bytes_pending": 0,
+  "funcs_original_asm": 13,
+  "bytes_original_asm": 2140,
+  "funcs_decompilable": 114,
+  "bytes_decompilable": 9764,
   "funcs_all": 149,
   "bytes_all": 12844,
-  "percent_decompiled": 82.49408583981075
+  "percent_decompiled": 100.0
  },
  "all": {
-  "bytes_total": 757928,
+  "bytes_total": 755856,
   "bytes_done": 378352,
-  "funcs_total": 2009,
+  "funcs_total": 2006,
   "funcs_done": 1768,
-  "percent": 49.919253543872244,
-  "funcs_drafts": 145,
-  "bytes_drafts": 252912,
-  "percent_with_drafts": 83.28812235462999,
+  "percent": 50.0560953409115,
+  "funcs_drafts": 144,
+  "bytes_drafts": 252376,
+  "percent_with_drafts": 83.44552401515632,
   "funcs_decompiled": 1746,
   "bytes_decompiled": 377412,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 96,
-  "bytes_pending": 126664,
-  "funcs_original_asm": 24,
-  "bytes_original_asm": 1056,
-  "funcs_decompilable": 1987,
-  "bytes_decompilable": 756988,
+  "funcs_pending": 94,
+  "bytes_pending": 125128,
+  "funcs_original_asm": 27,
+  "bytes_original_asm": 3128,
+  "funcs_decompilable": 1984,
+  "bytes_decompilable": 754916,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 49.857065105391364
+  "percent_decompiled": 49.99390660682778
  },
  "asm": {
-  "bytes": 1056,
-  "funcs": 24
+  "bytes": 3128,
+  "funcs": 27
  },
  "identification": {
   "game": {
@@ -113,7 +113,7 @@
  "callgraph": {
   "nodes": 2035,
   "edges": 11468,
-  "unresolved_calls": 1201,
+  "unresolved_calls": 1202,
   "parsed_c_functions": 1880
  }
 }
