@@ -112,41 +112,39 @@ void sub_08029A7C(u32 action,u32 amount,s32 argument)
   }
  }
 }
-#ifdef NONMATCHING
 struct ResultB98 {u8 a,b,c,d;u16 value;u16 pad;};
 #define H_B9(p,n) (*(u16*)((p)+(n)))
 #define W_B9(p,n) (*(u32*)((p)+(n)))
 extern void finishB98(void*) asm("sub_080660EC");
-extern void initB98(void*,void*,u16,u16,u32) asm("sub_08069388");
+extern void initB98(void*,void*,u16,u16,u16) asm("sub_08069388");
 extern void *lookupB98(u8*,u32) asm("sub_0801E104");
 extern void runB98(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
-extern u32 valueB98(u16,u16,void*) asm("sub_08021D00");
-void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u32 arg4,u32 arg5)
+extern u16 valueB98(u16,u16,void*) asm("sub_08021D00");
+extern u16 scaleB98(u16,u16,u16) asm("sub_08021C74");
+void sub_08029B98(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5)
 {
- struct {struct ResultB98 result; u32 saved4,saved5;} frame; u8 *object,*effect; u16 value; void *handle;
- frame.saved4=(u16)arg4; frame.saved5=(u16)arg5;
- if(!(gUnk_030056FC & (1<<index)))return;
+ struct ResultB98 result; struct ResultB98 *res; struct ResultB98 *res1; u8 *object; void *handle;
+ if(((u32)gUnk_030056FC & (1<<index))==0)return;
  object=(u8*)gUnk_030056F4+index*0x2E0;
  if(object[0x1DC] && H_B9(object,0xC)!=11 && H_B9(object,0xC)!=10){
-  value=sub_08021C74(amount,H_B9(object,0x1CE),200);
+  amount=scaleB98(amount,H_B9(object,0x1CE),200);
   if(object[0x226]!=3){
-   initB98(&frame.result,object+0x218,argument,action,(u16)(H_B9(object,0)+4));
+   res1=&result;
+   initB98(&result,object+0x218,argument,action,H_B9(object,0)+4);
    handle=lookupB98(object,0);
-   if(handle)sub_0801DB94(H_B9(object,0)+4,handle,frame.result.b);
+   if(handle)sub_0801DB94(H_B9(object,0)+4,handle,res1->b);
   }
-  effect=object+0x218; value=valueB98(action,value,effect);
+  amount=valueB98(action,amount,object+0x218);
   H_B9(object,0xC)=10;
-  frame.result.value=value;frame.result.a=H_B9(object,2);frame.result.c=*(u8*)&frame.saved4;frame.result.d=*(u8*)&frame.saved5;
-  sub_0801F2CC(object,(u8*)&frame.result);
-  H_B9(object,0x58)=sub_080020F4(); H_B9(object,0x4A)=value;W_B9(object,0x4C)=value;
+  res=&result;
+  res->value=amount;res->a=H_B9(object,2);res->c=arg4;res->d=arg5;
+  sub_0801F2CC(object,(u8*)res);
+  H_B9(object,0x58)=sub_080020F4(); H_B9(object,0x4A)=amount;W_B9(object,0x4C)=amount;
   H_B9(object,0x5A)|=1<<sub_080020F4();
-  finishB98(&frame.result);
-  if(object[0x226]!=3)runB98(effect,frame.result.value,argument,index,index+4,action);
+  finishB98(&result);
+  if(object[0x226]!=3)runB98(object+0x218,res->value,argument,index,index+4,action);
  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029B98);
-#endif
 #define H_CE(p,n) (*(u16*)((p)+(n)))
 #define W_CE(p,n) (*(u32*)((p)+(n)))
 extern u8 *stateCEC asm("gUnk_030034E0");
