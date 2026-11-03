@@ -372,7 +372,6 @@ void sub_0802939C_v(u32 target, u16 val)
         p->f22 = 5;
     }
 }
-#ifdef NONMATCHING
 struct Vec02949C { s32 x, y; };
 struct ActorPos02949C { u32 id; u8 p4[4]; struct Vec02949C pos; u8 p10[0x14]; s16 dir; u16 goal; u8 p28[0x48]; };
 struct State02949C { u8 p0[0x7A4]; struct ActorPos02949C actors[15]; };
@@ -409,8 +408,7 @@ static inline struct ActorPos02949C *find02949C(u32 id)
 }
 /* Turn `who` step by step until it faces `toward` (actor id, enemy 1..5 or
  * local player 0 for both). */
-void sub_0802949C_v(u32 who, u32 toward) asm("sub_0802949C");
-void sub_0802949C_v(u32 who, u32 toward)
+void sub_0802949C(u32 who, u32 toward)
 {
     struct ActorPos02949C *a;
     struct EnemyPos02949C *e;
@@ -457,19 +455,15 @@ void sub_0802949C_v(u32 who, u32 toward)
         e->goal = e->dir;
     else
         p->goal = p->dir;
-    want = ((u32)(ArcTan2((to.x - from.x) >> 8, (to.y - from.y) >> 8) << 16) + 0x08000000) >> 28;
+    { s16 dx = (to.x - from.x) >> 8, dy = (to.y - from.y) >> 8;
+    want = ((u32)(ArcTan2(dx, dy) << 16) + 0x08000000) >> 28; }
     want = dirTable02949C[want];
-    {
-        u16 now;
-
-        if (who > 0x100000)
-            now = a->dir;
-        else if (who != 0)
-            now = e->dir;
-        else
-            now = p->dir;
-        cur = now - want;
-    }
+    if (who > 0x100000)
+        cur = a->dir - want;
+    else if (who != 0)
+        cur = e->dir - want;
+    else
+        cur = p->dir - want;
     {
         s32 d = cur;
 
@@ -525,9 +519,6 @@ void sub_0802949C_v(u32 who, u32 toward)
         } while (p->dir != want);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802949C);
-#endif
 struct Actor029788 { u32 id; u8 p4[0x20]; s16 dir; u16 goal; u8 p28[0x48]; };
 struct State029788 { u8 p0[0x7A4]; struct Actor029788 actors[15]; };
 struct Enemy029788 { u8 p0[8]; s16 dir; u8 pA[0x2D6]; };
