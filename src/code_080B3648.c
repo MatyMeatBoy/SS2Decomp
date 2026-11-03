@@ -10,17 +10,15 @@ void sub_080B5F94(void);
 void sub_080B6178(void);
 
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B3648);
-#ifdef NONMATCHING
 struct Boss0B44F0 { u16 index; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; };
 struct Player0B44F0 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 alive; u8 p69[0x1F]; u16 hp; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[0x1A]; };
 extern struct Player0B44F0 players0B44F0[] asm("gUnk_03003CE0");
 extern u16 hit0B44F0(void *, void *) asm("sub_0801ED8C");
-/* Hit the local player when it is within `range` of the boss point (ox, oy). */
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range) asm("sub_080B44F0");
 s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
 {
-    volatile s32 hit;
-    s32 x, y;
+    s32 hit;
+    struct { s32 x, y; } pos;
     u16 dx;
     u32 ry;
     s32 xx, sy;
@@ -28,13 +26,10 @@ s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
     s32 i;
 
     hit = 0;
-    x = b->x + ox;
-    y = b->y + oy;
-    {
-        s32 px = players0B44F0[sub_080020F4()].x;
-        dx = (u32)((x - px) << 8) >> 16;
-    }
-    ry = (y - players0B44F0[sub_080020F4()].y) << 8;
+    pos.x = ox + b->x;
+    pos.y = oy + b->y;
+    dx = (u32)((pos.x - players0B44F0[sub_080020F4()].x) << 8) >> 16;
+    ry = (pos.y - players0B44F0[sub_080020F4()].y) << 8;
     xx = (s16)dx * (s16)dx;
     sy = (s32)ry >> 16;
     dist = Sqrt(xx + sy * sy);
@@ -55,9 +50,6 @@ s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
     }
     return hit;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B44F0);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4690);
 struct B4A7CPlayer {
     u8 pad0[0x20]; u16 state; u8 pad22[0x30 - 0x22];

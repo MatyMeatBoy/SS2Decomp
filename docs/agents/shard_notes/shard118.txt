@@ -7,3 +7,7 @@ sub_080B44F0 (416 bytes): src draft is 400 bytes (b lands in r7, x tied to the o
   x/y with fresh dests (`adds r6, r1, r0`, ox stays in r1), loads the players base after the first
   call, and the reload round-robin (r1,r2,r3) is one step off (ours r1,r2). Permuter 2x5 min: nothing.
 sub_080B4690: not attempted (same hit-player tail as sub_080B44F0, big spilled frame).
+
+sub_080B44F0: MATCHED (nov03-w1). Keys: x/y as an 8-byte struct local {s32 x,y} (DImode pair r6:r7),
+  `hit` a plain s32 (spilled pseudo, not volatile), px read inline in the dx expression.
+  The same tail likely applies to sub_080B4690.
