@@ -4190,4 +4190,95 @@ void sub_08053D98(void)
     Clr53A80(gP030056F4);
     sub_08019F04();
 }
+#ifdef NONMATCHING
+void sub_080542C4(s32);
+void sub_0805442C(s32);
+static inline void bind53E(void (*cb)(s32), s16 mask, s16 slot)
+{
+    u8 *e;
+    void (*f)(s32) = cb;
+    s32 m = mask;
+    s32 i = slot;
+    if ((gUnk_030056FC & m) == 0) {
+        do { sub_080003F0(); } while ((gUnk_030056FC & mask) == 0);
+    }
+    e = gP030056F4 + i * 0x2E0;
+    *(void (**)(s32))(e + 0x38) = f;
+    *(u32 *)(e + 0x3C) = m;
+    *(u32 *)(e + 0x30) = 0;
+    *(u32 *)(e + 0x34) = 0;
+}
+static inline void fade53E(void)
+{
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0: sub_080576A8(); break;
+        case 1: sub_0801AB50(6); break;
+        case 2: sub_0801AB90(6); break;
+        }
+        while (sub_0801AAE0() == 0) sub_080003F0();
+    }
+}
+void sub_08053E3C(void)
+{
+    u8 *p;
+    s32 raw;
+    u32 one;
+    u32 seen;
+    u32 done;
+    u32 f;
+    u16 n;
+    struct Player *pl;
+    struct Player *pl2;
+
+    pl = &gUnk_03003CE0[sub_080020F4()];
+    f = pl->flags;
+    one = 1;
+    pl->flags = f | one;
+    sub_0800D0F4();
+    if (sub_0800CE30() != 0)
+        p = (u8 *)gUnk_03005CF4 + 0x1C7;
+    else
+        p = (u8 *)gUnk_03005CF4 + 0x1BB;
+    raw = *p;
+    seen = (raw >> 1) & one;
+    if (sub_0800CE30() != 0)
+        p = (u8 *)gUnk_03005CF4 + 0x1C3;
+    else
+        p = (u8 *)gUnk_03005CF4 + 0x1B7;
+    raw = *p;
+    done = (raw >> 5) & 1;
+    if (done != 0) {
+        sub_08028AAC(1, 0x270F, 0x270F, 0);
+        fade53E();
+    } else if (seen) {
+        sub_08028AAC(1, 0x270F, 0x270F, 0);
+        sub_08028AAC(2, 0x138, 0xC8, 0);
+        bind53E(sub_0805442C, 2, 1);
+        fade53E();
+    } else {
+        if (t53_has2060(t53_gs0E48, 1) == 0) {
+            t53_flag0E48(t53_gs0E48, 1);
+            pan53B(0xC8, 0x32, 1);
+            for (n = 1; n != 0; n--) { sub_080003F0(); if (sub_080021A8()) break; }
+            bind53E(sub_080542C4, 1, 0);
+            bind53E(sub_0805442C, 2, 1);
+            fade53E();
+            while (sub_0805F184()) sub_080003F0();
+            while (sub_0805EF90()) sub_080003F0();
+            t53_dialog0E48(0x140283);
+            pan53B(0, 0, 40);
+        } else {
+            bind53E(sub_080542C4, 1, 0);
+            bind53E(sub_0805442C, 2, 1);
+            fade53E();
+        }
+    }
+    pl2 = (struct Player *)(sub_080020F4() * sizeof(struct Player));
+    pl2 = (struct Player *)((u8 *)pl2 + (u32)gUnk_03003CE0);
+    pl2->flags &= ~1;
+    sub_0800D108();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053E3C);
+#endif
