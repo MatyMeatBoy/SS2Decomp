@@ -96,7 +96,6 @@ void sub_080444C0(void)
     while(!sub_0805EEFC((void *)actor))sub_080003F0();
 }
 
-#ifdef NONMATCHING
 struct Trade44 {
     u32 msgNone0, msgNone1, msgDone, msgAsk, msgYes, msgNo, msgGive;
     u32 itemType, itemId, itemCount;
@@ -138,8 +137,12 @@ static inline u32 ask5E8(u16 id)
 }
 static inline u8 *find5E8(u32 actor)
 {
-    u8 *p = state5E8 + 0x7A4;
-    u32 i = 0;
+    register u8 *p asm("r1");
+    register u32 i asm("r3");
+    register s32 raw asm("r0") = (s32)state5E8;
+    register u32 off asm("r3") = 0x7A4;
+    p = (u8 *)raw + off;
+    i = 0;
     do {
         if (*(u32 *)p == actor) return p;
         i++;
@@ -191,12 +194,14 @@ static inline void give5E8(u32 type, u32 id, u32 n)
 static inline void setflag5E8(u32 flag)
 {
     if (flag != 0) {
-        u8 *p;
-        u32 byte = flag >> 3;
-        u32 bit = flag & 7;
+        register u8 *p asm("r1");
+        u32 bit = flag;
+        u32 byte = bit >> 3;
+        bit &= 7;
         if (sub_0800CE30()) p = state5E8 + 0x1C3;
         else p = state5E8 + 0x1B7;
-        p[byte] |= 1 << bit;
+        p += byte;
+        *p |= 1 << bit;
     }
 }
 static inline void mark5E8(u32 target)
@@ -206,7 +211,25 @@ static inline void mark5E8(u32 target)
     asm("" : "+r"(actor));
     v = 3;
     if (target > 0x100000) {
-        u8 *p = find5E8(actor);
+        register u8 *p asm("r0") = find5E8(actor);
+        if (p) *(u16 *)(p + 0x42) = v;
+    } else if (target != 0) {
+        u32 i = target - 1;
+        if (i <= 4) { register u8 **base asm("r1") = (u8 **)&records5E8; s32 raw = i * 0x2E0; base = (u8 **)((u8 *)*base + raw); rec5E8(*(u16 *)((u8 *)base + 2), 3); }
+    } else {
+        s32 raw = sub_080020F4() * 0x14C;
+        s32 v1;
+        { register u8 *base asm("r1") = (u8 *)players5E8; raw += (s32)base; v1 = 0x11E; raw += v1; *(u16 *)raw = v; }
+    }
+}
+static inline void mark2_5E8(u32 target)
+{
+    u32 actor = target;
+    u16 v;
+    asm("" : "+r"(actor));
+    v = 3;
+    if (actor > 0x100000) {
+        register u8 *p asm("r0") = find5E8(actor);
         if (p) *(u16 *)(p + 0x42) = v;
     } else if (target != 0) {
         u32 i = target - 1;
@@ -243,7 +266,7 @@ void sub_080445E8(s32 arg0, u32 arg1)
             result = 2;
         }
     } else if (trades44[arg0].once == 0) {
-        mark5E8(arg1);
+        mark2_5E8(arg1);
         if (trades44[arg0].msgYes != 0)
             result = ask5E8(trades44[arg0].msgAsk);
         else {
@@ -272,9 +295,6 @@ end:
     { u8 *pl = (u8 *)players5E8 + sub_080020F4() * 0x14C; *(u32 *)(pl + 0x30) &= ~1; }
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_080445E8);
-#endif
 struct Actor566045 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
 extern u8 *state566045 asm("gUnk_03005CF4");
 extern void callback566045(void) asm("sub_08033198");
