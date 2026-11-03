@@ -83,38 +83,35 @@ void sub_0802996C(void) {
  players96C[index].flags &= 0xFFFFDFFD;
  DRAIN_96C(6); DRAIN_96C(7); DRAIN_96C(5); DRAIN_96C(4); DRAIN_96C(2);
 }
-#ifdef NONMATCHING
 #define H_A7(p,n) (*(u16*)((p)+(n)))
 #define W_A7(p,n) (*(u32*)((p)+(n)))
 extern void initA7C(void*,void*,u16,u16,u32) asm("sub_08069388");
 extern void runA7C(void*,u16,s32,u32,u32,u32) asm("sub_08069080");
-extern u32 valueA7C(u16,u16,void*) asm("sub_08021D00");
-void sub_08029A7C(u32 action,u32 amount,volatile s32 argument)
+extern u16 valueA7C(u16,u16,void*) asm("sub_08021D00");
+extern u16 scaleA7C(u16,u16,u16) asm("sub_08021C74");
+void sub_08029A7C(u32 action,u32 amount,s32 argument)
 {
- u8 result[8]; u8 *player,*effect; u32 flags; s32 handle; u16 value,kind,narrowAction;
+ u8 result[8]; u8 *res; u8 *player; u32 flags; s32 handle; u16 kind;
  player=(u8*)&gUnk_03003CE0[sub_080020F4()];
  if(sub_0800CDF8()==0 && sub_08058DB0()==0){
   kind=H_A7(player,0x20);
   if(kind!=14 && player[0x68]!=0 && kind!=11){
    flags=W_A7(player,0x30)&0x2000;
    if(flags==0 && kind!=10){
-    value=sub_08021C74(amount,H_A7(player,0x5A),200);
-    effect=player+0x4C;
-    narrowAction=action; initA7C(result,effect,argument,narrowAction,H_A7(player,0));
+    amount=scaleA7C(amount,H_A7(player,0x5A),200);
+    res=result;
+    initA7C(result,player+0x4C,argument,action,H_A7(player,0));
     handle=sub_0801E164(player,0);
-    if(handle)sub_0801DB94(H_A7(player,0),(void*)handle,result[1]);
-    value=valueA7C(narrowAction,value,effect);
-    H_A7(player,0x20)=10; H_A7(player,0x88)+=value;
+    if(handle)sub_0801DB94(H_A7(player,0),(void*)handle,res[1]);
+    amount=valueA7C(action,amount,player+0x4C);
+    H_A7(player,0x20)=10; H_A7(player,0x88)+=amount;
     W_A7(player,0x110)=flags; H_A7(player,0xC8)=flags; H_A7(player,0xCA)=flags; W_A7(player,0xE0)=flags;
     if(H_A7(player,0xC)==8)sub_0805865C(0x4B); else sub_0805865C(H_A7(player,0xC)+0x45);
-    runA7C(effect,value,argument,0,H_A7(player,0),action);
+    runA7C(player+0x4C,amount,argument,0,H_A7(player,0),action);
    }
   }
  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029A7C);
-#endif
 #ifdef NONMATCHING
 struct ResultB98 {u8 a,b,c,d;u16 value;u16 pad;};
 #define H_B9(p,n) (*(u16*)((p)+(n)))
