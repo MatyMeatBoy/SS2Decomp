@@ -24,6 +24,9 @@ inactivity, preserving its unmerged head and private work first. A live
 build/permuter or active PR review is work; a timestamp or stale lock alone is not. Do not delete someone else's claim
 on your own. Check ownership again before resuming edits after an interruption.
 
+**Endgame: read [docs/agents/ENDGAME.md](docs/agents/ENDGAME.md) before claiming a shard** (session start,
+what to work on first, tricks that closed functions, real-build check, landing rules).
+
 **Stale claims are released every coordination session.** A claim whose branch has no new commit for
 24 hours is stale. The coordinator runs `python3 tools/scripts/claim.py stale 24`, integrates any
 unlanded commits it lists (like a PR: `make compare` OK, `make nonmatching`, `check_tree` 0 errors),

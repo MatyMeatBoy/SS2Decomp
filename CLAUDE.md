@@ -24,6 +24,7 @@ Git-ignored (never commit): baserom.gba, *.gba, build/, expected/, objdiff.json,
 Diff one function: `python3 tools/asm-differ/diff.py -mo FUNC` (vs expected/) or `tools/objdiff/objdiff-cli diff -p . -u src/MOD FUNC`.
 
 Parallel workers: docs/agents/PARALLEL.md (local + cloud how-to), docs/agents/WORKER.md (worker rules), tools/config/shards.txt (`shard.py show N`).
+Endgame playbook (read first): docs/agents/ENDGAME.md; per-shard history: docs/agents/shard_notes/.
 
 ## Guards
 `sh tools/install_hooks.sh` enables the pre-commit hook (check_tree.py, make compare, make nonmatching). CI: .github/workflows/check.yml.
