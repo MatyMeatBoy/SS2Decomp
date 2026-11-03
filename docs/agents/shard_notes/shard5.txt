@@ -1,11 +1,11 @@
-  Permuter (5 min) on the landed draft only found an artificial `short new_var` (=0 on one path, used as loop
-  start/offsets index) that lowers the diff 227->163 (extra register pressure moves index to the stack);
-  not landed. Writing case 8/10 as `update = 1/0` + `if (update) {...}` reproduces the original jump-threaded
-  skip paths (sx/sy stored before `b skip`) but scores slightly worse overall.
-perand order of both compares, do-while/&&
-  loop forms, explicit lim/frames pointers (worse), `alternate=0; if(..)` (worse). Permuter 5 min: nothing.
-  Also the decomp.py diff shows an extra `.short 0` after the first `mov pc` (probably display only; size equal).
-sub_08009594: returns a value (epilogue `pop {r1}`) -> declared s32. x/y are s16, tileDX/tileDY u16 with
+nov03-w2: sub_0800A03C (13 diff lines) analysis: the only real difference is in the loop preheader. ROM order is
+  `mov ip,r5; ldr r8=periods; ldr r1=limits; frames giv init (r4=ip+0xA0); lim = alternate*2+limits (into r7)`.
+  Ours emits lim before the frames giv init, so alternate dies before frames is born, alternate gets r4 and lim r7.
+  In the ROM the giv init comes first, frames (r4) conflicts with alternate, and alternate/lim share r7.
+  So the lim address must be created after strength reduction (not a plain loop.c movable). Tried: types of
+  alternate/i (s32/u16/u8/register), `(animPeriods005+area)->periods[i]`, flat u16 indexing, local state
+  pointer: no gain. Permuter 5 min: best was worse (15).
+1}`) -> declared s32. x/y are s16, tileDX/tileDY u16 with
   (s16) casts, pos s16, final BG offsets via `a = (s16)x; a = (s16)(a + offX); a = (s16)(a + w0)`.
   Note: the nm_drafts scratch lacks prototypes of sub_080093E4/sub_080094CC (s16 params); add them when testing.
   Remaining: index lives in sl (orig: stack sp+0), tileDX/tileDY on stack (orig r5/r7), frame 24 vs 28,
