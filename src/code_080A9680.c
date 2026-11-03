@@ -2050,7 +2050,294 @@ poll162:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
 #endif
+#ifdef NONMATCHING
+// sub_080AD534: exact control flow, ~54 diff lines: register choice in the init (slot/base
+// pointers r4/r5 vs ROM r5/r6), x*20 synthesis, two literal-load orders.
+struct ResAD534 { u8 p0[4]; s16 f4, f6; };
+struct ActorAD534 {
+    u16 f0, f2;
+    u8 p4[4];
+    u16 f8;
+    u8 pa[2];
+    u16 fC;
+    u8 pe[6];
+    s32 f14, f18;
+    u8 p1c[0x2E];
+    u16 f4A;
+    s32 f4C, f50, f54;
+    u8 p58[2];
+    u16 f5A;
+    s16 f5C, f5E;
+    u8 p60[0xA];
+    u16 f6A, f6C, f6E;
+    u8 p70[0x164];
+    s16 f1D4, f1D6;
+    u8 p1d8[0x24];
+    u8 f1FC_lo : 4;
+    u8 f1FC_hi : 4;
+    u8 f1FD, f1FE, p1ff;
+    u8 f200, p201;
+    u16 f202;
+    struct ResAD534 res;
+};
+struct SpriteAD534 { u32 f0, f4, f8; u16 *fC; u8 p10[12]; u8 f1C; };
+struct PosAD534 { s32 x, y; };
+struct E2E0AD534 { u8 b[0x2E0]; };
+struct PlayerAD534 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+
+extern struct ActorAD534 *actorsAD534[] asm("gUnk_03000448");
+extern struct SpriteAD534 spriteAD534 asm("gUnk_03000458");
+extern struct PosAD534 posAD534[] asm("gUnk_03000490");
+extern u8 dirAD534[] asm("gUnk_030004B8");
+extern u16 tileAD534 asm("gUnk_030004BE");
+extern u8 stateAD534[] asm("gUnk_030004C4");
+extern u8 *baseAD534 asm("gUnk_030056F4");
+extern u32 maskAD534 asm("gUnk_030056FC");
+extern u8 imageAD534[] asm("gUnk_084A4C40");
+extern s16 sinAD534[] asm("gUnk_080B9704");
+extern u16 angleAD534[] asm("gUnk_085186DC");
+extern struct PlayerAD534 playersAD534[] asm("gUnk_03003CE0");
+extern void *dataAD534 asm("gUnk_030034E0");
+
+void setupAD534(void *, void *) asm("sub_0801623C");
+void initResAD534(void *) asm("sub_08019F60");
+void tickAD534(void *) asm("sub_0801C8F0");
+u8 fadeAD534(u16 *, s32, u16, s32) asm("sub_08096E20");
+void shakeAD534(void *, s32) asm("sub_08095B04");
+void loadPalAD534(u16 *, u16 *) asm("sub_08097F70");
+void moveAD534(void *, s32, s32, s32, s32, s32) asm("sub_08097AC0");
+void projAD534(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void drawAD534(s32, s32, s32, u16, u8, void *, u32, u32) asm("sub_08007870");
+u8 hitAD534(void *) asm("sub_080ADE30");
+void dmgAD534(void *, s32, s32) asm("sub_0801A120");
+s16 deadAD534(void *) asm("sub_08019CE8");
+void freeAD534(u16) asm("sub_08067CA8");
+void fallAD534(void *, s32) asm("sub_0806171C");
+
+void sub_080AD534_v(u32 idx) asm("sub_080AD534");
+void sub_080AD534_v(u32 idx)
+{
+    u16 pal[16];
+    s16 sx, sy;
+    struct ResAD534 *res;
+    s32 lastHit;
+    u16 hitTimer;
+    u16 frame;
+    s16 shake;
+    s32 dir;
+    u8 done;
+    s32 running;
+    u8 cooldown;
+    u16 flash;
+    u8 b;
+    s32 cnt, i;
+    u16 *t;
+    struct PosAD534 *p;
+    s32 h, hit;
+    struct ActorAD534 *a;
+
+    idx = (u8)idx;
+    actorsAD534[idx] = (struct ActorAD534 *)&((struct E2E0AD534 *)baseAD534)[idx + 1];
+    maskAD534 |= 1 << (idx + 1);
+    setupAD534(actorsAD534[idx], imageAD534);
+    res = &actorsAD534[idx]->res;
+    initResAD534(res);
+    if (idx == 3)
+        sub_0801A0A4(actorsAD534[3]);
+    else
+        sub_0801A0B0(actorsAD534[idx]);
+    a = actorsAD534[idx];
+    a->f54 = 0;
+    a->f4C = 0;
+    a->f4A = 0;
+    a->f6C = 0;
+    a->f6A = 0;
+    a->f8 = 0;
+    actorsAD534[idx]->f0 = idx + 1;
+    actorsAD534[idx]->f2 = actorsAD534[idx]->f0 + 4;
+    actorsAD534[idx]->f50 = 1;
+    { struct ActorAD534 *q = actorsAD534[idx]; q->f5C = q->f1D6 = res->f6 * 3; }
+    { struct ActorAD534 *q = actorsAD534[idx]; q->f5E = q->f1D4 = res->f4 * 20; }
+    actorsAD534[idx]->f1FD = 0;
+    actorsAD534[idx]->fC = 0;
+    actorsAD534[idx]->f1FC_lo = actorsAD534[idx]->f0;
+    actorsAD534[idx]->f202 = actorsAD534[idx]->f2;
+    actorsAD534[idx]->f200 = 0xFF;
+    frame = 0;
+    done = 1;
+    flash = 0;
+    hitTimer = 0;
+    cooldown = 0;
+    actorsAD534[idx]->f14 = posAD534[idx + 1].x << 8;
+    actorsAD534[idx]->f18 = posAD534[idx + 1].y << 8;
+    loadPalAD534(pal, spriteAD534.fC);
+    stateAD534[idx] = 0;
+    running = 1;
+    do {
+        if (actorsAD534[idx]->fC == 10) {
+            if (flash == 0)
+                flash = 8;
+            actorsAD534[idx]->fC = 2;
+        }
+        if (sub_08058DB0() == 0) {
+            tickAD534(actorsAD534[idx]);
+            switch (actorsAD534[idx]->f1FD) {
+            case 0:
+                actorsAD534[idx]->fC = 2;
+                frame = 0;
+                break;
+            case 1:
+                actorsAD534[idx]->fC = 0;
+                if (sub_080682B8(actorsAD534[idx]->f0) != 0) {
+                    actorsAD534[idx]->f1FD = actorsAD534[idx]->f1FE;
+                    sub_08065E38(actorsAD534[idx]->f0);
+                }
+                break;
+            case 8:
+                sub_0801A0B0(actorsAD534[idx]);
+                frame++;
+                done = fadeAD534(pal, 4, frame, 0x3C);
+                if (done != 0) {
+                    actorsAD534[idx]->f8 = idx * 2 + 1;
+                    stateAD534[idx] = 1;
+                    frame = 0;
+                    actorsAD534[idx]->f1FE = 9;
+                    actorsAD534[idx]->f1FD = 1;
+                    sub_08068330(actorsAD534[idx]->f0);
+                }
+                break;
+            case 9:
+                sub_0801A0B0(actorsAD534[idx]);
+                shakeAD534(actorsAD534[idx], 0x300);
+                if (frame++ > 300) {
+                    frame = 0;
+                    loadPalAD534(pal, spriteAD534.fC);
+                    stateAD534[idx] = 2;
+                    actorsAD534[idx]->f1FE = 10;
+                    actorsAD534[idx]->f1FD = 1;
+                    sub_08068330(actorsAD534[idx]->f0);
+                }
+                break;
+            case 10:
+                frame++;
+                done = fadeAD534(pal, 4, frame, 0x3C);
+                if (done != 0) {
+                    s16 n, k;
+                    frame = 0;
+                    n = 0;
+                    for (k = 1; k <= 4; k++) {
+                        if ((1 << k) & maskAD534)
+                            n++;
+                    }
+                    if (n - 1 == idx)
+                        sub_0801A0A4(actorsAD534[idx]);
+                    loadPalAD534(pal, spriteAD534.fC);
+                    stateAD534[idx] = 0;
+                    actorsAD534[idx]->f1FE = 0;
+                    actorsAD534[idx]->f1FD = 1;
+                    sub_08068330(actorsAD534[idx]->f0);
+                }
+                break;
+            }
+        }
+        if (actorsAD534[idx]->f1FD == 0) {
+            switch (dirAD534[idx]) {
+            case 0: dir = 4; break;
+            case 1: dir = 5; break;
+            case 2: dir = 6; break;
+            case 3: dir = 7; break;
+            case 4: dir = 0; break;
+            case 5: dir = 1; break;
+            case 6: dir = 2; break;
+            case 7: dir = 3; break;
+            }
+            p = &posAD534[idx];
+            { s32 v = sinAD534[angleAD534[dir] + 0x40]; p->x += v >> 4; }
+            posAD534[idx].y += (sinAD534[angleAD534[dir]] * 3) >> 6;
+            if (idx == 0)
+                moveAD534(actorsAD534[0], posAD534[0].x, posAD534[0].y, 0x240, 4, 1);
+            else
+                moveAD534(actorsAD534[idx], p->x, p->y, 0x240, 4, 0);
+        }
+        posAD534[idx + 1].x = actorsAD534[idx]->f14 >> 8;
+        posAD534[idx + 1].y = actorsAD534[idx]->f18 >> 8;
+        dirAD534[idx + 1] = actorsAD534[idx]->f8;
+        spriteAD534.f1C = tileAD534;
+        if (done != 0)
+            sub_08000AF0(tileAD534 + 0x10, spriteAD534.fC, 1);
+        else
+            sub_08000AF0(tileAD534 + 0x10, pal, 1);
+        if (sub_08098004() & 1)
+            b = sub_08097FF8();
+        else
+            b = sub_0800BC44(posAD534[idx + 1].x >> 8, posAD534[idx + 1].y >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            actorsAD534[idx]->f6E = sub_08065370(&spriteAD534, 0x18, (s32)&actorsAD534[idx]->f6A, (s32)&actorsAD534[idx]->f6C, 0);
+        projAD534((s16)posAD534[idx + 1].x, (s16)posAD534[idx + 1].y, &sx, &sy, 0, 0);
+        if (flash != 0) {
+            u16 old = flash;
+            flash--;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                drawAD534(sx, sy, 0x18, actorsAD534[idx]->f6A, b, &spriteAD534.f1C, spriteAD534.f8, spriteAD534.f0);
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            drawAD534(sx, sy, 0x18, actorsAD534[idx]->f6A, b, &spriteAD534.f1C, spriteAD534.f8, spriteAD534.f0);
+        }
+        if (cooldown != 0)
+            cooldown--;
+        else if (hitAD534(actorsAD534[idx]))
+            cooldown = 30;
+        hit = actorsAD534[idx]->f4C;
+        if (hit != 0 && lastHit != hit) {
+            lastHit = hit;
+            hitTimer = 10;
+            shake = 0;
+        }
+        if (hitTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                dmgAD534(actorsAD534[idx], lastHit, (s16)shake);
+            if (hitTimer & 2)
+                shake--;
+            hitTimer--;
+        } else {
+            lastHit = 0;
+            actorsAD534[idx]->f4C = 0;
+        }
+        if (deadAD534(actorsAD534[idx]) != 0)
+            running = 0;
+        sub_080003F0();
+    } while (running);
+    freeAD534(actorsAD534[idx]->f2);
+    maskAD534 &= ~(1 << actorsAD534[idx]->f0);
+    stateAD534[idx] = 0xFF;
+    if (idx != 0)
+        sub_0801A0A4(actorsAD534[idx - 1]);
+    for (flash = 20; flash != 0xFFFF; flash--) {
+        spriteAD534.f1C = tileAD534;
+        sub_08000AF0(tileAD534 + 0x10, spriteAD534.fC, 1);
+        if (sub_08098004() & 1)
+            b = sub_08097FF8();
+        else
+            b = sub_0800BC44(posAD534[idx + 1].x >> 8, posAD534[idx + 1].y >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            actorsAD534[idx]->f6E = sub_08065370(&spriteAD534, 0x18, (s32)&actorsAD534[idx]->f6A, (s32)&actorsAD534[idx]->f6C, 0);
+        projAD534((s16)posAD534[idx + 1].x, (s16)posAD534[idx + 1].y, &sx, &sy, 0, 0);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0 && (flash & 1))
+            drawAD534(sx, sy, 0x18, actorsAD534[idx]->f6A, b, &spriteAD534.f1C, spriteAD534.f8, spriteAD534.f0);
+        sub_080003F0();
+    }
+    if (!(playersAD534[sub_080020F4()].flags & 0x2000) && actorsAD534[idx]->f5A != 0) {
+        h = sub_0801E46C(dataAD534, res);
+        for (shake = 0x1D; shake != -1; shake--) {
+            actorsAD534[idx]->f18 -= 0x20;
+            fallAD534(actorsAD534[idx], h);
+            sub_080003F0();
+        }
+        sub_0801E4CC(dataAD534, h);
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AD534);
+#endif
 struct Player114DE {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
 struct Entity114DE {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern s32 x114DE[] asm("gUnk_03003D6C");
