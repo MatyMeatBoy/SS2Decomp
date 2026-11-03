@@ -134,7 +134,51 @@ void sub_08029174_v(u32 target, u16 val)
     }
 }
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802926C);
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802939C);
+/* Same as sub_08029174, but the text is started in its "continue" mode. */
+void sub_0802939C_v(u32 target, u16 val) asm("sub_0802939C");
+void sub_0802939C_v(u32 target, u16 val)
+{
+    if (target > 0x100000) {
+        struct Actor029174 *a = find029174(target);
+        if (a != NULL) {
+            a->f38 = val;
+            a->f2C = val + a->f24;
+            a->f30 = 0;
+            a->f2E = 0;
+            a->f32 = 0;
+            a->f34 = 1;
+        }
+    } else if (target != 0) {
+        target--;
+        if (target <= 4) {
+            struct Enemy029174 *e = &enemies029174[target];
+            e->fC = 12;
+            e->fE = 5;
+            e->f70 = val;
+            e->f6C = 0;
+            e->f6A = 0;
+            e->f72 = 1;
+        }
+    } else {
+        struct Player029174 *p = &players029174[sub_080020F4()];
+        u16 hi;
+
+        if ((u16)(val & 0x8000)) {
+            p->fC0 = 1;
+            val &= 0x7FFF;
+        } else {
+            p->fC0 = 0;
+        }
+        hi = (val >> 8) & 0xF;
+        if (hi == 0)
+            hi = p->f10;
+        p->fBA = val & 0xFF;
+        p->fBC = hi;
+        p->fBE = 1;
+        p->f20 = 12;
+        p->f22 = 5;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802949C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029788);
 struct P96C { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[0x14C-0xC6]; };
