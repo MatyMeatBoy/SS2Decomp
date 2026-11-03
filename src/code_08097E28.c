@@ -1936,7 +1936,559 @@ void sub_0809AE88(u16 arg)
   }
  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_0809A834; t->f24 = z; t->f8 = 0x46; sub_08000274_2(t, arg); } while (0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809AEE8);
+struct SpriteAEE8 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
+struct PlayerAEE8 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
+struct PosAEE8 {s32 x,y;};
+struct OrbitAEE8 {s32 x,y;u8 angle;u8 pad[3];};
+struct ResAEE8 {u8 p0[4];s16 f4;s16 f6;u8 p8[0x22];u8 f2A;u8 f2B;u8 p2C[0xA8];u16 fD4;u16 fD6;};
+struct ActorAEE8 {
+    u16 f0; u16 f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 state; u8 pE[2]; u16 f10; u8 p12[2];
+    s32 x; s32 y; u8 p1C[0x2C]; u16 f48; u16 f4A; s32 damage; s32 f50; s32 f54; u8 p58[2]; u16 f5A; u16 f5C; u16 f5E;
+    u8 p60[8]; u16 anim; u16 frame; u16 tick; u16 f6E; u8 p70[0x164]; u16 f1D4; u16 f1D6;
+    u8 p1D8[0x24]; u8 lo:4; u8 hi:4; u8 phase; u8 next; u8 p1FF; u8 f200; u8 p201; u16 f202;
+    struct ResAEE8 res;
+};
+extern struct ActorAEE8 *actorAEE8 asm("gUnk_030002EC");
+extern u16 paletteAEE8 asm("gUnk_030002F0");
+extern s8 introAEE8 asm("gUnk_030002E8");
+extern u32 activeAEE8 asm("gUnk_030056FC");
+extern u8 *poolAEE8 asm("gUnk_030056F4");
+extern u32 blinkAEE8 asm("gUnk_03002344");
+extern u32 seenAEE8[] asm("gUnk_03003DC4");
+extern struct PlayerAEE8 playersAEE8[] asm("gUnk_03003CE0");
+extern void *inventoryAEE8 asm("gUnk_030034E0");
+extern u8 *stateAEE8 asm("gUnk_03005CF4");
+extern u8 configAEE8[] asm("gUnk_084A1910");
+extern struct PosAEE8 pointsAEE8[] asm("gUnk_085186FC");
+extern s16 waveAEE8[] asm("gUnk_080B9704");
+extern void setupAEE8(void *,void *,s32) asm("sub_0801623C");
+extern void resourceInitAEE8(void *) asm("sub_08019F60");
+extern u32 allocateAEE8(u16,u16) asm("sub_08016E04");
+extern void initAEE8(void *,u32,u32,s32,s32) asm("sub_08065158");
+extern u16 animAEE8(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
+extern void screenAEE8(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern void drawAEE8(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern void updateAEE8(void *) asm("sub_0801C8F0");
+extern void floatAEE8(void *,s32,s32) asm("sub_0801A120");
+extern u16 deadAEE8(void *) asm("sub_08019CE8");
+extern u8 moveAEE8(void *,struct PosAEE8,s32,s32,s32) asm("sub_08097AC0");
+extern void paletteFreeAEE8(u32) asm("sub_08067CA8");
+extern void transitionAEE8(void *,void *,u32,u32) asm("sub_080970CC");
+extern s32 rewardAEE8(void *,void *) asm("sub_0801E46C");
+extern void riseAEE8(void *,s32) asm("sub_0806171C");
+extern void rewardDoneAEE8(void *,s32) asm("sub_0801E4CC");
+extern void soundStopAEE8(s32) asm("sub_080586B4");
+extern void soundAEE8(s32) asm("sub_08058688");
+extern s32 windowAEE8(s32,s32,s32,s32,s32,s32) asm("sub_0805DF38");
+extern s32 windowDoneAEE8(s32) asm("sub_0805EEFC");
+extern void dropAEE8(u8) asm("sub_0809D77C");
+extern void markAEE8(u16) asm("sub_0809D620");
+extern void flashAEE8(void *,u16) asm("sub_0809D710");
+extern void sub_0809D7E4(void);
+
+#define RENDER_AEE8() { \
+    s32 zero; \
+    playersAEE8[sub_080020F4()].flags |= 1; \
+    if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) { \
+        zero = sub_0800CD34(); \
+        if (zero == 0) { \
+            sub_08000AF0(paletteAEE8 + 0x10, (u8 *)sprite.palette + (resource->fD6 << 5), 1); \
+            priority = sub_0800BC44(actorAEE8->x >> 8, actorAEE8->y >> 8, 0); \
+            actorAEE8->f6E = animAEE8(&sprite, 0, &actorAEE8->frame, &actorAEE8->tick, 1); \
+            screenAEE8((actorAEE8->x << 8) >> 16, (actorAEE8->y << 8) >> 16, &sx, &sy, zero, zero); \
+            drawAEE8(sx, sy, actorAEE8->anim, actorAEE8->frame, priority, sprite.payload, sprite.data, sprite.base); \
+            { u32 o = flash; \
+            flash = o - 1; \
+            if (o & 1) \
+                drawAEE8(sx, sy - 1, 0x18, 0, priority, sprite.payload, sprite.data, sprite.base); } \
+        } \
+    } \
+    sub_080003F0(); \
+}
+
+void sub_0809AEE8(void *input)
+{
+    s16 i;
+    struct OrbitAEE8 orbit[3];
+    struct SpriteAEE8 intro;
+    struct SpriteAEE8 sprite;
+    s16 sx;
+    s16 sy;
+    struct ActorAEE8 *allies[2];
+    struct ResAEE8 *resource;
+    struct PosAEE8 target;
+    s32 lastDamage;
+    s32 mode;
+    u16 lastAnim;
+    s32 animFlag;
+    u16 flash;
+    u16 floatingTimer;
+    u16 elapsed;
+    s16 floatingOffset;
+    s16 j;
+    u16 wait;
+    s8 idx;
+    u8 blink;
+    u8 amp;
+    s32 dir;
+    u8 shake;
+    u8 orbitDone;
+    u8 saved2A;
+    u8 saved2B;
+    s32 finished;
+    struct ActorAEE8 *actor;
+    struct ActorAEE8 *e;
+    u8 priority;
+    s8 cur;
+    s32 value;
+    s32 reward;
+    s32 dmg;
+    u32 old;
+    u16 alloc;
+    s32 x;
+    s32 y;
+    u32 oldf;
+    s8 t;
+
+    actor = input;
+    actorAEE8 = actor;
+    resource = &actor->res;
+    setupAEE8(actor, configAEE8, 0);
+    resourceInitAEE8(resource);
+    sub_0801A0A4(actor);
+    saved2A = actor->res.f2A;
+    saved2B = actor->res.f2B;
+    actor->res.f2A = 0;
+    actor->res.f2B = 0;
+    alloc = paletteAEE8 = allocateAEE8(actor->res.fD4, actor->res.fD6);
+    if (alloc == 0xFFFF) {
+        do {
+            actor->state = 11;
+            if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
+                activeAEE8 &= ~(1 << actor->f0);
+                return;
+            }
+            sub_080003F0();
+        } while (paletteAEE8 == 0xFFFF);
+    }
+    initAEE8(&intro, 0x50006, 0xE, -1, 1);
+    initAEE8(&sprite, 0x50005, paletteAEE8, -1, 1);
+    actor->f5C = actor->f1D6 = resource->f6 * 3;
+    value = resource->f4 * 2;
+    actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
+    actor->tick = 0;
+    actor->frame = 0;
+    actor->anim = 0;
+    actor->state = 0;
+    mode = 0;
+    lastAnim = 0xFFFF;
+    floatingTimer = 0;
+    flash = 0;
+    actor->phase = 2;
+    actor->next = 2;
+    introAEE8 = 0;
+    sub_08097FE4();
+    sub_08097A4C();
+    sub_0809D5B8();
+    sub_0809D6A8();
+    sub_0809D7E4();
+    dropAEE8(0);
+    dropAEE8(1);
+    wait = 0;
+    elapsed = 0;
+    blink = 0;
+    idx = 1;
+    actor->f50 = 1;
+    i = 0;
+    do {
+        j = 0;
+        do {
+            *(u32 *)((u8 *)seenAEE8 + j * 4 + i * 0x14C) = 0;
+            j++;
+        } while (j <= 4);
+        i++;
+    } while (i <= 3);
+    if (sub_0800CE30() == 1) {
+        elapsed = 300;
+        amp = 0x40;
+        dir = 0;
+    }
+    actor->lo = *(u8 *)actor;
+    actor->f202 = actor->f2;
+    actor->f200 = 0xFF;
+    finished = 0;
+    sub_08067C18();
+    while (sub_08067C08() == 0)
+        sub_080003F0();
+    sub_08067BF8();
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (introAEE8 == 0) {
+            updateAEE8(actor);
+            sub_0801A0B0(actor);
+            actor->res.f2A = 0;
+            actor->res.f2B = 0;
+            if (sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+                s32 zero = sub_0800CD34();
+                if (zero == 0) {
+                    intro.payload[0] = 0xE;
+                    sub_08000AF0(0x1E, (u8 *)intro.palette + (resource->fD6 << 5), 1);
+                    screenAEE8(0xEF, 0x98, &sx, &sy, zero, zero);
+                    animAEE8(&intro, 0, &actor->frame, &actor->tick, 1);
+                    { u32 o = blink;
+                    blink = o + 1;
+                    if (o & 1)
+                        drawAEE8(sx, sy, 0, actor->frame, zero, intro.payload, intro.data, intro.base); }
+                }
+            }
+            if (sub_08056F78() != 0 && sub_0800CE30() == 1) {
+                if (elapsed++ > 0x1E0) {
+                    elapsed = 0;
+                    markAEE8(0);
+                    markAEE8(1);
+                    markAEE8(2);
+                    markAEE8(3);
+                }
+            }
+        } else {
+            if (actor->state == 10 && flash == 0) {
+                flash = 8;
+                shake = 0x40;
+            }
+            if (actor->phase == 6) {
+                for (i = 0; i <= 1; i++) {
+                    if (allies[i]->state == 10) {
+                        shake = 0x40;
+                        allies[i]->state = 2;
+                        flashAEE8(actor, 0);
+                        flashAEE8(allies[0], 1);
+                        flashAEE8(allies[1], 2);
+                    }
+                }
+            }
+            if (sub_08058DB0() == 0) {
+                updateAEE8(actor);
+                sub_0801A0A4(actor);
+                actor->res.f2A = saved2A;
+                actor->res.f2B = saved2B;
+                switch (actor->phase) {
+                case 1:
+                    actor->state = 0;
+                    if (sub_08067C08() != 0) {
+                        actor->phase = actor->next;
+                        sub_08067BF8();
+                    }
+                    break;
+                case 2:
+                    mode = 0;
+                    if (sub_08056F78() != 0) {
+                        actor->state = 1;
+                        actor->next = 4;
+                        actor->phase = 1;
+                        sub_08067C18();
+                    }
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    mode = 1;
+                    actor->state = mode;
+                    target.x = pointsAEE8[idx].x >> 8;
+                    target.y = pointsAEE8[idx].y >> 8;
+                    if (moveAEE8(actor, target, 0xC0, 8, 0) == 0) {
+                        wait = 0;
+                        if (sub_0800CE30() == 1 && idx == 0) {
+                            shake = 0;
+                            orbitDone = 0;
+                            for (i = 0; i <= 1; i++) {
+                                allies[i] = (struct ActorAEE8 *)(poolAEE8 + (i * 0x2E0 + 0x8A0));
+                                activeAEE8 |= 1 << (i + 3);
+                                sub_0801A0A4(allies[i]);
+{ struct ActorAEE8 *a = allies[i];
+                                a->f54 = 0;
+                                a->damage = 0;
+                                a->f4A = 0;
+                                a->tick = 0;
+                                a->f10 = 0;
+                                a->anim = 0;
+                                a->frame = 0;
+                                a->f8 = 0;
+                                a->f5E = 0; }
+                                allies[i]->f5C = 999;
+                                allies[i]->f48 = gUnk_03003170.f90;
+                                allies[i]->state = 2;
+                                memcpy(&allies[i]->res, &actor->res, sizeof(struct ResAEE8));
+                                allies[i]->res.f2A = saved2A;
+                                allies[i]->res.f2B = saved2B;
+                                allies[i]->f0 = i + 3;
+                                allies[i]->f50 = actor->f50;
+                                allies[i]->f2 = allies[i]->f0 + 4;
+                                allies[i]->lo = *(u8 *)allies[i];
+                                allies[i]->f202 = allies[i]->f2;
+                                allies[i]->f200 = 0xFF;
+                            }
+                            for (i = 0; i <= 2; i++) {
+                                orbit[i].x = 0xEF6E;
+                                orbit[i].y = 0xAD00;
+                                orbit[i].angle = i * 0x55;
+                            }
+                            idx = 1;
+                            actor->next = 6;
+                            actor->phase = 1;
+                            sub_08067C18();
+                        } else {
+                            actor->next = 7;
+                            idx++;
+                            if (idx == 5)
+                                idx = 0;
+                        }
+                        actor->phase = 1;
+                        sub_08067C18();
+                    }
+                    break;
+                case 5:
+                    mode = 0;
+                    actor->state = 0;
+                    if (wait++ > 0xB3) {
+                        actor->next = 4;
+                        actor->phase = 1;
+                        sub_08067C18();
+                    }
+                    break;
+                case 6:
+                    mode = 2;
+                    actor->state = 2;
+                    j = 0;
+                    for (i = 0; i <= 2; i++) {
+                        x = orbit[i].x;
+                        y = orbit[i].y;
+                        if (i == 0) {
+                            actor->x = x + waveAEE8[orbit[0].angle + 0x40] * (s8)amp;
+                            actor->y = y + waveAEE8[orbit[0].angle] * (s8)amp;
+                            x = actor->x;
+                            y = actor->y;
+                        } else {
+                            e = allies[j];
+                            e->x = x + waveAEE8[orbit[i].angle + 0x40] * (s8)amp;
+                            e->y = y + waveAEE8[orbit[i].angle] * (s8)amp;
+                            x = e->x;
+                            y = e->y;
+                            j++;
+                        }
+                        if (sub_08098004() & 1)
+                            priority = sub_08097FF8();
+                        else
+                            priority = sub_0800BC44(actor->x >> 8, actor->y >> 8, 0);
+                        screenAEE8((x << 8) >> 16, (y << 8) >> 16, &sx, &sy, 0, 0);
+                        orbit[i].angle++;
+                        sub_08000AF0(paletteAEE8 + 0x10, (u8 *)sprite.palette + (resource->fD6 << 5), 1);
+                        if (sub_0800CD8C() == 0)
+                            animAEE8(&sprite, 0, &actor->frame, &actor->tick, 1);
+                        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+                            if (orbit[i].angle & 1)
+                                drawAEE8(sx, sy, actor->anim, actor->frame, priority, sprite.payload, sprite.data, sprite.base);
+                            if (i == 0 && (blinkAEE8 & 1))
+                                drawAEE8(sx, sy - 1, 0x18, 0, priority, sprite.payload, sprite.data, sprite.base);
+                        }
+                    }
+                    if (orbit[0].angle == 0)
+                        orbitDone++;
+                    if (orbitDone == 3) {
+                        value = activeAEE8 & ~8;
+                        activeAEE8 = value & ~0x10;
+                        elapsed = 0;
+                        actor->next = 8;
+                        actor->phase = 1;
+                        sub_08067C18();
+                    }
+                    break;
+                case 7:
+                    mode = 2;
+                    actor->state = 2;
+                    markAEE8(0);
+                    markAEE8(1);
+                    markAEE8(2);
+                    markAEE8(3);
+                    markAEE8(4);
+                    markAEE8(5);
+                    markAEE8(6);
+                    markAEE8(7);
+                    flashAEE8(actor, 0);
+                    elapsed = 0;
+                    actor->next = 8;
+                    actor->phase = 1;
+                    sub_08067C18();
+                    break;
+                case 8:
+                    mode = 0;
+                    actor->state = 0;
+                    if (elapsed++ > 0x3B) {
+                        actor->next = 5;
+                        actor->phase = 1;
+                        sub_08067C18();
+                    }
+                    break;
+                }
+            }
+            switch (mode) {
+            case 0:
+                actor->anim = actor->f8;
+                animFlag = 1;
+                break;
+            case 1:
+                actor->anim = actor->f8 + 8;
+                animFlag = 1;
+                break;
+            case 2:
+                actor->anim = actor->f8 + 0x10;
+                animFlag = 0;
+                break;
+            }
+            if (lastAnim != actorAEE8->anim) {
+                lastAnim = actorAEE8->anim;
+                actorAEE8->tick = 0;
+                actorAEE8->frame = 0;
+            }
+            if (actor->phase != 6) {
+                sprite.payload[0] = paletteAEE8;
+                if (sub_08098004() & 1)
+                    priority = sub_08097FF8();
+                else
+                    priority = sub_0800BC44(actor->x >> 8, actor->y >> 8, 0);
+                if (sub_0800CD8C() == 0)
+                    actor->f6E = animAEE8(&sprite, actor->anim, &actor->frame, &actor->tick, animFlag);
+                screenAEE8((actor->x << 8) >> 16, (actor->y << 8) >> 16, &sx, &sy, 0, 0);
+                sub_08000AF0(paletteAEE8 + 0x10, (u8 *)sprite.palette + (resource->fD6 << 5), 1);
+                if (flash != 0) {
+                    oldf = flash;
+                    flash = oldf - 1;
+                    if ((oldf & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                        drawAEE8(sx, sy, actor->anim, actor->frame, priority, sprite.payload, sprite.data, sprite.base);
+                } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+                    drawAEE8(sx, sy, actor->anim, actor->frame, priority, sprite.payload, sprite.data, sprite.base);
+                }
+                if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0 && (blinkAEE8 & 1))
+                    drawAEE8(sx, sy - 1, 0x18, 0, priority, sprite.payload, sprite.data, sprite.base);
+            }
+        }
+        dmg = actor->damage;
+        if (dmg != 0 && lastDamage != dmg) {
+            lastDamage = dmg;
+            floatingTimer = 10;
+            floatingOffset = 0;
+        }
+        if (floatingTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                floatAEE8(actor, lastDamage, floatingOffset);
+            if (floatingTimer & 2)
+                floatingOffset--;
+            floatingTimer--;
+        } else {
+            lastDamage = 0;
+            actor->damage = floatingTimer;
+        }
+        if (shake != 0) {
+            shake--;
+            if ((u8)dir) {
+                t = amp;
+                if (t < 0x40)
+                    amp = t + 4;
+                else {
+                    amp = 0x40;
+                    dir = 0;
+                }
+            } else {
+                t = amp;
+                if (t > -0x40)
+                    amp = t - 4;
+                else {
+                    amp = 0xC0;
+                    dir = 1;
+                }
+            }
+        } else {
+            amp = 0xC0;
+            if ((u8)dir)
+                amp = 0x40;
+        }
+        if (deadAEE8(actor) != 0)
+            finished = 1;
+        sub_080003F0();
+        if (finished != 0)
+            break;
+    }
+    activeAEE8 = 0;
+    playersAEE8[sub_080020F4()].flags |= 1;
+    sub_0809D5E4();
+    sub_0809D6D8();
+    sub_0809D810();
+    actorAEE8->tick = 0;
+    actorAEE8->frame = 0;
+    actorAEE8->anim = 0;
+    floatingOffset = 0;
+    floatingTimer = 10;
+    do {
+        s32 zero;
+        playersAEE8[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            zero = sub_0800CD34();
+            if (zero == 0) {
+                sub_08000AF0(paletteAEE8 + 0x10, (u8 *)sprite.palette + (resource->fD6 << 5), 1);
+                priority = sub_0800BC44(actorAEE8->x >> 8, actorAEE8->y >> 8, 0);
+                actorAEE8->f6E = animAEE8(&sprite, 0, &actorAEE8->frame, &actorAEE8->tick, 1);
+                screenAEE8((actorAEE8->x << 8) >> 16, (actorAEE8->y << 8) >> 16, &sx, &sy, zero, zero);
+                drawAEE8(sx, sy, actorAEE8->anim, actorAEE8->frame, priority, sprite.payload, sprite.data, sprite.base);
+                { u32 o = flash;
+                flash = o - 1;
+                if (o & 1)
+                    drawAEE8(sx, sy - 1, 0x18, 0, priority, sprite.payload, sprite.data, sprite.base); }
+                floatAEE8(actor, lastDamage, floatingOffset);
+            }
+        }
+        if (floatingTimer & 2)
+            floatingOffset--;
+        sub_080003F0();
+        floatingTimer--;
+    } while (floatingTimer != 0xFFFF);
+    sub_080683CC();
+    paletteFreeAEE8(actor->f2);
+    sub_08068330(0xDEADFACE);
+    while (sub_080682B8(0xDEADFACE) == 0)
+        RENDER_AEE8();
+    sub_08065E38(0xDEADFACE);
+    while (sub_08058DB0() != 0)
+        RENDER_AEE8();
+    soundStopAEE8(0);
+    playersAEE8[sub_080020F4()].flags |= 1;
+    *(s32 *)(stateAEE8 + 0x720) = windowAEE8(1, 0xE, 0x19, 2, 0x3C, 0x140042);
+    while (windowDoneAEE8(*(s32 *)(stateAEE8 + 0x720)) == 0)
+        RENDER_AEE8();
+    playersAEE8[sub_080020F4()].flags &= ~1;
+    soundAEE8(0xD);
+    transitionAEE8(actorAEE8, &sprite, resource->fD6, paletteAEE8);
+    if (!(playersAEE8[sub_080020F4()].flags & 0x2000) && actorAEE8->f5A != 0) {
+        reward = rewardAEE8(inventoryAEE8, resource);
+        floatingOffset = 0x1D;
+        do {
+            struct ActorAEE8 *g = actorAEE8;
+            g->y -= 0x20;
+            riseAEE8(g, reward);
+            sub_080003F0();
+            floatingOffset--;
+        } while (floatingOffset != -1);
+        rewardDoneAEE8(inventoryAEE8, reward);
+    }
+    floatingOffset = 0x6F;
+    do {
+        sub_080003F0();
+        floatingOffset--;
+    } while (floatingOffset != -1);
+    sub_08067C18();
+    while (sub_08067C08() == 0)
+        sub_080003F0();
+    sub_08067BF8();
+    sub_08056E24();
+}
+#undef RENDER_AEE8
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C1B4);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C4E8);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C8F4);
