@@ -4188,7 +4188,7 @@ void sub_080710DC(struct T6fArg *arg0) {
     f1 = 0;
     if (t6f_sub_080020F4() != owner) {
         if (owner > 3) {
-            en->mp -= gT6fCost[arg0->kind][base + 3];
+            { s16 c = gT6fCost[arg0->kind][base + 3]; en->mp -= c; }
             if ((s16)en->mp < 0) {
                 gT6fFlags[owner] &= ~(1 << bit);
                 en->mp = 0;
