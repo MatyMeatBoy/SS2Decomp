@@ -6194,18 +6194,24 @@
       "name": "sub_08014170",
       "addr": 134300016,
       "size": 2488,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0800CF58",
       "kind": "c",
       "cat": "game",
       "address": "0x08014170",
       "canonical_symbol": "sub_08014170",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08014170",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "hud14170",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 6334,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: hud14170"
+        }
+      ]
     },
     {
       "name": "sub_08014B28",
@@ -36934,12 +36940,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 168,
-      "existing": 49,
+      "identified": 169,
+      "existing": 50,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1712,
-      "percent_identified": 8.936170212765957
+      "unidentified": 1711,
+      "percent_identified": 8.98936170212766
     },
     "sdk": {
       "total": 155,
@@ -36952,12 +36958,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 323,
-      "existing": 178,
+      "identified": 324,
+      "existing": 179,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1712,
-      "percent_identified": 15.872235872235873
+      "unidentified": 1711,
+      "percent_identified": 15.92137592137592
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

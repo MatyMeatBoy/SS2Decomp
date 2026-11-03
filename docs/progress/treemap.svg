@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">15.87%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">323 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">15.92%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">324 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">50.06%</text>
@@ -352,7 +352,8 @@
 <rect x="289.23" y="29.00" width="74.03" height="99.24" fill="#d29922" pointer-events="none"/>
 <text x="354.0" y="95.6" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">4/7 milestones</text>
 <text x="354.0" y="81.6" fill="#e6edf3" font-size="9" text-anchor="middle" pointer-events="none">sub_0800D368</text>
-<rect x="289.23" y="128.24" width="37.10" height="34.24" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08014170 | sub_08014170 | unidentified  0x08014170  2488 bytes  [todo]</title></rect>
+<rect x="289.23" y="128.24" width="37.10" height="34.24" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>hud14170 | sub_08014170 | existing | 2/4 milestones; not a match  0x08014170  2488 bytes  [nonmatch]</title></rect>
+<rect x="289.23" y="128.24" width="18.55" height="34.24" fill="#d29922" pointer-events="none"/>
 <rect x="326.33" y="128.24" width="21.17" height="21.22" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08013850 | sub_08013850 | unidentified  0x08013850  880 bytes  [nonmatch]</title></rect>
 <rect x="326.33" y="149.46" width="21.17" height="13.02" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08013E90 | sub_08013E90 | unidentified  0x08013E90  540 bytes  [done]</title></rect>
 <rect x="347.51" y="128.24" width="13.36" height="18.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkCreatePlayerEntity | sub_080135C4 | confirmed  0x080135C4  476 bytes  [done]</title></rect>
@@ -2348,5 +2349,5 @@
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Data: 413 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 11468 edges, 1202 unresolved calls. Source-derived; not a complete runtime graph.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 11468 edges, 1203 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>
