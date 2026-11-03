@@ -808,7 +808,265 @@ void sub_08077444(u32 who, u32 a, u32 b, u32 c, u32 d)
     sub_08000274_2(t, e);
     gMasks7444[who] |= 1 << i;
 }
+#ifdef NONMATCHING
+struct Spr7508 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[2]; u8 f20; u8 pad21[19]; };
+struct Ply7508 { u8 pad0[0xC]; u16 fC; u8 padE[0x12]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[6]; s16 f3A; u8 pad3C[0x2C]; u8 team; u8 pad69[5]; u8 f6E; u8 pad6F[0x19]; u16 f88, f8A; s32 x, y; u8 pad94[0x50]; u32 hist[11]; u32 f110; u8 pad114[0x34]; u16 *pos; };
+struct Ene7508 { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x1E]; u8 f226; u8 pad227[4]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
+struct Tbl7508 { u8 pad0[0x2C]; u32 anim; u8 pad30[0x28]; };
+struct Pkt7508 { u8 kind:8; u8 val:8; u8 b2:8; s8 b3:8; u32 dmg:16; u32 rest:16; };
+extern struct Ply7508 p7508[] asm("gUnk_03003CE0");
+extern struct Ene7508 *e7508Base asm("gUnk_030056F4");
+extern u32 f7508[] asm("gUnk_030063E0");
+extern u16 dirA7508[] asm("gUnk_0849E730");
+extern u16 dirB7508[] asm("gUnk_0847AD0A");
+extern s16 sin7508[] asm("gUnk_080B9704");
+extern s16 off7508[][2] asm("gUnk_084EBEBC");
+extern struct Tbl7508 tbl7508[] asm("gUnk_08479140");
+extern u32 e7508Mask asm("gUnk_030056FC");
+extern u16 atan7508(s16, s16) asm("ArcTan2");
+extern u8 *cfg7508(s32) asm("sub_08007290");
+extern void coords7508(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u16 dmgE7508(void *, void *) asm("sub_0801EF14");
+extern u16 dmgP7508(void *, void *) asm("sub_0801ED8C");
+extern void draw7508(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern void init7508(void *, u32, s32, s32, s32) asm("sub_08065158");
+extern void miss7508(s32, s32) asm("sub_08022504");
+extern u32 rand7508(void) asm("sub_080008C8");
+extern s32 roll7508(s32, s32) asm("sub_080223A4");
+extern void send7508(void *) asm("sub_080660EC");
+
+void sub_08077508(u32 who, u32 arg)
+{
+    struct Spr7508 spr;
+    s16 dx, dy;
+    struct Pkt7508 pkt;
+    u16 tgt;
+    u16 bit;
+    u16 pal;
+    s32 x;
+    s32 y;
+    s32 n;
+    u16 a;
+    s32 hit;
+    u16 dir;
+    u32 local;
+    u8 *cfg;
+    struct Ene7508 *e;
+    struct Ene7508 *te;
+    struct Ply7508 *tp;
+    s32 ang;
+    s32 t;
+    u16 diff;
+    u16 j;
+    u8 c;
+    s32 sx, sy;
+    u32 shade;
+    u16 v;
+    u32 r;
+    s32 spd;
+
+    local = (u16)sub_080020F4();
+    e = &e7508Base[who];
+    if (e->f226 != 3) {
+        init7508(&spr, tbl7508[e->f2D8 + 10].anim, 0, -1, 0);
+        spr.f1C = sub_08019D7C(e->f2D8, e->f2DA);
+        if (tbl7508[e->f2D8 + 10].anim == 0x500C0)
+            pal = 0x10;
+        else
+            pal = 8;
+    } else {
+        init7508(&spr, 0x5001E, 0, -1, 0);
+        spr.f20 = who;
+        pal = 0x40;
+    }
+    n = 3;
+    bit = arg & 0xF;
+    arg >>= 16;
+    if (arg > 3) {
+        te = &e7508Base[arg - 4];
+        tgt = arg;
+    } else {
+        tp = &p7508[arg];
+        tgt = arg;
+    }
+    x = e->x;
+    y = e->y;
+    if (tgt <= 3) {
+        u16 *s = tp->pos;
+        dx = (u32)(((s[0] >> 4) << 8) - x) >> 8;
+        dy = (u32)(((u32)(s[1] << 20) >> 12) - y) >> 8;
+    } else {
+        dx = (u32)(te->x - x) >> 8;
+        dy = (u32)(te->y - y) >> 8;
+    }
+    ang = (u16)atan7508(dx, dy) >> 8;
+    {
+        s16 t2 = ang;
+        if (t2 > 0x80)
+            ang = (u16)(t2 - 0x100);
+    }
+    a = ang;
+    {
+        s16 sa = a;
+        if (sa < 0)
+            a = sa + 0x100;
+    }
+    {
+        s16 sa = a;
+        if (sa > 0x100)
+            a = sa - 0x100;
+    }
+    diff = ((s16)a >> 4) - dirA7508[e->dir];
+    {
+        s16 sd = diff;
+        if (sd > 8)
+            diff = sd - 16;
+    }
+    t = (s16)diff;
+    if (t < 0)
+        t = -t;
+    if (t > 3)
+        a = dirB7508[e->dir];
+    cfg = cfg7508(e->f22C | 0xB0000);
+    dir = e->dir;
+    while (e->wait < e->threshold) {
+        if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
+            f7508[who + 4] &= ~(1 << bit);
+            return;
+        }
+        sub_080003F0();
+    }
+    n = n * 8 + 10;
+    if (sub_0800CD34() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0)
+        sub_0805865C(0x17);
+    while (n-- != 0) {
+        hit = 0;
+        spd = 3;
+        if (tgt <= 3) {
+            for (j = 0; j < sub_08002164(); j++) {
+                if (sub_0800CDF8() != 0)
+                    break;
+                {
+                    u16 *s = p7508[j].pos;
+                    dx = (u32)(((s[0] >> 4) << 8) - x) >> 8;
+                    dy = (u32)(((u32)(s[1] << 20) >> 12) - y) >> 8;
+                }
+                if ((dx < 0 ? -dx : dx) > 7 || (dy < 0 ? -dy : dy) > 7)
+                    continue;
+                if (local != j)
+                    continue;
+                tp = &p7508[j];
+                if ((u32)(((u8 *)tp->pos)[0] << 28) >> 28 == 0xE || tp->team == 0)
+                    continue;
+                if ((tp->flags & 2) || sub_0800CDF8() != 0 || tp->state == 10 || tp->state == 11
+                    || e->f50 == tp->hist[e->id] || tp->state == 12 || sub_0800CCCC() != 0 || sub_0800D11C() != 0)
+                    continue;
+                if (roll7508(e->f206, tp->f3A) != 0) {
+                    r = rand7508() % 100;
+                    if (tp->f6E == 0 || r >= tp->f6E) {
+                        v = dmgP7508(e, tp);
+                        if (v & 0x8000) {
+                            sub_0805865C(0x27);
+                            v &= 0x7FFF;
+                        } else {
+                            sub_0805865C(0x1A);
+                            {
+                                u16 k = tp->fC;
+                                if (k == 8)
+                                    sub_0805865C(0x4B);
+                                else
+                                    sub_0805865C(k + 0x45);
+                            }
+                        }
+                        tp->f88 += v;
+                        tp->hist[e->id] = e->f50;
+                        tp->state = 10;
+                        tp->f110 = 0;
+                        hit = 1;
+                    } else {
+                        miss7508(tp->x, tp->y);
+                        v = dmgP7508(e, tp);
+                        if (v & 0x8000)
+                            v &= 0x7FFF;
+                        tp->f8A += (v >> 2) ? (v >> 2) : 1;
+                        tp->hist[e->id] = e->f50;
+                        tp->f110 = 0;
+                        sub_0805865C(0x164);
+                    }
+                } else {
+                    tp->hist[e->id] = e->f50;
+                    if (sub_0800CD34() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0) {
+                        sub_0805865C(0x55);
+                        hit = 1;
+                    }
+                }
+            }
+        } else {
+            for (j = 0; j <= 4; j++) {
+                if (!(e7508Mask & (1 << j)))
+                    continue;
+                if (sub_0800CDF8() != 0)
+                    break;
+                if (j == who)
+                    continue;
+                te = &e7508Base[j];
+                if (!te->active)
+                    continue;
+                dx = (u32)(te->x - x) >> 8;
+                dy = (u32)(te->y - y) >> 8;
+                if ((dx < 0 ? -dx : dx) > 7 || (dy < 0 ? -dy : dy) > 7)
+                    continue;
+                if (sub_0800CDF8() != 0 || te->state == 10 || te->state == 11 || e->f50 == te->f54
+                    || sub_0800CCCC() != 0 || sub_0800D11C() != 0)
+                    continue;
+                if (roll7508(e->f206, te->f206) != 0) {
+                    if (sub_08002204() != 0) {
+                        te->state = 10;
+                        pkt.dmg = dmgE7508(e, te);
+                        pkt.val = cfg[0xBC];
+                        pkt.b2 = 0;
+                        pkt.b3 = 0;
+                        te->f54 = e->f50;
+                        pkt.kind = te->f2;
+                        te->f4A += pkt.dmg;
+                        te->f4C = pkt.dmg;
+                        te->f62 = pkt.val;
+                        te->f7C = pkt.b2;
+                        te->f7E = pkt.b3;
+                        te->f58 = e->id;
+                        te->f5A |= 1 << local;
+                        send7508(&pkt);
+                    }
+                    hit = 1;
+                } else {
+                    tp->hist[e->id] = e->f50;
+                    if (sub_0800CD34() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0)
+                        sub_0805865C(0x55);
+                    hit = 1;
+                }
+            }
+        }
+        if (hit)
+            break;
+        c = sub_0800AE50(x, y, 0);
+        if ((c & 0xF) && !(c & 0x10))
+            break;
+        x += sin7508[(s16)a + 0x40] * spd;
+        y += sin7508[(s16)a] * spd;
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+            coords7508((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(sx, sy, 0);
+            draw7508(dx + off7508[(s16)dir][0], dy + off7508[(s16)dir][1], pal + dir, 0, shade, &spr.f1C, spr.f8, spr.f0);
+        }
+        sub_080003F0();
+        if (sub_0800CB78() != 0 || sub_0800CD00() != 0)
+            break;
+    }
+    f7508[who + 4] &= ~(1 << bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077508);
+#endif
 struct Task7D04 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks7D04[] asm("gUnk_030063E0");
 extern u8 *gLists7D04[] asm("gUnk_030063B0");
