@@ -194,7 +194,6 @@ void sub_080094CC(struct Layer *entry, s16 x, s16 y)
     CpuSet(src + (count + tileY), dest + pos[1], (32 - count) & 0x1FFFFF);
 }
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009594);
-#ifdef NONMATCHING
 struct LoadSize005 { u16 width,height; };
 struct LoadState005 { struct Layer layers[4]; s16 *map; void *buffer; u16 *map0,*map1; struct LoadSize005 first; u16 width1,height1,mapW,mapH,scrollX,scrollY,f80,f82,offX,offY; u8 pad88[4]; u16 area,pad8E,index; u8 pad92[10]; u32 flags; u8 padA0[16]; u32 *record; };
 struct LoadArea005 { u8 pad[16]; u32 keys[25]; };
@@ -225,6 +224,7 @@ s32 sub_08009930(u32 area,u32 index)
     loadThread005.onExit=0;
     loadState005.area=area; loadState005.index=index;
     if (area==5 && sub_0800CDC0() && index==13) {
+        width=30; height=32;
         displayMode005(1,1);
         displayEnable005(0x800,0,1);
         sub_080009C0(0x1700,0,1);
@@ -237,10 +237,12 @@ s32 sub_08009930(u32 area,u32 index)
             tile->low=0; tile->hi=0; tile->hflip=0; tile->palette=1;
         }
         loadState005.f80=0; loadState005.f82=0; loadState005.offX=0; loadState005.offY=0;
-        loadState005.first.width=30; loadState005.first.height=32;
-        width=30; height=32;
-        loadState005.width1=width; loadState005.height1=height;
-        loadState005.mapW=width; loadState005.mapH=height;
+        loadState005.first.width=width; loadState005.first.height=height;
+        {
+            u16 w=30, h;
+            loadState005.width1=w; h=32; loadState005.height1=h;
+            loadState005.mapW=w; loadState005.mapH=h;
+        }
         loadState005.flags=0; loadState005.scrollX=0; loadState005.scrollY=0;
     } else {
         loadState005.record=loadRecord005(loadAreas005[area].keys[index]);
@@ -254,17 +256,17 @@ s32 sub_08009930(u32 area,u32 index)
             loadState005.mapW=map[0]; loadState005.mapH=map[1];
         }
         loadState005.f80=0; loadState005.f82=0; loadState005.offX=0; loadState005.offY=0;
-        width=map[0]; loadState005.first.width=width;
-        height=map[1]; loadState005.first.height=height;
-        loadState005.width1=width; loadState005.height1=height;
+        {
+            u16 w=map[0], h;
+            loadState005.first.width=w;
+            h=map[1]; loadState005.first.height=h;
+            loadState005.width1=w; loadState005.height1=h;
+        }
         loadState005.flags=0; loadState005.scrollX=0; loadState005.scrollY=0;
     }
     sub_08000274(&loadThread005,0);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009930);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009B84);
 #ifdef NONMATCHING
 struct MapAnim005 { u8 pad[0x8C]; u16 area,pad8E,index; u8 pad92[14]; u16 frames[4],timers[4]; };
