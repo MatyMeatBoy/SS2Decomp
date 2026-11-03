@@ -1102,7 +1102,6 @@ void sub_08077D04(u32 who, u32 b)
     sub_08000274_3((u32)t, who - 4, b << 16 | i);
     gMasks7D04[who] |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Spr7DAC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct Ply7DAC { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[6]; s16 f3A; u8 pad3C[0x2C]; u8 team; u8 pad69[5]; u8 f6E; u8 pad6F[0x19]; u16 f88, f8A; s32 x, y; u8 pad94[0x50]; u32 hist[11]; u32 f110; u8 pad114[0x34]; u8 *sprite; };
 struct Ene7DAC { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x23]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
@@ -1151,11 +1150,8 @@ void sub_08077DAC(u32 who, u32 arg)
     struct Ene7DAC *e;
     struct Ene7DAC *te;
     struct Ply7DAC *p;
-    struct Ene7DAC *q;
     s32 ang;
     s32 ad;
-    u16 *dp;
-    u16 diff;
     s32 y;
     u16 i;
     u8 c;
@@ -1299,12 +1295,13 @@ void sub_08077DAC(u32 who, u32 arg)
                 te->f58 = e->id;
                 te->f5A |= 1 << local;
                 send7DAC(&pkt);
+                hit = 1;
             } else {
                 p->hist[e->id] = e->f50;
                 if (sub_0800CD34() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0)
                     sub_0805865C(0x55);
+                hit = 1;
             }
-            hit = 1;
         }
     }
 check:
@@ -1334,9 +1331,6 @@ check:
     }
     f7DAC[who + 4] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077DAC);
-#endif
 extern void sub_08077DAC();
 void sub_0807854C(u32 who, u32 b)
 {
