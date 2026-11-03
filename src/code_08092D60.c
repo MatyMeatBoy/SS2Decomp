@@ -147,16 +147,13 @@ void sub_08093404(void) {
 #ifdef NONMATCHING
 void sub_0809342C(void)
 {
-    u16 scanline = *(volatile u16 *)0x04000006 & 0xFF;
+    vu16 scanline;
 
-    if (scanline > 0x9F) {
-        *(u16 *)0x03000264 = 0;
-    } else {
-        u32 index = (scanline + *(u8 *)0x03000267) & 0xFF;
-        s32 sample = gUnk_080B9704[index];
-        s32 scale = *(u8 *)0x03000266;
-        *(u16 *)0x03000264 = (u16)((sample * scale) >> 8);
-    }
+    scanline = REG_VCOUNT & 0xFF;
+    if (scanline <= 0x9F)
+        gH03000264 = (gUnk_080B9704[(gB03000267 + scanline) & 0xFF] * gB03000266) >> 8;
+    else
+        gH03000264 = 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809342C);
