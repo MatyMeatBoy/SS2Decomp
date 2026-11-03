@@ -1130,7 +1130,6 @@ void sub_0805B688(u16 who, u16 itemId)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B688);
 #endif
-#ifdef NONMATCHING
 struct BD5CPlayer {
     u16 id;
     u8 pad2[0x1E];
@@ -1160,7 +1159,7 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     u8 *obj;
     u32 zero;
     u16 kind;
-    s16 amount;
+    s32 amount;
     u8 *p;
 
     player = &bd5cPlayers[sub_080020F4()];
@@ -1178,11 +1177,11 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     obj = (u8 *)sub_08007290(item[1] | 0x100000);
     kind = *(u16 *)(obj + 0xA0);
     if (kind == 1 || kind == 0x13) {
-        level = level * 40 + 100;
-        level = *(u16 *)(obj + 0xA2) * level / 100;
+        amount = level * 40 + 100;
+        amount = *(u16 *)(obj + 0xA2) * amount / 100;
         if (player->hp >= player->maxHp)
             goto fail;
-        player->hp += level;
+        player->hp += amount;
         if (player->maxHp < player->hp)
             player->hp = player->maxHp;
         else if (player->hp < 0)
@@ -1195,9 +1194,9 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     } else if (kind == 2) {
         if (player->mp >= player->maxMp)
             goto fail;
-        level = level * 40 + 100;
-        level = *(u16 *)(obj + 0xA2) * level / 100;
-        player->mp += level * 10;
+        amount = level * 40 + 100;
+        amount = *(u16 *)(obj + 0xA2) * amount / 100;
+        player->mp += amount * 10;
         if (player->maxMp < player->mp)
             player->mp = player->maxMp;
         else if (player->mp < 0)
@@ -1311,11 +1310,11 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         player->mp = player->maxMp;
         player->hp = player->maxHp;
     } else if (kind == 0x12) {
-        level = level * 40 + 100;
-        level = *(u16 *)(obj + 0xA2) * level / 100;
+        amount = level * 40 + 100;
+        amount = *(u16 *)(obj + 0xA2) * amount / 100;
         if (player->hp >= player->maxHp)
             goto fail;
-        player->hp += level;
+        player->hp += amount;
         if (player->maxHp < player->hp)
             player->hp = player->maxHp;
         else if (player->hp < 0)
@@ -1334,9 +1333,6 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         sub_0805865C(0x20);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805BD5C);
-#endif
 #ifdef NONMATCHING
 extern u8 gUnk_08477F3C[];
 extern u8 gUnk_08478044[];
