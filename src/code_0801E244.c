@@ -604,7 +604,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   u16 attack;
   u16 defense;
   u16 variance;
-  u16 result;
+  u32 result;
   u16 firstDamage;
   u16 element;
   u32 damage;
@@ -709,7 +709,7 @@ asm("" : "+r"(quotient));
     {
       sub_0805865C((*((u16 *) (dst + 0xC))) + 0x45);
     }
-    return result;
+    return (u16)result;
   }
   if (divisor != 100)
   {
