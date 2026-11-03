@@ -1,9 +1,9 @@
-Shard 59 notes (nov03-w5, 2026-11-03)
 
-sub_0805B2C4 (code_0805A630): same size; draft diff 140 -> 112 (nm_drafts). Key: all four params live on the
-  stack in the ROM (kind is re-read as `ldrh [sp,#8]` for the final store). Wrapping the 21x21 grid scan in
-  `do { ... } while (0)` (extra loop depth -> different reg priorities) spills kind and fixes the frame (0x18).
-  Remaining: first scan loop allocation (ROM: constant 0x11170 loaded into r0 and copied to lowest=r4 and
+nov03-w1: sub_0805B2C4 re-checked (54 diff lines standalone, nmdiff counts branch labels). Tried 7 more
+  orderings of the e / lowest / lowestIndex / count initialisers (chained both ways, count after,
+  lowestIndex = lowest copy): none gives the ROM's shared 0x11170 temp. Permuter (default mode refuses:
+  control differs because of the static inline; --allow-control-diff scores meaningless). No change.
+(ROM: constant 0x11170 loaded into r0 and copied to lowest=r4 and
   lowestIndex=r5, count=r6, &gUnk_03005D58 kept in r1->r8; draft: lowestIndex takes the constant, count=r4),
   and a rotation of sl/r8/r9 in the grid loops (ROM px=sl, b+1=r8, &gUnk_03000124=r9).
   Tried: decl orders, chained/copy initialisers, u16/u8/s32 types, static inline helpers for the eviction
