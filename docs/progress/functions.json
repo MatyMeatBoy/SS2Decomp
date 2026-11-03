@@ -32619,7 +32619,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2118,
+          "line": 2119,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
         }
       ]
