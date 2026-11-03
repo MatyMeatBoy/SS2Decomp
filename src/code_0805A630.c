@@ -1583,7 +1583,6 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
     }
     return 1;
 }
-#ifdef NONMATCHING
 struct DropC620 { u16 type, val; u32 hi; };
 struct ExC620 { u8 pad[0x2C]; struct DropC620 drops[3]; };
 u32 sub_0805C620(u8 *entity, u16 *out)
@@ -1639,10 +1638,10 @@ u32 sub_0805C620(u8 *entity, u16 *out)
         ok = 1;
     if (ok == 0)
         goto fail;
-    if (sub_0800CE30()) {
-        category = *(u16 *)(entity + 0x78);
-        if (category != 0) {
-            category += 50;
+    category = sub_0800CE30();
+    if (category) {
+        if (*(u16 *)(entity + 0x78) != 0) {
+            category = *(u16 *)(entity + 0x78) + 50;
         } else {
             ok = 0;
             goto tail;
@@ -1661,8 +1660,7 @@ tail:
             return 0;
         }
     } else if (out[0] > 10) {
-        out[0] = 0;
-        return;
+        { u32 z = 0; out[0] = z; return z; }
     } else {
         return ok;
     }
@@ -1670,9 +1668,6 @@ tail:
 fail:
     return 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C620);
-#endif
 #ifdef NONMATCHING
 struct C7B8Slot { u16 type; u16 arg; u16 f4; u8 f6, f7, f8, f9; u8 padA[6]; };
 struct C7B8Entry { s16 type; u16 arg; };
