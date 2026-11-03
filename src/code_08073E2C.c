@@ -854,13 +854,13 @@ struct Spr7DAC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct Ply7DAC { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[6]; s16 f3A; u8 pad3C[0x2C]; u8 team; u8 pad69[5]; u8 f6E; u8 pad6F[0x19]; u16 f88, f8A; s32 x, y; u8 pad94[0x50]; u32 hist[11]; u32 f110; u8 pad114[0x34]; u8 *sprite; };
 struct Ene7DAC { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x23]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
 struct Tbl7DAC { u8 pad0[0x2C]; u32 anim; u8 pad30[0x28]; };
-struct Pkt7DAC { u32 kind:8; u32 val:8; u32 b2:8; s32 b3:8; u32 dmg:16; u32 rest:16; };
+struct Pkt7DAC { u8 kind:8; u8 val:8; u8 b2:8; s8 b3:8; u32 dmg:16; u32 rest:16; };
 extern struct Ply7DAC p7DAC[] asm("gUnk_03003CE0");
-extern u8 *e7DACBase asm("gUnk_030056F4");
+extern struct Ene7DAC *e7DACBase asm("gUnk_030056F4");
 extern u32 f7DAC[] asm("gUnk_030063E0");
 extern u16 dir7DAC[] asm("gUnk_0847AD0A");
 extern s16 sin7DAC[] asm("gUnk_080B9704");
-extern s16 off7DAC[] asm("gUnk_084EBEBC");
+extern s16 off7DAC[][2] asm("gUnk_084EBEBC");
 extern struct Tbl7DAC tbl7DAC[] asm("gUnk_08479140");
 extern u32 e7DACMask asm("gUnk_030056FC");
 extern u16 atan7DAC(s16, s16) asm("ArcTan2");
@@ -870,7 +870,7 @@ extern void coords7DAC(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 d11c_7DAC(void) asm("sub_0800D11C");
 extern u16 dmgE7DAC(void *, void *) asm("sub_0801EF14");
 extern u16 dmgP7DAC(void *, void *) asm("sub_0801ED8C");
-extern void draw7DAC(s32, s32, u16, u16, u32, void *, u32, u32) asm("sub_08007870");
+extern void draw7DAC(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
 extern s32 effect7DAC(s32 *, u32 *, s32) asm("sub_0801FB14");
 extern void init7DAC(void *, u32, s32, s32, s32) asm("sub_08065158");
 extern void miss7DAC(s32, s32) asm("sub_08022504");
@@ -886,51 +886,50 @@ void sub_08077DAC(u32 who, u32 arg)
     s32 pos[2];
     u32 size;
     u16 tgt;
-    u32 bit;
-    u32 pal;
-    s32 n;
+    u16 bit;
+    u16 pal;
     s32 x;
+    s32 n;
     u16 a;
     s32 hit;
     u16 dir;
     u32 local;
     u8 *cfg;
-    s16 *pdx;
-    u32 w;
     struct Ene7DAC *e;
     struct Ene7DAC *te;
     struct Ply7DAC *p;
     struct Ene7DAC *q;
-    u32 t;
-    u32 ang;
+    s32 ang;
+    s32 ad;
     u16 *dp;
-    s16 diff;
+    u16 diff;
     s32 y;
     u16 i;
     u8 c;
     s32 sx, sy;
-    u8 shade;
+    u32 shade;
     u16 v;
     u32 r;
     s32 spd;
 
     spd = 20;
     local = (u16)sub_080020F4();
-    e = (struct Ene7DAC *)(e7DACBase + who * 0x2E0);
+    e = &e7DACBase[who];
     init7DAC(&spr, tbl7DAC[e->f2D8 + 10].anim, 0, -1, 0);
     spr.f1C = sub_08019D7C(e->f2D8, e->f2DA);
-    pal = 8;
     if (tbl7DAC[e->f2D8 + 10].anim == 0x500C0)
         pal = 0x10;
+    else
+        pal = 8;
     n = 3;
     bit = arg & 0xF;
-    t = arg >> 16;
-    if (t > 3) {
-        te = (struct Ene7DAC *)(e7DACBase + (t * 0x2E0 + 0xFFFFF480));
-        tgt = t;
+    arg >>= 16;
+    if (arg > 3) {
+        te = &e7DACBase[arg - 4];
+        tgt = arg;
     } else {
-        p = &p7DAC[t];
-        tgt = t;
+        p = &p7DAC[arg];
+        tgt = arg;
     }
     x = e->x;
     y = e->y;
@@ -942,26 +941,39 @@ void sub_08077DAC(u32 who, u32 arg)
         dx = (u32)(te->x - x) >> 8;
         dy = (u32)(te->y - y) >> 8;
     }
-    ang = (u32)(atan7DAC(dx, dy) << 16) >> 24;
-    if ((s32)ang > 0x80)
-        ang = (u16)(ang + 0xFFFFFF00);
+    ang = (u16)atan7DAC(dx, dy) >> 8;
+    {
+        s16 t2 = ang;
+        if (t2 > 0x80)
+            ang = (u16)(t2 - 0x100);
+    }
     a = ang;
-    if ((s16)a < 0)
-        a = (s16)a + 0x100;
-    if ((s16)a > 0x100)
-        a = (s16)a + 0xFFFFFF00;
-    dp = &dir7DAC[e->dir];
-    diff = ((s16)a >> 4) - *dp;
-    if (diff > 8)
-        diff -= 16;
-    if ((diff < 0 ? -diff : diff) > 3)
-        a = *dp;
+    {
+        s16 sa = a;
+        if (sa < 0)
+            a = sa + 0x100;
+    }
+    {
+        s16 sa = a;
+        if (sa > 0x100)
+            a = sa - 0x100;
+    }
+    ad = (u16)(((s16)a >> 4) - dir7DAC[e->dir]);
+    {
+        s16 sd = ad;
+        if (sd > 8)
+            ad = (u16)(sd - 16);
+    }
+    ad = (s16)ad;
+    if (ad < 0)
+        ad = -ad;
+    if (ad > 3)
+        a = dir7DAC[e->dir];
     cfg = cfg7DAC(e->f22C | 0xB0000);
     dir = e->dir;
-    w = who + 4;
     while (e->wait < e->threshold) {
         if (((e->f7A & 1) && sub_08056E90() != 0) || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
-            f7DAC[w] &= ~(1 << bit);
+            f7DAC[who + 4] &= ~(1 << bit);
             return;
         }
         sub_080003F0();
@@ -969,25 +981,22 @@ void sub_08077DAC(u32 who, u32 arg)
     n = n * 8 + 10;
     if (sub_0800CD34() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0)
         sub_0805865C(0x17);
-    if (n-- == 0)
-        goto clear;
-    pdx = &dx;
-loop:
+    while (n-- != 0) {
     hit = 0;
     if (tgt <= 3) {
         p = &p7DAC[local];
-        *pdx = (u32)(p->x - x) >> 8;
+        dx = (u32)(p->x - x) >> 8;
         dy = (u32)(p->y - y) >> 8;
-        if ((*pdx < 0 ? -*pdx : *pdx) > 7 || (dy < 0 ? -dy : dy) > 7)
+        if ((dx < 0 ? -dx : dx) > 7 || (dy < 0 ? -dy : dy) > 7)
             goto check;
         if ((u32)(p->sprite[0] << 28) >> 28 == 0xE || p->team == 0)
-            goto next;
+            continue;
         if (!(p->flags & 2) && cdf8_7DAC() == 0 && p->state != 10 && p->state != 11
             && e->f50 != p->hist[e->id] && p->state != 12 && sub_0800CCCC() == 0 && d11c_7DAC() == 0) {
             if (roll7DAC(e->f206, p->f3A) != 0) {
                 r = rand7DAC() % 100;
                 if (p->f6E == 0 || r >= p->f6E) {
-                    p->f88 += dmgP7DAC(e, p) & 0x7FFF;
+                    { u16 dm = dmgP7DAC(e, p) & 0x7FFF; p->f88 += dm; }
                     p->hist[e->id] = e->f50;
                     p->state = 10;
                     p->f110 = hit;
@@ -996,10 +1005,7 @@ loop:
                     v = dmgP7DAC(e, p);
                     if (v & 0x8000)
                         v &= 0x7FFF;
-                    if (v >> 2)
-                        p->f8A += v >> 2;
-                    else
-                        p->f8A += 1;
+                    p->f8A += (v >> 2) ? (v >> 2) : 1;
                     p->hist[e->id] = e->f50;
                     p->f110 = 0;
                     sub_0805865C(0x164);
@@ -1015,30 +1021,30 @@ loop:
         for (i = 0; i <= 4; i++) {
             if (!(e7DACMask & (1 << i)))
                 continue;
-            q = (struct Ene7DAC *)(e7DACBase + i * 0x2E0);
-            if (!q->active)
+            te = &e7DACBase[i];
+            if (!te->active)
                 continue;
-            *pdx = (q->x >> 8) - x;
-            dy = (q->y >> 8) - y;
-            if ((*pdx < 0 ? -*pdx : *pdx) > 7 || (dy < 0 ? -dy : dy) > 7)
+            dx = (te->x >> 8) - x;
+            dy = (te->y >> 8) - y;
+            if ((dx < 0 ? -dx : dx) > 7 || (dy < 0 ? -dy : dy) > 7)
                 continue;
-            if ((u16)(q->state - 10) <= 1 || e->f50 == q->f54 || sub_0800CCCC() != 0 || d11c_7DAC() != 0)
+            if ((u16)(te->state - 10) <= 1 || e->f50 == te->f54 || sub_0800CCCC() != 0 || d11c_7DAC() != 0)
                 continue;
-            if (roll7DAC(e->f206, q->f206) != 0) {
-                q->state = 10;
-                pkt.dmg = dmgE7DAC(e, q);
+            if (roll7DAC(e->f206, te->f206) != 0) {
+                te->state = 10;
+                pkt.dmg = dmgE7DAC(e, te);
                 pkt.val = cfg[0xBC];
                 pkt.b2 = 0;
                 pkt.b3 = 0;
-                q->f54 = e->f50;
-                pkt.kind = q->f2;
-                q->f4A += pkt.dmg;
-                q->f4C = pkt.dmg;
-                q->f62 = pkt.val;
-                q->f7C = pkt.b2;
-                q->f7E = pkt.b3;
-                q->f58 = e->id;
-                q->f5A |= 1 << local;
+                te->f54 = e->f50;
+                pkt.kind = te->f2;
+                te->f4A += pkt.dmg;
+                te->f4C = pkt.dmg;
+                te->f62 = pkt.val;
+                te->f7C = pkt.b2;
+                te->f7E = pkt.b3;
+                te->f58 = e->id;
+                te->f5A |= 1 << local;
                 send7DAC(&pkt);
             } else {
                 p->hist[e->id] = e->f50;
@@ -1049,35 +1055,31 @@ loop:
         }
     }
 check:
+    i = 0;
     if (hit)
-        goto clear;
+        break;
     pos[0] = x;
     pos[1] = y;
     size = 0x80008;
     if (effect7DAC(pos, &size, 0) != 0)
-        goto clear;
+        break;
     c = sub_0800AE50(x, y, 0);
     if ((c & 0xF) && !(c & 0x10))
-        goto clear;
+        break;
     x += sin7DAC[(s16)a + 0x40] * spd / 10;
     y += sin7DAC[(s16)a] * spd / 10;
     if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
-        sx = x >> 8;
-        sy = y >> 8;
-        coords7DAC((s16)sx, (s16)sy, pdx, &dy, 0x30, 0);
+        coords7DAC((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
         shade = sub_0800BC44(sx, sy, 0);
-        draw7DAC(*pdx + off7DAC[(s16)dir * 2], dy + (off7DAC + 1)[(s16)dir * 2], pal + dir, 0, shade, &spr.f1C, spr.f8, spr.f0);
+        draw7DAC(dx + off7DAC[(s16)dir][0], dy + off7DAC[(s16)dir][1], pal + dir, 0, shade, &spr.f1C, spr.f8, spr.f0);
     }
     sub_080003F0();
     if (sub_0800CB78() != 0 || sub_0800CD00() != 0)
-        goto clear;
+        break;
     if (((e->f7A & 1) && sub_08056E90() != 0) || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11)
-        goto clear;
-next:
-    if (n-- != 0)
-        goto loop;
-clear:
-    f7DAC[w] &= ~(1 << bit);
+        break;
+    }
+    f7DAC[who + 4] &= ~(1 << bit);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077DAC);
