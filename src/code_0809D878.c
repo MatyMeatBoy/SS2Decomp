@@ -1943,9 +1943,13 @@ void sub_080A0B44(void)
         else
             effectA0B44(5, 15, 5);
         playersA0B44[sub_080020F4()].motion = 0xFFFE;
-        player = sub_080020F4();
-        actor = *ref;
-        playersA0B44[player].seen[actor->id] = actor->serial++;
+        {
+            u32 *seen;
+            player = sub_080020F4();
+            actor = *ref;
+            seen = playersA0B44[player].seen;
+            seen[actor->id] = actor->serial++;
+        }
         hit = 1;
     next:
         sub_080003F0();

@@ -5,5 +5,7 @@ sub_080A0B44 (nov03-w5): draft 1060 vs 1056 (was 1072). Keys: sub_08097978 takes
   update `seen[...] = actor->serial++`. Left: muls dest at the target pick (r1 vs r0), r0/r2 swap
   in the first draw, and after the effect join ROM keeps the players base in r4 across the call
   (ours reloads it) -> the extra 4 bytes. Permuter 5 min: nothing.
+  `seen = players[p].seen; seen[id] = ...` lets CSE keep the base in r4 (diff 35 lines), but then
+  the index sum order is p*size+base+0xe4 first; ROM: (id*4 + p*size) + (base+0xe4).
 ets constant-folded. Permuter 5 min: nothing.
   `state == 0 || state == 1` gives the unsigned `cmp r7,#1; bhi`; switch on s32 state gives bgt.
