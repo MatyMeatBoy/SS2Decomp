@@ -919,6 +919,8 @@ struct RxEnt {
 };
 extern struct RxEnt *gRxEnts asm("gUnk_030056F4");
 extern u8 gRxPl58[] asm("gUnk_03003D38");
+extern u8 gRxPl30[] asm("gUnk_03003D10");
+struct RxEff { u16 f0; u16 f2; u16 f4; u16 f6; };
 extern u8 gRxPl38[] asm("gUnk_03003D18");
 struct RxGs {
     u8 p0[0x59C];
@@ -940,7 +942,7 @@ extern struct RxGs *gRxGs asm("gUnk_03005CF4");
 void sub_0806690C(u32 peer)
 {
     u32 d[64];
-    u32 itemData[4];
+    struct RxItem { u16 kind; u16 id; u32 rest[3]; } itemData;
     u32 myId;
     u8 *ack, *blk;
     u32 chunks;
@@ -1148,8 +1150,8 @@ restart:
                 u8 *effect;
                 if (hit[0] > 3) {
                     for (i = 0; i < 5; i++) {
-                        if ((gRxEntityMask & (1 << i)) && hit[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                            effect = (u8 *)x_sub_0801E104(RX_ENT(i), 0);
+                        if ((gRxEntityMask & (1 << i)) && hit[0] == gRxEnts[i].f2) {
+                            effect = (u8 *)x_sub_0801E104(&gRxEnts[i], 0);
                             if (effect != 0) {
                                 x_sub_0801DB94(i + 4, effect, hit[1]);
                                 *(u16 *)(effect + 6) = *(u16 *)(hit + 4);
@@ -1158,11 +1160,11 @@ restart:
                         }
                     }
                 } else if (hit[0] == sub_080020F4()) {
-                    effect = (u8 *)x_sub_0801E1A4(RX_PL(sub_080020F4()), hit[1]);
+                    effect = (u8 *)x_sub_0801E1A4(&gRxPlayers[sub_080020F4()], hit[1]);
                     if (effect != 0) {
                         x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
                     } else {
-                        effect = (u8 *)x_sub_0801E164(RX_PL(sub_080020F4()), 0);
+                        effect = (u8 *)x_sub_0801E164(&gRxPlayers[sub_080020F4()], 0);
                         if (effect != 0)
                             x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
                     }
@@ -1263,10 +1265,9 @@ restart:
             break;
         case 0x16:
             if (sub_080020F4() == 0) {
-                struct RxRec **recordSlot = &gRxPlayers[peer].f148;
                 u8 *record16;
-                if (x_sub_0805D37C(d[0], d[1], (*recordSlot)->kind) == 0) {
-                    record16 = (u8 *)x_sub_0805B2C4(d[0], d[1], (*recordSlot)->kind, &d[2]);
+                if (x_sub_0805D37C(d[0], d[1], gRxPlayers[peer].f148->kind) == 0) {
+                    record16 = (u8 *)x_sub_0805B2C4(d[0], d[1], gRxPlayers[peer].f148->kind, &d[2]);
                     if (gRxQueueCount <= 0x31) {
                         u8 *e;
                         e = gRxQueue + gRxQueueCount * 0x88;
@@ -1320,7 +1321,7 @@ restart:
             break;
         case 0x19:
             if ((d[0] >> 16) == myId) {
-                if ((u16)d[0] != 0) {
+                if ((d[0] & 0xFFFF) != 0) {
                     u8 *record;
                     u8 *item;
                     if (myId == 0)
@@ -1352,7 +1353,7 @@ restart:
                         x_sub_08066490(*(u32 *)record, *(u32 *)(record + 4), item);
                     }
                 }
-                *(u32 *)(RX_PL(myId) + 0x30) &= 0xFFFFBFFF;
+                gRxPlayers[myId].f30 &= 0xFFFFBFFF;
             }
             break;
         case 0x1A:
@@ -1361,16 +1362,16 @@ restart:
         case 0x1B:
             {
                 u8 *target = (u8 *)x_sub_08019BF8(d[0] >> 16);
-                u8 *item = (u8 *)x_sub_08007290((u16)d[0] | 0x100000);
+                u8 *item = (u8 *)x_sub_08007290((d[0] & 0xFFFF) | 0x100000);
                 u8 *effect;
                 s32 limit;
                 switch (*(u16 *)(item + 0xA0) - 1) {
                 case 0:
                 case 18:
-                    *(u16 *)(target + 0x5C) += (s32)(*(u16 *)(item + 0xA2) * (d[1] * 40 + 100)) / 100;
-                    limit = *(s16 *)(target + 0x20A) * 3;
-                    if (*(s16 *)(target + 0x5C) > limit)
-                        *(u16 *)(target + 0x5C) = limit;
+                    limit = (s32)((d[1] * 40 + 100) * *(u16 *)(item + 0xA2)) / 100;
+                    *(u16 *)(target + 0x5C) += limit;
+                    if (*(s16 *)(target + 0x5C) > *(s16 *)(target + 0x20A) * 3)
+                        *(u16 *)(target + 0x5C) = *(s16 *)(target + 0x20A) * 3;
                     break;
                 case 5:
                     *(u16 *)(target + 0x204) += *(u16 *)(item + 0xA2);
@@ -1378,11 +1379,11 @@ restart:
                 case 6:
                     *(u16 *)(target + 0x206) += *(u16 *)(item + 0xA2);
                     break;
-                case 7:
-                    *(u16 *)(target + 0x208) += *(u16 *)(item + 0xA2);
-                    break;
                 case 8:
                     *(u16 *)(target + 0x20A) += *(u16 *)(item + 0xA2);
+                    break;
+                case 7:
+                    *(u16 *)(target + 0x208) += *(u16 *)(item + 0xA2);
                     break;
                 case 9:
                     effect = (u8 *)x_sub_0801E104(target, 0);
@@ -1402,24 +1403,23 @@ restart:
             }
             break;
         case 0x1C:
-            if ((u16)d[0] == myId) {
-                *(u16 *)itemData = 1;
-                *((u16 *)itemData + 1) = d[0] >> 16;
-                if (x_sub_0805BD5C(itemData, d[1]) == 0) {
-                    if (x_sub_0805AB20(itemData) == 0)
-                        x_sub_08066490(*(u32 *)(RX_PL(myId) + 0x8C), *(u32 *)(RX_PL(myId) + 0x90), itemData);
-                } else if (itemData[0] == 0x60001 && x_sub_0800CC98() != 0) {
+            if ((d[0] & 0xFFFF) == myId) {
+                itemData.kind = 1;
+                itemData.id = d[0] >> 16;
+                if (x_sub_0805BD5C(&itemData, d[1]) == 0) {
+                    if (x_sub_0805AB20(&itemData) == 0)
+                        x_sub_08066490(gRxPlayers[myId].f8C, gRxPlayers[myId].f90, &itemData);
+                } else if (*(u32 *)&itemData == 0x60001 && x_sub_0800CC98() != 0) {
                     *(u32 *)(gRxMiscP + 0x24) = 0;
                 }
             }
             break;
         case 0x1D: /* tag 0x9E */
-            pl = RX_PL(peer);
-            x_sub_08065918(pl, d[0]);
+            x_sub_08065918(&gRxPlayers[peer], d[0]);
             break;
         case 0x1E:
             x_sub_0800D12C();
-            x_sub_08056FB8(*(u16 *)(RX_PL(myId) + 0x2E), *(u16 *)(RX_PL(myId) + 0x2C));
+            x_sub_08056FB8(gRxPlayers[myId].f2E, gRxPlayers[myId].f2C);
             x_sub_08057170();
             x_sub_0805865C(0x24);
             break;
@@ -1438,13 +1438,13 @@ restart:
             break;
         case 0x21:
             for (i = 0; i < 5; i++) {
-                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                    u8 *effect = (u8 *)x_sub_0801E104(RX_ENT(i), d[1]);
+                if ((gRxEntityMask & (1 << i)) && d[0] == gRxEnts[i].f2) {
+                    struct RxEff *effect = (struct RxEff *)x_sub_0801E104(&gRxEnts[i], d[1]);
                     if (effect != 0) {
-                        *(u16 *)(effect + 4) = d[1];
-                        *(u16 *)(effect + 2) = peer;
-                        if (*(u16 *)(RX_PL(*(u16 *)(effect + 2)) + 0xC) == 5 && *(u16 *)(effect + 4) == 6)
-                            *(u16 *)effect = 0x168;
+                        effect->f4 = d[1];
+                        effect->f2 = peer;
+                        if (gRxPlayers[effect->f2].fC == 5 && effect->f4 == 6)
+                            effect->f0 = 0x168;
                     }
                 }
             }
@@ -1459,36 +1459,34 @@ restart:
             x_sub_080793BC(peer);
             break;
         case 0x25:
-            pl = RX_PL(peer);
-            *(u16 *)(pl + 0x11E) = d[0];
+            gRxPlayers[peer].f11E = *(u16 *)d;
             break;
         case 0x26:
             if (d[0] == myId) {
-                u32 playerStride = 0x14C;
-                u32 playerOffset;
-                u8 *playerBase = (u8 *)gUnk_03003CE0;
-                u8 *player;
+                u32 off;
+                struct RxPlayer *pp;
                 u32 *role;
-                asm("" : "+r"(playerStride));
-                playerOffset = myId * playerStride;
-                player = playerBase + playerOffset;
-                *(u16 *)(player + 0xC4) = *(u16 *)(player + 0x62);
-                *(u32 *)(player + 0x30) &= 0xFFFFDFFF;
-                player[0x68] = 1;
-                if (*(u16 *)(player + 0x20) == 0xB)
-                    *(u16 *)(player + 0x20) = 0;
+                u32 one;
+                off = myId * 0x14C;
+                pp = (struct RxPlayer *)((u8 *)gRxPlayers + off);
+                pp->fC4 = pp->f62;
+                *(u32 *)(gRxPl30 + off) &= 0xFFFFDFFF;
+                one = 1;
+                pp->f68 = one;
+                if (pp->f20 == 0xB)
+                    pp->f20 = 0;
                 if (gRxQueueCount <= 0x31) {
                     u8 *e;
                     e = gRxQueue + gRxQueueCount * 0x88;
-                    *(u32 *)(e + 4) = 1;
+                    *(u32 *)(e + 4) = one;
                     e[0] = 0x8C;
-                    *(u32 *)(e + 8) = *(u32 *)(RX_PL(sub_080020F4()) + 0x30);
-                    e[1] = 1;
+                    *(u32 *)(e + 8) = *(u32 *)(gRxPl30 + sub_080020F4() * 0x14C);
+                    e[1] = one;
                     gRxQueueCount++;
                 }
                 sub_0806617C();
-                role = (u32 *)(playerBase + 0xE0 + playerOffset);
-                x_sub_08022200(*(u16 *)player, *role);
+                role = (u32 *)((u8 *)gRxPlayers + 0xE0 + off);
+                x_sub_08022200(*(u16 *)pp, *role);
                 switch (*role - 1) {
                 case 0: *(u16 *)(gRxProfile + 0x24) += 1; break;
                 case 1: *(u16 *)(gRxProfile + 0x26) += 1; break;
@@ -1512,27 +1510,35 @@ restart:
             break;
         case 0x2A:
             if (x_sub_0800CE30() != 0) {
-                *(u32 *)(gRxGameState + 0x7C) = d[0];
-                *(u32 *)(gRxGameState + 0x80) = d[1];
-                *(u32 *)(gRxGameState + 0x74) = 0;
-                *(u32 *)(gRxGameState + 0x78) = 0;
+                u8 *gs = gRxGameState;
+                *(u32 *)(gs + 0x7C) = d[0];
+                *(u32 *)(gs + 0x80) = d[1];
+                *(u32 *)(gs + 0x74) = 0;
+                *(u32 *)(gs + 0x78) = 0;
             } else {
-                *(u32 *)(gRxGameState + 0x74) = d[0];
-                *(u32 *)(gRxGameState + 0x78) = d[1];
-                *(u32 *)(gRxGameState + 0x7C) = 0;
-                *(u32 *)(gRxGameState + 0x80) = 0;
+                u8 *gs = gRxGameState;
+                *(u32 *)(gs + 0x74) = d[0];
+                *(u32 *)(gs + 0x78) = d[1];
+                *(u32 *)(gs + 0x7C) = 0;
+                *(u32 *)(gs + 0x80) = 0;
             }
             {
                 u8 *src = (u8 *)&d[2];
-                for (i = 0; i < 7; i++)
-                    gRxGameState[0x1B0 + i] = *src++;
-                for (i = 0; i < 7; i++)
-                    gRxGameState[0x1BC + i] = *src++;
-                for (i = 0; i < 5; i++)
-                    gRxGameState[0x1B7 + i] = *src++;
-                for (i = 0; i < 5; i++)
-                    gRxGameState[0x1C3 + i] = *src++;
-                *(u32 *)(gRxGameState + 0x70) = *src != 0 ? 1 : 2;
+                u32 n, k;
+                n = 7;
+                for (k = 0; k < n; k++)
+                    (gRxGameState + 0x1B0)[k] = *src++;
+                for (k = 0; k < n; k++)
+                    (gRxGameState + 0x1BC)[k] = *src++;
+                n = 5;
+                for (k = 0; k < n; k++)
+                    (gRxGameState + 0x1B7)[k] = *src++;
+                for (k = 0; k < n; k++)
+                    (gRxGameState + 0x1C3)[k] = *src++;
+                if (*src != 0)
+                    *(u32 *)(gRxGameState + 0x70) = 1;
+                else
+                    *(u32 *)(gRxGameState + 0x70) = 2;
             }
             break;
         case 0x2B:
