@@ -23915,14 +23915,14 @@
       "name": "sub_08074DE8",
       "addr": 134696424,
       "size": 672,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08074DE8",
       "canonical_symbol": "sub_08074DE8",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08074DE8",
       "name_status": "unidentified",
       "name_source": null,
@@ -33349,7 +33349,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 426,
+          "line": 436,
           "detail": "Existing C definition with an asm alias to the canonical symbol: clearTask60F4"
         }
       ]
@@ -33372,7 +33372,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 467,
+          "line": 477,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B6178_v"
         }
       ]
