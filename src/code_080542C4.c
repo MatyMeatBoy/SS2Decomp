@@ -228,8 +228,59 @@ void sub_08054748(void)
             sub_080003F0();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054904);
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054CE8);
+void sub_08054904(void)
+{
+    spawn54((void (*)(void))sub_0805664C, 0x14);
+    spawn54((void (*)(void))sub_0805664C, 0x15);
+    spawn54((void (*)(void))sub_0805664C, 0x16);
+    spawn54((void (*)(void))sub_0805664C, 0x17);
+    spawn54((void (*)(void))sub_0805664C, 0x18);
+    spawn54((void (*)(void))sub_0805664C, 0x19);
+    spawn54((void (*)(void))sub_0805664C, 0x1A);
+    spawn54((void (*)(void))sub_0805664C, 0x1B);
+    spawn54((void (*)(void))sub_0805664C, 0x1C);
+    spawn54((void (*)(void))sub_0805664C, 0x1D);
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+}
+void sub_08054CE8(void)
+{
+    spawn54((void (*)(void))sub_0805664C, 0x1E);
+    spawn54((void (*)(void))sub_0805664C, 0x1F);
+    spawn54((void (*)(void))sub_0805664C, 0x20);
+    spawn54((void (*)(void))sub_0805664C, 0x21);
+    spawn54((void (*)(void))sub_0805664C, 0x22);
+    spawn54((void (*)(void))sub_0805664C, 0x23);
+    spawn54((void (*)(void))sub_0805664C, 0x24);
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+}
 void sub_08054FB8(void)
 {
     spawn54((void (*)(void))sub_0805664C, 0x25);
@@ -252,7 +303,34 @@ void sub_08054FB8(void)
             sub_080003F0();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08055174);
+void sub_08055174(void)
+{
+    spawn54((void (*)(void))sub_0805664C, 0x29);
+    spawn54((void (*)(void))sub_0805664C, 0x2A);
+    spawn54((void (*)(void))sub_0805664C, 0x2B);
+    spawn54((void (*)(void))sub_0805664C, 0x2C);
+    spawn54((void (*)(void))sub_0805664C, 0x2D);
+    spawn54((void (*)(void))sub_0805664C, 0x2E);
+    spawn54((void (*)(void))sub_0805664C, 0x2F);
+    spawn54((void (*)(void))sub_0805664C, 0x30);
+    spawn54((void (*)(void))sub_0805664C, 0x31);
+    spawn54((void (*)(void))sub_0805664C, 0x32);
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+}
 void sub_0805664C(s32);
 static inline void spawn56(void (*cb)(s32), s32 arg)
 {
