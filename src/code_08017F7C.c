@@ -54,7 +54,7 @@ s32 sub_08017F7C(void *arg0)
 struct T015LPollPlayer { u8 pad[0x2C]; u16 field2C; };
 extern struct T015LPollPlayer T015L_poll_players[] asm("gUnk_03003CE0");
 #ifdef NONMATCHING
-struct T015LActor { u16 f0; u16 f2; u16 f4; u16 f6; u16 f8; u8 padA[0x2]; u16 fC; u16 fE; u8 pad10[0x4]; s32 f14; s32 f18; s32 f1C; s32 f20; u8 pad24[0xC]; s32 f30; s32 f34; u8 pad38[0x4]; s32 f3C; u8 pad40[0x2]; s16 f42; s16 f44; u8 pad46[0x4]; s16 f4A; s32 f4C; s32 f50; s32 f54; u8 pad58[0x2]; u16 f5A; s16 f5C; s16 f5E; s16 f60; u16 f62; s16 f64; s16 f66; u16 f68; s16 f6A; s16 f6C; u16 f6E; u16 f70; u16 f72; s16 f74; u8 pad76[0x6]; u16 f7C; u16 f7E; s16 f80; s16 f82; u8 f84; u8 pad85[0x1]; u8 f86; u8 pad87[0x1]; u16 f88; u8 pad8A[0x14A]; s16 f1D4; s16 f1D6; u8 pad1D8[0x4]; s8 f1DC; u8 pad1DD[0x1F]; u8 f1FC; u8 f1FD; u8 f1FE; u8 pad1FF[0x2]; u8 f201; u8 pad202[0x24]; u8 f226; u8 pad227[0x1]; u16 f228; u8 pad22A[0xB6]; };
+struct T015LActor { u16 f0; u16 f2; u16 f4; u16 f6; u16 f8; u8 padA[0x2]; u16 fC; u16 fE; u8 pad10[0x4]; s32 f14; s32 f18; s32 f1C; s32 f20; u8 pad24[0xC]; s32 f30; s32 f34; u8 pad38[0x4]; s32 f3C; u8 pad40[0x2]; s16 f42; s16 f44; u8 pad46[0x4]; s16 f4A; s32 f4C; s32 f50; s32 f54; u8 pad58[0x2]; u16 f5A; s16 f5C; s16 f5E; s16 f60; u16 f62; u16 f64; u16 f66; u16 f68; s16 f6A; s16 f6C; u16 f6E; u16 f70; u16 f72; u16 f74; u8 pad76[0x6]; u16 f7C; u16 f7E; s16 f80; s16 f82; u8 f84; u8 pad85[0x1]; u8 f86; u8 pad87[0x1]; u16 f88; u8 pad8A[0x14A]; s16 f1D4; s16 f1D6; u8 pad1D8[0x4]; s8 f1DC; u8 pad1DD[0x1F]; u8 f1FC; u8 f1FD; u8 f1FE; u8 pad1FF[0x2]; u8 f201; u8 pad202[0x24]; u8 f226; u8 pad227[0x1]; u16 f228; u8 pad22A[0xB6]; };
 struct T015LAnim { s32 f0,f4,f8,fC,f10,f14,f18; s8 data[24]; };
 struct T015LStack { u32 packet[4]; struct T015LAnim main,auxA,auxB,base; s16 x,y; u16 step; s16 state; u16 phase,phase2; s32 rng; u32 flags; };
 #define T015L_FIELD(p,t,o) (*(t)((u8 *)(p)+(o)))
@@ -81,1187 +81,682 @@ extern void T015L_sub_0807854C(u16, s16) asm("sub_0807854C");
 extern void T015L_sub_08078B24(u16, s16) asm("sub_08078B24");
 extern u8 T015L_gUnk_08479140[] asm("gUnk_08479140");
 extern u8 T015L_gUnk_0848FA0C[] asm("gUnk_0848FA0C");
+struct T015LData { s16 f0; u8 p2[2]; s16 f4; s16 f6; s16 f8; u8 pA[0x16]; u16 f20; u8 p22[4]; u8 f26; u8 p27[0x1D]; u8 f44; s8 f45; s8 f46; u8 p47[0x8D]; u16 fD4; u16 fD6; };
+struct T015LAnimDef { u32 a; u8 p4[0x28]; u32 b; u8 p30[0x28]; };
+struct T015LScale { u32 a, b, c; };
+extern struct T015LAnimDef T015L_anims[] asm("gUnk_08479140");
+extern struct T015LScale T015L_scales[] asm("gUnk_0848FA0C");
+#define T015L_DRAW ((void (*)(s32, s32, u16, u16, u32, void *, u32, u32))T015L_sub_08007870)
+#define T015L_F7A T015L_FIELD(arg0, u16 *, 0x7A)
+#define T015L_STATE (*(u16 *)gUnk_03005CF4)
 void sub_0801801C(struct T015LActor *arg0) {
     struct T015LStack stack;
-    s32 local0;
-    void * local4;
-    u32 local8;
-    u32 localC;
-    u32 failureLimit015;
     s32 local104;
-    s32 local108;
-    s32 local10C;
+    u32 local108;
+    u32 local10C;
     s32 local110;
-    s32 local114;
-    void *sp118;
+    u16 local114;
+    struct T015LData *sp118;
     s32 local11C;
-    s32 local120;
+    u16 local120;
     s32 local124;
-    u32 local128;
-    s32 shutdown_end;
+    u16 local128;
     s32 local12C;
-    u16 * local130;
-    s32 local134;
-    void *sp138;
-    s32 * local13C;
-    u16 * local140;
-    u16 * local144;
-    u16 * local148;
-    u16 * local14C;
-    u16 * local150;
-    s16 * local154;
-    u16 * local158;
-    u16 * local15C;
-    u16 * local160;
-    u16 * local164;
-    s16 *var_r9;
-    s16 temp_r0_12;
-    s16 temp_r0_5;
-    s16 temp_r0_6;
-    s16 var_r0_2;
-    s16 var_r0_5;
-    s16 var_r1;
-    s32 *var_r6;
-    s32 temp_r0_13;
-    s32 temp_r0_14;
-    s32 temp_r0_18;
-    s32 temp_r0_20;
-    s32 temp_r0_21;
-    s32 temp_r0_23;
-    s32 temp_r0_4;
-    s32 temp_r0_7;
-    s32 temp_r0_9;
-    s32 temp_r5;
-    s32 var_r2;
-    s32 var_r2_6;
-    s8 temp_r0_19;
-    struct Player *temp_r1_9;
-    u16 *var_r5;
-    u16 temp_r0;
-    u16 temp_r0_10;
-    u16 temp_r0_11;
-    u16 temp_r0_15;
-    u16 temp_r0_17;
-    u16 temp_r0_22;
-    u16 temp_r0_25;
-    u16 temp_r0_8;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 temp_r1_3;
-    u16 temp_r1_4;
-    u16 temp_r1_5;
-    u16 temp_r1_6;
-    u16 temp_r1_7;
-    u16 temp_r1_8;
-    u16 temp_r2;
-    u16 temp_r2_2;
-    u16 temp_r3;
-    u16 var_r0;
-    u16 var_r0_3;
-    u16 var_r0_4;
-    u16 var_r2_2;
-    u16 var_r2_4;
-    u16 var_r2_5;
-    u16 var_r3;
-    u32 temp_r0_16;
-    u32 temp_r0_26;
-    u32 temp_r0_3;
-    u32 var_r2_3;
-    u8 temp_r0_24;
-    u8 temp_r0_2;
-    u8 var_r8;
+    u32 failureLimit015;
+    u32 count;
+    s32 dir;
+    u8 bg;
+    u16 v;
+    s32 h;
+    u16 w;
 
-    sp118 = (u8 *)arg0 + 0x204;
-    (local10C) = (s32) arg0->fC;
-    (local160) = (u8 *)arg0 + 0x2D8;
-    (local164) = (u8 *)arg0 + 0x2DA;
-    /* The original keeps the retry sentinel live across the polling calls. */
+    sp118 = (struct T015LData *)((u8 *)arg0 + 0x204);
+    local10C = arg0->fC;
     failureLimit015 = 0xFFFF;
-    asm("" : "+r"(failureLimit015));
-    goto loop_5;
-retry_resource:
-    arg0->fC = 0xBU;
-    if ((sub_0800CB78() != 0) || (sub_08056E90() != 0)) {
-        gUnk_030056FC &= ~(1 << arg0->f0);
-        T015L_sub_080571A4(arg0->f86, arg0->f84, 1);
-        return;
+    while ((local114 = T015L_sub_08016E04(sp118->fD4, sp118->fD6)) == failureLimit015) {
+        arg0->fC = 0xB;
+        if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
+            gUnk_030056FC &= ~(1 << arg0->f0);
+            T015L_sub_080571A4(arg0->f86, arg0->f84, 1);
+            return;
+        }
+        sub_080003F0();
     }
-    sub_080003F0();
-    goto loop_5;
-loop_5:
-    temp_r0 = T015L_sub_08016E04(T015L_FIELD(sp118, u16 *, 0xD4), T015L_FIELD(sp118, u16 *, 0xD6));
-    (local114) = (s32) temp_r0;
-    if (temp_r0 == failureLimit015) goto retry_resource;
-    {
-        arg0->fC = (u16) (local10C);
-        (local10C) = 0xFFFF;
-        T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
-        asm volatile("");
-        T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
-        asm volatile("");
-        T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
-        asm volatile("");
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-            sub_08000AF0(0x17U, stack.auxA.fC, 2U);
-        }
-        stack.auxA.data[0] = 7;
-        stack.auxA.data[1] = 8;
-        stack.auxB.data[0] = 7;
-        stack.auxB.data[1] = 8;
-        arg0->f68 = (u16) arg0->f8;
-        arg0->f6C = 0;
-        arg0->f6A = 0;
-        (local108) = 0xFFFF;
-        arg0->f64 = 0x1E;
-        arg0->f66 = 0;
-        temp_r2 = arg0->fC;
-        (local14C) = (u8 *)arg0 + 0x68;
-        (local154) = (u8 *)arg0 + 0x6C;
-        (local150) = (u8 *)arg0 + 0x6A;
-        (local144) = (u8 *)arg0 + 0x64;
-        (local148) = (u8 *)arg0 + 0x66;
-        switch (temp_r2) {                          /* switch 1; irregular */
-        case 14:                                    /* switch 1 */
-            (local11C) = 1;
-            arg0->f1DC = 0;
-            break;
-        case 15:                                    /* switch 1 */
-            (local11C) = 0;
-            arg0->f1DC = 0;
-            break;
-        case 0:                                     /* switch 1 */
-            (local11C) = 0;
-            arg0->f1DC = 2;
-            break;
-        }
-        temp_r0_2 = arg0->f226;
-        if (((s32) temp_r0_2 <= 7) && ((s32) temp_r0_2 >= 4)) {
-            arg0->f1DC = 0;
-        }
-        (local120) = 0xFFFF;
-        (local130) = (u8 *)arg0 + 0x74;
-        arg0->f74 = 1;
-        arg0->f44 = 0;
-        arg0->f6 = 0U;
-        arg0->f4 = 0U;
-        arg0->f42 = 0;
-        arg0->f44 = 0;
-        sp138 = ((u8 *)&stack.state);
-        stack.state = 0;
-        stack.step = 0;
-        arg0->f60 = 0xFFC4;
-        arg0->f4C = 0;
-        (local104) = 0;
-        arg0->f4A = 0;
-        arg0->f54 = (local120);
-        (local12C) = 1;
-        stack.phase2 = (local104);
-        (local13C) = ((u8 *)&stack.phase);
-        stack.phase = (u16) (local104);
-        stack.rng = (local104);
-        temp_r0_3 = sub_08002164();
-        temp_r0_4 = temp_r0_3 * 0xC;
-        (local134) = temp_r0_4;
-        T015L_FIELD(sp118, s16 *, 6) = (s16) ((u32) (T015L_FIELD(sp118, s16 *, 6) * *(u32 *)(temp_r0_4 + (u8 *)T015L_gUnk_0848FA0C)) / 100U);
-        (local158) = (local130);
-        (local140) = (u8 *)arg0 + 0x60;
-        if (temp_r0_3 > 1U) {
-            T015L_FIELD(sp118, s16 *, 0) = (s16) ((u32) ((T015L_FIELD(sp118, s16 *, 0) + 2) * *(u32 *)((local134) + ((u8 *)T015L_gUnk_0848FA0C + 4))) / 100U);
-        }
-        temp_r0_5 = T015L_FIELD(sp118, s16 *, 6) * 3;
-        arg0->f1D6 = temp_r0_5;
-        arg0->f5C = temp_r0_5;
-        temp_r0_6 = T015L_FIELD(sp118, s16 *, 4) * 0xA * 2;
-        arg0->f1D4 = temp_r0_6;
-        arg0->f5E = temp_r0_6;
-        (local124) = 1;
-        (local15C) = (u8 *)arg0 + 0x5E + 0x1C;
-    goto loop_341;
-loop_body:
-                *(local158) += 1;
-                if ((sub_0800CB9C() != 0) && (sub_08002204() != 0)) {
-                    temp_r0_8 = *(local140);
-                    *(local140) = temp_r0_8 + 1;
-                    if ((s32) (temp_r0_8 << 0x10) > 0x012C0000) {
-                        sub_080663A4((u32) arg0->f0);
-                        *(local140) = (u16) temp_r0_7;
-                    }
-                }
-                if (arg0->f228 == 0xFFFF) {
-                    T015L_sub_08020680(arg0);
-                    if ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20)) {
-                        arg0->f50 = (s32) (arg0->f50 + 1);
-                    }
-                }
-                temp_r0_9 = sub_08065AE8();
-                if (temp_r0_9 == 0) {
-                    T015L_sub_0801C8F0(arg0);
-                    T015L_sub_08016F28(arg0);
-                    if ((u32) (u16) (arg0->f62 - 9) <= 1U) {
-                        arg0->f4 = (u16) temp_r0_9;
-                        arg0->f6 = (u16) temp_r0_9;
-                    }
-                } else {
-                    arg0->f4 = 0U;
-                    arg0->f6 = 0U;
-                }
-                temp_r0_10 = arg0->fC;
-                var_r5 = (u8 *)arg0 + 0x7C;
-                var_r9 = (u8 *)arg0 + 0x6E;
-                switch ((u32) temp_r0_10) {         /* switch 2; irregular */
-                case 0:                             /* switch 2 */
-                    var_r2 = 0;
-                    temp_r1 = arg0->f4;
-                    if (0x40 & temp_r1) {
-                        var_r2 = 5;
-                    } else if (0x80 & temp_r1) {
-                        var_r2 = 1;
-                    }
-                    if (0x20 & temp_r1) {
-                        if (var_r2 == 5) {
-                            var_r2 = 4;
-                        } else if (var_r2 == 1) {
-                            var_r2 = 2;
-                        } else {
-                            var_r2 = 3;
-                        }
-                    } else if (0x10 & temp_r1) {
-                        if (var_r2 == 5) {
-                            var_r2 = 6;
-                        } else if (var_r2 == 1) {
-                            var_r2 = 8;
-                        } else {
-                            var_r2 = 7;
-                        }
-                    }
-                    if ((arg0->f1FD == 0xE) && (arg0->f1FE == 2)) {
-                        *(local158) = T015L_FIELD(sp118, u16 *, 0x20) + 1;
-                    }
-                    temp_r1_2 = arg0->f6;
-                    if ((1 & temp_r1_2) && ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20))) {
-                        arg0->fC = 2U;
-                        *(local154) = 0;
-                        *(local150) = 0;
-                        var_r5 = (u8 *)arg0 + 0x7C;
-                        var_r9 = (u8 *)arg0 + 0x6E;
-                    } else if ((2 & temp_r1_2) && ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20))) {
-                        if (var_r2 != 0) {
-                            var_r0 = var_r2 - 1;
-                        } else {
-                            var_r0 = arg0->f8;
-                        }
-                        arg0->f8 = var_r0;
-                        arg0->fC = 9U;
-                        *(local154) = 0;
-                        *(local150) = 0;
-block_120:
-                        var_r5 = (u8 *)arg0 + 0x7C;
-                        var_r9 = (u8 *)arg0 + 0x6E;
-                    } else if (var_r2 != 0) {
-                        arg0->fC = 1U;
-                        var_r5 = (u8 *)arg0 + 0x7C;
-                        var_r9 = (u8 *)arg0 + 0x6E;
-                    } else {
-                        sub_08015DC0(&stack.rng);
-block_98:
-                        var_r5 = (u8 *)arg0 + 0x7C;
-                        var_r9 = (u8 *)arg0 + 0x6E;
-                    }
-                default:                            /* switch 2 */
-block_125:
-                    if (*var_r5 != 0) {
-block_126:
-                        (local0) = 0;
-                        sub_08013E90((s32) arg0->f80, (u8 *)arg0 + 0x14, arg0->f7E, 0, ((local0)));
-                        temp_r0_11 = *var_r5 - 1;
-                        *var_r5 = temp_r0_11;
-                        temp_r3 = temp_r0_11;
-                        if (temp_r3 == 0) {
-                            temp_r0_12 = arg0->f82;
-                            if (temp_r0_12 != 0) {
-                                temp_r0_13 = (s32) (temp_r0_12 + ((u32) temp_r0_12 >> 0x1F)) >> 1;
-                                *var_r5 = (u16) temp_r0_13;
-                                if ((u32) (u16) temp_r0_13 > 3U) {
-                                    *var_r5 = 4;
-                                }
-                                arg0->f82 = (s16) temp_r3;
-                                var_r0_2 = 0x200;
-                                goto block_134;
-                            }
-                            goto block_132;
-                        }
-                        if (arg0->f82 == 0) {
-block_132:
-                            temp_r0_14 = (s32) ((u16) arg0->f80 << 0x10) >> 0x11;
-                            arg0->f80 = (s16) temp_r0_14;
-                            if (temp_r0_14 <= 0x3F) {
-                                var_r0_2 = 0x40;
-block_134:
-                                arg0->f80 = var_r0_2;
-                            }
-                        }
-                    }
-                    break;
-                case 1:                             /* switch 2 */
-                    var_r2_2 = 0;
-                    temp_r1_3 = arg0->f4;
-                    if (0x40 & temp_r1_3) {
-                        var_r2_2 = 5;
-                    } else if (0x80 & temp_r1_3) {
-                        var_r2_2 = 1;
-                    }
-                    if (0x20 & temp_r1_3) {
-                        if (var_r2_2 == 5) {
-                            var_r2_2 = 4;
-                        } else if (var_r2_2 == 1) {
-                            var_r2_2 = 2;
-                        } else {
-                            var_r2_2 = 3;
-                        }
-                    } else if (0x10 & temp_r1_3) {
-                        if (var_r2_2 == 5) {
-                            var_r2_2 = 6;
-                        } else if (var_r2_2 == 1) {
-                            var_r2_2 = 8;
-                        } else {
-                            var_r2_2 = 7;
-                        }
-                    }
-                    temp_r1_4 = arg0->f6;
-                    if ((1 & temp_r1_4) && ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20))) {
-                        if (var_r2_2 != 0) {
-                            var_r0_3 = var_r2_2 - 1;
-                        } else {
-                            var_r0_3 = arg0->f8;
-                        }
-                        arg0->f8 = var_r0_3;
-                        arg0->fC = 2U;
-                        *(local154) = 0;
-                        *(local150) = 0;
-                        *(local158) = 0;
-                        goto block_120;
-                    }
-                    if ((2 & temp_r1_4) && ((u32) *(local158) > (u32) T015L_FIELD(sp118, u16 *, 0x20))) {
-                        if (var_r2_2 != 0) {
-                            var_r0_4 = var_r2_2 - 1;
-                        } else {
-                            var_r0_4 = arg0->f8;
-                        }
-                        arg0->f8 = var_r0_4;
-                        arg0->fC = 9U;
-                        *(local154) = 0;
-                        *(local150) = 0;
-                        goto block_98;
-                    }
-                    if (var_r2_2 == 0) {
-                        arg0->fC = var_r2_2;
-                        var_r5 = (u8 *)arg0 + 0x7C;
-                        var_r9 = (u8 *)arg0 + 0x6E;
-                        goto block_125;
-                    }
-                    arg0->f8 = (u16) (var_r2_2 - 1);
-                    var_r5 = (u8 *)arg0 + 0x7C;
-                    var_r9 = (u8 *)arg0 + 0x6E;
-                    if (arg0->f7C != 0) {
-                        goto block_126;
-                    }
-                    T015L_sub_08015DE0(&stack.rng, (s16) T015L_FIELD(sp118, s16 *, 8) >> stack.flags);
-                    goto block_125;
-                case 2:                             /* switch 2 */
-                    sub_08015DC0(&stack.rng);
-                    var_r5 = (u8 *)arg0 + 0x7C;
-                    var_r9 = (u8 *)arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (arg0->f6E != 0)) {
-                        arg0->f50 = (s32) (arg0->f50 + 1);
-                        arg0->fC = 0U;
-                        *(local158) = 0;
-                    }
-                    goto block_125;
-                case 9:                             /* switch 2 */
-                    sub_08015DC0(&stack.rng);
-                    var_r5 = (u8 *)arg0 + 0x7C;
-                    var_r9 = (u8 *)arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (arg0->f6E != 0) && ((local10C) == arg0->fC)) {
-                        arg0->fC = 0U;
-                        *(local158) = 0;
-                    }
-                    goto block_125;
-                case 10:                            /* switch 2 */
-                    sub_08015DC0(&stack.rng);
-                    var_r5 = (u8 *)arg0 + 0x7C;
-                    var_r9 = (u8 *)arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (arg0->f6E != 0) && ((local10C) == arg0->fC)) {
-                        arg0->f1DC = 2;
-                        temp_r0_15 = T015L_sub_08019CE8(arg0);
-                        *(local148) = temp_r0_15;
-                        if ((temp_r0_15 << 0x10) == 0) {
-                            arg0->fC = 0U;
-                        } else if (8 & *(local15C)) {
-                            *(local144) = 0;
-                            *(local148) = 0;
-                        } else {
-                            *(local144) = 0x1E;
-                        }
-                    }
-                    goto block_125;
-                case 11:                            /* switch 2 */
-                    sub_08015DC0(&stack.rng);
-                    goto block_120;
-                case 15:                            /* switch 2 */
-                    var_r5 = (u8 *)arg0 + 0x7C;
-                    var_r9 = (u8 *)arg0 + 0x6E;
-                    if ((*(local14C) == (local108)) && (arg0->f6E != 0) && ((local10C) == arg0->fC)) {
-                        arg0->fC = 0U;
-                        arg0->f1DC = 2;
-                    }
-                    goto block_125;
-                }
-                if (stack.rng != 0) {
-                    arg0->f1C = (s32) arg0->f14;
-                    arg0->f20 = (s32) arg0->f18;
-                    (local0) = 0;
-                    sub_08013E90((s16) T015L_FIELD(sp118, s16 *, 8) >> stack.flags, (u8 *)arg0 + 0x14, arg0->f8, 0, ((local0)));
-                }
-                if (sub_0800CD8C() == 0) {
-                    T015L_sub_08017C6C(arg0);
-                }
-                temp_r2_2 = arg0->fC;
-                var_r6 = &stack.main.f0;
-                switch (temp_r2_2) {                /* switch 3 */
-                case 0:                             /* switch 3 */
-                    var_r6 = &stack.main.f0;
-                    if (((local10C) != arg0->fC) && ((local10C) != 1) && ((local10C) != 0xA)) {
-                        T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, 0);
-                        asm volatile("");
-                    }
-                    (local10C) = (s32) arg0->fC;
-                    (local108) = 0xFFFF;
-                    *(local14C) = arg0->f8;
-                    (local110) = 1;
-                    break;
-                case 1:                             /* switch 3 */
-                    var_r6 = &stack.main.f0;
-                    if (((local10C) != arg0->fC) && ((local10C) != 0) && ((local10C) != 0xA)) {
-                        T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, 0);
-                        asm volatile("");
-                    }
-                    (local10C) = (s32) arg0->fC;
-                    (local108) = 0xFFFF;
-                    *(local14C) = arg0->f8 + 8;
-                    (local110) = 1;
-                    break;
-                case 2:                             /* switch 3 */
-                    if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
-                        T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, 0);
-                        asm volatile("");
-                        *(local158) = 0;
-                        (local10C) = (s32) arg0->fC;
-                        *(local14C) = arg0->f8;
-                        var_r6 = &stack.main.f0;
-                        (local108) = (s32) *(local14C);
-                        arg0->f50 = (s32) (arg0->f50 + 1);
-                    }
-                    T015L_sub_08020680(arg0);
-block_208:
-                    (local110) = 0;
-                    break;
-                case 9:                             /* switch 3 */
-                    if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
-                        (local10C) = (s32) temp_r2_2;
-                        *(local14C) = arg0->f8 + T015L_FIELD(sp118, u8 *, 0x26);
-                        if (2 & arg0->f201) {
-                            var_r2_3 = ((u8) arg0->f1FC >> 4) + 4;
-                        } else {
-                            var_r2_3 = (u8) arg0->f1FC >> 4;
-                        }
-                        temp_r0_16 = arg0->f1FD - 0x12;
-                        var_r6 = &stack.main.f0;
-                        switch (temp_r0_16) {       /* switch 4; irregular */
-                        case 0x0:                   /* switch 4 */
-                            T015L_sub_08077D04(arg0->f0, (s16) var_r2_3);
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, 0);
-                            asm volatile("");
-block_179:
-                            var_r6 = &stack.main.f0;
-                            break;
-                        case 0x1:                   /* switch 4 */
-                            T015L_sub_0807854C(arg0->f0, (s16) var_r2_3);
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, 0);
-                            asm volatile("");
-                            goto block_179;
-                        case 0x2:                   /* switch 4 */
-                            T015L_sub_08078B24(arg0->f0, (s16) var_r2_3);
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x3:                   /* switch 4 */
-                            T015L_sub_08078B24(arg0->f0, (s16) var_r2_3);
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0xD:                   /* switch 4 */
-                        case 0xE:                   /* switch 4 */
-                        case 0xF:                   /* switch 4 */
-                        case 0x10:                  /* switch 4 */
-                        case 0x11:                  /* switch 4 */
-                        case 0x12:                  /* switch 4 */
-                        case 0x13:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFE2);
-                            T015L_sub_0807386C(arg0->f0 + 4, 1, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x14:                  /* switch 4 */
-                        case 0x15:                  /* switch 4 */
-                        case 0x16:                  /* switch 4 */
-                        case 0x17:                  /* switch 4 */
-                        case 0x18:                  /* switch 4 */
-                        case 0x19:                  /* switch 4 */
-                        case 0x1A:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFDB);
-                            T015L_sub_0807386C(arg0->f0 + 4, 2, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x1B:                  /* switch 4 */
-                        case 0x1C:                  /* switch 4 */
-                        case 0x1D:                  /* switch 4 */
-                        case 0x1E:                  /* switch 4 */
-                        case 0x1F:                  /* switch 4 */
-                        case 0x20:                  /* switch 4 */
-                        case 0x21:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD - 0x2D);
-                            T015L_sub_0807386C(arg0->f0 + 4, 3, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x22:                  /* switch 4 */
-                        case 0x23:                  /* switch 4 */
-                        case 0x24:                  /* switch 4 */
-                        case 0x25:                  /* switch 4 */
-                        case 0x26:                  /* switch 4 */
-                        case 0x27:                  /* switch 4 */
-                        case 0x28:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFCD);
-                            T015L_sub_0807386C(arg0->f0 + 4, 4, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x29:                  /* switch 4 */
-                        case 0x2A:                  /* switch 4 */
-                        case 0x2B:                  /* switch 4 */
-                        case 0x2C:                  /* switch 4 */
-                        case 0x2D:                  /* switch 4 */
-                        case 0x2E:                  /* switch 4 */
-                        case 0x2F:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFC6);
-                            T015L_sub_0807386C(arg0->f0 + 4, 5, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x30:                  /* switch 4 */
-                        case 0x31:                  /* switch 4 */
-                        case 0x32:                  /* switch 4 */
-                        case 0x33:                  /* switch 4 */
-                        case 0x34:                  /* switch 4 */
-                        case 0x35:                  /* switch 4 */
-                        case 0x36:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFBF);
-                            T015L_sub_0807386C(arg0->f0 + 4, 8, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x37:                  /* switch 4 */
-                        case 0x38:                  /* switch 4 */
-                        case 0x39:                  /* switch 4 */
-                        case 0x3A:                  /* switch 4 */
-                        case 0x3B:                  /* switch 4 */
-                        case 0x3C:                  /* switch 4 */
-                        case 0x3D:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFB8);
-                            T015L_sub_0807386C(arg0->f0 + 4, 0xB, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x3E:                  /* switch 4 */
-                        case 0x3F:                  /* switch 4 */
-                        case 0x40:                  /* switch 4 */
-                        case 0x41:                  /* switch 4 */
-                        case 0x42:                  /* switch 4 */
-                        case 0x43:                  /* switch 4 */
-                        case 0x44:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFB1);
-                            T015L_sub_0807386C(arg0->f0 + 4, 0xD, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x45:                  /* switch 4 */
-                        case 0x46:                  /* switch 4 */
-                        case 0x47:                  /* switch 4 */
-                        case 0x48:                  /* switch 4 */
-                        case 0x49:                  /* switch 4 */
-                        case 0x4A:                  /* switch 4 */
-                        case 0x4B:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFAA);
-                            T015L_sub_0807386C(arg0->f0 + 4, 0xE, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x4C:                  /* switch 4 */
-                        case 0x4D:                  /* switch 4 */
-                        case 0x4E:                  /* switch 4 */
-                        case 0x4F:                  /* switch 4 */
-                        case 0x50:                  /* switch 4 */
-                        case 0x51:                  /* switch 4 */
-                        case 0x52:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFFA3);
-                            T015L_sub_0807386C(arg0->f0 + 4, 0xF, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x53:                  /* switch 4 */
-                        case 0x54:                  /* switch 4 */
-                        case 0x55:                  /* switch 4 */
-                        case 0x56:                  /* switch 4 */
-                        case 0x57:                  /* switch 4 */
-                        case 0x58:                  /* switch 4 */
-                        case 0x59:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFF9C);
-                            T015L_sub_0807386C(arg0->f0 + 4, 0x11, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        case 0x5A:                  /* switch 4 */
-                        case 0x5B:                  /* switch 4 */
-                        case 0x5C:                  /* switch 4 */
-                        case 0x5D:                  /* switch 4 */
-                        case 0x5E:                  /* switch 4 */
-                        case 0x5F:                  /* switch 4 */
-                        case 0x60:                  /* switch 4 */
-                            (local0) = (s32) (u16) (arg0->f1FD + 0xFF95);
-                            T015L_sub_0807386C(arg0->f0 + 4, 0x12, (s16) var_r2_3, (local0), (local0));
-                            asm volatile("");
-                            (local0) = 0;
-                            T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + ((u8 *)T015L_gUnk_08479140 + 0x2C)), (local114), -1, (local0));
-                            asm volatile("");
-                            goto block_179;
-                        }
-                        arg0->f50 = (s32) (arg0->f50 + 1);
-                        var_r2_4 = *(local14C);
-block_207:
-                        (local108) = (s32) var_r2_4;
-                    }
-                    goto block_208;
-                case 10:                            /* switch 3 */
-                    if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
-                        var_r6 = &stack.main.f0;
-                        if (((local10C) != arg0->fC) && ((local10C) != 0) && ((local10C) != 1)) {
-                            (local0) = 0;
-                            T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                            asm volatile("");
-                        }
-                        if (((local10C) == 2) || ((local10C) == 9)) {
-                            *(local158) = 0;
-                        }
-                        (local10C) = (s32) arg0->fC;
-                        *(local154) = 0;
-                        *(local150) = 0;
-                        *(local14C) = 0x10;
-                        *(local14C) = arg0->f8 + 0x10;
-                        (local108) = (s32) *(local14C);
-                    }
-                    (local110) = 0;
-                    break;
-                case 11:                            /* switch 3 */
-                    if (*(local144) == 0x1E) {
-                        var_r6 = &stack.main.f0;
-                        if (((local10C) != arg0->fC) && ((local10C) != 0) && ((local10C) != 0xA) && ((local10C) != 1)) {
-                            (local0) = 0;
-                            T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                            asm volatile("");
-                        }
-                        if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                            sub_0805865C(0x3F);
-                        }
-                        if (2 & *(local15C)) {
-                            arg0->f88 = (u16) T015L_FIELD(sp118, s8 *, 0x46);
-                        }
-                    } else if ((*(local14C) != (local108)) || (var_r6 = &stack.main.f0, ((local10C) != arg0->fC))) {
-                        var_r6 = &stack.main.f0;
-                        if (8 & *(local15C)) {
-                            (local0) = 0;
-                            T015L_sub_08065158(var_r6, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                            asm volatile("");
-                            (local10C) = (s32) arg0->fC;
-                            *(local154) = 0;
-                            *(local150) = 0;
-                            *(local14C) = 0x19;
-                            var_r2_4 = 0x19;
-                            goto block_207;
-                        }
-                    }
-                    goto block_208;
-                case 12:                            /* switch 3 */
-                    temp_r0_17 = arg0->fE;
-                    if (temp_r0_17 != 6) {
-                        if ((s32) temp_r0_17 <= 6) {
-                            if (temp_r0_17 != 5) {
-                                var_r6 = &stack.main.f0;
-                            } else {
-                                (local0) = 0;
-                                T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                                asm volatile("");
-                                *(local14C) = arg0->f8 + arg0->f70;
-                                (local108) = (s32) *(local14C);
-                                (local10C) = (s32) arg0->fC;
-                                (local110) = (s32) arg0->f72;
-                                arg0->fE = 6U;
-                                var_r6 = &stack.main.f0;
-                            }
-                        } else {
-                            var_r6 = &stack.main.f0;
-                            if (temp_r0_17 != 8) {
+    arg0->fC = local10C;
+    local10C = 0xFFFF;
+    T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
+    T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
+    T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
+    if (sub_0800CCCC() == 0 && sub_0800CC98() == 0)
+        sub_08000AF0(0x17, (void *)stack.auxA.fC, 2);
+    stack.auxA.data[0] = 7;
+    stack.auxA.data[1] = 8;
+    stack.auxB.data[0] = 7;
+    stack.auxB.data[1] = 8;
+    arg0->f68 = arg0->f8;
+    arg0->f6C = 0;
+    arg0->f6A = 0;
+    local108 = 0xFFFF;
+    arg0->f64 = 0x1E;
+    arg0->f66 = 0;
+    switch (arg0->fC) {
+    case 14:
+        local11C = 1;
+        arg0->f1DC = 0;
+        break;
+    case 15:
+        local11C = 0;
+        arg0->f1DC = 0;
+        break;
+    case 0:
+        local11C = 0;
+        arg0->f1DC = 2;
+        break;
+    }
+    h = arg0->f226;
+    if (h <= 7 && h >= 4)
+        arg0->f1DC = 0;
+    local120 = 0xFFFF;
+    arg0->f74 = 1;
+    arg0->f44 = 0;
+    arg0->f6 = 0;
+    arg0->f4 = 0;
+    arg0->f42 = 0;
+    arg0->f44 = 0;
+    stack.state = 0;
+    stack.step = 0;
+    arg0->f60 = 0xFFC4;
+    arg0->f4C = 0;
+    local104 = 0;
+    arg0->f4A = 0;
+    arg0->f54 = local120;
+    local12C = 1;
+    stack.phase2 = local104;
+    stack.phase = local104;
+    stack.rng = local104;
+    count = sub_08002164();
+    sp118->f6 = (u32)(sp118->f6 * T015L_scales[count].a) / 100;
+    if (count > 1)
+        sp118->f0 = (u32)((sp118->f0 + 2) * T015L_scales[count].b) / 100;
+    arg0->f5C = arg0->f1D6 = sp118->f6 * 3;
+    arg0->f5E = arg0->f1D4 = sp118->f4 * 20;
+    local124 = 1;
 
-                            } else {
-                                if (arg0->f30 != 0) {
-                                    sub_08057328(arg0->f34);
-                                } else {
-                                    sub_08057390(arg0->f3C, T015L_FIELD(arg0, void (**)(s32), 0x38));
-                                }
-                                arg0->fC = 0U;
-                                var_r6 = &stack.main.f0;
-                            }
-                        }
-                    } else {
-                        *(local14C) = arg0->f8 + arg0->f70;
-                        var_r6 = &stack.main.f0;
-                    }
-                    break;
-                case 14:                            /* switch 3 */
-                    (local0) = 0;
-                    T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                    asm volatile("");
-                    temp_r1_5 = *(local144);
-                    var_r6 = &stack.main.f0;
-                    if ((temp_r1_5 == 0) || (0x8000 & temp_r1_5)) {
-                        arg0->f1DC = 2;
-                        arg0->fC = 0U;
-                        (local11C) = 0;
-                    }
-                    break;
-                case 15:                            /* switch 3 */
-                    (local0) = 0;
-                    T015L_sub_08065158(&stack.main.f0, *(u32 *)((0x58 * (*(local160) + 0xA)) + (u8 *)T015L_gUnk_08479140), (local114), -1, (local0));
-                    asm volatile("");
-                    var_r6 = &stack.main.f0;
-                    if ((*(local14C) != (local108)) || ((local10C) != arg0->fC)) {
-                        *(local14C) = 0x18;
-                        (local108) = 0x18;
-                        (local10C) = (s32) arg0->fC;
-                    }
-                    (local110) = 0;
-                    break;
-                }
-                if ((arg0->fC == 0xB) && (8 & *(local15C))) {
-                    var_r8 = (u8) sub_0800BC44((u32) ((s32) arg0->f14 >> 8), (u32) ((s32) arg0->f18 >> 8), 0U);
-                    if (gUnk_03003170.curLevel == 1) {
-                        var_r8 = 3;
-                    }
-                } else {
-                    var_r8 = (u8) sub_0800BC44((u32) ((s32) arg0->f14 >> 8), (u32) ((s32) arg0->f18 >> 8), 0U);
-                }
-                if (sub_0800CC88() != 0) {
-                    var_r8 = gUnk_030034A8;
-                }
-                T015L_FIELD(var_r6, u8 *, 0x1C) = (u8) (local114);
-                T015L_FIELD(var_r6, u8 *, 0x1D) = (u8) (local114);
-                T015L_FIELD(var_r6, u8 *, 0x1E) = (u8) (local114);
-                T015L_FIELD(var_r6, u8 *, 0x1F) = (u8) (local114);
-                (local0) = (local110);
-                *var_r9 = (s16) sub_08065370(var_r6, *(local14C), (s32) (local150), (s32) (local154), ((local0)));
-                (local0) = 0x30;
-                (local4) = NULL;
-                T015L_sub_0800BC08((s32) (arg0->f14 << 8) >> 0x10, (s32) (arg0->f18 << 8) >> 0x10, &stack.x, ((u8 *)&stack.y), (local0), local4);
-                if ((T015L_sub_08017EC8(arg0) != 0) || (temp_r1_6 = *(local15C), ((8 & temp_r1_6) != 0))) {
-                    if (*(local148) != 0) {
-                        temp_r1_7 = *(local144);
-                        *(local144) = temp_r1_7 + 0xFFFF;
-                        if ((2 & temp_r1_7) && (sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                        }
-                        if (*(local144) == 0) {
-                            goto block_345;
-                        }
-                        goto block_300;
-                    }
-                    if ((local11C) != 0) {
-                        temp_r1_8 = *(local144);
-                        *(local144) = temp_r1_8 + 0xFFFF;
-                        if (!(2 & temp_r1_8)) {
-
-                        } else if (sub_0800CC98() != 0) {
-
-                        } else if (sub_0800CCCC() != 0) {
-
-                        } else if (sub_0800CD34() != 0) {
-
-                        } else {
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                        }
-                    } else if (sub_0800CC98() != 0) {
-
-                    } else if (sub_0800CCCC() != 0) {
-
-                    } else if (sub_0800CD34() != 0) {
-
-                    } else {
-                        if (sub_0800CD8C() != 0) {
-                            var_r2_5 = 0;
-                        } else {
-                            var_r2_5 = arg0->f62;
-                        }
-                        temp_r0_18 = (s32) ((var_r2_5 << 0x10) + 0xFFFC0000) >> 0x10;
-                        switch ((u32) temp_r0_18) { /* switch 5; irregular */
-                        case 4:                     /* switch 5 */
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                            (local0) = 1;
-                            sub_08065370(&stack.auxA.f0, 0U, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
-                            if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
-
-                            } else {
-                                (local0) = (s32) var_r8;
-                                (local4) = &stack.auxA.data[0];
-                                (local8) = stack.auxA.f8;
-                                (localC) = stack.auxA.f0;
-                                T015L_sub_08007870(stack.x, stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0U, stack.step, (local0), local4, (local8), (localC));
-                            }
-                            break;
-                        case 5:                     /* switch 5 */
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                            (local0) = 1;
-                            sub_08065370(&stack.auxA.f0, 0xAU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
-                            if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
-
-                            } else {
-                                (local0) = (s32) var_r8;
-                                (local4) = &stack.auxA.data[0];
-                                (local8) = stack.auxA.f8;
-                                (localC) = stack.auxA.f0;
-                                T015L_sub_08007870(stack.x, stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0xAU, stack.step, (local0), local4, (local8), (localC));
-                            }
-                            break;
-                        case 3:                     /* switch 5 */
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                            (local0) = 1;
-                            sub_08065370(&stack.auxA.f0, 0xFU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
-                            if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
-
-                            } else {
-                                var_r0_5 = stack.x;
-                                var_r1 = stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44);
-                                var_r3 = stack.step;
-                                (local0) = (s32) var_r8;
-                                (local4) = &stack.auxA.data[0];
-                                (local8) = stack.auxA.f8;
-                                var_r2_6 = stack.auxA.f0;
-block_286:
-                                (localC) = var_r2_6;
-                                T015L_sub_08007870(var_r0_5, var_r1, 0xFU, var_r3, (local0), local4, (local8), (localC));
-                            }
-                            break;
-                        case 6:                     /* switch 5 */
-                            temp_r0_19 = (s8) T015L_FIELD(sp118, u8 *, 0x45);
-                            switch (temp_r0_19) {   /* switch 6; irregular */
-                            case 0:                 /* switch 6 */
-                                (local0) = 1;
-                                sub_08065370(&stack.auxA.f0, 9U, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
-                                (local0) = (s32) var_r8;
-                                (local4) = &stack.auxA.data[0];
-                                (local8) = stack.auxA.f8;
-                                (localC) = stack.auxA.f0;
-                                T015L_sub_08007870(stack.x, stack.y, 9U, stack.step, (local0), local4, (local8), (localC));
-                                break;
-                            case 1:                 /* switch 6 */
-                                (local0) = (s32) temp_r0_19;
-                                sub_08065370(&stack.auxB.f0, 0xEU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
-                                (local0) = (s32) var_r8;
-                                (local4) = &stack.auxB.data[0];
-                                (local8) = stack.auxB.f8;
-                                (localC) = stack.auxB.f0;
-                                T015L_sub_08007870(stack.x, stack.y, 0xEU, stack.step, (local0), local4, (local8), (localC));
-                                break;
-                            case 2:                 /* switch 6 */
-                                (local0) = 1;
-                                sub_08065370(&stack.auxB.f0, 0xFU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
-                                var_r0_5 = stack.x;
-                                var_r1 = stack.y;
-                                var_r3 = stack.step;
-                                (local0) = (s32) var_r8;
-                                (local4) = &stack.auxB.data[0];
-                                (local8) = stack.auxB.f8;
-                                var_r2_6 = stack.auxB.f0;
-                                goto block_286;
-                            }
-                            break;
-                        case 8:                     /* switch 5 */
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                            (local0) = 0;
-                            if (sub_08065370(&stack.auxA.f0, 0xCU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0))) != 0) {
-
-                            } else if ((gUnk_03002344 & 1) != (1 & arg0->f0)) {
-
-                            } else {
-                                (local0) = (s32) stack.step;
-                                sub_08065230(&stack.auxA.f0, (s32) stack.x, (s32) stack.y, 0xCU, ((local0)));
-                            }
-                            break;
-                        case 0:                     /* switch 5 */
-                            temp_r0_20 = sub_0800CC98();
-                            if (temp_r0_20 != 0) {
-
-                            } else {
-                                (local0) = temp_r0_20;
-                                if ((sub_08065370(&stack.auxA.f0, 0xBU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0))) == 0) && ((gUnk_03002344 & 1) == (1 & arg0->f0))) {
-                                    (local0) = (s32) stack.step;
-                                    sub_08065230(&stack.auxA.f0, (s32) stack.x, (s32) stack.y, 0xBU, ((local0)));
-                                }
-                            }
-                            break;
-                        case 9:                     /* switch 5 */
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                            (local0) = 1;
-                            sub_08065370(&stack.auxA.f0, 0xDU, (s32) &stack.step, (s32) (((u8 *)&stack.state)), ((local0)));
-                            if ((gUnk_03002344 & 1) == (1 & arg0->f0)) {
-                                (local0) = (s32) var_r8;
-                                (local4) = &stack.auxA.data[0];
-                                (local8) = stack.auxA.f8;
-                                (localC) = stack.auxA.f0;
-                                T015L_sub_08007870(stack.x, stack.y - (s8) T015L_FIELD(sp118, u8 *, 0x44), 0xDU, stack.step, (local0), local4, (local8), (localC));
-                            }
-                            break;
-                        default:                    /* switch 5 */
-                            stack.state = 0;
-                            stack.step = 0;
-                            (local0) = (s32) var_r8;
-                            (local4) = &stack.main.data[0];
-                            (local8) = T015L_FIELD(var_r6, s32 *, 8);
-                            (localC) = stack.main.f0;
-                            T015L_sub_08007870(stack.x, stack.y, *(local14C), *(local150), (local0), local4, (local8), (localC));
-                            break;
-                        }
-                    }
-block_300:
-                    temp_r0_21 = arg0->f4C;
-                    if ((temp_r0_21 != 0) && ((local104) != temp_r0_21)) {
-                        temp_r0_22 = T015L_sub_08019CE8(arg0);
-                        *(local148) = temp_r0_22;
-                        if ((temp_r0_22 << 0x10) != 0) {
-                            if (8 & *(local15C)) {
-                                *(local144) = 0;
-                                *(local148) = 0;
-                            } else {
-                                *(local144) = 0x1E;
-                            }
-                        }
-                        (local104) = arg0->f4C;
-                        (local120) = 0xA;
-                        (local128) = 0;
-                    }
-                    temp_r0_23 = (local120);
-                    (local120) = (s32) (u16) (temp_r0_23 - 1);
-                    if (!(0x8000 & temp_r0_23)) {
-                        if ((local104) == 0) {
-                            (local120) = 0xFFFF;
-                        } else {
-                            if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                if (sub_0800CB9C() != 0) {
-                                    if ((gUnk_03002344 & 1) == (1 & arg0->f0)) {
-                                        T015L_sub_0801A120(arg0, (local104), (s16) (local128));
-                                    }
-                                } else {
-                                    T015L_sub_0801A120(arg0, (local104), (s16) (local128));
-                                }
-                            }
-                            if (1 & (local120)) {
-                                (local128) = (u32) (((local128) << 0x10) + 0xFFFF0000) >> 0x10;
-                            }
-                        }
-                    } else {
-                        (local120) = 0xFFFF;
-                        (local104) = 0;
-                        arg0->f4C = 0;
-                    }
-                    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-                        temp_r0_24 = arg0->f226;
-                        if (((s32) temp_r0_24 <= 7) && ((s32) temp_r0_24 >= 4)) {
-                            T015L_FIELD(var_r6, u8 *, 0x1D) = (u8) (local114);
-                        }
-                        if ((local124) != 0) {
-                            sub_08000AF0((local114) + 0x10, T015L_FIELD(var_r6, s32 *, 0xC) + (*(local164) << 5), 1U);
-                            (local124) = 0;
-                        }
-                    } else {
-                        (local124) = 1;
-                    }
-                    if (arg0->f88 != 0) {
-                        if ((local12C) != 0) {
-                            if ((2 & *(local15C)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                sub_0805865C(0x9E);
-                            }
-                            (local12C) = 0;
-                        }
-                        (local0) = 0;
-                        if (sub_08065370(&stack.base.f0, arg0->f88, (s32) &stack.phase, (s32) (((u8 *)&stack.phase2)), ((local0))) != 0) {
-                            arg0->f88 = 0U;
-                            stack.phase = 0;
-                            stack.phase2 = 0;
-                            (local12C) = 1;
-                        } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-                            (local0) = (s32) stack.phase;
-                            sub_08065230(&stack.base.f0, (s32) stack.x, stack.y - 0x20, arg0->f88, ((local0)));
-                        }
-                    }
-                    sub_080003F0();
-                    goto loop_341;
-                }
-                *(local15C) = 1 | temp_r1_6;
-                goto block_345;
-loop_341:
-        if (sub_0800CB78() != 0) goto block_345;
-        if (1 & *(local15C)) goto actor_cleanup;
-        temp_r0_7 = sub_08056E90();
-        if (temp_r0_7 == 0) goto loop_body;
-block_345:
-        {
-            if (1 & *(local15C)) {
-
-            } else if (sub_08056E90() != 0) {
-
-            } else {
-                goto poll_351;
-loop_351:
-                sub_080003F0();
-poll_351:
-                if ((T015L_sub_08067CA8(arg0->f2) == 0) && (sub_08056E90() == 0)) goto loop_351;
-                if (2 & *(local15C)) {
-                    sub_08056E24();
-                    goto poll_356;
-loop_356:
-                    sub_080003F0();
-poll_356:
-                    if (sub_08068558() == 0) goto loop_356;
-                }
-                if (sub_08002204() != 0) {
-                    temp_r0_25 = T015L_FIELD(gUnk_03005CF4, u16 *, 0);
-                    if ((temp_r0_25 != 0xB) && (temp_r0_25 != 0xD) && (T015L_sub_0805C620(arg0, &stack.packet[0]) != 0)) {
-                        if (sub_0800CCCC() != 0) {
-                            goto poll_364;
-loop_364:
-                            sub_080003F0();
-poll_364:
-                            if ((sub_08066520((u32) arg0->f14, (u32) arg0->f18, T015L_poll_players[0].field2C, &stack.packet[0]) == 0) && (sub_08056E90() == 0)) goto loop_364;
-                        } else {
-                            goto poll_368;
-loop_368:
-                            sub_080003F0();
-poll_368:
-                            if ((sub_08066490((u32) arg0->f14, (u32) arg0->f18, &stack.packet[0]) == 0) && (sub_08056E90() == 0)) goto loop_368;
-                        }
-                    }
-                    T015L_sub_080571A4(arg0->f86, arg0->f84, 3);
-                }
-                if ((T015L_FIELD(gUnk_03005CF4, u16 *, 0) != 0xB) && !(*(u32 *)((u8 *)gUnk_03003CE0 + 0x30 + 0x14C * sub_080020F4()) & 0x2000) && (((s32) arg0->f5A >> *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4())) & 1)) {
-                    temp_r5 = sub_0801E46C((void *) gUnk_030034E0, sp118);
-                    (local128) = 0x1E;
-                    shutdown_end = local128 - 31;
-                    asm volatile("" : "+r" (shutdown_end));
-                    goto poll_376;
-loop_376:
-                    sub_080003F0();
-poll_376:
-                    temp_r0_26 = ((local128) << 0x10) + 0xFFFF0000;
-                    (local128) = temp_r0_26 >> 0x10;
-                    if (((s32) temp_r0_26 >> 0x10) != shutdown_end) {
-                        arg0->f18 = (s32) (arg0->f18 - 0x20);
-                        T015L_sub_0806171C(arg0, temp_r5);
-                        if (sub_08056E90() == 0) goto loop_376;
-                    }
-                    sub_0801E4CC((u8 *) gUnk_030034E0, temp_r5);
-                    if (T015L_FIELD(gUnk_030034E0, u8 *, 0x13A) != 0) {
-                        temp_r1_9 = &gUnk_03003CE0[sub_080020F4()];
-                        T015L_FIELD(temp_r1_9, u16 *, 0xC6) = (u16) (T015L_FIELD(temp_r1_9, u16 *, 0xC6) + 1);
-                    }
-                }
+    while (sub_0800CB78() == 0 && !(T015L_F7A & 1) && sub_08056E90() == 0) {
+        arg0->f74++;
+        if (sub_0800CB9C() != 0 && sub_08002204() != 0) {
+            if ((s16)arg0->f60++ > 300) {
+                sub_080663A4(arg0->f0);
+                arg0->f60 = 0;
             }
         }
-actor_cleanup:
-        if (2 & arg0->f201) {
-            T015L_FIELD(gUnk_03005CF4, s16 *, 0xC) = 0;
+        if (arg0->f228 == 0xFFFF) {
+            T015L_sub_08020680(arg0);
+            if (arg0->f74 > sp118->f20)
+                arg0->f50++;
         }
-        if (1 & *(local15C)) {
-            T015L_sub_080571A4(arg0->f86, arg0->f84, 1);
+        h = sub_08065AE8();
+        if (h == 0) {
+            T015L_sub_0801C8F0(arg0);
+            T015L_sub_08016F28(arg0);
+            if ((u16)(arg0->f62 - 9) <= 1) {
+                arg0->f4 = h;
+                arg0->f6 = h;
+            }
+        } else {
+            arg0->f4 = 0;
+            arg0->f6 = 0;
         }
-        T015L_sub_08067E60(arg0->f2);
-        arg0->f1C = (s32) arg0->f14;
-        arg0->f20 = (s32) arg0->f18;
-        gUnk_030056FC &= ~(1 << arg0->f0);
-        sub_08016ECC((local114));
-        return;
+        switch (arg0->fC) {
+        case 0:
+            dir = 0;
+            if (arg0->f4 & 0x40)
+                dir = 5;
+            else if (arg0->f4 & 0x80)
+                dir = 1;
+            if (arg0->f4 & 0x20) {
+                if (dir == 5)
+                    dir = 4;
+                else if (dir == 1)
+                    dir = 2;
+                else
+                    dir = 3;
+            } else if (arg0->f4 & 0x10) {
+                if (dir == 5)
+                    dir = 6;
+                else if (dir == 1)
+                    dir = 8;
+                else
+                    dir = 7;
+            }
+            if (arg0->f1FD == 0xE)
+                if (arg0->f1FE == 2)
+                    arg0->f74 = sp118->f20 + 1;
+            if ((arg0->f6 & 1) && arg0->f74 > sp118->f20) {
+                arg0->fC = 2;
+                arg0->f6C = 0;
+                arg0->f6A = 0;
+            } else if ((arg0->f6 & 2) && arg0->f74 > sp118->f20) {
+                arg0->f8 = dir != 0 ? dir - 1 : arg0->f8;
+                arg0->fC = 9;
+                arg0->f6C = 0;
+                arg0->f6A = 0;
+            } else if (dir != 0) {
+                arg0->fC = 1;
+            } else {
+                sub_08015DC0(&stack.rng);
+            }
+            break;
+        case 1:
+            dir = 0;
+            if (arg0->f4 & 0x40)
+                dir = 5;
+            else if (arg0->f4 & 0x80)
+                dir = 1;
+            if (arg0->f4 & 0x20) {
+                if (dir == 5)
+                    dir = 4;
+                else if (dir == 1)
+                    dir = 2;
+                else
+                    dir = 3;
+            } else if (arg0->f4 & 0x10) {
+                if (dir == 5)
+                    dir = 6;
+                else if (dir == 1)
+                    dir = 8;
+                else
+                    dir = 7;
+            }
+            if ((arg0->f6 & 1) && arg0->f74 > sp118->f20) {
+                arg0->f8 = dir != 0 ? dir - 1 : arg0->f8;
+                arg0->fC = 2;
+                arg0->f6C = 0;
+                arg0->f6A = 0;
+                arg0->f74 = 0;
+            } else if ((arg0->f6 & 2) && arg0->f74 > sp118->f20) {
+                arg0->f8 = dir != 0 ? dir - 1 : arg0->f8;
+                arg0->fC = 9;
+                arg0->f6C = 0;
+                arg0->f6A = 0;
+            } else if (dir == 0) {
+                arg0->fC = 0;
+            } else {
+                arg0->f8 = dir - 1;
+                if (arg0->f7C == 0)
+                    T015L_sub_08015DE0(&stack.rng, sp118->f8 >> stack.flags);
+            }
+            break;
+        case 2:
+            sub_08015DC0(&stack.rng);
+            if (arg0->f68 == local108 && arg0->f6E != 0) {
+                arg0->f50++;
+                arg0->fC = 0;
+                arg0->f74 = 0;
+            }
+            break;
+        case 9:
+            sub_08015DC0(&stack.rng);
+            if (arg0->f68 == local108 && arg0->f6E != 0 && local10C == arg0->fC) {
+                arg0->fC = 0;
+                arg0->f74 = 0;
+            }
+            break;
+        case 10:
+            sub_08015DC0(&stack.rng);
+            if (arg0->f68 == local108 && arg0->f6E != 0 && local10C == arg0->fC) {
+                arg0->f1DC = 2;
+                arg0->f66 = T015L_sub_08019CE8(arg0);
+                if (arg0->f66 == 0) {
+                    arg0->fC = 0;
+                } else if (T015L_F7A & 8) {
+                    arg0->f64 = 0;
+                    arg0->f66 = 0;
+                } else {
+                    arg0->f64 = 0x1E;
+                }
+            }
+            break;
+        case 11:
+            sub_08015DC0(&stack.rng);
+            break;
+        case 15:
+            if (arg0->f68 == local108 && arg0->f6E != 0 && local10C == arg0->fC) {
+                arg0->fC = 0;
+                arg0->f1DC = 2;
+            }
+            break;
+        }
+        if (arg0->f7C != 0) {
+            sub_08013E90(arg0->f80, &arg0->f14, arg0->f7E, 0, 0);
+            if (--arg0->f7C == 0) {
+                if (arg0->f82 != 0) {
+                    arg0->f7C = arg0->f82 / 2;
+                    if (arg0->f7C > 3)
+                        arg0->f7C = 4;
+                    arg0->f82 = 0;
+                    arg0->f80 = 0x200;
+                } else {
+                    goto halve;
+                }
+            } else if (arg0->f82 == 0) {
+            halve:
+                arg0->f80 >>= 1;
+                if (arg0->f80 < 0x40)
+                    arg0->f80 = 0x40;
+            }
+        }
+        if (stack.rng != 0) {
+            arg0->f1C = arg0->f14;
+            arg0->f20 = arg0->f18;
+            sub_08013E90(sp118->f8 >> stack.flags, &arg0->f14, arg0->f8, 0, 0);
+        }
+        if (sub_0800CD8C() == 0)
+            T015L_sub_08017C6C(arg0);
+        switch (arg0->fC) {
+        case 0:
+            if (local10C != arg0->fC && local10C != 1 && local10C != 10)
+                T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+            local10C = arg0->fC;
+            local108 = 0xFFFF;
+            arg0->f68 = arg0->f8;
+            local110 = 1;
+            break;
+        case 1:
+            if (local10C != arg0->fC && local10C != 0 && local10C != 10)
+                T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+            local10C = arg0->fC;
+            local108 = 0xFFFF;
+            arg0->f68 = arg0->f8 + 8;
+            local110 = 1;
+            break;
+        case 2:
+            if (arg0->f68 != local108 || local10C != arg0->fC) {
+                T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                arg0->f74 = 0;
+                local10C = arg0->fC;
+                arg0->f68 = arg0->f8;
+                if (arg0->f201 & 2)
+                    w = (arg0->f1FC >> 4) + 4;
+                else
+                    w = arg0->f1FC >> 4;
+                local108 = arg0->f68;
+                arg0->f50++;
+            }
+            T015L_sub_08020680(arg0);
+            local110 = 0;
+            break;
+        case 9:
+            if (arg0->f68 != local108 || local10C != arg0->fC) {
+                local10C = arg0->fC;
+                arg0->f68 = arg0->f8 + sp118->f26;
+                if (arg0->f201 & 2)
+                    v = (arg0->f1FC >> 4) + 4;
+                else
+                    v = arg0->f1FC >> 4;
+                switch (arg0->f1FD - 0x12) {
+                case 0x0:
+                    T015L_sub_08077D04(arg0->f0, v);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x1:
+                    T015L_sub_0807854C(arg0->f0, v);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x2:
+                    T015L_sub_08078B24(arg0->f0, v);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x3:
+                    T015L_sub_08078B24(arg0->f0, v);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0xD: case 0xE: case 0xF: case 0x10: case 0x11: case 0x12: case 0x13:
+                    w = (u16)(arg0->f1FD + 0xFFE2);
+                    T015L_sub_0807386C(arg0->f0 + 4, 1, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x14: case 0x15: case 0x16: case 0x17: case 0x18: case 0x19: case 0x1A:
+                    w = (u16)(arg0->f1FD + 0xFFDB);
+                    T015L_sub_0807386C(arg0->f0 + 4, 2, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x1B: case 0x1C: case 0x1D: case 0x1E: case 0x1F: case 0x20: case 0x21:
+                    w = (u16)(arg0->f1FD - 0x2D);
+                    T015L_sub_0807386C(arg0->f0 + 4, 3, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x22: case 0x23: case 0x24: case 0x25: case 0x26: case 0x27: case 0x28:
+                    w = (u16)(arg0->f1FD + 0xFFCD);
+                    T015L_sub_0807386C(arg0->f0 + 4, 4, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x29: case 0x2A: case 0x2B: case 0x2C: case 0x2D: case 0x2E: case 0x2F:
+                    w = (u16)(arg0->f1FD + 0xFFC6);
+                    T015L_sub_0807386C(arg0->f0 + 4, 5, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x30: case 0x31: case 0x32: case 0x33: case 0x34: case 0x35: case 0x36:
+                    w = (u16)(arg0->f1FD + 0xFFBF);
+                    T015L_sub_0807386C(arg0->f0 + 4, 8, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x37: case 0x38: case 0x39: case 0x3A: case 0x3B: case 0x3C: case 0x3D:
+                    w = (u16)(arg0->f1FD + 0xFFB8);
+                    T015L_sub_0807386C(arg0->f0 + 4, 0xB, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x3E: case 0x3F: case 0x40: case 0x41: case 0x42: case 0x43: case 0x44:
+                    w = (u16)(arg0->f1FD + 0xFFB1);
+                    T015L_sub_0807386C(arg0->f0 + 4, 0xD, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x45: case 0x46: case 0x47: case 0x48: case 0x49: case 0x4A: case 0x4B:
+                    w = (u16)(arg0->f1FD + 0xFFAA);
+                    T015L_sub_0807386C(arg0->f0 + 4, 0xE, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x4C: case 0x4D: case 0x4E: case 0x4F: case 0x50: case 0x51: case 0x52:
+                    w = (u16)(arg0->f1FD + 0xFFA3);
+                    T015L_sub_0807386C(arg0->f0 + 4, 0xF, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x53: case 0x54: case 0x55: case 0x56: case 0x57: case 0x58: case 0x59:
+                    w = (u16)(arg0->f1FD + 0xFF9C);
+                    T015L_sub_0807386C(arg0->f0 + 4, 0x11, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                case 0x5A: case 0x5B: case 0x5C: case 0x5D: case 0x5E: case 0x5F: case 0x60:
+                    w = (u16)(arg0->f1FD + 0xFF95);
+                    T015L_sub_0807386C(arg0->f0 + 4, 0x12, v, w, w);
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].b, local114, -1, 0);
+                    break;
+                }
+                arg0->f50++;
+                local108 = arg0->f68;
+            }
+            local110 = 0;
+            break;
+        case 10:
+            if (arg0->f68 != local108 || local10C != arg0->fC) {
+                if (local10C != arg0->fC && local10C != 0 && local10C != 1)
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+                if (local10C == 2 || local10C == 9)
+                    arg0->f74 = 0;
+                local10C = arg0->fC;
+                arg0->f6C = 0;
+                arg0->f6A = 0;
+                arg0->f68 = 0x10;
+                arg0->f68 = arg0->f8 + 0x10;
+                local108 = arg0->f68;
+            }
+            local110 = 0;
+            break;
+        case 11:
+            if (arg0->f64 == 0x1E) {
+                if (local10C != arg0->fC && local10C != 0 && local10C != 10 && local10C != 1)
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                    sub_0805865C(0x3F);
+                if (T015L_F7A & 2)
+                    arg0->f88 = sp118->f46;
+            } else if (arg0->f68 != local108 || local10C != arg0->fC) {
+                if (T015L_F7A & 8) {
+                    T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+                    local10C = arg0->fC;
+                    arg0->f6C = 0;
+                    arg0->f6A = 0;
+                    arg0->f68 = 0x19;
+                    local108 = 0x19;
+                }
+            }
+            local110 = 0;
+            break;
+        case 12:
+            switch (arg0->fE) {
+            case 8:
+                if (arg0->f30 != 0)
+                    sub_08057328(arg0->f34);
+                else
+                    sub_08057390(arg0->f3C, T015L_FIELD(arg0, void (**)(s32), 0x38));
+                arg0->fC = 0;
+                break;
+            case 5:
+                T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+                arg0->f68 = arg0->f8 + arg0->f70;
+                local108 = arg0->f68;
+                local10C = arg0->fC;
+                local110 = arg0->f72;
+                arg0->fE = 6;
+                break;
+            case 6:
+                arg0->f68 = arg0->f8 + arg0->f70;
+                break;
+            }
+            break;
+        case 14:
+            T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+            if (arg0->f64 == 0 || (arg0->f64 & 0x8000)) {
+                arg0->f1DC = 2;
+                arg0->fC = 0;
+                local11C = 0;
+            }
+            break;
+        case 15:
+            T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
+            if (arg0->f68 != local108 || local10C != arg0->fC) {
+                arg0->f68 = 0x18;
+                local108 = 0x18;
+                local10C = arg0->fC;
+            }
+            local110 = 0;
+            break;
+        }
+        if (arg0->fC == 0xB && (T015L_F7A & 8)) {
+            bg = sub_0800BC44(arg0->f14 >> 8, arg0->f18 >> 8, 0);
+            if (gUnk_03003170.curLevel == 1)
+                bg = 3;
+        } else {
+            bg = sub_0800BC44(arg0->f14 >> 8, arg0->f18 >> 8, 0);
+        }
+        if (sub_0800CC88() != 0)
+            bg = gUnk_030034A8;
+        stack.main.data[0] = local114;
+        stack.main.data[1] = local114;
+        stack.main.data[2] = local114;
+        stack.main.data[3] = local114;
+        arg0->f6E = sub_08065370(&stack.main, arg0->f68, (s32)&arg0->f6A, (s32)&arg0->f6C, local110);
+        T015L_sub_0800BC08((arg0->f14 << 8) >> 16, (arg0->f18 << 8) >> 16, &stack.x, &stack.y, 0x30, NULL);
+        if (T015L_sub_08017EC8(arg0) == 0 && !(T015L_F7A & 8)) {
+            T015L_F7A |= 1;
+            break;
+        }
+        if (arg0->f66 != 0) {
+            if ((arg0->f64-- & 2) && sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+            if (arg0->f64 == 0)
+                break;
+        } else if (local11C != 0) {
+            if ((arg0->f64-- & 2) && sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+        } else if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0) {
+            if (sub_0800CD8C() != 0)
+                v = 0;
+            else
+                v = arg0->f62;
+            switch ((s16)v) {
+            case 8:
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                sub_08065370(&stack.auxA, 0, (s32)&stack.step, (s32)&stack.state, 1);
+                if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
+                    T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
+                break;
+            case 9:
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                sub_08065370(&stack.auxA, 0xA, (s32)&stack.step, (s32)&stack.state, 1);
+                if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
+                    T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0xA, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
+                break;
+            case 7:
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                sub_08065370(&stack.auxA, 0xF, (s32)&stack.step, (s32)&stack.state, 1);
+                if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
+                    T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0xF, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
+                break;
+            case 10:
+                switch (sp118->f45) {
+                case 0:
+                    sub_08065370(&stack.auxA, 9, (s32)&stack.step, (s32)&stack.state, 1);
+                    T015L_DRAW(stack.x, stack.y, 9, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
+                    break;
+                case 1:
+                    sub_08065370(&stack.auxB, 0xE, (s32)&stack.step, (s32)&stack.state, 1);
+                    T015L_DRAW(stack.x, stack.y, 0xE, stack.step, bg, stack.auxB.data, stack.auxB.f8, stack.auxB.f0);
+                    break;
+                case 2:
+                    sub_08065370(&stack.auxB, 0xF, (s32)&stack.step, (s32)&stack.state, 1);
+                    T015L_DRAW(stack.x, stack.y, 0xF, stack.step, bg, stack.auxB.data, stack.auxB.f8, stack.auxB.f0);
+                    break;
+                }
+                break;
+            case 12:
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                if (sub_08065370(&stack.auxA, 0xC, (s32)&stack.step, (s32)&stack.state, 0) == 0
+                    && (gUnk_03002344 & 1) == (arg0->f0 & 1))
+                    sub_08065230(&stack.auxA, stack.x, stack.y, 0xC, stack.step);
+                break;
+            case 4:
+                if (sub_0800CC98() == 0) {
+                    if (sub_08065370(&stack.auxA, 0xB, (s32)&stack.step, (s32)&stack.state, 0) == 0
+                        && (gUnk_03002344 & 1) == (arg0->f0 & 1))
+                        sub_08065230(&stack.auxA, stack.x, stack.y, 0xB, stack.step);
+                }
+                break;
+            case 13:
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                sub_08065370(&stack.auxA, 0xD, (s32)&stack.step, (s32)&stack.state, 1);
+                if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
+                    T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0xD, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
+                break;
+            default:
+                stack.state = 0;
+                stack.step = 0;
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                break;
+            }
+        }
+        if (arg0->f4C != 0 && local104 != arg0->f4C) {
+            arg0->f66 = T015L_sub_08019CE8(arg0);
+            if (arg0->f66 != 0) {
+                if (T015L_F7A & 8) {
+                    arg0->f64 = 0;
+                    arg0->f66 = 0;
+                } else {
+                    arg0->f64 = 0x1E;
+                }
+            }
+            local104 = arg0->f4C;
+            local120 = 10;
+            local128 = 0;
+        }
+        if (!(local120-- & 0x8000)) {
+            if (local104 == 0) {
+                local120 = 0xFFFF;
+            } else {
+                if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0) {
+                    if (sub_0800CB9C() != 0) {
+                        if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
+                            T015L_sub_0801A120(arg0, local104, local128);
+                    } else {
+                        T015L_sub_0801A120(arg0, local104, local128);
+                    }
+                }
+                if (local120 & 1)
+                    local128--;
+            }
+        } else {
+            local120 = 0xFFFF;
+            local104 = 0;
+            arg0->f4C = 0;
+        }
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            h = arg0->f226;
+            if (h <= 7 && h >= 4)
+                stack.main.data[1] = local114;
+            if (local124 != 0) {
+                sub_08000AF0(local114 + 0x10, (void *)(stack.main.fC + (sp118->fD6 << 5)), 1);
+                local124 = 0;
+            }
+        } else {
+            local124 = 1;
+        }
+        if (arg0->f88 != 0) {
+            if (local12C != 0) {
+                if ((T015L_F7A & 2) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                    sub_0805865C(0x9E);
+                local12C = 0;
+            }
+            if (sub_08065370(&stack.base, arg0->f88, (s32)&stack.phase, (s32)&stack.phase2, 0) != 0) {
+                arg0->f88 = 0;
+                stack.phase = 0;
+                stack.phase2 = 0;
+                local12C = 1;
+            } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+                sub_08065230(&stack.base, stack.x, stack.y - 0x20, arg0->f88, stack.phase);
+            }
+        }
+        sub_080003F0();
     }
-
+    if (!(T015L_F7A & 1) && sub_08056E90() == 0) {
+        while (T015L_sub_08067CA8(arg0->f2) == 0 && sub_08056E90() == 0)
+            sub_080003F0();
+        if (T015L_F7A & 2) {
+            sub_08056E24();
+            while (sub_08068558() == 0)
+                sub_080003F0();
+        }
+        if (sub_08002204() != 0) {
+            if (T015L_STATE != 0xB && T015L_STATE != 0xD && T015L_sub_0805C620(arg0, stack.packet) != 0) {
+                if (sub_0800CCCC() != 0) {
+                    while (sub_08066520(arg0->f14, arg0->f18, T015L_poll_players[0].field2C, stack.packet) == 0 && sub_08056E90() == 0)
+                        sub_080003F0();
+                } else {
+                    while (sub_08066490(arg0->f14, arg0->f18, stack.packet) == 0 && sub_08056E90() == 0)
+                        sub_080003F0();
+                }
+            }
+            T015L_sub_080571A4(arg0->f86, arg0->f84, 3);
+        }
+        if (T015L_STATE != 0xB
+            && !(*(u32 *)((u8 *)gUnk_03003CE0 + 0x30 + 0x14C * sub_080020F4()) & 0x2000)
+            && ((arg0->f5A >> *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4())) & 1)) {
+            s32 obj = sub_0801E46C((void *)gUnk_030034E0, sp118);
+            local128 = 30;
+            while ((s16)--local128 != -1) {
+                arg0->f18 -= 0x20;
+                T015L_sub_0806171C(arg0, obj);
+                if (sub_08056E90() != 0)
+                    break;
+                sub_080003F0();
+            }
+            sub_0801E4CC((u8 *)gUnk_030034E0, obj);
+            if (T015L_FIELD(gUnk_030034E0, u8 *, 0x13A) != 0)
+                T015L_FIELD((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4(), u16 *, 0xC6)++;
+        }
+    }
+    if (arg0->f201 & 2)
+        T015L_FIELD(gUnk_03005CF4, s16 *, 0xC) = 0;
+    if (T015L_F7A & 1)
+        T015L_sub_080571A4(arg0->f86, arg0->f84, 1);
+    T015L_sub_08067E60(arg0->f2);
+    arg0->f1C = arg0->f14;
+    arg0->f20 = arg0->f18;
+    gUnk_030056FC &= ~(1 << arg0->f0);
+    sub_08016ECC(local114);
 }
+#undef T015L_F7A
+#undef T015L_DRAW
+#undef T015L_STATE
 
 #undef T015L_FIELD
 
