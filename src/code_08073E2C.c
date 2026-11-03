@@ -617,7 +617,6 @@ void sub_08074DE8(u32 who, s32 type)
         masks4DE8[who] |= 1 << i;
     }
 }
-#ifdef NONMATCHING
 struct Spr5088 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent5088 { u16 xRaw, yRaw; };
 struct Ply5088 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0xA8]; u32 serial; u8 padE0[0x68]; struct Ent5088 *entity; };
@@ -660,6 +659,7 @@ void sub_08075088(u32 who, u32 slot)
     u16 j;
     s32 spd;
     u32 shade;
+    s32 zero;
     struct Ene5088 *e;
 
     spd = 2;
@@ -685,6 +685,7 @@ void sub_08075088(u32 who, u32 slot)
     }
     while (1) {
         count = 0;
+        zero = 0;
         for (i = 0; i < 3; i++) {
             if (--cnt[i] != 0)
                 continue;
@@ -709,7 +710,7 @@ void sub_08075088(u32 who, u32 slot)
                     e = &e5088Base[j];
                     sx = (e->x - x[i]) >> 8;
                     sy = (e->y - y[i]) >> 8;
-                    if ((sx < 0 ? -sx : sx) > 0x1B)
+                    if ((sx < zero ? -sx : sx) > 0x1B)
                         continue;
                     if ((sy < 0 ? -sy : sy) > 0x1B)
                         continue;
@@ -734,9 +735,6 @@ out:
         p->flags &= ~1;
     m5088[who] &= ~(1 << slot);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075088);
-#endif
 struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks5494[] asm("gUnk_030063E0");
 extern u8 *gLists5494[] asm("gUnk_030063B0");
