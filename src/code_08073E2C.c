@@ -839,7 +839,345 @@ void sub_080756EC(u32 who)
     sub_08000274_3((u32)t, who, i);
     gMasks5494[who] |= 1 << i;
 }
+#ifdef NONMATCHING
+struct Arg5778 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; u32 count; u32 flags; };
+struct Spr5778 { u32 f0, f4, f8, fC; u8 pad10[16]; u8 f20; u8 pad21[19]; };
+struct Ent5778 { u16 xRaw, yRaw; };
+struct Ply5778 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[4]; u16 f26; u8 pad28[8]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0x14]; struct Ent5778 *entity; };
+struct Ene5778 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x38]; u32 serial; u16 owner, hitMask; u8 pad5C[0x180]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[0xB0]; };
+struct Box5778 { u32 w:16; u32 h:16; };
+struct Pos5778 { s32 x, y; };
+extern struct Ply5778 p5778[] asm("gUnk_03003CE0");
+extern struct Ene5778 *e5778Base asm("gUnk_030056F4");
+extern u32 e5778Mask asm("gUnk_030056FC");
+extern u32 m5778[] asm("gUnk_030063E0");
+extern u32 flags5778 asm("gUnk_03002344");
+extern u8 *inv5778 asm("gUnk_030034E0");
+extern u16 dir5778[] asm("gUnk_0847AD0A");
+extern s16 sin5778[] asm("gUnk_080B9704");
+extern s16 offX5778[][2] asm("gUnk_084EBEBC");
+extern s16 offY5778[][2] asm("gUnk_084EBEBE");
+extern void init5778(void *, u32, u32, s32, u32) asm("sub_08065158");
+extern u16 step5778(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern void pos5778(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern void draw5778(void *, s32, s32, s32, u32, u32) asm("sub_080659BC");
+extern void *tmpl5778(void) asm("sub_0805AD18");
+extern s32 roll5778(s32, s32) asm("sub_080223A4");
+extern s32 test5778(struct Pos5778 *, void *, struct Box5778 *, struct Box5778 *) asm("sub_08021FE0");
+extern s32 wall5778(struct Pos5778 *, struct Box5778 *) asm("sub_0801F99C");
+extern void hitE5778(void *, void *, void *, s32) asm("sub_0801F374");
+extern void hitP5778(void *, void *, void *, s32) asm("sub_0801F79C");
+extern void pre5778(void *) asm("sub_0801FD64");
+extern s16 atan5778(s16, s16) asm("ArcTan2");
+
+static inline s32 move5778(s32 v, s32 spd)
+{
+    return v * spd / 10;
+}
+
+static inline s32 wait5778(struct Ply5778 *p, u32 n)
+{
+    while (p->ready < n) {
+        if (p->state == 10)
+            return 1;
+        sub_080003F0();
+    }
+    return 0;
+}
+
+void sub_08075778(struct Arg5778 *arg)
+{
+    struct Spr5778 spr;
+    u8 atk[0xC4];
+    s16 dx, dy;
+    u16 frame, timer;
+    struct Pos5778 pos;
+    struct Pos5778 opos;
+    struct Box5778 box;
+    struct Box5778 box2;
+    u16 local;
+    u32 target;
+    u32 who;
+    u32 slot;
+    u32 kind;
+    u32 n;
+    u32 big;
+    struct Ply5778 *p;
+    struct Ply5778 *q;
+    struct Ene5778 *e;
+    s32 x, y;
+    u32 dirIdx;
+    u32 d;
+    u32 lo;
+    u32 serial;
+    s32 power;
+    u16 j;
+    u32 cnt;
+    u16 ang;
+    s32 iter;
+    s32 t;
+    s32 hit;
+    s32 ok;
+    u8 c;
+    u32 shade;
+    s32 sx, sy;
+
+    local = sub_080020F4();
+    target = arg->target;
+    who = arg->who;
+    slot = arg->slot;
+    kind = (u8)arg->flags;
+    n = arg->count;
+    timer = 0;
+    frame = 0;
+    big = (u32)-(arg->flags & 0x8000) >> 31;
+    init5778(&spr, 0x5001E, 0, -1, 0);
+    spr.f20 = arg->who;
+    p = &p5778[who];
+    x = (p->entity->xRaw >> 4) << 8;
+    y = (u32)(p->entity->yRaw << 20) >> 12;
+    dirIdx = ((u8 *)p->entity)[3] >> 4;
+    lo = (u32)(((u8 *)p->entity)[0] << 28) >> 28;
+    if (who == local) {
+        serial = (u16)p->serial;
+        memcpy(atk, tmpl5778(), 0xC4);
+        if (*(u16 *)(atk + 0xBC) == 0)
+            *(u16 *)(atk + 0xBC) = inv5778[*(u16 *)(inv5778 + 0x68) * 16 + 0x77];
+        if (kind != 0)
+            power = p->power * 3;
+        else
+            power = p->power;
+    }
+    if (target > 3) {
+        for (j = 0; j <= 4; j++) {
+            if (e5778Mask & (1 << j)) {
+                e = &e5778Base[j];
+                if (e->state != 11)
+                    if (e->f2 == target)
+                        goto found;
+            }
+        }
+    found:
+        if (j > 4)
+            target = 0xFFFF;
+    } else {
+        cnt = sub_08002164();
+        for (j = 0; j < cnt && p5778[j].id != target; j++)
+            ;
+        if (j >= cnt || target == who)
+            target = 0xFFFF;
+    }
+    if (target != 0xFFFF) {
+        if (target > 3) {
+            dx = (e->x - x) >> 8;
+            dy = (e->y - y) >> 8;
+            ang = (u16)atan5778(dx, dy) >> 8;
+            t = ang;
+            if (t > 0x80)
+                ang = t - 0x100;
+        } else {
+            struct Ent5778 *te = p5778[target].entity;
+            dx = (te->xRaw >> 4) - (x >> 8);
+            dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
+            ang = (u16)atan5778(dx, dy) >> 8;
+            t = ang;
+            if (t > 0x80)
+                ang = t - 0x100;
+        }
+        {
+            s16 sa = ang;
+            if (sa < 0)
+                ang = sa + 0x100;
+        }
+        {
+            s16 sa = ang;
+            if (sa > 0x100)
+                ang = sa - 0x100;
+        }
+    } else {
+        ang = dir5778[((u8 *)p->entity)[3] >> 4];
+    }
+    if (target == 0xFFFF)
+        target = arg->target;
+    x += move5778(sin5778[(s16)ang + 0x40] * 2, 45);
+    y += move5778(sin5778[(s16)ang] * 2, 45);
+    if (wait5778(p, 1))
+        goto end;
+    if (p->state != 13 && !sub_0800CCCC() && !sub_0800CD34())
+        sub_0805865C(0x17);
+    if (who == local)
+        pre5778(&p5778[who]);
+    iter = (s32)(n * 17) / 10 + 9;
+    while (iter-- != 0 && !sub_08056E90() && p->state != 11 && p->state != 12 && !sub_0800D11C()) {
+        hit = 0;
+        pos.x = x;
+        pos.y = y;
+        box.w = 8;
+        box.h = 8;
+        if (target <= 3) {
+            box2.w = 0x10;
+            box2.h = 0x10;
+            cnt = sub_08002164();
+            for (j = 0; j < cnt; j++) {
+                if (who == j)
+                    continue;
+                if (sub_0800CDF8())
+                    break;
+                q = &p5778[j];
+                if (q->team == p->team || q->team == 0)
+                    continue;
+                if (sub_0800CD8C())
+                    break;
+                if ((u32)(((u8 *)q->entity)[0] << 28) >> 28 == 14)
+                    continue;
+                opos.x = (q->entity->xRaw >> 4) << 8;
+                opos.y = (u32)(q->entity->yRaw << 20) >> 12;
+                if (!test5778(&pos, &opos, &box, &box2))
+                    continue;
+                ok = 0;
+                if (q->state != 11 && q->hist[who] != serial && !(q->flags & 0x2000))
+                    ok = 1;
+                if (!ok)
+                    continue;
+                if (roll5778(power, q->power)) {
+                    if (big) {
+                        atk[0xA9] += 0x18;
+                        sub_08022100(q->id);
+                        p->flags |= 0x200000;
+                    }
+                    if (who == local) {
+                        u16 s = p->state;
+                        u16 t;
+                        p->state = lo;
+                        t = p->f26;
+                        p->f26 = kind;
+                        hitP5778(p, q, atk, 0);
+                        p->state = s;
+                        p->f26 = t;
+                        q->hist[p->id] = serial;
+                        sub_0805865C(0x1A);
+                    }
+                    if (big)
+                        p->flags &= ~0x200000;
+                } else if (!(sub_0800086C() & 1)) {
+                    if (who == local) {
+                        u16 s = p->state;
+                        u16 t;
+                        p->state = lo;
+                        t = p->f26;
+                        p->f26 = kind;
+                        hitP5778(p, q, atk, 1);
+                        sub_0805865C(0x1A);
+                        p->state = s;
+                        p->f26 = t;
+                        q->hist[p->id] = serial;
+                    }
+                } else if (who == sub_080020F4()) {
+                    sub_080223F4(q->x, q->y);
+                    q->hist[p->id] = serial;
+                    if (!sub_0800CCCC() && !sub_0800CD34())
+                        sub_0805865C(0x55);
+                }
+                hit = 1;
+            }
+        } else {
+            for (j = 0; j <= 4 && !hit; j++) {
+                if (!(e5778Mask & (1 << j)))
+                    continue;
+                e = &e5778Base[j];
+                if (sub_0800CD8C())
+                    break;
+                if (sub_0800CDF8())
+                    break;
+                if (e->team == p->team || e->team == 0)
+                    continue;
+                box2.w = e->w;
+                box2.h = e->h;
+                if (!test5778(&pos, &e->x, &box, &box2))
+                    continue;
+                ok = 0;
+                if (e->state != 11)
+                    ok = e->serial != serial;
+                if (!ok)
+                    continue;
+                if (roll5778(power, e->power)) {
+                    if (big) {
+                        atk[0xA9] += 0x18;
+                        sub_08022100(e->id + 4);
+                        p->flags |= 0x200000;
+                    }
+                    if (who == sub_080020F4()) {
+                        u16 s = p->state;
+                        u16 t;
+                        p->state = lo;
+                        t = p->f26;
+                        p->f26 = kind;
+                        hitE5778(p, e, atk, 0);
+                        sub_0805865C(0x1A);
+                        p->state = s;
+                        p->f26 = t;
+                        e->owner = local;
+                        e->hitMask |= 1 << local;
+                    }
+                    if (big)
+                        p->flags &= ~0x200000;
+                } else if (!(sub_0800086C() & 1)) {
+                    if (who == sub_080020F4()) {
+                        u16 s = p->state;
+                        u16 t;
+                        p->state = lo;
+                        t = p->f26;
+                        p->f26 = kind;
+                        hitE5778(p, e, atk, 1);
+                        sub_0805865C(0x1A);
+                        p->state = s;
+                        p->f26 = t;
+                        e->owner = local;
+                        e->hitMask |= 1 << local;
+                    }
+                } else if (who == sub_080020F4()) {
+                    sub_080223F4(e->x, e->y);
+                    e->serial = serial;
+                    if (!sub_0800CCCC() && !sub_0800CD34())
+                        sub_0805865C(0x55);
+                }
+                hit = 1;
+                break;
+            }
+        }
+        if (who == local && wall5778(&pos, &box))
+            hit = 1;
+        if (hit)
+            break;
+        c = sub_0800AE50(x, y, 0);
+        if ((c & 0xF) && !(c & 0x10))
+            break;
+        x += move5778(sin5778[(s16)ang + 0x40], 45);
+        y += move5778(sin5778[(s16)ang], 45);
+        if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
+            sx = x >> 8;
+            sy = y >> 8;
+            pos5778((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
+            shade = (u8)sub_0800BC44(sx, sy, 0);
+            d = dirIdx;
+            step5778(&spr, 0x40 | d, &frame, &timer, 1);
+            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
+                shade = 0;
+            if (sub_0800CB9C()) {
+                if ((flags5778 & 1) == (who & 1))
+                    draw5778(&spr, dx + offX5778[(s16)d][0], dy + offY5778[(s16)d][0], (s16)d + 0x40, frame, shade);
+            } else {
+                draw5778(&spr, dx + offX5778[(s16)d][0], dy + offY5778[(s16)d][0], (s16)d + 0x40, frame, shade);
+            }
+        }
+        sub_080003F0();
+    }
+end:
+    m5778[who] &= ~(1 << slot);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075778);
+#endif
 struct Task60E8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info60E8 { u32 who, i, a, pad, c, b; };
 extern u32 gMasks60E8[] asm("gUnk_030063E0");
