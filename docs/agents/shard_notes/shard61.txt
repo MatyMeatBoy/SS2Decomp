@@ -1,10 +1,12 @@
-sub_0805D854 (nov03-w5): draft 244 -> 141 (fullcheck instruction diff). Removed the `register ... asm("r7")`
-  on `initialized` (ROM spills it to sp+0x14; r7 is only the reload reg for the constant stores), tiles as
-  `u16 [][32]` (ROM indexes col*2 + (row<<6)), `u16 h = window->height` for both clearRows calls (one ldrh).
-  ROM computes right/bottom in two truncating steps (`right = x + (w >> 1); right += w & 1;`); doing that
-  is structurally right but reshuffles the allocation (204), so it is not in the draft yet.
-  ROM stack: width 0, height 4, left 8, top 0xC, delay 0x10, initialized 0x14, leftEdge 0x18, rightEdge
-  0x1C, topEdge 0x20, right+2 0x24, bottom+2 0x28; window ptr in sl. Declaration order does not move slots.
+
+sub_0805CB8C (nov03-w1): draft 51 diff lines (301 vs 302 insns, the extra one is a false .short pad).
+  Remaining = spill-slot order + ip/r8 swap in the count loop. ROM slots: &gUnk_03001F40 (pal, hoisted by
+  the outer for(;;)) at sp+0x2C, then &counts sp+0x30, &angles sp+0x34, &colors sp+0x38. Slots follow
+  pseudo regno; in our build the frame-address pseudos (484-486, fp+16/20/28) are created by loop.c
+  before the outer loop hoists pal (489). Keep `cnts = counts` (ROM loads it into sl for the do-loop;
+  dropping it gives 69). A palette pointer local or a struct local for the arrays is worse (108-156).
+  Permuter 5 min: 47 only via an unused `s16 new_var;` declared between counts and angles (not landed).
+not move slots.
  min: nothing.
 sub_0805DC1C: tiles are a 2D array `u16 [][32]` (ROM computes (row<<6)+(col<<1)); draft 294 -> 207.
   Left: ROM keeps halfWidth twice (r3 and a copy r2), one more spill slot (frame 0x14).
