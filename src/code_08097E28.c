@@ -2489,7 +2489,97 @@ void sub_0809AEE8(void *input)
     sub_08056E24();
 }
 #undef RENDER_AEE8
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C1B4);
+struct SprC1B4 { u32 f0, f4, f8, fC; u8 pad10[0xC]; u8 f1C[7]; u8 f23; u8 f24; u8 pad25[0xF]; };
+struct PlayerC1B4 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x23]; s32 x, y; u8 p94[0x1c]; u16 fb0; u8 pb2[0x32]; u32 fe4[26]; };
+struct ObjC1B4 { u16 f0; u8 p2[6]; s16 f8; u16 fa, fc; u8 pe[6]; s32 x, y; u8 p1c[0x34]; s32 f50; };
+extern struct PlayerC1B4 playersC1B4[] asm("gUnk_03003CE0");
+extern struct ObjC1B4 *objC1B4 asm("gUnk_030002EC");
+extern u16 palC1B4 asm("gUnk_030002F0");
+extern void initC1B4(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern void animC1B4(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern s32 *drawC1B4(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
+extern void coordsC1B4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u16 sqrtC1B4(s32) asm("Sqrt");
+extern void sub_08029CEC(s32, s32, s32);
+struct TaskC1B4 { u32 f0, f4, f8; };
+extern struct TaskC1B4 *taskC1B4(void) asm("sub_0800048C");
+
+void sub_0809C1B4(u16 arg0)
+{
+    struct SprC1B4 spr;
+    s16 sx, sy;
+    u16 frame, h2;
+    s32 baseX, baseY;
+    u16 timer;
+    s32 radius;
+    u8 delay;
+    s32 hit;
+    u8 ang;
+    s32 x, y;
+    u16 dx, dy;
+    u16 d;
+
+    initC1B4(&spr, 0x50005, 0, -1, 1);
+    spr.f1C[0] = palC1B4;
+    baseX = objC1B4->x;
+    baseY = objC1B4->y;
+    hit = 0;
+    radius = 0;
+    ang = arg0 << 5;
+    timer = 360;
+    delay = 120;
+    sub_0805865C(0xE6);
+    do {
+        if (delay != 0) {
+            delay--;
+            x = baseX;
+            y = baseY;
+            if (delay == 0)
+                sub_0805865C(0xE7);
+        } else {
+            x = (u32)(gUnk_080B9704[ang + 0x40] * radius) >> 8;
+            y = radius;
+            y = (u32)(gUnk_080B9704[ang] * y) >> 8;
+            x += baseX;
+            y += baseY;
+            radius += 0x200;
+            if (sub_0800CE30() == 1 && (arg0 & 1))
+                ang--;
+            else
+                ang++;
+        }
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            sub_08000AF0(palC1B4 + 0x10, (void *)spr.fC, 1);
+            coordsC1B4((s16)(x >> 8), (s16)(y >> 8), &sx, &sy, 0, 0);
+            animC1B4(&spr, 0x1A, &frame, &h2, 1);
+            if (delay != 0) {
+                if (arg0 == 0)
+                    drawC1B4(sx, sy + 2, 0x1A, frame, arg0, spr.f1C, spr.f8, spr.f0)[3] = sy;
+            } else if (timer & 1) {
+                drawC1B4(sx, sy, 0x1A, frame, delay, spr.f1C, spr.f8, spr.f0);
+            }
+        }
+        dx = (x >> 8) - (playersC1B4[sub_080020F4()].x >> 8);
+        dy = (y >> 8) + 12 - (playersC1B4[sub_080020F4()].y >> 8);
+        d = sqrtC1B4((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+        if (delay == 0 && hit == 0 && d <= 9
+            && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && objC1B4->fc != 11
+            && !(playersC1B4[sub_080020F4()].flags & 0x2000) && playersC1B4[sub_080020F4()].f68
+            && playersC1B4[sub_080020F4()].state != 14 && playersC1B4[sub_080020F4()].state != 11
+            && playersC1B4[sub_080020F4()].state != 12
+            && playersC1B4[sub_080020F4()].fe4[objC1B4->f0] != objC1B4->f50) {
+            if (sub_0800CE30() == 1)
+                sub_08029CEC(0, 0x46, 5);
+            else
+                sub_08029CEC(0, 0xC, 1);
+            playersC1B4[sub_080020F4()].fb0 = 0xFFFE;
+            playersC1B4[sub_080020F4()].fe4[objC1B4->f0] = objC1B4->f50++;
+            hit = 1;
+        }
+        sub_080003F0();
+    } while (--timer != 0xFFFF);
+    taskC1B4()->f8 = 0;
+}
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C4E8);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809C8F4);
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809CC2C);
