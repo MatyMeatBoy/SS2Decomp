@@ -1101,7 +1101,6 @@ void sub_08069BBC(u32 a, u32 b)
   sub_08000274_3((u32) t, (b << 16) | a, i);
   gMask0300641C |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Z069S {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
 struct Z069A {u32 player,bit,target,value,f10,level;};
 struct Z069P {u16 id;u8 pad2[30];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 team;u8 pad69[89];u16 resource;u8 padC4[24];u32 counter;u8 padE0[4];u32 ehist[5];u32 phist[4];u8 pad108[64];u16 *sprite;};
@@ -1126,6 +1125,7 @@ extern s32 z069Hit(s32,s32,void *) asm("sub_08068A00");
 extern void z069Init(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void z069Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 extern u32 sub_0807A040();
+#ifdef NONMATCHING
 void sub_08069C44(struct Z069A *arg) {
     struct Z069S sprite;
     s16 dx,dy;
@@ -1264,7 +1264,6 @@ void sub_08069C44(struct Z069A *arg) {
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069C44);
 #endif
-#ifdef NONMATCHING
 void sub_0806A19C(struct Z069A *arg) {
     struct Z069S sprite;
     s16 dx,dy;
@@ -1299,7 +1298,7 @@ void sub_0806A19C(struct Z069A *arg) {
     s16 sa,sang,diff;
     s32 d;
     s32 idx;
-    u32 a0;
+    s16 a0;
 
     local=sub_080020F4();
     target=(u16)arg->target;
@@ -1341,13 +1340,11 @@ void sub_0806A19C(struct Z069A *arg) {
         x=(p->sprite[0]>>4)<<8;
         y=(u32)(p->sprite[1]<<20)>>12;
         idx=((u8 *)p->sprite)[3]>>4;
-        tbl=z069Dir;
+        angle=z069Dir[idx];
     } else {
         x=enemy->x; y=enemy->y;
-        tbl=z069Dir;
-        idx=enemy->dir;
+        angle=z069Dir[enemy->dir];
     }
-    angle=tbl[idx];
     x+=z069Sin[((s16)angle)+0x40]*4;
     y+=z069Sin[((s16)angle)]*4;
     if((local==player || player>3) && sub_0800CCCC()==0 && sub_0800CD34()==0) sub_0805865C(level+0x115);
@@ -1380,8 +1377,8 @@ void sub_0806A19C(struct Z069A *arg) {
                 dx=(u32)(e->x-x)>>8;
                 dy=(u32)(e->y-y)>>8;
             }
-            a0=(u32)(ArcTan2(dx,dy)<<16)>>24;
-            a=a0;
+            a=(u32)(ArcTan2(dx,dy)<<16)>>24;
+            a0=a;
             d=a0-(s16)angle;
             if(d>0x80) a=a0-0x100;
             else if(d<-0x80) a=0x100|a0;
@@ -1441,9 +1438,6 @@ end:
     if(player<=3 && player!=local) p->counter++;
     z069F[player]&=~(1<<bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806A19C);
-#endif
 struct T070Sprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T070Player { u8 pad0[32]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[88]; s32 x,y; u8 pad94[46]; u16 resource; u8 padC4[24]; u32 counter; u8 padE0[104]; u16 *sprite; };
 struct T070Enemy { u8 pad0[20]; s32 x,y; u8 pad1C[52]; u32 counter; u8 pad54[10]; u16 resource; u8 pad60[640]; };
