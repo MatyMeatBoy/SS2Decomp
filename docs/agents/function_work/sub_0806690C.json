@@ -1,6 +1,6 @@
 {
   "address": "0x0806690C",
-  "updated_utc": "2026-11-03T13:38:43.417478+00:00",
+  "updated_utc": "2026-11-03T14:14:42.329411+00:00",
   "checkpoint": "4f32ac72029bf9cb2a457be16670f568d4889138",
   "areas": [
     {
@@ -24,14 +24,14 @@
     {
       "id": "dispatch",
       "label": "Payload effects and queue handling",
-      "state": "active",
-      "evidence": "All 48 outer tag cases have compiling C draft handlers. The entity branch of hit case 9 now precedes the player branch as in the physical ASM. Cases 20/21 share their creation call after both guarded prologues, while case 22 has its own result lifetime and independent CpuSet. The shared sub_08056E24 call is last. An objdump relocation audit confirms all 107 physical call targets in exactly the original order; this does not establish arguments, CFG or semantic equivalence. The nonnull entity effect path in case 10 includes the original effect+6 halfword store after sub_0801DB94, verified against 0x08066F48\u21920x08066F8C\u21920x08066FBC. Earlier read-only review was insufficient to prove that tail; further exact comparison remains required."
+      "state": "done",
+      "evidence": "All 48 tag handlers reproduce the original code: typed player/entity/game-state views, block-local queue entries, an inline CpuSet helper for the 8-word record copy, the case 0x1B sub-switch in source order 5,6,8,7, and explicit base/offset/constant locals in case 0x21."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
-      "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4448. After normalising branch targets, literal-pool padding and jump-table addends, 53 instruction lines differ (was 1062). Remaining: phase-A compare form, case 9 not hoisting the constant 1 (which lets blk take sl instead of a stack slot), case 0x13 sl/ip swap, CpuSet argument order in 0x14/0x16, case 0x21 constant hoist/reload, case 0x26 base register choice. make compare OK, make nonmatching OK, check_tree 0 errors."
+      "state": "done",
+      "evidence": "The INCLUDE_ASM fallback and asm/nonmatchings/code_080659B0/sub_0806690C.s were removed; the normal C build gives make compare shiningsoul2_eu.gba: OK, nmdiff reports MATCH, make nonmatching succeeds and check_tree reports 0 errors."
     }
   ],
   "regions": []

@@ -814,10 +814,8 @@ void sub_08066898(void)
         sub_080003F0();
     }
 }
-#ifdef NONMATCHING
 /* Link message RECEIVER (one task per peer, `peer` = sender id 0..3). See docs/LINK_CABLE.md and docs/LINK_MESSAGES.md.
- * Draft reconstructed from the asm/Ghidra (NOT byte-matching): offsets and control flow follow the original, helper
- * names are the raw addresses. Phase A waits for an announce block (blk[0]==0xB1, tag blk[1] in 0x81..0xB0, blk[2] chunks),
+ * Byte-matching C; helper names are the raw addresses. Phase A waits for an announce block (blk[0]==0xB1, tag blk[1] in 0x81..0xB0, blk[2] chunks),
  * phase B acks the tag until the sender switches to chunk mode (blk[1]==0xB2), phase C receives 8-byte chunks into a 0x100
  * byte buffer acking each one, then the tag is dispatched. All waits are VBlank-synchronised stop-and-wait handshakes. */
 #define XF(n) extern u32 x_##n() __asm__(#n);
@@ -1442,14 +1440,22 @@ restart:
             }
             break;
         case 0x21:
-            for (i = 0; i < 5; i++) {
-                if ((gRxEntityMask & (1 << i)) && d[0] == gRxEnts[i].f2) {
-                    struct RxEff *effect = (struct RxEff *)x_sub_0801E104(&gRxEnts[i], d[1]);
-                    if (effect != 0) {
-                        effect->f4 = d[1];
-                        effect->f2 = peer;
-                        if (gRxPlayers[effect->f2].fC == 5 && effect->f4 - 6 == 0)
-                            effect->f0 = 0x168;
+            {
+                struct RxPlayer *pls;
+                u32 dur, off;
+                i = 0;
+                pls = gRxPlayers;
+                off = 0;
+                dur = 0x168;
+                for (; i < 5; off += sizeof(struct RxEnt), i++) {
+                    if ((gRxEntityMask & (1 << i)) && d[0] == ((struct RxEnt *)(off + (u32)gRxEnts))->f2) {
+                        struct RxEff *effect = (struct RxEff *)x_sub_0801E104((struct RxEnt *)(off + (u32)gRxEnts), d[1]);
+                        if (effect != 0) {
+                            effect->f4 = d[1];
+                            effect->f2 = peer;
+                            if (pls[effect->f2].fC == 5 && effect->f4 - 6 == 0)
+                                effect->f0 = dur;
+                        }
                     }
                 }
             }
@@ -1557,9 +1563,6 @@ restart:
         goto restart;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080659B0", sub_0806690C);
-#endif
 void sub_08067A68(u32 index)
 {
     struct Task { u32 pad[2]; u32 type; void (*fn)(u32); u8 *stack; u8 pad14[12]; u8 *mem; u32 state; };
