@@ -738,7 +738,109 @@ void sub_0805B21C(void)
     *(u32 *)(task + 0x24) = 0;
     sub_08000274((u32)task);
 }
+#ifdef NONMATCHING
+struct Data2C4 { u32 w[4]; };
+extern u16 counter2C4 asm("gUnk_03005D5C");
+u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
+{
+    u8 *e;
+    u32 i;
+    u32 count;
+    u32 lowest, lowestIndex;
+    u32 mode;
+    s32 a, b, r;
+    s32 px, py;
+    u16 old;
+
+    if (*data == 0)
+        return 0;
+    e = *(u8 **)&gUnk_03005D58;
+    lowest = 0x11170;
+    lowestIndex = 0x11170;
+    count = 0;
+    for (i = 0; i <= 15; i++, e += 0x20) {
+        if (*(u16 *)(e + 0xA) & 1) {
+            count++;
+            if (*(u16 *)(e + 0xC) < lowest) {
+                lowest = *(u16 *)(e + 0xC);
+                lowestIndex = i;
+            }
+        }
+    }
+    if (count > 15)
+        *(u16 *)(*(u8 **)&gUnk_03005D58 + lowestIndex * 0x20 + 0xA) = 0;
+    mode = 0;
+    if (kind & 0x20)
+        mode = kind;
+    for (a = 0; a <= 20; a++) {
+        px = x + ((a - 10) << 10);
+        for (b = 0; b <= 20; b++) {
+            py = y + ((b - 10) << 10);
+            if ((sub_0800AE50(px, py, mode) & 7) == 0) {
+                u32 k;
+                u8 *f = *(u8 **)&gUnk_03005D58;
+                u8 *res;
+                for (k = 0; k <= 15; k++, f += 0x20) {
+                    if (*(u16 *)(f + 0xA) & 1) {
+                        s32 dx = (px - *(s32 *)f) >> 8;
+                        s32 dy;
+                        if (dx < 0) dx = -dx;
+                        dy = (py - *(s32 *)(f + 4)) >> 8;
+                        if (dy < 0) dy = -dy;
+                        if (dx <= 7 && dy <= 7 && kind == *(u16 *)(f + 8)) {
+                            res = f;
+                            goto done;
+                        }
+                    }
+                }
+                res = 0;
+            done:
+                if (res == 0) {
+                    (*(u8 **)&gUnk_03000124)[b * 21 + a] = 1;
+                    continue;
+                }
+            }
+            (*(u8 **)&gUnk_03000124)[b * 21 + a] = 0;
+        }
+    }
+    e = *(u8 **)&gUnk_03005D58;
+    for (i = 0; i <= 15; i++, e += 0x20) {
+        if (!(*(u16 *)(e + 0xA) & 3)) {
+            *(s32 *)e = x;
+            *(s32 *)(e + 4) = y;
+            *(struct Data2C4 *)(e + 0x10) = *(struct Data2C4 *)data;
+            {
+                u32 v = counter2C4;
+                counter2C4 = v + 1;
+                *(u16 *)(e + 0xC) = v;
+                if ((u16)(v + 1) > 0xFFFE)
+                    counter2C4 = 1;
+            }
+            *(u16 *)(e + 0xE) = 5;
+            *(u16 *)(e + 8) = kind;
+            for (r = 0; r <= 9; r++) {
+                for (a = -r; a < r; a++) {
+                    px = *(s32 *)e + (a << 10);
+                    for (b = -r; b < r; b++) {
+                        py = *(s32 *)(e + 4) + (b << 10);
+                        if ((*(u8 **)&gUnk_03000124)[b * 21 + a + 220]) {
+                            *(s32 *)e = px;
+                            *(s32 *)(e + 4) = py;
+                            *(u16 *)(e + 0xA) = 1;
+                            return e;
+                        }
+                    }
+                }
+            }
+            *(u16 *)(e + 0xA) = 1;
+            return e;
+        }
+    }
+    return e;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
+#endif
 void sub_0805B4CC(s32 *x, s32 *y)
 {
     s32 i, j, r;
