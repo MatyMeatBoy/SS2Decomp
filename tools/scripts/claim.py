@@ -93,7 +93,7 @@ def owner_of(func):
 
 def guard(branch, mb):
     """Refuse to deliver functions that belong to another shard (the cause of overlapping work)."""
-    mine = shard_funcs(int(branch.split("/")[1]))
+    mine = shard_funcs(int(remote_shard(branch).split("/")[1]))
     touched = set()
     base = git("merge-base", "origin/" + mb, "HEAD")
     changed = git("diff", "--name-only", base + "..HEAD").splitlines()
@@ -171,6 +171,10 @@ def current_shard():
     return b
 
 
+def remote_shard(b):
+    return b.split("@", 1)[0]
+
+
 def rebase_on_main():
     mb = main_branch()
     git("fetch", "-q", "origin", mb)
@@ -198,12 +202,16 @@ def cmd_take(agent, want=None):
     own, sh = owners(), shards()
     cands = [int(want)] if want is not None else sorted((s for s in sh if s not in own), key=lambda s: (-sh[s][1], s))
     for s in cands:
-        b = "shard/%03d" % s
-        git("switch", "-q", "-C", b, "origin/" + mb)
+        rb = "shard/%03d" % s
+        b = rb
+        # A stale local shard/NNN may be checked out in another worktree; use a private local name then.
+        if git("switch", "-q", "-C", b, "origin/" + mb, check=False) == "" and git("rev-parse", "--abbrev-ref", "HEAD") != b:
+            b = "%s@%s" % (rb, agent)
+            git("switch", "-q", "-C", b, "origin/" + mb)
         git("commit", "-q", "--allow-empty", "--no-verify", "-m", "claim shard %d (%s)" % (s, agent))
-        r = subprocess.run(["git", "push", "-q", "origin", "%s:refs/heads/%s" % (b, b)], cwd=ROOT, capture_output=True, text=True)
+        r = subprocess.run(["git", "push", "-q", "origin", "%s:refs/heads/%s" % (b, rb)], cwd=ROOT, capture_output=True, text=True)
         if r.returncode == 0:
-            git("branch", "-q", "--set-upstream-to", "origin/" + b, check=False)
+            git("branch", "-q", "--set-upstream-to", "origin/" + rb, check=False)
             print("claimed shard %d on branch %s. Functions:  python3 tools/scripts/shard.py show %d" % (s, b, s))
             return
         git("switch", "-q", "--detach", "origin/" + mb)
@@ -220,7 +228,7 @@ def cmd_land():
         make_compare()
         r = subprocess.run(["git", "push", "-q", "origin", "HEAD:refs/heads/" + mb], cwd=ROOT, capture_output=True, text=True)
         if r.returncode == 0:
-            git("push", "-q", "--force-with-lease", "origin", "%s:refs/heads/%s" % (b, b), check=False)
+            git("push", "-q", "--force-with-lease", "origin", "%s:refs/heads/%s" % (b, remote_shard(b)), check=False)
             print("landed on %s" % mb)
             return
         print("main moved, retrying (%d)" % (attempt + 1))
@@ -232,14 +240,14 @@ def cmd_pr():
     mb = rebase_on_main()
     guard(b, mb)
     make_compare()
-    git("push", "-q", "--force-with-lease", "origin", "%s:refs/heads/%s" % (b, b))
-    r = subprocess.run(["gh", "pr", "create", "--fill", "--base", mb, "--head", b], cwd=ROOT)
+    git("push", "-q", "--force-with-lease", "origin", "%s:refs/heads/%s" % (b, remote_shard(b)))
+    r = subprocess.run(["gh", "pr", "create", "--fill", "--base", mb, "--head", remote_shard(b)], cwd=ROOT)
     if r.returncode:
         print("push done; open the PR by hand: %s -> %s" % (b, mb))
 
 
 def cmd_release(s=None):
-    b = "shard/%03d" % int(s) if s is not None else current_shard()
+    b = "shard/%03d" % int(s) if s is not None else remote_shard(current_shard())
     git("push", "-q", "origin", "--delete", b, check=False)
     print("released %s" % b)
 
