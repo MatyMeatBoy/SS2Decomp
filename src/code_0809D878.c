@@ -1786,7 +1786,165 @@ void sub_080A099C(void)
         sub_080003F0();
     }
 }
+#ifdef NONMATCHING
+struct A0B44Anim { u32 f0, f4, f8, fC, f10, f14, f18; u8 b1C[0x18]; };
+struct A0B44Shape { u16 f0; u16 f2; };
+struct A0B44Player {
+    u16 id;
+    u8 pad2[0x1E];
+    u16 state;
+    u8 pad22[0xE];
+    u32 flags;
+    u8 pad34[0x34];
+    u8 f68;
+    u8 pad69[0x23];
+    s32 x;
+    s32 y;
+    u8 pad94[0x1C];
+    u16 fB0;
+    u8 padB2[0x32];
+    s32 marks[16];
+    u8 pad124[0x24];
+    struct A0B44Shape *shape;
+};
+struct A0B44Ent { u16 f0; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x; s32 y; u8 p1C[0x34]; s32 serial; u8 p54[0x1B0]; u8 sub[0xD8]; };
+struct A0B44Vel { s32 x, y; };
+extern struct A0B44Player a0b44Players[] asm("gUnk_03003CE0");
+extern struct A0B44Ent *a0b44Ent asm("gUnk_0300032C");
+extern u16 a0b44Pal asm("gUnk_03000330");
+extern void a0b44Init(struct A0B44Anim *, u32, u32, s32, s32) asm("sub_08065158");
+extern u16 a0b44Step(struct A0B44Anim *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern void a0b44Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u8 *a0b44Draw(s16, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern u32 a0b44Target(u32) asm("sub_08096594");
+extern void a0b44Aim(s32, s32, u32, s32, struct A0B44Vel *) asm("sub_08097978");
+extern void a0b44Hit(s32, s32, s32) asm("sub_08029CEC");
+extern u16 a0b44Sqrt(s32) asm("Sqrt");
+void sub_080A0B44(void)
+{
+    struct A0B44Anim animA;
+    struct A0B44Anim animB;
+    u16 idxA, frmA, idxB, frmB;
+    s16 sx, sy;
+    struct A0B44Vel vel;
+    u8 *sub;
+    struct A0B44Player *target;
+    s32 px, py;
+    u32 tx;
+    s32 ty;
+    u16 doneA;
+    u16 life;
+    u8 tick;
+    u32 blink;
+    u8 aimTick;
+    u8 aims;
+    s32 running;
+    s32 hitDone;
+    s32 state;
+    u8 sprite;
+    s32 z;
+    s16 dx, dy;
+    u16 dist;
+
+    sub = a0b44Ent->sub;
+    a0b44Init(&animA, 0x5000A, a0b44Pal, -1, 1);
+    a0b44Init(&animB, 0x5000A, a0b44Pal, -1, 1);
+    animA.b1C[0] = a0b44Pal;
+    animB.b1C[0] = a0b44Pal;
+    target = &a0b44Players[a0b44Target(0)];
+    sub_08097A38(0);
+    frmA = 0;
+    frmB = 0;
+    idxA = 0;
+    idxB = 0;
+    hitDone = 0;
+    sprite = 7;
+    tick = 0;
+    state = 0;
+    running = 1;
+    do {
+        switch (state) {
+        case 0:
+            if (sub_0800CD8C() == 0)
+                doneA = a0b44Step(&animA, 4, &idxA, &frmA, state);
+            if (doneA) {
+                sprite = 7;
+                tick = 0;
+                blink = 0;
+                state = 1;
+            }
+            break;
+        case 1:
+            if (tick++ > 4) {
+                tick = 0;
+                if (--sprite == 4) {
+                    sprite = 8;
+                    blink = 1;
+                    aimTick = 0x3C;
+                    aims = 0;
+                    life = 0;
+                    state = 2;
+                    sub_0805865C(0xBF);
+                }
+            }
+            break;
+        case 2:
+            if (aimTick++ > 0x10) {
+                aimTick = 0;
+                if (aims <= 0x10) {
+                    aims++;
+                    tx = target->shape->f0 >> 4;
+                    ty = ((u32)(target->shape->f2 << 20) >> 20) - 0xC;
+                    a0b44Aim(px, py, tx, ty, &vel);
+                }
+            }
+            px += vel.x;
+            py += vel.y;
+            if (life++ > 0x1E0)
+                running = 0;
+            break;
+        }
+        if (sub_0800CD8C() == 0)
+            a0b44Step(&animB, sprite, &idxB, &frmB, blink);
+        if (sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0 && (z = sub_0800CC98()) == 0) {
+            if ((u32)state <= 1) {
+                sub_08000AF0(a0b44Pal + 0x10, (void *)(animA.fC + (*(u16 *)(sub + 0xD6) << 5)), 1);
+                a0b44Coords((a0b44Ent->x << 8) >> 16, (a0b44Ent->y << 8) >> 16, &sx, &sy, z, z);
+                *(s32 *)(a0b44Draw(sx, 0x9F, 4, idxA, 2, animA.b1C, animA.f8, animA.f0) + 0xC) = sy;
+                px = a0b44Ent->x + 0x1000;
+                py = a0b44Ent->y - 0x3000;
+            }
+            sub_08000AF0(a0b44Pal + 0x10, (void *)(animB.fC + (*(u16 *)(sub + 0xD6) << 5)), 1);
+            a0b44Coords((px << 8) >> 16, (py << 8) >> 16, &sx, &sy, z, z);
+            *(s32 *)(a0b44Draw(sx, 0x9F, sprite, idxB, 1, animB.b1C, animB.f8, animB.f0) + 0xC) = sy;
+        }
+        dx = (px >> 8) - (a0b44Players[sub_080020F4()].x >> 8);
+        dy = (py >> 8) + 0xC - (a0b44Players[sub_080020F4()].y >> 8);
+        dist = a0b44Sqrt(dx * dx + dy * dy);
+        if (hitDone == 0 && dist <= 0xF && sub_0800CDF8() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0
+            && a0b44Ent->state != 0xB
+            && !(a0b44Players[sub_080020F4()].flags & 0x2000)
+            && a0b44Players[sub_080020F4()].f68 != 0
+            && a0b44Players[sub_080020F4()].state != 0xE
+            && a0b44Players[sub_080020F4()].state != 0xB
+            && a0b44Players[sub_080020F4()].state != 0xC
+            && a0b44Players[sub_080020F4()].marks[a0b44Ent->f0] != a0b44Ent->serial) {
+            if (sub_0800CE30() == 1)
+                a0b44Hit(5, 0x3C, 7);
+            else
+                a0b44Hit(5, 0xF, 5);
+            a0b44Players[sub_080020F4()].fB0 = 0xFFFE;
+            a0b44Players[sub_080020F4()].marks[a0b44Ent->f0] = a0b44Ent->serial++;
+            hitDone = 1;
+        }
+        sub_080003F0();
+    } while (running);
+    *(s32 *)((u8 *)sub_0800048C() + 8) = running;
+    sub_080003F0();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0B44);
+#endif
 void sub_080A0F64(void) {
     if (M2C_FIELD(gUnk_0300032C, s16 *, 0x5C) != 0) {
         sub_080A0FC4();
