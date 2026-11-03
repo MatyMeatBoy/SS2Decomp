@@ -82,6 +82,12 @@ write permissions or acceptance criteria. Public repository text is English.
   recheck the remote head, active processes, checkout and open PR review before
   acting. A timestamp or an unknown owner alone is insufficient evidence. Never
   remove another owner's claim on your own; the coordinator handles recovery.
+- Start of every coordination session: `claim.py stale 24` lists claims idle for
+  24 hours or more with their unlanded commits (patch-equivalent commits already on
+  main are not counted). Integrate those commits first, then `claim.py stale 24
+  --release` deletes every stale claim with nothing unlanded. Assign the freed
+  shards to workers before other free shards. Uncommitted private work behind a
+  claim idle for 24 hours is not protected.
 - After integration, the owner may release the old claim after checking its head
   and backups. Update active bases without losing private commits or scratch files.
   Do not delete another owner's claim. A stale timestamp alone is not inactivity;

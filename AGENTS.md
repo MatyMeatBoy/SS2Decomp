@@ -24,6 +24,12 @@ inactivity, preserving its unmerged head and private work first. A live
 build/permuter or active PR review is work; a timestamp or stale lock alone is not. Do not delete someone else's claim
 on your own. Check ownership again before resuming edits after an interruption.
 
+**Stale claims are released every coordination session.** A claim whose branch has no new commit for
+24 hours is stale. The coordinator runs `python3 tools/scripts/claim.py stale 24`, integrates any
+unlanded commits it lists (like a PR: `make compare` OK, `make nonmatching`, `check_tree` 0 errors),
+then runs `claim.py stale 24 --release`, which only deletes claims with nothing unlanded. Freed shards
+go to workers before any other free shard. Push work at least daily to keep a claim alive.
+
 ## Up to 10+ agents at once without stepping on each other
 
 1. **One checkout per agent** (never share a working tree):
