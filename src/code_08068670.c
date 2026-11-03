@@ -5090,37 +5090,6 @@ struct Arg07356C { u32 owner; u32 bit; u8 pad8[4]; s32 fC; u8 pad10[4]; u32 leve
 extern struct Ply07356C players07656C[] asm("gUnk_03003CE0");
 extern u32 flags07656C[] asm("gUnk_030063E0");
 extern void effect07656C(s32,u32) asm("sub_08074DE8");
-static inline void buff07356C(struct Ply07356C *p, u32 owner, u16 level)
-{
-    struct Buff07356C *b;
-    u16 i;
-    u8 found;
-
-    found = 0;
-    b = p->buffs;
-    for (i = 0; i <= 7; i++, b++) {
-        if (b->timer > 0 && b->owner <= 3 && players07656C[b->owner].state == 7 && b->type == 5) {
-            if (b->level < level) {
-                b->timer = (level * 10 + 40) * 60;
-                b->level = level;
-            }
-            found = 1;
-            break;
-        }
-    }
-    if (!found) {
-        b = p->buffs;
-        for (i = 0; i <= 7; i++, b++) {
-            if (b->timer == -1) {
-                b->owner = owner;
-                b->timer = (level * 10 + 40) * 60;
-                b->type = 5;
-                b->level = level;
-                break;
-            }
-        }
-    }
-}
 void sub_0807356C(struct Arg07356C *arg0)
 {
     u8 ids[4];
@@ -5129,7 +5098,9 @@ void sub_0807356C(struct Arg07356C *arg0)
     struct Ply07356C *player;
     struct Pos07356C *pos;
     s32 self;
-    u32 owner, bit, level, count, x, y;
+    u32 owner, level, x;
+    u16 count;
+    u32 bit, y;
     u16 lv, i, dx, dy;
     s32 ax, ay;
 
@@ -5146,14 +5117,13 @@ void sub_0807356C(struct Arg07356C *arg0)
         if ((s16)me->mp < 0)
             me->mp = 0;
     }
-    pos = player->pos;
-    x = pos->x >> 4;
-    y = (u32)(pos->y << 20) >> 20;
+    x = player->pos->x >> 4;
+    y = (u32)(player->pos->y << 20) >> 20;
     count = 0;
     for (i = 0; i < sub_08002164(); i++) {
         p = &players07656C[i];
         pos = p->pos;
-        if (!(pos->f4 & 0x20) && (owner > 3 || p->team == player->team)) {
+        if (!((pos->f4 >> 5) & 1) && (owner > 3 || p->team == player->team)) {
             dx = (pos->x >> 4) - x;
             dy = ((u32)(pos->y << 20) >> 20) - y;
             if (level != 0) {
@@ -5166,8 +5136,7 @@ void sub_0807356C(struct Arg07356C *arg0)
                         ay = -ay;
                     if (ay <= 12) {
                         dist[count] = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
-                        ids[count] = i;
-                        count = (u16)(count + 1);
+                        ids[count++] = i;
                     }
                 }
             }
@@ -5177,7 +5146,34 @@ void sub_0807356C(struct Arg07356C *arg0)
         sub_0805865C(0x16C);
     if (self == owner) {
         effect07656C(self, arg0->fC);
-        buff07356C(player, owner, lv);
+            {
+            struct Buff07356C *b;
+            u8 found;
+            found = 0;
+            b = player->buffs;
+            for (i = 0; i <= 7; i++, b++) {
+                if (b->timer > 0 && b->owner <= 3 && players07656C[b->owner].state == 7 && b->type == 5) {
+                    if (b->level < lv) {
+                        b->timer = (lv * 10 + 40) * 60;
+                        b->level = lv;
+                    }
+                    found = 1;
+                    break;
+                }
+            }
+            if (!found) {
+                b = player->buffs;
+                for (i = 0; i <= 7; i++, b++) {
+                    if (b->timer == -1) {
+                        b->owner = owner;
+                        b->timer = (lv * 10 + 40) * 60;
+                        b->type = 5;
+                        b->level = lv;
+                        break;
+                    }
+                }
+            }
+            }
         player->f24 = 0;
         player->f26 = 0;
     } else {
@@ -5185,7 +5181,37 @@ void sub_0807356C(struct Arg07356C *arg0)
         while (i < count && level != 0) {
             effect07656C(ids[i], arg0->fC);
             if (ids[i] == self) {
-                buff07356C(&players07656C[self], owner, lv);
+            {
+                struct Ply07356C *q = &players07656C[self];
+            {
+            struct Buff07356C *b;
+            u8 found;
+            found = 0;
+            b = q->buffs;
+            for (i = 0; i <= 7; i++, b++) {
+                if (b->timer > 0 && b->owner <= 3 && players07656C[b->owner].state == 7 && b->type == 5) {
+                    if (b->level < lv) {
+                        b->timer = (lv * 10 + 40) * 60;
+                        b->level = lv;
+                    }
+                    found = 1;
+                    break;
+                }
+            }
+            if (!found) {
+                b = q->buffs;
+                for (i = 0; i <= 7; i++, b++) {
+                    if (b->timer == -1) {
+                        b->owner = owner;
+                        b->timer = (lv * 10 + 40) * 60;
+                        b->type = 5;
+                        b->level = lv;
+                        break;
+                    }
+                }
+            }
+            }
+            }
                 break;
             }
             i++;
@@ -5193,8 +5219,6 @@ void sub_0807356C(struct Arg07356C *arg0)
     }
     flags07656C[owner] &= ~(1 << bit);
 }
-
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0807356C);
 #endif
