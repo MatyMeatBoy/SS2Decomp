@@ -1,7 +1,8 @@
-nov03-w3: sub_08079458 draft differs only by the entry `mov r8, r1` (orig: ldr r0,[r4,#0x14]; add r1,sp,#0x4c; mov r8,r1;
-  str r0,[r1,#4]); everything else (jump table, padding) is position noise. Mechanism (from -dG/-dl dumps): GCSE PRE makes
-  the loop's &pos pseudo (507, later r8) a copy of the entry pos.y address pseudo. In the draft PRE *inserts* the copy at
-  the end of bb0 (after sub_08065158 + info->c load), i.e. expr (plus fp 60) is not available out of bb0; in the ROM the
-  copy sits right after the entry computation (pre_insert_copies), so the expr must be available at bb0's end.
+nov03-w2: `(&pos)->y = info->b;` (any &-form: ((s32 *)&pos)[1], *&pos.y, ...) creates the entry
+  `mov r8` copy -> exact size, 14 diff lines; only left: `add r0,sp,#0x4c; mov r8,r0` is emitted BEFORE the
+  `ldr r0,[r4,#20]` (LHS address expanded first), ROM has it after (then `mov r1,r8` disappears).
+  A temp (`v = info->b; (&pos)->y = v;`) or an inline setter loses the copy again (back to 110 lines).
+  Dead `pp = &pos;` in bb0 is removed before it helps. Permuter 5 min on the 14-line version: nothing.
+ter the entry computation (pre_insert_copies), so the expr must be available at bb0's end.
   Tried: s32 pos[2], pointer var pp=&pos at entry (gets r8 but add/mov come BEFORE the info->b load), v=info->b first
   then pp (pp then short-lived). Idea left: find what kills (plus fp 60) between the store and end of bb0.
