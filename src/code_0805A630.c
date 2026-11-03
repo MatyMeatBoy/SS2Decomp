@@ -1178,10 +1178,11 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     obj = (u8 *)sub_08007290(item[1] | 0x100000);
     kind = *(u16 *)(obj + 0xA0);
     if (kind == 1 || kind == 0x13) {
-        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        level = level * 40 + 100;
+        level = *(u16 *)(obj + 0xA2) * level / 100;
         if (player->hp >= player->maxHp)
             goto fail;
-        player->hp += amount;
+        player->hp += level;
         if (player->maxHp < player->hp)
             player->hp = player->maxHp;
         else if (player->hp < 0)
@@ -1194,8 +1195,9 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     } else if (kind == 2) {
         if (player->mp >= player->maxMp)
             goto fail;
-        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
-        player->mp += amount * 10;
+        level = level * 40 + 100;
+        level = *(u16 *)(obj + 0xA2) * level / 100;
+        player->mp += level * 10;
         if (player->maxMp < player->mp)
             player->mp = player->maxMp;
         else if (player->mp < 0)
@@ -1233,9 +1235,11 @@ s32 sub_0805BD5C(u16 *item, s32 level)
             sub_0805867C(0x73);
         }
     } else if (kind == 5) {
-        goto fail;
+        sub_0805865C(0x61);
+        return 0;
     } else if (kind == 0xC) {
-        goto fail;
+        sub_0805865C(0x61);
+        return 0;
     } else if (kind == 4) {
         if (player->f68 == 0)
             goto fail;
@@ -1272,14 +1276,17 @@ s32 sub_0805BD5C(u16 *item, s32 level)
     } else if (kind == 10) {
         if (sub_0800D1B0())
             goto fail;
-        if ((p = (u8 *)sub_0801E1D8(player, 6, 100)) != NULL
-            || (p = (u8 *)sub_0801E1D8(player, 7, 100)) != NULL
-            || (p = (u8 *)sub_0801E164(player, 0)) != NULL) {
+        if ((p = (u8 *)sub_0801E1D8(player, 6, 100)) != NULL) {
+        found10:
             sub_0801DB94(player->id, p, 6);
             *(s32 *)(p + 0x18) = level;
             sub_0805865C(0x73);
             return 1;
         }
+        if ((p = (u8 *)sub_0801E1D8(player, 7, 100)) != NULL)
+            goto found10;
+        if ((p = (u8 *)sub_0801E164(player, 0)) != NULL)
+            goto found10;
         goto fail;
     } else if (kind == 11) {
         if (sub_0800D1B0())
@@ -1292,9 +1299,11 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         *(s32 *)(p + 0x18) = level;
         sub_0805865C(0x73);
     } else if (kind == 0xD) {
-        goto fail;
+        sub_0805865C(0x61);
+        return 0;
     } else if (kind == 0xE) {
-        goto fail;
+        sub_0805865C(0x61);
+        return 0;
     } else if (kind == 0x10) {
         sub_080665B0(*(u16 *)(obj + 0xA2));
         return 0;
@@ -1302,10 +1311,11 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         player->mp = player->maxMp;
         player->hp = player->maxHp;
     } else if (kind == 0x12) {
-        amount = ((level * 40 + 100) * *(u16 *)(obj + 0xA2)) / 100;
+        level = level * 40 + 100;
+        level = *(u16 *)(obj + 0xA2) * level / 100;
         if (player->hp >= player->maxHp)
             goto fail;
-        player->hp += amount;
+        player->hp += level;
         if (player->maxHp < player->hp)
             player->hp = player->maxHp;
         else if (player->hp < 0)
@@ -1341,7 +1351,10 @@ struct C208Slot { u16 type; u16 arg; u16 bonus; u8 element; u8 level; u8 flag; }
 struct C208Range { u16 value; u16 upper; };
 s32 sub_0805C208(void *arg0, s32 arg1)
 {
-    u8 *objs[4];
+    u8 *o0;
+    u8 *o1;
+    u8 *o2;
+    u8 *o3;
     struct C208Slot *slot;
     u32 flags;
     u32 rollElement;
@@ -1361,8 +1374,8 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     rollLevel = 0;
     switch (slot->type) {
     case 2:
-        objs[0] = (u8 *)sub_08007290(slot->arg | 0xB0000);
-        if (objs[0][0x9B] == 9) {
+        o0 = (u8 *)sub_08007290(slot->arg | 0xB0000);
+        if (o0[0x9B] == 9) {
             table = (struct C208Range *)gUnk_08478044;
             r = sub_080008C8();
             if ((r & 0xF) <= 7)
@@ -1404,24 +1417,27 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         rollElement = 1;
         break;
     case 5:
-        objs[1] = (u8 *)sub_08007290(slot->arg | 0xE0000);
-        table = objs[1][0xA0] ? (struct C208Range *)gUnk_08478220 : (struct C208Range *)gUnk_08478158;
+        o1 = (u8 *)sub_08007290(slot->arg | 0xE0000);
+        table = o1[0xA0] ? (struct C208Range *)gUnk_08478220 : (struct C208Range *)gUnk_08478158;
         rollLevel = 0;
         break;
     case 3:
-        objs[3] = (u8 *)sub_08007290(slot->arg | 0xC0000);
+        o3 = (u8 *)sub_08007290(slot->arg | 0xC0000);
         table = (struct C208Range *)gUnk_08478158;
         rollLevel = 0;
         break;
     case 4:
-        objs[2] = (u8 *)sub_08007290(slot->arg | 0xD0000);
+        o2 = (u8 *)sub_08007290(slot->arg | 0xD0000);
         table = (struct C208Range *)gUnk_08478158;
         rollLevel = 0;
         break;
     default:
         return 1;
     }
-    if (slot->type <= 5 && slot->type >= 3) {
+    switch (slot->type) {
+    case 3:
+    case 4:
+    case 5:
         r = sub_080008C8() & 0xF;
         if (r <= 7) {
             r = sub_080008C8() & 0xF;
@@ -1439,12 +1455,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         r = sub_080008C8();
         r %= table[0].upper;
         table++;
-        for (low = 0, i = 0; i < count; i++, table++) {
+        for (low = 0, i = 0; i < count; i++, low = table->upper, table++) {
             if (low <= r && table->upper >= r) {
                 slot->bonus = table->value;
                 break;
             }
-            low = table->upper;
         }
     }
     if (rollLevel) {
@@ -1453,12 +1468,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         r = sub_080008C8();
         r %= table[0].upper + 1;
         table++;
-        for (low = 0, i = 0; i < count; i++, table++) {
+        for (low = 0, i = 0; i < count; i++, low = table->upper + 1, table++) {
             if (low <= r && table->upper >= r) {
                 slot->level = table->value;
                 break;
             }
-            low = table->upper + 1;
         }
     }
     if (rollElement) {
@@ -1472,27 +1486,26 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         r = sub_080008C8();
         r %= table[0].upper + 1;
         table++;
-        for (low = 0, i = 0; i < count; i++, table++) {
+        for (low = 0, i = 0; i < count; i++, low = table->upper + 1, table++) {
             if (low <= r && table->upper >= r) {
                 slot->element = table->value;
                 break;
             }
-            low = table->upper + 1;
         }
     }
     switch (slot->type) {
     case 2:
-        for (i = 0, p = objs[0] + 0xB0; i <= 2; i++, p += 4)
+        for (i = 0, p = o0 + 0xB0; i <= 2; p += 4, i++)
             if (*(u16 *)p != 0)
                 goto clearA;
         break;
     case 3:
-        for (i = 0, p = objs[3] + 0xA4; i <= 2; i++, p += 4)
+        for (i = 0, p = o3 + 0xA4; i <= 2; p += 4, i++)
             if (*(u16 *)p != 0)
                 goto clearB;
         break;
     case 4:
-        for (i = 0, p = objs[2] + 0xA4; i <= 2; i++, p += 4)
+        for (i = 0, p = o2 + 0xA4; i <= 2; p += 4, i++)
             if (*(u16 *)p != 0)
                 goto clearA;
         break;
@@ -1509,13 +1522,13 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         flags = 1;
         break;
     case 5:
-        for (i = 0, p = objs[1] + 0xA4; i <= 2; i++, p += 4)
+        for (i = 0, p = o1 + 0xA4; i <= 2; p += 4, i++)
             if (*(u16 *)p != 0)
                 goto clearB;
         break;
     }
     if (*(u32 *)&slot->bonus != 0)
-        slot->flag = (flags & 1) ? 0 : 1;
+        { u8 v = 1; if (flags & 1) v = 0; slot->flag = v; }
     /* Only unknown slot types return a value (1); callers ignore it. */
 }
 #else
@@ -1575,6 +1588,8 @@ u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
     return 1;
 }
 #ifdef NONMATCHING
+struct DropC620 { u16 type, val; u32 hi; };
+struct ExC620 { u8 pad[0x2C]; struct DropC620 drops[3]; };
 u32 sub_0805C620(u8 *entity, u16 *out)
 {
     u8 (*playerBytes)[];
@@ -1592,6 +1607,7 @@ u32 sub_0805C620(u8 *entity, u16 *out)
     u16 chance;
     u32 ok;
     u32 result;
+    u32 category;
 
     extra = entity + 0x204;
     zero = 0;
@@ -1608,14 +1624,14 @@ u32 sub_0805C620(u8 *entity, u16 *out)
 loop:
         type = t2 = entry[0];
         if (type != 0) {
-            if (low <= roll && *(u32 *)(extra + 0x30 + offset) >= roll) {
+            if (low <= roll && ((struct ExC620 *)extra)->drops[i].hi >= roll) {
                 out[0] = type;
                 out[1] = entry[1];
                 if (t2 == 9)
                     out[2] = *p214;
                 goto done;
             }
-            low = (u16)(*(u32 *)(extra + 0x30 + offset) + 1);
+            low = (u16)(((struct ExC620 *)extra)->drops[i].hi + 1);
         }
         entry += 4;
         offset += 8;
@@ -1633,32 +1649,36 @@ done:
             } while (0);
             return 1;
         }
-        roll = (u8)sub_080008C8();
+        roll = ((u32)(sub_080008C8() << 16) & 0xFF0000) >> 16;
         ok = 0;
         if (*(u16 *)(entity + 0x58) > 3)
             *(u16 *)(entity + 0x58) = 0;
         playerBytes = &c620Players;
-        chance = (*playerBytes)[4 * (83 * *(u16 *)(entity + 0x58)) + 0x74];
+        low = (*playerBytes)[4 * (83 * *(u16 *)(entity + 0x58)) + 0x74];
         switch (sub_08002164()) {
-        case 1: chance += 0x10; break;
-        case 2: chance += 0x15; break;
-        case 3: chance += 0x1A; break;
-        case 4: chance += 0x20; break;
+        case 1: low = (u16)(low + 0x10); break;
+        case 2: low = (u16)(low + 0x15); break;
+        case 3: low = (u16)(low + 0x1A); break;
+        case 4: low = (u16)(low + 0x20); break;
         }
-        if (chance > roll)
+        if (low > roll)
             ok = 1;
         if (ok == 0)
-            return 0;
+            goto fail;
         if (sub_0800CE30()) {
-            u16 category = *(u16 *)(entity + 0x78);
-            if (category == 0)
+            category = *(u16 *)(entity + 0x78);
+            if (category != 0) {
+                category += 50;
+            } else {
                 result = 0;
-            else
-                result = sub_0805C4FC((u8 *)out, category + 50, 0);
+                goto tail;
+            }
         } else {
-            result = sub_0805C4FC((u8 *)out, *(u16 *)(entity + 0x78), 0);
+            category = *(u16 *)(entity + 0x78);
         }
+        result = sub_0805C4FC((u8 *)out, category, 0);
     } while (0);
+tail:
     /* Types 9 and 10 (flag set) fall off the end: the original returns whatever is in r0. */
     type = out[0];
     if (type == 9) {
@@ -1670,11 +1690,13 @@ done:
             return 0;
         }
     } else if (type > 10) {
-        out[0] = 0;
-        return 0;
+        out[0] = 0; return;
     } else {
         return result;
     }
+    return;
+fail:
+    return 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C620);
