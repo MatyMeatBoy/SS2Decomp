@@ -8636,31 +8636,36 @@ void sub_080867F8(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08086860);
 #ifdef NONMATCHING
+struct Rgb087788 { u16 r:5, g:5, b:5, x:1; };
+struct RgbWord087788 { u32 r:5, g:5, b:5, x:1; };
+/* Fade a palette range toward grey level `fade & 0x1F` over `fade >> 16` frames. */
 void sub_08087788(u32 palette, u32 fade)
 {
     u16 entry = palette;
     u16 width = palette >> 16;
+    u16 low = fade;
     u16 duration = fade >> 16;
-    u32 target = fade & 0x1F;
+    u16 target = low & 0x1F;
     u16 *buffer;
-    u16 *dest;
-    u32 frame;
-    u32 i;
-    u32 count;
-    u16 color;
-    s32 red, green, blue;
+    u16 *dst;
+    u16 *src;
+    u16 frame;
+    u32 i, count;
+    u16 c;
+
     buffer = sub_08001494(width << 5);
-    dest = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
-    CpuSet(dest, buffer, (width << 3) | 0x04000000);
+    CpuSet((u8 *)&gUnk_03001F40 + (entry << 5), buffer, (width << 3) | 0x04000000);
     count = width << 4;
     for (frame = 0; frame < duration; frame++) {
-        dest = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
-        for (i = 0; i < count; i++) {
-            color = buffer[i];
-            red = (color & 0x1F) + ((s32)target - (color & 0x1F)) * (s32)frame / duration;
-            green = ((color >> 5) & 0x1F) + ((s32)target - ((color >> 5) & 0x1F)) * (s32)frame / duration;
-            blue = ((color >> 10) & 0x1F) + ((s32)target - ((color >> 10) & 0x1F)) * (s32)frame / duration;
-            dest[i] = (dest[i] & 0x8000) | (red & 0x1F) | ((green & 0x1F) << 5) | ((blue & 0x1F) << 10);
+        dst = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
+        src = buffer;
+        for (i = 0; i < count; i++, dst++, src++) {
+            c = ((struct RgbWord087788 *)src)->r;
+            ((struct Rgb087788 *)dst)->r = c + (s32)((target - c) * frame) / duration;
+            c = ((struct RgbWord087788 *)src)->g;
+            ((struct Rgb087788 *)dst)->g = c + (s32)((target - c) * frame) / duration;
+            c = ((struct RgbWord087788 *)src)->b;
+            ((struct Rgb087788 *)dst)->b = c + (s32)((target - c) * frame) / duration;
         }
         sub_08000B38();
         sub_080003F0();
