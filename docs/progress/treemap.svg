@@ -569,7 +569,7 @@
 <rect x="419.79" y="28.00" width="138.25" height="101.00" fill="#0d1117"/>
 <rect x="420.79" y="29.00" width="35.45" height="34.65" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08075778 | sub_08075778 | unidentified  0x08075778  2416 bytes  [nonmatch]</title></rect>
 <rect x="420.79" y="63.65" width="35.45" height="32.64" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080761A4 | sub_080761A4 | unidentified  0x080761A4  2276 bytes  [todo]</title></rect>
-<rect x="420.79" y="96.28" width="35.45" height="31.72" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08076BA0 | sub_08076BA0 | unidentified  0x08076BA0  2212 bytes  [todo]</title></rect>
+<rect x="420.79" y="96.28" width="35.45" height="31.72" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08076BA0 | sub_08076BA0 | unidentified  0x08076BA0  2212 bytes  [nonmatch]</title></rect>
 <rect x="456.24" y="29.00" width="30.95" height="33.57" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08077508 | sub_08077508 | unidentified  0x08077508  2044 bytes  [done]</title></rect>
 <rect x="456.24" y="62.57" width="30.95" height="33.37" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08078BCC | sub_08078BCC | unidentified  0x08078BCC  2032 bytes  [nonmatch]</title></rect>
 <rect x="456.24" y="95.94" width="30.95" height="32.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08077DAC | sub_08077DAC | unidentified  0x08077DAC  1952 bytes  [done]</title></rect>
@@ -2349,5 +2349,5 @@
 </svg>
 <text x="12" y="674" fill="#e6edf3" font-size="11">Area = code bytes. Partial yellow fill = recorded milestones, not matching percentage or remaining time.</text>
 <text x="12" y="692" fill="#e6edf3" font-size="11">Data: 413 incbin blocks (15.3 MiB), 11 / 412 descriptive labels; understanding: no percentage.</text>
-<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 11277 edges, 1317 unresolved calls. Source-derived; not a complete runtime graph.</text>
+<text x="12" y="710" fill="#e6edf3" font-size="11">Graph: 2035 functions, 11277 edges, 1321 unresolved calls. Source-derived; not a complete runtime graph.</text>
 </svg>
