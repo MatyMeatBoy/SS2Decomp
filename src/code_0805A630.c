@@ -1895,60 +1895,62 @@ void sub_0805CB04(s32 index, struct Record60 *out)
 struct CB8CSlot { s32 x, y; u16 pad8; u16 active; u8 padC[0x14]; };
 struct CB8CBounds { u32 left, top, right, bottom; };
 struct CB8CColor { u16 r:5, g:5, b:5, x:1; u16 pad; };
-struct CB8CLocal { u8 unused[16]; u8 counts[4]; u16 angles[4]; struct CB8CColor colors[4]; };
+struct CB8CLocal { u8 unused[16]; u8 counts[4]; s16 angles[4]; struct CB8CColor colors[4]; };
 extern struct CB8CSlot *cb8c_slots asm("gUnk_03005D58");
 extern struct CB8CBounds cb8c_bounds[] asm("gUnk_084EBCE8");
 extern struct CB8CColor cb8c_colors[] asm("gUnk_084EBD28");
 extern u16 cb8c_pal[][16] asm("gUnk_03001F40");
+extern s16 cb8c_sine[] asm("gUnk_080B9704");
 
-/* Pulse four palette colors when exactly one active slot occupies each
- * rectangle; otherwise ease their RGB components toward neutral gray. */
 void sub_0805CB8C(void)
 {
     struct CB8CLocal state;
-    struct CB8CSlot *particle;
+    struct CB8CSlot *slot;
     u32 i, j;
     s32 x;
     u16 y;
+    u8 *count;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i <= 3; i++) {
         state.counts[i] = 0;
         state.angles[i] = 0;
         *(u16 *)&state.colors[i] = 0;
     }
     for (;;) {
-        for (i = 0; i < 4; i++) {
-            particle = cb8c_slots;
-            state.counts[i] = 0;
-            for (j = 0; j < 16; j++, particle++) {
-                if (particle->active != 0) {
-                    x = (particle->x << 5) >> 16;
-                    y = (u32)(particle->y << 5) >> 16;
-                    if (cb8c_bounds[i].left <= x && cb8c_bounds[i].top <= (s16)y &&
-                        cb8c_bounds[i].right >= x && cb8c_bounds[i].bottom >= (s16)y)
-                        state.counts[i]++;
+        i = 0;
+    count_next:
+            slot = cb8c_slots;
+            count = &state.counts[i];
+            *count = 0;
+            for (j = 0; j <= 15; j++, slot++) {
+                if (slot->active != 0) {
+                    x = slot->x << 5;
+                    y = (u32)(slot->y << 5) >> 16;
+                    if (cb8c_bounds[i].left <= (x >> 16) && cb8c_bounds[i].top <= (s16)y
+                        && cb8c_bounds[i].right >= (x >> 16) && cb8c_bounds[i].bottom >= (s16)y)
+                        (*count)++;
                 }
             }
-        }
-        for (i = 0; i < 4; i++) {
+        if (++i <= 3) goto count_next;
+        for (i = 0; i <= 3; i++) {
             if (state.counts[i] == 1) {
                 state.angles[i] = (state.angles[i] + 4) & 0x7F;
-                state.colors[i].r = (cb8c_colors[i].r * gUnk_080B9704[(s16)state.angles[i]]) >> 8;
-                state.colors[i].g = (cb8c_colors[i].g * gUnk_080B9704[(s16)state.angles[i]]) >> 8;
-                state.colors[i].b = (cb8c_colors[i].b * gUnk_080B9704[(s16)state.angles[i]]) >> 8;
+                state.colors[i].r = (cb8c_colors[i].r * cb8c_sine[state.angles[i]]) >> 8;
+                state.colors[i].g = (cb8c_colors[i].g * cb8c_sine[state.angles[i]]) >> 8;
+                state.colors[i].b = (cb8c_colors[i].b * cb8c_sine[state.angles[i]]) >> 8;
             } else {
                 if ((8 - state.colors[i].r) >> 1 == 0)
                     state.colors[i].r = 8;
                 else
-                    state.colors[i].r = state.colors[i].r + ((8 - state.colors[i].r) >> 1);
+                    state.colors[i].r += (8 - state.colors[i].r) >> 1;
                 if ((8 - state.colors[i].g) >> 1 == 0)
                     state.colors[i].g = 8;
                 else
-                    state.colors[i].g = state.colors[i].g + ((8 - state.colors[i].g) >> 1);
+                    state.colors[i].g += (8 - state.colors[i].g) >> 1;
                 if ((8 - state.colors[i].b) >> 1 == 0)
                     state.colors[i].b = 8;
                 else
-                    state.colors[i].b = state.colors[i].b + ((8 - state.colors[i].b) >> 1);
+                    state.colors[i].b += (8 - state.colors[i].b) >> 1;
                 state.angles[i] = 0;
             }
             cb8c_pal[14][i + 12] = *(u16 *)&state.colors[i];

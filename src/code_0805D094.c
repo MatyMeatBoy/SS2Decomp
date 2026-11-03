@@ -622,76 +622,82 @@ struct DC1CVideo { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V,
 extern struct DC1CWindow *dc1c_windows asm("gUnk_03005D64");
 extern u16 dc1c_tiles[] asm("gUnk_03005740");
 extern struct DC1CVideo dc1c_video asm("gUnk_03001250");
-extern s32 sub_0801A664(u32, u32);
+extern u8 dc1c_used asm("gUnk_03005D70");
+extern s32 sub_0801A664();
 
-/* Draw the border for the first free window and update its pixel bounds. */
-void sub_0805DC1C(u8 x, u8 y, u8 width, u8 height)
+static inline u8 findFreeDC1C(void)
 {
-    struct DC1CWindow *window;
-    u8 index, limit;
-    u16 left, right, top, bottom, column, row;
-    u16 halfWidth, halfHeight;
-    s32 leftEdge, rightEdge, topEdge, bottomEdge;
-    u16 horizontal, vertical;
-    index = 0;
-    while ((gUnk_03005D70 >> index) & 1) {
-        index++;
-        if (index > 3) {
-            index = 0xFF;
-            break;
-        }
+    u8 i;
+    for (i = 0; i <= 3; i++) {
+        if (!((dc1c_used >> i) & 1))
+            return i;
     }
-    if (index == 0xFF) return;
-    window = &dc1c_windows[index];
+    return 0xFF;
+}
+
+void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
+{
+    u8 x = xArg, y = yArg, width = widthArg, height = heightArg;
+    struct DC1CWindow *window;
+    u8 slot;
+    u16 halfWidth, halfHeight, w, h;
+    u16 pos;
+    u16 left, right, top, bottom, col, row;
+    s32 x0, y0, x1, y1;
+
+    slot = findFreeDC1C();
+    if (slot == 0xFF)
+        return;
+    window = &dc1c_windows[slot];
     window->state = 1;
     dc1c_video.scrollX = 0;
     dc1c_video.scrollY = 0;
-    window->x = x + (width >> 1) + 1;
-    window->y = y + (height >> 1) + 1;
-    if (width != 0) {
-        limit = 28;
-        if (width <= 28) limit = width;
-    } else limit = 1;
-    window->width = limit;
-    if (height != 0) {
-        limit = 18;
-        if (height <= 18) limit = height;
-    } else limit = 1;
-    window->height = limit;
-    halfWidth = window->width >> 1;
-    if ((s32)(window->x + halfWidth) > 30) window->x = 30 - halfWidth;
-    if ((window->x - halfWidth) & 0x80) window->x = halfWidth;
-    halfHeight = window->height >> 1;
-    if ((s32)(window->y + halfHeight) > 20) window->y = 30 - halfHeight;
-    if ((window->y - halfHeight) & 0x80) window->y = halfHeight;
+    window->x = x + (u16)((width >> 1) + 1);
+    window->y = y + (u16)((height >> 1) + 1);
+    window->width = width ? (width > 28 ? 28 : width) : 1;
+    window->height = height ? (height > 18 ? 18 : height) : 1;
+    pos = window->x;
+    w = window->width;
+    halfWidth = w >> 1;
+    if (pos + halfWidth > 30)
+        window->x = 30 - halfWidth;
+    if ((window->x - halfWidth) & 0x80)
+        window->x = halfWidth;
+    pos = window->y;
+    h = window->height;
+    halfHeight = h >> 1;
+    if (pos + halfHeight > 20)
+        window->y = 30 - halfHeight;
+    if ((window->y - halfHeight) & 0x80)
+        window->y = halfHeight;
     left = window->x - halfWidth;
-    right = (u16)(window->x + halfWidth) + (window->width & 1);
+    right = window->x + halfWidth;
+    right += w & 1;
     top = window->y - halfHeight;
-    bottom = (u16)(window->y + halfHeight) + (window->height & 1);
-    leftEdge = left - 1;
-    rightEdge = right + 1;
-    topEdge = top - 1;
-    bottomEdge = bottom + 1;
-    dc1c_tiles[leftEdge + topEdge * 32] = 0xF120;
-    dc1c_tiles[leftEdge + bottomEdge * 32] = 0xF126;
-    dc1c_tiles[rightEdge + topEdge * 32] = 0xF122;
-    dc1c_tiles[rightEdge + bottomEdge * 32] = 0xF128;
-    for (column = left; column <= right; column++) {
-        dc1c_tiles[column + topEdge * 32] = 0xF121;
-        dc1c_tiles[column + bottomEdge * 32] = 0xF127;
+    bottom = window->y + halfHeight;
+    bottom += h & 1;
+    dc1c_tiles[(left - 1) + (top - 1) * 32] = 0xF120;
+    dc1c_tiles[(left - 1) + (bottom + 1) * 32] = 0xF126;
+    dc1c_tiles[(right + 1) + (top - 1) * 32] = 0xF122;
+    dc1c_tiles[(right + 1) + (bottom + 1) * 32] = 0xF128;
+    for (col = left; col <= right; col++) {
+        dc1c_tiles[col + (top - 1) * 32] = 0xF121;
+        dc1c_tiles[col + (bottom + 1) * 32] = 0xF127;
     }
+    x0 = left - 1;
+    y0 = top - 1;
+    x1 = right + 2;
+    y1 = bottom + 2;
     for (row = top; row <= bottom; row++) {
-        dc1c_tiles[leftEdge + row * 32] = 0xF123;
-        dc1c_tiles[rightEdge + row * 32] = 0xF125;
+        dc1c_tiles[x0 + row * 32] = 0xF123;
+        dc1c_tiles[(right + 1) + row * 32] = 0xF125;
     }
-    horizontal = (((leftEdge * 8) + 3) << 8) | (((right + 2) * 8) - 3);
-    vertical = (((topEdge * 8) + 3) << 8) | (((bottom + 2) * 8) - 3);
     if (window->number == 0) {
-        dc1c_video.win1H = horizontal;
-        dc1c_video.win1V = vertical;
+        dc1c_video.win1H = ((x0 * 8 + 3) << 8) | (x1 * 8 - 3);
+        dc1c_video.win1V = ((y0 * 8 + 3) << 8) | (y1 * 8 - 3);
     } else {
-        dc1c_video.win0H = horizontal;
-        dc1c_video.win0V = vertical;
+        dc1c_video.win0H = ((x0 * 8 + 3) << 8) | (x1 * 8 - 3);
+        dc1c_video.win0V = ((y0 * 8 + 3) << 8) | (y1 * 8 - 3);
     }
     sub_0801A664(~(window->height >> 1) + window->y, window->height + 3);
 }
