@@ -173,17 +173,14 @@ void sub_080B4BB8(u8 a, u16 arg)
 }
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5B90);
-#ifdef NONMATCHING
 struct Enemy0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x2E]; u16 hp; u8 p4C[8]; u32 hitId; u8 p58[0x24]; u16 knock, dir, speed; u8 p82[0x25E]; };
 struct Boss0B5E64 { u8 p0[0xC]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
 extern struct Enemy0B5E64 *enemies0B5E64 asm("gUnk_030056F4");
 extern u32 activeMask0B5E64 asm("gUnk_030056FC");
 extern struct Boss0B5E64 *boss0B5E64 asm("gUnk_030007DC");
-extern u16 hit0B5E64(void *, void *) asm("sub_0801EF14");
+extern s32 hit0B5E64(void *, void *) asm("sub_0801EF14");
 extern s32 atan0B5E64(s16, s16) asm("ArcTan2");
-/* Damage and knock back every active enemy that touches the boss.
- * Real build is 2 bytes off: the ROM adds hp + damage into the hp register
- * (adds r1, r1, r0) where this computes damage + hp into r0. */
+/* Damage and knock back every active enemy that touches the boss. */
 void sub_080B5E64(void)
 {
     struct Enemy0B5E64 *e;
@@ -238,9 +235,6 @@ void sub_080B5E64(void)
         e->knock = 8;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B5E64);
-#endif
 extern volatile u8 gTick5F94 asm("gUnk_030007E8");
 extern volatile u8 gOtherTick5F94 asm("gUnk_030007E9");
 extern volatile u8 gFlag5F94 asm("gUnk_030007EA");
