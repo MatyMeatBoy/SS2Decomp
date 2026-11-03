@@ -617,7 +617,126 @@ void sub_08074DE8(u32 who, s32 type)
         masks4DE8[who] |= 1 << i;
     }
 }
+#ifdef NONMATCHING
+struct Spr5088 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
+struct Ent5088 { u16 xRaw, yRaw; };
+struct Ply5088 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0xA8]; u32 serial; u8 padE0[0x68]; struct Ent5088 *entity; };
+struct Ene5088 { u16 id; u8 pad2[0xA]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x30]; u32 dmg; u32 f50; u32 serial; u16 owner, hitMask; u8 pad5C[0x284]; };
+extern struct Ply5088 p5088[] asm("gUnk_03003CE0");
+extern struct Ene5088 *e5088Base asm("gUnk_030056F4");
+extern u32 e5088Mask asm("gUnk_030056FC");
+extern u32 m5088[] asm("gUnk_030063E0");
+extern u32 flags5088 asm("gUnk_03002344");
+extern u16 dir5088[] asm("gUnk_0847AD0A");
+extern s16 sin5088[] asm("gUnk_080B9704");
+extern s16 off5088[][2] asm("gUnk_084EBEBC");
+extern u8 *party5088 asm("gUnk_030034E0");
+extern void init5088(void *, u32, u32, s32, u32) asm("sub_08065158");
+extern u16 step5088(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern void pos5088(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern void draw5088(s32, s32, u32, u32, u8, void *, void *, u32) asm("sub_08007870");
+extern void pal5088(u32, void *, u32) asm("sub_08000AF0");
+extern u32 rand5088(void) asm("sub_080008C8");
+extern void hit5088(u32, u32, u32, u32, u32, u32) asm("sub_08029E0C");
+
+void sub_08075088(u32 who, u32 slot)
+{
+    struct Spr5088 spr;
+    s32 x[3];
+    s32 y[3];
+    u16 frame[3];
+    u16 timer[3];
+    u16 done[3];
+    u16 cnt[3];
+    s16 sx, sy;
+    struct Ply5088 *p;
+    u16 i;
+    u16 serial;
+    u32 count;
+    u32 dirIdx;
+    u16 dmg;
+    u16 local;
+    u16 a;
+    u16 j;
+    s32 spd;
+    u32 shade;
+    struct Ene5088 *e;
+
+    spd = 2;
+    local = sub_080020F4();
+    init5088(&spr, 0x5008C, 8, -1, 0);
+    spr.palette[0] = 7;
+    spr.palette[1] = 8;
+    p = &p5088[who];
+    for (i = 0; i < 3; i++) {
+        x[i] = (p->entity->xRaw >> 4) << 8;
+        y[i] = (u32)(p->entity->yRaw << 20) >> 12;
+        frame[i] = 0;
+        timer[i] = 0;
+        done[i] = 0;
+        cnt[i] = i * 8 + 1;
+    }
+    { u16 *tb = dir5088; u32 t = ((u8 *)p->entity)[3] >> 4; a = tb[t]; dirIdx = t; }
+    if (local == who) {
+        p->flags |= 1;
+        serial = p->serial++;
+        dmg = rand5088() % 50;
+        dmg = dmg + (u16)sub_0801E0AC((s32)party5088 + 0x30, 5) * 50;
+    }
+    while (1) {
+        count = 0;
+        for (i = 0; i < 3; i++) {
+            if (--cnt[i] != 0)
+                continue;
+            cnt[i] = 1;
+            x[i] += sin5088[(s16)a + 0x40] * spd;
+            y[i] += sin5088[(s16)a] * spd;
+            pos5088((s32)(x[i] << 8) >> 16, (s32)(y[i] << 8) >> 16, &sx, &sy, 0x30, 0);
+            done[i] = step5088(&spr, 0xE, &frame[i], &timer[i], 0);
+            if (done[i] == 0 && !sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
+                if (!(flags5088 & 1))
+                    pal5088(0x17, spr.paletteResource, 2);
+                shade = sub_0800BC44(x[i] >> 8, y[i] >> 8, sub_0800CCCC());
+                draw5088(sx + off5088[dirIdx][0], sy + off5088[dirIdx][1], 0xE, frame[i],
+                         shade, spr.palette, spr.data, spr.base);
+            }
+            if (local == who && done[i] == 1) {
+                if (local == sub_080020F4() && ((u16)(p->state - 11) <= 1 || sub_0800D11C()))
+                    break;
+                for (j = 0; j <= 4; j++) {
+                    if (!(e5088Mask & (1 << j)))
+                        continue;
+                    e = &e5088Base[j];
+                    sx = (e->x - x[i]) >> 8;
+                    sy = (e->y - y[i]) >> 8;
+                    if ((sx < 0 ? -sx : sx) > 0x1B)
+                        continue;
+                    if ((sy < 0 ? -sy : sy) > 0x1B)
+                        continue;
+                    if (e->state == 11 || e->serial == serial)
+                        continue;
+                    e->dmg = dmg;
+                    hit5088(e->id, 1, dmg, 1, 0x20, dirIdx);
+                    e->owner = who;
+                    e->serial = serial;
+                    e->hitMask |= 1 << local;
+                }
+            }
+            if (done[i] != 0)
+                count++;
+        }
+        if (count > 2)
+            goto out;
+        sub_080003F0();
+    }
+out:
+    if (local == who && !sub_0800CC98() && !sub_0800CE68() && !sub_0800CD8C())
+        p->flags &= ~1;
+    m5088[who] &= ~(1 << slot);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075088);
+#endif
 struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks5494[] asm("gUnk_030063E0");
 extern u8 *gLists5494[] asm("gUnk_030063B0");
