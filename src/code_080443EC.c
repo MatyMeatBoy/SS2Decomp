@@ -1529,98 +1529,30 @@ loop_55:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045B68);
 #endif
-#ifdef NONMATCHING
+extern void callback5E3845(void) asm("sub_0803898C");
+static inline s32 bit5E3845(u8 *p, s32 one) { s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 5) & one; }
+static inline u32 spawn5E3845(s32 a, s32 b, s32 c) { return sub_080289C0(a, b, c); }
 void sub_08045E38(void) {
-    struct Actor5E3845 { u32 id; u8 p4[0x14]; u16 x, y; u8 p1C[0x20]; u32 flags; u8 p40[4]; u32 callback; u8 p48[0x28]; };
-    struct Actor5E3845 *var_r0_3;
-    struct Actor5E3845 *var_r1;
-    struct Actor5E3845 *var_r1_2;
-    struct Actor5E3845 *var_r2_2;
-    s32 temp_r4;
-    s32 temp_r5;
-    u16 var_r4;
-    u16 var_r4_2;
-    u32 var_r2;
-    u32 var_r2_3;
-    u8 *var_r0;
-    u8 *var_r0_2;
-    extern u8 *state5E3845 asm("gUnk_03005CF4");
-    extern void callback5E3845(void) asm("sub_0803898C");
-
-    do {
-        if (sub_0800CE30() != 0) {
-            var_r0_2 = state5E3845 + 0x1C3;
-        } else {
-            var_r0_2 = state5E3845 + 0x1B7;
-        }
-        temp_r5 = ((s32) *var_r0_2 >> 5) & 1;
-        var_r4 = 1;
-loop_6:
-        sub_080003F0();
-        if (sub_080021A8() == 0) {
-            var_r4 -= 1;
-            if (var_r4 != 0) {
-                goto loop_6;
-            }
-        }
-        if (sub_0800CE30() != 0) {
-            var_r0 = state5E3845 + 0x1C3;
-        } else {
-            var_r0 = state5E3845 + 0x1B7;
-        }
-    } while (temp_r5 == (((s32) *var_r0 >> 5) & 1));
-    var_r4_2 = 0xF0;
-loop_15:
-    sub_080003F0();
-    if (sub_080021A8() == 0) {
-        var_r4_2 -= 1;
-        if (var_r4_2 != 0) {
-            goto loop_15;
-        }
-    }
-    temp_r4 = sub_080289C0(0x40026, 0xDD, 0x11E);
-    var_r1 = (struct Actor5E3845 *)(state5E3845 + 0x7A4);
-    var_r2 = 0;
-loop_17:
-    if (var_r1->id != temp_r4) {
-        var_r2 += 1;
-        var_r1++;
-        if (var_r2 > 0xEU) {
-            sub_080003F0();
-            var_r2_2 = NULL;
-        } else {
-            goto loop_17;
-        }
-    } else {
-        var_r2_2 = var_r1;
-    }
-    if (var_r2_2 != NULL) {
-        var_r2_2->x = 8;
-        var_r2_2->y = 4;
-        var_r2_2->flags = (s32) (var_r2_2->flags | 0x10);
-    }
-    var_r1_2 = (struct Actor5E3845 *)(state5E3845 + 0x7A4);
-    var_r2_3 = 0;
-loop_23:
-    if (var_r1_2->id != temp_r4) {
-        var_r2_3 += 1;
-        var_r1_2++;
-        if (var_r2_3 > 0xEU) {
-            sub_080003F0();
-            var_r0_3 = NULL;
-        } else {
-            goto loop_23;
-        }
-    } else {
-        var_r0_3 = var_r1_2;
-    }
-    if (var_r0_3 != NULL) {
-        var_r0_3->callback = (u32)callback5E3845;
-    }
+    s32 bit;
+    u32 id;
+    struct Actor566045 *a;
+    s32 one, x, y;
+    u8 **st = &state566045;
+    asm("" : "+r"(st));
+    one = 1;
+    asm("" : "+r"(one));
+again:
+    bit = bit5E3845(flag566045(st), one);
+    wait566045(1);
+    if (bit == (bit5E3845(flag566045(st), one))) goto again;
+    wait566045(0xF0);
+    id = spawn5E3845(0x40026, 0xDD, 0x11E);
+    x = 8; y = 4;
+    asm("" : "+r"(x), "+r"(y));
+    a = find566045(st, id);
+    if (a) { a->x = x; a->y = y; a->flags |= 0x10; }
+    setcb566045(st, id, (u32)callback5E3845);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045E38);
-#endif
 #ifdef NONMATCHING
 void sub_08045F44(u32 arg0) {
     u8 descriptor[0x20];
