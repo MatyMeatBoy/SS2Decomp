@@ -616,7 +616,6 @@ compare:
     if (oldBit == ((value >> 5) & count)) goto start;
     sub_0802939C(arg, 1);
 }
-#ifdef NONMATCHING
 extern void cbA40EB445(void) asm("sub_08059A40");
 extern void cbFEA0EB445(void) asm("sub_0802FEA0");
 extern void cb990CEB445(void) asm("sub_0805990C");
@@ -628,6 +627,16 @@ static inline s32 first6EB445(u8 **st, s32 one) {
     s32 raw;
     if (sub_0800CE30()) { raw = (*st)[0x1C4]; asm("" : "+r"(raw)); return (raw >> 6) & one; }
     raw = (*st)[0x1B8]; asm("" : "+r"(raw)); return (raw >> 6) & one;
+}
+static inline s32 b6tEB445(u8 **st, s32 one) {
+    s32 raw;
+    if (sub_0800CE30()) { raw = (*st)[0x1C4]; return (raw >> 6) & one; }
+    raw = (*st)[0x1B8]; return (raw >> 6) & one;
+}
+static inline s32 b7tEB445(u8 **st, s32 one) {
+    s32 raw;
+    if (sub_0800CE30()) { raw = (*st)[0x1C4]; return (raw >> 7) & one; }
+    raw = (*st)[0x1B8]; return (raw >> 7) & one;
 }
 static inline s32 bit6EB445(u8 **st, s32 one) { u8 *p = flagEB445(st); s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 6) & one; }
 static inline s32 bit7EB445(u8 **st, s32 one) { u8 *p = flagEB445(st); s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 7) & one; }
@@ -688,12 +697,13 @@ void sub_08044EB4(u32 id) {
     struct Actor566045 *ap;
     s32 one = 1;
     u8 **st = &state566045;
+    asm("" : "+r"(id));
     for (;;) {
         a = first6EB445(st, one);
-        b = bit7EB445(st, 1);
+        b = b7tEB445(st, 1);
         wait566045(1);
-        c = bit6EB445(st, 1);
-        d = bit7EB445(st, 1);
+        c = b6tEB445(st, 1);
+        d = b7tEB445(st, 1);
         if (a != c) {
             wait566045(0x898);
             SCENE_EB445(0x1400EA);
@@ -703,9 +713,6 @@ void sub_08044EB4(u32 id) {
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08044EB4);
-#endif
 extern u8 *state534C45 asm("gUnk_03005CF4");
 extern void callbackA874534C45(void) asm("sub_0805A874");
 extern void callback9968534C45(void) asm("sub_08059968");
