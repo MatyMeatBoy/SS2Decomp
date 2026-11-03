@@ -1,12 +1,9 @@
-# Worker instructions (parallel decompilation)
-
-> Legacy cloud-only guide. Current [AGENTS.md](../../AGENTS.md) takes precedence.
-> Local workers with `baserom.gba` must never set `SKIP_ROM`: require `make compare`
-> and `make nonmatching`, append-only headers, and the claimed-shard workflow.
-> Never accept `MATCH (positions only)` or a heuristic zero; read
-> [MATCH_VERIFICATION.md](MATCH_VERIFICATION.md) before applying candidates.
-
-You are one of many parallel workers. Your job: turn the functions of YOUR SHARD from `INCLUDE_ASM` into C that
+- `nmdiff.py` builds drafts inside the NONMATCHING ROM, where earlier functions have the wrong size, so a
+  mid-function literal pool can gain a false `.short 0x0000` pad. When the diff is only such padding plus a
+  few registers, test the real build: `unwrap_func.py FUNC && make compare`, then
+  `cmp -l baserom.gba shiningsoul2_eu.gba | wc -l` (ROM size must not change); restore with
+  `git checkout HEAD -- src/MOD.c asm/nonmatchings/MOD/FUNC.s` if it does not match.
+s. Your job: turn the functions of YOUR SHARD from `INCLUDE_ASM` into C that
 compiles to the same bytes as the original. A maintainer merges all worker branches and verifies the full ROM.
 Be terse in chat; the commits are what matter. User language is Spanish but code/commits are English.
 
