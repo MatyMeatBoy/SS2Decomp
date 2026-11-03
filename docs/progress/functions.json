@@ -10815,7 +10815,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 325,
+          "line": 326,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802A104_v"
         }
       ]
@@ -13176,14 +13176,14 @@
       "name": "sub_08045B68",
       "addr": 134503272,
       "size": 720,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x08045B68",
       "canonical_symbol": "sub_08045B68",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08045B68",
       "name_status": "unidentified",
       "name_source": null,
@@ -13343,7 +13343,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 2134,
+          "line": 1852,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47B2C"
         }
       ]
@@ -13417,7 +13417,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 3044,
+          "line": 2762,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47EScript"
         }
       ]
@@ -13508,7 +13508,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 4203,
+          "line": 3921,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t48implB"
         }
       ]
@@ -13667,7 +13667,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 5072,
+          "line": 4790,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
         }
       ]
@@ -25516,14 +25516,14 @@
       "name": "sub_08088C24",
       "addr": 134777892,
       "size": 780,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08087CC0",
       "kind": "c",
       "cat": "game",
       "address": "0x08088C24",
       "canonical_symbol": "sub_08088C24",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08088C24",
       "name_status": "unidentified",
       "name_source": null,
@@ -25887,7 +25887,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 2402,
+          "line": 2370,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808AFE8_v"
         }
       ]
@@ -25927,7 +25927,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3366,
+          "line": 3334,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C020_v"
         }
       ]
@@ -25950,7 +25950,7 @@
       "evidence": [
         {
           "source": "src/code_08087CC0.c",
-          "line": 3404,
+          "line": 3372,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C0C4_v"
         }
       ]
@@ -27449,14 +27449,14 @@
       "name": "sub_080914F0",
       "addr": 134812912,
       "size": 548,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0808FB5C",
       "kind": "c",
       "cat": "game",
       "address": "0x080914F0",
       "canonical_symbol": "sub_080914F0",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080914F0",
       "name_status": "unidentified",
       "name_source": null,
@@ -27466,14 +27466,14 @@
       "name": "sub_08091714",
       "addr": 134813460,
       "size": 548,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0808FB5C",
       "kind": "c",
       "cat": "game",
       "address": "0x08091714",
       "canonical_symbol": "sub_08091714",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08091714",
       "name_status": "unidentified",
       "name_source": null,
@@ -27483,14 +27483,14 @@
       "name": "sub_08091938",
       "addr": 134814008,
       "size": 548,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0808FB5C",
       "kind": "c",
       "cat": "game",
       "address": "0x08091938",
       "canonical_symbol": "sub_08091938",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08091938",
       "name_status": "unidentified",
       "name_source": null,
