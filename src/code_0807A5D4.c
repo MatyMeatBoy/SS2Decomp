@@ -35,9 +35,9 @@ void sub_0808381C(u32 index);
 extern const u32 gUnk_084EBD4C[];
 
 #ifdef NONMATCHING
-// sub_0807A5D4 (stat/skill allocation menu): same size class, ~143 diff lines.
-// Left: CSE/regalloc of &mgr/&data and zero reuse in the state-0/1 confirm blocks,
-// iconW/bg/anim stack slot order, reload register choices.
+// sub_0807A5D4 (stat/skill allocation menu): exact size, ~125 diff lines.
+// Left: state-0/1 confirm blocks reuse &mgr/&data/zero in r4-r6 (ROM reloads literals and
+// fresh zeros), const 1 not kept in r5 in the state-3 text code, reload register choices.
 struct SkillA5D4 { u16 level, exp; };
 struct SkillsA5D4 { u16 points; u16 pad; struct SkillA5D4 e[8]; };
 struct StatsA5D4 { s16 v[5]; u16 points; s16 rest[10]; };
@@ -105,7 +105,7 @@ void sub_0807A5D4_v(void)
     struct SkillsA5D4 work;
     u16 zero1, zero2, zero3;
     u16 iconH;
-    u32 iconW;
+    u16 iconW;
     union BgA5D4 bg;
     s32 anim;
     u32 scroll;

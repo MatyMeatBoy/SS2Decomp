@@ -1,0 +1,21 @@
+shard 81 notes (nov03-w3, 2026-11-03)
+
+sub_0807B7B4: MATCHED. Keys: one Player view struct for both players[].f64 and .flags (two different
+  extern aliases of gUnk_03003CE0 stop loop.c from sharing the hoisted base: ROM has base in r6 and
+  base+0x30 in sl); palette store via struct {pad[0x1FA]; u16 value} (keeps sym + 0x14A+0xB0 CSE);
+  tail `u16 mode = sub_08057B64(3); if ((u16)(mode - 2) <= 7)`; void alias of the s32 header proto.
+
+sub_0807A5D4: draft, exact size, ~125 diff lines (decomp.py-style count). Findings:
+  - every sfx call is written inline per case (`sub_0805865C(x); break;`), NOT shared via goto:
+    crossjumping then reproduces ROM's tail sharing; with gotos the stat cases get merged.
+  - inner stat switches are case order 0,3,2,1 in source; first switch needs `case 4: case 5:` and
+    the display switch `case 4:` to get the jump tables.
+  - stat flags `if (s) flag = 2; else flag = 0;` before the call (not a ternary) gives ROM's
+    flag-before-value order and the separate reload of the stat.
+  - stack: z1..z3 (u16 CpuSet fill sources), iconH u16, iconW u16 (!), bg union, anim: small
+    locals are packed by mode, u16 first; iconW as u32 lands after anim.
+  - `if (state != 3) {...} else {state 3}` block order; `bounce = (v >> 6) + 6` with `s32 v`.
+  - state-3 text width: `s16` alias of sub_0801A638 and `u16 x = -(w/2 + (w&1)); (u16)(x + 15)`.
+  Left: case 0/1 confirm blocks keep &mgr/&data/zero (New&2 as u16 temp) in r4-r6, ROM reloads
+  literals and uses fresh zeros (tried volatile/plain zero tmps, do-while macros, u32/s16 key types,
+  local key copy: no). Const 1 not CSE'd into r5 in the state-3 text code. Permuter 5 min: nothing.
