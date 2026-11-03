@@ -5403,9 +5403,7 @@ void sub_0807386C(s32 who, s32 kind, s32 c, s32 d, s32 e)
             refresh07686C(&players07386C[who]);
     }
 }
-#ifdef NONMATCHING
 struct Sprite076CF4 {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
-struct Frame076CF4 {struct Sprite076CF4 sprite;u16 tile,rotation;s16 sx,sy;u32 wx,wy,mode,animation;s32 fx,fy;};
 extern u32 animate076CF4(void*,u16,u16*,u16*,s32) asm("sub_08065370");
 extern u32 flags076CF4 asm("gUnk_030063E0");
 extern void coords076CF4(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
@@ -5417,12 +5415,10 @@ void sub_08073CF4(u32 *arg0)
     u16 tile, rotation;
     s16 sx, sy;
     u32 wx, wy, selected, anim;
-    s32 fx, fy;
     u32 finished;
     u8 mode;
     s32 paused;
     u16 animation;
-    s16 *screenX, *screenY;
 
     init076CF4(&sprite, 0x5008C, 1, -1, 0);
     sprite.f1C = 7;
@@ -5435,25 +5431,18 @@ void sub_08073CF4(u32 *arg0)
     tile = 0;
     finished = 0;
     rotation = finished;
-    fx = wx << 16;
-    fy = wy << 16;
     do {
         if (sub_0800CC98() == 0 && (paused = sub_0800CD8C()) == 0) {
             mode = sub_0800BC44(wx, wy, sub_0800CCCC());
             animation = anim;
             finished = (u16)animate076CF4(&sprite, animation, &tile, &rotation, paused);
-            screenX = &sx;
-            screenY = &sy;
-            coords076CF4(fx >> 16, fy >> 16, screenX, screenY, 16, (void *)paused);
+            coords076CF4((s16)wx, (s16)wy, &sx, &sy, 16, (void *)paused);
             if (selected != 0)
-                draw076CF4(*screenX, *screenY + 1, animation, tile, mode, &sprite.f1C, sprite.f8, sprite.f0);
+                draw076CF4(sx, sy + 1, animation, tile, mode, &sprite.f1C, sprite.f8, sprite.f0);
             else
-                sub_08065230(&sprite, *screenX, *screenY, animation, tile);
+                sub_08065230(&sprite, sx, sy, animation, tile);
         }
         sub_080003F0();
     } while (finished == 0);
     flags076CF4 &= ~(1 << arg0[1]);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08073CF4);
-#endif
