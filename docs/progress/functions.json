@@ -10455,18 +10455,24 @@
       "name": "sub_080284F4",
       "addr": 134382836,
       "size": 828,
-      "state": "todo",
+      "state": "done",
       "module": "code_08021DC4",
       "kind": "c",
       "cat": "game",
       "address": "0x080284F4",
       "canonical_symbol": "sub_080284F4",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_080284F4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "sub_080284F4_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5829,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
+        }
+      ]
     },
     {
       "name": "sub_08028830",
@@ -10486,7 +10492,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5803,
+          "line": 5923,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
         }
       ]
@@ -37006,12 +37012,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 180,
-      "existing": 61,
+      "identified": 181,
+      "existing": 62,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1700,
-      "percent_identified": 9.574468085106384
+      "unidentified": 1699,
+      "percent_identified": 9.627659574468085
     },
     "sdk": {
       "total": 155,
@@ -37024,12 +37030,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 335,
-      "existing": 190,
+      "identified": 336,
+      "existing": 191,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1700,
-      "percent_identified": 16.461916461916463
+      "unidentified": 1699,
+      "percent_identified": 16.511056511056513
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
