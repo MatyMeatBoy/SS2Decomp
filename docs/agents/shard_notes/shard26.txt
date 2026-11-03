@@ -10,4 +10,14 @@ sub_080283C4: matched (nov03-w4): the giv was the return value i + 4 (ids 4..6),
 sub_08028AAC: needs `step = 0x400 / frames;` hoisted right after `t = 0;`
   (ROM computes __divsi3 before the target stores); remaining diff is mostly
   register allocation of the u16 params (ROM reuses x/frames regs for sx/sy).
-sub_080284F4, sub_08028D98: no draft.
+  (nov03-w4) With u16 params CSE replaces the user var by the zero-extend temp
+  in the CSE-reachable branches (obj/enemy) but not after the find loop (actor)
+  or player, so each param gets two pseudos (extra copies). `u32 x; x = (u16)x;`
+  or K&R params remove the copies but x/y then land in hi regs while ROM has
+  x/frames in lo regs and t/step in r8/r9. Block-local t/step/sx/sy changes the
+  allocation (best 778 with hoisted step; the in-loop draft is 764).
+sub_08028D98: sibling of sub_08028AAC (relative move, `(s16)dx << 8`); draft
+  added (nov03-w4), 866/844, same param register problem. ROM also RELOADS
+  sx = X->x after the X->tx store (draft CSEs the earlier load), which hints the
+  targets/positions are written through another pointer or helper.
+sub_080284F4: no draft.
