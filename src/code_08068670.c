@@ -6560,396 +6560,248 @@ loop_149:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08072390);
 #endif
-#ifdef NONMATCHING
-#define D75_U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
-#define D75_S16(p,o) (*(s16 *)((u8 *)(p)+(o)))
-#define D75_U16(p,o) (*(u16 *)((u8 *)(p)+(o)))
-#define D75_U32(p,o) (*(u32 *)((u8 *)(p)+(o)))
-#define D75_PTR(p,o) (*(u8 **)((u8 *)(p)+(o)))
-extern u32 d75Flags[] asm("gUnk_030063E0");
-extern u8 d75Ranges[] asm("gUnk_084EC12C");
-extern u16 d75Dirs[] asm("gUnk_0849E730");
-void *d75Alloc(void *,s32) asm("sub_0801E164");
-void d75Init(void *,s32,s32,s32,s32) asm("sub_08065158");
-void d75Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
-void d75Draw(s16,s16,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
-void sub_08072D5C(u8 *arg0) {
-    struct { u32 desc[13]; u8 targets[8]; u8 delays[8]; u16 xs[6]; s16 ys[6]; s16 x,y; u8 * sp70; void * sp74; s32 sp78; s32 sp7C; u32 sp80; u32 sp84; u32 sp88; s32 sp8C; u32 sp90; s32 sp94; s32 sp98; s32 sp9C; s32 spA0; s16 * spA4; s16 * spA8; u16 * spAC; } frame;
-    register u16 *ready75 asm("r9");
-    s16 temp_r1_6;
-    s32 var_r2;
-    s32 var_r2_2;
-    s32 var_r2_3;
-    s32 var_r2_4;
-    s32 *temp_r2_6;
-    s32 *temp_r4_2;
-    s32 temp_r0_2;
-    u8 *temp_r0_8;
-    u8 *temp_r0_9;
-    s32 temp_r2_5;
-    s32 temp_r4_3;
-    s32 temp_r4_4;
-    s32 temp_r4_5;
-    s32 temp_r4_6;
-    s32 temp_r7;
-    u32 costDelta;
-    u32 temp_r1;
-    register u32 temp_r2 asm("sl");
-    u16 temp_r3_2;
-    u16 var_r5;
-    u16 var_r7;
-    u32 temp_r0;
-    u32 temp_r2_3;
-    u32 temp_r2_4;
-    u32 temp_r3_3;
-    u32 temp_r8;
-    u8 *temp_r0_6;
-    u8 temp_r0_3;
-    u8 temp_r0_7;
-    u8 temp_r2_2;
-    u8 temp_r9;
-    u8 temp_r9_2;
-    u8 temp_r9_3;
-    void *temp_r0_4;
-    void *temp_r0_5;
-    void *temp_r1_2;
-    void *temp_r1_3;
-    void *temp_r1_4;
-    void *temp_r1_5;
-    void *temp_r3;
-    void *temp_r4;
-    void *temp_r5;
-    void *temp_r5_2;
-    void *temp_r6;
+struct T75Pos { u16 h0; u16 h2; };
+struct T75Rng { s16 x, y; };
+struct T75Pl { u8 p0[0x20]; u16 state; u8 p22[0x3C - 0x22]; s16 s3C; u8 p3E[0x48 - 0x3E]; s32 w48; u8 p4C[0x68 - 0x4C]; u8 team; u8 p69[0xB2 - 0x69]; u16 ready; u8 pB4[2]; u16 done; u8 pB8[0xC2 - 0xB8]; u16 hp; u8 pC4[0x148 - 0xC4]; struct T75Pos *pos; };
+struct T75En { u8 p0[0xC]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x208 - 0x1C]; s16 s208; u8 p20A[0x214 - 0x20A]; s32 w214; u8 p218[0x2E0 - 0x218]; };
+struct T75Arg { u32 owner; u32 bit; u32 mode; s32 fC; u8 p10[4]; u16 level; };
+struct T75Desc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
+struct T75Eff { u16 h0; u16 h2; u16 h4; u16 h6; };
+extern struct T75Pl gT75Players[] asm("gUnk_03003CE0");
+extern struct T75En *gT75Enemies asm("gUnk_030056F4");
+extern u32 gT75Flags[] asm("gUnk_030063E0");
+extern struct T75Rng gT75Ranges[] asm("gUnk_084EC12C");
+extern u16 gT75Dirs[] asm("gUnk_0849E730");
+struct T75Eff *t75Find(void *, s32, s32) asm("sub_0801E1D8");
+struct T75Eff *t75Alloc(void *, s32) asm("sub_0801E164");
+struct T75Eff *t75FindE(void *, s32, s32) asm("sub_0801E20C");
+struct T75Eff *t75AllocE(void *, s32) asm("sub_0801E104");
+void t75Init(void *, s32, s32, s32, s32) asm("sub_08065158");
+void t75Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void t75Draw(s32, s32, s32, u32, u32, void *, u32, u32) asm("sub_08007870");
+void sub_08072D5C(struct T75Arg *arg0) {
+    struct T75Desc desc;
+    u8 targets[8];
+    u8 delays[8];
+    u16 xs[6];
+    u16 ys[6];
+    s16 x, y;
+    struct T75Pl *player;
+    u32 kind;
+    s32 sx, sy;
+    u16 hits, n;
+    u32 myId, owner, bit;
+    struct T75Pl *p;
+    struct T75En *e;
+    struct T75Pos *pos;
+    struct T75Eff *eff;
+    u32 lv;
+    u16 i, count;
+    u32 num;
+    u8 pal;
+    s32 dx;
+    s16 idx;
+    u32 power;
+    char ten;
 
-    frame.sp70 = arg0;
-    frame.sp8C = (s32) (u16) sub_080020F4();
-    temp_r0 = D75_U32(arg0,0);
-    frame.sp90 = temp_r0;
-    frame.sp94 = D75_U32(frame.sp70,0x4);
-    temp_r2 = D75_U16(frame.sp70,0x14);
-    frame.sp78 = (s32) temp_r2;
-    if (temp_r0 <= 3U) {
-        frame.sp74 = (0x14C * frame.sp90) + ((u8 *)gUnk_03003CE0);
+    myId = (u16)sub_080020F4();
+    owner = arg0->owner;
+    bit = arg0->bit;
+    lv = arg0->level;
+    kind = lv;
+    if (owner <= 3)
+        player = &gT75Players[owner];
+    if (myId == owner) {
+        struct T75Pl *me = &gT75Players[sub_080020F4()];
+        power = (u16)(sub_0806898C(arg0->fC, *(s32 *)&arg0->level) - 1);
+        me->hp -= power;
+        if ((s16)me->hp < 0)
+            me->hp = 0;
     }
-    if (frame.sp8C == frame.sp90) {
-        temp_r4 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0);
-        costDelta = (u16)(sub_0806898C(D75_U32(frame.sp70,0xC), (s32) D75_U32(frame.sp70,0x14)) - 1);
-        temp_r1 = D75_U16(temp_r4,0xC2) - costDelta;
-        D75_U16(temp_r4,0xC2) = temp_r1;
-        if ((s32) (temp_r1 << 0x10) < 0) {
-            D75_U16(temp_r4,0xC2) = 0U;
-        }
+    xs[0] = 0;
+    ys[0] = 0;
+    delays[0] = 0;
+    for (i = 1; i <= 4; i++) {
+        xs[i] = 0;
+        ys[i] = 0;
+        delays[i] = delays[i - 1] + (u8)(sub_080008C8() % 20 + 10);
     }
-    frame.xs[0] = 0;
-    frame.ys[0] = 0;
-    frame.delays[0] = 0;
-    var_r7 = 1;
-    ready75 = (u16 *)((u8 *)frame.sp74 + 0xB2);
-    asm("" : "+r"(ready75));
-    frame.spA0 = frame.sp90 * 4;
-    { register u32 zero asm("r8") = 0;
-    register u8 *delays asm("r6") = &frame.delays[0];
-    asm("" : "+r"(zero), "+r"(delays));
-    do {
-        frame.xs[var_r7] = zero;
-        frame.ys[var_r7] = zero;
-        { u32 raw = sub_080008C8();
-          register u8 *dst asm("r5") = delays + var_r7;
-          register u32 index asm("r4") = var_r7 - 1;
-          register u32 sum asm("r0");
-          register u32 prev asm("r4");
-          asm("" : "+r"(dst), "+r"(index));
-          prev = (u32)(delays + index); asm("" : "+r"(prev));
-          sum = raw % 20U; sum += 0xA; asm("" : "+r"(sum));
-          prev = *(u8 *)prev; asm("" : "+r"(prev)); *dst = sum + prev; }
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 4U); }
-    if (frame.sp78 != 0) {
-        *ready75 = 2U;
-    }
-    if ((u32) *ready75 <= 1U) {
-        register u32 mask asm("r5");
-        { register u8 *base asm("r0") = (u8 *)d75Flags;
-          register u32 offset asm("r2") = frame.spA0;
-          asm("" : "+r"(base), "+r"(offset));
-          temp_r4_2 = (s32 *)(base + offset); }
-        { register u32 one asm("r0") = 1;
-          register u32 index asm("r3") = frame.sp94;
-          asm("" : "+r"(one), "+r"(index)); mask = ~(one << index); }
-        asm("" : "+r"(mask));
-loop_11:
-        if ((D75_U16(frame.sp74,0x20) == 0xA) || !(2 & D75_U16(gUnk_03005CF4,0x4))) {
-            *temp_r4_2 &= mask;
-            return;
-        }
-        sub_080003F0();
-        if ((u32) *ready75 > 1U) {
-            goto block_15;
-        }
-        goto loop_11;
-    }
-block_15:
-    temp_r1_2 = D75_PTR(frame.sp74,0x148);
-    frame.sp7C = ((u16) D75_U16(temp_r1_2,0x0) >> 4) << 8;
-    frame.sp80 = (u32) (D75_U16(temp_r1_2,0x2) << 0x14) >> 0xC;
-    var_r5 = 0;
-    frame.sp88 = 0;
-    temp_r0_2 = sub_0800CDF8();
-    frame.spAC = frame.sp74 + 0xB6;
-    if (temp_r0_2 != 0) {
-
-    } else if ((u32) D75_U32(frame.sp70,0x8) <= 3U) {
-        temp_r8 = sub_08002164();
-        var_r7 = 0;
-loop_32:
-        if (var_r7 < temp_r8) {
-            if (sub_0800CD8C() != 0) {
-
-            } else {
-                temp_r6 = (0x14C * var_r7) + ((u8 *)gUnk_03003CE0);
-                temp_r3 = D75_PTR(temp_r6,0x148);
-                if (((u32) (D75_U8(temp_r3,0x0) << 0x1C) >> 0x1C) != 0xE) {
-                    temp_r2_2 = D75_U8(temp_r6,0x68);
-                    if ((temp_r2_2 != D75_U8(frame.sp74,0x68)) && (D75_U16(temp_r6,0x20) != 0xB) && (temp_r2_2 != 0)) {
-                        frame.x = ((u16) D75_U16(temp_r3,0x0) >> 4) - (frame.sp7C >> 8);
-                        temp_r3_2 = ((u32) (D75_U16(temp_r3,0x2) << 0x14) >> 0x14) - ((s32) frame.sp80 >> 8);
-                        frame.y = temp_r3_2;
-                        var_r2 = frame.x;
-                        if ((s32) var_r2 < 0) {
-                            var_r2 = 0 - var_r2;
-                        }
-                        temp_r1_3 = (frame.sp78 * 4) + ((u8 *)&d75Ranges);
-                        if ((s32) var_r2 < (s32) D75_S16(temp_r1_3,0x0)) {
-                            var_r2_2 = (s16) temp_r3_2;
-                            if ((s32) var_r2_2 < 0) {
-                                var_r2_2 = 0 - var_r2_2;
-                            }
-                            if ((s32) var_r2_2 < (s32) D75_S16(temp_r1_3,0x2)) {
-                                temp_r4_3 = (s32) ((temp_r2 * 0x7D0) + 0xFFFFFC18) / (s32) (D75_U32(temp_r6,0x48) + D75_S16(temp_r6,0x3C));
-                                if ((u32) temp_r4_3 > (u32) (sub_080008C8() % 100U)) {
-                                    temp_r2_3 = frame.sp88;
-                                    frame.sp88 = (u32) (u16) (temp_r2_3 + 1);
-                                    *(&frame.targets[0] + temp_r2_3) = (s8) var_r7;
-                                    var_r5 += 1;
-                                }
-                            }
-                        }
-                    }
-                }
-                var_r7 = (u32) (u16) (var_r7 + 1);
-                goto loop_32;
-            }
-        }
-    } else {
-        var_r7 = 0;
-loop_48:
-        if ((var_r7 <= 4U) && (sub_0800CD8C() == 0)) {
-            if (gUnk_030056FC & (1 << var_r7)) {
-                temp_r6 = ((u8 *)gUnk_030056F4) + (var_r7 * 0x2E0);
-                if ((D75_U16(temp_r6,0xC) != 0xB) && (D75_U8(temp_r6,0x1DC) != 0)) {
-                    frame.x = (s16) ((u32) (D75_U32(temp_r6,0x14) - frame.sp7C) >> 8);
-                    temp_r3_3 = (u32) ((D75_U32(temp_r6,0x18) - frame.sp80) << 8) >> 0x10;
-                    frame.y = (u16) temp_r3_3;
-                    var_r2_3 = frame.x;
-                    if ((s32) var_r2_3 < 0) {
-                        var_r2_3 = 0 - var_r2_3;
-                    }
-                    temp_r1_4 = (frame.sp78 * 4) + ((u8 *)&d75Ranges);
-                    if ((s32) var_r2_3 < (s32) D75_S16(temp_r1_4,0x0)) {
-                        var_r2_4 = (s16) temp_r3_3;
-                        if ((s32) var_r2_4 < 0) {
-                            var_r2_4 = 0 - var_r2_4;
-                        }
-                        if ((s32) var_r2_4 < (s32) D75_S16(temp_r1_4,0x2)) {
-                            temp_r4_4 = (s32) ((temp_r2 * 0x7D0) + 0xFFFFFC18) / (s32) (D75_U32(temp_r6,0x214) + D75_S16(temp_r6,0x208));
-                            if ((u32) temp_r4_4 > (u32) (sub_080008C8() % 100U)) {
-                                temp_r2_4 = frame.sp88;
-                                frame.sp88 = (u32) (u16) (temp_r2_4 + 1);
-                                *(&frame.targets[0] + temp_r2_4) = (s8) var_r7;
-                                var_r5 += 1;
-                            }
-                        }
-                    }
-                }
-            }
-            var_r7 = (u32) (u16) (var_r7 + 1);
-            goto loop_48;
-        }
-    }
-    if (((frame.sp8C == frame.sp90) || (frame.sp90 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-        sub_0805865C(0x16B);
-    }
-    d75Init(frame.desc, 0x5008D, 8, -1, 0);
-    D75_U8(frame.desc,0x1C) = 7;
-    D75_U8(frame.desc,0x1D) = 8;
-    if (var_r5 == 0) {
-        temp_r1_6 = *(u16 *)((((u8) D75_U8(D75_PTR(frame.sp74,0x148),3) >> 4) * 2) + ((u8 *)&d75Dirs)) * 0x10;
-        frame.sp84 = 0;
-        temp_r2_5 = (s32) (frame.sp7C + (gUnk_080B9704[temp_r1_6 + 0x40] * 0x1E)) >> 8;
-        temp_r7 = (s32) (frame.sp80 + (gUnk_080B9704[temp_r1_6] * 0x1E)) >> 8;
-        frame.sp98 = temp_r2_5 << 0x10;
+    if (kind != 0)
+        player->ready = 2;
+    if (player->ready <= 1) {
         do {
-
-            d75Coords(frame.sp98 >> 0x10, (s32) (s16) temp_r7, &frame.x, &frame.y, 0x30, 0);
-            temp_r9_3 = (u8) sub_0800BC44((u32) temp_r2_5, (u32) temp_r7, 0U);
-
-            if (sub_08065370(frame.desc, 0xAU, (s32) &frame.xs[0], (s32) &frame.ys[0], 0) != 0) {
-                frame.sp84 = (u32) (u16) (frame.sp84 + 1);
-            }
-            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                if (!(gUnk_03002344 & 1)) {
-                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                }
-
-                d75Draw(frame.x, (s16) frame.y, 0xA, frame.xs[0], temp_r9_3, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
+            if (player->state == 10 || !(gGameState->flags & 2)) {
+                gT75Flags[owner] &= ~(1 << bit);
+                return;
             }
             sub_080003F0();
-        } while (frame.sp84 == 0);
+        } while (player->ready <= 1);
+    }
+    sx = (player->pos->h0 >> 4) << 8;
+    sy = (u32)(player->pos->h2 << 20) >> 12;
+    count = 0;
+    n = 0;
+    if (sub_0800CDF8() == 0) {
+        if (arg0->mode <= 3) {
+            num = sub_08002164();
+            for (i = 0; i < num && sub_0800CD8C() == 0; i++) {
+                p = &gT75Players[i];
+                pos = p->pos;
+                if ((u32)(((u8 *)pos)[0] << 28) >> 28 == 0xE || p->team == player->team || p->state == 0xB || p->team == 0)
+                    continue;
+                x = (pos->h0 >> 4) - (sx >> 8);
+                y = ((u32)(pos->h2 << 20) >> 20) - (sy >> 8);
+                dx = x;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT75Ranges[kind].x) continue;
+                dx = y;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT75Ranges[kind].y) continue;
+                if ((u32)((s32)(lv * 2000 - 1000) / (p->w48 + p->s3C)) > sub_080008C8() % 100) {
+                    targets[n++] = i;
+                    count++;
+                }
+            }
+        } else {
+            for (i = 0; i <= 4 && sub_0800CD8C() == 0; i++) {
+                if (((u32)gUnk_030056FC & (1 << i)) == 0)
+                    continue;
+                e = &gT75Enemies[i];
+                if (e->state == 0xB || ((u8 *)e)[0x1DC] == 0)
+                    continue;
+                x = (u32)(e->x - sx) >> 8;
+                y = (u32)((e->y - sy) << 8) >> 16;
+                dx = x;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT75Ranges[kind].x) continue;
+                dx = y;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT75Ranges[kind].y) continue;
+                if ((u32)((s32)(lv * 2000 - 1000) / (e->w214 + e->s208)) > sub_080008C8() % 100) {
+                    targets[n++] = i;
+                    count++;
+                }
+            }
+        }
+    }
+    if ((myId == owner || owner > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(0x16B);
+    t75Init(&desc, 0x5008D, 8, -1, 0);
+    desc.f1C = 7;
+    desc.f1D = 8;
+    if (count == 0) {
+        idx = (s16)(gT75Dirs[((u8 *)player->pos)[3] >> 4] << 4);
+        sx += gUnk_080B9704[idx + 0x40] * 30;
+        sy += gUnk_080B9704[idx] * 30;
+        hits = 0;
+        do {
+            t75Coords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, 0);
+            pal = sub_0800BC44(sx >> 8, sy >> 8, 0);
+            if (sub_08065370(&desc, 10, (s32)&xs[0], (s32)&ys[0], 0))
+                hits++;
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                if (!(gUnk_03002344 & 1))
+                    sub_08000AF0(0x17, (void *)desc.fC, 2);
+                t75Draw(x, y, 10, xs[0], pal, &desc.f1C, desc.f8, desc.f0);
+            }
+            sub_080003F0();
+        } while (hits == 0);
     } else {
-        frame.sp84 = 0;
-        frame.sp9C = (temp_r2 + 5) * 0x1E;
-    goto loop_119;
-block_69:
-    {
-
-                if ((u32) D75_U32(frame.sp70,0x8) <= 3U) {
-                    var_r7 = 0;
-                    if (frame.sp88 <= 0U) {
-
-                    } else {
-                        frame.spA4 = &frame.x;
-                        frame.spA8 = &frame.y;
-loop_74:
-                        temp_r0_6 = &frame.targets[0] + var_r7;
-                        temp_r6 = (0x14C * *temp_r0_6) + ((u8 *)gUnk_03003CE0);
-                        temp_r1_5 = D75_PTR(temp_r6,0x148);
-
-                        d75Coords((s32) ((u16) D75_U16(temp_r1_5,0x0) >> 4), (s32) ((u32) (D75_U16(temp_r1_5,0x2) << 0x14) >> 0x14), &frame.x, &frame.y, 0x30, 0);
-                        temp_r9_2 = (u8) sub_0800BC44((u32) (frame.sp7C >> 8), (u32) ((s32) frame.sp80 >> 8), 0U);
-                        temp_r5_2 = (u8 *)&frame + var_r7;
-                        temp_r0_7 = D75_U8(temp_r5_2,0x3C);
-                        if (temp_r0_7 == 0) {
-                            temp_r4_6 = var_r7 * 2;
-
-                            if (sub_08065370(frame.desc, 0xAU, (s32) (&frame.xs[temp_r4_6 / 2]), (s32) (&frame.ys[var_r7 * 2 / 2]), 0) != 0) {
-                                frame.sp84 = (u32) (u16) (frame.sp84 + 1);
-                                D75_U8(temp_r5_2,0x3C) = 0xF0U;
-                                if (frame.sp8C == *temp_r0_6) {
-                                    temp_r0_8 = ((u8 *(*)())sub_0801E1D8)(temp_r6, 4, frame.sp8C);
-                                    if (temp_r0_8 != 0) {
-                                        if ((u32) D75_U16(temp_r0_8,0x6) < (u32) temp_r2) {
-                                            D75_U16(temp_r0_8,0x6) = temp_r2;
-                                            D75_U16(temp_r0_8,0x0) = D75_U16(&frame.sp9C,0);
-                                            D75_U16(temp_r0_8,0x2) = D75_U16(&frame.sp8C,0);
-                                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                                sub_0805865C(0x1A);
-                                            }
-                                        }
-                                    } else {
-                                        temp_r0_9 = d75Alloc(temp_r6, 4);
-                                        if (temp_r0_9 != 0) {
-                                            D75_U16(temp_r0_9,0x6) = temp_r2;
-                                            D75_U16(temp_r0_9,0x0) = D75_U16(&frame.sp9C,0);
-                                            D75_U16(temp_r0_9,0x2) = D75_U16(&frame.sp8C,0);
-                                            D75_U16(temp_r0_9,0x4) = 4;
-                                        }
+        u32 val;
+        hits = 0;
+        val = (lv + 5) * 30;
+        while (hits < n && (owner != sub_080020F4() || ((u16)(player->state - 0xB) > 1 && sub_0800D11C() == 0))) {
+            if (arg0->mode <= 3) {
+                for (i = 0; i < n; i++) {
+                    u8 *tp = &targets[i];
+                    u8 *d;
+                    p = &gT75Players[*tp];
+                    t75Coords(p->pos->h0 >> 4, (u32)(p->pos->h2 << 20) >> 20, &x, &y, 0x30, 0);
+                    pal = sub_0800BC44(sx >> 8, sy >> 8, 0);
+                    d = &delays[i];
+                    if (*d == 0) {
+                        ten = 10; if (sub_08065370(&desc, ten, (s32)&xs[i], (s32)&ys[i], 0)) {
+                            hits++;
+                            *d = 0xF0;
+                            if (myId == *tp) {
+                                eff = t75Find(p, 4, myId);
+                                if (eff != NULL) {
+                                    if (eff->h6 < lv) {
+                                        eff->h6 = lv;
+                                        eff->h0 = val;
+                                        eff->h2 = myId;
+                                        if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                                            sub_0805865C(0x1A);
+                                    }
+                                } else {
+                                    eff = t75Alloc(p, 4);
+                                    if (eff != NULL) {
+                                        eff->h6 = lv;
+                                        eff->h0 = val;
+                                        eff->h2 = myId;
+                                        eff->h4 = 4;
                                     }
                                 }
                             }
-                            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                                if (!(gUnk_03002344 & 1)) {
-                                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                                }
-
-                                d75Draw(*frame.spA4, *frame.spA8, 0xA, frame.xs[var_r7 * 2 / 2], temp_r9_2, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
-                            }
-                        } else if (temp_r0_7 != 0xF0) {
-                            D75_U8(temp_r5_2,0x3C) = (u8) (temp_r0_7 - 1);
                         }
-                        var_r7 += 1;
-                        if ((u32) var_r7 < frame.sp88) {
-                            goto loop_74;
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(gUnk_03002344 & 1))
+                                sub_08000AF0(0x17, (void *)desc.fC, 2);
+                            t75Draw(x, y, ten, xs[i], pal, &desc.f1C, desc.f8, desc.f0);
                         }
-                    }
-                } else {
-                    var_r7 = 0;
-                    if (frame.sp88 <= 0U) {
-
-                    } else {
-                        frame.spA4 = &frame.x;
-                        frame.spA8 = &frame.y;
-loop_98:
-                        temp_r6 = ((u8 *)gUnk_030056F4) + (*(&frame.targets[0] + var_r7) * 0x2E0);
-
-                        d75Coords((s32) (D75_U32(temp_r6,0x14) << 8) >> 0x10, (s32) (D75_U32(temp_r6,0x18) << 8) >> 0x10, &frame.x, &frame.y, 0x30, 0);
-                        temp_r9 = (u8) sub_0800BC44((u32) (frame.sp7C >> 8), (u32) ((s32) frame.sp80 >> 8), 0U);
-                        temp_r5 = (u8 *)&frame + var_r7;
-                        temp_r0_3 = D75_U8(temp_r5,0x3C);
-                        if (temp_r0_3 == 0) {
-                            temp_r4_5 = var_r7 * 2;
-
-                            if (sub_08065370(frame.desc, 0xAU, (s32) (&frame.xs[temp_r4_5 / 2]), (s32) (&frame.ys[temp_r4_5 / 2]), 0) != 0) {
-                                frame.sp84 = (u32) (u16) (frame.sp84 + 1);
-                                D75_U8(temp_r5,0x3C) = 0xF0U;
-                                if (frame.sp8C == frame.sp90) {
-                                    temp_r0_4 = sub_0801E20C(temp_r6, 4, (s32) frame.sp90);
-                                    if (temp_r0_4 != NULL) {
-                                        if ((u32) D75_U16(temp_r0_4,0x6) < (u32) temp_r2) {
-                                            D75_U16(temp_r0_4,0x6) = temp_r2;
-                                            D75_U16(temp_r0_4,0x0) = D75_U16(&frame.sp9C,0);
-                                            D75_U16(temp_r0_4,0x2) = (u16) frame.sp90;
-                                            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                                sub_0805865C(0x1A);
-                                            }
-                                        }
-                                    } else {
-                                        temp_r0_5 = sub_0801E104(temp_r6);
-                                        if (temp_r0_5 != NULL) {
-                                            D75_U16(temp_r0_5,0x6) = temp_r2;
-                                            D75_U16(temp_r0_5,0x0) = D75_U16(&frame.sp9C,0);
-                                            D75_U16(temp_r0_5,0x2) = (u16) frame.sp90;
-                                            D75_U16(temp_r0_5,0x4) = 4;
-                                        }
-                                    }
-                                }
-                            }
-                            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                                if (!(gUnk_03002344 & 1)) {
-                                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                                }
-
-                                d75Draw(*frame.spA4, *frame.spA8, 0xA, frame.xs[temp_r4_5 / 2], temp_r9, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
-                            }
-                        } else if (temp_r0_3 != 0xF0) {
-                            D75_U8(temp_r5,0x3C) = (u8) (temp_r0_3 - 1);
-                        }
-                        var_r7 += 1;
-                        if ((u32) var_r7 < frame.sp88) {
-                            goto loop_98;
-                        }
+                    } else if (*d != 0xF0) {
+                        (*d)--;
                     }
                 }
-                sub_080003F0();
-
+            } else {
+                for (i = 0; i < n; i++) {
+                    u8 *d;
+                    e = &gT75Enemies[targets[i]];
+                    t75Coords((e->x << 8) >> 16, (e->y << 8) >> 16, &x, &y, 0x30, 0);
+                    pal = sub_0800BC44(sx >> 8, sy >> 8, 0);
+                    d = &delays[i];
+                    if (*d == 0) {
+                        ten = 10; if (sub_08065370(&desc, ten, (s32)&xs[i], (s32)&ys[i], 0)) {
+                            hits++;
+                            *d = 0xF0;
+                            if (myId == owner) {
+                                eff = t75FindE(e, 4, owner);
+                                if (eff != NULL) {
+                                    if (eff->h6 < lv) {
+                                        eff->h6 = lv;
+                                        eff->h0 = val;
+                                        eff->h2 = owner;
+                                        if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                                            sub_0805865C(0x1A);
+                                    }
+                                } else {
+                                    eff = t75AllocE(e, 4);
+                                    if (eff != NULL) {
+                                        eff->h6 = lv;
+                                        eff->h0 = val;
+                                        eff->h2 = owner;
+                                        eff->h4 = 4;
+                                    }
+                                }
+                            }
+                        }
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(gUnk_03002344 & 1))
+                                sub_08000AF0(0x17, (void *)desc.fC, 2);
+                            t75Draw(x, y, ten, xs[i], pal, &desc.f1C, desc.f8, desc.f0);
+                        }
+                    } else if (*d != 0xF0) {
+                        (*d)--;
+                    }
+                }
+            }
+            sub_080003F0();
+        }
     }
-loop_119:
-    if (frame.sp84 < frame.sp88) {
-        if (frame.sp90 != sub_080020F4()) goto block_69;
-        if (((u32) (u16) (D75_U16(frame.sp74,0x20) - 0xB) > 1U) && (sub_0800D11C() == 0)) goto block_69;
-    }
-    }
-    while (*frame.spAC == 0) {
+    while (player->done == 0)
         sub_080003F0();
-    }
-    temp_r2_6 = (s32 *)(frame.spA0 + ((u8 *)d75Flags));
-    *temp_r2_6 &= ~(1 << frame.sp94);
+    gT75Flags[owner] &= ~(1 << bit);
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08072D5C);
-#endif
 #ifdef NONMATCHING
 struct Frame07656C {u8 ids[4];volatile u16 distance[4];u32 gap,level,x,count,bit,playerOffset;};
 extern u8 players07656C[] asm("gUnk_03003CE0");
