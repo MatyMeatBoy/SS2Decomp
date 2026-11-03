@@ -10781,14 +10781,14 @@
       "name": "sub_08029E0C",
       "addr": 134389260,
       "size": 328,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08028AAC",
       "kind": "c",
       "cat": "game",
       "address": "0x08029E0C",
       "canonical_symbol": "sub_08029E0C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08029E0C",
       "name_status": "unidentified",
       "name_source": null,
@@ -10863,7 +10863,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 897,
+          "line": 894,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802A104_v"
         }
       ]
@@ -11671,14 +11671,14 @@
       "name": "sub_08032598",
       "addr": 134423960,
       "size": 948,
-      "state": "todo",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08032598",
       "canonical_symbol": "sub_08032598",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_08032598",
       "name_status": "unidentified",
       "name_source": null,
@@ -11991,7 +11991,7 @@
       "evidence": [
         {
           "source": "src/code_0802FEA0.c",
-          "line": 3371,
+          "line": 3505,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t36AScript"
         }
       ]
