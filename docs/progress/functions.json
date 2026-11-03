@@ -30147,18 +30147,24 @@
       "name": "sub_0809A834",
       "addr": 134850612,
       "size": 1460,
-      "state": "todo",
+      "state": "done",
       "module": "code_08097E28",
       "kind": "c",
       "cat": "game",
       "address": "0x0809A834",
       "canonical_symbol": "sub_0809A834",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_0809A834",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "task834",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08097E28.c",
+          "line": 1707,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: task834"
+        }
+      ]
     },
     {
       "name": "sub_0809ADE8",
@@ -36916,12 +36922,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 165,
-      "existing": 46,
+      "identified": 166,
+      "existing": 47,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1715,
-      "percent_identified": 8.77659574468085
+      "unidentified": 1714,
+      "percent_identified": 8.829787234042554
     },
     "sdk": {
       "total": 155,
@@ -36934,12 +36940,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 320,
-      "existing": 175,
+      "identified": 321,
+      "existing": 176,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1715,
-      "percent_identified": 15.724815724815725
+      "unidentified": 1714,
+      "percent_identified": 15.773955773955773
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
