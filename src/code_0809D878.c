@@ -2285,7 +2285,6 @@ void sub_080A1FF4(void *unused, u16 direction)
     } while (count != 0xFFFF);
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
-#ifdef NONMATCHING
 struct ActorT107A230C { u16 id; u8 p2[6]; s16 facing; u16 pA, state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; s32 serial; };
 extern struct ActorT107A230C *gActorT107A230C asm("gUnk_03000348");
 struct AnimT107A230C { u32 f0, f4, f8, fC; u8 p10[12]; u8 attr[24]; };
@@ -2329,7 +2328,7 @@ void sub_080A230C(void *unused, u16 delay)
         ((struct Nib107 *)((u8 *)gActorT107A230C + 0x1FC))->hi = sub_08096594(0);
         target = &t107PlayersC[*((u8 *)gActorT107A230C + 0x1FC) >> 4];
         sub_08097A38(0);
-        { s32 z; u16 *tq = &tile, *ep = &extra; z = 0; *ep = 0; *tq = z; } count = 0; tick = 0; hit = 0;
+        { s32 z; u16 *tq = &tile, *ep = &extra; z = 0; *ep = 0; tile = z; } count = 0; tick = 0; hit = 0;
         pos.x = gActorT107A230C->x; pos.y = gActorT107A230C->y;
         pos.x += gUnk_080B9704[gUnk_085186DC[gActorT107A230C->facing] + 0x40] << 5;
         pos.y += gUnk_080B9704[gUnk_085186DC[gActorT107A230C->facing]] << 5;
@@ -2391,9 +2390,6 @@ void sub_080A230C(void *unused, u16 delay)
     *(u32 *)((u8 *)sub_0800048C() + 8) = active;
     sub_080003F0();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A230C);
-#endif
 void sub_080A2698(void) {
     if (M2C_FIELD(gUnk_03000348, s16 *, 0x5C) != 0) {
         sub_080A1F88();

@@ -14,3 +14,6 @@ sub_080A230C (nov03-w5): 72 -> 16 diff lines, exact size. Keys: x/y as `struct T
   `{ u16 *tq = &tile, *ep = &extra; *ep = 0; *tq = 0; }` and `&tile` directly in the loop call
   (gives r8 = &tile and the `mov sl, r8` copy). Left: ROM computes &extra (spilled 0x74) before
   &tile (r8). (`z = 0; *ep = 0; *tq = z;` fixed the r0 zero reuse for `hit`: 12 lines left.)
+sub_080A230C: MATCHED (nov03-w5). Last step: init `{ s32 z; u16 *tq = &tile, *ep = &extra; z = 0;
+  *ep = 0; tile = z; }` (the unused `tq = &tile` fixes tile's stack slot 0x44 by taking its address
+  first, the plain `tile = z` store makes &extra the first hoisted address -> ROM order).
