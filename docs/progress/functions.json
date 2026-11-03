@@ -11654,14 +11654,14 @@
       "name": "sub_08031FF8",
       "addr": 134422520,
       "size": 1440,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0802FEA0",
       "kind": "c",
       "cat": "game",
       "address": "0x08031FF8",
       "canonical_symbol": "sub_08031FF8",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08031FF8",
       "name_status": "unidentified",
       "name_source": null,
@@ -11991,7 +11991,7 @@
       "evidence": [
         {
           "source": "src/code_0802FEA0.c",
-          "line": 3684,
+          "line": 3681,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t36AScript"
         }
       ]
