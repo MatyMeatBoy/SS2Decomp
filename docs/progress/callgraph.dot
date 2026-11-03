@@ -8324,7 +8324,6 @@ digraph calls {
   "sub_080686A4" -> "CpuSet" [label="c"];
   "sub_080686F4" -> "sub_0805CFA0" [label="c"];
   "sub_080686F4" -> "sub_0805D348" [label="c"];
-  "sub_08068874" -> "Sqrt" [label="c"];
   "sub_08068894" -> "sub_08000274" [label="c"];
   "sub_08068894" -> "sub_080003F0" [label="c"];
   "sub_08068894" -> "sub_08000470" [label="c"];
@@ -8333,7 +8332,6 @@ digraph calls {
   "sub_080688F8" -> "sub_08000470" [label="c"];
   "sub_080688F8" -> "sub_08001538" [label="c"];
   "sub_0806898C" -> "sub_080020F4" [label="c"];
-  "sub_08068A00" -> "Sqrt" [label="c"];
   "sub_08068A00" -> "sub_080020F4" [label="c"];
   "sub_08068A00" -> "sub_08002164" [label="c"];
   "sub_08068A00" -> "sub_08002204" [label="c"];
