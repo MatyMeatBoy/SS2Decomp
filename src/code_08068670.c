@@ -5083,196 +5083,115 @@ void sub_08072D5C(struct T75Arg *arg0) {
     gT75Flags[owner] &= ~(1 << bit);
 }
 #ifdef NONMATCHING
-struct Frame07656C {u8 ids[4];volatile u16 distance[4];u32 gap,level,x,count,bit,playerOffset;};
-extern u8 players07656C[] asm("gUnk_03003CE0");
+struct Buff07356C { s16 timer; u16 owner; u16 type; u16 level; u8 pad8[0x20]; };
+struct Pos07356C { u16 x; u16 y; u8 f4; };
+struct Ply07356C { u8 pad0[0x24]; u16 f24; u16 f26; u8 pad28[0xC]; struct Buff07356C *buffs; u8 pad38[0x2C]; u16 state; u8 pad66[2]; u8 team; u8 pad69[0x59]; u16 mp; u8 padC4[0x84]; struct Pos07356C *pos; };
+struct Arg07356C { u32 owner; u32 bit; u8 pad8[4]; s32 fC; u8 pad10[4]; u32 level; };
+extern struct Ply07356C players07656C[] asm("gUnk_03003CE0");
 extern u32 flags07656C[] asm("gUnk_030063E0");
 extern void effect07656C(s32,u32) asm("sub_08074DE8");
-#define F_07656C(p,t,o) (*(t*)((u8*)(p)+(o)))
-void sub_0807356C(void *arg0) {
-    struct Frame07656C frame;
-    s16 temp_r1_4;
-    s16 temp_r2_3;
-    s32 *temp_r2_4;
-    s32 temp_r9;
-    s32 var_r0;
-    s32 var_r0_2;
-    u16 temp_r0_2;
-    u16 temp_r0_3;
-    u16 temp_r1;
-    u16 temp_r1_3;
-    u16 temp_r2;
-    u16 temp_r3_2;
-    u16 var_r5_2;
-    u16 var_r5_3;
-    u16 var_r5_4;
-    u16 var_r5_5;
-    u16 var_r5_6;
-    u32 temp_r0;
-    u32 temp_r3_3;
-    u32 temp_r4_2;
-    u32 var_r5;
-    u8 *temp_r4_3;
-    void *temp_r1_2;
-    void *temp_r2_2;
-    void *temp_r3;
-    void *temp_r3_4;
-    void *temp_r4;
-    void *var_r2;
-    void *var_r2_2;
-    void *var_r2_3;
-    void *var_r2_4;
-    void *var_r7;
+static inline void buff07356C(struct Ply07356C *p, u32 owner, u16 level)
+{
+    struct Buff07356C *b;
+    u16 i;
+    u8 found;
 
-    register u8 *saved_reg_r10 asm("r10");
-    /* Preserve the incoming r10 value; its ABI role remains under review. */
-    asm("" : "=r"(saved_reg_r10));
-    var_r7 = saved_reg_r10;
-    temp_r9 = sub_080020F4();
-    temp_r0 = F_07656C(arg0,u32,0x0);
-    frame.bit = F_07656C(arg0,u32,0x4);
-    temp_r2 = F_07656C(arg0,u32,0x14);
-    frame.level = (s32) temp_r2;
-    if (temp_r0 <= 3U) {
-        var_r7 = (0x14C * temp_r0) + players07656C;
-    }
-    if (temp_r9 == temp_r0) {
-        temp_r4 = (0x14C * sub_080020F4()) + players07656C;
-        temp_r1 = F_07656C(temp_r4,u16,0xC2) - (u16) (sub_0806898C(F_07656C(arg0,u32,0xC), (s32) F_07656C(arg0,u32,0x14)) - 1);
-        F_07656C(temp_r4,u16,0xC2) = temp_r1;
-        if ((s32) (temp_r1 << 0x10) < 0) {
-            F_07656C(temp_r4,u16,0xC2) = 0U;
+    found = 0;
+    b = p->buffs;
+    for (i = 0; i <= 7; i++, b++) {
+        if (b->timer > 0 && b->owner <= 3 && players07656C[b->owner].state == 7 && b->type == 5) {
+            if (b->level < level) {
+                b->timer = (level * 10 + 40) * 60;
+                b->level = level;
+            }
+            found = 1;
+            break;
         }
     }
-    temp_r1_2 = F_07656C(var_r7,u8*,0x148);
-    frame.x = (u16) F_07656C(temp_r1_2,u16,0x0) >> 4;
-    temp_r4_2 = (u32) (F_07656C(temp_r1_2,u16,0x2) << 0x14) >> 0x14;
-    frame.count = 0;
-    var_r5 = 0;
-    frame.playerOffset = temp_r0 * 4;
-loop_18:
-    if (var_r5 < sub_08002164()) {
-        temp_r3 = (0x14C * var_r5) + players07656C;
-        temp_r2_2 = F_07656C(temp_r3,u8*,0x148);
-        if (((s32) (F_07656C(temp_r2_2,u8,0x4) << 0x1A) >= 0) && ((temp_r0 > 3U) || (F_07656C(temp_r3,u8,0x68) == F_07656C(var_r7,u8,0x68)))) {
-            temp_r1_3 = ((u16) F_07656C(temp_r2_2,u16,0x0) >> 4) - frame.x;
-            temp_r3_2 = ((u32) (F_07656C(temp_r2_2,u16,0x2) << 0x14) >> 0x14) - temp_r4_2;
-            if (frame.level != 0) {
-                temp_r2_3 = (s16) temp_r1_3;
-                var_r0 = (s32) (temp_r1_3 << 0x10) >> 0x13;
-                if (var_r0 < 0) {
-                    var_r0 = 0 - var_r0;
-                }
-                if (var_r0 <= 0xC) {
-                    temp_r1_4 = (s16) temp_r3_2;
-                    var_r0_2 = (s32) (temp_r3_2 << 0x10) >> 0x13;
-                    if (var_r0_2 < 0) {
-                        var_r0_2 = 0 - var_r0_2;
-                    }
-                    if (var_r0_2 <= 0xC) {
-                        temp_r3_3 = frame.count;
-                        frame.distance[temp_r3_3] = Sqrt((temp_r2_3 * temp_r2_3) + (temp_r1_4 * temp_r1_4));
-                        frame.count = (u32) (u16) (temp_r3_3 + 1);
-                        frame.ids[temp_r3_3] = (s8) var_r5;
+    if (!found) {
+        b = p->buffs;
+        for (i = 0; i <= 7; i++, b++) {
+            if (b->timer == -1) {
+                b->owner = owner;
+                b->timer = (level * 10 + 40) * 60;
+                b->type = 5;
+                b->level = level;
+                break;
+            }
+        }
+    }
+}
+void sub_0807356C(struct Arg07356C *arg0)
+{
+    u8 ids[4];
+    u16 dist[6];
+    struct Ply07356C *p;
+    struct Ply07356C *player;
+    struct Pos07356C *pos;
+    s32 self;
+    u32 owner, bit, level, count, x, y;
+    u16 lv, i, dx, dy;
+    s32 ax, ay;
+
+    self = sub_080020F4();
+    owner = arg0->owner;
+    bit = arg0->bit;
+    level = lv = arg0->level;
+    if (owner <= 3)
+        player = &players07656C[owner];
+    if (self == owner) {
+        struct Ply07356C *me = &players07656C[sub_080020F4()];
+        u16 cost = sub_0806898C(arg0->fC, arg0->level) - 1;
+        me->mp -= cost;
+        if ((s16)me->mp < 0)
+            me->mp = 0;
+    }
+    pos = player->pos;
+    x = pos->x >> 4;
+    y = (u32)(pos->y << 20) >> 20;
+    count = 0;
+    for (i = 0; i < sub_08002164(); i++) {
+        p = &players07656C[i];
+        pos = p->pos;
+        if (!(pos->f4 & 0x20) && (owner > 3 || p->team == player->team)) {
+            dx = (pos->x >> 4) - x;
+            dy = ((u32)(pos->y << 20) >> 20) - y;
+            if (level != 0) {
+                ax = (s16)dx >> 3;
+                if (ax < 0)
+                    ax = -ax;
+                if (ax <= 12) {
+                    ay = (s16)dy >> 3;
+                    if (ay < 0)
+                        ay = -ay;
+                    if (ay <= 12) {
+                        dist[count] = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+                        ids[count] = i;
+                        count = (u16)(count + 1);
                     }
                 }
             }
         }
-        var_r5 = (u32) (u16) (var_r5 + 1);
-        goto loop_18;
     }
-    if (((temp_r9 == temp_r0) || (temp_r0 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
+    if ((self == owner || owner > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(0x16C);
-    }
-    if (temp_r9 == temp_r0) {
-        effect07656C(temp_r9, F_07656C(arg0,u32,0xC));
-        var_r2 = F_07656C(var_r7,u8*,0x34);
-        var_r5_2 = 0;
-loop_26:
-        if (((s32) F_07656C(var_r2,s16,0x0) > 0) && (temp_r0_2 = F_07656C(var_r2,u16,0x2), ((u32) temp_r0_2 <= 3U)) && (F_07656C(players07656C+temp_r0_2*0x14C,u16,0x64) == 7) && (F_07656C(var_r2,u16,0x4) == 5)) {
-            if ((u32) F_07656C(var_r2,u16,0x6) < (u32) temp_r2) {
-                F_07656C(var_r2,s16,0x0) = (s16) (((temp_r2 * 0xA) + 0x28) * 0x3C);
-                F_07656C(var_r2,u16,0x6) = temp_r2;
-            }
-        } else {
-            var_r5_2 += 1;
-            var_r2 += 0x28;
-            if ((u32) var_r5_2 > 7U) {
-                if (0 == 0) {
-                    var_r2_2 = F_07656C(var_r7,u8*,0x34);
-                    var_r5_3 = 0;
-loop_35:
-                    if (F_07656C(var_r2_2,s16,0x0) != -1) {
-                        var_r5_3 += 1;
-                        var_r2_2 += 0x28;
-                        if ((u32) var_r5_3 <= 7U) {
-                            goto loop_35;
-                        }
-                    } else {
-                        F_07656C(var_r2_2,u16,0x2) = (s16) temp_r0;
-                        F_07656C(var_r2_2,s16,0x0) = (s16) (((temp_r2 * 0xA) + 0x28) * 0x3C);
-                        F_07656C(var_r2_2,u16,0x4) = 5;
-                        F_07656C(var_r2_2,u16,0x6) = temp_r2;
-                    }
-                }
-            } else {
-                goto loop_26;
-            }
-        }
-        F_07656C(var_r7,u16,0x24) = 0;
-        F_07656C(var_r7,u16,0x26) = 0;
+    if (self == owner) {
+        effect07656C(self, arg0->fC);
+        buff07356C(player, owner, lv);
+        player->f24 = 0;
+        player->f26 = 0;
     } else {
-        var_r5_4 = 0;
-        if ((frame.count > 0U) && (frame.level != 0)) {
-loop_43:
-            temp_r4_3 = frame.ids + var_r5_4;
-            effect07656C((s32) *temp_r4_3, F_07656C(arg0,u32,0xC));
-            if (*temp_r4_3 == temp_r9) {
-                temp_r3_4 = (0x14C * temp_r9) + players07656C;
-                var_r2_3 = F_07656C(temp_r3_4,u8*,0x34);
-                var_r5_5 = 0;
-loop_45:
-                if (((s32) F_07656C(var_r2_3,s16,0x0) > 0) && (temp_r0_3 = F_07656C(var_r2_3,u16,0x2), ((u32) temp_r0_3 <= 3U)) && (F_07656C(players07656C+temp_r0_3*0x14C,u16,0x64) == 7) && (F_07656C(var_r2_3,u16,0x4) == 5)) {
-                    if ((u32) F_07656C(var_r2_3,u16,0x6) < (u32) temp_r2) {
-                        F_07656C(var_r2_3,s16,0x0) = (s16) (((temp_r2 * 0xA) + 0x28) * 0x3C);
-                        F_07656C(var_r2_3,u16,0x6) = temp_r2;
-                    }
-                } else {
-                    var_r5_5 += 1;
-                    var_r2_3 += 0x28;
-                    if ((u32) var_r5_5 > 7U) {
-                        if (0 == 0) {
-                            var_r2_4 = F_07656C(temp_r3_4,u8*,0x34);
-                            var_r5_6 = 0;
-loop_54:
-                            if (F_07656C(var_r2_4,s16,0x0) != -1) {
-                                var_r5_6 += 1;
-                                var_r2_4 += 0x28;
-                                if ((u32) var_r5_6 > 7U) {
-
-                                } else {
-                                    goto loop_54;
-                                }
-                            } else {
-                                F_07656C(var_r2_4,u16,0x2) = (s16) temp_r0;
-                                F_07656C(var_r2_4,s16,0x0) = (s16) (((temp_r2 * 0xA) + 0x28) * 0x3C);
-                                F_07656C(var_r2_4,u16,0x4) = 5;
-                                F_07656C(var_r2_4,u16,0x6) = temp_r2;
-                            }
-                        }
-                    } else {
-                        goto loop_45;
-                    }
-                }
-            } else {
-                var_r5_4 += 1;
-                if (((u32) var_r5_4 < frame.count) && (frame.level != 0)) {
-                    goto loop_43;
-                }
+        i = 0;
+        while (i < count && level != 0) {
+            effect07656C(ids[i], arg0->fC);
+            if (ids[i] == self) {
+                buff07356C(&players07656C[self], owner, lv);
+                break;
             }
+            i++;
         }
     }
-    temp_r2_4 = (s32*)((u8*)flags07656C+frame.playerOffset);
-    *temp_r2_4 &= ~(1 << frame.bit);
+    flags07656C[owner] &= ~(1 << bit);
 }
 
 
