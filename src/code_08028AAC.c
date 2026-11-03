@@ -71,20 +71,18 @@ INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802926C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802939C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802949C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029788);
-#ifdef NONMATCHING
+struct P96C { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x2C]; u16 f60; u16 f62; u8 pad64[4]; u8 f68; u8 pad69[0x59]; u16 fC2; u16 fC4; u8 tail[0x14C-0xC6]; };
+extern struct P96C players96C[] asm("gUnk_03003CE0");
+#define DRAIN_96C(n) p=&players96C[index]; do { h=(void*)sub_0801E1D8(p,n,100); if(h) {sub_0801DB94(p->id,h,0); asm("":"+r"(h));} } while(h)
 void sub_0802996C(void) {
- s32 index, handle; struct Player *p; u8 *q,*base; u32 offset; u32 *flags;
- index=sub_080020F4(); base=(u8*)gUnk_03003CE0; offset=index*0x14C; handle=(s32)(offset+(u32)base); p=(struct Player*)handle;
- q=(u8*)p+0x62; asm("" : "+r"(q)); { u16 v=*(u16*)q; q+=0x62; *(u16*)q=v; q-=0x64; v=*(u16*)q; q=(u8*)p+0xC2; *(u16*)q=v; q-=0x5A; *q=1; } flags=(u32*)(offset+(u32)(base+0x30)); *flags &= 0xFFFFDFFD;
- p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,6,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
- p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,7,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
- p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,5,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
- p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,4,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
- p=&gUnk_03003CE0[index]; do { handle=sub_0801E1D8(p,2,100); if(handle){sub_0801DB94(*(u16*)p,(void*)handle,0); asm("" : "+r"(handle));} } while(handle);
+ s32 index; void *h; struct P96C *p;
+ index=sub_080020F4();
+ players96C[index].fC4=players96C[index].f62;
+ players96C[index].fC2=players96C[index].f60;
+ players96C[index].f68=1;
+ players96C[index].flags &= 0xFFFFDFFD;
+ DRAIN_96C(6); DRAIN_96C(7); DRAIN_96C(5); DRAIN_96C(4); DRAIN_96C(2);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802996C);
-#endif
 #ifdef NONMATCHING
 #define H_A7(p,n) (*(u16*)((p)+(n)))
 #define W_A7(p,n) (*(u32*)((p)+(n)))
