@@ -1482,7 +1482,6 @@ void sub_08096FA0(u8 arg0)
     }
     *(u32 *)(state99FA0+8)=0;
 }
-#ifdef NONMATCHING
 struct Entity9970D {
     u8 pad0[0x14]; s32 x, y; u8 pad1C[0x4C];
     u16 animation, tile, rotation;
@@ -1502,8 +1501,8 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
 {
     register struct Entity9970D *entity asm("r6");
     struct Sprite9970D *image;
-    /* SL holds the palette slot first, then the cached screen-X address. */
     register u32 palNum asm("sl");
+    s16 *xptr;
     u16 palette[16];
     s16 screenX, screenY;
     s16 i;
@@ -1551,7 +1550,7 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
     imageAttr = image->payload;
     field68 = &entity->animation;
     field6A = &entity->tile;
-    palNum = (u32)screenXPtr;
+    xptr = screenXPtr;
     do {
         u8 oldAlternate;
         {
@@ -1582,10 +1581,8 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
         animate9970D(image, *field68, field6A, field6C, 1);
         coords9970D((s32)((u32)entity->x << 8) >> 16,
                      (s32)((u32)entity->y << 8) >> 16,
-                     (s16 *)palNum, screenYPtr, 0, 0);
-        /* Real-build diff is now 2 bytes: the ROM reads this through
-         * `mov r4, sl` (palNum) instead of reloading screenXPtr. */
-        draw9970D(*screenXPtr, *screenYPtr, *field68, *field6A,
+                     xptr, screenYPtr, 0, 0);
+        draw9970D(*xptr, *screenYPtr, *field68, *field6A,
                    priority, 1, 0, imageAttr, image->f8, (void *)image->f0);
         sub_08000B38();
         sub_080003F0();
@@ -1593,9 +1590,6 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
     scroll9970D(0, 0, 0, 0);
     return 1;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08095B04", sub_080970CC);
-#endif
 struct Entity9972B8 {
     u8 pad0[0x14]; s32 x, y; u8 pad1C[0x4C];
     u16 animation, tile, rotation;
@@ -1616,7 +1610,6 @@ s32 sub_080972B8(struct Entity9972B8 *inputEntity,
 {
     register struct Entity9972B8 *entity asm("r8");
     register struct Sprite9972B8 *image asm("r6");
-    /* SL holds the palette slot first, then the cached screen-X address. */
     register u32 palNum asm("sl");
     u32 priority;
     u16 palette[16];
