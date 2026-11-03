@@ -1,0 +1,19 @@
+shard 77 (nov03-w4, 2026-11-03)
+- sub_08075088: MATCHED. Tricks: `spd` multiplier set once at function top (REG_EQUIV keeps muls by 2
+  instead of lsl); dir table load via `u16 *tb = dir; u32 t = ...; a = tb[t]; dirIdx = t;`;
+  `zero` local (=0 per outer iteration) in the |sx| compare fixed the spill-slot order (permuter find).
+- sub_08075778: draft 2384/2416 bytes. Learned:
+  * target search loop must exit with `goto found` (not `break`), else gcc peels the first iteration
+    and loop.c does not hoist the mask load.
+  * hit loop over enemies: `for (j = 0; j <= 4 && !hit; j++)` + explicit `break` after `hit = 1`, and
+    separate `if (sub_0800CD8C()) break; if (sub_0800CDF8()) break;`.
+  * `box`/`box2` are `struct {u32 w:16; u32 h:16;}`; box set as w=8,h=8 (combine folds to 0x80008)
+    before the branch, box2 w/h=0x10 in the player branch keeps the RMW (masks cse'd across blocks).
+  * `x += sin*2*45/10` needs an inline helper `move(v, 45)` so the mult stays `muls` (no synth).
+  * `while (p->ready < 1)` only keeps `cmp #1` when written as an inline helper wait(p, 1).
+  * The draw dir must be a fresh copy `d = dirIdx;` in the loop, else loop.c hoists (s16)dir*4.
+  Remaining: the enemy-branch ArcTan normalization tail is cross-jumped into the player branch
+  (orig keeps 11 extra insns because the two branches got different regs: const 0xFFFFFF00 in r4 vs r6);
+  orig spills `arg` (sp+0x120) and `e` (0x124); spill slots follow declaration order:
+  arg, e, target, lo, serial, kind, x, y, n, iter, dirIdx, local, slot, power, big, then hoisted
+  &box, &box2, ang<<16, who*4, &p->ready. The 45 constant is rematerialized in orig (movs each use).

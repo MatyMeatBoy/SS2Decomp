@@ -971,16 +971,16 @@ void sub_08075778(struct Arg5778 *arg)
         if (target > 3) {
             dx = (e->x - x) >> 8;
             dy = (e->y - y) >> 8;
-            ang = (u16)atan5778(dx, dy) >> 8;
-            t = ang;
+            t = (u16)atan5778(dx, dy) >> 8;
             if (t > 0x80)
-                ang = t - 0x100;
+                t -= 0x100;
+            ang = t;
         } else {
             struct Ent5778 *te = p5778[target].entity;
             dx = (te->xRaw >> 4) - (x >> 8);
             dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
-            ang = (u16)atan5778(dx, dy) >> 8;
-            t = ang;
+            t = (u16)atan5778(dx, dy) >> 8;
+            ang = t;
             if (t > 0x80)
                 ang = t - 0x100;
         }
@@ -1155,9 +1155,7 @@ void sub_08075778(struct Arg5778 *arg)
         x += move5778(sin5778[(s16)ang + 0x40], 45);
         y += move5778(sin5778[(s16)ang], 45);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
-            sx = x >> 8;
-            sy = y >> 8;
-            pos5778((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
+            pos5778((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
             shade = (u8)sub_0800BC44(sx, sy, 0);
             d = dirIdx;
             step5778(&spr, 0x40 | d, &frame, &timer, 1);
