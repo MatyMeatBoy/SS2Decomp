@@ -938,7 +938,9 @@ extern void initE530(void*,u32,u32,s32,u32) asm("sub_08065158");
 extern void coordE530(s16,s16,u16*,u16*,s32,s32) asm("sub_0800BC08");
 extern void *drawE530(u16,u16,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
 extern void spawnE530(s32,s32,s32,s32,s32) asm("sub_08079888");
-void sub_0808E530(u32 arg)
+/* returns nothing; the header declares s32, so define it under an alias */
+void sub_0808E530_v(u32 arg) asm("sub_0808E530");
+void sub_0808E530_v(u32 arg)
 {
     u8 sprite[0x34];
     u16 outX, outY;

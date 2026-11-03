@@ -775,7 +775,7 @@ s32 sub_080855D4();
 s32 sub_080941B4();
 s32 sub_080948E0();
 s32 sub_08094DEC();
-void sub_0808E530();
+s32 sub_0808E530();
 void sub_080923B4();
 s32 sub_080A35D0();
 s32 sub_080A3D2C();
