@@ -275,7 +275,8 @@ void sub_0800A03C(void)
 {
     u32 alternate,i;
     u16 *frame,*timer,*period;
-    u16 old,value;
+    u16 *limit;
+    u32 off;
     switch(animState005.area) {
     case 0:case 1:case 2:case 3: break;
     case 4: if(animState005.index==12) return; break;
@@ -302,13 +303,15 @@ void sub_0800A03C(void)
     }
     if ((u16)(animState005.area-7)<=1 && sub_0800CDC0()) return;
     frame=(u16 *)((u32)&animState005+0xA0);
+    limit=&animLimits005[alternate];
     for(i=0;i<4;frame++,i++) {
-        period=&animPeriods005[animState005.area].periods[i];
+        off=i*2;
+        period=(u16 *)(off+animState005.area*0x74+(u32)animPeriods005);
         if(*period) {
-            timer=&animState005.timers[i];
+            timer=(u16 *)(off+((u32)&animState005+0xA8));
             if(*period<=(*timer)++) {
                 *timer=0;
-                if(++*frame>=animLimits005[alternate]) *frame=0;
+                if(++*frame>=*limit) *frame=0;
             }
         }
     }
