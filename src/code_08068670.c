@@ -3919,10 +3919,8 @@ restart:
             else if (turn < -0x80)
                 a = ang | 0x100;
             { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
-            if ((s16)dir < 0)
-                dir += 0x100;
-            if ((s16)dir > 0x100)
-                dir -= 0x100;
+            { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
+            { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
             dir &= 0xFF;
             idx = dir;
             frame = gT6fFrames[idx >> 4];
@@ -4080,10 +4078,8 @@ restart:
             else if (turn < -0x80)
                 a = ang | 0x100;
             { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
-            if ((s16)dir < 0)
-                dir += 0x100;
-            if ((s16)dir > 0x100)
-                dir -= 0x100;
+            { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
+            { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
             dir &= 0xFF;
             idx = dir;
             frame = gT6fFrames[idx >> 4];
@@ -4149,13 +4145,14 @@ void sub_080710DC(struct T6fArg *arg0) {
     s32 cx, cy;
     s32 sy;
     u16 dir;
-    s32 orbit;
+    u16 orbit;
     u16 i;
     u32 num;
     s32 hit;
     u8 pal;
     u16 a;
     u8 ang;
+    s32 turn;
     s32 dx, dy;
     u16 done;
     u8 t;
@@ -4298,11 +4295,9 @@ restart:
                 goto found;
         }
     orbit:
-        dir = (s16)dir + orbit;
-        if ((s16)dir > 0xFF)
-            dir = (s16)dir - 0x100;
-        if ((s16)dir < 0)
-            dir = (s16)dir + 0x100;
+        { s16 sd = dir; s16 so = orbit; dir = sd + so; }
+        { s16 t2 = dir; if (t2 > 0xFF) dir = t2 - 0x100; }
+        { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         idx = dir;
         cx += gT6gRadius[level] * gT6fSin[idx + 0x40];
         cy += gT6gRadius[level] * gT6fSin[idx];
@@ -4310,23 +4305,23 @@ restart:
         y = (u32)((cy - sy) << 8) >> 16;
         a = (u32)(ArcTan2(x, y) << 16) >> 24;
         ang = a;
-        if (ang - idx > 0x80)
+        turn = ang - idx;
+        if (turn > 0x80)
             a = ang - 0x100;
-        else if (ang - idx < -0x80)
+        else if (turn < -0x80)
             a = ang | 0x100;
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
-        if ((s16)dir < 0)
-            dir += 0x100;
-        if ((s16)dir > 0x100)
-            dir -= 0x100;
-        dir = (u8)dir;
-        idx = (u8)dir;
+        { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
+        { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
+        dir &= 0xFF;
+        idx = dir;
         frame = gT6fFrames[idx >> 4];
         if (t6fSqrt(x * x + y * y) > 8) {
             sx += gT6fSin[idx + 0x40] * 8 / 10;
             sy += gT6fSin[idx] * 8 / 10;
         }
-        orbit = (s16)(u8)(orbit + 4);
+        orbit += 4;
+        orbit &= 0xFF;
         if (!(gT6fCtl->h4 & 4)) {
             u8 *q;
             t6fAnim(&desc, (u16)(base + frame), &f0, &f1, 1);
@@ -4456,15 +4451,14 @@ tracked:
             goto strike;
         a = (u32)(ArcTan2(x, y) << 16) >> 24;
         ang = a;
-        if (ang - (s16)dir > 0x80)
+        turn = ang - (s16)dir;
+        if (turn > 0x80)
             a = ang - 0x100;
-        else if (ang - (s16)dir < -0x80)
+        else if (turn < -0x80)
             a = ang | 0x100;
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
-        if ((s16)dir < 0)
-            dir += 0x100;
-        if ((s16)dir > 0x100)
-            dir -= 0x100;
+        { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
+        { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
         dir = (u32)(0xFF0000 & (dir << 16)) >> 16;
         idx = dir;
         frame = gT6fFrames[idx >> 4];
@@ -4556,10 +4550,8 @@ lost:
         else if (ang - (s16)dir < -0x80)
             a = ang | 0x100;
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
-        if ((s16)dir < 0)
-            dir += 0x100;
-        if ((s16)dir > 0x100)
-            dir -= 0x100;
+        { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
+        { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
         dir = (u32)(0xFF0000 & (dir << 16)) >> 16;
         idx = dir;
         frame = gT6fFrames[idx >> 4];
