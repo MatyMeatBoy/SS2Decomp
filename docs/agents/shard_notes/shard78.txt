@@ -1,0 +1,13 @@
+shard 78 (nov03-w4, 2026-11-03) - siblings of sub_08075778 (see shard77.txt for the shared idioms)
+- sub_080761A4: exact-size draft (2276). Needs `spd = 4` at function top (remat movs #4 + muls) and
+  `delay = 2` right after `spr.palette[0] = who` (orig compares p->ready against r8). Definition uses an
+  asm-label alias because sub_08076A88 declares `extern void sub_080761A4(void)`.
+  Writing the wait loop inline with `{ m[who] &= ~(1 << arg->slot); return; }` instead of the helper fixes
+  the block placement but costs 4 bytes of alignment until the angle temps are fixed (variant kept in
+  build only). Remaining: per-branch ArcTan normalization keeps an extra copy in orig
+  (`lsrs rA; adds rT,rA; cmp rT,#0x80; ...; adds rANG,rA`) - three distinct temps that gcc coalesces in
+  every C form tried (u16/u32/s32/s16 for temp, t and ang). Spill slots 0x16c/0x170 swapped.
+- sub_08076BA0: exact-size draft (2212). `switch (spread) { case 1: ang += 8; ... }` (gives the
+  shift-add form via `(u32)((ang << 16) + 0x80000) >> 16`), wait loop with the mask+return inline.
+  The draw index `(s16)d * 4` is `asrs #14` in orig: the compiler must not know d is < 16 (any extra
+  set of the variable gives asr; `t` reused for d fixes one angle copy but costs size).
