@@ -4598,68 +4598,72 @@ void sub_08043664_ptr(void *arg0)
     *(u32 *)(player+0x30)&=~1;
     sub_0800D108();
 }
-#ifdef NONMATCHING
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
 extern u8 *records44 asm("gUnk_030056F4");
-void sub_08043850(void)
+static inline u32 t44_findActor(void)
 {
-    u8 *slot,*player;
-    u32 actor,i,record;
-    u16 timer;
-    actor=0;
-    slot=state44+0x7A4;
-    for(i=0;i<15;i++,slot+=0x70) {
-        if ((*(u32 *)(state44+0x54)&(1U<<i)) && *(u32 *)(slot+4)==0x41) {
-            actor=*(u32 *)slot;
-            break;
-        }
-    }
-    sub_08029174(actor,2);
-    timer=30;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
-    sub_0802939C(actor,1);
-    timer=60;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
-    sub_08029174(actor,2);
-    timer=60;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
-    sub_0802939C(actor,3);
-    timer=60;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
-    sub_08029174(actor,2);
-    timer=30;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
-    sub_08029174(actor,4);
-    timer=10;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
-    sub_08029174(actor,5);
-    timer=60;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    register u8 *slot asm("r1")=state44+0x7A4;
+    u32 i;
+    for(i=0;i<15;i++,slot+=0x70)
+        if (((1<<i)&*(u32 *)(state44+0x54)) && *(u32 *)(slot+4)==0x41) return *(u32 *)slot;
+    return 0;
+}
+static inline u8 *t44_findSlot(u32 actor)
+{
+    u8 *slot=state44+0x7A4;
+    u32 i;
+    for(i=0;i<15;i++,slot+=0x70)
+        if(*(u32 *)slot==actor) return slot;
+    sub_080003F0();
+    return NULL;
+}
+static inline void t44_markActor(u32 actor)
+{
+    u8 *slot;
+    u32 record;
+    register u32 key asm("r2")=actor;
+    u16 one=1;
     if(actor>0x100000U) {
-        slot=state44+0x7A4;
-        for(i=0;i<15;i++,slot+=0x70)if(*(u32 *)slot==actor)break;
-        if(i==15){sub_080003F0();slot=NULL;}
-        if(slot)*(u16 *)(slot+0x42)=1;
+        slot=t44_findSlot(key);
+        if(slot)*(u16 *)(slot+0x42)=one;
     } else if(actor) {
         record=actor-1;
-        if(record<=4)sub_08019EB8(*(u16 *)(records44+record*0x2E0+2),1);
+        if(record<=4){u8 **address=(u8 **)&records44; u32 off=record*0x2E0; u8 *entry=*address; entry+=off; sub_08019EB8(*(u16 *)(entry+2),1);}
     } else {
-        player=players44+0x14C*sub_080020F4();
-        *(u16 *)(player+0x11E)=1;
+        u8 *player=players44+0x14C*sub_080020F4();
+        *(u16 *)(player+0x11E)=one;
     }
+}
+void sub_08043850(void)
+{
+    u8 *player;
+    u32 actor;
+    u16 timer;
+    actor=t44_findActor();
+    sub_08029174(actor,2);
+    for(timer=30;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
+    sub_0802939C(actor,1);
+    for(timer=60;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
+    sub_08029174(actor,2);
+    for(timer=60;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
+    sub_0802939C(actor,3);
+    for(timer=60;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
+    sub_08029174(actor,2);
+    for(timer=30;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
+    sub_08029174(actor,4);
+    for(timer=10;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
+    sub_08029174(actor,5);
+    for(timer=60;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
+    t44_markActor(actor);
     sub_0802926C(actor,6);
-    timer=250;
-    do {sub_080003F0();if(sub_080021A8())break;timer--;}while(timer);
+    for(timer=250;timer!=0;timer--){sub_080003F0();if(sub_080021A8())break;}
     sub_0802926C(actor,7);
     sub_0802A7DC();
     player=players44+0x14C*sub_080020F4();
     *(u32 *)(player+0x30)|=1;
     sub_0800D0F4();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_08043850);
-#endif
 extern u8 *state44 asm("gUnk_03005CF4");
 extern u8 players44[] asm("gUnk_03003CE0");
 void sub_08043A4C(void)
