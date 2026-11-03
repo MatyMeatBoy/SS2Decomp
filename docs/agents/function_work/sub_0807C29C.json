@@ -1,7 +1,7 @@
 {
   "address": "0x0807C29C",
-  "updated_utc": "2026-11-03T14:37:51.225628+00:00",
-  "checkpoint": "Hand-written case 0 (inventory grid state) with typed Mgr82/Inv82/Item82 structs; Drop82 inline helper reproduces the zero-fill CpuSet argument order. Function remains NONMATCHING.",
+  "updated_utc": "2026-11-03T15:02:52.611384+00:00",
+  "checkpoint": "Hand-written cases 0-6, 13, 16 and post-switch key handling/cursor/pointer switches with typed Mgr82/Inv82/Item82 structs. Function remains NONMATCHING.",
   "areas": [
     {
       "id": "item-copy-first",
@@ -11,15 +11,15 @@
     },
     {
       "id": "case0",
-      "label": "State 0 (inventory grid input) rewritten by hand",
+      "label": "States 0-6, 13, 16 and post-switch key/cursor/pointer switches rewritten by hand",
       "state": "done",
-      "evidence": "Case 0 rewritten from ASM: key branches, mode switches, 8-way held-kind table, sparse cursor switch (hidden case 104 reproduces the 102-rooted decision tree), case-range switch for cursor 20..24, pick/drop/swap/merge paths with cross-jumped sound tails. Per-case normalized diff (difflib, autojunk off, branch targets/pool offsets masked): case 0 2091 -> 697 lines of 1330; whole-function sum of per-case diffs 6818 -> 4934. nmscore (autojunk unified diff) is not a reliable metric for this size."
+      "evidence": "Per-case normalized diff sum (difflib autojunk off, branch targets/pool offsets masked) 6818 -> 2531; register-normalized 940 (case 4 register-normalized identical). Function size 7978 vs 7982 lines. Remaining m2c-derived: cases 7-12, 14, 15, 17-21 and the drawing code after the cursor smoothing."
     },
     {
       "id": "remaining-structure",
       "label": "Remaining state machine and item transfers",
       "state": "active",
-      "evidence": "Cases 1-21 and the post-switch drawing tail are still m2c-derived; largest remaining per-case diffs: case 13 (~1150), tail (~1150), case 6, 16, 1."
+      "evidence": "Largest register-normalized diffs: tail (208), case 13 (146), case 0 (136), cases 7-10 (35-54 each); cross-jump hubs (sound/drop tails) depend on register allocation across cases."
     },
     {
       "id": "match",
