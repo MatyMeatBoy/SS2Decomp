@@ -921,6 +921,7 @@ extern struct RxEnt *gRxEnts asm("gUnk_030056F4");
 extern u8 gRxPl58[] asm("gUnk_03003D38");
 extern u8 gRxPl30[] asm("gUnk_03003D10");
 struct RxEff { u16 f0; u16 f2; u16 f4; u16 f6; };
+static inline void RxCopy8(const void *src, void *dst) { CpuSet(src, dst, 0x04000008); }
 extern u8 gRxPl38[] asm("gUnk_03003D18");
 struct RxGs {
     u8 p0[0x59C];
@@ -1245,7 +1246,7 @@ restart:
                     e = gRxQueue + gRxQueueCount * 0x88;
                     *(u32 *)(e + 4) = 1;
                     e[0] = 0x98;
-                    CpuSet(spawnRecord, e + 8, 0x04000008);
+                    RxCopy8(spawnRecord, e + 8);
                     e[1] = 4;
                     gRxQueueCount++;
                 }
@@ -1261,7 +1262,7 @@ restart:
                     e = gRxQueue + gRxQueueCount * 0x88;
                     *(u32 *)(e + 4) = 1;
                     e[0] = 0x98;
-                    CpuSet(spawnRecord, e + 8, 0x04000008);
+                    RxCopy8(spawnRecord, e + 8);
                     e[1] = 4;
                     gRxQueueCount++;
                 }
@@ -1277,7 +1278,7 @@ restart:
                         e = gRxQueue + gRxQueueCount * 0x88;
                         *(u32 *)(e + 4) = 1;
                         e[0] = 0x98;
-                        CpuSet(record16, e + 8, 0x04000008);
+                        RxCopy8(record16, e + 8);
                         e[1] = 4;
                         gRxQueueCount++;
                     }
