@@ -253,7 +253,136 @@ void sub_0801E594(void *arg0)
 }
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
+#ifdef NONMATCHING
+struct CombatCtxD8C { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
+struct CombatActorD8C { u8 pad[0x1CC]; u16 attack,defense; s16 evade; u8 pad1D2[0x32]; struct CombatCtxD8C ctx; };
+struct TargetD8C { u8 pad[0xC]; u16 kind; u8 padE[0x6E]; u16 resist[6]; u8 pad88[0x4A]; u16 f5A_dummy; };
+u32 sub_0801ED8C(void *arg0, void *arg1)
+{
+  struct CombatActorD8C *src = arg0;
+  u8 *dst = arg1;
+  u8 *record;
+  register u32 varianceWord;
+  u16 attack;
+  u16 defense;
+  u16 variance;
+  u16 result;
+  u16 firstDamage;
+  u16 element;
+  u32 damage;
+  u32 divisor;
+  s32 scaled;
+  s32 weighted;
+  u16 *resists;
+  u16 resistance;
+  {
+    register struct CombatCtxD8C *ctx = &src->ctx;
+    record = (u8 *) sub_08007290(ctx->key | 0xB0000);
+  }
+  defense = *((u16 *) (dst + 0x5A));
+  if (((s32) (sub_080008C8() & 0x7F)) <= (src->evade + 1))
+  {
+    sub_0802247C(*((u32 *) (dst + 0x8C)), *((u32 *) (dst + 0x90)));
+    divisor = 100;
+  }
+  else
+  {
+    divisor = 200;
+  }
+  attack = src->attack;
+  varianceWord = ((u16) sub_080008C8()) % 50;
+  varianceWord <<= 16;
+  varianceWord += 0x640000;
+  variance = varianceWord >> 16;
+  scaled = ((s32) ((((u32) attack) * attack) * 10)) / (attack + defense);
+  weighted = ((s32) (((u32) scaled) * variance)) / ((s32) divisor);
+  {
+
+
+
+
+        register u32 quotient asm("r1")=(u16)weighted;
+asm("" : "+r"(quotient));
+    firstDamage = quotient / 10U;
+  }
+  if (!firstDamage)
+  {
+    firstDamage = 1;
+  }
+  element = *((u16 *) (record + 0xBC));
+  damage = firstDamage;
+  resists = (u16 *) (dst + 0x7C);
+  switch (element - 1U)
+  {
+    case 0:
+      resistance = resists[0];
+      goto attenuate;
+
+    case 1:
+      resistance = resists[1];
+      goto attenuate;
+
+    case 2:
+      resistance = resists[2];
+      goto attenuate;
+
+    case 3:
+      resistance = resists[3];
+      goto attenuate;
+
+    case 4:
+      resistance = resists[4];
+      goto attenuate;
+
+    case 5:
+
+    case 6:
+      resistance = resists[5];
+      attenuate:
+    damage = (u16) (((s32) (damage * 5000)) / ((((s16) resistance) * ((s16) resistance)) + 2500));
+
+      if (damage & 0x8000)
+    {
+      damage = 1;
+    }
+      break;
+
+  }
+
+  {
+    register u32 finishWord asm("r0") = damage;
+    asm("" : "+r"(finishWord));
+    finishWord <<= 16;
+    result = finishWord >> 16;
+    if ((s32) finishWord <= 0) result = 1;
+  }
+  if (sub_0800CDC0())
+  {
+    if (divisor == 100)
+    {
+      sub_0805865C(0x27);
+    }
+    else
+      if ((*((u16 *) (dst + 0xC))) == 8)
+    {
+      sub_0805865C(0x4B);
+    }
+    else
+    {
+      sub_0805865C((*((u16 *) (dst + 0xC))) + 0x45);
+    }
+    return result;
+  }
+  if (divisor != 100)
+  {
+    return result;
+  }
+  defense = 0x8000;
+  return result | defense;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
+#endif
 struct CombatCtx019 { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
 struct CombatActor019 { u8 pad[0x1CC]; u16 attack,defense; u8 pad1D0[0x34]; struct CombatCtx019 ctx; };
 s32 sub_0801EF14(void *arg0,void *arg1)
