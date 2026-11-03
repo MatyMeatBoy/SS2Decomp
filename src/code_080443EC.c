@@ -643,7 +643,7 @@ static inline void fxEB445(u8 **st) {
             *(void **)(task + 0xC) = cb;
             *(u8 **)(task + 0x10) = buf + 0x3FC;
             *(u32 *)(task + 0x24) = 0;
-            sub_08000274_(task, 0x3C, 0);
+            sub_08000274(task, 0x3C);
             break;
         }
     }
@@ -1006,185 +1006,99 @@ void sub_08045AFC(void)
     }
 }
 #ifdef NONMATCHING
-void sub_08045B68(s32 arg0) {
-    u8 *var_r0;
-    u8 *var_r1;
-    u8 *var_r1_2;
-    u8 *var_r1_3;
-    u8 *var_r2_2;
-    s32 temp_r7;
-    u16 var_r4;
-    u32 temp_r4;
-    u32 temp_r4_2;
-    u32 var_r2;
-    u32 var_r2_3;
-    u32 var_r2_4;
-    u8 *var_r4_2;
-    u32 var_r5;
-    u8 *var_r0_2;
-    u8 *temp_r0;
-    u8 *temp_r2;
-    u8 *temp_r2_2;
-    extern u8 *state5B6845 asm("gUnk_03005CF4");
-    extern u8 players5B6845[] asm("gUnk_03003CE0");
-    extern void callback8F4C5B6845(void) asm("sub_08058F4C");
-    extern void callback9A405B6845(void) asm("sub_08059A40");
-    extern void callback99685B6845(void) asm("sub_08059968");
-    extern void callback9A945B6845(void) asm("sub_08059A94");
-
-    temp_r7 = sub_080289C0(0x2F, 0xBE, 0x95);
-    var_r1 = state5B6845 + 0x7A4;
-    var_r2 = 0;
-loop_1:
-    if (*(u32 *)var_r1 == temp_r7) {
-        var_r2_2 = var_r1;
-    } else {
-        var_r2 += 1;
-        var_r1 += 0x70;
-        if (var_r2 > 0xEU) {
-            sub_080003F0();
-            var_r2_2 = NULL;
-        } else {
-            goto loop_1;
+extern void cbA40B6845(void) asm("sub_08059A40");
+extern void cb8F4CB6845(void) asm("sub_08058F4C");
+extern void cb9968B6845(void) asm("sub_08059968");
+extern void cb9A94B6845(void) asm("sub_08059A94");
+static inline void fxB6845(void) {
+    void *cb = cbA40B6845;
+    u8 *task = state566045 + 0xE34;
+    u32 i;
+    u8 *buf;
+    for (i = 0; i <= 0x1D; i++, task += 0x28) {
+        if (sub_08000470((u32)task) == 0) {
+            while ((*(u8 **)(task + 0x20) = buf = sub_08001494(0x400)) == NULL) sub_080003F0();
+            *(u32 *)(task + 8) = 0x3C;
+            *(void **)(task + 0xC) = cb;
+            *(u8 **)(task + 0x10) = buf + 0x3FC;
+            *(u32 *)(task + 0x24) = 0;
+            sub_08000274(task, 0x3C);
+            break;
         }
     }
-    if (var_r2_2 != NULL) {
-        (*(u16 *)(var_r2_2 + 0x18)) = 8;
-        (*(u16 *)(var_r2_2 + 0x1A)) = 4;
-        (*(u32 *)(var_r2_2 + 0x3C)) = (s32) ((*(u32 *)(var_r2_2 + 0x3C)) | 0x10);
+}
+static inline u8 *flagB6845(void) {
+    if (sub_0800CE30()) return state566045 + 0x1C5;
+    return state566045 + 0x1B9;
+}
+static inline s32 bitB6845(u8 *p, s32 one) { s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 6) & one; }
+static inline struct Actor566045 *findB6845(u32 id) {
+    struct Actor566045 *p = (struct Actor566045 *)(state566045 + 0x7A4);
+    u32 i;
+    for (i = 0; i <= 14; i++, p++) {
+        if (p->id == id) return p;
     }
-    var_r1_2 = state5B6845 + 0x7A4;
-    var_r2_3 = 0;
-loop_8:
-    if (*(u32 *)var_r1_2 == temp_r7) {
-        var_r0 = var_r1_2;
-    } else {
-        var_r2_3 += 1;
-        var_r1_2 += 0x70;
-        if (var_r2_3 > 0xEU) {
-            sub_080003F0();
-            var_r0 = NULL;
-        } else {
-            goto loop_8;
-        }
+    sub_080003F0();
+    return NULL;
+}
+static inline struct Actor566045 *find2B6845(u32 id) {
+    struct Actor566045 *p = (struct Actor566045 *)(state566045 + 0x7A4);
+    u32 i;
+    for (i = 0; i <= 14; i++, p++) {
+        if (p->id == id) goto out;
     }
-    if (var_r0 != NULL) {
-        (*(u32 *)(var_r0 + 0x44)) = (u32)callback8F4C5B6845;
-    }
+    sub_080003F0();
+    p = NULL;
+out:
+    return p;
+}
+static inline void setcbB6845(u32 id, u32 cb) {
+    struct Actor566045 *a = findB6845(id);
+    if (a) a->callback = cb;
+}
+void sub_08045B68(u32 arg0) {
+    u32 id;
+    u32 dlg;
+    struct Actor566045 *a;
+    id = sub_080289C0(0x2F, 0xBE, 0x95);
+    a = findB6845(id);
+    if (a) { a->x = 8; a->y = 4; a->flags |= 0x10; }
+    setcbB6845(id, (u32)cb8F4CB6845);
     do {
-        var_r4 = 1;
-loop_17:
-        sub_080003F0();
-        if (sub_080021A8() == 0) {
-            var_r4 -= 1;
-            if (var_r4 != 0) {
-                goto loop_17;
-            }
-        }
-        if (sub_0800CE30() != 0) {
-            var_r0_2 = state5B6845 + 0x1C5;
-        } else {
-            var_r0_2 = state5B6845 + 0x1B9;
-        }
-    } while (!(((s32) *var_r0_2 >> 6) & 1));
+        wait566045(1);
+    } while (!bitB6845(flagB6845(), 1));
     sub_0805EFBC();
-    do {
-        sub_080003F0();
-    } while (sub_0805F184() != 0);
-    temp_r2 = (0x14C * sub_080020F4()) + players5B6845;
-    (*(u32 *)(temp_r2 + 0x30)) = (s32) ((*(u32 *)(temp_r2 + 0x30)) | 1);
+    do { sub_080003F0(); } while (sub_0805F184());
+    { struct Player *pp = (struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0); pp->flags |= 1; }
     sub_0800D0F4();
-    var_r4_2 = state5B6845 + 0xE34;
-    var_r5 = 0;
-loop_26:
-    if (var_r5 <= 0x1DU) {
-        if (sub_08000470(var_r4_2) == 0) {
-loop_30:
-            temp_r0 = sub_08001494(0x400U);
-            (*(u32 *)(var_r4_2 + 0x20)) = temp_r0;
-            if (temp_r0 == NULL) {
-                sub_080003F0();
-                goto loop_30;
-            }
-            (*(u32 *)(var_r4_2 + 0x8)) = 0x3C;
-            (*(u32 *)(var_r4_2 + 0xC)) = (u32)callback9A405B6845;
-            (*(u32 *)(var_r4_2 + 0x10)) = (u8 *) (temp_r0 + 0x3FC);
-            (*(u32 *)(var_r4_2 + 0x24)) = 0;
-            sub_08000274(var_r4_2, (void *)0x3C);
-        } else {
-            var_r5 += 1;
-            var_r4_2 += 0x28;
-            goto loop_26;
-        }
-    }
-    sub_08068070((u32) (u32)callback99685B6845, 0x10U);
-    sub_08068070((u32) callback9A945B6845, 5U);
-loop_34:
-    if (sub_0805F184() != 0) {
+    fxB6845();
+    sub_08068070((u32)cb9968B6845, 0x10);
+    sub_08068070((u32)cb9A94B6845, 5);
+    while (sub_0805F184()) sub_080003F0();
+    while (sub_0805EF90()) sub_080003F0();
+    dlg = sub_0805DF38(1, 15, 2, 0, -1, 0x1400B3);
+    while (!sub_0805EEFC((void *)dlg)) {
+        if (sub_0800CDF8()) { sub_0805EFBC(); break; }
         sub_080003F0();
-        goto loop_34;
-    }
-loop_37:
-    if (sub_0805EF90() != 0) {
-        sub_080003F0();
-        goto loop_37;
-    }
-    temp_r4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1400B3U);
-loop_40:
-    if (sub_0805EEFC((u8 *) temp_r4) == 0) {
-        if (sub_0800CDF8() != 0) {
-            sub_0805EFBC();
-        } else {
-            sub_080003F0();
-            goto loop_40;
-        }
     }
     sub_0802939C(arg0, 8);
     sub_08028D98(arg0, 0x10, 0x20, 0x1E);
     sub_0802939C(arg0, 0);
-    sub_0802949C(temp_r7, arg0);
-loop_45:
-    if (sub_0805F184() != 0) {
+    sub_0802949C(id, arg0);
+    while (sub_0805F184()) sub_080003F0();
+    while (sub_0805EF90()) sub_080003F0();
+    dlg = sub_0805DF38(1, 15, 2, 0, -1, 0x1400B4);
+    while (!sub_0805EEFC((void *)dlg)) {
+        if (sub_0800CDF8()) { sub_0805EFBC(); break; }
         sub_080003F0();
-        goto loop_45;
     }
-loop_48:
-    if (sub_0805EF90() != 0) {
-        sub_080003F0();
-        goto loop_48;
-    }
-    temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1400B4U);
-loop_51:
-    if (sub_0805EEFC((u8 *) temp_r4_2) == 0) {
-        if (sub_0800CDF8() != 0) {
-            sub_0805EFBC();
-        } else {
-            sub_080003F0();
-            goto loop_51;
-        }
-    }
-    sub_080290E4(temp_r7, 0);
-    sub_0802939C(temp_r7, 8);
-    sub_08028AAC(temp_r7, 0x78, 0xB0, 0x28);
-    sub_08028AAC(temp_r7, 0x78, 0xF0, 0x28);
-    var_r1_3 = state5B6845 + 0x7A4;
-    var_r2_4 = 0;
-loop_55:
-    if (*(u32 *)var_r1_3 != temp_r7) {
-        var_r2_4 += 1;
-        var_r1_3 += 0x70;
-        if (var_r2_4 > 0xEU) {
-            sub_080003F0();
-            var_r1_3 = NULL;
-        } else {
-            goto loop_55;
-        }
-    }
-    if (var_r1_3 != NULL) {
-        (*(u16 *)(var_r1_3 + 0x36)) = 4;
-    }
-    temp_r2_2 = (0x14C * sub_080020F4()) + players5B6845;
-    (*(u32 *)(temp_r2_2 + 0x30)) = (s32) ((*(u32 *)(temp_r2_2 + 0x30)) & ~1);
+    sub_080290E4(id, 0);
+    sub_0802939C(id, 8);
+    sub_08028AAC(id, 0x78, 0xB0, 0x28);
+    sub_08028AAC(id, 0x78, 0xF0, 0x28);
+    a = find2B6845(id);
+    if (a) *(u16 *)((u8 *)a + 0x36) = 4;
+    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
 #else
