@@ -1,7 +1,7 @@
 {
   "address": "0x080AB2F8",
   "updated_utc": "2026-11-03T08:30:10+00:00",
-  "checkpoint": "NONMATCHING draft in src/code_080A9680.c (nov03-w2, shard 112). Candidate 3868 bytes vs original 3868 with the same 148-call order; about 46 normalized instruction lines still differ, all register choice, reload rotation, scheduling or loop-invariant order.",
+  "checkpoint": "NONMATCHING draft in src/code_080A9680.c (nov03-w2, shard 112). Candidate 3872 bytes vs original 3868 (extra bytes come from one out-of-range loop branch) with the same 148-call order; about 46 normalized instruction lines still differ, all register choice, reload rotation, scheduling or loop-invariant order.",
   "areas": [
     {
       "id": "stack_abi",
