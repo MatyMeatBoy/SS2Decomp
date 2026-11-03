@@ -485,10 +485,11 @@ void sub_0800A03C(void)
     }
     if ((u16)(animState005.area-7)<=1 && sub_0800CDC0()) return;
     for(i=0;i<4;i++) {
-        if(animPeriods005[animState005.area].periods[i]) {
-            if(animPeriods005[animState005.area].periods[i]<=animState005.timers[i]++) {
-                animState005.timers[i]=0;
-                if(++animState005.frames[i]>=animLimits005[alternate]) animState005.frames[i]=0;
+        struct MapAnim005 *s = &animState005;
+        if(animPeriods005[s->area].periods[i]) {
+            if(animPeriods005[s->area].periods[i]<=s->timers[i]++) {
+                s->timers[i]=0;
+                if(++s->frames[i]>=animLimits005[alternate]) s->frames[i]=0;
             }
         }
     }

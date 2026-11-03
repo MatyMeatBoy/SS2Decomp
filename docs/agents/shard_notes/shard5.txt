@@ -1,13 +1,14 @@
-nov03-w2: sub_0800A03C (13 diff lines) analysis: the only real difference is in the loop preheader. ROM order is
-  `mov ip,r5; ldr r8=periods; ldr r1=limits; frames giv init (r4=ip+0xA0); lim = alternate*2+limits (into r7)`.
-  Ours emits lim before the frames giv init, so alternate dies before frames is born, alternate gets r4 and lim r7.
-  In the ROM the giv init comes first, frames (r4) conflicts with alternate, and alternate/lim share r7.
-  So the lim address must be created after strength reduction (not a plain loop.c movable). Tried: types of
-  alternate/i (s32/u16/u8/register), `(animPeriods005+area)->periods[i]`, flat u16 indexing, local state
-  pointer: no gain. Permuter 5 min: best was worse (15).
-1}`) -> declared s32. x/y are s16, tileDX/tileDY u16 with
-  (s16) casts, pos s16, final BG offsets via `a = (s16)x; a = (s16)(a + offX); a = (s16)(a + w0)`.
-  Note: the nm_drafts scratch lacks prototypes of sub_080093E4/sub_080094CC (s16 params); add them when testing.
+
+nov03-w1: sub_0800A03C draft 13 -> 9 diff lines (the .short 0x0000 literal pad is a nmdiff artifact).
+  `struct MapAnim005 *s = &animState005;` declared INSIDE the loop body fixes the preheader order
+  (ROM `mov ip,r5` before the periods ldr). Only remaining diff: alt*2/lim add is emitted after the
+  frames giv init (alternate r7 vs r4). Loop dump (-dL) explains it: the ROM moved lim in the SECOND
+  loop pass (rerun-loop-opt). In pass 1 alt*2 (savings 2, life 2) is moved iff the loop has <= 51
+  real insns; ours has 49 (pass 2: 44). Needs ~3 extra pass-1 insns that disappear before pass 2
+  without changing lim's own chain (casts on alternate start a "cond forces" chain and still move).
+  Tried: loop forms, pointer locals for t/f/lims/periods, casts on alternate/area, permuter 5 min.
+  Helper: compile with `agbcc ... -dL` and grep "^Loop from|moved|desirable" in the .loop dump.
+ts scratch lacks prototypes of sub_080093E4/sub_080094CC (s16 params); add them when testing.
   Remaining: index lives in sl (orig: stack sp+0), tileDX/tileDY on stack (orig r5/r7), frame 24 vs 28,
   sx/sy materialized per switch path in the original (case 8 skip path stores sx/sy before `b skip`).
  across both tests and loads *state before materialising the mask.
