@@ -3703,7 +3703,7 @@ void sub_0806FF1C(struct T6fArg *arg0) {
     }
     if (myId != owner) {
         if (owner > 3) {
-            { s16 c = gT6fCost[arg0->kind][base + 3]; en->mp -= c; }
+            { s16 *cp = (s16 *)((u8 *)gT6fCostS + 6 + (base * 2 + arg0->kind * 24)); s32 v = en->mp - *cp; en->mp = v; }
             if ((s16)en->mp < 0) {
                 gT6fFlags[owner] &= ~(1 << bit);
                 gT6fBusy[owner] = 0;
