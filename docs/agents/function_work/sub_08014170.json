@@ -1,0 +1,32 @@
+{
+  "address": "0x08014170",
+  "updated_utc": "2026-11-03T07:40:00Z",
+  "checkpoint": "nov03-w6 shard 12: complete compilable NONMATCHING draft in src/code_0800CF58.c",
+  "areas": [
+    {
+      "id": "flow",
+      "label": "Control flow reconstruction",
+      "state": "done",
+      "evidence": "HUD loop: three bar redraws (HP 0xC4/0x62 to 0x06008060, MP 0xC2/0x60 to 0x06008160, third gauge 0xC6 vs stats+0xA0+s8 0x79 to 0x06008260), palette 0xFF fade, level sprite branch (states 3-4 and 6-7), BG tile blink and four sub_0805FB7C number draws. Draft CFG reproduces all calls, literal pools and branch layout, including the far 'return i' block of the inlined level lookup (same code as sub_08015E84)."
+    },
+    {
+      "id": "compile",
+      "label": "Complete compilable draft",
+      "state": "done",
+      "evidence": "make compare OK (ASM fallback) and make nonmatching OK. Candidate 2478 bytes vs original 2486."
+    },
+    {
+      "id": "layout",
+      "label": "Frame, spill slots and registers",
+      "state": "active",
+      "evidence": "Frame 0xFC and every stack slot (sprites sp8/sp3C, nibble structs 0x78/0x84/0x90, coords 0x9C/0x9E, tile 0xA0/0xA2, color 0xA4, spills 0xA8-0xF8) match the original. Inline level helper with asm barriers (ldrb+lsl/asr of 0x6C, x*5 before i=7, table+14) fixed the spill slot order. Remaining differences: reload register rotation (r0-r7 choices) throughout, bar-1 else-branch store cross-jump, bar2/bar3 reload of display value, and duplicated lv>m / lv>f26 threading in the state 3-4 branch. Normalized-opcode diff about 60 lines; exact compare NO MATCH."
+    },
+    {
+      "id": "match",
+      "label": "Exact match and final validation",
+      "state": "pending",
+      "evidence": "Remains NONMATCHING; exact comparison negative."
+    }
+  ],
+  "regions": []
+}

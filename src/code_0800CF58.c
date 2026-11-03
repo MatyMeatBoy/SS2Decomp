@@ -6262,7 +6262,387 @@ end:
         }
     }
 }
+#ifdef NONMATCHING
+struct Actor14170 {
+    u8 pad0[0x10];
+    u16 f10;
+    u8 pad12[0xE];
+    u16 f20;
+    u8 pad22[0x2];
+    u16 f24;
+    u16 f26;
+    u8 pad28[0x8];
+    u32 f30;
+    u8 pad34[0x2C];
+    s16 f60;
+    s16 f62;
+    u8 pad64[0x3];
+    u8 f67;
+    u8 pad68[0x4];
+    u8 f6C;
+    u8 pad6D[0xC];
+    s8 f79;
+    u8 pad7A[0x12];
+    s32 f8C;
+    s32 f90;
+    u8 pad94[0x2E];
+    s16 fC2;
+    s16 fC4;
+    s16 fC6;
+};
+struct Tile14170 { u32 w[8]; };
+struct Nib14170 { u32 val; u32 nib; u32 cnt; };
+struct Rgb14170 { u32 r:5; u32 g:5; u32 b:5; u32 pad:17; };
+extern void t071Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern void t071Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern s32 anim14170(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern void draw14170(void *, s32, s32, u16, s32) asm("sub_08065230");
+extern void num14170(s32, s32, s16, s32) asm("sub_0805FB7C");
+extern void fade14170(s32, s32) asm("sub_0801A664");
+extern u32 lv14170(void) asm("sub_0801D34C");
+extern u16 gPal14170[] asm("gUnk_03001F40");
+extern u16 gBg14170[] asm("gUnk_03005740");
+extern u8 *gSave14170 asm("gUnk_030034E0");
+
+static inline u16 level14170(struct Actor14170 *arg0)
+{
+    s32 i;
+    u8 raw;
+    s32 half;
+    u16 *table;
+    s32 delta;
+    raw = arg0->f6C;
+    asm("" : "+r"(raw));
+    half = (s8)raw * 5;
+    asm("" : "+r"(half));
+    i = 7;
+    table = gUnk_0847ACE8;
+    delta = half * 2;
+    table += 7;
+    asm("" : "+r"(table), "+r"(delta));
+    for (; i >= 0; table--, i--) {
+        u16 threshold = delta + *table;
+        if ((s16)threshold < 0)
+            threshold = 0;
+        if (arg0->fC2 >= (s16)threshold)
+            return i;
+    }
+    return 0;
+}
+
+void hud14170(struct Actor14170 *arg0) asm("sub_08014170");
+void hud14170(struct Actor14170 *arg0)
+{
+    u8 spr1[0x34];
+    u8 spr2[0x34];
+    u8 pad[8];
+    struct Nib14170 a;
+    struct Nib14170 b;
+    struct Nib14170 c;
+    s16 sx;
+    s16 sy;
+    u16 tile;
+    u16 tmp;
+    struct Rgb14170 color;
+    struct Tile14170 *buf1;
+    struct Tile14170 *buf2;
+    struct Tile14170 *buf3;
+    s32 pal;
+    s32 gfx;
+    u16 fade;
+    u16 blink;
+    u16 dhp, dmp, dx3;
+    u16 mhp, mmp, mx3;
+    u32 changed;
+    u16 n;
+    u16 i;
+    u16 j;
+    u32 *stats;
+    u32 max;
+    s16 d;
+    s16 cur;
+    s32 hcur;
+    s32 v;
+
+    t071Init(spr1, 0x50061, 0, 0x80000000, 0);
+    t071Init(spr2, 0x50060, 0, 0x80000000, 0);
+    pal = sub_08007290(0x40000002);
+    gfx = sub_08007290(gUnk_03003470 + 0x10010003);
+    sub_080653CC();
+    buf1 = sub_08001494(0xA0);
+    buf2 = sub_08001494(0xA0);
+    buf3 = sub_08001494(0x60);
+    CpuFastSet((void *)(gfx + 0x60), buf1, 0x28);
+    CpuFastSet((void *)(gfx + 0x160), buf2, 0x28);
+    CpuFastSet((void *)(gfx + 0x260), buf3, 0x18);
+    blink = 0;
+    mhp = mmp = dhp = dmp = 0xFFFF;
+    while (sub_0800CB78() == 0 && sub_0800CD00() == 0) {
+        while ((sub_0800CD8C() != 0 || sub_0800CFB8() != 0) && sub_0800CB78() == 0 && sub_0800CD00() == 0) {
+            mhp = mmp = dhp = dmp = 0xFFFF;
+            sub_080003F0();
+        }
+        while (sub_0800CD34() != 0 || sub_0800CDF8() != 0) {
+            mhp = mmp = dhp = dmp = 0xFFFF;
+            fade14170(0, 2);
+            sub_080003F0();
+        }
+
+        changed = (s16)dhp != arg0->fC4;
+        if ((s16)mhp != arg0->f62)
+            changed = 1;
+        if (changed) {
+            if (arg0->fC4 > arg0->f62) {
+                arg0->fC4 = arg0->f62;
+                dhp = arg0->fC4;
+            }
+            if ((s16)dhp > arg0->f62)
+                dhp = arg0->f62;
+            mhp = arg0->f62;
+            d = dhp;
+            if (d > 0) {
+                u16 diff;
+                s16 delta;
+                s32 r;
+                if (d < arg0->fC4) {
+                    diff = arg0->fC4 - d;
+                    if ((s16)diff > 1)
+                        diff = (s16)diff / 2;
+                    delta = diff;
+                    r = d + delta;
+                } else {
+                    diff = d - arg0->fC4;
+                    if ((s16)diff > 1)
+                        diff = (s16)diff / 2;
+                    delta = diff;
+                    r = d - delta;
+                }
+                dhp = r;
+            } else {
+                dhp = arg0->fC4;
+            }
+            hcur = arg0->fC4;
+            n = (s16)dhp * 40 / arg0->f62;
+            if (hcur > 0 && n == 0)
+                n = 1;
+            for (i = 0; i < n >> 3; i++) {
+                buf1[i].w[2] = 0x44444444;
+                buf1[i].w[3] = 0x44444444;
+                buf1[i].w[4] = 0x44444444;
+                buf1[i].w[5] = 0x44444444;
+            }
+            if (n & 7) {
+                a.cnt = n & 7;
+                a.nib = 4;
+                b.nib = 0x33333330;
+                a.val = 0;
+                b.val = 0;
+                c.val = 0;
+                for (j = 0; j < a.cnt; j++) {
+                    a.val |= a.nib << (j * 4);
+                    b.val = b.nib << (j * 4);
+                }
+                buf1[i].w[2] = a.val | b.val;
+                buf1[i].w[3] = a.val | b.val;
+                buf1[i].w[4] = a.val | b.val;
+                buf1[i].w[5] = a.val | b.val;
+                i++;
+            }
+            for (; i <= 4; i++) {
+                buf1[i].w[2] = 0x33333333;
+                buf1[i].w[3] = 0x33333333;
+                buf1[i].w[4] = 0x33333333;
+                buf1[i].w[5] = 0x33333333;
+            }
+            sub_08001348(buf1, (void *)0x06008060, 0xA0);
+        }
+
+        changed = (s16)dmp != arg0->fC2;
+        if ((s16)mmp != arg0->f60)
+            changed = 1;
+        if (changed) {
+            if (arg0->fC2 > arg0->f60)
+                arg0->fC2 = arg0->f60;
+            dmp = arg0->fC2;
+            mmp = arg0->f60;
+            cur = dmp;
+            v = dmp;
+            if (cur <= 0)
+                v = 0;
+            n = v * 40 / arg0->f60;
+            if (cur > 0 && n == 0)
+                n = 1;
+            for (i = 0; i < n >> 3; i++) {
+                buf2[i].w[2] = 0xAAAAAAAA;
+                buf2[i].w[3] = 0xAAAAAAAA;
+                buf2[i].w[4] = 0xAAAAAAAA;
+                buf2[i].w[5] = 0xAAAAAAAA;
+            }
+            if (n & 7) {
+                a.cnt = n & 7;
+                a.nib = 0xA;
+                b.nib = 0x33333330;
+                a.val = 0;
+                b.val = 0;
+                for (j = 0; j < a.cnt; j++) {
+                    a.val |= a.nib << (j * 4);
+                    b.val = b.nib << (j * 4);
+                }
+                buf2[i].w[2] = a.val | b.val;
+                buf2[i].w[3] = a.val | b.val;
+                buf2[i].w[4] = a.val | b.val;
+                buf2[i].w[5] = a.val | b.val;
+                i++;
+            }
+            for (; i <= 4; i++) {
+                buf2[i].w[2] = 0x33333333;
+                buf2[i].w[3] = 0x33333333;
+                buf2[i].w[4] = 0x33333333;
+                buf2[i].w[5] = 0x33333333;
+            }
+            sub_08001348(buf2, (void *)0x06008160, 0xA0);
+        }
+
+        changed = (s16)dx3 != arg0->fC6;
+        stats = (u32 *)sub_08007290(*(u16 *)(gSave14170 + 0x132) | 0x110000);
+        if ((s16)mx3 != stats[0xA0 / 4] + arg0->f79)
+            changed = 1;
+        if (arg0->fC6 >= stats[0xA0 / 4] + arg0->f79) {
+            fade -= 8;
+            fade &= 0xFF;
+            color.r = (u32)(fade * 0xF00) >> 16;
+            color.g = (u32)(fade * 0x1F00) >> 16;
+            color.b = 0;
+            gPal14170[0xFF] = *(u16 *)&color;
+            sub_08000B38();
+        } else {
+            color.r = 15;
+            color.g = 31;
+            color.b = 0;
+            gPal14170[0xFF] = *(u16 *)&color;
+        }
+        if (changed) {
+            if (arg0->fC6 > stats[0xA0 / 4] + arg0->f79)
+                arg0->fC6 = stats[0xA0 / 4] + arg0->f79;
+            dx3 = arg0->fC6;
+            mx3 = max = stats[0xA0 / 4] + arg0->f79;
+            cur = dx3;
+            v = dx3;
+            if (cur <= 0)
+                v = 0;
+            n = v * 24 / max;
+            if (cur > 0 && n == 0)
+                n = 1;
+            for (i = 0; i < n >> 3; i++) {
+                buf3[i].w[2] = 0xFFFFFFFF;
+                buf3[i].w[3] = 0xFFFFFFFF;
+                buf3[i].w[4] = 0xFFFFFFFF;
+                buf3[i].w[5] = 0xFFFFFFFF;
+            }
+            if (n & 7) {
+                a.cnt = n & 7;
+                a.nib = 0xF;
+                b.nib = 0x33333330;
+                a.val = 0;
+                b.val = 0;
+                for (j = 0; j < a.cnt; j++) {
+                    a.val |= a.nib << (j * 4);
+                    b.val = b.nib << (j * 4);
+                }
+                buf3[i].w[2] = a.val | b.val;
+                buf3[i].w[3] = a.val | b.val;
+                buf3[i].w[4] = a.val | b.val;
+                buf3[i].w[5] = a.val | b.val;
+                i++;
+            }
+            for (; i <= 2; i++) {
+                buf3[i].w[2] = 0x33333333;
+                buf3[i].w[3] = 0x33333333;
+                buf3[i].w[4] = 0x33333333;
+                buf3[i].w[5] = 0x33333333;
+            }
+        }
+        sub_08001348(buf3, (void *)0x06008260, 0x60);
+
+        if (sub_0800CC98() == 0) {
+            if ((u16)(arg0->f20 - 3) <= 1) {
+                u16 lv;
+                u16 m;
+                t071Coords((arg0->f8C << 8) >> 16, (arg0->f90 << 8) >> 16, &sx, &sy, 0x30, 0);
+                if (arg0->f10 != 9) {
+                    lv = lv14170();
+                    m = level14170(arg0);
+                    if (lv > m) lv = m;
+                } else {
+                    lv = lv14170();
+                    m = sub_08079FD0(sub_0801DEB8()) - 1;
+                    
+                }
+                if (lv > m) lv = m;
+                if (lv <= arg0->f26 && lv != 0) {
+                    if (arg0->f26 <= 0xF && arg0->f20 != 5) {
+                        anim14170(spr1, arg0->f26 + 6, &tile, &tmp, 1);
+                        draw14170(spr1, sx, sy - 0x20, arg0->f26 + 6, tile);
+                    }
+                } else if (arg0->f20 != 5) {
+                    draw14170(spr1, sx, sy - 0x20, arg0->f26, arg0->f24 >> 1);
+                }
+            } else if ((u16)(arg0->f20 - 6) <= 1) {
+                t071Coords((arg0->f8C << 8) >> 16, (arg0->f90 << 8) >> 16, &sx, &sy, 0x30, 0);
+                if (arg0->f67 != 0) {
+                    if (arg0->f26 > 0x10) {
+                        anim14170(spr2, 7, &tile, &tmp, 1);
+                        draw14170(spr2, sx, sy - 0x20, 7, tile);
+                    } else {
+                        draw14170(spr2, sx, sy - 0x20, 0, arg0->f26 >> 1);
+                    }
+                } else if (arg0->f26 > 7) {
+                    if (arg0->f20 != 8) {
+                        anim14170(spr2, 7, &tile, &tmp, 1);
+                        draw14170(spr2, sx, sy - 0x20, 7, tile);
+                    }
+                } else if (arg0->f20 != 8) {
+                    draw14170(spr2, sx, sy - 0x20, 0, arg0->f26);
+                }
+            }
+        }
+
+        if (!(arg0->f30 & 0x80)) {
+            CpuFastSet((void *)(pal + 4), gBg14170, 0x20);
+            if (sub_0800CC98() == 0) {
+                if ((arg0->f30 & 8) && blink < 0x28) {
+                    gBg14170[0x17] = 0xF017;
+                    gBg14170[0x18] = 0xF018;
+                    gBg14170[0x19] = 0xF019;
+                    gBg14170[0x1A] = 0xF01A;
+                } else {
+                    gBg14170[0x1A] = 0;
+                    gBg14170[0x19] = 0;
+                    gBg14170[0x18] = 0;
+                    gBg14170[0x17] = 0;
+                }
+                blink++;
+                if (blink > 0x3C)
+                    blink = 0;
+            }
+            fade14170(0, 2);
+            num14170(6, 1, arg0->f62, 0);
+            num14170(2, 1, arg0->fC4, 0);
+            num14170(0xE, 1, arg0->f60 / 10, 0);
+            if (arg0->fC2 != 0)
+                num14170(0xA, 1, arg0->fC2 / 10, 0);
+            else
+                num14170(0xA, 1, 0, 0);
+        }
+        sub_080003F0();
+    }
+    sub_08001538((s32)buf1);
+    sub_08001538((s32)buf2);
+    sub_08001538((s32)buf3);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014170);
+#endif
 void sub_08014B28(void) {
     struct PlayerW12 *p;
     u16 id;
