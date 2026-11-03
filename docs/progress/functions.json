@@ -10535,18 +10535,24 @@
       "name": "sub_08028AAC",
       "addr": 134384300,
       "size": 748,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08028AAC",
       "kind": "c",
       "cat": "game",
       "address": "0x08028AAC",
       "canonical_symbol": "sub_08028AAC",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08028AAC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "sub_08028AAC_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 37,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028AAC_v"
+        }
+      ]
     },
     {
       "name": "sub_08028D98",
@@ -10583,7 +10589,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 16,
+          "line": 157,
           "detail": "Existing C definition with an asm alias to the canonical symbol: task026E4"
         }
       ]
@@ -10606,7 +10612,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 93,
+          "line": 234,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08029174_v"
         }
       ]
@@ -10629,7 +10635,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 138,
+          "line": 279,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802926C_v"
         }
       ]
@@ -10652,7 +10658,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 191,
+          "line": 332,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802939C_v"
         }
       ]
@@ -10675,7 +10681,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 272,
+          "line": 413,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802949C_v"
         }
       ]
@@ -10698,7 +10704,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 425,
+          "line": 566,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08029788_v"
         }
       ]
@@ -10857,7 +10863,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 756,
+          "line": 897,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802A104_v"
         }
       ]
@@ -36988,12 +36994,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 177,
-      "existing": 58,
+      "identified": 178,
+      "existing": 59,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1703,
-      "percent_identified": 9.414893617021276
+      "unidentified": 1702,
+      "percent_identified": 9.46808510638298
     },
     "sdk": {
       "total": 155,
@@ -37006,12 +37012,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 332,
-      "existing": 187,
+      "identified": 333,
+      "existing": 188,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1703,
-      "percent_identified": 16.314496314496314
+      "unidentified": 1702,
+      "percent_identified": 16.363636363636363
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
