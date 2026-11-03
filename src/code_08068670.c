@@ -3667,6 +3667,7 @@ void sub_0806FF1C(struct T6fArg *arg0) {
     u8 pal;
     u16 a;
     u8 ang;
+    s32 turn;
     s32 dx;
     s32 dy;
     u16 done;
@@ -3912,9 +3913,10 @@ restart:
                 goto strike;
             a = (u32)(ArcTan2(x, y) << 16) >> 24;
             ang = a;
-            if (ang - (s16)dir > 0x80)
+            turn = ang - (s16)dir;
+            if (turn > 0x80)
                 a = ang - 0x100;
-            else if (ang - (s16)dir < -0x80)
+            else if (turn < -0x80)
                 a = ang | 0x100;
             { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
             if ((s16)dir < 0)
@@ -4072,9 +4074,10 @@ restart:
                 goto home;
             a = (u32)(ArcTan2(x, y) << 16) >> 24;
             ang = a;
-            if (ang - (s16)dir > 0x80)
+            turn = ang - (s16)dir;
+            if (turn > 0x80)
                 a = ang - 0x100;
-            else if (ang - (s16)dir < -0x80)
+            else if (turn < -0x80)
                 a = ang | 0x100;
             { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
             if ((s16)dir < 0)
@@ -4203,23 +4206,19 @@ void sub_080710DC(struct T6fArg *arg0) {
     }
     if (target <= 3) {
         num = t6f_sub_08002164();
-        for (i = 0; i < num; i++) {
-            if (t6f_sub_080020F4() == i)
-                continue;
-            tp = &gT6fPlayers[i];
-            if (tp->id == target)
-                goto found0;
-        }
-        target = 0xFFFF;
+        for (i = 0; i < num && (t6f_sub_080020F4() == i || (tp = &gT6fPlayers[i])->id != target); i++)
+            ;
+        if (i >= num)
+            target = 0xFFFF;
     } else {
         for (i = 0; i <= 4; i++) {
             te = &gT6fEnemies[i];
             if ((gT6fEnemyMask & (1 << i)) && te->uid == target)
-                goto found0;
+                break;
         }
-        target = 0xFFFF;
+        if (i > 4)
+            target = 0xFFFF;
     }
-found0:
     if (base <= 6) {
         t6fInit(&desc, 0x5008F, 8, -1, 0);
         base = base - 1;
@@ -4269,35 +4268,36 @@ restart:
     seek = 0;
     for (;;) {
         if (timer++ > 0x3C) {
+            u16 r;
             if (owner <= 3) {
                 cx = (pl->pos->h0 >> 4) << 8;
                 cy = ((u32)(pl->pos->h2 << 20) >> 20) << 8;
                 frame = ((u8 *)pl->pos)[3] >> 4;
                 dir = gT6gDirs[frame] * 16;
-                if (seek++ > 5) {
-                    seek = 0;
-                    if (owner == myId)
-                        target = t6fSeekMe(0x20, 0x64);
-                    else
-                        target = t6fSeekPl(&gT6fPlayers[owner], 0x20, 0x64);
-                    if (target != 0xFF)
-                        goto found;
-                }
+                if (seek++ <= 5)
+                    goto orbit;
+                seek = 0;
+                if (owner == myId)
+                    r = t6fSeekMe(0x20, 0x64);
+                else
+                    r = t6fSeekPl(&gT6fPlayers[owner], 0x20, 0x64);
             } else {
                 cx = en->x;
                 cy = en->y;
                 frame = en->dir;
                 dir = gT6gDirs[en->dir] * 16;
                 if (target <= 3) {
-                    if (!(((struct T6fPosB *)gT6fPlayers[target].pos)->f4 & 0x20))
-                        goto found;
-                } else {
-                    target = t6gSeekEn(en->id + 4, 0xFF, sx, sy);
-                    if (target != 0xFF)
-                        goto found;
+                    if (((struct T6fPosB *)gT6fPlayers[target].pos)->f4 & 0x20)
+                        goto orbit;
+                    goto found;
                 }
+                r = t6gSeekEn(en->id + 4, 0xFF, sx, sy);
             }
+            target = r;
+            if (target != 0xFF)
+                goto found;
         }
+    orbit:
         dir = (s16)dir + orbit;
         if ((s16)dir > 0xFF)
             dir = (s16)dir - 0x100;
