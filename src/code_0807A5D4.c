@@ -8680,26 +8680,30 @@ void sub_080878AC(u32 arg0, s32 *state)
 {
     u16 entry = (u16)arg0;
     u16 width = (u16)(arg0 >> 16);
-    u16 *buffer = (u16 *)sub_08001494(width << 5);
-    u16 *source = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
+    u16 *buffer;
     u32 i;
-    u32 count = width << 4;
-    u16 factor = 0x64;
-    u16 angle = 0;
-    s32 timer = 10;
-    u32 phase = 0;
-    s32 base = 0x3D0;
+    u32 count;
+    u16 factor;
+    u16 angle;
+    s32 timer;
+    u32 phase;
+    s32 base;
 
-    CpuSet(source, buffer, (width << 3) | 0x04000000);
+    buffer = (u16 *)sub_08001494(width << 5);
+    CpuSet((u8 *)&gUnk_03001F40 + (entry << 5), buffer, (width << 3) | 0x04000000);
+    count = width << 4;
+    factor = 0x64;
+    angle = 0;
+    timer = 10;
+    phase = 0;
+    base = 0x3D0;
     while (*state != 0) {
         u16 *dst = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
-        for (i = 0; i < count; i++) {
-            u16 color = buffer[i];
-            u16 red = (((color & 0x1F) * factor) >> 10) & 0x1F;
-            u16 green = ((((color >> 5) & 0x1F) * factor) >> 10) & 0x1F;
-            u16 blue = ((((color >> 10) & 0x1F) * factor) >> 10) & 0x1F;
-
-            dst[i] = (color & 0x8000) | red | (green << 5) | (blue << 10);
+        u16 *src = buffer;
+        for (i = 0; i < count; i++, dst++, src++) {
+            ((struct Rgb087788 *)dst)->r = (factor * ((struct RgbWord087788 *)src)->r) >> 10;
+            ((struct Rgb087788 *)dst)->g = (factor * ((struct RgbWord087788 *)src)->g) >> 10;
+            ((struct Rgb087788 *)dst)->b = (factor * ((struct RgbWord087788 *)src)->b) >> 10;
         }
         sub_08000B38();
         sub_080003F0();
