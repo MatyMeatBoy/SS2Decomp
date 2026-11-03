@@ -35,7 +35,237 @@ void sub_0808381C(u32 index);
 extern const u32 gUnk_084EBD4C[];
 
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807A5D4);
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807B7B4);
+struct Pair7B7B4 { u32 a, b; };
+struct Mgr7B7B4 {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u8 padC[0xC];
+    u32 f18;
+    u32 f1C;
+    u32 f20;
+    u32 f24;
+    u32 f28;
+    u32 f2C;
+    u8 pad30[4];
+    u32 f34;
+    u32 f38;
+    u8 pad3C[0x10];
+    u16 f4C, f4E, f50, f52;
+    u8 pad54[0x14];
+    u16 f68;
+    u16 f6A;
+    u8 pad6C[8];
+    struct Pair7B7B4 rows[6];
+    u8 padA4[0x34];
+    u32 fD8;
+    u32 fDC;
+    u32 fE0;
+    u32 fE4;
+    u32 fE8;
+    u32 fEC;
+    u8 *fF0;
+    u16 fF4;
+    u8 padF6[0x5B4 - 0xF6];
+    u8 *f5B4;
+    u8 f5B8[4];
+};
+union Bg7B7B4 { u32 word; u16 half[2]; };
+
+struct Stage7B7B4 { u8 pad[0x1FA]; u16 value; };
+struct Index7B7B4 { u8 pad[0x14A]; u16 value; };
+extern struct Stage7B7B4 stage7B7B4 asm("gUnk_03001F40");
+extern struct Index7B7B4 *index7B7B4 asm("gUnk_03005CF4");
+struct Player7B7B4 { u8 pad[0x30]; u32 flags; u8 pad34[0x30]; u16 f64; u8 pad66[0x14C - 0x66]; };
+extern struct Player7B7B4 players7B7B4[] asm("gUnk_03003CE0");
+extern struct Mgr7B7B4 *mgr7B7B4 asm("gUnk_03006440");
+extern u16 table7B7B4Stage[] asm("gUnk_084EBD38");
+extern u16 table7B7B4Text[] asm("gUnk_084ECB98");
+void sub_08000990(s32, s32);
+void sub_080009F8(s32, s32, s32);
+void sub_08060DB0(s32);
+void sub_08061688(s32);
+void sub_0801AB50(s32);
+void sub_08058688(s32);
+void sub_0807C29C(void);
+void sub_0805FFBC(s32, s32, void *, u32);
+void sub_080811E0();
+void sub_08080A78(void);
+void sub_08082960();
+void sub_080815F4(void *);
+void sub_080586B4(s32);
+s32 sub_08057B64(s32);
+void sub_0802A590(s32, s32);
+void sub_0801A664(u32 index, u32 value);
+u32 sub_08065158(void *arg0, u32 arg1, u32 arg2, s32 arg3, s32 arg4);
+void sub_08065230(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4);
+void sub_0801A3D0(u8 *arg0, u32 arg1, u32 arg2);
+void sub_0805FC80(s32 x, s32 y, void *item, s32 mode);
+
+void sub_0807B7B4_v(void) asm("sub_0807B7B4");
+void sub_0807B7B4_v(void)
+{
+
+    union Bg7B7B4 bg;
+    u8 pad[8];
+    struct Player *player;
+    s32 savedIrq;
+    u8 savedVcount;
+    u32 scroll;
+    u32 lastLevel;
+    u32 lastCount;
+    u16 i;
+    u8 *text;
+    u16 mode;
+
+    mgr7B7B4->f0 = 2;
+    sub_080009F8(0x1F00, 0, 1);
+    player = &gUnk_03003CE0[sub_080020F4()];
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    sub_0800B7DC(0x40000003, 0x1A, 0x06000000, 0, 0xF);
+    sub_0800B7DC(0x40000005, 0x1B, 0x06000000, 0, 0xF);
+    sub_0800B650(0x40000004, 0x1F, 0x06000000, 0, 0xE);
+    sub_08000AF0(0xE, (void *)(sub_08007290(0x70003) + 0x1C0), 1);
+    stage7B7B4.value = table7B7B4Stage[index7B7B4->value];
+    switch (gUnk_03003470) {
+    case 0: sub_08065158(mgr7B7B4->f5B8, 0x50006, 0, -1, 0); break;
+    case 1: sub_08065158(mgr7B7B4->f5B8, 0x50007, 0, -1, 0); break;
+    case 2: sub_08065158(mgr7B7B4->f5B8, 0x50008, 0, -1, 0); break;
+    case 3: sub_08065158(mgr7B7B4->f5B8, 0x50009, 0, -1, 0); break;
+    case 4: sub_08065158(mgr7B7B4->f5B8, 0x5000A, 0, -1, 0); break;
+    }
+    sub_08000990(0, 1);
+    bg.word = (bg.word & 0xFFFF0000) | 0x1D03;
+    sub_08000AA8(1, bg.half);
+    bg.half[0] = 0x9A01;
+    sub_08000AA8(2, bg.half);
+    bg.half[0] = 0x1F03;
+    sub_08000AA8(3, bg.half);
+    if (sub_0805F184() == 0 && sub_0800CDF8() == 0 && sub_0800D060() == 0
+        && !(players7B7B4[sub_080020F4()].flags & 0x2000)) {
+        sub_08060DB0(0);
+        sub_08061688(0);
+        savedVcount = (u8)sub_08001108(0x88);
+        savedIrq = sub_0800115C((u32)sub_0808528C);
+        sub_08000D8C();
+        sub_0801AB50(6);
+        sub_080009C0(0x1D00, 0, 1);
+        sub_08000C08(8, 2);
+        if (sub_0800CB9C() == 0)
+            sub_08058688(0xD7);
+        sub_0800903C(0, 0, 0, 0, 0, 0);
+        mgr7B7B4->f4 = 0;
+        mgr7B7B4->f8 = 0;
+        mgr7B7B4->f18 = 0;
+        mgr7B7B4->f1C = 0x16;
+        mgr7B7B4->f20 = 0;
+        mgr7B7B4->f24 = 1;
+        mgr7B7B4->f28 = 0;
+        mgr7B7B4->fD8 = 0;
+        mgr7B7B4->fDC = 0;
+        mgr7B7B4->fE0 = 0x58;
+        mgr7B7B4->fE4 = 0x20;
+        mgr7B7B4->fE8 = 0x58;
+        mgr7B7B4->fEC = 0x20;
+        mgr7B7B4->fF0 = 0;
+        mgr7B7B4->fF4 = 0;
+        mgr7B7B4->f2C = 0;
+        mgr7B7B4->f34 = sub_0805D3D4();
+        mgr7B7B4->f38 = 0;
+        mgr7B7B4->f4C = 0;
+        mgr7B7B4->f4E = 0;
+        mgr7B7B4->f50 = 0;
+        mgr7B7B4->f52 = 0;
+        mgr7B7B4->f68 = 5;
+        mgr7B7B4->f6A = 100;
+        lastLevel = *(u16 *)(gUnk_030034E0 + 0x68);
+        lastCount = 0xFFFFFF;
+        for (i = 0; i <= 5; i++) {
+            mgr7B7B4->rows[i].a = 0;
+            mgr7B7B4->rows[i].b = (u16)(i % 5U);
+        }
+        while (mgr7B7B4->f24 != 0 && sub_080021A8() == 0) {
+            sub_0807C29C();
+            if (!(mgr7B7B4->f28 & 1)) {
+                gUnk_03001250[5] = 0;
+                if (mgr7B7B4->f1C == 0x16) {
+                    sub_08065230(mgr7B7B4->f5B8, mgr7B7B4->fE0, mgr7B7B4->fE4, 0xB, 0);
+                } else {
+                    sub_08065230(mgr7B7B4->f5B8, mgr7B7B4->fE0, mgr7B7B4->fE4 - 4, 0xB, 1);
+                    sub_0805FC80(mgr7B7B4->fE0, mgr7B7B4->fE4 - 4, &mgr7B7B4->fF4, 8);
+                }
+                if (lastCount != players7B7B4[sub_080020F4()].f64
+                    || mgr7B7B4->f6A != mgr7B7B4->f4
+                    || lastLevel != *(u16 *)(gUnk_030034E0 + 0x68)) {
+                    if (mgr7B7B4->f68++ > 5) {
+                        if (mgr7B7B4->f1C == 0x16) {
+                            if (mgr7B7B4->f18 != 7) {
+                                sub_0805FFBC(0xF, 0x12, mgr7B7B4->fF0, 0x80000000);
+                            } else {
+                                text = (u8 *)sub_08007290(table7B7B4Text[mgr7B7B4->f4] | 0x140000) + 2;
+                                sub_0801A3D0(text, (u16)(15 - ((u32)sub_0801A638(text) >> 1)), 0x12);
+                            }
+                        } else {
+                            sub_0805FFBC(0xF, 0x12, &mgr7B7B4->fF4, 0x80000000);
+                        }
+                        lastLevel = *(u16 *)(gUnk_030034E0 + 0x68);
+                        sub_080811E0(player);
+                        mgr7B7B4->f68 = 0;
+                        mgr7B7B4->f6A = mgr7B7B4->f4;
+                        lastCount = players7B7B4[sub_080020F4()].f64;
+                    }
+                }
+                sub_08080A78();
+                if (mgr7B7B4->f2C != 0) {
+                    sub_0801A664(2, 0x12);
+                    mgr7B7B4->f2C = 0;
+                }
+            } else {
+                mgr7B7B4->f6A = 100;
+                mgr7B7B4->f2C = 1;
+                sub_0801A664(2, 0x12);
+                gUnk_03001250[5] = 0x100;
+                if (mgr7B7B4->f18 == 9)
+                    sub_08082960(mgr7B7B4->f5B4);
+                else if (mgr7B7B4->f1C == 0x16)
+                    sub_080815F4(mgr7B7B4->fF0);
+                else
+                    sub_080815F4(&mgr7B7B4->fF4);
+            }
+            scroll += 0x40;
+            gUnk_03001250[7] = scroll >> 8;
+            sub_080003F0();
+            if (sub_0801AAE0() != 0 && (players7B7B4[sub_080020F4()].flags & 0x2000))
+                break;
+        }
+        sub_0806617C();
+        sub_080586B4(0);
+        sub_0801ABE8(6);
+        while (sub_0801AAE0() == 0) {
+            sub_08080A78();
+            sub_080003F0();
+        }
+        sub_08000E48();
+        sub_0800115C(savedIrq);
+        sub_08001108(savedVcount);
+        sub_080653D4(0);
+        sub_080653FC(0);
+    }
+    sub_08000C08(0x10, 8);
+    sub_0801A664(2, 0x12);
+    mode = sub_08057B64(3);
+    if ((u16)(mode - 2) <= 7)
+        sub_0802A590(0, 0xE);
+    sub_08057624(10);
+    sub_08000420(0x11201100);
+}
 void sub_0807BD78(u32 kind, u32 index)
 {
     switch (kind) {
