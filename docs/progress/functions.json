@@ -30985,14 +30985,14 @@
       "name": "sub_080A0B44",
       "addr": 134875972,
       "size": 1056,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x080A0B44",
       "canonical_symbol": "sub_080A0B44",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080A0B44",
       "name_status": "unidentified",
       "name_source": null,
@@ -31458,7 +31458,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 2820,
+          "line": 2987,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
