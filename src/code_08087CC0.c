@@ -1049,78 +1049,79 @@ loop_38:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08088F30);
 #endif
-#ifdef NONMATCHING
 extern u8 playerCoord89204[] asm("gUnk_03003D6C");
 extern u32 sceneTable89204[] asm("gUnk_084F0AC0");
 void callback2AA28_090(void) asm("sub_0802AA28");
+struct Pos090 { s32 x, y; };
+struct Player090 {
+    u8 pad0[0x30];
+    u32 flags;              /* 0x30 */
+    u8 pad34[0x58];
+    struct Pos090 pos8C;    /* 0x8C */
+    struct Pos090 pos94;    /* 0x94 */
+    u8 pad9C[0x14C - 0x9C];
+};
+extern struct Player090 players090[] asm("gUnk_03003CE0");
+struct Warp090 { u16 x, y; };
 s32 sub_08089204(u8 *arg0) {
-    s32 *temp_r5;
-    s32 temp_r2;
-    s32 temp_r8;
-    u8 *temp_r2_2;
-    u8 *temp_r4;
-    u8 *temp_r6;
+    s32 idx;
+    struct Warp090 *warp;
+    u32 *flags;
+    struct Player090 *p;
 
     if (*(u16 *)(gUnk_03005CF4 + 0x10) == 0) {
-loop_3:
-        if (sub_0801AAE0() == 0) {
+        while (sub_0801AAE0() == 0)
             sub_080003F0();
-            goto loop_3;
-        }
-        temp_r8 = sub_080020F4();
-        temp_r6 = arg0 + ((*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24) + 4);
+        idx = sub_080020F4();
+        warp = (struct Warp090 *)(arg0 + (*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24 + 4));
         sub_0800CCDC();
-        temp_r5 = (s32 *)((u8 *)gUnk_03003CE0 + 0x14C * temp_r8 + 0x30);
-        if (*temp_r5 & 0x2000) {
+        if (players090[idx].flags & 0x2000)
             sub_0802996C();
-        }
-        *temp_r5 &= 0xFFFFFBFF;
+        players090[idx].flags &= ~0x400;
         sub_08067D74();
-        temp_r2 = 0x14C * sub_080020F4();
-        *(u32 *)(temp_r2 + (u8 *)gUnk_03003CE0 + 0x8C) = *(u16 *)(temp_r6) << 8;
-        *(u32 *)(temp_r2 + (u8 *)gUnk_03003CE0 + 0x90) = *(u16 *)(temp_r6 + 2) << 8;
-        temp_r2_2 = temp_r2 + (u8 *)gUnk_03003CE0;
-        *(u32 *)(temp_r2_2 + 0x94) = (s32) *(u32 *)(temp_r2_2 + 0x8C);
-        *(u32 *)(temp_r2_2 + 0x98) = (s32) *(u32 *)(temp_r2_2 + 0x90);
+        p = (struct Player090 *)sub_080020F4();
+        players090[(s32)p].pos8C.x = warp->x << 8;
+        players090[(s32)p].pos8C.y = warp->y << 8;
+        players090[(s32)p].pos94 = players090[(s32)p].pos8C;
         sub_08009930(0, 2);
-loop_8:
-        if (sub_0800BA6C() == 0) {
+        while (sub_0800BA6C() == 0)
             sub_080003F0();
-            goto loop_8;
+        gUnk_03003170.pad76 = 0x20;
+        {
+            u8 *q = (0x14C * idx) + playerCoord89204;
+            sub_0800AD04(q, q + 4, sub_0800CCCC());
         }
-        *(u16 *)((u8 *)&gUnk_03003170 + 0x76) = 0x20;
-        temp_r4 = (0x14C * temp_r8) + playerCoord89204;
-        sub_0800AD04(temp_r4, temp_r4 + 4, sub_0800CCCC());
-        *(u16 *)(gUnk_03005CF4 + 0x10) = 1U;
-        *(u16 *)(gUnk_03005CF4 + 0x1C) = 1;
+        {
+            u8 *gs = (u8 *)gUnk_03005CF4;
+            *(u16 *)(gs + 0x10) = 1;
+            *(u16 *)(gs + 0x1C) = 1;
+        }
         sub_08015C38();
         sub_08015EF8();
         sub_08057328(0, callback2AA28_090);
     }
-    if (((s32) *(s32 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4() + 0x90) >> 0xB) == 0x1F) {
+    if ((players090[sub_080020F4()].pos8C.y >> 11) == 0x1F) {
         sub_08015ED4();
         sub_0801ABE8(3);
         sub_0800BB40();
-loop_13:
-        if (sub_0801AAE0() == 0) {
+        while (sub_0801AAE0() == 0)
             sub_080003F0();
-            goto loop_13;
-        }
         sub_0800BB40();
-        *(u16 *)(gUnk_03005CF4 + 0x36) = 2U;
-        *(u16 *)(gUnk_03005CF4 + 2) = 8;
-        *(u32 *)(gUnk_03005CF4 + 0x71C) = (s32) sceneTable89204[8];
-        *(u16 *)(gUnk_03005CF4 + 0x10) = 0U;
-        *(u16 *)(gUnk_03005CF4 + 0x1C) = 0;
+        {
+            u8 *gs = (u8 *)gUnk_03005CF4;
+            u16 zero = 0;
+            *(u16 *)(gs + 0x36) = 2;
+            *(u16 *)(gs + 2) = 8;
+            *(u32 *)(gs + 0x71C) = sceneTable89204[8];
+            *(u16 *)(gs + 0x10) = zero;
+            *(u16 *)(gs + 0x1C) = zero;
+        }
         return 1;
     }
     return 0;
 }
 
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089204);
-#endif
 #ifdef NONMATCHING
 extern u8 playerCoord89384[] asm("gUnk_03003D6C");
 extern u32 sceneTable89384[] asm("gUnk_084F0AC0");
