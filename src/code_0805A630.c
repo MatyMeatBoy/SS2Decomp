@@ -878,6 +878,7 @@ void sub_0805B688(u16 who, u16 itemId)
 {
     struct B688Anim anim;
     struct B688Item item;
+    struct B688Player *thrower;
     s16 screenX, screenY;
     struct B688Pos pos;
     struct B688Pos other;
@@ -910,6 +911,7 @@ void sub_0805B688(u16 who, u16 itemId)
     self = who;
     itemArg = itemId;
     player = &b688Players[self];
+    thrower = player;
     me = (u16)sub_080020F4();
     b688_sub_08065158(&anim, 0x500F1, 0, 0x80000000, 0);
     power = (u32)(player->shape->f6 << 23) >> 27;
@@ -975,10 +977,10 @@ void sub_0805B688(u16 who, u16 itemId)
                         b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
                         break;
                     case 14:
-                        b688_sub_0806818C(player->id, 5, pos.x, pos.y, power);
+                        b688_sub_0806818C(thrower->id, 5, pos.x, pos.y, power);
                         break;
                     case 15:
-                        b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
+                        b688_sub_0806823C(thrower->id, 0, pos.x, pos.y, power);
                         break;
                     default:
                         b688_sub_08067F4C(itemArg, i, power);
@@ -1047,16 +1049,16 @@ void sub_0805B688(u16 who, u16 itemId)
                     if (self == sub_080020F4()) {
                         switch (obj->kind) {
                         case 13:
-                            b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
+                            b688_sub_0806818C(thrower->id, 4, pos.x, pos.y, power);
                             break;
                         case 14:
-                            b688_sub_0806818C(player->id, 5, pos.x, pos.y, power);
+                            b688_sub_0806818C(thrower->id, 5, pos.x, pos.y, power);
                             break;
                         case 15:
-                            b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
+                            b688_sub_0806823C(thrower->id, 0, pos.x, pos.y, power);
                             break;
                         case 18:
-                            b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
+                            b688_sub_0806818C(thrower->id, 4, pos.x, pos.y, power);
                             break;
                         default:
                             b688_sub_08067F04(itemArg, *(u16 *)(enemy + 2), power);
@@ -1098,15 +1100,15 @@ void sub_0805B688(u16 who, u16 itemId)
         return;
     switch (obj->kind) {
     case 13:
-        b688_sub_0806818C(player->id, 2, pos.x, pos.y, power);
+        b688_sub_0806818C(thrower->id, 2, pos.x, pos.y, power);
         n = 5;
         break;
     case 14:
-        b688_sub_0806818C(player->id, 3, pos.x, pos.y, power);
+        b688_sub_0806818C(thrower->id, 3, pos.x, pos.y, power);
         n = 5;
         break;
     case 15:
-        b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
+        b688_sub_0806823C(thrower->id, 0, pos.x, pos.y, power);
         n = 5;
         break;
     default:
