@@ -1,0 +1,8 @@
+shard 73 (nov03-w4, 2026-11-03)
+- sub_0806E7D4: draft exact size; only diff is an r8/r9 swap (orig: shade/nhit r8, sy and &hits[i] r9).
+  Key fixes: `delay[i] = 10 + delay[i - 1] + rand() % 20`; `a = dir[...] << 4` inside each branch
+  (keeps the u16 shift before the s16 use); the 6-bit flag test as
+  `(u32)(((u8 *)q->sprite)[4] << 26) >> 26 & 0x20`; step's 5th arg literal 0; draw/coords args from
+  `x >> 8` directly (no sx/sy vars). Tried: separate shade vars per branch, shade as nhit, sx/sy types,
+  random declaration orders (no effect on the swap).
+- sub_0806F0CC: not started (1695 lines; dir table pointer hoisted into ip, player search skips `who`).
