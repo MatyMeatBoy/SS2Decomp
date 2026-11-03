@@ -3139,8 +3139,8 @@ digraph calls {
   "sub_0801A7AC" -> "__divsi3" [label="asm"];
   "sub_0801A7AC" -> "sub_080003F0" [label="asm,c"];
   "sub_0801A7AC" -> "sub_080003F4" [label="asm,c"];
-  "sub_0801A7AC" -> "sub_080009C0" [label="asm,c"];
-  "sub_0801A7AC" -> "sub_080009F8" [label="asm,c"];
+  "sub_0801A7AC" -> "sub_080009C0" [label="asm"];
+  "sub_0801A7AC" -> "sub_080009F8" [label="asm"];
   "sub_0801A7AC" -> "sub_08000B38" [label="asm,c"];
   "sub_0801A9BC" -> "sub_08000274" [label="c"];
   "sub_0801A9BC" -> "sub_08000B50" [label="c"];
