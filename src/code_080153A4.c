@@ -641,7 +641,127 @@ void sub_080161A4(void) {
     gUnk_030056F0 = 0;
     gUnk_030056F4 = NULL;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_0801623C);
+struct Entry1623C { u16 flags; s16 x; s16 y; u16 wE; };
+struct Src1623C { u8 pad0[8]; struct Entry1623C e[5]; u8 pad30[2]; u16 w32; };
+struct Slot1623C { u16 id; u8 pad2[6]; u16 fill[0x10]; };
+struct Obj1623C {
+    u16 id;
+    u16 w2;
+    u8 pad4[4];
+    u16 w8;
+    u8 padA[0xA];
+    s32 x14;
+    s32 y18;
+    u8 pad1C[8];
+    s32 x24;
+    s32 y28;
+    struct Src1623C *src;
+    s32 s30;
+    s32 s34;
+    s32 s38;
+    s32 s3C;
+    u16 w40;
+    u8 pad42[6];
+    u16 w48;
+    u16 w4A;
+    s32 s4C;
+    u8 pad50[4];
+    u32 w54;
+    u8 pad58[2];
+    u16 w5A;
+    u8 pad5C[4];
+    u16 w60;
+    u16 w62;
+    u8 pad64[0x12];
+    u16 w76;
+    u16 w78;
+    u16 w7A;
+    u16 w7C;
+    u8 pad7E[6];
+    u16 w84;
+    u8 pad86[2];
+    u16 w88;
+    u8 pad8A[2];
+    struct Slot1623C slots[8];
+    u8 pad1CC[0x10];
+    u8 b1DC;
+    u8 pad1DD[0x1F];
+    u8 lo1FC:4;
+    u8 hi1FC:4;
+    u8 b1FD;
+    u8 b1FE;
+    u8 b1FF;
+    u8 pad200;
+    u8 b201;
+    u8 pad202[2];
+    u8 data[0xD8];
+};
+struct Gs1623C { u8 pad0[0x40]; u32 f40; };
+extern struct Gs1623C *gs1623C asm("gUnk_03005CF4");
+extern u8 tables1623C[][0xD8] asm("gUnk_0847AD3C");
+extern void cpuset1623C(const void *, void *, u32) asm("CpuSet");
+extern void memcpy1623C(void *, const void *, u32) asm("memcpy");
+void sub_0801623C(struct Obj1623C *obj, struct Src1623C *src, u32 idx)
+{
+    struct Entry1623C *entry = (struct Entry1623C *)src + idx;
+    s32 n = (entry[1].flags & 0xFFF) - 1;
+    u8 *table;
+    u32 i;
+    if (sub_0800CE30() != 0)
+        n += 0xC5;
+    table = tables1623C[n];
+    obj->lo1FC = obj->id;
+    obj->w2 = 4;
+    obj->x14 = entry[1].x << 11;
+    obj->y18 = entry[1].y << 11;
+    obj->x24 = entry[1].x << 3;
+    obj->y28 = entry[1].y << 3;
+    obj->src = src;
+    memcpy1623C(obj->data, table, 0xD8);
+    obj->w8 = entry[1].wE;
+    obj->w84 = 0;
+    obj->w5A = 0;
+    obj->w62 = 0;
+    obj->w7C = 0;
+    obj->w54 = 0xFFFF;
+    if (sub_0800CCCC() != 0)
+        obj->w48 = gs1623C->f40;
+    else
+        obj->w48 = gUnk_03003170.f90;
+    obj->b1FD = 0;
+    obj->b201 = 1;
+    obj->hi1FC = 0;
+    obj->b1FE = 0;
+    obj->b1FF = 0;
+    obj->w60 = 0;
+    obj->w40 = 0;
+    obj->w76 = obj->id + 1;
+    obj->w78 = src->w32;
+    obj->w7A = 0;
+    obj->w88 = 0;
+    obj->s30 = 0;
+    obj->s38 = 0;
+    obj->s34 = 0;
+    obj->s3C = 0;
+    obj->b1DC = 2;
+    obj->s4C = 0;
+    obj->w4A = 0;
+    for (i = 0; i < 8; i++) {
+        vu16 zero;
+        obj->slots[i].id = 0xFFFF;
+        zero = 0;
+        cpuset1623C((void *)&zero, obj->slots[i].fill, 0x01000018);
+    }
+    if (((struct Entry1623C *)src)[idx + 1].flags & 0x8000)
+        obj->w7A |= 2;
+    if (((struct Entry1623C *)src)[idx + 1].flags & 0x4000) {
+        obj->w7A |= 4;
+        obj->b201 = 0;
+        obj->b1FD = 0xFF;
+    }
+    if (((struct Entry1623C *)src)[idx + 1].flags & 0x2000)
+        obj->w7A |= 8;
+}
 #ifdef NONMATCHING
 struct Src1641C { u16 x; u16 y; u16 flags; u16 f6; u16 f8; u16 fA; u16 fC; u16 fE; u16 f10; u16 f12; s32 f14; };
 struct Pt1641C { s32 x, y; };

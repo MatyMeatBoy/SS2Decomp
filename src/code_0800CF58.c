@@ -6721,8 +6721,138 @@ void sub_08014C8C(void) {
 
 
 
+struct PlrKind14 { u8 pad0[0x10]; u16 kind; u8 pad12[0x14C - 0x12]; };
+extern struct PlrKind14 kinds14[] asm("gUnk_03003CE0");
+extern struct Task tasks14[] asm("gUnk_03003C40");
+#ifdef NONMATCHING
+void sub_08014D60(void)
+{
+    s32 index = sub_080020F4();
+    s32 memory;
+    if (sub_08000470((u32)&tasks14[index]) != 0) {
+        if ((u16)(gUnk_03003CE0[index].state - 10) > 1 && (gUnk_03003CE0[index].flags & 0x2000) == 0)
+            gUnk_03003CE0[index].state = 0;
+        return;
+    }
+    switch (kinds14[index].kind) {
+    case 1:
+        tasks14[index].uC = sub_08014B28;
+        break;
+    case 3:
+        tasks14[index].uC = sub_08014C8C;
+        break;
+    case 2:
+    case 8:
+        tasks14[index].uC = sub_08014C04;
+        break;
+    default:
+        return;
+    }
+    tasks14[index].u8 = 0x34;
+    while ((tasks14[index].u20 = memory = (s32)sub_08001494(0x400)) == 0)
+        sub_080003F0();
+    tasks14[index].u10 = memory + 0x3FC;
+    tasks14[index].u24 = 0;
+    sub_08000274(&tasks14[index]);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014D60);
+#endif
+struct Info14 { u32 kind:4; u32 mid:24; u32 top:4; u32 lo:14; u32 level:3; u32 power:3; u32 hi:12; };
+struct Plr14 {
+    u16 id;
+    u8 pad2[0x10];
+    u16 keys;
+    u8 pad14[8];
+    s16 dir;
+    u8 pad1E[2];
+    u16 state;
+    u8 pad22[2];
+    s16 w24;
+    u16 w26;
+    u16 w28;
+    u8 pad2A[6];
+    u32 flags;
+    u8 pad34[0xB0 - 0x34];
+    u16 wB0;
+    u16 wB2;
+    u16 wB4;
+    u16 wB6;
+    u16 wB8;
+    u8 padBA[0xDC - 0xBA];
+    s32 counterDC;
+    u8 padE0[0x122 - 0xE0];
+    u16 w122;
+    u8 pad124[0x144 - 0x124];
+    struct Info14 *pos;
+    struct Info14 *info;
+};
+extern struct Plr14 players14[] asm("gUnk_03003CE0");
+extern void sub_080760E8();
+#ifdef NONMATCHING
+void sub_08014E68(s32 index)
+{
+    struct Plr14 *p = &players14[index];
+    u16 w = p->w26;
+    struct Info14 *info;
+    u32 level;
+    u32 power;
+    u32 count;
+    if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(w + 0x107);
+    info = p->info;
+    level = info->level;
+    power = info->power;
+    count = level + 2;
+    while (p->wB6 == 0 && p->info->kind == 5) {
+        if (sub_080020F4() == index) {
+            u32 dir = 0;
+            u16 keys = p->keys;
+            if (keys & 0x40)
+                dir = 5;
+            else if (keys & 0x80)
+                dir = 1;
+            if (keys & 0x20) {
+                if (dir == 5)
+                    dir = 4;
+                else if (dir == 1)
+                    dir = 2;
+                else
+                    dir = 3;
+            } else if (keys & 0x10) {
+                if (dir == 5)
+                    dir = 6;
+                else if (dir == 1)
+                    dir = 8;
+                else
+                    dir = 7;
+            }
+            if (dir != 0) {
+                p->dir = dir - 1;
+                p->pos->top = p->dir;
+            }
+        }
+        if ((p->wB2 & 1) && p->wB4 == 2 && count != 0) {
+            p->wB0 = p->info->top + level * 8;
+            p->wB8 = p->wB0;
+            p->counterDC++;
+            sub_080760E8(p->id, (u16)sub_0807A028(1), count, power);
+            count--;
+        }
+        sub_080003F0();
+    }
+    if (sub_080020F4() == index && p->state != 0xE && p->state != 0xA && p->state != 0xB) {
+        if ((p->flags & 0x2000) == 0)
+            p->state = 0;
+    }
+    p->w24 = 0;
+    p->w28 = p->w26;
+    p->w26 = 0;
+    p->w122 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014E68);
+#endif
 void sub_0801500C(u32 idx)
 {
     u32 mem;
