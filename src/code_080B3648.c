@@ -10,7 +10,44 @@ void sub_080B5F94(void);
 void sub_080B6178(void);
 
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B3648);
+#ifdef NONMATCHING
+struct Boss0B44F0 { u16 index; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; };
+struct Player0B44F0 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 alive; u8 p69[0x1F]; u16 hp; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[0x1A]; };
+extern struct Player0B44F0 players0B44F0[] asm("gUnk_03003CE0");
+extern u16 hit0B44F0(void *, void *) asm("sub_0801ED8C");
+/* Hit the local player when it is within `range` of the boss point (ox, oy). */
+s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range) asm("sub_080B44F0");
+s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
+{
+    s32 hit;
+    s32 x, y;
+    u16 dx;
+    s32 dy;
+
+    hit = 0;
+    x = ox + b->x;
+    y = oy + b->y;
+    dx = (u32)((x - players0B44F0[sub_080020F4()].x) << 8) >> 16;
+    dy = (s32)((y - players0B44F0[sub_080020F4()].y) << 8) >> 16;
+    if ((u16)Sqrt((s16)dx * (s16)dx + dy * dy) < range && !sub_0800CDF8() && !sub_0800CCCC()
+        && !sub_0800CD8C() && b->state != 11
+        && !(players0B44F0[sub_080020F4()].flags & 0x2000)
+        && players0B44F0[sub_080020F4()].alive != 0
+        && players0B44F0[sub_080020F4()].state != 14
+        && players0B44F0[sub_080020F4()].state != 11
+        && players0B44F0[sub_080020F4()].state != 12
+        && players0B44F0[sub_080020F4()].hitIds[b->index] != b->hitId) {
+        players0B44F0[sub_080020F4()].state = 10;
+        players0B44F0[sub_080020F4()].fB0 = 0xFFFE;
+        players0B44F0[sub_080020F4()].hp += hit0B44F0(b, &players0B44F0[sub_080020F4()]);
+        players0B44F0[sub_080020F4()].hitIds[b->index] = b->hitId++;
+        hit = 1;
+    }
+    return hit;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B44F0);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4690);
 struct B4A7CPlayer {
     u8 pad0[0x20]; u16 state; u8 pad22[0x30 - 0x22];
