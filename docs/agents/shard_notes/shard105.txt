@@ -1,0 +1,10 @@
+shard 105 notes
+
+sub_0809F018 (nov03-w5): draft 1156 vs 1168 (diff 232 lines, was 617). Keys: sub_08097978 takes two
+  by-value `struct {s32 x, y;}` (pos spilled at 0x58, target pair r6:r7); `s32 inputKind` (signed
+  switch); players' y and remote-visual reads are separate literal symbols (gUnk_03003D70/EBC/4008/
+  4154, E28/F74/40C0/420C -> asm aliases), x reads are sl-relative: `register Player *pl asm("sl")`
+  set right before the loop; two separate draw calls (8 / 0) in the countdown<=90 branch;
+  `dy = (s16)((pos.y>>8)+12) - ...`. Left: seen-index sum order (ROM (id*4+p*size)+(sl+0xe4): the
+  original base was a constant that cse2 related to a loop-hoisted sl), y-literal regs (r1/r2/r3
+  per path vs our r0), end `adds r1,r0; movs r0,#0; str r0,[r1,#8]`.
