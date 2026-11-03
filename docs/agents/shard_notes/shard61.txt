@@ -1,0 +1,12 @@
+shard 61 notes (nov03-w1)
+
+sub_0805CB8C: draft now exact size (620), 51 diff lines. Keys found: counts/angles/colors are separate
+  local arrays (not one struct); the per-i count loop is `i = 0; cnts = counts; do { cnts[i] = 0;
+  j = 0; next = i + 1; for (; j <= 15; ...) ... i = next; } while (i <= 3);` (ROM computes i+1 early
+  into r9 and copies the counts base into sl each outer pass); the palette store is duplicated in
+  both if/else branches. Left: spill slot order (ROM: pal base 0x2C, &counts 0x30, &angles 0x34,
+  &colors 0x38; ours pal last) and i/j hard regs swapped (ROM i=ip, j=r8). `u16 (*pal)[16] = cb8c_pal`
+  as a variable fixes the slot order but hoists the load to the function start (worse overall).
+  Permuter 5 min: nothing.
+sub_0805DC1C: tiles are a 2D array `u16 [][32]` (ROM computes (row<<6)+(col<<1)); draft 294 -> 207.
+  Left: ROM keeps halfWidth twice (r3 and a copy r2), one more spill slot (frame 0x14).

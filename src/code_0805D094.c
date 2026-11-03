@@ -620,7 +620,7 @@ INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D854);
 struct DC1CWindow { u8 data[0x28]; u16 x, y, width, height; u8 state, number; u16 pad32; };
 struct DC1CVideo { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V, win1V; };
 extern struct DC1CWindow *dc1c_windows asm("gUnk_03005D64");
-extern u16 dc1c_tiles[] asm("gUnk_03005740");
+extern u16 dc1c_tiles[][32] asm("gUnk_03005740");
 extern struct DC1CVideo dc1c_video asm("gUnk_03001250");
 extern u8 dc1c_used asm("gUnk_03005D70");
 extern s32 sub_0801A664();
@@ -676,21 +676,21 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
     top = window->y - halfHeight;
     bottom = window->y + halfHeight;
     bottom += h & 1;
-    dc1c_tiles[(left - 1) + (top - 1) * 32] = 0xF120;
-    dc1c_tiles[(left - 1) + (bottom + 1) * 32] = 0xF126;
-    dc1c_tiles[(right + 1) + (top - 1) * 32] = 0xF122;
-    dc1c_tiles[(right + 1) + (bottom + 1) * 32] = 0xF128;
+    dc1c_tiles[top - 1][left - 1] = 0xF120;
+    dc1c_tiles[bottom + 1][left - 1] = 0xF126;
+    dc1c_tiles[top - 1][right + 1] = 0xF122;
+    dc1c_tiles[bottom + 1][right + 1] = 0xF128;
     for (col = left; col <= right; col++) {
-        dc1c_tiles[col + (top - 1) * 32] = 0xF121;
-        dc1c_tiles[col + (bottom + 1) * 32] = 0xF127;
+        dc1c_tiles[top - 1][col] = 0xF121;
+        dc1c_tiles[bottom + 1][col] = 0xF127;
     }
     x0 = left - 1;
     y0 = top - 1;
     x1 = right + 2;
     y1 = bottom + 2;
     for (row = top; row <= bottom; row++) {
-        dc1c_tiles[x0 + row * 32] = 0xF123;
-        dc1c_tiles[(right + 1) + row * 32] = 0xF125;
+        dc1c_tiles[row][x0] = 0xF123;
+        dc1c_tiles[row][right + 1] = 0xF125;
     }
     if (window->number == 0) {
         dc1c_video.win1H = ((x0 * 8 + 3) << 8) | (x1 * 8 - 3);
