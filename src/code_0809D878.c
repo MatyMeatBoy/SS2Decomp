@@ -2295,7 +2295,7 @@ extern s32 t107CCall08007870(s16, s16, s32, u16, s32, void *, u32, u32) asm("sub
 extern void t107CCall08029CEC(s32, s32, s32) asm("sub_08029CEC");
 /* ABI view: target coordinates use r2/r3; the output pointer follows on stack. */
 struct TargetXYT107 { s32 x, y; };
-extern void t107VelocityPair(s32,s32,struct TargetXYT107,s32 *) asm("sub_08097978");
+extern void t107VelocityPair(struct TargetXYT107,struct TargetXYT107,s32 *) asm("sub_08097978");
 struct Nib107 { u8 lo:4, hi:4; };
 struct PlayerT107C {
     u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags;
@@ -2315,7 +2315,7 @@ void sub_080A230C(void *unused, u16 delay)
     struct TargetXYT107 targetPoint;
     u32 count;
     s32 active, timer, hit;
-    s32 x, y;
+    struct TargetXYT107 pos;
     s16 dx, dy;
     u16 i;
     s32 radius;
@@ -2329,10 +2329,10 @@ void sub_080A230C(void *unused, u16 delay)
         ((struct Nib107 *)((u8 *)gActorT107A230C + 0x1FC))->hi = sub_08096594(0);
         target = &t107PlayersC[*((u8 *)gActorT107A230C + 0x1FC) >> 4];
         sub_08097A38(0);
-        extra = 0; tile = 0; count = 0; tick = 0; hit = 0;
-        x = gActorT107A230C->x; y = gActorT107A230C->y;
-        x += gUnk_080B9704[gUnk_085186DC[gActorT107A230C->facing] + 0x40] << 5;
-        y += gUnk_080B9704[gUnk_085186DC[gActorT107A230C->facing]] << 5;
+        { u16 *tq = &tile, *ep = &extra; *ep = 0; *tq = 0; } count = 0; tick = 0; hit = 0;
+        pos.x = gActorT107A230C->x; pos.y = gActorT107A230C->y;
+        pos.x += gUnk_080B9704[gUnk_085186DC[gActorT107A230C->facing] + 0x40] << 5;
+        pos.y += gUnk_080B9704[gUnk_085186DC[gActorT107A230C->facing]] << 5;
         timer = 120; active = 1;
     }
     do {
@@ -2346,17 +2346,17 @@ void sub_080A230C(void *unused, u16 delay)
                     data = target->data;
                     targetPoint.x = data[0] >> 4;
                     targetPoint.y = (((u32)data[1] << 20) >> 20) - 12;
-                    t107VelocityPair(x, y, targetPoint, velocity);
+                    t107VelocityPair(pos, targetPoint, velocity);
                     count = (u8)(count + 1);
                 }
             } else {
                 previous = tick++;
                 if (previous > 180) active = 0;
             }
-            x += velocity[0] + (velocity[0] >> 1);
-            y += velocity[1] + (velocity[1] >> 1);
-            dx = (x >> 8) - (t107PlayersC[sub_080020F4()].x >> 8);
-            { u32 pi = sub_080020F4(); s32 sy = (y >> 8) + 12; dy = sy - (t107PlayersC[pi].y >> 8); }
+            pos.x += velocity[0] + (velocity[0] >> 1);
+            pos.y += velocity[1] + (velocity[1] >> 1);
+            dx = (pos.x >> 8) - (t107PlayersC[sub_080020F4()].x >> 8);
+            { u32 pi = sub_080020F4(); s32 sy = (pos.y >> 8) + 12; dy = sy - (t107PlayersC[pi].y >> 8); }
             radius = (u16)Sqrt(dx * dx + dy * dy);
             if (hit == 0 && radius <= 23 &&
                 sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0 &&
@@ -2376,13 +2376,12 @@ void sub_080A230C(void *unused, u16 delay)
         }
         if (sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
             s32 zero;
-            u16 *tp = &tile;
             zero = sub_0800CC98();
             if (zero == 0) {
-                sub_08065370(&anim, 8, (s32)tp, (s32)&extra, 1);
+                sub_08065370(&anim, 8, (s32)&tile, (s32)&extra, 1);
                 sub_08000AF0(gUnk_0300034C + 0x10, anim.fC + (*(u16 *)(aux + 0xD6) << 5), 1);
                 anim.attr[0] = gUnk_0300034C;
-                t107CCall0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, zero, zero);
+                t107CCall0800BC08((pos.x << 8) >> 16, (pos.y << 8) >> 16, &screenX, &screenY, zero, zero);
                 t107CCall08007870(screenX, screenY, 8, tile, zero, anim.attr, anim.f8, anim.f0);
             }
         }

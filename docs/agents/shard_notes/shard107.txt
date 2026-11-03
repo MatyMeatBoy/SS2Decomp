@@ -9,3 +9,8 @@ sub_080A230C: draft 178 -> 72 diff lines, now exact size (908) and free of regis
   - No `facing` temp: `x += gUnk_080B9704[gUnk_085186DC[actor->facing] + 0x40] << 5;` (literal pool order).
   - dy: `{ u32 pi = sub_080020F4(); s32 sy = (y >> 8) + 12; dy = sy - (players[pi].y >> 8); }`.
   Remaining: x gets r8 while ROM has x in r6 and players-base / `zero` in r8 (priority of x too low).
+sub_080A230C (nov03-w5): 72 -> 16 diff lines, exact size. Keys: x/y as `struct TargetXYT107 pos`
+  (DImode pair r6:r7) passed by value as the FIRST arg of sub_08097978 too; init
+  `{ u16 *tq = &tile, *ep = &extra; *ep = 0; *tq = 0; }` and `&tile` directly in the loop call
+  (gives r8 = &tile and the `mov sl, r8` copy). Left: ROM computes &extra (spilled 0x74) before
+  &tile (r8), and reuses the r0 zero for `hit` (ours rematerializes `movs r0,#0`).
