@@ -997,7 +997,7 @@
 <rect x="726.85" y="171.70" width="34.59" height="23.44" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800A34C | sub_0800A34C | unidentified  0x0800A34C  1612 bytes  [done]</title></rect>
 <rect x="726.85" y="195.13" width="34.59" height="19.42" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0800B118 | sub_0800B118 | unidentified  0x0800B118  1336 bytes  [nonmatch]</title></rect>
 <rect x="761.45" y="130.00" width="31.48" height="19.30" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08009B84 | sub_08009B84 | unidentified  0x08009B84  1208 bytes  [done]</title></rect>
-<rect x="792.92" y="130.00" width="24.08" height="19.30" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08009594 | sub_08009594 | unidentified  0x08009594  924 bytes  [todo]</title></rect>
+<rect x="792.92" y="130.00" width="24.08" height="19.30" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08009594 | sub_08009594 | unidentified  0x08009594  924 bytes  [nonmatch]</title></rect>
 <rect x="761.45" y="149.30" width="23.44" height="18.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0800A998 | sub_0800A998 | unidentified  0x0800A998  876 bytes  [done]</title></rect>
 <rect x="784.89" y="149.30" width="16.16" height="18.79" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0800A03C | sub_0800A03C | unidentified  0x0800A03C  604 bytes  [nonmatch]</title></rect>
 <rect x="801.05" y="149.30" width="15.95" height="18.79" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08009930 | sub_08009930 | unidentified  0x08009930  596 bytes  [done]</title></rect>
