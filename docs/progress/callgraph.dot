@@ -570,7 +570,7 @@ digraph calls {
   "sub_08028918" [label="sub_08028918"];
   "sub_080289C0" [label="sub_080289C0"];
   "sub_08028AAC" [label="sub_08028AAC_v"];
-  "sub_08028D98" [label="sub_08028D98"];
+  "sub_08028D98" [label="sub_08028D98_v"];
   "sub_080290E4" [label="task026E4"];
   "sub_08029174" [label="sub_08029174_v"];
   "sub_0802926C" [label="sub_0802926C_v"];
@@ -3889,10 +3889,10 @@ digraph calls {
   "sub_08028AAC" -> "sub_0800AEF4" [label="asm,c"];
   "sub_08028AAC" -> "sub_080659F4" [label="asm,c"];
   "sub_08028D98" -> "__divsi3" [label="asm"];
-  "sub_08028D98" -> "sub_080003F0" [label="asm"];
-  "sub_08028D98" -> "sub_080020F4" [label="asm"];
-  "sub_08028D98" -> "sub_0800AEF4" [label="asm"];
-  "sub_08028D98" -> "sub_080659F4" [label="asm"];
+  "sub_08028D98" -> "sub_080003F0" [label="asm,c"];
+  "sub_08028D98" -> "sub_080020F4" [label="asm,c"];
+  "sub_08028D98" -> "sub_0800AEF4" [label="asm,c"];
+  "sub_08028D98" -> "sub_080659F4" [label="asm,c"];
   "sub_080290E4" -> "sub_080003F0" [label="c"];
   "sub_080290E4" -> "sub_080020F4" [label="c"];
   "sub_08029174" -> "sub_080020F4" [label="c"];
@@ -5632,11 +5632,11 @@ digraph calls {
   "sub_080445E8" -> "sub_080020F4" [label="asm,c"];
   "sub_080445E8" -> "sub_08006D08" [label="asm,c"];
   "sub_080445E8" -> "sub_0800CDF8" [label="asm"];
-  "sub_080445E8" -> "sub_0800CE30" [label="asm,c"];
+  "sub_080445E8" -> "sub_0800CE30" [label="asm"];
   "sub_080445E8" -> "sub_0800D0F4" [label="asm,c"];
   "sub_080445E8" -> "sub_0800D108" [label="asm,c"];
   "sub_080445E8" -> "sub_08019EB8" [label="asm"];
-  "sub_080445E8" -> "sub_0805AB20" [label="asm,c"];
+  "sub_080445E8" -> "sub_0805AB20" [label="asm"];
   "sub_080445E8" -> "sub_0805DF38" [label="asm"];
   "sub_080445E8" -> "sub_0805EEFC" [label="asm"];
   "sub_080445E8" -> "sub_0805EF14" [label="asm"];
