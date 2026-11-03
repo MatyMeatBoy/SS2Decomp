@@ -770,11 +770,10 @@ void sub_0800A34C(u32 music, s32 previous, s32 changed) {
         }
     }
 }
-#ifdef NONMATCHING
 struct T06PlayerA998 {u8 pad[0x8C];s32 x,y;u8 tail[0xB8];};
 struct T06SysA998 {
     u8 pad[0x60];void *header,*allocation;u16 *map0,*map1;
-    u16 width0,pad72,width1,pad76,mapW,mapH,scrollX,scrollY;
+    u16 width0,pad72,width1,pad76,mapW,mapH;s16 scrollX,scrollY;
     u16 f80,f82,offX,offY,relX,relY,curLevel,pad8E,f90;
     u8 pad92[10];u32 flags;u8 padA0[16];void *resource;
 };
@@ -783,144 +782,96 @@ extern struct T06SysA998 t06_sysA998 asm("gUnk_03003170");
 extern struct T06PlayerA998 t06_playersA998[] asm("gUnk_03003CE0");
 extern u16 t06_levelA998 asm("gUnk_030031FC");
 extern s16 t06_scrollYA998 asm("gUnk_030031EE");
-static inline u32 *t06_stateAddrA998(void *p,u16 offset) {return (u32 *)((u8 *)p+offset);}
-static inline u32 t06_readA998(u32 *p) {register u32 *q asm("r1")=p;return *q;}
-static inline void t06_writeA998(u32 *p,u32 v) {register u32 value asm("r0")=v;register u32 *q asm("r2")=p;*q=value;}
-static inline u32 t06_read2A998(u32 *p) {register u32 *q asm("r2")=p;register u32 v asm("r0")=*q;return v;}
-static inline u32 t06_read3A998(u32 *p) {register u32 *q asm("r3")=p;register u32 v asm("r0")=*q;return v;}
-void sub_0800A998(void) {
-    struct {s32 config,result;u16 *volatile pointer;} frame;
-    register u32 *state asm("r8");
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    register s32 var_sl asm("sl");
-    struct T06PlayerA998 *temp_r1;
-    register struct T06PlayerA998 *temp_r9 asm("r9");
-    u16 temp_r5;
-    u32 var_r4;
-    u16 var_r5;
-    u16 var_r7;
+static inline void t06_layersA998(u16 x, u16 y)
+{
+    if (t06_sysA998.curLevel == 0xA) {
+        if (t06_sysA998.f90 == 3 || t06_sysA998.f90 == 0xD) {
+            sub_080092C8(1, t06_sysA998.header, x, 0);
+            sub_080092C8(2, t06_sysA998.header, x, 0);
+        } else {
+            sub_080092C8(1, t06_sysA998.header, x, y);
+            sub_080092C8(2, t06_sysA998.header, x, y);
+        }
+    } else {
+        sub_080092C8(1, t06_sysA998.header, x, y);
+        sub_080092C8(2, t06_sysA998.header, x, y);
+    }
+    sub_080092C8(3, t06_sysA998.header, x, y);
+}
+union T06BgA998 { struct { u32 value:16; } bits; u16 raw; };
+void sub_0800A998(void)
+{
+    struct T06PlayerA998 *player;
+    u16 x, y;
+    union T06BgA998 cnt;
+    s32 result;
+    s32 flag;
+    u32 i;
+    u16 *level = &t06_levelA998;
 
     t06_sysA998.flags = 1;
-    temp_r1 = &t06_playersA998[sub_080020F4()];
-    temp_r9 = temp_r1;
-    temp_r5 = ((s32) temp_r9->x >> 0xB) - 0xF;
-    var_r7 = ((s32) temp_r9->y >> 0xB) - 0xB;
+    player = &t06_playersA998[sub_080020F4()];
+    x = (player->x >> 11) - 15;
+    y = (player->y >> 11) - 11;
     sub_080003F0();
     sub_080003F0();
-    if ((t06_sysA998.curLevel != 5) || (t06_sysA998.f90 != 0xD)) {
-        if (t06_sysA998.curLevel == 0xA) {
-            if ((t06_sysA998.f90 == 3) || (t06_sysA998.f90 == 0xD)) {
-                sub_080092C8(1, t06_sysA998.header, temp_r5, 0U);
-                sub_080092C8(2, t06_sysA998.header, temp_r5, 0U);
-            } else {
-                sub_080092C8(1, t06_sysA998.header, temp_r5, var_r7);
-                sub_080092C8(2, t06_sysA998.header, temp_r5, var_r7);
-            }
-        } else {
-            sub_080092C8(1, t06_sysA998.header, temp_r5, var_r7);
-            sub_080092C8(2, t06_sysA998.header, temp_r5, var_r7);
-        }
-        sub_080092C8(3, t06_sysA998.header, temp_r5, var_r7);
-    }
-    {register struct T06SysA998 *base asm("r4")=&t06_sysA998;register u16 *level asm("r5")=&base->curLevel;sub_0800A34C(*level,0,0);}
-    state=t06_stateAddrA998(t06_rawA998,0x9C);
-    {register u16 *p asm("r1")=(u16 *)&frame.config;frame.pointer=p;}
-    while (!(t06_read3A998(state) & 2) && (sub_0800CB78() == 0)) {
-        while(sub_0800CD34()!=0)sub_080003F0();
-        if (!(t06_read2A998(state) & 0xC)) {
-            goto block_43;
-        }
-        if (sub_0800CD8C() == 0) {
-            frame.result = sub_080586B4(0);
-        }
-        sub_080003F4(0x514C8);
-        temp_r0 = sub_080021A8();
-        if (temp_r0 != 0) break;
-        {
-            var_r5 = ((s32) temp_r9->x >> 0xB) - 0xF;
-            var_r7 = ((s32) temp_r9->y >> 0xB) - 0xB;
-            if (var_r5 & 0x8000) {
-                var_r5 = 0;
-            }
-            if (var_r7 & 0x8000) {
-                var_r7 = 0;
-            }
-            temp_r0_2 = t06_sysA998.width0 - 0x1E;
-            if ((s32) var_r5 > temp_r0_2) {
-                var_r5 = (u16) temp_r0_2;
-            }
-            if ((s32) (s16) t06_sysA998.scrollY < 0) {
-                t06_sysA998.scrollY = (u16) temp_r0;
-            }
-            temp_r0_3 = t06_sysA998.pad72 - 0x14;
-            if ((s32) var_r7 > temp_r0_3) {
-                var_r7 = (u16) temp_r0_3;
-            }
-            if ((t06_sysA998.curLevel != 5) || (t06_sysA998.f90 != 0xD)) {
+    if (t06_sysA998.curLevel != 5 || t06_sysA998.f90 != 0xD)
+        t06_layersA998(x, y);
+    { register struct T06SysA998 *base asm("r4") = &t06_sysA998; register u16 *level asm("r5") = &base->curLevel; sub_0800A34C(*level, 0, 0); }
+    while (!(t06_sysA998.flags & 2) && sub_0800CB78() == 0) {
+        while (sub_0800CD34() != 0)
+            sub_080003F0();
+        if (t06_sysA998.flags & 0xC) {
+            if (sub_0800CD8C() == 0)
+                result = sub_080586B4(0);
+            sub_080003F4(0x514C8);
+            if (sub_080021A8() != 0)
+                break;
+            x = (player->x >> 11) - 15;
+            y = (player->y >> 11) - 11;
+            if (x & 0x8000) x = 0;
+            if (y & 0x8000) y = 0;
+            if (x > t06_sysA998.width0 - 30) x = t06_sysA998.width0 - 30;
+            if (t06_sysA998.scrollY < 0) t06_sysA998.scrollY = 0;
+            if (y > t06_sysA998.pad72 - 20) y = t06_sysA998.pad72 - 20;
+            if (t06_sysA998.curLevel != 5 || t06_sysA998.f90 != 0xD) {
                 sub_08009138(t06_sysA998.resource, t06_sysA998.curLevel);
-                if (t06_sysA998.curLevel == 0xA) {
-                    if ((t06_sysA998.f90 == 3) || (t06_sysA998.f90 == 0xD)) {
-                        sub_080092C8(1, t06_sysA998.header, var_r5, 0U);
-                        sub_080092C8(2, t06_sysA998.header, var_r5, 0U);
-                    } else {
-                        sub_080092C8(1, t06_sysA998.header, var_r5, var_r7);
-                        sub_080092C8(2, t06_sysA998.header, var_r5, var_r7);
-                    }
-                } else {
-                    sub_080092C8(1, t06_sysA998.header, var_r5, var_r7);
-                    sub_080092C8(2, t06_sysA998.header, var_r5, var_r7);
-                }
-                sub_080092C8(3, t06_sysA998.header, var_r5, var_r7);
+                t06_layersA998(x, y);
             } else {
                 sub_08000990(1, 1);
                 sub_080009F8(0x800, 0, 1);
                 sub_080009C0(0x1700, 0, 1);
-                {register u32 mask asm("r1")=0xFFFF0000;register u32 value asm("r0")=frame.config;value&=mask;mask=0x1C08;value|=mask;frame.config=value;}
-                sub_08000AA8(0U, (u16 *) &frame.config);
-                {register u32 value asm("r0")=0x1D83;register u16 *p asm("r1")=frame.pointer;*p=value;}
-                sub_08000AA8(1U, (u16 *) &frame.config);
-                {register u32 value asm("r0")=0xBE81;register u16 *p asm("r2")=frame.pointer;*p=value;}
-                sub_08000AA8(2U, (u16 *) &frame.config);
-                sub_0800B650(0x2D, 0x1D, 0x06000000, 0U, 15);
-                sub_0800B9F0(0x2CU, 0x1EU);
+                cnt.bits.value = 0x1C08;
+                sub_08000AA8(0, &cnt.raw);
+                cnt.raw = 0x1D83;
+                sub_08000AA8(1, &cnt.raw);
+                cnt.raw = 0xBE81;
+                sub_08000AA8(2, &cnt.raw);
+                sub_0800B650(0x2D, 0x1D, 0x06000000, 0, 15);
+                sub_0800B9F0(0x2C, 0x1E);
                 sub_080003F0();
                 sub_080003F0();
             }
-            {register u16 one asm("r3")=1;var_sl=one;}
-            {register u32 value asm("r0")=t06_readA998(state);value&=~0xC;t06_writeA998(state,value);}
-            {register u16 *level asm("r3")=&t06_levelA998;sub_0800A34C(*level,frame.result,1);}
-            if (sub_0801AB24() == 0) {
+            flag = 1;
+            t06_sysA998.flags &= ~0xC;
+            sub_0800A34C(*level, result, 1);
+            if (sub_0801AB24() == 0)
                 sub_0801AA34(0x14);
-            } else if (sub_0801AB24() == 2) {
+            else if (sub_0801AB24() == 2)
                 sub_0801AB90(6);
-            } else {
+            else
                 sub_0801AB50(6);
-            }
-block_43:
-            {register s16 *sy asm("r6");
-            register s16 *sx asm("r5");
-            var_r4 = 1;
-            sy=&t06_scrollYA998;sx=sy-1;
-            do {
-                sub_08009594((u16)var_r4, *sx, *sy, var_sl);
-                var_r4 += 1;
-            } while ((u32) var_r4 <= 3U);
-            }
-            var_sl = 0;
-            sub_08009B84();
-            sub_080003F0();
-            {register u32 value asm("r0")=t06_readA998(state);value|=0x40;t06_writeA998(state,value);}
-            continue;
         }
+        { register s16 *sy asm("r6"); register s16 *sx asm("r5"); i = 1; sy = &t06_sysA998.scrollY; sx = sy - 1;
+        do { sub_08009594((u16)i, *sx, *sy, flag); i++; } while (i <= 3); }
+        flag = 0;
+        sub_08009B84();
+        sub_080003F0();
+        t06_sysA998.flags |= 0x40;
     }
     t06_sysA998.flags = 0x80000000;
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A998);
-#endif
 #ifdef NONMATCHING
 struct T06SysAD04 {u8 pad[0x70];u16 w,h,w1,h1,mapW,mapH;s16 x,y;u16 offX,offY,pad84,pad86,relX,relY;u8 pad8C[16];u32 flags;};
 extern struct T06SysAD04 t06_sysAD04 asm("gUnk_03003170");
