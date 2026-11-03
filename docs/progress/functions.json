@@ -10592,18 +10592,24 @@
       "name": "sub_08029174",
       "addr": 134386036,
       "size": 248,
-      "state": "todo",
+      "state": "done",
       "module": "code_08028AAC",
       "kind": "c",
       "cat": "game",
       "address": "0x08029174",
       "canonical_symbol": "sub_08029174",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_08029174",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "sub_08029174_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 93,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08029174_v"
+        }
+      ]
     },
     {
       "name": "sub_0802926C",
@@ -10827,7 +10833,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 326,
+          "line": 392,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802A104_v"
         }
       ]
@@ -36958,12 +36964,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 172,
-      "existing": 53,
+      "identified": 173,
+      "existing": 54,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1708,
-      "percent_identified": 9.148936170212766
+      "unidentified": 1707,
+      "percent_identified": 9.202127659574469
     },
     "sdk": {
       "total": 155,
@@ -36976,12 +36982,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 327,
-      "existing": 182,
+      "identified": 328,
+      "existing": 183,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1708,
-      "percent_identified": 16.06879606879607
+      "unidentified": 1707,
+      "percent_identified": 16.117936117936118
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
