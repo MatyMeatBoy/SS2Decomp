@@ -13040,14 +13040,14 @@
       "name": "sub_08044D1C",
       "addr": 134499612,
       "size": 280,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x08044D1C",
       "canonical_symbol": "sub_08044D1C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08044D1C",
       "name_status": "unidentified",
       "name_source": null,
@@ -13193,14 +13193,14 @@
       "name": "sub_08045E38",
       "addr": 134503992,
       "size": 268,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080443EC",
       "kind": "c",
       "cat": "game",
       "address": "0x08045E38",
       "canonical_symbol": "sub_08045E38",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08045E38",
       "name_status": "unidentified",
       "name_source": null,
@@ -13343,7 +13343,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 2338,
+          "line": 2205,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47B2C"
         }
       ]
@@ -13417,7 +13417,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 3248,
+          "line": 3115,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47EScript"
         }
       ]
@@ -13508,7 +13508,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 4407,
+          "line": 4274,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t48implB"
         }
       ]
@@ -13667,7 +13667,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 5276,
+          "line": 5143,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
         }
       ]
@@ -19326,14 +19326,14 @@
       "name": "sub_0805BD5C",
       "addr": 134593884,
       "size": 1196,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805A630",
       "kind": "c",
       "cat": "game",
       "address": "0x0805BD5C",
       "canonical_symbol": "sub_0805BD5C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0805BD5C",
       "name_status": "unidentified",
       "name_source": null,
