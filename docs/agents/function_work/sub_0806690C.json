@@ -1,7 +1,7 @@
 {
   "address": "0x0806690C",
-  "updated_utc": "2026-10-30T03:07:25.950325+00:00",
-  "checkpoint": "963c95a49436dcedad455d6f042492c6c453e267",
+  "updated_utc": "2026-11-03T13:38:43.417478+00:00",
+  "checkpoint": "4f32ac72029bf9cb2a457be16670f568d4889138",
   "areas": [
     {
       "id": "compile",
@@ -18,8 +18,8 @@
     {
       "id": "transport",
       "label": "Announce, chunk receipt and acknowledgement control flow",
-      "state": "active",
-      "evidence": "ASM 0x0806690C\u20130x08066A1A and fresh m2c output were checked. The draft now preserves the announce-wait flag and the doubled chunk index on the timeout exit. The local ID is passed explicitly to sub_08002118. The five protocol stack fields and frame size now match; register allocation and remaining instruction/control-flow ordering differ."
+      "state": "done",
+      "evidence": "Phases A-C now compile to the original instruction sequence and stack slots (myId/ack/blk/chunks/tag at SP+0x114..0x124, peer in r9) except two details: the 0x81 lower-bound compare is emitted as cmp #0x80/ble instead of cmp #0x81/blt, and the 0xB3 default is scheduled before instead of after the link-state AND. The restart loop is a label/goto (not for(;;)), and the phase-A flag, phase-C index and the case 0 / 0x13 loop counters are one variable."
     },
     {
       "id": "dispatch",
@@ -31,7 +31,7 @@
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4268 bytes; both frames are 296 bytes, approximate score 1190 (previous 1257). All 107 physical call targets have the original order. The retained ASM fallback reproduces the ROM. After rebase on 3abeb43a, make -j1 compare prints shiningsoul2_eu.gba: OK, make -j1 nonmatching exits 0, and check_tree reports 0 errors. No new matching C bytes are claimed."
+      "evidence": "Strict module comparison remains NO MATCH: original 4444 bytes, candidate 4448. After normalising branch targets, literal-pool padding and jump-table addends, 53 instruction lines differ (was 1062). Remaining: phase-A compare form, case 9 not hoisting the constant 1 (which lets blk take sl instead of a stack slot), case 0x13 sl/ip swap, CpuSet argument order in 0x14/0x16, case 0x21 constant hoist/reload, case 0x26 base register choice. make compare OK, make nonmatching OK, check_tree 0 errors."
     }
   ],
   "regions": []
