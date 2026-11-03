@@ -3801,7 +3801,6 @@ void sub_080B2454(void)
     gTaskP030007AC->f8 = 0x44;
     sub_08000274_3((u32)gTaskP030007AC, 0, 0);
 }
-#ifdef NONMATCHING
 struct Task0B24B8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Actor0B24B8 { u16 f0; u8 pad2[0xA]; u16 fC; u8 padE[0x2CA]; u16 f2D8, f2DA; };
 struct Pos0B24B8 { u16 x; u16 y; };
@@ -3852,7 +3851,7 @@ void sub_080B24B8(struct Actor0B24B8 *actor)
     start0B24B8(taskB0B24B8, 0, 0);
     point0B24B8.x = 0xF000;
     point0B24B8.y = 0x8800;
-    slot0B24B8 = alloc0B24B8(actor->f2D8, actor->f2DA);
+    { u16 *sp = &slot0B24B8; *sp = alloc0B24B8(actor->f2D8, actor->f2DA); }
     while (slot0B24B8 == 0xFFFF) {
         actor->fC = 0xB;
         if (sub_0800CB78() || sub_08056E90()) {
@@ -3863,7 +3862,7 @@ void sub_080B24B8(struct Actor0B24B8 *actor)
     }
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
-            history0B24B8[i][j] = 0;
+            *(u32 *)(i * 0x14C + j * 4 + (u32)history0B24B8) = 0;
     sub_08097FE4();
     sub_08097A4C();
     sub_08097C4C();
@@ -3912,9 +3911,6 @@ void sub_080B24B8(struct Actor0B24B8 *actor)
     sub_08067BF8();
     sub_08056E24();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B24B8);
-#endif
 void sub_080B2780(void) {
     if ((M2C_FIELD(gUnk_030007B8, s16 *, 0x5C) != 0) || (M2C_FIELD(gUnk_030007BC, s16 *, 0x5C) != 0)) {
         sub_080B4B7C();
