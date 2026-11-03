@@ -4174,7 +4174,8 @@ struct DetailEntry815F4 { u16 kind, value; };
 u16 local815F4_sub_0801E378(s32, u16, u8) asm("sub_0801E378");
 u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
 void sub_080815F4(void *arg0) {
-    union { u32 word; u8 bytes[0x20C]; } scratch;
+    /* Keep the frame at 0x2AC, as in the original 080815F4 prologue. */
+    union { u32 word; u8 bytes[0x208]; } scratch;
     s32 sp20C;
     s32 sp210;
     s32 sp214;

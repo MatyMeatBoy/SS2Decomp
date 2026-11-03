@@ -1,0 +1,25 @@
+{
+  "address": "0x080815F4",
+  "updated_utc": "2026-11-03T13:07:06.1669558Z",
+  "checkpoint": "Corrected scratch extent to recover the original 0x2AC frame in the compiling NONMATCHING draft; full function remains unmatched.",
+  "areas": [
+    {
+      "label": "Stack frame extent and entry sequence",
+      "id": "frame",
+      "state": "done",
+      "evidence": "Original ASM loads -0x2AC into sp and stores arg0 at sp+0x23C. With the scratch extent reduced from 0x20C to 0x208, the NONMATCHING compiler emits the same frame allocation, first two calls, and arg0 accesses through the switch comparison. nmdiff still reports 4972 original versus 4796 candidate bytes; this checkpoint changes no matching ROM bytes."
+    },
+    {
+      "label": "Switch and body control flow",
+      "id": "dispatch",
+      "state": "pending",
+      "evidence": "The first divergence remains the branch after cmp r0,#9. Subsequent switch targets, register allocation, and body instructions are not matched."
+    },
+    {
+      "label": "Full match in normal C build",
+      "id": "match",
+      "state": "pending",
+      "evidence": "Original INCLUDE_ASM remains active. Full ROM compare and NONMATCHING build must pass before promotion."
+    }
+  ]
+}
