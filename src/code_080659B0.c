@@ -1448,7 +1448,7 @@ restart:
                     if (effect != 0) {
                         effect->f4 = d[1];
                         effect->f2 = peer;
-                        if (gRxPlayers[effect->f2].fC == 5 && effect->f4 == 6)
+                        if (gRxPlayers[effect->f2].fC == 5 && effect->f4 - 6 == 0)
                             effect->f0 = 0x168;
                     }
                 }
