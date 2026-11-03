@@ -1119,7 +1119,6 @@ void sub_0807854C(u32 who, u32 b)
     sub_08000274_3((u32)t, who - 4, b << 16 | i);
     gMasks7D04[who] |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Spr85F4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct Pos85F4 { u16 h0; u16 h2; };
 struct Ply85F4 { u8 pad0[0x30]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0xB4]; struct Pos85F4 *pos; };
@@ -1130,7 +1129,7 @@ extern struct Ene85F4 *e85F4Base asm("gUnk_030056F4");
 extern u32 f85F4[] asm("gUnk_030063E0");
 extern u16 dir85F4[] asm("gUnk_0847AD0A");
 extern s16 sin85F4[] asm("gUnk_080B9704");
-extern struct Off85F4 off85F4[] asm("gUnk_084EBEBC");
+extern s16 off85F4[][2] asm("gUnk_084EBEBC");
 extern u32 e85F4Mask asm("gUnk_030056FC");
 extern u16 atan85F4(s16, s16) asm("ArcTan2");
 extern void coords85F4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
@@ -1157,12 +1156,8 @@ void sub_080785F4(u32 who, u32 arg)
     struct Ene85F4 *e;
     struct Ene85F4 *te;
     struct Ply85F4 *tp;
-    struct Ply85F4 *p;
-    struct Ene85F4 *q;
     s32 t;
     s32 ang;
-    u16 *dp;
-    u16 diff;
     s32 x, y;
     u16 i;
     u8 c;
@@ -1203,11 +1198,11 @@ void sub_080785F4(u32 who, u32 arg)
     }
     ang = (u16)atan85F4(dx, dy) >> 8;
     {
-        u16 t2 = ang;
-        if (ang > 0x80)
-            t2 = ang - 0x100;
-        a = t2;
+        s16 t2 = ang;
+        if (t2 > 0x80)
+            ang = (u16)(t2 - 0x100);
     }
+    a = ang;
     {
         s16 sa = a;
         if (sa < 0)
@@ -1218,16 +1213,16 @@ void sub_080785F4(u32 who, u32 arg)
         if (sa > 0x100)
             a = sa - 0x100;
     }
-    diff = ((s16)a >> 4) - dir85F4[e->dir];
+    t = (u16)(((s16)a >> 4) - dir85F4[e->dir]);
     {
-        s16 sd = diff;
+        s16 sd = t;
         if (sd > 8)
-            diff = sd - 16;
+            t = (u16)(sd - 16);
     }
-    t = (s16)diff;
-    if ((s32)t < 0)
+    t = (s16)t;
+    if (t < 0)
         t = -t;
-    if ((s32)t > 3)
+    if (t > 3)
         a = dir85F4[e->dir];
     sub_08007290(e->f22C | 0xB0000);
     dir = e->dir;
@@ -1286,11 +1281,9 @@ void sub_080785F4(u32 who, u32 arg)
         x += sin85F4[(s16)a + 0x40] * spd / 10;
         y += sin85F4[(s16)a] * spd / 10;
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
-            sx = x >> 8;
-            sy = y >> 8;
-            coords85F4((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
+            coords85F4((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
             c2 = sub_0800BC44(sx, sy, 0);
-            sub_080659BC(&spr, dx + off85F4[(s16)dir].x, dy + off85F4[(s16)dir].y, 0, pal, c2);
+            sub_080659BC(&spr, dx + off85F4[(s16)dir][0], dy + off85F4[(s16)dir][1], 0, pal, c2);
         }
         sub_080003F0();
         if (sub_0800CB78() != 0 || sub_0800CD00() != 0)
@@ -1306,9 +1299,6 @@ done:
 clear:
     f85F4[who + 4] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080785F4);
-#endif
 extern void sub_080785F4();
 void sub_08078B24(u32 who, u32 b)
 {
