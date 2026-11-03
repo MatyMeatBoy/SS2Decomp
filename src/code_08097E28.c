@@ -2832,7 +2832,7 @@ void sub_0809CC2C_(u8 idx)
     s32 last;
     u32 speed;
     s32 mode;
-    u32 prevFrame, prevMode;
+    u16 prevFrame; u32 prevMode;
     u16 blink;
     u16 flash;
     s32 flag;
@@ -2980,7 +2980,7 @@ void sub_0809CC2C_(u8 idx)
         }
         if (prevFrame != *p68 || prevMode != mode) {
             prevMode = mode;
-            prevFrame = ent->f68;
+            prevFrame = *p68;
             *p6c = 0;
             *p6a = 0;
         }
