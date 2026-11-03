@@ -1,0 +1,32 @@
+{
+  "address": "0x080AB2F8",
+  "updated_utc": "2026-11-03T08:30:10+00:00",
+  "checkpoint": "NONMATCHING draft in src/code_080A9680.c (nov03-w2, shard 112). Candidate 3868 bytes vs original 3868 with the same 148-call order; about 46 normalized instruction lines still differ, all register choice, reload rotation, scheduling or loop-invariant order.",
+  "areas": [
+    {
+      "id": "stack_abi",
+      "label": "Stack frame, spill slots and call arguments",
+      "state": "done",
+      "evidence": "Frame 0xD0 is reproduced: sp+0x10 and sp+0x44 are two 0x34-byte animation records, sp+0x78/0x7A are the s16 screen position pair, and spills 0x7C..0xCC follow declaration order. 0xCC is the spilled fourth argument (actor->f6A) of the first draw call, not a separate variable. The u16/u8 counters (sp94, sp9C, spA0, spA8, spAC, spB0, spBC, spC0, spC4) are typed narrow, which gives the PROMOTE_MODE lsl/lsr updates without casts."
+    },
+    {
+      "id": "cfg",
+      "label": "Control flow and block layout",
+      "state": "done",
+      "evidence": "The candidate has the same sequence of 148 BL targets as the original. Head wait loop is while (gUnk_03000438 == 0xFFFF). The main loop is a goto loop (no loop notes). Case 2 has three full copies of the f1FE/f1FD/67C18/97A38 tail, which cross-jumping merges only at strb r6. The final switch(sp90) uses plain per-case stores of spB4. The 0x5DF38 result is stored in both branches. The first tail loop is a do-while."
+    },
+    {
+      "id": "regs",
+      "label": "Register allocation and reload order",
+      "state": "active",
+      "evidence": "arg0 is no longer a fixed asm(\"sl\") variable: it gets sl naturally once the first tail loop does not hoist const 1 and &sp78. Other details that now match the original: selectedPlayer112 is shared between cases 2 and 3 (r4 across calls), the f1FC idx is a u8:4 bitfield, the shared u8 tile value is in r7, and the constant 1/0x78/0 locals are REG_EQUIV (reload rematerializes movs). What still differs: reload rotation in case 0 (seg 19) and case 6 (seg 40); local allocation of the case 3 bitfield RMW; the first tail loop, where the 332 multiply gets a separate product register and the r8 reload is not inherited in r4, which also turns bne into beq+b; loop-2 pre-header order, where the original hoists &sp78 before gUnk_03003D10 (literal gUnk_03003D10 vs our gUnk_03003CE0+0x30); and the final countdown, where (x<<16)+0xFFFF0000 vs (x+0xFFFF)<<16 shows up with only -1 hoisted."
+    },
+    {
+      "id": "full_match",
+      "label": "Verify matching C in the normal ROM build",
+      "state": "pending",
+      "evidence": "The normal build still uses the original ASM through INCLUDE_ASM. make compare OK and make nonmatching build. No matching bytes are claimed."
+    }
+  ],
+  "regions": []
+}
