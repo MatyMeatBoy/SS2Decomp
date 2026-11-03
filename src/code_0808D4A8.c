@@ -1606,7 +1606,199 @@ u32 sub_0808F15C(u32 arg)
 fail:
     return 0;
 }
+#ifdef NONMATCHING
+struct AnimF1E4 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[24]; };
+struct DataF1E4 { u8 p0[4]; s16 f4, f6; };
+struct EntF1E4 {
+    u16 f0; u8 p2[0xA]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x30]; s32 f4C; u8 p50[0xC];
+    s16 f5C, f5E; u8 p60[8]; u16 f68, f6A, f6C; u8 p6E[0x166];
+    s16 f1D4, f1D6; u8 p1D8[4]; u8 f1DC; u8 p1DD[0x27]; struct DataF1E4 data;
+};
+extern u8 tableF1E4[] asm("gUnk_084AA740");
+extern u32 activeF1E4 asm("gUnk_030056FC");
+extern u32 frameF1E4 asm("gUnk_03002344");
+extern void setupF1E4(struct EntF1E4 *, void *, s32) asm("sub_0801623C");
+extern void resetF1E4(void) asm("sub_08019F60");
+extern u16 allocF1E4(s32, u32) asm("sub_08016E04");
+extern void freeF1E4(s32) asm("sub_08016ECC");
+extern s32 flagF1E4(s32, s32) asm("sub_0805853C");
+extern void thinkF1E4(struct EntF1E4 *) asm("sub_0801C8F0");
+extern s32 hpF1E4(struct EntF1E4 *) asm("sub_08019CE8");
+extern void setFlagF1E4(s32, s32) asm("sub_08057A20");
+extern void clrFlagF1E4(s32, s32) asm("sub_08057AA4");
+extern void sfxF1E4(s32) asm("sub_0805865C");
+extern void initF1E4(struct AnimF1E4 *, u32, u32, s32, u32) asm("sub_08065158");
+extern u32 prioF1E4(s32, s32, s32) asm("sub_0800BC44");
+extern void coordF1E4(s16, s16, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void drawF1E4(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern void hitNumF1E4(struct EntF1E4 *, s32, s16) asm("sub_0801A120");
+extern u32 dropF1E4(s32, s32, u16 *) asm("sub_08066490");
+extern void palF1E4(u32, const void *, u32) asm("sub_08000AF0");
+
+/* Boss-like map object task: draw, blink on hits, show damage numbers,
+ * drop items when defeated (state 11). */
+void sub_0808F1E4_v(struct EntF1E4 *e) asm("sub_0808F1E4");
+void sub_0808F1E4_v(struct EntF1E4 *e)
+{
+    struct AnimF1E4 anim;
+    struct AnimF1E4 anim2;
+    u16 pkt[8];
+    s16 sx, sy;
+    struct DataF1E4 *data;
+    u32 slot;
+    u32 hitOff;
+    u32 prio2;
+    s32 lastHit;
+    u32 blinking;
+    u32 blinkTimer;
+    u32 hitTimer;
+    u32 prio;
+    s32 pct;
+    u32 limit;
+
+    setupF1E4(e, tableF1E4, 0);
+    data = &e->data;
+    resetF1E4();
+    limit = 0xFFFF;
+    while ((slot = allocF1E4(0x5012F, 0)) == limit) {
+        e->fC = 11;
+        if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
+            activeF1E4 &= ~(1 << e->f0);
+            return;
+        }
+        sub_080003F0();
+    }
+    e->f6C = 0;
+    e->f6A = 0;
+    e->f68 = 0;
+    e->f5C = e->f1D6 = data->f6 * 3;
+    e->f5E = e->f1D4 = (data->f4 * 2 + (data->f4 << 3)) * 2;
+    e->fC = 0;
+    blinkTimer = 0;
+    blinking = 0;
+    hitTimer = 0xFFFF;
+    lastHit = 0;
+    e->f4C = 0;
+    if (flagF1E4(0x1B, 1) != 0 || flagF1E4(0x1B, 0) != 0) {
+        activeF1E4 &= ~(1 << e->f0);
+        freeF1E4(slot);
+        return;
+    }
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        thinkF1E4(e);
+        switch (e->fC) {
+        case 0:
+            initF1E4(&anim, 0x5012F, slot, -1, 0);
+            e->f68 = 0;
+            break;
+        case 10:
+            if (!blinking) {
+                blinking = 1;
+                blinkTimer = 8;
+            }
+            break;
+        case 11:
+            e->f1DC = 0;
+            sfxF1E4(0x3F);
+            goto finish;
+        }
+        prio = (u8)prioF1E4(e->x >> 8, e->y >> 8, 0);
+        prio2 = prio;
+        anim.data[0] = slot;
+        coordF1E4(e->x >> 8, e->y >> 8, &sx, &sy, 0x30, 0);
+        if (blinking) {
+            if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+                if (blinkTimer & 1)
+                    drawF1E4(sx, sy, e->f68, e->f6A, prio, anim.data, anim.w8, anim.w0);
+                drawF1E4(sx, sy, 5, 0, prio, anim.data, anim.w8, anim.w0);
+            }
+            blinkTimer = (u16)(blinkTimer - 1);
+            if (blinkTimer == 0) {
+                if (e->fC == 11) {
+                    e->f1DC = blinkTimer;
+                    goto finish;
+                }
+                e->fC = blinkTimer;
+                hpF1E4(e);
+                blinking = 0;
+                pct = e->f5C * 100 / e->f1D6;
+                if (pct <= 9) {
+                    setFlagF1E4(0x1B, 1);
+                    setFlagF1E4(0x1B, 0);
+                    e->f6A = 4;
+                } else if (pct <= 19) {
+                    e->f6A = 3;
+                } else if (pct <= 29) {
+                    e->f6A = 2;
+                } else if (pct <= 49) {
+                    e->f6A = 1;
+                } else {
+                    e->f6A = blinkTimer;
+                }
+            }
+        } else {
+            if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+                if (e->fC != 11)
+                    drawF1E4(sx, sy, e->f68, e->f6A, prio, anim.data, anim.w8, anim.w0);
+                drawF1E4(sx, sy, 5, 0, prio2, anim.data, anim.w8, anim.w0);
+            }
+        }
+        if (e->f4C != 0 && lastHit != e->f4C) {
+            if ((s16)hpF1E4(e))
+                blinkTimer = 10;
+            lastHit = e->f4C;
+            hitTimer = 10;
+            hitOff = 0;
+        }
+        {
+            u32 old = hitTimer;
+            hitTimer = (u16)(old - 1);
+            if (!(old & 0x8000)) {
+                if (lastHit == 0) {
+                    hitTimer = 0xFFFF;
+                } else {
+                    if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                        hitNumF1E4(e, lastHit, hitOff);
+                    if (hitTimer & 2)
+                        hitOff = (u16)(hitOff - 1);
+                }
+            } else {
+                hitTimer = 0xFFFF;
+                lastHit = 0;
+                e->f4C = 0;
+            }
+        }
+        if (sub_0800CCCC() == 0 && (frameF1E4 & 1) == (e->f0 & 1))
+            palF1E4(slot + 0x10, anim.graphics, 1);
+        sub_080003F0();
+    }
+finish:
+    if (sub_08002204() != 0) {
+        if (e->fC == 11) {
+            setFlagF1E4(0x1B, 1);
+            setFlagF1E4(0x1B, 0);
+            pkt[0] = 9;
+            pkt[2] = 100;
+            pkt[1] = 0;
+            while (dropF1E4(e->x, e->y, pkt) == 0 && sub_08056E90() == 0)
+                sub_080003F0();
+            pkt[1] = 1;
+            while (dropF1E4(e->x, e->y, pkt) == 0 && sub_08056E90() == 0)
+                sub_080003F0();
+            pkt[1] = 2;
+            while (dropF1E4(e->x, e->y, pkt) == 0 && sub_08056E90() == 0)
+                sub_080003F0();
+        } else {
+            clrFlagF1E4(0x1B, 1);
+            clrFlagF1E4(0x1B, 0);
+        }
+    }
+    activeF1E4 &= ~(1 << e->f0);
+    freeF1E4(slot);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F1E4);
+#endif
 extern s16 scrollPosF6A8 asm("gUnk_030031EE");
 void sub_0808F6A8(void)
 {

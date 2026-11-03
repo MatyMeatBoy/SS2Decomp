@@ -1,0 +1,7 @@
+shard 94 notes (nov03-w4)
+
+sub_0808F1E4: draft added, 1216/1220. Spill slots match with locals declared
+  slot, hitOff, prio2, lastHit, blinking, blinkTimer, hitTimer (prio2 = copy of
+  prio used only by the non-blinking second draw). Left: reload reg choice for the
+  zero stores at init, `hitOff - 1` form ((x<<16)+0xFFFF0000>>16 in ROM), the
+  `& 0x8000` constant copy, operand order of the *20 multiply.
