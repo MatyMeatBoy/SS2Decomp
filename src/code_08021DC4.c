@@ -5887,4 +5887,76 @@ void sub_08028918(void) {
     } while (i <= 0xE);
     gUnk_03005CF0 = 0;
 }
+#ifdef NONMATCHING
+struct Task0289C0 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+struct Actor0289C0 { u32 id; s32 kind; s32 x, y; u8 p10[0x2C]; u32 state; u8 p40[8]; struct Task0289C0 task; };
+struct State0289C0 { u8 p0[0x4C]; u32 nextId; u8 p50[4]; u32 mask; u8 p58[0x74C]; struct Actor0289C0 actors[15]; };
+extern struct State0289C0 *state0289C0 asm("gUnk_03005CF4");
+extern void actorMain0289C0(void) asm("sub_080284F4");
+extern void actorEnd0289C0(void) asm("sub_0805A780");
+static inline struct Actor0289C0 *find0289C0(u32 id)
+{
+    struct Actor0289C0 *p = state0289C0->actors;
+    u32 i;
+
+    i = 0;
+    do {
+        if (p->id == id)
+            return p;
+        i++;
+        p++;
+    } while (i <= 14);
+    sub_080003F0();
+    return NULL;
+}
+/* Spawn an actor of the given kind at (x, y) and wait for it to leave state 1.
+ * Exact size; only block order differs: the ROM places the inlined find's
+ * "found" exit after the id = 0 path (which ends in its own branch). */
+s32 sub_080289C0(s32 kind, s32 x, s32 y)
+{
+    struct Actor0289C0 *a;
+    struct Task0289C0 *t;
+    u32 i;
+    u32 id;
+    u32 mem;
+
+    a = state0289C0->actors;
+    i = 0;
+    t = &state0289C0->actors[0].task;
+    goto test;
+next:
+    i++;
+    a++;
+    t = &a->task;
+test:
+    if (i > 14)
+        goto none;
+    if (sub_08000470((u32)t))
+        goto next;
+    state0289C0->mask |= 1 << i;
+    a->id = state0289C0->nextId;
+    state0289C0->nextId++;
+    a->kind = kind;
+    a->state = 1;
+    a->x = x << 8;
+    a->y = y << 8;
+    a->task.f8 = 0x3C;
+    mem = (u32)sub_08001494(0x400);
+    a->task.f20 = mem;
+    a->task.fC = (u32)actorMain0289C0;
+    a->task.f10 = mem + 0x3FC;
+    a->task.f24 = (u32)actorEnd0289C0;
+    sub_08000274(t, a);
+    id = a->id;
+    goto wait;
+none:
+    id = 0;
+wait:
+    a = find0289C0(id);
+    while (a->state == 1)
+        sub_080003F0();
+    return id;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080289C0);
+#endif
