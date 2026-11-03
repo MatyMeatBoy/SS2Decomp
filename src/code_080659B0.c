@@ -834,6 +834,7 @@ extern u32 gRxEntityMask asm("gUnk_030056FC");
 extern u8 *gRxGameState asm("gUnk_03005CF4");
 extern u32 gRxRingIdx[] asm("gUnk_03006210");
 extern u32 gRxRing[] asm("gUnk_03006260");
+extern u32 gRxRing2[][10] asm("gUnk_03006260");
 extern u8 gRxFlag asm("gUnk_03006220");
 extern u8 *gRxQueue asm("gUnk_03006300");
 extern u32 gRxQueueCount asm("gUnk_03006338");
@@ -844,6 +845,86 @@ extern u8 gRxByteA asm("gUnk_0300636C");
 extern u8 gRxByteB asm("gUnk_03006224");
 extern u8 gRxByteC asm("gUnk_03006228");
 #define RX_PL(i) ((u8 *)gUnk_03003CE0 + (i) * 0x14C)
+struct RxRec { u8 p0[4]; u8 kind:6; };
+struct RxBlk32 { u32 w[8]; };
+struct RxPlayer {
+    u8 p0[2];
+    u8 name[10];
+    u16 fC;
+    u16 fE;
+    u16 f10;
+    u8 p12[0xE];
+    u16 f20;
+    u8 p22[0xA];
+    u16 f2C;
+    u16 f2E;
+    u32 f30;
+    u8 p34[4];
+    u8 f38[0x20];
+    u8 f58[0xA];
+    u16 f62;
+    u16 f64;
+    u8 f66;
+    u8 p67;
+    u8 f68;
+    u8 p69[4];
+    s8 f6D;
+    u8 p6E[0x88 - 0x6E];
+    u16 f88;
+    u8 p8A[2];
+    u32 f8C;
+    u32 f90;
+    u8 p94[0xC4 - 0x94];
+    u16 fC4;
+    u8 pC6[0xE0 - 0xC6];
+    u32 fE0;
+    u8 pE4[0x110 - 0xE4];
+    u32 f110;
+    u8 p114[0x11E - 0x114];
+    u16 f11E;
+    u8 p120[0x148 - 0x120];
+    struct RxRec *f148;
+};
+extern struct RxPlayer gRxPlayers[] asm("gUnk_03003CE0");
+struct RxEnt {
+    u16 f0;
+    u16 f2;
+    u8 p4[8];
+    u16 fC;
+    u8 pE[6];
+    u32 f14;
+    u32 f18;
+    u8 p1C[0x4A - 0x1C];
+    u16 f4A;
+    u32 f4C;
+    u8 p50[8];
+    u16 f58;
+    u16 f5A;
+    u16 f5C;
+    u8 p5E[4];
+    u16 f62;
+    u8 p64[0x7A - 0x64];
+    u16 f7A;
+    u8 p7C[0x8A - 0x7C];
+    u16 f8A;
+    u8 p8C[0x1FC - 0x8C];
+    struct RxV2 { u32 a; u8 b0, b1, b2, b3; } f1FC;
+    u16 f204;
+    u16 f206;
+    u16 f208;
+    s16 f20A;
+    u8 p20C[0x226 - 0x20C];
+    u8 f226;
+    u8 p227[0x2E0 - 0x227];
+};
+extern struct RxEnt *gRxEnts asm("gUnk_030056F4");
+extern u8 gRxPl58[] asm("gUnk_03003D38");
+extern u8 gRxPl38[] asm("gUnk_03003D18");
+struct RxGs {
+    u8 p0[0x59C];
+    struct RxSlot { u16 hp; u16 f59E; u16 state; u8 p6[0x1E]; } slot[4];
+};
+extern struct RxGs *gRxGs asm("gUnk_03005CF4");
 #define RX_ENT(i) (gRxEntities + (i) * 0x2E0)
 #define RX_ENQ(tag, chunks, e) \
     do { \
@@ -864,50 +945,64 @@ void sub_0806690C(u32 peer)
     u8 *ack, *blk;
     u32 chunks;
     s32 tag;
-    u32 i, cnt, last, wait, idx, spawnKind;
+    u32 i, j, last, wait, spawnKind, c;
     u32 *spawnTail;
     u8 *spawnRecord;
     u8 *pl, *ent, *e;
+    struct RxV2 *v;
 
     myId = sub_080020F4();
-    ack = sub_08002118(myId) + 0x14 + peer;
-    blk = (u8 *)sub_08002238(peer) + 8;
-    for (;;) {
+    {
+        u8 *p = sub_08002118(myId);
+        u8 *q = (u8 *)sub_08002238(peer);
+        ack = p + 0x14;
+        ack += peer;
+        blk = q + 8;
+    }
+restart:
+    {
         /* phase A: wait for an announce */
-        cnt = 1;
+        j = 1;
         do {
             sub_080003F0();
-            if (blk[0] == 0xB1 && (s32)blk[1] <= 0xB0 && (s32)blk[1] >= 0x81) {
-                cnt = 0;
-                tag = blk[1];
-                chunks = blk[2];
+            if (blk[0] == 0xB1) {
+                s32 t = blk[1];
+                if (t > 0xB0) {
+                } else if (t < 0x81) {
+                } else {
+                    j = 0;
+                    tag = t;
+                    chunks = blk[2];
+                }
             }
             *ack = 0x80;
-        } while (cnt != 0);
+        } while (j != 0);
         /* phase B: ack the tag until the sender starts the chunks */
-        cnt = 0;
+        wait = 0;
         do {
             *ack = tag;
             sub_080003F0();
+            c = 0xB3;
             if (gRxLinkState & (1 << peer)) {
-                cnt++;
-                if (cnt > 0x3C)
-                    goto restart;
-                if (blk[1] == 0xB2)
+                c = blk[1];
+                wait++;
+                if (wait > 0x3C)
                     break;
             }
-        } while (1);
+        } while (c != 0xB2);
+        if (wait > 0x3C)
+            goto restart;
         /* phase C: receive the chunks */
-        last = 0xFFFFFFFF;
         wait = 0;
-        idx = 0;
-        if (chunks != 0) {
-            do {
-                idx = blk[2] - 1;
-                if (idx < 0x100) {
-                    idx *= 2;
-                    d[idx] = *(u32 *)(blk + 4);
-                    d[idx + 1] = *(u32 *)(blk + 8);
+        last = 0xFFFFFFFF;
+        j = 0;
+        {
+            while (j < chunks) {
+                j = blk[2] - 1;
+                if (j < 0x100) {
+                    j *= 2;
+                    d[j] = *(u32 *)(blk + 4);
+                    d[j + 1] = *(u32 *)(blk + 8);
                     *ack = 0x80 - blk[2];
                     sub_080003F0();
                     if (last == blk[2]) {
@@ -919,36 +1014,38 @@ void sub_0806690C(u32 peer)
                     }
                     if (wait > 0x3C)
                         break;
-                    idx = blk[2] - 1;
+                    j = blk[2] - 1;
                 }
-            } while (idx < chunks);
+            }
         }
-        if (wait > 0x3C && idx < chunks)
-            continue;
+        if (wait > 0x3C && j < chunks)
+            goto restart;
         *ack = blk[2];
         sub_0800224C();
-        pl = RX_PL(peer);
         switch (tag - 0x81) {
         case 0: /* profile: 10 bytes -> Player+2 */
-            for (i = 0; i < 10; i++)
-                pl[2 + i] = ((u8 *)d)[i];
+            {
+                u8 *src = (u8 *)d;
+                for (j = 0; j < 10; j++)
+                    gRxPlayers[peer].name[j] = src[j];
+            }
             break;
         case 1: /* two u16 at Player+0xC; remote also +0x64/+0x66 */
-            *(u16 *)(pl + 0xC) = d[0];
-            *(u16 *)(pl + 0xE) = d[0] >> 16;
+            gRxPlayers[peer].fC = d[0];
+            gRxPlayers[peer].fE = d[0] >> 16;
             if (peer != sub_080020F4()) {
-                *(u16 *)(pl + 0x64) = d[0];
-                pl[0x66] = d[0] >> 16;
+                gRxPlayers[peer].f64 = d[0];
+                gRxPlayers[peer].f66 = d[0] >> 16;
             }
             break;
         case 2:
             if (peer != sub_080020F4())
-                *(u16 *)(pl + 0x10) = d[0];
+                gRxPlayers[peer].f10 = d[0];
             break;
         case 3: /* ring of 9 words per peer */
-            gRxRing[gRxRingIdx[peer] + peer * 10] = d[0];
+            gRxRing2[peer][gRxRingIdx[peer]] = d[0];
             gRxRingIdx[peer]++;
-            if (gRxRingIdx[peer] > 9)
+            if (gRxRingIdx[peer] >= 9)
                 gRxRingIdx[peer] = 9;
             break;
         case 4:
@@ -963,8 +1060,8 @@ void sub_0806690C(u32 peer)
             break;
         case 7: /* entity id == d[0]: set bit 1 of +0x7A */
             for (i = 0; i < 5; i++) {
-                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                    *(u16 *)(RX_ENT(i) + 0x7A) |= 1;
+                if ((gRxEntityMask & (1 << i)) && d[0] == gRxEnts[i].f2) {
+                    gRxEnts[i].f7A |= 1;
                     break;
                 }
             }
@@ -972,12 +1069,11 @@ void sub_0806690C(u32 peer)
         case 8: /* remote only: entity id == d[0] -> state 10, flag 0x80 */
             if (peer != sub_080020F4()) {
                 for (i = 0; i < 5; i++) {
-                    if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                        ent = RX_ENT(i);
-                        *(u16 *)(ent + 0xC) = 10;
-                        *(u16 *)(ent + 0x7A) |= 0x80;
-                        *(u16 *)(ent + 0x4A) = *(u16 *)(ent + 0x5C);
-                        *(u32 *)(ent + 0x4C) = *(u16 *)(ent + 0x4A);
+                    if ((gRxEntityMask & (1 << i)) && d[0] == gRxEnts[i].f2) {
+                        gRxEnts[i].fC = 10;
+                        gRxEnts[i].f7A |= 0x80;
+                        gRxEnts[i].f4A = gRxEnts[i].f5C;
+                        gRxEnts[i].f4C = gRxEnts[i].f4A;
                         break;
                     }
                 }
@@ -985,12 +1081,11 @@ void sub_0806690C(u32 peer)
             break;
         case 0x2F: /* tag 0xB0: entity id == d[0] -> state 10, flag 0x80 */
             for (i = 0; i < 5; i++) {
-                if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                    ent = RX_ENT(i);
-                    *(u16 *)(ent + 0x7A) |= 0x80;
-                    *(u16 *)(ent + 0xC) = 10;
-                    *(u16 *)(ent + 0x4A) = *(u16 *)(ent + 0x5C);
-                    *(u32 *)(ent + 0x4C) = *(u16 *)(ent + 0x4A);
+                if ((gRxEntityMask & (1 << i)) && d[0] == gRxEnts[i].f2) {
+                    gRxEnts[i].f7A |= 0x80;
+                    gRxEnts[i].fC = 10;
+                    gRxEnts[i].f4A = gRxEnts[i].f5C;
+                    gRxEnts[i].f4C = gRxEnts[i].f4A;
                     break;
                 }
             }
@@ -1002,44 +1097,41 @@ void sub_0806690C(u32 peer)
                 u32 roll;
                 if (hit[0] > 3) {
                     for (i = 0; i < 5; i++) {
-                        if ((gRxEntityMask & (1 << i)) && hit[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                            ent = RX_ENT(i);
+                        if ((gRxEntityMask & (1 << i)) && hit[0] == gRxEnts[i].f2) {
                             if (!(*(u16 *)(hit + 4) & 0x8000))
-                                *(u16 *)(ent + 0xC) = 10;
-                            ent = RX_ENT(i);
-                            *(u16 *)(ent + 0x58) = peer;
-                            *(u16 *)(ent + 0x4A) += *(u16 *)(hit + 4) & 0x7FFF;
-                            *(u32 *)(ent + 0x4C) = *(u16 *)(hit + 4);
-                            *(u16 *)(ent + 0x62) = hit[1];
-                            if (ent[0x226] != 3)
-                                *(u16 *)(ent + 0x5A) |= 1 << peer;
-                            x_sub_0801F2CC(RX_ENT(i), hit);
-                            effect = (u8 *)x_sub_0801E244(RX_ENT(i), hit[1]);
+                                gRxEnts[i].fC = 10;
+                            gRxEnts[i].f58 = peer;
+                            gRxEnts[i].f4A += *(u16 *)(hit + 4) & 0x7FFF;
+                            gRxEnts[i].f4C = *(u16 *)(hit + 4);
+                            gRxEnts[i].f62 = hit[1];
+                            if (gRxEnts[i].f226 != 3)
+                                gRxEnts[i].f5A |= 1 << peer;
+                            x_sub_0801F2CC(&gRxEnts[i], hit);
+                            effect = (u8 *)x_sub_0801E244(&gRxEnts[i], hit[1]);
                             if (effect != 0) {
-                                x_sub_0801DB94(*(u16 *)RX_ENT(i) + 4, effect, hit[1]);
+                                x_sub_0801DB94(gRxEnts[i].f0 + 4, effect, hit[1]);
                             } else {
-                                effect = (u8 *)x_sub_0801E104(RX_ENT(i), 0);
+                                effect = (u8 *)x_sub_0801E104(&gRxEnts[i], 0);
                                 if (effect != 0)
-                                    x_sub_0801DB94(*(u16 *)RX_ENT(i) + 4, effect, hit[1]);
+                                    x_sub_0801DB94(gRxEnts[i].f0 + 4, effect, hit[1]);
                             }
                             if (hit[1] == 3)
-                                x_sub_08021E44(*(u16 *)RX_ENT(i) + 4, 1);
+                                x_sub_08021E44(gRxEnts[i].f0 + 4, 1);
                         }
                     }
                 } else {
                     if (hit[0] == sub_080020F4()) {
-                        x_sub_0801F320(RX_PL(sub_080020F4()), hit);
-                        ent = RX_PL(sub_080020F4());
-                        *(u16 *)(ent + 0x88) += *(u16 *)(hit + 4) & 0x7FFF;
-                        *(u32 *)(RX_PL(sub_080020F4()) + 0x110) = peer + 1;
+                        x_sub_0801F320(&gRxPlayers[sub_080020F4()], d);
+                        gRxPlayers[sub_080020F4()].f88 += *(u16 *)(hit + 4) & 0x7FFF;
+                        gRxPlayers[sub_080020F4()].f110 = peer + 1;
                         roll = x_sub_080008C8() % 100U;
-                        if ((u32)(s8)RX_PL(sub_080020F4())[0x6D] < roll) {
-                            *(u16 *)(RX_PL(sub_080020F4()) + 0x20) = 10;
-                            effect = (u8 *)x_sub_0801E1A4(RX_PL(sub_080020F4()), hit[1]);
+                        if ((u32)gRxPlayers[sub_080020F4()].f6D < roll) {
+                            gRxPlayers[sub_080020F4()].f20 = 10;
+                            effect = (u8 *)x_sub_0801E1A4(&gRxPlayers[sub_080020F4()], hit[1]);
                             if (effect != 0) {
                                 x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
                             } else {
-                                effect = (u8 *)x_sub_0801E164(RX_PL(sub_080020F4()), 0);
+                                effect = (u8 *)x_sub_0801E164(&gRxPlayers[sub_080020F4()], 0);
                                 if (effect != 0)
                                     x_sub_0801DB94(sub_080020F4(), effect, hit[1]);
                             }
@@ -1080,7 +1172,7 @@ void sub_0806690C(u32 peer)
             break;
         case 0xB:
             if (peer != sub_080020F4())
-                *(u32 *)(pl + 0x30) = d[0];
+                gRxPlayers[peer].f30 = d[0];
             break;
         case 0xC:
             *(u32 *)(gRxGameState + 0x40) = d[0];
@@ -1088,21 +1180,21 @@ void sub_0806690C(u32 peer)
             break;
         case 0xD:
             if (peer != sub_080020F4())
-                CpuSet(d, pl + 0x58, 0x0400000C);
+                CpuSet(d, gRxPl58 + peer * 0x14C, 0x0400000C);
             break;
         case 0xE:
             if (peer != sub_080020F4())
-                CpuSet(d, pl + 0x38, 0x04000008);
+                CpuSet(d, gRxPl38 + peer * 0x14C, 0x04000008);
             break;
         case 0xF:
             *(u32 *)(gRxGameState + 0x38) |= d[0];
             break;
         case 0x10: /* remote only: entity (id = d[1]>>16) velocity */
+            v = (struct RxV2 *)d;
             if (peer != sub_080020F4()) {
                 for (i = 0; i < 5; i++) {
-                    if ((gRxEntityMask & (1 << i)) && (d[1] >> 16) == *(u16 *)(RX_ENT(i) + 2)) {
-                        *(u32 *)(RX_ENT(i) + 0x1FC) = d[0];
-                        *(u32 *)(RX_ENT(i) + 0x200) = d[1];
+                    if ((gRxEntityMask & (1 << i)) && ((u16 *)v)[3] == gRxEnts[i].f2) {
+                        gRxEnts[i].f1FC = *v;
                         break;
                     }
                 }
@@ -1111,48 +1203,55 @@ void sub_0806690C(u32 peer)
         case 0x11:
             if (peer != sub_080020F4()) {
                 for (i = 0; i < 5; i++) {
-                    if ((gRxEntityMask & (1 << i)) && d[0] == *(u16 *)(RX_ENT(i) + 2)) {
-                        *(u32 *)(RX_ENT(i) + 0x14) = d[1];
-                        *(u32 *)(RX_ENT(i) + 0x18) = d[2];
+                    if ((gRxEntityMask & (1 << i)) && d[0] == gRxEnts[i].f2) {
+                        gRxEnts[i].f14 = d[1];
+                        gRxEnts[i].f18 = d[2];
                     }
                 }
             }
             break;
         case 0x13: /* damage list: d[0] entries of {s16 amount, u8 target, u8 flag}, hp slots 0x24 bytes apart */
             if (peer != sub_080020F4()) {
-                u8 *src = (u8 *)&d[1];
-                for (i = 0; i < d[0]; i++, src += 4) {
-                    u8 *slot = gRxGameState + src[2] * 0x24;
-                    u16 state = *(u16 *)(slot + 0x5A0);
-                    if (state != 0xB && state != 0xC) {
-                        *(u16 *)(slot + 0x59C) -= *(u16 *)src;
-                        slot = gRxGameState + src[2] * 0x24;
-                        if (*(u16 *)(slot + 0x59C) & 0x8000)
-                            *(u16 *)(slot + 0x59C) = 0;
-                        slot = gRxGameState + src[2] * 0x24;
-                        *(u16 *)(slot + 0x59E) = src[3];
-                        slot = gRxGameState + src[2] * 0x24;
-                        *(u16 *)(slot + 0x5A0) = 0xA;
-                    }
+                u32 *count = d;
+                struct RxDmg { u16 amount; u8 target; u8 flag; } *src;
+                for (j = 0; j < *count; j++) {
+                    u16 state;
+                    src = &((struct RxDmg *)(count + 1))[j];
+                    state = gRxGs->slot[src->target].state;
+                    if (state != 0xB)
+                        if (state != 0xC) {
+                            gRxGs->slot[src->target].hp -= src->amount;
+                            if (gRxGs->slot[src->target].hp & 0x8000)
+                                gRxGs->slot[src->target].hp = 0;
+                            gRxGs->slot[src->target].f59E = src->flag;
+                            gRxGs->slot[src->target].state = 0xA;
+                        }
                 }
             }
             break;
         case 0x14: /* Host spawn, using the sender's equipped record type. */
             if (sub_080020F4() == 0) {
-                spawnKind = (*(u8 **)(RX_PL(peer) + 0x148))[4] & 0x3F;
-                spawnTail = &d[2];
-                goto spawn_record;
+                spawnRecord = (u8 *)x_sub_0805B2C4(d[0], d[1], gRxPlayers[peer].f148->kind, &d[2]);
+                if (sub_08002164() > 1)
+                    x_sub_0802230C(*(u32 *)spawnRecord, *(u32 *)(spawnRecord + 4), 1);
+                if (gRxQueueCount <= 0x31) {
+                    u8 *e;
+                    e = gRxQueue + gRxQueueCount * 0x88;
+                    *(u32 *)(e + 4) = 1;
+                    e[0] = 0x98;
+                    CpuSet(spawnRecord, e + 8, 0x04000008);
+                    e[1] = 4;
+                    gRxQueueCount++;
+                }
             }
             break;
         case 0x15:
             if (sub_080020F4() == 0) {
-                spawnKind = (u16)d[2];
-                spawnTail = &d[3];
-spawn_record:
-                spawnRecord = (u8 *)x_sub_0805B2C4(d[0], d[1], spawnKind, spawnTail);
+                spawnRecord = (u8 *)x_sub_0805B2C4(d[0], d[1], (u16)d[2], &d[3]);
                 if (sub_08002164() > 1)
                     x_sub_0802230C(*(u32 *)spawnRecord, *(u32 *)(spawnRecord + 4), 1);
                 if (gRxQueueCount <= 0x31) {
+                    u8 *e;
                     e = gRxQueue + gRxQueueCount * 0x88;
                     *(u32 *)(e + 4) = 1;
                     e[0] = 0x98;
@@ -1164,11 +1263,12 @@ spawn_record:
             break;
         case 0x16:
             if (sub_080020F4() == 0) {
-                u8 **recordSlot = (u8 **)(RX_PL(peer) + 0x148);
+                struct RxRec **recordSlot = &gRxPlayers[peer].f148;
                 u8 *record16;
-                if (x_sub_0805D37C(d[0], d[1], (*recordSlot)[4] & 0x3F) == 0) {
-                    record16 = (u8 *)x_sub_0805B2C4(d[0], d[1], (*recordSlot)[4] & 0x3F, &d[2]);
+                if (x_sub_0805D37C(d[0], d[1], (*recordSlot)->kind) == 0) {
+                    record16 = (u8 *)x_sub_0805B2C4(d[0], d[1], (*recordSlot)->kind, &d[2]);
                     if (gRxQueueCount <= 0x31) {
+                        u8 *e;
                         e = gRxQueue + gRxQueueCount * 0x88;
                         *(u32 *)(e + 4) = 1;
                         e[0] = 0x98;
@@ -1181,33 +1281,38 @@ spawn_record:
             break;
         case 0x17:
             if (sub_080020F4() != 0) {
-                u32 *q = (u32 *)x_sub_0805B618();
-                for (i = 0; i < 8; i++)
-                    q[i] = d[i];
+                *(struct RxBlk32 *)x_sub_0805B618() = *(struct RxBlk32 *)d;
             }
             break;
         case 0x18:
             if (sub_080020F4() == 0) {
                 u8 *record = (u8 *)x_sub_0805D460((u16)d[0]);
                 if (record == 0) {
+                    u16 pid = peer;
                     if (gRxQueueCount <= 0x31) {
+                        u8 *e;
                         e = gRxQueue + gRxQueueCount * 0x88;
                         *(u32 *)(e + 4) = 1;
                         e[0] = 0x9A;
-                        *(u32 *)(e + 8) = (u16)peer << 16;
+                        *(u32 *)(e + 8) = pid << 16;
                         *(u32 *)(e + 12) = *(u16 *)(record + 12);
                         e[1] = 1;
                         gRxQueueCount++;
                     }
                 } else {
+                    u16 pid;
+                    u32 one;
                     *(u16 *)(record + 10) = 2;
+                    pid = peer;
+                    one = 1;
                     if (gRxQueueCount <= 0x31) {
+                        u8 *e;
                         e = gRxQueue + gRxQueueCount * 0x88;
-                        *(u32 *)(e + 4) = 1;
+                        *(u32 *)(e + 4) = one;
                         e[0] = 0x9A;
-                        *(u32 *)(e + 8) = ((u16)peer << 16) | 1;
+                        *(u32 *)(e + 8) = (pid << 16) | one;
                         *(u32 *)(e + 12) = *(u16 *)(record + 12);
-                        e[1] = 1;
+                        e[1] = one;
                         gRxQueueCount++;
                     }
                 }
@@ -1225,6 +1330,7 @@ spawn_record:
                     item = record + 16;
                     if (x_sub_0805AB20(item) != 0) {
                         if (gRxQueueCount <= 0x31) {
+                            u8 *e;
                             e = gRxQueue + gRxQueueCount * 0x88;
                             *(u32 *)(e + 4) = 1;
                             e[0] = 0x9B;
@@ -1235,6 +1341,7 @@ spawn_record:
                         x_sub_0805865C(0x26);
                     } else {
                         if (gRxQueueCount <= 0x31) {
+                            u8 *e;
                             e = gRxQueue + gRxQueueCount * 0x88;
                             *(u32 *)(e + 4) = 1;
                             e[0] = 0x9B;
@@ -1307,6 +1414,7 @@ spawn_record:
             }
             break;
         case 0x1D: /* tag 0x9E */
+            pl = RX_PL(peer);
             x_sub_08065918(pl, d[0]);
             break;
         case 0x1E:
@@ -1320,9 +1428,9 @@ spawn_record:
             break;
         case 0x20:
             for (i = 0; i < 5; i++) {
-                if ((gRxEntityMask & (1 << i)) && (d[0] & 0xFF) == *(u16 *)(RX_ENT(i) + 2)) {
-                    *(u8 *)(RX_ENT(i) + 0x201) |= 2; /* shared tail at 0x08066AFC */
-                    *(u16 *)(RX_ENT(i) + 0x8A) = 0;
+                if ((gRxEntityMask & (1 << i)) && (d[0] & 0xFF) == gRxEnts[i].f2) {
+                    gRxEnts[i].f1FC.b1 |= 2;
+                    gRxEnts[i].f8A = 0;
                     *(u16 *)(gRxGameState + 0xC) = 1;
                     break;
                 }
@@ -1351,6 +1459,7 @@ spawn_record:
             x_sub_080793BC(peer);
             break;
         case 0x25:
+            pl = RX_PL(peer);
             *(u16 *)(pl + 0x11E) = d[0];
             break;
         case 0x26:
@@ -1369,6 +1478,7 @@ spawn_record:
                 if (*(u16 *)(player + 0x20) == 0xB)
                     *(u16 *)(player + 0x20) = 0;
                 if (gRxQueueCount <= 0x31) {
+                    u8 *e;
                     e = gRxQueue + gRxQueueCount * 0x88;
                     *(u32 *)(e + 4) = 1;
                     e[0] = 0x8C;
@@ -1441,8 +1551,7 @@ spawn_record:
         default:
             break;
         }
-    restart:
-        ;
+        goto restart;
     }
 }
 #else
