@@ -110,6 +110,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     u8 bg;
     u16 v;
     s32 h;
+    struct T015LAnim *anim;
     u16 w;
 
     sp118 = (struct T015LData *)((u8 *)arg0 + 0x204);
@@ -564,10 +565,11 @@ void sub_0801801C(struct T015LActor *arg0) {
         }
         if (sub_0800CC88() != 0)
             bg = gUnk_030034A8;
-        stack.main.data[0] = local114;
-        stack.main.data[1] = local114;
-        stack.main.data[2] = local114;
-        stack.main.data[3] = local114;
+        anim = &stack.main;
+        anim->data[0] = local114;
+        anim->data[1] = local114;
+        anim->data[2] = local114;
+        anim->data[3] = local114;
         arg0->f6E = sub_08065370(&stack.main, arg0->f68, (s32)&arg0->f6A, (s32)&arg0->f6C, local110);
         T015L_sub_0800BC08((arg0->f14 << 8) >> 16, (arg0->f18 << 8) >> 16, &stack.x, &stack.y, 0x30, NULL);
         if (T015L_sub_08017EC8(arg0) == 0 && !(T015L_F7A & 8)) {
@@ -685,7 +687,7 @@ void sub_0801801C(struct T015LActor *arg0) {
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
             switch (arg0->f226) {
             case 4: case 5: case 6: case 7:
-                stack.main.data[1] = local114;
+                anim->data[1] = local114;
             }
             if (local124 != 0) {
                 sub_08000AF0(local114 + 0x10, (void *)(stack.main.fC + (sp118->fD6 << 5)), 1);
