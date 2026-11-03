@@ -34,7 +34,587 @@ void sub_0808381C(u32 index);
 
 extern const u32 gUnk_084EBD4C[];
 
+#ifdef NONMATCHING
+// sub_0807A5D4 (stat/skill allocation menu): same size class, ~143 diff lines.
+// Left: CSE/regalloc of &mgr/&data and zero reuse in the state-0/1 confirm blocks,
+// iconW/bg/anim stack slot order, reload register choices.
+struct SkillA5D4 { u16 level, exp; };
+struct SkillsA5D4 { u16 points; u16 pad; struct SkillA5D4 e[8]; };
+struct StatsA5D4 { s16 v[5]; u16 points; s16 rest[10]; };
+struct ResultA5D4 { s16 v[0x18]; };
+struct DataA5D4 {
+    u8 *name;
+    u8 pad4[0xC];
+    struct StatsA5D4 stats;  /* 0x10 */
+    struct SkillsA5D4 skills; /* 0x30 */
+};
+struct MgrA5D4 {
+    u32 f0;
+    u32 state;
+    u8 pad8[4];
+    u32 cursor;
+    u8 pad10[4];
+    u32 prev;
+    u8 pad18[0xC];
+    u32 run;
+    u8 pad28[0x5B8 - 0x28];
+    u8 sprite[0x68];
+    u32 f620;
+};
+struct PlayerA5D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; s16 stat[4]; u8 pad40[0x20]; u16 f60, f62; u8 pad64[0x14C - 0x64]; };
+struct StageA5D4 { u8 pad[0x1FA]; u16 value; };
+struct IndexA5D4 { u8 pad[0x14A]; u16 value; };
+union BgA5D4 { u32 word; u16 half[2]; };
+
+extern struct MgrA5D4 *mgrA5D4 asm("gUnk_03006440");
+extern struct DataA5D4 *dataA5D4 asm("gUnk_030034E0");
+extern struct PlayerA5D4 playersA5D4[] asm("gUnk_03003CE0");
+extern struct StageA5D4 stageA5D4 asm("gUnk_03001F40");
+extern struct IndexA5D4 *indexA5D4 asm("gUnk_03005CF4");
+extern u16 tableA5D4Stage[] asm("gUnk_084EBD38");
+extern u16 keysA5D4_Held asm("gUnk_03001308");
+extern u16 keysA5D4_Rep asm("gUnk_0300130C");
+extern u16 keysA5D4_New asm("gUnk_03001324");
+void sub_08000990(s32, s32);
+void sub_080009F8(s32, s32, s32);
+void sub_0801AB50(s32);
+void sub_08058688(s32);
+void sub_080586B4(s32);
+s32 sub_08057B64(s32);
+void sub_0802A590(s32, s32);
+void sub_0801A664(u32 index, u32 value);
+u32 sub_08065158(void *arg0, u32 arg1, u32 arg2, s32 arg3, s32 arg4);
+void sub_08065230(void *arg0, s32 arg1, s32 arg2, u16 arg3, s32 arg4);
+void sub_0801A3D0(u8 *arg0, u32 arg1, u32 arg2);
+void sub_0805FB7C(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
+void sub_08065504(s32, s32, s32, s32, s32);
+void sub_08085014(u32, u32, u32);
+void sub_0808516C(void);
+s16 sub_0801A638_s16(u8 *) asm("sub_0801A638");
+
+void sub_0807A5D4_v(void) asm("sub_0807A5D4");
+void sub_0807A5D4_v(void)
+{
+    struct StatsA5D4 stats;
+    struct StatsA5D4 saved;
+    struct StatsA5D4 backup;
+    struct StatsA5D4 scratch;
+    struct ResultA5D4 res;
+    struct SkillsA5D4 delta;
+    struct SkillsA5D4 undo;
+    struct SkillsA5D4 work;
+    u16 zero1, zero2, zero3;
+    u16 iconH;
+    u32 iconW;
+    union BgA5D4 bg;
+    s32 anim;
+    u32 scroll;
+    u32 bounce;
+    u32 phase;
+    s32 from;
+    s32 to;
+    s32 t;
+    s32 dirty;
+    struct PlayerA5D4 *player;
+    u8 *text;
+    u8 *p;
+    s32 w;
+    u32 i;
+    s32 y;
+    u32 state;
+    u32 mode;
+    u32 flag;
+
+    mgrA5D4->f0 = 1;
+    sub_080009F8(0x1F00, 0, 1);
+    player = &playersA5D4[sub_080020F4()];
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    sub_0800B7DC(sub_0801DE60() + 6, 0x1D, 0x06000000, 0, 0xF);
+    sub_0800B7DC(0xF, 0x1A, 0x06000000, 0, 0xF);
+    sub_0800B7DC(0xE, 0x1B, 0x06000000, 0, 0xF);
+    sub_0800B650(0x40000004, 0x1F, 0x06000000, 0, 0xE);
+    sub_0800903C(4, 0x38, 1, 10, 7, 0);
+    sub_08000AF0(0xE, (void *)(sub_08007290(0x70003) + 0x1C0), 1);
+    stageA5D4.value = tableA5D4Stage[indexA5D4->value];
+    switch (gUnk_03003470) {
+    case 0: sub_08065158(mgrA5D4->sprite, 0x50006, 0, -1, 0); break;
+    case 1: sub_08065158(mgrA5D4->sprite, 0x50007, 0, -1, 0); break;
+    case 2: sub_08065158(mgrA5D4->sprite, 0x50008, 0, -1, 0); break;
+    case 3: sub_08065158(mgrA5D4->sprite, 0x50009, 0, -1, 0); break;
+    case 4: sub_08065158(mgrA5D4->sprite, 0x5000A, 0, -1, 0); break;
+    }
+    sub_08000990(0, 1);
+    sub_080009C0(0x1F00, 0, 1);
+    bg.word = (bg.word & 0xFFFF0000) | 0x1D01;
+    sub_08000AA8(1, bg.half);
+    bg.half[0] = 0x9A02;
+    sub_08000AA8(2, bg.half);
+    bg.half[0] = 0x1F03;
+    sub_08000AA8(3, bg.half);
+    phase = 0;
+    bounce = 10;
+    scroll = 0;
+    t = 0x400;
+    mgrA5D4->run = 1;
+    mgrA5D4->state = 0;
+    mgrA5D4->cursor = 0xFFFF;
+    mgrA5D4->f620 = 0;
+    sub_08000C08(8, 2);
+    if (sub_0805F184() == 0 && sub_0800CDF8() == 0 && sub_0800D060() == 0
+        && !(playersA5D4[sub_080020F4()].flags & 0x2000)) {
+        sub_0808516C();
+        sub_0801AB50(6);
+        if (sub_0800CB9C() == 0)
+            sub_08058688(0xD7);
+        while (mgrA5D4->run != 0) {
+            if ((sub_0800CF10() != 0 || sub_0805F184() != 0 || sub_0800CDF8() != 0 || sub_0800D060() != 0
+                 || (playersA5D4[sub_080020F4()].flags & 0x2000))
+                && sub_0801AAE0() != 0)
+                mgrA5D4->run = 0;
+            if (sub_0800CD8C() != 0 || sub_0801AAE0() == 0) {
+                keysA5D4_Rep = 0;
+                keysA5D4_New = 0;
+                keysA5D4_Held = 0;
+            }
+            if (sub_080021A8() != 0)
+                break;
+            switch (mgrA5D4->state) {
+            case 0:
+                if (keysA5D4_Held & 0x10) {
+                    mgrA5D4->state = 1;
+                    sub_0805865C(0xE);
+                        break;
+                }
+                if (keysA5D4_New & 2) {
+                    sub_0805865C(0x10);
+                    mgrA5D4->run = 0;
+                    break;
+                }
+                if (keysA5D4_New & 1) {
+                    *(vu16 *)&dataA5D4->pad4[0x16];
+                    mgrA5D4->state = 2;
+                    zero1 = 0; CpuSet(&zero1, &stats, 0x01000010);
+                    CpuCopy16(&dataA5D4->stats, &saved, 0x20);
+                    mgrA5D4->cursor = 0;
+                    mgrA5D4->prev = 0;
+                    to = 0x2E;
+                    sub_0805865C(0xF);
+                        break;
+                }
+                break;
+            case 1:
+                if (keysA5D4_Held & 0x20) {
+                    mgrA5D4->state = 0;
+                    sub_0805865C(0xE);
+                        break;
+                }
+                if (keysA5D4_New & 2) {
+                    mgrA5D4->run = 0;
+                    break;
+                }
+                if (keysA5D4_New & 1) {
+                    *(vu16 *)&dataA5D4->skills.points;
+                    mgrA5D4->state = 3;
+                    zero2 = 0; CpuSet(&zero2, &delta, 0x01000012);
+                    CpuCopy16(&dataA5D4->skills, &undo, 0x24);
+                    CpuCopy16(&dataA5D4->skills, &work, 0x24);
+                    mgrA5D4->cursor = 0;
+                    mgrA5D4->prev = 0;
+                    to = 0x2F;
+                    sub_0805865C(0xF);
+                }
+                break;
+            case 2:
+                if (keysA5D4_New & 2) {
+                    mgrA5D4->state = 0;
+                    zero3 = 0; CpuSet(&zero3, &stats, 0x01000010);
+                    sub_0805865C(0x10);
+                        break;
+                }
+                if (keysA5D4_Held & 0x80) {
+                    if (mgrA5D4->cursor <= 2) {
+                        mgrA5D4->cursor++;
+                        sub_0805865C(0xE);
+                        break;
+                    }
+                    break;
+                }
+                if (keysA5D4_Held & 0x40) {
+                    if (mgrA5D4->cursor != 0) {
+                        mgrA5D4->cursor--;
+                        sub_0805865C(0xE);
+                    }
+                    break;
+                }
+                if (keysA5D4_New & 1) {
+                    sub_0805865C(0xF);
+                    mgrA5D4->state = 0;
+                    CpuCopy16(&saved, &dataA5D4->stats, 0x20);
+                    break;
+                }
+                if (keysA5D4_Held & 0x10) {
+                    if (saved.points == 0)
+                        break;
+                    switch (mgrA5D4->cursor) {
+                    case 0:
+                        if (saved.v[0] > 499)
+                            break;
+                        stats.v[0]++;
+                        saved.v[0]++;
+                        saved.points--;
+                        stats.points++;
+                        sub_0805865C(0x62);
+                        break;
+                    case 3:
+                        if (saved.v[3] > 332)
+                            break;
+                        stats.v[3]++;
+                        saved.v[3]++;
+                        saved.points--;
+                        stats.points++;
+                        sub_0805865C(0x62);
+                        break;
+                    case 2:
+                        if (saved.v[2] > 499)
+                            break;
+                        stats.v[2]++;
+                        saved.v[2]++;
+                        saved.points--;
+                        stats.points++;
+                        sub_0805865C(0x62);
+                        break;
+                    case 1:
+                        if (saved.v[1] > 499)
+                            break;
+                        stats.v[1]++;
+                        saved.v[1]++;
+                        saved.points--;
+                        stats.points++;
+                        sub_0805865C(0x62);
+                        break;
+                    }
+                } else if (keysA5D4_Held & 0x20) {
+                    switch (mgrA5D4->cursor) {
+                    case 0:
+                        if (stats.v[0] == 0)
+                            break;
+                        stats.points--;
+                        saved.points++;
+                        stats.v[0]--;
+                        saved.v[0]--;
+                        sub_0805865C(0x62);
+                        break;
+                    case 3:
+                        if (stats.v[3] == 0)
+                            break;
+                        stats.points--;
+                        saved.points++;
+                        stats.v[3]--;
+                        saved.v[3]--;
+                        sub_0805865C(0x62);
+                        break;
+                    case 2:
+                        if (stats.v[2] == 0)
+                            break;
+                        stats.points--;
+                        saved.points++;
+                        stats.v[2]--;
+                        saved.v[2]--;
+                        sub_0805865C(0x62);
+                        break;
+                    case 1:
+                        if (stats.v[1] == 0)
+                            break;
+                        stats.points--;
+                        saved.points++;
+                        stats.v[1]--;
+                        saved.v[1]--;
+                        sub_0805865C(0x62);
+                        break;
+                    }
+                }
+                break;
+            case 3:
+                if (keysA5D4_New & 2) {
+                    CpuCopy16(&undo, &dataA5D4->skills, 0x24);
+                    mgrA5D4->state = 1;
+                    sub_0805865C(0x10);
+                    break;
+                }
+                if (keysA5D4_Held & 0x80) {
+                    if (mgrA5D4->cursor <= 6) {
+                        mgrA5D4->cursor++;
+                        sub_0805865C(0x62);
+                        break;
+                    }
+                    break;
+                }
+                if (keysA5D4_Held & 0x40) {
+                    if (mgrA5D4->cursor != 0) {
+                        mgrA5D4->cursor--;
+                        sub_0805865C(0x62);
+                    }
+                    break;
+                }
+                if (keysA5D4_New & 1) {
+                    sub_0805865C(0xF);
+                    mgrA5D4->state = 1;
+                    CpuCopy16(&work, &dataA5D4->skills, 0x24);
+                    break;
+                }
+                if (keysA5D4_Held & 0x10) {
+                    if (work.points == 0)
+                        break;
+                    if (work.e[mgrA5D4->cursor].level > 6)
+                        break;
+                    sub_0805865C(0x3A);
+                    work.e[mgrA5D4->cursor].exp++;
+                    if (work.e[mgrA5D4->cursor].exp >= work.e[mgrA5D4->cursor].level + 1) {
+                        work.e[mgrA5D4->cursor].level = work.e[mgrA5D4->cursor].level + 1;
+                        delta.e[mgrA5D4->cursor].level++;
+                        work.points--;
+                        delta.points++;
+                        delta.e[mgrA5D4->cursor].exp++;
+                        sub_08085218(0xA0, mgrA5D4->cursor * 8 + 0x28);
+                        if (work.e[mgrA5D4->cursor].level <= 6) {
+                            work.e[mgrA5D4->cursor].exp = 0;
+                        } else {
+                            work.e[mgrA5D4->cursor].exp = 0;
+                            work.e[mgrA5D4->cursor].level = 7;
+                        }
+                    } else {
+                        delta.e[mgrA5D4->cursor].exp++;
+                        work.points--;
+                        delta.points++;
+                    }
+                } else if (keysA5D4_Held & 0x20) {
+                    if (delta.e[mgrA5D4->cursor].exp == 0)
+                        break;
+                    sub_0805865C(0x3C);
+                    work.e[mgrA5D4->cursor].exp--;
+                    delta.e[mgrA5D4->cursor].exp--;
+                    work.points++;
+                    if (work.e[mgrA5D4->cursor].exp & 0x8000) {
+                        work.e[mgrA5D4->cursor].level--;
+                        if (work.e[mgrA5D4->cursor].level & 0x8000)
+                            work.e[mgrA5D4->cursor].level = 0;
+                        work.e[mgrA5D4->cursor].exp = work.e[mgrA5D4->cursor].level;
+                    }
+                }
+                break;
+            case 4:
+            case 5:
+                break;
+            }
+            switch (mgrA5D4->state) {
+            case 0:
+                gUnk_03001250[5] = 0;
+                if (dirty) {
+                    sub_0801A664(2, 0x12);
+                    dirty = 0;
+                }
+                break;
+            case 1:
+                gUnk_03001250[5] = 0x100;
+                if (dirty) {
+                    sub_0801A664(2, 0x12);
+                    dirty = 0;
+                }
+                break;
+            case 2:
+                if (mgrA5D4->cursor != mgrA5D4->prev) {
+                    from = mgrA5D4->prev * 8 + 0x2E;
+                    to = mgrA5D4->cursor * 8 + 0x2E;
+                    mgrA5D4->prev = mgrA5D4->cursor;
+                    t = 0;
+                }
+                if (t > 0x400) {
+                    anim = to;
+                } else {
+                    sub_080659F4(&anim, from, to, t);
+                    t += (0x400 - t) >> 1;
+                    if (((0x400 - t) >> 1) == 0)
+                        t++;
+                }
+                sub_080659BC(mgrA5D4->sprite, 8, anim, 0x16, 0, 2);
+                if (saved.points != 0) {
+                    switch (mgrA5D4->cursor) {
+                    case 0: sub_08065230(mgrA5D4->sprite, 0x40, 0x2F, 3, 1); break;
+                    case 1: sub_08065230(mgrA5D4->sprite, 0x40, 0x37, 3, 1); break;
+                    case 2: sub_08065230(mgrA5D4->sprite, 0x40, 0x3F, 3, 1); break;
+                    case 3: sub_08065230(mgrA5D4->sprite, 0x40, 0x47, 3, 1); break;
+                    }
+                }
+                switch (mgrA5D4->cursor) {
+                case 0: if (stats.v[0] != 0) sub_08065230(mgrA5D4->sprite, 0x20, 0x2F, 3, 2); break;
+                case 1: if (stats.v[1] != 0) sub_08065230(mgrA5D4->sprite, 0x20, 0x37, 3, 2); break;
+                case 2: if (stats.v[2] != 0) sub_08065230(mgrA5D4->sprite, 0x20, 0x3F, 3, 2); break;
+                case 3: if (stats.v[3] != 0) sub_08065230(mgrA5D4->sprite, 0x20, 0x47, 3, 2); break;
+                }
+                text = (u8 *)sub_08007290((mgrA5D4->cursor + 1000) | 0x140000);
+                p = text + 2;
+                sub_0801A3D0(p, (u16)(15 - ((u32)sub_0801A638(p) >> 1)), 0x11);
+                dirty = 1;
+                break;
+            case 3:
+                if (mgrA5D4->cursor != mgrA5D4->prev) {
+                    from = mgrA5D4->prev * 8 + 0x2F;
+                    to = mgrA5D4->cursor * 8 + 0x2F;
+                    mgrA5D4->prev = mgrA5D4->cursor;
+                    t = 0;
+                }
+                if (t > 0x400) {
+                    anim = to;
+                } else {
+                    sub_080659F4(&anim, from, to, t);
+                    t += (0x400 - t) >> 1;
+                    if (((0x400 - t) >> 1) == 0)
+                        t++;
+                }
+                switch (sub_0801DE60()) {
+                case 0: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x3ED) | 0x140000); break;
+                case 1: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x3F5) | 0x140000); break;
+                case 2: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x3FD) | 0x140000); break;
+                case 3: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x405) | 0x140000); break;
+                case 4: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x40D) | 0x140000); break;
+                case 5: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x415) | 0x140000); break;
+                case 6: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x41D) | 0x140000); break;
+                case 7: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x425) | 0x140000); break;
+                }
+                p = text + 2;
+                { u16 x; w = sub_0801A638_s16(p); x = -(w / 2 + (w & 1)); sub_0801A3D0(p, (u16)(x + 15), 0x11); }
+                sub_080659BC(mgrA5D4->sprite, 0x70, anim, 0x16, 1, 2);
+                dirty = 1;
+                break;
+            case 4:
+                break;
+            }
+            if (mgrA5D4->state <= 1) {
+                s32 v = gUnk_080B9704[phase]; bounce = (v >> 6) + 6;
+            } else {
+                bounce++;
+                if (bounce > 10)
+                    bounce = 10;
+            }
+            phase += 4;
+            if (phase > 0xFF)
+                phase = 0;
+            sub_0800903C(4, 0x38, 1, (u16)bounce, 7, 0);
+            gUnk_03001250[7] = (scroll += 0x40) >> 8;
+            sub_0801A3D0((u8 *)dataA5D4, 0x11, 0xE);
+            sub_0805FB7C(0xC, 0xB, *(s32 *)((u8 *)dataA5D4 + 0x20) + 1, 0);
+            sub_08065504(0x1C, 1, *(s32 *)((u8 *)dataA5D4 + 0x1C), 0, 10);
+            {
+            state = mgrA5D4->state;
+            if (state != 3) {
+                if (state == 2) {
+                    CpuCopy16(&dataA5D4->stats, &backup, 0x20);
+                    CpuCopy16(&saved, &dataA5D4->stats, 0x20);
+                    sub_0801BA74(player, 0, &scratch, &res, (s32)&dataA5D4->skills);
+                    player->f62 = res.v[5];
+                    player->f60 = res.v[4];
+                    CpuCopy16(&backup, &dataA5D4->stats, 0x20);
+                    sub_0805FB7C(7, 3, saved.points, 0);
+                    if (stats.v[0]) flag = state; else flag = 0;
+                    sub_0805FB7C(7, 5, saved.v[0], flag);
+                    if (stats.v[1]) flag = state; else flag = 0;
+                    sub_0805FB7C(7, 6, saved.v[1], flag);
+                    if (stats.v[2]) flag = state; else flag = 0;
+                    sub_0805FB7C(7, 7, saved.v[2], flag);
+                    if (stats.v[3]) flag = state; else flag = 0;
+                    sub_0805FB7C(7, 8, saved.v[3], flag);
+                } else {
+                    sub_0801BA74(player, 0, &stats, &res, (s32)&dataA5D4->skills);
+                    sub_0805FB7C(7, 3, dataA5D4->stats.points, 0);
+                    if (stats.v[0]) flag = 2; else flag = 0;
+                    sub_0805FB7C(7, 5, player->stat[0], flag);
+                    if (stats.v[1]) flag = 2; else flag = 0;
+                    sub_0805FB7C(7, 6, player->stat[1], flag);
+                    if (stats.v[2]) flag = 2; else flag = 0;
+                    sub_0805FB7C(7, 7, player->stat[2], flag);
+                    if (stats.v[3]) flag = 2; else flag = 0;
+                    sub_0805FB7C(7, 8, player->stat[3], flag);
+                }
+                sub_0805FB7C(7, 0xA, res.v[0], 0);
+                sub_0805FB7C(7, 0xB, res.v[1], 0);
+                sub_0805FB7C(5, 0xD, res.v[0x12], 0);
+                sub_0805FB7C(5, 0xE, res.v[0x13], 0);
+                sub_0805FB7C(5, 0xF, res.v[0x14], 0);
+                sub_0805FB7C(0xC, 0xD, res.v[0x15], 0);
+                sub_0805FB7C(0xC, 0xE, res.v[0x16], 0);
+                sub_0805FB7C(0xC, 0xF, res.v[0x17], 0);
+                sub_08085064(dataA5D4->skills.points);
+                for (i = 0; i <= 7; i++) {
+                    sub_0805FB7C(0x15, i + 5, dataA5D4->skills.e[i].level, 0);
+                    if (dataA5D4->skills.e[i].level <= 6) {
+                        sub_08085014(i, dataA5D4->skills.e[i].level + 1, 3);
+                        sub_08085014(i, dataA5D4->skills.e[i].exp, 0);
+                    } else {
+                        sub_08065370(mgrA5D4->sprite, 0x23, (s32)&iconH, (s32)&iconW, 1);
+                        sub_08065230(mgrA5D4->sprite, 0xB0, i * 8 + 0x30, 0x23, iconH);
+                    }
+                }
+            } else {
+                sub_0801BA74(player, 0, &stats, &res, (s32)&work);
+                sub_0805FB7C(7, 0xA, res.v[0], 0);
+                sub_0805FB7C(7, 0xB, res.v[1], 0);
+                sub_0805FB7C(5, 0xD, res.v[0x12], 0);
+                sub_0805FB7C(5, 0xE, res.v[0x13], 0);
+                sub_0805FB7C(5, 0xF, res.v[0x14], 0);
+                sub_0805FB7C(0xC, 0xD, res.v[0x15], 0);
+                sub_0805FB7C(0xC, 0xE, res.v[0x16], 0);
+                sub_0805FB7C(0xC, 0xF, res.v[0x17], 0);
+                sub_0805FB7C(7, 3, dataA5D4->stats.points, 0);
+                if (stats.v[0]) flag = 2; else flag = 0;
+                sub_0805FB7C(7, 5, stats.v[0], flag);
+                if (stats.v[1]) flag = 2; else flag = 0;
+                sub_0805FB7C(7, 6, stats.v[1], flag);
+                if (stats.v[2]) flag = 2; else flag = 0;
+                sub_0805FB7C(7, 7, stats.v[2], flag);
+                if (stats.v[3]) flag = 2; else flag = 0;
+                sub_0805FB7C(7, 8, stats.v[3], flag);
+                sub_08085064(work.points);
+                for (i = 0; i <= 7; i++) {
+                    sub_0805FB7C(0x15, i + 5, work.e[i].level, 0);
+                    if (work.e[i].level <= 6) {
+                        sub_08085014(i, work.e[i].level + 1, 3);
+                        sub_08085014(i, work.e[i].exp, 0);
+                    } else {
+                        sub_08065370(mgrA5D4->sprite, 0x23, (s32)&iconH, (s32)&iconW, 1);
+                        sub_08065230(mgrA5D4->sprite, 0xB0, i * 8 + 0x30, 0x23, iconH);
+                    }
+                }
+            }
+            }
+            sub_080003F0();
+        }
+        sub_0806617C();
+        sub_080586B4(0);
+        sub_0801ABE8(6);
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+        sub_0800D2F4();
+        sub_080851B8();
+    }
+    sub_08000C08(0x10, 8);
+    sub_0800903C(0, 0, 0, 0, 0, 0);
+    playersA5D4[sub_080020F4()].flags &= ~8;
+    sub_0801A664(2, 0x11);
+    i = sub_08057B64(3);
+    if (i - 2 <= 7)
+        sub_0802A590(0, 0xE);
+    sub_08000420(0x11201100);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807A5D4);
+#endif
 struct Pair7B7B4 { u32 a, b; };
 struct Mgr7B7B4 {
     u32 f0;
