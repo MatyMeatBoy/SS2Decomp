@@ -745,7 +745,6 @@ void sub_08029CEC(u32 action,u32 amount,s32 argument)
   }
  }
 }
-#ifdef NONMATCHING
 struct ResultE0C {u8 a,b,c,d;u16 value;u16 pad;};
 #define H_E0(p,n) (*(u16*)((p)+(n)))
 #define W_E0(p,n) (*(u32*)((p)+(n)))
@@ -756,7 +755,7 @@ extern void runE0C(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
 extern u16 valueE0C(u16,u16,void*) asm("sub_08021D00");
 void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5)
 {
- struct ResultE0C result; struct ResultE0C *res; struct ResultE0C *res1; u8 *object; void *handle;
+ u8 zero; struct ResultE0C result; struct ResultE0C *res; struct ResultE0C *res1; u8 *object; void *handle;
  if(((u32)gUnk_030056FC & (1<<index))==0)return;
  object=(u8*)gUnk_030056F4+index*0x2E0;
  if(object[0x1DC] && H_E0(object,0xC)!=11 && H_E0(object,0xC)!=10){
@@ -767,20 +766,18 @@ void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5
    if(handle)sub_0801DB94(H_E0(object,0)+4,handle,res1->b);
   }
   amount=valueE0C(action,amount,object+0x218);
-  H_E0(object,0xC)=10; H_E0(object,0x4A)=amount; W_E0(object,0x4C)=amount;
+  zero=0;
+  H_E0(object,0xC)=10+zero; H_E0(object,0x4A)=amount; W_E0(object,0x4C)=amount;
   res=&result;
   res->value=amount;res->c=arg4;res->a=H_E0(object,2);res->d=arg5;
-  if(res->c&0x80)res->c=0;
-  if(W_E0(object,0x210)==0xFF)res->c=0;
+  if(res->c&0x80)res->c=zero;
+  if(W_E0(object,0x210)==0xFF)res->c=zero;
   sub_0801F2CC(object,(u8*)&result);
   H_E0(object,0x58)=sub_080020F4();
   finishE0C(&result);
   if(object[0x226]!=3)runE0C(object+0x218,res->value,argument,index,index+4,action);
  }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029E0C);
-#endif
 struct PackedF54 {u16 low:4;u16 x:12;u16 y:12;u16 high:4;u8 flags:6;u8 unused:2;};
 struct RefF54 {struct PackedF54 *position;u8 padding[0x148];};
 struct TaskF54 {u32 f0,f4,f8,fC;u8 *f10;u32 f14,f18,f1C;u8 *f20;u32 f24;};
@@ -1183,7 +1180,7 @@ void sub_0802A644(s32 id)
    }
    tick=0;
   }
-  y=0xF0000;line=text;for(i=0;i<=1;i++){drawA644(line,1,y>>16);y+=0x20000;line+=0x20;} 
+  for(i=0;i<=1;i++)drawA644(text+i*0x20,1,(u16)(i*2+15));
   sub_080003F0();
  }
  tick=179;
