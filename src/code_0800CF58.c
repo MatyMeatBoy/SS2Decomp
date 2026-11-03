@@ -6572,14 +6572,15 @@ void hud14170(struct Actor14170 *arg0)
                 if (arg0->f10 != 9) {
                     lv = lv14170();
                     m = level14170(arg0);
-                    if (lv > m) lv = m;
+                    if (lv > m) lv = m; if (lv > arg0->f26) lv = 0;
                 } else {
                     lv = lv14170();
                     m = sub_08079FD0(sub_0801DEB8()) - 1;
-                    
+                    if (lv > m) lv = m; if (lv > arg0->f26) lv = 0;
                 }
-                if (lv > m) lv = m;
-                if (lv <= arg0->f26 && lv != 0) {
+                
+                if (lv > arg0->f26) lv = 0;
+                if (lv != 0) {
                     if (arg0->f26 <= 0xF && arg0->f20 != 5) {
                         anim14170(spr1, arg0->f26 + 6, &tile, &tmp, 1);
                         draw14170(spr1, sx, sy - 0x20, arg0->f26 + 6, tile);
