@@ -796,7 +796,6 @@ loop_91:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080904A4);
 #endif
-#ifdef NONMATCHING
 struct Anim095_08090B84 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_08090B84 asm("gUnk_0300016C");
 extern void init095_08090B84(void *,s32,s32,s32,s32) asm("sub_08065158");
@@ -804,143 +803,120 @@ extern void palette095_08090B84(u32,u32,u32) asm("sub_08000AF0");
 extern s32 step095_08090B84(void *,u16,u16 *,u16 *,s32) asm("sub_08065370");
 extern void draw095_08090B84(s32,s32,u16,u16,s32,void *,u32,u32) asm("sub_08007870");
 void sub_08090B84(void) {
-    struct Anim095_08090B84 *sp10;
-    struct Anim095_08090B84 *sp14;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    u16 var_r7;
-    u32 var_r0;
-    u32 var_r8;
-    struct Anim095_08090B84 *temp_r0;
-    struct Anim095_08090B84 *temp_r6;
+    struct Anim095_08090B84 *p[2];
+    struct Anim095_08090B84 *a;
+    struct Anim095_08090B84 *b;
+    u16 timer;
+    s32 state;
 
-    temp_r0 = (struct Anim095_08090B84 *)sub_08001494(0x88U);
-    heap095_08090B84 = (u32)temp_r0;
-    sp10 = temp_r0;
-    temp_r6 = temp_r0 + 1;
-    sp14 = temp_r6;
-    init095_08090B84(temp_r0, 0x5008A, 0, -1, 0);
-    temp_r0->payload[0] = 0;
-    temp_r0->frame = 0xA;
-    temp_r0->next = 0;
-    temp_r0->tick = 0;
-    temp_r0->x = 0x10000;
-    temp_r0->y = 0x5800;
-    init095_08090B84(temp_r6, 0x500BE, 1, -1, 0);
-    temp_r6->payload[0] = 1;
-    temp_r6->frame = 0xE;
-    temp_r6->next = 0;
-    temp_r6->tick = 0;
-    temp_r6->x = ((s32)0xFFFFF000);
-    temp_r6->y = 0x5800;
-    var_r7 = 0;
-    var_r8 = 0;
-    if (heap095_08090B84 == 0) {
-        return;
-    }
-loop_2:
-    switch (var_r8) {                               /* irregular */
-    case 0:
-        temp_r1 = sp10->x - 0xC0;
-        sp10->x = temp_r1;
-        if (temp_r1 > 0x8000) {
-
-        } else {
-            var_r7 = 0;
-            var_r8 = 1;
+    heap095_08090B84 = (u32)sub_08001494(0x88);
+    a = (struct Anim095_08090B84 *)heap095_08090B84;
+    p[0] = a;
+    b = a + 1;
+    p[1] = b;
+    init095_08090B84(a, 0x5008A, 0, -1, 0);
+    a->payload[0] = 0;
+    a->frame = 10;
+    a->next = 0;
+    a->tick = 0;
+    a->x = 0x10000;
+    a->y = 0x5800;
+    init095_08090B84(b, 0x500BE, 1, -1, 0);
+    b->payload[0] = 1;
+    b->frame = 14;
+    a[1].next = 0;
+    b->tick = 0;
+    b->x = -0x1000;
+    b->y = 0x5800;
+    timer = 0;
+    state = 0;
+    while (heap095_08090B84 != 0) {
+        switch (state) {
+        case 0:
+            p[0]->x -= 0xC0;
+            if (p[0]->x <= 0x8000) {
+                timer = 0;
+                state = 1;
+            }
+            break;
+        case 1:
+            p[0]->x -= 0xC0;
+            p[1]->x += 0x100;
+            if (++timer == 31) {
+                p[0]->frame = 18;
+                p[0]->next = 0;
+                p[0]->tick = 0;
+                timer = 0;
+                state = 2;
+            }
+            break;
+        case 2:
+            p[1]->x += 0x100;
+            if (++timer == 13) {
+                p[0]->frame = 2;
+                p[0]->next = 0;
+                p[0]->tick = 0;
+                p[1]->frame = 6;
+                p[1]->next = 0;
+                p[1]->tick = 0;
+                timer = 0;
+                state = 3;
+            }
+            break;
+        case 3:
+            if (++timer == 0x61) {
+                p[0]->frame = 2;
+                p[0]->next = 0;
+                p[0]->tick = 0;
+                p[1]->frame = 14;
+                p[1]->next = 0;
+                p[1]->tick = 0;
+                timer = 0;
+                state = 4;
+            }
+            break;
+        case 4:
+            p[0]->x += 0xA0;
+            p[1]->x += 0xA0;
+            if (++timer == 25) {
+                p[0]->frame = 14;
+                p[0]->next = 0;
+                p[0]->tick = 0;
+                p[1]->frame = 14;
+                p[1]->next = 0;
+                p[1]->tick = 0;
+                timer = 0;
+                state = 5;
+            }
+            break;
+        case 5:
+            p[0]->x += 0x100;
+            p[1]->x += 0x140;
+            if (p[1]->x > 0x11FFF) {
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (++timer == 61)
+                state = 0xFF;
+            break;
         }
-        break;
-    case 1:
-        sp10->x = (s32) (sp10->x - 0xC0);
-        sp14->x = (s32) (sp14->x + 0x100);
-        var_r7 += 1;
-        if (var_r7 == 0x1F) {
-            sp10->frame = 0x12U;
-            sp10->next = 0;
-            sp10->tick = 0U;
-            var_r7 = 0;
-            var_r0 = 2;
-block_20:
-            var_r8 = var_r0;
-        }
-        break;
-    case 2:
-        sp14->x = (s32) (sp14->x + 0x100);
-        var_r7 += 1;
-        if (var_r7 == 0xD) {
-            sp10->frame = 2U;
-            sp10->next = 0;
-            sp10->tick = 0U;
-            sp14->frame = 6U;
-            sp14->next = 0;
-            sp14->tick = 0U;
-            var_r7 = 0;
-            var_r8 = 3;
-        }
-        break;
-    case 3:
-        var_r7 += 1;
-        if (var_r7 == 0x61) {
-            sp10->frame = 2U;
-            sp10->next = 0;
-            sp10->tick = 0U;
-            sp14->frame = 0xEU;
-            sp14->next = 0;
-            sp14->tick = 0U;
-            var_r7 = 0;
-            var_r8 = 4;
-        }
-        break;
-    case 4:
-        sp10->x = (s32) (sp10->x + 0xA0);
-        sp14->x = (s32) (sp14->x + 0xA0);
-        var_r7 += 1;
-        if (var_r7 == 0x19) {
-            sp10->frame = 0xEU;
-            sp10->next = 0;
-            sp10->tick = 0U;
-            sp14->frame = 0xEU;
-            sp14->next = 0;
-            sp14->tick = 0U;
-            var_r7 = 0;
-            var_r8 = 5;
-        }
-        break;
-    case 5:
-        sp10->x = (s32) (sp10->x + 0x100);
-        temp_r1_2 = sp14->x + 0x140;
-        sp14->x = temp_r1_2;
-        if (temp_r1_2 > 0x11FFF) {
-            var_r7 = 0;
-            var_r8 = 6;
-        }
-        break;
-    case 6:
-        var_r7 += 1;
-        if (var_r7 == 0x3D) {
-            var_r0 = 0xFF;
-            goto block_20;
-        }
-        break;
-    }
-    palette095_08090B84(0x10U, sp10->fC, 1U);
-    step095_08090B84(sp10, sp10->frame, &sp10->tick, &sp10->next, 1);
-    draw095_08090B84((s32) sp10->x >> 8, (s32) sp10->y >> 8, sp10->frame, sp10->tick, 0, sp10->payload, sp10->f8, sp10->f0);
-    palette095_08090B84(0x11U, sp14->fC + 0x20, 1U);
-    step095_08090B84(sp14, sp14->frame, &sp14->tick, &sp14->next, 1);
-    draw095_08090B84((s32) sp14->x >> 8, (s32) sp14->y >> 8, sp14->frame, sp14->tick, 0, sp14->payload, sp14->f8, sp14->f0);
-    sub_080003F0();
-    if ((var_r8 != 0xFF) && (heap095_08090B84 != 0)) {
-        goto loop_2;
+        palette095_08090B84(0x10, p[0]->fC, 1);
+        step095_08090B84(p[0], p[0]->frame, &p[0]->tick, &p[0]->next, 1);
+        draw095_08090B84(p[0]->x >> 8, p[0]->y >> 8, p[0]->frame, p[0]->tick, 0, p[0]->payload, p[0]->f8, p[0]->f0);
+        palette095_08090B84(0x11, p[1]->fC + 0x20, 1);
+        step095_08090B84(p[1], p[1]->frame, &p[1]->tick, &p[1]->next, 1);
+        draw095_08090B84(p[1]->x >> 8, p[1]->y >> 8, p[1]->frame, p[1]->tick, 0, p[1]->payload, p[1]->f8, p[1]->f0);
+        sub_080003F0();
+        if (state == 0xFF)
+            break;
     }
     if (heap095_08090B84 != 0) {
-        sub_08001538((s32) heap095_08090B84);
+        sub_08001538(heap095_08090B84);
         heap095_08090B84 = 0;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_08090B84);
-#endif
 extern s16 random095_08090E38(void) asm("sub_0800086C");
 struct Anim095_08090E38 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_08090E38 asm("gUnk_0300016C");
