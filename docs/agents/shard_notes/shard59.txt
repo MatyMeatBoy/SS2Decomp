@@ -9,3 +9,15 @@ sub_0805B2C4 (code_0805A630): same size; draft diff 140 -> 112 (nm_drafts). Key:
   Tried: decl orders, chained/copy initialisers, u16/u8/s32 types, static inline helpers for the eviction
   scan, for the k search and for the grid (helpers with params were much worse).
   Permuter: only artificial reuse (`lowestIndex = kind & 0x20; if (lowestIndex) mode = kind;`, 45->38).
+
+nov03-w2:
+
+sub_0805B2C4: draft improved 112 -> 82 diff lines (same 518 bytes).
+  - `mode = (kind & 0x20) ? kind : 0;` fixes the mode spill order (if/assign form doesn't).
+  - count = 0 must come before `e = slots` and the first loop wrapped in do{...}while(0): gives
+    lowest r4 / lowestIndex r5 / count r6 like ROM. Nothing makes 0x11170 go through its own temp
+    (ROM `ldr r0,=0x11170; adds r4,r0; adds r5,r0`): tried chained/ordered inits, a temp variable.
+  - Body of the b loop wrapped in do{...}while(0) (instead of around the a loop) puts smallbuf ptr in r9.
+  - Remaining: px gets r8 (ROM sl) and b+1 gets sl (ROM r8); the region-2 hi regs follow.
+    Renaming px/a/b in region 2 makes it worse; region-2 qx as a separate var helps a little.
+  - Permuter (5 min, both modes) gives only invalid output.
