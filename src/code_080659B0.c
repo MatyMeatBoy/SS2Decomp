@@ -1111,13 +1111,15 @@ restart:
                             if (gRxEnts[i].f226 != 3)
                                 gRxEnts[i].f5A |= 1 << peer;
                             x_sub_0801F2CC(&gRxEnts[i], hit);
-                            effect = (u8 *)x_sub_0801E244(&gRxEnts[i], hit[1]);
-                            if (effect != 0) {
-                                x_sub_0801DB94(gRxEnts[i].f0 + 4, effect, hit[1]);
-                            } else {
-                                effect = (u8 *)x_sub_0801E104(&gRxEnts[i], 0);
-                                if (effect != 0)
-                                    x_sub_0801DB94(gRxEnts[i].f0 + 4, effect, hit[1]);
+                            {
+                                u8 *eff = (u8 *)x_sub_0801E244(&gRxEnts[i], hit[1]);
+                                if (eff != 0) {
+                                    x_sub_0801DB94(gRxEnts[i].f0 + 4, eff, hit[1]);
+                                } else {
+                                    eff = (u8 *)x_sub_0801E104(&gRxEnts[i], 0);
+                                    if (eff != 0)
+                                        x_sub_0801DB94(gRxEnts[i].f0 + 4, eff, hit[1]);
+                                }
                             }
                             if (hit[1] == 3)
                                 x_sub_08021E44(gRxEnts[i].f0 + 4, 1);
