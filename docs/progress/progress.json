@@ -5,15 +5,15 @@
   "funcs_total": 1870,
   "funcs_done": 1736,
   "percent": 59.393519711414584,
-  "funcs_drafts": 102,
-  "bytes_drafts": 222488,
-  "percent_with_drafts": 89.25158893755905,
+  "funcs_drafts": 103,
+  "bytes_drafts": 223708,
+  "percent_with_drafts": 89.41531392252855,
   "funcs_decompiled": 1736,
   "bytes_decompiled": 442572,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 32,
-  "bytes_pending": 80092,
+  "funcs_pending": 31,
+  "bytes_pending": 78872,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
@@ -51,15 +51,15 @@
   "funcs_total": 2006,
   "funcs_done": 1872,
   "percent": 59.96856544103639,
-  "funcs_drafts": 102,
-  "bytes_drafts": 222488,
-  "percent_with_drafts": 89.40380178235007,
+  "funcs_drafts": 103,
+  "bytes_drafts": 223708,
+  "percent_with_drafts": 89.56520818780297,
   "funcs_decompiled": 1850,
   "bytes_decompiled": 452336,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 32,
-  "bytes_pending": 80092,
+  "funcs_pending": 31,
+  "bytes_pending": 78872,
   "funcs_original_asm": 27,
   "bytes_original_asm": 3128,
   "funcs_decompilable": 1984,
@@ -75,12 +75,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 181,
-   "existing": 62,
+   "identified": 182,
+   "existing": 63,
    "confirmed": 119,
    "proposed": 0,
-   "unidentified": 1699,
-   "percent_identified": 9.627659574468085
+   "unidentified": 1698,
+   "percent_identified": 9.680851063829786
   },
   "sdk": {
    "total": 155,
@@ -93,12 +93,12 @@
   },
   "all": {
    "total": 2035,
-   "identified": 336,
-   "existing": 191,
+   "identified": 337,
+   "existing": 192,
    "confirmed": 145,
    "proposed": 0,
-   "unidentified": 1699,
-   "percent_identified": 16.511056511056513
+   "unidentified": 1698,
+   "percent_identified": 16.56019656019656
   }
  },
  "data": {
@@ -114,6 +114,6 @@
   "nodes": 2035,
   "edges": 11280,
   "unresolved_calls": 1306,
-  "parsed_c_functions": 1941
+  "parsed_c_functions": 1942
  }
 }
