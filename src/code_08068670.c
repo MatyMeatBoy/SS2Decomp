@@ -3923,6 +3923,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
     u16 nhit;
     u32 n;
     u8 shade;
+    u8 shadeB;
     u8 c;
     u16 a;
     s32 sx, sy;
@@ -4100,7 +4101,7 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
                 for (i = 0; i < count; i++) {
                     e2 = (struct EneE7D4 *)(eE7D4Base + hits[i] * 0x2E0);
                     coordsE7D4((s16)(e2->x >> 8), (s16)(e2->y >> 8), &dx, &dy, 0x30, 0);
-                    shade = sub_0800BC44(e2->x >> 8, e2->y >> 8, 0);
+                    shadeB = sub_0800BC44(e2->x >> 8, e2->y >> 8, 0);
                     if (delay[i] == 0) {
                         if (animE7D4(&spr, (u16)(level + 7), &frame[i], &timer[i], 0)) {
                             done++;
@@ -4117,9 +4118,9 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
                             if (!(flagsE7D4 & 1))
                                 palE7D4(0x17, spr.fC, 2);
                             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
-                                shade = 0;
+                                shadeB = 0;
                             if (sub_0800CB9C() == 0 || (flagsE7D4 & 1) == (player & 1))
-                                drawE7D4(dx, dy, level + 7, frame[i], shade, &spr.f1C, spr.f8, spr.f0);
+                                drawE7D4(dx, dy, level + 7, frame[i], shadeB, &spr.f1C, spr.f8, spr.f0);
                         }
                     } else if (delay[i] != 0xF0) {
                         delay[i]--;

@@ -1,8 +1,7 @@
-shard 73 (nov03-w4, 2026-11-03)
-- sub_0806E7D4: draft exact size; only diff is an r8/r9 swap (orig: shade/nhit r8, sy and &hits[i] r9).
-  Key fixes: `delay[i] = 10 + delay[i - 1] + rand() % 20`; `a = dir[...] << 4` inside each branch
-  (keeps the u16 shift before the s16 use); the 6-bit flag test as
-  `(u32)(((u8 *)q->sprite)[4] << 26) >> 26 & 0x20`; step's 5th arg literal 0; draw/coords args from
-  `x >> 8` directly (no sx/sy vars). Tried: separate shade vars per branch, shade as nhit, sx/sy types,
+- nov03-w2: sub_0806E7D4 30 -> 20 diff lines: the enemy loop's shade is its own variable (`shadeB`); loops 1
+  (no-hit) and 2 (player hits) must keep sharing `shade` (splitting those changes size). Enemy loop now matches;
+  left: in loops 1/2 shade must win r8 over sy (y>>8 hoist, loop 1) and &hits[i] (loop 2). Tried u32 shade,
+  explicit hits pointer, decl orders; permuter 2x5 min (before/after the split): nothing.
+ (no sx/sy vars). Tried: separate shade vars per branch, shade as nhit, sx/sy types,
   random declaration orders (no effect on the swap).
 - sub_0806F0CC: not started (1695 lines; dir table pointer hoisted into ip, player search skips `who`).
