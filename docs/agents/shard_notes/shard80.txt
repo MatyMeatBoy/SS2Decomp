@@ -6,3 +6,10 @@ nov03-w2: `(&pos)->y = info->b;` (any &-form: ((s32 *)&pos)[1], *&pos.y, ...) cr
 ter the entry computation (pre_insert_copies), so the expr must be available at bb0's end.
   Tried: s32 pos[2], pointer var pp=&pos at entry (gets r8 but add/mov come BEFORE the info->b load), v=info->b first
   then pp (pp then short-lived). Idea left: find what kills (plus fp 60) between the store and end of bb0.
+nov03-w5 on sub_08079458 (still 14 lines): the entry RTL (lreg dump: agbcc a.i -O2 -dl) has
+  reg45 = sp+0x4c (insn 21) BEFORE the info->b load, and reg45 is linked by cse to a later copy
+  (insn 1452 -> crosses the sub_08065158 call -> r8). An RHS that is a CALL_EXPR is expanded before
+  the LHS: `static inline s32 getb(struct Info458 *i){return i->b;}` + `((s32 *)&pos)[1] = getb(info);`
+  gives the ROM order (ldr; add r1,sp,#0x4c; str [r1,#4]) but the cse link disappears, so the
+  `mov r8, r1` is missing (110 lines). Using a user pointer for later &pos uses (pp) did not restore it.
+  Idea left: keep the call-first RHS and find what makes cse link reg45 to the later &pos.
