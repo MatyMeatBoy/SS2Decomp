@@ -14,7 +14,348 @@ void sub_080A05B4(u32 mode, void *state);
 extern s32 gUnk_03000324;
 
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809D878);
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809E468);
+union BgE468 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; };
+struct PlayerE468 {u8 p0[0xC8];u16 timer;s16 direction;u16 speed;u8 pCE[0x7E];};
+extern struct PlayerE468 playersE468[] asm("gUnk_03003CE0");
+extern volatile u16 g31EE468 asm("gUnk_0300031E");
+extern u8 g31CE468 asm("gUnk_0300031C");
+extern volatile u8 g320E468 asm("gUnk_03000320");
+extern volatile u8 g321E468 asm("gUnk_03000321");
+extern u8 *g310E468 asm("gUnk_03000310");
+extern u16 g1250E468[] asm("gUnk_03001250");
+extern void scrollE468(u16, u16, s16) asm("sub_0800BBA8");
+extern void vcountE468(s32) asm("sub_08001108");
+extern void sub_080009F8(s32, s32, s32);
+extern s32 sub_0809EDFC(void);
+extern s32 sub_0809EF84(void);
+extern s32 modE468(s32, s32) asm("__modsi3");
+void taskE468(void) asm("sub_0809E468");
+void taskE468(void)
+{
+    union BgE468 bg;
+    u32 faded;
+    s16 scroll;
+    u8 count;
+    u16 ticks;
+    u16 limit;
+    s32 running;
+    s32 mode;
+
+    faded = 0;
+    scroll = 0;
+    count = 0;
+    g31EE468 = 0;
+    g31CE468 = 0;
+    g320E468 = 0;
+    g321E468 = 0;
+    running = 1;
+    do {
+        if (sub_0800CD8C() != 0 || sub_0800CCCC() != 0 || sub_0800CD34() != 0 || sub_0800CC98() != 0) {
+            if (!faded) {
+                faded = 1;
+                sub_08000E48();
+                sub_0800CC18();
+                sub_0800115C(0);
+                sub_080011E4(0);
+                sub_0800903C(0, 0, 0, 0, 0, 0);
+                sub_0800BD48(2, 1);
+                if (sub_0800CD8C() != 0)
+                    sub_080009F8(0x400, 0, 0);
+                else
+                    sub_080009C0(0x400, 0, 0);
+            }
+            goto next;
+        }
+        faded = 0;
+        sub_0800BD48(2, 0);
+        sub_0800115C((u32)sub_0809EDFC);
+        sub_080011E4(sub_0809EF84);
+        if (*(s16 *)(g310E468 + 0x5C) == 0) {
+            running = 0;
+        } else {
+            switch (g320E468) {
+            case 0:
+                scroll = (s16)(scroll - 4) % 255;
+                scrollE468(2, 0, scroll);
+                bg.bits.cnt = *(vu16 *)0x0400000A;
+                bg.bits.cnt &= 0xFFFC;
+                bg.bits.cnt |= 1;
+                sub_08000AA8(1, &bg.half);
+                bg.half = *(vu16 *)0x0400000C;
+                bg.half &= 0xFFFC;
+                bg.half |= 2;
+                sub_08000AA8(2, &bg.half);
+                sub_0800903C(4, 0x28, 1, 6, 0xE, 0);
+                sub_0800CC18();
+                if (g1250E468[3] < 0x3A)
+                    vcountE468(0x3A - g1250E468[3]);
+                else
+                    vcountE468(0);
+                sub_08000D8C();
+                break;
+            case 1:
+                scroll = (s16)(scroll + 8) % 255;
+                scrollE468(2, 0, scroll);
+                sub_0800903C(4, 0x28, 1, 6, 0xE, 0);
+                sub_0800CC18();
+                if (g1250E468[3] < 0x3A)
+                    vcountE468(0x3A - g1250E468[3]);
+                else
+                    vcountE468(0);
+                sub_08000D8C();
+                break;
+            case 2:
+                scroll = (s16)(scroll + 8) % 255;
+                scrollE468(2, 0, scroll);
+                sub_0800903C(4, 0x28, 1, g31EE468, 0xE, 0);
+                sub_0800CC18();
+                if (g1250E468[3] < 0x3A)
+                    vcountE468(0x3A - g1250E468[3]);
+                else
+                    vcountE468(0);
+                sub_08000D8C();
+                if (count == 0x14 && g31EE468 == 0)
+                    sub_08097CA8(0x5A);
+                break;
+            case 3:
+                bg.half = *(vu16 *)0x0400000A;
+                bg.half &= 0xFFFC;
+                bg.half |= 2;
+                sub_08000AA8(1, &bg.half);
+                bg.half = *(vu16 *)0x0400000C;
+                bg.half &= 0xFFFC;
+                bg.half |= 1;
+                sub_08000AA8(2, &bg.half);
+                sub_0800903C(4, 0x3A, 1, 0x10, 0xC, 0);
+                sub_0800CBF8(2);
+                sub_08000D8C();
+                break;
+            case 4:
+                scroll = (s16)(scroll - 5) % 255;
+                scrollE468(2, 0, scroll);
+                bg.half = *(vu16 *)0x0400000A;
+                bg.half &= 0xFFFC;
+                bg.half |= 2;
+                sub_08000AA8(1, &bg.half);
+                bg.half = *(vu16 *)0x0400000C;
+                bg.half &= 0xFFFC;
+                bg.half |= 1;
+                sub_08000AA8(2, &bg.half);
+                sub_0800903C(4, 0x3A, 1, 0x10, 0xC, 0);
+                sub_0800CBF8(2);
+                vcountE468(g321E468);
+                if (g321E468 < 0x9A)
+                    sub_08000D8C();
+                else
+                    sub_08000E48();
+                break;
+            case 5:
+                scroll = (s16)(scroll - 5) % 255;
+                scrollE468(2, 0, scroll);
+                bg.half = *(vu16 *)0x0400000A;
+                bg.half &= 0xFFFC;
+                bg.half |= 2;
+                sub_08000AA8(1, &bg.half);
+                bg.half = *(vu16 *)0x0400000C;
+                bg.half &= 0xFFFC;
+                bg.half |= 1;
+                sub_08000AA8(2, &bg.half);
+                sub_0800CBF8(2);
+                sub_0800903C(4, 0x3A, 1, 0x10, 0xC, 0);
+                vcountE468(g321E468);
+                if (g321E468 < 0x9A)
+                    sub_08000D8C();
+                else
+                    sub_08000E48();
+                break;
+            case 6:
+                bg.half = *(vu16 *)0x0400000A;
+                bg.half &= 0xFFFC;
+                bg.half |= 1;
+                sub_08000AA8(1, &bg.half);
+                bg.half = *(vu16 *)0x0400000C;
+                bg.half &= 0xFFFC;
+                bg.half |= 2;
+                sub_08000AA8(2, &bg.half);
+                sub_0800903C(4, 0x28, 1, 6, 0xE, 0);
+                sub_0800CC18();
+                if (count == 0x3C) {
+                    vcountE468(0);
+                    sub_08000D8C();
+                }
+                break;
+            case 7:
+                scroll = (s16)(scroll - 4) % 255;
+                scrollE468(2, 0, scroll);
+                bg.half = *(vu16 *)0x0400000A;
+                bg.half &= 0xFFFC;
+                bg.half |= 1;
+                sub_08000AA8(1, &bg.half);
+                bg.half = *(vu16 *)0x0400000C;
+                bg.half &= 0xFFFC;
+                bg.half |= 2;
+                sub_08000AA8(2, &bg.half);
+                sub_0800903C(4, 0x28, 1, 6, 0xE, 0);
+                sub_0800CC18();
+                if (g321E468 > g1250E468[3])
+                    vcountE468(g321E468 - g1250E468[3]);
+                else
+                    vcountE468(0);
+                sub_08000D8C();
+                break;
+            case 8:
+                scroll = (s16)(scroll - 4) % 255;
+                scrollE468(2, 0, scroll);
+                bg.half = *(vu16 *)0x0400000A;
+                bg.half &= 0xFFFC;
+                bg.half |= 1;
+                sub_08000AA8(1, &bg.half);
+                bg.half = *(vu16 *)0x0400000C;
+                bg.half &= 0xFFFC;
+                bg.half |= 2;
+                sub_08000AA8(2, &bg.half);
+                sub_0800903C(4, 0x28, 1, 6, 0xE, 0);
+                sub_0800CC18();
+                if (g1250E468[3] < 0x3A)
+                    vcountE468(0x3A - g1250E468[3]);
+                else
+                    vcountE468(0);
+                sub_08000D8C();
+                break;
+            }
+        }
+        switch (g320E468) {
+        case 0:
+            if (g31CE468 == 1) {
+                g31CE468 = 0;
+                count = 0;
+                g31EE468 = 6;
+                g320E468 = 1;
+            }
+            break;
+        case 1:
+            if (++count == 0xB) {
+                count = 0;
+                if (--g31EE468 == 0xFFFF) {
+                    g31EE468 = 6;
+                    g320E468 = 2;
+                }
+            }
+            break;
+        case 2:
+            if (++count == 0x11) {
+                count = 0;
+                if (--g31EE468 == 0xFFFF)
+                    g320E468 = 3;
+            }
+            break;
+        case 3:
+            if (++count == 0x29) {
+                g321E468 = 0;
+                ticks = 0;
+                g320E468 = 4;
+                mode = sub_0800CE30();
+                limit = 0x1E0;
+                if (mode == 1)
+                    limit = 0x3C0;
+                sub_0805865C(0xB7);
+            }
+            break;
+        case 4:
+            if (g321E468 < 0x9A)
+                g321E468 += 5;
+            else
+                g321E468 = 0x9F;
+            playersE468[sub_080020F4()].direction = 0;
+            playersE468[sub_080020F4()].speed = 0x120;
+            playersE468[sub_080020F4()].timer = 8;
+            if (limit == ticks++)
+                g31CE468 = 1;
+            if (g31CE468 == 1) {
+                g31CE468 = 0;
+                g321E468 = 0;
+                g320E468 = 5;
+            }
+            break;
+        case 5:
+            if (g321E468 < 0x9A) {
+                g321E468 += 5;
+            } else {
+                g321E468 = 0x9F;
+                count = 0;
+                g320E468 = 6;
+            }
+            break;
+        case 6:
+            if (++count == 0x29) {
+                g321E468 = 0;
+                g320E468 = 7;
+            }
+            break;
+        case 7:
+            if (++g321E468 == 0x3B) {
+                count = 0;
+                g31EE468 = count;
+                g320E468 = 8;
+            }
+            break;
+        case 8:
+            if (++count == 0xB) {
+                count = 0;
+                if (++g31EE468 == 7)
+                    g320E468 = count;
+            }
+            break;
+        }
+    next:
+        sub_080003F0();
+    } while (running);
+
+    faded = 0;
+    scroll = 0;
+    g31EE468 = 0;
+    g31CE468 = 0;
+    g320E468 = 0;
+    g321E468 = 0;
+    for (;;) {
+        if (sub_0800CD8C() != 0 || sub_0800CCCC() != 0 || sub_0800CD34() != 0 || sub_0800CC98() != 0) {
+            if (!faded) {
+                faded = 1;
+                sub_08000E48();
+                sub_0800CC18();
+                sub_0800115C(0);
+                sub_080011E4(0);
+                sub_0800903C(0, 0, 0, 0, 0, 0);
+                sub_0800BD48(2, 1);
+                if (sub_0800CD8C() != 0)
+                    sub_080009F8(0x400, 0, 0);
+                else
+                    sub_080009C0(0x400, 0, 0);
+            }
+        } else {
+            faded = 0;
+            sub_0800BD48(2, 0);
+            sub_0800115C((u32)sub_0809EDFC);
+            sub_080011E4(sub_0809EF84);
+            scroll = (s16)(scroll - 4) % 255;
+            scrollE468(2, 0, scroll);
+            bg.half = *(vu16 *)0x0400000A;
+            bg.half = (bg.half & 0xFFFC) | 1;
+            sub_08000AA8(1, &bg.half);
+            bg.half = *(vu16 *)0x0400000C;
+            bg.half = (bg.half & 0xFFFC) | 2;
+            sub_08000AA8(2, &bg.half);
+            sub_0800903C(4, 0x28, 1, 6, 0xE, faded);
+            sub_0800CC18();
+            if (g1250E468[3] < 0x3A)
+                vcountE468(0x3A - g1250E468[3]);
+            else
+                vcountE468(0);
+            sub_08000D8C();
+        }
+        sub_080003F0();
+    }
+}
 extern volatile u16 v0c asm("gUnk_0300030C");
 extern volatile u8 v0e asm("gUnk_0300030E");
 extern volatile u16 v1e asm("gUnk_0300031E");
