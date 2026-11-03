@@ -1,0 +1,11 @@
+shard 69 (nov03-w1)
+sub_08069C44: draft (sibling of sub_0806ABC0). Size 1360 vs 1368, ~163 diff lines, all from one missing stack slot:
+  the ROM hoists &pos (sp+0x4c) out of the main loop into slot 0x7c (loop.c movable "not desirable" in ours:
+  savings 1 * life 11 * threshold < 228 insns). Ideas tried: pp pointer (declared last / in loop / before loop:
+  gets PRE'd into the target-search branches and steals sl), pos struct, rect[3], x/y as struct pair (worse).
+  Timeout: `((timeout<<19)+(20<<16))>>16` reproduces the ROM's lsl #19 hoisted into both search branches
+  ((u16)(t*8+20) gives lsl #3). The Coords 6th arg is the sub_08056E90 result (CSE of const 0).
+sub_0806A19C: draft, 1748 vs 1776, ~508 diff lines. Outer retarget loop must be goto-shaped (do/while rotates).
+  ROM keeps angle<<16 in slot 0x94 across the retarget loop (PRE of (ashift angle 16)); ours recomputes it,
+  and level lives in r9 in the ROM (ours: stack). Slot order = declaration order (e,p,q,target,timeout,remaining,
+  kind,x,angle,frm,local,player,bit).

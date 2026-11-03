@@ -1101,8 +1101,336 @@ void sub_08069BBC(u32 a, u32 b)
   sub_08000274_3((u32) t, (b << 16) | a, i);
   gMask0300641C |= 1 << i;
 }
+#ifdef NONMATCHING
+struct Z069S {u32 f0,f4,f8,fC;u8 pad10[12];u8 f1C,f1D;u8 pad1E[22];};
+struct Z069A {u32 player,bit,target,value,f10,level;};
+struct Z069P {u16 id;u8 pad2[30];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 team;u8 pad69[89];u16 resource;u8 padC4[24];u32 counter;u8 padE0[4];u32 ehist[5];u32 phist[4];u8 pad108[64];u16 *sprite;};
+struct Z069E {u16 id,target;u8 pad4[4];s16 dir;u8 padA[2];u16 state;u8 padE[6];s32 x,y;u8 pad1C[52];u32 counter,lastHit;u16 owner;u8 pad5A[4];u16 resource;u8 pad60[10];u16 wait;u8 pad6C[368];u8 active;u8 pad1DD[78];u8 threshold;u8 pad22C[180];};
+struct Z069Off {s16 x,y;};
+extern struct Z069P z069P[] asm("gUnk_03003CE0");
+extern u8 *z069EBase asm("gUnk_030056F4");
+extern u32 z069F[] asm("gUnk_030063E0");
+extern u16 z069Dir[] asm("gUnk_0847AD0A");
+extern s16 z069Sin[] asm("gUnk_080B9704");
+extern u8 z069Cost[] asm("gUnk_084EBF1C");
+extern u8 z069Frm[] asm("gUnk_084790B4");
+extern struct Z069Off z069Off[] asm("gUnk_084EBEBC");
+extern u8 *z069Cfg asm("gUnk_03005CF4");
+extern u32 z069EMask asm("gUnk_030056FC");
+extern void z069Animate(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+extern void z069Coords(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern s16 z069Damage(void *,s32) asm("sub_08068F9C");
+extern void z069Draw(s32,s32,u16,u16,u32,void *,u32,u32) asm("sub_08007870");
+extern s32 z069Effect(void *,void *,s16) asm("sub_0801FB14");
+extern s32 z069Hit(s32,s32,void *) asm("sub_08068A00");
+extern void z069Init(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern void z069Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
+extern u32 sub_0807A040();
+void sub_08069C44(struct Z069A *arg) {
+    struct Z069S sprite;
+    s16 dx,dy;
+    u16 frame;
+    s16 phase;
+    s32 pos[2];
+    s32 size;
+    struct Z069E *enemy;
+    struct Z069P *p;
+    u32 target,timeout,level,kind,dir,player,local,bit;
+    u16 angle;
+    u16 i;
+    u32 count;
+    struct Z069E *e;
+    struct Z069P *q;
+    s32 x,y;
+    s32 t;
+    u8 shade,tt;
+    s16 *cost;
+    u8 *costBase;
+    u32 costOffset;
+    s32 resource;
+    struct Z069P *cp;
+    u16 *tbl;
+    u16 delta;
+    s32 v;
+    u32 saved;
+
+    local=sub_080020F4();
+    target=(u16)arg->target;
+    player=arg->player; bit=arg->bit;
+    level=(u16)arg->level; kind=level; timeout=level;
+    phase=0; frame=0;
+    if(player<=3) {
+        p=&z069P[player];
+        saved=p->counter;
+    } else {
+        enemy=(struct Z069E *)(z069EBase+(player*0x2E0+0xFFFFF480));
+        while(enemy->wait<enemy->threshold) {
+            if(sub_08056E90()!=0 || sub_0800BA6C()==0 || enemy->state==10 || enemy->state==11) {
+                z069F[player]&=~(1<<bit);
+                return;
+            }
+            sub_080003F0();
+        }
+    }
+    if(local!=player) {
+        if(player>3) {
+            costBase=z069Cost;
+            costOffset=level*2+arg->value*24;
+            costBase+=6;
+            cost=(s16 *)(costOffset+(u32)costBase);
+            resource=enemy->resource-*cost; enemy->resource=resource;
+            if((s16)resource<0) {
+                z069F[player]&=~(1<<bit);
+                enemy->resource=0;
+                return;
+            }
+        }
+    } else {
+        cp=&z069P[sub_080020F4()];
+        delta=sub_0806898C(arg->value,arg->level)-1;
+        cp->resource-=delta;
+        if((s16)cp->resource<0) cp->resource=0;
+    }
+    if(target<=3) {
+        count=sub_08002164();
+        for(i=0;i<count;i++) {q=&z069P[i]; if(q->id==target) break;}
+        if(i>=count) target=0xFFFF;
+    } else {
+        for(i=0;i<=4;i++) {
+            e=(struct Z069E *)(z069EBase+i*0x2E0);
+            if((z069EMask&(1<<i)) && e->target==target) break;
+        }
+        if(i>4) target=0xFFFF;
+    }
+    tbl=z069Dir;
+    if(player<=3) {
+        x=(p->sprite[0]>>4)<<8;
+        y=(u32)(p->sprite[1]<<20)>>12;
+        dir=((u8 *)p->sprite)[3]>>4;
+        angle=tbl[dir];
+    } else {
+        x=enemy->x; y=enemy->y;
+        dir=(u16)enemy->dir;
+        angle=tbl[enemy->dir];
+    }
+    if((local==player || player>3) && sub_0800CCCC()==0 && sub_0800CD34()==0) sub_0805865C(level+0x10E);
+    x+=z069Sin[((s16)angle)+0x40]*4;
+    y+=z069Sin[((s16)angle)]*4;
+    if(level<=5) {
+        z069Init(&sprite,0x50049,8,-1,0);
+        level=(u16)(level-1);
+    } else {
+        z069Init(&sprite,0x50048,8,-1,0);
+        level=(u16)(level-6);
+    }
+    level=(u16)(level<<3);
+    sprite.f1C=7; sprite.f1D=8;
+    frame=0; phase=0;
+    timeout=((timeout<<19)+(20<<16))>>16;
+
+    for(;;) {
+        v=timeout; timeout=(u16)(v-1);
+        if(v==0 || sub_0800BA6C()==0 || (t=sub_08056E90())!=0) break;
+        if(player==sub_080020F4()) {
+            p->counter=saved;
+            if((u16)(p->state-11)<=1 || sub_0800D11C()!=0) break;
+        }
+        if(z069Hit(x,y,arg)!=0 && kind==0) break;
+        if(player==local) {
+            pos[0]=x; pos[1]=y; size=0x80008;
+            if(z069Effect(pos,&size,z069Damage(arg,0))!=0) break;
+        }
+        tt=sub_0800AE50(x,y,0);
+        if((tt&0xF) && !(tt&0x10)) {
+            z069Spawn(x,y,player,1,kind);
+            break;
+        }
+        x+=z069Sin[((s16)angle)+0x40]*2;
+        y+=z069Sin[((s16)angle)]*2;
+        z069Coords((s16)(x>>8),(s16)(y>>8),&dx,&dy,0x30,t);
+        shade=sub_0800BC44(x>>8,y>>8,0);
+        z069Animate(&sprite,(u16)(z069Frm[((s16)angle)>>4]+level),&frame,&phase,1);
+        if(!(*(u16 *)(z069Cfg+4)&4) && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CCCC()==0) {
+            if(gUnk_03002344&1) sub_08000AF0(0x17,sprite.fC,1);
+            if(gUnk_03003170.curLevel==4 && sub_0800CDC0()!=0) shade=0;
+            if((gUnk_03002344&1)==(player&1))
+                z069Draw(dx+z069Off[z069Frm[((s16)angle)>>4]].x,dy+(&z069Off[0].y)[z069Frm[((s16)angle)>>4]*2],level+dir,frame,shade,&sprite.f1C,sprite.f8,sprite.f0);
+        }
+        sub_080003F0();
+    }
+    if(player<=3 && player!=local) p->counter++;
+    z069F[player]&=~(1<<bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069C44);
+#endif
+#ifdef NONMATCHING
+void sub_0806A19C(struct Z069A *arg) {
+    struct Z069S sprite;
+    s16 dx,dy;
+    u16 frame;
+    s16 phase;
+    s32 pos[2];
+    s32 size;
+    struct Z069E *enemy;
+    struct Z069E *e;
+    struct Z069P *p;
+    struct Z069P *q;
+    u32 target,timeout,remaining,kind;
+    s32 x;
+    u16 angle;
+    u32 frm;
+    u32 local,player,bit;
+    u32 level;
+    s32 y;
+    u16 i;
+    u32 count;
+    s32 t;
+    u8 shade,tt;
+    s16 *cost;
+    u8 *costBase;
+    u32 costOffset;
+    s32 resource;
+    struct Z069P *cp;
+    u16 *tbl;
+    u16 delta;
+    s32 v;
+    u32 a;
+    s16 diff;
+
+    local=sub_080020F4();
+    target=(u16)arg->target;
+    player=arg->player; bit=arg->bit;
+    remaining=(u16)arg->level; kind=remaining; level=remaining; timeout=remaining;
+    frame=0; phase=0;
+    if(player<=3) {
+        p=&z069P[player];
+    } else {
+        enemy=(struct Z069E *)(z069EBase+(player*0x2E0+0xFFFFF480));
+        while(enemy->wait<enemy->threshold) {
+            if(sub_08056E90()!=0 || sub_0800BA6C()==0 || enemy->state==10 || enemy->state==11) {
+                z069F[player]&=~(1<<bit);
+                return;
+            }
+            sub_080003F0();
+        }
+    }
+    if(local!=player) {
+        if(player>3) {
+            costBase=z069Cost;
+            costOffset=level*2+arg->value*24;
+            costBase+=6;
+            cost=(s16 *)(costOffset+(u32)costBase);
+            resource=enemy->resource-*cost; enemy->resource=resource;
+            if((s16)resource<0) {
+                z069F[player]&=~(1<<bit);
+                enemy->resource=0;
+                return;
+            }
+        }
+    } else {
+        cp=&z069P[sub_080020F4()];
+        delta=sub_0806898C(arg->value,arg->level)-1;
+        cp->resource-=delta;
+        if((s16)cp->resource<0) cp->resource=0;
+    }
+    if(player<=3) {
+        x=(p->sprite[0]>>4)<<8;
+        y=(u32)(p->sprite[1]<<20)>>12;
+        angle=z069Dir[((u8 *)p->sprite)[3]>>4];
+    } else {
+        x=enemy->x; y=enemy->y;
+        angle=z069Dir[enemy->dir];
+    }
+    x+=z069Sin[((s16)angle)+0x40]*4;
+    y+=z069Sin[((s16)angle)]*4;
+    if((local==player || player>3) && sub_0800CCCC()==0 && sub_0800CD34()==0) sub_0805865C(level+0x115);
+    retarget:
+        if(level<=5) {
+            z069Init(&sprite,0x50091,8,-1,0);
+            level=(u16)(level-1);
+        } else {
+            z069Init(&sprite,0x5008E,8,-1,0);
+            level=(u16)(level-6);
+        }
+        sprite.f1C=7; sprite.f1D=8;
+        frame=0; phase=0;
+        if(target<=3) {
+            count=sub_08002164();
+            for(i=0;i<count;i++) {q=&z069P[i]; if(q->id==target) break;}
+            if(i>=count) target=0xFFFF;
+        } else {
+            for(i=0;i<=4;i++) {
+                e=(struct Z069E *)(z069EBase+i*0x2E0);
+                if((z069EMask&(1<<i)) && e->target==target) break;
+            }
+            if(i>4) target=0xFFFF;
+        }
+        if(target!=0xFFFF) {
+            if(target<=3) {
+                dx=(q->sprite[0]>>4)-(x>>8);
+                dy=((u32)(q->sprite[1]<<20)>>20)-(y>>8);
+            } else {
+                dx=(u32)(e->x-x)>>8;
+                dy=(u32)(e->y-y)>>8;
+            }
+            a=(u32)(ArcTan2(dx,dy)<<16)>>24;
+            if((s32)(a-(s16)angle)>0x80) a=(u16)(a-0x100);
+            else if((s32)(a-(s16)angle)<-0x80) a|=0x100;
+            diff=(s16)a-(s16)angle;
+            angle=(s16)angle+diff;
+            if((s16)angle<0) angle=angle+0x100;
+            if((s16)angle>0x100) angle=(s16)angle-0x100;
+            angle&=0xFF;
+        }
+        frm=z069Frm[((s16)angle)>>4];
+        level=((level<<19)>>16);
+        timeout=((timeout<<19)+(20<<16))>>16;
+        for(;;) {
+            v=timeout; timeout=(u16)(v-1);
+            if(v==0 || sub_0800BA6C()==0 || sub_08056E90()!=0) break;
+            if(player==local) {
+                if((u16)(p->state-11)<=1 || sub_0800D11C()!=0) break;
+            }
+            if((t=z069Hit(x,y,arg)&2)!=0) break;
+            if(player==local) {
+                pos[0]=x; pos[1]=y; size=0x80008;
+                if(z069Effect(pos,&size,z069Damage(arg,0))!=0) break;
+            }
+            tt=sub_0800AE50(x,y,0);
+            if((tt&0xF) && !(tt&0x10)) {
+                z069Spawn(x,y,player,2,kind);
+                goto end;
+            }
+            x+=z069Sin[((s16)angle)+0x40]*2;
+            y+=z069Sin[((s16)angle)]*2;
+            z069Coords((s16)(x>>8),(s16)(y>>8),&dx,&dy,0x30,0);
+            shade=sub_0800BC44(x>>8,y>>8,0);
+            z069Animate(&sprite,(u16)(z069Frm[((s16)angle)>>4]+level),&frame,&phase,1);
+            if(!(*(u16 *)(z069Cfg+4)&4) && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CCCC()==0) {
+                if(!(gUnk_03002344&1)) sub_08000AF0(0x17,sprite.fC,2);
+                if(gUnk_03003170.curLevel==4 && sub_0800CDC0()!=0) shade=0;
+                if(sub_0800CB9C()!=0) {
+                    if((gUnk_03002344&1)==(player&1))
+                        z069Draw(dx+z069Off[z069Frm[((s16)angle)>>4]].x,dy+z069Off[z069Frm[((s16)angle)>>4]].y,frm+level,frame,shade,&sprite.f1C,sprite.f8,sprite.f0);
+                } else
+                    z069Draw(dx+z069Off[z069Frm[((s16)angle)>>4]].x,dy+z069Off[z069Frm[((s16)angle)>>4]].y,frm+level,frame,shade,&sprite.f1C,sprite.f8,sprite.f0);
+            }
+            sub_080003F0();
+        }
+        if(remaining==0 || (remaining=(u16)(remaining-1))==0) goto end;
+
+        level=remaining; timeout=remaining; arg->level=remaining;
+        target=(u16)sub_0807A040((u16)player,target,x,y);
+        if(target!=0xFF) goto retarget;
+
+end:
+    if(player<=3 && player!=local) p->counter++;
+    z069F[player]&=~(1<<bit);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806A19C);
+#endif
 struct T070Sprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T070Player { u8 pad0[32]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[88]; s32 x,y; u8 pad94[46]; u16 resource; u8 padC4[24]; u32 counter; u8 padE0[104]; u16 *sprite; };
 struct T070Enemy { u8 pad0[20]; s32 x,y; u8 pad1C[52]; u32 counter; u8 pad54[10]; u16 resource; u8 pad60[640]; };
