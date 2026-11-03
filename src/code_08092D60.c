@@ -275,7 +275,7 @@ void sub_08092F58(u8 arg0, u8 arg1)
     sub_0800903C(0, 0, 0, 0, 0, 0);
 }
 extern u8 gB03000267 asm("gUnk_03000267");
-extern u8 gB03000266 asm("gUnk_03000266");
+extern vu8 gB03000266 asm("gUnk_03000266");
 extern u8 gB03000268 asm("gUnk_03000268");
 extern u16 gH03000264 asm("gUnk_03000264");
 extern void sub_0809342C();
@@ -305,7 +305,6 @@ void sub_08093404(void) {
     sub_080012D8(0);
     sub_080011E4(0);
 }
-#ifdef NONMATCHING
 void sub_0809342C(void)
 {
     vu16 scanline;
@@ -316,9 +315,6 @@ void sub_0809342C(void)
     else
         gH03000264 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809342C);
-#endif
 u16 sub_08093498(void)
 {
   u16 r;
