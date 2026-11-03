@@ -1,12 +1,11 @@
-
-nov03-w1: sub_0800A03C draft 13 -> 9 diff lines (the .short 0x0000 literal pad is a nmdiff artifact).
-  `struct MapAnim005 *s = &animState005;` declared INSIDE the loop body fixes the preheader order
-  (ROM `mov ip,r5` before the periods ldr). Only remaining diff: alt*2/lim add is emitted after the
-  frames giv init (alternate r7 vs r4). Loop dump (-dL) explains it: the ROM moved lim in the SECOND
-  loop pass (rerun-loop-opt). In pass 1 alt*2 (savings 2, life 2) is moved iff the loop has <= 51
-  real insns; ours has 49 (pass 2: 44). Needs ~3 extra pass-1 insns that disappear before pass 2
-  without changing lim's own chain (casts on alternate start a "cond forces" chain and still move).
-  Tried: loop forms, pointer locals for t/f/lims/periods, casts on alternate/area, permuter 5 min.
+nov03-w1: sub_08009594 nmdiff 538 -> 516: ROM tail order is a=(s16)x+offX, b=(s16)y+offY, then the +w0/+w1
+  adds, then `offsets += pad14*2`, then the stores; draft now uses s32 a,b + s16 c,d. Still missing: ROM keeps
+  the intermediate (s16)a sign extension (lsls/asrs) AND the final one before `& 0xFF` (no form found:
+  s16-only vars give lsrs for the intermediate, s32 drops the final). Size 900 vs 924: the ROM materialises
+  x<<16 (sp+0x10) and y<<16 (r9) at the end of each switch path (case 8 skip, case 8/10 fallthrough,
+  case 5/default before `if (!update)`), the index lives on the stack (sp+0) not in sl.
+  ROM frame: idx 0, force 4, offsets 8, idx*2 0xC, x<<16 0x10, tileDX<<16 0x14, tileDY<<16 0x18.
+s, pointer locals for t/f/lims/periods, casts on alternate/area, permuter 5 min.
   Helper: compile with `agbcc ... -dL` and grep "^Loop from|moved|desirable" in the .loop dump.
 ts scratch lacks prototypes of sub_080093E4/sub_080094CC (s16 params); add them when testing.
   Remaining: index lives in sl (orig: stack sp+0), tileDX/tileDY on stack (orig r5/r7), frame 24 vs 28,

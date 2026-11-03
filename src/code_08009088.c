@@ -277,15 +277,16 @@ scroll:
     if (tileDY || force)
         layer->y = (s16)y / 8;
 skip:
-    offsets += layer->pad14 * 2;
     {
         s32 a, b;
-        a = (s16)x; a = (s16)(a + gUnk_03003170.offX);
-        b = (s16)y; b = (s16)(b + gUnk_03003170.offY);
-        a = (s16)(a + layer->w0);
-        b = (s16)(b + layer->w1);
-        offsets[0] = a & 0xFF;
-        offsets[1] = b & 0xFF;
+        s16 c, d;
+        a = (s16)x + gUnk_03003170.offX;
+        b = (s16)y + gUnk_03003170.offY;
+        c = (s16)a + layer->w0;
+        d = (s16)b + layer->w1;
+        offsets += layer->pad14 * 2;
+        offsets[0] = c & 0xFF;
+        offsets[1] = d & 0xFF;
     }
 }
 #else
