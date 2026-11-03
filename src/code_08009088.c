@@ -1670,17 +1670,19 @@ u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BC44);
 #endif
-#ifdef NONMATCHING
 u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 {
     register u16 *map asm("r3"); u16 *w; register s32 ix asm("r1"); register s32 iy asm("r2");
     if (which != 0) { map = gUnk_03003170.map1; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width1; }
     else { map = gUnk_03003170.map0; ix = x >> 11; iy = y >> 11; w = &gUnk_03003170.width0; }
-    return *(u8 *)&map[ix + iy * *w];
+    {
+        register u8 *cell asm("r0");
+        ix = (ix + iy * *w) * 2;
+        asm("" : "+r"(ix));
+        cell = (u8 *)map + ix;
+        return *cell;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BCA0);
-#endif
 void sub_0800BCDC(s32 a, s32 b, s32 c, u16 d, u16 e) {
     sub_0800B650(a, b + 0x1c, c, d, e);
 }
