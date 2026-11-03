@@ -3800,7 +3800,120 @@ void sub_080B2454(void)
     gTaskP030007AC->f8 = 0x44;
     sub_08000274_3((u32)gTaskP030007AC, 0, 0);
 }
+#ifdef NONMATCHING
+struct Task0B24B8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+struct Actor0B24B8 { u16 f0; u8 pad2[0xA]; u16 fC; u8 padE[0x2CA]; u16 f2D8, f2DA; };
+struct Pos0B24B8 { u16 x; u16 y; };
+struct Player0B24B8 { u8 pad0[0x148]; struct Pos0B24B8 *pos; };
+struct Point0B24B8 { s32 x, y; };
+extern struct Task0B24B8 *taskA0B24B8 asm("gUnk_030007B0");
+extern struct Task0B24B8 *taskB0B24B8 asm("gUnk_030007B4");
+extern u8 *entA0B24B8 asm("gUnk_030007B8");
+extern u8 *entB0B24B8 asm("gUnk_030007BC");
+extern struct Point0B24B8 point0B24B8 asm("gUnk_030007C0");
+extern u16 slot0B24B8 asm("gUnk_030007C8");
+extern u8 dir0B24B8 asm("gUnk_030007CA");
+extern u8 tracking0B24B8 asm("gUnk_030007CB");
+extern u8 pointing0B24B8 asm("gUnk_030007CC");
+extern u32 history0B24B8[4][83] asm("gUnk_03003DC4");
+extern struct Player0B24B8 players0B24B8[] asm("gUnk_03003CE0");
+extern u16 alloc0B24B8(u16, u16) asm("sub_08016E04");
+extern s32 who0B24B8(s32) asm("sub_08096594");
+extern u8 dirTo0B24B8(s32, s32, u32, u32) asm("sub_08095FC8");
+extern void point0B24B8_set(s32, void *, u8) asm("sub_08097BA4");
+extern void fade0B24B8(s32) asm("sub_080586B4");
+extern void start0B24B8(void *, u32, u32) asm("sub_08000274");
+extern void sub_080B280C(void);
+extern void sub_080B3648(void);
+void sub_080B24B8(struct Actor0B24B8 *actor)
+{
+    u8 i, j;
+    u32 n;
+    struct Player0B24B8 *p;
+
+    sub_0806849C((u32)actor);
+    sub_080684F4();
+    pointing0B24B8 = 0;
+    tracking0B24B8 = 0;
+    taskA0B24B8 = sub_08001494(0x28);
+    taskA0B24B8->f8 = 0x40;
+    taskA0B24B8->f20 = (u32)sub_08001494(0x800);
+    taskA0B24B8->f10 = taskA0B24B8->f20 + 0x7FC;
+    taskA0B24B8->fC = (u32)sub_080B280C;
+    taskA0B24B8->f24 = 0;
+    start0B24B8(taskA0B24B8, 0, 0);
+    taskB0B24B8 = sub_08001494(0x28);
+    taskB0B24B8->f8 = 0x41;
+    taskB0B24B8->f20 = (u32)sub_08001494(0x800);
+    taskB0B24B8->f10 = taskB0B24B8->f20 + 0x7FC;
+    taskB0B24B8->fC = (u32)sub_080B3648;
+    taskB0B24B8->f24 = 0;
+    start0B24B8(taskB0B24B8, 0, 0);
+    point0B24B8.x = 0xF000;
+    point0B24B8.y = 0x8800;
+    slot0B24B8 = alloc0B24B8(actor->f2D8, actor->f2DA);
+    while (slot0B24B8 == 0xFFFF) {
+        actor->fC = 0xB;
+        if (sub_0800CB78() || sub_08056E90()) {
+            gUnk_030056FC &= ~(1 << actor->f0);
+            return;
+        }
+        sub_080003F0();
+    }
+    for (i = 0; i <= 3; i++)
+        for (j = 0; j <= 4; j++)
+            history0B24B8[i][j] = 0;
+    sub_08097FE4();
+    sub_08097A4C();
+    sub_08097C4C();
+    sub_080B4B48();
+    sub_08067C18();
+    while (!sub_08067C08())
+        sub_080003F0();
+    sub_08067BF8();
+    sub_0805865C(0x197);
+    while (!sub_0800CB78() && !sub_08056E90()) {
+        if (!sub_08058DB0()) {
+            p = &players0B24B8[who0B24B8(0)];
+            if (tracking0B24B8) {
+                dir0B24B8 = dirTo0B24B8(point0B24B8.x >> 8, point0B24B8.y >> 8, p->pos->x >> 4, (u32)(p->pos->y << 20) >> 20);
+            } else if (pointing0B24B8) {
+                dir0B24B8 = dirTo0B24B8(point0B24B8.x >> 8, point0B24B8.y >> 8, p->pos->x >> 4, (u32)(p->pos->y << 20) >> 20);
+                point0B24B8_set(0x60, &point0B24B8, dir0B24B8);
+            }
+        }
+        sub_080003F0();
+        if (*(s16 *)(entA0B24B8 + 0x5C) == 0 && *(s16 *)(entB0B24B8 + 0x5C) == 0)
+            break;
+    }
+    sub_080B4B7C();
+    sub_08097C6C();
+    sub_080683CC();
+    sub_08068330(0xDEADFACE);
+    while (!sub_080682B8(0xDEADFACE))
+        sub_080003F0();
+    sub_08065E38(0xDEADFACE);
+    while (sub_08058DB0())
+        sub_080003F0();
+    fade0B24B8(0);
+    n = 0x6F;
+    do {
+        u32 t;
+        sub_080003F0();
+        t = (n << 16) + 0xFFFF0000;
+        n = t >> 16;
+        if ((s32)t >> 16 == -1)
+            break;
+    } while (1);
+    sub_08067C18();
+    while (!sub_08067C08())
+        sub_080003F0();
+    sub_08067BF8();
+    sub_08056E24();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B24B8);
+#endif
 void sub_080B2780(void) {
     if ((M2C_FIELD(gUnk_030007B8, s16 *, 0x5C) != 0) || (M2C_FIELD(gUnk_030007BC, s16 *, 0x5C) != 0)) {
         sub_080B4B7C();
