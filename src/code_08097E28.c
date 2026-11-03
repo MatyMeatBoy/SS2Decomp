@@ -2499,8 +2499,8 @@ struct PlayerD374 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]
 struct ObjectD374 { u16 f0; u8 p2[6]; s16 f8; u16 fa, fc; u8 pe[6]; s32 x,y; u8 p1c[0x34]; s32 f50; };
 extern struct PlayerD374 playersD374[] asm("gUnk_03003CE0");
 extern u16 sqrtD374(s32) asm("Sqrt");
-extern s16 atanD374(s16,s16) asm("ArcTan2");
-extern s32 hitD374(void *,void *) asm("sub_0801ED8C");
+extern u16 atanD374(s16,s16) asm("ArcTan2");
+extern u16 hitD374(void *,void *) asm("sub_0801ED8C");
 s32 sub_0809D374(struct ObjectD374 *o) {
     u32 x = (u32)(o->x << 8) >> 16;
     u32 y = (u32)(o->y << 8) >> 16;
@@ -2508,14 +2508,15 @@ s32 sub_0809D374(struct ObjectD374 *o) {
     u32 py = ((u32)playersD374[sub_080020F4()].pos->y << 20) >> 20;
     s16 dx,dy;
     s32 ret = 0;
-    u32 angle, direction;
+    u32 angle, direction, rem;
     px -= (s16)x;
     dy = py - (s16)y;
     dx = px;
     if (sqrtD374(dx * dx + dy * dy) <= 47) {
-        angle = (u32)atanD374(dx,dy) << 16;
-        direction = angle >> 29;
-        if ((angle << 3) > 0x80000000U) {
+        angle = atanD374(dx,dy);
+        rem = angle << 19;
+        direction = angle >> 13;
+        if (rem > 0x80000000U) {
             if (direction <= 6) direction++; else direction = 0;
         }
         if ((o->f8 == 0 && direction == 2) || (o->f8 == 1 && direction == 3) || (o->f8 == 2 && direction == 4) || (o->f8 == 3 && direction == 5) || (o->f8 == 4 && direction == 6) || (o->f8 == 5 && direction == 7) || (o->f8 == 6 && direction == 0) || (o->f8 == 7 && direction == 1)) {
@@ -2525,8 +2526,7 @@ s32 sub_0809D374(struct ObjectD374 *o) {
                 playersD374[sub_080020F4()].fb0 = 0xfffe;
                 n = sub_080020F4();
                 playersD374[n].f88 += hitD374(o, &playersD374[sub_080020F4()]);
-                playersD374[sub_080020F4()].fe4[o->f0] = o->f50;
-                o->f50++;
+                playersD374[sub_080020F4()].fe4[o->f0] = o->f50++;
                 ret = 1;
             }
         }
