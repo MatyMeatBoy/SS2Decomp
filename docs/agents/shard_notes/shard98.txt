@@ -1,0 +1,10 @@
+shard 98 notes (nov03-w1)
+
+sub_08094638: in-tree draft is exact size; the ONLY diff is spill-slot order of the loop-hoisted
+  address pseudos (35 diff lines). ROM slots ascending: 0xA8 copy of b.payload, 0xAC b.payload
+  (sp+0x68), 0xB0 &indices[1], 0xB4 &indices[2], 0xB8 &frames[0], 0xBC base.x>>8, 0xC0 &frames[1],
+  0xC4 base.y>>8, 0xC8 &frames[2], 0xCC a.payload (sp+0x34). Slots follow pseudo number (expand
+  order), so the source order of the first use of each address decides it. Replacing the `screen`
+  locals by `base.x >> 8` inside the loop changes the order but does not fix it (43). Permuter 5 min
+  on the draft: nothing. Idea: try reordering the init statements / init loop (frames before
+  indices), or a struct holding indices+frames.
