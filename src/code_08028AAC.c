@@ -179,31 +179,32 @@ struct ResultE0C {u8 a,b,c,d;u16 value;u16 pad;};
 #define H_E0(p,n) (*(u16*)((p)+(n)))
 #define W_E0(p,n) (*(u32*)((p)+(n)))
 extern void finishE0C(void*) asm("sub_080660EC");
-extern void initE0C(void*,void*,u16,u16,u32) asm("sub_08069388");
+extern void initE0C(void*,void*,u16,u16,u16) asm("sub_08069388");
 extern void *lookupE0C(u8*,u32) asm("sub_0801E104");
 extern void runE0C(void*,u16,u32,s32,s32,u32) asm("sub_08069080");
-extern u32 valueE0C(u16,u16,void*) asm("sub_08021D00");
-void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u32 arg4,u32 arg5)
+extern u16 valueE0C(u16,u16,void*) asm("sub_08021D00");
+void sub_08029E0C(s32 index,u32 action,u32 amount,u32 argument,u16 arg4,u16 arg5)
 {
- struct {struct ResultE0C result; u32 saved4,saved5;} frame; u8 *object,*effect; u16 value; void *handle;
- frame.saved4=(u16)arg4; frame.saved5=(u16)arg5;
- if(!(gUnk_030056FC & (1<<index)))return;
+ struct ResultE0C result; struct ResultE0C *res; struct ResultE0C *res1; u8 *object; void *handle;
+ if(((u32)gUnk_030056FC & (1<<index))==0)return;
  object=(u8*)gUnk_030056F4+index*0x2E0;
  if(object[0x1DC] && H_E0(object,0xC)!=11 && H_E0(object,0xC)!=10){
-  value=amount;
   if(object[0x226]!=3){
-   initE0C(&frame.result,object+0x218,argument,action,(u16)(H_E0(object,0)+4));
+   res1=&result;
+   initE0C(&result,object+0x218,argument,action,H_E0(object,0)+4);
    handle=lookupE0C(object,0);
-   if(handle)sub_0801DB94(H_E0(object,0)+4,handle,frame.result.b);
+   if(handle)sub_0801DB94(H_E0(object,0)+4,handle,res1->b);
   }
-  effect=object+0x218; value=valueE0C(action,value,effect);
-  H_E0(object,0xC)=10; H_E0(object,0x4A)=value; W_E0(object,0x4C)=value;
-  frame.result.value=value;frame.result.c=*(u8*)&frame.saved4;frame.result.a=H_E0(object,2);frame.result.d=*(u8*)&frame.saved5; if(frame.result.c&0x80)frame.result.c=0; if(object[0x210]==0xFF)frame.result.c=0;
-  sub_0801F2CC(object,(u8*)&frame.result);
+  amount=valueE0C(action,amount,object+0x218);
+  H_E0(object,0xC)=10; H_E0(object,0x4A)=amount; W_E0(object,0x4C)=amount;
+  res=&result;
+  res->value=amount;res->c=arg4;res->a=H_E0(object,2);res->d=arg5;
+  if(res->c&0x80)res->c=0;
+  if(W_E0(object,0x210)==0xFF)res->c=0;
+  sub_0801F2CC(object,(u8*)&result);
   H_E0(object,0x58)=sub_080020F4();
-
-  finishE0C(&frame.result);
-  if(object[0x226]!=3)runE0C(effect,frame.result.value,argument,index,index+4,action);
+  finishE0C(&result);
+  if(object[0x226]!=3)runE0C(object+0x218,res->value,argument,index,index+4,action);
  }
 }
 #else
@@ -583,49 +584,42 @@ void sub_0802A590(u16 first,u16 count)
     sub_08001538((s32)backup);
 }
 #ifdef NONMATCHING
-struct FrameA644 {u8 text[0x80];u32 nameIndex;u32 tick;};
 extern u8 nameA644[] asm("gUnk_03003CE2");
 extern void clearA644(s32,s32) asm("sub_0801A664");
 extern void drawA644(u8*,s32,u32) asm("sub_0801A3D0");
 void sub_0802A644(s32 id)
 {
- struct FrameA644 frame;u8 *stream,*line;u32 row,column,tick,nextTick,i,y,offset;u16 wait;s32 remaining;u8 code,index;
+ u8 text[0x80]; u8 *stream,*line; u32 row,column,tick,i,y;  u16 wait; s32 n; u8 code; u8 nameIndex; u8 *names;
  stream=(u8*)sub_08007290(0x140000|id)+2;
- row=0;column=0;tick=0;frame.nameIndex=0;frame.text[0]=0xFD;frame.text[0x20]=0xFD;
+ row=0;column=0;tick=0;nameIndex=0;text[0]=0xFD;names=nameA644;text[0x20]=0xFD;
  while(*stream!=0xFD){
-  nextTick=tick+1;
-  if(tick>5){
+  if(tick++>5){
    code=*stream;
-   switch(code){
-   case 0xFF:
+   if(code==0xFF){
     column=0;row++;
-    if(row>1){frame.text[0]=0xFD;frame.text[0x20]=0xFD;row=0;}
-    else frame.text[row<<5]=0xFD;
-    stream++;break;
-   case 0xFC:
-    offset=row<<5;frame.text[offset+column]=nameA644[frame.nameIndex];column++;frame.text[offset+column]=0xFD;
-    index=frame.nameIndex+1;frame.nameIndex=index;
-    if(nameA644[index]==0){stream++;frame.nameIndex=0;column--;}
-    break;
-   case 0xFE:
-    frame.text[0]=0xFD;frame.text[0x20]=0xFD;row=0;column=0;stream+=3;
-    wait=180;do{sub_080003F0();if(sub_080021A8())break;wait--;}while(wait);
-    break;
-   default:
-    offset=row<<5;frame.text[offset+column]=code;stream++;column++;frame.text[offset+column]=0xFD;break;
+    if(row>1){text[0]=0xFD;text[0x20]=0xFD;row=0;}
+    else text[row*0x20]=0xFD;
+    stream++;
+   } else if(code==0xFC){
+    text[column+row*0x20]=names[nameIndex];column++;text[row*0x20+column]=0xFD;
+    nameIndex++;
+    if(names[nameIndex]==0){stream++;nameIndex=0;column--;}
+   } else if(code==0xFE){
+    text[0]=0xFD;text[0x20]=0xFD;row=0;column=0;stream+=3;
+    for(wait=180;wait;wait--){sub_080003F0();if(sub_080021A8())break;}
+   } else {
+    text[column+row*0x20]=code;stream++;column++;text[row*0x20+column]=0xFD;
    }
-   nextTick=0;
+   tick=0;
   }
-  i=0;y=0xF0000;line=frame.text;
-  do{frame.tick=nextTick;drawA644(line,1,y>>16);y+=0x20000;line+=0x20;i++;}while(i<=1);
-  sub_080003F0();tick=frame.tick;
+  y=0xF0000;line=text;for(i=0;i<=1;i++){drawA644(line,1,y>>16);y+=0x20000;line+=0x20;} 
+  sub_080003F0();
  }
- remaining=179;
+ tick=179;
  do{
-  i=0;
-  if(row>0){y=0xF0000;line=frame.text;do{drawA644(line,1,y>>16);y+=0x20000;line+=0x20;i++;}while(i<row);}
-  sub_080003F0();remaining--;
- }while(remaining!=-1);
+  i=0;if(i<row){y=0xF0000;line=text;do{drawA644(line,1,y>>16);y+=0x20000;line+=0x20;i++;}while(i<row);} 
+  sub_080003F0();
+ }while(--tick!=-1);
  clearA644(15,4);sub_080003F0();
 }
 #else
