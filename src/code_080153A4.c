@@ -539,7 +539,65 @@ void sub_08016A7C(s32 arg0) {
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
 #endif
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016B30);
+struct Pos16B30 { u32 kind:4; u32 x:12; u32 y:12; u32 pad2:4; u32 f4:6; u32 f4b:2; };
+struct Dist16B30 { s32 dist; s32 index; };
+struct Plr16B30 { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x30]; u16 kind; u8 pad66[0xE2]; struct Pos16B30 *pos; };
+extern struct Plr16B30 players16B30[] asm("gUnk_03003CE0");
+s32 sub_08016B30(u8 *self, s32 *best)
+{
+    struct Dist16B30 list[4];
+    u32 count;
+    s32 x, y;
+    struct Plr16B30 *p;
+    u32 i, j;
+
+    count = sub_08002164();
+    x = *(s32 *)(self + 0x14) >> 8;
+    y = *(s32 *)(self + 0x18) >> 8;
+    p = players16B30;
+    for (i = 0; i < count; i++, p++) {
+        u32 flags;
+        u32 kind;
+        list[i].dist = 0x7FFFFFFF;
+        flags = p->flags;
+        if (flags & 0x2000)
+            continue;
+        kind = p->kind;
+        if (kind > 9 && !((*(u16 *)(self + 0x5A) >> p->id) & 1))
+            continue;
+        if (kind == 9 || (flags & 0x40002))
+            continue;
+        {
+            struct Pos16B30 *pos = p->pos;
+            if (pos->kind != 0xB && !(pos->f4 & 0x20)) {
+                s32 d[2];
+                d[0] = x - pos->x;
+                d[1] = y - pos->y;
+                list[i].dist = d[0] * d[0] + d[1] * d[1];
+            }
+        }
+        list[i].index = i;
+    }
+    for (i = 0; i < count; i++) {
+        for (j = i + 1; j < count; j++) {
+            if (list[i].dist > list[j].dist) {
+                list[i].dist ^= list[j].dist;
+                list[j].dist ^= list[i].dist;
+                list[i].dist ^= list[j].dist;
+                list[i].index ^= list[j].index;
+                list[j].index ^= list[i].index;
+                list[i].index ^= list[j].index;
+            }
+        }
+    }
+    {
+        s32 d = Sqrt(list[0].dist);
+        if (d > *best)
+            return 10;
+        *best = d;
+        return list[0].index;
+    }
+}
 s32 sub_08016C88(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u16 arg4)
 {
   s16 dx;
