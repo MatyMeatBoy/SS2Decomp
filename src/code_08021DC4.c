@@ -5735,7 +5735,36 @@ void sub_08028368(u32 a, u32 b, u32 c)
     gGS8368->e[gGS8368->cnt].h = b;
     gGS8368->cnt++;
 }
+#ifdef NONMATCHING
+struct Ent0283C4 { s32 key; s32 sub; s32 count; };
+extern struct Ent0283C4 ents0283C4[3] asm("gUnk_03005D00");
+extern u32 mask0283C4 asm("gUnk_03005CFC");
+/* Find the slot holding (key, sub) and bump its count, else claim a free slot. */
+u16 sub_080283C4_v(s32 key, u16 sub) asm("sub_080283C4");
+u16 sub_080283C4_v(s32 key, u16 sub)
+{
+    s32 i, j;
+
+    for (i = 2; i >= 0; i--) {
+        if ((mask0283C4 & (1 << i)) && ents0283C4[i].key == key && ents0283C4[i].sub == sub) {
+            ents0283C4[i].count++;
+            return i;
+        }
+    }
+    for (j = 2; j >= 0; j--) {
+        if (!(mask0283C4 & (1 << j))) {
+            ents0283C4[j].key = key;
+            ents0283C4[j].sub = sub;
+            ents0283C4[j].count = 1;
+            mask0283C4 |= 1 << j;
+            return j;
+        }
+    }
+    return 0xFFFF;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080283C4);
+#endif
 void sub_08028498(u16 arg0)
 {
   u32 *flagp;
