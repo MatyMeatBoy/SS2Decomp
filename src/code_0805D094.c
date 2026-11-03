@@ -492,7 +492,7 @@ extern struct D854Video d854_video asm("gUnk_03001250");
 extern struct D854State *d854_game asm("gUnk_03005CF4");
 extern u16 d854_paletteTable[] asm("gUnk_084EBD38");
 extern u16 d854_palette0 asm("gUnk_03001F40");
-extern u16 d854_tiles[] asm("gUnk_03005740");
+extern u16 d854_tiles[][32] asm("gUnk_03005740");
 extern u8 gUnk_03005D70;
 extern void d854_endTask(void) asm("sub_0800035C");
 extern void d854_clearFlags(u16, u16, u16) asm("sub_080009F8");
@@ -505,7 +505,7 @@ void d854_impl(void *arg)
     struct D854Window *window = arg;
     u16 width, height;
     u32 delay;
-    register s32 initialized asm("r7");
+    s32 initialized;
     u16 left, right, top, bottom, column, row;
     s32 leftEdge, rightEdge, topEdge, bottomEdge;
     window->state = 1;
@@ -579,7 +579,7 @@ void d854_impl(void *arg)
             }
             break;
         case 5:
-            d854_clearRows(~(window->height >> 1) + window->y, window->height + 2);
+            { u16 h = window->height; d854_clearRows(~(h >> 1) + window->y, h + 2); }
             if (delay++ > 3) window->state = 0;
             break;
         }
@@ -593,21 +593,21 @@ void d854_impl(void *arg)
                 rightEdge = right + 1;
                 topEdge = top - 1;
                 bottomEdge = bottom + 1;
-                d854_tiles[leftEdge + topEdge * 32] = 0xF120;
-                d854_tiles[leftEdge + bottomEdge * 32] = 0xF126;
-                d854_tiles[rightEdge + topEdge * 32] = 0xF122;
-                d854_tiles[rightEdge + bottomEdge * 32] = 0xF128;
+                d854_tiles[topEdge][leftEdge] = 0xF120;
+                d854_tiles[bottomEdge][leftEdge] = 0xF126;
+                d854_tiles[topEdge][rightEdge] = 0xF122;
+                d854_tiles[bottomEdge][rightEdge] = 0xF128;
                 for (column = left; column <= right; column++) {
-                    d854_tiles[column + topEdge * 32] = 0xF121;
-                    d854_tiles[column + bottomEdge * 32] = 0xF127;
+                    d854_tiles[topEdge][column] = 0xF121;
+                    d854_tiles[bottomEdge][column] = 0xF127;
                 }
                 for (row = top; row <= bottom; row++) {
-                    d854_tiles[leftEdge + row * 32] = 0xF123;
-                    d854_tiles[rightEdge + row * 32] = 0xF125;
+                    d854_tiles[row][leftEdge] = 0xF123;
+                    d854_tiles[row][rightEdge] = 0xF125;
                 }
                 d854_video.win1H = (((leftEdge * 8) + 3) << 8) | (((right + 2) * 8) - 3);
                 d854_video.win1V = (((topEdge * 8) + 3) << 8) | (((bottom + 2) * 8) - 3);
-                d854_clearRows(~(window->height >> 1) + window->y, window->height + 3);
+                { u16 h = window->height; d854_clearRows(~(h >> 1) + window->y, h + 3); }
             }
         }
         sub_080003F0();

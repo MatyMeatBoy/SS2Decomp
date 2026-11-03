@@ -1,12 +1,10 @@
-shard 61 notes (nov03-w1)
-
-sub_0805CB8C: draft now exact size (620), 51 diff lines. Keys found: counts/angles/colors are separate
-  local arrays (not one struct); the per-i count loop is `i = 0; cnts = counts; do { cnts[i] = 0;
-  j = 0; next = i + 1; for (; j <= 15; ...) ... i = next; } while (i <= 3);` (ROM computes i+1 early
-  into r9 and copies the counts base into sl each outer pass); the palette store is duplicated in
-  both if/else branches. Left: spill slot order (ROM: pal base 0x2C, &counts 0x30, &angles 0x34,
-  &colors 0x38; ours pal last) and i/j hard regs swapped (ROM i=ip, j=r8). `u16 (*pal)[16] = cb8c_pal`
-  as a variable fixes the slot order but hoists the load to the function start (worse overall).
-  Permuter 5 min: nothing.
+sub_0805D854 (nov03-w5): draft 244 -> 141 (fullcheck instruction diff). Removed the `register ... asm("r7")`
+  on `initialized` (ROM spills it to sp+0x14; r7 is only the reload reg for the constant stores), tiles as
+  `u16 [][32]` (ROM indexes col*2 + (row<<6)), `u16 h = window->height` for both clearRows calls (one ldrh).
+  ROM computes right/bottom in two truncating steps (`right = x + (w >> 1); right += w & 1;`); doing that
+  is structurally right but reshuffles the allocation (204), so it is not in the draft yet.
+  ROM stack: width 0, height 4, left 8, top 0xC, delay 0x10, initialized 0x14, leftEdge 0x18, rightEdge
+  0x1C, topEdge 0x20, right+2 0x24, bottom+2 0x28; window ptr in sl. Declaration order does not move slots.
+ min: nothing.
 sub_0805DC1C: tiles are a 2D array `u16 [][32]` (ROM computes (row<<6)+(col<<1)); draft 294 -> 207.
   Left: ROM keeps halfWidth twice (r3 and a copy r2), one more spill slot (frame 0x14).
