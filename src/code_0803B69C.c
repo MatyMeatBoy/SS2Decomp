@@ -4501,34 +4501,53 @@ void sub_08042BB0(void) {
     }
     t43_finish2bb0(sub_080020F4());
 }
-#ifdef NONMATCHING
-struct P35C4 { u8 pad[0x8C]; s32 x, y; u8 tail[0x14C-0x94]; };
-extern struct P35C4 players35C4[] asm("gUnk_03003CE0");
-extern struct P35C4 heights35C4[] asm("gUnk_03003D70");
-extern s32 h35C4[] asm("gUnk_03003D70");
-struct Cfg35C4 {u32 id:16,mode:16;};
+extern u8 players35C4[] asm("gUnk_03003CE0");
+extern u8 heights35C4[] asm("gUnk_03003D70");
+struct Pos35C4 { s32 x, y; };
+extern s32 move35C4(void *, void *, void *, void *) asm("sub_08021FE0");
 void sub_080435C4(void)
 {
-    struct {s32 x,y;} position;
+    struct Pos35C4 position;
     s32 state;
-    struct Cfg35C4 config, tmp;
-    struct P35C4 *player;
-    s32 height;
-    for (;;) {
-        state=0;
-        position.x=0x7800;
-        position.y=0xF000;
-        tmp=config; tmp.id=0x40; tmp.mode=8; config=tmp;
-        player=&players35C4[sub_080020F4()];
-        while (sub_08021FE0(&player->x,&position,&state,&config)==0)
-            sub_080003F0();
-        height=players35C4[sub_080020F4()].y;
-        sub_08028D98(0,0,(s16)(0xED-(height>>8)),0);
+    u32 config;
+    u8 *player;
+    u32 idMask = 0xFFFF0000;
+    u32 modeMask = 0xFFFF;
+    u8 *heights;
+    struct Pos35C4 *pos;
+    s32 *statePtr;
+    u32 *configPtr;
+
+    {
+        register u8 *base asm("r2") = heights35C4;
+        heights = base;
     }
+    pos = &position;
+    statePtr = &state;
+    configPtr = &config;
+loop:
+    state = 0;
+    position.x = 0x7800;
+    pos->y = 0xF000;
+    {
+        register u32 value asm("r0") = config;
+        register u32 tmp asm("r2");
+        register u32 mode asm("r1");
+        value &= idMask;
+        tmp = 0x40;
+        value |= tmp;
+        mode = 8 << 16;
+        tmp = modeMask;
+        value &= tmp;
+        value |= mode;
+        config = value;
+    }
+    player = players35C4 + sub_080020F4() * 0x14C;
+    while (move35C4(player + 0x8C, &position, statePtr, configPtr) == 0)
+        sub_080003F0();
+    sub_08028D98(0, 0, (s16)(0xED - (*(s32 *)(heights + sub_080020F4() * 0x14C) >> 8)), 0);
+    goto loop;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0803B69C", sub_080435C4);
-#endif
 void callback5990C44(u32) asm("sub_0805990C");
 void reaction4385044(void) asm("sub_08043850");
 extern u8 *state44 asm("gUnk_03005CF4");
