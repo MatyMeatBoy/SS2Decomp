@@ -238,8 +238,9 @@ s32 sub_08009930(u32 area,u32 index)
         }
         loadState005.f80=0; loadState005.f82=0; loadState005.offX=0; loadState005.offY=0;
         loadState005.first.width=30; loadState005.first.height=32;
-        loadState005.width1=30; loadState005.height1=32;
-        loadState005.mapW=30; loadState005.mapH=32;
+        width=30; height=32;
+        loadState005.width1=width; loadState005.height1=height;
+        loadState005.mapW=width; loadState005.mapH=height;
         loadState005.flags=0; loadState005.scrollX=0; loadState005.scrollY=0;
     } else {
         loadState005.record=loadRecord005(loadAreas005[area].keys[index]);
