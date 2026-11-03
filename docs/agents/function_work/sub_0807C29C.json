@@ -1,7 +1,7 @@
 {
   "address": "0x0807C29C",
-  "updated_utc": "2026-10-29T20:59:14.894863+00:00",
-  "checkpoint": "Typed first inventory-to-manager item copy; base d79463af. Function remains NONMATCHING.",
+  "updated_utc": "2026-11-03T14:37:51.225628+00:00",
+  "checkpoint": "Hand-written case 0 (inventory grid state) with typed Mgr82/Inv82/Item82 structs; Drop82 inline helper reproduces the zero-fill CpuSet argument order. Function remains NONMATCHING.",
   "areas": [
     {
       "id": "item-copy-first",
@@ -10,10 +10,16 @@
       "evidence": "Local struct contains exactly four u32 words (16 bytes, 4-byte word alignment). Same source inventory slot +0x150 and destination manager +0xF4; original ASM loads three words before storing three, then copies fourth. Actual NONMATCHING module now emits LDMIA r0!,{r2,r3,r7}; STMIA r1!,{r2,r3,r7}; LDR r0,[r0]; STR r0,[r1], matching original copy shape/registers. Private candidate equals actual module bytes/relocations; frame0x3C retained and call order unchanged. Score5680->5686, size18276->18288 versus original18396; no full-match or global-equivalence claim."
     },
     {
+      "id": "case0",
+      "label": "State 0 (inventory grid input) rewritten by hand",
+      "state": "done",
+      "evidence": "Case 0 rewritten from ASM: key branches, mode switches, 8-way held-kind table, sparse cursor switch (hidden case 104 reproduces the 102-rooted decision tree), case-range switch for cursor 20..24, pick/drop/swap/merge paths with cross-jumped sound tails. Per-case normalized diff (difflib, autojunk off, branch targets/pool offsets masked): case 0 2091 -> 697 lines of 1330; whole-function sum of per-case diffs 6818 -> 4934. nmscore (autojunk unified diff) is not a reliable metric for this size."
+    },
+    {
       "id": "remaining-structure",
       "label": "Remaining state machine and item transfers",
-      "state": "pending",
-      "evidence": "Other item copies are unchanged; broad CFG/layout and register differences remain. Dispatch-to-label and first key-branch flattening privately produced byte-identical baseline and were rejected."
+      "state": "active",
+      "evidence": "Cases 1-21 and the post-switch drawing tail are still m2c-derived; largest remaining per-case diffs: case 13 (~1150), tail (~1150), case 6, 16, 1."
     },
     {
       "id": "match",

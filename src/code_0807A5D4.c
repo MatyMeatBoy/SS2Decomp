@@ -288,10 +288,22 @@ extern const u32 gUnk_084EBD4C[];
 extern s16 gUnk_084ECBB0[];
 extern s16 gUnk_084ECBBC[];
 extern u32 gUnk_084ECBC8[];
+struct Item82 { u16 kind; u16 sub; u32 count; u8 flag; u8 pad[7]; };
+struct Inv82 { u8 pad0[0x68]; u16 equip; u8 pad6A[0x150 - 0x6A]; struct Item82 items[25]; struct Item82 bank[75]; };
+struct Mgr82 {
+    u32 mode; u32 cursor; u32 prev; u32 fC; s32 f10; u32 f14; u32 state; u32 heldFrom; u32 heldIdx; s32 f24; u32 flags;
+    u8 pad2C[0x68 - 0x2C]; u16 f68; s16 f6A; u8 pad6C[0xF0 - 0x6C]; struct Item82 *cur; struct Item82 held; struct Item82 stock[1];
+};
+extern struct Mgr82 *gMgr82 asm("gUnk_03006440");
+extern struct Inv82 *gInv82 asm("gUnk_030034E0");
+static inline void Drop82(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; }
+#define DROP82() Drop82(&sp14)
 void sub_0807C29C(void) {
+    u16 keys; u16 down; u32 cur, val, i, n, from, over, have, ok; u16 target;
+    struct Item82 *item; struct Item82 *held;
     struct ItemCopy82 { u32 words[4]; };
     s32 sp4[4];
-    u32 sp14;
+    vu32 sp14;
     s32 sp18[4];
     s32 sp28;
     s32 sp2C;
@@ -741,576 +753,437 @@ void sub_0807C29C(void) {
     }
     temp_r0_2 = M2C_FIELD(gUnk_03006440, u32 *, 0x18);
     switch (temp_r0_2) {                            /* switch 1 */
-    case 0:                                         /* switch 1 */
-        if (!(0x10 & keys29_03001308)) {
-            if (!(0x20 & keys29_03001308)) {
-                if (0x40 & keys29_03001308) {
-                    temp_r0_3 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                    if (temp_r0_3 > 4U) {
-                        M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r0_3;
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_3 - 5);
-                        goto block_828;
+    case 0:
+        keys = keys29_03001308;
+        if (keys & 0x10) {
+            sub_0805865C(0x62);
+            cur = gMgr82->cursor;
+            if (cur % 5 < 4) {
+                gMgr82->prev = cur;
+                gMgr82->cursor = cur + 1;
+                break;
+            }
+            if (gMgr82->heldFrom != 0x16) {
+                switch (gMgr82->mode) {
+                case 2:
+                    if (gMgr82->held.kind == 1) {
+                        if (cur <= 14) {
+                            if (*(u32 *)(sub_08007290(gMgr82->held.sub | 0x100000) + 0xA4) == 0)
+                                break;
+                            gMgr82->state = 8;
+                            gMgr82->cursor = 0;
+                            gMgr82->prev = 1;
+                            break;
+                        }
+                        gMgr82->state = 10;
+                        gMgr82->cursor = 0;
+                        gMgr82->prev = 1;
+                        break;
                     }
-                } else {
-                    temp_r0_4 = 0x80 & keys29_03001308;
-                    sp30 = (u32) temp_r0_4;
-                    if (temp_r0_4 != 0) {
-                        temp_r2 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                        if (temp_r2 <= 0x13U) {
-                            M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r2;
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r2 + 5);
-                            goto block_828;
+                    gMgr82->state = 10;
+                    gMgr82->cursor = 0;
+                    gMgr82->prev = 1;
+                    break;
+                case 3:
+                    if (gMgr82->heldFrom == 11)
+                        break;
+                    gMgr82->state = 12;
+                    gMgr82->cursor = 0;
+                    gMgr82->prev = 1;
+                    break;
+                case 4:
+                    gMgr82->state = 13;
+                    gMgr82->cursor = cur / 5 * 3;
+                    gMgr82->prev = 1;
+                    break;
+                case 6:
+                    held = &gMgr82->held;
+                    if (held->kind == 10) {
+                        if (gMgr82->flags & 4) {
+                            gMgr82->state = 17;
+                            gMgr82->cursor = 100;
                         }
-                        if (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) == 0x16) {
-                            M2C_FIELD(gUnk_03006440, u32 *, 8) = 0x14U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 7U;
-                            if (temp_r2 >= 0x14U) {
-                                if (temp_r2 <= 0x15U) {
-                                    M2C_FIELD(gUnk_03006440, u32 *, 4) = 1U;
-                                    goto block_828;
-                                }
-                                if (temp_r2 <= 0x18U) {
-                                    M2C_FIELD(gUnk_03006440, u32 *, 4) = 2U;
-                                    goto block_828;
-                                }
-                            }
-                        }
-                    } else {
-                        temp_r2_2 = 1 & keys29_03001324;
-                        if (temp_r2_2 != 0) {
-                            M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                            if (M2C_FIELD(gUnk_03006440, u32 *, 0) == 5) {
-                                temp_r1 = M2C_FIELD(gUnk_03006440, u16 **, 0xF0);
-                                temp_r0_5 = M2C_FIELD(temp_r1, u16 *, 0);
-                                if ((temp_r0_5 != 0) && ((s32) temp_r0_5 <= 5) && ((s32) temp_r0_5 >= 2) && (M2C_FIELD(temp_r1, u8 *, 8) != 0)) {
-                                    temp_r4 = sub_0805B0F0();
-                                    if (temp_r4 >= sub_0805B068(M2C_FIELD(gUnk_03006440, u16 **, 0xF0))) {
-                                        M2C_FIELD(M2C_FIELD(gUnk_03006440, u16 **, 0xF0), s8 *, 8) = 0;
-                                        M2C_FIELD(gUnk_03006440, s16 *, 0x68) = 6;
-                                        M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                                        sub_0807C014(sub_0805B068(M2C_FIELD((gUnk_03006440 + 0x6A), u16 **, 0x86)));
-                                        goto block_213;
-                                    }
-                                    goto block_771;
-                                }
-                            } else {
-                                temp_r6 = M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                if (temp_r6 == 0x16) {
-                                    temp_r3 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                                    temp_r0_6 = gUnk_030034E0 + (temp_r3 * 0x10);
-                                    temp_r4_2 = temp_r0_6 + 0x150;
-                                    temp_r2_3 = M2C_FIELD(temp_r0_6, u16 *, 0x150);
-                                    if (temp_r2_3 != 0) {
-                                        if (temp_r2_3 != 0xA) {
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x18);
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r3;
-                                            temp_r1_2 = gUnk_03006440 + 0xF4;
-                                            /* Original copy loads/stores three words, then the fourth. */
-                                            *(struct ItemCopy82 *)temp_r1_2 = *(const struct ItemCopy82 *)temp_r4_2;
-                                        } else {
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x18);
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r3;
-                                            M2C_FIELD(gUnk_03006440, s32 *, 0xF4) = temp_r2_3;
-                                            temp_r1_3 = gUnk_030034E0 + 0x154;
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = (u32) *(u32 *)(temp_r1_3 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10));
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0x14U;
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0xC) = sp30;
-                                            temp_r1_4 = *(u32 *)(temp_r1_3 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10));
-                                            var_r3 = 6;
-                                            var_r2 = 4;
-                                            if ((u32) M2C_FIELD(((u32)gUnk_084EBD4C), u32 *, 0x10) > temp_r1_4) {
-                                                var_r4 = ((u32)gUnk_084EBD4C) + 0x10;
-loop_120:
-                                                var_r4 += 4;
-                                                var_r2 += 1;
-                                                var_r3 -= 1;
-                                                if (var_r2 <= 9U) {
-                                                    if ((u32) *(u32 *)var_r4 > temp_r1_4) {
-                                                        goto loop_120;
-                                                    }
-                                                }
-                                            }
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x14) = var_r3;
-                                            M2C_FIELD(gUnk_03006440, s32 *, 0x10) = (s32) (var_r3 - 1);
-                                        }
-block_743:
-                                        sub_0805865C(0x5E);
-                                    }
-                                } else {
-                                    temp_r0_7 = *M2C_FIELD(gUnk_03006440, u16 **, 0xF0);
-                                    if (temp_r0_7 != 0) {
-                                        sp34 = gUnk_03006440 + 0xF4;
-                                        if ((u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) == 0xA) {
-                                            temp_r4_3 = M2C_FIELD(gUnk_03006440, u32 *, 0x20);
-                                            temp_r2_4 = gUnk_030034E0 + 0x154;
-                                            temp_r0_8 = (temp_r4_3 * 0x10) + temp_r2_4;
-                                            sp38 = temp_r0_8;
-                                            temp_r7 = *(s32 *)temp_r0_8;
-                                            temp_r2_5 = M2C_FIELD(gUnk_03006440, u32 *, 0xF8);
-                                            if (temp_r7 != temp_r2_5) {
-                                                if (temp_r0_7 == 0xA) {
-                                                    temp_r3_2 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                                                    temp_r1_5 = *(u32 *)((temp_r3_2 * 0x10) + temp_r2_4) + temp_r2_5;
-                                                    if (temp_r1_5 <= 0x186A0U) {
-                                                        switch (temp_r6) { /* switch 10; irregular */
-                                                        case 0: /* switch 10 */
-                                                            *(s32 *)sp38 = temp_r7 - temp_r2_5;
-                                                            temp_r1_6 = M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10;
-                                                            if (*(u32 *)(temp_r2_4 + temp_r1_6) == 0) {
-                                                                M2C_FIELD((gUnk_030034E0 + temp_r1_6), s16 *, 0x150) = (s16) temp_r6;
-                                                            }
-                                                            break;
-                                                        case 13: /* switch 10 */
-                                                            temp_r3_3 = gUnk_03006440 + 0x108;
-                                                            temp_r2_6 = temp_r3_3 + (M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10);
-                                                            *(s32 *)temp_r2_6 -= M2C_FIELD(gUnk_03006440, u32 *, 0xF8);
-                                                            temp_r0_9 = M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10;
-                                                            temp_r3_4 = *(u32 *)(temp_r3_3 + temp_r0_9);
-                                                            if (temp_r3_4 == 0) {
-                                                                M2C_FIELD((gUnk_03006440 + temp_r0_9), s16 *, 0x104) = (s16) temp_r3_4;
-                                                            }
-                                                            break;
-                                                        }
-                                                        temp_r3_5 = gUnk_030034E0 + 0x154 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
-                                                        *(s32 *)temp_r3_5 += M2C_FIELD(gUnk_03006440, u32 *, 0xF8);
-                                                        sp14 = 0;
-                                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
-                                                    } else {
-                                                        if (temp_r4_3 != temp_r3_2) {
-                                                            temp_r5 = temp_r1_5 + 0xFFFE7960;
-                                                            switch (temp_r6) { /* switch 11; irregular */
-                                                            case 0: /* switch 11 */
-                                                                M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = (u32) ((temp_r7 - temp_r2_5) + temp_r5);
-                                                                break;
-                                                            case 13: /* switch 11 */
-                                                                M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = (u32) ((*(u32 *)(gUnk_03006440 + 0x108 + (M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10)) - M2C_FIELD(gUnk_03006440, u32 *, 0xF8)) + temp_r5);
-                                                                break;
-                                                            }
-                                                            *(u32 *)(gUnk_030034E0 + 0x154 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10)) = 0x186A0;
-                                                            sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 0x20), gUnk_03006440 + 0xF4);
-                                                        }
-                                                        sp14 = 0;
-                                                        goto block_776;
-                                                    }
-                                                    goto block_777;
-                                                }
-                                                goto block_771;
-                                            }
-                                            temp_r1_7 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                                            temp_r3_6 = temp_r1_7 * 0x10;
-                                            temp_r0_10 = gUnk_030034E0 + temp_r3_6;
-                                            temp_r2_7 = temp_r0_10 + 0x150;
-                                            if (M2C_FIELD(temp_r0_10, u16 *, 0x150) == 0xA) {
-                                                temp_r2_8 = temp_r2_4 + temp_r3_6;
-                                                temp_r0_11 = *(u32 *)temp_r2_8 + temp_r7;
-                                                if (temp_r0_11 <= 0x186A0U) {
-                                                    if (temp_r4_3 != temp_r1_7) {
-                                                        *(u32 *)temp_r2_8 = temp_r0_11;
-                                                        sub_0807BD78(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20));
-                                                    }
-                                                    sp14 = 0;
-                                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
-                                                } else {
-                                                    if (temp_r4_3 != temp_r1_7) {
-                                                        M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = (u32) (temp_r0_11 + 0xFFFE7960);
-                                                        *(u32 *)((M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10) + temp_r2_4) = 0x186A0;
-                                                        sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 0x20), sp34);
-                                                    }
-                                                    sp14 = 0;
-                                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
-                                                }
-                                            } else {
-                                                M2C_FIELD(&sp4, s32 *, 0) = (s32) M2C_FIELD(temp_r0_10, u32 *, 0x150);
-                                                M2C_FIELD(&sp4, s32 *, 4) = (s32) M2C_FIELD(temp_r2_7, s32 *, 4);
-                                                M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(temp_r2_7, s32 *, 8);
-                                                M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r2_7, s32 *, 0xC);
-                                                sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), sp34);
-                                                sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                                sp14 = sp30;
-                                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = sp30;
-                                            }
-                                            goto block_777;
-                                        }
-                                        if (temp_r6 != 0xB) {
-                                            if (*(s32 *)sp34 == 0xC0001) {
-                                                temp_r1_8 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
-                                                temp_r6_2 = temp_r1_8 + 0x150;
-                                                temp_r0_12 = M2C_FIELD(temp_r1_8, u16 *, 0x150);
-                                                if (((s32) temp_r0_12 <= 5) && ((s32) temp_r0_12 >= 2)) {
-                                                    if (M2C_FIELD(temp_r1_8, u8 *, 0x158) != 0) {
-                                                        M2C_FIELD(temp_r1_8, u8 *, 0x158) = 0U;
-                                                        M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                                                        sub_0807BD78(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20));
-                                                        sp14 = sp30;
-                                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = sp30;
-block_213:
-                                                        sub_0805865C(0x18C);
-                                                    } else {
-                                                        *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r6_2;
-                                                        sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), sp34);
-                                                        sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                                        sp14 = sp30;
-                                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = sp30;
-                                                        goto block_777;
-                                                    }
-                                                } else {
-                                                    temp_r1_9 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
-                                                    temp_r1_10 = temp_r1_9 + 0x150;
-                                                    *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r1_10;
-                                                    var_r1 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                                                    var_r2_2 = gUnk_03006440 + 0xF4;
-                                                    var_r0 = 0;
-                                                    goto block_773;
-                                                }
-                                            } else {
-                                                switch (temp_r6) { /* switch 7; irregular */
-                                                case 6: /* switch 7 */
-                                                    break;
-                                                case 13: /* switch 7 */
-                                                case 0: /* switch 7 */
-                                                    temp_r1_11 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
-                                                    temp_r1_12 = temp_r1_11 + 0x150;
-                                                    M2C_FIELD(&sp4, s32 *, 0) = M2C_FIELD(temp_r1_11, s32 *, 0x150);
-                                                    M2C_FIELD(&sp4, s32 *, 4) = (s32) M2C_FIELD(temp_r1_12, s32 *, 4);
-                                                    M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(temp_r1_12, s32 *, 8);
-                                                    M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r1_12, s32 *, 0xC);
-                                                    var_r1 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                                                    var_r2_2 = gUnk_03006440 + 0xF4;
-                                                    var_r0 = 0;
-block_773:
-                                                    sub_0807BEA0(var_r0, var_r1, var_r2_2);
-block_774:
-                                                    var_r0_2 = M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                                    var_r1_2 = M2C_FIELD(gUnk_03006440, u32 *, 0x20);
-                                                    var_r2_3 = &sp4;
-block_775:
-                                                    sub_0807BEA0(var_r0_2, var_r1_2, var_r2_3);
-                                                    sp14 = 0;
-block_776:
-                                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
-                                                    goto block_777;
-                                                default: /* switch 7 */
-                                                    temp_r1_13 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
-                                                    if ((u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) == M2C_FIELD(temp_r1_13, u16 *, 0x150)) {
-                                                        var_r5 = 0;
-                                                        temp_r0_13 = M2C_FIELD(temp_r1_13, u16 *, 0x150) - 2;
-                                                        switch (temp_r0_13) { /* switch 8 */
-                                                        case 0: /* switch 8 */
-                                                            var_r0_3 = sub_0805AE34(gUnk_030034E0 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10) + 0x150));
-block_165:
-                                                            if (var_r0_3 != 0) {
-                                                                goto block_169;
-                                                            }
-                                                        default: /* switch 8 */
-block_168:
-                                                            if (var_r5 != 0) {
-block_169:
-                                                                temp_r1_14 = gUnk_030034E0 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
-                                                                temp_r1_15 = temp_r1_14 + 0x150;
-                                                                *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r1_15;
-                                                                sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                                                sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                                                temp_r0_14 = (u16) M2C_FIELD(&sp4, s32 *, 0) - 2;
-                                                                switch (temp_r0_14) { /* switch 9 */
-                                                                case 0: /* switch 9 */
-                                                                    sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, 0x68));
-                                                                    break;
-                                                                case 3: /* switch 9 */
-                                                                    sub_0805D13C();
-                                                                    break;
-                                                                case 1: /* switch 9 */
-                                                                    sub_0805D0E8();
-                                                                    break;
-                                                                case 2: /* switch 9 */
-                                                                    sub_0805D094();
-                                                                    break;
-                                                                case 4: /* switch 9 */
-                                                                    sub_0805D1E0();
-                                                                    break;
-                                                                case 5: /* switch 9 */
-                                                                    sub_0805D190();
-                                                                    break;
-                                                                }
-                                                                sp14 = 0;
-                                                                goto block_776;
-                                                            }
-                                                            goto block_771;
-                                                        case 3: /* switch 8 */
-                                                            var_r0_3 = sub_0805D2E0(gUnk_030034E0 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10) + 0x150));
-                                                            goto block_165;
-                                                        case 1: /* switch 8 */
-                                                            var_r0_3 = sub_0805D278(gUnk_030034E0 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10) + 0x150));
-                                                            goto block_165;
-                                                        case 2: /* switch 8 */
-                                                            var_r0_3 = sub_0805D210(gUnk_030034E0 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10) + 0x150));
-                                                            goto block_165;
-                                                        case 4: /* switch 8 */
-                                                        case 5: /* switch 8 */
-                                                            var_r5 = 1;
-                                                            goto block_168;
-                                                        }
-                                                    } else {
-block_771:
-                                                        sub_0805865C(0x61);
-                                                    }
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    } else if ((u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) != 0xA) {
-                                        if (temp_r6 != 0xB) {
-                                            sub_0807BD78(temp_r6, M2C_FIELD(gUnk_03006440, u32 *, 0x20));
-                                            sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                            sp14 = (u32) temp_r0_7;
-                                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r0_7;
-                                            goto block_777;
-                                        }
-                                        sub_0807C014(sub_0805AE94(gUnk_03006440 + 0xF4));
-                                        sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                        if ((u32) M2C_FIELD(gUnk_03006440, u32 *, 0x20) > 8U) {
-                                            sub_0807BD78(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20));
-                                        }
-                                        temp_r0_15 = M2C_FIELD(gUnk_03006440, u32 *, 0x20);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r0_15;
-                                        M2C_FIELD(gUnk_03006440, u32 *, 8) = (u32) (temp_r0_15 + 1);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                        sp14 = (u32) temp_r0_7;
-                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r0_7;
-block_800:
-                                        sub_0805865C(0x63);
-                                    } else {
-                                        switch (temp_r6) { /* switch 6; irregular */
-                                        case 0:     /* switch 6 */
-                                            temp_r3_7 = gUnk_030034E0 + 0x154;
-                                            temp_r2_9 = temp_r3_7 + (M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10);
-                                            *(s32 *)temp_r2_9 -= M2C_FIELD(gUnk_03006440, u32 *, 0xF8);
-                                            temp_r1_16 = temp_r3_7 + (M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10);
-                                            if ((s32) *(s32 *)temp_r1_16 < 0) {
-                                                *(s32 *)temp_r1_16 = (s32) temp_r6;
-                                            }
-                                            temp_r3_8 = M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10;
-                                            if (*(u32 *)(gUnk_030034E0 + 0x154 + temp_r3_8) == 0) {
-                                                M2C_FIELD((gUnk_030034E0 + temp_r3_8), s16 *, 0x150) = (s16) temp_r6;
-                                            }
-                                            sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                            sp14 = temp_r6;
-                                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r6;
-block_777:
-                                            sub_0805865C(0x5F);
-                                            break;
-                                        case 13:    /* switch 6 */
-                                            temp_r3_9 = gUnk_03006440 + 0x108;
-                                            temp_r2_10 = temp_r3_9 + (M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10);
-                                            *(s32 *)temp_r2_10 -= M2C_FIELD(gUnk_03006440, u32 *, 0xF8);
-                                            temp_r1_17 = M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10;
-                                            if (*(u32 *)(temp_r3_9 + temp_r1_17) == 0) {
-                                                M2C_FIELD((gUnk_03006440 + temp_r1_17), u16 *, 0x104) = temp_r0_7;
-                                            }
-                                            sub_0807BEA0(0U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                            sp14 = (u32) temp_r0_7;
-                                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r0_7;
-                                            goto block_777;
-                                        }
-                                    }
-                                }
-                            }
-                        } else if (0x100 & keys29_03001324) {
-                            temp_r0_16 = M2C_FIELD(gUnk_03006440, u32 *, 0);
-                            if ((temp_r0_16 != 2) && (temp_r0_16 == 3)) {
-                                temp_r0_17 = M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                if ((temp_r0_17 != 0xB) && (temp_r0_17 != 0x16)) {
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_2;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-block_828:
-                                    sub_0805865C(0x62);
-                                }
-                            }
-                        }
+                        break;
                     }
+                    if (held->kind == 9) {
+                        gMgr82->state = 16;
+                        gMgr82->cursor = 0;
+                        gMgr82->prev = 1;
+                    }
+                    break;
                 }
             } else {
-                sub_0805865C(0x62);
-                temp_r5_2 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                if ((temp_r5_2 % 5U) != 0) {
-                    M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r5_2;
-                    M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r5_2 - 1);
-                } else {
-                    if (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) != 0x16) {
-                        temp_r0_18 = (u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) - 1;
-                        switch (temp_r0_18) {       /* switch 4 */
-                        case 0:                     /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x64U;
-                            break;
-                        case 1:                     /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
-                            break;
-                        case 3:                     /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 5U;
-                            break;
-                        case 4:                     /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x14U;
-                            break;
-                        case 2:                     /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 0xAU;
-                            break;
-                        case 6:                     /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x65U;
-                            break;
-                        case 5:                     /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x66U;
-                            break;
-                        default:                    /* switch 4 */
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x67U;
-                            break;
-                        }
+                switch (gMgr82->mode) {
+                case 2:
+                    if (cur > 14) {
+                        gMgr82->state = 10;
+                        gMgr82->cursor = 0;
+                        gMgr82->prev = 1;
+                    } else {
+                        gMgr82->state = 8;
+                        gMgr82->cursor = 0;
+                        gMgr82->prev = 1;
                     }
-                    if (M2C_FIELD(gUnk_03006440, u32 *, 0) == 5) {
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x67U;
-                    }
-                    temp_r5_3 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-                    switch (temp_r5_3) {            /* switch 5; irregular */
-                    case 0x0:                       /* switch 5 */
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 1U;
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r5_3;
-                        M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                        M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        break;
-                    case 0x5:                       /* switch 5 */
-                        var_r0_4 = 2;
-block_97:
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x18) = var_r0_4;
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
-                        M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                        break;
-                    case 0xA:                       /* switch 5 */
-                    case 0xF:                       /* switch 5 */
-                        var_r0_4 = 4;
-                        goto block_97;
-                    case 0x14:                      /* switch 5 */
-                        var_r0_4 = 3;
-                        goto block_97;
-                    case 0x64:                      /* switch 5 */
-                        var_r0_4 = 9;
-                        goto block_97;
-                    case 0x65:                      /* switch 5 */
-                        var_r0_4 = 5;
-                        goto block_97;
-                    case 0x66:                      /* switch 5 */
-                        var_r0_4 = 6;
-                        goto block_97;
-                    case 0x67:                      /* switch 5 */
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r5_2;
-                        break;
-                    }
+                    break;
+                case 3:
+                    gMgr82->state = 11;
+                    gMgr82->cursor = cur / 5 * 3;
+                    gMgr82->prev = 1;
+                    if (gMgr82->cursor == 12)
+                        gMgr82->cursor = 9;
+                    break;
+                case 4:
+                    gMgr82->state = 13;
+                    gMgr82->cursor = cur / 5 * 3;
+                    gMgr82->prev = 1;
+                    break;
+                case 6:
+                    gMgr82->state = 16;
+                    gMgr82->cursor = 0;
+                    gMgr82->prev = 1;
+                    break;
                 }
             }
-        } else {
+        } else if (keys & 0x20) {
             sub_0805865C(0x62);
-            temp_r5_4 = M2C_FIELD(gUnk_03006440, u32 *, 4);
-            if ((u32) (temp_r5_4 % 5U) <= 3U) {
-                M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r5_4;
-                M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r5_4 + 1);
-            } else {
-                temp_r1_18 = M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                if (temp_r1_18 != 0x16) {
-                    temp_r0_19 = M2C_FIELD(gUnk_03006440, u32 *, 0);
-                    switch (temp_r0_19) {           /* switch 2; irregular */
-                    case 2:                         /* switch 2 */
-                        temp_r6_3 = (u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4);
-                        if (temp_r6_3 == 1) {
-                            if (temp_r5_4 <= 0xEU) {
-                                if (M2C_FIELD((void *) sub_08007290(M2C_FIELD((gUnk_03006440 + 0xF4), u16 *, 2) | 0x100000), s32 *, 0xA4) != 0) {
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 8U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 8) = (u32) temp_r6_3;
-                                }
-                            } else {
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xAU;
-                                M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 8) = (u32) temp_r6_3;
-                            }
-                        } else {
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xAU;
-                            goto block_55;
-                        }
-                        break;
-                    case 3:                         /* switch 2 */
-                        if (temp_r1_18 != 0xB) {
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
-                            goto block_55;
-                        }
-                        break;
-                    case 4:                         /* switch 2 */
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xDU;
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) ((temp_r5_4 / 5U) * 3);
-                        goto block_56;
-                    case 6:                         /* switch 2 */
-                        if ((u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) == 0xA) {
-                            if (M2C_FIELD(gUnk_03006440, s32 *, 0x28) & 4) {
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0x11U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x64U;
-                            }
-                        } else if ((u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) == 9) {
-                            goto block_54;
-                        }
-                        break;
-                    }
-                } else {
-                    temp_r0_20 = M2C_FIELD(gUnk_03006440, u32 *, 0);
-                    switch (temp_r0_20) {           /* switch 3; irregular */
-                    case 2:                         /* switch 3 */
-                        if (temp_r5_4 > 0xEU) {
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xAU;
-                        } else {
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 8U;
-                        }
-block_55:
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
-block_56:
-                        M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                        break;
-                    case 3:                         /* switch 3 */
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xBU;
-                        temp_r1_19 = (temp_r5_4 / 5U) * 3;
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r1_19;
-                        M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                        if (temp_r1_19 == 0xC) {
-                            M2C_FIELD(gUnk_03006440, u32 *, 4) = 9U;
-                        }
-                        break;
-                    case 4:                         /* switch 3 */
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xDU;
-                        M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) ((temp_r5_4 / 5U) * 3);
-                        goto block_56;
-                    case 6:                         /* switch 3 */
-block_54:
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0x10U;
-                        goto block_55;
-                    }
+            if (gMgr82->cursor % 5 != 0) {
+                gMgr82->prev = gMgr82->cursor;
+                gMgr82->cursor--;
+                break;
+            }
+            cur = gMgr82->cursor;
+            if (gMgr82->heldFrom != 0x16) {
+                switch (gMgr82->held.kind) {
+                case 1: gMgr82->cursor = 100; break;
+                case 2: gMgr82->cursor = 0; break;
+                case 4: gMgr82->cursor = 5; break;
+                case 5: gMgr82->cursor = 20; break;
+                case 3: gMgr82->cursor = 10; break;
+                case 7: gMgr82->cursor = 101; break;
+                case 6: gMgr82->cursor = 102; break;
+                default: gMgr82->cursor = 103; break;
                 }
+            }
+            if (gMgr82->mode == 5)
+                gMgr82->cursor = 103;
+            switch (gMgr82->cursor) {
+            case 0:
+                gMgr82->state = 1;
+                gMgr82->cursor = 0;
+                gMgr82->prev = 1;
+                gMgr82->f6A = 100;
+                break;
+            case 5:
+                gMgr82->state = 2;
+                gMgr82->cursor = 0;
+                gMgr82->prev = 1;
+                break;
+            case 10:
+            case 15:
+                gMgr82->state = 4;
+                gMgr82->cursor = 0;
+                gMgr82->prev = 1;
+                break;
+            case 20:
+                gMgr82->state = 3;
+                gMgr82->cursor = 0;
+                gMgr82->prev = 1;
+                break;
+            case 100:
+                gMgr82->state = 9;
+                gMgr82->cursor = 0;
+                gMgr82->prev = 1;
+                break;
+            case 101:
+                gMgr82->state = 5;
+                gMgr82->cursor = 0;
+                gMgr82->prev = 1;
+                break;
+            case 102:
+                gMgr82->state = 6;
+                gMgr82->cursor = 0;
+                gMgr82->prev = 1;
+                break;
+            case 103:
+                gMgr82->cursor = cur;
+                break;
+            case 104:
+                break;
+            }
+        } else if (keys & 0x40) {
+            if (gMgr82->cursor >= 5) {
+                gMgr82->prev = gMgr82->cursor;
+                gMgr82->cursor -= 5;
+                sub_0805865C(0x62);
+            }
+        } else if ((down = keys & 0x80) != 0) {
+            cur = gMgr82->cursor;
+            if (cur < 20) {
+                gMgr82->prev = cur;
+                gMgr82->cursor = cur + 5;
+                sub_0805865C(0x62);
+            } else if (gMgr82->heldFrom == 0x16) {
+                gMgr82->prev = 20;
+                gMgr82->state = 7;
+                switch (cur) {
+                case 20 ... 21:
+                    gMgr82->cursor = 1;
+                    sub_0805865C(0x62);
+                    break;
+                case 22 ... 24:
+                    gMgr82->cursor = 2;
+                    sub_0805865C(0x62);
+                    break;
+                }
+            }
+        } else if (keys29_03001324 & 1) {
+            gMgr82->f6A = 100;
+            if (gMgr82->mode != 5) {
+                from = gMgr82->heldFrom;
+                if (from == 0x16) {
+                    item = &gInv82->items[gMgr82->cursor];
+                    if (item->kind == 0)
+                        break;
+                    if (item->kind != 10) {
+                        gMgr82->heldFrom = gMgr82->state;
+                        gMgr82->heldIdx = gMgr82->cursor;
+                        gMgr82->held = *item;
+                        sub_0805865C(0x5E);
+                        break;
+                    }
+                    gMgr82->heldFrom = gMgr82->state;
+                    gMgr82->heldIdx = gMgr82->cursor;
+                    gMgr82->held.kind = 10;
+                    gMgr82->held.count = gInv82->items[gMgr82->cursor].count;
+                    gMgr82->state = 20;
+                    gMgr82->fC = 0;
+                    val = gInv82->items[gMgr82->cursor].count;
+                    n = 6;
+                    for (i = 4; i <= 9; i++, n--) {
+                        if (gUnk_084EBD4C[i] <= val)
+                            break;
+                    }
+                    gMgr82->f14 = n;
+                    gMgr82->f10 = n - 1;
+                    sub_0805865C(0x5E);
+                    break;
+                }
+                target = gMgr82->cur->kind;
+                if (target == 0) {
+                    if (gMgr82->held.kind != 10) {
+                        if (from != 11) {
+                            sub_0807BD78(from, gMgr82->heldIdx);
+                            sub_0807BEA0(0, gMgr82->cursor, (void *)&gMgr82->held);
+                            DROP82();
+                            sub_0805865C(0x5F);
+                            break;
+                        }
+                        sub_0807C014(sub_0805AE94(&gMgr82->held));
+                        sub_0807BEA0(0, gMgr82->cursor, (void *)&gMgr82->held);
+                        if (gMgr82->heldIdx > 8)
+                            sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                        gMgr82->cursor = gMgr82->heldIdx;
+                        gMgr82->prev = gMgr82->heldIdx + 1;
+                        gMgr82->state = gMgr82->heldFrom;
+                        DROP82();
+                        sub_0805865C(0x63);
+                        break;
+                    }
+                    if (from == 0) {
+                        gInv82->items[gMgr82->heldIdx].count -= gMgr82->held.count;
+                        if ((s32)gInv82->items[gMgr82->heldIdx].count < 0)
+                            gInv82->items[gMgr82->heldIdx].count = 0;
+                        if (gInv82->items[gMgr82->heldIdx].count == 0)
+                            gInv82->items[gMgr82->heldIdx].kind = 0;
+                    } else if (from == 13) {
+                        gMgr82->stock[gMgr82->heldIdx].count -= gMgr82->held.count;
+                        if (gMgr82->stock[gMgr82->heldIdx].count == 0)
+                            gMgr82->stock[gMgr82->heldIdx].kind = 0;
+                    } else {
+                        break;
+                    }
+                    sub_0807BEA0(0, gMgr82->cursor, (void *)&gMgr82->held);
+                    DROP82();
+                    sub_0805865C(0x5F);
+                    break;
+                }
+                held = &gMgr82->held;
+                if (gMgr82->held.kind != 10) {
+                    if (from == 11)
+                        break;
+                    if (*(u32 *)held == 0x000C0001) {
+                        item = &gInv82->items[gMgr82->cursor];
+                        if (item->kind <= 5 && item->kind >= 2) {
+                            if (item->flag != 0) {
+                                item->flag = 0;
+                                gMgr82->f6A = 100;
+                                sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                                DROP82();
+                                sub_0805865C(0x18C);
+                                break;
+                            }
+                            *(struct Item82 *)sp4 = *item;
+                            sub_0807BEA0(0, gMgr82->cursor, (void *)held);
+                            sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
+                            DROP82();
+                            sub_0805865C(0x5F);
+                            break;
+                        }
+                        *(struct Item82 *)sp4 = gInv82->items[gMgr82->cursor];
+                        sub_0807BEA0(0, gMgr82->cursor, (void *)&gMgr82->held);
+                        sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
+                        DROP82();
+                        sub_0805865C(0x5F);
+                        break;
+                    }
+                    switch (from) {
+                    case 0:
+                    case 13:
+                        *(struct Item82 *)sp4 = gInv82->items[gMgr82->cursor];
+                        sub_0807BEA0(0, gMgr82->cursor, (void *)&gMgr82->held);
+                        sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
+                        DROP82();
+                        sub_0805865C(0x5F);
+                        break;
+                    case 6:
+                        break;
+                    default:
+                        item = &gInv82->items[gMgr82->cursor];
+                        if (gMgr82->held.kind != item->kind) {
+                            sub_0805865C(0x61);
+                            break;
+                        }
+                        ok = 0;
+                        switch (item->kind) {
+                        case 2:
+                            if (sub_0805AE34((void *)&gInv82->items[gMgr82->cursor]))
+                                ok = 1;
+                            break;
+                        case 5:
+                            if (sub_0805D2E0((void *)&gInv82->items[gMgr82->cursor]))
+                                ok = 1;
+                            break;
+                        case 3:
+                            if (sub_0805D278((void *)&gInv82->items[gMgr82->cursor]))
+                                ok = 1;
+                            break;
+                        case 4:
+                            if (sub_0805D210((void *)&gInv82->items[gMgr82->cursor]))
+                                ok = 1;
+                            break;
+                        case 6:
+                        case 7:
+                            ok = 1;
+                            break;
+                        }
+                        if (!ok) {
+                            sub_0805865C(0x61);
+                            break;
+                        }
+                        *(struct Item82 *)sp4 = gInv82->items[gMgr82->cursor];
+                        sub_0807BEA0(0, gMgr82->cursor, (void *)&gMgr82->held);
+                        sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
+                        switch (((struct Item82 *)sp4)->kind) {
+                        case 2: sub_0805AD78(gInv82->equip); break;
+                        case 5: sub_0805D13C(); break;
+                        case 3: sub_0805D0E8(); break;
+                        case 4: sub_0805D094(); break;
+                        case 6: sub_0805D1E0(); break;
+                        case 7: sub_0805D190(); break;
+                        }
+                        DROP82();
+                        sub_0805865C(0x5F);
+                        break;
+                    }
+                    break;
+                }
+                /* holding money, target slot occupied */
+                if (gInv82->items[gMgr82->heldIdx].count == gMgr82->held.count) {
+                    item = &gInv82->items[gMgr82->cursor];
+                    if (item->kind == 10) {
+                        val = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
+                        if (val <= 100000) {
+                            if (gMgr82->heldIdx != gMgr82->cursor) {
+                                gInv82->items[gMgr82->cursor].count = val;
+                                sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                            }
+                        } else if (gMgr82->heldIdx != gMgr82->cursor) {
+                            gMgr82->held.count = val - 100000;
+                            gInv82->items[gMgr82->cursor].count = 100000;
+                            sub_0807BEA0(0, gMgr82->heldIdx, (void *)held);
+                        }
+                        DROP82();
+                        sub_0805865C(0x5F);
+                        break;
+                    }
+                    *(struct Item82 *)sp4 = *item;
+                    sub_0807BEA0(0, gMgr82->cursor, (void *)held);
+                    sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
+                    DROP82();
+                    sub_0805865C(0x5F);
+                    break;
+                }
+                if (target != 10) {
+                    sub_0805865C(0x61);
+                    break;
+                }
+                val = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
+                if (val <= 100000) {
+                    switch (from) {
+                    case 0:
+                        gInv82->items[gMgr82->heldIdx].count -= gMgr82->held.count;
+                        if (gInv82->items[gMgr82->heldIdx].count == 0)
+                            gInv82->items[gMgr82->heldIdx].kind = 0;
+                        break;
+                    case 13:
+                        gMgr82->stock[gMgr82->heldIdx].count -= gMgr82->held.count;
+                        if (gMgr82->stock[gMgr82->heldIdx].count == 0)
+                            gMgr82->stock[gMgr82->heldIdx].kind = 0;
+                        break;
+                    }
+                    gInv82->items[gMgr82->cursor].count += gMgr82->held.count;
+                } else if (gMgr82->heldIdx != gMgr82->cursor) {
+                    over = val - 100000;
+                    switch (from) {
+                    case 0:
+                        gMgr82->held.count = gInv82->items[gMgr82->heldIdx].count - gMgr82->held.count + over;
+                        break;
+                    case 13:
+                        gMgr82->held.count = gMgr82->stock[gMgr82->heldIdx].count - gMgr82->held.count + over;
+                        break;
+                    }
+                    gInv82->items[gMgr82->cursor].count = 100000;
+                    sub_0807BEA0(0, gMgr82->heldIdx, (void *)&gMgr82->held);
+                }
+                DROP82();
+                sub_0805865C(0x5F);
+            } else {
+                item = gMgr82->cur;
+                if (item->kind != 0 && item->kind <= 5 && item->kind >= 2 && item->flag != 0) {
+                    have = sub_0805B0F0();
+                    if (have < sub_0805B068(gMgr82->cur)) {
+                        sub_0805865C(0x61);
+                        break;
+                    }
+                    gMgr82->cur->flag = 0;
+                    gMgr82->f68 = 6;
+                    gMgr82->f6A = 100;
+                    sub_0807C014(sub_0805B068(gMgr82->cur));
+                    sub_0805865C(0x18C);
+                }
+            }
+        } else if (keys29_03001324 & 0x100) {
+            switch (gMgr82->mode) {
+            case 2:
+                break;
+            case 3:
+                if (gMgr82->heldFrom != 11 && gMgr82->heldFrom != 0x16) {
+                    gMgr82->state = 12;
+                    gMgr82->cursor = 0;
+                    gMgr82->prev = 1;
+                    sub_0805865C(0x62);
+                }
+                break;
             }
         }
         break;
@@ -1334,14 +1207,14 @@ block_54:
             } else {
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_23 - 1);
             }
-            goto block_828;
+            { sub_0805865C(0x62); goto done82; }
         }
         temp_r6_4 = 0x20 & keys29_03001308;
         if (temp_r6_4 != 0) {
             temp_r2_11 = M2C_FIELD(gUnk_03006440, u32 *, 4);
             if (temp_r2_11 < (u32) (temp_r5_5 - 1)) {
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r2_11 + 1);
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r7_2 = 0x80 & keys29_03001308;
@@ -1355,23 +1228,23 @@ block_54:
                             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 2U;
                             M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r6_4;
                             M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                            goto block_828;
+                            { sub_0805865C(0x62); goto done82; }
                         case 1:                     /* switch 12 */
                             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 9U;
                             M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r6_4;
                             M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r0_24;
-                            goto block_828;
+                            { sub_0805865C(0x62); goto done82; }
                         case 2:                     /* switch 12 */
                             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 5U;
                             M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r6_4;
                             M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                            goto block_828;
+                            { sub_0805865C(0x62); goto done82; }
                         }
                     } else {
                         M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 7U;
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r6_4;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 2U;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 }
             } else {
@@ -1385,7 +1258,7 @@ block_54:
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
                                 M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r3_11;
                                 M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r2_12;
-                                goto block_828;
+                                { sub_0805865C(0x62); goto done82; }
                             }
                         }
                     }
@@ -1405,17 +1278,14 @@ block_54:
                             M2C_FIELD(temp_r1_21, s32 *, 0xC) = (s32) M2C_FIELD(temp_r5_6, s32 *, 0xC);
                             M2C_FIELD(gUnk_03006440, s8 *, 0xFD) = (s8) temp_r7_2;
                             sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, 0x68));
-                            goto block_743;
+                            { sub_0805865C(0x5E); goto done82; }
                         }
                     } else if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) == 0) {
                         if (temp_r1_20 != 0xB) {
                             if (sub_0805AE34(gUnk_03006440 + 0xF4) != 0) {
                                 sub_0807BD78(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20));
                                 sub_0807BEA0(1U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                sp14 = (u32) temp_r7_2;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r7_2;
+                                DROP82();
                                 sub_0805865C(0x5F);
                             } else {
                                 sub_0805865C(0x61);
@@ -1433,14 +1303,11 @@ block_54:
                                 M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r0_27;
                                 M2C_FIELD(gUnk_03006440, u32 *, 8) = (u32) (temp_r0_27 + 1);
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                sp14 = (u32) temp_r7_2;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r7_2;
+                                DROP82();
                                 sub_0805865C(0x63);
                                 goto block_262;
                             }
-                            goto block_771;
+                            { sub_0805865C(0x61); goto done82; }
                         }
                     } else if (temp_r1_20 != 0xB) {
                         if (sub_0805AE34(gUnk_03006440 + 0xF4) != 0) {
@@ -1449,10 +1316,7 @@ block_54:
                             *(struct ItemCopy82 *)sp4 = *(const struct ItemCopy82 *)temp_r0_29;
                             sub_0807BEA0(1U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                            sp14 = (u32) temp_r7_2;
-                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r7_2;
+                            DROP82();
                             sub_0805865C(0x5F);
                         } else {
                             sub_0805865C(0x61);
@@ -1460,7 +1324,7 @@ block_54:
 block_262:
                         sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, 0x68));
                     } else {
-                        goto block_771;
+                        { sub_0805865C(0x61); goto done82; }
                     }
                 }
             }
@@ -1474,7 +1338,7 @@ block_262:
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                 M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_13 = 0x80 & keys29_03001308;
@@ -1484,7 +1348,7 @@ block_262:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_13;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 temp_r3_14 = 0x10 & keys29_03001308;
@@ -1492,7 +1356,7 @@ block_262:
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) temp_r2_13;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 5U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 var_r5_2 = 0x20 & keys29_03001308;
                 if (var_r5_2 != 0) {
@@ -1501,7 +1365,7 @@ block_262:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_14;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 } else {
                     temp_r2_14 = 1 & keys29_03001324;
@@ -1512,7 +1376,7 @@ block_262:
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
                                 M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_14;
                                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                                goto block_828;
+                                { sub_0805865C(0x62); goto done82; }
                             }
                         }
                     } else {
@@ -1553,10 +1417,7 @@ block_291:
                                     }
                                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x20);
                                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                    sp14 = (u32) var_r5_2;
-                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) var_r5_2;
+                                    DROP82();
                                     sub_0805865C(0x63);
                                 } else {
                                     goto block_462;
@@ -1575,10 +1436,7 @@ block_297:
                                 var_r2_4 = &sp4;
 block_298:
                                 sub_0807BEA0(var_r0_5, var_r1_3, var_r2_4);
-                                sp14 = (u32) var_r5_2;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) var_r5_2;
+                                DROP82();
                                 sub_0805865C(0x5F);
                             } else {
 block_462:
@@ -1606,7 +1464,7 @@ block_464:
                 M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_16 = 0x80 & keys29_03001308;
@@ -1616,7 +1474,7 @@ block_464:
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_15;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 temp_r3_16 = 0x10 & keys29_03001308;
@@ -1624,7 +1482,7 @@ block_464:
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) temp_r2_16;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x14U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 var_r5_2 = 0x20 & keys29_03001308;
                 if (var_r5_2 != 0) {
@@ -1633,7 +1491,7 @@ block_464:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_16;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 } else {
                     temp_r2_17 = 1 & keys29_03001324;
@@ -1700,7 +1558,7 @@ block_464:
                             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
                             M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_17;
                             M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                            goto block_828;
+                            { sub_0805865C(0x62); goto done82; }
                         }
                     }
                 }
@@ -1714,7 +1572,7 @@ block_464:
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                 M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_20 = 0x80 & keys29_03001308;
@@ -1724,7 +1582,7 @@ block_464:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 1U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 2U;
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 temp_r3_17 = 0x10 & keys29_03001308;
@@ -1732,7 +1590,7 @@ block_464:
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) temp_r2_20;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 0xAU;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 temp_r5_7 = 0x20 & keys29_03001308;
                 if (temp_r5_7 != 0) {
@@ -1741,7 +1599,7 @@ block_464:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_17;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 } else {
                     temp_r2_21 = 1 & keys29_03001324;
@@ -1752,7 +1610,7 @@ block_464:
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
                                 M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_21;
                                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                                goto block_828;
+                                { sub_0805865C(0x62); goto done82; }
                             }
                         }
                     } else {
@@ -1779,10 +1637,7 @@ block_464:
                                 if (sub_0805D278(gUnk_03006440 + 0xF4) != 0) {
                                     sub_0807BD78(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20));
                                     sub_0807BEA0(4U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                    sp14 = (u32) temp_r5_7;
-                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r5_7;
+                                    DROP82();
                                     sub_0805865C(0x5F);
                                 } else {
                                     sub_0805865C(0x61);
@@ -1796,10 +1651,7 @@ block_464:
                                     }
                                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x20);
                                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                    sp14 = (u32) temp_r5_7;
-                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r5_7;
+                                    DROP82();
                                     sub_0805865C(0x63);
                                 } else {
                                     sub_0805865C(0x61);
@@ -1816,10 +1668,7 @@ block_464:
                                     M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_34, s32 *, 0xC);
                                     sub_0807BEA0(4U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                                     sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                    sp14 = (u32) temp_r5_7;
-                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r5_7;
+                                    DROP82();
                                     sub_0805865C(0x5F);
                                 } else {
                                     sub_0805865C(0x61);
@@ -1842,7 +1691,7 @@ block_464:
                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 1U;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 2U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_24 = 0x80 & keys29_03001308;
@@ -1852,7 +1701,7 @@ block_464:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_18;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 temp_r4_4 = 0x10 & keys29_03001308;
@@ -1867,7 +1716,7 @@ block_464:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = 0xAU;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     }
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 temp_r2_25 = 1 & keys29_03001324;
                 if (temp_r2_25 == 0) {
@@ -1877,7 +1726,7 @@ block_464:
                             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
                             M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_25;
                             M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                            goto block_828;
+                            { sub_0805865C(0x62); goto done82; }
                         }
                     }
                 } else {
@@ -1895,7 +1744,7 @@ block_464:
                             M2C_FIELD(temp_r1_25, s32 *, 0xC) = (s32) M2C_FIELD(temp_r3_20, s32 *, 0xC);
                             M2C_FIELD(gUnk_03006440, s8 *, 0xFD) = 0;
                             sub_0805D190();
-                            goto block_743;
+                            { sub_0805865C(0x5E); goto done82; }
                         }
                     } else {
                         if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) == 0) {
@@ -1918,7 +1767,7 @@ block_464:
                             M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r4_4;
                             M2C_FIELD(((0x14C * sub_080020F4()) + gUnk_03003CE0), s16 *, 0xC6) = 0;
                             sub_0805D190();
-                            goto block_777;
+                            { sub_0805865C(0x5F); goto done82; }
                         }
                         if (temp_r3_19 != 0xB) {
                             temp_r0_36 = gUnk_030034E0 + 0x130;
@@ -1928,15 +1777,12 @@ block_464:
                             M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_36, s32 *, 0xC);
                             sub_0807BEA0(5U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                            sp14 = (u32) temp_r4_4;
-                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r4_4;
+                            DROP82();
                             sub_0805865C(0x5F);
                             sub_0805D190();
                             M2C_FIELD(((0x14C * sub_080020F4()) + gUnk_03003CE0), u16 *, 0xC6) = temp_r4_4;
                         } else {
-                            goto block_771;
+                            { sub_0805865C(0x61); goto done82; }
                         }
                     }
                 }
@@ -1951,7 +1797,7 @@ block_464:
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                 M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_26 = 0x80 & keys29_03001308;
@@ -1961,7 +1807,7 @@ block_464:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_21;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 if (0x10 & keys29_03001308) {
@@ -1974,7 +1820,7 @@ block_464:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x14U;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     }
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 temp_r2_27 = 1 & keys29_03001324;
                 if (temp_r2_27 == 0) {
@@ -1984,7 +1830,7 @@ block_464:
                             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
                             M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_27;
                             M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                            goto block_828;
+                            { sub_0805865C(0x62); goto done82; }
                         }
                     }
                 } else {
@@ -2056,10 +1902,7 @@ block_432:
                             if (temp_r2_28 != 0xB) {
                                 sub_0807BD78(temp_r2_28, M2C_FIELD(gUnk_03006440, u32 *, 0x20));
                                 sub_0807BEA0(6U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                                sp14 = (u32) temp_r4_5;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r4_5;
+                                DROP82();
                                 goto block_460;
                             }
                             if ((u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) != 6) {
@@ -2072,10 +1915,7 @@ block_432:
                                 }
                                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x20);
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
-                                sp14 = (u32) temp_r4_5;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r4_5;
+                                DROP82();
                                 var_r0_8 = 0x63;
                                 goto block_461;
                             }
@@ -2132,10 +1972,7 @@ block_458:
                                 M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_39, s32 *, 0xC);
                                 sub_0807BEA0(6U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                                 sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                sp14 = var_r7;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = var_r7;
+                                DROP82();
 block_460:
                                 var_r0_8 = 0x5F;
 block_461:
@@ -2157,7 +1994,7 @@ block_461:
             if ((u32) (3 & temp_r1_27) <= 2U) {
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r1_27;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r1_27 + 1);
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r3_22 = 0x20 & keys29_03001308;
@@ -2166,14 +2003,14 @@ block_461:
                 if (3 & temp_r1_28) {
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r1_28;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r1_28 - 1);
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else if (0x40 & keys29_03001308) {
                 temp_r2_31 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                 if (temp_r2_31 > 3U) {
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r2_31;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r2_31 - 4);
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 switch (temp_r2_31) {               /* switch 13; irregular */
                 default:                            /* switch 13 */
@@ -2182,7 +2019,7 @@ block_461:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_22;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 2U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                     break;
                 case 1:                             /* switch 13 */
@@ -2190,13 +2027,13 @@ block_461:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x14U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r2_31;
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 case 2:                             /* switch 13 */
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) temp_r3_22;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x18U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 case 3:                             /* switch 13 */
                     temp_r2_32 = M2C_FIELD(gUnk_03006440, u32 *, 0);
                     switch (temp_r2_32) {           /* switch 14; irregular */
@@ -2205,25 +2042,25 @@ block_461:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_32;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 0U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     case 3:                         /* switch 14 */
                         M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xBU;
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = 0xAU;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = (u32) temp_r3_22;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     case 5:                         /* switch 14 */
                         M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0U;
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x18U;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 0U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     case 4:                         /* switch 14 */
                         M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xDU;
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = 0xDU;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 0U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                     break;
                 }
@@ -2232,7 +2069,7 @@ block_461:
                 if (temp_r0_40 <= 7U) {
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r0_40;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_40 + 4);
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             }
         }
@@ -2256,14 +2093,14 @@ block_461:
             } else {
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_43 - 1);
             }
-            goto block_828;
+            { sub_0805865C(0x62); goto done82; }
         }
         temp_r3_24 = 0x10 & keys29_03001308;
         if (temp_r3_24 != 0) {
             temp_r2_33 = M2C_FIELD(gUnk_03006440, u32 *, 4);
             if (temp_r2_33 < (u32) (temp_r5_8 - 1)) {
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r2_33 + 1);
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_34 = 0x80 & keys29_03001308;
@@ -2271,7 +2108,7 @@ block_461:
                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xAU;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_24;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
             if (1 & keys29_03001324) {
                 temp_r6_7 = M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
@@ -2279,15 +2116,12 @@ block_461:
                     temp_r1_29 = gUnk_030034E0 + 0x56 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 2);
                     if (*(u16 *)temp_r1_29 != 0) {
                         *(u16 *)temp_r1_29 = temp_r2_34;
-                        goto block_771;
+                        { sub_0805865C(0x61); goto done82; }
                     }
                 } else if (temp_r6_7 == 0) {
                     *(u16 *)(gUnk_030034E0 + 0x56 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 2)) = M2C_FIELD(gUnk_03006440, u16 *, 0xF6) + 1;
-                    sp14 = temp_r6_7;
-                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r6_7;
-                    goto block_777;
+                    DROP82();
+                    { sub_0805865C(0x5F); goto done82; }
                 }
             }
         }
@@ -2299,7 +2133,7 @@ block_461:
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 1U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 2U;
                 M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_35 = 0x80 & keys29_03001308;
@@ -2309,7 +2143,7 @@ block_461:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 1U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 temp_r3_25 = 0x10 & keys29_03001308;
@@ -2324,7 +2158,7 @@ block_461:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = 0xAU;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                     }
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 if (0x20 & keys29_03001308) {
                     if (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) == 0x16) {
@@ -2332,7 +2166,7 @@ block_461:
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_25;
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
                         M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 } else if ((1 & keys29_03001324) && (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) != 0x16)) {
                     if ((sub_0801DE60() << 0x18) == 0) {
@@ -2352,10 +2186,7 @@ block_461:
                             sub_0807C014(sub_0805AE94(gUnk_03006440 + 0xF4));
                             sub_0805865C(0x63);
                         }
-                        sp14 = 0;
-                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                        DROP82();
                     }
                 }
             }
@@ -2367,14 +2198,14 @@ block_461:
                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 8U;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
             temp_r4_6 = (u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4);
             if ((temp_r4_6 != 0xA) && (temp_r4_6 == 1) && (M2C_FIELD((void *) sub_08007290(M2C_FIELD((gUnk_03006440 + 0xF4), u16 *, 2) | 0x100000), s32 *, 0xA4) != 0)) {
                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 8U;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = (u32) temp_r4_6;
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r2_37 = 0x80 & keys29_03001308;
@@ -2383,14 +2214,14 @@ block_461:
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 7U;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 3U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 if (0x20 & keys29_03001308) {
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) temp_r2_37;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x18U;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 if (1 & keys29_03001324) {
                     M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
@@ -2411,15 +2242,12 @@ block_461:
                             } else {
                                 sub_0807BD78(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20));
                             }
-                            sp14 = 0;
-                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                            DROP82();
                             sub_0805865C(0x60);
                             M2C_FIELD(gUnk_03006440, u32 *, 0x70) = 0U;
                             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0x15U;
                         } else {
-                            goto block_771;
+                            { sub_0805865C(0x61); goto done82; }
                         }
                     }
                 }
@@ -2440,7 +2268,7 @@ block_461:
             temp_r4_8 = M2C_FIELD(gUnk_03006440, u32 *, 4);
             if ((u32) (temp_r4_8 % 3U) <= 1U) {
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r4_8 + 1);
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             if (0x20 & keys29_03001308) {
@@ -2452,13 +2280,13 @@ block_461:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (((temp_r4_9 / 3U) * 5) + 4);
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = temp_r0_45;
                 }
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
             if (0x40 & keys29_03001308) {
                 temp_r0_46 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                 if (temp_r0_46 > 2U) {
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_46 - 3);
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 temp_r7_3 = 0x80 & keys29_03001308;
@@ -2466,7 +2294,7 @@ block_461:
                     temp_r0_47 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                     if (temp_r0_47 <= 8U) {
                         M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_47 + 3);
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 } else {
                     temp_r5_9 = 1 & keys29_03001324;
@@ -2487,9 +2315,9 @@ block_461:
                                     M2C_FIELD(temp_r1_30, s32 *, 8) = (s32) M2C_FIELD(temp_r0_50, s32 *, 8);
                                     M2C_FIELD(temp_r1_30, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_50, s32 *, 0xC);
                                     M2C_FIELD(gUnk_03006440, s8 *, 0xFD) = (s8) temp_r7_3;
-                                    goto block_743;
+                                    { sub_0805865C(0x5E); goto done82; }
                                 }
-                                goto block_771;
+                                { sub_0805865C(0x61); goto done82; }
                             }
                         }
                     } else if ((0x100 & keys29_03001324) && (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) != 0x16)) {
@@ -2500,7 +2328,7 @@ block_461:
                             M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r5_9;
                         }
                         M2C_FIELD(gUnk_03006440, u32 *, 8) = (u32) (M2C_FIELD(gUnk_03006440, u32 *, 4) + 1);
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 }
             }
@@ -2510,7 +2338,7 @@ block_461:
         if (0x20 & keys29_03001308) {
             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0U;
             M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x18U;
-            goto block_828;
+            { sub_0805865C(0x62); goto done82; }
         }
         if (1 & keys29_03001324) {
             M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0x64;
@@ -2528,7 +2356,7 @@ block_461:
             if ((u32) (temp_r5_10 % 3U) <= 1U) {
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r5_10;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r5_10 + 1);
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
             if (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) == 0x16) {
                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 5U;
@@ -2552,27 +2380,27 @@ block_461:
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (((temp_r4_11 / 3U) * 5) + 4);
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = temp_r0_54;
                 }
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
             if (0x40 & keys29_03001308) {
                 temp_r0_55 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                 if (temp_r0_55 > 2U) {
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r0_55;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_55 - 3);
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else if (0x80 & keys29_03001308) {
                 temp_r5_11 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                 if ((u32) (temp_r5_11 % 15U) <= 0xBU) {
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = temp_r5_11;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r5_11 + 3);
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
                 if (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) == 0x16) {
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 0x14U;
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 7U;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = 3U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else {
                 temp_r2_40 = 1 & keys29_03001324;
@@ -2585,7 +2413,7 @@ block_461:
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0xCU;
                                 M2C_FIELD(gUnk_03006440, u32 *, 4) = temp_r2_40;
                                 M2C_FIELD(gUnk_03006440, u32 *, 8) = 1U;
-                                goto block_828;
+                                { sub_0805865C(0x62); goto done82; }
                             }
                         }
                     }
@@ -2632,7 +2460,7 @@ loop_626:
                                 M2C_FIELD(gUnk_03006440, u32 *, 0x14) = var_r3_2;
                                 M2C_FIELD(gUnk_03006440, s32 *, 0x10) = (s32) (var_r3_2 - 1);
                             }
-                            goto block_743;
+                            { sub_0805865C(0x5E); goto done82; }
                         }
                     } else {
                         temp_r1_36 = *M2C_FIELD(gUnk_03006440, u16 **, 0xF0);
@@ -2640,10 +2468,7 @@ loop_626:
                             if ((u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4) != 0xA) {
                                 sub_0807BD78(temp_r6_8, M2C_FIELD(gUnk_03006440, u32 *, 0x20));
                                 sub_0807BEA0(0xDU, M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF), gUnk_03006440 + 0xF4);
-                                sp14 = 0;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                                DROP82();
                             } else {
                                 switch (temp_r6_8) { /* switch 15; irregular */
                                 case 0:             /* switch 15 */
@@ -2668,9 +2493,9 @@ loop_626:
                                 var_r1_2 = M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF);
                                 var_r2_3 = gUnk_03006440 + 0xF4;
                                 var_r0_2 = 0xD;
-                                goto block_775;
+                                { sub_0807BEA0(var_r0_2, var_r1_2, var_r2_3); DROP82(); sub_0805865C(0x5F); goto done82; }
                             }
-                            goto block_777;
+                            { sub_0805865C(0x5F); goto done82; }
                         }
                         temp_r0_59 = gUnk_03006440 + 0xF4;
                         temp_r2_44 = (u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4);
@@ -2693,10 +2518,7 @@ loop_626:
                                             *(u32 *)(temp_r2_45 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10)) = 0x186A0;
                                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), temp_r0_59);
                                         }
-                                        sp14 = temp_r6_8;
-                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r6_8;
+                                        DROP82();
                                     } else {
                                         temp_r2_46 = gUnk_03006440 + 0x108;
                                         temp_r0_61 = *(u32 *)(temp_r2_46 + temp_r7_4) + temp_r3_30;
@@ -2712,15 +2534,12 @@ loop_626:
                                             M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = (u32) (temp_r0_61 + 0xFFFE7960);
                                             *(u32 *)(temp_r2_46 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10)) = 0x186A0;
                                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), temp_r0_59);
-                                            sp14 = temp_r6_8;
-                                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r6_8;
+                                            DROP82();
                                         }
                                     }
-                                    goto block_777;
+                                    { sub_0805865C(0x5F); goto done82; }
                                 }
-                                goto block_771;
+                                { sub_0805865C(0x61); goto done82; }
                             }
                             if (temp_r6_8 == 0xD) {
                                 temp_r7_5 = M2C_FIELD(gUnk_03006440, u32 *, 0x20);
@@ -2746,10 +2565,7 @@ loop_626:
                                             *(u32 *)(temp_r2_47 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10)) = 0x186A0;
                                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), temp_r0_59);
                                         }
-                                        sp14 = 0;
-                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                                        DROP82();
                                         sub_0805865C(0x5F);
                                     } else {
                                         M2C_FIELD(&sp4, s32 *, 0) = (s32) M2C_FIELD(temp_r0_64, u32 *, 0x104);
@@ -2758,12 +2574,9 @@ loop_626:
                                         M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r3_32, s32 *, 0xC);
                                         sub_0807BEA0(0xDU, M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF), temp_r0_59);
                                         sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                        sp14 = 0;
-                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                                        DROP82();
                                     }
-                                    goto block_777;
+                                    { sub_0805865C(0x5F); goto done82; }
                                 }
                                 if (temp_r1_36 == 0xA) {
                                     temp_r1_42 = M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF);
@@ -2782,14 +2595,11 @@ loop_626:
                                             *(u32 *)(temp_r2_47 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10)) = 0x186A0;
                                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), temp_r0_59);
                                         }
-                                        sp14 = 0;
-                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                                        DROP82();
                                     }
-                                    goto block_777;
+                                    { sub_0805865C(0x5F); goto done82; }
                                 }
-                                goto block_771;
+                                { sub_0805865C(0x61); goto done82; }
                             }
                         } else if (temp_r6_8 != 0xB) {
                             if (M2C_FIELD(gUnk_03006440, s32 *, 0xF4) != 0xC0001) {
@@ -2803,11 +2613,8 @@ loop_626:
                                         M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_69, s32 *, 0xC);
                                         sub_0807BEA0(0xDU, M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF), temp_r0_59);
                                         sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                        sp14 = 0;
-                                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
-                                        goto block_777;
+                                        DROP82();
+                                        { sub_0805865C(0x5F); goto done82; }
                                     }
                                     temp_r0_70 = gUnk_03006440 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10);
                                     temp_r0_71 = temp_r0_70 + 0x104;
@@ -2817,7 +2624,7 @@ loop_626:
                                         M2C_FIELD(&sp4, s32 *, 8) = (s32) M2C_FIELD(temp_r0_71, s32 *, 8);
                                         M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_71, s32 *, 0xC);
                                         sub_0807BEA0(0xDU, M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF), temp_r0_59);
-                                        goto block_774;
+                                        { sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4); DROP82(); sub_0805865C(0x5F); goto done82; }
                                     }
                                 } else {
                                     temp_r0_72 = gUnk_03006440 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10);
@@ -2828,11 +2635,8 @@ loop_626:
                                     M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_73, s32 *, 0xC);
                                     sub_0807BEA0(0xDU, M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF), temp_r0_59);
                                     sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                    sp14 = temp_r6_8;
-                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r6_8;
-                                    goto block_777;
+                                    DROP82();
+                                    { sub_0805865C(0x5F); goto done82; }
                                 }
                             } else {
                                 temp_r1_43 = gUnk_03006440 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10);
@@ -2850,10 +2654,7 @@ loop_626:
                                         sub_0807BEA0(0xDU, M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF), temp_r0_59);
                                         sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
                                     }
-                                    sp14 = 0;
-                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                                    DROP82();
                                 } else {
                                     temp_r0_75 = gUnk_03006440 + ((M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF)) * 0x10);
                                     temp_r0_76 = temp_r0_75 + 0x104;
@@ -2863,11 +2664,8 @@ loop_626:
                                     M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_76, s32 *, 0xC);
                                     sub_0807BEA0(0xDU, M2C_FIELD(gUnk_03006440, u32 *, 4) + (M2C_FIELD(gUnk_03006440, u32 *, 0x44) * 0xF), gUnk_03006440 + 0xF4);
                                     sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                    sp14 = 0;
-                                    CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                    M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
-                                    goto block_777;
+                                    DROP82();
+                                    { sub_0805865C(0x5F); goto done82; }
                                 }
                             }
                         }
@@ -2963,14 +2761,14 @@ block_804:
                 M2C_FIELD(gUnk_03006440, u32 *, 0x18) = temp_r0_79;
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = 9U;
             }
-            goto block_828;
+            { sub_0805865C(0x62); goto done82; }
         }
         temp_r3_35 = 0x10 & keys29_03001308;
         if (temp_r3_35 != 0) {
             temp_r0_80 = M2C_FIELD(gUnk_03006440, u32 *, 4);
             if (temp_r0_80 <= 1U) {
                 M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) (temp_r0_80 + 1);
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
         } else {
             temp_r4_12 = 0x80 & keys29_03001308;
@@ -2979,7 +2777,7 @@ block_804:
                     M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0x11U;
                     M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) temp_r3_35;
                     M2C_FIELD(gUnk_03006440, u32 *, 8) = 0x64U;
-                    goto block_828;
+                    { sub_0805865C(0x62); goto done82; }
                 }
             } else if (!(1 & keys29_03001324)) {
 
@@ -3001,17 +2799,14 @@ block_804:
                         M2C_FIELD(temp_r1_46, s32 *, 0xC) = (s32) M2C_FIELD(temp_r2_52, s32 *, 0xC);
                         M2C_FIELD(gUnk_03006440, s8 *, 0xFD) = (s8) temp_r4_12;
                         M2C_FIELD(gUnk_03006440, s32 *, 0x28) = (s32) (M2C_FIELD(gUnk_03006440, s32 *, 0x28) & ~4);
-                        goto block_743;
+                        { sub_0805865C(0x5E); goto done82; }
                     }
                 } else {
                     temp_r4_13 = *M2C_FIELD(gUnk_03006440, u16 **, 0xF0);
                     if (temp_r4_13 == 0) {
                         sub_0807BD78(temp_r2_51, M2C_FIELD(gUnk_03006440, u32 *, 0x20));
                         sub_0807BEA0(0x10U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
-                        sp14 = (u32) temp_r4_13;
-                        CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                        M2C_FIELD(gUnk_03006440, u32 *, 0x20) = (u32) temp_r4_13;
+                        DROP82();
                         sub_0805865C(0x5F);
                         var_r2_8 = 0;
                         var_r5_7 = 0;
@@ -3032,7 +2827,7 @@ block_804:
                         switch (temp_r2_51) {       /* switch 16; irregular */
                         case 1:                     /* switch 16 */
                             if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) != 2) {
-                                goto block_771;
+                                { sub_0805865C(0x61); goto done82; }
                             }
                             temp_r0_82 = gUnk_03006440 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
                             temp_r0_83 = temp_r0_82 + 0x104;
@@ -3042,15 +2837,12 @@ block_804:
                             M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_83, s32 *, 0xC);
                             sub_0807BEA0(0x10U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                            sp14 = 0;
-                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                            DROP82();
                             sub_0805AD78(M2C_FIELD(gUnk_030034E0, u16 *, 0x68));
-                            goto block_777;
+                            { sub_0805865C(0x5F); goto done82; }
                         case 2:                     /* switch 16 */
                             if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) != 4) {
-                                goto block_771;
+                                { sub_0805865C(0x61); goto done82; }
                             }
                             temp_r0_84 = gUnk_03006440 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
                             temp_r0_85 = temp_r0_84 + 0x104;
@@ -3060,15 +2852,12 @@ block_804:
                             M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_85, s32 *, 0xC);
                             sub_0807BEA0(0x10U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                            sp14 = 0;
-                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                            DROP82();
                             sub_0805D094();
-                            goto block_777;
+                            { sub_0805865C(0x5F); goto done82; }
                         case 3:                     /* switch 16 */
                             if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) != 5) {
-                                goto block_771;
+                                { sub_0805865C(0x61); goto done82; }
                             }
                             temp_r0_86 = gUnk_03006440 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
                             temp_r0_87 = temp_r0_86 + 0x104;
@@ -3078,15 +2867,12 @@ block_804:
                             M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_87, s32 *, 0xC);
                             sub_0807BEA0(0x10U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                            sp14 = 0;
-                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                            DROP82();
                             sub_0805D13C();
-                            goto block_777;
+                            { sub_0805865C(0x5F); goto done82; }
                         case 4:                     /* switch 16 */
                             if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) != 3) {
-                                goto block_771;
+                                { sub_0805865C(0x61); goto done82; }
                             }
                             temp_r0_88 = gUnk_03006440 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
                             temp_r0_89 = temp_r0_88 + 0x104;
@@ -3096,12 +2882,9 @@ block_804:
                             M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_89, s32 *, 0xC);
                             sub_0807BEA0(0x10U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                             sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                            sp14 = 0;
-                            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                            DROP82();
                             sub_0805D0E8();
-                            goto block_777;
+                            { sub_0805865C(0x5F); goto done82; }
                         case 5:                     /* switch 16 */
                             if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) == 7) {
                                 temp_r0_90 = gUnk_03006440 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
@@ -3112,14 +2895,11 @@ block_804:
                                 M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_91, s32 *, 0xC);
                                 sub_0807BEA0(0x10U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                                 sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                sp14 = 0;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                                DROP82();
                                 sub_0805D190();
-                                goto block_777;
+                                { sub_0805865C(0x5F); goto done82; }
                             }
-                            goto block_771;
+                            { sub_0805865C(0x61); goto done82; }
                         case 6:                     /* switch 16 */
                             if (*M2C_FIELD(gUnk_03006440, u16 **, 0xF0) == 6) {
                                 temp_r0_92 = gUnk_03006440 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
@@ -3130,14 +2910,11 @@ block_804:
                                 M2C_FIELD(&sp4, s32 *, 0xC) = (s32) M2C_FIELD(temp_r0_93, s32 *, 0xC);
                                 sub_0807BEA0(0x10U, M2C_FIELD(gUnk_03006440, u32 *, 4), gUnk_03006440 + 0xF4);
                                 sub_0807BEA0(M2C_FIELD(gUnk_03006440, u32 *, 0x1C), M2C_FIELD(gUnk_03006440, u32 *, 0x20), &sp4);
-                                sp14 = 0;
-                                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                                DROP82();
                                 sub_0805D1E0();
-                                goto block_777;
+                                { sub_0805865C(0x5F); goto done82; }
                             }
-                            goto block_771;
+                            { sub_0805865C(0x61); goto done82; }
                         case 0:                     /* switch 16 */
                         case 16:                    /* switch 16 */
                             temp_r0_94 = gUnk_03006440 + (M2C_FIELD(gUnk_03006440, u32 *, 4) * 0x10);
@@ -3149,7 +2926,7 @@ block_804:
                             var_r1 = M2C_FIELD(gUnk_03006440, u32 *, 4);
                             var_r2_2 = gUnk_03006440 + 0xF4;
                             var_r0 = 0x10;
-                            goto block_773;
+                            { sub_0807BEA0(var_r0, var_r1, var_r2_2); sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4); DROP82(); sub_0805865C(0x5F); goto done82; }
                         }
                     }
                 }
@@ -3161,7 +2938,7 @@ block_804:
             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0U;
             M2C_FIELD(gUnk_03006440, u32 *, 4) = 0x18U;
             M2C_FIELD(gUnk_03006440, u32 *, 8) = 0x64U;
-            goto block_828;
+            { sub_0805865C(0x62); goto done82; }
         }
         temp_r5_14 = 1 & keys29_03001324;
         if (temp_r5_14 != 0) {
@@ -3180,10 +2957,7 @@ block_804:
             } else {
                 *(s32 *)temp_r3_37 = temp_r1_48 - temp_r0_97;
             }
-            sp14 = 0;
-            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+            DROP82();
             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = 0x12U;
             M2C_FIELD(gUnk_03006440, u32 *, 4) = 0U;
             M2C_FIELD(gUnk_03006440, u32 *, 8) = 0x64U;
@@ -3199,11 +2973,8 @@ block_804:
             M2C_FIELD(gUnk_03006440, u32 *, 0x18) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
             M2C_FIELD(gUnk_03006440, u32 *, 4) = (u32) M2C_FIELD(gUnk_03006440, u32 *, 0x20);
             keys29_03001324 &= 0xFFFD;
-            sp14 = temp_r5_14;
-            CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-            M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-            M2C_FIELD(gUnk_03006440, u32 *, 0x20) = temp_r5_14;
-            goto block_828;
+            DROP82();
+            { sub_0805865C(0x62); goto done82; }
         }
         break;
     case 18:                                        /* switch 1 */
@@ -3241,7 +3012,7 @@ block_804:
                     M2C_FIELD(gUnk_03006440, s32 *, 0x10) = (s32) temp_r5_15;
                     M2C_FIELD(gUnk_03006440, u32 *, 0x54) = 0xA0U;
                     M2C_FIELD(gUnk_03006440, u32 *, 0x58) = (u32) temp_r5_15;
-                    goto block_800;
+                    { sub_0805865C(0x63); goto done82; }
                 }
                 if (!(2 & keys29_03001324)) {
 
@@ -3282,7 +3053,7 @@ block_804:
                 if (temp_r0_99 < 0) {
                     M2C_FIELD(gUnk_03006440, s32 *, 0x10) = (s32) temp_r2_53;
                 }
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
             if (0x20 & keys29_03001308) {
                 temp_r0_100 = M2C_FIELD(gUnk_03006440, s32 *, 0x10) + 1;
@@ -3291,7 +3062,7 @@ block_804:
                 if ((u32) temp_r0_100 >= temp_r1_49) {
                     M2C_FIELD(gUnk_03006440, s32 *, 0x10) = (s32) (temp_r1_49 - 1);
                 }
-                goto block_828;
+                { sub_0805865C(0x62); goto done82; }
             }
             if (0x40 & keys29_03001308) {
                 temp_r0_101 = M2C_FIELD(gUnk_03006440, u32 *, 0x1C);
@@ -3300,14 +3071,14 @@ block_804:
                     temp_r2_54 = M2C_FIELD(gUnk_03006440, u32 *, 0xF8) + *(u32 *)(((9 - M2C_FIELD(gUnk_03006440, s32 *, 0x10)) * 4) + ((u32)gUnk_084EBD4C));
                     if (temp_r2_54 <= (u32) *(u32 *)(gUnk_030034E0 + 0x154 + (M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10))) {
                         M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = temp_r2_54;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                     break;
                 case 13:                            /* switch 17 */
                     temp_r2_55 = M2C_FIELD(gUnk_03006440, u32 *, 0xF8) + *(u32 *)(((9 - M2C_FIELD(gUnk_03006440, s32 *, 0x10)) * 4) + ((u32)gUnk_084EBD4C));
                     if (temp_r2_55 <= (u32) *(u32 *)(gUnk_03006440 + 0x108 + (M2C_FIELD(gUnk_03006440, u32 *, 0x20) * 0x10))) {
                         M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = temp_r2_55;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                     break;
                 }
@@ -3318,7 +3089,7 @@ block_804:
                     temp_r0_103 = temp_r1_50 - temp_r0_102;
                     if (temp_r0_103 >= 0) {
                         M2C_FIELD(gUnk_03006440, u32 *, 0xF8) = (u32) temp_r0_103;
-                        goto block_828;
+                        { sub_0805865C(0x62); goto done82; }
                     }
                 }
             } else {
@@ -3350,6 +3121,7 @@ block_804:
         }
         break;
     }
+done82:
     if (M2C_FIELD(gUnk_03006440, u32 *, 0) == 6) {
         var_r2_9 = 0;
         var_r5_8 = 0;
@@ -3399,10 +3171,7 @@ block_858:
             case 13:                                /* switch 19 */
             case 16:                                /* switch 19 */
                 M2C_FIELD(gUnk_03006440, s16 *, 0x6A) = 0xFFFF;
-                sp14 = 0;
-                CpuSet(&sp14, gUnk_03006440 + 0xF4, 0x05000004);
-                M2C_FIELD(gUnk_03006440, u32 *, 0x1C) = 0x16U;
-                M2C_FIELD(gUnk_03006440, u32 *, 0x20) = 0U;
+                DROP82();
                 break;
             default:                                /* switch 19 */
                 M2C_FIELD(gUnk_03006440, s32 *, 0x24) = 0;
