@@ -591,7 +591,60 @@ void sub_08031580(void)
     *(u32 *)(player + 0x30) &= ~1;
     sub_0800D108();
 }
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_080316A4);
+void sub_080316A4(s32 arg)
+{
+    u32 dialog;
+
+    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags |= 1;
+    sub_0800D0F4();
+    sub_0802949C(arg, 0);
+    while (sub_0805F184())
+        sub_080003F0();
+    dialog = sub_0805DF38(1, 15, 2, 0, -2, 0x14018B);
+    while (!sub_0805EEFC((void *)dialog))
+        sub_080003F0();
+    if (!sub_0805EF14((u8 *)dialog)) {
+        while (sub_0805F184())
+            sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -2, 0x14018C);
+        while (!sub_0805EEFC((void *)dialog))
+            sub_080003F0();
+        if (!sub_0805EF14((u8 *)dialog)) {
+            while (sub_0805F184())
+                sub_080003F0();
+            while (sub_0805EF90())
+                sub_080003F0();
+            dialog = sub_0805DF38(1, 15, 2, 0, -1, 0x14018D);
+            while (!sub_0805EEFC((void *)dialog)) {
+                if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+        } else {
+            while (sub_0805F184())
+                sub_080003F0();
+            while (sub_0805EF90())
+                sub_080003F0();
+            dialog = sub_0805DF38(1, 15, 2, 0, -1, 0x14018E);
+            while (!sub_0805EEFC((void *)dialog)) {
+                if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+                sub_080003F0();
+            }
+        }
+    } else {
+        while (sub_0805F184())
+            sub_080003F0();
+        while (sub_0805EF90())
+            sub_080003F0();
+        dialog = sub_0805DF38(1, 15, 2, 0, -1, 0x14018E);
+        while (!sub_0805EEFC((void *)dialog)) {
+            if (sub_0800CDF8()) { sub_0805EFBC(); break; }
+            sub_080003F0();
+        }
+    }
+    sub_08029788(arg);
+    ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
+    sub_0800D108();
+}
 #define MENU_FLAGS_VALUE_31() (sub_0800CE30() ? *(u8 *)(gUnk_03005CF4 + 0x1C5) : *(u8 *)(gUnk_03005CF4 + 0x1B9))
 #define MENU_FLAGS_PTR_31() (sub_0800CE30() ? (u8 *)(gUnk_03005CF4 + 0x1C5) : (u8 *)(gUnk_03005CF4 + 0x1B9))
 void sub_0803188C(void)
