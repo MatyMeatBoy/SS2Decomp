@@ -319,7 +319,84 @@ void clearTask60F4(void)
         } while (i <= 1);
     }
 }
+#ifdef NONMATCHING
+struct Spr0B6178 { s32 f0, f4, f8, fC, f10, f14, f18; u8 b1C[0x18]; };
+struct Task0B6178 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
+extern u8 *ptr0B6178 asm("gUnk_030007DC");
+extern u16 arr0B6178[2] asm("gUnk_030007D4");
+extern u8 font0B6178 asm("gUnk_030007D8");
+extern u8 data0B6178[] asm("gUnk_084ABA10");
+extern struct Task0B6178 *task0B6178 asm("gUnk_030007EC");
+extern void lock0B6178(void *) asm("sub_0801A0B0");
+extern void unlock0B6178(void *) asm("sub_0801A0A4");
+extern void init0B6178(void *, u32, u32, s32, s32) asm("sub_08065158");
+extern u32 anim0B6178(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void coords0B6178(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u8 *draw0B6178(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern s32 busy0B6178(u32) asm("sub_0801A040");
+extern u16 open0B6178(void *, u32, u32) asm("sub_08019FD8");
+extern void show0B6178(u32, u32) asm("sub_0801A0BC");
+/* Same effect sequence as sub_080B2058 for the second boss arena. */
+void sub_080B6178_v(s32 arg0, s32 arg1) asm("sub_080B6178");
+void sub_080B6178_v(s32 arg0, s32 arg1)
+{
+    struct Spr0B6178 s;
+    u16 a44;
+    u16 a46;
+    s16 x48;
+    s16 y4A;
+    u16 cnt;
+    s32 xs;
+    s32 ys;
+    s32 x;
+    s32 y;
+    u16 done;
+    s32 r;
+    u8 k;
+    u8 i;
+    u16 *e;
+    lock0B6178(ptr0B6178);
+    init0B6178(&s, 0x50020, 8, -1, 1);
+    s.b1C[0] = 7;
+    s.b1C[1] = 8;
+    a46 = 0;
+    a44 = 0;
+    cnt = 0;
+    sub_0805865C(0x1A5);
+    xs = (x = arg0 >> 8) << 16;
+    ys = (y = arg1 >> 8) << 16;
+    do {
+        s32 paused;
+        if ((paused = sub_0800CD8C()) == 0)
+            done = anim0B6178(&s, 0, &a44, &a46, paused);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (r = sub_0800CD34()) == 0) {
+            sub_08000AF0(0x17, (void *)s.fC, 2);
+            k = sub_0800BC44(x, y, 0);
+            coords0B6178(xs >> 16, ys >> 16, &x48, &y4A, r, r);
+            *(s32 *)(draw0B6178(x48, 0, 0, a44, k, s.b1C, s.f8, s.f0) + 0xC) = y4A;
+        }
+        sub_080003F0();
+    } while (done == 0 || cnt++ > 0x3B);
+    if (*(s16 *)(ptr0B6178 + 0x5C) != 0 && sub_08002204() != 0) {
+        u16 *arr;
+        for (i = 0, arr = arr0B6178; i <= 1; i++) {
+            e = (u16 *)(i * 2 + (u32)arr);
+            if (busy0B6178(*e) == 0) {
+                *e = open0B6178(data0B6178, font0B6178 >> 4, font0B6178 & 0xF);
+                show0B6178(*e, 3);
+                do
+                    sub_080003F0();
+                while (busy0B6178(*e) == 0);
+                break;
+            }
+        }
+    }
+    unlock0B6178(ptr0B6178);
+    task0B6178->f8 = 0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B6178);
+#endif
 void sub_080B6324(void) {
     if (M2C_FIELD(gUnk_030007DC, s16 *, 0x5C) != 0) {
         sub_080B60F4();
