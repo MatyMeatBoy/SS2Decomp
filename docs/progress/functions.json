@@ -9088,14 +9088,14 @@
       "name": "sub_0801E5B0",
       "addr": 134342064,
       "size": 984,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0801E244",
       "kind": "c",
       "cat": "game",
       "address": "0x0801E5B0",
       "canonical_symbol": "sub_0801E5B0",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0801E5B0",
       "name_status": "unidentified",
       "name_source": null,
@@ -9105,14 +9105,14 @@
       "name": "sub_0801E988",
       "addr": 134343048,
       "size": 1028,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0801E244",
       "kind": "c",
       "cat": "game",
       "address": "0x0801E988",
       "canonical_symbol": "sub_0801E988",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0801E988",
       "name_status": "unidentified",
       "name_source": null,
@@ -33138,14 +33138,14 @@
       "name": "sub_080B280C",
       "addr": 134948876,
       "size": 3644,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080A9680",
       "kind": "c",
       "cat": "game",
       "address": "0x080B280C",
       "canonical_symbol": "sub_080B280C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080B280C",
       "name_status": "unidentified",
       "name_source": null,
@@ -33155,14 +33155,14 @@
       "name": "sub_080B3648",
       "addr": 134952520,
       "size": 3752,
-      "state": "todo",
+      "state": "done",
       "module": "code_080B3648",
       "kind": "c",
       "cat": "game",
       "address": "0x080B3648",
       "canonical_symbol": "sub_080B3648",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "decompiled",
       "display_name": "sub_080B3648",
       "name_status": "unidentified",
       "name_source": null,
@@ -33186,7 +33186,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 18,
+          "line": 586,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B44F0_v"
         }
       ]
@@ -33379,7 +33379,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 550,
+          "line": 1118,
           "detail": "Existing C definition with an asm alias to the canonical symbol: clearTask60F4"
         }
       ]
@@ -33402,7 +33402,7 @@
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 592,
+          "line": 1160,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B6178_v"
         }
       ]
