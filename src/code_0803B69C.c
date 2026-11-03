@@ -4502,25 +4502,27 @@ void sub_08042BB0(void) {
     t43_finish2bb0(sub_080020F4());
 }
 #ifdef NONMATCHING
-extern u8 players44[] asm("gUnk_03003CE0");
-extern u8 heights44[] asm("gUnk_03003D70");
+struct P35C4 { u8 pad[0x8C]; s32 x, y; u8 tail[0x14C-0x94]; };
+extern struct P35C4 players35C4[] asm("gUnk_03003CE0");
+extern struct P35C4 heights35C4[] asm("gUnk_03003D70");
+extern s32 h35C4[] asm("gUnk_03003D70");
+struct Cfg35C4 {u32 id:16,mode:16;};
 void sub_080435C4(void)
 {
     struct {s32 x,y;} position;
     s32 state;
-    struct {u32 id:16,mode:16;} config;
-    u8 *player;
+    struct Cfg35C4 config, tmp;
+    struct P35C4 *player;
     s32 height;
     for (;;) {
         state=0;
         position.x=0x7800;
         position.y=0xF000;
-        config.id=0x40;
-        config.mode=8;
-        player=players44+0x14C*sub_080020F4();
-        while (sub_08021FE0(player+0x8C,&position,&state,&config)==0)
+        tmp=config; tmp.id=0x40; tmp.mode=8; config=tmp;
+        player=&players35C4[sub_080020F4()];
+        while (sub_08021FE0(&player->x,&position,&state,&config)==0)
             sub_080003F0();
-        height=*(s32 *)(heights44+0x14C*sub_080020F4());
+        height=players35C4[sub_080020F4()].y;
         sub_08028D98(0,0,(s16)(0xED-(height>>8)),0);
     }
 }
