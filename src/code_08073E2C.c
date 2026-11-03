@@ -62,13 +62,19 @@ extern struct Ply076EE8 players076EE8[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies076EE8 asm("gUnk_030056F4");
 extern u16 directions076EE8[] asm("gUnk_0849E730");
 extern u32 active076EE8 asm("gUnk_030056FC");
+static inline s32 diffEE8(u16 a, u16 b) {
+ u16 angle = (a >> 12) - b; s32 d;
+ { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
+ { s32 t = (s16)angle; if (t < -8) angle = t + 16; }
+ d = (s16)angle; if (d < 0) d = -d;
+ return d; }
 u16 sub_08073EE8(u16 width, s32 range)
 {
     struct Ply076EE8 *player, *cand;
     struct Ene076EE8 *e;
     u32 best, nearest, count, i, offset;
     s32 dx, dy, d;
-    u16 angle, dist;
+    u16 dist;
 
     player = &players076EE8[sub_080020F4()];
     best = 0xFFFF;
@@ -80,14 +86,7 @@ u16 sub_08073EE8(u16 width, s32 range)
             if (player->team != cand->team && cand->team != 0) {
                 dx = (cand->pos->x >> 4) - (player->x >> 8);
                 dy = ((u32)(cand->pos->y << 20) >> 20) - (player->y >> 8);
-                angle = ((u32)((u16)ArcTan2(dx, dy) + 0x400) >> 12) - directions076EE8[((u8 *)player->pos)[3] >> 4];
-                if ((s16)angle > 8)
-                    angle = (s16)angle - 16;
-                if ((s16)angle < -8)
-                    angle = (s16)angle + 16;
-                d = (s16)angle;
-                if (d < 0)
-                    d = -d;
+                d = diffEE8((u16)ArcTan2(dx, dy) + 0x400, directions076EE8[((u8 *)player->pos)[3] >> 4]);
                 if (d <= width) {
                     dist = Sqrt(dx * dx + dy * dy);
                     if ((u32)range > dist && best > dist) {
@@ -110,14 +109,7 @@ u16 sub_08073EE8(u16 width, s32 range)
             if (e->state != 11 && e->hp != 0 && e->alive != 0) {
                 dx = (e->x - player->x) >> 8;
                 dy = (e->y - player->y) >> 8;
-                angle = ((u32)((u16)ArcTan2(dx, dy) + 0x400) >> 12) - directions076EE8[((u8 *)player->pos)[3] >> 4];
-                if ((s16)angle > 8)
-                    angle = (s16)angle - 16;
-                if ((s16)angle < -8)
-                    angle = (s16)angle + 16;
-                d = (s16)angle;
-                if (d < 0)
-                    d = -d;
+                d = diffEE8((u16)ArcTan2(dx, dy) + 0x400, directions076EE8[((u8 *)player->pos)[3] >> 4]);
                 if (d <= width) {
                     dist = Sqrt(dx * dx + dy * dy);
                     if ((u32)range > dist && best > dist) {
@@ -142,6 +134,12 @@ extern struct Ply076EE8 players07614C[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies07614C asm("gUnk_030056F4");
 extern u32 active07614C asm("gUnk_030056FC");
 extern u16 directions07614C[] asm("gUnk_0849E730");
+static inline s32 diff414C(u16 a, u16 b) {
+ u16 angle = (a >> 12) - b; s32 d;
+ { s32 t = (s16)angle; if (t > 8) angle = t - 16; }
+ { s32 t = (s16)angle; if (t < -8) angle = t + 16; } 
+ d = (s16)angle; if (d < 0) d = -d;
+ return d; }
 s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
 {
     struct Ply076EE8 *cand;
@@ -159,14 +157,7 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
             if (player->team != cand->team && cand->team != 0) {
                 dx = (cand->pos->x >> 4) - (player->pos->x >> 4);
                 dy = ((u32)(cand->pos->y << 20) >> 20) - ((u32)(player->pos->y << 20) >> 20);
-                angle = ((u32)((u16)ArcTan2(dx, dy) + 0x400) >> 12) - directions07614C[((u8 *)player->pos)[3] >> 4];
-                if ((s16)angle > 8)
-                    angle = (s16)angle - 16;
-                if ((s16)angle < -8)
-                    angle = (s16)angle + 16;
-                d = (s16)angle;
-                if (d < 0)
-                    d = -d;
+                d = diff414C((u16)ArcTan2(dx, dy) + 0x400, directions07614C[((u8 *)player->pos)[3] >> 4]);
                 if (d <= width) {
                     dist = Sqrt(dx * dx + dy * dy);
                     if (range > dist && best > dist) {
@@ -189,14 +180,7 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
             if (e->state != 11 && e->hp != 0 && e->alive != 0) {
                 dx = (e->x >> 8) - (player->pos->x >> 4);
                 dy = (e->y >> 8) - ((u32)(player->pos->y << 20) >> 20);
-                angle = ((u32)((u16)ArcTan2(dx, dy) + 0x400) >> 12) - directions07614C[((u8 *)player->pos)[3] >> 4];
-                if ((s16)angle > 8)
-                    angle = (s16)angle - 16;
-                if ((s16)angle < -8)
-                    angle = (s16)angle + 16;
-                d = (s16)angle;
-                if (d < 0)
-                    d = -d;
+                d = diff414C((u16)ArcTan2(dx, dy) + 0x400, directions07614C[((u8 *)player->pos)[3] >> 4]);
                 if (d <= width) {
                     dist = Sqrt(dx * dx + dy * dy);
                     if (range > dist && best > dist) {
@@ -213,7 +197,6 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
         return 0xFF;
     return enemies07614C[nearest].f2;
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
 #endif
