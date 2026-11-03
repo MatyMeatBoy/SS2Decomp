@@ -1467,15 +1467,11 @@ restart:
             break;
         case 0x26:
             if (d[0] == myId) {
-                u32 off;
-                u8 *base;
                 struct RxPlayer *pp;
                 u32 *role;
-                base = (u8 *)gRxPlayers;
-                off = myId * 0x14C;
-                pp = (struct RxPlayer *)(base + off);
+                pp = &gRxPlayers[myId];
                 pp->fC4 = pp->f62;
-                *(u32 *)(gRxPl30 + off) &= 0xFFFFDFFF;
+                *(u32 *)(gRxPl30 + myId * 0x14C) &= 0xFFFFDFFF;
                 pp->f68 = 1;
                 if (pp->f20 == 0xB)
                     pp->f20 = 0;
@@ -1484,7 +1480,7 @@ restart:
                     e = gRxQueue + gRxQueueCount * 0x88;
                     *(u32 *)(e + 4) = 1;
                     e[0] = 0x8C;
-                    *(u32 *)(e + 8) = *(u32 *)(gRxPl30 + sub_080020F4() * 0x14C);
+                    *(u32 *)(e + 8) = *(u32 *)((u8 *)&gRxPlayers[0].f30 + sub_080020F4() * 0x14C);
                     e[1] = 1;
                     gRxQueueCount++;
                 }
