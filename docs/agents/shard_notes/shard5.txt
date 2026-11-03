@@ -1,7 +1,9 @@
-nov03-w1: sub_08009594 nmdiff 538 -> 516: ROM tail order is a=(s16)x+offX, b=(s16)y+offY, then the +w0/+w1
-  adds, then `offsets += pad14*2`, then the stores; draft now uses s32 a,b + s16 c,d. Still missing: ROM keeps
-  the intermediate (s16)a sign extension (lsls/asrs) AND the final one before `& 0xFF` (no form found:
-  s16-only vars give lsrs for the intermediate, s32 drops the final). Size 900 vs 924: the ROM materialises
+
+nov03-w4: sub_0800A03C draft (nm score 9): only `alternate` lands in r4 instead of r7 (ROM: loop giv
+  &frames in r4, alternate in r7 and `&animLimits[alternate]` computed into r7 after the r4 setup).
+  Tried: decl orders, u8/u16/s32/register alternate, if/ternary/bool forms, early computation,
+  explicit limit pointer, do-while loop, frames++ split, u16 casts, permuter 5 min (195, nothing).
+900 vs 924: the ROM materialises
   x<<16 (sp+0x10) and y<<16 (r9) at the end of each switch path (case 8 skip, case 8/10 fallthrough,
   case 5/default before `if (!update)`), the index lives on the stack (sp+0) not in sl.
   ROM frame: idx 0, force 4, offsets 8, idx*2 0xC, x<<16 0x10, tileDX<<16 0x14, tileDY<<16 0x18.
