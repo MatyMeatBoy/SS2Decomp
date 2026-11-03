@@ -307,7 +307,62 @@ attenuate:
         return result;
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801F024);
+extern s16 sinF024[] asm("gUnk_080B9704");
+extern s16 dirF024[] asm("gUnk_0849E740");
+static inline s32 overlapF024(s32 *arg0, s32 *arg1, u16 *arg2, u16 *arg3) {
+    s32 var_r2;
+    s32 var_r3;
+    s32 dx = arg0[0] - arg1[0];
+    s32 dy = arg0[1] - arg1[1];
+    var_r2 = dy >> 8;
+    var_r3 = dx >> 8;
+    if (var_r3 < 0) {
+        var_r3 = -var_r3;
+    }
+    if (var_r3 <= ((s32)(arg2[0] + arg3[0]) >> 1)) {
+        if (var_r2 < 0) {
+            var_r2 = -var_r2;
+        }
+        if (var_r2 <= ((s32)(arg2[1] + arg3[1]) >> 1)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+struct SizeF024 { u16 w, h; };
+s32 sub_0801F024(u8 *obj, u16 dir, s32 *pos, s32 *target, u32 w, u32 h)
+{
+    s32 box[2];
+    struct SizeF024 size;
+    struct SizeF024 other;
+    u8 kind = obj[0x9B];
+    if (kind == 3)
+        goto check2;
+    if (kind == 8) {
+        if ((u8)sub_0801DE60() == 7)
+            return 0;
+check2:
+        if ((u8)sub_0801DE60() == 2)
+            return 0;
+    }
+    other.w = w;
+    other.h = h;
+    box[1] = pos[1] - 0x400;
+    box[0] = pos[0] + sinF024[dirF024[dir] * 16 + 0x40] * obj[0xA5];
+    box[1] += sinF024[dirF024[dir] * 16] * obj[0xA5];
+    size.w = size.h = obj[0xA6];
+    if (overlapF024(box, target, (u16 *)&size, (u16 *)&other))
+        return 1;
+    if (obj[0x9B] == 9)
+        return 0;
+    box[1] = pos[1] - 0x400;
+    box[0] = pos[0] + sinF024[dirF024[dir] * 16 + 0x40] * obj[0xA7];
+    box[1] += sinF024[dirF024[dir] * 16] * obj[0xA7];
+    size.w = size.h = obj[0xA8];
+    if (overlapF024(box, target, (u16 *)&size, (u16 *)&other))
+        return 1;
+    return 0;
+}
 extern s32 sub_080020F4(void);
 extern void sub_0801F2CC(u8 *,u8 *);
 struct Sh20F1C4Packet { u8 player:8; u8 power:8; u8 impulse:8; s32 direction:8; u32 amount:16; u32 unused:16; };
