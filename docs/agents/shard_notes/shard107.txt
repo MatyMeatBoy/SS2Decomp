@@ -13,4 +13,4 @@ sub_080A230C (nov03-w5): 72 -> 16 diff lines, exact size. Keys: x/y as `struct T
   (DImode pair r6:r7) passed by value as the FIRST arg of sub_08097978 too; init
   `{ u16 *tq = &tile, *ep = &extra; *ep = 0; *tq = 0; }` and `&tile` directly in the loop call
   (gives r8 = &tile and the `mov sl, r8` copy). Left: ROM computes &extra (spilled 0x74) before
-  &tile (r8), and reuses the r0 zero for `hit` (ours rematerializes `movs r0,#0`).
+  &tile (r8). (`z = 0; *ep = 0; *tq = z;` fixed the r0 zero reuse for `hit`: 12 lines left.)
