@@ -5789,7 +5789,127 @@ void sub_08028498(u16 arg0)
     }
   }
 }
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080284F4);
+struct Anim0284F4 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[24]; };
+struct Size0284F4 { u16 w, h; };
+struct Pt0284F4 { s32 x, y; };
+struct Ent0284F4 {
+    u32 id;
+    u32 f4;
+    s32 pos[2];
+    u8 p10[8];
+    u32 f18[3];
+    u16 f24, f26, f28, f2A, f2C, f2E, f30, f32, f34, f36, f38, f3A;
+    u32 f3C;
+    u16 f40, f42;
+    u32 f44;
+};
+struct Kind0284F4 { u32 res; u32 kind; };
+struct Ply0284F4 { u8 p0[0x14]; u16 f14; u8 p16[6]; s16 dir; u8 p1E[0x12]; u32 f30; u8 p34[0x58]; struct Pt0284F4 pos; u8 p94[0xB8]; };
+struct State0284F4 { u8 p0[4]; u16 f4; };
+struct Loc0284F4 { s16 sx, sy; u16 u, v; struct Pt0284F4 pos; struct Size0284F4 size; s32 done; };
+extern struct Kind0284F4 kinds0284F4[] asm("gUnk_084B19F0");
+extern struct Ply0284F4 players0284F4[] asm("gUnk_03003CE0");
+extern struct State0284F4 *state0284F4 asm("gUnk_03005CF4");
+extern s16 dirs0284F4[] asm("gUnk_0849E730");
+extern s16 offs0284F4[] asm("gUnk_080B9704");
+extern void animInit0284F4(struct Anim0284F4 *, u32, s32, s32, s32) asm("sub_08065158");
+extern s32 animStep0284F4(struct Anim0284F4 *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern void animDraw0284F4(struct Anim0284F4 *, s32, s32, u32, u32) asm("sub_08065230");
+extern u16 slot0284F4(s32, u32) asm("sub_080283C4");
+extern s32 overlap0284F4(s32 *, struct Pt0284F4 *, u32 *, struct Size0284F4 *) asm("sub_08021FE0");
+extern void hit0284F4(u32, u32) asm("sub_0805A58C");
+extern void toScreen0284F4(s16, s16, s16 *, s16 *, u32, s32) asm("sub_0800BC08");
+extern void draw0284F4(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern void pal0284F4(u32, const void *, u32) asm("sub_08000AF0");
+extern u32 prio0284F4(s32, s32, s32) asm("sub_0800BC44");
+
+/* Run an animated map object until its state reaches 4: player overlap
+ * triggers its callback, it is drawn every frame with an optional overlay. */
+void sub_080284F4_v(struct Ent0284F4 *e) asm("sub_080284F4");
+void sub_080284F4_v(struct Ent0284F4 *e)
+{
+    struct Anim0284F4 animA;
+    struct Anim0284F4 animB;
+    s16 sx, sy;
+    u16 u, v;
+    struct Pt0284F4 pos;
+    struct Size0284F4 size;
+    s32 done;
+    struct Ply0284F4 *p;
+    u32 kind;
+    u8 pr;
+
+    e->f3C = 2;
+    e->f44 = 0;
+    e->f36 = 0;
+    e->f38 = 0;
+    e->f2E = 0;
+    e->f30 = 0;
+    e->f2C = e->f24 = e->f4 >> 16;
+    e->f34 = 1;
+    e->f4 &= 0xFFFF;
+    e->f28 = 0;
+    e->f26 = 0;
+    e->f42 = 0;
+    size.w = 16;
+    size.h = 16;
+    p = &players0284F4[sub_080020F4()];
+    done = 0;
+    v = 0;
+    u = done;
+    animInit0284F4(&animA, kinds0284F4[e->f4].res, 4, -1, done);
+    if (kinds0284F4[e->f4].kind != 3) {
+        while ((e->f40 = slot0284F4(100, (u16)kinds0284F4[e->f4].kind)) == 0xFFFF)
+            sub_080003F0();
+    } else {
+        e->f40 = done;
+    }
+    animA.data[kinds0284F4[e->f4].kind] = e->f40;
+    animInit0284F4(&animB, 0x50010, e->f40, -1, 0);
+    while (e->f36 != 4) {
+        if (!(p->f30 & 0x2000) && (p->f14 & 1) && !(u8)((state0284F4->f4 >> 7) & 1) && e->f44 != 0) {
+            pos = p->pos;
+            pos.x += offs0284F4[dirs0284F4[p->dir] * 16 + 64] << 4;
+            pos.y += offs0284F4[dirs0284F4[p->dir] * 16] << 4;
+            if (overlap0284F4(e->pos, &pos, e->f18, &size))
+                hit0284F4(e->id, e->f44);
+        }
+        switch (e->f36) {
+        case 0:
+            break;
+        case 2:
+            break;
+        case 3:
+            e->f36 = 0;
+            e->f2C = e->f38 + e->f24;
+            break;
+        }
+        if (!(state0284F4->f4 & 0x200))
+            e->f32 = animStep0284F4(&animA, e->f2C, &e->f2E, &e->f30, e->f34);
+        pr = prio0284F4(e->pos[0] >> 8, e->pos[1] >> 8, sub_0800CCCC());
+        toScreen0284F4(e->pos[0] >> 8, e->pos[1] >> 8, &sx, &sy, 0x30, sub_0800CCCC());
+        if (sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            kind = kinds0284F4[e->f4].kind;
+            if (kind != 3 && !(state0284F4->f4 & 0x200))
+                pal0284F4(e->f40 + 0x10, animA.graphics + kind * 32, 1);
+            draw0284F4(sx, sy, e->f2C, e->f2E, pr, animA.data, animA.w8, animA.w0);
+            if (e->f42 != 0) {
+                if (done)
+                    done = 0;
+                if (animStep0284F4(&animB, e->f42, &u, &v, 0)) {
+                    e->f42 = 0;
+                    u = 0;
+                    v = 0;
+                    done = 1;
+                } else {
+                    animDraw0284F4(&animB, sx, sy - 0x20, e->f42, u);
+                }
+            }
+        }
+        sub_080003F0();
+    }
+    e->id = 0;
+}
 struct Pos028830 { u16 x; u16 y; };
 struct Ply028830 { u8 pad0[0x148]; struct Pos028830 *pos; };
 struct Box028830 { s32 a, b; };

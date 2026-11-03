@@ -20,4 +20,6 @@ sub_08028D98: sibling of sub_08028AAC (relative move, `(s16)dx << 8`); draft
   added (nov03-w4), 866/844, same param register problem. ROM also RELOADS
   sx = X->x after the X->tx store (draft CSEs the earlier load), which hints the
   targets/positions are written through another pointer or helper.
-sub_080284F4: no draft.
+sub_080284F4: matched (nov03-w4): separate address-taken locals declared in
+  frame order (sx, sy, u, v, pos, size, done), `switch` with empty cases 0 and 2,
+  `!(u8)((f4 >> 7) & 1)` to keep the constant 1 in a register.
