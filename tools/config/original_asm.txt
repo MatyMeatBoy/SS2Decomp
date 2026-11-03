@@ -1,0 +1,6 @@
+# Functions inside C modules that are original hand-written assembly in the
+# SDK (MP2K m4a_1.s): no C source ever existed, every pret decomp keeps them
+# as ASM. progress.py counts them as original assembly, not pending work.
+MPlayMain
+SoundMainRAM
+ply_note

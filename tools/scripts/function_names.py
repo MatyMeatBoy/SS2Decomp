@@ -52,7 +52,7 @@ def identify(entries, records, defined_names=None):
         node.update(address="0x%08X" % node["addr"], canonical_symbol=canonical,
                     domain="sdk" if node["cat"] == "lib" else "game")
         kind, state = node["kind"], node["state"]
-        node["implementation"] = ("linked" if kind == "linked" else "original_asm" if kind == "asm"
+        node["implementation"] = ("linked" if kind == "linked" else "original_asm" if kind == "asm" or state == "asm"
                                   else {"done": "decompiled", "nonmatch": "draft", "todo": "pending_asm"}[state])
         record = catalog.get(node["addr"])
         if record:
