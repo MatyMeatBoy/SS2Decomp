@@ -1,11 +1,9 @@
-shard 94 notes (nov03-w4)
 
-sub_0808F1E4: draft added, 1216/1220. Spill slots match with locals declared
-  slot, hitOff, prio2, lastHit, blinking, blinkTimer, hitTimer (prio2 = copy of
-  prio used only by the non-blinking second draw). Left: reload reg choice for the
-  zero stores at init, `hitOff - 1` form ((x<<16)+0xFFFF0000>>16 in ROM), the
-  `& 0x8000` constant copy, operand order of the *20 multiply.
-
-sub_0808E530: MATCHED (nov03-w1). Key: x,y were an 8-byte struct local {s32 x,y} (DImode
-  pseudo in r4:r5, so y is not const-propagated); switch and final test both use (arg>>16)&0xFF
-  (gcse CSE gives the spilled copy); vis result in an s32 local passed to a u8 param.
+sub_0808F1E4 (nov03-w1): `s16 hitOff; ... hitOff--;` reproduces the ROM `(x<<16)+0xFFFF0000>>16`
+  decrement (size becomes 1224, other diffs unchanged). Remaining structural diffs: (a) f4*20 as
+  (x<<1),(x<<3), add into the <<3 reg (every source order tried gives the other dest reg or folds
+  to *5*4); (b) the init zeros: ROM stores lastHit/f4C from the shared zero reg r2 and
+  blinkTimer/blinking from one movs r0,#0 (chained assignments did not change it); (c) prio2 store
+  comes from r0, ours via `mov r2,r9`; (d) `old & 0x8000` ROM copies the const reg (adds r1,r2,#0)
+  and ands into old's reg. Permuter 5 min: nothing valid (only dropped blinkTimer=0).
+ to a u8 param.
