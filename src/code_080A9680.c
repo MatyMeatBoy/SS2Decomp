@@ -492,6 +492,7 @@ void sub_080AB2F8(struct T112BActor *arg0) {
     s32 spCC;
     u8 *var_r9;
     u8 one112;
+    s32 zero112;
     s32 one2_112;
     u32 lim112;
     s16 *temp_r0_4;
@@ -594,7 +595,7 @@ block_6:
         s16 row, col;
         for (row = 0; row <= 3; row++) {
             for (col = 0; col <= 4; col++) {
-                t112B_history[row].h[col] = 0;
+                *(s32 *)((u8 *)t112B_history + col * 4 + row * 0x14C) = 0;
             }
         }
     }
@@ -838,11 +839,12 @@ loop_exit112:
     sub_0805867C(0xC2);
     gUnk_03003CE0[sub_080020F4()].flags |= 1;
     var_r9 = sp10;
+    zero112 = 0;
     M2C_FIELD(var_r9, s8 *, 0x1C) = t112B_gUnk_03000438;
-    t112B_gUnk_03000434->f6C = 0;
+    t112B_gUnk_03000434->f6C = zero112;
     temp_r0_9 = ((u8 *)t112B_gUnk_03000434 + 0x6C) - 2;
-    *temp_r0_9 = 0;
-    *(temp_r0_9 - 1) = 0;
+    *temp_r0_9 = zero112;
+    *(temp_r0_9 - 1) = zero112;
     spB8 = 0;
     spA0 = 0xA;
     do {
@@ -899,13 +901,10 @@ loop_exit112:
     t112B_sub_080586B4(0);
     gUnk_03003CE0[sub_080020F4()].flags |= 1;
     if ((t112B_sub_08057C34(6) != 0) && (t112B_sub_08057C34(0x16) == 0)) {
-        var_r0_3 = sub_0805DF38(1, 0xE, 0x19, 2, 0x3C, 0x00140060);
-        var_r1_3 = (u32 *)(gUnk_03005CF4 + 0x720);
+        *(u32 *)(gUnk_03005CF4 + 0x720) = sub_0805DF38(1, 0xE, 0x19, 2, 0x3C, 0x00140060);
     } else {
-        var_r0_3 = sub_0805DF38(1, 0xE, 0x19, 2, 0x3C, 0x00140058);
-        var_r1_3 = (u32 *)(gUnk_03005CF4 + 0x720);
+        *(u32 *)(gUnk_03005CF4 + 0x720) = sub_0805DF38(1, 0xE, 0x19, 2, 0x3C, 0x00140058);
     }
-    *var_r1_3 = var_r0_3;
     while (sub_0805EEFC(M2C_FIELD((void *)gUnk_03005CF4, void **, 0x720)) == 0) {
         gUnk_03003CE0[sub_080020F4()].flags |= 1;
         if (sub_0800CD8C() == 0) {
@@ -953,9 +952,8 @@ loop_exit112:
             t112B_gUnk_03000434->f18 = t112B_gUnk_03000434->f18 - 0x20;
             t112B_sub_0806171C(t112B_gUnk_03000434, temp_r4);
             sub_080003F0();
-            temp_r0_15 = (spB8 << 0x10) + 0xFFFF0000;
-            spB8 = temp_r0_15 >> 0x10;
-        } while (((s32)temp_r0_15 >> 0x10) != -1);
+            spB8 = (u16)(spB8 + 0xFFFF);
+        } while ((s16)spB8 != -1);
         sub_0801E4CC((u8 *)gUnk_030034E0, temp_r4);
     }
     sub_08056E24();
