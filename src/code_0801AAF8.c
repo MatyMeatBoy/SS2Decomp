@@ -680,8 +680,9 @@ s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, 
 }
 
 #ifdef NONMATCHING
-/* Hand-written draft: control flow and arithmetic follow the asm; remaining diffs are
- * register allocation and stack-slot order (normalized diff ~530 lines of 1813). */
+/* Hand-written draft: control flow and arithmetic follow the asm; the function returns
+ * void (defined through an asm label because functions.h declares it with M2C_UNK).
+ * Remaining diffs: reload register rotation, loop temporaries (k/id), f16 update. */
 struct BA74Res { s16 v[6]; };
 struct BA74Stats { s16 f0, f2, f4, f6; s16 f8; u16 fA[5]; struct BA74Res res; };
 struct BA74Slot { u16 f0; u16 id; u16 sub; u8 bonus; u8 f7; u8 broken; u8 valid; u8 padA[6]; };
@@ -754,10 +755,12 @@ extern s32 sub_08021FE0(s32 *, s32 *, u16 *, u16 *);
 
 #define arg0 ((struct BA74Unit *)a0)
 #define arg1 ((struct BA74Sel *)a1)
+#define arg2 ((struct BA74Stats *)a2)
 #define arg3 ((struct BA74Mod *)a3)
-s32 sub_0801BA74(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
+void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4) asm("sub_0801BA74");
+void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
 {
-    register struct BA74Stats *arg2 asm("r8") = a2;
+
     u16 i;
     u16 bonus;
     u8 *t2;
@@ -935,9 +938,10 @@ s32 sub_0801BA74(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     arg0->f132 = 0;
     e = arg0->f34;
     for (i = 0; i <= 7; i++, e++) {
-        s16 id = e->f0;
+        s32 x = e->f0;
+        u16 id = e->f0;
         u16 k;
-        if (id < 0 && id != -2)
+        if (x < 0 && x != -2)
             continue;
         k = e->f2;
         if (k <= 3) {
@@ -1008,7 +1012,7 @@ s32 sub_0801BA74(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
             case 6:
             case 8:
                 if (e->f4 == 4) {
-                    if (id > 1) {
+                    if ((s16)id > 1) {
                         struct BA74Job *job = &gUnk_0847AD3C[e->f6];
                         arg0->f138 = job;
                         arg0->f64 = job->fD4 + 10;
@@ -1053,7 +1057,7 @@ s32 sub_0801BA74(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
         } else {
             switch (e->f4) {
             case 1:
-                if (e->f0 == 0 && arg0->f132 != 13)
+                if (id == 0 && arg0->f132 != 13)
                     arg0->f132 = 14;
                 break;
             case 2:
@@ -1068,7 +1072,7 @@ s32 sub_0801BA74(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
                 halve = 1;
                 break;
             case 4:
-                if (e->f0 == 0 && arg0->f132 != 13)
+                if (id == 0 && arg0->f132 != 13)
                     arg0->f132 = 11;
                 break;
             case 5:
@@ -1279,6 +1283,7 @@ s32 sub_0801BA74(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
 }
 #undef arg0
 #undef arg1
+#undef arg2
 #undef arg3
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
