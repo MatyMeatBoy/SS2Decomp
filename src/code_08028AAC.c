@@ -457,7 +457,8 @@ void sub_0802949C_v(u32 who, u32 toward)
         e->goal = e->dir;
     else
         p->goal = p->dir;
-    want = dirTable02949C[((u32)(ArcTan2((to.x - from.x) >> 8, (to.y - from.y) >> 8) << 16) + 0x08000000) >> 28];
+    want = ((u32)(ArcTan2((to.x - from.x) >> 8, (to.y - from.y) >> 8) << 16) + 0x08000000) >> 28;
+    want = dirTable02949C[want];
     {
         u16 now;
 
