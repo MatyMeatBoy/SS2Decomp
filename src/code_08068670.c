@@ -4083,17 +4083,7 @@ block_80:
         goto block_82;
     }
     t6f_sub_08007870(sp48, sp4A, sp64, (u16) sp44, (u32)(var_r4), ((anim + 0x1C)), ((*(u32 *)(anim + 8))), ((*(u32 *)anim)));
-block_82:
-    t6f_sub_080003F0();
-    if (t6f_sub_08056E90() != 0) {
-        goto block_306;
-    }
-    if (temp_r1 > 3U) {
-        goto block_85;
-    }
-    if (*sp94 & 2) {
-        goto block_306;
-    }
+    goto block_82;
 block_85:
     if (((u32) (*M2C_FIELD(sp54, u8 **, 0x148) << 0x1C) >> 0x1C) == 0xC) {
         goto block_306;
@@ -4545,6 +4535,18 @@ block_222:
         goto block_224;
     }
     goto block_306;
+block_82:
+    t6f_sub_080003F0();
+    if (t6f_sub_08056E90() != 0) {
+        goto block_306;
+    }
+    if (temp_r1 > 3U) {
+        goto block_85;
+    }
+    if (*sp94 & 2) {
+        goto block_306;
+    }
+    goto block_85;
 block_224:
     if (t6f_sub_0800CF10() == 0) {
         goto block_226;
