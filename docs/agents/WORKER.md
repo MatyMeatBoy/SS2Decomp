@@ -1,10 +1,10 @@
-- Stack layout: arrays and BLKmode structs (> 8 bytes) get frame slots in declaration order; small locals
-  (scalars, 8-byte structs) only get a slot when their address is first taken, in that order; spilled
-  pseudos come after all of them. So `box` (8-byte struct), `zero`, `c` passed by address in that order and
-  spilled `d`, `e` reproduce sp+8/0x10/0x14/0x18/0x1c (sub_08028830). A "struct" in the frame may really be
-  separate locals.
-- An exact-size draft whose only diff is block order often has an inlined helper's early `return` block
-  placed by loop.c after the nearest barrier; which path ends in its own `b` decides where it lands.
+- x/y pairs: when the ROM keeps two values in consecutive registers (r4:r5, r6:r7), loads/stores them as an
+  ldr/ldr pair, or spills them to 8 adjacent stack bytes, declare them as an 8-byte struct
+  (`struct { s32 x, y; }`) — a DImode local, parameter or by-value argument. This closed sub_0808E530,
+  sub_080B44F0, sub_080B4690, sub_080B2058 and sub_080B6178 (argument registers stopped tying to x/y).
+- Moving a loop or a call into a `static inline` helper changes loop.c hoisting and argument load order;
+  reading a global through a local pointer (`u32 *p = &g;`) changes hoist order too.
+h path ends in its own `b` decides where it lands.
 he full ROM.
 Be terse in chat; the commits are what matter. User language is Spanish but code/commits are English.
 
