@@ -1,9 +1,10 @@
 
-nov03-w4: on the clean version, an 8-byte `struct { s32 x, y; } pos` (DImode pair) keeps x/y in r6:r7
-  (520 bytes but 172 lines), and one frame struct {tile,rotation,sx,sy,metadata,x,y} gives
-  `strh r1,[r0,#2]` base+offset stores instead of the ROM's separate &rotation/&tile -> separate locals confirmed.
-    (slots 0x10..0x16 in address-taken order: &tile/&rotation (animate call) must be taken before
-    &sx/&sy, so do not hoist px=&sx in source); metadata (0x18), x (0x1C), y (0x20) are spilled
+nov03-w3: sub_080A47A0 clean rewrite (no register asm) reaches 516 vs 520 bytes but ~170 diff lines
+  (existing draft: 88). Facts: offsets are two separate s16 tables gUnk_08518754/gUnk_08518756
+  indexed `direction*2` (a struct table gives [r0,#2]); the CD8C result and the CD34 result are
+  different locals (ROM keeps only the CD34 one in r7); a 12-byte {metadata,x,y} struct or s16[2]
+  arrays put the frame in memory with base+offset stores (wrong). x/y still win r6/r7 over &sx/&sy.
+ are spilled
     pseudos -> that is why ROM reloads x/y from the stack instead of forwarding the stored value.
   - Wait loop is `wait: if (frame == 0) { sub_080003F0(); goto wait; }` and the else branch reads
     the global again (`animation = frame10847`, not a cached local) -> ROM's second literal load.
