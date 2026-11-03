@@ -33364,21 +33364,21 @@
       "name": "sub_080B6178",
       "addr": 134963576,
       "size": 428,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080B3648",
       "kind": "c",
       "cat": "game",
       "address": "0x080B6178",
       "canonical_symbol": "sub_080B6178",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080B6178_v",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_080B3648.c",
-          "line": 591,
+          "line": 592,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B6178_v"
         }
       ]
