@@ -1,0 +1,11 @@
+shard 107 notes (nov03-w2)
+
+sub_080A230C: draft 178 -> 72 diff lines, now exact size (908) and free of register asm.
+  - The early `add r2,sp,#0x44; mov r8,r2` / `mov sl,r8` pair is gcse/loop hoisting of &tile: use plain
+    `tile = 0;` before the loop and a loop-local `u16 *tp = &tile;` placed just before
+    `zero = sub_0800CC98();` (permuter find); no earlyTile/tilePtr variables.
+  - Write the nibble with a bitfield (`struct { u8 lo:4, hi:4; }`->hi = sub_08096594(0)), but read it back
+    as `*(u8 *)(actor + 0x1FC) >> 4` (bitfield read gives lsl/lsr).
+  - No `facing` temp: `x += gUnk_080B9704[gUnk_085186DC[actor->facing] + 0x40] << 5;` (literal pool order).
+  - dy: `{ u32 pi = sub_080020F4(); s32 sy = (y >> 8) + 12; dy = sy - (players[pi].y >> 8); }`.
+  Remaining: x gets r8 while ROM has x in r6 and players-base / `zero` in r8 (priority of x too low).
