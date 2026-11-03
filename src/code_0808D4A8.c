@@ -439,7 +439,6 @@ s32 sub_0808DA94(s32 arg)
 fail:
     return 0;
 }
-#ifdef NONMATCHING
 extern u32 sub_08065158(void *, u32, u32, s32, s32);
 extern void sub_0800BC08(s32, s32, void *, void *, s32, s32);
 extern s32 *sub_08007870(s32, s32, u32, u32, u32, void *, u32, u32);
@@ -450,21 +449,18 @@ extern void sub_08029A7C(s32, s32, s32);
 void sub_0808DB38(u32 arg)
 {
     u32 anim[13];
-    u16 frames[6];
+    u16 a0, a1, b0, b1, scrX, scrY;
     s32 pos[2];
     u32 size, box;
     struct Player *player;
     s32 hit, sound;
-    s32 height;
-    s32 speed;
+    s32 height, speed;
     register u32 priority asm("r4");
+    u32 pr;
     s32 *sprite;
-    s32 *posptr;
-    void *texture;
-    u16 *attrptr;
-    register u16 *firstptr asm("r10");
+
     sub_08065158(anim, 0x50122, 0, -1, 0);
-    sub_08000AF0(0x15, anim[3], 1);
+    sub_08000AF0(0x15, (void *)anim[3], 1);
     *(u8 *)&anim[7] = 5;
     switch (arg) {
     case 0: pos[1] = 0x8C00; break;
@@ -491,106 +487,49 @@ void sub_0808DB38(u32 arg)
     }
     hit = 1;
     sound = 1;
-    {
-        register s32 xraw asm("r1") = pos[0];
-        register s32 xshift asm("r0") = xraw >> 8;
-        firstptr = frames;
-        attrptr = &frames[1];
-        asm("" : "+r"(xraw), "+r"(xshift));
-        if (xshift > 45) {
-            register u16 *screenXptr asm("r9");
-            register u16 *screenYptr asm("r6");
-            register u16 *secondptr asm("r5");
-            posptr = pos;
-            screenXptr = &frames[4];
-            screenYptr = &frames[5];
-            texture = &anim[7];
-            do {
-                {
-                    register u32 delta asm("r2") = 0xFFFFFE00;
-                    register s32 nextX asm("r0");
-                    asm("" : "+r"(delta));
-                    nextX = delta + xraw;
-                    asm("" : "+r"(nextX));
-                    pos[0] = nextX;
-                }
-                height += speed;
-                speed -= 0x28;
-                {
-                    register s32 heightCheck asm("r0") = height;
-                    asm("" : "+r"(heightCheck));
-                    if (heightCheck <= 0) {
-                        height = 1;
-                        speed = -(speed >> 1);
-                    }
-                }
-                if (speed > 0 && sound) {
-                    if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
-                    sound = 0;
-                }
-                if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
-                    register u32 zero asm("r0") = 0;
-                    asm("" : "+r"(zero));
-                    hit = zero;
-                    sub_08029A7C(zero, 0x10, 1);
-                }
-                sub_08065370(anim, 0, (s32)&firstptr[0], (s32)attrptr, 1);
-                asm("" : "+r"(firstptr));
-                secondptr = firstptr + 2;
-                sub_08065370(anim, 1, (s32)secondptr, (s32)(secondptr + 1), 1);
-                if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
-                    sub_0800BC08((s16)(pos[0] >> 8), (s16)(posptr[1] >> 8), screenXptr, screenYptr, 0x30, 0);
-                    priority = (u8)sub_0800BC44(pos[0] >> 8, posptr[1] >> 8, 0);
-                    {
-                        register u16 *sx asm("r1") = screenXptr;
-                        asm("" : "+r"(sx));
-                        sub_08007870(*sx, *screenYptr - 1, 1, *secondptr, 3, texture, anim[2], anim[0]);
-                    }
-                    {
-                        register u16 *sx asm("r1") = screenXptr;
-                        asm("" : "+r"(sx));
-                        sprite = sub_08007870(*sx, *screenYptr, 0, firstptr[0], priority, texture, anim[2], anim[0]);
-                    }
-                    sprite[3] -= height >> 8;
-                }
-                sub_080003F0();
-                xraw = pos[0];
-            } while ((xraw >> 8) > 45);
+    while ((pos[0] >> 8) > 45) {
+        { register s32 d asm("r2") = -0x200; register s32 n asm("r0"); asm("" : "+r"(d)); n = d + pos[0]; pos[0] = n; }
+        height += speed;
+        speed -= 0x28;
+        { register s32 hc asm("r0") = height; asm("" : "+r"(hc));
+        if (hc <= 0) {
+            height = 1;
+            speed = -(speed >> 1);
         }
+        }
+        if (speed > 0 && sound) {
+            if (sub_0800CCCC() == 0) sub_0805865C(0x2E);
+            sound = 0;
+        }
+        if (hit && (height >> 8) <= 7 && sub_08021FE0(pos, (u8 *)player + 0x8C, &size, &box)) {
+            hit = 0;
+            sub_08029A7C(0, 0x10, 1);
+        }
+        sub_08065370(anim, 0, (s32)&a0, (s32)&a1, 1);
+        sub_08065370(anim, 1, (s32)&b0, (s32)&b1, 1);
+        if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
+            sub_0800BC08((s16)(pos[0] >> 8), (s16)(pos[1] >> 8), &scrX, &scrY, 0x30, 0);
+            priority = (u8)sub_0800BC44(pos[0] >> 8, pos[1] >> 8, 0);
+            sub_08007870(scrX, scrY - 1, 1, b0, 3, &anim[7], anim[2], anim[0]);
+            sprite = sub_08007870(scrX, scrY, 0, a0, priority, &anim[7], anim[2], anim[0]);
+            sprite[3] -= height >> 8;
+        }
+        sub_080003F0();
     }
     if (!sub_0800CCCC()) sub_0805865C(0x29);
     sub_08065158(anim, 0x50053, 0, -1, 0);
-    *attrptr = 0;
-    firstptr[0] = 0;
-    {
-        register u16 *copy = firstptr;
-        register s32 *position asm("r6") = pos;
-        register u16 *sx asm("r5");
-        register u16 *sy asm("r4");
-
-        sx = copy + 4;
-        sy = sx + 1;
-        asm("" : "+r"(copy), "+r"(sx), "+r"(sy), "+r"(position));
-        while (!sub_08065370(anim, 6, (s32)copy, (s32)attrptr, 0)) {
-            if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
-                sub_0800BC08((s16)(pos[0] >> 8), (s16)(position[1] >> 8), sx, sy, 0x30, 0);
-                {
-                    register u32 pr asm("r0") = sub_0800BC44(pos[0] >> 8, position[1] >> 8, 0);
-                    register u32 x asm("r2") = *sx;
-                    register u32 y asm("r1") = *sy;
-                    register u32 frame asm("r3") = *copy;
-                    asm("" : "+r"(pr), "+r"(x), "+r"(y), "+r"(frame));
-                    sub_08007870(x, y, 6, frame, (u8)pr, &anim[7], anim[2], anim[0]);
-                }
-            }
-            sub_080003F0();
+    a1 = 0;
+    a0 = 0;
+    while (!sub_08065370(anim, 6, (s32)&a0, (s32)&a1, 0)) {
+        if (!sub_0800CC98() && !sub_0800CCCC() && !sub_0800CD34() && !sub_0800CD8C()) {
+            sub_0800BC08((s16)(pos[0] >> 8), (s16)(pos[1] >> 8), &scrX, &scrY, 0x30, 0);
+            pr = sub_0800BC44(pos[0] >> 8, pos[1] >> 8, 0);
+            sub_08007870(scrX, scrY, 6, a0, (u8)pr, &anim[7], anim[2], anim[0]);
         }
+        sub_080003F0();
     }
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808DB38);
-#endif
 extern u32 gUnk_084FD06C[];
 extern void sub_0808E130(void);
 u32 sub_0808DE08(u32 arg)
