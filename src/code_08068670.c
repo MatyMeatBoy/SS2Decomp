@@ -4122,6 +4122,7 @@ extern u16 gT6gDirs[] asm("gUnk_0849E730");
 u16 t6gSeekEn(u16, s32, s32, s32) asm("sub_0807A040");
 void t6gBurst(s32, s32, void *) asm("sub_08068A00");
 s32 t6gSolo(void) asm("sub_0800CB9C");
+s32 t6gAnim(void *, u32, s16 *, s16 *, s32) asm("sub_08065370");
 
 void sub_080710DC(struct T6fArg *arg0) {
     struct T6fDesc desc;
@@ -4154,7 +4155,7 @@ void sub_080710DC(struct T6fArg *arg0) {
     u8 ang;
     s32 turn;
     s32 dx, dy;
-    u16 done;
+    s32 done;
     u8 t;
     s16 idx;
     struct T6fPl *p;
@@ -4299,8 +4300,8 @@ restart:
         { s16 t2 = dir; if (t2 > 0xFF) dir = t2 - 0x100; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         idx = dir;
-        cx += gT6gRadius[level] * gT6fSin[idx + 0x40];
-        cy += gT6gRadius[level] * gT6fSin[idx];
+        cx += gT6fSin[idx + 0x40] * gT6gRadius[level];
+        cy += gT6fSin[idx] * gT6gRadius[level];
         x = (u32)(cx - sx) >> 8;
         y = (u32)((cy - sy) << 8) >> 16;
         a = (u32)(ArcTan2(x, y) << 16) >> 24;
@@ -4493,7 +4494,7 @@ strike:
     for (;;) {
         t6fCoords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, 0);
         pal = t6fPal(sx >> 8, sy >> 8, 0);
-        done = t6fAnim(&desc, (u16)(base + frame), &f0, &f1, 0);
+        done = t6gAnim(&desc, (u16)(base + frame), &f0, &f1, 0);
         if (!(gT6fCtl->h4 & 4) && t6f_sub_0800CC98() == 0 && t6f_sub_0800CD8C() == 0 && t6f_sub_0800CCCC() == 0) {
             if (!(gT6fFrame & 1))
                 t6f_sub_08000AF0(0x17, desc.fC, 2);
