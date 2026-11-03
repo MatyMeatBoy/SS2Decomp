@@ -24034,18 +24034,24 @@
       "name": "sub_080761A4",
       "addr": 134701476,
       "size": 2276,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080761A4",
       "canonical_symbol": "sub_080761A4",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_080761A4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "sub_080761A4_c",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 1273,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080761A4_c"
+        }
+      ]
     },
     {
       "name": "sub_08076A88",
@@ -37018,12 +37024,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 182,
-      "existing": 63,
+      "identified": 183,
+      "existing": 64,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1698,
-      "percent_identified": 9.680851063829786
+      "unidentified": 1697,
+      "percent_identified": 9.73404255319149
     },
     "sdk": {
       "total": 155,
@@ -37036,12 +37042,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 337,
-      "existing": 192,
+      "identified": 338,
+      "existing": 193,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1698,
-      "percent_identified": 16.56019656019656
+      "unidentified": 1697,
+      "percent_identified": 16.60933660933661
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
