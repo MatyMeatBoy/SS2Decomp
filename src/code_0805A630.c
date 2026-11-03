@@ -1493,7 +1493,7 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     case 2:
         for (i = 0, p = o0 + 0xB0; i <= 2; p += 4, i++)
             if (*(u16 *)p != 0)
-                goto clearA;
+                goto clearC;
         break;
     case 3:
         for (i = 0, p = o3 + 0xA4; i <= 2; p += 4, i++)
@@ -1512,6 +1512,12 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         flags = 1;
         break;
     clearB:
+        slot->bonus = 0;
+        slot->element = 0;
+        slot->level = 0;
+        flags = 1;
+        break;
+    clearC:
         slot->bonus = 0;
         slot->element = 0;
         slot->level = 0;
