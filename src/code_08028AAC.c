@@ -66,7 +66,73 @@ matched:
 done:
     return;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_08029174);
+struct Actor029174 { u32 id; u8 p4[0x20]; u16 f24; u8 p26[6]; u16 f2C, f2E, f30, f32, f34; u8 p36[2]; u16 f38; u8 p3A[0x36]; };
+struct State029174 { u8 p0[0x7A4]; struct Actor029174 actors[15]; };
+struct Enemy029174 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x5A]; u16 f6A, f6C; u8 p6E[2]; u16 f70, f72; u8 p74[0x26C]; };
+struct Player029174 { u8 p0[0x10]; u16 f10; u8 p12[0xE]; u16 f20, f22; u8 p24[0x96]; u16 fBA, fBC, fBE, fC0; u8 pC2[0x8A]; };
+extern struct State029174 *state029174 asm("gUnk_03005CF4");
+extern struct Enemy029174 *enemies029174 asm("gUnk_030056F4");
+extern struct Player029174 players029174[] asm("gUnk_03003CE0");
+static inline struct Actor029174 *find029174(u32 id)
+{
+    struct Actor029174 *p = state029174->actors;
+    u32 i;
+
+    i = 0;
+    do {
+        if (p->id == id)
+            return p;
+        i++;
+        p++;
+    } while (i <= 14);
+    sub_080003F0();
+    return NULL;
+}
+/* Start a text/emote on an actor (id > 0x100000), an enemy (1..5) or the local player (0). */
+void sub_08029174_v(u32 target, u16 val) asm("sub_08029174");
+void sub_08029174_v(u32 target, u16 val)
+{
+    if (target > 0x100000) {
+        struct Actor029174 *a = find029174(target);
+        if (a != NULL) {
+            a->f38 = val;
+            a->f2C = val + a->f24;
+            a->f30 = 0;
+            a->f2E = 0;
+            a->f32 = 0;
+            a->f34 = 0;
+        }
+    } else if (target != 0) {
+        target--;
+        if (target <= 4) {
+            struct Enemy029174 *e = &enemies029174[target];
+            e->fC = 12;
+            e->fE = 5;
+            e->f70 = val;
+            e->f6C = 0;
+            e->f6A = 0;
+            e->f72 = 0;
+        }
+    } else {
+        struct Player029174 *p = &players029174[sub_080020F4()];
+        u16 hi;
+
+        if ((u16)(val & 0x8000)) {
+            p->fC0 = 1;
+            val &= 0x7FFF;
+        } else {
+            p->fC0 = 0;
+        }
+        hi = (val >> 8) & 0xF;
+        if (hi == 0)
+            hi = p->f10;
+        p->fBA = val & 0xFF;
+        p->fBC = hi;
+        p->fBE = 0;
+        p->f20 = 12;
+        p->f22 = 5;
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802926C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802939C);
 INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802949C);
