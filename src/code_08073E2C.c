@@ -1225,7 +1225,345 @@ void sub_080760E8(u32 who, u32 a, u32 b, u32 c)
     sub_08000274_2(t, e);
     gMasks60E8[who] |= 1 << i;
 }
+#ifdef NONMATCHING
+struct Arg61A4 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; s32 n; u32 flags; };
+struct Spr61A4 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
+struct Ent61A4 { u16 xRaw, yRaw; };
+struct Ply61A4 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[4]; u16 f26; u16 f28; u8 pad2A[6]; u32 flags; u8 pad34[6]; s16 power; u8 pad3C[0x2C]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0x1E]; u16 ready; u8 padB4[0x28]; u32 serial; u8 padE0[0x18]; u32 hist[0xA]; u16 f120; u16 f122; u8 pad124[0x24]; struct Ent61A4 *entity; };
+struct Ene61A4 { u16 id; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 dmg; u8 pad4C[8]; u32 serial; u16 owner, hitMask; s16 hp; u8 pad5E[0x17E]; u8 team; u8 pad1DD[0x29]; s16 power; u8 pad208[0x26]; u8 w, h; u8 pad230[0xB0]; };
+struct Box61A4 { u32 w:16; u32 h:16; };
+struct Pos61A4 { s32 x, y; };
+extern struct Ply61A4 p61A4[] asm("gUnk_03003CE0");
+extern struct Ene61A4 *e61A4Base asm("gUnk_030056F4");
+extern u32 e61A4Mask asm("gUnk_030056FC");
+extern u32 m61A4[] asm("gUnk_030063E0");
+extern u8 *inv61A4 asm("gUnk_030034E0");
+extern u16 dir61A4[] asm("gUnk_0847AD0A");
+extern s16 sin61A4[] asm("gUnk_080B9704");
+extern s16 off61A4[][2] asm("gUnk_084EBEBC");
+extern void init61A4(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern u16 step61A4(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern void pos61A4(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern void draw61A4(s32, s32, u16, u16, u8, void *, void *, u32) asm("sub_08007870");
+extern void *tmpl61A4(void) asm("sub_0805AD18");
+extern s32 roll61A4(s32, s32) asm("sub_080223A4");
+extern s32 test61A4(struct Pos61A4 *, void *, struct Box61A4 *, struct Box61A4 *) asm("sub_08021FE0");
+extern s32 wall61A4(struct Pos61A4 *, struct Box61A4 *) asm("sub_0801F99C");
+extern void hitE61A4(void *, void *, void *, s32) asm("sub_0801F374");
+extern void hitP61A4(void *, void *, void *, s32) asm("sub_0801F79C");
+extern void pre61A4(void *) asm("sub_0801FD64");
+extern s16 atan61A4(s16, s16) asm("ArcTan2");
+
+static inline s32 move61A4(s32 v, s32 spd)
+{
+    return v * spd;
+}
+
+static inline s32 wait61A4(struct Ply61A4 *p, u32 n)
+{
+    while (p->ready < n) {
+        if (p->state == 10)
+            return 1;
+        sub_080003F0();
+    }
+    return 0;
+}
+
+void sub_080761A4_c(struct Arg61A4 *arg) asm("sub_080761A4");
+void sub_080761A4_c(struct Arg61A4 *arg)
+{
+    struct Spr61A4 spr;
+    u8 atk[0xC4];
+    s16 dx, dy;
+    u16 frame, timer;
+    struct Pos61A4 pos;
+    struct Pos61A4 opos;
+    struct Box61A4 box;
+    struct Box61A4 box2;
+    struct Ene61A4 *e;
+    u32 target;
+    u32 lo;
+    u32 serial;
+    u32 kind;
+    s32 x, y;
+    s32 iter;
+    u32 dirIdx;
+    u16 local;
+    u32 base;
+    u32 big;
+    s32 power;
+    u32 who;
+    s32 n;
+    struct Ply61A4 *p;
+    struct Ply61A4 *q;
+    struct Ene61A4 *e2;
+    u32 d;
+    u16 j;
+    u32 cnt;
+    u16 ang;
+    s32 t;
+    s32 hit;
+    s32 ok;
+    u8 c;
+    u8 shade;
+    s32 sx, sy;
+    s32 spd;
+    u32 delay;
+
+    spd = 4;
+    local = sub_080020F4();
+    target = arg->target;
+    who = arg->who;
+    kind = (u8)arg->flags;
+    n = arg->n;
+    p = &p61A4[who];
+    timer = 0;
+    frame = 0;
+    big = (u32)-(arg->flags & 0x8000) >> 31;
+    x = (p->entity->xRaw >> 4) << 8;
+    y = (u32)(p->entity->yRaw << 20) >> 12;
+    lo = (u32)(((u8 *)p->entity)[0] << 28) >> 28;
+    if (who == local) {
+        serial = (u16)p->serial;
+        memcpy(atk, tmpl61A4(), 0xC4);
+        if (*(u16 *)(atk + 0xBC) == 0)
+            *(u16 *)(atk + 0xBC) = inv61A4[*(u16 *)(inv61A4 + 0x68) * 16 + 0x77];
+        if (kind != 0)
+            power = p->power * 3;
+        else
+            power = p->power;
+    }
+    if (kind == 0) {
+        init61A4(&spr, 0x50021, 0, 0x80000000, 0);
+        base = 0x10;
+    } else {
+        init61A4(&spr, 0x500C9, 0, 0x80000000, 0);
+        base = (u16)((kind - 1) * 8);
+    }
+    spr.palette[0] = who;
+    delay = 2;
+    if (target > 3) {
+        for (j = 0; j <= 4; j++) {
+            if (e61A4Mask & (1 << j)) {
+                e = &e61A4Base[j];
+                if (e->state != 11)
+                    if (e->f2 == target)
+                        goto found;
+            }
+        }
+    found:
+        if (j > 4)
+            target = 0xFF;
+    }
+    if (target != 0xFF) {
+        if (target > 3) {
+            dx = (e->x - x) >> 8;
+            dy = (e->y - y) >> 8;
+            ang = (u16)atan61A4(dx, dy) >> 8;
+            t = ang;
+            if (t > 0x80)
+                ang = t - 0x100;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
+        } else {
+            struct Ent61A4 *te = p61A4[target].entity;
+            dx = (te->xRaw >> 4) - (x >> 8);
+            dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
+            ang = (u16)atan61A4(dx, dy) >> 8;
+            t = ang;
+            if (t > 0x80)
+                ang = t - 0x100;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
+        }
+        {
+            s16 sa = ang;
+            if (sa > 0x100)
+                ang = sa - 0x100;
+        }
+    } else {
+        ang = dir61A4[((u8 *)p->entity)[3] >> 4];
+    }
+    if (target == 0xFF)
+        target = arg->target;
+    x += move61A4(sin61A4[(s16)ang + 0x40] * 2, spd);
+    y += move61A4(sin61A4[(s16)ang] * 2, spd);
+    if (wait61A4(p, delay)) {
+        m61A4[who] &= ~(1 << arg->slot);
+        return;
+    }
+    iter = n * 18 / 10 + 10;
+    if (p->state != 13 && !sub_0800CCCC() && !sub_0800CD34() && n > 0)
+        sub_0805865C(n + 0x100);
+    if (who == local)
+        pre61A4(&p61A4[who]);
+    dirIdx = ((u8 *)p->entity)[3] >> 4;
+    while (iter-- != 0 && !sub_08056E90() && p->state != 11 && p->state != 12 && !sub_0800D11C()) {
+        hit = 0;
+        pos.x = x;
+        pos.y = y;
+        box.w = 8;
+        box.h = 8;
+        if (target <= 3) {
+            box2.w = 0x10;
+            box2.h = 0x10;
+            cnt = sub_08002164();
+            for (j = 0; j < cnt; j++) {
+                if (who == j)
+                    continue;
+                if (sub_0800CDF8())
+                    break;
+                q = &p61A4[j];
+                if (q->team == p->team || q->team == 0)
+                    continue;
+                if ((u32)(((u8 *)q->entity)[0] << 28) >> 28 == 14)
+                    continue;
+                opos.x = (q->entity->xRaw >> 4) << 8;
+                opos.y = (u32)(q->entity->yRaw << 20) >> 12;
+                if (!test61A4(&pos, &opos, &box, &box2))
+                    continue;
+                ok = 0;
+                if (q->state != 11 && q->hist[who] != serial && !(q->flags & 0x2000))
+                    ok = 1;
+                if (!ok)
+                    continue;
+                if (roll61A4(power, q->power)) {
+                    if (big) {
+                        atk[0xA9] += 0x18;
+                        sub_08022100(q->id);
+                        p->flags |= 0x200000;
+                    }
+                    if (who == sub_080020F4()) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitP61A4(p, q, atk, 0);
+                        p->state = s;
+                        p->f26 = f;
+                        q->hist[p->id] = serial;
+                        sub_0805865C(0x1A);
+                    }
+                    if (big)
+                        p->flags &= ~0x200000;
+                } else if (!(sub_0800086C() & 1)) {
+                    if (who == sub_080020F4()) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitP61A4(p, q, atk, 1);
+                        p->state = s;
+                        p->f26 = f;
+                        q->hist[p->id] = serial;
+                        sub_0805865C(0x1A);
+                    }
+                } else if (who == sub_080020F4()) {
+                    sub_080223F4(q->x, q->y);
+                    q->hist[p->id] = serial;
+                    if (!sub_0800CCCC() && !sub_0800CD34())
+                        sub_0805865C(0x55);
+                }
+                hit = 1;
+            }
+        } else {
+            for (j = 0; j <= 4 && !sub_0800CDF8(); j++) {
+                if (!(e61A4Mask & (1 << j)))
+                    continue;
+                e2 = &e61A4Base[j];
+                if (e2->team == p->team || e2->team == 0)
+                    continue;
+                box2.w = e2->w;
+                box2.h = e2->h;
+                if (!test61A4(&pos, &e2->x, &box, &box2))
+                    continue;
+                ok = 0;
+                if (e2->state != 11 && e2->serial != serial && !((e2->hp - e2->dmg) & 0x8000))
+                    ok = e2->hp != e2->dmg;
+                if (!ok)
+                    continue;
+                if (roll61A4(power, e2->power)) {
+                    if (big) {
+                        atk[0xA9] += 0x18;
+                        sub_08022100(e->id + 4);
+                        p->flags |= 0x200000;
+                    }
+                    if (who == local) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitE61A4(p, e2, atk, 0);
+                        p->state = s;
+                        p->f26 = f;
+                        e2->owner = who;
+                        e2->hitMask |= 1 << who;
+                        sub_0805865C(0x1A);
+                    }
+                    if (big)
+                        p->flags &= ~0x200000;
+                } else if (who == local) {
+                    if (!(sub_0800086C() & 1)) {
+                        u16 s = p->state;
+                        u16 f;
+                        p->state = lo;
+                        f = p->f26;
+                        p->f26 = kind;
+                        hitE61A4(p, e2, atk, 1);
+                        p->state = s;
+                        p->f26 = f;
+                        e2->owner = who;
+                        e2->hitMask |= 1 << who;
+                        sub_0805865C(0x1A);
+                    } else {
+                        sub_080223F4(e2->x, e2->y);
+                        e2->serial = serial;
+                        if (!sub_0800CCCC() && !sub_0800CD34())
+                            sub_0805865C(0x55);
+                    }
+                }
+                hit = 1;
+            }
+        }
+        if (who == local && wall61A4(&pos, &box))
+            hit = 1;
+        if (kind == 0 && hit)
+            break;
+        c = sub_0800AE50(x, y, 0);
+        if ((c & 0xF) && !(c & 0x10))
+            break;
+        x += move61A4(sin61A4[(s16)ang + 0x40], spd);
+        y += move61A4(sin61A4[(s16)ang], spd);
+        if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
+            pos61A4((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(sx, sy, 0);
+            d = dirIdx;
+            step61A4(&spr, (u16)(base + d), &frame, &timer, 1);
+            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
+                shade = 0;
+            draw61A4(dx + off61A4[(s16)d][0], dy + off61A4[(s16)d][1], base + d, frame, shade, spr.palette, spr.data, spr.base);
+        }
+        sub_080003F0();
+    }
+    if (who == local && p->state == 5) {
+        p->state = 0;
+        p->f122 = 0;
+        p->f28 = kind;
+    }
+    m61A4[who] &= ~(1 << arg->slot);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080761A4);
+#endif
 struct TaskA88 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct InfoA88 { u32 who, i, a, pad, c, b; };
 struct PlayerA88 { u8 pad[0x20]; u16 state; u8 pad22[6]; u16 f28; u8 pad2a[0xf8]; u16 f122; u8 pad124[0x28]; };
