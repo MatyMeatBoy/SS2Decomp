@@ -32,3 +32,6 @@ nov03-w4: sub_08016A7C MATCHED by moving the first mask loop into a static inlin
   Try the same inline-helper trick on sub_08016E04 (find loop / alloc loop): alloc as inline gave 204 bytes.
 sub_08016E04: register asm("ip") for sub + asm("r8") for key fixes the param regs; remaining diff is
   i/(i+4)<<16 swap in loop 1 and constant hoisting (1 vs regs base) in loop 2.
+sub_08016E04 MATCHED (nov03-w4): alloc loop loads the flags through a local pointer
+  (`u32 *usedp = &used; u32 bit = 1 << i; u32 used = *usedp;`) and stores `used16E04 = used | bit`.
+  That fixes the hoist order (&used first) and the whole allocation; no register asm needed.

@@ -1329,14 +1329,12 @@ void sub_08016D40(u8 *object, u16 arg) {
         *(u16 *)(object + 4) = zero;
     }
 }
-#ifdef NONMATCHING
 struct Reg16E04 { s32 key; s32 sub; s32 count; };
 extern u32 used16E04 asm("gUnk_030056F8");
 extern struct Reg16E04 regs16E04[] asm("gUnk_03005700");
 u16 sub_08016E04(s32 key, u16 sub)
 {
     u32 i;
-    u32 j;
 
     for (i = 0; i <= 2; i++) {
         if ((used16E04 & (1 << i)) && regs16E04[i].key == key && regs16E04[i].sub == sub) {
@@ -1344,21 +1342,20 @@ u16 sub_08016E04(s32 key, u16 sub)
             return i + 4;
         }
     }
-    for (j = 0; j <= 2; j++) {
-        u32 bit = 1 << j;
-        if (!(used16E04 & bit)) {
-            regs16E04[j].key = key;
-            regs16E04[j].sub = sub;
-            regs16E04[j].count = 1;
-            used16E04 |= bit;
-            return j + 4;
+    for (i = 0; i <= 2; i++) {
+        u32 *usedp = &used16E04;
+        u32 bit = 1 << i;
+        u32 used = *usedp;
+        if (!(used & bit)) {
+            regs16E04[i].key = key;
+            regs16E04[i].sub = sub;
+            regs16E04[i].count = 1;
+            used16E04 = used | bit;
+            return i + 4;
         }
     }
     return 0xFFFF;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016E04);
-#endif
 extern u32 gW6ECC_56F8 asm("gUnk_030056F8");
 extern u32 gT6ECC_5700 asm("gUnk_03005700");
 void sub_08016ECC_u16(u16 arg0) asm("sub_08016ECC");
