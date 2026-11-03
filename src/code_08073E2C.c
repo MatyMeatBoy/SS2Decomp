@@ -808,7 +808,6 @@ void sub_08077444(u32 who, u32 a, u32 b, u32 c, u32 d)
     sub_08000274_2(t, e);
     gMasks7444[who] |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Spr7508 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[2]; u8 f20; u8 pad21[19]; };
 struct Ply7508 { u8 pad0[0xC]; u16 fC; u8 padE[0x12]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[6]; s16 f3A; u8 pad3C[0x2C]; u8 team; u8 pad69[5]; u8 f6E; u8 pad6F[0x19]; u16 f88, f8A; s32 x, y; u8 pad94[0x50]; u32 hist[11]; u32 f110; u8 pad114[0x34]; u16 *pos; };
 struct Ene7508 { u16 id; u8 f2; u8 pad3[5]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x2E]; u16 f4A; u32 f4C; u32 f50; u32 f54; u16 f58, f5A; u8 pad5C[6]; u16 f62; u8 pad64[6]; u16 wait; u8 pad6C[0xE]; u16 f7A; u16 f7C, f7E; u8 pad80[0x15C]; u8 active; u8 pad1DD[0x29]; s16 f206; u8 pad208[0x1E]; u8 f226; u8 pad227[4]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
@@ -856,7 +855,6 @@ void sub_08077508(u32 who, u32 arg)
     struct Ply7508 *tp;
     s32 ang;
     s32 t;
-    u16 diff;
     u16 j;
     u8 c;
     s32 sx, sy;
@@ -916,13 +914,13 @@ void sub_08077508(u32 who, u32 arg)
         if (sa > 0x100)
             a = sa - 0x100;
     }
-    diff = ((s16)a >> 4) - dirA7508[e->dir];
+    ang = (u16)(((s16)a >> 4) - dirA7508[e->dir]);
     {
-        s16 sd = diff;
+        s16 sd = ang;
         if (sd > 8)
-            diff = sd - 16;
+            ang = (u16)(sd - 16);
     }
-    t = (s16)diff;
+    t = (s16)ang;
     if (t < 0)
         t = -t;
     if (t > 3)
@@ -1064,9 +1062,6 @@ void sub_08077508(u32 who, u32 arg)
     }
     f7508[who + 4] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08077508);
-#endif
 struct Task7D04 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks7D04[] asm("gUnk_030063E0");
 extern u8 *gLists7D04[] asm("gUnk_030063B0");
