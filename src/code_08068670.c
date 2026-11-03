@@ -1295,8 +1295,11 @@ void sub_0806A19C(struct Z069A *arg) {
     u16 *tbl;
     u16 delta;
     s32 v;
-    u32 a;
-    s16 diff;
+    u16 a;
+    s16 sa,sang,diff;
+    s32 d;
+    s32 idx;
+    u32 a0;
 
     local=sub_080020F4();
     target=(u16)arg->target;
@@ -1337,11 +1340,14 @@ void sub_0806A19C(struct Z069A *arg) {
     if(player<=3) {
         x=(p->sprite[0]>>4)<<8;
         y=(u32)(p->sprite[1]<<20)>>12;
-        angle=z069Dir[((u8 *)p->sprite)[3]>>4];
+        idx=((u8 *)p->sprite)[3]>>4;
+        tbl=z069Dir;
     } else {
         x=enemy->x; y=enemy->y;
-        angle=z069Dir[enemy->dir];
+        tbl=z069Dir;
+        idx=enemy->dir;
     }
+    angle=tbl[idx];
     x+=z069Sin[((s16)angle)+0x40]*4;
     y+=z069Sin[((s16)angle)]*4;
     if((local==player || player>3) && sub_0800CCCC()==0 && sub_0800CD34()==0) sub_0805865C(level+0x115);
@@ -1374,13 +1380,18 @@ void sub_0806A19C(struct Z069A *arg) {
                 dx=(u32)(e->x-x)>>8;
                 dy=(u32)(e->y-y)>>8;
             }
-            a=(u32)(ArcTan2(dx,dy)<<16)>>24;
-            if((s32)(a-(s16)angle)>0x80) a=(u16)(a-0x100);
-            else if((s32)(a-(s16)angle)<-0x80) a|=0x100;
-            diff=(s16)a-(s16)angle;
-            angle=(s16)angle+diff;
-            if((s16)angle<0) angle=angle+0x100;
-            if((s16)angle>0x100) angle=(s16)angle-0x100;
+            a0=(u32)(ArcTan2(dx,dy)<<16)>>24;
+            a=a0;
+            d=a0-(s16)angle;
+            if(d>0x80) a=a0-0x100;
+            else if(d<-0x80) a=0x100|a0;
+            sa=a; sang=angle;
+            diff=sa-sang;
+            sang=sang+diff;
+            angle=sang;
+            if(sang<0) angle=sang+0x100;
+            sang=angle;
+            if(sang>0x100) angle=sang-0x100;
             angle&=0xFF;
         }
         frm=z069Frm[((s16)angle)>>4];
@@ -1388,7 +1399,9 @@ void sub_0806A19C(struct Z069A *arg) {
         timeout=((timeout<<19)+(20<<16))>>16;
         for(;;) {
             v=timeout; timeout=(u16)(v-1);
-            if(v==0 || sub_0800BA6C()==0 || sub_08056E90()!=0) break;
+            if(v==0) break;
+            if(sub_0800BA6C()==0) break;
+            if(sub_08056E90()!=0) break;
             if(player==local) {
                 if((u16)(p->state-11)<=1 || sub_0800D11C()!=0) break;
             }
@@ -1412,9 +1425,9 @@ void sub_0806A19C(struct Z069A *arg) {
                 if(gUnk_03003170.curLevel==4 && sub_0800CDC0()!=0) shade=0;
                 if(sub_0800CB9C()!=0) {
                     if((gUnk_03002344&1)==(player&1))
-                        z069Draw(dx+z069Off[z069Frm[((s16)angle)>>4]].x,dy+z069Off[z069Frm[((s16)angle)>>4]].y,frm+level,frame,shade,&sprite.f1C,sprite.f8,sprite.f0);
+                        z069Draw(dx+z069Off[z069Frm[((s16)angle)>>4]].x,dy+(&z069Off[0].y)[z069Frm[((s16)angle)>>4]*2],frm+level,frame,shade,&sprite.f1C,sprite.f8,sprite.f0);
                 } else
-                    z069Draw(dx+z069Off[z069Frm[((s16)angle)>>4]].x,dy+z069Off[z069Frm[((s16)angle)>>4]].y,frm+level,frame,shade,&sprite.f1C,sprite.f8,sprite.f0);
+                    z069Draw(dx+z069Off[z069Frm[((s16)angle)>>4]].x,dy+(&z069Off[0].y)[z069Frm[((s16)angle)>>4]*2],frm+level,frame,shade,&sprite.f1C,sprite.f8,sprite.f0);
             }
             sub_080003F0();
         }
