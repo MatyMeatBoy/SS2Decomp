@@ -6095,468 +6095,257 @@ block_303:
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080710DC);
 #endif
 #ifdef NONMATCHING
-#define D739_U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
-#define D739_U16(p,o) (*(u16 *)((u8 *)(p)+(o)))
-#define D739_S16(p,o) (*(s16 *)((u8 *)(p)+(o)))
-#define D739_U32(p,o) (*(u32 *)((u8 *)(p)+(o)))
-#define D739_PTR(p,o) (*(u8 **)((u8 *)(p)+(o)))
-extern u32 d739Flags[] asm("gUnk_030063E0");
-extern u8 d739Ranges[] asm("gUnk_084EC12C");
-extern u16 d739Chances[] asm("gUnk_084EC16C");
-extern u16 d739Dirs[] asm("gUnk_0849E730");
-extern u8 d739Kinds[] asm("gUnk_084EBF1C");
-void d739Init(void *,s32,s32,s32,s32) asm("sub_08065158");
-void d739Coords(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
-void d739Draw(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
-s16 d739Calc(u8 *,void *) asm("sub_08068F9C");
-void d739PlayerHit(u16,s16,s32) asm("sub_08029A7C");
-void d739Hit(u16,u16,s16,u32,s32,s32) asm("sub_08029B98");
-void sub_08072390(u8 *arg0) {
-    u8 *sp80;
-    void *sp84;
-    s32 sp88;
-    s32 sp8C;
-    u32 sp90;                                       /* compiler-managed */
-    u32 sp94;
-    s32 sp98;
-    u32 sp9C;
-    s32 spA0;
-    u32 spA4;
-    s32 spA8;
-    u32 spAC;
-    s16 *spB0;
-    s16 *spB4;
-    u32 spB8;
-    u32 spBC;
-    s32 spC0;
-    s32 *spC4;
-    s32 *spC8;
-    s16 *spCC;
-    s16 *spD0;
-    u16 *spD4;
-    struct { u32 desc[13]; u8 targets[8]; u8 delays[8]; s32 heights[5]; s32 speeds[5]; s16 x,y; } frame;
-    s16 temp_r1_7;
-    s16 temp_r2_4;
-    s16 temp_r2_5;
-    s32 var_r1;
-    s32 var_r2;
-    s32 var_r2_2;
-    s32 var_r2_3;
-    s32 *temp_r2_6;
-    s32 *temp_r4_2;
-    s32 *var_r6;
-    s32 *var_r6_2;
-    s32 *var_r7;
-    s32 *var_r7_3;
-    s32 *var_r7_4;
-    s32 *var_r8;
-    s32 *var_sl_2;
-    s32 temp_r0_2;
-    s32 temp_r1_4;
-    s32 temp_r1_6;
-    s32 temp_r1_8;
-    s32 temp_r5_3;
-    s32 temp_r6_3;
-    s32 temp_r7;
-    u32 costDelta;
-    u32 temp_r1;
-    u16 temp_r3_2;
-    u16 temp_r4_5;
-    u16 temp_r4_7;
-    u16 temp_r4_8;
-    u16 var_r7_2;
-    u32 temp_r0;
-    u32 temp_r2;
-    u32 temp_r2_2;
-    u32 temp_r2_3;
-    u32 temp_r4_3;
-    u32 temp_r4_4;
-    u32 var_r9;
-    u32 var_r9_2;
-    u32 var_r9_3;
-    u32 var_r9_4;
-    u32 var_r9_5;
-    u8 *temp_r4_6;
-    u8 *var_r4;
-    u8 *var_r8_2;
-    u8 *var_sl;
-    u8 temp_r0_3;
-    u8 temp_r0_4;
-    void *temp_r1_2;
-    void *temp_r1_3;
-    void *temp_r1_5;
-    void *temp_r3;
-    void *temp_r3_3;
-    void *temp_r4;
-    void *temp_r5;
-    void *temp_r5_2;
-    void *temp_r6;
-    void *temp_r6_2;
+struct T39Pos { u16 h0; u16 h2; };
+struct T39Rng { s16 x, y; };
+struct T39Pl { u16 h0; u8 p2[0x20 - 2]; u16 state; u8 p22[0x4C - 0x22]; u8 b4C[0x68 - 0x4C]; u8 team; u8 p69[0xB2 - 0x69]; u16 ready; u8 pB4[2]; u16 done; u8 pB8[0xC2 - 0xB8]; u16 hp; u8 pC4[0x148 - 0xC4]; struct T39Pos *pos; u8 p14C[0x14C - 0x14C]; };
+struct T39En { u16 h0; u8 p2[0xC - 2]; u16 state; u8 pE[0x14 - 0xE]; s32 x; s32 y; u8 p1C[0x1DC - 0x1C]; u8 alive; u8 p1DD[0x218 - 0x1DD]; u8 b218[0x2E0 - 0x218]; };
+struct T39Arg { u32 owner; u32 bit; u32 mode; s32 fC; u8 p10[4]; u32 w14; };
+struct T39Desc { u32 f0; u32 f4; u32 f8; u32 fC; u8 p10[0xC]; u8 f1C; u8 f1D; u8 p1E[0x34 - 0x1E]; };
+extern struct T39Pl gT39Players[] asm("gUnk_03003CE0");
+extern struct T39En *gT39Enemies asm("gUnk_030056F4");
+extern u32 gT39Flags[] asm("gUnk_030063E0");
+extern struct T39Rng gT39Ranges[] asm("gUnk_084EC12C");
+extern u16 gT39Chances[] asm("gUnk_084EC16C");
+extern u16 gT39Dirs[] asm("gUnk_0849E730");
+extern u16 gT39Kinds[] asm("gUnk_084EBF1C");
+struct T39Tile { u8 p0[0x8C]; u16 h8C; };
+extern struct T39Tile gT39Tile asm("gUnk_03003170");
+void t39Init(void *, s32, s32, s32, s32) asm("sub_08065158");
+void t39Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void t39Draw(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+s16 t39Calc(void *, void *) asm("sub_08068F9C");
+void t39PlHit(s32, s32, s32) asm("sub_08029A7C");
+void t39EnHit(s32, s32, s32, s32, s32, s32) asm("sub_08029B98");
 
-    sp80 = arg0;
-    spA0 = (s32) (u16) sub_080020F4();
-    temp_r0 = D739_U32(arg0,0);
-    spA4 = temp_r0;
-    spA8 = D739_U32(sp80,0x4);
-    temp_r2 = D739_U32(sp80,0x14);
-    spAC = temp_r2 >> 0x10;
-    temp_r2 &= 0xFFFF;
-    sp88 = temp_r2;
-    D739_U32(sp80,0x14) = temp_r2;
-    if (temp_r0 <= 3U) {
-        sp84 = (0x14C * spA4) + ((u8 *)gUnk_03003CE0);
-    }
-    if (spA0 == spA4) {
-        temp_r4 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0);
-        costDelta = (u16)(sub_0806898C(D739_U32(sp80,0xC), (s32) D739_U32(sp80,0x14)) - 1);
-        temp_r1 = D739_U16(temp_r4,0xC2) - costDelta;
-        D739_U16(temp_r4,0xC2) = temp_r1;
-        if ((s32) (temp_r1 << 0x10) < 0) {
-            D739_U16(temp_r4,0xC2) = 0U;
-        }
-    }
-    frame.heights[0] = 0xA000;
-    frame.speeds[0] = 0;
-    frame.delays[0] = 0;
-    var_r9 = 1;
-    spC4 = frame.heights;
-    spC8 = frame.speeds;
-    spC0 = spA4 * 4;
-    var_r4 = &frame.delays[0];
-    var_r7 = &frame.speeds[1];
-    var_r6 = &frame.heights[1];
-    do {
-        *var_r6 = 0xA000;
-        var_r6++;
-        *var_r7 = 0;
-        var_r7++;
-        D739_U8(var_r4,0x1) = (s8) ((sub_080008C8() % 20U) + 0xA + D739_U8(var_r4,0x0));
-        var_r4 += 1;
-        var_r9 += 1;
-    } while (var_r9 <= 4U);
-    if (temp_r2 != 0) {
-        D739_U16(sp84,0xB2) = 2U;
-    }
-    if ((u32) D739_U16(sp84,0xB2) <= 1U) {
-        temp_r4_2 = (s32 *)(spC0 + ((u8 *)d739Flags));
-loop_11:
-        if ((D739_U16(sp84,0x20) == 0xA) || !(2 & D739_U16(gUnk_03005CF4,0x4))) {
-            *temp_r4_2 &= ~(1 << spA8);
-            return;
-        }
-        sub_080003F0();
-        if ((u32) D739_U16(sp84,0xB2) > 1U) {
-            goto block_15;
-        }
-        goto loop_11;
-    }
-block_15:
-    temp_r1_2 = D739_PTR(sp84,0x148);
-    sp8C = ((u16) D739_U16(temp_r1_2,0x0) >> 4) << 8;
-    sp90 = (u32) (D739_U16(temp_r1_2,0x2) << 0x14) >> 0xC;
-    var_r7_2 = 0;
-    sp9C = 0;
-    temp_r0_2 = sub_0800CDF8();
-    spD4 = sp84 + 0xB6;
-    if (temp_r0_2 != 0) {
+void sub_08072390(struct T39Arg *arg0) {
+    struct T39Desc desc;
+    u8 targets[8];
+    u8 delays[8];
+    s32 heights[5];
+    s32 speeds[5];
+    s16 x, y;
+    struct T39Pl *player;
+    u32 kind;
+    s32 sx, sy;
+    u16 hits;
+    u32 pal;
+    u16 n;
+    u32 myId, owner, bit, hi;
+    struct T39Pl *p;
+    struct T39En *e;
+    struct T39Pos *pos;
+    u32 lv;
+    u32 i;
+    u16 count;
+    u32 num;
+    s32 dx;
+    s16 idx;
+    u32 raw;
+    u16 chance;
 
-    } else if ((u32) D739_U32(sp80,0x8) <= 3U) {
-        temp_r4_3 = sub_08002164();
-        var_r9_2 = 0;
-loop_32:
-        if (var_r9_2 < temp_r4_3) {
-            if (sub_0800CD8C() != 0) {
+    myId = (u16)sub_080020F4();
+    owner = arg0->owner;
+    bit = arg0->bit;
+    lv = arg0->w14;
+    raw = lv;
+    hi = raw >> 16;
+    lv = kind = raw & 0xFFFF;
+    arg0->w14 = raw & 0xFFFF;
 
-            } else {
-                temp_r5 = (0x14C * var_r9_2) + ((u8 *)gUnk_03003CE0);
-                if ((spA4 > 3U) || (D739_U8(temp_r5,0x68) != D739_U8(sp84,0x68))) {
-                    temp_r3 = D739_PTR(temp_r5,0x148);
-                    if ((((u32) (D739_U8(temp_r3,0x0) << 0x1C) >> 0x1C) != 0xE) && (D739_U16(temp_r5,0x20) != 0xB) && (D739_U8(temp_r5,0x68) != 0)) {
-                        frame.x = (s16) (((u16) D739_U16(temp_r3,0x0) >> 4) - (sp8C >> 8));
-                        temp_r3_2 = ((u32) (D739_U16(temp_r3,0x2) << 0x14) >> 0x14) - ((s32) sp90 >> 8);
-                        frame.y = temp_r3_2;
-                        var_r2 = frame.x;
-                        if ((s32) var_r2 < 0) {
-                            var_r2 = 0 - var_r2;
-                        }
-                        temp_r1_3 = (sp88 * 4) + ((u8 *)d739Ranges);
-                        if ((s32) var_r2 < (s32) D739_S16(temp_r1_3,0x0)) {
-                            var_r2_2 = (s16) temp_r3_2;
-                            if ((s32) var_r2_2 < 0) {
-                                var_r2_2 = 0 - var_r2_2;
-                            }
-                            if ((s32) var_r2_2 < (s32) D739_S16(temp_r1_3,0x2)) {
-                                temp_r2_2 = sp9C;
-                                sp9C = (u32) (u16) (temp_r2_2 + 1);
-                                *(&frame.targets[0] + temp_r2_2) = (s8) var_r9_2;
-                                var_r7_2 += 1;
-                            }
-                        }
-                    }
-                }
-                var_r9_2 += 1;
-                goto loop_32;
-            }
-        }
-    } else {
-        var_r9_3 = 0;
-loop_47:
-        if ((var_r9_3 <= 4U) && (sub_0800CD8C() == 0)) {
-            if (gUnk_030056FC & (1 << var_r9_3)) {
-                temp_r6 = ((u8 *)gUnk_030056F4) + (var_r9_3 * 0x2E0);
-                if ((D739_U16(temp_r6,0xC) != 0xB) && (D739_U8(temp_r6,0x1DC) != 0)) {
-                    frame.x = (s16) ((u32) (D739_U32(temp_r6,0x14) - sp8C) >> 8);
-                    temp_r4_4 = (u32) ((D739_U32(temp_r6,0x18) - sp90) << 8) >> 0x10;
-                    frame.y = (u16) temp_r4_4;
-                    var_r2_3 = frame.x;
-                    if ((s32) var_r2_3 < 0) {
-                        var_r2_3 = 0 - var_r2_3;
-                    }
-                    temp_r3_3 = (sp88 * 4) + ((u8 *)d739Ranges);
-                    if ((s32) var_r2_3 < (s32) D739_S16(temp_r3_3,0x0)) {
-                        var_r1 = (s16) temp_r4_4;
-                        if ((s32) var_r1 < 0) {
-                            var_r1 = 0 - var_r1;
-                        }
-                        if ((s32) var_r1 < (s32) D739_S16(temp_r3_3,0x2)) {
-                            temp_r2_3 = sp9C;
-                            sp9C = (u32) (u16) (temp_r2_3 + 1);
-                            *(&frame.targets[0] + temp_r2_3) = (s8) var_r9_3;
-                            var_r7_2 += 1;
-                        }
-                    }
-                }
-            }
-            var_r9_3 += 1;
-            goto loop_47;
-        }
+    if (owner <= 3)
+        player = &gT39Players[owner];
+    if (myId == owner) {
+        struct T39Pl *me = &gT39Players[sub_080020F4()];
+        u32 power = (u16)(sub_0806898C(arg0->fC, arg0->w14) - 1);
+        me->hp -= power;
+        if ((s16)me->hp < 0)
+            me->hp = 0;
     }
-
-    d739Init(frame.desc, 0x5008D, 8, -1, 0);
-    D739_U8(frame.desc,0x1C) = 7;
-    D739_U8(frame.desc,0x1D) = 8;
-    if (((spA0 == spA4) || (spA4 > 3U)) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-        sub_0805865C(0x16A);
+    i = 0;
+    heights[i] = 0xA000;
+    speeds[i] = 0;
+    delays[i] = 0;
+    for (i = 1; i <= 4; i++) {
+        heights[i] = 0xA000;
+        speeds[i] = 0;
+        delays[i] = delays[i - 1] + (u8)(sub_080008C8() % 20 + 10);
     }
-    if (var_r7_2 == 0) {
-        temp_r1_7 = *(u16 *)((((u8) D739_U8(D739_PTR(sp84,0x148),3) >> 4) * 2) + ((u8 *)d739Dirs)) * 0x10;
-        temp_r5_3 = sp8C + (gUnk_080B9704[temp_r1_7 + 0x40] * 0x1E);
-        sp8C = temp_r5_3;
-        temp_r1_8 = sp90 + (gUnk_080B9704[temp_r1_7] * 0x1E);
-        sp90 = temp_r1_8;
-        if (frame.heights[0] > 0) {
-            temp_r7 = temp_r5_3 >> 8;
-            temp_r6_3 = temp_r1_8 >> 8;
-            do {
-                frame.heights[0] -= frame.speeds[0];
-                frame.speeds[0] += 0x20;
-
-                d739Coords((s32) (s16) temp_r7, (s32) (s16) temp_r6_3, &frame.x, &frame.y, 0x30, 0);
-                sp98 = (s32) (u8) sub_0800BC44((u32) temp_r7, (u32) temp_r6_3, 0U);
-                if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-
-                    d739Draw(frame.x, (s16) frame.y - (frame.heights[0] >> 8), (u32) (u16) spAC, 0, (u8)sp98, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
-                }
-                sub_080003F0();
-            } while (frame.heights[0] > 0);
-        }
-        frame.heights[0] = 0xA;
+    if (lv != 0)
+        player->ready = 2;
+    if (player->ready <= 1) {
         do {
-            frame.heights[0] -= 1;
-            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0) && (frame.heights[0] & 1)) {
-                if (gUnk_03002344 & 1) {
-                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                }
-                if ((gUnk_03003170.curLevel == 4) && (sub_0800CDC0() != 0)) {
-                    sp98 = 0;
-                }
-
-                d739Draw(frame.x, (s16) frame.y, (u32) (u16) spAC, 0, (u8)sp98, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
+            if (player->state == 10 || !(gGameState->flags & 2)) {
+                gT39Flags[owner] &= ~(1 << bit);
+                return;
             }
             sub_080003F0();
-        } while (frame.heights[0] > 0);
+        } while (player->ready <= 1);
+    }
+    sx = (player->pos->h0 >> 4) << 8;
+    sy = (u32)(player->pos->h2 << 20) >> 12;
+    n = 0;
+    count = 0;
+    if (sub_0800CDF8() == 0) {
+        if (arg0->mode <= 3) {
+            num = sub_08002164();
+            for (i = 0; i < num && sub_0800CD8C() == 0; i++) {
+                p = &gT39Players[i];
+                if (owner <= 3 && p->team == player->team)
+                    continue;
+                pos = p->pos;
+                if ((u32)(((u8 *)pos)[0] << 28) >> 28 == 0xE || p->state == 0xB || p->team == 0)
+                    continue;
+                x = (pos->h0 >> 4) - (sx >> 8);
+                y = ((u32)(pos->h2 << 20) >> 20) - (sy >> 8);
+                dx = x;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT39Ranges[kind].x) continue;
+                dx = y;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT39Ranges[kind].y) continue;
+                targets[n++] = i;
+                count++;
+            }
+        } else {
+            for (i = 0; i <= 4 && sub_0800CD8C() == 0; i++) {
+                if (((u32)gUnk_030056FC & (1 << i)) == 0)
+                    continue;
+                e = &gT39Enemies[i];
+                if (e->state == 0xB || e->alive == 0)
+                    continue;
+                x = (u32)(e->x - sx) >> 8;
+                y = (u32)((e->y - sy) << 8) >> 16;
+                dx = x;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT39Ranges[kind].x) continue;
+                dx = y;
+                if (dx < 0) dx = -dx;
+                if (dx >= gT39Ranges[kind].y) continue;
+                targets[n++] = i;
+                count++;
+            }
+        }
+    }
+    t39Init(&desc, 0x5008D, 8, -1, 0);
+    desc.f1C = 7;
+    desc.f1D = 8;
+    if ((myId == owner || owner > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(0x16A);
+    if (count == 0) {
+        idx = (s16)(gT39Dirs[((u8 *)player->pos)[3] >> 4] << 4);
+        sx += gUnk_080B9704[idx + 0x40] * 30;
+        sy += gUnk_080B9704[idx] * 30;
+        while (heights[0] > 0) {
+            heights[0] -= speeds[0];
+            speeds[0] += 0x20;
+            t39Coords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, 0);
+            pal = (u8)sub_0800BC44(sx >> 8, sy >> 8, 0);
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0)
+                t39Draw(x, y - (heights[0] >> 8), hi, 0, pal, &desc.f1C, desc.f8, desc.f0);
+            sub_080003F0();
+        }
+        heights[0] = 10;
+        do {
+            heights[0]--;
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (heights[0] & 1)) {
+                if (gUnk_03002344 & 1)
+                    sub_08000AF0(0x17, (void *)desc.fC, 2);
+                if (gT39Tile.h8C == 4 && sub_0800CDC0() != 0)
+                    pal = 0;
+                t39Draw(x, y, hi, 0, pal, &desc.f1C, desc.f8, desc.f0);
+            }
+            sub_080003F0();
+        } while (heights[0] > 0);
     } else {
-        sp94 = 0;
-    goto loop_149;
-block_77:
-    {
-
-                /* No-op do/while(0): moves agbcc register allocation closer to the original. */
-                do {
-                if ((u32) D739_U32(sp80,0x8) <= 3U) {
-                    var_r9_5 = 0;
-                    if (sp9C <= 0U) {
-
-                    } else {
-                        spB0 = &frame.x;
-                        spB4 = &frame.y;
-                        var_r8_2 = &frame.delays[0];
-                        var_r6_2 = spC4;
-                        var_r7_4 = spC8;
-                        var_sl_2 = var_r6_2;
-                        spB8 = spAC << 0x10;
-loop_82:
-                        temp_r4_6 = &frame.targets[0] + var_r9_5;
-                        temp_r5_2 = (0x14C * *temp_r4_6) + ((u8 *)gUnk_03003CE0);
-                        temp_r1_5 = D739_PTR(temp_r5_2,0x148);
-
-                        d739Coords((s32) ((u16) D739_U16(temp_r1_5,0x0) >> 4), (s32) ((u32) (D739_U16(temp_r1_5,0x2) << 0x14) >> 0x14), spB0, spB4, 0x30, 0);
-                        sp98 = (s32) (u8) sub_0800BC44((u32) (sp8C >> 8), (u32) ((s32) sp90 >> 8), 0U);
-                        temp_r0_4 = *var_r8_2;
-                        switch (temp_r0_4) {        /* switch 1; irregular */
-                        case 0x0:                   /* switch 1 */
-                            *var_r6_2 -= *var_r7_4;
-                            *var_r7_4 += 0x20;
-                            if ((s32) *var_r6_2 <= 0) {
-                                sp94 = (u32) (u16) (sp94 + 1);
-                                *var_r8_2 = 0xF0;
-                                *var_r6_2 = 0xA;
-                                if (spA0 != *temp_r4_6) {
-
-                                } else {
-                                    D739_U32(sp80,0x8) = (u32) D739_U16(temp_r5_2,0x0);
-                                    temp_r4_7 = *(u16 *)((D739_U32(sp80,0x14) * 2) + ((u8 *)d739Chances));
-                                    if ((u32) temp_r4_7 >= (u32) (sub_080008C8() % 100U)) {
-                                        d739PlayerHit(3U, d739Calc(sp80, temp_r5_2 + 0x4C), 0x64);
-                                    } else {
-                                        temp_r4_8 = D739_U16(d739Kinds,0x1CA);
-                                        d739PlayerHit(temp_r4_8, d739Calc(sp80, temp_r5_2 + 0x4C), sp88);
-                                    }
-                                    if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                        sub_0805865C(0x1A);
-                                    }
-                                }
-                            } else if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                                if (!(gUnk_03002344 & 1)) {
-                                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                                }
-
-                                d739Draw(*spB0, *spB4 - ((s32) *var_sl_2 >> 8), spB8 >> 0x10, 0, (u8)sp98, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
+        hits = 0;
+        while (hits < n && (owner != sub_080020F4() || ((u16)(player->state - 0xB) > 1 && sub_0800D11C() == 0))) {
+            if (arg0->mode <= 3) {
+                for (i = 0; i < n; i++) {
+                    u8 *tp = &targets[i];
+                    p = &gT39Players[*tp];
+                    t39Coords(p->pos->h0 >> 4, (u32)(p->pos->h2 << 20) >> 20, &x, &y, 0x30, 0);
+                    pal = (u8)sub_0800BC44(sx >> 8, sy >> 8, 0);
+                    if (delays[i] == 0) {
+                        heights[i] -= speeds[i];
+                        speeds[i] += 0x20;
+                        if (heights[i] <= 0) {
+                            hits++;
+                            delays[i] = 0xF0;
+                            heights[i] = 10;
+                            if (myId == *tp) {
+                                arg0->mode = p->h0;
+                                chance = gT39Chances[arg0->w14];
+                                if (chance >= sub_080008C8() % 100)
+                                    t39PlHit(3, t39Calc(arg0, p->b4C), 100);
+                                else
+                                    t39PlHit(gT39Kinds[0xE5], t39Calc(arg0, p->b4C), kind);
+                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                                    sub_0805865C(0x1A);
                             }
-                            break;
-                        default:                    /* switch 1 */
-                            *var_r8_2 = temp_r0_4 - 1;
-                            break;
-                        case 0xF0:                  /* switch 1 */
-                            temp_r1_6 = frame.heights[0] & 1;
-                            frame.heights[0] -= 1;
-                            if ((temp_r1_6 != 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                                if (!(gUnk_03002344 & 1)) {
-                                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                                }
-
-                                d739Draw(*spB0, *spB4, spB8 >> 0x10, 0, (u8)sp98, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
-                            }
-                            break;
+                        } else if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(gUnk_03002344 & 1))
+                                sub_08000AF0(0x17, (void *)desc.fC, 2);
+                            t39Draw(x, y - (heights[i] >> 8), hi, 0, pal, &desc.f1C, desc.f8, desc.f0);
                         }
-                        var_r8_2 += 1;
-                        var_r6_2++;
-                        var_r7_4++;
-                        var_sl_2++;
-                        var_r9_5 += 1;
-                        if (var_r9_5 < sp9C) {
-                            goto loop_82;
-                        }
-                    }
-                } else {
-                    var_r9_4 = 0;
-                    if (sp9C <= 0U) {
-
-                    } else {
-                        spCC = &frame.x;
-                        spD0 = &frame.y;
-                        var_sl = &frame.delays[0];
-                        var_r7_3 = spC4;
-                        var_r8 = spC8;
-                        spBC = spAC << 0x10;
-loop_114:
-                        temp_r6_2 = ((u8 *)gUnk_030056F4) + (*(&frame.targets[0] + var_r9_4) * 0x2E0);
-
-                        d739Coords((s32) (D739_U32(temp_r6_2,0x14) << 8) >> 0x10, (s32) (D739_U32(temp_r6_2,0x18) << 8) >> 0x10, &frame.x, &frame.y, 0x30, 0);
-                        sp98 = (s32) (u8) sub_0800BC44((u32) (sp8C >> 8), (u32) ((s32) sp90 >> 8), 0U);
-                        temp_r0_3 = *var_sl;
-                        switch (temp_r0_3) {        /* switch 2; irregular */
-                        case 0x0:                   /* switch 2 */
-                            *var_r7_3 -= *var_r8;
-                            *var_r8 += 0x20;
-                            if ((s32) *var_r7_3 <= 0) {
-                                sp94 = (u32) (u16) (sp94 + 1);
-                                *var_sl = 0xF0;
-                                *var_r7_3 = (s32) temp_r0_3;
-                                if (spA0 == spA4) {
-                                    temp_r4_5 = *(u16 *)((D739_U32(sp80,0x14) * 2) + ((u8 *)d739Chances));
-                                    if ((u32) temp_r4_5 >= (u32) (sub_080008C8() % 100U)) {
-                                        temp_r2_4 = d739Calc(sp80, temp_r6_2 + 0x218);
-
-                                        d739Hit(D739_U16(temp_r6_2,0x0), 3U, temp_r2_4, 0x64U, 0, 0);
-                                    } else {
-                                        temp_r2_5 = d739Calc(sp80, temp_r6_2 + 0x218);
-
-                                        d739Hit(D739_U16(temp_r6_2,0x0), D739_U16(d739Kinds,0x1CA), temp_r2_5, spAC, 0, 0);
-                                    }
-                                    if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                                        sub_0805865C(0x1A);
-                                    }
-                                }
-                            }
-                            if (sub_0800CC98() != 0) {
-
-                            } else if ((sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                                if (!(gUnk_03002344 & 1)) {
-                                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                                }
-                                if ((gUnk_03003170.curLevel == 4) && (sub_0800CDC0() != 0)) {
-                                    sp98 = 0;
-                                }
-
-                                d739Draw(*spCC, *spD0 - ((s32) *var_r7_3 >> 8), spBC >> 0x10, 0, (u8)sp98, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
-                            }
-                            break;
-                        default:                    /* switch 2 */
-                            *var_sl = temp_r0_3 - 1;
-                            break;
-                        case 0xF0:                  /* switch 2 */
-                            temp_r1_4 = frame.heights[0] & 1;
-                            frame.heights[0] -= 1;
-                            if ((temp_r1_4 != 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                                if (!(gUnk_03002344 & 1)) {
-                                    sub_08000AF0(0x17U, (const void *)frame.desc[3], 2U);
-                                }
-                                if ((gUnk_03003170.curLevel == 4) && (sub_0800CDC0() != 0)) {
-                                    sp98 = 0;
-                                }
-
-                                d739Draw(*spCC, *spD0, spBC >> 0x10, 0, (u8)sp98, (u8 *)frame.desc+0x1C, frame.desc[2], frame.desc[0]);
-                            }
-                            break;
-                        }
-                        var_sl += 1;
-                        var_r7_3++;
-                        var_r8++;
-                        var_r9_4 += 1;
-                        if (var_r9_4 < sp9C) {
-                            goto loop_114;
+                    } else if (delays[i] != 0xF0) {
+                        delays[i]--;
+                    } else if (heights[0]-- & 1) {
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(gUnk_03002344 & 1))
+                                sub_08000AF0(0x17, (void *)desc.fC, 2);
+                            t39Draw(x, y, hi, 0, pal, &desc.f1C, desc.f8, desc.f0);
                         }
                     }
                 }
-                } while (0);
-                sub_080003F0();
-
+            } else {
+                for (i = 0; i < n; i++) {
+                    e = &gT39Enemies[targets[i]];
+                    t39Coords((e->x << 8) >> 16, (e->y << 8) >> 16, &x, &y, 0x30, 0);
+                    pal = (u8)sub_0800BC44(sx >> 8, sy >> 8, 0);
+                    if (delays[i] == 0) {
+                        heights[i] -= speeds[i];
+                        speeds[i] += 0x20;
+                        if (heights[i] <= 0) {
+                            hits++;
+                            delays[i] = 0xF0;
+                            heights[i] = 0;
+                            if (myId == owner) {
+                                chance = gT39Chances[arg0->w14];
+                                if (chance >= sub_080008C8() % 100)
+                                    t39EnHit(e->h0, 3, t39Calc(arg0, e->b218), 100, 0, 0);
+                                else
+                                    t39EnHit(e->h0, gT39Kinds[0xE5], t39Calc(arg0, e->b218), hi, 0, 0);
+                                if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                                    sub_0805865C(0x1A);
+                            }
+                        }
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(gUnk_03002344 & 1))
+                                sub_08000AF0(0x17, (void *)desc.fC, 2);
+                            if (gT39Tile.h8C == 4 && sub_0800CDC0() != 0)
+                                pal = 0;
+                            t39Draw(x, y - (heights[i] >> 8), hi, 0, pal, &desc.f1C, desc.f8, desc.f0);
+                        }
+                    } else if (delays[i] != 0xF0) {
+                        delays[i]--;
+                    } else if (heights[0]-- & 1) {
+                        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(gUnk_03002344 & 1))
+                                sub_08000AF0(0x17, (void *)desc.fC, 2);
+                            if (gT39Tile.h8C == 4 && sub_0800CDC0() != 0)
+                                pal = 0;
+                            t39Draw(x, y, hi, 0, pal, &desc.f1C, desc.f8, desc.f0);
+                        }
+                    }
+                }
+            }
+            sub_080003F0();
+        }
     }
-loop_149:
-    if (sp94 < sp9C) {
-        if (spA4 != sub_080020F4()) goto block_77;
-        if (((u32) (u16) (D739_U16(sp84,0x20) - 0xB) > 1U) && (sub_0800D11C() == 0)) goto block_77;
-    }
-    }
-    while (*spD4 == 0) {
+    while (player->done == 0)
         sub_080003F0();
-    }
-    temp_r2_6 = (s32 *)(spC0 + ((u8 *)d739Flags));
-    *temp_r2_6 &= ~(1 << spA8);
+    gT39Flags[owner] &= ~(1 << bit);
 }
-
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08072390);
 #endif
