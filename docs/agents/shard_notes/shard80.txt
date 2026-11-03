@@ -1,0 +1,7 @@
+nov03-w3: sub_08079458 draft differs only by the entry `mov r8, r1` (orig: ldr r0,[r4,#0x14]; add r1,sp,#0x4c; mov r8,r1;
+  str r0,[r1,#4]); everything else (jump table, padding) is position noise. Mechanism (from -dG/-dl dumps): GCSE PRE makes
+  the loop's &pos pseudo (507, later r8) a copy of the entry pos.y address pseudo. In the draft PRE *inserts* the copy at
+  the end of bb0 (after sub_08065158 + info->c load), i.e. expr (plus fp 60) is not available out of bb0; in the ROM the
+  copy sits right after the entry computation (pre_insert_copies), so the expr must be available at bb0's end.
+  Tried: s32 pos[2], pointer var pp=&pos at entry (gets r8 but add/mov come BEFORE the info->b load), v=info->b first
+  then pp (pp then short-lived). Idea left: find what kills (plus fp 60) between the store and end of bb0.
