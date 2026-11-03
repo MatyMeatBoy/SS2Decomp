@@ -112,7 +112,168 @@ void sub_08092EB4(void)
     sub_080933A0();
     sub_08000940();
 }
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08092F58);
+struct Spr2F58 { u32 f0, f4, f8, fC; u8 pad10[0xC]; u8 f1C[7]; u8 f23; u8 f24; u8 pad25[0xF]; };
+struct Pos2F58 { s32 x, y; };
+extern struct Pos2F58 gP0851845C asm("gUnk_0851845C");
+extern struct Pos2F58 gP0851848C asm("gUnk_0851848C");
+extern struct Pos2F58 gP085184BC asm("gUnk_085184BC");
+extern struct Pos2F58 gP085184EC asm("gUnk_085184EC");
+extern void spr2F58Init(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern void spr2F58Anim(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern s32 *spr2F58DrawA(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
+extern s32 *spr2F58DrawB(s32, s32, s32, u16, s32, s32, s32, void *, u32, u32) asm("sub_08007974");
+extern void pal2F58Load(void *, u32) asm("sub_08097F70");
+extern void pal2F58Fade(void *, s32) asm("sub_08096EFC");
+extern s32 pos2F58Get(s32, struct Pos2F58 *) asm("sub_08097EF0");
+extern void move2F58(void *, s16, s16, s16) asm("sub_08097EB0");
+
+void sub_08092F58(u8 arg0, u8 arg1)
+{
+    struct Spr2F58 sprA;
+    struct Spr2F58 sprB;
+    u8 pal[0x20];
+    u16 hB, h2, hA;
+    struct Pos2F58 pos;
+    s8 idx;
+    struct Pos2F58 posA, posB;
+    u8 cnt, limit;
+    u8 phase, level;
+    u16 timer;
+    u32 state;
+    s32 *p;
+
+    idx = arg1 - 1;
+    limit = arg0 * 2;
+    cnt = 0;
+    spr2F58Init(&sprA, idx + 0x5003C, 7, -1, 1);
+    spr2F58Init(&sprB, 0x50040, 8, -1, 1);
+    sprA.f23 = cnt;
+    sprB.f24 = 1;
+    pal2F58Load(pal, sprA.fC + 0xE0);
+    pal2F58Fade(pal, 0x1F);
+    switch (idx) {
+    case 0: posA.x = gP0851845C.x; posA.y = gP0851845C.y; break;
+    case 1: posA.x = gP0851848C.x; posA.y = gP0851848C.y; break;
+    case 2: posA.x = gP085184BC.x; posA.y = gP085184BC.y; break;
+    case 3: posA.x = gP085184EC.x; posA.y = gP085184EC.y; break;
+    }
+    posB.x = 0x8000;
+    posB.y = 0x3000;
+    hA = 0;
+    h2 = 0;
+    hB = 0;
+    phase = 0;
+    level = 0;
+    timer = 0;
+    state = 6;
+    sub_0801AB50(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_0805865C(0x195);
+    do {
+        switch (state) {
+        case 6:
+            if (timer++ > 0x3C) {
+                timer = 0;
+                state = 5;
+                switch (idx) {
+                case 0: move2F58(&gP0851845C, 6, 2, 0x14); break;
+                case 1: move2F58(&gP0851848C, 6, 2, 0x16); break;
+                case 2: move2F58(&gP085184BC, 6, 2, 0x18); break;
+                case 3: move2F58(&gP085184EC, 6, 2, 0x18); break;
+                }
+            }
+            break;
+        case 5:
+            if (pos2F58Get(0, &pos) != 0)
+                state = 4;
+            else {
+                posA.x = pos.x;
+                posA.y = pos.y;
+            }
+            break;
+        case 4:
+            if (timer++ > 0x1E) {
+                sub_0805865C(0x197);
+                timer = 0;
+                state = 3;
+            }
+            break;
+        case 3:
+            if (timer++ > 0xB4) {
+                sub_0805865C(0x196);
+                timer = 0;
+                state = 2;
+            } else
+                posA.x += 0x1A0;
+            break;
+        case 2:
+            if (cnt & 1)
+                posB.y -= 0x180;
+            else
+                posB.y += 0x180;
+            if (posB.y > 0x8FFF)
+                cnt++;
+            else if (posB.y <= 0x3000)
+                cnt++;
+            if (cnt >= limit) {
+                if (level != 0) {
+                    if (timer++ & 8)
+                        level--;
+                } else {
+                    sub_0805867C(0x196);
+                    timer = 0;
+                    state = 1;
+                }
+            } else if (level <= 12) {
+                if (timer++ & 4)
+                    level++;
+            }
+            break;
+        case 1:
+            if (timer++ > 0x78)
+                state = 0;
+            break;
+        }
+        phase = (phase == 3) ? 0 : phase + 1;
+        switch (phase) {
+        case 0: sub_08009088(0, 0, 0, 0); break;
+        case 1: sub_08009088(1, 0, 0, 0); break;
+        case 2: sub_08009088(1, 1, 0, 0); break;
+        case 3: sub_08009088(0, 1, 0, 0); break;
+        }
+        gUnk_03001250[0]++;
+        gUnk_03001250[1]++;
+        gUnk_03001250[2]--;
+        gUnk_03001250[3]++;
+        sub_0800903C(0, 0x23, 0, level, 0x10, 0);
+        if (state == 2) {
+            sub_08000AF0(0x11, (void *)(sprB.fC + 0x100), 1);
+            spr2F58Anim(&sprB, 0, &hB, &h2, 1);
+            p = spr2F58DrawB(posB.x >> 8, 0, 0, hB, 0, 0, 1, sprB.f1C, sprB.f8, sprB.f0);
+            p[3] = posB.y >> 8;
+        }
+        if (state > 2) {
+            sub_08000AF0(0x10, (void *)(sprA.fC + 0xE0), 1);
+            spr2F58Anim(&sprA, 0, &hA, &h2, 1);
+            p = spr2F58DrawA(posA.x >> 8, 0x9F, 0, hA, 0, sprA.f1C, sprA.f8, sprA.f0);
+            p[3] = posA.y >> 8;
+        }
+        sub_080003F0();
+        if (sub_080021A8() == 1)
+            state = 0;
+    } while (state != 0);
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_080586D0(3);
+    sub_08093404();
+    sub_0800CC18();
+    sub_0800CC68();
+    sub_08098028();
+    sub_08009088(0, 0, 0, 0);
+    sub_0800903C(0, 0, 0, 0, 0, 0);
+}
 extern u8 gB03000267 asm("gUnk_03000267");
 extern u8 gB03000266 asm("gUnk_03000266");
 extern u8 gB03000268 asm("gUnk_03000268");
