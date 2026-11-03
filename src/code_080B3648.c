@@ -50,7 +50,129 @@ s32 sub_080B44F0_v(struct Boss0B44F0 *b, s32 ox, s32 oy, u16 range)
     }
     return hit;
 }
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4690);
+struct Boss0B4690 { u16 index; u8 p2[6]; s16 f8; u8 pA[2]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; };
+struct Player0B4690 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 alive; u8 p69[0x1F]; u16 hp; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[0x19]; u16 *f148; };
+struct Anim0B4690 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[0x18]; };
+struct Vec0B4690 { s32 x, y; };
+struct Task0B4690 { u32 f0, f4, f8; u8 pC[0x1C]; };
+extern struct Player0B4690 players0B4690[] asm("gUnk_03003CE0");
+extern struct Boss0B4690 *boss0B4690 asm("gUnk_030007B8");
+extern u8 mode0B4690 asm("gUnk_030007CA");
+extern struct Task0B4690 *tasks0B4690 asm("gUnk_030007D0");
+extern void init0B4690(struct Anim0B4690 *, u32, u32, s32, u32) asm("sub_08065158");
+extern void animate0B4690(struct Anim0B4690 *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void coords0B4690(s16, s16, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern u32 vis0B4690(s32, s32, s32) asm("sub_0800BC44");
+extern void draw0B4690(s32, s32, u32, u32, u8, void *, s32, s32) asm("sub_08007870");
+extern s32 pick0B4690(s32) asm("sub_08096594");
+extern void sel0B4690(s32) asm("sub_08097A38");
+extern void aim0B4690(struct Vec0B4690, struct Vec0B4690, struct Vec0B4690 *) asm("sub_08097978");
+extern void hurt0B4690(s32, s32, s32) asm("sub_08029CEC");
+/* Projectile task: fly from beside the boss towards a player, hurting the local player on contact. */
+void sub_080B4690(u32 a0, u32 a1)
+{
+    struct Anim0B4690 anim;
+    u16 tile, rotation;
+    s16 sx, sy;
+    struct Vec0B4690 vel;
+    u8 kind;
+    u16 idx;
+    u16 i;
+    s32 d;
+    struct Vec0B4690 pos, dst;
+    u16 *t;
+    u8 timer;
+    u16 count;
+    s32 paused;
+    u16 dx, dy;
+    s32 dist;
+
+    kind = a0;
+    idx = a1;
+    for (i = 0; i < idx * 48; i++)
+        sub_080003F0();
+    init0B4690(&anim, 0x50130, 6, -1, 0);
+    sub_08000AF0(0x16, anim.graphics + 0x20, 1);
+    anim.data[1] = 6;
+    rotation = 0;
+    tile = 0;
+    timer = 0;
+    if (kind == 0) {
+        switch (boss0B4690->f8) {
+        case 0: case 1: case 2: d = 0; break;
+        case 3: case 4: d = 1; break;
+        case 5: d = 2; break;
+        case 6: case 7: d = 3; break;
+        }
+    } else {
+        switch (mode0B4690) {
+        case 0: case 1: case 2: d = 0; break;
+        case 3: case 4: d = 1; break;
+        case 5: d = 2; break;
+        case 6: case 7: d = 3; break;
+        }
+    }
+    switch (d) {
+    case 0:
+        pos.x = boss0B4690->x - 0x3000;
+        pos.y = boss0B4690->y;
+        break;
+    case 1:
+        pos.x = boss0B4690->x - 0x3000;
+        pos.y = boss0B4690->y;
+        break;
+    case 2:
+        pos.x = boss0B4690->x + 0x3000;
+        pos.y = boss0B4690->y;
+        break;
+    case 3:
+        pos.x = boss0B4690->x + 0x3000;
+        pos.y = boss0B4690->y;
+        break;
+    }
+    pos.y -= 0x1900;
+    sub_0805865C(0xA6);
+    {
+        struct Player0B4690 *p = &players0B4690[pick0B4690(0)];
+        sel0B4690(0);
+        t = p->f148;
+    }
+    dst.x = t[0] >> 4;
+    dst.y = ((u32)(t[1] << 20) >> 20) - 12;
+    aim0B4690(pos, dst, &vel);
+    count = 0xF0;
+    do {
+        pos.x += vel.x + (vel.x >> 1);
+        pos.y += vel.y + (vel.y >> 1);
+        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (paused = sub_0800CD34()) == 0) {
+            animate0B4690(&anim, 10, &tile, &rotation, 1);
+            coords0B4690(pos.x >> 8, pos.y >> 8, &sx, &sy, paused, paused);
+            draw0B4690(sx, sy, 10, tile, vis0B4690(pos.x >> 8, pos.y >> 8, 0), anim.data, anim.w8, anim.w0);
+        }
+        if (timer != 0) {
+            timer--;
+        } else {
+            dx = (pos.x >> 8) - (players0B4690[sub_080020F4()].x >> 8);
+            dy = (pos.y >> 8) + 12 - (players0B4690[sub_080020F4()].y >> 8);
+            dist = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+            if (dist <= 23 && !sub_0800CDF8() && !sub_0800CCCC() && !sub_0800CD8C()
+                && boss0B4690->state != 11
+                && !(players0B4690[sub_080020F4()].flags & 0x2000)
+                && players0B4690[sub_080020F4()].alive != 0
+                && players0B4690[sub_080020F4()].state != 14
+                && players0B4690[sub_080020F4()].state != 11
+                && players0B4690[sub_080020F4()].state != 12
+                && players0B4690[sub_080020F4()].hitIds[boss0B4690->index] != boss0B4690->hitId) {
+                hurt0B4690(1, 30, 4);
+                players0B4690[sub_080020F4()].fB0 = 0xFFFE;
+                players0B4690[sub_080020F4()].hitIds[boss0B4690->index] = boss0B4690->hitId++;
+                timer = 16;
+            }
+        }
+        sub_080003F0();
+    } while (--count != 0xFFFF);
+    tasks0B4690[idx].f8 = 0;
+}
 struct B4A7CPlayer {
     u8 pad0[0x20]; u16 state; u8 pad22[0x30 - 0x22];
     u32 flags; u8 pad34[0x68 - 0x34]; u8 active;

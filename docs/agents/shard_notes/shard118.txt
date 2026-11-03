@@ -11,3 +11,5 @@ sub_080B4690: not attempted (same hit-player tail as sub_080B44F0, big spilled f
 sub_080B44F0: MATCHED (nov03-w1). Keys: x/y as an 8-byte struct local {s32 x,y} (DImode pair r6:r7),
   `hit` a plain s32 (spilled pseudo, not volatile), px read inline in the dx expression.
   The same tail likely applies to sub_080B4690.
+sub_080B4690: MATCHED (nov03-w1). pos and the aim target are 8-byte structs passed by value to
+  sub_08097978 (spilled DImode pseudos at sp+0x58/0x60); t[1]&0xFFF written as (u32)(t[1]<<20)>>20.
