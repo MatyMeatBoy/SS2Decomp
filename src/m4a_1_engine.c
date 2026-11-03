@@ -43,155 +43,227 @@ void TrackStop(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
 }
 
 #ifdef NONMATCHING
-/* Typed SDK draft; bytes and register/frame ABI do not match yet. */
+/* SDK hand-written routine; naked draft with r3/r5/r4/r9 bindings and an explicit
+   sp frame. Not matchable as-is: the original keeps flags across STR (ANDS; STR; BEQ)
+   and reuses one CMP for two branches, which this compiler never emits. */
+struct NoteFrame121 {
+    struct MusicPlayerInfo *player;
+    struct SoundInfo *sound;
+    u32 key;
+    u32 cgb;
+    u32 priority;
+    u32 rhythm;
+};
 extern const u8 noteClock121[] asm("gUnk_080BBA5C");
-extern void clear_modM(void *, struct MusicPlayerTrack *);
-extern u32 noteCallR3_121(u32,u32,u32) asm("sub_080B6DD0");
-extern u32 noteMidi121(struct WaveData *,u32,u32) asm("MidiKeyToFreq");
+extern void noteModM121(u32, struct MusicPlayerTrack *) asm("clear_modM");
+extern u32 noteCgbFreq121(u32, u32, u32) asm("sub_080B6DD0");
+extern u32 noteMidi121(struct WaveData *, u32, u32) asm("MidiKeyToFreq");
+
+void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *track) __attribute__((naked));
 void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *track)
 {
-    struct SoundInfo *sound;
-    struct ToneData *tone;
-    struct SoundChannel *channel, *selected;
-    struct MusicPlayerTrack *owner;
-    struct WaveData *wave;
-    u8 *cursor;
-    u32 rhythm, key, priority, cgb, type, value, flags, release, currentPriority;
-    s32 remaining, pitch;
-    sound = sdkSoundInfo;
-    { register u32 gate asm("r0")=noteClock121[cmd]; asm("" : "+r"(gate)); track->gateTime=gate; }
-    {
-        register u8 *stream asm("r3") = track->cmdPtr;
-        register u32 byte asm("r0") = *stream;
-        u32 threshold = 0x80;
-        if (byte >= threshold) goto stream_done121;
-        track->key = byte;
-        stream++;
-        byte = *stream;
-        if (byte >= threshold) goto stream_save121;
-        track->velocity = byte;
-        stream++;
-        byte = *stream;
-        if (byte >= threshold) goto stream_save121;
-        *(volatile u8 *)&track->gateTime += byte;
-        stream++;
-stream_save121:
-        track->cmdPtr = stream;
-stream_done121:
-        ;
+    register struct NoteFrame121 *frame asm("sp");
+    register u32 a0 asm("r0");
+    register u32 a1 asm("r1");
+    register u32 a2 asm("r2");
+    register struct MusicPlayerTrack *trk asm("r5");
+    register struct SoundChannel *chan asm("r4");
+    register u32 r6v asm("r6");
+    register u32 r7v asm("r7");
+    register u32 r8v asm("r8");
+    register struct ToneData *tone asm("r9");
+    u32 threshold;
+
+    asm("push {r4, r5, r6, r7, lr}\n\tmov r4, r8\n\tmov r5, r9\n\tmov r6, sl\n\tmov r7, fp\n\tpush {r4, r5, r6, r7}\n\tsub sp, #0x18");
+    frame->player = player;
+    trk = track;
+    a1 = (u32)sdkSoundInfo;
+    frame->sound = (struct SoundInfo *)a1;
+    trk->gateTime = noteClock121[cmd];
+    threshold = 0x80;
+    sdkR3 = (u32)trk->cmdPtr;
+    a0 = *(u8 *)sdkR3;
+    if (a0 < threshold) {
+        trk->key = a0;
+        sdkR3++;
+        a0 = *(u8 *)sdkR3;
+        if (a0 < threshold) {
+            trk->velocity = a0;
+            sdkR3++;
+            a0 = *(u8 *)sdkR3;
+            if (a0 < threshold) {
+                trk->gateTime += a0;
+                sdkR3++;
+            }
+        }
+        trk->cmdPtr = (u8 *)sdkR3;
     }
-    rhythm = 0;
-    type = track->tone.type;
-    if (type & 0xC0) {
-        key = track->key;
-        if (type & 0x40) value = (*(u8 **)&track->tone.attack)[key];
-        else value = key;
-        tone = ((struct ToneData *)track->tone.wav) + value;
-        if (tone->type & 0xC0) return;
-        if (type & 0x80) {
-            value = tone->pan_sweep;
-            if (value & 0x80) rhythm = value;
-            key = tone->key;
+    frame->rhythm = 0;
+    chan = (struct SoundChannel *)&trk->tone;
+    a2 = ((struct ToneData *)chan)->type;
+    if (a2 & 0xC0) {
+        sdkR3 = trk->key;
+        if (a2 & 0x40)
+        {
+            a1 = *(u32 *)&trk->tone.attack;
+            a1 += sdkR3;
+            a0 = *(u8 *)a1;
+        }
+        else
+            a0 = sdkR3;
+        a1 = a0 * 12;
+        a1 += (u32)trk->tone.wav;
+        tone = (struct ToneData *)a1;
+        r6v = (u32)tone;
+        if (((struct ToneData *)r6v)->type & 0xC0)
+            goto ret;
+        if (a2 & 0x80) {
+            a1 = ((struct ToneData *)r6v)->pan_sweep;
+            if (a1 & 0x80)
+                frame->rhythm = a1;
+            sdkR3 = ((struct ToneData *)r6v)->key;
         }
     } else {
-        tone = &track->tone;
-        key = track->key;
+        tone = (struct ToneData *)chan;
+        sdkR3 = trk->key;
     }
-    priority = player->priority + track->priority;
-    if (priority > 255) priority = 255;
-    { register u32 mask asm("r6") = 7; register u32 toneType asm("r0") = tone->type; asm("" : "+r"(mask), "+r"(toneType)); mask &= toneType; asm("" : "+r"(mask)); cgb = mask; }
-    if (cgb != 0) {
-        channel = (struct SoundChannel *)sound->cgbChans;
-        if (channel == 0) return;
-        channel += cgb - 1;
-        flags = channel->statusFlags;
-        if (!(flags & 0xC7) || (flags & 0x40)) goto chosen;
-        value = channel->priority;
-        if (value < priority) goto chosen;
-        if (value != priority) return;
-        if ((u32)channel->track >= (u32)track) goto chosen;
-        return;
-    }
-    value = priority;
-    owner = track;
-    release = 0;
-    selected = 0;
-    remaining = sound->maxChans;
-    channel = sound->chans;
-next_channel:
-    flags = channel->statusFlags;
-    if (!(flags & 0xC7)) goto chosen;
-    if (flags & 0x40) {
-        if (release == 0) {
-            release++;
-            value = channel->priority;
-            owner = channel->track;
-            goto select_channel;
+    frame->key = sdkR3;
+    r6v = (u32)frame->player;
+    a1 = ((struct MusicPlayerInfo *)r6v)->priority;
+    a0 = trk->priority;
+    a0 += a1;
+    if (a0 > 0xFF)
+        a0 = 0xFF;
+    frame->priority = a0;
+    r6v = (u32)tone;
+    a0 = ((struct ToneData *)r6v)->type;
+    r6v = 7;
+    r6v &= a0;
+    frame->cgb = r6v;
+    if (r6v != 0) {
+        chan = (struct SoundChannel *)frame->sound->cgbChans;
+        if (chan == 0)
+            goto ret;
+        r6v--;
+        chan = (struct SoundChannel *)((u8 *)chan + (r6v << 6));
+        a1 = chan->statusFlags;
+        if (!(a1 & 0xC7))
+            goto chosen;
+        if (a1 & 0x40)
+            goto chosen;
+        a1 = chan->priority;
+        if (a1 < frame->priority)
+            goto chosen;
+        if (a1 != frame->priority)
+            goto ret;
+        if ((u32)chan->track >= (u32)trk)
+            goto chosen;
+        goto ret;
+    } else {
+        r6v = frame->priority;
+        r7v = (u32)trk;
+        a2 = 0;
+        r8v = a2;
+        chan = (struct SoundChannel *)frame->sound;
+        sdkR3 = ((struct SoundInfo *)chan)->maxChans;
+        chan = (struct SoundChannel *)((u8 *)chan + 0x50);
+    loop:
+        a1 = chan->statusFlags;
+        if (!(a1 & 0xC7))
+            goto chosen;
+        if (a1 & 0x40) {
+            if (a2 != 0)
+                goto cmp;
+            a2++;
+            r6v = chan->priority;
+            r7v = (u32)chan->track;
+            goto sel;
         }
-        goto compare_channel;
+        if (a2 != 0)
+            goto adv;
+    cmp:
+        a0 = chan->priority;
+        if (a0 < r6v) {
+            r6v = a0;
+            r7v = (u32)chan->track;
+            goto sel;
+        }
+        if (a0 > r6v)
+            goto adv;
+        a0 = (u32)chan->track;
+        if (a0 > r7v) {
+            r7v = a0;
+            goto sel;
+        }
+        if (a0 < r7v)
+            goto adv;
+    sel:
+        r8v = (u32)chan;
+    adv:
+        chan++;
+        if ((s32)--sdkR3 > 0)
+            goto loop;
+        chan = (struct SoundChannel *)r8v;
+        if (chan == 0)
+            goto ret;
     }
-    if (release != 0) goto advance_channel;
-compare_channel:
-    currentPriority = channel->priority;
-    if (currentPriority < value) {
-        value = currentPriority;
-        owner = channel->track;
-        goto select_channel;
-    }
-    if (currentPriority > value) goto advance_channel;
-    if ((u32)channel->track > (u32)owner) {
-        owner = channel->track;
-        goto select_channel;
-    }
-    if ((u32)channel->track < (u32)owner) goto advance_channel;
-select_channel:
-    selected = channel;
-advance_channel:
-    channel++;
-    if (--remaining > 0) goto next_channel;
-    channel = selected;
-    if (channel == 0) return;
 chosen:
-    ClearChain(channel);
-    channel->prevChannelPointer = 0;
-    channel->nextChannelPointer = track->chan;
-    if (track->chan != 0) track->chan->prevChannelPointer = channel;
-    track->chan = channel;
-    channel->track = track;
-    value = track->lfoDelay;
-    track->lfoDelayC = value;
-    if (value != 0) clear_modM((void *)value,track);
-    if (rhythm != 0) {
-        track->panX = (rhythm - 0xC0) * 2;
-        track->flags |= 3;
+    ClearChain(chan);
+    a1 = 0;
+    chan->prevChannelPointer = (void *)a1;
+    sdkR3 = (u32)trk->chan;
+    chan->nextChannelPointer = (void *)sdkR3;
+    if (sdkR3 != 0)
+        ((struct SoundChannel *)sdkR3)->prevChannelPointer = chan;
+    trk->chan = chan;
+    chan->track = trk;
+    a0 = trk->lfoDelay;
+    trk->lfoDelayC = a0;
+    if (a0 != a1)
+        noteModM121(a0, trk);
+    a1 = frame->rhythm;
+    if (a1 != 0) {
+        trk->panX = (a1 - 0xC0) << 1;
+        trk->flags |= 3;
     }
-    TrkVolPitSet(player,track);
-    *(u32 *)&channel->gateTime = *(u32 *)&track->gateTime;
-    channel->priority = priority;
-    channel->key = key;
-    channel->type = tone->type;
-    wave = tone->wav;
-    channel->wav = wave;
-    *(u32 *)&channel->attack = *(u32 *)&tone->attack;
-    *(u16 *)&channel->pseudoEchoVolume = *(u16 *)&track->pseudoEchoVolume;
-    value = channel->velocity;
-    channel->rightVolume = ((s32)(value * track->volMR)) >> 7;
-    channel->leftVolume = ((s32)(value * track->volML)) >> 7;
-    pitch = channel->key + (s8)track->keyM;
-    if (pitch < 0) pitch = 0;
-    if (cgb != 0) {
-        ((struct CgbChannel *)channel)->length = tone->length;
-        value = tone->pan_sweep;
-        if ((value & 0x80) || !(value & 0x70)) value = 8;
-        ((struct CgbChannel *)channel)->sweep = value;
-        sdkR3 = (u32)sound->MidiKeyToCgbFreq;
-        value = noteCallR3_121(cgb,pitch,track->pitM);
-    } else value = noteMidi121(wave,pitch,track->pitM);
-    channel->frequency = value;
-    channel->statusFlags = 0x80;
-    track->flags &= 0xF0;
+    TrkVolPitSet(frame->player, trk);
+    *(u32 *)&chan->gateTime = *(u32 *)&trk->gateTime;
+    chan->priority = frame->priority;
+    chan->key = frame->key;
+    r6v = (u32)tone;
+    chan->type = ((struct ToneData *)r6v)->type;
+    r7v = (u32)((struct ToneData *)r6v)->wav;
+    chan->wav = (struct WaveData *)r7v;
+    *(u32 *)&chan->attack = *(u32 *)&((struct ToneData *)r6v)->attack;
+    *(u16 *)&chan->pseudoEchoVolume = *(u16 *)&trk->pseudoEchoVolume;
+    a1 = chan->velocity;
+    chan->rightVolume = (s32)(trk->volMR * a1) >> 7;
+    chan->leftVolume = (s32)(trk->volML * a1) >> 7;
+    sdkR3 = chan->key + *(s8 *)&trk->keyM;
+    if ((s32)sdkR3 < 0)
+        sdkR3 = 0;
+    r6v = frame->cgb;
+    if (r6v != 0) {
+        r6v = (u32)tone;
+        ((struct CgbChannel *)chan)->length = ((struct ToneData *)r6v)->length;
+        a1 = ((struct ToneData *)r6v)->pan_sweep;
+        if ((a1 & 0x80) || !(a1 & 0x70))
+            a1 = 8;
+        ((struct CgbChannel *)chan)->sweep = a1;
+        a2 = trk->pitM;
+        a1 = sdkR3;
+        a0 = frame->cgb;
+        sdkR3 = (u32)frame->sound->MidiKeyToCgbFreq;
+        a0 = noteCgbFreq121(a0, a1, a2);
+    } else {
+        a0 = noteMidi121((struct WaveData *)r7v, sdkR3, trk->pitM);
+    }
+    chan->frequency = a0;
+    chan->statusFlags = 0x80;
+    trk->flags &= 0xF0;
+ret:
+    asm("add sp, #0x18\n\tpop {r0, r1, r2, r3, r4, r5, r6, r7}\n\tmov r8, r0\n\tmov r9, r1\n\tmov sl, r2\n\tmov fp, r3\n\tpop {r0}\n\tbx r0");
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/m4a_1_engine", ply_note);
 #endif
