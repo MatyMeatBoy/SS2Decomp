@@ -1136,45 +1136,39 @@ void sub_080169C8(void) {
     *word1 = zero;
     *word2 = zero;
 }
-#ifdef NONMATCHING
 struct Obj16A7C { u8 pad0[0x2C]; s32 owner; u8 pad30[0x7A - 0x30]; u16 flags; u8 pad7C[0x2E0 - 0x7C]; };
 struct Rec16A7C { s32 owner; u8 kind; u8 pad[3]; };
 extern struct Obj16A7C *objects16A7C asm("gUnk_030056F4");
 extern u32 active16A7C asm("gUnk_030056FC");
 extern u16 bits16A7C asm("gUnk_03005724");
 extern struct Rec16A7C *records16A7C asm("gUnk_030042E8");
+static inline u32 findMask(s32 owner)
+{
+    struct Obj16A7C *obj = objects16A7C;
+    u32 mask = 0;
+    u32 i;
+    for (i = 0; i <= 4; i++, obj++) {
+        if ((active16A7C & (1 << i)) && obj->owner == owner)
+            mask |= 1 << i;
+    }
+    return mask;
+}
 void sub_08016A7C(s32 owner)
 {
-    struct Obj16A7C *obj;
-    s32 mask;
-    s32 found;
+    u32 found;
     u32 i;
     u32 k;
-    u32 j;
 
-    obj = objects16A7C;
-    mask = 0;
-    i = 0;
-    do {
-        s32 bit = 1 << i;
-        if ((active16A7C & bit) && obj->owner == owner)
-            mask |= bit;
-        i++;
-        obj++;
-    } while (i <= 4);
-    found = mask;
-    for (j = 0; j <= 4; j++) {
-        if ((1 << j) & found)
-            objects16A7C[j].flags |= 1;
+    found = findMask(owner);
+    for (i = 0; i <= 4; i++) {
+        if ((1 << i) & found)
+            objects16A7C[i].flags |= 1;
     }
     for (k = 0; k <= 1; k++) {
         if ((bits16A7C >> k) & 1 && records16A7C[k].owner == owner)
             records16A7C[k].kind |= 0xFF;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016A7C);
-#endif
 struct Pos16B30 { u32 kind:4; u32 x:12; u32 y:12; u32 pad2:4; u32 f4:6; u32 f4b:2; };
 struct Dist16B30 { s32 dist; s32 index; };
 struct Plr16B30 { u16 id; u8 pad2[0x2E]; u32 flags; u8 pad34[0x30]; u16 kind; u8 pad66[0xE2]; struct Pos16B30 *pos; };

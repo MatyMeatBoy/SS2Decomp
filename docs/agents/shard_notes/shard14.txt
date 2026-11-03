@@ -26,3 +26,9 @@ sub_08016A7C: 168 vs 180 bytes; permuter best 1535 (150 s).
 
 sub_0801674C (105 lines, 206 bytes): do-while search over flags (1<<i) then struct init. Draft 180 bytes.
   Original keeps arg0/arg1 in r6/r9 and zero in r8; draft spills to stack (sub sp,#4). Permuter best 2915.
+
+nov03-w4: sub_08016A7C MATCHED by moving the first mask loop into a static inline helper
+  (inlining changes loop.c constant hoisting: 0x2E0 not hoisted) and a separate counter k for the last loop.
+  Try the same inline-helper trick on sub_08016E04 (find loop / alloc loop): alloc as inline gave 204 bytes.
+sub_08016E04: register asm("ip") for sub + asm("r8") for key fixes the param regs; remaining diff is
+  i/(i+4)<<16 swap in loop 1 and constant hoisting (1 vs regs base) in loop 2.
