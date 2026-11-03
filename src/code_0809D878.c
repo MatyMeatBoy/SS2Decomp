@@ -1786,7 +1786,174 @@ void sub_080A099C(void)
         sub_080003F0();
     }
 }
+#ifdef NONMATCHING
+struct SubA0B44 { u8 pad0[0xD6]; u16 paletteOffset; };
+struct ActorA0B44 {
+    u16 id; u8 pad2[10]; u16 state; u8 padE[6];
+    s32 x, y; u8 pad1C[0x34]; u32 serial;
+    u8 pad54[0x1B0]; struct SubA0B44 sub;
+};
+struct PosA0B44 { u16 x, y; };
+struct PlayerA0B44 {
+    u8 pad0[0x20]; u16 state; u8 pad22[14]; u32 flags;
+    u8 pad34[0x34]; u8 active; u8 pad69[0x23];
+    s32 x, y; u8 pad94[0x1C];
+    u16 motion; u8 padB2[0x32]; u32 seen[25]; struct PosA0B44 *pos;
+};
+struct SpriteA0B44 { u32 base, pad4, data, palette, pad10, pad14, pad18; u8 payload[24]; };
+struct DrawA0B44 { u32 pad0[3]; s32 y; };
+extern struct ActorA0B44 *actorA0B44 asm("gUnk_0300032C");
+extern struct PlayerA0B44 playersA0B44[] asm("gUnk_03003CE0");
+extern u16 variantA0B44 asm("gUnk_03000330");
+extern void initA0B44(void *, u32, u32, s32, s32) asm("sub_08065158");
+extern u32 animA0B44(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void screenA0B44(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern struct DrawA0B44 *drawA0B44(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern void vectorA0B44(s32, s32, s32, s32, s32 *) asm("sub_08097978");
+extern void effectA0B44(s32, s32, s32) asm("sub_08029CEC");
+extern s32 pickA0B44(s32) asm("sub_08096594");
+extern void setupA0B44(s32) asm("sub_08097A38");
+
+void sub_080A0B44(void)
+{
+    struct SpriteA0B44 sprite1, sprite2;
+    u16 frame1, tick1, frame2, tick2;
+    s16 screenX, screenY;
+    s32 velocity[2];
+    struct ActorA0B44 **ref;
+    struct SubA0B44 *sub;
+    struct PlayerA0B44 *target;
+    s32 posX, posY, targetX, targetY;
+    u16 done, count;
+    u8 tick;
+    u32 animArg;
+    u8 timer, steps;
+    u32 running, hit;
+    s32 state;
+    u8 anim;
+    s32 zero, player;
+    u16 *palette;
+    struct DrawA0B44 *object;
+    struct ActorA0B44 *actor;
+    s16 dx, dy;
+    u16 distance;
+    u32 serial;
+
+    ref = &actorA0B44;
+    sub = &(*ref)->sub;
+    initA0B44(&sprite1, 0x5000A, variantA0B44, -1, 1);
+    initA0B44(&sprite2, 0x5000A, variantA0B44, -1, 1);
+    sprite1.payload[0] = variantA0B44;
+    sprite2.payload[0] = variantA0B44;
+    target = &playersA0B44[pickA0B44(0)];
+    setupA0B44(0);
+    tick1 = 0;
+    tick2 = 0;
+    frame1 = 0;
+    frame2 = 0;
+    hit = 0;
+    anim = 7;
+    tick = 0;
+    state = 0;
+    running = 1;
+    do {
+        switch (state) {
+        case 0:
+            if (sub_0800CD8C() == 0)
+                done = animA0B44(&sprite1, 4, &frame1, &tick1, state);
+            if (done != 0) {
+                anim = 7;
+                tick = 0;
+                animArg = 0;
+                state = 1;
+            }
+            break;
+        case 1:
+            if (tick++ > 4) {
+                tick = 0;
+                if (--anim == 4) {
+                    anim = 8;
+                    animArg = 1;
+                    timer = 60;
+                    steps = 0;
+                    count = 0;
+                    state = 2;
+                    sub_0805865C(0xBF);
+                }
+            }
+            break;
+        case 2:
+            if (timer++ > 16) {
+                timer = 0;
+                if (steps <= 16) {
+                    steps++;
+                    targetX = target->pos->x >> 4;
+                    targetY = ((u32)(target->pos->y << 20) >> 20) - 12;
+                    vectorA0B44(posX, posY, targetX, targetY, velocity);
+                }
+            }
+            posX += velocity[0];
+            posY += velocity[1];
+            if (count++ > 480)
+                running = 0;
+            break;
+        }
+        if (sub_0800CD8C() == 0)
+            animA0B44(&sprite2, anim, &frame2, &tick2, animArg);
+        if (sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0 && (zero = sub_0800CC98()) == 0) {
+            palette = &sub->paletteOffset;
+            if (state == 0 || state == 1) {
+                sub_08000AF0(variantA0B44 + 16, sprite1.palette + (*palette << 5), 1);
+                screenA0B44((s32)((u32)(*ref)->x << 8) >> 16, (s32)((u32)(*ref)->y << 8) >> 16, &screenX, &screenY, zero, zero);
+                object = drawA0B44(screenX, 0x9F, 4, frame1, 2, sprite1.payload, sprite1.data, sprite1.base);
+                object->y = screenY;
+                posX = (*ref)->x + 0x1000;
+                posY = (*ref)->y - 0x3000;
+            }
+            sub_08000AF0(variantA0B44 + 16, sprite2.palette + (*palette << 5), 1);
+            screenA0B44((s32)((u32)posX << 8) >> 16, (s32)((u32)posY << 8) >> 16, &screenX, &screenY, zero, zero);
+            object = drawA0B44(screenX, 0x9F, anim, frame2, 1, sprite2.payload, sprite2.data, sprite2.base);
+            object->y = screenY;
+        }
+        player = sub_080020F4();
+        dx = (posX >> 8) - (playersA0B44[player].x >> 8);
+        player = sub_080020F4();
+        dy = ((posY >> 8) + 12) - (playersA0B44[player].y >> 8);
+        distance = Sqrt(dx * dx + dy * dy);
+        if (hit != 0) goto next;
+        if (distance > 15) goto next;
+        if (sub_0800CDF8() != 0) goto next;
+        if (sub_0800CD8C() != 0) goto next;
+        if (sub_0800CCCC() != 0) goto next;
+        if (actorA0B44->state == 11) goto next;
+        if (playersA0B44[sub_080020F4()].flags & 0x2000) goto next;
+        if (playersA0B44[sub_080020F4()].active == 0) goto next;
+        if (playersA0B44[sub_080020F4()].state == 14) goto next;
+        if (playersA0B44[sub_080020F4()].state == 11) goto next;
+        if (playersA0B44[sub_080020F4()].state == 12) goto next;
+        player = sub_080020F4();
+        actor = actorA0B44;
+        if (playersA0B44[player].seen[actor->id] == actor->serial) goto next;
+        if (sub_0800CE30() == 1)
+            effectA0B44(5, 60, 7);
+        else
+            effectA0B44(5, 15, 5);
+        playersA0B44[sub_080020F4()].motion = 0xFFFE;
+        player = sub_080020F4();
+        actor = *ref;
+        serial = actor->serial;
+        playersA0B44[player].seen[actor->id] = serial;
+        actor->serial = serial + 1;
+        hit = 1;
+    next:
+        sub_080003F0();
+    } while (running != 0);
+    *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
+    sub_080003F0();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0B44);
+#endif
 void sub_080A0F64(void) {
     if (M2C_FIELD(gUnk_0300032C, s16 *, 0x5C) != 0) {
         sub_080A0FC4();
