@@ -186,12 +186,11 @@ void sub_08015620(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
-#ifdef NONMATCHING
 void sub_080156FC(s32 index)
 {
     struct Plr15 *p = &players15[index];
     u32 count;
-    u32 frame;
+    register u32 frame asm("r4");
     count = p->info->level;
     p->wB0 = p->info->top;
     switch (count) {
@@ -245,9 +244,6 @@ void sub_080156FC(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_080156FC);
-#endif
 void sub_08015820(s32 index)
 {
     s32 memory;
