@@ -3946,9 +3946,10 @@ restart:
         }
 
     strike:
-        hitFrame = 0x46;
         if ((s16)frame <= 3)
             hitFrame = 0x3F;
+        else
+            hitFrame = 0x46;
         for (;;) {
             hit2 = 0;
             if (target != 0xFFFF && target > 3) {
