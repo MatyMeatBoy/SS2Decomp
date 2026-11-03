@@ -1152,32 +1152,30 @@ void sub_0802A590(u16 first,u16 count)
     sub_08000B38();
     sub_08001538((s32)backup);
 }
-#ifdef NONMATCHING
 extern u8 nameA644[] asm("gUnk_03003CE2");
 extern void clearA644(s32,s32) asm("sub_0801A664");
 extern void drawA644(u8*,s32,u32) asm("sub_0801A3D0");
 void sub_0802A644(s32 id)
 {
- u8 text[0x80]; u8 *stream,*line; u32 row,column,tick,i,y;  u16 wait; s32 n; u8 code; u8 nameIndex; u8 *names;
+ u8 text[0x80]; u8 *stream,*line; u32 row,column,tick,i,y;  u16 wait; u8 nameIndex; u8 *names;
  stream=(u8*)sub_08007290(0x140000|id)+2;
  row=0;column=0;tick=0;nameIndex=0;text[0]=0xFD;names=nameA644;text[0x20]=0xFD;
  while(*stream!=0xFD){
   if(tick++>5){
-   code=*stream;
-   if(code==0xFF){
+   if(*stream==0xFF){
     column=0;row++;
     if(row>1){text[0]=0xFD;text[0x20]=0xFD;row=0;}
     else text[row*0x20]=0xFD;
     stream++;
-   } else if(code==0xFC){
+   } else if(*stream==0xFC){
     text[column+row*0x20]=names[nameIndex];column++;text[row*0x20+column]=0xFD;
     nameIndex++;
     if(names[nameIndex]==0){stream++;nameIndex=0;column--;}
-   } else if(code==0xFE){
+   } else if(*stream==0xFE){
     text[0]=0xFD;text[0x20]=0xFD;row=0;column=0;stream+=3;
     for(wait=180;wait;wait--){sub_080003F0();if(sub_080021A8())break;}
    } else {
-    text[column+row*0x20]=code;stream++;column++;text[row*0x20+column]=0xFD;
+    text[column+row*0x20]=*stream;stream++;column++;text[row*0x20+column]=0xFD;
    }
    tick=0;
   }
@@ -1191,9 +1189,6 @@ void sub_0802A644(s32 id)
  }while(--tick!=-1);
  clearA644(15,4);sub_080003F0();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08028AAC", sub_0802A644);
-#endif
 extern void sub_080009F8(s32,s32,s32);
 extern void sub_0801AA8C(s32);
 extern void sub_0801AB90(s32);
