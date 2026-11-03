@@ -3039,8 +3039,8 @@ digraph calls {
   "sub_080169C8" -> "sub_080003A8" [label="c"];
   "sub_080169C8" -> "sub_08000470" [label="c"];
   "sub_080169C8" -> "sub_080571A4" [label="c"];
-  "sub_08016B30" -> "Sqrt" [label="asm"];
-  "sub_08016B30" -> "sub_08002164" [label="asm"];
+  "sub_08016B30" -> "Sqrt" [label="c"];
+  "sub_08016B30" -> "sub_08002164" [label="c"];
   "sub_08016C88" -> "ArcTan2" [label="c"];
   "sub_08016C88" -> "Sqrt" [label="c"];
   "sub_08016D40" -> "sub_08016C88" [label="c"];
