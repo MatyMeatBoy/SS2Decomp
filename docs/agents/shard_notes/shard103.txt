@@ -10,3 +10,14 @@ sub_0809D374: draft improved (decomp.py 115 -> 83 diff lines; real remaining dif
 sub_0809C4E8: draft diff 341. Original references players[n].y and players[n].pos through separate literal
   symbols (gUnk_03003D70, gUnk_03003E28, gUnk_03003EBC, gUnk_03003F74, gUnk_03004008, gUnk_030040C0,
   gUnk_03004154, gUnk_0300420C) while .x is r9(=gUnk_03003CE0)+offset. Not worked on further.
+
+sub_0809CC2C (nov03-w5, 2026-11-03): fresh C draft landed, now 34 normalized diff lines (same size, same
+  control flow). Keys that worked: whole body wrapped in `do { ... } while (0)` starting right after
+  `r = sub_0800CE30(); p5c/p6c/p6a/p68 = &ent->f..;` (gives the post-call pointer copies + hoists);
+  struct XY passed BY VALUE to sub_08097AC0 (puts tx/ty in sp88/8c); `pl = &players[ent->hi]; pl->pos`;
+  u8 bitfields lo:4/hi:4 at 0x1fc with `ent->lo = ent->f0` (gives `subs r0,#31`); `(f4 << 1) * 10`;
+  `palNo = 6` local (hoisted 6+0x10); `u16 prevFrame` (stops CSE merging the *p68 reload).
+  Remaining: init temps swapped (&spr2 r9 vs ROM sl, ent+0x5c sl vs ROM r9) and spill slot order:
+  ROM c0 idx*4, c4 0x16, c8 p5c, cc pD6 (p5c/pD6 look evicted by reload after global alloc), mine
+  c0 p5c, c4 idx*4, c8 0x16, cc pD6; plus r1/r2 swap in the final players[...].flags test.
+  Tried: register keyword, removing pointer vars (hgen combos), inline prep/frame helpers, permuter 20 min.
