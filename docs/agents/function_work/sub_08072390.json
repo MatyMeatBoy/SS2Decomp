@@ -1,0 +1,32 @@
+{
+  "address": "0x08072390",
+  "updated_utc": "2026-11-03T12:00:00+00:00",
+  "checkpoint": "56420854",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Complete compiling C draft",
+      "state": "done",
+      "evidence": "Typed NONMATCHING draft (local T39* structs and asm aliases, no raw offsets) compiles in make nonmatching; make compare prints shiningsoul2_eu.gba: OK with the ASM fallback."
+    },
+    {
+      "id": "layout",
+      "label": "Frame, stack slots and size",
+      "state": "done",
+      "evidence": "decomp.py check: candidate size 2508 equals original 2508; locals desc/targets/delays/heights/speeds/x/y land at sp+0x10..0x7E and spilled variables at sp+0x80..0xAC as in the original. Modeled on the matched sibling sub_08072D5C."
+    },
+    {
+      "id": "regalloc",
+      "label": "Register allocation",
+      "state": "pending",
+      "evidence": "Remaining ~140 diff lines are a register cascade: the hit counter (u16 count) gets r4 instead of r7 in the target-gather loops, so player is reloaded into r1 and &player->done takes slot 0xC0 instead of 0xD4 (temporaries shift +4). From the lreg dump, count priority (10 refs/432 insns) beats num (3 refs/93 insns); in the original num is allocated first. Permuter (30 min) found nothing."
+    },
+    {
+      "id": "match",
+      "label": "Exact active C and linked ROM match",
+      "state": "pending",
+      "evidence": "Not matched yet."
+    }
+  ],
+  "regions": []
+}
