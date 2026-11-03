@@ -615,7 +615,133 @@ void sub_08074DE8(u32 who, s32 type)
         masks4DE8[who] |= 1 << i;
     }
 }
+#ifdef NONMATCHING
+struct T75088Anim { u32 f0, f4, f8, fC, f10, f14, f18; u8 b1C[0x18]; };
+struct T75088Player {
+    u8 pad0[0x20];
+    u16 state;
+    u8 pad22[0xE];
+    u32 flags;
+    u8 pad34[0xA8];
+    u32 serial;
+    u8 padE0[0x68];
+    u8 *shape;
+};
+struct T75088Enemy { u16 id; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x; s32 y; u8 p1C[0x30]; s32 damage; u8 p50[4]; u32 hitSerial; u16 hitBy; u16 hitMask; };
+extern struct T75088Player t75088Players[] asm("gUnk_03003CE0");
+extern u8 *t75088Enemies asm("gUnk_030056F4");
+extern u8 *t75088Map asm("gUnk_030034E0");
+extern s16 t75088Offsets[][2] asm("gUnk_084EBEBC");
+extern u32 t75088Busy[] asm("gUnk_030063E0");
+extern void t75088Init(struct T75088Anim *, u32, u32, s32, s32) asm("sub_08065158");
+extern u16 t75088Step(struct T75088Anim *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern void t75088Coords(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void t75088Draw(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern void t75088Hit(u32, u32, u32, u32, u32, u32) asm("sub_08029E0C");
+void sub_08075088(u32 who, u32 slot)
+{
+    struct T75088Anim anim;
+    s32 xs[3];
+    s32 ys[3];
+    u16 idx[3];
+    u16 frm[3];
+    u16 st[3];
+    u16 delay[3];
+    s16 sx, sy;
+    struct T75088Player *player;
+    u32 i;
+    u32 serial;
+    u32 done;
+    u32 dir;
+    u32 damage;
+    u32 me;
+    s32 angle;
+    s16 *sinp;
+    u16 e;
+    u8 *enemy;
+    s32 d;
+
+    me = (u16)sub_080020F4();
+    t75088Init(&anim, 0x5008C, 8, -1, 0);
+    anim.b1C[0] = 7;
+    anim.b1C[1] = 8;
+    player = &t75088Players[who];
+    i = 0;
+    do {
+        xs[i] = (*(u16 *)player->shape >> 4) << 8;
+        ys[i] = (u32)(*(u16 *)(player->shape + 2) << 20) >> 12;
+        idx[i] = 0;
+        frm[i] = 0;
+        st[i] = 0;
+        delay[i] = i * 8 + 1;
+    } while (++i <= 2);
+    dir = player->shape[3] >> 4;
+    angle = (s16)gUnk_0847AD0A[dir];
+    if (me == who) {
+        player->flags |= 1;
+        serial = (u16)player->serial;
+        player->serial++;
+        damage = (u16)(sub_080008C8() % 50);
+        damage = (u16)(damage + 50 * sub_0801E0AC((s32)(t75088Map + 0x30), 5));
+    }
+    sinp = &gUnk_080B9704[angle];
+    for (;;) {
+        done = 0;
+        for (i = 0; i <= 2; i = (u16)(i + 1)) {
+            if (--delay[i] != 0)
+                continue;
+            delay[i] = 1;
+            xs[i] += 2 * gUnk_080B9704[angle + 0x40];
+            ys[i] += 2 * *sinp;
+            t75088Coords((xs[i] << 8) >> 16, (ys[i] << 8) >> 16, &sx, &sy, 0x30, 0);
+            st[i] = (s16)t75088Step(&anim, 0xE, &idx[i], &frm[i], 0);
+            if (st[i] == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                if (!(gUnk_03002344 & 1))
+                    sub_08000AF0(0x17, (void *)anim.fC, 2);
+                t75088Draw(sx + t75088Offsets[dir][0], sy + t75088Offsets[dir][1], 0xE, idx[i],
+                           (u8)sub_0800BC44(xs[i] >> 8, ys[i] >> 8, sub_0800CCCC()), anim.b1C, anim.f8, anim.f0);
+            }
+            if (me == who && st[i] == 1) {
+                if (me == sub_080020F4() && ((u16)(player->state - 0xB) <= 1 || sub_0800D11C()))
+                    break;
+                for (e = 0; e <= 4; e++) {
+                    struct T75088Enemy *en;
+                    if (!(gUnk_030056FC & (1 << e)))
+                        continue;
+                    en = (struct T75088Enemy *)(t75088Enemies + e * 0x2E0);
+                    sx = (en->x - xs[i]) >> 8;
+                    sy = (en->y - ys[i]) >> 8;
+                    d = sx;
+                    if (d < 0)
+                        d = -d;
+                    if (d > 0x1B)
+                        continue;
+                    d = sy;
+                    if (d < 0)
+                        d = -d;
+                    if (d > 0x1B || en->state == 0xB || en->hitSerial == serial)
+                        continue;
+                    en->damage = damage;
+                    t75088Hit(en->id, 1, damage, 1, 0x20, dir);
+                    en->hitBy = who;
+                    en->hitSerial = serial;
+                    en->hitMask |= 1 << me;
+                }
+            }
+            if (st[i] != 0)
+                done++;
+        }
+        if (done > 2)
+            break;
+        sub_080003F0();
+    }
+    if (me == who && sub_0800CC98() == 0 && sub_0800CE68() == 0 && sub_0800CD8C() == 0)
+        player->flags &= ~1;
+    t75088Busy[who] &= ~(1 << slot);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08075088);
+#endif
 struct Task5494 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 extern u32 gMasks5494[] asm("gUnk_030063E0");
 extern u8 *gLists5494[] asm("gUnk_030063B0");
