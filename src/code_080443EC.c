@@ -1048,6 +1048,7 @@ again:
 #ifdef NONMATCHING
 struct PlF4445 { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 f8C; u8 p90[0x8E]; u16 f11E; u8 p120[0x2C]; };
 struct ItemF4445 { u16 kind, value; u8 pad[12]; };
+struct RecF4445 { u16 f0, f2; u8 pad[0x2DC]; };
 struct CmdF4445 { u16 kind, value; u8 data[12]; };
 extern struct PlF4445 playersF4445[] asm("gUnk_03003CE0");
 extern u8 *invF4445 asm("gUnk_030034E0");
@@ -1071,18 +1072,43 @@ static inline s32 bitF4445(s32 sh) {
         if (sub_0800CDF8()) { sub_0805EFBC(); break; } \
         sub_080003F0(); \
     } }
+static inline u32 countItemsF4445(void) {
+    u32 count = 0, i;
+    u8 *q = invF4445 + 0x150;
+    for (i = 0; i <= 0x18; q += 0x10, i++) {
+        if (*(u16 *)(q + 0) == 5 && *(u16 *)(q + 2) == 0xA6) count++;
+    }
+    return count;
+}
+static inline void setlvF4445(u32 id, u16 v) {
+    struct Actor566045 *ap;
+    u32 key = id;
+    asm("" : "+r"(key));
+    if (id > 0x100000) {
+        ap = find566045(&state566045, key);
+        if (ap) *(u16 *)((u8 *)ap + 0x42) = v;
+    } else if (id != 0) {
+        u32 k = id - 1;
+        if (k <= 4) sub_08019EB8(((struct RecF4445 *)recordsF4445)[k].f2, v);
+    } else {
+        ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->f11E = v;
+    }
+}
 void sub_08045F44(u32 id) {
     struct CmdF4445 cmd;
     u8 unused[16];
     u32 dlg;
-    s32 a, b, c, d;
+    s32 a, b, c, d, cntv;
     u32 i, n;
     struct ItemF4445 *it;
     struct Actor566045 *ap;
+    asm("" : "+r"(id));
+    asm("" : "+r"(id));
+    asm("" : "+r"(id));
     ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
-    a = playersF4445[sub_080020F4()].f8C >> 8;
-    if (a > 0x1E7) sub_08029174(id, 6);
+    c = playersF4445[sub_080020F4()].f8C >> 8;
+    if (c > 0x1E7) sub_08029174(id, 6);
     else sub_08029174(id, 2);
     a = bitF4445(2);
     b = bitF4445(3);
@@ -1093,41 +1119,35 @@ void sub_08045F44(u32 id) {
     } else if (a) {
         DIALOG_F4445(0x1402A8);
     } else {
-        u32 count;
+        u32 count, cnt;
         s32 player;
         DIALOG_F4445(0x1402A1);
-        count = 0;
-        it = (struct ItemF4445 *)(invF4445 + 0x150);
-        for (i = 0; i <= 0x18; i++, it++) {
-            if (it->kind == 5 && it->value == 0xA6) count++;
-        }
-        player = sub_080020F4();
-        if (count == 0 || player != 0) goto end;
-        if (id > 0x100000) {
-            ap = find566045(&state566045, id);
-            if (ap) *(u16 *)((u8 *)ap + 0x42) = 3;
-        } else if (id != 0) {
-            if (id - 1 <= 4) sub_08019EB8(*(u16 *)(recordsF4445 + (id - 1) * 0x2E0 + 2), 3);
-        } else {
-            playersF4445[sub_080020F4()].f11E = 3;
-        }
+        cntv = countItemsF4445();
+        b = sub_080020F4();
+        if (cntv == 0 || b != 0) goto end;
+        setlvF4445(id, 3);
         while (sub_0805F184()) sub_080003F0();
         dlg = sub_0805DF38(1, 15, 2, 0, -2, 0x1402A2);
         while (!sub_0805EEFC((void *)dlg)) sub_080003F0();
-        if (sub_0805EF14((u8 *)dlg)) {
+        dlg = sub_0805EF14((u8 *)dlg);
+        if (dlg) {
             DIALOG_F4445(0x1402A4);
             n = 1;
             for (i = 0; i <= 0x18; i++) {
-                struct ItemF4445 *e = (struct ItemF4445 *)(invF4445 + i * 16 + 0x150);
-                if (e->kind == 5 && e->value == 0xA6) {
+                u8 *e = invF4445 + i * 16;
+                if (*(u16 *)(e + 0x150) == 5 && *(u16 *)(e + 0x152) == 0xA6) {
                     n--;
-                    e->kind = 0;
-                    e->value = 0;
+                    *(u16 *)(e + 0x150) = 0;
+                    *(u16 *)(e + 0x152) = 0;
                     if (n == 0) break;
                 }
             }
-            cmd.kind = 1;
-            cmd.value = 0x1E;
+            {
+                register u32 ka asm("r1");
+                register u32 kb asm("r2");
+                register struct CmdF4445 *kc asm("r0");
+                ka = 1; kb = 0x1E; kc = &cmd; kc->kind = ka; kc->value = kb;
+            }
             i = 0;
             do { cmd.data[i] = 0; i++; } while (i <= 11);
             i = 0;
