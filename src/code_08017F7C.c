@@ -86,6 +86,8 @@ struct T015LAnimDef { u32 a; u8 p4[0x28]; u32 b; u8 p30[0x28]; };
 struct T015LScale { u32 a, b, c; };
 extern struct T015LAnimDef T015L_anims[] asm("gUnk_08479140");
 extern struct T015LScale T015L_scales[] asm("gUnk_0848FA0C");
+struct T015LPl { u16 f0; u8 p2[0x2E]; u32 f30; u8 p34[0x92]; u16 fC6; u8 pC8[0x84]; };
+extern struct T015LPl T015L_players[] asm("gUnk_03003CE0");
 #define T015L_DRAW ((void (*)(s32, s32, u16, u16, u32, void *, u32, u32))T015L_sub_08007870)
 #define T015L_F7A T015L_FIELD(arg0, u16 *, 0x7A)
 #define T015L_STATE (*(u16 *)gUnk_03005CF4)
@@ -153,9 +155,10 @@ void sub_0801801C(struct T015LActor *arg0) {
         arg0->f1DC = 2;
         break;
     }
-    h = arg0->f226;
-    if (h <= 7 && h >= 4)
+    switch (arg0->f226) {
+    case 4: case 5: case 6: case 7:
         arg0->f1DC = 0;
+    }
     local120 = 0xFFFF;
     arg0->f74 = 1;
     arg0->f44 = 0;
@@ -672,7 +675,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                     }
                 }
                 if (local120 & 1)
-                    local128--;
+                    local128 = (u32)((local128 << 16) + 0xFFFF0000) >> 16;
             }
         } else {
             local120 = 0xFFFF;
@@ -680,9 +683,10 @@ void sub_0801801C(struct T015LActor *arg0) {
             arg0->f4C = 0;
         }
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
-            h = arg0->f226;
-            if (h <= 7 && h >= 4)
+            switch (arg0->f226) {
+            case 4: case 5: case 6: case 7:
                 stack.main.data[1] = local114;
+            }
             if (local124 != 0) {
                 sub_08000AF0(local114 + 0x10, (void *)(stack.main.fC + (sp118->fD6 << 5)), 1);
                 local124 = 0;
@@ -728,11 +732,11 @@ void sub_0801801C(struct T015LActor *arg0) {
             T015L_sub_080571A4(arg0->f86, arg0->f84, 3);
         }
         if (T015L_STATE != 0xB
-            && !(*(u32 *)((u8 *)gUnk_03003CE0 + 0x30 + 0x14C * sub_080020F4()) & 0x2000)
-            && ((arg0->f5A >> *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4())) & 1)) {
+            && !(T015L_players[sub_080020F4()].f30 & 0x2000)
+            && ((arg0->f5A >> T015L_players[sub_080020F4()].f0) & 1)) {
             s32 obj = sub_0801E46C((void *)gUnk_030034E0, sp118);
             local128 = 30;
-            while ((s16)--local128 != -1) {
+            while ((s16)(local128 = local128 + 0xFFFF) != -1) {
                 arg0->f18 -= 0x20;
                 T015L_sub_0806171C(arg0, obj);
                 if (sub_08056E90() != 0)
@@ -741,7 +745,7 @@ void sub_0801801C(struct T015LActor *arg0) {
             }
             sub_0801E4CC((u8 *)gUnk_030034E0, obj);
             if (T015L_FIELD(gUnk_030034E0, u8 *, 0x13A) != 0)
-                T015L_FIELD((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4(), u16 *, 0xC6)++;
+                T015L_players[sub_080020F4()].fC6++;
         }
     }
     if (arg0->f201 & 2)
