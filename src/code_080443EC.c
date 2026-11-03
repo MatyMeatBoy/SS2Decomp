@@ -1005,7 +1005,6 @@ void sub_08045AFC(void)
         sub_0805C7B8(0);
     }
 }
-#ifdef NONMATCHING
 extern void cbA40B6845(void) asm("sub_08059A40");
 extern void cb8F4CB6845(void) asm("sub_08058F4C");
 extern void cb9968B6845(void) asm("sub_08059968");
@@ -1032,6 +1031,16 @@ static inline u8 *flagB6845(void) {
     return state566045 + 0x1B9;
 }
 static inline s32 bitB6845(u8 *p, s32 one) { s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 6) & one; }
+static inline s32 bit2B6845(s32 one) {
+    s32 raw;
+    if (sub_0800CE30()) { raw = state566045[0x1C5]; asm("" : "+r"(raw)); return (raw >> 6) & one; }
+    raw = state566045[0x1B9]; asm("" : "+r"(raw)); return (raw >> 6) & one;
+}
+static inline s32 bit3B6845(u8 **st, s32 one) {
+    s32 raw;
+    if (sub_0800CE30()) { raw = (*st)[0x1C5]; return (raw >> 6) & one; }
+    raw = (*st)[0x1B9]; return (raw >> 6) & one;
+}
 static inline struct Actor566045 *findB6845(u32 id) {
     struct Actor566045 *p = (struct Actor566045 *)(state566045 + 0x7A4);
     u32 i;
@@ -1064,9 +1073,10 @@ void sub_08045B68(u32 arg0) {
     a = findB6845(id);
     if (a) { a->x = 8; a->y = 4; a->flags |= 0x10; }
     setcbB6845(id, (u32)cb8F4CB6845);
+    { u8 **st = &state566045; s32 one = 1; asm("" : "+r"(st)); asm("" : "+r"(one));
     do {
         wait566045(1);
-    } while (!bitB6845(flagB6845(), 1));
+    } while (!bit3B6845(st, one)); }
     sub_0805EFBC();
     do { sub_080003F0(); } while (sub_0805F184());
     { struct Player *pp = (struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0); pp->flags |= 1; }
@@ -1101,9 +1111,6 @@ void sub_08045B68(u32 arg0) {
     {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045B68);
-#endif
 extern void callback5E3845(void) asm("sub_0803898C");
 static inline s32 bit5E3845(u8 *p, s32 one) { s32 raw = *p; asm("" : "+r"(raw)); return (raw >> 5) & one; }
 static inline u32 spawn5E3845(s32 a, s32 b, s32 c) { return sub_080289C0(a, b, c); }
