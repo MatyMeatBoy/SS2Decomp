@@ -10535,21 +10535,21 @@
       "name": "sub_08028AAC",
       "addr": 134384300,
       "size": 748,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08028AAC",
       "kind": "c",
       "cat": "game",
       "address": "0x08028AAC",
       "canonical_symbol": "sub_08028AAC",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08028AAC_v",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 37,
+          "line": 35,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028AAC_v"
         }
       ]
@@ -10558,21 +10558,21 @@
       "name": "sub_08028D98",
       "addr": 134385048,
       "size": 844,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08028AAC",
       "kind": "c",
       "cat": "game",
       "address": "0x08028D98",
       "canonical_symbol": "sub_08028D98",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08028D98_v",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 179,
+          "line": 169,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028D98_v"
         }
       ]
@@ -10595,7 +10595,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 309,
+          "line": 282,
           "detail": "Existing C definition with an asm alias to the canonical symbol: task026E4"
         }
       ]
@@ -10618,7 +10618,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 386,
+          "line": 359,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08029174_v"
         }
       ]
@@ -10641,7 +10641,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 431,
+          "line": 404,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802926C_v"
         }
       ]
@@ -10664,7 +10664,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 484,
+          "line": 457,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802939C_v"
         }
       ]
@@ -10704,7 +10704,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 710,
+          "line": 683,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08029788_v"
         }
       ]
@@ -10863,7 +10863,7 @@
       "evidence": [
         {
           "source": "src/code_08028AAC.c",
-          "line": 1038,
+          "line": 1011,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802A104_v"
         }
       ]
@@ -24000,14 +24000,14 @@
       "name": "sub_08075778",
       "addr": 134698872,
       "size": 2416,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08075778",
       "canonical_symbol": "sub_08075778",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_08075778",
       "name_status": "unidentified",
       "name_source": null,
