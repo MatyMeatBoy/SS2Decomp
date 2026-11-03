@@ -3651,13 +3651,12 @@ void sub_080B2058(s32 arg0, s32 arg1)
     a44 = 0;
     cnt = 0;
     sub_0805865C(0x1A5);
-    x = arg0 >> 8;
-    y = arg1 >> 8;
-    xs = x << 16;
-    ys = y << 16;
+    xs = (x = arg0 >> 8) << 16;
+    ys = (y = arg1 >> 8) << 16;
     do {
-        if ((r = sub_0800CD8C()) == 0)
-            done = sub_08065370_5r(&s, 0, &a44, &a46, r);
+        s32 paused;
+        if ((paused = sub_0800CD8C()) == 0)
+            done = sub_08065370_5r(&s, 0, &a44, &a46, paused);
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (r = sub_0800CD34()) == 0) {
             sub_08000AF0(0x17, (void *)s.fC, 2);
             k = sub_0800BC44(x, y, 0);
@@ -3672,8 +3671,9 @@ void sub_080B2058(s32 arg0, s32 arg1)
             if (sub_0801A040_1(*e) == 0) {
                 *e = sub_08019FD8_3(gData084AA580, 0, gByte0300079C);
                 sub_0801A0BC_2(*e, 3);
-                while (sub_0801A040_1(*e) == 0)
+                do
                     sub_080003F0();
+                while (sub_0801A040_1(*e) == 0);
                 break;
             }
         }
