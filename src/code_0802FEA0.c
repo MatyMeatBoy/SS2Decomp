@@ -1046,7 +1046,6 @@ void sub_08031F28(void)
     }
     sub_0800D108();
 }
-#ifdef NONMATCHING
 struct Rec1FF8 { u16 a, b; u8 pad[12]; };
 struct Recs1FF8 { u8 pad[0x150]; struct Rec1FF8 r[25]; };
 void sub_08031FF8(void)
@@ -1078,8 +1077,9 @@ void sub_08031FF8(void)
         for (j = 0; j <= 0x18; j++) {
             if (((struct Recs1FF8 *)gUnk_030034E0)->r[j].a == 6 && ((struct Recs1FF8 *)gUnk_030034E0)->r[j].b == 0x59) {
                 count--;
+                dialog = j;
                 ((struct Recs1FF8 *)gUnk_030034E0)->r[j].a = 0;
-                ((struct Recs1FF8 *)gUnk_030034E0)->r[j].b = 0;
+                ((struct Recs1FF8 *)gUnk_030034E0)->r[dialog].b = 0;
                 if (count == 0)
                     break;
             }
@@ -1223,9 +1223,6 @@ void sub_08031FF8(void)
     ((struct Player *)(sub_080020F4() * 0x14C + (u32)gUnk_03003CE0))->flags &= ~1;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0802FEA0", sub_08031FF8);
-#endif
 struct Msg598 { u16 a, b; u8 data[12]; };
 void sub_08032598(s32 arg)
 {
