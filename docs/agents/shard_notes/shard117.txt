@@ -1,14 +1,14 @@
 
-nov03-w2: sub_080B2058 MATCHED. Key: the two args are one 8-byte struct passed by value
-  (`struct PosB58 { s32 x, y; }; void sub_080B2058(struct PosB58 pos)`): the prologue copies r1 first into a
-  DImode pair r6:r7, so neither half ties to x/y. Then `x = pos.x >> 8; y = pos.y >> 8; xs = x << 16; ys = y << 16;`.
-  The twin sub_080B6178 (code_080B3648, shard 119) should match with the same change.
-oth r8, `mov r8,r1` in prologue): global alloc prefers y's reg for the dying arg;
-  whichever shift is computed second ties its arg. Reload in the original never reuses the dying arg reg
-  (x's reload reg is r1), as if neither arg dies at its shift.
-  Tried (all 29 or worse): decl orders, register x/y/xs/ys, u32/s32 mixes, copies of args (top / block),
-  inline helper, x/y set in loop + (s16)/(x<<16)>>16 hoisting, args used directly in loop, struct {x,y},
-  order of the 4 statements, `arg0 >>= 8`. `register s32 a1 asm("r7")=arg1; register s32 a0 asm("r6")=arg0;`
+sub_080B280C MATCHED (nov03-w2). Keys for the boss-loop siblings (sub_080B3648, sub_080B4C34, sub_080AF3F4, sub_080AE420):
+  - switch case bodies in ROM block order; spilled state vars (frame, sel, dir...) plain locals.
+  - x*20 written as `t2 = x * 2; ... = t2 * 10` gives ROM's ((x<<3)+(x<<1))<<1.
+  - screen pos {s16 x, y} struct local (r7 = &sc, [r7,#2]); anim index u16 (crossjumps the two stores).
+  - aim call `sub_08095FC8(a->x>>8, a->y>>8, t[0]>>4, t[1]&0xFFF)` evaluates args 2/3 first: a static inline
+    `aimAt(tx, ty) { actor->f8 = aim(actor->f14 >> 8, actor->f18 >> 8, tx, ty); }`.
+  - ONE function-level `struct Player *p` shared by the approach call (p in r1) and the aim cases: the shared
+    pseudo conflicts with r0 there, so p gets r1 everywhere (fixed the reload-register rotation in 3 cases).
+  - separate actor-pointer locals per region (init, case 20, tail); hit check without a temp.
+ter s32 a1 asm("r7")=arg1; register s32 a0 asm("r6")=arg0;`
   fixes the prologue but breaks &a44/&a46 regs (score 25). Permuter 5 min: nothing.
 sub_080B280C: 1720 asm lines, no draft; boss-arena player loop with 3 jump tables (20/8/8 cases); siblings
   sub_080AD534 (shard 114), sub_080B3648 (shard 118) also undrafted.

@@ -4232,10 +4232,6 @@ void sub_080B2780(void) {
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_030007C8);
 }
-// sub_080B280C: 8 bytes over; everything outside states 9/13/14 matches. Left: in the aim call
-// p = &players[i] ties to the base reg (ROM: to the 0x14C mult reg), which shifts the reload-register
-// rotation (dir/sel/0x148 reloads) in the following cases and breaks one cross-jump (+8 bytes).
-#ifdef NONMATCHING
 struct Res280C { u8 p0[4]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
 struct Actor280C {
     u16 f0, f2;
@@ -4437,7 +4433,7 @@ void sub_080B280C(void)
             case 6:
                 actor280C->fC = 1;
                 if (first == 0) {
-                    struct Player280C *p = &players280C[pick280C(1)];
+                    p = &players280C[pick280C(1)];
                     flagC280C = 0;
                     if (approach280C(actor280C, p, 0x80, 0x28) == 0) {
                         mode280C(1);
@@ -4695,6 +4691,3 @@ void sub_080B280C(void)
         unload280C(data280C, h);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B280C);
-#endif
