@@ -679,10 +679,6 @@ s32 sub_0801B8A8(struct S17ItemC4 *a, struct S17ItemB8 *b, struct S17ItemB8 *c, 
     return 0;
 }
 
-#ifdef NONMATCHING
-/* Hand-written draft: control flow and arithmetic follow the asm; the function returns
- * void (defined through an asm label because functions.h declares it with M2C_UNK).
- * Remaining diffs: reload register rotation, loop temporaries (k/id), f16 update. */
 struct BA74Res { s16 v[6]; };
 struct BA74Stats { s16 f0, f2, f4, f6; s16 f8; u16 fA[5]; struct BA74Res res; };
 struct BA74Slot { u16 f0; u16 id; u16 sub; u8 bonus; u8 f7; u8 broken; u8 valid; u8 padA[6]; };
@@ -753,14 +749,37 @@ extern struct BA74Cls gBA74Cls[] asm("gUnk_0848FA48");
 extern struct BA74Job gUnk_0847AD3C[];
 extern s32 sub_08021FE0(s32 *, s32 *, u16 *, u16 *);
 
-#define arg0 ((struct BA74Unit *)a0)
-#define arg1 ((struct BA74Sel *)a1)
-#define arg2 ((struct BA74Stats *)a2)
-#define arg3 ((struct BA74Mod *)a3)
-void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4) asm("sub_0801BA74");
-void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
+static __inline__ u16 BA74_def(s16 value, s32 stats, s32 i0, s32 i3)
 {
+    switch (sub_0801DE60()) {
+    case 0:
+        value = (value + sub_0801E0AC(stats, i0) * 2) * (sub_0801E0AC(stats, i0) + 10) / 10;
+        break;
+    case 3:
+        value = (value + sub_0801E0AC(stats, i3) * 2) * (sub_0801E0AC(stats, i3) + 10) / 10;
+        break;
+    }
+    return value;
+}
 
+static __inline__ u16 BA74_atk(s32 value, s32 stats)
+{
+    switch (sub_0801DE60()) {
+    case 0:
+        value = (u16)(sub_0801E0AC(stats, 3) * 8);
+        break;
+    case 3:
+        value = (u16)(sub_0801E0AC(stats, 2) * 8);
+        break;
+    }
+    return value;
+}
+
+/* Recomputes a unit's stats from its equipment slots and active effects. Returns void; it is
+ * defined through an asm label because functions.h declares sub_0801BA74 with M2C_UNK. */
+void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stats *arg2, struct BA74Mod *arg3, s32 arg4) asm("sub_0801BA74");
+void BA74_StatsCalc(struct BA74Unit *arg0, struct BA74Sel *arg1, struct BA74Stats *arg2, struct BA74Mod *arg3, s32 arg4)
+{
     u16 i;
     u16 bonus;
     u8 *t2;
@@ -774,7 +793,6 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     struct BA74Save *p;
     u8 *sub;
     u16 v;
-    u16 a;
     s32 x;
     struct BA74Ent *e;
     s32 tmp;
@@ -855,13 +873,13 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     arg3->f1A = 0;
     arg3->f21 = 0;
     {
-        s16 *p = arg3->f24;
-        p[0] = 0;
-        p[1] = 0;
-        p[2] = 0;
-        p[3] = 0;
-        p[4] = 0;
-        p[5] = 0;
+        s16 *res = arg3->f24;
+        res[0] = 0;
+        res[1] = 0;
+        res[2] = 0;
+        res[3] = 0;
+        res[4] = 0;
+        res[5] = 0;
     }
     bonus = 0;
 
@@ -920,15 +938,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
         if (t5[0xA0] != 0) {
             w = arg3->f15;
             sub_0801DE60();
-            switch (sub_0801DE60()) {
-            case 0:
-                w = (u16)(sub_0801E0AC(arg4, 3) * 8);
-                break;
-            case 3:
-                w = (u16)(sub_0801E0AC(arg4, 2) * 8);
-                break;
-            }
-            arg3->f16 = w + arg3->f16;
+            arg3->f16 += BA74_atk(w, arg4);
         }
     }
     if (t6 != 0)
@@ -938,13 +948,9 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     arg0->f132 = 0;
     e = arg0->f34;
     for (i = 0; i <= 7; i++, e++) {
-        s32 x = e->f0;
-        u16 id = e->f0;
-        u16 k;
-        if (x < 0 && x != -2)
+        if (e->f0 < 0 && e->f0 != -2)
             continue;
-        k = e->f2;
-        if (k <= 3) {
+        if (e->f2 <= 3) {
             if (gBA74Units[e->f2].f30 & 0x2000)
                 continue;
             switch (gBA74Units[e->f2].fC) {
@@ -973,7 +979,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
                     }
                     break;
                 case 6:
-                    if (arg0->f0 != k && gBA74Units[e->f2].f68 != arg3->f10) {
+                    if (arg0->f0 != e->f2 && gBA74Units[e->f2].f68 != arg3->f10) {
                         pos[0] = (gBA74Units[e->f2].f148->f0 >> 4) << 8;
                         pos[1] = ((u32)gBA74Units[e->f2].f148->f2 << 20) >> 12;
                         size = 0x00300030;
@@ -1012,7 +1018,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
             case 6:
             case 8:
                 if (e->f4 == 4) {
-                    if ((s16)id > 1) {
+                    if (e->f0 > 1) {
                         struct BA74Job *job = &gUnk_0847AD3C[e->f6];
                         arg0->f138 = job;
                         arg0->f64 = job->fD4 + 10;
@@ -1057,7 +1063,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
         } else {
             switch (e->f4) {
             case 1:
-                if (id == 0 && arg0->f132 != 13)
+                if (e->f0 == 0 && arg0->f132 != 13)
                     arg0->f132 = 14;
                 break;
             case 2:
@@ -1072,7 +1078,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
                 halve = 1;
                 break;
             case 4:
-                if (id == 0 && arg0->f132 != 13)
+                if (e->f0 == 0 && arg0->f132 != 13)
                     arg0->f132 = 11;
                 break;
             case 5:
@@ -1092,7 +1098,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     if (tmp != 0)
         sub_0801B264((void *)tmp, (u16 *)arg2, (u8 *)arg3);
     if (t2 != 0) {
-        arg3->f0 += sub_0801B58C(t2, arg4, t2[0x9C], sub_0801DE60());
+        arg3->f0 += ((u16 (*)(u8 *, s32, u16, u16))sub_0801B58C)(t2, arg4, t2[0x9C], sub_0801DE60());
         if (arg1 != 0 && arg1->type == 2)
             arg3->f0 += arg1->bonus;
         else
@@ -1102,21 +1108,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     if (t3 != 0) {
         v = t3[0x9B];
         sub_0801DE60();
-        {
-            s16 value = v;
-            s32 a;
-            switch (sub_0801DE60()) {
-            case 0:
-                a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 4);
-                value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 4) + 10) / 10;
-                break;
-            case 3:
-                a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 3);
-                value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 3) + 10) / 10;
-                break;
-            }
-            bonus += (u16)value;
-        }
+        bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 3)
             bonus += arg1->bonus;
         else
@@ -1131,21 +1123,7 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     if (t4 != 0) {
         v = t4[0x9B];
         sub_0801DE60();
-        {
-            s16 value = v;
-            s32 a;
-            switch (sub_0801DE60()) {
-            case 0:
-                a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 4);
-                value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 4) + 10) / 10;
-                break;
-            case 3:
-                a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 3);
-                value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 3) + 10) / 10;
-                break;
-            }
-            bonus += (u16)value;
-        }
+        bonus += BA74_def(v, arg4, 4, 3);
         if (arg1 != 0 && arg1->type == 4)
             bonus += arg1->bonus;
         else
@@ -1155,39 +1133,11 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
         if (t5[0xA0] != 0) {
             v = t5[0x9B];
             sub_0801DE60();
-            {
-                s16 value = v;
-                s32 a;
-                switch (sub_0801DE60()) {
-                case 0:
-                    a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 3);
-                    value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 3) + 10) / 10;
-                    break;
-                case 3:
-                    a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 2);
-                    value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 2) + 10) / 10;
-                    break;
-                }
-                bonus += (u16)value;
-            }
+            bonus += BA74_def(v, arg4, 3, 2);
         } else {
             v = t5[0x9B];
             sub_0801DE60();
-            {
-                s16 value = v;
-                s32 a;
-                switch (sub_0801DE60()) {
-                case 0:
-                    a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 4);
-                    value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 4) + 10) / 10;
-                    break;
-                case 3:
-                    a = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 3);
-                    value = ((u16)a * 2 + value) * (sub_0801E0AC(arg4, 3) + 10) / 10;
-                    break;
-                }
-                bonus += (u16)value;
-            }
+            bonus += BA74_def(v, arg4, 4, 3);
         }
         if (arg1 != 0 && arg1->type == 5)
             bonus += arg1->bonus;
@@ -1206,7 +1156,11 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     if (arg2->f4 <= 0)
         arg2->f4 = 0;
     arg3->fA += arg2->f6 * 3;
-    arg3->f8 += arg2->f4 * 10 * 2;
+    {
+        s32 t = arg2->f4;
+        s32 u = t << 1;
+        arg3->f8 += ((t << 3) + u) << 1;
+    }
     switch (sub_0801DE60()) {
     case 0:
         x = ((s32 (*)(s32, s32))sub_0801E0AC)(arg4, 7);
@@ -1281,13 +1235,6 @@ void BA74_StatsCalc(void *a0, s32 a1, void *a2, void *a3, s32 arg4)
     if (arg2->f2 < 0)
         arg2->f2 = 0;
 }
-#undef arg0
-#undef arg1
-#undef arg2
-#undef arg3
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801AAF8", sub_0801BA74);
-#endif
 struct RescueC8F0Entity {
 u16 id;
 u8 pad2[10];
