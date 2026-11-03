@@ -306,6 +306,7 @@ void sub_08094638(u32 count,s32 choice)
     u16 indices[3],frames[3];
     struct {s32 x,y;} base;
     struct Sprite98c *sprite;
+    s32 result;
     u32 completed;
     s32 shifted=(s32)((u32)choice<<24);
     u8 limit=(u8)(count*2);
@@ -315,7 +316,7 @@ void sub_08094638(u32 count,s32 choice)
     completed=0;
     selected=(s32)((u32)shifted+0xFF000000)>>24;
     init98c(&a,selected+0x50041,7,-1,1);
-    a.payload[7]=((u8 *)&completed)[0];
+    a.payload[7]=completed;
     init98c(&b,0x50045,8,-1,1);
     b.payload[8]=1;
     base.x=0x7800;base.y=0x5000;
@@ -330,7 +331,7 @@ void sub_08094638(u32 count,s32 choice)
         indices[1]=*(u16 *)(table+4)-1;
     }
     sub_0801AB50(6);
-    { s32 result,active; struct {s32 x,y;} screen;
+    { s32 active; struct {s32 x,y;} screen;
     screen.x=base.x>>8;screen.y=base.y>>8;
     while(!sub_0801AAE0())sub_080003F0();
     regs98c[0x1D]=0x3233;
