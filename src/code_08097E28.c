@@ -1691,7 +1691,181 @@ u8 sub_0809A5E0(void)
     }
     return result;
 }
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809A834);
+struct Player834 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x23];s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x32];u32 seen[25];u16 *home;};
+struct Entity834 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
+struct Sprite834 {u32 f0,f4,f8;u8 *fC;u8 pad10[12];u8 f1C[13];u8 f29;u8 pad2A[10];};
+struct Obj834 {u32 f0,f4,f8;s32 fC;};
+extern struct Player834 players834[] asm("gUnk_03003CE0");
+extern struct Entity834 *entity834 asm("gUnk_030002DC");
+extern struct Obj834 *draw834(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern void sub_08029A7C(s32, s32, s32);
+extern void anim834(void *,u32,u16 *,s16 *,s32) asm("sub_08065370");
+extern void coords834(s32,s32,s16 *,s16 *,s32,void *) asm("sub_0800BC08");
+extern void init834(void *,s32,s32,s32,s32) asm("sub_08065158");
+extern struct Obj834 *self834(void) asm("sub_0800048C");
+void task834(u32 who) asm("sub_0809A834");
+void task834(u32 who)
+{
+    struct Sprite834 sprite;
+    u16 tile;
+    s16 rotation;
+    s16 sx;
+    s16 sy;
+    u32 count;
+    s32 x;
+    s32 y;
+    s32 d;
+    u32 mode;
+    u32 n;
+    s32 running;
+    s16 dx;
+    s16 dy;
+    register u32 z asm("r4"); /* zero kept live for the early exit */
+    u32 odd;
+    struct Obj834 *p;
+
+    init834(&sprite, 0x50004, 0xD, -1, 1);
+    { u8 *q = &sprite.f29; z = 0; *q = 5; }
+    count = sub_08002164();
+    if (count == 1) {
+        switch (who) {
+        case 0:
+            x = players834[0].x;
+            y = players834[0].y;
+            break;
+        case 1:
+            x = 0x7800;
+            y = 0x17000;
+            break;
+        case 2:
+            x = 0x4400;
+            y = 0x13500;
+            break;
+        case 3:
+            x = 0xAE00;
+            y = 0x13500;
+            break;
+        case 4:
+            x = 0x7B00;
+            y = 0xE400;
+            break;
+        default:
+            goto fail;
+        }
+    } else {
+        switch (who) {
+        case 0:
+            if (sub_080020F4() == 0) {
+                x = players834[0].x;
+                y = players834[0].y;
+            } else {
+                x = (players834[0].home[0] >> 4) << 8;
+                y = (u32)(players834[0].home[1] << 20) >> 12;
+            }
+            break;
+        case 1:
+            if (sub_080020F4() == 1) {
+                x = players834[1].x;
+                y = players834[1].y;
+            } else {
+                x = (players834[1].home[0] >> 4) << 8;
+                y = (u32)(players834[1].home[1] << 20) >> 12;
+            }
+            break;
+        case 2:
+            if (count <= 2)
+                goto fail;
+            if (sub_080020F4() == 2) {
+                x = players834[2].x;
+                y = players834[2].y;
+            } else {
+                x = (players834[2].home[0] >> 4) << 8;
+                y = (u32)(players834[2].home[1] << 20) >> 12;
+            }
+            break;
+        case 3:
+            if (count != 4)
+                goto fail;
+            if (sub_080020F4() == 3) {
+                x = players834[3].x;
+                y = players834[3].y;
+            } else {
+                x = (players834[3].home[0] >> 4) << 8;
+                y = (u32)(players834[3].home[1] << 20) >> 12;
+            }
+            break;
+        default:
+        fail:
+            p = self834();
+            p->f8 = z;
+            return;
+        }
+    }
+    if (who == 0)
+        sub_0805865C(0xAD);
+    count = sub_0800CE30();
+    n = 0x3C;
+    if (count == 1)
+        n = 0x28;
+    d = n << 10;
+    running = 1;
+    do {
+        d -= 0x400;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            sub_08000AF0(0x15, sprite.fC + 0x1A0, 1);
+            anim834(&sprite, 1, &tile, &rotation, 1);
+            mode = (u8)sub_0800BC44(x >> 8, y >> 8, 0);
+            coords834((s16)(x >> 8), (s16)(y >> 8), &sx, &sy, 0, 0);
+            if (n > 0x1E) {
+                odd = n;
+                n = (u16)(odd - 1);
+                if (odd & 1)
+                    { p = draw834(sx - 4, 1, 2, 0, mode, sprite.f1C, sprite.f8, sprite.f0); p->fC = sy - 1; }
+            } else {
+                { p = draw834(sx - 4, 1, 2, 0, (u8)mode, sprite.f1C, sprite.f8, sprite.f0); p->fC = sy - 1; }
+            }
+            mode = (u8)sub_0800BC44(x >> 8, (y - d) >> 8, 0);
+            coords834((s16)(x >> 8), (s16)((y - d) >> 8), &sx, &sy, 0, 0);
+            { p = draw834(sx, 0x9F, 1, tile, mode, sprite.f1C, sprite.f8, sprite.f0); p->fC = sy + 1; }
+        }
+        if (d < 0) {
+            dx = (x >> 8) - (players834[sub_080020F4()].x >> 8);
+            dy = ((y - d) >> 8) - (players834[sub_080020F4()].y >> 8);
+            if (Sqrt(dx * dx + dy * dy) <= 0xF && sub_0800CDF8() == 0 && sub_0800CCCC() == 0
+                && sub_0800CD8C() == 0 && entity834->state != 0xB && !(players834[sub_080020F4()].flags & 0x2000)
+                && players834[sub_080020F4()].active != 0 && players834[sub_080020F4()].state != 0xE
+                && players834[sub_080020F4()].state != 0xB && players834[sub_080020F4()].state != 0xC
+                && players834[sub_080020F4()].seen[entity834->index] != entity834->counter) {
+                if (sub_0800CE30() == 1)
+                    sub_08029A7C(0, 0xA0, 1);
+                else
+                    sub_08029A7C(0, 0x28, 1);
+                players834[sub_080020F4()].motion = 0xFFFE;
+                players834[sub_080020F4()].seen[entity834->index] = entity834->counter++;
+            }
+            running = 0;
+        }
+        sub_080003F0();
+    } while (running);
+    if (who == 0)
+        sub_0805865C(0xAE);
+    n = 0x78;
+    do {
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            anim834(&sprite, 1, &tile, &rotation, 1);
+            if (n & 1) {
+                coords834((s16)(x >> 8), (s16)(y >> 8), &sx, &sy, 0, 0);
+                draw834(sx - 4, sy - 1, 2, 0, (u8)mode, sprite.f1C, sprite.f8, sprite.f0);
+                coords834((s16)(x >> 8), (s16)((y - d) >> 8), &sx, &sy, 0, 0);
+                draw834(sx, sy, 1, tile, (u8)mode, sprite.f1C, sprite.f8, sprite.f0);
+            }
+        }
+        sub_080003F0();
+        n = (u16)(n - 1);
+    } while (n != 0xFFFF);
+    p = self834();
+    p->f8 = 0;
+}
 void sub_0809ADE8(void) {
     if (M2C_FIELD(gUnk_030002DC, s16 *, 0x5C) != 0) {
         sub_08097C6C();
