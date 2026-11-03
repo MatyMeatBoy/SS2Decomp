@@ -1054,9 +1054,13 @@ extern u32 sceneTable89204[] asm("gUnk_084F0AC0");
 void callback2AA28_090(void) asm("sub_0802AA28");
 struct Pos090 { s32 x, y; };
 struct Player090 {
-    u8 pad0[0x30];
+    u8 pad0[0x20];
+    u16 state;              /* 0x20 */
+    u8 pad22[0xE];
     u32 flags;              /* 0x30 */
-    u8 pad34[0x58];
+    u8 pad34[0x34];
+    u8 b68;                 /* 0x68 */
+    u8 pad69[0x23];
     struct Pos090 pos8C;    /* 0x8C */
     struct Pos090 pos94;    /* 0x94 */
     u8 pad9C[0x14C - 0x9C];
@@ -1185,58 +1189,28 @@ s32 sub_08089384(u8 *arg0) {
 }
 
 
-#ifdef NONMATCHING
 extern u8 playerCoord89500[] asm("gUnk_03003D6C");
 void spriteInit090(void *, s32, s32, s32, s32) asm("sub_08065158");
 void callback3D99C_090(void) asm("sub_0803D99C");
 void callback2CF84_090(void) asm("sub_0802CF84");
-s32 sub_08089500(u8 *input) {
+s32 sub_08089500(u8 *arg0) {
     u32 sprite[13];
-    register u8 *arg0 asm("r4") = input;
-    s32 *temp_r2_3;
-    s32 *temp_r2_6;
-    s32 temp_r2_4;
-    s32 temp_r2_5;
-    register s32 temp_r6 asm("r6");
-    s32 var_r0;
-    register u8 *posBase asm("r1");
-    u8 *temp_r0;
-    register u8 *temp_r4 asm("r4");
-    u8 *temp_r4_2;
-    u8 *temp_r4_3;
+    u32 idx;
+    struct Warp090 *warp;
+    struct Player090 *p;
 
-    if (*(u16 *)(gUnk_03005CF4 + 0x10) != 0) {
-        goto earlyExit;
-    }
-loop_4:
-    if (sub_0801AAE0() == 0) {
+    if (*(u16 *)(gUnk_03005CF4 + 0x10) != 0)
+        goto check;
+    while (sub_0801AAE0() == 0)
         sub_080003F0();
-        goto loop_4;
-    }
-    temp_r6 = sub_080020F4();
-    temp_r4 = arg0 + ((*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24) + 4);
+    idx = sub_080020F4();
+    warp = (struct Warp090 *)(arg0 + (*(u16 *)(gUnk_03005CF4 + 0x36) * 0x24 + 4));
     if (sub_0800CF10() == 0) {
-        { register s32 player asm("r0") = sub_080020F4();
-          register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
-          register s32 index asm("r2");
-          register u8 *dst asm("r1");
-          asm("" : "+r"(player), "+r"(base)); index = 0x14C * player;
-          asm("" : "+r"(index));
-          dst = base + 0x8C; asm("" : "+r"(dst)); dst += index;
-          *(u32 *)dst = *(u16 *)temp_r4 << 8;
-          dst = base + 0x90; asm("" : "+r"(dst)); dst += index;
-          *(u32 *)dst = *(u16 *)(temp_r4 + 2) << 8;
-          { register u8 *p asm("r2") = base + index;
-            register u8 *q asm("r4");
-            register u32 x asm("r0"), y asm("r1");
-            asm("" : "+r"(p)); q = p + 0x94; p += 0x8C;
-            asm("" : "+r"(p), "+r"(q));
-            x = *(u32 *)p; y = *(u32 *)(p + 4);
-            asm("" : "+r"(x), "+r"(y));
-            *(u32 *)q = x; *(u32 *)(q + 4) = y; }
-          index = 0x14C * temp_r6; asm("" : "+r"(index));
-          base += 0x30; asm("" : "+r"(base));
-          temp_r2_3 = (s32 *)(index + base); *temp_r2_3 &= 0xFFFFDFD9; }
+        s32 j = sub_080020F4();
+        players090[j].pos8C.x = warp->x << 8;
+        players090[j].pos8C.y = warp->y << 8;
+        players090[j].pos94 = players090[j].pos8C;
+        players090[idx].flags &= 0xFFFFDFD9;
     } else {
         if (sub_0800CDC0() != 0) {
             sub_08056F8C();
@@ -1244,80 +1218,50 @@ loop_4:
             sub_080169C8();
             sub_0800CDAC();
             sub_080267DC();
-            if (gUnk_03003170.curLevel == 0xD) {
+            if (gUnk_03003170.curLevel == 0xD)
                 sub_080B6360();
-            }
         } else {
-            sub_080657C4(temp_r6, 1);
+            sub_080657C4(idx, 1);
         }
-        if (temp_r6 == 1) goto pos1;
-        if ((u32)temp_r6 < 1) goto posDefault;
-        if (temp_r6 == 2) goto pos2;
-        if (temp_r6 == 3) goto pos3;
-posDefault:
-            { register u8 *base asm("r3") = (u8 *)gUnk_03003CE0;
-              register s32 index asm("r2");
-              register u8 *dst asm("r0");
-              asm("" : "+r"(base)); index = 0x14C * temp_r6;
-              asm("" : "+r"(index)); temp_r2_4 = index;
-              dst = base + 0x8C; asm("" : "+r"(dst)); dst += index;
-              *(u32 *)dst = 0x12C00;
-              dst = base + 0x90; asm("" : "+r"(dst)); dst += index;
-              *(u32 *)dst = 0x5200; posBase = base; }
-            goto posDone;
-pos1:
-            { register u32 offset asm("r0") = 0x1D8;
-              register u8 *dst asm("r2");
-              posBase = (u8 *)gUnk_03003CE0;
-              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
-              asm("" : "+r"(dst)); *(u32 *)dst = 0x12100; }
-            var_r0 = 0x1DC;
-block_20:
-            *(u32 *)(posBase + var_r0) = 0x5200;
-            goto posDone;
-pos2:
-            { register u32 offset asm("r0") = 0x324;
-              register u8 *dst asm("r2");
-              posBase = (u8 *)gUnk_03003CE0;
-              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
-              asm("" : "+r"(dst)); *(u32 *)dst = 0x13700; }
-            var_r0 = 0x328;
-            goto block_20;
-pos3:
-            { register u32 offset asm("r0") = 0x470;
-              register u8 *dst asm("r2");
-              posBase = (u8 *)gUnk_03003CE0;
-              asm("" : "+r"(posBase), "+r"(offset)); dst = posBase + offset;
-              asm("" : "+r"(dst)); *(u32 *)dst = 0x11600; }
-            var_r0 = 0x474;
-            goto block_20;
-posDone:
-        temp_r2_5 = 0x14C * temp_r6;
-        temp_r4_2 = temp_r2_5 + posBase;
-        *(u16 *)(temp_r4_2 + 0x20) = 0;
-        temp_r2_6 = (s32 *)(temp_r2_5 + ((u8 *)gUnk_03003CE0 + 0x30));
-        *temp_r2_6 = (s32 *)((*temp_r2_6 & 0xFFFFDFDB) | 2);
+        switch (idx) {
+        case 0:
+            players090[idx].pos8C.x = 0x12C00;
+            players090[idx].pos8C.y = 0x5200;
+            break;
+        case 1:
+            players090[1].pos8C.x = 0x12100;
+            players090[1].pos8C.y = 0x5200;
+            break;
+        case 2:
+            players090[2].pos8C.x = 0x13700;
+            players090[2].pos8C.y = 0x5200;
+            break;
+        case 3:
+            players090[3].pos8C.x = 0x11600;
+            players090[3].pos8C.y = 0x5200;
+            break;
+        }
+        p = &players090[idx];
+        p->state = 0;
+        players090[idx].flags = (players090[idx].flags & 0xFFFFDFDB) | 2;
         sub_0802996C();
         spriteInit090(sprite, 0x5008C, 8, -1, 0);
-        sub_08000AF0(0x17U, (void *)sprite[3], 2U);
-        *(u8 *)(temp_r4_2 + 0x68) = 1;
+        sub_08000AF0(0x17, (void *)sprite[3], 2);
+        p->b68 = 1;
         sub_0806617C();
     }
     sub_0800CCDC();
     sub_0800903C(0, 0, 0, 0, 0, 0);
-    temp_r0 = (u8 *)gUnk_03003CE0 + 0x14C * temp_r6;
-    *(u32 *)(temp_r0 + 0x94) = (s32) *(u32 *)(temp_r0 + 0x8C);
-    *(u32 *)(temp_r0 + 0x98) = *(u32 *)(temp_r0 + 0x90);
+    players090[idx].pos94 = players090[idx].pos8C;
     sub_08067D74();
-    sub_08057624(0xAU);
+    sub_08057624(0xA);
     sub_08009930(0, 4);
-loop_24:
-    if (sub_0800BA6C() == 0) {
+    while (sub_0800BA6C() == 0)
         sub_080003F0();
-        goto loop_24;
+    {
+        u8 *q = (0x14C * idx) + playerCoord89500;
+        sub_0800AD04(q, q + 4, sub_0800CCCC());
     }
-    temp_r4_3 = (0x14C * temp_r6) + playerCoord89500;
-    sub_0800AD04(temp_r4_3, temp_r4_3 + 4, sub_0800CCCC());
     if (sub_0800CF10() != 0) {
         sub_08057328(0, callback3D99C_090);
         sub_0800CEFC();
@@ -1325,19 +1269,21 @@ loop_24:
         sub_08057328(0, callback2CF84_090);
     }
     sub_08015EF8();
-    *(u16 *)(gUnk_03005CF4 + 0x10) = 1U;
-    *(u16 *)(gUnk_03005CF4 + 0x1C) = 1;
+    {
+        u8 *gs = (u8 *)gUnk_03005CF4;
+        *(u16 *)(gs + 0x10) = 1;
+        *(u16 *)(gs + 0x1C) = 1;
+    }
     sub_08015C38();
-block_31:
+    goto ret0;
+check:
+    if (sub_08088B6C(arg0, 4) != 0)
+        return 1;
+ret0:
     return 0;
-earlyExit:
-    return sub_08088B6C(arg0, 4) != 0;
 }
 
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_08089500);
-#endif
 s32 sub_08089784(u8 *table)
 {
     struct State978491 { u8 p0[2]; u16 destination; u8 p4[0xC]; u16 step; u8 p12[0xA]; u16 active; u8 p1E[0x18]; u16 row; u8 p38[0x6E4]; u32 script; };
