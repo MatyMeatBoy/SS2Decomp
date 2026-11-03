@@ -1,8 +1,7 @@
-shard 108 notes (nov03-w1)
 
-sub_080A47A0: in-tree draft (register-asm heavy) is 86 diff lines / 524 bytes. A clean, asm-free
-  rewrite is in shard108_sub_080A47A0_clean.c (164 lines / 512 bytes). Facts learned:
-  - The "frame" is NOT a struct: tile, rotation, sx, sy are separate address-taken u16/s16 locals
+nov03-w4: on the clean version, an 8-byte `struct { s32 x, y; } pos` (DImode pair) keeps x/y in r6:r7
+  (520 bytes but 172 lines), and one frame struct {tile,rotation,sx,sy,metadata,x,y} gives
+  `strh r1,[r0,#2]` base+offset stores instead of the ROM's separate &rotation/&tile -> separate locals confirmed.
     (slots 0x10..0x16 in address-taken order: &tile/&rotation (animate call) must be taken before
     &sx/&sy, so do not hoist px=&sx in source); metadata (0x18), x (0x1C), y (0x20) are spilled
     pseudos -> that is why ROM reloads x/y from the stack instead of forwarding the stored value.

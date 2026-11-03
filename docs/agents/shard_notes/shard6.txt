@@ -1,10 +1,10 @@
 
-nov03-w3 (round 7): sub_0800AD04 fresh clean C (struct, no register asm) is far off (~260 lines):
-  the ROM keeps (s16) sign-extensions of x/y and px stays in r0 (returns px?). The `movs r4,#0x82;
-  ldrh [r4,r3]` index form most likely comes from reload substituting a spilled pseudo's REG_EQUIV
-  address (base+0x82); tried `u16 *oy=&base->offY` at the top of the inline and index-variable forms: no.
-ed, s16 x/y, s16 j/i loops, curLevel==0xB duplicated set block, w>>1 in
-  loop) did not beat the existing register-asm draft (my diff ~167 vs draft ~150 normalized lines). Facts: s16 j/i are
+nov03-w4: sub_0800AD04 clean struct version (CamAD04 view of gUnk_03003170: w0/h0/w1/h1 @0x70,
+  x/y s16 @0x7C, offX/offY @0x80, relX/relY @0x88, flags @0x9C; u16 x/y from `(u32)(*p << 8) >> 16`,
+  writeback `*p = (u8)*p + ((s16)x << 8)`) is 320 bytes / 262 lines: the ROM keeps layer in r4,
+  sign-extends (s16)x before adding offX (ours folds it away), and shares the clamp tail between the
+  layer branches. Moving the center step into an inline taking s32 made it 340. Register draft stays best.
+xisting register-asm draft (my diff ~167 vs draft ~150 normalized lines). Facts: s16 j/i are
   right (entry test uses lsrs of y<<16); h lives at sp0, y<<16 at sp18; set branch does not hoist x-half.
 he write-back-then-reread of pad60 (orig reads gUnk.0x60 back after str).
 
