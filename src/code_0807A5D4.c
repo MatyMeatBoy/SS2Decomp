@@ -8668,7 +8668,6 @@ void sub_08087788(u32 palette, u32 fade)
     }
     sub_08001538((u32)buffer);
 }
-#ifdef NONMATCHING
 void sub_080878AC(u32 arg0, s32 *state)
 {
     u16 entry = (u16)arg0;
@@ -8690,7 +8689,7 @@ void sub_080878AC(u32 arg0, s32 *state)
     timer = 10;
     phase = 0;
     base = 0x3D0;
-    while (*state != 0) {
+    if (*state != 0) do {
         u16 *dst = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
         u16 *src = buffer;
         for (i = 0; i < count; i++, dst++, src++) {
@@ -8718,15 +8717,21 @@ void sub_080878AC(u32 arg0, s32 *state)
         }
         if (angle > 0x100)
             angle = 0;
-        timer--;
-        if (timer < 0) {
+        if (--timer == -1) {
             phase = gUnk_03002344 % 3;
-            timer = sub_080008C8() % (phase == 2 ? 0x1E : 0xA);
+            switch (phase) {
+            case 0:
+                timer = sub_080008C8() % 10;
+                break;
+            case 1:
+                timer = sub_080008C8() % 10;
+                break;
+            case 2:
+                timer = sub_080008C8() % 30;
+                break;
+            }
         }
-    }
+    } while (*state != 0);
     sub_08001538((s32)buffer);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080878AC);
-#endif
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08087A5C);
