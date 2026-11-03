@@ -1592,107 +1592,83 @@ struct DropC620 { u16 type, val; u32 hi; };
 struct ExC620 { u8 pad[0x2C]; struct DropC620 drops[3]; };
 u32 sub_0805C620(u8 *entity, u16 *out)
 {
-    u8 (*playerBytes)[];
     extern u8 c620Players[] asm("gUnk_03003CE0");
+    struct ExC620 *extra;
     u32 zero;
-    u8 *extra;
     u32 low;
     u32 roll;
     u32 i;
-    u16 *entry;
-    u32 offset;
     u32 *p214;
-    u16 type;
-    u32 t2;
-    u16 chance;
     u32 ok;
     u32 result;
     u32 category;
 
-    extra = entity + 0x204;
+    extra = (struct ExC620 *)(entity + 0x204);
     zero = 0;
     CpuSet(&zero, out, 0x05000004);
     low = 0;
-    type = 0x230; /* offset of the drop table; reused as a temp, aids allocation */
     roll = (u16)sub_080008C8();
-    i = 0;
-    p214 = (u32 *)(entity + 0x214);
-    entry = (u16 *)(entity + type);
-    /* No-op do/while(0): moves agbcc register allocation closer to the original. */
-    do {
-        offset = 0;
-loop:
-        type = t2 = entry[0];
-        if (type != 0) {
-            if (low <= roll && ((struct ExC620 *)extra)->drops[i].hi >= roll) {
-                out[0] = type;
-                out[1] = entry[1];
-                if (t2 == 9)
-                    out[2] = *p214;
-                goto done;
+    for (i = 0; i <= 2; i++) {
+        if (extra->drops[i].type != 0) {
+            if (low <= roll && extra->drops[i].hi >= roll) {
+                out[0] = extra->drops[i].type;
+                out[1] = extra->drops[i].val;
+                if (extra->drops[i].type == 9)
+                    out[2] = *(u32 *)(entity + 0x214);
+                break;
             }
-            low = (u16)(((struct ExC620 *)extra)->drops[i].hi + 1);
+            low = (u16)(extra->drops[i].hi + 1);
         }
-        entry += 4;
-        offset += 8;
-        i++;
-        if (i <= 2)
-            goto loop;
-done:
-        if (out[0] != 0) {
-            do {
-                if (out[0] == 10 && !(entity[0x227] & 1)) {
-                    out[0] = 0;
-                    out[1] = 0;
-                    return 0;
-                }
-            } while (0);
-            return 1;
+    }
+    if (out[0] != 0) {
+        if (out[0] == 10 && !(entity[0x227] & 1)) {
+            out[0] = 0;
+            out[1] = 0;
+            return 0;
         }
-        roll = ((u32)(sub_080008C8() << 16) & 0xFF0000) >> 16;
-        ok = 0;
-        if (*(u16 *)(entity + 0x58) > 3)
-            *(u16 *)(entity + 0x58) = 0;
-        playerBytes = &c620Players;
-        low = (*playerBytes)[4 * (83 * *(u16 *)(entity + 0x58)) + 0x74];
-        switch (sub_08002164()) {
-        case 1: low = (u16)(low + 0x10); break;
-        case 2: low = (u16)(low + 0x15); break;
-        case 3: low = (u16)(low + 0x1A); break;
-        case 4: low = (u16)(low + 0x20); break;
-        }
-        if (low > roll)
-            ok = 1;
-        if (ok == 0)
-            goto fail;
-        if (sub_0800CE30()) {
-            category = *(u16 *)(entity + 0x78);
-            if (category != 0) {
-                category += 50;
-            } else {
-                result = 0;
-                goto tail;
-            }
+        return 1;
+    }
+    roll = (u16)sub_080008C8() % 256;
+    ok = 0;
+    if (*(u16 *)(entity + 0x58) > 3)
+        *(u16 *)(entity + 0x58) = 0;
+    { u8 (*pb)[] = &c620Players; low = (*pb)[4 * (83 * *(u16 *)(entity + 0x58)) + 0x74]; }
+    switch (sub_08002164()) {
+    case 1: low = (u16)(low + 0x10); break;
+    case 2: low = (u16)(low + 0x15); break;
+    case 3: low = (u16)(low + 0x1A); break;
+    case 4: low = (u16)(low + 0x20); break;
+    }
+    if (low > roll)
+        ok = 1;
+    if (ok == 0)
+        goto fail;
+    if (sub_0800CE30()) {
+        category = *(u16 *)(entity + 0x78);
+        if (category != 0) {
+            category += 50;
         } else {
-            category = *(u16 *)(entity + 0x78);
+            ok = 0;
+            goto tail;
         }
-        result = sub_0805C4FC((u8 *)out, category, 0);
-    } while (0);
+    } else {
+        category = *(u16 *)(entity + 0x78);
+    }
+    ok = sub_0805C4FC((u8 *)out, category, 0);
 tail:
-    /* Types 9 and 10 (flag set) fall off the end: the original returns whatever is in r0. */
-    type = out[0];
-    if (type == 9) {
+    if (out[0] == 9) {
         out[2] = *(u32 *)(entity + 0x214);
-    } else if (type == 10) {
+    } else if (out[0] == 10) {
         if (!(entity[0x227] & 1)) {
             out[0] = 0;
             out[1] = 0;
             return 0;
         }
-    } else if (type > 10) {
-        out[0] = 0; return;
+    } else if (out[0] > 10) {
+        out[0] = 0;
+        return;
     } else {
-        return result;
+        return ok;
     }
     return;
 fail:
