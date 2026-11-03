@@ -1583,7 +1583,9 @@ s32 sub_080970CC(struct Entity9970D *inputEntity,
         coords9970D((s32)((u32)entity->x << 8) >> 16,
                      (s32)((u32)entity->y << 8) >> 16,
                      (s16 *)palNum, screenYPtr, 0, 0);
-        draw9970D(*(s16 *)palNum, *screenYPtr, *field68, *field6A,
+        /* Real-build diff is now 2 bytes: the ROM reads this through
+         * `mov r4, sl` (palNum) instead of reloading screenXPtr. */
+        draw9970D(*screenXPtr, *screenYPtr, *field68, *field6A,
                    priority, 1, 0, imageAttr, image->f8, (void *)image->f0);
         sub_08000B38();
         sub_080003F0();
