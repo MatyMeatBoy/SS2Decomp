@@ -93,6 +93,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     s32 local10C;
     s32 local110;
     s32 local114;
+    void *sp118;
     s32 local11C;
     s32 local120;
     s32 local124;
@@ -101,6 +102,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     s32 local12C;
     u16 * local130;
     s32 local134;
+    void *sp138;
     s32 * local13C;
     u16 * local140;
     u16 * local144;
@@ -112,8 +114,6 @@ void sub_0801801C(struct T015LActor *arg0) {
     u16 * local15C;
     u16 * local160;
     u16 * local164;
-    void *sp118;
-    void *sp138;
     s16 *var_r9;
     s16 temp_r0_12;
     s16 temp_r0_5;
