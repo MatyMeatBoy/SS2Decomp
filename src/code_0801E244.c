@@ -251,7 +251,176 @@ void sub_0801E594(void *arg0)
   }
   while (i <= 7);
 }
+#ifdef NONMATCHING
+struct Atk5B0 { u8 pad0[0x10]; u16 kind; u8 pad12[0xA]; u16 dir; u8 pad1E[2]; u16 type; u8 pad22[4]; u16 skill; u16 magic; u8 pad2A[6]; u32 flags; u8 pad34[8]; u16 bonus; u8 pad3E[0x1A]; s16 base; u8 pad5A[2]; s16 evade; u8 pad5E[0x54]; u16 level; u8 padB4[0x6E]; u16 mind; u8 pad124[0x1C]; u8 *ctx; };
+struct Tgt5B0 { u8 pad0[2]; u16 id; u8 pad4[4]; u16 dir; u8 padA[2]; u16 kind; u8 padE[6]; s32 x, y; u8 pad1C[0x1B2]; u16 defense; u8 pad1D0[0x48]; u16 resist[6]; };
+extern u8 *combat5B0 asm("gUnk_030034E0");
+extern u32 notify5B0(u16, u16) asm("sub_08067FE0");
+s32 sub_0801E5B0(struct Atk5B0 *atk, struct Tgt5B0 *tgt, u8 *record, s32 noCrit)
+{
+    u8 *ctx;
+    s32 defense;
+    u32 divisor;
+    s32 power;
+    u16 attack;
+    u16 mode;
+    s32 extra;
+    register u32 varianceWord;
+    u16 variance;
+    u16 firstDamage;
+    s32 result;
+    u32 damage;
+    u16 resistance;
+    u16 element;
+    u16 *resists;
+    u16 a, b;
+    s32 d;
+
+    ctx = atk->ctx;
+    defense = tgt->defense;
+    if (!noCrit) {
+        if ((s32)(sub_080008C8() & 0x7F) <= atk->evade + 1) {
+            sub_0805865C(0x27);
+            sub_0802247C(tgt->x, tgt->y);
+            divisor = 100;
+        } else {
+            sub_0805865C(0x1A);
+            divisor = 200;
+        }
+    } else {
+        divisor = 1000;
+    }
+    if (atk->type == 5) {
+        mode = 0;
+        switch (sub_0801DE60()) {
+        case 0:
+            if (atk->kind == 3)
+                mode = 1;
+            break;
+        case 1:
+            if (atk->kind != 5)
+                break;
+            goto mode3;
+        case 2:
+            if (atk->kind == 7)
+                mode = 1;
+            break;
+        case 3:
+            switch (atk->kind) {
+            case 2:
+                break;
+            case 4:
+                if (atk->level <= 4)
+                    mode = 3;
+                break;
+            }
+            break;
+        case 4:
+            if (atk->kind == 4) {
+                mode = 2;
+                extra = 2;
+            }
+        case 5:
+            if (atk->kind == 6) {
+            mode3:
+                mode = 2;
+                extra = 3;
+            }
+            break;
+        case 6:
+            break;
+        case 7:
+            if (atk->kind == 1)
+                mode = 1;
+            else if (atk->kind == 8) {
+                mode = 2;
+                extra = 5;
+            }
+            break;
+        case 8:
+        case 9:
+            break;
+        }
+        switch (mode) {
+        case 0:
+            power = (u16)((atk->base + ((s16)atk->bonus >> 2)) * (atk->skill + 5) / 4);
+            break;
+        case 1:
+            power = (u16)((atk->base + ((s16)atk->bonus >> 2)) * (atk->skill + 18) / 20);
+            break;
+        case 2:
+            power = (u16)((atk->base + ((s16)atk->bonus >> 2)) * (atk->skill + 8) / (extra + 5));
+            break;
+        case 3:
+            power = (u16)(atk->base >> 2);
+            break;
+        }
+    } else if (atk->flags & 0x200000) {
+        power = (u16)((atk->base + ((s16)atk->bonus >> 2)) * (atk->magic + 10) * 8 / (atk->mind + 0x48));
+    } else {
+        power = (u16)atk->base;
+    }
+    attack = power;
+    varianceWord = ((u16)sub_080008C8()) % 50;
+    varianceWord <<= 16;
+    varianceWord += 0x640000;
+    variance = varianceWord >> 16;
+    firstDamage = (u16)((s32)(variance * ((s32)((u32)attack * attack * 10) / (attack + defense))) / (s32)divisor) / 10U;
+    if (!firstDamage)
+        firstDamage = 1;
+    result = firstDamage;
+    if (ctx[*(u16 *)(ctx + 0x68) * 16 + 0x79] == 1) {
+        element = *(u16 *)(record + 0xBC);
+        damage = (u16)result;
+        resists = tgt->resist;
+        switch (element - 1U) {
+        case 0: resistance = resists[0]; goto attenuate;
+        case 1: resistance = resists[1]; goto attenuate;
+        case 2: resistance = resists[2]; goto attenuate;
+        case 3: resistance = resists[3]; goto attenuate;
+        case 4: resistance = resists[4]; goto attenuate;
+        case 5: case 6: resistance = resists[5];
+        attenuate:
+            damage = (u16)((s32)(damage * 5000) / ((s16)resistance * (s16)resistance + 2500));
+            if (damage & 0x8000)
+                damage = 1;
+            break;
+        }
+        {
+            register u32 finishWord asm("r0") = damage;
+            asm("" : "+r"(finishWord));
+            finishWord <<= 16;
+            result = finishWord >> 16;
+            if ((s32)finishWord <= 0)
+                result = 1;
+        }
+    }
+    if (!sub_0801DE60() && *(u16 *)(combat5B0 + 0x4C) && tgt->kind == 2) {
+        result = (u16)(result * ((u16)(sub_0801E0AC((s32)(combat5B0 + 0x30), 6) * 2 + 10) + 100) / 100);
+        sub_0805865C(0x27);
+    }
+    if (sub_0801DE60() == 3 && *(u16 *)(combat5B0 + 0x44))
+        notify5B0((tgt->id << 8) | 4, sub_0801E0AC((s32)(combat5B0 + 0x30), 4));
+    if (sub_0801DE60() == 7 && *(u16 *)(combat5B0 + 0x50)) {
+        if ((s16)atk->dir > 4)
+            a = atk->dir - 8;
+        else
+            a = atk->dir;
+        if ((s16)tgt->dir > 4)
+            b = tgt->dir - 8;
+        else
+            b = tgt->dir;
+        d = (s16)a - (s16)b;
+        if (d < 0)
+            d = -d;
+        if (d <= 1)
+            result = (u16)((s16)result * (sub_0801E0AC((s32)(combat5B0 + 0x30), 7) * 3 + 10) / 10);
+    }
+    return result;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E5B0);
+#endif
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801E988);
 #ifdef NONMATCHING
 struct CombatCtxD8C { u8 pad[0x14]; u16 resist[6]; u8 pad20[8]; u16 key; };
