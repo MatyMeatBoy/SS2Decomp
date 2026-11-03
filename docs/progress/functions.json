@@ -20084,7 +20084,7 @@
       "evidence": [
         {
           "source": "src/code_0805D094.c",
-          "line": 863,
+          "line": 869,
           "detail": "Existing C definition with an asm alias to the canonical symbol: e0c4Impl"
         }
       ]
