@@ -8635,7 +8635,6 @@ void sub_080867F8(void)
     sub_08000274_2(&gTask6450b, 0);
 }
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08086860);
-#ifdef NONMATCHING
 struct Rgb087788 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord087788 { u32 r:5, g:5, b:5, x:1; };
 /* Fade a palette range toward grey level `fade & 0x1F` over `fade >> 16` frames. */
@@ -8651,30 +8650,24 @@ void sub_08087788(u32 palette, u32 fade)
     u16 *src;
     u16 frame;
     u32 i, count;
-    u16 c;
 
     buffer = sub_08001494(width << 5);
     CpuSet((u8 *)&gUnk_03001F40 + (entry << 5), buffer, (width << 3) | 0x04000000);
     count = width << 4;
-    for (frame = 0; frame < duration; frame++) {
+    for (frame = 0; frame < duration;) {
         dst = (u16 *)((u8 *)&gUnk_03001F40 + (entry << 5));
         src = buffer;
         for (i = 0; i < count; i++, dst++, src++) {
-            c = ((struct RgbWord087788 *)src)->r;
-            ((struct Rgb087788 *)dst)->r = c + (s32)((target - c) * frame) / duration;
-            c = ((struct RgbWord087788 *)src)->g;
-            ((struct Rgb087788 *)dst)->g = c + (s32)((target - c) * frame) / duration;
-            c = ((struct RgbWord087788 *)src)->b;
-            ((struct Rgb087788 *)dst)->b = c + (s32)((target - c) * frame) / duration;
+            ((struct Rgb087788 *)dst)->r = ((struct RgbWord087788 *)src)->r + (s32)((target - ((struct RgbWord087788 *)src)->r) * frame) / duration;
+            ((struct Rgb087788 *)dst)->g = ((struct RgbWord087788 *)src)->g + (s32)((target - ((struct RgbWord087788 *)src)->g) * frame) / duration;
+            ((struct Rgb087788 *)dst)->b = ((struct RgbWord087788 *)src)->b + (s32)((target - ((struct RgbWord087788 *)src)->b) * frame) / duration;
         }
+        frame++;
         sub_08000B38();
         sub_080003F0();
     }
     sub_08001538((u32)buffer);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08087788);
-#endif
 #ifdef NONMATCHING
 void sub_080878AC(u32 arg0, s32 *state)
 {
