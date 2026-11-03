@@ -274,19 +274,17 @@ void sub_08015820(s32 index)
     tasks15[index].u24 = 0;
     sub_08000274(&tasks15[index], index);
 }
-#ifdef NONMATCHING
 void sub_08015914(s32 index)
 {
     struct Plr15 *p = &players15[index];
     struct Info15 *info = p->info;
     u32 level;
     u32 count;
-    u8 v;
     level = info->level;
-    v = info->top;
-    p->wB0 = v + 8;
+    p->wB0 = info->top;
+    p->wB0 += 8;
     count = 2;
-    p->wB8 = v + 8;
+    p->wB8 = p->wB0;
     if (p->info->kind == 5) {
         for (;;) {
             if ((p->wB2 == 1 || p->wB2 == 3) && p->wB4 == 1)
@@ -316,21 +314,16 @@ void sub_08015914(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015914);
-#endif
-#ifdef NONMATCHING
 void sub_08015A48(s32 index)
 {
     struct Plr15 *p = &players15[index];
     struct Info15 *info = p->info;
     u32 count;
-    s32 v;
     count = info->level;
-    v = info->top;
-    p->wB0 = v = 8 + v;
+    p->wB0 = info->top;
+    p->wB0 += 8;
     count++;
-    p->wB8 = v;
+    p->wB8 = p->wB0;
     if (count != 0 && p->info->kind == 5) {
         for (;;) {
             if (p->wB6 != 0 && count != 0) {
@@ -345,7 +338,7 @@ void sub_08015A48(s32 index)
                 break;
         }
     }
-    if (sub_080020F4() == index && p->info->kind - 10 > 1) {
+    if (sub_080020F4() == index && (u32)(p->info->kind - 10) > 1) {
         if ((p->flags & 0x2000) == 0)
             p->state = 0;
     }
@@ -354,9 +347,6 @@ void sub_08015A48(s32 index)
     p->w26 = 0;
     p->w122 = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08015A48);
-#endif
 void sub_08015914();
 void sub_08015A48();
 void sub_08015B20(s32 index)

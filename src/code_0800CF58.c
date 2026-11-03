@@ -6724,7 +6724,6 @@ void sub_08014C8C(void) {
 struct PlrKind14 { u8 pad0[0x10]; u16 kind; u8 pad12[0x14C - 0x12]; };
 extern struct PlrKind14 kinds14[] asm("gUnk_03003CE0");
 extern struct Task tasks14[] asm("gUnk_03003C40");
-#ifdef NONMATCHING
 void sub_08014D60(void)
 {
     s32 index = sub_080020F4();
@@ -6742,6 +6741,8 @@ void sub_08014D60(void)
         tasks14[index].uC = sub_08014C8C;
         break;
     case 2:
+        tasks14[index].uC = sub_08014C04;
+        break;
     case 8:
         tasks14[index].uC = sub_08014C04;
         break;
@@ -6755,9 +6756,6 @@ void sub_08014D60(void)
     tasks14[index].u24 = 0;
     sub_08000274(&tasks14[index]);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014D60);
-#endif
 struct Info14 { u32 kind:4; u32 mid:24; u32 top:4; u32 lo:14; u32 level:3; u32 power:3; u32 hi:12; };
 struct Plr14 {
     u16 id;
@@ -6793,17 +6791,17 @@ extern void sub_080760E8();
 void sub_08014E68(s32 index)
 {
     struct Plr14 *p = &players14[index];
-    u16 w = p->w26;
     struct Info14 *info;
     u32 level;
     u32 power;
-    u32 count;
+    u32 count = p->w26;
     if (p->state != 0xD && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
-        sub_0805865C(w + 0x107);
+        sub_0805865C(count + 0x107);
     info = p->info;
-    level = info->level;
+    count = info->level;
+    level = count;
     power = info->power;
-    count = level + 2;
+    count += 2;
     while (p->wB6 == 0 && p->info->kind == 5) {
         if (sub_080020F4() == index) {
             u32 dir = 0;
@@ -6833,7 +6831,8 @@ void sub_08014E68(s32 index)
             }
         }
         if ((p->wB2 & 1) && p->wB4 == 2 && count != 0) {
-            p->wB0 = p->info->top + level * 8;
+            p->wB0 = p->info->top;
+            p->wB0 += level * 8;
             p->wB8 = p->wB0;
             p->counterDC++;
             sub_080760E8(p->id, (u16)sub_0807A028(1), count, power);
