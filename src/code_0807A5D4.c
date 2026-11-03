@@ -8758,11 +8758,11 @@ void sub_08087A5C(u32 msg, u32 arg1)
         for (col = 0; col <= 0x1F; col++)
             lines[0][col + row * 32] = 0xFD;
     s = (u8 *)sub_08007290(msg | 0x140000) + 2;
-    base = (u8 *)gUnk_03003CE0;
     row = 0;
     col = 0;
     if (*s != 0xFD) {
         do {
+            base = (u8 *)gUnk_03003CE0;
             c = *s;
             if (c == 0xFF) {
                 lines[0][col + row * 32] = 0xFD;
@@ -8775,8 +8775,7 @@ void sub_08087A5C(u32 msg, u32 arg1)
                 s += 2;
             } else if (c == 0xF6) {
                 d = &lines[0][col + row * 32];
-                name = base + 2;
-                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                if ((*d = (base + 2)[col]) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
@@ -8823,10 +8822,10 @@ void sub_08087A5C(u32 msg, u32 arg1)
         }
         switch (mode) {
         case 0:
-            for (i = 0, y = 12; i <= 3; i++, y += 2) {
+            for (i = 0; i <= 3; i++) {
                 w = sub_0801A638(lines[i]);
                 if (w != 0)
-                    text087A5C(lines[i], (u16)(15 - (w >> 1)), y);
+                    text087A5C(lines[i], (u16)(15 - (w >> 1)), (u16)(i * 2 + 12));
             }
             break;
         case 1:
@@ -8834,8 +8833,8 @@ void sub_08087A5C(u32 msg, u32 arg1)
             text087A5C(lines[1], (u16)(15 - ((u32)sub_0801A638(lines[1]) >> 1)), 18);
             break;
         case 2:
-            for (i = 0, y = 2; i <= 7; i++, y += 2)
-                text087A5C(lines[i], (u16)(15 - ((u32)sub_0801A638(lines[i]) >> 1)), y);
+            for (i = 0; i <= 7; i++)
+                text087A5C(lines[i], (u16)(15 - ((u32)sub_0801A638(lines[i]) >> 1)), (u16)(i * 2 + 2));
             break;
         }
         if (sub_080021A8() != 0 || sub_0801AAF8() != 0)

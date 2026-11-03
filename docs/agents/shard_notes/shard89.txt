@@ -1,0 +1,6 @@
+sub_08087A5C (nov03-w5): draft 56 -> 51 (fullcheck instr diff), same shape as ROM apart from registers.
+  The text row argument is a giv of i: `(u16)(i * 2 + 12)` / `(u16)(i * 2 + 2)` (ROM steps y<<16 by 0x20000).
+  `base = gUnk_03003CE0` must be assigned inside the parse loop (hoisted by loop.c into the preheader after
+  the `*s != 0xFD` test); case 0xF6 reads `(base + 2)[col]` (base+2 hoisted to sl).
+  Left: r5/r6 (i vs y-giv) and r8/r9 (arg1/mode) swapped, ip/sl for the 0xFD constant, and
+  b's decrement (ROM keeps b<<16 and adds 0xFFFF0000).
