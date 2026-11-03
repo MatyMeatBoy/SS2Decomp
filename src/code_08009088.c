@@ -1644,7 +1644,6 @@ u32 sub_0800BC08(s16 x, s16 y, s16 *out_x, s16 *out_y) {
     *out_y = (s16)y - (gUnk_03003170.scrollY + gUnk_03003170.offY);
     return 1;
 }
-#ifdef NONMATCHING
 u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
 {
     u8 *map;
@@ -1660,16 +1659,17 @@ u32 sub_0800BC44(u32 x, u32 y, u32 alternate)
         map = (u8 *)gUnk_03003170.map0;
         w = &gUnk_03003170.width0;
     }
-    switch ((s32)(*(u32 *)(map + (x + y * *w) * 2) << 16 >> 30)) {
-    case 0: r = 2; break;
-    case 1: r = 1; break;
-    case 2: r = 3; break;
+    {
+        u32 idx = (x + y * *w) * 2;
+        asm("" : "+r"(idx));
+        switch ((s32)(*(u32 *)(map + idx) << 16 >> 30)) {
+        case 0: r = 2; break;
+        case 1: r = 1; break;
+        case 2: r = 3; break;
+        }
     }
     return r;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BC44);
-#endif
 u32 sub_0800BCA0(s32 x, s32 y, s32 which)
 {
     register u16 *map asm("r3"); u16 *w; register s32 ix asm("r1"); register s32 iy asm("r2");
