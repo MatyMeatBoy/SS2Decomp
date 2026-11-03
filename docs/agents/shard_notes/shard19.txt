@@ -1,11 +1,10 @@
-sub_0801ED8C: MATCHED (nov03-w4). Key: the damage roll is an inline copy of sub_08021C74
-  (`inl_ED8C(src->attack, defense, divisor)`, u16 attack/defense params, u32 divisor param) with
-  `var = (u16)(...); var /= 10;` as two statements. The param copy gives `adds r5,r5,r6`.
-  Tail: `if (divisor == 100) { u32 hi = 0x8000; hi |= result; return hi; } return result;`.
-  sub_0801E5B0 / sub_0801E988 still differ at the inl_08021D00 entry (ROM truncates `lsls r5`
-  into r2 there but later passes result to inl_08021CE4 without truncation).
-attack's (r5). `attack + defense` / `attack += defense`
-    lose the priority (defense -> r8). No-op extra uses (casts, &=0xFFFF) are optimized out.
+sub_0801E5B0 / sub_0801E988 (nov03-w4): inl_08021C74 written as `var = (u16)(... / arg2); var /= 10;`
+  (as in the matched sub_0801ED8C) -> E5B0 13 -> 8 real diff lines, E988 23 -> 18. Now the ROM's
+  `lsls r5 / lsrs r2` truncation at the inl_08021D00 entry appears. Left: after the D00 block the ROM
+  knows result is u16 (`adds r4,r5` copy for inl_08021CE4, `movs r0,#110; muls r0,r5` in E988) while
+  ours re-truncates; and ROM copies the D00 return (`adds r0,r2,#0`) before `lsls`. Tried: types of
+  result/D00/CE4 params and returns, finishWord-style r0 temp (ED8C hack), permuter (control differs).
+he priority (defense -> r8). No-op extra uses (casts, &=0xFFFF) are optimized out.
   - finishWord register-asm block still needed (clean forms are 386 bytes).
 core for these two is meaningless; check with
   the whole NONMATCHING block (helpers live in the E5B0 block).

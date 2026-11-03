@@ -261,7 +261,8 @@ static inline s32 inl_08021C74(u16 arg0, u16 arg1, u16 arg2) {
     u16 var_r0;
 
     temp_r5 = arg0;
-    var_r0 = (u16) ((u16) ((s32) (((u32) ((((u16) sub_080008C8() % 50U) << 0x10) + 0x640000) >> 0x10) * ((s32) (temp_r5 * temp_r5 * 0xA) / (s32) (temp_r5 + arg1))) / (s32) arg2) / 10U);
+    var_r0 = (u16) ((s32) (((u32) ((((u16) sub_080008C8() % 50U) << 0x10) + 0x640000) >> 0x10) * ((s32) (temp_r5 * temp_r5 * 0xA) / (s32) (temp_r5 + arg1))) / (s32) arg2);
+    var_r0 /= 10;
     if (var_r0 == 0) {
         var_r0 = 1;
     }
