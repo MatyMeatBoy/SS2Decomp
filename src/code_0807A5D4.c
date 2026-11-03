@@ -8734,4 +8734,116 @@ void sub_080878AC(u32 arg0, s32 *state)
     } while (*state != 0);
     sub_08001538((s32)buffer);
 }
+#ifdef NONMATCHING
+extern void text087A5C(u8 *, u32, u32) asm("sub_0801A3D0");
+extern void close087A5C(u32, u32) asm("sub_0801A664");
+/* Show a centred multi-line message (party names expanded) while fading it in. */
+void sub_08087A5C(u32 msg, u32 arg1)
+{
+    u8 lines[8][32];
+    s16 a;
+    u16 b;
+    u32 mode;
+    u32 count;
+    u32 row, col, i;
+    u8 *s;
+    u8 *d;
+    u8 *base;
+    u8 *name;
+    u8 c;
+    u32 w;
+    u32 y;
+
+    for (row = 0; row <= 7; row++)
+        for (col = 0; col <= 0x1F; col++)
+            lines[0][col + row * 32] = 0xFD;
+    s = (u8 *)sub_08007290(msg | 0x140000) + 2;
+    base = (u8 *)gUnk_03003CE0;
+    row = 0;
+    col = 0;
+    if (*s != 0xFD) {
+        do {
+            c = *s;
+            if (c == 0xFF) {
+                lines[0][col + row * 32] = 0xFD;
+                row++;
+                col = 0;
+            } else if (c == 0xFE) {
+                lines[0][col + row * 32] = 0xFD;
+                row++;
+                col = 0;
+                s += 2;
+            } else if (c == 0xF6) {
+                d = &lines[0][col + row * 32];
+                name = base + 2;
+                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                    col++;
+                    s--;
+                }
+            } else if (c == 0xF4) {
+                d = &lines[0][col + row * 32];
+                name = base + 0x14E;
+                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                    col++;
+                    s--;
+                }
+            } else if (c == 0xF3) {
+                d = &lines[0][col + row * 32];
+                name = base + 0x29A;
+                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                    col++;
+                    s--;
+                }
+            } else if (c == 0xF2) {
+                d = &lines[0][col + row * 32];
+                name = base + 0x3E6;
+                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                    col++;
+                    s--;
+                }
+            } else {
+                lines[0][col + row * 32] = c;
+                col++;
+            }
+            s++;
+        } while (*s != 0xFD);
+    }
+    lines[row][col] = 0xFD;
+    mode = arg1 >> 16;
+    count = arg1 & 0xFFFF;
+    a = 0;
+    b = 16;
+    while (--count != -1) {
+        sub_0800903C(1, 0x3F, 1, (u16)a, b, 0);
+        if (gUnk_03002344 & 0xF) {
+            if (++a > 15)
+                a = 16;
+            if ((s16)--b <= 0)
+                b = 0;
+        }
+        switch (mode) {
+        case 0:
+            for (i = 0, y = 12; i <= 3; i++, y += 2) {
+                w = sub_0801A638(lines[i]);
+                if (w != 0)
+                    text087A5C(lines[i], (u16)(15 - (w >> 1)), y);
+            }
+            break;
+        case 1:
+            text087A5C(lines[0], (u16)(15 - ((u32)sub_0801A638(lines[0]) >> 1)), 16);
+            text087A5C(lines[1], (u16)(15 - ((u32)sub_0801A638(lines[1]) >> 1)), 18);
+            break;
+        case 2:
+            for (i = 0, y = 2; i <= 7; i++, y += 2)
+                text087A5C(lines[i], (u16)(15 - ((u32)sub_0801A638(lines[i]) >> 1)), y);
+            break;
+        }
+        if (sub_080021A8() != 0 || sub_0801AAF8() != 0)
+            break;
+        sub_080003F0();
+    }
+    close087A5C(0, 0x14);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08087A5C);
+#endif
