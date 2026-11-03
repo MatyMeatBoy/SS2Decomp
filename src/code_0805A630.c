@@ -2006,25 +2006,33 @@ extern s16 cb8c_sine[] asm("gUnk_080B9704");
 
 void sub_0805CB8C(void)
 {
-    struct CB8CLocal state;
+    u8 unused[16];
+    u8 counts[4];
+    s16 angles[4];
+    struct CB8CColor colors[4];
     struct CB8CSlot *slot;
     u32 i, j;
     s32 x;
     u16 y;
     u8 *count;
+    u32 next;
+    u8 *cnts;
 
     for (i = 0; i <= 3; i++) {
-        state.counts[i] = 0;
-        state.angles[i] = 0;
-        *(u16 *)&state.colors[i] = 0;
+        counts[i] = 0;
+        angles[i] = 0;
+        *(u16 *)&colors[i] = 0;
     }
     for (;;) {
         i = 0;
-    count_next:
+        cnts = counts;
+        do {
             slot = cb8c_slots;
-            count = &state.counts[i];
+            count = &cnts[i];
             *count = 0;
-            for (j = 0; j <= 15; j++, slot++) {
+            j = 0;
+            next = i + 1;
+            for (; j <= 15; j++, slot++) {
                 if (slot->active != 0) {
                     x = slot->x << 5;
                     y = (u32)(slot->y << 5) >> 16;
@@ -2033,29 +2041,31 @@ void sub_0805CB8C(void)
                         (*count)++;
                 }
             }
-        if (++i <= 3) goto count_next;
+            i = next;
+        } while (i <= 3);
         for (i = 0; i <= 3; i++) {
-            if (state.counts[i] == 1) {
-                state.angles[i] = (state.angles[i] + 4) & 0x7F;
-                state.colors[i].r = (cb8c_colors[i].r * cb8c_sine[state.angles[i]]) >> 8;
-                state.colors[i].g = (cb8c_colors[i].g * cb8c_sine[state.angles[i]]) >> 8;
-                state.colors[i].b = (cb8c_colors[i].b * cb8c_sine[state.angles[i]]) >> 8;
+            if (counts[i] == 1) {
+                angles[i] = (angles[i] + 4) & 0x7F;
+                colors[i].r = (cb8c_colors[i].r * cb8c_sine[angles[i]]) >> 8;
+                colors[i].g = (cb8c_colors[i].g * cb8c_sine[angles[i]]) >> 8;
+                colors[i].b = (cb8c_colors[i].b * cb8c_sine[angles[i]]) >> 8;
+                cb8c_pal[14][i + 12] = *(u16 *)&colors[i];
             } else {
-                if ((8 - state.colors[i].r) >> 1 == 0)
-                    state.colors[i].r = 8;
+                if ((8 - colors[i].r) >> 1 == 0)
+                    colors[i].r = 8;
                 else
-                    state.colors[i].r += (8 - state.colors[i].r) >> 1;
-                if ((8 - state.colors[i].g) >> 1 == 0)
-                    state.colors[i].g = 8;
+                    colors[i].r += (8 - colors[i].r) >> 1;
+                if ((8 - colors[i].g) >> 1 == 0)
+                    colors[i].g = 8;
                 else
-                    state.colors[i].g += (8 - state.colors[i].g) >> 1;
-                if ((8 - state.colors[i].b) >> 1 == 0)
-                    state.colors[i].b = 8;
+                    colors[i].g += (8 - colors[i].g) >> 1;
+                if ((8 - colors[i].b) >> 1 == 0)
+                    colors[i].b = 8;
                 else
-                    state.colors[i].b += (8 - state.colors[i].b) >> 1;
-                state.angles[i] = 0;
+                    colors[i].b += (8 - colors[i].b) >> 1;
+                angles[i] = 0;
+                cb8c_pal[14][i + 12] = *(u16 *)&colors[i];
             }
-            cb8c_pal[14][i + 12] = *(u16 *)&state.colors[i];
         }
         sub_080003F0();
     }
