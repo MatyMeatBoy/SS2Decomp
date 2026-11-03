@@ -1121,11 +1121,12 @@ void sub_0807854C(u32 who, u32 b)
 }
 #ifdef NONMATCHING
 struct Spr85F4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
-struct Ply85F4 { u8 pad0[0x30]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0xB4]; u8 *sprite; };
+struct Pos85F4 { u16 h0; u16 h2; };
+struct Ply85F4 { u8 pad0[0x30]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x23]; s32 x, y; u8 pad94[0xB4]; struct Pos85F4 *pos; };
 struct Ene85F4 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x4E]; u16 wait; u8 pad6C[0xE]; u16 f7A; u8 pad7C[0x160]; u8 active; u8 pad1DD[0x20]; u8 f1FD; u8 pad1FE[0x2D]; u8 threshold; u16 f22C; u8 pad22E[0xAA]; u16 f2D8, f2DA; u8 pad2DC[4]; };
 struct Off85F4 { s16 x, y; };
 extern struct Ply85F4 p85F4[] asm("gUnk_03003CE0");
-extern u8 *e85F4Base asm("gUnk_030056F4");
+extern struct Ene85F4 *e85F4Base asm("gUnk_030056F4");
 extern u32 f85F4[] asm("gUnk_030063E0");
 extern u16 dir85F4[] asm("gUnk_0847AD0A");
 extern s16 sin85F4[] asm("gUnk_080B9704");
@@ -1134,9 +1135,9 @@ extern u32 e85F4Mask asm("gUnk_030056FC");
 extern u16 atan85F4(s16, s16) asm("ArcTan2");
 extern void coords85F4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 effect85F4(s32 *, u32 *, s32) asm("sub_0801FB14");
-extern void hit85F4(u32, s32, s32, u32, u32) asm("sub_08079888");
+extern void hit85F4(u32, s32, s32, u32, s32) asm("sub_08079888");
 extern void init85F4(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern void miss85F4(u32, u32, s32, s32, u32) asm("sub_0806818C");
+extern void miss85F4(u32, u32, s32, s32, s32) asm("sub_0806818C");
 
 void sub_080785F4(u32 who, u32 arg)
 {
@@ -1153,26 +1154,23 @@ void sub_080785F4(u32 who, u32 arg)
     u16 dir;
     u32 local;
     u32 kind;
-    u32 w;
     struct Ene85F4 *e;
     struct Ene85F4 *te;
     struct Ply85F4 *tp;
     struct Ply85F4 *p;
     struct Ene85F4 *q;
     u32 t;
-    u32 ang;
+    s32 ang;
     u16 *dp;
-    s16 diff;
+    u16 diff;
     s32 x, y;
     u16 i;
     u8 c;
     s32 sx, sy;
-    u8 shade;
     s32 spd;
 
-    spd = 20;
     local = (u16)sub_080020F4();
-    e = (struct Ene85F4 *)(e85F4Base + who * 0x2E0);
+    e = &e85F4Base[who];
     init85F4(&spr, 0x500AF, 0, 0x80000000, 0);
     spr.f1C = sub_08019D7C(e->f2D8, e->f2DA);
     if (e->f1FD == 0x14) {
@@ -1184,44 +1182,47 @@ void sub_080785F4(u32 who, u32 arg)
     }
     n = 3;
     bit = arg & 0xF;
-    t = arg >> 16;
-    if (t > 3) {
-        te = (struct Ene85F4 *)(e85F4Base + (t * 0x2E0 + 0xFFFFF480));
-        tgt = t;
+    arg >>= 16;
+    if (arg > 3) {
+        te = &e85F4Base[arg - 4];
+        tgt = arg;
     } else {
-        tp = &p85F4[t];
-        tgt = t;
+        tp = &p85F4[arg];
+        tgt = arg;
     }
     x = e->x;
     y = e->y;
     if (tgt <= 3) {
-        u16 *s = (u16 *)tp->sprite;
-        dx = (u32)(((s[0] >> 4) << 8) - x) >> 8;
-        dy = (u32)(((u32)(s[1] << 20) >> 12) - y) >> 8;
+        struct Pos85F4 *s = tp->pos;
+        dx = (u32)(((s->h0 >> 4) << 8) - x) >> 8;
+        dy = (u32)(((u32)(s->h2 << 20) >> 12) - y) >> 8;
     } else {
         dx = (u32)(te->x - x) >> 8;
         dy = (u32)(te->y - y) >> 8;
     }
-    ang = (u32)(atan85F4(dx, dy) << 16) >> 24;
-    if ((s32)ang > 0x80)
-        ang = (u16)(ang + 0xFFFFFF00);
+    ang = atan85F4(dx, dy);
+    ang = (u16)ang >> 8;
+    if (ang > 0x80)
+        ang += 0xFFFFFF00;
     a = ang;
+
     if ((s16)a < 0)
         a = (s16)a + 0x100;
     if ((s16)a > 0x100)
         a = (s16)a + 0xFFFFFF00;
     dp = &dir85F4[e->dir];
     diff = ((s16)a >> 4) - *dp;
-    if (diff > 8)
-        diff -= 16;
-    if ((diff < 0 ? -diff : diff) > 3)
+    if ((s16)diff > 8)
+        diff = (s16)diff - 16;
+    if ((s16)diff < 0)
+        diff = -(s16)diff;
+    if ((s16)diff > 3)
         a = *dp;
     sub_08007290(e->f22C | 0xB0000);
     dir = e->dir;
-    w = who + 4;
     while (e->wait < e->threshold) {
         if (((e->f7A & 1) && sub_08056E90() != 0) || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
-            f85F4[w] &= ~(1 << bit);
+            f85F4[who + 4] &= ~(1 << bit);
             return;
         }
         sub_080003F0();
@@ -1231,72 +1232,77 @@ void sub_080785F4(u32 who, u32 arg)
         sub_0805865C(0x17);
     if (n-- == 0)
         goto done;
-loop:
-        hit = 0;
-        if (tgt <= 3) {
-            p = &p85F4[local];
-            dx = (u32)(p->x - x) >> 8;
-            dy = (u32)(p->y - y) >> 8;
-            if ((dx < 0 ? -dx : dx) > 7 || (dy < 0 ? -dy : dy) > 7)
-                goto check;
-            if ((u32)(p->sprite[0] << 28) >> 28 == 0xE || p->team == 0)
-                goto next;
-            if (p->flags & 2)
-                goto check;
-            hit85F4(e->id + 4, x, y, kind + 4, hit);
-            hit = 1;
-            goto done;
-        } else {
-            for (i = 0; i <= 4; i++) {
-                if (!(e85F4Mask & (1 << i)))
-                    continue;
-                q = (struct Ene85F4 *)(e85F4Base + i * 0x2E0);
-                if (!q->active)
-                    continue;
-                dx = (q->x >> 8) - x;
-                dy = (q->y >> 8) - y;
-                if ((dx < 0 ? -dx : dx) <= 7 && (dy < 0 ? -dy : dy) <= 7) {
-                    hit85F4(e->id + 4, x, y, kind + 4, 0);
-                    hit = 1;
-                    break;
+    {
+        {
+        loop:
+            hit = 0;
+            if (tgt <= 3) {
+                p = &p85F4[local];
+                dx = (u32)(p->x - x) >> 8;
+                dy = (u32)(p->y - y) >> 8;
+                if ((dx < 0 ? -dx : dx) > 7 || (dy < 0 ? -dy : dy) > 7)
+                    goto check;
+                if ((u32)(((u8 *)p->pos)[0] << 28) >> 28 == 0xE || p->team == 0)
+                    goto next;
+                if (p->flags & 2)
+                    goto check;
+                hit85F4(e->id + 4, x, y, kind + 4, hit);
+                hit = 1;
+                goto done;
+            } else {
+                for (i = 0; i <= 4; i++) {
+                    if (!(e85F4Mask & (1 << i)))
+                        continue;
+                    q = &e85F4Base[i];
+                    if (!q->active)
+                        continue;
+                    dx = (q->x >> 8) - x;
+                    dy = (q->y >> 8) - y;
+                    if ((dx < 0 ? -dx : dx) <= 7 && (dy < 0 ? -dy : dy) <= 7) {
+                        hit85F4(e->id + 4, x, y, kind + 4, 0);
+                        hit = 1;
+                        break;
+                    }
                 }
             }
+        check:
+            if (hit)
+                goto clear;
+            pos[0] = x;
+            pos[1] = y;
+            size = 0x80008;
+            if (effect85F4(pos, &size, 0) != 0)
+                goto done;
+            c = sub_0800AE50(x, y, 0);
+            if ((c & 0xF) && !(c & 0x10))
+                goto done;
+            spd = 20;
+            x += sin85F4[(s16)a + 0x40] * spd / 10;
+            y += sin85F4[(s16)a] * spd / 10;
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                sx = x >> 8;
+                sy = y >> 8;
+                coords85F4((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
+                c = sub_0800BC44(sx, sy, 0);
+                sub_080659BC(&spr, dx + off85F4[(s16)dir].x, dy + off85F4[(s16)dir].y, 0, pal, c);
+            }
+            sub_080003F0();
+            if (sub_0800CB78() != 0 || sub_0800CD00() != 0)
+                goto done;
+            if (((e->f7A & 1) && sub_08056E90() != 0) || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
+                hit = 1;
+                goto done;
+            }
+        next:
+            if (n-- != 0)
+                goto loop;
         }
-check:
-        if (hit)
-            goto clear;
-        pos[0] = x;
-        pos[1] = y;
-        size = 0x80008;
-        if (effect85F4(pos, &size, 0) != 0)
-            goto done;
-        c = sub_0800AE50(x, y, 0);
-        if ((c & 0xF) && !(c & 0x10))
-            goto done;
-        x += sin85F4[(s16)a + 0x40] * spd / 10;
-        y += sin85F4[(s16)a] * spd / 10;
-        if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
-            sx = x >> 8;
-            sy = y >> 8;
-            coords85F4((s16)sx, (s16)sy, &dx, &dy, 0x30, 0);
-            shade = sub_0800BC44(sx, sy, 0);
-            sub_080659BC(&spr, dx + ((s16 *)off85F4)[(s16)dir * 2], dy + ((s16 *)off85F4 + 1)[(s16)dir * 2], 0, pal, shade);
-        }
-        sub_080003F0();
-        if (sub_0800CB78() != 0 || sub_0800CD00() != 0)
-            goto done;
-        if (((e->f7A & 1) && sub_08056E90() != 0) || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
-            hit = 1;
-            goto done;
-        }
-next:
-    if (n-- != 0)
-        goto loop;
+    }
 done:
     if (hit == 0)
-        miss85F4(e->id + 4, kind + 2, x, y, 0);
+        miss85F4(e->id + 4, kind + 2, x, y, hit);
 clear:
-    f85F4[w] &= ~(1 << bit);
+    f85F4[who + 4] &= ~(1 << bit);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080785F4);
