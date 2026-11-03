@@ -199,7 +199,6 @@ void sub_080934D4(void)
 }
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093584);
 INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
-#ifdef NONMATCHING
 extern s16 rand41B4(void) asm("sub_0800086C");
 extern u8 g41B4_026C asm("gUnk_0300026C");
 extern u8 g41B4_0274 asm("gUnk_03000274");
@@ -207,7 +206,7 @@ extern s16 sin41B4[] asm("gUnk_080B9704");
 static inline s16 abs41B4(s16 v) { if (v < 0) v = -v; return v; }
 s32 sub_080941B4(void)
 {
-    s16 counter, state; s32 x, y, b; u8 phaseB, phaseA; s32 a; s16 limit; s32 r;
+    s16 counter, state; s32 x, y, b; u8 phaseB, phaseA; s16 a; s16 limit; s32 r; s32 dx = 0x200, dy = 0x44;
     counter = 0;
     state = 0;
     phaseB = 0;
@@ -276,20 +275,17 @@ s32 sub_080941B4(void)
             break;
         }
         sub_0800903C(1, 0x32, 1, a, b, 0);
-        x -= 0x200;
+        x -= dx;
         gUnk_03001250[0] = x >> 8;
-        gUnk_03001250[1] = ((sin41B4[phaseA] * 3) >> 6) + 12;
+        { s16 *t = sin41B4; gUnk_03001250[1] = ((t[phaseA] * 3) >> 6) + 12; }
         phaseA += 2;
-        y -= 0x44;
+        y -= dy;
         gUnk_03001250[2] = y >> 8;
-        gUnk_03001250[3] = 12 - ((sin41B4[phaseB] * 3) >> 7);
+        { s16 *t = sin41B4; gUnk_03001250[3] = 12 - ((t[phaseB] * 3) >> 7); }
         phaseB++;
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_080941B4);
-#endif
 void sub_080943F8(void)
 {
     union { u32 word; u16 half[2]; } config;
