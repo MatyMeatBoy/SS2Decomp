@@ -1046,313 +1046,103 @@ again:
     setcb566045(st, id, (u32)callback5E3845);
 }
 #ifdef NONMATCHING
-void sub_08045F44(u32 arg0) {
-    u8 descriptor[0x20];
-    u8 *var_r0_5;
-    u8 *var_r1_2;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 temp_r5_2;
-    s32 temp_r6;
-    s32 var_r3;
-    s32 var_r4;
-    u32 temp_r2_2;
-    u32 temp_r4_2;
-    u32 temp_r4_3;
-    u32 temp_r4_4;
-    u32 temp_r4_5;
-    u32 temp_r4_6;
-    u32 temp_r4_7;
-    u32 temp_r4_8;
-    u32 temp_r4_9;
-    u32 var_r2;
-    u32 var_r3_2;
-    u32 var_r3_3;
-    u32 var_r4_2;
-    u32 var_r4_3;
-    u8 *var_r0;
-    u8 *var_r0_2;
-    u8 *var_r0_3;
-    u8 *var_r0_4;
-    u8 *temp_r1;
-    u8 *temp_r2;
-    u8 *temp_r2_3;
-    u8 *var_r1;
-    extern u8 *state5F4445 asm("gUnk_03005CF4");
-    extern u8 players5F4445[] asm("gUnk_03003CE0");
-    extern u8 *inventory5F4445 asm("gUnk_030034E0");
-    extern u8 *entities5F4445 asm("gUnk_030056F4");
-    extern u32 flags5F4445 asm("gUnk_030027D0");
-    extern void callback5F4445(void) asm("sub_0805990C");
-    extern void sub_0805AB20(void *);
-    extern void sub_08019EB8(u16, s32);
-
-    temp_r2 = (0x14C * sub_080020F4()) + players5F4445;
-    (*(u32 *)(temp_r2 + 0x30)) = (s32) ((*(u32 *)(temp_r2 + 0x30)) | 1);
+struct PlF4445 { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 f8C; u8 p90[0x8E]; u16 f11E; u8 p120[0x2C]; };
+struct ItemF4445 { u16 kind, value; u8 pad[12]; };
+struct CmdF4445 { u16 kind, value; u8 data[12]; };
+extern struct PlF4445 playersF4445[] asm("gUnk_03003CE0");
+extern u8 *invF4445 asm("gUnk_030034E0");
+extern u8 *recordsF4445 asm("gUnk_030056F4");
+extern u32 audioF4445 asm("gUnk_030027D0");
+extern void cb990CF4445(void) asm("sub_0805990C");
+extern void emitF4445(struct CmdF4445 *) asm("sub_0805AB20");
+extern void sub_08029174(s32,s32);
+extern void sub_08019EB8(u16,s32);
+static inline u32 countF4445(u32 n) { return n; }
+static inline s32 bitF4445(s32 sh) {
+    s32 raw;
+    if (sub_0800CE30()) { raw = state566045[0x1C7]; return (raw >> sh) & 1; }
+    raw = state566045[0x1BB]; return (raw >> sh) & 1;
+}
+#define DIALOG_F4445(msg) { \
+    while (sub_0805F184()) sub_080003F0(); \
+    while (sub_0805EF90()) sub_080003F0(); \
+    dlg = sub_0805DF38(1, 15, 2, 0, -1, msg); \
+    while (!sub_0805EEFC((void *)dlg)) { \
+        if (sub_0800CDF8()) { sub_0805EFBC(); break; } \
+        sub_080003F0(); \
+    } }
+void sub_08045F44(u32 id) {
+    struct CmdF4445 cmd;
+    u8 unused[16];
+    u32 dlg;
+    s32 a, b, c, d;
+    u32 i, n;
+    struct ItemF4445 *it;
+    struct Actor566045 *ap;
+    ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
-    if ((s32) ((s32) *(s32 *)(players5F4445 + 0x14C * sub_080020F4() + 0x8C) >> 8) > 0x1E7) {
-        sub_08029174(arg0, 6);
+    a = playersF4445[sub_080020F4()].f8C >> 8;
+    if (a > 0x1E7) sub_08029174(id, 6);
+    else sub_08029174(id, 2);
+    a = bitF4445(2);
+    b = bitF4445(3);
+    c = bitF4445(4);
+    d = bitF4445(5);
+    if (a && b && c && d) {
+        DIALOG_F4445(0x1402A9);
+    } else if (a) {
+        DIALOG_F4445(0x1402A8);
     } else {
-        sub_08029174(arg0, 2);
-    }
-    if (sub_0800CE30() != 0) {
-        var_r0 = state5F4445 + 0x1C7;
-    } else {
-        var_r0 = state5F4445 + 0x1BB;
-    }
-    temp_r6 = ((s32) *var_r0 >> 2) & 1;
-    if (sub_0800CE30() != 0) {
-        var_r0_2 = state5F4445 + 0x1C7;
-    } else {
-        var_r0_2 = state5F4445 + 0x1BB;
-    }
-    temp_r5 = ((s32) *var_r0_2 >> 3) & 1;
-    if (sub_0800CE30() != 0) {
-        var_r0_3 = state5F4445 + 0x1C7;
-    } else {
-        var_r0_3 = state5F4445 + 0x1BB;
-    }
-    temp_r4 = ((s32) *var_r0_3 >> 4) & 1;
-    if (sub_0800CE30() != 0) {
-        var_r0_4 = state5F4445 + 0x1C7;
-    } else {
-        var_r0_4 = state5F4445 + 0x1BB;
-    }
-    if (temp_r6 != 0) {
-        if ((temp_r5 != 0) && (temp_r4 != 0) && (((s32) *var_r0_4 >> 5) & 1)) {
-loop_21:
-            if (sub_0805F184() != 0) {
-                sub_080003F0();
-                goto loop_21;
-            }
-loop_24:
-            if (sub_0805EF90() != 0) {
-                sub_080003F0();
-                goto loop_24;
-            }
-            temp_r4_2 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1402A9U);
-loop_27:
-            if (sub_0805EEFC((u8 *) temp_r4_2) != 0) {
-
-            } else if (sub_0800CDF8() != 0) {
-                sub_0805EFBC();
-            } else {
-                sub_080003F0();
-                goto loop_27;
-            }
-        } else if (temp_r6 != 0) {
-loop_34:
-            if (sub_0805F184() != 0) {
-                sub_080003F0();
-                goto loop_34;
-            }
-loop_37:
-            if (sub_0805EF90() != 0) {
-                sub_080003F0();
-                goto loop_37;
-            }
-            temp_r4_3 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1402A8U);
-loop_40:
-            if (sub_0805EEFC((u8 *) temp_r4_3) != 0) {
-
-            } else if (sub_0800CDF8() != 0) {
-                sub_0805EFBC();
-            } else {
-                sub_080003F0();
-                goto loop_40;
-            }
+        u32 count;
+        s32 player;
+        DIALOG_F4445(0x1402A1);
+        count = 0;
+        it = (struct ItemF4445 *)(invF4445 + 0x150);
+        for (i = 0; i <= 0x18; i++, it++) {
+            if (it->kind == 5 && it->value == 0xA6) count++;
+        }
+        player = sub_080020F4();
+        if (count == 0 || player != 0) goto end;
+        if (id > 0x100000) {
+            ap = find566045(&state566045, id);
+            if (ap) *(u16 *)((u8 *)ap + 0x42) = 3;
+        } else if (id != 0) {
+            if (id - 1 <= 4) sub_08019EB8(*(u16 *)(recordsF4445 + (id - 1) * 0x2E0 + 2), 3);
         } else {
-            goto loop_46;
+            playersF4445[sub_080020F4()].f11E = 3;
         }
-    } else {
-loop_46:
-        if (sub_0805F184() != 0) {
-            sub_080003F0();
-            goto loop_46;
-        }
-loop_49:
-        if (sub_0805EF90() != 0) {
-            sub_080003F0();
-            goto loop_49;
-        }
-        temp_r4_4 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1402A1U);
-loop_52:
-        if (sub_0805EEFC((u8 *) temp_r4_4) == 0) {
-            if (sub_0800CDF8() != 0) {
-                sub_0805EFBC();
-            } else {
-                sub_080003F0();
-                goto loop_52;
+        while (sub_0805F184()) sub_080003F0();
+        dlg = sub_0805DF38(1, 15, 2, 0, -2, 0x1402A2);
+        while (!sub_0805EEFC((void *)dlg)) sub_080003F0();
+        if (sub_0805EF14((u8 *)dlg)) {
+            DIALOG_F4445(0x1402A4);
+            n = 1;
+            for (i = 0; i <= 0x18; i++) {
+                struct ItemF4445 *e = (struct ItemF4445 *)(invF4445 + i * 16 + 0x150);
+                if (e->kind == 5 && e->value == 0xA6) {
+                    n--;
+                    e->kind = 0;
+                    e->value = 0;
+                    if (n == 0) break;
+                }
             }
-        }
-        var_r3 = 0;
-        var_r2 = 0;
-        var_r1 = inventory5F4445 + 0x150;
-        do {
-            if (((*(u16 *)(var_r1 + 0x0)) == 5) && ((*(u16 *)(var_r1 + 0x2)) == 0xA6)) {
-                var_r3 += 1;
-            }
-            var_r1 += 0x10;
-            var_r2 += 1;
-        } while (var_r2 <= 0x18U);
-        temp_r5_2 = sub_080020F4();
-        if (var_r3 == 0) {
-
-        } else if (temp_r5_2 != 0) {
-
+            cmd.kind = 1;
+            cmd.value = 0x1E;
+            i = 0;
+            do { cmd.data[i] = 0; i++; } while (i <= 11);
+            i = 0;
+            do { emitF4445(&cmd); i++; } while (i < countF4445(1));
+            sub_08068070((u32)cb990CF4445, 0x22);
+            if (!(audioF4445 & 0x20)) sub_08006D08(0x33);
+            DIALOG_F4445(0x1402A5);
+            DIALOG_F4445(0x1402A6);
         } else {
-            if (arg0 > 0x100000U) {
-                var_r1_2 = state5F4445 + 0x7A4;
-                var_r3_2 = 0;
-loop_66:
-                if (*(u32 *)var_r1_2 != arg0) {
-                    var_r3_2 += 1;
-                    var_r1_2 += 0x70;
-                    if (var_r3_2 > 0xEU) {
-                        sub_080003F0();
-                        var_r0_5 = NULL;
-                    } else {
-                        goto loop_66;
-                    }
-                } else {
-                    var_r0_5 = var_r1_2;
-                }
-                if (var_r0_5 != NULL) {
-                    (*(u16 *)(var_r0_5 + 0x42)) = 3;
-                }
-            } else if (arg0 != 0) {
-                temp_r2_2 = arg0 - 1;
-                if (temp_r2_2 <= 4U) {
-                    sub_08019EB8((*(u16 *)(entities5F4445 + temp_r2_2 * 0x2E0 + 2)), 3);
-                }
-            } else {
-                (*(u16 *)(players5F4445 + 0x14C * sub_080020F4() + 0x11E)) = 3;
-            }
-loop_76:
-            if (sub_0805F184() != 0) {
-                sub_080003F0();
-                goto loop_76;
-            }
-            temp_r4_5 = sub_0805DF38(1U, 0xFU, 2U, 0U, -2, 0x1402A2U);
-loop_79:
-            if (sub_0805EEFC((u8 *) temp_r4_5) == 0) {
-                sub_080003F0();
-                goto loop_79;
-            }
-            if (sub_0805EF14((u8 *) temp_r4_5) == 0) {
-loop_125:
-                if (sub_0805F184() != 0) {
-                    sub_080003F0();
-                    goto loop_125;
-                }
-loop_128:
-                if (sub_0805EF90() != 0) {
-                    sub_080003F0();
-                    goto loop_128;
-                }
-                temp_r4_6 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1402A3U);
-loop_131:
-                if (sub_0805EEFC((u8 *) temp_r4_6) == 0) {
-                    if (sub_0800CDF8() != 0) {
-                        sub_0805EFBC();
-                    } else {
-                        sub_080003F0();
-                        goto loop_131;
-                    }
-                }
-            } else {
-loop_84:
-                if (sub_0805F184() != 0) {
-                    sub_080003F0();
-                    goto loop_84;
-                }
-loop_87:
-                if (sub_0805EF90() != 0) {
-                    sub_080003F0();
-                    goto loop_87;
-                }
-                temp_r4_7 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1402A4U);
-loop_90:
-                if (sub_0805EEFC((u8 *) temp_r4_7) == 0) {
-                    if (sub_0800CDF8() != 0) {
-                        sub_0805EFBC();
-                    } else {
-                        sub_080003F0();
-                        goto loop_90;
-                    }
-                }
-                var_r4 = 1;
-                var_r3_3 = 0;
-loop_94:
-                temp_r1 = inventory5F4445 + (var_r3_3 * 0x10);
-                if (((*(u16 *)(temp_r1 + 0x150)) != 5) || ((*(u16 *)(temp_r1 + 0x152)) != 0xA6) || (var_r4 -= 1, (*(u16 *)(temp_r1 + 0x150)) = 0U, (*(u16 *)(temp_r1 + 0x152)) = 0U, (var_r4 != 0))) {
-                    var_r3_3 += 1;
-                    if (var_r3_3 <= 0x18U) {
-                        goto loop_94;
-                    }
-                }
-                (*(u16 *)descriptor) = 1;
-                (*(u16 *)(descriptor + 2)) = 0x1E;
-                var_r4_2 = 0;
-                do {
-                    descriptor[4 + var_r4_2] = 0;
-                    var_r4_2 += 1;
-                } while (var_r4_2 <= 0xBU);
-                var_r4_3 = 0;
-                do {
-                    sub_0805AB20(descriptor);
-                    var_r4_3 += 1;
-                } while (var_r4_3 < 1U);
-                sub_08068070((u32) (u32)callback5F4445, 0x22U);
-                if (!(flags5F4445 & 0x20)) {
-                    sub_08006D08(0x33U);
-                }
-loop_105:
-                if (sub_0805F184() != 0) {
-                    sub_080003F0();
-                    goto loop_105;
-                }
-loop_108:
-                if (sub_0805EF90() != 0) {
-                    sub_080003F0();
-                    goto loop_108;
-                }
-                temp_r4_8 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1402A5U);
-loop_111:
-                if (sub_0805EEFC((u8 *) temp_r4_8) == 0) {
-                    if (sub_0800CDF8() != 0) {
-                        sub_0805EFBC();
-                    } else {
-                        sub_080003F0();
-                        goto loop_111;
-                    }
-                }
-loop_115:
-                if (sub_0805F184() != 0) {
-                    sub_080003F0();
-                    goto loop_115;
-                }
-loop_118:
-                if (sub_0805EF90() != 0) {
-                    sub_080003F0();
-                    goto loop_118;
-                }
-                temp_r4_9 = sub_0805DF38(1U, 0xFU, 2U, 0U, -1, 0x1402A6U);
-loop_121:
-                if (sub_0805EEFC((u8 *) temp_r4_9) == 0) {
-                    if (sub_0800CDF8() != 0) {
-                        sub_0805EFBC();
-                    } else {
-                        sub_080003F0();
-                        goto loop_121;
-                    }
-                }
-            }
+            DIALOG_F4445(0x1402A3);
         }
     }
-    sub_0802939C(arg0, 0);
-    temp_r2_3 = (0x14C * sub_080020F4()) + players5F4445;
-    (*(u32 *)(temp_r2_3 + 0x30)) = (s32) ((*(u32 *)(temp_r2_3 + 0x30)) & ~1);
+end:
+    sub_0802939C(id, 0);
+    {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
 #else
