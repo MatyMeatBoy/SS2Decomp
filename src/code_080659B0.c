@@ -971,9 +971,8 @@ restart:
             sub_080003F0();
             if (blk[0] == 0xB1) {
                 s32 t = blk[1];
-                if (t > 0xB0) {
-                } else if (t < 0x81) {
-                } else {
+                switch (t) {
+                case 0x81 ... 0xB0:
                     j = 0;
                     tag = t;
                     chunks = blk[2];
