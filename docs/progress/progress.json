@@ -5,15 +5,15 @@
   "funcs_total": 1870,
   "funcs_done": 1755,
   "percent": 61.25354290131409,
-  "funcs_drafts": 101,
-  "bytes_drafts": 239440,
-  "percent_with_drafts": 93.38658421369063,
+  "funcs_drafts": 102,
+  "bytes_drafts": 241740,
+  "percent_with_drafts": 93.69524607060036,
   "funcs_decompiled": 1755,
   "bytes_decompiled": 456432,
   "funcs_linked": 0,
   "bytes_linked": 0,
-  "funcs_pending": 14,
-  "bytes_pending": 49280,
+  "funcs_pending": 13,
+  "bytes_pending": 46980,
   "funcs_original_asm": 14,
   "bytes_original_asm": 988,
   "funcs_decompilable": 1870,
@@ -51,15 +51,15 @@
   "funcs_total": 2006,
   "funcs_done": 1891,
   "percent": 61.8022480472471,
-  "funcs_drafts": 101,
-  "bytes_drafts": 239440,
-  "percent_with_drafts": 93.48023962236194,
+  "funcs_drafts": 102,
+  "bytes_drafts": 241740,
+  "percent_with_drafts": 93.78453038674033,
   "funcs_decompiled": 1869,
   "bytes_decompiled": 466196,
   "funcs_linked": 22,
   "bytes_linked": 940,
-  "funcs_pending": 14,
-  "bytes_pending": 49280,
+  "funcs_pending": 13,
+  "bytes_pending": 46980,
   "funcs_original_asm": 27,
   "bytes_original_asm": 3128,
   "funcs_decompilable": 1984,
@@ -75,12 +75,12 @@
  "identification": {
   "game": {
    "total": 1880,
-   "identified": 185,
-   "existing": 66,
+   "identified": 186,
+   "existing": 67,
    "confirmed": 119,
    "proposed": 0,
-   "unidentified": 1695,
-   "percent_identified": 9.840425531914894
+   "unidentified": 1694,
+   "percent_identified": 9.893617021276595
   },
   "sdk": {
    "total": 155,
@@ -93,12 +93,12 @@
   },
   "all": {
    "total": 2035,
-   "identified": 340,
-   "existing": 195,
+   "identified": 341,
+   "existing": 196,
    "confirmed": 145,
    "proposed": 0,
-   "unidentified": 1695,
-   "percent_identified": 16.707616707616708
+   "unidentified": 1694,
+   "percent_identified": 16.756756756756758
   }
  },
  "data": {
@@ -114,6 +114,6 @@
   "nodes": 2035,
   "edges": 11273,
   "unresolved_calls": 1332,
-  "parsed_c_functions": 1959
+  "parsed_c_functions": 1960
  }
 }

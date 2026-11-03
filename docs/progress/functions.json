@@ -32605,18 +32605,24 @@
       "name": "sub_080AD534",
       "addr": 134927668,
       "size": 2300,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A9680",
       "kind": "c",
       "cat": "game",
       "address": "0x080AD534",
       "canonical_symbol": "sub_080AD534",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_080AD534",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "sub_080AD534_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2118,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
+        }
+      ]
     },
     {
       "name": "sub_080ADE30",
@@ -37036,12 +37042,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 185,
-      "existing": 66,
+      "identified": 186,
+      "existing": 67,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1695,
-      "percent_identified": 9.840425531914894
+      "unidentified": 1694,
+      "percent_identified": 9.893617021276595
     },
     "sdk": {
       "total": 155,
@@ -37054,12 +37060,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 340,
-      "existing": 195,
+      "identified": 341,
+      "existing": 196,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1695,
-      "percent_identified": 16.707616707616708
+      "unidentified": 1694,
+      "percent_identified": 16.756756756756758
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
