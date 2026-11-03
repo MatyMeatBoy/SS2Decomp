@@ -602,7 +602,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   u8 *record;
   u16 rnd;
   u16 attack;
-  u16 defense;
+  s32 defense;
   u16 variance;
   u32 result;
   u16 firstDamage;
@@ -630,7 +630,7 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
   attack = src->attack;
   rnd = ((u16) sub_080008C8()) % 50;
   variance = rnd + 100;
-  scaled = ((s32) ((((u32) attack) * attack) * 10)) / (attack + defense);
+  scaled = ((s32) ((((u32) attack) * attack) * 10)) / (defense += attack);
   weighted = ((s32) (((u32) scaled) * variance)) / ((s32) divisor);
   firstDamage = weighted;
   firstDamage /= 10;
@@ -702,12 +702,9 @@ u32 sub_0801ED8C(void *arg0, void *arg1)
     }
     return (u16)result;
   }
-  if (divisor != 100)
-  {
-    return result;
-  }
-  defense = 0x8000;
-  return result | defense;
+  if (divisor == 100)
+  { u32 hi = 0x8000; hi |= result; return hi; }
+  return result;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_0801ED8C);
