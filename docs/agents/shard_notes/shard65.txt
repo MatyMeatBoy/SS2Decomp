@@ -1,0 +1,12 @@
+shard 65 notes (nov03-w4)
+
+sub_080634D8 (470 bytes): src draft (register-asm heavy) is 474 bytes, ~86 diff lines.
+  ROM spill slots: packed@0x4c, sound(arg>>16)@0x50, and px<<16 @0x54 computed once before the loop
+  (`lsls r1,r1,#16; str r1,[sp,#0x54]`) while py<<16 is redone in the loop (`mov r6,r9; lsls r1,r6,#16`).
+  That looks like loop.c hoisting the shift of `(s16)px` (so a real loop with loop notes, not goto).
+  A clean rewrite (t65P_init(&draw,0x50130,5,-1); pointer locals wp/hp/x0/y0; xp=x0; yp=y0;
+  `for (;;) { ...; if (sub_0800CED8() || sub_0800CB78() || sub_0800CD00() || done) break; }`)
+  gives the right block order but 476 bytes: &draw spills and &sizes[0]/[1] get hoisted into regs
+  (ROM rematerializes `add r1,sp,#0x48` in the call). do/while produced a rotated loop (jump to test).
+  Permuter refuses (control differs) unless --allow-control-diff.
+sub_08063B80: draft is register-asm heavy, not attempted this round.

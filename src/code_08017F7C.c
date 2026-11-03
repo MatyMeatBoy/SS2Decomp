@@ -1436,6 +1436,9 @@ void sub_0801A764(const u8 *script, u16 x, u16 y)
     }
 }
 #ifdef NONMATCHING
+/* Calling through inline wrappers loads r0 before the two-insn 0x2000 constant, as in the ROM. */
+static inline void blendA16(s32 a, s32 b, s32 c) { sub_080009F8(a, b, c); }
+static inline void blendB16(s32 a, s32 b, s32 c) { sub_080009C0(a, b, c); }
 void sub_0801A7AC(void)
 {
     struct Transition16Display { u8 pad[0x30]; u16 f30, f32, f34, f36, f38, f3A; u8 pad3C[4]; u16 f40, f42, f44; };
@@ -1466,7 +1469,7 @@ again:
         if (*step > 0) level16 = flag2;
         else level16 = 16;
         sub_080003F0();
-        sub_080009F8(0, 0x2000, 1);
+        blendA16(0, 0x2000, 1);
         progress = &gUnk_03000022;
         period = &gUnk_03000020;
         fadeLevel = &level16;
@@ -1530,7 +1533,7 @@ finished:
             sub_080003F0();
             displayLevel16 = flag16;
             sub_08000B38();
-            sub_080009C0(0, 0x2000, 1);
+            blendB16(0, 0x2000, 1);
             gUnk_03000022 = 1;
             gUnk_03000026 = flag16;
             sub_080003F0();
@@ -1539,7 +1542,7 @@ finished:
             screen->f38 = 0x3F3F;
             screen->f30 = flag16;
             screen->f34 = flag16;
-            sub_080009F8(0, 0x2000, 1);
+            blendA16(0, 0x2000, 1);
             gUnk_03000022 = flag16;
             gUnk_03000026 = -1;
             sub_080003F0();

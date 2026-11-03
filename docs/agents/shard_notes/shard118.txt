@@ -1,0 +1,9 @@
+shard 118 notes (nov03-w4)
+
+sub_080B44F0 (416 bytes): src draft is 400 bytes (b lands in r7, x tied to the ox param copy).
+  Writing `x = b->x; x += ox; y = b->y; y += oy;` and the player delta as
+  `dx = players[id()].x; dx = (u16)((x - dx) >> 8); dy = ...; dy = (s16)((y - dy) >> 8);` (s32 dx/dy)
+  puts b in r8 and loads px into its own reg like the ROM (424 bytes). Remaining: ROM computes
+  x/y with fresh dests (`adds r6, r1, r0`, ox stays in r1), loads the players base after the first
+  call, and the reload round-robin (r1,r2,r3) is one step off (ours r1,r2). Permuter 2x5 min: nothing.
+sub_080B4690: not attempted (same hit-player tail as sub_080B44F0, big spilled frame).

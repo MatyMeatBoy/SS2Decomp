@@ -1,0 +1,8 @@
+shard 16 notes (nov03-w4)
+
+sub_0801A7AC: draft same size (528). Calls sub_080009F8/sub_080009C0(0, 0x2000, 1) go through
+  static inline wrappers now: a direct call loads r1=0x2000 before r0=0, the inline param makes
+  `movs r0,#0` come first like the ROM (diff 93 -> 81 lines). Remaining: flags value lands in r2
+  instead of r1 (ROM: ldrh r1; ands r0,r1; asrs r2 = flag2) and the reload round-robin
+  (ROM `mov r3,r9`, ours `mov r1,r9`), plus `adds r0,r3,#0; ands r2,r0` for the 0x8000 mask
+  (draft forces the mask in r3 and gets `ands r2,r3`). A clean struct/for(;;) rewrite was 516 bytes.
