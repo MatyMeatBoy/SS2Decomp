@@ -133,7 +133,8 @@ u16 sub_08073EE8(u16 width, s32 range)
     } while (i <= 4);
     if (nearest == -1)
         return 0xFF;
-    return enemies076EE8[nearest].f2;
+    e = &enemies076EE8[nearest];
+    return e->f2;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
@@ -210,7 +211,8 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
     } while (i <= 4);
     if (nearest == -1)
         return 0xFF;
-    return enemies07614C[nearest].f2;
+    e = &enemies07614C[nearest];
+    return e->f2;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);

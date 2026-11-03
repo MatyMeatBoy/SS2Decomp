@@ -5103,7 +5103,9 @@ void sub_0807356C(struct Arg07356C *arg0)
     u32 bit, y;
     u16 lv, i, dx, dy;
     s32 ax, ay;
+    u8 found;
 
+    found = 0;
     self = sub_080020F4();
     owner = arg0->owner;
     bit = arg0->bit;
@@ -5148,8 +5150,6 @@ void sub_0807356C(struct Arg07356C *arg0)
         effect07656C(self, arg0->fC);
             {
             struct Buff07356C *b;
-            u8 found;
-            found = 0;
             b = player->buffs;
             for (i = 0; i <= 7; i++, b++) {
                 if (b->timer > 0 && b->owner <= 3 && players07656C[b->owner].state == 7 && b->type == 5) {
@@ -5185,8 +5185,6 @@ void sub_0807356C(struct Arg07356C *arg0)
                 struct Ply07356C *q = &players07656C[self];
             {
             struct Buff07356C *b;
-            u8 found;
-            found = 0;
             b = q->buffs;
             for (i = 0; i <= 7; i++, b++) {
                 if (b->timer > 0 && b->owner <= 3 && players07656C[b->owner].state == 7 && b->type == 5) {
