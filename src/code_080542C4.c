@@ -1,6 +1,56 @@
 #include "global.h"
 
+#ifdef NONMATCHING
+s32 sub_080290E4();
+void sub_080542C4(s32 arg0)
+{
+    u8 *p;
+    u8 *q;
+    s32 h;
+    s32 raw;
+    u32 one;
+    struct Player *pl;
+
+    pl = &gUnk_03003CE0[sub_080020F4()];
+    one = 1;
+    pl->flags |= one;
+    sub_0800D0F4();
+    if (sub_0800CE30() != 0)
+        p = (u8 *)gUnk_03005CF4 + 0x1C7;
+    else
+        p = (u8 *)gUnk_03005CF4 + 0x1BB;
+    raw = *p;
+    if ((raw >> 1) & one)
+        return;
+    if (sub_0800CE30() != 0)
+        q = (u8 *)gUnk_03005CF4 + 0x1C7;
+    else
+        q = (u8 *)gUnk_03005CF4 + 0x1BB;
+    *q = 2 | *q;
+    while (sub_0805F184() != 0)
+        sub_080003F0();
+    while (sub_0805EF90() != 0)
+        sub_080003F0();
+    h = sub_0805DF38(1, 0xF, 2, 0, 0x2D, 0x140284);
+    while (sub_0805EEFC((void *)h) == 0)
+        sub_080003F0();
+    sub_080290E4(arg0, 0);
+    while (sub_0805F184() != 0)
+        sub_080003F0();
+    while (sub_0805EF90() != 0)
+        sub_080003F0();
+    h = sub_0805DF38(1, 0xF, 2, 0, 0x2D, 0x140285);
+    while (sub_0805EEFC((void *)h) == 0)
+        sub_080003F0();
+    sub_08028AAC(2, 0x138, 0xC8, 0);
+    sub_08028AAC(1, 0x270F, 0x270F, 0);
+    { u32 idx = sub_080020F4(); pl = &gUnk_03003CE0[idx]; }
+    pl->flags &= ~1;
+    sub_0800D108();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080542C4);
+#endif
 extern u32 sub_0805990C;
 s32 sub_080290E4();
 static inline void spawn54(void (*cb)(void), s32 arg)
@@ -156,7 +206,28 @@ void sub_08054644(void)
             sub_080003F0();
     }
 }
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054748);
+void sub_08054748(void)
+{
+    spawn54((void (*)(void))sub_0805664C, 0x10);
+    spawn54((void (*)(void))sub_0805664C, 0x11);
+    spawn54((void (*)(void))sub_0805664C, 0x12);
+    spawn54((void (*)(void))sub_0805664C, 0x13);
+    if (sub_0800CC98() == 0) {
+        switch (sub_0801AB24()) {
+        case 0:
+            sub_080576A8();
+            break;
+        case 1:
+            sub_0801AB50(6);
+            break;
+        case 2:
+            sub_0801AB90(6);
+            break;
+        }
+        while (sub_0801AAE0() == 0)
+            sub_080003F0();
+    }
+}
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054904);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054CE8);
 INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_08054FB8);
