@@ -575,7 +575,7 @@ digraph calls {
   "sub_08029174" [label="sub_08029174_v"];
   "sub_0802926C" [label="sub_0802926C_v"];
   "sub_0802939C" [label="sub_0802939C_v"];
-  "sub_0802949C" [label="sub_0802949C_v"];
+  "sub_0802949C" [label="sub_0802949C"];
   "sub_08029788" [label="sub_08029788_v"];
   "sub_0802996C" [label="sub_0802996C"];
   "sub_08029A7C" [label="sub_08029A7C"];
@@ -3899,11 +3899,9 @@ digraph calls {
   "sub_0802926C" -> "sub_080003F0" [label="c"];
   "sub_0802926C" -> "sub_080020F4" [label="c"];
   "sub_0802939C" -> "sub_080020F4" [label="c"];
-  "sub_0802949C" -> "ArcTan2" [label="asm,c"];
-  "sub_0802949C" -> "sub_080003F0" [label="asm"];
-  "sub_0802949C" -> "sub_080020F4" [label="asm,c"];
-  "sub_0802949C" -> "sub_080021A8" [label="asm"];
-  "sub_0802949C" -> "sub_080290E4" [label="asm,c"];
+  "sub_0802949C" -> "ArcTan2" [label="c"];
+  "sub_0802949C" -> "sub_080020F4" [label="c"];
+  "sub_0802949C" -> "sub_080290E4" [label="c"];
   "sub_08029788" -> "sub_080020F4" [label="c"];
   "sub_08029788" -> "sub_080290E4" [label="c"];
   "sub_08029A7C" -> "sub_080020F4" [label="c"];
