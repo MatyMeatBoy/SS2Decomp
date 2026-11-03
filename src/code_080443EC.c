@@ -107,7 +107,7 @@ struct Inv44 { u8 pad[0x150]; struct Slot44 slots[25]; };
 struct GrantM44 {s16 type,id;u8 payload[12];};
 struct CurrencyM44 {s16 type;u16 padding;s32 amount;u8 extra[8];};
 extern const struct Trade44 trades44[] asm("gUnk_084B1C50");
-extern u8 *state44 asm("gUnk_03005CF4");
+extern u8 *state5E8 asm("gUnk_03005CF4");
 struct Player44 { u8 pad[0x30]; u32 flags; u8 pad2[0x11E - 0x34]; u16 mark; u8 pad3[0x14C-0x120]; };
 extern struct Player44 players5E8[] asm("gUnk_03003CE0");
 struct Rec44 { u16 a, id; u8 pad[0x2DC]; };
@@ -138,7 +138,7 @@ static inline u32 ask5E8(u16 id)
 }
 static inline u8 *find5E8(u32 actor)
 {
-    u8 *p = state44 + 0x7A4;
+    u8 *p = state5E8 + 0x7A4;
     u32 i = 0;
     do {
         if (*(u32 *)p == actor) return p;
@@ -148,10 +148,65 @@ static inline u8 *find5E8(u32 actor)
     sub_080003F0();
     return NULL;
 }
-static inline void mark5E8(u32 target, u16 v)
+static inline u32 count5E8(u32 type, u32 id)
 {
+    u32 count = 0;
+    u32 i;
+    for (i = 0; i <= 24; i++) {
+        if (inventory5E8->slots[i].type == type && inventory5E8->slots[i].id == id)
+            count++;
+    }
+    return count;
+}
+static inline void remove5E8(u32 type, u32 id, u32 n)
+{
+    u32 i;
+    for (i = 0; i <= 24; i++) {
+        if (inventory5E8->slots[i].type == type && inventory5E8->slots[i].id == id) {
+            n--;
+            inventory5E8->slots[i].type = 0;
+            inventory5E8->slots[i].id = 0;
+            if (n == 0) break;
+        }
+    }
+}
+static inline void give5E8(u32 type, u32 id, u32 n)
+{
+    u32 i;
+    if (type != 10) {
+        struct GrantM44 grant;
+        grant.type = type;
+        grant.id = id;
+        for (i = 0; i <= 11; i++) grant.payload[i] = 0;
+        for (i = 0; i < n; i++) emit5E8(&grant);
+    } else {
+        struct CurrencyM44 coin;
+        for (i = 0; i < n; i++) {
+            coin.type = 10;
+            coin.amount = id;
+            emit5E8(&coin);
+        }
+    }
+}
+static inline void setflag5E8(u32 flag)
+{
+    if (flag != 0) {
+        u8 *p;
+        u32 byte = flag >> 3;
+        u32 bit = flag & 7;
+        if (sub_0800CE30()) p = state5E8 + 0x1C3;
+        else p = state5E8 + 0x1B7;
+        p[byte] |= 1 << bit;
+    }
+}
+static inline void mark5E8(u32 target)
+{
+    u32 actor = target;
+    u16 v;
+    asm("" : "+r"(actor));
+    v = 3;
     if (target > 0x100000) {
-        u8 *p = find5E8(target);
+        u8 *p = find5E8(actor);
         if (p) *(u16 *)(p + 0x42) = v;
     } else if (target != 0) {
         u32 i = target - 1;
@@ -165,8 +220,6 @@ static inline void mark5E8(u32 target, u16 v)
 
 void sub_080445E8(s32 arg0, u32 arg1)
 {
-    struct GrantM44 grant;
-    struct CurrencyM44 coin;
     s32 second;
     u32 count, i;
     s32 result;
@@ -178,24 +231,11 @@ void sub_080445E8(s32 arg0, u32 arg1)
         msg5E8(trades44[arg0].msgNone0);
     else
         msg5E8(trades44[arg0].msgNone1);
-    {
-        u32 type = trades44[arg0].itemType;
-        u32 id = trades44[arg0].itemId;
-        struct Slot44 *s;
-        count = 0;
-        i = 0;
-        s = inventory5E8->slots;
-        do {
-            if (s->type == type && s->id == id)
-                count++;
-            s++;
-            i++;
-        } while (i <= 24);
-    }
+    count = count5E8(trades44[arg0].itemType, trades44[arg0].itemId);
     if (count < trades44[arg0].itemCount)
         goto end;
     if (second == 0) {
-        mark5E8(arg1, 3);
+        mark5E8(arg1);
         if (trades44[arg0].msgYes != 0)
             result = ask5E8(trades44[arg0].msgDone);
         else {
@@ -203,7 +243,7 @@ void sub_080445E8(s32 arg0, u32 arg1)
             result = 2;
         }
     } else if (trades44[arg0].once == 0) {
-        mark5E8(arg1, 3);
+        mark5E8(arg1);
         if (trades44[arg0].msgYes != 0)
             result = ask5E8(trades44[arg0].msgAsk);
         else {
@@ -221,48 +261,9 @@ void sub_080445E8(s32 arg0, u32 arg1)
     case 1:
         msg5E8(trades44[arg0].msgYes);
     case 2:
-        {
-            u32 type = trades44[arg0].itemType;
-            u32 id = trades44[arg0].itemId;
-            u32 n = trades44[arg0].itemCount;
-            for (i = 0; i <= 24; i++) {
-                u8 *slot = (u8 *)inventory5E8 + i * 16;
-                if (*(u16 *)(slot + 0x150) == type && *(u16 *)(slot + 0x152) == id) {
-                    n--;
-                    *(u16 *)(slot + 0x150) = 0;
-                    *(u16 *)(slot + 0x152) = 0;
-                    if (n == 0) break;
-                }
-            }
-        }
-        {
-            u32 type = trades44[arg0].rewardType;
-            u32 id = trades44[arg0].rewardId;
-            u32 n = trades44[arg0].rewardCount;
-            if (type != 10) {
-                grant.type = type;
-                grant.id = id;
-                for (i = 0; i <= 11; i++) grant.payload[i] = 0;
-                for (i = 0; i < n; i++) emit5E8(&grant);
-            } else {
-                for (i = 0; i < n; i++) {
-                    coin.type = 10;
-                    coin.amount = id;
-                    emit5E8(&coin);
-                }
-            }
-        }
-        {
-            u32 flag = trades44[arg0].flag;
-            if (flag != 0) {
-                u8 *p;
-                u32 byte = flag >> 3;
-                u32 bit = flag & 7;
-                if (sub_0800CE30()) p = state44 + 0x1C3;
-                else p = state44 + 0x1B7;
-                p[byte] |= 1 << bit;
-            }
-        }
+        remove5E8(trades44[arg0].itemType, trades44[arg0].itemId, trades44[arg0].itemCount);
+        give5E8(trades44[arg0].rewardType, trades44[arg0].rewardId, trades44[arg0].rewardCount);
+        setflag5E8(trades44[arg0].flag);
         if (!(audioFlags5E8 & 0x20)) sub_08006D08(0x33);
         msg5E8(trades44[arg0].msgGive);
         break;
