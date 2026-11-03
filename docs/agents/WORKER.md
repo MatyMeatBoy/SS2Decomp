@@ -1,10 +1,11 @@
-- `nmdiff.py` builds drafts inside the NONMATCHING ROM, where earlier functions have the wrong size, so a
-  mid-function literal pool can gain a false `.short 0x0000` pad. When the diff is only such padding plus a
-  few registers, test the real build: `unwrap_func.py FUNC && make compare`, then
-  `cmp -l baserom.gba shiningsoul2_eu.gba | wc -l` (ROM size must not change); restore with
-  `git checkout HEAD -- src/MOD.c asm/nonmatchings/MOD/FUNC.s` if it does not match.
-s. Your job: turn the functions of YOUR SHARD from `INCLUDE_ASM` into C that
-compiles to the same bytes as the original. A maintainer merges all worker branches and verifies the full ROM.
+- Stack layout: arrays and BLKmode structs (> 8 bytes) get frame slots in declaration order; small locals
+  (scalars, 8-byte structs) only get a slot when their address is first taken, in that order; spilled
+  pseudos come after all of them. So `box` (8-byte struct), `zero`, `c` passed by address in that order and
+  spilled `d`, `e` reproduce sp+8/0x10/0x14/0x18/0x1c (sub_08028830). A "struct" in the frame may really be
+  separate locals.
+- An exact-size draft whose only diff is block order often has an inlined helper's early `return` block
+  placed by loop.c after the nearest barrier; which path ends in its own `b` decides where it lands.
+he full ROM.
 Be terse in chat; the commits are what matter. User language is Spanish but code/commits are English.
 
 ## Rules
