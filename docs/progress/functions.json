@@ -2457,7 +2457,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2129,
+          "line": 2105,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2480,7 +2480,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2378,
+          "line": 2354,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
@@ -30257,7 +30257,7 @@
       "evidence": [
         {
           "source": "src/code_08097E28.c",
-          "line": 1571,
+          "line": 1382,
           "detail": "Existing C definition with an asm alias to the canonical symbol: task834"
         }
       ]
@@ -31445,14 +31445,14 @@
       "name": "sub_080A27B8",
       "addr": 134883256,
       "size": 3608,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x080A27B8",
       "canonical_symbol": "sub_080A27B8",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080A27B8",
       "name_status": "unidentified",
       "name_source": null,
@@ -31476,7 +31476,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 3154,
+          "line": 3150,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]

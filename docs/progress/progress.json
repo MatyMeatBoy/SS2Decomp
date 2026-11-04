@@ -1,15 +1,15 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 500256,
+  "bytes_done": 503864,
   "funcs_total": 1870,
-  "funcs_done": 1773,
-  "percent": 67.13475908271064,
-  "funcs_drafts": 95,
-  "bytes_drafts": 238424,
+  "funcs_done": 1774,
+  "percent": 67.61895559563686,
+  "funcs_drafts": 94,
+  "bytes_drafts": 234816,
   "percent_with_drafts": 99.13145237481748,
-  "funcs_decompiled": 1773,
-  "bytes_decompiled": 500256,
+  "funcs_decompiled": 1774,
+  "bytes_decompiled": 503864,
   "funcs_linked": 0,
   "bytes_linked": 0,
   "funcs_pending": 2,
@@ -20,7 +20,7 @@
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 67.13475908271064
+  "percent_decompiled": 67.61895559563686
  },
  "lib": {
   "bytes_total": 10704,
@@ -47,15 +47,15 @@
  },
  "all": {
   "bytes_total": 755856,
-  "bytes_done": 510960,
+  "bytes_done": 514568,
   "funcs_total": 2006,
-  "funcs_done": 1909,
-  "percent": 67.60017781164666,
-  "funcs_drafts": 95,
-  "bytes_drafts": 238424,
+  "funcs_done": 1910,
+  "percent": 68.07751741072373,
+  "funcs_drafts": 94,
+  "bytes_drafts": 234816,
   "percent_with_drafts": 99.14375224910565,
-  "funcs_decompiled": 1887,
-  "bytes_decompiled": 510020,
+  "funcs_decompiled": 1888,
+  "bytes_decompiled": 513628,
   "funcs_linked": 22,
   "bytes_linked": 940,
   "funcs_pending": 2,
@@ -66,7 +66,7 @@
   "bytes_decompilable": 754916,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 67.55983447164982
+  "percent_decompiled": 68.03776844046224
  },
  "asm": {
   "bytes": 3128,
@@ -112,8 +112,8 @@
  },
  "callgraph": {
   "nodes": 2035,
-  "edges": 11198,
-  "unresolved_calls": 1339,
+  "edges": 11197,
+  "unresolved_calls": 1338,
   "parsed_c_functions": 1968
  }
 }
