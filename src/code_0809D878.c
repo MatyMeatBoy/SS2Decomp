@@ -2448,522 +2448,355 @@ check:
 
 
 #ifdef NONMATCHING
-struct T107BActor { u16 f0; u16 f2; u8 p4[8]; u16 fC; u8 pE[6]; s32 f14; s32 f18; u8 p1C[48]; s32 f4C; u8 p50[10]; u16 f5A; s16 f5C; s16 f5E; u8 p60[8]; u16 f68; u16 f6A; u16 f6C; s16 f6E; u8 p70[356]; s16 f1D4; s16 f1D6; u8 p1D8[36]; u8 f1FC; u8 f1FD; u8 f1FE; u8 p1FF[1]; u8 f200; u8 p201[1]; u16 f202; u8 p204[42]; s8 f22E; s8 f22F; u8 p230[168]; u16 f2D8; u16 f2DA; };
-extern struct T107BActor *t107B364 asm("gUnk_03000364");
-extern struct T107BActor *t107B368 asm("gUnk_03000368");
-extern struct T107BActor *t107BSummons[] asm("gUnk_03000370");
-extern u8 t107BPatterns[] asm("gUnk_08518768");
-extern u8 t107BActive[] asm("gUnk_030003EC");
-extern u8 t107BAttr[] asm("gUnk_0300039C");
-struct T107BAnim { u32 f0,f4,f8,fC; u8 pad10[12]; u8 attr[24]; };
-extern struct T107BAnim t107BAnim[] asm("gUnk_03000380");
-extern u8 gUnk_030003EA;
-extern u8 gUnk_084A6DB8[];
-extern u16 t107BTile asm("gUnk_030003E8");
-extern s32 t107BAck(void) asm("sub_08067BF8");
-extern s16 t107BCall0800086C(void) asm("sub_0800086C");
-/* Keep renderer coordinates wide: y - 1 must not wrap before the call. */
-extern void *t107BCall08007870(s32,s32,u32,u32,s32,void *,u32,u32) asm("sub_08007870");
-extern void t107BCall0800BC08(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
-extern void t107BCall0801623C(void *,void *,s32) asm("sub_0801623C");
-extern s32 t107BCall08016E04(u16,u16) asm("sub_08016E04");
-extern void t107BCall08019F60(void *) asm("sub_08019F60");
-extern void t107BCall0801A120(void *,s32,s16) asm("sub_0801A120");
-extern void t107BCall0801C8F0(void *) asm("sub_0801C8F0");
-extern void t107BCall0806171C(void *,s32) asm("sub_0806171C");
-extern void t107BCall08065158(void *,s32,u16,s32,s32) asm("sub_08065158");
-extern void t107BCall080970CC(void *,void *,u16,u16) asm("sub_080970CC");
-void sub_080A27B8(void *arg0) {
-    s32 sp0;
-    void *sp4;                                      /* compiler-managed */
-    s32 sp8;
-    s32 spC;
-    s16 sp10;
-    s16 sp12;
-    struct T107BActor *sp14;
-    void *sp18;
-    struct Player *sp1C;
-    s32 sp20;
-    s32 sp24;
-    u32 sp28;
-    u32 sp2C;
-    u16 *sp30;
-    s16 *temp_r0_10;
-    s16 *var_r7;
-    s32 temp_r0_2;
-    s32 temp_r1_2;
-    s16 temp_r1_3;
-    s16 temp_r2_3;
-    s16 temp_r4;
-    s16 var_r1_2;
-    s16 var_r1_3;
-    s16 var_r2;
-    s16 var_sl;
-    s32 *temp_r1_4;
-    s32 *temp_r1_5;
-    s32 *temp_r1_6;
-    s32 *temp_r2_4;
-    s32 *temp_r2_5;
-    s32 *temp_r2_6;
-    s32 temp_r0_11;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
-    s32 temp_r0_3;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    s32 temp_r4_2;
-    s8 *var_r0;
-    u16 temp_r0;
-    u16 temp_r0_5;
-    u16 temp_r0_6;
-    u16 temp_r1;
-    u32 temp_r0_14;
-    u32 temp_r0_15;
-    u32 temp_r0_4;
-    u32 temp_r5;
-    u32 var_r1;
-    u32 var_sl_2;
-    u32 var_sl_3;
-    u8 temp_r0_7;
-    u8 temp_r9;
-    u8 temp_r9_2;
-    u8 temp_r9_3;
-    u8 var_r0_2;
+struct EntA27 {
+    u16 f0, f2; u8 p4[8]; u16 fC; u8 pE[6];
+    s32 x, y; u8 p1C[0x30]; s32 f4C; u8 p50[10]; u16 f5A; s16 f5C; s16 f5E;
+    u8 p60[8]; u16 f68, f6A, f6C, f6E;
+    u8 p70[0x164]; s16 f1D4, f1D6; u8 p1D8[0x24];
+    u8 lo:4; u8 hi:4;
+    u8 f1FD, f1FE, p1FF; u8 f200; u8 p201; u16 f202;
+    u8 p204[0x2a]; s8 f22E, f22F; u8 p230[0xa8]; u16 f2D8, f2DA;
+};
+struct AuxA27 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
+struct AnimA27 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 attr[24]; };
+struct PlayerA27 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+struct GlobA27 { u8 p0[0x720]; s32 f720; };
+extern struct EntA27 *selfA27 asm("gUnk_03000364");
+extern struct EntA27 *otherA27 asm("gUnk_03000368");
+extern struct EntA27 *summA27[] asm("gUnk_03000370");
+extern struct AnimA27 animsA27[] asm("gUnk_03000380");
+extern u16 tileA27 asm("gUnk_030003E8");
+extern u8 flagA27 asm("gUnk_030003EA");
+extern u8 activeA27[] asm("gUnk_030003EC");
+extern u8 modeA27 asm("gUnk_030003EF");
+extern u8 patA27[] asm("gUnk_08518768");
+extern u32 maskA27 asm("gUnk_030056FC");
+extern struct PlayerA27 playersA27[] asm("gUnk_03003CE0");
+extern struct GlobA27 *globA27 asm("gUnk_03005CF4");
+extern void *heapA27 asm("gUnk_030034E0");
+extern u8 srcA27[] asm("gUnk_084A6DB8");
+extern void setupA27(void *, void *, s32) asm("sub_0801623C");
+extern void s19F60A27(void *) asm("sub_08019F60");
+extern void s1C8F0A27(void *) asm("sub_0801C8F0");
+extern void s1A120A27(void *, s32, s16) asm("sub_0801A120");
+extern s32 s16E04A27(u16, u16) asm("sub_08016E04");
+extern void initA27(void *, u32, u16, s32, s32) asm("sub_08065158");
+extern u16 animA27(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern s32 *drawA27(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern void coordsA27(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void yieldA27(void) asm("sub_080003F0");
+extern s32 s67C08A27(void) asm("sub_08067C08");
+extern s32 s67C18A27(void) asm("sub_08067C18");
+extern s32 s67BF8A27(void) asm("sub_08067BF8");
+extern void s6849CA27(s32) asm("sub_0806849C");
+extern u8 s68490A27(void) asm("sub_08068490");
+extern s32 s68450A27(u8) asm("sub_08068450");
+extern s16 s0086CA27(void) asm("sub_0800086C");
+extern void s97A74A27(void *, void *, s32, s32) asm("sub_08097A74");
+extern void s4520A27(void) asm("sub_080A4520");
+extern u8 s96594A27(u8) asm("sub_08096594");
+extern void s49ECA27(void) asm("sub_080A49EC");
+extern void s4A7CA27(void) asm("sub_080A4A7C");
+extern void s4C24A27(void) asm("sub_080A4C24");
+extern void s4CA8A27(u8, u8, u8, u8) asm("sub_080A4CA8");
+extern void s4C74A27(u8, u8) asm("sub_080A4C74");
+extern void s4CDCA27(u8, u8) asm("sub_080A4CDC");
+extern void s4CF0A27(s8) asm("sub_080A4CF0");
+extern void s4CFCA27(s8) asm("sub_080A4CFC");
+extern void s97FE4A27(void) asm("sub_08097FE4");
+extern void s97A4CA27(void) asm("sub_08097A4C");
+extern void s586B4A27(s32) asm("sub_080586B4");
+extern void s58688A27(s32) asm("sub_08058688");
+extern s32 s5DF38A27(u32, u32, u32, u32, s32, u32) asm("sub_0805DF38");
+extern s32 s5EEFCA27(s32) asm("sub_0805EEFC");
+extern void s970CCA27(void *, void *, u16, u16) asm("sub_080970CC");
+extern s32 s1E46CA27(void *, void *) asm("sub_0801E46C");
+extern void s1E4CCA27(void *, s32) asm("sub_0801E4CC");
+extern void s6171CA27(void *, s32) asm("sub_0806171C");
 
-    sp14 = arg0;
-    t107B364 = arg0;
-    sp18 = arg0 + 0x204;
-    t107BCall0801623C(arg0, &gUnk_084A6DB8, 0);
-    t107BCall08019F60(sp18);
-    sub_0801A0B0(t107B364);
-    t107B364->f14 = 0xF200;
-    t107B364->f18 = 0x8500;
-    temp_r1 = (t107BTile = t107BCall08016E04(sp14->f2D8, sp14->f2DA));
-    if (temp_r1 == 0xFFFF) {
-loop_2:
-        t107B364->fC = 0xB;
-        if ((sub_0800CB78() != 0) || (sub_08056E90() != 0)) {
-            gUnk_030056FC &= ~(1 << t107B364->f0);
+#define TAIL_A27()                                                                                         {                                                                                                          s32 z;                                                                                                 playersA27[sub_080020F4()].flags |= 1;                                                                 if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {             sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[0].fC + *pD6 * 32), 1);                                pal = sub_0800BC44(selfA27->x >> 8, selfA27->y >> 8, 0);                                               selfA27->f6E = animA27(&animsA27[0], selfA27->f68, &selfA27->f6A, &selfA27->f6C, 1);                   coordsA27((s16)(selfA27->x >> 8), (s16)(selfA27->y >> 8), &sx, &sy, z, z);                             drawA27(sx, sy, selfA27->f68, selfA27->f6A, pal, animsA27[0].attr, animsA27[0].f8, animsA27[0].f0);         }                                                                                                      yieldA27();                                                                                        }
+
+void sub_080A27B8(struct EntA27 *self)
+{
+    s16 sx, sy;
+    struct AuxA27 *aux;
+    struct PlayerA27 *target;
+    u16 blink;
+    u16 flash;
+    u16 wait8;
+    u16 wait4;
+    u16 *pD6;
+    s16 shake;
+    u8 pal;
+    u16 t;
+    struct EntA27 *e;
+    s16 i;
+    s32 h;
+    s32 *p;
+
+    selfA27 = self;
+    aux = (struct AuxA27 *)((u8 *)self + 0x204);
+    setupA27(self, srcA27, 0);
+    s19F60A27(aux);
+    sub_0801A0B0(selfA27);
+    {
+        struct EntA27 *e0 = selfA27;
+        e0->x = 0xF200;
+        e0->y = 0x8500;
+    }
+    tileA27 = s16E04A27(self->f2D8, self->f2DA);
+    while (tileA27 == 0xFFFF) {
+        selfA27->fC = 11;
+        if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
+            maskA27 &= ~(1 << selfA27->f0);
             return;
         }
-        sub_080003F0();
-        if (t107BTile != temp_r1) {
-            goto block_6;
-        }
-        goto loop_2;
+        yieldA27();
     }
-block_6:
-    sp0 = 1;
-    t107BCall08065158((u8 *)t107BAnim, 0x5000D, t107BTile, -1, sp0);
-    sp0 = 1;
-    t107BCall08065158((u8 *)t107BAnim + 0x34, 0x5000E, t107BTile, -1, sp0);
-    temp_r1_2 = M2C_FIELD(sp18, s16 *, 0x6) * 3;
-    t107B364->f1D6 = temp_r1_2;
-    t107B364->f5C = temp_r1_2;
-    temp_r0_2 = M2C_FIELD(sp18, s16 *, 0x4) * 0xA * 2;
-    t107B364->f1D4 = temp_r0_2;
-    t107B364->f5E = temp_r0_2;
-    t107B364->fC = 0;
-    sp20 = 0;
-    sp24 = 0;
-    t107B364->f1FD = 3U;
-    t107B364->f1FE = 3U;
-    sub_080A49EC();
-    sub_080A4A7C();
+    initA27(&animsA27[0], 0x5000D, tileA27, -1, 1);
+    initA27(&animsA27[1], 0x5000E, tileA27, -1, 1);
+    e = selfA27;
+    e->f5C = e->f1D6 = aux->f6 * 3;
+    e->f5E = e->f1D4 = (aux->f4 << 1) * 10;
+    e->fC = 0;
+    blink = 0;
+    flash = 0;
+    e->f1FD = 3;
+    selfA27->f1FE = 3;
+    s49ECA27();
+    s4A7CA27();
     sub_080A4AE4();
     sub_080A4B48(0);
     sub_080A4B48(1);
     sub_080A4B48(2);
     sub_080A4BE0();
-    sub_080A4C24();
-    sub_080A4C74(0U, 0U);
-    sub_080A4CA8(0, 7U, 1U, 2U);
-    sub_080A4CA8(1, 8U, 4U, 6U);
-    sub_080A4CA8(2, 0U, 0U, 0U);
-    sub_080A4CDC(0xB, 3);
-    sub_08097FE4();
-    sub_08097A4C();
-    t107B364->f5C = 0x3E7;
-    t107B364->f22E = 0x40;
-    t107B364->f22F = 0x30;
-    t107B364->f1FC = (u8) ((-0x10 & t107B364->f1FC) | (0xF & (u8) t107B364->f0));
-    t107B364->f202 = (u16) t107B364->f2;
-    t107B364->f200 = 0xFFU;
-    sub_08067C18();
-    sp30 = sp18 + 0xD6;
-loop_8:
-    if (sub_08067C08() == 0) {
-        sub_080003F0();
-        goto loop_8;
-    }
-    sub_0806849C(t107BAck());
-loop_90:
-    if (sub_0800CB78() == 0) {
-        temp_r0_3 = sub_08056E90();
-        if (temp_r0_3 == 0) {
-            if (sp14->fC == 0xA) {
-                if (sp20 == 0) {
-                    sp20 = 8;
+    s4C24A27();
+    s4C74A27(0, 0);
+    s4CA8A27(0, 7, 1, 2);
+    s4CA8A27(1, 8, 4, 6);
+    s4CA8A27(2, 0, 0, 0);
+    s4CDCA27(11, 3);
+    s97FE4A27();
+    s97A4CA27();
+    selfA27->f5C = 999;
+    selfA27->f22E = 0x40;
+    selfA27->f22F = 0x30;
+    selfA27->lo = selfA27->f0;
+    selfA27->f202 = selfA27->f2;
+    selfA27->f200 = 0xFF;
+    s67C18A27();
+    pD6 = &aux->fD6;
+    while (s67C08A27() == 0)
+        yieldA27();
+    s6849CA27(s67BF8A27());
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (self->fC == 10) {
+            if (blink == 0)
+                blink = 8;
+            selfA27->f5C = 999;
+            selfA27->f4C = 0;
+            flash = 10;
+            shake = 0;
+        }
+        if (sub_08058DB0() == 0) {
+            s1C8F0A27(selfA27);
+            switch (selfA27->f1FD) {
+            case 1:
+                selfA27->fC = 0;
+                if (s67C08A27()) {
+                    selfA27->f1FD = selfA27->f1FE;
+                    s67BF8A27();
                 }
-                t107B364->f5C = 0x3E7;
-                t107B364->f4C = temp_r0_3;
-                sp24 = 0xA;
-                var_sl = 0;
-            }
-            var_r7 = &sp12;
-            if (sub_08058DB0() != 0) {
-
-            } else {
-                t107BCall0801C8F0(t107B364);
-                temp_r0_4 = t107B364->f1FD - 1;
-                switch (temp_r0_4) {                /* irregular */
-                case 0:
-                    t107B364->fC = 0;
-                    var_r7 = &sp12;
-                    if (sub_08067C08() == 0) {
-
-                    } else {
-                        t107B364->f1FD = (u8) t107B364->f1FE;
-                        sub_08067BF8();
-                    }
-                    break;
-                case 1:
-                    t107B364->fC = 0;
-                    t107B364->f200 = sub_08068490();
-                    var_r7 = &sp12;
-                    if (t107B364->f200 == 0xFF) {
-
-                    } else {
-                        t107B364->f1FE = 7U;
-                        var_r0 = (u8 *)t107B364 + 0x1FD;
-block_56:
-                        var_r1 = 1;
-block_57:
-                        *var_r0 = (s8) var_r1;
-                        sub_08067C18();
-                    }
-                    break;
-                case 2:
-                    var_r7 = &sp12;
-                    if (sub_08056F78() == 0) {
-
-                    } else {
-                        t107B364->f1FE = 8U;
-                        t107B364->f1FD = 1U;
-                        sub_08067C18();
-                        sp28 = 0;
-                    }
-                    break;
-                case 4:
-                    t107B364->fC = 0;
-                    sub_080A4C74(0xFFU, 0U);
-                    sub_080A4CA8(0, 0U, 0U, 0U);
-                    sub_080A4CA8(1, 0U, 0U, 0U);
-                    sub_080A4CA8(2, 0U, 0U, 0U);
-                    sub_080A4CDC(0, 0);
-                    sub_080A4CF0(1);
-                    sub_080A4CFC(1);
-                    sp2C = 0;
-                    t107B364->f1FC = (u8) ((0xF & t107B364->f1FC) | (sub_08096594(0) * 0x10));
-                    sp1C = &gUnk_03003CE0[(u8) t107B364->f1FC >> 4];
-                    sub_08097A38(0U);
-                    t107B364->f1FE = 4U;
-                    t107B364->f1FD = 1U;
-                    sub_08067C18();
-                    sub_0805865C(0xDF);
-block_61:
-                    var_r7 = &sp12;
-                    break;
-                case 3:
-                    t107B364->fC = 2;
-                    sub_08097A74(t107B364, sp1C, 0x100, 0x20);
-                    sub_080A4520();
-                    if (sp2C > 0x78U) {
-                        sub_0805867C(0xDF);
-                        if (sub_08002204() == 1) {
-                            var_r2 = (s16) (t107BCall0800086C() % 5);
-                            if ((s32) var_r2 < 0) {
-                                var_r2 = 0 - var_r2;
-                            }
-                            t107B364->f200 = (u8) var_r2;
-                            var_r1 = sub_08068450(t107B364->f200);
-                            var_r7 = &sp12;
-                            if (var_r1 != 1) {
-
-                            } else {
-                                t107B364->f1FE = 2U;
-                                var_r0 = (u8 *)t107B364 + 0x1FD;
-                                goto block_57;
-                            }
-                        } else {
-                            t107B364->f200 = 0xFFU;
-                            t107B364->f1FE = 2U;
-                            t107B364->f1FD = 1U;
-                            sub_08067C18();
-                            goto block_61;
+                break;
+            case 2:
+                selfA27->fC = 0;
+                selfA27->f200 = s68490A27();
+                if (selfA27->f200 != 0xFF) {
+                    selfA27->f1FE = 7;
+                    selfA27->f1FD = 1;
+                    s67C18A27();
+                }
+                break;
+            case 3:
+                if (sub_08056F78()) {
+                    selfA27->f1FE = 8;
+                    selfA27->f1FD = 1;
+                    s67C18A27();
+                    wait8 = 0;
+                }
+                break;
+            case 5:
+                selfA27->fC = 0;
+                s4C74A27(0xFF, 0);
+                s4CA8A27(0, 0, 0, 0);
+                s4CA8A27(1, 0, 0, 0);
+                s4CA8A27(2, 0, 0, 0);
+                s4CDCA27(0, 0);
+                s4CF0A27(1);
+                s4CFCA27(1);
+                wait4 = 0;
+                selfA27->hi = s96594A27(0);
+                target = &playersA27[*((u8 *)selfA27 + 0x1FC) >> 4];
+                sub_08097A38(0);
+                selfA27->f1FE = 4;
+                selfA27->f1FD = 1;
+                s67C18A27();
+                sub_0805865C(0xDF);
+                break;
+            case 4:
+                selfA27->fC = 2;
+                s97A74A27(selfA27, target, 0x100, 0x20);
+                s4520A27();
+                if (wait4 > 120) {
+                    sub_0805867C(0xDF);
+                    if (sub_08002204() == 1) {
+                        s16 m = s0086CA27();
+                        selfA27->f200 = ({ s32 v = (s16)(m % 5); v < 0 ? -v : v; });
+                        if (s68450A27(selfA27->f200) == 1) {
+                            selfA27->f1FE = 2;
+                            selfA27->f1FD = 1;
+                            s67C18A27();
                         }
                     } else {
-                        sp2C = (u32) (u16) (sp2C + 1);
-                        goto block_61;
+                        selfA27->f200 = 0xFF;
+                        selfA27->f1FE = 2;
+                        selfA27->f1FD = 1;
+                        s67C18A27();
                     }
-                    break;
-                case 6:
-                    t107B364->fC = 0;
-                    if (t107B364->f200 == 0xFF) {
-                        t107B364->f200 = 2U;
-                    }
-                    temp_r2 = t107B364->f200 * 0xF;
-                    sub_080A4C74(t107BPatterns[temp_r2], t107BPatterns[temp_r2 + 2]);
-                    temp_r3 = t107B364->f200 * 0xF;
-                    sub_080A4CA8(0, t107BPatterns[temp_r3 + 3], t107BPatterns[temp_r3 + 4], t107BPatterns[temp_r3 + 5]);
-                    temp_r3_2 = t107B364->f200 * 0xF;
-                    sub_080A4CA8(1, t107BPatterns[temp_r3_2 + 6], t107BPatterns[temp_r3_2 + 7], t107BPatterns[temp_r3_2 + 8]);
-                    temp_r3_3 = t107B364->f200 * 0xF;
-                    sub_080A4CA8(2, t107BPatterns[temp_r3_3 + 9], t107BPatterns[temp_r3_3 + 0xA], t107BPatterns[temp_r3_3 + 0xB]);
-                    temp_r2_2 = t107B364->f200 * 0xF;
-                    sub_080A4CDC((s8) t107BPatterns[temp_r2_2 + 0xC], (s8) t107BPatterns[temp_r2_2 + 0xD]);
-                    sub_080A4CF0(0);
-                    sub_0805865C(0xE1);
-                    gUnk_030003EA = 1;
-                    var_r1_2 = 0;
-                    var_r7 = &sp12;
-                    do {
-                        temp_r4 = var_r1_2;
-                        if (t107BSummons[temp_r4]->f5C != 0) {
-                            sub_0805865C(0xE0);
-                            t107BActive[temp_r4] = 1;
-                        }
-                        temp_r0_5 = temp_r4 + 1;
-                        var_r1_2 = (s16) temp_r0_5;
-                    } while ((s32) (s16) temp_r0_5 <= 2);
-                    t107B364->f200 = 0xFFU;
-                    t107B364->f1FE = 6U;
-                    var_r0 = (u8 *)t107B364 + 0x1FD;
-                    goto block_56;
-                case 5:
-                    t107B364->fC = 0;
-                    if (t107B368->f5C == 0) {
-                        gUnk_030003EA = 0;
-                    }
-                    var_r1_3 = 0;
-                    var_r7 = &sp12;
-                    do {
-                        temp_r2_3 = var_r1_3;
-                        temp_r1_3 = t107BSummons[temp_r2_3]->f5C;
-                        if (temp_r1_3 == 0) {
-                            t107BActive[temp_r2_3] = (s8) temp_r1_3;
-                        }
-                        temp_r0_6 = temp_r2_3 + 1;
-                        var_r1_3 = (s16) temp_r0_6;
-                    } while ((s32) (s16) temp_r0_6 <= 2);
-                    if ((gUnk_030003EA == 0) && (t107BActive[0] == 0) && (t107BActive[1] == 0) && (t107BActive[2] == 0)) {
-                        sub_080A4CFC(0);
-                        t107B364->f1FE = 8U;
-                        var_r0 = (u8 *)t107B364 + 0x1FD;
-                        goto block_56;
-                    }
-                    break;
-                case 7:
-                    t107B364->fC = 1;
-                    if (sp28 > 0xB4U) {
-                        sp28 = 0;
-                        t107B364->f1FE = 5U;
-                        t107B364->f1FD = 1U;
-                        sub_08067C18();
-                    } else {
-                        sp28 = (u32) (u16) (sp28 + 1);
-                    }
-                    goto block_61;
+                } else {
+                    wait4++;
                 }
-            }
-            t107BAnim[(u8)gUnk_030003EF].attr[0] = (s8) t107BTile;
-            sub_08000AF0(t107BTile + 0x10, t107BAnim[(u8)gUnk_030003EF].fC + (*sp30 << 5), 1U);
-            if (sub_0800CD8C() == 0) {
-                sp0 = 1;
-                t107B364->f6E = (s16) sub_08065370((0x34 * (u8) gUnk_030003EF) + (u8 *)t107BAnim, 0U, (s32) ((u8 *)t107B364 + 0x6A), (s32) ((u8 *)t107B364 + 0x6C), sp0);
-            }
-            if (1 & sub_08098004()) {
-                var_r0_2 = sub_08097FF8();
-            } else {
-                var_r0_2 = (u8) sub_0800BC44((u32) ((s32) t107B364->f14 >> 8), (u32) ((s32) t107B364->f18 >> 8), 0U);
-            }
-            temp_r0_7 = var_r0_2;
-            sp0 = 0;
-            sp4 = NULL;
-            t107BCall0800BC08((s32) (t107B364->f14 << 8) >> 0x10, (s32) (t107B364->f18 << 8) >> 0x10, &sp10, var_r7, sp0, (s32)sp4);
-            if (sp20 != 0) {
-                temp_r0_8 = sp20;
-                sp20 = (s32) (u16) (temp_r0_8 - 1);
-                if ((1 & temp_r0_8) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-                    sp0 = (s32) temp_r0_7;
-                    sp4 = (0x34 * (u8) gUnk_030003EF) + t107BAttr;
-                    sp8 = *(u32 *)((0x34 * (u8) gUnk_030003EF) + (t107BAttr - 0x14));
-                    spC = *(u32 *)((0x34 * (u8) gUnk_030003EF) + (t107BAttr - 0x1C));
-                    t107BCall08007870(sp10, *var_r7, 0U, t107B364->f6A, sp0, sp4, sp8, spC);
+                break;
+            case 7:
+                selfA27->fC = 0;
+                if (selfA27->f200 == 0xFF)
+                    selfA27->f200 = 2;
+                s4C74A27((&patA27[0])[selfA27->f200 * 15], (&patA27[2])[selfA27->f200 * 15]);
+                s4CA8A27(0, (&patA27[3])[selfA27->f200 * 15], (&patA27[4])[selfA27->f200 * 15], (&patA27[5])[selfA27->f200 * 15]);
+                s4CA8A27(1, (&patA27[6])[selfA27->f200 * 15], (&patA27[7])[selfA27->f200 * 15], (&patA27[8])[selfA27->f200 * 15]);
+                s4CA8A27(2, (&patA27[9])[selfA27->f200 * 15], (&patA27[10])[selfA27->f200 * 15], (&patA27[11])[selfA27->f200 * 15]);
+                s4CDCA27((&patA27[12])[selfA27->f200 * 15], (&patA27[13])[selfA27->f200 * 15]);
+                s4CF0A27(0);
+                sub_0805865C(0xE1);
+                flagA27 = 1;
+                for (i = 0; i <= 2; i++) {
+                    if (summA27[i]->f5C != 0) {
+                        sub_0805865C(0xE0);
+                        activeA27[i] = 1;
+                    }
                 }
-            } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-                sp0 = (s32) temp_r0_7;
-                sp4 = (0x34 * (u8) gUnk_030003EF) + t107BAttr;
-                sp8 = *(u32 *)((0x34 * (u8) gUnk_030003EF) + (t107BAttr - 0x14));
-                spC = *(u32 *)((0x34 * (u8) gUnk_030003EF) + (t107BAttr - 0x1C));
-                t107BCall08007870(sp10, *var_r7, 0U, t107B364->f6A, sp0, sp4, sp8, spC);
-            }
-            if (((u8) gUnk_030003EF != 0) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-                M2C_FIELD(t107BAnim, u8 *, 0x50) = (s8) t107BTile;
-                sub_08000AF0(t107BTile + 0x10, M2C_FIELD(t107BAnim, u32 *, 0x40) + (*sp30 << 5), 1U);
-                sp0 = (s32) temp_r0_7;
-                sp4 = (u8 *)t107BAnim + 0x50;
-                sp8 = M2C_FIELD(t107BAnim, u32 *, 0x3C);
-                spC = M2C_FIELD(t107BAnim, u32 *, 0x34);
-                M2C_FIELD(t107BCall08007870(sp10, *var_r7 - 1, 0x11U, 0U, sp0, sp4, sp8, spC), s32 *, 0xC) = (s32) *var_r7;
-            }
-            if (sp24 != 0) {
-                if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                    t107BCall0801A120(t107B364, 0x8000, var_sl);
+                selfA27->f200 = 0xFF;
+                selfA27->f1FE = 6;
+                selfA27->f1FD = 1;
+                s67C18A27();
+                break;
+            case 6:
+                selfA27->fC = 0;
+                if (otherA27->f5C == 0)
+                    flagA27 = 0;
+                for (i = 0; i <= 2; i++) {
+                    if (summA27[i]->f5C == 0)
+                        activeA27[i] = 0;
                 }
-                temp_r0_9 = sp24;
-                sp24 = (s32) (u16) (temp_r0_9 - 1);
-                if (2 & temp_r0_9) {
-                    var_sl = (s16) ((u32) ((var_sl << 0x10) + 0xFFFF0000) >> 0x10);
+                if (flagA27 == 0 && activeA27[0] == 0 && activeA27[1] == 0 && activeA27[2] == 0) {
+                    s4CFCA27(0);
+                    selfA27->f1FE = 8;
+                    selfA27->f1FD = 1;
+                    s67C18A27();
                 }
-            }
-            sub_080003F0();
-            if (t107B368->f5C != 0) {
-                goto loop_90;
+                break;
+            case 8:
+                selfA27->fC = 1;
+                if (wait8 > 180) {
+                    wait8 = 0;
+                    selfA27->f1FE = 5;
+                    selfA27->f1FD = 1;
+                    s67C18A27();
+                } else {
+                    wait8++;
+                }
+                break;
             }
         }
+        animsA27[modeA27].attr[0] = tileA27;
+        sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[modeA27].fC + *pD6 * 32), 1);
+        if (sub_0800CD8C() == 0)
+            selfA27->f6E = animA27(&animsA27[modeA27], 0, &selfA27->f6A, &selfA27->f6C, 1);
+        if (sub_08098004() & 1)
+            pal = sub_08097FF8();
+        else
+            pal = sub_0800BC44(selfA27->x >> 8, selfA27->y >> 8, 0);
+        coordsA27((s16)(selfA27->x >> 8), (s16)(selfA27->y >> 8), &sx, &sy, 0, 0);
+        if (blink != 0) {
+            if ((blink-- & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                drawA27(sx, sy, 0, selfA27->f6A, pal, animsA27[modeA27].attr, animsA27[modeA27].f8, animsA27[modeA27].f0);
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            drawA27(sx, sy, 0, selfA27->f6A, pal, animsA27[modeA27].attr, animsA27[modeA27].f8, animsA27[modeA27].f0);
+        }
+        if (modeA27 != 0 && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            animsA27[1].attr[0] = tileA27;
+            sub_08000AF0(tileA27 + 0x10, (void *)(animsA27[1].fC + *pD6 * 32), 1);
+            p = drawA27(sx, sy - 1, 0x11, 0, pal, animsA27[1].attr, animsA27[1].f8, animsA27[1].f0);
+            p[3] = sy;
+        }
+        if (flash != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                s1A120A27(selfA27, 0x8000, shake);
+            if (flash-- & 2)
+                shake--;
+        }
+        yieldA27();
+        if (otherA27->f5C == 0)
+            break;
     }
-    gUnk_030056FC = 0;
+    maskA27 = 0;
     sub_0805867C(0xDF);
-    temp_r2_4 = (s32 *)((u8 *)gUnk_03003CE0 + (sub_080020F4() * 0x14C) + 0x30);
-    *temp_r2_4 |= 1;
-    sp0 = 1;
-    t107BCall08065158((u8 *)t107BAnim, 0x5000D, t107BTile, -1, sp0);
-    M2C_FIELD(t107BAnim, u8 *, 0x1C) = (s8) t107BTile;
-    t107B364->f6C = 0;
-    temp_r0_10 = ((u8 *)t107B364 + 0x6C) - 2;
-    *temp_r0_10 = 0;
-    *(s16 *)((u8 *)temp_r0_10 - 2) = 0;
-    sub_080A4CF0(0);
+    playersA27[sub_080020F4()].flags |= 1;
+    initA27(&animsA27[0], 0x5000D, tileA27, -1, 1);
+    animsA27[0].attr[0] = tileA27;
+    {
+        struct EntA27 *e9 = selfA27;
+        e9->f6C = 0;
+        e9->f6A = 0;
+        e9->f68 = 0;
+    }
+    s4CF0A27(0);
     sub_080683CC();
-    sub_08068330(-0x21520532);
-loop_100:
-    if (sub_080682B8(-0x21520532) == 0) {
-        temp_r1_4 = (s32 *)((u8 *)gUnk_03003CE0 + (sub_080020F4() * 0x14C) + 0x30);
-        *temp_r1_4 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_11 = sub_0800CD34();
-            if (temp_r0_11 == 0) {
-                sub_08000AF0(t107BTile + 0x10, M2C_FIELD(t107BAnim, u32 *, 0xC) + (*sp30 << 5), 1U);
-                temp_r9 = (u8) sub_0800BC44((u32) ((s32) t107B364->f14 >> 8), (u32) ((s32) t107B364->f18 >> 8), 0U);
-                sp0 = 1;
-                t107B364->f6E = (s16) sub_08065370((u8 *)t107BAnim, t107B364->f68, (s32) ((u8 *)t107B364 + 0x6A), (s32) ((u8 *)t107B364 + 0x6C), sp0);
-                sp0 = temp_r0_11;
-                sp4 = temp_r0_11;
-                t107BCall0800BC08((s32) (t107B364->f14 << 8) >> 0x10, (s32) (t107B364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, (s32)sp4);
-                sp0 = (s32) temp_r9;
-                sp4 = (u8 *)t107BAnim + 0x1C;
-                sp8 = M2C_FIELD(t107BAnim, u32 *, 0x8);
-                spC = M2C_FIELD(t107BAnim, u32 *, 0x0);
-                t107BCall08007870(sp10, sp12, t107B364->f68, t107B364->f6A, sp0, sp4, sp8, spC);
-            }
-        }
-        sub_080003F0();
-        goto loop_100;
-    }
-    sub_08065E38(-0x21520532);
-loop_108:
-    if (sub_08058DB0() != 0) {
-        temp_r1_5 = (s32 *)((u8 *)gUnk_03003CE0 + (sub_080020F4() * 0x14C) + 0x30);
-        *temp_r1_5 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_12 = sub_0800CD34();
-            if (temp_r0_12 == 0) {
-                sub_08000AF0(t107BTile + 0x10, M2C_FIELD(t107BAnim, u32 *, 0xC) + (*sp30 << 5), 1U);
-                temp_r9_2 = (u8) sub_0800BC44((u32) ((s32) t107B364->f14 >> 8), (u32) ((s32) t107B364->f18 >> 8), 0U);
-                sp0 = 1;
-                t107B364->f6E = (s16) sub_08065370((u8 *)t107BAnim, t107B364->f68, (s32) ((u8 *)t107B364 + 0x6A), (s32) ((u8 *)t107B364 + 0x6C), sp0);
-                sp0 = temp_r0_12;
-                sp4 = temp_r0_12;
-                t107BCall0800BC08((s32) (t107B364->f14 << 8) >> 0x10, (s32) (t107B364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, (s32)sp4);
-                sp0 = (s32) temp_r9_2;
-                sp4 = (u8 *)t107BAnim + 0x1C;
-                sp8 = M2C_FIELD(t107BAnim, u32 *, 0x8);
-                spC = M2C_FIELD(t107BAnim, u32 *, 0x0);
-                t107BCall08007870(sp10, sp12, t107B364->f68, t107B364->f6A, sp0, sp4, sp8, spC);
-            }
-        }
-        sub_080003F0();
-        goto loop_108;
-    }
-    sub_080586B4(0);
-    temp_r2_5 = (s32 *)((u8 *)gUnk_03003CE0 + (sub_080020F4() * 0x14C) + 0x30);
-    *temp_r2_5 |= 1;
-    sp0 = 0x3C;
-    sp4 = (void *)0x140065;
-    M2C_FIELD(gUnk_03005CF4, s32 *, 0x720) = sub_0805DF38(1U, 0xEU, 0x19U, 2U, sp0, (u32)sp4);
-loop_116:
-    if (sub_0805EEFC((void *) M2C_FIELD(gUnk_03005CF4, s32 *, 0x720)) == 0) {
-        temp_r1_6 = (s32 *)((u8 *)gUnk_03003CE0 + (sub_080020F4() * 0x14C) + 0x30);
-        *temp_r1_6 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_13 = sub_0800CD34();
-            if (temp_r0_13 == 0) {
-                sub_08000AF0(t107BTile + 0x10, M2C_FIELD(t107BAnim, u32 *, 0xC) + (*sp30 << 5), 1U);
-                temp_r9_3 = (u8) sub_0800BC44((u32) ((s32) t107B364->f14 >> 8), (u32) ((s32) t107B364->f18 >> 8), 0U);
-                sp0 = 1;
-                t107B364->f6E = (s16) sub_08065370((u8 *)t107BAnim, t107B364->f68, (s32) ((u8 *)t107B364 + 0x6A), (s32) ((u8 *)t107B364 + 0x6C), sp0);
-                sp0 = temp_r0_13;
-                sp4 = temp_r0_13;
-                t107BCall0800BC08((s32) (t107B364->f14 << 8) >> 0x10, (s32) (t107B364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, (s32)sp4);
-                sp0 = (s32) temp_r9_3;
-                sp4 = (u8 *)t107BAnim + 0x1C;
-                sp8 = M2C_FIELD(t107BAnim, u32 *, 0x8);
-                spC = M2C_FIELD(t107BAnim, u32 *, 0x0);
-                t107BCall08007870(sp10, sp12, t107B364->f68, t107B364->f6A, sp0, sp4, sp8, spC);
-            }
-        }
-        sub_080003F0();
-        goto loop_116;
-    }
-    temp_r2_6 = (s32 *)((u8 *)gUnk_03003CE0 + (0x14C * sub_080020F4()) + 0x30);
-    *temp_r2_6 &= ~1;
+    sub_08068330(0xDEADFACE);
+    while (sub_080682B8(0xDEADFACE) == 0)
+        TAIL_A27()
+    sub_08065E38(0xDEADFACE);
+    while (sub_08058DB0() != 0)
+        TAIL_A27()
+    s586B4A27(0);
+    playersA27[sub_080020F4()].flags |= 1;
+    globA27->f720 = s5DF38A27(1, 0xE, 0x19, 2, 0x3C, 0x00140065);
+    while (s5EEFCA27(globA27->f720) == 0)
+        TAIL_A27()
+    playersA27[sub_080020F4()].flags &= ~1;
     sub_080A4BFC();
     sub_080A4B10();
     sub_080A4A54();
-    sub_08058688(0xD);
-    t107BCall080970CC(t107B364, (u8 *)t107BAnim, *sp30, t107BTile);
-    if (!(*((s32 *)((u8 *)gUnk_03003CE0 + (0x14C * sub_080020F4()) + 0x30)) & 0x2000) && (t107B368->f5A != 0)) {
-        temp_r4_2 = sub_0801E46C((void *) gUnk_030034E0, sp18);
-        var_sl_2 = 0x1D;
+    s58688A27(0xD);
+    s970CCA27(selfA27, animsA27, *pD6, tileA27);
+    if (!(playersA27[sub_080020F4()].flags & 0x2000) && otherA27->f5A != 0) {
+        h = s1E46CA27(heapA27, aux);
+        shake = 0x1D;
         do {
-            t107B364->f18 = (s32) (t107B364->f18 - 0x20);
-            t107BCall0806171C(t107B364, temp_r4_2);
-            sub_080003F0();
-            temp_r0_14 = (var_sl_2 << 0x10) + 0xFFFF0000;
-            var_sl_2 = temp_r0_14 >> 0x10;
-        } while (((s32) temp_r0_14 >> 0x10) != -1);
-        sub_0801E4CC((u8 *) gUnk_030034E0, temp_r4_2);
+            selfA27->y -= 0x20;
+            s6171CA27(selfA27, h);
+            yieldA27();
+        } while (--shake != -1);
+        s1E4CCA27(heapA27, h);
     }
-    var_sl_3 = 0x6F;
-    do {
-        sub_080003F0();
-        temp_r5 = var_sl_3;
-        temp_r0_15 = (temp_r5 << 0x10) + 0xFFFF0000;
-        var_sl_3 = temp_r0_15 >> 0x10;
-    } while (((s32) temp_r0_15 >> 0x10) != -1);
-    sub_08067C18();
-loop_126:
-    if (sub_08067C08() == 0) {
-        sub_080003F0();
-        goto loop_126;
-    }
-    sub_08067BF8();
+    shake = 0x6F;
+    do
+        yieldA27();
+    while (--shake != -1);
+    s67C18A27();
+    while (s67C08A27() == 0)
+        yieldA27();
+    s67BF8A27();
     sub_08056E24();
 }
 #else

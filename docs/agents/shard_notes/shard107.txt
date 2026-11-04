@@ -1,15 +1,14 @@
-sub_080A35D0: MATCHED (nov03-w5). Final keys on top of the loop shape above: separate locals for the init
-  ent / main-loop ent / tail ent (one shared `ent` kept it in r7 and changed the init constants);
-  natural `animsA35[mode].attr/.f8/.f0` (cse use_related_value makes the 0x39C-0x1C forms); `slot = next`
-  inside the `if (r != 0) { ...; break; }` exit; test `if (slot == 0xFF)` on the global and
-  `frame = (slot << 1) + 1` / `slot + 1` (`slot * 2 + 1` reloads the byte); y offset as
-  `(&offs[0].y)[slot * 2]`.
-.; yield; continue; }
-  main...; if (s19CE8()) { yield; goto out; } yield; } slot = next; pD6 = &aux->fD6; out:` (expand_end_loop
-  rotates the code before the first exit jump to the bottom). Offsets as `struct {s16 x, y;}`.
-  Remaining: ROM hoists &gUnk_03000388 (f8 of anims) to sp+0x28 in the blink branch only and computes f0 as
-  (gUnk_0300039C reg) - 0x1C; draw attr/f8/f0 literals are gUnk_0300039C / gUnk_03000388 aliases (not 0x380+off).
- (DImode pair r6:r7) passed by value as the FIRST arg of sub_08097978 too; init
+sub_080A27B8 (nov03-w5): fresh hand-written draft, nmscore 937 -> 152, 3610/3608 bytes, call order identical.
+  Keys: `tileA27 = s16E04(...); while (tileA27 == 0xFFFF) {...}` (first test reuses the stored value, the
+  loop compares against a hoisted copy); separate block-local ent pointers for the x/y init and the tail
+  f6C/f6A/f68 init; repeated tail loop body as a MACRO (a static inline adds its own sx/sy stack slots);
+  main loop `while (CB78() == 0 && 56E90() == 0) { ...; yield; if (other->f5C == 0) break; }`;
+  pattern table reads `(&pat[k])[f200 * 15]`; abs via `({ s32 v = (s16)(m % 5); v < 0 ? -v : v; })`.
+  Remaining (~90 normalized lines, all in the state switch): cases 4-8 materialise the fC constant before
+  loading gUnk_03000364 (`movs r2,#c; ldr rX,=364; ldr r0,[rX]; strh r2,[r0,#0xC]`), case 4 derives
+  0x100 from that 2 (`adds r2,#0xFE`), case 6 has a separate zero for flag=0, case 7 loads the pattern
+  base before f200. Tried: local state var (merges with other zero constants), inline setter.
+_08097978 too; init
   `{ u16 *tq = &tile, *ep = &extra; *ep = 0; *tq = 0; }` and `&tile` directly in the loop call
   (gives r8 = &tile and the `mov sl, r8` copy). Left: ROM computes &extra (spilled 0x74) before
   &tile (r8). (`z = 0; *ep = 0; *tq = z;` fixed the r0 zero reuse for `hit`: 12 lines left.)
