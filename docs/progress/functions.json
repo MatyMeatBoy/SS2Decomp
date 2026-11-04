@@ -30073,14 +30073,14 @@
       "name": "sub_08098108",
       "addr": 134840584,
       "size": 3620,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08097E28",
       "kind": "c",
       "cat": "game",
       "address": "0x08098108",
       "canonical_symbol": "sub_08098108",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08098108",
       "name_status": "unidentified",
       "name_source": null,
@@ -30257,7 +30257,7 @@
       "evidence": [
         {
           "source": "src/code_08097E28.c",
-          "line": 1378,
+          "line": 1375,
           "detail": "Existing C definition with an asm alias to the canonical symbol: task834"
         }
       ]
