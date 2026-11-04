@@ -116,10 +116,13 @@ verifies archive/patch hashes and retains GPL source/license. The generic
 CPU-flag/ABI fixtures run in CI; see `tools/patches/README.sdk-tst.md`.
 
 The `m4a_1_engine` unit uses `tools/install_agbcc_sdk_cc.sh` with the same
-options plus `-fthumb-cc-reuse`. Its normal TrackStop, ply_note ASM fallback
-and ply_endtie bytes and relocations remain identical. The current ply_note
-draft improves from 548 to 544 bytes versus the 536-byte original; it remains
-NONMATCHING. See `tools/patches/README.sdk-cc-reuse.md` for the generic proof
+options plus `-fthumb-cc-reuse`, `-fthumb-label-cc-reuse`,
+`-fthumb-sign-cc-reuse`, `-fthumb-loop-cc-reuse` and `-fthumb-late-pool`.
+Its normal TrackStop, ply_note ASM fallback and ply_endtie bytes and relocations
+remain identical. With these options the NONMATCHING ply_note C draft now
+matches the 536-byte original, including its relocations. Its ASM fallback
+is retained pending the separately claimed C conversion and full normal-ROM
+verification. See `tools/patches/README.sdk-cc-reuse.md` for the generic proofs
 and ROM-free execution checks. This activation adds no matching coverage.
 
 `TrackStop` is C without inline assembly (68 bytes), using the SDK

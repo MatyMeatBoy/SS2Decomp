@@ -66,7 +66,7 @@ full-ROM verification.
 The separate `agbcc-sdk-label-cc-reuse.patch` has SHA256
 `6492f5ca23c68a471f4cb4c92e32ed4344984ea73b1c4d12cd52f1ffbf805d5f`.
 It adds default-off `-fthumb-label-cc-reuse`, which also requires
-`-fthumb-cc-reuse`. Production module flags do not enable this extension.
+`-fthumb-cc-reuse`. The `m4a_1_engine` unit explicitly enables this extension.
 
 At a label, a Thumb-specific hook may replay a full CMP from its unique
 taken predecessor. It requires a barrier before the target (no fallthrough),
@@ -98,7 +98,7 @@ or credited as matching by this tooling change.
 The separate `agbcc-sdk-sign-cc-reuse.patch` has SHA256
 `f434c8999569964798b40adfb9d29a5dde6bfbb04395d697feebe4b2820217e0`.
 Its default-off `-fthumb-sign-cc-reuse` requires base comparison reuse but is
-independent of label reuse. Production module flags do not enable it.
+independent of label reuse. The `m4a_1_engine` unit explicitly enables it.
 
 A low SI register addition of two low registers supplies the result's N bit
 even when its V bit differs from CMP(result, 0). The extension accepts only
@@ -128,8 +128,8 @@ byte-identical. This compiler capability adds no matching-function credit.
 
 The separate `agbcc-sdk-loop-cc-reuse.patch` has SHA256
 `4de75458ad2a2472c5b83e7254abd9cacae5ac53b951385d30b4b4f194fc5beb`.
-Default-off `-fthumb-loop-cc-reuse` requires base comparison reuse; production
-module flags do not enable it.
+Default-off `-fthumb-loop-cc-reuse` requires base comparison reuse; the
+`m4a_1_engine` unit explicitly enables it.
 
 The proof accepts only a low SI counter loaded from a nonvolatile unsigned
 byte before a single-entry loop, with no other counter definitions, calls or
@@ -163,8 +163,8 @@ CI runs this ROM-free suite. No SDK function is activated or credited here.
 
 The separate `agbcc-sdk-late-pool.patch` has SHA256
 `5d03b24a211750423a708b5fdc207afe26e73216b49babeba2a769b8db9be408`.
-Its independent `-fthumb-late-pool` option defaults off. Production module
-flags do not enable it. Legacy pool placement returns the first barrier;
+Its independent `-fthumb-late-pool` option defaults off. The `m4a_1_engine`
+unit explicitly enables it. Legacy pool placement returns the first barrier;
 the option may choose a later existing barrier within a conservative bound.
 
 The bounded 4096-node scan counts instruction lengths and reserves space for
@@ -189,5 +189,5 @@ read-only data references. They execute boundaries and seeded random values
 with all incoming NZCV combinations and check memory, 32/64-bit results,
 return PC, SP and r4-r11. Linked ELF sections are loaded at actual addresses.
 A spinning negative control with the expected r0 already present must fail
-return validation. CI runs these ROM-free tests. This capability does not
-activate production flags or award a matching function.
+return validation. CI runs these ROM-free tests. Compiler defaults remain
+off; the module explicitly opts in. These tests award no matching function.
