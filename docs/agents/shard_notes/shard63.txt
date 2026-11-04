@@ -1,15 +1,15 @@
-shard 63 notes
 
-nov03-w3 sub_0805FC80: rewrote the item switch without gotos (each case loads packed/frame/group itself;
-  crossjumping then reproduces the ROM's shared tails, incl. case 3 jumping into case 4) and used the
-  sprite struct {f0,f4,f8; pad; u8 attr[0x10]; value,step,upper,lower} for gUnk_03005DC0/D80
-  (gUnk_03005DDC == iconAssets63[0].attr; attr[9] is the 0x25 byte, reached via `adds #37`).
-  Control flow now identical (register-blind diff 67 lines, mostly allocation). Remaining: ROM keeps the
-  8-byte pos parameter in its stack home (sp+0x20) and flags in sl; ours keeps pos in r6/r7 and spills
-  flags. Case 2 in ROM: resource r1, resource+0xBE in r4 (the other cases use r0). A single common
-  `descriptor` var for all cases gives the ROM prologue (pos spilled) but puts descriptor in r4 everywhere.
-  More (nov03-w3): declaring sub_08007F0C as taking the pos struct by value (f0c63(pos, ...)) makes pos
-  spill to sp+0x20 like the ROM, but then only r8/r9 are used (ROM also uses sl). Combined with one common
+nov03-w3 sub_0805FFBC (item-name formatter): clean rewrite landed (register-blind diff 682 -> 324 lines,
+  1544 vs 1556 bytes). Findings: y is s32; the ROM's `y<<16` in every case tail is gcse PRE of the final
+  (u16)y argument (reproduced). `suffix[i + gUnk_03003470*31]` in the lang==2 branch gives the ROM's
+  `i + 0x3E` addressing (cse folds lang==2). Loops are `if (c) do {} while (c)`, name loops
+  `do {} while (name[i] && i <= 0x1B)`; grade must be u32 (adds #0xA1 not subs #95); final x is
+  `x += (s16)off;` then the call (keeps lsl/asr); multiply `a2 * (g48 << 2)`; sub_0801DE60 as s32 alias.
+  Remaining: allocation. -dg/-dl dump: y'(PRE pseudo) is spilled because suffix (pseudo 28) wins sl and
+  &value takes r9; in ROM suffix is spilled (sp+0x50), y' shares r9 with y, &value in sl. This also breaks
+  the case 3/4 cross-jump and adds one stack slot (0x6C vs 0x68). Permuter (5 min) found nothing valid;
+  a static inline for the suffix copy loops made it worse.
+9 are used (ROM also uses sl). Combined with one common
   `descriptor` for all cases (incl. case 2): 214 lines / 840 bytes, prologue OK but descriptor in r4 in
   every case (ROM: r0, only case 2 uses r4 with resource in r1). Permuter on the landed shape only found
   invalid `new_var = item` splits (which do give the ROM prologue: item split -> pressure matters).
