@@ -10,3 +10,19 @@ not move slots.
  min: nothing.
 sub_0805DC1C: tiles are a 2D array `u16 [][32]` (ROM computes (row<<6)+(col<<1)); draft 294 -> 207.
   Left: ROM keeps halfWidth twice (r3 and a copy r2), one more spill slot (frame 0x14).
+
+codex-solo (2026-11-04, function now in shard 134): sub_0805DC1C exact-size draft.
+  Current-main baseline was 628 bytes, score 118; selected draft is 636 bytes,
+  matching the original size, score 80. Still strict NO MATCH, no byte credit.
+  Preserve the half-width in r3 and half-height in r4 for the bounds/center
+  stores, with a separate signed clamp copy in r2 used by the two comparisons.
+  One empty input constraint per axis retains each copy; output constraints
+  and extra half-size inputs were unnecessary and removed. No opcode ASM.
+  Rejected: wide w/h gives 624/109; signed half-sizes 628/123; both 624/126;
+  wide pos unchanged. Unbound half-size copies give 636/87. Explicit edge
+  colors in sl/r9 restore frame 0x14 but produce 640/82 and alter tile-base
+  allocation; volatile top gives 644/110. Do not select those variants.
+  Remaining: selected frame 0x10 versus ROM 0x14; top lives in r9 instead of
+  sp+0, border-color hoisting and subsequent spill order differ, as do some
+  window-pointer reloads and final call preparation. Normal compare OK with
+  the original ASM fallback; NONMATCHING builds; check_tree reports 0 errors.
