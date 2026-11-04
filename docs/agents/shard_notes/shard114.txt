@@ -10,4 +10,7 @@ sub_080AD534: fresh C draft, exact control flow, ~52 diff lines (regalloc only).
   Left: init slot/base in r4/r5 (ROM r5/r6, mask ptr r4 and idx+1 reusing the r2 copy of idx);
   x*20 synthesized as (x*5)*4 instead of ((x<<3)+(x<<1))<<1; &pos[idx] literal order.
   Permuter 5 min: nothing.
-sub_080AE420 (1808 asm lines): not started (Ghidra read only).
+sub_080AE420 (nov03-w2): fresh C draft, exact control flow (3716 vs 3724 bytes), only register choice left:
+  ROM keeps b and p in sl and the entry/anim base in r9 (draft swaps them), &a->f6C in r9 in the prologue,
+  constant 4 shared in r6 (fA6 = 4 / f1DC = 4). Keys: rnd returns s32, face takes u8; table row
+  struct {a[11]; b[9]; c; d;} indexed .a[x]/.b[x]; main loop is goto-shaped (idle call before the top).

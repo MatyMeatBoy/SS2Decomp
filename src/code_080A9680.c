@@ -2511,7 +2511,559 @@ void sub_080AE1B4(void)
     }
     sub_08056E24();
 }
+#ifdef NONMATCHING
+struct ResAE420 {
+    u8 p0[6];
+    s16 f6;
+    u8 p8[2];
+    u16 fA;
+    u8 pC[0x14];
+    u16 f20;
+    u8 p22[2];
+    u16 f24;
+    u8 p26;
+    u8 f27;
+    u16 f28;
+    u8 f2A, f2B;
+    u8 p2C[0xA8];
+    u16 fD4, fD6;
+};
+struct ActAE420 {
+    u16 f0, f2;
+    u8 p4[4];
+    u16 f8;
+    u8 pa[2];
+    u16 fC;
+    u8 pe[2];
+    u16 f10;
+    u8 p12[2];
+    s32 f14, f18;
+    u8 p1c[0x2C];
+    u16 f48;
+    u16 f4A;
+    s32 f4C, f50, f54;
+    u16 f58;
+    u16 f5A;
+    s16 f5C, f5E;
+    u8 p60[8];
+    u16 f68, f6A, f6C, f6E;
+    u8 p70[0x15C];
+    u8 f1CC[0x8];
+    s16 f1D4;
+    u8 p1d6[6];
+    u8 f1DC;
+    u8 p1dd[0x1F];
+    u8 f1FC_lo : 4;
+    u8 f1FC_hi : 4;
+    u8 f1FD, f1FE, p1ff;
+    u8 f200, p201;
+    u16 f202;
+    struct ResAE420 res;
+};
+struct AnimAE420 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
+struct EntAE420 {
+    struct ActAE420 *act;
+    struct AnimAE420 anim[3];
+    u8 fA0[4];
+    u16 fA4, fA6, fA8;
+    u8 fAA, fAB;
+};
+struct PlAE420 { u8 p0[0xC]; u16 fC, fE; u8 p10[0x28]; u8 f38[0x20]; u8 f58[2]; u16 f5A; u8 p5c[8]; u16 f64; u8 p66[0xE6]; };
+struct TblAE420 { u32 a[11]; u32 b[9]; u32 c; u32 d; };
+struct E2E0AE420 { u8 b[0x2E0]; };
+struct TaskAE420 { u8 p0[8]; u32 f8; };
+struct G3170AE420 { u8 p0[0x90]; u16 f90; };
+struct ObjAE420 { u8 p0[0x9B]; u8 f9B; };
+
+extern struct EntAE420 gEntAE420[] asm("gUnk_030004D0");
+extern u8 *gBaseAE420 asm("gUnk_030056F4");
+extern u32 gMaskAE420 asm("gUnk_030056FC");
+extern struct PlAE420 gPlAE420[] asm("gUnk_03003CE0");
+extern struct G3170AE420 gMapAE420 asm("gUnk_03003170");
+extern struct TblAE420 gTblAE420[] asm("gUnk_08479140");
+extern u8 gImgAE420[] asm("gUnk_084A7CD0");
+
+void setupAE420(void *, void *, s32) asm("sub_0801623C");
+void initResAE420(void *) asm("sub_08019F60");
+void cpuSetAE420(const void *, void *, u32) asm("CpuSet");
+void a0A4AE420(void *) asm("sub_0801A0A4");
+void a0B0AE420(void *) asm("sub_0801A0B0");
+struct ObjAE420 *objAE420(u32) asm("sub_08007290");
+void animInitAE420(void *, u32, s32, s32, s32) asm("sub_08065158");
+s32 modeAE420(void) asm("sub_0800CE30");
+void tickAE420(void *) asm("sub_0801C8F0");
+s32 rndAE420(s32) asm("sub_08096594");
+s8 reachAE420(void *, void *, s32, s32) asm("sub_08097A74");
+void endAE420(s32) asm("sub_08097A38");
+void sfxAE420(s32) asm("sub_08058CC4");
+void castAE420(s32, s32) asm("sub_08077D04");
+void faceAE420(void *, u8) asm("sub_08095F10");
+void spawnAE420(s32, s32, s32, s32, s32) asm("sub_0807386C");
+u16 animAE420(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+void projAE420(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void drawAE420(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+void dmgAE420(void *, s32, s16) asm("sub_0801A120");
+s16 deadAE420(void *) asm("sub_08019CE8");
+void idleAE420(void *) asm("sub_08020680");
+void freeAE420(u16) asm("sub_08067CA8");
+struct TaskAE420 *taskAE420(void) asm("sub_0800048C");
+void loadPalAE420(u32, u32, u32) asm("sub_08000AF0");
+u8 prioAE420(s32, s32, s32) asm("sub_0800BC44");
+
+void sub_080AE420_v(u32 idx) asm("sub_080AE420");
+void sub_080AE420_v(u32 idx)
+{
+    u16 tmp6A;
+    s16 sx;
+    s16 sy;
+    struct ResAE420 *res;
+    s32 lastHit;
+    s32 n24;
+    s32 n28;
+    s32 mode;
+    u16 lastAnim;
+    u8 x34;
+    u16 kind;
+    u16 flash;
+    u16 hitTimer;
+    u16 frame;
+    u16 cnt2;
+    s16 shake;
+    s32 animMode;
+    s32 animIdx;
+    s16 i;
+    u8 b;
+    struct ActAE420 *a;
+    struct PlAE420 *p;
+    struct TaskAE420 *t;
+
+    idx = (u8)idx;
+    a = (struct ActAE420 *)&((struct E2E0AE420 *)gBaseAE420)[idx];
+    gMaskAE420 |= 1 << idx;
+    gEntAE420[idx].act = a;
+    setupAE420(a, gImgAE420, idx);
+    res = &a->res;
+    initResAE420(res);
+    a->f54 = 0;
+    a->f4C = 0;
+    a->f4A = 0;
+    a->f6C = 0;
+    a->f10 = 0;
+    a->f68 = 0;
+    tmp6A = 0;
+    a->f6A = 0;
+    a->f8 = 0;
+    a->f0 = idx;
+    a->f2 = idx + 4;
+    a->fC = 0;
+    a->f48 = gMapAE420.f90;
+    a->res.f2A = 0x18;
+    a->res.f2B = 0x14;
+    kind = gPlAE420[0].fC;
+    gEntAE420[idx].fA6 = 4;
+    gEntAE420[idx].fA8 = gPlAE420[0].fE;
+    cpuSetAE420(gPlAE420[0].f58, a->f1CC, 0x18);
+    cpuSetAE420(gPlAE420[0].f38, res, 0x10);
+    a0A4AE420(a);
+    a->f1DC = 4;
+    a->f5E = a->f1D4;
+    a->res.fA = gPlAE420[0].f5A;
+    a->res.fD4 = gPlAE420[0].f64;
+    a->res.fD6 = gEntAE420[idx].fA6;
+    a->f50 = 1;
+    a->f1FD = 3;
+    a->f1FE = 3;
+    a->fC = 0;
+    mode = 0;
+    lastAnim = 0xFFFF;
+    flash = 0;
+    hitTimer = 0;
+    a->f6C = flash;
+    tmp6A = flash;
+    a->f6A = flash;
+    a->f68 = flash;
+    cnt2 = 0;
+    frame = 0;
+    animMode = 0;
+    animIdx = 0;
+    for (i = 0; i <= 3; i++)
+        gEntAE420[idx].fA0[i] = 0;
+    a->f1FC_lo = a->f0;
+    a->f202 = a->f2;
+    a->f200 = 0xFF;
+    switch (kind) {
+    case 0:
+        gEntAE420[idx].fAB = 0;
+        gEntAE420[idx].fA4 = 0x140;
+        res->f24 = 2;
+        res->f20 = 0x3C;
+        res->f27 = 0;
+        res->f28 = 0;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    case 5:
+        gEntAE420[idx].fAB = 0;
+        gEntAE420[idx].fA4 = 0x160;
+        res->f24 = 1;
+        res->f20 = 0x3C;
+        res->f27 = 0;
+        res->f28 = 0xFA;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    case 7:
+        gEntAE420[idx].fAB = 0;
+        gEntAE420[idx].fA4 = 0x180;
+        res->f24 = 1;
+        res->f20 = 0x3C;
+        res->f27 = 0;
+        res->f28 = 0xD;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    case 3:
+        gEntAE420[idx].fAB = 0;
+        gEntAE420[idx].fA4 = 0x140;
+        res->f24 = 1;
+        res->f20 = 0x3C;
+        res->f27 = 0;
+        res->f28 = 0x30;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    case 4:
+        gEntAE420[idx].fAB = 0;
+        gEntAE420[idx].fA4 = 0x140;
+        res->f24 = 2;
+        res->f20 = 0x3C;
+        res->f27 = 0;
+        res->f28 = 0x96;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    case 6:
+        gEntAE420[idx].fAB = 1;
+        gEntAE420[idx].fA4 = 0x130;
+        res->f24 = 2;
+        res->f20 = 0x3C;
+        res->f27 = 1;
+        res->f28 = 0xB3;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    case 1:
+        gEntAE420[idx].fAB = 1;
+        gEntAE420[idx].fA4 = 0x130;
+        res->f24 = 2;
+        res->f20 = 0x3C;
+        res->f27 = 1;
+        res->f28 = 0xB8;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    case 2:
+        gEntAE420[idx].fAB = 1;
+        gEntAE420[idx].fA4 = 0x140;
+        res->f24 = 2;
+        res->f20 = 0x3C;
+        res->f27 = 1;
+        res->f28 = 0x75;
+        gEntAE420[idx].fAA = 0x40;
+        break;
+    case 8:
+        gEntAE420[idx].fAB = 1;
+        gEntAE420[idx].fA4 = 0x140;
+        res->f24 = 2;
+        res->f20 = 0x3C;
+        res->f27 = 1;
+        res->f28 = 0xB3;
+        gEntAE420[idx].fAA = 0x1E;
+        break;
+    }
+    x34 = objAE420(res->f28 | 0xB0000)->f9B;
+    animInitAE420(&gEntAE420[idx].anim[0], gTblAE420[kind].a[x34], gEntAE420[idx].fA6, -1, 0);
+    animInitAE420(&gEntAE420[idx].anim[1], gTblAE420[kind].b[x34], gEntAE420[idx].fA6, -1, 0);
+    gEntAE420[idx].anim[0].f1C = gEntAE420[idx].fA6;
+    gEntAE420[idx].anim[1].f1C = gEntAE420[idx].fA6;
+    if (kind == 8 || kind == 6 || kind == 1) {
+        animInitAE420(&gEntAE420[idx].anim[2], gTblAE420[kind].c, gEntAE420[idx].fA6, -1, 0);
+        gEntAE420[idx].anim[2].f1C = gEntAE420[idx].fA6;
+    }
+    if (modeAE420() == 1) {
+        a->f5C = (res->f6 + 1000) * 3;
+        n28 = 5;
+        n24 = 5;
+    } else {
+        a->f5C = (res->f6 + 500) * 3;
+        n28 = 3;
+        n24 = 3;
+    }
+    sub_08068330(a->f0);
+    while (sub_080682B8(a->f0) == 0)
+        sub_080003F0();
+    sub_08065E38(a->f0);
+    goto start;
+loop:
+    idleAE420(a);
+    sub_080003F0();
+start:
+    if (a->fC == 10 && flash == 0) {
+        flash = 8;
+        gEntAE420[idx].fA0[a->f58]++;
+    }
+    if (sub_08058DB0() == 0) {
+        tickAE420(a);
+        switch (a->f1FD) {
+        case 1:
+            a0B0AE420(a);
+            break;
+        case 2:
+            a->fC = 0;
+            if (sub_080682B8(a->f0) != 0) {
+                a->f1FD = a->f1FE;
+                sub_08065E38(a->f0);
+            }
+            break;
+        case 3:
+            if (sub_08056F78() != 0) {
+                if (gEntAE420[idx].fAB != 0)
+                    a->f1FE = 5;
+                else
+                    a->f1FE = 4;
+                a->f1FD = 2;
+                sub_08068330(a->f0);
+            }
+            break;
+        case 4:
+            mode = 1;
+            a->fC = 1;
+            a->f1FC_hi = rndAE420(idx);
+            p = &gPlAE420[a->f1FC_hi];
+            if (reachAE420(a, p, gEntAE420[idx].fA4, gEntAE420[idx].fAA) == 0) {
+                endAE420(idx);
+                a->f6C = 0;
+                a->f6A = 0;
+                if (kind == 4)
+                    a->f1FE = 8;
+                else
+                    a->f1FE = 6;
+                a->f1FD = 2;
+                sub_08068330(a->f0);
+            }
+            break;
+        case 5:
+            mode = 1;
+            a->fC = 1;
+            p = &gPlAE420[rndAE420(idx)];
+            if (kind != 2) {
+                if (cnt2 & 1) {
+                    cnt2++;
+                    frame = 0;
+                    a->f1FE = 9;
+                    a->f1FD = 2;
+                    sub_08068330(a->f0);
+                } else if (reachAE420(a, p, gEntAE420[idx].fA4, gEntAE420[idx].fAA) == 0) {
+                    cnt2++;
+                    endAE420(idx);
+                    a->f6C = 0;
+                    a->f6A = 0;
+                    a->f1FE = 6;
+                    a->f1FD = 2;
+                    sub_08068330(a->f0);
+                }
+            } else {
+                if ((u8)reachAE420(a, p, gEntAE420[idx].fA4, gEntAE420[idx].fAA) == 0) {
+                    endAE420(idx);
+                    a->f1FE = 7;
+                    a->f1FD = 2;
+                    sub_08068330(a->f0);
+                }
+            }
+            break;
+        case 6:
+            mode = 2;
+            a->fC = 2;
+            if (res->f24 == a->f6A && a->f6C == 0)
+                sfxAE420(x34);
+            if (a->f6E != 0) {
+                a->f50++;
+                a->f1FD = 2;
+                a->f1FE = 10;
+                sub_08068330(a->f0);
+            }
+            break;
+        case 7:
+            mode = 2;
+            a->fC = 2;
+            a->f50++;
+            a->f1FC_hi = rndAE420(idx);
+            endAE420(idx);
+            castAE420(a->f0, a->f1FC_hi);
+            a->f1FD = 2;
+            a->f1FE = 10;
+            sub_08068330(a->f0);
+            break;
+        case 8:
+            mode = 2;
+            a->fC = 2;
+            if (res->f24 == a->f6A && a->f6C == 0)
+                sfxAE420(x34);
+            if (a->f6E != 0) {
+                cnt2++;
+                a->f50++;
+                a->f1FD = 2;
+                a->f1FE = 10;
+                sub_08068330(a->f0);
+            }
+            break;
+        case 10:
+            mode = 0;
+            a->fC = 0;
+            if (frame++ > 0x3C) {
+                frame = 0;
+                a->f1FD = 2;
+                sub_08068330(a->f0);
+                if (gEntAE420[idx].fAB != 0)
+                    a->f1FE = 5;
+                else
+                    a->f1FE = 4;
+            }
+            break;
+        case 9:
+            mode = 9;
+            a->fC = 9;
+            faceAE420(a, rndAE420(idx));
+            a->f68 = a->f8;
+            a->f6A = 0;
+            if (frame++ > 0x28) {
+                frame = 0;
+                switch (kind) {
+                case 6:
+                case 8:
+                    spawnAE420(a->f0 + 4, 13, a->f1FC_hi, n24, n28);
+                    break;
+                case 1:
+                    spawnAE420(a->f0 + 4, 4, a->f1FC_hi, n24 - 1, n28 - 1);
+                    break;
+                }
+                a->f50++;
+                a->f1FD = 2;
+                a->f1FE = 11;
+                sub_08068330(a->f0);
+            }
+            break;
+        case 11:
+            mode = 9;
+            a->fC = 9;
+            faceAE420(a, rndAE420(idx));
+            a->f68 = a->f8 + 8;
+            a->f6A = 8;
+            if (frame++ > 0xB4) {
+                endAE420(idx);
+                frame = 0;
+                a->f1FE = 5;
+                a->f1FD = 2;
+                sub_08068330(a->f0);
+            }
+            break;
+        }
+    }
+    switch (mode) {
+    case 0:
+        animIdx = 0;
+        a->f68 = a->f8;
+        animMode = 1;
+        break;
+    case 1:
+        animIdx = 0;
+        a->f68 = a->f8 + 8;
+        animMode = 1;
+        break;
+    case 2:
+        animIdx = 1;
+        a->f68 = a->f8;
+        animMode = 0;
+        break;
+    case 9:
+        animIdx = 2;
+        animMode = 0;
+        break;
+    }
+    if (lastAnim != a->f68) {
+        lastAnim = a->f68;
+        a->f6C = 0;
+        a->f6A = 0;
+    }
+    if (sub_08098004() & 1)
+        b = sub_08097FF8();
+    else
+        b = prioAE420(a->f14 >> 8, a->f18 >> 8, 0);
+    if (sub_0800CD8C() == 0) {
+        if (a->f1FD == 11 || a->f1FD == 9)
+            a->f6E = animAE420(&gEntAE420[idx].anim[animIdx], a->f68, &tmp6A, &a->f6C, animMode);
+        else
+            a->f6E = animAE420(&gEntAE420[idx].anim[animIdx], a->f68, &a->f6A, &a->f6C, animMode);
+    }
+    projAE420((s16)(a->f14 >> 8), (s16)(a->f18 >> 8), &sx, &sy, 0, 0);
+    if (flash != 0) {
+        u16 old = flash;
+        flash--;
+        if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            loadPalAE420(gEntAE420[idx].fA6 + 0x10, gEntAE420[idx].anim[animIdx].fC + gEntAE420[idx].fA8 * 32, 1);
+            if (a->f1FD == 11 || a->f1FD == 9)
+                drawAE420(sx, sy, a->f68, tmp6A, b, &gEntAE420[idx].anim[animIdx].f1C, gEntAE420[idx].anim[animIdx].f8, gEntAE420[idx].anim[animIdx].f0);
+            else
+                drawAE420(sx, sy, a->f68, a->f6A, b, &gEntAE420[idx].anim[animIdx].f1C, gEntAE420[idx].anim[animIdx].f8, gEntAE420[idx].anim[animIdx].f0);
+        }
+    } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+        loadPalAE420(gEntAE420[idx].fA6 + 0x10, gEntAE420[idx].anim[animIdx].fC + gEntAE420[idx].fA8 * 32, 1);
+        if (a->f1FD == 11 || a->f1FD == 9)
+            drawAE420(sx, sy, a->f68, tmp6A, b, &gEntAE420[idx].anim[animIdx].f1C, gEntAE420[idx].anim[animIdx].f8, gEntAE420[idx].anim[animIdx].f0);
+        else
+            drawAE420(sx, sy, a->f68, a->f6A, b, &gEntAE420[idx].anim[animIdx].f1C, gEntAE420[idx].anim[animIdx].f8, gEntAE420[idx].anim[animIdx].f0);
+    }
+    if (a->f4C != 0 && lastHit != a->f4C) {
+        lastHit = a->f4C;
+        hitTimer = 10;
+        shake = 0;
+    }
+    if (hitTimer != 0) {
+        if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+            dmgAE420(a, lastHit, shake);
+        if (hitTimer & 2)
+            shake--;
+        hitTimer--;
+    } else {
+        lastHit = 0;
+        a->f4C = 0;
+    }
+    if (deadAE420(a) == 0)
+        goto loop;
+    sub_080003F0();
+    freeAE420(gEntAE420[idx].act->f2);
+    t = taskAE420();
+    t->f8 -= 0x44;
+    gMaskAE420 &= ~(1 << gEntAE420[t->f8].act->f0);
+    animIdx = 0;
+    gEntAE420[idx].act->f68 = 0x18;
+    a->f6C = 0;
+    a->f6A = animIdx;
+    animMode = 0;
+    for (;;) {
+        if (sub_08098004() & 1)
+            b = sub_08097FF8();
+        else
+            b = prioAE420(a->f14 >> 8, a->f18 >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            a->f6E = animAE420(&gEntAE420[idx].anim[animIdx], a->f68, &a->f6A, &a->f6C, animMode);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            s32 z = sub_0800CD34();
+            if (z == 0 && (flash-- & 1)) {
+                projAE420((s16)(a->f14 >> 8), (s16)(a->f18 >> 8), &sx, &sy, z, z);
+                loadPalAE420(gEntAE420[idx].fA6 + 0x10, gEntAE420[idx].anim[animIdx].fC + gEntAE420[idx].fA8 * 32, 1);
+                drawAE420(sx, sy, a->f68, a->f6A, b, &gEntAE420[idx].anim[animIdx].f1C, gEntAE420[idx].anim[animIdx].f8, gEntAE420[idx].anim[animIdx].f0);
+            }
+        }
+        sub_080003F0();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AE420);
+#endif
 void sub_080AF2AC(void) {
     sub_080AF304();
     sub_08068384();
