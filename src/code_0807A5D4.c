@@ -9639,7 +9639,6 @@ void sub_080878AC(u32 arg0, s32 *state)
     } while (*state != 0);
     sub_08001538((s32)buffer);
 }
-#ifdef NONMATCHING
 extern void text087A5C(u8 *, u32, u32) asm("sub_0801A3D0");
 extern void close087A5C(u32, u32) asm("sub_0801A664");
 extern void fade087A5C(u32, u32, u32, u16, u16, u32) asm("sub_0800903C");
@@ -9656,7 +9655,8 @@ void sub_08087A5C(u32 msg, u32 arg1)
     u8 *name;
     u8 *base;
     u8 *name0;
-    u8 c;
+    u32 c;
+    register u32 code asm("r0");
     u32 w;
 
     for (row = 0; row <= 7; row++)
@@ -9669,37 +9669,38 @@ void sub_08087A5C(u32 msg, u32 arg1)
         base = (u8 *)gUnk_03003CE0;
         do {
             c = *s;
-            if (c == 0xFF) {
+            code = c;
+            if (code == 0xFF) {
                 lines[0][col + row * 32] = 0xFD;
                 row++;
                 col = 0;
-            } else if (c == 0xFE) {
+            } else if (code == 0xFE) {
                 lines[0][col + row * 32] = 0xFD;
                 row++;
                 col = 0;
                 s += 2;
-            } else if (c == 0xF6) {
+            } else if (code == 0xF6) {
                 d = &lines[0][col + row * 32];
                 name0 = (u8 *)&gUnk_03003CE0[0] + 2;
                 if ((*d = name0[col]) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
-            } else if (c == 0xF4) {
+            } else if (code == 0xF4) {
                 d = &lines[0][col + row * 32];
                 name = base + 0x14E;
                 if ((*d = *(u8 *)(col + (u32)name)) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
-            } else if (c == 0xF3) {
+            } else if (code == 0xF3) {
                 d = &lines[0][col + row * 32];
                 name = base + 0x29A;
                 if ((*d = *(u8 *)(col + (u32)name)) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
-            } else if (c == 0xF2) {
+            } else if (code == 0xF2) {
                 d = &lines[0][col + row * 32];
                 name = base + 0x3E6;
                 if ((*d = *(u8 *)(col + (u32)name)) != 0 && *d != 0xFD) {
@@ -9749,6 +9750,3 @@ void sub_08087A5C(u32 msg, u32 arg1)
     }
     close087A5C(0, 0x14);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08087A5C);
-#endif
