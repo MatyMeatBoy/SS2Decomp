@@ -415,7 +415,6 @@ store:
 }
 
 
-#ifdef NONMATCHING
 struct Spr47A0 { u32 f0, f4, f8; u8 *palette; u8 pad10[12]; u8 style, paletteId; u8 pad1E[22]; };
 struct Oam47A0 { u32 f0, f4; s32 x, y; };
 struct Off47A0 { s16 x, y; };
@@ -456,13 +455,18 @@ void sub_080A47A0_v(void)
         }
         if (gSide47A0 == 1)
             animation = f + 5;
-        else
-            animation = *(vu8 *)&gFrame47A0;
+        else {
+            register vu8 *frame asm("r0") = &gFrame47A0;
+            animation = *frame;
+        }
         pos.x = *(s32 *)(gObj47A0 + 0x14);
         pos.y = *(s32 *)(gObj47A0 + 0x18);
         {
             s32 k = gDir47A0 * 4;
-            pos.x += *(s16 *)((u8 *)gOffX47A0 + k);
+            register u32 ox asm("r2") = (u32)gOffX47A0;
+            pos.x += *(s16 *)(k + ox);
+            /* Keep the table address live until the x-offset load completes. */
+            asm("" : : "r"(ox));
             pos.y += *(s16 *)((u8 *)gOffY47A0 + k);
         }
         gSpr47A0[gSide47A0].style = gPal47A0;
@@ -488,9 +492,6 @@ void sub_080A47A0_v(void)
             break;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A47A0);
-#endif
 void sub_080A49A8(void)
 {
     sub_0805867C(0xDF);

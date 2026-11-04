@@ -27,3 +27,21 @@ nov03-w2: sub_080A3D2C fresh C draft (goto-shaped main loop: idle/body/top as in
   387 diff lines (1013 vs 966). ROM keeps idx in sl, &gActs[idx] in r4->r7 across the loop, &gSide in r9,
   &sy in r8, &gSpr[0].f8 spilled; draft spills idx. A `slot = &gActs[idx]` pointer gives 977 bytes but more
   diff lines (443).
+
+2026-11-04 codex-solo, shard151, base03a8fd14:
+  MATCH sub_080A47A0 (520 bytes). Read the else-branch frame byte through a
+  block-local volatile pointer bound to r0. This fixes the frame reload and x
+  load/spill lifetime but rotates later scratch regs unless the offset table is
+  handled too. In the offset block, retain the table address as u32 ox in r2;
+  add k+ox as INTEGER arithmetic (pointer addition canonicalizes the operands
+  into ox+k). An empty input-only constraint after the x addition keeps ox live,
+  forcing the sum into r0 and the following scratch register into r3 as in ROM.
+  Pointer ox reaches a near match but reverses the adds operands; dropping its
+  lifetime constraint destroys ox in r2. No opcode ASM is used. Strict nmdiff
+  MATCH, unwrapped normal ROM OK, NONMATCHING builds, tree0. Inherited clean
+  struct-XY draft credited to previous contributors.
+  Observed role: animate and draw the active object's sprite with a directional
+  offset, then update its projected OAM position each frame until task exit.
+  Proposed name RunDirectionalOffsetSprite (proposal only). Evidence: canonical
+  sub_080A47A0 ASM at03a8fd14, direction tables08518754/56, animation, projection,
+  draw and frame-yield calls. Shared symbol catalog unchanged.
