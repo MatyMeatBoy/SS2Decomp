@@ -1,10 +1,18 @@
-sub_0809FB6C (nov03-w5 look): same "self actor" family as sub_080A27B8 (shard 107 notes: per-block ent
-  locals, `while (tile == 0xFFFF)`, `ent->f5C = ent->f1D6 = aux->f6 * 3`). The current H9FB6C/u8* draft
-  gets worse when patched piecemeal (641 vs 488 instruction-diff lines); a fresh rewrite in the
-  sub_080A27B8 style is the way forward. sub_0809F018: replacing `register ... asm("sl")` by a plain
-  `pl` local is worse (347 vs 142).
-with u16 elapsed, `u8 angle; angle++`, `task[2] = timer` at the end.
-imDone 0x64); animDone is read as a halfword from its stack slot (`frame =
-  (u16)animDone`). Not found yet what owns 0x60.
- that cse2 related to a loop-hoisted sl), y-literal regs (r1/r2/r3
-  per path vs our r0), end `adds r1,r0; movs r0,#0; str r0,[r1,#8]`.
+sub_0809FB6C (nov03-w5, 2026-11-04): rewritten in the sub_0809D878 (matched sibling) / A27B8 style:
+  540 -> 178 normalized diff lines (nmscore 376 -> 201), size exact. Keys that helped: struct EntFB6
+  fields instead of H9FB6C macros; `while (palette == 0xFFFF)`; chained `f5C = f1D6 = f6*3`;
+  register-resident locals (actor, floatingTimer, floatingOffset, amplitudeX) declared BEFORE the
+  spilled ones (resource, lastDamage, flash, elapsed, rounds, angle, amplitudeY, finished,
+  animation/frame/tick -> slots 0x4C..0x74 in that order); reward/exit loops reuse floatingOffset
+  (D878 form); `struct EntFB6 *g = actor9FB6C` block for the f6C/f6A/f68 clears; END_RENDER uses the
+  global directly (no `fresh`); u16 flash + block-local `u32 old`; case 4 `{ u16 st=1; actor->fC=st; }`;
+  both amplitudes as ternaries; D878 seen-table clear; `player=0` before the anim pointers.
+  Remaining: global alloc gives sl to resource (orig: resource spilled at 0x4C, floatingOffset in sl);
+  tail loops allocate &global/&sx/&sy as r5/r7/r6 (orig r7/r6/r5). Tried: decl order, separate tail
+  counter (worse), do-while(0) around the float block (no effect).
+sub_080A05B4 (nov03-w5): orig frame is 4 bytes bigger: an untouched spill slot at 0x60 between
+  targetX (0x5C) and animDone (0x64); orig also materialises each zero init separately. Unused
+  volatile/array locals do not reproduce it (they go to the local area). Permuter 5 min: nothing.
+sub_0809F018 (nov03-w5): orig loads the player x/y/visual globals through rematerialised spilled
+  loop-invariant address pseudos (reload regs r1/r2/r3 vary per path), ours loads directly into r0:
+  loop.c hoisted more invariants in the original (lower register pressure in the loop).
