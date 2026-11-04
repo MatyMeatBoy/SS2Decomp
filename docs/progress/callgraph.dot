@@ -1848,7 +1848,7 @@ digraph calls {
   "sub_080AF350" [label="sub_080AF350"];
   "sub_080AF3C4" [label="sub_080AF3C4"];
   "sub_080AF3F4" [label="sub_080AF3F4_v"];
-  "sub_080B0288" [label="sub_080B0288"];
+  "sub_080B0288" [label="sub_080B0288_v"];
   "sub_080B0F70" [label="sub_080B0F70"];
   "sub_080B0F9C" [label="sub_080B0F9C"];
   "sub_080B0FC4" [label="sub_080B0FC4"];

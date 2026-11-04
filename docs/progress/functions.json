@@ -31476,7 +31476,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 2995,
+          "line": 3013,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
@@ -32898,10 +32898,16 @@
       "canonical_symbol": "sub_080B0288",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_080B0288",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "sub_080B0288_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 3376,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0288_v"
+        }
+      ]
     },
     {
       "name": "sub_080B0F70",
@@ -37066,12 +37072,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 190,
-      "existing": 71,
+      "identified": 191,
+      "existing": 72,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1690,
-      "percent_identified": 10.106382978723405
+      "unidentified": 1689,
+      "percent_identified": 10.159574468085106
     },
     "sdk": {
       "total": 155,
@@ -37084,12 +37090,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 345,
-      "existing": 200,
+      "identified": 346,
+      "existing": 201,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1690,
-      "percent_identified": 16.953316953316953
+      "unidentified": 1689,
+      "percent_identified": 17.002457002457003
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">16.95%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">345 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">17.00%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">346 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">64.64%</text>
@@ -197,7 +197,7 @@
 <rect x="164.52" y="162.59" width="50.39" height="37.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B280C | sub_080B280C | unidentified  0x080B280C  3644 bytes  [done]</title></rect>
 <rect x="214.91" y="86.86" width="36.21" height="46.82" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_080AC844_v | sub_080AC844 | existing | 1/3 milestones; not a match  0x080AC844  3312 bytes  [nonmatch]</title></rect>
 <rect x="214.91" y="86.86" width="12.07" height="46.82" fill="#d29922" pointer-events="none"/>
-<rect x="251.11" y="86.86" width="36.12" height="46.82" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080B0288 | sub_080B0288 | unidentified  0x080B0288  3304 bytes  [nonmatch]</title></rect>
+<rect x="251.11" y="86.86" width="36.12" height="46.82" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080B0288_v | sub_080B0288 | existing  0x080B0288  3304 bytes  [nonmatch]</title></rect>
 <rect x="214.91" y="133.67" width="23.41" height="50.27" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080AD534_v | sub_080AD534 | existing  0x080AD534  2300 bytes  [nonmatch]</title></rect>
 <rect x="214.91" y="183.95" width="23.41" height="15.65" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080AC2E8 | sub_080AC2E8 | unidentified  0x080AC2E8  716 bytes  [done]</title></rect>
 <rect x="238.32" y="133.67" width="17.62" height="20.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080B24B8 | sub_080B24B8 | unidentified  0x080B24B8  712 bytes  [done]</title></rect>
