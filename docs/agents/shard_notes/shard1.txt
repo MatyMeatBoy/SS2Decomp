@@ -1,18 +1,24 @@
-sub_08002694 (nov03-w4): clean rewrite (no register asm), 958/958 bytes, only the `gUnk_03001308 & 0x80` test and
-  one constant differ. Keys: obj[0x34], then separate `u16 frame; u16 timer;` and `union { u32 w; u16 h; } bg`
-  (gives the 0x38/0x3A/0x3C slots), `link = 0` local (r9) re-set at the top of the outer for(;;), title-select
-  switch with 4 cases (0..3), `if (sub_0801AB24() == 0) AA34 else AB50`, gUnk_03002838 read as `*(u16 *)&` for the
-  draw calls. Writing the first test as `gUnk_03001308 >> 7 & 1` gives the ROM register allocation
-  (vu16 does too but rereads). Left: the 0x40 branch stores 0 from the and-result pseudo (cse jump equivalence:
-  known zero on that path); ROM materialises `movs r4, #0` before the sub_08006D08 call. Tried: inline helper
-  pick(v) with u32/u8/u16 param, `(x & 0x80) != 0`, u32/u16 local copies, bitfield struct, casts.
-sub_08002694: matched by nov03-w3 (the 0x40 branch stores a reused local `i = 0`).
-sub_08002B70 (nov03-w4): first draft (fresh C), 3612 vs 3604 bytes, same structure; spill slots 0x254..0x298 come
-  out in ROM order when the scalars are declared in that order (result, slot, state, prev, yes, loop, blink,
-  blinkTimer u16, all, fade, cx, cy, tx, ty, saves, oldHandler, oldMode u8). `scroll` is uninitialised in the ROM
-  too (r7); gcc itself sinks `scroll >> 8` / `scroll + 0x40` into every switch exit. Left: one register short
-  (ROM: scroll r7, >>8 in sl, +0x40 in r9; draft spills >>8 to sp+0x29C, frame 0x2A4 vs 0x29C).
-sub_08002B70 (nov03-w4, round 2): exact size; real-build check (unwrap + make compare) differs in 8 bytes only:
+
+sub_08003984 (nov03-w3, long-haul, 2026-11-04). Draft = old m2c draft (phase 1 structure already compiles).
+  Tools used (scratch, recreate if needed): per-call segment size alignment (difflib on bl targets) and an
+  instruction diff with ROM addresses (normalize branch targets/pools) against build_nm/src/code_08002118.o.
+  Menu cursor switch (timer 1, state 0..8, 08003EFC-0800438A) is now EXACT: written naturally, each branch
+  `state = N; sub_0805865C(0xE); widths[state] = heights[state] = 0;` (chained store gives the ROM's address order;
+  the `= 0` picks the most recent known-zero and-result via cse), tests `(u16)(gUnk_03001308 & M)` (the u16
+  truncation makes the and-results pseudos), case 6 `state = arg1 != 0 ? 8 : 0`, case 0 0x60 stores before the
+  sfx call. gcc crossjumping then builds the ROM's shared tails by itself (no gotos).
+  Block status (instruction-diff hunks vs ROM; 0 = identical normalized instructions):
+    prologue/setup          08003984-08003D78  0
+    timer0 intro text       08003D78-08003EFC  1  (sub_0801A638 arg: 2 insns vs 1)
+    timer1 menu cursor      08003EFC-0800438A  0
+    timer1 confirm/names    0800438A-080048BC  1
+    timer2                  080048BC-08004954  0
+    timer3 name entry       08004954-08004E30  4
+    timer4                  08004E30-08004FBC  6
+    timer5 keyboard         08004FBC-08005728 26  (largest; 08005088-080050A4 block order, 08005296 18 insns)
+    timer6 + loop tail      08005728-08005A24  7
+  Size: 8332 vs 8352 (was 8320).
+(nov03-w4, round 2): exact size; real-build check (unwrap + make compare) differs in 8 bytes only:
   the sub_08007CF0 x/y args (ROM: lsls r1,r5,#3 then ldr r2,=gUnk_08366DCC; ours loads the table first).
   Keys that got there: start-task code as two inline helpers (run2B70 for 608C/5B88, newGame2B70 for
   sub_08003984 with the u64 wait OUTSIDE the helper so the constant pair stays in r6/r7), memcpy source in a

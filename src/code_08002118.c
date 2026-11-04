@@ -1171,7 +1171,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     s32 textWidth3984;
     u32 input3984;
     u32 confirmKeys3984;
-    u16 navKeys3984;
     u16 widths[10], heights[10], x[10], y[4];
     struct Sprite3984 icons[9], labels[9];
     struct Sprite3984 cursor;
@@ -1202,13 +1201,11 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     s32 offsetY;
     s32 newX;
     s32 newY;
-    u16 *menuWidthsC6, *menuHeightsC6;
     u16 *var_r1_8;
     s32 temp_r0;
     s32 temp_r1;
     s32 temp_r1_6;
     s32 temp_r2;
-    s32 temp_r2_3;
     s32 temp_r3_2;
     s32 temp_r3_4;
     s32 temp_r3_5;
@@ -1231,12 +1228,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u16 *temp_r5_4;
     u16 *temp_r5_5;
     u16 *temp_r5_6;
-    u16 *var_r0;
-    u16 *var_r0_3;
-    u16 *var_r1_3;
-    u16 *var_r1_4;
-    u16 *var_r1_5;
-    u16 *var_r2;
     u16 *var_r4_2;
     u16 temp_r0_12;
     u16 temp_r0_13;
@@ -1245,7 +1236,6 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u16 temp_r0_4;
     u16 temp_r0_5;
     u16 temp_r1_5;
-    u32 temp_r2_2;
     u16 temp_r4_14;
     u16 temp_r4_22;
     u32 temp_r5_10;
@@ -1258,25 +1248,20 @@ void sub_08003984(u8 *arg0, s32 arg1) {
     u16 var_r0_9;
     u16 var_r1_6;
     u16 var_r2_3;
-    u16 var_r4;
-    u16 var_r5_2;
     u16 var_r9;
     u32 temp_r0_18;
     u32 temp_r0_6;
     u32 temp_r0_7;
     u32 temp_r0_8;
     u32 temp_r0_9;
-    u32 temp_r1_2;
     u32 temp_r1_3;
     u32 temp_r4_12;
     u32 temp_r4_13;
     u32 temp_r4_20;
     u32 temp_r4_21;
     u32 temp_r4_2;
-    u32 temp_r4_8;
     u32 temp_r5_9;
     u32 temp_r6;
-    u32 temp_r6_2;
     u32 temp_r6_7;
     u32 temp_r6_8;
     u32 var_r3_3;
@@ -1458,250 +1443,136 @@ void sub_08003984(u8 *arg0, s32 arg1) {
         }
         goto block_374;
     case 1:                                         /* switch 2 */
-        temp_r6 = state;
-        switch (temp_r6) {                          /* switch 3; irregular */
-        case 0:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            temp_r2_2 = 0x10 & navKeys3984;
-            if (temp_r2_2 != 0) {
+        switch (state) {                            /* menu cursor */
+        case 0:
+            if ((u16)(gUnk_03001308 & 0x10)) {
                 state = 1;
-block_90:
                 sub_0805865C(0xE);
-                var_r2 = &widths[1];
-                var_r1_3 = &heights[1];
-block_91:
-                *var_r1_3 = 0;
-                *var_r2 = 0;
-            } else {
-                var_r4 = 0x60 & navKeys3984;
-                if (var_r4 != 0) {
-                    state = 6;
-                    if (arg1 != 0) {
-                        state = 8;
-                    }
-                    temp_r1_2 = state;
-                    menuWidthsC6 = &widths[temp_r1_2];
-                    menuHeightsC6 = &heights[temp_r1_2];
-                    *menuHeightsC6 = temp_r2_2;
-                    *menuWidthsC6 = temp_r2_2;
-                    sub_0805865C(0xE);
-                } else if (!(0x80 & navKeys3984)) {
-
-                } else {
-                    state = 4;
-                    sub_0805865C(0xE);
-                    var_r1_4 = &widths[4];
-                    var_r0 = &heights[4];
-block_98:
-                    *var_r0 = var_r4;
-                    *var_r1_4 = var_r4;
-                }
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x60)) {
+                state = 6;
+                if (arg1 != 0)
+                    state = 8;
+                widths[state] = heights[state] = 0;
+                sub_0805865C(0xE);
+            } else if ((u16)(gUnk_03001308 & 0x80)) {
+                state = 4;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
             }
             break;
-        case 1:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            if (0x10 & navKeys3984) {
+        case 1:
+            if ((u16)(gUnk_03001308 & 0x10)) {
                 state = 5;
                 sub_0805865C(0xE);
-                var_r2 = &widths[5];
-                var_r1_3 = &heights[5];
-                goto block_91;
-            }
-            var_r4 = 0x20 & navKeys3984;
-            if (var_r4 != 0) {
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x20)) {
                 state = 0;
                 sub_0805865C(0xE);
-                var_r0 = &widths[0];
-                heights[0] = (u16) state;
-                *var_r0 = (u16) state;
-            } else if (!(0x80 & navKeys3984)) {
-
-            } else {
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x80)) {
                 state = 7;
                 sub_0805865C(0xE);
-                var_r1_4 = &widths[7];
-                var_r0 = &heights[7];
-                goto block_98;
+                widths[state] = heights[state] = 0;
             }
             break;
-        case 2:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            var_r4 = 0x50 & navKeys3984;
-            if (var_r4 != 0) {
+        case 2:
+            if ((u16)(gUnk_03001308 & 0x50)) {
                 state = 6;
                 sub_0805865C(0xE);
-                var_r2 = &widths[6];
-                var_r1_3 = &heights[6];
-                goto block_91;
-            }
-            if (!(0x80 & navKeys3984)) {
-
-            } else {
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x80)) {
                 state = 3;
                 sub_0805865C(0xE);
-                var_r1_4 = &widths[3];
-                var_r0 = &heights[3];
-                goto block_98;
+                widths[state] = heights[state] = 0;
             }
             break;
-        case 3:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            var_r4 = 0x10 & navKeys3984;
-            if (var_r4 != 0) {
+        case 3:
+            if ((u16)(gUnk_03001308 & 0x10)) {
                 state = 4;
                 sub_0805865C(0xE);
-                var_r2 = &widths[4];
-                var_r1_3 = &heights[4];
-                goto block_91;
-            }
-            var_r5_2 = 0x20 & navKeys3984;
-            if (var_r5_2 != 0) {
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x20)) {
                 state = 2;
                 sub_0805865C(0xE);
-                var_r1_4 = &widths[2];
-                var_r0 = &heights[2];
-                goto block_98;
-            }
-            if (0x40 & navKeys3984) {
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x40)) {
                 state = 4;
                 sub_0805865C(0xE);
-                var_r1_5 = &widths[4];
-                var_r0_3 = &heights[4];
-block_102:
-                *var_r0_3 = var_r5_2;
-                *var_r1_5 = var_r5_2;
+                widths[state] = heights[state] = 0;
             }
             break;
-        case 4:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            var_r4 = 0x10 & navKeys3984;
-            if (var_r4 != 0) {
+        case 4:
+            if ((u16)(gUnk_03001308 & 0x10)) {
                 state = 0;
                 sub_0805865C(0xE);
-                var_r0 = &widths[0];
-                heights[0] = (u16) state;
-                *var_r0 = (u16) state;
-            } else {
-                var_r5_2 = 0x20 & navKeys3984;
-                if (var_r5_2 != 0) {
-                    state = 2;
-                    ((s32 (*)(s32))sub_0805865C)(0xE);
-                    var_r1_4 = &widths[2];
-                    var_r0 = &heights[2];
-                    goto block_98;
-                }
-                var_r4 = 0x40 & navKeys3984;
-                if (var_r4 != 0) {
-                    state = 6;
-                    if (arg1 != 0) {
-                        state = 8;
-                    }
-                    ((s32 (*)(s32))sub_0805865C)(0xE);
-                    temp_r4_8 = state;
-                    var_r1_5 = &(&widths[0])[temp_r4_8];
-                    var_r0_3 = &heights[temp_r4_8];
-                    goto block_102;
-                }
-                if (!(0x80 & navKeys3984)) {
-
-                } else {
-                    state = 3;
-                    ((s32 (*)(s32))sub_0805865C)(0xE);
-                    var_r1_4 = &widths[3];
-                    var_r0 = &heights[3];
-                    goto block_98;
-                }
-            }
-            break;
-        case 5:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            var_r4 = 0x20 & navKeys3984;
-            if (var_r4 != 0) {
-                state = 1;
-                goto block_90;
-            }
-            if (!(0x80 & navKeys3984)) {
-
-            } else {
-                state = 7;
-                ((s32 (*)(s32))sub_0805865C)(0xE);
-                var_r1_4 = &widths[7];
-                var_r0 = &heights[7];
-                goto block_98;
-            }
-            break;
-        case 6:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            var_r5_2 = 0x20 & navKeys3984;
-            if (var_r5_2 != 0) {
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x20)) {
                 state = 2;
                 sub_0805865C(0xE);
-                var_r2 = &widths[2];
-                var_r1_3 = &heights[2];
-                goto block_91;
-            }
-            var_r4 = 0x10 & navKeys3984;
-            if (var_r4 != 0) {
-                temp_r2_3 = arg1;
-                state = (u32) ((s32) ((0 - temp_r2_3) | temp_r2_3) >> 0x1F);
-                temp_r6_2 = state & 8;
-                state = temp_r6_2;
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x40)) {
+                state = 6;
+                if (arg1 != 0)
+                    state = 8;
                 sub_0805865C(0xE);
-                var_r1_5 = &(&widths[0])[temp_r6_2];
-                var_r0_3 = &heights[temp_r6_2];
-                goto block_102;
-            }
-            if (!(0x80 & navKeys3984)) {
-
-            } else {
-                state = 4;
-                ((s32 (*)(s32))sub_0805865C)(0xE);
-                var_r1_4 = &widths[4];
-                var_r0 = &heights[4];
-                goto block_98;
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x80)) {
+                state = 3;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
             }
             break;
-        case 7:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            var_r4 = 0x20 & navKeys3984;
-            if (var_r4 != 0) {
+        case 5:
+            if ((u16)(gUnk_03001308 & 0x20)) {
                 state = 1;
-                goto block_90;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x80)) {
+                state = 7;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
             }
-            if (0x40 & navKeys3984) {
+            break;
+        case 6:
+            if ((u16)(gUnk_03001308 & 0x20)) {
+                state = 2;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x10)) {
+                state = arg1 != 0 ? 8 : 0;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x80)) {
+                state = 4;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
+            }
+            break;
+        case 7:
+            if ((u16)(gUnk_03001308 & 0x20)) {
+                state = 1;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x40)) {
                 state = 5;
                 sub_0805865C(0xE);
-                var_r1_4 = &widths[5];
-                var_r0 = &heights[5];
-                goto block_98;
+                widths[state] = heights[state] = 0;
             }
             break;
-        case 8:                                     /* switch 3 */
-            navKeys3984 = gUnk_03001308;
-            var_r4 = 0x10 & navKeys3984;
-            if (var_r4 != 0) {
+        case 8:
+            if ((u16)(gUnk_03001308 & 0x10)) {
                 state = 0;
                 sub_0805865C(0xE);
-                var_r0 = &widths[0];
-                heights[0] = (u16) state;
-                *var_r0 = (u16) state;
-            } else {
-                var_r5_2 = 0x20 & navKeys3984;
-                if (var_r5_2 != 0) {
-                    state = 6;
-                    sub_0805865C(0xE);
-                    var_r1_4 = &widths[6];
-                    var_r0 = &heights[6];
-                    goto block_98;
-                }
-                if (0x80 & navKeys3984) {
-                    state = 4;
-                    sub_0805865C(0xE);
-                    var_r1_5 = &widths[4];
-                    var_r0_3 = &heights[4];
-                    *var_r0_3 = var_r5_2;
-                    *var_r1_5 = var_r5_2;
-                }
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x20)) {
+                state = 6;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
+            } else if ((u16)(gUnk_03001308 & 0x80)) {
+                state = 4;
+                sub_0805865C(0xE);
+                widths[state] = heights[state] = 0;
             }
             break;
         }
