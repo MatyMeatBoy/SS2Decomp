@@ -1656,6 +1656,9 @@ loop_67:
                         }
                     }
                 }
+    goto loop_82;
+loop_82_yield:
+    sub_080003F0();
 loop_82:
                 if (sub_08056E90() != 0) {
     goto loop_85;
@@ -1681,8 +1684,7 @@ loop_85:
                         if (var_r1_2 != 0) {
                             sp38 = 1;
                         } else {
-                            sub_080003F0();
-                            goto loop_82;
+                            goto loop_82_yield;
                         }
                     }
                 }
@@ -1697,10 +1699,8 @@ loop_85:
     if (sp38 == 1) goto finish;
 loop_90:
     if (state23A3C->mode != 0xB) {
-loop_109:
-        sub_080003F0();
-        temp_r0_2 = sub_08056E90();
-        if (temp_r0_2 == 0) {
+        goto loop_109;
+loop_109_body:
             if ((gUnk_03002344 & 1) == (temp_r1 & 1)) {
                 temp_r8 = M2C_FIELD(sp34, u16 *, 0x4);
                 temp_r7 = M2C_FIELD(sp34, u16 *, 0x6);
@@ -1747,8 +1747,13 @@ block_108:
             if (var_r0_2 == 0) {
                 goto loop_109;
             }
-        }
+            goto loop_109_done;
+loop_109:
+        sub_080003F0();
+        temp_r0_2 = sub_08056E90();
+        if (temp_r0_2 == 0) goto loop_109_body;
     }
+loop_109_done:
     temp_r0_3 = sub_08056E90();
     if (temp_r0_3 == 0) goto dispatch;
 finish:
@@ -1765,7 +1770,6 @@ loop_120:
         if (sub_08067EC8() == 0) goto loop_120_yield;
     }
 }
-
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023A3C);
 #endif
