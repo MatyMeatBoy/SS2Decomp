@@ -922,585 +922,396 @@ check:
     sub_08000274_3((u32)t, a, b);
 }
 #ifdef NONMATCHING
-extern u8 image99838 asm("gUnk_084A06B0");
-extern u8 sub_0809A5E0(void);
-extern void sub_0809AE24(void);
-extern void sub_0809AE88(u16);
-void sub_08099838(void *arg0) {
-    s32 sp0;
-    void *sp4;                                       /* compiler-managed */
-    s32 sp8;
-    s32 spC;
-    u32 sp10[13];
-    u32 sp44[13];
-    s16 sp78;
-    s16 screenY;
-    void *sp7C;
-    void *sp80;
-    s32 sp84;
-    s32 sp88;
-    s32 sp8C;
-    s32 sp90;
-    s32 sp94;
-    s32 sp98;
-    s32 sp9C;
-    s32 spA0;
-    u32 spA4;
-    u32 spA8;
-    u32 spAC;
-    s32 spB0;
-    u32 spB4;
-    s32 spB8;
-    s32 spBC;
-    s16 *spC0;
-    u16 *spC4;
-    u16 *spC8;
-    u16 *spCC;
-    u16 *spD0;
-    s32 *spD4;
-    s16 *temp_r0_10;
-    s16 *var_r6;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r1_2;
-    s16 var_r1;
-    s16 var_r2;
-    s32 *temp_r1_10;
-    s32 *temp_r1_11;
-    s32 *temp_r1_8;
-    s32 *temp_r1_9;
-    s32 *temp_r2;
-    s32 *temp_r2_2;
-    s32 *temp_r2_3;
-    s32 *temp_r5;
-    s32 *temp_r5_2;
-    s32 *temp_r6;
-    s32 *temp_r7;
-    s32 *temp_r7_2;
-    s32 *temp_r7_3;
-    s32 *temp_r7_4;
-    s32 temp_r0_11;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
-    s32 temp_r0_14;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
-    s32 temp_r4_2;
-    u16 temp_r0;
-    u16 temp_r1;
-    u16 temp_r1_3;
-    u16 var_r0;
-    u16 var_r1_2;
-    u32 temp_r0_15;
-    u32 temp_r0_16;
-    u32 temp_r0_4;
-    u32 temp_r0_5;
-    u32 temp_r0_6;
-    u32 temp_r1_5;
-    u32 temp_r1_6;
-    u32 temp_r1_7;
-    u32 temp_r4;
-    u8 temp_r0_7;
-    u8 temp_r1_4;
-    u8 temp_r8;
-    u8 temp_r8_2;
-    u8 temp_r8_3;
-    u8 temp_r8_4;
-    u8 var_r0_2;
+struct Sprite99 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
+struct Player99 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
+struct Spr99 {u8 *sprite;u8 p4[0x148];};
+struct Actor99 {
+    u16 f0; u16 f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 state; u8 pE[6];
+    s32 x; s32 y; u8 p1C[0x30]; s32 damage; s32 f50; u8 p54[6]; u16 f5A; u16 f5C; u16 f5E;
+    u8 p60[8]; u16 anim; u16 frame; u16 tick; u16 f6E; u8 p70[0x164]; u16 f1D4; u16 f1D6;
+    u8 p1D8[0x24]; u8 lo:4; u8 hi:4; u8 phase; u8 next; u8 p1FF; u8 f200; u8 p201; u16 f202;
+    u8 res[0xD4]; u16 f2D8; u16 f2DA;
+};
+#define S99(p,o) (*(s16 *)((u8 *)(p)+(o)))
+#define I99(p,o) (*(s32 *)((u8 *)(p)+(o)))
+#define P99(p,o) ((u16 *)((u8 *)(p)+(o)))
+extern struct Actor99 *actor99 asm("gUnk_030002DC");
+extern u16 palette99 asm("gUnk_030002E0");
+extern u32 active99 asm("gUnk_030056FC");
+extern u32 seen99[] asm("gUnk_03003DC4");
+extern struct Player99 players99[] asm("gUnk_03003CE0");
+extern struct Spr99 sprites99[] asm("gUnk_03003E28");
+extern void *inventory99 asm("gUnk_030034E0");
+extern u8 *state99 asm("gUnk_03005CF4");
+extern u8 config99[] asm("gUnk_084A06B0");
+extern void setup99(void *,void *,s32) asm("sub_0801623C");
+extern void resourceInit99(void *) asm("sub_08019F60");
+extern u32 allocate99(u16,u16) asm("sub_08016E04");
+extern void init99(void *,u32,u32,s32,s32) asm("sub_08065158");
+extern u16 anim99(void *,u32,u16 *,u16 *,s32) asm("sub_08065370");
+extern void screen99(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+extern void draw99(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
+extern void update99(void *) asm("sub_0801C8F0");
+extern void float99(void *,s32,s32) asm("sub_0801A120");
+extern u16 dead99(void *) asm("sub_08019CE8");
+extern void paletteFree99(u32) asm("sub_08067CA8");
+extern void transition99(void *,void *,u32,u32) asm("sub_080970CC");
+extern s32 reward99(void *,void *) asm("sub_0801E46C");
+extern void rise99(void *,s32) asm("sub_0806171C");
+extern void rewardDone99(void *,s32) asm("sub_0801E4CC");
+extern void soundStop99(s32) asm("sub_080586B4");
+extern void sound99(s32) asm("sub_08058688");
+extern s32 window99(s32,s32,s32,s32,s32,s32) asm("sub_0805DF38");
+extern s32 windowDone99(s32) asm("sub_0805EEFC");
+extern u8 chase99(void *, void *, s32, s32) asm("sub_08097A74");
+extern u32 rune99(s32) asm("sub_08096594");
+extern void bgm99(s32) asm("sub_080656B8");
+extern u8 countdown99(void) asm("sub_08098F2C");
+extern void reset99(void) asm("sub_0809975C");
+extern void shot99(u32, u32) asm("sub_080997C0");
+extern u16 wander99(s32, s32 *, u32, s32, s32) asm("sub_08013E90");
 
-    gUnk_030002DC = arg0;
-    sp80 = arg0 + 0x204;
-    sub_0801623C(arg0, &image99838, 0);
-    sub_08019F60(sp80);
-    sub_0801A0A4(arg0);
-    temp_r0 = sub_08016E04(M2C_FIELD(arg0,u16 *,0x2D8), M2C_FIELD(arg0,u16 *,0x2DA));
-    gUnk_030002E0 = temp_r0;
-    temp_r1 = temp_r0;
-    if (temp_r1 == 0xFFFF) {
-loop_2:
-        M2C_FIELD(arg0,u16 *,0xC) = 0xBU;
-        if ((sub_0800CB78() != 0) || (sub_08056E90() != 0)) {
-            gUnk_030056FC &= ~(1 << M2C_FIELD(arg0,u16 *,0x0));
-            return;
-        }
-        sub_080003F0();
-        if (gUnk_030002E0 != temp_r1) {
-            goto block_6;
-        }
-        goto loop_2;
+extern u32 blink99 asm("gUnk_03002344");
+extern u8 cool99(void) asm("sub_0809A5E0");
+extern void quake99(u32) asm("sub_08097CA8");
+extern void spawn99(u32) asm("sub_0809AE88");
+extern void start99(void) asm("sub_0809AE24");
+extern void end99(void) asm("sub_0809AE50");
+#define PAL99 (*P99(resource, 0xD6))
+
+#define RENDER_99() {     s32 zero;     players99[sub_080020F4()].flags |= 1;     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {         zero = sub_0800CD34();         if (zero == 0) {             sub_08000AF0(palette99 + 0x10, (u8 *)sprite->palette + (PAL99 << 5), 1);             priority = sub_0800BC44(actor99->x >> 8, actor99->y >> 8, 0);             actor99->f6E = anim99(sprite, 0, &actor99->frame, &actor99->tick, 1);             screen99((actor99->x << 8) >> 16, (actor99->y << 8) >> 16, &sx, &sy, zero, zero);             draw99(sx, sy, actor99->anim, actor99->frame, priority, sprite->payload, sprite->data, sprite->base);             if (blink99 & 1)                 draw99(sx, sy - 1, 0x18, 0, priority, sprite->payload, sprite->data, sprite->base);         }     }     sub_080003F0(); }
+
+void sub_08099838(void *input)
+{
+    struct Sprite99 spriteA;
+    struct Sprite99 spriteB;
+    s16 sx;
+    s16 sy;
+    struct Sprite99 *sprite;
+    u8 *resource;
+    s32 range;
+    s32 lastDamage;
+    s32 mode;
+    u16 lastAnim;
+    s32 lastMode;
+    s32 animFlag;
+    u16 flash;
+    u16 floatingTimer;
+    u32 limit;
+    u16 chase;
+    u16 elapsed;
+    s32 blinkAnim;
+    s16 floatingOffset;
+    u8 cooldown;
+    s32 finished;
+    struct Actor99 *actor;
+    u8 priority;
+    s16 player;
+    s16 entry;
+    s16 i;
+    u32 n;
+    s32 value;
+    s32 reward;
+    s32 dmg;
+    u32 old;
+    u16 alloc;
+
+    actor = input;
+    actor99 = actor;
+    resource = actor->res;
+    setup99(actor, config99, 0);
+    resourceInit99(resource);
+    sub_0801A0A4(actor);
+    alloc = palette99 = allocate99(actor->f2D8, actor->f2DA);
+    if (alloc == 0xFFFF) {
+        do {
+            actor->state = 11;
+            if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
+                active99 &= ~(1 << actor->f0);
+                return;
+            }
+            sub_080003F0();
+        } while (palette99 == 0xFFFF);
     }
-block_6:
-    sp0 = 1;
-    t071Init(&sp10, 0x50002, gUnk_030002E0, -1, sp0);
-    sp0 = 1;
-    t071Init(&sp44, 0x50003, gUnk_030002E0, -1, sp0);
-    M2C_FIELD(arg0,u16 *,0x6C) = 0;
-    M2C_FIELD(arg0,u16 *,0x6A) = 0;
-    M2C_FIELD(arg0,u16 *,0x68) = 0;
-    temp_r0_2 = M2C_FIELD(sp80,s16 *,0x6) * 3;
-    M2C_FIELD(arg0,s16 *,0x1D6) = temp_r0_2;
-    M2C_FIELD(arg0,s16 *,0x5C) = temp_r0_2;
-    temp_r0_3 = M2C_FIELD(sp80,s16 *,0x4) * 0xA * 2;
-    M2C_FIELD(arg0,s16 *,0x1D4) = temp_r0_3;
-    M2C_FIELD(arg0,s16 *,0x5E) = temp_r0_3;
-    M2C_FIELD(arg0,u16 *,0xC) = 0U;
-    sp8C = 0;
-    sp90 = 0xFFFF;
-    sp94 = 0xFFFF;
-    sp9C = 0;
-    spA0 = 0;
-    spB8 = 0;
-    M2C_FIELD(arg0,u8 *,0x1FD) = 2U;
-    M2C_FIELD(arg0,u8 *,0x1FE) = 2U;
-    sub_0809AE24();
+    init99(&spriteA, 0x50002, palette99, -1, 1);
+    init99(&spriteB, 0x50003, palette99, -1, 1);
+    actor->tick = 0;
+    actor->frame = 0;
+    actor->anim = 0;
+    actor->f5C = actor->f1D6 = S99(resource, 6) * 3;
+    value = S99(resource, 4) * 2;
+    actor->f5E = actor->f1D4 = (value * 4 + value) * 2;
+    actor->state = 0;
+    mode = 0;
+    lastAnim = 0xFFFF;
+    lastMode = 0xFFFF;
+    flash = 0;
+    floatingTimer = 0;
+    cooldown = 0;
+    actor->phase = 2;
+    actor->next = 2;
+    start99();
     sub_08097C4C();
-    M2C_FIELD(arg0,s32 *,0x50) = 1;
-    var_r1 = 0;
-    spCC = arg0 + 0x6C;
-    spC8 = arg0 + 0x6A;
-    spC4 = arg0 + 0x68;
-    spD0 = sp80 + 0xD6;
+    actor->f50 = 1;
+    player = 0;
     do {
-        var_r2 = 0;
-loop_8:
-        temp_r1_2 = var_r2;
-        M2C_FIELD(&gStateClear100,s32 *,temp_r1_2*4+var_r1*0x14C) = 0;
-        temp_r1_3 = temp_r1_2 + 1;
-        var_r2 = (s16) temp_r1_3;
-        if ((s32) (s16) temp_r1_3 <= 4) {
-            goto loop_8;
-        }
-        temp_r0_4 = (var_r1 << 0x10) + 0x10000;
-        var_r1 = (s16) (temp_r0_4 >> 0x10);
-    } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 3);
+        entry = 0;
+        do {
+            *(u32 *)((u8 *)seen99 + entry * 4 + player * 0x14C) = 0;
+            entry++;
+        } while (entry <= 4);
+        player++;
+    } while (player <= 3);
     if (sub_0800CE30() == 1) {
-        spA4 = 0xB4;
-        sp84 = 0x80;
+        limit = 0xB4;
+        range = 0x80;
     } else {
-        spA4 = 0x168;
-        sp84 = 0x40;
+        limit = 0x168;
+        range = 0x40;
     }
-    M2C_FIELD(arg0,u8 *,0x1FC) = (u8) ((-0x10 & M2C_FIELD(arg0,u8 *,0x1FC)) | (0xF & (u8) M2C_FIELD(arg0,u16 *,0x0)));
-    M2C_FIELD(arg0,u16 *,0x202) = (u16) M2C_FIELD(arg0,u16 *,0x2);
-    M2C_FIELD(arg0,u8 *,0x200) = 0xFF;
+    actor->lo = *(u8 *)actor;
+    actor->f202 = actor->f2;
+    actor->f200 = 0xFF;
     sub_08097FE4();
     sub_08097A4C();
-    spBC = 0;
-    spAC = 0;
+    finished = 0;
+    elapsed = 0;
     sub_08067C18();
-loop_15:
-    if (sub_08067C08() == 0) {
+    while (sub_08067C08() == 0)
         sub_080003F0();
-        goto loop_15;
-    }
     sub_08067BF8();
-loop_94:
-    if ((sub_0800CB78() == 0) && (sub_08056E90() == 0)) {
-        if ((M2C_FIELD(arg0,u16 *,0xC) == 0xA) && (sp9C == 0)) {
-            sp9C = 8;
-        }
-        var_r6 = &screenY;
-        if (sub_08058DB0() != 0) {
-
-        } else {
-            sub_0801C8F0(arg0);
-            temp_r0_5 = M2C_FIELD(arg0,u8 *,0x1FD) - 1;
-            switch (temp_r0_5) {                    /* switch 1; irregular */
-            case 0:                                 /* switch 1 */
-                M2C_FIELD(arg0,u16 *,0xC) = 0U;
-                var_r6 = &screenY;
-                if (sub_08067C08() == 0) {
-
-                } else {
-                    M2C_FIELD(arg0,u8 *,0x1FD) = (u8) M2C_FIELD(arg0,u8 *,0x1FE);
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (actor->state == 10 && flash == 0)
+            flash = 8;
+        if (sub_08058DB0() == 0) {
+            update99(actor);
+            switch (actor->phase) {
+            case 1:
+                actor->state = 0;
+                if (sub_08067C08() != 0) {
+                    actor->phase = actor->next;
                     sub_08067BF8();
                 }
                 break;
-            case 1:                                 /* switch 1 */
-                sp8C = 0;
-                var_r6 = &screenY;
-                if (sub_08056F78() == 0) {
-
-                } else {
-                    M2C_FIELD(arg0,u8 *,0x1FE) = 3U;
-                    M2C_FIELD(arg0,u8 *,0x1FD) = 1U;
+            case 2:
+                mode = 0;
+                if (sub_08056F78() != 0) {
+                    actor->next = 3;
+                    actor->phase = 1;
                     sub_08067C18();
-                    spA8 = 0;
+                    chase = 0;
                 }
                 break;
-            case 2:                                 /* switch 1 */
-                sp8C = 1;
-                M2C_FIELD(arg0,u16 *,0xC) = (u16) sp8C;
-                temp_r1_4 = (0xF & M2C_FIELD(arg0,u8 *,0x1FC)) | (sub_08096594(0) * 0x10);
-                M2C_FIELD(arg0,u8 *,0x1FC) = temp_r1_4;
-                if ((sub_08097A74(arg0, (0x14C * ((u32) (temp_r1_4 << 0x18) >> 0x1C)) + gUnk_03003CE0, sp84, 0x30) << 0x18) != 0) {
-                    temp_r1_5 = spA8;
-                    spA8 = (u32) (u16) (temp_r1_5 + 1);
-                    var_r6 = &screenY;
-                    if (spA4 >= temp_r1_5) {
-
-                    } else {
-                        M2C_FIELD(arg0,u8 *,0x1FE) = 4U;
-                        M2C_FIELD(arg0,u8 *,0x1FD) = 1U;
-                        spB8 = 0;
-                        spA8 = 0;
-                        spAC = 0;
-                        sub_08067C18();
-                        sub_08097A38(0U);
-                    }
-                } else {
-                    M2C_FIELD(arg0,u8 *,0x1FE) = 4U;
-                    M2C_FIELD(arg0,u8 *,0x1FD) = 1U;
-                    spB8 = 0;
-                    spA8 = 0;
-                    spAC = 0;
+            case 3:
+                mode = 1;
+                actor->state = mode;
+                actor->hi = rune99(0);
+                if (chase99(actor, &players99[actor->hi], range, 0x30)) {
+                    if (chase++ <= limit)
+                        break;
+                    actor->next = 4;
+                    actor->phase = 1;
+                    cooldown = 0;
+                    chase = 0;
+                    elapsed = 0;
                     sub_08067C18();
-                    sub_08097A38(0U);
-                    var_r6 = &screenY;
+                    sub_08097A38(0);
+                } else {
+                    actor->next = 4;
+                    actor->phase = 1;
+                    cooldown = 0;
+                    chase = 0;
+                    elapsed = 0;
+                    sub_08067C18();
+                    sub_08097A38(0);
                 }
                 break;
-            case 3:                                 /* switch 1 */
-                sp8C = 2;
-                M2C_FIELD(arg0,u16 *,0xC) = 2U;
-                if ((*spC8 == 2) && (*spCC == 0)) {
+            case 4:
+                mode = 2;
+                actor->state = mode;
+                if (actor->frame == 2 && actor->tick == 0) {
                     sub_0805865C(0xAC);
-                    if (spB8 == 0) {
-                        spB8 = (s32) sub_0809A5E0();
-                    }
-                    sub_08097CA8(0x3CU);
+                    if (cooldown == 0)
+                        cooldown = cool99();
+                    quake99(0x3C);
                 }
-                if ((M2C_FIELD(arg0,u16 *,0x6E) != 0) || (temp_r1_6 = spAC, spAC = (u32) (u16) (temp_r1_6 + 1), var_r6 = &screenY, (temp_r1_6 > 0x3BU))) {
-                    spAC = 0;
-                    temp_r0_6 = sub_08002164();
-                    if (temp_r0_6 == 1) {
-                        sub_0809AE88(0U);
-                        sub_0809AE88(1U);
-                        sub_0809AE88(2U);
-                        sub_0809AE88(3U);
-                        sub_0809AE88(4U);
-                        var_r6 = &screenY;
-                    } else {
-                        var_r1_2 = 0;
-                        var_r6 = &screenY;
-                        if (spAC < temp_r0_6) {
-                            do {
-                                sub_0809AE88(var_r1_2);
-                                temp_r4 = (var_r1_2 << 0x10) + 0x10000;
-                                var_r1_2 = (u16) (temp_r4 >> 0x10);
-                            } while ((u32) ((s32) temp_r4 >> 0x10) < temp_r0_6);
-                        }
-                    }
-                    M2C_FIELD(arg0,u8 *,0x1FD) = 1U;
-                    M2C_FIELD(arg0,u8 *,0x1FE) = 5U;
-                    sub_08067C18();
+                if (actor->f6E == 0) {
+                    if (elapsed++ <= 0x3B)
+                        break;
                 }
+                elapsed = 0;
+                n = sub_08002164();
+                if (n == 1) {
+                    spawn99(0);
+                    spawn99(1);
+                    spawn99(2);
+                    spawn99(3);
+                    spawn99(4);
+                } else {
+                    for (i = 0; i < n; i++)
+                        spawn99((u16)i);
+                }
+                actor->phase = 1;
+                actor->next = 5;
+                sub_08067C18();
                 break;
-            case 4:                                 /* switch 1 */
-                sp8C = 0;
-                M2C_FIELD(arg0,u16 *,0xC) = 0U;
-                temp_r1_7 = spAC;
-                spAC = (u32) (u16) (temp_r1_7 + 1);
-                var_r6 = &screenY;
-                if (temp_r1_7 > 0xB4U) {
-                    spA8 = 0;
-                    M2C_FIELD(arg0,u8 *,0x1FD) = 1U;
-                    M2C_FIELD(arg0,u8 *,0x1FE) = 3U;
+            case 5:
+                mode = 0;
+                actor->state = mode;
+                if (elapsed++ > 0xB4) {
+                    chase = 0;
+                    actor->phase = 1;
+                    actor->next = 3;
                     sub_08067C18();
                 }
                 break;
             }
         }
-        switch (sp8C) {                             /* switch 2; irregular */
-        case 0:                                     /* switch 2 */
-            sp7C = &sp10;
-            var_r0 = M2C_FIELD(arg0,u16 *,0x8);
-block_58:
-            *spC4 = var_r0;
-            sp98 = 1;
-            spB0 = 0x18;
+        switch (mode) {
+        case 0:
+            sprite = &spriteA;
+            actor->anim = actor->f8;
+            animFlag = 1;
+            blinkAnim = 0x18;
             break;
-        case 1:                                     /* switch 2 */
-            sp7C = &sp10;
-            var_r0 = M2C_FIELD(arg0,u16 *,0x8) + 8;
-            goto block_58;
-        case 2:                                     /* switch 2 */
-            sp7C = &sp44;
-            *spC4 = M2C_FIELD(arg0,u16 *,0x8);
-            spB0 = 8;
-            sp98 = 0;
+        case 1:
+            sprite = &spriteA;
+            actor->anim = actor->f8 + 8;
+            animFlag = 1;
+            blinkAnim = 0x18;
+            break;
+        case 2:
+            sprite = &spriteB;
+            actor->anim = actor->f8;
+            blinkAnim = 8;
+            animFlag = 0;
             break;
         }
-        if ((sp90 != M2C_FIELD(gUnk_030002DC,u16 *,0x68)) || (sp94 != sp8C)) {
-            sp94 = sp8C;
-            sp90 = (s32) M2C_FIELD(gUnk_030002DC,u16 *,0x68);
-            M2C_FIELD(gUnk_030002DC,u16 *,0x6C) = 0;
-            M2C_FIELD(gUnk_030002DC,u16 *,0x6A) = 0;
+        if (lastAnim != actor99->anim || lastMode != mode) {
+            lastMode = mode;
+            lastAnim = actor99->anim;
+            actor99->tick = 0;
+            actor99->frame = 0;
         }
-        M2C_FIELD(sp7C,s8 *,0x1C) = (s8) gUnk_030002E0;
-        sub_08000AF0(gUnk_030002E0 + 0x10, M2C_FIELD(sp7C,u32 *,0xC) + (*spD0 << 5), 1U);
-        if (1 & sub_08098004()) {
-            var_r0_2 = sub_08097FF8();
+        sprite->payload[0] = palette99;
+        sub_08000AF0(palette99 + 0x10, (u8 *)sprite->palette + (PAL99 << 5), 1);
+        if (sub_08098004() & 1)
+            priority = sub_08097FF8();
+        else
+            priority = sub_0800BC44(actor->x >> 8, actor->y >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            actor->f6E = anim99(sprite, actor->anim, &actor->frame, &actor->tick, animFlag);
+        screen99((actor->x << 8) >> 16, (actor->y << 8) >> 16, &sx, &sy, 0, 0);
+        if (flash != 0) {
+            old = flash;
+            flash = old - 1;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+                draw99(sx, sy, actor->anim, actor->frame, priority, sprite->payload, sprite->data, sprite->base);
+                draw99(sx, sy - 1, blinkAnim, 0, priority, sprite->payload, sprite->data, sprite->base);
+            }
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            draw99(sx, sy, actor->anim, actor->frame, priority, sprite->payload, sprite->data, sprite->base);
+            if (blink99 & 1)
+                draw99(sx, sy - 1, blinkAnim, 0, priority, sprite->payload, sprite->data, sprite->base);
+        }
+        dmg = actor->damage;
+        if (dmg != 0 && lastDamage != dmg) {
+            lastDamage = dmg;
+            floatingTimer = 10;
+            floatingOffset = 0;
+        }
+        if (floatingTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                float99(actor, lastDamage, floatingOffset);
+            if (floatingTimer & 2)
+                floatingOffset--;
+            floatingTimer--;
         } else {
-            var_r0_2 = (u8) sub_0800BC44((u32) ((s32) M2C_FIELD(arg0,s32 *,0x14) >> 8), (u32) ((s32) M2C_FIELD(arg0,s32 *,0x18) >> 8), 0U);
+            lastDamage = 0;
+            actor->damage = floatingTimer;
         }
-        temp_r0_7 = var_r0_2;
-        if (sub_0800CD8C() == 0) {
-            sp0 = sp98;
-            M2C_FIELD(arg0,u16 *,0x6E) = (u16) sub_08065370(sp7C, *spC4, (s32) spC8, (s32) spCC, sp0);
-        }
-        spC0 = var_r6;
-        sp0 = 0;
-        sp4 = NULL;
-        t071Coords((s32) (M2C_FIELD(arg0,s32 *,0x14) << 8) >> 0x10, (s32) (M2C_FIELD(arg0,s32 *,0x18) << 8) >> 0x10, &sp78, var_r6, sp0, sp4);
-        temp_r0_8 = sp9C;
-        if (temp_r0_8 != 0) {
-            sp9C = (s32) (u16) (temp_r0_8 - 1);
-            if ((1 & temp_r0_8) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-                sp0 = (s32) temp_r0_7;
-                temp_r5 = (u8 *)sp7C + 0x1C;
-                sp4 = temp_r5;
-                sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                spC = M2C_FIELD(sp7C,u32 *,0x0);
-                t071Draw(sp78, *spC0, *spC4, *spC8, sp0, sp4, sp8, spC);
-                sp0 = (s32) temp_r0_7;
-                sp4 = temp_r5;
-                sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                spC = M2C_FIELD(sp7C,u32 *,0x0);
-                t071Draw(sp78, *spC0 - 1, (u16) spB0, 0U, sp0, sp4, sp8, spC);
-            }
-        } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-            sp0 = (s32) temp_r0_7;
-            temp_r5_2 = (u8 *)sp7C + 0x1C;
-            sp4 = temp_r5_2;
-            sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-            spC = M2C_FIELD(sp7C,u32 *,0x0);
-            t071Draw(sp78, *var_r6, *spC4, *spC8, sp0, sp4, sp8, spC);
-            if (gUnk_03002344 & 1) {
-                sp0 = (s32) temp_r0_7;
-                sp4 = temp_r5_2;
-                sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                spC = M2C_FIELD(sp7C,u32 *,0x0);
-                t071Draw(sp78, *var_r6 - 1, (u16) spB0, 0U, sp0, sp4, sp8, spC);
-            }
-        }
-        temp_r0_9 = M2C_FIELD(arg0,s32 *,0x4C);
-        if ((temp_r0_9 != 0) && (sp88 != temp_r0_9)) {
-            sp88 = temp_r0_9;
-            spA0 = 0xA;
-            spB4 = 0;
-        }
-        if (spA0 != 0) {
-            if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                sub_0801A120(arg0, sp88, (s16) spB4);
-            }
-            if (2 & spA0) {
-                spB4 = (u32) ((spB4 << 0x10) + 0xFFFF0000) >> 0x10;
-            }
-            spA0 = (s32) (u16) (spA0 - 1);
-        } else {
-            sp88 = 0;
-            M2C_FIELD(arg0,s32 *,0x4C) = spA0;
-        }
-        if ((sub_08019CE8(arg0) << 0x10) != 0) {
-            spBC = 1;
-        }
+        if (dead99(actor) != 0)
+            finished = 1;
         sub_080003F0();
-        if (spBC == 0) {
-            goto loop_94;
-        }
+        if (finished != 0)
+            break;
     }
-    gUnk_030056FC = 0;
-    temp_r2 = (s32 *)((u8 *)gUnk_03003CE0+sub_080020F4() * 0x14C+0x30);
-    *temp_r2 |= 1;
+    active99 = 0;
+    players99[sub_080020F4()].flags |= 1;
     sub_08097C6C();
-    sub_0809AE50();
-    temp_r6 = &sp10;
-    sp7C = temp_r6;
-    M2C_FIELD(gUnk_030002DC,u16 *,0x6C) = 0;
-    temp_r0_10 = ((u8 *)gUnk_030002DC+0x6A);
-    *temp_r0_10 = 0;
-    *(temp_r0_10 - 1) = 0;
-    M2C_FIELD(temp_r6,s8 *,0x1C) = (s8) gUnk_030002E0;
-    spB4 = 0;
-    spA0 = 0xA;
-loop_98:
-    temp_r1_8 = (s32 *)((u8 *)gUnk_03003CE0+sub_080020F4() * 0x14C+0x30);
-    *temp_r1_8 |= 1;
-    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-        temp_r0_11 = sub_0800CD34();
-        if (temp_r0_11 == 0) {
-            sub_08000AF0(gUnk_030002E0 + 0x10, M2C_FIELD(sp7C,u32 *,0xC) + (*spD0 << 5), 1U);
-            temp_r8 = (u8) sub_0800BC44((u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x14) >> 8), (u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x18) >> 8), 0U);
-            sp0 = 1;
-            M2C_FIELD(gUnk_030002DC,u16 *,0x6E) = (s16) sub_08065370(sp7C, 0U, (s32) (gUnk_030002DC + 0x6A), (s32) (gUnk_030002DC + 0x6C), sp0);
-            sp0 = temp_r0_11;
-            sp4 = temp_r0_11;
-            t071Coords((s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x18) << 8) >> 0x10, &sp78, &screenY, sp0, sp4);
-            sp0 = (s32) temp_r8;
-            temp_r7 = (u8 *)sp7C + 0x1C;
-            spD4 = temp_r7;
-            sp4 = temp_r7;
-            sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-            spC = M2C_FIELD(sp7C,u32 *,0x0);
-            t071Draw(sp78, screenY, M2C_FIELD(gUnk_030002DC,u16 *,0x68), M2C_FIELD(gUnk_030002DC,u16 *,0x6A), sp0, sp4, sp8, spC);
-            if (gUnk_03002344 & 1) {
-                sp0 = (s32) temp_r8;
-                sp4 = spD4;
-                sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                spC = M2C_FIELD(sp7C,u32 *,0x0);
-                t071Draw(sp78, screenY - 1, 0x18U, 0U, sp0, sp4, sp8, spC);
+    end99();
+    sprite = &spriteA;
+    actor99->tick = 0;
+    actor99->frame = 0;
+    actor99->anim = 0;
+    sprite->payload[0] = palette99;
+    floatingOffset = 0;
+    floatingTimer = 10;
+    do {
+        s32 zero;
+        players99[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            zero = sub_0800CD34();
+            if (zero == 0) {
+                sub_08000AF0(palette99 + 0x10, (u8 *)sprite->palette + (PAL99 << 5), 1);
+                priority = sub_0800BC44(actor99->x >> 8, actor99->y >> 8, 0);
+                actor99->f6E = anim99(sprite, 0, &actor99->frame, &actor99->tick, 1);
+                screen99((actor99->x << 8) >> 16, (actor99->y << 8) >> 16, &sx, &sy, zero, zero);
+                draw99(sx, sy, actor99->anim, actor99->frame, priority, sprite->payload, sprite->data, sprite->base);
+                if (blink99 & 1)
+                    draw99(sx, sy - 1, 0x18, 0, priority, sprite->payload, sprite->data, sprite->base);
+                float99(actor, lastDamage, floatingOffset);
             }
-            sub_0801A120(arg0, sp88, (s16) spB4);
         }
-    }
-    if (2 & spA0) {
-        spB4 = (u32) ((spB4 << 0x10) + 0xFFFF0000) >> 0x10;
-    }
-    sub_080003F0();
-    spA0 = (s32) (u16) (spA0 - 1);
-    if (spA0 != 0xFFFF) {
-        goto loop_98;
-    }
+        if (floatingTimer & 2)
+            floatingOffset--;
+        sub_080003F0();
+        floatingTimer--;
+    } while (floatingTimer != 0xFFFF);
     sub_080683CC();
-    sub_08067CA8(M2C_FIELD(arg0,u16 *,0x2));
-    sub_08068330(-0x21520532);
-loop_115:
-    if (sub_080682B8(-0x21520532) == 0) {
-        temp_r1_9 = (s32 *)((u8 *)gUnk_03003CE0+sub_080020F4() * 0x14C+0x30);
-        *temp_r1_9 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-            temp_r0_12 = sub_0800CD34();
-            if (temp_r0_12 == 0) {
-                sub_08000AF0(gUnk_030002E0 + 0x10, M2C_FIELD(sp7C,u32 *,0xC) + (*spD0 << 5), 1U);
-                temp_r8_2 = (u8) sub_0800BC44((u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x14) >> 8), (u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x18) >> 8), 0U);
-                sp0 = 1;
-                M2C_FIELD(gUnk_030002DC,u16 *,0x6E) = (s16) sub_08065370(sp7C, 0U, (s32) (gUnk_030002DC + 0x6A), (s32) (gUnk_030002DC + 0x6C), sp0);
-                sp0 = temp_r0_12;
-                sp4 = temp_r0_12;
-                t071Coords((s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x18) << 8) >> 0x10, &sp78, &screenY, sp0, sp4);
-                sp0 = (s32) temp_r8_2;
-                temp_r7_2 = (u8 *)sp7C + 0x1C;
-                spD4 = temp_r7_2;
-                sp4 = temp_r7_2;
-                sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                spC = M2C_FIELD(sp7C,u32 *,0x0);
-                t071Draw(sp78, screenY, M2C_FIELD(gUnk_030002DC,u16 *,0x68), M2C_FIELD(gUnk_030002DC,u16 *,0x6A), sp0, sp4, sp8, spC);
-                if (gUnk_03002344 & 1) {
-                    sp0 = (s32) temp_r8_2;
-                    sp4 = spD4;
-                    sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                    spC = M2C_FIELD(sp7C,u32 *,0x0);
-                    t071Draw(sp78, screenY - 1, 0x18U, 0U, sp0, sp4, sp8, spC);
-                }
-            }
-        }
-        sub_080003F0();
-        goto loop_115;
-    }
-    sub_08065E38(-0x21520532);
-loop_124:
-    if (sub_08058DB0() != 0) {
-        temp_r1_10 = (s32 *)((u8 *)gUnk_03003CE0+sub_080020F4() * 0x14C+0x30);
-        *temp_r1_10 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-            temp_r0_13 = sub_0800CD34();
-            if (temp_r0_13 == 0) {
-                sub_08000AF0(gUnk_030002E0 + 0x10, M2C_FIELD(sp7C,u32 *,0xC) + (*spD0 << 5), 1U);
-                temp_r8_3 = (u8) sub_0800BC44((u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x14) >> 8), (u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x18) >> 8), 0U);
-                sp0 = 1;
-                M2C_FIELD(gUnk_030002DC,u16 *,0x6E) = (s16) sub_08065370(sp7C, 0U, (s32) (gUnk_030002DC + 0x6A), (s32) (gUnk_030002DC + 0x6C), sp0);
-                sp0 = temp_r0_13;
-                sp4 = temp_r0_13;
-                t071Coords((s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x18) << 8) >> 0x10, &sp78, &screenY, sp0, sp4);
-                sp0 = (s32) temp_r8_3;
-                temp_r7_3 = (u8 *)sp7C + 0x1C;
-                spD4 = temp_r7_3;
-                sp4 = temp_r7_3;
-                sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                spC = M2C_FIELD(sp7C,u32 *,0x0);
-                t071Draw(sp78, screenY, M2C_FIELD(gUnk_030002DC,u16 *,0x68), M2C_FIELD(gUnk_030002DC,u16 *,0x6A), sp0, sp4, sp8, spC);
-                if (gUnk_03002344 & 1) {
-                    sp0 = (s32) temp_r8_3;
-                    sp4 = spD4;
-                    sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                    spC = M2C_FIELD(sp7C,u32 *,0x0);
-                    t071Draw(sp78, screenY - 1, 0x18U, 0U, sp0, sp4, sp8, spC);
-                }
-            }
-        }
-        sub_080003F0();
-        goto loop_124;
-    }
-    sub_080586B4(0);
-    temp_r2_2 = (s32 *)((u8 *)gUnk_03003CE0+sub_080020F4() * 0x14C+0x30);
-    *temp_r2_2 |= 1;
-    sp0 = 0x3C;
-    sp4 = (s32 *)0x14003C;
-    M2C_FIELD(gUnk_03005CF4,u32 *,0x720) = sub_0805DF38(1U, 0xEU, 0x19U, 2U, sp0, (u32)sp4);
-loop_133:
-    if (sub_0805EEFC((void *) M2C_FIELD(gUnk_03005CF4,u32 *,0x720)) == 0) {
-        temp_r1_11 = (s32 *)((u8 *)gUnk_03003CE0+sub_080020F4() * 0x14C+0x30);
-        *temp_r1_11 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-            temp_r0_14 = sub_0800CD34();
-            if (temp_r0_14 == 0) {
-                sub_08000AF0(gUnk_030002E0 + 0x10, M2C_FIELD(sp7C,u32 *,0xC) + (*spD0 << 5), 1U);
-                temp_r8_4 = (u8) sub_0800BC44((u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x14) >> 8), (u32) ((s32) M2C_FIELD(gUnk_030002DC,s32 *,0x18) >> 8), 0U);
-                sp0 = 1;
-                M2C_FIELD(gUnk_030002DC,u16 *,0x6E) = (s16) sub_08065370(sp7C, 0U, (s32) (gUnk_030002DC + 0x6A), (s32) (gUnk_030002DC + 0x6C), sp0);
-                sp0 = temp_r0_14;
-                sp4 = temp_r0_14;
-                t071Coords((s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x14) << 8) >> 0x10, (s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x18) << 8) >> 0x10, &sp78, &screenY, sp0, sp4);
-                sp0 = (s32) temp_r8_4;
-                temp_r7_4 = (u8 *)sp7C + 0x1C;
-                spD4 = temp_r7_4;
-                sp4 = temp_r7_4;
-                sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                spC = M2C_FIELD(sp7C,u32 *,0x0);
-                t071Draw(sp78, screenY, M2C_FIELD(gUnk_030002DC,u16 *,0x68), M2C_FIELD(gUnk_030002DC,u16 *,0x6A), sp0, sp4, sp8, spC);
-                if (gUnk_03002344 & 1) {
-                    sp0 = (s32) temp_r8_4;
-                    sp4 = spD4;
-                    sp8 = M2C_FIELD(sp7C,u32 *,0x8);
-                    spC = M2C_FIELD(sp7C,u32 *,0x0);
-                    t071Draw(sp78, screenY - 1, 0x18U, 0U, sp0, sp4, sp8, spC);
-                }
-            }
-        }
-        sub_080003F0();
-        goto loop_133;
-    }
-    temp_r2_3 = (s32 *)((u8 *)gUnk_03003CE0+sub_080020F4()*0x14C+0x30);
-    *temp_r2_3 &= ~1;
-    sub_08058688(0xD);
-    sub_080970CC(gUnk_030002DC, sp7C, *spD0, gUnk_030002E0);
-    if (!(*((s32 *)((u8 *)gUnk_03003CE0+sub_080020F4()*0x14C+0x30)) & 0x2000) && (M2C_FIELD(gUnk_030002DC,u16 *,0x5A) != 0)) {
-        temp_r4_2 = sub_0801E46C((void *) gUnk_030034E0, sp80);
-        spB4 = 0x1D;
+    paletteFree99(actor->f2);
+    sub_08068330(0xDEADFACE);
+    while (sub_080682B8(0xDEADFACE) == 0)
+        RENDER_99();
+    sub_08065E38(0xDEADFACE);
+    while (sub_08058DB0() != 0)
+        RENDER_99();
+    soundStop99(0);
+    players99[sub_080020F4()].flags |= 1;
+    I99(state99, 0x720) = window99(1, 0xE, 0x19, 2, 0x3C, 0x14003C);
+    while (windowDone99(I99(state99, 0x720)) == 0)
+        RENDER_99();
+    players99[sub_080020F4()].flags &= ~1;
+    sound99(0xD);
+    transition99(actor99, sprite, PAL99, palette99);
+    if (!(players99[sub_080020F4()].flags & 0x2000) && actor99->f5A != 0) {
+        reward = reward99(inventory99, resource);
+        floatingOffset = 0x1D;
         do {
-            M2C_FIELD(gUnk_030002DC,s32 *,0x18) = (s32) (M2C_FIELD(gUnk_030002DC,s32 *,0x18) - 0x20);
-            sub_0806171C(gUnk_030002DC, temp_r4_2);
+            struct Actor99 *g = actor99;
+            g->y -= 0x20;
+            rise99(g, reward);
             sub_080003F0();
-            temp_r0_15 = (spB4 << 0x10) + 0xFFFF0000;
-            spB4 = temp_r0_15 >> 0x10;
-        } while (((s32) temp_r0_15 >> 0x10) != -1);
-        sub_0801E4CC((u8 *) gUnk_030034E0, temp_r4_2);
+            floatingOffset--;
+        } while (floatingOffset != -1);
+        rewardDone99(inventory99, reward);
     }
-    spB4 = 0x6F;
+    floatingOffset = 0x6F;
     do {
         sub_080003F0();
-        temp_r0_16 = (spB4 << 0x10) + 0xFFFF0000;
-        spB4 = temp_r0_16 >> 0x10;
-    } while (((s32) temp_r0_16 >> 0x10) != -1);
+        floatingOffset--;
+    } while (floatingOffset != -1);
     sub_08067C18();
-loop_144:
-    if (sub_08067C08() == 0) {
+    while (sub_08067C08() == 0)
         sub_080003F0();
-        goto loop_144;
-    }
     sub_08067BF8();
     sub_08056E24();
 }
+#undef RENDER_99
+#undef PAL99
+#undef S99
+#undef I99
+#undef P99
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08099838);
 #endif
