@@ -31,3 +31,26 @@ operand swap `fC != local10C`, plus w1's list (switch(arg0->fC), u16/u32/s16 st,
 Untried: a second actor pointer pseudo (e.g. `struct T015LActor *a = arg0;` used only in the
 switch head or only in the compares) so the MEMs differ before register allocation; inspect with
 agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: build/w5/dump.
+
+2026-11-04 codex-solo, base57f04a4a:
+  Exact-size NONMATCHING checkpoint: candidate7112 ->7132, ROM7132. Three changes:
+  (1) volatile u16 switch-head snapshot: ordinary later fC comparisons reload
+  instead of sharing the switch MEM; TBL1 cases2/10/11 each recover4 missing bytes.
+  Plain second actor-pointer pseudo did not help. Volatile comparisons themselves
+  made the cases worse; keep the volatility at the snapshot only.
+  (2) exit flag: explicit zero in r1 retained through an empty read/write constraint
+  after flags|1, then flags|zero. Restores the ROM's otherwise redundant ORzero.
+  (3) auxB init only: block-local pointer in sl restores the high-reg copy. Keeping
+  the pointer fixed for the entire function was worse; plain whole-function alias
+  was worse too. Do not confuse auxA(sp54) with auxB(sp88): earlier note said auxA.
+  Frame0x168 and all169 external-call targets/order verified against canonical ASM.
+  TBL1 case targets now match original offsets, each case size exact. Prefix/post
+  split still -2/+2; other register/spill/draw differences remain. Same-module
+  score1052 ->848, casediff mnemonic-only92 ->83; ordinary diff299 ->321 due to
+  prologue reg changes. Strict NO MATCH, not completion and no matching credit.
+  Full normal ROM comparison OK; NONMATCHING builds; tree0. Original ASM retained.
+  Prior structured draft credited to nov03 contributors; private controls under
+  build/solo015. Proposed role: actor state/animation/draw task with resource retry,
+  input and action dispatch. Proposed name RunActorStateAnimationTask (proposal
+  only); evidence canonical sub_0801801C ASM at57f04a4a, switches, anim65370,
+  resource16E04 retry and draw07870 calls. Shared catalog unchanged.

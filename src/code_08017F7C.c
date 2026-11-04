@@ -131,7 +131,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     local10C = 0xFFFF;
     T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
     T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
-    T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
+    { register struct T015LAnim *aux asm("sl") = &stack.auxB; T015L_sub_08065158(&aux->f0, 0x5008B, 0, -1, 0); }
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0)
         sub_08000AF0(0x17, (void *)stack.auxA.fC, 2);
     {
@@ -363,7 +363,7 @@ void sub_0801801C(struct T015LActor *arg0) {
         }
         if (sub_0800CD8C() == 0)
             T015L_sub_08017C6C(arg0);
-        st = arg0->fC;
+        st = *(volatile u16 *)&arg0->fC;
         switch (st) {
         case 0:
             if (local10C != arg0->fC && local10C != 1 && local10C != 10)
@@ -580,7 +580,7 @@ void sub_0801801C(struct T015LActor *arg0) {
         arg0->f6E = sub_08065370(&stack.main, arg0->f68, (s32)&arg0->f6A, (s32)&arg0->f6C, local110);
         T015L_sub_0800BC08((arg0->f14 << 8) >> 16, (arg0->f18 << 8) >> 16, &stack.x, &stack.y, 0x30, NULL);
         if (T015L_sub_08017EC8(arg0) == 0 && !(T015L_F7A & 8)) {
-            T015L_F7A |= 1;
+            { u32 flags = T015L_F7A | 1; register u32 z asm("r1") = 0; asm("" : "+r"(z)); T015L_F7A = flags | z; }
             break;
         }
         if (arg0->f66 != 0) {
