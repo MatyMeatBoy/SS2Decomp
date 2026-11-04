@@ -1,13 +1,14 @@
 
-nov03-w2 (sub_080634D8, ~45 min, no match):
-  The pointer setups after the first sub_08006EE0 call are a gcse/PRE artifact: with plain scalar
-  locals `s16 x, y; u16 w, h;` (address-taken in the loop only, no pointer vars) the compiler itself
-  hoists &x/&y/&w/&h to the end of the first block and emits the `xp = x0` copies before the loop
-  (ROM's `adds r7,r5; adds r5,r6`). But then the sub_08008CC4(10,&w,&h,..) args reuse the hoisted
-  regs (ROM rematerializes `add r1,sp,#0x48`) -> 474 bytes, frame 0x5c.
-  Init inline must be the `resource &= 0xFFFF; ...(resource|0x60000) ...(resource|0x80000)` variant
-  (ROM keeps resource in r4 for both orrs), with obj=&draw in sl, table in r9.
-  Best size-wise: explicit wp/hp/x0/y0 assigned right after the first call, loop using x0/y0 directly,
-  manual init with obj/index/size locals: 472 bytes, 129 diff lines (sound+packed spill OK, but
-  regs: obj r9/table r5 vs ROM sl/r9, and no x0->xp copies). Adding explicit `xp=x0; yp=y0` spills x0/y0.
+nov03-w3 (sub_08063B80, ~45 min, no landing): a register-asm-free rewrite is in
+  shard65_sub_08063B80_clean.c (694 vs 688 bytes, 89 register-blind diff lines; the landed asm-hack
+  draft is still better by score, so it was not landed). What the clean version establishes:
+  - stack order x 0x44, y 0x46, w 0x48, h 0x4A, w2 0x4C, h2 0x4E, pos 0x50, bw 0x58, bh 0x5C needs
+    scalars `s16 x, y; u16 w, h, w2, h2;` then `struct { s32 x, y; } pos; s32 bw, bh;` (a s32 box[4]
+    array is allocated before the scalars);
+  - y passed to sub_0800BC08 is a variable `worldY = 0x138` (the ROM shifts a rematerialized 0x138);
+  - entity test is a bitfield struct (kind:4 at +0, phase bits 6..11 of the u16 at +4).
+  - Same blocker as sub_080634D8: gcse/PRE hoists &pos/&w/&h to the first block (ROM too) but our
+    build then also uses them for the sub_08008CC4 args inside the loop (ROM rematerializes
+    `add r1,sp,#0x48`), costing an extra spill slot (frame 0x78 vs 0x70) and dialog loses sl.
+/y0.
   Permuter (--allow-control-diff, 5 min) produced nothing useful.
