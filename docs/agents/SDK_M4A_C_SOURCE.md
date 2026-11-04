@@ -107,7 +107,7 @@ is no inline ASM in the C reader; the tail remains ASM and pending.
 its chain links through RealClearChain, then clears the track flags. Its
 local register bindings preserve the original operand/register order.
 
-The `m4a_1` and `m4a_1_engine` units use the isolated compiler installed by
+The `m4a_1` unit uses the isolated compiler installed by
 `tools/install_agbcc_tst.sh`, with `-O2 -mthumb-interwork
 -fprologue-bugfix -ftst`. The pinned upstream fork's TST optimization is
 restricted to equality tests by the versioned generic patch. Game compiler
@@ -115,8 +115,15 @@ flags and the standard compiler installation are unchanged. The installer
 verifies archive/patch hashes and retains GPL source/license. The generic
 CPU-flag/ABI fixtures run in CI; see `tools/patches/README.sdk-tst.md`.
 
+The `m4a_1_engine` unit uses `tools/install_agbcc_sdk_cc.sh` with the same
+options plus `-fthumb-cc-reuse`. Its normal TrackStop, ply_note ASM fallback
+and ply_endtie bytes and relocations remain identical. The current ply_note
+draft improves from 548 to 544 bytes versus the 536-byte original; it remains
+NONMATCHING. See `tools/patches/README.sdk-cc-reuse.md` for the generic proof
+and ROM-free execution checks. This activation adds no matching coverage.
+
 `TrackStop` is C without inline assembly (68 bytes), using the SDK
-TST compiler for `m4a_1_engine`. It walks active-track channels, invokes
+comparison-flags compiler for `m4a_1_engine`. It walks active-track channels, invokes
 the existing r3 callback veneer for compatible-sound oscillator shutdown,
 clears channel flags and owner links, then clears the track head. The r3
 register binding expresses the callback ABI; all traversal, masking,
