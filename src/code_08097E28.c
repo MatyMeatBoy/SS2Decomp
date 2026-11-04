@@ -255,7 +255,7 @@ extern u16 wander108(s32, s32 *, u32, s32, s32) asm("sub_08013E90");
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) { \
         zero = sub_0800CD34(); \
         if (zero == 0) { \
-            sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1); \
+            sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, 0xD6) << 5), 1); \
             priority = sub_0800BC44(actor108->x >> 8, actor108->y >> 8, 0); \
             actor108->f6E = anim108(sprite, actor108->anim, &actor108->frame, &actor108->tick, 1); \
             screen108((actor108->x << 8) >> 16, (actor108->y << 8) >> 16, &sx, &sy, zero, zero); \
@@ -289,10 +289,6 @@ void sub_08098108(void *input)
     s32 toggle;
     s32 finished;
     u8 countdown;
-    u16 *animation;
-    u16 *frame;
-    u16 *tick;
-    u16 *pal;
     struct Actor108 *actor;
     struct Sprite108 *sprite;
     u8 priority;
@@ -344,10 +340,6 @@ void sub_08098108(void *input)
     floatingTimer = 0;
     actor->f50 = 1;
     player = 0;
-    tick = &actor->tick;
-    frame = &actor->frame;
-    animation = &actor->anim;
-    pal = P108(resource, 0xD6);
     do {
         entry = 0;
         do {
@@ -441,8 +433,8 @@ void sub_08098108(void *input)
                             shot108(actor->f8, 6);
                         }
                         actor->f50++;
-                        *tick = 0;
-                        *frame = 0;
+                        actor->tick = 0;
+                        actor->frame = 0;
                         actor->f8 = (actor->f8 + 1) & 7;
                     } else {
                         actor->next = 7;
@@ -465,7 +457,7 @@ void sub_08098108(void *input)
             case 5:
                 mode = 2;
                 actor->state = mode;
-                if (*frame == 0 && *tick != 0)
+                if (actor->frame == 0 && actor->tick != 0)
                     sub_0805865C(0xA7);
                 chase108(actor, &players108[target], 0x60, 0x20);
                 if (countdown == 0)
@@ -523,35 +515,45 @@ void sub_08098108(void *input)
         switch (mode) {
         case 0:
             sprite = &spriteA;
-            if (actor->phase == 7) {
-                *animation = 0x10;
-                animFlag = 1;
-            } else if (actor->phase == 8) {
-                *animation = 0x11;
-                animFlag = 0;
-            } else if (actor->next == 7) {
-                *animation = 0x10;
-                animFlag = 1;
-            } else if (actor->next == 8) {
-                *animation = 0x11;
-                animFlag = 0;
-            } else {
-                *animation = actor->f8;
-                animFlag = 1;
-            }
+            if (actor->phase == 7)
+                goto a7;
+            if (actor->phase == 8)
+                goto a8;
+            if (actor->next == 7)
+                goto b7;
+            if (actor->next == 8)
+                goto b8;
+            actor->anim = actor->f8;
+            animFlag = 1;
+            break;
+        a7:
+            actor->anim = 0x10;
+            animFlag = 1;
+            break;
+        a8:
+            actor->anim = 0x11;
+            animFlag = 0;
+            break;
+        b7:
+            actor->anim = 0x10;
+            animFlag = 1;
+            break;
+        b8:
+            actor->anim = 0x11;
+            animFlag = 0;
             break;
         case 1:
             sprite = &spriteA;
-            *animation = actor->f8 + 8;
+            actor->anim = actor->f8 + 8;
             animFlag = 1;
             break;
         case 2:
             sprite = &spriteB;
             if (toggle == 0) {
-                *animation = actor->f8 + 2;
+                actor->anim = actor->f8 + 2;
                 animFlag = 0;
             } else {
-                *animation = 0;
+                actor->anim = 0;
                 animFlag = 1;
             }
             break;
@@ -562,21 +564,21 @@ void sub_08098108(void *input)
             actor108->frame = 0;
         }
         sprite->payload[0] = palette108;
-        sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1);
+        sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, 0xD6) << 5), 1);
         if (sub_08098004() & 1)
             priority = sub_08097FF8();
         else
             priority = sub_0800BC44(actor->x >> 8, actor->y >> 8, 0);
         if (sub_0800CD8C() == 0)
-            actor->f6E = anim108(sprite, *animation, frame, tick, animFlag);
+            actor->f6E = anim108(sprite, actor->anim, &actor->frame, &actor->tick, animFlag);
         screen108((actor->x << 8) >> 16, (actor->y << 8) >> 16, &sx, &sy, 0, 0);
         if (flash != 0) {
             old = flash;
             flash = old - 1;
             if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
-                draw108(sx, sy, *animation, *frame, priority, sprite->payload, sprite->data, sprite->base);
+                draw108(sx, sy, actor->anim, actor->frame, priority, sprite->payload, sprite->data, sprite->base);
         } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
-            draw108(sx, sy, *animation, *frame, priority, sprite->payload, sprite->data, sprite->base);
+            draw108(sx, sy, actor->anim, actor->frame, priority, sprite->payload, sprite->data, sprite->base);
         }
         dmg = actor->damage;
         if (dmg != 0 && lastDamage != dmg) {
@@ -617,7 +619,7 @@ void sub_08098108(void *input)
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
             zero = sub_0800CD34();
             if (zero == 0) {
-                sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*pal << 5), 1);
+                sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, 0xD6) << 5), 1);
                 priority = sub_0800BC44(actor108->x >> 8, actor108->y >> 8, 0);
                 actor108->f6E = anim108(sprite, actor108->anim, &actor108->frame, &actor108->tick, 1);
                 screen108((actor108->x << 8) >> 16, (actor108->y << 8) >> 16, &sx, &sy, zero, zero);
@@ -645,7 +647,7 @@ void sub_08098108(void *input)
         RENDER_108();
     players108[sub_080020F4()].flags &= ~1;
     sound108(0xD);
-    transition108(actor108, sprite, *pal, palette108);
+    transition108(actor108, sprite, *P108(resource, 0xD6), palette108);
     if (!(players108[sub_080020F4()].flags & 0x2000) && actor108->f5A != 0) {
         reward = reward108(inventory108, resource);
         floatingOffset = 0x1D;
