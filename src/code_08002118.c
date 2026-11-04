@@ -1992,297 +1992,246 @@ block_206:
         }
         goto block_374;
     case 4:                                         /* switch 2 */
-    {
-        u32 panelKeys3984;
-        panelKeys3984 = keys3984;
-        if (0x20 & panelKeys3984) {
-            if (current != 0) {
+        if (keys3984 & 0x20) {
+            if (current != 0)
                 sub_0805865C(0xC6);
-            }
             current = 0;
-            goto block_221;
-        }
-        if (0x10 & panelKeys3984) {
-            if (current == 0) {
+        } else if (keys3984 & 0x10) {
+            if (current == 0)
                 sub_0805865C(0xC7);
-            }
             current = 1;
-            goto block_221;
-        }
-        temp_r0_13 = panelKeys3984;
-        if (temp_r0_13 == 1) {
+        } else if (keys3984 == 1) {
             sub_0805865C(0xF);
             timer = 5;
-            if (current == 0) {
+            if (current == 0)
                 timer = 6;
-            }
-            goto block_220;
-        }
-        if (temp_r0_13 == 2) {
+            sub_0801A664(0x12, 2);
+            goto block_374;
+        } else if (keys3984 == 2) {
             sub_0805865C(0x10);
             timer = 5;
-block_220:
             sub_0801A664(0x12, 2);
-        } else {
-block_221:
-            sub_08065370(&panel[0], 4U, (s32) ((u8 *)&y[0]), (s32) ((u8 *)&y[2]), 1);
-            sub_08065370(&panel[0], 5U, (s32) &y[1], (s32) &y[3], 1);
-            if (current != 0) {
-                sub_08065230(&panel[0], 0xD2, 0x8E, 9U, 0);
-                {
-                    register u16 *panelReadC7 asm("r1") = (u16 *)temp_r5_2;
-                    sub_08065264(&panel[0], 0xE2, 0x8E, 5, (s32)panelReadC7[1]);
-                }
-                sub_08065230(&panel[0], 0xC2, 0x8E, 4U, (s32) *(u16 *)((u8 *)&y[0]));
-            } else {
-                sub_08065230(&panel[0], 0xD2, 0x8E, 8U, (s32) current);
-                temp_r4_19 = ((u8 *)&y[0]);
-                sub_08065230(&panel[0], 0xE2, 0x8E, 5U, (s32) M2C_FIELD(temp_r4_19, u16 *, 2));
-                sub_08065264(&panel[0], 0xC2, 0x8E, 4, (s32) M2C_FIELD(temp_r4_19, u16 *, 0));
-            }
-            sub_0801A3D0(((u8 *(*)(s32))sub_08007290)(0x140443) + 2, 2U, 0x12U);
-            ((void (*)(const u8 *, s32, s32))sub_0801A764)(arg0 + 0x10, 0x58U, 0x10U);
+            goto block_374;
         }
+        sub_08065370(&panel[0], 4U, (s32) &y[0], (s32) &y[2], 1);
+        sub_08065370(&panel[0], 5U, (s32) &y[1], (s32) &y[3], 1);
+        if (current != 0) {
+            sub_08065230(&panel[0], 0xD2, 0x8E, 9U, 0);
+            sub_08065264(&panel[0], 0xE2, 0x8E, 5, y[1]);
+            sub_08065230(&panel[0], 0xC2, 0x8E, 4U, y[0]);
+        } else {
+            sub_08065230(&panel[0], 0xD2, 0x8E, 8U, current);
+            sub_08065230(&panel[0], 0xE2, 0x8E, 5U, y[1]);
+            sub_08065264(&panel[0], 0xC2, 0x8E, 4, y[0]);
+        }
+        sub_0801A3D0(((u8 *(*)(s32))sub_08007290)(0x140443) + 2, 2U, 0x12U);
+        ((void (*)(const u8 *, s32, s32))sub_0801A764)(arg0 + 0x10, 0x58U, 0x10U);
         goto block_374;
-    }
     case 5:                                         /* switch 2 */
         sub_08000C08(8, 2);
-        input3984 = keys3984;
-        if (0x100 & input3984) {
+        if (keys3984 & 0x100) {
             var_r5_3 = arg0 + 0x10;
-            if ((u32) var_r9 > 6U) {
-
-            } else {
-                if ((next == var_r9) || (var_r5_3[var_r9] == 0xFD)) {
+            if (var_r9 <= 6) {
+                if (next == var_r9 || var_r5_3[var_r9] == 0xFD) {
                     var_r5_3[var_r9] = 0x51;
                     var_r5_3[(nextChar13984 = var_r9 + 1)] = 0xFD;
                     var_r9++;
                     next = var_r9;
                 } else {
-                    var_r0_8 = var_r9 + 1;
-                    goto block_236;
+                    var_r9++;
                 }
-                goto block_237;
-            }
-        } else if (0x200 & input3984) {
-            var_r5_3 = arg0 + 0x10;
-            if (var_r9 == 0) {
-
-            } else {
-                var_r0_8 = var_r9 - 1;
-block_236:
-                var_r9 = var_r0_8;
-block_237:
                 sub_0805865C(0xE);
             }
-        } else if (0x40 & gUnk_03001308) {
+        } else if (keys3984 & 0x200) {
+            var_r5_3 = arg0 + 0x10;
+            if (var_r9 != 0) {
+                var_r9--;
+                sub_0805865C(0xE);
+            }
+        } else if (gUnk_03001308 & 0x40) {
             sub_0805865C(0x62);
             var_r5_3 = arg0 + 0x10;
             switch (language) {
-            case 0: case 1:
-                temp_r6_7 = current;
-                if (temp_r6_7 <= 0x13U) {
-                    gridResultC5 = temp_r6_7 + 0x50;
-                    goto gridStoreC5;
-                } else current = (u16)(current - 0x14);
+            case 0:
+            case 1:
+                if (current < 20)
+                    current += 80;
+                else
+                    current -= 20;
                 break;
             case 2:
-                temp_r4_20 = current;
-                if (temp_r4_20 <= 0x17U) {
-                    gridResult2C5 = temp_r4_20 + 0x78;
-                    goto gridStore2C5;
-                } else current = (u16)(current - 0x18);
+                if (current < 24)
+                    current += 120;
+                else
+                    current -= 24;
                 break;
             }
-        } else if (0x80 & gUnk_03001308) {
+        } else if (gUnk_03001308 & 0x80) {
             sub_0805865C(0x62);
             var_r5_3 = arg0 + 0x10;
             switch (language) {
-            case 0: case 1:
-                temp_r6_8 = current;
-                if (temp_r6_8 > 0x4FU) {
-                    gridResultC5 = temp_r6_8 - 0x50;
-                gridStoreC5:
-                    current = (u16)gridResultC5;
-                } else current = (u16)(current + 0x14);
+            case 0:
+            case 1:
+                if (current >= 80)
+                    current -= 80;
+                else
+                    current += 20;
                 break;
             case 2:
-                temp_r4_21 = current;
-                if (temp_r4_21 > 0x77U) {
-                    gridResult2C5 = temp_r4_21 - 0x78;
-                gridStore2C5:
-                    current = (u16)gridResult2C5;
-                } else current = (u16)(current + 0x18);
+                if (current >= 120)
+                    current -= 120;
+                else
+                    current += 24;
                 break;
             }
-        } else if (0x10 & gUnk_03001308) {
+        } else if (gUnk_03001308 & 0x10) {
             sub_0805865C(0x62);
             var_r5_3 = arg0 + 0x10;
             switch (language) {
-            case 0: case 1:
-                if ((u16)((u32)current % 20U) == 0x13) current = (u16)(current - 0x13);
-                else current = (u16)(current + 1);
+            case 0:
+            case 1:
+                if ((u16)(current % 20) == 19)
+                    current -= 19;
+                else
+                    current++;
                 break;
             case 2:
-                if ((u32)(u16)((u32)current % 24U) > 0x16U) current = (u16)(current - 0x17);
-                else current = (u16)(current + 1);
+                if ((u16)(current % 24) > 22)
+                    current -= 23;
+                else
+                    current++;
                 break;
             }
-        } else {
-            temp_r4_22 = 0x20 & gUnk_03001308;
-            if (temp_r4_22 != 0) {
-                sub_0805865C(0x62);
+        } else if ((u16)(gUnk_03001308 & 0x20)) {
+            sub_0805865C(0x62);
+            var_r5_3 = arg0 + 0x10;
+            switch (language) {
+            case 0:
+            case 1:
+                if ((u16)(current % 20) == 0)
+                    current += 19;
+                else
+                    current--;
+                break;
+            case 2:
+                if ((u16)(current % 24) == 0)
+                    current += 23;
+                else
+                    current--;
+                break;
+            }
+        } else if (keys3984 == 1) {
+            sub_0805865C(0xF);
+            switch (language) {
+            case 0:
+                var_r2_2 = arg0 + 0x10;
+                var_r2_2[var_r9] = gUnk_08366E34[current];
+                var_r5_3 = var_r2_2;
+                break;
+            case 1:
+                var_r2_2 = arg0 + 0x10;
+                var_r2_2[var_r9] = gUnk_08366EFC[current];
+                var_r5_3 = var_r2_2;
+                break;
+            case 2:
+                var_r2_2 = arg0 + 0x10;
+                var_r2_2[var_r9] = gUnk_08366FC4[current];
+                var_r5_3 = var_r2_2;
+                break;
+            default:
                 var_r5_3 = arg0 + 0x10;
-                switch (language) {
-                case 0: case 1:
-                    if ((((u32)current % 20U) << 0x10) == 0) current = (u16)(current + 0x13);
-                    else current = (u16)(current - 1);
-                    break;
-                case 2:
-                    if ((((u32)current % 24U) << 0x10) == 0) current = (u16)(current + 0x17);
-                    else current = (u16)(current - 1);
-                    break;
+                break;
+            }
+            if (var_r9 <= 6) {
+                var_r9++;
+                if (var_r9 > next) {
+                    var_r5_3[var_r9] = 0xFD;
+                    next = var_r9;
                 }
             } else {
-                temp_r0_14 = input3984;
-                if (temp_r0_14 == 1) {
-                    sub_0805865C(0xF);
-                    if (language != 1) {
-                        if (language <= 1) {
-                            if (language != 0) {
-                                var_r5_3 = arg0 + 0x10;
-                            } else {
-                                var_r2_2 = arg0 + 0x10;
-                                var_r3_2 = &var_r2_2[var_r9];
-                                var_r1_8 = gUnk_08366E34;
-                                goto block_302;
-                            }
-                        } else if (language != 2) {
-                            var_r5_3 = arg0 + 0x10;
-                        } else {
-                            var_r2_2 = arg0 + 0x10;
-                            var_r3_2 = &var_r2_2[var_r9];
-                            var_r1_8 = gUnk_08366FC4;
-                            goto block_302;
-                        }
-                    } else {
-                        var_r2_2 = arg0 + 0x10;
-                        var_r3_2 = &var_r2_2[var_r9];
-                        var_r1_8 = gUnk_08366EFC;
-block_302:
-                        *var_r3_2 = (u8) var_r1_8[current];
-                        var_r5_3 = var_r2_2;
-                    }
-                    if ((u32) var_r9 <= 6U) {
-                        var_r9 += 1;
-                        if ((u32) var_r9 <= (u32) next) {
-
-                        } else {
-                            var_r5_3[var_r9] = 0xFD;
-                            next = var_r9;
-                        }
-                    } else {
-                        var_r5_3[(nextChar23984 = var_r9 + 1)] = 0xFD;
-                    }
-
-                } else if (temp_r0_14 == 2) {
-                    sub_0805865C(0x10);
-                    if (var_r9 == next) {
-                        temp_r2_4 = arg0 + 0x10;
-                        temp_r2_4[var_r9] = 0xFD;
-                        temp_r2_4[(nextChar33984 = var_r9 + 1)] = (s8) temp_r4_22;
-                        var_r9 -= 1;
-                        deleteMaskC6 = 0x8000 & var_r9;
-                        var_r5_3 = temp_r2_4;
-                        if (deleteMaskC6) {
-                            var_r9 = 0;
-                            if (M2C_FIELD(arg0, u8 *, 0x10) == 0xFD) {
-                                timer = 3;
-                                sub_080009F8(0x200, 0, 1);
-                                sub_0800903C(4, 8, 1, 8, 0x10, 0);
-                                sub_08006544();
-                                if (M2C_FIELD(arg0, u8 *, 1) == 8) {
-                                    sub_0801A664(0, 2);
-                                    timer = 0;
-                                    sub_08000C08(0x10, 8);
-                                }
-                            }
-                        }
-                        next = var_r9;
-                    } else {
-                    temp_r0_15 = arg0 + 0x10;
-                    temp_r2_5 = &temp_r0_15[var_r9];
-                    deleteChar3984 = *temp_r2_5;
-                    var_r5_3 = temp_r0_15;
-                    if (deleteChar3984 == 0x51) {
-                        var_r9 -= 1;
-                        if (!(0x8000 & var_r9)) {
-
-                        } else {
-                            timer = 3;
-                            sub_080009F8(0x200, 0, 1);
-                            sub_0800903C(4, 8, 1, 8, 0x10, (s32) temp_r4_22);
-                            sub_08006544();
-                            if (M2C_FIELD(arg0, u8 *, 1) == 8) {
-                                sub_0801A664(0, 2);
-                                timer = 0;
-                                sub_08000C08(0x10, 8);
-                            }
-                            var_r9 = 0;
-                        }
-                    } else {
-                        *temp_r2_5 = 0x51;
-                        if (var_r9 == 0) {
-                            timer = 3;
-                            sub_080009F8(0x200, 0, 1);
-                            sub_0800903C(4, 8, 1, 8, 0x10, (s32) var_r9);
-                            sub_08006544();
-                            if (M2C_FIELD(arg0, u8 *, 1) == 8) {
-                                sub_0801A664(0, 2);
-                                timer = 0;
-                                sub_08000C08(0x10, 8);
-                            }
+                var_r5_3[(nextChar23984 = var_r9 + 1)] = 0xFD;
+            }
+        } else if (keys3984 == 2) {
+            sub_0805865C(0x10);
+            if (var_r9 == next) {
+                var_r5_3 = arg0 + 0x10;
+                var_r5_3[var_r9] = 0xFD;
+                var_r5_3[(nextChar33984 = var_r9 + 1)] = 0;
+                var_r9--;
+                if (var_r9 & 0x8000) {
+                    var_r9 = 0;
+                    if (arg0[0x10] == 0xFD) {
+                        timer = 3;
+                        sub_080009F8(0x200, 0, 1);
+                        sub_0800903C(4, 8, 1, 8, 0x10, var_r9);
+                        sub_08006544();
+                        if (arg0[1] == 8) {
+                            sub_0801A664(0, 2);
+                            timer = 0;
+                            sub_08000C08(0x10, 8);
                         }
                     }
-
+                }
+                next = var_r9;
+            } else {
+                var_r5_3 = arg0 + 0x10;
+                if (var_r5_3[var_r9] == 0x51) {
+                    var_r9--;
+                    if (var_r9 & 0x8000) {
+                        timer = 3;
+                        sub_080009F8(0x200, 0, 1);
+                        sub_0800903C(4, 8, 1, 8, 0x10, 0);
+                        sub_08006544();
+                        if (arg0[1] == 8) {
+                            sub_0801A664(0, 2);
+                            timer = 0;
+                            sub_08000C08(0x10, 8);
+                        }
+                        var_r9 = 0;
                     }
                 } else {
-                    var_r5_3 = arg0 + 0x10;
-                    if (temp_r0_14 == 8) {
-                        if (sub_0801A638(var_r5_3) != 0) {
-                            var_r3_3 = 0;
-                            var_r6 = 0;
-                            temp_r0_16 = M2C_FIELD(arg0, u8 *, 0x10);
-                            if (temp_r0_16 != 0x51) {
-                                temp_r1_6 = 0xFD ^ temp_r0_16;
-                                var_r3_3 = (u32) ((0 - temp_r1_6) | temp_r1_6) >> 0x1F;
-                            } else {
-loop_330:
-                                var_r6 += 1;
-                                if ((u32) var_r6 <= 7U) {
-                                    temp_r0_17 = var_r5_3[var_r6];
-                                    if (temp_r0_17 != 0x51) {
-                                        if (temp_r0_17 != 0xFD) {
-                                            var_r3_3 += 1;
-                                        }
-                                    } else {
-                                        goto loop_330;
-                                    }
-                                }
-                            }
-                            if (var_r3_3 != 0) {
-                                sub_08000C08(0x10, 8);
-                                timer = 4;
-                                current = 0;
-                                sub_0805865C(0xDC);
-                            } else {
-                                sub_0805865C(0x61);
-                            }
-                        } else {
-                            sub_0805865C(0x61);
+                    var_r5_3[var_r9] = 0x51;
+                    if (var_r9 == 0) {
+                        timer = 3;
+                        sub_080009F8(0x200, 0, 1);
+                        sub_0800903C(4, 8, 1, 8, 0x10, var_r9);
+                        sub_08006544();
+                        if (arg0[1] == 8) {
+                            sub_0801A664(0, 2);
+                            timer = 0;
+                            sub_08000C08(0x10, 8);
                         }
                     }
-
+                }
+            }
+        } else {
+            var_r5_3 = arg0 + 0x10;
+            if (keys3984 == 8) {
+                if (sub_0801A638(var_r5_3) != 0) {
+                    var_r3_3 = 0;
+                    var_r6 = 0;
+                    if (arg0[0x10] != 0x51) {
+                        var_r3_3 = arg0[0x10] != 0xFD;
+                    } else {
+                        do {
+                            var_r6++;
+                            if (var_r6 > 7)
+                                break;
+                            temp_r0_17 = var_r5_3[var_r6];
+                        } while (temp_r0_17 == 0x51);
+                        if (var_r6 <= 7 && temp_r0_17 != 0xFD)
+                            var_r3_3++;
+                    }
+                    if (var_r3_3 != 0) {
+                        sub_08000C08(0x10, 8);
+                        timer = 4;
+                        current = 0;
+                        sub_0805865C(0xDC);
+                    } else {
+                        sub_0805865C(0x61);
+                    }
+                } else {
+                    sub_0805865C(0x61);
                 }
             }
         }
