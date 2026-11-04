@@ -4411,7 +4411,6 @@ void sub_080B0F9C(void) {
     }
     gUnk_030056FC = 0;
 }
-#ifdef NONMATCHING
 extern struct Act0288 *gCurB0FC4 asm("gUnk_030007A0");
 extern u16 gTileB0FC4 asm("gUnk_030007A4");
 extern u8 gIdxB0FC4 asm("gUnk_030007A6");
@@ -4431,6 +4430,7 @@ void b2454B0FC4(void) asm("sub_080B2454");
 void b2424B0FC4(void) asm("sub_080B2424");
 void b1FD4B0FC4(void) asm("sub_080B1FD4");
 void a0B0B0FC4(void *) asm("sub_0801A0B0");
+void blendB0FC4(s32, s32, s32, s32) asm("sub_08009088");
 static inline s32 absB0FC4(s32 x) { if (x < 0) x = -x; return x; }
 
 void sub_080B0FC4_v(struct Act0288 *a) asm("sub_080B0FC4");
@@ -4685,8 +4685,9 @@ void sub_080B0FC4_v(struct Act0288 *a)
                     a->f1FD = 1;
                     sub_08067C18();
                 } else {
-                    k = ((k + 1) << 16 & 0xF0000) >> 16;
-                    blend0288(0, 0, k, 0);
+                    k++;
+                    k &= 0xF;
+                    blendB0FC4(0, 0, k, 0);
                 }
                 break;
             case 12:
@@ -4711,7 +4712,7 @@ void sub_080B0FC4_v(struct Act0288 *a)
                 } else {
                     k--;
                     k &= 0xF;
-                    blend0288(0, 0, 0, k);
+                    blendB0FC4(0, 0, 0, k);
                 }
                 break;
             case 13:
@@ -4911,9 +4912,6 @@ void sub_080B0FC4_v(struct Act0288 *a)
         sub_080003F0();
     b2424B0FC4();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0FC4);
-#endif
 void sub_080B1FD4(void)
 {
     u8 i;

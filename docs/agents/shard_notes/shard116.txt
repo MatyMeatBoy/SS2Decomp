@@ -3,3 +3,8 @@ shard 116 notes (nov03-w2, 2026-11-03)
 sub_080B0288 MATCHED (nov03-w2): the draft was 27 lines off only in the final fade loop; the fix was
   passing the actor position to sub_08098088 as an 8-byte struct by value
   (`fx(*(struct XY *)&a->f14, 1)`), which gives the ROM argument loads through one pointer copy.
+
+sub_080B0FC4 MATCHED (nov03-w2): fresh C copied from the sub_080B0288 shape (same aliases/structs).
+  Keys: sub_08009088 called through an s32-param alias here (u8 params add a register copy instead of
+  reloading the spilled fade counter); counter is `k++; k &= 0xF;` (u16); `gIdx = (gIdx == 8) ? 0 : ++gIdx;`
+  (double store); `4 % cnt++` really is __modsi3(4, cnt); fx/warp take an 8-byte struct by value.
