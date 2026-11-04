@@ -863,7 +863,465 @@ void sub_080B4BB8(u8 a, u16 arg)
   }
  do { t->f10 = t->f20 + 0x3FC; t->fC = (u32) sub_080B4690; t->f24 = z; t->f8 = arg + 0x40; sub_08000274_3((u32)t, a, arg); } while (0);
 }
-INCLUDE_ASM("asm/nonmatchings/code_080B3648", sub_080B4C34);
+struct Res4C34 { u8 p0[4]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[2]; u8 f2A, f2B; u8 p2C[0xA8]; u16 fD4, fD6; };
+struct Act4C34 {
+    u16 f0, f2;
+    u8 p4[4];
+    u16 f8;
+    u8 pa[2];
+    u16 fC;
+    u8 pe[6];
+    s32 f14, f18;
+    u8 p1c[0x30];
+    s32 f4C, f50;
+    u8 p54[6];
+    u16 f5A;
+    s16 f5C, f5E;
+    u8 p60[8];
+    u16 f68, f6A, f6C, f6E;
+    u8 p70[0x164];
+    s16 f1D4, f1D6;
+    u8 p1d8[0x24];
+    u8 f1FC_lo : 4;
+    u8 f1FC_hi : 4;
+    u8 f1FD, f1FE, p1ff;
+    u8 f200, p201;
+    u16 f202;
+    struct Res4C34 res;
+};
+struct Pl4C34 { u8 p0[0xC]; u16 fC; u8 pe[0x22]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct XY4C34 { s32 x, y; };
+struct G5CF4_4C34 { u8 p0[0x720]; u32 f720; };
+
+extern struct Act4C34 *gAct4C34 asm("gUnk_030007DC");
+extern u16 gTile4C34 asm("gUnk_030007E0");
+extern u8 gSel4C34 asm("gUnk_030007D8");
+extern u32 gMask4C34 asm("gUnk_030056FC");
+extern struct Pl4C34 gPl4C34[] asm("gUnk_03003CE0");
+extern u8 gHist4C34[] asm("gUnk_03003DC4");
+extern struct G5CF4_4C34 *gGame4C34 asm("gUnk_03005CF4");
+extern u8 gImg4C34[] asm("gUnk_084ABA10");
+
+void res4C34(void *) asm("sub_08019F60");
+u16 alloc4C34(s32, s32) asm("sub_08016E04");
+void init4C34_0(void) asm("sub_0806849C");
+void b640C_4C34(void) asm("sub_080B640C");
+void b63BC_4C34(void) asm("sub_080B63BC");
+u8 ev4C34(void) asm("sub_08068490");
+u8 move4C34(void *, s32, s32, s32, s32, s32) asm("sub_08097AC0");
+void warp4C34(s32, s32) asm("sub_080B6448");
+void face4C34(void *, s32) asm("sub_08095F10");
+void spawn4C34(s32, s32, s32, s32, s32) asm("sub_0807386C");
+s16 rand4C34(void) asm("sub_0800086C");
+u8 att4C34(s32) asm("sub_080B5B90");
+void b5E64_4C34(void) asm("sub_080B5E64");
+void b60F4_4C34(void) asm("sub_080B60F4");
+void b64A4_4C34(void) asm("sub_080B64A4");
+void b86B4_4C34(s32) asm("sub_080586B4");
+u32 msg4C34(s32, s32, s32, s32, s32, s32) asm("sub_0805DF38");
+s32 msgDone4C34(u32) asm("sub_0805EEFC");
+
+static inline s32 ABS4C34(s32 x) { if (x < 0) x = -x; return x; }
+#define REDRAW4C34()                                                                                   \
+    do {                                                                                               \
+        s32 z;                                                                                         \
+        gPl4C34[sub_080020F4()].flags |= 1;                                                            \
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) { \
+            loadPalB3648(gTile4C34 + 0x10, anim.fC + *pres * 32, 1);                                   \
+            b = prioB3648(gAct4C34->f14 >> 8, gAct4C34->f18 >> 8, 0);                                  \
+            gAct4C34->f6E = animB3648(&anim, gAct4C34->f68, &gAct4C34->f6A, &gAct4C34->f6C, 1);        \
+            projB3648((s16)(gAct4C34->f14 >> 8), (s16)(gAct4C34->f18 >> 8), &sx, &sy, z, z);    \
+            drawB3648(sx, sy, gAct4C34->f68, gAct4C34->f6A, b, &anim.f1C, anim.f8, anim.f0);     \
+        }                                                                                              \
+        b64A4_4C34();                                                                                  \
+        sub_080003F0();                                                                                \
+    } while (0)
+
+void sub_080B4C34(struct Act4C34 *a)
+{
+    struct AnimB3648 anim;
+    s16 sx;
+    s16 sy;
+    struct XY4C34 tgt;
+    struct XY4C34 home;
+    struct Res4C34 *res;
+    s32 lastHit;
+    s32 speed;
+    s32 limit;
+    s32 animMode;
+    u16 flash;
+    u16 hitTimer;
+    u16 frame;
+    s16 shake;
+    u8 save22E;
+    u8 save22F;
+    u8 cooldown;
+    u8 cycle;
+    u8 cycle2;
+    u16 *pres;
+    s16 i, j;
+    s16 cnt;
+    u8 b;
+    s32 h;
+    struct Pl4C34 *p;
+
+    gAct4C34 = a;
+    res = &a->res;
+    setupB3648(a, gImg4C34, 0);
+    res4C34(res);
+    a0A4B3648(gAct4C34);
+    { u16 *t = &gTile4C34; *t = alloc4C34(a->res.fD4 + 100, a->res.fD6); }
+    while (gTile4C34 == 0xFFFF) {
+        gAct4C34->fC = 11;
+        if (sub_0800CB78() || sub_08056E90()) {
+            gMask4C34 &= ~(1 << gAct4C34->f0);
+            return;
+        }
+        sub_080003F0();
+    }
+    animInitB3648(&anim, 0x50015, gTile4C34, -1, 1);
+    anim.f1C = gTile4C34;
+    frame = 0;
+    cycle2 = 0;
+    cycle = 0;
+    cooldown = 0;
+    gAct4C34->f68 = 12;
+    gAct4C34->f6C = cooldown;
+    gAct4C34->f6A = cooldown;
+    home.x = gAct4C34->f14;
+    home.y = gAct4C34->f18;
+    res->f27 = 0;
+    gAct4C34->f5C = gAct4C34->f1D6 = res->f6 * 3;
+    { s32 t = res->f4 * 2; gAct4C34->f5E = gAct4C34->f1D4 = ((res->f4 << 3) + t) * 2; }
+    gAct4C34->fC = cooldown;
+    flash = 0;
+    hitTimer = 0;
+    save22E = gAct4C34->res.f2A;
+    save22F = gAct4C34->res.f2B;
+    gAct4C34->f50 = 1;
+    pres = &res->fD6;
+    for (i = 0; i <= 3; i++)
+        for (j = 0; j <= 4; j++)
+            *(u32 *)(i * 0x14C + j * 4 + (u32)gHist4C34) = 0;
+    gAct4C34->f1FD = 3;
+    gAct4C34->f1FE = 3;
+    gAct4C34->f1FC_lo = gAct4C34->f0;
+    gAct4C34->f202 = gAct4C34->f2;
+    gAct4C34->f200 = 0xFF;
+    sub_08097FE4();
+    sub_08097A4C();
+    b640C_4C34();
+    sub_080B63A0();
+    b63BC_4C34();
+    sub_08067C18();
+    while (!sub_08067C08())
+        sub_080003F0();
+    sub_08067BF8();
+    init4C34_0();
+
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (a->fC == 10 && flash == 0)
+            flash = 8;
+        if (sub_08058DB0() == 0) {
+            tickB3648(gAct4C34);
+            switch (gAct4C34->f1FD) {
+            case 1:
+                gAct4C34->fC = 0;
+                if (sub_08067C08() != 0) {
+                    gAct4C34->f1FD = gAct4C34->f1FE;
+                    sub_08067BF8();
+                }
+                break;
+            case 2:
+                gAct4C34->fC = 0;
+                gAct4C34->f200 = ev4C34();
+                if (gAct4C34->f200 != 0xFF) {
+                    gAct4C34->f1FE = 11;
+                    gAct4C34->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 3:
+                gAct4C34->fC = 0;
+                if (sub_08056F78() != 0) {
+                    gAct4C34->f1FE = 10;
+                    gAct4C34->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 4:
+                gAct4C34->fC = 1;
+                if (gAct4C34->f68 != 0) {
+                    gAct4C34->f68 = 0;
+                    gAct4C34->f6C = 0;
+                    gAct4C34->f6A = 0;
+                    gAct4C34->f6E = 0;
+                    sfxB3648(0x1A9);
+                }
+                animMode = 0;
+                a0B0B3648(gAct4C34);
+                gAct4C34->res.f2A = 0;
+                gAct4C34->res.f2B = 0;
+                if (gAct4C34->f6E != 0) {
+                    frame = 0;
+                    speed = 0x200;
+                    gAct4C34->f1FE = 5;
+                    gAct4C34->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 5:
+                gAct4C34->fC = 1;
+                animMode = 1;
+                gAct4C34->f1FC_hi = rndB3648(0);
+                p = &gPl4C34[gAct4C34->f1FC_hi];
+                tgt.x = p->f148[0] >> 4;
+                tgt.y = (u32)(p->f148[1] << 20) >> 20;
+                switch (p->fC) {
+                case 7:
+                    limit = 0x170;
+                    break;
+                case 5:
+                    limit = 0x160;
+                    break;
+                case 2:
+                    limit = 0x160;
+                    break;
+                case 8:
+                    limit = 0x160;
+                    break;
+                case 0:
+                    limit = 0x160;
+                    break;
+                case 4:
+                    limit = 0x150;
+                    break;
+                case 6:
+                    limit = 0x140;
+                    break;
+                case 1:
+                    limit = 0x140;
+                    break;
+                case 3:
+                    limit = 0x130;
+                    break;
+                }
+                if (limit < speed)
+                    speed--;
+                if (frame++ < 0x96) {
+                    if (move4C34(gAct4C34, tgt.x, tgt.y, speed, 4, 0) != 0) {
+                        gAct4C34->f68 = gAct4C34->f8 + 1;
+                    } else {
+                        frame = 0;
+                        endB3648(0);
+                        gAct4C34->f68 = gAct4C34->f8 + 1;
+                        gAct4C34->f1FE = 6;
+                        gAct4C34->f1FD = 1;
+                        sub_08067C18();
+                    }
+                } else {
+                    frame = 0;
+                    endB3648(0);
+                    gAct4C34->f1FE = 6;
+                    gAct4C34->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 6:
+                gAct4C34->fC = 0;
+                if (gAct4C34->f68 != 9) {
+                    gAct4C34->f68 = 9;
+                    gAct4C34->f6C = 0;
+                    gAct4C34->f6A = 0;
+                    gAct4C34->f6E = 0;
+                    sfxB3648(0x1AA);
+                }
+                animMode = 0;
+                if (gAct4C34->f6E != 0) {
+                    cycle2 = (cycle2 == 7) ? 0 : cycle2 + 1;
+                    frame = 0;
+                    a0A4B3648(gAct4C34);
+                    gAct4C34->res.f2A = save22E;
+                    gAct4C34->res.f2B = save22F;
+                    gAct4C34->f1FE = 9;
+                    gAct4C34->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 10:
+                gAct4C34->fC = 0;
+                cnt = 0;
+                for (i = 1; i <= 4; i++)
+                    if (gMask4C34 & (1 << i))
+                        cnt++;
+                if (cnt <= 1) {
+                    if (sub_08002204() == 1) {
+                        s16 r;
+                        struct Act4C34 *q;
+                        u8 *f;
+                        r = rand4C34();
+                        q = gAct4C34;
+                        q->f200 = (ABS4C34((s16)(r % 10)) + 1) << 4;
+                        r = rand4C34();
+                        f = &gAct4C34->f200;
+                        *f |= ABS4C34((s16)(r % 5)) & 0xF;
+                        if (sub_08068450(gAct4C34->f200) == 1)
+                            gAct4C34->f1FE = 2;
+                    } else {
+                        gAct4C34->f200 = 0xFF;
+                        gAct4C34->f1FE = 2;
+                    }
+                } else {
+                    gAct4C34->f1FE = 9;
+                }
+                a->f1FD = 1;
+                sub_08067C18();
+                break;
+            case 11:
+                gAct4C34->fC = 9;
+                gSel4C34 = gAct4C34->f200;
+                gAct4C34->f200 = 0xFF;
+                warp4C34(home.x, home.y);
+                gAct4C34->f1FE = 9;
+                gAct4C34->f1FD = 1;
+                sub_08067C18();
+                break;
+            case 13:
+                gAct4C34->fC = 9;
+                gAct4C34->f1FC_hi = rndB3648(0);
+                endB3648(0);
+                face4C34(gAct4C34, gAct4C34->f1FC_hi);
+                gAct4C34->f68 = 12;
+                animMode = 1;
+                spawn4C34(gAct4C34->f0 + 4, 13, gAct4C34->f1FC_hi, 5, 5);
+                gAct4C34->f50++;
+                gAct4C34->f1FD = 14;
+                break;
+            case 14:
+                gAct4C34->fC = 9;
+                gAct4C34->f68 = 12;
+                animMode = 1;
+                gAct4C34->f1FE = 9;
+                gAct4C34->f1FD = 1;
+                sub_08067C18();
+                break;
+            case 9:
+                gAct4C34->fC = 0;
+                gAct4C34->f68 = 12;
+                animMode = 1;
+                if (frame++ > 0x5A) {
+                    frame = 0;
+                    gAct4C34->f1FE = 0x10;
+                    gAct4C34->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 16:
+                gAct4C34->fC = 0;
+                switch (cycle) {
+                case 0:
+                    gAct4C34->f1FE = 4;
+                    break;
+                case 1:
+                    gAct4C34->f1FE = 13;
+                    break;
+                case 2:
+                    gAct4C34->f1FE = 4;
+                    break;
+                case 3:
+                    gAct4C34->f1FE = 10;
+                    break;
+                }
+                gAct4C34->f1FD = 1;
+                sub_08067C18();
+                cycle = (cycle == 3) ? 0 : cycle + 1;
+                speed = 0x200;
+                break;
+            }
+            if (gAct4C34->f5C != 0 && (gAct4C34->f1FD == 4 || gAct4C34->f1FD == 6 || gAct4C34->f1FD == 5)) {
+                if (cooldown == 0)
+                    cooldown = att4C34(cycle2);
+                else
+                    cooldown = cooldown - 1;
+                b5E64_4C34();
+            } else {
+                cooldown = 0;
+            }
+        }
+        loadPalB3648(gTile4C34 + 0x10, anim.fC + *pres * 32, 1);
+        if (bgFlagB3648() & 1)
+            b = bgPrioB3648();
+        else
+            b = prioB3648(gAct4C34->f14 >> 8, gAct4C34->f18 >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            gAct4C34->f6E = animB3648(&anim, gAct4C34->f68, &gAct4C34->f6A, &gAct4C34->f6C, animMode);
+        projB3648((s16)(gAct4C34->f14 >> 8), (s16)(gAct4C34->f18 >> 8), &sx, &sy, 0, 0);
+        if (flash != 0) {
+            u16 old = flash;
+            flash--;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                drawB3648(sx, sy, gAct4C34->f68, gAct4C34->f6A, b, &anim.f1C, anim.f8, anim.f0);
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            drawB3648(sx, sy, gAct4C34->f68, gAct4C34->f6A, b, &anim.f1C, anim.f8, anim.f0);
+        }
+        if (gAct4C34->f4C != 0 && lastHit != gAct4C34->f4C) {
+            lastHit = a->f4C;
+            hitTimer = 10;
+            shake = 0;
+        }
+        if (hitTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                dmgB3648(a, lastHit, shake);
+            if (hitTimer & 2)
+                shake--;
+            hitTimer--;
+        } else {
+            lastHit = 0;
+            a->f4C = 0;
+        }
+        if (deadB3648(a) != 0) {
+            sub_080003F0();
+            break;
+        }
+        sub_080003F0();
+    }
+    gMask4C34 &= ~(1 << gAct4C34->f0);
+    gPl4C34[sub_080020F4()].flags |= 1;
+    b60F4_4C34();
+    animInitB3648(&anim, 0x50015, gTile4C34, -1, 1);
+    anim.f1C = gTile4C34;
+    gAct4C34->f68 = 12;
+    gAct4C34->f6C = 0;
+    gAct4C34->f6A = 0;
+    sub_080683CC();
+    freeB3648(gAct4C34->f2);
+    sub_08068330(0xDEADFACE);
+    while (sub_080682B8(0xDEADFACE) == 0)
+        REDRAW4C34();
+    sub_08065E38(0xDEADFACE);
+    while (sub_08058DB0() != 0)
+        REDRAW4C34();
+    b86B4_4C34(0);
+    gPl4C34[sub_080020F4()].flags |= 1;
+    gGame4C34->f720 = msg4C34(1, 14, 0x19, 2, 0x3C, 0x1400A7);
+    while (msgDone4C34(gGame4C34->f720) == 0)
+        REDRAW4C34();
+    dropB3648(gAct4C34, &anim, *pres, gTile4C34);
+    if (!(gPl4C34[sub_080020F4()].flags & 0x2000) && gAct4C34->f5A != 0) {
+        h = dropFxB3648(gDataB3648, res);
+        for (shake = 0x1D; shake != -1; shake--) {
+            gAct4C34->f18 -= 0x20;
+            fallB3648(gAct4C34, h);
+            sub_080003F0();
+        }
+        dropEndB3648(gDataB3648, h);
+    }
+    sub_08067C18();
+    while (!sub_08067C08())
+        sub_080003F0();
+    sub_08067BF8();
+    sub_08056E24();
+}
 struct Player0B5B90 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 b68; u8 p69[0x23]; s32 x, y; u8 p94[0x1C]; u16 wB0; u8 pB2[0x16]; u16 knock, dir, speed; u8 pCE[0x16]; u32 hits[4]; u8 pF4[0x14C - 0xF4]; };
 struct Boss0B5B90 { u16 slot; u8 p2[0xA]; u16 state; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 hitId; u8 p54[8]; s16 active; };
 extern struct Player0B5B90 players0B5B90[] asm("gUnk_03003CE0");
