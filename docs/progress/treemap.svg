@@ -888,7 +888,7 @@
 <rect x="514.88" y="129.00" width="118.36" height="86.55" fill="#0d1117"/>
 <rect x="515.88" y="130.00" width="49.92" height="84.55" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_08003984 | sub_08003984 | unidentified | 3/6 milestones; not a match  0x08003984  8352 bytes  [nonmatch]</title></rect>
 <rect x="515.88" y="130.00" width="24.96" height="84.55" fill="#d29922" pointer-events="none"/>
-<rect x="565.81" y="130.00" width="48.99" height="37.18" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_08002B70 | sub_08002B70 | unidentified  0x08002B70  3604 bytes  [todo]</title></rect>
+<rect x="565.81" y="130.00" width="48.99" height="37.18" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08002B70 | sub_08002B70 | unidentified  0x08002B70  3604 bytes  [nonmatch]</title></rect>
 <rect x="614.79" y="130.00" width="17.45" height="37.18" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>menu5B | sub_08005B88 | existing  0x08005B88  1284 bytes  [done]</title></rect>
 <rect x="565.81" y="167.18" width="25.01" height="24.41" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>menu6C | sub_0800608C | existing  0x0800608C  1208 bytes  [done]</title></rect>
 <rect x="565.81" y="191.60" width="25.01" height="22.96" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080066BC | sub_080066BC | unidentified  0x080066BC  1136 bytes  [nonmatch]</title></rect>
