@@ -1,6 +1,7 @@
-sub_08087A5C (nov03-w4, round 2): still 612/612, only the parse-loop head differs (ROM `ldrb r1; adds r0, r1`,
-  draft `ldrb r0; adds r1, r0`). In the ROM the ldrb target is the value stored by the default case and the
-  compares use a copy (higher-priority pseudo gets r0). No effect: moving `u8 c` (first/last/block scope), u16 c,
+sub_08087A5C (nov03-w5, shard 147, 20 min): plain `while (*s != 0xFD) { c = *s; ... }` (gcc rotates it into
+  the ROM's if + do-while) keeps the ldrb r0/r1 difference and loads base before the test (6 lines);
+  `base` assigned inside the loop: 25; gUnk_03003CE0 used directly: 93; `while ((c = *s) != 0xFD)`: 32.
+lock scope), u16 c,
   storing `*s` in the default case, `if (0) {}`, separate u8 n for the name loads. s32/u32 c makes the load go to r1
   but drops the copy (cmp r1). `u32 c = *s; u8 t = c;` with compares on t and store of c gives the ROM shape
   (load into its own reg, compares on a copy) but 618 bytes: cse leaves the last compare on t (third reg) and the
