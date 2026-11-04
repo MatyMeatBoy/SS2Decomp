@@ -1534,9 +1534,9 @@ void sub_0809FB6C(void *input)
         if(sub_08098004()&1) priority=(u8)sub_08097FF8();else priority=2;
         screen9FB6C((s32)(actor->x<<8)>>16,(s32)(actor->y<<8)>>16,&sx,&sy,0,0);
         if(flash!=0) {
-            value=flash;
-            flash=value-1;
-            if((value&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
+            u32 old=flash;
+            flash=old-1;
+            if((old&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
                 sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
                 draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
             }
