@@ -1,17 +1,17 @@
-Shard 103 notes (nov03-w2, 2026-11-03)
 
-sub_0809D374: draft improved (decomp.py 115 -> 83 diff lines; real remaining diff is small). `px -= (s16)x;
-  py -= (s16)y; dx = px; dy = py;` keeps the original sign-extensions; loading `pl = playersD374` into a local
-  before the first sub_080020F4() call reproduces the early `ldr r0,=gUnk_03003CE0; mov r8,r0`.
-  Remaining: original adds 0x148 into the base register in place (`subs r1,#4; add r8,r1; add r0,r8`, base+0x148
-  CSE'd for both pos loads); ours keeps the base in sl and 0x148 in r8 (extra push of sl, 8 bytes larger).
-  Tried u8*/u32 base arithmetic in every association, &pl->pos tail struct, ptr arithmetic, (u8) index,
-  symbol directly (then the base load moves after the call and gets spilled).
-sub_0809C4E8: draft diff 341. Original references players[n].y and players[n].pos through separate literal
-  symbols (gUnk_03003D70, gUnk_03003E28, gUnk_03003EBC, gUnk_03003F74, gUnk_03004008, gUnk_030040C0,
-  gUnk_03004154, gUnk_0300420C) while .x is r9(=gUnk_03003CE0)+offset. Not worked on further.
-
-sub_0809CC2C (nov03-w5, 2026-11-03): fresh C draft landed, now 34 normalized diff lines (same size, same
+sub_0809C4E8 (nov03-w5, 2026-11-03 #2): draft now exact size (1036), nmscore 185 -> 132 (check 163 diff lines).
+  Keys: y / pos reads through per-player literal aliases (y0..y3 = gUnk_03003D70/EBC/4008/4154, pos
+  v0..v3 = E28/F74/40C0/420C, distance y via `playersY[] asm("gUnk_03003D70")` {s32 y; u8 rest[0x148];});
+  x reads through a base local `pl = playersC4E8` set right before the loop; tx/ty as one 8-byte
+  `struct {s32 x, y;} t` (puts them in r5/r6 like the ROM).
+  Remaining: ROM keeps pl in r9 and spills `which` to sp+0x54; ours keeps which in sl, &pos in r9 and
+  spills pl (pl gets "pref STACK_REG" in the lreg dump: its uses are pl+0x8c/0x1d8/0x324 adds). Adding pl
+  uses or removing which uses does not flip it; `register ... asm("r9")` flips it but then the
+  y/pos literal loads use r0 instead of the ROM's r3/r2/r1 (looks like reload rematerialising hoisted
+  symbol pseudos), 217 lines -> not kept. Epilogue `adds r1,r0,#0; movs r0,#0; str r0,[r1,#8]` not
+  reproduced (tried temp pointer, u32 *, `*(u32*)(sub_0800048C()+8)`, zero temp, return 0).
+  Permuter 5 min: nothing.
+esh C draft landed, now 34 normalized diff lines (same size, same
   control flow). Keys that worked: whole body wrapped in `do { ... } while (0)` starting right after
   `r = sub_0800CE30(); p5c/p6c/p6a/p68 = &ent->f..;` (gives the post-call pointer copies + hoists);
   struct XY passed BY VALUE to sub_08097AC0 (puts tx/ty in sp88/8c); `pl = &players[ent->hi]; pl->pos`;
