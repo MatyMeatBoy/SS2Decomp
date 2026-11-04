@@ -4069,7 +4069,9 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
         spawnE7D4(x, y, player, 15, level);
     } else {
         done = 0;
-        while (done < count && (player != sub_080020F4() || ((u16)(p->state - 11) > 1 && sub_0800D11C() == 0))) {
+        goto test;
+    body:
+        {
             if (arg->target <= 3) {
                 for (i = 0; i < count; i++) {
                     q = &pE7D4[hits[i]];
@@ -4129,6 +4131,9 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
             }
             sub_080003F0();
         }
+    test:
+        if (done < count && (player != sub_080020F4() || ((u16)(p->state - 11) > 1 && sub_0800D11C() == 0)))
+            goto body;
     }
     if (player <= 3) {
         while (p->fB6 == 0)
