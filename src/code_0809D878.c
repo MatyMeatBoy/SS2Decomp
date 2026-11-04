@@ -1399,7 +1399,8 @@ void sub_0809FB6C(void *input)
     s16 floatingOffset;
     u32 amplitudeX;
     u8 *resource;
-    s32 lastDamage,flash;
+    s32 lastDamage;
+    u16 flash;
     u32 elapsed,rounds;
     s32 angle;
     u32 amplitudeY;
@@ -1536,9 +1537,9 @@ void sub_0809FB6C(void *input)
         if(sub_0800CD8C()==0) actor->f6E=anim9FB6C(&sprite,*animation,frame,tick,1);
         if(sub_08098004()&1) priority=(u8)sub_08097FF8();else priority=2;
         screen9FB6C((s32)(actor->x<<8)>>16,(s32)(actor->y<<8)>>16,&sx,&sy,0,0);
-        value=flash;
-        if(value!=0) {
-            flash=(u16)(value-1);
+        if(flash!=0) {
+            value=flash;
+            flash=value-1;
             if((value&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
                 sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
                 draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
