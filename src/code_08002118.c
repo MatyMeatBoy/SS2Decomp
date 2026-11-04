@@ -649,6 +649,22 @@ extern void sub_0800608C(void);
 extern void sub_08005B88(void);
 extern void sub_08006694(void);
 
+static inline void run2B70(struct Save2B70 *s)
+{
+    u8 *buf = (u8 *)alloc2B70(0x2000);
+
+    if (sel2B70 == 1)
+        task2B70.fC = sub_0800608C;
+    else
+        task2B70.fC = sub_08005B88;
+    task2B70.f10 = buf + 0x1FFC;
+    task2B70.f20 = buf;
+    task2B70.f8 = 10;
+    task2B70.f24 = 0;
+    start2B70(&task2B70, s);
+    wait2B70(0x25A112EBFULL);
+}
+
 void sub_08002B70_(void) asm("sub_08002B70");
 /* Save-slot select screen (8 slots, copy / erase prompts). */
 void sub_08002B70_(void)
@@ -680,6 +696,7 @@ void sub_08002B70_(void)
     u8 oldMode;
     struct Save2B70 *s;
     u8 *buf;
+    void *tmp;
     u32 scroll;
     u16 i;
     u16 *v;
@@ -708,7 +725,8 @@ void sub_08002B70_(void)
             anim[i] = 8;
             chars[i].id = i;
         } else {
-            memcpy2B70(&chars[i], blank2B70(), 0x34);
+            tmp = blank2B70();
+            memcpy2B70(&chars[i], tmp, 0x34);
             anim[i] = 6;
         }
     }
@@ -793,7 +811,8 @@ void sub_08002B70_(void)
                         sub_080003F0();
                         frame[slot] = 0;
                         timer[slot] = 0;
-                        memcpy2B70(&chars[slot], blank2B70(), 0x34);
+                        tmp = blank2B70();
+                        memcpy2B70(&chars[slot], tmp, 0x34);
                         anim[slot] = 6;
                         winOpen2B70(3);
                     } else {
@@ -812,18 +831,7 @@ void sub_08002B70_(void)
                     sub_08000E48();
                     oldHandler = handler2B70(oldHandler);
                     vmode2B70(oldMode);
-                    s = &saves[slot];
-                    buf = (u8 *)alloc2B70(0x2000);
-                    if (sel2B70 == 1)
-                        task2B70.fC = sub_0800608C;
-                    else
-                        task2B70.fC = sub_08005B88;
-                    task2B70.f10 = buf + 0x1FFC;
-                    task2B70.f20 = buf;
-                    task2B70.f8 = 10;
-                    task2B70.f24 = 0;
-                    start2B70(&task2B70, s);
-                    wait2B70(0x25A112EBFULL);
+                    run2B70(&saves[slot]);
                     loop = 0;
                     break;
                 } else {
@@ -954,7 +962,8 @@ void sub_08002B70_(void)
             yes = 1;
             state = 5;
             loadAll2B70(saves);
-            memcpy2B70(&chars[slot], blank2B70(), 0x34);
+            tmp = blank2B70();
+            memcpy2B70(&chars[slot], tmp, 0x34);
             anim[slot] = 6;
             break;
         case 5:
@@ -994,20 +1003,9 @@ void sub_08002B70_(void)
                 sub_08000E48();
                 oldHandler = handler2B70(oldHandler);
                 vmode2B70(oldMode);
-                s = &saves[slot];
-                s->f7 = yes;
-                if (s->fC != 0xFFFF) {
-                    buf = (u8 *)alloc2B70(0x2000);
-                    if (sel2B70 == 1)
-                        task2B70.fC = sub_0800608C;
-                    else
-                        task2B70.fC = sub_08005B88;
-                    task2B70.f10 = buf + 0x1FFC;
-                    task2B70.f20 = buf;
-                    task2B70.f8 = 10;
-                    task2B70.f24 = 0;
-                    start2B70(&task2B70, s);
-                    wait2B70(0x25A112EBFULL);
+                saves[slot].f7 = yes;
+                if (saves[slot].fC != 0xFFFF) {
+                    run2B70(&saves[slot]);
                 } else
                     loop = 0;
             } else if (keys2B70 == 2)
