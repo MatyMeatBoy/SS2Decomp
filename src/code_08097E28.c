@@ -1107,7 +1107,7 @@ void sub_08099838(void *input)
                 actor->state = mode;
                 actor->hi = rune99(0);
                 if (chase99(actor, &players99[actor->hi], range, 0x30)) {
-                    if (chase++ <= limit)
+                    if (limit >= chase++)
                         break;
                     actor->next = 4;
                     actor->phase = 1;
@@ -1171,12 +1171,11 @@ void sub_08099838(void *input)
         case 0:
             sprite = &spriteA;
             actor->anim = actor->f8;
-            animFlag = 1;
-            blinkAnim = 0x18;
-            break;
+            goto setA;
         case 1:
             sprite = &spriteA;
             actor->anim = actor->f8 + 8;
+        setA:
             animFlag = 1;
             blinkAnim = 0x18;
             break;
