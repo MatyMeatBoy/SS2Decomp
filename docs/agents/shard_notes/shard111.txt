@@ -1,0 +1,9 @@
+shard 111 notes
+
+sub_080A9950 (5892 bytes, two-actor boss: gUnk_03000428 = base+0x2E0 and gUnk_0300042C = arg):
+  first C draft (nov03-w3), 5792/5892, difflib score ~645. Pose table gUnk_08518898 is
+  struct { u8 animA, dirA, animB, dirB, flag; }[pose][side], anim ids at gUnk_085188E8.
+  Aim offset (sp+0x8C) and target (sp+0x84) are 8-byte struct locals (the offset is passed by value
+  to sub_080AB054). Known gaps: in mine `pose` gets a hard register (ROM keeps it at sp+0xB8), the
+  ROM hoists &anim1 / &res->fD6 into spilled slots (sp+0xD4..0xE8), and cases 6/7/8 share tails
+  differently.

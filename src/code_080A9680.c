@@ -185,7 +185,703 @@ s32 sub_080A9910(struct V *a, struct V *b, struct V *c)
     v2.y = c->y - a->y;
     r = v1.x * v2.y - v1.y * v2.x; res = 1; if (r <= 0) { res = 0; if (r < 0) res--; } return res;
 }
+#ifdef NONMATCHING
+struct Res9950 { u8 p0[4]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[0xAE]; u16 fD6; };
+struct Act9950 {
+    u16 f0, f2;
+    u8 p4[4];
+    s16 f8;
+    u8 pa[2];
+    u16 fC;
+    u8 pe[6];
+    s32 f14, f18;
+    u8 p1c[0x2C];
+    u16 f48, f4A;
+    s32 f4C, f50;
+    u8 p54[6];
+    u16 f5A;
+    s16 f5C, f5E;
+    u8 p60[8];
+    u16 f68, f6A, f6C, f6E;
+    u8 p70[0x164];
+    s16 f1D4, f1D6;
+    u8 p1d8[0x24];
+    u8 f1FC_lo : 4;
+    u8 f1FC_hi : 4;
+    u8 f1FD, f1FE, p1ff;
+    u8 f200, p201;
+    u16 f202;
+    u8 res[0xD4];
+    u16 f2D8, f2DA;
+};
+struct Anim9950 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
+struct Pl9950 { u8 p0[0x30]; u32 flags; u8 p34[0x114]; u16 *f148; };
+struct Pose9950 { u8 animA, dirA, animB, dirB, flag; };
+struct Map9950 { u8 p0[0x90]; u16 f90; };
+struct XY9950 { s32 x, y; };
+
+extern struct Act9950 *gA9950 asm("gUnk_03000428");
+extern struct Act9950 *gB9950 asm("gUnk_0300042C");
+extern u16 gTile9950 asm("gUnk_03000430");
+extern u8 *gBase9950 asm("gUnk_030056F4");
+extern u32 gMask9950 asm("gUnk_030056FC");
+extern struct Map9950 gMap9950 asm("gUnk_03003170");
+extern struct Pl9950 gPl9950[] asm("gUnk_03003CE0");
+extern u8 gHist9950[] asm("gUnk_03003DC4");
+extern u8 gImg9950[] asm("gUnk_084AA970");
+extern struct Pose9950 gPose9950[][2] asm("gUnk_08518898");
+extern u32 gAnimIds9950[] asm("gUnk_085188E8");
+extern void *gData9950 asm("gUnk_030034E0");
+extern u8 *gState9950 asm("gUnk_03005CF4");
+
+void setup9950(void *, void *, s32) asm("sub_0801623C");
+void initRes9950(void *) asm("sub_08019F60");
+void show9950(void *) asm("sub_0801A0A4");
+void hide9950(void *) asm("sub_0801A0B0");
+u16 tile9950(u16, u16) asm("sub_08016E04");
+void animInit9950(void *, u32, s32, s32, s32) asm("sub_08065158");
+void tick9950(void *) asm("sub_0801C8F0");
+u8 pick9950(void) asm("sub_08068490");
+s32 rnd9950(s32) asm("sub_08096594");
+u8 reach9950(void *, void *, s32, s32) asm("sub_08097A74");
+void end9950(s32) asm("sub_08097A38");
+void sfx9950(s32) asm("sub_0805865C");
+u8 shot9950(void *, struct XY9950, s32) asm("sub_080AB054");
+void face9950(void *, u8) asm("sub_08095F10");
+u8 move9950(void *, u32, u32, s32, s32, s32) asm("sub_08097AC0");
+void spawn9950(s32, s32, s32, s32, s32) asm("sub_0807386C");
+s16 rand9950(void) asm("sub_0800086C");
+s32 link9950(void) asm("sub_08002204");
+s32 linkPick9950(u8) asm("sub_08068450");
+void loadPal9950(u32, void *, u32) asm("sub_08000AF0");
+u8 bgFlag9950(void) asm("sub_08098004");
+u8 bgPrio9950(void) asm("sub_08097FF8");
+u8 prio9950(s32, s32, s32) asm("sub_0800BC44");
+u16 anim9950(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+void proj9950(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void draw9950(s32, s32, s32, u16, u8, void *, u32, u32) asm("sub_08007870");
+void dmg9950(void *, s32, s16) asm("sub_0801A120");
+s16 dead9950(void *) asm("sub_08019CE8");
+void free9950(u16) asm("sub_08067CA8");
+void wait9950(s32) asm("sub_08068330");
+s32 ready9950(s32) asm("sub_080682B8");
+void next9950(s32) asm("sub_08065E38");
+void msgEnd9950(s32) asm("sub_080586B4");
+s32 box9950(s32, s32, s32, s32, s32, s32) asm("sub_0805DF38");
+s32 boxDone9950(s32) asm("sub_0805EEFC");
+void bgm9950(s32) asm("sub_08058688");
+void linkStart9950(void) asm("sub_0806849C");
+void death9950(void *, void *, void *, void *, u16, u16, s32) asm("sub_08097658");
+s32 dropFx9950(void *, void *) asm("sub_0801E46C");
+void fall9950(void *, s32) asm("sub_0806171C");
+void dropEnd9950(void *, s32) asm("sub_0801E4CC");
+
+void sub_080A9950_v(struct Act9950 *a) asm("sub_080A9950");
+void sub_080A9950_v(struct Act9950 *a)
+{
+    struct Anim9950 anim0;
+    struct Anim9950 anim1;
+    s16 sxA, syA;
+    s16 sxB, syB;
+    struct Res9950 *res;
+    struct Res9950 *resA;
+    struct XY9950 tgt;
+    struct XY9950 off;
+    s32 lastHit;
+    u16 flash1;
+    u16 flash0;
+    u16 hitTimer;
+    u16 cnt14;
+    u16 cnt1;
+    s16 shake;
+    s32 side;
+    s32 lastSide;
+    s32 pose;
+    s32 lastPose;
+    u8 proj;
+    u8 sfxFlag;
+    u8 alt;
+    u8 tcount;
+    s32 done;
+    u8 prioA, prioB;
+    s16 i, j;
+    s32 h;
+    struct Pl9950 *pl;
+    u8 *base;
+    struct Pose9950 *e;
+
+    gB9950 = a;
+    gMask9950 |= 2;
+    gA9950 = (struct Act9950 *)((base = gBase9950) + 0x2E0);
+    res = (struct Res9950 *)a->res;
+    resA = (struct Res9950 *)(base + 0x4E4);
+    setup9950(a, gImg9950, 0);
+    setup9950(gA9950, gImg9950, 1);
+    initRes9950(resA);
+    initRes9950(res);
+    hide9950(gA9950);
+    hide9950(gB9950);
+    base[0x50B] = 1;
+    {
+        struct Act9950 *g = gA9950;
+        g->f0 = 1;
+        g->f2 = 5;
+        g->f48 = gMap9950.f90;
+        g->f14 = gB9950->f14 = 0xED88;
+        g->f18 = gB9950->f18 = 0x9700;
+    }
+    { u16 *tp = &gTile9950; *tp = tile9950(a->f2D8, a->f2DA); }
+    while (gTile9950 == 0xFFFF) {
+        gB9950->fC = 11;
+        if (sub_0800CB78() != 0 || sub_08056E90() != 0) {
+            gMask9950 &= ~(1 << gB9950->f0);
+            return;
+        }
+        sub_080003F0();
+    }
+    {
+        struct Act9950 *g = gA9950;
+        struct Act9950 *b;
+        g->f5C = g->f1D6 = resA->f6 * 3;
+        { s32 t = resA->f4 * 2; g->f5E = g->f1D4 = ((resA->f4 << 3) + t) * 2; }
+        b = gB9950;
+        b->f5C = b->f1D6 = res->f6 * 3;
+        { s32 t = res->f4 * 2; b->f5E = b->f1D4 = ((res->f4 << 3) + t) * 2; }
+        g->fC = 0;
+        b->fC = 0;
+    }
+    flash0 = 0;
+    flash1 = 0;
+    hitTimer = 0;
+    tcount = 0;
+    gA9950->f1FD = 3;
+    gA9950->f1FE = 3;
+    gB9950->f1FD = 3;
+    gB9950->f1FE = 3;
+    gA9950->f50 = 1;
+    gB9950->f50 = 1;
+    for (i = 0; i <= 3; i++)
+        for (j = 0; j <= 4; j++)
+            *(s32 *)(gHist9950 + j * 4 + i * 0x14C) = 0;
+    proj = 0;
+    alt = 0;
+    sfxFlag = 0;
+    cnt1 = 0;
+    side = 0;
+    lastSide = 0xFF;
+    pose = 0;
+    lastPose = 0xFF;
+    gA9950->f68 = gPose9950[0][0].dirA;
+    gB9950->f68 = gPose9950[0][0].dirB;
+    gA9950->f6A = side;
+    gA9950->f6C = side;
+    gB9950->f6A = side;
+    gB9950->f6C = side;
+    animInit9950(&anim0, gAnimIds9950[gPose9950[0][0].animA], gTile9950, -1, 1);
+    animInit9950(&anim1, gAnimIds9950[gPose9950[0][0].animB], gTile9950, -1, 1);
+    anim0.f1C = gTile9950;
+    anim1.f1C = gTile9950;
+    gA9950->f1FC_lo = gA9950->f0;
+    gA9950->f202 = gA9950->f2;
+    gA9950->f200 = 0xFF;
+    gB9950->f1FC_lo = gB9950->f0;
+    gB9950->f202 = gB9950->f2;
+    gB9950->f200 = 0xFF;
+    sub_08097FE4();
+    sub_08097A4C();
+    done = 0;
+    sub_08067C18();
+    while (sub_08067C08() == 0)
+        sub_080003F0();
+    sub_08067BF8();
+    linkStart9950();
+
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (gB9950->fC == 10 && flash0 == 0)
+            flash0 = 8;
+        if (gA9950->fC == 10 && flash1 == 0)
+            flash1 = 8;
+        if (sub_08058DB0() == 0) {
+            tick9950(gA9950);
+            tick9950(gB9950);
+            switch (gB9950->f1FD) {
+            case 2:
+                gA9950->fC = 0;
+                gB9950->fC = 0;
+                if (sub_08067C08() != 0) {
+                    gB9950->f1FD = gB9950->f1FE;
+                    sub_08067BF8();
+                }
+                break;
+            case 4:
+                gA9950->fC = 0;
+                gB9950->fC = 0;
+                sfxFlag = 0;
+                proj = 0;
+                gB9950->f200 = pick9950();
+                {
+                    struct Act9950 *b = gB9950;
+                    if (b->f200 == 0xFF)
+                        break;
+                    switch (b->f200) {
+                    case 0:
+                        b->f1FE = 6;
+                        break;
+                    case 1:
+                        b->f1FE = 7;
+                        break;
+                    case 2:
+                        b->f1FE = 8;
+                        break;
+                    }
+                }
+                gB9950->f200 = 0xFF;
+                gB9950->f1FD = 2;
+                sub_08067C18();
+                break;
+            case 3:
+                if (sub_08056F78() != 0) {
+                    gB9950->f1FE = 5;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                break;
+            case 5:
+                gA9950->fC = 1;
+                gB9950->fC = 1;
+                pose = 1;
+                gB9950->f1FC_hi = rnd9950(0);
+                pl = &gPl9950[gB9950->f1FC_hi];
+                if (reach9950(gB9950, pl, 0x140, 0x20) == 0) {
+                    end9950(0);
+                    proj = 0;
+                    pose = 0;
+                    gB9950->f1FE = 0xD;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                side = 0;
+                if (gB9950->f8 > 3)
+                    side = 1;
+                break;
+            case 6:
+                gA9950->fC = 0;
+                gB9950->fC = 2;
+                pose = 4;
+                if (sfxFlag == 0) {
+                    sfxFlag = 1;
+                    sfx9950(0x1A8);
+                }
+                if (gB9950->f6E == 0) {
+                    if (side == 0)
+                        off.x = 0x20;
+                    else
+                        off.x = -0x20;
+                    off.y = -0x10;
+                    if (proj == 0)
+                        proj = shot9950(gB9950, off, 0x18);
+                } else {
+                    proj = 0;
+                    pose = 0;
+                    gB9950->f1FE = 0xD;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                break;
+            case 7:
+                gA9950->fC = 0;
+                gB9950->fC = 2;
+                pose = 5;
+                if (sfxFlag == 0) {
+                    sfxFlag = 1;
+                    sfx9950(0x1A8);
+                }
+                if (gB9950->f6E == 0) {
+                    if (side == 0)
+                        off.x = -8;
+                    else
+                        off.x = 8;
+                    off.y = 8;
+                    if (proj == 0)
+                        proj = shot9950(gB9950, off, 0x10);
+                } else {
+                    proj = 0;
+                    pose = 0;
+                    gB9950->f1FE = 0xD;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                break;
+            case 8:
+                gA9950->fC = 0;
+                gB9950->fC = 2;
+                pose = 6;
+                if (sfxFlag == 0) {
+                    sfxFlag = 1;
+                    sfx9950(0x1A8);
+                }
+                if (gB9950->f6E == 0) {
+                    if (side == 0)
+                        off.x = -0x10;
+                    else
+                        off.x = 0x10;
+                    off.y = -8;
+                    if (proj == 0)
+                        proj = shot9950(gB9950, off, 0x10);
+                } else {
+                    proj = 0;
+                    pose = 0;
+                    gB9950->f1FE = 0xD;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                break;
+            case 10:
+                gA9950->fC = 2;
+                gB9950->fC = 2;
+                pose = 3;
+                gB9950->f1FC_hi = rnd9950(0);
+                {
+                    struct Act9950 *b = gB9950;
+                    pl = &gPl9950[b->f1FC_hi];
+                    face9950(b, b->f1FC_hi);
+                }
+                side = 0;
+                if (gB9950->f8 > 3)
+                    side = 1;
+                tgt.x = pl->f148[0] >> 4;
+                tgt.y = (u32)(pl->f148[1] << 20) >> 20;
+                tcount = 0;
+                proj = 0;
+                end9950(0);
+                gB9950->f1FE = 0xB;
+                gB9950->f1FD = 2;
+                sub_08067C18();
+                break;
+            case 11:
+                gA9950->fC = 2;
+                gB9950->fC = 2;
+                pose = 3;
+                if (sfxFlag++ > 0x1E) {
+                    sfxFlag = 0;
+                    sfx9950(0x1A7);
+                }
+                off.x = 0;
+                off.y = -0x18;
+                if (proj == 0)
+                    proj = shot9950(gB9950, off, 0x28);
+                if (tcount < 0xB4) {
+                    tcount++;
+                    if (move9950(gB9950, tgt.x, tgt.y, 0x500, 0x18, 1) != 0)
+                        break;
+                    proj = 0;
+                    sfxFlag = 0;
+                    pose = 2;
+                    gB9950->f1FE = 1;
+                } else {
+                    proj = 0;
+                    sfxFlag = 0;
+                    pose = 2;
+                    gB9950->f1FE = 1;
+                }
+                gB9950->f1FD = 2;
+                sub_08067C18();
+                break;
+            case 1:
+                gA9950->fC = 0;
+                gB9950->fC = 0;
+                flash0 = 0;
+                pose = 2;
+                show9950(gA9950);
+                hide9950(gB9950);
+                if (cnt1++ > 0xB3) {
+                    proj = 0;
+                    pose = 0;
+                    hide9950(gA9950);
+                    hide9950(gB9950);
+                    cnt1 = 0;
+                    {
+                        struct Act9950 *b = gB9950;
+                        b->f4A = flash0;
+                        b->f5C = b->f1D6 = res->f6 * 3;
+                        { s32 t = res->f4 * 2; b->f5E = b->f1D4 = ((res->f4 << 3) + t) * 2; }
+                        spawn9950(gA9950->f0 + 4, 4, b->f1FC_hi, 4, 4);
+                    }
+                    gB9950->f1FE = 9;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                break;
+            case 9:
+                gA9950->fC = 2;
+                gB9950->fC = 0;
+                pose = 7;
+                if (sfxFlag == 0) {
+                    sfxFlag = 1;
+                    sfx9950(0x1A6);
+                }
+                if (gA9950->f6A == 1) {
+                    if (side == 0)
+                        off.x = -0x40;
+                    else
+                        off.x = 0x40;
+                    off.y = 0x10;
+                    if (proj == 0)
+                        proj = shot9950(gA9950, off, 0x30);
+                }
+                if (gA9950->f6E != 0) {
+                    proj = 0;
+                    sfxFlag = 0;
+                    pose = 0;
+                    gB9950->f1FE = 0xC;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                break;
+            case 12:
+                {
+                    struct Act9950 *g = gA9950;
+                    g->fC = 9;
+                    gB9950->fC = 0;
+                    pose = 0;
+                    g->f50++;
+                }
+                gB9950->f1FE = 0xE;
+                gB9950->f1FD = 2;
+                sub_08067C18();
+                break;
+            case 13:
+                gA9950->fC = 0;
+                gB9950->fC = 0;
+                proj = 0;
+                gB9950->f1FC_hi = rnd9950(0);
+                end9950(0);
+                if (alt++ & 1) {
+                    pose = 3;
+                    gB9950->f1FE = 0xA;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                } else {
+                    if (link9950() == 1) {
+                        s16 r = rand9950() % 3;
+                        if (r < 0)
+                            r = -r;
+                        gB9950->f200 = r;
+                        if (linkPick9950(gB9950->f200) == 1) {
+                            gB9950->f1FE = 4;
+                            gB9950->f1FD = 2;
+                            sub_08067C18();
+                        }
+                    } else {
+                        gB9950->f200 = 0xFF;
+                        gB9950->f1FE = 4;
+                        gB9950->f1FD = 2;
+                        sub_08067C18();
+                    }
+                    pose = 0;
+                }
+                break;
+            case 14:
+                gA9950->fC = 0;
+                gB9950->fC = 0;
+                pose = 0;
+                if (cnt14++ > 0x3C) {
+                    gB9950->f1FE = 0xD;
+                    gB9950->f1FD = 2;
+                    sub_08067C18();
+                }
+                break;
+            }
+            gA9950->f14 = gB9950->f14;
+            gA9950->f18 = gB9950->f18;
+        }
+        if (lastSide != side || lastPose != pose) {
+            lastSide = side;
+            lastPose = pose;
+            gA9950->f6C = 0;
+            gA9950->f6A = 0;
+            gB9950->f6C = 0;
+            gB9950->f6A = 0;
+            e = &gPose9950[pose][side];
+            gA9950->f68 = e->dirA;
+            animInit9950(&anim0, gAnimIds9950[e->animA], gTile9950, -1, 1);
+            gB9950->f68 = e->dirB;
+            animInit9950(&anim1, gAnimIds9950[e->animB], gTile9950, -1, 1);
+            anim0.f1C = gTile9950;
+            anim1.f1C = gTile9950;
+        }
+        if (bgFlag9950() & 1) {
+            prioA = bgPrio9950();
+            prioB = bgPrio9950();
+        } else {
+            prioA = prio9950(gA9950->f14 >> 8, gA9950->f18 >> 8, 0);
+            prioB = prio9950(gB9950->f14 >> 8, gB9950->f18 >> 8, 0);
+        }
+        loadPal9950(gTile9950 + 0x10, anim0.fC + res->fD6 * 32, 1);
+        loadPal9950(gTile9950 + 0x10, anim1.fC + res->fD6 * 32, 1);
+        if (sub_0800CD8C() == 0) {
+            e = &gPose9950[pose][side];
+            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, e->flag);
+            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, e->flag);
+        }
+        proj9950((s16)(gA9950->f14 >> 8), (s16)(gA9950->f18 >> 8), &sxA, &syA, 0, 0);
+        if (gB9950->f1FE == 1 || gB9950->f1FD == 1) {
+            if (side != 0)
+                sxA -= 9;
+            else
+                sxA += 9;
+            syA += 0x15;
+        }
+        proj9950((s16)(gB9950->f14 >> 8), (s16)(gB9950->f18 >> 8), &sxB, &syB, 0, 0);
+        if (flash1 != 0) {
+            u16 old = flash1;
+            flash1--;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                draw9950(sxA, syA, gA9950->f68, gA9950->f6A, prioA, &anim0.f1C, anim0.f8, anim0.f0);
+            if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                draw9950(sxB, syB, gB9950->f68, gB9950->f6A, prioB, &anim1.f1C, anim1.f8, anim1.f0);
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            draw9950(sxA, syA, gA9950->f68, gA9950->f6A, prioA, &anim0.f1C, anim0.f8, anim0.f0);
+            draw9950(sxB, syB, gB9950->f68, gB9950->f6A, prioB, &anim1.f1C, anim1.f8, anim1.f0);
+        }
+        {
+            s32 hh = gA9950->f4C;
+            if (hh != 0 && lastHit != hh) {
+                lastHit = hh;
+                hitTimer = 10;
+                shake = 0;
+            }
+        }
+        if (hitTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                dmg9950(gA9950, lastHit, shake);
+            if (hitTimer & 2)
+                shake--;
+            hitTimer--;
+        } else {
+            lastHit = 0;
+            gA9950->f4C = 0;
+        }
+        if (dead9950(gA9950) != 0)
+            done = 1;
+        sub_080003F0();
+        if (done)
+            break;
+    }
+
+    gMask9950 = 0;
+    gPl9950[sub_080020F4()].flags |= 1;
+    e = &gPose9950[2][side];
+    gA9950->f68 = e->dirA;
+    gB9950->f68 = e->dirB;
+    gA9950->f6A = 0;
+    gA9950->f6C = 0;
+    gB9950->f6A = 0;
+    gB9950->f6C = 0;
+    animInit9950(&anim0, gAnimIds9950[e->animA], gTile9950, -1, 1);
+    animInit9950(&anim1, gAnimIds9950[e->animB], gTile9950, -1, 1);
+    anim0.f1C = gTile9950;
+    anim1.f1C = gTile9950;
+    sub_080683CC();
+    free9950(gA9950->f2);
+    wait9950(0xDEADFACE);
+    while (ready9950(0xDEADFACE) == 0) {
+        gPl9950[sub_080020F4()].flags |= 1;
+        loadPal9950(gTile9950 + 0x10, anim0.fC + res->fD6 * 32, 1);
+        loadPal9950(gTile9950 + 0x10, anim1.fC + res->fD6 * 32, 1);
+        prioA = prio9950(gA9950->f14 >> 8, gA9950->f18 >> 8, 0);
+        prioB = prio9950(gB9950->f14 >> 8, gB9950->f18 >> 8, 0);
+        gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, 0);
+        gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, 0);
+        proj9950((s16)(gA9950->f14 >> 8), (s16)(gA9950->f18 >> 8), &sxA, &syA, 0, 0);
+        if (side != 0)
+            sxA -= 9;
+        else
+            sxA += 9;
+        syA += 0x15;
+        proj9950((s16)(gB9950->f14 >> 8), (s16)(gB9950->f18 >> 8), &sxB, &syB, 0, 0);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0
+            && (flash0-- & 1)) {
+            draw9950(sxA, syA, gA9950->f68, gA9950->f6A, prioA, &anim0.f1C, anim0.f8, anim0.f0);
+            draw9950(sxB, syB, gB9950->f68, gB9950->f6A, prioB, &anim1.f1C, anim1.f8, anim1.f0);
+        }
+        sub_080003F0();
+    }
+    next9950(0xDEADFACE);
+    while (sub_08058DB0() != 0) {
+        gPl9950[sub_080020F4()].flags |= 1;
+        loadPal9950(gTile9950 + 0x10, anim0.fC + res->fD6 * 32, 1);
+        loadPal9950(gTile9950 + 0x10, anim1.fC + res->fD6 * 32, 1);
+        prioA = prio9950(gA9950->f14 >> 8, gA9950->f18 >> 8, 0);
+        prioB = prio9950(gB9950->f14 >> 8, gB9950->f18 >> 8, 0);
+        gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, 0);
+        gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, 0);
+        proj9950((s16)(gA9950->f14 >> 8), (s16)(gA9950->f18 >> 8), &sxA, &syA, 0, 0);
+        if (side != 0)
+            sxA -= 9;
+        else
+            sxA += 9;
+        syA += 0x15;
+        proj9950((s16)(gB9950->f14 >> 8), (s16)(gB9950->f18 >> 8), &sxB, &syB, 0, 0);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0
+            && (flash0-- & 1)) {
+            draw9950(sxA, syA, gA9950->f68, gA9950->f6A, prioA, &anim0.f1C, anim0.f8, anim0.f0);
+            draw9950(sxB, syB, gB9950->f68, gB9950->f6A, prioB, &anim1.f1C, anim1.f8, anim1.f0);
+        }
+        sub_080003F0();
+    }
+    msgEnd9950(0);
+    gPl9950[sub_080020F4()].flags |= 1;
+    *(s32 *)(gState9950 + 0x720) = box9950(1, 0xE, 0x19, 2, 0x3C, 0x14009F);
+    while (boxDone9950(*(s32 *)(gState9950 + 0x720)) == 0) {
+        gPl9950[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            loadPal9950(gTile9950 + 0x10, anim0.fC + res->fD6 * 32, 1);
+            loadPal9950(gTile9950 + 0x10, anim1.fC + res->fD6 * 32, 1);
+            prioA = prio9950(gA9950->f14 >> 8, gA9950->f18 >> 8, 0);
+            prioB = prio9950(gB9950->f14 >> 8, gB9950->f18 >> 8, 0);
+            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, 0);
+            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, 0);
+            proj9950((s16)(gA9950->f14 >> 8), (s16)(gA9950->f18 >> 8), &sxA, &syA, 0, 0);
+            if (side != 0)
+                sxA -= 9;
+            else
+                sxA += 9;
+            syA += 0x15;
+            proj9950((s16)(gB9950->f14 >> 8), (s16)(gB9950->f18 >> 8), &sxB, &syB, 0, 0);
+            draw9950(sxA, syA, gA9950->f68, gA9950->f6A, prioA, &anim0.f1C, anim0.f8, anim0.f0);
+            draw9950(sxB, syB, gB9950->f68, gB9950->f6A, prioB, &anim1.f1C, anim1.f8, anim1.f0);
+        }
+        sub_080003F0();
+    }
+    gPl9950[sub_080020F4()].flags &= ~1;
+    bgm9950(0xD);
+    death9950(gA9950, gB9950, &anim0, &anim1, res->fD6, gTile9950, side);
+    if (!(gPl9950[sub_080020F4()].flags & 0x2000) && gA9950->f5A != 0) {
+        h = dropFx9950(gData9950, res);
+        shake = 0x1D;
+        do {
+            gB9950->f18 -= 0x20;
+            fall9950(gB9950, h);
+            sub_080003F0();
+            shake--;
+        } while (shake != -1);
+        dropEnd9950(gData9950, h);
+    }
+    shake = 0x6F;
+    do {
+        sub_080003F0();
+        shake--;
+    } while (shake != -1);
+    sub_08067C18();
+    while (sub_08067C08() == 0)
+        sub_080003F0();
+    sub_08067BF8();
+    sub_08056E24();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9950);
+#endif
 struct P112A { u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags; u8 p34[0x34]; u8 unk68; u8 p69[0x1f]; u16 unk88; u8 p8a[6]; s32 unk90; u8 p94[0x1c]; u16 unkB0; u8 pb2[0x16]; u16 unkC8,unkCA,unkCC; u8 pce[0x16]; u32 unkE4[0x1a]; };
 struct O112A { u16 unk0; u8 p2[10]; u16 unkC; u8 pe[6]; s32 unk14,unk18; u8 p1c[0x34]; s32 unk50; };
 extern struct P112A players112A[] asm("gUnk_03003CE0");
