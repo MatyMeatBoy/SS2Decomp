@@ -1715,9 +1715,9 @@ void sub_080AC844_v(struct ActC844 *a)
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
 #endif
 #ifdef NONMATCHING
-// sub_080AD534: exact control flow, ~52 diff lines: register choice in the init (slot/base
-// pointers r4/r5 vs ROM r5/r6, idx+1 not reusing the idx copy), x*20 synthesis (ROM (x*10)*2),
-// one literal-load order (&pos[idx]).
+// sub_080AD534: exact control flow, ~19 diff lines: register choice in the init (slot/base
+// pointers r4/r5 vs ROM r5/r6, idx+1 not reusing the idx copy), pos-walk block (ROM keeps
+// the pos base in r5 and p in r6; draft reloads the literal), one literal-load order (&pos[idx]).
 struct ResAD534 { u8 p0[4]; s16 f4, f6; };
 struct ActorAD534 {
     u16 f0, f2;
@@ -1822,7 +1822,7 @@ void sub_080AD534_v(u32 idx)
     actorsAD534[idx]->f2 = actorsAD534[idx]->f0 + 4;
     actorsAD534[idx]->f50 = 1;
     { struct ActorAD534 *q = actorsAD534[idx]; q->f5C = q->f1D6 = res->f6 * 3; }
-    { struct ActorAD534 *q = actorsAD534[idx]; q->f5E = q->f1D4 = res->f4 * 20; }
+    { struct ActorAD534 *q = actorsAD534[idx]; s32 t = res->f4 * 2; q->f5E = q->f1D4 = ((res->f4 << 3) + t) * 2; }
     actorsAD534[idx]->f1FD = 0;
     actorsAD534[idx]->fC = 0;
     actorsAD534[idx]->f1FC_lo = actorsAD534[idx]->f0;
