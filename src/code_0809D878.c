@@ -1913,7 +1913,8 @@ void sub_080A0B44(void)
             if (state == 0 || state == 1) {
                 sub_08000AF0(variantA0B44 + 16, sprite1.palette + (*palette << 5), 1);
                 {
-                    struct ActorA0B44 *a = *ref;
+                    register struct ActorA0B44 **r asm("r2") = ref;
+                    struct ActorA0B44 *a = *r;
                     screenA0B44((s32)((u32)a->x << 8) >> 16, (s32)((u32)a->y << 8) >> 16, &screenX, &screenY, zero, zero);
                 }
                 object = drawA0B44(screenX, 0x9F, 4, frame1, 2, sprite1.payload, sprite1.data, sprite1.base);
