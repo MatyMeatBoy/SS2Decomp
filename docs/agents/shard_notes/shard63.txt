@@ -15,3 +15,14 @@ nov03-w3 sub_080605D0 / sub_08060E44 (HUD slide-in loops, siblings): clean rewri
   F034+0x20; E44 `pos.x + 0xF0 - (7-slide)*8` gets reassociated into `x - ((7-slide)*8 - 0xF0)`
   (ROM: adds #0xF0 then subs), and `end - (k + 1)` into `(end - 1) - k` (a temp for k+1 fixes that
   but breaks other parts); register allocation.
+
+w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the by-value `pos` struct in
+  its stack home (`str r0,[sp,#0x20]; str r1,[sp,#0x24]`, frame 0x28, every pos use is an ldr from there);
+  ours keeps pos in r6/r7 (frame 0x24). Making pos addressable fixes the frame/prologue/stores:
+  `(void)&pos;` at the top (or `*&pos` in the drawIcon63 call) -> size 812, frame 0x28, pos reads match.
+  But then the register assignment shifts: ROM uses 3 high regs (item r5, flags sl, group r6, frame r7,
+  alternate r8, overlay r9, icon r4 in case 2); ours only r8/r9 (item r4, group r5, overlay r6, flags r9),
+  nmscore 203 (c2 `*&pos`: 167). A `struct IconPosition63 *pp = &pos` local gets the ROM's r5..r9 almost
+  right except pp itself takes r6 (187). 16 random local declaration orders: no effect.
+  Next idea: case 2 in the ROM keeps `resource` (r1) and `icon = resource + 0xBE` (r4) apart and reuses the
+  item register for `overlay = item[7]`; try one shared `descriptor` variable for all cases + addressable pos.
