@@ -15,3 +15,19 @@ sub_08073EE8 / sub_0807414C: inline must take `u32 a` (draft truncates
   index; args of the inline seem expanded right-to-left (b before a). Passing the
   table as an inline param, bitfield dir, const/sized decls did not reproduce it.
   The `(s16)angle < -8` arm wants `if ((s16)angle < -8) angle += 16;`.
+
+2026-11-03 codex-solo, base 3c1e16de:
+  sub_08073EE8: retain the direction table in r2 before decoding player->pos in
+  dir2EE8. This reproduces the enemy-loop ROM sequence (table load first, offset
+  constant in r3) without changing function size: original/candidate 610 bytes.
+  Real-module nmscore 43 -> 38; strict nmdiff remains NO MATCH. No matching credit.
+  Remaining: player-loop width/range spill reload registers and player-return
+  address calculation. Enemy-loop instruction order now agrees with the ROM.
+  Rejected: plain unconstrained table pointer (52), fixed r1 return offset (48,
+  exact return but rotates enemy-loop scratch registers), plain unknown return
+  offset (37 but adds a move), forced width r2 (51), removing diffEE8 t bindings
+  (42/51). Kept only the table-load improvement; other candidates are private.
+  Observed role: select the nearest eligible opposing player/enemy within an
+  angular cone and distance limit; returns entity ID or 0xFF. Proposed name:
+  FindNearestTargetInCone (proposal only). Evidence: canonical ASM
+  sub_08073EE8 at base 3c1e16de; team, state/HP/alive filters, ArcTan2 and Sqrt.

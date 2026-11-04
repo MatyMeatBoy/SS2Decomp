@@ -63,7 +63,13 @@ extern struct Ene076EE8 *enemies076EE8 asm("gUnk_030056F4");
 extern u16 directions076EE8[] asm("gUnk_0849E730");
 extern u32 active076EE8 asm("gUnk_030056FC");
 static inline u16 dirEE8(struct Pos076EE8 **pos) { return directions076EE8[((u8 *)*pos)[3] >> 4]; }
-static inline u16 dir2EE8(struct Ply076EE8 *p) { return directions076EE8[((u8 *)p->pos)[3] >> 4]; }
+static inline u16 dir2EE8(struct Ply076EE8 *p)
+{
+    register u16 *table asm("r2") = directions076EE8;
+    /* Keep the table load ahead of the position-pointer decode, as in the ROM. */
+    asm("" : "+r"(table));
+    return table[((u8 *)p->pos)[3] >> 4];
+}
 static inline u32 angEE8(s32 dx, s32 dy) { return (u16)ArcTan2(dx, dy) + 0x400; }
 static inline s32 diffEE8(u32 a, u16 b) {
  u16 angle = (a >> 12) - b; s32 d;
