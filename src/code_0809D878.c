@@ -1476,8 +1476,8 @@ void sub_0809FB6C(void *input)
                 break;
             case 1:
                 actor->fC=0;
-                value=(u8)sub_08068490();actor->f200=value;
-                if(value!=0xFF) {
+                actor->f200=sub_08068490();
+                if(actor->f200!=0xFF) {
                     actor->f1FE=5;actor->f1FD=1;sub_08067C18();
                 }
                 break;
@@ -1495,10 +1495,8 @@ void sub_0809FB6C(void *input)
                 } else {
                     callbackDone=0;
                     if(sub_08002204()==1) {
-                        randomValue=(s16)random9FB6C();
-                        remainder=(s16)(randomValue%4);
-                        if(remainder<0) remainder=-remainder;
-                        actor->f200=remainder;
+                        randomValue=random9FB6C();
+                        actor->f200=({ s16 v = randomValue % 4; v < 0 ? -v : v; });
                         if(sub_08068450(actor->f200)==1) {
                             actor->f1FE=2;actor->f1FD=1;sub_08067C18();
                         }
