@@ -1487,7 +1487,7 @@ void sub_0809FB6C(void *input)
                 }
                 break;
             case 3:
-                actor->fC=1;actor->f50++;
+                { u16 st=1; actor->fC=st; } actor->f50++;
                 if(rounds>1) {
                     rounds=0;actor->f1FE=7;actor->f1FD=1;
                     sub_08067C18();sub_080A11B4();
