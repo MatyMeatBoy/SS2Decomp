@@ -2118,190 +2118,112 @@ contactDone:
     task[2] = zero;
 }
 #ifdef NONMATCHING
-struct T109P6BE8 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x; s32 y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 fE4[26]; };
-struct T109Obj6BE8 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x; s32 y; u8 p1C[0x34]; u32 serial; };
-extern struct T109P6BE8 t109P6BE8[] asm("gUnk_03003CE0");
-extern struct T109Obj6BE8 *t109O6BE8 asm("gUnk_03000400");
-extern u8 gUnk_03000406;
-extern s32 t109Calc6BE8(struct T109Obj6BE8 *, struct T109P6BE8 *) asm("sub_0801ED8C");
-extern u16 t109Index6BE8 asm("gUnk_03000404");
-extern void t109Init6BE8(void *,s32,u16,s32,s32) asm("sub_08065158");
-extern void t109Screen6BE8(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
-extern void t109Draw6BE8(s16,s16,s32,u16,s32,void *,s32,s32) asm("sub_08007870");
-extern void t109Anim6BE8(void *,s32,u16 *,u16 *,s32) asm("sub_08065370");
-extern u32 t109Serial6BE8[] asm("gUnk_03003DC4");
-extern void t109Run6BE8(u16) asm("sub_080A6BE8");
-struct T109Particle6BE8 { s32 x,y,speed; u16 frame,tick; u8 direction,timer,hit,delay; };
-void t109Run6BE8(u16 arg0) {
-    u8 sprite[0x34];
-    struct T109Particle6BE8 particles[4];
-    s16 outX,outY;
-    u8 *resource;
-    struct T109Particle6BE8 *pHit;
-    u8 *ybase, *sbase;
-    s32 nextRemaining;
-    u8 *xbase;
+struct Pl6BE8 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[26]; };
+struct Obj6BE8 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 serial; };
+struct Anim6BE8 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
+struct Part6BE8 { s32 x, y, speed; u16 frame, tick; u8 dir, timer, hit, delay; };
+extern struct Pl6BE8 gPl6BE8[] asm("gUnk_03003CE0");
+extern struct Obj6BE8 *gObj6BE8 asm("gUnk_03000400");
+extern u16 gTile6BE8 asm("gUnk_03000404");
+extern s16 gSin6BE8[] asm("gUnk_080B9704");
+extern u16 gAng6BE8[] asm("gUnk_085186DC");
+u16 calc6BE8(void *, void *) asm("sub_0801ED8C");
+void animInit6BE8(void *, s32, s32, s32, s32) asm("sub_08065158");
+void proj6BE8(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void draw6BE8(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
+void anim6BE8(void *, s32, u16 *, u16 *, s32) asm("sub_08065370");
+void loadPal6BE8(u32, void *, u32) asm("sub_08000AF0");
+void sub_080A6BE8_v(u16 cw) asm("sub_080A6BE8");
+void sub_080A6BE8_v(u16 cw)
+{
+    struct Anim6BE8 anim;
+    struct Part6BE8 p[4];
+    s16 sx, sy;
+    u8 *res;
+    struct Part6BE8 *ph;
     s32 spacing;
-    u8 index;
-    s32 initOffset;
-    u16 remaining;
-    struct T109Particle6BE8 *pInit, *pDraw;
-    s32 modeResult;
-    struct T109Particle6BE8 *pDelay, *pDirection, *pX;
-    s32 *destY, *destY2, *speedPtr;
-    s32 productY, productX, xOffset;
-    s32 initDelay;
-    struct T109Particle6BE8 *pBranch;
-    s32 zero;
-    u16 dx;
-    s16 x,y;
-    s32 i, amount, value;
-    struct T109P6BE8 *dst;
-    struct T109Obj6BE8 *obj;
-    s32 second, yy;
-    s32 direction;
-    s32 offset;
-    s32 drawOffset, hitOffset;
-    s32 index4;
-    u8 *initBase;
-    resource = (u8 *)t109O6BE8 + 0x204;
-    t109Init6BE8(sprite,0x5000F,t109Index6BE8,-1,1);
-    sprite[0x1C] = t109Index6BE8;
-    modeResult = sub_0800CE30();
-    spacing = 16;
-    if (modeResult == 1) spacing = 8;
-    index = 0;
-    initBase = (u8 *)&particles[0].x;
-    xbase = initBase;
-    sbase = (u8 *)&particles[0].speed;
-    ybase = (u8 *)&particles[0].y;
-    do {
-        if (arg0 != 0) {
-            pBranch = (struct T109Particle6BE8 *)(initBase+index*20);
-            pBranch->direction = index+4;
-            pBranch->x = t109O6BE8->x + 0x800;
-            initDelay = (3-index)*spacing;
-        } else {
-            pBranch = (struct T109Particle6BE8 *)(initBase+index*20);
-            pBranch->direction = index+1;
-            pBranch->x = t109O6BE8->x - 0x800;
-            initDelay = index*spacing;
-        }
-        pBranch->delay = initDelay;
-        initOffset = index * 20;
-        pInit = (struct T109Particle6BE8 *)(initBase + initOffset);
-        pInit->timer = 0;
-        *(s32 *)(sbase+initOffset) = 128;
-        *(s32 *)(ybase+initOffset) = t109O6BE8->y;
-        pInit->tick = 0;
-        pInit->frame = 0;
-        pInit->hit = 0;
-        index++;
-    } while (index <= 3);
-    remaining = 240;
-outer:
-        index = 0;
-        nextRemaining = remaining - 1;
-inner:
-            index4 = index*4;
-            pDelay = (struct T109Particle6BE8 *)(xbase+index*20);
-            if (pDelay->delay != 0) {
-                if (--pDelay->delay == 0) sub_0805865C(0x1A2);
-            } else {
-                if (pDelay->timer++ > 8) {
-                    pDelay->timer = 0;
-                    if (arg0 != 0) {
-                        if (pDelay->direction != 7) {
-                            direction = pDelay->direction+1;
-                            pDelay->direction = direction;
-                        } else direction = 0;
-                    } else {
-                        if (pDelay->direction != 0) {
-                            direction = pDelay->direction-1;
-                            pDelay->direction = direction;
-                        } else direction = 7;
-                    }
-                    pDelay->direction = direction;
-                }
-                offset = index*20;
-                pDirection = (struct T109Particle6BE8 *)(xbase+offset);
-                if (pDirection->direction == 0 || pDirection->direction == 4) {
-                    destY = (s32 *)(ybase+offset);
-                    *destY += gUnk_080B9704[gUnk_085186DC[pDirection->direction]] * *(s32 *)(sbase+offset) / 304;
-                } else {
-                    destY2 = (s32 *)(ybase+offset);
-                    productY = gUnk_080B9704[gUnk_085186DC[pDirection->direction]] * *(s32 *)(sbase+offset);
-                    if (productY < 0) productY += 255;
-                    *destY2 += productY >> 8;
-                }
-                xOffset = index*20;
-                pX = (struct T109Particle6BE8 *)(xbase+xOffset);
-                speedPtr = (s32 *)(sbase+xOffset);
-                productX = *speedPtr * gUnk_080B9704[gUnk_085186DC[pX->direction]+64];
-                if (productX < 0) productX += 255;
-                pX->x += productX >> 8;
-                *speedPtr = (*speedPtr+32)-index;
-            }
-            drawOffset = (index4+index)*4;
-            pDraw = (struct T109Particle6BE8 *)(xbase + drawOffset);
-            if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
-                zero = sub_0800CD34();
-                if (zero == 0) {
-                    sub_08000AF0(t109Index6BE8+16,*(u8 **)(sprite+0xC)+(*(u16 *)(resource+0xD6)<<5),1);
-                    t109Screen6BE8((s32)(pDraw->x<<8)>>16,(s32)(*(s32 *)(ybase+drawOffset)<<8)>>16,&outX,&outY,zero,zero);
-                    t109Anim6BE8(sprite,pDraw->direction+5,&pDraw->frame,&pDraw->tick,1);
-                    t109Draw6BE8(outX,outY,pDraw->direction+5,pDraw->frame,zero,sprite+0x1C,*(s32 *)(sprite+8),*(s32 *)sprite);
-                }
-            }
-            hitOffset = (index4+index)*4;
-            pHit = (struct T109Particle6BE8 *)(xbase + hitOffset);
-            if (pHit->hit != 0) goto nextParticle;
-            dx = (pHit->x >> 8) - (t109P6BE8[sub_080020F4()].x >> 8);
-            x = dx;
-            second = sub_080020F4();
-            yy = (*(s32 *)(ybase+hitOffset) >> 8) + 12;
-            y = yy - (t109P6BE8[second].y >> 8);
-            if ((u16)Sqrt(x*x+y*y) > 15) goto nextParticle;
-            if (sub_0800CDF8() != 0) goto nextParticle;
-            if (sub_0800CD8C() != 0) goto nextParticle;
-            if (sub_0800CCCC() != 0) goto nextParticle;
-            if (t109O6BE8->fC == 11) goto nextParticle;
-            if (t109P6BE8[sub_080020F4()].flags & 0x2000) goto nextParticle;
-            if (t109P6BE8[sub_080020F4()].f68 == 0) goto nextParticle;
-            if (t109P6BE8[sub_080020F4()].state == 14) goto nextParticle;
-            if (t109P6BE8[sub_080020F4()].state == 11) goto nextParticle;
-            if (t109P6BE8[sub_080020F4()].state == 12) goto nextParticle;
-            if (t109P6BE8[sub_080020F4()].fE4[t109O6BE8->id] == t109O6BE8->serial) goto nextParticle;
-            t109P6BE8[sub_080020F4()].state = 10;
-            t109P6BE8[sub_080020F4()].fB0 = 0xFFFE;
-            i = sub_080020F4();
-            obj = t109O6BE8;
-            amount = t109Calc6BE8(obj, &t109P6BE8[sub_080020F4()]);
-            dst = &t109P6BE8[i];
-            value = dst->f88;
-            dst->f88 = amount + value;
-            {
-                s32 player = sub_080020F4();
-                register struct T109Obj6BE8 *p asm("r2");
-                register struct T109Obj6BE8 **a asm("r3") = &t109O6BE8;
-                register u32 *destination asm("r1");
-                register u32 oldSerial asm("r0");
-                asm("" : "+r"(a));
-                p = *a;
-                destination = &t109P6BE8[player].fE4[p->id];
-                oldSerial = p->serial;
-                *destination = oldSerial;
-                p->serial = oldSerial + 1;
-            }
+    u8 i;
+    u16 n;
+    u16 dx, dy;
+    u16 dist;
+    s32 j;
+    s32 z;
+    struct Obj6BE8 *o;
 
-            pHit->hit = 1;
-nextParticle:
-            index++;
-        if (index <= 3) goto inner;
+    res = (u8 *)gObj6BE8 + 0x204;
+    animInit6BE8(&anim, 0x5000F, gTile6BE8, -1, 1);
+    anim.f1C = gTile6BE8;
+    spacing = (sub_0800CE30() == 1) ? 8 : 16;
+    for (i = 0; i <= 3; i++) {
+        if (cw != 0) {
+            p[i].dir = i + 4;
+            p[i].x = gObj6BE8->x + 0x800;
+            p[i].delay = (3 - i) * spacing;
+        } else {
+            p[i].dir = i + 1;
+            p[i].x = gObj6BE8->x - 0x800;
+            p[i].delay = i * spacing;
+        }
+        p[i].timer = 0;
+        p[i].speed = 0x80;
+        p[i].y = gObj6BE8->y;
+        p[i].tick = 0;
+        p[i].frame = 0;
+        p[i].hit = 0;
+    }
+    n = 0xF0;
+    do {
+        for (i = 0; i <= 3; i++) {
+            if (p[i].delay != 0) {
+                if (--p[i].delay == 0)
+                    sub_0805865C(0x1A2);
+            } else {
+                if (p[i].timer++ > 8) {
+                    p[i].timer = 0;
+                    if (cw != 0)
+                        p[i].dir = (p[i].dir == 7) ? 0 : ++p[i].dir;
+                    else
+                        p[i].dir = (p[i].dir == 0) ? 7 : --p[i].dir;
+                }
+                if (p[i].dir == 0 || p[i].dir == 4)
+                    p[i].y += gSin6BE8[gAng6BE8[p[i].dir]] * p[i].speed / 304;
+                else
+                    p[i].y += gSin6BE8[gAng6BE8[p[i].dir]] * p[i].speed / 256;
+                p[i].x += gSin6BE8[gAng6BE8[p[i].dir] + 0x40] * p[i].speed / 256;
+                { s32 t = p[i].speed + 0x20; p[i].speed = t - i; }
+            }
+            if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {
+                loadPal6BE8(gTile6BE8 + 0x10, anim.fC + *(u16 *)(res + 0xD6) * 32, 1);
+                proj6BE8((s16)(p[i].x >> 8), (s16)(p[i].y >> 8), &sx, &sy, z, z);
+                anim6BE8(&anim, p[i].dir + 5, &p[i].frame, &p[i].tick, 1);
+                draw6BE8(sx, sy, p[i].dir + 5, p[i].frame, z, &anim.f1C, anim.f8, anim.f0);
+            }
+            ph = &p[i];
+            if (ph->hit == 0) {
+                dx = (ph->x >> 8) - (gPl6BE8[sub_080020F4()].x >> 8);
+                dy = (p[i].y >> 8) + 12 - (gPl6BE8[sub_080020F4()].y >> 8);
+                dist = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+                if (dist <= 15 && !sub_0800CDF8() && !sub_0800CD8C() && !sub_0800CCCC()
+                    && gObj6BE8->fC != 11
+                    && !(gPl6BE8[sub_080020F4()].flags & 0x2000)
+                    && gPl6BE8[sub_080020F4()].f68 != 0
+                    && gPl6BE8[sub_080020F4()].state != 14
+                    && gPl6BE8[sub_080020F4()].state != 11
+                    && gPl6BE8[sub_080020F4()].state != 12
+                    && gPl6BE8[sub_080020F4()].hitIds[gObj6BE8->id] != gObj6BE8->serial) {
+                    gPl6BE8[sub_080020F4()].state = 10;
+                    gPl6BE8[sub_080020F4()].fB0 = 0xFFFE;
+                    j = sub_080020F4();
+                    o = gObj6BE8;
+                    gPl6BE8[j].f88 += calc6BE8(o, &gPl6BE8[sub_080020F4()]);
+                    gPl6BE8[sub_080020F4()].hitIds[gObj6BE8->id] = gObj6BE8->serial++;
+                    ph->hit = 1;
+                }
+            }
+        }
         sub_080003F0();
-        remaining = (u16)nextRemaining;
-        if (remaining != 0xFFFF) goto outer;
-    *(s32 *)((u8 *)sub_0800048C()+8) = 0;
+    } while (--n != 0xFFFF);
+    *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A6BE8);
