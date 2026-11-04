@@ -229,7 +229,7 @@ extern struct Map9950 gMap9950 asm("gUnk_03003170");
 extern struct Pl9950 gPl9950[] asm("gUnk_03003CE0");
 extern u8 gHist9950[] asm("gUnk_03003DC4");
 extern u8 gImg9950[] asm("gUnk_084AA970");
-extern struct Pose9950 gPose9950[][2] asm("gUnk_08518898");
+extern u8 gPose9950[] asm("gUnk_08518898");
 extern u32 gAnimIds9950[] asm("gUnk_085188E8");
 extern void *gData9950 asm("gUnk_030034E0");
 extern u8 *gState9950 asm("gUnk_03005CF4");
@@ -308,7 +308,7 @@ void sub_080A9950_v(struct Act9950 *a)
     s32 h;
     struct Pl9950 *pl;
     u8 *base;
-    struct Pose9950 *e;
+    s32 idx;
 
     gB9950 = a;
     gMask9950 |= 2;
@@ -371,14 +371,14 @@ void sub_080A9950_v(struct Act9950 *a)
     lastSide = 0xFF;
     pose = 0;
     lastPose = 0xFF;
-    gA9950->f68 = gPose9950[0][0].dirA;
-    gB9950->f68 = gPose9950[0][0].dirB;
+    gA9950->f68 = gPose9950[1];
+    gB9950->f68 = gPose9950[3];
     gA9950->f6A = side;
     gA9950->f6C = side;
     gB9950->f6A = side;
     gB9950->f6C = side;
-    animInit9950(&anim0, gAnimIds9950[gPose9950[0][0].animA], gTile9950, -1, 1);
-    animInit9950(&anim1, gAnimIds9950[gPose9950[0][0].animB], gTile9950, -1, 1);
+    animInit9950(&anim0, gAnimIds9950[gPose9950[0]], gTile9950, -1, 1);
+    animInit9950(&anim1, gAnimIds9950[gPose9950[2]], gTile9950, -1, 1);
     anim0.f1C = gTile9950;
     anim1.f1C = gTile9950;
     gA9950->f1FC_lo = gA9950->f0;
@@ -460,9 +460,12 @@ void sub_080A9950_v(struct Act9950 *a)
                     gB9950->f1FD = 2;
                     sub_08067C18();
                 }
-                side = 0;
-                if (gB9950->f8 > 3)
-                    side = 1;
+                {
+                    s32 t = 0;
+                    if (gB9950->f8 > 3)
+                        t = 1;
+                    side = t;
+                }
                 break;
             case 6:
                 gA9950->fC = 0;
@@ -546,9 +549,12 @@ void sub_080A9950_v(struct Act9950 *a)
                     pl = &gPl9950[b->f1FC_hi];
                     face9950(b, b->f1FC_hi);
                 }
-                side = 0;
-                if (gB9950->f8 > 3)
-                    side = 1;
+                {
+                    s32 t = 0;
+                    if (gB9950->f8 > 3)
+                        t = 1;
+                    side = t;
+                }
                 tgt.x = pl->f148[0] >> 4;
                 tgt.y = (u32)(pl->f148[1] << 20) >> 20;
                 tcount = 0;
@@ -663,7 +669,7 @@ void sub_080A9950_v(struct Act9950 *a)
                     sub_08067C18();
                 } else {
                     if (link9950() == 1) {
-                        s16 r = rand9950() % 3;
+                        s32 r = (s16)(rand9950() % 3);
                         if (r < 0)
                             r = -r;
                         gB9950->f200 = r;
@@ -702,11 +708,11 @@ void sub_080A9950_v(struct Act9950 *a)
             gA9950->f6A = 0;
             gB9950->f6C = 0;
             gB9950->f6A = 0;
-            e = &gPose9950[pose][side];
-            gA9950->f68 = e->dirA;
-            animInit9950(&anim0, gAnimIds9950[e->animA], gTile9950, -1, 1);
-            gB9950->f68 = e->dirB;
-            animInit9950(&anim1, gAnimIds9950[e->animB], gTile9950, -1, 1);
+            idx = side * 5 + pose * 10;
+            gA9950->f68 = gPose9950[idx + 1];
+            animInit9950(&anim0, gAnimIds9950[gPose9950[idx]], gTile9950, -1, 1);
+            gB9950->f68 = gPose9950[idx + 3];
+            animInit9950(&anim1, gAnimIds9950[gPose9950[idx + 2]], gTile9950, -1, 1);
             anim0.f1C = gTile9950;
             anim1.f1C = gTile9950;
         }
@@ -720,9 +726,9 @@ void sub_080A9950_v(struct Act9950 *a)
         loadPal9950(gTile9950 + 0x10, anim0.fC + res->fD6 * 32, 1);
         loadPal9950(gTile9950 + 0x10, anim1.fC + res->fD6 * 32, 1);
         if (sub_0800CD8C() == 0) {
-            e = &gPose9950[pose][side];
-            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, e->flag);
-            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, e->flag);
+            idx = side * 5 + pose * 10;
+            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, gPose9950[idx + 4]);
+            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, gPose9950[idx + 4]);
         }
         proj9950((s16)(gA9950->f14 >> 8), (s16)(gA9950->f18 >> 8), &sxA, &syA, 0, 0);
         if (gB9950->f1FE == 1 || gB9950->f1FD == 1) {
@@ -771,15 +777,15 @@ void sub_080A9950_v(struct Act9950 *a)
 
     gMask9950 = 0;
     gPl9950[sub_080020F4()].flags |= 1;
-    e = &gPose9950[2][side];
-    gA9950->f68 = e->dirA;
-    gB9950->f68 = e->dirB;
+    idx = side * 5 + 20;
+    gA9950->f68 = gPose9950[idx + 1];
+    gB9950->f68 = gPose9950[idx + 3];
     gA9950->f6A = 0;
     gA9950->f6C = 0;
     gB9950->f6A = 0;
     gB9950->f6C = 0;
-    animInit9950(&anim0, gAnimIds9950[e->animA], gTile9950, -1, 1);
-    animInit9950(&anim1, gAnimIds9950[e->animB], gTile9950, -1, 1);
+    animInit9950(&anim0, gAnimIds9950[gPose9950[idx]], gTile9950, -1, 1);
+    animInit9950(&anim1, gAnimIds9950[gPose9950[idx + 2]], gTile9950, -1, 1);
     anim0.f1C = gTile9950;
     anim1.f1C = gTile9950;
     sub_080683CC();
