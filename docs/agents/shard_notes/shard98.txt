@@ -1,10 +1,10 @@
 
-nov03-w4 (sub_08094638, ~25 min): slot order is ascending pseudo number (inner-block user vars get
-  the lowest slots, loop-created ones follow). ROM regno order: b.payload copy, b.payload, &ind[1],
-  &ind[2], &fr[0], x, &fr[1], y, &fr[2], a.payload. Draft order: x, y (screen locals), copy,
-  &ind[2], &fr[0], &fr[1], &fr[2], a.payload, b.payload, &ind[1]. With `base.x >> 8` inside the
-  loop: copy, a.payload, b.payload, x, y, &ind[1], &ind[2], &fr[0..2] (43 lines). Explicit pointer
-  locals declared in ROM order and assigned before the init loop: wrong frame (692 bytes, 291 lines);
-  the ROM really uses loop.c-hoisted pseudos, so the order comes from the loop movables.
-/ init loop (frames before
+w7 (2026-11-04), sub_08094638 (34 diff lines, spill-slot order only). ROM slots: 0xa8 b.payload copy (made
+  just before the do-loop), 0xac &b.payload, 0xb0 &ind[1], 0xb4 &ind[2], 0xb8 &fr[0], 0xbc x, 0xc0 &fr[1],
+  0xc4 y, 0xc8 &fr[2], 0xcc &a.payload. ROM computes them (fr0, ind1, fr1, bpay, ind2, fr2, apay) before the
+  init loop = gcse PRE insertion in bb0, so regno order is likely PRE's expression order, not source order.
+  Tried (all worse): init loop as indices[i]/frames[i] (both orders, 42-58), frame/index pointer order (54),
+  scalar sx/sy (194-212), base.x>>8 at each use (42), no register-asm table temp in 3 forms (50).
+  Permuter 5 min x2 jobs (randomization): no improvement.
+s before
   indices), or a struct holding indices+frames.
