@@ -1,0 +1,89 @@
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -594,6 +594,7 @@
+ /* Use TST instruction instead of AND+CMP for bitwise flag tests.  */
+ int flag_tst = 0;
+ int flag_thumb_cc_reuse = 0;
++int flag_thumb_label_cc_reuse = 0;
+ 
+ typedef struct
+ {
+@@ -743,6 +744,8 @@
+     {"prologue-bugfix", &flag_prologue_bugfix, 1,
+      "Prevent unnecessary saving of the lr register to the stack"},
+ #endif
++    {"thumb-label-cc-reuse", &flag_thumb_label_cc_reuse, 1,
++     "Reuse full Thumb comparisons across proven single-predecessor labels"},
+     {"thumb-cc-reuse", &flag_thumb_cc_reuse, 1,
+      "Reuse proven Thumb comparison flags through stores and branches"},
+     {"tst", &flag_tst, 1,
+--- a/gcc/thumb.h
++++ b/gcc/thumb.h
+@@ -1108,3 +1108,7 @@
+ 
+ extern int flag_thumb_cc_reuse;
+ extern void thumb_sdk_notice_update_cc ();
++
++extern int flag_thumb_label_cc_reuse;
++extern void thumb_sdk_label_cc ();
++#define SDK_LABEL_CC_REUSE(LABEL) thumb_sdk_label_cc (LABEL)
+--- a/gcc/final.c
++++ b/gcc/final.c
+@@ -1462,6 +1462,9 @@
+ 	}
+ #ifdef HAVE_cc0
+       CC_STATUS_INIT;
++#ifdef SDK_LABEL_CC_REUSE
++      SDK_LABEL_CC_REUSE (insn);
++#endif
+       /* If this label is reached from only one place, set the condition
+ 	 codes from the instruction just before the branch.  */
+ 
+--- a/gcc/thumb.c
++++ b/gcc/thumb.c
+@@ -1691,3 +1691,45 @@
+     CC_STATUS_INIT;
+     thumb_cc_reuse_zero_only = 0;
+ }
++
++/* Replay only a genuine full low-register CMP at a unique forward taken
++   edge. Never promote implicit zero-test facts whose C/V may be stale. */
++void
++thumb_sdk_label_cc(rtx label)
++{
++    rtx jump, barrier, prev, p, source, left, right, condition, yes, no, scan;
++    int budget = 256;
++    if (!flag_thumb_cc_reuse || !flag_thumb_label_cc_reuse
++        || !optimize || LABEL_NUSES(label) != 1) return;
++    barrier = prev_nonnote_insn(label);
++    jump = LABEL_REFS(label);
++    if (!barrier || GET_CODE(barrier) != BARRIER
++        || !jump || GET_CODE(jump) != JUMP_INSN) return;
++    p = PATTERN(jump);
++    if (GET_CODE(p) != SET || SET_DEST(p) != pc_rtx) return;
++    source = SET_SRC(p);
++    if (GET_CODE(source) != IF_THEN_ELSE) return;
++    condition = XEXP(source, 0);
++    if (GET_RTX_CLASS(GET_CODE(condition)) != '<'
++        || XEXP(condition, 0) != cc0_rtx
++        || XEXP(condition, 1) != const0_rtx) return;
++    yes = XEXP(source, 1); no = XEXP(source, 2);
++    if (!((GET_CODE(yes) == LABEL_REF && XEXP(yes, 0) == label && no == pc_rtx)
++        || (yes == pc_rtx && GET_CODE(no) == LABEL_REF && XEXP(no, 0) == label))) return;
++    for (scan = NEXT_INSN(jump); scan && scan != label && budget-- > 0;
++         scan = NEXT_INSN(scan)) ;
++    if (scan != label) return;
++    prev = prev_nonnote_insn(jump);
++    if (!prev || GET_CODE(prev) != INSN) return;
++    p = PATTERN(prev);
++    if (GET_CODE(p) != SET || SET_DEST(p) != cc0_rtx) return;
++    source = SET_SRC(p);
++    if (GET_CODE(source) != COMPARE) return;
++    left = XEXP(source, 0); right = XEXP(source, 1);
++    if (GET_CODE(left) != REG || GET_MODE(left) != SImode
++        || REGNO(left) >= 8) return;
++    if (!(GET_CODE(right) == REG && GET_MODE(right) == SImode && REGNO(right) < 8)
++        && !(GET_CODE(right) == CONST_INT && INTVAL(right) >= 0 && INTVAL(right) <= 255)) return;
++    thumb_sdk_notice_update_cc(p, prev);
++    thumb_sdk_notice_update_cc(PATTERN(jump), jump);
++}
