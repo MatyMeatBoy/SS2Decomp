@@ -541,98 +541,78 @@ store:
 
 
 #ifdef NONMATCHING
-struct Sprite10847 {u32 f0,f4,f8;u8 *palette;u8 pad10[12];u8 style,paletteId;u8 pad1E[22];};
-struct Oam10847 {u32 f0,f4;s32 x,y;};
-struct Frame10847 {u16 tile,rotation;s16 sx,sy;u8 *metadata;s32 x,y;};
-extern u8 *object10847 asm("gUnk_03000364");
-extern struct Sprite10847 sprites10847[] asm("gUnk_03000380");
-extern u8 styles10847[] asm("gUnk_0300039C");
-extern u8 frame10847 asm("gUnk_030003FC");
-extern u8 side10847 asm("gUnk_030003F0");
-extern u8 direction10847 asm("gUnk_030003FB");
-extern u16 palette10847 asm("gUnk_030003E8");
-extern s16 offsetX10847[] asm("gUnk_08518754");
-extern s16 offsetY10847[] asm("gUnk_08518756");
-extern void animate10847(void*,u16,u16*,u16*,s32) asm("sub_08065370");
-extern void coords10847(s32,s32,s16*,s16*,s32,void*) asm("sub_0800BC08");
-extern struct Oam10847 *draw10847(s32,s32,u32,u32,u32,void*,u32,u32) asm("sub_08007870");
-#define F_10847(p,t,o) (*(t*)((u8*)(p)+(o)))
-void sub_080A47A0(void)
+struct Spr47A0 { u32 f0, f4, f8; u8 *palette; u8 pad10[12]; u8 style, paletteId; u8 pad1E[22]; };
+struct Oam47A0 { u32 f0, f4; s32 x, y; };
+struct Off47A0 { s16 x, y; };
+struct XY47A0 { s32 x, y; };
+extern u8 *gObj47A0 asm("gUnk_03000364");
+extern struct Spr47A0 gSpr47A0[] asm("gUnk_03000380");
+extern u8 gFrame47A0 asm("gUnk_030003FC");
+extern u8 gSide47A0 asm("gUnk_030003F0");
+extern u8 gDir47A0 asm("gUnk_030003FB");
+extern u16 gPal47A0 asm("gUnk_030003E8");
+extern s16 gOffX47A0[] asm("gUnk_08518754");
+extern s16 gOffY47A0[] asm("gUnk_08518756");
+void anim47A0(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+void proj47A0(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+struct Oam47A0 *draw47A0(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+u8 prio47A0(s32, s32, s32) asm("sub_0800BC44");
+void sub_080A47A0_v(void) asm("sub_080A47A0");
+void sub_080A47A0_v(void)
 {
- struct Frame10847 frame;u8 animation,mode;s32 paused;struct Oam10847 *output;
- register s16 *sx asm("r10"); register s16 *sy asm("r9");
- frame.metadata=object10847+0x204;frame.rotation=0;frame.tile=0;sx=&frame.sx;sy=&frame.sy;
- for(;;){
-  {
-   register u8 *ptr asm("r4") = &frame10847;
-   u8 current;
-   asm("" : "+r"(ptr));
-wait_frame:
-   current = *ptr;
-   asm("" : "+r"(current));
-   if (current == 0) { sub_080003F0(); goto wait_frame; }
-   if (side10847 == 1) animation = current + 5;
-   else animation = frame10847;
-  }
-  {
-   register s32 x asm("r1") = F_10847(object10847,s32,0x14);
-   register s32 y asm("r0");
-   asm("" : "+r"(x));
-   frame.x = x;
-   y = F_10847(object10847,s32,0x18);
-   asm("" : "+r"(y));
-   frame.y = y;
-  }
-  {
-   register u32 i asm("r1") = direction10847 * 4;
-   register s16 *table asm("r2") = offsetX10847;
-   register s32 value asm("r0");
-   register s32 old asm("r4");
-   value = *(s16 *)((u8 *)table + i);
-   old = frame.x;
-   asm("" : "+r"(value), "+r"(old));
-   frame.x = old + value;
-   value = *(s16 *)((u8 *)offsetY10847 + i);
-   old = frame.y;
-   asm("" : "+r"(value), "+r"(old));
-   frame.y = old + value;
-  }
-  sprites10847[side10847].style=palette10847;
-  sub_08000AF0(palette10847+16,sprites10847[side10847].palette+(F_10847(frame.metadata,u16,0xD6)<<5),1);
-  if(sub_0800CD8C()==0)animate10847(&sprites10847[side10847],animation,&frame.tile,&frame.rotation,0);
-  if(sub_08098004()&1)mode=sub_08097FF8();else {
-   register s32 x asm("r3") = frame.x;
-   register s32 shifted asm("r0") = x >> 8;
-   register s32 y asm("r4");
-   asm("" : "+r"(shifted));
-   y = frame.y;
-   mode = sub_0800BC44(shifted,y>>8,0);
-  }
-  if(sub_0800CCCC()==0 && sub_0800CC98()==0){
-   paused=sub_0800CD34();if(paused==0){
-    coords10847((s32)(F_10847(object10847,s32,0x14)<<8)>>16,(s32)(F_10847(object10847,s32,0x18)<<8)>>16,sx,sy,paused,(void*)paused);
-    {
-     register s16 *p asm("r6") = sx;
-     register s16 *q asm("r2") = sy;
-     register s32 x asm("r0") = *p;
-     register s32 y asm("r1") = *q + 1;
-     asm("" : "+r"(x), "+r"(y));
-     output=draw10847(x,y,animation,frame.tile,mode,&sprites10847[side10847].style,sprites10847[side10847].f8,sprites10847[side10847].f0);
-    }
-    coords10847((s32)(frame.x<<8)>>16,(s32)(frame.y<<8)>>16,sx,sy,paused,(void*)paused);
-    {
-     register s16 *p asm("r3") = sx;
-     register s16 *q asm("r1");
-     output->x = *p;
-     q = sy;
-     output->y = *q;
-    }
-   }
-  }
-  sub_080003F0();if(sub_0800CED8()!=0 || sub_0800CB78()!=0 || sub_0800CD00()!=0)break;
- }
-}
+    u16 tile, rot;
+    s16 sx, sy;
+    u8 *res;
+    struct XY47A0 pos;
+    u8 f;
+    u8 animation;
+    u8 mode;
+    s32 z;
+    struct Oam47A0 *o;
 
+    res = gObj47A0 + 0x204;
+    rot = 0;
+    tile = 0;
+    for (;;) {
+    wait:
+        if ((f = gFrame47A0) == 0) {
+            sub_080003F0();
+            goto wait;
+        }
+        if (gSide47A0 == 1)
+            animation = f + 5;
+        else
+            animation = *(vu8 *)&gFrame47A0;
+        pos.x = *(s32 *)(gObj47A0 + 0x14);
+        pos.y = *(s32 *)(gObj47A0 + 0x18);
+        {
+            s32 k = gDir47A0 * 4;
+            pos.x += *(s16 *)((u8 *)gOffX47A0 + k);
+            pos.y += *(s16 *)((u8 *)gOffY47A0 + k);
+        }
+        gSpr47A0[gSide47A0].style = gPal47A0;
+        sub_08000AF0(gPal47A0 + 0x10, gSpr47A0[gSide47A0].palette + (*(u16 *)(res + 0xD6) << 5), 1);
+        {
+            s32 t = sub_0800CD8C();
+            if (t == 0)
+                anim47A0(&gSpr47A0[gSide47A0], animation, &tile, &rot, t);
+        }
+        if (sub_08098004() & 1)
+            mode = sub_08097FF8();
+        else
+            mode = prio47A0(pos.x >> 8, pos.y >> 8, 0);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && (z = sub_0800CD34()) == 0) {
+            proj47A0((s16)(*(s32 *)(gObj47A0 + 0x14) >> 8), (s16)(*(s32 *)(gObj47A0 + 0x18) >> 8), &sx, &sy, z, z);
+            o = draw47A0(sx, sy + 1, animation, tile, mode, &gSpr47A0[gSide47A0].style, gSpr47A0[gSide47A0].f8, gSpr47A0[gSide47A0].f0);
+            proj47A0((s16)(pos.x >> 8), (s16)(pos.y >> 8), &sx, &sy, z, z);
+            o->x = sx;
+            o->y = sy;
+        }
+        sub_080003F0();
+        if (sub_0800CED8() != 0 || sub_0800CB78() != 0 || sub_0800CD00() != 0)
+            break;
+    }
+}
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A47A0);
 #endif
