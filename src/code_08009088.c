@@ -199,7 +199,7 @@ s32 sub_08009594(u16 index, u16 dx, u16 dy, s32 force)
 {
     u16 *offsets = gUnk_03001250;
     struct Layer *layer = &gUnk_03003170.layers[index];
-    s16 x, y;
+    u16 x, y;
     u16 tileDX, tileDY;
     s16 pos;
     s16 i;

@@ -6,11 +6,18 @@ nov03-w4: sub_0800A03C draft (nm score 9): only `alternate` lands in r4 instead 
 
 codex-solo follow-up (2026-11-03): an empty r4 clobber after selecting alternate
   now gives the ROM's r7 selector and frees r4 for the frame-counter pointer.
-  The draft is still unmatched at604/604 bytes: the limit-address calculation
+  The draft is still unmatched at 604/604 bytes: the limit-address calculation
   precedes the two frame-pointer setup instructions instead of following them.
   Normal ROM compare, NONMATCHING and check_tree pass; no matching bytes added.
   Hard-binding alternate to r7 gave an SP-derived index and was rejected. A fresh
   two-minute/two-job permuter run passed whole-object control but found no match.
+
+codex-solo follow-up (2026-11-03): sub_08009594 now keeps x/y as unsigned
+  16-bit packed coordinates, casting to signed values at their existing use sites.
+  The real module comparison improves from263 to236 and from900 to912 candidate
+  bytes against924 original bytes. It is still NONMATCHING, with stack/register
+  differences remaining. Explicit index homes and phase-split coordinate locals
+  were worse and reverted. Both row/column helper definitions take s16 coordinates.
 900 vs 924: the ROM materialises
   x<<16 (sp+0x10) and y<<16 (r9) at the end of each switch path (case 8 skip, case 8/10 fallthrough,
   case 5/default before `if (!update)`), the index lives on the stack (sp+0) not in sl.
