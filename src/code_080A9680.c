@@ -1998,7 +1998,6 @@ void sub_080AC81C(void)
     gUnk_030056FC = 0;
     sub_08016ECC(gUnk_03000438);
 }
-#ifdef NONMATCHING
 struct ResC844 { u8 p0[4]; s16 f4, f6; u8 p8[0xCE]; u16 fD6; };
 struct ActC844 {
     u16 f0, f2;
@@ -2089,8 +2088,9 @@ void sub_080AC844_v(struct ActC844 *a)
     u8 cnt;
     u8 hitCd;
     s32 done;
-    u8 prio;
-    s16 i, j, n;
+    s32 prio;
+    s16 i, j;
+    u16 mode;
     s32 h;
 
     gCurC844 = a;
@@ -2179,14 +2179,15 @@ void sub_080AC844_v(struct ActC844 *a)
                 }
                 break;
             case 5:
-                a->fC = 2;
+                mode = 2;
+                a->fC = mode;
                 if (gC1C844 != 0) {
                     if (--gC1C844 == 0) {
-                        n = 0;
+                        j = 0;
                         for (i = 1; i <= 4; i++)
                             if (gMaskC844 & (1 << i))
-                                n++;
-                        if (n != 0)
+                                j++;
+                        if (j != 0)
                             for (i = 0; i <= 3; i++)
                                 gActsC844[i]->f1FD = 8;
                         gC1C844 = 0;
@@ -2210,25 +2211,25 @@ void sub_080AC844_v(struct ActC844 *a)
                 }
                 break;
             case 8:
-                n = 0;
+                j = 0;
                 for (i = 1; i <= 4; i++)
                     if (gMaskC844 & (1 << i))
-                        n++;
-                if (n == 0)
+                        j++;
+                if (j == 0)
                     goto set5;
-                for (i = 0; i < n; i++)
+                for (i = 0; i < j; i++)
                     if (gStateC844[i] != 1)
                         goto out;
                 a->f1FE = 9;
                 goto set;
             case 9:
-                n = 0;
+                j = 0;
                 for (i = 1; i <= 4; i++)
                     if (gMaskC844 & (1 << i))
-                        n++;
-                if (n == 0)
+                        j++;
+                if (j == 0)
                     goto set5;
-                for (i = 0; i < n; i++)
+                for (i = 0; i < j; i++)
                     if (gStateC844[i] != 2)
                         goto out;
                 a->f1FE = 10;
@@ -2240,12 +2241,12 @@ void sub_080AC844_v(struct ActC844 *a)
                 sub_08067C18();
                 break;
             case 10:
-                n = 0;
+                j = 0;
                 for (i = 1; i <= 4; i++)
                     if (gMaskC844 & (1 << i))
-                        n++;
-                if (n != 0)
-                    for (i = 0; i < n; i++)
+                        j++;
+                if (j != 0)
+                    for (i = 0; i < j; i++)
                         if (gStateC844[i] != 0)
                             goto out;
                 a->f1FE = 5;
@@ -2412,9 +2413,6 @@ void sub_080AC844_v(struct ActC844 *a)
     }
     sub_08056E24();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
-#endif
 #ifdef NONMATCHING
 // sub_080AD534: exact control flow, ~10 diff lines (regalloc only): the mask update. ROM reuses
 // the idx reload copy (r2) for idx+1 with 1 in r3 and &mask in r4 (draft: plain `|=` gives &mask r3
