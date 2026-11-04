@@ -8,3 +8,8 @@ nov03-w3 sub_0805FC80: rewrote the item switch without gotos (each case loads pa
   8-byte pos parameter in its stack home (sp+0x20) and flags in sl; ours keeps pos in r6/r7 and spills
   flags. Case 2 in ROM: resource r1, resource+0xBE in r4 (the other cases use r0). A single common
   `descriptor` var for all cases gives the ROM prologue (pos spilled) but puts descriptor in r4 everywhere.
+  More (nov03-w3): declaring sub_08007F0C as taking the pos struct by value (f0c63(pos, ...)) makes pos
+  spill to sp+0x20 like the ROM, but then only r8/r9 are used (ROM also uses sl). Combined with one common
+  `descriptor` for all cases (incl. case 2): 214 lines / 840 bytes, prologue OK but descriptor in r4 in
+  every case (ROM: r0, only case 2 uses r4 with resource in r1). Permuter on the landed shape only found
+  invalid `new_var = item` splits (which do give the ROM prologue: item split -> pressure matters).
