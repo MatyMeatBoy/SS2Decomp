@@ -748,441 +748,230 @@ void sub_08060DB0(s32 index)
     sub_08000274(&tasks63[index], index);
 }
 #ifdef NONMATCHING
-extern void drawItemTaskE63(s32, s32, void *, s32) asm("sub_0805FC80");
-M2C_UNK sub_080003F4(s32);                          /* extern */
-extern void drawNumber63(s32, s32, u32, u8) asm("sub_0805FAC0");
-extern u8 taskETiles63[] asm("gUnk_03005740");
-extern M2C_UNK gUnk_030057C0;
-extern M2C_UNK gUnk_03005800;
-extern M2C_UNK gUnk_03005840;
-extern M2C_UNK gUnk_084EBDC8;
-extern M2C_UNK gUnk_084EBE08;
-extern M2C_UNK gUnk_084EBE0A;
-extern M2C_UNK gUnk_03005D80;
+struct HudSlotE63 { u16 kind; u16 id; u8 pad4[0xC]; };
+struct HudMgrE63 { u8 pad0[0x54]; u16 sel; u16 list[0x75]; struct HudSlotE63 slots[26]; };
+extern struct HudMgrE63 *hudMgrE63 asm("gUnk_030034E0");
+extern u16 hudFrameE63[4][8] asm("gUnk_084EBDC8");
+extern struct HudPos63 hudPosE63[] asm("gUnk_084EBE08");
+extern struct HudPos63 hudPosYE63[] asm("gUnk_084EBE0A");
+extern void hudItemE63(s32, s32, struct HudSlotE63 *, s32) asm("sub_0805FC80");
+extern void hudNumberE63(s32, s32, u32, u8) asm("sub_0805FAC0");
+void sub_08060E44(s32 animate)
+{
+    struct HudSlotE63 tmp;
+    struct HudMgrE63 *mgr;
+    struct HudPlayer63 *pl;
+    s16 slide;
+    s16 timer;
+    s32 dirty;
+    s32 count;
+    s32 f78;
+    u16 *tiles;
+    s16 i;
+    s16 j;
+    s16 base;
+    s16 k;
+    s16 end;
+    u16 keys;
 
-void sub_08060E44(s32 arg0) {
-    extern u16 input60E44 asm("gUnk_03001324");
-    u8 sp10[16];
-    s32 sp20;
-    s32 sp24;
-    struct Player *sp28;
-    u32 sp2C;
-    u32 sp30;
-    s32 sp34;
-    s32 sp38;
-    s32 sp3C;
-    u8 *sp40;
-    s32 sp44;
-    s32 sp48;
-    s32 sp4C;
-    u16 *sp50;
-    M2C_UNK *var_r8;
-    s16 *temp_r4_4;
-    s16 *temp_r6_2;
-    s16 *var_r1;
-    s16 *var_r1_3;
-    s16 *var_r2;
-    s16 temp_r2_5;
-    s16 temp_r3;
-    s16 temp_r5;
-    s16 temp_r5_5;
-    s32 temp_r6;
-    s16 var_r0;
-    s16 var_r0_2;
-    s16 var_r0_3;
-    s16 var_r3;
-    s16 var_r3_3;
-    s32 temp_r0;
-    s32 temp_r0_10;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
-    s32 temp_r0_8;
-    s32 temp_r1_10;
-    s32 temp_r1_11;
-    s32 temp_r1_12;
-    s32 temp_r1_6;
-    s32 temp_r1_8;
-    s32 temp_r1_9;
-    s32 temp_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_r2_6;
-    s32 temp_r3_2;
-    s32 temp_r4;
-    s32 temp_r4_3;
-    s32 temp_r4_5;
-    s32 temp_r5_2;
-    s32 temp_r5_3;
-    s32 temp_r5_4;
-    s32 temp_r5_6;
-    s32 temp_r9;
-    s32 var_r1_2;
-    s32 var_r2_2;
-    s32 var_r2_4;
-    s32 var_r3_4;
-    s32 var_r5;
-    s32 var_r5_2;
-    s32 var_r9;
-    struct Player *temp_r1;
-    u16 *temp_r1_5;
-    u16 *temp_r3_3;
-    u16 temp_r0_14;
-    u16 temp_r0_4;
-    u16 temp_r0_5;
-    u16 temp_r0_6;
-    u16 var_r2_3;
-    u32 temp_r0_11;
-    u32 temp_r0_15;
-    u32 temp_r0_2;
-    u32 temp_r0_7;
-    u32 temp_r0_9;
-    u32 temp_r1_2;
-    u32 var_r3_2;
-    u32 var_r7;
-    u8 temp_r0_3;
-    u8 temp_r1_3;
-    u8 temp_r1_4;
-    u8 temp_r1_7;
-    void *temp_r4_2;
-
-    sp20 = arg0;
-    sp24 = gUnk_030034E0;
-    temp_r1 = &gUnk_03003CE0[sub_080020F4()];
-    sp28 = temp_r1;
-    sp34 = 1;
-    sp38 = (s32) M2C_FIELD(temp_r1, u8 *, 0x77);
-    sp3C = (s32) M2C_FIELD(temp_r1, u8 *, 0x78);
-    goto poll63;
-body63:
-        if (sp20 != 0) {
-            sub_080003F4(0x18A93);
-            sub_0805865C((u16) ((u16) M2C_FIELD(sp24, u16 *, 0x54) % 3U) + 0x5A);
+    mgr = hudMgrE63;
+    pl = &hudPlayers63[sub_080020F4()];
+    dirty = 1;
+    count = pl->count;
+    f78 = pl->f78;
+    while (sub_0800CB78() == 0) {
+        if (animate != 0) {
+            hudSound63(0x18A93);
+            sub_0805865C(mgr->sel % 3 + 0x5A);
             sub_080003F0();
-            if (sub_0800CB78() != 0) {
+            if (sub_0800CB78() != 0)
                 return;
-            }
         }
-        sp2C = 8;
-        sp30 = 0x3C;
-        sp40 = taskETiles63;
-loop_79:
-        temp_r1_2 = sp30;
-        sp30 = (u32) ((temp_r1_2 << 0x10) + 0xFFFF0000) >> 0x10;
-        var_r9 = sp2C << 0x10;
-        if ((s32) (temp_r1_2 << 0x10) <= 0) {
-
-        } else {
-            temp_r0 = sub_0800CB78();
-            if (temp_r0 == 0) {
-                temp_r0_2 = var_r9 + 0xFFFE0000;
-                sp2C = temp_r0_2 >> 0x10;
-                if ((s32) temp_r0_2 < 0) {
-                    sp2C = 0;
+        slide = 8;
+        timer = 0x3C;
+        tiles = hudMap63;
+        while (timer-- > 0 && sub_0800CB78() == 0) {
+            slide -= 2;
+            if (slide < 0)
+                slide = 0;
+            keys = hudKeys63;
+            if (keys & 0x300)
+                dirty = 1;
+            if (count != pl->count) {
+                count = pl->count;
+                dirty = 1;
+            }
+            if (f78 != pl->f78) {
+                f78 = pl->f78;
+                dirty = 1;
+            }
+            if (keys & 0x100) {
+                if (++mgr->sel >= pl->f78)
+                    mgr->sel = 0;
+                pl->f26 = 0;
+                pl->f24 = 0;
+                if (pl->state == 7)
+                    pl->state = 1;
+                if (pl->state == 6)
+                    pl->state = 0;
+                sub_0805865C(mgr->sel % 3 + 0x5A);
+                if (animate != 0)
+                    timer = 0x3C;
+            }
+            if (animate != 0 || dirty != 0) {
+                sub_0801A664(2, 4);
+                for (i = slide, j = 0; i <= 7; i++, j++) {
+                    (tiles + 0x40)[i + 0x16] = hudFrameE63[0][j];
+                    hudRow3_63[i + 0x16] = hudFrameE63[1][j];
+                    hudRow4_63[i + 0x16] = hudFrameE63[2][j];
+                    (tiles + 0xA0)[i + 0x16] = hudFrameE63[3][j];
                 }
-                if (0x300 & input60E44) {
-                    sp34 = 1;
-                }
-                temp_r0_3 = M2C_FIELD(sp28, u8 *, 0x77);
-                if (sp38 != temp_r0_3) {
-                    sp38 = (s32) temp_r0_3;
-                    sp34 = 1;
-                }
-                temp_r1_3 = M2C_FIELD(sp28, u8 *, 0x78);
-                if (sp3C != temp_r1_3) {
-                    sp3C = (s32) temp_r1_3;
-                    sp34 = 1;
-                }
-                sp50 = sp24 + 0x54;
-                if (0x100 & input60E44) {
-                    temp_r0_4 = M2C_FIELD(sp24, u16 *, 0x54) + 1;
-                    M2C_FIELD(sp24, u16 *, 0x54) = temp_r0_4;
-                    if ((u32) temp_r0_4 >= (u32) M2C_FIELD(sp28, u8 *, 0x78)) {
-                        M2C_FIELD(sp24, u16 *, 0x54) = (u16) temp_r0;
-                    }
-                    M2C_FIELD(sp28, s16 *, 0x26) = (s16) temp_r0;
-                    M2C_FIELD(sp28, s16 *, 0x24) = (s16) temp_r0;
-                    if (sp28->state == 7) {
-                        sp28->state = 1;
-                    }
-                    if (sp28->state == 6) {
-                        sp28->state = (u16) temp_r0;
-                    }
-                    sub_0805865C((u16) ((u16) *sp50 % 3U) + 0x5A);
-                    if (sp20 != 0) {
-                        sp30 = 0x3C;
-                        goto block_22;
-                    }
-                    goto block_23;
-                }
-block_22:
-                if (sp20 == 0) {
-block_23:
-                    if (sp34 == 0) {
-
+                if ((u8)(pl->f78 - 4) <= 2) {
+                    if (mgr->sel <= 2) {
+                        (tiles + 0x40)[slide + 0x15] = 0xF037;
+                        hudRow3_63[slide + 0x15] = 0xF057;
                     } else {
-                        goto block_25;
+                        (tiles + 0x40)[slide + 0x15] = 0xF038;
+                        hudRow3_63[slide + 0x15] = 0xF058;
                     }
-                } else {
-block_25:
-                    sub_0801A664(2, 4);
-                    var_r3 = 0;
-                    var_r5 = sp2C << 0x10;
-                    temp_r9 = var_r5;
-                    if ((s32) (s16) sp2C <= 7) {
-                        do {
-                            temp_r5_2 = var_r5 >> 0x10;
-                            temp_r2 = (temp_r5_2 + 0x16) * 2;
-                            temp_r3 = var_r3;
-                            temp_r4 = temp_r3 * 2;
-                            *(u16 *)(temp_r2 + (taskETiles63 + 0x80)) = *(u16 *)(temp_r4 + ((u8 *)&gUnk_084EBDC8));
-                            *(u16 *)(temp_r2 + ((u8 *)&gUnk_03005800)) = *(u16 *)(temp_r4 + (((u8 *)&gUnk_084EBDC8) + 0x10));
-                            *(u16 *)(temp_r2 + ((u8 *)&gUnk_03005840)) = *(u16 *)(temp_r4 + (((u8 *)&gUnk_084EBDC8) + 0x20));
-                            *(u16 *)(temp_r2 + (taskETiles63 + 0x140)) = *(u16 *)(temp_r4 + (((u8 *)&gUnk_084EBDC8) + 0x30));
-                            temp_r5 = temp_r5_2 + 1;
-                            var_r3 = (s16) (u16) (temp_r3 + 1);
-                            var_r5 = temp_r5 << 0x10;
-                        } while ((s32) temp_r5 <= 7);
-                    }
-                    temp_r1_4 = M2C_FIELD(sp28, u8 *, 0x78);
-                    if ((u32) (u8) (temp_r1_4 - 4) <= 2U) {
-                        if ((u32) *sp50 <= 2U) {
-                            temp_r2_2 = (temp_r9 >> 0xF) + 0x2A;
-                            *(u16 *)(temp_r2_2 + (sp40 + 0x80)) = 0xF037;
-                            var_r2 = temp_r2_2 + ((u8 *)&gUnk_03005800);
-                            var_r0 = 0xF057;
-                        } else {
-                            temp_r2_3 = (temp_r9 >> 0xF) + 0x2A;
-                            *(u16 *)(temp_r2_3 + (sp40 + 0x80)) = 0xF038;
-                            var_r2 = temp_r2_3 + ((u8 *)&gUnk_03005800);
-                            var_r0 = 0xF058;
-                        }
-                        goto block_39;
-                    }
-                    if ((u32) temp_r1_4 > 6U) {
-                        temp_r0_5 = *sp50;
-                        if ((u32) temp_r0_5 <= 2U) {
-                            var_r2_2 = (temp_r9 >> 0xF) + 0x2A;
-                            *(u16 *)(var_r2_2 + (sp40 + 0x80)) = 0xF039;
-                            var_r1 = var_r2_2 + ((u8 *)&gUnk_03005800);
-                            var_r0_2 = 0xF059;
-                        } else if ((u32) temp_r0_5 <= 5U) {
-                            var_r2_2 = (temp_r9 >> 0xF) + 0x2A;
-                            *(u16 *)(var_r2_2 + (sp40 + 0x80)) = 0xF03A;
-                            var_r1 = var_r2_2 + ((u8 *)&gUnk_03005800);
-                            var_r0_2 = 0xF05A;
-                        } else {
-                            var_r2_2 = (temp_r9 >> 0xF) + 0x2A;
-                            *(u16 *)(var_r2_2 + (sp40 + 0x80)) = 0xF03B;
-                            var_r1 = var_r2_2 + ((u8 *)&gUnk_03005800);
-                            var_r0_2 = 0xF05B;
-                        }
-                        *var_r1 = var_r0_2;
-                        var_r2 = var_r2_2 + ((u8 *)&gUnk_03005840);
-                        var_r0 = var_r0_2 + 0x20;
-block_39:
-                        *var_r2 = var_r0;
-                    }
-                    if ((s32) (sp2C << 0x10) <= 0) {
-                        sp34 = 0;
+                } else if (pl->f78 > 6) {
+                    if (mgr->sel <= 2) {
+                        (tiles + 0x40)[slide + 0x15] = 0xF039;
+                        hudRow3_63[slide + 0x15] = 0xF059;
+                        hudRow4_63[slide + 0x15] = 0xF079;
+                    } else if (mgr->sel <= 5) {
+                        (tiles + 0x40)[slide + 0x15] = 0xF03A;
+                        hudRow3_63[slide + 0x15] = 0xF05A;
+                        hudRow4_63[slide + 0x15] = 0xF07A;
+                    } else {
+                        (tiles + 0x40)[slide + 0x15] = 0xF03B;
+                        hudRow3_63[slide + 0x15] = 0xF05B;
+                        hudRow4_63[slide + 0x15] = 0xF07B;
                     }
                 }
-                if (sp20 == 0) {
-                    sp30 = 0x3C;
-                    sp2C = 0;
-                }
-                temp_r0_6 = (u16) ((u16) *sp50 / 3U);
-                temp_r0_7 = (u32) ((temp_r0_6 * 0x30000) + 0x30000) >> 0x10;
-                var_r9 = sp2C << 0x10;
-                if (sp20 != 0) {
-                    var_r2_3 = temp_r0_6 * 3;
-                    var_r1_2 = var_r2_3 << 0x10;
-                    temp_r0_8 = temp_r0_7 << 0x10;
-                    sp4C = temp_r0_8;
-                    if (var_r1_2 < temp_r0_8) {
-                        sp44 = (s32) (s16) temp_r0_7;
-                        do {
-                            temp_r1_5 = sp24 + 0x56 + (var_r1_2 >> 0xF);
-                            sp48 = var_r2_3 << 0x10;
-                            if (*temp_r1_5 != 0) {
-                                temp_r6 = *temp_r1_5 - 1;
-                                var_r8 = sp10;
-                                M2C_FIELD(sp10, s16 *, 0) = 1;
-                                M2C_FIELD(sp10, s16 *, 2) = temp_r6;
-                                var_r7 = 0;
-                                var_r3_2 = 0;
-                                do {
-                                    temp_r0_10 = var_r3_2 << 0x10;
-                                    temp_r5_3 = temp_r0_10 >> 0xC;
-                                    temp_r4_2 = sp24 + temp_r5_3;
-                                    if ((M2C_FIELD(temp_r4_2, u16 *, 0x150) == 1) && (temp_r6 == M2C_FIELD(temp_r4_2, u16 *, 0x152))) {
-                                        var_r7 = (u32) ((var_r7 << 0x10) + 0x10000) >> 0x10;
-                                        var_r8 = sp24 + (temp_r5_3 + 0x150);
-                                    }
-                                    temp_r0_9 = temp_r0_10 + 0x10000;
-                                    var_r3_2 = temp_r0_9 >> 0x10;
-                                } while ((s32) ((s32) temp_r0_9 >> 0x10) <= 0x18);
-                                temp_r4_3 = (sp44 - ((sp48 >> 0x10) + 1)) * 4;
-                                temp_r6_2 = temp_r4_3 + ((u8 *)&gUnk_084EBE08);
-                                temp_r5_4 = (7 - (s16) sp2C) * 8;
-                                temp_r4_4 = temp_r4_3 + ((u8 *)&gUnk_084EBE0A);
-                                drawNumber63((*temp_r6_2 + 0xF0) - temp_r5_4, *temp_r4_4 + 0x18, (s16) var_r7, 0);
-                                drawItemTaskE63((*temp_r6_2 + 0xF0) - temp_r5_4, *temp_r4_4 + 0x10, var_r8, 0);
+                if (slide <= 0)
+                    dirty = 0;
+            }
+            if (animate == 0) {
+                timer = 0x3C;
+                slide = 0;
+            }
+            base = mgr->sel / 3 * 3;
+            end = base + 3;
+            if (animate != 0) {
+                for (k = base; k < end; k++) {
+                    if (mgr->list[k] != 0) {
+                        struct HudSlotE63 *found;
+                        u16 id;
+                        s16 n;
+                        s16 m;
+                        id = mgr->list[k] - 1;
+                        found = &tmp;
+                        tmp.kind = 1;
+                        tmp.id = id;
+                        n = 0;
+                        for (m = 0; m <= 0x18; m++) {
+                            if (mgr->slots[m + 1].kind == 1 && id == mgr->slots[m + 1].id) {
+                                n++;
+                                found = &mgr->slots[m + 1];
                             }
-                            var_r2_3 = (u16) ((u32) (sp48 + 0x10000) >> 0x10);
-                            var_r1_2 = var_r2_3 << 0x10;
-                        } while ((s32) (s16) var_r2_3 < sp44);
-                    }
-                    if (sp20 == 0) {
-                        goto block_56;
-                    }
-                } else {
-block_56:
-                    sp4C = temp_r0_7 << 0x10;
-                    if (M2C_FIELD(gUnk_03006440, s32 *, 0x28) & 1) {
-                        sp34 = 1;
-                        do {
-                            sub_080003F0();
-                        } while (M2C_FIELD(gUnk_03006440, s32 *, 0x28) & sp34);
-                    }
-                }
-                temp_r2_4 = ((sp4C >> 0x10) - (*sp50 + 1)) * 4;
-                sub_08007CF0((*(s16 *)(temp_r2_4 + ((u8 *)&gUnk_084EBE08)) - ((7 - (s16) sp2C) * 8)) + 0xF1, *(s16 *)(temp_r2_4 + ((u8 *)&gUnk_084EBE0A)) + 0x10, 7U, 0U, 0, (s32) (((u8 *)&gUnk_03005D80) + 0x1C), M2C_FIELD(((u8 *)&gUnk_03005D80), s32 *, 8), M2C_FIELD(((u8 *)&gUnk_03005D80), s32 *, 0));
-                sub_080003F0();
-                if (sp20 != 0) {
-                    if (sub_08058DB0() != 0) {
-
-                    } else if (sub_0800D11C() != 0) {
-
-                    } else if (sub_0800CC98() != 0) {
-
-                    } else if (sub_08056E90() != 0) {
-
-                    } else if (sub_0800D060() != 0) {
-
-                    } else if (sp28->flags & 0x400) {
-
-                    } else if (sp28->state == 0xC) {
-
-                    } else if ((sub_0800CCCC() == 0) && (4 & M2C_FIELD(gUnk_03005CF4, u16 *, 4))) {
-
-                    } else {
-                        goto block_77;
-                    }
-                } else {
-block_77:
-                    if (sub_0800CD34() != 0) {
-
-                    } else {
-                        goto loop_79;
+                        }
+                        hudNumberE63(hudPosE63[end - (k + 1)].x + 0xF0 - (7 - slide) * 8,
+                                     hudPosYE63[end - (k + 1)].x + 0x18, n, 0);
+                        hudItemE63(hudPosE63[end - (k + 1)].x + 0xF0 - (7 - slide) * 8,
+                                   hudPosYE63[end - (k + 1)].x + 0x10, found, 0);
                     }
                 }
             }
-        }
-loop_115:
-        if ((s32) (var_r9 >> 0x10) <= 7) {
-            if (sp20 == 0) {
-                goto block_91;
-            }
-            if ((sub_08058DB0() == 0) && (sub_0800D11C() == 0) && (sub_0800CC98() == 0) && (sub_08056E90() == 0) && (sub_0800D060() == 0)) {
-                if (sp28->flags & 0x400) {
-
-                } else if (sp28->state == 0xC) {
-
-                } else if ((sub_0800CCCC() == 0) && (4 & M2C_FIELD(gUnk_03005CF4, u16 *, 4))) {
-
-                } else {
-block_91:
-                    if (sub_0800CD34() != 0) {
-
-                    } else {
-                        temp_r0_11 = (sp2C << 0x10) + 0x20000;
-                        sp2C = temp_r0_11 >> 0x10;
-                        if ((s32) ((s32) temp_r0_11 >> 0x10) > 8) {
-                            sp2C = 8;
-                        }
-                        var_r3_3 = 0;
-                        var_r5_2 = sp2C << 0x10;
-                        sp50 = sp24 + 0x54;
-                        var_r9 = var_r5_2;
-                        if ((s32) (s16) sp2C <= 7) {
-                            do {
-                                temp_r5_6 = var_r5_2 >> 0x10;
-                                temp_r1_6 = (temp_r5_6 + 0x16) * 2;
-                                temp_r2_5 = var_r3_3;
-                                temp_r3_2 = temp_r2_5 * 2;
-                                *(u16 *)(temp_r1_6 + ((u8 *)&gUnk_030057C0)) = *(u16 *)(temp_r3_2 + ((u8 *)&gUnk_084EBDC8));
-                                *(u16 *)(temp_r1_6 + ((u8 *)&gUnk_03005800)) = *(u16 *)(temp_r3_2 + (((u8 *)&gUnk_084EBDC8) + 0x10));
-                                *(u16 *)(temp_r1_6 + ((u8 *)&gUnk_03005840)) = *(u16 *)(temp_r3_2 + (((u8 *)&gUnk_084EBDC8) + 0x20));
-                                *(u16 *)(temp_r1_6 + (((u8 *)&gUnk_03005840) + 0x40)) = *(u16 *)(temp_r3_2 + (((u8 *)&gUnk_084EBDC8) + 0x30));
-                                temp_r5_5 = temp_r5_6 + 1;
-                                var_r3_3 = (s16) (u16) (temp_r2_5 + 1);
-                                var_r5_2 = temp_r5_5 << 0x10;
-                            } while ((s32) temp_r5_5 <= 7);
-                        }
-                        sub_0801A664(2, 4);
-                        temp_r1_7 = M2C_FIELD(sp28, u8 *, 0x78);
-                        if ((u32) (u8) (temp_r1_7 - 4) <= 2U) {
-                            if ((u32) *sp50 <= 2U) {
-                                temp_r0_12 = (var_r9 >> 0xF) + 0x2A;
-                                *(u16 *)(temp_r0_12 + ((u8 *)&gUnk_030057C0)) = 0xF037;
-                                *(u16 *)(temp_r0_12 + ((u8 *)&gUnk_03005800)) = 0xF057;
-                            } else {
-                                temp_r0_13 = (var_r9 >> 0xF) + 0x2A;
-                                *(u16 *)(temp_r0_13 + ((u8 *)&gUnk_030057C0)) = 0xF038;
-                                *(u16 *)(temp_r0_13 + ((u8 *)&gUnk_03005800)) = 0xF058;
-                            }
-                        } else if ((u32) temp_r1_7 > 6U) {
-                            temp_r0_14 = *sp50;
-                            if ((u32) temp_r0_14 <= 2U) {
-                                temp_r1_8 = (var_r9 >> 0xF) + 0x2A;
-                                *(u16 *)(temp_r1_8 + ((u8 *)&gUnk_030057C0)) = 0xF039;
-                                *(u16 *)(temp_r1_8 + ((u8 *)&gUnk_03005800)) = 0xF059;
-                                var_r1_3 = temp_r1_8 + ((u8 *)&gUnk_03005840);
-                                var_r0_3 = 0xF079;
-                            } else if ((u32) temp_r0_14 <= 5U) {
-                                temp_r1_9 = (var_r9 >> 0xF) + 0x2A;
-                                *(u16 *)(temp_r1_9 + ((u8 *)&gUnk_030057C0)) = 0xF03A;
-                                *(u16 *)(temp_r1_9 + ((u8 *)&gUnk_03005800)) = 0xF05A;
-                                var_r1_3 = temp_r1_9 + ((u8 *)&gUnk_03005840);
-                                var_r0_3 = 0xF07A;
-                            } else {
-                                temp_r1_10 = (var_r9 >> 0xF) + 0x2A;
-                                *(u16 *)(temp_r1_10 + ((u8 *)&gUnk_030057C0)) = 0xF03B;
-                                *(u16 *)(temp_r1_10 + ((u8 *)&gUnk_03005800)) = 0xF05B;
-                                var_r1_3 = temp_r1_10 + ((u8 *)&gUnk_03005840);
-                                var_r0_3 = 0xF07B;
-                            }
-                            *var_r1_3 = var_r0_3;
-                        }
-                        temp_r1_11 = (u16) ((u16) *sp50 / 3U) * 0x30000;
-                        temp_r0_15 = (u32) (temp_r1_11 + 0x30000) >> 0x10;
-                        var_r3_4 = temp_r1_11;
-                        var_r2_4 = temp_r0_15 << 0x10;
-                        if (var_r3_4 < var_r2_4) {
-                            do {
-                                temp_r4_5 = var_r3_4 >> 0x10;
-                                temp_r3_3 = sp24 + 0x56 + (temp_r4_5 * 2);
-                                if (*temp_r3_3 != 0) {
-                                    temp_r1_12 = (2 - ((var_r2_4 >> 0x10) - (temp_r4_5 + 1))) * 4;
-                                    drawItemTaskE63((*(s16 *)(temp_r1_12 + ((u8 *)&gUnk_084EBE08)) + 0xF0) - ((7 - (s16) sp2C) * 8), *(s16 *)(temp_r1_12 + (((u8 *)&gUnk_084EBE08) + 2)) + 0x10, sp24 + ((*temp_r3_3 * 0x10) + 0x140), 0);
-                                }
-                                var_r3_4 = (temp_r4_5 + 1) << 0x10;
-                                var_r2_4 = temp_r0_15 << 0x10;
-                            } while (var_r3_4 < var_r2_4);
-                        }
-                        temp_r2_6 = (2 - ((s16) temp_r0_15 - (*sp50 + 1))) * 4;
-                        sub_08007CF0((*(s16 *)(temp_r2_6 + ((u8 *)&gUnk_084EBE08)) + 0xF0) - ((7 - (s16) sp2C) * 8), *(s16 *)(temp_r2_6 + ((u8 *)&gUnk_084EBE0A)) + 0x10, 7U, 0U, 0, (s32) (((u8 *)&gUnk_03005D80) + 0x1C), M2C_FIELD(((u8 *)&gUnk_03005D80), s32 *, 8), M2C_FIELD(((u8 *)&gUnk_03005D80), s32 *, 0));
+            if (animate == 0) {
+                if (*(s32 *)(gUnk_03006440 + 0x28) & 1) {
+                    dirty = 1;
+                    do {
                         sub_080003F0();
-                        goto loop_115;
-                    }
+                    } while (*(s32 *)(gUnk_03006440 + 0x28) & dirty);
                 }
             }
+            hudSprite63(hudPosE63[end - (mgr->sel + 1)].x - (7 - slide) * 8 + 0xF1,
+                        hudPosYE63[end - (mgr->sel + 1)].x + 0x10, 7, 0, 0,
+                        hudIcon63.attr, hudIcon63.f8, hudIcon63.f0);
+            sub_080003F0();
+            if (animate != 0) {
+                if (sub_08058DB0() != 0 || sub_0800D11C() != 0 || sub_0800CC98() != 0
+                    || sub_08056E90() != 0 || sub_0800D060() != 0)
+                    break;
+                if (pl->flags & 0x400)
+                    break;
+                if (pl->state == 0xC)
+                    break;
+                if (sub_0800CCCC() == 0 && (*(u16 *)((u8 *)gUnk_03005CF4 + 4) & 4))
+                    break;
+            }
+            if (sub_0800CD34() != 0)
+                break;
+        }
+        while (slide <= 7) {
+            if (animate != 0) {
+                if (sub_08058DB0() != 0 || sub_0800D11C() != 0 || sub_0800CC98() != 0
+                    || sub_08056E90() != 0 || sub_0800D060() != 0)
+                    break;
+                if (pl->flags & 0x400)
+                    break;
+                if (pl->state == 0xC)
+                    break;
+                if (sub_0800CCCC() == 0 && (*(u16 *)((u8 *)gUnk_03005CF4 + 4) & 4))
+                    break;
+            }
+            if (sub_0800CD34() != 0)
+                break;
+            slide += 2;
+            if (slide > 8)
+                slide = 8;
+            for (i = slide, j = 0; i <= 7; i++, j++) {
+                hudRow2_63[i + 0x16] = hudFrameE63[0][j];
+                hudRow3_63[i + 0x16] = hudFrameE63[1][j];
+                hudRow4_63[i + 0x16] = hudFrameE63[2][j];
+                (hudRow4_63 + 0x20)[i + 0x16] = hudFrameE63[3][j];
+            }
+            sub_0801A664(2, 4);
+            if ((u8)(pl->f78 - 4) <= 2) {
+                if (mgr->sel <= 2) {
+                    hudRow2_63[slide + 0x15] = 0xF037;
+                    hudRow3_63[slide + 0x15] = 0xF057;
+                } else {
+                    hudRow2_63[slide + 0x15] = 0xF038;
+                    hudRow3_63[slide + 0x15] = 0xF058;
+                }
+            } else if (pl->f78 > 6) {
+                if (mgr->sel <= 2) {
+                    hudRow2_63[slide + 0x15] = 0xF039;
+                    hudRow3_63[slide + 0x15] = 0xF059;
+                    hudRow4_63[slide + 0x15] = 0xF079;
+                } else if (mgr->sel <= 5) {
+                    hudRow2_63[slide + 0x15] = 0xF03A;
+                    hudRow3_63[slide + 0x15] = 0xF05A;
+                    hudRow4_63[slide + 0x15] = 0xF07A;
+                } else {
+                    hudRow2_63[slide + 0x15] = 0xF03B;
+                    hudRow3_63[slide + 0x15] = 0xF05B;
+                    hudRow4_63[slide + 0x15] = 0xF07B;
+                }
+            }
+            base = mgr->sel / 3 * 3;
+            end = base + 3;
+            for (k = base; k < end; k++) {
+                if (mgr->list[k] != 0)
+                    hudItemE63(hudPosE63[2 - (end - (k + 1))].x + 0xF0 - (7 - slide) * 8,
+                               hudPosYE63[2 - (end - (k + 1))].x + 0x10,
+                               &mgr->slots[mgr->list[k]], 0);
+            }
+            hudSprite63(hudPosE63[2 - (end - (mgr->sel + 1))].x + 0xF0 - (7 - slide) * 8,
+                        hudPosYE63[2 - (end - (mgr->sel + 1))].x + 0x10, 7, 0, 0,
+                        hudIcon63.attr, hudIcon63.f8, hudIcon63.f0);
+            sub_080003F0();
         }
         sub_080003F0();
         sub_0801A664(2, 4);
-poll63:
-    if (sub_0800CB78() == 0) goto body63;
+    }
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060E44);
