@@ -1,0 +1,25 @@
+{
+  "address": "0x080567D4",
+  "updated_utc": "2026-11-04T07:33:44.174397+00:00",
+  "checkpoint": "codex-solo structural NONMATCHING checkpoint: call-block order restored,26 external-call targets/order equal; candidate1112/original1248, frame0x18/original0x14.",
+  "areas": [
+    {
+      "id": "stack_abi",
+      "label": "Match stack homes and frame",
+      "state": "active",
+      "evidence": "Entry index now stored atSP0. Candidate frame0x18 still differs from original0x14; pointer spill layout remains pending."
+    },
+    {
+      "id": "cfg_registers",
+      "label": "Match control flow and register allocation",
+      "state": "active",
+      "evidence": "Already-completed message and missing-item retry blocks moved to original tail order. All26 external-call targets/order match. Same-module score509->424, but candidate1112 bytes remains below original1248. Normal ASM fallback retained."
+    },
+    {
+      "id": "full_match",
+      "label": "Verify matching C in the normal ROM build",
+      "state": "pending",
+      "evidence": "Strict NO MATCH. Normal make compare OK with original ASM fallback; NONMATCHING builds; check_tree0. No matching bytes credited."
+    }
+  ]
+}

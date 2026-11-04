@@ -958,7 +958,7 @@ extern u8 playerY567D4[] asm("gUnk_03003D70");
 void callback56CB4(u32) asm("sub_08056CB4");
 void callback5990C56(u32) asm("sub_0805990C");
 void sub_080567D4(s32 arg0) {
-    s32 sp0;
+    volatile s32 sp0;
     u8 *sp4;
     u32 *sp8;
     s32 *spC;
@@ -1031,10 +1031,8 @@ void sub_080567D4(s32 arg0) {
         }
         var_r4 = var_r1;
     }
-    if (var_r4 != 0) {
-        sub_08028AAC(*(u32 *)((sp0 * 0x2C) + (table567D4 + 0x28)) + 5, 0x270F, 0x270F, 0);
-        return;
-    }
+    if (var_r4 != 0)
+        goto entryAlreadyDone;
     sp4 = table567D4;
     temp_r4_2 = 0x2C * sp0;
     sp8 = (u32 *)(table567D4 + 0xC + temp_r4_2);
@@ -1125,13 +1123,8 @@ loop_23:
         var_r1_3 += 0x10;
         var_r2 += 1;
     } while (var_r2 <= 0x18U);
-    if (var_r3 < (u32) *(u32 *)((temp_r1_5 - 0x10) + 0x18 + temp_r4_2)) {
-        if (!(gUnk_030027D0 & 0x20)) {
-            sub_08006D08(0x61U);
-        }
-        *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4() + 0x11E) = 6;
-        goto loop_12;
-    }
+    if (var_r3 < (u32) *(u32 *)((temp_r1_5 - 0x10) + 0x18 + temp_r4_2))
+        goto needMoreItems;
     temp_r0 = (u32) sub_080020F4();
     sub_08068070((u32) callback56CB4, temp_r0);
     do {
@@ -1200,6 +1193,17 @@ loop_70:
         sub_08068070((u32) sub_08059954, temp_r4_7);
     }
     sub_08068820(sub_0805A474, *(u32 *)(sp4 + 0x28 + temp_r4_2) + 5, *sp10);
+    return;
+
+needMoreItems:
+    if (!(gUnk_030027D0 & 0x20)) {
+        sub_08006D08(0x61U);
+    }
+    *(u16 *)((u8 *)gUnk_03003CE0 + 0x14C * sub_080020F4() + 0x11E) = 6;
+    goto loop_12;
+
+entryAlreadyDone:
+    sub_08028AAC(*(u32 *)((sp0 * 0x2C) + (table567D4 + 0x28)) + 5, 0x270F, 0x270F, 0);
 }
 
 
