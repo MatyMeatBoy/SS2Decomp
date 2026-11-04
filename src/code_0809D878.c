@@ -1379,14 +1379,10 @@ extern void sound9FB6C(s32) asm("sub_08058688");
 /* Expanded independently in each end phase; no extra helper call is introduced.
  * Both post-animation and pre-draw global actor reloads are significant. */
 #define END_RENDER9FB6C() do { \
-    fresh=actor9FB6C; \
-    animResult=anim9FB6C(&sprite,fresh->f68,&fresh->f6A,&fresh->f6C,1); \
-    fresh=actor9FB6C; \
-    fresh->f6E=animResult; \
-    screen9FB6C((s32)(fresh->x<<8)>>16,(s32)(fresh->y<<8)>>16,&sx,&sy,zero,zero); \
+    actor9FB6C->f6E=anim9FB6C(&sprite,actor9FB6C->f68,&actor9FB6C->f6A,&actor9FB6C->f6C,1); \
+    screen9FB6C((s32)(actor9FB6C->x<<8)>>16,(s32)(actor9FB6C->y<<8)>>16,&sx,&sy,zero,zero); \
     sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1); \
-    fresh=actor9FB6C; \
-    draw9FB6C(sx,sy,fresh->f68,fresh->f6A,2,sprite.payload,sprite.data,sprite.base); \
+    draw9FB6C(sx,sy,actor9FB6C->f68,actor9FB6C->f6A,2,sprite.payload,sprite.data,sprite.base); \
 } while(0)
 
 void sub_0809FB6C(void *input)
@@ -1564,8 +1560,10 @@ void sub_0809FB6C(void *input)
     }
     active9FB6C=0;
     sub_080A1058();sub_080A0FC4();sub_080A118C();sub_08097C6C();
-    fresh=actor9FB6C;
-    fresh->f6C=0;fresh->f6A=0;fresh->f68=0;
+    {
+        struct EntFB6 *g=actor9FB6C;
+        g->f6C=0;g->f6A=0;g->f68=0;
+    }
     floatingOffset=0;floatingTimer=10;
     do {
         if(sub_0800CCCC()==0 && sub_0800CC98()==0) {
