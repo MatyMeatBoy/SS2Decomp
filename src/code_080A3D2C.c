@@ -2226,204 +2226,122 @@ void sub_080A6BE8_v(u16 cw)
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
 #ifdef NONMATCHING
-extern u16 taskIndexA705C asm("gUnk_03000404");
-extern s32 gUnk_03000414;
-extern void callA705C_0800BC08(s32,s32,s16*,s16*,s32,s32) asm("sub_0800BC08");
-extern void callA705C_08007870(s16,s16,s32,u16,s32,void*,s32,s32) asm("sub_08007870");
-extern u32 callA705C_08065158(void*,s32,u16,s32,s32) asm("sub_08065158");
-extern s32 callA705C_0801ED8C(s32,void*) asm("sub_0801ED8C");
-extern s32 callA705C_08096594(s32) asm("sub_08096594");
-extern s8 taskFlagA705C asm("gUnk_03000407");
-s32 sub_080A705C(void) {
-    u8 sprite[0x34];
-    struct { s32 x; s32 y; s32 timer; s16 frame; s16 tick; u8 animation; u8 active; u8 pad[2]; } particles[12];
-    s32 targets[12][2];
-    s32 origins[12][2];
+struct Pl705C { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 hitIds[25]; u16 *f148; };
+struct Obj705C { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 serial; };
+struct Anim705C { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
+struct Part705C { s32 x, y, timer; u16 frame, tick; u8 dir, active, p12[2]; };
+struct XY705C { s32 x, y; };
+extern struct Pl705C gPl705C[] asm("gUnk_03003CE0");
+extern struct Obj705C *gObj705C asm("gUnk_03000400");
+extern u16 gTile705C asm("gUnk_03000404");
+extern u8 gFlag705C asm("gUnk_03000407");
+extern s32 gY705C asm("gUnk_03000414");
+u16 calc705C(void *, void *) asm("sub_0801ED8C");
+s32 rnd705C(s32) asm("sub_08096594");
+void animInit705C(void *, s32, s32, s32, s32) asm("sub_08065158");
+void proj705C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void draw705C(s32, s32, s32, u16, s32, void *, u32, u32) asm("sub_08007870");
+void anim705C(void *, s32, u16 *, u16 *, s32) asm("sub_08065370");
+void loadPal705C(u32, void *, u32) asm("sub_08000AF0");
+void end705C(s32) asm("sub_08097A38");
+void sub_080A705C_v(void) asm("sub_080A705C");
+void sub_080A705C_v(void)
+{
+    struct Anim705C anim;
+    struct Part705C p[12];
+    struct XY705C tgt[12];
+    struct XY705C org[12];
     u8 done[12];
-    u8 countdown[12];
-    s16 outX;
-    s16 outY;
-    u8 *resource;
-    u8 *particleBase;
-    u8 *originY;
-    s32 offset;
-    u8 *particleX;
-    u8 *particleY;
-    u8 *particleTimer;
-    s16 temp_r1_3;
-    s16 temp_r4_6;
-    s16 temp_r4_8;
-    register s32 *temp_r4_2 asm("r4");
-    s32 *temp_r5;
-    s32 *temp_r5_2;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r1;
-    s32 temp_r1_5;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r4_3;
-    s32 temp_r4_7;
-    s32 temp_r5_3;
-    s32 temp_r6;
-    s32 var_r4;
-    struct Player *temp_r1_2;
-    u16 temp_r4_5;
-    u8 *temp_r2;
-    u8 *temp_r3_3;
-    register u8 temp_r0 asm("r0");
-    u8 temp_r0_5;
-    u8 temp_r0_8;
-    u8 temp_r0_9;
-    u8 var_r0;
-    u8 var_r9;
-    u8 var_r9_2;
-    register u8 var_r9_3 asm("r9");
-    void *temp_r1_4;
-    void *temp_r4;
-    void *temp_r4_4;
-    void *temp_r6_2;
+    u8 cnt[12];
+    s16 sx, sy;
+    u8 *res;
+    u8 i;
+    u16 dx, dy;
+    u16 dist;
+    s32 j;
+    s32 z;
+    s32 found;
+    struct Obj705C *o;
+    struct Pl705C *pl;
 
-    (resource) = gUnk_03000400 + 0x204;
-    callA705C_08065158(&(M2C_FIELD(sprite,s32*,0)), 0x5000F, taskIndexA705C, -1, 1);
-    M2C_FIELD(&(M2C_FIELD(sprite,s32*,0)), s8 *, 0x1C) = (s8) taskIndexA705C;
-    var_r9 = 0;
-    (particleX) = &(((u8 *)particles)[0]);
-    (originY) = &(((u8 *)origins)[4]);
-    (particleY) = &(((u8 *)particles)[4]);
-    (particleTimer) = &(((u8 *)particles)[0]) + 8;
-    do {
-        temp_r1 = var_r9 * 0x14;
-        temp_r4 = &(((u8 *)particles)[0]) + temp_r1;
-        M2C_FIELD(temp_r4, s8 *, 0x10) = 1;
-        temp_r3 = var_r9 * 8;
-        temp_r0_2 = M2C_FIELD(gUnk_03000400, s32 *, 0x14);
-        M2C_FIELD(temp_r4, s32 *, 0) = temp_r0_2;
-        *(s32 *)((u8 *)&(origins[0][0]) + temp_r3) = temp_r0_2;
-        temp_r0_3 = M2C_FIELD(gUnk_03000400, s32 *, 0x18);
-        *(s32 *)((particleY) + temp_r1) = temp_r0_3;
-        *(s32 *)((originY) + temp_r3) = temp_r0_3;
-        *(s32 *)((particleTimer) + temp_r1) = temp_r1 + 0x1E;
-        M2C_FIELD(temp_r4, s8 *, 0x11) = 1;
-        *(&(done[0]) + var_r9) = 0;
-        M2C_FIELD(temp_r4, s16 *, 0xE) = 0;
-        M2C_FIELD(temp_r4, s16 *, 0xC) = 0;
-        *(&(countdown[0]) + var_r9) = 0x18;
-        temp_r0 = var_r9 + 1;
-        var_r9 = temp_r0;
-    } while ((u32) temp_r0 <= 0xBU);
+    res = (u8 *)gObj705C + 0x204;
+    animInit705C(&anim, 0x5000F, gTile705C, -1, 1);
+    anim.f1C = gTile705C;
+    for (i = 0; i <= 11; i++) {
+        p[i].dir = 1;
+        org[i].x = p[i].x = gObj705C->x;
+        org[i].y = p[i].y = gObj705C->y;
+        p[i].timer = i * 20 + 30;
+        p[i].active = 1;
+        done[i] = 0;
+        p[i].tick = 0;
+        p[i].frame = 0;
+        cnt[i] = 24;
+    }
     sub_0805865C(0x1A2);
-    gUnk_03000414 = 0;
-    (particleBase) = (particleX);
-loop_3:
-    var_r9_2 = 0;
-loop_4:
-    temp_r6 = var_r9_2 * 0x14;
-    temp_r4_2 = (particleTimer) + temp_r6;
-    temp_r0_4 = *temp_r4_2;
-    (offset) = var_r9_2 * 4;
-    if (temp_r0_4 != 0) {
-        *temp_r4_2 = temp_r0_4 - 1;
-        temp_r1_2 = &gUnk_03003CE0[callA705C_08096594(0)];
-        temp_r3_2 = var_r9_2 * 8;
-        *(s32 *)((u8 *)&(targets[0][0]) + temp_r3_2) = ((u16) M2C_FIELD(M2C_FIELD(temp_r1_2, void **, 0x148), u16 *, 0) >> 4) << 8;
-        *(s32 *)((u8 *)&(targets[0][1]) + temp_r3_2) = (u32) (M2C_FIELD(M2C_FIELD(temp_r1_2, void **, 0x148), u16 *, 2) << 0x14) >> 0xC;
-        if (*temp_r4_2 != 0) {
-
-        } else {
-            sub_0805865C(0x1A2);
-        }
-    } else {
-        temp_r3_3 = &(done[0]) + var_r9_2;
-        if (*temp_r3_3 != 0) {
-
-        } else {
-            temp_r2 = &(countdown[0]) + var_r9_2;
-            temp_r0_5 = *temp_r2;
-            if (temp_r0_5 != 0) {
-                *temp_r2 = temp_r0_5 - 1;
-                temp_r5 = (particleBase) + temp_r6;
-                temp_r4_3 = var_r9_2 * 8;
-                *temp_r5 += (s32) (*(s32 *)((u8 *)&(targets[0][0]) + temp_r4_3) - *(s32 *)((u8 *)&(origins[0][0]) + temp_r4_3)) / 24;
-                temp_r5_2 = (particleY) + temp_r6;
-                *temp_r5_2 += (s32) (*(s32 *)((u8 *)&(targets[0][1]) + temp_r4_3) - *(s32 *)((originY) + temp_r4_3)) / 24;
-            } else {
-                *temp_r3_3 = 1;
-                temp_r4_4 = (particleBase) + temp_r6;
-                M2C_FIELD(temp_r4_4, u8 *, 0x11) = temp_r0_5;
-                temp_r4_5 = ((s32) M2C_FIELD(temp_r4_4, s32 *, 0) >> 8) - ((s32) *(s32 *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x8C) >> 8);
-                temp_r4_6 = (s16) temp_r4_5;
-                temp_r1_3 = (((s32) *(s32 *)((particleY) + temp_r6) >> 8) + 8) - ((s32) *(s32 *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x90) >> 8);
-                if ((u32) Sqrt((temp_r4_6 * temp_r4_6) + (temp_r1_3 * temp_r1_3)) > 0xBU) {
-
-                } else if (sub_0800CDF8() != 0) {
-
-                } else if (sub_0800CD8C() != 0) {
-
-                } else if (sub_0800CCCC() != 0) {
-
-                } else if (M2C_FIELD(gUnk_03000400, u16 *, 0xC) == 0xB) {
-
-                } else if (*(s32 *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30) & 0x2000) {
-
-                } else if ((M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), u8 *, 0x68) != 0) && (M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), u16 *, 0x20) != 0xE) && (M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), u16 *, 0x20) != 0xB) && (M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), u16 *, 0x20) != 0xC) && (*(s32 *)((M2C_FIELD(gUnk_03000400, u16 *, 0) * 4) + (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0xE4) != M2C_FIELD(gUnk_03000400, s32 *, 0x50))) {
-                    M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), s16 *, 0x20) = 0xA;
-                    M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), s16 *, 0xB0) = 0xFFFE;
-                    temp_r5_3 = sub_080020F4();
-                    temp_r4_7 = gUnk_03000400;
-                    temp_r1_4 = (0x14C * temp_r5_3) + (u8 *)gUnk_03003CE0;
-                    M2C_FIELD(temp_r1_4, u16 *, 0x88) = (u16) (callA705C_0801ED8C(temp_r4_7, (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0) + M2C_FIELD(temp_r1_4, u16 *, 0x88));
-                    temp_r0_6 = M2C_FIELD(gUnk_03000400, s32 *, 0x50);
-                    *(s32 *)((M2C_FIELD(gUnk_03000400, u16 *, 0) * 4) + (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0xE4) = temp_r0_6;
-                    M2C_FIELD(gUnk_03000400, s32 *, 0x50) = (s32) (temp_r0_6 + 1);
-                    temp_r4_8 = M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), s16 *, 0xC4);
-                    if (((s32) temp_r4_8 > (s32) M2C_FIELD(((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0), u16 *, 0x88)) && ((sub_08015C14(), taskFlagA705C = 0, (sub_0800CE68() != 0)) || (sub_0800CC98() != 0))) {
-                        sub_0800D038();
+    gY705C = 0;
+    do {
+        for (i = 0; i <= 11; i++) {
+            if (p[i].timer != 0) {
+                p[i].timer--;
+                pl = &gPl705C[rnd705C(0)];
+                tgt[i].x = (pl->f148[0] >> 4) << 8;
+                tgt[i].y = (u32)(pl->f148[1] << 20) >> 12;
+                if (p[i].timer == 0)
+                    sub_0805865C(0x1A2);
+            } else if (done[i] == 0) {
+                if (cnt[i] != 0) {
+                    cnt[i]--;
+                    p[i].x += (tgt[i].x - org[i].x) / 24;
+                    p[i].y += (tgt[i].y - org[i].y) / 24;
+                } else {
+                    done[i] = 1;
+                    p[i].active = 0;
+                    dx = (p[i].x >> 8) - (gPl705C[sub_080020F4()].x >> 8);
+                    dy = (p[i].y >> 8) + 8 - (gPl705C[sub_080020F4()].y >> 8);
+                    dist = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+                    if (dist <= 11 && !sub_0800CDF8() && !sub_0800CD8C() && !sub_0800CCCC()
+                        && gObj705C->fC != 11
+                        && !(gPl705C[sub_080020F4()].flags & 0x2000)
+                        && gPl705C[sub_080020F4()].f68 != 0
+                        && gPl705C[sub_080020F4()].state != 14
+                        && gPl705C[sub_080020F4()].state != 11
+                        && gPl705C[sub_080020F4()].state != 12
+                        && gPl705C[sub_080020F4()].hitIds[gObj705C->id] != gObj705C->serial) {
+                        gPl705C[sub_080020F4()].state = 10;
+                        gPl705C[sub_080020F4()].fB0 = 0xFFFE;
+                        j = sub_080020F4();
+                        o = gObj705C;
+                        gPl705C[j].f88 += calc705C(o, &gPl705C[sub_080020F4()]);
+                        gPl705C[sub_080020F4()].hitIds[gObj705C->id] = gObj705C->serial++;
+                        if (gPl705C[sub_080020F4()].fC4 > gPl705C[sub_080020F4()].f88) {
+                            sub_08015C14();
+                            gFlag705C = 0;
+                            if (sub_0800CE68() != 0 || sub_0800CC98() != 0)
+                                sub_0800D038();
+                        }
+                        gY705C = gPl705C[sub_080020F4()].y - 0x800;
                     }
-                    gUnk_03000414 = *(s32 *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x90) + 0xFFFFF800;
                 }
             }
+            if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {
+                loadPal705C(gTile705C + 0x10, anim.fC + *(u16 *)(res + 0xD6) * 32, 1);
+                proj705C((s16)(p[i].x >> 8), (s16)(p[i].y >> 8), &sx, &sy, z, z);
+                anim705C(&anim, p[i].dir + 5, &p[i].frame, &p[i].tick, 1);
+                draw705C(sx, sy, p[i].dir + 5, p[i].frame, z, &anim.f1C, anim.f8, anim.f0);
+            }
         }
-    }
-    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-        temp_r0_7 = sub_0800CD34();
-        if (temp_r0_7 == 0) {
-            sub_08000AF0(taskIndexA705C + 0x10, (M2C_FIELD(sprite,s32*,0xC)) + (M2C_FIELD((resource), u16 *, 0xD6) << 5), 1U);
-            temp_r1_5 = ((offset) + var_r9_2) * 4;
-            temp_r6_2 = (particleX) + temp_r1_5;
-            callA705C_0800BC08((s32) (M2C_FIELD(temp_r6_2, s32 *, 0) << 8) >> 0x10, (s32) (*(s32 *)((particleY) + temp_r1_5) << 8) >> 0x10, &(outX), &(outY), temp_r0_7, temp_r0_7);
-            sub_08065370(&(M2C_FIELD(sprite,s32*,0)), M2C_FIELD(temp_r6_2, u8 *, 0x10) + 5, (s32) (temp_r6_2 + 0xC), (s32) (temp_r6_2 + 0xE), 1);
-            callA705C_08007870((outX), (outY), M2C_FIELD(temp_r6_2, u8 *, 0x10) + 5, M2C_FIELD(temp_r6_2, u16 *, 0xC), temp_r0_7, &(sprite[0x1C]), (M2C_FIELD(sprite,s32*,8)), (M2C_FIELD(sprite,s32*,0)));
+        found = 0;
+        for (i = 0; i <= 11; i++) {
+            if (p[i].active != 0) {
+                found = 1;
+                break;
+            }
         }
-    }
-    temp_r0_8 = var_r9_2 + 1;
-    var_r9_2 = temp_r0_8;
-    if ((u32) temp_r0_8 <= 0xBU) {
-        goto loop_4;
-    }
-    var_r4 = 0;
-    var_r9_3 = 0;
-    var_r0 = M2C_FIELD((particleX), u8 *, 0x11);
-loop_44:
-    if (var_r0 != 0) {
-        var_r4 = 1;
-    } else {
-        temp_r0_9 = var_r9_3 + 1;
-        var_r9_3 = temp_r0_9;
-        if ((u32) temp_r0_9 <= 0xBU) {
-            var_r0 = M2C_FIELD(((particleX) + (((temp_r0_9 * 4) + var_r9_3) * 4)), u8 *, 0x11);
-            goto loop_44;
-        }
-    }
-    sub_080003F0();
-    if (var_r4 != 0) {
-        goto loop_3;
-    }
-    sub_08097A38(0U);
-    M2C_FIELD((void *) sub_0800048C(), s32 *, 8) = var_r4;
+        sub_080003F0();
+    } while (found);
+    end705C(0);
+    *(u32 *)((u8 *)sub_0800048C() + 8) = found;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A705C);
