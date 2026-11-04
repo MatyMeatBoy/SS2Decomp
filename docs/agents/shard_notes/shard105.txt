@@ -1,8 +1,9 @@
-sub_0809F4A8: MATCHED (nov03-w5). Fresh rewrite with `struct {s32 x, y;} pos[4]` and plain indexing; keys:
-  `pos[i].x = actor->x + sin[(o = (angle + (i << 6)) % 255) + 0x40] * amplitude;` (mod inside the
-  index puts the actor/table loads before the __modsi3 call), `pos[i].y = actor->y - 0x2000 + sin[o] *
-  amplitude;`, dy as `{ u32 pi = 20F4(); s32 yy = (pos[i].y >> 8) + 12; dy = yy - (players[pi].y >> 8); }`,
-  `if (elapsed++ > 30)` with u16 elapsed, `u8 angle; angle++`, `task[2] = timer` at the end.
+sub_0809FB6C (nov03-w5 look): same "self actor" family as sub_080A27B8 (shard 107 notes: per-block ent
+  locals, `while (tile == 0xFFFF)`, `ent->f5C = ent->f1D6 = aux->f6 * 3`). The current H9FB6C/u8* draft
+  gets worse when patched piecemeal (641 vs 488 instruction-diff lines); a fresh rewrite in the
+  sub_080A27B8 style is the way forward. sub_0809F018: replacing `register ... asm("sl")` by a plain
+  `pl` local is worse (347 vs 142).
+with u16 elapsed, `u8 angle; angle++`, `task[2] = timer` at the end.
 imDone 0x64); animDone is read as a halfword from its stack slot (`frame =
   (u16)animDone`). Not found yet what owns 0x60.
  that cse2 related to a loop-hoisted sl), y-literal regs (r1/r2/r3
