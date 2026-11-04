@@ -4,5 +4,6 @@ sub_080A756C MATCHED (nov03-w2), fresh C (dragon cutscene). Keys: all positions 
   structs passed by value to sub_08097B6C/sub_080979D8; player pos bitfields read as
   `(s32)((u32)(t[1] << 20) >> 20) <= 0x7B` (signed compare) and `(u32)(b[4] << 26) >> 26`;
   no x8/y8 temps (CSE of dragon.x >> 8 gives the ROM spills); `{ s32 v = sin[wave += 2]; y += v >> 1; }`.
-sub_080A705C (nov03-w2): clean rewrite, exact code; only the spill-slot order of the hoisted
-  &p[0].y/.timer/org pointers differs (permuter run pending/see below).
+sub_080A705C MATCHED (nov03-w2): clean rewrite (sibling of sub_080A6BE8); the last spill-slot-order
+  diff was fixed by the permuter: `do { p[i].timer--; pl = &gPl[rnd(0)]; } while (0);` (a plain block
+  does not work). calc (sub_0801ED8C) declared returning u16; `p[i].active = 0` reuses the cnt reg.

@@ -2225,7 +2225,6 @@ void sub_080A6BE8_v(u16 cw)
     } while (--n != 0xFFFF);
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
-#ifdef NONMATCHING
 struct Pl705C { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x12]; s16 fC4; u8 pC6[0x1E]; u32 hitIds[25]; u16 *f148; };
 struct Obj705C { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 serial; };
 struct Anim705C { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
@@ -2283,8 +2282,10 @@ void sub_080A705C_v(void)
     do {
         for (i = 0; i <= 11; i++) {
             if (p[i].timer != 0) {
-                p[i].timer--;
-                pl = &gPl705C[rnd705C(0)];
+                do {
+                    p[i].timer--;
+                    pl = &gPl705C[rnd705C(0)];
+                } while (0);
                 tgt[i].x = (pl->f148[0] >> 4) << 8;
                 tgt[i].y = (u32)(pl->f148[1] << 20) >> 12;
                 if (p[i].timer == 0)
@@ -2343,9 +2344,6 @@ void sub_080A705C_v(void)
     end705C(0);
     *(u32 *)((u8 *)sub_0800048C() + 8) = found;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A705C);
-#endif
 void sub_080A74E8(void)
 {
     s32 x = 0;
