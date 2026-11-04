@@ -2969,7 +2969,6 @@ loop_126:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A27B8);
 #endif
-#ifdef NONMATCHING
 struct EntA35 {
     u16 f0, f2; u8 p4[8]; u16 fC; u8 pE[6];
     s32 x, y; u8 p1C[0x2c]; u16 f48; u8 p4A[2]; s32 f4C; s32 f50;
@@ -3022,7 +3021,6 @@ void t107MainD(void)
     u8 frame;
     u8 pal;
     s32 *p;
-    u8 sl;
 
     maskA35 |= 2;
     entA35 = (struct EntA35 *)(poolA35 + 0x2E0);
@@ -3071,10 +3069,12 @@ void t107MainD(void)
                 break;
             }
         }
-        if ((sl = slotA35) == 0xFF) {
+        if (slotA35 == 0xFF) {
             u16 r = s19CE8A35(entA35);
-            if (r != 0)
+            if (r != 0) {
+                slotA35 = nextA35;
                 break;
+            }
             sub_0801A0B0(entA35);
             entA35->f22E = r;
             entA35->f22F = r;
@@ -3082,9 +3082,9 @@ void t107MainD(void)
             continue;
         }
         if (modeA35 == 1)
-            frame = sl * 2 + 1;
+            frame = (slotA35 << 1) + 1;
         else
-            frame = sl + 1;
+            frame = slotA35 + 1;
         e2 = entA35;
         e2->x = mainA35->x;
         e2->y = mainA35->y;
@@ -3143,11 +3143,10 @@ void t107MainD(void)
             flagA35 = 0;
         if (s19CE8A35(entA35) != 0) {
             yieldA35();
-            goto out;
+            break;
         }
         yieldA35();
     }
-    slotA35 = nextA35;
 out:
     s67CA8A35(entA35->f2);
     flagA35 = 0;
@@ -3179,6 +3178,3 @@ out:
         yieldA35();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A35D0);
-#endif
