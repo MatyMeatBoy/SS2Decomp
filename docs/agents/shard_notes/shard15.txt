@@ -54,3 +54,16 @@ agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: buil
   input and action dispatch. Proposed name RunActorStateAnimationTask (proposal
   only); evidence canonical sub_0801801C ASM at57f04a4a, switches, anim65370,
   resource16E04 retry and draw07870 calls. Shared catalog unchanged.
+
+2026-11-04 codex-solo follow-up on PR388 (592cd0d5):
+  Separate f8 and f70 reads into two u32 locals before the sum in animation
+  switch case12 / subcases5,6. This preserves the original left/right operand
+  registers more closely; a fixed r1 offset-pointer variant was less effective.
+  Total7132 bytes unchanged, frame0x168 and169 external-call targets/order retained.
+  Same-module score848 ->828; TBL1 ordinary diff321 ->302, mnemonic-only83 stays83.
+  Case12 diff25 ->15, case14 diff14 ->5; every case retains the original size.
+  Strict NO MATCH; no completion or new matching bytes. Other experiments rejected:
+  auxB.f8 volatile/byte/word views do not remove the two add-SP/ldr sequences in
+  draw case10 (original direct SP-relative ldr); forcing main anim pointer r6
+  globally worsens score1076. Future work should address these PRE/reload forms
+  without repeating these controls. Private evidence build/solo015/followup.
