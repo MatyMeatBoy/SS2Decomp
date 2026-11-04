@@ -10,3 +10,13 @@ sub_080A9950 (5892 bytes, two-actor boss: gUnk_03000428 = base+0x2E0 and gUnk_03
   per use while &syA is kept, case 6 keeps its own else tail (not crossjumped with 7/8); `pose`
   sometimes gets a hard register in mine (ROM keeps it at sp+0xB8).
   Idea from shard116 (sub_080B0288 fix): pass position pairs as an 8-byte struct by value.
+
+sub_080A92C0: MATCHED (nov03-w3). Keys: plain separate locals (no asm hacks); kind (u16 arg) lives in r9;
+  draws written as if (kind) draw(.., 0x10, ..) else draw(.., 0xA0, ..) with the result in a temp `p`;
+  sub_08007870 declared with a u8 `layer` parameter (gives the lsl#24 kept / lsr#24 per use);
+  sub_08097B6C declared as (struct {s32 x,y} pos, struct area, s32) by value -> x/y reloaded from the
+  spill slots; void return via `void f_(..) asm("sub_080A92C0")` alias (header says s32).
+
+sub_080A9950 (nov03-w3, 2nd pass): normalized (register-blind) diff is ~306 lines, mostly where ROM
+  rematerializes &sxA (`add rN, sp, #120` per use, incl. separately in both arms of `sxA -= 9 / += 9`)
+  while &syA is hoisted. Tried `struct {s16 x,y;} sA, sB` (489) and `s16 sA[2]` (469): both worse.
