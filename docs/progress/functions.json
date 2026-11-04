@@ -31947,10 +31947,16 @@
       "canonical_symbol": "sub_080A705C",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_080A705C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "sub_080A705C_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 2248,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A705C_v"
+        }
+      ]
     },
     {
       "name": "sub_080A74E8",
@@ -37084,12 +37090,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 193,
-      "existing": 74,
+      "identified": 194,
+      "existing": 75,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1687,
-      "percent_identified": 10.26595744680851
+      "unidentified": 1686,
+      "percent_identified": 10.319148936170214
     },
     "sdk": {
       "total": 155,
@@ -37102,12 +37108,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 348,
-      "existing": 203,
+      "identified": 349,
+      "existing": 204,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1687,
-      "percent_identified": 17.1007371007371
+      "unidentified": 1686,
+      "percent_identified": 17.14987714987715
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
