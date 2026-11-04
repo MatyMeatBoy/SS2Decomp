@@ -7,3 +7,6 @@ sub_080A756C MATCHED (nov03-w2), fresh C (dragon cutscene). Keys: all positions 
 sub_080A705C MATCHED (nov03-w2): clean rewrite (sibling of sub_080A6BE8); the last spill-slot-order
   diff was fixed by the permuter: `do { p[i].timer--; pl = &gPl[rnd(0)]; } while (0);` (a plain block
   does not work). calc (sub_0801ED8C) declared returning u16; `p[i].active = 0` reuses the cnt reg.
+sub_080A8164 MATCHED (nov03-w2): fresh C from the sub_080B0FC4 boss-loop template (switch cases in ROM
+  block order 1,2,3,4,6,7,8,9,10,5; XY struct by value for sub_080979D8/sub_08097B6C; sub_08068450
+  returns s32). Matched on the first compile apart from that return type.
