@@ -1435,8 +1435,8 @@ void sub_0809FB6C(void *input)
     sub_08097FE4();sub_08097A4C();sub_08097C4C();sub_080A0FA8();
     sub_080A1170();sub_080A10B8();sub_080A10FC();sub_08097D70();
     actor->f50=1;
-    tick=&actor->f6C;frame=&actor->f6A;animation=&actor->f68;
     player=0;
+    tick=&actor->f6C;frame=&actor->f6A;animation=&actor->f68;
     do {
         entry=0;
         do {
