@@ -2844,6 +2844,7 @@ void sub_080A27B8(struct EntA27 *self)
     s16 i;
     s32 h;
     s32 *p;
+    u16 st;
 
     selfA27 = self;
     aux = (struct AuxA27 *)((u8 *)self + 0x204);
@@ -2937,7 +2938,7 @@ void sub_080A27B8(struct EntA27 *self)
                 }
                 break;
             case 5:
-                selfA27->fC = 0;
+                st = 0; selfA27->fC = st;
                 s4C74A27(0xFF, 0);
                 s4CA8A27(0, 0, 0, 0);
                 s4CA8A27(1, 0, 0, 0);
@@ -2955,7 +2956,7 @@ void sub_080A27B8(struct EntA27 *self)
                 sub_0805865C(0xDF);
                 break;
             case 4:
-                selfA27->fC = 2;
+                st = 2; selfA27->fC = st;
                 s97A74A27(selfA27, target, 0x100, 0x20);
                 s4520A27();
                 if (wait4 > 120) {
@@ -2979,7 +2980,7 @@ void sub_080A27B8(struct EntA27 *self)
                 }
                 break;
             case 7:
-                selfA27->fC = 0;
+                st = 0; selfA27->fC = st;
                 if (selfA27->f200 == 0xFF)
                     selfA27->f200 = 2;
                 s4C74A27((&patA27[0])[selfA27->f200 * 15], (&patA27[2])[selfA27->f200 * 15]);
@@ -3002,7 +3003,7 @@ void sub_080A27B8(struct EntA27 *self)
                 s67C18A27();
                 break;
             case 6:
-                selfA27->fC = 0;
+                st = 0; selfA27->fC = st;
                 if (otherA27->f5C == 0)
                     flagA27 = 0;
                 for (i = 0; i <= 2; i++) {
@@ -3017,7 +3018,7 @@ void sub_080A27B8(struct EntA27 *self)
                 }
                 break;
             case 8:
-                selfA27->fC = 1;
+                st = 1; selfA27->fC = st;
                 if (wait8 > 180) {
                     wait8 = 0;
                     selfA27->f1FE = 5;
