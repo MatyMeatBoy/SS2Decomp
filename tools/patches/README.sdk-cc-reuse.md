@@ -12,7 +12,8 @@ The pinned upstream source is revision
 The installer verifies that archive, the existing equality-only TST patch,
 and `agbcc-sdk-cc-reuse.patch` with SHA256
 `dd44036beac5e032d8e2e306c8d366bc21d8db4e9e19cb450fea4d702f009cd6`.
-Both patches apply with zero fuzz. The GPL source, license and installation
+The label-reuse extension described below is applied separately.
+All patches apply with zero fuzz. The GPL source, license and installation
 hashes remain in the isolated installation; no compiler binary is versioned.
 
 The option uses GCC's existing final comparison elimination with two facts:
@@ -43,9 +44,10 @@ python3 tools/scripts/test_sdk_cc_reuse.py
 ```
 
 The script accepts `--compiler`, `--reference-compiler`, `--deps` and `--out`.
-It executes 37,120 cases per configuration: the existing TST compiler, the new
-compiler with the option off, with both options on, and with only the new
-option on. Values include boundaries and deterministic random pairs, all
+It executes 48,720 cases per configuration (341,040 total).
+Profiles cover the TST reference, both reuse options off, base reuse with and
+without TST, label reuse with and without TST, and label reuse without base
+reuse. Values include boundaries and deterministic random pairs, all
 16 incoming NZCV combinations, both branches, memory stores, mixed signed
 conditions, operand changes, opaque ASM on either path, postincrement and a
 real call to a flag-preserving C identity function. Every run checks return
@@ -58,3 +60,35 @@ produce exactly the reference text bytes. CI builds the isolated compiler
 and runs these checks. These compiler tests add no matching-function credit;
 any later SDK activation still requires its own strict byte/relocation and
 full-ROM verification.
+
+## Unique-predecessor label extension
+
+The separate `agbcc-sdk-label-cc-reuse.patch` has SHA256
+`6492f5ca23c68a471f4cb4c92e32ed4344984ea73b1c4d12cd52f1ffbf805d5f`.
+It adds default-off `-fthumb-label-cc-reuse`, which also requires
+`-fthumb-cc-reuse`. Production module flags do not enable this extension.
+
+At a label, a Thumb-specific hook may replay a full CMP from its unique
+taken predecessor. It requires a barrier before the target (no fallthrough),
+a direct conditional CC0 branch, a forward target within 256 RTL nodes, and
+an immediately preceding explicit COMPARE of a low SI register with another
+low SI register or a nonnegative 8-bit immediate. It excludes high registers,
+back edges, shared labels and unknown patterns. GCC's globally disabled
+label-replay code stays disabled. Other targets and disabled output are
+unchanged.
+
+Implicit register-versus-zero facts are deliberately excluded: a zero
+comparison may have been elided after AND, so replaying it as a full CMP
+could incorrectly promote its carry and overflow bits. An explicit COMPARE
+can only have been elided against the same full-CMP fact. The accepted low
+register CMP and conditional branch have no target-output flag side effects.
+Instructions after the label still invalidate facts normally.
+
+The regression suite requires a single CMP for signed/unsigned taken-edge
+chains and store chains only when label reuse is enabled. Shared/fallthrough
+joins retain their comparisons, as does a target containing real flag-changing
+inline ASM. All profiles execute boundaries, seeded random operands, every
+incoming NZCV value and both initial join states, checking C results, memory,
+return PC, SP and preserved registers. Enabling the label option without base
+reuse must be byte-identical to the reference. No SDK function is activated
+or credited as matching by this tooling change.

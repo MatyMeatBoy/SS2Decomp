@@ -19,3 +19,8 @@ u32 cc_and_postinc(u32 a,u32 b,u32 *out){u32 r=a&b;*out++=r;if(r==0)*out=11;else
 /* Kept out of line at -O2; the harness requires the actual BL and BX LR. */
 u32 sdk_cc_identity(u32 value){return value;}
 u32 cc_and_call_taken(u32 a,u32 b,u32 *out){u32 r=a&b;*out=r;if(r){r=sdk_cc_identity(r);if((s32)r<0)return 23;return 29;}return 17;}
+
+u32 cc_cmp_signed(u32 a,u32 b,u32 *out){*out=a;if((s32)a<(s32)b)return 11;if(a==b)return 13;return 17;}
+u32 cc_cmp_opaque_label(u32 a,u32 b,u32 *out){*out=a;if(a<b)return 11;__asm__ volatile("cmp r2, r2" ::: "cc");if(a==b)return 13;return 17;}
+u32 cc_cmp_join(u32 a,u32 b,u32 *out){u32 initial=*out;*out=a;if(initial&1)goto chosen;if(a<b)return 11;chosen:if(a==b)return 13;return 17;}
+u32 cc_cmp_fallthrough(u32 a,u32 b,u32 *out){*out=a;if(a<b)goto chosen;__asm__ volatile("cmp r2, r2" ::: "cc");chosen:if(a==b)return 13;return 17;}

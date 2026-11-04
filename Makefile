@@ -108,7 +108,7 @@ tools/agbcc_tst/installed: tools/install_agbcc_tst.sh tools/patches/agbcc-tst-eq
 
 $(BUILD)/src/m4a_1.o: Makefile tools/agbcc_tst/installed
 
-tools/agbcc_sdk_cc/installed: tools/install_agbcc_sdk_cc.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-cc-reuse.patch
+tools/agbcc_sdk_cc/installed: tools/install_agbcc_sdk_cc.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-cc-reuse.patch tools/patches/agbcc-sdk-label-cc-reuse.patch
 	sh tools/install_agbcc_sdk_cc.sh
 
 $(BUILD)/src/m4a_1_engine.o: Makefile tools/agbcc_sdk_cc/installed
