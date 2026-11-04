@@ -123,3 +123,38 @@ and on the taken path. Assembly requires PL/MI for the positive fixtures,
 retained CMP for GT and opaque controls, and a fresh CMP for the subsequent
 ordered consumer. Option-off and sign-without-base output remain reference
 byte-identical. This compiler capability adds no matching-function credit.
+
+## Byte-seeded loop decrement extension
+
+The separate `agbcc-sdk-loop-cc-reuse.patch` has SHA256
+`4de75458ad2a2472c5b83e7254abd9cacae5ac53b951385d30b4b4f194fc5beb`.
+Default-off `-fthumb-loop-cc-reuse` requires base comparison reuse; production
+module flags do not enable it.
+
+The proof accepts only a low SI counter loaded from a nonvolatile unsigned
+byte before a single-entry loop, with no other counter definitions, calls or
+opaque ASM in the body. The sole decrement is immediately followed by a zero
+comparison and a signed GT backedge. Every region label's outside incoming
+edges are checked, and unknown indirect/switch jumps are rejected. The byte
+seed scan is bounded to eight instructions, region traversal to 256 nodes
+and the whole-function entry audit to 4096 nodes. Budget exhaustion rejects
+the optimization. Full INSN register-set checks include writeback notes.
+
+Inductively, the first input lies in 0..255; repeated iterations receive a
+positive previous result. Only SUB #1 changes it, so its result is -1..254
+and overflow is zero. Its NZV therefore matches CMP(result,0) for signed GT.
+A shared bounded proof additionally rejects any later observer of the
+different carry bit on either path. The fact is cleared after the consumer.
+This reasoning does not apply to arbitrary 32-bit counters at INT_MIN.
+
+Run `python3 tools/scripts/test_sdk_loop_cc_reuse.py` (the same compiler,
+reference, dependency and output arguments as the main CC suite). Six
+profiles cover reference, off, base only, loop plus base, all reuse options
+combined and loop without base. They test every byte seed with all incoming NZCV combinations and
+ABI/memory/return checks. Negative controls cover arbitrary word counters
+including INT_MIN, changed counters, outside entry to an inner label, body
+ASM, volatile seeds, real C calls, opaque exit paths and the traversal bound.
+Only the admitted byte loop loses its comparison; all excluded loops retain
+it. A non-returning loop with the expected r0 already present must fail the
+return check. Off and loop-without-base text are reference byte-identical.
+CI runs this ROM-free suite. No SDK function is activated or credited here.
