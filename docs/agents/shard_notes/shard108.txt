@@ -1,13 +1,11 @@
-
-nov03-w3: sub_080A47A0 clean rewrite (no register asm) reaches 516 vs 520 bytes but ~170 diff lines
-  (existing draft: 88). Facts: offsets are two separate s16 tables gUnk_08518754/gUnk_08518756
-  indexed `direction*2` (a struct table gives [r0,#2]); the CD8C result and the CD34 result are
-  different locals (ROM keeps only the CD34 one in r7); a 12-byte {metadata,x,y} struct or s16[2]
-  arrays put the frame in memory with base+offset stores (wrong). x/y still win r6/r7 over &sx/&sy.
- are spilled
-    pseudos -> that is why ROM reloads x/y from the stack instead of forwarding the stored value.
-  - Wait loop is `wait: if (frame == 0) { sub_080003F0(); goto wait; }` and the else branch reads
-    the global again (`animation = frame10847`, not a cached local) -> ROM's second literal load.
+nov03-w5 (shard 151) sub_080A47A0: the remaining 6 lines are reload-register choices. ROM loads pos.x via
+  r1 (clobbered by the dir load, so `pos.x +=` reloads it from sp+28) and gets the offX table address
+  through a reload into r2 (`ldr r2,=offX; adds r0,r1,r2`): i.e. in the ROM the table address is a
+  loop-hoisted, spilled, rematerialised pseudo (same pattern as sub_0809F018). Hoisting it by hand
+  (`u8 *ox = gOffX` before the loop) reproduces the rematerialisation but with (ox + k) operand order and
+  different regs (64 lines). Tried: swapping x/y add order (permuter's best: 25), vu8 alias / other forms
+  of the else-branch frame read, do-while main loop (180), k declared at function scope. Permuter 5 min: no gain.
+= frame10847`, not a cached local) -> ROM's second literal load.
   - Outer loop is for(;;) with `if (CED8 || CB78 || CD00) break;` at the bottom.
   Remaining in the clean version: ROM spills x/y and keeps &sx/&sy in sl/r9 (ours keeps x/y in
   r7/r8 and spills &sx); styles-0x1C computed as reg-28 into ip; &side reused in r6.
