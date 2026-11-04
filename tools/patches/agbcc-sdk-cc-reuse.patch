@@ -1,0 +1,196 @@
+--- a/gcc/flags.h
++++ b/gcc/flags.h
+@@ -460,3 +460,5 @@
+ 
+ /* Nonzero if the TST instruction should be used instead of AND+CMP.  */
+ extern int flag_tst;
++
++extern int flag_thumb_cc_reuse;
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -593,6 +593,7 @@
+ 
+ /* Use TST instruction instead of AND+CMP for bitwise flag tests.  */
+ int flag_tst = 0;
++int flag_thumb_cc_reuse = 0;
+ 
+ typedef struct
+ {
+@@ -742,6 +743,8 @@
+     {"prologue-bugfix", &flag_prologue_bugfix, 1,
+      "Prevent unnecessary saving of the lr register to the stack"},
+ #endif
++    {"thumb-cc-reuse", &flag_thumb_cc_reuse, 1,
++     "Reuse proven Thumb comparison flags through stores and branches"},
+     {"tst", &flag_tst, 1,
+      "Use TST instruction instead of AND+CMP for bitwise flag tests"},
+ };
+--- a/gcc/thumb.h
++++ b/gcc/thumb.h
+@@ -935,8 +935,10 @@
+ 
+ #define NOTICE_UPDATE_CC(EXP,INSN)			\
+ {							\
+-  if (get_attr_conds ((INSN)) != CONDS_UNCHANGED)	\
+-    CC_STATUS_INIT;					\
++  if (flag_thumb_cc_reuse)                              \
++    thumb_sdk_notice_update_cc ((EXP), (INSN));         \
++  else if (get_attr_conds ((INSN)) != CONDS_UNCHANGED)    \
++    CC_STATUS_INIT;                                    \
+ }
+ 
+ 
+@@ -1103,3 +1105,6 @@
+ extern void thumb_override_options();
+ extern int arm_valid_machine_decl_attribute(tree, tree, tree, tree);
+ extern int s_register_operand(rtx, enum machine_mode);
++
++extern int flag_thumb_cc_reuse;
++extern void thumb_sdk_notice_update_cc ();
+--- a/gcc/thumb.c
++++ b/gcc/thumb.c
+@@ -35,6 +35,7 @@
+ #include "expr.h"
+ #include "toplev.h"
+ #include "recog.h"
++#include "conditions.h"
+ 
+ int current_function_anonymous_args = 0;
+ 
+@@ -1557,3 +1558,136 @@
+     return register_operand(op, mode);
+ #endif
+ }
++
++/* Track only flag facts that final.c can compare exactly. Logical results
++   are admitted only for a single equality consumer, since AND preserves V. */
++static int thumb_cc_reuse_zero_only;
++
++static int
++thumb_cc_reuse_store(rtx insn)
++{
++    rtx p;
++    if (!insn || GET_CODE(insn) != INSN) return 0;
++    p = PATTERN(insn);
++    return GET_CODE(p) == SET && GET_CODE(SET_DEST(p)) == MEM
++        && GET_CODE(SET_SRC(p)) == REG
++        && REGNO(SET_SRC(p)) < 8
++        && (GET_MODE(SET_DEST(p)) == QImode
++            || GET_MODE(SET_DEST(p)) == HImode
++            || GET_MODE(SET_DEST(p)) == SImode)
++        && !side_effects_p(SET_DEST(p));
++}
++
++/* Follow both paths until a full compare or the C call/return ABI kills
++   the old flag contract. Reject opaque ASM, ordered users and bounded-out
++   control flow. Shifts/logical instructions do not count as full kills. */
++static int
++thumb_cc_reuse_flags_dead(rtx scan, int *budget)
++{
++    for (; scan && (*budget)-- > 0; scan = next_nonnote_insn(scan)) {
++        rtx p, condition, yes, no;
++        if (GET_CODE(scan) == CODE_LABEL) continue;
++        if (GET_RTX_CLASS(GET_CODE(scan)) != 'i') return 0;
++        p = PATTERN(scan);
++        if (GET_CODE(p) == ASM_INPUT || asm_noperands(p) >= 0) return 0;
++        if (GET_CODE(p) == RETURN) return 1;
++        /* Thumb's standard epilogue is an UNSPEC return. Its C ABI has
++           no outgoing NZCV contract. This is not arbitrary inline ASM. */
++        if (GET_CODE(scan) == JUMP_INSN
++            && GET_CODE(p) == UNSPEC_VOLATILE && XINT(p, 1) == 1
++            && XVECLEN(p, 0) == 1
++            && GET_CODE(XVECEXP(p, 0, 0)) == CONST_INT
++            && INTVAL(XVECEXP(p, 0, 0)) == 0) return 1;
++        if (GET_CODE(p) == SET && SET_DEST(p) == cc0_rtx
++            && (GET_CODE(SET_SRC(p)) == REG
++                || GET_CODE(SET_SRC(p)) == COMPARE)) return 1;
++        if (GET_CODE(scan) == CALL_INSN)
++            return !reg_referenced_p(cc0_rtx, p);
++        if (GET_CODE(scan) == JUMP_INSN) {
++            if (GET_CODE(p) != SET || SET_DEST(p) != pc_rtx) return 0;
++            p = SET_SRC(p);
++            if (GET_CODE(p) == LABEL_REF)
++                return thumb_cc_reuse_flags_dead(XEXP(p, 0), budget);
++            if (GET_CODE(p) != IF_THEN_ELSE) return 0;
++            condition = XEXP(p, 0);
++            if ((GET_CODE(condition) != EQ && GET_CODE(condition) != NE)
++                || !reg_mentioned_p(cc0_rtx, condition)) return 0;
++            yes = XEXP(p, 1); no = XEXP(p, 2);
++            if (GET_CODE(yes) == LABEL_REF && no == pc_rtx)
++                return thumb_cc_reuse_flags_dead(XEXP(yes, 0), budget)
++                    && thumb_cc_reuse_flags_dead(next_nonnote_insn(scan), budget);
++            if (yes == pc_rtx && GET_CODE(no) == LABEL_REF)
++                return thumb_cc_reuse_flags_dead(next_nonnote_insn(scan), budget)
++                    && thumb_cc_reuse_flags_dead(XEXP(no, 0), budget);
++            return 0;
++        }
++        if (reg_referenced_p(cc0_rtx, p)) return 0;
++    }
++    return 0;
++}
++
++static int
++thumb_cc_reuse_equality_after_stores(rtx insn, rtx value)
++{
++    rtx scan = next_nonnote_insn(insn), p, source;
++    int budget = 8, paths_budget = 256;
++    while (scan && budget-- && thumb_cc_reuse_store(scan))
++        scan = next_nonnote_insn(scan);
++    if (!scan || GET_CODE(scan) != INSN) return 0;
++    p = PATTERN(scan);
++    if (GET_CODE(p) != SET || SET_DEST(p) != cc0_rtx) return 0;
++    source = SET_SRC(p);
++    if (!rtx_equal_p(source, value)) return 0;
++    return next_insn_tests_no_inequality(scan)
++        && thumb_cc_reuse_flags_dead(next_nonnote_insn(scan), &paths_budget);
++}
++
++static int
++thumb_cc_reuse_compare_operand(rtx x)
++{
++    return GET_CODE(x) == REG || GET_CODE(x) == CONST_INT;
++}
++
++void
++thumb_sdk_notice_update_cc(rtx exp, rtx insn)
++{
++    rtx dest, source;
++    if (GET_CODE(exp) != SET) goto unknown;
++    dest = SET_DEST(exp);
++    source = SET_SRC(exp);
++    if (dest == cc0_rtx) {
++        if (GET_CODE(source) == REG
++            || (GET_CODE(source) == COMPARE
++                && thumb_cc_reuse_compare_operand(XEXP(source, 0))
++                && thumb_cc_reuse_compare_operand(XEXP(source, 1)))) {
++            CC_STATUS_INIT;
++            cc_status.value1 = source;
++            thumb_cc_reuse_zero_only = 0;
++            return;
++        }
++        goto unknown;
++    }
++    if (GET_CODE(insn) == JUMP_INSN && dest == pc_rtx
++        && GET_CODE(source) == IF_THEN_ELSE
++        && reg_mentioned_p(cc0_rtx, source)) {
++        /* A full CMP supplies all NZCV bits. A logical zero fact may only
++           serve the one already-proven EQ/NE consumer. */
++        if (thumb_cc_reuse_zero_only) goto unknown;
++        return;
++    }
++    if (thumb_cc_reuse_store(insn)) return;
++    if (GET_CODE(dest) == REG && GET_MODE(dest) == SImode
++        && REGNO(dest) < 8 && GET_CODE(source) == AND
++        && GET_CODE(XEXP(source, 0)) == REG
++        && GET_CODE(XEXP(source, 1)) == REG
++        && REGNO(XEXP(source, 0)) < 8 && REGNO(XEXP(source, 1)) < 8
++        && thumb_cc_reuse_equality_after_stores(insn, dest)) {
++        CC_STATUS_INIT;
++        cc_status.value1 = dest;
++        thumb_cc_reuse_zero_only = 1;
++        return;
++    }
++unknown:
++    CC_STATUS_INIT;
++    thumb_cc_reuse_zero_only = 0;
++}
