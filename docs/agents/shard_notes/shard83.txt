@@ -1,0 +1,9 @@
+
+w7 (2026-11-04), sub_08080A78 (nmscore 151; 1912 vs 1896 bytes). Main real diff: in the F32(MGR,0)==2 ids
+  loop, ours loads &gUnk_084ECBB0/&gUnk_084ECBB2 early into r5/ip in BOTH predecessors of the call block
+  (end of the found branch before the count loop, and the else branch) - a gcse/PRE insertion; the ROM loads
+  them at the use (`subs r4,r8,r7; lsls #2; ldr r1,=ECBB0; adds r5,r4,r1 ... ldr r1,=ECBB2; adds r4,r4,r1`).
+  No change: pointer locals px/py, byte-offset forms, (end-k)*4+(u32)tbl. Worse: calls duplicated into both
+  branches (80 lines), `for (...; i = next) { next = i + 1;` (95-99; ROM does compute i+1 into r7 before the
+  ids test), struct Pos82 array `.x/.y` (319). Next idea: what makes PRE see the table address as partially
+  redundant (block order/edges of the found/else merge), or a do-while/goto form of the ids loop.
