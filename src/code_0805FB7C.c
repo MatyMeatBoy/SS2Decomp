@@ -2196,10 +2196,11 @@ void t65C_impl(s32 index)
         } byte4;
     };
     struct T65CPopup label,sprite;
-    s16 xy[2];
-    u16 sizes[6];
+    s16 x, y;
+    u16 w0, h0, w1, h1, w2, h2;
     s32 playerIndex=index;
-    u32 worldX,worldY,frame,text;
+    u32 worldX,worldY,text;
+    s16 frame;
     u32 shifted;
     s32 zero,cc;
     u16 *spriteIndex;
@@ -2210,28 +2211,26 @@ void t65C_impl(s32 index)
     worldY=((struct Remote65C *)T65C_ENTITY(p))->y;
     worldX=((struct Remote65C *)T65C_ENTITY(p))->x;
     if (playerIndex==sub_080020F4()) sub_0800CEE8();
-    sizes[2]=0;sizes[3]=0;
-    sizes[4]=2;sizes[5]=0;
-    sizes[1]=0;
+    w1=0;h1=0;
+    w2=2;h2=0;
+    h0=0;
     frame=0;
     spriteIndex=(u16 *)(p+0x64);
     t65C_init(&sprite,t65C_resourceTable[*spriteIndex].id,0,-1);
     sprite.palette[0]=T65C_H(p,0);
     zero=sub_0800CF80();
     if (zero) goto cleanup;
-    sizes[1]=zero;sizes[0]=zero;
+    h0=zero;w0=zero;
     text=0x21;
     if (playerIndex==sub_080020F4()) {
         sub_0805865C(0x75);
         T65C_H(p,0x1C)=zero;
     }
-    shifted=frame<<16;
-    if ((s16)frame>159) goto cleanup;
-loop:
-    t65C_position((s16)worldX,(s16)worldY,xy,xy+1,0x30,0);
-    T65C_H(p,0xB6)=sub_08008CC4(0x21,sizes,sizes+1,sprite.data,1);
-    sub_08008CC4(0,sizes+2,sizes+3,label.data,1);
-    sub_08008CC4(1,sizes+4,sizes+5,label.data,1);
+    while (frame<=159) {
+    t65C_position((s16)worldX,(s16)worldY,&x,&y,0x30,0);
+    T65C_H(p,0xB6)=sub_08008CC4(0x21,&w0,&h0,sprite.data,1);
+    sub_08008CC4(0,&w1,&h1,label.data,1);
+    sub_08008CC4(1,&w2,&h2,label.data,1);
     if (sub_0800CC98()) goto skipDraw;
     if (sub_08058DB0()) goto skipDraw;
     if (sub_0800CD34()) goto skipDraw;
@@ -2246,11 +2245,11 @@ drawTest:
     sub_08000AF0(0x1F,(void *)label.sound,1);
     if (T65C_W(p,0x30)&0x2000) {
         if (!(t65C_flags&1)) {
-            sub_08007CF0(xy[0],xy[1]-((s32)shifted>>16),text,sizes[0],1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
+            sub_08007CF0(x,y-frame,text,w0,1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
             sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+0x1C0),1);
         }
     } else {
-        sub_08007CF0(xy[0],xy[1]-((s32)shifted>>16),text,sizes[0],1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
+        sub_08007CF0(x,y-frame,text,w0,1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
         if (*spriteIndex==9) {
             sub_08000AF0(T65C_H(p,0)+16,(void *)sprite.sound,1);
             color=p+0x66;
@@ -2260,14 +2259,13 @@ drawTest:
         }
         sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(*color<<5)),1);
     }
-    sub_08007CF0(xy[0],xy[1]-(((s32)shifted>>16)+24),0,sizes[2],1,(s32)label.palette,(s32)label.data,label.base);
-    if (t65C_flags&1) t65C_overlay(xy[0],xy[1],1,sizes[4],3,label.palette,label.data,label.base);
+    sub_08007CF0(x,y-(frame+24),0,w1,1,(s32)label.palette,(s32)label.data,label.base);
+    if (t65C_flags&1) t65C_overlay(x,y,1,w2,3,label.palette,label.data,label.base);
 skipDraw:
     sub_080003F0();
     if (sub_0800CB78() || sub_0800CD00()) goto cleanup;
-    if (!sub_08056E90() && !sub_08058DB0()) frame=(u16)(frame+1);
-    shifted=frame<<16;
-    if ((s16)frame<=159) goto loop;
+    if (!sub_08056E90() && !sub_08058DB0()) frame++;
+    }
 cleanup:
     if (sub_0800CDF8()) return;
     while (sub_0800D11C()) sub_080003F0();

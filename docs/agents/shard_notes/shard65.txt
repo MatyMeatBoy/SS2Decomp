@@ -1,11 +1,11 @@
 
-nov03-w3 (sub_08063B80, ~45 min, no landing): a register-asm-free rewrite is in
-  shard65_sub_08063B80_clean.c (694 vs 688 bytes, 89 register-blind diff lines; the landed asm-hack
-  draft is still better by score, so it was not landed). What the clean version establishes:
-  - stack order x 0x44, y 0x46, w 0x48, h 0x4A, w2 0x4C, h2 0x4E, pos 0x50, bw 0x58, bh 0x5C needs
-    scalars `s16 x, y; u16 w, h, w2, h2;` then `struct { s32 x, y; } pos; s32 bw, bh;` (a s32 box[4]
-    array is allocated before the scalars);
-  - y passed to sub_0800BC08 is a variable `worldY = 0x138` (the ROM shifts a rematerialized 0x138);
+nov03-w3 (sub_080636B0): draft 1152 -> 1220 bytes (ROM 1232), nmscore 257 -> 254: the frame counter is
+  an s16 `while (frame <= 159)` loop (with `if ((s16)frame > 159) goto` gcse folded the entry test away
+  and dropped ~70 bytes); x/y and the three size pairs are scalars `s16 x, y; u16 w0, h0, w1, h1, w2, h2;`.
+  Same PRE blocker as sub_080634D8/sub_08063B80 (hoisted &h0/&w1/.. reused for the sub_08008CC4 args
+  inside the loop, ROM rematerializes `add rN, sp, #off`). ROM also keeps text (=0x21) in a stack slot
+  (sp+0x98) and reuses frame (=0) as the sprite init's index argument.
+ts a rematerialized 0x138);
   - entity test is a bitfield struct (kind:4 at +0, phase bits 6..11 of the u16 at +4).
   - Same blocker as sub_080634D8: gcse/PRE hoists &pos/&w/&h to the first block (ROM too) but our
     build then also uses them for the sub_08008CC4 args inside the loop (ROM rematerializes
