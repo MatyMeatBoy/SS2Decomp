@@ -1,0 +1,34 @@
+2026-11-04: shards with several remaining functions were split so every remaining
+function can be claimed on its own (shards claimed at that moment were left as they were).
+Notes for a moved function stay in its ORIGINAL shard's notes file (shardNN.txt).
+
+new_shard function original_shard
+124 sub_0800AEF4 6
+125 sub_0800B118 6
+126 sub_0800D368 7
+127 sub_0802413C 23
+128 sub_080245CC 23
+129 sub_080263B4 24
+130 sub_08026858 24
+131 sub_0805C208 60
+132 sub_0805C7B8 60
+133 sub_0805D854 61
+134 sub_0805DC1C 61
+135 sub_0805E0C4 61
+136 sub_080624D8 64
+137 sub_080636B0 65
+138 sub_08063B80 65
+139 sub_08063E30 65
+140 sub_0806C568 71
+141 sub_0806CDF0 71
+142 sub_0806DE94 72
+143 sub_0806F0CC 73
+144 sub_080710DC 74
+145 sub_08076BA0 78
+146 sub_08079458 80
+147 sub_08087A5C 89
+148 sub_08094F3C 98
+149 sub_0809561C 98
+150 sub_0809CC2C 103
+151 sub_080A47A0 108
+152 sub_080A4D08 108

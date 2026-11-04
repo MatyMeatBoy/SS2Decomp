@@ -22,6 +22,24 @@ Read this before claiming a shard. It condenses what matched ~120 functions in t
 4. Sibling functions: once one function of a family matches, copy its shape (helpers, structs,
    loop forms) to the siblings in the same module.
 
+## One function per shard; giant functions
+
+- Since 2026-11-04 almost every remaining function is its own shard
+  (`docs/agents/shard_notes/RESHARD-2026-11-04.txt` maps new shard -> function -> original shard;
+  a moved function's notes stay in the ORIGINAL shard's notes file). Claim, work and release one
+  function at a time so no worker blocks functions it is not touching.
+- Do not split ONE function between several workers: a match depends on whole-function register
+  allocation and stack layout, so parallel edits to one body conflict and cannot be verified
+  separately. Parallelism comes from different functions (88+ shards for 5 workers).
+- Giant functions (sub_0800D368 12k asm lines, sub_0807C29C 8.6k, sub_08003984 4k,
+  sub_0801801C 3.3k): one long-haul worker each. Work in landed phases: (1) structure — every
+  switch case / block in the ROM's order with inline helpers, compiling; (2) exact size, case by
+  case (diff per case with the ROM range); (3) registers. Land after each phase and write the
+  case-by-case status into the shard notes so the next worker resumes, not restarts.
+- Register-allocation near misses that several workers already tried: only retry with a new
+  idea from the notes (struct pair, inline helper, goto loop, block-local pointers, fresh
+  rewrite); otherwise prefer a function without a draft.
+
 ## Function families (copy a matched sibling first)
 
 - Boss/enemy main loops share one template: they start with sub_0801623C, sub_08019F60,
