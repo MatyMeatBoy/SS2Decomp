@@ -2373,10 +2373,10 @@ loop:
         goto loop;
     }
 }
-#ifdef NONMATCHING
 struct Anim756C { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
 struct XY756C { s32 x, y; };
-struct Pl756C { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 x, y; u8 p94[4]; s32 f98; u8 p9C[0xAC]; u16 *f148; };
+struct Pos756C { u16 x; u16 y : 12; u16 r : 4; u8 z : 6; u8 r2 : 2; };
+struct Pl756C { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 x, y; u8 p94[4]; s32 f98; u8 p9C[0xAC]; struct Pos756C *f148; };
 struct Draw756C { u8 p0[0xC]; s32 fC; };
 struct G3170_756C { u8 p0[0x90]; u16 f90; };
 extern struct Pl756C gPl756C[] asm("gUnk_03003CE0");
@@ -2539,8 +2539,8 @@ void sub_080A756C_v(void)
             switch (sub) {
             case 0:
                 for (i = 0; i < nPl; i++) {
-                    u16 *t = gPl756C[i].f148;
-                    if ((t[1] & 0xFFF) <= 0x7B && (((u8 *)t)[4] & 0x3F) == 0x11) {
+                    struct Pos756C *t = gPl756C[i].f148;
+                    if ((s32)((u32)(((u16 *)t)[1] << 20) >> 20) <= 0x7B && (u32)(((u8 *)t)[4] << 26) >> 26 == 0x11) {
                         landed = 1;
                         animId = 0x10;
                         tick0 = 0;
@@ -2570,8 +2570,8 @@ void sub_080A756C_v(void)
         case 4:
             state = 5;
             for (i = 0; i < nPl; i++) {
-                u16 *t = gPl756C[i].f148;
-                if ((t[1] & 0xFFF) > 0x7C && (((u8 *)t)[4] & 0x3F) == 0x11)
+                struct Pos756C *t = gPl756C[i].f148;
+                if ((s32)((u32)(((u16 *)t)[1] << 20) >> 20) > 0x7C && (u32)(((u8 *)t)[4] << 26) >> 26 == 0x11)
                     state = 4;
             }
             if (state == 5) {
@@ -2614,21 +2614,18 @@ void sub_080A756C_v(void)
             break;
         }
         if (waving != 0) {
-            wave += 2;
-            dragon.y += gSin756C[wave] >> 1;
+            { s32 v = gSin756C[wave += 2]; dragon.y += v >> 1; }
         }
         animDone = anim756C(&anim0, animId, &frame0, &tick0, animMode);
-        x8 = dragon.x >> 8;
-        y8 = dragon.y >> 8;
-        b = prio756C(x8, y8, 0);
+        b = prio756C(dragon.x >> 8, dragon.y >> 8, 0);
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && (z = sub_0800CD34()) == 0) {
             if (landed == 0) {
-                proj756C((s16)x8, (s16)y8, &sx, &sy, z, z);
+                proj756C((s16)(dragon.x >> 8), (s16)(dragon.y >> 8), &sx, &sy, z, z);
                 draw756C(sx, sy, animId, frame0, b, &anim0.f1C, anim0.f8, anim0.f0);
             } else {
-                proj756C((s16)x8, (s16)(shadow.y >> 8), &sx, &sy, z, z);
+                proj756C((s16)(dragon.x >> 8), (s16)(shadow.y >> 8), &sx, &sy, z, z);
                 o = draw756C(sx, sy, animId, frame0, b, &anim0.f1C, anim0.f8, anim0.f0);
-                proj756C((s16)x8, (s16)y8, &sx, &sy, z, z);
+                proj756C((s16)(dragon.x >> 8), (s16)(dragon.y >> 8), &sx, &sy, z, z);
                 o->fC = sy;
             }
             if (shadow.x <= 0xBD00 && (gFrame756C & 1)) {
@@ -2638,7 +2635,7 @@ void sub_080A756C_v(void)
             }
         }
         if (fx != 0) {
-            proj756C((s16)x8, (s16)y8, &sx, &sy, 0, 0);
+            proj756C((s16)(dragon.x >> 8), (s16)(dragon.y >> 8), &sx, &sy, 0, 0);
             if (anim756C(&anim1, fx, &frame1, &tick1, 0) != 0)
                 fx = 0;
             else
@@ -2664,9 +2661,6 @@ void sub_080A756C_v(void)
     gPl756C[sub_080020F4()].flags &= ~1;
     gMask756C = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A756C);
-#endif
 void sub_080A7DEC(void)
 {
     if (*(s16 *)((u8 *)gUnk_03000400 + 0x5C) != 0) {

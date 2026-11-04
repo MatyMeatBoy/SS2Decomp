@@ -1,0 +1,8 @@
+shard 110 notes (nov03-w2, 2026-11-03)
+
+sub_080A756C MATCHED (nov03-w2), fresh C (dragon cutscene). Keys: all positions are 8-byte XY
+  structs passed by value to sub_08097B6C/sub_080979D8; player pos bitfields read as
+  `(s32)((u32)(t[1] << 20) >> 20) <= 0x7B` (signed compare) and `(u32)(b[4] << 26) >> 26`;
+  no x8/y8 temps (CSE of dragon.x >> 8 gives the ROM spills); `{ s32 v = sin[wave += 2]; y += v >> 1; }`.
+sub_080A705C (nov03-w2): clean rewrite, exact code; only the spill-slot order of the hoisted
+  &p[0].y/.timer/org pointers differs (permuter run pending/see below).
