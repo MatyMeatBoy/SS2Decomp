@@ -1,0 +1,15 @@
+
+w7 (2026-11-04), sub_080066BC (goto-dump draft with register-asm hacks, nmscore 170, 1096 vs 1136 bytes).
+  Wrote a structured rewrite (host/client branches, two peer loops, `done:` epilogue; control flow and
+  calls follow the ROM): 225 with the draft's one-struct frame, size still 1096. Findings:
+  - Frame (ROM): gfx sp+4 (0x34), count[4] sp+0x38, a sp+0x40, b sp+0x42, display sp+0x44, result 0x48,
+    active 0x4c, mode 0x50; result/active/mode live in memory and are read NARROWED (`add r1,sp,#0x48;
+    ldrh`, `ldrb` in the result==0 epilogue), so they are non-volatile memory (an addressable aggregate).
+  - ROM rebuilds every frame address from sp (`add r0,sp,#0x40`, `mov r1,sp; adds r1,#0x42`, `add r0,sp,#4`
+    for each gfx arg); our versions keep a base pseudo: one struct -> `add r0,sp,#4; strh [r0,#62]`;
+    {a,b,display,result,active,mode} struct -> base r5 (252, frame 0x58); separate scalars + st struct -> 220
+    but st moves to sp+0x40 and reads are not narrowed (ldr).
+  - `peer66(sub_080020F4() ? sub_080020F4() : 0)` vs if/else both give the ROM's `movs r0,#0; b` shape.
+  - `gUnk_03002730 & (1 << i)` gets turned into `asrs; ands #1` (ROM keeps `movs r1,#1; lsls r1,r6; ands`),
+    and `if (bit) *cnt = 0; else (*cnt)++;` becomes a select; the ROM hoists a zero register (r7/r8) for
+    `*cnt = 0`, the peer stores and the sub_08065230 last arg.
