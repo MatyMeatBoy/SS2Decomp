@@ -513,10 +513,7 @@ struct HudPos63 { s16 x, y; };
 extern struct HudPlayer63 hudPlayers63[] asm("gUnk_03003CE0");
 extern struct HudMgr63 *hudMgr63 asm("gUnk_030034E0");
 extern u16 hudKeys63 asm("gUnk_03001324");
-extern u16 hudMap63[] asm("gUnk_03005740");
-extern u16 hudRow2_63[] asm("gUnk_030057C0");
-extern u16 hudRow3_63[] asm("gUnk_03005800");
-extern u16 hudRow4_63[] asm("gUnk_03005840");
+extern u16 hudMap63[][0x20] asm("gUnk_03005740");
 extern u16 hudFrame63[4][8] asm("gUnk_084EBD7C");
 extern struct HudPos63 hudPos63[] asm("gUnk_084EBDBC");
 extern struct HudPos63 hudPosY63[] asm("gUnk_084EBDBE");
@@ -534,7 +531,6 @@ void sub_080605D0(s32 animate)
     s32 dirty;
     s32 count;
     s32 f78;
-    u16 *tiles;
     s16 i;
     s16 base;
     s16 k;
@@ -556,7 +552,6 @@ void sub_080605D0(s32 animate)
         }
         slide = 8;
         timer = 0x3C;
-        tiles = hudMap63;
         while (timer-- > 0 && sub_0800CB78() == 0) {
             slide -= 2;
             if (slide < 0)
@@ -596,32 +591,32 @@ void sub_080605D0(s32 animate)
             if (animate != 0 || dirty != 0) {
                 sub_0801A664(2, 4);
                 for (i = slide; i <= 7; i++) {
-                    hudRow2_63[i - slide] = hudFrame63[0][i];
-                    (tiles + 0x60)[i - slide] = hudFrame63[1][i];
-                    hudRow4_63[i - slide] = hudFrame63[2][i];
-                    (tiles + 0xA0)[i - slide] = hudFrame63[3][i];
+                    hudMap63[2][i - slide] = hudFrame63[0][i];
+                    hudMap63[3][i - slide] = hudFrame63[1][i];
+                    hudMap63[4][i - slide] = hudFrame63[2][i];
+                    hudMap63[5][i - slide] = hudFrame63[3][i];
                 }
                 if ((u8)(pl->count - 4) <= 2) {
                     if (mgr->sel <= 2) {
-                        hudRow2_63[i - slide] = 0xF032;
-                        (tiles + 0x60)[i - slide] = 0xF052;
+                        hudMap63[2][i - slide] = 0xF032;
+                        hudMap63[3][i - slide] = 0xF052;
                     } else {
-                        hudRow2_63[i - slide] = 0xF033;
-                        (tiles + 0x60)[i - slide] = 0xF053;
+                        hudMap63[2][i - slide] = 0xF033;
+                        hudMap63[3][i - slide] = 0xF053;
                     }
                 } else if (pl->count > 6) {
                     if (mgr->sel <= 2) {
-                        hudRow2_63[i - slide] = 0xF034;
-                        (tiles + 0x60)[i - slide] = 0xF054;
-                        hudRow4_63[i - slide] = 0xF074;
+                        hudMap63[2][i - slide] = 0xF034;
+                        hudMap63[3][i - slide] = 0xF054;
+                        hudMap63[4][i - slide] = 0xF074;
                     } else if (mgr->sel <= 5) {
-                        hudRow2_63[i - slide] = 0xF035;
-                        (tiles + 0x60)[i - slide] = 0xF055;
-                        hudRow4_63[i - slide] = 0xF075;
+                        hudMap63[2][i - slide] = 0xF035;
+                        hudMap63[3][i - slide] = 0xF055;
+                        hudMap63[4][i - slide] = 0xF075;
                     } else {
-                        hudRow2_63[i - slide] = 0xF036;
-                        (tiles + 0x60)[i - slide] = 0xF056;
-                        hudRow4_63[i - slide] = 0xF076;
+                        hudMap63[2][i - slide] = 0xF036;
+                        hudMap63[3][i - slide] = 0xF056;
+                        hudMap63[4][i - slide] = 0xF076;
                     }
                 }
                 if (slide <= 0)
@@ -682,32 +677,32 @@ void sub_080605D0(s32 animate)
             if (slide > 8)
                 slide = 8;
             for (i = slide; i <= 7; i++) {
-                hudRow2_63[i - slide] = hudFrame63[0][i];
-                hudRow3_63[i - slide] = hudFrame63[1][i];
-                hudRow4_63[i - slide] = hudFrame63[2][i];
-                (tiles + 0xA0)[i - slide] = hudFrame63[3][i];
+                hudMap63[2][i - slide] = hudFrame63[0][i];
+                hudMap63[3][i - slide] = hudFrame63[1][i];
+                hudMap63[4][i - slide] = hudFrame63[2][i];
+                hudMap63[5][i - slide] = hudFrame63[3][i];
             }
             if ((u8)(pl->count - 4) <= 2) {
                 if (mgr->sel <= 2) {
-                    hudRow2_63[i - slide] = 0xF032;
-                    hudRow3_63[i - slide] = 0xF052;
+                    hudMap63[2][i - slide] = 0xF032;
+                    hudMap63[3][i - slide] = 0xF052;
                 } else {
-                    hudRow2_63[i - slide] = 0xF033;
-                    hudRow3_63[i - slide] = 0xF053;
+                    hudMap63[2][i - slide] = 0xF033;
+                    hudMap63[3][i - slide] = 0xF053;
                 }
             } else if (pl->count > 6) {
                 if (mgr->sel <= 2) {
-                    hudRow2_63[i - slide] = 0xF034;
-                    hudRow3_63[i - slide] = 0xF054;
-                    hudRow4_63[i - slide] = 0xF074;
+                    hudMap63[2][i - slide] = 0xF034;
+                    hudMap63[3][i - slide] = 0xF054;
+                    hudMap63[4][i - slide] = 0xF074;
                 } else if (mgr->sel <= 5) {
-                    hudRow2_63[i - slide] = 0xF035;
-                    hudRow3_63[i - slide] = 0xF055;
-                    hudRow4_63[i - slide] = 0xF075;
+                    hudMap63[2][i - slide] = 0xF035;
+                    hudMap63[3][i - slide] = 0xF055;
+                    hudMap63[4][i - slide] = 0xF075;
                 } else {
-                    hudRow2_63[i - slide] = 0xF036;
-                    hudRow3_63[i - slide] = 0xF056;
-                    hudRow4_63[i - slide] = 0xF076;
+                    hudMap63[2][i - slide] = 0xF036;
+                    hudMap63[3][i - slide] = 0xF056;
+                    hudMap63[4][i - slide] = 0xF076;
                 }
             }
             sub_0801A664(2, 4);
@@ -766,7 +761,6 @@ void sub_08060E44(s32 animate)
     s32 dirty;
     s32 count;
     s32 f78;
-    u16 *tiles;
     s16 i;
     s16 j;
     s16 base;
@@ -789,7 +783,6 @@ void sub_08060E44(s32 animate)
         }
         slide = 8;
         timer = 0x3C;
-        tiles = hudMap63;
         while (timer-- > 0 && sub_0800CB78() == 0) {
             slide -= 2;
             if (slide < 0)
@@ -821,32 +814,32 @@ void sub_08060E44(s32 animate)
             if (animate != 0 || dirty != 0) {
                 sub_0801A664(2, 4);
                 for (i = slide, j = 0; i <= 7; i++, j++) {
-                    (tiles + 0x40)[i + 0x16] = hudFrameE63[0][j];
-                    hudRow3_63[i + 0x16] = hudFrameE63[1][j];
-                    hudRow4_63[i + 0x16] = hudFrameE63[2][j];
-                    (tiles + 0xA0)[i + 0x16] = hudFrameE63[3][j];
+                    hudMap63[2][i + 0x16] = hudFrameE63[0][j];
+                    hudMap63[3][i + 0x16] = hudFrameE63[1][j];
+                    hudMap63[4][i + 0x16] = hudFrameE63[2][j];
+                    hudMap63[5][i + 0x16] = hudFrameE63[3][j];
                 }
                 if ((u8)(pl->f78 - 4) <= 2) {
                     if (mgr->sel <= 2) {
-                        (tiles + 0x40)[slide + 0x15] = 0xF037;
-                        hudRow3_63[slide + 0x15] = 0xF057;
+                        hudMap63[2][slide + 0x15] = 0xF037;
+                        hudMap63[3][slide + 0x15] = 0xF057;
                     } else {
-                        (tiles + 0x40)[slide + 0x15] = 0xF038;
-                        hudRow3_63[slide + 0x15] = 0xF058;
+                        hudMap63[2][slide + 0x15] = 0xF038;
+                        hudMap63[3][slide + 0x15] = 0xF058;
                     }
                 } else if (pl->f78 > 6) {
                     if (mgr->sel <= 2) {
-                        (tiles + 0x40)[slide + 0x15] = 0xF039;
-                        hudRow3_63[slide + 0x15] = 0xF059;
-                        hudRow4_63[slide + 0x15] = 0xF079;
+                        hudMap63[2][slide + 0x15] = 0xF039;
+                        hudMap63[3][slide + 0x15] = 0xF059;
+                        hudMap63[4][slide + 0x15] = 0xF079;
                     } else if (mgr->sel <= 5) {
-                        (tiles + 0x40)[slide + 0x15] = 0xF03A;
-                        hudRow3_63[slide + 0x15] = 0xF05A;
-                        hudRow4_63[slide + 0x15] = 0xF07A;
+                        hudMap63[2][slide + 0x15] = 0xF03A;
+                        hudMap63[3][slide + 0x15] = 0xF05A;
+                        hudMap63[4][slide + 0x15] = 0xF07A;
                     } else {
-                        (tiles + 0x40)[slide + 0x15] = 0xF03B;
-                        hudRow3_63[slide + 0x15] = 0xF05B;
-                        hudRow4_63[slide + 0x15] = 0xF07B;
+                        hudMap63[2][slide + 0x15] = 0xF03B;
+                        hudMap63[3][slide + 0x15] = 0xF05B;
+                        hudMap63[4][slide + 0x15] = 0xF07B;
                     }
                 }
                 if (slide <= 0)
@@ -927,33 +920,33 @@ void sub_08060E44(s32 animate)
             if (slide > 8)
                 slide = 8;
             for (i = slide, j = 0; i <= 7; i++, j++) {
-                hudRow2_63[i + 0x16] = hudFrameE63[0][j];
-                hudRow3_63[i + 0x16] = hudFrameE63[1][j];
-                hudRow4_63[i + 0x16] = hudFrameE63[2][j];
-                (hudRow4_63 + 0x20)[i + 0x16] = hudFrameE63[3][j];
+                hudMap63[2][i + 0x16] = hudFrameE63[0][j];
+                hudMap63[3][i + 0x16] = hudFrameE63[1][j];
+                hudMap63[4][i + 0x16] = hudFrameE63[2][j];
+                hudMap63[5][i + 0x16] = hudFrameE63[3][j];
             }
             sub_0801A664(2, 4);
             if ((u8)(pl->f78 - 4) <= 2) {
                 if (mgr->sel <= 2) {
-                    hudRow2_63[slide + 0x15] = 0xF037;
-                    hudRow3_63[slide + 0x15] = 0xF057;
+                    hudMap63[2][slide + 0x15] = 0xF037;
+                    hudMap63[3][slide + 0x15] = 0xF057;
                 } else {
-                    hudRow2_63[slide + 0x15] = 0xF038;
-                    hudRow3_63[slide + 0x15] = 0xF058;
+                    hudMap63[2][slide + 0x15] = 0xF038;
+                    hudMap63[3][slide + 0x15] = 0xF058;
                 }
             } else if (pl->f78 > 6) {
                 if (mgr->sel <= 2) {
-                    hudRow2_63[slide + 0x15] = 0xF039;
-                    hudRow3_63[slide + 0x15] = 0xF059;
-                    hudRow4_63[slide + 0x15] = 0xF079;
+                    hudMap63[2][slide + 0x15] = 0xF039;
+                    hudMap63[3][slide + 0x15] = 0xF059;
+                    hudMap63[4][slide + 0x15] = 0xF079;
                 } else if (mgr->sel <= 5) {
-                    hudRow2_63[slide + 0x15] = 0xF03A;
-                    hudRow3_63[slide + 0x15] = 0xF05A;
-                    hudRow4_63[slide + 0x15] = 0xF07A;
+                    hudMap63[2][slide + 0x15] = 0xF03A;
+                    hudMap63[3][slide + 0x15] = 0xF05A;
+                    hudMap63[4][slide + 0x15] = 0xF07A;
                 } else {
-                    hudRow2_63[slide + 0x15] = 0xF03B;
-                    hudRow3_63[slide + 0x15] = 0xF05B;
-                    hudRow4_63[slide + 0x15] = 0xF07B;
+                    hudMap63[2][slide + 0x15] = 0xF03B;
+                    hudMap63[3][slide + 0x15] = 0xF05B;
+                    hudMap63[4][slide + 0x15] = 0xF07B;
                 }
             }
             base = mgr->sel / 3 * 3;
