@@ -21,3 +21,22 @@ sub_0805B2C4: draft improved 112 -> 82 diff lines (same 518 bytes).
   - Remaining: px gets r8 (ROM sl) and b+1 gets sl (ROM r8); the region-2 hi regs follow.
     Renaming px/a/b in region 2 makes it worse; region-2 qx as a separate var helps a little.
   - Permuter (5 min, both modes) gives only invalid output.
+
+2026-11-04 codex-solo, base671bfa45:
+  sub_0805B2C4 remains NONMATCHING (518/518 bytes). A shared block-local limit
+  bound to r0 with an empty read/write constraint reproduces the ROM's single
+  0x11170 load and copies to r4/r5, and the slot-base address in r1. Real-module
+  score62 ->58; no matching credit. Retained only this initial-value improvement.
+  Rejected moving count after the limit (swaps lowestIndex/count r5/r6), forced
+  scan registers (correct initial block but destructive eviction-index shift),
+  px/qx fixed sl (changes inline-helper allocations), temporary sl transfers
+  (an extra copy in the first loop), explicit next-b in r8 (63), goto grid loops
+  (106/125), fixed eviction base/address (69-96). All rejected trials reverted.
+  Remaining: early count-zero order, eviction addressing, first-loop high-reg
+  swap and tail scratch registers. No permuter launched; previous failed search
+  is already documented above. Private snapshots/logs remain under build/solo059.
+  Observed role: allocate/reuse one of16 field-effect slots and search a21x21
+  collision grid for a free placement, evicting the oldest slot when full.
+  Proposed name AllocateFieldEffectNearPosition (proposal only). Evidence:
+  canonical sub_0805B2C4 ASM at671bfa45, slots05D58, field grid00124, AE50 and
+  inline occupied-position search, increasing counter and final active flag.
