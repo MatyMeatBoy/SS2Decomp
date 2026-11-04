@@ -6,3 +6,9 @@ sub_08002694 (nov03-w4): clean rewrite (no register asm), 958/958 bytes, only th
   (vu16 does too but rereads). Left: the 0x40 branch stores 0 from the and-result pseudo (cse jump equivalence:
   known zero on that path); ROM materialises `movs r4, #0` before the sub_08006D08 call. Tried: inline helper
   pick(v) with u32/u8/u16 param, `(x & 0x80) != 0`, u32/u16 local copies, bitfield struct, casts.
+sub_08002694: matched by nov03-w3 (the 0x40 branch stores a reused local `i = 0`).
+sub_08002B70 (nov03-w4): first draft (fresh C), 3612 vs 3604 bytes, same structure; spill slots 0x254..0x298 come
+  out in ROM order when the scalars are declared in that order (result, slot, state, prev, yes, loop, blink,
+  blinkTimer u16, all, fade, cx, cy, tx, ty, saves, oldHandler, oldMode u8). `scroll` is uninitialised in the ROM
+  too (r7); gcc itself sinks `scroll >> 8` / `scroll + 0x40` into every switch exit. Left: one register short
+  (ROM: scroll r7, >>8 in sl, +0x40 in r9; draft spills >>8 to sp+0x29C, frame 0x2A4 vs 0x29C).

@@ -560,7 +560,561 @@ void sub_08002AA0(void)
 	sub_0800BCDC(0x13, 1, 0x06000000, 0, 0xF);
 	sub_0800903C(4, 8, 1, 0, 8, z);
 }
+#ifdef NONMATCHING
+struct Save2B70 {
+    u8 used;
+    u8 cls;
+    u8 pal;
+    u8 pad3[2];
+    u8 copy;
+    u8 f6;
+    u8 f7;
+    u8 pad8[4];
+    u16 fC;
+    u8 padE[2];
+    u8 name[0xC];
+    s16 f1C;
+    s16 f1E;
+    s16 f20;
+    s16 f22;
+    u8 pad24[8];
+    s32 level;
+    u8 pad30[0xC];
+    s16 f3C;
+    s16 f3E;
+    u8 pad40[0x20];
+    s16 stat[6];
+};
+struct Chr2B70 {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u8 *fC;
+    u8 pad10[0xC];
+    u8 id;
+    u8 pad1D[0x17];
+};
+struct Pos2B70 {
+    s32 x;
+    s32 y;
+};
+extern struct Pos2B70 pos2B70[] asm("gUnk_08366DCC");
+extern s32 posY2B70[] asm("gUnk_08366DD0");
+extern u8 cls2B70[] asm("gUnk_08479140");
+extern u8 cursor2B70[] asm("gUnk_080B99D4");
+extern u16 keys2B70 asm("gUnk_03001324");
+extern u16 rep2B70 asm("gUnk_03001308");
+extern u32 sel2B70 asm("gUnk_03002838");
+extern s32 mode2B70 asm("gUnk_03003470");
+extern u32 *cfg2B70 asm("gUnk_03004210");
+extern u16 bgofs2B70[] asm("gUnk_03001250");
+extern struct Unk030061E0 task2B70 asm("gUnk_03003480");
+extern void *memcpy2B70(void *, const void *, u32) asm("memcpy");
+extern struct Save2B70 *alloc2B70(u32) asm("sub_08001494");
+extern void *loadAll2B70() asm("sub_0807A378");
+extern void *blank2B70(void) asm("sub_080653CC");
+extern void init2B70(void *, u32, s32, u32, s32) asm("sub_08065158");
+extern void anim2B70(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+extern void draw2B70(void *, s32, s32, u16, s32) asm("sub_08065230");
+extern void drawB2B70(void *, s32, s32, s32, s32) asm("sub_08065264");
+extern u32 vmode2B70(u8) asm("sub_08001108");
+extern u32 handler2B70(u32) asm("sub_0800115C");
+extern void se2B70(s32) asm("sub_0805865C");
+extern void clear2B70(s32, s32) asm("sub_0801A664");
+extern u8 *msg2B70(s32) asm("sub_08007290");
+extern void text2B70(u8 *, u16, u16) asm("sub_0801A3D0");
+extern void num2B70(s32, s32, s32, s32) asm("sub_0805FB7C");
+extern void obj2B70(s32, s32, u16, u16, s32, void *, u32, u32) asm("sub_08007CF0");
+extern void pal2B70(u32, const void *, u32) asm("sub_08000AF0");
+extern void wait2B70(u64) asm("sub_080003F4");
+extern void start2B70() asm("sub_08000274");
+extern void erase2B70(u8) asm("sub_0807A2E0");
+extern void store2B70(struct Save2B70 *, u8) asm("sub_0807A4B4");
+extern void fadeOut2B70(s32) asm("sub_080586D0");
+extern void bgmStop2B70(s32) asm("sub_080586B4");
+extern void bgmPlay2B70(s32) asm("sub_08058688");
+extern void bgmWait2B70(u16) asm("sub_08057624");
+extern void winOpen2B70(s32) asm("sub_0801AB50");
+extern void winClose2B70(s32) asm("sub_0801ABE8");
+extern s32 winDone2B70(void) asm("sub_0801AAE0");
+extern void blend2B70(s32, s32, s32, s32, s32, s32) asm("sub_0800903C");
+extern void free2B70(void *) asm("sub_08001538");
+extern s32 link2B70(void) asm("sub_08002204");
+extern void sub_08003984();
+extern void sub_0800608C(void);
+extern void sub_08005B88(void);
+extern void sub_08006694(void);
+
+void sub_08002B70_(void) asm("sub_08002B70");
+/* Save-slot select screen (8 slots, copy / erase prompts). */
+void sub_08002B70_(void)
+{
+    struct Chr2B70 chars[8];
+    u8 objA[0x34];
+    u8 objB[0x34];
+    u16 frame[8];
+    u16 timer[8];
+    u16 anim[8];
+    u8 cursor[4];
+    u16 yesFrame;
+    u16 yesTimer;
+    u16 noFrame;
+    u16 noTimer;
+    u32 result;
+    u32 slot;
+    u32 state;
+    u32 prev;
+    u32 yes;
+    u32 loop;
+    u32 blink;
+    u16 blinkTimer;
+    void *all;
+    u32 fade;
+    s32 cx, cy, tx, ty;
+    struct Save2B70 *saves;
+    u32 oldHandler;
+    u8 oldMode;
+    struct Save2B70 *s;
+    u8 *buf;
+    u32 scroll;
+    u16 i;
+    u16 *v;
+    u32 c;
+
+    memcpy2B70(cursor, cursor2B70, 2);
+    sub_08002AA0();
+    sub_080003F0();
+    sub_080003F0();
+    saves = alloc2B70(0x360);
+    all = loadAll2B70();
+    winOpen2B70(3);
+    state = 0;
+    slot = 0;
+    result = 0;
+    blink = 0;
+    noTimer = 0;
+    yesTimer = result;
+    noFrame = result;
+    yesFrame = result;
+    for (i = 0; i < 8; i++) {
+        frame[i] = 0;
+        timer[i] = 0;
+        s = &saves[i];
+        if (s->used) {
+            init2B70(&chars[i], *(u32 *)(cls2B70 + s->cls * 0x58), 0, 1, 0);
+            anim[i] = 8;
+            chars[i].id = i;
+        } else {
+            memcpy2B70(&chars[i], blank2B70(), 0x34);
+            anim[i] = 6;
+        }
+    }
+    memcpy2B70(objA, blank2B70(), 0x34);
+    cx = tx = pos2B70[slot].x;
+    cy = ty = pos2B70[slot].y;
+    switch (mode2B70) {
+    case 0:
+        init2B70(objB, 0x50002, 0, 0x80000000, 0);
+        break;
+    case 1:
+        init2B70(objB, 0x5015B, 0, 0x80000000, 0);
+        break;
+    case 2:
+        init2B70(objB, 0x5015C, 0, 0x80000000, 0);
+        break;
+    case 3:
+        init2B70(objB, 0x5015D, 0, 0x80000000, 0);
+        break;
+    case 4:
+        init2B70(objB, 0x5015E, 0, 0x80000000, 0);
+        break;
+    }
+    oldMode = vmode2B70(0x88);
+    oldHandler = handler2B70((u32)sub_08006694);
+    sub_08000D8C();
+    bgmPlay2B70(0x6F);
+    loop = 1;
+    fade = 1;
+    do {
+        if (winDone2B70() == 0)
+            keys2B70 = 0;
+        switch (state) {
+        case 0:
+            if (keys2B70 == 1) {
+                se2B70(0xF);
+                state = 1;
+                clear2B70(0x11, 2);
+                break;
+            }
+            text2B70(msg2B70(0x140445) + 2, 1, 0x11);
+            if (blink)
+                text2B70(cursor, 0x1C, 0x11);
+            if (blinkTimer++ < 0x1E)
+                blink = 1;
+            else if (blinkTimer > 0x1D)
+                blink = 0;
+            if (blinkTimer > 0x28)
+                blinkTimer = 0;
+            break;
+        case 1:
+            c = keys2B70;
+            if (c == 1) {
+                result = 1;
+                s = &saves[slot];
+                if (s->used == 0) {
+                    se2B70(0xF);
+                    winClose2B70(3);
+                    fadeOut2B70(4);
+                    while (winDone2B70() == 0)
+                        sub_080003F0();
+                    bgmStop2B70(0x6F);
+                    bgmWait2B70(0x3C);
+                    sub_08000E48();
+                    oldHandler = handler2B70(oldHandler);
+                    vmode2B70(oldMode);
+                    s = &saves[slot];
+                    buf = (u8 *)alloc2B70(0x2000);
+                    task2B70.fC = sub_08003984;
+                    task2B70.f10 = buf + 0x1FFC;
+                    task2B70.f20 = buf;
+                    task2B70.f8 = 10;
+                    task2B70.f24 = 0;
+                    start2B70(&task2B70, s, all);
+                    wait2B70(0x25A112EBFULL);
+                    if (saves[slot].used == 0) {
+                        oldMode = vmode2B70(0x88);
+                        oldHandler = handler2B70((u32)sub_08006694);
+                        sub_08000D8C();
+                        bgmPlay2B70(0x6F);
+                        sub_08002AA0();
+                        sub_080003F0();
+                        sub_080003F0();
+                        frame[slot] = 0;
+                        timer[slot] = 0;
+                        memcpy2B70(&chars[slot], blank2B70(), 0x34);
+                        anim[slot] = 6;
+                        winOpen2B70(3);
+                    } else {
+                        if (sel2B70 == 0) {
+                            sub_08088914();
+                            wait2B70(0x25A112EBFULL);
+                            fade = 0;
+                        }
+                        loop = 0;
+                    }
+                } else if (s->fC != 0xFFFF) {
+                    winClose2B70(3);
+                    fadeOut2B70(4);
+                    while (winDone2B70() == 0)
+                        sub_080003F0();
+                    sub_08000E48();
+                    oldHandler = handler2B70(oldHandler);
+                    vmode2B70(oldMode);
+                    s = &saves[slot];
+                    buf = (u8 *)alloc2B70(0x2000);
+                    if (sel2B70 == 1)
+                        task2B70.fC = sub_0800608C;
+                    else
+                        task2B70.fC = sub_08005B88;
+                    task2B70.f10 = buf + 0x1FFC;
+                    task2B70.f20 = buf;
+                    task2B70.f8 = 10;
+                    task2B70.f24 = 0;
+                    start2B70(&task2B70, s);
+                    wait2B70(0x25A112EBFULL);
+                    loop = 0;
+                    break;
+                } else {
+                    if (link2B70() != 0 && s->copy != 0) {
+                        state = 7;
+                        yes = 0;
+                    } else {
+                        saves[slot].f7 = 0;
+                        result = 1;
+                        loop = 0;
+                    }
+                    se2B70(0xF);
+                }
+            } else if (c == 2) {
+                se2B70(0x10);
+                result = 0;
+                loop = 0;
+                break;
+            } else if (c == 4 && saves[slot].used) {
+                state = 2;
+                se2B70(0xF);
+            }
+            c = rep2B70;
+            if (c & 0x20) {
+                se2B70(0xE);
+                if (slot > 3)
+                    slot -= 4;
+            } else if (c & 0x10) {
+                se2B70(0xE);
+                if (slot <= 3)
+                    slot += 4;
+            } else if (c & 0x40) {
+                se2B70(0xE);
+                if (slot == 0)
+                    slot = 3;
+                else if (slot == 4)
+                    slot = 7;
+                else
+                    slot--;
+            } else if (c & 0x80) {
+                se2B70(0xE);
+                if (slot == 3)
+                    slot = 0;
+                else if (slot == 7)
+                    slot = 4;
+                else
+                    slot++;
+            }
+            if (slot != prev) {
+                prev = slot;
+                tx = pos2B70[slot].x;
+                ty = pos2B70[slot].y;
+            }
+            if (saves[slot].used == 0)
+                text2B70(msg2B70(0x140449) + 2, 1, 0x11);
+            else
+                text2B70(msg2B70(0x14044A) + 2, 1, 0x11);
+            break;
+        case 2:
+            c = rep2B70;
+            if (c & 0x20) {
+                if (yes == 1)
+                    se2B70(0xC6);
+                yes = 0;
+            } else if (c & 0x10) {
+                if (yes == 0)
+                    se2B70(0xC7);
+                yes = 1;
+            } else if (keys2B70 == 1) {
+                if (yes == 0) {
+                    state = 3;
+                    yes = 1;
+                    se2B70(0xF);
+                } else {
+                    state = 1;
+                    se2B70(0x10);
+                }
+            } else if (keys2B70 == 2) {
+                state = 1;
+                se2B70(0x10);
+            }
+            if (yes) {
+                anim2B70(objB, 5, &yesFrame, &yesTimer, 1);
+                draw2B70(objB, 0x78, 0x78, 9, 0);
+                drawB2B70(objB, 0x88, 0x78, 5, noFrame);
+                draw2B70(objB, 0x68, 0x78, 4, yesFrame);
+            } else {
+                anim2B70(objB, 4, &noFrame, &noTimer, 1);
+                draw2B70(objB, 0x78, 0x78, 8, 0);
+                draw2B70(objB, 0x88, 0x78, 5, noFrame);
+                drawB2B70(objB, 0x68, 0x78, 4, yesFrame);
+            }
+            text2B70(msg2B70(0x140446) + 2, 2, 0x11);
+            break;
+        case 3:
+            c = rep2B70;
+            if (c & 0x20) {
+                if (yes == 1)
+                    se2B70(0xC6);
+                yes = 0;
+            } else if (c & 0x10) {
+                if (yes == 0)
+                    se2B70(0xC7);
+                yes = 1;
+            } else if (keys2B70 == 1) {
+                if (yes == 0) {
+                    state = 4;
+                    clear2B70(0x11, 2);
+                    break;
+                }
+                se2B70(0x10);
+                state = 1;
+            }
+            if (yes) {
+                anim2B70(objB, 5, &yesFrame, &yesTimer, 1);
+                draw2B70(objB, 0x78, 0x78, 9, 0);
+                drawB2B70(objB, 0x88, 0x78, 5, noFrame);
+                draw2B70(objB, 0x68, 0x78, 4, yesFrame);
+            } else {
+                anim2B70(objB, 4, &noFrame, &noTimer, 1);
+                draw2B70(objB, 0x78, 0x78, 8, 0);
+                draw2B70(objB, 0x88, 0x78, 5, noFrame);
+                drawB2B70(objB, 0x68, 0x78, 4, yesFrame);
+            }
+            text2B70(msg2B70(0x140447) + 2, 2, 0x11);
+            break;
+        case 4:
+            sub_08006C14();
+            erase2B70(slot);
+            sub_08006BF8();
+            yes = 1;
+            state = 5;
+            loadAll2B70(saves);
+            memcpy2B70(&chars[slot], blank2B70(), 0x34);
+            anim[slot] = 6;
+            break;
+        case 5:
+            if (keys2B70 != 0)
+                state = 1;
+            text2B70(msg2B70(0x140448) + 2, 2, 0x11);
+            if (blink)
+                text2B70(cursor, 0x1B, 0x11);
+            if (blinkTimer++ < 0x1E)
+                blink = 1;
+            else if (blinkTimer > 0x1D)
+                blink = 0;
+            if (blinkTimer > 0x28)
+                blinkTimer = 0;
+            break;
+        case 7:
+            draw2B70(objA, 0x82, 0x28, 0x26, yes != 0);
+            draw2B70(objA, 0xB4, 0x28, 0x27, yes == 0);
+            if (yes)
+                text2B70(msg2B70(0x14044C) + 2, 2, 0x11);
+            else
+                text2B70(msg2B70(0x14044B) + 2, 2, 0x11);
+            c = rep2B70;
+            if (c & 0x20) {
+                if (yes == 1)
+                    se2B70(0xE);
+                yes = 0;
+            } else if (c & 0x10) {
+                if (yes == 0)
+                    se2B70(0xE);
+                yes = 1;
+            } else if (keys2B70 == 1) {
+                result = 1;
+                winClose2B70(3);
+                fadeOut2B70(4);
+                while (winDone2B70() == 0)
+                    sub_080003F0();
+                sub_08000E48();
+                oldHandler = handler2B70(oldHandler);
+                vmode2B70(oldMode);
+                s = &saves[slot];
+                s->f7 = yes;
+                if (s->fC != 0xFFFF) {
+                    buf = (u8 *)alloc2B70(0x2000);
+                    if (sel2B70 == 1)
+                        task2B70.fC = sub_0800608C;
+                    else
+                        task2B70.fC = sub_08005B88;
+                    task2B70.f10 = buf + 0x1FFC;
+                    task2B70.f20 = buf;
+                    task2B70.f8 = 10;
+                    task2B70.f24 = 0;
+                    start2B70(&task2B70, s);
+                    wait2B70(0x25A112EBFULL);
+                } else
+                    loop = 0;
+            } else if (keys2B70 == 2)
+                state = 1;
+            break;
+        }
+        cx += (tx - cx) / 2;
+        cy += (ty - cy) / 2;
+        if (state)
+            draw2B70(objA, cx, cy, 0xB, 0);
+        for (i = 0; i < 8; i++) {
+            anim2B70(&chars[i], anim[i], &frame[i], &timer[i], 1);
+            s = &saves[i];
+            if (s->used)
+                pal2B70(i + 16, chars[i].fC + s->pal * 32, 1);
+            obj2B70(pos2B70[i].x, posY2B70[i * 2], anim[i], frame[i], 0, &chars[i].id, chars[i].f8, chars[i].f0);
+        }
+        s = &saves[slot];
+        num2B70(0x15, 1, s->level + 1, 0);
+        if (s->fC != 0xFFFF) {
+            if (s->used == 0)
+                goto clear;
+            v = (u16 *)0x0600E86E;
+            *v++ = 0x1BB;
+            *v++ = 0x1BC;
+            *v++ = 0x1BD;
+            *v++ = 0x1BE;
+            *v++ = 0x1BF;
+        } else if (s->used) {
+            v = (u16 *)0x0600E86E;
+            *v++ = 0x1DB;
+            *v++ = 0x1DC;
+            *v++ = 0x1DD;
+            *v++ = 0x1DE;
+            *v++ = 0x1DF;
+        } else {
+        clear:
+            v = (u16 *)0x0600E86E;
+            *v++ = 0;
+            *v++ = 0;
+            *v++ = 0;
+            *v++ = 0;
+            *v++ = 0;
+        }
+        s = &saves[slot];
+        num2B70(0x15, 5, s->f3C, 0);
+        num2B70(0x15, 7, s->f3E, 0);
+        num2B70(0x15, 9, s->f22, 0);
+        num2B70(0x15, 0xB, s->f1C, 0);
+        num2B70(0x15, 0xD, s->f1E, 0);
+        num2B70(0x15, 0xF, s->f20, 0);
+        num2B70(0x1C, 5, s->stat[0], 0);
+        num2B70(0x1C, 7, s->stat[1], 0);
+        num2B70(0x1C, 9, s->stat[2], 0);
+        num2B70(0x1C, 0xB, s->stat[3], 0);
+        num2B70(0x1C, 0xD, s->stat[4], 0);
+        num2B70(0x1C, 0xF, s->stat[5], 0);
+        if (s->used)
+            text2B70(s->name, 0x10, 2);
+        else
+            clear2B70(2, 2);
+        bgofs2B70[6] = scroll >> 8;
+        scroll += 0x40;
+        sub_080003F0();
+    } while (loop);
+    if (fade) {
+        fadeOut2B70(5);
+        winClose2B70(6);
+        while (winDone2B70() == 0)
+            sub_080003F0();
+    }
+    sub_080003F0();
+    sub_080003F0();
+    sub_08000E48();
+    handler2B70(oldHandler);
+    vmode2B70(oldMode);
+    clear2B70(2, 0x11);
+    sub_080003F0();
+    store2B70(saves, slot);
+    if (result) {
+        c = *cfg2B70;
+        if (c - 3 <= 1) {
+            *cfg2B70 = 2;
+            sub_08006C14();
+            sub_0807A124();
+            sub_08006BF8();
+            if (saves[slot].f6 == 0)
+                *cfg2B70 = c;
+        }
+    }
+    se2B70(0x24);
+    blend2B70(0, 0, 0, 0, 0, 0);
+    free2B70(saves);
+    if (result == 0)
+        sub_08000420(0x14);
+    else if (result == 1) {
+        if (sel2B70 == 0)
+            sub_0800CB3C(0);
+        else if (sel2B70 == 1)
+            sub_08006B2C();
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002B70);
+#endif
 #ifdef NONMATCHING
 union Bg3984 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; };
 struct Reg3984 { u16 h0,v0,h1,v1,h2,v2,h3,v3; };
