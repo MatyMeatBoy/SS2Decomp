@@ -30257,7 +30257,7 @@
       "evidence": [
         {
           "source": "src/code_08097E28.c",
-          "line": 1382,
+          "line": 1381,
           "detail": "Existing C definition with an asm alias to the canonical symbol: task834"
         }
       ]
