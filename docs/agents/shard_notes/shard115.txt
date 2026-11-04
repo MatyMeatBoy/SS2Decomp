@@ -1,8 +1,6 @@
-  DRAFT (nov03-w3): fresh C, 3728/3732 bytes, difflib score 49 (only init register choice left:
-  ROM &anim[2] in r6 / zero in r8 / res reloaded / 0x1D4 rematerialized; the gUnk_03003D10 pool
-  words are a false diff, same bytes as gUnk_03003CE0+0x30). Keys: screen pos as two s16 locals
-  (sx, sy, separate pointers), lastAnim u16, pl pointer computed before the cnt&1 test, separate u8
-  counter for the two last cutscene loops, `k++; k &= 0xF;` for the blend level.
-(sp+0xC4) choosing the anim (sl) and f68/flag; crossjumped tails
-  `strb; bl sub_08067C18` at _080AF862. After the main loop come 5 cutscene loops (DEADFACE wait,
-  sub_08058DB0 wait, message box sub_0805DF38, 100-frame countdown with sub_08098088/sub_080980F0).
+  MATCHED (nov03-w3), fresh C. Keys: screen pos as two s16 locals (sx, sy, separate pointers);
+  lastAnim u16; pl pointer computed before the cnt&1 test; separate u8 counter for the two last
+  cutscene loops with `k++; k &= 0xF;`; the &f6C/&f6A/&f68 "spills" are loop-invariant hoists (use
+  a->f68 directly); 0x22B store before f50 = 1; history clear as
+  *(s32 *)((u8 *)hist + j * 4 + i * 0x14C) = 0. Real-build check: the gUnk_03003D10 pool words
+  are CE0+0x30 (same bytes).

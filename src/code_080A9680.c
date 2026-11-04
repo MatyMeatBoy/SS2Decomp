@@ -2616,8 +2616,6 @@ void sub_080AF3C4(void)
     *m &= ~(1 << (*new_var));
   }
 }
-#ifdef NONMATCHING
-/* sub_080AF3F4: draft, see docs/agents/shard_notes/shard115.txt */
 struct ResF3F4 { u8 p0[4]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
 struct ActF3F4 {
     u16 f0, f2;
@@ -2708,7 +2706,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     u16 hitTimer;
     s16 shake;
     s32 done;
-    u16 *p68, *p6A, *p6C;
+
     struct AnimF3F4 *sl;
     u8 prio;
     u8 cnt;
@@ -2742,15 +2740,12 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     res->f24 = 2;
     ((u8 *)a)[0x22B] = 0;
     a->f50 = 1;
-    p6C = &a->f6C;
-    p6A = &a->f6A;
-    p68 = &a->f68;
     for (i = 0; i <= 3; i++)
         for (j = 0; j <= 4; j++)
-            gHistF3F4[i].h[j] = 0;
-    *p6C = 0;
-    *p6A = 0;
-    *p68 = 0;
+            *(s32 *)((u8 *)gHistF3F4 + j * 4 + i * 0x14C) = 0;
+    a->f6C = 0;
+    a->f6A = 0;
+    a->f68 = 0;
     cnt = 0;
     frame = 0;
     sub_08098044();
@@ -2814,7 +2809,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
             case 4:
                 animState = 2;
                 a->fC = 2;
-                if (*p6A == 2 && *p6C == 0)
+                if (a->f6A == 2 && a->f6C == 0)
                     sfxF3F4(sfx);
                 if (a->f6E != 0) {
                     a->f50++;
@@ -2827,7 +2822,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
                 animState = 9;
                 a->fC = 9;
                 faceF3F4(gCurF3F4, rndF3F4(0));
-                *p68 = a->f8;
+                a->f68 = a->f8;
                 if (frame++ > 0x1E) {
                     frame = 0;
                     spawnF3F4(a->f0 + 4, 0xD, a->f1FC_hi, 5, 5);
@@ -2841,7 +2836,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
                 animState = 9;
                 a->fC = 9;
                 faceF3F4(gCurF3F4, rndF3F4(0));
-                *p68 = a->f8 + 8;
+                a->f68 = a->f8 + 8;
                 if (frame++ > 0x28) {
                     frame = 0;
                     endF3F4(0);
@@ -2875,17 +2870,17 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
         switch (animState) {
         case 0:
             sl = &anim[0];
-            *p68 = a->f8;
+            a->f68 = a->f8;
             flag = 1;
             break;
         case 1:
             sl = &anim[0];
-            *p68 = a->f8 + 8;
+            a->f68 = a->f8 + 8;
             flag = 1;
             break;
         case 2:
             sl = &anim[1];
-            *p68 = a->f8;
+            a->f68 = a->f8;
             flag = 0;
             break;
         case 9:
@@ -2894,7 +2889,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
             break;
         case 10:
             sl = &anim[2];
-            *p68 = 8;
+            a->f68 = 8;
             flag = 0;
             break;
         }
@@ -2913,15 +2908,15 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
         else
             prio = prioF3F4(a->f14 >> 8, a->f18 >> 8, 0);
         if (sub_0800CD8C() == 0)
-            a->f6E = animF3F4(sl, *p68, p6A, p6C, flag);
+            a->f6E = animF3F4(sl, a->f68, &a->f6A, &a->f6C, flag);
         projF3F4((s16)(a->f14 >> 8), (s16)(a->f18 >> 8), &sx, &sy, 0, 0);
         if (flash != 0) {
             u16 old = flash;
             flash--;
             if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
-                drawF3F4(sx, sy, *p68, *p6A, prio, &sl->f1C, sl->f8, sl->f0);
+                drawF3F4(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
         } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
-            drawF3F4(sx, sy, *p68, *p6A, prio, &sl->f1C, sl->f8, sl->f0);
+            drawF3F4(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
         }
         {
             s32 hh = a->f4C;
@@ -3042,7 +3037,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
             prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
             gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
             projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
-            drawF3F4(sx, sy, *p68, *p6A, prio, &sl->f1C, sl->f8, sl->f0);
+            drawF3F4(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
         }
         sub_080003F0();
         k--;
@@ -3064,7 +3059,7 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
             prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
             gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
             projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
-            drawExF3F4(sx, sy, *p68, *p6A, prio, 1, 0, &sl->f1C, sl->f8, sl->f0);
+            drawExF3F4(sx, sy, a->f68, a->f6A, prio, 1, 0, &sl->f1C, sl->f8, sl->f0);
         }
         sub_080003F0();
     } while (fxDoneF3F4() == 0);
@@ -3084,9 +3079,6 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     }
     sub_08056E24();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF3F4);
-#endif
 #ifdef NONMATCHING
 /* Compiling draft; bytes and relocations do not match yet. */
 extern void t116_sprite(u32, s32, u32) asm("sub_08000AF0");
