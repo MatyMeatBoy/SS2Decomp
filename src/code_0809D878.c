@@ -1654,8 +1654,9 @@ void sub_080A05B4(u32 kind,void *done)
     struct Sprite105 spr;
     s32 pos[2];
     s32 targetX;
-    s32 timer,animDone,contact,started;
+    s32 animDone,timer;
     u16 elapsed;
+    s32 contact,started;
     volatile u16 animation;
     volatile u16 other;
     u16 frame,phase;
@@ -1668,14 +1669,11 @@ void sub_080A05B4(u32 kind,void *done)
     init105(&spr,0x5000A,variant105,-1,1);
     spr.payload[0]=variant105;
     switch ((s32)kind) {
-    case 0: animation=kind;pos[0]=0x2000;goto target8000;
-    case 1: animation=kind;goto target2000;
-    case 2: animation=kind;goto targetE000;
+    case 0: animation=kind;pos[0]=0x2000;targetX=0x8000;break;
+    case 1: animation=kind;targetX=pos[0]=0x2000;break;
+    case 2: animation=kind;targetX=pos[0]=0xE000;break;
     case 3: animation=kind;pos[0]=0xE000;targetX=0x8000;break;
-    default: animation=0;pos[0]=0x2000;
- target8000: targetX=0x8000;break;
- target2000: pos[0]=0x2000;targetX=0x2000;break;
- targetE000: pos[0]=0xE000;targetX=0xE000;break;
+    default: animation=0;pos[0]=0x2000;targetX=0x8000;break;
     }
     other=animation+10;pos[1]=0x7600;
     animDone=0;phase=0;frame=(u16)animDone;elapsed=0;started=0;contact=0;timer=90;
@@ -1703,10 +1701,8 @@ void sub_080A05B4(u32 kind,void *done)
                 players105[sub_080020F4()].state=10;
                 players105[sub_080020F4()].motion=0xFFFE;
                 i=sub_080020F4(); actor=actor105;
-                damage=damage105(actor,&players105[sub_080020F4()]);
-                players105[i].health+=damage;
-                i=sub_080020F4();actor=actor105;
-                players105[i].seen[actor->index]=actor->serial;actor->serial++;
+                players105[i].health=damage105(actor,&players105[sub_080020F4()])+players105[i].health;
+                players105[sub_080020F4()].seen[actor105->index]=actor105->serial++;
                 contact=1;
             }
         }
