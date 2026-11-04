@@ -2970,297 +2970,217 @@ loop_126:
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A27B8);
 #endif
 #ifdef NONMATCHING
-struct T107DActor { u16 f0; u16 f2; u8 p4[8]; u16 fC; u8 pE[6]; s32 f14; s32 f18; u8 p1C[44]; u16 f48; u8 p4A[2]; s32 f4C; s32 f50; u8 p54[8]; s16 f5C; s16 f5E; u8 p60[10]; u16 f6A; u16 f6C; u16 f6E; u8 p70[356]; s16 f1D4; s16 f1D6; u8 p1D8[36]; u8 f1FC; u8 f1FD; u8 f1FE; u8 p1FF[1]; u8 f200; u8 p201[1]; u16 f202; u8 p204[42]; s8 f22E; s8 f22F; };
-extern struct T107DActor *t107D364 asm("gUnk_03000364");
-extern struct T107DActor *t107D368 asm("gUnk_03000368");
-struct T107DAux { u8 p0[4]; s16 f4,f6; u8 p8[0xCE]; u16 fD6; };
-extern s16 t107Offsets[] asm("gUnk_08518754");
-extern u8 t107Raw380[] asm("gUnk_03000380");
-extern u8 t107Raw388[] asm("gUnk_03000388");
-extern u8 t107Raw39C[] asm("gUnk_0300039C");
-struct T107AnimD {u32 f0,f4,f8,fC;u8 pad10[12];u8 attr[24];};
-extern struct T107AnimD t107Anims[] asm("gUnk_03000380");
-extern u8 gUnk_084A6DB8[];
-extern u8 gUnk_030003EA;
-extern u16 t107TileD asm("gUnk_030003E8");
-extern void *t107DCall08007870(s16,s32,u32,u16,s32,void *,u32,u32) asm("sub_08007870");
-extern void t107DCall0800BC08(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
-extern void t107DCall0801623C(void *,void *,s32) asm("sub_0801623C");
-extern u16 t107DCall08019CE8(void *) asm("sub_08019CE8");
-extern void t107DCall08019F60(void *) asm("sub_08019F60");
-extern void t107DCall0801A120(void *,s32,s16) asm("sub_0801A120");
-extern void t107DCall0801C8F0(void *) asm("sub_0801C8F0");
-extern void t107DCall08067CA8(u16) asm("sub_08067CA8");
+struct EntA35 {
+    u16 f0, f2; u8 p4[8]; u16 fC; u8 pE[6];
+    s32 x, y; u8 p1C[0x2c]; u16 f48; u8 p4A[2]; s32 f4C; s32 f50;
+    u8 p54[8]; s16 f5C; s16 f5E; u8 p60[10]; u16 f6A, f6C, f6E;
+    u8 p70[0x164]; s16 f1D4, f1D6; u8 p1D8[0x24];
+    u8 lo:4; u8 hi:4;
+    u8 f1FD, f1FE, p1FF; u8 f200; u8 p201; u16 f202;
+    u8 p204[0x2a]; s8 f22E, f22F;
+};
+struct AuxA35 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
+struct AnimA35 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 attr[24]; };
+struct TileA35 { u8 p[0x90]; u16 f90; };
+extern struct EntA35 *mainA35 asm("gUnk_03000364");
+extern struct EntA35 *entA35 asm("gUnk_03000368");
+extern struct AnimA35 animsA35[] asm("gUnk_03000380");
+extern u8 a39CA35[] asm("gUnk_0300039C");
+extern u8 a388A35[] asm("gUnk_03000388");
+extern u16 tileA35 asm("gUnk_030003E8");
+extern u8 flagA35 asm("gUnk_030003EA");
+extern u8 modeA35 asm("gUnk_030003F0");
+extern u8 slotA35 asm("gUnk_030003F1");
+extern u8 nextA35 asm("gUnk_030003F2");
+struct OffA35 { s16 x, y; };
+extern struct OffA35 offsA35[] asm("gUnk_08518754");
+extern u8 *poolA35 asm("gUnk_030056F4");
+extern u32 maskA35 asm("gUnk_030056FC");
+extern struct TileA35 tilesA35 asm("gUnk_03003170");
+extern u8 srcA35[] asm("gUnk_084A6DB8");
+extern void setupA35(void *, void *, s32) asm("sub_0801623C");
+extern void s19F60A35(void *) asm("sub_08019F60");
+extern void s1C8F0A35(void *) asm("sub_0801C8F0");
+extern u16 s19CE8A35(void *) asm("sub_08019CE8");
+extern void s1A120A35(void *, s32, s16) asm("sub_0801A120");
+extern void s67CA8A35(u16) asm("sub_08067CA8");
+extern u16 animA35(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern s32 *drawA35(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
+extern void coordsA35(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern void yieldA35(void) asm("sub_080003F0");
+
 void t107MainD(void) asm("sub_080A35D0");
-void t107MainD(void) {
-    struct T107DActor *init;
-    s32 sp0;
-    s32 sp4;                                        /* compiler-managed */
-    s32 sp8;
-    s32 spC;
-    s16 sp10;
-    s16 sp12;
-    struct T107DAux *sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    u32 sp24;
-    u32 *sp28;
-    u16 *sp2C;
-    s16 *temp_r7;
-    s32 temp_r0_2;
-    s32 temp_r1;
-    s16 var_r0_4;
-    s32 temp_r0_10;
-    s32 temp_r0_3;
-    s32 temp_r0_6;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
-    s32 temp_r1_2;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s8 *var_r0_2;
-    s8 var_r1;
-    u16 temp_r4_2;
-    u8 temp_r0_4;
-    u8 temp_r0_5;
-    u8 temp_r4;
-    u8 temp_sl;
-    u8 var_r0;
-    u8 var_r0_3;
-    u8 var_r0_5;
-    void *temp_r0;
-    void *temp_r2;
-    void *temp_r4_3;
-    void *var_r4;
+void t107MainD(void)
+{
+    s16 sx, sy;
+    struct AuxA35 *aux;
+    s32 last;
+    u16 blink;
+    u16 flash;
+    s16 shake;
+    u16 *pD6;
+    struct EntA35 *ent;
+    u8 frame;
+    u8 pal;
+    s32 *p;
+    u8 sl;
 
-    gUnk_030056FC |= 2;
-    temp_r0 = gUnk_030056F4 + 0x2E0;
-    t107D368 = temp_r0;
-    sub_0801A0A4(temp_r0);
-    t107DCall0801623C(t107D368, &gUnk_084A6DB8, 1);
-    temp_r2 = (u8 *)t107D368 + 0x204;
-    sp14 = temp_r2;
-    t107DCall08019F60(temp_r2);
-    init = t107D368;
-    temp_r1 = sp14->f6 * 3;
-    init->f1D6 = temp_r1;
-    init->f5C = temp_r1;
-    temp_r0_2 = ((sp14->f4 << 1) + (sp14->f4 << 3)) << 1;
-    init->f1D4 = temp_r0_2;
-    init->f5E = temp_r0_2;
-    init->f48 = (u16) gUnk_03003170.f90;
-    init->f50 = (s32) t107D364->f50;
-    init->fC = 0U;
-    init->f0 = 1U;
-    init->f2 = 5U;
-    init->f1FC = (u8) ((-0x10 & init->f1FC) | 1);
-    t107D368->f202 = (u16) t107D368->f2;
-    t107D368->f200 = 0xFF;
-    t107D368->f1FD = 3U;
-    t107D368->f1FE = 3U;
-    t107D368->fC = 0U;
-    sp1C = 0;
-    sp20 = 0;
-    sp28 = (u32 *)t107Raw388;
-    goto loop_49;
-loop_body:
-    if (gUnk_030003F1 != 0xFF) {
-        if ((u8) gUnk_030003F0 == 1) {
-            var_r0 = (gUnk_030003F1 * 2) + 1;
-        } else {
-            var_r0 = gUnk_030003F1 + 1;
-        }
-        temp_r0_5 = var_r0;
-        temp_r1_2 = t107D364->f14;
-        t107D368->f14 = temp_r1_2;
-        temp_r3 = t107D364->f18;
-        t107D368->f18 = temp_r3;
-        t107D368->f14 = (s32) (temp_r1_2 + t107Offsets[gUnk_030003F1 * 2]);
-        t107D368->f18 = (s32) (temp_r3 + t107Offsets[gUnk_030003F1 * 2 + 1]);
-        if (gUnk_030003F1 == 0) {
-            t107D368->f22E = 0x20;
-            var_r0_2 = (u8 *)t107D368 + 0x22F;
-            var_r1 = 0x28;
-        } else {
-            t107D368->f22E = 0x20;
-            var_r0_2 = (u8 *)t107D368 + 0x22F;
-            var_r1 = 0x10;
-        }
-        *var_r0_2 = var_r1;
-        if (gUnk_030056FC & 0x1C) {
-            sub_0801A0B0(t107D368);
-        } else {
-            sub_0801A0A4(t107D368);
-        }
-        t107Anims[(u8)gUnk_030003F0].attr[0] = (s8) t107TileD;
-        sub_08000AF0(t107TileD + 0x10, (t107Anims[(u8)gUnk_030003F0].fC) + (sp14->fD6 << 5), 1U);
-        temp_r1_3 = sub_0800CD8C();
-        sp2C = &sp14->fD6;
-        if (temp_r1_3 == 0) {
-            sp0 = temp_r1_3;
-            t107D368->f6E = (u16) sub_08065370((0x34 * (u8) gUnk_030003F0) + t107Raw380, (u16) temp_r0_5, (s32) ((u8 *)t107D368 + 0x6A), (s32) ((u8 *)t107D368 + 0x6C), 0);
-        }
-        if (1 & sub_08098004()) {
-            var_r0_3 = sub_08097FF8();
-        } else {
-            var_r0_3 = (u8) sub_0800BC44((u32) ((s32) t107D368->f14 >> 8), (u32) ((s32) t107D368->f18 >> 8), 0U);
-        }
-        temp_r4 = var_r0_3;
-        if (sp1C != 0) {
-            temp_r0_6 = sp1C;
-            sp1C = (s32) (u16) (temp_r0_6 - 1);
-            if (!(1 & temp_r0_6)) {
-
-            } else if (sub_0800CCCC() != 0) {
-
-            } else if (sub_0800CC98() != 0) {
-
-            } else {
-                temp_r0_7 = sub_0800CD34();
-                if (temp_r0_7 != 0) {
-
-                } else {
-                    sp0 = temp_r0_7;
-                    sp4 = temp_r0_7;
-                    t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
-                    var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, temp_r4, (0x34 * (u8) gUnk_030003F0) + t107Raw39C, *(u32 *)((u8 *)sp28 + (0x34 * (u8) gUnk_030003F0)), *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C)));
-                    sp0 = temp_r0_7;
-                    sp4 = temp_r0_7;
-                    t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
-                    M2C_FIELD(var_r4, s32 *, 0x8) = (s32) sp10;
-                    var_r0_4 = sp12;
-                    goto block_30;
+    maskA35 |= 2;
+    entA35 = (struct EntA35 *)(poolA35 + 0x2E0);
+    sub_0801A0A4(entA35);
+    setupA35(entA35, srcA35, 1);
+    aux = (struct AuxA35 *)((u8 *)entA35 + 0x204);
+    s19F60A35(aux);
+    ent = entA35;
+    ent->f5C = ent->f1D6 = aux->f6 * 3;
+    ent->f5E = ent->f1D4 = (aux->f4 << 1) * 10;
+    ent->f48 = tilesA35.f90;
+    ent->f50 = mainA35->f50;
+    ent->fC = 0;
+    ent->f0 = 1;
+    ent->f2 = 5;
+    ent->lo = ent->f0;
+    entA35->f202 = entA35->f2;
+    entA35->f200 = 0xFF;
+    entA35->f1FD = 3;
+    entA35->f1FE = 3;
+    entA35->fC = 0;
+    blink = 0;
+    flash = 0;
+    for (;;) {
+        if (entA35->fC == 10 && blink == 0)
+            blink = 8;
+        if (sub_08058DB0() == 0) {
+            s1C8F0A35(entA35);
+            switch (entA35->f1FD) {
+            case 1:
+                entA35->fC = 0;
+                if (sub_080682B8(entA35->f0)) {
+                    entA35->f1FD = entA35->f1FE;
+                    sub_08065E38(entA35->f0);
                 }
+                break;
+            case 3:
+                if (sub_08056F78()) {
+                    entA35->f1FE = 8;
+                    entA35->f1FD = 1;
+                    sub_08068330(entA35->f0);
+                }
+                break;
+            case 8:
+                entA35->fC = 0;
+                break;
             }
-        } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-            sp0 = sp1C;
-            sp4 = sp1C;
-            t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
-            var_r4 = t107DCall08007870(sp10, sp12 + 1, temp_r0_5, t107D368->f6A, temp_r4, (0x34 * (u8) gUnk_030003F0) + t107Raw39C, *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw388), *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x1C)));
-            sp0 = sp1C;
-            sp4 = sp1C;
-            t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, &sp12, sp0, sp4);
-            M2C_FIELD(var_r4, s32 *, 0x8) = (s32) sp10;
-            var_r0_4 = sp12;
-block_30:
-            M2C_FIELD(var_r4, s32 *, 0xC) = (s32) var_r0_4;
         }
-        temp_r0_8 = t107D368->f4C;
-        if ((temp_r0_8 != 0) && (sp18 != temp_r0_8)) {
-            sp18 = temp_r0_8;
-            sp20 = 0xA;
-            sp24 = 0;
+        if ((sl = slotA35) == 0xFF) {
+            u16 r = s19CE8A35(entA35);
+            if (r != 0)
+                break;
+            sub_0801A0B0(entA35);
+            entA35->f22E = r;
+            entA35->f22F = r;
+            yieldA35();
+            continue;
         }
-        if (sp20 != 0) {
-            if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                t107DCall0801A120(t107D368, sp18, (s16) sp24);
-            }
-            if (2 & sp20) {
-                sp24 = (u32) ((sp24 << 0x10) + 0xFFFF0000) >> 0x10;
-            }
-            sp20 = (s32) (u16) (sp20 - 1);
+        if (modeA35 == 1)
+            frame = sl * 2 + 1;
+        else
+            frame = sl + 1;
+        ent = entA35;
+        ent->x = mainA35->x;
+        ent->y = mainA35->y;
+        ent->x += offsA35[slotA35].x;
+        ent->y += offsA35[slotA35].y;
+        if (slotA35 == 0) {
+            ent->f22E = 0x20;
+            entA35->f22F = 0x28;
         } else {
-            sp18 = 0;
-            t107D368->f4C = 0;
+            ent->f22E = 0x20;
+            entA35->f22F = 0x10;
         }
-        if ((gUnk_030003EA == 1) && (t107D368->f6E != 0)) {
-            gUnk_030003EA = 0;
+        if (maskA35 & 0x1C)
+            sub_0801A0B0(entA35);
+        else
+            sub_0801A0A4(entA35);
+        animsA35[modeA35].attr[0] = tileA35;
+        sub_08000AF0(tileA35 + 0x10, (void *)(animsA35[modeA35].fC + aux->fD6 * 32), 1);
+        pD6 = &aux->fD6;
+        if (sub_0800CD8C() == 0)
+            entA35->f6E = animA35(&animsA35[modeA35], frame, &entA35->f6A, &entA35->f6C, 0);
+        if (sub_08098004() & 1)
+            pal = sub_08097FF8();
+        else
+            pal = sub_0800BC44(entA35->x >> 8, entA35->y >> 8, 0);
+        if (blink != 0) {
+            if ((blink-- & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+                coordsA35((s16)(mainA35->x >> 8), (s16)(mainA35->y >> 8), &sx, &sy, 0, 0);
+                p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, a39CA35 + modeA35 * 0x34, *(u32 *)(a388A35 + modeA35 * 0x34), animsA35[modeA35].f0);
+                coordsA35((s16)(entA35->x >> 8), (s16)(entA35->y >> 8), &sx, &sy, 0, 0);
+                p[2] = sx;
+                p[3] = sy;
+            }
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            coordsA35((s16)(mainA35->x >> 8), (s16)(mainA35->y >> 8), &sx, &sy, 0, 0);
+            p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, a39CA35 + modeA35 * 0x34, *(u32 *)(a388A35 + modeA35 * 0x34), animsA35[modeA35].f0);
+            coordsA35((s16)(entA35->x >> 8), (s16)(entA35->y >> 8), &sx, &sy, 0, 0);
+            p[2] = sx;
+            p[3] = sy;
         }
-        if ((t107DCall08019CE8(t107D368) << 0x10) != 0) {
-            sub_080003F0();
+        if (entA35->f4C != 0 && last != entA35->f4C) {
+            last = entA35->f4C;
+            flash = 10;
+            shake = 0;
+        }
+        if (flash != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                s1A120A35(entA35, last, shake);
+            if (flash & 2)
+                shake--;
+            flash--;
         } else {
-            sub_080003F0();
-            goto loop_49;
+            last = 0;
+            entA35->f4C = 0;
         }
-    } else {
-        temp_r4_2 = t107DCall08019CE8(t107D368);
-        if (temp_r4_2 == 0) {
-            sub_0801A0B0(t107D368);
-            t107D368->f22E = (s8) temp_r4_2;
-            t107D368->f22F = (s8) temp_r4_2;
-            sub_080003F0();
-            goto loop_49;
+        if (flagA35 == 1 && entA35->f6E != 0)
+            flagA35 = 0;
+        if (s19CE8A35(entA35) != 0) {
+            yieldA35();
+            goto out;
         }
-        gUnk_030003F1 = gUnk_030003F2;
-        sp2C = &sp14->fD6;
+        yieldA35();
     }
-    goto cleanup;
-loop_49:
-    if ((t107D368->fC == 0xA) && (sp1C == 0)) {
-        sp1C = 8;
-    }
-    temp_r0_3 = sub_08058DB0();
-    if (temp_r0_3 == 0) {
-        t107DCall0801C8F0(t107D368);
-        temp_r0_4 = t107D368->f1FD;
-        switch (temp_r0_4) {                        /* irregular */
-        case 1:
-            t107D368->fC = (u16) temp_r0_3;
-            if (sub_080682B8((s32) t107D368->f0) != 0) {
-                t107D368->f1FD = (u8) t107D368->f1FE;
-                sub_08065E38((s32) t107D368->f0);
-            }
-            break;
-        case 3:
-            if (sub_08056F78() != 0) {
-                t107D368->f1FE = 8U;
-                t107D368->f1FD = 1U;
-                sub_08068330((s32) t107D368->f0);
-            }
-            break;
-        case 8:
-            t107D368->fC = (u16) temp_r0_3;
-            break;
+    slotA35 = nextA35;
+    pD6 = &aux->fD6;
+out:
+    s67CA8A35(entA35->f2);
+    flagA35 = 0;
+    frame = slotA35 + 1;
+    ent = entA35;
+    ent->f6C = 0;
+    ent->f6A = 0;
+    modeA35 = 0;
+    ent->x = mainA35->x;
+    ent->y = mainA35->y;
+    ent->x += offsA35[slotA35].x;
+    ent->y += offsA35[slotA35].y;
+    for (;;) {
+        animsA35[modeA35].attr[0] = tileA35;
+        sub_08000AF0(tileA35 + 0x10, (void *)(animsA35[modeA35].fC + *pD6 * 32), 1);
+        if (sub_0800CD8C() == 0)
+            entA35->f6E = animA35(&animsA35[modeA35], frame, &entA35->f6A, &entA35->f6C, 0);
+        if (sub_08098004() & 1)
+            pal = sub_08097FF8();
+        else
+            pal = sub_0800BC44(entA35->x >> 8, entA35->y >> 8, 0);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            coordsA35((s16)(mainA35->x >> 8), (s16)(mainA35->y >> 8), &sx, &sy, 0, 0);
+            p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, a39CA35 + modeA35 * 0x34, *(u32 *)(modeA35 * 0x34 + (a39CA35 - 0x14)), animsA35[modeA35].f0);
+            coordsA35((s16)(entA35->x >> 8), (s16)(entA35->y >> 8), &sx, &sy, 0, 0);
+            p[2] = sx;
+            p[3] = sy;
         }
+        yieldA35();
     }
-    goto loop_body;
-cleanup:
-    t107DCall08067CA8(t107D368->f2);
-    gUnk_030003EA = 0;
-    temp_sl = gUnk_030003F1 + 1;
-    t107D368->f6C = 0;
-    t107D368->f6A = 0;
-    gUnk_030003F0 = 0;
-    temp_r1_4 = t107D364->f14;
-    t107D368->f14 = temp_r1_4;
-    temp_r3_2 = t107D364->f18;
-    t107D368->f18 = temp_r3_2;
-    t107D368->f14 = (s32) (temp_r1_4 + t107Offsets[gUnk_030003F1 * 2]);
-    t107D368->f18 = (s32) (temp_r3_2 + t107Offsets[gUnk_030003F1 * 2 + 1]);
-    temp_r7 = &sp12;
-loop_70:
-    t107Anims[(u8)gUnk_030003F0].attr[0] = (s8) t107TileD;
-    sub_08000AF0(t107TileD + 0x10, (t107Anims[(u8)gUnk_030003F0].fC) + (*sp2C << 5), 1U);
-    temp_r0_9 = sub_0800CD8C();
-    if (temp_r0_9 == 0) {
-        sp0 = temp_r0_9;
-        t107D368->f6E = (u16) sub_08065370((0x34 * (u8) gUnk_030003F0) + t107Raw380, (u16) temp_sl, (s32) ((u8 *)t107D368 + 0x6A), (s32) ((u8 *)t107D368 + 0x6C), 0);
-    }
-    if (1 & sub_08098004()) {
-        var_r0_5 = sub_08097FF8();
-    } else {
-        var_r0_5 = (u8) sub_0800BC44((u32) ((s32) t107D368->f14 >> 8), (u32) ((s32) t107D368->f18 >> 8), 0U);
-    }
-    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-        temp_r0_10 = sub_0800CD34();
-        if (temp_r0_10 == 0) {
-            sp0 = temp_r0_10;
-            sp4 = temp_r0_10;
-            t107DCall0800BC08((s32) (t107D364->f14 << 8) >> 0x10, (s32) (t107D364->f18 << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
-            temp_r4_3 = t107DCall08007870(sp10, sp12 + 1, temp_sl, t107D368->f6A, var_r0_5, (0x34 * (u8) gUnk_030003F0) + t107Raw39C, *(u32 *)((0x34 * (u8) gUnk_030003F0) + (t107Raw39C - 0x14)), *(u32 *)((0x34 * (u8) gUnk_030003F0) + t107Raw380));
-            sp0 = temp_r0_10;
-            sp4 = temp_r0_10;
-            t107DCall0800BC08((s32) (t107D368->f14 << 8) >> 0x10, (s32) (t107D368->f18 << 8) >> 0x10, &sp10, temp_r7, sp0, sp4);
-            M2C_FIELD(temp_r4_3, s32 *, 0x8) = (s32) sp10;
-            M2C_FIELD(temp_r4_3, s32 *, 0xC) = (s32) sp12;
-        }
-    }
-    sub_080003F0();
-    goto loop_70;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A35D0);
