@@ -13,3 +13,7 @@ sub_080624D8 (nov03-w4, round 2): 3652 vs 3716, diff 1471 lines (was 2200). The 
   case; ROM spills more (sel, scale, step, win, next, sel*4, texts, next): ours is 64 bytes shorter.
   (round 3) scale/step of the menu loop are s16 locals; text x = (u16)(-(w/2 + (w&1)) + 15) with
   texts[sel] re-read. Moving texts/remap after the switch: 3692 bytes but more diff lines.
+sub_08061E44 (nov03-w4): existing m2c-style draft 1696 vs 1684, only local diffs (operand order,
+  scheduling). Notes: the item copy is (data + i*32) + 0x1DC with 0x1DC CSE'd as 0x14C + 0x90
+  (struct-array field form helps); the u16 copy is (data + 0xDC) + i*2 / (stats + 0x22) + i*2;
+  struct copies at 0x30 read the player base before the multiply. Needs a clean rewrite.
