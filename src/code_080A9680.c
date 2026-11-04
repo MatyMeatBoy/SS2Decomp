@@ -2416,9 +2416,10 @@ void sub_080AC844_v(struct ActC844 *a)
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AC844);
 #endif
 #ifdef NONMATCHING
-// sub_080AD534: exact control flow, ~19 diff lines: register choice in the init (slot/base
-// pointers r4/r5 vs ROM r5/r6, idx+1 not reusing the idx copy), pos-walk block (ROM keeps
-// the pos base in r5 and p in r6; draft reloads the literal), one literal-load order (&pos[idx]).
+// sub_080AD534: exact control flow, ~10 diff lines (regalloc only): the mask update. ROM reuses
+// the idx reload copy (r2) for idx+1 with 1 in r3 and &mask in r4 (draft: plain `|=` gives &mask r3
+// and r4/r5 slot/base; `t = mask; mask = t | bit` fixes slot/base r5/r6 but loads mask first).
+// `pb = posAD534; p = &pb[idx]` fixes the pos-walk literal order.
 struct ResAD534 { u8 p0[4]; s16 f4, f6; };
 struct ActorAD534 {
     u16 f0, f2;
@@ -2504,7 +2505,7 @@ void sub_080AD534_v(u32 idx)
 
     idx = (u8)idx;
     actorsAD534[idx] = (struct ActorAD534 *)&((struct E2E0AD534 *)baseAD534)[idx + 1];
-    maskAD534 |= 1 << (idx + 1);
+    { u32 t = maskAD534; maskAD534 = t | (1 << (idx + 1)); }
     setupAD534(actorsAD534[idx], imageAD534);
     res = &actorsAD534[idx]->res;
     initResAD534(res);
@@ -2617,7 +2618,7 @@ void sub_080AD534_v(u32 idx)
             case 6: dir = 2; break;
             case 7: dir = 3; break;
             }
-            p = &posAD534[idx];
+            { struct PosAD534 *pb = posAD534; p = &pb[idx]; }
             { s32 v = sinAD534[angleAD534[dir] + 0x40]; p->x += v >> 4; }
             posAD534[idx].y += (sinAD534[angleAD534[dir]] * 3) >> 6;
             if (idx == 0)
