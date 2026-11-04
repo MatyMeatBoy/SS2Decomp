@@ -20686,7 +20686,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2450,
+          "line": 2298,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
@@ -20760,7 +20760,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 3079,
+          "line": 2927,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
@@ -32667,7 +32667,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2484,
+          "line": 2485,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
         }
       ]
@@ -32809,7 +32809,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2979,
+          "line": 2980,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AE420_v"
         }
       ]
@@ -32917,7 +32917,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 3613,
+          "line": 3614,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AF3F4_v"
         }
       ]
@@ -32940,7 +32940,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 4077,
+          "line": 4078,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0288_v"
         }
       ]
@@ -32997,7 +32997,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 4437,
+          "line": 4438,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0FC4_v"
         }
       ]
