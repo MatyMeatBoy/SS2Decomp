@@ -2117,7 +2117,6 @@ contactDone:
     task = (s32 *)sub_0800048C();
     task[2] = zero;
 }
-#ifdef NONMATCHING
 struct Pl6BE8 { u8 p0[0x20]; u16 state; u8 p22[0xE]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1F]; u16 f88; u8 p8A[2]; s32 x, y; u8 p94[0x1C]; u16 fB0; u8 pB2[0x32]; u32 hitIds[26]; };
 struct Obj6BE8 { u16 id; u8 p2[10]; u16 fC; u8 pE[6]; s32 x, y; u8 p1C[0x34]; u32 serial; };
 struct Anim6BE8 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
@@ -2160,7 +2159,8 @@ void sub_080A6BE8_v(u16 cw)
             p[i].x = gObj6BE8->x + 0x800;
             p[i].delay = (3 - i) * spacing;
         } else {
-            p[i].dir = i + 1;
+            p[i].dir = i;
+            p[i].dir++;
             p[i].x = gObj6BE8->x - 0x800;
             p[i].delay = i * spacing;
         }
@@ -2225,9 +2225,6 @@ void sub_080A6BE8_v(u16 cw)
     } while (--n != 0xFFFF);
     *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A6BE8);
-#endif
 #ifdef NONMATCHING
 extern u16 taskIndexA705C asm("gUnk_03000404");
 extern s32 gUnk_03000414;

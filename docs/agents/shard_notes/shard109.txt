@@ -1,0 +1,6 @@
+shard 109 notes (nov03-w2, 2026-11-03)
+
+sub_080A6BE8 MATCHED (nov03-w2): clean rewrite of the register-hack draft (particle array struct,
+  plain p[i] indexing). Last diff was only the spill-slot order of the hoisted &p[0].x/.y/.speed;
+  the permuter found it: `p[i].dir = i; p[i].dir++;` instead of `p[i].dir = i + 1;` in the ccw branch.
+  Also: spacing as `(sub_0800CE30() == 1) ? 8 : 16`, speed update via `t = speed + 0x20; speed = t - i`.
