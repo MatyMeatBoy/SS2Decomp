@@ -12,3 +12,11 @@ sub_08002B70 (nov03-w4): first draft (fresh C), 3612 vs 3604 bytes, same structu
   blinkTimer u16, all, fade, cx, cy, tx, ty, saves, oldHandler, oldMode u8). `scroll` is uninitialised in the ROM
   too (r7); gcc itself sinks `scroll >> 8` / `scroll + 0x40` into every switch exit. Left: one register short
   (ROM: scroll r7, >>8 in sl, +0x40 in r9; draft spills >>8 to sp+0x29C, frame 0x2A4 vs 0x29C).
+sub_08002B70 (nov03-w4, round 2): exact size; real-build check (unwrap + make compare) differs in 8 bytes only:
+  the sub_08007CF0 x/y args (ROM: lsls r1,r5,#3 then ldr r2,=gUnk_08366DCC; ours loads the table first).
+  Keys that got there: start-task code as two inline helpers (run2B70 for 608C/5B88, newGame2B70 for
+  sub_08003984 with the u64 wait OUTSIDE the helper so the constant pair stays in r6/r7), memcpy source in a
+  fresh `void *tmp` local, msg() if/else via a second alias of sub_08007290 (stops crossjumping), `str` local
+  for case 7, `vu16 *` VRAM pointers with a separate pointer for the clear block, switch(result)/switch(sel)
+  at the end, `s = (struct Save2B70 *)(slot * sizeof + (u32)saves)` for prod+base operand order.
+  Tried for the x/y args: struct/2D/s32 array forms, (i << 3) + base casts, temp for x, inline helper: no change.
