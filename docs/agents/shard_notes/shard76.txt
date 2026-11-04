@@ -1,14 +1,13 @@
-nov03-w2: sub_0807356C (14 lines, p in r1 vs ROM r3): tried `players + i`, byte-offset p, (s32)i, u32 i (size
-  breaks), team via players[i], register p, pos via players[i], p/pos declared inside the loop body, inverted flag
-  test; none moves p. In the ROM the 0x148 constant gets r1 (p must conflict with it), ours gives it r2 and ties
-  p to the mul result. Permuter 5 min more: nothing.
-ermuter 3 min: nothing.
-sub_08073EE8 / sub_0807414C: `e = &enemies[nearest]; return e->f2;` fixes the enemy return
-  (ROM uses a pointer reg). Remaining diffs are reload-register rotation only
-  ([sp] spill reloads r1/r2 vs r2/r3). A fresh version without inline helpers puts
-  the table load after the index; the inline-helper shape is required.
-gister choice for spilled fx/fy/anim/selected differs
-  (ROM r0,r1 for the fx/fy init, ours r2,r3; round-robin spill reg shift by one).
+
+w7 (2026-11-04), sub_08073EE8 / sub_0807414C (nmscore 38 each):
+  - `return (players + nearest)->f0;` (also `*(u16 *)(nearest*size + (u8 *)players)`) puts the multiply before
+    the table load as in the ROM: nmdiff 38 -> 21 lines, but nmscore stays 38, so not landed. Remaining diff is
+    ONLY the reload round-robin: ROM first loop reloads width/range into r2/r3 and the final mul into r1;
+    ours r1/r2 and r3 (second loop already identical r1/r2). One invisible reload choice differs in loop 1.
+  - Rotation does not carry over between functions (a spilling dummy function placed before: no change).
+  - With that return: clean (no register-asm) versions of each diffEE8 arm, the table temp, `< -8` forms
+    (6 variants) are all worse (29-54) or unchanged (21). Permuter refuses (control differs: register asm).
+nit, ours r2,r3; round-robin spill reg shift by one).
   Permuter 5 min, decl orders, init forms: no change.
 sub_08073EE8 / sub_0807414C: inline must take `u32 a` (draft truncates
   (u16)ArcTan2+0x400 to u16 -> lsrs #28). ROM loads the table address before the
