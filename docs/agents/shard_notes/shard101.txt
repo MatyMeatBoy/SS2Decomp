@@ -1,0 +1,9 @@
+sub_08099838 (nov03-w1): fresh draft from the boss-loop template (sub_0809AEE8 render with the blink
+  redraw at sy-1, sub_08098108/sub_080A1208 structure): 3500 vs 3496 bytes, 96 standalone diff lines
+  (was 1910). Keys: two sprites via a `sprite` pointer (spilled at 0x7C, declared before resource);
+  no pointer locals for &anim/&frame/&tick/resource+0xD6 (compiler temps 0xC4..0xD0); mode 0 shares
+  mode 1's tail (`actor->anim = f8; goto setA;`); `if (limit >= chase++) break;` (u32 limit, blo);
+  lastAnim/lastMode (two u16-ish slots 0x90/0x94) reset check; render loops call anim(sprite, 0, ...).
+  Left: the temp slots come out pal,anim,frame,tick (ROM anim,frame,tick,pal; probably gcse hash order
+  of the address expressions) -> the c4..d0 offsets and the case-0 anim store not cross-jumped (+4 bytes);
+  spawn loop i in r0 (ROM r1). Unused dummy locals do not shift it.
