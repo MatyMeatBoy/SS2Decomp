@@ -1438,7 +1438,6 @@ s32 sub_0805BD5C(u16 *item, s32 level)
         sub_0805865C(0x20);
     return 1;
 }
-#ifdef NONMATCHING
 extern u8 gUnk_08477F3C[];
 extern u8 gUnk_08478044[];
 extern u8 gUnk_08478158[];
@@ -1457,7 +1456,7 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     u8 *o2;
     u8 *o3;
     struct C208Slot *slot;
-    u32 flags;
+    register u32 flags asm("r9");
     u32 rollElement;
     u32 rollBonus;
     u32 rollLevel;
@@ -1480,6 +1479,7 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         if (o0[0x9B] == 9) {
             table = (struct C208Range *)gUnk_08478044;
             r = sub_080008C8();
+            asm("" : : "r"(r));
             if ((r & 0xF) <= 7)
                 goto bonusAndLevel;
             goto bonus;
@@ -1498,7 +1498,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
             if (r <= 4) {
             bonusAndLevel:
                 rollBonus = 1;
-                rollLevel = 1;
+                {
+                    register u32 one asm("r2") = 1;
+                    asm("" : : "r"(one));
+                    rollLevel = one;
+                }
                 break;
             }
             if (r <= 10) {
@@ -1506,7 +1510,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
                 rollElement = 1;
                 break;
             }
-            rollElement = 1;
+            {
+                register u32 one asm("r2") = 1;
+                asm("" : : "r"(one));
+                rollElement = one;
+            }
             goto bonus;
         }
         r = sub_080008C8() & 0xF;
@@ -1516,21 +1524,29 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         }
         if (r <= 9)
             goto bonus;
-        rollElement = 1;
+        {
+            register u32 one asm("r2") = 1;
+            asm("" : : "r"(one));
+            rollElement = one;
+        }
         break;
     case 5:
         o1 = (u8 *)sub_08007290(slot->arg | 0xE0000);
         table = o1[0xA0] ? (struct C208Range *)gUnk_08478220 : (struct C208Range *)gUnk_08478158;
-        rollLevel = 0;
-        break;
+        goto resetLevelC208;
     case 3:
         o3 = (u8 *)sub_08007290(slot->arg | 0xC0000);
         table = (struct C208Range *)gUnk_08478158;
-        rollLevel = 0;
+        {
+            register u32 zero asm("r2") = 0;
+            asm("" : "+r"(zero));
+            rollLevel = zero;
+        }
         break;
     case 4:
         o2 = (u8 *)sub_08007290(slot->arg | 0xD0000);
         table = (struct C208Range *)gUnk_08478158;
+    resetLevelC208:
         rollLevel = 0;
         break;
     default:
@@ -1545,7 +1561,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
             r = sub_080008C8() & 0xF;
             if (r <= 7)
                 goto pickBonus;
-            rollElement = 1;
+            {
+                register u32 one asm("r2") = 1;
+                asm("" : : "r"(one));
+                rollElement = one;
+            }
         } else {
             rollBonus = 1;
             rollElement = 1;
@@ -1565,22 +1585,29 @@ s32 sub_0805C208(void *arg0, s32 arg1)
             }
         }
     }
-    if (rollLevel) {
-        table = (struct C208Range *)gUnk_084782F4;
-        count2 = table[0].value + 1;
-        r = sub_080008C8();
-        r %= table[0].upper + 1;
-        table++;
-        for (low = 0, i = 0; i < count2; i++, low = upper + 1, table++) {
-            upper = table->upper;
-            if (low <= r && upper >= r) {
-                slot->level = table->value;
-                break;
+    {
+        register u32 levelEnabled asm("r2") = rollLevel;
+        asm("" : : "r"(levelEnabled));
+        if (levelEnabled) {
+            table = (struct C208Range *)gUnk_084782F4;
+            count2 = table[0].value + 1;
+            r = sub_080008C8();
+            r %= table[0].upper + 1;
+            table++;
+            for (low = 0, i = 0; i < count2; i++, low = upper + 1, table++) {
+                upper = table->upper;
+                if (low <= r && upper >= r) {
+                    slot->level = table->value;
+                    break;
+                }
             }
         }
     }
     if (rollElement) {
-        if (flags & 1)
+        register u32 maskBit asm("r0") = 1;
+        register u32 callerFlags asm("r2") = flags;
+        asm("" : "+r"(maskBit) : "r"(callerFlags));
+        if (maskBit & callerFlags)
             table = (struct C208Range *)gUnk_08478378;
         else if (sub_0800CE30())
             table = (struct C208Range *)gUnk_08478338;
@@ -1615,6 +1642,7 @@ s32 sub_0805C208(void *arg0, s32 arg1)
                 goto clearA;
         break;
     clearA:
+    clearC:
         slot->bonus = 0;
         slot->element = 0;
         slot->level = 0;
@@ -1624,13 +1652,11 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         slot->bonus = 0;
         slot->element = 0;
         slot->level = 0;
-        flags = 1;
-        break;
-    clearC:
-        slot->bonus = 0;
-        slot->element = 0;
-        slot->level = 0;
-        flags = 1;
+        {
+            register u32 one asm("r2") = 1;
+            asm("" : : "r"(one));
+            flags = one;
+        }
         break;
     case 5:
         for (i = 0, p = o1 + 0xA4; i <= 2; p += 4, i++)
@@ -1638,13 +1664,14 @@ s32 sub_0805C208(void *arg0, s32 arg1)
                 goto clearB;
         break;
     }
-    if (*(u32 *)&slot->bonus != 0)
-        { u8 v = 1; if (flags & 1) v = 0; slot->flag = v; }
+    if (*(u32 *)&slot->bonus != 0) {
+        register u32 v asm("r1") = 1;
+        if (flags & v)
+            v = 0;
+        slot->flag = v;
+    }
     /* Only unknown slot types return a value (1); callers ignore it. */
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C208);
-#endif
 struct LootT { u16 chance; u16 pad; u16 *groups[8]; };
 extern struct LootT gUnk_084E6DD8[];
 u32 sub_0805C4FC(u8 *out, u32 count, u32 category)
