@@ -13,6 +13,8 @@ SIGN_PATCH="$ROOT/tools/patches/agbcc-sdk-sign-cc-reuse.patch"
 SIGN_SHA=f434c8999569964798b40adfb9d29a5dde6bfbb04395d697feebe4b2820217e0
 LOOP_PATCH="$ROOT/tools/patches/agbcc-sdk-loop-cc-reuse.patch"
 LOOP_SHA=4de75458ad2a2472c5b83e7254abd9cacae5ac53b951385d30b4b4f194fc5beb
+LATE_PATCH="$ROOT/tools/patches/agbcc-sdk-late-pool.patch"
+LATE_SHA=5d03b24a211750423a708b5fdc207afe26e73216b49babeba2a769b8db9be408
 TST_PATCH="$ROOT/tools/patches/agbcc-tst-eq-ne-only.patch"
 TST_SHA=6e4c7ada5e1dd97a0c6a7c9c105e02ac68e1948bfdd945b892b111302b311ade
 mkdir -p "$DEST/bin" "$DEST/source"
@@ -26,6 +28,7 @@ printf '%s  %s\n' "$PATCH_SHA" "$PATCH" | sha256sum -c -
 printf '%s  %s\n' "$LABEL_SHA" "$LABEL_PATCH" | sha256sum -c -
 printf '%s  %s\n' "$SIGN_SHA" "$SIGN_PATCH" | sha256sum -c -
 printf '%s  %s\n' "$LOOP_SHA" "$LOOP_PATCH" | sha256sum -c -
+printf '%s  %s\n' "$LATE_SHA" "$LATE_PATCH" | sha256sum -c -
 printf '%s  %s\n' "$TST_SHA" "$TST_PATCH" | sha256sum -c -
 python3 - "$ARCHIVE" "$DEST/source" <<'PY'
 import os, sys, zipfile
@@ -38,7 +41,7 @@ with zipfile.ZipFile(sys.argv[1]) as archive:
             os.chmod(os.path.join(sys.argv[2], entry.filename), mode)
 PY
 SOURCE="$DEST/source/agbcc-$REV"
-(cd "$SOURCE" && patch --fuzz=0 -p1 < "$TST_PATCH" && patch --fuzz=0 -p1 < "$PATCH" && patch --fuzz=0 -p1 < "$LABEL_PATCH" && patch --fuzz=0 -p1 < "$SIGN_PATCH" && patch --fuzz=0 -p1 < "$LOOP_PATCH")
+(cd "$SOURCE" && patch --fuzz=0 -p1 < "$TST_PATCH" && patch --fuzz=0 -p1 < "$PATCH" && patch --fuzz=0 -p1 < "$LABEL_PATCH" && patch --fuzz=0 -p1 < "$SIGN_PATCH" && patch --fuzz=0 -p1 < "$LOOP_PATCH" && patch --fuzz=0 -p1 < "$LATE_PATCH")
 make -C "$SOURCE/gcc" -j1 normal
 EXE=
 [ ! -f "$SOURCE/gcc/agbcc.exe" ] || EXE=.exe
@@ -51,6 +54,7 @@ cp "$SOURCE/gcc/COPYING" "$DEST/COPYING"
     printf 'label_patch_sha256=%s\n' "$LABEL_SHA"
     printf 'sign_patch_sha256=%s\n' "$SIGN_SHA"
     printf 'loop_patch_sha256=%s\n' "$LOOP_SHA"
+    printf 'late_pool_patch_sha256=%s\n' "$LATE_SHA"
     sha256sum "$DEST/bin/agbcc$EXE"
 } > "$DEST/installed"
 echo "SDK comparison-flags compiler ready: $DEST/bin/agbcc$EXE"

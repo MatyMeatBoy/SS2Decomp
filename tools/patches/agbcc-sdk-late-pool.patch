@@ -1,0 +1,71 @@
+--- a/gcc/toplev.c
++++ b/gcc/toplev.c
+@@ -597,6 +597,7 @@
+ int flag_thumb_label_cc_reuse = 0;
+ int flag_thumb_sign_cc_reuse = 0;
+ int flag_thumb_loop_cc_reuse = 0;
++int flag_thumb_late_pool = 0;
+ 
+ typedef struct
+ {
+@@ -746,6 +747,8 @@
+     {"prologue-bugfix", &flag_prologue_bugfix, 1,
+      "Prevent unnecessary saving of the lr register to the stack"},
+ #endif
++    {"thumb-late-pool", &flag_thumb_late_pool, 1,
++     "Prefer later existing barriers within a conservative literal reach budget"},
+     {"thumb-loop-cc-reuse", &flag_thumb_loop_cc_reuse, 1,
+      "Reuse signed decrement flags in proven byte-seeded loops"},
+     {"thumb-sign-cc-reuse", &flag_thumb_sign_cc_reuse, 1,
+--- a/gcc/thumb.c
++++ b/gcc/thumb.c
+@@ -248,12 +248,49 @@
+ 
+ #define MAX_COUNT_SI 1000
+ 
++
++extern int flag_thumb_late_pool;
++
++/* Prefer a later existing dead-code boundary only while code plus a
++   conservative reservation for every literal remains in reach. Duplicate
++   constants are intentionally overcounted; HI loads become SI in reorg. */
++static rtx
++thumb_find_late_pool_barrier(rtx scan)
++{
++    rtx best = 0;
++    int code_bytes = 0, pool_bytes = 0, budget = 4096;
++    for (; scan && budget-- > 0; scan = NEXT_INSN(scan)) {
++        int length = get_attr_length(scan);
++        if (GET_CODE(scan) == INSN && GET_CODE(PATTERN(scan)) == SET) {
++            rtx p = PATTERN(scan), source = SET_SRC(p), dest = SET_DEST(p);
++            enum machine_mode mode = GET_MODE(dest);
++            if (dest != pc_rtx && fixit(source, mode)) {
++                int size = GET_MODE_SIZE(mode);
++                if (size < 4) size = 4;
++                if (size != 4 && size != 8) break;
++                pool_bytes += size;
++                if (length < size / 2) length = size / 2;
++            }
++        }
++        code_bytes += length;
++        /* Preserve margin for word alignment and Thumb's PC bias. */
++        if (code_bytes + pool_bytes > MAX_COUNT_SI) break;
++        if (GET_CODE(scan) == BARRIER) best = scan;
++    }
++    return best;
++}
++
+ static rtx
+ find_barrier(rtx from)
+ {
+     int count = 0;
+     rtx found_barrier = 0;
+     rtx label;
++
++    if (flag_thumb_late_pool) {
++        rtx late = thumb_find_late_pool_barrier(from);
++        if (late) return late;
++    }
+ 
+     while (from && count < MAX_COUNT_SI)
+     {
