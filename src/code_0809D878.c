@@ -2758,7 +2758,6 @@ check:
 }
 
 
-#ifdef NONMATCHING
 struct EntA27 {
     u16 f0, f2; u8 p4[8]; u16 fC; u8 pE[6];
     s32 x, y; u8 p1C[0x30]; s32 f4C; u8 p50[10]; u16 f5A; s16 f5C; s16 f5E;
@@ -2962,8 +2961,7 @@ void sub_080A27B8(struct EntA27 *self)
                 if (wait4 > 120) {
                     sub_0805867C(0xDF);
                     if (sub_08002204() == 1) {
-                        s16 m = s0086CA27();
-                        selfA27->f200 = ({ s32 v = (s16)(m % 5); v < 0 ? -v : v; });
+                        s16 m = s0086CA27(); selfA27->f200 = ({ s16 v = m % 5; v < 0 ? -v : v; });
                         if (s68450A27(selfA27->f200) == 1) {
                             selfA27->f1FE = 2;
                             selfA27->f1FD = 1;
@@ -3111,9 +3109,6 @@ void sub_080A27B8(struct EntA27 *self)
     s67BF8A27();
     sub_08056E24();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A27B8);
-#endif
 struct EntA35 {
     u16 f0, f2; u8 p4[8]; u16 fC; u8 pE[6];
     s32 x, y; u8 p1C[0x2c]; u16 f48; u8 p4A[2]; s32 f4C; s32 f50;

@@ -1,8 +1,9 @@
-sub_080A27B8 (nov03-w5): fresh hand-written draft, nmscore 937 -> 152, 3610/3608 bytes, call order identical.
-  Keys: `tileA27 = s16E04(...); while (tileA27 == 0xFFFF) {...}` (first test reuses the stored value, the
-  loop compares against a hoisted copy); separate block-local ent pointers for the x/y init and the tail
-  f6C/f6A/f68 init; repeated tail loop body as a MACRO (a static inline adds its own sx/sy stack slots);
-  main loop `while (CB78() == 0 && 56E90() == 0) { ...; yield; if (other->f5C == 0) break; }`;
+sub_080A27B8: MATCHED (nov03-w5). Last steps: one function-scope `u16 st;` assigned in cases 4-8
+  (`st = N; selfA27->fC = st;`) -> global alloc puts it in r2 and materialises it before the self load
+  (case 4's 0x100 becomes `adds r2,#0xFE`); case 7 first read as plain `patA27[f200 * 15]` (loads the
+  table base before f200); case 4 abs as `({ s16 v = m % 5; v < 0 ? -v : v; })`.
+  nmdiff still shows jump-table words and a gUnk_0300039C vs gUnk_03000380+0x1C literal: same ROM bytes.
+ if (other->f5C == 0) break; }`;
   pattern table reads `(&pat[k])[f200 * 15]`; abs via `({ s32 v = (s16)(m % 5); v < 0 ? -v : v; })`.
   Remaining (~90 normalized lines, all in the state switch): cases 4-8 materialise the fC constant before
   loading gUnk_03000364 (`movs r2,#c; ldr rX,=364; ldr r0,[rX]; strh r2,[r0,#0xC]`), case 4 derives
