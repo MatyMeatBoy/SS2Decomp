@@ -1659,7 +1659,7 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
     e->f6A = 0;
     e->f68 = 0;
     e->f5C = e->f1D6 = data->f6 * 3;
-    e->f5E = e->f1D4 = (data->f4 * 2 + (data->f4 << 3)) * 2;
+    { s32 v = data->f4 * 2; e->f5E = e->f1D4 = (v * 4 + v) * 2; }
     e->fC = 0;
     blinkTimer = 0;
     blinking = 0;

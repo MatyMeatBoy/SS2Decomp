@@ -1,9 +1,7 @@
-
-sub_0808F1E4 (nov03-w1): `s16 hitOff; ... hitOff--;` reproduces the ROM `(x<<16)+0xFFFF0000>>16`
-  decrement (size becomes 1224, other diffs unchanged). Remaining structural diffs: (a) f4*20 as
-  (x<<1),(x<<3), add into the <<3 reg (every source order tried gives the other dest reg or folds
-  to *5*4); (b) the init zeros: ROM stores lastHit/f4C from the shared zero reg r2 and
-  blinkTimer/blinking from one movs r0,#0 (chained assignments did not change it); (c) prio2 store
-  comes from r0, ours via `mov r2,r9`; (d) `old & 0x8000` ROM copies the const reg (adds r1,r2,#0)
-  and ands into old's reg. Permuter 5 min: nothing valid (only dropped blinkTimer=0).
- to a u8 param.
+sub_0808F1E4 (nov03-w1, 2nd pass): (a) fixed with the template form `{ s32 v = data->f4 * 2;
+  e->f5E = e->f1D4 = (v * 4 + v) * 2; }` (126 -> 112 normalized diff lines). (b) init zeros still open:
+  ROM `movs r0,#0; str r0,[sp,#0xa0]; str r0,[sp,#0x9c]; ldr r1,=0xFFFF; ...; str r2,[sp,#0x98];
+  str r2,[r7,#0x4c]` (r2 = the zero of the f6C/fC stores). Tried: blink vars as u8/u16/s16/s32
+  (all combos), chained/copied assignments (blinking = blinkTimer, lastHit = e->fC, e->f4C =
+  lastHit = 0), struct {on,timer} local, volatile: none changes the init; every later diff is the
+  reload round-robin shift caused by it. `s16 hitOff; hitOff--` gives the ROM decrement but +4 bytes.
