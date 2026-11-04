@@ -3296,7 +3296,6 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     }
     sub_08056E24();
 }
-#ifdef NONMATCHING
 struct Res0288 { u8 p0[4]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
 struct Act0288 {
     u16 f0, f2;
@@ -3366,7 +3365,8 @@ s32 flag0288(void) asm("sub_0805A318");
 s32 box0288(s32, s32, s32, s32, s32, s32) asm("sub_0805DF38");
 s32 boxDone0288(s32) asm("sub_0805EEFC");
 void blend0288(u8, u8, u8, u8) asm("sub_08009088");
-void fx0288(s32, s32, s32) asm("sub_08098088");
+struct XY0288 { s32 x, y; };
+void fx0288(struct XY0288, s32) asm("sub_08098088");
 u8 fxDone0288(void) asm("sub_080980F0");
 s32 dropFx0288(void *, void *) asm("sub_0801E46C");
 void fall0288(void *, s32) asm("sub_0806171C");
@@ -3667,7 +3667,7 @@ void sub_080B0288_v(struct Act0288 *a)
         g->f6A = 0;
     }
     k = 0;
-    fx0288(a->f14, a->f18, 1);
+    fx0288(*(struct XY0288 *)&a->f14, 1);
     do {
         gPl0288[sub_080020F4()].flags |= 1;
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
@@ -3697,9 +3697,6 @@ void sub_080B0288_v(struct Act0288 *a)
     }
     sub_08056E24();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0288);
-#endif
 void sub_080B0F70(void) {
     if (M2C_FIELD(gUnk_03000788, s16 *, 0x5C) != 0) {
         sub_08098060();
