@@ -2983,7 +2983,7 @@ void sub_080A27B8(struct EntA27 *self)
                 st = 0; selfA27->fC = st;
                 if (selfA27->f200 == 0xFF)
                     selfA27->f200 = 2;
-                s4C74A27((&patA27[0])[selfA27->f200 * 15], (&patA27[2])[selfA27->f200 * 15]);
+                s4C74A27(patA27[selfA27->f200 * 15], (&patA27[2])[selfA27->f200 * 15]);
                 s4CA8A27(0, (&patA27[3])[selfA27->f200 * 15], (&patA27[4])[selfA27->f200 * 15], (&patA27[5])[selfA27->f200 * 15]);
                 s4CA8A27(1, (&patA27[6])[selfA27->f200 * 15], (&patA27[7])[selfA27->f200 * 15], (&patA27[8])[selfA27->f200 * 15]);
                 s4CA8A27(2, (&patA27[9])[selfA27->f200 * 15], (&patA27[10])[selfA27->f200 * 15], (&patA27[11])[selfA27->f200 * 15]);
