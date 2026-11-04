@@ -1,0 +1,33 @@
+sub_0801801C (shard 15; nov03-w5, 2026-11-04): block-by-block status of the NONMATCHING draft.
+Draft is 7112 vs ROM 7132 bytes (-20). See also shard115.txt (nov03-w1 findings) and
+docs/agents/function_work/sub_0801801C.json. Measure with build/.../casediff.py, TBL=0..3:
+  TBL0 = first fC switch (state input), TBL1 = second switch(st) (anim select),
+  TBL2 = f1FD-0x12 switch inside st==9, TBL3 = switch((s16)v) draw switch.
+
+region (ROM offsets)                 dsz  diff rdiff  status
+0x000-0x3ac  prologue/retry/init      -8   113   24   retry loop OK (nmdiff's first .short/.word diff is pool
+                                                       padding, branch targets are offset by sub_08017F7C, not
+                                                       real). Real: &auxB in r6 (ROM sl), count*12 in sl
+                                                       (ROM spilled sp+0x134), `F7A |= 1` lacks ROM's
+                                                       `movs r1,#0; orrs` (2 insns), f42 addr via subs.
+TBL0 cases 0,1,2,9,10,11,15            0     9    0   size exact; case0 regs only.
+0x6a2-0x7a4  post TBL0 / pre TBL1      0     5    3   size exact.
+TBL1 case0, case1                      0   2/3  0/1   size exact (r6 vs r5 for &stack.main).
+TBL1 case2  (0x848-0x8b8)             -4     7    2   ROM reloads `ldrh [r7,#12]` for `local10C != fC`
+                                                       after the f68 compare; ours reuses switch reg r2.
+TBL1 case9  (0x8b8-0xf74)              0    20   14   same reload issue; ROM stores r2 (switch value) to
+                                                       local10C; inner TBL2 cases all size exact.
+TBL1 case10 (0xf74-0xff4)             -4     6    1   same fC reload issue (first `||` operand).
+TBL1 case11 (0xff4-0x10cc)            -4    17    3   same fC reload issue.
+TBL1 case12, 14, 15                    0  25/14/1     size exact.
+0x11f8-0x141c after switch/bg/draw    -4    ~      ~   not yet split; f66/local11C draw paths.
+TBL3 draw cases                     0..+4             v==10 (f45 sub-switch) +4; others exact.
+0x17ac-end tail                        0    22   12   size exact.
+
+Open lead for the -4 x3 in TBL1 (12 of the 20 bytes): the ROM keeps the switch value r2 live
+(case 9 stores it) yet reloads fC in every `local10C != fC` compare, so the switch value and the
+compare MEMs must not be the same expression to cse/gcse in the original. Tried (no change):
+operand swap `fC != local10C`, plus w1's list (switch(arg0->fC), u16/u32/s16 st, casts).
+Untried: a second actor pointer pseudo (e.g. `struct T015LActor *a = arg0;` used only in the
+switch head or only in the compares) so the MEMs differ before register allocation; inspect with
+agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: build/w5/dump.
