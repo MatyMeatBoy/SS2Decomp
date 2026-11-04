@@ -13,3 +13,20 @@ sub_080AE420 (nov03-w2): fresh C draft, exact control flow (3716 vs 3724 bytes),
   ROM keeps b and p in sl and the entry/anim base in r9 (draft swaps them), &a->f6C in r9 in the prologue,
   constant 4 shared in r6 (fA6 = 4 / f1DC = 4). Keys: rnd returns s32, face takes u8; table row
   struct {a[11]; b[9]; c; d;} indexed .a[x]/.b[x]; main loop is goto-shaped (idle call before the top).
+
+2026-11-04 codex-solo, baseefba6fa6:
+  MATCH sub_080AD534 (2300 bytes). After assigning the actor slot, introduce
+  block-local mask pointer m in r4, index copy in r2 and bit in r3. A single empty
+  read/write constraint on m and copy retains the stride calculation's r2 copy
+  and loads &mask before computing the bit; the mask VALUE is loaded afterward
+  into r1, exactly as in ROM. No opcode ASM. The entire inherited body matches.
+  Do not move copy before the actor assignment: that changes the stride code.
+  Dropping the copy constraint restores the extra index reload. Explicit bit
+  temporaries alone lose the original slot/base r5/r6. Strict nmdiff MATCH,
+  normal ROM OK after unwrap, NONMATCHING builds, check_tree0. Existing clean
+  actor-state-machine draft and types credited to previous contributors.
+  Observed role: register an indexed actor in the active mask, initialize its
+  resource and state, run its update/draw/collision task, then clear its mask bit
+  on cleanup. Proposed name RunRegisteredActorTask (proposal only). Evidence:
+  canonical sub_080AD534 ASM atefba6fa6, mask056FC and actors00448, setup1623C,
+  resource19F60 and final mask-clear operations. No shared symbol renames.
