@@ -7,3 +7,17 @@ lock scope), u16 c,
   (load into its own reg, compares on a copy) but 618 bytes: cse leaves the last compare on t (third reg) and the
   0xFD constant is no longer hoisted to ip. `(u8)c` compares on u32/s32/u16 c: 616. switch: jump table (678).
   Inline helper for the name loads: 626. permuter 300 s (random mode): no improvement.
+
+2026-11-04 codex-solo, shard147, base5299392e:
+  MATCH sub_08087A5C (612 bytes). Keep c as u32 and a separate u32 comparison
+  copy named code, bound to r0. The load then lands in r1, with adds r0,r1,#0;
+  the original byte is retained for the default store. No inline ASM statement
+  is needed. Either u8 c or an unconstrained comparison copy misses the two
+  registers; forcing c itself into r1 changes the loop substantially. Explicit
+  copy constraints disrupt constant hoisting and the ip-held 0xFD value.
+  Strict nmdiff MATCH; unwrapped normal ROM OK; NONMATCHING builds; tree0.
+  Inherited message-expansion draft credited to previous contributors.
+  Observed role: expand party-name control bytes into up to eight text lines,
+  display them centered with a fade, stop on input or elapsed frames, then close.
+  Proposed name ShowCenteredPartyMessage (proposal only); evidence: canonical
+  sub_08087A5C ASM at5299392e, name offsets2/14E/29A/3E6, text/fade/close calls.
