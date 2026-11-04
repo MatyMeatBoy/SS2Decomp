@@ -5,3 +5,9 @@ sub_080624D8 (nov03-w4): first draft (fresh C, pause menu), 3756 vs 3716 bytes, 
   ROM addresses x/y as ((i*4 + sp) + 0x1C) + 0x34 (a pointer to the struct, not hoisted bases);
   ours hoists &m.x/&m.y into sl/spills. Load624 inline = load62 of code_0805D094 (b<0 path folded).
   Left: case bodies of the load switch (43 vs 50 insns), text centring expression, frame size.
+sub_080624D8 (nov03-w4, round 2): 3652 vs 3716, diff 1471 lines (was 2200). The lerp and the
+  scaled draw are static inlines taking pointers (Lerp624(&m.x[i], a, b, t, u) stores through one
+  address in both branches; DrawScaled624(&m.spr, x, y, id, frame) addresses fields off &m.spr).
+  struct padded by 12 bytes (u32 pad[3]) to push spills to 0x9C. Left: ROM keeps remap in sl and
+  re-materializes texts (sp+0x80 -> [sp,#0xb4]) and sl after the first load call of every switch
+  case; ROM spills more (sel, scale, step, win, next, sel*4, texts, next): ours is 64 bytes shorter.

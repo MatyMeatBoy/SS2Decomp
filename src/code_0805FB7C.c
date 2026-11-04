@@ -2028,6 +2028,7 @@ struct Menu624 {
     u16 w[4];
     u16 h[4];
     u8 *text[4];
+    u32 pad[3];
 };
 extern struct Pt624 src624[] asm("gUnk_084EBE14");
 extern struct Pt624 dst624[] asm("gUnk_084EBE34");
@@ -2065,6 +2066,24 @@ static inline void Load624(struct Spr624 *p, u32 id)
             }
         }
     }
+}
+
+static inline void Lerp624(s32 *dst, s32 a, s32 b, s32 t, s32 u)
+{
+    if (a == b)
+        *dst = a;
+    else
+        *dst = (b * t >> 10) + (a * u >> 10);
+}
+
+static inline void DrawScaled624(struct Spr624 *p, s32 x, s32 y, u16 id, u16 frame)
+{
+    p->scale += p->step;
+    if (p->step > 0 && p->scale > p->max)
+        p->step = -p->step;
+    if (p->step < 0 && p->scale < p->min)
+        p->step = -p->step;
+    drawScaled624(x, y, id, frame, 0, p->remap, p->data, p->base, p->scale, p->scale, 0xFF);
 }
 
 #define PLAYER_FLAGS() flags624[sub_080020F4() * (0x14C / 4)]
@@ -2129,18 +2148,8 @@ void sub_080624D8_(void)
         next = t + 0x80;
         u = 0x400 - t;
         for (i = 0; i <= 3; i++) {
-            a = src624[i].x;
-            b = dst624[i].x;
-            if (a == b)
-                m.x[i] = a;
-            else
-                m.x[i] = LERP(a, b, t, u);
-            a = src624[i].y;
-            b = dstY624[i * 2];
-            if (a == b)
-                m.y[i] = a;
-            else
-                m.y[i] = LERP(a, b, t, u);
+            Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
+            Lerp624(&m.y[i], src624[i].y, dstY624[i * 2], t, u);
             if (i == 1 && (PLAYER_FLAGS() & 8))
                 draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
             else
@@ -2167,25 +2176,10 @@ void sub_080624D8_(void)
         for (i = 0; i <= 3; i++) {
             sub_08008CC4(i, &m.w[i], &m.h[i], (u8 *)m.spr.data, 1);
             if (sel == i) {
-                if (i == 1 && (PLAYER_FLAGS() & 8)) {
-                    sx = dst624[1].x >> 8;
-                    sy = dst624[1].y >> 8;
-                    m.spr.scale += m.spr.step;
-                    if (m.spr.step > 0 && m.spr.scale > m.spr.max)
-                        m.spr.step = -m.spr.step;
-                    if (m.spr.step < 0 && m.spr.scale < m.spr.min)
-                        m.spr.step = -m.spr.step;
-                    drawScaled624(sx, sy, 7, m.w[1], 0, m.spr.remap, m.spr.data, m.spr.base, m.spr.scale, m.spr.scale, 0xFF);
-                } else {
-                    sx = dst624[i].x >> 8;
-                    sy = dstY624[i * 2] >> 8;
-                    m.spr.scale += m.spr.step;
-                    if (m.spr.step > 0 && m.spr.scale > m.spr.max)
-                        m.spr.step = -m.spr.step;
-                    if (m.spr.step < 0 && m.spr.scale < m.spr.min)
-                        m.spr.step = -m.spr.step;
-                    drawScaled624(sx, sy, i, m.w[i], 0, m.spr.remap, m.spr.data, m.spr.base, m.spr.scale, m.spr.scale, 0xFF);
-                }
+                if (i == 1 && (PLAYER_FLAGS() & 8))
+                    DrawScaled624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
+                else
+                    DrawScaled624(&m.spr, dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i]);
             } else {
                     if (i == 1 && (PLAYER_FLAGS() & 8))
                         draw624(dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1], 0, remap, m.spr.data, m.spr.base);
@@ -2221,18 +2215,8 @@ void sub_080624D8_(void)
                     next = t - 0x80;
                     u = 0x400 - t;
                     for (i = 0; i <= 3; i++) {
-                        a = src624[i].x;
-                        b = dst624[i].x;
-                        if (a == b)
-                            m.x[i] = a;
-                        else
-                            m.x[i] = LERP(a, b, t, u);
-                        a = src624[i].y;
-                        b = dst624[i].y;
-                        if (a == b)
-                            m.y[i] = a;
-                        else
-                            m.y[i] = LERP(a, b, t, u);
+                        Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
+                        Lerp624(&m.y[i], src624[i].y, dst624[i].y, t, u);
                         if (i == 1 && (PLAYER_FLAGS() & 8))
                             draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
                         else
@@ -2348,18 +2332,8 @@ confirm:
         next = t - 0x80;
         u = 0x400 - t;
         for (i = 0; i <= 3; i++) {
-            a = src624[i].x;
-            b = dst624[i].x;
-            if (a == b)
-                m.x[i] = a;
-            else
-                m.x[i] = LERP(a, b, t, u);
-            a = src624[i].y;
-            b = dst624[i].y;
-            if (a == b)
-                m.y[i] = a;
-            else
-                m.y[i] = LERP(a, b, t, u);
+            Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
+            Lerp624(&m.y[i], src624[i].y, dst624[i].y, t, u);
             if (i == 1 && (PLAYER_FLAGS() & 8))
                 draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
             else
