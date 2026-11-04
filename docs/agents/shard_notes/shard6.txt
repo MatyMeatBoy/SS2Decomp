@@ -1,19 +1,17 @@
 
-nov03-w1 (2026-11-03):
-  sub_0800AD04: agbcc never emits `ldrh rX,[rA,rB]` from C (tested `*(u16 *)(p + i)` with i in a reg:
-  always `add; ldrh [r,#0]`). ROM's `movs r4,#0x82; ldrh r2,[r4,r3]` must be reload's "reload the
-  displacement into an index reg" path (reload.c, (plus HARD_REG const) with an invalid offset and
-  double_reg_address_ok), i.e. offY's address reaches reload as (mem (plus base 0x82)), probably via a
-  REG_EQUIV/equivalence substitution of a single-use address pseudo. Natural `base->offY` gives the
-  whole-sum reload (`adds r1,r3,#0; adds r1,#0x82`, 9 lines).
-  sub_0800AEF4: clean C (build: 2-byte packed cell struct!, `u32 h` so the j bound compares unsigned,
-  separate `c->type = ...` stores per branch so crossjump only merges the final strb) reaches 500 vs
-  546 bytes, ~398 lines (draft in src: 524 bytes, 227). ROM keeps `i = x - half` inside the outer
-  loop (only half and x+half are hoisted) and recomputes sy+h each outer iteration; ours hoists
-  (x-half)<<16 into a stack slot. The 0xA store pair is duplicated in the ROM (not crossjumped).
-s per arg2 branch; keep arg0/arg1 as u16 locals.
-
-sub_0800B650 (195 asm): VRAM/tile upload (sub_08001348 DMA + CpuFastSet). Size now matches (396).
+w7 (2026-11-04), sub_0800AD04 (nmscore 12; only diff left is ROM `movs r4,#0x82; ldrh r2,[r4,r3]` vs our
+  `adds r4,r4,r3; ldrh r2,[r4,#0]`):
+  - Across ALL matched C (build/src/*.s) agbcc never emits ldrh/ldrb/ldr with [reg,reg]; only ldrsh. In the
+    whole ROM reg+reg ldrh appears only in sub_0800AD04 (+0x82) and sub_0800B118 (`movs r2,#0x76; ldrh r4,[r2,r6]`,
+    r6 = gUnk_03003170 inside a loop). Same struct, so the cause is likely shared: fix one, copy to the other.
+  - Tried (no fold, all keep a separate add): plain local offset + asm barrier, `(u8*)base+off`, direct global
+    `t06_sysAD04.offY` (4 mixes with base->), `((u16*)&base->offX)[1]`, `((u16*)base)[0x41]`, `(u8*)&offX+2`.
+  - `*(u32*)&base->offX >> 16` IS narrowed by combine to a halfword load, but onto the shared offX address
+    (`ldrh [r2,#2]`) and it changes the prologue (adds sl). Pair loads for both x and y keep an `ldr`.
+  - Remaining idea: an address that reaches reload as (mem:HI (plus hardreg 0x82)) without legitimization,
+    e.g. narrowing of a pair load whose SImode address is NOT already in a pseudo; or a loop-invariant
+    address (as in B118) that loop.c hoists and reload rematerializes.
+ + CpuFastSet). Size now matches (396).
   Remaining diff: 4 register-order lines: (a) ldrh [base] vs constant 0x70000 load order in tilesrc arg,
   (b) `arg0 & 0x40000000` picks r2 instead of r1, (c) ldr [gUnk_0300129C] / ldrb order (fixed with 0x80 & *(u8*)).
   Permuter x1 best scores 225 (not 0). Ideas: store (u16)*base into a temp before the | 0x70000 call; try `register`.
