@@ -2058,11 +2058,11 @@ digraph calls {
   "FadeOutBody" -> "TrackStop" [label="c"];
   "IdentifyFlash" -> "ReadFlashId" [label="c"];
   "MPlayJumpTableCopy" -> "sub_080B6992" [label="c"];
-  "MPlayMain" -> "Clear64byte" [label="asm"];
-  "MPlayMain" -> "ClearChain" [label="asm"];
-  "MPlayMain" -> "FadeOutBody" [label="asm"];
-  "MPlayMain" -> "MidiKeyToFreq" [label="asm"];
-  "MPlayMain" -> "TrkVolPitSet" [label="asm"];
+  "MPlayMain" -> "Clear64byte" [label="asm,c"];
+  "MPlayMain" -> "ClearChain" [label="asm,c"];
+  "MPlayMain" -> "FadeOutBody" [label="asm,c"];
+  "MPlayMain" -> "MidiKeyToFreq" [label="asm,c"];
+  "MPlayMain" -> "TrkVolPitSet" [label="asm,c"];
   "MPlayMain" -> "sub_080B6DD0" [label="asm"];
   "MPlayOpen" -> "Clear64byte" [label="c"];
   "MPlayStart" -> "TrackStop" [label="c"];
