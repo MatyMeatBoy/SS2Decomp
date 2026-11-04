@@ -9466,8 +9466,10 @@ void sub_080009F8(s32, s32, s32);
 void sub_08086860(void)
 {
     u8 obj[0x34];
-    struct { u32 zero1; u16 pos[2]; u32 zero2; } m;
-    u32 bg;
+    vu32 zero1;
+    u16 pos[2];
+    vu32 zero2;
+    union { u32 w; u16 h; } bg;
     s32 running;
     u32 skip;
     u16 a, b, c;
@@ -9494,12 +9496,12 @@ void sub_08086860(void)
     sub_080003F0();
     sub_080009F8(0x600, 0, 1);
     sub_080009C0(0x1900, 0, 1);
-    bg = (bg & 0xFFFF0000) | 0x9E03;
+    bg.w = (bg.w & 0xFFFF0000) | 0x9E03;
     sub_08000AA8(3, (u16 *)&bg);
     sub_0800B650(0x46, 0x1E, 0x06000000, 0, 0xF);
     buf = sub_08001494(0x800);
-    m.zero1 = 0;
-    CpuFastSet(&m.zero1, buf, 0x01000200);
+    zero1 = 0;
+    CpuFastSet((void *)&zero1, buf, 0x01000200);
     sub_08001348(buf, (void *)0x0600F800, 0x800);
     sub_08057624(5);
     sub_08001538((s32)buf);
@@ -9637,24 +9639,28 @@ void sub_08086860(void)
     } while (state != 3);
 
     y = -0x2800;
-drop:
-    SKIP_KEYS();
-    if (skip)
-        goto end;
-    q = y / 5;
-    if (q == 0) {
-        y++;
-    } else {
+    for (;;) {
+        SKIP_KEYS();
+        if (skip)
+            goto end;
+        q = y / 5;
+        if (q == 0) {
+            y++;
+            if (y <= 0)
+                goto draw;
+            goto dropped;
+        }
         if (q < 0)
             q = -q;
         y += q;
-    }
-    if (y <= 0) {
+        if (y > 0)
+            goto dropped;
+draw:
         sub_08065230(obj, 0x78, (y >> 8) + 0x28, 1, 0);
         sub_08065230(obj, 0x78, 0x78, 0, 0);
         sub_080003F0();
-        goto drop;
     }
+dropped:
 
     y = 0;
     d = 0x200;
@@ -9788,10 +9794,10 @@ drop:
         if (skip)
             goto end;
         if (running)
-            anim86860(obj, 0, &m.pos[0], &m.pos[1], 1);
+            anim86860(obj, 0, &pos[0], &pos[1], 1);
         else
-            m.pos[0] = 6;
-        sub_08065230(obj, 0x81, 0x77, 0, m.pos[0]);
+            pos[0] = 6;
+        sub_08065230(obj, 0x81, 0x77, 0, pos[0]);
         if (t2++ > 0x12E) {
             switch (state) {
             case 0:
@@ -9829,7 +9835,7 @@ drop:
     sub_08057624(0x1E);
     sub_0800B650(0x32, 0x1E, 0x06000000, 0, 0xE);
     sub_0800B650(0x33, 0x1F, 0x06000000, 0, 0xE);
-    *(u16 *)&bg = 0x1F03;
+    bg.h = 0x1F03;
     sub_08000AA8(3, (u16 *)&bg);
     sub_0801AA34(0x1E);
     t2 = 0x12E;
@@ -9876,7 +9882,7 @@ drop:
         sub_080003F0();
 
     sub_0800B650(0x3E, 0x1E, 0x06000000, 0, 0xF);
-    *(u16 *)&bg = 0x1E03;
+    bg.h = 0x1E03;
     sub_08000AA8(3, (u16 *)&bg);
     sub_0801AA34(0x1E);
     t2 = 0x12E;
@@ -10022,8 +10028,8 @@ drop:
     sub_0801AA8C(0x1E);
     sub_08057624(0x1E);
     buf = sub_08001494(0x800);
-    m.zero2 = 0;
-    CpuFastSet(&m.zero2, buf, 0x01000200);
+    zero2 = 0;
+    CpuFastSet((void *)&zero2, buf, 0x01000200);
     sub_08001348(buf, (void *)0x0600F000, 0x800);
     sub_08057624(5);
     sub_08001538((s32)buf);
@@ -10087,9 +10093,9 @@ drop:
     sub_0801AA8C(0x1E);
     sub_08057624(0x1E);
     sub_080009C0(0x1D00, 0, 1);
-    *(u16 *)&bg = 0x1E03;
+    bg.h = 0x1E03;
     sub_08000AA8(2, (u16 *)&bg);
-    *(u16 *)&bg = 0x1F03;
+    bg.h = 0x1F03;
     sub_08000AA8(3, (u16 *)&bg);
     sub_0800B650(0x43, 0x1F, 0x06000000, 0, 0xF);
     sub_0800B650(0x3D, 0x1E, 0x06000000, 0, 0xF);

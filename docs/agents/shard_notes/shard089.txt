@@ -9,3 +9,13 @@ sub_08086860 (nov03-w4): first draft (fresh C), 3872 vs 3880 bytes, same block s
 er.
   Tried for the c load: c as u32/s32/u16 (worse or same), default storing *s, `(c = *s) == 0xFF`,
   separate compare copy, switch (table, bigger).
+sub_08086860 (nov03-w4, round 2): draft now 3872 vs 3880, register allocation of skip (sl) fixed.
+  - zero1/zero2 are `vu32` and pos `u16 pos[2]`: volatile/array locals get slots at declaration,
+    giving the ROM layout (0x3C/0x40/0x44, then bg 0x48 and running 0x4C, which get slots at
+    first address-take). A 12-byte struct gave the layout but kept &struct in a register (spills).
+  - bg is `union { u32 w; u16 h; }` (first RMW on .w, later `bg.h = 0x1F03`): no extra copies.
+  - drop loop: `for (;;)` with `if (q == 0) { y++; if (y <= 0) goto draw; goto dropped; }`.
+  Left: ROM keeps a second 0 in r8 at entry (used for zero1 and obj86860's stack 0; CSE always
+  folds any `a = 0` into skip here); 4 entry instructions; the last loop's fade: separate s16
+  fa/fb reproduce it exactly but then skip gets spilled again (allocation order); with the
+  u16 a/b used now it differs in ~20 lines. Declaration order of scalars has no effect.
