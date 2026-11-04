@@ -1,10 +1,11 @@
-nov03-w2: `(&pos)->y = info->b;` (any &-form: ((s32 *)&pos)[1], *&pos.y, ...) creates the entry
-  `mov r8` copy -> exact size, 14 diff lines; only left: `add r0,sp,#0x4c; mov r8,r0` is emitted BEFORE the
-  `ldr r0,[r4,#20]` (LHS address expanded first), ROM has it after (then `mov r1,r8` disappears).
-  A temp (`v = info->b; (&pos)->y = v;`) or an inline setter loses the copy again (back to 110 lines).
-  Dead `pp = &pos;` in bb0 is removed before it helps. Permuter 5 min on the 14-line version: nothing.
-ter the entry computation (pre_insert_copies), so the expr must be available at bb0's end.
-  Tried: s32 pos[2], pointer var pp=&pos at entry (gets r8 but add/mov come BEFORE the info->b load), v=info->b first
+nov03-w1 on sub_08079458 (shard 146): forms that compute the y-store address AFTER the info->b load
+  (`{ s32 b = info->b; ((s32 *)&pos)[1] = b; }`, `pos.y = info->b; ((s32 *)&pos)[1] = pos.y;`, pp copies)
+  give the ROM order and everything else identical (1 diff line) except the missing `mov r8, r1`: in the
+  ROM that copy is DEAD (r8 is re-set at insn ~181 before any use); it is the gcse PRE insertion
+  "end of bb 0, copying expression (sp+0x4c) to reg 507" that survives only when the bb0 address reg is
+  created before the load (both versions get the same PRE insertion; in the reordered forms it is
+  optimized away). Size 1068 vs 1072. Kept the 5-line exact-size draft.
+the info->b load), v=info->b first
   then pp (pp then short-lived). Idea left: find what kills (plus fp 60) between the store and end of bb0.
 nov03-w5 on sub_08079458 (still 14 lines): the entry RTL (lreg dump: agbcc a.i -O2 -dl) has
   reg45 = sp+0x4c (insn 21) BEFORE the info->b load, and reg45 is linked by cse to a later copy
