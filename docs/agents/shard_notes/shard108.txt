@@ -12,3 +12,11 @@ nov03-w3: sub_080A47A0 clean rewrite (no register asm) reaches 516 vs 520 bytes 
   Remaining in the clean version: ROM spills x/y and keeps &sx/&sy in sl/r9 (ours keeps x/y in
   r7/r8 and spills &sx); styles-0x1C computed as reg-28 into ip; &side reused in r6.
   Permuter 5 min on the clean version: only invalid results (hoists object->x out of the loop).
+
+nov03-w3 (2nd pass) sub_080A47A0: the draw10847 style/f8/f0 arguments are &sprites10847[side].style,
+  sprites10847[side].f8, sprites10847[side].f0 (gUnk_0300039C == &gUnk_03000380[0].style); with that the
+  draft is exact size (520) and the draw block matches (the `.word 0x1c` + gUnk_03000380 reloc vs
+  gUnk_0300039C is a false diff: same bytes). Remaining: prologue (tile/rotation stored via separate
+  sp+18 / sp+16 addresses in ROM, struct base reuse in ours), ROM loads &side straight into r6 (ours r4 then
+  copies), offset-table add operand order. Clean separate-locals rewrite (no register asm) still keeps x/y in
+  r6/r7: 163 lines; replacing the wait-loop hack with a goto loop: worse (79 vs 63).

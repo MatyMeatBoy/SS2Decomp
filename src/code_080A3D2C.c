@@ -617,7 +617,7 @@ wait_frame:
      register s32 x asm("r0") = *p;
      register s32 y asm("r1") = *q + 1;
      asm("" : "+r"(x), "+r"(y));
-     output=draw10847(x,y,animation,frame.tile,mode,styles10847+side10847*0x34,F_10847(styles10847+side10847*0x34,u32,-0x14),F_10847(styles10847+side10847*0x34,u32,-0x1C));
+     output=draw10847(x,y,animation,frame.tile,mode,&sprites10847[side10847].style,sprites10847[side10847].f8,sprites10847[side10847].f0);
     }
     coords10847((s32)(frame.x<<8)>>16,(s32)(frame.y<<8)>>16,sx,sy,paused,(void*)paused);
     {
