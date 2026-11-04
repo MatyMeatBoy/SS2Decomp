@@ -32503,18 +32503,24 @@
       "name": "sub_080AB2F8",
       "addr": 134918904,
       "size": 3868,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080A9680",
       "kind": "c",
       "cat": "game",
       "address": "0x080AB2F8",
       "canonical_symbol": "sub_080AB2F8",
       "domain": "game",
-      "implementation": "draft",
-      "display_name": "sub_080AB2F8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "decompiled",
+      "display_name": "sub_080AB2F8_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 481,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AB2F8_v"
+        }
+      ]
     },
     {
       "name": "sub_080AC214",
@@ -32619,7 +32625,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2119,
+          "line": 2033,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
         }
       ]
@@ -32747,18 +32753,24 @@
       "name": "sub_080AE420",
       "addr": 134931488,
       "size": 3724,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A9680",
       "kind": "c",
       "cat": "game",
       "address": "0x080AE420",
       "canonical_symbol": "sub_080AE420",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_080AE420",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "sub_080AE420_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 2528,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AE420_v"
+        }
+      ]
     },
     {
       "name": "sub_080AF2AC",
@@ -32863,7 +32875,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2695,
+          "line": 3161,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AF3F4_v"
         }
       ]
@@ -37048,12 +37060,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 187,
-      "existing": 68,
+      "identified": 189,
+      "existing": 70,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1693,
-      "percent_identified": 9.946808510638299
+      "unidentified": 1691,
+      "percent_identified": 10.053191489361701
     },
     "sdk": {
       "total": 155,
@@ -37066,12 +37078,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 342,
-      "existing": 197,
+      "identified": 344,
+      "existing": 199,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1693,
-      "percent_identified": 16.805896805896804
+      "unidentified": 1691,
+      "percent_identified": 16.904176904176904
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
