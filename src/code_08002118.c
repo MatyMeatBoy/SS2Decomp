@@ -560,7 +560,6 @@ void sub_08002AA0(void)
 	sub_0800BCDC(0x13, 1, 0x06000000, 0, 0xF);
 	sub_0800903C(4, 8, 1, 0, 8, z);
 }
-#ifdef NONMATCHING
 struct Save2B70 {
     u8 used;
     u8 cls;
@@ -1029,7 +1028,22 @@ void sub_08002B70_(void)
             anim2B70(&chars[i], anim[i], &frame[i], &timer[i], 1);
             if (saves[i].used)
                 pal2B70(i + 16, chars[i].fC + saves[i].pal * 32, 1);
-            obj2B70(pos2B70[i].x, posY2B70[i * 2], anim[i], frame[i], 0, &chars[i].id, chars[i].f8, chars[i].f0);
+            {
+                register u32 off asm("r1") = i * 8;
+                register u32 tableX asm("r2");
+                register u32 tableY asm("r3");
+                register u32 address asm("r0");
+                s32 x, y;
+
+                tableX = (u32)pos2B70;
+                address = off + tableX;
+                /* Preserve the X address before loading the separate Y table. */
+                asm("" : : "r"(address));
+                x = *(s32 *)address;
+                tableY = (u32)posY2B70;
+                y = *(s32 *)(off + tableY);
+                obj2B70(x, y, anim[i], frame[i], 0, &chars[i].id, chars[i].f8, chars[i].f0);
+            }
         }
         s = (struct Save2B70 *)(slot * sizeof(struct Save2B70) + (u32)saves);
         num2B70(0x15, 1, s->level + 1, 0);
@@ -1123,9 +1137,6 @@ void sub_08002B70_(void)
         break;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_08002B70);
-#endif
 #ifdef NONMATCHING
 union Bg3984 { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; };
 struct Reg3984 { u16 h0,v0,h1,v1,h2,v2,h3,v3; };
