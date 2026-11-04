@@ -10,34 +10,32 @@ Measure: python3 tools/scripts/casediff.py sub_0807C29C [-v caseN|pre|post]
 Phase 1 (structure, every block hand-written with typed Mgr82/Inv82/Item82): DONE 2026-11-04.
 No M2C_FIELD / temp_ variables left in the function.
 
-Status 2026-11-04 (nov03-w4), total cand 18132 vs orig 18396 (-264):
+Status 2026-11-04 (nov03-w4), total cand 18076 vs orig 18396 (-320), sum diff 1422 rdiff 611:
   case  dsize  diff rdiff  note
-  pre      0     3    3
-  0     -136   617  226   biggest; size swings -52..-136 with unrelated edits (cross-jump/alloc)
-  1       -4    74   21
-  2        0    28    8
-  3        0    24    9
-  4        0    23   11
-  5      +48   105   28   size wrong: look here first
-  6       +8    84   34
-  7       +4    22    3
-  8        0    35   12
-  9      -38    30   23   DROP82 tail cross-jumped with another case (orig keeps it: regs differ)
-  10      +2    21   10   kind==10 test kept via `if (kind != 10) if (kind == 1 && ...)`
-  11       0    17    7
-  12       0     4    4
-  13    -152   338  149   structure verified vs asm; size loss = many DROP82+sound blocks
-                          that the ROM keeps separate (different zero regs r1/r6/r7) but ours
-                          cross-jump -> registers, not structure
-  14       0    18    6
-  15       0     6    6
-  16     +12    47   10
-  17       0    17   13
-  18       0     5    5
-  19       0     0    0   exact
-  20       0    21    9   ROM uses one local `m = gMgr82` for the whole case
-  21       0     0    0   exact
-  post    -8   137   57
+  pre       0     3     3   
+  0      -136   611   226   biggest; size swings -52..-136 with unrelated edits (cross-jump/alloc)
+  1        -4    72    21   
+  2         0    13     8   
+  3         0     7     7   
+  4         0     9     9   
+  5         0    29     7   fixed: if/else join placed AFTER DROP82 (fC6=0; D190; sound shared)
+  6        +8    72    34   
+  7         0     2     2   
+  8         0     6     6   
+  9       -38    21    21   DROP82 tail cross-jumped with another case (orig keeps it: regs differ)
+  10       -2     7     7   kind==10 test kept via `if (kind != 10) if (kind == 1 && ...)`
+  11        0     3     3   
+  12        0     4     4   
+  13     -152   333   149   structure verified vs asm; size loss = many DROP82+sound blocks that the ROM keeps separate (different zero regs r1/r6/r7) but ours cross-jump -> registers, not structure
+  14        0    11     6   
+  15        0     6     6   
+  16      +12    42    10   
+  17        0    17    13   
+  18        0     5     5   
+  19        0     0     0   exact
+  20        0    12     7   ROM uses one local `m = gMgr82` for the whole case
+  21        0     0     0   exact
+  post     -8   137    57   
 
 Findings:
 - Shared tails in the ROM: _0807FAC4 = sound(0x62)+done, _0807F724 = sound(0x61), _0807F774 =
@@ -48,4 +46,10 @@ Findings:
   stores of 0 (cse), so write literal 0.
 - Block-local `u16 k` / `u32 c` lowered case 7 diff but moved allocation elsewhere; global
   sum is noisy. Do per-case work then recheck the whole table.
-- Next: case 5 (+48), case 0 (-136), case 9/13 cross-jump (register phase).
+- Cross-jumping runs after reload (hard regs): identical DROP82 tails merge only when registers
+  match, so case 0/9/13 size deltas are register-phase work. The case-5 fix shows the other
+  pattern: a then/else that both end in DROP82 followed by common code = join after DROP82.
+- Style that matches (cases 2-4, 7, 8, 11 almost register-exact): read keys29_03001308 directly
+  in every test (no keys/k variable), and write field ops directly (`gMgr82->cursor += 3`,
+  `gMgr82->prev = gMgr82->cursor; gMgr82->cursor--;`) instead of a cursor temp.
+- Next: case 6 (+8), case 16 (+12), case 1 (-4), post (-8), then registers (case 0/13 DROP82).

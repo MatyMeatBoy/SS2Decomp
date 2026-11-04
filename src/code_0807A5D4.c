@@ -1141,8 +1141,7 @@ void sub_0807C29C(void) {
         gMgr82->f24 = 0;
     switch (gMgr82->state) {
     case 0:
-        keys = keys29_03001308;
-        if (keys & 0x10) {
+        if (keys29_03001308 & 0x10) {
             sub_0805865C(0x62);
             cur = gMgr82->cursor;
             if (cur % 5 < 4) {
@@ -1231,7 +1230,7 @@ void sub_0807C29C(void) {
                     break;
                 }
             }
-        } else if (keys & 0x20) {
+        } else if (keys29_03001308 & 0x20) {
             sub_0805865C(0x62);
             if (gMgr82->cursor % 5 != 0) {
                 gMgr82->prev = gMgr82->cursor;
@@ -1297,13 +1296,13 @@ void sub_0807C29C(void) {
             case 104:
                 break;
             }
-        } else if (keys & 0x40) {
+        } else if (keys29_03001308 & 0x40) {
             if (gMgr82->cursor >= 5) {
                 gMgr82->prev = gMgr82->cursor;
                 gMgr82->cursor -= 5;
                 sub_0805865C(0x62);
             }
-        } else if ((down = keys & 0x80) != 0) {
+        } else if ((down = keys29_03001308 & 0x80) != 0) {
             cur = gMgr82->cursor;
             if (cur < 20) {
                 gMgr82->prev = cur;
@@ -1592,8 +1591,7 @@ void sub_0807C29C(void) {
             gMgr82->cursor = lo;
         else if (gMgr82->cursor >= hi)
             gMgr82->cursor = hi - 1;
-        keys = keys29_03001308;
-        if (keys & 0x10) {
+        if (keys29_03001308 & 0x10) {
             if (gMgr82->cursor == lo) {
                 gMgr82->state = 0;
                 gMgr82->cursor = 0;
@@ -1604,12 +1602,12 @@ void sub_0807C29C(void) {
             }
             gMgr82->cursor--;
             sub_0805865C(0x62);
-        } else if ((u16)(keys & 0x20)) {
+        } else if ((u16)(keys29_03001308 & 0x20)) {
             if (gMgr82->cursor < hi - 1) {
                 gMgr82->cursor++;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom != 0x16)
                 break;
             if (gMgr82->mode != 5) {
@@ -1717,8 +1715,7 @@ void sub_0807C29C(void) {
         }
         break;
     case 2:
-        keys = keys29_03001308;
-        if ((u16)(keys & 0x40)) {
+        if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 1;
                 gMgr82->cursor = 0;
@@ -1726,7 +1723,7 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 4;
                 gMgr82->cursor = 0;
@@ -1734,12 +1731,12 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             gMgr82->state = 0;
             gMgr82->cursor = 5;
             gMgr82->prev = 1;
             sub_0805865C(0x62);
-        } else if ((u16)(keys & 0x20)) {
+        } else if ((u16)(keys29_03001308 & 0x20)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 9;
                 gMgr82->cursor = 0;
@@ -1812,8 +1809,7 @@ void sub_0807C29C(void) {
         }
         break;
     case 3:
-        keys = keys29_03001308;
-        if ((u16)(keys & 0x40)) {
+        if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 4;
                 gMgr82->f6A = 100;
@@ -1821,7 +1817,7 @@ void sub_0807C29C(void) {
                 gMgr82->prev = 1;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 7;
                 gMgr82->f6A = 100;
@@ -1829,12 +1825,12 @@ void sub_0807C29C(void) {
                 gMgr82->prev = 1;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             gMgr82->state = 0;
             gMgr82->cursor = 20;
             gMgr82->prev = 1;
             sub_0805865C(0x62);
-        } else if ((u16)(keys & 0x20)) {
+        } else if ((u16)(keys29_03001308 & 0x20)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 6;
                 gMgr82->cursor = 0;
@@ -1907,8 +1903,7 @@ void sub_0807C29C(void) {
         }
         break;
     case 4:
-        keys = keys29_03001308;
-        if ((u16)(keys & 0x40)) {
+        if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 2;
                 gMgr82->cursor = 0;
@@ -1916,7 +1911,7 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 3;
                 gMgr82->cursor = 1;
@@ -1924,12 +1919,12 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             gMgr82->state = 0;
             gMgr82->cursor = 10;
             gMgr82->prev = 1;
             sub_0805865C(0x62);
-        } else if ((u16)(keys & 0x20)) {
+        } else if ((u16)(keys29_03001308 & 0x20)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 9;
                 gMgr82->cursor = 0;
@@ -2006,15 +2001,14 @@ void sub_0807C29C(void) {
         }
         break;
     case 5:
-        keys = keys29_03001308;
-        if ((u16)(keys & 0x40)) {
+        if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 1;
                 gMgr82->cursor = 2;
                 gMgr82->prev = 1;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 6;
                 gMgr82->cursor = 0;
@@ -2022,7 +2016,7 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 9;
                 gMgr82->cursor = 0;
@@ -2095,8 +2089,7 @@ void sub_0807C29C(void) {
         }
         break;
     case 6:
-        keys = keys29_03001308;
-        if ((u16)(keys & 0x40)) {
+        if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 5;
                 gMgr82->cursor = 0;
@@ -2104,7 +2097,7 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 7;
                 gMgr82->cursor = 0;
@@ -2112,7 +2105,7 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 3;
                 gMgr82->cursor = 0;
@@ -2225,23 +2218,20 @@ void sub_0807C29C(void) {
         }
         break;
     case 7: {
-        u16 k = keys29_03001308;
         u32 c;
-        if (k & 0x10) {
-            c = gMgr82->cursor;
-            if ((c & 3) <= 2) {
-                gMgr82->prev = c;
-                gMgr82->cursor = c + 1;
+        if (keys29_03001308 & 0x10) {
+            if ((gMgr82->cursor & 3) <= 2) {
+                gMgr82->prev = gMgr82->cursor;
+                gMgr82->cursor++;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(k & 0x20)) {
-            c = gMgr82->cursor;
-            if (c & 3) {
-                gMgr82->prev = c;
-                gMgr82->cursor = c - 1;
+        } else if ((u16)(keys29_03001308 & 0x20)) {
+            if (gMgr82->cursor & 3) {
+                gMgr82->prev = gMgr82->cursor;
+                gMgr82->cursor--;
                 sub_0805865C(0x62);
             }
-        } else if (k & 0x40) {
+        } else if (keys29_03001308 & 0x40) {
             c = gMgr82->cursor;
             if (c > 3) {
                 gMgr82->prev = c;
@@ -2306,11 +2296,10 @@ void sub_0807C29C(void) {
                 }
                 break;
             }
-        } else if (k & 0x80) {
-            c = gMgr82->cursor;
-            if (c <= 7) {
-                gMgr82->prev = c;
-                gMgr82->cursor = c + 4;
+        } else if (keys29_03001308 & 0x80) {
+            if (gMgr82->cursor <= 7) {
+                gMgr82->prev = gMgr82->cursor;
+                gMgr82->cursor += 4;
                 sub_0805865C(0x62);
             }
         }
@@ -2320,13 +2309,11 @@ void sub_0807C29C(void) {
         u16 q = gInv82->f54 / 3;
         u16 lo = q * 3;
         u16 hi = lo + 3;
-        u16 k;
         if (lo >= gMgr82->cursor)
             gMgr82->cursor = lo;
         else if (hi <= gMgr82->cursor)
             gMgr82->cursor = hi - 1;
-        k = keys29_03001308;
-        if (k & 0x20) {
+        if (keys29_03001308 & 0x20) {
             if (gMgr82->cursor == lo) {
                 gMgr82->state = 0;
                 gMgr82->cursor = 4;
@@ -2335,12 +2322,12 @@ void sub_0807C29C(void) {
                 gMgr82->cursor--;
             }
             sub_0805865C(0x62);
-        } else if ((u16)(k & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             if (gMgr82->cursor < hi - 1) {
                 gMgr82->cursor++;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(k & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             gMgr82->state = 10;
             gMgr82->cursor = 0;
             gMgr82->prev = 1;
@@ -2348,9 +2335,8 @@ void sub_0807C29C(void) {
         } else if (keys29_03001324 & 1) {
             u32 from = gMgr82->heldFrom;
             if (from == 0x16) {
-                u16 *p = &gInv82->f56[gMgr82->cursor];
-                if (*p != 0) {
-                    *p = 0;
+                if (gInv82->f56[gMgr82->cursor] != 0) {
+                    gInv82->f56[gMgr82->cursor] = 0;
                     sub_0805865C(0x61);
                 }
             } else if (from == 0) {
@@ -2362,8 +2348,7 @@ void sub_0807C29C(void) {
         break;
     }
     case 9: {
-        u16 k = keys29_03001308;
-        if (k & 0x40) {
+        if (keys29_03001308 & 0x40) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 1;
                 gMgr82->cursor = 1;
@@ -2371,7 +2356,7 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(k & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 6;
                 gMgr82->cursor = 1;
@@ -2379,7 +2364,7 @@ void sub_0807C29C(void) {
                 gMgr82->f6A = 100;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(k & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 4;
                 gMgr82->cursor = 0;
@@ -2391,7 +2376,7 @@ void sub_0807C29C(void) {
                 gMgr82->prev = 1;
             }
             sub_0805865C(0x62);
-        } else if (k & 0x20) {
+        } else if (keys29_03001308 & 0x20) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 5;
                 gMgr82->cursor = 0;
@@ -2421,8 +2406,7 @@ void sub_0807C29C(void) {
         break;
     }
     case 10: {
-        u16 k = keys29_03001308;
-        if (k & 0x40) {
+        if (keys29_03001308 & 0x40) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 8;
                 gMgr82->cursor = 0;
@@ -2438,14 +2422,14 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x62);
                 }
             }
-        } else if ((u16)(k & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 7;
                 gMgr82->cursor = 3;
                 gMgr82->prev = 1;
                 sub_0805865C(0x62);
             }
-        } else if (k & 0x20) {
+        } else if (keys29_03001308 & 0x20) {
             gMgr82->state = 0;
             gMgr82->cursor = 24;
             gMgr82->prev = 1;
@@ -2456,22 +2440,22 @@ void sub_0807C29C(void) {
                 sp28 = gPlayers82[sub_080020F4()].f8C;
                 sp2C = gPlayers82[sub_080020F4()].f90;
                 sub_0805B4CC(&sp28, &sp2C);
-                if (sp28 == 0 || sp2C == 0) {
-                    sub_0805865C(0x61);
-                    break;
-                }
-                sub_08066490(gPlayers82[sub_080020F4()].f8C, gPlayers82[sub_080020F4()].f90, &gMgr82->held);
-                if (gMgr82->held.kind == 10) {
-                    gInv82->items[gMgr82->heldIdx].count -= gMgr82->held.count;
-                    if (gInv82->items[gMgr82->heldIdx].count == 0)
+                if (sp28 != 0 && sp2C != 0) {
+                    sub_08066490(gPlayers82[sub_080020F4()].f8C, gPlayers82[sub_080020F4()].f90, &gMgr82->held);
+                    if (gMgr82->held.kind == 10) {
+                        gInv82->items[gMgr82->heldIdx].count -= gMgr82->held.count;
+                        if (gInv82->items[gMgr82->heldIdx].count == 0)
+                            sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                    } else {
                         sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                    }
+                    DROP82();
+                    sub_0805865C(0x60);
+                    gMgr82->f70 = 0;
+                    gMgr82->state = 21;
                 } else {
-                    sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                    sub_0805865C(0x61);
                 }
-                DROP82();
-                sub_0805865C(0x60);
-                gMgr82->f70 = 0;
-                gMgr82->state = 21;
             }
         }
         break;
@@ -2486,15 +2470,14 @@ void sub_0807C29C(void) {
         break;
     }
     case 11: {
-        u16 k = keys29_03001308;
         u32 c;
-        if (k & 0x10) {
+        if (keys29_03001308 & 0x10) {
             c = gMgr82->cursor;
             if (c % 3 <= 1) {
                 gMgr82->cursor = c + 1;
                 sub_0805865C(0x62);
             }
-        } else if (k & 0x20) {
+        } else if (keys29_03001308 & 0x20) {
             u32 r;
             c = gMgr82->cursor;
             r = c % 3;
@@ -2505,16 +2488,14 @@ void sub_0807C29C(void) {
                 gMgr82->state = 0;
             }
             sub_0805865C(0x62);
-        } else if (k & 0x40) {
-            c = gMgr82->cursor;
-            if (c > 2) {
-                gMgr82->cursor = c - 3;
+        } else if (keys29_03001308 & 0x40) {
+            if (gMgr82->cursor > 2) {
+                gMgr82->cursor -= 3;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(k & 0x80)) {
-            c = gMgr82->cursor;
-            if (c <= 8) {
-                gMgr82->cursor = c + 3;
+        } else if ((u16)(keys29_03001308 & 0x80)) {
+            if (gMgr82->cursor <= 8) {
+                gMgr82->cursor += 3;
                 sub_0805865C(0x62);
             }
         } else if (keys29_03001324 & 1) {
@@ -2553,8 +2534,7 @@ void sub_0807C29C(void) {
         }
         break;
     case 13:
-        keys = keys29_03001308;
-        if (keys & 0x10) {
+        if (keys29_03001308 & 0x10) {
             cur = gMgr82->cursor;
             if (cur % 3 < 2) {
                 gMgr82->prev = cur;
@@ -2569,7 +2549,7 @@ void sub_0807C29C(void) {
             gMgr82->state = 14;
             if (gMgr82->cursor > gMgr82->f48)
                 gMgr82->cursor = gMgr82->f48;
-        } else if (keys & 0x20) {
+        } else if (keys29_03001308 & 0x20) {
             cur = gMgr82->cursor;
             if (cur % 3 != 0) {
                 gMgr82->prev = cur;
@@ -2581,13 +2561,13 @@ void sub_0807C29C(void) {
             gMgr82->cursor = cur / 3 * 5 + 4;
             gMgr82->state = 0;
             sub_0805865C(0x62);
-        } else if (keys & 0x40) {
+        } else if (keys29_03001308 & 0x40) {
             if (gMgr82->cursor >= 3) {
                 gMgr82->prev = gMgr82->cursor;
                 gMgr82->cursor -= 3;
                 sub_0805865C(0x62);
             }
-        } else if (keys & 0x80) {
+        } else if (keys29_03001308 & 0x80) {
             cur = gMgr82->cursor;
             if (cur % 15 < 12) {
                 gMgr82->prev = cur;
@@ -2819,9 +2799,8 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x62);
             }
         } else if (keys29_03001308 & 0x80) {
-            c = gMgr82->cursor;
-            if (c < gMgr82->f48 && c <= 3) {
-                gMgr82->cursor = c + 1;
+            if (gMgr82->cursor < gMgr82->f48 && gMgr82->cursor <= 3) {
+                gMgr82->cursor++;
                 sub_0805865C(0x62);
             }
         } else if ((u16)(keys29_03001308 & 0x20)) {
@@ -2881,8 +2860,7 @@ void sub_0807C29C(void) {
         }
         break;
     case 16:
-        keys = keys29_03001308;
-        if (keys & 0x20) {
+        if (keys29_03001308 & 0x20) {
             if (gMgr82->cursor != 0) {
                 gMgr82->cursor--;
                 sub_0805865C(0x62);
@@ -2891,12 +2869,12 @@ void sub_0807C29C(void) {
             gMgr82->state = 0;
             gMgr82->cursor = 9;
             sub_0805865C(0x62);
-        } else if ((u16)(keys & 0x10)) {
+        } else if ((u16)(keys29_03001308 & 0x10)) {
             if (gMgr82->cursor <= 1) {
                 gMgr82->cursor++;
                 sub_0805865C(0x62);
             }
-        } else if ((u16)(keys & 0x80)) {
+        } else if ((u16)(keys29_03001308 & 0x80)) {
             if ((gMgr82->flags & 4) && gMgr82->held.kind == 10) {
                 gMgr82->state = 17;
                 gMgr82->cursor = 0;
@@ -3103,20 +3081,18 @@ void sub_0807C29C(void) {
         break;
     case 20: {
         struct Mgr82 *m = gMgr82;
-        u16 k;
         u32 v;
         if (m->fC != 0)
             break;
-        k = keys29_03001308;
-        if (k & 0x10) {
+        if (keys29_03001308 & 0x10) {
             if (--m->f10 < 0)
                 m->f10 = 0;
             sub_0805865C(0x62);
-        } else if (k & 0x20) {
+        } else if (keys29_03001308 & 0x20) {
             if (++m->f10 >= m->f14)
                 m->f10 = m->f14 - 1;
             sub_0805865C(0x62);
-        } else if (k & 0x40) {
+        } else if (keys29_03001308 & 0x40) {
             switch (m->heldFrom) {
             case 0:
                 v = m->held.count + gUnk_084EBD4C[9 - m->f10];
@@ -3133,7 +3109,7 @@ void sub_0807C29C(void) {
                 }
                 break;
             }
-        } else if (k & 0x80) {
+        } else if (keys29_03001308 & 0x80) {
             u32 cnt = m->held.count;
             u32 step = gUnk_084EBD4C[9 - m->f10];
             s32 d;
