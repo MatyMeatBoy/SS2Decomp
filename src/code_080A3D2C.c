@@ -3787,86 +3787,78 @@ void sub_080A9100(void)
     hitPlayers2111[sub_080020F4()].power = 0x400;
     hitPlayers2111[sub_080020F4()].lock = 0x50;
 }
-#ifdef NONMATCHING
 struct PlayerEffect111 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 active; u8 pad69[0x23]; s32 x,y; u8 pad94[0x1C]; u16 hit; u8 padB2[0x16]; u16 lock, direction, power; u8 padCE[0x16]; s32 previous[0x1A]; };
 extern struct PlayerEffect111 effectPlayers111[] asm("gUnk_03003CE0");
 extern u8 *effectObject111 asm("gUnk_0300041C");
 struct SpriteEffect111 { s32 f0, f4, f8, fC, f10, f14, f18; u8 bytes[0x18]; };
+struct Pos111 { s32 x, y; };
 extern void initEffect111(void *, u32, u32, s32, s32) asm("sub_08065158");
 extern void moveEffect111(s32, s32, s32, s32, s32 *) asm("sub_080979D8");
-extern u8 testEffect111(s32, s32, s32, s32, s32) asm("sub_08097B6C");
+extern u8 testEffect111(struct Pos111, struct Pos111, s32) asm("sub_08097B6C");
 extern void screenEffect111(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern void animateEffect111(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
-extern u8 *drawEffect111(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
-s32 sub_080A92C0(u32 argument)
+extern u8 *drawEffect111(s32, s32, u32, u32, u8, void *, s32, s32) asm("sub_08007870");
+void sub_080A92C0_(u32 argument) asm("sub_080A92C0");
+void sub_080A92C0_(u32 argument)
 {
-    register u32 kind asm("r9") = (u16)argument;
-    register u16 *frame asm("r8");
-    register s32 *velocity asm("r10");
-    struct { struct SpriteEffect111 sprite; s16 screenX, screenY; u16 frame, tick; s32 velocity[2]; s32 x, y, range, end, hit; } local;
+    u32 kind;
+    struct SpriteEffect111 sprite;
+    s16 screenX, screenY;
+    u16 frame, tick;
+    s32 velocity[2];
+    struct Pos111 pos;
+    struct Pos111 area;
+    s32 hit;
     s32 ix, iy, iflags, itable, offset, saveIndex, saveOffset;
     u32 dx;
     s32 dy;
-    register u32 distance asm("r0");
+    u16 distance;
     struct PlayerEffect111 *base;
     s32 *px, *py, *table, *saveTable, *saveDst;
     u32 *flags;
     u8 *objTable, *saveObj;
     s32 serial;
     s32 zero;
-    u8 layer;
-    initEffect111(&local.sprite, 0x50011, gUnk_03000420, -1, 1);
-    local.sprite.bytes[0] = gUnk_03000420;
-    local.x = *(s32 *)(effectObject111 + 0x14);
-    local.y = *(s32 *)(effectObject111 + 0x18);
+    u32 layer;
+    u8 *p;
+
+    kind = (u16)argument;
+    initEffect111(&sprite, 0x50011, gUnk_03000420, -1, 1);
+    sprite.bytes[0] = gUnk_03000420;
+    pos.x = *(s32 *)(effectObject111 + 0x14);
+    pos.y = *(s32 *)(effectObject111 + 0x18);
     if (kind != 0) {
-        local.x -= 0x800;
-        local.y -= 0x800;
+        pos.x -= 0x800;
+        pos.y -= 0x800;
     } else {
-        local.x += 0x400;
+        pos.x += 0x400;
     }
-    { register u16 *tick asm("r4");
-      register u16 *initialFrame asm("r5");
-      register s32 z asm("r0");
-      tick = &local.tick; asm("" : "+r"(tick));
-      z = 0; asm("" : "+r"(z)); *tick = z;
-      initialFrame = &local.frame; asm("" : "+r"(initialFrame));
-      *initialFrame = z;
-      { register s32 hit asm("r2") = 0; asm("" : "+r"(hit)); local.hit = hit; }
-      sub_0805865C(0xE4); frame = initialFrame; }
-    velocity = local.velocity;
+    tick = 0;
+    frame = 0;
+    hit = 0;
+    sub_0805865C(0xE4);
     for (;;) {
         if (kind != 0) {
-            local.range = 0x2000;
-            local.end = 0x10000;
+            area.x = 0x2000;
+            area.y = 0x10000;
         } else {
-            local.range = 0x3000;
-            local.end = 0x11000;
+            area.x = 0x3000;
+            area.y = 0x11000;
         }
-        moveEffect111(local.x, local.y, local.range, local.end, velocity);
-        local.x += velocity[0] * 4;
-        local.y += velocity[1] * 4;
-        if (testEffect111(local.x, local.y, local.range, local.end, 0x18) != 0) break;
+        moveEffect111(pos.x, pos.y, area.x, area.y, velocity);
+        pos.x += velocity[0] * 4;
+        pos.y += velocity[1] * 4;
+        if (testEffect111(pos, area, 0x18) != 0) break;
         ix = sub_080020F4();
         base = effectPlayers111;
         ix *= 0x14C;
         px = &base->x;
-        { register s32 playerX asm("r4") = *(s32 *)((u8 *)px + ix);
-          register s32 effectX asm("r1") = local.x;
-          asm("" : "+r"(playerX), "+r"(effectX));
-          playerX = effectX - playerX; asm("" : "+r"(playerX));
-          dx = (u32)(playerX << 8) >> 16; }
-        { register s32 player asm("r0") = sub_080020F4();
-          asm("" : "+r"(player)); iy = 0x14C * player; }
+        dx = (u32)((pos.x - *(s32 *)((u8 *)px + ix)) << 8) >> 16;
+        iy = 0x14C * sub_080020F4();
         py = &base->y;
-        { register s32 playerY asm("r1") = *(s32 *)((u8 *)py + iy);
-          register s32 effectY asm("r2") = local.y;
-          asm("" : "+r"(playerY), "+r"(effectY));
-          playerY = effectY - playerY; asm("" : "+r"(playerY));
-          dy = playerY << 8; }
-        distance = (u16)Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16));
-        asm("" : "+r"(distance));
-        if (local.hit == 0 && distance <= 11 && sub_0800CDF8() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && *(u16 *)(effectObject111 + 0xC) != 11) {
+        dy = (pos.y - *(s32 *)((u8 *)py + iy)) << 8;
+        distance = Sqrt((s16)dx * (s16)dx + (dy >> 16) * (dy >> 16));
+        if (hit == 0 && distance <= 11 && sub_0800CDF8() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && *(u16 *)(effectObject111 + 0xC) != 11) {
             iflags = 0x14C * sub_080020F4();
             flags = &base->flags;
             if ((*(u32 *)((u8 *)flags + iflags) & 0x2000) == 0 && base[sub_080020F4()].active != 0 && base[sub_080020F4()].state != 14 && base[sub_080020F4()].state != 11 && base[sub_080020F4()].state != 12) {
@@ -3890,40 +3882,32 @@ s32 sub_080A92C0(u32 argument)
                     serial = *(s32 *)(saveObj + 0x50);
                     *saveDst = serial;
                     *(s32 *)(saveObj + 0x50) = serial + 1;
-                    local.hit = 1;
+                    hit = 1;
                 }
             }
         }
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (zero = sub_0800CD34()) == 0) {
-            register s16 *screenX asm("r5") = &local.screenX;
-            register s16 *screenY asm("r6") = &local.screenY;
-            asm("" : "+r"(screenX), "+r"(screenY));
-            { register s32 x asm("r1") = local.x;
-              register s32 y asm("r2"), xCoord asm("r0");
-              asm("" : "+r"(x)); xCoord = (x << 8) >> 16;
-              asm("" : "+r"(xCoord)); y = local.y; asm("" : "+r"(y));
-              screenEffect111(xCoord, (y << 8) >> 16, screenX, screenY, zero, zero); }
-            sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)local.sprite.fC + (*(u16 *)(effectObject111 + 0x2DA) << 5), 1);
-            animateEffect111(&local.sprite, 3, frame, &local.tick, zero);
-            { register u32 l asm("r1") = (u8)sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
-              asm("" : "+r"(l)); layer = l; }
+            screenEffect111((pos.x << 8) >> 16, (pos.y << 8) >> 16, &screenX, &screenY, zero, zero);
+            sub_08000AF0(gUnk_03000420 + 0x10, (u8 *)sprite.fC + (*(u16 *)(effectObject111 + 0x2DA) << 5), 1);
+            animateEffect111(&sprite, 3, &frame, &tick, zero);
+            layer = (u8)sub_0800BC44(*(s32 *)(effectObject111 + 0x14) >> 8, *(s32 *)(effectObject111 + 0x18) >> 8, 0);
             if (kind != 0)
-                *(s32 *)(drawEffect111(*screenX, 0x10, 3, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY;
+                p = drawEffect111(screenX, 0x10, 3, frame, layer, sprite.bytes, sprite.f8, sprite.f0);
             else
-                *(s32 *)(drawEffect111(*screenX, 0xA0, 3, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY;
+                p = drawEffect111(screenX, 0xA0, 3, frame, layer, sprite.bytes, sprite.f8, sprite.f0);
+            *(s32 *)(p + 0xC) = screenY;
             if (kind != 0)
-                *(s32 *)(drawEffect111(*screenX + 0x20, 0x10, 4, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x10;
+                p = drawEffect111(screenX + 0x20, 0x10, 4, frame, layer, sprite.bytes, sprite.f8, sprite.f0);
             else
-                *(s32 *)(drawEffect111(*screenX + 0x20, 0xA0, 4, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x10;
+                p = drawEffect111(screenX + 0x20, 0xA0, 4, frame, layer, sprite.bytes, sprite.f8, sprite.f0);
+            *(s32 *)(p + 0xC) = screenY - 0x10;
             if (kind != 0)
-                *(s32 *)(drawEffect111(*screenX + 0x40, 0x10, 5, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x20;
+                p = drawEffect111(screenX + 0x40, 0x10, 5, frame, layer, sprite.bytes, sprite.f8, sprite.f0);
             else
-                *(s32 *)(drawEffect111(*screenX + 0x40, 0xA0, 5, *frame, layer, local.sprite.bytes, local.sprite.f8, local.sprite.f0) + 0xC) = *screenY - 0x20;
+                p = drawEffect111(screenX + 0x40, 0xA0, 5, frame, layer, sprite.bytes, sprite.f8, sprite.f0);
+            *(s32 *)(p + 0xC) = screenY - 0x20;
         }
         sub_080003F0();
     }
-    *(s32 *)((u8 *)sub_0800048C() + 8) = 0;
+    ((u32 *)sub_0800048C())[2] = 0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A92C0);
-#endif
