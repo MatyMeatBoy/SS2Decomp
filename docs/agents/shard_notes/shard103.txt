@@ -30,3 +30,11 @@ codex-solo follow-up (2026-11-03): sub_0809D374 now matches (484 bytes).
   delay its >>20 until after the X subtraction to reproduce the last instruction order.
   Strict nmdiff MATCH, full ROM compare OK, NONMATCHING build and check_tree all pass.
   Original ASM evidence: asm/nonmatchings/code_08097E28/sub_0809D374.s at3532a9c5.
+
+w7 (2026-11-04), sub_0809CC2C (shard 150, nmscore 108, exact size): spill-slot rotation 0xc0/0xc4/0xc8 + sl/r9.
+  -dl/-dg dump: 22 pseudos spill (slots 0x7c + 4k in regno order); 0xc0/0xc4/0xc8 = pseudo 56 (`p5c =
+  &ent->f5c`, user var), 758 (idx<<2, cse temp) and 759 (hoisted frame address). In the ROM &ent->f5c is
+  NOT a user var: it is formed at the first `ent->f5c = ent->f1d6 = ...` store as `movs r1,#92; adds
+  r1,r1,r7; mov r9,r1` (cse/PRE expression) and reused for the final `ent->f5c = 0`. Dropping p5c (direct
+  stores) = 105; p5c assigned at the first store = 231-238. 16 declaration orders: all worse (current 38
+  lines is the best). Needs a source form where the address expression is shared by gcse, not a variable.
