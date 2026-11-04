@@ -1,0 +1,7 @@
+shard 64 notes
+sub_080624D8 (nov03-w4): first draft (fresh C, pause menu), 3756 vs 3716 bytes, same call/block order.
+  Local struct Menu624 at sp+0x1C: Asset62-like sprite (0x34, s16 scale/step/max/min at 0x2C..0x32),
+  x[4] +0x34, y[4] +0x44, w[4]/h[4] u16 +0x54/+0x5C, text[4] +0x64; ROM frame 0xBC (ours 0xB4).
+  ROM addresses x/y as ((i*4 + sp) + 0x1C) + 0x34 (a pointer to the struct, not hoisted bases);
+  ours hoists &m.x/&m.y into sl/spills. Load624 inline = load62 of code_0805D094 (b<0 path folded).
+  Left: case bodies of the load switch (43 vs 50 insns), text centring expression, frame size.

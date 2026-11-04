@@ -2014,7 +2014,438 @@ block_104:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061E44);
 #endif
+#ifdef NONMATCHING
+struct Pt624 { s32 x, y; };
+struct Spr624 {
+    s32 base; u32 unk4; s32 data; s32 unkC; u32 id; u32 unk14; s32 unk18;
+    u8 remap[16];
+    s16 scale, step, max, min;
+};
+struct Menu624 {
+    struct Spr624 spr;
+    s32 x[4];
+    s32 y[4];
+    u16 w[4];
+    u16 h[4];
+    u8 *text[4];
+};
+extern struct Pt624 src624[] asm("gUnk_084EBE14");
+extern struct Pt624 dst624[] asm("gUnk_084EBE34");
+extern s32 dstY624[] asm("gUnk_084EBE38");
+extern s32 msg624[] asm("gUnk_084EBE54");
+extern u8 res624[] asm("gUnk_08518938");
+extern u32 flags624[] asm("gUnk_03003D10");
+extern u16 keys624 asm("gUnk_03001324");
+extern u16 held624 asm("gUnk_03001308");
+extern u8 *party624 asm("gUnk_030034E0");
+extern u8 *state624 asm("gUnk_03005CF4");
+extern void draw624(s32, s32, u16, u16, s32, void *, s32, s32) asm("sub_08007CF0");
+extern void drawScaled624(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
+extern s32 load624(u32, void *) asm("sub_08006EE0");
+extern u8 *window624(s32, s32, s32, s32) asm("sub_0805D720");
+extern void text624(u8 *, u32, u32) asm("sub_0801A3D0");
+
+static inline void Load624(struct Spr624 *p, u32 id)
+{
+    s32 data;
+    u32 i;
+    p->id = id;
+    p->unk14 = 0;
+    p->unk18 = 0x80000000;
+    p->data = data = load624(id, res624);
+    if (data != 0) {
+        id &= 0xFFFF;
+        p->base = data = load624(id | 0x60000, res624);
+        if (data != 0) {
+            p->unkC = data = load624(id | 0x80000, res624);
+            if (data != 0) {
+                for (i = 0; i <= 15; i++)
+                    p->remap[i] = i;
+                sub_080653B8(p, 0x120, 0xE0, 8);
+            }
+        }
+    }
+}
+
+#define PLAYER_FLAGS() flags624[sub_080020F4() * (0x14C / 4)]
+
+#define LERP(a, b, t, u) (((b) * (t) >> 10) + ((a) * (u) >> 10))
+
+#define BUSY() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || sub_0805F184() || sub_0800D060())
+#define BUSY2() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || (PLAYER_FLAGS() & 0x2000) || sub_0805F184() || sub_0800D060())
+
+/* Pause menu: slide the four option icons in, pick one, slide them out and run it. */
+void sub_080624D8_(void) asm("sub_080624D8");
+void sub_080624D8_(void)
+{
+    struct Menu624 m;
+    u32 sel;
+    u16 scale, step;
+    u8 *win;
+    u8 **texts;
+    u8 *remap;
+    u16 i;
+    s32 t, u, a, b;
+    s32 next;
+    s16 w;
+    s16 sx, sy;
+    u32 ok;
+    u8 *p;
+
+    if (sub_0800CD8C() || sub_0800D11C() || sub_0805EF90())
+        goto out;
+    texts = m.text;
+    remap = m.spr.remap;
+    switch (gUnk_03003470) {
+    case 0:
+        Load624(&m.spr, 0x50002);
+        break;
+    case 1:
+        Load624(&m.spr, 0x5015B);
+        break;
+    case 2:
+        Load624(&m.spr, 0x5015C);
+        break;
+    case 3:
+        Load624(&m.spr, 0x5015D);
+        break;
+    case 4:
+        Load624(&m.spr, 0x5015E);
+        break;
+    }
+    m.spr.scale = 0x100;
+    m.spr.max = 0x120;
+    m.spr.min = 0xE0;
+    m.spr.step = 8;
+    for (i = 0; i <= 3; i++)
+        texts[i] = (u8 *)sub_08007290(msg624[i]);
+    while (sub_0801AC78() == 0)
+        sub_080003F0();
+    sub_0800CE40();
+    t = 0;
+    sub_0805865C(0x12);
+    do {
+        sub_08015C14();
+        next = t + 0x80;
+        u = 0x400 - t;
+        for (i = 0; i <= 3; i++) {
+            a = src624[i].x;
+            b = dst624[i].x;
+            if (a == b)
+                m.x[i] = a;
+            else
+                m.x[i] = LERP(a, b, t, u);
+            a = src624[i].y;
+            b = dstY624[i * 2];
+            if (a == b)
+                m.y[i] = a;
+            else
+                m.y[i] = LERP(a, b, t, u);
+            if (i == 1 && (PLAYER_FLAGS() & 8))
+                draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
+            else
+                draw624(m.x[i] >> 8, m.y[i] >> 8, i, 0, 0, remap, m.spr.data, m.spr.base);
+        }
+        t = next;
+        sub_080003F0();
+    } while (t <= 0x3FF);
+
+    sub_0801A664(0x12, 2);
+    win = window624(9, 0xF, 9, 1);
+    sel = 1;
+    if (gUnk_03003170.curLevel != 0xC)
+        sel = 0;
+    step = 8;
+    scale = 0x100;
+    for (;;) {
+        sub_08015C14();
+        scale = (s16)scale + (s16)step;
+        if ((s16)step > 0 && (s16)scale > 0x120)
+            step = 0xFFF8;
+        if ((s16)step < 0 && (s16)scale <= 0xDF)
+            step = 8;
+        for (i = 0; i <= 3; i++) {
+            sub_08008CC4(i, &m.w[i], &m.h[i], (u8 *)m.spr.data, 1);
+            if (sel == i) {
+                if (i == 1 && (PLAYER_FLAGS() & 8)) {
+                    sx = dst624[1].x >> 8;
+                    sy = dst624[1].y >> 8;
+                    m.spr.scale += m.spr.step;
+                    if (m.spr.step > 0 && m.spr.scale > m.spr.max)
+                        m.spr.step = -m.spr.step;
+                    if (m.spr.step < 0 && m.spr.scale < m.spr.min)
+                        m.spr.step = -m.spr.step;
+                    drawScaled624(sx, sy, 7, m.w[1], 0, m.spr.remap, m.spr.data, m.spr.base, m.spr.scale, m.spr.scale, 0xFF);
+                } else {
+                    sx = dst624[i].x >> 8;
+                    sy = dstY624[i * 2] >> 8;
+                    m.spr.scale += m.spr.step;
+                    if (m.spr.step > 0 && m.spr.scale > m.spr.max)
+                        m.spr.step = -m.spr.step;
+                    if (m.spr.step < 0 && m.spr.scale < m.spr.min)
+                        m.spr.step = -m.spr.step;
+                    drawScaled624(sx, sy, i, m.w[i], 0, m.spr.remap, m.spr.data, m.spr.base, m.spr.scale, m.spr.scale, 0xFF);
+                }
+            } else {
+                    if (i == 1 && (PLAYER_FLAGS() & 8))
+                        draw624(dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1], 0, remap, m.spr.data, m.spr.base);
+                    else
+                        draw624(dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i], 0, remap, m.spr.data, m.spr.base);
+            }
+        }
+        p = texts[sel];
+        w = sub_0801A638(p + 2);
+        text624(p + 2, (u16)(15 - (w / 2 + (w & 1))), 16);
+        sub_080003F0();
+        if (BUSY())
+            keys624 = 2;
+        if (sub_0800CD8C()) {
+            keys624 = 0;
+            held624 = 0;
+        }
+        if (keys624 & 1) {
+            if (sel > 2) {
+                if (++*(u16 *)(state624 + 0x14A) > 7)
+                    *(u16 *)(state624 + 0x14A) = 0;
+                sub_0805865C(0xF);
+                continue;
+            }
+            sub_0805865C(0xF);
+            goto confirm;
+        }
+        if (keys624 & 2) {
+            sub_0805865C(0x10);
+            if (sub_0800CDF8() == 0) {
+                t = 0x400;
+                do {
+                    next = t - 0x80;
+                    u = 0x400 - t;
+                    for (i = 0; i <= 3; i++) {
+                        a = src624[i].x;
+                        b = dst624[i].x;
+                        if (a == b)
+                            m.x[i] = a;
+                        else
+                            m.x[i] = LERP(a, b, t, u);
+                        a = src624[i].y;
+                        b = dst624[i].y;
+                        if (a == b)
+                            m.y[i] = a;
+                        else
+                            m.y[i] = LERP(a, b, t, u);
+                        if (i == 1 && (PLAYER_FLAGS() & 8))
+                            draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
+                        else
+                            draw624(m.x[i] >> 8, m.y[i] >> 8, i, 0, 0, remap, m.spr.data, m.spr.base);
+                    }
+                    t = next;
+                    sub_080003F0();
+                } while (t > 0);
+            }
+            while (sub_0805EEDC(win) == 0)
+                sub_080003F0();
+            sub_0805F0F0(win);
+            while (sub_0805EEEC(win) == 0)
+                sub_080003F0();
+            if (sub_0800CD8C() == 0 && sub_0800D11C() == 0)
+                sub_08015C38();
+        out:
+            sub_0800CE54();
+            sub_0800D04C();
+            return;
+        }
+        if (keys624 & 0x40) {
+            if (gUnk_03003170.curLevel == 0xC)
+                goto buzz;
+            if (sel != 0)
+                sub_0805865C(0x62);
+            sel = 0;
+            continue;
+        }
+        if (keys624 & 0x20) {
+            if (sub_0800CDC0())
+                goto buzz;
+            if (sel != 1)
+                sub_0805865C(0x62);
+            sel = 1;
+            continue;
+        }
+        if (keys624 & 0x80) {
+            if (sub_0800CDC0() && !sub_0800CCCC())
+                goto buzz;
+            if (sub_08002204() == 0)
+                continue;
+            ok = 1;
+            switch (gUnk_03003170.curLevel) {
+            case 1:
+            case 3:
+            case 7:
+                if (gUnk_03003170.f90 == 4)
+                    goto buzz;
+                break;
+            case 2:
+                if (gUnk_03003170.f90 == 4 || gUnk_03003170.f90 == 7)
+                    goto buzz;
+                break;
+            case 4:
+                if (gUnk_03003170.f90 == 6)
+                    goto buzz;
+                break;
+            case 5:
+                if (gUnk_03003170.f90 == 0 || gUnk_03003170.f90 == 10)
+                    goto buzz;
+                break;
+            case 8:
+                if (gUnk_03003170.f90 == 0)
+                    goto buzz;
+                break;
+            case 11:
+            case 12:
+            case 13:
+                ok = 0;
+                break;
+            case 19:
+                if (gUnk_03003170.f90 == 2)
+                    goto buzz;
+                break;
+            }
+            if (ok == 0)
+                goto buzz;
+            if (sel != 2)
+                sub_0805865C(0x62);
+            sel = 2;
+            continue;
+        buzz:
+            sub_0805865C(0x61);
+            continue;
+        }
+        if (keys624 & 0x10) {
+            if (sel != 3)
+                sub_0805865C(0x62);
+            sel = 3;
+        }
+    }
+
+confirm:
+    while (sub_0805EEDC(win) == 0) {
+        if (BUSY())
+            sel = 4;
+        sub_080003F0();
+    }
+    if (BUSY())
+        sel = 4;
+    sub_080003F0();
+    if (BUSY())
+        sel = 4;
+    sub_080003F0();
+    if (BUSY())
+        sel = 4;
+    sub_0805F0F0(win);
+    if (sel != 2)
+        sub_0801ABE8(6);
+    t = 0x400;
+    do {
+        next = t - 0x80;
+        u = 0x400 - t;
+        for (i = 0; i <= 3; i++) {
+            a = src624[i].x;
+            b = dst624[i].x;
+            if (a == b)
+                m.x[i] = a;
+            else
+                m.x[i] = LERP(a, b, t, u);
+            a = src624[i].y;
+            b = dst624[i].y;
+            if (a == b)
+                m.y[i] = a;
+            else
+                m.y[i] = LERP(a, b, t, u);
+            if (i == 1 && (PLAYER_FLAGS() & 8))
+                draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
+            else
+                draw624(m.x[i] >> 8, m.y[i] >> 8, i, 0, 0, remap, m.spr.data, m.spr.base);
+        }
+        t = next;
+        if (BUSY2())
+            sel = 4;
+        sub_080003F0();
+    } while (t > 0 || sub_0801AAE0() == 0);
+    while (sub_0805EEEC(win) == 0) {
+        if (BUSY2())
+            sel = 4;
+        sub_080003F0();
+    }
+    switch (sel) {
+    case 0:
+        sub_0800BB54();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sx = gUnk_03003170.scrollX;
+        sy = gUnk_03003170.scrollY;
+        sub_0800CCA8();
+        sub_08084F24();
+        sub_080003F4(0x11201100);
+        gUnk_03003170.scrollX = sx;
+        gUnk_03003170.scrollY = sy;
+        for (i = 0; i <= 0x18; i++) {
+            p = party624 + i * 16;
+            if (*(u16 *)(p + 0x150) == 7)
+                *(u16 *)(p + 0x156) = 0;
+        }
+        sub_0800CCB8();
+        goto reset;
+    case 1:
+        sub_0800BB54();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_0800CCA8();
+        sx = gUnk_03003170.scrollX;
+        sy = gUnk_03003170.scrollY;
+        sub_08084EAC();
+        goto restore;
+    case 2:
+        sub_08061E44(0);
+        break;
+    case 3:
+        sub_0800BB54();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_080003F0();
+        sub_0800CCA8();
+        sx = gUnk_03003170.scrollX;
+        sy = gUnk_03003170.scrollY;
+    restore:
+        sub_080003F4(0x11201100);
+        gUnk_03003170.scrollX = sx;
+        gUnk_03003170.scrollY = sy;
+        sub_0800CCB8();
+        gUnk_03003CE0[sub_080020F4()].flags &= ~8;
+    reset:
+        sub_08000420(0x514C8);
+        break;
+    case 4:
+        sub_0801AB50(6);
+        break;
+    }
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    if (sub_0800CD8C() == 0 && sub_0800D11C() == 0 && sub_0800D060() == 0)
+        sub_08015C38();
+    sub_0800D04C();
+    sub_0800CE54();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080624D8);
+#endif
 struct T65Draw { u32 base; u32 unk4; u8 *data; u32 unkC; u8 pad[12]; u8 style; u8 rest[23]; };
 struct T65Level { u16 count; u8 pad[114]; };
 extern struct T65Level t65_levels[] asm("gUnk_0847846C");
