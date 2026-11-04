@@ -2324,14 +2324,14 @@
       "name": "sub_08002694",
       "addr": 134227604,
       "size": 960,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x08002694",
       "canonical_symbol": "sub_08002694",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08002694",
       "name_status": "unidentified",
       "name_source": null,
@@ -2457,7 +2457,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2105,
+          "line": 2101,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2480,7 +2480,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2354,
+          "line": 2350,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
