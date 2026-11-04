@@ -10190,7 +10190,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3234,
+          "line": 3237,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t24_start257D4"
         }
       ]
@@ -10213,7 +10213,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3316,
+          "line": 3319,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t24_gate25890"
         }
       ]
@@ -10321,7 +10321,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4514,
+          "line": 4517,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -10395,7 +10395,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5333,
+          "line": 5336,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -10469,7 +10469,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5829,
+          "line": 5832,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
         }
       ]
@@ -10492,7 +10492,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5923,
+          "line": 5926,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
         }
       ]
