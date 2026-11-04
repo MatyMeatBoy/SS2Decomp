@@ -1440,10 +1440,10 @@ void sub_0809FB6C(void *input)
     do {
         entry=0;
         do {
-            seen9FB6C[player][entry]=0;
-            entry=(s16)(entry+1);
+            *(u32 *)((u8 *)seen9FB6C + entry * 4 + player * 0x14C) = 0;
+            entry++;
         } while(entry<=4);
-        player=(s16)(player+1);
+        player++;
     } while(player<=3);
     angle=0;elapsed=0;rounds=0;amplitudeX=0;amplitudeY=0;
     actor->lo=actor->f0;
