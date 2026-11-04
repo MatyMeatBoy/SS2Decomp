@@ -16,3 +16,16 @@ e draw args (dx loaded first);
   pseudo, slot 0x98). Spilled user vars get slots in declaration order (0x50 arg .. 0x88 self, 0x8c =
   a var declared after self holding (u16)d in the main loop); late pseudos follow.
   Tried, worse: goto-shaped main loop (1488), `while (count-- ...)` count loop, kp user var forms.
+
+w7 (2026-11-04, second pass), sub_0806E7D4 - root cause found with -dl/-dg dumps (see ENDGAME.md):
+  the flags/const pair is allocated by local-alloc priority floor_log2(refs)*refs/(death-birth); the ROM's
+  order (const 1 in r1) only wins when that block has loop weight 3. Replacing the goto outer loop
+  (`goto test; body: ... test: if (...) goto body;`) with `while (done < count && (...)) { ... }` (or
+  for(;;){if(!cond)break;...}, or while(done<count){if(...)break;...}) FIXES the flags swap. New residue
+  (20 lines, nmscore 123 vs 118 so not landed): r8/r9 swap - with weight 3 the &hits[i] pointer of the
+  player loop (pseudo 645, 9 refs / 67 insns = .40) outranks `shade` (12/148 = .24) and takes r8; the ROM
+  has shade/shadeB in r8 and the hits pointer and the hoisted y>>8 (nhit==0 loop) in r9.
+  Tried with the while version: shade/shadeB variable splits (170-308), shadeB/shade types (329-352),
+  goto-based player loop (582), do{}while(0) around the enemy loop/body/draw block with the goto outer
+  loop (178-208), permuter 5 min: nothing. Next: find a source shape where the enemy loop has weight 3
+  but the player loop's &hits[i] stays below shade (e.g. different hits[] access in the player loop).

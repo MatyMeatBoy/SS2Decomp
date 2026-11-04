@@ -52,6 +52,13 @@ Read this before claiming a shard. It condenses what matched ~120 functions in t
 - code_0809D878 actor family: block-local pointers, early-exit loop shape, plain field offsets,
   `while (tile == 0xFFFF)`, macros (not inline) for repeated bodies (see shard 103/105/107 notes).
 - Goto outer loops change loop-depth weighting of register priorities (fixed an r8/r9 swap).
+- Register choice is computable: dump `agbcc m.c -O2 ... -dl -dg` (m.c from `nmstandalone.sh MOD m.c`).
+  `.lreg` prints `Register N used R times across L insns` (R = refs weighted by loop depth: +1 per
+  enclosing C loop; goto loops add nothing) and `;; Register N in H.` for block-local pseudos; `.greg`
+  has `;; N conflicts:` and the final `Register dispositions`. Priority = floor_log2(R) * R / L (local
+  alloc uses birth..death inside the block); higher priority picks first (lowest free reg). Compare
+  the two pseudos that swapped and change loop nesting / uses until the order flips (sub_0806E7D4:
+  `flags & 1` vs const 1 only flips at loop weight 3, i.e. the goto outer loop must be a `while`).
 
 ## Getting to a match
 
