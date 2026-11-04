@@ -1,0 +1,10 @@
+shard 63 notes
+
+nov03-w3 sub_0805FC80: rewrote the item switch without gotos (each case loads packed/frame/group itself;
+  crossjumping then reproduces the ROM's shared tails, incl. case 3 jumping into case 4) and used the
+  sprite struct {f0,f4,f8; pad; u8 attr[0x10]; value,step,upper,lower} for gUnk_03005DC0/D80
+  (gUnk_03005DDC == iconAssets63[0].attr; attr[9] is the 0x25 byte, reached via `adds #37`).
+  Control flow now identical (register-blind diff 67 lines, mostly allocation). Remaining: ROM keeps the
+  8-byte pos parameter in its stack home (sp+0x20) and flags in sl; ours keeps pos in r6/r7 and spills
+  flags. Case 2 in ROM: resource r1, resource+0xBE in r4 (the other cases use r0). A single common
+  `descriptor` var for all cases gives the ROM prologue (pos spilled) but puts descriptor in r4 everywhere.

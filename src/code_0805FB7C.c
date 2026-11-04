@@ -48,10 +48,9 @@ tens:
     }
 }
 #ifdef NONMATCHING
-struct IconAsset63 { s32 f0, f4, f8; u8 pad[0x20]; u16 value, step; s16 upper, lower; };
+struct IconAsset63 { s32 f0, f4, f8; u8 padC[0x10]; u8 attr[0x10]; u16 value, step; s16 upper, lower; };
 extern struct IconAsset63 iconAssets63[] asm("gUnk_03005DC0");
 extern struct IconAsset63 iconOverlay63 asm("gUnk_03005D80");
-extern u8 iconData63[] asm("gUnk_03005DDC");
 extern void sub_0800BC08(s16, s16, s16 *, s16 *, s32, s32);
 extern void sub_08008E74(s32, s32, u16, u16, u8, void *, s32, s32);
 extern void sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
@@ -66,6 +65,7 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     u8 frame;
     u8 *resource;
     u8 *descriptor;
+    u8 *icon;
     u32 packed;
     struct IconAsset63 *asset;
     u16 step;
@@ -73,64 +73,90 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     s32 worldX, worldY;
     u8 priority;
     switch (*item) {
-    case 0: return;
-    default: return;
+    case 0:
+    default:
+        return;
     case 1:
         descriptor = (u8 *)sub_08007290(item[1] | 0x100000) + 0xA8;
-        goto packed16;
+        packed = *(u16 *)descriptor;
+        frame = *descriptor;
+        group = packed >> 8;
+        break;
     case 2:
         resource = (u8 *)sub_08007290(item[1] | 0xB0000);
-        descriptor = resource + 0xBE;
-        group = *(u16 *)descriptor;
-        frame = *descriptor;
-        group >>= 8;
-        if (((u8 *)item)[8] != 0) goto alt;
-        overlay = ((u8 *)item)[7];
-        if (overlay == 0) overlay = *(u16 *)(resource + 0xBC);
+        icon = resource + 0xBE;
+        packed = *(u16 *)icon;
+        frame = *icon;
+        group = packed >> 8;
+        if (((u8 *)item)[8] != 0) {
+            group++;
+            alternate++;
+        } else {
+            overlay = ((u8 *)item)[7];
+            if (overlay == 0) overlay = *(u16 *)(resource + 0xBC);
+        }
         break;
     case 3:
-        resource = (u8 *)sub_08007290(item[1] | 0xC0000);
-        goto equipment;
-    case 4:
-        resource = (u8 *)sub_08007290(item[1] | 0xD0000);
-equipment:
-        descriptor = resource + 0xB0;
-        group = *(u16 *)descriptor;
+        descriptor = (u8 *)sub_08007290(item[1] | 0xC0000) + 0xB0;
+        packed = *(u16 *)descriptor;
         frame = *descriptor;
-        group >>= 8;
-        if (((u8 *)item)[8] != 0) goto alt;
-        overlay = ((u8 *)item)[7];
+        group = packed >> 8;
+        if (((u8 *)item)[8] != 0) {
+            group++;
+            alternate++;
+        } else {
+            overlay = ((u8 *)item)[7];
+        }
+        break;
+    case 4:
+        descriptor = (u8 *)sub_08007290(item[1] | 0xD0000) + 0xB0;
+        packed = *(u16 *)descriptor;
+        frame = *descriptor;
+        group = packed >> 8;
+        if (((u8 *)item)[8] != 0) {
+            group++;
+            alternate++;
+        } else {
+            overlay = ((u8 *)item)[7];
+        }
         break;
     case 5:
         descriptor = (u8 *)sub_08007290(item[1] | 0xE0000) + 0xB0;
-        group = *(u16 *)descriptor;
+        packed = *(u16 *)descriptor;
         frame = *descriptor;
-        group >>= 8;
+        group = packed >> 8;
         if (((u8 *)item)[8] != 0) {
-alt:
             group++;
             alternate++;
         }
         break;
     case 7:
         descriptor = (u8 *)sub_08007290(item[1] | 0x110000) + 0xA8;
-        goto packed16;
+        packed = *(u16 *)descriptor;
+        frame = *descriptor;
+        group = packed >> 8;
+        break;
     case 6:
         descriptor = (u8 *)sub_08007290(item[1] | 0xF0000) + 0xAC;
-        goto packed16;
+        packed = *(u16 *)descriptor;
+        frame = *descriptor;
+        group = packed >> 8;
+        break;
     case 9:
         descriptor = (u8 *)sub_08007290(item[1] | 0x150000) + 0xA0;
         packed = *(u32 *)descriptor;
-        goto unpack;
+        frame = *descriptor;
+        group = packed >> 8;
+        break;
     case 10:
         descriptor = (u8 *)sub_08007290(0x160000) + 0x9C;
         packed = *(u32 *)descriptor;
-        goto unpack;
+        frame = *descriptor;
+        group = packed >> 8;
+        break;
     case 8:
         descriptor = (u8 *)sub_08007290(item[1] | 0x120000) + 0xA0;
-packed16:
         packed = *(u16 *)descriptor;
-unpack:
         frame = *descriptor;
         group = packed >> 8;
         break;
@@ -143,17 +169,17 @@ unpack:
         if (((u32)(screenX + 16) << 16) > 0x1080000 || screenY < -16 || screenY > 168)
             return;
         priority = sub_0800BC44(worldX, worldY, sub_0800CCCC());
-        sub_08008E74((s16)screenX, screenY, 0, frame, priority, iconData63 + group * 0x34,
-            *(s32 *)(iconData63 - 0x14 + group * 0x34), *(s32 *)(iconData63 - 0x1C + group * 0x34));
+        sub_08008E74((s16)screenX, screenY, 0, frame, priority, iconAssets63[group].attr,
+            iconAssets63[group].f8, iconAssets63[group].f0);
         return;
     }
     if ((flags & 2) && alternate == 0)
-        ((u8 *)&iconAssets63[group])[0x25] = 10;
+        iconAssets63[group].attr[9] = 10;
     else
-        ((u8 *)&iconAssets63[group])[0x25] = 9;
+        iconAssets63[group].attr[9] = 9;
     if ((flags & 8) && overlay != 0) {
         if (overlay == 7) overlay = 6;
-        sub_08007CF0(pos.x, pos.y + 8, 4, (u16)(overlay + 11), 0, (s32)((u8 *)&iconOverlay63 + 0x1C), iconOverlay63.f8, iconOverlay63.f0);
+        sub_08007CF0(pos.x, pos.y + 8, 4, (u16)(overlay + 11), 0, (s32)iconOverlay63.attr, iconOverlay63.f8, iconOverlay63.f0);
     }
     if (flags & 4) {
         asset = &iconAssets63[group];
@@ -164,13 +190,13 @@ unpack:
             asset->step = -step;
         if ((s16)asset->step < 0 && (s16)asset->value < asset->lower)
             asset->step = -asset->step;
-        sub_08007F0C(pos.x, pos.y, 0, frame, 0, (u8 *)asset + 0x1C, asset->f8, asset->f0, (s16)asset->value, (s16)asset->value, 255);
+        sub_08007F0C(pos.x, pos.y, 0, frame, 0, asset->attr, asset->f8, asset->f0, (s16)asset->value, (s16)asset->value, 255);
     } else {
-        drawIcon63(pos, 0, frame, 0, (s32)(iconData63 + group * 0x34),
-            *(s32 *)(iconData63 - 0x14 + group * 0x34), *(s32 *)(iconData63 - 0x1C + group * 0x34));
+        drawIcon63(pos, 0, frame, 0, (s32)iconAssets63[group].attr,
+            iconAssets63[group].f8, iconAssets63[group].f0);
     }
-    ((u8 *)&iconAssets63[group])[0x25] = 9;
-    ((u8 *)&iconOverlay63)[0x25] = 9;
+    iconAssets63[group].attr[9] = 9;
+    iconOverlay63.attr[9] = 9;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC80);
