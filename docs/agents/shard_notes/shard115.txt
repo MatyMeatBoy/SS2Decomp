@@ -1,9 +1,8 @@
-shard 115 notes (nov03-w3, 2026-11-03)
-
-sub_080AF3F4 (1728 asm lines, no draft yet): read only. Same family as sub_080B3648 (matched,
-  see shard118.txt for the tricks). Arg r7 = actor (also stored to gUnk_03000788), res = actor+0x204
-  spilled at sp+0xB8; three anims at sp+0x18/0x4C/0x80 (0x34 each); &f6C/&f6A/&f68 kept as spilled
-  pointers (sp+0xE8/0xE4/0xE0); r9 = u8 counter, r6 = u16 frame. f1FD switch 1..8 (table), then an
-  11-entry switch on the anim state (sp+0xC4) choosing the anim (sl) and f68/flag; crossjumped tails
+  DRAFT (nov03-w3): fresh C, 3728/3732 bytes, difflib score 49 (only init register choice left:
+  ROM &anim[2] in r6 / zero in r8 / res reloaded / 0x1D4 rematerialized; the gUnk_03003D10 pool
+  words are a false diff, same bytes as gUnk_03003CE0+0x30). Keys: screen pos as two s16 locals
+  (sx, sy, separate pointers), lastAnim u16, pl pointer computed before the cnt&1 test, separate u8
+  counter for the two last cutscene loops, `k++; k &= 0xF;` for the blend level.
+(sp+0xC4) choosing the anim (sl) and f68/flag; crossjumped tails
   `strb; bl sub_08067C18` at _080AF862. After the main loop come 5 cutscene loops (DEADFACE wait,
   sub_08058DB0 wait, message box sub_0805DF38, 100-frame countdown with sub_08098088/sub_080980F0).

@@ -2616,7 +2616,477 @@ void sub_080AF3C4(void)
     *m &= ~(1 << (*new_var));
   }
 }
+#ifdef NONMATCHING
+/* sub_080AF3F4: draft, see docs/agents/shard_notes/shard115.txt */
+struct ResF3F4 { u8 p0[4]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
+struct ActF3F4 {
+    u16 f0, f2;
+    u8 p4[4];
+    u16 f8;
+    u8 pa[2];
+    u16 fC;
+    u8 pe[6];
+    s32 f14, f18;
+    u8 p1c[0x30];
+    s32 f4C, f50;
+    u8 p54[6];
+    u16 f5A;
+    s16 f5C, f5E;
+    u8 p60[8];
+    u16 f68, f6A, f6C, f6E;
+    u8 p70[0x164];
+    s16 f1D4, f1D6;
+    u8 p1d8[0x24];
+    u8 f1FC_lo : 4;
+    u8 f1FC_hi : 4;
+    u8 f1FD, f1FE, p1ff;
+    u8 f200, p201;
+    u16 f202;
+    struct ResF3F4 res;
+};
+struct AnimF3F4 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
+struct PlF3F4 { u8 p0[0xC]; u16 fC; u8 pe[0x22]; u32 flags; u8 p34[0x118]; };
+struct HistF3F4 { s32 h[5]; u8 rest[0x138]; };
+
+extern struct ActF3F4 *gCurF3F4 asm("gUnk_03000788");
+extern struct PlF3F4 gPlF3F4[] asm("gUnk_03003CE0");
+extern struct HistF3F4 gHistF3F4[] asm("gUnk_03003DC4");
+extern u8 gImgF3F4[] asm("gUnk_084A8B40");
+extern void *gDataF3F4 asm("gUnk_030034E0");
+extern u8 *gStateF3F4 asm("gUnk_03005CF4");
+
+void setupF3F4(void *, void *, s32) asm("sub_0801623C");
+void initResF3F4(void *) asm("sub_08019F60");
+void a0A4F3F4(void *) asm("sub_0801A0A4");
+void animInitF3F4(void *, s32, s32, s32, s32) asm("sub_08065158");
+u8 *objF3F4(s32) asm("sub_08007290");
+void tickF3F4(void *) asm("sub_0801C8F0");
+s32 rndF3F4(s32) asm("sub_08096594");
+u8 reachF3F4(void *, void *, s32, s32) asm("sub_08097A74");
+void sfxF3F4(s32) asm("sub_08058CC4");
+void faceF3F4(void *, u8) asm("sub_08095F10");
+void spawnF3F4(s32, s32, s32, s32, s32) asm("sub_0807386C");
+void endF3F4(s32) asm("sub_08097A38");
+void loadPalF3F4(u32, void *, u32) asm("sub_08000AF0");
+u8 bgFlagF3F4(void) asm("sub_08098004");
+u8 bgPrioF3F4(void) asm("sub_08097FF8");
+u8 prioF3F4(s32, s32, s32) asm("sub_0800BC44");
+u16 animF3F4(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+void projF3F4(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void drawF3F4(s32, s32, s32, u16, u8, void *, u32, u32) asm("sub_08007870");
+void drawExF3F4(s32, s32, s32, u16, u8, s32, s32, void *, u32, u32) asm("sub_08007974");
+void dmgF3F4(void *, s32, s16) asm("sub_0801A120");
+s16 deadF3F4(void *) asm("sub_08019CE8");
+void postF3F4(void *) asm("sub_08020680");
+void freeF3F4(u16) asm("sub_08067CA8");
+void waitF3F4(s32) asm("sub_08068330");
+s32 readyF3F4(s32) asm("sub_080682B8");
+void nextF3F4(s32) asm("sub_08065E38");
+void msgEndF3F4(s32) asm("sub_080586B4");
+s32 flagF3F4(void) asm("sub_0805A318");
+s32 boxF3F4(s32, s32, s32, s32, s32, s32) asm("sub_0805DF38");
+s32 boxDoneF3F4(s32) asm("sub_0805EEFC");
+void blendF3F4(u8, u8, u8, u8) asm("sub_08009088");
+void fxF3F4(s32, s32, s32) asm("sub_08098088");
+u8 fxDoneF3F4(void) asm("sub_080980F0");
+s32 dropFxF3F4(void *, void *) asm("sub_0801E46C");
+void fallF3F4(void *, s32) asm("sub_0806171C");
+void dropEndF3F4(void *, s32) asm("sub_0801E4CC");
+
+void sub_080AF3F4_v(struct ActF3F4 *a) asm("sub_080AF3F4");
+void sub_080AF3F4_v(struct ActF3F4 *a)
+{
+    struct AnimF3F4 anim[3];
+    s16 sx, sy;
+    struct ResF3F4 *res;
+    s32 lastHit;
+    u8 sfx;
+    s32 animState;
+    u16 lastAnim;
+    s32 flag;
+    u16 flash;
+    u16 hitTimer;
+    s16 shake;
+    s32 done;
+    u16 *p68, *p6A, *p6C;
+    struct AnimF3F4 *sl;
+    u8 prio;
+    u8 cnt;
+    u8 k;
+    u16 frame;
+    s16 i, j;
+    u16 id;
+    s32 h;
+    struct PlF3F4 *pl;
+
+    gCurF3F4 = a;
+    res = &a->res;
+    setupF3F4(a, gImgF3F4, 0);
+    initResF3F4(res);
+    a0A4F3F4(a);
+    animInitF3F4(&anim[0], 0x50089, 5, -1, 0);
+    animInitF3F4(&anim[1], 0x50087, 5, -1, 0);
+    animInitF3F4(&anim[2], 0x50088, 5, -1, 0);
+    a->f5C = a->f1D6 = res->f6 * 3;
+    { s32 t = res->f4 * 2; a->f5E = a->f1D4 = ((res->f4 << 3) + t) * 2; }
+    a->fC = 0;
+    animState = 0;
+    lastAnim = 0xFFFF;
+    flash = 0;
+    hitTimer = 0;
+    a->f1FD = 2;
+    a->f1FE = 2;
+    id = 0xB3;
+    res->f28 = id;
+    sfx = objF3F4(0xB0000 | id)[0x9B];
+    res->f24 = 2;
+    ((u8 *)a)[0x22B] = 0;
+    a->f50 = 1;
+    p6C = &a->f6C;
+    p6A = &a->f6A;
+    p68 = &a->f68;
+    for (i = 0; i <= 3; i++)
+        for (j = 0; j <= 4; j++)
+            gHistF3F4[i].h[j] = 0;
+    *p6C = 0;
+    *p6A = 0;
+    *p68 = 0;
+    cnt = 0;
+    frame = 0;
+    sub_08098044();
+    sub_08097FE4();
+    sub_08097A4C();
+    a->f1FC_lo = a->f0;
+    a->f202 = a->f2;
+    a->f200 = 0xFF;
+    done = 0;
+    sub_08067C18();
+    while (sub_08067C08() == 0)
+        sub_080003F0();
+    sub_08067BF8();
+
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (a->fC == 10 && flash == 0)
+            flash = 8;
+        if (sub_08058DB0() == 0) {
+            tickF3F4(gCurF3F4);
+            switch (a->f1FD) {
+            case 1:
+                a->fC = 0;
+                if (sub_08067C08() != 0) {
+                    a->f1FD = a->f1FE;
+                    sub_08067BF8();
+                }
+                break;
+            case 2:
+                animState = 0;
+                if (sub_08056F78() != 0) {
+                    if (sub_08002164() == 1 && (gPlF3F4[0].fC == 8 || gPlF3F4[0].fC == 6))
+                        a->f1FE = 3;
+                    else
+                        a->f1FE = 8;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 3:
+                animState = 1;
+                a->fC = 1;
+                a->f1FC_hi = rndF3F4(0);
+                pl = &gPlF3F4[a->f1FC_hi];
+                if (cnt & 1) {
+                    if (reachF3F4(a, pl, 0x140, 0x1C) == 0) {
+                        cnt++;
+                        a->f1FE = 4;
+                        a->f1FD = 1;
+                        sub_08067C18();
+                    }
+                } else {
+                    if (reachF3F4(a, pl, 0x140, 0x50) == 0) {
+                        cnt++;
+                        frame = 0;
+                        a->f1FE = 6;
+                        a->f1FD = 1;
+                        sub_08067C18();
+                    }
+                }
+                break;
+            case 4:
+                animState = 2;
+                a->fC = 2;
+                if (*p6A == 2 && *p6C == 0)
+                    sfxF3F4(sfx);
+                if (a->f6E != 0) {
+                    a->f50++;
+                    a->f1FE = 5;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 6:
+                animState = 9;
+                a->fC = 9;
+                faceF3F4(gCurF3F4, rndF3F4(0));
+                *p68 = a->f8;
+                if (frame++ > 0x1E) {
+                    frame = 0;
+                    spawnF3F4(a->f0 + 4, 0xD, a->f1FC_hi, 5, 5);
+                    a->f50++;
+                    a->f1FE = 7;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 7:
+                animState = 9;
+                a->fC = 9;
+                faceF3F4(gCurF3F4, rndF3F4(0));
+                *p68 = a->f8 + 8;
+                if (frame++ > 0x28) {
+                    frame = 0;
+                    endF3F4(0);
+                    a->f1FE = 3;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 5:
+                animState = 0;
+                a->fC = 0;
+                if (frame++ > 0x3C) {
+                    frame = 0;
+                    endF3F4(0);
+                    a->f1FD = 1;
+                    a->f1FE = 3;
+                    sub_08067C18();
+                }
+                break;
+            case 8:
+                animState = 10;
+                a->fC = 0;
+                if (flash != 0) {
+                    a->f1FE = 3;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            }
+        }
+        switch (animState) {
+        case 0:
+            sl = &anim[0];
+            *p68 = a->f8;
+            flag = 1;
+            break;
+        case 1:
+            sl = &anim[0];
+            *p68 = a->f8 + 8;
+            flag = 1;
+            break;
+        case 2:
+            sl = &anim[1];
+            *p68 = a->f8;
+            flag = 0;
+            break;
+        case 9:
+            sl = &anim[2];
+            flag = 0;
+            break;
+        case 10:
+            sl = &anim[2];
+            *p68 = 8;
+            flag = 0;
+            break;
+        }
+        {
+            struct ActF3F4 *g = gCurF3F4;
+            if (lastAnim != g->f68) {
+                lastAnim = g->f68;
+                g->f6C = 0;
+                g->f6A = 0;
+            }
+        }
+        sl->f1C = 5;
+        loadPalF3F4(0x15, sl->fC, 1);
+        if (bgFlagF3F4() & 1)
+            prio = bgPrioF3F4();
+        else
+            prio = prioF3F4(a->f14 >> 8, a->f18 >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            a->f6E = animF3F4(sl, *p68, p6A, p6C, flag);
+        projF3F4((s16)(a->f14 >> 8), (s16)(a->f18 >> 8), &sx, &sy, 0, 0);
+        if (flash != 0) {
+            u16 old = flash;
+            flash--;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                drawF3F4(sx, sy, *p68, *p6A, prio, &sl->f1C, sl->f8, sl->f0);
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            drawF3F4(sx, sy, *p68, *p6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        {
+            s32 hh = a->f4C;
+            if (hh != 0 && lastHit != hh) {
+                lastHit = hh;
+                hitTimer = 10;
+                shake = 0;
+            }
+        }
+        if (hitTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                dmgF3F4(a, lastHit, shake);
+            if (hitTimer & 2)
+                shake--;
+            hitTimer--;
+        } else {
+            lastHit = 0;
+            a->f4C = hitTimer;
+        }
+        if (deadF3F4(a) != 0)
+            done = 1;
+        postF3F4(a);
+        sub_080003F0();
+        if (done)
+            break;
+    }
+
+    gPlF3F4[sub_080020F4()].flags |= 1;
+    sl = &anim[2];
+    sl->f1C = 5;
+    {
+        struct ActF3F4 *g = gCurF3F4;
+        g->f6C = 0;
+        g->f6A = 0;
+        g->f68 = 0;
+    }
+    shake = 0;
+    hitTimer = 10;
+    do {
+        gPlF3F4[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            loadPalF3F4(0x15, sl->fC, 1);
+            prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
+            gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
+            projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
+            drawF3F4(sx, sy, gCurF3F4->f68, gCurF3F4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+            dmgF3F4(a, lastHit, shake);
+        }
+        if (hitTimer & 2)
+            shake--;
+        sub_080003F0();
+        hitTimer--;
+    } while (hitTimer != 0xFFFF);
+    sub_080683CC();
+    freeF3F4(gCurF3F4->f2);
+    waitF3F4(0xDEADFACE);
+    while (readyF3F4(0xDEADFACE) == 0) {
+        gPlF3F4[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            loadPalF3F4(0x15, sl->fC, 1);
+            prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
+            gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
+            projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
+            drawF3F4(sx, sy, gCurF3F4->f68, gCurF3F4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+    }
+    nextF3F4(0xDEADFACE);
+    while (sub_08058DB0() != 0) {
+        gPlF3F4[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            loadPalF3F4(0x15, sl->fC, 1);
+            prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
+            gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
+            projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
+            drawF3F4(sx, sy, gCurF3F4->f68, gCurF3F4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+    }
+    msgEndF3F4(0);
+    gPlF3F4[sub_080020F4()].flags |= 1;
+    if (flagF3F4() != 0)
+        *(s32 *)(gStateF3F4 + 0x720) = boxF3F4(1, 0xE, 0x19, 2, 0x3C, 0x14009E);
+    else
+        *(s32 *)(gStateF3F4 + 0x720) = boxF3F4(1, 0xE, 0x19, 2, 0x3C, 0x140098);
+    while (boxDoneF3F4(*(s32 *)(gStateF3F4 + 0x720)) == 0) {
+        gPlF3F4[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            loadPalF3F4(0x15, sl->fC, 1);
+            prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
+            gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
+            projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
+            drawF3F4(sx, sy, gCurF3F4->f68, gCurF3F4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+    }
+    sl = &anim[2];
+    sl->f1C = 5;
+    {
+        struct ActF3F4 *g = gCurF3F4;
+        g->f68 = 0;
+        g->f6C = 0;
+        g->f6A = 0;
+    }
+    k = 100;
+    do {
+        gPlF3F4[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            if (k < 0x50) {
+                if (k < 0x3C) {
+                    gCurF3F4->f68 = 0x12;
+                } else if (k & 2) {
+                    struct ActF3F4 *g = gCurF3F4;
+                    g->f68 = (g->f68 > 7) ? 8 : ++g->f68;
+                }
+            }
+            loadPalF3F4(0x15, sl->fC, 1);
+            prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
+            gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
+            projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
+            drawF3F4(sx, sy, *p68, *p6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+        k--;
+    } while (k != 0xFF);
+    {
+        struct ActF3F4 *g = gCurF3F4;
+        g->f68 = 0x12;
+        g->f6C = 0;
+        g->f6A = 0;
+    }
+    k = 0;
+    fxF3F4(a->f14, a->f18, 1);
+    do {
+        gPlF3F4[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            k++; k &= 0xF;
+            blendF3F4(0, 0, k, 0);
+            loadPalF3F4(0x15, sl->fC, 1);
+            prio = prioF3F4(gCurF3F4->f14 >> 8, gCurF3F4->f18 >> 8, 0);
+            gCurF3F4->f6E = animF3F4(sl, gCurF3F4->f68, &gCurF3F4->f6A, &gCurF3F4->f6C, 1);
+            projF3F4((s16)(gCurF3F4->f14 >> 8), (s16)(gCurF3F4->f18 >> 8), &sx, &sy, 0, 0);
+            drawExF3F4(sx, sy, *p68, *p6A, prio, 1, 0, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+    } while (fxDoneF3F4() == 0);
+    blendF3F4(0, 0, 0, 0);
+    sub_08098060();
+    gPlF3F4[sub_080020F4()].flags &= ~1;
+    if (!(gPlF3F4[sub_080020F4()].flags & 0x2000) && gCurF3F4->f5A != 0) {
+        h = dropFxF3F4(gDataF3F4, res);
+        shake = 0x1D;
+        do {
+            gCurF3F4->f18 -= 0x20;
+            fallF3F4(gCurF3F4, h);
+            sub_080003F0();
+            shake--;
+        } while (shake != -1);
+        dropEndF3F4(gDataF3F4, h);
+    }
+    sub_08056E24();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AF3F4);
+#endif
 #ifdef NONMATCHING
 /* Compiling draft; bytes and relocations do not match yet. */
 extern void t116_sprite(u32, s32, u32) asm("sub_08000AF0");
