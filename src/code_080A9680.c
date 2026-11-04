@@ -4407,763 +4407,504 @@ void sub_080B0F9C(void) {
     gUnk_030056FC = 0;
 }
 #ifdef NONMATCHING
-/* Compiling draft; bytes and relocations do not match yet. */
-extern u8 t116C_byte79C asm("gUnk_0300079C");
-extern s16 t116C_random(void) asm("sub_0800086C");
-extern s32 t116C_fadeDone(void) asm("sub_080980F0");
-extern void t116C_sprite(u32, s32, u32) asm("sub_08000AF0");
-extern s32 t116C_history asm("gUnk_03003DC4");
-extern s32 t116C_flags asm("gUnk_03003D10");
-extern u8 t116C_data[] asm("gUnk_084AA580");
-extern u8 t116C_positions[] asm("gUnk_085188F0");
-extern u8 t116C_counter asm("gUnk_030007A6");
-extern void t116C_clearSelection(void) asm("sub_0806849C");
-extern s32 t116C_sub_08007870(s16, s16, u16, u16, s32, void *, s32, s32) asm("sub_08007870");
-extern s32 t116C_sub_08007974(s16, s16, u16, u16, s32, s32, s32, void *, s32, s32) asm("sub_08007974");
-extern s32 t116C_sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern s32 t116C_sub_08065158(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern s32 t116C_sub_08065370(void *, u32, void *, void *, s32) asm("sub_08065370");
-extern s32 t116C_sub_0805DF38(u32, u32, u32, u32, s32, s32) asm("sub_0805DF38");
-extern s32 t116C_sub_0801623C(void *, void *, s32) asm("sub_0801623C");
-extern s32 t116C_sub_08019CE8(s32) asm("sub_08019CE8");
-extern s32 t116C_sub_08019F60(s32) asm("sub_08019F60");
-extern s32 t116C_sub_0801A120(void *, s32, s16) asm("sub_0801A120");
-extern s32 t116C_sub_0801C8F0(s32) asm("sub_0801C8F0");
-extern s32 t116C_sub_08020680(s32) asm("sub_08020680");
-extern s32 t116C_sub_080586B4(s32) asm("sub_080586B4");
-extern s32 t116C_sub_08058CC4(s32) asm("sub_08058CC4");
-extern s32 t116C_sub_0806171C(void *, s32) asm("sub_0806171C");
-extern s32 t116C_sub_08067CA8(u16) asm("sub_08067CA8");
-extern s32 t116C_sub_08096594(s32) asm("sub_08096594");
-extern s32 t116C_sub_08098088(s32, s32, s32) asm("sub_08098088");
-extern s32 t116C_sub_0807386C(s32, s32, u32, s32, s32) asm("sub_0807386C");
-extern u32 t116C_sub_08016E04(u16, s32) asm("sub_08016E04");
-extern s32 t116C_sub_08095F10(void *, u8) asm("sub_08095F10");
-extern s32 t116C_sub_080B2330(void) asm("sub_080B2330");
-extern s32 t116C_sub_080B236C(s32, s32) asm("sub_080B236C");
-extern s32 t116C_sub_080B23C8(void) asm("sub_080B23C8");
-extern s32 t116C_sub_080B2454(void) asm("sub_080B2454");
-extern s32 t116C_sub_080B1FD4(void) asm("sub_080B1FD4");
-struct T116CActor {
-    u16 f0;
-    u16 f2;
-    u8 pad4[4];
-    u16 f8;
-    u8 padA[2];
-    u16 fC;
-    u8 padE[6];
-    s32 f14;
-    s32 f18;
-    u8 pad1C[48];
-    s32 f4C;
-    s32 f50;
-    u8 pad54[6];
-    u16 f5A;
-    s16 f5C;
-    s16 f5E;
-    u8 pad60[8];
-    u16 f68;
-    u16 f6A;
-    s16 f6C;
-    s16 f6E;
-    u8 pad70[356];
-    s16 f1D4;
-    s16 f1D6;
-    u8 pad1D8[36];
-    u8 f1FC;
-    u8 f1FD;
-    u8 f1FE;
-    u8 pad1FF[1];
-    u8 f200;
-    u8 pad201[1];
-    u16 f202;
-    u8 pad204[212];
-    u16 f2D8;
-};
-extern struct T116CActor *t116C_actor asm("gUnk_030007A0");
-void sub_080B0FC4(struct T116CActor *arg0) {
-    u8 sp18[0x34];
-    u8 sp4C[0x34];
-    u8 sp80[0x34];
-    s16 spB4;
-    s16 spB6;
-    s32 spB8;
-    s32 *flags116;
-    s32 spBC;
-    void * volatile spC0;
-    void *spC4;
-    s32 spC8;
-    s32 spCC;
-    s32 spD0;
-    s32 spD4;
-    s32 spD8;
-    s32 spDC;
-    s32 spE0;
-    u32 spE4;
-    u32 spE8;
-    u32 spEC;
-    s32 spF0;
-    u32 spF4;
-    s32 spF8;
-    s32 spFC;
-    s32 sp100;
-    u16 *sp104;
-    u16 *sp108;
-    s16 *sp10C;
-    void *temp_r2_2;
-    s32 var_r0_5;
-    s16 *temp_r0_14;
-    s16 *var_r4;
-    s32 temp_r0_3;
-    s16 temp_r1_10;
-    s16 temp_r1_11;
-    s32 temp_r1_2;
-    s16 temp_r1_3;
-    s16 var_r0_2;
-    s16 var_r0_3;
-    s16 var_r1;
-    s16 var_r1_4;
-    s16 var_r2;
-    s32 *temp_r1_13;
-    s32 *temp_r1_14;
-    s32 *temp_r1_15;
-    s32 *temp_r1_16;
-    s32 *temp_r2;
-    s32 *temp_r2_3;
-    s32 *temp_r2_4;
-    s32 temp_r0_11;
-    s32 temp_r0_12;
-    s32 temp_r0_13;
-    s32 temp_r0_15;
-    s32 temp_r0_16;
-    s32 temp_r0_17;
-    s32 temp_r0_18;
-    s32 temp_r0_7;
-    s32 temp_r1_7;
-    s32 temp_r4_3;
-    s8 *var_r1_2;
-    s8 *var_r1_3;
-    s8 var_r0;
-    u32 temp_r0_2;
-    u16 temp_r0_8;
-    u16 temp_r1;
-    u16 temp_r1_4;
-    u32 *var_r1_5;
-    u32 temp_r0_19;
-    u32 temp_r0_4;
-    u32 temp_r0_5;
-    u32 temp_r1_12;
-    u32 temp_r1_8;
-    u32 temp_r1_9;
-    u32 var_r0_7;
-    u32 var_r2_2;
-    u32 var_r2_3;
-    u32 var_r3;
-    u8 temp_r0_10;
-    u8 temp_r0_6;
-    u32 temp_r1_5;
-    u8 temp_sl;
-    u8 temp_sl_2;
-    u8 temp_sl_3;
-    u8 temp_sl_4;
-    u8 var_r0_4;
-    u8 var_r0_6;
-    void *temp_r0;
-    void *temp_r0_9;
-    void *temp_r1_6;
-    void *temp_r4;
-    void *temp_r4_2;
+extern struct Act0288 *gCurB0FC4 asm("gUnk_030007A0");
+extern u16 gTileB0FC4 asm("gUnk_030007A4");
+extern u8 gIdxB0FC4 asm("gUnk_030007A6");
+extern u8 gSelB0FC4 asm("gUnk_0300079C");
+extern u32 gMaskB0FC4 asm("gUnk_030056FC");
+extern struct XY0288 gPtsB0FC4[] asm("gUnk_085188F0");
+extern u8 gImgB0FC4[] asm("gUnk_084AA580");
+u16 allocB0FC4(s32, s32) asm("sub_08016E04");
+s32 evB0FC4(void) asm("sub_08068490");
+s16 randB0FC4(void) asm("sub_0800086C");
+void initB0FC4_0(void) asm("sub_0806849C");
+void b2330B0FC4(void) asm("sub_080B2330");
+void warpB0FC4(struct XY0288) asm("sub_080B236C");
+void b23C8B0FC4(void) asm("sub_080B23C8");
+void b23FCB0FC4(void) asm("sub_080B23FC");
+void b2454B0FC4(void) asm("sub_080B2454");
+void b2424B0FC4(void) asm("sub_080B2424");
+void b1FD4B0FC4(void) asm("sub_080B1FD4");
+void a0B0B0FC4(void *) asm("sub_0801A0B0");
+static inline s32 absB0FC4(s32 x) { if (x < 0) x = -x; return x; }
 
-    t116C_actor = arg0;
-    temp_r0 = (u8 *)arg0 + 0x204;
-    spC4 = temp_r0;
-    t116C_sub_0801623C(arg0, &t116C_data, 0);
-    t116C_sub_08019F60(temp_r0);
-    sub_0801A0A4(arg0);
-    { register u16 *outHalf asm("r4") = &gUnk_030007A4; asm("" : "+r"(outHalf)); temp_r0_2 = t116C_sub_08016E04(arg0->f2D8, 0); *outHalf = temp_r0_2; }
-    if ((u16)temp_r0_2 == 0xFFFF) {
-        flags116 = &gUnk_030056FC;
-        temp_r1 = temp_r0_2;
-loop_2:
-        arg0->fC = 0xBU;
-        if ((sub_0800CB78() != 0) || (sub_08056E90() != 0)) {
-            *flags116 &= ~(1 << arg0->f0);
+void sub_080B0FC4_v(struct Act0288 *a) asm("sub_080B0FC4");
+void sub_080B0FC4_v(struct Act0288 *a)
+{
+    struct Anim0288 anim[3];
+    s16 sx, sy;
+    struct XY0288 home;
+    struct Anim0288 *sl;
+    struct Res0288 *res;
+    s32 lastHit;
+    u8 sfx;
+    s32 animState;
+    u16 lastAnim;
+    s32 flag;
+    u16 flash;
+    u16 hitTimer;
+    u16 frame;
+    s16 shake;
+    u16 k;
+    u8 cnt;
+    u8 cnt2;
+    s32 phase;
+    u8 cnt3;
+    s32 done;
+    u8 prio;
+    s16 i, j;
+    u16 id;
+    s32 h;
+    struct Pl0288 *p;
+
+    gCurB0FC4 = a;
+    res = &a->res;
+    setup0288(a, gImgB0FC4, 0);
+    initRes0288(res);
+    a0A40288(a);
+    { u16 *t = &gTileB0FC4; *t = allocB0FC4(*(u16 *)((u8 *)a + 0x2D8), 0); }
+    while (gTileB0FC4 == 0xFFFF) {
+        a->fC = 11;
+        if (sub_0800CB78() || sub_08056E90()) {
+            gMaskB0FC4 &= ~(1 << a->f0);
             return;
         }
         sub_080003F0();
-        if (gUnk_030007A4 != temp_r1) {
-            goto block_6;
-        }
-        goto loop_2;
     }
-block_6:
-    t116C_sub_08065158(sp18, 0x50089, gUnk_030007A4, -1, 0);
-    t116C_sub_08065158(sp4C, 0x50087, gUnk_030007A4, -1, 0);
-    t116C_sub_08065158(sp80, 0x50088, gUnk_030007A4, -1, 0);
-    temp_r1_2 = *(s16 *)((u8 *)spC4 + 0x6) * 3;
-    arg0->f1D6 = temp_r1_2;
-    arg0->f5C = temp_r1_2;
-    temp_r0_3 = *(s16 *)((u8 *)spC4 + 0x4) * 0xA * 2;
-    arg0->f1D4 = temp_r0_3;
-    arg0->f5E = temp_r0_3;
-    arg0->fC = 0U;
-    spD0 = 0;
-    spD4 = 0xFFFF;
-    spDC = 0;
-    spE0 = 0;
-    arg0->f1FD = 3U;
-    arg0->f1FE = 3U;
-    *(u16 *)((u8 *)spC4 + 0x28) = 0xB3;
-    spCC = (s32) *(u8 *)((u8 *)sub_08007290(0xB00B3)+0x9B);
-    *(u16 *)((u8 *)spC4 + 0x24) = 2;
-    *(u8 *)((u8 *)spC4 + 0x27) = 0;
-    arg0->f50 = 1;
-    var_r1 = 0;
-    sp10C = (u8 *)arg0 + 0x6C;
-    sp108 = (u8 *)arg0 + 0x6A;
-    sp104 = (u8 *)arg0 + 0x68;
-    do {
-        var_r2 = 0;
-loop_8:
-        temp_r1_3 = var_r2;
-        *(s32 *)((u8 *)&t116C_history + temp_r1_3 * 4 + var_r1 * 0x14C) = 0;
-        temp_r1_4 = temp_r1_3 + 1;
-        var_r2 = (s16) temp_r1_4;
-        if ((s32) (s16) temp_r1_4 <= 4) {
-            goto loop_8;
-        }
-        temp_r0_4 = (var_r1 << 0x10) + 0x10000;
-        var_r1 = (s16) (temp_r0_4 >> 0x10);
-    } while ((s32) ((s32) temp_r0_4 >> 0x10) <= 3);
-    *sp10C = 0;
-    *sp108 = 0;
-    *sp104 = 0;
-    spFC = 0;
-    spF4 = 0;
-    spEC = 0;
-    spF8 = 0;
-    spF0 = 0;
-    spE4 = 0;
+    animInit0288(&anim[0], 0x50089, gTileB0FC4, -1, 0);
+    animInit0288(&anim[1], 0x50087, gTileB0FC4, -1, 0);
+    animInit0288(&anim[2], 0x50088, gTileB0FC4, -1, 0);
+    a->f5C = a->f1D6 = res->f6 * 3;
+    { s32 t = res->f4 * 2; a->f5E = a->f1D4 = ((res->f4 << 3) + t) * 2; }
+    a->fC = 0;
+    animState = 0;
+    lastAnim = 0xFFFF;
+    flash = 0;
+    hitTimer = 0;
+    a->f1FD = 3;
+    a->f1FE = 3;
+    id = 0xB3;
+    res->f28 = id;
+    sfx = obj0288(0xB0000 | id)[0x9B];
+    res->f24 = 2;
+    *((u8 *)res + 0x27) = 0;
+    a->f50 = 1;
+    for (i = 0; i <= 3; i++)
+        for (j = 0; j <= 4; j++)
+            *(s32 *)((u8 *)gHist0288 + j * 4 + i * 0x14C) = 0;
+    a->f6C = 0;
+    a->f6A = 0;
+    a->f68 = 0;
+    cnt3 = 0;
+    cnt2 = 0;
+    k = 0;
+    phase = 0;
+    cnt = 0;
+    frame = 0;
     sub_08098044();
-    t116C_sub_080B2330();
-    spB8 = t116C_actor->f14;
-    spBC = t116C_actor->f18;
+    b2330B0FC4();
+    home.x = gCurB0FC4->f14;
+    home.y = gCurB0FC4->f18;
     sub_08097FE4();
     sub_08097A4C();
-    arg0->f1FC = (u8) ((-0x10 & arg0->f1FC) | (0xF & (u8) arg0->f0));
-    arg0->f202 = (u16) arg0->f2;
-    arg0->f200 = 0xFFU;
-    sp100 = 0;
+    a->f1FC_lo = a->f0;
+    a->f202 = a->f2;
+    a->f200 = 0xFF;
+    done = 0;
     sub_08067C18();
-loop_12:
-    if (sub_08067C08() == 0) {
+    while (sub_08067C08() == 0)
         sub_080003F0();
-        goto loop_12;
-    }
     sub_08067BF8();
-    t116C_clearSelection();
-    goto check116;
-loop_134:
-    if ((arg0->fC == 0xA) && (spDC == 0)) {
-        spDC = 8;
-    }
-    var_r4 = &spB6;
-    if (sub_08058DB0() != 0) {
+    initB0FC4_0();
 
-    } else {
-        t116C_sub_0801C8F0(t116C_actor);
-        temp_r0_5 = arg0->f1FD - 1;
-        switch (temp_r0_5) {                    /* switch 1; irregular */
-        case 0:                                 /* switch 1 */
-            arg0->fC = 0U;
-            var_r4 = &spB6;
-            if (sub_08067C08() == 0) {
-
-            } else {
-                arg0->f1FD = (u8) arg0->f1FE;
-                sub_08067BF8();
-            }
-            break;
-        case 1:                                 /* switch 1 */
-            arg0->fC = 0U;
-            temp_r0_6 = sub_08068490();
-            arg0->f200 = temp_r0_6;
-            var_r4 = &spB6;
-            if (temp_r0_6 == 0xFF) {
-
-            } else {
-                t116C_byte79C = temp_r0_6;
-                arg0->f200 = (u8) (temp_r0_6 | 0xFF);
-                var_r1_2 = (u8 *)arg0 + 0x1FE;
-                var_r0 = 9;
-block_66:
-                *var_r1_2 = var_r0;
-block_67:
-                var_r1_3 = (u8 *)arg0 + 0x1FD;
-block_68:
-                *var_r1_3 = 1;
-                sub_08067C18();
-            }
-            break;
-        case 2:                                 /* switch 1 */
-            spD0 = 0;
-            var_r4 = &spB6;
-            if (sub_08056F78() == 0) {
-
-            } else {
-                var_r1_2 = (u8 *)arg0 + 0x1FE;
-                var_r0 = 4;
-                goto block_66;
-            }
-            break;
-        case 3:                                 /* switch 1 */
-            spD0 = 1;
-            arg0->fC = 1U;
-            if (spF4 <= 7U) {
-                temp_r1_5 = (0xF & arg0->f1FC) | (t116C_sub_08096594(0) * 0x10);
-                arg0->f1FC = temp_r1_5;
-                temp_r1_6 = (0x14C * ((u32) (temp_r1_5 << 0x18) >> 0x1C)) + (u8 *)gUnk_03003CE0;
-                if (spFC & spD0) {
-                    var_r4 = &spB6;
-                    if ((sub_08097A74(arg0, temp_r1_6, 0x140, 0x1C) << 0x18) != 0) {
-
-                    } else {
-                        spFC = (s32) (u8) (spFC + 1);
-                        spF4 = (u32) (u8) (spF4 + 1);
-                        arg0->f1FE = 5U;
-                        arg0->f1FD = 1U;
-                        sub_08067C18();
-                        t116C_sub_08058CC4(spCC);
-                    }
-                } else {
-                    var_r4 = &spB6;
-                    if ((sub_08097A74(arg0, temp_r1_6, 0x140, 0x50) << 0x18) != 0) {
-
-                    } else {
-                        spFC = (s32) (u8) (spFC + 1);
-                        spE4 = 0;
-                        arg0->f1FE = 6U;
-                        arg0->f1FD = 1U;
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (a->fC == 10 && flash == 0)
+            flash = 8;
+        if (sub_08058DB0() == 0) {
+            tick0288(gCurB0FC4);
+            switch (a->f1FD) {
+            case 1:
+                a->fC = 0;
+                if (sub_08067C08() != 0) {
+                    a->f1FD = a->f1FE;
+                    sub_08067BF8();
+                }
+                break;
+            case 2:
+                a->fC = 0;
+                a->f200 = evB0FC4();
+                if (a->f200 != 0xFF) {
+                    gSelB0FC4 = a->f200;
+                    a->f200 |= 0xFF;
+                    a->f1FE = 9;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 3:
+                animState = 0;
+                if (sub_08056F78() != 0) {
+                    a->f1FE = 4;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 4:
+                animState = 1;
+                a->fC = 1;
+                if (cnt2 < 8) {
+                    a->f1FC_hi = rnd0288(0);
+                    p = &gPl0288[a->f1FC_hi];
+                    if (cnt3 & 1) {
+                        if (reach0288(a, p, 0x140, 0x1C) == 0) {
+                            cnt3++;
+                            cnt2++;
+                            a->f1FE = 5;
+                            a->f1FD = 1;
+                            sub_08067C18();
+                            sfx0288(sfx);
+                        }
+                    } else if (reach0288(a, p, 0x140, 0x50) == 0) {
+                        cnt3++;
+                        frame = 0;
+                        a->f1FE = 6;
+                        a->f1FD = 1;
                         sub_08067C18();
                     }
-                }
-            } else {
-                arg0->f1FE = 0xAU;
-                arg0->f1FD = 1U;
-                sub_08067C18();
-block_85:
-                var_r4 = &spB6;
-            }
-            break;
-        case 4:                                 /* switch 1 */
-            spD0 = 2;
-            arg0->fC = 2U;
-            var_r4 = &spB6;
-            if (arg0->f6E == 0) {
-
-            } else {
-                arg0->f50 = (s32) (arg0->f50 + 1);
-                temp_r1_7 = spF0;
-                spF0 = (s32) (u8) (temp_r1_7 + 1);
-                temp_r0_7 = 4 % temp_r1_7;
-                if (temp_r0_7 != 0) {
-                    spF0 = 0;
-                    arg0->f1FE = 8U;
-                    arg0->fC = 9U;
                 } else {
-                    arg0->f1FE = 0xDU;
-                    arg0->fC = (u16) temp_r0_7;
+                    a->f1FE = 10;
+                    a->f1FD = 1;
+                    sub_08067C18();
                 }
-                arg0->f1FD = 1U;
+                break;
+            case 5:
+                animState = 2;
+                a->fC = 2;
+                if (a->f6E != 0) {
+                    a->f50++;
+                    if (4 % cnt++ != 0) {
+                        cnt = 0;
+                        a->f1FE = 8;
+                        a->fC = 9;
+                    } else {
+                        a->f1FE = 13;
+                        a->fC = 0;
+                    }
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 6:
+                animState = 9;
+                a->fC = 9;
+                face0288(gCurB0FC4, rnd0288(0));
+                {
+                    struct Act0288 *g = gCurB0FC4;
+                    g->f68 = g->f8;
+                    if (frame++ > 0x1E) {
+                        frame = 0;
+                        spawn0288(g->f0 + 4, 13, g->f1FC_hi, 5, 5);
+                        gCurB0FC4->f50++;
+                        a->f1FE = 7;
+                        a->f1FD = 1;
+                        sub_08067C18();
+                    }
+                }
+                break;
+            case 7:
+                animState = 9;
+                a->fC = 9;
+                face0288(gCurB0FC4, rnd0288(0));
+                gCurB0FC4->f68 = gCurB0FC4->f8 + 8;
+                if (frame++ > 0x1E) {
+                    frame = 0;
+                    end0288(0);
+                    a->f1FE = 4;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 8:
+                animState = 9;
+                a->fC = 9;
+                {
+                    s16 n = 0;
+                    for (i = 1; i <= 4; i++)
+                        if (gMaskB0FC4 & (1 << i))
+                            n++;
+                    if (n <= 1) {
+                        if (sub_08002204() == 1) {
+                            s16 r = randB0FC4();
+                            a->f200 = absB0FC4((s16)(r % 4)) + 1;
+                            if (sub_08068450(a->f200) == 1)
+                                a->f1FE = 2;
+                        } else {
+                            a->f200 = 0xFF;
+                            a->f1FE = 2;
+                        }
+                    } else {
+                        a->f1FE = 13;
+                    }
+                }
+                a->f1FD = 1;
                 sub_08067C18();
-                goto block_85;
-            }
-            break;
-        case 5:                                 /* switch 1 */
-            spD0 = 9;
-            arg0->fC = 9U;
-            temp_r4 = t116C_actor;
-            t116C_sub_08095F10(temp_r4, t116C_sub_08096594(0));
-            t116C_actor->f68 = (u16) t116C_actor->f8;
-            temp_r1_8 = spE4;
-            spE4 = (u32) (u16) (temp_r1_8 + 1);
-            var_r4 = &spB6;
-            if (temp_r1_8 <= 0x1EU) {
-
-            } else {
-                spE4 = 0;
-                t116C_sub_0807386C(t116C_actor->f0 + 4, 0xD, (u8) t116C_actor->f1FC >> 4, 5, (s32)5);
-                t116C_actor->f50 = (s32) (t116C_actor->f50 + 1);
-                var_r1_2 = (u8 *)arg0 + 0x1FE;
-                var_r0 = 7;
-                goto block_66;
-            }
-            break;
-        case 6:                                 /* switch 1 */
-            spD0 = 9;
-            arg0->fC = 9U;
-            temp_r4_2 = t116C_actor;
-            t116C_sub_08095F10(temp_r4_2, t116C_sub_08096594(0));
-            t116C_actor->f68 = (u16) (t116C_actor->f8 + 8);
-            temp_r1_9 = spE4;
-            spE4 = (u32) (u16) (temp_r1_9 + 1);
-            var_r4 = &spB6;
-            if (temp_r1_9 <= 0x1EU) {
-
-            } else {
-                spE4 = 0;
-                sub_08097A38(0U);
-                arg0->f1FE = 4U;
-                var_r1_3 = (u8 *)arg0 + 0x1FD;
-                goto block_68;
-            }
-            break;
-        case 7:                                 /* switch 1 */
-            spD0 = 9;
-            arg0->fC = 9U;
-            var_r2_2 = 0;
-            var_r1_4 = 1;
-            var_r4 = &spB6;
-            do {
-                temp_r1_10 = var_r1_4;
-                if ((1 << temp_r1_10) & gUnk_030056FC) {
-                    var_r2_2 = (u32) ((var_r2_2 << 0x10) + 0x10000) >> 0x10;
-                }
-                temp_r0_8 = temp_r1_10 + 1;
-                var_r1_4 = (s16) temp_r0_8;
-            } while ((s32) (s16) temp_r0_8 <= 4);
-            if ((s32) (s16) var_r2_2 <= 1) {
-                if (sub_08002204() == 1) {
-                    temp_r1_11 = t116C_random();
-                    var_r0_2 = temp_r1_11;
-                    if ((s32) temp_r1_11 < 0) {
-                        var_r0_2 = temp_r1_11 + 3;
-                    }
-                    var_r0_3 = temp_r1_11 - ((var_r0_2 >> 2) * 4);
-                    if ((s32) var_r0_3 < 0) {
-                        var_r0_3 = 0 - var_r0_3;
-                    }
-                    arg0->f200 = (u8) (var_r0_3 + 1);
-                    if (sub_08068450(arg0->f200) == 1) {
-                        var_r1_2 = (u8 *)arg0 + 0x1FE;
-                        var_r0 = 2;
-                        goto block_66;
-                    }
+                break;
+            case 9:
+                animState = 9;
+                a->fC = 9;
+                a->f68 = a->f8 + 8;
+                warpB0FC4(home);
+                a->f1FE = 13;
+                a->f1FD = 1;
+                sub_08067C18();
+                break;
+            case 10:
+                animState = 9;
+                a->fC = 9;
+                a->f1FE = 11;
+                a->f1FD = 1;
+                sub_08067C18();
+                break;
+            case 11:
+                animState = 9;
+                a->fC = 9;
+                a->f68 = a->f8 + 8;
+                if (phase == 0) {
+                    phase = 1;
+                    cnt2 = 0;
+                    fx0288(*(struct XY0288 *)&a->f14, 1);
+                    a0B0B0FC4(a);
+                } else if (fxDone0288() != 0) {
+                    phase = 0;
+                    a->f1FE = 12;
+                    a->f1FD = 1;
+                    sub_08067C18();
                 } else {
-                    arg0->f200 = 0xFFU;
-                    var_r1_2 = (u8 *)arg0 + 0x1FE;
-                    var_r0 = 2;
-                    goto block_66;
+                    k = ((k + 1) << 16 & 0xF0000) >> 16;
+                    blend0288(0, 0, k, 0);
                 }
-            } else {
-                var_r1_2 = (u8 *)arg0 + 0x1FE;
-                var_r0 = 0xD;
-                goto block_66;
-            }
-            goto block_67;
-        case 8:                                 /* switch 1 */
-            spD0 = 9;
-            arg0->fC = 9U;
-            *sp104 = arg0->f8 + 8;
-            t116C_sub_080B236C(spB8, spBC);
-            arg0->f1FE = 0xDU;
-            arg0->f1FD = 1U;
-            sub_08067C18();
-            goto block_85;
-        case 9:                                 /* switch 1 */
-            spD0 = 9;
-            arg0->fC = 9U;
-            arg0->f1FE = 0xBU;
-            arg0->f1FD = 1U;
-            sub_08067C18();
-            goto block_85;
-        case 10:                                /* switch 1 */
-            spD0 = 9;
-            arg0->fC = 9U;
-            *sp104 = arg0->f8 + 8;
-            if (spF8 == 0) {
-                spF8 = 1;
-                spF4 = 0;
-                t116C_sub_08098088(arg0->f14, arg0->f18, 1);
-                sub_0801A0B0(arg0);
-            } else if ((u8)t116C_fadeDone() != 0) {
-                spF8 = 0;
-                arg0->f1FE = 0xCU;
-                arg0->f1FD = 1U;
-                sub_08067C18();
-            } else {
-                spEC = (u32) (0xF0000 & ((spEC + 1) << 0x10)) >> 0x10;
-                var_r2_3 = spEC;
-                var_r3 = 0;
-block_84:
-                sub_08009088(0U, 0U, (u8) var_r2_3, (u8) var_r3);
-            }
-            goto block_85;
-        case 11:                                /* switch 1 */
-            spD0 = 9;
-            arg0->fC = 9U;
-            *sp104 = arg0->f8 + 8;
-            if (spF8 == 0) {
-                spF8 = 1;
-                temp_r0_9 = (t116C_counter * 8) + t116C_positions;
-                t116C_sub_08098088(*(s32 *)temp_r0_9, *(s32 *)((u8 *)temp_r0_9+4), 1);
-                arg0->f14 = (s32) *(s32 *)((t116C_counter * 8) + t116C_positions);
-                arg0->f18 = (s32) *(s32 *)((t116C_counter * 8) + (t116C_positions + 4));
-                if (t116C_counter != 8) {
-                    var_r0_4 = t116C_counter + 1;
-                    t116C_counter = var_r0_4;
+                break;
+            case 12:
+                animState = 9;
+                a->fC = 9;
+                a->f68 = a->f8 + 8;
+                if (phase == 0) {
+                    phase = 1;
+                    fx0288(gPtsB0FC4[gIdxB0FC4], 1);
+                    a->f14 = gPtsB0FC4[gIdxB0FC4].x;
+                    a->f18 = gPtsB0FC4[gIdxB0FC4].y;
+                    gIdxB0FC4 = (gIdxB0FC4 == 8) ? 0 : ++gIdxB0FC4;
+                } else if (fxDone0288() != 0) {
+                    phase = 0;
+                    k = 0;
+                    a0A40288(a);
+                    blend0288(0, 0, 0, 0);
+                    frame = 0;
+                    a->f1FE = 6;
+                    a->f1FD = 1;
+                    sub_08067C18();
                 } else {
-                    var_r0_4 = 0;
+                    k--;
+                    k &= 0xF;
+                    blend0288(0, 0, 0, k);
                 }
-                t116C_counter = var_r0_4;
-            } else if ((u8)t116C_fadeDone() != 0) {
-                spF8 = 0;
-                spEC = 0;
-                sub_0801A0A4(arg0);
-                sub_08009088(0U, 0U, 0U, 0U);
-                spE4 = 0;
-                arg0->f1FE = 6U;
-                arg0->f1FD = 1U;
-                sub_08067C18();
-            } else {
-                spEC = (u32) (0xF0000 & ((spEC - 1) << 0x10)) >> 0x10;
-                var_r2_3 = 0;
-                var_r3 = spEC;
-                goto block_84;
+                break;
+            case 13:
+                animState = 0;
+                a->fC = 0;
+                if (frame++ > 0x3C) {
+                    frame = 0;
+                    end0288(0);
+                    a->f1FE = 4;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
             }
-            goto block_85;
-        case 12:                                /* switch 1 */
-            spD0 = 0;
-            arg0->fC = 0U;
-            temp_r1_12 = spE4;
-            spE4 = (u32) (u16) (temp_r1_12 + 1);
-            var_r4 = &spB6;
-            if (temp_r1_12 > 0x3CU) {
-                spE4 = 0;
-                sub_08097A38(0U);
-                arg0->f1FE = 4U;
-                arg0->f1FD = 1U;
-                sub_08067C18();
-            }
+        }
+        switch (animState) {
+        case 0:
+            sl = &anim[0];
+            a->f68 = a->f8;
+            flag = 1;
+            break;
+        case 1:
+            sl = &anim[0];
+            a->f68 = a->f8 + 8;
+            flag = 1;
+            break;
+        case 2:
+            sl = &anim[1];
+            a->f68 = a->f8;
+            flag = 0;
+            break;
+        case 9:
+            sl = &anim[2];
+            flag = 0;
             break;
         }
-    }
-    switch (spD0) {                             /* switch 2; irregular */
-    case 0:                                     /* switch 2 */
-        spC0 = sp18;
-        *sp104 = arg0->f8;
-        var_r0_5 = (s32)1;
-block_99:
-        spD8 = var_r0_5;
-        break;
-    case 1:                                     /* switch 2 */
-        spC0 = sp18;
-        *sp104 = arg0->f8 + 8;
-        spD8 = (s32)1;
-        break;
-    case 2:                                     /* switch 2 */
-        spC0 = sp4C;
-        *sp104 = arg0->f8;
-        spD8 = 0;
-        break;
-    case 9:                                     /* switch 2 */
-        spC0 = sp80;
-        var_r0_5 = 0;
-        goto block_99;
-    }
-    if (spD4 != t116C_actor->f68) {
-        spD4 = (s32) t116C_actor->f68;
-        t116C_actor->f6C = 0;
-        t116C_actor->f6A = 0;
-    }
-    *(u8 *)((u8 *)spC0 + 0x1C) = (s8) gUnk_030007A4;
-    t116C_sprite(gUnk_030007A4 + 0x10, *(s32 *)((u8 *)spC0 + 0xC), 1U);
-    if (1 & sub_08098004()) {
-        var_r0_6 = sub_08097FF8();
-    } else {
-        var_r0_6 = (u8) sub_0800BC44((u32) ((s32) arg0->f14 >> 8), (u32) ((s32) arg0->f18 >> 8), 0U);
-    }
-    temp_r0_10 = var_r0_6;
-    if (sub_0800CD8C() == 0) {
-        arg0->f6E = (u16) t116C_sub_08065370(spC0, *sp104, sp108, sp10C, spD8);
-    }
-    t116C_sub_0800BC08((s32) (arg0->f14 << 8) >> 0x10, (s32) (arg0->f18 << 8) >> 0x10, &spB4, var_r4, 0, 0);
-    if (spDC != 0) {
-        temp_r0_11 = spDC;
-        spDC = (s32) (u16) (temp_r0_11 - 1);
-        if ((1 & temp_r0_11) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-            t116C_sub_08007870(spB4, *var_r4, *sp104, *sp108, (s32) temp_r0_10, spC0 + 0x1C, *(s32 *)((u8 *)spC0 + 0x8), *(s32 *)((u8 *)spC0 + 0x0));
-        }
-    } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-        temp_r0_12 = sub_0800CD34();
-        if (temp_r0_12 == 0) {
-            if (spEC != 0) {
-                t116C_sub_08007974(spB4, *var_r4, *sp104, *sp108, (s32) temp_r0_10, (s32)1, temp_r0_12, spC0 + 0x1C, *(s32 *)((u8 *)spC0 + 0x8), *(s32 *)((u8 *)spC0 + 0x0));
-            } else {
-                t116C_sub_08007870(spB4, *var_r4, *sp104, *sp108, (s32) temp_r0_10, spC0 + 0x1C, *(s32 *)((u8 *)spC0 + 0x8), *(s32 *)((u8 *)spC0 + 0x0));
+        {
+            struct Act0288 *g = gCurB0FC4;
+            if (lastAnim != g->f68) {
+                lastAnim = g->f68;
+                g->f6C = 0;
+                g->f6A = 0;
             }
         }
-    }
-    temp_r0_13 = arg0->f4C;
-    if ((temp_r0_13 != 0) && (spC8 != temp_r0_13)) {
-        spC8 = temp_r0_13;
-        spE0 = 0xA;
-        spE8 = 0;
-    }
-    if (spE0 != 0) {
-        if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-            t116C_sub_0801A120(arg0, spC8, (s16) spE8);
+        sl->f1C = gTileB0FC4;
+        loadPal0288(gTileB0FC4 + 0x10, sl->fC, 1);
+        if (bgFlag0288() & 1)
+            prio = bgPrio0288();
+        else
+            prio = prio0288(a->f14 >> 8, a->f18 >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            a->f6E = anim0288(sl, a->f68, &a->f6A, &a->f6C, flag);
+        proj0288((s16)(a->f14 >> 8), (s16)(a->f18 >> 8), &sx, &sy, 0, 0);
+        if (flash != 0) {
+            u16 old = flash;
+            flash--;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                draw0288(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            s32 z = sub_0800CD34();
+            if (z == 0) {
+                if (k != 0)
+                    drawEx0288(sx, sy, a->f68, a->f6A, prio, 1, z, &sl->f1C, sl->f8, sl->f0);
+                else
+                    draw0288(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+            }
         }
-        if (2 & spE0) {
-            spE8 = (u32) ((spE8 << 0x10) + 0xFFFF0000) >> 0x10;
+        {
+            s32 hh = a->f4C;
+            if (hh != 0 && lastHit != hh) {
+                lastHit = hh;
+                hitTimer = 10;
+                shake = 0;
+            }
         }
-        spE0 = (s32) (u16) (spE0 - 1);
-    } else {
-        spC8 = 0;
-        arg0->f4C = spE0;
+        if (hitTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                dmg0288(a, lastHit, shake);
+            if (hitTimer & 2)
+                shake--;
+            hitTimer--;
+        } else {
+            lastHit = 0;
+            a->f4C = hitTimer;
+        }
+        if (dead0288(a) != 0)
+            done = 1;
+        post0288(a);
+        sub_080003F0();
+        if (done)
+            break;
     }
-    if ((u16)t116C_sub_08019CE8(arg0) != 0) {
-        sp100 = 1;
-    }
-    t116C_sub_08020680(arg0);
-    sub_080003F0();
-    if (sp100 != 0) goto exit116;
-check116:
-    if (sub_0800CB78() != 0) goto exit116;
-    if (sub_08056E90() != 0) goto exit116;
-    goto loop_134;
-exit116:
 
-    gUnk_030056FC &= ~(1 << t116C_actor->f0);
-    temp_r2 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r2 |= 1;
-    sub_08009088(0U, 0U, 0U, 0U);
+    gMaskB0FC4 &= ~(1 << gCurB0FC4->f0);
+    gPl0288[sub_080020F4()].flags |= 1;
+    blend0288(0, 0, 0, 0);
     sub_08098060();
-    t116C_sub_080B1FD4();
-    temp_r2_2 = sp80;
-    spC0 = temp_r2_2;
-    *(u8 *)((u8 *)temp_r2_2 + 0x1C) = (s8) gUnk_030007A4;
-    t116C_actor->f6C = 0;
-    temp_r0_14 = ((u8 *)t116C_actor + 0x6C) - 2;
-    *temp_r0_14 = 0;
-    *(u16 *)((u8 *)temp_r0_14 - 2) = 0;
-    spE8 = 0;
-    spE0 = 0xA;
-loop_137:
-    temp_r1_13 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r1_13 |= 1;
-    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-        temp_r0_15 = sub_0800CD34();
-        if (temp_r0_15 == 0) {
-            t116C_sprite(gUnk_030007A4 + 0x10, *(s32 *)((u8 *)spC0 + 0xC), 1U);
-            temp_sl = (u8) sub_0800BC44((u32) ((s32) t116C_actor->f14 >> 8), (u32) ((s32) t116C_actor->f18 >> 8), 0U);
-            t116C_actor->f6E = (s16) t116C_sub_08065370(spC0, t116C_actor->f68, ((u8 *)t116C_actor + 0x6A), ((u8 *)t116C_actor + 0x6C), (s32)1);
-            t116C_sub_0800BC08((s32) (t116C_actor->f14 << 8) >> 0x10, (s32) (t116C_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_15, temp_r0_15);
-            t116C_sub_08007870(spB4, spB6, t116C_actor->f68, t116C_actor->f6A, (s32) temp_sl, spC0 + 0x1C, *(s32 *)((u8 *)spC0 + 0x8), *(s32 *)((u8 *)spC0 + 0x0));
-            t116C_sub_0801A120(arg0, spC8, (s16) spE8);
+    b1FD4B0FC4();
+    sl = &anim[2];
+    sl->f1C = gTileB0FC4;
+    {
+        struct Act0288 *g = gCurB0FC4;
+        g->f6C = 0;
+        g->f6A = 0;
+        g->f68 = 0;
+    }
+    shake = 0;
+    hitTimer = 10;
+    do {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            s32 z = sub_0800CD34();
+            if (z == 0) {
+                loadPal0288(gTileB0FC4 + 0x10, sl->fC, 1);
+                prio = prio0288(gCurB0FC4->f14 >> 8, gCurB0FC4->f18 >> 8, 0);
+                gCurB0FC4->f6E = anim0288(sl, gCurB0FC4->f68, &gCurB0FC4->f6A, &gCurB0FC4->f6C, 1);
+                proj0288((s16)(gCurB0FC4->f14 >> 8), (s16)(gCurB0FC4->f18 >> 8), &sx, &sy, z, z);
+                draw0288(sx, sy, gCurB0FC4->f68, gCurB0FC4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+                dmg0288(a, lastHit, shake);
+            }
         }
-    }
-    if (2 & spE0) {
-        spE8 = (u32) ((spE8 << 0x10) + 0xFFFF0000) >> 0x10;
-    }
-    t116C_sub_080B23C8();
-    sub_080003F0();
-    spE0 = (s32) (u16) (spE0 - 1);
-    if (spE0 != 0xFFFF) {
-        goto loop_137;
-    }
+        if (hitTimer & 2)
+            shake--;
+        b23C8B0FC4();
+        sub_080003F0();
+        hitTimer--;
+    } while (hitTimer != 0xFFFF);
     sub_080683CC();
-    t116C_sub_08067CA8(t116C_actor->f2);
-    sub_08068330(-0x21520532);
-loop_152:
-    if (sub_080682B8(-0x21520532) == 0) {
-        temp_r1_14 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-        *temp_r1_14 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_16 = sub_0800CD34();
-            if (temp_r0_16 == 0) {
-                t116C_sprite(gUnk_030007A4 + 0x10, *(s32 *)((u8 *)spC0 + 0xC), 1U);
-                temp_sl_2 = (u8) sub_0800BC44((u32) ((s32) t116C_actor->f14 >> 8), (u32) ((s32) t116C_actor->f18 >> 8), 0U);
-                t116C_actor->f6E = (s16) t116C_sub_08065370(spC0, t116C_actor->f68, ((u8 *)t116C_actor + 0x6A), ((u8 *)t116C_actor + 0x6C), (s32)1);
-                t116C_sub_0800BC08((s32) (t116C_actor->f14 << 8) >> 0x10, (s32) (t116C_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_16, temp_r0_16);
-                t116C_sub_08007870(spB4, spB6, t116C_actor->f68, t116C_actor->f6A, (s32) temp_sl_2, spC0 + 0x1C, *(s32 *)((u8 *)spC0 + 0x8), *(s32 *)((u8 *)spC0 + 0x0));
+    free0288(gCurB0FC4->f2);
+    wait0288(0xDEADFACE);
+    while (ready0288(0xDEADFACE) == 0) {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+            s32 z = sub_0800CD34();
+            if (z == 0) {
+                loadPal0288(gTileB0FC4 + 0x10, sl->fC, 1);
+                prio = prio0288(gCurB0FC4->f14 >> 8, gCurB0FC4->f18 >> 8, 0);
+                gCurB0FC4->f6E = anim0288(sl, gCurB0FC4->f68, &gCurB0FC4->f6A, &gCurB0FC4->f6C, 1);
+                proj0288((s16)(gCurB0FC4->f14 >> 8), (s16)(gCurB0FC4->f18 >> 8), &sx, &sy, z, z);
+                draw0288(sx, sy, gCurB0FC4->f68, gCurB0FC4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
             }
         }
-        t116C_sub_080B23C8();
+        b23C8B0FC4();
         sub_080003F0();
-        goto loop_152;
     }
-    sub_08065E38(-0x21520532);
-loop_159:
-    if (sub_08058DB0() != 0) {
-        temp_r1_15 = (sub_080020F4() * 0x14C) + &t116C_flags;
-        *temp_r1_15 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-            temp_r0_17 = sub_0800CD34();
-            if (temp_r0_17 == 0) {
-                t116C_sprite(gUnk_030007A4 + 0x10, *(s32 *)((u8 *)spC0 + 0xC), 1U);
-                temp_sl_3 = (u8) sub_0800BC44((u32) ((s32) t116C_actor->f14 >> 8), (u32) ((s32) t116C_actor->f18 >> 8), 0U);
-                t116C_actor->f6E = (s16) t116C_sub_08065370(spC0, t116C_actor->f68, ((u8 *)t116C_actor + 0x6A), ((u8 *)t116C_actor + 0x6C), (s32)1);
-                t116C_sub_0800BC08((s32) (t116C_actor->f14 << 8) >> 0x10, (s32) (t116C_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_17, temp_r0_17);
-                t116C_sub_08007870(spB4, spB6, t116C_actor->f68, t116C_actor->f6A, (s32) temp_sl_3, spC0 + 0x1C, *(s32 *)((u8 *)spC0 + 0x8), *(s32 *)((u8 *)spC0 + 0x0));
+    next0288(0xDEADFACE);
+    while (sub_08058DB0() != 0) {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0) {
+            s32 z = sub_0800CD34();
+            if (z == 0) {
+                loadPal0288(gTileB0FC4 + 0x10, sl->fC, 1);
+                prio = prio0288(gCurB0FC4->f14 >> 8, gCurB0FC4->f18 >> 8, 0);
+                gCurB0FC4->f6E = anim0288(sl, gCurB0FC4->f68, &gCurB0FC4->f6A, &gCurB0FC4->f6C, 1);
+                proj0288((s16)(gCurB0FC4->f14 >> 8), (s16)(gCurB0FC4->f18 >> 8), &sx, &sy, z, z);
+                draw0288(sx, sy, gCurB0FC4->f68, gCurB0FC4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
             }
         }
-        t116C_sub_080B23C8();
+        b23C8B0FC4();
         sub_080003F0();
-        goto loop_159;
     }
-    t116C_sub_080586B4(0);
-    temp_r2_3 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r2_3 |= 1;
-    if (sub_0805A318() != 0) {
-        var_r0_7 = t116C_sub_0805DF38(1U, 0xEU, 0x19U, 2U, (s32)0x3C, (s32)0x1400A6);
-        var_r1_5 = (u32 *)((u8 *)gGameState + 0x720);
-    } else {
-        var_r0_7 = t116C_sub_0805DF38(1U, 0xEU, 0x19U, 2U, (s32)0x3C, (s32)0x1400A4);
-        var_r1_5 = (u32 *)((u8 *)gGameState + 0x720);
-    }
-    *var_r1_5 = var_r0_7;
-loop_170:
-    if (sub_0805EEFC(*(u32 *)((u8 *)gGameState + 0x720)) == 0) {
-        temp_r1_16 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-        *temp_r1_16 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_18 = sub_0800CD34();
-            if (temp_r0_18 == 0) {
-                t116C_sprite(gUnk_030007A4 + 0x10, *(s32 *)((u8 *)spC0 + 0xC), 1U);
-                temp_sl_4 = (u8) sub_0800BC44((u32) ((s32) t116C_actor->f14 >> 8), (u32) ((s32) t116C_actor->f18 >> 8), 0U);
-                t116C_actor->f6E = (s16) t116C_sub_08065370(spC0, t116C_actor->f68, ((u8 *)t116C_actor + 0x6A), ((u8 *)t116C_actor + 0x6C), (s32)1);
-                t116C_sub_0800BC08((s32) (t116C_actor->f14 << 8) >> 0x10, (s32) (t116C_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_18, temp_r0_18);
-                t116C_sub_08007870(spB4, spB6, t116C_actor->f68, t116C_actor->f6A, (s32) temp_sl_4, spC0 + 0x1C, *(s32 *)((u8 *)spC0 + 0x8), *(s32 *)((u8 *)spC0 + 0x0));
+    msgEnd0288(0);
+    gPl0288[sub_080020F4()].flags |= 1;
+    if (flag0288() != 0)
+        *(s32 *)(gState0288 + 0x720) = box0288(1, 0xE, 0x19, 2, 0x3C, 0x1400A6);
+    else
+        *(s32 *)(gState0288 + 0x720) = box0288(1, 0xE, 0x19, 2, 0x3C, 0x1400A4);
+    while (boxDone0288(*(s32 *)(gState0288 + 0x720)) == 0) {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0) {
+            s32 z = sub_0800CD34();
+            if (z == 0) {
+                loadPal0288(gTileB0FC4 + 0x10, sl->fC, 1);
+                prio = prio0288(gCurB0FC4->f14 >> 8, gCurB0FC4->f18 >> 8, 0);
+                gCurB0FC4->f6E = anim0288(sl, gCurB0FC4->f68, &gCurB0FC4->f6A, &gCurB0FC4->f6C, 1);
+                proj0288((s16)(gCurB0FC4->f14 >> 8), (s16)(gCurB0FC4->f18 >> 8), &sx, &sy, z, z);
+                draw0288(sx, sy, gCurB0FC4->f68, gCurB0FC4->f6A, prio, &sl->f1C, sl->f8, sl->f0);
             }
         }
-        t116C_sub_080B23C8();
+        b23C8B0FC4();
         sub_080003F0();
-        goto loop_170;
     }
-    temp_r2_4 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r2_4 &= ~1;
-    sub_080B23FC();
-    t116C_sub_080B2454();
-    if (!(*(s32 *)((0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0 + 0x30)) & 0x2000) && (t116C_actor->f5A != 0)) {
-        temp_r4_3 = sub_0801E46C((s32) gUnk_030034E0, spC4);
-        spE8 = 0x1D;
-        do {
-            t116C_actor->f18 = (s32) (t116C_actor->f18 - 0x20);
-            t116C_sub_0806171C(t116C_actor, temp_r4_3);
+    gPl0288[sub_080020F4()].flags &= ~1;
+    b23FCB0FC4();
+    b2454B0FC4();
+    if (!(gPl0288[sub_080020F4()].flags & 0x2000) && gCurB0FC4->f5A != 0) {
+        h = dropFx0288(gData0288, res);
+        for (shake = 0x1D; shake != -1; shake--) {
+            gCurB0FC4->f18 -= 0x20;
+            fall0288(gCurB0FC4, h);
             sub_080003F0();
-            temp_r0_19 = (spE8 << 0x10) + 0xFFFF0000;
-            spE8 = temp_r0_19 >> 0x10;
-        } while (((s32) temp_r0_19 >> 0x10) != -1);
-        sub_0801E4CC((u8 *) gUnk_030034E0, temp_r4_3);
+        }
+        dropEnd0288(gData0288, h);
     }
     sub_08056E24();
-    goto finalcheck116;
-loop_178:
-    sub_080003F0();
-finalcheck116:
-    if (sub_08056E90() == 0) goto loop_178;
-    sub_080B2424();
+    while (sub_08056E90() == 0)
+        sub_080003F0();
+    b2424B0FC4();
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080B0FC4);
