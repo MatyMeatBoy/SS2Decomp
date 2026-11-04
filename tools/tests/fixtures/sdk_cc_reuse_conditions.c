@@ -24,3 +24,11 @@ u32 cc_cmp_signed(u32 a,u32 b,u32 *out){*out=a;if((s32)a<(s32)b)return 11;if(a==
 u32 cc_cmp_opaque_label(u32 a,u32 b,u32 *out){*out=a;if(a<b)return 11;__asm__ volatile("cmp r2, r2" ::: "cc");if(a==b)return 13;return 17;}
 u32 cc_cmp_join(u32 a,u32 b,u32 *out){u32 initial=*out;*out=a;if(initial&1)goto chosen;if(a<b)return 11;chosen:if(a==b)return 13;return 17;}
 u32 cc_cmp_fallthrough(u32 a,u32 b,u32 *out){*out=a;if(a<b)goto chosen;__asm__ volatile("cmp r2, r2" ::: "cc");chosen:if(a==b)return 13;return 17;}
+
+u32 cc_add_sign(u32 a,u32 b,u32 *out){u32 r=a+b;*out=r;if((s32)r<0)return 11;return 17;}
+u32 cc_add_gt(u32 a,u32 b,u32 *out){u32 r=a+b;*out=r;if((s32)r>0)return 11;return 17;}
+
+u32 cc_add_ge(u32 a,u32 b,u32 *out){u32 r=a+b;*out=r;if((s32)r>=0)return 11;return 17;}
+u32 cc_add_opaque(u32 a,u32 b,u32 *out){u32 r=a+b;*out=r;__asm__ volatile("cmp r2, r2" ::: "cc");if((s32)r<0)return 11;return 17;}
+u32 cc_add_opaque_taken(u32 a,u32 b,u32 *out){u32 r=a+b;*out=r;if((s32)r<0){__asm__ volatile("cmp r2, r2" ::: "cc");return 11;}return 17;}
+u32 cc_add_ordered_future(u32 a,u32 b,u32 *out){u32 r=a+b;*out=r;if((s32)r<0)return 11;if((s32)r>0)return 13;return 17;}

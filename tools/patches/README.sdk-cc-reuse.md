@@ -44,10 +44,10 @@ python3 tools/scripts/test_sdk_cc_reuse.py
 ```
 
 The script accepts `--compiler`, `--reference-compiler`, `--deps` and `--out`.
-It executes 48,720 cases per configuration (341,040 total).
-Profiles cover the TST reference, both reuse options off, base reuse with and
-without TST, label reuse with and without TST, and label reuse without base
-reuse. Values include boundaries and deterministic random pairs, all
+It executes 62,640 cases per configuration (563,760 total).
+Nine profiles cover the TST reference, reuse off, base reuse with and
+without TST, label plus sign reuse with and without TST, label reuse without
+base reuse, sign reuse without label reuse, and sign reuse without base reuse. Values include boundaries and deterministic random pairs, all
 16 incoming NZCV combinations, both branches, memory stores, mixed signed
 conditions, operand changes, opaque ASM on either path, postincrement and a
 real call to a flag-preserving C identity function. Every run checks return
@@ -92,3 +92,34 @@ incoming NZCV value and both initial join states, checking C results, memory,
 return PC, SP and preserved registers. Enabling the label option without base
 reuse must be byte-identical to the reference. No SDK function is activated
 or credited as matching by this tooling change.
+
+## Arithmetic result-sign extension
+
+The separate `agbcc-sdk-sign-cc-reuse.patch` has SHA256
+`f434c8999569964798b40adfb9d29a5dde6bfbb04395d697feebe4b2820217e0`.
+Its default-off `-fthumb-sign-cc-reuse` requires base comparison reuse but is
+independent of label reuse. Production module flags do not enable it.
+
+A low SI register addition of two low registers supplies the result's N bit
+even when its V bit differs from CMP(result, 0). The extension accepts only
+a following implicit zero comparison, through at most eight simple stores,
+with one GE/LT consumer. That consumer becomes PL/MI, which tests N directly.
+It shares the bounded both-path proof that the old C/V contract ends before
+any later observer. Arbitrary signed GT/LE and unsigned comparisons are
+excluded; a general addition is not treated as a full comparison. The fact
+is cleared after its single sign consumer.
+
+A target-specific condition-status bit selects PL/MI in the existing Thumb
+branch formatter. GCC's comparison elimination still decides whether to
+omit the comparison; no instructions are rewritten after assembly. Unknown
+operations and opaque ASM invalidate the fact, including ASM on the taken
+path. The accepted arithmetic remains C.
+
+Fixtures use unsigned addition followed by signed interpretation, so overflow
+inputs have defined wraparound rather than undefined signed arithmetic. They
+exercise both sign predicates, zero, overflow boundaries, all incoming NZCV
+values, a later ordered comparison and real flag-clobber ASM before the test
+and on the taken path. Assembly requires PL/MI for the positive fixtures,
+retained CMP for GT and opaque controls, and a fresh CMP for the subsequent
+ordered consumer. Option-off and sign-without-base output remain reference
+byte-identical. This compiler capability adds no matching-function credit.
