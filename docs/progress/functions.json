@@ -2457,7 +2457,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2537,
+          "line": 2486,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2480,7 +2480,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2786,
+          "line": 2735,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
