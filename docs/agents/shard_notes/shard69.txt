@@ -1,12 +1,13 @@
-sub_0806A19C: MATCHED. Last fixes: angle assigned inside each position branch (`idx = sprite[3]>>4; angle = Dir[idx]`
-  vs `angle = Dir[enemy->dir]`; cross-jumping merges the tails and the top (s16)angle stays the PRE expression),
-  and the retarget pair `u16 a = ArcTan..>>24; s16 a0 = a; d = a0 - (s16)angle; a = a0 - 0x100 / 0x100 | a0`
-  (s16 a0 keeps the separate copy register).
--search branches and steals sl), pos struct, rect[3], x/y as struct pair (worse).
-  Timeout: `((timeout<<19)+(20<<16))>>16` reproduces the ROM's lsl #19 hoisted into both search branches
-  ((u16)(t*8+20) gives lsl #3). The Coords 6th arg is the sub_08056E90 result (CSE of const 0).
-sub_0806A19C: draft, 1748 vs 1776, ~508 diff lines. Outer retarget loop must be goto-shaped (do/while rotates).
-  ROM keeps angle<<16 in slot 0x94 across the retarget loop (PRE of (ashift angle 16)); ours recomputes it,
+
+w7 (2026-11-04), sub_08069C44 (nmscore 115, nmdiff 91 lines, 1360 vs 1368 bytes, frame 0x8c vs 0x90):
+  - Main-loop invariants: ROM hoists THREE values into spill slots right before the loop: &pos (sp+0x4c ->
+    [sp,#0x7c], used for `pos[1]=y` via [r,#4] and as the sub_0801FB14 arg), a copy of the angle<<16 value
+    ([sp,#0x8c] -> [sp,#0x80], used as `asrs #16` for the sine lookups) and &z069Frm[angle>>4] ([sp,#0x84]).
+    Ours hoists only the last two and rematerializes `add r4,sp,#0x4c`, hence the 4-byte smaller frame
+    and the shifted slots. Everything else is mostly reload-register renaming that follows from it.
+  - No effect: pos as struct {x,y}, `*pos=x`, store order. Worse: a `pp = pos` pointer local set before
+    the loop (127-172 depending on uses). Likely loop.c's movable threshold (loop size/regs) decides.
+loop (PRE of (ashift angle 16)); ours recomputes it,
   and level lives in r9 in the ROM (ours: stack). Slot order = declaration order (e,p,q,target,timeout,remaining,
   kind,x,angle,frm,local,player,bit).
 sub_0806A19C update: draft now same size (1776), ~95 decomp.py diff lines. Keys: the leading timeout/BA6C/56E90
