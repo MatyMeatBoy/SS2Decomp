@@ -1392,6 +1392,10 @@ void sub_0809FB6C(void *input)
     struct Sprite9FB6C sprite;
     u8 callbackDone;
     s16 sx,sy;
+    struct EntFB6 *actor,*fresh;
+    u16 floatingTimer;
+    s16 floatingOffset;
+    u32 amplitudeX;
     struct AuxFB6 *resource;
     s32 lastDamage,flash;
     u32 elapsed,rounds;
@@ -1399,10 +1403,6 @@ void sub_0809FB6C(void *input)
     u32 amplitudeY;
     s32 finished;
     u16 *animation,*frame,*tick;
-    struct EntFB6 *actor,*fresh;
-    u16 floatingTimer;
-    s16 floatingOffset;
-    u32 amplitudeX;
     s16 player,entry,randomValue,remainder;
     u32 value,oldElapsed,animResult;
     u16 allocation;
