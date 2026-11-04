@@ -534,14 +534,22 @@ void sub_0801801C(struct T015LActor *arg0) {
                 break;
             case 5:
                 T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
-                arg0->f68 = arg0->f8 + arg0->f70;
+                {
+                    u32 first = arg0->f8;
+                    u32 offset = arg0->f70;
+                    arg0->f68 = first + offset;
+                }
                 local108 = arg0->f68;
                 local10C = arg0->fC;
                 local110 = arg0->f72;
                 arg0->fE = 6;
                 break;
             case 6:
-                arg0->f68 = arg0->f8 + arg0->f70;
+                {
+                    u32 first = arg0->f8;
+                    u32 offset = arg0->f70;
+                    arg0->f68 = first + offset;
+                }
                 break;
             }
             break;
