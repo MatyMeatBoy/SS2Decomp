@@ -37,6 +37,16 @@ def expected(n, a, b, initial):
         return 11 if r != 0 else 17
     if n == 'cc_and_postinc':
         return 11 if r == 0 else 17
+    if n == 'cc_add_ge':
+        return 17 if (a+b)&2147483648 else 11
+    if n == 'cc_add_ordered_future':
+        r=(a+b)&4294967295
+        return 11 if r&2147483648 else 13 if r else 17
+    if n in ['cc_add_sign', 'cc_add_opaque', 'cc_add_opaque_taken']:
+        return 11 if (a+b)&2147483648 else 17
+    if n == 'cc_add_gt':
+        r=(a+b)&4294967295
+        return 11 if 0<r<2147483648 else 17
     if n == 'cc_cmp_signed':
         # Convert unsigned test inputs to the fixture's signed interpretation.
         signed=lambda v:v if v<2147483648 else v-4294967296
@@ -65,7 +75,7 @@ def expected(n, a, b, initial):
         return 23 if r & 2147483648 else 29
     raise AssertionError(n)
 report = []
-for profile, compiler, extra in [('reference', executable(args.reference_compiler), []), ('off', cc, []), ('on', cc, ['-fthumb-cc-reuse']), ('standalone', cc, ['-fthumb-cc-reuse']), ('label', cc, ['-fthumb-cc-reuse', '-fthumb-label-cc-reuse']), ('label_standalone', cc, ['-fthumb-cc-reuse', '-fthumb-label-cc-reuse']), ('label_without_base', cc, ['-fthumb-label-cc-reuse'])]:
+for profile, compiler, extra in [('reference', executable(args.reference_compiler), []), ('off', cc, []), ('on', cc, ['-fthumb-cc-reuse']), ('standalone', cc, ['-fthumb-cc-reuse']), ('label', cc, ['-fthumb-cc-reuse', '-fthumb-label-cc-reuse', '-fthumb-sign-cc-reuse']), ('label_standalone', cc, ['-fthumb-cc-reuse', '-fthumb-label-cc-reuse', '-fthumb-sign-cc-reuse']), ('label_without_base', cc, ['-fthumb-label-cc-reuse']), ('sign', cc, ['-fthumb-cc-reuse', '-fthumb-sign-cc-reuse']), ('sign_without_base', cc, ['-fthumb-sign-cc-reuse'])]:
     stem = root / profile
     subprocess.run(['arm-none-eabi-cpp', '-undef', '-nostdinc', ROOT / 'tools/tests/fixtures/sdk_cc_reuse_conditions.c', '-o', stem.with_suffix('.i')], check=True)
     tst_flags = [] if profile in ['standalone', 'label_standalone'] else ['-ftst']
@@ -82,7 +92,7 @@ for profile, compiler, extra in [('reference', executable(args.reference_compile
         body = re.split('\\n\\.Lfe[0-9]+:', body, 1)[0]
         return len(re.findall('^\\s+cmp\\s', body, re.M))
     counts = {n: compare_count(n) for n in ['cc_cmp_chain', 'cc_cmp_store_chain', 'cc_cmp_signed', 'cc_cmp_opaque_label', 'cc_cmp_join', 'cc_and_eq', 'cc_and_ne', 'cc_and_signed', 'cc_and_mixed', 'cc_and_two_stores', 'cc_cmp_shared', 'cc_and_volatile', 'cc_and_opaque', 'cc_cmp_changed', 'cc_and_opaque_taken', 'cc_and_postinc']}
-    if profile in ['on', 'standalone', 'label', 'label_standalone']:
+    if profile in ['on', 'standalone', 'label', 'label_standalone', 'sign']:
         assert counts['cc_and_eq'] == counts['cc_and_ne'] == counts['cc_and_two_stores'] == 0, counts
         assert counts['cc_cmp_shared'] == 1, counts
         assert counts['cc_and_signed'] >= 1 and counts['cc_and_mixed'] >= 1, counts
@@ -99,13 +109,23 @@ for profile, compiler, extra in [('reference', executable(args.reference_compile
     assert counts['cc_cmp_opaque_label'] == 3, counts
     assert counts['cc_cmp_join'] >= 2, counts
     assert compare_count('cc_cmp_fallthrough') == 3
+    assert compare_count('cc_add_sign') == (0 if profile in ['label','label_standalone','sign'] else 1)
+    assert compare_count('cc_add_gt') == 1
+    assert compare_count('cc_add_ge') == (0 if profile in ['label','label_standalone','sign'] else 1)
+    assert compare_count('cc_add_opaque') == compare_count('cc_add_opaque_taken') == 2
+    assert compare_count('cc_add_ordered_future') >= 1
+    if profile in ['label', 'label_standalone', 'sign']:
+        for name, suffix in [('cc_add_sign', 'mi'), ('cc_add_ge', 'pl')]:
+            body = assembly.split('\n' + name + ':\n', 1)[1].split('\n.Lfe', 1)[0]
+            assert re.search(r'^\s+b' + suffix + r'\s', body, re.M), (profile, name, body)
+
     with stem.with_suffix('.elf').open('rb') as f:
         elf = ELFFile(f)
         code = elf.get_section_by_name('.text').data()
         syms = {s.name: (s['st_value'] & ~1) - base for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name.startswith('cc_')}
     if profile == 'reference':
         reference = code
-    if profile in ['off', 'label_without_base']:
+    if profile in ['off', 'label_without_base', 'sign_without_base']:
         assert code == reference, 'disabled option changed bytes'
     mu = Uc(UC_ARCH_ARM, UC_MODE_THUMB)
     mu.mem_map(base, 65536)
@@ -137,7 +157,7 @@ for profile, compiler, extra in [('reference', executable(args.reference_compile
                     ok, result, memory = execute(name, a, b, flags, initial)
                     want = expected(name, a, b, initial)
                     assert ok and result == want, (profile, name, hex(a), hex(b), flags, result, want, ok)
-                    stored = want if name == 'cc_cmp_shared' else a if name.startswith('cc_cmp_') else a & b
+                    stored = ((a+b)&4294967295) if name.startswith('cc_add_') else want if name == 'cc_cmp_shared' else a if name.startswith('cc_cmp_') else a & b
                     assert struct.unpack('<I', memory[:4])[0] == stored
                     if name == 'cc_and_two_stores':
                         assert struct.unpack('<I', memory[4:])[0] == stored
