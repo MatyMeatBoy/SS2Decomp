@@ -1463,9 +1463,10 @@ s32 sub_0805C208(void *arg0, s32 arg1)
     u32 rollLevel;
     struct C208Range *table;
     u32 count1, count2, count3;
+    register u32 upper asm("r3");
     u32 low;
     u32 i;
-    u32 r;
+    register u32 r asm("r2");
     u8 *p;
 
     slot = arg0;
@@ -1556,8 +1557,9 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         r = sub_080008C8();
         r %= table[0].upper;
         table++;
-        for (low = 0, i = 0; i < count1; i++, low = table->upper, table++) {
-            if (low <= r && table->upper >= r) {
+        for (low = 0, i = 0; i < count1; i++, low = upper, table++) {
+            upper = table->upper;
+            if (low <= r && upper >= r) {
                 slot->bonus = table->value;
                 break;
             }
@@ -1569,8 +1571,9 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         r = sub_080008C8();
         r %= table[0].upper + 1;
         table++;
-        for (low = 0, i = 0; i < count2; i++, low = table->upper + 1, table++) {
-            if (low <= r && table->upper >= r) {
+        for (low = 0, i = 0; i < count2; i++, low = upper + 1, table++) {
+            upper = table->upper;
+            if (low <= r && upper >= r) {
                 slot->level = table->value;
                 break;
             }
@@ -1587,8 +1590,9 @@ s32 sub_0805C208(void *arg0, s32 arg1)
         r = sub_080008C8();
         r %= table[0].upper + 1;
         table++;
-        for (low = 0, i = 0; i < count3; i++, low = table->upper + 1, table++) {
-            if (low <= r && table->upper >= r) {
+        for (low = 0, i = 0; i < count3; i++, low = upper + 1, table++) {
+            upper = table->upper;
+            if (low <= r && upper >= r) {
                 slot->element = table->value;
                 break;
             }

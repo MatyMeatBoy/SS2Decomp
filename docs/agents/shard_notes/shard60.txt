@@ -1,0 +1,18 @@
+codex-solo (2026-11-04): sub_0805C208 follow-up, now owned through shard 131.
+  Exact size remains 756 bytes. Heuristic score 131 -> 102, still strict NO MATCH.
+  Keep the random result in r2 and the current table upper bound in r3. Reuse
+  that bound for the next interval's lower bound. This reproduces the three
+  weighted-range loops' instruction/register sequences; no ASM statements added.
+  A plain upper local changes nothing; r2 alone scores123, r3 alone110. Input
+  constraints on r3 inhibit loop motion and shrink the function to736/138;
+  binding the loop-carried lower bound to r1 also gives736/130. Rejected.
+  Byte-sized roll booleans and chained one assignments do not change102.
+  Remaining differences include initial roll-decision constant registers,
+  high-register flag tests and some later pointer/test preparation. Original
+  ASM fallback remains active. Normal ROM compare OK, NONMATCHING builds,
+  check_tree0; no matching bytes credited.
+  Observed role: select optional item bonus/level/element from weighted range
+  tables, clear extras when the resource has built-in modifiers, then mark the
+  item flag if extras exist unless the caller's bit0 suppresses it. Canonical
+  symbol unchanged. Evidence: original sub_0805C208 ASM at f929d8d5, including
+  the three modulo/range loops and writes to slot offsets4/6/7/8.
