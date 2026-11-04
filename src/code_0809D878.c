@@ -2985,8 +2985,6 @@ struct TileA35 { u8 p[0x90]; u16 f90; };
 extern struct EntA35 *mainA35 asm("gUnk_03000364");
 extern struct EntA35 *entA35 asm("gUnk_03000368");
 extern struct AnimA35 animsA35[] asm("gUnk_03000380");
-extern u8 a39CA35[] asm("gUnk_0300039C");
-extern u8 a388A35[] asm("gUnk_03000388");
 extern u16 tileA35 asm("gUnk_030003E8");
 extern u8 flagA35 asm("gUnk_030003EA");
 extern u8 modeA35 asm("gUnk_030003F0");
@@ -3018,8 +3016,9 @@ void t107MainD(void)
     u16 blink;
     u16 flash;
     s16 shake;
-    u16 *pD6;
     struct EntA35 *ent;
+    struct EntA35 *e2;
+    struct EntA35 *e3;
     u8 frame;
     u8 pal;
     s32 *p;
@@ -3086,16 +3085,16 @@ void t107MainD(void)
             frame = sl * 2 + 1;
         else
             frame = sl + 1;
-        ent = entA35;
-        ent->x = mainA35->x;
-        ent->y = mainA35->y;
-        ent->x += offsA35[slotA35].x;
-        ent->y += offsA35[slotA35].y;
+        e2 = entA35;
+        e2->x = mainA35->x;
+        e2->y = mainA35->y;
+        e2->x += offsA35[slotA35].x;
+        e2->y += (&offsA35[0].y)[slotA35 * 2];
         if (slotA35 == 0) {
-            ent->f22E = 0x20;
+            e2->f22E = 0x20;
             entA35->f22F = 0x28;
         } else {
-            ent->f22E = 0x20;
+            e2->f22E = 0x20;
             entA35->f22F = 0x10;
         }
         if (maskA35 & 0x1C)
@@ -3104,7 +3103,6 @@ void t107MainD(void)
             sub_0801A0A4(entA35);
         animsA35[modeA35].attr[0] = tileA35;
         sub_08000AF0(tileA35 + 0x10, (void *)(animsA35[modeA35].fC + aux->fD6 * 32), 1);
-        pD6 = &aux->fD6;
         if (sub_0800CD8C() == 0)
             entA35->f6E = animA35(&animsA35[modeA35], frame, &entA35->f6A, &entA35->f6C, 0);
         if (sub_08098004() & 1)
@@ -3114,14 +3112,14 @@ void t107MainD(void)
         if (blink != 0) {
             if ((blink-- & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
                 coordsA35((s16)(mainA35->x >> 8), (s16)(mainA35->y >> 8), &sx, &sy, 0, 0);
-                p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, a39CA35 + modeA35 * 0x34, *(u32 *)(a388A35 + modeA35 * 0x34), animsA35[modeA35].f0);
+                p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, animsA35[modeA35].attr, animsA35[modeA35].f8, animsA35[modeA35].f0);
                 coordsA35((s16)(entA35->x >> 8), (s16)(entA35->y >> 8), &sx, &sy, 0, 0);
                 p[2] = sx;
                 p[3] = sy;
             }
         } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
             coordsA35((s16)(mainA35->x >> 8), (s16)(mainA35->y >> 8), &sx, &sy, 0, 0);
-            p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, a39CA35 + modeA35 * 0x34, *(u32 *)(a388A35 + modeA35 * 0x34), animsA35[modeA35].f0);
+            p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, animsA35[modeA35].attr, animsA35[modeA35].f8, animsA35[modeA35].f0);
             coordsA35((s16)(entA35->x >> 8), (s16)(entA35->y >> 8), &sx, &sy, 0, 0);
             p[2] = sx;
             p[3] = sy;
@@ -3150,22 +3148,21 @@ void t107MainD(void)
         yieldA35();
     }
     slotA35 = nextA35;
-    pD6 = &aux->fD6;
 out:
     s67CA8A35(entA35->f2);
     flagA35 = 0;
     frame = slotA35 + 1;
-    ent = entA35;
-    ent->f6C = 0;
-    ent->f6A = 0;
+    e3 = entA35;
+    e3->f6C = 0;
+    e3->f6A = 0;
     modeA35 = 0;
-    ent->x = mainA35->x;
-    ent->y = mainA35->y;
-    ent->x += offsA35[slotA35].x;
-    ent->y += offsA35[slotA35].y;
+    e3->x = mainA35->x;
+    e3->y = mainA35->y;
+    e3->x += offsA35[slotA35].x;
+    e3->y += (&offsA35[0].y)[slotA35 * 2];
     for (;;) {
         animsA35[modeA35].attr[0] = tileA35;
-        sub_08000AF0(tileA35 + 0x10, (void *)(animsA35[modeA35].fC + *pD6 * 32), 1);
+        sub_08000AF0(tileA35 + 0x10, (void *)(animsA35[modeA35].fC + aux->fD6 * 32), 1);
         if (sub_0800CD8C() == 0)
             entA35->f6E = animA35(&animsA35[modeA35], frame, &entA35->f6A, &entA35->f6C, 0);
         if (sub_08098004() & 1)
@@ -3174,7 +3171,7 @@ out:
             pal = sub_0800BC44(entA35->x >> 8, entA35->y >> 8, 0);
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
             coordsA35((s16)(mainA35->x >> 8), (s16)(mainA35->y >> 8), &sx, &sy, 0, 0);
-            p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, a39CA35 + modeA35 * 0x34, *(u32 *)(modeA35 * 0x34 + (a39CA35 - 0x14)), animsA35[modeA35].f0);
+            p = drawA35(sx, sy + 1, frame, entA35->f6A, pal, animsA35[modeA35].attr, animsA35[modeA35].f8, animsA35[modeA35].f0);
             coordsA35((s16)(entA35->x >> 8), (s16)(entA35->y >> 8), &sx, &sy, 0, 0);
             p[2] = sx;
             p[3] = sy;
