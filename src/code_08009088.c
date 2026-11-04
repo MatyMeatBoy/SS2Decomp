@@ -472,6 +472,8 @@ void sub_0800A03C(void)
     }
     if(animState005.area==3 || animState005.area==6) alternate=1;
     else alternate=0;
+    /* Keep the selector out of the frame-counter register. */
+    asm("" : : : "r4");
     switch(animState005.area) {
     case 0:
         switch(animState005.index) {case 2:case 5:return;}

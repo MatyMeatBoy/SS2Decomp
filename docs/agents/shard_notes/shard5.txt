@@ -3,6 +3,14 @@ nov03-w4: sub_0800A03C draft (nm score 9): only `alternate` lands in r4 instead 
   &frames in r4, alternate in r7 and `&animLimits[alternate]` computed into r7 after the r4 setup).
   Tried: decl orders, u8/u16/s32/register alternate, if/ternary/bool forms, early computation,
   explicit limit pointer, do-while loop, frames++ split, u16 casts, permuter 5 min (195, nothing).
+
+codex-solo follow-up (2026-11-03): an empty r4 clobber after selecting alternate
+  now gives the ROM's r7 selector and frees r4 for the frame-counter pointer.
+  The draft is still unmatched at604/604 bytes: the limit-address calculation
+  precedes the two frame-pointer setup instructions instead of following them.
+  Normal ROM compare, NONMATCHING and check_tree pass; no matching bytes added.
+  Hard-binding alternate to r7 gave an SP-derived index and was rejected. A fresh
+  two-minute/two-job permuter run passed whole-object control but found no match.
 900 vs 924: the ROM materialises
   x<<16 (sp+0x10) and y<<16 (r9) at the end of each switch path (case 8 skip, case 8/10 fallthrough,
   case 5/default before `if (!update)`), the index lives on the stack (sp+0) not in sl.
