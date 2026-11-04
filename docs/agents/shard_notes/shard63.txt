@@ -1,15 +1,17 @@
 
-nov03-w3 sub_0805FFBC (item-name formatter): clean rewrite landed (register-blind diff 682 -> 324 lines,
-  1544 vs 1556 bytes). Findings: y is s32; the ROM's `y<<16` in every case tail is gcse PRE of the final
-  (u16)y argument (reproduced). `suffix[i + gUnk_03003470*31]` in the lang==2 branch gives the ROM's
-  `i + 0x3E` addressing (cse folds lang==2). Loops are `if (c) do {} while (c)`, name loops
-  `do {} while (name[i] && i <= 0x1B)`; grade must be u32 (adds #0xA1 not subs #95); final x is
-  `x += (s16)off;` then the call (keeps lsl/asr); multiply `a2 * (g48 << 2)`; sub_0801DE60 as s32 alias.
-  Remaining: allocation. -dg/-dl dump: y'(PRE pseudo) is spilled because suffix (pseudo 28) wins sl and
-  &value takes r9; in ROM suffix is spilled (sp+0x50), y' shares r9 with y, &value in sl. This also breaks
-  the case 3/4 cross-jump and adds one stack slot (0x6C vs 0x68). Permuter (5 min) found nothing valid;
-  a static inline for the suffix copy loops made it worse.
-9 are used (ROM also uses sl). Combined with one common
-  `descriptor` for all cases (incl. case 2): 214 lines / 840 bytes, prologue OK but descriptor in r4 in
-  every case (ROM: r0, only case 2 uses r4 with resource in r1). Permuter on the landed shape only found
-  invalid `new_var = item` splits (which do give the ROM prologue: item split -> pressure matters).
+nov03-w3 sub_080605D0 / sub_08060E44 (HUD slide-in loops, siblings): clean rewrites landed
+  (nmscore 650 -> 372 and 820 -> 332; register-blind diff 149 and ~200 lines).
+  Keys to the current shape: every counter (slide, timer, i, j, base, k, end) is s16 -- agbcc keeps
+  s16 locals zero-extended in SImode, which is why the ROM stores `lsrs` values and re-extends with
+  lsl/asr at every use; `while (timer-- > 0 && sub_0800CB78() == 0)`; `end = base + 3` is its own s16
+  variable; the tile map is ONE 2D array `u16 [][0x20]` at gUnk_03005740 (the ROM's spilled "pointer"
+  sp+0x30/sp+0x40 is a cse/loop-hoisted base register, not a source variable; the mix of
+  gUnk_030057C0/03005800/03005840 literals and base+0xC0/+0x140 comes from cse related values, and
+  those relocation names are false diffs in nmdiff -- the bytes are the same); y coordinates come
+  from a second table symbol gUnk_084EBDBE / gUnk_084EBE0A (struct {s16 x,y} indexed, field .x).
+  E44: mgr->list u16[] at 0x56, bag[25] of 16-byte {u16 kind,id} at 0x150, local tmp struct at sp+0x10
+  (found = &tmp default), id is s32 (no truncation).
+  Remaining: 605D0 icon rows use base+0x80 for row 2 (ROM: literal 030057C0) and derive F054 as
+  F034+0x20; E44 `pos.x + 0xF0 - (7-slide)*8` gets reassociated into `x - ((7-slide)*8 - 0xF0)`
+  (ROM: adds #0xF0 then subs), and `end - (k + 1)` into `(end - 1) - k` (a temp for k+1 fixes that
+  but breaks other parts); register allocation.
