@@ -1056,76 +1056,57 @@ void sub_0800A998(void)
     t06_sysA998.flags = 0x80000000;
 }
 
-#ifdef NONMATCHING
-struct T06SysAD04 {u8 pad[0x70];u16 w,h,w1,h1,mapW,mapH;s16 x,y;u16 offX,offY,pad84,pad86,relX,relY;u8 pad8C[16];u32 flags;};
-extern struct T06SysAD04 t06_sysAD04 asm("gUnk_03003170");
-static inline void t06_finishAD04(struct T06SysAD04 *base)
+struct CameraAD04 {
+    u8 pad00[0x70];
+    u16 w70, w72, w74, w76;
+    u8 pad78[4];
+    s16 x, y;
+    u16 baseX, baseY;
+    u8 pad84[4];
+    u16 relX, relY;
+    u8 pad8C[0x10];
+    u32 flags;
+};
+extern struct CameraAD04 cameraAD04 asm("gUnk_03003170");
+
+u32 sub_0800AD04(u32 *px, u32 *py, u32 alt)
 {
-    register struct T06SysAD04 *saved asm("ip")=base;
-    register s16 *x asm("r4")=&saved->x;
-    register s16 *y asm("r5");
-    if(*x<0)*x=0;
-    y=&saved->y;
-    if(*y<0)*y=0;
-    if(!(saved->flags&16)) {
-        saved->relX=(u16)*x-saved->offX;
-        saved->relY=(u16)*y-saved->offY;
+    u32 dx = (u16)(*px >> 8);
+    u32 dy = (u16)(*py >> 8);
+
+    if (!(cameraAD04.flags & 0x10)) {
+        cameraAD04.x = cameraAD04.baseX + ((s32)(dx << 16) >> 16) - 0x78;
+        cameraAD04.y = cameraAD04.baseY + ((s32)(dy << 16) >> 16) - 0x60;
+    }
+    if (alt) {
+        if (cameraAD04.x > (cameraAD04.w74 - 0x1e) * 8)
+            cameraAD04.x = (cameraAD04.w74 - 0x1e) * 8;
+        if (cameraAD04.y > (cameraAD04.w76 - 0x14) * 8)
+            cameraAD04.y = (cameraAD04.w76 - 0x14) * 8;
     } else {
-        *x=base->offX+base->relX;
-        {register u32 offset asm("r4")=0x82;u32 other;register u32 value asm("r1");
-         value=base->relY; asm("" : "+r"(offset), "+r"(value));
-         other=*(u16 *)(offset+(u32)base); *y=value+other;}
+        if (cameraAD04.x > (cameraAD04.w70 - 0x1e) * 8)
+            cameraAD04.x = (cameraAD04.w70 - 0x1e) * 8;
+        if (cameraAD04.y > (cameraAD04.w72 - 0x14) * 8)
+            cameraAD04.y = (cameraAD04.w72 - 0x14) * 8;
+    }
+    if (cameraAD04.x < 0)
+        cameraAD04.x = 0;
+    if (cameraAD04.y < 0)
+        cameraAD04.y = 0;
+    if (!(cameraAD04.flags & 0x10)) {
+        cameraAD04.relX = cameraAD04.x - cameraAD04.baseX;
+        cameraAD04.relY = cameraAD04.y - cameraAD04.baseY;
+    } else {
+        cameraAD04.x = cameraAD04.baseX + cameraAD04.relX;
+        cameraAD04.y = cameraAD04.baseY + cameraAD04.relY;
+    }
+    {
+        u32 lowX = (u8)*px;
+        u32 lowY = (u8)*py;
+        *px = lowX + ((s16)dx << 8);
+        *py = lowY + ((s16)dy << 8);
     }
 }
-static inline u16 *t06_offsetAD04(u16 *p,u16 offset) {return (u16 *)((u8 *)p+offset);}
-s32 sub_0800AD04(s32 *px,s32 *py,s32 layer)
-{
-    register s32 *result asm("r0")=px;
-    u32 x=((u32)*px<<8)>>16;
-    u32 y=((u32)*py<<8)>>16;
-    register struct T06SysAD04 *sys asm("r3")=&t06_sysAD04;
-    register s32 max asm("r1");
-    register u16 *height asm("r1");
-    register s16 *scroll asm("r4");
-    register s32 current asm("r2");
-    if(!(sys->flags&16)) {
-        register u16 *offset asm("r2")=&sys->offX;
-        register u32 temp asm("r5")=x;
-        register s32 value asm("r1")=(s16)temp;
-        value+=*offset;value-=120;
-        offset=(u16 *)&sys->x;
-        *offset=value;
-        offset=t06_offsetAD04(offset,6);
-        temp=y;value=(s16)temp;
-        {register u16 loaded asm("r2")=*(volatile u16 *)offset;value+=loaded;}value-=96;
-        offset=(u16 *)&sys->y;
-        *offset=value;
-    }
-    if(layer) {
-        scroll=&sys->x;current=*scroll;
-        max=(sys->w1-30)*8;
-        if(current>max)*scroll=max;
-        scroll=&sys->y;current=*scroll;
-        height=&sys->h1;
-    } else {
-        scroll=&sys->x;current=*scroll;
-        max=(sys->w-30)*8;
-        if(current>max)*scroll=max;
-        scroll=&sys->y;current=*scroll;
-        height=&sys->h;
-    }
-    max=(*height-20)*8;
-    if(current>max)*scroll=max;
-    t06_finishAD04(sys);
-    {u32 lowX=(u8)*px;
-    u32 lowY=(u8)*py;
-    *px=lowX+((s32)(x<<16)>>8);
-    *py=lowY+((s32)(y<<16)>>8);}
-    return (s32)result;
-}
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800AD04);
-#endif
 extern u32 t06_resourcesAE50[] asm("gUnk_0847846C");
 static inline u32 t06_resourceAE50(u32 index,u16 offset)
 {
