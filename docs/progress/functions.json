@@ -32452,18 +32452,24 @@
       "name": "sub_080A9950",
       "addr": 134912336,
       "size": 5892,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_080A9680",
       "kind": "c",
       "cat": "game",
       "address": "0x080A9950",
       "canonical_symbol": "sub_080A9950",
       "domain": "game",
-      "implementation": "pending_asm",
-      "display_name": "sub_080A9950",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "implementation": "draft",
+      "display_name": "sub_080A9950_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 280,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A9950_v"
+        }
+      ]
     },
     {
       "name": "sub_080AB054",
@@ -32517,7 +32523,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 481,
+          "line": 1183,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AB2F8_v"
         }
       ]
@@ -32608,7 +32614,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 1379,
+          "line": 2081,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AC844_v"
         }
       ]
@@ -32631,7 +32637,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 1783,
+          "line": 2485,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
         }
       ]
@@ -32773,7 +32779,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2278,
+          "line": 2980,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AE420_v"
         }
       ]
@@ -32881,7 +32887,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2912,
+          "line": 3614,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AF3F4_v"
         }
       ]
@@ -32904,7 +32910,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 3376,
+          "line": 4078,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0288_v"
         }
       ]
@@ -32955,10 +32961,16 @@
       "canonical_symbol": "sub_080B0FC4",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_080B0FC4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "sub_080B0FC4_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A9680.c",
+          "line": 4438,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0FC4_v"
+        }
+      ]
     },
     {
       "name": "sub_080B1FD4",
@@ -37072,12 +37084,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 191,
-      "existing": 72,
+      "identified": 193,
+      "existing": 74,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1689,
-      "percent_identified": 10.159574468085106
+      "unidentified": 1687,
+      "percent_identified": 10.26595744680851
     },
     "sdk": {
       "total": 155,
@@ -37090,12 +37102,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 346,
-      "existing": 201,
+      "identified": 348,
+      "existing": 203,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1689,
-      "percent_identified": 17.002457002457003
+      "unidentified": 1687,
+      "percent_identified": 17.1007371007371
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
