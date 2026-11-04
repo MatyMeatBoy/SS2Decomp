@@ -921,7 +921,6 @@ check:
     t->f8 = 0x46;
     sub_08000274_3((u32)t, a, b);
 }
-#ifdef NONMATCHING
 struct Sprite99 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
 struct Player99 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
 struct Spr99 {u8 *sprite;u8 p4[0x148];};
@@ -993,7 +992,7 @@ void sub_08099838(void *input)
     s32 lastDamage;
     s32 mode;
     u16 lastAnim;
-    s32 lastMode;
+    u16 lastMode;
     s32 animFlag;
     u16 flash;
     u16 floatingTimer;
@@ -1008,7 +1007,6 @@ void sub_08099838(void *input)
     u8 priority;
     s16 player;
     s16 entry;
-    s16 i;
     u32 n;
     s32 value;
     s32 reward;
@@ -1148,8 +1146,8 @@ void sub_08099838(void *input)
                     spawn99(3);
                     spawn99(4);
                 } else {
-                    for (i = 0; i < n; i++)
-                        spawn99((u16)i);
+                    for (player = 0; player < n; player++)
+                        spawn99((u16)player);
                 }
                 actor->phase = 1;
                 actor->next = 5;
@@ -1171,11 +1169,12 @@ void sub_08099838(void *input)
         case 0:
             sprite = &spriteA;
             actor->anim = actor->f8;
-            goto setA;
+            animFlag = 1;
+            blinkAnim = 0x18;
+            break;
         case 1:
             sprite = &spriteA;
             actor->anim = actor->f8 + 8;
-        setA:
             animFlag = 1;
             blinkAnim = 0x18;
             break;
@@ -1311,9 +1310,6 @@ void sub_08099838(void *input)
 #undef S99
 #undef I99
 #undef P99
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08099838);
-#endif
 extern s32 x102A5[] asm("gUnk_03003D6C");
 struct Player102A5 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
 struct Entity102A5 {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};

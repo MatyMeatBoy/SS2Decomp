@@ -7,3 +7,8 @@ sub_08099838 (nov03-w1): fresh draft from the boss-loop template (sub_0809AEE8 r
   Left: the temp slots come out pal,anim,frame,tick (ROM anim,frame,tick,pal; probably gcse hash order
   of the address expressions) -> the c4..d0 offsets and the case-0 anim store not cross-jumped (+4 bytes);
   spawn loop i in r0 (ROM r1). Unused dummy locals do not shift it.
+sub_08099838 MATCHED (nov03-w1): the four gcse PRE temps (&anim/&frame/&tick/resource+0xD6) get their
+  reaching regs in expression-hash-bucket order; the bucket count is n_insns/2|1, so +2 insns before gcse
+  flip pal past tick (asm("") padding proves it; `u16 lastMode` was the natural fix). Spawn loop reuses the
+  seen-loop counter `player` (gives i r1); case 0 and 1 have full duplicate bodies (crossjump + reload
+  round-robin over r0-r4 then match).
