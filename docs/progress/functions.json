@@ -2392,14 +2392,14 @@
       "name": "sub_08002B70",
       "addr": 134228848,
       "size": 3604,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x08002B70",
       "canonical_symbol": "sub_08002B70",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08002B70",
       "name_status": "unidentified",
       "name_source": null,
@@ -2457,7 +2457,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2486,
+          "line": 2497,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2480,7 +2480,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2735,
+          "line": 2746,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
