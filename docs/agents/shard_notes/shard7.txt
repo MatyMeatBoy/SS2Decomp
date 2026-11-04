@@ -1,12 +1,11 @@
-
-sub_0800BEC0 (nov03-w2, 2026-11-04): fresh C draft (no draft before), ~220 diff lines. Findings:
-  - spill slots follow declaration order: sel, active, me, cnt1, cnt2, n, posX, posY, speed, phase,
-    inRange, flagA, flagB, handle (0x10C..0x140).
-  - position/range tables are `u16 tbl[][2]` (ROM computes tbl+2 + i*4 for [i][1]).
-  - `s32 dbg = 0` + `if (wait() != 0 && dbg == 0)` reproduces ROM's `movs r3,#0; cmp r3,#0`.
-  - phase is s16 with `phase++; phase &= 0x7F;` ((x<<16)+0x10000 form).
-  - key bits read gUnk_03001324 directly per test, nested ifs for 0x200/0x100 (fold merges `&&`).
-  - dir: `d = dir; dir = 4; if (d != 5) { dir = 3; if (d == 1) dir = 2; }` (ROM store-before-compare).
+sub_0800BEC0 (nov03-w2, 2nd pass): 220 -> 66 diff lines. Keys: anim args via `p->fB0, &p->fB2, &p->fB4`
+  (p = &players[i] set FIRST in the loop body, before pairs[i].id/key) gives ROM's three ivs; sin/dir
+  table read as `posY += sin[v = dirTbl[...]] ...` with block-local u32 v; final `s = dir; if (s != 0)`
+  (s = function-level s32) gives ROM's copy; chain temp a fresh `u8 t`; bg is the union
+  {bits.cnt:16; half; word} (bg.bits.cnt = 0x1C08; bg.half = 0x1E00).
+  Left: ROM's `movs r5,#0` (zero var) after `active = 0` (CSE merges it with active; draft sets zero
+  before the if, register asm r5 fixes the prologue but not the rest), then reload-rotation diffs.
+` (ROM store-before-compare).
   - switch index is players[p->f0] (CSE reuses me's reg): fresh E28/E24 literals in case 0.
   - draw loop is goto-shaped (`i = 0; goto chk; do {...} while (i < n)`) -> ROM's `b cond`.
   - ready-wait reads byte 3 of gUnk_03003478 (struct of 4 u8 alias).

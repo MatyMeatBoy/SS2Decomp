@@ -1962,10 +1962,9 @@ void sub_0800BD5C(s32 arg) {
     }
 }
 #ifdef NONMATCHING
-// sub_0800BEC0 (world-map/destination select): fresh draft, ~220 diff lines, size 1378 vs ~1400 disasm
-// lines. Block layout matches except the player loop: ROM reduces &fB4/&fB2/&fB0 and &p144 to separate
-// ivs (sp+0x154/0x158/0x15c, r9) and keeps &players[me].p144 in r7; draft hoists the CE0 base and
-// computes &fB2 from it. Left: `movs r5, #0` (zero) placed after active = 0 in ROM.
+// sub_0800BEC0 (world-map/destination select): ~66 diff lines, exact block layout and frame;
+// left: `movs r5, #0` (zero) placed after active = 0 in ROM (draft sets it earlier), which shifts
+// reload-register rotation in later loops (draw / 24-loop / count loop), and a few local regs.
 struct CurBEC0 {
     u16 lo:4; u16 x:12;
     u16 y:12; u16 dir:4;
@@ -2036,7 +2035,7 @@ void sub_0800BEC0(void)
     u16 a88[24];
     s16 aB8[24];
     struct PairBEC0 pairs[4];
-    u32 bg;
+    union { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; } bg;
     u32 sel;
     s32 active;
     s32 me;
@@ -2058,6 +2057,7 @@ void sub_0800BEC0(void)
     s32 s;
     s32 zero;
     s32 dbg;
+    u8 t;
 
     while (waitBEC0() == 0)
         sub_080003F0();
@@ -2081,10 +2081,10 @@ void sub_0800BEC0(void)
     sub_0800B974(0x48, 0x1E);
     sub_080009F8(0xF00, 0, 1);
     sub_080009C0(0x1300, 0, 1);
-    bg = (bg & 0xFFFF0000) | 0x1C08;
-    sub_08000AA8(0, (u16 *)&bg);
-    *(u16 *)&bg = 0x1E00;
-    sub_08000AA8(2, (u16 *)&bg);
+    bg.bits.cnt = 0x1C08;
+    sub_08000AA8(0, &bg.half);
+    bg.half = 0x1E00;
+    sub_08000AA8(2, &bg.half);
     if (hasBEC0(5) == 0) {
         sub_080009C0(0x400, 0, 1);
         fillBEC0(4, 2, 1, 0xE, 0xC, zero);
@@ -2207,9 +2207,9 @@ while (1) {
         playersBEC0[me].p144->mode = 0;
     }
     for (i = 0; i < n; i++) {
+        p = &playersBEC0[i];
         pairs[i].id = i;
         pairs[i].key = 0;
-        p = &playersBEC0[i];
         pc = &playersBEC0[i].p144;
         if (p->p148->st != 0xF)
             continue;
@@ -2229,24 +2229,25 @@ while (1) {
                 else if (heldBEC0 & 0x80)
                     dir = 1;
                 if (heldBEC0 & 0x20) {
-                    d = dir;
+                    t = dir;
                     dir = 4;
-                    if (d != 5) {
+                    if (t != 5) {
                         dir = 3;
-                        if (d == 1)
+                        if (t == 1)
                             dir = 2;
                     }
                 } else if (heldBEC0 & 0x10) {
-                    d = dir;
+                    t = dir;
                     dir = 6;
-                    if (d != 5) {
+                    if (t != 5) {
                         dir = 7;
-                        if (d == 1)
+                        if (t == 1)
                             dir = 8;
                     }
                 }
-                if (dir != 0) {
-                    playersBEC0[me].p144->dir = dir - 1;
+                s = dir;
+                if (s != 0) {
+                    playersBEC0[me].p144->dir = s - 1;
                     speed += 0x80;
                     if (speed >= 0x1E0)
                         speed = 0x1E0;
@@ -2255,9 +2256,11 @@ while (1) {
                 }
                 break;
             }
-            s = dirTblBEC0[playersBEC0[me].p148->dir];
-            posY += sinBEC0[s] * speed / 256;
-            posX += sinBEC0[s + 0x40] * speed / 256;
+            {
+                u32 v;
+                posY += sinBEC0[v = dirTblBEC0[playersBEC0[me].p148->dir]] * speed / 256;
+                posX += sinBEC0[v + 0x40] * speed / 256;
+            }
             if ((posX >> 8) < 8)
                 posX = 0x800;
             if ((posX >> 8) > 0xE8)
@@ -2270,7 +2273,7 @@ while (1) {
             pc[0]->y = posY >> 8;
             pc[0]->sel = sel;
         }
-        animBEC0(&sprA, playersBEC0[i].fB0, &playersBEC0[i].fB2, &playersBEC0[i].fB4, 1);
+        animBEC0(&sprA, p->fB0, &p->fB2, &p->fB4, 1);
         pairs[i].id = i;
         pairs[i].key = pc[1]->y;
     }
