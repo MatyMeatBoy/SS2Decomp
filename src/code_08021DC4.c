@@ -1657,17 +1657,7 @@ loop_67:
                     }
                 }
     goto loop_82;
-loop_82_yield:
-    sub_080003F0();
-loop_82:
-                if (sub_08056E90() != 0) {
-    goto loop_85;
-loop_85_yield:
-    sub_080003F0();
-loop_85:
-                    if (sub_08067C28(gUnk_03005CF4 + ((temp_r1 * 4) + 0x724)) == 0) goto loop_85_yield;
-                    var_r6_3 = sp3C;
-                } else {
+loop_82_check:
                     var_r2_2 = 0;
                     temp_r0_4 = state23A3C->states[((u8)var_r6_3 + ((u8) temp_r1 * 5))];
                     if (temp_r0_4 == 1) {
@@ -1676,18 +1666,27 @@ loop_85:
                     if (var_r2_2 != 0) {
                         var_r6_3 = sp3C;
                         sp38 = 0;
-                    } else {
-                        var_r1_2 = 0;
-                        if (temp_r0_4 == 3) {
-                            var_r1_2 = 1;
-                        }
-                        if (var_r1_2 != 0) {
-                            sp38 = 1;
-                        } else {
-                            goto loop_82_yield;
-                        }
+                        goto loop_82_next;
                     }
-                }
+                    var_r1_2 = 0;
+                    if (temp_r0_4 == 3) {
+                        var_r1_2 = 1;
+                    }
+                    if (var_r1_2 != 0) {
+                        sp38 = 1;
+                        goto loop_82_next;
+                    }
+loop_82_yield:
+    sub_080003F0();
+loop_82:
+                if (sub_08056E90() == 0) goto loop_82_check;
+    goto loop_85;
+loop_85_yield:
+    sub_080003F0();
+loop_85:
+                if (sub_08067C28(gUnk_03005CF4 + ((temp_r1 * 4) + 0x724)) == 0) goto loop_85_yield;
+                var_r6_3 = sp3C;
+loop_82_next:
                 var_r6_3 += 1;
                 if ((u32) var_r6_3 < sp3C) {
                     goto loop_59;
