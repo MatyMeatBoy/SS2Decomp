@@ -1,0 +1,8 @@
+sub_08002694 (nov03-w4): clean rewrite (no register asm), 958/958 bytes, only the `gUnk_03001308 & 0x80` test and
+  one constant differ. Keys: obj[0x34], then separate `u16 frame; u16 timer;` and `union { u32 w; u16 h; } bg`
+  (gives the 0x38/0x3A/0x3C slots), `link = 0` local (r9) re-set at the top of the outer for(;;), title-select
+  switch with 4 cases (0..3), `if (sub_0801AB24() == 0) AA34 else AB50`, gUnk_03002838 read as `*(u16 *)&` for the
+  draw calls. Writing the first test as `gUnk_03001308 >> 7 & 1` gives the ROM register allocation
+  (vu16 does too but rereads). Left: the 0x40 branch stores 0 from the and-result pseudo (cse jump equivalence:
+  known zero on that path); ROM materialises `movs r4, #0` before the sub_08006D08 call. Tried: inline helper
+  pick(v) with u32/u8/u16 param, `(x & 0x80) != 0`, u32/u16 local copies, bitfield struct, casts.
