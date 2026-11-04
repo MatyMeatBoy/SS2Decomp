@@ -3306,7 +3306,7 @@ void sub_08079458(struct Info458 *info)
     
     local = sub_080020F4();
     pos.x = info->a;
-    ((s32 *)&pos)[1] = info->b;
+    pos.y = info->b;
     who = info->who;
     i = info->i;
     phase = 0;
