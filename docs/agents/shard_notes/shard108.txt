@@ -20,3 +20,12 @@ nov03-w3 (2nd pass) sub_080A47A0: the draw10847 style/f8/f0 arguments are &sprit
   sp+18 / sp+16 addresses in ROM, struct base reuse in ours), ROM loads &side straight into r6 (ours r4 then
   copies), offset-table add operand order. Clean separate-locals rewrite (no register asm) still keeps x/y in
   r6/r7: 163 lines; replacing the wait-loop hack with a goto loop: worse (79 vs 63).
+
+nov03-w2: sub_080A47A0 clean rewrite landed (no register asm, 6 real diff lines): pos is an 8-byte
+  struct local, offsets via `k = dir * 4` byte offsets into two s16 tables, goto wait loop, else-branch
+  frame read through `*(vu8 *)&gFrame` (forces the ROM reload). Left: temp reg of that reload (r1 vs r0),
+  ROM reloads pos.x from the stack before adding the offset. Permuter 5 min: nothing useful.
+nov03-w2: sub_080A3D2C fresh C draft (goto-shaped main loop: idle/body/top as in ROM block order),
+  387 diff lines (1013 vs 966). ROM keeps idx in sl, &gActs[idx] in r4->r7 across the loop, &gSide in r9,
+  &sy in r8, &gSpr[0].f8 spilled; draft spills idx. A `slot = &gActs[idx]` pointer gives 977 bytes but more
+  diff lines (443).
