@@ -1,6 +1,9 @@
-  MATCHED (nov03-w3), fresh C. Keys: screen pos as two s16 locals (sx, sy, separate pointers);
-  lastAnim u16; pl pointer computed before the cnt&1 test; separate u8 counter for the two last
-  cutscene loops with `k++; k &= 0xF;`; the &f6C/&f6A/&f68 "spills" are loop-invariant hoists (use
-  a->f68 directly); 0x22B store before f50 = 1; history clear as
-  *(s32 *)((u8 *)hist + j * 4 + i * 0x14C) = 0. Real-build check: the gUnk_03003D10 pool words
-  are CE0+0x30 (same bytes).
+
+sub_0801801C (shard 15 after the reshard; nov03-w1, 2026-11-04): 582 normalized diff lines, 7112 vs 7132.
+  Not gcse-hash sensitive (asm("") padding changes nothing). Findings: (1) the `F7A |= 1; break;` tail
+  is placed after the init switch; ROM computes `(x | 1) | 0` (movs r1,#0; orrs) - u16 bitfield struct
+  gives ldrb/strb, `|= 1 | local110` is worse; source of the `| 0` unknown. (2) main switch: ROM keeps
+  the switch value in r2 and stores it to local10C in case 9, but RELOADS arg0->fC (ldrh [r7,#12]) for
+  every `local10C != arg0->fC` compare; ours CSEs the compares to the st copy (adds r3,r2,#0).
+  Tried switch(arg0->fC), switch(st = arg0->fC), st u16/u32, (u16)/(s16) casts: no fix.
+  (3) &stack.auxA lives in sl in ROM, count*12 (scales index) is spilled to sp+0x134; ours the reverse.
