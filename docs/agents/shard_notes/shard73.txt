@@ -1,9 +1,9 @@
-- nov03-w1: sub_0806F0CC rewritten (1199 -> ~786 filtered diff lines, size 3412 vs 3408). Keys:
-  `u32 d` with every use through d<<16 ((u16)d, angF0CC[(s16)d], ((d << 16) + (8 << 16)) >> 16 for d+8);
-  lvl timeout `((lvl << 19) + (20 << 16)) >> 16` + `v = lvl; lvl = (u16)(v - 1); if (v == 0) break;`
-  loops (sub_0806A19C style); turn code from sub_0806A19C; draw arg-3 prototype u32 (no truncation);
-  the 30-frame heal number loop is a `static inline healNumF0CC(struct PosF0CC *pos, u32 v)` (both
-  copies identical; x/y as 8-byte struct pair) which fixed the r4/r5/r6/r7 + r8/r9 &hx/&hy layout;
+  sub_0806F0CC open items at 741: main loop ROM spills the (u16)d holder (user-var slot 0x8c, declared
+  after self) and keeps &dy in r8; a `u32 fr` declared after self takes r8 instead (and an id-less
+  homing loop then moves shade to r8: worse). Count loop: ROM count r4 / &p2->sprite r8, ours swapped.
+  Late spill slots ordered pdx,pdy (0x9c/0xa0) < player*4 (0xa4) < angle<<16 (0xa8) < d<<16 (0xac) in
+  ROM; ours player*4 first and d<<16 before angle<<16. Permuter 10 min (--allow-control-diff): junk only.
+entical; x/y as 8-byte struct pair) which fixed the r4/r5/r6/r7 + r8/r9 &hx/&hy layout;
   k = kF0CC[(s16)angle >> 4] written inline inside the draw args (dx loaded first);
   sprite nibble as `(u32)(byte << 28) >> 28`.
   Left: main loop (u16)d gets r8 while ROM gives &dy r8 and spills (u16)d (0x8c); count loop count/
