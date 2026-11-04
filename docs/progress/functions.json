@@ -31939,21 +31939,21 @@
       "name": "sub_080A705C",
       "addr": 134901852,
       "size": 1164,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080A3D2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080A705C",
       "canonical_symbol": "sub_080A705C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080A705C_v",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2248,
+          "line": 2247,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A705C_v"
         }
       ]
@@ -31993,7 +31993,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2405,
+          "line": 2403,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A756C_v"
         }
       ]
