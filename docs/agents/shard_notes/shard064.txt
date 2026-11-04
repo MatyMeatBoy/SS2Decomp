@@ -11,3 +11,5 @@ sub_080624D8 (nov03-w4, round 2): 3652 vs 3716, diff 1471 lines (was 2200). The 
   struct padded by 12 bytes (u32 pad[3]) to push spills to 0x9C. Left: ROM keeps remap in sl and
   re-materializes texts (sp+0x80 -> [sp,#0xb4]) and sl after the first load call of every switch
   case; ROM spills more (sel, scale, step, win, next, sel*4, texts, next): ours is 64 bytes shorter.
+  (round 3) scale/step of the menu loop are s16 locals; text x = (u16)(-(w/2 + (w&1)) + 15) with
+  texts[sel] re-read. Moving texts/remap after the switch: 3692 bytes but more diff lines.

@@ -2099,7 +2099,7 @@ void sub_080624D8_(void)
 {
     struct Menu624 m;
     u32 sel;
-    u16 scale, step;
+    s16 scale, step;
     u8 *win;
     u8 **texts;
     u8 *remap;
@@ -2168,10 +2168,10 @@ void sub_080624D8_(void)
     scale = 0x100;
     for (;;) {
         sub_08015C14();
-        scale = (s16)scale + (s16)step;
-        if ((s16)step > 0 && (s16)scale > 0x120)
-            step = 0xFFF8;
-        if ((s16)step < 0 && (s16)scale <= 0xDF)
+        scale += step;
+        if (step > 0 && scale > 0x120)
+            step = -8;
+        if (step < 0 && scale < 0xE0)
             step = 8;
         for (i = 0; i <= 3; i++) {
             sub_08008CC4(i, &m.w[i], &m.h[i], (u8 *)m.spr.data, 1);
@@ -2187,9 +2187,8 @@ void sub_080624D8_(void)
                         draw624(dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i], 0, remap, m.spr.data, m.spr.base);
             }
         }
-        p = texts[sel];
-        w = sub_0801A638(p + 2);
-        text624(p + 2, (u16)(15 - (w / 2 + (w & 1))), 16);
+        w = sub_0801A638(texts[sel] + 2);
+        text624(texts[sel] + 2, (u16)(-(w / 2 + (w & 1)) + 15), 16);
         sub_080003F0();
         if (BUSY())
             keys624 = 2;
