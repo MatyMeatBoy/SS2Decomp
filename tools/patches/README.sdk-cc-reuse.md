@@ -1,8 +1,8 @@
 # Optional SDK comparison-flag reuse
 
 `sh tools/install_agbcc_sdk_cc.sh` builds an isolated compiler in
-`tools/agbcc_sdk_cc`. Neither the existing compilers nor translation-unit
-options change. The new `-fthumb-cc-reuse` option defaults to zero and works
+`tools/agbcc_sdk_cc`. The `m4a_1_engine` translation unit opts in; existing
+compiler installations remain separate. The new `-fthumb-cc-reuse` option defaults to zero and works
 with or without `-ftst`.
 
 The pinned upstream source is revision

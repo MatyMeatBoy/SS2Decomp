@@ -64,8 +64,8 @@ CC1FLAGS_m4a_1_port := -O2 -mthumb-interwork
 CC1_m4a_1_sound := tools/agbcc_sdk_sound/bin/agbcc
 CC1FLAGS_m4a_1_sound := -O2 -mthumb-interwork -fprologue-bugfix -ftst -fthumb-text-literals -fsub-compare-flags
 
-CC1_m4a_1_engine := tools/agbcc_tst/bin/agbcc
-CC1FLAGS_m4a_1_engine := -O2 -mthumb-interwork -fprologue-bugfix -ftst
+CC1_m4a_1_engine := tools/agbcc_sdk_cc/bin/agbcc
+CC1FLAGS_m4a_1_engine := -O2 -mthumb-interwork -fprologue-bugfix -ftst -fthumb-cc-reuse
 
 CC1_m4a_1_commands := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_commands := -O2 -mthumb-interwork
@@ -106,7 +106,12 @@ $(BUILD)/src/libgcc2.o: src/longlong.h
 tools/agbcc_tst/installed: tools/install_agbcc_tst.sh tools/patches/agbcc-tst-eq-ne-only.patch
 	sh tools/install_agbcc_tst.sh
 
-$(BUILD)/src/m4a_1.o $(BUILD)/src/m4a_1_engine.o: Makefile tools/agbcc_tst/installed
+$(BUILD)/src/m4a_1.o: Makefile tools/agbcc_tst/installed
+
+tools/agbcc_sdk_cc/installed: tools/install_agbcc_sdk_cc.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-cc-reuse.patch
+	sh tools/install_agbcc_sdk_cc.sh
+
+$(BUILD)/src/m4a_1_engine.o: Makefile tools/agbcc_sdk_cc/installed
 
 tools/agbcc_sdk_flags/installed: tools/install_agbcc_sdk_flags.sh tools/patches/agbcc-tst-eq-ne-only.patch tools/patches/agbcc-sdk-lsr-halfword.patch
 	sh tools/install_agbcc_sdk_flags.sh
