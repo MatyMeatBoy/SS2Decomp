@@ -1,0 +1,24 @@
+codex-solo (2026-11-04): first complete typed NONMATCHING draft for MPlayMain.
+  Original: 0x080B6B74, 604 bytes. Candidate: 754 bytes with the existing
+  m4a_1_vsync compiler/flags. Original ASM remains active in the normal build.
+  Recovered lock/recursive player chain, tempo ticks, channel gate release and
+  cleanup, track initialization, running status, note/jump/wait dispatch,
+  triangle LFO, active-track mask, channel volume and pitch updates.
+  Types come from existing MusicPlayerInfo/MusicPlayerTrack/SoundChannel;
+  channel offset 0x1D is the CGB update flags overlay. Track keyM is read as s8
+  in the original despite its shared u8 declaration. Keep the explicit cast.
+  The normal ROM compare passes, NONMATCHING links, check_tree reports 0 errors.
+  No matching bytes credited. Strict full-module object comparison is NO MATCH
+  (build/src/m4a_1_vsync.o versus build_nm/src/m4a_1_vsync.o).
+  Standalone nmdiff cannot assemble this original function: _080B6DD4/8/C are
+  shared literals defined after the neighboring helper, outside its ASM file.
+  Compare against the normal module to retain that actual literal context.
+  m2c also warns that the function ends without bx lr: its original epilogue
+  pops the return address into r3 and falls into the neighboring bx r3 helper.
+  Remaining work: nonstandard entry/exit ABI, shared indirect-call trampoline,
+  register allocation and exact block/flag-producing instruction shapes.
+  Existing file-global r0-r3 variables reserve the low registers for the matched
+  VSync function; ordinary locals consequently occupy high registers/spills.
+  Do not alter those globals or compiler flags casually: VSync already matches.
+  A future C/ABI version can use those registers explicitly, keeping only the
+  genuine nonstandard save/restore and indirect-transfer glue as ASM.
