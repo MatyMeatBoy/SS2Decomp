@@ -14,3 +14,16 @@ nov03-w5 on sub_08079458 (still 14 lines): the entry RTL (lreg dump: agbcc a.i -
   gives the ROM order (ldr; add r1,sp,#0x4c; str [r1,#4]) but the cse link disappears, so the
   `mov r8, r1` is missing (110 lines). Using a user pointer for later &pos uses (pp) did not restore it.
   Idea left: keep the call-first RHS and find what makes cse link reg45 to the later &pos.
+
+2026-11-04 codex-solo, shard 146: selected direct `pos.y = info->b` initialization.
+  This removes the cast/index alias and restores the original load-before-address order.
+  Candidate 1068 vs original 1072 bytes; current strict nmscore 60 -> 58, NO MATCH.
+  The early `mov r8, r1` is still missing; the draft remains NONMATCHING with its
+  original ASM fallback. This is a source cleanup and order improvement, not a match.
+  Explicit r1/r8 pointer copies reproduce the entry sequence but change allocation
+  and position addressing later (scores 82..143); extending the pointer lifetime
+  across initialization calls/switch does not fix it. Thumb high-register `h`
+  constraints add a stack slot (frame 0x78 vs 0x74) and also regress. Rejected.
+  Address spelling via byte offset, &pos.x + 1, or volatile pointer keeps the old
+  early-address sequence. A separate value local or input constraint gives the
+  selected missing-copy form without fixing the dead PRE insertion.
