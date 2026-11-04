@@ -1343,7 +1343,7 @@ struct EntFB6 {
     u8 p70[0x164]; u16 f1D4, f1D6; u8 p1D8[0x24];
     u8 lo:4; u8 hi:4;
     u8 f1FD, f1FE, p1FF; u8 f200; u8 p201; u16 f202;
-    u8 p204[0xd4]; u16 f2D8, f2DA;
+    u8 res[0xd4]; u16 f2D8, f2DA;
 };
 struct AuxFB6 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
 extern struct EntFB6 *actor9FB6C asm("gUnk_0300032C");
@@ -1382,7 +1382,7 @@ extern void sound9FB6C(s32) asm("sub_08058688");
     fresh=actor9FB6C; \
     fresh->f6E=animResult; \
     screen9FB6C((s32)(fresh->x<<8)>>16,(s32)(fresh->y<<8)>>16,&sx,&sy,zero,zero); \
-    sub_08000AF0(palette9FB6C+16,sprite.palette+(resource->fD6<<5),1); \
+    sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1); \
     fresh=actor9FB6C; \
     draw9FB6C(sx,sy,fresh->f68,fresh->f6A,2,sprite.payload,sprite.data,sprite.base); \
 } while(0)
@@ -1396,7 +1396,7 @@ void sub_0809FB6C(void *input)
     u16 floatingTimer;
     s16 floatingOffset;
     u32 amplitudeX;
-    struct AuxFB6 *resource;
+    u8 *resource;
     s32 lastDamage,flash;
     u32 elapsed,rounds;
     s32 angle;
@@ -1412,7 +1412,7 @@ void sub_0809FB6C(void *input)
 
     actor=input;
     actor9FB6C=actor;
-    resource=(struct AuxFB6 *)((u8 *)actor+0x204);
+    resource=actor->res;
     setup9FB6C(actor,config9FB6C,0);
     resourceInit9FB6C(resource);
     sub_0801A0A4(actor);
@@ -1427,8 +1427,8 @@ void sub_0809FB6C(void *input)
     }
     init9FB6C(&sprite,0x50009,palette9FB6C,-1,1);
     sprite.payload[0]=palette9FB6C;
-    actor->f5C=actor->f1D6=resource->f6*3;
-    actor->f5E=actor->f1D4=(resource->f4<<1)*10;
+    actor->f5C=actor->f1D6=S9FB6C(resource,6)*3;
+    actor->f5E=actor->f1D4=(S9FB6C(resource,4)<<1)*10;
     actor->fC=0;
     floatingTimer=0;flash=0;
     actor->f6C=0; actor->f6A=0; actor->f68=0;
@@ -1538,11 +1538,11 @@ void sub_0809FB6C(void *input)
         if(value!=0) {
             flash=(u16)(value-1);
             if((value&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-                sub_08000AF0(palette9FB6C+16,sprite.palette+(resource->fD6<<5),1);
+                sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
                 draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
             }
         } else if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-            sub_08000AF0(palette9FB6C+16,sprite.palette+(resource->fD6<<5),1);
+            sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
             draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
         }
         value=actor->f4C;
@@ -1552,8 +1552,8 @@ void sub_0809FB6C(void *input)
         if(floatingTimer!=0) {
             if(sub_0800CC98()==0 && sub_0800CCCC()==0 && sub_0800CD34()==0)
                 float9FB6C(actor,lastDamage,floatingOffset);
-            if(floatingTimer&2) floatingOffset=(s16)(floatingOffset-1);
-            floatingTimer=(u16)(floatingTimer-1);
+            if(floatingTimer&2) floatingOffset--;
+            floatingTimer--;
         } else {lastDamage=0;actor->f4C=floatingTimer;}
         if((u16)dead9FB6C(actor)!=0) finished=1;
         sub_080003F0();
@@ -1572,8 +1572,8 @@ void sub_0809FB6C(void *input)
                 float9FB6C(actor,lastDamage,floatingOffset);
             }
         }
-        if(floatingTimer&2) floatingOffset=(s16)(floatingOffset-1);
-        sub_080003F0();floatingTimer=(u16)(floatingTimer-1);
+        if(floatingTimer&2) floatingOffset--;
+        sub_080003F0();floatingTimer--;
     } while(floatingTimer!=0xFFFF);
     sub_080683CC();paletteFree9FB6C(actor9FB6C->f2);
     sub_08068330((s32)0xDEADFACEU);
@@ -1593,7 +1593,7 @@ void sub_0809FB6C(void *input)
     soundStop9FB6C(0);sub_080A10AC();
     if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CD34()==0) {
         sound9FB6C(13);
-        transition9FB6C(actor9FB6C,&sprite,resource->fD6,palette9FB6C,2);
+        transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource,0xD6),palette9FB6C,2);
     }
     player=sub_080020F4();
     if(!(W9FB6C(players9FB6C+player*0x14C,0x30)&0x2000) && actor9FB6C->f5A!=0) {
