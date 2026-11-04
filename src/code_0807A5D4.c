@@ -9445,7 +9445,710 @@ void sub_080867F8(void)
     gTask6450b.fC = (u32)sub_080855D4;
     sub_08000274_2(&gTask6450b, 0);
 }
+#ifdef NONMATCHING
+extern u16 keys86860 asm("gUnk_03001324");
+extern void fade86860(u32, u32, u32, u16, u16, u32) asm("sub_0800903C");
+extern void reset86860(u64) asm("sub_08000420");
+extern void obj86860(void *, u32, u32, u32, u32) asm("sub_08065158");
+extern void anim86860(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+void sub_08088A60(u32, u32);
+void sub_080889D4(u32, u32);
+void sub_08088A18(u32, u32, s32 *);
+void sub_08058688(s32);
+void sub_0801AA8C(u32);
+void sub_0801AA34(u32);
+void sub_080009F8(s32, s32, s32);
+
+#define SKIP_KEYS() if ((keys86860 & 8) && gUnk_03002838 == 0) skip = 1
+#define SKIP_KEYS2() if (sub_0801AAE0() != 0 && (keys86860 & 8) && gUnk_03002838 == 0) skip = 1
+
+/* Intro sequence (logo, scrolling scenes, staff texts); any skip jumps to the common exit. */
+void sub_08086860(void)
+{
+    u8 obj[0x34];
+    struct { u32 zero1; u16 pos[2]; u32 zero2; } m;
+    u32 bg;
+    s32 running;
+    u32 skip;
+    u16 a, b, c;
+    u32 i;
+    u32 timer, state;
+    u32 t2;
+    u16 val;
+    s32 y, d;
+    s32 q;
+    void *buf;
+
+    gUnk_03001250[1] = 0;
+    gUnk_03001250[0] = 0;
+    gUnk_03001250[3] = 0;
+    gUnk_03001250[2] = 0;
+    gUnk_03001250[5] = 0;
+    gUnk_03001250[4] = 0;
+    gUnk_03001250[7] = 0;
+    gUnk_03001250[6] = 0;
+    sub_0805F07C();
+    skip = 0;
+    sub_080003F0();
+    sub_0801A664(0, 0x13);
+    sub_080003F0();
+    sub_080009F8(0x600, 0, 1);
+    sub_080009C0(0x1900, 0, 1);
+    bg = (bg & 0xFFFF0000) | 0x9E03;
+    sub_08000AA8(3, (u16 *)&bg);
+    sub_0800B650(0x46, 0x1E, 0x06000000, 0, 0xF);
+    buf = sub_08001494(0x800);
+    m.zero1 = 0;
+    CpuFastSet(&m.zero1, buf, 0x01000200);
+    sub_08001348(buf, (void *)0x0600F800, 0x800);
+    sub_08057624(5);
+    sub_08001538((s32)buf);
+    gUnk_03001250[7] = 200;
+    obj86860(obj, 0x5011F, 0, 2, 0);
+    sub_0805865C(0x172);
+    sub_0805865C(0x171);
+    sub_0805865C(0x178);
+    val = 4;
+    a = 4;
+    b = 4;
+    i = 1;
+    do {
+        sub_08006B70(0, val);
+        sub_08006B70(1, a);
+        val += 8;
+        if (val > 0xFF)
+            val = 0x100;
+        a += 2;
+        if (a > 0x4F)
+            a = 0x50;
+        sub_080003F0();
+    } while (i++ <= 0x3B);
+    sub_0801AA34(0x78);
+    i = 1;
+    do {
+        b += 2;
+        if (b > 0xC7)
+            b = 0xC8;
+        sub_08006B70(2, b);
+        sub_08065230(obj, 0x78, 0x78, 0, 0);
+        sub_080003F0();
+    } while (i++ <= 0x81);
+
+    timer = 0;
+    state = 0;
+    val = 0;
+    do {
+        SKIP_KEYS();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+        switch (state) {
+        case 0:
+            if (timer++ > 0x1E) {
+                sub_0805865C(0x173);
+                val = 0x80;
+                timer = 0;
+                state = 1;
+            }
+            break;
+        case 1:
+            if (timer++ > 0x28) {
+                sub_0805865C(0x173);
+                val = 0xA0;
+                timer = 0;
+                state = 2;
+            }
+            break;
+        case 2:
+            if (timer++ > 0x32) {
+                sub_0805865C(0x173);
+                val = 0xC0;
+                timer = 0;
+                state = 3;
+            }
+            break;
+        case 3:
+            if (timer++ > 0x64) {
+                sub_0805865C(0x173);
+                val = 0xF0;
+                timer = 0;
+                state = 4;
+            }
+            break;
+        case 4:
+            if (timer++ > 0xA) {
+                sub_0805865C(0x173);
+                val = 0x80;
+                timer = 0;
+                state = 5;
+            }
+            break;
+        }
+        sub_08065230(obj, 0x78, 0x78, 0, 0);
+        sub_08006B70(3, val);
+        sub_080003F0();
+    } while (state != 5);
+
+    i = 1;
+    do {
+        sub_08065230(obj, 0x78, 0x78, 0, 0);
+        sub_080003F0();
+    } while (i++ <= 0x3B);
+
+    timer = 0;
+    state = 0;
+    val = 0;
+    do {
+        SKIP_KEYS();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+        switch (state) {
+        case 0:
+            if (timer++ > 0x3C) {
+                sub_0805865C(0x174);
+                val = 0x80;
+                timer = 0;
+                state = 1;
+            }
+            break;
+        case 1:
+            if (timer++ > 0x3C) {
+                sub_0805865C(0x174);
+                val = 0xA0;
+                timer = 0;
+                state = 2;
+            }
+            break;
+        case 2:
+            if (timer++ > 0x50) {
+                sub_0805865C(0x174);
+                val = 0xFF;
+                timer = 0;
+                state = 3;
+            }
+            break;
+        }
+        sub_08065230(obj, 0x78, 0x78, 0, 0);
+        sub_08006B70(3, val);
+        sub_080003F0();
+    } while (state != 3);
+
+    y = -0x2800;
+drop:
+    SKIP_KEYS();
+    if (skip)
+        goto end;
+    q = y / 5;
+    if (q == 0) {
+        y++;
+    } else {
+        if (q < 0)
+            q = -q;
+        y += q;
+    }
+    if (y <= 0) {
+        sub_08065230(obj, 0x78, (y >> 8) + 0x28, 1, 0);
+        sub_08065230(obj, 0x78, 0x78, 0, 0);
+        sub_080003F0();
+        goto drop;
+    }
+
+    y = 0;
+    d = 0x200;
+    sub_0805865C(0x175);
+    do {
+        SKIP_KEYS();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+        y -= d;
+        d -= 2;
+        if (d <= 0)
+            d = 1;
+        sub_08065230(obj, 0x78, (y >> 8) + 0x28, 1, 0);
+        sub_08065230(obj, 0x78, (y >> 8) + 0x78, 0, 0);
+        sub_080003F0();
+    } while (y > -0x8C00);
+
+    timer = 0;
+    state = 0;
+    val = 0;
+    y = gUnk_03001250[7] << 8;
+    a = 0xFF;
+    b = 0x50;
+    c = 0xC8;
+    while (y != 0) {
+        SKIP_KEYS();
+        if (skip)
+            goto end;
+        switch (state) {
+        case 0:
+            if (timer++ > 0x32) {
+                sub_0805865C(0x174);
+                val = 0xFF;
+                timer = 0;
+                state = 1;
+            }
+            break;
+        case 1:
+            if (timer++ > 0x32) {
+                sub_0805865C(0x174);
+                val = 0xC0;
+                timer = 0;
+                state = 2;
+            }
+            break;
+        case 2:
+            if (timer++ > 0x28) {
+                sub_0805865C(0x173);
+                val = 0x80;
+                timer = 0;
+                state = 3;
+            }
+            break;
+        case 3:
+            if (timer++ > 0x28) {
+                sub_0805865C(0x173);
+                val = 0xA0;
+                timer = 0;
+                state = 4;
+            }
+            break;
+        case 4:
+            if (timer++ > 0x32) {
+                sub_0805865C(0x173);
+                val = 0xA0;
+                timer = 0;
+                state = 5;
+            }
+            break;
+        case 5:
+            if (timer++ > 0x5A) {
+                sub_0805865C(0x176);
+                val = 0xFF;
+                timer = 0;
+                state = 6;
+            }
+            break;
+        case 6:
+            if (timer++ > 0x5A) {
+                sub_0805865C(0x177);
+                timer = 0;
+                state = 7;
+            }
+            break;
+        }
+        sub_08006B70(0, a);
+        sub_08006B70(1, b);
+        if (state != 7)
+            sub_08006B70(2, c);
+        if (a != 0x64)
+            a--;
+        if (b != 0xFF)
+            b++;
+        if (c != 0xA)
+            c--;
+        gUnk_03001250[7] = y >> 8;
+        y -= 0x37;
+        if (y < 0)
+            y = 0;
+        sub_08006B70(3, val);
+        sub_080003F0();
+    }
+
+    sub_08057624(0x3C);
+    sub_0805865C(0x177);
+    sub_0801AA8C(0x1E);
+    sub_08057624(0x3C);
+    obj86860(obj, 0x5011E, 0, 2, 0);
+    sub_0800B650(0x45, 0x1E, 0x06000000, 0, 0xF);
+    sub_0801AA34(0x1E);
+    i = 1;
+    do {
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+        sub_08065230(obj, 0x81, 0x77, 0, 0);
+        sub_080003F0();
+    } while (i++ <= 0x3B);
+
+    t2 = 0x12E;
+    state = 0;
+    sub_0805865C(0x179);
+    b = 4;
+    running = 0;
+    do {
+        SKIP_KEYS();
+        if (skip)
+            goto end;
+        if (running)
+            anim86860(obj, 0, &m.pos[0], &m.pos[1], 1);
+        else
+            m.pos[0] = 6;
+        sub_08065230(obj, 0x81, 0x77, 0, m.pos[0]);
+        if (t2++ > 0x12E) {
+            switch (state) {
+            case 0:
+                running = 1;
+                sub_08088A60(0x45D, 0x12C);
+                break;
+            case 1:
+                running = 1;
+                sub_08088A60(0x45E, 0x12C);
+                break;
+            case 2:
+                running = 1;
+                sub_08088A60(0x45F, 0x12C);
+                break;
+            case 3:
+                running = 0;
+                sub_0801AA8C(0x1E);
+                sub_080586D0(0xA);
+                break;
+            }
+            state++;
+            t2 = 0;
+        }
+        sub_08006B70(0, a);
+        sub_08006B70(2, b);
+        if (state != 0) {
+            if (a != 4)
+                a--;
+            if (b != 0xFF)
+                b++;
+        }
+        sub_080003F0();
+    } while (state != 4);
+
+    sub_08057624(0x1E);
+    sub_0800B650(0x32, 0x1E, 0x06000000, 0, 0xE);
+    sub_0800B650(0x33, 0x1F, 0x06000000, 0, 0xE);
+    *(u16 *)&bg = 0x1F03;
+    sub_08000AA8(3, (u16 *)&bg);
+    sub_0801AA34(0x1E);
+    t2 = 0x12E;
+    state = 0;
+    running = 1;
+    a = 4;
+    sub_08088A18(0, 0xF, &running);
+    while (running) {
+        if (t2++ > 0x12E) {
+            switch (state) {
+            case 1:
+                sub_080889D4(0x460, 0x12C);
+                break;
+            case 2:
+                sub_080889D4(0x461, 0x12C);
+                break;
+            case 3:
+                sub_080889D4(0x462, 0x12C);
+                break;
+            case 4:
+                running = 0;
+                break;
+            }
+            state++;
+            t2 = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+        if (state == 2 && t2 == 0)
+            sub_08058688(0x188);
+        if (state > 1) {
+            sub_08006B70(0, a);
+            a++;
+            if (a > 0xFE)
+                a = 0xFF;
+        }
+    }
+    sub_0801AA8C(0x1E);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+
+    sub_0800B650(0x3E, 0x1E, 0x06000000, 0, 0xF);
+    *(u16 *)&bg = 0x1E03;
+    sub_08000AA8(3, (u16 *)&bg);
+    sub_0801AA34(0x1E);
+    t2 = 0x12E;
+    state = 0;
+    running = 1;
+    while (running) {
+        if (t2++ > 0x12E) {
+            switch (state) {
+            case 1:
+                sub_080889D4(0x463, 0x12C);
+                break;
+            case 2:
+                sub_080889D4(0x464, 0x12C);
+                break;
+            case 3:
+                sub_080889D4(0x465, 0x12C);
+                break;
+            case 4:
+                sub_080889D4(0x466, 0x12C);
+                break;
+            case 5:
+                sub_080889D4(0x467, 0x12C);
+                break;
+            case 6:
+                sub_080889D4(0x468, 0x12C);
+                break;
+            case 7:
+                sub_080889D4(0x469, 0x12C);
+                break;
+            case 8:
+                running = 0;
+                break;
+            }
+            state++;
+            t2 = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+    }
+
+    sub_0801AA8C(0x1E);
+    sub_08057624(0x1E);
+    sub_0800B650(0x41, 0x1E, 0x06000000, 0, 0xF);
+    running = 1;
+    sub_080008C8();
+    state = 0;
+    sub_0801AA34(0x1E);
+    while (running) {
+        if (timer++ > 0x12E) {
+            switch (state) {
+            case 0:
+                sub_080889D4(0x46B, 0x12C);
+                break;
+            case 1:
+                sub_080889D4(0x46C, 0x12C);
+                break;
+            case 2:
+                sub_080889D4(0x46D, 0x12C);
+                break;
+            case 3:
+                sub_080889D4(0x46E, 0x12C);
+                break;
+            case 4:
+                running = 0;
+                break;
+            }
+            state++;
+            timer = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+    }
+
+    sub_0801AA8C(0x1E);
+    sub_08057624(0x1E);
+    sub_0800B650(0x44, 0x1E, 0x06000000, 0, 0xF);
+    running = 1;
+    state = 0;
+    sub_0801AA34(0x1E);
+    while (running) {
+        if (timer++ > 0x12E) {
+            switch (state) {
+            case 0:
+                sub_080889D4(0x46F, 0x12C);
+                break;
+            case 1:
+                sub_080889D4(0x470, 0x12C);
+                break;
+            case 2:
+                sub_080889D4(0x471, 0x12C);
+                break;
+            case 3:
+                running = 0;
+                break;
+            }
+            state++;
+            timer = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+    }
+
+    sub_0801AA8C(0x1E);
+    sub_08057624(0x1E);
+    sub_0800B650(0x3F, 0x1E, 0x06000000, 0, 0xF);
+    running = 1;
+    state = 0;
+    sub_0801AA34(0x1E);
+    while (running) {
+        if (timer++ > 0x12E) {
+            switch (state) {
+            case 0:
+                sub_080889D4(0x472, 0x12C);
+                break;
+            case 1:
+                sub_080889D4(0x473, 0x12C);
+                break;
+            case 2:
+                running = 0;
+                break;
+            }
+            state++;
+            timer = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+    }
+
+    sub_0801AA8C(0x1E);
+    sub_08057624(0x1E);
+    buf = sub_08001494(0x800);
+    m.zero2 = 0;
+    CpuFastSet(&m.zero2, buf, 0x01000200);
+    sub_08001348(buf, (void *)0x0600F000, 0x800);
+    sub_08057624(5);
+    sub_08001538((s32)buf);
+    running = 1;
+    state = 0;
+    sub_0801AA34(0xA);
+    while (running) {
+        if (timer++ > 0x12E) {
+            switch (state) {
+            case 0:
+                sub_080889D4(0x474, 0x12C);
+                break;
+            case 1:
+                sub_080889D4(0x475, 0x12C);
+                break;
+            case 2:
+                running = 0;
+                break;
+            }
+            state++;
+            timer = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+    }
+
+    sub_0801AA8C(0x1E);
+    sub_08057624(0x1E);
+    sub_0800B650(0x42, 0x1E, 0x06000000, 0, 0xF);
+    running = 1;
+    state = 0;
+    sub_0801AA34(0x1E);
+    while (running) {
+        if (timer++ > 0x12E) {
+            switch (state) {
+            case 0:
+                sub_080889D4(0x476, 0x12C);
+                break;
+            case 1:
+                sub_080889D4(0x477, 0x12C);
+                break;
+            case 2:
+                running = 0;
+                break;
+            }
+            state++;
+            timer = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+    }
+
+    sub_0801AA8C(0x1E);
+    sub_08057624(0x1E);
+    sub_080009C0(0x1D00, 0, 1);
+    *(u16 *)&bg = 0x1E03;
+    sub_08000AA8(2, (u16 *)&bg);
+    *(u16 *)&bg = 0x1F03;
+    sub_08000AA8(3, (u16 *)&bg);
+    sub_0800B650(0x43, 0x1F, 0x06000000, 0, 0xF);
+    sub_0800B650(0x3D, 0x1E, 0x06000000, 0, 0xF);
+    running = 1;
+    state = 0;
+    sub_0801AA34(0x1E);
+    b = 0x10;
+    a = 0;
+    while (running) {
+        if (state > 2 && timer > 0x3C) {
+            fade86860(4, 8, 1, b, a, 0);
+            if (!(gUnk_03002344 & 7)) {
+                if ((s16)--b <= 0)
+                    b = 0;
+                if ((s16)++a > 15)
+                    a = 16;
+            }
+        }
+        if (timer++ > 0x12E) {
+            switch (state) {
+            case 0:
+                sub_080889D4(0x478, 0x12C);
+                break;
+            case 1:
+                sub_080889D4(0x479, 0x12C);
+                break;
+            case 2:
+                sub_080889D4(0x47A, 0x12C);
+                break;
+            case 3:
+                break;
+            case 4:
+                running = 0;
+                break;
+            }
+            state++;
+            timer = 0;
+        }
+        sub_080003F0();
+        SKIP_KEYS2();
+        if (skip)
+            goto end;
+        if (sub_080021A8())
+            goto end;
+    }
+    sub_080009F8(0x400, 0, 1);
+end:
+    running = 0;
+    sub_080586D0(0xA);
+    sub_0801ABE8(6);
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    sub_08057624(0x3C);
+    sub_0800903C(0, 0, 0, 0, 0, 0);
+    reset86860(0x25A112EBFULL);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08086860);
+#endif
 struct Rgb087788 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord087788 { u32 r:5, g:5, b:5, x:1; };
 /* Fade a palette range toward grey level `fade & 0x1F` over `fade >> 16` frames. */

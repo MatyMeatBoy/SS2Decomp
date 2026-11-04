@@ -1,10 +1,11 @@
-sub_08087A5C (nov03-w4, round 2): draft now exact size 612, 2 instructions differ (the name-loop
-  `c = *s` load: ROM `ldrb r1; adds r0, r1, #0`, ours `ldrb r0; adds r1, r0, #0`). Keys that got here:
-  - fade vars `s16 a, b` passed to a local proto `(u32,u32,u32,u16,u16,u32)` with `(s16)++a`/`(s16)--b`.
-  - `mode = arg1 >> 16; arg1 &= 0xFFFF; while (--arg1 != -1)` (count reuses arg1 -> r8, mode r9->sl).
-  - mode loops reuse `row` as the index (r6), not a separate `i`.
-  - F6 case reads through its own invariant `name0 = (u8 *)&gUnk_03003CE0[0] + 2` (hoisted to sl);
-    F4/F3/F2 through `name = base + off` with base set before the do-loop; tail
-    `*(u8 *)(col + (u32)name)` gives the ROM `adds r0, r2, r0` operand order.
+sub_08086860 (nov03-w4): first draft (fresh C), 3872 vs 3880 bytes, same block structure.
+  Keys: zero1/pos[2]/zero2 are one 12-byte stack struct (puts bg at 0x48, running 0x4C);
+  loop-1 vars are val(r7)/a(r8)/b(r9) reused by later loops (a=bg0/bg1, b=bg1/bg2), timer of
+  the late staff loops is the same variable as the early timer (no re-init, r6); the drop loop
+  is a goto loop (no rotation); last call is sub_08000420(0x25A112EBFULL) (u64 arg).
+  Left: `skip` (sl in ROM) is spilled to sp+0x50 and the loop-7 counter c takes a register
+  (ROM spills c); fade vars of the last loop behave s16 in the ROM (shifted inc/dec, fa masked
+  for r3, fb raw on stack); separate s16 fa/fb fixes that block but adds spills (3912).
+er.
   Tried for the c load: c as u32/s32/u16 (worse or same), default storing *s, `(c = *s) == 0xFF`,
   separate compare copy, switch (table, bigger).
