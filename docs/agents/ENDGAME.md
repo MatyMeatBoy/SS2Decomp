@@ -22,6 +22,19 @@ Read this before claiming a shard. It condenses what matched ~120 functions in t
 4. Sibling functions: once one function of a family matches, copy its shape (helpers, structs,
    loop forms) to the siblings in the same module.
 
+## Function families (copy a matched sibling first)
+
+- Boss/enemy main loops share one template: they start with sub_0801623C, sub_08019F60,
+  sub_08016E04, ... Copy a matched sibling (sub_0809D878, sub_0809AEE8, sub_080A1208,
+  sub_080B3648, sub_080B280C, sub_080AF3F4, sub_080B0288) and adapt; it gives near-exact
+  drafts fast. Don't declare pointer locals for &actor->anim/frame/tick or resource+0xD6 (they
+  are compiler temps in the ROM); write case bodies in the ROM's block order. Remaining
+  candidates when last checked: sub_0801801C (sh15), sub_0808F1E4 (94), sub_080AC844 (113),
+  sub_080A9950 (111), sub_080A8164 (110), sub_08098108 (100), sub_08099838 (101).
+- code_0809D878 actor family: block-local pointers, early-exit loop shape, plain field offsets,
+  `while (tile == 0xFFFF)`, macros (not inline) for repeated bodies (see shard 103/105/107 notes).
+- Goto outer loops change loop-depth weighting of register priorities (fixed an r8/r9 swap).
+
 ## Getting to a match
 
 - Exact size first (control flow, block order, inlined helpers), then registers, then stack slots.
