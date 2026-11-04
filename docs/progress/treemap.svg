@@ -673,7 +673,7 @@
 </g>
 <g><title>code_0805FB7C (24116 bytes)</title>
 <rect x="692.35" y="28.00" width="125.65" height="101.00" fill="#0d1117"/>
-<rect x="693.35" y="29.00" width="42.99" height="43.88" fill="#6e7681" stroke="#484f58" stroke-width="0.6"><title>sub_080624D8 | sub_080624D8 | unidentified  0x080624D8  3716 bytes  [todo]</title></rect>
+<rect x="693.35" y="29.00" width="42.99" height="43.88" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080624D8 | sub_080624D8 | unidentified  0x080624D8  3716 bytes  [nonmatch]</title></rect>
 <rect x="693.35" y="72.88" width="42.99" height="30.14" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>BattleResult441 | sub_0806441C | existing  0x0806441C  2552 bytes  [nonmatch]</title></rect>
 <rect x="693.35" y="103.02" width="42.99" height="24.99" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_08060E44 | sub_08060E44 | unidentified  0x08060E44  2116 bytes  [nonmatch]</title></rect>
 <rect x="736.34" y="29.00" width="30.94" height="33.08" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080605D0 | sub_080605D0 | unidentified  0x080605D0  2016 bytes  [nonmatch]</title></rect>

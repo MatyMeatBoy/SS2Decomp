@@ -20638,14 +20638,14 @@
       "name": "sub_080624D8",
       "addr": 134620376,
       "size": 3716,
-      "state": "todo",
+      "state": "nonmatch",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x080624D8",
       "canonical_symbol": "sub_080624D8",
       "domain": "game",
-      "implementation": "pending_asm",
+      "implementation": "draft",
       "display_name": "sub_080624D8",
       "name_status": "unidentified",
       "name_source": null,
@@ -20686,7 +20686,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2108,
+          "line": 2539,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
@@ -20760,7 +20760,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2737,
+          "line": 3168,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
