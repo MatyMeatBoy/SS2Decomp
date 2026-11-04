@@ -202,380 +202,292 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC80);
 #endif
 #ifdef NONMATCHING
-s32 sub_08000498(s32 *, u32);                       /* extern */
-M2C_UNK sub_0801A3D0(u8 *, u16, u32);               /* extern */
-
-void sub_0805FFBC(s32 arg0, s32 arg1, void *arg2, s32 arg3) {
-    u8 buffer[32];
+struct ItemName63 { u16 kind; u16 id; u16 suffix; u8 level; u8 grade; u8 broken; };
+extern u8 *resFF63(s32) asm("sub_08007290");
+extern u32 digitDivFF63[] asm("gUnk_084EBD5C");
+extern void textFF63(u8 *, u16, u16) asm("sub_0801A3D0");
+extern void clearFF63(s32, s32) asm("sub_0801A664");
+extern u32 widthFF63(u8 *) asm("sub_0801A638");
+extern s32 checkFF63(void) asm("sub_0801DE60");
+extern s32 divFF63(s32 *, u32) asm("sub_08000498");
+void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
+{
+    u8 buf[32];
     u8 numeric[32];
-    s32 sp40;
-    s32 sp44;
-    s32 sp48;
-    s32 sp4C;
-    u8 *sp50;
-    s32 sp54;
-    u32 sp58;
-    s32 sp5C;
-    s32 sp60;
-    u32 sp64;
-    s32 temp_r0_4;
-    s32 temp_r0_6;
-    s32 temp_r1_2;
-    s32 temp_r5;
-    s32 var_r1_4;
-    s32 var_r5;
-    s32 var_r5_2;
-    s32 var_r7_2;
-    s32 var_r8;
-    u16 temp_r0_5;
-    u16 var_r0_4;
-    u32 var_r7;
-    u32 *var_r6_2;
-    u32 temp_r0;
-    u32 temp_r0_2;
-    u32 temp_r0_3;
-    u32 temp_r5_2;
-    u32 var_r8_2;
-    u32 var_r9;
-    u8 *var_r1;
-    u8 *var_r1_2;
-    u8 *var_r1_3;
-    u8 *var_r2;
-    u8 *var_r2_2;
-    u8 *var_r4_8;
-    u8 *var_r6;
-    u32 temp_r0_7;
-    u8 temp_r1;
-    u8 temp_r2;
-    u8 temp_r2_2;
-    u8 temp_r3;
-    u8 temp_r6;
-    u8 var_r0;
-    u8 var_r0_2;
-    u8 var_r0_3;
-    u8 var_r4;
-    u8 var_r4_2;
-    u8 var_r4_3;
-    u8 var_r4_4;
-    u8 var_r4_5;
-    u8 var_r4_6;
-    u8 var_r4_7;
+    s32 value;
+    u8 *res;
+    u8 *suffix;
+    s32 broken;
+    u32 level;
+    u32 grade;
+    s32 cursed;
+    u32 mode;
+    u8 *name;
+    s32 n;
+    u8 i;
+    u16 off;
 
-    sp44 = arg0;
-    sp48 = arg3;
-    if (arg2 == NULL) {
-        goto clear63;
+    if (item == NULL)
+        goto clear;
+    suffix = NULL;
+    broken = 0;
+    level = 0;
+    grade = 0;
+    cursed = 0;
+    mode = flags & 0x7FFFFFFF;
+    switch (item->kind) {
+    case 1:
+        res = resFF63(item->id | 0x100000);
+        name = res + gUnk_03003470 * 31;
+        broken = 0;
+        level = 0;
+        grade = 0;
+        break;
+    case 2:
+    {
+        u8 *r = resFF63(item->id | 0xB0000);
+        name = r + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        if (grade == 0)
+            grade = *(u16 *)(r + 0xBC);
+        goto suffix;
     }
-    sp50 = 0;
-    sp54 = 0;
-    sp58 = 0;
-    sp5C = 0;
-    sp60 = 0;
-    sp64 = sp48 & 0x7FFFFFFF;
-    temp_r0 = M2C_FIELD(arg2, u16 *, 0) - 1;
-    switch (temp_r0) {                              /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        sp4C = sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x100000);
-        var_r6 = (u8 *)sp4C + (gUnk_03003470 * 0x1F);
-        sp54 = 0;
-        sp58 = 0;
-        sp5C = 0;
-        var_r9 = arg1 << 0x10;
-        goto block_31;
-    case 1:                                         /* switch 1 */
-        temp_r0_4 = sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xB0000);
-        var_r6 = (u8 *)temp_r0_4 + (gUnk_03003470 * 0x1F);
-        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
-        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
-        temp_r3 = M2C_FIELD(arg2, u8 *, 7);
-        sp5C = (s32) temp_r3;
-        if (temp_r3 == 0) {
-            sp5C = (s32) M2C_FIELD(temp_r0_4, u16 *, 0xBC);
-        }
-block_14:
-        temp_r0_5 = M2C_FIELD(arg2, u16 *, 4);
-        var_r9 = arg1 << 0x10;
-        if (temp_r0_5 == 0) {
-
-        } else {
-            sp50 = (u8 *)sub_08007290((temp_r0_5 - 1) | 0x130000);
-        }
-        goto block_31;
-    case 2:                                         /* switch 1 */
-        var_r1_4 = 0xC0000;
-block_9:
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | var_r1_4) + (gUnk_03003470 * 0x1F);
-        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
-        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
-        sp5C = (s32) M2C_FIELD(arg2, u8 *, 7);
-        goto block_14;
-    case 3:                                         /* switch 1 */
-        var_r1_4 = 0xD0000;
-        goto block_9;
-    case 6:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x110000) + (gUnk_03003470 * 0x1F);
-        sp54 = 0;
-        sp58 = 0;
-block_27:
-        var_r9 = arg1 << 0x10;
-        goto block_31;
-    case 4:                                         /* switch 1 */
-        temp_r0_6 = sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xE0000);
-        var_r6 = (u8 *)temp_r0_6 + (gUnk_03003470 * 0x1F);
-        sp54 = (s32) M2C_FIELD(arg2, u8 *, 8);
-        sp58 = (u32) M2C_FIELD(arg2, u8 *, 6);
-        sp5C = (s32) M2C_FIELD(arg2, u8 *, 7);
-        if (M2C_FIELD(temp_r0_6, u8 *, 0xA0) != 0) {
-            sp60 = 1;
-        }
-        goto block_14;
-    case 5:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0xF0000) + (gUnk_03003470 * 0x1F);
-        sp54 = 0;
-        sp58 = 0;
-        sp5C = 0;
-block_29:
-        var_r9 = arg1 << 0x10;
-        goto block_31;
-    case 8:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x150000) + (gUnk_03003470 * 0x1F);
-        var_r9 = arg1 << 0x10;
-        goto block_31;
-    case 9:                                         /* switch 1 */
+    case 3:
+        name = resFF63(item->id | 0xC0000) + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        goto suffix;
+    case 4:
+        name = resFF63(item->id | 0xD0000) + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        goto suffix;
+    case 7:
+        name = resFF63(item->id | 0x110000) + gUnk_03003470 * 31;
+        broken = 0;
+        level = 0;
+        break;
+    case 5:
+    {
+        u8 *r = resFF63(item->id | 0xE0000);
+        name = r + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        if (r[0xA0] != 0)
+            cursed = 1;
+    }
+    suffix:
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
+        break;
+    case 6:
+        name = resFF63(item->id | 0xF0000) + gUnk_03003470 * 31;
+        broken = 0;
+        level = 0;
+        grade = 0;
+        break;
+    case 9:
+        name = resFF63(item->id | 0x150000) + gUnk_03003470 * 31;
+        break;
+    case 10:
         if (sub_0800CC98() == 0) {
-            sp40 = M2C_FIELD(arg2, s32 *, 4);
-            var_r6_2 = &gUnk_084EBD5C;
-            var_r4_8 = numeric;
-            var_r7_2 = 0;
-            var_r8_2 = 0;
-            var_r9 = arg1 << 0x10;
-            do {
-                temp_r0_7 = sub_08000498(&sp40, *var_r6_2) + 0x41;
-                *var_r4_8 = temp_r0_7;
-                if ((var_r7_2 != 0) || ((u8)temp_r0_7 != 0x41)) {
-                    var_r4_8 += 1;
-                    var_r7_2 = 1;
+            u32 *div;
+            u8 *out;
+            s32 started;
+            u32 k;
+            value = *(s32 *)&item->suffix;
+            div = digitDivFF63;
+            out = numeric;
+            started = 0;
+            for (k = 0; k <= 5; k++) {
+                *out = divFF63(&value, *div) + 0x41;
+                if (started != 0 || *out != 0x41) {
+                    out++;
+                    started = 1;
                 }
-                var_r8_2 += 1;
-                var_r6_2++;
-            } while (var_r8_2 <= 5U);
-            M2C_FIELD(var_r4_8, u8 *, 0) = 7;
-            M2C_FIELD(var_r4_8, s8 *, 1) = 0;
-            var_r6 = numeric;
+                div++;
+            }
+            out[0] = 7;
+            out[1] = 0;
+            name = numeric;
         } else {
-            var_r6 = (u8 *)sub_08007290(0x160000) + (gUnk_03003470 * 0x1F);
-            goto block_27;
+            name = resFF63(0x160000) + gUnk_03003470 * 31;
         }
-        goto block_31;
-    case 7:                                         /* switch 1 */
-        var_r6 = (u8 *)sub_08007290(M2C_FIELD(arg2, u16 *, 2) | 0x120000) + (gUnk_03003470 * 0x1F);
-        goto block_29;
+        break;
+    case 8:
+        name = resFF63(item->id | 0x120000) + gUnk_03003470 * 31;
+        break;
     default:
-        goto clear63;
-    }
-clear63:
-    sub_0801A664(arg1, 2);
-    return;
-block_31:
-        switch (sp64) {                             /* switch 2; irregular */
-        case 0:                                    /* switch 2 */
-            if (sp54 != 0) {
-                buffer[0] = 0xA1;
-                var_r5 = 0;
-                if (*var_r6 != 0) {
-                    var_r1_2 = var_r6;
-                    var_r2_2 = buffer + 1;
-                    do {
-                        *var_r2_2 = *var_r1_2;
-                        var_r1_2 += 1;
-                        var_r2_2 += 1;
-                        var_r5 += 1;
-                    } while (*var_r1_2 != 0);
-                }
-                var_r1 = &M2C_FIELD(&(buffer)[var_r5], u8 *, 1);
-                var_r0_2 = 0xFD;
-            } else {
-                if (sp5C != 0) {
-                    if (sp5C == 7) {
-                        sp5C = 6;
-                    }
-                    buffer[0] = sp5C + 0xA1;
-                    var_r5_2 = 1;
-                } else {
-                    var_r5_2 = 0;
-                }
-                if (sp60 != 0) {
-                    (buffer)[var_r5_2] = 0xCD;
-                    var_r5_2 += 1;
-                }
-                if (gUnk_03003470 == 2) {
-                    if (sp50 != 0) {
-                        var_r4_3 = 0;
-                        if (M2C_FIELD(sp50, u8 *, 0x3E) != 0) {
-                            do {
-                                (buffer)[var_r4_3 + var_r5_2] = *(sp50 + (var_r4_3 + 0x3E));
-                                var_r4_3 += 1;
-                            } while (*(sp50 + (var_r4_3 + 0x3E)) != 0);
-                        }
-                        temp_r5 = var_r5_2 + var_r4_3;
-                        (buffer)[temp_r5] = 0x51;
-                        var_r5_2 = temp_r5 + 1;
-                    }
-                    var_r4_4 = 0;
-                    if (*var_r6 != 0) {
-loop_56:
-                        (buffer)[var_r4_4 + var_r5_2] = var_r6[var_r4_4];
-                        var_r4_4 += 1;
-                        if (var_r6[var_r4_4] != 0) {
-                            if ((u32) var_r4_4 > 0x1BU) {
-
-                            } else {
-                                goto loop_56;
-                            }
-                        }
-                    }
-                } else {
-                    var_r4_5 = 0;
-                    if (*var_r6 != 0) {
-loop_60:
-                        (buffer)[var_r4_5 + var_r5_2] = var_r6[var_r4_5];
-                        var_r4_5 += 1;
-                        if (var_r6[var_r4_5] != 0) {
-                            if ((u32) var_r4_5 <= 0x1BU) {
-                                goto loop_60;
-                            }
-                        }
-                    }
-                    var_r5_2 += var_r4_5;
-                    var_r4_4 = 0;
-                    if (sp50 != 0) {
-                        (buffer)[var_r5_2] = 0x51;
-                        var_r5_2 += 1;
-                        temp_r1_2 = gUnk_03003470 * 0x1F;
-                        if (*(sp50 + temp_r1_2) != 0) {
-                            do {
-                                (buffer)[var_r4_4 + var_r5_2] = *(sp50 + (var_r4_4 + temp_r1_2));
-                                var_r4_4 += 1;
-                            } while (*(sp50 + (var_r4_4 + temp_r1_2)) != 0);
-                        }
-                    }
-                }
-                var_r4_6 = var_r4_4 + var_r5_2;
-                if (sp58 != 0) {
-                    if (sp58 <= 9U) {
-                        var_r4_7 = var_r4_6 + 1;
-                        temp_r6 = var_r4_7;
-                        buffer[var_r4_6] = 0x4C;
-                        temp_r5_2 = sp58 / 10U;
-                        sp58 = sp58 % 10U;
-                        if (temp_r5_2 != 0) {
-                            var_r4_7 += 1;
-                            (buffer)[temp_r6] = temp_r5_2 + 0x41;
-                        }
-                        var_r4_6 = var_r4_7 + 1;
-                        var_r1_3 = buffer + var_r4_7;
-                        var_r0_3 = sp58 + 0x41;
-                    } else {
-                        temp_r2_2 = var_r4_6 + 1;
-                        buffer[var_r4_6] = 0x4C;
-                        var_r4_6 = temp_r2_2 + 1;
-                        var_r1_3 = &(buffer)[temp_r2_2];
-                        var_r0_3 = sp58 + 0xAC;
-                    }
-                    *var_r1_3 = var_r0_3;
-                    (buffer)[var_r4_6] = 0xFD;
-                }
-                var_r1 = &(buffer)[var_r4_6];
-                var_r0_2 = 0xFD;
-            }
-            goto block_104;
-            break;
-        case 1:                                     /* switch 2 */
-            var_r4 = 0;
-            if (sp54 != 0) {
-                buffer[0] = 0xA1;
-                var_r4 = 1;
-            } else if (M2C_FIELD(arg2, u16 *, 0) != 1) {
-                if (*var_r6 != 0) {
-                    do {
-                        (buffer)[var_r4] = var_r6[var_r4];
-                        var_r4 += 1;
-                    } while (var_r6[var_r4] != 0);
-                }
-            } else if (M2C_FIELD(sp4C, u16 *, 0xA0) == 1) {
-                if (sub_0801DE60() == 0) {
-                    var_r7 = (u32) M2C_FIELD(gUnk_030034E0, u16 *, 0x48) * 4U * M2C_FIELD(sp4C, u16 *, 0xA2);
-                } else {
-                    var_r7 = M2C_FIELD(sp4C, u16 *, 0xA2);
-                }
-                var_r4 = 0;
-                var_r0 = *var_r6;
-loop_84:
-                if ((var_r0 != 0xFD) && (var_r0 != 0xF7)) {
-                    (buffer)[var_r4] = M2C_FIELD(&var_r6[var_r4], u8 *, 0);
-                    var_r4 += 1;
-                    var_r0 = var_r6[var_r4];
-                    goto loop_84;
-                }
-                var_r8 = var_r4 + 3;
-                if (M2C_FIELD(&var_r6[var_r4], u8 *, 0) != 0xFD) {
-                    temp_r0_2 = var_r7 / 100U;
-                    temp_r0_3 = var_r7 % 100U;
-                    if (temp_r0_2 != 0) {
-                        temp_r1 = var_r4;
-                        var_r4 = temp_r1 + 1;
-                        buffer[temp_r1] = temp_r0_2 + 0x41;
-                    }
-                    temp_r2 = var_r4 + 1;
-                    buffer[var_r4] = (temp_r0_3 / 10U) + 0x41;
-                    var_r4 = temp_r2 + 1;
-                    (buffer)[temp_r2] = (temp_r0_3 % 10U) + 0x41;
-                }
-                var_r2 = &var_r6[var_r8];
-                if (*var_r2 != 0) {
-                    do {
-                        (buffer)[var_r4] = *var_r2;
-                        var_r8 += 1;
-                        var_r4 += 1;
-                        var_r2 = &var_r6[var_r8];
-                    } while (*var_r2 != 0);
-                }
-            } else if (*var_r6 != 0xFD) {
-                do {
-                    (buffer)[var_r4] = var_r6[var_r4];
-                    var_r4 += 1;
-                } while (var_r6[var_r4] != 0xFD);
-            }
-            var_r1 = &(buffer)[var_r4];
-            var_r0_2 = 0xFD;
-block_104:
-            *var_r1 = var_r0_2;
-            break;
-        case 2:                                     /* switch 2 */
-            var_r4_2 = 0;
-            if (sp54 != 0) {
-                buffer[0] = 0xA1;
-                var_r4_2 = 1;
-            } else if (*var_r6 != 0xFD) {
-                do {
-                    (buffer)[var_r4_2] = var_r6[var_r4_2];
-                    var_r4_2 += 1;
-                } while (var_r6[var_r4_2] != 0xFD);
-            }
-            var_r1 = &(buffer)[var_r4_2];
-            var_r0_2 = 0;
-            goto block_104;
-        default:
-            break;
-        }
-        var_r0_4 = 0;
-        if (sp48 < 0) {
-            var_r0_4 = 0 - ((u32) sub_0801A638(buffer) >> 1);
-        }
-        sub_0801A3D0(buffer, (u16) ((s16) var_r0_4 + sp44), var_r9 >> 0x10);
+    clear:
+        clearFF63(y, 2);
         return;
-}
+    }
 
+    switch (mode) {
+    case 0:
+        if (broken != 0) {
+            u8 *src, *dst;
+            buf[0] = 0xA1;
+            n = 0;
+            if (*name != 0) {
+                src = name;
+                dst = buf + 1;
+                do {
+                    *dst++ = *src++;
+                    n++;
+                } while (*src != 0);
+            }
+            buf[n + 1] = 0xFD;
+            break;
+        }
+        if (grade != 0) {
+            if (grade == 7)
+                grade = 6;
+            buf[0] = grade + 0xA1;
+            n = 1;
+        } else {
+            n = 0;
+        }
+        if (cursed != 0) {
+            buf[n] = 0xCD;
+            n++;
+        }
+        if (gUnk_03003470 == 2) {
+            if (suffix != NULL) {
+                i = 0;
+                if (suffix[gUnk_03003470 * 31] != 0) {
+                    do {
+                        buf[i + n] = suffix[i + gUnk_03003470 * 31];
+                        i++;
+                    } while (suffix[i + gUnk_03003470 * 31] != 0);
+                }
+                n += i;
+                buf[n] = 0x51;
+                n++;
+            }
+            i = 0;
+            if (name[0] != 0) {
+                do {
+                    buf[i + n] = name[i];
+                    i++;
+                } while (name[i] != 0 && i <= 0x1B);
+            }
+        } else {
+            i = 0;
+            if (name[0] != 0) {
+                do {
+                    buf[i + n] = name[i];
+                    i++;
+                } while (name[i] != 0 && i <= 0x1B);
+            }
+            n += i;
+            i = 0;
+            if (suffix != NULL) {
+                s32 o;
+                buf[n] = 0x51;
+                n++;
+                o = gUnk_03003470 * 31;
+                if (suffix[o] != 0) {
+                    do {
+                        buf[i + n] = suffix[i + o];
+                        i++;
+                    } while (suffix[i + o] != 0);
+                }
+            }
+        }
+        i = i + n;
+        if (level != 0) {
+            if (level <= 9) {
+                u32 tens;
+                buf[i++] = 0x4C;
+                tens = level / 10;
+                level = level % 10;
+                if (tens != 0)
+                    buf[i++] = tens + 0x41;
+                buf[i++] = level + 0x41;
+            } else {
+                buf[i++] = 0x4C;
+                buf[i++] = level + 0xAC;
+            }
+            buf[i] = 0xFD;
+        }
+        buf[i] = 0xFD;
+        break;
+    case 1:
+        i = 0;
+        if (broken != 0) {
+            buf[0] = 0xA1;
+            i = 1;
+        } else if (item->kind == 1) {
+            if (*(u16 *)(res + 0xA0) == 1) {
+                u32 v;
+                s32 j;
+                u8 *p;
+                if (checkFF63() == 0)
+                    v = *(u16 *)(res + 0xA2) * (*(u16 *)(gUnk_030034E0 + 0x48) << 2);
+                else
+                    v = *(u16 *)(res + 0xA2);
+                for (i = 0; name[i] != 0xFD && name[i] != 0xF7; i++)
+                    buf[i] = name[i];
+                j = i + 3;
+                if (name[i] != 0xFD) {
+                    u32 h = v / 100;
+                    v = v % 100;
+                    if (h != 0)
+                        buf[i++] = h + 0x41;
+                    h = v / 10;
+                    v = v % 10;
+                    buf[i++] = h + 0x41;
+                    buf[i++] = v + 0x41;
+                }
+                p = name + j;
+                if (*p != 0) {
+                    do {
+                        buf[i] = *p;
+                        j++;
+                        i++;
+                        p = name + j;
+                    } while (*p != 0);
+                }
+            } else {
+                while (name[i] != 0xFD) {
+                    buf[i] = name[i];
+                    i++;
+                }
+            }
+        } else {
+            while (name[i] != 0) {
+                buf[i] = name[i];
+                i++;
+            }
+        }
+        buf[i] = 0xFD;
+        break;
+    case 2:
+        i = 0;
+        if (broken != 0) {
+            buf[0] = 0xA1;
+            i = 1;
+        } else {
+            while (name[i] != 0xFD) {
+                buf[i] = name[i];
+                i++;
+            }
+        }
+        buf[i] = 0;
+        break;
+    }
+    off = 0;
+    if (flags < 0)
+        off = -(widthFF63(buf) >> 1);
+    x += (s16)off;
+    textFF63(buf, x, y);
+}
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
 #endif
