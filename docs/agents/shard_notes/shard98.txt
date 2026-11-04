@@ -8,3 +8,10 @@ w7 (2026-11-04), sub_08094638 (34 diff lines, spill-slot order only). ROM slots:
   Permuter 5 min x2 jobs (randomization): no improvement.
 s before
   indices), or a struct holding indices+frames.
+
+w7 (2026-11-04), sub_08094F3C (shard 148; m2c-style draft with register-asm hacks, nmscore 93, 1220 vs 1212):
+  ROM keeps &sp4C (second Anim) in sl from its init call on (`add r0,sp,#0x4c; mov sl,r0`, later
+  `mov r0,sl`/`ldr r1,[sl,#12]`) and &sp80 (frame) in r9; ours rematerializes both. Pointer locals
+  (`pb = &sp4C`, `pf = &sp80`, alone or both) are worse (178-187, size 1224-1232). The u8/u16 state vars
+  (sp90 timer u16, sp94/sp98/spA0 u8, spA4/spA8) are spilled pseudos (`lsls/lsrs` then `str` to the slot).
+  Permuter: whole preprocessed module files (nmstandalone.sh) fail the control compile; use trimmed files.
