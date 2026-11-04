@@ -795,7 +795,7 @@ void sub_08002B70_(void)
         case 1:
             if (keys2B70 == 1) {
                 result = 1;
-                s = &saves[slot];
+                s = (struct Save2B70 *)(slot * sizeof(struct Save2B70) + (u32)saves);
                 if (s->used == 0) {
                     se2B70(0xF);
                     winClose2B70(3);
@@ -1031,7 +1031,7 @@ void sub_08002B70_(void)
                 pal2B70(i + 16, chars[i].fC + saves[i].pal * 32, 1);
             obj2B70(pos2B70[i].x, posY2B70[i * 2], anim[i], frame[i], 0, &chars[i].id, chars[i].f8, chars[i].f0);
         }
-        s = &saves[slot];
+        s = (struct Save2B70 *)(slot * sizeof(struct Save2B70) + (u32)saves);
         num2B70(0x15, 1, s->level + 1, 0);
         if (s->fC != 0xFFFF) {
             if (s->used == 0)
@@ -1058,7 +1058,7 @@ void sub_08002B70_(void)
             *w++ = 0;
             *w++ = 0;
         }
-        s = &saves[slot];
+        s = (struct Save2B70 *)(slot * sizeof(struct Save2B70) + (u32)saves);
         num2B70(0x15, 5, s->f3C, 0);
         num2B70(0x15, 7, s->f3E, 0);
         num2B70(0x15, 9, s->f22, 0);
