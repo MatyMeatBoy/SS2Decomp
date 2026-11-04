@@ -199,7 +199,6 @@ extern u8 sub_08098F2C(void);
 extern void sub_0809975C(void);
 extern void sub_080997C0(u16,u16);
 #endif
-#ifdef NONMATCHING
 struct Sprite108 {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
 struct Player108 {u8 p0[0x30];u32 flags;u8 p34[0x118];};
 struct Spr108 {u8 *sprite;u8 p4[0x148];};
@@ -470,7 +469,8 @@ void sub_08098108(void *input)
                         n = sub_08002164();
                         actor->f200 = 0xFF;
                         for (player = 0; player < n; player++) {
-                            if ((u32)(sprites108[player].sprite[0] << 28) >> 28 == 10)
+                            u8 kind = (u32)(sprites108[player].sprite[0] << 28) >> 28;
+                            if (kind == 10)
                                 actor->f200 = 0;
                         }
                         if (actor->f200 == 0) {
@@ -676,9 +676,6 @@ void sub_08098108(void *input)
 #undef S108
 #undef I108
 #undef P108
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_08098108);
-#endif
 struct Player98F {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
 struct Entity98F {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern struct Player98F players98F[] asm("gUnk_03003CE0");
