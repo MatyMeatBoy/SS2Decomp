@@ -1,15 +1,14 @@
 
-nov03-w1 (third pass, ~60 min, no improvement over the src draft):
-  - Pointer locals set right before each inner loop (progress=&g22, period=&g20, level=&g1294 /
-    inner=&display16, blend=&inner->f44, st=&g26 shared by both loops) reproduce the ROM preheaders
-    (r4/r5/r6 + sl) and the fresh `ldr =g22` in the exit code (CSE does not cross the loop label).
-  - With a real outer `for (;;)` the outer loop.c pass hoists g1294 (savings 4, life 5) and g22
-    (pass 2); the ROM hoists neither. With a goto outer loop nothing is hoisted, step stays in a hi
-    reg (sl, ROM r9), st r8 (ROM sl), blend r9 (ROM r8): 241 vs 236 insns, mostly a hi-reg rotation,
-    plus the exit block is not cross-jumped and the 0x8000 / ~0x16 constants are not rematerialised.
-  - The ROM's `movs r3,#0x80; lsls r3,#8; adds r0,r3,#0` (and -23 likewise) look like hoisted
-    constants whose pseudo got no hard reg; a `u32 mask = 0x8000` local made things worse.
-  - Tool: `agbcc ... -dL` dump ("Insn N: regno R (life L), savings S [not desirable|moved]") shows
-    exactly which constants each loop pass hoists.
-nto step or
-    reads g26 fresh and stores g22 via the hoisted reg. With sl missing, g1294 (outer) gets sl.
+w7 (2026-11-04), sub_0801A7AC (draft with register-asm hacks: nmscore 64). Clean rewrite reached 88 (not landed):
+  - Outer loop must be a `goto again` loop (loop.c ignores it): only `step = &gUnk_03000026` (r9) and
+    `screen = &gUnk_03001250` (r7) are set before it, as user pointer locals. A for(;;) outer loop hoists
+    every global (138). Inner fade/blend loops are real `for (;;)` loops with `goto finished` exits
+    (ROM hoists their globals into r4/r5/r6 in each preheader); goto inner loops are worse.
+  - `s32 f2 = (s16)(flags16 & 2)` (asrs), `u16 d = *step; total = gUnk_03000022 + d; sd = (s16)d;`,
+    branch 1 level store as `f2 = 0; if (*step > 0) level16 = f2;` (ROM's early `movs r2,#0`).
+  - The ROM keeps a SECOND &gUnk_03000026 in sl, set in each inner-loop preheader and used only by the
+    shared `finished` test, while the finish store `gUnk_03000022 = 0` reloads its address. Clean C gets
+    sl = &gUnk_03000022 instead (gcse reuses the loop's hoisted &22 for the finish store). A `saved =
+    &gUnk_03000026` pointer set before each loop and read in finished helped (95 -> 88) but is not kept in sl.
+  - Remaining clean-version diffs: the 0x8000 mask is built in r3 then copied (`movs r3; lsls r3; adds r0,r3`),
+    the d/progress load registers are swapped (r1/r0), and the f16 branch level store ordering.
