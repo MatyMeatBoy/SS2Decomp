@@ -726,9 +726,8 @@ void sub_080A9950_v(struct Act9950 *a)
         loadPal9950(gTile9950 + 0x10, anim0.fC + res->fD6 * 32, 1);
         loadPal9950(gTile9950 + 0x10, anim1.fC + res->fD6 * 32, 1);
         if (sub_0800CD8C() == 0) {
-            idx = side * 5 + pose * 10;
-            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, gPose9950[idx + 4]);
-            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, gPose9950[idx + 4]);
+            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, gPose9950[pose * 10 + side * 5 + 4]);
+            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, gPose9950[pose * 10 + side * 5 + 4]);
         }
         proj9950((s16)(gA9950->f14 >> 8), (s16)(gA9950->f18 >> 8), &sxA, &syA, 0, 0);
         if (gB9950->f1FE == 1 || gB9950->f1FD == 1) {
