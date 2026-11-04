@@ -1347,6 +1347,8 @@ struct EntFB6 {
 };
 struct AuxFB6 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
 extern struct EntFB6 *actor9FB6C asm("gUnk_0300032C");
+struct PlayerFB6 { u8 p0[0x30]; u32 flags; u8 p34[0x118]; };
+extern struct PlayerFB6 playersFB6[] asm("gUnk_03003CE0");
 extern u16 palette9FB6C asm("gUnk_03000330");
 extern u32 active9FB6C asm("gUnk_030056FC");
 extern u32 seen9FB6C[][83] asm("gUnk_03003DC4");
@@ -1595,18 +1597,23 @@ void sub_0809FB6C(void *input)
         sound9FB6C(13);
         transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource,0xD6),palette9FB6C,2);
     }
-    player=sub_080020F4();
-    if(!(W9FB6C(players9FB6C+player*0x14C,0x30)&0x2000) && actor9FB6C->f5A!=0) {
+    if(!(playersFB6[sub_080020F4()].flags&0x2000) && actor9FB6C->f5A!=0) {
         reward=reward9FB6C(inventory9FB6C,resource);
-        endTimer=29;
+        floatingOffset=0x1D;
         do {
-            fresh=actor9FB6C;fresh->y-=0x20;
-            rise9FB6C(fresh,reward);sub_080003F0();endTimer=(u16)(endTimer-1);
-        } while((s16)endTimer!=-1);
+            struct EntFB6 *g=actor9FB6C;
+            g->y-=0x20;
+            rise9FB6C(g,reward);
+            sub_080003F0();
+            floatingOffset--;
+        } while(floatingOffset!=-1);
         rewardDone9FB6C(inventory9FB6C,reward);
     }
-    endTimer=111;
-    do {sub_080003F0();endTimer=(u16)(endTimer-1);} while((s16)endTimer!=-1);
+    floatingOffset=0x6F;
+    do {
+        sub_080003F0();
+        floatingOffset--;
+    } while(floatingOffset!=-1);
     sub_08067C18();while(sub_08067C08()==0) sub_080003F0();sub_08067BF8();
     while((u8)sub_080A1088()!=0) sub_080003F0();
     sub_08056E24();while(sub_08056E90()==0) sub_080003F0();
