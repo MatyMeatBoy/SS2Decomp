@@ -1,0 +1,8 @@
+shard 112 notes
+
+sub_080AB2F8 (3868 bytes): MATCHED (nov03-w3), fresh C in the sub_080AF3F4 style (shard115.txt).
+  Actor global gUnk_03000434 accessed as gAct->field (arg kept only for fC/f4C/dead/dmg); keys:
+  `{ u16 *tp = &gTile; *tp = sub_08016E04(...); }` (gTile address loaded before the call),
+  `lim = 0x78` local compared as `lim < cnt7++` (constant rematerialized in a register),
+  `limit < counter++`, screen pos as two s16 locals, lastAnim u16, history clear as
+  *(s32 *)((u8 *)hist + j * 4 + i * 0x14C) = 0.
