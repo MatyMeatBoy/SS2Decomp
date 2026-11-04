@@ -1,0 +1,8 @@
+
+w7 (2026-11-04), sub_08045F44 (nmscore 173, exact size 1356; diffs are register renaming throughout).
+  - The f8C>>8 value lives in r6 in the ROM, the same register as `a = bitF4445(2)`: writing it as `a`
+    reproduces `asrs r6` (but nmscore 184); `cntv` gives 170 (size 1360).
+  - The big-constant reloads in the bitF4445 inlines (`ldr rX,=0x1C7/0x1BB; adds r0,r0,rX`) rotate
+    r1, r3, r4, r1, r3, r4 in the ROM (r4 free, r2 skipped) vs r1, r2, r1, r2 in ours: whole-function
+    register usage differs, so fixing locals alone does not help.
+  - The three `asm("" : "+r"(id))` barriers: 2 or more = 113 nmdiff lines, 0-1 = 141.
