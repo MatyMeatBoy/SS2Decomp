@@ -21,3 +21,12 @@ sub_0809CC2C (nov03-w5, 2026-11-03): fresh C draft landed, now 34 normalized dif
   ROM c0 idx*4, c4 0x16, c8 p5c, cc pD6 (p5c/pD6 look evicted by reload after global alloc), mine
   c0 p5c, c4 idx*4, c8 0x16, cc pD6; plus r1/r2 swap in the final players[...].flags test.
   Tried: register keyword, removing pointer vars (hgen combos), inline prep/frame helpers, permuter 20 min.
+
+codex-solo follow-up (2026-11-03): sub_0809D374 now matches (484 bytes).
+  Compute the first index*0x14C before advancing the shared position-slot base by 0x148;
+  this lets agbcc reuse the stride constant with `subs r1,#4` and keep the adjusted base
+  in r8 across both sub_080020F4 calls, eliminating the extra sl save/restore. An empty
+  pointer constraint preserves the early canonical-base load. Keep packed Y in r1 and
+  delay its >>20 until after the X subtraction to reproduce the last instruction order.
+  Strict nmdiff MATCH, full ROM compare OK, NONMATCHING build and check_tree all pass.
+  Original ASM evidence: asm/nonmatchings/code_08097E28/sub_0809D374.s at3532a9c5.
