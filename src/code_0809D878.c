@@ -1336,7 +1336,17 @@ void sub_0809FB18(void)
 #define I9FB6C(p,o) (*(s32 *)((u8 *)(p)+(o)))
 #define P9FB6C(p,o) ((u16 *)((u8 *)(p)+(o)))
 struct Sprite9FB6C {u32 base,p4,data,palette,p10,p14,p18;u8 payload[24];};
-extern u8 *actor9FB6C asm("gUnk_0300032C");
+struct EntFB6 {
+    u16 f0, f2; u8 p4[4]; u16 f8; u8 pA[2]; u16 fC; u8 pE[6];
+    s32 x, y; u8 p1C[0x30]; u32 f4C; u32 f50; u8 p54[6]; u16 f5A; u16 f5C; u16 f5E;
+    u8 p60[8]; u16 f68, f6A, f6C, f6E;
+    u8 p70[0x164]; u16 f1D4, f1D6; u8 p1D8[0x24];
+    u8 lo:4; u8 hi:4;
+    u8 f1FD, f1FE, p1FF; u8 f200; u8 p201; u16 f202;
+    u8 p204[0xd4]; u16 f2D8, f2DA;
+};
+struct AuxFB6 { u8 p0[4]; s16 f4, f6; u8 p8[0xce]; u16 fD6; };
+extern struct EntFB6 *actor9FB6C asm("gUnk_0300032C");
 extern u16 palette9FB6C asm("gUnk_03000330");
 extern u32 active9FB6C asm("gUnk_030056FC");
 extern u32 seen9FB6C[][83] asm("gUnk_03003DC4");
@@ -1368,13 +1378,13 @@ extern void sound9FB6C(s32) asm("sub_08058688");
  * Both post-animation and pre-draw global actor reloads are significant. */
 #define END_RENDER9FB6C() do { \
     fresh=actor9FB6C; \
-    animResult=anim9FB6C(&sprite,H9FB6C(fresh,0x68),P9FB6C(fresh,0x6A),P9FB6C(fresh,0x6C),1); \
+    animResult=anim9FB6C(&sprite,fresh->f68,&fresh->f6A,&fresh->f6C,1); \
     fresh=actor9FB6C; \
-    H9FB6C(fresh,0x6E)=animResult; \
-    screen9FB6C((s32)(W9FB6C(fresh,0x14)<<8)>>16,(s32)(W9FB6C(fresh,0x18)<<8)>>16,&sx,&sy,zero,zero); \
-    sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1); \
+    fresh->f6E=animResult; \
+    screen9FB6C((s32)(fresh->x<<8)>>16,(s32)(fresh->y<<8)>>16,&sx,&sy,zero,zero); \
+    sub_08000AF0(palette9FB6C+16,sprite.palette+(resource->fD6<<5),1); \
     fresh=actor9FB6C; \
-    draw9FB6C(sx,sy,H9FB6C(fresh,0x68),H9FB6C(fresh,0x6A),2,sprite.payload,sprite.data,sprite.base); \
+    draw9FB6C(sx,sy,fresh->f68,fresh->f6A,2,sprite.payload,sprite.data,sprite.base); \
 } while(0)
 
 void sub_0809FB6C(void *input)
@@ -1382,14 +1392,14 @@ void sub_0809FB6C(void *input)
     struct Sprite9FB6C sprite;
     u8 callbackDone;
     s16 sx,sy;
-    u8 *resource;
+    struct AuxFB6 *resource;
     s32 lastDamage,flash;
     u32 elapsed,rounds;
     s32 angle;
     u32 amplitudeY;
     s32 finished;
     u16 *animation,*frame,*tick;
-    u8 *actor,*fresh;
+    struct EntFB6 *actor,*fresh;
     u16 floatingTimer;
     s16 floatingOffset;
     u32 amplitudeX;
@@ -1402,36 +1412,31 @@ void sub_0809FB6C(void *input)
 
     actor=input;
     actor9FB6C=actor;
-    resource=actor+0x204;
+    resource=(struct AuxFB6 *)((u8 *)actor+0x204);
     setup9FB6C(actor,config9FB6C,0);
     resourceInit9FB6C(resource);
     sub_0801A0A4(actor);
-    allocation=allocate9FB6C(H9FB6C(actor,0x2D8),H9FB6C(actor,0x2DA));
-    palette9FB6C=allocation;
-    if(allocation==0xFFFF) {
-        do {
-            H9FB6C(actor,0xC)=11;
-            if(sub_0800CB78()!=0 || sub_08056E90()!=0) {
-                active9FB6C&=~(1U<<H9FB6C(actor,0));
-                return;
-            }
-            sub_080003F0();
-        } while(palette9FB6C==0xFFFF);
+    palette9FB6C=allocate9FB6C(actor->f2D8,actor->f2DA);
+    while(palette9FB6C==0xFFFF) {
+        actor->fC=11;
+        if(sub_0800CB78()!=0 || sub_08056E90()!=0) {
+            active9FB6C&=~(1U<<actor->f0);
+            return;
+        }
+        sub_080003F0();
     }
     init9FB6C(&sprite,0x50009,palette9FB6C,-1,1);
     sprite.payload[0]=palette9FB6C;
-    value=(s16)(S9FB6C(resource,6)*3);
-    H9FB6C(actor,0x1D6)=value; H9FB6C(actor,0x5C)=value;
-    value=(s16)(S9FB6C(resource,4)*20);
-    H9FB6C(actor,0x1D4)=value; H9FB6C(actor,0x5E)=value;
-    H9FB6C(actor,0xC)=0;
+    actor->f5C=actor->f1D6=resource->f6*3;
+    actor->f5E=actor->f1D4=(resource->f4<<1)*10;
+    actor->fC=0;
     floatingTimer=0;flash=0;
-    H9FB6C(actor,0x6C)=0; H9FB6C(actor,0x6A)=0; H9FB6C(actor,0x68)=0;
-    B9FB6C(actor,0x1FD)=3; B9FB6C(actor,0x1FE)=3;
+    actor->f6C=0; actor->f6A=0; actor->f68=0;
+    actor->f1FD=3; actor->f1FE=3;
     sub_08097FE4();sub_08097A4C();sub_08097C4C();sub_080A0FA8();
     sub_080A1170();sub_080A10B8();sub_080A10FC();sub_08097D70();
-    W9FB6C(actor,0x50)=1;
-    tick=P9FB6C(actor,0x6C);frame=P9FB6C(actor,0x6A);animation=P9FB6C(actor,0x68);
+    actor->f50=1;
+    tick=&actor->f6C;frame=&actor->f6A;animation=&actor->f68;
     player=0;
     do {
         entry=0;
@@ -1442,50 +1447,50 @@ void sub_0809FB6C(void *input)
         player=(s16)(player+1);
     } while(player<=3);
     angle=0;elapsed=0;rounds=0;amplitudeX=0;amplitudeY=0;
-    B9FB6C(actor,0x1FC)=(B9FB6C(actor,0x1FC)&0xF0)|(B9FB6C(actor,0)&0xF);
-    H9FB6C(actor,0x202)=H9FB6C(actor,2);
-    B9FB6C(actor,0x200)=0xFF;
-    H9FB6C(actor,8)=(u16)elapsed;
+    actor->lo=actor->f0;
+    actor->f202=actor->f2;
+    actor->f200=0xFF;
+    actor->f8=(u16)elapsed;
     finished=0;
     sub_08067C18();
     while(sub_08067C08()==0) sub_080003F0();
     sub_08067BF8();reset9FB6C();
     while(sub_0800CB78()==0 && sub_08056E90()==0) {
-        if(H9FB6C(actor,0xC)==10 && flash==0) flash=8;
+        if(actor->fC==10 && flash==0) flash=8;
         if(sub_08058DB0()==0) {
             update9FB6C(actor);
             if(sub_08056F78()!=0) {
                 if(amplitudeX<=47) amplitudeX=(u8)(amplitudeX+1); else amplitudeX=48;
                 if(amplitudeY<=5) amplitudeY=(u8)(amplitudeY+1); else amplitudeY=6;
-                W9FB6C(actor,0x14)=(u32)(s32)gUnk_080B9704[angle+64]*amplitudeX+0x8000U;
-                W9FB6C(actor,0x18)=(u32)(s32)gUnk_080B9704[angle]*amplitudeY+0x5800U;
+                actor->x=(u32)(s32)gUnk_080B9704[angle+64]*amplitudeX+0x8000U;
+                actor->y=(u32)(s32)gUnk_080B9704[angle]*amplitudeY+0x5800U;
                 angle=(u8)(angle+1);
             }
-            switch((u32)B9FB6C(actor,0x1FD)-1) {
+            switch((u32)actor->f1FD-1) {
             case 0:
-                H9FB6C(actor,0xC)=0;
+                actor->fC=0;
                 if(sub_08067C08()!=0) {
-                    B9FB6C(actor,0x1FD)=B9FB6C(actor,0x1FE);
+                    actor->f1FD=actor->f1FE;
                     sub_08067BF8();
                 }
                 break;
             case 1:
-                H9FB6C(actor,0xC)=0;
-                value=(u8)sub_08068490();B9FB6C(actor,0x200)=value;
+                actor->fC=0;
+                value=(u8)sub_08068490();actor->f200=value;
                 if(value!=0xFF) {
-                    B9FB6C(actor,0x1FE)=5;B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                    actor->f1FE=5;actor->f1FD=1;sub_08067C18();
                 }
                 break;
             case 2:
                 if(sub_08056F78()!=0) {
                     sub_080A1094();sub_08097D64();
-                    B9FB6C(actor,0x1FE)=10;B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                    actor->f1FE=10;actor->f1FD=1;sub_08067C18();
                 }
                 break;
             case 3:
-                H9FB6C(actor,0xC)=1;W9FB6C(actor,0x50)++;
+                actor->fC=1;actor->f50++;
                 if(rounds>1) {
-                    rounds=0;B9FB6C(actor,0x1FE)=7;B9FB6C(actor,0x1FD)=1;
+                    rounds=0;actor->f1FE=7;actor->f1FD=1;
                     sub_08067C18();sub_080A11B4();
                 } else {
                     callbackDone=0;
@@ -1493,56 +1498,56 @@ void sub_0809FB6C(void *input)
                         randomValue=(s16)random9FB6C();
                         remainder=(s16)(randomValue%4);
                         if(remainder<0) remainder=-remainder;
-                        B9FB6C(actor,0x200)=remainder;
-                        if(sub_08068450(B9FB6C(actor,0x200))==1) {
-                            B9FB6C(actor,0x1FE)=2;B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                        actor->f200=remainder;
+                        if(sub_08068450(actor->f200)==1) {
+                            actor->f1FE=2;actor->f1FD=1;sub_08067C18();
                         }
                     } else {
-                        B9FB6C(actor,0x200)=0xFF;B9FB6C(actor,0x1FE)=2;
-                        B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                        actor->f200=0xFF;actor->f1FE=2;
+                        actor->f1FD=1;sub_08067C18();
                     }
                 }
                 break;
             case 4:
-                H9FB6C(actor,0xC)=2;sub_0805865C(0xBD);
-                callback9FB6C(B9FB6C(actor,0x200),&callbackDone);
-                B9FB6C(actor,0x200)=0xFF;B9FB6C(actor,0x1FE)=6;
-                B9FB6C(actor,0x1FD)=1;sub_08067C18();
+                actor->fC=2;sub_0805865C(0xBD);
+                callback9FB6C(actor->f200,&callbackDone);
+                actor->f200=0xFF;actor->f1FE=6;
+                actor->f1FD=1;sub_08067C18();
                 break;
             case 5:
-                H9FB6C(actor,0xC)=2;
+                actor->fC=2;
                 if(callbackDone==1) {
                     sub_080A1058();rounds=(u8)(rounds+1);elapsed=0;
-                    B9FB6C(actor,0x1FD)=1;B9FB6C(actor,0x1FE)=10;sub_08067C18();
+                    actor->f1FD=1;actor->f1FE=10;sub_08067C18();
                 }
                 break;
             case 6:
-                H9FB6C(actor,0xC)=2;elapsed=0;
-                B9FB6C(actor,0x1FD)=1;B9FB6C(actor,0x1FE)=10;sub_08067C18();
+                actor->fC=2;elapsed=0;
+                actor->f1FD=1;actor->f1FE=10;sub_08067C18();
                 break;
             case 9:
-                H9FB6C(actor,0xC)=0;oldElapsed=elapsed;elapsed=(u16)(oldElapsed+1);
+                actor->fC=0;oldElapsed=elapsed;elapsed=(u16)(oldElapsed+1);
                 if(oldElapsed>180) {
-                    B9FB6C(actor,0x1FD)=1;B9FB6C(actor,0x1FE)=4;sub_08067C18();
+                    actor->f1FD=1;actor->f1FE=4;sub_08067C18();
                 }
                 break;
             }
         }
-        if(sub_0800CD8C()==0) H9FB6C(actor,0x6E)=anim9FB6C(&sprite,*animation,frame,tick,1);
+        if(sub_0800CD8C()==0) actor->f6E=anim9FB6C(&sprite,*animation,frame,tick,1);
         if(sub_08098004()&1) priority=(u8)sub_08097FF8();else priority=2;
-        screen9FB6C((s32)(W9FB6C(actor,0x14)<<8)>>16,(s32)(W9FB6C(actor,0x18)<<8)>>16,&sx,&sy,0,0);
+        screen9FB6C((s32)(actor->x<<8)>>16,(s32)(actor->y<<8)>>16,&sx,&sy,0,0);
         value=flash;
         if(value!=0) {
             flash=(u16)(value-1);
             if((value&1) && sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-                sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+                sub_08000AF0(palette9FB6C+16,sprite.palette+(resource->fD6<<5),1);
                 draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
             }
         } else if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD34()==0) {
-            sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1);
+            sub_08000AF0(palette9FB6C+16,sprite.palette+(resource->fD6<<5),1);
             draw9FB6C(sx,sy,*animation,*frame,priority,sprite.payload,sprite.data,sprite.base);
         }
-        value=W9FB6C(actor,0x4C);
+        value=actor->f4C;
         if(value!=0 && (u32)lastDamage!=value) {
             lastDamage=value;floatingTimer=10;floatingOffset=0;
         }
@@ -1551,7 +1556,7 @@ void sub_0809FB6C(void *input)
                 float9FB6C(actor,lastDamage,floatingOffset);
             if(floatingTimer&2) floatingOffset=(s16)(floatingOffset-1);
             floatingTimer=(u16)(floatingTimer-1);
-        } else {lastDamage=0;W9FB6C(actor,0x4C)=floatingTimer;}
+        } else {lastDamage=0;actor->f4C=floatingTimer;}
         if((u16)dead9FB6C(actor)!=0) finished=1;
         sub_080003F0();
         if(finished!=0) break;
@@ -1559,7 +1564,7 @@ void sub_0809FB6C(void *input)
     active9FB6C=0;
     sub_080A1058();sub_080A0FC4();sub_080A118C();sub_08097C6C();
     fresh=actor9FB6C;
-    H9FB6C(fresh,0x6C)=0;H9FB6C(fresh,0x6A)=0;H9FB6C(fresh,0x68)=0;
+    fresh->f6C=0;fresh->f6A=0;fresh->f68=0;
     floatingOffset=0;floatingTimer=10;
     do {
         if(sub_0800CCCC()==0 && sub_0800CC98()==0) {
@@ -1572,7 +1577,7 @@ void sub_0809FB6C(void *input)
         if(floatingTimer&2) floatingOffset=(s16)(floatingOffset-1);
         sub_080003F0();floatingTimer=(u16)(floatingTimer-1);
     } while(floatingTimer!=0xFFFF);
-    sub_080683CC();paletteFree9FB6C(H9FB6C(actor9FB6C,2));
+    sub_080683CC();paletteFree9FB6C(actor9FB6C->f2);
     sub_08068330((s32)0xDEADFACEU);
     while(sub_080682B8((s32)0xDEADFACEU)==0) {
         if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0) {
@@ -1590,14 +1595,14 @@ void sub_0809FB6C(void *input)
     soundStop9FB6C(0);sub_080A10AC();
     if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CD34()==0) {
         sound9FB6C(13);
-        transition9FB6C(actor9FB6C,&sprite,H9FB6C(resource,0xD6),palette9FB6C,2);
+        transition9FB6C(actor9FB6C,&sprite,resource->fD6,palette9FB6C,2);
     }
     player=sub_080020F4();
-    if(!(W9FB6C(players9FB6C+player*0x14C,0x30)&0x2000) && H9FB6C(actor9FB6C,0x5A)!=0) {
+    if(!(W9FB6C(players9FB6C+player*0x14C,0x30)&0x2000) && actor9FB6C->f5A!=0) {
         reward=reward9FB6C(inventory9FB6C,resource);
         endTimer=29;
         do {
-            fresh=actor9FB6C;W9FB6C(fresh,0x18)-=0x20;
+            fresh=actor9FB6C;fresh->y-=0x20;
             rise9FB6C(fresh,reward);sub_080003F0();endTimer=(u16)(endTimer-1);
         } while((s16)endTimer!=-1);
         rewardDone9FB6C(inventory9FB6C,reward);
