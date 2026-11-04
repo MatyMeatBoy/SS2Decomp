@@ -3551,8 +3551,7 @@ void sub_0806DB1C(struct T072DBArgs *arg) {
         if (costPlayer->resource < 0) costPlayer->resource = 0;
     }
     offset = player * 4;
-    wait = &p->wait;
-    while (*wait <= 6) {
+    while (p->wait <= 6) {
         if (p->state == 10) goto finish;
         sub_080003F0();
     }
