@@ -158,3 +158,36 @@ Only the admitted byte loop loses its comparison; all excluded loops retain
 it. A non-returning loop with the expected r0 already present must fail the
 return check. Off and loop-without-base text are reference byte-identical.
 CI runs this ROM-free suite. No SDK function is activated or credited here.
+
+## Later existing literal pools
+
+The separate `agbcc-sdk-late-pool.patch` has SHA256
+`5d03b24a211750423a708b5fdc207afe26e73216b49babeba2a769b8db9be408`.
+Its independent `-fthumb-late-pool` option defaults off. Production module
+flags do not enable it. Legacy pool placement returns the first barrier;
+the option may choose a later existing barrier within a conservative bound.
+
+The bounded 4096-node scan counts instruction lengths and reserves space for
+every pending literal, intentionally overcounting duplicates. Halfword
+constants reserve a word, matching reorg's promotion, and doubleword constants
+reserve eight bytes. Prospective literal-load lengths are also bounded below.
+Only a barrier with code plus reserved literals at most 1000 bytes qualifies,
+leaving margin for alignment and Thumb PC bias within its 1020-byte reach.
+Unsupported sizes stop the search. Without an admitted later barrier, the
+compiler falls back to unchanged legacy placement. Existing pool/relocation emission is reused.
+There are no forced placements, ROM/function exceptions or opcode rewrites.
+
+Run `python3 tools/scripts/test_sdk_late_pool.py`, accepting the same compiler,
+reference, dependency and output arguments as the CC suite. Five profiles
+execute 140,000 cases: reference, off, late placement, all options combined,
+and late placement without TST. The off text is byte-identical to reference;
+the positive fixture must move its word pool after the return.
+
+Tests include 120 distinct constants and multiple barriers, a long function
+with 520 volatile updates beyond the reach budget, 32/64-bit values and linked
+read-only data references. They execute boundaries and seeded random values
+with all incoming NZCV combinations and check memory, 32/64-bit results,
+return PC, SP and r4-r11. Linked ELF sections are loaded at actual addresses.
+A spinning negative control with the expected r0 already present must fail
+return validation. CI runs these ROM-free tests. This capability does not
+activate production flags or award a matching function.
