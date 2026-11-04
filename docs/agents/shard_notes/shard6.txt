@@ -1,18 +1,17 @@
 
-nov03-w3: sub_0800AD04 register draft is 4 diff lines: only the offY load in the finish else-branch
-  (ROM `movs r4,#0x82 ... ldrh r2,[r4,r3]` = reload of an out-of-range offset into an index reg;
-  ours `adds r4,r4,r3; ldrh r4,[r4,#0]`). Tried: other in r2, base+offset/byte-pointer/array
-  index forms, (u16 *)base)[0x41], global field access in the else-branch, volatile offX/offY,
-  dropping the asm barrier (10-12 lines). Clean struct C (no register asm) is 163 lines: the ROM
-  keeps the (s16)x sign extension before `+ offX` and agbcc folds it in every plain form tried.
-s: s16 j/i are
-  right (entry test uses lsrs of y<<16); h lives at sp0, y<<16 at sp18; set branch does not hoist x-half.
-he write-back-then-reread of pad60 (orig reads gUnk.0x60 back after str).
-
-sub_0800AD04 (177 asm): camera scroll clamp. Best 312 vs 330 bytes.
-  Diff: sign-extension of scroll temps (orig: lsl16/asr16 at use site), layout of arg2!=0 branch
-  (orig tests arg2 after flags block with branches to tail), register numbering of arg0/arg1 temps.
-  Ideas: restructure as two explicit blocks per arg2 branch; keep arg0/arg1 as u16 locals.
+nov03-w1 (2026-11-03):
+  sub_0800AD04: agbcc never emits `ldrh rX,[rA,rB]` from C (tested `*(u16 *)(p + i)` with i in a reg:
+  always `add; ldrh [r,#0]`). ROM's `movs r4,#0x82; ldrh r2,[r4,r3]` must be reload's "reload the
+  displacement into an index reg" path (reload.c, (plus HARD_REG const) with an invalid offset and
+  double_reg_address_ok), i.e. offY's address reaches reload as (mem (plus base 0x82)), probably via a
+  REG_EQUIV/equivalence substitution of a single-use address pseudo. Natural `base->offY` gives the
+  whole-sum reload (`adds r1,r3,#0; adds r1,#0x82`, 9 lines).
+  sub_0800AEF4: clean C (build: 2-byte packed cell struct!, `u32 h` so the j bound compares unsigned,
+  separate `c->type = ...` stores per branch so crossjump only merges the final strb) reaches 500 vs
+  546 bytes, ~398 lines (draft in src: 524 bytes, 227). ROM keeps `i = x - half` inside the outer
+  loop (only half and x+half are hoisted) and recomputes sy+h each outer iteration; ours hoists
+  (x-half)<<16 into a stack slot. The 0xA store pair is duplicated in the ROM (not crossjumped).
+s per arg2 branch; keep arg0/arg1 as u16 locals.
 
 sub_0800B650 (195 asm): VRAM/tile upload (sub_08001348 DMA + CpuFastSet). Size now matches (396).
   Remaining diff: 4 register-order lines: (a) ldrh [base] vs constant 0x70000 load order in tilesrc arg,
