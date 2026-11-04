@@ -31,3 +31,19 @@ sub_08073EE8 / sub_0807414C: inline must take `u32 a` (draft truncates
   angular cone and distance limit; returns entity ID or 0xFF. Proposed name:
   FindNearestTargetInCone (proposal only). Evidence: canonical ASM
   sub_08073EE8 at base 3c1e16de; team, state/HP/alive filters, ArcTan2 and Sqrt.
+
+2026-11-03 codex-solo follow-up after PR381:
+  MATCH sub_0807356C, 768 bytes. Keep byteOffset and the resulting player pointer
+  simultaneously live through an empty input-only constraint; retain pos in r2.
+  This makes the multiplier use r1, the player pointer r3 and the 0x148 constant
+  r1, exactly as in the ROM. Neither pos-r2 alone nor the offset lifetime alone
+  matches (both score55); byteOffset needs no hard-register binding. No opcode
+  ASM is used. Strict nmdiff MATCH, unwrapped normal ROM OK, NONMATCHING builds,
+  check_tree0. Prior exact-size draft and types are inherited contributor work.
+  Rejected fixed player-r3 binding changes the multiply and team-load sequences.
+  Two-minute strict-control permuter (2 jobs) found no improvement before this
+  manual lifetime hypothesis. Its remaining owned children were stopped.
+  Observed role: gather nearby eligible allies, charge MP on the owning player,
+  and install/refresh timed type-5 buffs with duration (level*10+40)*60. Proposed
+  name ApplyNearbyAllyBuff5 (proposal only). Evidence: canonical sub_0807356C
+  ASM at bf710190, player team/position tests and Buff07356C type/timer writes.

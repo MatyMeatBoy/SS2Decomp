@@ -6085,7 +6085,6 @@ struct Buff07356C { s16 timer; u16 owner; u16 type; u16 level; u8 pad8[0x20]; };
 struct Pos07356C { u16 x; u16 y; u8 f4; };
 struct Ply07356C { u8 pad0[0x24]; u16 f24; u16 f26; u8 pad28[0xC]; struct Buff07356C *buffs; u8 pad38[0x2C]; u16 state; u8 pad66[2]; u8 team; u8 pad69[0x59]; u16 mp; u8 padC4[0x84]; struct Pos07356C *pos; };
 struct Arg07356C { u32 owner; u32 bit; u8 pad8[4]; s32 fC; u8 pad10[4]; u32 level; };
-#ifdef NONMATCHING
 extern struct Ply07356C players07656C[] asm("gUnk_03003CE0");
 extern u32 flags07656C[] asm("gUnk_030063E0");
 extern void effect07656C(s32,u32) asm("sub_08074DE8");
@@ -6095,7 +6094,7 @@ void sub_0807356C(struct Arg07356C *arg0)
     u16 dist[6];
     struct Ply07356C *p;
     struct Ply07356C *player;
-    struct Pos07356C *pos;
+    register struct Pos07356C *pos asm("r2");
     s32 self;
     u32 owner, level, x;
     u16 count;
@@ -6122,7 +6121,11 @@ void sub_0807356C(struct Arg07356C *arg0)
     y = (u32)(player->pos->y << 20) >> 20;
     count = 0;
     for (i = 0; i < sub_08002164(); i++) {
-        p = &players07656C[i];
+        u32 byteOffset;
+        byteOffset = i * sizeof(struct Ply07356C);
+        p = (struct Ply07356C *)((u8 *)players07656C + byteOffset);
+        /* Preserve the index and base sum together before loading the position. */
+        asm("" : : "r"(byteOffset), "r"(p));
         pos = p->pos;
         if ((s32)(pos->f4 << 26) >= 0 && (owner > 3 || p->team == player->team)) {
             dx = (pos->x >> 4) - x;
@@ -6216,9 +6219,6 @@ void sub_0807356C(struct Arg07356C *arg0)
     }
     flags07656C[owner] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0807356C);
-#endif
 extern u8 players07686C[] asm("gUnk_03003CE0");
 extern u8 *args07686C[] asm("gUnk_03006380");
 extern u8 *tasks07686C[] asm("gUnk_030063B0");
