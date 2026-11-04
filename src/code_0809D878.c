@@ -1463,7 +1463,7 @@ void sub_0809FB6C(void *input)
             update9FB6C(actor);
             if(sub_08056F78()!=0) {
                 if(amplitudeX<=47) amplitudeX=(u8)(amplitudeX+1); else amplitudeX=48;
-                if(amplitudeY<=5) amplitudeY=(u8)(amplitudeY+1); else amplitudeY=6;
+                amplitudeY=amplitudeY<=5?(u8)(amplitudeY+1):6;
                 actor->x=(u32)(s32)gUnk_080B9704[angle+64]*amplitudeX+0x8000U;
                 actor->y=(u32)(s32)gUnk_080B9704[angle]*amplitudeY+0x5800U;
                 angle=(u8)(angle+1);
