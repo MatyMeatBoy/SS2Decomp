@@ -4160,22 +4160,22 @@ void sub_08026858(void) {
     s32 active;
     u32 timer, nextCount;
     s32 temp_r0_2;
-    register s32 temp_r0_3 asm("r4");
+    s32 temp_r0_3;
     s32 temp_r4_2;
     s32 var_r0;
     s32 var_r0_2;
     s32 var_r0_3;
     s32 var_r0_4;
-    register s32 var_r5 asm("r5");
-    register s32 var_sl asm("r10");
-    register struct T24Player08026858 *temp_r6 asm("r6");
+    s32 var_r5;
+    s32 var_sl;
+    struct T24Player08026858 *temp_r6;
     u32 temp_r0;
     u32 temp_r0_4;
     u32 temp_r1;
     u32 temp_r1_2;
     u32 temp_r2;
     u32 var_r4;
-    register u32 var_r5_2 asm("r5");
+    u32 var_r5_2;
     u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
     u8 *temp_r4;
     register struct T24Net08026858 *temp_r2_2 asm("r2");
@@ -4184,17 +4184,16 @@ void sub_08026858(void) {
     frame = 0;
     phase = 0;
     var_sl = 0;
-    asm("" : "+r"(var_sl));
 
     text = t24_call08007290_08026858(0x1403D4);
     {
-        register u32 index asm("r0") = sub_080020F4();
-        register u32 stride asm("r1") = 0x14C;
-        asm("" : "+r"(index), "+r"(stride));
+        u32 index = sub_080020F4();
+        u32 stride = 0x14C;
+
         stride *= index;
         {
-            register u8 *base asm("r0") = (u8 *)t24_players08026858;
-            asm("" : "+r"(base), "+r"(stride));
+            u8 *base = (u8 *)t24_players08026858;
+
             temp_r6 = (struct T24Player08026858 *)(stride + (u32)base);
         }
     }
@@ -4207,11 +4206,11 @@ void sub_08026858(void) {
     }
     temp_r1 = t24_state08026858->unk4 << 0x10;
     {
-        register u32 first asm("r0") = temp_r1 >> 0x18;
+        u32 first = temp_r1 >> 0x18;
         register u32 one asm("r3");
-        asm("" : "+r"(first));
+
         one = 1;
-        asm("" : "+r"(one));
+
         if (first & one) {
             return;
         }
@@ -4233,7 +4232,7 @@ poll_input:
     if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
         {
             register s32 scratch asm("r3");
-            register s32 value asm("r0");
+            s32 value;
             register s32 limit asm("r2");
             asm("" : "=r"(scratch));
             value = x;
@@ -4249,7 +4248,7 @@ poll_input:
             {
                 register s32 scratch asm("r2");
                 register s32 limit asm("r2");
-                register s32 value asm("r0");
+                s32 value;
                 asm("" : "=r"(scratch));
                 value = y;
                 asm("" : "+r"(value), "+r"(scratch));
@@ -4288,7 +4287,7 @@ poll_input:
                             temp_r6->flags = temp_r2 & 0xFFFFFBFF;
                             {
                                 register s32 zero asm("r0") = 0;
-                                asm("" : "+r"(zero));
+
                                 sub_08057328(zero, &t24_callback08026858);
                             }
                         }
@@ -4318,14 +4317,14 @@ block_29:
 scan_body:
         {
             temp_r2_2 = t24_players08026858[var_r4].net;
-            asm("" : "+r"(temp_r2_2));
+
             x = (s16) ((u16) temp_r2_2->unk0 >> 4);
             temp_r1_2 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
             y = (s16) temp_r1_2;
             {
-                register s32 value asm("r0") = x;
+                s32 value = x;
                 register s32 limit asm("r3");
-                asm("" : "+r"(value));
+
                 limit = 0xF0;
                 asm("" : "+r"(limit));
                 var_r0_3 = value - limit;
@@ -4347,8 +4346,8 @@ scan_body:
 scan_check:
         if (var_r4 < sub_08002164()) goto scan_body;
         {
-            register u32 total asm("r0") = sub_08002164();
-            asm volatile("" : "+r"(total) : : "memory");
+            u32 total = sub_08002164();
+
             var_r7 = nextCount;
             if (var_r5 != total) {
                 var_r7 = 0;
@@ -4373,11 +4372,11 @@ block_51:
         {
             register u32 xbase asm("r1") = 0xF0;
             register u32 ybase asm("r2");
-            register u32 xbits asm("r0");
-            register u32 ybits asm("r1");
+            u32 xbits;
+            u32 ybits;
             asm("" : "+r"(xbase));
             xbits = xbase << 16;
-            asm("" : "+r"(xbits));
+
             ybase = 0x88;
             asm("" : "+r"(ybase));
             ybits = ybase << 16;
@@ -4394,10 +4393,10 @@ block_57:
     sub_0805865C(0x24);
     var_r5_2 = 1;
     {
-        register s16 *endX = &x;
-        register s16 *endY asm("r6") = &y;
-        register u32 xpos asm("r8") = 0xF00000;
-        asm("" : "+r"(endX), "+r"(endY), "+r"(xpos));
+        s16 *endX = &x;
+        s16 *endY = &y;
+        u32 xpos = 0xF00000;
+
 loop_59:
         goto end_poll;
 end_yield:
@@ -4407,12 +4406,12 @@ end_poll:
         if (sub_080021A8() == 0) {
             t24_call08065370_08026858(&sprite, 1, &frame, &phase, 1);
             temp_r0_3 = sub_0800CC98();
-            asm("" : "+r"(temp_r0_3));
+
             if ((temp_r0_3 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
                 sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
                 {
                     register u32 ybase asm("r2") = 0x88;
-                    register u32 ybits asm("r1");
+                    u32 ybits;
                     register u32 xbits asm("r3");
                     asm("" : "+r"(ybase));
                     ybits = ybase << 16;
@@ -4429,22 +4428,22 @@ end_poll:
             if (temp_r0_4 > 0x63U) {
                 sub_0800D014();
                 {
-                    register u32 row asm("r1") = 0;
-                    register struct T24State08026858 **state asm("r6") = &t24_state08026858;
-                    register u32 zero asm("r5") = 0;
-                    asm("" : "+r"(state), "+r"(zero), "+r"(row));
+                    u32 row = 0;
+                    struct T24State08026858 **state = &t24_state08026858;
+                    u32 zero = 0;
+
                     do {
-                        register u32 col asm("r2") = 0;
+                        u32 col = 0;
                         register u32 four asm("r0") = row << 2;
-                        register u32 next asm("r4") = row + 1;
-                        register u32 rowOffset asm("r3");
-                        asm("" : "+r"(four), "+r"(next));
+                        u32 next = row + 1;
+                        u32 rowOffset;
+
                         rowOffset = four + row;
                         do {
-                            register struct T24State08026858 *base asm("r0") = *state;
-                            register u32 idx asm("r1") = col + rowOffset;
+                            struct T24State08026858 *base = *state;
+                            u32 idx = col + rowOffset;
                             register u32 gridOffset asm("r7") = offsetof(struct T24State08026858, grid);
-                            asm("" : "+r"(base), "+r"(idx), "+r"(gridOffset));
+
                             *((u8 *)base + gridOffset + idx) = zero;
                             col++;
                         } while (col <= 4);
