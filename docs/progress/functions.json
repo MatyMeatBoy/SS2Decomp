@@ -24048,7 +24048,7 @@
       "evidence": [
         {
           "source": "src/code_08073E2C.c",
-          "line": 1273,
+          "line": 1279,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080761A4_c"
         }
       ]
@@ -31493,10 +31493,16 @@
       "canonical_symbol": "sub_080A3D2C",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_080A3D2C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "sub_080A3D2C_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 94,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A3D2C_v"
+        }
+      ]
     },
     {
       "name": "sub_080A4520",
@@ -31533,7 +31539,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 561,
+          "line": 436,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A47A0_v"
         }
       ]
@@ -31913,7 +31919,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2014,
+          "line": 1889,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run68B0"
         }
       ]
@@ -31936,7 +31942,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2116,
+          "line": 1991,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A6BE8_v"
         }
       ]
@@ -31959,7 +31965,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2227,
+          "line": 2102,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A705C_v"
         }
       ]
@@ -31999,7 +32005,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2383,
+          "line": 2258,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A756C_v"
         }
       ]
@@ -32277,7 +32283,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2918,
+          "line": 2793,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A8164_v"
         }
       ]
@@ -37108,12 +37114,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 197,
-      "existing": 78,
+      "identified": 198,
+      "existing": 79,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1683,
-      "percent_identified": 10.47872340425532
+      "unidentified": 1682,
+      "percent_identified": 10.53191489361702
     },
     "sdk": {
       "total": 155,
@@ -37126,12 +37132,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 352,
-      "existing": 207,
+      "identified": 353,
+      "existing": 208,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1683,
-      "percent_identified": 17.2972972972973
+      "unidentified": 1682,
+      "percent_identified": 17.346437346437348
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."

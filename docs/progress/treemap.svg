@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">17.30%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">352 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">17.35%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">353 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">68.20%</text>
@@ -782,7 +782,7 @@
 <rect x="420.79" y="257.94" width="55.92" height="49.47" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A4D08 | sub_080A4D08 | unidentified  0x080A4D08  5456 bytes  [nonmatch]</title></rect>
 <rect x="476.70" y="257.94" width="37.18" height="49.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A8164_v | sub_080A8164 | existing  0x080A8164  3628 bytes  [done]</title></rect>
 <rect x="420.79" y="307.41" width="28.45" height="38.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A756C_v | sub_080A756C | existing  0x080A756C  2176 bytes  [done]</title></rect>
-<rect x="420.79" y="346.19" width="28.45" height="36.29" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A3D2C | sub_080A3D2C | unidentified  0x080A3D2C  2036 bytes  [nonmatch]</title></rect>
+<rect x="420.79" y="346.19" width="28.45" height="36.29" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A3D2C_v | sub_080A3D2C | existing  0x080A3D2C  2036 bytes  [nonmatch]</title></rect>
 <rect x="449.23" y="307.41" width="23.06" height="25.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A705C_v | sub_080A705C | existing  0x080A705C  1164 bytes  [done]</title></rect>
 <rect x="472.29" y="307.41" width="22.58" height="25.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A6BE8_v | sub_080A6BE8 | existing  0x080A6BE8  1140 bytes  [done]</title></rect>
 <rect x="494.87" y="307.41" width="19.01" height="25.60" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A92C0 | sub_080A92C0 | unidentified  0x080A92C0  960 bytes  [done]</title></rect>
