@@ -43,9 +43,9 @@ void TrackStop(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
 }
 
 #ifdef NONMATCHING
-/* SDK hand-written routine; naked draft with r3/r5/r4/r9 bindings and an explicit
-   sp frame. Not matchable as-is: the original keeps flags across STR (ANDS; STR; BEQ)
-   and reuses one CMP for two branches, which this compiler never emits. */
+/* SDK hand-written routine; the naked draft retains its explicit ABI frame.
+   Remaining differences include four redundant comparisons and their branch
+   and literal-pool placement effects. Keep the original ASM fallback. */
 struct NoteFrame121 {
     struct MusicPlayerInfo *player;
     struct SoundInfo *sound;
@@ -73,6 +73,7 @@ void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *
     register u32 r8v asm("r8");
     register struct ToneData *tone asm("r9");
     u32 threshold;
+    u32 rhythmMask;
 
     asm("push {r4, r5, r6, r7, lr}\n\tmov r4, r8\n\tmov r5, r9\n\tmov r6, sl\n\tmov r7, fp\n\tpush {r4, r5, r6, r7}\n\tsub sp, #0x18");
     frame->player = player;
@@ -117,7 +118,9 @@ void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *
         r6v = (u32)tone;
         if (((struct ToneData *)r6v)->type & 0xC0)
             goto ret;
-        if (a2 & 0x80) {
+        rhythmMask = 0x80;
+        asm("" : "+r"(rhythmMask));
+        if (a2 & rhythmMask) {
             a1 = ((struct ToneData *)r6v)->pan_sweep;
             if (a1 & 0x80)
                 frame->rhythm = a1;
@@ -145,7 +148,9 @@ void ply_note(u32 cmd, struct MusicPlayerInfo *player, struct MusicPlayerTrack *
         if (chan == 0)
             goto ret;
         r6v--;
-        chan = (struct SoundChannel *)((u8 *)chan + (r6v << 6));
+        a0 = r6v << 6;
+        asm("" : : "r"(a0), "r"(r6v));
+        chan = (struct SoundChannel *)((u8 *)chan + a0);
         a1 = chan->statusFlags;
         if (!(a1 & 0xC7))
             goto chosen;
@@ -223,7 +228,9 @@ chosen:
         noteModM121(a0, trk);
     a1 = frame->rhythm;
     if (a1 != 0) {
-        trk->panX = (a1 - 0xC0) << 1;
+        a1 -= 0xC0;
+        asm("" : "+r"(a1));
+        trk->panX = a1 << 1;
         trk->flags |= 3;
     }
     TrkVolPitSet(frame->player, trk);
@@ -239,7 +246,10 @@ chosen:
     a1 = chan->velocity;
     chan->rightVolume = (s32)(trk->volMR * a1) >> 7;
     chan->leftVolume = (s32)(trk->volML * a1) >> 7;
-    sdkR3 = chan->key + *(s8 *)&trk->keyM;
+    a1 = chan->key;
+    asm("" : : "r"(a1));
+    a0 = *(s8 *)&trk->keyM;
+    sdkR3 = a1 + a0;
     if ((s32)sdkR3 < 0)
         sdkR3 = 0;
     r6v = frame->cgb;
@@ -253,10 +263,14 @@ chosen:
         a2 = trk->pitM;
         a1 = sdkR3;
         a0 = frame->cgb;
-        sdkR3 = (u32)frame->sound->MidiKeyToCgbFreq;
+        sdkR3 = (u32)frame->sound;
+        sdkR3 = (u32)((struct SoundInfo *)sdkR3)->MidiKeyToCgbFreq;
         a0 = noteCgbFreq121(a0, a1, a2);
     } else {
-        a0 = noteMidi121((struct WaveData *)r7v, sdkR3, trk->pitM);
+        a2 = trk->pitM;
+        a1 = sdkR3;
+        a0 = r7v;
+        a0 = noteMidi121((struct WaveData *)a0, a1, a2);
     }
     chan->frequency = a0;
     chan->statusFlags = 0x80;

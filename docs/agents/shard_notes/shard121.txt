@@ -1,0 +1,30 @@
+2026-11-04 codex-solo, ply_note, base bf9403b0:
+  NONMATCHING source-shape checkpoint after SDK comparison-flags activation.
+  The old compiler draft was548/original536; activation alone gives544. This
+  draft gives546, because it restores the original otherwise-missing mov #128.
+  All arithmetic, fields and choices remain C; ABI entry/return ASM is inherited.
+  No new executable ASM was added. Four empty constraints preserve lifetimes.
+
+  Stage CGB index into a0 and retain r6v as an input after the shift, preventing
+  the destructive shift of r6. Give the outer rhythm mask an opaque value so
+  the inner test rematerializes128. Preserve the pan subtraction at32-bit width
+  before storing the byte, avoiding the modulo-byte add64 replacement. Retain
+  the channel key in r1 before reading signed keyM in r0; this fixes both load
+  order and add operand order. Stage the CGB callback through sdkR3 and the
+  software MIDI arguments through a2/a1/a0 in the original order.
+
+  Remaining true instruction differences include extra CMP r0,r6 and CMP r0,r7
+  at taken-branch labels, CMP r3,0 after the channel-counter decrement, and
+  CMP r3,0 after key addition. The key branch is BGE rather than original BPL;
+  branch displacements and literal-pool placement also differ. Strict NO MATCH.
+  The current compiler reuses full CMP facts along fallthrough, not through
+  labels. Do not merely remove the repeated comparisons: predecessor/flags
+  proofs are required. The counter starts at a zero-extended byte and has only
+  a decrement on its loop backedge, but overflow/range safety must be proved
+  before consuming SUB flags as the original does.
+
+  Private source probes under build/solo121/cc_reuse compile with the real
+  full-module context and the SDK CC compiler. Their baseline normalized bytes
+  and relocations were checked against the production NONMATCHING object.
+  The unbound rhythm mask matches the bound-mask candidate without needing
+  an additional explicit register binding. No permuter was launched.
