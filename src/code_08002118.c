@@ -600,7 +600,11 @@ struct Pos2B70 {
 };
 extern struct Pos2B70 pos2B70[] asm("gUnk_08366DCC");
 extern s32 posY2B70[] asm("gUnk_08366DD0");
-extern u8 cls2B70[] asm("gUnk_08479140");
+struct Cls2B70 {
+    u32 obj;
+    u8 pad[0x54];
+};
+extern struct Cls2B70 cls2B70[] asm("gUnk_08479140");
 extern u8 cursor2B70[] asm("gUnk_080B99D4");
 extern u16 keys2B70 asm("gUnk_03001324");
 extern u16 rep2B70 asm("gUnk_03001308");
@@ -699,9 +703,8 @@ void sub_08002B70_(void)
     for (i = 0; i < 8; i++) {
         frame[i] = 0;
         timer[i] = 0;
-        s = &saves[i];
-        if (s->used) {
-            init2B70(&chars[i], *(u32 *)(cls2B70 + s->cls * 0x58), 0, 1, 0);
+        if (saves[i].used) {
+            init2B70(&chars[i], cls2B70[saves[i].cls].obj, 0, 1, 0);
             anim[i] = 8;
             chars[i].id = i;
         } else {
@@ -757,8 +760,7 @@ void sub_08002B70_(void)
                 blinkTimer = 0;
             break;
         case 1:
-            c = keys2B70;
-            if (c == 1) {
+            if (keys2B70 == 1) {
                 result = 1;
                 s = &saves[slot];
                 if (s->used == 0) {
@@ -835,25 +837,24 @@ void sub_08002B70_(void)
                     }
                     se2B70(0xF);
                 }
-            } else if (c == 2) {
+            } else if (keys2B70 == 2) {
                 se2B70(0x10);
                 result = 0;
                 loop = 0;
                 break;
-            } else if (c == 4 && saves[slot].used) {
+            } else if (keys2B70 == 4 && saves[slot].used) {
                 state = 2;
                 se2B70(0xF);
             }
-            c = rep2B70;
-            if (c & 0x20) {
+            if (rep2B70 & 0x20) {
                 se2B70(0xE);
                 if (slot > 3)
                     slot -= 4;
-            } else if (c & 0x10) {
+            } else if (rep2B70 & 0x10) {
                 se2B70(0xE);
                 if (slot <= 3)
                     slot += 4;
-            } else if (c & 0x40) {
+            } else if (rep2B70 & 0x40) {
                 se2B70(0xE);
                 if (slot == 0)
                     slot = 3;
@@ -861,7 +862,7 @@ void sub_08002B70_(void)
                     slot = 7;
                 else
                     slot--;
-            } else if (c & 0x80) {
+            } else if (rep2B70 & 0x80) {
                 se2B70(0xE);
                 if (slot == 3)
                     slot = 0;
@@ -881,12 +882,11 @@ void sub_08002B70_(void)
                 text2B70(msg2B70(0x14044A) + 2, 1, 0x11);
             break;
         case 2:
-            c = rep2B70;
-            if (c & 0x20) {
+            if (rep2B70 & 0x20) {
                 if (yes == 1)
                     se2B70(0xC6);
                 yes = 0;
-            } else if (c & 0x10) {
+            } else if (rep2B70 & 0x10) {
                 if (yes == 0)
                     se2B70(0xC7);
                 yes = 1;
@@ -917,12 +917,11 @@ void sub_08002B70_(void)
             text2B70(msg2B70(0x140446) + 2, 2, 0x11);
             break;
         case 3:
-            c = rep2B70;
-            if (c & 0x20) {
+            if (rep2B70 & 0x20) {
                 if (yes == 1)
                     se2B70(0xC6);
                 yes = 0;
-            } else if (c & 0x10) {
+            } else if (rep2B70 & 0x10) {
                 if (yes == 0)
                     se2B70(0xC7);
                 yes = 1;
@@ -978,12 +977,11 @@ void sub_08002B70_(void)
                 text2B70(msg2B70(0x14044C) + 2, 2, 0x11);
             else
                 text2B70(msg2B70(0x14044B) + 2, 2, 0x11);
-            c = rep2B70;
-            if (c & 0x20) {
+            if (rep2B70 & 0x20) {
                 if (yes == 1)
                     se2B70(0xE);
                 yes = 0;
-            } else if (c & 0x10) {
+            } else if (rep2B70 & 0x10) {
                 if (yes == 0)
                     se2B70(0xE);
                 yes = 1;
@@ -1022,9 +1020,8 @@ void sub_08002B70_(void)
             draw2B70(objA, cx, cy, 0xB, 0);
         for (i = 0; i < 8; i++) {
             anim2B70(&chars[i], anim[i], &frame[i], &timer[i], 1);
-            s = &saves[i];
-            if (s->used)
-                pal2B70(i + 16, chars[i].fC + s->pal * 32, 1);
+            if (saves[i].used)
+                pal2B70(i + 16, chars[i].fC + saves[i].pal * 32, 1);
             obj2B70(pos2B70[i].x, posY2B70[i * 2], anim[i], frame[i], 0, &chars[i].id, chars[i].f8, chars[i].f0);
         }
         s = &saves[slot];
