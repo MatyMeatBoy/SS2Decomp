@@ -6,3 +6,8 @@
   (ROM block order), case 10 has its own copy. Remaining: count-loop register choice (ROM n in r3,
   mask in r1), case-5 tail crossjump (ROM jumps to the `movs r0,#1; strb` tail), spill slot
   order of the hoisted &f6C/&f6A/&f68, `movs r0,#2; movs r5,#0` order in case 5.
+
+(nov03-w2) Most of the remaining ~112 diff lines are the spill-slot order of the three hoisted
+  address pseudos &a->f68/&a->f6A/&a->f6C (ROM 0x68/0x6C/0x70 = f68/f6A/f6C, draft f6A/f6C/f68).
+  Tried: chained `a->f68 = a->f6A = a->f6C = 0`, all 6 statement orders, a hoisted `u32 m = gMask`
+  in the count loop, do-while / comma-init count loops: no change.
