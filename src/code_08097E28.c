@@ -249,6 +249,8 @@ extern void reset108(void) asm("sub_0809975C");
 extern void shot108(u32, u32) asm("sub_080997C0");
 extern u16 wander108(s32, s32 *, u32, s32, s32) asm("sub_08013E90");
 
+extern void screenS108(s16,s16,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
+
 #define RENDER_108() { \
     s32 zero; \
     players108[sub_080020F4()].flags |= 1; \
@@ -258,7 +260,7 @@ extern u16 wander108(s32, s32 *, u32, s32, s32) asm("sub_08013E90");
             sub_08000AF0(palette108 + 0x10, (u8 *)sprite->palette + (*P108(resource, 0xD6) << 5), 1); \
             priority = sub_0800BC44(actor108->x >> 8, actor108->y >> 8, 0); \
             actor108->f6E = anim108(sprite, actor108->anim, &actor108->frame, &actor108->tick, 1); \
-            screen108((actor108->x << 8) >> 16, (actor108->y << 8) >> 16, &sx, &sy, zero, zero); \
+            screenS108((actor108->x << 8) >> 16, (actor108->y << 8) >> 16, &sx, &sy, zero, zero); \
             draw108(sx, sy, actor108->anim, actor108->frame, priority, sprite->payload, sprite->data, sprite->base); \
         } \
     } \
@@ -294,7 +296,6 @@ void sub_08098108(void *input)
     u8 priority;
     s16 player;
     s16 entry;
-    s16 i;
     u32 n;
     s32 value;
     s32 reward;
@@ -390,7 +391,7 @@ void sub_08098108(void *input)
                 mode = 1;
                 actor->state = mode;
                 if (chase108(actor, &players108[rune108(0)], 0x100, 0x20)) {
-                    if (chase++ <= limit1)
+                    if (limit1 >= chase++)
                         break;
                     actor->phase = 1;
                     shots = 0;
@@ -468,8 +469,8 @@ void sub_08098108(void *input)
                     if (wait2++ > 0x3C) {
                         n = sub_08002164();
                         actor->f200 = 0xFF;
-                        for (i = 0; i < n; i++) {
-                            if ((u32)(sprites108[i].sprite[0] << 28) >> 28 == 10)
+                        for (player = 0; player < n; player++) {
+                            if ((u32)(sprites108[player].sprite[0] << 28) >> 28 == 10)
                                 actor->f200 = 0;
                         }
                         if (actor->f200 == 0) {
@@ -481,7 +482,7 @@ void sub_08098108(void *input)
                         }
                     }
                 }
-                if (shots++ > limit2) {
+                if (limit2 < shots++) {
                     sub_0805865C(0xA8);
                     actor->next = 8;
                     actor->phase = 1;

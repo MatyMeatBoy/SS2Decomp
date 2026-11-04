@@ -7,3 +7,10 @@ sub_08098108 (nov03-w1): fresh draft from the boss-loop template (matched sub_08
   Left: render loops after death hoist players+0x30 into r9 (ROM hoists &actor/&sx into r6/r7 instead,
   A12's macro had an extra CD8C call); case 6 shots<<16 in r5 (ROM r8); case 4 zero for mode/state in r4
   (ROM r0, then rematerialised for A38/countdown); case 5 f200 scan loop registers; case 8 extra movs r3,#0.
+sub_08098108 (nov03-w1, 2026-11-04): exact size, 1 instruction-order diff left (was 481 lines).
+  Fixed: case 5 scan loop reuses the seen-loop counter `player`; `if (limit1 >= chase++) break;` and
+  `if (limit2 < shots++)` operand order; RENDER loops: loop.c only hoists players+0x30 when the loop has
+  <= ~104 RTL insns (threshold 13 * savings 2 * life 4), the ROM loop is bigger -> screen call in the
+  RENDER macro through an alias with s16 x/y params (screenS108) adds the needed pre-combine insns.
+  Left: case 5 scan loop hoists 0x14C (adds r0,#77; mov ip) before the &actor->f200 copy (adds r2,r1,#0);
+  ROM has the f200 copy first (loop.c moves invariants in loop insn order).
