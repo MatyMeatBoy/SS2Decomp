@@ -1,0 +1,23 @@
+2026-11-04 codex-solo, basefb5c9511, sub_080567D4:
+  Structural NONMATCHING checkpoint. Move the already-completed message exit and
+  missing-item retry blocks to labels after the main success path, as in ROM.
+  Original and candidate now have the same26 external-call targets in the same
+  static order (previously counts matched but ordering differed). Keep the entry
+  index in a volatile stack home, reproducing its initial store at SP0.
+  Real-module score509 ->424. Candidate1116 ->1112 versus ROM1248: still short,
+  and frame remains0x18 versus original0x14. This is not an exact-size or matching
+  checkpoint; no matching bytes claimed. Original ASM fallback retained.
+  Rejected controls: inline wait helper alone unchanged; opaque counter fixedr4
+  changes allocation; opaque table base worsens1072/1056 bytes; moving the remote
+  cleanup label inside the first flag block raises score483; tail moves without
+  volatile entry home score489. Existing u16 waits already retained decrement
+  loops, so the initial assumption that waits caused the missing bytes was wrong.
+  Next: table-base/offset arithmetic and pointer homes, repeated flag-query block
+  registers, and frame/size. Prefer a typed clean rewrite rather than more m2c
+  scalar-name mutations. Private scripts, snapshots and call-order report are in
+  build/solo056; no permuter launched. Verify hashes across all private tools.
+  Observed role: watch player entry/exit of a trigger rectangle, check progress
+  flags and inventory requirements, consume matching items and dispatch callbacks
+  or a message. Proposed name RunInventoryGateTrigger (proposal only). Evidence:
+  canonical ASM atfb5c9511, table084B23A8 stride0x2C, inventory034E0 entries150/152,
+  player positions, callbacks68070 and final transition68820. No symbol renames.
