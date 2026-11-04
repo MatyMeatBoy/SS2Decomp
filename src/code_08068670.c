@@ -4150,6 +4150,7 @@ struct SprF0CC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct PlyF0CC { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x2E]; s16 maxhp; u8 pad64[4]; u8 team; u8 pad69[0x13]; u8 f7C[0x10]; s32 x8C, y90; u8 pad94[0x2E]; u16 resource; u16 hp; u8 padC6[0x16]; u32 fDC; u8 padE0[0x68]; u16 *sprite; };
 struct EneF0CC { u16 id; u16 f2; u8 pad4[4]; u16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x40]; u16 hp; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x16A]; s16 maxhp; u8 pad1D8[4]; u8 team; u8 pad1DD[0x3B]; u8 f218[0x13]; u8 threshold; u8 pad22C[0xB4]; };
 struct OffF0CC { s16 x, y; };
+struct PosF0CC { s32 x, y; };
 extern struct PlyF0CC pF0CC[] asm("gUnk_03003CE0");
 extern u8 *eF0CCBase asm("gUnk_030056F4");
 extern u32 eF0CCMask asm("gUnk_030056FC");
@@ -4165,41 +4166,62 @@ extern void coordsF0CC(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 extern s32 animF0CC(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
 extern void spawnF0CC(s32, s32, u32, s32, s32) asm("sub_08069A30");
 extern void sendF0CC(void *) asm("sub_080694AC");
-extern void drawF0CC(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern void drawF0CC(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
 extern void palF0CC(u32, u32, u32) asm("sub_08000AF0");
 extern u16 drainF0CC(void *, void *) asm("sub_08068F9C");
 extern void numF0CC(s32, s32, u32, u32) asm("sub_0805FAC0");
+
+static inline void healNumF0CC(struct PosF0CC *pos, u32 v)
+{
+    s16 hx, hy;
+    struct PosF0CC h;
+    u16 j;
+
+    if (v > 999)
+        v = 999;
+    h = *pos;
+    for (j = 0; j < 30; j++) {
+        coordsF0CC((h.x << 8) >> 16, (h.y << 8) >> 16, &hx, &hy, 0x30, 0);
+        numF0CC(hx, hy, v, 2);
+        h.y -= 0x40;
+        sub_080003F0();
+    }
+}
 
 void sub_0806F0CC(struct ArgF0CC *arg)
 {
     struct SprF0CC spr;
     s16 dx, dy;
     u16 frame, timer;
-    s16 hx, hy;
     struct EneF0CC *e2;
     struct EneF0CC *e3;
     struct EneF0CC *e;
     struct PlyF0CC *p;
     struct PlyF0CC *p2;
     u32 target;
-    u16 lvl;
+    u32 lvl;
     u32 level;
     u16 count;
     u16 i;
     u32 n;
-    u16 d;
+    u32 d;
     u16 drain;
     u16 angle;
     s32 hit;
     u32 player;
     u32 bit;
     u32 self;
-    u16 t;
+    u16 a;
+    s16 a0;
+    s32 dd;
+    s16 sa, sang, diff;
+    s32 v;
     s32 x, y;
     u8 shade;
     u8 *kp;
-    u16 id;
+    u32 id;
     u8 tile;
+    u8 k;
 
     self = sub_080020F4();
     target = (u16)arg->target;
@@ -4286,19 +4308,23 @@ void sub_0806F0CC(struct ArgF0CC *arg)
             dx = (u32)(e2->x - x) >> 8;
             dy = (u32)(e2->y - y) >> 8;
         }
-        t = (u32)(ArcTan2(dx, dy) << 16) >> 24;
-        if (t - (s16)angle > 0x80)
-            t -= 0x100;
-        else if (t - (s16)angle < -0x80)
-            t |= 0x100;
-        {
-            s16 diff = (s16)t - (s16)angle;
-            angle += diff;
-        }
-        if ((s16)angle < 0)
-            angle += 0x100;
-        if ((s16)angle > 0x100)
-            angle -= 0x100;
+        a = (u32)(ArcTan2(dx, dy) << 16) >> 24;
+        a0 = a;
+        dd = a0 - (s16)angle;
+        if (dd > 0x80)
+            a = a0 - 0x100;
+        else if (dd < -0x80)
+            a = 0x100 | a0;
+        sa = a;
+        sang = angle;
+        diff = sa - sang;
+        sang = sang + diff;
+        angle = sang;
+        if (sang < 0)
+            angle = sang + 0x100;
+        sang = angle;
+        if (sang > 0x100)
+            angle = sang - 0x100;
         angle &= 0xFF;
     }
     x += sinF0CC[(s16)angle + 0x40] * 4;
@@ -4308,8 +4334,16 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     spr.f1D = 8;
     frame = 0;
     timer = 0;
-    lvl = lvl * 8 + 20;
-    while (lvl-- != 0 && (player != sub_080020F4() || ((u16)(p->state - 11) > 1 && sub_0800D11C() == 0))) {
+    lvl = ((lvl << 19) + (20 << 16)) >> 16;
+    for (;;) {
+        v = lvl;
+        lvl = (u16)(v - 1);
+        if (v == 0)
+            break;
+        if (player == sub_080020F4()) {
+            if ((u16)(p->state - 11) <= 1 || sub_0800D11C() != 0)
+                break;
+        }
         hit = 0;
         if (target != 0xFFFF && target > 3) {
             for (i = 0; i <= 4; i++) {
@@ -4328,14 +4362,14 @@ void sub_0806F0CC(struct ArgF0CC *arg)
         }
         if (target != 0xFFFF) {
             if (hit)
-                goto out;
+                break;
             n = sub_08002164();
             if (arg->player <= 3) {
                 for (i = 0; i < n; i++) {
                     p2 = &pF0CC[i];
                     if (p2->team == p->team)
                         continue;
-                    if ((((u8 *)p2->sprite)[0] & 0xF) == 14)
+                    if ((u32)(((u8 *)p2->sprite)[0] << 28) >> 28 == 14)
                         continue;
                     if (p2->team == 0)
                         continue;
@@ -4351,7 +4385,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
                     p2 = &pF0CC[i];
                     if (p2->flags & 0x2000)
                         continue;
-                    if ((((u8 *)p2->sprite)[0] & 0xF) == 14)
+                    if ((u32)(((u8 *)p2->sprite)[0] << 28) >> 28 == 14)
                         continue;
                     if (p2->team == 0)
                         continue;
@@ -4365,23 +4399,22 @@ void sub_0806F0CC(struct ArgF0CC *arg)
             }
         }
         if (hit)
-            goto out;
+            break;
         tile = sub_0800AE50(x, y, 0);
         if ((tile & 0xF) && !(tile & 0x10)) {
             spawnF0CC(x, y, player, 0x12, level);
-            goto out;
+            break;
         }
         x += sinF0CC[(s16)angle + 0x40] * 2;
         y += sinF0CC[(s16)angle] * 2;
         coordsF0CC((s16)(x >> 8), (s16)(y >> 8), &dx, &dy, 0x30, hit);
         shade = sub_0800BC44(x >> 8, y >> 8, 0);
-        animF0CC(&spr, d, &frame, &timer, 1);
+        animF0CC(&spr, (u16)d, &frame, &timer, 1);
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
             if (!(flagsF0CC & 1))
                 palF0CC(0x17, spr.fC, 2);
             if ((flagsF0CC & 1) == (player & 1)) {
-                u8 k = kF0CC[(s16)angle >> 4];
-                drawF0CC(dx + offF0CC[k].x, dy + offF0CC[k].y, d, frame, shade, &spr.f1C, spr.f8, spr.f0);
+                drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2], (u16)d, frame, shade, &spr.f1C, spr.f8, spr.f0);
             }
         }
         sub_080003F0();
@@ -4392,21 +4425,27 @@ out:
     if (!hit)
         goto end;
     count = 30;
-    while (count-- != 0 && (player != self || ((u16)(p->state - 11) > 1 && sub_0800D11C() == 0))) {
+    for (;;) {
+        v = count;
+        count = (u16)(v - 1);
+        if (v == 0)
+            break;
+        if (player == self) {
+            if ((u16)(p->state - 11) <= 1 || sub_0800D11C() != 0)
+                break;
+        }
         if (target > 3) {
-            coordsF0CC((e3->x << 8) >> 16, (e3->y << 8) >> 16, &dx, &dy, 0x30, 0);
+            coordsF0CC((s16)(e3->x >> 8), (s16)(e3->y >> 8), &dx, &dy, 0x30, 0);
             sub_0800BC44(e3->x >> 8, e3->y >> 8, 0);
         } else {
             coordsF0CC(p2->sprite[0] >> 4, (u32)(p2->sprite[1] << 20) >> 20, &dx, &dy, 0x30, 0);
             sub_0800BC44(p2->sprite[0] >> 4, (u32)(p2->sprite[1] << 20) >> 20, 0);
         }
-        animF0CC(&spr, (u16)(d + 8), &frame, &timer, 1);
+        animF0CC(&spr, ((d << 16) + (8 << 16)) >> 16, &frame, &timer, 1);
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
-            u8 k;
             if (!(flagsF0CC & 1))
                 palF0CC(0x17, spr.fC, 2);
-            k = kF0CC[(s16)angle >> 4];
-            drawF0CC(dx + offF0CC[k].x, dy + offF0CC[k].y + 2, (u16)(d + 8), frame, 0, &spr.f1C, spr.f8, spr.f0);
+            drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2] + 2, ((d << 16) + (8 << 16)) >> 16, frame, 0, &spr.f1C, spr.f8, spr.f0);
         }
         sub_080003F0();
     }
@@ -4425,7 +4464,7 @@ out:
         tile = sub_0800AE50(x, y, 0);
         if ((tile & 0xF) && !(tile & 0x10)) {
             spawnF0CC(x, y, player, 0x12, level);
-            goto heal;
+            break;
         }
         if (player <= 3) {
             if (player == self) {
@@ -4439,24 +4478,28 @@ out:
             dx = (e->x - x) >> 8;
             dy = (e->y - y) >> 8;
         }
-        t = (u32)(ArcTan2(dx, dy) << 16) >> 24;
-        if (t - (s16)angle > 0x80)
-            t -= 0x100;
-        else if (t - (s16)angle < -0x80)
-            t |= 0x100;
-        {
-            s16 diff = (s16)t - (s16)angle;
-            angle += diff;
-        }
-        if ((s16)angle < 0)
-            angle += 0x100;
-        if ((s16)angle > 0x100)
-            angle -= 0x100;
+        a = (u32)(ArcTan2(dx, dy) << 16) >> 24;
+        a0 = a;
+        dd = a0 - (s16)angle;
+        if (dd > 0x80)
+            a = a0 - 0x100;
+        else if (dd < -0x80)
+            a = 0x100 | a0;
+        sa = a;
+        sang = angle;
+        diff = sa - sang;
+        sang = sang + diff;
+        angle = sang;
+        if (sang < 0)
+            angle = sang + 0x100;
+        sang = angle;
+        if (sang > 0x100)
+            angle = sang - 0x100;
         angle &= 0xFF;
         kp = &kF0CC[(s16)angle >> 4];
         id = *kp + 8;
         if (Sqrt(dx * dx + dy * dy) <= 7)
-            goto heal;
+            break;
         x += sinF0CC[(s16)angle + 0x40] * 3;
         y += sinF0CC[(s16)angle] * 3;
         coordsF0CC((s16)(x >> 8), (s16)(y >> 8), &dx, &dy, 0x30, 0);
@@ -4465,50 +4508,23 @@ out:
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
             if (!(flagsF0CC & 1))
                 palF0CC(0x17, spr.fC, 2);
-            drawF0CC(dx + offF0CC[*kp].x, dy + offF0CC[*kp].y, id, frame, shade, &spr.f1C, spr.f8, spr.f0);
+            drawF0CC(dx + offF0CC[*kp].x, dy + (&offF0CC[0].y)[*kp * 2], id, frame, shade, &spr.f1C, spr.f8, spr.f0);
         }
         sub_080003F0();
     }
-heal:
     drain = drain * (arg->level + 2) / 50;
     if (arg->player <= 3) {
         if (player == self && sub_0801DF8C() == 0) {
-            u32 v;
-            s32 hx2, hy2;
-            u16 j;
             p->hp += drain;
             if ((s16)p->hp > p->maxhp)
                 p->hp = p->maxhp;
-            v = drain;
-            if (v > 999)
-                v = 999;
-            hx2 = p->x8C;
-            hy2 = p->y90;
-            for (j = 0; j < 30; j++) {
-                coordsF0CC((hx2 << 8) >> 16, (hy2 << 8) >> 16, &hx, &hy, 0x30, 0);
-                numF0CC(hx, hy, v, 2);
-                hy2 -= 0x40;
-                sub_080003F0();
-            }
+            healNumF0CC((struct PosF0CC *)&p->x8C, drain);
         }
     } else {
-        u32 v;
-        s32 hx2, hy2;
-        u16 j;
         e2->hp += drain;
         if ((s16)e2->hp > e2->maxhp)
             e2->hp = e2->maxhp;
-        v = drain;
-        if (v > 999)
-            v = 999;
-        hx2 = e2->x;
-        hy2 = e2->y;
-        for (j = 0; j < 30; j++) {
-            coordsF0CC((hx2 << 8) >> 16, (hy2 << 8) >> 16, &hx, &hy, 0x30, 0);
-            numF0CC(hx, hy, v, 2);
-            hy2 -= 0x40;
-            sub_080003F0();
-        }
+        healNumF0CC((struct PosF0CC *)&e2->x, drain);
     }
 end:
     if (player <= 3 && player != self)

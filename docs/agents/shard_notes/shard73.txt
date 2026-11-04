@@ -1,8 +1,11 @@
-- nov03-w1: sub_0806E7D4 r8/r9 swap FIXED (20 -> 10 lines): the outer `while (done < count && ...)`
-  of the hit path must be a goto loop (`goto test; body: {...} test: if (cond) goto body;`).
-  Loop depth weights REG_N_REFS, so with a real while loop &hits[i] (depth 3) outranked `shade`
-  in global alloc priority. Left: enemy loop `(flags & 1) == (player & 1)` r1/r2 swap.
-(ROM hoists lvl<<19 into r6 before the target search);
-  x/y live in sl/r9, dir d in r8 (d<<16 spilled to 0xac). The turn step keeps `(s16)t - (s16)angle` as a
-  separate truncated diff (ours folds it) and t |= 0x100 is not re-truncated; y offsets use
-  `(u32)(spr[1] << 20) >> 20`. Hit loop draws with dy + offs[k].y + 2 (ROM loads gUnk_084EBEBE).
+- nov03-w1: sub_0806F0CC rewritten (1199 -> ~786 filtered diff lines, size 3412 vs 3408). Keys:
+  `u32 d` with every use through d<<16 ((u16)d, angF0CC[(s16)d], ((d << 16) + (8 << 16)) >> 16 for d+8);
+  lvl timeout `((lvl << 19) + (20 << 16)) >> 16` + `v = lvl; lvl = (u16)(v - 1); if (v == 0) break;`
+  loops (sub_0806A19C style); turn code from sub_0806A19C; draw arg-3 prototype u32 (no truncation);
+  the 30-frame heal number loop is a `static inline healNumF0CC(struct PosF0CC *pos, u32 v)` (both
+  copies identical; x/y as 8-byte struct pair) which fixed the r4/r5/r6/r7 + r8/r9 &hx/&hy layout;
+  k = kF0CC[(s16)angle >> 4] written inline inside the draw args (dx loaded first);
+  sprite nibble as `(u32)(byte << 28) >> 28`.
+  Left: main loop (u16)d gets r8 while ROM gives &dy r8 and spills (u16)d (0x8c); count loop count/
+  &p2->sprite r8/r4 swap; homing loop kp/id swap (ROM id r8, kp spilled 0x98); spill slots 0xa8/0xac
+  swapped (angle<<16 vs d<<16); ip for the angF0CC address in the target search.
