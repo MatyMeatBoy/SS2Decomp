@@ -626,6 +626,7 @@ extern u32 handler2B70(u32) asm("sub_0800115C");
 extern void se2B70(s32) asm("sub_0805865C");
 extern void clear2B70(s32, s32) asm("sub_0801A664");
 extern u8 *msg2B70(s32) asm("sub_08007290");
+extern u8 *msgB2B70(s32) asm("sub_08007290");
 extern void text2B70(u8 *, u16, u16) asm("sub_0801A3D0");
 extern void num2B70(s32, s32, s32, s32) asm("sub_0805FB7C");
 extern void obj2B70(s32, s32, u16, u16, s32, void *, u32, u32) asm("sub_08007CF0");
@@ -665,6 +666,18 @@ static inline void run2B70(struct Save2B70 *s)
     wait2B70(0x25A112EBFULL);
 }
 
+static inline void newGame2B70(struct Save2B70 *s, void *all)
+{
+    u8 *buf = (u8 *)alloc2B70(0x2000);
+
+    task2B70.fC = sub_08003984;
+    task2B70.f10 = buf + 0x1FFC;
+    task2B70.f20 = buf;
+    task2B70.f8 = 10;
+    task2B70.f24 = 0;
+    start2B70(&task2B70, s, all);
+}
+
 void sub_08002B70_(void) asm("sub_08002B70");
 /* Save-slot select screen (8 slots, copy / erase prompts). */
 void sub_08002B70_(void)
@@ -697,9 +710,11 @@ void sub_08002B70_(void)
     struct Save2B70 *s;
     u8 *buf;
     void *tmp;
+    u8 *str;
     u32 scroll;
     u16 i;
-    u16 *v;
+    vu16 *v;
+    vu16 *w;
     u32 c;
 
     memcpy2B70(cursor, cursor2B70, 2);
@@ -792,14 +807,7 @@ void sub_08002B70_(void)
                     sub_08000E48();
                     oldHandler = handler2B70(oldHandler);
                     vmode2B70(oldMode);
-                    s = &saves[slot];
-                    buf = (u8 *)alloc2B70(0x2000);
-                    task2B70.fC = sub_08003984;
-                    task2B70.f10 = buf + 0x1FFC;
-                    task2B70.f20 = buf;
-                    task2B70.f8 = 10;
-                    task2B70.f24 = 0;
-                    start2B70(&task2B70, s, all);
+                    newGame2B70(&saves[slot], all);
                     wait2B70(0x25A112EBFULL);
                     if (saves[slot].used == 0) {
                         oldMode = vmode2B70(0x88);
@@ -887,7 +895,7 @@ void sub_08002B70_(void)
             if (saves[slot].used == 0)
                 text2B70(msg2B70(0x140449) + 2, 1, 0x11);
             else
-                text2B70(msg2B70(0x14044A) + 2, 1, 0x11);
+                text2B70(msgB2B70(0x14044A) + 2, 1, 0x11);
             break;
         case 2:
             if (rep2B70 & 0x20) {
@@ -983,9 +991,10 @@ void sub_08002B70_(void)
             draw2B70(objA, 0x82, 0x28, 0x26, yes != 0);
             draw2B70(objA, 0xB4, 0x28, 0x27, yes == 0);
             if (yes)
-                text2B70(msg2B70(0x14044C) + 2, 2, 0x11);
+                str = msg2B70(0x14044C);
             else
-                text2B70(msg2B70(0x14044B) + 2, 2, 0x11);
+                str = msgB2B70(0x14044B);
+            text2B70(str + 2, 2, 0x11);
             if (rep2B70 & 0x20) {
                 if (yes == 1)
                     se2B70(0xE);
@@ -1027,14 +1036,14 @@ void sub_08002B70_(void)
         if (s->fC != 0xFFFF) {
             if (s->used == 0)
                 goto clear;
-            v = (u16 *)0x0600E86E;
+            v = (vu16 *)0x0600E86E;
             *v++ = 0x1BB;
             *v++ = 0x1BC;
             *v++ = 0x1BD;
             *v++ = 0x1BE;
             *v++ = 0x1BF;
         } else if (s->used) {
-            v = (u16 *)0x0600E86E;
+            v = (vu16 *)0x0600E86E;
             *v++ = 0x1DB;
             *v++ = 0x1DC;
             *v++ = 0x1DD;
@@ -1042,12 +1051,12 @@ void sub_08002B70_(void)
             *v++ = 0x1DF;
         } else {
         clear:
-            v = (u16 *)0x0600E86E;
-            *v++ = 0;
-            *v++ = 0;
-            *v++ = 0;
-            *v++ = 0;
-            *v++ = 0;
+            w = (vu16 *)0x0600E86E;
+            *w++ = 0;
+            *w++ = 0;
+            *w++ = 0;
+            *w++ = 0;
+            *w++ = 0;
         }
         s = &saves[slot];
         num2B70(0x15, 5, s->f3C, 0);
@@ -1098,13 +1107,20 @@ void sub_08002B70_(void)
     se2B70(0x24);
     blend2B70(0, 0, 0, 0, 0, 0);
     free2B70(saves);
-    if (result == 0)
+    switch (result) {
+    case 0:
         sub_08000420(0x14);
-    else if (result == 1) {
-        if (sel2B70 == 0)
+        break;
+    case 1:
+        switch (sel2B70) {
+        case 0:
             sub_0800CB3C(0);
-        else if (sel2B70 == 1)
+            break;
+        case 1:
             sub_08006B2C();
+            break;
+        }
+        break;
     }
 }
 #else
