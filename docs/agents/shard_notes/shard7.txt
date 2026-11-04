@@ -1,6 +1,14 @@
-shard 7 notes (nov03-w4)
 
-sub_0800C9F4: matched (nov03-w4). u16 *dst/src with bitfield casts (the u16
-  bitfield struct is 4 bytes in agbcc), `n = count * 16` before scale/phase,
-  `count = scale` reused for the g/b products and an s64 temp for the b product
-  (found by permuter).
+sub_0800BEC0 (nov03-w2, 2026-11-04): fresh C draft (no draft before), ~220 diff lines. Findings:
+  - spill slots follow declaration order: sel, active, me, cnt1, cnt2, n, posX, posY, speed, phase,
+    inRange, flagA, flagB, handle (0x10C..0x140).
+  - position/range tables are `u16 tbl[][2]` (ROM computes tbl+2 + i*4 for [i][1]).
+  - `s32 dbg = 0` + `if (wait() != 0 && dbg == 0)` reproduces ROM's `movs r3,#0; cmp r3,#0`.
+  - phase is s16 with `phase++; phase &= 0x7F;` ((x<<16)+0x10000 form).
+  - key bits read gUnk_03001324 directly per test, nested ifs for 0x200/0x100 (fold merges `&&`).
+  - dir: `d = dir; dir = 4; if (d != 5) { dir = 3; if (d == 1) dir = 2; }` (ROM store-before-compare).
+  - switch index is players[p->f0] (CSE reuses me's reg): fresh E28/E24 literals in case 0.
+  - draw loop is goto-shaped (`i = 0; goto chk; do {...} while (i < n)`) -> ROM's `b cond`.
+  - ready-wait reads byte 3 of gUnk_03003478 (struct of 4 u8 alias).
+  - &players[i].p144 as a `Cur **pc` local (x/y/sel via pc[0], key via pc[1]) gives ROM's r9 iv.
+  Left: fB2 iv (draft combines it with a CE0 base reg), `zero` r5 placement, regalloc.

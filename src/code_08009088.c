@@ -1961,7 +1961,443 @@ void sub_0800BD5C(s32 arg) {
         sub_080003F0();
     }
 }
+#ifdef NONMATCHING
+// sub_0800BEC0 (world-map/destination select): fresh draft, ~220 diff lines, size 1378 vs ~1400 disasm
+// lines. Block layout matches except the player loop: ROM reduces &fB4/&fB2/&fB0 and &p144 to separate
+// ivs (sp+0x154/0x158/0x15c, r9) and keeps &players[me].p144 in r7; draft hoists the CE0 base and
+// computes &fB2 from it. Left: `movs r5, #0` (zero) placed after active = 0 in ROM.
+struct CurBEC0 {
+    u16 lo:4; u16 x:12;
+    u16 y:12; u16 dir:4;
+    u32 b0:6; u32 st:4; u32 b10:1; u32 sel:8; u32 b19:5; u32 mode:4; u32 b28:4;
+};
+struct PlayerBEC0 {
+    u16 f0;
+    u8 p2[0x1A];
+    u16 f1C;
+    u8 p1E[0x10];
+    u16 f2E;
+    u8 p30[0x80];
+    u16 fB0;
+    u16 fB2;
+    s16 fB4;
+    u8 pB6[0x8E];
+    struct CurBEC0 *p144;
+    struct CurBEC0 *p148;
+};
+struct SprABEC0 { u8 p0[0xC]; u8 *fC; u8 p10[0x18]; u8 f28; u8 p29[0xB]; };
+struct SprBBEC0 { u8 b[0x44]; };
+struct PairBEC0 { u32 id, key; };
+struct StateBEC0 { u16 f0; u8 p2[0x34]; u16 f36; };
+
+extern struct PlayerBEC0 playersBEC0[] asm("gUnk_03003CE0");
+extern u32 flagsBEC0 asm("gUnk_03003478");
+extern struct { u8 b0, b1, b2, b3; } flagBytesBEC0 asm("gUnk_03003478");
+extern struct StateBEC0 *stateBEC0 asm("gUnk_03005CF4");
+extern u16 regsBEC0[] asm("gUnk_03001250");
+extern u16 posTblBEC0[][2] asm("gUnk_08478F9A");
+extern u16 rngTblBEC0[][2] asm("gUnk_08479054");
+extern u16 dirTblBEC0[] asm("gUnk_08479044");
+extern s16 sinBEC0[] asm("gUnk_080B9704");
+extern u16 vofsBEC0 asm("gUnk_03001308");
+extern u16 heldBEC0 asm("gUnk_0300130C");
+extern u16 pressBEC0 asm("gUnk_03001324");
+extern u32 optBEC0 asm("gUnk_03002344");
+
+s32 waitBEC0(void) asm("sub_0801AAE0");
+void initBEC0(void *, s32, s32, s32, s32) asm("sub_08065158");
+void animBEC0(void *, u16, u16 *, s16 *, s32) asm("sub_08065370");
+void drawABEC0(void *, s32, s32, u16, u16) asm("sub_08065230");
+void drawBBEC0(void *, s32, s32, u16, u16) asm("sub_08065264");
+void selBEC0(void *, s32, s32, u16, u16, s32) asm("sub_080652E0");
+void unselBEC0(void *, s32, s32, u32, u16, s32) asm("sub_080659BC");
+s32 hasBEC0(u32) asm("sub_08057C34");
+s32 itemBEC0(s32, s32) asm("sub_0805813C");
+void setBEC0(s32) asm("sub_08057CAC");
+void clrBEC0(s32) asm("sub_08057C6C");
+void sndBEC0(s32) asm("sub_0805865C");
+void bgmBEC0(s32) asm("sub_08058688");
+s32 taskBEC0(s32, void *) asm("sub_08057328");
+void fillBEC0(s32, s32, s32, u16, s32, s32) asm("sub_0800903C");
+void gfxBEC0(s32, s32, s32, u16, u16) asm("sub_0800BCDC");
+u32 nBEC0(void) asm("sub_08002164");
+s32 strBEC0(s32) asm("sub_08007290");
+s32 lenBEC0(s32) asm("sub_0801A638");
+void textBEC0(s32, s32, s32) asm("sub_0801A3D0");
+void msgBEC0(s32, s32) asm("sub_0801A664");
+void goBEC0(u32, s32) asm("sub_08022E60");
+void sub_0800D164(void);
+
+void sub_0800BEC0(void)
+{
+    struct SprABEC0 sprA;
+    struct SprBBEC0 sprB;
+    u16 arr80[4];
+    u16 a88[24];
+    s16 aB8[24];
+    struct PairBEC0 pairs[4];
+    u32 bg;
+    u32 sel;
+    s32 active;
+    s32 me;
+    u32 cnt1, cnt2;
+    u32 n;
+    s32 posX, posY;
+    s32 speed;
+    s16 phase;
+    s32 inRange;
+    s32 flagA, flagB;
+    s32 handle;
+    u32 i, j;
+    s32 d;
+    u8 dir;
+    s16 cnt;
+    struct CurBEC0 *c;
+    struct PlayerBEC0 *p;
+    struct CurBEC0 **pc;
+    s32 s;
+    s32 zero;
+    s32 dbg;
+
+    while (waitBEC0() == 0)
+        sub_080003F0();
+    zero = 0;
+    dbg = 0;
+    if ((flagsBEC0 >> 3) & 1)
+        sel = 0;
+    else
+        sel = stateBEC0->f0;
+    active = 0;
+    flagsBEC0 |= 0x20;
+    sub_08068384();
+    initBEC0(&sprA, 0x50006, 4, -1, zero);
+    sprA.f28 = zero;
+    sub_08000AF0(0x10, sprA.fC + 0x180, 1);
+    me = sub_080020F4();
+    n = (u16)nBEC0();
+    sub_0801A508();
+    sub_080003F0();
+    gfxBEC0(0x34, 1, 0x06000000, 0, 0xF);
+    sub_0800B974(0x48, 0x1E);
+    sub_080009F8(0xF00, 0, 1);
+    sub_080009C0(0x1300, 0, 1);
+    bg = (bg & 0xFFFF0000) | 0x1C08;
+    sub_08000AA8(0, (u16 *)&bg);
+    *(u16 *)&bg = 0x1E00;
+    sub_08000AA8(2, (u16 *)&bg);
+    if (hasBEC0(5) == 0) {
+        sub_080009C0(0x400, 0, 1);
+        fillBEC0(4, 2, 1, 0xE, 0xC, zero);
+    }
+    regsBEC0[4] = zero;
+    regsBEC0[5] = zero;
+    regsBEC0[6] = zero;
+    regsBEC0[7] = zero;
+    regsBEC0[2] = zero;
+    regsBEC0[3] = zero;
+    initBEC0(&sprB, 0x500C3, 4, 0xC, zero);
+    sub_080003F0();
+    sub_080003F0();
+    sub_080003F0();
+    sub_0801AB50(3);
+    for (i = 0; i < 4; i++) {
+        arr80[i] = 0x300;
+        pairs[i].id = i;
+        pairs[i].key = 0;
+    }
+    playersBEC0[me].p144->lo = 0;
+    for (i = 0; i < n; i++)
+        playersBEC0[i].fB0 = i + 0x1B;
+    bgmBEC0(0x70);
+    posX = posTblBEC0[sel][0] << 8;
+    posY = posTblBEC0[sel][1] << 8;
+    speed = 0;
+    inRange = 0;
+    cnt2 = 0;
+    cnt1 = 0;
+    flagB = 0;
+    flagA = 0;
+    handle = taskBEC0(0, sub_0800D164);
+
+while (1) {
+    if (hasBEC0(5) == 0) {
+        phase++;
+        phase &= 0x7F;
+        fillBEC0(4, 0x32, 1, sinBEC0[phase] / 32 + 8, 0xC, 0);
+    }
+    if (active)
+        vofsBEC0 = 0;
+    if (waitBEC0() != 0 && dbg == 0) {
+        if (itemBEC0(1, 0x31))
+            cnt1++;
+        else
+            setBEC0(0x11);
+        if (itemBEC0(1, 0x2C))
+            cnt2++;
+        else
+            setBEC0(0x17);
+        if (cnt1 > 0x28) {
+            clrBEC0(0x11);
+            if (flagA == 0) {
+                sndBEC0(0x3A);
+                flagA = 1;
+            }
+        }
+        if (cnt2 > 0x3C) {
+            clrBEC0(0x17);
+            if (flagB == 0) {
+                sndBEC0(0x3B);
+                flagB = 1;
+            }
+        }
+        sel = 0xFF;
+        for (i = 0; i < 24; i++) {
+            if (i != 0 && hasBEC0(i) == 0)
+                continue;
+            if (i == 14 && ((flagsBEC0 >> 1) & 1))
+                continue;
+            d = posTblBEC0[i][0] - (posX >> 8);
+            if (d < 0)
+                d = -d;
+            if (d >= rngTblBEC0[i][0])
+                continue;
+            d = posTblBEC0[i][1] - (posY >> 8);
+            if (d < 0)
+                d = -d;
+            if (d >= rngTblBEC0[i][1])
+                continue;
+            sel = i;
+            if (inRange == 0) {
+                if (i > 14)
+                    sndBEC0(0x3B);
+                else
+                    sndBEC0(0x3A);
+                inRange = 1;
+            }
+        }
+        if (sel == 0xFF && inRange) {
+            sndBEC0(0x3C);
+            inRange = 0;
+        }
+        if (!(pressBEC0 & 0x200)) if (!(pressBEC0 & 0x100)) {
+            if (pressBEC0 & 1) {
+                if (active == 0) {
+                    if (sel != 0xFF) {
+                        sndBEC0(0xF);
+                        active = 1;
+                        if (sel == 0)
+                            goto done;
+                    } else {
+                        sndBEC0(0x61);
+                    }
+                }
+            } else if ((pressBEC0 & 2) && active) {
+                sndBEC0(0x10);
+                active = 0;
+            }
+        }
+    }
+    playersBEC0[me].p144->st = 0xF;
+    if (active) {
+        playersBEC0[me].p144->mode = 1;
+        heldBEC0 = 0;
+        posX = posTblBEC0[sel][0] << 8;
+        posY = posTblBEC0[sel][1] << 8;
+    } else {
+        playersBEC0[me].p144->mode = 0;
+    }
+    for (i = 0; i < n; i++) {
+        pairs[i].id = i;
+        pairs[i].key = 0;
+        p = &playersBEC0[i];
+        pc = &playersBEC0[i].p144;
+        if (p->p148->st != 0xF)
+            continue;
+        if (p->f0 == me) {
+            switch (playersBEC0[p->f0].p148->lo) {
+            case 0:
+                if (heldBEC0 & 0xF0)
+                    playersBEC0[p->f0].p144->lo = 1;
+                speed -= 0x80;
+                if (speed < 0)
+                    speed = 0;
+                break;
+            case 1:
+                dir = 0;
+                if (heldBEC0 & 0x40)
+                    dir = 5;
+                else if (heldBEC0 & 0x80)
+                    dir = 1;
+                if (heldBEC0 & 0x20) {
+                    d = dir;
+                    dir = 4;
+                    if (d != 5) {
+                        dir = 3;
+                        if (d == 1)
+                            dir = 2;
+                    }
+                } else if (heldBEC0 & 0x10) {
+                    d = dir;
+                    dir = 6;
+                    if (d != 5) {
+                        dir = 7;
+                        if (d == 1)
+                            dir = 8;
+                    }
+                }
+                if (dir != 0) {
+                    playersBEC0[me].p144->dir = dir - 1;
+                    speed += 0x80;
+                    if (speed >= 0x1E0)
+                        speed = 0x1E0;
+                } else {
+                    playersBEC0[me].p144->lo = 0;
+                }
+                break;
+            }
+            s = dirTblBEC0[playersBEC0[me].p148->dir];
+            posY += sinBEC0[s] * speed / 256;
+            posX += sinBEC0[s + 0x40] * speed / 256;
+            if ((posX >> 8) < 8)
+                posX = 0x800;
+            if ((posX >> 8) > 0xE8)
+                posX = 0xE800;
+            if ((posY >> 8) < 8)
+                posY = 0x800;
+            if ((posY >> 8) > 0x98)
+                posY = 0x9800;
+            pc[0]->x = posX >> 8;
+            pc[0]->y = posY >> 8;
+            pc[0]->sel = sel;
+        }
+        animBEC0(&sprA, playersBEC0[i].fB0, &playersBEC0[i].fB2, &playersBEC0[i].fB4, 1);
+        pairs[i].id = i;
+        pairs[i].key = pc[1]->y;
+    }
+    for (i = 0; i < n; i++) {
+        for (j = i + 1; j < n; j++) {
+            if (pairs[i].key < pairs[j].key) {
+                pairs[i].id ^= pairs[j].id;
+                pairs[j].id ^= pairs[i].id;
+                pairs[i].id ^= pairs[j].id;
+                pairs[i].key ^= pairs[j].key;
+                pairs[j].key ^= pairs[i].key;
+                pairs[i].key ^= pairs[j].key;
+            }
+        }
+    }
+    i = 0;
+    goto chk;
+    do {
+        p = &playersBEC0[pairs[i].id];
+        c = p->p148;
+        if (c->st != 0xF)
+            goto next;
+        if (me != pairs[i].id) {
+            if (!(optBEC0 & 1))
+                goto next;
+            if (c->mode == 0)
+                drawABEC0(&sprA, c->x, c->y, p->fB0, p->fB2);
+            else
+                drawBBEC0(&sprA, c->x, c->y, p->fB0, p->fB2);
+        } else {
+            if (c->mode == 0)
+                drawABEC0(&sprA, c->x, c->y, p->fB0, p->fB2);
+            else
+                drawBBEC0(&sprA, c->x, c->y, p->fB0, p->fB2);
+        }
+    next:
+        i++;
+    chk:;
+    } while (i < n);
+    for (i = 0; i < 24; i++) {
+        if (i != 0 && hasBEC0(i) == 0)
+            continue;
+        if (i == 14 && ((flagsBEC0 >> 1) & 1))
+            continue;
+        animBEC0(&sprB, i, &a88[i], &aB8[i], 1);
+        if (i == sel)
+            selBEC0(&sprB, posTblBEC0[i][0], posTblBEC0[i][1], i, a88[i], 1);
+        else
+            unselBEC0(&sprB, posTblBEC0[i][0], posTblBEC0[i][1], i, a88[i], 1);
+    }
+    if (!((flagsBEC0 >> 8) & 1)) {
+        if (sel != 0xFF) {
+            s = strBEC0((sel + 0x4A9) | 0x140000);
+            s += 2;
+            textBEC0(s, 0xF - lenBEC0(s) / 2, 0x12);
+        } else {
+            msgBEC0(0x12, 2);
+        }
+    }
+    sub_080003F0();
+    if (sub_08002204() != 0) {
+        cnt = 0;
+        for (i = 0; i < n; i++) {
+            p = &playersBEC0[i];
+            if (p->p148->mode != 0 && sel == p->p148->sel)
+                cnt++;
+        }
+        if (cnt != n)
+            continue;
+        playersBEC0[0].p148->mode = 2;
+        break;
+    } else if (playersBEC0[0].p148->mode == 2) {
+        break;
+    }
+    }
+    if (sel != 0 && sub_08002204() != 0) {
+        playersBEC0[0].p144->mode = 2;
+        sub_08057624(5);
+    }
+done:
+    msgBEC0(0, 0x14);
+    if (sel != 0) {
+        sub_08067C18();
+        while (sub_08067C08() == 0)
+            sub_080003F0();
+        sub_08067BF8();
+    } else {
+        while (flagBytesBEC0.b3 & 1)
+            sub_080003F0();
+    }
+    goBEC0(sel, 1);
+    sub_080003F0();
+    msgBEC0(2, 0xC);
+    sub_080003F0();
+    msgBEC0(2, 0xC);
+    sub_080003F0();
+    sub_080586D0(2);
+    sub_0801ABE8(6);
+    playersBEC0[me].p144->mode = 0;
+    playersBEC0[me].p144->st = 0;
+    sub_08058404(handle);
+    if (stateBEC0->f0 != 0) {
+        flagsBEC0 &= ~0x400000;
+        sub_08056E64();
+        sub_0805A66C();
+        for (i = 0; i < 20; i++)
+            sub_080003F0();
+        playersBEC0[me].f2E = 0;
+        sub_08057170();
+        sub_080572A4();
+        sub_080169C8();
+        sub_0805D4F4();
+        sub_080003F0();
+    } else {
+        stateBEC0->f36 = 0;
+        playersBEC0[me].f1C = 4;
+    }
+    sub_08056E78();
+    flagsBEC0 &= ~0x20;
+    initBEC0(&sprB, 0x50006, 9, 4, 0);
+    fillBEC0(0, 0, 0, 0, 0, 0);
+    flagsBEC0 &= ~0x10000;
+    sub_08000420(0xBBA);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BEC0);
+#endif
 struct Rgb0C9F4 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord0C9F4 { u32 r:5, g:5, b:5, x:1; };
 /* Pulse a palette range: scale each color of a saved copy by a sine
