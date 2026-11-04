@@ -2262,7 +2262,7 @@ digraph calls {
   "sub_08002AA0" -> "sub_0800903C" [label="c"];
   "sub_08002AA0" -> "sub_0800BCDC" [label="c"];
   "sub_08002B70" -> "memcpy" [label="asm,c"];
-  "sub_08002B70" -> "sub_08000274" [label="asm,c"];
+  "sub_08002B70" -> "sub_08000274" [label="asm"];
   "sub_08002B70" -> "sub_080003F0" [label="asm,c"];
   "sub_08002B70" -> "sub_080003F4" [label="asm,c"];
   "sub_08002B70" -> "sub_08000420" [label="asm,c"];
