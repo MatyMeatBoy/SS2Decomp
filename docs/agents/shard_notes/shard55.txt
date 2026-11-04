@@ -13,3 +13,18 @@ w7 (2026-11-04), sub_08053E3C: also no change from `done` forms: `& one`, inline
   worse. ROM detail: `one` = r5 (orrs for pl->flags and the `seen` ands), done uses a fresh `movs r0,#1`
   (result r2), and the has2060/flag0E48 path at _08053FD2 rebuilds `movs r3,#1` and shares it for the
   `ands` test and the `orrs`. Ours: done const in r3, cse keeps it alive into that path.
+
+2026-11-04 codex-solo matching follow-up: sub_08053E3C MATCH, 1160 bytes.
+  Keep the done result as signed s32 bound to r2. An empty read/write constraint
+  on the second raw byte value preserves its signed arithmetic shift instead
+  of combine replacing it with a logical shift. In a block, shift into done,
+  set a signed bit temporary to one, then use an empty read/write constraint
+  on bit with done as input before `done &= bit`. This gives the original
+  fresh one in r0 and forces the later flag helper to rematerialize one in r3.
+  An input-only bit constraint lets the compiler reuse r0 for the following
+  call and loses its movs #1. Unsigned done/bit variants use lsrs, not asrs.
+  The bit register binding was removed while retaining strict MATCH; only
+  the done r2 binding and two empty constraints remain. No opcode ASM.
+  Strict normalized bytes AND relocations match before unwrapping. The normal
+  ROM matches after deleting the ASM fallback; NONMATCHING builds, tree0.
+  This completes shard55. Original ASM evidence remains at f0697bec.

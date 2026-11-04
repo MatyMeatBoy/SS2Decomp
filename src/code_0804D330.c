@@ -4190,7 +4190,6 @@ void sub_08053D98(void)
     Clr53A80(gP030056F4);
     sub_08019F04();
 }
-#ifdef NONMATCHING
 void sub_080542C4(s32);
 void sub_0805442C(s32);
 static inline void bind53E(void (*cb)(s32), s16 mask, s16 slot)
@@ -4225,7 +4224,7 @@ void sub_08053E3C(void)
     s32 raw;
     u32 one;
     u32 seen;
-    u32 done;
+    register s32 done asm("r2");
     u32 f;
     u16 n;
     struct Player *pl;
@@ -4247,7 +4246,14 @@ void sub_08053E3C(void)
     else
         p = t53_gs0E48 + 0x1B7;
     raw = *p;
-    done = (raw >> 5) & 1;
+    asm("" : "+r"(raw));
+    {
+        s32 bit;
+        done = raw >> 5;
+        bit = 1;
+        asm("" : "+r"(bit) : "r"(done));
+        done &= bit;
+    }
     if (done != 0) {
         sub_08028AAC(1, 0x270F, 0x270F, 0);
         fade53E();
@@ -4277,6 +4283,3 @@ void sub_08053E3C(void)
     pl2->flags &= ~1;
     sub_0800D108();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0804D330", sub_08053E3C);
-#endif
