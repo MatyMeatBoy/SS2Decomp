@@ -1084,7 +1084,7 @@ void sub_0807C1D8(void) {
     sub_08065264((u8 *)gUnk_03006440 + 0xA4, 0x68, 0x78, 4, *(u16 *)((u8 *)gUnk_03006440 + 0x4C));
 }
 #ifdef NONMATCHING
-// Generated full control-flow draft; field types and register allocation remain unverified.
+// Hand-written draft (all switch cases + tail); exact size/registers still differ, see shard82.txt.
 extern u32 sub_0805AE34(const u8 *item);
 extern u32 sub_0805AE94(const void *item);
 extern u32 sub_0805B068(const void *item);
@@ -1102,9 +1102,9 @@ struct Item82 { u16 kind; u16 sub; u32 count; u8 flag; u8 flag2; u8 pad[6]; };
 struct Inv82 { u8 pad0[0x54]; u16 f54; u16 f56[9]; u16 equip; u16 f6A; u8 pad6C[4]; struct Item82 belt[9]; struct Item82 equipA, equipB, equipC, equipD, equipE; struct Item82 items[25]; struct Item82 bank[75]; };
 struct Mgr82 {
     u32 mode; u32 cursor; u32 prev; u32 fC; s32 f10; u32 f14; u32 state; u32 heldFrom; u32 heldIdx; s32 f24; u32 flags;
-    u8 pad2C[0x44 - 0x2C]; u32 page; u32 f48; u8 pad4C[0x54 - 0x4C]; u32 f54; u32 f58; u32 f5C; u32 f60; u8 pad64[4];
-    u16 f68; s16 f6A; u32 f6C; u32 f70; u8 pad74[0xE0 - 0x74]; s32 fE0; s32 fE4; s32 posX; s32 posY;
-    struct Item82 *cur; struct Item82 held; struct Item82 stock[75]; u32 f5B4; u8 sprite[4];
+    u32 f2C; u32 f30; s32 f34; u32 f38; s32 f3C; u32 f40; u32 page; u32 f48; u8 pad4C[0x54 - 0x4C]; u32 f54; u32 f58; u32 f5C; u32 f60; u8 pad64[4];
+    u16 f68; s16 f6A; u32 f6C; u32 f70; struct { u32 t, n; } anim[6]; u8 padA4[0xE0 - 0xA4]; s32 fE0; s32 fE4; s32 posX; s32 posY;
+    struct Item82 *cur; struct Item82 held; struct Item82 stock[75]; struct { u8 pad[0x136]; u16 f136[6]; } *f5B4; u8 sprite[4];
 };
 struct Pos82 { s16 x, y; };
 extern struct Pos82 gUnk_084ECBBC_82[] asm("gUnk_084ECBBC");
@@ -1119,458 +1119,27 @@ extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
 void sub_0807C29C(void) {
     u16 keys; u16 down; u32 cur, val, i, n, from, over, have, ok, slot, base, col; s32 d, idx; u8 *text; u16 target, lo, hi;
     struct Item82 *item; struct Item82 *held;
-    struct ItemCopy82 { u32 words[4]; };
     s32 sp4[4];
     vu32 sp14;
     s32 sp18[4];
     s32 sp28;
     s32 sp2C;
-    u32 sp30;
-    u32 sp34;
-    u32 sp38;
-    s16 var_r0_10;
-    u32 temp_r0_59;
-    u32 temp_r0_62;
-    u32 temp_r0_63;
-    u32 temp_r0_67;
-    u32 temp_r0_8;
-    u32 temp_r1_16;
-    u32 temp_r1_39;
-    u32 temp_r2_10;
-    u32 temp_r2_38;
-    u32 temp_r2_42;
-    u32 temp_r2_43;
-    u32 temp_r2_6;
-    u32 temp_r2_9;
-    u32 temp_r3_37;
-    u32 temp_r3_5;
-    u32 temp_r4_20;
-    u32 temp_r4_22;
-    u32 var_r1_11;
-    u32 var_r1_12;
-    u32 var_r1_15;
-    u32 var_r2_10;
-    u32 var_r2_12;
-    u32 var_r2_13;
-    u32 var_r2_2;
-    u32 var_r2_3;
-    u32 var_r2_4;
-    u32 var_r2_5;
-    u32 var_r2_6;
-    u32 var_r3_3;
-    u32 var_r4_3;
-    s32 temp_r0;
-    s32 temp_r0_100;
-    s32 temp_r0_102;
-    s32 temp_r0_103;
-    s32 temp_r0_113;
-    s32 temp_r0_115;
-    s32 temp_r0_119;
-    s32 temp_r0_120;
-    s32 temp_r0_99;
-    s32 temp_r0_9;
-    s32 temp_r1_17;
-    s32 temp_r1_34;
-    s32 temp_r1_37;
-    s32 temp_r1_38;
-    s32 temp_r1_3;
-    s32 temp_r1_41;
-    s32 temp_r1_42;
-    s32 temp_r1_48;
-    s32 temp_r1_51;
-    s32 temp_r1_52;
-    s32 temp_r1_53;
-    s32 temp_r1_62;
-    s32 temp_r1_6;
-    s32 temp_r2_39;
-    s32 temp_r2_45;
-    s32 temp_r2_46;
-    s32 temp_r2_47;
-    s32 temp_r2_4;
-    s32 temp_r2_60;
-    s32 temp_r2_61;
-    s32 temp_r2_63;
-    s32 temp_r3_26;
-    s32 temp_r3_28;
-    s32 temp_r3_29;
-    s32 temp_r3_38;
-    s32 temp_r3_3;
-    s32 temp_r3_40;
-    s32 temp_r3_4;
-    s32 temp_r3_6;
-    s32 temp_r3_7;
-    s32 temp_r3_8;
-    s32 temp_r3_9;
-    s32 temp_r4_19;
-    s32 temp_r4_21;
-    s32 temp_r5;
-    s32 temp_r5_12;
-    s32 temp_r5_13;
-    s32 temp_r5_16;
-    s32 temp_r5_17;
-    s32 temp_r6_9;
-    s32 temp_r7;
-    s32 temp_r7_4;
-    s32 var_r0_11;
-    s32 var_r0_12;
-    s32 var_r0_13;
-    s32 var_r0_14;
-    s32 var_r0_15;
-    s32 var_r0_16;
-    s32 var_r0_17;
-    s32 var_r0_8;
-    s32 var_r1_14;
-    s32 var_r1_16;
-    s32 var_r1_17;
-    s32 var_r1_18;
-    s32 var_r1_9;
-    s32 var_r2_11;
-    s32 var_r2_14;
-    s32 var_r2_8;
-    s32 var_r2_9;
-    s32 var_r5;
-    s8 var_r6;
-    u32 temp_r0_108;
-    u32 temp_r1;
-    u32 temp_r1_29;
-    u32 temp_r1_63;
-    u32 temp_r3_45;
-    u32 var_r1_7;
-    u32 var_r1_8;
-    u16 temp_r0_109;
-    u16 temp_r0_122;
-    u16 temp_r0_123;
-    u16 temp_r0_125;
-    u16 temp_r0_126;
-    u16 temp_r0_12;
-    u16 temp_r0_21;
-    u16 temp_r0_41;
-    u16 temp_r0_4;
-    u16 temp_r0_52;
-    u16 temp_r0_5;
-    u16 temp_r0_74;
-    u16 temp_r0_7;
-    u16 temp_r1_36;
-    u16 temp_r2_13;
-    u16 temp_r2_16;
-    u16 temp_r2_20;
-    u16 temp_r2_24;
-    u16 temp_r2_26;
-    u16 temp_r2_34;
-    u16 temp_r2_35;
-    u16 temp_r2_37;
-    u16 temp_r2_3;
-    u16 temp_r2_41;
-    u16 temp_r2_44;
-    u16 temp_r3_10;
-    u16 temp_r3_13;
-    u16 temp_r3_14;
-    u16 temp_r3_15;
-    u16 temp_r3_16;
-    u16 temp_r3_17;
-    u16 temp_r3_18;
-    u16 temp_r3_21;
-    u16 temp_r3_22;
-    u16 temp_r3_23;
-    u16 temp_r3_24;
-    u16 temp_r3_25;
-    u16 temp_r3_34;
-    u16 temp_r3_35;
-    u16 temp_r4_12;
-    u16 temp_r4_13;
-    u16 temp_r4_4;
-    u16 temp_r4_5;
-    u16 temp_r4_6;
-    u16 temp_r5_15;
-    u16 temp_r5_7;
-    u16 temp_r6_10;
-    u16 temp_r6_3;
-    u16 temp_r6_4;
-    u16 temp_r7_2;
-    u16 temp_r7_3;
-    u16 var_r1_6;
-    u16 var_r5_2;
-    u32 temp_r1_40;
-    u32 temp_r2_62;
-    u32 temp_r2_8;
-    u32 temp_r3_33;
-    u32 temp_r4_18;
-    u32 var_r4;
-    u32 var_r4_2;
-    u32 temp_r0_101;
-    u32 temp_r0_104;
-    u32 temp_r0_105;
-    u32 temp_r0_106;
-    u32 temp_r0_107;
-    u32 temp_r0_110;
-    u32 temp_r0_111;
-    u32 temp_r0_112;
-    u32 temp_r0_114;
-    u32 temp_r0_116;
-    u32 temp_r0_117;
-    u32 temp_r0_118;
-    u32 temp_r0_11;
-    u32 temp_r0_121;
-    u32 temp_r0_124;
-    u32 temp_r0_13;
-    u32 temp_r0_14;
-    u32 temp_r0_15;
-    u32 temp_r0_16;
-    u32 temp_r0_17;
-    u32 temp_r0_18;
-    u32 temp_r0_19;
-    u32 temp_r0_20;
-    u32 temp_r0_22;
-    u32 temp_r0_23;
-    u32 temp_r0_24;
-    u32 temp_r0_25;
-    u32 temp_r0_27;
-    u32 temp_r0_2;
-    u32 temp_r0_30;
-    u32 temp_r0_32;
-    u32 temp_r0_33;
-    u32 temp_r0_35;
-    u32 temp_r0_37;
-    u32 temp_r0_3;
-    u32 temp_r0_40;
-    u32 temp_r0_42;
-    u32 temp_r0_43;
-    u32 temp_r0_44;
-    u32 temp_r0_45;
-    u32 temp_r0_46;
-    u32 temp_r0_47;
-    u32 temp_r0_48;
-    u32 temp_r0_51;
-    u32 temp_r0_53;
-    u32 temp_r0_54;
-    u32 temp_r0_55;
-    u32 temp_r0_56;
-    u32 temp_r0_57;
-    u32 temp_r0_60;
-    u32 temp_r0_61;
-    u32 temp_r0_65;
-    u32 temp_r0_66;
-    u32 temp_r0_77;
-    u32 temp_r0_78;
-    u32 temp_r0_79;
-    u32 temp_r0_80;
-    u32 temp_r0_97;
-    u32 temp_r0_98;
-    u32 temp_r1_18;
-    u32 temp_r1_19;
-    u32 temp_r1_20;
-    u32 temp_r1_27;
-    u32 temp_r1_28;
-    u32 temp_r1_31;
-    u32 temp_r1_32;
-    u32 temp_r1_35;
-    u32 temp_r1_44;
-    u32 temp_r1_45;
-    u32 temp_r1_49;
-    u32 temp_r1_4;
-    u32 temp_r1_50;
-    u32 temp_r1_54;
-    u32 temp_r1_55;
-    u32 temp_r1_56;
-    u32 temp_r1_57;
-    u32 temp_r1_58;
-    u32 temp_r1_59;
-    u32 temp_r1_5;
-    u32 temp_r1_60;
-    u32 temp_r1_61;
-    u32 temp_r1_64;
-    u32 temp_r1_7;
-    u32 temp_r2;
-    u32 temp_r2_11;
-    u32 temp_r2_12;
-    u32 temp_r2_14;
-    u32 temp_r2_15;
-    u32 temp_r2_17;
-    u32 temp_r2_18;
-    u32 temp_r2_21;
-    u32 temp_r2_22;
-    u32 temp_r2_25;
-    u32 temp_r2_27;
-    u32 temp_r2_28;
-    u32 temp_r2_2;
-    u32 temp_r2_31;
-    u32 temp_r2_32;
-    u32 temp_r2_33;
-    u32 temp_r2_36;
-    u32 temp_r2_40;
-    u32 temp_r2_49;
-    u32 temp_r2_50;
-    u32 temp_r2_51;
-    u32 temp_r2_53;
-    u32 temp_r2_54;
-    u32 temp_r2_55;
-    u32 temp_r2_56;
-    u32 temp_r2_57;
-    u32 temp_r2_58;
-    u32 temp_r2_59;
-    u32 temp_r2_5;
-    u32 temp_r3;
-    u32 temp_r3_11;
-    u32 temp_r3_12;
-    u32 temp_r3_19;
-    u32 temp_r3_2;
-    u32 temp_r3_30;
-    u32 temp_r3_31;
-    u32 temp_r3_36;
-    u32 temp_r3_39;
-    u32 temp_r3_41;
-    u32 temp_r3_42;
-    u32 temp_r3_44;
-    u32 temp_r4;
-    u32 temp_r4_10;
-    u32 temp_r4_11;
-    u32 temp_r4_14;
-    u32 temp_r4_15;
-    u32 temp_r4_23;
-    u32 temp_r4_3;
-    u32 temp_r4_7;
-    u32 temp_r4_8;
-    u32 temp_r4_9;
-    u32 temp_r5_10;
-    u32 temp_r5_11;
-    u32 temp_r5_14;
-    u32 temp_r5_2;
-    u32 temp_r5_3;
-    u32 temp_r5_4;
-    u32 temp_r5_5;
-    u32 temp_r5_8;
-    u32 temp_r5_9;
-    u32 temp_r6;
-    u32 temp_r6_11;
-    u32 temp_r6_7;
-    u32 temp_r6_8;
-    u32 temp_r7_5;
-    u32 var_r0;
-    u32 var_r0_2;
-    u32 var_r0_3;
-    u32 var_r0_4;
-    u32 var_r0_5;
-    u32 var_r0_6;
-    u32 var_r0_7;
-    u32 var_r0_9;
-    u32 var_r1;
-    u32 var_r1_10;
-    u32 var_r1_2;
-    u32 var_r1_3;
-    u32 var_r1_4;
-    u32 var_r1_5;
-    u32 var_r2;
-    u32 var_r2_7;
-    u32 var_r3;
-    u32 var_r3_2;
-    u32 var_r5_10;
-    u32 var_r5_3;
-    u32 var_r5_4;
-    u32 var_r5_5;
-    u32 var_r5_6;
-    u32 var_r5_7;
-    u32 var_r5_8;
-    u32 var_r5_9;
-    u32 var_r7;
-    u32 temp_r4_16;
-    u32 temp_r4_17;
-    u8 temp_r2_29;
-    u8 temp_r2_30;
-    u8 temp_r6_12;
-    u8 temp_r6_5;
-    u8 temp_r6_6;
-    void *temp_r0_10;
-    void *temp_r0_26;
-    void *temp_r0_28;
-    void *temp_r0_29;
-    void *temp_r0_31;
-    void *temp_r0_34;
-    void *temp_r0_36;
-    void *temp_r0_38;
-    void *temp_r0_39;
-    void *temp_r0_49;
-    void *temp_r0_50;
-    void *temp_r0_58;
-    void *temp_r0_64;
-    void *temp_r0_68;
-    void *temp_r0_69;
-    void *temp_r0_6;
-    void *temp_r0_70;
-    void *temp_r0_71;
-    void *temp_r0_72;
-    void *temp_r0_73;
-    void *temp_r0_75;
-    void *temp_r0_76;
-    void *temp_r0_81;
-    void *temp_r0_82;
-    void *temp_r0_83;
-    void *temp_r0_84;
-    void *temp_r0_85;
-    void *temp_r0_86;
-    void *temp_r0_87;
-    void *temp_r0_88;
-    void *temp_r0_89;
-    void *temp_r0_90;
-    void *temp_r0_91;
-    void *temp_r0_92;
-    void *temp_r0_93;
-    void *temp_r0_94;
-    void *temp_r0_95;
-    void *temp_r0_96;
-    void *temp_r1_10;
-    void *temp_r1_11;
-    void *temp_r1_12;
-    void *temp_r1_13;
-    void *temp_r1_14;
-    void *temp_r1_15;
-    void *temp_r1_21;
-    void *temp_r1_22;
-    void *temp_r1_23;
-    void *temp_r1_24;
-    void *temp_r1_25;
-    void *temp_r1_26;
-    void *temp_r1_2;
-    void *temp_r1_30;
-    void *temp_r1_33;
-    void *temp_r1_43;
-    void *temp_r1_46;
-    void *temp_r1_47;
-    void *temp_r1_8;
-    void *temp_r1_9;
-    void *temp_r2_19;
-    void *temp_r2_23;
-    void *temp_r2_48;
-    void *temp_r2_52;
-    void *temp_r2_7;
-    void *temp_r3_20;
-    void *temp_r3_27;
-    void *temp_r3_32;
-    void *temp_r3_43;
-    void *temp_r4_2;
-    void *temp_r5_6;
-    void *temp_r6_2;
-    void *var_r0_18;
-    void *var_r0_19;
-    void *var_r1_13;
 
-    if (M2C_FIELD(gUnk_03006440, s32 *, 0x28) & 1) {
+    if (gMgr82->flags & 1) {
         keys29_03001308 = 0;
-        keys29_03001324 &= 0xFFFE;
+        keys29_03001324 &= ~1;
     }
-    temp_r0 = sub_0801AAE0();
-    if (temp_r0 == 0) {
-        keys29_03001324 = (u16) temp_r0;
-    }
+    if (sub_0801AAE0() == 0)
+        keys29_03001324 = 0;
     if (sub_0800CD8C() != 0) {
         keys29_0300130C = 0;
         keys29_03001324 = 0;
         keys29_03001308 = 0;
     }
-    if (((sub_0800CF10() != 0) || (sub_0805F184() != 0) || (sub_0800CDF8() != 0) || (sub_0800D060() != 0)) && (sub_0801AAE0() != 0) && (sub_0801AC78() != 0)) {
-        M2C_FIELD(gUnk_03006440, s32 *, 0x24) = 0;
-    }
-    temp_r0_2 = M2C_FIELD(gUnk_03006440, u32 *, 0x18);
-    switch (temp_r0_2) {                            /* switch 1 */
+    if ((sub_0800CF10() != 0 || sub_0805F184() != 0 || sub_0800CDF8() != 0 || sub_0800D060() != 0)
+        && sub_0801AAE0() != 0 && sub_0801AC78() != 0)
+        gMgr82->f24 = 0;
+    switch (gMgr82->state) {
     case 0:
         keys = keys29_03001308;
         if (keys & 0x10) {
@@ -3886,225 +3455,151 @@ done82:
         gMgr82->cur = &gMgr82->stock[gMgr82->cursor];
         break;
     }
-    gMgr82->fE0 += (gMgr82->posX - gMgr82->fE0) / 2;
-    gMgr82->fE4 += (gMgr82->posY - gMgr82->fE4) / 2;
-    if (M2C_FIELD(gUnk_03006440, s32 *, 0x5B4) != 0) {
-        var_r5_9 = 0;
-        do {
-            if (!(0x8000 & *(u16 *)(M2C_FIELD(gUnk_03006440, s32 *, 0x5B4) + 0x136 + (var_r5_9 * 2)))) {
-                temp_r1_62 = var_r5_9 * 8;
-                temp_r4_18 = gUnk_03006440 + 0x74 + temp_r1_62;
-                temp_r3_44 = *(u32 *)temp_r4_18;
-                if (temp_r3_44 != 0) {
-                    *(u32 *)temp_r4_18 = temp_r3_44 - 1;
-                } else {
-                    temp_r2_62 = gUnk_03006440 + 0x78 + temp_r1_62;
-                    temp_r0_118 = *(u32 *)temp_r2_62;
-                    *(u32 *)temp_r2_62 = temp_r0_118 + 1;
-                    if (temp_r0_118 > 0x14U) {
-                        *(u32 *)temp_r4_18 = 3;
-                        *(u32 *)temp_r2_62 = temp_r3_44;
+    {
+        struct Mgr82 *m = gMgr82;
+        m->fE0 += (m->posX - m->fE0) / 2;
+        m->fE4 += (m->posY - m->fE4) / 2;
+        if (m->f5B4 != NULL) {
+            for (i = 0; i <= 5; i++) {
+                if (!(gMgr82->f5B4->f136[i] & 0x8000)) {
+                    if (gMgr82->anim[i].t != 0) {
+                        gMgr82->anim[i].t--;
+                    } else if (gMgr82->anim[i].n++ > 20) {
+                        gMgr82->anim[i].t = 3;
+                        gMgr82->anim[i].n = 0;
                     }
                 }
             }
-            var_r5_9 += 1;
-        } while (var_r5_9 <= 5U);
-    } else {
-        var_r5_10 = 0;
-        do {
-            temp_r2_63 = var_r5_10 * 8;
-            *(u32 *)(gUnk_03006440 + 0x74 + temp_r2_63) = 0;
-            *(u32 *)(gUnk_03006440 + 0x78 + temp_r2_63) = var_r5_10 % 5U;
-            var_r5_10 += 1;
-        } while (var_r5_10 <= 5U);
+        } else {
+            for (i = 0; i <= 5; i++) {
+                gMgr82->anim[i].t = 0;
+                gMgr82->anim[i].n = i % 5;
+            }
+        }
     }
-    temp_r4_19 = gUnk_03006440;
-    if (M2C_FIELD(temp_r4_19, s32 *, 0x34) != sub_0805D3D4()) {
-        sub_08065504(0x1C, 0, M2C_FIELD(gUnk_03006440, s32 *, 0x34), 0, 9);
-        temp_r4_20 = gUnk_03006440 + 0x34;
-        temp_r5_16 = M2C_FIELD(gUnk_03006440, s32 *, 0x34);
-        sub_080659F4(temp_r4_20, temp_r5_16, sub_0805D3D4(), M2C_FIELD(gUnk_03006440, s32 *, 0x38));
-        temp_r0_119 = M2C_FIELD(gUnk_03006440, s32 *, 0x38) + 0x40;
-        M2C_FIELD(gUnk_03006440, s32 *, 0x38) = temp_r0_119;
-        if ((u32) temp_r0_119 > 0x3FFU) {
-            M2C_FIELD(gUnk_03006440, s32 *, 0x34) = sub_0805D3D4();
-            M2C_FIELD(gUnk_03006440, s32 *, 0x38) = 0;
+    if (gMgr82->f34 != sub_0805D3D4()) {
+        sub_08065504(0x1C, 0, gMgr82->f34, 0, 9);
+        sub_080659F4(&gMgr82->f34, gMgr82->f34, sub_0805D3D4(), gMgr82->f38);
+        if ((gMgr82->f38 += 0x40) > 0x3FF) {
+            gMgr82->f34 = sub_0805D3D4();
+            gMgr82->f38 = 0;
         }
     } else {
         sub_08065504(0x1C, 0, sub_0805D3D4(), 0, 9);
     }
-    temp_r4_21 = gUnk_03006440;
-    if (M2C_FIELD(temp_r4_21, u32 *, 0) != 2) {
-        if (M2C_FIELD(temp_r4_21, s32 *, 0x3C) != sub_08085330()) {
-            sub_08065504(0x1C, 1, M2C_FIELD(gUnk_03006440, s32 *, 0x3C), 0, 9);
-            temp_r4_22 = gUnk_03006440 + 0x3C;
-            temp_r5_17 = M2C_FIELD(gUnk_03006440, s32 *, 0x3C);
-            sub_080659F4(temp_r4_22, temp_r5_17, sub_08085330(), M2C_FIELD(gUnk_03006440, s32 *, 0x40));
-            temp_r0_120 = M2C_FIELD(gUnk_03006440, s32 *, 0x40) + 0x40;
-            M2C_FIELD(gUnk_03006440, s32 *, 0x40) = temp_r0_120;
-            if ((u32) temp_r0_120 > 0x3FFU) {
-                M2C_FIELD(gUnk_03006440, s32 *, 0x3C) = sub_08085330();
-                M2C_FIELD(gUnk_03006440, s32 *, 0x40) = 0;
+    if (gMgr82->mode != 2) {
+        if (gMgr82->f3C != sub_08085330()) {
+            sub_08065504(0x1C, 1, gMgr82->f3C, 0, 9);
+            sub_080659F4(&gMgr82->f3C, gMgr82->f3C, sub_08085330(), gMgr82->f40);
+            if ((gMgr82->f40 += 0x40) > 0x3FF) {
+                gMgr82->f3C = sub_08085330();
+                gMgr82->f40 = 0;
             }
         } else {
             sub_08065504(0x1C, 1, sub_08085330(), 0, 9);
         }
     }
-    temp_r6_12 = M2C_FIELD(gUnk_03006440, s32 *, 0x28) & 1;
-    if (temp_r6_12 != 0) {
+    if (gMgr82->flags & 1)
         return;
-    }
-    temp_r0_121 = M2C_FIELD(gUnk_03006440, u32 *, 0x6C);
-    M2C_FIELD(gUnk_03006440, u32 *, 0x6C) = (u32) (temp_r0_121 + 1);
-    if (temp_r0_121 <= 3U) {
+    if (gMgr82->f6C++ <= 3)
         return;
-    }
-    temp_r4_23 = M2C_FIELD(gUnk_03006440, u32 *, 0x18);
-    if (temp_r4_23 == 0x14) {
-        return;
-    }
-    temp_r1_63 = gUnk_03006440 + 0xF4;
-    temp_r0_122 = (u16) M2C_FIELD(gUnk_03006440, s32 *, 0xF4);
-    switch (temp_r0_122) {                          /* switch 22; irregular */
-    case 10:                                        /* switch 22 */
-        sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE0) + 8, *(s32 *)(temp_r1_63 - 0x10) - 0x10, M2C_FIELD(gUnk_03006440, u32 *, 0xF8), 0, 9);
-        var_r0_18 = gUnk_03006440 + 0x5B8;
-        var_r1_17 = M2C_FIELD(gUnk_03006440, s32 *, 0xE0);
-        var_r2_13 = gUnk_03006440 + 0xE4;
-block_1066:
-        var_r2_14 = *(s32 *)var_r2_13 - 0x10;
-block_1067:
-        sub_08065230(var_r0_18, var_r1_17, var_r2_14, 0xAU, (s32) temp_r6_12);
-        return;
-    case 0:                                         /* switch 22 */
-        temp_r3_45 = M2C_FIELD(gUnk_03006440, u16 **, 0xF0);
-        temp_r0_123 = M2C_FIELD(temp_r3_45, u16 *, 0);
-        if (temp_r0_123 == 0xA) {
-            if ((u32) (M2C_FIELD(gUnk_03006440, u32 *, 0) - 4) <= 1U) {
-                return;
-            }
-            if (temp_r4_23 == 0x12) {
-                return;
-            }
-            sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 0x10, M2C_FIELD(temp_r3_45, u32 *, 4), 0, 9);
-            var_r0_18 = gUnk_03006440 + 0x5B8;
-block_1065:
-            var_r1_17 = M2C_FIELD((void *) gUnk_03006440, s32 *, 0xE8);
-            var_r2_13 = (void *) gUnk_03006440 + 0xEC;
-            goto block_1066;
-        }
-        if (temp_r0_123 == 0) {
+    {
+        u32 st = gMgr82->state;
+        struct Item82 *c;
+        if (st == 20)
             return;
-        }
-        temp_r0_124 = M2C_FIELD(gUnk_03006440, u32 *, 0);
-        switch (temp_r0_124) {                      /* switch 23; irregular */
-        case 3:                                     /* switch 23 */
-            switch (temp_r4_23) {                   /* switch 24; irregular */
-            case 9:                                 /* switch 24 */
-                return;
-            case 7:                                 /* switch 24 */
-                return;
-            case 11:                                /* switch 24 */
-                sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, sub_0805AE94(temp_r3_45), 0, 9);
-                var_r0_18 = gUnk_03006440 + 0x5B8;
-                var_r1_17 = M2C_FIELD(gUnk_03006440, s32 *, 0xE8);
-                var_r2_14 = M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8;
-                goto block_1067;
-            default:                                /* switch 24 */
-                temp_r0_125 = M2C_FIELD(temp_r3_45, u16 *, 0);
-                if (((s32) temp_r0_125 <= 5) && ((s32) temp_r0_125 >= 2)) {
-                    if (temp_r4_23 == 1) {
-                        if (M2C_FIELD(temp_r3_45, u8 *, 8) != 0) {
-                            sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 0x10, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, 1U, 0, 9);
-                        } else {
-                            sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 0x10, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, sub_0805AE94(temp_r3_45) / 10U, 0, 9);
-                        }
-                        var_r0_19 = gUnk_03006440 + 0x5B8;
-                        var_r1_18 = M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8;
-                    } else {
-                        if (M2C_FIELD(temp_r3_45, u8 *, 8) != 0) {
-                            sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, 1U, 0, 9);
-                        } else {
-                            sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, sub_0805AE94(temp_r3_45) / 10U, 0, 9);
-                        }
-                        var_r0_19 = gUnk_03006440 + 0x5B8;
-                        goto block_1051;
-                    }
-                    goto block_1052;
-                }
-                temp_r1_64 = M2C_FIELD(gUnk_03006440, u32 *, 0x18);
-                switch (temp_r1_64) {               /* switch 25; irregular */
-                case 12:                            /* switch 25 */
+        if (gMgr82->held.kind == 10) {
+            sub_08065424(gMgr82->fE0 + 8, gMgr82->fE4 - 0x10, gMgr82->held.count, 0, 9);
+            sub_08065230(gMgr82->sprite, gMgr82->fE0, gMgr82->fE4 - 0x10, 10, 0);
+        } else if (gMgr82->held.kind == 0) {
+            c = gMgr82->cur;
+            if (c->kind == 10) {
+                if (gMgr82->mode == 4 || gMgr82->mode == 5)
                     return;
-                case 6:                             /* switch 25 */
-                    if ((sub_0805AE94(M2C_FIELD(gUnk_03006440, u16 **, 0xF0)) / 10U) == 0) {
-                        sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 0x10, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, 1U, 0, 9);
-                    } else {
-                        sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 0x10, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, sub_0805AE94(M2C_FIELD(gUnk_03006440, u16 **, 0xF0)) / 10U, 0, 9);
-                    }
-                    var_r0_19 = gUnk_03006440 + 0x5B8;
-                    var_r1_18 = M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8;
-block_1052:
-                    sub_08065230(var_r0_19, var_r1_18, M2C_FIELD((void *) gUnk_03006440, s32 *, 0xEC) - 8, 0xCU, 0);
+                if (st == 18)
                     return;
-                case 5:                             /* switch 25 */
-                    if ((sub_0805AE94(M2C_FIELD(gUnk_03006440, u16 **, 0xF0)) / 10U) == 0) {
-                        sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 0x14, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, 1U, 0, 9);
-                    } else {
-                        sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 0x14, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, sub_0805AE94(M2C_FIELD(gUnk_03006440, u16 **, 0xF0)) / 10U, 0, 9);
-                    }
-                    var_r0_19 = gUnk_03006440 + 0x5B8;
-                    var_r1_18 = M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 0xC;
-                    goto block_1052;
-                default:                            /* switch 25 */
-                    if ((sub_0805AE94(M2C_FIELD(gUnk_03006440, u16 **, 0xF0)) / 10U) == 0) {
-                        sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, 1U, 0, 9);
-                    } else {
-                        sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, sub_0805AE94(M2C_FIELD(gUnk_03006440, u16 **, 0xF0)) / 10U, 0, 9);
-                    }
-                    var_r0_19 = gUnk_03006440 + 0x5B8;
-block_1051:
-                    var_r1_18 = M2C_FIELD((void *) gUnk_03006440, s32 *, 0xE8);
-                    goto block_1052;
+                sub_08065424(gMgr82->posX + 8, gMgr82->posY - 0x10, c->count, 0, 9);
+                sub_08065230(gMgr82->sprite, gMgr82->posX, gMgr82->posY - 0x10, 10, 0);
+            } else if (c->kind == 0) {
+                return;
+            } else if (gMgr82->mode == 3) {
+                if (st == 9)
+                    return;
+                if (st == 7)
+                    return;
+                if (st == 11) {
+                    sub_08065424(gMgr82->posX + 8, gMgr82->posY - 8, sub_0805AE94(c), 0, 9);
+                    sub_08065230(gMgr82->sprite, gMgr82->posX, gMgr82->posY - 8, 10, 0);
+                    return;
                 }
-                break;
+                switch (c->kind) {
+                case 2 ... 5:
+                    if (st == 1) {
+                        if (c->flag != 0)
+                            sub_08065424(gMgr82->posX + 16, gMgr82->posY - 8, 1, 0, 9);
+                        else
+                            sub_08065424(gMgr82->posX + 16, gMgr82->posY - 8, sub_0805AE94(c) / 10, 0, 9);
+                        sub_08065230(gMgr82->sprite, gMgr82->posX + 8, gMgr82->posY - 8, 12, 0);
+                    } else {
+                        if (c->flag != 0)
+                            sub_08065424(gMgr82->posX + 8, gMgr82->posY - 8, 1, 0, 9);
+                        else
+                            sub_08065424(gMgr82->posX + 8, gMgr82->posY - 8, sub_0805AE94(c) / 10, 0, 9);
+                        sub_08065230(gMgr82->sprite, gMgr82->posX, gMgr82->posY - 8, 12, 0);
+                    }
+                    break;
+                default:
+                    switch (gMgr82->state) {
+                    case 12:
+                        return;
+                    case 6:
+                        if (sub_0805AE94(gMgr82->cur) / 10 == 0)
+                            sub_08065424(gMgr82->posX + 16, gMgr82->posY - 8, 1, 0, 9);
+                        else
+                            sub_08065424(gMgr82->posX + 16, gMgr82->posY - 8, sub_0805AE94(gMgr82->cur) / 10, 0, 9);
+                        sub_08065230(gMgr82->sprite, gMgr82->posX + 8, gMgr82->posY - 8, 12, 0);
+                        break;
+                    case 5:
+                        if (sub_0805AE94(gMgr82->cur) / 10 == 0)
+                            sub_08065424(gMgr82->posX + 20, gMgr82->posY - 8, 1, 0, 9);
+                        else
+                            sub_08065424(gMgr82->posX + 20, gMgr82->posY - 8, sub_0805AE94(gMgr82->cur) / 10, 0, 9);
+                        sub_08065230(gMgr82->sprite, gMgr82->posX + 12, gMgr82->posY - 8, 12, 0);
+                        break;
+                    default:
+                        if (sub_0805AE94(gMgr82->cur) / 10 == 0)
+                            sub_08065424(gMgr82->posX + 8, gMgr82->posY - 8, 1, 0, 9);
+                        else
+                            sub_08065424(gMgr82->posX + 8, gMgr82->posY - 8, sub_0805AE94(gMgr82->cur) / 10, 0, 9);
+                        sub_08065230(gMgr82->sprite, gMgr82->posX, gMgr82->posY - 8, 12, 0);
+                        break;
+                    }
+                    break;
+                }
+            } else if (gMgr82->mode == 5) {
+                switch (c->kind) {
+                case 2 ... 5:
+                    if (c->flag != 0) {
+                        c->flag = 0;
+                        sub_08065424(gMgr82->posX + 8, gMgr82->posY - 8, sub_0805B068(gMgr82->cur), 0, 9);
+                        sub_08065230(gMgr82->sprite, gMgr82->posX, gMgr82->posY - 8, 10, 0);
+                        gMgr82->cur->flag = 1;
+                    }
+                    break;
+                }
             }
-            break;
-        case 5:                                     /* switch 23 */
-            temp_r0_126 = M2C_FIELD(temp_r3_45, u16 *, 0);
-            if ((s32) temp_r0_126 > 5) {
-                return;
-            }
-            if ((s32) temp_r0_126 < 2) {
-                return;
-            }
-            if (M2C_FIELD(temp_r3_45, u8 *, 8) == 0) {
-                return;
-            }
-            M2C_FIELD(temp_r3_45, u8 *, 8) = temp_r6_12;
-            sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, sub_0805B068(M2C_FIELD(gUnk_03006440, u16 **, 0xF0)), 0, 9);
-            sub_08065230(gUnk_03006440 + 0x5B8, M2C_FIELD(gUnk_03006440, s32 *, 0xE8), M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 8, 0xAU, (s32) temp_r6_12);
-            M2C_FIELD(M2C_FIELD(gUnk_03006440, u16 **, 0xF0), s8 *, 8) = 1;
-            return;
-        }
-        break;
-    default:                                        /* switch 22 */
-        if (M2C_FIELD(gUnk_03006440, u32 *, 0) == 3) {
-            if (M2C_FIELD(gUnk_03006440, u32 *, 0x1C) == 0xB) {
-                sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 0x10, sub_0805AE94(temp_r1_63), 0, 9);
-                var_r0_18 = gUnk_03006440 + 0x5B8;
-                goto block_1065;
-            }
-            if ((sub_0805AE94(temp_r1_63) / 10U) == 0) {
-                sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 0x10, 1U, 0, 9);
+        } else if (gMgr82->mode == 3) {
+            if (gMgr82->heldFrom == 11) {
+                sub_08065424(gMgr82->posX + 8, gMgr82->posY - 0x10, sub_0805AE94(&gMgr82->held), 0, 9);
+                sub_08065230(gMgr82->sprite, gMgr82->posX, gMgr82->posY - 0x10, 10, 0);
             } else {
-                sub_08065424(M2C_FIELD(gUnk_03006440, s32 *, 0xE8) + 8, M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 0x10, sub_0805AE94(gUnk_03006440 + 0xF4) / 10U, 0, 9);
+                if (sub_0805AE94(&gMgr82->held) / 10 == 0)
+                    sub_08065424(gMgr82->posX + 8, gMgr82->posY - 0x10, 1, 0, 9);
+                else
+                    sub_08065424(gMgr82->posX + 8, gMgr82->posY - 0x10, sub_0805AE94(&gMgr82->held) / 10, 0, 9);
+                sub_08065230(gMgr82->sprite, gMgr82->posX, gMgr82->posY - 0x10, 12, 0);
             }
-            sub_08065230(gUnk_03006440 + 0x5B8, M2C_FIELD(gUnk_03006440, s32 *, 0xE8), M2C_FIELD(gUnk_03006440, s32 *, 0xEC) - 0x10, 0xCU, 0);
-        } else {
-            return;
         }
-        break;
     }
 }
 #else

@@ -1,7 +1,7 @@
 {
   "address": "0x0807C29C",
-  "updated_utc": "2026-11-03T15:02:52.611384+00:00",
-  "checkpoint": "Hand-written cases 0-6, 13, 16 and post-switch key handling/cursor/pointer switches with typed Mgr82/Inv82/Item82 structs. Function remains NONMATCHING.",
+  "updated_utc": "2026-11-04T03:34:06.125609+00:00",
+  "checkpoint": "Phase 1 done: every switch case and the post-switch/drawing tail hand-written with typed structs (no M2C_FIELD). Size 18132 vs 18396; per-case table in shard82.txt; measure with tools/scripts/casediff.py.",
   "areas": [
     {
       "id": "item-copy-first",
@@ -18,14 +18,20 @@
     {
       "id": "remaining-structure",
       "label": "Remaining state machine and item transfers",
-      "state": "active",
-      "evidence": "Largest register-normalized diffs: tail (208), case 13 (146), case 0 (136), cases 7-10 (35-54 each); cross-jump hubs (sound/drop tails) depend on register allocation across cases."
+      "state": "done",
+      "evidence": "Cases 7-12,14,15,17-21 and tail rewritten from asm; casediff sum diff 2605->1676, rdiff 1060->654. Exact size: 2,3,4,8,11,12,14,15,17-21."
     },
     {
       "id": "match",
       "label": "Full match in normal C build",
       "state": "pending",
       "evidence": "Normal build retains original INCLUDE_ASM. compare OK, nonmatching and check_tree pass; this checkpoint adds zero matching bytes."
+    },
+    {
+      "id": "exact-size",
+      "label": "Exact size per case",
+      "state": "active",
+      "evidence": "Off: case0 -136, case5 +48, case9 -38, case13 -152 (cross-jump of DROP82 blocks), case16 +12, case6 +8, post -8."
     }
   ]
 }
