@@ -1,0 +1,9 @@
+shard 113 notes
+
+sub_080AC844 (3312 bytes): fresh C draft (nov03-w3), 3308/3312, difflib score ~110 (old m2c draft
+  was 3200 bytes, score 624). Same family as sub_080AF3F4/sub_080AB2F8 (see shard115/112 notes) but
+  the actor is the argument (r6) and the sprite/pos/tile are globals (gUnk_03000458/490/4BE).
+  Structure: cases 8/9 share a `set5: f1FE = 5; set: f1FD = 1; C18()` tail placed after case 9
+  (ROM block order), case 10 has its own copy. Remaining: count-loop register choice (ROM n in r3,
+  mask in r1), case-5 tail crossjump (ROM jumps to the `movs r0,#1; strb` tail), spill slot
+  order of the hoisted &f6C/&f6A/&f68, `movs r0,#2; movs r5,#0` order in case 5.
