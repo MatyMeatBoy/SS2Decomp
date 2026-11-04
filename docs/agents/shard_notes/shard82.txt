@@ -10,10 +10,10 @@ Measure: python3 tools/scripts/casediff.py sub_0807C29C [-v caseN|pre|post]
 Phase 1 (structure, every block hand-written with typed Mgr82/Inv82/Item82): DONE 2026-11-04.
 No M2C_FIELD / temp_ variables left in the function.
 
-Status 2026-11-04 (nov03-w4), total cand 18076 vs orig 18396 (-320), sum diff 1422 rdiff 611:
+Status 2026-11-04 (nov03-w4), total cand 18112 vs orig 18396 (-284), sum diff 1448 rdiff 593:
   case  dsize  diff rdiff  note
   pre       0     3     3   
-  0      -136   611   226   biggest; size swings -52..-136 with unrelated edits (cross-jump/alloc)
+  0      -112   601   214   biggest; size swings -52..-136 with unrelated edits (cross-jump/alloc)
   1        -4    72    21   
   2         0    13     8   
   3         0     7     7   
@@ -26,13 +26,13 @@ Status 2026-11-04 (nov03-w4), total cand 18076 vs orig 18396 (-320), sum diff 14
   10       -2     7     7   kind==10 test kept via `if (kind != 10) if (kind == 1 && ...)`
   11        0     3     3   
   12        0     4     4   
-  13     -152   333   149   structure verified vs asm; size loss = many DROP82+sound blocks that the ROM keeps separate (different zero regs r1/r6/r7) but ours cross-jump -> registers, not structure
+  13     -128   332   143   structure verified vs asm; size loss = many DROP82+sound blocks that the ROM keeps separate (different zero regs r1/r6/r7) but ours cross-jump -> registers, not structure
   14        0    11     6   
   15        0     6     6   
-  16      +12    42    10   
-  17        0    17    13   
+  16        0    66    10   
+  17        0    27    13   
   18        0     5     5   
-  19        0     0     0   exact
+  19        0     3     0   exact
   20        0    12     7   ROM uses one local `m = gMgr82` for the whole case
   21        0     0     0   exact
   post     -8   137    57   
@@ -52,4 +52,6 @@ Findings:
 - Style that matches (cases 2-4, 7, 8, 11 almost register-exact): read keys29_03001308 directly
   in every test (no keys/k variable), and write field ops directly (`gMgr82->cursor += 3`,
   `gMgr82->prev = gMgr82->cursor; gMgr82->cursor--;`) instead of a cursor temp.
-- Next: case 6 (+8), case 16 (+12), case 1 (-4), post (-8), then registers (case 0/13 DROP82).
+- Block-local vars per case (case 16: fr/cu/it/nn/ii instead of function-level from/cur/item/n/i)
+  fixed case 16 size and shrank case 0/13 deltas (rdiff 611->593): do the same for cases 0, 1, 5, 6, 13.
+- Next: case 6 (+8), case 1 (-4), post (-8), then registers (case 0/13 DROP82).

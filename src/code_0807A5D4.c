@@ -2859,7 +2859,9 @@ void sub_0807C29C(void) {
             sub_0805865C(0x10);
         }
         break;
-    case 16:
+    case 16: {
+        u32 fr, cu, nn, ii;
+        struct Item82 *it;
         if (keys29_03001308 & 0x20) {
             if (gMgr82->cursor != 0) {
                 gMgr82->cursor--;
@@ -2882,15 +2884,15 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x62);
             }
         } else if (keys29_03001324 & 1) {
-            from = gMgr82->heldFrom;
-            if (from == 0x16) {
-                cur = gMgr82->cursor;
-                item = &gMgr82->stock[cur];
-                if (item->kind == 0)
+            fr = gMgr82->heldFrom;
+            if (fr == 0x16) {
+                cu = gMgr82->cursor;
+                it = &gMgr82->stock[cu];
+                if (it->kind == 0)
                     break;
                 gMgr82->heldFrom = gMgr82->state;
-                gMgr82->heldIdx = cur;
-                gMgr82->held = *item;
+                gMgr82->heldIdx = cu;
+                gMgr82->held = *it;
                 gMgr82->held.flag2 = 0;
                 gMgr82->flags &= ~4;
                 sub_0805865C(0x5E);
@@ -2898,20 +2900,20 @@ void sub_0807C29C(void) {
             }
             target = gMgr82->cur->kind;
             if (target == 0) {
-                sub_0807BD78(from, gMgr82->heldIdx);
+                sub_0807BD78(fr, gMgr82->heldIdx);
                 sub_0807BEA0(16, gMgr82->cursor, (void *)&gMgr82->held);
                 DROP82();
                 sub_0805865C(0x5F);
-                n = 0;
-                for (i = 0; i <= 2; i++) {
-                    if (gMgr82->stock[i].kind != 0)
-                        n++;
+                nn = 0;
+                for (ii = 0; ii <= 2; ii++) {
+                    if (gMgr82->stock[ii].kind != 0)
+                        nn++;
                 }
-                if (n == 3)
+                if (nn == 3)
                     gMgr82->flags |= 4;
                 break;
             }
-            switch (from) {
+            switch (fr) {
             case 1:
                 if (gMgr82->cur->kind == 2) {
                     *(struct Item82 *)sp4 = gMgr82->stock[gMgr82->cursor];
@@ -2995,6 +2997,7 @@ void sub_0807C29C(void) {
             }
         }
         break;
+    }
     case 17:
         if (keys29_03001308 & 0x20) {
             gMgr82->state = 0;
