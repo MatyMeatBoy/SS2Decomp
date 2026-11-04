@@ -1,7 +1,6 @@
-shard 111 notes
-
-sub_080A9950 (5892 bytes, two-actor boss: gUnk_03000428 = base+0x2E0 and gUnk_0300042C = arg):
-  C draft (nov03-w3), 5876/5892, difflib score ~449. Pose table gUnk_08518898 holds 5-byte
+  Remaining diffs are register allocation: prioA/prioB (ROM r7/r8), pl in r6, &sxA rematerialized
+  per use while &syA is kept, case 6 keeps its own else tail (not crossjumped with 7/8).
+98 holds 5-byte
   entries { animA, dirA, animB, dirB, flag } indexed side*5 + pose*10 (use a u8 array: a C struct
   would be padded to 8), anim ids at gUnk_085188E8. `side` set via `t = 0; if (f8 > 3) t = 1;`.
   Aim offset (sp+0x8C) and target (sp+0x84) are 8-byte struct locals (the offset is passed by value
