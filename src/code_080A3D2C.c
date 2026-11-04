@@ -2374,370 +2374,295 @@ loop:
     }
 }
 #ifdef NONMATCHING
-void *callA756C_08007870(s16, s16, s32, u16, s32, M2C_UNK *, s32, s32) asm("sub_08007870");
-M2C_UNK callA756C_0800BC08(s16, s16, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-M2C_UNK callA756C_08065158(s32 *, s32, s32, s32, s32) asm("sub_08065158");
-M2C_UNK callA756C_08067DC8() asm("sub_08067DC8");
-M2C_UNK callA756C_080979D8(s32, s32, s32, s32, s32 *) asm("sub_080979D8");
-s32 callA756C_08097B6C(s32, s32, s32, s32, s32) asm("sub_08097B6C");
-extern u16 taskIndexA756C asm("gUnk_03000404");
-extern M2C_UNK gUnk_03003D78;
-extern M2C_UNK gUnk_03003E28;
-void sub_080A756C(void) {
-    register s32 minus asm("r8") = -1;
-    u8 ctx1[0x34];
-    u8 ctx2[0x34];
-    u16 sp78;
-    u16 sp7A;
-    s16 sp7C;
-    s16 sp7E;
-    u16 sp80;
-    s16 sp82;
-    s32 motion[2];
-    s32 sp8C;
-    s32 sp90;
-    s32 sp94;
-    s32 sp98;
-    s32 sp9C;
-    s32 spA0;
-    s32 spA4;
-    s32 spA8;
-    u32 spAC;
-    s32 spB0;
-    s32 spB4;
-    s32 spB8;
-    s32 spBC;
-    u32 spC0;
-    s32 spC4;
-    s32 spC8;
-    s32 spCC;
-    u32 spD0;
-    s32 spD4;
-    s32 spD8;
-    s32 spDC;
-    s16 *spE0;
-    s32 spE4;
-    s32 spE8;
-    s32 spEC;
-    register s16 *var_r4 asm("r4");
-    s16 temp_r3_3;
-    s32 *temp_r1_4;
-    s32 *temp_r2;
-    s32 *temp_r2_2;
-    s32 *temp_r2_3;
-    s32 *temp_r2_4;
-    s32 *temp_r2_5;
-    s32 *temp_r2_6;
-    s32 *temp_r2_7;
-    s32 *temp_r2_8;
-    s32 *temp_r2_9;
-    s32 *temp_r3;
-    s32 *temp_r3_2;
-    s32 temp_r0_3;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 var_r0;
-    s8 var_r2;
-    s8 var_r2_2;
-    u32 temp_r0;
-    u32 temp_r0_2;
-    u32 temp_r1_3;
-    u8 temp_r0_4;
-    u8 temp_sl;
-    void *temp_r1;
-    void *temp_r1_2;
-    void *temp_r7;
+struct Anim756C { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
+struct XY756C { s32 x, y; };
+struct Pl756C { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 x, y; u8 p94[4]; s32 f98; u8 p9C[0xAC]; u16 *f148; };
+struct Draw756C { u8 p0[0xC]; s32 fC; };
+struct G3170_756C { u8 p0[0x90]; u16 f90; };
+extern struct Pl756C gPl756C[] asm("gUnk_03003CE0");
+extern u16 gTile756C asm("gUnk_03000404");
+extern u32 gMask756C asm("gUnk_030056FC");
+extern u8 *gGame756C asm("gUnk_03005CF4");
+extern s16 gSin756C[] asm("gUnk_080B9704");
+extern u32 gFrame756C asm("gUnk_03002344");
+extern struct G3170_756C gMap756C asm("gUnk_03003170");
+void animInit756C(void *, s32, s32, s32, s32) asm("sub_08065158");
+s32 anim756C(void *, s32, u16 *, u16 *, s32) asm("sub_08065370");
+void loadPal756C(u32, void *, u32) asm("sub_08000AF0");
+u8 reach756C(struct XY756C, struct XY756C, s32) asm("sub_08097B6C");
+void step756C(struct XY756C, struct XY756C, struct XY756C *) asm("sub_080979D8");
+void cam756C(s32, s32) asm("sub_0800BB80");
+void layer756C(s32, s32, s32) asm("sub_0800BBA8");
+void sfx2_756C(s32) asm("sub_0805867C");
+void fx756C(void *, s32, s32, s32, s32) asm("sub_08065230");
+u8 prio756C(s32, s32, s32) asm("sub_0800BC44");
+void proj756C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+struct Draw756C *draw756C(s32, s32, s32, u16, u8, void *, u32, u32) asm("sub_08007870");
+s32 msg756C(s32, s32, s32, s32, s32, s32) asm("sub_0805DF38");
+s32 msgDone756C(s32) asm("sub_0805EEFC");
+void sub_08067DC8(void);
+void sub_080A756C_v(void) asm("sub_080A756C");
+void sub_080A756C_v(void)
+{
+    struct Anim756C anim0;
+    struct Anim756C anim1;
+    u16 frame0, tick0;
+    s16 sx, sy;
+    u16 frame1, tick1;
+    struct XY756C delta;
+    struct XY756C dragon;
+    struct XY756C cam;
+    struct XY756C tgt;
+    struct XY756C shadow;
+    u32 nPl;
+    s32 animDone;
+    s32 animId;
+    s32 animMode;
+    s32 fx;
+    u16 timer;
+    u8 wave;
+    s32 waving;
+    s32 landed;
+    s32 state;
+    s32 sub;
+    s32 running;
+    s32 x8, y8;
+    u8 b;
+    s8 i;
+    s32 z;
+    s32 j;
+    struct Draw756C *o;
 
-    taskIndexA756C = 4; asm("" : "+r"(minus));
-    callA756C_08065158(ctx1, 0x5000F, 0, minus, 1);
-    M2C_FIELD(ctx1, s8 *, 0x1C) = (s8) taskIndexA756C;
-    sub_08000AF0(taskIndexA756C + 0x10, M2C_FIELD(ctx1,s32*,0xC), 1U);
-    callA756C_08065158(ctx2, 0x50010, 0, minus, 0);
-    spBC = 0;
-    sp82 = 0;
-    sp80 = spBC;
-    sp8C = 0x14000;
-    sp90 = 0x2000;
-    spA4 = 0x14000;
-    spA8 = 0x6000;
-    spC4 = 0;
-    spC8 = 0;
-    spCC = 0;
-    sp7A = spBC;
-    sp78 = spBC;
-    spB4 = 0;
-    spB8 = 1;
-    sp94 = 0;
-    sp98 = 0;
-    sub_0800BBA8(1U, 0U, 0U);
-    sub_0800BBA8(3U, 0U, 0U);
-    sub_0800BBA8(2U, 0U, 0U);
-    spAC = sub_08002164();
-    temp_r2 = (sub_080020F4() * 0x14C) + (u8 *)gUnk_03003CE0 + 0x30;
-    *temp_r2 |= spB8;
-    gUnk_030056FC = 0;
-    spD0 = 0;
-    spD8 = 1;
-loop_1:
-    switch (spD0) {                                 /* switch 1; irregular */
-    case 0:                                         /* switch 1 */
-        sp9C = 0;
-        spA0 = 0xFFFFB000;
-        if ((callA756C_08097B6C(sp94, sp98, 0, 0xFFFFB000, 1) << 0x18) != 0) {
-            spD4 = 0;
-            spD0 = 1;
-            sub_0805865C(0x1A1);
-        } else {
-            callA756C_080979D8(sp94, sp98, sp9C, spA0, motion);
-            sp94 += motion[0];
-            sp98 += motion[1];
-        }
-        var_r0 = sp94 << 8;
-block_28:
-        sub_0800BB80((u16) (var_r0 >> 0x10), (u16) ((s32) (sp98 << 8) >> 0x10));
-        break;
-    case 1:                                         /* switch 1 */
-        switch (spD4) {                             /* switch 2; irregular */
-        case 0:                                     /* switch 2 */
-            sp9C = 0x7800;
-            spA0 = 0x2000;
-            if ((callA756C_08097B6C(sp8C, sp90, sp9C, spA0, 1) << 0x18) != 0) {
-                spB4 = 0x10;
-                sp7A = spD4;
-                sp78 = spD4;
-                spD4 = 1;
+    gTile756C = 4;
+    animInit756C(&anim0, 0x5000F, 0, -1, 1);
+    anim0.f1C = gTile756C;
+    loadPal756C(gTile756C + 0x10, anim0.fC, 1);
+    animInit756C(&anim1, 0x50010, 0, -1, 0);
+    fx = 0;
+    tick1 = fx;
+    frame1 = fx;
+    dragon.x = 0x14000;
+    dragon.y = 0x2000;
+    shadow.x = 0x14000;
+    shadow.y = 0x6000;
+    wave = 0;
+    waving = 0;
+    landed = 0;
+    tick0 = fx;
+    frame0 = fx;
+    animId = 0;
+    animMode = 1;
+    cam.x = 0;
+    cam.y = 0;
+    layer756C(1, 0, 0);
+    layer756C(3, 0, 0);
+    layer756C(2, 0, 0);
+    nPl = sub_08002164();
+    gPl756C[sub_080020F4()].flags |= 1;
+    gMask756C = 0;
+    state = 0;
+    running = 1;
+    do {
+        switch (state) {
+        case 0:
+            tgt.x = 0;
+            tgt.y = -0x5000;
+            if (reach756C(cam, tgt, 1)) {
+                sub = 0;
+                state = 1;
+                sub_0805865C(0x1A1);
             } else {
-                callA756C_080979D8(sp8C, sp90, sp9C, spA0, motion);
-                sp8C += motion[0];
-block_20:
-                sp90 += motion[1];
-                spA4 += motion[0];
+                step756C(cam, tgt, &delta);
+                cam.x += delta.x;
+                cam.y += delta.y;
             }
+            cam756C((s16)(cam.x >> 8), (s16)(cam.y >> 8));
             break;
-        case 1:                                     /* switch 2 */
-            sp9C = 0x7800;
-            spA0 = 0x6000;
-            if ((callA756C_08097B6C(sp8C, sp90, sp9C, spA0, spD4) << 0x18) != 0) {
-                spB4 = 0xE;
-                spB8 = 0;
-                sp7A = 0;
-                sp78 = spB8;
-                spD4 = 2;
-            } else {
-                callA756C_080979D8(sp8C, sp90, sp9C, spA0, motion);
-                sp8C += motion[0];
-                goto block_20;
-            }
-            break;
-        case 2:                                     /* switch 2 */
-            if (spB0 == 0) {
-
-            } else {
-                spB4 = 0x11;
-                spD4 = 0;
-                sp7A = 0;
-                sp78 = spD4;
-                sub_0805867C(0x1A1);
-                spD0 = 2;
-            }
-            break;
-        }
-        break;
-    case 2:                                         /* switch 1 */
-        sp9C = 0;
-        spA0 = 0;
-        if ((callA756C_08097B6C(sp94, sp98, 0, spA0, 1) << 0x18) != 0) {
-            spD0 = 3;
-        } else {
-            callA756C_080979D8(sp94, sp98, sp9C, spA0, motion);
-            sp94 += motion[0] * 2;
-            sp98 += motion[1] * 2;
-        }
-        var_r0 = sp94 << 8;
-        goto block_28;
-    case 3:                                         /* switch 1 */
-        switch (spD4) {                             /* switch 3; irregular */
-        case 0:                                     /* switch 3 */
-            var_r2 = 0;
-            if (spAC > 0U) {
-                do {
-                    temp_r1 = *(void **)((var_r2 * 0x14C) + (u8 *)&gUnk_03003E28);
-                    if (((s32) ((u32) (M2C_FIELD(temp_r1, u16 *, 2) << 0x14) >> 0x14) <= 0x7B) && (((u32) (M2C_FIELD(temp_r1, u8 *, 4) << 0x1A) >> 0x1A) == 0x11)) {
-                        spCC = 1;
-                        spB4 = 0x10;
-                        sp7A = 0;
-                        sp78 = 0;
-                        spB8 = 1;
-                        spD4 = 1;
-                        sub_0805865C(0x1A1);
-                        spBC = 3;
-                    }
-                    temp_r0 = (var_r2 << 0x18) + 0x01000000;
-                    var_r2 = (s8) (temp_r0 >> 0x18);
-                } while ((u32) ((s32) temp_r0 >> 0x18) < spAC);
-            }
-            break;
-        case 1:                                     /* switch 3 */
-            sp9C = 0x7800;
-            spA0 = 0x4600;
-            if ((callA756C_08097B6C(sp8C, sp90, sp9C, spA0, spD4) << 0x18) != 0) {
-                spC8 = 1;
-                spD0 = 4;
-            } else {
-                callA756C_080979D8(sp8C, sp90, sp9C, spA0, motion);
-                sp8C += motion[0];
-                sp90 += motion[1];
-            }
-            break;
-        }
-        temp_r3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-        *temp_r3 &= ~1;
-        break;
-    case 4:                                         /* switch 1 */
-        spD0 = 5;
-        var_r2_2 = 0;
-        if (spAC > 0U) {
-            do {
-                temp_r1_2 = *(void **)((var_r2_2 * 0x14C) + (u8 *)&gUnk_03003E28);
-                if (((s32) ((u32) (M2C_FIELD(temp_r1_2, u16 *, 2) << 0x14) >> 0x14) > 0x7C) && (((u32) (M2C_FIELD(temp_r1_2, u8 *, 4) << 0x1A) >> 0x1A) == 0x11)) {
-                    spD0 = 4;
+        case 1:
+            switch (sub) {
+            case 0:
+                tgt.x = 0x7800;
+                tgt.y = 0x2000;
+                if (reach756C(dragon, tgt, 1)) {
+                    animId = 0x10;
+                    tick0 = sub;
+                    frame0 = sub;
+                    sub = 1;
+                } else {
+                    step756C(dragon, tgt, &delta);
+                    dragon.x += delta.x;
+                    dragon.y += delta.y;
+                    shadow.x += delta.x;
                 }
-                temp_r0_2 = (var_r2_2 << 0x18) + 0x01000000;
-                var_r2_2 = (s8) (temp_r0_2 >> 0x18);
-            } while ((u32) ((s32) temp_r0_2 >> 0x18) < spAC);
-        }
-        if (spD0 != 5) {
-
-        } else {
-            temp_r3_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-            *temp_r3_2 |= 1;
-            M2C_FIELD(gUnk_03005CF4, u32 *, 0x720) = sub_0805DF38(1U, 0xEU, 0x19U, 2U, 0x3C, 0x14008BU);
-        }
-        break;
-    case 5:                                         /* switch 1 */
-        if (sub_0805EEFC((void *) M2C_FIELD(gUnk_03005CF4, u32 *, 0x720)) == 0) {
-
-        } else {
-            temp_r2_2 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-            *temp_r2_2 |= 1;
-            temp_r2_3 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-            *temp_r2_3 |= 0x20;
-            spD0 = 6;
-            sub_0805865C(0x1AB);
-        }
-        break;
-    case 6:                                         /* switch 1 */
-        sp9C = 0;
-        spA0 = 0xA000;
-        if ((callA756C_08097B6C(sp94, sp98, sp9C, spA0, 1) << 0x18) != 0) {
-            spC0 = 0;
-            spD0 = 7;
-        } else {
-            callA756C_080979D8(sp94, sp98, sp9C, spA0, motion);
-            temp_r0_3 = motion[1];
-            sp98 += temp_r0_3;
-            sp90 -= temp_r0_3;
-            spA8 -= temp_r0_3;
-            temp_r2_4 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x90;
-            *temp_r2_4 -= motion[1];
-            temp_r4 = sub_080020F4();
-            *(s32 *)((0x14C * temp_r4) + (u8 *)&gUnk_03003D78) = *(s32 *)((0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x90);
-        }
-        sub_0800BBA8(2U, (u16) ((s32) (sp94 << 8) >> 0x10), (u16) ((s32) (sp98 << 8) >> 0x10));
-        temp_r2_5 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-        *temp_r2_5 |= 1;
-        temp_r2_6 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-        *temp_r2_6 |= 0x20;
-        break;
-    case 7:                                         /* switch 1 */
-        temp_r2_7 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-        *temp_r2_7 |= 1;
-        temp_r2_8 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-        *temp_r2_8 |= 0x20;
-        temp_r1_3 = spC0;
-        spC0 = (u32) (u16) (temp_r1_3 + 1);
-        if (temp_r1_3 > 0x78U) {
-            spD8 = 0;
-        }
-        break;
-    }
-    if (spC8 != 0) {
-        temp_r0_4 = spC4 + 2;
-        spC4 = (s32) temp_r0_4;
-        sp90 += (s16) gUnk_080B9704[temp_r0_4] >> 1;
-    }
-    spB0 = sub_08065370(ctx1, (u16) spB4, (s32) &sp78, (s32) &sp7A, spB8);
-    temp_r4_2 = sp8C >> 8;
-    spDC = sp90 >> 8;
-    temp_sl = (u8) sub_0800BC44((u32) temp_r4_2, (u32) spDC, 0U);
-    temp_r0_5 = sub_0800CCCC();
-    spE8 = temp_r4_2;
-    spEC = spDC;
-    if (temp_r0_5 != 0) {
-
-    } else if (sub_0800CC98() != 0) {
-
-    } else {
-        temp_r0_6 = sub_0800CD34();
-        if (temp_r0_6 != 0) {
-
-        } else {
-            if (spCC == 0) {
-                spE0 = &sp7E;
-                callA756C_0800BC08((s16) temp_r4_2, (s16) spEC, &sp7C, spE0, temp_r0_6, temp_r0_6);
-                callA756C_08007870(sp7C, *spE0, spB4, sp78, (s32) temp_sl, (ctx1 + 0x1C), M2C_FIELD(ctx1,s32*,8), M2C_FIELD(ctx1,s32*,0));
-                var_r4 = spE0;
+                break;
+            case 1:
+                tgt.x = 0x7800;
+                tgt.y = 0x6000;
+                if (reach756C(dragon, tgt, 1)) {
+                    animId = 0xE;
+                    animMode = 0;
+                    tick0 = animMode;
+                    frame0 = animMode;
+                    sub = 2;
+                } else {
+                    step756C(dragon, tgt, &delta);
+                    dragon.x += delta.x;
+                    dragon.y += delta.y;
+                    shadow.x += delta.x;
+                }
+                break;
+            case 2:
+                if (animDone != 0) {
+                    animId = 0x11;
+                    sub = 0;
+                    tick0 = sub;
+                    frame0 = sub;
+                    sfx2_756C(0x1A1);
+                    state = 2;
+                }
+                break;
+            }
+            break;
+        case 2:
+            tgt.x = 0;
+            tgt.y = 0;
+            if (reach756C(cam, tgt, 1)) {
+                state = 3;
             } else {
-                spE4 = spE8 << 0x10;
-                temp_r3_3 = (s16) spE8;
-                var_r4 = &sp7E;
-                callA756C_0800BC08(temp_r3_3, (s16) ((s32) (spA8 << 8) >> 0x10), &sp7C, var_r4, temp_r0_6, temp_r0_6);
-                temp_r7 = callA756C_08007870(sp7C, *var_r4, spB4, sp78, (s32) temp_sl, (ctx1 + 0x1C), M2C_FIELD(ctx1,s32*,8), M2C_FIELD(ctx1,s32*,0));
-                callA756C_0800BC08(temp_r3_3, (s16) spEC, &sp7C, var_r4, temp_r0_6, temp_r0_6);
-                M2C_FIELD(temp_r7, s32 *, 0xC) = (s32) *var_r4;
+                step756C(cam, tgt, &delta);
+                cam.x += delta.x * 2;
+                cam.y += delta.y * 2;
             }
-            if ((spA4 <= 0xBD00) && (gUnk_03002344 & 1)) {
-                callA756C_0800BC08((s16) ((s32) (spA4 << 8) >> 0x10), (s16) ((s32) (spA8 << 8) >> 0x10), &sp7C, var_r4, 0, 0);
-                M2C_FIELD(callA756C_08007870(sp7C, 1, 0x12, 0U, (s32) temp_sl, (ctx1 + 0x1C), M2C_FIELD(ctx1,s32*,8), M2C_FIELD(ctx1,s32*,0)), s32 *, 0xC) = (s32) *var_r4;
+            cam756C((s16)(cam.x >> 8), (s16)(cam.y >> 8));
+            break;
+        case 3:
+            switch (sub) {
+            case 0:
+                for (i = 0; i < nPl; i++) {
+                    u16 *t = gPl756C[i].f148;
+                    if ((t[1] & 0xFFF) <= 0x7B && (((u8 *)t)[4] & 0x3F) == 0x11) {
+                        landed = 1;
+                        animId = 0x10;
+                        tick0 = 0;
+                        frame0 = 0;
+                        animMode = 1;
+                        sub = 1;
+                        sub_0805865C(0x1A1);
+                        fx = 3;
+                    }
+                }
+                break;
+            case 1:
+                tgt.x = 0x7800;
+                tgt.y = 0x4600;
+                if (reach756C(dragon, tgt, 1)) {
+                    waving = 1;
+                    state = 4;
+                } else {
+                    step756C(dragon, tgt, &delta);
+                    dragon.x += delta.x;
+                    dragon.y += delta.y;
+                }
+                break;
+            }
+            gPl756C[sub_080020F4()].flags &= ~1;
+            break;
+        case 4:
+            state = 5;
+            for (i = 0; i < nPl; i++) {
+                u16 *t = gPl756C[i].f148;
+                if ((t[1] & 0xFFF) > 0x7C && (((u8 *)t)[4] & 0x3F) == 0x11)
+                    state = 4;
+            }
+            if (state == 5) {
+                gPl756C[sub_080020F4()].flags |= 1;
+                *(s32 *)(gGame756C + 0x720) = msg756C(1, 0xE, 0x19, 2, 0x3C, 0x14008B);
+            }
+            break;
+        case 5:
+            if (msgDone756C(*(s32 *)(gGame756C + 0x720)) != 0) {
+                gPl756C[sub_080020F4()].flags |= 1;
+                gPl756C[sub_080020F4()].flags |= 0x20;
+                state = 6;
+                sub_0805865C(0x1AB);
+            }
+            break;
+        case 6:
+            tgt.x = 0;
+            tgt.y = 0xA000;
+            if (reach756C(cam, tgt, 1)) {
+                timer = 0;
+                state = 7;
+            } else {
+                step756C(cam, tgt, &delta);
+                cam.y += delta.y;
+                dragon.y -= delta.y;
+                shadow.y -= delta.y;
+                gPl756C[sub_080020F4()].y -= delta.y;
+                j = sub_080020F4();
+                gPl756C[j].f98 = gPl756C[sub_080020F4()].y;
+            }
+            layer756C(2, (s16)(cam.x >> 8), (s16)(cam.y >> 8));
+            gPl756C[sub_080020F4()].flags |= 1;
+            gPl756C[sub_080020F4()].flags |= 0x20;
+            break;
+        case 7:
+            gPl756C[sub_080020F4()].flags |= 1;
+            gPl756C[sub_080020F4()].flags |= 0x20;
+            if (timer++ > 0x78)
+                running = 0;
+            break;
+        }
+        if (waving != 0) {
+            wave += 2;
+            dragon.y += gSin756C[wave] >> 1;
+        }
+        animDone = anim756C(&anim0, animId, &frame0, &tick0, animMode);
+        x8 = dragon.x >> 8;
+        y8 = dragon.y >> 8;
+        b = prio756C(x8, y8, 0);
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && (z = sub_0800CD34()) == 0) {
+            if (landed == 0) {
+                proj756C((s16)x8, (s16)y8, &sx, &sy, z, z);
+                draw756C(sx, sy, animId, frame0, b, &anim0.f1C, anim0.f8, anim0.f0);
+            } else {
+                proj756C((s16)x8, (s16)(shadow.y >> 8), &sx, &sy, z, z);
+                o = draw756C(sx, sy, animId, frame0, b, &anim0.f1C, anim0.f8, anim0.f0);
+                proj756C((s16)x8, (s16)y8, &sx, &sy, z, z);
+                o->fC = sy;
+            }
+            if (shadow.x <= 0xBD00 && (gFrame756C & 1)) {
+                proj756C((s16)(shadow.x >> 8), (s16)(shadow.y >> 8), &sx, &sy, 0, 0);
+                o = draw756C(sx, 1, 0x12, 0, b, &anim0.f1C, anim0.f8, anim0.f0);
+                o->fC = sy;
             }
         }
-    }
-    if (spBC != 0) {
-        callA756C_0800BC08((s16) spE8, (s16) spEC, &sp7C, &sp7E, 0, 0);
-        if (sub_08065370(ctx2, (u16) spBC, (s32) &sp80, (s32) &sp82, 0) != 0) {
-            spBC = 0;
-        } else {
-            sub_08065230(ctx2, (s32) sp7C, sp7E - 0x20, (u16) spBC, (s32) sp80);
+        if (fx != 0) {
+            proj756C((s16)x8, (s16)y8, &sx, &sy, 0, 0);
+            if (anim756C(&anim1, fx, &frame1, &tick1, 0) != 0)
+                fx = 0;
+            else
+                fx756C(&anim1, sx, sy - 0x20, fx, frame1);
         }
-    }
-    sub_080003F0();
-    if (spD8 != 0) {
-        goto loop_1;
-    }
-    sub_0805867C(0x1A1);
+        sub_080003F0();
+    } while (running);
+    sfx2_756C(0x1A1);
     sub_080683CC();
     sub_080003F0();
-    sub_08068330(-0x21520532);
-loop_83:
-    if (sub_080682B8(-0x21520532) == 0) {
+    sub_08068330(0xDEADFACE);
+    while (sub_080682B8(0xDEADFACE) == 0)
         sub_080003F0();
-        goto loop_83;
-    }
-    sub_08065E38(-0x21520532);
+    sub_08065E38(0xDEADFACE);
     sub_080003F0();
     sub_08068384();
     sub_080003F0();
     if (sub_08002204() == 1) {
-        M2C_FIELD(gUnk_03005CF4, s32 *, 0x40) = (s32) (gUnk_03003170.f90 + 1);
-        callA756C_08067DC8();
+        *(s32 *)(gGame756C + 0x40) = gMap756C.f90 + 1;
+        sub_08067DC8();
     }
-    temp_r2_9 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-    *temp_r2_9 &= ~0x20;
-    temp_r1_4 = (0x14C * sub_080020F4()) + (u8 *)gUnk_03003CE0 + 0x30;
-    *temp_r1_4 &= ~1;
-    gUnk_030056FC = 0;
+    gPl756C[sub_080020F4()].flags &= ~0x20;
+    gPl756C[sub_080020F4()].flags &= ~1;
+    gMask756C = 0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A756C);
