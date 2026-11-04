@@ -1,6 +1,8 @@
-sub_08087A5C (nov03-w5): draft 56 -> 51 (fullcheck instr diff), same shape as ROM apart from registers.
-  The text row argument is a giv of i: `(u16)(i * 2 + 12)` / `(u16)(i * 2 + 2)` (ROM steps y<<16 by 0x20000).
-  `base = gUnk_03003CE0` must be assigned inside the parse loop (hoisted by loop.c into the preheader after
-  the `*s != 0xFD` test); case 0xF6 reads `(base + 2)[col]` (base+2 hoisted to sl).
-  Left: r5/r6 (i vs y-giv) and r8/r9 (arg1/mode) swapped, ip/sl for the 0xFD constant, and
-  b's decrement (ROM keeps b<<16 and adds 0xFFFF0000).
+sub_08087A5C (nov03-w4, round 2): still 612/612, only the parse-loop head differs (ROM `ldrb r1; adds r0, r1`,
+  draft `ldrb r0; adds r1, r0`). In the ROM the ldrb target is the value stored by the default case and the
+  compares use a copy (higher-priority pseudo gets r0). No effect: moving `u8 c` (first/last/block scope), u16 c,
+  storing `*s` in the default case, `if (0) {}`, separate u8 n for the name loads. s32/u32 c makes the load go to r1
+  but drops the copy (cmp r1). `u32 c = *s; u8 t = c;` with compares on t and store of c gives the ROM shape
+  (load into its own reg, compares on a copy) but 618 bytes: cse leaves the last compare on t (third reg) and the
+  0xFD constant is no longer hoisted to ip. `(u8)c` compares on u32/s32/u16 c: 616. switch: jump table (678).
+  Inline helper for the name loads: 626. permuter 300 s (random mode): no improvement.
