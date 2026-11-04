@@ -1,10 +1,10 @@
-sub_08087A5C (nov03-w4): draft 604 vs 612 bytes. Findings:
-  - Fade loop: declare `s16 a, b;` (`++a > 15`, `--b <= 0`) and call sub_0800903C through a local
-    prototype `extern void f(u32,u32,u32,u16,s16,u32) asm("sub_0800903C")` passing a, b directly:
-    the ROM passes b raw (HImode param) and computes b<<16 before the call, which this reproduces
-    (fade block then matches up to register choice; mode ends up in sl as in the ROM).
-  - Name expansion: ROM hoists `gUnk_03003CE0 + 2` into sl (0xF6 case: player 0 name) and keeps
-    0xFD in ip; cases F4/F3/F2 are players 1..3 (+0x14E/+0x29A/+0x3E6 = k*0x14C + 2) sharing the
-    `*d = name[col]` tail. Draft folds +2 into `ldrb [r0,#2]`: write it as a per-case `name`
-    pointer with a common tail.
-  - Count in r8, mode r9 then sl; draft swaps r8/r9 at entry.
+sub_08087A5C (nov03-w4, round 2): draft now exact size 612, 2 instructions differ (the name-loop
+  `c = *s` load: ROM `ldrb r1; adds r0, r1, #0`, ours `ldrb r0; adds r1, r0, #0`). Keys that got here:
+  - fade vars `s16 a, b` passed to a local proto `(u32,u32,u32,u16,u16,u32)` with `(s16)++a`/`(s16)--b`.
+  - `mode = arg1 >> 16; arg1 &= 0xFFFF; while (--arg1 != -1)` (count reuses arg1 -> r8, mode r9->sl).
+  - mode loops reuse `row` as the index (r6), not a separate `i`.
+  - F6 case reads through its own invariant `name0 = (u8 *)&gUnk_03003CE0[0] + 2` (hoisted to sl);
+    F4/F3/F2 through `name = base + off` with base set before the do-loop; tail
+    `*(u8 *)(col + (u32)name)` gives the ROM `adds r0, r2, r0` operand order.
+  Tried for the c load: c as u32/s32/u16 (worse or same), default storing *s, `(c = *s) == 0xFF`,
+  separate compare copy, switch (table, bigger).

@@ -9548,32 +9548,32 @@ void sub_080878AC(u32 arg0, s32 *state)
 #ifdef NONMATCHING
 extern void text087A5C(u8 *, u32, u32) asm("sub_0801A3D0");
 extern void close087A5C(u32, u32) asm("sub_0801A664");
+extern void fade087A5C(u32, u32, u32, u16, u16, u32) asm("sub_0800903C");
 /* Show a centred multi-line message (party names expanded) while fading it in. */
 void sub_08087A5C(u32 msg, u32 arg1)
 {
     u8 lines[8][32];
     s16 a;
-    u16 b;
+    s16 b;
     u32 mode;
-    u32 count;
-    u32 row, col, i;
+    u32 row, col;
     u8 *s;
     u8 *d;
-    u8 *base;
     u8 *name;
+    u8 *base;
+    u8 *name0;
     u8 c;
     u32 w;
-    u32 y;
 
     for (row = 0; row <= 7; row++)
         for (col = 0; col <= 0x1F; col++)
-            lines[0][col + row * 32] = 0xFD;
+            lines[row][col] = 0xFD;
     s = (u8 *)sub_08007290(msg | 0x140000) + 2;
     row = 0;
     col = 0;
     if (*s != 0xFD) {
+        base = (u8 *)gUnk_03003CE0;
         do {
-            base = (u8 *)gUnk_03003CE0;
             c = *s;
             if (c == 0xFF) {
                 lines[0][col + row * 32] = 0xFD;
@@ -9586,28 +9586,29 @@ void sub_08087A5C(u32 msg, u32 arg1)
                 s += 2;
             } else if (c == 0xF6) {
                 d = &lines[0][col + row * 32];
-                if ((*d = (base + 2)[col]) != 0 && *d != 0xFD) {
+                name0 = (u8 *)&gUnk_03003CE0[0] + 2;
+                if ((*d = name0[col]) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
             } else if (c == 0xF4) {
                 d = &lines[0][col + row * 32];
                 name = base + 0x14E;
-                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                if ((*d = *(u8 *)(col + (u32)name)) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
             } else if (c == 0xF3) {
                 d = &lines[0][col + row * 32];
                 name = base + 0x29A;
-                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                if ((*d = *(u8 *)(col + (u32)name)) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
             } else if (c == 0xF2) {
                 d = &lines[0][col + row * 32];
                 name = base + 0x3E6;
-                if ((*d = name[col]) != 0 && *d != 0xFD) {
+                if ((*d = *(u8 *)(col + (u32)name)) != 0 && *d != 0xFD) {
                     col++;
                     s--;
                 }
@@ -9620,23 +9621,23 @@ void sub_08087A5C(u32 msg, u32 arg1)
     }
     lines[row][col] = 0xFD;
     mode = arg1 >> 16;
-    count = arg1 & 0xFFFF;
+    arg1 &= 0xFFFF;
     a = 0;
     b = 16;
-    while (--count != -1) {
-        sub_0800903C(1, 0x3F, 1, (u16)a, b, 0);
+    while (--arg1 != -1) {
+        fade087A5C(1, 0x3F, 1, a, b, 0);
         if (gUnk_03002344 & 0xF) {
-            if (++a > 15)
+            if ((s16)++a > 15)
                 a = 16;
             if ((s16)--b <= 0)
                 b = 0;
         }
         switch (mode) {
         case 0:
-            for (i = 0; i <= 3; i++) {
-                w = sub_0801A638(lines[i]);
+            for (row = 0; row <= 3; row++) {
+                w = sub_0801A638(lines[row]);
                 if (w != 0)
-                    text087A5C(lines[i], (u16)(15 - (w >> 1)), (u16)(i * 2 + 12));
+                    text087A5C(lines[row], (u16)(15 - (w >> 1)), (u16)(row * 2 + 12));
             }
             break;
         case 1:
@@ -9644,8 +9645,8 @@ void sub_08087A5C(u32 msg, u32 arg1)
             text087A5C(lines[1], (u16)(15 - ((u32)sub_0801A638(lines[1]) >> 1)), 18);
             break;
         case 2:
-            for (i = 0; i <= 7; i++)
-                text087A5C(lines[i], (u16)(15 - ((u32)sub_0801A638(lines[i]) >> 1)), (u16)(i * 2 + 2));
+            for (row = 0; row <= 7; row++)
+                text087A5C(lines[row], (u16)(15 - ((u32)sub_0801A638(lines[row]) >> 1)), (u16)(row * 2 + 2));
             break;
         }
         if (sub_080021A8() != 0 || sub_0801AAF8() != 0)
