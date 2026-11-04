@@ -31527,10 +31527,16 @@
       "canonical_symbol": "sub_080A47A0",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_080A47A0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "sub_080A47A0_v",
+      "name_status": "existing",
+      "name_source": "c_definition_alias",
+      "evidence": [
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 561,
+          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A47A0_v"
+        }
+      ]
     },
     {
       "name": "sub_080A49A8",
@@ -31907,7 +31913,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2034,
+          "line": 2014,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run68B0"
         }
       ]
@@ -31930,7 +31936,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2136,
+          "line": 2116,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A6BE8_v"
         }
       ]
@@ -31953,7 +31959,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2247,
+          "line": 2227,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A705C_v"
         }
       ]
@@ -31993,7 +31999,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2403,
+          "line": 2383,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A756C_v"
         }
       ]
@@ -32271,7 +32277,7 @@
       "evidence": [
         {
           "source": "src/code_080A3D2C.c",
-          "line": 2938,
+          "line": 2918,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A8164_v"
         }
       ]
@@ -37102,12 +37108,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 196,
-      "existing": 77,
+      "identified": 197,
+      "existing": 78,
       "confirmed": 119,
       "proposed": 0,
-      "unidentified": 1684,
-      "percent_identified": 10.425531914893616
+      "unidentified": 1683,
+      "percent_identified": 10.47872340425532
     },
     "sdk": {
       "total": 155,
@@ -37120,12 +37126,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 351,
-      "existing": 206,
+      "identified": 352,
+      "existing": 207,
       "confirmed": 145,
       "proposed": 0,
-      "unidentified": 1684,
-      "percent_identified": 17.24815724815725
+      "unidentified": 1683,
+      "percent_identified": 17.2972972972973
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
