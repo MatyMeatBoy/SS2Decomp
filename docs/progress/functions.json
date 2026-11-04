@@ -32653,21 +32653,21 @@
       "name": "sub_080AD534",
       "addr": 134927668,
       "size": 2300,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080A9680",
       "kind": "c",
       "cat": "game",
       "address": "0x080AD534",
       "canonical_symbol": "sub_080AD534",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080AD534_v",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2483,
+          "line": 2478,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
         }
       ]
