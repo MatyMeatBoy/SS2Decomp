@@ -2054,18 +2054,15 @@ void sub_0807C29C(void) {
                     sub_0807BD78(from, gMgr82->heldIdx);
                     sub_0807BEA0(5, gMgr82->cursor, (void *)&gMgr82->held);
                     DROP82();
-                    gPlayers82[sub_080020F4()].fC6 = 0;
-                    sub_0805D190();
-                    sub_0805865C(0x5F);
-                    break;
+                } else {
+                    sub_0807C014(sub_0805AE94(&gMgr82->held));
+                    sub_0807BEA0(5, gMgr82->cursor, (void *)&gMgr82->held);
+                    if (gMgr82->heldIdx > 8)
+                        sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                    gMgr82->cursor = gMgr82->heldIdx;
+                    gMgr82->state = gMgr82->heldFrom;
+                    DROP82();
                 }
-                sub_0807C014(sub_0805AE94(&gMgr82->held));
-                sub_0807BEA0(5, gMgr82->cursor, (void *)&gMgr82->held);
-                if (gMgr82->heldIdx > 8)
-                    sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
-                gMgr82->cursor = gMgr82->heldIdx;
-                gMgr82->state = gMgr82->heldFrom;
-                DROP82();
                 gPlayers82[sub_080020F4()].fC6 = 0;
                 sub_0805D190();
                 sub_0805865C(0x5F);
