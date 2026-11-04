@@ -1,0 +1,6 @@
+
+w7 (2026-11-04), sub_08093BAC (nmscore 241, exact size 1542). Survey only (not worked): diffs are (1) two
+  swapped spill slots: ROM [sp,#0x148] = r9<<24 (stored right before the main loop, read at 131/209/250/508/
+  576), [sp,#0x14c] = the value stored at asm line 185 (read at 553/621); ours has them the other way round
+  (pseudo regno order); (2) the ROM hoists `add r2,sp,#0x7c` into r9 for the loop (struct at sp+0x7c used as
+  the sub_08065xxx arg and `ldr r1,[r9,#12]`), ours rematerializes it, which shifts r8/r9/sl afterwards.
