@@ -2413,11 +2413,6 @@ void sub_080AC844_v(struct ActC844 *a)
     }
     sub_08056E24();
 }
-#ifdef NONMATCHING
-// sub_080AD534: exact control flow, ~10 diff lines (regalloc only): the mask update. ROM reuses
-// the idx reload copy (r2) for idx+1 with 1 in r3 and &mask in r4 (draft: plain `|=` gives &mask r3
-// and r4/r5 slot/base; `t = mask; mask = t | bit` fixes slot/base r5/r6 but loads mask first).
-// `pb = posAD534; p = &pb[idx]` fixes the pos-walk literal order.
 struct ResAD534 { u8 p0[4]; s16 f4, f6; };
 struct ActorAD534 {
     u16 f0, f2;
@@ -2503,7 +2498,15 @@ void sub_080AD534_v(u32 idx)
 
     idx = (u8)idx;
     actorsAD534[idx] = (struct ActorAD534 *)&((struct E2E0AD534 *)baseAD534)[idx + 1];
-    { u32 t = maskAD534; maskAD534 = t | (1 << (idx + 1)); }
+    {
+        register u32 *m asm("r4") = &maskAD534;
+        register u32 copy asm("r2") = idx;
+        register u32 bit asm("r3");
+        /* Preserve the stride calculation's index copy until the bit update. */
+        asm("" : "+r"(m), "+r"(copy));
+        bit = 1 << (copy + 1);
+        *m = *m | bit;
+    }
     setupAD534(actorsAD534[idx], imageAD534);
     res = &actorsAD534[idx]->res;
     initResAD534(res);
@@ -2700,9 +2703,6 @@ void sub_080AD534_v(u32 idx)
         sub_0801E4CC(dataAD534, h);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080AD534);
-#endif
 struct Player114DE {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 angle;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x16];u16 timer;s16 direction;u16 speed;u8 pCE[0x16];u32 seen[26];};
 struct Entity114DE {u16 index;u8 p2[10];u16 state;u8 pE[6];s32 x,y;u8 p1C[0x34];u32 counter;};
 extern s32 x114DE[] asm("gUnk_03003D6C");
