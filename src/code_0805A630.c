@@ -775,8 +775,13 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
         return 0;
     count = 0; do {
     e = *(u8 **)&gUnk_03005D58;
-    lowest = 0x11170;
-    lowestIndex = 0x11170;
+    {
+        register u32 limit asm("r0") = 0x11170;
+        /* The ROM shares this loaded value between the two initial minima. */
+        asm("" : "+r"(limit));
+        lowest = limit;
+        lowestIndex = limit;
+    }
     for (i = 0; i <= 15; i++, e += 0x20) {
         if (*(u16 *)(e + 0xA) & 1) {
             count++;
