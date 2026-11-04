@@ -31462,21 +31462,21 @@
       "name": "sub_080A35D0",
       "addr": 134886864,
       "size": 1884,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x080A35D0",
       "canonical_symbol": "sub_080A35D0",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "t107MainD",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 3013,
+          "line": 3010,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
@@ -32523,7 +32523,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 1183,
+          "line": 1182,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AB2F8_v"
         }
       ]
@@ -32614,7 +32614,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2081,
+          "line": 2080,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AC844_v"
         }
       ]
@@ -32637,7 +32637,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2485,
+          "line": 2484,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
         }
       ]
@@ -32779,7 +32779,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 2980,
+          "line": 2979,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AE420_v"
         }
       ]
@@ -32887,7 +32887,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 3614,
+          "line": 3613,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AF3F4_v"
         }
       ]
@@ -32910,7 +32910,7 @@
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 4078,
+          "line": 4077,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0288_v"
         }
       ]
@@ -32953,21 +32953,21 @@
       "name": "sub_080B0FC4",
       "addr": 134942660,
       "size": 4112,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_080A9680",
       "kind": "c",
       "cat": "game",
       "address": "0x080B0FC4",
       "canonical_symbol": "sub_080B0FC4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080B0FC4_v",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_080A9680.c",
-          "line": 4438,
+          "line": 4437,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0FC4_v"
         }
       ]
