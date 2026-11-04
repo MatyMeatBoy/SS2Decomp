@@ -21,3 +21,17 @@ Later attempts (2026-10-12, after main merge with revalidated tree):
     All stay at 160 bytes vs 188. Original's extra bytes are high-register saves (r8/r9) for arg0/off
     across calls; still not reproduced. No NONMATCHING draft exists for any remaining shard-24 function.
   - sub_08025890, sub_080263B4, sub_08026858: not attempted further (large).
+
+2026-11-04 codex-solo, shard130, sub_08026858:
+  Simplified the inherited exact-size draft without changing its generated code:
+  empty constraints 30 -> 15, explicit register bindings 42 -> 16. Ordinary
+  locals replace the unbound register declarations. Every accepted removal and
+  the final combined edit were checked for identical normalized bytes AND
+  relocations against the baseline NONMATCHING object (1020 bytes). The final
+  draft still has distance66 and strict NO MATCH against the original ROM.
+  Remaining differences include the scan Y-limit scratch register, conversion
+  order around two projection calls, and draw argument reload registers.
+  The inherited uninitialized count and its equivalence warning are unchanged.
+  A clean unconstrained version gives1004/152. A new r7 limit gives1032/140;
+  reusing the count for the limit gives1024/80 and binding it r7 gives1024/138.
+  A local signed-halfword projection prototype has no effect. All rejected.
