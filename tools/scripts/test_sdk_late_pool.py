@@ -50,7 +50,7 @@ for profile,opts in [('reference',[]),('off',[]),('on',['-fthumb-late-pool']),('
   body=assembly.split('\npool_paths:\n',1)[1].split('\n.Lfe',1)[0]
   assert body.index('\t.word')>body.rindex('\tbx\t'),'positive fixture pool must follow its return'
  with (out/(profile+'.elf')).open('rb') as f:
-  elf=ELFFile(f);code=elf.get_section_by_name('.text').data();sections=[(s['sh_addr'],s.data()) for s in elf.iter_sections() if s['sh_flags']&2 and s['sh_type']!='SHT_NOBITS'];syms={s.name:s['st_value']&~1 for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name.startswith('pool_') and s['st_info']['type']=='STT_FUNC'}
+  elf=ELFFile(f);code=elf.get_section_by_name('.text').data();sections=[(s['sh_addr'],s.data()) for s in elf.iter_sections() if s['sh_flags']&2 and s['sh_size']>0 and s['sh_type']!='SHT_NOBITS'];syms={s.name:s['st_value']&~1 for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name.startswith('pool_') and s['st_info']['type']=='STT_FUNC'}
  if profile=='reference':reference=code
  if profile=='off':assert code==reference,'default output changed'
  if profile=='on':assert code!=reference,'pool fixture did not exercise a layout change'
