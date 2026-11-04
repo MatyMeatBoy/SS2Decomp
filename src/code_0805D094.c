@@ -640,7 +640,10 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
     u8 x = xArg, y = yArg, width = widthArg, height = heightArg;
     struct DC1CWindow *window;
     u8 slot;
-    u16 halfWidth, halfHeight, w, h;
+    register u16 halfWidth asm("r3");
+    register u16 halfHeight asm("r4");
+    u16 w, h;
+    register s32 clampHalf asm("r2");
     u16 pos;
     u16 left, right, top, bottom, col, row;
     s32 x0, y0, x1, y1;
@@ -659,16 +662,20 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
     pos = window->x;
     w = window->width;
     halfWidth = w >> 1;
-    if (pos + halfWidth > 30)
+    clampHalf = halfWidth;
+    asm("" : : "r"(clampHalf));
+    if (pos + clampHalf > 30)
         window->x = 30 - halfWidth;
-    if ((window->x - halfWidth) & 0x80)
+    if ((window->x - clampHalf) & 0x80)
         window->x = halfWidth;
     pos = window->y;
     h = window->height;
     halfHeight = h >> 1;
-    if (pos + halfHeight > 20)
+    clampHalf = halfHeight;
+    asm("" : : "r"(clampHalf));
+    if (pos + clampHalf > 20)
         window->y = 30 - halfHeight;
-    if ((window->y - halfHeight) & 0x80)
+    if ((window->y - clampHalf) & 0x80)
         window->y = halfHeight;
     left = window->x - halfWidth;
     right = window->x + halfWidth;
