@@ -2498,7 +2498,8 @@ extern s16 t65E_display asm("gUnk_03001F40");
 extern u8 t65E_resources[] asm("gUnk_08518938");
 extern void t65E_bg(u32,u32,u32) asm("sub_080009F8");
 #define T65E_H(p,o) (*(u16 *)((p)+(o)))
-#define T65E_ENTITY(p) (*(u8 **)((p)+0x148))
+struct T65EEntity { u32 kind:4; u32 kindHi:4; u8 pad[3]; };
+#define T65E_ENTITY(p) (*(struct T65EEntity **)((p)+0x148))
 static inline s32 t65E_init(struct T65EPopup *obj,u32 resource,s32 index,s32 size)
 {
     void *table = t65E_resources;
@@ -2545,12 +2546,12 @@ void sub_08063E30(void)
     players=sub_08002164();
     count=0;
     for (playerIndex=0;playerIndex<players;playerIndex++) {
-        if ((T65E_ENTITY(t65E_players[playerIndex].bytes)[0]&15)==14) count++;
+        if (T65E_ENTITY(t65E_players[playerIndex].bytes)->kind==14) count++;
     }
     n=0;
     for (playerIndex=0;playerIndex<players;playerIndex++) {
         p=t65E_players[playerIndex].bytes;
-        if ((T65E_ENTITY(p)[0]&15)==14) {
+        if (T65E_ENTITY(p)->kind==14) {
             t65E_init(sprites+n,t65E_resourceTable[T65E_H(p,0x64)].id,0,-1);
             sprites[n].palette[0]=playerIndex;
             delays[n]=n*10+10;
@@ -2576,7 +2577,7 @@ loop:
     n=0;
     for (playerIndex=0;playerIndex<players;playerIndex++) {
         p=t65E_players[playerIndex].bytes;
-        if ((T65E_ENTITY(p)[0]&15)==14) {
+        if (T65E_ENTITY(p)->kind==14) {
             if (delays[n]==0) {
                 if (!sounds[n]) {sub_0805865C(n+0xF0);sounds[n]=1;}
                 j=4;
@@ -2603,7 +2604,7 @@ loopEnd:
         n=0;
         for (playerIndex=0;playerIndex<players;playerIndex++) {
             p=t65E_players[playerIndex].bytes;
-            if ((T65E_ENTITY(p)[0]&15)==14) {
+            if (T65E_ENTITY(p)->kind==14) {
                 if (!delays[n]) {
                     j=4;
                     do {trails[n][j].y=trails[n][j-1].y;j--;} while (j>0);

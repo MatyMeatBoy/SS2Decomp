@@ -12,3 +12,14 @@ ts a rematerialized 0x138);
     `add r1,sp,#0x48`), costing an extra spill slot (frame 0x78 vs 0x70) and dialog loses sl.
 /y0.
   Permuter (--allow-control-diff, 5 min) produced nothing useful.
+
+2026-11-04 codex-solo, shard139, sub_08063E30:
+  Typed the entity's low kind nibble with u32 bitfields and a three-byte tail.
+  This emits the original ldrb/lsl #28/lsr #28 sequence in all four player
+  scans. A full u32 kind/rest container instead loads a word; u8 or u16
+  bitfields retain the old masking form. Candidate stays 1544/original1516,
+  current nmscore 470 -> 434, strict NO MATCH; original ASM retained.
+  A fully typed player record regresses to1548/461. Signed n/count/finished
+  gives1548/459. Reordering fill/control declarations or taking fill addresses
+  does not change their homes; an IO struct changes addressing, and early fill
+  initialization adds code. None of these variants was selected.
