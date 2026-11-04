@@ -1,0 +1,6 @@
+shard 116 notes
+
+sub_080B0288 (3304 bytes): near copy of sub_080AF3F4 (matched, shard115.txt) with a 5-state f1FD
+  switch and 3-case anim switch; actor arg lives in sl, &f6C kept in r8 (not spilled).
+  Draft (nov03-w3) = the sub_080AF3F4 C adapted: 3308/3304, score 31; only the last cutscene loop
+  (sub_08098088 fade, blend counter) differs: ROM keeps the gCur copy in r4 across the loop.

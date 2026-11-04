@@ -3297,519 +3297,403 @@ void sub_080AF3F4_v(struct ActF3F4 *a)
     sub_08056E24();
 }
 #ifdef NONMATCHING
-/* Compiling draft; bytes and relocations do not match yet. */
-extern void t116_sprite(u32, s32, u32) asm("sub_08000AF0");
-extern s32 t116_fadeDone(void) asm("sub_080980F0");
-extern s32 t116_history asm("gUnk_03003DC4");
-extern s32 t116_flags asm("gUnk_03003D10");
-extern u8 t116_data[] asm("gUnk_084A84B0");
-extern s32 t116_sub_08007870(s16, s16, u16, u16, s32, void *, s32, s32) asm("sub_08007870");
-extern s32 t116_sub_08007974(s16, s16, u16, u16, s32, s32, s32, void *, s32, s32) asm("sub_08007974");
-extern s32 t116_sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern s32 t116_sub_08065158(void *, s32, s32, s32, s32) asm("sub_08065158");
-extern s32 t116_sub_08065370(void *, u32, void *, void *, s32) asm("sub_08065370");
-extern s32 t116_sub_0805DF38(u32, u32, u32, u32, s32, s32) asm("sub_0805DF38");
-extern s32 t116_sub_0801623C(void *, void *, s32) asm("sub_0801623C");
-extern s32 t116_sub_08019CE8(void *) asm("sub_08019CE8");
-extern s32 t116_sub_08019F60(void *) asm("sub_08019F60");
-extern s32 t116_sub_0801A120(void *, s32, s16) asm("sub_0801A120");
-extern s32 t116_sub_0801C8F0(void *) asm("sub_0801C8F0");
-extern s32 t116_sub_08020680(void *) asm("sub_08020680");
-extern s32 t116_sub_080586B4(s32) asm("sub_080586B4");
-extern s32 t116_sub_08058CC4(s32) asm("sub_08058CC4");
-extern s32 t116_sub_0806171C(void *, s32) asm("sub_0806171C");
-extern s32 t116_sub_08067CA8(u16) asm("sub_08067CA8");
-extern s32 t116_sub_08096594(s32) asm("sub_08096594");
-extern s32 t116_sub_08098088(s32, s32, s32) asm("sub_08098088");
-struct T116Actor {
-    u16 f0;
-    u16 f2;
-    u8 pad4[4];
+struct Res0288 { u8 p0[4]; s16 f4, f6; u8 p8[0x1C]; u16 f24; u8 p26[2]; u16 f28; };
+struct Act0288 {
+    u16 f0, f2;
+    u8 p4[4];
     u16 f8;
-    u8 padA[2];
+    u8 pa[2];
     u16 fC;
-    u8 padE[6];
-    s32 f14;
-    s32 f18;
-    u8 pad1C[48];
-    s32 f4C;
-    s32 f50;
-    u8 pad54[6];
+    u8 pe[6];
+    s32 f14, f18;
+    u8 p1c[0x30];
+    s32 f4C, f50;
+    u8 p54[6];
     u16 f5A;
-    s16 f5C;
-    s16 f5E;
-    u8 pad60[8];
-    u16 f68;
-    u16 f6A;
-    s16 f6C;
-    s16 f6E;
-    u8 pad70[356];
-    s16 f1D4;
-    s16 f1D6;
-    u8 pad1D8[36];
-    u8 f1FC;
-    u8 f1FD;
-    u8 f1FE;
-    u8 pad1FF[1];
-    u8 f200;
-    u8 pad201;
+    s16 f5C, f5E;
+    u8 p60[8];
+    u16 f68, f6A, f6C, f6E;
+    u8 p70[0x164];
+    s16 f1D4, f1D6;
+    u8 p1d8[0x24];
+    u8 f1FC_lo : 4;
+    u8 f1FC_hi : 4;
+    u8 f1FD, f1FE, p1ff;
+    u8 f200, p201;
     u16 f202;
-    u8 pad204[39];
-    u8 f22B;
+    struct Res0288 res;
 };
-extern struct T116Actor *t116_actor asm("gUnk_03000788");
-void sub_080B0288(struct T116Actor *input116) {
-    s32 end116;
-    register struct T116Actor *arg0 asm("sl") = input116;
-    u8 sp18[0x34];
-    u8 storage4C[0x34]; register u8 *sp4C asm("r7");
-    u8 storage80[0x34]; register u8 *sp80 asm("r6");
-    s16 spB4;
-    s16 spB6;
-    void *spB8;
-    s32 spBC;
-    s32 spC0;
-    s32 spC4;
-    s32 spC8;
-    s32 spCC;
-    s32 spD0;
-    s32 spD4;
-    u32 spD8;
-    s32 spDC;
-    u16 *spE0;
-    u16 *spE4;
-    void *var_r9;
-    s16 *temp_r0_6;
-    s32 temp_r0;
-    s32 temp_r1;
-    s16 temp_r1_2;
-    s16 var_r1;
-    s16 var_r2;
-    s32 *temp_r1_10;
-    s32 *temp_r1_6;
-    s32 *temp_r1_7;
-    s32 *temp_r1_8;
-    s32 *temp_r1_9;
-    s32 *temp_r2;
-    s32 *temp_r2_2;
-    s32 *temp_r2_3;
-    s32 *temp_r3;
-    s32 temp_r0_10;
-    s32 temp_r0_14;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_7;
-    s32 temp_r0_8;
-    s32 temp_r0_9;
-    s32 temp_r4;
-    s8 *var_r1_2;
-    s8 var_r0;
-    u16 *var_r0_4;
-    u16 temp_r0_12;
-    u16 temp_r0_13;
-    u16 temp_r1_3;
-    u16 temp_r1_5;
-    u16 var_r1_4;
-    u16 var_r6;
-    u32 *var_r1_3;
-    u32 temp_r0_15;
-    u32 temp_r0_2;
-    u32 temp_r0_3;
-    u32 var_r0_3;
-    u32 var_r6_2;
-    u32 var_r6_3;
-    u32 temp_r1_4;
-    u8 temp_r7;
-    u8 temp_r7_2;
-    u8 temp_r7_3;
-    u8 temp_r7_4;
-    u8 temp_r7_5;
-    u8 temp_r7_6;
-    u8 temp_r7_7;
-    u8 var_r0_2;
-    void *temp_r0_11;
+struct Anim0288 { u32 f0, f4, f8; u8 *fC; u8 p10[12]; u8 f1C; u8 p1d[0x17]; };
+struct Pl0288 { u8 p0[0xC]; u16 fC; u8 pe[0x22]; u32 flags; u8 p34[0x118]; };
+struct Hist0288 { s32 h[5]; u8 rest[0x138]; };
 
+extern struct Act0288 *gCur0288 asm("gUnk_03000788");
+extern struct Pl0288 gPl0288[] asm("gUnk_03003CE0");
+extern struct Hist0288 gHist0288[] asm("gUnk_03003DC4");
+extern u8 gImg0288[] asm("gUnk_084A84B0");
+extern void *gData0288 asm("gUnk_030034E0");
+extern u8 *gState0288 asm("gUnk_03005CF4");
 
-    t116_actor = arg0;
-    spB8 = (u8 *)arg0 + 0x204;
-    t116_sub_0801623C(arg0, &t116_data, 0);
-    t116_sub_08019F60(spB8);
-    sub_0801A0A4(arg0);
-    t116_sub_08065158(sp18, 0x50089, 5, -1, 0);
-    sp4C=storage4C; asm("" : "+r"(sp4C));
-    t116_sub_08065158(sp4C, 0x50087, 5, -1, 0);
-    sp80=storage80; asm("" : "+r"(sp80));
-    t116_sub_08065158(sp80, 0x50088, 5, -1, 0);
-    temp_r1 = *(s16 *)((u8 *)spB8 + 0x6) * 3;
-    arg0->f1D6 = temp_r1;
-    arg0->f5C = temp_r1;
-    temp_r0 = *(s16 *)((u8 *)spB8 + 0x4) * 0xA * 2;
-    arg0->f1D4 = temp_r0;
-    arg0->f5E = temp_r0;
-    arg0->fC = 0U;
-    spC4 = 0;
-    spC8 = 0xFFFF;
-    spD0 = 0;
-    spD4 = 0;
-    arg0->f1FD = 2U;
-    arg0->f1FE = 2U;
-    *(u16 *)((u8 *)spB8 + 0x28) = 0xB3;
-    spC0 = (s32) *(u8 *)((u8 *)sub_08007290(0xB00B3) + 0x9B);
-    *(u16 *)((u8 *)spB8 + 0x24) = 2;
-    arg0->f22B = 0;
-    arg0->f50 = 1;
-    var_r1 = 0;
-    spE4 = (u8 *)arg0 + 0x6A;
-    spE0 = (u8 *)arg0 + 0x68;
-    do {
-        var_r2 = 0;
-loop_2:
-        temp_r1_2 = var_r2;
-        *(s32 *)((u8 *)&t116_history + temp_r1_2 * 4 + 0x14C * var_r1) = 0;
-        temp_r1_3 = temp_r1_2 + 1;
-        var_r2 = (s16) temp_r1_3;
-        if ((s32) (s16) temp_r1_3 <= 4) {
-            goto loop_2;
-        }
-        temp_r0_2 = (var_r1 << 0x10) + 0x10000;
-        var_r1 = (s16) (temp_r0_2 >> 0x10);
-    } while ((s32) ((s32) temp_r0_2 >> 0x10) <= 3);
-    arg0->f6C = 0U;
-    *spE4 = 0;
-    *spE0 = 0;
-    var_r6 = 0;
+void setup0288(void *, void *, s32) asm("sub_0801623C");
+void initRes0288(void *) asm("sub_08019F60");
+void a0A40288(void *) asm("sub_0801A0A4");
+void animInit0288(void *, s32, s32, s32, s32) asm("sub_08065158");
+u8 *obj0288(s32) asm("sub_08007290");
+void tick0288(void *) asm("sub_0801C8F0");
+s32 rnd0288(s32) asm("sub_08096594");
+u8 reach0288(void *, void *, s32, s32) asm("sub_08097A74");
+void sfx0288(s32) asm("sub_08058CC4");
+void face0288(void *, u8) asm("sub_08095F10");
+void spawn0288(s32, s32, s32, s32, s32) asm("sub_0807386C");
+void end0288(s32) asm("sub_08097A38");
+void loadPal0288(u32, void *, u32) asm("sub_08000AF0");
+u8 bgFlag0288(void) asm("sub_08098004");
+u8 bgPrio0288(void) asm("sub_08097FF8");
+u8 prio0288(s32, s32, s32) asm("sub_0800BC44");
+u16 anim0288(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
+void proj0288(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+void draw0288(s32, s32, s32, u16, u8, void *, u32, u32) asm("sub_08007870");
+void drawEx0288(s32, s32, s32, u16, u8, s32, s32, void *, u32, u32) asm("sub_08007974");
+void dmg0288(void *, s32, s16) asm("sub_0801A120");
+s16 dead0288(void *) asm("sub_08019CE8");
+void post0288(void *) asm("sub_08020680");
+void free0288(u16) asm("sub_08067CA8");
+void wait0288(s32) asm("sub_08068330");
+s32 ready0288(s32) asm("sub_080682B8");
+void next0288(s32) asm("sub_08065E38");
+void msgEnd0288(s32) asm("sub_080586B4");
+s32 flag0288(void) asm("sub_0805A318");
+s32 box0288(s32, s32, s32, s32, s32, s32) asm("sub_0805DF38");
+s32 boxDone0288(s32) asm("sub_0805EEFC");
+void blend0288(u8, u8, u8, u8) asm("sub_08009088");
+void fx0288(s32, s32, s32) asm("sub_08098088");
+u8 fxDone0288(void) asm("sub_080980F0");
+s32 dropFx0288(void *, void *) asm("sub_0801E46C");
+void fall0288(void *, s32) asm("sub_0806171C");
+void dropEnd0288(void *, s32) asm("sub_0801E4CC");
+
+void sub_080B0288_v(struct Act0288 *a) asm("sub_080B0288");
+void sub_080B0288_v(struct Act0288 *a)
+{
+    struct Anim0288 anim[3];
+    s16 sx, sy;
+    struct Res0288 *res;
+    s32 lastHit;
+    u8 sfx;
+    s32 animState;
+    u16 lastAnim;
+    s32 flag;
+    u16 flash;
+    u16 hitTimer;
+    s16 shake;
+    s32 done;
+
+    struct Anim0288 *sl;
+    u8 prio;
+    u8 k;
+    u16 frame;
+    s16 i, j;
+    u16 id;
+    s32 h;
+
+    gCur0288 = a;
+    res = &a->res;
+    setup0288(a, gImg0288, 0);
+    initRes0288(res);
+    a0A40288(a);
+    animInit0288(&anim[0], 0x50089, 5, -1, 0);
+    animInit0288(&anim[1], 0x50087, 5, -1, 0);
+    animInit0288(&anim[2], 0x50088, 5, -1, 0);
+    a->f5C = a->f1D6 = res->f6 * 3;
+    { s32 t = res->f4 * 2; a->f5E = a->f1D4 = ((res->f4 << 3) + t) * 2; }
+    a->fC = 0;
+    animState = 0;
+    lastAnim = 0xFFFF;
+    flash = 0;
+    hitTimer = 0;
+    a->f1FD = 2;
+    a->f1FE = 2;
+    id = 0xB3;
+    res->f28 = id;
+    sfx = obj0288(0xB0000 | id)[0x9B];
+    res->f24 = 2;
+    ((u8 *)a)[0x22B] = 0;
+    a->f50 = 1;
+    for (i = 0; i <= 3; i++)
+        for (j = 0; j <= 4; j++)
+            *(s32 *)((u8 *)gHist0288 + j * 4 + i * 0x14C) = 0;
+    a->f6C = 0;
+    a->f6A = 0;
+    a->f68 = 0;
+    frame = 0;
     sub_08098044();
     sub_08097FE4();
     sub_08097A4C();
-    arg0->f1FC = (u8) ((-0x10 & arg0->f1FC) | (0xF & (u8)arg0->f0));
-    arg0->f202 = (u16) arg0->f2;
-    arg0->f200 = 0xFF;
-    spDC = 0;
+    a->f1FC_lo = a->f0;
+    a->f202 = a->f2;
+    a->f200 = 0xFF;
+    done = 0;
     sub_08067C18();
-loop_6:
-    if (sub_08067C08() == 0) {
+    while (sub_08067C08() == 0)
         sub_080003F0();
-        goto loop_6;
-    }
     sub_08067BF8();
-    goto check116;
-loop_72:
-    if ((arg0->fC == 0xA) && (spD0 == 0)) {
-        spD0 = 8;
-    }
-    if (sub_08058DB0() != 0) {
 
-    } else {
-        t116_sub_0801C8F0(t116_actor);
-        temp_r0_3 = arg0->f1FD - 1;
-        switch (temp_r0_3) {                    /* switch 1; irregular */
-        case 0:                                 /* switch 1 */
-            arg0->fC = 0U;
-            if (sub_08067C08() == 0) {
-
-            } else {
-                arg0->f1FD = (u8) arg0->f1FE;
-                sub_08067BF8();
-            }
-            break;
-        case 1:                                 /* switch 1 */
-            spC4 = 0;
-            if (sub_08056F78() != 0) {
-                var_r1_2 = (u8 *)arg0 + 0x1FE;
-                var_r0 = 3;
-block_28:
-                *var_r1_2 = var_r0;
-                arg0->f1FD = 1U;
-                sub_08067C18();
-            }
-            break;
-        case 2:                                 /* switch 1 */
-            spC4 = 1;
-            arg0->fC = 1U;
-            temp_r1_4 = (0xF & arg0->f1FC) | (t116_sub_08096594(0) * 0x10);
-            arg0->f1FC = temp_r1_4;
-            if ((sub_08097A74(arg0, (0x14C * ((u32) (temp_r1_4 << 0x18) >> 0x1C)) + (u8 *)gUnk_03003CE0, 0x140, 0x1C) << 0x18) == 0) {
-                arg0->f1FE = 4U;
-                arg0->f1FD = 1U;
-                sub_08067C18();
-            }
-            break;
-        case 3:                                 /* switch 1 */
-            spC4 = 2;
-            arg0->fC = 2U;
-            if ((*spE4 == 2) && (arg0->f6C == 0)) {
-                t116_sub_08058CC4(spC0);
-            }
-            if (arg0->f6E != 0) {
-                arg0->f50 = (s32) (arg0->f50 + 1);
-                var_r1_2 = (u8 *)arg0 + 0x1FE;
-                var_r0 = 5;
-                goto block_28;
-            }
-            break;
-        case 4:                                 /* switch 1 */
-            spC4 = 0;
-            arg0->fC = 0U;
-            temp_r1_5 = var_r6;
-            var_r6 = temp_r1_5 + 1;
-            if ((u32) temp_r1_5 > 0x3CU) {
-                var_r6 = 0;
-                sub_08097A38(0U);
-                arg0->f1FD = 1U;
-                arg0->f1FE = 3U;
-                sub_08067C18();
-            }
-            break;
-        }
-    }
-    switch (spC4) {                             /* switch 2; irregular */
-    case 0:                                     /* switch 2 */
-        var_r9 = sp18;
-        *spE0 = arg0->f8;
-        spCC = 1;
-        break;
-    case 1:                                     /* switch 2 */
-        var_r9 = sp18;
-        *spE0 = arg0->f8 + 8;
-        spCC = 1;
-        break;
-    case 2:                                     /* switch 2 */
-        var_r9 = sp4C;
-        *spE0 = arg0->f8;
-        spCC = 0;
-        break;
-    }
-    if (spC8 != t116_actor->f68) {
-        spC8 = (s32) t116_actor->f68;
-        t116_actor->f6C = 0;
-        t116_actor->f6A = 0;
-    }
-    *(u8 *)((u8 *)var_r9 + 0x1C) = 5;
-    t116_sprite(0x15U, *(s32 *)((u8 *)var_r9 + 0xC), 1U);
-    if (1 & sub_08098004()) {
-        var_r0_2 = sub_08097FF8();
-    } else {
-        var_r0_2 = (u8) sub_0800BC44((u32) ((s32) arg0->f14 >> 8), (u32) ((s32) arg0->f18 >> 8), 0U);
-    }
-    temp_r7 = var_r0_2;
-    if (sub_0800CD8C() == 0) {
-        arg0->f6E = (u16) t116_sub_08065370(var_r9, *spE0, spE4, ((u8 *)arg0 + 0x6C), spCC);
-    }
-    t116_sub_0800BC08((s32) (arg0->f14 << 8) >> 0x10, (s32) (arg0->f18 << 8) >> 0x10, &spB4, &spB6, 0, NULL);
-    temp_r0_4 = spD0;
-    if (temp_r0_4 != 0) {
-        spD0 = (s32) (u16) (temp_r0_4 - 1);
-        if ((1 & temp_r0_4) && (sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-            t116_sub_08007870(spB4, spB6, *spE0, *spE4, (s32) temp_r7, var_r9 + 0x1C, *(s32 *)((u8 *)var_r9 + 0x8), *(s32 *)((u8 *)var_r9 + 0x0));
-        }
-    } else if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD34() == 0)) {
-        t116_sub_08007870(spB4, spB6, *spE0, *spE4, (s32) temp_r7, var_r9 + 0x1C, *(s32 *)((u8 *)var_r9 + 0x8), *(s32 *)((u8 *)var_r9 + 0x0));
-    }
-    temp_r0_5 = arg0->f4C;
-    if ((temp_r0_5 != 0) && (spBC != temp_r0_5)) {
-        spBC = temp_r0_5;
-        spD4 = 0xA;
-        spD8 = 0;
-    }
-    if (spD4 != 0) {
-        if ((sub_0800CC98() == 0) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-            t116_sub_0801A120(arg0, spBC, (s16) spD8);
-        }
-        if (2 & spD4) {
-            spD8 = (u32) ((spD8 << 0x10) + 0xFFFF0000) >> 0x10;
-        }
-        spD4 = (s32) (u16) (spD4 - 1);
-    } else {
-        spBC = 0;
-        arg0->f4C = spD4;
-    }
-    if ((t116_sub_08019CE8(arg0) << 0x10) != 0) {
-        spDC = 1;
-    }
-    t116_sub_08020680(arg0);
-    sub_080003F0();
-    if (spDC != 0) goto exit116;
-check116:
-    if (sub_0800CB78() != 0) goto exit116;
-    if (sub_08056E90() != 0) goto exit116;
-    goto loop_72;
-exit116:
-
-    temp_r2 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r2 |= 1;
-    *(u8 *)((u8 *)sp80 + 0x1C) = 5;
-    t116_actor->f6C = 0;
-    temp_r0_6 = ((u8 *)t116_actor + 0x6C) - 2;
-    *temp_r0_6 = 0;
-    *(s16 *)((u8 *)temp_r0_6 - 2) = 0;
-    spD8 = 0;
-    spD4 = 0xA;
-    do {
-        temp_r1_6 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-        *temp_r1_6 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0)) {
-            temp_r0_7 = sub_0800CD34();
-            if (temp_r0_7 == 0) {
-                t116_sprite(0x15U, *(s32 *)((u8 *)sp80 + 0xC), 1U);
-                temp_r7_2 = (u8) sub_0800BC44((u32) ((s32) t116_actor->f14 >> 8), (u32) ((s32) t116_actor->f18 >> 8), 0U);
-                t116_actor->f6E = (s16) t116_sub_08065370(sp80, t116_actor->f68, ((u8 *)t116_actor + 0x6A), ((u8 *)t116_actor + 0x6C), 1);
-                t116_sub_0800BC08((s32) (t116_actor->f14 << 8) >> 0x10, (s32) (t116_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_7, temp_r0_7);
-                t116_sub_08007870(spB4, spB6, t116_actor->f68, t116_actor->f6A, (s32) temp_r7_2, sp80 + 0x1C, *(s32 *)((u8 *)sp80 + 0x8), *(s32 *)((u8 *)sp80 + 0x0));
-                t116_sub_0801A120(arg0, spBC, (s16) spD8);
-            }
-        }
-        if (2 & spD4) {
-            spD8 = (u32) ((spD8 << 0x10) + 0xFFFF0000) >> 0x10;
-        }
-        sub_080003F0();
-        spD4 = (s32) (u16) (spD4 - 1);
-    } while (spD4 != 0xFFFF);
-    sub_080683CC();
-    t116_sub_08067CA8(t116_actor->f2);
-    sub_08068330(-0x21520532);
-loop_90:
-    if (sub_080682B8(-0x21520532) == 0) {
-        temp_r1_7 = (s32 *)((u8 *)&t116_flags + sub_080020F4() * 0x14C);
-        *temp_r1_7 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_8 = sub_0800CD34();
-            if (temp_r0_8 == 0) {
-                t116_sprite(0x15U, *(s32 *)((u8 *)sp80 + 0xC), 1U);
-                temp_r7_3 = (u8) sub_0800BC44((u32) ((s32) t116_actor->f14 >> 8), (u32) ((s32) t116_actor->f18 >> 8), 0U);
-                t116_actor->f6E = (s16) t116_sub_08065370(sp80, t116_actor->f68, ((u8 *)t116_actor + 0x6A), ((u8 *)t116_actor + 0x6C), 1);
-                t116_sub_0800BC08((s32) (t116_actor->f14 << 8) >> 0x10, (s32) (t116_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_8, temp_r0_8);
-                t116_sub_08007870(spB4, spB6, t116_actor->f68, t116_actor->f6A, (s32) temp_r7_3, sp80 + 0x1C, *(s32 *)((u8 *)sp80 + 0x8), *(s32 *)((u8 *)sp80 + 0x0));
-            }
-        }
-        sub_080003F0();
-        goto loop_90;
-    }
-    sub_08065E38(-0x21520532);
-loop_98:
-    if (sub_08058DB0() != 0) {
-        temp_r1_8 = (s32 *)((u8 *)&t116_flags + sub_080020F4() * 0x14C);
-        *temp_r1_8 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_9 = sub_0800CD34();
-            if (temp_r0_9 == 0) {
-                t116_sprite(0x15U, *(s32 *)((u8 *)sp80 + 0xC), 1U);
-                temp_r7_4 = (u8) sub_0800BC44((u32) ((s32) t116_actor->f14 >> 8), (u32) ((s32) t116_actor->f18 >> 8), 0U);
-                t116_actor->f6E = (s16) t116_sub_08065370(sp80, t116_actor->f68, ((u8 *)t116_actor + 0x6A), ((u8 *)t116_actor + 0x6C), 1);
-                t116_sub_0800BC08((s32) (t116_actor->f14 << 8) >> 0x10, (s32) (t116_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_9, temp_r0_9);
-                t116_sub_08007870(spB4, spB6, t116_actor->f68, t116_actor->f6A, (s32) temp_r7_4, sp80 + 0x1C, *(s32 *)((u8 *)sp80 + 0x8), *(s32 *)((u8 *)sp80 + 0x0));
-            }
-        }
-        sub_080003F0();
-        goto loop_98;
-    }
-    t116_sub_080586B4(0);
-    temp_r2_2 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r2_2 |= 1;
-    if (sub_0805A318() != 0) {
-        var_r0_3 = t116_sub_0805DF38(1U, 0xEU, 0x19U, 2U, 0x3C, (void *)0x14009B);
-        var_r1_3 = (u32 *)((u8 *)gGameState + 0x720);
-    } else {
-        var_r0_3 = t116_sub_0805DF38(1U, 0xEU, 0x19U, 2U, 0x3C, (void *)0x140095);
-        var_r1_3 = (u32 *)((u8 *)gGameState + 0x720);
-    }
-    *var_r1_3 = var_r0_3;
-loop_109:
-    if (sub_0805EEFC(*(u32 *)((u8 *)gGameState + 0x720)) == 0) {
-        temp_r1_9 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-        *temp_r1_9 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_10 = sub_0800CD34();
-            if (temp_r0_10 == 0) {
-                t116_sprite(0x15U, *(s32 *)((u8 *)sp80 + 0xC), 1U);
-                temp_r7_5 = (u8) sub_0800BC44((u32) ((s32) t116_actor->f14 >> 8), (u32) ((s32) t116_actor->f18 >> 8), 0U);
-                t116_actor->f6E = (s16) t116_sub_08065370(sp80, t116_actor->f68, ((u8 *)t116_actor + 0x6A), ((u8 *)t116_actor + 0x6C), 1);
-                t116_sub_0800BC08((s32) (t116_actor->f14 << 8) >> 0x10, (s32) (t116_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_10, temp_r0_10);
-                t116_sub_08007870(spB4, spB6, t116_actor->f68, t116_actor->f6A, (s32) temp_r7_5, sp80 + 0x1C, *(s32 *)((u8 *)sp80 + 0x8), *(s32 *)((u8 *)sp80 + 0x0));
-            }
-        }
-        sub_080003F0();
-        goto loop_109;
-    }
-    *(u8 *)((u8 *)sp80 + 0x1C) = 5;
-    temp_r0_11 = (u8 *)t116_actor + 0x68;
-    t116_actor->f68 = 0U;
-    *(u16 *)((u8 *)temp_r0_11 + 4) = 0;
-    *(u16 *)((u8 *)temp_r0_11 + 2) = 0;
-    var_r6_2 = 0x64;
-loop_111:
-    temp_r3 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r3 |= 1;
-    if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CD34() == 0)) {
-        if (var_r6_2 <= 0x4FU) {
-            if (var_r6_2 <= 0x3BU) {
-                var_r0_4 = (u8 *)t116_actor + 0x68;
-                var_r1_4 = 0x12;
-                goto block_123;
-            }
-            if (2 & var_r6_2) {
-                temp_r0_12 = t116_actor->f68;
-                if ((u32) temp_r0_12 <= 7U) {
-                    temp_r0_13 = temp_r0_12 + 1;
-                    t116_actor->f68 = temp_r0_13;
-                    var_r1_4 = temp_r0_13;
-                } else {
-                    var_r1_4 = 8;
+    while (sub_0800CB78() == 0 && sub_08056E90() == 0) {
+        if (a->fC == 10 && flash == 0)
+            flash = 8;
+        if (sub_08058DB0() == 0) {
+            tick0288(gCur0288);
+            switch (a->f1FD) {
+            case 1:
+                a->fC = 0;
+                if (sub_08067C08() != 0) {
+                    a->f1FD = a->f1FE;
+                    sub_08067BF8();
                 }
-                var_r0_4 = (u8 *)t116_actor + 0x68;
-block_123:
-                *var_r0_4 = var_r1_4;
+                break;
+            case 2:
+                animState = 0;
+                if (sub_08056F78() != 0) {
+                    a->f1FE = 3;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 3:
+                animState = 1;
+                a->fC = 1;
+                a->f1FC_hi = rnd0288(0);
+                if (reach0288(a, &gPl0288[a->f1FC_hi], 0x140, 0x1C) == 0) {
+                    a->f1FE = 4;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 4:
+                animState = 2;
+                a->fC = 2;
+                if (a->f6A == 2 && a->f6C == 0)
+                    sfx0288(sfx);
+                if (a->f6E != 0) {
+                    a->f50++;
+                    a->f1FE = 5;
+                    a->f1FD = 1;
+                    sub_08067C18();
+                }
+                break;
+            case 5:
+                animState = 0;
+                a->fC = 0;
+                if (frame++ > 0x3C) {
+                    frame = 0;
+                    end0288(0);
+                    a->f1FD = 1;
+                    a->f1FE = 3;
+                    sub_08067C18();
+                }
+                break;
             }
         }
-        t116_sprite(0x15U, *(s32 *)((u8 *)sp80 + 0xC), 1U);
-        temp_r7_6 = (u8) sub_0800BC44((u32) ((s32) t116_actor->f14 >> 8), (u32) ((s32) t116_actor->f18 >> 8), 0U);
-        t116_actor->f6E = (s16) t116_sub_08065370(sp80, t116_actor->f68, ((u8 *)t116_actor + 0x6A), ((u8 *)t116_actor + 0x6C), 1);
-        t116_sub_0800BC08((s32) (t116_actor->f14 << 8) >> 0x10, (s32) (t116_actor->f18 << 8) >> 0x10, &spB4, &spB6, 0, NULL);
-        t116_sub_08007870(spB4, spB6, *spE0, *spE4, (s32) temp_r7_6, sp80 + 0x1C, *(s32 *)((u8 *)sp80 + 0x8), *(s32 *)((u8 *)sp80 + 0x0));
-    }
-    sub_080003F0();
-    var_r6_2 = (u32) (u8) (var_r6_2 - 1);
-    if (var_r6_2 != 0xFF) {
-        goto loop_111;
-    }
-    t116_actor->f68 = 0x12U;
-    t116_actor->f6C = 0;
-    t116_actor->f6A = 0;
-    var_r6_3 = 0;
-    t116_sub_08098088(arg0->f14, arg0->f18, 1);
-    do {
-        temp_r1_10 = (sub_080020F4() * 0x14C) + ((u8 *)gUnk_03003CE0 + 0x30);
-        *temp_r1_10 |= 1;
-        if ((sub_0800CCCC() == 0) && (sub_0800CC98() == 0) && (sub_0800CD8C() == 0)) {
-            temp_r0_14 = sub_0800CD34();
-            if (temp_r0_14 == 0) {
-                var_r6_3 = (u32) (0x0F000000 & ((var_r6_3 + 1) << 0x18)) >> 0x18;
-                sub_08009088(0U, 0U, (u8) var_r6_3, 0U);
-                t116_sprite(0x15U, *(s32 *)((u8 *)sp80 + 0xC), 1U);
-                temp_r7_7 = (u8) sub_0800BC44((u32) ((s32) t116_actor->f14 >> 8), (u32) ((s32) t116_actor->f18 >> 8), 0U);
-                t116_actor->f6E = (s16) t116_sub_08065370(sp80, t116_actor->f68, ((u8 *)t116_actor + 0x6A), ((u8 *)t116_actor + 0x6C), 1);
-                t116_sub_0800BC08((s32) (t116_actor->f14 << 8) >> 0x10, (s32) (t116_actor->f18 << 8) >> 0x10, &spB4, &spB6, temp_r0_14, temp_r0_14);
-                t116_sub_08007974(spB4, spB6, *spE0, *spE4, (s32) temp_r7_7, 1, temp_r0_14, sp80 + 0x1C, *(s32 *)((u8 *)sp80 + 0x8), *(s32 *)((u8 *)sp80 + 0x0));
+        switch (animState) {
+        case 0:
+            sl = &anim[0];
+            a->f68 = a->f8;
+            flag = 1;
+            break;
+        case 1:
+            sl = &anim[0];
+            a->f68 = a->f8 + 8;
+            flag = 1;
+            break;
+        case 2:
+            sl = &anim[1];
+            a->f68 = a->f8;
+            flag = 0;
+            break;
+        }
+        {
+            struct Act0288 *g = gCur0288;
+            if (lastAnim != g->f68) {
+                lastAnim = g->f68;
+                g->f6C = 0;
+                g->f6A = 0;
             }
+        }
+        sl->f1C = 5;
+        loadPal0288(0x15, sl->fC, 1);
+        if (bgFlag0288() & 1)
+            prio = bgPrio0288();
+        else
+            prio = prio0288(a->f14 >> 8, a->f18 >> 8, 0);
+        if (sub_0800CD8C() == 0)
+            a->f6E = anim0288(sl, a->f68, &a->f6A, &a->f6C, flag);
+        proj0288((s16)(a->f14 >> 8), (s16)(a->f18 >> 8), &sx, &sy, 0, 0);
+        if (flash != 0) {
+            u16 old = flash;
+            flash--;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0)
+                draw0288(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            draw0288(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        {
+            s32 hh = a->f4C;
+            if (hh != 0 && lastHit != hh) {
+                lastHit = hh;
+                hitTimer = 10;
+                shake = 0;
+            }
+        }
+        if (hitTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                dmg0288(a, lastHit, shake);
+            if (hitTimer & 2)
+                shake--;
+            hitTimer--;
+        } else {
+            lastHit = 0;
+            a->f4C = hitTimer;
+        }
+        if (dead0288(a) != 0)
+            done = 1;
+        post0288(a);
+        sub_080003F0();
+        if (done)
+            break;
+    }
+
+    gPl0288[sub_080020F4()].flags |= 1;
+    sl = &anim[2];
+    sl->f1C = 5;
+    {
+        struct Act0288 *g = gCur0288;
+        g->f6C = 0;
+        g->f6A = 0;
+        g->f68 = 0;
+    }
+    shake = 0;
+    hitTimer = 10;
+    do {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            loadPal0288(0x15, sl->fC, 1);
+            prio = prio0288(gCur0288->f14 >> 8, gCur0288->f18 >> 8, 0);
+            gCur0288->f6E = anim0288(sl, gCur0288->f68, &gCur0288->f6A, &gCur0288->f6C, 1);
+            proj0288((s16)(gCur0288->f14 >> 8), (s16)(gCur0288->f18 >> 8), &sx, &sy, 0, 0);
+            draw0288(sx, sy, gCur0288->f68, gCur0288->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+            dmg0288(a, lastHit, shake);
+        }
+        if (hitTimer & 2)
+            shake--;
+        sub_080003F0();
+        hitTimer--;
+    } while (hitTimer != 0xFFFF);
+    sub_080683CC();
+    free0288(gCur0288->f2);
+    wait0288(0xDEADFACE);
+    while (ready0288(0xDEADFACE) == 0) {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            loadPal0288(0x15, sl->fC, 1);
+            prio = prio0288(gCur0288->f14 >> 8, gCur0288->f18 >> 8, 0);
+            gCur0288->f6E = anim0288(sl, gCur0288->f68, &gCur0288->f6A, &gCur0288->f6C, 1);
+            proj0288((s16)(gCur0288->f14 >> 8), (s16)(gCur0288->f18 >> 8), &sx, &sy, 0, 0);
+            draw0288(sx, sy, gCur0288->f68, gCur0288->f6A, prio, &sl->f1C, sl->f8, sl->f0);
         }
         sub_080003F0();
-    } while ((t116_fadeDone() << 0x18) == 0);
-    sub_08009088(0U, 0U, 0U, 0U);
+    }
+    next0288(0xDEADFACE);
+    while (sub_08058DB0() != 0) {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            loadPal0288(0x15, sl->fC, 1);
+            prio = prio0288(gCur0288->f14 >> 8, gCur0288->f18 >> 8, 0);
+            gCur0288->f6E = anim0288(sl, gCur0288->f68, &gCur0288->f6A, &gCur0288->f6C, 1);
+            proj0288((s16)(gCur0288->f14 >> 8), (s16)(gCur0288->f18 >> 8), &sx, &sy, 0, 0);
+            draw0288(sx, sy, gCur0288->f68, gCur0288->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+    }
+    msgEnd0288(0);
+    gPl0288[sub_080020F4()].flags |= 1;
+    if (flag0288() != 0)
+        *(s32 *)(gState0288 + 0x720) = box0288(1, 0xE, 0x19, 2, 0x3C, 0x14009B);
+    else
+        *(s32 *)(gState0288 + 0x720) = box0288(1, 0xE, 0x19, 2, 0x3C, 0x140095);
+    while (boxDone0288(*(s32 *)(gState0288 + 0x720)) == 0) {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            loadPal0288(0x15, sl->fC, 1);
+            prio = prio0288(gCur0288->f14 >> 8, gCur0288->f18 >> 8, 0);
+            gCur0288->f6E = anim0288(sl, gCur0288->f68, &gCur0288->f6A, &gCur0288->f6C, 1);
+            proj0288((s16)(gCur0288->f14 >> 8), (s16)(gCur0288->f18 >> 8), &sx, &sy, 0, 0);
+            draw0288(sx, sy, gCur0288->f68, gCur0288->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+    }
+    sl = &anim[2];
+    sl->f1C = 5;
+    {
+        struct Act0288 *g = gCur0288;
+        g->f68 = 0;
+        g->f6C = 0;
+        g->f6A = 0;
+    }
+    k = 100;
+    do {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            if (k < 0x50) {
+                if (k < 0x3C) {
+                    gCur0288->f68 = 0x12;
+                } else if (k & 2) {
+                    struct Act0288 *g = gCur0288;
+                    g->f68 = (g->f68 > 7) ? 8 : ++g->f68;
+                }
+            }
+            loadPal0288(0x15, sl->fC, 1);
+            prio = prio0288(gCur0288->f14 >> 8, gCur0288->f18 >> 8, 0);
+            gCur0288->f6E = anim0288(sl, gCur0288->f68, &gCur0288->f6A, &gCur0288->f6C, 1);
+            proj0288((s16)(gCur0288->f14 >> 8), (s16)(gCur0288->f18 >> 8), &sx, &sy, 0, 0);
+            draw0288(sx, sy, a->f68, a->f6A, prio, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+        k--;
+    } while (k != 0xFF);
+    {
+        struct Act0288 *g = gCur0288;
+        g->f68 = 0x12;
+        g->f6C = 0;
+        g->f6A = 0;
+    }
+    k = 0;
+    fx0288(a->f14, a->f18, 1);
+    do {
+        gPl0288[sub_080020F4()].flags |= 1;
+        if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
+            k++; k &= 0xF;
+            blend0288(0, 0, k, 0);
+            loadPal0288(0x15, sl->fC, 1);
+            prio = prio0288(gCur0288->f14 >> 8, gCur0288->f18 >> 8, 0);
+            gCur0288->f6E = anim0288(sl, gCur0288->f68, &gCur0288->f6A, &gCur0288->f6C, 1);
+            proj0288((s16)(gCur0288->f14 >> 8), (s16)(gCur0288->f18 >> 8), &sx, &sy, 0, 0);
+            drawEx0288(sx, sy, a->f68, a->f6A, prio, 1, 0, &sl->f1C, sl->f8, sl->f0);
+        }
+        sub_080003F0();
+    } while (fxDone0288() == 0);
+    blend0288(0, 0, 0, 0);
     sub_08098060();
-    temp_r2_3 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0 + 0x30);
-    *temp_r2_3 &= ~1;
-    if (!(*(s32 *)((0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0 + 0x30)) & 0x2000) && (t116_actor->f5A != 0)) {
-        temp_r4 = sub_0801E46C((void *) gUnk_030034E0, spB8);
-        spD8 = 0x1D;
-        end116 = -1;
-        asm("" : "+r"(end116));
+    gPl0288[sub_080020F4()].flags &= ~1;
+    if (!(gPl0288[sub_080020F4()].flags & 0x2000) && gCur0288->f5A != 0) {
+        h = dropFx0288(gData0288, res);
+        shake = 0x1D;
         do {
-            t116_actor->f18 = (s32) (t116_actor->f18 - 0x20);
-            t116_sub_0806171C(t116_actor, temp_r4);
+            gCur0288->f18 -= 0x20;
+            fall0288(gCur0288, h);
             sub_080003F0();
-            temp_r0_15 = (spD8 << 0x10) + 0xFFFF0000;
-            spD8 = temp_r0_15 >> 0x10;
-        } while (((s32) temp_r0_15 >> 0x10) != end116);
-        sub_0801E4CC((u8 *) gUnk_030034E0, temp_r4);
+            shake--;
+        } while (shake != -1);
+        dropEnd0288(gData0288, h);
     }
     sub_08056E24();
 }
