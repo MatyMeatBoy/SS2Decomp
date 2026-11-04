@@ -2586,11 +2586,22 @@ struct PlayerC4E8 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]
 extern struct PlayerC4E8 playersC4E8[] asm("gUnk_03003CE0");
 extern struct ObjC1B4 *objC4E8 asm("gUnk_030002EC");
 struct XYC4E8 { s32 x, y; };
+struct PlayerYC4E8 { s32 y; u8 rest[0x148]; };
+extern struct PlayerYC4E8 playersYC4E8[] asm("gUnk_03003D70");
+extern s32 y0C4E8 asm("gUnk_03003D70");
+extern s32 y1C4E8 asm("gUnk_03003EBC");
+extern s32 y2C4E8 asm("gUnk_03004008");
+extern s32 y3C4E8 asm("gUnk_03004154");
+extern struct PosC4E8 *v0C4E8 asm("gUnk_03003E28");
+extern struct PosC4E8 *v1C4E8 asm("gUnk_03003F74");
+extern struct PosC4E8 *v2C4E8 asm("gUnk_030040C0");
+extern struct PosC4E8 *v3C4E8 asm("gUnk_0300420C");
 extern u8 aimC4E8(s32, s32, s32, s32) asm("sub_08095FC8");
 extern void moveC4E8(s32, struct XYC4E8 *, u8) asm("sub_08097BA4");
 
 void sub_0809C4E8(u16 which)
 {
+    struct PlayerC4E8 *pl;
     struct SprC1B4 spr;
     s16 sx, sy;
     u16 frame, h2;
@@ -2599,7 +2610,7 @@ void sub_0809C4E8(u16 which)
     u16 timer;
     u8 delay;
     s32 hit;
-    s32 tx, ty;
+    struct XYC4E8 t;
     u16 dx, dy;
     u16 d;
 
@@ -2610,52 +2621,53 @@ void sub_0809C4E8(u16 which)
     timer = 360;
     delay = 120;
     sub_0805865C(0xE6);
+    pl = playersC4E8;
     do {
         if (nplayers == 1) {
             if (which != 0)
                 goto end;
-            tx = (s16)(playersC4E8[0].x >> 8);
-            ty = (s16)(playersC4E8[0].y >> 8);
+            t.x = (s16)(pl[0].x >> 8);
+            t.y = (s16)(y0C4E8 >> 8);
         } else {
             switch (which) {
             case 0:
                 if (sub_080020F4() == 0) {
-                    tx = (s16)(playersC4E8[0].x >> 8);
-                    ty = (s16)(playersC4E8[0].y >> 8);
+                    t.x = (s16)(pl[0].x >> 8);
+                    t.y = (s16)(y0C4E8 >> 8);
                 } else {
-                    tx = playersC4E8[0].pos->x >> 4;
-                    ty = ((u32)playersC4E8[0].pos->y << 20) >> 20;
+                    t.x = v0C4E8->x >> 4;
+                    t.y = ((u32)v0C4E8->y << 20) >> 20;
                 }
                 break;
             case 1:
                 if (sub_080020F4() == 1) {
-                    tx = (s16)(playersC4E8[1].x >> 8);
-                    ty = (s16)(playersC4E8[1].y >> 8);
+                    t.x = (s16)(pl[1].x >> 8);
+                    t.y = (s16)(y1C4E8 >> 8);
                 } else {
-                    tx = playersC4E8[1].pos->x >> 4;
-                    ty = ((u32)playersC4E8[1].pos->y << 20) >> 20;
+                    t.x = v1C4E8->x >> 4;
+                    t.y = ((u32)v1C4E8->y << 20) >> 20;
                 }
                 break;
             case 2:
                 if (nplayers <= 2)
                     goto end;
                 if (sub_080020F4() == 2) {
-                    tx = (s16)(playersC4E8[2].x >> 8);
-                    ty = (s16)(playersC4E8[2].y >> 8);
+                    t.x = (s16)(pl[2].x >> 8);
+                    t.y = (s16)(y2C4E8 >> 8);
                 } else {
-                    tx = playersC4E8[2].pos->x >> 4;
-                    ty = ((u32)playersC4E8[2].pos->y << 20) >> 20;
+                    t.x = v2C4E8->x >> 4;
+                    t.y = ((u32)v2C4E8->y << 20) >> 20;
                 }
                 break;
             case 3:
                 if (nplayers != 4)
                     goto end;
                 if (sub_080020F4() == 3) {
-                    tx = (s16)(playersC4E8[3].x >> 8);
-                    ty = (s16)(playersC4E8[3].y >> 8);
+                    t.x = (s16)(pl[3].x >> 8);
+                    t.y = (s16)(y3C4E8 >> 8);
                 } else {
-                    tx = playersC4E8[3].pos->x >> 4;
-                    ty = ((u32)playersC4E8[3].pos->y << 20) >> 20;
+                    t.x = v3C4E8->x >> 4;
+                    t.y = ((u32)v3C4E8->y << 20) >> 20;
                 }
                 break;
             }
@@ -2667,7 +2679,7 @@ void sub_0809C4E8(u16 which)
             if (delay == 0)
                 sub_0805865C(0xE7);
         } else {
-            moveC4E8(0xF8, &pos, aimC4E8(pos.x >> 8, pos.y >> 8, tx, ty));
+            moveC4E8(0xF8, &pos, aimC4E8(pos.x >> 8, pos.y >> 8, t.x, t.y));
         }
         if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0) {
             sub_08000AF0(palC1B4 + 0x10, (void *)spr.fC, 1);
@@ -2683,7 +2695,7 @@ void sub_0809C4E8(u16 which)
             }
         }
         dx = (pos.x >> 8) - (playersC4E8[sub_080020F4()].x >> 8);
-        dy = (pos.y >> 8) + 12 - (playersC4E8[sub_080020F4()].y >> 8);
+        dy = (pos.y >> 8) + 12 - (playersYC4E8[sub_080020F4()].y >> 8);
         d = sqrtC1B4((s16)dx * (s16)dx + (s16)dy * (s16)dy);
         if (delay == 0 && hit == 0 && d <= 15
             && sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && sub_0800CDF8() == 0 && objC4E8->fc != 11
