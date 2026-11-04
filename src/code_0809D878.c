@@ -1030,7 +1030,6 @@ finish9F018:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F018);
 #endif
-#ifdef NONMATCHING
 struct Actor9F4A8 {
     u16 id; u8 pad2[10]; u16 state; u8 padE[6];
     s32 x, y; u8 pad1C[0x34]; u32 serial;
@@ -1054,133 +1053,124 @@ extern void screen9F4A8(s32,s32,s16 *,s16 *,s32,s32) asm("sub_0800BC08");
 extern struct DrawObj9F4A8 *draw9F4A8(s32,s32,u32,u32,u32,void *,u32,u32) asm("sub_08007870");
 extern void effect9F4A8(s32,s32,s32) asm("sub_08029CEC");
 
+struct XY9F4A8 { s32 x, y; };
 void sub_0809F4A8(void)
 {
     struct Sprite9F4A8 sprite;
-    s32 positions[4][2];
+    struct XY9F4A8 pos[4];
     u8 hits[4];
     u16 frame, tick;
-    s16 screenX,screenY;
-    s32 amplitude,animation,timer;
-    u32 elapsed;
-    s32 angle;
+    s16 sx, sy;
+    s32 amplitude;
+    s32 animation;
+    u16 timer;
+    u16 elapsed;
+    u8 angle;
     u32 state;
-    u16 *framePtr;
-    u8 *xbase,*ybase,*hitbase;
-    u8 index;
-    s32 offset,orbit;
-    s32 *xptr,*yptr;
-    struct Actor9F4A8 *actor;
-    struct DrawObj9F4A8 *object;
-    s32 zero,player;
-    s16 dx,dy;
-    u16 distance;
-    u32 oldElapsed,oldSerial;
+    u8 i;
+    s32 z;
+    s32 o;
+    s16 dx, dy;
+    u16 d;
+    struct DrawObj9F4A8 *obj;
 
-    init9F4A8(&sprite,0x50008,variant9F4A8,-1,1);
-    tick=0; frame=0; angle=0; amplitude=0; elapsed=0; timer=240;
-    index=0;
-    hitbase=hits;
-    xbase=(u8 *)&positions[0][0];
-    ybase=(u8 *)&positions[0][1];
+    init9F4A8(&sprite, 0x50008, variant9F4A8, -1, 1);
+    tick = 0;
+    frame = 0;
+    angle = 0;
+    amplitude = 0;
+    elapsed = 0;
+    timer = 240;
+    i = 0;
     do {
-        hitbase[index]=0;
-        index++;
-    } while(index<=3);
-    state=0;
+        hits[i] = 0;
+        i++;
+    } while (i <= 3);
+    state = 0;
     do {
-        switch(state) {
+        switch (state) {
         case 0:
-            if(amplitude>24) { amplitude=24; state=1; }
-            else if(gUnk_03002344&1) amplitude++;
-            animation=16;
+            if (amplitude > 24) {
+                amplitude = 24;
+                state = 1;
+            } else if (gUnk_03002344 & 1) {
+                amplitude++;
+            }
+            animation = 16;
             break;
         case 1:
-            oldElapsed=elapsed; elapsed=(u16)(oldElapsed+1);
-            if(oldElapsed>30) { elapsed=0; state=2; }
-            animation=17;
+            if (elapsed++ > 30) {
+                elapsed = 0;
+                state = 2;
+            }
+            animation = 17;
             break;
         case 2:
-            oldElapsed=elapsed; elapsed=(u16)(oldElapsed+1);
-            if(oldElapsed>30) { elapsed=0; state=3; }
-            animation=18;
+            if (elapsed++ > 30) {
+                elapsed = 0;
+                state = 3;
+            }
+            animation = 18;
             break;
         case 3:
-            oldElapsed=elapsed; elapsed=(u16)(oldElapsed+1);
-            if(oldElapsed>30) { elapsed=0; state=4; }
-            animation=19;
+            if (elapsed++ > 30) {
+                elapsed = 0;
+                state = 4;
+            }
+            animation = 19;
             break;
         case 4:
-            oldElapsed=elapsed; elapsed=(u16)(oldElapsed+1);
-            if(oldElapsed>60) { elapsed=0; state=5; }
-            animation=20;
+            if (elapsed++ > 60) {
+                elapsed = 0;
+                state = 5;
+            }
+            animation = 20;
             break;
         case 5:
-            timer=(u16)(timer-1);
-            if(gUnk_03002344&1) amplitude+=2;
+            timer--;
+            if (gUnk_03002344 & 1)
+                amplitude += 2;
             break;
         }
-        index=0;
-        framePtr=&frame;
+        i = 0;
         do {
-            offset=index*8;
-            xptr=(s32 *)(xbase+offset);
-            actor=actor9F4A8;
-            orbit=(angle+(index<<6))%255;
-            *xptr=(s32)((u32)actor->x+(u32)amplitude*(u32)(s32)gUnk_080B9704[orbit+64]);
-            yptr=(s32 *)(ybase+offset);
-            *yptr=(s32)((u32)actor->y+(u32)amplitude*(u32)(s32)gUnk_080B9704[orbit]-0x2000U);
-            if(gUnk_03002344&1) angle=(u8)(angle+1);
-            if(sub_0800CCCC()==0 && sub_0800CC98()==0 && sub_0800CD8C()==0) {
-                zero=sub_0800CD34();
-                if(zero==0) {
-                    sprite.payload[0]=variant9F4A8;
-                    sub_08000AF0(variant9F4A8+16,sprite.palette+(actor9F4A8->paletteOffset<<5),1);
-                    anim9F4A8(&sprite,animation,framePtr,&tick,1);
-                    screen9F4A8((s32)((u32)*xptr<<8)>>16,(s32)((u32)*yptr<<8)>>16,&screenX,&screenY,zero,zero);
-                    object=draw9F4A8(screenX,160,animation,*framePtr,zero,sprite.payload,sprite.data,sprite.base);
-                    object->y=screenY;
+            pos[i].x = actor9F4A8->x + gUnk_080B9704[(o = (angle + (i << 6)) % 255) + 0x40] * amplitude;
+            pos[i].y = actor9F4A8->y - 0x2000 + gUnk_080B9704[o] * amplitude;
+            if (gUnk_03002344 & 1)
+                angle++;
+            if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD8C() == 0 && (z = sub_0800CD34()) == 0) {
+                sprite.payload[0] = variant9F4A8;
+                sub_08000AF0(variant9F4A8 + 0x10, (void *)(sprite.palette + (actor9F4A8->paletteOffset << 5)), 1);
+                anim9F4A8(&sprite, animation, &frame, &tick, 1);
+                screen9F4A8((s16)(pos[i].x >> 8), (s16)(pos[i].y >> 8), &sx, &sy, z, z);
+                obj = draw9F4A8(sx, 0xA0, animation, frame, z, sprite.payload, sprite.data, sprite.base);
+                obj->y = sy;
+            }
+            if (state == 5) {
+                dx = (pos[i].x >> 8) - (players9F4A8[sub_080020F4()].x >> 8);
+                { u32 pi = sub_080020F4(); s32 yy = (pos[i].y >> 8) + 12; dy = yy - (players9F4A8[pi].y >> 8); }
+                d = Sqrt(dx * dx + dy * dy);
+                if (hits[i] == 0 && d <= 11 && sub_0800CDF8() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0
+                    && actor9F4A8->state != 11
+                    && !(players9F4A8[sub_080020F4()].flags & 0x2000) && players9F4A8[sub_080020F4()].active
+                    && players9F4A8[sub_080020F4()].state != 14 && players9F4A8[sub_080020F4()].state != 11
+                    && players9F4A8[sub_080020F4()].state != 12
+                    && players9F4A8[sub_080020F4()].seen[actor9F4A8->id] != actor9F4A8->serial) {
+                    if (sub_0800CE30() == 1)
+                        effect9F4A8(4, 30, 1);
+                    else
+                        effect9F4A8(4, 10, 1);
+                    players9F4A8[sub_080020F4()].motion = 0xFFFE;
+                    players9F4A8[sub_080020F4()].seen[actor9F4A8->id] = actor9F4A8->serial++;
+                    hits[i] = 1;
                 }
             }
-            if(state!=5) goto next9F4A8;
-            player=sub_080020F4();
-            dx=(*(s32 *)(xbase+offset)>>8)-(players9F4A8[player].x>>8);
-            player=sub_080020F4();
-            dy=((*(s32 *)(ybase+offset)>>8)+12)-(players9F4A8[player].y>>8);
-            distance=Sqrt((u32)((s32)dx*dx)+(u32)((s32)dy*dy));
-            if(hitbase[index]!=0) goto next9F4A8;
-            if(distance>11) goto next9F4A8;
-            if(sub_0800CDF8()!=0) goto next9F4A8;
-            if(sub_0800CCCC()!=0) goto next9F4A8;
-            if(sub_0800CD8C()!=0) goto next9F4A8;
-            if(actor9F4A8->state==11) goto next9F4A8;
-            if(players9F4A8[sub_080020F4()].flags&0x2000) goto next9F4A8;
-            if(players9F4A8[sub_080020F4()].active==0) goto next9F4A8;
-            if(players9F4A8[sub_080020F4()].state==14) goto next9F4A8;
-            if(players9F4A8[sub_080020F4()].state==11) goto next9F4A8;
-            if(players9F4A8[sub_080020F4()].state==12) goto next9F4A8;
-            player=sub_080020F4();
-            actor=actor9F4A8;
-            if(players9F4A8[player].seen[actor->id]==actor->serial) goto next9F4A8;
-            if(sub_0800CE30()==1) effect9F4A8(4,30,1);
-            else effect9F4A8(4,10,1);
-            players9F4A8[sub_080020F4()].motion=0xFFFE;
-            player=sub_080020F4();
-            actor=actor9F4A8;
-            oldSerial=actor->serial;
-            players9F4A8[player].seen[actor->id]=oldSerial;
-            actor->serial=oldSerial+1;
-            hitbase[index]=1;
-next9F4A8:
-            index++;
-        } while(index<=3);
+            i++;
+        } while (i <= 3);
         sub_080003F0();
-    } while(timer!=0);
-    task9F4A8[2]=timer;
+    } while (timer != 0);
+    task9F4A8[2] = timer;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F4A8);
-#endif
 void sub_0809F8C8(void) {
     if (M2C_FIELD(gUnk_03000310, s16 *, 0x5C) != 0) {
         sub_0809FAEC();

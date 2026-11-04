@@ -1,10 +1,9 @@
-
-sub_080A05B4 (nov03-w5): nmscore 137 -> 111. Switch written plainly (`case 1: targetX = pos[0] = 0x2000;`
-  etc., cross-jumping produces the ROM's shared tails); hit tail as `i = 20F4(); actor = actor105;
-  players[i].health = damage(actor, &players[20F4()]) + players[i].health;
-  players[20F4()].seen[actor105->index] = actor105->serial++;`. Locals order animDone, timer, elapsed,
-  contact, started gives the ROM slot order but ROM has one more unused 4-byte slot at sp+0x60 (between
-  targetX 0x5C and animDone 0x64); animDone is read as a halfword from its stack slot (`frame =
+sub_0809F4A8: MATCHED (nov03-w5). Fresh rewrite with `struct {s32 x, y;} pos[4]` and plain indexing; keys:
+  `pos[i].x = actor->x + sin[(o = (angle + (i << 6)) % 255) + 0x40] * amplitude;` (mod inside the
+  index puts the actor/table loads before the __modsi3 call), `pos[i].y = actor->y - 0x2000 + sin[o] *
+  amplitude;`, dy as `{ u32 pi = 20F4(); s32 yy = (pos[i].y >> 8) + 12; dy = yy - (players[pi].y >> 8); }`,
+  `if (elapsed++ > 30)` with u16 elapsed, `u8 angle; angle++`, `task[2] = timer` at the end.
+imDone 0x64); animDone is read as a halfword from its stack slot (`frame =
   (u16)animDone`). Not found yet what owns 0x60.
  that cse2 related to a loop-hoisted sl), y-literal regs (r1/r2/r3
   per path vs our r0), end `adds r1,r0; movs r0,#0; str r0,[r1,#8]`.
