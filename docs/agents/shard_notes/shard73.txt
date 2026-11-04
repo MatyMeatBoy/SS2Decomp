@@ -9,3 +9,9 @@
   Left: main loop (u16)d gets r8 while ROM gives &dy r8 and spills (u16)d (0x8c); count loop count/
   &p2->sprite r8/r4 swap; homing loop kp/id swap (ROM id r8, kp spilled 0x98); spill slots 0xa8/0xac
   swapped (angle<<16 vs d<<16); ip for the angF0CC address in the target search.
+- nov03-w1: sub_0806F0CC 786 -> 741: `tmo = lvl` copy (lvl stays in r7 for the sound id, the timeout
+  copy is the spilled 0x6c; gives the ROM's ip for the angF0CC address), homing loop without the kp
+  user var (`id = kF0CC[(s16)angle >> 4] + 8;` and inline kF0CC[...] in the draw: ROM's kp is a cse
+  pseudo, slot 0x98). Spilled user vars get slots in declaration order (0x50 arg .. 0x88 self, 0x8c =
+  a var declared after self holding (u16)d in the main loop); late pseudos follow.
+  Tried, worse: goto-shaped main loop (1488), `while (count-- ...)` count loop, kp user var forms.

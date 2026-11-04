@@ -4200,6 +4200,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     struct PlyF0CC *p2;
     u32 target;
     u32 lvl;
+    u32 tmo;
     u32 level;
     u16 count;
     u16 i;
@@ -4241,6 +4242,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
         }
     }
     lvl = (u32)(((u32 *)p->sprite)[1] << 15) >> 29;
+    tmo = lvl;
     frame = 0;
     timer = 0;
     if (sub_080020F4() != player) {
@@ -4334,10 +4336,10 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     spr.f1D = 8;
     frame = 0;
     timer = 0;
-    lvl = ((lvl << 19) + (20 << 16)) >> 16;
+    tmo = ((tmo << 19) + (20 << 16)) >> 16;
     for (;;) {
-        v = lvl;
-        lvl = (u16)(v - 1);
+        v = tmo;
+        tmo = (u16)(v - 1);
         if (v == 0)
             break;
         if (player == sub_080020F4()) {
@@ -4496,8 +4498,7 @@ out:
         if (sang > 0x100)
             angle = sang - 0x100;
         angle &= 0xFF;
-        kp = &kF0CC[(s16)angle >> 4];
-        id = *kp + 8;
+        id = kF0CC[(s16)angle >> 4] + 8;
         if (Sqrt(dx * dx + dy * dy) <= 7)
             break;
         x += sinF0CC[(s16)angle + 0x40] * 3;
@@ -4508,7 +4509,7 @@ out:
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
             if (!(flagsF0CC & 1))
                 palF0CC(0x17, spr.fC, 2);
-            drawF0CC(dx + offF0CC[*kp].x, dy + (&offF0CC[0].y)[*kp * 2], id, frame, shade, &spr.f1C, spr.f8, spr.f0);
+            drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2], id, frame, shade, &spr.f1C, spr.f8, spr.f0);
         }
         sub_080003F0();
     }
