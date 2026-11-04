@@ -308,7 +308,7 @@ void sub_080A9950_v(struct Act9950 *a)
     s32 h;
     struct Pl9950 *pl;
     u8 *base;
-    s32 idx;
+    s16 idx;
 
     gB9950 = a;
     gMask9950 |= 2;
