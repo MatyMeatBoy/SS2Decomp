@@ -1,0 +1,16 @@
+Shard 72, sub_0806DB1C (0x0806DB1C)
+
+The local and remote active-effect scans exit through a found flag before
+considering an empty slot. Effect initialization stores owner, timer, kind,
+level, then strength. Refresh stores timer before level in the remote path
+and level before timer in the local path. This follows the original ASM
+control flow and field order.
+
+Address-insensitive disassembly difference: 445 to 349 lines, using a
+sequence diff after replacing PC-relative offsets and branch destinations.
+Current C size 860 bytes, previous draft 868, original 888. Strict comparison
+still reports NO MATCH. The normal ROM comparison, NONMATCHING build and
+check_tree pass.
+
+Remaining work includes stack placement of player and range, effect pointer
+allocation, literal pools, and the separate early-exit flag address setup.
