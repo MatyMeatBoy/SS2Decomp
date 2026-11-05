@@ -5858,7 +5858,7 @@ struct State13850 {
     u16 w68;
     u16 w6A;
     u32 l6C;
-    u8 pad70[0x90];
+    struct Rec13850 r70[9];
     struct Rec13850 r5[5];
     struct Rec13850 r[25];
     struct Rec13850 s[75];
@@ -5866,20 +5866,24 @@ struct State13850 {
     u8 cC10[0x91];
 };
 struct Data13850 {
-    u8 pad0[0x70];
-    struct Rec13850 r[9];
+    u32 w0,w4,w8,wC,w10,w14,w18;
+    u16 h1C,h1E;
+    u8 pad20[0x18];
+    u32 a38[10],a60[10],a88[10],aB0[10];
+    u8 padD8[2];u16 hDA;
+    u8 padDC[0x1C6-0xDC];
+    u8 b1C6[10],b1D0[10];
 };
 extern struct State13850 *st13850 asm("gUnk_030034E0");
-extern u8 *dt13850 asm("gUnk_03004210");
-extern struct Data13850 *dts13850 asm("gUnk_03004210");
+extern struct Data13850 *dt13850 asm("gUnk_03004210");
 void sub_08013850(void)
 {
     struct State13850 *s;
     u32 i, j;
-    u16 *p68, *p54, *p6A;
+    u16 *p54, *p68, *p6A;
     register u8 bz asm("r9");
     u32 z;
-    u8 *o24;
+    register u8 *o24 asm("sl");
     u8 *p;
     u8 *d;
     sub_08001538((s32)st13850);
@@ -5889,7 +5893,7 @@ void sub_08013850(void)
     s = st13850;
     i = 0;
     bz = 0; asm volatile("" : "+r"(bz)); z = 0;
-    o24 = s->o24;
+    o24 = s->o24; asm("" : "+r"(o24));
     p68 = &s->w68;
     p54 = &s->w54;
     p6A = &s->w6A;
@@ -5971,10 +5975,10 @@ void sub_08013850(void)
             st13850->r[i].c[j] = 0;
     }
     for (i = 0; i < 9; i++) {
-        dts13850->r[i].a = 0;
-        dts13850->r[i].b = 0;
+        st13850->r70[i].a = 0;
+        st13850->r70[i].b = 0;
         for (j = 0; j < 12; j++)
-            dts13850->r[i].c[j] = 0;
+            st13850->r70[i].c[j] = 0;
     }
     {
         register u8 *base asm("r1");
@@ -6024,17 +6028,14 @@ void sub_08013850(void)
     *p6A = 1;
     s->l6C = 20000;
     for (i = 0; i < 10; i++) {
-        u8 *base = dt13850;
-        (base + 0x1C6)[i] = 0;
-        base = dt13850;
-        ((u32 *)(base + 0x38))[i] = 0x57E3F;
-        ((u32 *)(base + 0x60))[i] = 99;
-        (base + 0x1D0)[i] = 0;
-        base = dt13850;
-        ((u32 *)(base + 0x88))[i] = 0x57E3F;
-        ((u32 *)(base + 0xB0))[i] = 99;
+        dt13850->b1C6[i] = 0;
+        dt13850->a38[i] = 0x57E3F;
+        dt13850->a60[i] = 99;
+        dt13850->b1D0[i] = 0;
+        dt13850->a88[i] = 0x57E3F;
+        dt13850->aB0[i] = 99;
     }
-    d = dt13850;
+    d = (u8 *)dt13850;
     *(u32 *)(d + 0x14) = 1;
     *(u32 *)(d + 0x18) = 1;
     {
