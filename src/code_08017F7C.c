@@ -1443,117 +1443,225 @@ void sub_0801A764(const u8 *script, u16 x, u16 y)
         script++;
     }
 }
-#ifdef NONMATCHING
-/* Calling through inline wrappers loads r0 before the two-insn 0x2000 constant, as in the ROM. */
-static inline void blendA16(s32 a, s32 b, s32 c) { sub_080009F8(a, b, c); }
-static inline void blendB16(s32 a, s32 b, s32 c) { sub_080009C0(a, b, c); }
+/* Preserve the blend-call argument evaluation order of the original inlines. */
+static inline void blendA16(s32 a, s32 b, s32 c)
+{
+    sub_080009F8(a, b, c);
+}
+static inline void blendB16(s32 a, s32 b, s32 c)
+{
+    sub_080009C0(a, b, c);
+}
 void sub_0801A7AC(void)
 {
-    struct Transition16Display { u8 pad[0x30]; u16 f30, f32, f34, f36, f38, f3A; u8 pad3C[4]; u16 f40, f42, f44; };
+    struct Transition16Display {
+        u8 pad[0x30];
+        u16 f30, f32, f34, f36, f38, f3A;
+        u8 pad3C[4];
+        u16 f40, f42, f44;
+    };
     extern struct Transition16Display display16 asm("gUnk_03001250");
     extern s16 flags16 asm("gUnk_03000028");
     extern s16 level16 asm("gUnk_03001294");
     extern s16 displayLevel16 asm("gUnk_03001F40");
 
-    s16 *step;
+    register s16 *step asm("r9");
     struct Transition16Display *screen;
     s16 *savedStep;
     /* These addresses remain live across the yields in both fade loops. */
     register u16 *progress asm("r4");
     s16 *fadeLevel;
-    s32 flag2; s32 flag16;
-    register u16 delta asm("r0"); u32 total;
-    s32 signedDelta;
+    s32 flag2;
+    s32 flag16;
+    register u32 delta asm("r0");
+    u32 total;
+    register s32 signedDelta asm("r3");
     flags16 = 1;
     step = &gUnk_03000026;
     screen = &display16;
 again:
     sub_080003F4(100);
-    flag2 = (s16)(flags16 & 2);
-    if (flag2 != 0) {
-        register u16 *period asm("r5");
-        display16.f40 = 255;
-        flag2 = 0;
-        if (*step > 0) level16 = flag2;
-        else level16 = 16;
-        sub_080003F0();
-        blendA16(0, 0x2000, 1);
-        progress = &gUnk_03000022;
-        period = &gUnk_03000020;
-        fadeLevel = &level16;
-        savedStep = &gUnk_03000026;
-fade:
-        *fadeLevel = ((s32)(*progress << 4)) / *period;
-        delta = *(u16 *)step;
-        total = delta + *progress;
-        *progress = total;
-        signedDelta = (s16)delta;
-        if (signedDelta > 0 && *period < (u16)total) goto finished;
-        if (signedDelta < 0) {
-            register u32 mask asm("r3") = 0x8000;
-            asm("" : "+r"(mask));
-            if (total & mask) goto finished;
+    {
+        register u32 rawFlags asm("r1") = (u16)flags16;
+        asm("" : "+r"(rawFlags));
+        flag2 = (s16)(rawFlags & 2);
+        if (flag2 != 0) {
+            register u16 *period asm("r5");
+            {
+                register u16 *destination asm("r0") = (u16 *)&display16;
+                asm("" : "+r"(destination));
+                destination = (u16 *)((u8 *)destination + 0x40);
+                asm("" : "+r"(destination));
+                flag2 = 0;
+                asm("" : "+r"(flag2));
+                *destination = 255;
+            }
+            {
+                register s16 *testStep asm("r1") = step;
+                asm("" : "+r"(testStep));
+                if (*testStep > 0) {
+                    progress = (u16 *)&level16;
+                    asm("" : "+r"(progress));
+                    *progress = flag2;
+                } else {
+                    delta = 16;
+                    level16 = delta;
+                }
+            }
+            sub_080003F0();
+            blendA16(0, 0x2000, 1);
+            progress = &gUnk_03000022;
+            period = &gUnk_03000020;
+            fadeLevel = &level16;
+            {
+                register s16 *save asm("r2") = &gUnk_03000026;
+                asm("" : "+r"(save));
+                savedStep = save;
+            }
+        fade:
+            *fadeLevel = ((s32)(*progress << 4)) / *period;
+            {
+                register s16 *deltaStep asm("r3") = step;
+                asm("" : "+r"(deltaStep));
+                delta = *(u16 *)deltaStep;
+            }
+            total = delta + *progress;
+            *progress = total;
+            signedDelta = (s16)delta;
+            if (signedDelta > 0 && *period < (u16)total)
+                goto finished;
+            if (signedDelta < 0) {
+                register u32 mask asm("r3") = 0x8000;
+                asm("" : "+r"(mask));
+                {
+                    register u32 testMask asm("r0") = mask;
+                    asm("" : "+r"(testMask));
+                    if (total &= testMask)
+                        goto finished;
+                }
+            }
+            sub_080003F0();
+            goto fade;
         }
-        sub_080003F0();
-        goto fade;
+        signedDelta = 16;
+        asm("" : "+r"(signedDelta));
+        delta = signedDelta;
+        asm("" : "+r"(delta));
+        delta &= rawFlags;
+        flag16 = (s16)delta;
     }
-    flag16 = (s16)(flags16 & 16);
     if (flag16 != 0) {
         struct Transition16Display *inner;
         register u16 *period asm("r6");
         /* Original blend loop retains display+0x44 independently of its base. */
-        u16 *blendRegister;
-        if (*step > 0) level16 = flag2;
-        else level16 = 16;
+        register u16 *blendRegister asm("r8");
+        progress = (u16 *)step;
+        asm("" : "+r"(progress));
+        if (*(s16 *)progress > 0) {
+            register s16 *destination asm("r3") = &level16;
+            asm("" : "+r"(destination));
+            *destination = flag2;
+        } else {
+            progress = (u16 *)&level16;
+            asm("" : "+r"(progress));
+            *progress = signedDelta;
+        }
         inner = &display16;
         progress = &gUnk_03000022;
         period = &gUnk_03000020;
-        blendRegister = &inner->f44;
-        savedStep = &gUnk_03000026;
-blend:
+        delta = 0x44;
+        asm("" : "+r"(delta));
+        delta += (u32)inner;
+        asm("" : "+r"(delta));
+        blendRegister = (u16 *)delta;
+        asm("" : "+r"(blendRegister));
+        {
+            register s16 *save asm("r1") = &gUnk_03000026;
+            asm("" : "+r"(save));
+            savedStep = save;
+        }
+    blend:
         inner->f40 = 255;
-        *blendRegister = ((s32)(*progress << 4)) / *period;
-        delta = *(u16 *)step;
+        delta = ((s32)(*progress << 4)) / *period;
+        {
+            register u16 *destination asm("r2") = blendRegister;
+            asm("" : "+r"(destination));
+            *destination = delta;
+        }
+        {
+            register s16 *deltaStep asm("r3") = step;
+            asm("" : "+r"(deltaStep));
+            delta = *(u16 *)deltaStep;
+        }
         total = delta + *progress;
         *progress = total;
         signedDelta = (s16)delta;
-        if (signedDelta > 0 && *period < (u16)total) goto finished;
+        if (signedDelta > 0 && *period < (u16)total)
+            goto finished;
         if (signedDelta < 0) {
             register u32 mask asm("r3") = 0x8000;
             asm("" : "+r"(mask));
-            if (total & mask) goto finished;
+            {
+                register u32 testMask asm("r0") = mask;
+                asm("" : "+r"(testMask));
+                if (total &= testMask)
+                    goto finished;
+            }
         }
         sub_080003F0();
         goto blend;
-finished:
-        if (*savedStep < 0) gUnk_03000022 = 0;
+    finished:
+        progress = (u16 *)savedStep;
+        asm("" : "+r"(progress));
+        {
+            register u32 savedTotal asm("r2") = total;
+            register s32 readStep asm("r0") = *(s16 *)progress;
+            asm("" : "+r"(readStep) : "r"(signedDelta), "r"(savedTotal));
+            if (readStep < 0) {
+                register u32 zero asm("r3") = 0;
+                register u16 *destination asm("r2") = &gUnk_03000022;
+                asm("" : "+r"(zero), "+r"(destination));
+                *destination = zero;
+            }
+        }
     } else {
         {
-            register u16 n asm("r1") = 2;
+            register s32 readStep asm("r0");
+            register u16 *period2 asm("r0") = &gUnk_03000020;
+            register u16 n asm("r1");
+            asm("" : "+r"(period2));
+            n = 2;
             asm("" : "+r"(n));
-            gUnk_03000020 = n;
-        }
-        if (gUnk_03000026 > 0) {
-            screen->f3A = 0x3F3F;
-            screen->f38 = flag16;
-            screen->f30 = 0xF0;
-            screen->f34 = 0xA0;
-            sub_080003F0();
-            displayLevel16 = flag16;
-            sub_08000B38();
-            blendB16(0, 0x2000, 1);
-            gUnk_03000022 = 1;
-            gUnk_03000026 = flag16;
-            sub_080003F0();
-        } else {
-            screen->f3A = flag16;
-            screen->f38 = 0x3F3F;
-            screen->f30 = flag16;
-            screen->f34 = flag16;
-            blendA16(0, 0x2000, 1);
-            gUnk_03000022 = flag16;
-            gUnk_03000026 = -1;
-            sub_080003F0();
+            *period2 = n;
+            readStep = gUnk_03000026;
+            asm("" : "+r"(readStep) : "r"(n), "r"(signedDelta));
+            if (readStep > 0) {
+                screen->f3A = 0x3F3F;
+                screen->f38 = flag16;
+                screen->f30 = 0xF0;
+                screen->f34 = 0xA0;
+                sub_080003F0();
+                displayLevel16 = flag16;
+                sub_08000B38();
+                blendB16(0, 0x2000, 1);
+                gUnk_03000022 = 1;
+                gUnk_03000026 = flag16;
+                sub_080003F0();
+            } else {
+                screen->f3A = flag16;
+                screen->f38 = 0x3F3F;
+                screen->f30 = flag16;
+                screen->f34 = flag16;
+                blendA16(0, 0x2000, 1);
+                gUnk_03000022 = flag16;
+                {
+                    register s32 negative asm("r3") = -1;
+                    asm("" : "+r"(negative));
+                    delta = negative;
+                    gUnk_03000026 = delta;
+                }
+                sub_080003F0();
+            }
         }
     }
     {
@@ -1569,9 +1677,6 @@ finished:
     }
     goto again;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801A7AC);
-#endif
 void sub_0801A9BC(void)
 {
     u8 *base = (u8 *)gUnk_03001250;
