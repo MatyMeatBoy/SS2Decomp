@@ -154,7 +154,6 @@ u16 sub_08073EE8(u16 width, s32 range)
     e = &enemies076EE8[nearest];
     return e->f2;
 }
-#ifdef NONMATCHING
 extern struct Ply076EE8 players07614C[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies07614C asm("gUnk_030056F4");
 extern u32 active07614C asm("gUnk_030056FC");
@@ -201,13 +200,11 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
                 dist = Sqrt(dx * dx + dy * dy);
                 {
                     register u32 rg asm("r1") = range;
-                    asm("" : "+r"(rg));
                     if (rg <= dist)
                         continue;
                 }
                 {
                     register u32 b asm("r2") = best;
-                    asm("" : "+r"(b));
                     if (b <= dist)
                         continue;
                 }
@@ -246,9 +243,6 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
     e = &enemies07614C[nearest];
     return e->f2;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
-#endif
 struct Position076398 {u16 x,y;};
 struct Player076398 {u16 id;u8 pad2[0x66];u8 team;u8 pad69[0xDF];struct Position076398 *position;};
 extern struct Player076398 players076398[] asm("gUnk_03003CE0");
