@@ -3538,6 +3538,7 @@ void sub_0806DB1C(struct T072DBArgs *arg) {
     u16 dx, dy, cost;
     s32 ax, ay, limit;
     s32 duration, amount;
+    u32 foundEffect;
     local = sub_080020F4();
     player = arg->player;
     bit = arg->bit;
@@ -3594,6 +3595,7 @@ testPlayers:
         start = e;
         duration = (level * 10 + 40) * 60;
         amount = level * 8;
+        foundEffect = 0;
         do {
             if (e->timer > 0 && t072DBPlayers[local].mode == 4 && e->kind == 3 && e->owner <= 99) {
                 if (e->level < level) {
@@ -3601,15 +3603,20 @@ testPlayers:
                     e->timer = duration;
                     e->strength = level * 20;
                 }
-                goto clear;
+                foundEffect = 1;
+                break;
             }
             i++; e++;
         } while (i <= 7);
+        if (foundEffect != 0)
+            goto clear;
         e = start; i = 0;
         do {
             if (e->timer == -1) {
-                e->owner = player; e->kind = 3; e->level = level;
+                e->owner = player;
                 e->timer = (level * 10 + 40) * 60;
+                e->kind = 3;
+                e->level = level;
                 amount = level * 8;
                 e->strength = level * 20;
                 break;
@@ -3625,21 +3632,28 @@ clear:
                 e = p->effects; i = 0;
                 duration = (level * 10 + 40) * 60;
                 amount = level * 8;
+                foundEffect = 0;
                 do {
                     if (e->timer > 0 && e->owner <= 3 && t072DBPlayers[e->owner].mode == 4 && e->kind == 3) {
                         if (e->level < level) {
-                            e->level = level; e->timer = duration;
+                            e->timer = duration;
+                            e->level = level;
                             e->strength = level * 20;
                         }
-                        goto finish;
+                        foundEffect = 1;
+                        break;
                     }
                     i++; e++;
                 } while (i <= 7);
+                if (foundEffect != 0)
+                    goto finish;
                 e = p->effects; i = 0;
                 do {
                     if (e->timer == -1) {
-                        e->owner = player; e->kind = 3; e->level = level;
+                        e->owner = player;
                         e->timer = (level * 10 + 40) * 60;
+                        e->kind = 3;
+                        e->level = level;
                         amount = level * 8;
                         e->strength = level * 20;
                         goto finish;
