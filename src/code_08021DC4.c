@@ -3888,7 +3888,6 @@ void sub_080263B4(void) {
     s32 active;
     u32 timer;
     u32 nextCount;
-    register s32 limit asm("r2");
     s32 temp_r4_2;
     s32 var_r0;
     s32 var_r0_2;
@@ -3945,18 +3944,28 @@ loop_2:
         x = (s16) ((u32) temp_r6->unk8C >> 8);
         y = (s16) ((u32) temp_r6->unk90 >> 8);
         if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
-            limit = 0x78;
-            asm("" : "+r"(limit));
-
-            var_r0 = x - limit;
+            {
+                register s32 scratch asm("r3");
+                s32 value;
+                register s32 limit asm("r2");
+                asm("" : "=r"(scratch));
+                value = x;
+                asm("" : "+r"(value), "+r"(scratch));
+                limit = 0x78;
+                asm("" : "+r"(limit));
+                var_r0 = value - limit;
+            }
             if (var_r0 < 0) {
                 var_r0 = 0 - var_r0;
             }
             if (var_r0 <= 0x17) {
-                limit = 0x140;
-                asm("" : "+r"(limit));
-
-                var_r0_2 = y - limit;
+                {
+                    s32 value = y;
+                    register s32 limit asm("r2") = 0x140;
+                    asm("" : "+r"(value));
+                    asm("" : "+r"(limit));
+                    var_r0_2 = value - limit;
+                }
                 if (var_r0_2 < 0) {
                     var_r0_2 = 0 - var_r0_2;
                 }
@@ -4002,9 +4011,10 @@ block_23:
             var_r5 = 0;
             var_r4 = 0;
             nextCount = var_r7 + 1;
-            while (var_r4 < sub_08002164()) {
+            goto scan_check;
+scan_body:
+            {
                 temp_r2_2 = t24_players080263B4[var_r4].net;
-                asm("" : "+r"(temp_r2_2));
                 x = (s16) ((u16) temp_r2_2->unk0 >> 4);
                 temp_r1 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
                 y = (s16) temp_r1;
@@ -4020,7 +4030,11 @@ block_23:
                     var_r0_3 = 0 - var_r0_3;
                 }
                 if (var_r0_3 <= 0x17) {
-                    var_r0_4 = temp_r1 - 0x140;
+                    {
+                        u32 bound = 0x140;
+                        asm("" : "+r"(bound));
+                        var_r0_4 = temp_r1 - bound;
+                    }
                     if (var_r0_4 < 0) {
                         var_r0_4 = 0 - var_r0_4;
                     }
@@ -4030,9 +4044,14 @@ block_23:
                 }
                 var_r4 += 1;
             }
-            var_r7 = nextCount;
-            if (var_r5 != sub_08002164()) {
-                var_r7 = 0;
+scan_check:
+            if (var_r4 < sub_08002164()) goto scan_body;
+            {
+                u32 total = sub_08002164();
+                var_r7 = nextCount;
+                if (var_r5 != total) {
+                    var_r7 = 0;
+                }
             }
             if (var_r7 > 2U) {
                 sub_080687E8();
@@ -4041,13 +4060,13 @@ block_23:
             goto block_42;
         }
 block_42:
-        t24_call08065370_080263B4(&sprite, 0, &frame, &phase, 1);
+        t24_call08065370_080263B4(&sprite, zero, &frame, &phase, 1);
         if ((sub_0800CC98() == 0) && (sub_0800CCCC() != 0) && (sub_0800CD34() == 0)) {
             temp_r4_3 = t24_scene080263B4.scene;
             if (temp_r4_3 == 0) {
                 sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
                 sub_0800BC08(0x78, 0x140, &x, &y, 0x30, 0);
-                sub_08008E74(x, y, 0, frame, 3, sprite.payload, sprite.f8, sprite.f0);
+                sub_08008E74(x, y, zero, frame, 3, sprite.payload, sprite.f8, sprite.f0);
             }
         }
         sub_080003F0();
@@ -4056,21 +4075,34 @@ loop_48:
 block_51:
     sub_0801A664(0x12, 2);
     if (!(((u16) t24_state080263B4->unk4 >> 4) & 1) && (sub_0800D154() == 0)) {
+        s16 *endX = &x;
+        s16 *endY = &y;
+        u32 xpos = 0x780000;
         var_r5_2 = 1;
 
 loop_55:
-        if (sub_0800CDF8() != 0) {
-            sub_080003F0();
-            goto loop_55;
-        }
+        goto end_poll;
+end_yield:
+        sub_080003F0();
+end_poll:
+        if (sub_0800CDF8() != 0) goto end_yield;
         if (sub_080021A8() == 0) {
-            t24_call08065370_080263B4(&sprite, 0, &frame, &phase, 1);
+            t24_call08065370_080263B4(&sprite, zero, &frame, &phase, 1);
             if ((sub_0800CC98() == 0) && (sub_0800CCCC() != 0)) {
                 temp_r4_4 = t24_scene080263B4.scene;
                 if (temp_r4_4 == 0) {
                     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-                    sub_0800BC08(0x780000 >> 0x10, 0x01400000 >> 0x10, &x, &y, 0x30, 0);
-                    sub_08008E74(x, y, 0, frame, 3, sprite.payload, sprite.f8, sprite.f0);
+                    {
+                        register u32 ybase asm("r3") = 0xA0;
+                        u32 ybits;
+                        u32 xbits = xpos;
+                        asm("" : "+r"(ybase));
+                        ybase <<= 1;
+                        ybits = ybase << 16;
+                        asm("" : "+r"(ybits), "+r"(xbits));
+                        sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), endX, endY, 0x30, 0);
+                    }
+                    sub_08008E74(*endX, *endY, zero, frame, 3, sprite.payload, sprite.f8, sprite.f0);
                 }
             }
             sub_0801A664(0x12, 2);
