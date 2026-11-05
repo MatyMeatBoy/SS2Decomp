@@ -2028,7 +2028,6 @@ void sub_0805CB04(s32 index, struct Record60 *out)
 
 
 
-#ifdef NONMATCHING
 struct CB8CSlot { s32 x, y; u16 pad8; u16 active; u8 padC[0x14]; };
 struct CB8CBounds { u32 left, top, right, bottom; };
 struct CB8CColor { u16 r:5, g:5, b:5, x:1; u16 pad; };
@@ -2048,8 +2047,6 @@ void sub_0805CB8C(void)
     struct CB8CSlot *slot;
     u32 i, j;
     register u32 area asm("ip");
-    s32 x;
-    u16 y;
     u8 *count;
     u32 next;
     u8 *cnts;
@@ -2074,10 +2071,9 @@ void sub_0805CB8C(void)
             count = reset;
             for (; j <= 15; j++, slot++) {
                 if (slot->active != 0) {
+                    s32 x = slot->x << 5;
                     u32 index = area;
-                    asm("" : "+r"(index));
-                    x = slot->x << 5;
-                    y = (u32)(slot->y << 5) >> 16;
+                    u16 y = (u32)(slot->y << 5) >> 16;
                     if (cb8c_bounds[index].left <= (x >> 16) && cb8c_bounds[index].top <= (s16)y
                         && cb8c_bounds[index].right >= (x >> 16) && cb8c_bounds[index].bottom >= (s16)y)
                         (*count)++;
@@ -2112,9 +2108,6 @@ void sub_0805CB8C(void)
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805CB8C);
-#endif
 struct PuzzleSlot61 { s32 x,y; u16 pad8,active; u32 padC; u16 type,value; u8 tail[12]; };
 struct PuzzleItem61 { u16 type,value; union { u32 wide; struct {u16 a;u8 b,c;} parts; } data; u8 last; u8 tail[7]; };
 extern struct PuzzleSlot61 *puzzleSlots61 asm("gUnk_03005D58");
