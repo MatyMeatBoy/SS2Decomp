@@ -920,7 +920,6 @@ void sub_08094590(void)
     sub_080949A8();
     sub_08000940();
 }
-#ifdef NONMATCHING
 struct Anim98c { u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24]; };
 struct Sprite98c { u32 f0,f4,f8; s32 y; };
 extern void init98c(struct Anim98c *,s32,s32,s32,s32) asm("sub_08065158");
@@ -933,7 +932,9 @@ void sub_08094638(u8 count,s8 choice)
 {
     struct Anim98c a,b;
     u16 indices[3],frames[3];
+    s32 dd0; s32 dd1; /* unused: shift base's pseudo number (gcse hash order) */
     struct {s32 x,y;} base;
+    s32 sel=choice;
     struct Sprite98c *sprite;
     s32 result;
     u32 completed;
@@ -942,7 +943,7 @@ void sub_08094638(u8 count,s8 choice)
     struct {s32 x:16,y:16;} pos;
     u8 i;
     completed=0;
-    selected=(s8)(choice-1);
+    selected=(s8)(sel-1);
     init98c(&a,selected+0x50041,7,-1,1);
     a.payload[7]=completed;
     init98c(&b,0x50045,8,-1,1);
@@ -1003,9 +1004,6 @@ void sub_08094638(u8 count,s8 choice)
     sub_080009F8(0xF00,0x8000,0);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094638);
-#endif
 struct Drift98 { s16 f0,f2,f4,f6; };
 extern struct Drift98 drift98 asm("gUnk_03001250");
 extern s16 sine98[] asm("gUnk_080B9704");
