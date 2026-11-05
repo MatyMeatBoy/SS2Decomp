@@ -65,7 +65,7 @@ CC1_m4a_1_sound := tools/agbcc_sdk_sound/bin/agbcc
 CC1FLAGS_m4a_1_sound := -O2 -mthumb-interwork -fprologue-bugfix -ftst -fthumb-text-literals -fsub-compare-flags
 
 CC1_m4a_1_engine := tools/agbcc_sdk_cc/bin/agbcc
-CC1FLAGS_m4a_1_engine := -O2 -mthumb-interwork -fprologue-bugfix -ftst -fthumb-cc-reuse
+CC1FLAGS_m4a_1_engine := -O2 -mthumb-interwork -fprologue-bugfix -ftst -fthumb-cc-reuse -fthumb-label-cc-reuse -fthumb-sign-cc-reuse -fthumb-loop-cc-reuse -fthumb-late-pool
 
 CC1_m4a_1_commands := tools/agbcc/bin/old_agbcc
 CC1FLAGS_m4a_1_commands := -O2 -mthumb-interwork
