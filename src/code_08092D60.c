@@ -929,7 +929,7 @@ extern s32 back98c(struct Anim98c *,u16,u16 *,u16 *,s32) asm("sub_08065394");
 extern struct Sprite98c *draw98c(s16,s32,s32,u16,s32,void *,u32,u32) asm("sub_08007870");
 extern struct Sprite98c *tall98c(s16,s32,s32,u16,s32,s32,s32,void *,u32,u32) asm("sub_08007974");
 extern u16 regs98c[] asm("gUnk_03001250");
-void sub_08094638(u32 count,s32 choice)
+void sub_08094638(u8 count,s8 choice)
 {
     struct Anim98c a,b;
     u16 indices[3],frames[3];
@@ -937,13 +937,12 @@ void sub_08094638(u32 count,s32 choice)
     struct Sprite98c *sprite;
     s32 result;
     u32 completed;
-    s32 shifted=(s32)((u32)choice<<24);
     u8 limit=(u8)(count*2);
     s32 selected;
     struct {s32 x:16,y:16;} pos;
     u8 i;
     completed=0;
-    selected=(s32)((u32)shifted+0xFF000000)>>24;
+    selected=(s8)(choice-1);
     init98c(&a,selected+0x50041,7,-1,1);
     a.payload[7]=completed;
     init98c(&b,0x50045,8,-1,1);
@@ -960,8 +959,8 @@ void sub_08094638(u32 count,s32 choice)
         indices[1]=*(u16 *)(table+4)-1;
     }
     sub_0801AB50(6);
-    { s32 active; struct {s32 x,y;} screen;
-    screen.x=base.x>>8;screen.y=base.y>>8;
+    { s32 active;
+
     while(!sub_0801AAE0())sub_080003F0();
     regs98c[0x1D]=0x3233;
     active=1;
@@ -969,17 +968,17 @@ void sub_08094638(u32 count,s32 choice)
     do {
         sub_08000AF0(0x11,b.fC+0x100,1);
         back98c(&b,0,&indices[1],&frames[1],0);
-        pos.x=screen.x;pos.y=screen.y;
+        pos.x=(base.x>>8);pos.y=(base.y>>8);
         sprite=tall98c(pos.x,0x9E,0,indices[1],1,0,2,b.payload,b.f8,b.f0);
         sprite->y=pos.y;
         sub_08000AF0(0x11,b.fC+0x100,1);
         result=step98c(&b,0,&indices[2],&frames[2],0);
-        pos.x=screen.x;pos.y=screen.y;
+        pos.x=(base.x>>8);pos.y=(base.y>>8);
         sprite=draw98c(pos.x,0x9F,0,indices[2],1,b.payload,b.f8,b.f0);
         sprite->y=pos.y;
         sub_08000AF0(0x10,a.fC+0xE0,1);
         step98c(&a,0,&indices[0],&frames[0],1);
-        pos.x=screen.x;pos.y=screen.y;
+        pos.x=(base.x>>8);pos.y=(base.y>>8);
         sprite=draw98c(pos.x,pos.y,0,indices[0],0,a.payload,a.f8,a.f0);
         if(result) {
             u32 previous;
