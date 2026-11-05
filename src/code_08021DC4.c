@@ -1458,6 +1458,7 @@ void sub_08023A3C(s32 *arg0, u32 arg1) {
     struct Event23A3C sp0[5];
     u8 padding[12];
     s32 *sp34;
+    int rowBase;
     s32 sp38;
     u32 sp3C;
     s32 *sp40;
@@ -1548,6 +1549,7 @@ void sub_08023A3C(s32 *arg0, u32 arg1) {
     } else {
         state23A3C->sequence = 9U;
     }
+    rowBase = 0x1C8;
     goto loop_90;
 dispatch:
         temp_r1_2 = M2C_FIELD(sp34, u16 *, 0x30);
@@ -1565,7 +1567,7 @@ loop_22:
                     do {
                         var_r2_3 = 0;
                         temp_r4 = (u8)var_r6_4 + ((u8) temp_r1 * 5);
-                        if (*(u8 *)(*var_r3_2 + 0x1C8 + temp_r4) == 1) {
+                        if (*(u8 *)(*var_r3_2 + rowBase + temp_r4) == 1) {
                             var_r2_3 = 1;
                         }
                         if (var_r2_3 != 0) {
@@ -1573,7 +1575,7 @@ loop_22:
                             if (sub_0806603C(&sp0[var_r6_4]) != 0) {
                                 var_r3_2 = sp40;
                                 if (sub_08002204() != 0) {
-                                    *(u8 *)(*var_r3_2 + 0x1C8 + temp_r4) = 2;
+                                    *(u8 *)(*var_r3_2 + rowBase + temp_r4) = 2;
                                 }
                             }
                         }
