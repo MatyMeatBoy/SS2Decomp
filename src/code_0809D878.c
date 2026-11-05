@@ -1792,7 +1792,6 @@ void sub_080A099C(void)
         sub_080003F0();
     }
 }
-#ifdef NONMATCHING
 struct SubA0B44 { u8 pad0[0xD6]; u16 paletteOffset; };
 struct ActorA0B44 {
     u16 id; u8 pad2[10]; u16 state; u8 padE[6];
@@ -1837,6 +1836,7 @@ void sub_080A0B44(void)
     u32 animArg;
     u8 timer, steps;
     u32 running, hit;
+    register u32 lastRunning asm("r4");
     s32 state;
     u8 anim;
     s32 zero, player;
@@ -1908,16 +1908,29 @@ void sub_080A0B44(void)
         }
         if (sub_0800CD8C() == 0)
             animA0B44(&sprite2, anim, &frame2, &tick2, animArg);
-        if (sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0 && (zero = sub_0800CC98()) == 0) {
+        if (sub_0800CCCC() == 0 && sub_0800CD8C() == 0 && sub_0800CD34() == 0 &&
+            (zero = sub_0800CC98()) == 0) {
             palette = &sub->paletteOffset;
             if (state == 0 || state == 1) {
                 sub_08000AF0(variantA0B44 + 16, sprite1.palette + (*palette << 5), 1);
                 {
                     register struct ActorA0B44 **r asm("r2") = ref;
                     struct ActorA0B44 *a = *r;
-                    screenA0B44((s32)((u32)a->x << 8) >> 16, (s32)((u32)a->y << 8) >> 16, &screenX, &screenY, zero, zero);
+                    screenA0B44((s32)((u32)a->x << 8) >> 16, (s32)((u32)a->y << 8) >> 16, &screenX,
+                                &screenY, zero, zero);
                 }
-                object = drawA0B44(screenX, 0x9F, 4, frame1, 2, sprite1.payload, sprite1.data, sprite1.base);
+                {
+                    register u32 drawScratch asm("r2");
+                    register s32 drawX asm("r0");
+                    register u16 *drawFrame asm("r2");
+                    asm("" : "=r"(drawScratch));
+                    drawX = screenX;
+                    asm("" : "+r"(drawX), "+r"(drawScratch));
+                    drawFrame = &frame1;
+                    asm("" : "+r"(drawFrame));
+                    object = drawA0B44(drawX, 0x9F, 4, *drawFrame, 2, sprite1.payload, sprite1.data,
+                                       sprite1.base);
+                }
                 object->y = screenY;
                 {
                     struct ActorA0B44 *a = *ref;
@@ -1926,47 +1939,69 @@ void sub_080A0B44(void)
                 }
             }
             sub_08000AF0(variantA0B44 + 16, sprite2.palette + (*palette << 5), 1);
-            screenA0B44((s32)((u32)pos.x << 8) >> 16, (s32)((u32)pos.y << 8) >> 16, &screenX, &screenY, zero, zero);
-            object = drawA0B44(screenX, 0x9F, anim, frame2, 1, sprite2.payload, sprite2.data, sprite2.base);
+            screenA0B44((s32)((u32)pos.x << 8) >> 16, (s32)((u32)pos.y << 8) >> 16, &screenX,
+                        &screenY, zero, zero);
+            object = drawA0B44(screenX, 0x9F, anim, frame2, 1, sprite2.payload, sprite2.data,
+                               sprite2.base);
             object->y = screenY;
         }
         dx = (pos.x >> 8) - (playersA0B44[sub_080020F4()].x >> 8);
         dy = (s16)((pos.y >> 8) + 12) - (playersA0B44[sub_080020F4()].y >> 8);
         distance = Sqrt(dx * dx + dy * dy);
-        if (hit != 0) goto next;
-        if (distance > 15) goto next;
-        if (sub_0800CDF8() != 0) goto next;
-        if (sub_0800CD8C() != 0) goto next;
-        if (sub_0800CCCC() != 0) goto next;
-        if (actorA0B44->state == 11) goto next;
-        if (playersA0B44[sub_080020F4()].flags & 0x2000) goto next;
-        if (playersA0B44[sub_080020F4()].active == 0) goto next;
-        if (playersA0B44[sub_080020F4()].state == 14) goto next;
-        if (playersA0B44[sub_080020F4()].state == 11) goto next;
-        if (playersA0B44[sub_080020F4()].state == 12) goto next;
-        if (playersA0B44[sub_080020F4()].seen[actorA0B44->id] == actorA0B44->serial) goto next;
+        if (hit != 0)
+            goto next;
+        if (distance > 15)
+            goto next;
+        if (sub_0800CDF8() != 0)
+            goto next;
+        if (sub_0800CD8C() != 0)
+            goto next;
+        if (sub_0800CCCC() != 0)
+            goto next;
+        if (actorA0B44->state == 11)
+            goto next;
+        if (playersA0B44[sub_080020F4()].flags & 0x2000)
+            goto next;
+        if (playersA0B44[sub_080020F4()].active == 0)
+            goto next;
+        if (playersA0B44[sub_080020F4()].state == 14)
+            goto next;
+        if (playersA0B44[sub_080020F4()].state == 11)
+            goto next;
+        if (playersA0B44[sub_080020F4()].state == 12)
+            goto next;
+        if (playersA0B44[sub_080020F4()].seen[actorA0B44->id] == actorA0B44->serial)
+            goto next;
         if (sub_0800CE30() == 1)
             effectA0B44(5, 60, 7);
         else
             effectA0B44(5, 15, 5);
-        playersA0B44[sub_080020F4()].motion = 0xFFFE;
         {
-            u32 *seen;
+            u32 motionPlayer = sub_080020F4();
+            u8 *playerBase = (u8 *)playersA0B44;
+            u32 seenByteOffset;
+            ((struct PlayerA0B44 *)playerBase)[motionPlayer].motion = 0xFFFE;
             player = sub_080020F4();
             actor = *ref;
-            seen = playersA0B44[player].seen;
-            seen[actor->id] = actor->serial++;
+            seenByteOffset = actor->id << 2;
+            seenByteOffset += player * 0x14C;
+            asm("" : "+r"(seenByteOffset), "+r"(playerBase));
+            playerBase += 0xE4;
+            *(u32 *)(seenByteOffset + (u32)playerBase) = actor->serial++;
         }
-        hit = 1;
+        {
+            register u32 hitOne asm("r2") = 1;
+            asm("" : "+r"(hitOne));
+            hit = hitOne;
+        }
     next:
         sub_080003F0();
-    } while (running != 0);
-    *(u32 *)((u8 *)sub_0800048C() + 8) = 0;
+        lastRunning = running;
+        asm("" : "+r"(lastRunning));
+    } while (lastRunning != 0);
+    *(u32 *)((u8 *)sub_0800048C() + 8) = lastRunning;
     sub_080003F0();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A0B44);
-#endif
 void sub_080A0F64(void) {
     if (M2C_FIELD(gUnk_0300032C, s16 *, 0x5C) != 0) {
         sub_080A0FC4();
