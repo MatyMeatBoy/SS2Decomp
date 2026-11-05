@@ -48,3 +48,10 @@ address-insensitive diff drops from 32 to 22 lines, with 11 Thumb halfwords
 and no normalized relocations differing. Strict NO MATCH. The normal ROM,
 NONMATCHING build and tree checks pass. Thirty-seven emulated cases agree
 on return value, collision calls, slot data, grid and counter.
+
+MATCH follow-up: reuse the slot pointer in the eviction path and compute
+the address as integer offset plus base. Keep the collision result masked
+before the grid test and advance the inner index after the grid store.
+The narrow kind local needs its r0 hint without the empty constraint.
+All 518 bytes and relocations match. Normal ROM with C active, full
+NONMATCHING and tree checks pass. No executable ASM added.

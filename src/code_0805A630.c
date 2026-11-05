@@ -738,7 +738,6 @@ void sub_0805B21C(void)
     *(u32 *)(task + 0x24) = 0;
     sub_08000274((u32)task);
 }
-#ifdef NONMATCHING
 struct Data2C4 { u32 w[4]; };
 extern u16 counter2C4 asm("gUnk_03005D5C");
 static inline u8 *find2C4(s32 px, s32 py, u32 kind)
@@ -793,20 +792,31 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
                 }
             }
         }
-        if (count > 15)
-            *(u16 *)(*(u8 **)&gUnk_03005D58 + lowestIndex * 0x20 + 0xA) = 0;
+        if (count > 15) {
+            u32 offset;
+            e = *(u8 **)&gUnk_03005D58;
+            offset = lowestIndex << 5;
+            *(u16 *)(offset + (u32)e + 0xA) = 0;
+        }
     }
     mode = (kind & 0x20) ? kind : 0;
     {
         for (a = 0; a <= 20; a++) {
             s32 px = x + ((a - 10) << 10);
             asm("" : "+r"(px));
-            for (b = 0; b <= 20; b++) {
-                do { py = y + ((b - 10) << 10);
-                if ((sub_0800AE50(px, py, mode) & 7) == 0 && find2C4(px, py, kind) == 0)
-                    (*(u8 **)&gUnk_03000124)[b * 21 + a] = 1;
-                else
-                    (*(u8 **)&gUnk_03000124)[b * 21 + a] = 0; } while (0);
+            for (b = 0; b <= 20; ) {
+                do {
+                    s32 gridResult;
+                    s32 nextB;
+                    py = y + ((b - 10) << 10);
+                    gridResult = sub_0800AE50(px, py, mode) & 7;
+                    if (gridResult == 0 && find2C4(px, py, kind) == 0)
+                        (*(u8 **)&gUnk_03000124)[b * 21 + a] = 1;
+                    else
+                        (*(u8 **)&gUnk_03000124)[b * 21 + a] = 0;
+                    nextB = b + 1;
+                    b = nextB;
+                } while (0);
             }
         }
     }
@@ -826,7 +836,6 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
             *(u16 *)(e + 0xE) = 5;
             {
                 register u16 entryKind asm("r0") = kind;
-                asm("" : "+r"(entryKind));
                 *(u16 *)(e + 8) = entryKind;
             }
             for (r = 0; r <= 9; r++) {
@@ -852,9 +861,6 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
     }
     return e;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B2C4);
-#endif
 void sub_0805B4CC(s32 *x, s32 *y)
 {
     s32 i, j, r;
