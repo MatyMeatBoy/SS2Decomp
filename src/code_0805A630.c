@@ -2047,6 +2047,7 @@ void sub_0805CB8C(void)
     struct CB8CColor colors[4];
     struct CB8CSlot *slot;
     u32 i, j;
+    register u32 area asm("ip");
     s32 x;
     u16 y;
     u8 *count;
@@ -2059,25 +2060,31 @@ void sub_0805CB8C(void)
         *(u16 *)&colors[i] = 0;
     }
     for (;;) {
-        i = 0;
+        area = 0;
         cnts = counts;
         do {
+            u8 *reset;
+            u32 z;
             slot = cb8c_slots;
-            count = &cnts[i];
-            *count = 0;
-            j = 0;
-            next = i + 1;
+            reset = &cnts[area];
+            z = 0;
+            *reset = z;
+            j = z;
+            next = area + 1;
+            count = reset;
             for (; j <= 15; j++, slot++) {
                 if (slot->active != 0) {
+                    u32 index = area;
+                    asm("" : "+r"(index));
                     x = slot->x << 5;
                     y = (u32)(slot->y << 5) >> 16;
-                    if (cb8c_bounds[i].left <= (x >> 16) && cb8c_bounds[i].top <= (s16)y
-                        && cb8c_bounds[i].right >= (x >> 16) && cb8c_bounds[i].bottom >= (s16)y)
+                    if (cb8c_bounds[index].left <= (x >> 16) && cb8c_bounds[index].top <= (s16)y
+                        && cb8c_bounds[index].right >= (x >> 16) && cb8c_bounds[index].bottom >= (s16)y)
                         (*count)++;
                 }
             }
-            i = next;
-        } while (i <= 3);
+            area = next;
+        } while (area <= 3);
         for (i = 0; i <= 3; i++) {
             if (counts[i] == 1) {
                 angles[i] = (angles[i] + 4) & 0x7F;
