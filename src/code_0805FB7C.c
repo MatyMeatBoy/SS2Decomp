@@ -47,7 +47,6 @@ tens:
         out[-1] = base + digits[1];
     }
 }
-#ifdef NONMATCHING
 struct IconAsset63 { s32 f0, f4, f8; u8 padC[0x10]; u8 attr[0x10]; u16 value, step; s16 upper, lower; };
 extern struct IconAsset63 iconAssets63[] asm("gUnk_03005DC0");
 extern struct IconAsset63 iconOverlay63 asm("gUnk_03005D80");
@@ -55,9 +54,14 @@ extern void sub_0800BC08(s16, s16, s16 *, s16 *, s32, s32);
 extern void sub_08008E74(s32, s32, u16, u16, u8, void *, s32, s32);
 extern void sub_08007F0C(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32);
 struct IconPosition63 { s32 x, y; };
-extern s32 drawIcon63(struct IconPosition63, u16, u16, s32, s32, s32, s32) asm("sub_08007CF0");
+extern s32 drawIcon63(s32, s32, u16, u16, s32, s32, s32, s32) asm("sub_08007CF0");
+extern void scaledIcon63(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
+/* The attribute field is the canonical DDC symbol; the record starts 28 bytes earlier. */
+extern struct IconAsset63 drawingAssets63[] asm("gUnk_03005DDC-28");
 void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
 {
+    register u16 *entry asm("r5") = item;
+    register u32 mode asm("sl") = flags;
     u16 screenX; s16 screenY;
     u16 alternate = 0;
     u16 overlay = 0;
@@ -65,85 +69,87 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     u8 frame;
     u8 *resource;
     u8 *descriptor;
-    u8 *icon;
-    u32 packed;
+    register u8 *icon asm("r4");
+    register u32 packed asm("r1");
     struct IconAsset63 *asset;
     u16 step;
     u32 value;
     s32 worldX, worldY;
     u8 priority;
-    switch (*item) {
+    switch (*entry) {
     case 0:
     default:
         return;
     case 1:
-        descriptor = (u8 *)sub_08007290(item[1] | 0x100000) + 0xA8;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x100000) + 0xA8;
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
-    case 2:
-        resource = (u8 *)sub_08007290(item[1] | 0xB0000);
+    case 2: {
+        u16 packed2;
+        resource = (u8 *)sub_08007290(entry[1] | 0xB0000);
         icon = resource + 0xBE;
-        packed = *(u16 *)icon;
+        packed2 = *(u16 *)icon;
         frame = *icon;
-        group = packed >> 8;
-        if (((u8 *)item)[8] != 0) {
+        group = packed2 >> 8;
+        if (((u8 *)entry)[8] != 0) {
             group++;
             alternate++;
         } else {
-            overlay = ((u8 *)item)[7];
+            overlay = ((u8 *)entry)[7];
             if (overlay == 0) overlay = *(u16 *)(resource + 0xBC);
         }
         break;
+    }
     case 3:
-        descriptor = (u8 *)sub_08007290(item[1] | 0xC0000) + 0xB0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xC0000) + 0xB0;
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
-        if (((u8 *)item)[8] != 0) {
+        if (((u8 *)entry)[8] != 0) {
             group++;
             alternate++;
         } else {
-            overlay = ((u8 *)item)[7];
+            overlay = ((u8 *)entry)[7];
         }
         break;
     case 4:
-        descriptor = (u8 *)sub_08007290(item[1] | 0xD0000) + 0xB0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xD0000) + 0xB0;
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
-        if (((u8 *)item)[8] != 0) {
+        if (((u8 *)entry)[8] != 0) {
             group++;
             alternate++;
         } else {
-            overlay = ((u8 *)item)[7];
+            overlay = ((u8 *)entry)[7];
         }
         break;
     case 5:
-        descriptor = (u8 *)sub_08007290(item[1] | 0xE0000) + 0xB0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xE0000) + 0xB0;
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
-        if (((u8 *)item)[8] != 0) {
+        if (((u8 *)entry)[8] != 0) {
             group++;
             alternate++;
         }
         break;
     case 7:
-        descriptor = (u8 *)sub_08007290(item[1] | 0x110000) + 0xA8;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x110000) + 0xA8;
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
     case 6:
-        descriptor = (u8 *)sub_08007290(item[1] | 0xF0000) + 0xAC;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0xF0000) + 0xAC;
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
     case 9:
-        descriptor = (u8 *)sub_08007290(item[1] | 0x150000) + 0xA0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x150000) + 0xA0;
         packed = *(u32 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
@@ -155,52 +161,72 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
         group = packed >> 8;
         break;
     case 8:
-        descriptor = (u8 *)sub_08007290(item[1] | 0x120000) + 0xA0;
+        descriptor = (u8 *)sub_08007290(entry[1] | 0x120000) + 0xA0;
         packed = *(u16 *)descriptor;
         frame = *descriptor;
         group = packed >> 8;
         break;
     }
-    if (flags & 1) {
+    if (mode & 1) {
+        /* Preserve the ROM's coordinate lifetimes and narrowing order. */
+        register s32 rawX asm("r2");
+        register s32 rawY asm("r1");
+        register s32 cameraX asm("r0");
         s32 camera = sub_0800CCCC();
-        worldX = pos.x >> 8;
-        worldY = pos.y >> 8;
-        sub_0800BC08(worldX, worldY, &screenX, &screenY, 16, camera);
+        rawX = pos.x;
+        asm("" : "+r"(rawX));
+        rawX >>= 8;
+        worldX = rawX;
+        cameraX = (s16)rawX;
+        asm("" : : "r"(cameraX));
+        rawY = pos.y;
+        asm("" : : "r"(rawY));
+        worldY = rawY >> 8;
+        sub_0800BC08(cameraX, worldY, &screenX, &screenY, 16, camera);
         if (((u32)(screenX + 16) << 16) > 0x1080000 || screenY < -16 || screenY > 168)
             return;
         priority = sub_0800BC44(worldX, worldY, sub_0800CCCC());
-        sub_08008E74((s16)screenX, screenY, 0, frame, priority, iconAssets63[group].attr,
-            iconAssets63[group].f8, iconAssets63[group].f0);
+        sub_08008E74((s16)screenX, screenY, 0, frame, priority, drawingAssets63[group].attr,
+            drawingAssets63[group].f8, drawingAssets63[group].f0);
         return;
     }
-    if ((flags & 2) && alternate == 0)
+    if ((mode & 2) && alternate == 0)
         iconAssets63[group].attr[9] = 10;
     else
         iconAssets63[group].attr[9] = 9;
-    if ((flags & 8) && overlay != 0) {
+    if ((mode & 8) && overlay != 0) {
+        /* Keep the overlay frame and record base live in the call registers. */
+        register u32 overlayFrame asm("r3");
+        register struct IconAsset63 *layer asm("r2");
         if (overlay == 7) overlay = 6;
-        sub_08007CF0(pos.x, pos.y + 8, 4, (u16)(overlay + 11), 0, (s32)iconOverlay63.attr, iconOverlay63.f8, iconOverlay63.f0);
+        overlayFrame = (u16)(overlay + 11);
+        asm("" : : "r"(overlayFrame));
+        layer = &iconOverlay63;
+        asm("" : : "r"(layer));
+        drawIcon63(pos.x, pos.y + 8, 4, overlayFrame, 0, (s32)layer->attr, layer->f8, layer->f0);
     }
-    if (flags & 4) {
-        asset = &iconAssets63[group];
+    if (mode & 4) {
+        register u32 byteOffset asm("r2");
+        register u32 oldValue asm("r4");
+        byteOffset = group * sizeof(struct IconAsset63);
+        asm("" : "+r"(byteOffset));
+        asset = (struct IconAsset63 *)((u8 *)iconAssets63 + byteOffset);
         step = asset->step;
-        value = step + asset->value;
+        oldValue = asset->value;
+        value = step + oldValue;
         asset->value = value;
         if ((s32)((u32)step << 16) > 0 && (s16)value > asset->upper)
             asset->step = -step;
         if ((s16)asset->step < 0 && (s16)asset->value < asset->lower)
             asset->step = -asset->step;
-        sub_08007F0C(pos.x, pos.y, 0, frame, 0, asset->attr, asset->f8, asset->f0, (s16)asset->value, (s16)asset->value, 255);
+        scaledIcon63(pos.x, pos.y, 0, frame, 0, asset->attr, asset->f8, asset->f0, (s16)asset->value, (s16)asset->value, 255);
     } else {
-        drawIcon63(pos, 0, frame, 0, (s32)iconAssets63[group].attr,
-            iconAssets63[group].f8, iconAssets63[group].f0);
+        drawIcon63(pos.x, pos.y, 0, frame, 0, (s32)drawingAssets63[group].attr,
+            drawingAssets63[group].f8, drawingAssets63[group].f0);
     }
     iconAssets63[group].attr[9] = 9;
     iconOverlay63.attr[9] = 9;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FC80);
-#endif
 #ifdef NONMATCHING
 struct ItemName63 { u16 kind; u16 id; u16 suffix; u8 level; u8 grade; u8 broken; };
 extern u8 *resFF63(s32) asm("sub_08007290");
