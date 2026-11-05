@@ -3522,7 +3522,6 @@ void sub_0806D7EC(struct T072Args *arg) {
 finish:
     t072Flags[player] &= ~(1 << bit);
 }
-#ifdef NONMATCHING
 struct T072DBEffect { s16 timer; u16 owner, kind, level, a, b, c, d; s16 strength; u8 pad[22]; };
 struct T072DBPlayer { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072DBEffect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u16 ready; u8 padB8[10]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
 struct T072DBArgs { u32 player, bit, f8, value, f10, level; };
@@ -3531,11 +3530,12 @@ extern u32 t072DBFlags[] asm("gUnk_030063E0");
 void sub_0806DB1C(struct T072DBArgs *arg) {
     u8 list[4];
     s16 distances[6];
+    u16 range;
     u32 x, y;
+    u32 player;
     u32 bit;
     u32 offset;
-    u16 level, range, count, i;
-    volatile u32 player;
+    u16 level, count, i;
     u32 initialPlayer;
     s32 local;
     struct T072DBPlayer *p, *other, *costPlayer; u16 *wait, *ready;
@@ -3544,30 +3544,27 @@ void sub_0806DB1C(struct T072DBArgs *arg) {
     u16 dx, dy, cost;
     s32 ax, ay, limit;
     s32 duration, amount;
-    u32 foundEffect;
+    u32 found2;
+    u16 j;
     local = sub_080020F4();
-    initialPlayer = arg->player;
-    player = initialPlayer;
+    player = arg->player;
     bit = arg->bit;
     level = arg->level;
     range = level;
-    if (initialPlayer <= 3) p = &t072DBPlayers[player];
+    if (player <= 3) p = &t072DBPlayers[player];
     if (local == player) {
         costPlayer = &t072DBPlayers[sub_080020F4()];
         cost = sub_0806898C(arg->value, arg->level) - 1;
         costPlayer->resource -= cost;
         if (costPlayer->resource < 0) costPlayer->resource = 0;
     }
-    offset = player * 4;
     while (p->wait <= 6) {
-        if (p->state == 10) goto finish;
+        if (p->state == 10) goto early;
         sub_080003F0();
     }
-    sprite = p->sprite;
-    x = sprite[0] >> 4;
-    y = ((u32)sprite[1] << 20) >> 20;
+    x = p->sprite[0] >> 4;
+    y = ((u32)p->sprite[1] << 20) >> 20;
     count = 0;
-    ready = &p->ready;
     for (i = 0; i < sub_08002164(); i++) {
         other = &t072DBPlayers[i];
         sprite = other->sprite;
@@ -3589,87 +3586,90 @@ void sub_0806DB1C(struct T072DBArgs *arg) {
         list[count++] = i;
     }
     for (i = 0; i < count; i++) sub_08074DE8(list[i], 9);
-    while (*ready == 0) sub_080003F0();
+    while (p->ready == 0) sub_080003F0();
     if ((local == player || player > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x167);
-    if (local == player) {
+    if (local != player) goto other_;
+    {
+        found2 = 0;
         e = p->effects;
         i = 0;
         start = e;
-        duration = (level * 10 + 40) * 60;
-        amount = level * 8;
-        foundEffect = 0;
-        do {
+
+
+
+        for (; i <= 7; i++, e++) {
             if (e->timer > 0 && t072DBPlayers[local].mode == 4 && e->kind == 3 && e->owner <= 99) {
                 if (e->level < level) {
                     e->level = level;
-                    e->timer = duration;
+                    e->timer = (level * 10 + 40) * 60;
                     e->strength = level * 20;
                 }
-                foundEffect = 1;
+                found2 = 1;
+                break;
             }
-            i++; e++;
-        } while (i <= 7 && foundEffect == 0);
-        if (foundEffect != 0)
+        }
+        if (found2 != 0)
             goto clear;
         e = start; i = 0;
         do {
-            if (e->timer == -1) {
-                e->owner = player;
-                e->timer = (level * 10 + 40) * 60;
-                e->kind = 3;
-                e->level = level;
-                amount = level * 8;
-                e->strength = level * 20;
-                break;
-            }
+            if (e->timer == -1) goto found1;
             i++; e++;
         } while (i <= 7);
 clear:
         p->x24 = 0; p->x26 = 0;
-    } else {
+        goto finish;
+found1:
+        e->owner = player;
+        e->timer = (level * 10 + 40) * 60;
+        e->kind = 3;
+        e->level = level;
+        amount = level * 8;
+        e->strength = level * 20;
+        goto clear;
+    }
+early:
+    ((u32 *)t072DBFlags)[player] &= ~(1 << bit);
+    return;
+found2:
+    e->owner = player;
+    e->timer = (level * 10 + 40) * 60;
+    e->kind = 3;
+    e->level = level;
+    amount = level * 8;
+    e->strength = level * 20;
+    goto finish;
+other_:
         for (i = 0; i < count && range != 0; i++) {
             if (list[i] == local) {
-                p = &t072DBPlayers[local];
-                e = p->effects; i = 0;
-                duration = (level * 10 + 40) * 60;
-                amount = level * 8;
-                foundEffect = 0;
-                do {
+                other = &t072DBPlayers[local];
+                found2 = 0;
+                e = other->effects;
+
+
+
+                for (i = 0; i <= 7; i++, e++) {
                     if (e->timer > 0 && e->owner <= 3 && t072DBPlayers[e->owner].mode == 4 && e->kind == 3) {
                         if (e->level < level) {
-                            e->timer = duration;
+                            e->timer = (level * 10 + 40) * 60;
                             e->level = level;
                             e->strength = level * 20;
                         }
-                        foundEffect = 1;
+                        found2 = 1;
+                        break;
                     }
-                    i++; e++;
-                } while (i <= 7 && foundEffect == 0);
-                if (foundEffect != 0)
-                    goto finish;
-                e = p->effects; i = 0;
-                do {
-                    if (e->timer == -1) {
-                        e->owner = player;
-                        e->timer = (level * 10 + 40) * 60;
-                        e->kind = 3;
-                        e->level = level;
-                        amount = level * 8;
-                        e->strength = level * 20;
-                        goto finish;
+                }
+                if (found2 == 0) {
+                    e = other->effects;
+                    for (i = 0; i <= 7; i++, e++) {
+                        if (e->timer == -1) goto found2;
                     }
-                    i++; e++;
-                } while (i <= 7);
+                }
                 goto finish;
             }
         }
-    }
 finish:
-    *(u32 *)((u8 *)t072DBFlags + offset) &= ~(1 << bit);
+    ((u32 *)t072DBFlags)[player] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DB1C);
-#endif
 #ifdef NONMATCHING
 struct T072DESprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T072DEPlayer { u16 id; u8 pad2[0x1e]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 phase, wait, ready; u8 padB8[10]; s16 resource; u8 padC4[24]; u32 counter; u8 padE0[0x64]; u8 *config; u16 *sprite; };
