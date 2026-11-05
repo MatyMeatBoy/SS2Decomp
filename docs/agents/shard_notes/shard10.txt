@@ -17,3 +17,10 @@ nov03-w4: clean rewrite without register asm (build/w4 only, not landed): 864 by
   the separate byte-zero register; it loses on the r5[] block (cse chains all ten offsets from one constant
   register: 0x100, +2, +14, ... ; ROM keeps an even and an odd chain, 0x100 and 0x102, each +16) and on the
   stm loops (ROM computes i+1 and loads 0xFFFF once before both inner loops, counter j in r6).
+
+Follow-up on the 876-byte typed draft: use a block-local fill word for
+each record range and a shared zero for the auxiliary byte fields.
+The address-insensitive diff falls from 128 to 118 lines. Strict comparison
+still differs from the 880-byte original. Normal ROM comparison, the
+NONMATCHING build and check_tree pass. Eight emulated cases agree on calls,
+actor records, allocation contents and pointer updates.
