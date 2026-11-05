@@ -1153,6 +1153,7 @@ void sub_08069C44(struct Z069A *arg) {
     u16 delta;
     s32 v;
     u32 saved;
+    s32 *position;
 
     local=sub_080020F4();
     target=(u16)arg->target;
@@ -1227,6 +1228,7 @@ void sub_08069C44(struct Z069A *arg) {
     sprite.f1C=7; sprite.f1D=8;
     frame=0; phase=0;
     timeout=((timeout<<19)+(20<<16))>>16;
+    position = pos;
 
     for(;;) {
         v=timeout; timeout=(u16)(v-1);
@@ -1237,7 +1239,7 @@ void sub_08069C44(struct Z069A *arg) {
         }
         if(z069Hit(x,y,arg)!=0 && kind==0) break;
         if(player==local) {
-            pos[0]=x; pos[1]=y; size=0x80008;
+            pos[0]=x; position[1]=y; size=0x80008;
             if(z069Effect(pos,&size,z069Damage(arg,0))!=0) break;
         }
         tt=sub_0800AE50(x,y,0);
