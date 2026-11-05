@@ -3868,7 +3868,6 @@ enemyOrigin:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DE94);
 #endif
-#ifdef NONMATCHING
 struct ArgE7D4 { u32 player, bit, target, value, f10, level; };
 struct SprE7D4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct SprBitsE7D4 { u8 lo:4; u8 hi:4; u8 b1, b2, b3; u8 b4:6; u8 b4hi:2; };
@@ -4120,8 +4119,16 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
                                 palE7D4(0x17, spr.fC, 2);
                             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
                                 shadeB = 0;
-                            if (sub_0800CB9C() == 0 || (flagsE7D4 & 1) == (player & 1))
-                                drawE7D4(dx, dy, level + 7, frame[i], shadeB, &spr.f1C, spr.f8, spr.f0);
+                            if (sub_0800CB9C() != 0) {
+                                /* The ROM keeps the parity mask in r1 and the frame flags in r2. */
+                                register u32 f asm("r2") = flagsE7D4;
+                                register u32 one asm("r1") = 1;
+                                f &= one;
+                                if (f != (player & one))
+                                    goto skipE7D4;
+                            }
+                            drawE7D4(dx, dy, level + 7, frame[i], shadeB, &spr.f1C, spr.f8, spr.f0);
+                        skipE7D4:;
                         }
                     } else if (delay[i] != 0xF0) {
                         delay[i]--;
@@ -4140,9 +4147,6 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
     }
     fE7D4[player] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806E7D4);
-#endif
 #ifdef NONMATCHING
 struct ArgF0CC { u32 player, bit, target, value, f10, level; };
 struct SprF0CC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
