@@ -2044,10 +2044,6 @@ void sub_0800BD5C(s32 arg) {
         sub_080003F0();
     }
 }
-#ifdef NONMATCHING
-// sub_0800BEC0 (world-map/destination select): ~66 diff lines, exact block layout and frame;
-// left: `movs r5, #0` (zero) placed after active = 0 in ROM (draft sets it earlier), which shifts
-// reload-register rotation in later loops (draw / 24-loop / count loop), and a few local regs.
 struct CurBEC0 {
     u16 lo:4; u16 x:12;
     u16 y:12; u16 dir:4;
@@ -2139,22 +2135,23 @@ void sub_0800BEC0(void)
     struct CurBEC0 **pc;
     s32 s;
     s32 zero;
+    s16 q;
     s32 dbg;
     u8 t;
 
     while (waitBEC0() == 0)
         sub_080003F0();
-    zero = 0;
     dbg = 0;
     if ((flagsBEC0 >> 3) & 1)
         sel = 0;
     else
         sel = stateBEC0->f0;
     active = 0;
+    cnt = 0;
     flagsBEC0 |= 0x20;
     sub_08068384();
-    initBEC0(&sprA, 0x50006, 4, -1, zero);
-    sprA.f28 = zero;
+    initBEC0(&sprA, 0x50006, 4, -1, 0);
+    sprA.f28 = 0;
     sub_08000AF0(0x10, sprA.fC + 0x180, 1);
     me = sub_080020F4();
     n = (u16)nBEC0();
@@ -2170,15 +2167,15 @@ void sub_0800BEC0(void)
     sub_08000AA8(2, &bg.half);
     if (hasBEC0(5) == 0) {
         sub_080009C0(0x400, 0, 1);
-        fillBEC0(4, 2, 1, 0xE, 0xC, zero);
+        fillBEC0(4, 2, 1, 0xE, 0xC, 0);
     }
-    regsBEC0[4] = zero;
-    regsBEC0[5] = zero;
-    regsBEC0[6] = zero;
-    regsBEC0[7] = zero;
-    regsBEC0[2] = zero;
-    regsBEC0[3] = zero;
-    initBEC0(&sprB, 0x500C3, 4, 0xC, zero);
+    regsBEC0[4] = 0;
+    regsBEC0[5] = 0;
+    regsBEC0[6] = 0;
+    regsBEC0[7] = 0;
+    regsBEC0[2] = 0;
+    regsBEC0[3] = 0;
+    initBEC0(&sprB, 0x500C3, 4, 0xC, 0);
     sub_080003F0();
     sub_080003F0();
     sub_080003F0();
@@ -2328,9 +2325,9 @@ while (1) {
                             dir = 8;
                     }
                 }
-                s = dir;
-                if (s != 0) {
-                    playersBEC0[me].p144->dir = s - 1;
+                q = dir;
+                if (q != 0) {
+                    playersBEC0[me].p144->dir = q - 1;
                     speed += 0x80;
                     if (speed >= 0x1E0)
                         speed = 0x1E0;
@@ -2372,9 +2369,7 @@ while (1) {
             }
         }
     }
-    i = 0;
-    goto chk;
-    do {
+    for (i = 0; i < n; i++) {
         p = &playersBEC0[pairs[i].id];
         c = p->p148;
         if (c->st != 0xF)
@@ -2392,10 +2387,8 @@ while (1) {
             else
                 drawBBEC0(&sprA, c->x, c->y, p->fB0, p->fB2);
         }
-    next:
-        i++;
-    chk:;
-    } while (i < n);
+    next:;
+    }
     for (i = 0; i < 24; i++) {
         if (i != 0 && hasBEC0(i) == 0)
             continue;
@@ -2444,7 +2437,7 @@ done:
             sub_080003F0();
         sub_08067BF8();
     } else {
-        while (flagBytesBEC0.b3 & 1)
+        while ((flagsBEC0 >> 24) & 1)
             sub_080003F0();
     }
     goBEC0(sel, 1);
@@ -2481,9 +2474,6 @@ done:
     flagsBEC0 &= ~0x10000;
     sub_08000420(0xBBA);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800BEC0);
-#endif
 struct Rgb0C9F4 { u16 r:5, g:5, b:5, x:1; };
 struct RgbWord0C9F4 { u32 r:5, g:5, b:5, x:1; };
 /* Pulse a palette range: scale each color of a saved copy by a sine
