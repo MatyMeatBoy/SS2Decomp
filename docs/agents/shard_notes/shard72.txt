@@ -14,3 +14,9 @@ check_tree pass.
 
 Remaining work includes stack placement of player and range, effect pointer
 allocation, literal pools, and the separate early-exit flag address setup.
+
+Follow-up: check the found flag at the tail of both active-effect scans.
+This moves the draft from 860 to 880 bytes and from 349 to 329 lines in the
+address-insensitive diff. Strict comparison still differs from the 888-byte
+original. ROM comparison, NONMATCHING build and check_tree pass. The original
+and draft agree on calls, players, effects and flags in 48 emulated cases.
