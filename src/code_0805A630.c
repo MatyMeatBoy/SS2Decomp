@@ -768,7 +768,8 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
     u32 lowest, lowestIndex;
     u32 mode;
     s32 a, b, r;
-    s32 px, py, qx;
+    s32 px, py;
+    register s32 qx asm("sl");
     u16 old;
 
     if (*data == 0)
