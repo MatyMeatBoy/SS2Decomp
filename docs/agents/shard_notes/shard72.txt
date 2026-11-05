@@ -20,3 +20,10 @@ This moves the draft from 860 to 880 bytes and from 349 to 329 lines in the
 address-insensitive diff. Strict comparison still differs from the 888-byte
 original. ROM comparison, NONMATCHING build and check_tree pass. The original
 and draft agree on calls, players, effects and flags in 48 emulated cases.
+
+Keep the initial player index in a local for the initial bounds check and
+retain the full index in a volatile stack local for later reads. Use a counted
+loop for the player scan, as in the adjacent effect handler. The draft is now
+888 bytes, matching the original size, and the address-insensitive diff falls
+from 329 to 307 lines. Strict bytes/relocations still differ. ROM, NONMATCHING
+and tree checks pass, and 48 emulated cases agree with the original.
