@@ -1361,20 +1361,22 @@ retry:
     while(!sub_0801AAE0()) sub_080003F0();
     SoftReset(0);
 }
-#ifdef NONMATCHING
 extern u32 saveFlags64 asm("gUnk_03003478");
 extern u32 saveWrite64(void) asm("sub_0807A124");
 struct SavePair64 {u32 a,b;};
 struct SaveItem64 {u32 words[8];};
 struct SaveEntry64 {u32 words[10];};
 extern u8 *saveData64 asm("gUnk_03004210");
+struct SaveFile64 { u8 pad[0xD8]; u16 hD8, hDA; u16 h[10]; u8 padF0[0x1DC-0xF0]; struct SaveItem64 items[16]; struct SaveEntry64 ent[8]; };
 extern u8 *saveStats64 asm("gUnk_03005CF4");
 extern u8 *saveItems64 asm("gUnk_03005D58");
 struct SavePlayer64 { u8 pad0[0x2C]; u16 f2C,f2E; u8 pad30[0xC2-0x30]; u16 fC2,fC4,fC6; u8 padC8[0x14C-0xC8]; };
 extern struct SavePlayer64 savePlayers64[] asm("gUnk_03003CE0");
 extern u8 savePlayerPtr64[] asm("gUnk_03003D14");
 extern u8 saveMap64[] asm("gUnk_03003170");
-void sub_08061E44(s32 arg0) {
+struct SaveMapS64 { u8 pad0[0x8C]; u16 f8C; u16 f8E; u16 f90; };
+extern struct SaveMapS64 saveMapS64 asm("gUnk_03003170");
+void sub_08061E44(s32 arg0) { register u32 var_r5 asm("r5");
     u8 *data;
     u8 *stats;
     s32 temp_r2;
@@ -1387,21 +1389,6 @@ void sub_08061E44(s32 arg0) {
     u32 temp_r4_4;
     u32 temp_r4_5;
     u32 temp_r4_6;
-    u32 var_r5;
-    u32 var_r5_10;
-    u32 var_r5_11;
-    u32 var_r5_12;
-    u32 var_r5_13;
-    u32 var_r5_14;
-    u32 var_r5_15;
-    u32 var_r5_2;
-    u32 var_r5_3;
-    u32 var_r5_4;
-    u32 var_r5_5;
-    u32 var_r5_6;
-    u32 var_r5_7;
-    u32 var_r5_8;
-    u32 var_r5_9;
     u8 *temp_r0;
     void *temp_r0_13;
     void *temp_r0_2;
@@ -1435,50 +1422,44 @@ while(sub_080681F4(arg0) == 0) sub_080003F0();
         if (sub_0800CCCC() != 0) {
 if (savePlayers64[sub_080020F4()].f2E == 0){
             (*(u32 *)((u8 *)(saveData64)+0x0)) = 2;
-            var_r5_5=0; do { *(struct SaveItem64 *)(saveData64+0x1DC+var_r5_5*32)=((struct SaveItem64 *)saveItems64)[var_r5_5]; var_r5_5++; } while(var_r5_5<=15);
+            var_r5=0; do { {register u8 *d asm("r0") = saveData64; asm("" : "+r"(d)); ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
         } else {
-            data=saveData64;stats=saveStats64;
-(*(u32 *)((u8 *)(data)+0x0)) = 3;
-            (*(u16 *)((u8 *)(data)+0xD8)) = (u16) (*(u16 *)((u8 *)(stats)+0x4));
-            (*(u32 *)((u8 *)(data)+0x28)) = (s32) (*(u32 *)((u8 *)(stats)+0x38));
+            {u8 *dp=saveData64; *(u32 *)dp = 3; stats=saveStats64;
+            ((struct SaveFile64 *)dp)->hD8 = *(u16 *)(stats+0x4);
+            *(u32 *)(dp+0x28) = *(u32 *)(stats+0x38);}
             (*(u16 *)((u8 *)(saveData64)+0x1C)) = (u16) savePlayers64[sub_080020F4()].f2E;
             (*(u16 *)((u8 *)(saveData64)+0x1E)) = (u16) savePlayers64[sub_080020F4()].f2C;
-            temp_r0_13 = (u8 *)&savePlayers64[sub_080020F4()];
-            *(struct SavePair64 *)(saveData64+0x30)=*(struct SavePair64 *)(temp_r0_13+0xA4);
+{u32 id=sub_080020F4(); u8 *d=saveData64; u8 *p=(u8 *)&savePlayers64[id]; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(p+0xA4);}
             (*(u16 *)((u8 *)(saveData64)+0x20)) = (u16) savePlayers64[sub_080020F4()].fC4;
             (*(u16 *)((u8 *)(saveData64)+0x22)) = (u16) savePlayers64[sub_080020F4()].fC2;
-            (*(u16 *)((u8 *)(saveData64)+0x24)) = (u16) savePlayers64[sub_080020F4()].fC6;
-            (*(u32 *)((u8 *)(saveData64)+0x2C)) = (s32) (saveFlags64 & 0xFFFFFEFF);
-            var_r5_6=0; do { *(struct SaveItem64 *)(saveData64+0x1DC+var_r5_6*32)=((struct SaveItem64 *)saveItems64)[var_r5_6]; var_r5_6++; } while(var_r5_6<=15);
-            var_r5_7 = 0;
+            {u32 id=sub_080020F4(); u8 *d=saveData64; *(u16*)(d+0x24)=savePlayers64[id].fC6; *(u32*)(d+0x2C)=saveFlags64 & 0xFFFFFEFF;}
+            var_r5=0; do { {register u8 *d asm("r0") = saveData64; asm("" : "+r"(d)); ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
+            var_r5 = 0;
             do {
-                temp_r2_2 = var_r5_7 * 2;
-                *(u16 *)(saveData64 + 0xDC + temp_r2_2) = *(u16 *)(saveStats64 + 0x22 + temp_r2_2);
-                var_r5_7 += 1;
-            } while (var_r5_7 <= 9U);
-            var_r5_8=0; var_r4_2=0; do { *(struct SaveEntry64 *)(saveData64+0x3DC+var_r4_2)=*(struct SaveEntry64 *)(*(u8 **)(savePlayerPtr64+0x14C*sub_080020F4())+var_r4_2); var_r4_2+=40; var_r5_8++; } while(var_r5_8<=7);
+                {u8 *d=saveData64; u32 o; u8 *s; asm("" : "+r"(d)); o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
+                var_r5 += 1;
+            } while (var_r5 <= 9U);
+            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64; asm("" : "+r"(pp)); var_r4_2=0; do { *(struct SaveEntry64 *)(saveData64+var_r4_2+0x3DC)=*(struct SaveEntry64 *)(var_r4_2+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4_2+=40; var_r5++; } while(var_r5<=7);}
         }
 } else {
             data=saveData64;stats=saveStats64;
-(*(u16 *)((u8 *)(data)+0xD8)) = (u16) (*(u16 *)((u8 *)(stats)+0x4));
+((struct SaveFile64 *)data)->hD8 = *(u16 *)(stats+0x4);
             (*(u32 *)((u8 *)(data)+0x28)) = (s32) (*(u32 *)((u8 *)(stats)+0x38));
             (*(u32 *)((u8 *)(data)+0x0)) = 4;
-            (*(u16 *)((u8 *)(data)+0x1C)) = (u16) (*(u16 *)(saveMap64+0x8C));
-            (*(u16 *)((u8 *)(data)+0x1E)) = (u16) (*(u16 *)(saveMap64+0x90));
+            (*(u16 *)((u8 *)(data)+0x1C)) = saveMapS64.f8C;
+            (*(u16 *)((u8 *)(data)+0x1E)) = saveMapS64.f90;
             (*(u16 *)((u8 *)(saveData64)+0x20)) = (u16) savePlayers64[sub_080020F4()].fC4;
             (*(u16 *)((u8 *)(saveData64)+0x22)) = (u16) savePlayers64[sub_080020F4()].fC2;
             (*(u16 *)((u8 *)(saveData64)+0x24)) = (u16) savePlayers64[sub_080020F4()].fC6;
-            temp_r0_2 = (u8 *)&savePlayers64[sub_080020F4()];
-            *(struct SavePair64 *)(saveData64+0x30)=*(struct SavePair64 *)(temp_r0_2+0x8C);
+{u32 id=sub_080020F4(); u8 *d=saveData64; u8 *p=(u8 *)&savePlayers64[id]; *(struct SavePair64 *)(d+0x30)=*(struct SavePair64 *)(p+0x8C);}
             (*(u32 *)((u8 *)(saveData64)+0x2C)) = (s32) (saveFlags64 & 0xFFFFFEFF);
-            var_r5_2=0; do { *(struct SaveItem64 *)(saveData64+0x1DC+var_r5_2*32)=((struct SaveItem64 *)saveItems64)[var_r5_2]; var_r5_2++; } while(var_r5_2<=15);
-            var_r5_3 = 0;
+            var_r5=0; do { {register u8 *d asm("r0") = saveData64; asm("" : "+r"(d)); ((struct SaveFile64 *)d)->items[var_r5]=((struct SaveItem64 *)saveItems64)[var_r5];} var_r5++; } while(var_r5<=15);
+            var_r5 = 0;
             do {
-                temp_r2 = var_r5_3 * 2;
-                *(u16 *)(saveData64 + 0xDC + temp_r2) = *(u16 *)(saveStats64 + 0x22 + temp_r2);
-                var_r5_3 += 1;
-            } while (var_r5_3 <= 9U);
-            var_r5_4=0; var_r4=0; do { *(struct SaveEntry64 *)(saveData64+0x3DC+var_r4)=*(struct SaveEntry64 *)(*(u8 **)(savePlayerPtr64+0x14C*sub_080020F4())+var_r4); var_r4+=40; var_r5_4++; } while(var_r5_4<=7);
+                {u8 *d=saveData64; u32 o; u8 *s; asm("" : "+r"(d)); o=var_r5*2; d+=0xDC; d+=o; s=saveStats64+0x22; *(u16*)d=*(u16*)(s+o);}
+                var_r5 += 1;
+            } while (var_r5 <= 9U);
+            {register u8 *pp asm("r6"); var_r5=0; pp=savePlayerPtr64; asm("" : "+r"(pp)); var_r4=0; do { *(struct SaveEntry64 *)(saveData64+var_r4+0x3DC)=*(struct SaveEntry64 *)(var_r4+*(u32 *)(pp+0x14C*sub_080020F4())); var_r4+=40; var_r5++; } while(var_r5<=7);}
         }
         if (saveWrite64() == 0) {
             sub_08006BF8();
@@ -1488,9 +1469,7 @@ if (savePlayers64[sub_080020F4()].f2E == 0){
             } while (sub_0805EEFC((void *) temp_r4) == 0);
             sub_0801ABE8(0xA);
 while(sub_0801AAE0() == 0) sub_080003F0();
-block_101:
-            sub_0800CBAC();
-            SoftReset(0);
+            goto block_101;
         } else {
             sub_08006BF8();
             temp_r4_2 = sub_0805DF38(1U, 0xEU, 0x19U, 2U, 0x3C, 0x1403DAU);
@@ -1513,11 +1492,11 @@ while(sub_080681F4(arg0) == 0) sub_080003F0();
             return;
         }
         sub_08006DAC();
-        var_r5_9 = 0;
+        var_r5 = 0;
         do {
             sub_080003F0();
-            var_r5_9 += 1;
-        } while (var_r5_9 <= 9U);
+            var_r5 += 1;
+        } while (var_r5 <= 9U);
         sub_08006C14();
         memcpy(saveData64, saveStats64 + 0x70, 0x51C);
         (*(u32 *)((u8 *)(saveData64)+0x0)) = 2;
@@ -1541,46 +1520,43 @@ while(sub_0801AAE0() == 0) sub_080003F0();
     } else {
         if (sub_08002204() != 0) {
             if (sub_0800CE30() == 0) {
-                (*(u32 *)((u8 *)(saveData64)+0x4)) = (s32) (*(u32 *)((u8 *)(saveStats64)+0x74));
-                (*(u32 *)((u8 *)(saveData64)+0x8)) = (s32) (*(u32 *)((u8 *)(saveStats64)+0x78));
-                var_r5_10 = 0;
+                {u8 *d=saveData64; u8 *s=saveStats64; *(u32*)(d+0x4)=*(u32*)(s+0x74); *(u32*)(d+0x8)=*(u32*)(s+0x78);}
+                var_r5 = 0;
                 do {
-                    *(saveData64 + 0x140 + var_r5_10) = *(saveStats64 + 0x1B0 + var_r5_10);
-                    var_r5_10 += 1;
-                } while (var_r5_10 <= 6U);
-                var_r5_11 = 0;
+                    {u8 *d=saveData64+0x140; u8 *s; d+=var_r5; s=saveStats64+0x1B0; *d=s[var_r5];}
+                    var_r5 += 1;
+                } while (var_r5 <= 6U);
+                var_r5 = 0;
                 do {
-                    *(saveData64 + 0x147 + var_r5_11) = *(saveStats64 + 0x1B7 + var_r5_11);
-                    var_r5_11 += 1;
-                } while (var_r5_11 <= 4U);
+                    {u8 *d=saveData64+0x147; u8 *s; d+=var_r5; s=saveStats64+0x1B7; *d=s[var_r5];}
+                    var_r5 += 1;
+                } while (var_r5 <= 4U);
             } else {
-                (*(u32 *)((u8 *)(saveData64)+0xC)) = (s32) (*(u32 *)((u8 *)(saveStats64)+0x7C));
-                (*(u32 *)((u8 *)(saveData64)+0x10)) = (s32) (*(u32 *)((u8 *)(saveStats64)+0x80));
-                var_r5_12 = 0;
+                {u8 *d=saveData64; u8 *s=saveStats64; *(u32*)(d+0xC)=*(u32*)(s+0x7C); *(u32*)(d+0x10)=*(u32*)(s+0x80);}
+                var_r5 = 0;
                 do {
-                    *(saveData64 + 0x14C + var_r5_12) = *(saveStats64 + 0x1BC + var_r5_12);
-                    var_r5_12 += 1;
-                } while (var_r5_12 <= 6U);
-                var_r5_13 = 0;
+                    {u8 *d=saveData64+0x14C; u8 *s; d+=var_r5; s=saveStats64+0x1BC; *d=s[var_r5];}
+                    var_r5 += 1;
+                } while (var_r5 <= 6U);
+                var_r5 = 0;
                 do {
-                    *(saveData64 + 0x153 + var_r5_13) = *(saveStats64 + 0x1C3 + var_r5_13);
-                    var_r5_13 += 1;
-                } while (var_r5_13 <= 4U);
+                    {u8 *d=saveData64+0x153; u8 *s; d+=var_r5; s=saveStats64+0x1C3; *d=s[var_r5];}
+                    var_r5 += 1;
+                } while (var_r5 <= 4U);
             }
         }
-        var_r5_14 = 0;
+        var_r5 = 0;
         do {
-            (*(u16 *)((u8 *)((saveData64 + (var_r5_14 << 5)))+0x1E6)) = 0;
-            var_r5_14 += 1;
-        } while (var_r5_14 <= 0xFU);
-        (*(u32 *)((u8 *)(saveData64)+0x0)) = 2;
-        (*(u16 *)((u8 *)(saveData64)+0xDA)) = (u16) (*(u16 *)((u8 *)(saveStats64)+0x14A));
+{u8 *d=saveData64; *(u16*)(d+(var_r5<<5)+0x1E6)=0;}
+            var_r5 += 1;
+        } while (var_r5 <= 0xFU);
+        {u8 *d=saveData64; *(u32*)d=2; ((struct SaveFile64 *)d)->hDA=*(u16*)(saveStats64+0x14A);}
         sub_08006DAC();
-        var_r5_15 = 0;
+        var_r5 = 0;
         do {
             sub_080003F0();
-            var_r5_15 += 1;
-        } while (var_r5_15 <= 9U);
+            var_r5 += 1;
+        } while (var_r5 <= 9U);
         sub_08006C14();
         if ((sub_0800CB9C() != 0) && (sub_08002204() != 0)) {
             sub_080021D4();
@@ -1593,7 +1569,10 @@ while(sub_0801AAE0() == 0) sub_080003F0();
             } while (sub_0805EEFC((void *) temp_r4_5) == 0);
             sub_0801ABE8(0xA);
 while(sub_0801AAE0() == 0) sub_080003F0();
-            goto block_101;
+block_101:
+            sub_0800CBAC();
+            SoftReset(0);
+            goto block_104;
         }
         sub_08006BF8();
         temp_r4_6 = sub_0805DF38(1U, 0xEU, 0x19U, 2U, 0x3C, 0x1403DAU);
@@ -1605,9 +1584,6 @@ while(sub_0801AAE0() == 0) sub_080003F0();
 block_104:
     sub_0800CDE4();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08061E44);
-#endif
 #ifdef NONMATCHING
 struct Pt624 { s32 x, y; };
 struct Spr624 {
