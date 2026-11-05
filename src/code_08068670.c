@@ -3604,10 +3604,9 @@ testPlayers:
                     e->strength = level * 20;
                 }
                 foundEffect = 1;
-                break;
             }
             i++; e++;
-        } while (i <= 7);
+        } while (i <= 7 && foundEffect == 0);
         if (foundEffect != 0)
             goto clear;
         e = start; i = 0;
@@ -3641,10 +3640,9 @@ clear:
                             e->strength = level * 20;
                         }
                         foundEffect = 1;
-                        break;
                     }
                     i++; e++;
-                } while (i <= 7);
+                } while (i <= 7 && foundEffect == 0);
                 if (foundEffect != 0)
                     goto finish;
                 e = p->effects; i = 0;
