@@ -1236,7 +1236,6 @@ void sub_08094EE4(void)
         }
     }
 }
-#ifdef NONMATCHING
 struct Anim94 {u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24];};
 struct Ent94 {s32 x,y; u8 state,visible,index,delay; u16 timer,anim,frame,tick,result,pad;};
 struct Pos94 {s32 x,y;};
@@ -1263,8 +1262,8 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     u16 sp84[1];
     u16 sp86[1];
     struct Pos94 base;
-    u32 sp90;
-    s32 sp94;
+    u32 sp90; u16 *sp90p = (u16 *)&sp90;
+    s32 sp94; u8 *sp94p = (u8 *)&sp94;
     u32 sp98;
     s32 sp9C;
     s32 spA0;
@@ -1326,13 +1325,7 @@ void sub_08094F3C(s8 arg0, s32 arg1) {
     var_r8 = 7;
     f94_0805865C(0x198);
 loop_4:
-    sp0 = sp98;
-    {
-        register u32 zero asm("r0") = 0;
-        asm("" : "+r"(zero));
-        sp4 = (u8 *)zero;
-    }
-    f94_0800903C(spA4, spA8, 1, sp94, sp0, sp4);
+    f94_0800903C(spA4, spA8, 1, sp94, sp98, 0);
     temp_r0 = spA0 + 2;
     spA0 = (s32) temp_r0;
     f94_08095610(temp_r0);
@@ -1448,20 +1441,16 @@ block_37:
         }
         f94_08007974(base.x >> 8, base.y >> 8, 0, sp80, 0, NULL, 1, sp18.payload, sp18.f8, sp18.f0);
         break;
-    case 1:
-        sp0 = 0;
-        temp_r6 = f94_08065370(&sp4C, 0U, &sp84[0], &sp86[0], sp0);
+    case 1: {
+        register u16 *p84 asm("r4") = &sp84[0]; register u16 *p86 asm("r3") = &sp86[0]; register s32 z asm("r5"); asm("" : "+r"(p84)); z = 0;
+        temp_r6 = f94_08065370(&sp4C, 0U, p84, p86, z);
         if (v94_03002344 & 1) {
             f94_08000AF0(0x11U, sp4C.fC + 0x100, 1U);
-            sp0 = 0;
-            sp4 = &sp4C.payload[0];
-            sp8 = sp4C.f8;
-            spC = (u8 *) sp4C.f0;
-            f94_08007870(particle.x, particle.y, 0, sp84[0], sp0, sp4, sp8, spC);
+            f94_08007870(particle.x, particle.y, 0, *p84, z, &sp4C.payload[0], sp4C.f8, sp4C.f0);
         }
         if (temp_r6 != 0) {
-            sp86[0] = 0;
-            sp84[0] = 0;
+            sp86[0] = z;
+            sp84[0] = z;
             randomValue=f94_0800086C(); tableValue=v94_080B9704[spA0 + 0x40];
                 var_r0_4 = (s16) (randomValue % 48);
             if ((s32) var_r0_4 < 0) {
@@ -1487,7 +1476,7 @@ block_50:
 block_51:
             var_r8 = 1;
         }
-        break;
+        break; }
     case 0:
         temp_r1_2 = sp90;
         sp90 = (u32) (u16) (temp_r1_2 + 1);
@@ -1515,9 +1504,6 @@ block_51:
     f94_0800903C(0, 0, 0, 0, sp0, sp4);
     f94_080009F8(0xF00, 0x8000, 0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08094F3C);
-#endif
 struct AffineControl98 {u16 scaleX,scaleY,x,y,dx,dy;u8 angle;};
 extern struct AffineControl98 affine98 asm("gUnk_03000280");
 extern u16 affineRegs98[] asm("gUnk_03001250");
