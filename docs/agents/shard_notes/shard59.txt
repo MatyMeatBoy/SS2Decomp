@@ -40,3 +40,11 @@ sub_0805B2C4: draft improved 112 -> 82 diff lines (same 518 bytes).
   Proposed name AllocateFieldEffectNearPosition (proposal only). Evidence:
   canonical sub_0805B2C4 ASM at671bfa45, slots05D58, field grid00124, AE50 and
   inline occupied-position search, increasing counter and final active flag.
+
+Follow-up: scope the initial count and initialize it after the two minima.
+Keep the grid X coordinate local to its outer iteration. Stage the final
+kind and active stores in locals. The draft remains 518 bytes and the
+address-insensitive diff drops from 32 to 22 lines, with 11 Thumb halfwords
+and no normalized relocations differing. Strict NO MATCH. The normal ROM,
+NONMATCHING build and tree checks pass. Thirty-seven emulated cases agree
+on return value, collision calls, slot data, grid and counter.
