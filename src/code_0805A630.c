@@ -1820,14 +1820,14 @@ extern struct C7B8Entry c7b8TableA[][20][12] asm("gUnk_084E7BE8");
 extern struct C7B8Entry c7b8TableB[][20][12] asm("gUnk_084E99E8");
 extern struct C7B8Entry c7b8TableC[][12] asm("gUnk_084EB7E8");
 /* Callers ignore the result; the original has no return value. */
-s32 sub_0805C7B8(u32 mode)
+void c7b8_void(u32) asm("sub_0805C7B8");
+void c7b8_void(u32 mode)
 {
     struct C7B8Pick picks[12];
     u32 area;
     struct C7B8Slot *slotsA;
     struct C7B8Slot *slotsB;
     struct C7B8Slot *slotsC;
-    struct C7B8Slot *dst;
     struct C7B8Entry *entry;
     u32 count;
     u32 bits;
@@ -1861,8 +1861,8 @@ s32 sub_0805C7B8(u32 mode)
     area = sub_0801DE60();
 
     empty = 0;
-    picked = 0;
     entry = c7b8TableA[area][count];
+    picked = 0;
     for (i = 0; i <= 11; i++) {
         slotsA[i].type = entry[i].type;
         slotsA[i].arg = entry[i].arg;
@@ -1890,23 +1890,25 @@ s32 sub_0805C7B8(u32 mode)
             else
                 i--;
         }
-        dst = &slotsA[9];
-        for (i = 0; i < picked; i++) {
-            if (picks[i].used != 0) {
-                *dst = slotsA[picks[i].index];
-                slotsA[i].f4 = 0;
-                slotsA[i].f6 = 0;
-                slotsA[i].f7 = 0;
-                slotsA[i].f8 = 0;
-                sub_0805C208(dst, 1);
-                dst++;
+        {
+            struct C7B8Slot *dst = &slotsA[9];
+            for (i = 0; i < picked; i++) {
+                if (picks[i].used != 0) {
+                    *dst = slotsA[picks[i].index];
+                    slotsA[i].f4 = 0;
+                    slotsA[i].f6 = 0;
+                    slotsA[i].f7 = 0;
+                    slotsA[i].f8 = 0;
+                    sub_0805C208(dst, 1);
+                    dst++;
+                }
             }
         }
     }
 
     empty = 0;
-    picked = 0;
     entry = c7b8TableB[area][count];
+    picked = 0;
     for (i = 0; i <= 11; i++) {
         slotsB[i].type = entry[i].type;
         slotsB[i].arg = entry[i].arg;
@@ -1934,16 +1936,18 @@ s32 sub_0805C7B8(u32 mode)
             else
                 i--;
         }
-        dst = &slotsB[9];
-        for (i = 0; i < picked; i++) {
-            if (picks[i].used != 0) {
-                *dst = slotsB[picks[i].index];
-                slotsB[i].f4 = 0;
-                slotsB[i].f6 = 0;
-                slotsB[i].f7 = 0;
-                slotsB[i].f8 = 0;
-                sub_0805C208(dst, 1);
-                dst++;
+        {
+            struct C7B8Slot *dst = &slotsB[9];
+            for (i = 0; i < picked; i++) {
+                if (picks[i].used != 0) {
+                    *dst = slotsB[picks[i].index];
+                    slotsB[i].f4 = 0;
+                    slotsB[i].f6 = 0;
+                    slotsB[i].f7 = 0;
+                    slotsB[i].f8 = 0;
+                    sub_0805C208(dst, 1);
+                    dst++;
+                }
             }
         }
     }
@@ -1952,7 +1956,8 @@ s32 sub_0805C7B8(u32 mode)
         mode = 0;
     entry = c7b8TableC[mode];
     for (i = 0; i <= 11; i++) {
-        type = slotsC[i].type = entry[i].type;
+        type = entry[i].type;
+        slotsC[i].type = type;
         slotsC[i].arg = entry[i].arg;
         if (type == 2) {
             slotsC[i].f8 = 0;
