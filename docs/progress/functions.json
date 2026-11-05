@@ -10321,7 +10321,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4550,
+          "line": 4554,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -10395,7 +10395,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5369,
+          "line": 5373,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -10469,7 +10469,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5865,
+          "line": 5869,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
         }
       ]
@@ -10492,7 +10492,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5959,
+          "line": 5963,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
         }
       ]
@@ -30737,14 +30737,14 @@
       "name": "sub_0809F018",
       "addr": 134869016,
       "size": 1168,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x0809F018",
       "canonical_symbol": "sub_0809F018",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0809F018",
       "name_status": "unidentified",
       "name_source": null,
@@ -31009,14 +31009,14 @@
       "name": "sub_080A0B44",
       "addr": 134875972,
       "size": 1056,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x080A0B44",
       "canonical_symbol": "sub_080A0B44",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080A0B44",
       "name_status": "unidentified",
       "name_source": null,
@@ -31482,7 +31482,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 3160,
+          "line": 3305,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
