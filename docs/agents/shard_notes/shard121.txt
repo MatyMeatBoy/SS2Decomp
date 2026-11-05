@@ -28,3 +28,20 @@
   and relocations were checked against the production NONMATCHING object.
   The unbound rhythm mask matches the bound-mask candidate without needing
   an additional explicit register binding. No permuter was launched.
+
+2026-11-04 codex-solo, ply_note at 0x080B6E24, matching C checkpoint:
+  The 536-byte interval now matches normalized bytes and relocations with the
+  engine's reviewed label, result-sign, byte-loop and later-pool options.
+  The real module nmdiff is MATCH. Removing the NONMATCHING wrapper and the
+  original ASM also passes the complete normal ROM comparison, NONMATCHING
+  build and check_tree (zero errors).
+
+  The C algorithm and four empty lifetime constraints are unchanged from the
+  earlier source-shape checkpoint. No executable ASM was added. The inherited
+  naked entry/return frame remains explicit ABI glue; note decoding, channel
+  selection, field updates, modulation and frequency calculations remain C.
+  Full comparisons are retained through proven label edges, ADD's sign uses
+  PL/MI, the byte-seeded counter has a bounded range proof, and the two data
+  literals use a conservative later barrier. None uses a function/address
+  code-generation exception. Engine module activation and the compiler must
+  be integrated before delivering this separately claimed source conversion.

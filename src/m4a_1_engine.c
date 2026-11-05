@@ -42,10 +42,8 @@ void TrackStop(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
     }
 }
 
-#ifdef NONMATCHING
-/* SDK hand-written routine; the naked draft retains its explicit ABI frame.
-   Remaining differences include four redundant comparisons and their branch
-   and literal-pool placement effects. Keep the original ASM fallback. */
+/* SDK routine with its explicit naked ABI frame. All note decoding,
+   channel selection, memory updates and calculations remain C. */
 struct NoteFrame121 {
     struct MusicPlayerInfo *player;
     struct SoundInfo *sound;
@@ -278,9 +276,6 @@ chosen:
 ret:
     asm("add sp, #0x18\n\tpop {r0, r1, r2, r3, r4, r5, r6, r7}\n\tmov r8, r0\n\tmov r9, r1\n\tmov sl, r2\n\tmov fp, r3\n\tpop {r0}\n\tbx r0");
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/m4a_1_engine", ply_note);
-#endif
 
 void ply_endtie(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg) __attribute__((naked));
 void ply_endtie(struct MusicPlayerInfo *unused, struct MusicPlayerTrack *arg)
