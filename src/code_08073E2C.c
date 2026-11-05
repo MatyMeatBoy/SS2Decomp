@@ -54,7 +54,6 @@ void sub_08073E2C_v(u32 a, u32 b, u32 c, u32 d)
     sub_08000274_2(t, gInfo3E2C + off);
     gMask3E2C |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Pos076EE8 { u16 x; u16 y; };
 struct Ply076EE8 { u16 f0; u8 pad2[0x66]; u8 team; u8 pad69[0x23]; s32 x; s32 y; u8 pad94[0xB4]; struct Pos076EE8 *pos; };
 struct Ene076EE8 { u8 pad0[2]; u16 f2; u8 pad4[8]; u16 state; u8 padE[6]; s32 x; s32 y; u8 pad1C[0x40]; s16 hp; u8 pad5E[0x17E]; u8 alive; u8 pad1DD[0x103]; };
@@ -102,17 +101,30 @@ u16 sub_08073EE8(u16 width, s32 range)
                 dx = (cand->pos->x >> 4) - (player->x >> 8);
                 dy = ((u32)(cand->pos->y << 20) >> 20) - (player->y >> 8);
                 d = diffEE8(angEE8(dx, dy), dirEE8(&player->pos));
-                if (d <= width) {
-                    dist = Sqrt(dx * dx + dy * dy);
-                    if ((u32)range > dist && best > dist) {
-                        best = dist;
-                        nearest = i;
-                    }
+                {
+                    /* The ROM reloads the spilled limits into r2/r3 here. */
+                    register u32 w asm("r2") = width;
+                    asm("" : "+r"(w));
+                    if (d > (s32)w)
+                        continue;
+                }
+                dist = Sqrt(dx * dx + dy * dy);
+                {
+                    register u32 rg asm("r3") = range;
+                    asm("" : "+r"(rg));
+                    if (rg <= dist)
+                        continue;
+                }
+                if (best > dist) {
+                    best = dist;
+                    nearest = i;
                 }
             }
         }
-        if (nearest != -1)
-            return players076EE8[nearest].f0;
+        if (nearest != -1) {
+            cand = &players076EE8[nearest];
+            return cand->f0;
+        }
     }
     best = 0xFFFF;
     nearest = -1;
@@ -142,10 +154,6 @@ u16 sub_08073EE8(u16 width, s32 range)
     e = &enemies076EE8[nearest];
     return e->f2;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08073EE8);
-#endif
-#ifdef NONMATCHING
 extern struct Ply076EE8 players07614C[] asm("gUnk_03003CE0");
 extern struct Ene076EE8 *enemies07614C asm("gUnk_030056F4");
 extern u32 active07614C asm("gUnk_030056FC");
@@ -182,17 +190,32 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
                 dx = (cand->pos->x >> 4) - (player->pos->x >> 4);
                 dy = ((u32)(cand->pos->y << 20) >> 20) - ((u32)(player->pos->y << 20) >> 20);
                 d = diffB414C(ang414C(dx, dy), dir414C(&player->pos));
-                if (d <= width) {
-                    dist = Sqrt(dx * dx + dy * dy);
-                    if (range > dist && best > dist) {
-                        best = dist;
-                        nearest = i;
-                    }
+                {
+                    /* The ROM reloads the spilled limits into r2/r1/r2 here. */
+                    register u32 w asm("r2") = width;
+                    asm("" : "+r"(w));
+                    if (d > (s32)w)
+                        continue;
                 }
+                dist = Sqrt(dx * dx + dy * dy);
+                {
+                    register u32 rg asm("r1") = range;
+                    if (rg <= dist)
+                        continue;
+                }
+                {
+                    register u32 b asm("r2") = best;
+                    if (b <= dist)
+                        continue;
+                }
+                best = dist;
+                nearest = i;
             }
         }
-        if (nearest != -1)
-            return players07614C[nearest].f0;
+        if (nearest != -1) {
+            cand = &players07614C[nearest];
+            return cand->f0;
+        }
     }
     best = 0xFFFF;
     nearest = -1;
@@ -220,9 +243,6 @@ s32 sub_0807414C(struct Ply076EE8 *player, u16 width, u32 range)
     e = &enemies07614C[nearest];
     return e->f2;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_0807414C);
-#endif
 struct Position076398 {u16 x,y;};
 struct Player076398 {u16 id;u8 pad2[0x66];u8 team;u8 pad69[0xDF];struct Position076398 *position;};
 extern struct Player076398 players076398[] asm("gUnk_03003CE0");
