@@ -17,3 +17,20 @@ sub_0806A19C update: draft now same size (1776), ~95 decomp.py diff lines. Keys:
   position branches (`tbl = Dir; idx = ..; angle = tbl[idx]`); y offset via `(&Off[0].y)[i*2]`.
   Left: angle<<16 PRE reg (sp94) set in both arms of the following `if` (ROM stores it right after x/y init),
   so the ROM reloads angle from its slot; ArcTan a/a0 register swap (r4/r2) and level<<19 temp regs.
+
+2026-11-05 codex-solo, sub_08069C44: keep the position pointer live before
+the flight loop and use it for the Y store. This puts the loop's position,
+angle and frame-table values in their ROM stack slots. The address-insensitive
+disassembly diff falls from 95 to 31 lines. The C draft is 1376 bytes against
+1368 in the original and strict comparison still differs. ROM comparison,
+NONMATCHING and check_tree pass. Twelve emulated cases agree on call traces,
+player state and flags. Remaining differences include an extra spill of the
+position pointer, frame size, animation operand order and the Y table literal.
+
+MATCH follow-up: compute the position alias in the effect branch and use
+it for both the Y store and the effect call. One empty read-write constraint
+keeps the shared address available without generating instructions. Separate
+frame index and animation base locals preserve the original Thumb add order.
+Strict comparison matches all 1368 bytes and relocations. With C active and
+the ASM removed, the normal ROM matches, NONMATCHING builds and tree checks
+report zero errors.
