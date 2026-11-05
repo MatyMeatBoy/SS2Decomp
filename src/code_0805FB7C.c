@@ -2131,7 +2131,7 @@ void t65_popupImplementation(u32 packed,u32 arg)
     style=5;mode=-1;base=t65_popupResource;asm("" : "+r"(style), "+r"(mode), "+r"(base));table=base;
     draw.resource=resource;draw.style=style;draw.mode=mode;
     first=sub_08006EE0(resource,table);draw.data=(u8 *)first;
-    {register u16 *p asm("r3")=&sizes[0];asm("" : "+r"(p));widthPtr=p;}initialHeight=&sizes[1];initialX=&xy[0];initialY=&xy[1];
+    widthPtr=&sizes[0];initialHeight=&sizes[1];initialX=&xy[0];initialY=&xy[1];
     asm("" : "+r"(widthPtr), "+r"(initialHeight), "+r"(initialX), "+r"(initialY));
     if(first) {
         resource&=0xFFFF;
@@ -2147,14 +2147,33 @@ void t65_popupImplementation(u32 packed,u32 arg)
     if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC() && !sub_0800CD34())
         sub_08000AF0(sound+0x10,draw.sound+0x20,1);
     draw.palette[0] = 5;
-    draw.palette[1] = *(u8 *)&sound;
+    draw.palette[1] = sound;
     py = pos >> 16;
-    {register u32 mask asm("r0")=0xFFFF;register u32 coord asm("r1");asm("" : "+r"(mask));coord=pos;asm("" : "+r"(coord));coord&=mask;asm("" : "+r"(coord));px=coord;}
-    *widthPtr=0;*initialHeight=0;
-    xPtr=initialX;yPtr=initialY;
-    shifted = px << 16;
+    {
+        register u32 mask asm("r0") = 0xFFFF;
+        register u32 coord asm("r1");
+        asm("" : "+r"(mask));
+        coord = pos;
+        asm("" : "+r"(coord));
+        coord &= mask;
+        asm("" : "+r"(coord));
+        px = coord;
+        {
+            register u16 *wp asm("r3") = widthPtr;
+            asm("" : "+r"(wp));
+            *wp = 0;
+        }
+        *initialHeight = 0;
+        xPtr = initialX;
+        yPtr = initialY;
+        shifted = coord << 16;
+    }
     loop:
-        t65_position((s32)shifted>>16,(s16)py,xPtr,yPtr,0x30,0);
+        {
+            register u32 rawY asm("r6") = py;
+            asm("" : : "r"(rawY));
+            t65_position((s32)shifted >> 16, (s16)rawY, xPtr, yPtr, 0x30, 0);
+        }
         done = (u16)sub_08008CC4(10,&sizes[0],&sizes[1],draw.data,0);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC() && !sub_0800CD34()) {
             if (*t65_popupTasks != 0) {
