@@ -1811,7 +1811,6 @@ tail:
 fail:
     return 0;
 }
-#ifdef NONMATCHING
 struct C7B8Slot { u16 type; u16 arg; u16 f4; u8 f6, f7, f8, f9; u8 padA[6]; };
 struct C7B8Entry { s16 type; u16 arg; };
 struct C7B8Pick { u32 index; u32 used; };
@@ -1824,12 +1823,12 @@ void c7b8_void(u32) asm("sub_0805C7B8");
 void c7b8_void(u32 mode)
 {
     struct C7B8Pick picks[12];
-    u32 area;
+    u32 count; u32 area;
     struct C7B8Slot *slotsA;
     struct C7B8Slot *slotsB;
+    u32 k;
     struct C7B8Slot *slotsC;
     struct C7B8Entry *entry;
-    u32 count;
     u32 bits;
     u32 i;
     u32 empty;
@@ -1884,23 +1883,23 @@ void c7b8_void(u32 mode)
     n = sub_080008C8() % (empty + 1);
     if (n != 0) {
         for (i = 0; i < n; i++) {
-            u32 k = sub_080008C8() % picked;
+            k = sub_080008C8() % picked;
             if (picks[k].used == 0)
                 picks[k].used = 1;
             else
                 i--;
         }
         {
-            struct C7B8Slot *dst = &slotsA[9];
+            empty = 0;
             for (i = 0; i < picked; i++) {
                 if (picks[i].used != 0) {
-                    *dst = slotsA[picks[i].index];
+                    slotsA[9 + empty] = slotsA[picks[i].index];
                     slotsA[i].f4 = 0;
                     slotsA[i].f6 = 0;
                     slotsA[i].f7 = 0;
                     slotsA[i].f8 = 0;
-                    sub_0805C208(dst, 1);
-                    dst++;
+                    sub_0805C208(&slotsA[9 + empty], 1);
+                    empty++;
                 }
             }
         }
@@ -1930,23 +1929,23 @@ void c7b8_void(u32 mode)
     n = sub_080008C8() % (empty + 1);
     if (n != 0) {
         for (i = 0; i < n; i++) {
-            u32 k = sub_080008C8() % picked;
+            k = sub_080008C8() % picked;
             if (picks[k].used == 0)
                 picks[k].used = 1;
             else
                 i--;
         }
         {
-            struct C7B8Slot *dst = &slotsB[9];
+            empty = 0;
             for (i = 0; i < picked; i++) {
                 if (picks[i].used != 0) {
-                    *dst = slotsB[picks[i].index];
+                    slotsB[9 + empty] = slotsB[picks[i].index];
                     slotsB[i].f4 = 0;
                     slotsB[i].f6 = 0;
                     slotsB[i].f7 = 0;
                     slotsB[i].f8 = 0;
-                    sub_0805C208(dst, 1);
-                    dst++;
+                    sub_0805C208(&slotsB[9 + empty], 1);
+                    empty++;
                 }
             }
         }
@@ -1956,10 +1955,9 @@ void c7b8_void(u32 mode)
         mode = 0;
     entry = c7b8TableC[mode];
     for (i = 0; i <= 11; i++) {
-        type = entry[i].type;
-        slotsC[i].type = type;
+        slotsC[i].type = entry[i].type;
         slotsC[i].arg = entry[i].arg;
-        if (type == 2) {
+        if (slotsC[i].type == 2) {
             slotsC[i].f8 = 0;
             slotsC[i].f4 = 0;
             slotsC[i].f6 = 0;
@@ -1976,9 +1974,6 @@ void c7b8_void(u32 mode)
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805C7B8);
-#endif
 struct Record60 { u16 type, value, timer; u8 a, b, c, d; u8 tail[6]; };
 void sub_0805CB04(s32 index, struct Record60 *out)
 {
