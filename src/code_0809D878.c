@@ -848,7 +848,6 @@ s32 sub_0809EF84(void)
     asm volatile("" : "+r"(status));
     return status;
 }
-#ifdef NONMATCHING
 struct Packed9F018 { u16 x,y; };
 union Tail9F018 { u32 seen[26]; struct {u32 pad[25]; struct Packed9F018 *visual;} remote; };
 struct Player9F018 {
@@ -890,6 +889,7 @@ void sub_0809F018(u16 kind)
     struct Sprite9F018 sprite;
     u16 frame,tick;
     s16 screenX,screenY;
+    s16 *screenXPtr;
     s32 velocity[2];
     s32 inputKind;
     Vec9F018 pos;
@@ -923,54 +923,134 @@ void sub_0809F018(u16 kind)
             if(count==1) {
                 if(inputKind==0) {
                     tgt.x=(s32)((u32)pl[0].x<<8)>>16;
-                    tgt.y=((s32)((u32)playerY09F018<<8)>>16)-12;
+                    {
+                    register s32 *playerY asm("r1") = &playerY09F018;
+                    asm("" : "+r"(playerY));
+                    tgt.y=(s16)(*playerY >> 8)-12;
+                    }
                 }
             } else {
-                switch(inputKind) {
-                case 0:
-                    if(sub_080020F4()==0) {
-                        tgt.x=(s32)((u32)pl[0].x<<8)>>16;
-                        tgt.y=(s32)((u32)playerY09F018<<8)>>16;
-                    } else {
-                        visual=playerV09F018;
-                        tgt.x=visual->x>>4;tgt.y=(u32)(visual->y<<20)>>20;
-                    }
-                    break;
-                case 1:
-                    if(sub_080020F4()==1) {
-                        tgt.x=(s32)((u32)pl[1].x<<8)>>16;
-                        tgt.y=(s32)((u32)playerY19F018<<8)>>16;
-                    } else {
-                        visual=playerV19F018;
-                        tgt.x=visual->x>>4;tgt.y=(u32)(visual->y<<20)>>20;
-                    }
-                    break;
-                case 2:
-                    if(count>2) {
-                        if(sub_080020F4()==2) {
-                            tgt.x=(s32)((u32)pl[2].x<<8)>>16;
-                            tgt.y=(s32)((u32)playerY29F018<<8)>>16;
-                        } else {
-                            visual=playerV29F018;
-                            tgt.x=visual->x>>4;tgt.y=(u32)(visual->y<<20)>>20;
-                        }
-                    }
-                    break;
-                case 3:
-                    if(count==4) {
-                        if(sub_080020F4()==3) {
-                            tgt.x=(s32)((u32)pl[3].x<<8)>>16;
-                            tgt.y=(s32)((u32)playerY39F018<<8)>>16;
-                        } else {
-                            visual=playerV39F018;
-                            tgt.x=visual->x>>4;tgt.y=(u32)(visual->y<<20)>>20;
-                        }
-                    }
-                    break;
+            {
+                register s32 lowerSelector asm("r2") = inputKind;
+                asm("" : "+r"(lowerSelector));
+                if (lowerSelector == 1)
+                    goto player_1;
+                if (lowerSelector > 1)
+                    goto check_upper_players;
+                if (lowerSelector == 0)
+                    goto player_0;
+                goto target_ready;
+            check_upper_players:
+                {
+                    register s32 upperSelector asm("r3") = inputKind;
+                    asm("" : "+r"(upperSelector));
+                    if (upperSelector == 2)
+                        goto player_2;
+                    if (upperSelector == 3)
+                        goto player_3;
+                    goto target_ready;
                 }
+            player_0:
+                {
+                    if (sub_080020F4() == 0) {
+                        tgt.x = (s16)(pl[0].x >> 8);
+                        {
+                            register s32 *playerY asm("r1") = &playerY09F018;
+                            asm("" : "+r"(playerY));
+                            tgt.y = (s16)(*playerY >> 8);
+                        }
+                    } else {
+                        {
+                            register struct Packed9F018 **packedPositionSlot asm("r2") = &playerV09F018;
+                            struct Packed9F018 *packedPosition;
+                            asm("" : "+r"(packedPositionSlot));
+                            packedPosition = *packedPositionSlot;
+                            tgt.x = packedPosition->x >> 4;
+                            tgt.y = ((u32)packedPosition->y << 20) >> 20;
+                        }
+                    }
+                    goto target_ready;
+                }
+            player_1:
+                {
+                    if (sub_080020F4() == 1) {
+                        tgt.x = (s16)(pl[1].x >> 8);
+                        {
+                            register s32 *playerY asm("r3") = &playerY19F018;
+                            asm("" : "+r"(playerY));
+                            tgt.y = (s16)(*playerY >> 8);
+                        }
+                    } else {
+                        {
+                            register struct Packed9F018 **packedPositionSlot asm("r0") = &playerV19F018;
+                            struct Packed9F018 *packedPosition;
+                            asm("" : "+r"(packedPositionSlot));
+                            packedPosition = *packedPositionSlot;
+                            tgt.x = packedPosition->x >> 4;
+                            tgt.y = ((u32)packedPosition->y << 20) >> 20;
+                        }
+                    }
+                    goto target_ready;
+                }
+            player_2:
+                {
+                    {
+                        register u32 playerCount asm("r1") = count;
+                        asm("" : "+r"(playerCount));
+                        if (playerCount <= 2)
+                            goto target_ready;
+                    }
+                    if (sub_080020F4() == 2) {
+                        tgt.x = (s16)(pl[2].x >> 8);
+                        {
+                            register s32 *playerY asm("r2") = &playerY29F018;
+                            asm("" : "+r"(playerY));
+                            tgt.y = (s16)(*playerY >> 8);
+                        }
+                    } else {
+                        {
+                            register struct Packed9F018 **packedPositionSlot asm("r3") = &playerV29F018;
+                            struct Packed9F018 *packedPosition;
+                            asm("" : "+r"(packedPositionSlot));
+                            packedPosition = *packedPositionSlot;
+                            tgt.x = packedPosition->x >> 4;
+                            tgt.y = ((u32)packedPosition->y << 20) >> 20;
+                        }
+                    }
+                    goto target_ready;
+                }
+            player_3:
+                {
+                    {
+                        register u32 playerCount asm("r0") = count;
+                        asm("" : "+r"(playerCount));
+                        if (playerCount != 4)
+                            goto target_ready;
+                    }
+                    if (sub_080020F4() == 3) {
+                        tgt.x = (s16)(pl[3].x >> 8);
+                        {
+                            register s32 *playerY asm("r1") = &playerY39F018;
+                            asm("" : "+r"(playerY));
+                            tgt.y = (s16)(*playerY >> 8);
+                        }
+                    } else {
+                        {
+                            register struct Packed9F018 **packedPositionSlot asm("r2") = &playerV39F018;
+                            struct Packed9F018 *packedPosition;
+                            asm("" : "+r"(packedPositionSlot));
+                            packedPosition = *packedPositionSlot;
+                            tgt.x = packedPosition->x >> 4;
+                            tgt.y = ((u32)packedPosition->y << 20) >> 20;
+                        }
+                    }
+                    goto target_ready;
+                }
+            target_ready:;
+            }
             }
             /* Invalid kinds deliberately leave the incoming target values unspecified. */
-            vector9F018(pos,tgt,velocityPtr);
+            vector9F018(pos,tgt,({ register s32 *arg asm("r3") = velocityPtr; asm("" : "+r"(arg)); arg; }));
         } else {
             pos.x=(s32)((u32)pos.x+(u32)velocity[0]*3);
             pos.y=(s32)((u32)pos.y+(u32)velocityPtr[1]*3);
@@ -981,17 +1061,23 @@ void sub_0809F018(u16 kind)
                 sprite.payload[0]=variant9F018;
                 sub_08000AF0(variant9F018+16,sprite.palette+(actor9F018->paletteOffset<<5),1);
                 anim9F018(&sprite,10,&frame,&tick,1);
-                screen9F018((s32)((u32)pos.x<<8)>>16,(s32)((u32)pos.y<<8)>>16,&screenX,&screenY,zero,zero);
+                {
+                    s32 xarg = (s32)((u32)pos.x << 8) >> 16;
+                    s32 yarg = (s32)((u32)pos.y << 8) >> 16;
+                    asm("" : "+r"(xarg), "+r"(yarg));
+                    screenXPtr = &screenX;
+                    screen9F018(xarg, yarg, screenXPtr, &screenY, zero, zero);
+                }
                 if(countdown!=0) {
                     if(inputKind==0) {
                         if(countdown<=90 && (countdown&1))
-                            object=draw9F018(screenX,160,8,frame,inputKind,sprite.payload,sprite.data,sprite.base);
+                            object=draw9F018(*screenXPtr,160,8,frame,inputKind,sprite.payload,sprite.data,sprite.base);
                         else
-                            object=draw9F018(screenX,160,0,frame,inputKind,sprite.payload,sprite.data,sprite.base);
+                            object=draw9F018(*screenXPtr,160,0,frame,inputKind,sprite.payload,sprite.data,sprite.base);
                         object->y=screenY;
                     }
                 } else {
-                    object=draw9F018(screenX,160,8,frame,countdown,sprite.payload,sprite.data,sprite.base);
+                    object=draw9F018(*screenXPtr,160,8,frame,countdown,sprite.payload,sprite.data,sprite.base);
                     object->y=screenY;
                 }
             }
@@ -999,8 +1085,26 @@ void sub_0809F018(u16 kind)
         if(countdown==1) sub_0805865C(0xB6);
         if(countdown==0) {
             dx=(pos.x>>8)-(players9F018[sub_080020F4()].x>>8);
-            dy=(s16)((pos.y>>8)+12)-(playersY9F018[sub_080020F4()].y>>8);
-            distance=Sqrt((u32)((s32)dx*dx)+(u32)((s32)dy*dy));
+            {
+                register u32 playerOffset asm("r0") = sub_080020F4();
+                s32 effectY = (pos.y >> 8) + 12;
+                register s32 *playerYBase asm("r3");
+                playerOffset *= 0x14C;
+                asm("" : "+r"(playerOffset));
+                playerYBase = (s32 *)playersY9F018;
+                asm("" : "+r"(playerYBase));
+                dy = effectY - (*(s32 *)(playerOffset + (u32)playerYBase) >> 8);
+            }
+            distance=Sqrt((u32)((s32)dx*dx)+(u32)({
+                register s32 square asm("r2") = dy;
+                register s32 sum asm("r1");
+                asm("" : "+r"(square));
+                square *= dy;
+                asm("" : "+r"(square));
+                sum = square;
+                asm("" : "+r"(sum));
+                sum;
+            }));
             if(hit!=0) goto next9F018;
             if(distance>11) goto next9F018;
             if(sub_0800CDF8()!=0) goto next9F018;
@@ -1017,7 +1121,12 @@ void sub_0809F018(u16 kind)
             else effect9F018(2,12,1);
             pl[sub_080020F4()].motion=0xFFFE;
             player=sub_080020F4();actor=actor9F018;
-            pl[player].tail.seen[actor->id]=actor->serial++;
+            {
+                u32 offset = actor->id * 4 + player * 0x14C;
+                register u8 *base asm("r0") = (u8 *)pl + 0xE4;
+                asm("" : "+r"(base));
+                *(u32 *)(offset + (u32)base) = actor->serial++;
+            }
             hit=1;
         }
 next9F018:
@@ -1025,11 +1134,12 @@ next9F018:
         remaining=(u16)(remaining-1);
     } while(remaining!=0xFFFF);
 finish9F018:
-    *(u32 *)((u8 *)sub_0800048C()+8)=0;
+    {
+        register u8 *task asm("r1") = (u8 *)sub_0800048C();
+        asm("" : "+r"(task));
+        *(u32 *)(task + 8) = 0;
+    }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809F018);
-#endif
 struct Actor9F4A8 {
     u16 id; u8 pad2[10]; u16 state; u8 padE[6];
     s32 x, y; u8 pad1C[0x34]; u32 serial;
