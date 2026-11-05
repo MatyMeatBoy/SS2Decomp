@@ -386,11 +386,11 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         if (gUnk_03003470 == 2) {
             if (suffix != NULL) {
                 i = 0;
-                if (suffix[gUnk_03003470 * 31] != 0) {
+                if (suffix[62] != 0) {
                     do {
-                        buf[i + n] = suffix[i + gUnk_03003470 * 31];
+                        buf[i + n] = suffix[i + 62];
                         i++;
-                    } while (suffix[i + gUnk_03003470 * 31] != 0);
+                    } while (suffix[i + 62] != 0);
                 }
                 n += i;
                 buf[n] = 0x51;
