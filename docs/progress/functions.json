@@ -6208,7 +6208,7 @@
       "evidence": [
         {
           "source": "src/code_0800CF58.c",
-          "line": 6308,
+          "line": 6309,
           "detail": "Existing C definition with an asm alias to the canonical symbol: hud14170"
         }
       ]
@@ -10321,7 +10321,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4518,
+          "line": 4550,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -10395,7 +10395,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5337,
+          "line": 5369,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -10469,7 +10469,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5833,
+          "line": 5865,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
         }
       ]
@@ -10492,7 +10492,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5927,
+          "line": 5959,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
         }
       ]
@@ -30374,14 +30374,14 @@
       "name": "sub_0809C4E8",
       "addr": 134857960,
       "size": 1036,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08097E28",
       "kind": "c",
       "cat": "game",
       "address": "0x0809C4E8",
       "canonical_symbol": "sub_0809C4E8",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0809C4E8",
       "name_status": "unidentified",
       "name_source": null,
