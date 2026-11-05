@@ -1653,7 +1653,6 @@ echeck:
     }}
 }
 #undef COPY4
-#ifdef NONMATCHING
 struct Packet20680 {u32 player:8;u32 power:8;u32 impulse:8;u32 direction:8;u32 amount:16;u32 unused:16;};
 extern u8 *inv20680 asm("gUnk_030034E0");
 extern u8 players20680[] asm("gUnk_03003CE0");
@@ -1802,7 +1801,17 @@ void sub_08020680(u8 *e)
         counter20680(*(u32 *)(p+0x8C),*(u32 *)(p+0x90));
         dmg=amtB20680(e,p);
         if(dmg&0x8000) dmg&=0x7FFF;
-        *(u16 *)(p+0x8A)+=(dmg>>2)?(zz=0,dmg>>2):(zz=0,1);
+        {
+            /* Original keeps the counter address in r0, the sum in r1 and zz live in r4. */
+            register u16 *hp asm("r0") = (u16 *)(p+0x8A);
+            register u32 v asm("r1");
+            register u32 cur asm("r2") = *hp;
+            if (dmg>>2) v = cur + (dmg>>2);
+            else v = cur + 1;
+            zz = 0;
+            asm("" : "+r"(zz));
+            *hp = v;
+        }
         hist[*(u16 *)e]=*(u32 *)(e+0x50);
         *(u32 *)(p+0x110)=*(u16 *)e+5;
         sub_0805865C(0x164);
@@ -1822,15 +1831,13 @@ void sub_08020680(u8 *e)
         {u16 sid=*(u16 *)p; *(u16 *)(e+0x58)=sid;}
         *(u16 *)(e+0x5A)|=1<<*(u16 *)p;
         if(e[0x226]!=3) {u16 *a=(u16 *)(e+0x68); u16 v=0xFFFE; *a=v;}
+        asm("" : : "r"(zz));
         notify20680(&packet);
     } else {
         ((struct PH20680 *)p)->hist[*(u16 *)e]=*(u32 *)(e+0x50);
         sub_0805865C(0x55);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0801E244", sub_08020680);
-#endif
 extern void t21_BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 void t21_20D40(s32 arg0, s32 arg1) asm("sub_08020D40");
 void t21_20D40(s32 arg0, s32 arg1)
