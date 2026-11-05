@@ -4210,11 +4210,11 @@ void sub_08026858(void) {
     u32 temp_r2;
     u32 var_r4;
     u32 var_r5_2;
-    u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
+    u32 var_r7; /* Register-seeded below; draft equivalence remains unproven. */
     u8 *temp_r4;
     register struct T24Net08026858 *temp_r2_2 asm("r2");
 
-    /* Original reads the prior r7 value before the first player-count pass. */
+    /* The original first count samples r7, holding the saved incoming sl. */
     frame = 0;
     phase = 0;
     var_sl = 0;
@@ -4252,6 +4252,8 @@ void sub_08026858(void) {
             goto block_57;
         }
     }
+    /* Back edges skip this single entry capture of the original register seed. */
+    asm("" : "=r"(var_r7));
 loop_8:
     goto poll_input;
 retry_input:
@@ -4408,6 +4410,7 @@ block_51:
             register u32 ybase asm("r2");
             u32 xbits;
             u32 ybits;
+            u32 amount;
             asm("" : "+r"(xbase));
             xbits = xbase << 16;
 
@@ -4415,7 +4418,8 @@ block_51:
             asm("" : "+r"(ybase));
             ybits = ybase << 16;
             asm("" : "+r"(xbits), "+r"(ybits));
-            sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), &x, &y, 0x30, temp_r0_2);
+            amount=0x30;asm("" : "+r"(amount));
+            sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), &x, &y, amount, temp_r0_2);
         }
         sub_08008E74(x, y, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
     }
