@@ -451,55 +451,157 @@ void sub_08009B84(void)
         }
     }
 }
-#ifdef NONMATCHING
-struct MapAnim005 { u8 pad[0x8C]; u16 area,pad8E,index; u8 pad92[14]; u16 frames[4],timers[4]; };
-struct MapPeriods005 { u16 periods[4]; u8 rest[108]; };
+struct MapAnim005 {
+    u8 pad[0x8C];
+    u16 area, pad8E, index;
+    u8 pad92[14];
+    u16 frames[4], timers[4];
+};
+struct MapPeriods005 {
+    u16 periods[4];
+    u8 rest[108];
+};
 extern struct MapAnim005 animState005 asm("gUnk_03003170");
 extern struct MapPeriods005 animPeriods005[] asm("gUnk_08478470");
 extern u16 animLimits005[2] asm("gUnk_08478F4C");
 void sub_0800A03C(void)
 {
-    u32 alternate,i;
-    switch(animState005.area) {
-    case 0:case 1:case 2:case 3: break;
-    case 4: if(animState005.index==12) return; break;
+    u32 alternate, i;
+    switch (animState005.area) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        break;
+    case 4:
+        if (animState005.index == 12)
+            return;
+        break;
     case 8:
-        switch(animState005.index) {
-        case 2:case 4:case 6:case 8:case 10:case 12:case 14:case 17:return;
+        switch (animState005.index) {
+        case 2:
+        case 4:
+        case 6:
+        case 8:
+        case 10:
+        case 12:
+        case 14:
+        case 17:
+            return;
         }
         break;
-    case 11:case 12:case 14:return;
+    case 11:
+    case 12:
+    case 14:
+        return;
     }
-    if(animState005.area==3 || animState005.area==6) alternate=1;
-    else alternate=0;
+    if (animState005.area == 3 || animState005.area == 6)
+        alternate = 1;
+    else
+        alternate = 0;
     /* Keep the selector out of the frame-counter register. */
     asm("" : : : "r4");
-    switch(animState005.area) {
+    switch (animState005.area) {
     case 0:
-        switch(animState005.index) {case 2:case 5:return;}
+        switch (animState005.index) {
+        case 2:
+        case 5:
+            return;
+        }
         break;
     case 9:
-        switch(animState005.index) {case 0:case 2:case 4:case 6:case 8:case 12:case 13:case 15:return;}
+        switch (animState005.index) {
+        case 0:
+        case 2:
+        case 4:
+        case 6:
+        case 8:
+        case 12:
+        case 13:
+        case 15:
+            return;
+        }
         break;
     case 10:
-        switch(animState005.index) {case 0:case 1:case 3:case 13:case 15:case 16:case 19:return;}
-        break;
-    case 13:return;
-    }
-    if ((u16)(animState005.area-7)<=1 && sub_0800CDC0()) return;
-    for(i=0;i<4;i++) {
-        struct MapAnim005 *s = &animState005;
-        if(animPeriods005[s->area].periods[i]) {
-            if(animPeriods005[s->area].periods[i]<=s->timers[i]++) {
-                s->timers[i]=0;
-                if(++s->frames[i]>=animLimits005[alternate]) s->frames[i]=0;
-            }
+        switch (animState005.index) {
+        case 0:
+        case 1:
+        case 3:
+        case 13:
+        case 15:
+        case 16:
+        case 19:
+            return;
         }
+        break;
+    case 13:
+        return;
+    }
+    if ((u16)(animState005.area - 7) <= 1 && sub_0800CDC0())
+        return;
+    {
+        register u32 index asm("r6") = 0;
+        register struct MapAnim005 *base asm("ip") = &animState005;
+        register struct MapPeriods005 *periods asm("r8");
+        register u16 *limitBase asm("r1");
+        register u16 *frames asm("r4");
+        u16 *limit;
+        register u32 temp asm("r0");
+        register u32 value asm("r1");
+        register u32 offset asm("r2");
+        register u16 *entry asm("r3");
+        register u16 *timer asm("r2");
+        u32 limitCount;
+        register struct MapAnim005 *state asm("r5") = &animState005;
+        asm("" : "+r"(index), "+r"(base) : "r"(state));
+        temp = (u32)animPeriods005;
+        asm("" : "+r"(temp));
+        periods = (struct MapPeriods005 *)temp;
+        asm("" : "+r"(periods));
+        limitBase = animLimits005;
+        asm("" : "+r"(limitBase));
+        frames = base->frames;
+        asm("" : "+r"(frames));
+        temp = alternate << 1;
+        limit = (u16 *)(temp + (u32)limitBase);
+        asm("" : "+r"(limit));
+    loop:
+        offset = index << 1;
+        value = base->area;
+        temp = 0x74 * value;
+        temp = offset + temp;
+        entry = (u16 *)(temp + (u32)periods);
+        asm("" : "+r"(entry));
+        if (*entry == 0)
+            goto next;
+        temp = (u32)state;
+        asm("" : "+r"(temp));
+        temp += 0xA8;
+        timer = (u16 *)(offset + temp);
+        value = *timer;
+        temp = value + 1;
+        *timer = temp;
+        temp = *entry;
+        asm("" : "+r"(value));
+        value = (u16)value;
+        if (temp > value)
+            goto next;
+        value = 0;
+        *timer = value;
+        temp = *frames + 1;
+        *frames = temp;
+        temp = (u16)temp;
+        limitCount = *limit;
+        if (temp < limitCount)
+            goto next;
+        *frames = value;
+    next:
+        frames++;
+        index++;
+        if (index <= 3)
+            goto loop;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800A03C);
-#endif
 struct T06HeaderA298 {s16 w,h;u8 pad[12];};
 struct T06SysA298 {
     u8 pad[0x60];struct T06HeaderA298 *volatile header;void *allocation;
