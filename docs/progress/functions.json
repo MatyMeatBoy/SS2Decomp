@@ -9343,14 +9343,14 @@
       "name": "sub_08020680",
       "addr": 134350464,
       "size": 1728,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0801E244",
       "kind": "c",
       "cat": "game",
       "address": "0x08020680",
       "canonical_symbol": "sub_08020680",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08020680",
       "name_status": "unidentified",
       "name_source": null,
@@ -10190,7 +10190,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3237,
+          "line": 3239,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t24_start257D4"
         }
       ]
@@ -10213,7 +10213,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3319,
+          "line": 3321,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t24_gate25890"
         }
       ]
@@ -10321,7 +10321,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4516,
+          "line": 4518,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -10395,7 +10395,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5335,
+          "line": 5337,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -10469,7 +10469,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5831,
+          "line": 5833,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
         }
       ]
@@ -10492,7 +10492,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5925,
+          "line": 5927,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
         }
       ]
@@ -23569,14 +23569,14 @@
       "name": "sub_0806E7D4",
       "addr": 134670292,
       "size": 2296,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08068670",
       "kind": "c",
       "cat": "game",
       "address": "0x0806E7D4",
       "canonical_symbol": "sub_0806E7D4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0806E7D4",
       "name_status": "unidentified",
       "name_source": null,
@@ -23762,14 +23762,14 @@
       "name": "sub_08073EE8",
       "addr": 134692584,
       "size": 612,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x08073EE8",
       "canonical_symbol": "sub_08073EE8",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08073EE8",
       "name_status": "unidentified",
       "name_source": null,
@@ -23779,14 +23779,14 @@
       "name": "sub_0807414C",
       "addr": 134693196,
       "size": 588,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x0807414C",
       "canonical_symbol": "sub_0807414C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0807414C",
       "name_status": "unidentified",
       "name_source": null,
@@ -24048,7 +24048,7 @@
       "evidence": [
         {
           "source": "src/code_08073E2C.c",
-          "line": 1279,
+          "line": 1299,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080761A4_c"
         }
       ]
@@ -34494,14 +34494,14 @@
       "name": "ply_note",
       "addr": 134966820,
       "size": 536,
-      "state": "asm",
+      "state": "done",
       "module": "m4a_1_engine",
       "kind": "c",
       "cat": "lib",
       "address": "0x080B6E24",
       "canonical_symbol": "ply_note",
       "domain": "sdk",
-      "implementation": "original_asm",
+      "implementation": "decompiled",
       "display_name": "ply_note",
       "name_status": "existing",
       "name_source": "canonical_symbol",
