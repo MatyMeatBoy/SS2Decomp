@@ -7483,7 +7483,7 @@ digraph calls {
   "sub_0805B21C" -> "CpuSet" [label="c"];
   "sub_0805B21C" -> "sub_08000274" [label="c"];
   "sub_0805B21C" -> "sub_08001494" [label="c"];
-  "sub_0805B2C4" -> "sub_0800AE50" [label="asm,c"];
+  "sub_0805B2C4" -> "sub_0800AE50" [label="c"];
   "sub_0805B4CC" -> "sub_0800AE50" [label="c"];
   "sub_0805B688" -> "__divsi3" [label="asm"];
   "sub_0805B688" -> "sub_080003F0" [label="asm,c"];
