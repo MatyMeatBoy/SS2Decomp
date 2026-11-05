@@ -3530,7 +3530,8 @@ void sub_0806DB1C(struct T072DBArgs *arg) {
     u32 bit;
     u32 offset;
     u16 level, range, count, i;
-    u32 player;
+    volatile u32 player;
+    u32 initialPlayer;
     s32 local;
     struct T072DBPlayer *p, *other, *costPlayer; u16 *wait, *ready;
     struct T072DBEffect *e, *start;
@@ -3540,11 +3541,12 @@ void sub_0806DB1C(struct T072DBArgs *arg) {
     s32 duration, amount;
     u32 foundEffect;
     local = sub_080020F4();
-    player = arg->player;
+    initialPlayer = arg->player;
+    player = initialPlayer;
     bit = arg->bit;
     level = arg->level;
     range = level;
-    if (player <= 3) p = &t072DBPlayers[player];
+    if (initialPlayer <= 3) p = &t072DBPlayers[player];
     if (local == player) {
         costPlayer = &t072DBPlayers[sub_080020F4()];
         cost = sub_0806898C(arg->value, arg->level) - 1;
@@ -3560,32 +3562,27 @@ void sub_0806DB1C(struct T072DBArgs *arg) {
     x = sprite[0] >> 4;
     y = ((u32)sprite[1] << 20) >> 20;
     count = 0;
-    i = 0;
     ready = &p->ready;
-    goto testPlayers;
-nextPlayer:
-    other = &t072DBPlayers[i];
-    sprite = other->sprite;
-    if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) goto skipPlayer;
-    if (other->team != p->team || other->team == 0) goto skipPlayer;
-    dx = (sprite[0] >> 4) - x;
-    dy = (((u32)sprite[1] << 20) >> 20) - y;
-    if (range == 0) goto skipPlayer;
-    {
-        ax = (s16)dx >> 3;
-        if (ax < 0) ax = -ax;
-        limit = 12;
-        if (ax > limit) goto skipPlayer;
-        ay = (s16)dy >> 3;
-        if (ay < 0) ay = -ay;
-        if (ay > limit) goto skipPlayer;
+    for (i = 0; i < sub_08002164(); i++) {
+        other = &t072DBPlayers[i];
+        sprite = other->sprite;
+        if ((s32)((u32)((u8 *)sprite)[4] << 26) < 0) continue;
+        if (other->team != p->team || other->team == 0) continue;
+        dx = (sprite[0] >> 4) - x;
+        dy = (((u32)sprite[1] << 20) >> 20) - y;
+        if (range == 0) continue;
+        {
+            ax = (s16)dx >> 3;
+            if (ax < 0) ax = -ax;
+            limit = 12;
+            if (ax > limit) continue;
+            ay = (s16)dy >> 3;
+            if (ay < 0) ay = -ay;
+            if (ay > limit) continue;
+        }
+        distances[count] = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
+        list[count++] = i;
     }
-    distances[count] = Sqrt((s16)dx * (s16)dx + (s16)dy * (s16)dy);
-    list[count++] = i;
-skipPlayer:
-    i++;
-testPlayers:
-    if (i < sub_08002164()) goto nextPlayer;
     for (i = 0; i < count; i++) sub_08074DE8(list[i], 9);
     while (*ready == 0) sub_080003F0();
     if ((local == player || player > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0) sub_0805865C(0x167);
