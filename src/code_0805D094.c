@@ -616,7 +616,6 @@ void d854_impl(void *arg)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D854);
 #endif
-#ifdef NONMATCHING
 struct DC1CWindow { u8 data[0x28]; u16 x, y, width, height; u8 state, number; u16 pad32; };
 struct DC1CVideo { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V, win1V; };
 extern struct DC1CWindow *dc1c_windows asm("gUnk_03005D64");
@@ -643,10 +642,10 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
     register u16 halfWidth asm("r3");
     register u16 halfHeight asm("r4");
     u16 w, h;
-    register s32 clampHalf asm("r2");
+    s32 clampHalf;
     u16 pos;
     u16 left, right, top, bottom, col, row;
-    s32 x0, y0, x1, y1;
+    u8 *num;
 
     slot = findFreeDC1C();
     if (slot == 0xFF)
@@ -657,25 +656,27 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
     dc1c_video.scrollY = 0;
     window->x = x + (u16)((width >> 1) + 1);
     window->y = y + (u16)((height >> 1) + 1);
-    window->width = width ? (width > 28 ? 28 : width) : 1;
-    window->height = height ? (height > 18 ? 18 : height) : 1;
+    w = width ? (width > 28 ? 28 : width) : 1;
+    window->width = w;
+    h = height ? (height > 18 ? 18 : height) : 1;
+    window->height = h;
     pos = window->x;
     w = window->width;
     halfWidth = w >> 1;
     clampHalf = halfWidth;
-    asm("" : : "r"(clampHalf));
     if (pos + clampHalf > 30)
         window->x = 30 - halfWidth;
-    if ((window->x - clampHalf) & 0x80)
+    pos = window->x;
+    if ((pos - clampHalf) & 0x80)
         window->x = halfWidth;
     pos = window->y;
     h = window->height;
     halfHeight = h >> 1;
     clampHalf = halfHeight;
-    asm("" : : "r"(clampHalf));
     if (pos + clampHalf > 20)
         window->y = 30 - halfHeight;
-    if ((window->y - clampHalf) & 0x80)
+    pos = window->y;
+    if ((pos - clampHalf) & 0x80)
         window->y = halfHeight;
     left = window->x - halfWidth;
     right = window->x + halfWidth;
@@ -687,30 +688,26 @@ void sub_0805DC1C(u32 xArg, u32 yArg, u32 widthArg, u32 heightArg)
     dc1c_tiles[bottom + 1][left - 1] = 0xF126;
     dc1c_tiles[top - 1][right + 1] = 0xF122;
     dc1c_tiles[bottom + 1][right + 1] = 0xF128;
-    for (col = left; col <= right; col++) {
+    col = left;
+    num = &window->number;
+    for (; col <= right; col++) {
         dc1c_tiles[top - 1][col] = 0xF121;
         dc1c_tiles[bottom + 1][col] = 0xF127;
     }
-    x0 = left - 1;
-    y0 = top - 1;
-    x1 = right + 2;
-    y1 = bottom + 2;
     for (row = top; row <= bottom; row++) {
-        dc1c_tiles[row][x0] = 0xF123;
+        dc1c_tiles[row][left - 1] = 0xF123;
         dc1c_tiles[row][right + 1] = 0xF125;
     }
-    if (window->number == 0) {
-        dc1c_video.win1H = ((x0 * 8 + 3) << 8) | (x1 * 8 - 3);
-        dc1c_video.win1V = ((y0 * 8 + 3) << 8) | (y1 * 8 - 3);
+    if (*num == 0) {
+        dc1c_video.win1H = (((left - 1) * 8 + 3) << 8) | ((right + 2) * 8 - 3);
+        dc1c_video.win1V = (((top - 1) * 8 + 3) << 8) | ((bottom + 2) * 8 - 3);
     } else {
-        dc1c_video.win0H = ((x0 * 8 + 3) << 8) | (x1 * 8 - 3);
-        dc1c_video.win0V = ((y0 * 8 + 3) << 8) | (y1 * 8 - 3);
+        dc1c_video.win0H = (((left - 1) * 8 + 3) << 8) | ((right + 2) * 8 - 3);
+        dc1c_video.win0V = (((top - 1) * 8 + 3) << 8) | ((bottom + 2) * 8 - 3);
     }
-    sub_0801A664(~(window->height >> 1) + window->y, window->height + 3);
+    pos = window->height;
+    sub_0801A664(~(pos >> 1) + window->y, pos + 3);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805DC1C);
-#endif
 void sub_0805DE98(void) {
     s32 temp_r4;
     s32 var_r6;
