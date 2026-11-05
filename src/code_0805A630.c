@@ -764,40 +764,43 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
 {
     u8 *e;
     u32 i;
-    u32 count;
     u32 lowest, lowestIndex;
     u32 mode;
     s32 a, b, r;
-    s32 px, py;
+    s32 py;
     register s32 qx asm("sl");
     u16 old;
 
     if (*data == 0)
         return 0;
-    count = 0; do {
-    e = *(u8 **)&gUnk_03005D58;
     {
-        register u32 limit asm("r0") = 0x11170;
-        /* The ROM shares this loaded value between the two initial minima. */
-        asm("" : "+r"(limit));
-        lowest = limit;
-        lowestIndex = limit;
-    }
-    for (i = 0; i <= 15; i++, e += 0x20) {
-        if (*(u16 *)(e + 0xA) & 1) {
-            count++;
-            if (*(u16 *)(e + 0xC) < lowest) {
-                lowest = *(u16 *)(e + 0xC);
-                lowestIndex = i;
+        u32 count;
+        e = *(u8 **)&gUnk_03005D58;
+        {
+            register u32 limit asm("r0") = 0x11170;
+            /* The ROM shares this loaded value between the two initial minima. */
+            asm("" : "+r"(limit));
+            lowest = limit;
+            lowestIndex = limit;
+        }
+        count = 0;
+        for (i = 0; i <= 15; i++, e += 0x20) {
+            if (*(u16 *)(e + 0xA) & 1) {
+                count++;
+                if (*(u16 *)(e + 0xC) < lowest) {
+                    lowest = *(u16 *)(e + 0xC);
+                    lowestIndex = i;
+                }
             }
         }
+        if (count > 15)
+            *(u16 *)(*(u8 **)&gUnk_03005D58 + lowestIndex * 0x20 + 0xA) = 0;
     }
-    } while (0); if (count > 15)
-        *(u16 *)(*(u8 **)&gUnk_03005D58 + lowestIndex * 0x20 + 0xA) = 0;
     mode = (kind & 0x20) ? kind : 0;
     {
         for (a = 0; a <= 20; a++) {
-            px = x + ((a - 10) << 10);
+            s32 px = x + ((a - 10) << 10);
+            asm("" : "+r"(px));
             for (b = 0; b <= 20; b++) {
                 do { py = y + ((b - 10) << 10);
                 if ((sub_0800AE50(px, py, mode) & 7) == 0 && find2C4(px, py, kind) == 0)
@@ -821,7 +824,11 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
                     counter2C4 = 1;
             }
             *(u16 *)(e + 0xE) = 5;
-            *(u16 *)(e + 8) = kind;
+            {
+                register u16 entryKind asm("r0") = kind;
+                asm("" : "+r"(entryKind));
+                *(u16 *)(e + 8) = entryKind;
+            }
             for (r = 0; r <= 9; r++) {
                 for (a = -r; a < r; a++) {
                     qx = *(s32 *)e + (a << 10);
@@ -836,7 +843,10 @@ u8 *sub_0805B2C4(s32 x, s32 y, u32 kind, u16 *data)
                     }
                 }
             }
-            *(u16 *)(e + 0xA) = 1;
+            {
+                u32 active = 1;
+                *(u16 *)(e + 0xA) = active;
+            }
             return e;
         }
     }
