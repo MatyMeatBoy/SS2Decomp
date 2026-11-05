@@ -26,3 +26,11 @@ disassembly diff falls from 95 to 31 lines. The C draft is 1376 bytes against
 NONMATCHING and check_tree pass. Twelve emulated cases agree on call traces,
 player state and flags. Remaining differences include an extra spill of the
 position pointer, frame size, animation operand order and the Y table literal.
+
+MATCH follow-up: compute the position alias in the effect branch and use
+it for both the Y store and the effect call. One empty read-write constraint
+keeps the shared address available without generating instructions. Separate
+frame index and animation base locals preserve the original Thumb add order.
+Strict comparison matches all 1368 bytes and relocations. With C active and
+the ASM removed, the normal ROM matches, NONMATCHING builds and tree checks
+report zero errors.

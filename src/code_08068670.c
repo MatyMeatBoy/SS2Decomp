@@ -1125,7 +1125,6 @@ extern s32 z069Hit(s32,s32,void *) asm("sub_08068A00");
 extern void z069Init(void *,s32,s32,s32,s32) asm("sub_08065158");
 extern void z069Spawn(s32,s32,u32,s32,s32) asm("sub_08069A30");
 extern u32 sub_0807A040();
-#ifdef NONMATCHING
 void sub_08069C44(struct Z069A *arg) {
     struct Z069S sprite;
     s16 dx,dy;
@@ -1228,7 +1227,6 @@ void sub_08069C44(struct Z069A *arg) {
     sprite.f1C=7; sprite.f1D=8;
     frame=0; phase=0;
     timeout=((timeout<<19)+(20<<16))>>16;
-    position = pos;
 
     for(;;) {
         v=timeout; timeout=(u16)(v-1);
@@ -1239,8 +1237,11 @@ void sub_08069C44(struct Z069A *arg) {
         }
         if(z069Hit(x,y,arg)!=0 && kind==0) break;
         if(player==local) {
+            position = pos;
+            /* Reuse the position address for the Y store and effect call. */
+            asm("" : "+r"(position));
             pos[0]=x; position[1]=y; size=0x80008;
-            if(z069Effect(pos,&size,z069Damage(arg,0))!=0) break;
+            if(z069Effect(position,&size,z069Damage(arg,0))!=0) break;
         }
         tt=sub_0800AE50(x,y,0);
         if((tt&0xF) && !(tt&0x10)) {
@@ -1251,7 +1252,12 @@ void sub_08069C44(struct Z069A *arg) {
         y+=z069Sin[((s16)angle)]*2;
         z069Coords((s16)(x>>8),(s16)(y>>8),&dx,&dy,0x30,t);
         shade=sub_0800BC44(x>>8,y>>8,0);
-        z069Animate(&sprite,(u16)(z069Frm[((s16)angle)>>4]+level),&frame,&phase,1);
+        {
+            u32 frameIndex = z069Frm[((s16)angle)>>4];
+            u32 animationBase = level;
+            z069Animate(&sprite,(u16)(animationBase + frameIndex),&frame,&phase,1);
+
+        }
         if(!(*(u16 *)(z069Cfg+4)&4) && sub_0800CC98()==0 && sub_0800CD8C()==0 && sub_0800CCCC()==0) {
             if(gUnk_03002344&1) sub_08000AF0(0x17,sprite.fC,1);
             if(gUnk_03003170.curLevel==4 && sub_0800CDC0()!=0) shade=0;
@@ -1263,9 +1269,6 @@ void sub_08069C44(struct Z069A *arg) {
     if(player<=3 && player!=local) p->counter++;
     z069F[player]&=~(1<<bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_08069C44);
-#endif
 void sub_0806A19C(struct Z069A *arg) {
     struct Z069S sprite;
     s16 dx,dy;
