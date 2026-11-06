@@ -833,8 +833,7 @@ static inline u32 countF4445(u32 n) { return n; }
     } }
 static inline void setlvF4445(u32 id, u16 v) {
     struct Actor566045 *ap;
-    u32 key = id;
-    asm("" : "+r"(key));
+    register u32 key asm("r2") = id;
     if (id > 0x100000) {
         ap = find566045(&state566045, key);
         if (ap) *(u16 *)((u8 *)ap + 0x42) = v;
@@ -862,17 +861,17 @@ static inline void setlvF4445(u32 id, u16 v) {
         (result) = (raw >> (shift)) & 1; \
     } \
 }
-void sub_08045F44(u32 id) {
+void sub_08045F44(u32 inputId) {
+    register u32 id asm("r8") = inputId;
     struct CmdF4445 cmd;
     u8 unused[16];
     u32 dlg;
-    s32 a, b, c, d, cntv;
+    register s32 a asm("r6");
+    s32 b, c, d, cntv;
     u32 i, n;
     struct ItemF4445 *it;
     struct Actor566045 *ap;
-    asm("" : "+r"(id));
-    asm("" : "+r"(id));
-    asm("" : "+r"(id));
+
     ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
     a = playersF4445[sub_080020F4()].f8C >> 8;
