@@ -20692,7 +20692,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2087,
+          "line": 2100,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
@@ -20766,7 +20766,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2725,
+          "line": 2738,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
