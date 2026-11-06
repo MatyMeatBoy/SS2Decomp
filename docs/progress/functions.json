@@ -20766,7 +20766,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2729,
+          "line": 2735,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
