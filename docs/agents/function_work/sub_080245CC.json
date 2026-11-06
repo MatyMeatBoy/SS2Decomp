@@ -1,37 +1,43 @@
 {
   "address": "0x080245CC",
-  "updated_utc": "2026-10-28T23:42:44.0090203Z",
-  "checkpoint": "4c3e9338c3ea907672103de36f19404ef099109f",
+  "updated_utc": "2026-11-06T21:05:59Z",
+  "checkpoint": "Structural checkpoint from source base ad8cf65f. The function remains NONMATCHING; real-module heuristic distance 1480 -> 1092.",
   "areas": [
     {
       "id": "compile",
-      "label": "Borrador completo compilable",
+      "label": "Complete compiling C draft",
       "state": "done",
-      "evidence": "ef6d0b8: make -j1 compare imprime shiningsoul2_eu.gba: OK con fallback ASM; make -j1 nonmatching exit 0 y check_tree 0 errores. No prueba equivalencia del draft."
+      "evidence": "The earlier ef6d0b8 checkpoint and this update pass normal ROM compare with the ASM fallback, the full NONMATCHING build, and tree checks. A compiling draft is not proof of equivalence."
     },
     {
       "id": "switches",
-      "label": "Casos de tablas de salto recuperados",
+      "label": "Recover jump-table cases",
       "state": "done",
-      "evidence": "ASM original en b8919a6: tablas 0x080249C4 (13 entradas), 0x08024B60 (8 entradas) y 0x08025360 (13 entradas). El m2c inicial truncaba cada tabla tras la primera entrada por labels intermedios; el draft de ef6d0b8 conserva callbacks 0805A60C..0805A660 y los casos 0,2,3,5,6,7,8,9,10,12 frente a 1,4,11/default en ambos filtros de estado. Esto solo acredita recuperar los casos, no el CFG completo. Inventario estatico adicional: los 149 BL externos coinciden por callee y multiplicidad con 149 sitios de llamada C; no comprueba argumentos ni orden."
+      "evidence": "Original ASM at b8919a6 contains tables at 0x080249C4 (13 entries), 0x08024B60 (8), and 0x08025360 (13). The draft retains callbacks 0805A60C through 0805A660 and cases 0,2,3,5,6,7,8,9,10,12 versus 1,4,11/default in both player-state filters. Initial m2c output truncated these tables at intermediate labels. This establishes recovered cases, not complete CFG equivalence."
+    },
+    {
+      "id": "static_call_order",
+      "label": "Recover physical block and external-call order",
+      "state": "done",
+      "evidence": "The original ASM and the rebuilt NONMATCHING function each contain 149 R_ARM_THM_CALL relocations with exactly the same target sequence. Previously their longest common subsequence was 97. Idle rendering precedes interaction, callback dispatch precedes its second cancellation query, remote scans test at their physical tails, and the exit cue follows rendering. Equal static call order is not control-flow equivalence."
     },
     {
       "id": "abi",
-      "label": "Tipos, accesos y argumentos de pila",
+      "label": "Audit types, accesses and stack arguments",
       "state": "active",
-      "evidence": "ef6d0b8 usa aliases locales: flags 03001324 u16 (ldrh en bloques previos a las referencias 08024ADC y 08025464), 03002344 u32, retorno 0800BC44 u32 seguido de conversion u8. Llamadas de 5/6/8 argumentos reconstruidas desde stores sp+0/+4/+8/+C. Store Player+CE corregido a halfword (bloque 080253E0..0802540C). Auditoria integral de operandos pendiente. La resta de punteros de tareas de 0x28 bytes desde state+0x17BC reproduce la secuencia aritmetica inicial; no se usa el inverso multiplicativo como fuente. Continuacion sobre2c80cd9: ASM08024F0C/08024F30 carga X con ldrsh y suma/resta16 sin truncar antes de08007870. Temporal var_r0_4 y primer parametro del alias corregidos a s32; resto de argumentos intactos. Candidato aislado4588/4616 NO MATCH; auditoria integral aun pendiente. ASM08024798/08024E6A/080254A2/08025628 pasa selector de animacion mediante ldr/mov r1 sin estrechar. Alias08065370 y llamadas usan u32; selectores provienen de flags&3 o (flags>>4)&7/8. Pilas de esas cinco llamadas: quinto argumento1. No prueba ABI del callee en otros callers."
+      "evidence": "Earlier checkpoints use local aliases for u16 flags at 03001324, u32 flags at 03002344, and a word return from 0800BC44 followed by u8 conversion. Calls with 5/6/8 arguments follow stores at sp+0/+4/+8/+C. The Player+CE store is a halfword. The 0x28-byte task-pointer difference from state+0x17BC reproduces entry arithmetic. ASM at 08024F0C/08024F30 loads signed X and adds/subtracts 16 without narrowing before 08007870; its first argument remains s32. The animation selector passed to 08065370 is u32; the fifth argument is 1. The complete operand and callee ABI audit remains pending."
     },
     {
       "id": "layout",
-      "label": "Frame, registros y pools",
+      "label": "Recover frame, registers and literal pools",
       "state": "active",
-      "evidence": "nmdiff estricto de ef6d0b8: NO MATCH; original 4616 bytes, draft 4592. Frame original 0xE4; candidato 0x104. Persisten diferencias de bloques, registros y pools. No se ejecuto permuter con este diff amplio. Candidato de coordenada X s32:4588/4616, NO MATCH; reduccion de bytes no acredita match. Selector u32 elimina conversiones adicionales del caller:4572/4616 NO MATCH; frame y CFG pendientes."
+      "evidence": "Shared player-scan counters and pointers reduce the frame from 256 to 240 bytes; the original uses 228. Candidate size is 4580 bytes against 4616 original (baseline 4572). The heuristic remains 1092. No hard-register variables or executable assembly were introduced."
     },
     {
       "id": "match",
-      "label": "Coincidencia exacta de C y ROM",
+      "label": "Verify exact matching C and ROM",
       "state": "pending",
-      "evidence": "La funcion conserva INCLUDE_ASM bajo #else. La ROM exacta valida el fallback; no existe MATCH del C por bytes y relocations."
+      "evidence": "The original ASM fallback remains active. Normal ROM compare and the NONMATCHING build are required at delivery. Private bounded call-trace, RAM-effect, callee-saved-register and SP comparisons passed 576 stubbed scenarios; these do not prove equivalence or a match. Zero new matching bytes are claimed."
     }
   ],
   "regions": []
