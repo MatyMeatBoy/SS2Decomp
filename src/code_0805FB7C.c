@@ -554,6 +554,10 @@ extern void hudItem63(s32, s32, struct HudSlot63 *, s32) asm("sub_0805FC80");
 extern void hudSprite63(s32, s32, u16, u16, s32, void *, s32, s32) asm("sub_08007CF0");
 extern void hudSound63(s32) asm("sub_080003F4");
 extern void hudSelect63(u16) asm("sub_0805AD78");
+static inline void HudDraw63(struct IconAsset63 *obj, s32 x, s32 y, u16 anim, u16 frame)
+{
+    hudSprite63(x, y, anim, frame, 0, obj->attr, obj->f8, obj->f0);
+}
 void sub_080605D0(s32 animate)
 {
     struct HudMgr63 *mgr;
@@ -673,9 +677,8 @@ void sub_080605D0(s32 animate)
                     } while (*(s32 *)(gUnk_03006440 + 0x28) & dirty);
                 }
             }
-            hudSprite63((7 - slide) * 8 + hudPos63[mgr->sel - base].x - 1,
-                        hudPosY63[mgr->sel - base].x + 0x10, 7, 0, 0,
-                        hudIcon63.attr, hudIcon63.f8, hudIcon63.f0);
+            HudDraw63(&hudIcon63, (7 - slide) * 8 + hudPos63[mgr->sel - base].x - 1,
+                        hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
             sub_080003F0();
             if (sub_0800CD34() != 0)
                 break;
@@ -743,9 +746,8 @@ void sub_080605D0(s32 animate)
             for (k = base; k < end; k++)
                 hudItem63(hudPos63[k - base].x + (7 - slide) * 8,
                           hudPosY63[k - base].x + 0x10, &mgr->slots[k], 8);
-            hudSprite63((7 - slide) * 8 + hudPos63[mgr->sel - base].x,
-                        hudPosY63[mgr->sel - base].x + 0x10, 7, 0, 0,
-                        hudIcon63.attr, hudIcon63.f8, hudIcon63.f0);
+            HudDraw63(&hudIcon63, (7 - slide) * 8 + hudPos63[mgr->sel - base].x,
+                        hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
             sub_080003F0();
         }
         sub_080003F0();
@@ -888,7 +890,7 @@ void sub_08060E44(s32 animate)
                     if (mgr->list[k] != 0) {
                         struct HudSlotE63 *found;
                         s32 id;
-                        s32 n;
+                        s16 n;
                         s16 m;
                         id = mgr->list[k] - 1;
                         found = &tmp;
@@ -897,7 +899,7 @@ void sub_08060E44(s32 animate)
                         n = 0;
                         for (m = 0; m <= 0x18; m++) {
                             if (mgr->bag[m].kind == 1 && id == mgr->bag[m].id) {
-                                n = (u16)(n + 1);
+                                n++;
                                 found = &mgr->bag[m];
                             }
                         }
@@ -916,9 +918,13 @@ void sub_08060E44(s32 animate)
                     } while (*(s32 *)(gUnk_03006440 + 0x28) & dirty);
                 }
             }
-            hudSprite63(hudPosE63[end - (mgr->sel + 1)].x - (7 - slide) * 8 + 0xF1,
-                        hudPosYE63[end - (mgr->sel + 1)].x + 0x10, 7, 0, 0,
-                        hudIcon63.attr, hudIcon63.f8, hudIcon63.f0);
+            {
+                s32 e = end;
+                s32 s1 = mgr->sel + 1;
+                s32 idx = e - s1;
+                HudDraw63(&hudIcon63, hudPosE63[idx].x - (7 - slide) * 8 + 0xF1,
+                          hudPosYE63[idx].x + 0x10, 7, 0);
+            }
             sub_080003F0();
             if (animate != 0) {
                 if (sub_08058DB0() != 0 || sub_0800D11C() != 0 || sub_0800CC98() != 0
@@ -984,14 +990,21 @@ void sub_08060E44(s32 animate)
             base = mgr->sel / 3 * 3;
             end = base + 3;
             for (k = base; k < end; k++) {
-                if (mgr->list[k] != 0)
-                    hudItemE63(hudPosE63[2 - (end - ((s16)(k + 1)))].x + 0xF0 - (7 - slide) * 8,
-                               hudPosYE63[2 - (end - ((s16)(k + 1)))].x + 0x10,
+                if (mgr->list[k] != 0) {
+                    s32 k1 = k + 1;
+                    /* Y column addressed as hudPosE63+2 so CSE derives it from the X base. */
+                    hudItemE63(hudPosE63[2 - (end - k1)].x + (0xF0 - (7 - slide) * 8),
+                               ((struct HudPos63 *)&hudPosE63[0].y)[2 - (end - k1)].x + 0x10,
                                &mgr->bag[mgr->list[k] - 1], 0);
+                }
             }
-            hudSprite63(hudPosE63[2 - (end - (mgr->sel + 1))].x + 0xF0 - (7 - slide) * 8,
-                        hudPosYE63[2 - (end - (mgr->sel + 1))].x + 0x10, 7, 0, 0,
-                        hudIcon63.attr, hudIcon63.f8, hudIcon63.f0);
+            {
+                s32 e = end;
+                s32 s1 = mgr->sel + 1;
+                s32 idx = 2 - (e - s1);
+                HudDraw63(&hudIcon63, hudPosE63[idx].x + (0xF0 - (7 - slide) * 8),
+                          hudPosYE63[idx].x + 0x10, 7, 0);
+            }
             sub_080003F0();
         }
         sub_080003F0();
