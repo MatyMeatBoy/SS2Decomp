@@ -11,3 +11,8 @@ shard 78 (nov03-w4, 2026-11-03) - siblings of sub_08075778 (see shard77.txt for 
   shift-add form via `(u32)((ang << 16) + 0x80000) >> 16`), wait loop with the mask+return inline.
   The draw index `(s16)d * 4` is `asrs #14` in orig: the compiler must not know d is < 16 (any extra
   set of the variable gives asr; `t` reused for d fixes one angle copy but costs size).
+- sub_080761A4 MATCHED (claude-nov06-wC5): the enemy-target block needs the same `t = (u8)hit` copy as the
+  player block, the `(s16)ang > 0x100` wrap check must sit inside each target branch (its extra -256 reload in
+  the enemy branch shifts reload rotation; jump cross-jumping then merges both copies), and the enemy miss path
+  needs `register u32 b asm("r1") = sub_0800086C() & 1` (hard-reg dest stops regmove tying it to the call
+  result, so reload swaps the commutative AND onto the inherited r1 = 1).
