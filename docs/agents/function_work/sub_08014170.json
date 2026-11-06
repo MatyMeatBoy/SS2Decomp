@@ -1,7 +1,7 @@
 {
   "address": "0x08014170",
-  "updated_utc": "2026-11-03T18:00:00Z",
-  "checkpoint": "nov03-w3 shard 12: natural source now reaches GCSE N=579 (exact slot order, no padding); diff 230 lines (was 238).",
+  "updated_utc": "2026-11-06T20:00:00Z",
+  "checkpoint": "nov06-wB7 shard 12: candidate size equals original (2486 bytes); filtered NONMATCHING diff 29 lines (was 96), GCSE N still 579.",
   "areas": [
     {
       "id": "flow",
@@ -13,13 +13,13 @@
       "id": "compile",
       "label": "Complete compilable draft",
       "state": "done",
-      "evidence": "make compare OK (ASM fallback) and make nonmatching OK. Candidate 2478 bytes vs original 2486."
+      "evidence": "make compare OK (ASM fallback) and make nonmatching OK. Candidate 2486 bytes, same as original."
     },
     {
       "id": "layout",
       "label": "Frame, spill slots and registers",
       "state": "active",
-      "evidence": "Frame and every stack slot match. Slot order of the nine loop-hoisted addresses follows GCSE expression hash order (N = buckets, agbcc -dG); the source now gives N=579 naturally with the exact original slot order. Changes: level lookup written as s32 b5 = (s8)f6C * 5; then t = tbl[li]; threshold = b5 * 2 + t (reproduces ldrb+lsl/asr, *5 before li=7, table before <<1, and 'adds r0, r6, r0'; same code also fits sub_08015E84 standalone); clamp per arm as if (i > j) { k = f26; i = j; if (i > k) i = 0; } else { k = f26; if (i > k) i = 0; } with later k <= 0xF / k + 6 (load now precedes i = j); 'cur = dmp = fC2' and 'cur = dx3 = fC6' chained assignments (bar-2 v reload almost right). Remaining: n vs bound r3/r2 swap in bars 1-2 (global-alloc priority: n refs 30/live 83 beats the loop copy), li/ptr r4/r3 swap in lookup loop (li pri 0.72 vs ptr 0.69), bar-3 fC6 store reuses address reg, clamp tmp/k register choice (orig: load r0, copy r1 in all four paths), else-draw reuses k instead of reloading f26."
+      "evidence": "Frame and every stack slot match; GCSE expression table must stay at N=579 (max_cuid 1156-1159, the current source sits at the top: any extra RTL insn flips to 581 and reorders the hoisted-address slots). Fixed nov06: bar length n vs hoisted loop-bound copy (global-alloc priority; nested do/while(0) raises the copy's loop-depth weighted refs: 1 level for bar 1, 2 for bars 2-3), third-gauge clamp reads fC6 through cur, capacity check keeps ldrh r0 + copy to r1 in all four arms (u32 r0/r1 register vars, local u16 r0 in the non-threaded arm) and the bls/b sense, inactive draw uses f26 & 0xFFFF so PRE does not reuse the loaded capacity. Remaining: bar-2 v = dmp should reload [sp,#0xc4] after cur is formed (currently adds r3,r4); bar-3 clamp keeps a copy pseudo of &fC6 (cse2 makes it canonical, so value/pointer get r2/r4 instead of r3/r2 and the store reuses r4 instead of reloading into r6); lookup loop emits movs r4,#7 before the s8*5 product (b5-first order gives li/ptr r3/r4 because li priority 0.722 > ptr 0.688)."
     },
     {
       "id": "match",
