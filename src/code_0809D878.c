@@ -1437,7 +1437,6 @@ void sub_0809FB18(void)
     t->f24 = 0;
     sub_08000274_1((u32)t);
 }
-#ifdef NONMATCHING
 /* Opaque actor/resource layouts are expressed only at audited ARM offsets. */
 #define B9FB6C(p,o) (*(u8 *)((u8 *)(p)+(o)))
 #define H9FB6C(p,o) (*(u16 *)((u8 *)(p)+(o)))
@@ -1487,13 +1486,15 @@ extern void soundStop9FB6C(s32) asm("sub_080586B4");
 extern void sound9FB6C(s32) asm("sub_08058688");
 
 /* Expanded independently in each end phase; no extra helper call is introduced.
+ * A plain block, not do-while(0): the loop notes of a do-while would weight the
+ * resource references so it took sl and the floating offset was spilled.
  * Both post-animation and pre-draw global actor reloads are significant. */
-#define END_RENDER9FB6C() do { \
+#define END_RENDER9FB6C() { \
     actor9FB6C->f6E=anim9FB6C(&sprite,actor9FB6C->f68,&actor9FB6C->f6A,&actor9FB6C->f6C,1); \
     screen9FB6C((s32)(actor9FB6C->x<<8)>>16,(s32)(actor9FB6C->y<<8)>>16,&sx,&sy,zero,zero); \
     sub_08000AF0(palette9FB6C+16,sprite.palette+(H9FB6C(resource,0xD6)<<5),1); \
     draw9FB6C(sx,sy,actor9FB6C->f68,actor9FB6C->f6A,2,sprite.payload,sprite.data,sprite.base); \
-} while(0)
+}
 
 void sub_0809FB6C(void *input)
 {
@@ -1735,9 +1736,6 @@ void sub_0809FB6C(void *input)
 #undef W9FB6C
 #undef I9FB6C
 #undef P9FB6C
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
-#endif
 struct Sprite105 {u32 base,pad4,data,palette,pad10,pad14,pad18;u8 payload[24];};
 struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[0x286];u16 paletteOffset;};
 struct Player105 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 health;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x32];u32 seen[26];};
