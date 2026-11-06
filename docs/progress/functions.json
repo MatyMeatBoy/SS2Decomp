@@ -4029,14 +4029,14 @@
       "name": "sub_08009594",
       "addr": 134256020,
       "size": 924,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08009088",
       "kind": "c",
       "cat": "game",
       "address": "0x08009594",
       "canonical_symbol": "sub_08009594",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08009594",
       "name_status": "unidentified",
       "name_source": null,
@@ -10395,7 +10395,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5113,
+          "line": 5118,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -10469,7 +10469,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5607,
+          "line": 5611,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
         }
       ]
@@ -10492,7 +10492,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5701,
+          "line": 5705,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
         }
       ]
