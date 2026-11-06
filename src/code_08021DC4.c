@@ -1444,337 +1444,219 @@ s32 sub_080239E0(u8 arg0) {
     if (nonzero == two) return 1;
     return 0;
 }
-#ifdef NONMATCHING
 struct Event23A3C { s32 record; u8 index, group; u16 sequence; };
-struct Remote23A3C { u16 unk0, unk2; u8 unk4; };
-struct State23A3C { u16 mode, pad2, flags, pad6, sequence, count; u8 padC[0x1BC]; u8 states[0x55C]; s32 entries[32]; };
+struct Slot23A3C { u16 active; u8 pad[6]; };
+struct Area23A3C { s16 x, y; u16 w, h; struct Slot23A3C slots[5]; u16 mode; };
+struct State23A3C { u16 mode, pad2, pad4, pad6, sequence, count; u8 padC[0x1BC]; u8 states[0x55C]; s32 entries[32]; };
+struct Pos23A3C { u16 x; u16 pad:3, y:9, pad2:4; u8 f4:6; };
+struct Unit23A3C { u8 pad[0x30]; u32 flags; u8 pad34[0x114]; struct Pos23A3C *pos; };
 extern struct State23A3C *state23A3C asm("gUnk_03005CF4");
-s32 sub_08019FA8();                                 /* extern */
-s32 sub_0806603C(void *);                           /* extern */
-s32 sub_08067C28(s32);                              /* extern */
-s32 sub_08067EC8();                                 /* extern */
+extern struct Unit23A3C units23A3C[] asm("gUnk_03003CE0");
+extern u32 gUnk_03002344;
+s32 sub_08019FA8();
+s32 sub_0806603C(void *);
+s32 sub_08067C28(void *);
+s32 sub_08067EC8();
 
-void sub_08023A3C(s32 *arg0, u32 arg1) {
-    struct Event23A3C sp0[5];
-    u8 padding[12];
-    s32 *sp34;
-    int rowBase;
-    s32 sp38;
-    u32 sp3C;
-    s32 *sp40;
-    register struct Event23A3C *var_r4 asm("r4");
-    s32 *var_r3;
-    s32 *var_r3_2;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r4;
-    s32 temp_r5;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r1;
-    s32 var_r1_2;
-    s32 var_r2;
-    s32 var_r2_2;
-    s32 var_r2_3;
-    s32 var_r3_3;
-    s32 var_r3_4;
-    s32 var_r4_3;
-    s32 var_r4_4;
-    s32 var_sl;
-    u32 temp_r0;
-    u32 temp_r0_6;
-    u16 temp_r1;
-    u16 temp_r1_2;
-    u16 temp_r7;
-    u16 temp_r8;
-    u32 temp_r6;
-    u32 var_r5;
-    u8 *var_r4_2;
-    u8 temp_r0_4;
-    u8 temp_r0_5;
-    u32 var_r4_5;
-    u32 var_r5_2;
-    register u32 var_r6 asm("r6");
-    u32 var_r6_2;
-    u32 var_r6_3;
-    u32 var_r6_4;
-    struct Remote23A3C *temp_r2;
-    struct Player *temp_r3;
+static inline s32 SlotIs23A3C(u8 group, u8 slot, u8 val) {
+    s32 r = 0;
+    if (state23A3C->states[slot + group * 5] == val)
+        r = 1;
+    return r;
+}
 
-    sp34 = arg0;
-    temp_r1 = arg1;
-    sp3C = 0;
-    sp38 = 0;
-    var_r6 = 0;
-    var_r4 = sp0;
-    var_r3 = sp34;
-    do {
-        if (M2C_FIELD(var_r3, u16 *, 0x8) != 0) {
-            sp3C += 1;
-            var_r4->record = (s32) state23A3C->entries[temp_r1];
-            var_r4->sequence = (u16) state23A3C->sequence;
-            var_r4->group = (s8) temp_r1;
-            var_r2 = 0;
-            temp_r5 = (u8)var_r6 + ((u8) temp_r1 * 5);
-            if (state23A3C->states[temp_r5] == 3) {
-                var_r2 = 1;
-            }
-            if (var_r2 == 0) {
-                sp40 = var_r3;
-                if (sub_08002204() != 0) {
-                    state23A3C->states[temp_r5] = 1;
+static inline void SetSlot23A3C(u8 group, u8 slot, u8 val) {
+    if (sub_08002204() != 0)
+        state23A3C->states[slot + group * 5] = val;
+}
+
+static inline s32 Pending23A3C(u8 group) {
+    u32 i;
+    for (i = 0; i <= 4; i++) {
+        if (SlotIs23A3C(group, i, 2))
+            return 1;
+    }
+    return 0;
+}
+
+static inline s32 UnitNear23A3C(struct Area23A3C *area, u16 id) {
+    u16 w, h;
+    u32 n, i;
+    s32 found;
+    s32 d;
+    struct Unit23A3C *u;
+    struct Pos23A3C *p;
+
+    if ((gUnk_03002344 & 1) == (id & 1)) {
+        w = area->w;
+        h = area->h;
+        n = sub_08002164();
+        found = 0;
+        if (sub_08019FA8() == 0)
+            return found;
+        for (i = 0; i < n; i++) {
+            u = &units23A3C[i];
+            p = u->pos;
+            {
+            u32 fl = p->f4;
+            if (!(fl & 0x20) && !(u->flags & 0x2000)) {
+                s32 px = p->x >> 7;
+                s32 py = p->y;
+                s32 dx = area->x - px;
+                s32 dy;
+                if (dx < 0)
+                    dx = -dx;
+                if (dx < w) {
+                    dy = area->y - py;
+                    if (dy < 0)
+                        dy = -dy;
+                    if (dy < h) {
+                        found = 1;
+                        break;
+                    }
                 }
+            }
             }
         }
-        var_r4++;
-        var_r3 = (s32 *)((u8 *)var_r3 + 8);
-        var_r6 += 1;
-    } while ((u32) var_r6 <= 4U);
-    var_r6_2 = 0;
-    if (sp3C > 0U) {
-        var_r4_2 = &sp0[0].index;
-        do {
-            *var_r4_2 = var_r6_2;
-            if ((0xFF & sub_080008C8()) == 0x80) {
-                *var_r4_2 |= 0x80;
-            }
-            var_r4_2 += 8;
-            var_r6_2 += 1;
-        } while ((u32) var_r6_2 < sp3C);
+        return found;
     }
-    temp_r0 = state23A3C->sequence + 5;
-    state23A3C->sequence = temp_r0;
-    if ((u16) temp_r0 <= 0xFAU) {
+    return 0;
+}
 
-    } else {
-        state23A3C->sequence = 9U;
+void sub_08023A3C(struct Area23A3C *area, u16 id) {
+    struct Event23A3C ev[5];
+    u8 padding[12];
+    s32 done;
+    u32 count;
+    u32 i;
+
+    count = 0;
+    done = 0;
+    i = 0;
+    do {
+        if (area->slots[i].active != 0) {
+            count++;
+            ev[i].record = state23A3C->entries[id];
+            ev[i].sequence = state23A3C->sequence;
+            ev[i].group = id;
+            if (!SlotIs23A3C(id, i, 3))
+                SetSlot23A3C(id, i, 1);
+        }
+        i++;
+    } while (i <= 4);
+
+    for (i = 0; i < count; i++) {
+        ev[i].index = i;
+        if ((sub_080008C8() & 0xFF) == 0x80)
+            ev[i].index |= 0x80;
     }
-    rowBase = 0x1C8;
-    goto loop_90;
-dispatch:
-        temp_r1_2 = M2C_FIELD(sp34, u16 *, 0x30);
-        switch (temp_r1_2) {                        /* irregular */
+
+    state23A3C->sequence += 5;
+    if (state23A3C->sequence > 0xFA)
+        state23A3C->sequence = 9;
+
+    for (;;) {
+        if (state23A3C->mode != 0xB) {
+            do {
+                sub_080003F0();
+                if (sub_08056E90() != 0)
+                    break;
+            } while (!UnitNear23A3C(area, id));
+        }
+        if (sub_08056E90() != 0)
+            break;
+        switch (area->mode) {
         case 0:
-    goto loop_22;
-loop_22_yield:
-    sub_080003F0();
-loop_22:
-            if ((sub_08019FA8() == 0) && (sub_08056E90() == 0)) goto loop_22_yield;
-            if (sub_08056E90() == 0) {
-                var_r6_4 = 0;
-                if (sp3C > 0U) {
-                    var_r3_2 = &gUnk_03005CF4;
-                    do {
-                        var_r2_3 = 0;
-                        temp_r4 = (u8)var_r6_4 + ((u8) temp_r1 * 5);
-                        if (*(u8 *)(*var_r3_2 + rowBase + temp_r4) == 1) {
-                            var_r2_3 = 1;
-                        }
-                        if (var_r2_3 != 0) {
-                            sp40 = var_r3_2;
-                            if (sub_0806603C(&sp0[var_r6_4]) != 0) {
-                                var_r3_2 = sp40;
-                                if (sub_08002204() != 0) {
-                                    *(u8 *)(*var_r3_2 + rowBase + temp_r4) = 2;
-                                }
-                            }
-                        }
-                        var_r6_4 += 1;
-                    } while ((u32) var_r6_4 < sp3C);
-                }
-            }
-            if (sub_08056E90() != 0) {
-    goto loop_37;
-loop_37_yield:
-    sub_080003F0();
-loop_37:
-                if (sub_08067C28(gUnk_03005CF4 + ((temp_r1 * 4) + 0x724)) == 0) goto loop_37_yield;
-            } else {
-                var_r5_2 = 0;
-loop_40:
-                var_r4_4 = 0;
-                if (state23A3C->states[((u8)var_r5_2 + ((u8) temp_r1 * 5))] == 2) {
-                    var_r4_4 = 1;
-                }
-                if (var_r4_4 != 0) {
+            /* do/while (0) and the jump into the wait loop keep the retry
+               path inside the loop nest like the original. */
+            do {
+                goto retry;
+                do {
                     sub_080003F0();
-                    goto loop_22;
-                }
-                var_r5_2 += 1;
-                if ((u32) var_r5_2 <= 4U) {
-                    goto loop_40;
-                }
-            }
-            var_r4_5 = 0;
-loop_46:
-            var_r3_3 = 0;
-            temp_r0_5 = state23A3C->states[((u8)var_r4_5 + ((u8) temp_r1 * 5))];
-            if (temp_r0_5 == 2) {
-                var_r3_3 = 1;
-            }
-            if (var_r3_3 == 0) {
-                var_r3_4 = 0;
-                if (temp_r0_5 == 1) {
-                    var_r3_4 = 1;
-                }
-                if (var_r3_4 == 0) {
-                    var_r4_5 += 1;
-                    if ((u32) var_r4_5 > 4U) {
-                        sp38 = 1;
-                    } else {
-                        goto loop_46;
+                retry:;
+                } while (sub_08019FA8() == 0 && sub_08056E90() == 0);
+                if (sub_08056E90() == 0) {
+                    for (i = 0; i < count; i++) {
+                        if (SlotIs23A3C(id, i, 1)) {
+                            if (sub_0806603C(&ev[i]) != 0)
+                                SetSlot23A3C(id, i, 2);
+                        }
                     }
-                } else {
-                    goto block_54;
                 }
-            } else {
-block_54:
-                sp38 = 0;
+                if (sub_08056E90() != 0) {
+                    while (sub_08067C28(&state23A3C->entries[id]) == 0)
+                        sub_080003F0();
+                } else if (Pending23A3C(id)) {
+                    sub_080003F0();
+                    goto retry;
+                }
+            } while (0);
+            {
+                u8 g = id;
+                u32 j;
+
+                for (j = 0; j <= 4; j++) {
+                    if (SlotIs23A3C(g, j, 2))
+                        goto notclear;
+                    if (SlotIs23A3C(g, j, 1))
+                        goto notclear;
+                }
             }
+            done = 1;
+            goto next;
+        notclear:
+            done = 0;
             break;
         case 1:
-            var_r6_3 = 0;
-            if ((u32) temp_r0_3 >= sp3C) {
-
-            } else {
-    goto loop_59;
-loop_59_yield:
-    sub_080003F0();
-loop_59:
-                if ((sub_08019FA8() == 0) && (sub_08056E90() == 0)) goto loop_59_yield;
+            for (i = 0; i < count; i++) {
+                while (sub_08019FA8() == 0 && sub_08056E90() == 0)
+                    sub_080003F0();
                 if (sub_08056E90() == 0) {
-                    var_r4_3 = 0;
-                    if (state23A3C->states[((u8)var_r6_3 + ((u8) temp_r1 * 5))] == 3) {
-                        var_r4_3 = 1;
-                    }
-                    if (var_r4_3 == 0) {
-    goto loop_67;
-loop_67_yield:
-    sub_080003F0();
-loop_67:
-                        if ((sub_0806603C(&sp0[var_r6_3]) == 0) && (sub_08056E90() == 0)) goto loop_67_yield;
-                        if ((sub_08056E90() == 0) && (sub_08002204() != 0)) {
-                            state23A3C->states[((u8)var_r6_3 + ((u8) temp_r1 * 5))] = 2;
-                        }
+                    if (!SlotIs23A3C(id, i, 3)) {
+                        while (sub_0806603C(&ev[i]) == 0 && sub_08056E90() == 0)
+                            sub_080003F0();
+                        if (sub_08056E90() == 0)
+                            SetSlot23A3C(id, i, 2);
                     }
                 }
-    goto loop_82;
-loop_82_check:
-                    var_r2_2 = 0;
-                    temp_r0_4 = state23A3C->states[((u8)var_r6_3 + ((u8) temp_r1 * 5))];
-                    if (temp_r0_4 == 1) {
-                        var_r2_2 = 1;
+                for (;;) {
+                    if (sub_08056E90() != 0) {
+                        while (sub_08067C28(&state23A3C->entries[id]) == 0)
+                            sub_080003F0();
+                        i = count;
+                        break;
                     }
-                    if (var_r2_2 != 0) {
-                        var_r6_3 = sp3C;
-                        sp38 = 0;
-                        goto loop_82_next;
+                    if (SlotIs23A3C(id, i, 1)) {
+                        i = count;
+                        done = 0;
+                        break;
                     }
-                    var_r1_2 = 0;
-                    if (temp_r0_4 == 3) {
-                        var_r1_2 = 1;
+                    if (SlotIs23A3C(id, i, 3)) {
+                        done = 1;
+                        break;
                     }
-                    if (var_r1_2 != 0) {
-                        sp38 = 1;
-                        goto loop_82_next;
-                    }
-loop_82_yield:
-    sub_080003F0();
-loop_82:
-                if (sub_08056E90() == 0) goto loop_82_check;
-    goto loop_85;
-loop_85_yield:
-    sub_080003F0();
-loop_85:
-                if (sub_08067C28(gUnk_03005CF4 + ((temp_r1 * 4) + 0x724)) == 0) goto loop_85_yield;
-                var_r6_3 = sp3C;
-loop_82_next:
-                var_r6_3 += 1;
-                if ((u32) var_r6_3 < sp3C) {
-                    goto loop_59;
+                    sub_080003F0();
                 }
             }
             break;
         }
-    sub_080003F0();
-    if (sp38 == 1) goto finish;
-loop_90:
-    if (state23A3C->mode != 0xB) {
-        goto loop_109;
-loop_109_body:
-            if ((gUnk_03002344 & 1) == (temp_r1 & 1)) {
-                temp_r8 = M2C_FIELD(sp34, u16 *, 0x4);
-                temp_r7 = M2C_FIELD(sp34, u16 *, 0x6);
-                temp_r6 = sub_08002164();
-                var_sl = 0;
-                if (sub_08019FA8() == 0) {
-                    goto loop_109;
-                }
-                var_r5 = 0;
-                if ((u32) temp_r0_2 < temp_r6) {
-loop_97:
-                    temp_r3 = &gUnk_03003CE0[var_r5];
-                    temp_r2 = M2C_FIELD(temp_r3, struct Remote23A3C **, 0x148);
-                    if (!(((u32) (temp_r2->unk4 << 0x1A) >> 0x1A) & 0x20) && !(temp_r3->flags & 0x2000)) {
-                        var_r1 = M2C_FIELD(sp34, s16 *, 0x0) - ((u16) temp_r2->unk0 >> 7);
-                        if (var_r1 < 0) {
-                            var_r1 = 0 - var_r1;
-                        }
-                        if (var_r1 < (s32) temp_r8) {
-                            var_r0 = M2C_FIELD(sp34, s16 *, 0x2) - ((u32) (temp_r2->unk2 << 0x14) >> 0x17);
-                            if (var_r0 < 0) {
-                                var_r0 = 0 - var_r0;
-                            }
-                            if (var_r0 >= (s32) temp_r7) {
-                                goto block_105;
-                            }
-                            var_sl = 1;
-                        } else {
-                            goto block_105;
-                        }
-                    } else {
-block_105:
-                        var_r5 += 1;
-                        if (var_r5 < temp_r6) {
-                            goto loop_97;
-                        }
-                    }
-                }
-                var_r0_2 = var_sl;
-                goto block_108;
-            }
-            var_r0_2 = 0;
-block_108:
-            if (var_r0_2 == 0) {
-                goto loop_109;
-            }
-            goto loop_109_done;
-loop_109:
+    next:
         sub_080003F0();
-        temp_r0_2 = sub_08056E90();
-        if (temp_r0_2 == 0) goto loop_109_body;
+        if (done == 1)
+            break;
     }
-loop_109_done:
-    temp_r0_3 = sub_08056E90();
-    if (temp_r0_3 == 0) goto dispatch;
-finish:
-    temp_r0_6 = state23A3C->count - 1;
-    state23A3C->count = temp_r0_6;
-    if (temp_r0_6 & 0x8000) {
-        state23A3C->count = 0U;
+
+    {
+        u32 c = state23A3C->count - 1;
+        state23A3C->count = c;
+        if (c & 0x8000)
+            state23A3C->count = 0;
     }
-    if ((state23A3C->count == 0) && (sub_08056E50() == 0) && (sub_08056FF8() == 0) && (state23A3C->mode != 0xB)) {
-    goto loop_120;
-loop_120_yield:
-    sub_080003F0();
-loop_120:
-        if (sub_08067EC8() == 0) goto loop_120_yield;
+    if (state23A3C->count == 0 && sub_08056E50() == 0 && sub_08056FF8() == 0 && state23A3C->mode != 0xB) {
+        while (sub_08067EC8() == 0)
+            sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08023A3C);
-#endif
-extern void sub_08023A3C(s32 *, u32);
 struct Task23ED8 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct State23ED8 { u8 pad[0x1834]; struct Task23ED8 tasks[32]; };
 extern struct State23ED8 *state23ED8 asm("gUnk_03005CF4");
