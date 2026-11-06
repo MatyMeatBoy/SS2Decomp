@@ -55,6 +55,10 @@ Use `permute.py` for small differences, initially 300 seconds. Its unchanged
 control must reproduce the normal object. If it fails, diagnose preprocessing,
 helper removal or AST reprinting; do not routinely bypass it with
 `--allow-control-diff`.
+`permute.py` freezes inline helper definitions and their storage qualifiers while
+randomizing the requested function. Keep those helpers and the actual callee
+prototypes in the candidate; an implicit declaration can change argument
+truncation. The unchanged control must still reproduce the complete normal object.
 
 A custom region-only search needs strict unchanged-control comparison against
 the freshly built whole-module function with normal flags. Inject only the region

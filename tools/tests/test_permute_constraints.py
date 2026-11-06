@@ -70,12 +70,29 @@ class PermuterConstraintControls(unittest.TestCase):
                 permute.validate_control(str(case),str(source))
             self.assertFalse(json.loads((case/'control.json').read_text())['entire_object_equal'])
 
-    def test_stripped_used_inline_helper_fails_before_randomization(self):
+    def test_used_inline_helper_has_identical_complete_object(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);source=root/'candidate.c';case=root/'case'
             source.write_text('static inline int helper(int x) { return x*3+1; }\n'
                               'int test_target(int x) { return helper(x); }\n')
             self.prepare(source,case)
+            result=permute.validate_control(str(case),str(source))
+            self.assertTrue(result['entire_object_equal'])
+            self.assertIn('static inline int helper(int x)', (case/'control.c').read_text())
+
+    def test_nested_inline_helpers_keep_aliases_and_constraints(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);source=root/'candidate.c';case=root/'case'
+            source.write_text('extern int invoke(int) asm("real_invoke");\n'
+                              'static inline int first(int x) {\n'
+                              '    asm("" : "+r"(x)); return x*3+1;\n}\n'
+                              'static inline int second(int x) { return invoke(first(x)); }\n'
+                              'int test_target(int x) { return second(x); }\n')
+            self.prepare(source,case)
+            result=permute.validate_control(str(case),str(source))
+            self.assertTrue(result['entire_object_equal'])
+            # The helper remains frozen; changing its actual body must still fail.
+            base=case/'base.c';base.write_text(base.read_text().replace('x*3+1','x*3+2'))
             with self.assertRaisesRegex(SystemExit,'differs from normal object'):
                 permute.validate_control(str(case),str(source))
 
