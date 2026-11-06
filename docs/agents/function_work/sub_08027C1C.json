@@ -1,7 +1,7 @@
 {
   "address": "0x08027C1C",
-  "updated_utc": "2026-11-06T22:32:45.967931+00:00",
-  "checkpoint": "a6dfd3e52027567939f0386a4b78fcb2493254cd",
+  "updated_utc": "2026-11-06T22:45:15.798404+00:00",
+  "checkpoint": "42744c9be5f90724e916df1f39a0d5c5ddab12da",
   "areas": [
     {
       "id": "compile",
@@ -25,13 +25,13 @@
       "id": "animation",
       "label": "Animation state loop and helper arguments",
       "state": "active",
-      "evidence": "The draft retains state cases 0/10/11/12, sprite helper calls, packet/item handling and display/hide calls. Its main effect loop is now bottom-tested under the existing nonzero effect-count guard, matching the observed ASM loop boundary. Reusing a pointer carrier across disjoint phases improves allocation toward r9=next and sl=state-global address without additional fixed-register bindings. Helper argument order, remaining temporaries and CFG still differ; no semantic equivalence is inferred from compilation."
+      "evidence": "The draft retains state cases 0/10/11/12, sprite helper calls, packet/item handling and display/hide calls. A local inline helper now holds the loaded runtime base through the paired position and active-state stores, reproducing the observed single global-pointer load. The multiplayer item-spawn retry uses a yield-before-check layout; all 40 static call targets now follow the original order, with no emitted helper call. Original-ROM and candidate traces, RAM, callee-saved registers and SP agree in 577 bounded scenarios using stubbed callees with scratch-register clobbers, up to ten effects, states 0/10/11/12, both input record kinds, multiplayer limits and retry paths. Known resource-pointer fields are canonicalized between linked layouts. These bounded traces do not establish complete semantic equivalence; the area stays active."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH. Original and candidate are 1868 bytes with the same 588-byte local frame. Recovering the outer group loop and configuration lifetime improves approximate nmscore from 307 to 302; differing normalized halfwords decrease from 654 to 639. These are ranking observations, not equivalence or matching proof. Twelve empty constraints and three hard-register bindings were removed one at a time only when the selected complete function bytes and relocations remained identical. The 40 static call targets keep the inherited draft order; that static layout still differs from the original retry-loop layout. Normal make compare prints shiningsoul2_eu.gba: OK with the ASM fallback, the full NONMATCHING build succeeds, and check_tree reports 0 errors. No new matching C bytes are claimed."
+      "evidence": "Strict module comparison remains NO MATCH. Original and candidate are 1868 bytes with the same 588-byte local frame. Approximate nmscore changes from 302 to 294; differing normalized halfwords change from 639 to 644 as the retry layout and literal pools move. Neither ranking measure proves a match. The selected shape restores the original single runtime-base load and static call ordering, and passes 577 bounded original-ROM/candidate scenarios with stubbed callees. Normal make compare prints shiningsoul2_eu.gba: OK with the ASM fallback, the full NONMATCHING build succeeds, and check_tree reports 0 errors. No new matching C bytes are claimed."
     }
   ],
   "regions": []
