@@ -185,7 +185,6 @@ s32 sub_080A9910(struct V *a, struct V *b, struct V *c)
     v2.y = c->y - a->y;
     r = v1.x * v2.y - v1.y * v2.x; res = 1; if (r <= 0) { res = 0; if (r < 0) res--; } return res;
 }
-#ifdef NONMATCHING
 struct Res9950 { u8 p0[4]; s16 f4, f6; u8 p8[0x1F]; u8 f27; u8 p28[0xAE]; u16 fD6; };
 struct Act9950 {
     u16 f0, f2;
@@ -230,6 +229,7 @@ extern struct Pl9950 gPl9950[] asm("gUnk_03003CE0");
 extern u8 gHist9950[] asm("gUnk_03003DC4");
 extern u8 gImg9950[] asm("gUnk_084AA970");
 extern u8 gPose9950[] asm("gUnk_08518898");
+extern u8 gPoseT9950[][2][5] asm("gUnk_08518898");
 extern u32 gAnimIds9950[] asm("gUnk_085188E8");
 extern void *gData9950 asm("gUnk_030034E0");
 extern u8 *gState9950 asm("gUnk_03005CF4");
@@ -251,6 +251,7 @@ void face9950(void *, u8) asm("sub_08095F10");
 u8 move9950(void *, u32, u32, s32, s32, s32) asm("sub_08097AC0");
 void spawn9950(s32, s32, s32, s32, s32) asm("sub_0807386C");
 s16 rand9950(void) asm("sub_0800086C");
+int abs(int);
 s32 link9950(void) asm("sub_08002204");
 s32 linkPick9950(u8) asm("sub_08068450");
 void loadPal9950(u32, void *, u32) asm("sub_08000AF0");
@@ -308,7 +309,6 @@ void sub_080A9950_v(struct Act9950 *a)
     s32 h;
     struct Pl9950 *pl;
     u8 *base;
-    s16 idx;
 
     gB9950 = a;
     gMask9950 |= 2;
@@ -321,10 +321,12 @@ void sub_080A9950_v(struct Act9950 *a)
     initRes9950(res);
     hide9950(gA9950);
     hide9950(gB9950);
-    base[0x50B] = 1;
     {
-        struct Act9950 *g = gA9950;
-        g->f0 = 1;
+        struct Act9950 *g;
+        u16 one;
+        base[0x50B] = one = 1;
+        g = gA9950;
+        g->f0 = one;
         g->f2 = 5;
         g->f48 = gMap9950.f90;
         g->f14 = gB9950->f14 = 0xED88;
@@ -584,13 +586,14 @@ void sub_080A9950_v(struct Act9950 *a)
                     sfxFlag = 0;
                     pose = 2;
                     gB9950->f1FE = 1;
+                    gB9950->f1FD = 2;
                 } else {
                     proj = 0;
                     sfxFlag = 0;
                     pose = 2;
                     gB9950->f1FE = 1;
+                    gB9950->f1FD = 2;
                 }
-                gB9950->f1FD = 2;
                 sub_08067C18();
                 break;
             case 1:
@@ -669,10 +672,7 @@ void sub_080A9950_v(struct Act9950 *a)
                     sub_08067C18();
                 } else {
                     if (link9950() == 1) {
-                        s32 r = (s16)(rand9950() % 3);
-                        if (r < 0)
-                            r = -r;
-                        gB9950->f200 = r;
+                        gB9950->f200 = abs((s16)(rand9950() % 3));
                         if (linkPick9950(gB9950->f200) == 1) {
                             gB9950->f1FE = 4;
                             gB9950->f1FD = 2;
@@ -708,11 +708,10 @@ void sub_080A9950_v(struct Act9950 *a)
             gA9950->f6A = 0;
             gB9950->f6C = 0;
             gB9950->f6A = 0;
-            idx = side * 5 + pose * 10;
-            gA9950->f68 = gPose9950[idx + 1];
-            animInit9950(&anim0, gAnimIds9950[gPose9950[idx]], gTile9950, -1, 1);
-            gB9950->f68 = gPose9950[idx + 3];
-            animInit9950(&anim1, gAnimIds9950[gPose9950[idx + 2]], gTile9950, -1, 1);
+            gA9950->f68 = gPoseT9950[pose][side][1];
+            animInit9950(&anim0, gAnimIds9950[gPoseT9950[pose][side][0]], gTile9950, -1, 1);
+            gB9950->f68 = gPoseT9950[pose][side][3];
+            animInit9950(&anim1, gAnimIds9950[gPoseT9950[pose][side][2]], gTile9950, -1, 1);
             anim0.f1C = gTile9950;
             anim1.f1C = gTile9950;
         }
@@ -726,8 +725,8 @@ void sub_080A9950_v(struct Act9950 *a)
         loadPal9950(gTile9950 + 0x10, anim0.fC + res->fD6 * 32, 1);
         loadPal9950(gTile9950 + 0x10, anim1.fC + res->fD6 * 32, 1);
         if (sub_0800CD8C() == 0) {
-            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, gPose9950[pose * 10 + side * 5 + 4]);
-            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, gPose9950[pose * 10 + side * 5 + 4]);
+            gA9950->f6E = anim9950(&anim0, gA9950->f68, &gA9950->f6A, &gA9950->f6C, gPoseT9950[pose][side][4]);
+            gB9950->f6E = anim9950(&anim1, gB9950->f68, &gB9950->f6A, &gB9950->f6C, gPoseT9950[pose][side][4]);
         }
         proj9950((s16)(gA9950->f14 >> 8), (s16)(gA9950->f18 >> 8), &sxA, &syA, 0, 0);
         if (gB9950->f1FE == 1 || gB9950->f1FD == 1) {
@@ -776,15 +775,15 @@ void sub_080A9950_v(struct Act9950 *a)
 
     gMask9950 = 0;
     gPl9950[sub_080020F4()].flags |= 1;
-    idx = side * 5 + 20;
-    gA9950->f68 = gPose9950[idx + 1];
-    gB9950->f68 = gPose9950[idx + 3];
+    pose = 2;
+    gA9950->f68 = gPoseT9950[pose][side][1];
+    gB9950->f68 = gPoseT9950[pose][side][3];
     gA9950->f6A = 0;
     gA9950->f6C = 0;
     gB9950->f6A = 0;
     gB9950->f6C = 0;
-    animInit9950(&anim0, gAnimIds9950[gPose9950[idx]], gTile9950, -1, 1);
-    animInit9950(&anim1, gAnimIds9950[gPose9950[idx + 2]], gTile9950, -1, 1);
+    animInit9950(&anim0, gAnimIds9950[gPoseT9950[pose][side][0]], gTile9950, -1, 1);
+    animInit9950(&anim1, gAnimIds9950[gPoseT9950[pose][side][2]], gTile9950, -1, 1);
     anim0.f1C = gTile9950;
     anim1.f1C = gTile9950;
     sub_080683CC();
@@ -884,9 +883,6 @@ void sub_080A9950_v(struct Act9950 *a)
     sub_08067BF8();
     sub_08056E24();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A9680", sub_080A9950);
-#endif
 struct P112A { u8 p0[0x20]; u16 state; u8 p22[14]; u32 flags; u8 p34[0x34]; u8 unk68; u8 p69[0x1f]; u16 unk88; u8 p8a[6]; s32 unk90; u8 p94[0x1c]; u16 unkB0; u8 pb2[0x16]; u16 unkC8,unkCA,unkCC; u8 pce[0x16]; u32 unkE4[0x1a]; };
 struct O112A { u16 unk0; u8 p2[10]; u16 unkC; u8 pe[6]; s32 unk14,unk18; u8 p1c[0x34]; s32 unk50; };
 extern struct P112A players112A[] asm("gUnk_03003CE0");
