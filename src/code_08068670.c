@@ -4699,7 +4699,6 @@ void sub_0806FE1C(struct T06FE1CArgs *arg)
     }
     t06FE1CFlags[player] &= ~(1 << bit);
 }
-#ifdef NONMATCHING
 u8 t6f_sub_080003F0() asm("sub_080003F0");
 u8 t6f_sub_08000AF0(s32, s32, s32) asm("sub_08000AF0");
 s32 t6f_sub_080020F4() asm("sub_080020F4");
@@ -4790,7 +4789,7 @@ void sub_0806FF1C(struct T6fArg *arg0) {
     s16 idx;
     struct T6fPos *pos;
 
-    myId = t6f_sub_080020F4();
+    asm(""); asm(""); asm(""); asm("");  myId = t6f_sub_080020F4();
     bit = arg0->bit;
     owner = arg0->owner;
     if (gT6fBusy[owner]) {
@@ -4799,7 +4798,7 @@ void sub_0806FF1C(struct T6fArg *arg0) {
     }
     gT6fBusy[owner] = 1;
     target = arg0->target;
-    { u32 lv = *(u16 *)&arg0->level; count = lv; base = lv; }
+    { u32 lv = *(u16 *)&arg0->level; count = lv; asm(""); base = lv; }
     f0 = 0;
     f1 = 0;
     if (owner <= 3) {
@@ -4817,7 +4816,7 @@ void sub_0806FF1C(struct T6fArg *arg0) {
     }
     if (myId != owner) {
         if (owner > 3) {
-            { s16 *cp = (s16 *)((u8 *)gT6fCostS + 6 + (base * 2 + arg0->kind * 24)); s32 v = en->mp - *cp; en->mp = v; }
+            { u8 *cb = (u8 *)gT6fCostS; u32 off = base * 2 + arg0->kind * 24; s16 *cp; s32 v; cb += 6; cp = (s16 *)(off + (u32)cb); v = en->mp - *cp; en->mp = v; }
             if ((s16)en->mp < 0) {
                 gT6fFlags[owner] &= ~(1 << bit);
                 gT6fBusy[owner] = 0;
@@ -4837,7 +4836,7 @@ void sub_0806FF1C(struct T6fArg *arg0) {
         dir = gT6fDirs[(s16)frame];
     } else {
         frame = en->dir;
-        dir = gT6fDirs[en->dir];
+        dir = gT6fDirs[(s16)frame];
     }
     if ((myId == owner || owner > 3) && t6f_sub_0800CCCC() == 0 && t6f_sub_0800CD34() == 0)
         t6f_sub_0805865C(arg0->level + 0x15C);
@@ -4926,7 +4925,7 @@ restart:
             idx = spin;
             sx += gT6fSin[idx + 0x40] * 16;
             { s32 dy = gT6fSin[idx] * 8 - 0x800; sy += dy; }
-            spin = (u32)(0xFF0000 & ((idx + 8) << 16)) >> 16;
+            { s32 m = (idx + 8) << 16; spin = (u32)(0xFF0000 & m) >> 16; asm(""::"r"(m)); }
             if (!(gT6fCtl->h4 & 4)) {
                 u8 *p;
                 t6fAnim(&desc, base, &f0, &f1, 1);
@@ -4975,7 +4974,7 @@ restart:
                 if (target > 3) {
                     for (i = 0; i <= 4; i++) {
                         if ((1 << i) & gT6fEnemyMask) {
-                            struct T6fEn *e = &gT6fEnemies[i];
+                            u32 off; register struct T6fEn *e asm("r4"); struct T6fEn **pp = &gT6fEnemies; { register int a asm("r4"); asm("" : "=r"(a)); off = i * sizeof(struct T6fEn); asm("" :: "r"(a)); } { register u32 b asm("r1") = (u32)*pp; e = (struct T6fEn *)(b + off); }
                             if (e->alive) {
                                 x = (e->x - sx) >> 8;
                                 y = (e->y - sy) >> 8;
@@ -5069,7 +5068,7 @@ restart:
             if (target != 0xFFFF && target > 3) {
                 for (i = 0; i <= 4; i++) {
                     if ((1 << i) & gT6fEnemyMask) {
-                        struct T6fEn *e = &gT6fEnemies[i];
+                        u32 off; register struct T6fEn *e asm("r4"); struct T6fEn **pp = &gT6fEnemies; { register int a asm("r4"); asm("" : "=r"(a)); off = i * sizeof(struct T6fEn); asm("" :: "r"(a)); } { register u32 b asm("r1") = (u32)*pp; e = (struct T6fEn *)(b + off); }
                         if (e->alive) {
                             x = (e->x - sx) >> 8;
                             y = (e->y - sy) >> 8;
@@ -5139,7 +5138,7 @@ restart:
                 f1 = 0;
                 f0 = 0;
                 if (count != 0)
-                    goto relaunch;
+                    goto lost;
                 goto end;
             }
         }
@@ -5227,9 +5226,6 @@ end:
     gT6fBusy[owner] = 0;
     gT6fFlags[owner] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806FF1C);
-#endif
 #ifdef NONMATCHING
 extern u8 gT6gBusy[] asm("gUnk_03006410");
 extern s16 gT6gRadius[] asm("gUnk_084EC1D0");
