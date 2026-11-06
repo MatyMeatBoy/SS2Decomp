@@ -4182,14 +4182,14 @@
       "name": "sub_0800AEF4",
       "addr": 134262516,
       "size": 548,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08009088",
       "kind": "c",
       "cat": "game",
       "address": "0x0800AEF4",
       "canonical_symbol": "sub_0800AEF4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0800AEF4",
       "name_status": "unidentified",
       "name_source": null,
@@ -20766,7 +20766,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2729,
+          "line": 2725,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
