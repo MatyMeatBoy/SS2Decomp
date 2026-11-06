@@ -1251,7 +1251,6 @@ void sub_080760E8(u32 who, u32 a, u32 b, u32 c)
     sub_08000274_2(t, e);
     gMasks60E8[who] |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Arg61A4 { u32 who; u32 slot; u16 target; u16 pad; u32 fC; s32 n; u32 flags; };
 struct Spr61A4 { u32 base, unused4; void *data; void *paletteResource; u32 resource, style; s32 mode; u8 palette[16]; s16 scale, step, upper, lower; };
 struct Ent61A4 { u16 xRaw, yRaw; };
@@ -1394,20 +1393,6 @@ void sub_080761A4_c(struct Arg61A4 *arg)
             dy = (e->y - y) >> 8;
             /* hit doubles as the angle temporary (ROM keeps it in r4). */
             hit = (u16)atan61A4(dx, dy) >> 8;
-            if (hit > 0x80)
-                hit = (u16)(hit - 0x100);
-            ang = hit;
-            {
-                s16 sa = ang;
-                if (sa < 0)
-                    ang = sa + 0x100;
-            }
-        } else {
-            struct Ent61A4 *te = p61A4[target].entity;
-            dx = (te->xRaw >> 4) - (x >> 8);
-            dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
-            hit = (u16)atan61A4(dx, dy) >> 8;
-            /* ROM tests a copy of the angle (adds r1, r4, #0) in this block. */
             t = (u8)hit;
             if (t > 0x80)
                 hit = (u16)(t - 0x100);
@@ -1417,11 +1402,30 @@ void sub_080761A4_c(struct Arg61A4 *arg)
                 if (sa < 0)
                     ang = sa + 0x100;
             }
-        }
-        {
-            s16 sa = ang;
-            if (sa > 0x100)
-                ang = sa - 0x100;
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
+        } else {
+            struct Ent61A4 *te = p61A4[target].entity;
+            dx = (te->xRaw >> 4) - (x >> 8);
+            dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
+            hit = (u16)atan61A4(dx, dy) >> 8;
+            t = (u8)hit;
+            if (t > 0x80)
+                hit = (u16)(t - 0x100);
+            ang = hit;
+            {
+                s16 sa = ang;
+                if (sa < 0)
+                    ang = sa + 0x100;
+            }
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
         }
     } else {
         ang = dir61A4[((u8 *)p->entity)[3] >> 4];
@@ -1557,7 +1561,8 @@ void sub_080761A4_c(struct Arg61A4 *arg)
                     if (big)
                         p->flags &= ~0x200000;
                 } else if (who == local) {
-                    if (!(1 & sub_0800086C())) {
+                    register u32 b asm("r1") = sub_0800086C() & 1;
+                    if (!b) {
                         u16 s = p->state;
                         u16 f;
                         p->state = lo;
@@ -1606,9 +1611,6 @@ void sub_080761A4_c(struct Arg61A4 *arg)
     }
     m61A4[who] &= ~(1 << arg->slot);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_080761A4);
-#endif
 struct TaskA88 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct InfoA88 { u32 who, i, a, pad, c, b; };
 struct PlayerA88 { u8 pad[0x20]; u16 state; u8 pad22[6]; u16 f28; u8 pad2a[0xf8]; u16 f122; u8 pad124[0x28]; };
