@@ -3865,7 +3865,6 @@ void sub_08026338(void *arg) {
     *(s32 *)(base + 0x17E0) = 0;
     sub_08000274((M2C_UNK *) (base + off), (s32) arg);
 }
-#ifdef NONMATCHING
 struct T24Net080263B4 { u16 unk0, unk2; u8 pad4[3]; u8 unk7; };
 struct T24Player080263B4 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x58]; u32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net080263B4 *net; };
 struct T24Sprite080263B4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 payload[15]; u8 f2B; u8 pad2C[8]; };
@@ -3907,10 +3906,11 @@ void sub_080263B4(void) {
     u32 var_r2;
     u32 var_r4;
     u32 var_r5_2;
-    u32 var_r7; /* Uninitialized in original; draft equivalence unproven. */
+    u32 var_r7;
     register u32 zero asm("r10");
     u8 *temp_r4;
     register struct T24Net080263B4 *temp_r2_2 asm("r2");
+    s32 cx = 0x78, cy = 0x140;
 
     zero = 0;
     asm("" : "+r"(zero));
@@ -3935,7 +3935,8 @@ void sub_080263B4(void) {
     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
     sprite.f2B = 0xE;
     t24_state080263B4->unk4 = (u16) (0x100 | t24_state080263B4->unk4);
-    goto loop_48;
+    while (!(((u16)t24_state080263B4->unk4 >> 4) & 1) && sub_0800D154() == 0) {
+    goto loop_2;
 retry_2:
     sub_080003F0();
 loop_2:
@@ -3946,28 +3947,12 @@ loop_2:
         x = (s16) ((u32) temp_r6->unk8C >> 8);
         y = (s16) ((u32) temp_r6->unk90 >> 8);
         if ((sub_0806569C() == 0) && (temp_r6->state != 0xE)) {
-            {
-                register s32 scratch asm("r3");
-                s32 value;
-                register s32 limit asm("r2");
-                asm("" : "=r"(scratch));
-                value = x;
-                asm("" : "+r"(value), "+r"(scratch));
-                limit = 0x78;
-                asm("" : "+r"(limit));
-                var_r0 = value - limit;
-            }
+            var_r0 = x - cx;
             if (var_r0 < 0) {
                 var_r0 = 0 - var_r0;
             }
             if (var_r0 <= 0x17) {
-                {
-                    s32 value = y;
-                    register s32 limit asm("r2") = 0x140;
-                    asm("" : "+r"(value));
-                    asm("" : "+r"(limit));
-                    var_r0_2 = value - limit;
-                }
+                var_r0_2 = y - cy;
                 if (var_r0_2 < 0) {
                     var_r0_2 = 0 - var_r0_2;
                 }
@@ -4020,23 +4005,12 @@ scan_body:
                 x = (s16) ((u16) temp_r2_2->unk0 >> 4);
                 temp_r1 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
                 y = (s16) temp_r1;
-                {
-                    register s32 value asm("r0") = x;
-                    register s32 bound asm("r3");
-                    asm("" : "+r"(value));
-                    bound = 0x78;
-                    asm("" : "+r"(bound));
-                    var_r0_3 = value - bound;
-                }
+                var_r0_3 = x - cx;
                 if (var_r0_3 < 0) {
                     var_r0_3 = 0 - var_r0_3;
                 }
                 if (var_r0_3 <= 0x17) {
-                    {
-                        u32 bound = 0x140;
-                        asm("" : "+r"(bound));
-                        var_r0_4 = temp_r1 - bound;
-                    }
+                    var_r0_4 = temp_r1 - cy;
                     if (var_r0_4 < 0) {
                         var_r0_4 = 0 - var_r0_4;
                     }
@@ -4067,22 +4041,21 @@ block_42:
             temp_r4_3 = t24_scene080263B4.scene;
             if (temp_r4_3 == 0) {
                 sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-                sub_0800BC08(0x78, 0x140, &x, &y, 0x30, 0);
+                sub_0800BC08((s16)cx, (s16)cy, &x, &y, 0x30, 0);
                 sub_08008E74(x, y, zero, frame, 3, sprite.payload, sprite.f8, sprite.f0);
             }
         }
         sub_080003F0();
-loop_48:
-    if (!(((u16)t24_state080263B4->unk4 >> 4) & 1) && sub_0800D154() == 0) goto loop_2;
+    }
 block_51:
     sub_0801A664(0x12, 2);
     if (!(((u16) t24_state080263B4->unk4 >> 4) & 1) && (sub_0800D154() == 0)) {
+        register u32 cnt asm("r5") = 1;
         s16 *endX = &x;
         s16 *endY = &y;
         u32 xpos = 0x780000;
-        var_r5_2 = 1;
 
-loop_55:
+        for (;;) {
         goto end_poll;
 end_yield:
         sub_080003F0();
@@ -4094,27 +4067,18 @@ end_poll:
                 temp_r4_4 = t24_scene080263B4.scene;
                 if (temp_r4_4 == 0) {
                     sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-                    {
-                        register u32 ybase asm("r3") = 0xA0;
-                        u32 ybits;
-                        u32 xbits = xpos;
-                        asm("" : "+r"(ybase));
-                        ybase <<= 1;
-                        ybits = ybase << 16;
-                        asm("" : "+r"(ybits), "+r"(xbits));
-                        sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), endX, endY, 0x30, 0);
-                    }
+                    sub_0800BC08((s16)cx, (s16)cy, endX, endY, 0x30, 0);
                     sub_08008E74(*endX, *endY, zero, frame, 3, sprite.payload, sprite.f8, sprite.f0);
                 }
             }
             sub_0801A664(0x12, 2);
             sub_080003F0();
-            temp_r0_2 = var_r5_2;
-            var_r5_2 += 1;
+            temp_r0_2 = cnt;
+            cnt += 1;
             if (temp_r0_2 > 5U) {
                 goto block_62;
             }
-            goto loop_55;
+        } else break;
         }
     } else {
 block_62:
@@ -4135,7 +4099,7 @@ block_62:
                 do {
                     register struct T24State080263B4 *base asm("r0") = *state;
                     register u32 idx asm("r1") = col + rowOffset;
-                    register u32 gridOffset asm("r7") = offsetof(struct T24State080263B4, grid);
+                    register u32 gridOffset asm("r7") = ((size_t)&((struct T24State080263B4 *)0)->grid);
                     asm("" : "+r"(base), "+r"(idx), "+r"(gridOffset));
                     *((u8 *)base + gridOffset + idx) = zero;
                     col++;
@@ -4148,9 +4112,6 @@ block_62:
         sub_08057624(3U);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080263B4);
-#endif
 void sub_080267DC(void) {
     s32 *gp;
     s32 off;
