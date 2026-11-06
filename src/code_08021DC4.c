@@ -2107,6 +2107,7 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 spD8;
     struct Player245CC *spDC;
     u32 spE0;
+    u32 shiftedFlags;
     s16 *temp_r7;
     s16 temp_r0_8;
     s16 temp_r0_9;
@@ -2175,7 +2176,8 @@ void sub_080245CC(struct Input245CC *arg0) {
     sp8C = sp84->x * 8;
     sp90 = sp84->y * 8;
     temp_r5 = sp84->flags;
-    temp_r3 = temp_r5;
+    shiftedFlags = (u32)temp_r5 << 16;
+    temp_r3 = shiftedFlags >> 16;
     spA4 = (u32) temp_r3;
     var_r5 = 1;
     if (8 & temp_r3) {
@@ -2186,7 +2188,7 @@ void sub_080245CC(struct Input245CC *arg0) {
         spB8 = 8;
     } else {
         spC4 = 0;
-        spB8 = ((u32) (temp_r5 << 0x10) >> 0x14) & 7;
+        spB8 = (shiftedFlags >> 20) & 7;
         sp9C = sp8C;
         spA0 = sp90;
     }
