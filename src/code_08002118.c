@@ -3082,13 +3082,23 @@ setup66(1, 0, 0, 0, 1);
 sub_0800BCDC(1, 1, 0x06000000, 0U, 0x10);
     S.display = (S.display & 0xFFFF0000) | 0x1D80;
     sub_08000AA8(1U, (u16 *) &S.display);
-sprite66(&S.gfx, 0x50001, 0, 3, 0);
+    {
+        register s32 spriteZero asm("r0");
+        spriteZero = 0;
+        asm("" : "+r"(spriteZero));
+        sprite66(&S.gfx, 0x50001, 0, 3, spriteZero);
+    }
     sub_080003F0();
     sub_080003F0();
     call66_0801AB50(6);
     S.result = 0;
     var_sl = 0;
-    S.active = 0;
+    {
+        register s32 activeZero asm("r1");
+        activeZero = 0;
+        asm("" : : "r"(activeZero));
+        S.active = activeZero;
+    }
     initialCounts=S.count;asm("" : "+r"(initialCounts));
     initialCounts[3] = 0;
     initialCounts[2] = *(u16 *)&S.result;
@@ -3140,7 +3150,15 @@ sub_08065230(&S.gfx, (s32) coords66[0].x, (s32) coords66[0].y, 1U, 0);
     goto loop_20;
 block_11:
     peer = peer66(var_r6);
-    {u32 mask=1U<<var_r6;asm("" : "+r"(mask));var_r0=(u32)gUnk_03002730&mask;}
+    {
+        register s32 *connectionFlags asm("r0");
+        u32 mask;
+        connectionFlags = &gUnk_03002730;
+        asm("" : : "r"(connectionFlags));
+        mask = 1U << var_r6;
+        asm("" : "+r"(mask));
+        var_r0 = (u32)*connectionFlags & mask;
+    }
     if (var_r0) {
         goto block_13;
     }
@@ -3177,7 +3195,12 @@ loop_20:
     if (var_r9 != (sub_08002164() - 1)) {
         goto block_31;
     }
-sub_08065370(&S.gfx, 2U, (s32) &S.a, (s32) &S.b, 1);
+    {
+        register s32 animateVisible asm("r0");
+        animateVisible = 1;
+        asm("" : "+r"(animateVisible));
+        sub_08065370(&S.gfx, 2U, (s32) &S.a, (s32) &S.b, animateVisible);
+    }
 sub_08065230(&S.gfx, 0x78, 0x3C, 2U, (s32) S.a);
     if (!(1 & pressed66)) {
         goto block_27;
@@ -3187,11 +3210,24 @@ sub_08065230(&S.gfx, 0x78, 0x3C, 2U, (s32) S.a);
     }
     sub_08006D08(0xFU);
 block_26:
-    S.result = 1;
-    S.active = 1;
+    {
+        register s32 resultOne asm("r1");
+        resultOne = 1;
+        asm("" : "+r"(resultOne));
+        S.result = resultOne;
+    }
+    {
+        register s32 activeOne asm("r0");
+        activeOne = 1;
+        asm("" : "+r"(activeOne));
+        S.active = activeOne;
+    }
 block_27:
-    if (S.active == 0) {
-        goto block_32;
+    {
+        register s32 activeState asm("r1");
+        activeState = S.active;
+        asm("" : : "r"(activeState));
+        if (activeState == 0) goto block_32;
     }
     var_sl += 1;
     peer = peer66(0U);
@@ -3207,8 +3243,13 @@ block_31:
     S.active = 0;
     var_sl = 0;
     peer = peer66(0);
-    peer->unk8 = 0;
-    peer->unk9 = 0;
+    {
+        register u32 resetZero asm("r1");
+        resetZero = var_sl;
+        asm("" : : "r"(resetZero));
+        peer->unk8 = resetZero;
+        peer->unk9 = resetZero;
+    }
 block_32:
     peer = peer66(0U);
     var_r0_2 = sub_0800CE30();
@@ -3262,7 +3303,15 @@ block_45:
     goto loop_61;
 block_46:
     peer = peer66(var_r6_2);
-    {u32 mask=1U<<var_r6_2;asm("" : "+r"(mask));var_r0=(u32)gUnk_03002730&mask;}
+    {
+        register s32 *connectionFlags asm("r0");
+        u32 mask;
+        connectionFlags = &gUnk_03002730;
+        asm("" : : "r"(connectionFlags));
+        mask = 1U << var_r6_2;
+        asm("" : "+r"(mask));
+        var_r0 = (u32)*connectionFlags & mask;
+    }
     if (var_r0) {
         goto block_48;
     }
@@ -3350,11 +3399,12 @@ block_73:
     if (sub_0801AAE0() == 0) {
         goto block_72;
     }
-    if (S.result == 0) {
-        goto block_77;
-    }
-    if (S.result == 1) {
-        goto block_80;
+    {
+        register s32 resultState asm("r1");
+        resultState = S.result;
+        asm("" : : "r"(resultState));
+        if (resultState == 0) goto block_77;
+        if (resultState == 1) goto block_80;
     }
     goto block_83;
 block_77:
