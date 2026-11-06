@@ -798,7 +798,7 @@ void sub_08060E44(s32 animate)
     s16 base;
     s16 k;
     s16 end;
-    u16 keys;
+    u32 keys;
 
     mgr = hudMgrE63;
     pl = &hudPlayers63[sub_080020F4()];
@@ -888,7 +888,7 @@ void sub_08060E44(s32 animate)
                     if (mgr->list[k] != 0) {
                         struct HudSlotE63 *found;
                         s32 id;
-                        s16 n;
+                        s32 n;
                         s16 m;
                         id = mgr->list[k] - 1;
                         found = &tmp;
@@ -897,14 +897,14 @@ void sub_08060E44(s32 animate)
                         n = 0;
                         for (m = 0; m <= 0x18; m++) {
                             if (mgr->bag[m].kind == 1 && id == mgr->bag[m].id) {
-                                n++;
+                                n = (u16)(n + 1);
                                 found = &mgr->bag[m];
                             }
                         }
-                        hudNumberE63(hudPosE63[end - (k + 1)].x + (0xF0 - (7 - slide) * 8),
-                                     hudPosYE63[end - (k + 1)].x + 0x18, n, 0);
-                        hudItemE63(hudPosE63[end - (k + 1)].x + (0xF0 - (7 - slide) * 8),
-                                   hudPosYE63[end - (k + 1)].x + 0x10, found, 0);
+                        hudNumberE63(hudPosE63[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
+                                     hudPosYE63[end - ((s16)(k + 1))].x + 0x18, (s16)n, 0);
+                        hudItemE63(hudPosE63[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
+                                   hudPosYE63[end - ((s16)(k + 1))].x + 0x10, found, 0);
                     }
                 }
             }
@@ -985,8 +985,8 @@ void sub_08060E44(s32 animate)
             end = base + 3;
             for (k = base; k < end; k++) {
                 if (mgr->list[k] != 0)
-                    hudItemE63(hudPosE63[2 - (end - (k + 1))].x + 0xF0 - (7 - slide) * 8,
-                               hudPosYE63[2 - (end - (k + 1))].x + 0x10,
+                    hudItemE63(hudPosE63[2 - (end - ((s16)(k + 1)))].x + 0xF0 - (7 - slide) * 8,
+                               hudPosYE63[2 - (end - ((s16)(k + 1)))].x + 0x10,
                                &mgr->bag[mgr->list[k] - 1], 0);
             }
             hudSprite63(hudPosE63[2 - (end - (mgr->sel + 1))].x + 0xF0 - (7 - slide) * 8,
