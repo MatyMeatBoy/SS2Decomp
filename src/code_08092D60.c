@@ -1588,292 +1588,187 @@ void sub_08095610(u8 v)
 {
     gUnk_03000280.b0C = v;
 }
-#ifdef NONMATCHING
-struct Anim956 {u32 f0,f4,f8,fC,f10,f14,f18; u8 payload[24];};
-struct Ent956 {s32 x,y; u8 state,visible,index,delay; u16 timer,anim,frame,tick,result,pad;};
-struct Pos956 {s32 x,y;};
-struct Ent956 *f956_08001494(s32) asm("sub_08001494"); void f956_08001538(void *) asm("sub_08001538"); void f956_080003F0(void) asm("sub_080003F0");
- void f956_08065158(struct Anim956 *,s32,s32,s32,s32) asm("sub_08065158");
-s32 f956_08065370(struct Anim956 *,u16,u16 *,u16 *,s32) asm("sub_08065370");
-void f956_080087AC(s32,s32,u16,u16,s32,void *,u32,u32,s32) asm("sub_080087AC");
-s32 f956_08097B6C(s32,s32,s32,s32,s32) asm("sub_08097B6C"); void f956_080979D8(s32,s32,s32,s32,struct Pos956 *) asm("sub_080979D8");
-void f956_08000AF0(u32,u32,u32) asm("sub_08000AF0"); void f956_0801AB50(s32) asm("sub_0801AB50"); s32 f956_0801AAE0(void) asm("sub_0801AAE0"); void f956_0801ABE8(s32) asm("sub_0801ABE8"); s32 f956_080021A8(void) asm("sub_080021A8"); void f956_0805865C(s32) asm("sub_0805865C"); void f956_0805867C(s32) asm("sub_0805867C");
-extern struct Pos956 positions956[] asm("gUnk_0851863C");
-void sub_0809561C(u8 arg0) {
-    struct Anim956 sp14, second;
-    struct {s32 clear; u16 frame,tick;} state956;
-    struct Pos956 sp84;
-    register s32 *clearPtr asm("r5");
-    register u8 *flagPtr asm("r10");
-    struct {s32 animation,seen;} flags956;
-    struct Anim956 *sp94;
-    u8 *sp98;
-    u16 *sp9C;
-    u16 *spA0;
-    register s32 temp_r1 asm("r9");
-    s32 allocationCount;
-    s32 var_r0_3;
-    register s32 var_sl asm("sl");
-    s8 temp_r0_2;
-    s8 temp_r1_3;
-    s8 temp_r1_7;
-    s8 temp_r2;
-    s8 temp_r2_2;
-    s8 temp_r4_2;
-    s8 temp_r5;
-    s8 var_r5;
-    s8 var_r5_2;
-    struct Ent956 *temp_r0_3;
-    struct Ent956 *temp_r0_6;
-    struct Ent956 *temp_r1_4;
-    struct Ent956 *temp_r1_6;
-    struct Ent956 *temp_r1_8;
-    struct Ent956 *temp_r2_3;
-    struct Ent956 *temp_r3;
-    register struct Ent956 *temp_r4_3 asm("r4");
-    struct Ent956 *temp_r4_4;
-    register struct Ent956 *temp_r6 asm("r6");
-    struct Ent956 *temp_r7;
-    struct Ent956 *var_r1_2;
-    struct Pos956 *temp_r4;
-    u16 temp_r0_7;
-    u16 temp_r0_8;
-    u16 temp_r0_9;
-    u16 temp_r2_4;
-    u16 var_r0;
-    u32 temp_r0_5;
-    u32 var_r5_3;
-    u8 temp_r0_10;
-    u8 temp_r0_11;
-    u8 temp_r0_4;
-    u8 temp_r1_2;
-    u8 temp_r1_5;
-    u8 var_r0_2;
-    u8 var_r1;
+struct Anim956 { u32 f0, f4, f8, fC, f10, f14, f18; u8 payload[24]; };
+struct Pos956 { s32 x, y; };
+struct Ent956 { struct Pos956 pos; u8 state, visible, index, delay; u16 timer, anim, frame, tick, result, pad; };
+extern struct Pos956 pos956_0851863C[] asm("gUnk_0851863C");
+struct Ent956 *f956_08001494() asm("sub_08001494");
+void f956_08001538() asm("sub_08001538");
+void f956_080003F0() asm("sub_080003F0");
+void f956_08065158() asm("sub_08065158");
+s32 f956_08065370() asm("sub_08065370");
+void f956_080087AC() asm("sub_080087AC");
+s32 f956_08097B6C() asm("sub_08097B6C");
+void f956_080979D8() asm("sub_080979D8");
+void f956_08000AF0() asm("sub_08000AF0");
+void f956_0801AB50() asm("sub_0801AB50");
+s32 f956_0801AAE0() asm("sub_0801AAE0");
+void f956_0801ABE8() asm("sub_0801ABE8");
+s32 f956_080021A8() asm("sub_080021A8");
+void f956_0805865C() asm("sub_0805865C");
+void f956_0805867C() asm("sub_0805867C");
 
-    var_r1 = arg0;
-    if ((s32) (s8) arg0 > 0x14) {
-        var_r1 = 0x14;
-    }
-    temp_r1 = var_r1 << 0x18;
-    clearPtr = &state956.clear;
-    sp94 = &second;
-    flagPtr = &sp14.payload[7];
-    spA0 = &state956.tick;
-    sp9C = &state956.frame;
-    sp98 = second.payload;
-    {register s32 count asm("r1"); count=(s8)(temp_r1 >> 24); allocationCount=count*3;}
+void sub_0809561C(s8 count)
+{
+    struct Anim956 a;
+    struct Anim956 b;
+    u16 frame;
+    u16 tick;
+    struct Pos956 d;
+    s32 animation;
+    s32 waiting;
+    s32 running;
+    s8 i;
+    struct Ent956 *ents;
+    struct Ent956 *next;
+
+    if (count > 20)
+        count = 20;
     do {
-        temp_r7 = f956_08001494(allocationCount << 3);
+        ents = f956_08001494(count * 24);
         f956_080003F0();
-    } while (temp_r7 == NULL);
-    state956.clear = 0;
-    temp_r0_2 = (s8) (temp_r1 >> 24);
-    CpuSet(clearPtr, temp_r7, ((temp_r0_2 * 6) & 0x1FFFFF) | 0x05000000);
-    f956_08065158(&sp14, 0x50046, 7, -1, 1);
-    f956_08065158(sp94, 0x50047, 0, -1, 1);
-    *flagPtr = 0;
-    sp94->payload[0] = 1;
-    f956_08000AF0(0x10U, sp14.fC + 0xE0, 1U);
-    f956_08000AF0(0x11U, sp94->fC, 1U);
-    var_r5 = 0;
-    if ((s32) temp_r0_2 > 0) {
-        do {
-            temp_r1_3 = var_r5;
-            temp_r0_3 = &temp_r7[temp_r1_3];
-            temp_r0_3->x = -0x2000;
-            temp_r0_3->y = 0xA000;
-            temp_r0_3->visible = 1;
-            temp_r1_2 = temp_r1_3 + 1;
-            var_r5 = (s8) temp_r1_2;
-        } while ((s32) (s8) temp_r1_2 < (s32) temp_r0_2);
+    } while (ents == NULL);
+    CpuFill32(0, ents, count * 24);
+    f956_08065158(&a, 0x50046, 7, -1, 1);
+    f956_08065158(&b, 0x50047, 0, -1, 1);
+    a.payload[7] = 0;
+    b.payload[0] = 1;
+    f956_08000AF0(0x10, a.fC + 0xE0, 1);
+    f956_08000AF0(0x11, b.fC, 1);
+    for (i = 0; i < count; i++) {
+        ents[i].pos.x = -0x2000;
+        ents[i].pos.y = 0xA000;
+        ents[i].visible = 1;
     }
-    flags956.animation = 0;
-    *spA0 = 0;
-    *sp9C = flags956.animation;
-    temp_r7->state = 1;
-    temp_r7->delay = 0x1E;
+    animation = 0;
+    tick = 0;
+    frame = animation;
+    ents[0].state = 1;
+    ents[0].delay = 30;
     f956_0801AB50(6);
-    goto loop_9;
-loop_9_yield:
-    f956_080003F0();
-loop_9:
-    if (f956_0801AAE0() == 0) goto loop_9_yield;
-loop_10:
-    flags956.seen = 0;
-    var_r5_2 = 0;
-    var_sl = 0;
-    if (temp_r1 <= 0) {
-
-    } else {
-loop_12:
-        temp_r2 = var_r5_2;
-        temp_r3 = &temp_r7[temp_r2];
-        temp_r0_4 = temp_r3->delay;
-        if (temp_r0_4 != 0) {
-            temp_r3->delay = temp_r0_4 - 1;
-        } else if (((s32) ((s8) ((u32)temp_r1 >> 24) - 1) > (s32) temp_r2) && (temp_r3->state != 0)) {
-            temp_r1_4 = temp_r3 + 1;
-            if (temp_r1_4->state == 0) {
-                temp_r1_4->state = 1;
-                temp_r1_4->delay = 0x1E;
-            }
-        }
-        temp_r0_5 = temp_r7[var_r5_2].state - 1;
-        switch (temp_r0_5) {                        /* irregular */
-        case 0:
-            temp_r2_2 = var_r5_2;
-            temp_r6 = &temp_r7[temp_r2_2];
-            temp_r4 = &positions956[temp_r2_2];
-            if (f956_08097B6C(temp_r6->x, temp_r6->y, temp_r4->x, temp_r4->y, 2) != 0) {
-                temp_r6->anim = 2;
-                temp_r6->tick = 0;
-                temp_r6->frame = 0;
-                temp_r6->state = 2;
-            } else {
-                f956_080979D8(temp_r6->x, temp_r6->y, temp_r4->x, temp_r4->y, &sp84);
-                temp_r6->x += sp84.x;
-                temp_r6->y += sp84.y;
-            }
-            break;
-        case 1:
-            temp_r4_2 = var_r5_2;
-            if (temp_r4_2 == 0) {
-                temp_r1_5 = temp_r7->index;
-                if ((u32) temp_r1_5 <= 3U) {
-                    if (1 & temp_r1_5) {
-                        var_r0 = 3;
-                    } else {
-                        var_r0 = 2;
-                    }
-                    temp_r7->anim = var_r0;
-                    temp_r1_6 = &temp_r7[var_r5_2];
-                    temp_r1_6->index += 1;
-                } else {
-                    flags956.animation = 1;
-                    f956_0805865C(0x18A);
-                    temp_r7->timer = (u16) temp_r4_2;
-                    temp_r7->anim = flags956.animation;
-                    temp_r7->tick = (u16) temp_r4_2;
-                    temp_r7->frame = (u16) temp_r4_2;
-                    temp_r7->state = 3;
+    while (f956_0801AAE0() == 0)
+        f956_080003F0();
+    do {
+        waiting = 0;
+        running = 0;
+        for (i = 0; i < count; i++) {
+            if (ents[i].delay != 0)
+                ents[i].delay--;
+            else if (count - 1 > i && ents[i].state != 0) {
+                next = &ents[i] + 1;
+                if (next->state == 0) {
+                    next->state = 1;
+                    next->delay = 30;
                 }
-            } else {
-                temp_r0_6 = &temp_r7[temp_r4_2];
-                temp_r0_6->timer = 0;
-                temp_r0_6->anim = 1;
-                temp_r0_6->tick = 0;
-                temp_r0_6->frame = 0;
-                temp_r0_6->state = 3;
             }
-            break;
-        case 3:
-            temp_r2_3 = &temp_r7[var_r5_2];
-            temp_r0_7 = temp_r2_3->timer;
-            if ((u32) temp_r0_7 <= 0x77U) {
-                temp_r2_3->timer = temp_r0_7 + 1;
-            } else {
-                temp_r2_3->timer = 0;
-                temp_r2_3->anim = 2;
-                temp_r2_3->tick = 0;
-                temp_r2_3->frame = 0;
-                temp_r2_3->state = 5;
+            switch (ents[i].state) {
+            case 1:
+                if (f956_08097B6C(ents[i].pos, pos956_0851863C[i], 2)) {
+                    ents[i].anim = 2;
+                    ents[i].tick = 0;
+                    ents[i].frame = 0;
+                    ents[i].state = 2;
+                } else {
+                    f956_080979D8(ents[i].pos, pos956_0851863C[i], &d);
+                    ents[i].pos.x += d.x;
+                    ents[i].pos.y += d.y;
+                }
+                break;
+            case 2:
+                if (i == 0) {
+                    if (ents[0].index <= 3) {
+                        if (ents[0].index & 1)
+                            ents[0].anim = 3;
+                        else
+                            ents[0].anim = 2;
+                        ents[i].index++;
+                    } else {
+                        animation = 1;
+                        f956_0805865C(0x18A);
+                        ents[0].timer = 0;
+                        ents[0].anim = animation;
+                        ents[0].tick = 0;
+                        ents[0].frame = 0;
+                        ents[0].state = 3;
+                    }
+                } else {
+                    ents[i].timer = 0;
+                    ents[i].anim = 1;
+                    ents[i].tick = 0;
+                    ents[i].frame = 0;
+                    ents[i].state = 3;
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                if (ents[i].timer < 120)
+                    ents[i].timer++;
+                else {
+                    ents[i].timer = 0;
+                    ents[i].anim = 2;
+                    ents[i].tick = 0;
+                    ents[i].frame = 0;
+                    ents[i].state = 5;
+                }
+                break;
+            case 5:
+                if (ents[i].timer < 30)
+                    ents[i].timer++;
+                else {
+                    f956_0805865C(0x18B);
+                    ents[i].visible = 0;
+                    ents[i].result = 0;
+                    ents[i].anim = 7;
+                    ents[i].tick = 0;
+                    ents[i].frame = 0;
+                    ents[i].state = 6;
+                }
+                break;
+            case 6:
+                if (ents[i].result == 1) {
+                    ents[i].timer = 0;
+                    ents[i].visible = 1;
+                    ents[i].anim = 1;
+                    ents[i].tick = 0;
+                    ents[i].frame = 0;
+                    ents[i].state = 7;
+                }
+                break;
+            case 7:
+                if (ents[i].timer < 90)
+                    ents[i].timer++;
+                else
+                    ents[i].state = 8;
+                break;
+            case 8:
+                break;
             }
-            break;
-        case 4:
-            temp_r4_3 = &temp_r7[var_r5_2];
-            temp_r0_8 = temp_r4_3->timer;
-            if ((u32) temp_r0_8 <= 0x1DU) {
-                temp_r4_3->timer = temp_r0_8 + 1;
-            } else {
-                f956_0805865C(0x18B);
-                temp_r4_3->visible = 0;
-                temp_r4_3->result = 0;
-                temp_r4_3->anim = 7;
-                temp_r4_3->tick = 0;
-                temp_r4_3->frame = 0;
-                temp_r4_3->state = 6;
+            if (ents[i].state <= 3) {
+                if (ents[i].state != 3)
+                    waiting = 1;
             }
-            break;
-        case 5:
-            var_r1_2 = &temp_r7[var_r5_2];
-            temp_r2_4 = var_r1_2->result;
-            if (temp_r2_4 == 1) {
-                var_r1_2->timer = 0;
-                var_r1_2->visible = (u8) temp_r2_4;
-                var_r1_2->anim = temp_r2_4;
-                var_r1_2->tick = 0;
-                var_r1_2->frame = 0;
-                var_r0_2 = 7;
-block_43:
-                var_r1_2->state = var_r0_2;
-            }
-            break;
-        case 6:
-            var_r1_2 = &temp_r7[var_r5_2];
-            temp_r0_9 = var_r1_2->timer;
-            if ((u32) temp_r0_9 <= 0x59U) {
-                var_r1_2->timer = temp_r0_9 + 1;
-            } else {
-                var_r0_2 = 8;
-                goto block_43;
-            }
-            break;
-        case 7:
-            break;
+            if (ents[i].state != 8)
+                running = 1;
         }
-        temp_r0_10 = temp_r7[var_r5_2].state;
-        if ((u32)temp_r0_10 <= 3U) {
-            asm("" : "+r"(temp_r0_10));
-            if(temp_r0_10 != 3)flags956.seen=1;
+        for (i = count - 1; i >= 0; i--) {
+            if (ents[i].state <= 3 && waiting == 0)
+                ents[i].state = 4;
+            ents[i].result = f956_08065370(&a, ents[i].anim, &ents[i].frame, &ents[i].tick, ents[i].visible);
+            f956_080087AC(ents[i].pos.x >> 8, ents[i].pos.y >> 8, ents[i].anim, ents[i].frame, 0, a.payload, a.f8, a.f0, 0);
         }
-        temp_r1_7 = var_r5_2;
-        if (temp_r7[temp_r1_7].state != 8) {
-            var_sl = 1;
-        }
-        temp_r0_11 = temp_r1_7 + 1;
-        var_r5_2 = (s8) temp_r0_11;
-        if ((s32) (temp_r0_11 << 0x18) < temp_r1) {
-            goto loop_12;
-        }
-    }
-    var_r5_3 = (u32) (temp_r1 + 0xFF000000) >> 0x18;
-    var_r0_3 = var_r5_3 << 0x18;
-    if (var_r0_3 >= 0) {
-        do {
-            temp_r1_8 = &temp_r7[var_r0_3 >> 0x18];
-            if (((u32) temp_r1_8->state <= 3U) && (flags956.seen == 0)) {
-                temp_r1_8->state = 4;
-            }
-            temp_r5 = (s8) var_r5_3;
-            temp_r4_4 = &temp_r7[temp_r5];
-            temp_r4_4->result = (u16) f956_08065370(&sp14, temp_r4_4->anim, &temp_r4_4->frame, &temp_r4_4->tick,  temp_r4_4->visible);
-            f956_080087AC((s32) temp_r4_4->x >> 8, (s32) temp_r4_4->y >> 8, temp_r4_4->anim, temp_r4_4->frame, 0, &sp14.payload[0], sp14.f8, sp14.f0, 0);
-            var_r5_3 = (u32) (u8) (temp_r5 - 1);
-            var_r0_3 = var_r5_3 << 0x18;
-        } while (var_r0_3 >= 0);
-    }
-    f956_08065370(sp94, (u16) flags956.animation, sp9C, spA0, 1);
-    f956_080087AC(0x20, 0x28, (u16) flags956.animation, *sp9C, 0, sp98, sp94->f8, second.f0, 0);
-    f956_080003F0();
-    if (f956_080021A8() == 1) {
-        var_sl = 0;
-    }
-    if (var_sl != 0) {
-        goto loop_10;
-    }
+        f956_08065370(&b, animation, &frame, &tick, 1);
+        f956_080087AC(0x20, 0x28, animation, frame, 0, b.payload, b.f8, b.f0, 0);
+        f956_080003F0();
+        if (f956_080021A8() == 1)
+            running = 0;
+    } while (running);
     f956_0801ABE8(6);
-    goto loop_63;
-loop_63_yield:
-    f956_080003F0();
-loop_63:
-    if (f956_0801AAE0() == 0) goto loop_63_yield;
+    while (f956_0801AAE0() == 0)
+        f956_080003F0();
     f956_0805867C(0x18A);
-    f956_08001538(temp_r7);
+    f956_08001538(ents);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_0809561C);
-#endif
 void sub_08095A60(void) {
     sub_08000A34(1, 0, 0, 0, 0);
     sub_080009F8(0xF00, 0, 0);
