@@ -27,7 +27,6 @@ extern s32 gUnk_03000408;
 void sub_080A68B0(void);
 extern s32 gUnk_0300040C;
 
-#ifdef NONMATCHING
 struct Res3D2C { u8 p0[4]; s16 f4, f6; u8 p8[0x22]; u8 f2A, f2B; u8 p2C[0xAA]; u16 fD6; };
 struct Act3D2C {
     u16 f0, f2;
@@ -71,8 +70,8 @@ extern u8 *gBase3D2C asm("gUnk_030056F4");
 extern u32 gMask3D2C asm("gUnk_030056FC");
 extern struct G3170_3D2C gMap3D2C asm("gUnk_03003170");
 extern u8 gImg3D2C[] asm("gUnk_084A6DB8");
-extern s16 gOffX3D2C[] asm("gUnk_08518754");
-extern s16 gOffY3D2C[] asm("gUnk_08518756");
+struct Off3D2C { s16 x, y; };
+extern s16 gOff3D2C[][2] asm("gUnk_08518754");
 extern struct Pl3D2C gPl3D2C[] asm("gUnk_03003CE0");
 extern void *gData3D2C asm("gUnk_030034E0");
 void setup3D2C(void *, void *, s32) asm("sub_0801623C");
@@ -85,7 +84,7 @@ void proj3D2C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
 struct Oam3D2C *draw3D2C(s32, s32, u32, u32, u32, void *, u32, u32) asm("sub_08007870");
 u8 prio3D2C(s32, s32, s32) asm("sub_0800BC44");
 void dmg3D2C(void *, s32, s16) asm("sub_0801A120");
-s16 dead3D2C(void *) asm("sub_08019CE8");
+u16 dead3D2C(void *) asm("sub_08019CE8");
 void free3D2C(u16) asm("sub_08067CA8");
 s32 dropFx3D2C(void *, void *) asm("sub_0801E46C");
 void fall3D2C(void *, s32) asm("sub_0806171C");
@@ -125,126 +124,122 @@ void sub_080A3D2C_v(u16 idx)
     gActs3D2C[idx]->fC = 0;
     flash = 0;
     hitTimer = 0;
-    goto top;
-idle:
-    gState3D2C[idx] = 0;
-    a0B0_3D2C(gActs3D2C[idx]);
-    gActs3D2C[idx]->res.f2A = 0;
-    gActs3D2C[idx]->res.f2B = 0;
-    sub_080003F0();
-    goto top;
-body:
-    if (gActs3D2C[idx]->f5C != 0)
-        a0A4_3D2C(gActs3D2C[idx]);
-    if (gSide3D2C == 1)
-        animation = gFlags3D2C[idx] + 5;
-    else
-        animation = gFlags3D2C[idx];
-    {
-        struct Act3D2C *q = gActs3D2C[idx];
-        q->f14 = gObj3D2C->f14;
-        q->f18 = gObj3D2C->f18;
-        q->f14 += gOffX3D2C[gDir3D2C[idx] * 2];
-        q->f18 += gOffY3D2C[gDir3D2C[idx] * 2];
-        if (gDir3D2C[idx] == 0) {
-            q->res.f2A = 0x20;
-            gActs3D2C[idx]->res.f2B = 0x28;
-        } else {
-            q->res.f2A = 0x20;
-            gActs3D2C[idx]->res.f2B = 0x10;
+    for (;;) {
+        if (gActs3D2C[idx]->fC == 10 && flash == 0)
+            flash = 8;
+        {
+            s32 r = sub_08058DB0();
+            if (r == 0) {
+                tick3D2C(gActs3D2C[idx]);
+                switch (gActs3D2C[idx]->f1FD) {
+                case 1:
+                    gActs3D2C[idx]->fC = r;
+                    if (sub_080682B8(gActs3D2C[idx]->f0) != 0) {
+                        gActs3D2C[idx]->f1FD = gActs3D2C[idx]->f1FE;
+                        sub_08065E38(gActs3D2C[idx]->f0);
+                    }
+                    break;
+                case 3:
+                    if (sub_08056F78() != 0) {
+                        gActs3D2C[idx]->f1FE = 8;
+                        gActs3D2C[idx]->f1FD = 1;
+                        sub_08068330(gActs3D2C[idx]->f0);
+                    }
+                    break;
+                case 8:
+                    gActs3D2C[idx]->fC = r;
+                    break;
+                }
+            }
         }
-    }
-    gSpr3D2C[gSide3D2C].style = gPal3D2C;
-    sub_08000AF0(gPal3D2C + 0x10, gSpr3D2C[gSide3D2C].palette + res->fD6 * 32, 1);
-    if ((z = sub_0800CD8C()) == 0)
-        gActs3D2C[idx]->f6E = anim3D2C(&gSpr3D2C[gSide3D2C], animation, &gActs3D2C[idx]->f6A, &gActs3D2C[idx]->f6C, z);
-    if (sub_08098004() & 1)
-        mode = sub_08097FF8();
-    else
-        mode = prio3D2C(gActs3D2C[idx]->f14 >> 8, gActs3D2C[idx]->f18 >> 8, 0);
-    if (flash != 0) {
-        u16 old = flash;
-        flash--;
-        if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && (z = sub_0800CD34()) == 0) {
-            proj3D2C((s16)(gObj3D2C->f14 >> 8), (s16)(gObj3D2C->f18 >> 8), &sx, &sy, z, z);
+        if (gFlags3D2C[idx] == 0) {
+            if (dead3D2C(gActs3D2C[idx]) != 0)
+                break;
+            gState3D2C[idx] = 0;
+            a0B0_3D2C(gActs3D2C[idx]);
+            gActs3D2C[idx]->res.f2A = 0;
+            gActs3D2C[idx]->res.f2B = 0;
+            sub_080003F0();
+            continue;
+        }
+        if (gActs3D2C[idx]->f5C != 0)
+            a0A4_3D2C(gActs3D2C[idx]);
+        if (gSide3D2C == 1)
+            animation = gFlags3D2C[idx] + 5;
+        else
+            animation = gFlags3D2C[idx];
+        {
+            struct Act3D2C *q = gActs3D2C[idx];
+            q->f14 = gObj3D2C->f14;
+            q->f18 = gObj3D2C->f18;
+            q->f14 += gOff3D2C[gDir3D2C[idx]][0];
+            q->f18 += gOff3D2C[gDir3D2C[idx]][1];
+            if (gDir3D2C[idx] == 0) {
+                q->res.f2A = 0x20;
+                gActs3D2C[idx]->res.f2B = 0x28;
+            } else {
+                q->res.f2A = 0x20;
+                gActs3D2C[idx]->res.f2B = 0x10;
+            }
+        }
+        gSpr3D2C[gSide3D2C].style = gPal3D2C;
+        sub_08000AF0(gPal3D2C + 0x10, gSpr3D2C[gSide3D2C].palette + res->fD6 * 32, 1);
+        if (sub_0800CD8C() == 0)
+            gActs3D2C[idx]->f6E = anim3D2C(&gSpr3D2C[gSide3D2C], animation, &gActs3D2C[idx]->f6A, &gActs3D2C[idx]->f6C, 0);
+        if (sub_08098004() & 1)
+            mode = sub_08097FF8();
+        else
+            mode = prio3D2C(gActs3D2C[idx]->f14 >> 8, gActs3D2C[idx]->f18 >> 8, 0);
+        if (flash != 0) {
+            u16 old = flash;
+            flash--;
+            if ((old & 1) && sub_0800CCCC() == 0 && sub_0800CC98() == 0 && (z = sub_0800CD34()) == 0) {
+                proj3D2C((s16)(gObj3D2C->f14 >> 8), (s16)(gObj3D2C->f18 >> 8), &sx, &sy, z, z);
+                o = draw3D2C(sx, sy + 1, animation, gActs3D2C[idx]->f6A, mode, &gSpr3D2C[gSide3D2C].style, gSpr3D2C[gSide3D2C].f8, gSpr3D2C[gSide3D2C].f0);
+                proj3D2C((s16)(gActs3D2C[idx]->f14 >> 8), (s16)(gActs3D2C[idx]->f18 >> 8), &sx, &sy, z, z);
+                o->x = sx;
+                o->y = sy;
+            }
+        } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
+            proj3D2C((s16)(gObj3D2C->f14 >> 8), (s16)(gObj3D2C->f18 >> 8), &sx, &sy, flash, flash);
             o = draw3D2C(sx, sy + 1, animation, gActs3D2C[idx]->f6A, mode, &gSpr3D2C[gSide3D2C].style, gSpr3D2C[gSide3D2C].f8, gSpr3D2C[gSide3D2C].f0);
-            proj3D2C((s16)(gActs3D2C[idx]->f14 >> 8), (s16)(gActs3D2C[idx]->f18 >> 8), &sx, &sy, z, z);
+            proj3D2C((s16)(gActs3D2C[idx]->f14 >> 8), (s16)(gActs3D2C[idx]->f18 >> 8), &sx, &sy, flash, flash);
             o->x = sx;
             o->y = sy;
         }
-    } else if (sub_0800CCCC() == 0 && sub_0800CC98() == 0 && sub_0800CD34() == 0) {
-        proj3D2C((s16)(gObj3D2C->f14 >> 8), (s16)(gObj3D2C->f18 >> 8), &sx, &sy, flash, flash);
-        o = draw3D2C(sx, sy + 1, animation, gActs3D2C[idx]->f6A, mode, &gSpr3D2C[gSide3D2C].style, gSpr3D2C[gSide3D2C].f8, gSpr3D2C[gSide3D2C].f0);
-        proj3D2C((s16)(gActs3D2C[idx]->f14 >> 8), (s16)(gActs3D2C[idx]->f18 >> 8), &sx, &sy, flash, flash);
-        o->x = sx;
-        o->y = sy;
-    }
-    {
-        s32 hh = gActs3D2C[idx]->f4C;
-        if (hh != 0 && lastHit != hh) {
-            lastHit = hh;
-            hitTimer = 10;
-            shake = 0;
-        }
-    }
-    if (hitTimer != 0) {
-        if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
-            dmg3D2C(gActs3D2C[idx], lastHit, shake);
-        if (hitTimer & 2)
-            shake--;
-        hitTimer--;
-    } else {
-        lastHit = 0;
-        gActs3D2C[idx]->f4C = 0;
-    }
-    if (gState3D2C[idx] == 1 && gActs3D2C[idx]->f6E != 0)
-        gState3D2C[idx] = 0;
-    if (dead3D2C(gActs3D2C[idx]) != 0) {
-        sub_080003F0();
-        goto out;
-    }
-    sub_080003F0();
-top:
-    if (gActs3D2C[idx]->fC == 10 && flash == 0)
-        flash = 8;
-    {
-        s32 r = sub_08058DB0();
-        if (r == 0) {
-            tick3D2C(gActs3D2C[idx]);
-            switch (gActs3D2C[idx]->f1FD) {
-            case 1:
-                gActs3D2C[idx]->fC = r;
-                if (sub_080682B8(gActs3D2C[idx]->f0) != 0) {
-                    gActs3D2C[idx]->f1FD = gActs3D2C[idx]->f1FE;
-                    sub_08065E38(gActs3D2C[idx]->f0);
-                }
-                break;
-            case 3:
-                if (sub_08056F78() != 0) {
-                    gActs3D2C[idx]->f1FE = 8;
-                    gActs3D2C[idx]->f1FD = 1;
-                    sub_08068330(gActs3D2C[idx]->f0);
-                }
-                break;
-            case 8:
-                gActs3D2C[idx]->fC = r;
-                break;
+        {
+            s32 hh = gActs3D2C[idx]->f4C;
+            if (hh != 0 && lastHit != hh) {
+                lastHit = hh;
+                hitTimer = 10;
+                shake = 0;
             }
         }
+        if (hitTimer != 0) {
+            if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                dmg3D2C(gActs3D2C[idx], lastHit, shake);
+            if (hitTimer & 2)
+                shake--;
+            hitTimer--;
+        } else {
+            lastHit = 0; gActs3D2C[idx]->f4C = 0;
+        }
+        if (gState3D2C[idx] == 1 && gActs3D2C[idx]->f6E != 0)
+            gState3D2C[idx] = 0;
+        if (dead3D2C(gActs3D2C[idx]) != 0) {
+            sub_080003F0();
+            break;
+        }
+        sub_080003F0();
     }
-    if (gFlags3D2C[idx] != 0)
-        goto body;
-    if (dead3D2C(gActs3D2C[idx]) == 0)
-        goto idle;
-out:
     free3D2C(gActs3D2C[idx]->f2);
     gState3D2C[idx] = 0;
     flash = 0x14;
     do {
         gSpr3D2C[gSide3D2C].style = gPal3D2C;
         sub_08000AF0(gPal3D2C + 0x10, gSpr3D2C[gSide3D2C].palette + res->fD6 * 32, 1);
-        if ((z = sub_0800CD8C()) == 0)
-            gActs3D2C[idx]->f6E = anim3D2C(&gSpr3D2C[gSide3D2C], animation, &gActs3D2C[idx]->f6A, &gActs3D2C[idx]->f6C, z);
+        if (sub_0800CD8C() == 0)
+            gActs3D2C[idx]->f6E = anim3D2C(&gSpr3D2C[gSide3D2C], animation, &gActs3D2C[idx]->f6A, &gActs3D2C[idx]->f6C, 0);
         if (sub_08098004() & 1)
             mode = sub_08097FF8();
         else
@@ -269,9 +264,6 @@ out:
         dropEnd3D2C(gData3D2C, h);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080A3D2C", sub_080A3D2C);
-#endif
 struct Player1084520 {u8 pad0[0x20];u16 state;u8 pad22[14];u32 flags;u8 pad34[52];u8 active;u8 pad69[31];u16 timer;u8 pad8A[2];s32 x,y;u8 pad94[28];u16 fB0;u8 padB2[22];u16 fC8,fCA,fCC;u8 padCE[22];u32 history[5];u8 padF8[84];};
 extern struct Player1084520 players1084520[] asm("gUnk_03003CE0");
 extern u8 x1084520[] asm("gUnk_03003D6C");
