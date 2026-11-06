@@ -2816,7 +2816,6 @@ block_147:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806C568);
 #endif
-#ifdef NONMATCHING
  extern u8 gUnk_084EBF1C[];
 #define T71_S16(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define T71_U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
@@ -2850,378 +2849,475 @@ struct T71CDFPlayer {
     u8 * f148;
 };
  extern struct T71CDFPlayer t71CDFPlayers[] asm("gUnk_03003CE0");
-void sub_0806CDF0(void *arg0) {
-    u8 sp0[4];
-    u16 sp4[6];
-    s32 sp10;
-    u32 sp14;
-    u32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 sp24;
-    s32 sp28;
-    register s16 temp_r1_4 asm("r1");
-    s16 temp_r1_6;
-    s16 temp_r2_5;
-    register s16 temp_r2_7 asm("r2");
-    register s16 var_r1_3 asm("r1");
-    s32 *temp_r2_3;
-    s32 *temp_r4;
-    s32 *var_r2;
-    s32 temp_r2_2;
-    s32 temp_r2_8;
-    s32 temp_r2_9;
-    s32 var_r0;
-    s32 var_r0_2;
-    s32 var_r0_3;
-    s32 var_r0_4;
-    s32 var_r1;
-    register u16 *var_r0_6 asm("r0");
-    u16 temp_r0_2;
-    register u16 temp_r0_3 asm("r0");
-    u16 temp_r0_6;
-    u16 temp_r0_7;
-    register u16 temp_r0_8 asm("r0");
-    u32 temp_r1;
-    register u16 temp_r1_3 asm("r1");
-    u16 temp_r1_5;
-    register u16 temp_r1_7 asm("r1");
-    u16 temp_r2;
-    u16 temp_r2_4;
-    u16 temp_r2_6;
-    u16 temp_r3;
-    u16 temp_r3_2;
-    u16 var_r1_2;
-    u16 var_r5_2;
-    u16 var_r5_3;
-    u16 var_r5_4;
-    u16 var_r5_5;
-    u16 var_r7_2;
-    register u32 temp_r0 asm("r10");
-    u32 temp_r0_9;
-    u32 var_r5;
-    u8 temp_r0_4;
-    void *temp_r0_5;
-    void *temp_r1_2;
-    struct T71CDFPlayer *temp_r4_2;
-    void *temp_r4_3;
-    void *temp_r4_4;
-    struct T71CDFPlayer *temp_r6;
-    struct T71CDFPlayer *var_r0_5;
-    struct T71CDFPlayer *var_r6;
-    void *var_r7;
-    struct T71CDFPlayer *var_r9;
+void sub_0806CDF0(void *arg0)
+{
+  u8 sp0[4];
+  u16 sp4[6];
+  s32 sp10;
+  u32 sp14;
+  u32 sp18;
+  s32 sp1C;
+  s32 sp20;
+  s32 sp24;
+  s32 sp28;
+  s16 temp_r1_4;
+  s16 temp_r1_6;
+  s16 temp_r2_5;
+  s16 temp_r2_7;
 
-    sp1C = sub_080020F4();
-    temp_r0 = T71_U32(arg0,0x0);
-    sp20 = T71_U32(arg0,0x4);
-    if ((u32) T71_U32(arg0,0x14) > 7U) {
-        T71_U32(arg0,0x14) = 7U;
-    }
-    temp_r2 = (u16) T71_U32(arg0,0x14);
-    sp10 = (s32) temp_r2;
-    if (temp_r0 <= 3U) {
-        var_r9 = &t71CDFPlayers[temp_r0];
-        sp28 = temp_r0 * 4;
-        goto block_12;
-    }
-    var_r7 = gUnk_030056F4 + ((temp_r0 * 0x2E0) + 0xFFFFF480);
+
+
+
+    register s16 var_r1_3 asm("r1");
+  s32 *temp_r2_3;
+  s32 *temp_r4;
+  s32 *var_r2;
+  s32 temp_r2_2;
+  s32 temp_r2_8;
+  s32 temp_r2_9;
+  s32 var_r0;
+  s32 var_r0_2;
+  s32 var_r0_3;
+  s32 var_r0_4;
+  s32 var_r1;
+
+
+
+
+    register u16 *var_r0_6 asm("r0");
+  u16 temp_r0_2;
+  void **pg;
+
+
+
+
+    register u16 temp_r0_3 asm("r0");
+  s32 temp_r0_6;
+  u16 temp_r0_7;
+  u16 temp_r0_8;
+  u32 temp_r1;
+  u16 temp_r1_3;
+  u16 temp_r1_5;
+
+
+
+
+    register u16 temp_r1_7 asm("r1");
+  register u32 temp_r2 asm("r8");
+  u16 temp_r2_6;
+  u16 temp_r3;
+  u16 temp_r3_2;
+  s32 var_r1_2;
+  u16 var_r5_2;
+  u16 var_r5_4;
+  u16 var_r7_2;
+
+
+
+
+    register u32 temp_r0 asm("r10");
+  u32 temp_r0_9;
+  u32 var_r5;
+  u8 temp_r0_4;
+  u8 *pa;
+  u8 *pb;
+  void *temp_r0_5;
+  void *temp_r1_2;
+  struct T71CDFPlayer *temp_r4_2;
+  void *temp_r4_4;
+  struct T71CDFPlayer *var_r0_5;
+  struct T71CDFPlayer *var_r6;
+  void *var_r7;
+  struct T71CDFPlayer *var_r9;
+  sp1C = sub_080020F4();
+  temp_r0 = *((u32 *) (((u8 *) arg0) + 0x0));
+  sp20 = *((u32 *) (((u8 *) arg0) + 0x4));
+  if (((u32) (*((u32 *) (((u8 *) arg0) + 0x14)))) > 7U)
+  {
+    *((u32 *) (((u8 *) arg0) + 0x14)) = 7U;
+  }
+  temp_r2 = (u16) (*((u32 *) (((u8 *) arg0) + 0x14)));
+  sp10 = (s32) temp_r2;
+  if (temp_r0 <= 3U)
+  {
+    var_r9 = &t71CDFPlayers[temp_r0];
+    sp28 = temp_r0 * 4;
+    goto block_12;
+  }
+  var_r7 = gUnk_030056F4 + ((temp_r0 * 0x2E0) + 0xFFFFF480);
+  {
+    u16 *ap = (u16 *) (((u8 *) var_r7) + 0x6A);
+    u8 *bp = ((u8 *) var_r7) + 0x22B;
+    u32 a = *ap;
     temp_r2_2 = temp_r0 * 4;
     sp28 = temp_r2_2;
-    if ((u32) T71_U16(var_r7,0x6A) < (u32) T71_U8(var_r7,0x22B)) {
-        temp_r4 = temp_r2_2 + ((u8 *)t71Flags);
-        sp24 = ~(1 << sp20);
-loop_6:
-        if ((sub_08056E90() != 0) || (sub_0800BA6C() == 0) || (temp_r0_2 = T71_U16(var_r7,0xC), (temp_r0_2 == 0xA)) || (temp_r0_2 == 0xB)) {
-            *temp_r4 &= sp24;
-            return;
+    if (a < (*bp))
+    {
+      temp_r4 = temp_r2_2 + ((u8 *) t71Flags);
+      sp24 = ~(1 << sp20);
+      loop_6:
+      if ((((sub_08056E90() != 0) || (sub_0800BA6C() == 0)) || ((temp_r0_2 = *((u16 *) (((u8 *) var_r7) + 0xC)), temp_r0_2 == 0xA))) || (temp_r0_2 == 0xB))
+      {
+        *temp_r4 &= sp24;
+        return;
+      }
+
+      sub_080003F0();
+      if (((u32) (*((u16 *) (((u8 *) var_r7) + 0x6A)))) >= ((u32) (*((u8 *) (((u8 *) var_r7) + 0x22B)))))
+      {
+        goto block_12;
+      }
+      goto loop_6;
+    }
+  }
+  block_12:
+  if (sp1C != temp_r0)
+  {
+    if (temp_r0 > 3U)
+    {
+      {
+        u8 *cb = gUnk_084EBF1C;
+        s16 *pp;
+        u32 off = (sp10 * 2) + ((*((u32 *) (((u8 *) arg0) + 0xC))) * 0x18);
+        cb += 6;
+        pp = (s16 *) (off + ((u32) cb));
+        {
+          register s32 a asm("r0") = (*((u16 *) (((u8 *) var_r7) + 0x5E))); s32 v = a - (*pp);
+          temp_r0_3 = v;
         }
+      }
+      *((u16 *) (((u8 *) var_r7) + 0x5E)) = temp_r0_3;
+      if (((s32) (temp_r0_3 << 0x10)) < 0)
+      {
+        temp_r2_3 = sp28 + ((u8 *) t71Flags);
+        *temp_r2_3 &= ~(1 << sp20);
+        *((u16 *) (((u8 *) var_r7) + 0x5E)) = 0U;
+        return;
+      }
+      goto block_18;
+    }
+    goto block_19;
+  }
+
+  temp_r4_2 = &t71CDFPlayers[sub_080020F4()];
+  {
+
+
+
+
+ register u32 cost asm("r0") = (u16)(sub_0806898C((*(u32 *)((u8 *)(arg0)+(0xC))), (s32) (*(u32 *)((u8 *)(arg0)+(0x14)))) - 1);
+asm("" : "+r"(cost));
+    temp_r1 = temp_r4_2->fC2 - cost;
+  }
+  temp_r4_2->fC2 = temp_r1;
+  if (((s32) (temp_r1 << 0x10)) < 0)
+  {
+    temp_r4_2->fC2 = 0U;
+  }
+  block_18:
+  if (temp_r0 <= 3U)
+  {
+    block_19:
+    if (((u32) var_r9->fB4) <= 6U)
+    {
+      loop_20:
+      if (var_r9->f20 == 0xA)
+      {
+        goto done;
+      }
+      else
+      {
         sub_080003F0();
-        if ((u32) T71_U16(var_r7,0x6A) >= (u32) T71_U8(var_r7,0x22B)) {
-            goto block_12;
+        if (((u32) var_r9->fB4) > 6U)
+        {
+          goto block_23;
         }
-        goto loop_6;
+        goto loop_20;
+      }
+
     }
-block_12:
-    if (sp1C != temp_r0) {
-        if (temp_r0 > 3U) {
-            temp_r0_3 = T71_U16(var_r7,0x5E) - T71_S16(gUnk_084EBF1C, sp10 * 2 + T71_U32(arg0,0xC) * 0x18 + 6);
-            T71_U16(var_r7,0x5E) = temp_r0_3;
-            if ((s32) (temp_r0_3 << 0x10) < 0) {
-                temp_r2_3 = sp28 + ((u8 *)t71Flags);
-                *temp_r2_3 &= ~(1 << sp20);
-                T71_U16(var_r7,0x5E) = 0U;
-                return;
-            }
-            goto block_18;
-        }
-        goto block_19;
+    else
+    {
+ do { block_23: temp_r1_2 = var_r9->f148; sp14 = ((u16) (*((u16 *) (((u8 *) temp_r1_2) + 0x0)))) >> 4; sp18 = ((u32) ((*((u16 *) (((u8 *) temp_r1_2) + 0x2))) << 0x14)) >> 0x14; var_r7_2 = 0; var_r5 = 0; goto l1chk; l1top: { var_r6 = &t71CDFPlayers[var_r5]; if ((((s32) ((*((u8 *) (((u8 *) var_r6->f148) + 4))) << 0x1A)) >= 0) && (((pa = &var_r6->f68, pb = &var_r9->f68, temp_r0_4 = *pa, temp_r0_4 == (*pb))) || ((temp_r0_4 == 0) && (sub_0800CF80() == 0)))) { temp_r0_5 = var_r6->f148; temp_r2_6 = (((u16) (*((u16 *) (((u8 *) temp_r0_5) + 0x0)))) >> 4) - sp14; temp_r1_3 = (((u32) ((*((u16 *) (((u8 *) temp_r0_5) + 0x2))) << 0x14)) >> 0x14) - sp18; if (sp10 != 0) { temp_r2_5 = (s16) temp_r2_6; var_r0 = temp_r2_5 >> 3; if (var_r0 < 0) { var_r0 = 0 - var_r0; } if (var_r0 <= 0xC) { temp_r1_4 = (s16) temp_r1_3; var_r0_2 = temp_r1_4 >> 3; if (var_r0_2 < 0) { var_r0_2 = 0 - var_r0_2; } if (var_r0_2 <= 0xC) { sp4[var_r7_2] = Sqrt((temp_r2_5 * temp_r2_5) + (temp_r1_4 * temp_r1_4)); sp0[var_r7_2++] = var_r5; } } } } } var_r5 = (u16) (var_r5 + 1); l1chk: if (var_r5 < sub_08002164()) { goto l1top; } } while (0);
+      goto block_50;
     }
-    temp_r4_2 = &t71CDFPlayers[sub_080020F4()];
-    { register u32 cost asm("r0") = (u16)(sub_0806898C(T71_U32(arg0,0xC), (s32) T71_U32(arg0,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = temp_r4_2->fC2 - cost; }
-    temp_r4_2->fC2 = temp_r1;
-    if ((s32) (temp_r1 << 0x10) < 0) {
-        temp_r4_2->fC2 = 0U;
+
+  }
+  else
+  {
+    sp14 = (u32) (*((u16 *) (((u8 *) var_r7) + 0x14)));
+    sp18 = (u32) (*((u16 *) (((u8 *) var_r7) + 0x18)));
+    var_r7_2 = 0;
+    var_r5_2 = 0;
+    pg = &gUnk_030056F4;
+    do
+    {
+      if (t071EMask & (1 << var_r5_2))
+      {
+        {
+          s32 o = var_r5_2 * 0x2E0;
+          temp_r4_4 = *pg + o;
+        }
+        var_r5_4 = 0x18;
+        {
+          s32 f = *((u32 *) (((u8 *) temp_r4_4) + 0x14));
+          s32 d = f - ((s16) sp14);
+          temp_r2_6 = d;
+        }
+        {
+          s32 f = *((u32 *) (((u8 *) temp_r4_4) + var_r5_4));
+          s32 d = f - ((s16) sp18);
+          temp_r1_5 = d;
+        }
+        if (sp10 != 0)
+        {
+          temp_r2_7 = (s16) temp_r2_6;
+          var_r0_3 = temp_r2_7 >> 3;
+          if (var_r0_3 < 0)
+          {
+            var_r0_3 = 0 - var_r0_3;
+          }
+          temp_r1_6 = (s16) temp_r1_5;
+          if (var_r0_3 <= 0xC)
+          {
+            var_r0_4 = temp_r1_6 >> 3;
+            if (var_r0_4 < 0)
+            {
+              var_r0_4 = 0 - var_r0_4;
+            }
+            if (var_r0_4 <= 0xC)
+            {
+              sp4[var_r7_2] = Sqrt((temp_r2_7 * temp_r2_7) + (temp_r1_6 * temp_r1_6));
+              sp0[var_r7_2++] = var_r5_2 + 4;
+            }
+          }
+        }
+      }
+      var_r5_2 += 1;
+    } while (((u32) var_r5_2) <= 4U);
+    block_50:
+    for (var_r5_2 = 0; var_r5_2 < var_r7_2; var_r5_2++)
+    {
+      sub_08074DE8(*(sp0 + var_r5_2), 8);
     }
-block_18:
-    if (temp_r0 <= 3U) {
-block_19:
-        if ((u32) var_r9->fB4 <= 6U) {
-loop_20:
-            if (var_r9->f20 == 0xA) {
-                var_r2 = sp28 + ((u8 *)t71Flags);
-                var_r1 = 1 << sp20;
-            } else {
-                sub_080003F0();
-                if ((u32) var_r9->fB4 > 6U) {
-                    goto block_23;
-                }
-                goto loop_20;
-            }
-        } else {
-block_23:
-            temp_r1_2 = var_r9->f148;
-            sp14 = (u16) T71_U16(temp_r1_2,0x0) >> 4;
-            sp18 = (u32) (T71_U16(temp_r1_2,0x2) << 0x14) >> 0x14;
-            var_r7_2 = 0;
-            var_r5 = 0;
-loop_37:
-            if (var_r5 < sub_08002164()) {
-                var_r6 = &t71CDFPlayers[var_r5];
-                if (((s32) (T71_U8(var_r6->f148,4) << 0x1A) >= 0) && ((temp_r0_4 = var_r6->f68, (temp_r0_4 == var_r9->f68)) || ((temp_r0_4 == 0) && (sub_0800CF80() == 0)))) {
-                    temp_r0_5 = var_r6->f148;
-                    temp_r2_4 = ((u16) T71_U16(temp_r0_5,0x0) >> 4) - sp14;
-                    temp_r1_3 = ((u32) (T71_U16(temp_r0_5,0x2) << 0x14) >> 0x14) - sp18;
-                    if (sp10 != 0) {
-                        temp_r2_5 = (s16) temp_r2_4;
-                        var_r0 = (s32) (temp_r2_4 << 0x10) >> 0x13;
-                        if (var_r0 < 0) {
-                            var_r0 = 0 - var_r0;
-                        }
-                        if (var_r0 <= 0xC) {
-                            temp_r1_4 = (s16) temp_r1_3;
-                            var_r0_2 = (s32) (temp_r1_3 << 0x10) >> 0x13;
-                            if (var_r0_2 < 0) {
-                                var_r0_2 = 0 - var_r0_2;
-                            }
-                            if (var_r0_2 <= 0xC) {
-                                temp_r3 = var_r7_2;
-                                (&sp4[0])[temp_r3] = Sqrt((temp_r2_5 * temp_r2_5) + (temp_r1_4 * temp_r1_4));
-                                var_r7_2 = temp_r3 + 1;
-                                *(sp0 + temp_r3) = (s8) var_r5;
-                            }
-                        }
-                    }
-                }
-                var_r5 = (u32) (u16) (var_r5 + 1);
-                goto loop_37;
-            }
-            goto block_50;
+
+
+    if (sp1C == temp_r0)
+    {
+      if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0))
+      {
+        sub_0805865C(0x91);
+      }
+      if (sp1C == temp_r0)
+      {
+        {
+          u16 *hp = &var_r9->fC4;
+          temp_r0_6 = t71Heal[temp_r2] + (var_r5_2 = *hp);
         }
-    } else {
-        sp14 = (u32) T71_U16(var_r7,0x14);
-        sp18 = (u32) T71_U16(var_r7,0x18);
-        var_r7_2 = 0;
-        var_r5_2 = 0;
-        do {
-            if (gUnk_030056FC & (1 << var_r5_2)) {
-                temp_r4_3 = gUnk_030056F4 + (var_r5_2 * 0x2E0);
-                temp_r2_6 = T71_U32(temp_r4_3,0x14) - (s16) sp14;
-                temp_r1_5 = T71_U32(temp_r4_3,0x18) - (s16) sp18;
-                if (sp10 != 0) {
-                    temp_r2_7 = (s16) temp_r2_6;
-                    var_r0_3 = (s32) (temp_r2_6 << 0x10) >> 0x13;
-                    if (var_r0_3 < 0) {
-                        var_r0_3 = 0 - var_r0_3;
-                    }
-                    if (var_r0_3 <= 0xC) {
-                        temp_r1_6 = (s16) temp_r1_5;
-                        var_r0_4 = (s32) (temp_r1_5 << 0x10) >> 0x13;
-                        if (var_r0_4 < 0) {
-                            var_r0_4 = 0 - var_r0_4;
-                        }
-                        if (var_r0_4 <= 0xC) {
-                            temp_r3_2 = var_r7_2;
-                            (&sp4[0])[temp_r3_2] = Sqrt((temp_r2_7 * temp_r2_7) + (temp_r1_6 * temp_r1_6));
-                            var_r7_2 = temp_r3_2 + 1;
-                            *(sp0 + temp_r3_2) = var_r5_2 + 4;
-                        }
-                    }
-                }
-            }
-            var_r5_2 += 1;
-        } while ((u32) var_r5_2 <= 4U);
-block_50:
-        var_r5_3 = 0;
-        if ((u32) var_r7_2 > 0U) {
-            do {
-                sub_08074DE8(*(sp0 + var_r5_3), 8);
-                var_r5_3 += 1;
-            } while ((u32) var_r5_3 < (u32) var_r7_2);
+        var_r9->fC4 = temp_r0_6;
+        if (((s32) ((s16) temp_r0_6)) > ((s32) ((s16) var_r9->f62)))
+        {
+          var_r9->fC4 = (u16) var_r9->f62;
         }
-        if (sp1C == temp_r0) {
-            if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                sub_0805865C(0x91);
-            }
-            if (sp1C == temp_r0) {
-                temp_r0_6 = t71Heal[temp_r2] + var_r9->fC4;
-                var_r9->fC4 = temp_r0_6;
-                if ((s32) (s16) temp_r0_6 > (s32) (s16) var_r9->f62) {
-                    var_r9->fC4 = (u16) var_r9->f62;
-                }
-                var_r9->f24 = 0;
-                var_r9->f26 = 0;
-                temp_r2_8 = var_r9->f30;
-                if ((0x20000 & temp_r2_8) && ((s32) (s16) var_r9->fC4 >= (s32) ((s32) (var_r6->f62 << 0x10) >> 0x11))) {
-                    var_r9->f30 = (s32) (temp_r2_8 & 0xFFFDFFFF);
-                }
-                if ((u32) temp_r2 > 2U) {
-                    sub_0801E278((s32) var_r9, 6U);
-                    sub_0801E278((s32) var_r9, 7U);
-                }
-                if ((u32) temp_r2 > 3U) {
-                    sub_0801E278((s32) var_r9, 5U);
-                    sub_0801E278((s32) var_r9, 2U);
-                }
-                if ((u32) temp_r2 <= 4U) {
-
-                } else {
-                    var_r0_5 = var_r9;
-                    goto block_90;
-                }
-            } else {
-                goto block_69;
-            }
-        } else {
-block_69:
-            if (temp_r0 > 3U) {
-                var_r5_4 = 0;
-                do {
-                    if ((gUnk_030056FC & (1 << var_r5_4)) && (*(sp0 + var_r5_4) == (var_r5_4 + 4))) {
-                        temp_r4_4 = gUnk_030056F4 + (var_r5_4 * 0x2E0);
-                        temp_r0_7 = (u16) ((s32) (t71Heal[sp10] * 0x78) / (s32) ((&sp4[0])[var_r5_4] + 0x78));
-                        temp_r0_8 = T71_U16(temp_r4_4,0x5C) + temp_r0_7;
-                        T71_U16(temp_r4_4,0x5C) = temp_r0_8;
-                        if ((s32) (s16) temp_r0_8 > (s32) (s16) T71_U16(temp_r4_4,0x1D6)) {
-                            T71_U16(temp_r4_4,0x5C) = (u16) T71_U16(temp_r4_4,0x1D6);
-                        }
-                        if ((u32) temp_r0_7 > 2U) {
-                            sub_0801E2CC((s32) temp_r4_4, 6U);
-                            sub_0801E2CC((s32) temp_r4_4, 7U);
-                        }
-                        if ((u32) temp_r0_7 > 3U) {
-                            sub_0801E2CC((s32) temp_r4_4, 5U);
-                            sub_0801E2CC((s32) temp_r4_4, 2U);
-                        }
-                        if ((u32) temp_r0_7 > 4U) {
-                            sub_0801E2CC((s32) temp_r4_4, 3U);
-                        }
-                    }
-                    var_r5_4 += 1;
-                } while ((u32) var_r5_4 <= 4U);
-            } else {
-                var_r5_5 = 0;
-                if ((u32) var_r7_2 <= 0U) {
-
-                } else if (sp10 == 0) {
-
-                } else {
-loop_75:
-                    if (*(sp0 + var_r5_5) != sp1C) {
-                        var_r5_5 += 1;
-                        if ((u32) var_r5_5 < (u32) var_r7_2) {
-                            if (sp10 != 0) {
-                                goto loop_75;
-                            }
-                        }
-                    } else {
-                        temp_r6 = &t71CDFPlayers[sp1C];
-                        if (sub_0801DF8C() == 0) {
-                            temp_r1_7 = temp_r6->fC4 + ((s32) (t71Heal[temp_r2] * 0x78) / (s32) ((&sp4[0])[var_r5_5] + 0x78));
-                            temp_r6->fC4 = temp_r1_7;
-                            if ((s32) (s16) temp_r1_7 > (s32) (s16) temp_r6->f62) {
-                                temp_r6->fC4 = (u16) temp_r6->f62;
-                            }
-                            temp_r2_9 = temp_r6->f30;
-                            if ((0x20000 & temp_r2_9) && ((s32) (s16) temp_r6->fC4 >= (s32) ((s32) (temp_r6->f62 << 0x10) >> 0x11))) {
-                                temp_r6->f30 = (s32) (temp_r2_9 & 0xFFFDFFFF);
-                            }
-                            if ((u32) temp_r2 > 2U) {
-                                sub_0801E278((s32) temp_r6, 6U);
-                                sub_0801E278((s32) temp_r6, 7U);
-                            }
-                            if ((u32) temp_r2 > 3U) {
-                                sub_0801E278((s32) temp_r6, 5U);
-                                sub_0801E278((s32) temp_r6, 2U);
-                            }
-                            if ((u32) temp_r2 <= 4U) {
-
-                            } else {
-                                var_r0_5 = temp_r6;
-block_90:
-                                sub_0801E278((s32) var_r0_5, 3U);
-                            }
-                        } else if (sub_0800CF80() != 0) {
-
-                        } else if ((u32) temp_r2 <= 5U) {
-
-                        } else {
-                            if ((u32) temp_r2 > 6U) {
-                                var_r1_2 = temp_r6->f62;
-                                var_r0_6 = (u8 *)temp_r6 + 0x62 + 0x62;
-                            } else {
-                                var_r1_3 = (s16) temp_r6->f62;
-                                if ((s32) var_r1_3 < 0) {
-                                    var_r1_3 += 3;
-                                }
-                                var_r1_2 = (u16) (var_r1_3 >> 2);
-                                var_r0_6 = (u8 *)temp_r6 + 0xC4;
-                            }
-                            *var_r0_6 = var_r1_2;
-                            if (temp_r6->f20 == 0xB) {
-                                temp_r6->f20 = 0U;
-                            }
-                            temp_r6->f68 = 1;
-                            sub_0806617C();
-                            temp_r6->f30 = (s32) (temp_r6->f30 & 0xFFFFDFFF);
-                            sub_08067D74();
-                            sub_08022200((s32) temp_r6->f0, var_r9->fE0);
-                            temp_r0_9 = temp_r6->fE0 - 1;
-                            switch (temp_r0_9) {    /* irregular */
-                            case 0:
-                                T71_U16(t71Save,0x24) = (u16) (T71_U16(t71Save,0x24) + 1);
-                                break;
-                            case 1:
-                                T71_U16(t71Save,0x26) = (u16) (T71_U16(t71Save,0x26) + 1);
-                                break;
-                            case 2:
-                                T71_U16(t71Save,0x28) = (u16) (T71_U16(t71Save,0x28) + 1);
-                                break;
-                            case 3:
-                                T71_U16(t71Save,0x2A) = (u16) (T71_U16(t71Save,0x2A) + 1);
-                                break;
-                            case 4:
-                                T71_U16(t71Save,0x2C) = (u16) (T71_U16(t71Save,0x2C) + 1);
-                                break;
-                            case 5:
-                                T71_U16(t71Save,0x2E) = (u16) (T71_U16(t71Save,0x2E) + 1);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+        var_r9->f24 = 0;
+        var_r9->f26 = 0;
+        temp_r2_8 = var_r9->f30;
+        if ((0x20000 & temp_r2_8) && (((s16) var_r9->fC4) >= (((s16) var_r6->f62) >> 1)))
+        {
+          var_r9->f30 = (s32) (temp_r2_8 & 0xFFFDFFFF);
         }
-        var_r2 = sp28 + ((u8 *)t71Flags);
+        if (((u32) temp_r2) > 2U)
+        {
+          sub_0801E278((s32) var_r9, 6U);
+          sub_0801E278((s32) var_r9, 7U);
+        }
+        if (((u32) temp_r2) > 3U)
+        {
+          sub_0801E278((s32) var_r9, 5U);
+          sub_0801E278((s32) var_r9, 2U);
+        }
+        if (((u32) temp_r2) <= 4U)
+        {
+        }
+        else
+        {
+          var_r0_5 = var_r9;
+          goto block_90;
+        }
+      }
+      else
+      {
+        goto block_69;
+      }
+    }
+    else
+    {
+      block_69:
+      if (temp_r0 <= 3U)
+      {
+        for (var_r5_2 = 0; (var_r5_2 < var_r7_2) && (sp10 != 0); var_r5_2++)
+        {
+          if ((*(sp0 + var_r5_2)) == sp1C)
+          {
+            var_r6 = &t71CDFPlayers[sp1C];
+            if (sub_0801DF8C() == 0)
+            {
+              temp_r1_7 = var_r6->fC4 + (((s32) (t71Heal[temp_r2] * 0x78)) / ((s32) (sp4[var_r5_2] + 0x78)));
+              var_r6->fC4 = temp_r1_7;
+              if (((s32) ((s16) temp_r1_7)) > ((s32) ((s16) var_r6->f62)))
+              {
+                var_r6->fC4 = (u16) var_r6->f62;
+              }
+              temp_r2_9 = var_r6->f30;
+              if ((0x20000 & temp_r2_9) && (((s16) var_r6->fC4) >= (((s16) var_r6->f62) >> 1)))
+              {
+                var_r6->f30 = (s32) (temp_r2_9 & 0xFFFDFFFF);
+              }
+              if (((u32) temp_r2) > 2U)
+              {
+                sub_0801E278((s32) var_r6, 6U);
+                sub_0801E278((s32) var_r6, 7U);
+              }
+              if (((u32) temp_r2) > 3U)
+              {
+                sub_0801E278((s32) var_r6, 5U);
+                sub_0801E278((s32) var_r6, 2U);
+              }
+              if (((u32) temp_r2) <= 4U)
+              {
+              }
+              else
+              {
+                var_r0_5 = var_r6;
+                block_90:
+                sub_0801E278((s32) var_r0_5, 3U);
+
+              }
+            }
+            else
+              if (sub_0800CF80() != 0)
+            {
+            }
+            else
+              if (((u32) temp_r2) <= 5U)
+            {
+            }
+            else
+            {
+              if (((u32) temp_r2) > 6U)
+              {
+                var_r1_2 = var_r6->f62;
+                var_r0_6 = (((u8 *) var_r6) + 0x62) + 0x62;
+              }
+              else
+              {
+                var_r1_2 = (s16) var_r6->f62; if (var_r1_2 < 0) var_r1_2 += 3; var_r1_2 >>= 2;
+                var_r0_6 = ((u8 *) var_r6) + 0xC4;
+              }
+              *var_r0_6 = var_r1_2;
+              temp_r0_8 = var_r6->f20;
+              if (temp_r0_8 == 0xB)
+              {
+                var_r6->f20 = 0U;
+              }
+              var_r6->f68 = 1;
+              sub_0806617C();
+              var_r6->f30 = (s32) (var_r6->f30 & 0xFFFFDFFF);
+              sub_08067D74();
+              sub_08022200((s32) var_r6->f0, var_r9->fE0);
+              temp_r0_9 = var_r6->fE0 - 1;
+              switch (temp_r0_9)
+              {
+                case 0:
+                  *((u16 *) (((u8 *) t71Save) + 0x24)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x24))) + 1);
+                  break;
+
+                case 1:
+                  *((u16 *) (((u8 *) t71Save) + 0x26)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x26))) + 1);
+                  break;
+
+                case 2:
+                  *((u16 *) (((u8 *) t71Save) + 0x28)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x28))) + 1);
+                  break;
+
+                case 3:
+                  *((u16 *) (((u8 *) t71Save) + 0x2A)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x2A))) + 1);
+                  break;
+
+                case 4:
+                  *((u16 *) (((u8 *) t71Save) + 0x2C)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x2C))) + 1);
+                  break;
+
+                case 5:
+                  *((u16 *) (((u8 *) t71Save) + 0x2E)) = (u16) ((*((u16 *) (((u8 *) t71Save) + 0x2E))) + 1);
+                  break;
+
+              }
+
+            }
+            break;
+          }
+        }
+
+        goto copy2;
+        done:
+        var_r2 = (s32 *) t71Flags; var_r2 = (s32 *) (sp28 + ((u8 *) var_r2));
+
         var_r1 = 1 << sp20;
+asm("");
+        goto bic;
+      }
+      else
+      {
+        var_r5_4 = 0;
+        do
+        {
+          if ((t071EMask & (1 << var_r5_4)) && ((*(sp0 + var_r5_4)) == (var_r5_4 + 4)))
+          {
+            temp_r4_4 = gUnk_030056F4 + (var_r5_4 * 0x2E0);
+            temp_r2 = (u16) (((s32) (t71Heal[sp10] * 0x78)) / ((s32) (sp4[var_r5_4] + 0x78)));
+            {
+              u16 *hp = (u16 *) (((u8 *) temp_r4_4) + 0x5C);
+              s32 sum = (*hp) + temp_r2;
+              u16 *mx;
+              *hp = sum;
+              mx = (u16 *) (((u8 *) temp_r4_4) + 0x1D6);
+              if (((s16) sum) > ((s16) (*mx)))
+              {
+                *hp = *mx;
+              }
+            }
+            if (((u32) temp_r2) > 2U)
+            {
+              sub_0801E2CC((s32) temp_r4_4, 6U);
+              sub_0801E2CC((s32) temp_r4_4, 7U);
+            }
+            if (((u32) temp_r2) > 3U)
+            {
+              sub_0801E2CC((s32) temp_r4_4, 5U);
+              sub_0801E2CC((s32) temp_r4_4, 2U);
+            }
+            if (((u32) temp_r2) > 4U)
+            {
+              sub_0801E2CC((s32) temp_r4_4, 3U);
+            }
+          }
+          var_r5_4 += 1;
+        }
+        while (((u32) var_r5_4) <= 4U);
+      }
+
     }
-    *var_r2 &= ~var_r1;
+  }
+
+  copy2:
+  var_r2 = (s32 *) t71Flags; var_r2 = (s32 *) (sp28 + ((u8 *) var_r2));
+
+  var_r1 = 1 << sp20;
+  bic:
+  *var_r2 &= ~var_r1;
+
 }
-
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806CDF0);
-#endif
 struct T072D4Effect { s16 timer; u16 owner, kind, level, a, b, c, d; u8 pad[24]; };
 struct T072D4Player { u8 pad0[0x20]; u16 state; u8 pad22[2]; u16 x24, x26; u8 pad28[12]; struct T072D4Effect *effects; u8 pad38[0x2c]; u16 mode; u8 pad66[2]; u8 team; u8 pad69[0x4b]; u16 wait; u8 padB6[12]; s16 resource; u8 padC4[0x84]; u16 *sprite; };
 struct T072D4Args { u32 player, bit, f8, value, f10, level; };
