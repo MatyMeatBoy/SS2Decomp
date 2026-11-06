@@ -13391,7 +13391,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 1336,
+          "line": 1352,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47B2C"
         }
       ]
@@ -13465,7 +13465,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 2246,
+          "line": 2262,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47EScript"
         }
       ]
@@ -13556,7 +13556,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 3405,
+          "line": 3421,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t48implB"
         }
       ]
@@ -13715,7 +13715,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 4274,
+          "line": 4290,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
         }
       ]
@@ -31482,7 +31482,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 3305,
+          "line": 3320,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
