@@ -1,0 +1,32 @@
+{
+  "address": "0x08078BCC",
+  "updated_utc": "2026-11-06T23:42:03.666373+00:00",
+  "checkpoint": "dad224e4aa17f4a0464ead8c8df4469cd206f4a9",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Complete compiling draft",
+      "state": "done",
+      "evidence": "The owned draft compiles under the normal code_08073E2C module rules. Full normal ROM compare prints shiningsoul2_eu.gba: OK with the original ASM fallback active; the complete NONMATCHING build passes and check_tree reports 0 errors. This is baseline integrity, not equivalent-C proof."
+    },
+    {
+      "id": "types",
+      "label": "Attribute widths and group-trail behavior",
+      "state": "active",
+      "evidence": "Original sub_08078BCC reads a word at entity+4, shifts left 13 then right 24, retaining an eight-bit field at bits 11..18. The former u16 member discarded bits 16..18; AttrBCC now preserves the full word. A u32 bitfield view reproduces the original byte load for the low kind nibble. Bounded original-ROM/candidate differential checks pass 560 scenarios: one/two/four grouped players, each local-player index, field values 0/31/32/127/255, four angle returns, drawing enabled/disabled, early exit and three movement ticks. They compare stubbed call arguments, player RAM, output masks, saved registers and SP; callees clobber scratch registers. A negative control with the old draft and field value 32 produces power 2 at sub_0801FB14 while the original produces 8; the corrected draft produces 8. Enemy-hit branches and all possible runtime inputs are not covered. Observed group collection, averaged coordinates, smoothing, two trail sprites and damage calls suggest UpdateGroupTrailEffect as an unconfirmed semantic proposal; no canonical symbol is renamed."
+    },
+    {
+      "id": "layout",
+      "label": "Original control flow and stack layout",
+      "state": "active",
+      "evidence": "Coordinate arrays now precede frame/tick arrays, matching the original XS/YS/frame/tick offsets 0x4C/0x50/0x54/0x58. The original contains an emitted constant-zero conditional and an unreachable screen-bounds block; literal, narrow-return and ordinary inline-zero forms delete it. A marked empty constraint preserves the initialized zero without opcodes or undefined register inputs, retaining the original branch and block. A genuine local damping value of 32 restores both original __divsi3 calls; using literal /32 instead emits shifts. All 43 static call targets follow the original order. Combining loop counters was rejected: it grows the candidate to 1980 bytes but worsens the complete diff and reduces the frame to 224. Current selected candidate is 1944 bytes versus original 2032; its frame is 228 versus original 240, approximate nmscore 609 to 531. Remaining spill homes, scalar lifetimes, register allocation and loop structure still differ."
+    },
+    {
+      "id": "match",
+      "label": "Exact active C and linked ROM match",
+      "state": "pending",
+      "evidence": "Strict normal-module comparison is NO MATCH. The original ASM remains the normal ROM input. No new matching C bytes, whole-function equivalence or exact-size result is claimed; bounded emulation and heuristic scores cannot prove those properties."
+    }
+  ],
+  "regions": []
+}
