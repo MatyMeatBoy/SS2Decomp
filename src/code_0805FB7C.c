@@ -2634,8 +2634,8 @@ loop:
     if (count!=finished) {sub_080003F0();goto loop;}
     sub_0800903C(0,0,0,0,0,0);
     sub_0801AA8C(30);
-loopEnd:
-    if (!sub_0801AAE0()) {
+    goto loopEnd;
+loopEndBody:
         if (sub_0800CDF8() || sub_080021A8()) return;
         t65E_video.h6+=4;
         n=0;
@@ -2656,8 +2656,9 @@ loopEnd:
                 n++;
             }
         }
-        sub_080003F0();goto loopEnd;
-    }
+        sub_080003F0();
+loopEnd:
+    if (!sub_0801AAE0()) goto loopEndBody;
     fillEnd=0;
     CpuSet(&fillEnd,(void *)0x06000000,0x05002000);
     t65E_display=0;
