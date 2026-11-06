@@ -1431,68 +1431,79 @@ block_28:
 INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_0800AEF4);
 #endif
 #ifdef NONMATCHING
-extern u16 t06_width1B118 asm("gUnk_030031E4");
 extern u16 t06_heightB118 asm("gUnk_030031EA");
-s32 sub_0800B118(u8 direction,s32 x,s32 y,s32 flags)
+s32 sub_0800B118(u8 direction, s32 x, s32 y, s32 flags)
 {
     u32 cells[3][3];
-    s32 centerX=x>>11;
-    s32 centerY=(y+0x200)>>11;
-    s32 i,j,xx,yy,nextI,nextJ;
-    u16 width;
+    s32 centerX;
+    s32 centerY;
+    s32 i, j, nextI, nextJ, xx, yy;
     u16 *map;
-    u32 value;
+    u16 width;
     u8 *cell;
-    if(flags&1) {
-        map=gUnk_03003170.map1;
-        i=-1;
+    u32 t;
+
+    y += 0x200;
+    centerX = x >> 11;
+    centerY = y >> 11;
+    if (flags & 1) {
+        map = gUnk_03003170.map1;
+        i = -1;
         do {
-            xx=centerX+i;
-            j=-1;
-            nextI=i+1;
+            xx = centerX + i;
+            j = -1;
+            nextI = i + 1;
             do {
-                yy=centerY+j;
-                if(xx<=0 || yy<=0 || xx>=t06_width1B118 || yy>=gUnk_03003170.pad76) {
-                    nextJ=j+1;
-                    cells[nextJ][nextI]=1;
+                yy = centerY + j;
+                if (xx <= 0 || yy <= 0 || xx >= gUnk_03003170.width1 || yy >= gUnk_03003170.pad76) {
+                    nextJ = j + 1;
+                    cells[nextJ][nextI] = 1;
                 } else {
-                    nextJ=j+1;
-                    cells[nextJ][nextI]=(*(u32 *)&map[xx+t06_width1B118*yy]<<20)>>28;
+                    cell = (u8 *)&map[xx + yy * gUnk_03003170.width1];
+                    cells[j + 1][nextI] = (*(u32 *)cell << 20) >> 28;
+                    nextJ = j + 1;
                 }
-                j=nextJ;
-            }while(j<=1);
-            i=nextI;
-        }while(i<=1);
+                j = nextJ;
+            } while (j <= 1);
+            i = nextI;
+        } while (i <= 1);
     } else {
-        if(gUnk_03003170.curLevel==8 && gUnk_03003170.f90==18)width=90;
-        else if(gUnk_03003170.curLevel==8 && (gUnk_03003170.f90==2 || gUnk_03003170.f90==12))width=60;
-        else width=gUnk_03003170.mapW;
-        map=gUnk_03003170.map0;
-        i=-1;
+        if (gUnk_03003170.curLevel == 8 && gUnk_03003170.f90 == 18)
+            width = 90;
+        else if (gUnk_03003170.curLevel == 8 && (gUnk_03003170.f90 == 2 || gUnk_03003170.f90 == 12))
+            width = 60;
+        else
+            width = gUnk_03003170.mapW;
+        map = gUnk_03003170.map0;
+        i = -1;
         do {
-            xx=centerX+i;
-            j=-1;
-            nextI=i+1;
+            xx = centerX + i;
+            j = -1;
+            nextI = i + 1;
             do {
-                yy=centerY+j;
-                if(xx<=0 || yy<=0 || xx>=width || yy>=t06_heightB118) {
-                    nextJ=j+1;
-                    cells[nextJ][nextI]=1;
+                yy = centerY + j;
+                if (xx <= 0 || yy <= 0 || xx >= width || yy >= t06_heightB118) {
+                    nextJ = j + 1;
+                    cells[nextJ][i + 1] = 1;
                 } else {
-                    cell=(u8 *)&map[xx+yy*width];
-                    nextJ=j+1;
-                    value=(*(u32 *)cell<<20)>>28;
-                    cells[nextJ][nextI]=value;
-                    if((flags&2) && cell[0]==1)cells[nextJ][nextI]=value|cell[0];
-                    if((flags&4) && (cell[1]&16))cells[nextJ][nextI]=0;
+                    cell = (u8 *)&map[xx + yy * width];
+                    cells[j + 1][i + 1] = (*(u32 *)cell << 20) >> 28;
+                    nextJ = j + 1;
+                    if (flags & 2) {
+                        t = cell[0];
+                        if (t == 1)
+                            cells[nextJ][i + 1] |= t;
+                    }
+                    if ((flags & 4) && (cell[1] & 0x10))
+                        cells[nextJ][i + 1] = 0;
                 }
-                j=nextJ;
-            }while(j<=1);
-            i=nextI;
-        }while(i<=1);
+                j = nextJ;
+            } while (j <= 1);
+            i = nextI;
+        } while (i <= 1);
     }
     switch(cells[1][1]) {
-    case 0:goto L_B63C;
+    case 0:return direction + 1;
     case 1:goto L_B304;
     case 2:goto L_B47C;
     case 3:goto L_B47C;
@@ -1506,7 +1517,7 @@ s32 sub_0800B118(u8 direction,s32 x,s32 y,s32 flags)
     case 11:goto L_B588;
     case 12:goto L_B5C4;
     case 13:goto L_B5FC;
-    default:goto L_B63C;
+    default:return direction + 1;
     }
 L_B304:
     switch(direction) {
@@ -1518,7 +1529,7 @@ L_B304:
     case 5:goto L_B458;
     case 6:goto L_B3F4;
     case 7:goto L_B468;
-    default:goto L_B63C;
+    default:return direction + 1;
     }
 L_B338:
     switch(cells[0][1]-6) {
@@ -1528,22 +1539,22 @@ L_B338:
     case 3:goto L_B51C;
     case 4:goto L_B550;
     case 5:goto L_B588;
-    default:goto L_B638;
+    default:return 0;
     }
 L_B368:
     switch(cells[1][2]-2) {
     case 0:goto L_B47C;
     case 1:goto L_B47C;
-    case 2:goto L_B638;
-    case 3:goto L_B638;
-    case 4:goto L_B638;
-    case 5:goto L_B638;
+    case 2:return 0;
+    case 3:return 0;
+    case 4:return 0;
+    case 5:return 0;
     case 6:goto L_B51C;
     case 7:goto L_B51C;
-    case 8:goto L_B638;
+    case 8:return 0;
     case 9:goto L_B588;
     case 10:goto L_B5C4;
-    default:goto L_B638;
+    default:return 0;
     }
 L_B3AC:
     switch(cells[2][1]-2) {
@@ -1551,15 +1562,15 @@ L_B3AC:
     case 1:goto L_B47C;
     case 2:goto L_B4B0;
     case 3:goto L_B4B0;
-    case 4:goto L_B638;
-    case 5:goto L_B638;
-    case 6:goto L_B638;
-    case 7:goto L_B638;
-    case 8:goto L_B638;
-    case 9:goto L_B638;
+    case 4:return 0;
+    case 5:return 0;
+    case 6:return 0;
+    case 7:return 0;
+    case 8:return 0;
+    case 9:return 0;
     case 10:goto L_B5C4;
     case 11:goto L_B5FC;
-    default:goto L_B638;
+    default:return 0;
     }
 L_B3F4:
     switch(cells[1][0]-4) {
@@ -1567,38 +1578,37 @@ L_B3F4:
     case 1:goto L_B4B0;
     case 2:goto L_B4E4;
     case 3:goto L_B4E4;
-    case 4:goto L_B638;
-    case 5:goto L_B638;
+    case 4:return 0;
+    case 5:return 0;
     case 6:goto L_B550;
-    case 7:goto L_B638;
-    case 8:goto L_B638;
+    case 7:return 0;
+    case 8:return 0;
     case 9:goto L_B5FC;
-    default:goto L_B638;
+    default:return 0;
     }
 L_B434:
-    if(cells[0][0]==0)goto L_B584;
-    if(cells[2][2]==0)goto L_B634;
-    goto L_B638;
+    if(cells[0][0]==0)return 3;
+    if(cells[2][2]==0)return 1;
+    return 0;
 L_B446:
-    if(cells[2][0]==0)goto L_B584;
-    if(cells[0][2]==0)goto L_B5BC;
-    goto L_B638;
+    if(cells[2][0]==0)return 3;
+    if(cells[0][2]==0)return 5;
+    return 0;
 L_B458:
-    if(cells[0][0]==0)goto L_B5BC;
-    if(cells[2][2]==0)goto L_B478;
-    goto L_B638;
+    if(cells[0][0]==0)return 5;
+    if(cells[2][2]==0)return 7;
+    return 0;
 L_B468:
-    if(cells[2][0]==0)goto L_B634;
-    if(cells[0][2]==0)goto L_B478;
-    goto L_B638;
-L_B478:return 7;
+    if(cells[2][0]==0)return 1;
+    if(cells[0][2]==0)return 7;
+    return 0;
 L_B47C:
     switch(direction) {
-    case 0:goto L_B63C;
-    case 1:goto L_B63C;
-    case 2:goto L_B518;
-    case 3:goto L_B518;
-    case 4:goto L_B5F8;
+    case 0:return direction + 1;
+    case 1:return direction + 1;
+    case 2:return 2;
+    case 3:return 2;
+    case 4:return 6;
     case 5:goto L_B63C;
     case 6:goto L_B63C;
     case 7:goto L_B63C;
@@ -1610,29 +1620,29 @@ L_B4B0:
     case 1:goto L_B63C;
     case 2:goto L_B63C;
     case 3:goto L_B63C;
-    case 4:goto L_B630;
-    case 5:goto L_B5C0;
-    case 6:goto L_B5C0;
+    case 4:return 4;
+    case 5:return 8;
+    case 6:return 8;
     case 7:goto L_B63C;
     default:goto L_B63C;
     }
 L_B4E4:
     switch(direction) {
-    case 0:goto L_B518;
+    case 0:return 2;
     case 1:goto L_B63C;
     case 2:goto L_B63C;
     case 3:goto L_B63C;
     case 4:goto L_B63C;
     case 5:goto L_B63C;
-    case 6:goto L_B5F8;
-    case 7:goto L_B5F8;
+    case 6:return 6;
+    case 7:return 6;
     default:goto L_B63C;
     }
 L_B51C:
     switch(direction) {
-    case 0:goto L_B5C0;
-    case 1:goto L_B630;
-    case 2:goto L_B630;
+    case 0:return 8;
+    case 1:return 4;
+    case 2:return 4;
     case 3:goto L_B63C;
     case 4:goto L_B63C;
     case 5:goto L_B63C;
@@ -1642,22 +1652,22 @@ L_B51C:
     }
 L_B550:
     switch(direction) {
-    case 0:goto L_B584;
+    case 0:return 3;
     case 1:goto L_B63C;
     case 2:goto L_B63C;
     case 3:goto L_B63C;
     case 4:goto L_B63C;
-    case 5:goto L_B5BC;
-    case 6:goto L_B5BC;
-    case 7:goto L_B638;
+    case 5:return 5;
+    case 6:return 5;
+    case 7:return 0;
     default:goto L_B63C;
     }
 L_B588:
     switch(direction) {
-    case 0:goto L_B5C0;
-    case 1:goto L_B638;
-    case 2:goto L_B5BC;
-    case 3:goto L_B5BC;
+    case 2:return 5;
+    case 3:return 5;
+    case 0:return 8;
+    case 1:return 0;
     case 4:goto L_B63C;
     case 5:goto L_B63C;
     case 6:goto L_B63C;
@@ -1667,10 +1677,10 @@ L_B588:
 L_B5C4:
     switch(direction) {
     case 0:goto L_B63C;
-    case 1:goto L_B634;
-    case 2:goto L_B634;
-    case 3:goto L_B638;
-    case 4:goto L_B5F8;
+    case 1:return 1;
+    case 2:return 1;
+    case 3:return 0;
+    case 4:return 6;
     case 5:goto L_B63C;
     case 6:goto L_B63C;
     case 7:goto L_B63C;
@@ -1682,20 +1692,12 @@ L_B5FC:
     case 1:goto L_B63C;
     case 2:goto L_B63C;
     case 3:goto L_B63C;
-    case 4:goto L_B630;
-    case 5:goto L_B638;
-    case 6:goto L_B634;
-    case 7:goto L_B634;
+    case 4:return 4;
+    case 6:return 1;
+    case 7:return 1;
+    case 5:return 0;
     default:goto L_B63C;
     }
-L_B518:return 2;
-L_B584:return 3;
-L_B5BC:return 5;
-L_B5C0:return 8;
-L_B5F8:return 6;
-L_B630:return 4;
-L_B634:return 1;
-L_B638:return 0;
 L_B63C:return direction+1;
 }
 #else
