@@ -1994,6 +1994,12 @@ loop_wait:
 loop_16:
     if ((temp_r8->state != 0xE) && (sub_0800CD8C() == 0) && (temp_r8->state != 5)) {
         sub_08015C5C(sp4 >> 8, sp0 >> 8);
+        goto loop_23;
+loop_23_retry:
+        if (sub_0800CCCC() != 0) {
+            return;
+        }
+        sub_08057624(1U);
 loop_23:
         if ((sub_08015F20() == 0) || (((u16) state2413C->flags >> 4) & 1)) {
             temp_r8->flags = temp_r8->flags | 0x403;
@@ -2009,9 +2015,8 @@ loop_28:
             sp20 = 0;
             var_r9 = 0;
             var_r7_2 = sp28;
-loop_61:
-            sp30 = var_r3;
-            if (sp20 < sub_08002164()) {
+            goto loop_61;
+loop_61_body:
                 temp_r1_2 = *var_r7_2;
                 temp_r4_2 = (u16) temp_r1_2->unk0 >> 4;
                 temp_r5_2 = (u32) (temp_r1_2->unk2 << 0x14) >> 0x14;
@@ -2088,8 +2093,9 @@ block_53:
                 var_r7_2 = (struct Remote2413C **)((u8 *)var_r7_2 + 0x14C);
                 var_r9 += 0x14C;
                 sp20 += 1;
-                goto loop_61;
-            }
+loop_61:
+            sp30 = var_r3;
+            if (sp20 < sub_08002164()) goto loop_61_body;
             if ((sp30 == sub_08002164()) && (sp14 != sub_08002164())) {
                 if ((sp1C == 0) || (sp24 != 0)) {
                     if ((sp14 == 0) && (var_sl != sub_08002164())) {
@@ -2108,11 +2114,11 @@ block_53:
                 temp_r8->flags = temp_r8->flags & 0xFFFFFBFC;
                 sub_08067D74();
                 sub_08015C5C(spC >> 8, sp8 >> 8);
+                goto loop_77;
+loop_77_yield:
+                sub_08057624(1U);
 loop_77:
-                if ((sub_08015F20() != 0) && !(((u16) state2413C->flags >> 4) & 1)) {
-                    sub_08057624(1U);
-                    goto loop_77;
-                }
+                if ((sub_08015F20() != 0) && !(((u16) state2413C->flags >> 4) & 1)) goto loop_77_yield;
                 if (sub_0800CF80() == 0) {
                     *sp2C = 1;
                 }
@@ -2128,11 +2134,7 @@ loop_77:
             }
             return;
         }
-        if (sub_0800CCCC() != 0) {
-            return;
-        }
-        sub_08057624(1U);
-        goto loop_23;
+        goto loop_23_retry;
     }
     goto loop_wait;
 }
