@@ -4257,7 +4257,6 @@ void sub_0806E7D4(struct ArgE7D4 *arg)
     }
     fE7D4[player] &= ~(1 << bit);
 }
-#ifdef NONMATCHING
 struct ArgF0CC { u32 player, bit, target, value, f10, level; };
 struct SprF0CC { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct PlyF0CC { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x2E]; s16 maxhp; u8 pad64[4]; u8 team; u8 pad69[0x13]; u8 f7C[0x10]; s32 x8C, y90; u8 pad94[0x2E]; u16 resource; u16 hp; u8 padC6[0x16]; u32 fDC; u8 padE0[0x68]; u16 *sprite; };
@@ -4303,6 +4302,11 @@ static inline void healNumF0CC(struct PosF0CC *pos, u32 v)
 
 void sub_0806F0CC(struct ArgF0CC *arg)
 {
+    s32 dd0;
+    s32 dd1;
+    s32 dd2;
+    s32 dd3;
+    s32 dd4;
     struct SprF0CC spr;
     s16 dx, dy;
     u16 frame, timer;
@@ -4315,12 +4319,13 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     u32 lvl;
     u32 tmo;
     u32 level;
+    u32 level2;
     u16 count;
     u16 i;
     u32 n;
-    u32 d;
     u16 drain;
     u16 angle;
+    u32 d;
     s32 hit;
     u32 player;
     u32 bit;
@@ -4354,8 +4359,9 @@ void sub_0806F0CC(struct ArgF0CC *arg)
             sub_080003F0();
         }
     }
-    lvl = (u32)(((u32 *)p->sprite)[1] << 15) >> 29;
-    tmo = lvl;
+            tmo = (u32)(((u32 *)p->sprite)[1] << 15) >> 29;
+    asm("" :: "r"(tmo));
+    lvl = tmo;
     frame = 0;
     timer = 0;
     if (sub_080020F4() != player) {
@@ -4384,7 +4390,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     if (target <= 3) {
         n = sub_08002164();
         for (i = 0; i < n; i++) {
-            if (i == player)
+            if (player == i)
                 continue;
             p2 = &pF0CC[i];
             if (p2->id == target)
@@ -4414,7 +4420,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     }
     angle = angF0CC[(s16)d];
     if ((sub_080020F4() == player || player > 3) && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
-        sub_0805865C(lvl + 0x14E);
+        sub_0805865C(tmo + 0x14E);
     if (target != 0xFFFF) {
         if (target <= 3) {
             dx = (p2->sprite[0] >> 4) - (x >> 8);
@@ -4425,10 +4431,9 @@ void sub_0806F0CC(struct ArgF0CC *arg)
         }
         a = (u32)(ArcTan2(dx, dy) << 16) >> 24;
         a0 = a;
-        dd = a0 - (s16)angle;
-        if (dd > 0x80)
+        if (a0 - (s16)angle > 0x80)
             a = a0 - 0x100;
-        else if (dd < -0x80)
+        else if (a0 - (s16)angle < -0x80)
             a = 0x100 | a0;
         sa = a;
         sang = angle;
@@ -4449,10 +4454,10 @@ void sub_0806F0CC(struct ArgF0CC *arg)
     spr.f1D = 8;
     frame = 0;
     timer = 0;
-    tmo = ((tmo << 19) + (20 << 16)) >> 16;
+    lvl = ((lvl << 19) + (20 << 16)) >> 16;
     for (;;) {
-        v = tmo;
-        tmo = (u16)(v - 1);
+        v = lvl;
+        lvl = (u16)(v - 1);
         if (v == 0)
             break;
         if (player == sub_080020F4()) {
@@ -4478,9 +4483,9 @@ void sub_0806F0CC(struct ArgF0CC *arg)
         if (target != 0xFFFF) {
             if (hit)
                 break;
-            n = sub_08002164();
+                        n = sub_08002164();
             if (arg->player <= 3) {
-                for (i = 0; i < n; i++) {
+                i = 0; asm("" : "+r"(i)); for (; i < n; i++) {
                     p2 = &pF0CC[i];
                     if (p2->team == p->team)
                         continue;
@@ -4496,7 +4501,7 @@ void sub_0806F0CC(struct ArgF0CC *arg)
                     }
                 }
             } else {
-                for (i = 0; i < n; i++) {
+                i = 0; asm("" : "+r"(i)); for (; i < n; i++) {
                     p2 = &pF0CC[i];
                     if (p2->flags & 0x2000)
                         continue;
@@ -4523,13 +4528,13 @@ void sub_0806F0CC(struct ArgF0CC *arg)
         x += sinF0CC[(s16)angle + 0x40] * 2;
         y += sinF0CC[(s16)angle] * 2;
         coordsF0CC((s16)(x >> 8), (s16)(y >> 8), &dx, &dy, 0x30, hit);
-        shade = sub_0800BC44(x >> 8, y >> 8, 0);
-        animF0CC(&spr, (u16)d, &frame, &timer, 1);
+        shade = sub_0800BC44(x >> 8, y >> 8, 0); id = (u16)d;
+        animF0CC(&spr, id, &frame, &timer, 1);
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
             if (!(flagsF0CC & 1))
                 palF0CC(0x17, spr.fC, 2);
             if ((flagsF0CC & 1) == (player & 1)) {
-                drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2], (u16)d, frame, shade, &spr.f1C, spr.f8, spr.f0);
+                drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2], ({asm("");asm(""); id;}), frame, shade, &spr.f1C, spr.f8, spr.f0);
             }
         }
         sub_080003F0();
@@ -4539,10 +4544,10 @@ out:
         hit = 0;
     if (!hit)
         goto end;
-    count = 30;
+    i = 30;
     for (;;) {
-        v = count;
-        count = (u16)(v - 1);
+        v = i;
+        i = (u16)(v - 1);
         if (v == 0)
             break;
         if (player == self) {
@@ -4550,8 +4555,9 @@ out:
                 break;
         }
         if (target > 3) {
-            coordsF0CC((s16)(e3->x >> 8), (s16)(e3->y >> 8), &dx, &dy, 0x30, 0);
-            sub_0800BC44(e3->x >> 8, e3->y >> 8, 0);
+            struct EneF0CC *q = e3;
+            coordsF0CC((s16)(q->x >> 8), (s16)(q->y >> 8), &dx, &dy, 0x30, 0);
+            sub_0800BC44(q->x >> 8, q->y >> 8, 0);
         } else {
             coordsF0CC(p2->sprite[0] >> 4, (u32)(p2->sprite[1] << 20) >> 20, &dx, &dy, 0x30, 0);
             sub_0800BC44(p2->sprite[0] >> 4, (u32)(p2->sprite[1] << 20) >> 20, 0);
@@ -4560,7 +4566,7 @@ out:
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
             if (!(flagsF0CC & 1))
                 palF0CC(0x17, spr.fC, 2);
-            drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2] + 2, ((d << 16) + (8 << 16)) >> 16, frame, 0, &spr.f1C, spr.f8, spr.f0);
+            { int xx = dx; u8 *kp = kF0CC; asm volatile("":"+r"(kp)); { u32 q = ((s16)angle >> 4) + (u32)kp; drawF0CC(xx + offF0CC[*(u8*)q].x, dy + (&offF0CC[0].y)[*(u8*)q * 2] + 2, ((d << 16) + (8 << 16)) >> 16, frame, 0, &spr.f1C, spr.f8, spr.f0); }}
         }
         sub_080003F0();
     }
@@ -4611,18 +4617,18 @@ out:
         if (sang > 0x100)
             angle = sang - 0x100;
         angle &= 0xFF;
-        id = kF0CC[(s16)angle >> 4] + 8;
+        d = kF0CC[(s16)angle >> 4] + 8;
         if (Sqrt(dx * dx + dy * dy) <= 7)
             break;
         x += sinF0CC[(s16)angle + 0x40] * 3;
         y += sinF0CC[(s16)angle] * 3;
         coordsF0CC((s16)(x >> 8), (s16)(y >> 8), &dx, &dy, 0x30, 0);
         shade = sub_0800BC44(x >> 8, y >> 8, 0);
-        animF0CC(&spr, id, &frame, &timer, 1);
+        animF0CC(&spr, (u16)d, &frame, &timer, 1);
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
             if (!(flagsF0CC & 1))
                 palF0CC(0x17, spr.fC, 2);
-            drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2], id, frame, shade, &spr.f1C, spr.f8, spr.f0);
+            drawF0CC(dx + offF0CC[kF0CC[(s16)angle >> 4]].x, dy + (&offF0CC[0].y)[kF0CC[(s16)angle >> 4] * 2], (u16)d, frame, shade, &spr.f1C, spr.f8, spr.f0);
         }
         sub_080003F0();
     }
@@ -4645,9 +4651,6 @@ end:
         p->fDC++;
     fF0CC[player] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806F0CC);
-#endif
 struct T06FE1CPlayer { u8 pad0[0x24]; u16 x24, x26; u8 pad28[0x8e]; u16 wait; u8 padB8[10]; s16 resource; u8 padC4[0x88]; };
 struct T06FE1CArgs { u32 player, bit, f8, value, f10, level; };
 extern struct T06FE1CPlayer t06FE1CPlayers[] asm("gUnk_03003CE0");
