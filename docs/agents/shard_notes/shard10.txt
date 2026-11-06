@@ -24,3 +24,7 @@ The address-insensitive diff falls from 128 to 118 lines. Strict comparison
 still differs from the 880-byte original. Normal ROM comparison, the
 NONMATCHING build and check_tree pass. Eight emulated cases agree on calls,
 actor records, allocation contents and pointer updates.
+
+claude-nov06-wA11 (2026-11-06): sub_08013850 MATCHED with plain C (no register asm). Key: the first loop uses its own
+  outer index (i, r7) while its two 0xFFFF inner loops share the index variable of every later loop (j, r6);
+  the r[]/r70[]/s[] inner byte loops use a third variable (k). The dt13850 loop reuses i.
