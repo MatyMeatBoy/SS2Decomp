@@ -2628,6 +2628,8 @@ void sub_0809CC2C_(u8 idx)
     s32 h;
     s32 r;
     struct PlayerCC2C *pl;
+    u32 slotOffset;
+    u32 paletteIndex;
     s16 *p5c;
 
 
@@ -2680,6 +2682,8 @@ void sub_0809CC2C_(u8 idx)
         limit = 180;
         speed = 0x80;
     }
+    slotOffset = idx * sizeof(*tblCC2C);
+    paletteIndex = palNo + 0x10;
     while (gUnk_030002E8 == 0 ? sub_0801A0B0(ent) : sub_0801A0A4(ent), objCC2C->f5c != 0) {
         if (ent->fc == 10 && blink == 0)
             blink = 8;
@@ -2765,7 +2769,7 @@ void sub_0809CC2C_(u8 idx)
             *p6a = 0;
         }
         spr->f1C[0] = palNo;
-        sub_08000AF0(palNo + 0x10, (void *)(spr->fC + sub->fd6 * 32), 1);
+        sub_08000AF0(paletteIndex, (void *)(spr->fC + sub->fd6 * 32), 1);
         if (sub_08098004() & 1)
             pal = sub_08097FF8();
         else
@@ -2804,11 +2808,11 @@ void sub_0809CC2C_(u8 idx)
     *p5c = 0;
     ent->fc = 11;
 out:
-    maskCC2C &= ~(1 << tblCC2C[idx]->f0);
+    maskCC2C &= ~(1 << (*((struct EntCC2C **)((u8 *)tblCC2C + slotOffset)))->f0);
     blink = 20;
     do {
         spr->f1C[0] = palNo;
-        sub_08000AF0(palNo + 0x10, (void *)(spr->fC + sub->fd6 * 32), 1);
+        sub_08000AF0(paletteIndex, (void *)(spr->fC + sub->fd6 * 32), 1);
         if (sub_08098004() & 1)
             pal = sub_08097FF8();
         else
@@ -2820,17 +2824,25 @@ out:
             drawCC2C(sx, sy, *p68, *p6a, pal, spr->f1C, spr->f8, spr->f0);
         yieldCC2C();
     } while (--blink != 0xFFFF);
-    if (!(playersCC2C[s080020F4()].flags & 0x2000)) {
-        pp = &tblCC2C[idx];
-        if ((*pp)->f5a != 0) {
-            h = sub_0801E46C((void *)heapCC2C, sub);
-            shake = 0x1d;
-            do {
-                (*pp)->y -= 0x20;
-                s6171C(*pp, h);
-                yieldCC2C();
-            } while (--shake != -1);
-            sub_0801E4CC((u8 *)heapCC2C, h);
+    {
+        register u32 base asm("r1");
+        register u32 offset asm("r0");
+        s32 localIndex = s080020F4();
+        base = (u32)playersCC2C;
+        offset = localIndex * sizeof(struct PlayerCC2C);
+        base += offsetof(struct PlayerCC2C, flags);
+        if (!(*(u32 *)(offset + base) & 0x2000)) {
+            pp = (struct EntCC2C **)((u8 *)tblCC2C + slotOffset);
+            if ((*pp)->f5a != 0) {
+                h = sub_0801E46C((void *)heapCC2C, sub);
+                shake = 0x1d;
+                do {
+                    (*pp)->y -= 0x20;
+                    s6171C(*pp, h);
+                    yieldCC2C();
+                } while (--shake != -1);
+                sub_0801E4CC((u8 *)heapCC2C, h);
+            }
         }
     }
     } while (0);
