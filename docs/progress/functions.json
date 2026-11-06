@@ -20026,14 +20026,14 @@
       "name": "sub_0805D854",
       "addr": 134600788,
       "size": 968,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805D094",
       "kind": "c",
       "cat": "game",
       "address": "0x0805D854",
       "canonical_symbol": "sub_0805D854",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0805D854",
       "name_status": "unidentified",
       "name_source": null,
@@ -20108,7 +20108,7 @@
       "evidence": [
         {
           "source": "src/code_0805D094.c",
-          "line": 873,
+          "line": 867,
           "detail": "Existing C definition with an asm alias to the canonical symbol: e0c4Impl"
         }
       ]
@@ -28946,14 +28946,14 @@
       "name": "sub_0809561C",
       "addr": 134829596,
       "size": 1092,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08092D60",
       "kind": "c",
       "cat": "game",
       "address": "0x0809561C",
       "canonical_symbol": "sub_0809561C",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0809561C",
       "name_status": "unidentified",
       "name_source": null,
