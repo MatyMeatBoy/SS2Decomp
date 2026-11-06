@@ -35,9 +35,8 @@ void sub_0808381C(u32 index);
 extern const u32 gUnk_084EBD4C[];
 
 #ifdef NONMATCHING
-// sub_0807A5D4 (stat/skill allocation menu): exact size, ~125 diff lines.
-// Left: state-0/1 confirm blocks reuse &mgr/&data/zero in r4-r6 (ROM reloads literals and
-// fresh zeros), const 1 not kept in r5 in the state-3 text code, reload register choices.
+// Stat/skill allocation menu draft: original size, scroll-register load order still differs.
+// Empty constraints retain the original pointer reloads and constant lifetimes.
 struct SkillA5D4 { u16 level, exp; };
 struct SkillsA5D4 { u16 points; u16 pad; struct SkillA5D4 e[8]; };
 struct StatsA5D4 { s16 v[5]; u16 points; s16 rest[10]; };
@@ -93,6 +92,16 @@ void sub_0808516C(void);
 s16 sub_0801A638_s16(u8 *) asm("sub_0801A638");
 
 void sub_0807A5D4_v(void) asm("sub_0807A5D4");
+static inline struct DataA5D4 *readDataA5D4(void) {
+    register struct DataA5D4 **addr asm("r0") = &dataA5D4;
+    asm("" : "+r"(addr));
+    return *addr;
+}
+static inline struct MgrA5D4 *readMgrA5D4(void) {
+    register struct MgrA5D4 **addr asm("r0") = &mgrA5D4;
+    asm("" : "+r"(addr));
+    return *addr;
+}
 void sub_0807A5D4_v(void)
 {
     struct StatsA5D4 stats;
@@ -198,12 +207,25 @@ void sub_0807A5D4_v(void)
                     break;
                 }
                 if (keysA5D4_New & 1) {
-                    *(vu16 *)&dataA5D4->pad4[0x16];
-                    mgrA5D4->state = 2;
-                    zero1 = 0; CpuSet(&zero1, &stats, 0x01000010);
-                    CpuCopy16(&dataA5D4->stats, &saved, 0x20);
-                    mgrA5D4->cursor = 0;
-                    mgrA5D4->prev = 0;
+                    *(vu16 *)&readDataA5D4()->stats.points;
+                    readMgrA5D4()->state = 2;
+                    {
+                        register u16 *fillAddr asm("r0") = &zero1;
+                        register u32 fillZero asm("r1");
+                        asm("" : : "r"(fillAddr));
+                        fillZero = 0;
+                        asm("" : "+r"(fillZero));
+                        *fillAddr = fillZero;
+                        CpuSet(fillAddr, &stats, 0x01000010);
+                    }
+                    CpuCopy16(&readDataA5D4()->stats, &saved, 0x20);
+                    {
+                        struct MgrA5D4 *mgr = readMgrA5D4();
+                        register u32 reset asm("r0") = 0;
+                        asm("" : "+r"(reset));
+                        mgr->cursor = reset;
+                        mgr->prev = reset;
+                    }
                     to = 0x2E;
                     sub_0805865C(0xF);
                         break;
@@ -220,13 +242,30 @@ void sub_0807A5D4_v(void)
                     break;
                 }
                 if (keysA5D4_New & 1) {
-                    *(vu16 *)&dataA5D4->skills.points;
-                    mgrA5D4->state = 3;
-                    zero2 = 0; CpuSet(&zero2, &delta, 0x01000012);
+                    *(vu16 *)&readDataA5D4()->skills.points;
+                    readMgrA5D4()->state = 3;
+                    {
+                        register u16 *fillAddr asm("r0") = &zero2;
+                        register u32 fillZero asm("r1");
+                        asm("" : : "r"(fillAddr));
+                        fillZero = 0;
+                        asm("" : "+r"(fillZero));
+                        *fillAddr = fillZero;
+                        {
+                            register struct SkillsA5D4 *fillDest asm("r1") = &delta;
+                            asm("" : "+r"(fillDest));
+                            CpuSet(fillAddr, fillDest, 0x01000012);
+                        }
+                    }
                     CpuCopy16(&dataA5D4->skills, &undo, 0x24);
                     CpuCopy16(&dataA5D4->skills, &work, 0x24);
-                    mgrA5D4->cursor = 0;
-                    mgrA5D4->prev = 0;
+                    {
+                        struct MgrA5D4 *mgr = readMgrA5D4();
+                        register u32 reset asm("r0") = 0;
+                        asm("" : "+r"(reset));
+                        mgr->cursor = reset;
+                        mgr->prev = reset;
+                    }
                     to = 0x2F;
                     sub_0805865C(0xF);
                 }
@@ -463,7 +502,8 @@ void sub_0807A5D4_v(void)
                 sub_0801A3D0(p, (u16)(15 - ((u32)sub_0801A638(p) >> 1)), 0x11);
                 dirty = 1;
                 break;
-            case 3:
+            case 3: {
+                register u32 one asm("r5");
                 if (mgrA5D4->cursor != mgrA5D4->prev) {
                     from = mgrA5D4->prev * 8 + 0x2F;
                     to = mgrA5D4->cursor * 8 + 0x2F;
@@ -489,10 +529,11 @@ void sub_0807A5D4_v(void)
                 case 7: text = (u8 *)sub_08007290((mgrA5D4->cursor + 0x425) | 0x140000); break;
                 }
                 p = text + 2;
-                { u16 x; w = sub_0801A638_s16(p); x = -(w / 2 + (w & 1)); sub_0801A3D0(p, (u16)(x + 15), 0x11); }
-                sub_080659BC(mgrA5D4->sprite, 0x70, anim, 0x16, 1, 2);
+                { u16 x; w = sub_0801A638_s16(p); x = -(w / 2 + (w & ({ one = 1; one; }))); sub_0801A3D0(p, (u16)(x + 15), 0x11); }
+                sub_080659BC(mgrA5D4->sprite, 0x70, anim, 0x16, one, 2);
                 dirty = 1;
                 break;
+            }
             case 4:
                 break;
             }
@@ -506,7 +547,7 @@ void sub_0807A5D4_v(void)
             phase += 4;
             if (phase > 0xFF)
                 phase = 0;
-            sub_0800903C(4, 0x38, 1, (u16)bounce, 7, 0);
+            sub_0800903C(4, 0x38, 1, (u16)bounce, ({ register u32 seven asm("r1") = 7; asm("" : "+r"(seven)); seven; }), 0);
             gUnk_03001250[7] = (scroll += 0x40) >> 8;
             sub_0801A3D0((u8 *)dataA5D4, 0x11, 0xE);
             sub_0805FB7C(0xC, 0xB, *(s32 *)((u8 *)dataA5D4 + 0x20) + 1, 0);
