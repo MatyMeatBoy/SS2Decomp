@@ -3356,11 +3356,44 @@ block_73:
     }
     goto block_83;
 block_77:
+    /* Keep the original byte-load addresses and alternating scratch registers. */
         peer = peer66(sub_080020F4());
-    peer->unk8 = *(u8 *)&S.result;
-    peer->unk9 = *(u8 *)&S.result;
-    peer->unkA = *(u8 *)&S.result;
-    peer->unkB = *(u8 *)&S.result;
+    {
+        register u8 *address asm("r0");
+        register u8 value asm("r0");
+        address = (u8 *)&S.result;
+        asm("" : "+r"(address));
+        value = *address;
+        asm("" : : "r"(value));
+        peer->unk8 = value;
+    }
+    {
+        register u8 *address asm("r1");
+        register u8 value asm("r1");
+        address = (u8 *)&S.result;
+        asm("" : "+r"(address));
+        value = *address;
+        asm("" : : "r"(value));
+        peer->unk9 = value;
+    }
+    {
+        register u8 *address asm("r0");
+        register u8 value asm("r0");
+        address = (u8 *)&S.result;
+        asm("" : "+r"(address));
+        value = *address;
+        asm("" : : "r"(value));
+        peer->unkA = value;
+    }
+    {
+        register u8 *address asm("r1");
+        register u8 value asm("r1");
+        address = (u8 *)&S.result;
+        asm("" : "+r"(address));
+        value = *address;
+        asm("" : : "r"(value));
+        peer->unkB = value;
+    }
     sub_080020E0();
     var_r6_3 = 0;
 loop_78:
