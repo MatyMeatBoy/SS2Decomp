@@ -5,7 +5,9 @@ Read this before claiming a shard. It condenses what matched ~120 functions in t
 
 ## Session start (every worker)
 
-1. `git fetch origin && git checkout --detach origin/<main>`; discard leftovers (`git checkout -- .`).
+1. Preserve your own uncommitted work and private candidates, then `git fetch origin`.
+   Update only your clean, independent checkout through the normal workflow; never
+   discard another owner's work or reset a live search.
 2. `python3 tools/scripts/claim.py status`, pick a shard with owner `-`, `claim.py take AGENT N`.
 3. Confirm the claim is yours: `git ls-remote origin refs/heads/shard/NNN` must point at your
    `claim shard N (AGENT)` commit (two agents racing on one shard happened once).
@@ -28,9 +30,12 @@ Read this before claiming a shard. It condenses what matched ~120 functions in t
   (`docs/agents/shard_notes/RESHARD-2026-11-04.txt` maps new shard -> function -> original shard;
   a moved function's notes stay in the ORIGINAL shard's notes file). Claim, work and release one
   function at a time so no worker blocks functions it is not touching.
-- Do not split ONE function between several workers: a match depends on whole-function register
-  allocation and stack layout, so parallel edits to one body conflict and cannot be verified
-  separately. Parallelism comes from different functions (88+ shards for 5 workers).
+- Prefer independent functions. Several workers may prepare small region candidates for one
+  giant function through [HARD_FUNCTIONS.md](HARD_FUNCTIONS.md): one exclusive owner freezes
+  CFG/liveness/type contracts, workers reserve regions atomically in independent checkouts,
+  and only the owner edits the production body. Find live tasks with
+  `python3 tools/scripts/region_claim.py list`. Whole-function register allocation and stack
+  layout still require serial assembly and final ROM proof; region acceptance is not a match.
 - Giant functions (sub_0800D368 12k asm lines, sub_0807C29C 8.6k, sub_08003984 4k,
   sub_0801801C 3.3k): one long-haul worker each. Work in landed phases: (1) structure — every
   switch case / block in the ROM's order with inline helpers, compiling; (2) exact size, case by
@@ -66,8 +71,9 @@ Read this before claiming a shard. It condenses what matched ~120 functions in t
 - Measure with `python3 tools/scripts/nmdiff.py FUNC` and read the FULL diff: reordered
   instructions and `bls`/`ble` signedness changes hide behind filtered output. nmdiff reports a
   false MATCH when the function has no C draft yet.
-- nmdiff builds inside the NONMATCHING ROM, so literal-pool padding (`.short 0x0000`) can be a
-  false diff. Real-build check: `unwrap_func.py FUNC && make -j8 compare;
+- Rebuild NONMATCHING before reading nmdiff: the tool does not build stale objects. The
+  NONMATCHING layout can also affect literal-pool padding (`.short 0x0000`). Real-build check:
+  `unwrap_func.py FUNC && make -j1 compare;
   cmp -l baserom.gba shiningsoul2_eu.gba | wc -l` (ROM size must stay 16777216); if it does not
   match, `git checkout HEAD -- src/MOD.c asm/nonmatchings/MOD/`.
 - Tricks that closed functions (see WORKER.md for the full list):

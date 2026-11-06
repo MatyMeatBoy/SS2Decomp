@@ -113,7 +113,20 @@ labels, not authentication. Metadata branches skip push CI; PR checks stay enabl
 
 ### Worker: reserve and return artifacts
 
-Read `status`, copy `checkpoint`, check `parent_live: true`, then use your own
+Find available work without guessing a function:
+
+```sh
+python3 tools/scripts/region_claim.py list
+```
+
+This read-only JSON snapshot lists open plans, owners, frozen checkpoints and
+free/claimed/submitted region IDs. Closed plans are omitted. Stale plans show
+`parent_live: false` and no free regions; ask their owner to finish cleanup rather
+than start from an obsolete checkpoint. An empty list means no open region plans;
+continue with the normal exclusive shard queue. Discovery does not reserve work.
+
+For a live plan with free regions, read `status FUNC` and its full contract,
+copy `checkpoint`, check `parent_live: true`, then use your own
 checkout on a private branch at that exact SHA:
 
 ```sh

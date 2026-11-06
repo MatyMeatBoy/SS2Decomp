@@ -94,6 +94,9 @@ Recheck ownership before resuming after an interruption.
 For difficult functions, use [the focused experiment and region workflow](HARD_FUNCTIONS.md).
 Several workers can prepare region candidates beneath one owner using atomic
 reservations. Read the frozen contract first; only the owner edits production C.
+Run `python3 tools/scripts/region_claim.py list` to find live region work, then
+follow that guide to reserve one region. If none is available, use the normal
+exclusive shard queue; never start an unreserved region experiment.
 
 Read [AGENTS.md](../../AGENTS.md), [the per-function workflow](../../CONTRIBUTING.md)
 and [match verification](MATCH_VERIFICATION.md). Start with existing drafts,
