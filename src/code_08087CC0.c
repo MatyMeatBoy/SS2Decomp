@@ -3154,6 +3154,7 @@ void sub_0808C0C4_v(void) {
     struct C0Player *playerTableC0;
     u16 *countsC0;
     u8 *temp_r4;
+    u8 *playerBaseC0;
     s32 temp_r1_4;
     s32 temp_r1_5;
     s32 temp_r2;
@@ -3164,9 +3165,6 @@ void sub_0808C0C4_v(void) {
     struct C0Player *temp_r0;
     u16 *temp_r0_3;
     u16 *temp_r1_3;
-    u16 *var_r0;
-    u16 *var_r0_2;
-    u16 *var_r1_2;
     u16 temp_r0_4;
     u16 selectedValueC0;
     /* These values expire before the selected player fields are loaded. */
@@ -3295,18 +3293,14 @@ loop_15:
 loop_16:
     temp_r4_2 = sub_08007290(0x1401F6) + 2;
     sub_0801A3D0(temp_r4_2, (u16) (0xF - ((u32) sub_0801A638(temp_r4_2) >> 1)), 0x12);
-    loopCounterC0 = 0;
-    var_r0 = &sp150[0];
-    do {
-        *var_r0 = 0;
-        var_r0 += 1;
-        loopCounterC0 += 1;
-    } while (loopCounterC0 <= 4U);
+    for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++)
+        sp150[loopCounterC0] = 0;
     loopCounterC0 = 0;
     var_r9 = 0;
     goto loop_24CheckC0;
 loop_24BodyC0:
-    temp_r0_2 = (struct C0Item **)((u8 *)gPlayersC0 + 0x148 + var_r9);
+    playerBaseC0 = (u8 *)gPlayersC0;
+    temp_r0_2 = (struct C0Item **)(playerBaseC0 + 0x148 + var_r9);
     temp_r1 = *temp_r0_2;
     temp_r4_3 = (u16) temp_r1->unk0 >> 4;
     if (temp_r4_3 == 0) {
@@ -3316,7 +3310,7 @@ loop_24BodyC0:
         temp_r2 = ((temp_r1_2 * 9) + countTripletC0) * 2;
         sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
         if (sub_080020F4() == loopCounterC0) {
-            temp_r1_3 = &countsC0[((struct C0Player *)((u8 *)gPlayersC0 + var_r9))->unk1C];
+            temp_r1_3 = &countsC0[((struct C0Player *)(playerBaseC0 + var_r9))->unk1C];
             *temp_r1_3 += 1;
         } else {
             temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4];
@@ -3417,16 +3411,8 @@ selectionCheckC0:
         u32 k;
         temp_r4_10 = sub_08007290(0x1401F6) + 2;
         sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
-        var_r5 = 0;
-        k = loopCounterC0 + 1;
-        var_r0_2 = &sp150[0];
-loop_54:
-        *var_r0_2 = 0;
-        var_r0_2 += 1;
-        var_r5 += 1;
-        if (var_r5 <= 4U) {
-            goto loop_54;
-        }
+        for (var_r5 = 0, k = loopCounterC0 + 1; var_r5 < 5; var_r5++)
+            sp150[var_r5] = 0;
         loopCounterC0 = 0;
         var_r7 = &gItemsC0;
         goto loop_59CheckC0;
@@ -3463,15 +3449,9 @@ loop_59BodyC0:
         }
     }
     loopCounterC0 = 0;
-    var_r5_2 = 0;
-    var_r1_2 = &sp150[0];
-    do {
-        if (*var_r1_2 != 0) {
-            loopCounterC0 += 1;
-        }
-        var_r1_2 += 1;
-        var_r5_2 += 1;
-    } while (var_r5_2 <= 3U);
+    for (var_r5_2 = 0; var_r5_2 < 4; var_r5_2++)
+        if (sp150[var_r5_2] != 0)
+            loopCounterC0++;
     if (loopCounterC0 <= 1U) {
         goto errorSingleC0;
     }
