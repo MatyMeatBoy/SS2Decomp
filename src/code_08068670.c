@@ -5069,7 +5069,6 @@ end:
     gT6fBusy[owner] = 0;
     gT6fFlags[owner] &= ~(1 << bit);
 }
-#ifdef NONMATCHING
 extern u8 gT6gBusy[] asm("gUnk_03006410");
 extern s16 gT6gRadius[] asm("gUnk_084EC1D0");
 extern u16 gT6gDirs[] asm("gUnk_0849E730");
@@ -5078,6 +5077,7 @@ void t6gBurst(s32, s32, void *) asm("sub_08068A00");
 s32 t6gSolo(void) asm("sub_0800CB9C");
 s32 t6gAnim(void *, u32, s16 *, s16 *, s32) asm("sub_08065370");
 
+struct T6gXY { s32 x, y; };
 void sub_080710DC(struct T6fArg *arg0) {
     struct T6fDesc desc;
     s16 f0, f1;
@@ -5093,12 +5093,12 @@ void sub_080710DC(struct T6fArg *arg0) {
     s32 sx;
     u16 frame;
     u32 myId;
+    s32 sy; s32 dd1; s32 dd2; s32 dd3; s32 dd4; s32 dd5; s32 dd6; s32 dd7; s32 dd8; s32 dd9; s32 dd10; s32 dd11; s32 dd12; s32 dd13; s32 dd14; s32 dd15; s32 dd16;
     u32 owner;
     s32 bit;
     u32 timer;
     u32 seek;
-    s32 cx, cy;
-    s32 sy;
+    struct T6gXY c;
     u16 dir;
     u16 orbit;
     u16 i;
@@ -5112,6 +5112,7 @@ void sub_080710DC(struct T6fArg *arg0) {
     s32 done;
     u8 t;
     s16 idx;
+    s32 so;
     struct T6fPl *p;
 
     bit = arg0->bit;
@@ -5141,7 +5142,7 @@ void sub_080710DC(struct T6fArg *arg0) {
     f1 = 0;
     if (t6f_sub_080020F4() != owner) {
         if (owner > 3) {
-            { s16 *cp = (s16 *)((u8 *)gT6fCostS + 6 + (base * 2 + arg0->kind * 24)); s32 v = en->mp - *cp; en->mp = v; }
+            { u8 *cb = (u8 *)gT6fCostS; u32 off = base * 2 + arg0->kind * 24; s16 *cp; s32 v; cb += 6; cp = (s16 *)(off + (u32)cb); v = en->mp - *cp; en->mp = v; }
             if ((s16)en->mp < 0) {
                 gT6fFlags[owner] &= ~(1 << bit);
                 en->mp = 0;
@@ -5203,14 +5204,13 @@ void sub_080710DC(struct T6fArg *arg0) {
     base <<= 3;
     count += 4;
     if (owner <= 3) {
-        cx = pl->pos->x << 8;
-        cy = pl->pos->y << 8;
+        c.x = pl->pos->x << 8;
+        c.y = pl->pos->y << 8;
     } else {
-        cx = en->x;
-        cy = en->y;
+        c = *(struct T6gXY *)&en->x;
     }
-    sx = cx;
-    sy = cy;
+    sx = c.x;
+    sy = c.y;
     timer = 0x3C;
     if ((t6f_sub_080020F4() == owner || owner > 3) && t6f_sub_0800CCCC() == 0 && t6f_sub_0800CD34() == 0)
         t6f_sub_0805865C(level + 0x139);
@@ -5222,8 +5222,8 @@ restart:
         if (timer++ > 0x3C) {
             u16 r;
             if (owner <= 3) {
-                cx = pl->pos->x << 8;
-                cy = pl->pos->y << 8;
+                c.x = pl->pos->x << 8;
+                c.y = pl->pos->y << 8;
                 frame = pl->pos->dir;
                 dir = gT6gDirs[frame] * 16;
                 if (seek++ <= 5)
@@ -5233,38 +5233,38 @@ restart:
                     r = t6fSeekMe(0x20, 0x64);
                 else
                     r = t6fSeekPl(&gT6fPlayers[owner], 0x20, 0x64);
+                goto store;
             } else {
-                cx = en->x;
-                cy = en->y;
-                frame = en->dir;
-                dir = gT6gDirs[en->dir] * 16;
+                c = *(struct T6gXY *)&en->x;
+                { u16 *d = gT6gDirs; frame = en->dir; dir = d[en->dir] * 16; }
                 if (target <= 3) {
-                    if (gT6fPlayers[target].pos->f4 & 0x20)
-                        goto orbit;
-                    goto found;
+                    if (!(gT6fPlayers[target].pos->f4 & 0x20))
+                        goto found;
+                } else {
+                    r = t6gSeekEn(en->id + 4, 0xFF, sx, sy);
+                store:
+                    target = r;
+                    if (target != 0xFF)
+                        goto found;
                 }
-                r = t6gSeekEn(en->id + 4, 0xFF, sx, sy);
             }
-            target = r;
-            if (target != 0xFF)
-                goto found;
         }
     orbit:
-        { s16 sd = dir; s16 so = orbit; dir = sd + so; }
+        { s32 sd = (s16)dir; s32 o2 = orbit << 16; dir = sd + (o2 >> 16); }
         { s16 t2 = dir; if (t2 > 0xFF) dir = t2 - 0x100; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         idx = dir;
-        cx += gT6fSin[idx + 0x40] * gT6gRadius[level];
-        cy += gT6fSin[idx] * gT6gRadius[level];
-        x = (u32)(cx - sx) >> 8;
-        y = (u32)((cy - sy) << 8) >> 16;
-        a = (u32)(ArcTan2(x, y) << 16) >> 24;
-        ang = a;
-        turn = ang - idx;
-        if (turn > 0x80)
-            a = ang - 0x100;
-        else if (turn < -0x80)
-            { a = ang; a |= 0x100; }
+        c.x += gT6fSin[idx + 0x40] * gT6gRadius[level];
+        c.y += gT6fSin[idx] * gT6gRadius[level];
+        x = (u32)(c.x - sx) >> 8;
+        y = (u32)((c.y - sy) << 8) >> 16;
+        { u8 ang1; s32 turn1; a = (u32)(ArcTan2(x, y) << 16) >> 24;
+        ang1 = a;
+        turn1 = ang1 - idx;
+        if (turn1 > 0x80)
+            a = ang1 - 0x100;
+        else if (turn1 < -0x80)
+            { a = ang1; a |= 0x100; } }
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
@@ -5275,7 +5275,7 @@ restart:
             sx += gT6fSin[idx + 0x40] * 8 / 10;
             sy += gT6fSin[idx] * 8 / 10;
         }
-        orbit += 4;
+        orbit = (u32)((orbit << 16) + 0x40000) >> 16;
         orbit &= 0xFF;
         if (!(gT6fCtl->h4 & 4)) {
             u8 *q;
@@ -5414,7 +5414,7 @@ tracked:
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
-        dir = (u32)(0xFF0000 & (dir << 16)) >> 16;
+        { register s32 m asm("r1") = dir << 16; asm("":"+r"(m)); dir = (u32)(0xFF0000 & m) >> 16; }
         idx = dir;
         frame = gT6fFrames[idx >> 4];
         t = t6fTerrain(sx, sy, 0);
@@ -5449,6 +5449,7 @@ strike:
         t6fCoords((s16)(sx >> 8), (s16)(sy >> 8), &x, &y, 0x30, 0);
         pal = t6fPal(sx >> 8, sy >> 8, 0);
         done = t6gAnim(&desc, (u16)(base + frame), &f0, &f1, 0);
+        asm(""::"r"((u32)(base + frame) << 16));
         if (!(gT6fCtl->h4 & 4) && t6f_sub_0800CC98() == 0 && t6f_sub_0800CD8C() == 0 && t6f_sub_0800CCCC() == 0) {
             if (!(gT6fFrame & 1))
                 t6f_sub_08000AF0(0x17, desc.fC, 2);
@@ -5500,14 +5501,15 @@ lost:
             goto restart;
         a = (u32)(ArcTan2(x, y) << 16) >> 24;
         ang = a;
-        if (ang - (s16)dir > 0x80)
+        turn = ang - (s16)dir;
+        if (turn > 0x80)
             a = ang - 0x100;
-        else if (ang - (s16)dir < -0x80)
+        else if (turn < -0x80)
             a = ang | 0x100;
         { s16 sa = a; s16 sd = dir; s16 dd = sa - sd; dir = sd + dd; }
         { s16 t2 = dir; if (t2 < 0) dir = t2 + 0x100; }
         { s16 t2 = dir; if (t2 > 0x100) dir = t2 - 0x100; }
-        dir = (u32)(0xFF0000 & (dir << 16)) >> 16;
+        { register s32 m asm("r1") = dir << 16; asm("":"+r"(m)); dir = (u32)(0xFF0000 & m) >> 16; }
         idx = dir;
         frame = gT6fFrames[idx >> 4];
         sx += gT6fSin[idx + 0x40] * 3;
@@ -5542,9 +5544,6 @@ end:
     gT6gBusy[owner] = 0;
     gT6fFlags[owner] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_080710DC);
-#endif
 struct T39Pos { u16 h0; u16 h2; };
 struct T39Rng { s16 x, y; };
 struct T39Pl { u16 h0; u8 p2[0x20 - 2]; u16 state; u8 p22[0x4C - 0x22]; u8 b4C[0x68 - 0x4C]; u8 team; u8 p69[0xB2 - 0x69]; u16 ready; u8 pB4[2]; u16 done; u8 pB8[0xC2 - 0xB8]; u16 hp; u8 pC4[0x148 - 0xC4]; struct T39Pos *pos; u8 p14C[0x14C - 0x14C]; };
