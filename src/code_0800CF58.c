@@ -6558,10 +6558,10 @@ void hud14170(struct Actor14170 *arg0)
                 if (arg0->f10 != 9) {
                     i = lv14170();
                     {
-                        s32 li;
+                        s32 li = 7;
                         s32 ret;
                         s32 b5 = (s8)arg0->f6C * 5;
-                        for (li = 7; li >= 0; li--) {
+                        for (; li >= 0; li--) {
                             s32 t = gUnk_0847ACE8[li];
                             u16 threshold = b5 * 2 + t;
                             if ((s16)threshold < 0)
