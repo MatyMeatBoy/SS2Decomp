@@ -7,3 +7,9 @@ w7 (2026-11-04), sub_08080A78 (nmscore 151; 1912 vs 1896 bytes). Main real diff:
   branches (80 lines), `for (...; i = next) { next = i + 1;` (95-99; ROM does compute i+1 into r7 before the
   ids test), struct Pos82 array `.x/.y` (319). Next idea: what makes PRE see the table address as partially
   redundant (block order/edges of the found/else merge), or a do-while/goto form of the ids loop.
+claude-nov06-wB5 (2026-11-06): MATCHED. The ids-loop PRE was gcse/LCM placing the ECBB0/ECBB2 pool loads
+  before the found-branch inner loop (LATER cannot sink past the inner loop header). Fix: block-scope
+  `s16 *tx = gUnk_084ECBB0, *ty = gUnk_084ECBB2;` declared before the loop; the pseudos get no hard reg and
+  reload rematerializes `ldr r1,=sym` at each use, as in the ROM. Same trick for gUnk_080B9704 at the end
+  (`s16 *sn = ...` local). Second loop: `((struct {s16 x, y;} *)gUnk_084ECBBC)[i - first]` instead of a
+  walking `t += 2` pointer, so the table giv is initialised after the loop guard.

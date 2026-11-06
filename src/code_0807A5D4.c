@@ -3581,8 +3581,7 @@ done82:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807C29C);
 #endif
-#ifdef NONMATCHING
-// Inventory drawing pass. Draft: structure follows the ASM, regalloc still differs.
+// Inventory drawing pass.
 extern void sub_0805FC80(s32 x, s32 y, void *item, s32 mode);
 extern void sub_0805FAC0(s32 x, s32 y, s32 count, s32 mode);
 extern u32 sub_0805AE34(const u8 *item);
@@ -3611,7 +3610,6 @@ void sub_08080A78(void)
     u8 *item;
     s32 mode;
     u32 r;
-    u32 next;
     u16 buf[8];
 
     item = INV + 0x150;
@@ -3633,22 +3631,22 @@ void sub_08080A78(void)
     }
 
     {
-        s16 *t;
+        struct A78Pos { s16 x, y; };
         u32 first;
         first = (u16)(F16(INV, 0x68) / 3) * 3;
         end = first + 3;
         item = INV + (first * 0x10 + 0x70);
-        for (i = first, t = gUnk_084ECBBC; i < end; t += 2, i++, item += 0x10) {
+        for (i = first; i < end; i++, item += 0x10) {
             mode = 8;
             if (sub_0805AE34(item) == 0)
                 mode = 10;
             if (F32(MGR, 0x1C) == 1 && F32(MGR, 0x20) == i) {
                 if (gUnk_03002344 & 1)
-                    sub_0805FC80(t[0] + 0x38, t[1] + 0x10, item, mode);
+                    sub_0805FC80(((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38, ((struct A78Pos *)gUnk_084ECBBC)[i - first].y + 0x10, item, mode);
             } else if (F16(INV, 0x68) == i) {
-                { s32 x = t[0] + 0x38; s32 y = t[1]; s32 sc = *(s32 *)(MGR + 0x74) - 0x10; sub_0805FC80(x, y - sc, item, mode); }
+                { s32 x = ((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38; s32 y = ((struct A78Pos *)gUnk_084ECBBC)[i - first].y; s32 sc = *(s32 *)(MGR + 0x74) - 0x10; sub_0805FC80(x, y - sc, item, mode); }
             } else {
-                sub_0805FC80(t[0] + 0x38, t[1] + 0x10, item, mode);
+                sub_0805FC80(((struct A78Pos *)gUnk_084ECBBC)[i - first].x + 0x38, ((struct A78Pos *)gUnk_084ECBBC)[i - first].y + 0x10, item, mode);
             }
         }
     }
@@ -3699,6 +3697,8 @@ void sub_08080A78(void)
 
     if (F32(MGR, 0) == 2) {
         struct A78Ids { u8 pad[0x56]; u16 ids[3]; };
+        s16 *tx = gUnk_084ECBB0;
+        s16 *ty = gUnk_084ECBB2;
         u32 first = (u16)(F16(INV, 0x54) / 3) * 3;
         end = first + 3;
         for (i = first; i < end; i++) {
@@ -3708,7 +3708,6 @@ void sub_08080A78(void)
                 u32 count;
                 found = sub_0805D548(((struct A78Ids *)INV)->ids[i] - 1);
                 if (found != -1) {
-                    u8 *c;
                     u32 j;
                     item = INV + (found * 0x10 + 0x150);
                     count = 0;
@@ -3724,8 +3723,8 @@ void sub_08080A78(void)
                 }
                 {
                 u32 k = i + 1;
-                sub_0805FAC0(gUnk_084ECBB0[(end - k) * 2] + 0xB8, gUnk_084ECBB2[(end - k) * 2] + 0x18, count, 0);
-                sub_0805FC80(gUnk_084ECBB0[(end - k) * 2] + 0xB8, gUnk_084ECBB2[(end - k) * 2] + 0x10, item, 0);
+                sub_0805FAC0(tx[(end - k) * 2] + 0xB8, ty[(end - k) * 2] + 0x18, count, 0);
+                sub_0805FC80(tx[(end - k) * 2] + 0xB8, ty[(end - k) * 2] + 0x10, item, 0);
                 }
             }
             }
@@ -3792,7 +3791,7 @@ void sub_08080A78(void)
             if (gUnk_03002344 & 1)
                 sub_0805FC80(0xC8, F32(MGR, 0x54) + 0x60, item, mode);
         } else
-            { s32 s = ((s16 *)gUnk_080B9704)[F32(MGR, 0x5C)]; sub_0805FC80(0xC8, (s >> 5) + F32(MGR, 0x54) + 0x60, item, mode); }
+            { s16 *sn = gUnk_080B9704; s32 s = sn[F32(MGR, 0x5C)]; sub_0805FC80(0xC8, (s >> 5) + F32(MGR, 0x54) + 0x60, item, mode); }
     }
 }
 #undef MGR
@@ -3800,9 +3799,6 @@ void sub_08080A78(void)
 #undef F32
 #undef F16
 #undef ITEM_MODE
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_08080A78);
-#endif
 extern u8 *manager811 asm("gUnk_03006440");
 extern u8 *bank811 asm("gUnk_030034E0");
 void sub_080811E0(u8 *arg0) {
