@@ -2603,6 +2603,7 @@ void sub_0809CC2C_(u8 idx)
     struct SprCC2C spr1;
     struct SprCC2C spr2;
     s16 sx, sy;
+    struct SprCC2C *spr2Ptr;
 
     struct EntCC2C *ent;
     struct SubCC2C *sub;
@@ -2666,6 +2667,7 @@ void sub_0809CC2C_(u8 idx)
     prevMode = 0xFFFF;
     flash = 0;
     blink = 0;
+    spr2Ptr = &spr2;
     done = 0;
     r = sub_0800CE30();
     p5c = &ent->f5c;
@@ -2753,7 +2755,7 @@ void sub_0809CC2C_(u8 idx)
             flag = 1;
             break;
         case 2:
-            spr = &spr2;
+            spr = spr2Ptr;
             *p68 = ent->f8;
             flag = 0;
             break;
