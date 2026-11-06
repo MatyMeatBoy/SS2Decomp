@@ -1763,6 +1763,7 @@ void sub_080A05B4(u32 kind,void *done)
     struct Sprite105 spr;
     s32 pos[2];
     s32 targetX;
+    volatile u16 *otherPtr;
     s32 animDone,timer;
     u16 elapsed;
     s32 contact,started;
@@ -1784,7 +1785,9 @@ void sub_080A05B4(u32 kind,void *done)
     case 3: animation=kind;pos[0]=0xE000;targetX=0x8000;break;
     default: animation=0;pos[0]=0x2000;targetX=0x8000;break;
     }
-    other=animation+10;pos[1]=0x7600;
+    otherPtr = &other;
+    *otherPtr = animation + 10;
+    pos[1] = 0x7600;
     animDone=0;phase=0;frame=(u16)animDone;elapsed=0;started=0;contact=0;timer=90;
     do {
         move105(pos,0);
@@ -1795,7 +1798,7 @@ void sub_080A05B4(u32 kind,void *done)
             object=draw105(sx,0x9F,animation,frame,2,spr.payload,spr.data,spr.base);object->y=sy;
             if (frame) {
                 shade=sub_0800BC44(pos[0]>>8,pos[1]>>8,0);
-                object=draw105(sx,0x9F,other,(u16)(frame-1),shade,spr.payload,spr.data,spr.base);object->y=sy;
+                object=draw105(sx,0x9F,*otherPtr,(u16)(frame-1),shade,spr.payload,spr.data,spr.base);object->y=sy;
             }
         }
         if (!contact && frame==2 && phase==0) {
@@ -1812,18 +1815,30 @@ void sub_080A05B4(u32 kind,void *done)
                 i=sub_080020F4(); actor=actor105;
                 players105[i].health=damage105(actor,&players105[sub_080020F4()])+players105[i].health;
                 players105[sub_080020F4()].seen[actor105->index]=actor105->serial++;
-                contact=1;
+                {
+                    register u32 one asm("r4") = 1;
+                    asm("" : "+r"(one));
+                    contact = one;
+                }
             }
         }
         if (!started && frame==2 && phase==0) {
-            started=1;camera105(20);
+            {
+                register u32 one asm("r3") = 1;
+                asm("" : "+r"(one));
+                started = one;
+            }
+            camera105(20);
             if (kind<=1) shake105(-0x20,20);else shake105(0x20,20);
             sub_08097D64();sub_080A1070(4);sub_080A104C();sub_0805865C(0xBE);
         }
         if (animDone || elapsed++ > 0x3B) timer=(u16)(timer-1);
         sub_080003F0();
     } while (timer);
-    *(u8 *)done=1;sub_080A1058();*(u32 *)((u8 *)sub_0800048C()+8)=0;
+    *(u8 *)done = 1;
+    sub_080A1058();
+    /* The loop exits with the same zero that clears the task state. */
+    *(u32 *)((u8 *)sub_0800048C() + 8) = timer;
 }
 
 #else
