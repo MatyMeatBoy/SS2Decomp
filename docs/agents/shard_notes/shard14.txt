@@ -28,3 +28,10 @@ sub_08016E04: register asm("ip") for sub + asm("r8") for key fixes the param reg
 sub_08016E04 MATCHED (nov03-w4): alloc loop loads the flags through a local pointer
   (`u32 *usedp = &used; u32 bit = 1 << i; u32 used = *usedp;`) and stores `used16E04 = used | bit`.
   That fixes the hoist order (&used first) and the whole allocation; no register asm needed.
+nov06-wB23: sub_08016F28 NONMATCHING draft refined (GNU-diff 412 -> 16 lines, same 3396-byte size). Changes that fixed
+  the global allocation: case 6/7 target math as an inline helper taking &ai->near48/&ai->mid4A (+ the aim call)
+  writing through a Vec pointer at self->tx; dir in do{}while(0) (dir r6 before ty r7); function-scope `e` shared by
+  both dir blocks and the spread loop; spread loop `i = 0; usedp; objsp` order and `self->dir++` split; the
+  flags&2 nearest-entity search written in place with the function-scope `tx` as its `best` variable (tx -> r8, not ip).
+  Remaining: players[thi] multiply operand order (orig `muls rConst, rIdx`, 2 sites) and the objs base load register
+  in the in-place nearest search (orig `ldr r1,=objs; ldr r0,[r1]`). Both are local-alloc tie choices.

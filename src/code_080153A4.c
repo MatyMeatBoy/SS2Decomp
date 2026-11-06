@@ -1499,28 +1499,23 @@ static inline u32 dir16F28(struct Obj16F28 *self, s16 x, s16 y)
     return (u32)((ArcTan2(dx, dy) << 16) + 0x8000000) >> 28;
 }
 
-static inline u32 nearestEnt16F28(struct Obj16F28 *self, s32 *dist)
+static inline void seek16F28(struct Obj16F28 *self, u16 *range, u32 tx, u32 ty)
 {
-    s32 best = -1;
-    s32 bestD = 0xFFFF;
-    u32 i;
-    u32 off = 0;
-    for (i = 0; i <= 4; off += 0x2E0, i++) {
-        struct Obj16F28 *e;
-        if ((used16F28 & (1 << i)) && (e = (struct Obj16F28 *)((u8 *)objs16F28 + off)) != self) {
-            s32 dx = (e->x - self->x) >> 8;
-            s32 dy = (e->y - self->y) >> 8;
-            u16 d = Sqrt(dx * dx + dy * dy);
-            if (bestD > d) {
-                bestD = d;
-                best = i;
-            }
-        }
-    }
-    if (best == -1)
-        return 0xFF;
-    *dist = bestD;
-    return best;
+    struct Vec16F28 v;
+    struct Vec16F28 *t;
+    u32 a = dirs16F28[dirIdx16F28[self->dir]];
+    u32 speed = *range;
+    t = (struct Vec16F28 *)&self->tx;
+    v.x = tx << 8;
+    v.y = ty << 8;
+    if (speed & 0x8000)
+        speed = 0;
+    t->y = sin16F28[ang16F28[a]] * speed + v.y;
+    t->x = sin16F28[ang16F28[a] + 0x40] * speed + v.x;
+    t->y >>= 8;
+    t->x >>= 8;
+    if (frame16F28 % 25 == self->id * 5)
+        self->input = aim16F28(self->x, self->y, self->tx, self->ty, 8);
 }
 
 void sub_08016F28(struct Obj16F28 *self)
@@ -1529,6 +1524,7 @@ void sub_08016F28(struct Obj16F28 *self)
     s32 dist;
     u32 active;
     u32 dir;
+    struct Obj16F28 *e;
     u32 tx, ty;
     struct AI16F28 *ai;
 
@@ -1566,12 +1562,37 @@ void sub_08016F28(struct Obj16F28 *self)
     if (self->flags & 1) {
         if (active) {
             if (act == 0xFF) {
-                u32 t;
                 dist = 0xF0;
                 if (self->flags & 2) {
-                    { u32 t = nearestEnt16F28(self, &dist) << 4; TGT(self) = (TGT(self) & 0xF) | t; }
+                    {
+                        s32 *dp = &dist;
+                        s32 bestD = 0xFFFF;
+                        u32 i;
+                        u32 off;
+                        u32 r;
+                        tx = -1;
+                        for (i = 0, off = 0; i <= 4; off += 0x2E0, i++) {
+                            struct Obj16F28 *o;
+                            if ((used16F28 & (1 << i)) && (o = (struct Obj16F28 *)((u8 *)objs16F28 + off)) != self) {
+                                s32 dx = (o->x - self->x) >> 8;
+                                s32 dy = (o->y - self->y) >> 8;
+                                u16 d = Sqrt(dx * dx + dy * dy);
+                                if (bestD > d) {
+                                    bestD = d;
+                                    tx = i;
+                                }
+                            }
+                        }
+                        if (tx == -1)
+                            r = 0xFF;
+                        else {
+                            *dp = bestD;
+                            r = tx;
+                        }
+                        { u8 *p = &TGT(self); r <<= 4; *p = (*p & 0xF) | r; }
+                    }
                 } else {
-                    { u32 t = nearest16F28(self, &dist) << 4; TGT(self) = (TGT(self) & 0xF) | t; }
+                    self->thi = nearest16F28(self, &dist);
                 }
                 if (self->thi <= 9) {
                     s32 diff;
@@ -1616,12 +1637,10 @@ void sub_08016F28(struct Obj16F28 *self)
             if (act != 0xFF) {
                 self->flags &= ~1;
                 if (self->action != act) {
-                    u32 i;
-                    u32 off;
                     self->phase = 0;
                     self->action = act;
                     if (self->flags & 2) {
-                        struct Obj16F28 *e = &objs16F28[self->thi];
+                        e = &objs16F28[self->thi];
                         dir = dir16F28(self, e->x >> 8, e->y >> 8);
                         self->dir = dir;
                     } else {
@@ -1634,12 +1653,17 @@ void sub_08016F28(struct Obj16F28 *self)
                     {
                         u32 i;
                         u32 off;
-                        struct Obj16F28 **objsp = &objs16F28;
-                        for (i = 0, off = 0; i <= 4; off += 0x2E0, i++) {
-                            if (self->id != i && (used16F28 & (1 << i))) {
-                                struct Obj16F28 *e = (struct Obj16F28 *)((u8 *)*objsp + off);
+                        u32 *usedp;
+                        struct Obj16F28 **objsp;
+                        i = 0;
+                        usedp = &used16F28;
+                        objsp = &objs16F28;
+                        for (off = 0; i <= 4; off += 0x2E0, i++) {
+                            if (self->id != i && (*usedp & (1 << i))) {
+                                e = (struct Obj16F28 *)((u8 *)*objsp + off);
                                 if (self->dir == e->dir) {
-                                    if (++self->dir > 15)
+                                    self->dir++;
+                                    if (self->dir > 15)
                                         self->dir = 0;
                                 }
                             }
@@ -1654,15 +1678,15 @@ void sub_08016F28(struct Obj16F28 *self)
         self->phase = 0;
     }
     if (self->flags & 2) {
-        struct Obj16F28 *e = &objs16F28[self->thi];
-        dir = dir16F28(self, e->x >> 8, e->y >> 8);
+        e = &objs16F28[self->thi];
+        do { dir = dir16F28(self, e->x >> 8, e->y >> 8); } while (0);
         tx = (u32)(e->x << 8) >> 16;
         ty = (u32)(e->y << 8) >> 16;
     } else {
         struct Plr16F28 *pl = &players16F28[self->thi];
         if ((s32)(*((u8 *)pl->pos + 4) << 26) < 0)
             self->flags |= 1;
-        dir = dir16F28(self, pl->pos->x, pl->pos->y);
+        do { dir = dir16F28(self, pl->pos->x, pl->pos->y); } while (0);
         tx = pl->pos->x;
         ty = pl->pos->y;
     }
@@ -1718,20 +1742,8 @@ void sub_08016F28(struct Obj16F28 *self)
             self->f8 = dirs16F28[dir];
         }
         break;
-    case 6: {
-        struct Vec16F28 v;
-        u32 a = dirs16F28[dirIdx16F28[self->dir]];
-        u32 speed = ai->near48;
-        v.x = tx << 8;
-        v.y = ty << 8;
-        if (speed & 0x8000)
-            speed = 0;
-        self->ty = sin16F28[ang16F28[a]] * speed + v.y;
-        self->tx = sin16F28[ang16F28[a] + 0x40] * speed + v.x;
-        self->ty >>= 8;
-        self->tx >>= 8;
-        if (frame16F28 % 25 == self->id * 5)
-            self->input = aim16F28(self->x, self->y, self->tx, self->ty, 8);
+    case 6:
+        seek16F28(self, &ai->near48, tx, ty);
         if (++self->f44 > 180) {
             self->f44 = 0;
             self->input = 0;
@@ -1746,21 +1758,8 @@ void sub_08016F28(struct Obj16F28 *self)
             self->f8 = dirs16F28[dir];
         }
         break;
-    }
-    case 7: {
-        struct Vec16F28 v;
-        u32 a = dirs16F28[dirIdx16F28[self->dir]];
-        u32 speed = ai->mid4A;
-        v.x = tx << 8;
-        v.y = ty << 8;
-        if (speed & 0x8000)
-            speed = 0;
-        self->ty = sin16F28[ang16F28[a]] * speed + v.y;
-        self->tx = sin16F28[ang16F28[a] + 0x40] * speed + v.x;
-        self->ty >>= 8;
-        self->tx >>= 8;
-        if (frame16F28 % 25 == self->id * 5)
-            self->input = aim16F28(self->x, self->y, self->tx, self->ty, 8);
+    case 7:
+        seek16F28(self, &ai->mid4A, tx, ty);
         if (++self->f44 > 180) {
             self->f44 = 0;
             self->input = 0;
@@ -1775,7 +1774,6 @@ void sub_08016F28(struct Obj16F28 *self)
             self->f8 = dirs16F28[dir];
         }
         break;
-    }
     case 8: case 9: case 10: case 11: case 12:
     case 15: case 16: case 17:
     case 22: case 23: case 24: case 25: case 26: case 27: case 28: case 29: case 30:
