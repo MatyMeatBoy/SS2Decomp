@@ -1,0 +1,26 @@
+{
+  "address": "0x080636B0",
+  "updated_utc": "2026-11-06T23:27:37.721645+00:00",
+  "checkpoint": "6fd4b437630a6c9ed8619216fa081f9251b35609",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Complete compiling draft",
+      "state": "done",
+      "evidence": "The existing t65C_impl draft in code_0805FB7C compiles with the normal module compiler and flags. The original ASM fallback remains active in the normal ROM build. Full compare, NONMATCHING and tree checks pass at this checkpoint; this does not establish equivalent C. The function's source shape was introduced in 771284ad45a7c41702768712ac8a7c73c2816821."
+    },
+    {
+      "id": "initialization",
+      "label": "Initialization lifetimes and register allocation",
+      "state": "active",
+      "evidence": "Current baseline: 1236 bytes versus original 1232, approximate nmscore 69, local frame 172 bytes matching the original. Old shard65 notes (254/1220) predate this checkpoint. Compiler RTL with unchanged normal flags reproduces the complete 3540-byte standalone control object exactly (SHA256 50da7b6417a16d8e2cd7a53ca5986cc86f14b48e5dc22a3b9243596e3c0b8e75). GCSE replaces the initial h0 zero with the HI subreg of the twice-assigned text pseudo; reload adds an early word-zero store at SP+0x98 and a halfword reload. The original uses a fresh zero in r3 for h0 and stores frame at SP+0x94. Removing the early text zero loses its later spill home and reduces the frame to 168 bytes. Moving text=0 after h2=0 but before h0=0 gives exact 1232-byte size and the correct frame, yet rotates scratch registers through sprite initialization and differs in pool padding (score 78); it was rejected. Frame/text declaration order, signed/narrow/volatile types, chained zero assignments, different zero owners, a metadata aggregate and using text in the measure call did not improve the complete baseline. A strict-control 300-second two-job permuter search produced no improved candidate. Preserve the existing source; inspect the actual reload/REG_EQUIV behavior before retrying these hypotheses."
+    },
+    {
+      "id": "match",
+      "label": "Exact active C and linked ROM match",
+      "state": "pending",
+      "evidence": "Strict comparison remains NO MATCH. Normal ROM equality uses the retained ASM fallback; no new matching C bytes or complete semantic equivalence are claimed. Exact candidate size alone did not establish a match."
+    }
+  ],
+  "regions": []
+}
