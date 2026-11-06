@@ -1001,6 +1001,7 @@ void sub_080567D4(s32 arg0)
     u16 *slot;
     u8 *flags;
     u8 result;
+    u32 playerState;
     struct Player *current;
     if (Done567D4(id)) goto already;
     base = (u8 *)gates567D4;
@@ -1054,8 +1055,9 @@ retry:
         return;
     }
     sub_08068070((u32)sub_0805A43C, 0);
+    playerState = 5;
     current = &gUnk_03003CE0[sub_080020F4()];
-    *(u16 *)((u8 *)current + 0x11E) = 5;
+    *(u16 *)((u8 *)current + 0x11E) = playerState;
     item = *(u32 *)(base + 0x10 + offset);
     requiredKind = *kind;
     count = *(u32 *)(base + 0x18 + offset);
@@ -1076,8 +1078,9 @@ retry:
     return;
 missing:
     if (!(gUnk_030027D0 & 0x20)) sub_08006D08(0x61);
+    playerState = 6;
     current = &gUnk_03003CE0[sub_080020F4()];
-    *(u16 *)((u8 *)current + 0x11E) = 6;
+    *(u16 *)((u8 *)current + 0x11E) = playerState;
     goto retry;
 already:
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);
