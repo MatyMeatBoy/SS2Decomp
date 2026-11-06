@@ -2443,7 +2443,11 @@ loop:
     asm("" : "+r"(rawX), "+r"(rawY), "+r"(xPtr), "+r"(yPtr));
     asm("" : "+r"(flag), "+r"(initialOne) : "r"(rawX), "r"(rawY), "r"(xPtr), "r"(yPtr));one=initialOne;
     t65B_position(rawX>>16,rawY>>16,xPtr,yPtr,flag,initialOne);}
-    sub_08008CC4(0,&sizes[0],&sizes[1],draw.data,({callOne65=one;asm("" : "+r"(callOne65));callOne65;}));
+    {
+        u8 *data = draw.data;
+        callOne65 = one;
+        sub_08008CC4(0, &sizes[0], &sizes[1], data, callOne65);
+    }
     {register u8 *data65 asm("r3")=draw.data;
     asm volatile("" : "+r"(data65) : "r"(callOne65) : "r0","r1","r2","memory");
     {
