@@ -194,22 +194,31 @@ void sub_080094CC(struct Layer *entry, s16 x, s16 y)
     CpuSet(src + (count + tileY), dest + pos[1], (32 - count) & 0x1FFFFF);
 }
 #ifdef NONMATCHING
+/* Identity helper: an opaque s16 round trip that keeps sign extensions the ROM performs. */
+static inline s16 S16_8009594(s16 v) { return v; }
+/* Draft: 77 filtered diff lines left (y<<16 in sl instead of r9; tileDY>0 count is
+   re-read from the stack after the first call instead of kept in r7). */
 /* Returns nothing useful; the original epilogue keeps r0 (pop {r1}), so it is non-void. */
-s32 sub_08009594(u16 index, u16 dx, u16 dy, s32 force)
+s32 sub_08009594(u16 index, u16 x, u16 y, s32 force)
 {
     u16 *offsets = gUnk_03001250;
     struct Layer *layer = &gUnk_03003170.layers[index];
-    u16 x, y;
-    u16 tileDX, tileDY;
-    s16 pos;
+    s16 tileDX;
+    s16 tileDY;
+    u16 pos;
+    s32 t, u;
+    s16 p;
     s16 i;
+    s16 n, n2, n3, n5;
+    s16 sy;
+    s32 t1, t2;
     u32 update;
     u32 vram;
 
     if (layer->s16) {
         s32 t;
-        t = (s16)dx; t += layer->w2; x = t;
-        t = (s16)dy; t += layer->w3; y = t;
+        t = S16_8009594(x); t += layer->w2; x = t;
+        t = (s16)y; t += layer->w3; y = t;
     } else {
         x = layer->w2;
         y = layer->w3;
@@ -224,10 +233,12 @@ s32 sub_08009594(u16 index, u16 dx, u16 dy, s32 force)
         if (index == 3) {
             switch (gUnk_03003170.f90) {
             case 2: case 4: case 6: case 8: case 10: case 12: case 14:
-                goto skip;
+                update = 0;
+                goto done;
             }
         }
-        goto scroll;
+        update = 1;
+        break;
     case 10:
         if ((u16)(index - 1) <= 1) {
             s16 t = (s16)y / 8 - layer->y;
@@ -235,39 +246,51 @@ s32 sub_08009594(u16 index, u16 dx, u16 dy, s32 force)
                 layer->y = 21;
             else if (t > 29)
                 layer->y = 20;
-        }
-        goto scroll;
+            update = 1;
+        } else
+            update = 1;
+        break;
     default:
         update = 1;
         break;
     }
+done:
     if (!update)
         goto skip;
-scroll:
     tileDX = (s16)x / 8 - layer->x;
     tileDY = (s16)y / 8 - layer->y;
     if ((s16)tileDX > 0) {
-        pos = (s16)x + 0xF1;
-        sub_080093E4(layer, pos, y);
-        pos -= 8;
-        for (i = 0; i < (s16)tileDX; i++)
-            sub_080093E4(layer, (s16)pos - (i << 3), y);
+        t1 = (s16)x + 0xF1;
+        p = t1;
+        sub_080093E4(layer, p, y);
+        pos = p - 8;
+        n2 = tileDX;
+        for (i = 0; i < n2; i++)
+            sub_080093E4(layer, S16_8009594(pos) - (i << 3), y);
     } else if ((s16)tileDX < 0) {
-        pos = (s16)x - 8;
-        sub_080093E4(layer, pos, y);
-        pos += 8;
-        for (i = 0; i < (s16)-tileDX; i++)
-            sub_080093E4(layer, (s16)pos + (i << 3), y);
+        t2 = (s16)x - 8;
+        p = t2;
+        sub_080093E4(layer, p, y);
+        n3 = -tileDX;
+        pos = p + 8;
+        for (i = 0; i < n3; i++)
+            sub_080093E4(layer, S16_8009594(pos) + (i << 3), y);
     }
     if ((s16)tileDY > 0) {
-        pos = (s16)y + 0xA1;
-        sub_080094CC(layer, (s16)x - 8, pos);
-        for (i = 0; i < (s16)tileDY; i++)
-            sub_080094CC(layer, (s16)x - 8, (s16)pos - (i << 3));
+        t = (s16)y + 0xA1;
+        p = t;
+        u = (s16)x - 8;
+        sub_080094CC(layer, u, p);
+        n = tileDY;
+        for (i = 0; i < n; i++)
+            sub_080094CC(layer, u, p - (i << 3));
     } else if ((s16)tileDY < 0) {
-        sub_080094CC(layer, (s16)x - 8, y);
-        for (i = 0; i < (s16)-tileDY; i++)
-            sub_080094CC(layer, (s16)x - 8, (s16)y + (i << 3));
+        u = (s16)x - 8;
+        sy = S16_8009594(y);
+        sub_080094CC(layer, u, sy);
+        n5 = -tileDY;
+        for (i = 0; i < n5; i++)
+            sub_080094CC(layer, u, sy + (i << 3));
     }
     vram = ((*(vu16 *)(REG_ADDR_BG0CNT + index * 2) >> 8) & 0x1F) * 0x800 + VRAM;
     if (tileDX || tileDY || force)
@@ -278,15 +301,14 @@ scroll:
         layer->y = (s16)y / 8;
 skip:
     {
-        s32 a, b;
-        s16 c, d;
+        s32 a, b, c, d;
         a = (s16)x + gUnk_03003170.offX;
         b = (s16)y + gUnk_03003170.offY;
         c = (s16)a + layer->w0;
         d = (s16)b + layer->w1;
         offsets += layer->pad14 * 2;
-        offsets[0] = c & 0xFF;
-        offsets[1] = d & 0xFF;
+        offsets[0] = (s16)S16_8009594(c) & 0xFF;
+        offsets[1] = (s16)S16_8009594(d) & 0xFF;
     }
 }
 #else
