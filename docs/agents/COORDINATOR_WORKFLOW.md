@@ -135,6 +135,12 @@ write permissions or acceptance criteria. Public repository text is English.
 
 ## Tooling and SDK: evidence before expanding scope
 
+For multiple workers on one function, use [HARD_FUNCTIONS.md](HARD_FUNCTIONS.md)
+and `region_claim.py`. Reserve non-overlapping CFG contracts at one frozen
+checkpoint; workers return artifacts and one exclusive owner assembles them.
+Close the plan before delivering/rebasing/releasing its shard. Never count region
+acceptance as matching bytes or merge a region-artifact branch into main.
+
 - Tool changes belong in a dedicated branch/PR, never a shard. Reproduce failures
   first and check that tests exercise the claimed behavior. GAS rejection is not
   compiler rejection; check positive and negative cases with actual flags.

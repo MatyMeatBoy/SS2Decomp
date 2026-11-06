@@ -1,0 +1,17 @@
+{
+  "shared_declarations": ["ILLUSTRATION: actual types/aliases frozen at checkpoint; request changes in artifact comments"],
+  "regions": [
+    {
+      "id": "entry",
+      "start": "0x0800023C",
+      "end": "0x08000250",
+      "entry": "ILLUSTRATION: original entry label; inspect ASM before use",
+      "exits": ["ILLUSTRATION: fallthrough 0x08000250; list every real exit"],
+      "live_in": ["ILLUSTRATION: r0 input pointer; audit all live registers"],
+      "live_out": ["ILLUSTRATION: r0 pointer unchanged"],
+      "stack": ["ILLUSTRATION: no owned slots; record actual offsets/widths"],
+      "types": ["ILLUSTRATION: verify u32 pointer view against actual accesses"],
+      "evidence": "ILLUSTRATION ONLY: not a reservation or verified CFG; replace with ASM references"
+    }
+  ]
+}

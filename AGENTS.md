@@ -4,6 +4,10 @@ Matching decompilation of Shining Soul II (GBA, EU). A function is done only whe
 `shiningsoul2_eu.gba: OK`. Setup, tools and C rules: [CONTRIBUTING.md](CONTRIBUTING.md). Tricks that matched
 hundreds of functions: [docs/agents/AI_AGENTS.md](docs/agents/AI_AGENTS.md). User writes Spanish; be terse.
 
+Hard-function experiments and several workers on one function:
+[docs/agents/HARD_FUNCTIONS.md](docs/agents/HARD_FUNCTIONS.md). Read its brief and
+reserve a region before preparing a shared-function candidate.
+
 ## New collaborators: start in your own folder
 
 Read [the contributor quick start](docs/agents/QUICKSTART.md) before editing code.
@@ -111,6 +115,9 @@ If overlapping builds truncated intermediates, stop them and force a rebuild bef
 
 ## Progress of large functions
 
+Read [the hard-function and region workflow](docs/agents/HARD_FUNCTIONS.md) for
+bounded experiments, worker briefs and atomic region reservations.
+
 Each owner may update only `docs/agents/function_work/sub_XXXXXXXX.json` for their
 claimed function, alongside a verified checkpoint. This per-function tracking file
 is the explicit exception to function-only edits; never edit another owner's report.
@@ -122,10 +129,11 @@ Keep the full-match area pending until the normal C build reproduces the ROM.
 The coordinator integrates reports; CI updates the graphic. Never commit generated
 `docs/progress/*` or change the shared tracking defaults inside a shard.
 
-For future multi-worker work on one giant function, first add atomic region
-subclaims beneath its exclusive function claim. Define CFG boundaries, live-in/out
-registers, stack slots, types and shared declarations before assigning regions.
-Use independent checkouts and region candidates, with one owner assembling the
-complete function and running module/ROM checks. Do not extract new helpers merely
-to split work: optimization and register allocation span region boundaries.
-Subclaims are not implemented yet; the current exclusive function claim remains.
+Multi-worker work within one giant function uses `tools/scripts/region_claim.py`
+beneath its exclusive shard claim. The owner freezes CFG boundaries, live-in/out
+registers, stack slots, types and declarations before workers reserve regions.
+Workers prepare separate candidate artifacts in independent checkouts; only the
+owner edits production source and assembles the complete function. Close region
+plans before shard delivery/rebase/release. Do not extract helpers merely to split
+work: optimization and allocation cross region boundaries. A region accepted by
+the owner is not a matching function and earns no matching-byte credit.

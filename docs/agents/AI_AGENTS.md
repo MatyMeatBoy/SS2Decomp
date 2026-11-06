@@ -4,6 +4,10 @@ Coordination, context, rotations and verification gates: [COORDINATOR_WORKFLOW.m
 
 ## Free task slot family: historical matching pattern
 
+For current hard-function work, start with [HARD_FUNCTIONS.md](HARD_FUNCTIONS.md):
+one-hypothesis experiments, module-control checks, small worker briefs and atomic
+region-candidate reservations beneath one exclusive owner.
+
 Recorded on 2026-10-28 for 15 functions. Assembly shape: `ldr rX,=gTaskList; ldr r4,[rX]; movs r6,#0; b check` ... `bl sub_08000470` ... `ldr r5,[r4,#8]` ... `sub_08001494(0x400)` ... `sub_08000274`.
 
 Matching template: adjust the symbol, limit, f8 value, callback and arguments to the original assembly.

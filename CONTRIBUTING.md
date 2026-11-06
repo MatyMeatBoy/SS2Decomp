@@ -41,6 +41,10 @@ Optional reading tools: [Ghidra](https://ghidra-sre.org) 12.1.x (processor `ARM:
 
 ## 2. Work on one function
 
+For difficult functions or several contributors preparing regions of the same
+function, follow [the focused experiment and region workflow](docs/agents/HARD_FUNCTIONS.md).
+The exclusive owner still assembles and validates the complete production function.
+
 1. **Choose and claim.** Inspect `INCLUDE_ASM` entries with `rg -n INCLUDE_ASM src/`, or use `python3 tools/scripts/nm_drafts.py /tmp/nm` to list drafts and their distances (0 matches; -1 does not compile). Start with yellow drafts and small functions. Use `python3 tools/scripts/claim.py status`, claim a shard with `python3 tools/scripts/claim.py take YOUR_NAME`, and check `claim.py who FUNC` before editing. See [AGENTS.md](AGENTS.md) for exclusive ownership and checkout rules.
 2. **Read.** `GHIDRA_OUT=ghi tools/scripts/gv.sh sub_XXXXXXXX` shows Ghidra C and original assembly. Ghidra is a reading aid, not matching C.
 3. **Draft.** Run `python3 tools/scripts/decomp.py m2c sub_XXXXXXXX > /tmp/f.c`, then fix types by hand.

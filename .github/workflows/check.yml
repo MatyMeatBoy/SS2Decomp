@@ -1,5 +1,9 @@
 name: check
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - 'coord/regions/**'
+  pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
