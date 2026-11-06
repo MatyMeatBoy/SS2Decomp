@@ -6345,7 +6345,8 @@ void hud14170(struct Actor14170 *arg0)
     u16 n;
     u16 i;
     u16 lim;
-    u16 k;
+    register u16 k asm("r1");
+    register u16 loadedCapacity asm("r0");
     u16 j;
     u32 *stats;
     u32 max;
@@ -6575,19 +6576,41 @@ void hud14170(struct Actor14170 *arg0)
                     found:
                         j = ret;
                     }
-                    if (i > j) { k = arg0->f26; i = j; if (i > k) i = 0; } else { k = arg0->f26; if (i > k) i = 0; }
+                    if (i > j) {
+                        loadedCapacity = arg0->f26;
+                        goto clampLevel14170;
+                    }
+                    loadedCapacity = arg0->f26;
+                    goto checkCapacity14170;
                 } else {
                     i = lv14170();
                     j = sub_08079FD0(sub_0801DEB8()) - 1;
-                    if (i > j) { k = arg0->f26; i = j; if (i > k) i = 0; } else { k = arg0->f26; if (i > k) i = 0; }
+                    if (i > j) {
+                        loadedCapacity = arg0->f26;
+                    clampLevel14170:
+                        i = j;
+                    checkCapacity14170:
+                        /* Both lookup paths share the original capacity check. */
+                        k = loadedCapacity;
+                        if (i > k)
+                            goto inactive14170;
+                        goto validate14170;
+                    }
+                    k = arg0->f26;
+                    if (i > k)
+                        i = 0;
                 }
+            validate14170:
                 if (i != 0) {
                     if (k <= 0xF && arg0->f20 != 5) {
                         anim14170(spr1, k + 6, &tile, &tmp, 1);
                         draw14170(spr1, sx, sy - 0x20, arg0->f26 + 6, tile);
                     }
-                } else if (arg0->f20 != 5) {
-                    draw14170(spr1, sx, sy - 0x20, arg0->f26, arg0->f24 >> 1);
+                } else {
+                inactive14170:
+                    if (arg0->f20 != 5) {
+                        draw14170(spr1, sx, sy - 0x20, arg0->f26, arg0->f24 >> 1);
+                    }
                 }
             } else if ((u16)(arg0->f20 - 6) <= 1) {
                 t071Coords((arg0->f8C << 8) >> 16, (arg0->f90 << 8) >> 16, &sx, &sy, 0x30, 0);
