@@ -1694,11 +1694,11 @@ void sub_0809561C(u8 arg0) {
     temp_r7->state = 1;
     temp_r7->delay = 0x1E;
     f956_0801AB50(6);
+    goto loop_9;
+loop_9_yield:
+    f956_080003F0();
 loop_9:
-    if (f956_0801AAE0() == 0) {
-        f956_080003F0();
-        goto loop_9;
-    }
+    if (f956_0801AAE0() == 0) goto loop_9_yield;
 loop_10:
     flags956.seen = 0;
     var_r5_2 = 0;
@@ -1863,11 +1863,11 @@ block_43:
         goto loop_10;
     }
     f956_0801ABE8(6);
+    goto loop_63;
+loop_63_yield:
+    f956_080003F0();
 loop_63:
-    if (f956_0801AAE0() == 0) {
-        f956_080003F0();
-        goto loop_63;
-    }
+    if (f956_0801AAE0() == 0) goto loop_63_yield;
     f956_0805867C(0x18A);
     f956_08001538(temp_r7);
 }
