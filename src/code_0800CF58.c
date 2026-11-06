@@ -5955,13 +5955,29 @@ void sub_08013850(void)
             asm("" : "+r"(next));
             {
                 register u32 fill asm("r3") = 0xFFFF;
-                for (j = 0; j < 5; j++)
-                    ((u32 *)(p + 0xE4))[j] = fill;
+                {
+                    register u32 j asm("r6");
+                    u32 *out;
+                    j = 0;
+                    out = (u32 *)(p + 0xE4);
+                    do {
+                        *out++ = fill;
+                        j++;
+                    } while (j < 5);
+                }
             }
             {
                 register u32 fill asm("r3") = 0xFFFF;
-                for (j = 0; j < 4; j++)
-                    ((u32 *)(p + 0xF8))[j] = fill;
+                {
+                    register u32 j asm("r6");
+                    u32 *out;
+                    j = 0;
+                    out = (u32 *)(p + 0xF8);
+                    do {
+                        *out++ = fill;
+                        j++;
+                    } while (j < 4);
+                }
             }
             i = next;
         }
@@ -5978,54 +5994,62 @@ void sub_08013850(void)
     s->w1A = 0;
     sub_0801E0BC(o24, 0);
     CpuFill16(0, dt13850, 0x51C);
-    for (i = 0; i < 25; i++) {
-        st13850->r[i].a = 0;
-        st13850->r[i].b = 0;
-        for (j = 0; j < 12; j++)
-            st13850->r[i].c[j] = 0;
-    }
-    for (i = 0; i < 9; i++) {
-        st13850->r70[i].a = 0;
-        st13850->r70[i].b = 0;
-        for (j = 0; j < 12; j++)
-            st13850->r70[i].c[j] = 0;
-    }
     {
-        register u8 *base asm("r1");
-        register u32 zero asm("r2") = 0;
-        register u32 even asm("r3");
-        register u32 odd asm("r6");
-        register struct State13850 **state asm("r6");
-        asm("" : "+r"(zero));
-        state = &st13850;
-        asm("" : "+r"(state));
-        base = (u8 *)*state;
-        asm("" : "+r"(base));
-        even = 0x80;
-        asm("" : "+r"(even));
-        even <<= 1;
-        asm("" : "+r"(even));
-        *(u16 *)(base + even) = zero;
-        odd = 0x81;
-        asm("" : "+r"(odd));
-        odd <<= 1;
-        asm("" : "+r"(odd));
-        *(u16 *)(base + odd) = zero;
-        even += 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
-        odd += 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
-        even += 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
-        odd += 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
-        even += 32; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
-        odd += 32; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
-        even -= 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
-        odd -= 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
-        asm volatile("" : "+r"(even), "+r"(odd), "+r"(base));
-    }
-    for (i = 0; i < 75; i++) {
-        st13850->s[i].a = 0;
-        st13850->s[i].b = 0;
-        for (j = 0; j < 12; j++)
-            st13850->s[i].c[j] = 0;
+        register struct State13850 **saved asm("sl");
+        /* Preserve the global state slot across the record initialization. */
+        i = 0;
+        saved = &st13850;
+        asm("" : : "r"(saved));
+        for (; i < 25; i++) {
+            st13850->r[i].a = 0;
+            st13850->r[i].b = 0;
+            for (j = 0; j < 12; j++)
+                st13850->r[i].c[j] = 0;
+        }
+        for (i = 0; i < 9; i++) {
+            st13850->r70[i].a = 0;
+            st13850->r70[i].b = 0;
+            for (j = 0; j < 12; j++)
+                st13850->r70[i].c[j] = 0;
+        }
+        {
+            register u8 *base asm("r1");
+            register u32 zero asm("r2") = 0;
+            register u32 even asm("r3");
+            register u32 odd asm("r6");
+            register struct State13850 **state asm("r6");
+            asm("" : "+r"(zero));
+            state = saved;
+            asm("" : "+r"(state));
+            base = (u8 *)*state;
+            asm("" : "+r"(base));
+            even = 0x80;
+            asm("" : "+r"(even));
+            even <<= 1;
+            asm("" : "+r"(even));
+            *(u16 *)(base + even) = zero;
+            odd = 0x81;
+            asm("" : "+r"(odd));
+            odd <<= 1;
+            asm("" : "+r"(odd));
+            *(u16 *)(base + odd) = zero;
+            even += 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+            odd += 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+            even += 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+            odd += 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+            even += 32; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+            odd += 32; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+            even -= 16; asm("" : "+r"(even)); *(u16 *)(base + even) = zero;
+            odd -= 16; asm("" : "+r"(odd)); *(u16 *)(base + odd) = zero;
+            asm volatile("" : "+r"(even), "+r"(odd), "+r"(base));
+        }
+        for (i = 0; i < 75; i++) {
+            st13850->s[i].a = 0;
+            st13850->s[i].b = 0;
+            for (j = 0; j < 12; j++)
+                st13850->s[i].c[j] = 0;
+        }
+        asm("" : : "r"(saved));
     }
     for (i = 0; i < 0x91; i++)
         st13850->cC10[i] = 0;
