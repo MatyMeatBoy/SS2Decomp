@@ -45,3 +45,11 @@ nov03-w2: sub_080A3D2C fresh C draft (goto-shaped main loop: idle/body/top as in
   Proposed name RunDirectionalOffsetSprite (proposal only). Evidence: canonical
   sub_080A47A0 ASM at03a8fd14, direction tables08518754/56, animation, projection,
   draw and frame-yield calls. Shared symbol catalog unchanged.
+
+2026-11-06 claude-nov06-wB12, shard108: MATCH sub_080A3D2C (2036 bytes). Main loop is a real
+  for(;;) whose top (fC check, sub_08058DB0, tick/switch) precedes `if (!flags) { if (dead) break;
+  idle; continue; }` - expand_end_loop rotates that prefix to the bottom, giving the ROM's
+  setup/idle/body/top block order and loop.c hoists (&gActs[idx] r7, &gSide r9, &sy r8).
+  Keys: sub_0800CD8C result used only as a literal-0 argument (no shared z variable), offset
+  table as s16 [][2] (y via table+2), sub_08019CE8 returns u16, `lastHit = 0; f4C = 0;` as two
+  statements. Literal gUnk_03000388/0300039C appear as gUnk_03000380+N relocs (same bytes).
