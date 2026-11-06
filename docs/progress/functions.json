@@ -20701,14 +20701,14 @@
       "name": "sub_080636B0",
       "addr": 134624944,
       "size": 1232,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x080636B0",
       "canonical_symbol": "sub_080636B0",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080636B0",
       "name_status": "unidentified",
       "name_source": null,
@@ -20766,7 +20766,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2738,
+          "line": 2739,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
