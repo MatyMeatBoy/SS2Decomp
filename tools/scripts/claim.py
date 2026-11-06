@@ -176,6 +176,7 @@ def remote_shard(b):
 
 
 def rebase_on_main():
+    require_regions_closed(remote_shard(current_shard()))
     mb = main_branch()
     git("fetch", "-q", "origin", mb)
     claim = git("log", "--format=%H", "--grep=^claim shard", "origin/%s..HEAD" % mb).splitlines()
@@ -255,6 +256,7 @@ def cmd_pr():
 
 def cmd_release(s=None):
     b = "shard/%03d" % int(s) if s is not None else remote_shard(current_shard())
+    require_regions_closed(b)
     git("push", "-q", "origin", "--delete", b, check=False)
     print("released %s" % b)
 
@@ -277,8 +279,17 @@ def cmd_stale(*args):
         left = sh.get(s, [0])[0]
         print("%5d  %6.0f  %8d  %4d  %s" % (s, idle, len(unlanded), left, own[s]))
         if release and not unlanded:
+            require_regions_closed("shard/%03d" % s)
             git("push", "-q", "origin", "--delete", "shard/%03d" % s, check=False)
             print("       released")
+
+
+def require_regions_closed(branch):
+    from region_claim import Error, require_closed
+    try:
+        require_closed(ROOT, branch)
+    except Error as exc:
+        sys.exit(str(exc))
 
 
 if __name__ == "__main__":
