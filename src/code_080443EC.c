@@ -839,7 +839,11 @@ static inline void setlvF4445(u32 id, u16 v) {
         if (ap) *(u16 *)((u8 *)ap + 0x42) = v;
     } else if (id != 0) {
         u32 k = id - 1;
-        if (k <= 4) sub_08019EB8(((struct RecF4445 *)recordsF4445)[k].f2, v);
+        if (k <= 4) {
+            register u8 **table asm("r1") = &recordsF4445;
+            register u32 offset asm("r0") = k * sizeof(struct RecF4445);
+            sub_08019EB8(((struct RecF4445 *)(*table + offset))->f2, v);
+        }
     } else {
         ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->f11E = v;
     }
