@@ -1660,8 +1660,8 @@ void sub_0809561C(u8 arg0) {
     sp94 = &second;
     flagPtr = &sp14.payload[7];
     spA0 = &state956.tick;
-    sp98 = second.payload;
     sp9C = &state956.frame;
+    sp98 = second.payload;
     {register s32 count asm("r1"); count=(s8)(temp_r1 >> 24); allocationCount=count*3;}
     do {
         temp_r7 = f956_08001494(allocationCount << 3);
