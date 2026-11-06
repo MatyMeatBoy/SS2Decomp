@@ -6208,7 +6208,7 @@
       "evidence": [
         {
           "source": "src/code_0800CF58.c",
-          "line": 6318,
+          "line": 6322,
           "detail": "Existing C definition with an asm alias to the canonical symbol: hud14170"
         }
       ]
@@ -23592,14 +23592,14 @@
       "name": "sub_0806F0CC",
       "addr": 134672588,
       "size": 3408,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08068670",
       "kind": "c",
       "cat": "game",
       "address": "0x0806F0CC",
       "canonical_symbol": "sub_0806F0CC",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0806F0CC",
       "name_status": "unidentified",
       "name_source": null,
