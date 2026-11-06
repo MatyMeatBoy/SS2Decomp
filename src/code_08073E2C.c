@@ -1307,7 +1307,7 @@ void sub_080761A4_c(struct Arg61A4 *arg)
     struct Box61A4 box;
     struct Box61A4 box2;
     struct Ene61A4 *e;
-    u32 target;
+    u16 target;
     u32 lo;
     u32 serial;
     u32 kind;
@@ -1323,7 +1323,7 @@ void sub_080761A4_c(struct Arg61A4 *arg)
     struct Ply61A4 *p;
     struct Ply61A4 *q;
     struct Ene61A4 *e2;
-    u32 d;
+    s32 d;
     u16 j;
     u32 cnt;
     u16 ang;
@@ -1343,6 +1343,7 @@ void sub_080761A4_c(struct Arg61A4 *arg)
     kind = (u8)arg->flags;
     n = arg->n;
     p = &p61A4[who];
+    ok = 0;
     timer = 0;
     frame = 0;
     big = (u32)-(arg->flags & 0x8000) >> 31;
@@ -1351,9 +1352,15 @@ void sub_080761A4_c(struct Arg61A4 *arg)
     lo = (u32)(((u8 *)p->entity)[0] << 28) >> 28;
     if (who == local) {
         serial = (u16)p->serial;
-        memcpy(atk, tmpl61A4(), 0xC4);
-        if (*(u16 *)(atk + 0xBC) == 0)
-            *(u16 *)(atk + 0xBC) = inv61A4[*(u16 *)(inv61A4 + 0x68) * 16 + 0x77];
+        {
+            void *src = tmpl61A4();
+            memcpy(atk, src, 0xC4);
+        }
+        if (*(u16 *)(atk + 0xBC) == 0) {
+            u8 *iv = inv61A4;
+            iv += *(u16 *)(iv + 0x68) * 16;
+            *(u16 *)(atk + 0xBC) = iv[0x77];
+        }
         if (kind != 0)
             power = p->power * 3;
         else
@@ -1385,10 +1392,11 @@ void sub_080761A4_c(struct Arg61A4 *arg)
         if (target > 3) {
             dx = (e->x - x) >> 8;
             dy = (e->y - y) >> 8;
-            ang = (u16)atan61A4(dx, dy) >> 8;
-            t = ang;
-            if (t > 0x80)
-                ang = t - 0x100;
+            /* hit doubles as the angle temporary (ROM keeps it in r4). */
+            hit = (u16)atan61A4(dx, dy) >> 8;
+            if (hit > 0x80)
+                hit = (u16)(hit - 0x100);
+            ang = hit;
             {
                 s16 sa = ang;
                 if (sa < 0)
@@ -1398,10 +1406,10 @@ void sub_080761A4_c(struct Arg61A4 *arg)
             struct Ent61A4 *te = p61A4[target].entity;
             dx = (te->xRaw >> 4) - (x >> 8);
             dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
-            ang = (u16)atan61A4(dx, dy) >> 8;
-            t = ang;
-            if (t > 0x80)
-                ang = t - 0x100;
+            hit = (u16)atan61A4(dx, dy) >> 8;
+            if (hit > 0x80)
+                hit = (u16)(hit - 0x100);
+            ang = hit;
             {
                 s16 sa = ang;
                 if (sa < 0)
@@ -1420,9 +1428,12 @@ void sub_080761A4_c(struct Arg61A4 *arg)
         target = arg->target;
     x += move61A4(sin61A4[(s16)ang + 0x40] * 2, spd);
     y += move61A4(sin61A4[(s16)ang] * 2, spd);
-    if (wait61A4(p, delay)) {
-        m61A4[who] &= ~(1 << arg->slot);
-        return;
+    while (p->ready < delay) {
+        if (p->state == 10) {
+            m61A4[who] &= ~(1 << arg->slot);
+            return;
+        }
+        sub_080003F0();
     }
     iter = n * 18 / 10 + 10;
     if (p->state != 13 && !sub_0800CCCC() && !sub_0800CD34() && n > 0)
@@ -1454,9 +1465,10 @@ void sub_080761A4_c(struct Arg61A4 *arg)
                 opos.y = (u32)(q->entity->yRaw << 20) >> 12;
                 if (!test61A4(&pos, &opos, &box, &box2))
                     continue;
-                ok = 0;
                 if (q->state != 11 && q->hist[who] != serial && !(q->flags & 0x2000))
                     ok = 1;
+                else
+                    ok = 0;
                 if (!ok)
                     continue;
                 if (roll61A4(power, q->power)) {
@@ -1479,6 +1491,7 @@ void sub_080761A4_c(struct Arg61A4 *arg)
                     }
                     if (big)
                         p->flags &= ~0x200000;
+                    hit = 1;
                 } else if (!(sub_0800086C() & 1)) {
                     if (who == sub_080020F4()) {
                         u16 s = p->state;
@@ -1492,13 +1505,16 @@ void sub_080761A4_c(struct Arg61A4 *arg)
                         q->hist[p->id] = serial;
                         sub_0805865C(0x1A);
                     }
-                } else if (who == sub_080020F4()) {
+                    hit = 1;
+                } else {
+                  if (who == sub_080020F4()) {
                     sub_080223F4(q->x, q->y);
                     q->hist[p->id] = serial;
                     if (!sub_0800CCCC() && !sub_0800CD34())
                         sub_0805865C(0x55);
+                  }
+                  hit = 1;
                 }
-                hit = 1;
             }
         } else {
             for (j = 0; j <= 4 && !sub_0800CDF8(); j++) {
@@ -1511,9 +1527,10 @@ void sub_080761A4_c(struct Arg61A4 *arg)
                 box2.h = e2->h;
                 if (!test61A4(&pos, &e2->x, &box, &box2))
                     continue;
-                ok = 0;
-                if (e2->state != 11 && e2->serial != serial && !((e2->hp - e2->dmg) & 0x8000))
-                    ok = e2->hp != e2->dmg;
+                if (e2->state != 11 && e2->serial != serial && !((e2->hp - e2->dmg) & 0x8000) && e2->hp != e2->dmg)
+                    ok = 1;
+                else
+                    ok = 0;
                 if (!ok)
                     continue;
                 if (roll61A4(power, e2->power)) {
@@ -1538,7 +1555,7 @@ void sub_080761A4_c(struct Arg61A4 *arg)
                     if (big)
                         p->flags &= ~0x200000;
                 } else if (who == local) {
-                    if (!(sub_0800086C() & 1)) {
+                    if (!(1 & sub_0800086C())) {
                         u16 s = p->state;
                         u16 f;
                         p->state = lo;
@@ -1570,8 +1587,8 @@ void sub_080761A4_c(struct Arg61A4 *arg)
         x += move61A4(sin61A4[(s16)ang + 0x40], spd);
         y += move61A4(sin61A4[(s16)ang], spd);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
-            pos61A4((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
-            shade = sub_0800BC44(sx, sy, 0);
+            pos61A4((s16)(ok = x >> 8), (s16)(d = y >> 8), &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(ok, d, 0);
             d = dirIdx;
             step61A4(&spr, (u16)(base + d), &frame, &timer, 1);
             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
