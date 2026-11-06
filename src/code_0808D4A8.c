@@ -1593,7 +1593,6 @@ u32 sub_0808F15C(u32 arg)
 fail:
     return 0;
 }
-#ifdef NONMATCHING
 struct AnimF1E4 { s32 w0, w4, w8; u8 *graphics; u8 p10[12]; u8 data[24]; };
 struct DataF1E4 { u8 p0[4]; s16 f4, f6; };
 struct EntF1E4 {
@@ -1655,17 +1654,19 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
         }
         sub_080003F0();
     }
-    e->f6C = 0;
-    e->f6A = 0;
-    e->f68 = 0;
+    { u32 z;
+    { u16 *p = &e->f6C; z = 0; asm("" : "+r"(z)); *p = z; }
+    e->f6A = z;
+    e->f68 = z;
     e->f5C = e->f1D6 = data->f6 * 3;
     { s32 v = data->f4 * 2; e->f5E = e->f1D4 = (v * 4 + v) * 2; }
-    e->fC = 0;
+    e->fC = z;
     blinkTimer = 0;
-    blinking = 0;
+    { register int or1 asm("r1"); register int or3 asm("r3"); asm("":"=r"(or1),"=r"(or3)); blinking = blinkTimer; asm(""::"r"(or1),"r"(or3)); }
     hitTimer = 0xFFFF;
-    lastHit = 0;
-    e->f4C = 0;
+    lastHit = z;
+    e->f4C = z;
+    }
     if (flagF1E4(0x1B, 1) != 0 || flagF1E4(0x1B, 0) != 0) {
         activeF1E4 &= ~(1 << e->f0);
         freeF1E4(slot);
@@ -1702,7 +1703,7 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
             blinkTimer = (u16)(blinkTimer - 1);
             if (blinkTimer == 0) {
                 if (e->fC == 11) {
-                    e->f1DC = blinkTimer;
+                    { register int or2 asm("r2"); asm("":"=r"(or2)); e->f1DC = blinkTimer; asm(""::"r"(or2)); }
                     goto finish;
                 }
                 e->fC = blinkTimer;
@@ -1740,14 +1741,14 @@ void sub_0808F1E4_v(struct EntF1E4 *e)
         {
             u32 old = hitTimer;
             hitTimer = (u16)(old - 1);
-            if (!(old & 0x8000)) {
+            if (!((u16)old & 0x8000)) {
                 if (lastHit == 0) {
                     hitTimer = 0xFFFF;
                 } else {
                     if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
                         hitNumF1E4(e, lastHit, hitOff);
                     if (hitTimer & 2)
-                        hitOff = (u16)(hitOff - 1);
+                        hitOff = (u16)((hitOff << 16) - 0x10000 >> 16);
                 }
             } else {
                 hitTimer = 0xFFFF;
@@ -1783,9 +1784,6 @@ finish:
     activeF1E4 &= ~(1 << e->f0);
     freeF1E4(slot);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0808D4A8", sub_0808F1E4);
-#endif
 extern s16 scrollPosF6A8 asm("gUnk_030031EE");
 void sub_0808F6A8(void)
 {
