@@ -503,7 +503,7 @@ void sub_080904A4(void) {
     struct Sprite90495 sprite;
     u16 frames[6],ticks[6],next[6],flags[6],results[6];
     u8 text[12];
-    u16 control[2];
+    struct { u32 value:16, unused:16; } control;
     s32 sp90;
     s32 sp94;
     s32 sp98;
@@ -515,6 +515,7 @@ void sub_080904A4(void) {
     void *spB0;
     u16 *spB4;
     u16 *spB8;
+    u16 *resultBase;
     u8 *var_r0_6;
     s32 temp_r0_2;
     u16 var_r0;
@@ -536,8 +537,8 @@ void sub_080904A4(void) {
     sub_080009F8(0xF00, 0, 0);
     sub_08000990(0, 0);
     sub_080009C0(0x1100, 0, 0);
-    control[0] = 0x1801;
-    sub_08000AA8(0U, control);
+    control.value = 0x1801;
+    sub_08000AA8(0U, (u16 *)&control);
     sub_080921E4_90495(0, 0x18);
     sub_08065158_90495(&sprite, 0x50021, 8, -1, 1);
     sprite.payload[0] = 8;
@@ -586,195 +587,194 @@ void sub_080904A4(void) {
     spA0 = 0;
     spA8 = 1;
     spAC = ticks;
-loop_3:
-    if (1 & input130C90495) {
-        palette90495(0x18U, sprite.fC, 1U);
-        results[1] = (s16) sub_08065370_90495(&sprite, frames[1], &ticks[1], &next[1], (s32) flags[1]);
-        sub_08007870_90495(0xD3, 0x83, frames[1], ticks[1], 0, spB0, sprite.f8, sprite.f0);
-    }
-    if (2 & input130C90495) {
-        palette90495(0x18U, sprite.fC, 1U);
-        results[2] = (s16) sub_08065370_90495(&sprite, frames[2], &ticks[2], &next[2], (s32) flags[2]);
-        sub_08007870_90495(0xC1, 0x83, frames[2], ticks[2], 0, spB0, sprite.f8, sprite.f0);
-    }
-    if (0xF0 & input130C90495) {
-        if (0x40 & input130C90495) {
-            frames[0] = 2U;
-        } else {
-            if (0x80 & input130C90495) {
-                var_r0 = 3;
-                goto block_15;
-            }
-            if (0x10 & input130C90495) {
-                frames[0] = 4U;
-            } else {
-                var_r0 = 5;
-block_15:
-                frames[0] = var_r0;
-            }
-        }
-        palette90495(0x18U, sprite.fC, 1U);
-        results[0] = (s16) sub_08065370_90495(&sprite, frames[0], spAC, next, (s32) flags[0]);
-        sub_08007870_90495(0x30, 0x7D, frames[0], spAC[0], 0, spB0, sprite.f8, sprite.f0);
-    }
-    if (spA0 == 0) {
-        palette90495(0x18U, sprite.fC, 1U);
-        results[3] = (s16) sub_08065370_90495(&sprite, frames[3], &ticks[3], &next[3], (s32) flags[3]);
-        sub_08007870_90495(0x7B, 0x7E, frames[3], ticks[3], spA0, spB0, sprite.f8, sprite.f0);
-    }
-    palette90495(0x18U, sprite.fC, 1U);
-    results[4] = (u16) sub_08065370_90495(&sprite, frames[4], spB4, spB8, (s32) flags[4]);
-    sub_08007870_90495(0xC7, 0x74, frames[4], ticks[4], 0, spB0, sprite.f8, sprite.f0);
-    if ((results[4] != 0) && (frames[4] == 9)) {
-        frames[4] = 0xB;
-        flags[4] = 1;
-        results[4] = 0U;
-        next[4] = 0;
-        ticks[4] = 0;
-    }
-    if ((var_sl == 1) && (heap90495 == 0)) {
-        sub_08092190();
-    }
-    if (8 & gUnk_03001324) {
-        if (var_sl != 0) {
-
-        } else if (spA0 != 0) {
-            spA0 = 0;
-            var_r8 = 0;
-            frames[4] = 8U;
-            flags[4] = 0;
-            results[4] = 0U;
-            next[4] = 0;
-            spAC[4] = 0;
-            frames[3] = 1U;
-            flags[3] = 1;
-            results[3] = 0;
-            next[3] = 0;
-            spAC[3] = 0;
-        } else {
-            spA0 = 1;
-            var_r8 = 0x3C;
-            frames[4] = 9;
-            flags[4] = var_sl;
-            results[4] = var_sl;
-            next[4] = var_sl;
-            ticks[4] = var_sl;
-        }
-    } else if ((0x30 & input130890495) && (spA0 != 0)) {
-        spA4 ^= 1;
-        var_r8 = 0x3C;
-    } else {
-        if ((0x40 & input130890495) && (spA0 != 0) && (var_r8 == 0)) {
-            if (spA4 == 0) {
-                if (sp9C != 0) {
-                    var_r0_2 = sp9C - 1;
-                    goto block_50;
-                }
-                var_r0_3 = 0x24;
-                goto block_52;
-            }
-            if (sp94 != 0) {
-                var_r0_4 = sp94 - 1;
-                goto block_55;
-            }
-            var_r0_5 = 0x121;
-            goto block_57;
-        }
-        if ((0x80 & input130890495) && (spA0 != 0) && (var_r8 == 0)) {
-            if (spA4 == 0) {
-                if (sp9C != 0x24) {
-                    var_r0_2 = sp9C + 1;
-block_50:
-                    var_r0_3 = var_r0_2;
-                } else {
-                    var_r0_3 = 0;
-                }
-block_52:
-                sp9C = (s32) var_r0_3;
-            } else {
-                if (sp94 != 0x121) {
-                    var_r0_4 = sp94 + 1;
-block_55:
-                    var_r0_5 = var_r0_4;
-                } else {
-                    var_r0_5 = 0;
-                }
-block_57:
-                sp94 = (s32) var_r0_5;
-            }
-        } else if ((1 & gUnk_03001324) && (spA0 != 0) && (var_r8 == 0)) {
-            if (spA4 == 0) {
-                if (var_sl == 1) {
-                    m4aSongNumStop(songs90495[sp98]);
-                } else {
-                    frames[4] = 0xA;
-                    flags[4] = 1;
-                    results[4] = (u16) spA4;
-                    next[4] = spA4;
-                    ticks[4] = spA4;
-                }
-                var_sl = 1;
-                sp98 = sp9C;
-                m4aSongNumStart(songs90495[sp9C]);
-            } else {
-                m4aSongNumStop(sounds90495[sp90]);
-                sp90 = sp94;
-                m4aSongNumStart(sounds90495[sp94]);
-            }
-        } else if (2 & gUnk_03001324) {
-            var_r8 = 0;
-            if (spA0 != 0) {
-                if (var_sl == 1) {
-                    m4aSongNumStop(songs90495[sp98]);
-                    var_sl = 0;
-                    frames[4] = 0xB;
-                    flags[4] = 1;
-                    results[4] = 0U;
-                    next[4] = 0;
-                    ticks[4] = 0;
-                }
-                m4aSongNumStop(sounds90495[sp90]);
-            } else if (var_sl == 0) {
-                spA8 = 0;
-            }
-        }
-    }
-    var_r7 = 0x74004C;
-    if (spA0 != 0) {
-        temp_r0 = var_r8;
-        if (temp_r0 != 0) {
-            var_r8 = temp_r0 - 1;
-            if (3 & temp_r0) {
-                var_r0_6 = texts90495[gUnk_03003470*2+spA4];
-            } else {
-                var_r0_6 = empty90495;
-            }
-            sub_08091F9C_90495(var_r0_6, text);
-            var_r4_2 = var_r7 << 0x10;
-            sub_0801A764_90495(text, var_r7, (u16) (var_r7 >> 0x10));
-        } else {
-            sub_08091F9C_90495(texts90495[gUnk_03003470*2+spA4], text);
-            if (spA4 == 0) {
-                sub_08091F20_90495((u16) (sp9C + 1), text);
-            } else {
-                sub_08091F20_90495((u16) (sp94 + 1), text);
-            }
-            var_r4_2 = var_r7 << 0x10;
-        }
-        sub_0801A764_90495(text, (u16) (var_r4_2 >> 0x10), (u16) (var_r7 >> 0x10));
-    }
-    var_r4_3 = 0;
+    resultBase = results;
     do {
-        text[var_r4_3] = 0;
-        var_r4_3 += 1;
-    } while ((u32) var_r4_3 <= 0xBU);
-    sub_080003F0();
-    if (spA8 != 0) {
-        goto loop_3;
-    }
+        if (1 & input130C90495) {
+            palette90495(0x18U, sprite.fC, 1U);
+            resultBase[1] = (s16) sub_08065370_90495(&sprite, frames[1], &ticks[1], &next[1], (s32) flags[1]);
+            sub_08007870_90495(0xD3, 0x83, frames[1], ticks[1], 0, spB0, sprite.f8, sprite.f0);
+        }
+        if (2 & input130C90495) {
+            palette90495(0x18U, sprite.fC, 1U);
+            resultBase[2] = (s16) sub_08065370_90495(&sprite, frames[2], &ticks[2], &next[2], (s32) flags[2]);
+            sub_08007870_90495(0xC1, 0x83, frames[2], ticks[2], 0, spB0, sprite.f8, sprite.f0);
+        }
+        if (0xF0 & input130C90495) {
+            if (0x40 & input130C90495) {
+                frames[0] = 2U;
+            } else {
+                if (0x80 & input130C90495) {
+                    var_r0 = 3;
+                    goto block_15;
+                }
+                if (0x10 & input130C90495) {
+                    frames[0] = 4U;
+                } else {
+                    var_r0 = 5;
+block_15:
+                    frames[0] = var_r0;
+                }
+            }
+            palette90495(0x18U, sprite.fC, 1U);
+            resultBase[0] = (s16) sub_08065370_90495(&sprite, frames[0], spAC, next, (s32) flags[0]);
+            sub_08007870_90495(0x30, 0x7D, frames[0], spAC[0], 0, spB0, sprite.f8, sprite.f0);
+        }
+        if (spA0 == 0) {
+            palette90495(0x18U, sprite.fC, 1U);
+            resultBase[3] = (s16) sub_08065370_90495(&sprite, frames[3], &ticks[3], &next[3], (s32) flags[3]);
+            sub_08007870_90495(0x7B, 0x7E, frames[3], ticks[3], spA0, spB0, sprite.f8, sprite.f0);
+        }
+        palette90495(0x18U, sprite.fC, 1U);
+        resultBase[4] = (u16) sub_08065370_90495(&sprite, frames[4], spB4, spB8, (s32) flags[4]);
+        sub_08007870_90495(0xC7, 0x74, frames[4], ticks[4], 0, spB0, sprite.f8, sprite.f0);
+        if ((resultBase[4] != 0) && (frames[4] == 9)) {
+            frames[4] = 0xB;
+            flags[4] = 1;
+            resultBase[4] = 0U;
+            next[4] = 0;
+            ticks[4] = 0;
+        }
+        if ((var_sl == 1) && (heap90495 == 0)) {
+            sub_08092190();
+        }
+        if (8 & gUnk_03001324) {
+            if (var_sl != 0) {
+
+            } else if (spA0 != 0) {
+                spA0 = 0;
+                var_r8 = 0;
+                frames[4] = 8U;
+                flags[4] = 0;
+                resultBase[4] = 0U;
+                next[4] = 0;
+                spAC[4] = 0;
+                frames[3] = 1U;
+                flags[3] = 1;
+                resultBase[3] = 0;
+                next[3] = 0;
+                spAC[3] = 0;
+            } else {
+                spA0 = 1;
+                var_r8 = 0x3C;
+                frames[4] = 9;
+                flags[4] = var_sl;
+                resultBase[4] = var_sl;
+                next[4] = var_sl;
+                ticks[4] = var_sl;
+            }
+        } else if ((0x30 & input130890495) && (spA0 != 0)) {
+            spA4 ^= 1;
+            var_r8 = 0x3C;
+        } else {
+            if ((0x40 & input130890495) && (spA0 != 0) && (var_r8 == 0)) {
+                if (spA4 == 0) {
+                    if (sp9C != 0) {
+                        var_r0_2 = sp9C - 1;
+                        goto block_50;
+                    }
+                    var_r0_3 = 0x24;
+                    goto block_52;
+                }
+                if (sp94 != 0) {
+                    var_r0_4 = sp94 - 1;
+                    goto block_55;
+                }
+                var_r0_5 = 0x121;
+                goto block_57;
+            }
+            if ((0x80 & input130890495) && (spA0 != 0) && (var_r8 == 0)) {
+                if (spA4 == 0) {
+                    if (sp9C != 0x24) {
+                        var_r0_2 = sp9C + 1;
+block_50:
+                        var_r0_3 = var_r0_2;
+                    } else {
+                        var_r0_3 = 0;
+                    }
+block_52:
+                    sp9C = (s32) var_r0_3;
+                } else {
+                    if (sp94 != 0x121) {
+                        var_r0_4 = sp94 + 1;
+block_55:
+                        var_r0_5 = var_r0_4;
+                    } else {
+                        var_r0_5 = 0;
+                    }
+block_57:
+                    sp94 = (s32) var_r0_5;
+                }
+            } else if ((1 & gUnk_03001324) && (spA0 != 0) && (var_r8 == 0)) {
+                if (spA4 == 0) {
+                    if (var_sl == 1) {
+                        m4aSongNumStop(songs90495[sp98]);
+                    } else {
+                        frames[4] = 0xA;
+                        flags[4] = 1;
+                        resultBase[4] = (u16) spA4;
+                        next[4] = spA4;
+                        ticks[4] = spA4;
+                    }
+                    var_sl = 1;
+                    sp98 = sp9C;
+                    m4aSongNumStart(songs90495[sp9C]);
+                } else {
+                    m4aSongNumStop(sounds90495[sp90]);
+                    sp90 = sp94;
+                    m4aSongNumStart(sounds90495[sp94]);
+                }
+            } else if (2 & gUnk_03001324) {
+                var_r8 = 0;
+                if (spA0 != 0) {
+                    if (var_sl == 1) {
+                        m4aSongNumStop(songs90495[sp98]);
+                        var_sl = 0;
+                        frames[4] = 0xB;
+                        flags[4] = 1;
+                        resultBase[4] = 0U;
+                        next[4] = 0;
+                        ticks[4] = 0;
+                    }
+                    m4aSongNumStop(sounds90495[sp90]);
+                } else if (var_sl == 0) {
+                    spA8 = 0;
+                }
+            }
+        }
+        var_r7 = 0x74004C;
+        if (spA0 != 0) {
+            temp_r0 = var_r8;
+            if (temp_r0 != 0) {
+                var_r8 = temp_r0 - 1;
+                if (3 & temp_r0) {
+                    var_r0_6 = texts90495[gUnk_03003470*2+spA4];
+                } else {
+                    var_r0_6 = empty90495;
+                }
+                sub_08091F9C_90495(var_r0_6, text);
+                var_r4_2 = var_r7 << 0x10;
+                sub_0801A764_90495(text, var_r7, (u16) (var_r7 >> 0x10));
+            } else {
+                sub_08091F9C_90495(texts90495[gUnk_03003470*2+spA4], text);
+                if (spA4 == 0) {
+                    sub_08091F20_90495((u16) (sp9C + 1), text);
+                } else {
+                    sub_08091F20_90495((u16) (sp94 + 1), text);
+                }
+                var_r4_2 = var_r7 << 0x10;
+            }
+            sub_0801A764_90495(text, (u16) (var_r4_2 >> 0x10), (u16) (var_r7 >> 0x10));
+        }
+        var_r4_3 = 0;
+        do {
+            text[var_r4_3] = 0;
+            var_r4_3 += 1;
+        } while ((u32) var_r4_3 <= 0xBU);
+        sub_080003F0();
+    } while (spA8 != 0);
     sub_0801AA8C(0x3C);
-    goto loop_91;
-loop_91_body:
+    while ((temp_r0_2 = sub_0801AAE0()) == 0) {
+
         palette90495(0x18U, sprite.fC, 1U);
         sub_08065370_90495(&sprite, frames[3], &ticks[3], &next[3], (s32) flags[3]);
         sub_08007870_90495(0x7B, 0x7E, frames[3], ticks[3], temp_r0_2, spB0, sprite.f8, sprite.f0);
@@ -782,9 +782,8 @@ loop_91_body:
         sub_08065370_90495(&sprite, frames[4], spB4, spB8, (s32) flags[4]);
         sub_08007870_90495(0xC7, 0x74, frames[4], ticks[4], temp_r0_2, spB0, sprite.f8, sprite.f0);
         sub_080003F0();
-loop_91:
-    temp_r0_2 = sub_0801AAE0();
-    if (temp_r0_2 == 0) goto loop_91_body;
+    }
+
     if (heap90495 != 0) {
         sub_08001538(heap90495);
         heap90495 = 0;
@@ -796,6 +795,7 @@ loop_91:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0808FB5C", sub_080904A4);
 #endif
+
 struct Anim095_08090B84 {u32 f0,f4,f8,fC;u8 pad10[12];u8 payload[24];s32 x,y;u16 frame,tick,next,pad42;};
 extern u32 heap095_08090B84 asm("gUnk_0300016C");
 extern void init095_08090B84(void *,s32,s32,s32,s32) asm("sub_08065158");
