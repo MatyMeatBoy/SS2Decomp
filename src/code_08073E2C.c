@@ -3284,7 +3284,6 @@ void sub_080793BC(u32 who)
     sub_08000274_3((u32)t, who, i);
     gMasks93BC[who] |= 1 << i;
 }
-#ifdef NONMATCHING
 struct Info458 { u32 who, i, a, c, d, b; };
 extern u32 gMasks458[] asm("gUnk_030063E0");
 struct Spr458 { u32 f0, f4, f8, fC; u8 p10[12]; u8 f1C, f1D; u8 p1E[22]; };
@@ -3323,10 +3322,11 @@ void sub_08079458(struct Info458 *info)
     u32 r;
     struct En458 *e;
     struct Pl458 *p;
-    
+    u8 *pp;
+
     local = sub_080020F4();
     pos.x = info->a;
-    pos.y = info->b;
+    { s32 v = info->b; pp = (u8 *)&pos; *(s32 *)(pp + 4) = v; }
     who = info->who;
     i = info->i;
     phase = 0;
@@ -3383,11 +3383,20 @@ void sub_08079458(struct Info458 *info)
         break;
     }
     k = obj[0xA8];
+    asm(""::"r"(pp));
+    asm(""::"r"(pp));
+    asm(""::"r"(pp));
+    asm(""::"r"(pp));
+    asm(""::"r"(pp));
+    asm(""::"r"(obj));
     if (timer != 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
         sub_0805865C(0x17C);
     while (timer-- != 0) {
         sub_0800BC08_458((pos.x << 8) >> 16, (pos.y << 8) >> 16, &dx, &dy, 0x30, 0);
         shade = (u8)sub_0800BC44(pos.x >> 8, pos.y >> 8, 0);
+        asm(""::"r"(shade));
+        asm(""::"r"(shade));
+        asm(""::"r"(&dy));
         sub_08065370_458(&spr, k, &frame, &phase, 1);
         if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
             u32 q = (u32)timer / 60;
@@ -3442,9 +3451,6 @@ void sub_08079458(struct Info458 *info)
     }
     gMasks458[who] &= ~(1 << i);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08079458);
-#endif
 struct Task9888 { u32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 struct Info9888 { u32 who, i, a, c, d, b; };
 extern u32 gMasks9888[] asm("gUnk_030063E0");
