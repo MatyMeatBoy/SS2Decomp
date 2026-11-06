@@ -567,7 +567,7 @@ void sub_080605D0(s32 animate)
     s16 base;
     s16 k;
     s16 end;
-    u16 keys;
+    u32 keys;
 
     mgr = hudMgr63;
     pl = &hudPlayers63[sub_080020F4()];
