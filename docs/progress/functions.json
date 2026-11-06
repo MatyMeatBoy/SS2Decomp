@@ -24040,21 +24040,21 @@
       "name": "sub_080761A4",
       "addr": 134701476,
       "size": 2276,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08073E2C",
       "kind": "c",
       "cat": "game",
       "address": "0x080761A4",
       "canonical_symbol": "sub_080761A4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080761A4_c",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_08073E2C.c",
-          "line": 1299,
+          "line": 1298,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080761A4_c"
         }
       ]
