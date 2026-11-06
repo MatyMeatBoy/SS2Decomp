@@ -6208,7 +6208,7 @@
       "evidence": [
         {
           "source": "src/code_0800CF58.c",
-          "line": 6322,
+          "line": 6346,
           "detail": "Existing C definition with an asm alias to the canonical symbol: hud14170"
         }
       ]
@@ -20718,14 +20718,14 @@
       "name": "sub_08063B80",
       "addr": 134626176,
       "size": 688,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x08063B80",
       "canonical_symbol": "sub_08063B80",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08063B80",
       "name_status": "unidentified",
       "name_source": null,
@@ -20766,7 +20766,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2755,
+          "line": 2723,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
