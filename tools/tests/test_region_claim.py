@@ -64,6 +64,42 @@ class RegionClaimTests(unittest.TestCase):
     def initialize(self):
         self.owner_store.init(FUNC, 'owner', self.spec)
 
+    def test_list_shows_available_regions_and_preserves_checkout(self):
+        self.assertEqual(self.worker_store.list_plans(), [])
+        self.initialize()
+        self.worker_store.change(FUNC, 'take', 'alice', 'entry')
+        before = self.git(self.worker, 'rev-parse', 'HEAD')
+        rows = self.worker_store.list_plans()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['function'], FUNC)
+        self.assertEqual(rows[0]['checkpoint'], self.checkpoint)
+        self.assertEqual(rows[0]['owner'], 'owner')
+        self.assertTrue(rows[0]['parent_live'])
+        self.assertEqual(rows[0]['free_regions'], ['exit'])
+        self.assertEqual(rows[0]['claimed_regions'], ['entry'])
+        self.assertEqual(rows[0]['submitted_regions'], [])
+        self.assertEqual(self.git(self.worker, 'rev-parse', 'HEAD'), before)
+        self.assertEqual(self.git(self.worker, 'status', '--porcelain'), '')
+
+    def test_list_never_offers_stale_regions_and_omits_closed_plans(self):
+        self.initialize()
+        self.git(self.owner, 'commit', '--allow-empty', '-m', 'new checkpoint')
+        self.git(self.owner, 'push', 'origin', 'HEAD:refs/heads/shard/000')
+        rows = self.worker_store.list_plans()
+        self.assertFalse(rows[0]['parent_live'])
+        self.assertEqual(rows[0]['free_regions'], [])
+        self.git(self.owner, 'push', 'origin', '--delete', 'shard/000')
+        rows = self.worker_store.list_plans()
+        self.assertFalse(rows[0]['parent_live'])
+        self.assertEqual(rows[0]['free_regions'], [])
+        self.owner_store.change(FUNC, 'close', 'owner', evidence='parent gone; no workers')
+        self.assertEqual(self.worker_store.list_plans(), [])
+
+    def test_list_fails_when_remote_is_unavailable(self):
+        self.git(self.worker, 'remote', 'set-url', 'origin', str(self.base / 'missing.git'))
+        with self.assertRaises(regions.Error):
+            self.worker_store.list_plans()
+
     def test_init_freezes_contract_and_never_changes_checkout(self):
         self.initialize()
         _, plan = self.worker_store.read(FUNC)
@@ -164,6 +200,10 @@ class RegionClaimTests(unittest.TestCase):
                                  candidate_ref='codex/region-worker', evidence='full-function diff improved')
         _, plan = self.owner_store.read(FUNC)
         self.assertEqual(plan['regions'][0]['candidate']['sha'], sha)
+        rows = self.owner_store.list_plans()
+        self.assertEqual(rows[0]['free_regions'], ['exit'])
+        self.assertEqual(rows[0]['claimed_regions'], [])
+        self.assertEqual(rows[0]['submitted_regions'], ['entry'])
         with self.assertRaises(regions.Error):
             self.owner_store.change(FUNC, 'close', 'owner', evidence='too early')
         self.owner_store.change(FUNC, 'review', 'owner', 'entry',

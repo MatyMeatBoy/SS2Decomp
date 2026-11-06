@@ -68,6 +68,28 @@ class Store:
             raise Error('invalid remote region plan: ' + str(exc)) from exc
         return sha, plan
 
+    def list_plans(self):
+        """Advisory open-work snapshot; take still validates the live parent."""
+        lines = self.git('ls-remote', '--refs', 'origin', PREFIX + '*',
+                         'refs/heads/shard/*').splitlines()
+        refs = {ref: sha for sha, ref in (line.split() for line in lines)}
+        rows = []
+        for ref in sorted(refs):
+            if not ref.startswith(PREFIX):
+                continue
+            function = ref[len(PREFIX):]
+            _, plan = self.read(function)
+            if plan['state'] == 'closed':
+                continue
+            live = refs.get(plan['parent_ref']) == plan['checkpoint']
+            row = {key: plan[key] for key in ('function', 'owner', 'parent_ref', 'checkpoint')}
+            row['parent_live'] = live
+            for state in ('free', 'claimed', 'submitted'):
+                row[state + '_regions'] = [r['id'] for r in plan['regions']
+                                          if r['state'] == state and (state != 'free' or live)]
+            rows.append(row)
+        return rows
+
     def write(self, function, expected, plan):
         """Exact remote lease: even different-region writers must reread on a race."""
         label(function)
@@ -249,8 +271,8 @@ def require_closed(root, shard):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('init', 'status', 'take', 'submit', 'release', 'review', 'close'))
-    parser.add_argument('function')
+    parser.add_argument('action', choices=('list', 'init', 'status', 'take', 'submit', 'release', 'review', 'close'))
+    parser.add_argument('function', nargs='?')
     parser.add_argument('region', nargs='?')
     parser.add_argument('--actor')
     parser.add_argument('--plan', type=Path)
@@ -258,9 +280,16 @@ def main():
     parser.add_argument('--result', choices=('accepted', 'rejected'))
     parser.add_argument('--evidence', default='')
     args = parser.parse_args()
+    if args.action == 'list':
+        if args.function or args.region:
+            parser.error('list takes no function or region')
+    elif not args.function:
+        parser.error(args.action + ' requires a function')
     store = Store()
     try:
-        if args.action == 'status':
+        if args.action == 'list':
+            print(json.dumps(store.list_plans(), indent=2))
+        elif args.action == 'status':
             _, plan = store.read(args.function)
             try:
                 store.parent(plan)
