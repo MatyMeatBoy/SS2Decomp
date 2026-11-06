@@ -1737,23 +1737,24 @@ void sub_08076BA0(struct Arg6BA0 *arg)
     u16 local;
     u32 slot;
     u32 who;
-    s32 power;
     u32 big;
+    s32 power;
     u32 spread;
     struct Ply6BA0 *p;
     struct Ply6BA0 *q;
     struct Ene6BA0 *e2;
-    u32 d;
+    s32 d;
     u16 j;
     u32 cnt;
-    u16 ang;
+    s16 ang;
     s32 t;
     s32 hit;
     s32 ok;
     u8 c;
     u8 shade;
-    s32 sx, sy;
+    s32 spd;
 
+    spd = 5;
     local = sub_080020F4();
     init6BA0(&spr, 0x5002E, 0, 0x80000000, 0);
     target = arg->target;
@@ -1772,9 +1773,15 @@ void sub_08076BA0(struct Arg6BA0 *arg)
     lo = (u32)(((u8 *)p->entity)[0] << 28) >> 28;
     if (who == local) {
         serial = (u16)p->serial;
-        memcpy(atk, tmpl6BA0(), 0xC4);
-        if (*(u16 *)(atk + 0xBC) == 0)
-            *(u16 *)(atk + 0xBC) = inv6BA0[*(u16 *)(inv6BA0 + 0x68) * 16 + 0x77];
+        {
+            void *src = tmpl6BA0();
+            memcpy(atk, src, 0xC4);
+        }
+        if (*(u16 *)(atk + 0xBC) == 0) {
+            u8 *iv = inv6BA0;
+            iv += *(u16 *)(iv + 0x68) * 16;
+            *(u16 *)(atk + 0xBC) = iv[0x77];
+        }
         if (kind != 0)
             power = p->power * 3;
         else
@@ -1797,10 +1804,13 @@ void sub_08076BA0(struct Arg6BA0 *arg)
         if (target > 3) {
             dx = (e->x - x) >> 8;
             dy = (e->y - y) >> 8;
-            ang = (u16)atan6BA0(dx, dy) >> 8;
-            t = ang;
-            if (t > 0x80)
-                ang = t - 0x100;
+            {
+                u16 a0 = (u16)atan6BA0(dx, dy) >> 8;
+                t = a0;
+                if (t > 0x80)
+                    a0 = t - 0x100;
+                ang = a0;
+            }
             {
                 s16 sa = ang;
                 if (sa < 0)
@@ -1815,10 +1825,11 @@ void sub_08076BA0(struct Arg6BA0 *arg)
             struct Ent6BA0 *te = p6BA0[target].entity;
             dx = (te->xRaw >> 4) - (x >> 8);
             dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
-            ang = (u16)atan6BA0(dx, dy) >> 8;
-            t = ang;
+            hit = (u16)atan6BA0(dx, dy) >> 8;
+            t = hit;
             if (t > 0x80)
-                ang = t - 0x100;
+                hit = (u16)(t - 0x100);
+            ang = hit;
             {
                 s16 sa = ang;
                 if (sa < 0)
@@ -1853,8 +1864,8 @@ void sub_08076BA0(struct Arg6BA0 *arg)
     }
     if (target == 0xFF)
         target = arg->target;
-    x += move6BA0(sin6BA0[(s16)ang + 0x40] * 2, 5);
-    y += move6BA0(sin6BA0[(s16)ang] * 2, 5);
+    x += move6BA0(sin6BA0[(s16)ang + 0x40] * 2, spd);
+    y += move6BA0(sin6BA0[(s16)ang] * 2, spd);
     while (p->ready < 2) {
         if (p->state == 10) {
             m6BA0[who] &= ~(1 << slot);
@@ -1878,23 +1889,27 @@ void sub_08076BA0(struct Arg6BA0 *arg)
             box2.w = 0x10;
             box2.h = 0x10;
             cnt = sub_08002164();
-            for (j = 0; j < cnt && !sub_0800CDF8(); j++) {
+            /* goto loop: no loop notes, so &opos is not hoisted and cnt stays in r8 as in ROM. */
+            j = 0;
+            goto pchk;
+        pbody:
+            {
                 if (who == j)
-                    continue;
+                    goto pnext;
                 q = &p6BA0[j];
                 if (q->team == p->team)
-                    continue;
+                    goto pnext;
                 if ((u32)(((u8 *)q->entity)[0] << 28) >> 28 == 14)
-                    continue;
+                    goto pnext;
                 opos.x = (q->entity->xRaw >> 4) << 8;
                 opos.y = (u32)(q->entity->yRaw << 20) >> 12;
                 if (!test6BA0(&pos, &opos, &box, &box2))
-                    continue;
+                    goto pnext;
                 ok = 0;
                 if (q->state != 11 && q->hist[who] != serial && !(q->flags & 0x2000))
                     ok = 1;
                 if (!ok)
-                    continue;
+                    goto pnext;
                 if (roll6BA0(power, q->power)) {
                     if (big) {
                         atk[0xA9] += 0x18;
@@ -1934,6 +1949,11 @@ void sub_08076BA0(struct Arg6BA0 *arg)
                 }
                 hit = 1;
             }
+        pnext:
+            j++;
+        pchk:
+            if (j < cnt && !sub_0800CDF8())
+                goto pbody;
         } else {
             for (j = 0; j <= 4 && !hit && !sub_0800CDF8(); j++) {
                 if (!(e6BA0Mask & (1 << j)))
@@ -1997,11 +2017,11 @@ void sub_08076BA0(struct Arg6BA0 *arg)
         c = sub_0800AE50(x, y, 0);
         if ((c & 0xF) && !(c & 0x10))
             break;
-        x += move6BA0(sin6BA0[(s16)ang + 0x40], 5);
-        y += move6BA0(sin6BA0[(s16)ang], 5);
+        x += move6BA0(sin6BA0[(s16)ang + 0x40], spd);
+        y += move6BA0(sin6BA0[(s16)ang], spd);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
-            pos6BA0((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
-            shade = sub_0800BC44(sx, sy, 0);
+            pos6BA0((s16)(ok = x >> 8), (s16)(d = y >> 8), &dx, &dy, 0x30, 0);
+            shade = sub_0800BC44(ok, d, 0);
             d = dirIdx;
             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
                 shade = 0;
