@@ -823,10 +823,20 @@ extern void emitF4445(struct CmdF4445 *) asm("sub_0805AB20");
 extern void sub_08029174(s32,s32);
 extern void sub_08019EB8(u16,s32);
 static inline u32 countF4445(u32 n) { return n; }
-static inline s32 bitF4445(s32 sh) {
-    s32 raw;
-    if (sub_0800CE30()) { raw = state566045[0x1C7]; return (raw >> sh) & 1; }
-    raw = state566045[0x1BB]; return (raw >> sh) & 1;
+#define READ_BIT_F4445(result, shift, setReg, clearReg) { \
+    u8 *addr; \
+    if (sub_0800CE30()) { \
+        register u8 *base asm("r0") = state566045; \
+        register u32 offset asm(setReg) = 0x1C7; \
+        asm("" : : "r"(offset), "r"(base)); \
+        addr = base + offset; \
+    } else { \
+        register u8 *base asm("r0") = state566045; \
+        register u32 offset asm(clearReg) = 0x1BB; \
+        asm("" : : "r"(offset), "r"(base)); \
+        addr = base + offset; \
+    } \
+    (result) = (*addr >> (shift)) & 1; \
 }
 #define DIALOG_F4445(msg) { \
     while (sub_0805F184()) sub_080003F0(); \
@@ -871,13 +881,13 @@ void sub_08045F44(u32 id) {
     asm("" : "+r"(id));
     ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
-    c = playersF4445[sub_080020F4()].f8C >> 8;
-    if (c > 0x1E7) sub_08029174(id, 6);
+    a = playersF4445[sub_080020F4()].f8C >> 8;
+    if (a > 0x1E7) sub_08029174(id, 6);
     else sub_08029174(id, 2);
-    a = bitF4445(2);
-    b = bitF4445(3);
-    c = bitF4445(4);
-    d = bitF4445(5);
+    READ_BIT_F4445(a, 2, "r1", "r3");
+    READ_BIT_F4445(b, 3, "r4", "r1");
+    READ_BIT_F4445(c, 4, "r3", "r4");
+    READ_BIT_F4445(d, 5, "r1", "r3");
     if (a && b && c && d) {
         DIALOG_F4445(0x1402A9);
     } else if (a) {
@@ -896,14 +906,19 @@ void sub_08045F44(u32 id) {
         dlg = sub_0805EF14((u8 *)dlg);
         if (dlg) {
             DIALOG_F4445(0x1402A4);
-            n = 1;
-            for (i = 0; i <= 0x18; i++) {
-                u8 *e = invF4445 + i * 16;
-                if (*(u16 *)(e + 0x150) == 5 && *(u16 *)(e + 0x152) == 0xA6) {
-                    n--;
-                    *(u16 *)(e + 0x150) = 0;
-                    *(u16 *)(e + 0x152) = 0;
-                    if (n == 0) break;
+            {
+                u8 **inventory = &invF4445;
+                register u32 n asm("r4");
+                register u32 i asm("r3");
+                n = 1;
+                for (i = 0; i <= 0x18; i++) {
+                    u8 *e = *inventory + i * 16;
+                    if (*(u16 *)(e + 0x150) == 5 && *(u16 *)(e + 0x152) == 0xA6) {
+                        n--;
+                        *(u16 *)(e + 0x150) = 0;
+                        *(u16 *)(e + 0x152) = 0;
+                        if (n == 0) break;
+                    }
                 }
             }
             {
@@ -929,6 +944,7 @@ end:
     {register struct Player *p asm("r2");register u32 idx asm("r2");idx=sub_080020F4();idx*=0x14C;p=(struct Player *)((u8 *)gUnk_03003CE0+idx);p->flags &= ~1;}
     sub_0800D108();
 }
+#undef READ_BIT_F4445
 #else
 INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045F44);
 #endif
