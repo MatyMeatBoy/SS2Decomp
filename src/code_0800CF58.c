@@ -5951,16 +5951,20 @@ void sub_08013850(void)
             asm volatile("" : "+r"(last));
         }
         {
-            register u32 fill asm("r3") = 0xFFFF;
-            for (j = 0; j < 5; j++)
-                ((u32 *)(p + 0xE4))[j] = fill;
+            register u32 next asm("r1") = i + 1;
+            asm("" : "+r"(next));
+            {
+                register u32 fill asm("r3") = 0xFFFF;
+                for (j = 0; j < 5; j++)
+                    ((u32 *)(p + 0xE4))[j] = fill;
+            }
+            {
+                register u32 fill asm("r3") = 0xFFFF;
+                for (j = 0; j < 4; j++)
+                    ((u32 *)(p + 0xF8))[j] = fill;
+            }
+            i = next;
         }
-        {
-            register u32 fill asm("r3") = 0xFFFF;
-            for (j = 0; j < 4; j++)
-                ((u32 *)(p + 0xF8))[j] = fill;
-        }
-        i++;
     } while (i < 4);
     for (i = 0; i < 10; i++)
         s->b0[i] = 0;
