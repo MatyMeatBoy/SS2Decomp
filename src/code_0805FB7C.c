@@ -2382,7 +2382,7 @@ void t65B_impl(s32 index)
     register s16 *xPtr asm("r6");
     s16 *yPtr;
     u16 *volatile sizePtr;
-    u16 *heightPtr;
+    register u16 *heightPtr asm("r5");
     s32 *volatile boxPtr;
     u8 *out;
     register u32 callOne65 asm("r4");
@@ -2414,8 +2414,14 @@ void t65B_impl(s32 index)
     table=t65B_resources;
     draw.resource=resource65;draw.style=style65;draw.mode=mode65;
     first=sub_08006EE0(resource65,table);draw.data=(u8 *)first;
-    boxPtr=box;sizePtr=&sizes[0];heightPtr=&sizes[1];
-    asm("" : "+r"(heightPtr));
+    {
+        register s32 *boxAddress asm("r3") = box;
+        register u16 *sizeAddress asm("r4") = sizes;
+        boxPtr=boxAddress;
+        sizePtr=sizeAddress;
+        heightPtr=&sizes[1];
+        asm("" : "+r"(heightPtr) : : "r1", "r2");
+    }
     if(first) {
         register u32 lowResource asm("r4")=0x5E;
         second=sub_08006EE0(0x6005E,table);draw.base=second;
@@ -2424,7 +2430,10 @@ void t65B_impl(s32 index)
             mem=sub_08006EE0(lowResource,table);draw.sound=mem;
             if(mem) {
                 i=0;do {draw.palette[i]=i;i++;} while(i<=15);
-                sub_080653B8(descriptor,0x120,0xE0,8);
+                {
+                    register struct T65BPopup *p asm("r0") = descriptor;
+                    sub_080653B8(p, 0x120, 0xE0, 8);
+                }
             }
         }
     }}
@@ -2449,9 +2458,8 @@ void t65B_impl(s32 index)
     asm volatile("" : "+r"(scaledY65) : : "memory");
     ptr65=boxPtr;asm("" : "+r"(ptr65));ptr65[1]=scaledY65;}
     /* Keep the computed coordinates live in the stack box. */
-    asm("" : : "m"(box[0]), "m"(box[1]));
-    box[2]=0x80010;
-    box[3]=0x1E0018;
+    ((volatile s32 *)box)[2] = 0x80010;
+    ((volatile s32 *)box)[3] = 0x1E0018;
     *sizePtr=0;*heightPtr=0;
     dialog=0;
     sub_0800CF20();
@@ -2469,7 +2477,11 @@ loop:
     sub_08008CC4(0,&sizes[0],&sizes[1],draw.data,({callOne65=one;asm("" : "+r"(callOne65));callOne65;}));
     {register u8 *data65 asm("r3")=draw.data;
     asm volatile("" : "+r"(data65) : "r"(callOne65) : "r0","r1","r2","memory");
-    sub_08008CC4(1,&sizes[2],&sizes[3],data65,callOne65);}
+    {
+        register u16 *width asm("r1") = &sizes[2];
+        register u32 frame asm("r0") = 1;
+        sub_08008CC4(frame, width, &sizes[3], data65, callOne65);
+    }}
     if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && ({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0) {
         {register u32 fade asm("r0")=sub_0800BC44(worldX,0x138,1);
         register s32 drawX asm("r2");
