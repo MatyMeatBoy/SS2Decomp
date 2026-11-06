@@ -2853,11 +2853,10 @@ digraph calls {
   "sub_080135C4" -> "sub_08002118" [label="c"];
   "sub_080135C4" -> "sub_08002238" [label="c"];
   "sub_080135C4" -> "sub_0801E024" [label="c"];
-  "sub_08013850" -> "CpuSet" [label="asm"];
-  "sub_08013850" -> "sub_08001494" [label="asm,c"];
-  "sub_08013850" -> "sub_08001538" [label="asm,c"];
-  "sub_08013850" -> "sub_080137A0" [label="asm,c"];
-  "sub_08013850" -> "sub_0801E0BC" [label="asm,c"];
+  "sub_08013850" -> "sub_08001494" [label="c"];
+  "sub_08013850" -> "sub_08001538" [label="c"];
+  "sub_08013850" -> "sub_080137A0" [label="c"];
+  "sub_08013850" -> "sub_0801E0BC" [label="c"];
   "sub_08013BC0" -> "sub_0800D1B0" [label="c"];
   "sub_08013C3C" -> "ArcTan2" [label="c"];
   "sub_08013CEC" -> "sub_0800CCCC" [label="c"];
