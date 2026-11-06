@@ -10469,7 +10469,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5609,
+          "line": 5607,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
         }
       ]
@@ -10492,7 +10492,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5703,
+          "line": 5701,
           "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
         }
       ]
