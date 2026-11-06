@@ -3039,439 +3039,217 @@ void sub_08006694(void)
 void sub_080066A8(void) {
     *(s16 *)0x04000010 = (s16) gUnk_03003474;
 }
-#ifdef NONMATCHING
 extern u16 pressed66 asm("gUnk_03001324");
-struct Stack66 { u8 gfx[0x34]; u16 count[4], a, b; u32 display; s32 result,active; u32 mode; };
-struct Peer66 {u8 pad[8];u8 unk8,unk9,unkA,unkB,unkC;};
+union Bg66 { struct { u32 value:16; } bits; u16 raw; };
 struct Coord66 {u16 x,y;};
 extern const struct Coord66 coords66[] asm("gUnk_080B99D8");
-extern struct Peer66 *peer66(u32) asm("sub_08002118");
+extern u8 *peer66(u32) asm("sub_08002118");
 extern void setup66(s32,s32,s32,s32,s32) asm("sub_08000A34");
 extern void sprite66(void *,s32,s32,s32,s32) asm("sub_08065158");
-extern void call66_080003F4(s32,s32) asm("sub_080003F4");
+extern void draw66(void *,s32,s32,s32,s32) asm("sub_08065230");
+extern void anim66(void *,s32,u16 *,u16 *,s32) asm("sub_08065370");
 extern void call66_080009F8(s32,s32,s32) asm("sub_080009F8");
 extern void call66_0801AA8C(s32) asm("sub_0801AA8C");
 extern void call66_0801AB50(s32) asm("sub_0801AB50");
 extern void call66_08088914(void) asm("sub_08088914");
 extern void call66_0800035C(void) asm("sub_0800035C");
-void sub_080066BC(void) {
-    void yield66(u64) asm("sub_080003F4");
-    struct Stack66 S;
-    register struct Peer66 *peer asm("r4");
+extern void yield66(u64) asm("sub_080003F4");
+void sub_080066BC(void)
+{
+    u8 gfx[0x34];
+    u16 count[4];
+    u16 a, b;
+    union Bg66 bg;
+    s32 result;
+    s32 active;
+    u32 mode;
+    u32 timer;
+    u8 *peer;
+    u32 i;
+    u32 n;
+    u16 *cnt;
 
-    const struct Coord66 *var_r7;
-    s32 var_r0;
-    s32 var_r0_2;
-    register s32 var_r9 asm("r9");
-    register u16 *var_r5 asm("r5");
-    register u16 *var_r5_2 asm("r5");
-    u32 oldTimer;
-    register u32 var_r6 asm("r6");
-    register u32 var_r6_2 asm("r6");
-    register u32 var_r6_3 asm("r6");
-    register u32 var_sl asm("sl");
-    register const struct Coord66 *var_r8 asm("r8");
-    u32 hostZero;
-    register u32 clientZero asm("r8");
-    u16 *initialCounts;
-
-    /* Flowgraph is not reducible, falling back to gotos-only mode. */
-setup66(1, 0, 0, 0, 1);
+    setup66(1, 0, 0, 0, 1);
     call66_080009F8(0xF00, 0, 1);
     sub_080009C0(0x1200, 0, 1);
-sub_0800BCDC(1, 1, 0x06000000, 0U, 0x10);
-    S.display = (S.display & 0xFFFF0000) | 0x1D80;
-    sub_08000AA8(1U, (u16 *) &S.display);
-    {
-        register s32 spriteZero asm("r0");
-        spriteZero = 0;
-        asm("" : "+r"(spriteZero));
-        sprite66(&S.gfx, 0x50001, 0, 3, spriteZero);
-    }
+    sub_0800BCDC(1, 1, 0x06000000, 0, 0x10);
+    bg.bits.value = 0x1D80;
+    sub_08000AA8(1, &bg.raw);
+    sprite66(gfx, 0x50001, 0, 3, 0);
     sub_080003F0();
     sub_080003F0();
     call66_0801AB50(6);
-    S.result = 0;
-    var_sl = 0;
-    {
-        register s32 activeZero asm("r1");
-        activeZero = 0;
-        asm("" : : "r"(activeZero));
-        S.active = activeZero;
-    }
-    initialCounts=S.count;asm("" : "+r"(initialCounts));
-    initialCounts[3] = 0;
-    initialCounts[2] = *(u16 *)&S.result;
-    initialCounts[1] = *(u16 *)&S.result;
-    initialCounts[0] = *(u16 *)&S.result;
-    if (sub_080020F4() != 0) {
-        goto block_4;
-    }
-    var_r0 = 0;
-    goto block_5;
-block_2:
-    S.result = 1;
-    goto block_69;
-block_3:
-        peer = peer66(sub_080020F4());
-    peer->unkC = 0;
-    peer->unk8 = 0;
-    peer->unk9 = 0;
-    goto block_69;
-block_4:
-    var_r0 = sub_080020F4();
-block_5:
-    peer = peer66((u32) var_r0);
-    peer->unk8 = 0x30;
-    peer->unk9 = 0x30;
-    peer->unkC = 0;
-    S.b = 0;
-    S.a = 0;
-    goto loop_7;
-block_6:
-sub_08065230(&S.gfx, 0x78, 0x3C, 0U, (s32) (u16) (sub_08002164() - 1));
-    sub_080003F0();
-loop_7:
-    if (sub_0801AAE0() == 0) {
-        goto block_6;
-    }
-loop_8:
-    if (sub_080020F4() == 0) {
-        goto block_10;
-    }
-    goto block_42;
-block_10:
-    var_r9 = 0;
-sub_08065230(&S.gfx, (s32) coords66[0].x, (s32) coords66[0].y, 1U, 0);
-    var_r6 = 1;
-    hostZero=0;asm("" : "+r"(hostZero));
-    var_r8 = &coords66[1];
-    var_r5 = &S.count[1];
-    goto loop_20;
-block_11:
-    peer = peer66(var_r6);
-    {
-        register s32 *connectionFlags asm("r0");
-        u32 mask;
-        connectionFlags = &gUnk_03002730;
-        asm("" : : "r"(connectionFlags));
-        mask = 1U << var_r6;
-        asm("" : "+r"(mask));
-        var_r0 = (u32)*connectionFlags & mask;
-    }
-    if (var_r0) {
-        goto block_13;
-    }
-    *var_r5 += 1;
-    goto block_14;
-block_13:
-    *var_r5 = hostZero;
-block_14:
-    if ((u32) *var_r5 <= 5U) {
-        goto block_16;
-    }
-    peer->unk8 = hostZero;
-    peer->unk9 = hostZero;
-block_16:
-    if (peer->unk8 != 0x4F) {
-        goto block_19;
-    }
-    if (peer->unk9 != 0x4B) {
-        goto block_19;
-    }
-    var_r9 += 1;
-sub_08065230(&S.gfx, (s32) var_r8->x, (s32) var_r8->y, 1U, hostZero);
-block_19:
-    var_r8++;
-    var_r5++;
-    var_r6 += 1;
-loop_20:
-    if (var_r6 < sub_08002164()) {
-        goto block_11;
-    }
-    if (sub_080022F4() == 0) {
-        goto block_31;
-    }
-    if (var_r9 != (sub_08002164() - 1)) {
-        goto block_31;
-    }
-    {
-        register s32 animateVisible asm("r0");
-        animateVisible = 1;
-        asm("" : "+r"(animateVisible));
-        sub_08065370(&S.gfx, 2U, (s32) &S.a, (s32) &S.b, animateVisible);
-    }
-sub_08065230(&S.gfx, 0x78, 0x3C, 2U, (s32) S.a);
-    if (!(1 & pressed66)) {
-        goto block_27;
-    }
-    if (S.active != 0) {
-        goto block_26;
-    }
-    sub_08006D08(0xFU);
-block_26:
-    {
-        register s32 resultOne asm("r1");
-        resultOne = 1;
-        asm("" : "+r"(resultOne));
-        S.result = resultOne;
-    }
-    {
-        register s32 activeOne asm("r0");
-        activeOne = 1;
-        asm("" : "+r"(activeOne));
-        S.active = activeOne;
-    }
-block_27:
-    {
-        register s32 activeState asm("r1");
-        activeState = S.active;
-        asm("" : : "r"(activeState));
-        if (activeState == 0) goto block_32;
-    }
-    var_sl += 1;
-    peer = peer66(0U);
-    peer->unk8 = 0x47;
-    peer->unk9 = 0x4F;
-    if (var_sl <= 5U) {
-        goto block_30;
-    }
-    goto block_69;
-block_30:
-    goto block_32;
-block_31:
-    S.active = 0;
-    var_sl = 0;
+    result = 0;
+    timer = 0;
+    active = 0;
+    count[3] = 0;
+    count[0] = count[1] = count[2] = result;
+    if (sub_080020F4() != 0)
+        goto select_client;
     peer = peer66(0);
-    {
-        register u32 resetZero asm("r1");
-        resetZero = var_sl;
-        asm("" : : "r"(resetZero));
-        peer->unk8 = resetZero;
-        peer->unk9 = resetZero;
+    goto setup;
+go_received:
+    result = 1;
+    goto done;
+timed_out:
+    peer = peer66(sub_080020F4());
+    peer[12] = 0;
+    peer[8] = 0;
+    peer[9] = 0;
+    goto done;
+select_client:
+    peer = peer66(sub_080020F4());
+setup:
+    peer[8] = 0x30;
+    peer[9] = 0x30;
+    peer[12] = 0;
+    b = 0;
+    a = 0;
+    while (sub_0801AAE0() == 0) {
+        draw66(gfx, 0x78, 0x3C, 0, (u16)(sub_08002164() - 1));
+        sub_080003F0();
     }
-block_32:
-    peer = peer66(0U);
-    var_r0_2 = sub_0800CE30();
-    if (var_r0_2 == 0) {
-        goto block_34;
+    for (;;) {
+        if (sub_080020F4() == 0) {
+            u32 z;
+            const struct Coord66 *c;
+            n = 0;
+            draw66(gfx, coords66[0].x, coords66[0].y, 1, 0);
+            for (i = 1, z = 0, c = &coords66[1], cnt = &count[1]; i < sub_08002164(); c++, cnt++, i++) {
+                peer = peer66(i);
+                if (!((u32)gUnk_03002730 & (1 << i)))
+                    (*cnt)++;
+                else
+                    *cnt = z;
+                if (*cnt > 5) {
+                    peer[8] = z;
+                    peer[9] = z;
+                }
+                if (peer[8] == 'O' && peer[9] == 'K') {
+                    n++;
+                    draw66(gfx, c->x, c->y, 1, z);
+                }
+            }
+            if (sub_080022F4() && n == sub_08002164() - 1) {
+                anim66(gfx, 2, &a, &b, 1);
+                draw66(gfx, 0x78, 0x3C, 2, a);
+                if (pressed66 & 1) {
+                    if (!active)
+                        sub_08006D08(0xF);
+                    result = 1;
+                    active = 1;
+                }
+                if (active) {
+                    timer++;
+                    peer = peer66(0);
+                    peer[8] = 'G';
+                    peer[9] = 'O';
+                    if (timer > 5)
+                        goto done;
+                }
+            } else {
+                active = 0;
+                timer = 0;
+                peer = peer66(0);
+                peer[8] = timer;
+                peer[9] = timer;
+            }
+            peer = peer66(0);
+            if (sub_0800CE30())
+                peer[10] = 1;
+            else
+                peer[10] = 0;
+            if (**(u32 **)&gUnk_03004210 == 1) {
+                peer[10] |= 2;
+                mode = 1;
+            } else {
+                peer[10] &= 0xFD;
+                mode = 0;
+            }
+            if ((pressed66 & 2) && timer == 0) {
+                sub_0805865C(0x10);
+                result = 0;
+                goto done;
+            }
+        } else {
+            u32 z;
+            const struct Coord66 *c;
+            peer = peer66(sub_080020F4());
+            peer[12] = 0;
+            peer[8] = 'O';
+            peer[9] = 'K';
+            peer = peer66(0);
+            if (peer[8] == 'G' && peer[9] == 'O')
+                goto go_received;
+            for (i = 0, z = 0, c = coords66, cnt = count; i < sub_08002164(); c++, cnt++, i++) {
+                peer = peer66(i);
+                if (!((u32)gUnk_03002730 & (1 << i)))
+                    (*cnt)++;
+                else
+                    *cnt = z;
+                if (*cnt > 5) {
+                    peer[8] = z;
+                    peer[9] = z;
+                }
+                if (peer[8] == 'O' && peer[9] == 'K') {
+                    draw66(gfx, c->x, c->y, 1, z);
+                    continue;
+                }
+                if (i == 0) {
+                    if (peer[10] & 1)
+                        sub_0800CE08();
+                    else
+                        sub_0800CE1C();
+                    if (peer[10] & 2) mode = 1; else mode = 0;
+                    if (*cnt <= 5)
+                        draw66(gfx, c->x, c->y, 1, z);
+                }
+            }
+            if ((pressed66 & 2) && !active) {
+                result = 0;
+                sub_0805865C(0x10);
+                active = 1;
+                timer = 0;
+            }
+            if (active && timer++ > 0x3C)
+                goto timed_out;
+        }
+        draw66(gfx, 0x78, 0x3C, 0, (u16)(sub_08002164() - 1));
+        sub_080003F0();
     }
-    var_r0_2 = 1;
-block_34:
-    peer->unkA = (u8) var_r0_2;
-    if (*(u32 *)gUnk_03004210 != 1) {
-        goto block_36;
+done:
+    if (result == 1) {
+        sub_0801ABE8(6);
+        sub_080003F0();
+    } else {
+        call66_0801AA8C(0xA);
+        sub_080003F0();
     }
-    peer->unkA = (u8) (peer->unkA | 2);
-    S.mode = 1;
-    goto block_37;
-block_36:
-    peer->unkA = (u8) (0xFD & peer->unkA);
-    S.mode = 0;
-block_37:
-    if (2 & pressed66) {
-        goto block_39;
-    }
-    goto block_68;
-block_39:
-    if (var_sl == 0) {
-        goto block_41;
-    }
-    goto block_68;
-block_41:
-    sub_0805865C(0x10);
-    S.result = 0;
-    goto block_69;
-block_42:
+    while (sub_0801AAE0() == 0)
+        sub_080003F0();
+    switch (result) {
+    case 0:
         peer = peer66(sub_080020F4());
-    peer->unkC = 0;
-    peer->unk8 = 0x4F;
-    peer->unk9 = 0x4B;
-    peer = peer66(0U);
-    if (peer->unk8 != 0x47) {
-        goto block_45;
+        peer[8] = result;
+        peer[9] = result;
+        peer[10] = result;
+        peer[11] = result;
+        sub_080020E0();
+        for (i = 0; i < 0x46; i++)
+            sub_080003F0();
+        sub_08000420(0x14);
+        break;
+    case 1:
+        sub_080021C4();
+        if (mode) {
+            call66_08088914();
+            yield66(0x25A112EBFULL);
+        }
+        sub_0800CB3C(1);
+        break;
     }
-    if (peer->unk9 != 0x4F) {
-        goto block_45;
-    }
-    goto block_2;
-block_45:
-    var_r6_2 = 0;
-    clientZero = var_r6_2;
-    var_r7 = coords66;
-    var_r5_2 = &S.count[0];
-    goto loop_61;
-block_46:
-    peer = peer66(var_r6_2);
-    {
-        register s32 *connectionFlags asm("r0");
-        u32 mask;
-        connectionFlags = &gUnk_03002730;
-        asm("" : : "r"(connectionFlags));
-        mask = 1U << var_r6_2;
-        asm("" : "+r"(mask));
-        var_r0 = (u32)*connectionFlags & mask;
-    }
-    if (var_r0) {
-        goto block_48;
-    }
-    *var_r5_2 += 1;
-    goto block_49;
-block_48:
-    *var_r5_2 = clientZero;
-block_49:
-    if ((u32) *var_r5_2 <= 5U) {
-        goto block_51;
-    }
-    peer->unk8 = clientZero;
-    peer->unk9 = clientZero;
-block_51:
-    if (peer->unk8 != 0x4F) {
-        goto block_54;
-    }
-    if (peer->unk9 != 0x4B) {
-        goto block_54;
-    }
-sub_08065230(&S.gfx, (s32) var_r7->x, (s32) var_r7->y, 1U, clientZero);
-    goto block_60;
-block_54:
-    if (var_r6_2 != 0) {
-        goto block_60;
-    }
-    if (!(1 & peer->unkA)) {
-        goto block_57;
-    }
-    sub_0800CE08();
-    goto block_58;
-block_57:
-    sub_0800CE1C();
-block_58:
-    S.mode = (u32) (0 - (u8) (2 & peer->unkA)) >> 0x1F;
-    if ((u32) *var_r5_2 > 5U) {
-        goto block_60;
-    }
-sub_08065230(&S.gfx, (s32) var_r7->x, (s32) var_r7->y, 1U, clientZero);
-block_60:
-    var_r7++;
-    var_r5_2++;
-    var_r6_2 += 1;
-loop_61:
-    if (var_r6_2 < sub_08002164()) {
-        goto block_46;
-    }
-    if (!(2 & pressed66)) {
-        goto block_65;
-    }
-    if (S.active != 0) {
-        goto block_66;
-    }
-    S.result = 0;
-    sub_0805865C(0x10);
-    S.active = 1;
-    var_sl = 0;
-block_65:
-    if (S.active == 0) {
-        goto block_68;
-    }
-block_66:
-    oldTimer = var_sl;
-    var_sl += 1;
-    if (oldTimer <= 0x3CU) {
-        goto block_68;
-    }
-    goto block_3;
-block_68:
-sub_08065230(&S.gfx, 0x78, 0x3C, 0U, (s32) (u16) (sub_08002164() - 1));
-    sub_080003F0();
-    goto loop_8;
-block_69:
-    if (S.result != 1) {
-        goto block_71;
-    }
-    sub_0801ABE8(6);
-    sub_080003F0();
-    goto block_73;
-block_71:
-    call66_0801AA8C(0xA);
-block_72:
-    sub_080003F0();
-block_73:
-    if (sub_0801AAE0() == 0) {
-        goto block_72;
-    }
-    {
-        register s32 resultState asm("r1");
-        resultState = S.result;
-        asm("" : : "r"(resultState));
-        if (resultState == 0) goto block_77;
-        if (resultState == 1) goto block_80;
-    }
-    goto block_83;
-block_77:
-    /* Keep the original byte-load addresses and alternating scratch registers. */
-        peer = peer66(sub_080020F4());
-    {
-        register u8 *address asm("r0");
-        register u8 value asm("r0");
-        address = (u8 *)&S.result;
-        asm("" : "+r"(address));
-        value = *address;
-        asm("" : : "r"(value));
-        peer->unk8 = value;
-    }
-    {
-        register u8 *address asm("r1");
-        register u8 value asm("r1");
-        address = (u8 *)&S.result;
-        asm("" : "+r"(address));
-        value = *address;
-        asm("" : : "r"(value));
-        peer->unk9 = value;
-    }
-    {
-        register u8 *address asm("r0");
-        register u8 value asm("r0");
-        address = (u8 *)&S.result;
-        asm("" : "+r"(address));
-        value = *address;
-        asm("" : : "r"(value));
-        peer->unkA = value;
-    }
-    {
-        register u8 *address asm("r1");
-        register u8 value asm("r1");
-        address = (u8 *)&S.result;
-        asm("" : "+r"(address));
-        value = *address;
-        asm("" : : "r"(value));
-        peer->unkB = value;
-    }
-    sub_080020E0();
-    var_r6_3 = 0;
-loop_78:
-    sub_080003F0();
-    var_r6_3 += 1;
-    if (var_r6_3 <= 0x45U) {
-        goto loop_78;
-    }
-    sub_08000420(0x14);
-    goto block_83;
-block_80:
-    sub_080021C4();
-    if (S.mode == 0) {
-        goto block_82;
-    }
-    call66_08088914();
-    yield66(0x25A112EBFULL);
-block_82:
-    sub_0800CB3C(1);
-block_83:
     call66_0800035C();
-    return;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08002118", sub_080066BC);
-#endif
 void sub_08006B2C(void)
 {
     u8 *p = sub_08001494(
