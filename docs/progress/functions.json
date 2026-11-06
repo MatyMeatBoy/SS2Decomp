@@ -19357,14 +19357,14 @@
       "name": "sub_0805B688",
       "addr": 134592136,
       "size": 1748,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805A630",
       "kind": "c",
       "cat": "game",
       "address": "0x0805B688",
       "canonical_symbol": "sub_0805B688",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_0805B688",
       "name_status": "unidentified",
       "name_source": null,
@@ -19456,7 +19456,7 @@
       "evidence": [
         {
           "source": "src/code_0805A630.c",
-          "line": 1845,
+          "line": 1848,
           "detail": "Existing C definition with an asm alias to the canonical symbol: c7b8_void"
         }
       ]
