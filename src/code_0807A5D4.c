@@ -34,8 +34,8 @@ void sub_0808381C(u32 index);
 
 extern const u32 gUnk_084EBD4C[];
 
-#ifdef NONMATCHING
-// Stat/skill allocation menu draft: original size, scroll-register load order still differs.
+// Stat/skill allocation menu. `height` is a function-lifetime constant: reload rematerializes it
+// at the second sub_0800903C call, which keeps the original reload-register rotation.
 // Empty constraints retain the original pointer reloads and constant lifetimes.
 struct SkillA5D4 { u16 level, exp; };
 struct SkillsA5D4 { u16 points; u16 pad; struct SkillA5D4 e[8]; };
@@ -133,6 +133,7 @@ void sub_0807A5D4_v(void)
     u32 state;
     u32 mode;
     u32 flag;
+    u32 height;
 
     mgrA5D4->f0 = 1;
     sub_080009F8(0x1F00, 0, 1);
@@ -170,6 +171,7 @@ void sub_0807A5D4_v(void)
     phase = 0;
     bounce = 10;
     scroll = 0;
+    height = 7;
     t = 0x400;
     mgrA5D4->run = 1;
     mgrA5D4->state = 0;
@@ -547,8 +549,9 @@ void sub_0807A5D4_v(void)
             phase += 4;
             if (phase > 0xFF)
                 phase = 0;
-            sub_0800903C(4, 0x38, 1, (u16)bounce, ({ register u32 seven asm("r1") = 7; asm("" : "+r"(seven)); seven; }), 0);
-            gUnk_03001250[7] = (scroll += 0x40) >> 8;
+            sub_0800903C(4, 0x38, 1, (u16)bounce, height, 0);
+            scroll += 0x40;
+            gUnk_03001250[7] = scroll >> 8;
             sub_0801A3D0((u8 *)dataA5D4, 0x11, 0xE);
             sub_0805FB7C(0xC, 0xB, *(s32 *)((u8 *)dataA5D4 + 0x20) + 1, 0);
             sub_08065504(0x1C, 1, *(s32 *)((u8 *)dataA5D4 + 0x1C), 0, 10);
@@ -653,9 +656,6 @@ void sub_0807A5D4_v(void)
         sub_0802A590(0, 0xE);
     sub_08000420(0x11201100);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_0807A5D4);
-#endif
 struct Pair7B7B4 { u32 a, b; };
 struct Mgr7B7B4 {
     u32 f0;
