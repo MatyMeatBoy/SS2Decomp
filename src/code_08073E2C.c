@@ -2841,7 +2841,8 @@ void sub_08078B24(u32 who, u32 b)
     gMasks7D04[who] |= 1 << i;
 }
 #ifdef NONMATCHING
-struct AttrBCC { u16 unk0, unk2, unk4; };
+struct AttrBCC { u16 unk0, unk2; u32 unk4; };
+struct AttrKindBCC { u32 kind:4, rest:28; };
 struct PlayerBCC { u16 unk0; u8 pad02[0x1e]; u16 state; u8 pad22[0xe]; u32 unk30; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C; u8 pad90[0x32]; u16 unkC2,unkC4; u8 padc6[0x32]; s32 unkF8[15]; u16 unk134; u8 pad136[0x12]; struct AttrBCC *unk148; };
 struct SpriteBCC { u32 f0,f4,f8,fC; u8 pad10[12]; u8 unk1C,unk1D; u8 pad1e[22]; };
 struct EnemyBCC { u16 unk0; u8 unk2; u8 pad03[9]; u16 unkC; u8 pad0e[0x3c]; u16 unk4A; u32 unk4C; u8 pad50[4]; s32 unk54; u16 unk58,unk5A,unk5C; u8 pad5e[0x17e]; u8 unk1DC; u8 pad1dd[0x51]; u8 unk22E,unk22F; };
@@ -2853,8 +2854,8 @@ void sub_08078BCC(s32 arg0, s32 arg1) {
     s32 sp4;
     struct PlayerBCC *sp8[4];
     struct SpriteBCC sp18;
-    u16 frames[2], ticks[2];
     s16 xs[2], ys[2];
+    u16 frames[2], ticks[2];
     s32 sp4C;
     s32 sp50;
     u16 sp5C;
@@ -2992,7 +2993,7 @@ void sub_08078BCC(s32 arg0, s32 arg1) {
             if (sp80->unk68 == temp_r2->unk68) {
                 *var_r3 = temp_r2;
                 temp_r1 = temp_r2->unk148;
-                temp_r0 = (u32) (temp_r1->unk0 << 0x1C) >> 0x1C;
+                temp_r0 = ((struct AttrKindBCC *)temp_r1)->kind;
                 if (((s32) temp_r0 <= 1) && ((s32) temp_r0 >= 0) && ((s32) (*((u8 *)temp_r1 + 5) << 0x1D) < 0)) {
                     var_r4 += 1;
                     sp84 += ((u16) temp_r1->unk0 >> 4) << 8;
@@ -3024,7 +3025,7 @@ loop_12:
 loop_15:
         temp_r1_2 = *var_r3_2;
         temp_r2_2 = temp_r1_2->unk148;
-        temp_r0_2 = (u32) (temp_r2_2->unk0 << 0x1C) >> 0x1C;
+        temp_r0_2 = ((struct AttrKindBCC *)temp_r2_2)->kind;
         if (((s32) temp_r0_2 >= 0) && ((s32) temp_r0_2 <= 1)) {
             if (!(temp_r1_2->unk30 & 0x2000) && ((s32) (*((u8 *)temp_r2_2 + 5) << 0x1D) < 0)) {
                 var_r4_2 += 1;
@@ -3053,11 +3054,26 @@ loop_15:
             sp88 = sp88 / spA0;
             sp8C = sp84 - posBCC[0];
             sp90 = sp88 - spE4[1];
-            sp9C = (u32) (ArcTan2((s16) sp8C, (s16) sp90) << 0x10) >> 0x18;
-            spD4 = xs;
-            spD8 = ys;
             {
-                if ((s32) (Sqrt((sp8C * sp8C) + (sp90 * sp90)) << 0x10) > 0x02FF0000) {
+                s32 displayMode = 0;
+                /* FAKE: preserve the original emitted constant-zero branch. */
+                asm("" : "+r"(displayMode));
+                if (displayMode == 0) {
+                    sp9C = (u32) (ArcTan2((s16) sp8C, (s16) sp90) << 0x10) >> 0x18;
+                    spD4 = xs;
+                    spD8 = ys;
+                } else {
+                    sub_0800BC08(xs[0], ys[0], &sp5C, &sp5E, 0x30, temp_r0_3);
+                    spD4 = xs;
+                    spD8 = ys;
+                    if ((u32)((sp5C + 0x40) << 16) > 0x01700000U) goto bcc_cleanup;
+                    if ((u32)(((u16)sp5E + 0x40) << 16) > 0x01200000U) goto bcc_cleanup;
+                }
+            }
+            {
+                s32 norm = Sqrt((sp8C * sp8C) + (sp90 * sp90));
+                s32 damping = 32;
+                if ((s32) (norm << 0x10) > 0x02FF0000) {
                     spA4 += 0x10;
                 } else {
                     temp_r0_4 = spA4 - 0x10;
@@ -3071,8 +3087,8 @@ loop_15:
                 }
                 sp8C = (s32) (spA4 * gUnk_080B9704[sp9C + 0x40]) >> 8;
                 sp90 = (s32) (spA4 * gUnk_080B9704[sp9C]) >> 8;
-                sp94 += (s32) (sp8C - sp94) / 32;
-                sp98 += (s32) (sp90 - sp98) / 32;
+                sp94 += (s32) (sp8C - sp94) / damping;
+                sp98 += (s32) (sp90 - sp98) / damping;
                 posBCC[0] += sp94;
                 spE4[1] = (s32) (spE4[1] + sp98);
                 temp_r2_3 = (s32) sp9C >> 4;
@@ -3249,6 +3265,7 @@ loop_76:
             }
         }
     }
+bcc_cleanup:
     temp_r4 = &playersBCC[spB8];
     if (temp_r4->unk68 == *spE8) {
         sub_0800CFDC();
