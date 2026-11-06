@@ -5950,10 +5950,16 @@ void sub_08013850(void)
             *(u32 *)(p + last) = z;
             asm volatile("" : "+r"(last));
         }
-        for (j = 0; j < 5; j++)
-            ((u32 *)(p + 0xE4))[j] = 0xFFFF;
-        for (j = 0; j < 4; j++)
-            ((u32 *)(p + 0xF8))[j] = 0xFFFF;
+        {
+            register u32 fill asm("r3") = 0xFFFF;
+            for (j = 0; j < 5; j++)
+                ((u32 *)(p + 0xE4))[j] = fill;
+        }
+        {
+            register u32 fill asm("r3") = 0xFFFF;
+            for (j = 0; j < 4; j++)
+                ((u32 *)(p + 0xF8))[j] = fill;
+        }
         i++;
     } while (i < 4);
     for (i = 0; i < 10; i++)
@@ -6027,13 +6033,16 @@ void sub_08013850(void)
     *p54 = 0;
     *p6A = 1;
     s->l6C = 20000;
-    for (i = 0; i < 10; i++) {
-        dt13850->b1C6[i] = 0;
-        dt13850->a38[i] = 0x57E3F;
-        dt13850->a60[i] = 99;
-        dt13850->b1D0[i] = 0;
-        dt13850->a88[i] = 0x57E3F;
-        dt13850->aB0[i] = 99;
+    {
+        u32 byteZero = 0;
+        for (i = 0; i < 10; i++) {
+            dt13850->b1C6[i] = byteZero;
+            dt13850->a38[i] = 0x57E3F;
+            dt13850->a60[i] = 99;
+            dt13850->b1D0[i] = byteZero;
+            dt13850->a88[i] = 0x57E3F;
+            dt13850->aB0[i] = 99;
+        }
     }
     d = (u8 *)dt13850;
     *(u32 *)(d + 0x14) = 1;
