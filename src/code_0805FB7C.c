@@ -2164,7 +2164,6 @@ void t65_popupImplementation(u32 packed,u32 arg)
     if (sub_0800CED8() || sub_0800CB78() || sub_0800CD00() || done) break; }}
     *(u32 *)((u8 *)sub_0800048C()+8)=0;
 }
-#ifdef NONMATCHING
 struct T65CPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 struct T65CPlayer { u8 bytes[0x14C]; };
 struct T65CResource { u32 id; u8 pad[84]; };
@@ -2226,7 +2225,12 @@ void t65C_impl(s32 index)
     if (index==sub_080020F4()) sub_0800CEE8();
     w1=0;h1=0;text=0;
     w2=2;h2=text;
-    h0=0;
+    {
+        register s32 heightZero asm("r3") = 0;
+        /* FAKE: keep the initialized height zero in r3 through its halfword store. */
+        asm("" : "+r"(heightZero));
+        h0=heightZero;
+    }
     frame=text;
     t65C_init(&sprite,t65C_resourceTable[T65C_H(p,0x64)].id,0,-1);
     sprite.palette[0]=T65C_H(p,0);
@@ -2307,9 +2311,6 @@ cleanup:
 #undef T65C_H
 #undef T65C_W
 #undef T65C_ENTITY
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080636B0);
-#endif
 struct T65BPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 struct T65BPlayer { u8 pad0[0x14]; u16 buttons; u8 pad16[10]; u16 state, substate; u8 pad24[12]; u32 flags; u8 pad34[0x114]; u8 *entity; };
 extern struct T65BPlayer t65B_players[] asm("gUnk_03003CE0");
