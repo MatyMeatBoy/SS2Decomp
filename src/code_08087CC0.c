@@ -3093,6 +3093,7 @@ test:
     player->flags |= 0x403;
 }
 #ifdef NONMATCHING
+struct C0Anim { s32 res; s32 f4; s32 f8; u8 pad[0x10]; u8 id; u8 pad2[0x17]; };
 struct C0Item {u16 unk0;u8 unk2;u8 unk3;};
 struct C0Player {u8 p0[16];u16 unk10;u8 p12[10];s16 unk1C;u8 p1e[2];u16 state;u8 p22[14];u32 flags;u8 p34[48];u16 unk64;u8 p66[2];u8 unk68;u8 p69[35];s32 unk8C;s32 unk90;u8 p94[180];struct C0Item *unk148;};
 
@@ -3105,23 +3106,41 @@ extern u8 gPortraitC0[] asm("gUnk_08479140");
 extern u8 gCoordsC0[] asm("gUnk_084F0C30");
 extern u8 gCoordsThirdC0[] asm("gUnk_084F0C34");
 extern struct C0Item *gItemsC0 asm("gUnk_03003E28");
+struct C0Slot { struct C0Item *item; u8 pad[0x148]; };
+extern struct C0Slot gSlotsC0[] asm("gUnk_03003E28");
+/* Seat coordinates: [category][seat in category][x, y, z]. */
+extern u16 gSeatPosC0[][3][3] asm("gUnk_084F0C30");
+extern void C0Draw(u32, u32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern u8 C0Vc(u32) asm("sub_08001108");
+#define C0_CENTER_TEXT(id) do { temp_r4_15 = sub_08007290(id) + 2; sub_0801A3D0(temp_r4_15, (u16)(0xF - ((u32)sub_0801A638(temp_r4_15) >> 1)), 0x12); } while (0)
+/* Clear the per-category counters, then draw every free portrait at its seat. */
+#define C0_DRAW_ALL() \
+    for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++) \
+        sp150[loopCounterC0] = 0; \
+    for (loopCounterC0 = 0; loopCounterC0 < sub_08002164(); loopCounterC0++) { \
+        struct C0Item *it = slotsC0[loopCounterC0].item; \
+        u32 kind = it->unk0 >> 4; \
+        if (kind == 0) { \
+            u32 cat = it->unk3 >> 4; \
+            C0Draw(gSeatPosC0[cat][sp150[cat]][0], gSeatPosC0[cat][sp150[cat]][1], gSeatPosC0[cat][sp150[cat]][2], 0, kind, \
+                   &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res); \
+            sp150[slotsC0[loopCounterC0].item->unk3 >> 4]++; \
+        } \
+    }
 extern void sub_0808C0C4_v(void) asm("sub_0808C0C4");
 void sub_0808C0C4_v(void) {
     u16 sp10[2];
     u16 sp14[2];
     u8 sp18[0x34];
     u8 sp4C[0x34];
-    struct { s32 resource; s32 unknown4; s32 data8; u8 tail[40]; } portraitsC0[4];
+    struct C0Anim portraitsC0[4];
     u16 sp150[6];
 
     /* Persistent menu words occupy original stack offsets 0x15C..0x16C. */
-    struct {
-        u32 sp15C;
-        u32 sp160;
-        u32 sp164;
-        s32 sp168;
-        s32 sp16C;
-    } menu;
+    u32 sp15C;
+    u32 sp160;
+    u32 sp164;
+    u32 sp168;
     u32 loopCounterC0;
     register u32 bgMaskC0 asm("r1");
     register u16 *bgHalfC0 asm("r5");
@@ -3133,51 +3152,20 @@ void sub_0808C0C4_v(void) {
     u8 *portraitBaseC0;
     u8 *portraitTableC0;
     struct C0Player *playerTableC0;
-    u8 *coordsBaseC0;
-    u8 *coordsThirdC0;
     u16 *countsC0;
     u8 *temp_r4;
+    struct C0Slot *slotsC0;
+    u8 *playerBaseC0;
     s32 temp_r1_4;
     s32 temp_r1_5;
-    s32 *temp_r4_12;
-    s32 *temp_r5;
-    s32 *temp_r5_3;
-    s32 *temp_r5_4;
-    s32 *temp_r5_5;
-    s32 *temp_r5_6;
     s32 temp_r2;
     s32 temp_r2_3;
-    s32 temp_r2_4;
-    s32 temp_r2_5;
-    s32 temp_r2_6;
-    s32 temp_r2_7;
     s32 temp_r4_14;
-    s32 temp_r4_17;
-    s32 temp_r4_19;
-    s32 temp_r4_22;
-    s32 temp_r4_25;
-    s32 temp_r4_4;
-    s32 temp_r5_2;
     register s32 temp_r6 asm("r6");
-    s32 var_r2;
     s32 var_r9;
     struct C0Player *temp_r0;
-    u16 *temp_r0_10;
     u16 *temp_r0_3;
-    u16 *temp_r0_5;
-    u16 *temp_r0_6;
-    u16 *temp_r0_8;
-    u16 *temp_r0_9;
     u16 *temp_r1_3;
-    u16 *temp_r1_8;
-    u16 *var_r0;
-    u16 *var_r0_2;
-    u16 *var_r0_3;
-    u16 *var_r0_4;
-    u16 *var_r0_5;
-    u16 *var_r0_6;
-    u16 *var_r0_7;
-    u16 *var_r1_2;
     u16 temp_r0_4;
     u16 selectedValueC0;
     /* These values expire before the selected player fields are loaded. */
@@ -3193,46 +3181,26 @@ void sub_0808C0C4_v(void) {
     register s32 downResultC0 asm("r0");
     u16 temp_r3;
     u16 temp_r4_9;
-    u32 temp_r1_10;
-    u32 temp_r1_12;
-    u32 temp_r1_14;
-    u32 temp_r1_16;
     u32 temp_r1_2;
     u32 temp_r3_2;
     u32 temp_r4_11;
-    u32 temp_r4_16;
-    u32 temp_r4_18;
-    u32 temp_r4_21;
-    u32 temp_r4_24;
     u32 temp_r4_3;
     u32 var_r5;
     u32 var_r5_2;
-    u32 var_r5_3;
-    u32 var_r5_4;
-    u32 var_r6_4;
+    u32 off2;
     register u8 *temp_r4_10 asm("r4");
     register u8 *temp_r4_15 asm("r4");
-    register u8 *temp_r4_20 asm("r4");
-    register u8 *temp_r4_23 asm("r4");
     register u8 *temp_r4_2 asm("r4");
     struct C0Item **temp_r0_2;
-    struct C0Item **temp_r4_13;
-    struct C0Item **temp_r7;
-    struct C0Item **temp_r7_2;
-    struct C0Item **temp_r7_3;
-    struct C0Item **temp_r7_4;
     struct C0Item **var_r7;
     struct C0Item *temp_r1;
-    struct C0Item *temp_r1_11;
-    struct C0Item *temp_r1_13;
-    struct C0Item *temp_r1_15;
     struct C0Item *temp_r1_7;
-    struct C0Item *temp_r1_9;
     register struct C0Player *temp_r4_5 asm("r4");
     register struct C0Player *temp_r4_6 asm("r4");
     register struct C0Player *temp_r4_7 asm("r4");
     register struct C0Player *temp_r4_8 asm("r4");
 
+    slotsC0 = gSlotsC0;
     gKeysC0[0x2 / 2] = 0;
     gKeysC0[0x0 / 2] = 0;
     gKeysC0[0x6 / 2] = 0;
@@ -3249,15 +3217,15 @@ void sub_0808C0C4_v(void) {
     sub_080009C0(0x1D00, 0, 1);
     /* The BG API consumes the low half of this preserved word. */
     bgMaskC0 = 0xFFFF0000;
-    bgValueC0 = menu.sp15C;
+    bgValueC0 = sp15C;
     bgValueC0 &= bgMaskC0;
     bgMaskC0 = 0x1E0A;
     bgValueC0 |= bgMaskC0;
-    menu.sp15C = bgValueC0;
-    bgHalfC0 = (u16 *)&menu.sp15C;
+    sp15C = bgValueC0;
+    bgHalfC0 = (u16 *)&sp15C;
     sub_08000AA8(2U, bgHalfC0);
     bgValueC0 = 0x1F03;
-    *(u16 *)&menu.sp15C = bgValueC0;
+    *(u16 *)&sp15C = bgValueC0;
     sub_08000AA8(3U, bgHalfC0);
     loopCounterC0 = 0;
     portraitBaseC0 = ((u8 *)portraitsC0);
@@ -3299,7 +3267,7 @@ block_10:
         sub_08065158(&sp4C, 0x5015E, 0, 0x80000000, 0);
         break;
     }
-    menu.sp160 = 0;
+    sp160 = 0;
     sub_080003F0();
     sub_080003F0();
     sub_0800CF90();
@@ -3307,9 +3275,9 @@ block_10:
     sub_0801A664(0, 0x13);
     sub_080003F0();
     sub_0801AB50(6);
-    gPlayersC0[sub_080020F4()].unk1C = (u16) menu.sp160;
-    menu.sp168 = (s32) (u8) sub_08001108(0x88U);
-    menu.sp164 = sub_0800115C((u32) sub_0808528C);
+    gPlayersC0[sub_080020F4()].unk1C = (u16) sp160;
+    sp168 = C0Vc(0x88);
+    sp164 = sub_0800115C((u32) sub_0808528C);
     sub_08000D8C();
     goto loop_14CheckC0;
 loop_14:
@@ -3318,24 +3286,23 @@ loop_14CheckC0:
     if (sub_0801AAE0() == 0)
         goto loop_14;
 loop_15:
-    gPlayersC0[sub_080020F4()].unk90 = 0;
-    gPlayersC0[sub_080020F4()].unk8C = 0;
-    gFlagC0 = 0;
+    {
+        register struct C0Player *pl asm("r6") = gPlayersC0;
+        pl[sub_080020F4()].unk90 = 0;
+        pl[sub_080020F4()].unk8C = 0;
+        gFlagC0 = 0;
+    }
 loop_16:
     temp_r4_2 = sub_08007290(0x1401F6) + 2;
     sub_0801A3D0(temp_r4_2, (u16) (0xF - ((u32) sub_0801A638(temp_r4_2) >> 1)), 0x12);
-    loopCounterC0 = 0;
-    var_r0 = &sp150[0];
-    do {
-        *var_r0 = 0;
-        var_r0 += 1;
-        loopCounterC0 += 1;
-    } while (loopCounterC0 <= 4U);
+    for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++)
+        sp150[loopCounterC0] = 0;
     loopCounterC0 = 0;
     var_r9 = 0;
     goto loop_24CheckC0;
 loop_24BodyC0:
-    temp_r0_2 = (struct C0Item **)((u8 *)gPlayersC0 + 0x148 + var_r9);
+    playerBaseC0 = (u8 *)gPlayersC0;
+    temp_r0_2 = (struct C0Item **)(playerBaseC0 + 0x148 + var_r9);
     temp_r1 = *temp_r0_2;
     temp_r4_3 = (u16) temp_r1->unk0 >> 4;
     if (temp_r4_3 == 0) {
@@ -3343,9 +3310,9 @@ loop_24BodyC0:
         temp_r1_2 = (u8) temp_r1->unk3 >> 4;
         countTripletC0 = countsC0[temp_r1_2] * 3;
         temp_r2 = ((temp_r1_2 * 9) + countTripletC0) * 2;
-        sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
+        sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
         if (sub_080020F4() == loopCounterC0) {
-            temp_r1_3 = &countsC0[((struct C0Player *)((u8 *)gPlayersC0 + var_r9))->unk1C];
+            temp_r1_3 = &countsC0[((struct C0Player *)(playerBaseC0 + var_r9))->unk1C];
             *temp_r1_3 += 1;
         } else {
             temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4];
@@ -3437,23 +3404,17 @@ selectionCheckC0:
     if (gFlagC0 != 1) {
         goto block_81;
     }
-    temp_r4_9 = (&sp150[0])[gPlayersC0[temp_r6].unk1C];
+    temp_r4_9 = sp150[gPlayersC0[temp_r6].unk1C];
     if ((s32) temp_r4_9 >= (s32) sub_08002164()) {
         goto errorFullC0;
     }
-    var_r6_4 = 0;
+    loopCounterC0 = 0;
     do {
+        u32 k;
         temp_r4_10 = sub_08007290(0x1401F6) + 2;
         sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
-        var_r5 = 0;
-        var_r0_2 = &sp150[0];
-loop_54:
-        *var_r0_2 = 0;
-        var_r0_2 += 1;
-        var_r5 += 1;
-        if (var_r5 <= 4U) {
-            goto loop_54;
-        }
+        for (var_r5 = 0, k = loopCounterC0 + 1; var_r5 < 5; var_r5++)
+            sp150[var_r5] = 0;
         loopCounterC0 = 0;
         var_r7 = &gItemsC0;
         goto loop_59CheckC0;
@@ -3464,7 +3425,7 @@ loop_59BodyC0:
             temp_r3_2 = (u8) temp_r1_7->unk3 >> 4;
             temp_r2_3 = (&sp150[0])[temp_r3_2] * 3;
             temp_r2_3 = ((temp_r3_2 * 9) + temp_r2_3) * 2;
-            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
+            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
         }
         var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C);
         loopCounterC0 += 1;
@@ -3472,49 +3433,27 @@ loop_59BodyC0:
     loop_59CheckC0:
         if (loopCounterC0 < sub_08002164())
             goto loop_59BodyC0;
-        var_r6_4 += 1;
+        loopCounterC0 = k;
         sub_080003F0();
-    } while (var_r6_4 <= 7U);
-    var_r5_2 = 0;
-    var_r0_3 = &sp150[0];
-    do {
-        *var_r0_3 = 0;
-        var_r0_3 += 1;
-        var_r5_2 += 1;
-    } while (var_r5_2 <= 4U);
-    var_r5_3 = 0;
-    var_r2 = 0;
-    goto loop_69CheckC0;
-loop_69:
+    } while (loopCounterC0 <= 7U);
+    for (var_r5_2 = 0; var_r5_2 < 5; var_r5_2++) sp150[var_r5_2] = 0;
     {
-        temp_r4_13 = (struct C0Item **)((u8 *)gPlayersC0 + 0x148 + var_r2);
-        if (((u16) (*temp_r4_13)->unk0 >> 4) == 0) {
-            menu.sp16C = var_r2;
-            if (var_r5_3 == sub_080020F4()) {
-                temp_r1_8 = &(&sp150[0])[((struct C0Player *)((u8 *)gPlayersC0 + var_r2))->unk1C];
-                *temp_r1_8 += 1;
-            } else {
-                temp_r0_5 = &(&sp150[0])[(u8) (*temp_r4_13)->unk3 >> 4];
-                *temp_r0_5 += 1;
+        u16 *cnt = sp150;
+        for (var_r5_2 = 0, off2 = 0; var_r5_2 < sub_08002164(); off2 += 0x14C, var_r5_2++) {
+            u8 *base = (u8 *)gPlayersC0;
+            struct C0Item **pit = (struct C0Item **)(off2 + (base + 0x148));
+            if (((*pit)->unk0 >> 4) == 0) {
+                if (var_r5_2 == sub_080020F4())
+                    cnt[((struct C0Player *)(off2 + base))->unk1C]++;
+                else
+                    cnt[(*pit)->unk3 >> 4]++;
             }
         }
-        var_r2 += 0x14C;
-        var_r5_3 += 1;
     }
-loop_69CheckC0:
-    menu.sp16C = var_r2;
-    if (var_r5_3 < sub_08002164())
-        goto loop_69;
     loopCounterC0 = 0;
-    var_r5_4 = 0;
-    var_r1_2 = &sp150[0];
-    do {
-        if (*var_r1_2 != 0) {
-            loopCounterC0 += 1;
-        }
-        var_r1_2 += 1;
-        var_r5_4 += 1;
-    } while (var_r5_4 <= 3U);
+    for (var_r5_2 = 0; var_r5_2 < 4; var_r5_2++)
+        if (sp150[var_r5_2] != 0)
+            loopCounterC0++;
     if (loopCounterC0 <= 1U) {
         goto errorSingleC0;
     }
@@ -3539,15 +3478,15 @@ block_81:
 loop_82:
     temp_r0_7 = gFlagC0;
     if (0x20 & temp_r0_7) {
-        if (menu.sp160 == 1) {
-            menu.sp160 = 0;
+        if (sp160 == 1) {
+            sp160 = 0;
             sub_0805865C(0xC6);
         }
         goto block_94;
     }
     if (0x10 & temp_r0_7) {
-        if (menu.sp160 == 0) {
-            menu.sp160 = 1;
+        if (sp160 == 0) {
+            sp160 = 1;
             sub_0805865C(0xC7);
         }
         goto block_94;
@@ -3555,7 +3494,7 @@ loop_82:
     confirmFlagsC0 = temp_r0_7;
     switch (confirmFlagsC0) {
     case 1:
-        if (menu.sp160 != 0)
+        if (sp160 != 0)
             goto block_10;
         sub_0805865C(0xF);
         goto loop_113CheckC0;
@@ -3565,180 +3504,54 @@ loop_82:
         goto block_94;
     }
 block_94:
-        temp_r4_15 = sub_08007290(0x1401F7) + 2;
-        sub_0801A3D0(temp_r4_15, (u16) (0xF - ((u32) sub_0801A638(temp_r4_15) >> 1)), 0x12);
-        sub_08065370(&sp4C, 4U, (s32)&sp10[1], (s32)&sp14[1], 1);
-        sub_08065370(&sp4C, 5U, (s32) &sp10, (s32) &sp14, 1);
-        if (menu.sp160 != 0) {
-            sub_08065230(&sp4C, 0x78, 0x78, 9U, 0);
-            sub_08065264(&sp4C, 0x88, 0x78, 5, (u32) sp10[1]);
-            sub_08065230(&sp4C, 0x68, 0x78, 4U, (u32) sp10[0]);
-        } else {
-            sub_08065230(&sp4C, 0x78, 0x78, 8U, menu.sp160);
-            sub_08065230(&sp4C, 0x88, 0x78, 5U, (u32) sp10[1]);
-            sub_08065264(&sp4C, 0x68, 0x78, 4, (u32) sp10[0]);
-        }
-        loopCounterC0 = 0;
-        var_r0_4 = &sp150[0];
-        do {
-            *var_r0_4 = 0;
-            var_r0_4 += 1;
-            loopCounterC0 += 1;
-        } while (loopCounterC0 <= 4U);
-        coordsBaseC0 = gCoordsC0;
-        coordsThirdC0 = coordsBaseC0 + 4;
-        countsC0 = sp150;
-        loopCounterC0 = 0;
-        goto loop_103CheckC0;
-loop_103BodyC0:
-        temp_r7 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * loopCounterC0);
-        temp_r1_9 = *temp_r7;
-        temp_r4_16 = (u16) temp_r1_9->unk0 >> 4;
-        if (temp_r4_16 == 0) {
-            temp_r1_10 = (u8) temp_r1_9->unk3 >> 4;
-            countTripletC0 = countsC0[temp_r1_10] * 3;
-            temp_r2_4 = ((temp_r1_10 * 9) + countTripletC0) * 2;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_4), *(u16 *)(coordsBaseC0 + temp_r2_4 + 2), *(u16 *)(coordsThirdC0 + temp_r2_4), 0, temp_r4_16, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
-            temp_r0_6 = &countsC0[(u8) (*temp_r7)->unk3 >> 4];
-            *temp_r0_6 += 1;
-        }
-        loopCounterC0 += 1;
-
-    loop_103CheckC0:
-        if (loopCounterC0 < sub_08002164())
-            goto loop_103BodyC0;
-        sub_080003F0();
-        goto loop_82;
-loop_113:
-    {
-        coordsBaseC0 = gCoordsC0;
-        coordsThirdC0 = coordsBaseC0 + 4;
-        countsC0 = sp150;
-        loopCounterC0 = 0;
-        var_r0_5 = countsC0;
-        do {
-            *var_r0_5 = 0;
-            var_r0_5 += 1;
-            loopCounterC0 += 1;
-        } while (loopCounterC0 <= 4U);
-        loopCounterC0 = 0;
-        goto loop_111CheckC0;
-loop_111BodyC0:
-        temp_r7_2 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * loopCounterC0);
-        temp_r1_11 = *temp_r7_2;
-        temp_r4_18 = (u16) temp_r1_11->unk0 >> 4;
-        if (temp_r4_18 == 0) {
-            temp_r1_12 = (u8) temp_r1_11->unk3 >> 4;
-            countTripletC0 = countsC0[temp_r1_12] * 3;
-            temp_r2_5 = ((temp_r1_12 * 9) + countTripletC0) * 2;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_5), *(u16 *)(coordsBaseC0 + temp_r2_5 + 2), *(u16 *)(coordsThirdC0 + temp_r2_5), 0, temp_r4_18, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
-            temp_r0_8 = &countsC0[(u8) (*temp_r7_2)->unk3 >> 4];
-            *temp_r0_8 += 1;
-        }
-        loopCounterC0 += 1;
-
-    loop_111CheckC0:
-        if (loopCounterC0 < sub_08002164())
-            goto loop_111BodyC0;
-        temp_r4_20 = sub_08007290(0x1401F8) + 2;
-        sub_0801A3D0(temp_r4_20, (u16) (0xF - ((u32) sub_0801A638(temp_r4_20) >> 1)), 0x12);
-        sub_080003F0();
+    temp_r4_15 = sub_08007290(0x1401F7) + 2;
+    sub_0801A3D0(temp_r4_15, (u16) (0xF - ((u32) sub_0801A638(temp_r4_15) >> 1)), 0x12);
+    sub_08065370(&sp4C, 4U, (s32)&sp10[1], (s32)&sp14[1], 1);
+    sub_08065370(&sp4C, 5U, (s32) &sp10, (s32) &sp14, 1);
+    if (sp160 != 0) {
+        sub_08065230(&sp4C, 0x78, 0x78, 9U, 0);
+        sub_08065264(&sp4C, 0x88, 0x78, 5, (u32) sp10[1]);
+        sub_08065230(&sp4C, 0x68, 0x78, 4U, (u32) sp10[0]);
+    } else {
+        sub_08065230(&sp4C, 0x78, 0x78, 8U, sp160);
+        sub_08065230(&sp4C, 0x88, 0x78, 5U, (u32) sp10[1]);
+        sub_08065264(&sp4C, 0x68, 0x78, 4, (u32) sp10[0]);
     }
+    C0_DRAW_ALL();
+    sub_080003F0();
+    goto loop_82;
 loop_113CheckC0:
-    if (sub_08067C18() == 0)
-        goto loop_113;
-    goto loop_123CheckC0;
-loop_123:
-    {
-        coordsBaseC0 = gCoordsC0;
-        coordsThirdC0 = coordsBaseC0 + 4;
-        countsC0 = sp150;
-        loopCounterC0 = 0;
-        var_r0_6 = countsC0;
-        do {
-            *var_r0_6 = 0;
-            var_r0_6 += 1;
-            loopCounterC0 += 1;
-        } while (loopCounterC0 <= 4U);
-        loopCounterC0 = 0;
-        goto loop_121CheckC0;
-loop_121BodyC0:
-        temp_r7_3 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * loopCounterC0);
-        temp_r1_13 = *temp_r7_3;
-        temp_r4_21 = (u16) temp_r1_13->unk0 >> 4;
-        if (temp_r4_21 == 0) {
-            temp_r1_14 = (u8) temp_r1_13->unk3 >> 4;
-            countTripletC0 = countsC0[temp_r1_14] * 3;
-            temp_r2_6 = ((temp_r1_14 * 9) + countTripletC0) * 2;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_6), *(u16 *)(coordsBaseC0 + temp_r2_6 + 2), *(u16 *)(coordsThirdC0 + temp_r2_6), 0, temp_r4_21, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
-            temp_r0_9 = &countsC0[(u8) (*temp_r7_3)->unk3 >> 4];
-            *temp_r0_9 += 1;
-        }
-        loopCounterC0 += 1;
-
-    loop_121CheckC0:
-        if (loopCounterC0 < sub_08002164())
-            goto loop_121BodyC0;
-        temp_r4_23 = sub_08007290(0x1401F8) + 2;
-        sub_0801A3D0(temp_r4_23, (u16) (0xF - ((u32) sub_0801A638(temp_r4_23) >> 1)), 0x12);
+    while (sub_08067C18() == 0) {
+        C0_DRAW_ALL();
+        C0_CENTER_TEXT(0x1401F8);
         sub_080003F0();
     }
-loop_123CheckC0:
-    if (sub_08067C08() == 0)
-        goto loop_123;
-    sub_08067BF8();
-    if (sub_08002204() != 0) {
-        gPlayersC0[0].unk90 = 0x200;
+    while (sub_08067C08() == 0) {
+        C0_DRAW_ALL();
+        C0_CENTER_TEXT(0x1401F8);
+        sub_080003F0();
     }
+    sub_08067BF8();
+    if (sub_08002204() != 0)
+        gPlayersC0[0].unk90 = 0x200;
     sub_0806617C();
     sub_08066220();
     sub_0801AA8C(0x1E);
-    goto loop_135CheckC0;
-loop_135:
-    {
-        coordsBaseC0 = gCoordsC0;
-        coordsThirdC0 = coordsBaseC0 + 4;
-        countsC0 = sp150;
-        loopCounterC0 = 0;
-        var_r0_7 = countsC0;
-        do {
-            *var_r0_7 = 0;
-            var_r0_7 += 1;
-            loopCounterC0 += 1;
-        } while (loopCounterC0 <= 4U);
-        loopCounterC0 = 0;
-        goto loop_133CheckC0;
-loop_133BodyC0:
-        temp_r7_4 = (struct C0Item **)((u8 *)&gItemsC0 + 0x14C * loopCounterC0);
-        temp_r1_15 = *temp_r7_4;
-        temp_r4_24 = (u16) temp_r1_15->unk0 >> 4;
-        if (temp_r4_24 == 0) {
-            temp_r1_16 = (u8) temp_r1_15->unk3 >> 4;
-            countTripletC0 = countsC0[temp_r1_16] * 3;
-            temp_r2_7 = ((temp_r1_16 * 9) + countTripletC0) * 2;
-            sub_08007870(*(u16 *)(coordsBaseC0 + temp_r2_7), *(u16 *)(coordsBaseC0 + temp_r2_7 + 2), *(u16 *)(coordsThirdC0 + temp_r2_7), 0, temp_r4_24, portraitsC0[loopCounterC0].tail + 16, portraitsC0[loopCounterC0].data8, portraitsC0[loopCounterC0].resource);
-            temp_r0_10 = &countsC0[(u8) (*temp_r7_4)->unk3 >> 4];
-            *temp_r0_10 += 1;
-        }
-        loopCounterC0 += 1;
-
-    loop_133CheckC0:
-        if (loopCounterC0 < sub_08002164())
-            goto loop_133BodyC0;
+    while (sub_0801AAE0() == 0) {
+        C0_DRAW_ALL();
         sub_080003F0();
     }
-loop_135CheckC0:
-    if (sub_0801AAE0() == 0)
-        goto loop_135;
     sub_0801A664(0, 0x14);
     sub_0800CFA4();
-    (*(u32 *)(gStateC0 + 0x40)) = 1;
-    (*(u16 *)(gStateC0 + 0x36)) = 0;
+    *(u32 *)(gStateC0 + 0x40) = 1;
+    *(u16 *)(gStateC0 + 0x36) = 0;
     sub_08000E48();
-    sub_0800115C(menu.sp164);
-    sub_08001108((u8) menu.sp168);
+    sub_0800115C(sp164);
+    C0Vc(sp168);
     sub_08000420(0x02688420);
 }
+#undef C0_CENTER_TEXT
+#undef C0_DRAW_ALL
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808C0C4);
 #endif
