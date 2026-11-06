@@ -1813,7 +1813,11 @@ void sub_080A05B4(u32 kind,void *done)
                 players105[sub_080020F4()].state=10;
                 players105[sub_080020F4()].motion=0xFFFE;
                 i=sub_080020F4(); actor=actor105;
-                players105[i].health=damage105(actor,&players105[sub_080020F4()])+players105[i].health;
+                {
+                    register s32 amount asm("r0") = damage105(actor, &players105[sub_080020F4()]);
+                    asm("" : "+r"(amount));
+                    players105[i].health = amount + players105[i].health;
+                }
                 players105[sub_080020F4()].seen[actor105->index]=actor105->serial++;
                 {
                     register u32 one asm("r4") = 1;
@@ -1822,15 +1826,19 @@ void sub_080A05B4(u32 kind,void *done)
                 }
             }
         }
-        if (!started && frame==2 && phase==0) {
-            {
-                register u32 one asm("r3") = 1;
-                asm("" : "+r"(one));
-                started = one;
+        {
+            register s32 check asm("r5") = started;
+            asm("" : "+r"(check));
+            if (!check && frame==2 && phase==0) {
+                {
+                    register u32 one asm("r3") = 1;
+                    asm("" : "+r"(one));
+                    started = one;
+                }
+                camera105(20);
+                if (kind<=1) shake105(-0x20,20);else shake105(0x20,20);
+                sub_08097D64();sub_080A1070(4);sub_080A104C();sub_0805865C(0xBE);
             }
-            camera105(20);
-            if (kind<=1) shake105(-0x20,20);else shake105(0x20,20);
-            sub_08097D64();sub_080A1070(4);sub_080A104C();sub_0805865C(0xBE);
         }
         if (animDone || elapsed++ > 0x3B) timer=(u16)(timer-1);
         sub_080003F0();
