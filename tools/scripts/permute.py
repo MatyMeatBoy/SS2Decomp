@@ -127,11 +127,28 @@ def setup(func, cfile, d):
     pre = subprocess.run(["arm-none-eabi-cpp", "-P", "-D__attribute__(x)="] + decomp.CPPFLAGS + [cfile],
                          capture_output=True, text=True, check=True).stdout
     c_name = source_function(pre, func)
+    # The engine's stripper removes helper bodies, and its AST printer drops
+    # static storage. Freeze inline definitions before either transformation;
+    # randomization remains limited to the requested function.
+    helpers = {}
+    for definition in reversed(functions(pre)):
+        start, body, end = definition["declaration_start"], definition["body_start"] - 1, definition["end"] + 1
+        header = pre[start:body].rstrip()
+        if definition["name"] != c_name and re.search(r'\b(?:inline|__inline|__inline__)\b', header):
+            marker = "__SS2_PERMUTER_HELPER_%d__;" % len(helpers)
+            if marker in pre:
+                raise SystemExit("inline helper marker already present in source")
+            helpers[marker] = "\nPERM_PRETEND(%s;)\nPERM_IGNORE(%s)\n" % (header, pre[start:end])
+            pre = pre[:start] + marker + pre[end:]
     open(os.path.join(d, "base.c"), "w").write(pre)
     subprocess.run([sys.executable, os.path.join(PERMUTER, "strip_other_fns.py"),
                     os.path.join(d, "base.c"), c_name], check=True)
     with open(os.path.join(d, "base.c")) as source:
         pre = preserve_constraints(source.read())
+    for marker, helper in helpers.items():
+        if pre.count(marker) != 1:
+            raise SystemExit("inline helper marker lost while preparing permuter source")
+        pre = pre.replace(marker, helper)
     with open(os.path.join(d, "base.c"), "w", encoding="utf-8") as source:
         source.write(pre)
     sh = os.path.join(d, "compile.sh")
