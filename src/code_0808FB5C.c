@@ -773,9 +773,8 @@ block_57:
         goto loop_3;
     }
     sub_0801AA8C(0x3C);
-loop_91:
-    temp_r0_2 = sub_0801AAE0();
-    if (temp_r0_2 == 0) {
+    goto loop_91;
+loop_91_body:
         palette90495(0x18U, sprite.fC, 1U);
         sub_08065370_90495(&sprite, frames[3], &ticks[3], &next[3], (s32) flags[3]);
         sub_08007870_90495(0x7B, 0x7E, frames[3], ticks[3], temp_r0_2, spB0, sprite.f8, sprite.f0);
@@ -783,8 +782,9 @@ loop_91:
         sub_08065370_90495(&sprite, frames[4], spB4, spB8, (s32) flags[4]);
         sub_08007870_90495(0xC7, 0x74, frames[4], ticks[4], temp_r0_2, spB0, sprite.f8, sprite.f0);
         sub_080003F0();
-        goto loop_91;
-    }
+loop_91:
+    temp_r0_2 = sub_0801AAE0();
+    if (temp_r0_2 == 0) goto loop_91_body;
     if (heap90495 != 0) {
         sub_08001538(heap90495);
         heap90495 = 0;
