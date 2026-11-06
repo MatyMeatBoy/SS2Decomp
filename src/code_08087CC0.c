@@ -3174,7 +3174,6 @@ void sub_0808C0C4_v(void) {
     register struct C0Player *selectedBaseC0 asm("r2");
     register u16 temp_r0_7 asm("r1");
     register u32 confirmFlagsC0 asm("r0");
-    u16 temp_r1_6;
     u16 temp_r2_2;
     /* Keep raw bits for halfword arithmetic and derive both comparison views. */
     u32 downShiftedC0;
@@ -3287,10 +3286,11 @@ loop_14CheckC0:
         goto loop_14;
 loop_15:
     {
-        register struct C0Player *pl asm("r6") = gPlayersC0;
-        pl[sub_080020F4()].unk90 = 0;
-        pl[sub_080020F4()].unk8C = 0;
+        gPlayersC0[sub_080020F4()].unk90 = 0;
+        gPlayersC0[sub_080020F4()].unk8C = 0;
         gFlagC0 = 0;
+        /* FAKE: keeps the CSE'd player table base live past both stores. */
+        asm("" :: "r"(gPlayersC0));
     }
 loop_16:
     temp_r4_2 = sub_08007290(0x1401F6) + 2;
@@ -3308,7 +3308,10 @@ loop_24BodyC0:
     if (temp_r4_3 == 0) {
         countsC0 = sp150;
         temp_r1_2 = (u8) temp_r1->unk3 >> 4;
-        countTripletC0 = countsC0[temp_r1_2] * 3;
+        {
+            u16 *q = &countsC0[temp_r1_2];
+            countTripletC0 = *q * 3;
+        }
         temp_r2 = ((temp_r1_2 * 9) + countTripletC0) * 2;
         sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
         if (sub_080020F4() == loopCounterC0) {
@@ -3366,11 +3369,11 @@ loop_24CheckC0:
             temp_r4_7->unk1C = 4U;
             goto block_47;
         }
-        temp_r1_6 = temp_r0_4 - 2;
-        if ((u32) temp_r1_6 > 1U) {
+        temp_r1_4 = temp_r0_4 - 2;
+        if ((u16) temp_r1_4 > 1U) {
 
         } else {
-            temp_r4_7->unk1C = temp_r1_6;
+            temp_r4_7->unk1C = temp_r1_4;
             goto block_47;
         }
         goto block_81;
@@ -3409,33 +3412,28 @@ selectionCheckC0:
         goto errorFullC0;
     }
     loopCounterC0 = 0;
-    do {
+loopB_TopC0:
+    {
         u32 k;
         temp_r4_10 = sub_08007290(0x1401F6) + 2;
         sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
         for (var_r5 = 0, k = loopCounterC0 + 1; var_r5 < 5; var_r5++)
             sp150[var_r5] = 0;
-        loopCounterC0 = 0;
-        var_r7 = &gItemsC0;
-        goto loop_59CheckC0;
-loop_59BodyC0:
-        temp_r1_7 = *var_r7;
-        temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
-        if (temp_r4_11 == 0) {
-            temp_r3_2 = (u8) temp_r1_7->unk3 >> 4;
-            temp_r2_3 = (&sp150[0])[temp_r3_2] * 3;
-            temp_r2_3 = ((temp_r3_2 * 9) + temp_r2_3) * 2;
-            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
+        for (loopCounterC0 = 0, var_r7 = &gItemsC0; loopCounterC0 < sub_08002164(); var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C), loopCounterC0++) {
+            temp_r1_7 = *var_r7;
+            temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
+            if (temp_r4_11 == 0) {
+                temp_r3_2 = (u8) temp_r1_7->unk3 >> 4;
+                temp_r2_3 = (&sp150[0])[temp_r3_2] * 3;
+                temp_r2_3 = ((temp_r3_2 * 9) + temp_r2_3) * 2;
+                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
+            }
         }
-        var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C);
-        loopCounterC0 += 1;
-
-    loop_59CheckC0:
-        if (loopCounterC0 < sub_08002164())
-            goto loop_59BodyC0;
         loopCounterC0 = k;
         sub_080003F0();
-    } while (loopCounterC0 <= 7U);
+    }
+    if (loopCounterC0 <= 7U)
+        goto loopB_TopC0;
     for (var_r5_2 = 0; var_r5_2 < 5; var_r5_2++) sp150[var_r5_2] = 0;
     {
         u16 *cnt = sp150;
@@ -3443,10 +3441,13 @@ loop_59BodyC0:
             u8 *base = (u8 *)gPlayersC0;
             struct C0Item **pit = (struct C0Item **)(off2 + (base + 0x148));
             if (((*pit)->unk0 >> 4) == 0) {
-                if (var_r5_2 == sub_080020F4())
-                    cnt[((struct C0Player *)(off2 + base))->unk1C]++;
-                else
-                    cnt[(*pit)->unk3 >> 4]++;
+                if (var_r5_2 == sub_080020F4()) {
+                    u16 *q = &cnt[((struct C0Player *)(off2 + base))->unk1C];
+                    *q += 1;
+                } else {
+                    u16 *q = &cnt[(*pit)->unk3 >> 4];
+                    *q += 1;
+                }
             }
         }
     }
@@ -3543,8 +3544,11 @@ loop_113CheckC0:
     }
     sub_0801A664(0, 0x14);
     sub_0800CFA4();
-    *(u32 *)(gStateC0 + 0x40) = 1;
-    *(u16 *)(gStateC0 + 0x36) = 0;
+    {
+        u8 *st = gStateC0;
+        *(u32 *)(st + 0x40) = 1;
+        *(u16 *)(st + 0x36) = 0;
+    }
     sub_08000E48();
     sub_0800115C(sp164);
     C0Vc(sp168);
