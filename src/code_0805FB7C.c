@@ -241,6 +241,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     u8 buf[32];
     u8 numeric[32];
     s32 value;
+    register s32 drawY asm("r9");
     u8 *res;
     u8 *suffix;
     s32 broken;
@@ -251,9 +252,12 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     u8 *name;
     s32 n;
     u8 i;
+    register struct ItemName63 *entry asm("r5");
     u16 off;
 
-    if (item == NULL)
+    entry = item;
+    drawY = y;
+    if (entry == NULL)
         goto clear;
     suffix = NULL;
     broken = 0;
@@ -261,9 +265,9 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     grade = 0;
     cursed = 0;
     mode = flags & 0x7FFFFFFF;
-    switch (item->kind) {
+    switch (entry->kind) {
     case 1:
-        res = resFF63(item->id | 0x100000);
+        res = resFF63(entry->id | 0x100000);
         name = res + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
@@ -271,67 +275,69 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         break;
     case 2:
     {
-        u8 *r = resFF63(item->id | 0xB0000);
+        u8 *r = resFF63(entry->id | 0xB0000);
         name = r + gUnk_03003470 * 31;
-        broken = item->broken;
-        level = item->level;
-        grade = item->grade;
+        broken = entry->broken;
+        level = entry->level;
+        grade = entry->grade;
         if (grade == 0)
             grade = *(u16 *)(r + 0xBC);
         goto suffix;
     }
     case 3:
-        name = resFF63(item->id | 0xC0000) + gUnk_03003470 * 31;
-        broken = item->broken;
-        level = item->level;
-        grade = item->grade;
+        name = resFF63(entry->id | 0xC0000) + gUnk_03003470 * 31;
+        broken = entry->broken;
+        level = entry->level;
+        grade = entry->grade;
         goto suffix;
     case 4:
-        name = resFF63(item->id | 0xD0000) + gUnk_03003470 * 31;
-        broken = item->broken;
-        level = item->level;
-        grade = item->grade;
+        name = resFF63(entry->id | 0xD0000) + gUnk_03003470 * 31;
+        broken = entry->broken;
+        level = entry->level;
+        grade = entry->grade;
         goto suffix;
     case 7:
-        name = resFF63(item->id | 0x110000) + gUnk_03003470 * 31;
+        name = resFF63(entry->id | 0x110000) + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         break;
     case 5:
     {
-        u8 *r = resFF63(item->id | 0xE0000);
+        u8 *r = resFF63(entry->id | 0xE0000);
         name = r + gUnk_03003470 * 31;
-        broken = item->broken;
-        level = item->level;
-        grade = item->grade;
+        broken = entry->broken;
+        level = entry->level;
+        grade = entry->grade;
         if (r[0xA0] != 0)
             cursed = 1;
     }
     suffix:
-        if (item->suffix != 0)
-            suffix = resFF63((item->suffix - 1) | 0x130000);
+        if (entry->suffix != 0)
+            suffix = resFF63((entry->suffix - 1) | 0x130000);
         break;
     case 6:
-        name = resFF63(item->id | 0xF0000) + gUnk_03003470 * 31;
+        name = resFF63(entry->id | 0xF0000) + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         grade = 0;
         break;
     case 9:
-        name = resFF63(item->id | 0x150000) + gUnk_03003470 * 31;
+        name = resFF63(entry->id | 0x150000) + gUnk_03003470 * 31;
         break;
     case 10:
         if (sub_0800CC98() == 0) {
             u32 *div;
             u8 *out;
-            s32 started;
+            register s32 started asm("r7");
             u32 k;
-            value = *(s32 *)&item->suffix;
+            register s32 *valuePtr asm("sl");
+            value = *(s32 *)&entry->suffix;
             div = digitDivFF63;
             out = numeric;
             started = 0;
+            valuePtr = &value;
             for (k = 0; k <= 5; k++) {
-                *out = divFF63(&value, *div) + 0x41;
+                *out = divFF63(valuePtr, *div) + 0x41;
                 if (started != 0 || *out != 0x41) {
                     out++;
                     started = 1;
@@ -346,11 +352,11 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         }
         break;
     case 8:
-        name = resFF63(item->id | 0x120000) + gUnk_03003470 * 31;
+        name = resFF63(entry->id | 0x120000) + gUnk_03003470 * 31;
         break;
     default:
     clear:
-        clearFF63(y, 2);
+        clearFF63(drawY, 2);
         return;
     }
 
@@ -449,7 +455,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         if (broken != 0) {
             buf[0] = 0xA1;
             i = 1;
-        } else if (item->kind == 1) {
+        } else if (entry->kind == 1) {
             if (*(u16 *)(res + 0xA0) == 1) {
                 u32 v;
                 s32 j;
@@ -512,7 +518,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     if (flags < 0)
         off = -(widthFF63(buf) >> 1);
     x += (s16)off;
-    textFF63(buf, x, y);
+    textFF63(buf, x, drawY);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
