@@ -193,13 +193,12 @@ void sub_080094CC(struct Layer *entry, s16 x, s16 y)
         CpuSet(src + tileY, dest + (pos[0] + pos[1]), count);
     CpuSet(src + (count + tileY), dest + pos[1], (32 - count) & 0x1FFFFF);
 }
-#ifdef NONMATCHING
 /* Identity helper: an opaque s16 round trip that keeps sign extensions the ROM performs. */
 static inline s16 S16_8009594(s16 v) { return v; }
-/* Draft: 77 filtered diff lines left (y<<16 in sl instead of r9; tileDY>0 count is
-   re-read from the stack after the first call instead of kept in r7). */
+/* Separate C name: later callers in this file keep the implicit int prototype they were matched with. */
+s32 sub_08009594_(u16 index, u16 x, u16 y, s32 force) asm("sub_08009594");
 /* Returns nothing useful; the original epilogue keeps r0 (pop {r1}), so it is non-void. */
-s32 sub_08009594(u16 index, u16 x, u16 y, s32 force)
+s32 sub_08009594_(u16 index, u16 x, u16 y, s32 force)
 {
     u16 *offsets = gUnk_03001250;
     struct Layer *layer = &gUnk_03003170.layers[index];
@@ -209,7 +208,7 @@ s32 sub_08009594(u16 index, u16 x, u16 y, s32 force)
     s32 t, u;
     s16 p;
     s16 i;
-    s16 n, n2, n3, n5;
+    s16 n, n2, n3;
     s16 sy;
     s32 t1, t2;
     u32 update;
@@ -217,7 +216,7 @@ s32 sub_08009594(u16 index, u16 x, u16 y, s32 force)
 
     if (layer->s16) {
         s32 t;
-        t = S16_8009594(x); t += layer->w2; x = t;
+        t = (s16)x; t += layer->w2; x = t;
         t = (s16)y; t += layer->w3; y = t;
     } else {
         x = layer->w2;
@@ -277,20 +276,20 @@ done:
             sub_080093E4(layer, S16_8009594(pos) + (i << 3), y);
     }
     if ((s16)tileDY > 0) {
+        n = tileDY;
         t = (s16)y + 0xA1;
         p = t;
         u = (s16)x - 8;
         sub_080094CC(layer, u, p);
-        n = tileDY;
         for (i = 0; i < n; i++)
             sub_080094CC(layer, u, p - (i << 3));
     } else if ((s16)tileDY < 0) {
         u = (s16)x - 8;
-        sy = S16_8009594(y);
+        sy = y;
         sub_080094CC(layer, u, sy);
-        n5 = -tileDY;
-        for (i = 0; i < n5; i++)
-            sub_080094CC(layer, u, sy + (i << 3));
+        n = -tileDY;
+        for (i = 0; i < n; i++)
+            sub_080094CC(layer, u, sy - i * -8);
     }
     vram = ((*(vu16 *)(REG_ADDR_BG0CNT + index * 2) >> 8) & 0x1F) * 0x800 + VRAM;
     if (tileDX || tileDY || force)
@@ -311,9 +310,6 @@ skip:
         offsets[1] = (s16)S16_8009594(d) & 0xFF;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08009088", sub_08009594);
-#endif
 struct LoadSize005 { u16 width,height; };
 struct LoadState005 { struct Layer layers[4]; s16 *map; void *buffer; u16 *map0,*map1; struct LoadSize005 first; u16 width1,height1,mapW,mapH,scrollX,scrollY,f80,f82,offX,offY; u8 pad88[4]; u16 area,pad8E,index; u8 pad92[10]; u32 flags; u8 padA0[16]; u32 *record; };
 struct LoadArea005 { u8 pad[16]; u32 keys[25]; };
