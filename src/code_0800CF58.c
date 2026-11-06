@@ -6406,11 +6406,12 @@ void hud14170(struct Actor14170 *arg0)
                 arg0->fC2 = arg0->f60;
             cur = dmp = arg0->fC2;
             mmp = arg0->f60;
-            v = (s16)dmp;
-            if (cur <= 0)
+            hcur = cur;
+            v = dmp;
+            if (hcur <= 0)
                 v = 0;
             n = v * 40 / arg0->f60;
-            if (cur > 0 && n == 0)
+            if (hcur > 0 && n == 0)
                 n = 1;
             do {
                 do {
@@ -6520,16 +6521,21 @@ void hud14170(struct Actor14170 *arg0)
                 if (arg0->f10 != 9) {
                     i = lv14170();
                     {
-                        s32 li = 7;
                         s32 ret;
                         s32 b5 = (s8)arg0->f6C * 5;
-                        for (; li >= 0; li--) {
-                            s32 t = gUnk_0847ACE8[li];
-                            u16 threshold = b5 * 2 + t;
+                        /* hcur doubles as the level counter. Loading the table
+                           base and b5 * 2 into locals inside the body lengthens
+                           the doubled value's lifetime, so loop.c hoists it in
+                           its first pass (lsls r6 before the table-pointer giv). */
+                        for (hcur = 7; hcur >= 0; hcur--) {
+                            u16 *tbl = gUnk_0847ACE8;
+                            s32 bb = b5 * 2;
+                            s32 t = tbl[hcur];
+                            u16 threshold = bb + t;
                             if ((s16)threshold < 0)
                                 threshold = 0;
                             if (arg0->fC2 >= (s16)threshold) {
-                                ret = li;
+                                ret = hcur;
                                 goto found;
                             }
                         }
