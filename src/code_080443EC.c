@@ -809,7 +809,6 @@ again:
     if (a) { a->x = x; a->y = y; a->flags |= 0x10; }
     setcb566045(st, id, (u32)callback5E3845);
 }
-#ifdef NONMATCHING
 struct PlF4445 { u8 p0[0x30]; u32 flags; u8 p34[0x58]; s32 f8C; u8 p90[0x8E]; u16 f11E; u8 p120[0x2C]; };
 struct ItemF4445 { u16 kind, value; u8 pad[12]; };
 struct RecF4445 { u16 f0, f2; u8 pad[0x2DC]; };
@@ -831,23 +830,6 @@ static inline u32 countF4445(u32 n) { return n; }
         if (sub_0800CDF8()) { sub_0805EFBC(); break; } \
         sub_080003F0(); \
     } }
-static inline void setlvF4445(u32 id, u16 v) {
-    struct Actor566045 *ap;
-    register u32 key asm("r2") = id;
-    if (id > 0x100000) {
-        ap = find566045(&state566045, key);
-        if (ap) *(u16 *)((u8 *)ap + 0x42) = v;
-    } else if (id != 0) {
-        u32 k = id - 1;
-        if (k <= 4) {
-            register u8 **table asm("r1") = &recordsF4445;
-            register u32 offset asm("r0") = k * sizeof(struct RecF4445);
-            sub_08019EB8(((struct RecF4445 *)(*table + offset))->f2, v);
-        }
-    } else {
-        ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->f11E = v;
-    }
-}
 #define READ_BIT_F4445(result, shift, setReg, clearReg) { \
     u8 *addr; \
     if (sub_0800CE30()) { \
@@ -865,15 +847,36 @@ static inline void setlvF4445(u32 id, u16 v) {
         (result) = (raw >> (shift)) & 1; \
     } \
 }
+static inline void setlvF4445(u32 id, u16 v) {
+    struct Actor566045 *ap;
+    register u32 key asm("r2") = id;
+    register u32 level asm("r4");
+    asm("" : : "r"(key));
+    level = v;
+    if (id > 0x100000) {
+        ap = find566045(&state566045, key);
+        if (ap) *(u16 *)((u8 *)ap + 0x42) = level;
+    } else if (id != 0) {
+        u32 k = id - 1;
+        if (k <= 4) {
+            register u8 **table asm("r1") = &recordsF4445;
+            register u32 offset asm("r0");
+            offset = k * sizeof(struct RecF4445);
+            sub_08019EB8(((struct RecF4445 *)(*table + offset))->f2, v);
+        }
+    } else {
+        ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->f11E = level;
+    }
+}
 void sub_08045F44(u32 inputId) {
-    register u32 id asm("r8") = inputId;
+    u32 id = inputId;
     struct CmdF4445 cmd;
     u8 unused[16];
     u32 dlg;
     register s32 a asm("r6");
     register s32 b asm("r5");
     register s32 c asm("r4");
-    s32 cntv;
+    s32 d, cntv;
     register s32 lastBit asm("r1");
     u32 i, n;
     struct ItemF4445 *it;
@@ -881,10 +884,7 @@ void sub_08045F44(u32 inputId) {
 
     ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
-    {
-        register s32 coord asm("r0") = playersF4445[sub_080020F4()].f8C;
-        a = coord >> 8;
-    }
+    { register s32 coord asm("r0") = playersF4445[sub_080020F4()].f8C; a = coord >> 8; }
     if (a > 0x1E7) sub_08029174(id, 6);
     else sub_08029174(id, 2);
     READ_BIT_F4445(a, 2, "r1", "r3");
@@ -900,16 +900,19 @@ void sub_08045F44(u32 inputId) {
         s32 player;
         DIALOG_F4445(0x1402A1);
         {
+            register u32 count asm("r3");
             u32 k;
             u8 *entry;
-            a = 0;
+            count = 0;
             k = 0;
             entry = invF4445 + 0x150;
             do {
                 if (*(u16 *)entry == 5 && *(u16 *)(entry + 2) == 0xA6)
-                    a++;
+                    count++;
                 entry += 0x10;
             } while (++k <= 0x18);
+            a = count;
+            asm("" : "+r"(a));
             cntv = a;
         }
         b = sub_080020F4();
@@ -922,19 +925,32 @@ void sub_08045F44(u32 inputId) {
         if (dlg) {
             DIALOG_F4445(0x1402A4);
             {
-                u8 **inventory = &invF4445;
+                register u8 **inventory asm("r6");
                 register u32 n asm("r4");
                 register u32 i asm("r3");
+                register u32 clear asm("r5");
                 n = 1;
-                for (i = 0; i <= 0x18; i++) {
-                    u8 *e = *inventory + i * 16;
+                i = 0;
+                asm("" : "+r"(i) : "r"(n));
+                inventory = &invF4445;
+                clear = 0;
+            removeItem:
+                {
+                    register u8 *base asm("r0") = *inventory;
+                    register u32 scaled asm("r1");
+                    u8 *e;
+                    asm("" : : "r"(base));
+                    scaled = i * 16;
+                    e = base + scaled;
                     if (*(u16 *)(e + 0x150) == 5 && *(u16 *)(e + 0x152) == 0xA6) {
                         n--;
-                        *(u16 *)(e + 0x150) = 0;
-                        *(u16 *)(e + 0x152) = 0;
-                        if (n == 0) break;
+                        *(u16 *)(e + 0x150) = clear;
+                        *(u16 *)(e + 0x152) = clear;
+                        if (n == 0) goto removedItem;
                     }
                 }
+                if (++i <= 0x18) goto removeItem;
+            removedItem:;
             }
             {
                 register u32 ka asm("r1");
@@ -960,9 +976,6 @@ end:
     sub_0800D108();
 }
 #undef READ_BIT_F4445
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080443EC", sub_08045F44);
-#endif
 struct Item46490 { u16 kind,id; u8 data[12]; };
 extern u8 *state46490 asm("gUnk_03005CF4");
 extern u8 *items46490 asm("gUnk_030034E0");
