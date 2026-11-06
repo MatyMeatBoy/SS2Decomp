@@ -6352,7 +6352,7 @@ void hud14170(struct Actor14170 *arg0)
     s16 d;
     s16 cur;
     s32 hcur;
-    s32 v;
+    register s32 v asm("r3");
 
     t071Init(spr1, 0x50061, 0, 0x80000000, 0);
     t071Init(spr2, 0x50060, 0, 0x80000000, 0);
