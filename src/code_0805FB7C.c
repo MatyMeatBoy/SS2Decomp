@@ -2643,7 +2643,6 @@ loopEnd:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08063E30);
 #endif
-#ifdef NONMATCHING
 struct Chr441 { u32 kind:4; u32 kindHi:28; u32 lo:11; u32 level:8; u32 cls:5; u32 hi:8; };
 struct PL441 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 b68; u8 pad69[0x5D]; u16 hC6; u8 padC8[0x80]; struct Chr441 *chr; };
 struct PE441 { struct Chr441 *chr; u8 pad[0x148]; };
@@ -2720,9 +2719,8 @@ void BattleResult441(u16 *arg0, u32 arg1)
     struct Pop441 obj;
     u16 levels[4];
     u16 classes[4];
-    u16 w58;
-    u16 w5A;
-    u16 fill[2];
+        u16 fill[2];
+    u16 wh[2];
     struct Res441 res;
     u32 flag;
     u32 hi;
@@ -2737,14 +2735,14 @@ void BattleResult441(u16 *arg0, u32 arg1)
     u32 n;
     s32 sx, sy;
     s32 m;
-    struct Obj441 *o = &obj441;
+        struct Obj441 *o = &obj441;
     struct Ene441 *e;
     s32 dmg;
     s32 r;
     struct Chr441 *chr;
     struct PE441 *pe;
-    struct PL441 *plp;
-
+        struct PL441 *plp;
+    asm("" : "+r"(o));
     if (sub_0800BA6C() && !sub_0805F184() && !sub_0800CC98() && !sub_0800CCCC() && !sub_0800CE68() && !sub_0800CDF8() && !sub_0800D11C()) {
         pl441[sub_080020F4()].b68 = 0;
         while (sub_0801AC78() == 0)
@@ -2958,15 +2956,13 @@ void BattleResult441(u16 *arg0, u32 arg1)
         if (sub_0800CC98() == 0)
             sub_08015C14();
         sub_0800CD68();
-        w58 = 0;
-        w5A = 0;
-        pl441[sub_080020F4()].state = 0;
-        pl441[sub_080020F4()].b68 = 0;
+        {register u16 *q0 asm("r6"); { u16 *q; u16 z; u8 zb; { u16 *t = wh; asm("" : "+r"(t)); q0 = t; } z = 0; zb = 0; asm("" : "+r"(zb)); *q0 = z; q = &wh[1]; asm("" : "+r"(q)); *q = z;
+        pl441[sub_080020F4()].state = z;
+        pl441[sub_080020F4()].b68 = zb; }
         while (sub_08058DB0() == 0)
             sub_080003F0();
-        goto check;
-    loop:
-        {
+{ register int o0 asm("r5"); register int o1 asm("r8"); register int o2 asm("r9");  asm("":"=r"(o0),"=r"(o1),"=r"(o2));
+        while (flag) {
             if (sub_0800CC98() == 0)
                 sub_08015C14();
             flag = 0;
@@ -2975,17 +2971,14 @@ void BattleResult441(u16 *arg0, u32 arg1)
                     flag = 1;
             }
             if (i == 1)
-                goto done;
-            f441_sub_08008CC4(0x21, &w58, &w5A, o->f8, 1);
-            f441_sub_08007CF0(0x78, 0x3C, 0x21, w58, 0, (s32)o->data, o->f8, o->f0);
+                break;
+            { s32 one = 1; f441_sub_08008CC4(0x21, &wh[0], &wh[1], o->f8, one); }
+            f441_sub_08007CF0(0x78, 0x3C, 0x21, *q0, 0, (s32)o->data, o->f8, o->f0);
             sub_080003F0();
         }
-    check:
-        if (flag)
-            goto loop;
-    done:
-        if ((r = sub_0800CF10()) == 0)
-            pl441[sub_080020F4()].state = r;
+asm("" ::"r"(o0),"r"(o1),"r"(o2)); }}
+                if ((n = sub_0800CF10()) == 0)
+            pl441[sub_080020F4()].state = n;
         sub_0806617C();
         n = 0;
         while (sub_08068330(0x586) == 0)
@@ -3006,9 +2999,6 @@ void BattleResult441(u16 *arg0, u32 arg1)
         sub_0800CD78();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0806441C);
-#endif
 extern u8 *gA4210 asm("gUnk_03004210");
 extern u8 *gA5CF4 asm("gUnk_03005CF4");
 #define W64E(p, o) (*(u32 *)((p) + (o)))
