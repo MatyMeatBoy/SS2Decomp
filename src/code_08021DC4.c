@@ -5110,6 +5110,11 @@ extern void t025Effects27C(u16 *) asm("sub_08027C1C");
 struct T025RuntimeEffects { u8 pad0[0x160]; struct V2W12 pos160[10]; u8 pad1B0[0x7C]; u8 active22C[10]; };
 extern struct T025RuntimeEffects *t025RuntimeEffects asm("gUnk_03005CF4");
 extern u8 t025ConfigFields27C[] asm("gUnk_084B1864");
+static inline void t025SyncState27C(struct T025RuntimeEffects *runtime, struct T025Effect27C *effect, u32 index)
+{
+    runtime->pos160[index] = *(struct V2W12 *)effect;
+    runtime->active22C[index] = effect->f14;
+}
 void t025Effects27C(u16 *arg0) {
 
     register u8 *secondConfig;
@@ -5331,9 +5336,7 @@ loop_50:
         var_r8 = 0;
 loop_129:
         {
-            temp_r2_5 = &(*(struct T025RuntimeEffects **)effectSlot)->pos160[var_r8];
-            M2C_FIELD(temp_r2_5, struct V2W12 *, 0) = M2C_FIELD(var_r7, struct V2W12 *, 0);
-            (*(struct T025RuntimeEffects **)effectSlot)->active22C[var_r8] = (s8) var_r7->f14;
+            t025SyncState27C(*(struct T025RuntimeEffects **)effectSlot, var_r7, var_r8);
             temp_r0_2 = var_r7->f14;
             if (temp_r0_2 != 0) var_r9 = var_r7 + 1;
             switch ((s32)temp_r0_2) {
@@ -5396,13 +5399,14 @@ check_loop_70:
                                     arg82.f2 = 1;
                                 }
                                 if (sub_0800CCCC() != 0) {
+                                    goto check_loop_98;
 loop_98:
+                                    sub_080003F0();
+check_loop_98:
                                     temp_r4_2 = var_r7->f0;
                                     temp_r5 = var_r7->f4;
-                                    if (sub_08066520(temp_r4_2, temp_r5, M2C_FIELD(gUnk_03003CE0, u16 *, 0x14C * sub_080020F4() + 0x2C), (u32 *)&arg82) == 0) {
-                                        sub_080003F0();
+                                    if (sub_08066520(temp_r4_2, temp_r5, M2C_FIELD(gUnk_03003CE0, u16 *, 0x14C * sub_080020F4() + 0x2C), (u32 *)&arg82) == 0)
                                         goto loop_98;
-                                    }
                                 } else {
                                     goto check_loop_102;
 loop_102:
