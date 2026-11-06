@@ -3072,6 +3072,7 @@ void sub_080066BC(void) {
     register u32 var_sl asm("sl");
     register const struct Coord66 *var_r8 asm("r8");
     u32 hostZero;
+    register u32 clientZero asm("r8");
     u16 *initialCounts;
 
     /* Flowgraph is not reducible, falling back to gotos-only mode. */
@@ -3255,6 +3256,7 @@ block_42:
     goto block_2;
 block_45:
     var_r6_2 = 0;
+    clientZero = var_r6_2;
     var_r7 = coords66;
     var_r5_2 = &S.count[0];
     goto loop_61;
@@ -3267,13 +3269,13 @@ block_46:
     *var_r5_2 += 1;
     goto block_49;
 block_48:
-    *var_r5_2 = 0;
+    *var_r5_2 = clientZero;
 block_49:
     if ((u32) *var_r5_2 <= 5U) {
         goto block_51;
     }
-    peer->unk8 = 0U;
-    peer->unk9 = 0U;
+    peer->unk8 = clientZero;
+    peer->unk9 = clientZero;
 block_51:
     if (peer->unk8 != 0x4F) {
         goto block_54;
@@ -3281,7 +3283,7 @@ block_51:
     if (peer->unk9 != 0x4B) {
         goto block_54;
     }
-sub_08065230(&S.gfx, (s32) var_r7->x, (s32) var_r7->y, 1U, 0);
+sub_08065230(&S.gfx, (s32) var_r7->x, (s32) var_r7->y, 1U, clientZero);
     goto block_60;
 block_54:
     if (var_r6_2 != 0) {
@@ -3299,7 +3301,7 @@ block_58:
     if ((u32) *var_r5_2 > 5U) {
         goto block_60;
     }
-sub_08065230(&S.gfx, (s32) var_r7->x, (s32) var_r7->y, 1U, 0);
+sub_08065230(&S.gfx, (s32) var_r7->x, (s32) var_r7->y, 1U, clientZero);
 block_60:
     var_r7++;
     var_r5_2++;
