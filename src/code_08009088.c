@@ -1460,7 +1460,7 @@ s32 sub_0800B118(u8 direction, s32 x, s32 y, s32 flags)
                     cells[nextJ][nextI] = 1;
                 } else {
                     cell = (u8 *)&map[xx + yy * gUnk_03003170.width1];
-                    cells[j + 1][nextI] = (*(u32 *)cell << 20) >> 28;
+                    cells[j + 1][i + 1] = (*(u32 *)cell << 20) >> 28;
                     nextJ = j + 1;
                 }
                 j = nextJ;
