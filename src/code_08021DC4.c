@@ -4169,7 +4169,6 @@ void sub_080267DC(void) {
     *(void **)(base + 0x17E0) = sub_0805A6A0;
     sub_08000274((M2C_UNK *) (base + off), (s32) sub_0805A6A0);
 }
-#ifdef NONMATCHING
 struct T24Net08026858 { u16 unk0, unk2; u8 pad4[3]; u8 unk7; };
 struct T24Player08026858 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; u8 pad22[14]; u32 flags; u8 pad34[0x58]; u32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net08026858 *net; };
 struct T24Sprite08026858 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 payload[15]; u8 f2B; u8 pad2C[8]; };
@@ -4210,11 +4209,11 @@ void sub_08026858(void) {
     u32 temp_r2;
     u32 var_r4;
     u32 var_r5_2;
-    u32 var_r7; /* Register-seeded below; draft equivalence remains unproven. */
+    u32 var_r7;
     u8 *temp_r4;
     register struct T24Net08026858 *temp_r2_2 asm("r2");
+    s32 cx = 0xF0, cy = 0x88;
 
-    /* The original first count samples r7, holding the saved incoming sl. */
     frame = 0;
     phase = 0;
     var_sl = 0;
@@ -4252,9 +4251,9 @@ void sub_08026858(void) {
             goto block_57;
         }
     }
-    /* Back edges skip this single entry capture of the original register seed. */
+
     asm("" : "=r"(var_r7));
-loop_8:
+    do {
     goto poll_input;
 retry_input:
     sub_080003F0();
@@ -4357,19 +4356,12 @@ scan_body:
             x = (s16) ((u16) temp_r2_2->unk0 >> 4);
             temp_r1_2 = (u32) (temp_r2_2->unk2 << 0x14) >> 0x14;
             y = (s16) temp_r1_2;
-            {
-                s32 value = x;
-                register s32 limit asm("r3");
-
-                limit = 0xF0;
-                asm("" : "+r"(limit));
-                var_r0_3 = value - limit;
-            }
+            var_r0_3 = x - cx;
             if (var_r0_3 < 0) {
                 var_r0_3 = 0 - var_r0_3;
             }
             if (var_r0_3 <= 0x17) {
-                var_r0_4 = temp_r1_2 - 0x88;
+                var_r0_4 = temp_r1_2 - cy;
                 if (var_r0_4 < 0) {
                     var_r0_4 = 0 - var_r0_4;
                 }
@@ -4405,37 +4397,20 @@ block_51:
     temp_r0_2 = sub_0800CC98();
     if ((temp_r0_2 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
         sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-        {
-            register u32 xbase asm("r1") = 0xF0;
-            register u32 ybase asm("r2");
-            u32 xbits;
-            u32 ybits;
-            u32 amount;
-            asm("" : "+r"(xbase));
-            xbits = xbase << 16;
-
-            ybase = 0x88;
-            asm("" : "+r"(ybase));
-            ybits = ybase << 16;
-            asm("" : "+r"(xbits), "+r"(ybits));
-            amount=0x30;asm("" : "+r"(amount));
-            sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), &x, &y, amount, temp_r0_2);
-        }
+        sub_0800BC08((s16)cx, (s16)cy, &x, &y, 0x30, temp_r0_2);
         sub_08008E74(x, y, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
     }
     sub_080003F0();
-    if (!(((u16) t24_state08026858->unk4 >> 4) & 1)) {
-        goto loop_8;
-    }
+    } while (!(((u16) t24_state08026858->unk4 >> 4) & 1));
 block_57:
     sub_0805865C(0x24);
-    var_r5_2 = 1;
     {
+        register u32 cnt asm("r5") = 1;
         s16 *endX = &x;
         s16 *endY = &y;
         u32 xpos = 0xF00000;
 
-loop_59:
+        for (;;) {
         goto end_poll;
 end_yield:
         sub_080003F0();
@@ -4447,22 +4422,12 @@ end_poll:
 
             if ((temp_r0_3 == 0) && (sub_0800CCCC() != 0) && (t24_scene08026858.scene == 0x13)) {
                 sub_08000AF0(0x1EU, sprite.fC + 0x1E0, 1U);
-                {
-                    register u32 ybase asm("r2") = 0x88;
-                    u32 ybits;
-                    register u32 xbits asm("r3");
-                    asm("" : "+r"(ybase));
-                    ybits = ybase << 16;
-                    asm("" : "+r"(ybits));
-                    xbits = xpos;
-                    asm("" : "+r"(xbits));
-                    sub_0800BC08((s16)(xbits >> 16), (s16)(ybits >> 16), endX, endY, 0x30, temp_r0_3);
-                }
+                sub_0800BC08((s16)(xpos >> 16), (s16)cy, endX, endY, 0x30, temp_r0_3);
                 sub_08008E74(*endX, *endY, 1, frame, 3, sprite.payload, sprite.f8, sprite.f0);
             }
             sub_080003F0();
-            temp_r0_4 = var_r5_2;
-            var_r5_2 += 1;
+            temp_r0_4 = cnt;
+            cnt += 1;
             if (temp_r0_4 > 0x63U) {
                 sub_0800D014();
                 {
@@ -4480,7 +4445,7 @@ end_poll:
                         do {
                             struct T24State08026858 *base = *state;
                             u32 idx = col + rowOffset;
-                            register u32 gridOffset asm("r7") = offsetof(struct T24State08026858, grid);
+                            register u32 gridOffset asm("r7") = ((size_t)&((struct T24State08026858 *)0)->grid);
 
                             *((u8 *)base + gridOffset + idx) = zero;
                             col++;
@@ -4492,15 +4457,12 @@ end_poll:
                 sub_0801A664(0x12, 2);
                 sub_0800CDAC();
                 sub_08057624(3U);
-            } else {
-                goto loop_59;
+                return;
             }
+        } else return;
         }
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08026858);
-#endif
 void sub_08026C54(void) {
     s32 *new_var2;
     s32 base;
