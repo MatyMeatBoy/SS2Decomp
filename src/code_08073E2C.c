@@ -2846,7 +2846,7 @@ void sub_08078B24(u32 who, u32 b)
 }
 #ifdef NONMATCHING
 struct AttrBCC { u16 unk0, unk2; u32 unk4; };
-struct AttrKindBCC { u32 kind:4, rest:28; };
+struct AttrKindBCC { u32 kind:4; u8 tail[3]; };
 struct PlayerBCC { u16 unk0; u8 pad02[0x1e]; u16 state; u8 pad22[0xe]; u32 unk30; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C; u8 pad90[0x32]; u16 unkC2,unkC4; u8 padc6[0x32]; s32 unkF8[15]; u16 unk134; u8 pad136[0x12]; struct AttrBCC *unk148; };
 struct SpriteBCC { u32 f0,f4,f8,fC; u8 pad10[12]; u8 unk1C,unk1D; u8 pad1e[22]; };
 struct EnemyBCC { u16 unk0; u8 unk2; u8 pad03[9]; u16 unkC; u8 pad0e[0x3c]; u16 unk4A; u32 unk4C; u8 pad50[4]; s32 unk54; u16 unk58,unk5A,unk5C; u8 pad5e[0x17e]; u8 unk1DC; u8 pad1dd[0x51]; u8 unk22E,unk22F; };
