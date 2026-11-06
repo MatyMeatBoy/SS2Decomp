@@ -2522,7 +2522,6 @@ finish:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08063B80);
 #endif
-#ifdef NONMATCHING
 struct T65EPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 struct T65EPlayer { u8 bytes[0x14C]; };
 struct T65EResource { u32 id; u8 pad[84]; };
@@ -2531,7 +2530,8 @@ struct T65EVideo { u16 h0,h2,h4,h6,h8,hA,hC,hE; };
 extern struct T65EPlayer t65E_players[] asm("gUnk_03003CE0");
 extern struct T65EResource t65E_resourceTable[] asm("gUnk_08479140");
 extern struct T65EVideo t65E_video asm("gUnk_03001250");
-extern s16 t65E_display asm("gUnk_03001F40");
+union T65EDisplay { struct { u32 value:16; } bits; s16 raw; };
+extern union T65EDisplay t65E_display asm("gUnk_03001F40");
 extern u8 t65E_resources[] asm("gUnk_08518938");
 extern void t65E_bg(u32,u32,u32) asm("sub_080009F8");
 #define T65E_H(p,o) (*(u16 *)((p)+(o)))
@@ -2555,35 +2555,43 @@ static inline s32 t65E_init(struct T65EPopup *obj,u32 resource,s32 index,s32 siz
     sub_080653B8(obj,0x120,0xE0,8);
     return (s32)obj;
 }
+static inline void t65E_draw(struct T65EPopup *obj,s32 x,s32 y,u16 anim,u16 frame,u8 flag)
+{
+    sub_08007CF0(x,y,anim,frame,flag,(s32)obj->palette,(s32)obj->data,obj->base);
+}
 void sub_08063E30(void)
 {
     struct T65EPopup sprites[4];
     s32 delays[4],sounds[4];
     struct T65EPoint trails[4][5];
     struct T65EPoint velocities[4];
-    u32 fill,fillEnd,control;
-    u32 playerIndex,n,players,count,finished;
+    vu32 fill,fillEnd;
+    union { struct { u32 value:16; } bits; u16 raw; } control;
+    u32 zero; /* shared zero for the fill word and scroll registers */
+    u32 playerIndex,n,finished,players,count;
     s32 j;
     u8 *p;
     sub_08000990(0,1);
-    control=(control&0xFFFF0000)|0x1D00;
-    sub_08000AA8(1,(u16 *)&control);
-    *(u16 *)&control=0x5900;
-    sub_08000AA8(2,(u16 *)&control);
-    *(u16 *)&control=0x5A00;
-    sub_08000AA8(3,(u16 *)&control);
-    fill=0;
+    control.bits.value=0x1D00;
+    sub_08000AA8(1,&control.raw);
+    zero=0;
+    control.raw=0x5900;
+    sub_08000AA8(2,&control.raw);
+    control.raw=0x5A00;
+    sub_08000AA8(3,&control.raw);
+    fill=zero;
     CpuSet(&fill,(void *)0x0600C800,0x05000600);
     sub_0800B650(0x3A,0x1D,0x06000000,0,15);
     sub_0800B650(0x39,0x1A,0x06000000,0,15);
-    t65E_video.h4=0;t65E_video.h6=0;t65E_video.hA=0;t65E_video.hE=0;
+    t65E_video.h4=zero;t65E_video.h6=zero;t65E_video.hA=zero;t65E_video.hE=zero;
     t65E_video.h8=16;t65E_video.hC=0x100;
     t65E_bg(0xF00,0,0);
     sub_080009C0(0x1E00,0,1);
     players=sub_08002164();
     count=0;
     for (playerIndex=0;playerIndex<players;playerIndex++) {
-        if (T65E_ENTITY(t65E_players[playerIndex].bytes)->kind==14) count++;
+        p=t65E_players[playerIndex].bytes;
+        if (T65E_ENTITY(p)->kind==14) count++;
     }
     n=0;
     for (playerIndex=0;playerIndex<players;playerIndex++) {
@@ -2594,48 +2602,46 @@ void sub_08063E30(void)
             delays[n]=n*10+10;
             velocities[n].x=0;velocities[n].y=0;
             sounds[n]=0;
-            j=4;
-            do {
-                trails[n][4-j].x=((n*24-count*12)+132)<<8;
-                trails[n][4-j].y=0xA000;
-                j--;
-            } while (j>=0);
+            for (j=0;j<5;j++) {
+                trails[n][j].x=((n*24-count*12)+132)<<8;
+                trails[n][j].y=0xA000;
+            }
             n++;
         }
     }
     sub_0801AB90(10);
-    t65E_display=-1;
+    /* A 16-bit bitfield store keeps the 0xFFFF pool constant and strh. */
+    t65E_display.bits.value=0xFFFF;
     sub_08000B38();
-loop:
-    if (sub_0800CDF8() || sub_080021A8()) return;
-    sub_0800903C(2,60,1,16,16,0);
-    t65E_video.h6+=4;t65E_video.h8+=3;t65E_video.hC-=3;
-    finished=0;
-    n=0;
-    for (playerIndex=0;playerIndex<players;playerIndex++) {
-        p=t65E_players[playerIndex].bytes;
-        if (T65E_ENTITY(p)->kind==14) {
-            if (delays[n]==0) {
-                if (!sounds[n]) {sub_0805865C(n+0xF0);sounds[n]=1;}
-                j=4;
-                do {trails[n][j].y=trails[n][j-1].y;j--;} while (j>0);
-                trails[n][0].y+=velocities[n].y;
-                velocities[n].y-=0x30;
-            } else delays[n]--;
-            if (trails[n][4].y<0) finished++;
-            j=4;
-            do {
-                sub_08007CF0(trails[n][4-j].x>>8,trails[n][4-j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0,(s32)sprites[n].palette,(s32)sprites[n].data,sprites[n].base);
-                j--;
-            } while (j>=0);
-            n++;
+    while (1) {
+        if (sub_0800CDF8() || sub_080021A8()) return;
+        sub_0800903C(2,60,1,16,16,0);
+        t65E_video.h6+=4;t65E_video.h8+=3;t65E_video.hC-=3;
+        finished=0;
+        n=0;
+        for (playerIndex=0;playerIndex<players;playerIndex++) {
+            p=t65E_players[playerIndex].bytes;
+            if (T65E_ENTITY(p)->kind==14) {
+                if (delays[n]==0) {
+                    if (!sounds[n]) {sub_0805865C(n+0xF0);sounds[n]=1;}
+                    j=4;
+                    do {trails[n][j].y=trails[n][j-1].y;j--;} while (j>0);
+                    trails[n][0].y+=velocities[n].y;
+                    velocities[n].y-=0x30;
+                } else delays[n]--;
+                if (trails[n][4].y<0) finished++;
+                for (j=0;j<5;j++) {
+                    t65E_draw(&sprites[n],trails[n][j].x>>8,trails[n][j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0);
+                }
+                n++;
+            }
         }
+        if (count==finished) break;
+        sub_080003F0();
     }
-    if (count!=finished) {sub_080003F0();goto loop;}
     sub_0800903C(0,0,0,0,0,0);
     sub_0801AA8C(30);
-    goto loopEnd;
-loopEndBody:
+    while (!sub_0801AAE0()) {
         if (sub_0800CDF8() || sub_080021A8()) return;
         t65E_video.h6+=4;
         n=0;
@@ -2648,29 +2654,29 @@ loopEndBody:
                     trails[n][0].y+=velocities[n].y;
                     velocities[n].y-=0x30;
                 } else delays[n]--;
-                j=4;
-                do {
-                    sub_08007CF0(trails[n][4-j].x>>8,trails[n][4-j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0,(s32)sprites[n].palette,(s32)sprites[n].data,sprites[n].base);
-                    j--;
-                } while (j>=0);
+                /* Dead store kept: it leaves the original unused trail load. */
+                if (trails[n][4].y<0) finished=1;
+                for (j=0;j<5;j++) {
+                    t65E_draw(&sprites[n],trails[n][j].x>>8,trails[n][j].y>>8,T65E_H(p,0xB0),T65E_H(p,0xB2),0);
+                }
                 n++;
             }
         }
         sub_080003F0();
-loopEnd:
-    if (!sub_0801AAE0()) goto loopEndBody;
-    fillEnd=0;
-    CpuSet(&fillEnd,(void *)0x06000000,0x05002000);
-    t65E_display=0;
+    }
+    {
+        u32 zero2;
+        zero2=0;
+        fillEnd=zero2;
+        CpuSet(&fillEnd,(void *)0x06000000,0x05002000);
+        t65E_display.raw=zero2;
+    }
     sub_08000B38();
     sub_080003F0();
     t65E_bg(0xF00,0,1);
 }
 #undef T65E_H
 #undef T65E_ENTITY
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08063E30);
-#endif
 struct Chr441 { u32 kind:4; u32 kindHi:28; u32 lo:11; u32 level:8; u32 cls:5; u32 hi:8; };
 struct PL441 { u8 pad0[0x20]; u16 state; u8 pad22[0xE]; u32 flags; u8 pad34[0x34]; u8 b68; u8 pad69[0x5D]; u16 hC6; u8 padC8[0x80]; struct Chr441 *chr; };
 struct PE441 { struct Chr441 *chr; u8 pad[0x148]; };
