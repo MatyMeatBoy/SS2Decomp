@@ -2054,7 +2054,6 @@ void sub_0806335C(void)
     }
     t65_flags();
 }
-#ifdef NONMATCHING
 struct T65Popup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 extern u8 t65_popupResource[] asm("gUnk_08518938");
 extern u32 *t65_popupTasks asm("gUnk_0300602C");
@@ -2086,16 +2085,15 @@ void t65_popupImplementation(u32 packed,u32 arg)
     u16 sizes[2];
     u32 pos = packed;
     u32 sound = arg >> 16;
-    u32 shifted;
-    register u32 px asm("sl");
-    register u32 py asm("r9");
-    register u16 *widthPtr asm("r8");
+    u32 px;
+    u32 py;
+    u16 *widthPtr;
     u16 *initialHeight;
     register s16 *initialX asm("r5");
-    register s16 *initialY asm("r6");
+    s16 *initialY;
     s16 *xPtr;
     register s16 *yPtr asm("r5");
-    register u32 done asm("r4");
+    u32 done;
     u32 i;
     {register u32 resource asm("r4")=0x50130;
     register void *table asm("r9");
@@ -2107,8 +2105,8 @@ void t65_popupImplementation(u32 packed,u32 arg)
     style=5;mode=-1;base=t65_popupResource;asm("" : "+r"(style), "+r"(mode), "+r"(base));table=base;
     draw.resource=resource;draw.style=style;draw.mode=mode;
     first=sub_08006EE0(resource,table);draw.data=(u8 *)first;
-    widthPtr=&sizes[0];initialHeight=&sizes[1];initialX=&xy[0];initialY=&xy[1];
-    asm("" : "+r"(widthPtr), "+r"(initialHeight), "+r"(initialX), "+r"(initialY) : : "r1", "r2");
+    {register int a asm("r1"); register int b asm("r2"); asm("":"=r"(a),"=r"(b)); widthPtr=&sizes[0]; asm(""::"r"(a),"r"(b));}initialHeight=&sizes[1];initialX=&xy[0];initialY=&xy[1];
+    asm("" : "+r"(initialHeight), "+r"(initialX), "+r"(initialY));
     if(first) {
         resource&=0xFFFF;
         second=sub_08006EE0(resource|0x60000,table);draw.base=second;
@@ -2125,68 +2123,28 @@ void t65_popupImplementation(u32 packed,u32 arg)
     draw.palette[0] = 5;
     draw.palette[1] = sound;
     py = pos >> 16;
+    px = pos & 0xFFFF;
+    *widthPtr = 0;
+    *initialHeight = 0;
+    xPtr = initialX;
+    yPtr = initialY;
     {
-        register u32 mask asm("r0") = 0xFFFF;
-        register u32 coord asm("r1");
-        asm("" : "+r"(mask));
-        coord = pos;
-        asm("" : "+r"(coord));
-        coord &= mask;
-        asm("" : "+r"(coord));
-        px = coord;
-        {
-            register u16 *wp asm("r3") = widthPtr;
-            asm("" : "+r"(wp));
-            *wp = 0;
-        }
-        *initialHeight = 0;
-        xPtr = initialX;
-        yPtr = initialY;
-        shifted = coord << 16;
-    }
-    loop:
-        {
-            register u32 rawY asm("r6") = py;
-            u32 highY;
-            asm("" : : "r"(rawY));
-            highY = rawY << 16;
-            t65_position((s32)shifted >> 16, (s32)highY >> 16, xPtr, yPtr, 0x30, 0);
-        }
-        done = (u16)sub_08008CC4(10,&sizes[0],&sizes[1],draw.data,0);
+    for (;;) {
+        t65_position((s16)px, (s16)py, xPtr, yPtr, 0x30, done = 0);
+        done = (u16)sub_08008CC4(10,&sizes[0],&sizes[1],draw.data,done);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC() && !sub_0800CD34()) {
             if (*t65_popupTasks != 0) {
-                register u32 fade asm("r0")=sub_0800BC44(px,py,0);
-                register s32 drawX asm("r2");
-                register s32 drawY asm("r1");
-                register u32 busyR1 asm("r1");
-                register u32 busyR3 asm("r3");
-                register u16 *widths asm("r6");
-                register u32 width asm("r3");
-                /* Reserve the scratch registers in turn for the signed loads. */
-                asm("" : "=r"(busyR1) : "r"(fade));
-                drawX = *xPtr;
-                asm("" : "=r"(busyR3) : "r"(drawX), "r"(busyR1));
-                drawY = *yPtr;
-                asm("" : : "r"(busyR3), "r"(drawY));
-                widths = widthPtr;
-                width = *widths;
-                asm("" : "+r"(fade), "+r"(drawX), "+r"(drawY), "+r"(width));
-                t65_draw(drawX,drawY,10,width,(u8)fade,draw.palette,draw.data,draw.base);
+                u32 fade = sub_0800BC44(px,py,0);
+                {s32 dx=*xPtr; s32 dy=*yPtr; t65_draw(dx,dy,10,*widthPtr,(u8)fade,draw.palette,draw.data,draw.base);}
             }
             else {
-                register s32 drawX asm("r0") = *xPtr;
-                register s32 drawY asm("r1") = *yPtr;
-                register u16 *widths asm("r6") = widthPtr;
-                sub_08007CF0(drawX,drawY,10,*widths,1,(s32)draw.palette,(s32)draw.data,draw.base);
+                {s32 dx=*xPtr; s32 dy=*yPtr; sub_08007CF0(dx,dy,10,*widthPtr,1,(s32)draw.palette,(s32)draw.data,draw.base);}
             }
         }
         sub_080003F0();
-    if (!sub_0800CED8() && !sub_0800CB78() && !sub_0800CD00() && done == 0) goto loop;
+    if (sub_0800CED8() || sub_0800CB78() || sub_0800CD00() || done) break; }}
     *(u32 *)((u8 *)sub_0800048C()+8)=0;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080634D8);
-#endif
 #ifdef NONMATCHING
 struct T65CPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 struct T65CPlayer { u8 bytes[0x14C]; };
