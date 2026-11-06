@@ -2448,6 +2448,8 @@ void t65B_impl(s32 index)
     asm("" : "+r"(y65));scaledY65=y65<<8;
     asm volatile("" : "+r"(scaledY65) : : "memory");
     ptr65=boxPtr;asm("" : "+r"(ptr65));ptr65[1]=scaledY65;}
+    /* Keep the computed coordinates live in the stack box. */
+    asm("" : : "m"(box[0]), "m"(box[1]));
     box[2]=0x80010;
     box[3]=0x1E0018;
     *sizePtr=0;*heightPtr=0;
@@ -2470,10 +2472,20 @@ loop:
     sub_08008CC4(1,&sizes[2],&sizes[3],data65,callOne65);}
     if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && ({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0) {
         {register u32 fade asm("r0")=sub_0800BC44(worldX,0x138,1);
-        register s32 drawX asm("r2")=*xPtr;
-        register s32 drawY asm("r1")=*yPtr;
-        register u16 *widths asm("r4")=sizePtr;
-        register u32 width asm("r3")=*widths;
+        register s32 drawX asm("r2");
+        register s32 drawY asm("r1");
+        register u16 *widths asm("r4");
+        register u32 width asm("r3");
+        register u32 busyR1 asm("r1");
+        register u32 busyR3 asm("r3");
+        /* Reserve the scratch registers in turn for the signed loads. */
+        asm("" : "=r"(busyR1) : "r"(fade));
+        drawX = *xPtr;
+        asm("" : "=r"(busyR3) : "r"(drawX), "r"(busyR1));
+        drawY = *yPtr;
+        asm("" : : "r"(busyR3), "r"(drawY));
+        widths = sizePtr;
+        width = *widths;
         asm("" : "+r"(fade), "+r"(drawX), "+r"(drawY), "+r"(width));
         alternate=(u8)fade;
         out=t65B_draw(drawX,drawY,0,width,alternate,({palettePtr=draw.palette;asm("" : "+r"(palettePtr));palettePtr;}),draw.data,draw.base);}
@@ -2491,8 +2503,11 @@ loop:
                 }
             } else if (sub_0805EEFC((void *)dialog)) {
                 if (sub_0805EF14((u8 *)dialog)) {
-                    player->state=12;
-                    player->substate=1;
+                    u32 nextState = 12;
+                    struct T65BPlayer *target;
+                    target = player;
+                    target->state = nextState;
+                    target->substate = 1;
                     sub_0800CEE8();
                     sub_0800CF34();
                     goto finish;
