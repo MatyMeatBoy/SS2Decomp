@@ -13391,7 +13391,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 1363,
+          "line": 1367,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47B2C"
         }
       ]
@@ -13465,7 +13465,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 2273,
+          "line": 2277,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t47EScript"
         }
       ]
@@ -13556,7 +13556,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 3432,
+          "line": 3436,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t48implB"
         }
       ]
@@ -13715,7 +13715,7 @@
       "evidence": [
         {
           "source": "src/code_080443EC.c",
-          "line": 4301,
+          "line": 4305,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t49_sceneBC38"
         }
       ]
@@ -30975,14 +30975,14 @@
       "name": "sub_080A05B4",
       "addr": 134874548,
       "size": 1000,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0809D878",
       "kind": "c",
       "cat": "game",
       "address": "0x080A05B4",
       "canonical_symbol": "sub_080A05B4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080A05B4",
       "name_status": "unidentified",
       "name_source": null,
@@ -31482,7 +31482,7 @@
       "evidence": [
         {
           "source": "src/code_0809D878.c",
-          "line": 3328,
+          "line": 3322,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
         }
       ]
