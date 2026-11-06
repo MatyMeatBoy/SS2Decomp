@@ -649,6 +649,8 @@ void sub_08093BAC(s8 arg0, u8 arg1)
             break;
         case 3:
             if (cnt > 0x78) {
+                struct Spr2F58 *effect;
+
                 if (gUnk_0300026C != 0)
                     palstate = 3;
                 else
@@ -656,13 +658,14 @@ void sub_08093BAC(s8 arg0, u8 arg1)
                 sub_080944A8();
                 i = 0;
             loop3:
+                    effect = &sprC;
                     if (alive[i] != 0) {
                         h1[i] = h2[i] = 0;
                         anim[i] = abs((s16)(rand3BAC() % 8));
                     }
                     sprC.f24 = 1;
-                    sub_08000AF0(0x11, (void *)(sprC.fC + 0x100), 1);
-                    alive[i] = anim3BAC(&sprC, anim[i], &h1[i], &h2[i], 0);
+                    sub_08000AF0(0x11, (void *)(effect->fC + 0x100), 1);
+                    alive[i] = anim3BAC(effect, anim[i], &h1[i], &h2[i], 0);
                     if (frame[i]++ & 1)
                         draw3BACc(posB.x >> 8, posB.y >> 8, anim[i], h1[i], 0, sprC.f1C, sprC.f8, sprC.f0);
                                 i++;
