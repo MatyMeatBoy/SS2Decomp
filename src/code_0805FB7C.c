@@ -2295,7 +2295,6 @@ cleanup:
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080636B0);
 #endif
-#ifdef NONMATCHING
 struct T65BPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 struct T65BPlayer { u8 pad0[0x14]; u16 buttons; u8 pad16[10]; u16 state, substate; u8 pad24[12]; u32 flags; u8 pad34[0x114]; u8 *entity; };
 extern struct T65BPlayer t65B_players[] asm("gUnk_03003CE0");
@@ -2332,7 +2331,8 @@ void t65B_impl(s32 index)
     u16 sizes[4];
     s32 box[4];
     volatile s32 playerIndex=index;
-    volatile u32 worldX;
+    u32 worldX;
+    u32 worldY = 0x138;
     register u32 dialog asm("sl");
     u32 i;
     register u32 alternate asm("r5");
@@ -2381,7 +2381,7 @@ void t65B_impl(s32 index)
         boxPtr=box;
         asm("" : "=r"(busy3));
         sizePtr=sizes;
-        /* Subtract and restore the same byte offset around the register barrier. */
+
         heightBase = (u32)&sizes[1] - 74;
         asm("" : "+r"(heightBase));
         heightPtr = (u16 *)(heightBase + 74);
@@ -2426,54 +2426,26 @@ void t65B_impl(s32 index)
     asm("" : "+r"(y65));scaledY65=y65<<8;
     asm volatile("" : "+r"(scaledY65) : : "memory");
     ptr65=boxPtr;asm("" : "+r"(ptr65));ptr65[1]=scaledY65;}
-    /* Keep the computed coordinates live in the stack box. */
+
     ((volatile s32 *)box)[2] = 0x80010;
     ((volatile s32 *)box)[3] = 0x1E0018;
     *sizePtr=dialogZero;*heightPtr=dialogZero;
     dialog=dialogZero;}
     sub_0800CF20();
-goto check;
-loop:
-    {register u32 worldInput asm("r1")=worldX;
-    register s32 rawX asm("r0");register s32 rawY asm("r1");
-    register u32 constantY asm("r2");register u32 flag asm("r2");register u32 initialOne asm("r3");
-    asm("" : "+r"(worldInput));rawX=worldInput<<16;asm("" : "+r"(rawX));
-    constantY=0x138;asm("" : "+r"(constantY));rawY=constantY<<16;asm("" : "+r"(rawY));
-    xPtr=&xy[0];yPtr=&xy[1];flag=0x30;initialOne=1;
-    asm("" : "+r"(rawX), "+r"(rawY), "+r"(xPtr), "+r"(yPtr));
-    asm("" : "+r"(flag), "+r"(initialOne) : "r"(rawX), "r"(rawY), "r"(xPtr), "r"(yPtr));one=initialOne;
-    t65B_position(rawX>>16,rawY>>16,xPtr,yPtr,flag,initialOne);}
+    while (sub_0800CCCC()) {
+    t65B_position((s16)worldX,(s16)worldY,xPtr=&xy[0],yPtr=&xy[1],0x30,one=1);
     {
         u8 *data = draw.data;
         callOne65 = one;
         sub_08008CC4(0, &sizes[0], &sizes[1], data, callOne65);
     }
-    {register u8 *data65 asm("r3")=draw.data;
-    asm volatile("" : "+r"(data65) : "r"(callOne65) : "r0","r1","r2","memory");
-    {
-        register u16 *width asm("r1") = &sizes[2];
-        register u32 frame asm("r0") = 1;
-        sub_08008CC4(frame, width, &sizes[3], data65, callOne65);
-    }}
+    sub_08008CC4(1, &sizes[2], &sizes[3], draw.data, callOne65);
     if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CD34() && ({register u16 *p asm("r1")=&t65B_blocked;asm("" : "+r"(p));*p;})==0) {
-        {register u32 fade asm("r0")=sub_0800BC44(worldX,0x138,1);
-        register s32 drawX asm("r2");
-        register s32 drawY asm("r1");
-        register u16 *widths asm("r4");
-        register u32 width asm("r3");
-        register u32 busyR1 asm("r1");
-        register u32 busyR3 asm("r3");
-        /* Reserve the scratch registers in turn for the signed loads. */
-        asm("" : "=r"(busyR1) : "r"(fade));
-        drawX = *xPtr;
-        asm("" : "=r"(busyR3) : "r"(drawX), "r"(busyR1));
-        drawY = *yPtr;
-        asm("" : : "r"(busyR3), "r"(drawY));
-        widths = sizePtr;
-        width = *widths;
-        asm("" : "+r"(fade), "+r"(drawX), "+r"(drawY), "+r"(width));
-        alternate=(u8)fade;
-        out=t65B_draw(drawX,drawY,0,width,alternate,({palettePtr=draw.palette;asm("" : "+r"(palettePtr));palettePtr;}),draw.data,draw.base);}
+        {u32 fade=sub_0800BC44(worldX,worldY,1);
+        s32 dx, dy;
+        {register int a asm("r4"); register int b asm("r1"); asm("":"=r"(a),"=r"(b)); dx=*xPtr; asm(""::"r"(a),"r"(b));}
+        {register int a asm("r3"); asm("":"=r"(a)); dy=*yPtr; asm(""::"r"(a));}
+        out=t65B_draw(dx,dy,0,*sizePtr,alternate=(u8)fade,palettePtr=draw.palette,draw.data,draw.base);}
         *(u32 *)(out+12) -= 20;
         if (t65B_flags & one) t65B_overlay(*xPtr,*yPtr,1,sizes[2],alternate,palettePtr,draw.data,draw.base);
         sub_08000AF0(0x1F,(void *)draw.sound,1);
@@ -2518,14 +2490,10 @@ loop:
     }
     sub_080003F0();
     if (sub_0800CB78() || sub_0800CD00()) goto finish;
-check:
-    if (sub_0800CCCC()) goto loop;
+    }
 finish:
     sub_0800CF34();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08063B80);
-#endif
 struct T65EPopup { u32 base, unk4; u8 *data; u32 sound, resource, style, mode; u8 palette[24]; };
 struct T65EPlayer { u8 bytes[0x14C]; };
 struct T65EResource { u32 id; u8 pad[84]; };
