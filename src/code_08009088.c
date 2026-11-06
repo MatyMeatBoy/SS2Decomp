@@ -1257,16 +1257,19 @@ u32 sub_0800AE50(s32 x,s32 y,u32 resourceId)
     return t06_decodeAE50(result,type);
 }
 #ifdef NONMATCHING
-struct T06CellAEF4 {u8 type,flags;} __attribute__((packed));
+struct T06CellAEF4 {
+    u8 type;
+    u8 flags : 4, high : 4;
+} __attribute__((packed));
 extern u16 t06_widthAEF4 asm("gUnk_030031E8");
 void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     u32 a, b;
-    s32 sp0;
+    register u32 firstX asm("r5");
     struct T06CellAEF4 *sp4;
     u32 sp8;
-    register u32 spC asm("r9");
+    u32 spC;
     u32 sp10;
-    register u32 sp14 asm("r9");
+    u32 sp14;
     u32 sp18;
     s16 temp_r4;
     s32 temp_r1_5;
@@ -1280,7 +1283,7 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     u32 temp_r1_2;
     u32 temp_r1_4;
     u32 temp_r2;
-    u32 temp_r2_2;
+    register u32 temp_r2_2 asm("r9");
     register u32 var_r3 asm("r3");
     register u32 var_r3_2 asm("r3");
     u32 var_r4_2;
@@ -1288,47 +1291,58 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
     u8 temp_r1_3;
     u8 var_r0;
 
-    sp0 = arg3;
     a = (u32)arg0 << 0x10; b = (u32)arg1 << 0x10;
     asm("" : "+r"(a), "+r"(b));
     temp_r0 = a >> 0x13;
     asm("" : "+r"(temp_r0));
     temp_r1 = b >> 0x13;
-    if ((s32) temp_r0 > (s32) gUnk_03003170.mapW) {
-        return;
+    firstX = temp_r0;
+    asm("" : "+r"(firstX));
+    {
+        register struct TileSys *world asm("ip") = &gUnk_03003170;
+        register u16 *widthPtr asm("r7");
+
+        asm("" : "+r"(world));
+        widthPtr = &world->mapW;
+        asm("" : "+r"(widthPtr));
+        if ((s32) firstX > (s32) (*widthPtr)) {
+            return;
+        }
+        if (firstX & 0x8000) {
+            return;
+        }
+        sp18 = temp_r1 << 0x10;
+        temp_r4 = (s32)sp18 >> 16;
+        if ((s32) temp_r4 > (s32) world->mapH) {
+            return;
+        }
+        if (temp_r4 & 0x8000) {
+            return;
+        }
+        if (arg2 == 0) {
+            return;
+        }
+        if (arg3 == 0) {
+            return;
+        }
+        sp4 = (struct T06CellAEF4 *)world->map0;
     }
-    if (temp_r0 & 0x8000) {
-        return;
-    }
-    sp18 = temp_r1 << 0x10;
-    temp_r4 = (s32)sp18 >> 16;
-    if ((s32) temp_r4 > (s32) gUnk_03003170.mapH) {
-        return;
-    }
-    if (temp_r4 & 0x8000) {
-        return;
-    }
-    if (arg2 == 0) {
-        return;
-    }
-    if (arg3 == 0) {
-        return;
-    }
-    sp4 = (struct T06CellAEF4 *)gUnk_03003170.map0;
     if (arg4 != 0) {
         var_r3 = sp18 >> 0x10;
-        if (var_r3 >= (u32) (temp_r4 + sp0)) {
+        if (var_r3 >= (u32) (temp_r4 + arg3)) {
             return;
         }
         temp_r2 = arg2 >> 1;
         sp8 = temp_r2;
-        spC = temp_r0 + temp_r2;
+        spC = firstX + temp_r2;
         do {
             var_r4 = temp_r0 - sp8;
             var_r2 = var_r4 << 0x10;
             if ((u32) (s16) var_r4 < (u32) (sp8 + temp_r0)) {
+                register s32 row asm("r9") = (s16)var_r3;
+                asm("" : "+r"(row));
                 do {
-                    temp_r3 = &sp4[(var_r2 >> 0x10) + (gUnk_03003170.mapW * (s16) var_r3)];
+                    temp_r3 = &sp4[(var_r2 >> 0x10) + (gUnk_03003170.mapW * row)];
                     if ((0xF & temp_r3->flags) && (temp_r1_3 = temp_r3->type, ((temp_r1_3 & 0xF) != 0xC))) {
                         if (gUnk_03003170.curLevel == 0xB) {
                             if (temp_r1_3 != 8) {
@@ -1350,20 +1364,20 @@ void sub_0800AEF4(s32 arg0, s32 arg1, u32 arg2, s32 arg3, s32 arg4) {
 block_28:
                         temp_r3->type = var_r0;
                     }
-                    temp_r3->flags = (u8) ((-0x10 & temp_r3->flags) | 1);
+                    temp_r3->flags = 1;
                     var_r4 = (u16) ((u32) ((var_r4 << 0x10) + 0x10000) >> 0x10);
                     var_r2 = var_r4 << 0x10;
                 } while ((u32) (s16) var_r4 < spC);
             }
             temp_r1_2 = (var_r3 << 0x10) + 0x10000;
             var_r3 = temp_r1_2 >> 0x10;
-        } while ((u32) ((s32) temp_r1_2 >> 0x10) < (u32) (((s32) sp18 >> 0x10) + sp0));
+        } while ((u32) ((s32) temp_r1_2 >> 0x10) < (u32) (((s32) sp18 >> 0x10) + arg3));
         return;
     }
     var_r3_2 = sp18 >> 0x10;
-    if (var_r3_2 < (u32) (temp_r4 + sp0)) {
+    if (var_r3_2 < (u32) (temp_r4 + arg3)) {
         temp_r2_2 = arg2 >> 1;
-        sp14 = temp_r0 + temp_r2_2;
+        sp14 = firstX + temp_r2_2;
         sp10 = (temp_r0 - temp_r2_2) << 0x10;
         do {
             var_r4_2 = sp10 >> 0x10;
@@ -1374,13 +1388,13 @@ block_28:
                     temp_r0_2 = temp_r3_2->type;
                     temp_r1_5 = temp_r0_2 & 0xF;
                     if (temp_r1_5 == 0xC) {
-                        temp_r3_2->flags = (u8) (-0x10 & temp_r3_2->flags);
+                        temp_r3_2->flags = 0;
                         temp_r3_2->type = 0U;
                     } else if (temp_r1_5 == 0xA) {
-                        temp_r3_2->flags = (u8) ((-0x10 & temp_r3_2->flags) | ((temp_r0_2 >> 4) & 0xF));
+                        temp_r3_2->flags = (temp_r0_2 >> 4) & 0xF;
                         temp_r3_2->type = 0U;
                     } else if (temp_r0_2 == 8) {
-                        temp_r3_2->flags = (u8) (-0x10 & temp_r3_2->flags);
+                        temp_r3_2->flags = 0;
                     }
                     var_r4_2 = (u32) ((var_r4_2 << 0x10) + 0x10000) >> 0x10;
                     var_r2_2 = var_r4_2 << 0x10;
@@ -1388,7 +1402,7 @@ block_28:
             }
             temp_r1_4 = (var_r3_2 << 0x10) + 0x10000;
             var_r3_2 = temp_r1_4 >> 0x10;
-        } while ((u32) ((s32) temp_r1_4 >> 0x10) < (u32) (((s32) sp18 >> 0x10) + sp0));
+        } while ((u32) ((s32) temp_r1_4 >> 0x10) < (u32) (((s32) sp18 >> 0x10) + arg3));
     }
 }
 #else
