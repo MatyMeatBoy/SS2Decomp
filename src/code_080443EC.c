@@ -823,21 +823,6 @@ extern void emitF4445(struct CmdF4445 *) asm("sub_0805AB20");
 extern void sub_08029174(s32,s32);
 extern void sub_08019EB8(u16,s32);
 static inline u32 countF4445(u32 n) { return n; }
-#define READ_BIT_F4445(result, shift, setReg, clearReg) { \
-    u8 *addr; \
-    if (sub_0800CE30()) { \
-        register u8 *base asm("r0") = state566045; \
-        register u32 offset asm(setReg) = 0x1C7; \
-        asm("" : : "r"(offset), "r"(base)); \
-        addr = base + offset; \
-    } else { \
-        register u8 *base asm("r0") = state566045; \
-        register u32 offset asm(clearReg) = 0x1BB; \
-        asm("" : : "r"(offset), "r"(base)); \
-        addr = base + offset; \
-    } \
-    (result) = (*addr >> (shift)) & 1; \
-}
 #define DIALOG_F4445(msg) { \
     while (sub_0805F184()) sub_080003F0(); \
     while (sub_0805EF90()) sub_080003F0(); \
@@ -846,14 +831,6 @@ static inline u32 countF4445(u32 n) { return n; }
         if (sub_0800CDF8()) { sub_0805EFBC(); break; } \
         sub_080003F0(); \
     } }
-static inline u32 countItemsF4445(void) {
-    u32 count = 0, i;
-    u8 *q = invF4445 + 0x150;
-    for (i = 0; i <= 0x18; q += 0x10, i++) {
-        if (*(u16 *)(q + 0) == 5 && *(u16 *)(q + 2) == 0xA6) count++;
-    }
-    return count;
-}
 static inline void setlvF4445(u32 id, u16 v) {
     struct Actor566045 *ap;
     u32 key = id;
@@ -867,6 +844,23 @@ static inline void setlvF4445(u32 id, u16 v) {
     } else {
         ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->f11E = v;
     }
+}
+#define READ_BIT_F4445(result, shift, setReg, clearReg) { \
+    u8 *addr; \
+    if (sub_0800CE30()) { \
+        register u8 *base asm("r0") = state566045; \
+        register u32 offset asm(setReg) = 0x1C7; \
+        asm("" : : "r"(offset), "r"(base)); \
+        addr = base + offset; \
+    } else { \
+        register u8 *base asm("r0") = state566045; \
+        register u32 offset asm(clearReg) = 0x1BB; \
+        asm("" : : "r"(offset), "r"(base)); \
+        addr = base + offset; \
+    } \
+    { register s32 raw asm("r0") = *addr; \
+        (result) = (raw >> (shift)) & 1; \
+    } \
 }
 void sub_08045F44(u32 id) {
     struct CmdF4445 cmd;
@@ -896,7 +890,19 @@ void sub_08045F44(u32 id) {
         u32 count, cnt;
         s32 player;
         DIALOG_F4445(0x1402A1);
-        cntv = countItemsF4445();
+        {
+            u32 k;
+            u8 *entry;
+            d = 0;
+            k = 0;
+            entry = invF4445 + 0x150;
+            do {
+                if (*(u16 *)entry == 5 && *(u16 *)(entry + 2) == 0xA6)
+                    d++;
+                entry += 0x10;
+            } while (++k <= 0x18);
+            cntv = d;
+        }
         b = sub_080020F4();
         if (cntv == 0 || b != 0) goto end;
         setlvF4445(id, 3);
