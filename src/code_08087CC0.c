@@ -3118,13 +3118,13 @@ extern u8 C0Vc(u32) asm("sub_08001108");
     for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++) \
         sp150[loopCounterC0] = 0; \
     for (loopCounterC0 = 0; loopCounterC0 < sub_08002164(); loopCounterC0++) { \
-        struct C0Item *it = gSlotsC0[loopCounterC0].item; \
+        struct C0Item *it = slotsC0[loopCounterC0].item; \
         u32 kind = it->unk0 >> 4; \
         if (kind == 0) { \
             u32 cat = it->unk3 >> 4; \
             C0Draw(gSeatPosC0[cat][sp150[cat]][0], gSeatPosC0[cat][sp150[cat]][1], gSeatPosC0[cat][sp150[cat]][2], 0, kind, \
                    &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res); \
-            sp150[gSlotsC0[loopCounterC0].item->unk3 >> 4]++; \
+            sp150[slotsC0[loopCounterC0].item->unk3 >> 4]++; \
         } \
     }
 extern void sub_0808C0C4_v(void) asm("sub_0808C0C4");
@@ -3154,6 +3154,7 @@ void sub_0808C0C4_v(void) {
     struct C0Player *playerTableC0;
     u16 *countsC0;
     u8 *temp_r4;
+    struct C0Slot *slotsC0;
     u8 *playerBaseC0;
     s32 temp_r1_4;
     s32 temp_r1_5;
@@ -3199,6 +3200,7 @@ void sub_0808C0C4_v(void) {
     register struct C0Player *temp_r4_7 asm("r4");
     register struct C0Player *temp_r4_8 asm("r4");
 
+    slotsC0 = gSlotsC0;
     gKeysC0[0x2 / 2] = 0;
     gKeysC0[0x0 / 2] = 0;
     gKeysC0[0x6 / 2] = 0;
