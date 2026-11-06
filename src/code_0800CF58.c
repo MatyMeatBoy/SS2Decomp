@@ -6342,11 +6342,10 @@ void hud14170(struct Actor14170 *arg0)
     u16 dhp, dmp, dx3;
     u16 mhp, mmp, mx3;
 
-    u16 n;
     u16 i;
     u16 lim;
-    register u16 k asm("r1");
-    register u16 loadedCapacity asm("r0");
+    register u32 k asm("r1");
+    register u32 loadedCapacity asm("r0");
     u16 j;
     u32 *stats;
     u32 max;
@@ -6383,6 +6382,8 @@ void hud14170(struct Actor14170 *arg0)
         if ((s16)mhp != arg0->f62)
             i = 1;
         if (i) {
+            u16 n;
+
             if (arg0->fC4 > arg0->f62) {
                 arg0->fC4 = arg0->f62;
                 dhp = arg0->fC4;
@@ -6416,12 +6417,16 @@ void hud14170(struct Actor14170 *arg0)
             n = (s16)dhp * 40 / arg0->f62;
             if (hcur > 0 && n == 0)
                 n = 1;
-            for (i = 0; i < n >> 3; i++) {
-                buf1[i].w[2] = 0x44444444;
-                buf1[i].w[3] = 0x44444444;
-                buf1[i].w[4] = 0x44444444;
-                buf1[i].w[5] = 0x44444444;
-            }
+            /* The do/while(0) nesting raises the loop-depth weight of the
+               hoisted bound copy so it is allocated before n (r2 vs r3). */
+            do {
+                for (i = 0; i < n >> 3; i++) {
+                    buf1[i].w[2] = 0x44444444;
+                    buf1[i].w[3] = 0x44444444;
+                    buf1[i].w[4] = 0x44444444;
+                    buf1[i].w[5] = 0x44444444;
+                }
+            } while (0);
             if (n & 7) {
                 a.cnt = n & 7;
                 a.nib = 4;
@@ -6452,22 +6457,28 @@ void hud14170(struct Actor14170 *arg0)
         if ((s16)mmp != arg0->f60)
             i = 1;
         if (i) {
+            u16 n;
+
             if (arg0->fC2 > arg0->f60)
                 arg0->fC2 = arg0->f60;
             cur = dmp = arg0->fC2;
             mmp = arg0->f60;
-            v = dmp;
+            v = (s16)dmp;
             if (cur <= 0)
                 v = 0;
             n = v * 40 / arg0->f60;
             if (cur > 0 && n == 0)
                 n = 1;
-            for (i = 0; i < n >> 3; i++) {
-                buf2[i].w[2] = 0xAAAAAAAA;
-                buf2[i].w[3] = 0xAAAAAAAA;
-                buf2[i].w[4] = 0xAAAAAAAA;
-                buf2[i].w[5] = 0xAAAAAAAA;
-            }
+            do {
+                do {
+                    for (i = 0; i < n >> 3; i++) {
+                        buf2[i].w[2] = 0xAAAAAAAA;
+                        buf2[i].w[3] = 0xAAAAAAAA;
+                        buf2[i].w[4] = 0xAAAAAAAA;
+                        buf2[i].w[5] = 0xAAAAAAAA;
+                    }
+                } while (0);
+            } while (0);
             if (n & 7) {
                 a.cnt = n & 7;
                 a.nib = 0xA;
@@ -6512,7 +6523,10 @@ void hud14170(struct Actor14170 *arg0)
             gPal14170[0xFF] = *(u16 *)&color;
         }
         if (i) {
-            if (arg0->fC6 > stats[0xA0 / 4] + arg0->f79)
+            u16 n;
+
+            cur = arg0->fC6;
+            if (cur > stats[0xA0 / 4] + arg0->f79)
                 arg0->fC6 = stats[0xA0 / 4] + arg0->f79;
             cur = dx3 = arg0->fC6;
             max = stats[0xA0 / 4]; max += arg0->f79; mx3 = max;
@@ -6522,12 +6536,16 @@ void hud14170(struct Actor14170 *arg0)
             n = v * 24 / max;
             if (cur > 0 && n == 0)
                 n = 1;
-            for (i = 0; i < n >> 3; i++) {
-                buf3[i].w[2] = 0xFFFFFFFF;
-                buf3[i].w[3] = 0xFFFFFFFF;
-                buf3[i].w[4] = 0xFFFFFFFF;
-                buf3[i].w[5] = 0xFFFFFFFF;
-            }
+            do {
+                do {
+                    for (i = 0; i < n >> 3; i++) {
+                        buf3[i].w[2] = 0xFFFFFFFF;
+                        buf3[i].w[3] = 0xFFFFFFFF;
+                        buf3[i].w[4] = 0xFFFFFFFF;
+                        buf3[i].w[5] = 0xFFFFFFFF;
+                    }
+                } while (0);
+            } while (0);
             if (n & 7) {
                 a.cnt = n & 7;
                 a.nib = 0xF;
@@ -6592,11 +6610,14 @@ void hud14170(struct Actor14170 *arg0)
                     checkCapacity14170:
                         /* Both lookup paths share the original capacity check. */
                         k = loadedCapacity;
-                        if (i > k)
-                            goto inactive14170;
-                        goto validate14170;
+                        if (i <= k)
+                            goto validate14170;
+                        goto inactive14170;
                     }
-                    k = arg0->f26;
+                    {
+                        register u16 capacity asm("r0") = arg0->f26;
+                        k = capacity;
+                    }
                     if (i > k)
                         i = 0;
                 }
@@ -6609,7 +6630,7 @@ void hud14170(struct Actor14170 *arg0)
                 } else {
                 inactive14170:
                     if (arg0->f20 != 5) {
-                        draw14170(spr1, sx, sy - 0x20, arg0->f26, arg0->f24 >> 1);
+                        draw14170(spr1, sx, sy - 0x20, arg0->f26 & 0xFFFF, arg0->f24 >> 1);
                     }
                 }
             } else if ((u16)(arg0->f20 - 6) <= 1) {
