@@ -867,21 +867,27 @@ void sub_08045F44(u32 inputId) {
     u8 unused[16];
     u32 dlg;
     register s32 a asm("r6");
-    s32 b, c, d, cntv;
+    register s32 b asm("r5");
+    register s32 c asm("r4");
+    s32 cntv;
+    register s32 lastBit asm("r1");
     u32 i, n;
     struct ItemF4445 *it;
     struct Actor566045 *ap;
 
     ((struct PlF4445 *)(sub_080020F4() * 0x14C + (u32)playersF4445))->flags |= 1;
     sub_0800D0F4();
-    a = playersF4445[sub_080020F4()].f8C >> 8;
+    {
+        register s32 coord asm("r0") = playersF4445[sub_080020F4()].f8C;
+        a = coord >> 8;
+    }
     if (a > 0x1E7) sub_08029174(id, 6);
     else sub_08029174(id, 2);
     READ_BIT_F4445(a, 2, "r1", "r3");
     READ_BIT_F4445(b, 3, "r4", "r1");
     READ_BIT_F4445(c, 4, "r3", "r4");
-    READ_BIT_F4445(d, 5, "r1", "r3");
-    if (a && b && c && d) {
+    READ_BIT_F4445(lastBit, 5, "r1", "r3");
+    if (a && b && c && lastBit) {
         DIALOG_F4445(0x1402A9);
     } else if (a) {
         DIALOG_F4445(0x1402A8);
@@ -892,15 +898,15 @@ void sub_08045F44(u32 inputId) {
         {
             u32 k;
             u8 *entry;
-            d = 0;
+            a = 0;
             k = 0;
             entry = invF4445 + 0x150;
             do {
                 if (*(u16 *)entry == 5 && *(u16 *)(entry + 2) == 0xA6)
-                    d++;
+                    a++;
                 entry += 0x10;
             } while (++k <= 0x18);
-            cntv = d;
+            cntv = a;
         }
         b = sub_080020F4();
         if (cntv == 0 || b != 0) goto end;
