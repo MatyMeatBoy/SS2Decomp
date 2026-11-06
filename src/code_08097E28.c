@@ -2552,7 +2552,6 @@ void sub_0809C8F4_(struct ObjC1B4 *o)
     } while (--timer != 0xFFFF);
     taskC1B4()->f8 = 0;
 }
-#ifdef NONMATCHING
 struct SprCC2C { u32 f0, f4, f8, fC; u8 pad10[0xC]; u8 f1C[7]; u8 f23; u8 f24; u8 pad25[0xF]; };
 struct PosCC2C { u16 x, y; };
 struct XYCC2C { u32 x, y; };
@@ -2849,9 +2848,6 @@ out:
     }
     } while (0);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08097E28", sub_0809CC2C);
-#endif
 struct PosD374 { u16 x, y; };
 struct PlayerD374 { u8 p0[0x20]; u16 state; u8 p22[0xe]; u32 flags; u8 p34[0x34]; u8 f68; u8 p69[0x1f]; u16 f88; u8 p8a[0x26]; u16 fb0; u8 pb2[0x32]; u32 fe4[25]; struct PosD374 *pos; };
 struct ObjectD374 { u16 f0; u8 p2[6]; s16 f8; u16 fa, fc; u8 pe[6]; s32 x,y; u8 p1c[0x34]; s32 f50; };
