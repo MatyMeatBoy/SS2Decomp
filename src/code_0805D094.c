@@ -484,7 +484,6 @@ found:
     return (s32) temp_r4;
 }
 
-#ifdef NONMATCHING
 struct D854Window { u8 data[0x28]; u16 x, y, width, height; u8 state, number; u16 pad32; };
 struct D854Video { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V, win1V, winIn, winOut; };
 struct D854State { u8 pad[0x14A]; u16 palette; };
@@ -503,11 +502,11 @@ void d854_impl(void *arg) asm("sub_0805D854");
 void d854_impl(void *arg)
 {
     struct D854Window *window = arg;
-    u16 width, height;
+    u16 width, right, height;
+    u16 left, top;
     u32 delay;
     s32 initialized;
-    u16 left, right, top, bottom, column, row;
-    s32 leftEdge, rightEdge, topEdge, bottomEdge;
+    u16 bottom, column, row;
     window->state = 1;
     d854_video.scrollX = 0;
     d854_video.scrollY = 0;
@@ -585,37 +584,32 @@ void d854_impl(void *arg)
         }
         if (window->state != 5 && window->state != 0) {
             left = window->x - (width >> 1);
-            right = (u16)(window->x + (width >> 1)) + (width & 1);
+            right = window->x + (width >> 1);
+            right += width & 1;
             top = window->y - (height >> 1);
-            bottom = (u16)(window->y + (height >> 1)) + (height & 1);
+            bottom = window->y + (height >> 1);
+            bottom += height & 1;
             if (sub_0800CC98() == 0) {
-                leftEdge = left - 1;
-                rightEdge = right + 1;
-                topEdge = top - 1;
-                bottomEdge = bottom + 1;
-                d854_tiles[topEdge][leftEdge] = 0xF120;
-                d854_tiles[bottomEdge][leftEdge] = 0xF126;
-                d854_tiles[topEdge][rightEdge] = 0xF122;
-                d854_tiles[bottomEdge][rightEdge] = 0xF128;
+                d854_tiles[top - 1][left - 1] = 0xF120;
+                d854_tiles[bottom + 1][left - 1] = 0xF126;
+                d854_tiles[top - 1][right + 1] = 0xF122;
+                d854_tiles[bottom + 1][right + 1] = 0xF128;
                 for (column = left; column <= right; column++) {
-                    d854_tiles[topEdge][column] = 0xF121;
-                    d854_tiles[bottomEdge][column] = 0xF127;
+                    d854_tiles[top - 1][column] = 0xF121;
+                    d854_tiles[bottom + 1][column] = 0xF127;
                 }
                 for (row = top; row <= bottom; row++) {
-                    d854_tiles[row][leftEdge] = 0xF123;
-                    d854_tiles[row][rightEdge] = 0xF125;
+                    d854_tiles[row][left - 1] = 0xF123;
+                    d854_tiles[row][right + 1] = 0xF125;
                 }
-                d854_video.win1H = (((leftEdge * 8) + 3) << 8) | (((right + 2) * 8) - 3);
-                d854_video.win1V = (((topEdge * 8) + 3) << 8) | (((bottom + 2) * 8) - 3);
+                d854_video.win1H = ((((left - 1) * 8) + 3) << 8) | (((right + 2) * 8) - 3);
+                d854_video.win1V = ((((top - 1) * 8) + 3) << 8) | (((bottom + 2) * 8) - 3);
                 { u16 h = window->height; d854_clearRows(~(h >> 1) + window->y, h + 3); }
             }
         }
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805D854);
-#endif
 struct DC1CWindow { u8 data[0x28]; u16 x, y, width, height; u8 state, number; u16 pad32; };
 struct DC1CVideo { u16 scrollX, scrollY; u8 pad4[0x2C]; u16 win0H, win1H, win0V, win1V; };
 extern struct DC1CWindow *dc1c_windows asm("gUnk_03005D64");
