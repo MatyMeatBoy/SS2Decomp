@@ -2156,10 +2156,20 @@ void t65_popupImplementation(u32 packed,u32 arg)
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC() && !sub_0800CD34()) {
             if (*t65_popupTasks != 0) {
                 register u32 fade asm("r0")=sub_0800BC44(px,py,0);
-                register s32 drawX asm("r2")=*xPtr;
-                register s32 drawY asm("r1")=*yPtr;
-                register u16 *widths asm("r6")=widthPtr;
-                register u32 width asm("r3")=*widths;
+                register s32 drawX asm("r2");
+                register s32 drawY asm("r1");
+                register u32 busyR1 asm("r1");
+                register u32 busyR3 asm("r3");
+                register u16 *widths asm("r6");
+                register u32 width asm("r3");
+                /* Reserve the scratch registers in turn for the signed loads. */
+                asm("" : "=r"(busyR1) : "r"(fade));
+                drawX = *xPtr;
+                asm("" : "=r"(busyR3) : "r"(drawX), "r"(busyR1));
+                drawY = *yPtr;
+                asm("" : : "r"(busyR3), "r"(drawY));
+                widths = widthPtr;
+                width = *widths;
                 asm("" : "+r"(fade), "+r"(drawX), "+r"(drawY), "+r"(width));
                 t65_draw(drawX,drawY,10,width,(u8)fade,draw.palette,draw.data,draw.base);
             }
