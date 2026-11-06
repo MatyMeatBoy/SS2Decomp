@@ -968,17 +968,13 @@ void *sub_0805B618(void)
 
 
 
-#ifdef NONMATCHING
 struct B688Anim { s32 f0, f4, f8, fC, f10, f14, f18; u8 data[24]; };
 struct B688Item { u16 kind; u16 id; u8 rest[12]; };
 struct B688Pos { s32 x, y; };
 struct B688Size { u16 w, h; };
 struct B688Shape {
-    u16 kind : 4, x : 12;
-    u16 y : 12, direction : 4;
-    u8 flags : 6, high : 2;
-    u8 pad5;
-    u16 unused : 4, power : 5, remaining : 7;
+    u32 kind : 4, x : 12, y : 12, direction : 4;
+    u32 flags : 6, high : 2, pad5 : 8, unused : 4, power : 5, remaining : 7;
 };
 struct B688Player {
     u16 id;
@@ -1001,7 +997,7 @@ extern void b688_sub_08067F04(u32, u32, u32) asm("sub_08067F04");
 extern void b688_sub_0806818C(u32, u32, s32, s32, u32) asm("sub_0806818C");
 extern void b688_sub_0806823C(u32, u32, s32, s32, u32) asm("sub_0806823C");
 extern void b688_sub_0800BC08(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
-extern void b688_sub_08007870(s32, s32, u32, u32, u32, void *, s32, s32) asm("sub_08007870");
+extern void b688_sub_08007870(s32, s32, u32, u32, u8, void *, s32, s32) asm("sub_08007870");
 void sub_0805B688(u16 who, u16 itemId)
 {
     struct B688Anim anim;
@@ -1013,8 +1009,6 @@ void sub_0805B688(u16 who, u16 itemId)
     struct B688Size size2;
     register struct B688Size *enemySize asm("sl");
     s32 x, y;
-    u32 self;
-    u32 itemArg;
     struct B688Player *player;
     struct B688Obj *obj;
     u32 enemyKey;
@@ -1022,29 +1016,26 @@ void sub_0805B688(u16 who, u16 itemId)
     s32 height;
     s32 bounces;
     s32 velocity;
-    u16 hit;
+    s32 hit;
     u32 dir;
     u32 gfx;
     u32 me;
-    u32 power;
+    s32 power;
     u16 angle;
     u16 i;
     u8 *enemy;
-    u32 *hitMask;
     u32 ok;
     u32 pal;
     s32 z;
-    u32 n;
+    u32 lvl;
 
-    self = who;
-    itemArg = itemId;
-    player = &b688Players[self];
+    player = &b688Players[who];
     me = (u16)sub_080020F4();
     b688_sub_08065158(&anim, 0x500F1, 0, 0x80000000, 0);
-    power = player->shape->power;
+    lvl = player->shape->power;
     item.kind = 1;
-    item.id = itemArg;
-    obj = (struct B688Obj *)sub_08007290(itemArg | 0x100000);
+    item.id = itemId;
+    obj = (struct B688Obj *)sub_08007290(itemId | 0x100000);
     gfx = obj->gfx;
     x = player->shape->x << 8;
     y = player->shape->y << 8;
@@ -1053,11 +1044,11 @@ void sub_0805B688(u16 who, u16 itemId)
     if (player->state != 0xD && !sub_0800CCCC() && !sub_0800CD34())
         sub_0805865C(0x17);
     dir = player->shape->direction;
-    speed = power * 4 + 8;
+    speed = lvl * 4 + 8;
     bounces = 0;
     velocity = -0x100;
-    x += (gUnk_080B9704[(s16)angle + 0x40] * speed * 2) / 10;
-    y += (gUnk_080B9704[(s16)angle] * speed * 2) / 10;
+    x += ((gUnk_080B9704[(s16)angle + 0x40] << 1) * speed) / 10;
+    y += ((gUnk_080B9704[(s16)angle] << 1) * speed) / 10;
     if (sub_0801DE60() == 0)
         power = sub_0801E0AC((s32)(b688Map + 0x30), 5);
     else
@@ -1073,11 +1064,11 @@ void sub_0805B688(u16 who, u16 itemId)
         pos.y = y;
         *(u32 *)&size = 0x80008;
         *(u32 *)&size2 = 0x200018;
-        hitMask = &obj->hitMask;
-        if (*hitMask & 1) {
-            for (i = 0; i < sub_08002164() && hit == 0; i++) {
+
+        if (obj->hitMask & 1) {
+            for (i = 0; i < sub_08002164() && (u16)hit == 0; i++) {
                 struct B688Shape *s;
-                if (i == self)
+                if (i == who)
                     continue;
                 s = b688Players[i].shape;
                 if (s->kind == 0xE || s->kind == 0xC)
@@ -1090,14 +1081,14 @@ void sub_0805B688(u16 who, u16 itemId)
                 other.y = b688Players[i].shape->y << 8;
                 if (!b688_sub_08021FE0(&pos, &other, &size, &size2))
                     continue;
-                if (self == me) {
+                if (who == me) {
                     switch (obj->kind) {
                     case 5:
                         if (gUnk_03003170.curLevel != 11) {
                             if (b688Players[i].flags & 0x2000)
                                 b688_sub_08068144(i);
                             else
-                                b688_sub_08067F4C(itemArg, i, power);
+                                b688_sub_08067F4C(itemId, i, power);
                         }
                         break;
                     case 13:
@@ -1110,7 +1101,7 @@ void sub_0805B688(u16 who, u16 itemId)
                         b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
                         break;
                     default:
-                        b688_sub_08067F4C(itemArg, i, power);
+                        b688_sub_08067F4C(itemId, i, power);
                         break;
                     }
                     hit = 1;
@@ -1119,62 +1110,71 @@ void sub_0805B688(u16 who, u16 itemId)
                 }
             }
         }
-        if (hit)
+        if ((u16)hit)
             return;
-        if (*hitMask & 0x3E) {
+        if (obj->hitMask & 0x3E) {
+            i = 0;
             enemySize = &size2;
-            for (i = 0; i <= 4; i++) {
-                if (!(gUnk_030056FC & (1 << i)))
+            for (; i <= 4; i++) {
+                if (((u32)gUnk_030056FC & (1 << i)) == 0)
                     continue;
                 enemy = b688Enemies + i * 0x2E0;
                 if (*(u16 *)(enemy + 0xC) == 0xC)
                     continue;
-                if (enemy[0x1DC] == 0 && !(*hitMask & 0x3C))
+                if (enemy[0x1DC] == 0 && !(obj->hitMask & 0x3C))
                     continue;
-                enemySize->w = enemy[0x22E];
-                enemySize->h = enemy[0x22F];
-                if (!b688_sub_08021FE0(&pos, enemy + 0x14, &size, enemySize))
-                    continue;
+                {
+                    struct B688Size *es;
+                    u8 w = enemy[0x22E];
+
+                    es = enemySize;
+                    es->w = w;
+                    es->h = enemy[0x22F];
+                    if (!b688_sub_08021FE0(&pos, enemy + 0x14, &size, es))
+                        continue;
+                }
                 /* enemyKey is never initialised in the original (stack slot +0x88). */
-                ok = 0;
-                if (*(u16 *)(enemy + 0xC) != 0xB)
+                if (*(u16 *)(enemy + 0xC) == 0xB)
+                    ok = 0;
+                else
                     ok = *(u32 *)(enemy + 0x54) != enemyKey;
                 if (!ok)
                     continue;
                 if (enemy[0x1DC] == 0) {
                     switch (enemy[0x226]) {
                     case 4:
-                        if (!(*hitMask & 4))
+                        if (!(obj->hitMask & 4))
                             continue;
                         *(u16 *)(enemy + 0xC) = 0xC;
                         *(u16 *)(enemy + 0xE) = 8;
                         break;
                     case 5:
-                        if (!(*hitMask & 8))
+                        if (!(obj->hitMask & 8))
                             continue;
                         *(u16 *)(enemy + 0xC) = 0xC;
                         *(u16 *)(enemy + 0xE) = 8;
                         break;
                     case 6:
-                        if (!(*hitMask & 0x10))
+                        if (!(obj->hitMask & 0x10))
                             continue;
                         *(u16 *)(enemy + 0xC) = 0xC;
                         *(u16 *)(enemy + 0xE) = 8;
                         break;
                     case 7:
-                        if (!(*hitMask & 0x20))
+                        if (!(obj->hitMask & 0x20))
                             continue;
                         *(u16 *)(enemy + 0xC) = 0xC;
                         *(u16 *)(enemy + 0xE) = 8;
                         break;
                     }
                     if (*(u16 *)(enemy + 0xC) == 0xC) {
-                        hit++;
+                        /* (u16)(hit + 1), computed in the shifted domain as in the ROM. */
+                        hit = ((u32)hit << 16) + 0x10000 >> 16;
                         break;
                     }
                 } else {
                     hit = 1;
-                    if (self == sub_080020F4()) {
+                    if (who == sub_080020F4()) {
                         switch (obj->kind) {
                         case 13:
                             b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
@@ -1189,7 +1189,7 @@ void sub_0805B688(u16 who, u16 itemId)
                             b688_sub_0806818C(player->id, 4, pos.x, pos.y, power);
                             break;
                         default:
-                            b688_sub_08067F04(itemArg, *(u16 *)(enemy + 2), power);
+                            b688_sub_08067F04(itemId, *(u16 *)(enemy + 2), power);
                             break;
                         }
                     }
@@ -1198,10 +1198,16 @@ void sub_0805B688(u16 who, u16 itemId)
         }
         if ((s16)hit)
             return;
-        if (obj->kind <= 15 && obj->kind >= 13)
+        switch (obj->kind) {
+        case 13:
+        case 14:
+        case 15:
             sub_08013E90((speed << 8) / 10, &pos.x, dir, 4, (s16)hit);
-        else
+            break;
+        default:
             sub_08013E90((speed << 8) / 10, &pos.x, dir, 0, 0);
+            break;
+        }
         x = pos.x;
         y = pos.y;
         if (power)
@@ -1216,48 +1222,45 @@ void sub_0805B688(u16 who, u16 itemId)
         }
         if (!sub_0800CC98() && !sub_0800CD8C() && !(z = sub_0800CCCC())) {
             b688_sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, 0x30, z);
-            pal = (u8)sub_0800BC44(x >> 8, y >> 8, 0);
+            pal = sub_0800BC44(x >> 8, y >> 8, 0);
             b688_sub_08007870(screenX, screenY - (height >> 8), 0, gfx, pal, anim.data, anim.f8, anim.f0);
             b688_sub_08007870(screenX, screenY, 0, 0xFE, pal, anim.data, anim.f8, anim.f0);
         }
         sub_080003F0();
     }
-    if (hit)
+    if ((u16)hit)
         return;
-    if (self != me)
+    if (who != me)
         return;
     switch (obj->kind) {
     case 13:
         b688_sub_0806818C(player->id, 2, pos.x, pos.y, power);
-        n = 5;
+        power = 5;
         break;
     case 14:
         b688_sub_0806818C(player->id, 3, pos.x, pos.y, power);
-        n = 5;
+        power = 5;
         break;
     case 15:
         b688_sub_0806823C(player->id, 0, pos.x, pos.y, power);
-        n = 5;
+        power = 5;
         break;
     default:
         sub_08066520(x, y, gUnk_03003170.f90, (u32 *)&item);
-        n = 30;
+        power = 30;
         break;
     }
     sub_0805B4CC(&x, &y);
-    while (n--) {
+    while (power--) {
         if (!sub_0800CC98() && !sub_0800CD8C() && !(z = sub_0800CCCC())) {
             b688_sub_0800BC08((x << 8) >> 16, (y << 8) >> 16, &screenX, &screenY, 0x30, z);
-            pal = (u8)sub_0800BC44(x >> 8, y >> 8, 0);
+            pal = sub_0800BC44(x >> 8, y >> 8, 0);
             b688_sub_08007870(screenX, screenY, 0, gfx, pal, anim.data, anim.f8, anim.f0);
             b688_sub_08007870(screenX, screenY, 0, 0xFE, pal, anim.data, anim.f8, anim.f0);
         }
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805A630", sub_0805B688);
-#endif
 struct BD5CPlayer {
     u16 id;
     u8 pad2[0x1E];
