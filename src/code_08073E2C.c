@@ -1407,8 +1407,10 @@ void sub_080761A4_c(struct Arg61A4 *arg)
             dx = (te->xRaw >> 4) - (x >> 8);
             dy = ((u32)(te->yRaw << 20) >> 20) - (y >> 8);
             hit = (u16)atan61A4(dx, dy) >> 8;
-            if (hit > 0x80)
-                hit = (u16)(hit - 0x100);
+            /* ROM tests a copy of the angle (adds r1, r4, #0) in this block. */
+            t = (u8)hit;
+            if (t > 0x80)
+                hit = (u16)(t - 0x100);
             ang = hit;
             {
                 s16 sa = ang;
