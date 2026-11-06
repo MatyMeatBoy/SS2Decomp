@@ -1738,7 +1738,6 @@ void sub_0809FB6C(void *input)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_0809FB6C);
 #endif
-#ifdef NONMATCHING
 struct Sprite105 {u32 base,pad4,data,palette,pad10,pad14,pad18;u8 payload[24];};
 struct Actor105 {u16 index;u8 pad2[10];u16 state;u8 padE[0x42];u32 serial;u8 pad54[0x286];u16 paletteOffset;};
 struct Player105 {u8 p0[0x20];u16 state;u8 p22[14];u32 flags;u8 p34[0x34];u8 active;u8 p69[0x1F];u16 health;u16 p8A;s32 x,y;u8 p94[0x1C];u16 motion;u8 pB2[0x32];u32 seen[26];};
@@ -1755,20 +1754,17 @@ extern s32 damage105(void *,void *) asm("sub_0801ED8C");
 extern void camera105(u32) asm("sub_080A107C");
 extern void shake105(s32,u32) asm("sub_08097D3C");
 extern void sub_08097D64(void);
-
 extern void sub_080A104C(void);
 extern void sub_080A1058(void);
 void sub_080A05B4(u32 kind,void *done)
 {
     struct Sprite105 spr;
     s32 pos[2];
-    s32 targetX;
-    volatile u16 *otherPtr;
+    struct { s32 x, y; } target;
     s32 animDone,timer;
     u16 elapsed;
     s32 contact,started;
-    volatile u16 animation;
-    volatile u16 other;
+    u16 av[2];
     u16 frame,phase;
     s16 sx,sy,dx,dy;
     u8 shade;
@@ -1779,31 +1775,30 @@ void sub_080A05B4(u32 kind,void *done)
     init105(&spr,0x5000A,variant105,-1,1);
     spr.payload[0]=variant105;
     switch ((s32)kind) {
-    case 0: animation=kind;pos[0]=0x2000;targetX=0x8000;break;
-    case 1: animation=kind;targetX=pos[0]=0x2000;break;
-    case 2: animation=kind;targetX=pos[0]=0xE000;break;
-    case 3: animation=kind;pos[0]=0xE000;targetX=0x8000;break;
-    default: animation=0;pos[0]=0x2000;targetX=0x8000;break;
+    case 0: av[0]=kind;pos[0]=0x2000;target.x=0x8000;break;
+    case 1: av[0]=kind;target.x=pos[0]=0x2000;break;
+    case 2: av[0]=kind;target.x=pos[0]=0xE000;break;
+    case 3: av[0]=kind;pos[0]=0xE000;target.x=0x8000;break;
+    default: av[0]=0;pos[0]=0x2000;target.x=0x8000;break;
     }
-    otherPtr = &other;
-    *otherPtr = animation + 10;
+    av[1] = av[0] + 10;
     pos[1] = 0x7600;
     animDone=0;phase=0;frame=(u16)animDone;elapsed=0;started=0;contact=0;timer=90;
     do {
         move105(pos,0);
-        if (!sub_0800CD8C()) animDone=(u16)step105(&spr,animation,&frame,&phase,0);
+        if (!sub_0800CD8C()) animDone=(u16)step105(&spr,av[0],&frame,&phase,0);
         if (!sub_0800CCCC() && !sub_0800CD34() && !sub_0800CC98()) {
             sub_08000AF0(variant105+16,spr.palette+(actor105->paletteOffset<<5),1);
             screen105((pos[0]<<8)>>16,(pos[1]<<8)>>16,&sx,&sy,0,0);
-            object=draw105(sx,0x9F,animation,frame,2,spr.payload,spr.data,spr.base);object->y=sy;
+            object=draw105(sx,0x9F,av[0],frame,2,spr.payload,spr.data,spr.base);object->y=sy;
             if (frame) {
                 shade=sub_0800BC44(pos[0]>>8,pos[1]>>8,0);
-                object=draw105(sx,0x9F,*otherPtr,(u16)(frame-1),shade,spr.payload,spr.data,spr.base);object->y=sy;
+                object=draw105(sx,0x9F,av[1],(u16)(frame-1),shade,spr.payload,spr.data,spr.base);object->y=sy;
             }
         }
         if (!contact && frame==2 && phase==0) {
             sub_0805865C(0xC0);
-            dx=(targetX>>8)-(players105[sub_080020F4()].x>>8);
+            dx=(target.x>>8)-(players105[sub_080020F4()].x>>8);
             dy=0x88-(players105[sub_080020F4()].y>>8);
             if (Sqrt(dx*dx+dy*dy)<=0x27 && !sub_0800CDF8() && !sub_0800CD8C() && !sub_0800CCCC()
                 && actor105->state!=11 && !(players105[sub_080020F4()].flags&0x2000)
@@ -1818,7 +1813,14 @@ void sub_080A05B4(u32 kind,void *done)
                     asm("" : "+r"(amount));
                     players105[i].health = amount + players105[i].health;
                 }
-                players105[sub_080020F4()].seen[actor105->index]=actor105->serial++;
+                {
+                    s32 n = sub_080020F4();
+                    register struct Actor105 **pa asm("r3") = &actor105;
+                    struct Actor105 *a;
+                    asm("" : "+r"(pa));
+                    a = *pa;
+                    players105[n].seen[a->index]=a->serial++;
+                }
                 {
                     register u32 one asm("r4") = 1;
                     asm("" : "+r"(one));
@@ -1830,11 +1832,7 @@ void sub_080A05B4(u32 kind,void *done)
             register s32 check asm("r5") = started;
             asm("" : "+r"(check));
             if (!check && frame==2 && phase==0) {
-                {
-                    register u32 one asm("r3") = 1;
-                    asm("" : "+r"(one));
-                    started = one;
-                }
+                started = 1;
                 camera105(20);
                 if (kind<=1) shake105(-0x20,20);else shake105(0x20,20);
                 sub_08097D64();sub_080A1070(4);sub_080A104C();sub_0805865C(0xBE);
@@ -1848,10 +1846,6 @@ void sub_080A05B4(u32 kind,void *done)
     /* The loop exits with the same zero that clears the task state. */
     *(u32 *)((u8 *)sub_0800048C() + 8) = timer;
 }
-
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0809D878", sub_080A05B4);
-#endif
 struct EntryA099C { u8 pad[8]; u16 unk8, unkA; u8 rest[20]; };
 struct PlayerA099C { u8 pad[0x8C]; u32 x, y, xx, yy; u8 rest[0xB0]; };
 extern struct PlayerA099C gPlayersA099C[] asm("gUnk_03003CE0");
