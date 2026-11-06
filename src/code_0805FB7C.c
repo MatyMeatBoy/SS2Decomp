@@ -2186,52 +2186,50 @@ static inline s32 t65C_init(struct T65CPopup *obj,u32 resource,s32 index,s32 siz
     return (s32)obj;
 }
 void t65C_impl(s32) asm("sub_080636B0");
+extern s32 t65C_draw(s32,s32,u32,u32,s32,void *,u8 *,u32) asm("sub_08007CF0");
+struct Remote65C {
+    u16 low4:4, x:12;
+    u16 y:12, upper4:4;
+    union {
+        struct {u8 value:6, upper2:2;} region;
+        struct {u8 low5:5;s8 bit5:1;u8 upper2:2;} bits;
+    } byte4;
+};
+static inline s32 t65C_measure(u32 id,u16 *w,u16 *h,u8 *d){ return sub_08008CC4(id,w,h,d,1); }
 void t65C_impl(s32 index)
 {
-    struct Remote65C {
-        u16 low4:4, x:12;
-        u16 y:12, upper4:4;
-        union {
-            struct {u8 value:6, upper2:2;} region;
-            struct {u8 low5:5;s8 bit5:1;u8 upper2:2;} bits;
-        } byte4;
-    };
     struct T65CPopup label,sprite;
     s16 x, y;
     u16 w0, h0, w1, h1, w2, h2;
-    s32 playerIndex=index;
-    u32 worldX,worldY,text;
+    u32 worldX,worldY;
     s16 frame;
-    u32 shifted;
-    s32 zero,cc;
-    u16 *spriteIndex;
-    u8 *p=t65C_players[playerIndex].bytes;
-    u8 *color;
+    u32 text;
+    s32 zero,cc,z2;
+    u8 *p=t65C_players[index].bytes;
     t65C_init(&label,0x5005E,5,-1);
     label.palette[0]=15;
     worldY=((struct Remote65C *)T65C_ENTITY(p))->y;
     worldX=((struct Remote65C *)T65C_ENTITY(p))->x;
-    if (playerIndex==sub_080020F4()) sub_0800CEE8();
-    w1=0;h1=0;
-    w2=2;h2=0;
+    if (index==sub_080020F4()) sub_0800CEE8();
+    w1=0;h1=0;text=0;
+    w2=2;h2=text;
     h0=0;
-    frame=0;
-    spriteIndex=(u16 *)(p+0x64);
-    t65C_init(&sprite,t65C_resourceTable[*spriteIndex].id,0,-1);
+    frame=text;
+    t65C_init(&sprite,t65C_resourceTable[T65C_H(p,0x64)].id,0,-1);
     sprite.palette[0]=T65C_H(p,0);
     zero=sub_0800CF80();
     if (zero) goto cleanup;
     h0=zero;w0=zero;
     text=0x21;
-    if (playerIndex==sub_080020F4()) {
+    if (index==sub_080020F4()) {
         sub_0805865C(0x75);
         T65C_H(p,0x1C)=zero;
     }
     while (frame<=159) {
     t65C_position((s16)worldX,(s16)worldY,&x,&y,0x30,0);
-    T65C_H(p,0xB6)=sub_08008CC4(0x21,&w0,&h0,sprite.data,1);
-    sub_08008CC4(0,&w1,&h1,label.data,1);
-    sub_08008CC4(1,&w2,&h2,label.data,1);
+    T65C_H(p,0xB6)=t65C_measure(0x21,&w0,&h0,(*(u8 **)((u8 *)&sprite+8)));
+    t65C_measure(0,&w1,&h1,label.data);
+    t65C_measure(1,&w2,&h2,label.data);
     if (sub_0800CC98()) goto skipDraw;
     if (sub_08058DB0()) goto skipDraw;
     if (sub_0800CD34()) goto skipDraw;
@@ -2246,21 +2244,19 @@ drawTest:
     sub_08000AF0(0x1F,(void *)label.sound,1);
     if (T65C_W(p,0x30)&0x2000) {
         if (!(t65C_flags&1)) {
-            sub_08007CF0(x,y-frame,text,w0,1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
+            t65C_draw(x,y-frame,text,w0,1,sprite.palette,(*(u8 **)((u8 *)&sprite+8)),sprite.base);
             sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+0x1C0),1);
         }
     } else {
-        sub_08007CF0(x,y-frame,text,w0,1,(s32)sprite.palette,(s32)sprite.data,sprite.base);
-        if (*spriteIndex==9) {
+        t65C_draw(x,y-frame,text,w0,1,sprite.palette,(*(u8 **)((u8 *)&sprite+8)),sprite.base);
+        if (T65C_H(p,0x64)==9) {
             sub_08000AF0(T65C_H(p,0)+16,(void *)sprite.sound,1);
-            color=p+0x66;
         } else {
-            color=p+0x66;
-            sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(*color<<5)),1);
+            sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(p[0x66]<<5)),1);
         }
-        sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(*color<<5)),1);
+        sub_08000AF0(T65C_H(p,0)+16,(void *)(sprite.sound+(p[0x66]<<5)),1);
     }
-    sub_08007CF0(x,y-(frame+24),0,w1,1,(s32)label.palette,(s32)label.data,label.base);
+    t65C_draw(x,y-24-frame,0,w1,1,label.palette,label.data,label.base);
     if (t65C_flags&1) t65C_overlay(x,y,1,w2,3,label.palette,label.data,label.base);
 skipDraw:
     sub_080003F0();
@@ -2270,14 +2266,14 @@ skipDraw:
 cleanup:
     if (sub_0800CDF8()) return;
     while (sub_0800D11C()) sub_080003F0();
-    while ((zero=sub_0800D098())!=0) sub_080003F0();
-    if (playerIndex!=sub_080020F4()) return;
+    while ((z2=sub_0800D098())!=0) sub_080003F0();
+    if (index!=sub_080020F4()) return;
     sub_0805867C(0x75);
     p[0x68]=1;
     cc=sub_0800CCCC();
     if (cc) {
         sub_08056FB8(T65C_H(p,0x2E),T65C_H(p,0x2C));
-        T65C_H(p,0x2E)=zero;T65C_H(p,0x2C)=zero;
+        T65C_H(p,0x2E)=z2;T65C_H(p,0x2C)=z2;
         return;
     }
     if (T65C_W(p,0x30)&0x2000) {
