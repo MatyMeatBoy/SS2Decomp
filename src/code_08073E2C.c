@@ -1302,6 +1302,7 @@ void sub_080761A4_c(struct Arg61A4 *arg)
     u8 atk[0xC4];
     s16 dx, dy;
     u16 frame, timer;
+    u16 ang;
     struct Pos61A4 pos;
     struct Pos61A4 opos;
     struct Box61A4 box;
@@ -1326,7 +1327,6 @@ void sub_080761A4_c(struct Arg61A4 *arg)
     s32 d;
     u16 j;
     u32 cnt;
-    u16 ang;
     s32 t;
     s32 hit;
     s32 ok;
