@@ -3165,7 +3165,10 @@ loop_16:
     goto loop_24CheckC0;
 loop_24BodyC0:
     playerBaseC0 = (u8 *)gPlayersC0;
-    temp_r0_2 = (struct C0Item **)(playerBaseC0 + 0x148 + var_r9);
+    {
+        u8 *b148 = playerBaseC0 + 0x148;
+        temp_r0_2 = (struct C0Item **)(b148 + var_r9);
+    }
     temp_r1 = *temp_r0_2;
     temp_r4_3 = (u16) temp_r1->unk0 >> 4;
     if (temp_r4_3 == 0) {
@@ -3181,7 +3184,7 @@ loop_24BodyC0:
             temp_r1_3 = &countsC0[((struct C0Player *)(playerBaseC0 + var_r9))->unk1C];
             *temp_r1_3 += 1;
         } else {
-            temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4];
+            do { temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4]; } while (0);
             *temp_r0_3 += 1;
         }
     }
@@ -3299,16 +3302,19 @@ loopB_TopC0:
         goto loopB_TopC0;
     for (var_r5_2 = 0; var_r5_2 < 5; var_r5_2++) sp150[var_r5_2] = 0;
     {
-        u16 *cnt = sp150;
-        for (var_r5_2 = 0, off2 = 0; var_r5_2 < sub_08002164(); off2 += 0x14C, var_r5_2++) {
+        u32 off;
+        u16 *cnt;
+        for (var_r5_2 = 0, cnt = sp150, off = 0; var_r5_2 < sub_08002164(); off += 0x14C, var_r5_2++) {
             u8 *base = (u8 *)gPlayersC0;
-            struct C0Item **pit = (struct C0Item **)(off2 + (base + 0x148));
+            u8 *b148 = base + 0x148;
+            struct C0Item **pit = (struct C0Item **)(b148 + off);
             if (((*pit)->unk0 >> 4) == 0) {
                 if (var_r5_2 == sub_080020F4()) {
-                    u16 *q = &cnt[((struct C0Player *)(off2 + base))->unk1C];
-                    *q += 1;
+                    s32 ix = ((struct C0Player *)(off + base))->unk1C;
+                    do { u16 *q = &cnt[ix]; *q += 1; } while (0);
                 } else {
-                    u16 *q = &cnt[(*pit)->unk3 >> 4];
+                    u16 *q;
+                    do { q = &cnt[(*pit)->unk3 >> 4]; } while (0);
                     *q += 1;
                 }
             }
