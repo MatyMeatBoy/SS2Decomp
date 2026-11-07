@@ -1982,7 +1982,6 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     u16 shake;
     u16 i;
     s32 flag;
-    s32 d;
     s32 lowerLimit;
     s16 *offsetLo, *offsetHi;
 
@@ -2033,6 +2032,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     timer = 0xF0;
     sub_08092E28(4);
     do {
+        s32 d;
         shake = sub_08092E34();
         accum += 2;
         d = (s16)accum >> 8;
@@ -2071,29 +2071,32 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
         if (sub_080021A8() == 1)
             goto end;
     } while (--timer != 0xFFFF);
-    timer = 120;
-    do {
-        shake = sub_08092E34();
-        y -= 6;
-        if ((s16)y < -56)
-            y = -56;
-        if (!BUSY923FC()) {
-            sub_08000AF0(0x10, a.fC + 0xE0, 1);
-            draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
-            sub_08000AF0(0x11, b.fC + 0x100, 1);
-            i = 0;
-            do {
-                ys[i] -= 0x100;
-                draw923FC(xs[i], ys[i] >> 8, i + 7, 0, param, b.payload, b.f8, b.f0);
-                i++;
-            } while (i <= 3);
-            cache923FC[0] = plus923FC(shake, v923FC_250);
-            cache923FC[2] = minus923FC(v923FC_254, shake);
-        }
-        sub_080003F0();
-        if (sub_080021A8() == 1)
-            goto end;
-    } while (--timer != 0xFFFF);
+    {
+        u16 *phase3Offsets = cache923FC;
+        timer = 120;
+        do {
+            shake = sub_08092E34();
+            y -= 6;
+            if ((s16)y < -56)
+                y = -56;
+            if (!BUSY923FC()) {
+                sub_08000AF0(0x10, a.fC + 0xE0, 1);
+                draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
+                sub_08000AF0(0x11, b.fC + 0x100, 1);
+                i = 0;
+                do {
+                    ys[i] -= 0x100;
+                    draw923FC(xs[i], ys[i] >> 8, i + 7, 0, param, b.payload, b.f8, b.f0);
+                    i++;
+                } while (i <= 3);
+                phase3Offsets[0] = plus923FC(shake, v923FC_250);
+                phase3Offsets[2] = minus923FC(v923FC_254, shake);
+            }
+            sub_080003F0();
+            if (sub_080021A8() == 1)
+                goto end;
+        } while (--timer != 0xFFFF);
+    }
     sub_0800CBF8(1);
     sub_0805865C(0xF8);
     switch ((s8)kind) {
@@ -2126,7 +2129,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
         sub_080003F0();
         if (sub_080021A8() == 1)
             goto end;
-    } while ((s16)target > (s16)y);
+    } while ((s32)((u32)target << 16) > (s32)((u32)y << 16));
     y = target;
     sub_0805865C(0xF9);
     sub_08092E28(8);
@@ -2140,6 +2143,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
         shake = sub_08092E34();
         if (!BUSY923FC()) {
             s32 lower;
+            s32 d;
             sub_08000AF0(0x10, a.fC + 0xE0, 1);
             draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
             accum += 4;
