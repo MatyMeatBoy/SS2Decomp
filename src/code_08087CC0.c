@@ -2103,66 +2103,45 @@ void sub_0808AFA4(const u16 *pos)
     *(struct PositionPairAFA4 *)(state + 0x94) = *(struct PositionPairAFA4 *)(state + 0x8C);
 }
 #ifdef NONMATCHING
-extern void sub_0808AFE8_v(void) asm("sub_0808AFE8");
-void sub_0808AFE8_v(void) {
-    struct AnimAF91 { u8 p0[0xC]; u32 data; u8 p10[0xC]; u8 flags; u8 p1D[0x17]; };
-    struct RecordAF91 { u32 words[4]; };
-    /* The original stack places the animation at sp+8 and records at sp+0x48. */
-    struct { struct AnimAF91 anim; u8 pad[12]; struct RecordAF91 records[30]; struct AnimAF91 arg86, arg93; u16 argA0; u16 align; } work;
-    u8 *var_r0;
-    s32 *var_r2;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
-    s32 temp_r1;
-    s32 temp_r1_2;
-    s32 temp_r4_4;
-    s32 temp_r4_7;
-    s32 var_r1;
-    s32 var_r3;
-    s32 var_r4_2;
-    s32 var_r5_2;
-    s32 var_r5_3;
-    u32 temp_r0_4;
-    u16 *temp_r4_2;
-    u16 *temp_r4_5;
-    u16 *var_r2_2;
-    u16 *var_r3_2;
-    u16 *var_r5;
-    register u16 *var_r7 asm("r7");
-    u32 temp_r8;
-    register u32 var_r6 asm("r6");
-    u32 var_r6_2;
-    u32 var_r6_3;
-    register u32 var_r8 asm("r8");
-    u32 var_r8_2;
-    u8 *temp_r4_3;
-    u8 *temp_r4_6;
-    u8 *temp_r0_5;
-    u8 *temp_r1_3;
-    u8 *temp_r4;
-    u8 *temp_r7;
-    u8 *temp_r7_2;
-    u8 *var_r4;
-    u8 *var_r4_3;
-    u8 *var_r4_4;
+struct SprAF91 { u8 p0[0xC]; u8 *data; u8 p10[0xC]; u8 flags; u8 p1D[0x17]; };
+struct RecAF91 { u16 type; u16 val; u32 time; u8 b8; u8 b9; u8 pad[6]; };
+struct TypeAF91 { u16 a; u16 b; };
+struct EntryAF91 { u8 pad[0xD4]; u16 obj; u16 pal; };
+struct ObjAF91 { u32 gfx[22]; };
+struct PlayerAF91 { u8 p0[0x10]; u16 h10; u8 p12[0x52]; u16 h64; u8 b66; u8 p67[0xE5]; };
+struct StateAF91 { u8 p0[0x36]; u16 h36; u8 p38[8]; u32 w40; u8 p44[0x18]; struct RecAF91 rec; };
 
-    extern u16 gUnk_03001308;
+extern u16 heldAF91 asm("gUnk_03001308");
+extern u16 trigAF91 asm("gUnk_03001324");
+extern u16 keysAF91[] asm("gUnk_03001250");
+extern struct StateAF91 *stateAF91 asm("gUnk_03005CF4");
+extern struct PlayerAF91 playersAF91[] asm("gUnk_03003CE0");
+extern u8 saveAF91[] asm("gUnk_03001F40");
+extern u16 stagesAF91[] asm("gUnk_084EBD38");
+extern struct ObjAF91 objectsAF91[] asm("gUnk_08479140");
+extern struct EntryAF91 tableAAF91[] asm("gUnk_0847AC64");
+extern struct EntryAF91 tableBAF91[] asm("gUnk_0848529C");
+extern struct TypeAF91 recordTypesAF91[][3] asm("gUnk_084F0B10");
+extern struct TypeAF91 recordVals0AF91[][3] asm("gUnk_084F0B12");
+extern u16 timesAF91[] asm("gUnk_084F0C00");
+extern u16 data084AA9E8AF91[] asm("gUnk_084AA9E8");
+extern u16 data084AAB38AF91[] asm("gUnk_084AAB38");
+extern u16 data084AAC88AF91[] asm("gUnk_084AAC88");
+extern u16 data084AADD8AF91[] asm("gUnk_084AADD8");
+extern u16 data084AAF28AF91[] asm("gUnk_084AAF28");
+extern u16 data084AB078AF91[] asm("gUnk_084AB078");
+extern u16 data084AB1C8AF91[] asm("gUnk_084AB1C8");
+extern u16 data084AB318AF91[] asm("gUnk_084AB318");
+extern u16 data084AB468AF91[] asm("gUnk_084AB468");
+extern u16 data084AB5B8AF91[] asm("gUnk_084AB5B8");
+extern void sub_0808AFE8_v(void) asm("sub_0808AFE8");
+
+void sub_0808AFE8_v(void)
+{
     extern u32 sub_08058878(u32, u32);
     extern u32 sub_08058900(u32);
     extern u32 sub_08058934(u32);
-    extern u16 keysAF91[] asm("gUnk_03001250");
-    extern u8 *stateAF91 asm("gUnk_03005CF4");
-    extern u8 playersAF91[] asm("gUnk_03003CE0");
-    extern u8 saveAF91[] asm("gUnk_03001F40");
-    extern u16 stagesAF91[] asm("gUnk_084EBD38");
-    extern u8 objectsAF91[] asm("gUnk_08479140");
-    extern u8 tableAAF91[] asm("gUnk_0847AC64");
-    extern u8 tableBAF91[] asm("gUnk_0848529C");
-    extern u8 recordTypesAF91[] asm("gUnk_084F0B10");
-    extern u16 timesAF91[] asm("gUnk_084F0C00");
     extern u32 sub_08065158(void *, u32, u32, s32, s32);
-    extern void sub_080659BC(void *, s32, s32, u16, s32, s32);
     extern void sub_080009F8(u32, u32, u32);
     extern void sub_0801A3D0(u8 *, u16, s32);
     extern void sub_0801A664(s32, s32);
@@ -2172,32 +2151,30 @@ void sub_0808AFE8_v(void) {
     extern void sub_0805FC80(s32, s32, void *, s32);
     extern void sub_0805FFBC(s32, s32, void *, u32);
     extern void sub_080815F4(void *);
-    extern u16 data084AA9E8AF91[] asm("gUnk_084AA9E8");
-    extern u16 data084AAB38AF91[] asm("gUnk_084AAB38");
-    extern u16 data084AAC88AF91[] asm("gUnk_084AAC88");
-    extern u16 data084AADD8AF91[] asm("gUnk_084AADD8");
-    extern u16 data084AAF28AF91[] asm("gUnk_084AAF28");
-    extern u16 data084AB078AF91[] asm("gUnk_084AB078");
-    extern u16 data084AB1C8AF91[] asm("gUnk_084AB1C8");
-    extern u16 data084AB318AF91[] asm("gUnk_084AB318");
-    extern u16 data084AB468AF91[] asm("gUnk_084AB468");
-    extern u16 data084AB5B8AF91[] asm("gUnk_084AB5B8");
+    struct SprAF91 anim;
+    u8 unk3C[0xC];
+    struct RecAF91 records[10][3];
+    struct SprAF91 icon;
+    struct SprAF91 face;
+    struct { u32 lo:16; u32 hi:16; } bg;
+    u32 sel;
+    u32 max;
+    s32 off10;
+    void *sprite;
+    s32 mode;
+    s32 flag;
+    u32 col;
+    u16 *tbl;
+    u32 a9;
+    u8 aa;
+    u32 i;
+    u32 j;
+    u32 x;
+    u32 lx;
+    struct RecAF91 *rec;
+    struct EntryAF91 *e;
+    u8 *text;
 
-
-    u32 argA1;
-    s32 * argAD;
-    s32 argAA;
-    s32 argA6;
-    u8 * argAC;
-    u8 * argA4;
-    s32 argA5;
-    s32 argAE;
-    u32 argA2;
-    u32 argA7;
-    u8 * argAB;
-    u16 * argA8;
-    u32 argA9;
-    s32 argA3;
     keysAF91[0] = 0;
     keysAF91[1] = 0xFFFD;
     keysAF91[3] = 0;
@@ -2206,345 +2183,236 @@ void sub_0808AFE8_v(void) {
     keysAF91[5] = 0;
     keysAF91[7] = 0;
     keysAF91[6] = 0;
-    sub_0800B974(0x36U, 0x1EU);
-    sub_0800B974(0x3CU, 0x1FU);
-    sub_0800B650(0x35, 0x1D, 0x06000000, 0U, 0xF);
-    {register u8 *save asm("r2")=saveAF91;register u16 *stages asm("r1")=stagesAF91;register u8 *state asm("r0")=stateAF91;register u32 delta asm("r3")=0x14a;register u32 value asm("r0");value=*(u16 *)(state+delta);value=stages[value];delta+=0xb0;{register u8 *dest asm("r1")=save+delta;asm("" : : "r"(delta));*(u16 *)dest=value;}}
-    sub_08065158(&work.anim, 0x50067, 9, -1, 0);
-    argA4 = (u8 *)sub_080653CC();
+    sub_0800B974(0x36, 0x1E);
+    sub_0800B974(0x3C, 0x1F);
+    sub_0800B650(0x35, 0x1D, 0x06000000, 0, 0xF);
+    {register u8 *save asm("r2")=saveAF91;register u16 *stages asm("r1")=stagesAF91;register u8 *state asm("r0")=(u8 *)stateAF91;register u32 delta asm("r3")=0x14a;register u32 value asm("r0");value=*(u16 *)(state+delta);value=stages[value];delta+=0xb0;{register u8 *dest asm("r1")=save+delta;asm("" : : "r"(delta));*(u16 *)dest=value;}}
+    sub_08065158(&anim, 0x50067, 9, -1, 0);
+    sprite = (void *)sub_080653CC();
     sub_080009F8(0x200, 0, 1);
     sub_080009C0(0x1D00, 0, 1);
-    work.argA0 = 0x5E0A;
-    sub_08000AA8(2U, &work.argA0);
-    work.argA0 = 0x1D03;
-    sub_08000AA8(3U, &work.argA0);
-    argA1 = 0U;
-    temp_r0 = sub_0800CE30();
-    argA3 = 0;
-    if (temp_r0 != 0) {
-        argA3 = 0xA;
+    bg.lo = 0x5E0A;
+    sub_08000AA8(2, (u16 *)&bg);
+    bg.lo = 0x1D03;
+    sub_08000AA8(3, (u16 *)&bg);
+    sel = 0;
+    off10 = sub_0800CE30() ? 10 : 0;
+    for (i = 0; i <= 9; i++) {
+        for (j = 0; j <= 2; j++) {
+            struct TypeAF91 *pa, *pb;
+            records[i][j].time = 0;
+            pb = &recordVals0AF91[off10 + i][j];
+            pa = &recordTypesAF91[off10 + i][j];
+            if (sub_08058878(i, j) != 0) {
+                records[i][j].type = 1;
+                records[i][j].val = 0;
+            } else {
+                records[i][j].b8 = 0;
+                records[i][j].b9 = 0;
+                records[i][j].type = pa->a;
+                records[i][j].val = pb->a;
+            }
+        }
     }
-    var_r8 = 0;
-    argAB = (u8 *)work.records;
-    argAC = (u8 *)work.records + 4;
-    var_r3 = 0;
-    do {
-        var_r6 = 0;
-        {
-        u32 next = var_r8 + 1;
-        temp_r0_2 = var_r8 * 0x30;
-        var_r4 = temp_r0_2 + argAB;
-        var_r2 = (s32 *)(temp_r0_2 + argAC);
-        temp_r0_3 = (argA3 + var_r8) * 0xC;
-        var_r7 = (u16 *)(temp_r0_3 + recordTypesAF91 + 2);
-        var_r5 = (u16 *)(temp_r0_3 + recordTypesAF91);
-loop_4:
-        *var_r2 = var_r3;
-        argAD = var_r2;
-        argAE = var_r3;
-        temp_r0_4 = sub_08058878(var_r8, var_r6);
-        var_r3 = argAE;
-        if (temp_r0_4 != 0) {
-            (*(u16 *)(var_r4 + 0x0)) = 1U;
-            (*(u16 *)(var_r4 + 0x2)) = (u16) var_r3;
-        } else {
-            (*(u8 *)(var_r4 + 0x8)) = temp_r0_4;
-            (*(u8 *)(var_r4 + 0x9)) = temp_r0_4;
-            (*(u16 *)(var_r4 + 0x0)) = (u16) *var_r5;
-            (*(u16 *)(var_r4 + 0x2)) = (u16) *var_r7;
-        }
-        var_r4 += 0x10;
-        var_r2 = (s32 *)((u8 *)argAD + 0x10);
-        var_r7 += 2;
-        var_r5 += 2;
-        var_r6 += 1;
-        if (var_r6 <= 2U) {
-            goto loop_4;
-        }
-        var_r8 = next;
-        }
-    } while (var_r8 <= 9U);
-    argA7 = 0U;
-    argA6 = 0;
-    argA5 = 0;
+    col = 0;
+    flag = 0;
+    mode = 0;
     sub_080003F0();
     sub_080003F0();
     sub_0800CF90();
     sub_080003F0();
     sub_0801A664(0, 0x13);
     sub_080003F0();
-    argAA = (s32) (u8) sub_08001108(0x88U);
-    argA9 = sub_0800115C((u32) sub_0808528C);
+    aa = (u8)sub_08001108(0x88);
+    a9 = sub_0800115C((u32)sub_0808528C);
     sub_08000D8C();
     sub_0801AB50(6);
-    goto wcheck;
-wloop:
-    sub_080003F0();
-wcheck:
-    if (sub_0801AAE0() == 0) goto wloop;
-loop_12:
-    if (argA5 == 0) {
-        var_r8_2 = 0;
-        var_r4_2 = 0x30;
-loop_14:
-        if ((var_r8_2 <= 9U) && (sub_080589D8((s32) var_r8_2) != 0)) {
-                            sub_080659BC(&work.anim, var_r4_2, 0x10, 0U, 0, 1);
-            var_r4_2 += 0x10;
-            var_r8_2 += 1;
-            goto loop_14;
-        }
-        if (argA6 != 0) {
-            sub_08065230(argA4, (argA7 * 0x18) + 0xA8, 0x72, 0xBU, 0);
-        } else {
-            argA2 = var_r8_2 - 1;
-            sub_08065230(argA4, (argA1 * 0x10) + 0x30, 0x10, 0xBU, 0);
-        }
-    }
-    if (argA5 == 1) {
-        gUnk_03001308 &= 0xFF0F;
-    }
-    if (0x20 & gUnk_03001308) {
-        if (argA6 != 0) {
-            if (argA7 == 0) {
-
-            } else {
-                argA7 -= 1;
-                goto block_42;
-            }
-        } else if (argA1 == 0) {
-
-        } else {
-            argA1 -= 1;
-block_42:
-            sub_0805865C(0xE);
-        }
-block_63:
-        if (argA5 != 0) {
-block_64:
-            if (argA5 == 1) {
-                keysAF91[4] = 0x100;
-                temp_r4 = argAB + (argA1 * 0x30) + (argA7 * 0x10);
-                sub_0805FFBC(0xF, 0x12, temp_r4, 0x80000000);
-                sub_080815F4(temp_r4);
-            }
-        } else {
-            var_r6_2 = 0;
-            var_r4_3 = argAB + (argA1 * 0x30);
-            var_r5_2 = 0xA8;
-            do {
-                sub_0805FC80(var_r5_2, 0x6E, var_r4_3, 0);
-                var_r4_3 += 0x10;
-                var_r5_2 += 0x18;
-                var_r6_2 += 1;
-            } while (var_r6_2 <= 2U);
-            temp_r4_2 = timesAF91 + argA1;
-            sub_0805FB7C(2, 5, (u16) ((u16) *temp_r4_2 / 3600U), 0);
-            sub_0805FB7C(5, 5, (u16) ((u16) ((u16) *temp_r4_2 % 3600U) / 60U), 0);
-            sub_0805FB7C(8, 5, 0U, 0);
-            sub_0805FB7C(2, 8, (u16) (sub_08058900(argA1) / 3600U), 0);
-            sub_0805FB7C(5, 8, (u16) ((u32) (sub_08058900(argA1) % 3600U) / 60U), 0);
-            sub_0805FB7C(8, 8, (u16)sub_08058934(argA1), 0);
-            if (argA6 != 0) {
-                sub_0805FFBC(0xF, 0x12, argAB + (argA1 * 0x30) + (argA7 * 0x10), 0x80000000);
-            } else {
-                temp_r4_3 = (u8 *)sub_08007290((argA1 + 0x49F) | 0x140000) + 2;
-                sub_0801A3D0(temp_r4_3, (u16) (0xF - ((u32) sub_0801A638(temp_r4_3) >> 1)), 0x12);
-            }
-            switch (argA1) {                        /* switch 2 */
-            case 0:                                 /* switch 2 */
-                argA8 = data084AA9E8AF91;
-                break;
-            case 1:                                 /* switch 2 */
-                argA8 = data084AAB38AF91;
-                break;
-            case 2:                                 /* switch 2 */
-                argA8 = data084AAC88AF91;
-                break;
-            case 3:                                 /* switch 2 */
-                argA8 = data084AADD8AF91;
-                break;
-            case 4:                                 /* switch 2 */
-                var_r3_2 = data084AAF28AF91;
-block_84:
-                argA8 = var_r3_2;
-                break;
-            case 5:                                 /* switch 2 */
-                argA8 = data084AB078AF91;
-                break;
-            case 6:                                 /* switch 2 */
-                argA8 = data084AB1C8AF91;
-                break;
-            case 7:                                 /* switch 2 */
-                argA8 = data084AB318AF91;
-                break;
-            case 8:                                 /* switch 2 */
-                argA8 = data084AB468AF91;
-                break;
-            case 9:                                 /* switch 2 */
-                var_r3_2 = data084AB5B8AF91;
-                goto block_84;
-            }
-            if (sub_0800CE30() != 0) {
-                var_r1 = (0xFFF & *argA8) * 0xD8;
-                var_r0 = tableBAF91;
-            } else {
-                var_r1 = (0xFFF & *argA8) * 0xD8;
-                var_r0 = tableAAF91;
-            }
-            temp_r7 = var_r1 + var_r0;
-            sub_08065158(&work.arg86, *(u32 *)((((*(u16 *)(temp_r7 + 0xD4)) + 0xA) * 0x58) + objectsAF91), 4, -1, 0);
-            work.arg86.flags = 4;
-            sub_08000AF0(0x14U, (void *)(work.arg86.data + ((*(u16 *)(temp_r7 + 0xD6)) << 5)), 1U);
-            sub_08065230(&work.arg86, 0x90, 0x38, 1U, 0);
-            temp_r4_4 = sub_080020F4();
-            temp_r1 = *(u32 *)(((*(u16 *)(playersAF91 + 0x14C * temp_r4_4 + 0x10)) * 4) + ((*(u16 *)(playersAF91 + 0x14C * sub_080020F4() + 0x64)) * 0x58) + objectsAF91);
-            sub_08065158(&work.arg93, temp_r1, 0, -1, 0);
-            sub_08065230(&work.arg93, 0x60, 0x68, 5U, 0);
-            sub_08000AF0(0x10U, (void *)(work.arg93.data + ((*(u8 *)(playersAF91 + 0x14C * sub_080020F4() + 0x66)) << 5)), 1U);
-            keysAF91[4] = 0;
-        }
+    while (sub_0801AAE0() == 0)
         sub_080003F0();
-        goto loop_12;
-    }
-    if (0x10 & gUnk_03001308) {
-        if (argA6 != 0) {
-            if (argA7 <= 1U) {
-                argA7 += 1;
-                goto block_42;
+    for (;;) {
+        if (mode == 0) {
+            i = 0;
+            lx = 0x30;
+        list:
+            if (i <= 9 && sub_080589D8(i) != 0) {
+                sub_080659BC(&anim, lx, 0x10, 0, 0, 1);
+                lx += 0x10;
+                i++;
+                goto list;
             }
-        } else if (argA1 < argA2) {
-            argA1 += 1;
-            goto block_42;
-        }
-        goto block_63;
-    }
-    if (0x80 & gUnk_03001308) {
-        if (argA6 == 0) {
-            argA6 = 1;
-            goto block_42;
-        }
-        goto block_63;
-    }
-    if (0x40 & gUnk_03001308) {
-        if (argA6 != 0) {
-            argA6 = 0;
-            goto block_42;
-        }
-        goto block_63;
-    }
-    if (4 & gUnk_03001324) {
-        if (argA6 != 0) {
-            switch (argA5) {                        /* switch 1; irregular */
-            case 0:                                 /* switch 1 */
-                argA5 = 1;
-                break;
-            case 1:                                 /* switch 1 */
-                argA5 = 0;
-                break;
+            if (flag != 0) {
+                sub_08065230(sprite, col * 24 + 0xA8, 0x72, 0xB, 0);
+            } else {
+                max = i - 1;
+                sub_08065230(sprite, sel * 16 + 0x30, 0x10, 0xB, 0);
             }
-block_57:
-            sub_0801A664(0, 0x14);
-            sub_0805865C(0x62);
         }
-        goto block_63;
-    }
-    if ((u16) gUnk_03001324 != 1) {
-        if (2 & gUnk_03001324) {
-            if (argA5 == 0) {
-                if (argA6 != 0) {
-                    argA6 = 0;
+        if (mode == 1)
+            heldAF91 &= 0xFF0F;
+        if (heldAF91 & 0x20) {
+            if (flag != 0) {
+                if (col != 0) {
+                    col--;
+                    sub_0805865C(0xE);
+                }
+            } else if (sel != 0) {
+                sel--;
+                sub_0805865C(0xE);
+            }
+        } else if (heldAF91 & 0x10) {
+            if (flag != 0) {
+                if (col <= 1) {
+                    col++;
+                    sub_0805865C(0xE);
+                }
+            } else if (sel < max) {
+                sel++;
+                sub_0805865C(0xE);
+            }
+        } else if (heldAF91 & 0x80) {
+            if (flag == 0) {
+                flag = 1;
+                sub_0805865C(0xE);
+            }
+        } else if (heldAF91 & 0x40) {
+            if (flag != 0) {
+                flag = 0;
+                sub_0805865C(0xE);
+            }
+        } else if (trigAF91 & 4) {
+            if (flag != 0) {
+                switch (mode) {
+                case 0:
+                    mode = 1;
+                    break;
+                case 1:
+                    mode = 0;
+                    break;
+                }
+                sub_0801A664(0, 0x14);
+                sub_0805865C(0x62);
+            }
+        } else if (trigAF91 == 1) {
+            if (flag == 0) {
+                if (mode == 0) {
+                    sub_0805865C(0xF);
+                    sub_0801AA8C(0x1E);
+                    goto done;
+                }
+            } else {
+                if (mode == 0)
+                    mode = 1;
+                else
+                    mode = 0;
+                sub_0801A664(0, 0x14);
+                sub_0805865C(0x62);
+            }
+        } else if (trigAF91 & 2) {
+            if (mode == 0) {
+                if (flag != 0) {
+                    flag = 0;
                     sub_0805865C(0x10);
                 }
             } else {
-                argA5 = 0;
+                mode = 0;
                 sub_0801A664(0, 0x14);
                 sub_0805865C(0x10);
             }
         }
-        goto block_63;
-    }
-    if (argA6 != 0) {
-        if (argA5 == 0) {
-            argA5 = 1;
-        } else {
-            argA5 = 0;
+        switch (mode) {
+        case 0:
+            for (j = 0, rec = records[sel], x = 0xA8; j <= 2; j++) {
+                sub_0805FC80(x, 0x6E, rec, 0);
+                rec++;
+                x += 0x18;
+            }
+            sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
+            sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+
+            sub_0805FB7C(8, 5, 0, 0);
+            sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
+            sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
+            sub_0805FB7C(8, 8, sub_08058934(sel), 0);
+            if (flag != 0) {
+                sub_0805FFBC(0xF, 0x12, &records[sel][col], 0x80000000);
+            } else {
+                text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + 2;
+                sub_0801A3D0(text, 0xF - ((u32)sub_0801A638(text) >> 1), 0x12);
+            }
+            switch (sel) {
+            case 0: tbl = data084AA9E8AF91; break;
+            case 1: tbl = data084AAB38AF91; break;
+            case 2: tbl = data084AAC88AF91; break;
+            case 3: tbl = data084AADD8AF91; break;
+            case 4: tbl = data084AAF28AF91; break;
+            case 5: tbl = data084AB078AF91; break;
+            case 6: tbl = data084AB1C8AF91; break;
+            case 7: tbl = data084AB318AF91; break;
+            case 8: tbl = data084AB468AF91; break;
+            case 9: tbl = data084AB5B8AF91; break;
+            }
+            if (sub_0800CE30() != 0)
+                e = &tableBAF91[*tbl & 0xFFF];
+            else
+                e = &tableAAF91[*tbl & 0xFFF];
+            sub_08065158(&icon, objectsAF91[e->obj + 10].gfx[0], 4, -1, 0);
+            icon.flags = 4;
+            sub_08000AF0(0x14, icon.data + (e->pal << 5), 1);
+            sub_08065230(&icon, 0x90, 0x38, 1, 0);
+            sub_08065158(&face, objectsAF91[playersAF91[sub_080020F4()].h64].gfx[playersAF91[sub_080020F4()].h10], 0, -1, 0);
+            sub_08065230(&face, 0x60, 0x68, 5, 0);
+            sub_08000AF0(0x10, face.data + (playersAF91[sub_080020F4()].b66 << 5), 1);
+            keysAF91[4] = 0;
+            break;
+        case 1:
+            keysAF91[4] = 0x100;
+            rec = &records[sel][col];
+            sub_0805FFBC(0xF, 0x12, rec, 0x80000000);
+            sub_080815F4(rec);
+            break;
         }
-        goto block_57;
-    }
-    if (argA5 != 0) {
-        goto block_64;
-    }
-    sub_0805865C(0xF);
-    sub_0801AA8C(0x1E);
-loop_107:
-    if (sub_0801AAE0() == 0) {
-        var_r6_3 = 0;
-        var_r4_4 = argAB + (argA1 * 0x30);
-        var_r5_3 = 0xA8;
-        do {
-            sub_0805FC80(var_r5_3, 0x6E, var_r4_4, 0);
-            var_r4_4 += 0x10;
-            var_r5_3 += 0x18;
-            var_r6_3 += 1;
-        } while (var_r6_3 <= 2U);
-        temp_r4_5 = timesAF91 + argA1;
-        sub_0805FB7C(2, 5, (u16) ((u16) *temp_r4_5 / 3600U), 0);
-        sub_0805FB7C(5, 5, (u16) ((u16) ((u16) *temp_r4_5 % 3600U) / 60U), 0);
-        sub_0805FB7C(8, 5, 0U, 0);
-        sub_0805FB7C(2, 8, (u16) (sub_08058900(argA1) / 3600U), 0);
-        sub_0805FB7C(5, 8, (u16) ((u32) (sub_08058900(argA1) % 3600U) / 60U), 0);
-        sub_0805FB7C(8, 8, (u16)sub_08058934(argA1), 0);
-        temp_r4_6 = (u8 *)sub_08007290((argA1 + 0x49F) | 0x140000) + 2;
-        sub_0801A3D0(temp_r4_6, (u16) (0xF - ((u32) sub_0801A638(temp_r4_6) >> 1)), 0x12);
-        switch (argA1) {                            /* switch 3 */
-        case 0:                                     /* switch 3 */
-            argA8 = data084AA9E8AF91;
-            break;
-        case 1:                                     /* switch 3 */
-            argA8 = data084AAB38AF91;
-            break;
-        case 2:                                     /* switch 3 */
-            argA8 = data084AAC88AF91;
-            break;
-        case 3:                                     /* switch 3 */
-            argA8 = data084AADD8AF91;
-            break;
-        case 4:                                     /* switch 3 */
-            var_r2_2 = data084AAF28AF91;
-block_105:
-            argA8 = var_r2_2;
-            break;
-        case 5:                                     /* switch 3 */
-            argA8 = data084AB078AF91;
-            break;
-        case 6:                                     /* switch 3 */
-            argA8 = data084AB1C8AF91;
-            break;
-        case 7:                                     /* switch 3 */
-            argA8 = data084AB318AF91;
-            break;
-        case 8:                                     /* switch 3 */
-            argA8 = data084AB468AF91;
-            break;
-        case 9:                                     /* switch 3 */
-            var_r2_2 = data084AB5B8AF91;
-            goto block_105;
-        }
-        temp_r7_2 = ((0xFFF & *argA8) * 0xD8) + tableAAF91;
-            sub_08065158(&work.arg86, *(u32 *)((0x58 * ((*(u16 *)(temp_r7_2 + 0xD4)) + 0xA)) + objectsAF91), 4, -1, 0);
-        work.arg86.flags = 4;
-        sub_08000AF0(0x14U, (void *)(work.arg86.data + ((*(u16 *)(temp_r7_2 + 0xD6)) << 5)), 1U);
-            sub_08065230(&work.arg86, 0x90, 0x38, 1U, 0);
-        temp_r4_7 = sub_080020F4();
-        temp_r1_2 = *(u32 *)(((*(u16 *)(playersAF91 + 0x14C * temp_r4_7 + 0x10)) * 4) + (0x58 * (*(u16 *)(playersAF91 + 0x14C * sub_080020F4() + 0x64))) + objectsAF91);
-            sub_08065158(&work.arg93, temp_r1_2, 0, -1, 0);
-            sub_08065230(&work.arg93, 0x60, 0x68, 5U, 0);
         sub_080003F0();
-        goto loop_107;
+    }
+done:
+    while (sub_0801AAE0() == 0) {
+        for (j = 0, rec = records[sel], x = 0xA8; j <= 2; j++) {
+            sub_0805FC80(x, 0x6E, rec, 0);
+            rec++;
+            x += 0x18;
+        }
+        sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
+        sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+
+        sub_0805FB7C(8, 5, 0, 0);
+        sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
+        sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
+        sub_0805FB7C(8, 8, sub_08058934(sel), 0);
+        text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + 2;
+        sub_0801A3D0(text, 0xF - ((u32)sub_0801A638(text) >> 1), 0x12);
+        switch (sel) {
+        case 0: tbl = data084AA9E8AF91; break;
+        case 1: tbl = data084AAB38AF91; break;
+        case 2: tbl = data084AAC88AF91; break;
+        case 3: tbl = data084AADD8AF91; break;
+        case 4: tbl = data084AAF28AF91; break;
+        case 5: tbl = data084AB078AF91; break;
+        case 6: tbl = data084AB1C8AF91; break;
+        case 7: tbl = data084AB318AF91; break;
+        case 8: tbl = data084AB468AF91; break;
+        case 9: tbl = data084AB5B8AF91; break;
+        }
+        e = &tableAAF91[*tbl & 0xFFF];
+        sub_08065158(&icon, objectsAF91[e->obj + 10].gfx[0], 4, -1, 0);
+        icon.flags = 4;
+        sub_08000AF0(0x14, icon.data + (e->pal << 5), 1);
+        sub_08065230(&icon, 0x90, 0x38, 1, 0);
+        sub_08065158(&face, objectsAF91[playersAF91[sub_080020F4()].h64].gfx[playersAF91[sub_080020F4()].h10], 0, -1, 0);
+        sub_08065230(&face, 0x60, 0x68, 5, 0);
+        sub_080003F0();
     }
     sub_08000E48();
-    sub_0800115C(argA9);
-    sub_08001108((u8) argAA);
+    sub_0800115C(a9);
+    sub_08001108(aa);
     keysAF91[0] = 0;
     keysAF91[1] = 0;
     keysAF91[3] = 0;
@@ -2555,15 +2423,10 @@ block_105:
     keysAF91[6] = 0;
     sub_0801A664(0, 0x14);
     sub_0800CFA4();
-    temp_r8 = sub_080008C8() % 3U;
-    (*(u32 *)(stateAF91 + 0x40)) = 1;
-    (*(u16 *)(stateAF91 + 0x36)) = (s16) ((temp_r8 << 8) | argA1 | 0x8000);
-    temp_r1_3 = stateAF91 + 0x5C;
-    temp_r0_5 = argAB + (((argA1 * 3) + temp_r8) * 0x10);
-    (*(u32 *)(stateAF91 + 0x5C)) = (s32) (*(u32 *)(temp_r0_5 + 0x0));
-    (*(u32 *)(temp_r1_3 + 0x4)) = (s32) (*(u32 *)(temp_r0_5 + 0x4));
-    (*(u32 *)(temp_r1_3 + 0x8)) = (s32) (*(u32 *)(temp_r0_5 + 0x8));
-    (*(u32 *)(temp_r1_3 + 0xC)) = (s32) (*(u32 *)(temp_r0_5 + 0xC));
+    i = sub_080008C8() % 3;
+    stateAF91->w40 = 1;
+    stateAF91->h36 = (i << 8) | sel | 0x8000;
+    stateAF91->rec = records[sel][i];
     sub_08000420(0x02688420);
 }
 #else
