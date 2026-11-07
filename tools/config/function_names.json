@@ -14305,6 +14305,1539 @@
           "detail": "Original enemy-task normal-exit branch tests actor flags mask 2, directly calls 56E24, then retries 68558 with signal 1 waits until queue acceptance. It does not await peer acknowledgement. No universal boss, victory or elapsed-frame meaning is inferred from that flag or loop."
         }
       ]
+    },
+    {
+      "address": "0x08015DC0",
+      "canonical_symbol": "sub_08015DC0",
+      "display_name": "DampValueTowardZero",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 426,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Updates an in-place signed word. For current > 23 stores current minus its arithmetic half, giving ceil(current/2) in that positive range. Otherwise subtracts 8 and replaces a nonpositive result with zero. No null check. The original subtraction is 32-bit wrapping: extreme negative inputs can underflow to positive, so the name describes ordinary counter damping rather than a proven all-s32 nonnegative/clamping invariant."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 352,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08015DC4 compares signed current to 23; 15DCA subtracts8 then tests the signed result; 15DD6 arithmetic-shifts and 15DD8 subtracts the half. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, not runtime coverage or C equivalence."
+        },
+        {
+          "source": "asm/nonmatchings/code_08017F7C/sub_0801801C.s",
+          "line": 569,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original actor task 1801C calls this helper on SP+0xFC in idle/other action paths and tests that value before its normal movement step. The actor C body is NONMATCHING, and its local stack.rng name does not establish RNG or velocity semantics. The helper remains generally named."
+        }
+      ]
+    },
+    {
+      "address": "0x08015DE0",
+      "canonical_symbol": "sub_08015DE0",
+      "display_name": "ApproachTargetByHalfStep",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 436,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Computes arithmetic half of target minus current; adds that half if positive, otherwise adds1. If the resulting value is at least target by signed comparison, replaces it with target. For ordinary current<=target without overflow this advances toward target with a minimum increment1; current above target normally clamps down immediately. Original arithmetic wraps at 32 bits, so no overflow-free or all-input monotonicity guarantee is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 353,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08015DE4 performs target-current, 15DE6 arithmetic-shifts, 15DEA selects positive step or +1; 15DF4..15DFA reload and clamp by signed target comparison. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, not runtime coverage or C equivalence."
+        },
+        {
+          "source": "asm/nonmatchings/code_08017F7C/sub_0801801C.s",
+          "line": 707,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original actor task passes SP+0xFC and signed resource halfword +8 shifted by its current shift value at 1801C ASM lines708..714. Later movement is only gated by the counter and uses a separately loaded resource speed, so this helper is not renamed as a velocity interpolator."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D5F4",
+      "canonical_symbol": "sub_0805D5F4",
+      "display_name": "FindLargestUncappedBagCurrencyStack",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 310,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches bag indices max(start,0)..24 and returns the first index with the largest signed nonnegative count among kind-10 records, excluding count exactly 100000. Returns -1 when none qualifies or start> 24. Uncapped here means not equal to the cap: malformed counts above 100000 are not rejected, and high-bit signed-negative words are ignored. Equal counts retain the earlier index. Does not reserve or mutate a stack."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1121,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0805D5F8..FC replace negative start with0; D612 bounds start, D61A checks kind 10, D620 requires strict signed improvement over -1, D624 excludes literal 100000, D630 stops after index 24. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, not runtime coverage or C equivalence."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 298,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched bag insertion 5AB20 has an inlined sibling with the same largest-count/exact-cap exclusion, then merges kind-10 currency up to 100000. This is source-sibling evidence; no direct out-of-line call to 5D5F4 is invented."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 969,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched debit routine spends kind-10 counts, and matched 7C114 creates those records as item-sale proceeds, anchoring currency semantics independently of aliases."
+        }
+      ]
+    },
+    {
+      "address": "0x0805D650",
+      "canonical_symbol": "sub_0805D650",
+      "display_name": "FindLargestUncappedStashCurrencyStack",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 326,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches stash records starting at max(start,0), stopping before 15 times the unsigned halfword at character/inventory base +0x6A. That base is read through pointer global 030034E0. Returns the first index with the largest signed nonnegative kind-10 count other than exactly 100000, or -1 if none. It does not scan a fixed75 records independently of configured capacity, cap the capacity to physical storage, reserve a slot or reject counts above 100000. Equal maxima retain the earlier index."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1122,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0805D654..658 normalize start; D66E..674 compute15 times configured halfword; D680 tests kind 10, D686 signed strict maximum and D68A exact-cap exclusion; D696 compares against configured end. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, not runtime coverage or C equivalence."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 365,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched stash insertion 5AC08 contains the corresponding inlined algorithm. Its later merging logic uses the100000 currency cap; this establishes an algorithm sibling, not a claimed direct out-of-line call."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 969,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched spending and selling flows establish kind 10 as currency. This largest-stack finder and spender minimum-stack search serve different operations."
+        }
+      ]
+    },
+    {
+      "address": "0x0800207C",
+      "canonical_symbol": "sub_0800207C",
+      "display_name": "InitializeLinkStateFlags",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 362,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Replaces the complete link-flags word at 030027D0 with 0x80000000. Called by game initialization before link-task setup. The same flags value appears at cable-transport task shutdown, so it is an initialization/inactive flag pattern rather than proof of an active peer or completed handshake. Does not clear packet buffers, reset hardware or initialize the separate link-state word itself."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 88,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800207E..2082 construct 0x80000000 and store it to literal address 030027D0. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 87,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched game-initialization task calls this flags initializer before title/menu tasks. Matched cable-task teardown separately sets flags to 0x80000000 and link-state to zero; the initializer performs only the flags store."
+        }
+      ]
+    },
+    {
+      "address": "0x0800BA6C",
+      "canonical_symbol": "sub_0800BA6C",
+      "display_name": "IsWorldMapReadyFlagSet",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 1766,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns bit 6 of the world-map flags word, as 0 or 1. Matched map-update task initializes flags to 1, sets this bit after its first completed update iteration and scheduler wait, and replaces flags with 0x80000000 on exit. Cell-plane loader BAC4 also sets flags to 0x40. Readiness here is this event/activity gate: the bit can coexist with pending reload bits and does not prove graphics-upload completion or that every map resource has finished loading."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 209,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800BA6E adds 0x9C to map-state base 03003170, BA70 loads flags and BA72..76 extract bit 6. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1106,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched producer sets flags 1 at entry, ORs 0x40 after its update/wait loop body, and writes only 0x80000000 at exit. Matched room-transition routines in code_08087CC0.c wait on BA6C after loading an area, while skill/effect tasks stop when it clears."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 551,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched transition path loads area 0, then waits on BA6C before updating camera coordinates. This establishes a scene-readiness gate without implying unconditional VBlank timing."
+        }
+      ]
+    },
+    {
+      "address": "0x0800BAC4",
+      "canonical_symbol": "sub_0800BAC4",
+      "display_name": "LoadWorldMapCellPlane",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 1789,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Looks up a cell resource key at ROM 0847846C + first index*0x74 + 0x10 + second index*4 and resolves it. If key bit 0x40000000 is set, uses resource +0x10 directly; otherwise decompresses resource +0x10 through 00BC8 using shared buffer pointer 030031D4. Stores the cell-plane pointer at body +0x10 + 6*signed_width*signed_height, copies the two header halfwords to map-state +0x78/+0x7A, overwrites all map flags with 0x40 and returns 1. Does not rebuild background layers, update every map-header field, validate indices/dimensions or report a separate failure result."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 212,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0800BACA..BAD4 form the resource-table address; BAE4 tests raw-data bit; BAFA calls shared-buffer decompression; BB04/BB08 read signed dimensions, BB16 stores plane pointer at map-state +0x68, BB1E/BB26 store dimensions and BB2C writes flags 0x40. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/video.c",
+          "line": 67,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched decompression helper allocates with retries only when the supplied shared pointer is null, then decompresses into that buffer. It does not resize or validate an already-present buffer. This caller does not establish a new private allocation on every load."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1766,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched readiness query tests the same map-state flags bit 0x40; this loader marks that bit directly, independently of full background-task initialization."
+        }
+      ]
+    },
+    {
+      "address": "0x08058094",
+      "canonical_symbol": "sub_08058094",
+      "display_name": "SumBagAndConfiguredStashCurrency",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 226,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sums word +4 for kind-10 records in all 25 bag slots, then configured_stash_rows*15 records beginning at character/inventory base +0x2E0, where the base is read through pointer global 030034E0. Configured row count is the unsigned halfword at that base +0x6A. Uses 32-bit addition without saturation; does not clamp configured capacity to the physical 75-record layout and does not change any item."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 918,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080580A6..B6 scan 25 bag entries; 580C0..C6 read row count and multiply by 15; 580CE..DE scan the resulting stash length; 580E0 returns the accumulated word. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, no runtime claim."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 629,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched inventory summation independently identifies 25 bag records at character/inventory base +0x150 and 75 physical stash records at +0x2E0, stride 16; this base is read through pointer global 030034E0. It sums kind-10 word +4 values; matched spending/selling routines in code_0807A5D4.c establish these as currency stacks. The fixed 75-record sibling differs from 58094, which uses the configured row count."
+        }
+      ]
+    },
+    {
+      "address": "0x080580F8",
+      "canonical_symbol": "sub_080580F8",
+      "display_name": "CountMatchingStashItemSlots",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 263,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Counts records whose kind halfword and item-id halfword equal the two complete 32-bit arguments, across all 75 physical stash slots. Does not restrict the scan to configured stash capacity, exclude kind zero or sum currency amounts. Arguments above 65535 cannot equal the loaded halfwords."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 920,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08058110/18 read kind/id; 58112/1A compare full arguments, 5811E increments once per matching slot and 58126..28 loop through index 74. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, no runtime claim."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 629,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched inventory summation independently identifies 25 bag records at character/inventory base +0x150 and 75 physical stash records at +0x2E0, stride 16; this base is read through pointer global 030034E0. It sums kind-10 word +4 values; matched spending/selling routines in code_0807A5D4.c establish these as currency stacks. The fixed 75-record sibling differs from 58094, which uses the configured row count."
+        }
+      ]
+    },
+    {
+      "address": "0x0805813C",
+      "canonical_symbol": "sub_0805813C",
+      "display_name": "CountMatchingBagItemSlots",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 275,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Counts matching kind/id halfword pairs across all 25 bag records. Compares both loaded halfwords with the complete 32-bit arguments, includes matching kind-zero records and counts slots rather than currency quantities or stack amounts."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 921,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08058156/5E read kind/id; 58158/60 compare full arguments, 58164 increments once per matching slot and 5816C..6E loop through index 24. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, no runtime claim."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 629,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched inventory summation independently identifies 25 bag records at character/inventory base +0x150 and 75 physical stash records at +0x2E0, stride 16; this base is read through pointer global 030034E0. It sums kind-10 word +4 values; matched spending/selling routines in code_0807A5D4.c establish these as currency stacks. The fixed 75-record sibling differs from 58094, which uses the configured row count."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2155,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched map-menu task queries this routine through the itemBEC0 ASM alias, testing bag kind 1 / id 0x31 and id 0x2C for presence before its independent counters/flags change. These callers corroborate inventory-presence semantics without proving the particular item names."
+        }
+      ]
+    },
+    {
+      "address": "0x0805817C",
+      "canonical_symbol": "sub_0805817C",
+      "display_name": "TryAddRepeatedItemsToBag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 287,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Attempts count calls to bag insertion 5AB20 and ignores every return value; zero count inserts nothing. If the full type argument is not 10, initializes a 16-byte record with low-halfword kind/id and twelve zero bytes, then reuses it. If type equals 10, resets only kind and word +4 amount before each attempt; other currency-record bytes remain uninitialized. This is not a capacity guarantee or an atomic grant, and currency insertion can modify existing stacks before an unsuccessful return."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 922,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0805818A selects the full-argument kind-10 branch; 58190/92 store noncurrency halfwords and 5819A..A2 clear bytes +4..15. Calls are at 581AC/CC; currency branch writes only kind at 581C6 and amount at 581C8 before each attempt. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, no runtime claim."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 317,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched bag insertion scans 25 slots, merges currency stacks with cap 100000 and mutates the supplied currency amount while distributing overflow. It can fail after partial stack mutation when no empty slot remains; this wrapper neither retries a failure nor rolls back."
+        }
+      ]
+    },
+    {
+      "address": "0x080581E4",
+      "canonical_symbol": "sub_080581E4",
+      "display_name": "RemoveMatchingBagItemSlots",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 306,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Walks 25 bag records in ascending index and clears only kind/id halfwords for matching complete 32-bit arguments. Decrements the requested count on each match and stops when the decremented count becomes zero; leaves bytes +4..15 untouched and returns no removal count. An initial zero count wraps on the first match, so all matches in this bounded scan are cleared. Does not shift records or inspect stash slots."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 923,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08058212/1A read kind/id; 58214/1C compare full arguments. 58220 decrements before 58222/24 clear both halfwords; only then 58226/28 test for zero. 5822C..2E bound the scan at index 24. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, no runtime claim."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 629,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched inventory summation independently identifies 25 bag records at character/inventory base +0x150 and 75 physical stash records at +0x2E0, stride 16; this base is read through pointer global 030034E0. It sums kind-10 word +4 values; matched spending/selling routines in code_0807A5D4.c establish these as currency stacks. The fixed 75-record sibling differs from 58094, which uses the configured row count."
+        }
+      ]
+    },
+    {
+      "address": "0x080582C0",
+      "canonical_symbol": "sub_080582C0",
+      "display_name": "HasEmptyBagItemSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 350,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 1 when FindFirstEmptyBagSlot returns a nonnegative index, otherwise 0. Does not reserve the slot or test whether a currency amount could fit by merging into a nonempty stack."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 927,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080582C2 calls 5CFA0; 582C6..D0 turn its signed result into exact 0 or 1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static original instructions, no runtime claim."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 2308,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callee returns the first kind-zero slot index among 25 bag records or -1. This establishes the emptiness query without relying on local aliases."
+        }
+      ]
+    },
+    {
+      "address": "0x08015E3C",
+      "canonical_symbol": "sub_08015E3C",
+      "display_name": "DeductPlayerEnergyTierCost",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 457,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Subtracts a table-derived tier cost from the supplied player record at +0xC2. Reads halfword table 0847ACE8[index] plus 10*signed_byte(player +0x6C), truncates to signed 16 bits and replaces a negative cost with zero. Stores the low halfword after subtraction and clamps it to zero only if that stored halfword is negative as s16. Does not validate the table index or prove affordability before subtraction."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 355,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08015E44 reads the signed modifier; 15E52 loads the indexed halfword; 15E56..5E implement signed-halfword cost clamping. 15E64 reads current value unsigned, 15E6C stores the subtraction and 15E6E..76 clamp the stored signed halfword. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer 1ACB8 sets pointers for current energy +0xC2 / maximum +0x60 and health +0xC4 / maximum +0x62, then clamps both independently after calling stat recalculation 1E024. The 1E024 callee itself clamps only health. Matched action-effect routines in code_08068670.c subtract 6898C-derived costs from +0xC2, anchoring the generic energy role. No displayed SP/MP label or named spell is inferred from local structure-member aliases."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 474,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sibling scans the same eight-entry cost table and compares its clamped costs with signed player +0xC2. This paired lookup/debit behavior supports energy-tier cost semantics without identifying a particular action title."
+        }
+      ]
+    },
+    {
+      "address": "0x08015E84",
+      "canonical_symbol": "sub_08015E84",
+      "display_name": "FindHighestAffordablePlayerEnergyTier",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 474,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Checks indices 7 down to 0 of table 0847ACE8, adding 10*signed_byte(player +0x6C), truncating to signed halfword and clamping a negative cost to zero. Returns the first index whose cost is at most signed current energy +0xC2, or 0 if none passes. Thus return 0 also represents an affordable index-zero tier. Does not spend energy or validate the player pointer."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 356,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08015E92 starts tier 7; 15E9E..AA calculate and clamp cost; 15EAE loads current energy signed; 15EB4..BA compare and return tier. 15EC4..CA decrement through index 0; 15ECC is the no-match zero return. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer 1ACB8 sets pointers for current energy +0xC2 / maximum +0x60 and health +0xC4 / maximum +0x62, then clamps both independently after calling stat recalculation 1E024. The 1E024 callee itself clamps only health. Matched action-effect routines in code_08068670.c subtract 6898C-derived costs from +0xC2, anchoring the generic energy role. No displayed SP/MP label or named spell is inferred from local structure-member aliases."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 457,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched debit sibling uses the same table and signed modifier, establishing the shared tier-cost contract. A return index is not a proof that every lower tier is affordable; no monotonic-table assumption is needed by either implementation."
+        }
+      ]
+    },
+    {
+      "address": "0x0806898C",
+      "canonical_symbol": "sub_0806898C",
+      "display_name": "GetAffordableActionEnergyCostPlusOne",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 166,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "For the local player, returns 0 if the requested level is zero or signed current energy is below the clamped cost. Otherwise returns s16(cost + 1). Reads a signed halfword at 084EBF1C + 24*action + 6 + 2*(level-1), adds 10*signed_byte(player +0x6C), narrows the sum to s16 and replaces a negative cost with zero. The function only queries affordability: no energy write occurs. Invalid action/level indices are unchecked, and cost 32767 produces return -32768 by the signed-halfword encoding."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1307,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080689A0..A4 reject level zero and decrement nonzero level; 689A8..B4 form table address 084EBF1C + action*24 + 6 + 2*(level-1). 689C4..D2 calculate/clamp signed cost; 689DA reads signed energy; 689E2..EA return encoded cost or 689F8 zero. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer 1ACB8 sets pointers for current energy +0xC2 / maximum +0x60 and health +0xC4 / maximum +0x62, then clamps both independently after calling stat recalculation 1E024. The 1E024 callee itself clamps only health. Matched action-effect routines in code_08068670.c subtract 6898C-derived costs from +0xC2, anchoring the generic energy role. No displayed SP/MP label or named spell is inferred from local structure-member aliases."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3836,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched debit wrapper reads action and level words from descriptor +0xC/+0x14, calls this helper, subtracts one from its encoded result and applies the result to local player +0xC2. Other matched action-effect consumers use the same cost-minus-one convention."
+        }
+      ]
+    },
+    {
+      "address": "0x08079FD0",
+      "canonical_symbol": "sub_08079FD0",
+      "display_name": "FindAffordableActionTierPlusOne",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3783,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "For a supplied action, queries 6898C at levels 7 down to 1. Narrows each result minus one to s16 and requires this to be nonnegative and no greater than signed local energy +0xC2. Returns queried level + 1, so successful results are 8 through 2; returns 0 when none passes and never tests level 0. Does not spend energy or establish an exact displayed skill-level interpretation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1375,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08079FE2 sets query level 7 while 79FE4..E6 initialize return accumulator 8<<16. 79FEC queries 6898C; 79FF0..F8 narrow/test cost; 7A000..008 compare energy and return accumulator>>16. 7A010..18 decrement until query level 1 has been checked. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 166,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callee returns encoded affordable energy cost or zero. This caller explicitly converts that encoding back to a signed cost before selecting its tier-plus-one result."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer 1ACB8 sets pointers for current energy +0xC2 / maximum +0x60 and health +0xC4 / maximum +0x62, then clamps both independently after calling stat recalculation 1E024. The 1E024 callee itself clamps only health. Matched action-effect routines in code_08068670.c subtract 6898C-derived costs from +0xC2, anchoring the generic energy role. No displayed SP/MP label or named spell is inferred from local structure-member aliases."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A0E0",
+      "canonical_symbol": "sub_0807A0E0",
+      "display_name": "DeductLocalPlayerActionEnergyCost",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3836,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads action/level from descriptor words +0xC/+0x14, calls 6898C and subtracts u16(result - 1) from local player energy +0xC2. Stores low 16 bits, then replaces a negative stored s16 value with zero. Does not independently reject failed affordability: when 6898C returns 0, the subtracted halfword is 65535, which can increase energy by one modulo 16 bits. No maximum clamp, descriptor validation or rollback is performed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1379,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A0F4/F6 load action/level and 7A0F8 queries 6898C; 7A0FC..100 narrow result-minus-one as unsigned halfword. 7A104..108 load/subtract/store energy; 7A10A..112 test the stored halfword sign and conditionally clear it. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 166,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched query has a zero failure/level-zero return, so this debit wrapper requires its caller to supply an affordable action for ordinary debit behavior. The name describes the observed action-cost role, not validation or safety for arbitrary descriptors."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer 1ACB8 sets pointers for current energy +0xC2 / maximum +0x60 and health +0xC4 / maximum +0x62, then clamps both independently after calling stat recalculation 1E024. The 1E024 callee itself clamps only health. Matched action-effect routines in code_08068670.c subtract 6898C-derived costs from +0xC2, anchoring the generic energy role. No displayed SP/MP label or named spell is inferred from local structure-member aliases."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DDB8",
+      "canonical_symbol": "sub_0801DDB8",
+      "display_name": "CopyCharacterBaseStatsToBuffer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2062,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies 32 bytes from current character save +0x10 to the supplied buffer via CpuSet, eight 32-bit units. Does not recalculate effective player stats, validate the pointer or synchronize any appearance changes."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 451,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0801DDBE loads character pointer 030034E0; 1DDC0 adds 0x10. 1DDC2 loads control 0x04000008 and 1DDC4 calls CpuSet with the caller buffer as destination. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer copies the selected raw class halfword at save +0xA through the 32-byte template table 0848FA48 into save +0x10. Matched stat calculator 1BA74 starts its effective 32-byte attribute output by copying that saved base block, then applies equipment and active-effect adjustments. This establishes base versus effective values independently of temporary names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DDD4",
+      "canonical_symbol": "sub_0801DDD4",
+      "display_name": "CopyCharacterBaseStatsFromBuffer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2065,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies 32 bytes from the supplied buffer into current character save +0x10 via CpuSet, eight 32-bit units. Does not validate field values, recalculate the runtime player or update the save storage on its own."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 452,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0801DDD8 loads destination character pointer 030034E0; 1DDDA adds 0x10. 1DDDC loads control 0x04000008 and 1DDDE calls CpuSet with the original argument as source. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer copies the selected raw class halfword at save +0xA through the 32-byte template table 0848FA48 into save +0x10. Matched stat calculator 1BA74 starts its effective 32-byte attribute output by copying that saved base block, then applies equipment and active-effect adjustments. This establishes base versus effective values independently of temporary names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DDF0",
+      "canonical_symbol": "sub_0801DDF0",
+      "display_name": "CopyLocalPlayerEffectiveAttributesToBuffer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2068,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies the local runtime player 32-byte effective attribute block at player +0x38 to the caller buffer. Selects player using 020F4 and stride 0x14C; CpuSet uses eight words. Does not fetch the save base block or recalculate attributes before copying them."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 453,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0801DDF4 queries local player; 1DDF8..1DE00 form 03003D18 + local_index*0x14C, equal to player base +0x38. 1DE02 loads 0x04000008 and 1DE06 copies to the preserved argument. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer copies the selected raw class halfword at save +0xA through the 32-byte template table 0848FA48 into save +0x10. Matched stat calculator 1BA74 starts its effective 32-byte attribute output by copying that saved base block, then applies equipment and active-effect adjustments. This establishes base versus effective values independently of temporary names."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2174,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched recalculation passes player +0x38 and +0x58 as separate outputs to 1BA74. Their source structures are 32-byte BA74Stats and 48-byte BA74Mod. The latter contains attack/defense and maximum energy/health plus class/appearance parameters and other derived bytes; these transfers copy the entire block, not only displayed numeric stats."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DE18",
+      "canonical_symbol": "sub_0801DE18",
+      "display_name": "CopyLocalPlayerDerivedStatsToBuffer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2071,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies the entire local runtime player 48-byte derived-parameter block at player +0x58 to the supplied buffer. Selects player using 020F4 and stride 0x14C; CpuSet uses 24 halfwords. Performs no recalculation or field filtering before the transfer."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 454,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0801DE1C queries local player; 1DE20..28 form 03003D38 + local_index*0x14C, equal to player base +0x58. 1DE2C sets CpuSet count 0x18 halfwords and 1DE2E copies to the caller buffer. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2174,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched recalculation passes player +0x38 and +0x58 as separate outputs to 1BA74. Their source structures are 32-byte BA74Stats and 48-byte BA74Mod. The latter contains attack/defense and maximum energy/health plus class/appearance parameters and other derived bytes; these transfers copy the entire block, not only displayed numeric stats."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DE3C",
+      "canonical_symbol": "sub_0801DE3C",
+      "display_name": "CopyLocalPlayerDerivedStatsFromBuffer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2074,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies 48 bytes from the supplied buffer into the local runtime player derived-parameter block at +0x58. Selects player using 020F4 and stride 0x14C; CpuSet uses 24 halfwords. Does not validate individual values, clamp current energy/health against new maxima, recalculate attributes or enqueue appearance synchronization."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 455,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0801DE40 queries local player; 1DE44..4C form destination 03003D38 + local_index*0x14C. 1DE4E restores the original buffer as source, 1DE50 sets halfword count 0x18 and 1DE52 calls CpuSet. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2174,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched recalculation passes player +0x38 and +0x58 as separate outputs to 1BA74. Their source structures are 32-byte BA74Stats and 48-byte BA74Mod. The latter contains attack/defense and maximum energy/health plus class/appearance parameters and other derived bytes; these transfers copy the entire block, not only displayed numeric stats."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DFE8",
+      "canonical_symbol": "sub_0801DFE8",
+      "display_name": "CopyClassStatTemplates",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2164,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies two raw class-indexed ROM records to separate output buffers: 32 bytes from 0848FA48 + index*32 and 48 bytes from 0849E580 + index*48. Uses inline word loads/stores and performs no equipment/effect calculation. The index is unchecked and is not normalized from class 8 to 6 by this function."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 464,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0801DFEC..FA copy eight words from the first table using index<<5. 1DFFE..1E004 form index*48 for the second table, and 1E006..14 copy twelve words. Literal pointers at 1E01C/20 identify the two ROM tables. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched character initializer copies the selected raw class halfword at save +0xA through the 32-byte template table 0848FA48 into save +0x10. Matched stat calculator 1BA74 starts its effective 32-byte attribute output by copying that saved base block, then applies equipment and active-effect adjustments. This establishes base versus effective values independently of temporary names."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2077,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched normalized class query separately maps saved class 8 to 6. This template copier does not call it; raw class indices remain distinct from normalized equipment-permission indices."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A124",
+      "canonical_symbol": "sub_0807A124",
+      "display_name": "SaveCurrentCharacterSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3858,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates two 4096-byte temporary buffers, copies character record payload 0xCA4 bytes from 030034E0 and associated state payload 0x51C bytes from 03004210, and appends complemented modulo-256 byte sums. Programs sectors save_halfword(+0xE) and that sector +8. Ignores the first programming status; tests the low halfword of the second status, then verifies both complete sectors and returns their ORed verification result, or the second programming failure. Zero indicates success. Frees both buffers on its ordinary exits. Does not check allocation failure, initialize remaining buffer padding or retry a failed operation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1381,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A144/150 copy the two payloads; 7A154..192 compute/store checksum bytes. 7A19A/1AA program both sectors; 7A1AE..B4 inspect only the second programming status. 7A1BC/1CE verify both sectors and 7A1D2 ORs statuses before cleanup. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 64,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched flash programming wrapper returns 1 for unsupported hardware; otherwise calls ProgramFlashSector with the supplied sector and source. Matched 1B54 forwards VerifyFlashSector status. SaveCurrentCharacterSlot uses these real flash operations rather than a mere RAM record copy."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3893,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched paired loader reads sector and sector +8, independently checks both payload checksums and copies them back to the same character/associated-state globals only when both pass."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A20C",
+      "canonical_symbol": "sub_0807A20C",
+      "display_name": "LoadCharacterSaveSlotIfChecksumsValid",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3893,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Narrows the sector argument to u8 and reads 4096 bytes from that sector and sector +8 into separate temporary buffers. Checks complemented byte-sum checksums over 0xCA4 and 0x51C payload bytes. If both pass, copies both payloads into the current character and associated-state globals and returns 1; otherwise returns 0 without either payload copy. Frees both buffers. Does not validate character fields, restrict sectors to the eight menu slots, recalculate stats or check allocation success."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1382,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A210..12 narrow sector to byte; 7A230/23E read the pair. 7A24E..268 and 7A276..290 calculate/compare checksums; only the success path calls payload copies at 7A29A/2A6 and returns 1 at 7A2B6. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 61,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched wrapper forwards sector, byte offset, destination and size directly to ReadFlash. The loader does not obtain or inspect a separate read-result status."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3943,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched slot-summary builder invokes this loader for sectors 0 through 7 and marks each entry invalid when loading fails. Successful loads replace current global character state before the summary is constructed, so the loader is not a side-effect-free validation query."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A544",
+      "canonical_symbol": "sub_0807A544",
+      "display_name": "ComputeComplementedByteSum",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 4032,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns the bitwise complement of the modulo-256 sum of the requested byte sequence, narrowed to u8. Zero length returns 255 without reading data. No pointer validation or checksum-field comparison is performed. Matched save writer/readers inline the same sum/complement algorithm for their payload checksums; they do not call this out-of-line helper."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1386,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A54C..4E skip the byte loop for length zero. 7A550..55E sum bytes with an 8-bit truncation on each iteration; 7A560..564 complement and return the low byte. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3858,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched save writer stores the same complemented-byte-sum construction immediately after each record payload. This is a byte-sum checksum, not a CRC or authentication check."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A56C",
+      "canonical_symbol": "sub_0807A56C",
+      "display_name": "IsCharacterSaveSectorChecksumValid",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 4050,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads 0xCA8 bytes from a sector selected by the low input byte into a temporary buffer and compares byte +0xCA4 with the complemented modulo-256 sum of the preceding 0xCA4 bytes. Frees the buffer and returns exactly 1 or 0. Does not read the associated sector +8, load global character state, validate record fields or inspect the final three bytes. Allocation failure and sector range are unchecked."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1387,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A570..72 narrow sector to u8; 7A578 allocates 0xCA8 and 7A586 reads it. 7A596..5AE calculate/compare the payload checksum; separate cleanup paths set 1 at 7A5B8 or 0 at 7A5CA. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3893,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched full loader validates both character and associated-state sectors before changing globals. This smaller routine checks only the first character-sector payload, so a true result does not establish that the complete save-slot pair can be loaded."
+        }
+      ]
+    },
+    {
+      "address": "0x0805AB20",
+      "canonical_symbol": "sub_0805AB20",
+      "display_name": "TryAddItemToBag",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 317,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Attempts to add an item record to 25 bag slots at character +0x150. For kind 10, searches from the previous selected index for the largest signed nonnegative amount not exactly 100000, preferring the earlier index on ties. Adds incoming amount using 32-bit wrapping arithmetic: a sum at most 100000 is stored and succeeds; a larger sum fills the existing stack to 100000 and replaces the input record amount with the remainder before continuing. Otherwise copies all 16 input bytes to the first kind-zero slot. Returns 1 for a merge/copy or 0 with no empty slot. Failure may follow partial mutation; the input kind/amount is not validated, and a new stack is not necessarily capped."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1073,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0805AB2A selects currency handling. 5AB86..9E scan candidate amounts with signed comparison, excluding exactly 100000. 5AB54..62 merge or mutate incoming remainder. 5ABC0..CC scan 25 empty-slot candidates, 5ABFA calls 5CFF8 and 5ABFE returns 1; 5ABDA is the no-space zero result. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 295,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched copy callee transfers the whole 16-byte record into the selected bag slot. Matched 7C114 sale path supplies kind-10 records here, while matched 7C014 spends kind-10 word +4 amounts, independently establishing currency behavior."
+        },
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 287,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched repeated-grant helper calls bag insertion once per requested record and ignores each returned status. Currency records have only kind and word +4 initialized there; this insertion copies the remaining bytes too when it selects an empty slot."
+        }
+      ]
+    },
+    {
+      "address": "0x0805AC08",
+      "canonical_symbol": "sub_0805AC08",
+      "display_name": "TryAddItemToStash",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 384,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Attempts stash insertion using records at character +0x2E0. Currency candidate search spans configured_rows*15 records, with the same signed-largest/exact-100000 exclusion as bag insertion. After selecting a candidate, an original guard skips merging when configured_rows*15 exceeds 24; thus two or more rows take the empty-slot fallback. That fallback scans only 25 records, regardless of configured capacity, and copies through 5D028. Returns 1 for a merge/copy or 0 for no empty candidate. A selected empty index outside configured capacity is redirected to slot zero by the callee, so success does not prove a free configured slot was used. Does not clamp capacity to physical stash storage or validate incoming records; arithmetic/input-remainder mutation follows the bag sibling."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1074,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0805AC2E..36 read configured row count, multiply by 15, compare with 24 and branch to empty fallback if greater. 5AC84..AC scan configured capacity for merge candidates; 5AC4C..5A add/merge or write the incoming remainder. 5ACCC..D8 scan only indices 0..24 for emptiness; 5AD06 calls 5D028 and 5AD0A returns 1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 2325,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched stash copy callee checks the byte index against configured_rows*15, redirects out-of-capacity indices to zero and copies 16 bytes. It does not reject a redirected destination or require it to be empty."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 317,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched bag sibling anchors insertion and currency-remainder semantics. The stash-specific row-count guard and 25-slot fallback are present in original instructions, so this evidence does not assume the siblings have interchangeable bounds or merging behavior."
+        }
+      ]
+    },
+    {
+      "address": "0x0801ACB8",
+      "canonical_symbol": "sub_0801ACB8",
+      "display_name": "InitializeNewCharacterStatsAndItems",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies a raw-class-indexed 32-byte stat template into current character +0x10, writes class-dependent weapon/equipment defaults, activates weapon slot 0 and refreshes equipment activation fields. Seeds bag slots 0..4 from table 0848FB68 and slot 24 from 0848FB7C, then applies a 2A9B0-selected stat/item bonus. Finally sets selected weapon index zero, recalculates local runtime stats and upper-clamps current energy/health against their separate maxima. Does not clear the entire character/inventory record, fill health/energy to maximum or write a save sector. Exact class, item and bonus-selector game titles remain unassigned."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 435,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0801ACDA..EE select/copy base stats; 1ACF0 selects normalized class for equipment dispatch. 1B0B2..C6 activate weapon/equipment; 1B0F2..11A seed bag entries; 1B11E selects bonus branch. 1B224 recalculates, then 1B22C..23C clamp energy and 1B242..252 clamp health. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 4005,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched slot-selection loader calls this initializer only when paired save loading fails, after copying selected summary class/metadata and ten name bytes into the current character state. This provides the new-character context beyond the initializer body alone."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2077,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The raw class selects the stat template, while this separate normalized query drives equipment defaults. This evidence does not equate raw class indices with normalized equipment-permission classes."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A2E0",
+      "canonical_symbol": "sub_0807A2E0",
+      "display_name": "InvalidateCharacterSaveSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3911,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Narrows sector to u8, allocates buffers of 0xCA8 and 0x520 bytes and fills each allocated range with zero. Repeatedly programs the selected sector, then sector +8, until each programming status low halfword is zero. Stored checksum bytes +0xCA4/+0x51C are zero rather than the required 255 for all-zero payloads, thereby invalidating these records. Frees buffers and returns 1 after both loops finish. Busy retries have no scheduler wait or bound; allocation failures are unchecked and no verification call follows. These buffers do not establish that every byte of each full flash sector is zero."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1383,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A300..308 clear 0xCA8 bytes; 7A31A..322 retry first programming call. 7A32C..334 clear 0x520 bytes; 7A344..34C retry sector +8. 7A350/356 free both buffers and 7A35A returns 1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3893,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched paired loader compares each payload sum complement with its stored byte. An all-zero payload requires checksum 255, so these explicitly zeroed checksum bytes fail validation; no erase-all-sector assumption is required."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 64,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched programming wrapper returns status from ProgramFlashSector, or 1 for unsupported flash. This invalidator retries while the low returned halfword is nonzero and does not independently erase/verify or yield."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A378",
+      "canonical_symbol": "sub_0807A378",
+      "display_name": "BuildCharacterSaveSlotSummaries",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3943,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Iterates eight character slots through paired loader 7A20C and writes 0x6C-byte summary records. Invalid slots are zero-filled; valid slots receive validity/class/metadata, selected associated-state fields, 32 saved base-stat bytes, 48 recalculated local runtime derived bytes and ten name bytes. Valid summaries are partial writes, leaving fields such as byte +4 and name bytes 10..11 untouched. Returns 1 if any valid slot has associated-state word +4 bit 12, otherwise 0. Loading/recalculation changes current global character/runtime state and is not restored to the initially active slot."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1384,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A3A2 loads each slot; 7A3B4 clears invalid summary 0x6C bytes. 7A3C8..41A populate validity/metadata flags. 7A438/43C recalculate; 7A44A..454 copy base stats and 7A466..474 copy derived block. 7A482..490 copy ten name bytes; 7A494 bounds slots through 7. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3893,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched paired loader changes both character and associated-state globals only when both checksums pass. Each successful summary therefore corresponds to the loaded slot, and enumeration has real RAM state effects even though its purpose is to populate a menu list."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2174,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched recalculation derives runtime stats from the currently loaded character. This summary builder calls it and the local-player wrapper before copying runtime +0x58, distinguishing saved base values from computed display parameters."
+        }
+      ]
+    },
+    {
+      "address": "0x0807A4B4",
+      "canonical_symbol": "sub_0807A4B4",
+      "display_name": "LoadOrInitializeCharacterSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 4005,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Prepares character state through 13850/0CB30, narrows selected index to u8 and attempts paired loading via 7A20C. On failure, copies class/metadata bytes from the indexed 0x6C-byte summary into save halfwords +0xA/+0xC, stores slot +0xE, copies ten name bytes and invokes new-character initializer 1ACB8. That path clears byte +4 of the first summary record, not the indexed record. On successful loading, selected-summary bytes +7/+6 control a scene-flag setter and clearing sixteen associated-state halfwords at +0x1E6 + i*0x20. Returns 1 on either ordinary path; this is not the paired loader success boolean. Does not validate index, write flash or prove every summary field was initialized."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1385,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0807A4C6 attempts paired load and 7A4CC selects success branch. 7A4D2..E4 index summary metadata; 7A4E6 clears [entries+4]; 7A4EE..FC copy ten name bytes and 7A4FE initializes a new character. Success branch 7A50E..36 checks flags and clears the sixteen halfwords; 7A538 sets unconditional return 1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3943,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched summary builder uses the same 0x6C-byte stride and places class/metadata/name at the offsets this selector consumes. Its valid-summary byte +4 is not written there, so the first-record clearing is documented literally rather than interpreted as a generalized selected-entry flag update."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched initializer supplies default stats and class-dependent starting items after the invalid-save branch establishes the selected new character metadata."
+        }
+      ]
+    },
+    {
+      "address": "0x0802A9B0",
+      "canonical_symbol": "sub_0802A9B0",
+      "display_name": "FindCharacterNameStartingBonusIndex",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08028AAC.c",
+          "line": 1410,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches thirteen name resources 0x140533 through 0x14053F in ascending order. Compares resource halfwords beginning at +2, terminated by halfword 0x00FF, against current character name bytes beginning at save +0. Requires all compared symbols to match and the saved name to contain byte 0xFD at exactly that length. Returns the first matched resource index 0..12, or -1. Does not hash/randomize a name, change stats itself, enforce a maximum name length or validate resource pointers/terminators."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 594,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0802A9BA resolves each resource; 2A9C4..EA compare halfword table symbols against saved name bytes. 2A9F8..FC require the saved-name 0xFD terminator. 2A9FE..AA02 subtract 0x533 for the matched result, while 2AA10..16 advance through 0x53F and 2AA18..1A return -1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static source/original-instruction evidence only."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 276,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched new-character initializer uses this exact return value to select thirteen starting bonuses: additions of 5 to base attributes, 30 to resistance/stat halfwords, four specific item grants, or a combined attribute/resistance case. The no-match -1 takes no switch case. This proves starting-bonus purpose without assigning individual displayed stat/item titles."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 4005,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched invalid-save initialization path copies ten selected-summary name bytes into current character +0 before calling 1ACB8. The bonus query reads this same name byte sequence; its comparison representation is halfword table symbols versus byte save symbols, not an ordinary C string comparison."
+        }
+      ]
+    },
+    {
+      "address": "0x08064E14",
+      "canonical_symbol": "sub_08064E14",
+      "display_name": "TaskSaveCharacterToFlash",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3079,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Coordinates the character flash-save flow after closing dialogue windows, waiting for a scene gate and performing 60 scheduler signal-1 waits while clearing UI rows. Parent/loopback copies current-mode progress words and both byte-array sets into associated-state 03004210; the child branch restores only current-mode progress/arrays from that state and applies additional flag cleanup. Clears sixteen associated-state halfwords, writes its state word 2 and copies scene halfword +0x14A to associated-state +0xDA, then calls 7A124 once. Success shows resource 1403D9, waits for its window and fade, requests scene stop and calls SoftReset(0). Failure shows 1403DA, then calls SoftReset(0) only if the original argument is zero; a nonzero-argument failure returns normally. No exact displayed dialogue wording, elapsed-frame duration, rollback or automatic save retry is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1168,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08064E66 chooses parent/loopback versus child preparation; 64EB2..4F2A copy four byte arrays outward, while 64F50..5006 restore the selected pair inward. 65064 calls 7A124 and 6506A selects failure. 650F2 invokes SoftReset on success; 65130..38 conditionally invoke it after the failure window according to the original argument. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3858,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callee writes the character and associated-state payloads to the selected pair of flash sectors, appends byte-sum checksums and verifies the programmed sectors. Zero is the save-success status that selects this task success branch."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 149,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched starter registers 64E14 as task callback, allocates a 0xC00-byte stack and passes the original argument. That argument controls reset on the failure path; successful saving requests reset independently of it."
+        }
+      ]
+    },
+    {
+      "address": "0x08065C50",
+      "canonical_symbol": "sub_08065C50",
+      "display_name": "StartCharacterFlashSaveTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 149,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "If task control 03002840 is not already scheduled, sets its flags word to 0x3C and retries allocating a 0xC00-byte stack, waiting on scheduler signal 1 between null results. Registers callback 64E14, stack top allocation +0xBFC, null destructor and the original argument. Returns without starting another copy when already scheduled. Does not perform the flash save or wait for its result; the task argument controls failure-path reset behavior, not a menu index or explicit priority."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1206,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08065C58 queries TaskIsScheduled and 65C5E skips active control. 65C6C..7C retry allocation with scheduler waits; 65C82 stores callback 08064E15, 65C8A stack top and 65C92 starts the task with the preserved argument. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3079,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched task invokes the two-sector character save, displays success/failure text resources and requests SoftReset on success or zero-argument failure. This callee provides the concrete save-task identity beyond the starter allocation pattern."
+        }
+      ]
+    },
+    {
+      "address": "0x08058758",
+      "canonical_symbol": "sub_08058758",
+      "display_name": "StartSpriteEffectWithMapDrawMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 573,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Converts supplied pixel X/Y to Q8 by keeping the low 32 bits of each left shift by 8, forwards the third argument as animation selector and requests constructor 73E2C with fourth argument 1. The callback uses map-derived draw mode and screen Y +1 in this case. Performs no coordinate/animation validation or success reporting, and the constructor can decline to start."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 952,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0805875A/5C shift X/Y by 8; 5875E selects mode 1 and 58760 calls 73E2C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 12,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched constructor stores the animation and Q8 position fields and normalizes every nonzero fourth argument to 1 before creating the fixed-world-position effect task."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6376,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callback caches world coordinates, animation and draw-mode selection from the six-word descriptor, renders resource 5008C until animation completion and clears the shared bitmap bit identified by descriptor slot. No precise spell/impact/gameplay effect title is established."
+        }
+      ]
+    },
+    {
+      "address": "0x08058768",
+      "canonical_symbol": "sub_08058768",
+      "display_name": "StartSpriteEffectWithDefaultDrawMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 576,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sibling pixel-to-Q8 wrapper for constructor 73E2C, forwarding the third argument as animation selector with fourth argument 0. Callback draws through ordinary descriptor mode 0 without the selected-case screen Y +1 offset. It still computes the map draw-mode query during the callback loop; this name does not imply no map access. No coordinate/animation validation or success status is provided."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 953,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0805876A/6C shift X/Y by 8; 5876E selects mode 0 and 58770 calls 73E2C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 12,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched constructor supplies the fixed-position animation task. The wrappers differ only in constant draw-mode selection after the same pixel-coordinate conversion."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6376,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callback caches world coordinates, animation and draw-mode selection from the six-word descriptor, renders resource 5008C until animation completion and clears the shared bitmap bit identified by descriptor slot. No precise spell/impact/gameplay effect title is established."
+        }
+      ]
+    },
+    {
+      "address": "0x080659B0",
+      "canonical_symbol": "sub_080659B0",
+      "display_name": "SetFixedSpriteScale",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 16,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Stores the low-halfword supplied sprite scale at descriptor +0x2C and clears signed pulse step +0x2E plus upper/lower scale bounds +0x30/+0x32. With step zero, existing pulse-draw helpers retain this scale instead of advancing the oscillator. Does not draw, alter palette/remap data or initialize a new sprite resource."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1196,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080659B2 stores scale; 659B4/B6 clear bounds and 659B8 clears step. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3242,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched pulse renderer adds descriptor step to current scale, reverses it on crossed bounds and uses the current signed scale for affine X/Y drawing. The same fields are initialized to scale 0x100 and caller-supplied bounds/step by matched 653B8, anchoring their scale-controller meaning."
+        }
+      ]
+    },
+    {
+      "address": "0x08073CF4",
+      "canonical_symbol": "sub_08073CF4",
+      "display_name": "TaskAnimateFixedWorldSpriteEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08068670.c",
+          "line": 6376,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Initializes sprite resource 5008C, sets the first two remap entries to 7 and 8, and uploads two palette banks starting at bank 23. Caches descriptor Q8 X/Y shifted right unsigned by 8, animation selector and draw-mode flag once at entry. While scene pause gates CC98/CD8C are clear, queries map draw mode, advances the low-halfword animation with loop flag 0, transforms the cached world position and draws either map-derived mode at screen Y +1 or ordinary descriptor mode 0. Waits on scheduler signal 1 every iteration, including the completion iteration, then clears its descriptor-slot bit in bitmap 030063E0. Does not follow later coordinate edits or enforce a timeout; pause gates suppress progress and drawing."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1339,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08073D10 initializes the fixed resource and 73D24 uploads palette banks. 73D2A..3E cache mode/position/animation, with unsigned coordinate shifts at 73D32/38. 73D5A..6A gate updates; 73D92 advances animation, 73DDE/3DFA select draw paths and 73DFE yields before the completion test. 73E08..16 clear the shared slot bit. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 12,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched constructor stores six descriptor words as initial zero word, slot, boolean draw mode, animation, Q8 Y, Q8 X and registers this callback. This establishes fixed-position task inputs and bitmap slot binding beyond local variable names."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3237,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched ordinary descriptor renderer forwards fixed draw mode 0; the other callback branch directly invokes 07870 with the mode calculated by BC44. No more specific foreground/occlusion game identity is needed for the two observed draw modes."
+        }
+      ]
+    },
+    {
+      "address": "0x08073E2C",
+      "canonical_symbol": "sub_08073E2C",
+      "display_name": "TryStartFixedWorldSpriteEffectTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 12,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Finds the first clear bit among 16 slots in shared bitmap 030063E0, writes a six-word descriptor in the metadata pool reached through pointer global 03006380 and normalizes fourth argument to 0/1. Stores an initial zero word, slot, draw mode, animation, Q8 Y and Q8 X. Makes one allocation attempt for a 0x400-byte stack in the task-control pool reached through pointer global 030063B0; returns if full or allocation fails. On success registers callback 73CF4, flags 0x34, stack top +0x3FC and no-op destructor 7A120, then sets its bitmap bit. Metadata/task stack-pointer fields can already have changed on allocation failure. Does not initialize either pool, retry allocation, wait for completion or return a success value."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1340,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08073E3E..5C select a free bit or leave when all 16 are used. 73E5E..80 normalize/store descriptor inputs; 73E86 allocates once and 73E9C skips a null result. 73EA0/EA4/EB0 fill callback/flags/destructor; 73EBA starts the task and 73EC4..C8 mark the slot afterward. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function ranges equal the existing linked ELF; mapping symbols separate instructions/literals. Static evidence only."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 6376,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched callback caches world coordinates, animation and draw-mode selection from the six-word descriptor, renders resource 5008C until animation completion and clears the shared bitmap bit identified by descriptor slot. No precise spell/impact/gameplay effect title is established."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3846,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched destructor target is an empty return body. It is a nonnull no-op callback, not a null destructor pointer or proof that this constructor frees other shared resources."
+        }
+      ]
+    },
+    {
+      "address": "0x0805FB7C",
+      "canonical_symbol": "sub_0805FB7C",
+      "display_name": "DrawCappedThreeDigitTileNumber",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 10,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Clamps the unsigned input to 999 and uses an unchecked u8 style index into digit-base table 084EBD74. Writes the ones tile at RAM tilemap 03005740 + y*64 + x*2, the hundreds tile two entries to the left only when nonzero, and the tens tile one entry to the left when either higher digit is nonzero. Adds digits to the selected tile base with halfword stores and queues row y through 1A664(y,1). Suppressed leading digits leave existing tiles unchanged; this does not clear or zero-pad a three-character field. The x coordinate identifies the ones column, not the leftmost digit."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1148,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5FB8E..92 clamp unsigned values to literal999; 5FBAC/5FBB8 divide the stored remainder by100 then10; 5FBC6 writes ones, 5FBD4/5FBEE conditionally write preceding halfwords, and 5FBF4 queues the row. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The character-stat UI uses this helper for point totals and attributes at tile-column7 with varying rows/styles. These are tile positions rather than pixel-text drawing calls."
+        }
+      ]
+    },
+    {
+      "address": "0x0805FC0C",
+      "canonical_symbol": "sub_0805FC0C",
+      "display_name": "WriteCappedThreeDigitTiles",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 29,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Writes up to three right-aligned digit tiles ending at the supplied u16 pointer. Clamps an unsigned value to999, selects a tile base with an unchecked u8 index, writes ones at out[0], hundreds at out[-2] only when nonzero and tens at out[-1] when hundreds or tens are nonzero. Leading suppressed positions retain prior contents; there is no blank fill, terminator or row-update request. Pointer capacity and style bounds are caller obligations, not checked here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1149,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5FC1C..20 clamp against999; 5FC30/5FC3C divide by100/10; 5FC4A writes ones, 5FC58 writes optional hundreds, 5FC74 writes optional tens; the function returns directly without calling1A664. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0805FC80",
+      "canonical_symbol": "sub_0805FC80",
+      "display_name": "DrawItemIcon",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 61,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Selects an icon frame and shared asset group from the item kind/ID resource descriptor, returning for kind0 or unsupported kinds. Supported kinds1..10 use their respective descriptor offsets; kind10 always resolves resource160000. Item byte+8 selects the next asset group for kinds2..5, while kinds2..4 can supply an overlay selector from byte+7 (kind2 falls back to resource+0xBC). Flag1 treats the two input coordinates as Q8 world positions, converts/culls them and draws with the world-order helper; this path returns before the UI flag handling. Otherwise coordinates are direct draw positions: flag2 temporarily selects asset-descriptor byte +0x25 (attr[9], with attr beginning at +0x1C) value10 only without the alternate group, flag8 can draw an extra overlay at y+8, and flag4 advances a shared bounded scale oscillation and uses scaled drawing. Normal UI drawing restores both relevant attribute bytes to9; it does not restore their prior values. No item mutation, exact equipment-class names or title-specific overlay labels are inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1150,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5FC9A..5FCAA dispatch item kind; 5FD04..68 handle the alternate group; 5FDC0..FE60 isolate Q8 world mode. 5FE98 writes the UI attribute byte, 5FED6 draws the optional overlay, 5FEF4 updates shared scale and 5FF50/5FF88 issue scaled/ordinary draws. 5FF98/5FF9E reset attribute bytes to9. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 662,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched slot-rendering task5B140 visits active 0x20-byte item records and passes their Q8 positions, the item payload at +0x10 and flag1 to this renderer at lines689/692. This anchors the same icon renderer in world-item display as well as UI use."
+        }
+      ]
+    },
+    {
+      "address": "0x08022630",
+      "canonical_symbol": "sub_08022630",
+      "display_name": "AllocateSceneStateAndStartController",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 503,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates a 0x1E78-byte scene-state object and publishes it at 03005CF4, then creates its embedded task control at state+0x1794. Registers callback 226A4, allocates an 0x800-byte stack once, sets stack top allocation+0x7FC, task flags 0x46 and null destructor, clears scene flags halfword+4 and active-object mask+0x54, and starts the task. Only these specific fields are initialized here; the callback performs additional scene setup. Neither allocation is null-checked or retried, and this function does not release a prior global state or wait for controller initialization."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 541,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "22636 allocates literal 0x1E78; 2263A publishes the result. 22644 stores callback 080226A5, 2264A allocates 0x800, 22660 stores stack top, 22672/74 clear two scene fields, and 2267A starts control state+0x1794. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 701,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched controller callback 226A4 iterates scene records at state+0x71C with 0x124-byte stride, dispatches selected callbacks, processes player/map-cell behavior and yields while scene stop predicate CB78 is false. The constructor name assigns the concrete scene-state/controller role without assigning an exact map or event title."
+        }
+      ]
+    },
+    {
+      "address": "0x08056D2C",
+      "canonical_symbol": "sub_08056D2C",
+      "display_name": "StopSceneControllerAndFreeState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1126,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries the task at current scene state+0x1794. If scheduled, requests termination with 003A8, then waits on scheduler signal 1 until that control is no longer scheduled. Frees the current global scene-state pointer and clears 03005CF4 to zero. The global pointer is reloaded after waits and again for the free; this is not a captured-pointer cleanup routine. It does not cancel the scene callback/object pools or independently free all other scene-owned allocations, and it assumes the scene-state pointer is valid when computing the embedded control."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 838,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "56D36 queries 00470; 56D44 requests termination; 56D58 reloads global state before each repeated query 56D5E. 56D6A frees the freshly read global pointer and 56D70 clears it. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 503,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched constructor22630 allocates the scene-state object and embeds callback 226A4 at control+0x1794; this identifies the one controller stopped here rather than an arbitrary task bank."
+        }
+      ]
+    },
+    {
+      "address": "0x080570DC",
+      "canonical_symbol": "sub_080570DC",
+      "display_name": "CancelSceneCallbackAndObjectTasks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 1304,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Visits 30 scene callback controls at state+0xE34 and requests termination for each scheduled record. A nonzero argument additionally visits 30 controls at state+0x12E4; it always visits 15 object records at state+0x7A4 with 0x70-byte stride and cancels their embedded task at+0x48. Finally clears 03005CF0. There is no scheduler wait, state-object free or exclusion of the current task in these loops. Other embedded controls, including the scene controller at+0x1794, the 32-record pool at+0x1834 and delayed callbacks at+0x1D34, are outside the traversed ranges. The argument therefore expands one specific bank rather than promising all scene tasks are stopped."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 858,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "570EC/570F6 query and cancel the first 30 controls; 57102 gates the optional bank, whose query/cancel are 57112/5711C. 57138/57142 query/cancel 15 object controls. 57152 clears 03005CF0 without any 003F0 call. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 87,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched object constructor5A7C4 uses 15 records at scene+0x7A4, starts callback 284F4 on embedded control+0x48 and installs destructor5A780. The cleanup loop therefore addresses actual scene object tasks as well as generic callback banks."
+        }
+      ]
+    },
+    {
+      "address": "0x080283C4",
+      "canonical_symbol": "sub_080283C4",
+      "display_name": "AcquireSharedObjectPaletteSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5441,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches the three active 12-byte registry records at 03005D00, from index 2 down to 0, for a matching full 32-bit key and zero-extended u16 secondary selector. A match increments its 32-bit reference count with wrapping and returns index+4. Otherwise searches inactive slots in the same descending order, writes key/selector/count 1, sets the corresponding bit in 03005CFC and returns handle 4..6; exhaustion returns 65535. It neither uploads palette data nor validates the key against resources. A wrapped zero count remains associated with an active bitmap bit; the separate lookup helper rejects such a zero count."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 566,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "283D6 begins descending index 2. 283F2/283FC compare key/selector, 28408..0A increment the reference count, 2844E..5E initialize a free record and set its bitmap, and 2847E loads the 65535 failure result. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5559,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-object task 284F4 acquires this registry with key 100 and a resource-table palette selector, stores the returned handle at object+0x40, uses it in its palette-remap data and at line 5593 passes handle+0x10 to the palette uploader. Original 285C2 acquires, 2860A installs the remap byte, and 28774..82 upload the selected palette at handle+16. Thus handles 4..6 correspond to upload banks 20..22, not arbitrary generic task IDs."
+        }
+      ]
+    },
+    {
+      "address": "0x08028498",
+      "canonical_symbol": "sub_08028498",
+      "display_name": "ReleaseSharedObjectPaletteSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5462,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Narrows the handle calculation to u16(handle-4), forms a bitmap bit and acts only when that bit is set. For the corresponding registry record, an unsigned count greater than 1 is decremented; a count 0 or 1 clears all three words and the active bit. It does not erase uploaded palette colors or free a heap allocation. No explicit handle 4..6 range check precedes the shift/index calculation, so this contract does not promise a general invalid-handle validator."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 567,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "2849A..A6 form the narrowed index and bit; 284AE..B0 skip inactive bits. 284C2..C4 choose unsigned count>1; 284CA..D6 clear key/selector/count and bitmap, while 284E8..EA decrement a larger count. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 75,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-object task destructor 5A780 matches its task-control pointer against 15 object records, releases object+0x40 through 28498 and clears that object active bit. This supplies the concrete ownership counterpart to acquisition."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5559,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-object task 284F4 acquires this registry with key 100 and a resource-table palette selector, stores the returned handle at object+0x40, uses it in its palette-remap data and at line 5593 passes handle+0x10 to the palette uploader. Original 285C2 acquires, 2860A installs the remap byte, and 28774..82 upload the selected palette at handle+16. Thus handles 4..6 correspond to upload banks 20..22, not arbitrary generic task IDs."
+        }
+      ]
+    },
+    {
+      "address": "0x0805A71C",
+      "canonical_symbol": "sub_0805A71C",
+      "display_name": "FindSharedObjectPaletteSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805A630.c",
+          "line": 47,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reads active bitmap 03005CFC once and scans the same three registry records in ascending index order 0..2. Requires the full key, zero-extended u16 secondary selector and a nonzero 32-bit reference count, then returns handle index+4; otherwise returns 65535. It does not allocate a slot, increment a reference count, modify the bitmap or inspect uploaded colors. Its search order and nonzero-count condition differ from acquisition."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1063,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "5A728 captures the bitmap; 5A730..758 check active bit, key, selector and nonzero count; 5A75A returns handle 4..6, while 5A776 returns 65535 after index 2. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete original function bytes equal the existing linked ELF, whose mapping symbols separate instructions from literal pools. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 5559,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-object task 284F4 acquires this registry with key 100 and a resource-table palette selector, stores the returned handle at object+0x40, uses it in its palette-remap data and at line 5593 passes handle+0x10 to the palette uploader. Original 285C2 acquires, 2860A installs the remap byte, and 28774..82 upload the selected palette at handle+16. Thus handles 4..6 correspond to upload banks 20..22, not arbitrary generic task IDs."
+        }
+      ]
     }
   ]
 }
