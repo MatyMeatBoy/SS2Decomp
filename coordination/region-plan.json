@@ -7,6 +7,14 @@
       "actor": "codex-coord-eu-nov07",
       "at": "2026-11-07T11:34:02+00:00",
       "evidence": "frozen contract"
+    },
+    {
+      "action": "take",
+      "actor": "sol-match-a-eu",
+      "at": "2026-11-07T11:35:06+00:00",
+      "candidate": null,
+      "evidence": "",
+      "region": "initial-four"
     }
   ],
   "module": "code_0808FB5C",
@@ -34,11 +42,11 @@
         "Shared pool relative142..154 is owner-managed, not scratch space:144 cache03001250 (outside usesBA/110),148 FFFF(useBC),14C low03000252(usesDE/10E),150 high03000256(usesEA/116). Loop itself does not read this pool."
       ],
       "start": "0x08092518",
-      "state": "free",
+      "state": "claimed",
       "types": [
         "i is u16 with explicit existing truncation; xs/ys elements and pointer homes are32-bit. Original loop carriers ysR4,iR5,xsR6; baseline xsR7. No new aliases or type changes."
       ],
-      "worker": null
+      "worker": "sol-match-a-eu"
     },
     {
       "end": "0x080929AE",
