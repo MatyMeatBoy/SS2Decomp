@@ -665,9 +665,11 @@ void sub_080605D0(s32 animate)
             base = mgr->sel / 3 * 3;
             end = base + 3;
             if (animate != 0) {
-                for (k = base; k < end; k++)
-                    hudItem63(hudPos63[k - base].x + (7 - slide) * 8,
+                for (k = base; k < end; k++) {
+                    s32 offset = (7 - slide) * 8;
+                    hudItem63(hudPos63[k - base].x + offset,
                               hudPosY63[k - base].x + 0x10, &mgr->slots[k], 8);
+                }
             }
             if (animate == 0) {
                 if (*(s32 *)(gUnk_03006440 + 0x28) & 1) {
@@ -677,8 +679,11 @@ void sub_080605D0(s32 animate)
                     } while (*(s32 *)(gUnk_03006440 + 0x28) & dirty);
                 }
             }
-            HudDraw63(&hudIcon63, (7 - slide) * 8 + hudPos63[mgr->sel - base].x - 1,
-                        hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
+            {
+                s32 offset = (7 - slide) * 8;
+                HudDraw63(&hudIcon63, offset + hudPos63[mgr->sel - base].x - 1,
+                          hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
+            }
             sub_080003F0();
             if (sub_0800CD34() != 0)
                 break;
@@ -743,11 +748,16 @@ void sub_080605D0(s32 animate)
             sub_0801A664(2, 4);
             base = mgr->sel / 3 * 3;
             end = base + 3;
-            for (k = base; k < end; k++)
-                hudItem63(hudPos63[k - base].x + (7 - slide) * 8,
+            for (k = base; k < end; k++) {
+                s32 offset = (7 - slide) * 8;
+                hudItem63(hudPos63[k - base].x + offset,
                           hudPosY63[k - base].x + 0x10, &mgr->slots[k], 8);
-            HudDraw63(&hudIcon63, (7 - slide) * 8 + hudPos63[mgr->sel - base].x,
-                        hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
+            }
+            {
+                s32 offset = (7 - slide) * 8;
+                HudDraw63(&hudIcon63, offset + hudPos63[mgr->sel - base].x,
+                          hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
+            }
             sub_080003F0();
         }
         sub_080003F0();
