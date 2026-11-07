@@ -1,7 +1,7 @@
 {
   "address": "0x08027C1C",
-  "updated_utc": "2026-11-07T03:39:09+00:00",
-  "checkpoint": "codex-sol-b-nov07: replace the second four-slot reset with the original do/while shape and remove the g r8 binding; ordinary allocation still selects r8 and CSE shares the sprite index/base. Fresh baseline 1876 bytes, byte edit distance 342, halfword edit distance 245, nmscore 287; candidate 1864 bytes, distances 291/208, nmscore 256. Original 1868 bytes. Current frame 0x248 versus original 0x24C. Historical checkpoint 42744c9be5f90724e916df1f39a0d5c5ddab12da and its bounded traces belong to an earlier source shape.",
+  "updated_utc": "2026-11-07T05:05:00Z",
+  "checkpoint": "Indexed group-entry and structured inner-loop checkpoint; C-body SHA-256 16a85ecc93db361c4045201b0d2a964871ff43fa848c22f0a216a7eae117b4e1. Derive entry from group->e[j] inside a do-loop, allowing ordinary loop strength reduction and recovering the nextGroup home at SP+0x248. Current candidate 1864/original 1868 bytes; candidate/original frames 588/588 versus previous 584. Fresh real-module heuristic 256 to 252, normalized byte edit distance 291 to 290 and halfword edit distance 208 to 207. Still NONMATCHING; no matching-byte credit.",
   "areas": [
     {
       "id": "compile",
@@ -12,26 +12,26 @@
     {
       "id": "frame",
       "label": "Match the original 588-byte local frame",
-      "state": "active",
-      "evidence": "Fresh real-module output for the current rewrite allocates 0x248 bytes, while original ASM allocates 0x24C. The missing word is the original nextGroup home at SP+0x248; current pseudo32 uses sl and j uses r6, versus original j in sl. The former done milestone described historical checkpoint 42744c9b and is not evidence for this rewrite. Volatile nextGroup and shared lifetime carriers regress current byte/halfword comparisons and were not retained."
+      "state": "done",
+      "evidence": "Fresh normal-module output allocates the original 0x24C (588)-byte frame, replacing previous 0x248. The indexed group-entry source plus structured inner do-loop gives the nextGroup write/reload at SP+0x248, matching the missing original home without artificial memory or a volatile pointer. Register allocation remains incomplete: j still uses r6, while a shared zero uses SL; original j uses SL. Equal frame and this spill observation do not establish matching C."
     },
     {
       "id": "initialization",
       "label": "Effect record and configuration initialization",
       "state": "active",
-      "evidence": "The draft scans record kinds 8/9 at stride 0x124 and initializes effect records at runtime+0x58C with position/active tables at +0x160/+0x22C. Group-next lifetime, initialization registers, configuration-tail address formation and one spill home remain unresolved. No historical configuration-tail helper or exact-frame claim is carried into the current source."
+      "evidence": "The draft scans record kinds 8/9 at stride 0x124 and initializes effect records at runtime+0x58C with position/active tables at+0x160/+0x22C. Source entry=&group->e[j] within the structured inner loop lets loop.c strength-reduce the entry address to the original advancing pointer and keeps nextGroup in SP+0x248. Indexing with the old goto inner loop gives 1872 bytes and retains a separate group base; this rejected control demonstrates why both source changes are needed. The current entry/group registers, position-base load order, configuration-tail address formation and zero lifetime remain unresolved."
     },
     {
       "id": "animation",
       "label": "Animation state loop and helper arguments",
       "state": "active",
-      "evidence": "The current draft retains states 0/10/11/12, sprite helpers, item-spawn retries and display/hide calls. Removing the g r8 binding lets ordinary allocation choose r8 while CSE shares the sprite index and base across drawing arguments. The second four-slot reset now enters its body unconditionally as in the original, removing the extra entry comparison/branch. Original and candidate have the same 40 static external-call targets in order. Fresh full-module dump control equals the ordinary NONMATCHING object. Historical 577 bounded scenarios were not rerun against this rewrite and do not establish its equivalence."
+      "evidence": "The current draft retains states 0/10/11/12, sprite helpers, item-spawn retries and display/hide calls. Removing the g r8 binding lets ordinary allocation choose r8 while CSE shares the sprite index and base across drawing arguments. The second four-slot reset now enters its body unconditionally as in the original, removing the extra entry comparison/branch. Original and candidate have the same 40 static external-call targets in order. Fresh full-module dump control equals the ordinary NONMATCHING object. Historical 577 bounded scenarios were not rerun against this rewrite and do not establish its equivalence. Current checkpoint and unchanged fresh main control each pass 577 bounded original-ROM comparisons using groups 0/1/2, optional row selection 1/2, effect states 0/10/11/12, mode stubs 0..3, network mode 0/1, initial cancellation 0/1 and resource kinds 1..4. Cases exclude the array-overflow combination of two full groups plus a row without the multiplayer early exit. They compare stubbed calls, relevant EWRAM/IWRAM, returned saved registers and SP with scratch-register clobbers and an A5 stack seed. Known resource-pointer fields are canonicalized across linked layouts, and stack arguments are normalized relative to each actual function frame. This is a new run against both current source shapes, not a reuse of historical 42744 evidence. It does not establish arbitrary runtime states or a complete scheduler."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
       "state": "pending",
-      "evidence": "Strict normalized bytes/relocations remain NO MATCH. Original/candidate sizes are 1868/1864 bytes; original/candidate frames are 0x24C/0x248. Relative to the fresh main baseline, byte edit distance improves 342 to 291 and halfword edit distance 245 to 208; approximate nmscore improves 287 to 256. No matching C bytes are claimed. Normal compare passes with ASM fallback, the full NONMATCHING build succeeds, and check_tree reports 0 errors."
+      "evidence": "Strict normalized bytes/relocations remain NO MATCH. Original/candidate sizes 1868/1864; frames 588/588. Against the fresh selected main baseline, byte edit distance 291 to 290, halfword edit distance 208 to 207, heuristic 256 to 252. All 40 original external-call targets retain static order. Normal fallback compare, full NONMATCHING build, check_tree and diff checks pass. No matching C bytes are claimed."
     }
   ],
   "regions": []
