@@ -201,3 +201,35 @@ kind = from / re-reading cur->kind (no effect alone); f6A store via a plain poin
 Left in case 13: the 0xC0001 BD78/else DROP (ROM keeps the address in r6 across CpuSet, ours reloads into r0/r4). Also the
 money from==13 slot*16 in sl (ROM computes the item as (gMgr82 + slot*16) + 260; ours reassociates). Also tg==0 kind store
 (ROM strh r6, ours movs). Tools: session scratchpad nov07-w82N (jl.py lists jumps/labels on a CSE path; dump.sh -ds/-dt dumps).
+
+2026-11-07 sixth follow-up (claude-nov07-w82M): filtered nmdiff 2257 -> 1856, full-module aligned diff 551 -> 449,
+strict diff lines 2667 -> 1852, casediff sum 900 -> 665 (case 0 rdiff 113 -> 75, case 13 rdiff 37 -> 27). Still 18396 bytes.
+Landed:
+- case 13 money from==13: block-local `vv` instead of the function-level `val`. val (r1) was live in both
+  from==13 paths, so it blocked slot s from r1; with vv the ROM's s=r1 / val=r0 / 100000=r5 appear.
+- case 13 0xC0001 kind 2..5 path: `struct Mgr82 **m` set in each branch via asm("" : "=r"(m) : "0"(&gMgr82)),
+  then Drop82P(&sp14, m): the ROM keeps the gMgr82 address in a callee-saved reg across BD78/BEA0 into the DROP.
+- from==13 DROPs use inline Drop82P/Drop82PZ(&sp14, gp) instead of the macros: the inline form computes
+  z (add r0, sp, #20) before the zero store, like the ROM.
+- case 0 mode-6 branch: block-local `struct Item82 *h` (ROM r1); the kind==9 test re-reads through
+  *(vu16 *)&h->kind (ROM loads held.kind twice; plain C lets CSE reuse the first load).
+- case 0 0xC0001/default/money paths: item and flag addresses written base-first
+  ((u8 *)gInv82 + cursor * 16 + 0x150 / 0x158). With items[cursor], cursor*16 stayed live (r7) and pushed the
+  f6A constant 100 to r9.
+- case 0 keys&1: block-local `hd` for the held pointer. ROM spills case 0's held to [sp,#52] while case 13's is r9.
+Diagnosis / found but not landed (each is right vs the ROM but costs size until reload rotation also matches):
+- money from==13 val<=100000 DROP (path 2): ROM passes `held` (r9) to CpuSet (`mov r1, r9`), i.e.
+  Drop82PH(&sp14, held, gp). Matches that DROP exactly but makes the draft 4 bytes short.
+- money from==13 count==count: item as (u8 *)gMgr82 + s * 16 + 0x104 gives ROM's s*16 in sl and the
+  `mov sl, r5` / `mov r0, sl` pair exactly (8 bytes short, combined with the above).
+  The rest of the gap is reload rotation. The ROM reloads gMgr82 again after CpuSet (r2 then r3, the swap DROP also
+  has a separate `movs r4,#0`). Ours picks a callee-saved reload reg (r4/r5) that survives the call and is inherited.
+  Theory (reload1.c round-robin, last_spill_reg): ROM's 100000 compare constant is a reload into r5 (pseudo not
+  allocated), so the next reloads go r6, r7 (`ldr r6,=-100000; mov r7, r8`) and then wrap to r2. Ours allocates
+  the 100000 pseudo to r5, so the rotation is r1, r3, r4.
+- The swap DROP's zero store in ours comes from the f6A=100 RMW zero pseudo (store_bit_field expansion
+  (f6A & 0) | 100). CSE follows the path from the f6A store. The ROM uses a fresh `movs r1,#0`. Asm zeros (Drop82Q) don't help.
+- case 0 default (held.kind != item->kind): ROM computes &held (m+244) before the item address. All tried forms
+  (held->kind, block-local h before item) are much worse (+16..+32 bytes).
+Tools: session scratchpad nov07-w82M (lst.py/side.sh side-by-side by address, sdc.sh aligned diff with addresses,
+runp.sh parallel ck with retry, because the old run.sh silently drops some results under xargs -P 8).
