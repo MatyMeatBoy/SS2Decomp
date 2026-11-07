@@ -2957,7 +2957,6 @@ test:
     }
     player->flags |= 0x403;
 }
-#ifdef NONMATCHING
 struct C0Anim { s32 res; s32 f4; s32 f8; u8 pad[0x10]; u8 id; u8 pad2[0x17]; };
 struct C0Item {u16 unk0;u8 unk2;u8 unk3;};
 struct C0Player {u8 p0[16];u16 unk10;u8 p12[10];s16 unk1C;u8 p1e[2];u16 state;u8 p22[14];u32 flags;u8 p34[48];u16 unk64;u8 p66[2];u8 unk68;u8 p69[35];s32 unk8C;s32 unk90;u8 p94[180];struct C0Item *unk148;};
@@ -3275,10 +3274,12 @@ selectionCheckC0:
             sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
             for (var_r5_2 = 0, k = loopCounterC0 + 1; var_r5_2 < 5; var_r5_2++)
                 sp150[var_r5_2] = 0;
-            for (loopCounterC0 = 0, cn = sp150; loopCounterC0 < sub_08002164(); loopCounterC0++) {
+            for (loopCounterC0 = 0; loopCounterC0 < sub_08002164(); loopCounterC0++) {
                 temp_r1_7 = gPlayersC0[loopCounterC0].unk148;
                 temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
                 if (temp_r4_11 == 0) {
+                    /* Set here so loop.c hoists it after the gCoords load. */
+                    cn = sp150;
                     temp_r3_2 = (u8) temp_r1_7->unk3 >> 4;
                     sub_08007870(gSeatPosC0[temp_r3_2][cn[temp_r3_2]][0], gSeatPosC0[temp_r3_2][cn[temp_r3_2]][1], gSeatPosC0[temp_r3_2][cn[temp_r3_2]][2], 0, temp_r4_11, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
                 }
@@ -3324,10 +3325,10 @@ selectionCheckC0:
         sub_0805865C(0xF);
         gFlagC0 = 0;
         goto loop_82;
-errorFullC0:
+errorSingleC0:
         sub_0805865C(0x61);
         goto block_81;
-errorSingleC0:
+errorFullC0:
         sub_0805865C(0x61);
 block_81:
         sub_080003F0();
@@ -3413,9 +3414,6 @@ loop_113CheckC0:
 }
 #undef C0_CENTER_TEXT
 #undef C0_DRAW_ALL
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808C0C4);
-#endif
 extern u8 gUnk_084F0C28[];
 extern u8 gUnk_084F0C8A[];
 extern void sub_080003F4(s32);

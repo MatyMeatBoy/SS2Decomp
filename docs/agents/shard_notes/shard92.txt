@@ -81,3 +81,9 @@ Shard 92, sub_0808C0C4 (code_08087CC0)
   Rejected: else-branch/after-if asm uses (still r7), extra gCoords asm use (gCoords takes r7),
   body-local seat pointer (folds [1]/[2] into ldrh #2/#4), `(nv = sp150)` inside the argument
   (not moved), inline index recompute.
+  MATCHED (follow-up, same day): set the counts pointer as the first statement of loopB's
+  `if (kind == 0)` block (`cn = sp150;`) instead of in the for-init. loop.c then hoists it as a
+  movable after the gCoords load (moved in body order), giving gCoords r8 / counts r9 / items r7.
+  Setting it at the top of the loop body (outside the if) or after temp_r3_2 does not move it.
+  The last bytes were two branch targets: errorSingleC0 (with the goto) comes before errorFullC0
+  (which falls into block_81). NONMATCHING wrapper and asm/nonmatchings/.../sub_0808C0C4.s removed.
