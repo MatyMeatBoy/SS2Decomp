@@ -235,5 +235,14 @@ Diagnosis / found but not landed (each is right vs the ROM but costs size until 
   (f6A & 0) | 100). CSE follows the path from the f6A store. The ROM uses a fresh `movs r1,#0`. Asm zeros (Drop82Q) don't help.
 - case 0 default (held.kind != item->kind): ROM computes &held (m+244) before the item address. All tried forms
   (held->kind, block-local h before item) are much worse (+16..+32 bytes).
+- Coordinator follow-up tries (all bigger than 18396, not landed):
+  * function-scope `u32 lim = 100000;` used for the from==13 compares/stores. The 100000 pseudo then gets no reg and
+    the val>100000 path reloads rotate like the ROM (`ldr r6,=-100000; mov r7, r8`), but case 13 grows +24. The freed
+    pressure lets the f6A RMW zero (5261) take sl (`movs r6,#0; mov sl,r6` after the f6A store), and the 0xC0001 DROP
+    tail stops cross-jumping (+6 insns). With slot*16 base-first + Drop82PH: aligned 441 (vs 420), +24 bytes.
+  * per-use asm("" : "=r"(c) : "0"(100000)) on the first compare: size-exact with slot*16 but aligned 487.
+  * case 13 f6A store via pointer / vs16 / asm constant: removes the RMW zero there, but reshapes the keys&1 entry
+    (gMgr82 reloaded after the store); still +20..+24 bytes.
+  Next: combine lim with something that keeps the f6A zero unallocated (or makes the 0xC0001 DROP zero match).
 Tools: session scratchpad nov07-w82M (lst.py/side.sh side-by-side by address, sdc.sh aligned diff with addresses,
 runp.sh parallel ck with retry, because the old run.sh silently drops some results under xargs -P 8).
