@@ -781,7 +781,8 @@
 </g>
 <g><title>code_080A3D2C (22868 bytes)</title>
 <rect x="419.79" y="256.94" width="95.10" height="126.54" fill="#0d1117"/>
-<rect x="420.79" y="257.94" width="55.92" height="49.47" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A4D08 | sub_080A4D08 | unidentified  0x080A4D08  5456 bytes  [nonmatch]</title></rect>
+<rect x="420.79" y="257.94" width="55.92" height="49.47" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_080A4D08 | sub_080A4D08 | unidentified | 2/5 milestones; not a match  0x080A4D08  5456 bytes  [nonmatch]</title></rect>
+<rect x="420.79" y="257.94" width="22.37" height="49.47" fill="#d29922" pointer-events="none"/>
 <rect x="476.70" y="257.94" width="37.18" height="49.47" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A8164 | sub_080A8164 | unidentified  0x080A8164  3628 bytes  [done]</title></rect>
 <rect x="420.79" y="307.41" width="28.45" height="38.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A756C | sub_080A756C | unidentified  0x080A756C  2176 bytes  [done]</title></rect>
 <rect x="420.79" y="346.19" width="28.45" height="36.29" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080A3D2C | sub_080A3D2C | unidentified  0x080A3D2C  2036 bytes  [done]</title></rect>
