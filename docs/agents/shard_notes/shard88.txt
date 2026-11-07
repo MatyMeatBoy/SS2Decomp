@@ -1,0 +1,11 @@
+Shard 88 notes (sub_080855D4).
+
+2026-11-07 (claude-nov07-coord): sub_080855D4
+  Size 4616 -> 4620 = ROM; filtered nmdiff 843 -> 823 (aligned difflib 451 -> 440). The
+  save-slot loop indexes gSave->counts[slots[i].id] directly instead of through a u8 *cnt
+  local. ROM computes (save + 0xC10) + id, the non-reassociated array-ref form; the pointer
+  local folded it to (id + 0xC10) + save.
+  Remaining: n is in sl in ROM (ours r9). In the random-point loop ROM keeps
+  r = rand() & 0xFF in r5 and the hoisted zero in r6 (ours zero r5, r in r0);
+   /  / s32 forms do not change it. The other 400+ aligned lines
+  are register allocation across the rest of the function.
