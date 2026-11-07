@@ -2343,7 +2343,9 @@ void sub_0808AFE8_v(void)
             sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
             sub_0805FB7C(8, 8, sub_08058934(sel), 0);
             if (flag != 0) {
-                sub_0805FFBC(0xF, 0x12, (struct RecAF91 *)((u8 *)records + ((sel + selectionStride + col) << 4)), 0x80000000);
+                struct RecAF91 *detailRow;
+                detailRow = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4));
+                sub_0805FFBC(0xF, 0x12, &detailRow[col], 0x80000000);
             } else {
                 text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + 2;
                 sub_0801A3D0(text, 0xF - ((u32)sub_0801A638(text) >> 1), 0x12);
