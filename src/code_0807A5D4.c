@@ -1157,11 +1157,10 @@ static inline void Drop82(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x
 /* Same as Drop82, but the empty volatile asm keeps cross-jumping from merging this tail with another identical DROP tail (the ROM keeps them separate because its registers differ). */
 static inline void Drop82Sep(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; asm volatile(""); }
 #define DROP82() Drop82(&sp14)
-/* Drop82P: the DROP through a pointer to gMgr82 (the function-scope gp, which gets no hard reg, so reload re-loads the address at each use like the ROM; or a pointer kept in a register). Drop82PZ also takes heldIdx's zero from its own mov (ROM: separate movs r1/r4 zeros). The inline form computes z (add r0, sp, #20) before the zero store, like the ROM. */
+/* Drop82P: the DROP through a pointer to gMgr82 (the observed unallocated function-scope gp, so reload re-loads the address at each use like the ROM; or a pointer kept in a register). The inline form computes z (add r0, sp, #20) before the zero store, like the ROM. */
 static inline void Drop82P(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, &(*g)->held, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
-/* Drop82PH: CpuSet's source is the held pointer already in a register (ROM: mov r1, r9). */
+/* Drop82PH: CpuSet's destination is the held pointer already in a register (ROM: mov r1, r9); z remains the zero source. */
 static inline void Drop82PH(vu32 *z, struct Item82 *h, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, h, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
-static inline void Drop82PZ(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, &(*g)->held, 0x05000004); (*g)->heldFrom = 0x16; { u32 zz; asm volatile("mov %0, #0" : "=l"(zz)); (*g)->heldIdx = zz; } }
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
 struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
@@ -2803,7 +2802,7 @@ void sub_0807C29C(void) {
                            gMgr82 reloads r2/r3, zero r4). The asm copy keeps that move; C82 keeps the stores in-struct
                            (so gMgr82 stays known in the BD78 call). */
                         struct C82 *pc;
-                        { u32 t; u8 *b; b = (u8 *)&gMgr82->stock[0].count; asm("" : "=r"(t) : "0"(s * 16)); pc = (struct C82 *)(b + t); }
+                        { u32 t; u8 *b; b = (u8 *)gMgr82 + offsetof(struct Mgr82, stock) + offsetof(struct Item82, count); asm("" : "=r"(t) : "0"(s * 16)); pc = (struct C82 *)(b + t); }
                         vv = pc->c + gMgr82->held.count;
                         if (vv <= 100000) {
                             if (gMgr82->heldIdx != s) {
@@ -2815,7 +2814,7 @@ void sub_0807C29C(void) {
                             gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                             sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                         }
-                        Drop82PZ(&sp14, gp);
+                        Drop82P(&sp14, gp);
                         sub_0805865C(0x5F);
                         sub_0805865C(0x5F);
                         break;
