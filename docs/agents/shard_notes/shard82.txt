@@ -55,3 +55,37 @@ Findings:
 - Block-local vars per case (case 16: fr/cu/it/nn/ii instead of function-level from/cur/item/n/i)
   fixed case 16 size and shrank case 0/13 deltas (rdiff 611->593): do the same for cases 0, 1, 5, 6, 13.
 - Next: case 6 (+8), case 1 (-4), post (-8), then registers (case 0/13 DROP82).
+
+2026-11-07 (claude-nov07-wA): filtered nmdiff 2963 -> 2453; total size 18112 -> 18152 (ROM 18396, -244).
+casediff sum diff 1448 -> 1263, rdiff 593 -> 516. Cases 1, 6 and post are now size-exact.
+Landed:
+- case 6: both "can unequip" checks get their own block-local `u32 ok6, nn;` (ROM gives them
+  different regs per branch: ok r6/n r2 vs ok r7/n r6), while the loop index stays the shared
+  function-level `i` (r5 in both branches). The ok test is written `if (!ok6) {success} else
+  sound(0x61);`, so the 0x61 tails cross-jump the way the ROM does (_0807DFE8 shared, _0807DFF0 separate).
+- case 1: block-local `u32 fr` (gets r2 like the ROM) plus `u16 lo, hi`. The clamp is written
+  `if (lo >= cursor) ... else if (hi <= cursor)` (ROM operand order). The held-pickup reads
+  `gInv82->belt[gMgr82->cursor]` directly, with no cu/item locals. This one change also took ~330
+  lines off the case 0/13 diffs.
+- post cursor-position cases 1/8: s16 table pairs. x is `t[i*2]`, y is `(&t[1])[i*2]`, which
+  gives ROM's `adds r1,#2` base. Case 8 is `base = c/3*3; idx = base + 3; t[(idx - (c + 1))*2]`.
+  Note: the `idx` temp is needed for size. Inline `base + 3 - (c + 1)` folds to (base+2)-c,
+  is 4 bytes short, and is 7 nmdiff better. ROM keeps r3=base+3 and c+1 separately.
+Diagnosis of what is left:
+- case 9 (-38): its DROP82 tail fully cross-jumps with case 13's stock DROP tail (_0807EBD8).
+  ROM keeps them apart because case 13 there holds the gMgr82 address in r6 across the
+  BD78/BEA0 call (zero in r7). In ours that address pseudo (GCSE, REG_EQUIV) gets no hard reg,
+  so reload rematerializes `ldr r4,=gMgr82`. That makes the tail identical to case 9's (r4/r5).
+  Fix case 13's pressure and case 9 fixes itself.
+- Function-level `target` (pseudo 38) is in r7 and crosses 18 calls; item = r6, held = sl in case 13.
+  Rejected (all raised nmdiff even when a single case improved):
+  * block-local everything in case 13 (2618), in case 0 (2848), in both (2584);
+  * block-local `u16 tg` in case 13 only (2593; case 13 size -104 -> -88, rdiff 516 -> 508).
+  Cases 0 and 13 seem to share pseudos (from/target/item/held) in the ROM too. The ROM spills
+  held to [sp,#52] and uses ip/sl as variables in case 0's money path.
+- case 1 regs: ROM hi=r5, 0x20 mask r6, 0x80 mask r7; ours has them reversed (r6/r5/r4).
+- case 6: the only remaining difference is reload rotation (r7 vs r6 for the gMgr82 load) plus pool placement.
+- case 10 (-2) and the .word shifts are literal-pool placement / alignment.
+Next: register pressure in case 13's money/stock paths (free a callee-saved reg so the gMgr82
+address survives the call). Then case 0 DROP blocks (ROM keeps separate `movs r1,#0` /
+`movs r4,#0` zeros, i.e. no cross-jump there either).
