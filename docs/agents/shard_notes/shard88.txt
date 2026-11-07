@@ -38,3 +38,9 @@ Shard 88 notes (sub_080855D4).
     the arrays aren't members of one frame struct at the same nesting, or their address is a variable.
     `(cursor + 1) + index` keeps ROM's order only in some variants. Frame slots 0x5E8.. are shifted by
     one (L.use pointer / count / last).
+  Follow-up 2: filtered 676 -> 573, register-blind aligned 132 -> 101, size 4588.
+  - The frame aggregate `struct Frame855D4 L` is gone: name, desc, pad, winBuf, spriteB, spriteA, use,
+    pts, speed, pos and state are now separate locals in the same order, at the same frame offsets.
+    As separate VAR_DECL arrays the loops get ROM's address forms: sp+off before the scaled index,
+    the &pos[i] pointer induction variable in the first animation loop. Making only pts..state
+    separate gave 656.
