@@ -1175,11 +1175,11 @@ void sub_0807C29C(void) {
     s32 sp2C;
     struct Mgr82 **gp;
 
-    gp = &gMgr82;
     if (gMgr82->flags & 1) {
         keys29_03001308 = 0;
         keys29_03001324 &= ~1;
     }
+    gp = &gMgr82; /* set after the flags test: gp never gets a hard reg, so a use there is a reload (ROM loads the address into r0) that shifts the reload rotation of all of case 0 */
     if (sub_0801AAE0() == 0)
         keys29_03001324 = 0;
     if (sub_0800CD8C() != 0) {
