@@ -2868,439 +2868,308 @@ void sub_08078B24(u32 who, u32 b)
     gMasks7D04[who] |= 1 << i;
 }
 #ifdef NONMATCHING
-struct AttrBCC { u16 unk0, unk2; u32 unk4; };
-struct AttrKindBCC { u32 kind:4; u8 tail[3]; };
-struct PlayerBCC { u16 unk0; u8 pad02[0x1e]; u16 state; u8 pad22[0xe]; u32 unk30; u8 pad34[0x34]; u8 unk68; u8 pad69[0x1f]; u16 unk88; u8 pad8a[2]; s32 unk8C; u8 pad90[0x32]; u16 unkC2,unkC4; u8 padc6[0x32]; s32 unkF8[15]; u16 unk134; u8 pad136[0x12]; struct AttrBCC *unk148; };
-struct SpriteBCC { u32 f0,f4,f8,fC; u8 pad10[12]; u8 unk1C,unk1D; u8 pad1e[22]; };
-struct EnemyBCC { u16 unk0; u8 unk2; u8 pad03[9]; u16 unkC; u8 pad0e[0x3c]; u16 unk4A; u32 unk4C; u8 pad50[4]; s32 unk54; u16 unk58,unk5A,unk5C; u8 pad5e[0x17e]; u8 unk1DC; u8 pad1dd[0x51]; u8 unk22E,unk22F; };
+struct AttrBCC { u32 kind:4; u32 x:12; u32 y:12; u32 pad:4; u32 flags:6; u32 pad2:4; u32 on:1; u32 power:8; u32 pad3:13; };
+struct PlayerBCC { u16 id; u8 pad02[0x1e]; u16 state; u8 pad22[0xe]; u32 flags; u8 pad34[0x34]; u8 team; u8 pad69[0x1f]; u16 hp; u8 pad8a[2]; s32 pos[2]; u8 pad94[0x2e]; u16 unkC2; s16 unkC4; u8 padc6[0x32]; s32 tags[15]; u16 unk134; u8 pad136[0x12]; struct AttrBCC *attr; };
+struct SpriteBCC { u32 f0, f4, f8; void *fC; u8 pad10[12]; u8 unk1C, unk1D; u8 pad1e[22]; };
+struct EnemyBCC { u16 id; u8 unk2; u8 pad03[9]; u16 state; u8 pad0e[6]; s32 pos[2]; u8 pad1c[0x2e]; u16 hp; u32 dmg; u8 pad50[4]; s32 tag; u16 unk58, unk5A; s16 unk5C; u8 pad5e[4]; u16 unk62; u8 pad64[0x18]; u16 unk7C; s16 unk7E; u8 pad80[0x15c]; u8 team; u8 pad1dd[0x51]; u8 w, h; u8 pad230[0xb0]; };
+struct BoxBCC { u16 w, h; };
+struct VecBCC { s32 x, y; };
+struct PacketBCC { u8 player:8; u8 power:8; u8 impulse:8; s8 direction:8; u32 amount:16; u32 unused:16; };
 extern struct PlayerBCC playersBCC[] asm("gUnk_03003CE0");
 extern struct EnemyBCC *enemiesBCC asm("gUnk_030056F4");
+extern u32 enemyMaskBCC asm("gUnk_030056FC");
+extern u32 flagsBCC asm("gUnk_03002344");
 extern u32 masksBCC[] asm("gUnk_030063E0");
-void sub_08078BCC(s32 arg0, s32 arg1) {
-    s32 sp0;
-    s32 sp4;
-    struct PlayerBCC *sp8[4];
-    struct SpriteBCC sp18;
+extern s16 sinBCC[] asm("gUnk_080B9704");
+extern void initBCC(void *, u32, u32, s32, u32) asm("sub_08065158");
+extern u16 stepBCC(void *, u32, u16 *, u16 *, u32) asm("sub_08065370");
+extern void posBCC(s32, s32, s16 *, s16 *, u32, u32) asm("sub_0800BC08");
+extern void drawBCC(void *, s32, s32, u32, u32) asm("sub_08065230");
+extern void palBCC(u32, void *, u32) asm("sub_08000AF0");
+extern u32 randBCC(void) asm("sub_080008C8");
+extern s32 testBCC(struct VecBCC *, void *, struct BoxBCC *, struct BoxBCC *) asm("sub_08021FE0");
+extern void areaBCC(struct VecBCC *, struct BoxBCC *, u32) asm("sub_0801FB14");
+extern void sendBCC(struct PacketBCC *) asm("sub_080660EC");
+extern s16 atanBCC(s16, s16) asm("ArcTan2");
+extern s32 sqrtBCC(s32) asm("Sqrt");
+/* Remaining diff (8 lines): loop 1 keeps playersBCC in r6 and copies it to
+   r7 at the loop entry; the ROM keeps it in r7.  The ROM hoists
+   &player->team in the first loop pass (loop 1 has one RTL insn fewer). */
+void sub_08078BCC(s32 who, s32 bit)
+{
+    struct PlayerBCC *members[4];
+    struct SpriteBCC spr;
     s16 xs[2], ys[2];
     u16 frames[2], ticks[2];
-    s32 sp4C;
-    s32 sp50;
-    u16 sp5C;
-    s16 sp5E;
-    s32 posBCC[2];
-    s32 sp68;
-    s32 sp6C;
-    struct { u32 lo, hi; } sp70;
-    s32 sp78;
-    s32 sp7C;
-    struct PlayerBCC *sp80;
-    u32 sp84;
-    u32 sp88;
-    s32 sp8C;
-    s32 sp90;
-    s32 sp94;
-    s32 sp98;
-    u32 sp9C;                                       /* compiler-managed */
-    u32 spA0;
-    s32 spA4;
-    u32 spA8;
-    u32 spAC;
-    s32 spB0;
-    s32 spB4;
-    s32 spB8;
-    s32 spBC;
-    u32 spC0;
-    s32 spC4;
-    void *spC8;
-    s32 spCC;
-    s32 spD0;
-    s16 *spD4;
-    s16 *spD8;
-    u16 *spDC;
-    u16 *spE0;
-    s32 *spE4;
-    u8 *spE8;
-    s16 *spEC;
-    s16 *var_r6_3;
-    s16 temp_r3_2;
-    s16 temp_r3_3;
-    s32 *temp_r2_7;
-    u16 *var_r0;
-    u16 *var_r1;
-    s16 *var_r1_2;
-    s16 *var_r2;
-    u16 *var_r4_3;
-    u16 *var_r5;
-    s16 *var_r6;
-    s16 *var_r6_2;
-    s16 *var_r7;
-    s32 temp_r0_3;
-    s32 temp_r0_4;
-    s32 temp_r0_5;
-    s32 temp_r0_6;
-    s32 temp_r1_3;
-    s32 temp_r1_4;
-    s32 temp_r2_3;
-    s32 var_r4_2;
-    s32 var_r9_5;
-    s32 var_sl;
-    struct PlayerBCC *temp_r3;
-    struct PlayerBCC *temp_r4;
-    struct PlayerBCC *temp_r6;
-    u16 *var_r4_4;
-    u16 *var_r5_2;
-    u16 temp_r2_5;
-    u16 temp_r2_6;
-    u32 temp_r0;
-    u32 temp_r0_2;
-    u32 temp_r0_9;
-    u32 temp_r1_7;
-    u32 temp_r2_4;
-    u32 temp_r5;
-    u32 var_r4;
-    u32 var_r9;
-    u32 var_r9_2;
-    u32 var_r9_3;
-    u32 var_r9_4;
-    u32 var_r9_6;
-    u32 var_r9_7;
-    u8 temp_r0_7;
-    u8 temp_r0_8;
-    struct PlayerBCC **var_r3;
-    struct PlayerBCC **var_r3_2;
-    struct AttrBCC *temp_r1;
-    struct PlayerBCC *temp_r1_2;
-    void *temp_r1_5;
-    void *temp_r1_6;
-    struct PlayerBCC *temp_r2;
-    struct AttrBCC *temp_r2_2;
-    struct EnemyBCC *temp_r5_2;
+    s16 sx, sy;
+    struct VecBCC pos;
+    struct BoxBCC size, size2;
+    struct PacketBCC packet;
+    struct PlayerBCC *player;
+    struct VecBCC sum; /* DImode pseudo: spilled pair at 0x84/0x88 */
+    struct VecBCC d, v;
+    s32 angle;
+    u32 n;
+    s32 speed;
+    s32 flag;
+    u32 timer;
+    s32 power;
+    s32 bonus;
+    s32 local;
+    s32 tag;
+    u32 tick;
+    s32 snd;
+    u32 i;
+    u32 count;
+    u32 cnt;
+    s32 r;
+    s32 mode; /* constant 0, rematerialized as `movs r3, #0; cmp r3, #0` */
 
-    sp78 = arg0;
-    sp7C = arg1;
-    spB8 = sub_080020F4();
-    sp0 = 0;
-    sub_08065158(&sp18, 0x500A9, 8, -1, 0);
-    sp18.unk1C = 7;
-    sp18.unk1D = 8;
-    var_r9 = 0;
-    spDC = frames;
-    spE0 = ticks;
-    spE4 = posBCC;
-    var_r1 = spE0;
-    var_r0 = spDC;
-    do {
-        *var_r1 = 0;
-        *var_r0 = 0;
-        var_r1 += 1;
-        var_r0 += 1;
-        var_r9 += 1;
-    } while (var_r9 <= 1U);
-    sp80 = &playersBCC[sp78];
-    temp_r5 = sub_08002164();
-    spA0 = 0;
-    sp84 = 0;
-    sp88 = 0;
-    posBCC[0] = 0;
-    spE4[1] = 0;
-    sp94 = 0;
-    sp98 = 0;
-    sp68 = 0x100010;
-    spBC = (s32) (u16) (sp78 * 0x3E8);
-    spC0 = 0;
-    spB0 = 0;
-    spC4 = 1;
-    var_r4 = 0;
-    var_r9_2 = 0;
-    spCC = sp78 * 4;
-    if (temp_r5 > 0U) {
-        var_r3 = sp8;
-        do {
-            temp_r2 = &playersBCC[var_r9_2];
-            if (sp80->unk68 == temp_r2->unk68) {
-                *var_r3 = temp_r2;
-                temp_r1 = temp_r2->unk148;
-                temp_r0 = ((struct AttrKindBCC *)temp_r1)->kind;
-                if (((s32) temp_r0 <= 1) && ((s32) temp_r0 >= 0) && ((s32) (*((u8 *)temp_r1 + 5) << 0x1D) < 0)) {
-                    var_r4 += 1;
-                    sp84 += ((u16) temp_r1->unk0 >> 4) << 8;
-                    sp88 += (u32) (temp_r1->unk2 << 0x14) >> 0xC;
-                    spB0 += (u32) (temp_r1->unk4 << 0xD) >> 0x18;
+    local = sub_080020F4();
+    initBCC(&spr, 0x500A9, 8, -1, 0);
+    spr.unk1C = 7;
+    spr.unk1D = 8;
+    for (i = 0; i < 2; i++)
+        frames[i] = ticks[i] = 0;
+    mode = 0;
+    player = &playersBCC[who];
+    count = sub_08002164();
+    n = 0;
+    sum.x = 0;
+    sum.y = 0;
+    pos.x = 0;
+    pos.y = 0;
+    v.x = 0;
+    v.y = 0;
+    *(u32 *)&size = 0x100010;
+    tag = (u16)(who * 1000);
+    tick = 0;
+    power = 0;
+    snd = 1;
+    cnt = 0;
+    for (i = 0; i < count; i++) {
+        struct PlayerBCC *p = &playersBCC[i];
+        if (player->team == p->team) {
+            struct AttrBCC *a;
+            members[n] = p;
+            a = p->attr;
+            switch (a->kind) {
+            case 0:
+            case 1:
+                if (a->on) {
+                    cnt++;
+                    sum.x += a->x << 8;
+                    sum.y += a->y << 8;
+                    power += a->power;
                 }
-                var_r3 += 1;
-                spA0 += 1;
+                break;
             }
-            var_r9_2 += 1;
-        } while (var_r9_2 < temp_r5);
+            n++;
+        }
     }
-    sp84 = sp84 / var_r4;
-    sp88 = sp88 / var_r4;
-    posBCC[0] = sp84;
-    posBCC[1] = sp88;
-    spA4 = 0;
-    spA8 = 0;
-    spB4 = 0;
+    sum.x /= cnt;
+    sum.y /= cnt;
+    pos = sum;
+    speed = 0;
+    flag = 0;
+    bonus = 0;
     sub_0805865C(0x28);
-    spE8 = &sp80->unk68;
-loop_12:
-    sp84 = 0;
-    sp88 = 0;
-    var_r4_2 = 0;
-    var_r9_3 = 0;
-    if ((spA0 > 0U) && !(((u32) (sp8[0]->unk148->unk4 << 0x1A) >> 0x1A) & 0x20)) {
-        var_r3_2 = sp8;
-loop_15:
-        temp_r1_2 = *var_r3_2;
-        temp_r2_2 = temp_r1_2->unk148;
-        temp_r0_2 = ((struct AttrKindBCC *)temp_r2_2)->kind;
-        if (((s32) temp_r0_2 >= 0) && ((s32) temp_r0_2 <= 1)) {
-            if (!(temp_r1_2->unk30 & 0x2000) && ((s32) (*((u8 *)temp_r2_2 + 5) << 0x1D) < 0)) {
-                var_r4_2 += 1;
-                sp84 += ((u16) temp_r2_2->unk0 >> 4) << 8;
-                sp88 += (u32) (temp_r2_2->unk2 << 0x14) >> 0xC;
+    for (;;) {
+        sum.x = 0;
+        sum.y = 0;
+        cnt = 0;
+        for (i = 0; i < n && !(members[i]->attr->flags & 0x20); i++) {
+            struct PlayerBCC *p = members[i];
+            struct AttrBCC *a = p->attr;
+            /* nested tests keep the ROM's blt/bgt order (&& folds to bhi) */
+            if (a->kind >= 0) {
+                if (a->kind <= 1) {
+                    if (!(p->flags & 0x2000) && a->on) {
+                        cnt++;
+                        /* the casts only lengthen i's live range (global-alloc
+                           priority puts i after &sy and before &sx) */
+                        sum.x += (u16)a->x << 8;
+                        sum.y += (u16)a->y << 8;
+                    }
+                } else {
+                    cnt = 0;
+                }
+            } else {
+                cnt = 0;
+            }
+        }
+        if (cnt != n)
+            goto end;
+        if (sub_0800CCCC() != 0)
+            goto end;
+        r = sub_08056E90();
+        if (r != 0)
+            goto end;
+        sum.x /= n;
+        sum.y /= n;
+        d.x = sum.x - pos.x;
+        d.y = sum.y - pos.y;
+        if (mode == 0) {
+            angle = (u16)atanBCC(d.x, d.y) >> 8;
+        } else {
+            posBCC(xs[0], ys[0], &sx, &sy, 0x30, r);
+            if ((u16)(sx + 0x40) > 0x170)
+                goto end;
+            if ((u16)(sy + 0x40) > 0x120)
+                goto end;
+        }
+        {
+            s32 k;
+            s32 dist = sqrtBCC(d.x * d.x + d.y * d.y) << 16;
+            k = 32;
+            if (dist > 0x2FF0000) {
+                speed += 16;
+            } else {
+                speed -= 16;
+                if (speed < 0)
+                    speed = 0;
+            }
+            if (speed > 0x800)
+                speed = 0x800;
+            d.x = (speed * sinBCC[angle + 0x40]) >> 8;
+            d.y = (speed * sinBCC[angle]) >> 8;
+            v.x += (d.x - v.x) / k;
+            v.y += (d.y - v.y) / k;
+        }
+        pos.x += v.x;
+        pos.y += v.y;
+        angle >>= 4;
+        if (angle == 0 || angle == 1) {
+            if (snd) {
+                sub_0805865C(0x17D);
+                snd = 0;
             }
         } else {
-            var_r4_2 = 0;
+            snd = 1;
         }
-        var_r3_2 += 1;
-        var_r9_3 += 1;
-        if ((var_r9_3 < spA0) && !(((u32) ((*var_r3_2)->unk148->unk4 << 0x1A) >> 0x1A) & 0x20)) {
-            goto loop_15;
+        if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD8C() == 0) {
+            for (i = 0; i < 2; i++) {
+                stepBCC(&spr, 0, &frames[i], &ticks[i], 1);
+                posBCC(xs[i], ys[i], &sx, &sy, 0x30, 0);
+                drawBCC(&spr, sx, sy, 0, frames[i]);
+            }
+            if (!(flagsBCC & 1))
+                palBCC(0x17, spr.fC, 2);
         }
-    }
-    if (var_r4_2 != spA0) {
-
-    } else if (sub_0800CCCC() != 0) {
-
-    } else {
-        temp_r0_3 = sub_08056E90();
-        if (temp_r0_3 != 0) {
-
+        xs[0] = pos.x >> 8;
+        ys[0] = pos.y >> 8;
+        if (flag) {
+            for (i = 1; i != 0; i--) {
+                xs[i] = xs[i - 1];
+                ys[i] = ys[i - 1];
+            }
         } else {
-            sp84 = sp84 / spA0;
-            sp88 = sp88 / spA0;
-            sp8C = sp84 - posBCC[0];
-            sp90 = sp88 - spE4[1];
-            {
-                s32 displayMode = 0;
-                /* FAKE: preserve the original emitted constant-zero branch. */
-                asm("" : "+r"(displayMode));
-                if (displayMode == 0) {
-                    sp9C = (u32) (ArcTan2((s16) sp8C, (s16) sp90) << 0x10) >> 0x18;
-                    spD4 = xs;
-                    spD8 = ys;
-                } else {
-                    sub_0800BC08(xs[0], ys[0], &sp5C, &sp5E, 0x30, temp_r0_3);
-                    spD4 = xs;
-                    spD8 = ys;
-                    if ((u32)((sp5C + 0x40) << 16) > 0x01700000U) goto bcc_cleanup;
-                    if ((u32)(((u16)sp5E + 0x40) << 16) > 0x01200000U) goto bcc_cleanup;
-                }
+            frames[0] = 0;
+            for (i = 1; i < 2; i++) {
+                xs[i] = xs[0];
+                ys[i] = ys[0];
+                frames[i] = randBCC() & 3;
             }
-            {
-                s32 norm = Sqrt((sp8C * sp8C) + (sp90 * sp90));
-                s32 damping = 32;
-                if ((s32) (norm << 0x10) > 0x02FF0000) {
-                    spA4 += 0x10;
-                } else {
-                    temp_r0_4 = spA4 - 0x10;
-                    spA4 = temp_r0_4;
-                    if (temp_r0_4 < 0) {
-                        spA4 = 0;
+            flag = 1;
+        }
+        {
+            struct PlayerBCC *p = &playersBCC[local];
+            if (p->team == player->team) {
+                if (++timer > 60) {
+                    bonus++;
+                    timer = 0;
+                    p->unkC2 -= bonus * 10;
+                    if ((s16)p->unkC2 & 0x8000) {
+                        p->unkC2 = 0;
+                        p->unk134 = 0;
                     }
-                }
-                if (spA4 > 0x800) {
-                    spA4 = 0x800;
-                }
-                sp8C = (s32) (spA4 * gUnk_080B9704[sp9C + 0x40]) >> 8;
-                sp90 = (s32) (spA4 * gUnk_080B9704[sp9C]) >> 8;
-                sp94 += (s32) (sp8C - sp94) / damping;
-                sp98 += (s32) (sp90 - sp98) / damping;
-                posBCC[0] += sp94;
-                spE4[1] = (s32) (spE4[1] + sp98);
-                temp_r2_3 = (s32) sp9C >> 4;
-                sp9C = temp_r2_3;
-                if ((u32) temp_r2_3 <= 1U) {
-                    if (spC4 != 0) {
-                        sub_0805865C(0x17D);
-                        spC4 = 0;
-                    }
-                } else {
-                    spC4 = 1;
-                }
-                temp_r0_5 = sub_0800CC98();
-                spD0 = spC0 + 1;
-                if ((temp_r0_5 == 0) && (sub_0800CCCC() == 0) && (sub_0800CD8C() == 0)) {
-                    var_r9_4 = 0;
-                    spC8 = &sp18;
-                    var_r7 = spD8;
-                    var_r6 = spD4;
-                    var_r5 = spE0;
-                    var_r4_3 = spDC;
-                    do {
-                        sp0 = 1;
-                        sub_08065370(spC8, 0U, (s32) var_r4_3, (s32) var_r5, sp0);
-                        sp0 = 0x30;
-                        sp4 = 0;
-                        sub_0800BC08(*var_r6, *var_r7, &sp5C, &sp5E, sp0, sp4);
-                        sp0 = (s32) *var_r4_3;
-                        sub_08065230(spC8, (s32) (s16) sp5C, (s32) sp5E, 0U, sp0);
-                        var_r7 += 1;
-                        var_r6 += 1;
-                        var_r5 += 1;
-                        var_r4_3 += 1;
-                        var_r9_4 += 1;
-                    } while (var_r9_4 <= 1U);
-                    if (!(gUnk_03002344 & 1)) {
-                        sub_08000AF0(0x17U, (void *)sp18.fC, 2U);
-                    }
-                }
-                *spD4 = (s16) ((s32) posBCC[0] >> 8);
-                *spD8 = (u16) ((s32) spE4[1] >> 8);
-                if (spA8 != 0) {
-                    var_r9_5 = 1;
-                    var_r6_2 = spD8;
-                    var_r1_2 = spD4;
-                    do {
-                        ((u16 *)var_r1_2)[1] = *(u16 *)var_r1_2;
-                        ((u16 *)var_r6_2)[1] = *(u16 *)var_r6_2;
-                        /* one iteration */
-                        /* one iteration */
-                        var_r9_5 -= 1;
-                    } while (var_r9_5 != 0);
-                } else {
-                    *spDC = (u16) spA8;
-                    var_r9_6 = 1;
-                    var_r2 = spD4;
-                    var_r6_3 = spDC + 1;
-                    var_r5_2 = spD8 + 1;
-                    var_r4_4 = var_r2 + 1;
-                    do {
-                        *var_r4_4 = *var_r2;
-                        *var_r5_2 = *spD8;
-                        spEC = var_r2;
-                        *var_r6_3 = sub_080008C8() & 3;
-                        var_r6_3 += 1;
-                        var_r5_2 += 1;
-                        var_r4_4 += 1;
-                        var_r9_6 += 1;
-                    } while (var_r9_6 <= 1U);
-                    spA8 = 1;
-                }
-                temp_r3 = &playersBCC[spB8];
-                if (temp_r3->unk68 == *spE8) {
-                    temp_r2_4 = spAC + 1;
-                    spAC = temp_r2_4;
-                    if (temp_r2_4 > 0x3CU) {
-                        temp_r0_6 = spB4 + 1;
-                        spB4 = temp_r0_6;
-                        spAC = 0;
-                        temp_r3->unkC2 = (u16) (temp_r3->unkC2 - (temp_r0_6 * 0xA));
-                        if ((s16) temp_r3->unkC2 & 0x8000) {
-                            temp_r3->unkC2 = (u16) spAC;
-                            temp_r3->unk134 = (u16) spAC;
-                        }
-                    }
-                }
-                if (sp78 != spB8) {
-                    temp_r6 = &playersBCC[spB8];
-                    sp6C = 0x100010;
-                    temp_r0_7 = temp_r6->unk68;
-                    if ((temp_r0_7 != *spE8) && (temp_r0_7 != 0) && (sub_08021FE0(spE4, &temp_r6->unk8C, &sp68, &sp6C) != 0)) {
-                        spA8 = 0;
-                        if ((temp_r6->state != 0xB) && (temp_r6->unkF8[sp80->unk0] != spBC)) {
-                            temp_r3_2 = temp_r6->unkC4;
-                            temp_r2_5 = temp_r6->unk88;
-                            if (!((temp_r3_2 - temp_r2_5) & 0x8000)) {
-                                temp_r1_3 = temp_r3_2 ^ temp_r2_5;
-                                spA8 = (u32) ((0 - temp_r1_3) | temp_r1_3) >> 0x1F;
-                            }
-                        }
-                        if (spA8 != 0) {
-                            temp_r6->unk88 = (u16) (temp_r6->unk88 + ((u32) ((spB4 + (spB0 + 0xA)) * ((sub_080008C8() % 50U) + 0x64)) / 100U));
-                            temp_r6->unkF8[sp80->unk0] = spBC;
-                            temp_r6->state = 0xA;
-                            sub_0805865C(0x17F);
-                        }
-                    }
-                    if (sp78 != spB8) {
-
-                    } else {
-                        goto block_75;
-                    }
-                } else {
-block_75:
-                    sub_0801FB14(spE4, &sp68, (u32) ((spA0 * 0xA) + spB0) / 5U);
-                    var_r9_7 = 0;
-                    var_sl = 0;
-loop_76:
-                    if (!(gUnk_030056FC & (1 << var_r9_7))) {
-
-                    } else {
-                        temp_r5_2 = (struct EnemyBCC *)((u8 *)enemiesBCC + var_sl);
-                        temp_r0_8 = temp_r5_2->unk1DC;
-                        if ((temp_r0_8 != *spE8) && (temp_r0_8 != 0)) {
-                            ((u16 *)&sp6C)[0] = (s16) temp_r5_2->unk22E;
-                            ((u16 *)&sp6C)[1] = (s16) temp_r5_2->unk22F;
-                            if (sub_08021FE0(spE4, (u8 *)temp_r5_2 + 0x14, &sp68, &sp6C) != 0) {
-                                spA8 = 0;
-                                if ((temp_r5_2->unkC != 0xB) && (temp_r5_2->unk54 != spBC)) {
-                                    temp_r3_3 = temp_r5_2->unk5C;
-                                    temp_r2_6 = *(u16 *)((u8 *)temp_r5_2 + 0x4A);
-                                    if (!((temp_r3_3 - temp_r2_6) & 0x8000)) {
-                                        temp_r1_4 = temp_r3_3 ^ temp_r2_6;
-                                        spA8 = (u32) ((0 - temp_r1_4) | temp_r1_4) >> 0x1F;
-                                    }
-                                }
-                                if (spA8 != 0) {
-                                    temp_r5_2->unkC = 0xAU;
-                                    sp70.hi = (s32) ((sp70.hi & 0xFFFF0000) | (u16) ((u32) ((spB4 + (spB0 + 0xA)) * ((sub_080008C8() % 50U) + 0x64)) / 100U));
-                                    temp_r0_9 = ((sp70.lo & 0xFFFFFF00) | temp_r5_2->unk2) & 0xFFFF00FF & 0xFF00FFFF & 0xFFFFFF;
-                                    sp70.lo = temp_r0_9;
-                                    temp_r5_2->unk54 = spBC;
-                                    temp_r1_5 = (u8 *)temp_r5_2 + 0x4A;
-                                    temp_r5_2->unk4A = (u16) ((u16) sp70.hi + temp_r5_2->unk4A);
-                                    temp_r5_2->unk4C = (s32) (u16) sp70.hi;
-                                    temp_r1_6 = (u8 *)temp_r1_5 + 0x18;
-                                    *(u16 *)((u8 *)temp_r1_5 + 0x18) = (s16) (u8) (temp_r0_9 >> 8);
-                                    *(u16 *)((u8 *)temp_r1_6 + 0x1A) = (s16) (u8) (temp_r0_9 >> 0x10);
-                                    *(u16 *)((u8 *)temp_r1_6 + 0x1C) = (s16) ((s32) temp_r0_9 >> 0x18);
-                                    temp_r5_2->unk58 = (u16) temp_r5_2->unk0;
-                                    temp_r5_2->unk5A = (u16) ((1 << sp78) | temp_r5_2->unk5A);
-                                    sub_080660EC(&sp70);
-                                    sub_0805865C(0x17F);
-                                }
-                            }
-                        }
-                    }
-                    var_sl += 0x2E0;
-                    var_r9_7 += 1;
-                    if (var_r9_7 <= 4U) {
-                        goto loop_76;
-                    }
-                }
-                temp_r1_7 = spC0;
-                spC0 = (u32) (u16) spD0;
-                if (temp_r1_7 > 0x3CU) {
-                    spC0 = 0;
-                    spBC = (s32) (u16) (spBC + 1);
-                }
-                sub_080003F0();
-                if ((sub_0800CB78() == 0) && (sub_0800CD00() == 0) && (sub_0800CD8C() == 0)) {
-                    goto loop_12;
                 }
             }
         }
+        if (who != local) {
+            u8 t;
+            struct PlayerBCC *p = &playersBCC[local];
+            *(u32 *)&size2 = 0x100010;
+            t = p->team;
+            if (t != player->team && t != 0 && testBCC(&pos, p->pos, &size, &size2) != 0) {
+                /* state is loaded before flag is cleared */
+                u16 st = p->state;
+                flag = 0;
+                if (st != 11 && p->tags[player->id] != tag) {
+                    if (!((p->unkC4 - p->hp) & 0x8000))
+                        flag = p->unkC4 != p->hp;
+                }
+                if (flag) {
+                    p->hp += (bonus + 10 + power) * (randBCC() % 50 + 100) / 100;
+                    p->tags[player->id] = tag;
+                    p->state = 10;
+                    sub_0805865C(0x17F);
+                }
+            }
+        }
+        if (who == local) {
+            struct EnemyBCC *e;
+            u16 st;
+            areaBCC(&pos, &size, (n * 10 + power) / 5);
+            for (i = 0; i < 5; i++) {
+                if (!(enemyMaskBCC & (1 << i)))
+                    continue;
+                e = &enemiesBCC[i];
+                if (e->team == player->team || e->team == 0)
+                    continue;
+                size2.w = e->w;
+                size2.h = e->h;
+                if (testBCC(&pos, e->pos, &size, &size2) == 0)
+                    continue;
+                st = e->state;
+                flag = 0;
+                if (st != 11 && e->tag != tag) {
+                    if (!((e->unk5C - e->hp) & 0x8000))
+                        flag = e->unk5C != e->hp;
+                }
+                if (flag) {
+                    e->state = 10;
+                    packet.amount = (bonus + 10 + power) * (randBCC() % 50 + 100) / 100;
+                    packet.player = e->unk2;
+                    packet.power = 0;
+                    packet.impulse = 0;
+                    packet.direction = 0;
+                    e->tag = tag;
+                    e->hp += packet.amount;
+                    e->dmg = (u16)packet.amount;
+                    e->unk62 = packet.power;
+                    e->unk7C = packet.impulse;
+                    e->unk7E = packet.direction;
+                    e->unk58 = e->id;
+                    e->unk5A |= 1 << who;
+                    sendBCC(&packet);
+                    sub_0805865C(0x17F);
+                }
+            }
+        }
+        {
+            u32 old = tick;
+            tick = (u16)(tick + 1);
+            if (old > 60) {
+                tick = 0;
+                tag = (u16)(tag + 1);
+            }
+        }
+        sub_080003F0();
+        if (sub_0800CB78() != 0 || sub_0800CD00() != 0 || sub_0800CD8C() != 0)
+            goto end;
     }
-bcc_cleanup:
-    temp_r4 = &playersBCC[spB8];
-    if (temp_r4->unk68 == *spE8) {
-        sub_0800CFDC();
-        temp_r4->unk134 = 0;
+end:
+    {
+        struct PlayerBCC *pl = playersBCC;
+        struct PlayerBCC *p = &pl[local];
+        if (p->team == player->team) {
+            sub_0800CFDC();
+            p->unk134 = 0;
+        }
     }
     sub_0805867C(0x17F);
-    temp_r2_7 = (s32 *)&masksBCC[sp78];
-    *temp_r2_7 &= ~(1 << (u8)sp7C);
+    masksBCC[who] &= ~(1 << bit);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/code_08073E2C", sub_08078BCC);
