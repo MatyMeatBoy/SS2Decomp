@@ -1543,7 +1543,11 @@ void sub_0807C29C(void) {
                                 gInv82->items[gMgr82->cursor].count = val;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                             }
-                        } else if (gMgr82->heldIdx != gMgr82->cursor) {
+                            DROP82();
+                            sub_0805865C(0x5F);
+                            break;
+                        }
+                        if (gMgr82->heldIdx != gMgr82->cursor) {
                             gMgr82->held.count = val - 100000;
                             gInv82->items[gMgr82->cursor].count = 100000;
                             sub_0807BEA0(0, gMgr82->heldIdx, (void *)held);
