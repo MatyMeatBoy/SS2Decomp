@@ -2075,8 +2075,9 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
         } while (--timer != 0xFFFF);
     }
     {
-        u16 *phase3Offsets = cache923FC;
+        u16 *phase3Offsets;
         timer = 120;
+        phase3Offsets = cache923FC;
         do {
             shake = sub_08092E34();
             y -= 6;
@@ -2138,10 +2139,10 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     sub_08092E28(8);
     accum = 0;
     /* Compare the wrapped halfword in its shifted signed representation. */
+    timer = 180;
     lowerLimit = -66 * 0x10000;
     offsetLo = &v923FC_252;
     offsetHi = &v923FC_256;
-    timer = 180;
     do {
         shake = sub_08092E34();
         if (!BUSY923FC()) {
