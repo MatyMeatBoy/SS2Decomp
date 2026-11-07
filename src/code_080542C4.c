@@ -951,7 +951,6 @@ void sub_0805664C(s32 arg0)
     spawn56(sub_0805664C, arg0);
     }
 }
-#ifdef NONMATCHING
 struct StatePlayer567D4 { u8 pad[0x11E]; u16 state; u8 tail[0x2C]; };
 extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
@@ -963,6 +962,9 @@ extern u8 playerX567D4[] asm("gUnk_03003D6C");
 extern u8 playerY567D4[] asm("gUnk_03003D70");
 void callback56CB4(u32) asm("sub_08056CB4");
 void callback5990C56(u32) asm("sub_0805990C");
+/* A const call does not kill memory in GCSE, so the first check needs no gates reload on its
+   bit path. Inlining drops CONST_CALL_P, so that check is written out in the function body. */
+s32 IsMulti567D4(void) asm("sub_0800CE30") __attribute__((const));
 static inline s32 TestBit567D4(u32 key)
 {
     u32 byte;
@@ -986,6 +988,33 @@ static inline s32 Done567D4(s32 id)
     else
         return TestFlag567D4(gates567D4[id].flag);
 }
+/* Both arms load into the inline return value, so the gUnk_03005CF4 PRE load lands between the
+   byte load and the copy into hh, like ROM. */
+static inline u8 Status567D4(void)
+{
+    if (sub_0800CE30() != 0)
+        return *(u8 *)(gUnk_03005CF4 + 0x1C1);
+    else
+        return *(u8 *)(gUnk_03005CF4 + 0x1B5);
+}
+/* Inline arguments compute the item and need addresses before any of the loads. */
+static inline void Remove567D4(u32 item, u32 kind, u32 count)
+{
+    u32 i;
+    for (i = 0; i <= 24; i++) {
+        if (inv567D4->slots[i].item == item && inv567D4->slots[i].kind == kind) {
+            /* Extra pre-combine operations keep loop.c from hoisting 0x150. */
+            count = -(-count + 1);
+            /* This grouping preserves the store weights for register allocation. */
+            do {
+                inv567D4->slots[i].item = 0;
+                inv567D4->slots[i].kind = 0;
+            } while (0);
+            if (count == 0)
+                break;
+        }
+    }
+}
 static inline void Wait567D4(void)
 {
     u16 wait;
@@ -997,11 +1026,22 @@ static inline void Wait567D4(void)
 }
 void sub_080567D4(s32 id)
 {
-    u32 hw, hh, x, y, n, i, player, item, needed, kind, count;
+    u32 hw, hh, x, y, n;
     s32 ret;
     u8 *flags;
-    u16 *slot;
-    ret = Done567D4(id);
+    struct StatePlayer567D4 *players = statePlayers567D4;
+    if (gates567D4[id].bitflag != 0) {
+        u32 key = gates567D4[id].flag;
+        u32 byte = key >> 3;
+        u8 *fl;
+        key &= 7;
+        if (IsMulti567D4() != 0)
+            fl = gUnk_03005CF4 + 0x1C3;
+        else
+            fl = gUnk_03005CF4 + 0x1B7;
+        ret = (fl[byte] >> key) & 1;
+    } else
+        ret = TestFlag567D4(gates567D4[id].flag);
     if (ret)
         goto already;
     for (;;) {
@@ -1022,7 +1062,9 @@ void sub_080567D4(s32 id)
         do {
             Wait567D4();
             x = *(s32 *)(playerX567D4 + sub_080020F4() * 0x14C) >> 8;
-            y = *(s32 *)(playerY567D4 + sub_080020F4() * 0x14C) >> 8;
+            /* The Y base goes through a pointer local, which puts it in r7 like ROM. */
+            flags = playerY567D4;
+            y = *(s32 *)(flags + sub_080020F4() * 0x14C) >> 8;
         } while (x < gates567D4[id].x - hw || x > gates567D4[id].x + hw
               || y < gates567D4[id].y - hh || y > gates567D4[id].y + hh);
         ret = sub_0800CCCC();
@@ -1031,26 +1073,27 @@ void sub_080567D4(s32 id)
         ret = Done567D4(id);
         if (ret)
             return;
-        item = gates567D4[id].item;
-        kind = gates567D4[id].kind;
-        n = 0;
-        slot = (u16 *)(gUnk_030034E0 + 0x150);
-        for (i = 0; i <= 24; slot += 8, i++)
-            if (slot[0] == item && slot[1] == kind)
-                n++;
+        {
+            /* Count-only locals; the removal below uses its own inline parameters. */
+            u32 item = gates567D4[id].item;
+            u32 kind = gates567D4[id].kind;
+            u32 j;
+            n = 0;
+            for (j = 0; j <= 24; j++) {
+                struct Item567D4 *s = &inv567D4->slots[j];
+                if (s->item == item && s->kind == kind)
+                    n++;
+            }
+        }
         if (n >= gates567D4[id].need) {
-            player = sub_080020F4();
-            sub_08068070((u32)callback56CB4, player);
+            /* The player index reuses hw, which keeps it in r8. */
+            hw = sub_080020F4();
+            sub_08068070((u32)callback56CB4, hw);
             do {
                 Wait567D4();
-                if (sub_0800CE30() != 0)
-                    flags = gUnk_03005CF4 + 0x1C1;
-                else
-                    flags = gUnk_03005CF4 + 0x1B5;
-                /* The rectangle checks have finished with the height work value. */
-                hh = *flags;
+                hh = Status567D4();
             } while ((s32)hh <= 7);
-            if ((hh & 3) != player)
+            if ((hh & 3) != hw)
                 return;
             ret = Done567D4(id);
             if (ret) {
@@ -1062,24 +1105,8 @@ void sub_080567D4(s32 id)
             }
             sub_08068070((u32)sub_0805A43C, 0);
             ret = 5;
-            { struct StatePlayer567D4 *p = &statePlayers567D4[sub_080020F4()]; p->state = ret; }
-            item = gates567D4[id].item;
-            needed = gates567D4[id].need;
-            kind = gates567D4[id].kind;
-            count = needed;
-            for (i = 0; i <= 24; i++) {
-                if (inv567D4->slots[i].item == item && inv567D4->slots[i].kind == kind) {
-                    /* Extra pre-combine operations keep loop.c from hoisting 0x150. */
-                    count = -(-count + 1);
-                    /* This grouping preserves the store weights for register allocation. */
-                    do {
-                        inv567D4->slots[i].item = 0;
-                        inv567D4->slots[i].kind = 0;
-                    } while (0);
-                    if (count == 0)
-                        break;
-                }
-            }
+            players[sub_080020F4()].state = ret;
+            Remove567D4(gates567D4[id].item, gates567D4[id].kind, gates567D4[id].need);
             ret = gates567D4[id].flag;
             if (gates567D4[id].bitflag != 0)
                 sub_08068070((u32)callback5990C56, ret);
@@ -1091,15 +1118,16 @@ void sub_080567D4(s32 id)
         if (!(gUnk_030027D0 & 0x20))
             sub_08006D08(0x61);
         ret = 6;
-        { struct StatePlayer567D4 *p = &statePlayers567D4[sub_080020F4()]; p->state = ret; }
+        players[sub_080020F4()].state = ret;
     }
 already:
+    /* An "l" use of the gates base gives the PRE copy a LO_REGS preference (it is otherwise
+       only used in (plus reg const) forms, which pull it to STACK_REG), so the first load
+       stays a local r1 like ROM. No instruction is emitted. */
+    asm("" : : "l"(gates567D4));
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
-#endif
 void sub_08056CB4(u32 value)
 {
     u8 *base;
