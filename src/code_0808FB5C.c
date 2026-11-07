@@ -2149,19 +2149,25 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             s32 d;
             sub_08000AF0(0x10, a.fC + 0xE0, 1);
             draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
-            accum += 4;
-            d = (s16)accum >> 8;
-            lower = (u16)(*offsetLo) - d;
-            (*offsetLo) = lower;
-            (*offsetHi) += d;
-            if ((s32)((u32)lower << 16) <= lowerLimit)
-                (*offsetLo) = lowerLimit >> 16;
-            if ((s16)(*offsetHi) > 49)
-                (*offsetHi) = 50;
-            cache923FC[0] = v923FC_250;
-            cache923FC[1] = plus923FC(shake, (*offsetLo));
-            cache923FC[2] = v923FC_254;
-            cache923FC[3] = minus923FC((*offsetHi), shake);
+            {
+                s32 upper;
+                s16 clamp;
+                accum += 4;
+                d = (s16)accum >> 8;
+                lower = (u16)(*offsetLo) - d;
+                (*offsetLo) = lower;
+                upper = (u16)(*offsetHi) + d;
+                (*offsetHi) = upper;
+                clamp = lowerLimit >> 16;
+                if ((s32)((u32)lower << 16) <= lowerLimit)
+                    (*offsetLo) = clamp;
+                if ((s16)upper > 49)
+                    (*offsetHi) = 50;
+                cache923FC[0] = v923FC_250;
+                cache923FC[1] = plus923FC(shake, (*offsetLo));
+                cache923FC[2] = v923FC_254;
+                cache923FC[3] = minus923FC((*offsetHi), shake);
+            }
         }
         if (timer == 60)
             sub_0805865C(0xF7);
