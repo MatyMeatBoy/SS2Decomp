@@ -8378,9 +8378,8 @@ s32 sub_080855D4(void)
     n = 0;
     for (i = 0; i <= 0x18; i++) {
         if (gSave855D4->slots[i].type == 8) {
-            u8 *cnt = &gSave855D4->counts[gSave855D4->slots[i].id];
-            if (*cnt <= 0x62) {
-                (*cnt)++;
+            if (gSave855D4->counts[gSave855D4->slots[i].id] <= 0x62) {
+                gSave855D4->counts[gSave855D4->slots[i].id]++;
                 gSave855D4->slots[i].type = 0;
                 gSave855D4->slots[i].id = 0;
                 n++;
