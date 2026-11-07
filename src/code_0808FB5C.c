@@ -1983,6 +1983,8 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     u16 i;
     s32 flag;
     s32 d;
+    s32 lowerLimit;
+    s16 *offsetLo, *offsetHi;
 
     init923FC(&a, 0x50022, 7, -1, 1);
     init923FC(&b, 0x50026, 8, -1, 1);
@@ -2129,24 +2131,30 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     sub_0805865C(0xF9);
     sub_08092E28(8);
     accum = 0;
+    /* Compare the wrapped halfword in its shifted signed representation. */
+    lowerLimit = -66 * 0x10000;
+    offsetLo = &v923FC_252;
+    offsetHi = &v923FC_256;
     timer = 180;
     do {
         shake = sub_08092E34();
         if (!BUSY923FC()) {
+            s32 lower;
             sub_08000AF0(0x10, a.fC + 0xE0, 1);
             draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
             accum += 4;
             d = (s16)accum >> 8;
-            v923FC_252 -= d;
-            v923FC_256 += d;
-            if ((s16)v923FC_252 <= -66)
-                v923FC_252 = -66;
-            if ((s16)v923FC_256 > 49)
-                v923FC_256 = 50;
+            lower = (u16)(*offsetLo) - d;
+            (*offsetLo) = lower;
+            (*offsetHi) += d;
+            if ((s32)((u32)lower << 16) <= lowerLimit)
+                (*offsetLo) = lowerLimit >> 16;
+            if ((s16)(*offsetHi) > 49)
+                (*offsetHi) = 50;
             cache923FC[0] = v923FC_250;
-            cache923FC[1] = plus923FC(shake, v923FC_252);
+            cache923FC[1] = plus923FC(shake, (*offsetLo));
             cache923FC[2] = v923FC_254;
-            cache923FC[3] = minus923FC(v923FC_256, shake);
+            cache923FC[3] = minus923FC((*offsetHi), shake);
         }
         if (timer == 60)
             sub_0805865C(0xF7);
