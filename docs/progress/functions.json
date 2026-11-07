@@ -32187,10 +32187,23 @@
       "canonical_symbol": "sub_08095B04",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08095B04",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "MoveActorAndReturnFacingChange",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 11,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Computes a direction-based displacement, queries sub_08095D1C for a redirected facing and repeats the displacement/query. It commits coordinates only after the second nonzero query result. Returns whether facing changed from entry, rather than whether position changed. Directions 0/4 divide vertical displacement by 304; other directions use 256."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1628,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "At 0x08095BAE and 0x08095C52, calls sub_08095D1C; 0x08095CF0 commits X after the second accepted branch, and 0x08095CF6 compares final facing against entry facing. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08095D1C",
@@ -32204,10 +32217,23 @@
       "canonical_symbol": "sub_08095D1C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08095D1C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RedirectFacingFromTileNeighborhood",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 47,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Samples a 3 by 3 collision-nibble neighborhood around the fixed-point position after adding 0x200 to Y and shifting coordinates right by 11. Border/outside cells use category 1. Center category 1 redirects facing according to neighboring cells; other categories return direction + 1. The result is a one-based direction, not a collision boolean."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1629,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08095D34/0x08095D38 shift by 11; 0x08095DA8..0x08095DAE extract the collision nibble. Center category test 0x08095DC2 leads to the direction jump table; 0x08095E5C returns the default direction + 1. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08095E70",
@@ -32221,10 +32247,23 @@
       "canonical_symbol": "sub_08095E70",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08095E70",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetActorFacingTowardIntegerPoint",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 144,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Computes ArcTan2 toward a signed 16-bit integer point from actor coordinates +0x14/+0x18, rounds to an octant with a strict midpoint comparison, and maps octants to facing values 6, 7, 0, 1, 2, 3, 4, 5. Stores halfword +8 and returns its low byte."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1630,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08095E98 calls ArcTan2; 0x08095EA8 uses an unsigned strict-midpoint branch. 0x08095F06 stores a halfword facing and 0x08095F08 reads its low byte for return. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08095F10",
@@ -32238,10 +32277,23 @@
       "canonical_symbol": "sub_08095F10",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08095F10",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetActorFacingTowardPlayerPacket",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 178,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Uses the same octant/facing conversion as sub_08095E70, with target coordinates read through player +0x148: X is packet halfword 0 >> 4 and Y is the low 12 bits of halfword 1. Stores actor facing halfword +8. The player index is not validated here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1631,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08095F30 loads the player packet pointer; 0x08095F32..0x08095F42 unpack X/Y. 0x08095F4C calls ArcTan2 and 0x08095FBE writes the mapped facing. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08095FC8",
@@ -32255,10 +32307,23 @@
       "canonical_symbol": "sub_08095FC8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08095FC8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "GetOctantFacingBetweenPoints",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 216,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Truncates integer coordinate deltas to s16, computes ArcTan2, rounds with the original strict octant midpoint comparison and returns the mapped facing byte 6, 7, 0, 1, 2, 3, 4, 5."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1632,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08095FDE..0x08095FE4 narrow coordinate deltas; 0x08095FEA calls ArcTan2. 0x08095FFA preserves the strict midpoint comparison before the facing table. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08096060",
@@ -32272,14 +32337,21 @@
       "canonical_symbol": "sub_08096060",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "motionStart99",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
+      "display_name": "PrepareActorMovementTowardPoint",
+      "name_status": "confirmed",
+      "name_source": "catalog",
       "evidence": [
         {
           "source": "src/code_08095B04.c",
           "line": 270,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: motionStart99"
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Computes signed 16-bit target deltas and a Sqrt distance truncated to u16. It sets actor facing +8, direction code +4, clears phase +6 and copies current coordinates to previous-coordinate fields +0x1C/+0x20. Returns 0 only when the signed 16-bit radius exceeds distance; otherwise 1. It does not advance position."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1633,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08096096 calls Sqrt; 0x0809609A/0x0809609C narrow distance to 16 bits before comparison at 0x080960A2. 0x08096144/0x08096146 save previous X/Y. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
         }
       ]
     },
@@ -32420,10 +32492,35 @@
       "canonical_symbol": "sub_0809689C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0809689C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ResetBg2EffectTransformControl",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 982,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Resets the transform block at 0x030002A0: position, offset and phase/angle/pause bytes become zero, and both scale halfwords become 0x100. Consumers sub_080968C0/sub_080969CC write the BG2 affine-register shadow."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1641,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080968A2..0x080968B0 clear position/offset/control fields; 0x080968B6/0x080968B8 store scale 0x100. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_080968C0",
@@ -32437,10 +32534,35 @@
       "canonical_symbol": "sub_080968C0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080968C0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "UpdateBg2EffectRotationShadow",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 995,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Builds a unit-scale sine/cosine affine matrix from the transform angle and position/offset sums. Writes BG2 matrix/reference shadow halfwords 8 through 15 only when four effect predicates return zero. The Y reference expression uses 0x78 exactly, rather than substituting an assumed screen center."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1642,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x0809697A..0x08096992 call the four gating predicates; 0x0809699E..0x080969B2 write shadow offsets +0x10 through +0x1E. 0x0809695E retains the literal 0x78 in the Y expression. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_080969CC",
@@ -32454,10 +32576,35 @@
       "canonical_symbol": "sub_080969CC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080969CC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "UpdateBg2EffectScaledAffineShadow",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1032,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Builds the same BG2 affine shadow as sub_080968C0, with reciprocal X/Y scales through sub_08090494 and sub_08090434. Scale fields are read as unsigned halfwords. The four effect predicates gate shadow writes; there is no zero-scale guard here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1643,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Reciprocal calls are at 0x080969E6/0x08096A04/0x08096A24/0x08096A42. 0x08096AC6..0x08096ADA write the gated affine shadow halfwords. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08096AF4",
@@ -32505,10 +32652,23 @@
       "canonical_symbol": "sub_08096D40",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08096D40",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StepPalette16TowardTargetByRatio",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1272,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "When frame < duration, updates 16 RGB555 entries in place as current + (target - current) * frame / duration per channel, clears bit 15 and returns 0. At or after duration it returns 1 without writing or copying the target endpoint. Repeated calls use already-modified current colors."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1646,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08096D5C bypasses all writes when frame >= duration. Channel divisions occur at 0x08096D84/0x08096DB2/0x08096DDE. 0x08096DF8 clears bit 15 and 0x08096E06 bounds the 16-entry loop. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08096E20",
@@ -32522,14 +32682,21 @@
       "canonical_symbol": "sub_08096E20",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "paletteStep99",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
+      "display_name": "AddScaledChannelOffsetToPalette16",
+      "name_status": "confirmed",
+      "name_source": "catalog",
       "evidence": [
         {
           "source": "src/code_08095B04.c",
           "line": 1322,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: paletteStep99"
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "When frame < duration, sign-extends the amount byte and adds amount * frame / duration to every channel of 16 RGB555 entries. Each sum is narrowed to u16 before unsigned comparison with 31, so negative underflow becomes 31. Clears bit 15 and returns 0; at or after duration returns 1 without writing."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1647,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08096E42 bypasses writes at the endpoint; 0x08096E54 sign-extends amount. 0x08096E70/0x08096E72 narrow the first channel sum before unsigned clamp at 0x08096E74/0x08096E76. 0x08096EE2 bounds the 16-entry loop. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
         }
       ]
     },
@@ -32657,10 +32824,23 @@
       "canonical_symbol": "sub_08097978",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097978",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ComputeQ8DirectionFromMixedUnitPoints",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1815,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Computes a Q8 sine/cosine direction from signed 16-bit deltas targetX - (x >> 8) and targetY - (y >> 8). In the zero-X branch it compares targetY against unshifted input Y, preserving the mixed-unit behavior. Outputs are signed 16-bit values stored in two words."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1654,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097990/0x08097992 select the zero-X branch. 0x080979BE compares target Y against unshifted input Y; 0x080979CA/0x080979D0 store signed outputs. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_080979D8",
@@ -32674,10 +32854,23 @@
       "canonical_symbol": "sub_080979D8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080979D8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ComputeQ8DirectionFromFixedPoints",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1850,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Computes a Q8 direction from fixed-point coordinate differences using low-32-bit left shift by 8 and arithmetic right shift by 16 before ArcTan2. In the zero-X branch it returns (0,-256) when targetY < inputY and (0,+256) otherwise, including coincident points."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1655,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x080979E2..0x080979EA quantize differences; 0x080979F4 calls ArcTan2. Zero-X comparison 0x08097A24 selects the signed vertical default. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08097A38",
@@ -32742,10 +32935,23 @@
       "canonical_symbol": "sub_08097A74",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097A74",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StepActorTowardPlayerOutsideRadius",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1895,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Prepares actor movement toward the player packet position through sub_08096060. If outside the strict radius, performs one sub_08013E90 movement step and stores its facing result. Returns the outside-radius flag; it does not loop until the target is reached."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1659,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097A94 calls sub_08096060 and 0x08097AAE conditionally calls sub_08013E90; 0x08097AB2 stores the returned facing. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08097AC0",
@@ -32759,10 +32965,23 @@
       "canonical_symbol": "sub_08097AC0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097AC0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StepActorTowardPointWithOptionalCollision",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1907,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Prepares target/facing through sub_08096060, then performs one movement step only when outside the radius. The low-byte option selects collision-aware sub_08013E90 or direct sine movement sub_08097BA4. Returns the signed-byte outside-radius flag."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1660,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097AE2 prepares movement. The flag branch at 0x08097AF0 selects calls at 0x08097B00 (sub_08013E90) or 0x08097B10 (sub_08097BA4). Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08097B24",
@@ -32776,10 +32995,23 @@
       "canonical_symbol": "sub_08097B24",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097B24",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "IsIntegerPointInsideActorRadius",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1930,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Converts actor coordinates +0x14/+0x18 to signed 16-bit integer coordinates, narrows query coordinates/radius and deltas, and returns whether the signed radius is strictly greater than Sqrt distance truncated to u16. Boundary equality is excluded."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1661,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097B54 calls Sqrt, 0x08097B58/0x08097B5A truncate distance to u16 and 0x08097B5E/0x08097B60 implement strict radius comparison. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08097B6C",
@@ -32793,10 +33025,23 @@
       "canonical_symbol": "sub_08097B6C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097B6C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AreFixedPointsWithinStrictRadius",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1960,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Converts fixed-point coordinate differences through low-32-bit left shift by 8 and arithmetic right shift by 16. Returns whether a signed 16-bit radius is strictly greater than Sqrt distance truncated to u16. Boundary equality is excluded."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1662,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097B8C calls Sqrt, 0x08097B90/0x08097B92 truncate distance to u16 and 0x08097B96/0x08097B98 implement strict radius comparison. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08097BA4",
@@ -32810,10 +33055,23 @@
       "canonical_symbol": "sub_08097BA4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097BA4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AdvancePositionByFacingAndSpeed",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1906,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Advances a two-word position using speed times sine/cosine selected by facing. X uses division by 256; Y uses 304 for directions 0/4 and 256 otherwise. It does not query map collision."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1663,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097BB2..0x08097BB8 detect directions 0/4; division at 0x08097BD6 uses 304. 0x08097C38 stores the advanced X word. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        }
+      ]
     },
     {
       "name": "sub_08097C4C",
@@ -32827,10 +33085,29 @@
       "canonical_symbol": "sub_08097C4C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097C4C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AllocateScreenShakeTaskControl",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 1989,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates one 0x28-byte screen-shake task control at 0x03000298 and initializes field +8 to zero when allocation succeeds. It does not start the callback or allocate its stack."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1664,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097C52 allocates 0x28 bytes; 0x08097C60 initializes task control +8 after a null check. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/code_08095B04.c",
+          "line": 942,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Callback sub_080967D0 generates alternating sine-derived offsets and calls sub_0800BB80. That helper writes map/camera offset fields +0x80/+0x82; matched scene code in src/code_0804D330.c interpolates those same fields through the helper. The saved halfword at record +0x18 is not given a character-stat identity."
+        }
+      ]
     },
     {
       "name": "sub_08097C6C",
@@ -32844,10 +33121,29 @@
       "canonical_symbol": "sub_08097C6C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097C6C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "CancelScreenShakeAndFreeControl",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2002,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "If the shake control exists and field +8 is nonzero, restores the saved halfword to the record at 0x030034E0 +0x18 and cancels the task. Frees the control and clears its global pointer."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1665,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097C84 restores the saved halfword, 0x08097C88 cancels the active task and 0x08097C8E frees the control. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/code_08095B04.c",
+          "line": 942,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Callback sub_080967D0 generates alternating sine-derived offsets and calls sub_0800BB80. That helper writes map/camera offset fields +0x80/+0x82; matched scene code in src/code_0804D330.c interpolates those same fields through the helper. The saved halfword at record +0x18 is not given a character-stat identity."
+        }
+      ]
     },
     {
       "name": "sub_08097CA8",
@@ -32861,10 +33157,29 @@
       "canonical_symbol": "sub_08097CA8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097CA8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartScreenShakeTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2015,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Requires an allocated idle control, allocates a 0x200-byte stack and starts callback sub_080967D0 with the input narrowed to s16. Saves the halfword at record 0x030034E0 +0x18 for restoration. Stack allocation failure returns without starting; no scheduling priority or fixed elapsed-time guarantee is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1666,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097CC0 allocates the stack; 0x08097CD6 writes the callback. 0x08097CE0 sign-extends the task argument and 0x08097CF0/0x08097CF2 save the halfword for restoration. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/code_08095B04.c",
+          "line": 942,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Callback sub_080967D0 generates alternating sine-derived offsets and calls sub_0800BB80. That helper writes map/camera offset fields +0x80/+0x82; matched scene code in src/code_0804D330.c interpolates those same fields through the helper. The saved halfword at record +0x18 is not given a character-stat identity."
+        }
+      ]
     },
     {
       "name": "sub_08097D0C",
@@ -32878,10 +33193,35 @@
       "canonical_symbol": "sub_08097D0C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D0C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetBg2EffectTransformPosition",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2036,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Stores the low 16 bits of two inputs at transform 0x030002A0 +4/+6. BG2 affine consumers add these position fields to the separate offset fields."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1667,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D0E/0x08097D10 store transform halfwords at +4/+6. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097D18",
@@ -32895,10 +33235,35 @@
       "canonical_symbol": "sub_08097D18",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D18",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetBg2EffectTransformOffset",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2041,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Stores the low 16 bits of two inputs at transform +8/+0xA, added to position fields by BG2 affine consumers."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1668,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D1A/0x08097D1C store transform halfwords at +8/+0xA. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097D24",
@@ -32912,10 +33277,35 @@
       "canonical_symbol": "sub_08097D24",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D24",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetBg2EffectTransformAngle",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2046,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Stores the low byte of the input in transform angle +0xD, used to index sine/cosine by the BG2 affine consumers."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1669,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D26 stores one byte at transform +0xD. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097D30",
@@ -32929,10 +33319,35 @@
       "canonical_symbol": "sub_08097D30",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D30",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetBg2EffectTransformScale",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2050,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Stores scale input halfwords at transform +0/+2. The scaled affine consumer reads their unsigned bit patterns for reciprocal scaling; no nonzero validation occurs here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1670,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D32/0x08097D34 store two scale halfwords at +0/+2. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097D3C",
@@ -32946,10 +33361,35 @@
       "canonical_symbol": "sub_08097D3C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D3C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetBg2EffectSineAnglePhase",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2054,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Stores the phase input low byte at transform +0xC, computes (sine[phase] * (s8)amplitude) >> 8 and writes its low byte to both current angle +0xD and previous angle +0xE."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1671,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D3E stores phase; 0x08097D4E sign-extends amplitude. 0x08097D54/0x08097D56 store current/previous angle bytes after the sine product shift. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097D64",
@@ -32963,10 +33403,35 @@
       "canonical_symbol": "sub_08097D64",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D64",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ResumeBg2EffectSineAngleUpdates",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2062,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Clears transform pause byte +0xF. Only the sine phase/angle update in sub_08097D7C is gated by this byte; it does not restart an affine task."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1672,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D68 stores zero to transform pause byte +0xF. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097D70",
@@ -32980,10 +33445,35 @@
       "canonical_symbol": "sub_08097D70",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D70",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "PauseBg2EffectSineAngleUpdates",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2066,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets transform pause byte +0xF to 1, suppressing the sine phase/angle update in sub_08097D7C."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1673,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D74 stores 1 to transform pause byte +0xF. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097D7C",
@@ -32997,10 +33487,35 @@
       "canonical_symbol": "sub_08097D7C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08097D7C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AdvanceBg2EffectSineAngleIfEnabled",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08095B04.c",
+          "line": 2070,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Always copies current angle +0xD to previous angle +0xE. When pause byte +0xF is zero, recomputes angle from current phase and signed amplitude byte, then increments phase by the unsigned step byte with 8-bit wrap."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1674,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "0x08097D8A always updates previous angle; the byte check at 0x08097D8E/0x08097D90 gates current angle/phase stores at 0x08097DA6/0x08097DAC. Static original EU ROM evidence; SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Source/control flow distinguishes literal pools from code."
+        },
+        {
+          "source": "src/video.c",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sub_08000B50 copies shadow 0x03001250 to BG0HOFS at hardware offset 0x10. Thus shadow halfword indices 8..15 map to BG2 affine registers at offsets 0x20..0x2E, as defined in include/gba/io_reg.h."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1860,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched actor-scene task sub_080A099C initializes the transform, advances sine angle/phase and calls sub_080968C0 each iteration. It also consumes the same angle state for position effects."
+        }
+      ]
     },
     {
       "name": "sub_08097DBC",
@@ -40182,12 +40697,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 348,
-      "existing": 32,
-      "confirmed": 316,
+      "identified": 375,
+      "existing": 30,
+      "confirmed": 345,
       "proposed": 0,
-      "unidentified": 1532,
-      "percent_identified": 18.51063829787234
+      "unidentified": 1505,
+      "percent_identified": 19.9468085106383
     },
     "sdk": {
       "total": 155,
@@ -40200,12 +40715,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 503,
-      "existing": 161,
-      "confirmed": 342,
+      "identified": 530,
+      "existing": 159,
+      "confirmed": 371,
       "proposed": 0,
-      "unidentified": 1532,
-      "percent_identified": 24.717444717444717
+      "unidentified": 1505,
+      "percent_identified": 26.044226044226043
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
