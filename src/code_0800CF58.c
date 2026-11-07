@@ -2405,20 +2405,25 @@ block_719:
                             }
                         }
                     }
-                    ((struct PlayerD368 *)arg0)->f1C = directionD36874 - 1;
-                    temp_r2_13 = ((struct PlayerD368 *)arg0)->f40;
-                    temp_r1_26 = ((struct PlayerD368 *)arg0)->fD8;
-                    temp_r0_48 = (s32) (temp_r2_13 - temp_r1_26) >> 1;
-                    if (temp_r0_48 > 0) {
-                        var_r0_14 = temp_r1_26 + temp_r0_48;
-                    } else {
-                        var_r0_14 = temp_r1_26 + 1;
-                    }
-                    ((struct PlayerD368 *)arg0)->fD8 = var_r0_14;
-                    if ((s32) temp_r2_13 > (s32) ((struct PlayerD368 *)arg0)->fD8) {
+                    {
+                        s32 *state4CurrentD368;
+                        ((struct PlayerD368 *)arg0)->f1C = directionD36874 - 1;
+                        state4CurrentD368 = &((struct PlayerD368 *)arg0)->fD8;
+                        temp_r2_13 = ((struct PlayerD368 *)arg0)->f40;
+                        temp_r1_26 = *state4CurrentD368;
+                        temp_r0_48 = (s32) (temp_r2_13 - temp_r1_26) >> 1;
+                        if (temp_r0_48 > 0) {
+                            var_r0_14 = temp_r1_26 + temp_r0_48;
+                            ((struct PlayerD368 *)arg0)->fD8 = var_r0_14;
+                        } else {
+                            var_r0_14 = temp_r1_26 + 1;
+                            ((struct PlayerD368 *)arg0)->fD8 = var_r0_14;
+                        }
+                        if ((s32) temp_r2_13 > *state4CurrentD368) {
 
-                    } else {
-                        ((struct PlayerD368 *)arg0)->fD8 = (s32) temp_r2_13;
+                        } else {
+                            *state4CurrentD368 = (s32) temp_r2_13;
+                        }
                     }
                 }
                 break;
@@ -2781,10 +2786,11 @@ block_862:
                         temp_r0_65 = (s32) (temp_r3_6 - temp_r1_34) >> 1;
                         if (temp_r0_65 > 0) {
                             var_r0_18 = temp_r1_34 + temp_r0_65;
+                            ((struct PlayerD368 *)arg0)->fD8 = var_r0_18;
                         } else {
                             var_r0_18 = temp_r1_34 + 1;
+                            ((struct PlayerD368 *)arg0)->fD8 = var_r0_18;
                         }
-                        ((struct PlayerD368 *)arg0)->fD8 = var_r0_18;
                         if ((s32) temp_r3_6 > (s32) ((struct PlayerD368 *)arg0)->fD8) {
 
                         } else {
