@@ -94,6 +94,7 @@ extern struct T015LPl T015L_players[] asm("gUnk_03003CE0");
 void sub_0801801C(struct T015LActor *arg0) {
     struct T015LStack stack;
     u32 shift;
+    u32 zero;
     s32 local104;
     u32 local108;
     u32 local10C;
@@ -131,7 +132,7 @@ void sub_0801801C(struct T015LActor *arg0) {
     local10C = 0xFFFF;
     T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
     T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
-    { register struct T015LAnim *aux asm("sl") = &stack.auxB; T015L_sub_08065158(&aux->f0, 0x5008B, 0, -1, 0); }
+    T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0)
         sub_08000AF0(0x17, (void *)stack.auxA.fC, 2);
     {
@@ -192,12 +193,13 @@ void sub_0801801C(struct T015LActor *arg0) {
     arg0->f5E = arg0->f1D4 = (sp118->f4 * 2 + (sp118->f4 << 3)) * 2;
     local124 = 1;
 
+    zero = 0;
     while (sub_0800CB78() == 0 && !(T015L_F7A & 1) && sub_08056E90() == 0) {
         arg0->f74++;
         if (sub_0800CB9C() != 0 && sub_08002204() != 0) {
             if ((s16)arg0->f60++ > 300) {
                 sub_080663A4(arg0->f0);
-                arg0->f60 = 0;
+                arg0->f60 = zero;
             }
         }
         if (arg0->f228 == 0xFFFF) {
@@ -217,7 +219,7 @@ void sub_0801801C(struct T015LActor *arg0) {
             arg0->f4 = 0;
             arg0->f6 = 0;
         }
-        switch (arg0->fC) {
+        switch (*(volatile u16 *)&arg0->fC) {
         case 0:
             dir = 0;
             if (arg0->f4 & 0x40)
@@ -357,8 +359,10 @@ void sub_0801801C(struct T015LActor *arg0) {
             }
         }
         if (stack.rng != 0) {
-            arg0->f1C = arg0->f14;
-            arg0->f20 = arg0->f18;
+            {
+                struct T015LPair { s32 a, b; };
+                *(struct T015LPair *)&arg0->f1C = *(struct T015LPair *)&arg0->f14;
+            }
             sub_08013E90(sp118->f8 >> shift, &arg0->f14, arg0->f8, 0, 0);
         }
         if (sub_0800CD8C() == 0)
@@ -534,22 +538,14 @@ void sub_0801801C(struct T015LActor *arg0) {
                 break;
             case 5:
                 T015L_sub_08065158(&stack.main.f0, T015L_anims[sp118->fD4 + 10].a, local114, -1, 0);
-                {
-                    u32 first = arg0->f8;
-                    u32 offset = arg0->f70;
-                    arg0->f68 = first + offset;
-                }
+                arg0->f68 = arg0->f70 + arg0->f8;
                 local108 = arg0->f68;
                 local10C = arg0->fC;
                 local110 = arg0->f72;
                 arg0->fE = 6;
                 break;
             case 6:
-                {
-                    u32 first = arg0->f8;
-                    u32 offset = arg0->f70;
-                    arg0->f68 = first + offset;
-                }
+                arg0->f68 = arg0->f70 + arg0->f8;
                 break;
             }
             break;
@@ -588,7 +584,7 @@ void sub_0801801C(struct T015LActor *arg0) {
         arg0->f6E = sub_08065370(&stack.main, arg0->f68, (s32)&arg0->f6A, (s32)&arg0->f6C, local110);
         T015L_sub_0800BC08((arg0->f14 << 8) >> 16, (arg0->f18 << 8) >> 16, &stack.x, &stack.y, 0x30, NULL);
         if (T015L_sub_08017EC8(arg0) == 0 && !(T015L_F7A & 8)) {
-            { u32 flags = T015L_F7A | 1; register u32 z asm("r1") = 0; asm("" : "+r"(z)); T015L_F7A = flags | z; }
+            T015L_F7A = T015L_F7A | 1 | zero;
             break;
         }
         if (arg0->f66 != 0) {

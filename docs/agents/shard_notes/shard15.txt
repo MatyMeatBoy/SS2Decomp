@@ -67,3 +67,19 @@ agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: buil
   draw case10 (original direct SP-relative ldr); forcing main anim pointer r6
   globally worsens score1076. Future work should address these PRE/reload forms
   without repeating these controls. Private evidence build/solo015/followup.
+
+2026-11-06 claude-nov06-wC7 (sub_0801801C NONMATCHING refinement):
+  Exit flag: replace the asm("r1") zero barrier by a plain u32 `zero` set to 0 before
+  the main loop and used twice (exit flag `F7A | 1 | zero`, f60 reset). Two uses keep
+  update_equiv_regs from sinking it; global-alloc leaves it without a hard reg, so reload
+  rematerializes `movs r1,#0` as a REG_EQUIV constant reload. That extra reload advances
+  the reload-register rotation exactly like the ROM (exit-flag store now `ldr r2,[sp,#0x15c]`).
+  The second use (f60 reset) adds one `movs r4,#0` but its rotation shift fixes more later
+  lines. Plain auxB init (no sl binding), wB27's case12 sum, f1C/f20 pair copy and volatile
+  first switch kept. GNU diff (filtered) 440 -> 272, nmdiff filtered 761 -> 591, size 7124/7132.
+  Verified with a patched reload (forced spill of the auxB address pseudo, private tool):
+  ROM's `add r1,sp,#136; mov sl,r1` is pseudo &auxB spilled from local r6 and retried into
+  sl; it does NOT shift later rotation (downstream unchanged). Trigger insn still unknown.
+  Remaining: spill-slot set (&f74/count*12/&state/&phase in ROM vs &f74/&state/&step ours),
+  anim/&stack.main pointer in r6 + NULL zero in sl (ours r5/r6 swapped, anim spilled),
+  DRAW f8 via anim pointer (anim->f8 only: register chaos, frame -4).
