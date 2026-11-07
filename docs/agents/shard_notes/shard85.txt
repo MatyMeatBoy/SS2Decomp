@@ -1,0 +1,26 @@
+claude-nov07-w85 (2026-11-07), sub_080815F4 (code_0807A5D4.c, NONMATCHING). Landed: block order
+  restored and the twelve 0xF7 number-template loops folded into one macro. Aligned diff (scratch ck.sh)
+  2251 -> 1401, filtered nmdiff 2829 -> 1698, size 4860 -> 4940 (ROM 4972), frame 676 -> 684 (= ROM 0x2AC).
+  Diagnosis of the block order:
+  - First switch: each item kind with arg[4] != 0 has its own `sub_08007290((arg[4]-1)|0x130000)` call; only
+    `adds r0,#0xa0; str [sp,#0x250]` is shared (cross-jumped into the kind-6 body). The old shared
+    `goto block_30` made gcc merge the calls too. Write `sp250 = call(...) + 0xA0` in every case.
+  - Switch-2 case 2 is an inner `switch (item[0x9B]) { default: header; clamp; break; case 9: ...; goto icons;
+    case 10: ...; goto icons; }` followed by the default's rest. The ROM places the default header first, then
+    9, then 10, then the rest (0x08081A1A/A64/D40/DE0); an if/else chain cannot give that order.
+  - Cases 3/4/5 and the 9/default bodies must each contain the full digit tail; cross-jumping then merges
+    them into case 4 (0x0808247E) and the sp254=0 block into case 5 (0x080824B8). Explicit gotos put the
+    shared copy in the wrong case.
+  - Final default: `if (sp254 != 0) { two for loops } else { 0x140365 text }` (0x140365 is last in ROM).
+  - The 0xF7 loops act like 12 expansions of one routine: their address-taken `v` slots (0x20C..0x238) and the
+    value slots (0x260..0x28C) follow code order, and the +0x9B/+0xA0/+0xA1/+0xA7 pointers (0x290..0x2A0) are
+    CSE temps (they come after the value slots), not user variables. A block macro whose loop is
+    `for (; *s != 0xFD; s++)` gives the ROM `adds r2,r3,#1` (src+1 caller-saved at 0x2A4) and `mov r9,&v`.
+    A `static inline` function version keeps dst=text85 in a pseudo (frame 700, worse).
+  Remaining: allocation. kind-2 item pointer (0x240) gets r9 and the kind-5 one a high reg, so var_sl (the
+  kind 0xB2 halfword) is spilled instead of living in sl. In the number loop, loop.c hoists text85 into sl
+  (ROM rematerialises `ldr =gUnk_03000128` at each use and keeps item+0xAC in sl), and divisor/started are
+  r5/r7 instead of r7/r5. Rejected: binding var_sl to sl (1401 -> 1491), a `u8 *d = dst` macro local (d gets
+  sl), `src++` before the digit loop (1824), inline function forms (1512-1666, bigger frame).
+  Next: make text85 not loop-invariant-hoisted in the number loop (more insns in the outer loop body?), then
+  revisit the kind-1 two-line loop (len should be in r8, the old m2c gotos are still there).
