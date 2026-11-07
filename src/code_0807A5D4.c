@@ -2129,7 +2129,8 @@ void sub_0807C29C(void) {
             }
         }
         break;
-    case 6:
+    case 6: {
+        u32 fr;
         if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 5;
@@ -2160,28 +2161,29 @@ void sub_0807C29C(void) {
             }
         } else if (keys29_03001324 & 1) {
             gMgr82->f6A = 100;
-            from = gMgr82->heldFrom;
-            if (from == 0x16) {
+            fr = gMgr82->heldFrom;
+            if (fr == 0x16) {
                 if (gInv82->equipE.kind != 0) {
-                    ok = 0;
+                    u32 ok6, nn;
+                    ok6 = 0;
                     if (gPlayers82[sub_080020F4()].f77 > 3) {
-                        n = gPlayers82[sub_080020F4()].f77;
-                        for (i = 3; i < n; i++) {
+                        nn = gPlayers82[sub_080020F4()].f77;
+                        for (i = 3; i < nn; i++) {
                             if (gInv82->belt[i].kind == 2) {
-                                ok++;
+                                ok6++;
                                 break;
                             }
                         }
                     } else if (gPlayers82[sub_080020F4()].f78 > 3) {
-                        n = gPlayers82[sub_080020F4()].f78;
-                        for (i = 3; i < n; i++) {
+                        nn = gPlayers82[sub_080020F4()].f78;
+                        for (i = 3; i < nn; i++) {
                             if (gInv82->f56[i] != 0) {
-                                ok++;
+                                ok6++;
                                 break;
                             }
                         }
                     }
-                    if (ok) {
+                    if (ok6) {
                         sub_0805865C(0x61);
                     } else {
                         gMgr82->heldFrom = gMgr82->state;
@@ -2193,8 +2195,8 @@ void sub_0807C29C(void) {
                     }
                 }
             } else if (gMgr82->cur->kind == 0) {
-                if (from != 11) {
-                    sub_0807BD78(from, gMgr82->heldIdx);
+                if (fr != 11) {
+                    sub_0807BD78(fr, gMgr82->heldIdx);
                     sub_0807BEA0(6, gMgr82->cursor, (void *)&gMgr82->held);
                     DROP82();
                     sub_0805865C(0x5F);
@@ -2210,34 +2212,35 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x63);
                     sub_0805D1E0();
                 }
-            } else if (from != 11) {
-                ok = 0;
+            } else if (fr != 11) {
+                u32 ok6, nn;
+                ok6 = 0;
                 if (gPlayers82[sub_080020F4()].f77 > 3) {
-                    n = gPlayers82[sub_080020F4()].f77;
-                    for (i = 3; i < n; i++) {
+                    nn = gPlayers82[sub_080020F4()].f77;
+                    for (i = 3; i < nn; i++) {
                         if (gInv82->belt[i].kind == 2) {
-                            ok++;
+                            ok6++;
                             break;
                         }
                     }
                 } else if (gPlayers82[sub_080020F4()].f78 > 3) {
-                    n = gPlayers82[sub_080020F4()].f78;
-                    for (i = 3; i < n; i++) {
+                    nn = gPlayers82[sub_080020F4()].f78;
+                    for (i = 3; i < nn; i++) {
                         if (gInv82->f56[i] != 0) {
-                            ok++;
+                            ok6++;
                             break;
                         }
                     }
                 }
-                if (ok) {
-                    sub_0805865C(0x61);
-                } else {
+                if (!ok6) {
                     *(struct Item82 *)sp4 = gInv82->equipE;
                     sub_0807BEA0(6, gMgr82->cursor, (void *)&gMgr82->held);
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
                     DROP82();
                     sub_0805865C(0x5F);
                     sub_0805D1E0();
+                } else {
+                    sub_0805865C(0x61);
                 }
             } else {
                 sub_0805865C(0x61);
@@ -2258,6 +2261,7 @@ void sub_0807C29C(void) {
             }
         }
         break;
+    }
     case 7: {
         u32 c;
         if (keys29_03001308 & 0x10) {
