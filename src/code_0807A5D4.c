@@ -1582,7 +1582,11 @@ void sub_0807C29C(void) {
                         break;
                     }
                     gInv82->items[gMgr82->cursor].count += gMgr82->held.count;
-                } else if (gMgr82->heldIdx != gMgr82->cursor) {
+                    DROP82();
+                    sub_0805865C(0x5F);
+                    break;
+                }
+                if (gMgr82->heldIdx != gMgr82->cursor) {
                     over = val - 100000;
                     switch (from) {
                     case 0:
@@ -2393,7 +2397,7 @@ void sub_0807C29C(void) {
                 }
             } else if (from == 0) {
                 gInv82->f56[gMgr82->cursor] = gMgr82->held.sub + 1;
-                DROP82();
+                Drop82Sep(&sp14);
                 sub_0805865C(0x5F);
             }
         }
