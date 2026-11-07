@@ -1383,7 +1383,9 @@ void sub_0807C29C(void) {
                 from = gMgr82->heldFrom;
                 if (from == 0x16) {
                     struct Item82 *it;
-                    it = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
+                    u8 *inventoryBase;
+                    inventoryBase = (u8 *)gInv82;
+                    it = (struct Item82 *)(inventoryBase + gMgr82->cursor * 16 + 0x150);
                     if (it->kind == 0)
                         break;
                     if (it->kind != 10) {

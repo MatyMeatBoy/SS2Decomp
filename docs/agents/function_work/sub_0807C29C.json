@@ -1,7 +1,7 @@
 {
   "address": "0x0807C29C",
-  "updated_utc": "2026-11-07T15:11:31.460238+00:00",
-  "checkpoint": "Continue preserved PR632 fcb0620e with ordinary defined C: remove the Drop82PZ opcode assembly and reuse Drop82P, form the count address from the complete manager object with offsetof, and correct the CpuSet destination comment. Candidate 18392 versus original 18396 bytes, frame 60/60, 393 external calls in original order. Fresh same-context heuristic 1569 to 1575; the 4-byte size loss is in case13. Strict NO MATCH; normal ASM fallback retained and no matching-byte credit.",
+  "updated_utc": "2026-11-07T15:45:57.061344+00:00",
+  "checkpoint": "Stage the real inventory base before the case 0 cursor-address calculation, recovering four original instruction halfwords. Heuristic 1575 to 1573; positional normalized halfword differences 3618 to 3614 (separate diagnostic metrics). Candidate remains 18392 versus original 18396 bytes, frame 60/60 and 393 external calls in original order. Case 13 remains four bytes short. Strict NO MATCH; normal ASM fallback retained and no matching-byte credit.",
   "areas": [
     {
       "id": "item-copy-first",
@@ -13,25 +13,25 @@
       "id": "case0",
       "label": "States 0-6, 13, 16 and post-switch key/cursor/pointer switches rewritten by hand",
       "state": "done",
-      "evidence": "The complete draft retains the existing typed switch/state-machine representation. Current casediff measures case0 size0xC08 equal to original, relaxed diff83/register-masked66. These masked diagnostics prioritize work and do not prove original branches, pools or semantics. The historical hand-written structure milestone is preserved; old 18132-byte and 5680-score metrics are superseded by the current checkpoint."
+      "evidence": "A block-local u8 inventoryBase stages the actual gInv82 value before the cursor load for the from==0x16 item address. This recovers original LDR address R0, LDR value R1, cursor R3 and LSL ordering without calls/stores between those reads or new memory accesses. Only normalized halfwords at function offsets 0x4BA/0x4BC/0x4BE/0x4C0 change, all four now equal original; every other target byte and all relocation tuples remain unchanged relative to the integrated safe checkpoint. Case 0 remains size 0xC08; relaxed casediff 80/register-masked 64 versus prior 83/66. These diagnostics do not prove general behavior."
     },
     {
       "id": "remaining-structure",
       "label": "Remaining state machine and item transfers",
       "state": "done",
-      "evidence": "All 22 primary switch arms and the post-switch drawing/state tail remain in the complete compiling NONMATCHING draft. The applied object has 393 external call targets in original order. Current relaxed casediff totals 342/register-masked 264; this is not strict byte/relocation equality or behavior proof. Cases 19 and 21 have zero relaxed diff, which does not authorize unwrapping any portion."
+      "evidence": "All 22 primary switch arms and the post-switch drawing/state tail remain in the complete compiling NONMATCHING draft. The applied object has 393 external call targets in original order. Current relaxed casediff totals 339/register-masked 262; this is not strict byte/relocation equality or behavior proof. Cases 19 and 21 have zero relaxed diff, which does not authorize unwrapping any portion."
     },
     {
       "id": "match",
       "label": "Full match in normal C build",
       "state": "pending",
-      "evidence": "Strict NO MATCH: normalized candidate code SHA256 d1074bb34ae013cd33a44fcfdeff02c9120e27744b761c07e5e3558a3ccb07cd differs from original. Original INCLUDE_ASM remains active in the normal build. The corrected whole-manager count-address representation alone is complete-module text/relocation identical to the fcb baseline; the ordinary-zero cleanup equals the selected combined private object. Fresh normal compare, full NONMATCHING build, check_tree 0 and diff check pass. Those gates and 393 ordered calls do not prove behavior or add matching bytes. No behavioral replay of this checkpoint or arbitrary inherited-state equivalence is claimed."
+      "evidence": "Strict NO MATCH: normalized candidate code SHA256 c4c19e7571120121199a494adaebb8d8325f82720bdeea78bea73a5f31c0d9bd differs from original. Original INCLUDE_ASM remains active in the normal build. A strict unchanged complete-module control reproduces the fresh actual baseline. The applied module text/relocations equal the selected private object, whose only four changed target halfwords now equal original. Normal compare, full NONMATCHING build, check_tree 0 and diff checks verify checkpoint integrity only. No behavioral replay of this checkpoint, arbitrary inherited-state equivalence or matching-byte credit is claimed."
     },
     {
       "id": "exact-size",
       "label": "Exact size per case",
       "state": "active",
-      "evidence": "Fresh applied casediff: total 18392 versus original 18396; frame 60 equals original. Case 13 is 4 bytes shorter (original function-relative[0x25F0,0x2E54), candidate[0x25F0,0x2E50)); every other primary arm and the post segment retain their original sizes. Removing the hand-written mov-zero opcode changes the same-context heuristic 1569 to 1575. Size restoration and remaining registers/branches/pools are unresolved; no dummy storage or padding is added."
+      "evidence": "Fresh applied casediff: total 18392 versus original 18396; frame 60 equals original. Case 13 remains four bytes shorter (original function-relative[0x25F0,0x2E54), candidate[0x25F0,0x2E50)); every other primary arm and the post segment retain their original sizes. The previous ordinary-zero correction remains intact; current inventory-base staging improves heuristic 1575 to 1573 while positional halfword differences improve 3618 to 3614. Size restoration and remaining registers/branches/pools are unresolved; no dummy storage or padding is added."
     }
   ]
 }
