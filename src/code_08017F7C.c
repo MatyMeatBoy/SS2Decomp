@@ -53,7 +53,6 @@ s32 sub_08017F7C(void *arg0)
 
 struct T015LPollPlayer { u8 pad[0x2C]; u16 field2C; };
 extern struct T015LPollPlayer T015L_poll_players[] asm("gUnk_03003CE0");
-#ifdef NONMATCHING
 struct T015LActor { u16 f0; u16 f2; u16 f4; u16 f6; u16 f8; u8 padA[0x2]; u16 fC; u16 fE; u8 pad10[0x4]; s32 f14; s32 f18; s32 f1C; s32 f20; u8 pad24[0xC]; s32 f30; s32 f34; u8 pad38[0x4]; s32 f3C; u8 pad40[0x2]; s16 f42; s16 f44; u8 pad46[0x4]; s16 f4A; s32 f4C; s32 f50; s32 f54; u8 pad58[0x2]; u16 f5A; s16 f5C; s16 f5E; s16 f60; u16 f62; u16 f64; u16 f66; u16 f68; s16 f6A; s16 f6C; u16 f6E; u16 f70; u16 f72; u16 f74; u8 pad76[0x6]; u16 f7C; u16 f7E; s16 f80; s16 f82; u8 f84; u8 pad85[0x1]; u8 f86; u8 pad87[0x1]; u16 f88; u8 pad8A[0x14A]; s16 f1D4; s16 f1D6; u8 pad1D8[0x4]; s8 f1DC; u8 pad1DD[0x1F]; u8 f1FC; u8 f1FD; u8 f1FE; u8 pad1FF[0x2]; u8 f201; u8 pad202[0x24]; u8 f226; u8 pad227[0x1]; u16 f228; u8 pad22A[0xB6]; };
 struct T015LAnim { s32 f0,f4,f8,fC,f10,f14,f18; s8 data[24]; };
 struct T015LStack { u32 packet[4]; struct T015LAnim main,auxA,auxB,base; s16 x,y; u16 step; s16 state; u16 phase,phase2; s32 rng; };
@@ -130,11 +129,21 @@ void sub_0801801C(struct T015LActor *arg0) {
     }
     arg0->fC = local10C;
     local10C = 0xFFFF;
+    {
+    struct T015LAnim *pb;
+    {
+    register u32 blk asm("r6");
+    asm("" : "=r"(blk));
     T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
     T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
-    T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
+    pb = &stack.auxB;
+    T015L_sub_08065158(&pb->f0, 0x5008B, 0, -1, 0);
+    asm("" : : "r"(blk));
+    }
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0)
         sub_08000AF0(0x17, (void *)stack.auxA.fC, 2);
+    asm("" : : "g"(pb));
+    }
     {
         struct T015LAnim *aux = &stack.auxA;
         aux->data[0] = 7;
@@ -538,11 +547,17 @@ void sub_0801801C(struct T015LActor *arg0) {
             break;
         case 12:
             switch (arg0->fE) {
-            case 8:
-                if (arg0->f30 != 0)
+            case 8: {
+                register s32 z asm("r0");
+                asm("" : "=r"(z));
+                if (arg0->f30 != 0) {
+                    asm("" : : "r"(z));
                     sub_08057328(arg0->f34);
-                else
+                } else {
+                    asm("" : : "r"(z));
                     sub_08057390(arg0->f3C, T015L_FIELD(arg0, void (**)(s32), 0x38));
+                }
+            }
                 arg0->fC = 0;
                 break;
             case 5:
@@ -638,14 +653,18 @@ void sub_0801801C(struct T015LActor *arg0) {
                     sub_08065370(&stack.auxA, 9, (s32)&stack.step, (s32)&stack.state, 1);
                     T015L_DRAW(stack.x, stack.y, 9, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
                     break;
-                case 1:
+                case 1: {
+                    struct T015LAnim *b = &stack.auxB;
                     sub_08065370(&stack.auxB, 0xE, (s32)&stack.step, (s32)&stack.state, 1);
-                    T015L_DRAW(stack.x, stack.y, 0xE, stack.step, bg, stack.auxB.data, stack.auxB.f8, stack.auxB.f0);
+                    T015L_DRAW(stack.x, stack.y, 0xE, stack.step, bg, stack.auxB.data, b->f8, stack.auxB.f0);
                     break;
-                case 2:
+                }
+                case 2: {
+                    struct T015LAnim *b = &stack.auxB;
                     sub_08065370(&stack.auxB, 0xF, (s32)&stack.step, (s32)&stack.state, 1);
-                    T015L_DRAW(stack.x, stack.y, 0xF, stack.step, bg, stack.auxB.data, stack.auxB.f8, stack.auxB.f0);
+                    T015L_DRAW(stack.x, stack.y, 0xF, stack.step, bg, stack.auxB.data, b->f8, stack.auxB.f0);
                     break;
+                }
                 }
                 break;
             case 12:
@@ -765,12 +784,15 @@ void sub_0801801C(struct T015LActor *arg0) {
             && ((arg0->f5A >> T015L_players[sub_080020F4()].f0) & 1)) {
             s32 obj = sub_0801E46C((void *)gUnk_030034E0, sp118);
             local128 = 30;
-            while ((s16)(local128 = local128 + 0xFFFF) != -1) {
+            {
+            s32 m1 = -1;
+            while ((s16)(local128 = (u32)((local128 << 16) + 0xFFFF0000) >> 16) != m1) {
                 arg0->f18 -= 0x20;
                 T015L_sub_0806171C(arg0, obj);
                 if (sub_08056E90() != 0)
                     break;
                 sub_080003F0();
+            }
             }
             sub_0801E4CC((u8 *)gUnk_030034E0, obj);
             if (T015L_FIELD(gUnk_030034E0, u8 *, 0x13A) != 0)
@@ -793,9 +815,6 @@ void sub_0801801C(struct T015LActor *arg0) {
 
 #undef T015L_FIELD
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801801C);
-#endif
 void *sub_08019BF8(u16 id)
 {
     u8 *entry = (u8 *)gUnk_030056F4;
