@@ -1646,7 +1646,8 @@ loop_107:
             sub_08000E48();
             sub_080003F0();
             sub_080003F0();
-            goto finish3984;
+            ((void (*)(unsigned long long))sub_08000420)(0x25A112EBFULL);
+            goto epilogue3984;
         } else {
             var_r7 = ((u8 *(*)(s32))sub_08007290)((state + 0x454) | 0x140000);
             var_r7 += 2;
@@ -2135,25 +2136,20 @@ block_206:
         } else if (keys3984 == 1) {
             sub_0805865C(0xF);
             switch (language) {
-            default:
-                var_r5_3 = arg0 + 0x10;
-                break;
             case 0:
                 var_r2_2 = arg0 + 0x10;
                 var_r2_2[var_r9] = gUnk_08366E34[current];
-                var_r5_3 = var_r2_2;
                 break;
             case 1:
                 var_r2_2 = arg0 + 0x10;
                 var_r2_2[var_r9] = gUnk_08366EFC[current];
-                var_r5_3 = var_r2_2;
                 break;
             case 2:
                 var_r2_2 = arg0 + 0x10;
                 var_r2_2[var_r9] = gUnk_08366FC4[current];
-                var_r5_3 = var_r2_2;
                 break;
             }
+            var_r5_3 = arg0 + 0x10;
             if (var_r9 <= 6) {
                 var_r9++;
                 if (var_r9 > next) {
