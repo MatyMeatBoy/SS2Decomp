@@ -824,7 +824,6 @@ slot_found:
     gUnk_03005D6C|=1<<task[0x70];
     return (u32)task;
 }
-#ifdef NONMATCHING
 struct Asset0C4 { s32 unk0; u32 unk4; s32 unk8; u8 *unkC; u32 unk10; u32 unk14; s32 unk18; u8 remap[16]; u8 tail[8]; };
 struct Window0C4 { u8 pad[0x30]; u8 state; u8 index; };
 struct Task0C4 {
@@ -856,7 +855,9 @@ extern void text0C4(u8 *, u16, u32) asm("sub_0801A3D0");
 extern void sub_08065264(void *, s32, s32, u16, u16);
 extern s32 anim0C4(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern u16 keys0C4 asm("gUnk_03001324");
-extern u8 name0C4[] asm("gUnk_03003CE2");
+/* Party entries are 0x14C bytes; the name starts at gUnk_03003CE0 + 2. */
+struct Party0C4 { u8 name[0x14C]; };
+extern struct Party0C4 party0C4[] asm("gUnk_03003CE2");
 extern u8 name1C4[] asm("gUnk_03003E2E");
 extern u8 name2C4[] asm("gUnk_03003F7A");
 extern u8 name3C4[] asm("gUnk_030040C6");
@@ -902,11 +903,20 @@ void e0c4Impl(struct Task0C4 *task)
     s32 first;
     u32 started;
     u8 *s;
-    u8 *next;
+    /* One r4 pointer in the ROM: script + 1, the &value conversion pointer
+       and task->str in both text paths. */
+    register u8 *next asm("r4");
     u8 c;
     u16 attr;
     u8 cf;
-    struct Window0C4 *w;
+    /* Set-once name pointers: spilled and rematerialised per use, which gives
+       the ROM `ldr r5, =name; adds r0, r5, idx` operand order. n0 is set
+       right before the name copy (from the same constant as playerName, so
+       reload_cse turns its first reload into a register copy). */
+    u8 *n0;
+    u8 *n1 = name1C4;
+    u8 *n2 = name2C4;
+    u8 *n3 = name3C4;
 
     script = task->script;
     drawFlag = 0;
@@ -918,9 +928,9 @@ void e0c4Impl(struct Task0C4 *task)
     num = numBuf;
     name = nameBuf;
     next = script + 1;
-    for (j = 0; j < 2; j++) {
+    for (i = 0; i < 2; i++) {
         for (line = 0; line < 18; line++)
-            lines[j][line] = 0xFD;
+            lines[i][line] = 0xFD;
     }
     c = *script;
     if (c != 0)
@@ -957,55 +967,82 @@ void e0c4Impl(struct Task0C4 *task)
     }
     *pValue = sub_0801E4B0();
     s = num;
-    s[0] = sub_08000498(&value, 10000000);
-    s[1] = sub_08000498(&value, 1000000);
-    s[2] = sub_08000498(&value, 100000);
-    s[3] = sub_08000498(&value, 10000);
-    s[4] = sub_08000498(&value, 1000);
-    s[5] = sub_08000498(&value, 100);
-    s[6] = sub_08000498(&value, 10);
-    s[7] = value;
+    /* The loop end stops cse1 from folding *(s32 *)next back to &value. */
+    do {
+        next = (u8 *)&value;
+    } while (0);
+    /* i is cleared between the first call and its store (ROM movs r5,#0). */
+    s[i = 0] =sub_08000498((s32 *)next, 10000000);
+    s[1] = sub_08000498((s32 *)next, 1000000);
+    s[2] = sub_08000498((s32 *)next, 100000);
+    s[3] = sub_08000498((s32 *)next, 10000);
+    s[4] = sub_08000498((s32 *)next, 1000);
+    s[5] = sub_08000498((s32 *)next, 100);
+    s[6] = sub_08000498((s32 *)next, 10);
+    s[7] = *(s32 *)next;
     s[8] = 0;
     numIdx = 0;
     first = 0;
-    for (i = 0, s = num; i <= 8; i++, s++) {
-        if (*s == 0 && numIdx == 0) {
-            *s |= 0xFF;
+    for (i = 0; i <= 8; i++) {
+        if (num[i] == 0 && numIdx == 0) {
+            /* A u16 temp keeps the loop bigger in the first loop pass, so the
+               0xFF constant is only hoisted in the rerun, after the giv init. */
+            u16 kk = num[i];
+            kk |= 0xFF;
+            num[i] = kk;
         } else {
-            *s += 0x41;
+            num[i] += 0x41;
             if (numIdx == 0)
                 first = i;
             numIdx = 1;
         }
     }
-    for (i = 0; first <= 7; first++, i++)
-        num[i] = num[first];
-    num[i] = 0xFD;
-    k = i + 1;
-    num[k] = 0;
+    for (i = 0; first <= 7; first++, i++) {
+        /* num copy hoisted past the loop guard (ROM ldr r2 after bgt). */
+        asm("" : "=r"(s) : "0"(num));
+        s[i] = s[first];
+    }
+    {
+        /* ROM: num + i first, then the 0 in a register, then the 0xFD. */
+        u8 *p = &num[i];
+        u8 z = 0;
+        *p = 0xFD;
+        k = i + 1;
+        num[k] = z;
+    }
 
-    playerName = &name0C4[sub_080020F4() * 0x14C];
+    playerName = party0C4[sub_080020F4()].name;
+    n0 = party0C4[0].name;
     i = 0;
-    if ((name[i] = name0C4[i]) != 0xFD) {
+    if ((name[i] = n0[i]) != 0xFD) {
+        s = name;
         do {
             if (++i > 9)
                 break;
-        } while ((name[i] = name0C4[i]) != 0xFD);
+        } while ((s[i] = party0C4[0].name[i]) != 0xFD);
     }
     if (sub_08002204() == 0) {
-        s = (u8 *)sub_08007290(0x1404DF);
-        for (j = 2; i <= 12; i++, j++) {
-            if ((name[i] = s[j]) > 0xF1)
+        u8 *p, *t;
+        p = (u8 *)sub_08007290(0x1404DF);
+        for (j = 0; i <= 12; i++, j++) {
+            /* name copy hoisted after the guard; k = j + 2 makes the p + k
+               giv worth reducing (init p + 2 after the guard, as in the ROM). */
+            asm("" : "=r"(t) : "0"(name));
+            k = j + 2;
+            if ((t[i] = p[k]) > 0xF1)
                 goto found;
         }
         goto done;
     found:
-        name[i] = 0xFD;
-        k = i + 1;
-        name[k] = 0;
+        t[i] = 0xFD;
+        /* Block-local index: the address is tied to it (ROM r0), zero in r1. */
+        {
+            s32 kk = i + 1;
+            name[kk] = 0;
+        }
     } else {
-        k = i + 1;
-        name[k] = 0;
+        s32 kk = i + 1;
+        name[kk] = 0;
     }
 done:
     strIdx = 0;
@@ -1027,8 +1064,9 @@ done:
             sub_0800035C();
         case 1:
         {
+            struct Window0C4 *w = task->window;
             u32 r = 0;
-            if (task->window->state == 3)
+            if (w->state == 3)
                 r = 1;
             if (r) {
                 line = 0;
@@ -1086,33 +1124,33 @@ done:
                     task->col--;
                 }
             } else if (*script == 0xF6) {
-                lines[line][task->col] = name0C4[idx0];
+                lines[line][task->col] = n0[idx0];
                 idx0++;
-                if (name0C4[idx0] == 0) {
+                if (n0[idx0] == 0) {
                     script++;
                     idx0 = 0;
                     task->col--;
                 }
             } else if (*script == 0xF4) {
-                lines[line][task->col] = name1C4[idx1];
+                lines[line][task->col] = n1[idx1];
                 idx1++;
-                if (name1C4[idx1] == 0) {
+                if (n1[idx1] == 0) {
                     script++;
                     idx1 = 0;
                     task->col--;
                 }
             } else if (*script == 0xF3) {
-                lines[line][task->col] = name2C4[idx2];
+                lines[line][task->col] = n2[idx2];
                 idx2++;
-                if (name2C4[idx2] == 0) {
+                if (n2[idx2] == 0) {
                     script++;
                     idx2 = 0;
                     task->col--;
                 }
             } else if (*script == 0xF2) {
-                lines[line][task->col] = name3C4[idx3];
+                lines[line][task->col] = n3[idx3];
                 idx3++;
-                if (name3C4[idx3] == 0) {
+                if (n3[idx3] == 0) {
                     script++;
                     idx3 = 0;
                     task->col--;
@@ -1139,10 +1177,10 @@ done:
                 script++;
             } else if (*script == 0xF8) {
                 script++;
-            } else if (task->str != 0) {
-                lines[line][task->col] = task->str[strIdx];
+            } else if ((next = (u8 *)task->str) != 0) {
+                lines[line][task->col] = ((u16 *)next)[strIdx];
                 strIdx++;
-                if (task->str[strIdx] == 0) {
+                if (((u16 *)next)[strIdx] == 0) {
                     task->str = 0;
                     strIdx = 0;
                     task->col--;
@@ -1156,10 +1194,13 @@ done:
             if (task->timer < 0 && (keys0C4 & 3) != 0) {
                 cf = *script;
                 if ((u8)(cf + 3) > 2) {
-                    u8 *fastName = name;
-                    u8 *fastNum = num;
+                    /* Copied at their use (no code emitted) so loop.c hoists
+                       them after the &col / line*30 copies, as in the ROM. */
+                    u8 *fastName;
+                    u8 *fastNum;
                     do {
-                        if (cf == 0xFC || strIdx != 0) {
+                        c = cf;
+                        if (c == 0xFC || strIdx != 0) {
                             lines[line][task->col] = playerName[strIdx];
                             strIdx++;
                             if (playerName[strIdx] == 0) {
@@ -1167,15 +1208,16 @@ done:
                                 strIdx = 0;
                                 task->col--;
                             }
-                        } else if (cf == 0xF6 || idx0 != 0) {
-                            lines[line][task->col] = name0C4[idx0];
+                        } else if (c == 0xF6 || idx0 != 0) {
+                            lines[line][task->col] = n0[idx0];
                             idx0++;
                             if (playerName[idx0] == 0) {
                                 script++;
                                 idx0 = 0;
                                 task->col--;
                             }
-                        } else if (cf == 0xF5 || nameIdx != 0) {
+                        } else if (c == 0xF5 || nameIdx != 0) {
+                            asm("" : "=r"(fastName) : "0"(name));
                             lines[line][task->col] = fastName[nameIdx];
                             nameIdx++;
                             if (fastName[nameIdx] == 0) {
@@ -1183,7 +1225,10 @@ done:
                                 nameIdx = 0;
                                 task->col--;
                             }
-                        } else if (cf == 0xFB || numIdx != 0) {
+                        } else if (c == 0xFB || numIdx != 0) {
+                            /* "=g": the spilled copy needs no in/out reload
+                               register, leaving ldr r4 / str r4 as in the ROM. */
+                            asm("" : "=g"(fastNum) : "0"(num));
                             lines[line][task->col] = fastNum[numIdx];
                             numIdx++;
                             if (fastNum[numIdx] == 0) {
@@ -1191,16 +1236,16 @@ done:
                                 numIdx = 0;
                                 task->col--;
                             }
-                        } else if (task->str != 0) {
-                            lines[line][task->col] = task->str[strIdx];
+                        } else if ((next = (u8 *)task->str) != 0) {
+                            lines[line][task->col] = ((u16 *)next)[strIdx];
                             strIdx++;
-                            if (task->str[strIdx] == 0) {
+                            if (((u16 *)next)[strIdx] == 0) {
                                 task->str = 0;
                                 strIdx = 0;
                                 task->col--;
                             }
                         } else {
-                            if (cf > 0xF1)
+                            if (c > 0xF1)
                                 script++;
                             lines[line][task->col] = *script;
                             script++;
@@ -1296,11 +1341,13 @@ done:
                 if (keys0C4 & 1) {
                     drawFlag = 0;
                     task->state = 7;
-                    w = task->window;
-                    if ((gUnk_03005D70 >> w->index) & 1) {
-                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                            w->state = 4;
-                            sub_0805865C(0xDD);
+                    {
+                        struct Window0C4 *w = task->window;
+                        if ((gUnk_03005D70 >> w->index) & 1) {
+                            if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                                w->state = 4;
+                                sub_0805865C(0xDD);
+                            }
                         }
                     }
                     blink = 0;
@@ -1331,11 +1378,13 @@ done:
                     sub_0805865C(0xF);
                     drawFlag = 0;
                     task->state = 7;
-                    w = task->window;
-                    if ((gUnk_03005D70 >> w->index) & 1) {
-                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                            w->state = 4;
-                            sub_0805865C(0xDD);
+                    {
+                        struct Window0C4 *w = task->window;
+                        if ((gUnk_03005D70 >> w->index) & 1) {
+                            if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                                w->state = 4;
+                                sub_0805865C(0xDD);
+                            }
                         }
                     }
                     break;
@@ -1345,11 +1394,13 @@ done:
                     task->cursor = 1;
                     drawFlag = 0;
                     task->state = 7;
-                    w = task->window;
-                    if ((gUnk_03005D70 >> w->index) & 1) {
-                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                            w->state = 4;
-                            sub_0805865C(0xDD);
+                    {
+                        struct Window0C4 *w = task->window;
+                        if ((gUnk_03005D70 >> w->index) & 1) {
+                            if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                                w->state = 4;
+                                sub_0805865C(0xDD);
+                            }
                         }
                     }
                     break;
@@ -1359,11 +1410,13 @@ done:
             if (task->timer-- <= 0) {
                 drawFlag = 0;
                 blink = 0;
-                w = task->window;
-                if ((gUnk_03005D70 >> w->index) & 1) {
-                    if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
-                        w->state = 4;
-                        sub_0805865C(0xDD);
+                {
+                    struct Window0C4 *w = task->window;
+                    if ((gUnk_03005D70 >> w->index) & 1) {
+                        if (w->state == 1 || w->state == 3 || w->state == 4 || w->state == 2) {
+                            w->state = 4;
+                            sub_0805865C(0xDD);
+                        }
                     }
                 }
                 task->state = 7;
@@ -1372,9 +1425,11 @@ done:
         case 7:
         {
             u32 r;
+            struct Window0C4 *w;
             drawFlag = 0;
+            w = task->window;
             r = 0;
-            if (task->window->state == 0)
+            if (w->state == 0)
                 r = 1;
             if (r)
                 task->state = drawFlag;
@@ -1408,9 +1463,6 @@ done:
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805E0C4);
-#endif
 s32 sub_0805EE6C(void *arg0) {
     s32 var_r0;
     register s32 var_r3 asm("r3");

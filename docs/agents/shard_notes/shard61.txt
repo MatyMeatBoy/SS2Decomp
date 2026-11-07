@@ -61,3 +61,135 @@ reusing c for the fast loop (774); *pValue for s[7] (728, keeps r4 copy).
 Next: find a fill-loop shape that keeps j++/k+=30 below the inner loop
 (e.g. a second exit path out of the inner loop that makes j+1 not
 anticipatable), then recheck R/next allocation.
+
+2026-11-07 claude-nov07-wM (shard 135): sub_0805E0C4 follow-up, no code landed
+(aligned full-module diff stays 380 / filtered nmdiff ~715 on the current draft).
+Solved: the fill-loop shape. The outer counter is `i` (the counter every later
+loop increments), not `j`: for (i = 0; i < 2; i++) for (line = 0; line < 18;
+line++) lines[i][line] = 0xFD; gives exactly the ROM loop (giv k in r2 copied to
+r1 per row, `adds r2,#30; adds r5,#1; cmp r5,#1` at the bottom). Cause, checked in
+isolation with -dG/-dL: gcse PRE (lcm.c) hoists the counter's +1 above the inner
+loop (and kills the biv, so no strength reduction) unless the same (plus reg 1)
+is also computed on every path further down. i++ in the digit loop is
+unconditional; j++ only appears in the conditional 0x1404DF name loop (and any
+early exit breaks it too), so j never works. Tests: scratch l5/l7/l9..l12 files.
+Not solved: with the fill loop right the global allocation shifts, so the diff
+goes up (648; 578 with the conversions through a reassigned pValue). ROM:
+next (script+1) r4, i r5, pValue r6, and the PRE copy P of &value (inserted at
+the end of bb0) is the lowest-priority pseudo: it gets r7 and reload kicks it out
+for the `line` reload in the fill loop (`ldr r7,[sp,#156]`), so the conversions
+rematerialise `add r4,sp,#144` into a separate local copy Q. Ours: P has 8 refs
+(priority 3*8/314 above next 2/28 and pValue 3/126) because cse2 makes P the
+canonical register and rewrites all seven call args and the s[7] load to P.
+ROM needs Q to survive (P used once), i.e. the conversion-site pointer must not
+be replaced by P in cse2 (in make_regs_eqv Q wins only if it lives beyond its CSE
+block or was born before it). Tried and rejected: block-local s32 *pv (no
+change), pv assigned before the portrait code (next becomes r4 but P ends in
+ip/r4, 654), a reassigned pValue (578, one pseudo for both ranges).
+Also seen (no fix yet): the digit loop keeps `orrs r0,r2` in ROM (CSE did not
+know *s == 0 there; condition reorderings do not help), and the case-3 PRE
+pseudos are &task->col r5 / line<<4 r3 in ROM (no copy for line<<4) vs r6/r4 here.
+Next: with the i fill loop as the base, find the conversion-pointer form that
+keeps Q alive, then recheck next/pValue/i and the case-3 registers.
+
+2026-11-07 claude-nov07-w15 (shard 135): sub_0805E0C4 allocation check with a patched
+agbcc (NOLOCAL/GFORCE/GFIRST/GCONF hooks; FSPFN must be e0c4Impl, the C name). No code landed.
+- With the i-outer fill loop (wM's form), pseudos: next 54, pValue 47, i 48, P = PRE copy
+  of &value hoisted to the end of bb0. Natural: i r5, next r6, pValue r7, P r4 (8 refs
+  after cse2). Forcing only next -> r4 reproduces the ROM model by itself: pValue r6,
+  P r7, then reload spills r7 for the fill-loop `line` reload (RETRY P -> -1), as wM said.
+- Conversion pointer: `{ s32 *pv; asm("" : "=r"(pv) : "0"(&value)); s[0] =
+  sub_08000498(pv, 10000000); ... s[7] = *pv; }` keeps a separate local Q (cse2 cannot
+  merge it into P; P then has one use). On the j-loop draft it gives 712 (715 base);
+  on the i-loop draft 1002 (f1 1005) with P in r4.
+- Why next misses r4: next is allocated first but r4 is in regs_someone_prefers[next]
+  (a lower-priority conflicting allocno, P via its copy to the local Q in r4, prefers r4),
+  so pass 0 of find_reg gives next r6. ROM next r4 means P had no r4 preference there.
+- Even with next r4 / pValue r6 / P spilled (1008) the bb0 zero stores use a different
+  reload rotation: ROM movs r1,r2,r4,r5,r7 (skips r3 and r6), ours r1..r5.
+Next: find a Q shape that is not local-allocated before global (so P has no copy
+preference), then look at what occupies r3/r6 at function entry in ROM.
+
+2026-11-07 claude-nov07-wN (shard 135): sub_0805E0C4 NONMATCHING draft,
+filtered nmdiff 715 -> 59 (aligned full-module diff 380 -> 24; size 3508 ->
+3504 vs ROM 3496; frame 236 = ROM). Everything from the case dispatch to the
+end now matches except one fastNum copy; the rest is in the init code.
+What closed it (in order of size):
+- `register u8 *next asm("r4")` used for script+1, as the &value conversion
+  pointer (`do { next = (u8 *)&value; } while (0);` - the loop end stops cse1
+  folding *(s32 *)next to fp+140) and for task->str in BOTH text paths
+  (`(next = (u8 *)task->str) != 0`, ((u16 *)next)[strIdx]). This is the ROM r4
+  variable; as a plain pseudo it ranks below the &task->col PRE reg (refs
+  96/live 264 vs 35/116), which then takes r4 and pushes &col to r6 and
+  line<<4 to r4. GFORCE emulation (&col PRE reg -> r5) gave the same result.
+- Set-once pointers n0..n3 = name0C4..name3C4 for the F6/F4/F3/F2 branches:
+  spilled pseudos with REG_EQUIV are rematerialised at each use, which is the
+  ROM `ldr r5,=name; ldr r7,[idx]; adds r0,r5,r7` (sym-first operand order;
+  a direct array ref gives idx-first).
+- Block-local `struct Window0C4 *w` at each of the four window checks (ROM
+  uses r2/r3/r2/r0 per site; one function-scope w got r3 everywhere and
+  shifted the case-6 reload rotation); cases 1/7 load task->window before
+  clearing r.
+- Fast loop: `c = cf;` copy at the top; fastName/fastNum copied at their use
+  with `asm("" : "=r"(x) : "0"(src))` so loop.c hoists them after the &col /
+  line*30 copies (a plain copy is merged by cse1; an init before `do` puts
+  them before the copies).
+- Init code: i-outer fill loop; `s[i = 0] = sub_08000498(...)` (ROM clears i
+  between the first call and its store); compaction loop num copy via asm
+  inside the loop (hoisted past the guard); num[i] digit loop and
+  `k = num[i]; k |= 0xFF; num[i] = k;` (u8 |= 0xFF folds at tree level);
+  playerName = party0C4[idx].name (struct of 0x14C, gives `muls r1,r0`);
+  name copy through `s = name` inside the if; 0x1404DF loop as a pointer biv.
+Remaining diff (24 aligned lines):
+- digit loop: ROM `ldr r1,[num]` (giv init) before `movs r2,#0xff`; ours
+  hoists the constant first.
+- num terminator: ROM loads the 0 into r2 right after the num+i address and
+  reloads num into r4 for num+k; ours inherits r2 and stores 0 from r0.
+- name copy: ROM `adds r7,r0,#0` (copy of the playerName literal) before the
+  first load and the loop copy `adds r3,r7,#0`. Using n0[i] for the first
+  load reproduces it via reload_cse, but in r4 (n0 = party0C4[0].name).
+- 0x1404DF loop: ROM `ldr r3,[name]` + `adds r2,r0,#2` after the guard
+  (giv r2); ours `adds r2,r0,#0; adds r2,#2` before the guard and name
+  reloaded in the loop. The j-biv form says "giv not worth while" (benefit 2
+  minus add_cost 2).
+- name terminators: ROM puts the address in r0 (the i+1 register), zero in r1.
+- fastNum: the tied asm leaves `adds r7,r4,#0` before `str r7,[sp,#0xe8]`.
+Tools: scratch nov07-w135N/agb (agb15 + NSPDBG prints which insn adds each
+hard reg to the reload spill set), t.sh/v.sh (filtered + aligned metric),
+dump.sh (all RTL dumps for e0c4Impl).
+
+2026-11-07 claude-nov07-wM (shard 135): sub_0805E0C4 MATCHES (filtered nmdiff
+59 -> 0, size 3496, frame 236). NONMATCHING wrapper and the .s file removed;
+make -j1 compare OK. The last five diffs, in the order they were closed:
+- 0x1404DF loop: `for (j = 0; i <= 12; i++, j++) { k = j + 2; ... p[k] }` with
+  a block-local result pointer p. With the separate k = j + 2 index the p + k
+  giv is reduced (init `adds r2,r0,#2` after the guard); s[j], s[j + 2] and
+  (s + 2)[j] all report benefit 2 - add_cost 2 = 0 ("not worth while", loop
+  dump). Not checked in the dump why the k form wins. Hoist the name copy with
+  `asm("" : "=r"(t) : "0"(name))` inside the loop (movable, before the giv
+  init: ROM `ldr r3,[name]; adds r2,r0,#2`) and write found's 0xFD through t.
+  Using s (the function-scope pointer) for the result gives 160+.
+- num terminator: ROM computes num + i, then the 0 (r2), then the 0xFD:
+  `{ u8 *p = &num[i]; u8 z = 0; *p = 0xFD; k = i + 1; num[k] = z; }`. The
+  early zero blocks the inheritance of num in r2, so the second num reload
+  goes to r4, which fixes the reload rotation for the rest of the init code.
+- name copy: ROM r7 = reload_cse copy of the playerName constant, r3 = loop
+  movable copied from r7. Needs n0 assigned right after playerName (n0 =
+  party0C4[0].name) with playerName, n0 and the loop source all the SAME
+  constant. If cse2 sees the loop movable equal to playerName's temp it merges
+  them (muls operand order flips); assigning n0 (a user var living beyond the
+  block) makes n0 the class head instead. party0C4 is now declared at
+  gUnk_03003CE2 with 0x14C entries (relocations equal the ROM's).
+- name terminators: block-local `s32 kk = i + 1; name[kk] = 0;` in both
+  branches (local-alloc ties the address to kk: address r0, zero r1).
+- digit loop 0xFF order: the constant is a movable whose desirability is
+  threshold * savings * lifetime >= insn_count; ROM's loop is too big in pass
+  1 and the constant is hoisted only in the rerun (after the giv init). A u16
+  temp (`u16 kk = num[i]; kk |= 0xFF; num[i] = kk;`) adds the extension insns.
+- fastNum: the "=r" tied asm gets a regmove copy (num not dead) plus an in/out
+  reload of the spilled fastNum (`adds r7,r4`). `asm("" : "=g"(fastNum) :
+  "0"(num))` lets the spilled output stay a MEM: no reload reg, so only the
+  regmove copy remains (`ldr r4,[sp,#0xe0]; str r4,[sp,#0xe8]`).
+Rejected: "=&r" + duplicate "X"/"r"/"g" input (X makes num addressable, the
+others ICE), plain fastNum = num at the loop top (gcse cprop propagates it),
+copy in a non-dominating branch (not hoisted).

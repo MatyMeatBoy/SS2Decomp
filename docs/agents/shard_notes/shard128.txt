@@ -52,3 +52,65 @@ Coordinator integration review (2026-11-07, main 6cb57be8):
   stack contents, actual scheduler/render behavior or complete C equivalence.
   Normal ROM comparison, full NONMATCHING build, tree and diff checks pass.
   Original ASM remains the normal implementation; this is still NONMATCHING.
+
+2026-11-07 (claude-nov07-wM) sub_080245CC -- count loops, allocation map
+Landed: the two CDC0 counting loops index the player array as a struct,
+`players[playerIndex].flags & 0x2000` (gUnk_03003CE0[i].flags), not a byte
+offset from gUnk_03003D10. loop.c now hoists the array base into r4 as in ROM
+(08024870 `ldr r4,=...; muls; adds r0,r4`). The unused gUnk_03003D10 extern is
+removed. Aligned diff 646 -> 637, filtered nmdiff 1277 -> 1263, size 4604.
+Allocation map (from -dl -dg on the full module; pseudo numbers from this
+source): flagged=74, active=75, matched=73, playerIndex=101, var_r6=78,
+spDC (players base copy)=51. ROM: var_r6 r6, matched r7, flagged r9, active
+sl, and BOTH spDC (r2, caller-save slot SP+0xDC) and playerIndex (r3,
+caller-save slot SP+0xE0): the two caller-save slots at the end of the
+frame are the r2/r3 save areas, not real locals. So every callee-saved reg
+must be taken before playerIndex is allocated. Priorities here: matched 0.297
+(44 refs, includes the count loops), playerIndex 0.308 (44/714), var_r6 0.255,
+active 0.115, flagged 0.112. The ROM order needs var_r6 above matched, flagged
+above active, and playerIndex below all of them.
+A separate counter for the count loops drops playerIndex to 16 refs (it then
+goes to memory, not r3) and shifts matched/var_r6/active/flagged to
+r6/r7/r9/sl (677, rejected).
+Mode-A remote render: `u8 a = spB8;` (a u8 copy, so CSE keeps it apart) passed
+to sub_08065370 and the default draw call reproduces `ldr; mov r9` and the
+constant 1 in sl (642 alone, size 4608). The default draw call is still not
+cross-jumped into the case-6 call: only the bl matches, below jump.c's
+2-insn minimum, so the ROM source must differ there. That is the extra
+sub_08007870 site.
+
+2026-11-07 (claude-nov07-w128N) sub_080245CC -- MATCH
+Landed: active C, NONMATCHING wrapper and asm/nonmatchings/.../sub_080245CC.s
+removed; make compare OK (4616 bytes, frame 228). Filtered nmdiff 1263 -> 0.
+Key changes (in order of impact):
+- r7 had to be a reload (spill) register: original reloads rotate over
+  r0-r4,r7. The need comes from the final states-clearing loops: written as
+  goto loops (no LOOP notes) with explicit locals (i=0; pp=&gUnk_03005CF4;
+  zz=0; per row: j=0; t4=i<<2; inext=i+1; row=t4+i), loop.c never hoists the
+  0x1C8 constant, combine folds it into the add, and reload must load it into
+  r7 (r0-r6 all busy). With FSPREG=7 forced (patched compiler, FSPREG now takes
+  a list) the rest of the function was already within ~10 lines; this one
+  change fixed the rotation (and size) everywhere.
+- Remote scans: real for loops over gUnk_03003CE0[playerIndex].remote / .flags;
+  var_r4 and spDC are GCSE/cse copies of the array base, not variables (drop
+  them). loop.c then makes the r6 pointer giv and the SP+D4/D8 offset givs.
+  sp7C/sp7E are assigned straight from ...remote->x/y (no temp) so &sp7C is
+  computed before the base/remote loads. asm("" : : "r"(matchedPlayers)) at the
+  top of the mode-A scan body puts matched (r7) above spDC/playerIndex, which
+  then take the r2/r3 caller-save slots (DC/E0); still required.
+- Mode-A remote render switch: order case 2, case 6, default (default last in
+  source). merge_blocks moves default to the top; the USE that flow inserts
+  after a call before a label is what lets jump2 cross-jump default's bl into
+  case 6 (find_cross_jump min 1 for a jump to its label, but the USE must
+  match on both sides). u8 a = spB8 copy kept.
+- One u8 temp_r6 for all four 0800BC44 results (ROM r6 everywhere).
+- Mode-B render: pass (s16)sp8C/(s16)sp90/&sp7E directly (no spD0/temp_r0_8/
+  temp_r7 temps) -> const 1 in r9, narrowed X spilled to SP+D0 (frame 228).
+- u16 spA4 (constant 4 becomes the AND output); var_r5 = sp84->flags then
+  if/else 0/1 (jump.c inserts the =1 between ands and cmp); flags>>3 test via a
+  u32 temp (keeps the AND SImode so cse reuses r1=1 for the next call arg);
+  mode-B main loop is a while (entry jumps to the bottom test); block_136
+  `== 0xC goto 148 else 147`; u32 temp_r0_11 at the end; `--spA8 != -1U`;
+  sub_08057DD0 params 3/4 are u16 (case 0 loads sp94 into r2 first).
+Tools: scratchpad nov07-w128N (ck.sh, mydis.py, sbs.py, hunks.py, agb/ patched
+compiler with list FSPREG and loop threshold dump).

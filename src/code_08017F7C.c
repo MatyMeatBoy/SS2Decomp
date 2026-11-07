@@ -53,7 +53,6 @@ s32 sub_08017F7C(void *arg0)
 
 struct T015LPollPlayer { u8 pad[0x2C]; u16 field2C; };
 extern struct T015LPollPlayer T015L_poll_players[] asm("gUnk_03003CE0");
-#ifdef NONMATCHING
 struct T015LActor { u16 f0; u16 f2; u16 f4; u16 f6; u16 f8; u8 padA[0x2]; u16 fC; u16 fE; u8 pad10[0x4]; s32 f14; s32 f18; s32 f1C; s32 f20; u8 pad24[0xC]; s32 f30; s32 f34; u8 pad38[0x4]; s32 f3C; u8 pad40[0x2]; s16 f42; s16 f44; u8 pad46[0x4]; s16 f4A; s32 f4C; s32 f50; s32 f54; u8 pad58[0x2]; u16 f5A; s16 f5C; s16 f5E; s16 f60; u16 f62; u16 f64; u16 f66; u16 f68; s16 f6A; s16 f6C; u16 f6E; u16 f70; u16 f72; u16 f74; u8 pad76[0x6]; u16 f7C; u16 f7E; s16 f80; s16 f82; u8 f84; u8 pad85[0x1]; u8 f86; u8 pad87[0x1]; u16 f88; u8 pad8A[0x14A]; s16 f1D4; s16 f1D6; u8 pad1D8[0x4]; s8 f1DC; u8 pad1DD[0x1F]; u8 f1FC; u8 f1FD; u8 f1FE; u8 pad1FF[0x2]; u8 f201; u8 pad202[0x24]; u8 f226; u8 pad227[0x1]; u16 f228; u8 pad22A[0xB6]; };
 struct T015LAnim { s32 f0,f4,f8,fC,f10,f14,f18; s8 data[24]; };
 struct T015LStack { u32 packet[4]; struct T015LAnim main,auxA,auxB,base; s16 x,y; u16 step; s16 state; u16 phase,phase2; s32 rng; };
@@ -110,11 +109,11 @@ void sub_0801801C(struct T015LActor *arg0) {
     u32 count;
     s32 dir;
     u8 bg;
-    u16 v;
+    s16 v;
     s32 h;
     struct T015LAnim *anim;
     u16 w;
-    s32 st;
+    register s32 st asm("r2"); /* ROM loads the switch value straight into r2 */
 
     sp118 = (struct T015LData *)((u8 *)arg0 + 0x204);
     local10C = arg0->fC;
@@ -130,11 +129,21 @@ void sub_0801801C(struct T015LActor *arg0) {
     }
     arg0->fC = local10C;
     local10C = 0xFFFF;
+    {
+    struct T015LAnim *pb;
+    {
+    register u32 blk asm("r6");
+    asm("" : "=r"(blk));
     T015L_sub_08065158(&stack.base.f0, 0x50010, 0, -1, 0);
     T015L_sub_08065158(&stack.auxA.f0, 0x5008C, 0, -1, 0);
-    T015L_sub_08065158(&stack.auxB.f0, 0x5008B, 0, -1, 0);
+    pb = &stack.auxB;
+    T015L_sub_08065158(&pb->f0, 0x5008B, 0, -1, 0);
+    asm("" : : "r"(blk));
+    }
     if (sub_0800CCCC() == 0 && sub_0800CC98() == 0)
         sub_08000AF0(0x17, (void *)stack.auxA.fC, 2);
+    asm("" : : "g"(pb));
+    }
     {
         struct T015LAnim *aux = &stack.auxA;
         aux->data[0] = 7;
@@ -167,6 +176,9 @@ void sub_0801801C(struct T015LActor *arg0) {
     case 4: case 5: case 6: case 7:
         arg0->f1DC = 0;
     }
+    {
+    register u32 blk asm("r6");
+    asm("" : "=r"(blk));
     local120 = 0xFFFF;
     arg0->f74 = 1;
     arg0->f44 = 0;
@@ -174,32 +186,38 @@ void sub_0801801C(struct T015LActor *arg0) {
     arg0->f4 = 0;
     arg0->f42 = 0;
     arg0->f44 = 0;
+    {
+    u32 off;
     stack.state = 0;
-    stack.step = 0;
-    arg0->f60 = 0xFFC4;
+    do { stack.step = 0; } while (0);
+    do { arg0->f60 = 0xFFC4; } while (0);
     arg0->f4C = 0;
     local104 = 0;
     arg0->f4A = 0;
     arg0->f54 = local120;
     local12C = 1;
-    stack.phase2 = local104;
+    do { stack.phase2 = local104; } while (0);
     stack.phase = local104;
-    stack.rng = local104;
-    count = sub_08002164();
-    sp118->f6 = (u32)(sp118->f6 * T015L_scales[count].a) / 100;
+    do { stack.rng = local104; } while (0);
+    do { count = sub_08002164(); } while (0);
+    sp118->f6 = (u32)(sp118->f6 * *(u32 *)((u8 *)T015L_scales + (off = count * 3, off <<= 2))) / 100;
     if (count > 1)
-        sp118->f0 = (u32)((sp118->f0 + 2) * T015L_scales[count].b) / 100;
+        sp118->f0 = (u32)((sp118->f0 + 2) * *(u32 *)(off + (u8 *)&T015L_scales[0].b)) / 100;
+    }
+    asm("" : : "r"(blk));
+    }
     arg0->f5C = arg0->f1D6 = sp118->f6 * 3;
-    arg0->f5E = arg0->f1D4 = (sp118->f4 * 2 + (sp118->f4 << 3)) * 2;
+    arg0->f5E = arg0->f1D4 = ((sp118->f4 << 1) * 4 + (sp118->f4 << 1)) * 2;
     local124 = 1;
 
     zero = 0;
+    asm("" : : "g"(zero));
     while (sub_0800CB78() == 0 && !(T015L_F7A & 1) && sub_08056E90() == 0) {
         arg0->f74++;
         if (sub_0800CB9C() != 0 && sub_08002204() != 0) {
             if ((s16)arg0->f60++ > 300) {
                 sub_080663A4(arg0->f0);
-                arg0->f60 = zero;
+                arg0->f60 = 0;
             }
         }
         if (arg0->f228 == 0xFFFF) {
@@ -529,11 +547,17 @@ void sub_0801801C(struct T015LActor *arg0) {
             break;
         case 12:
             switch (arg0->fE) {
-            case 8:
-                if (arg0->f30 != 0)
+            case 8: {
+                register s32 z asm("r0");
+                asm("" : "=r"(z));
+                if (arg0->f30 != 0) {
+                    asm("" : : "r"(z));
                     sub_08057328(arg0->f34);
-                else
+                } else {
+                    asm("" : : "r"(z));
                     sub_08057390(arg0->f3C, T015L_FIELD(arg0, void (**)(s32), 0x38));
+                }
+            }
                 arg0->fC = 0;
                 break;
             case 5:
@@ -567,6 +591,7 @@ void sub_0801801C(struct T015LActor *arg0) {
             local110 = 0;
             break;
         }
+        asm("" ::: "r5"); /* no code: the &stack.main PRE reg must not take r5 (ROM r6) */
         if (arg0->fC == 0xB && (T015L_F7A & 8)) {
             bg = sub_0800BC44(arg0->f14 >> 8, arg0->f18 >> 8, 0);
             if (gUnk_03003170.curLevel == 1)
@@ -576,45 +601,48 @@ void sub_0801801C(struct T015LActor *arg0) {
         }
         if (sub_0800CC88() != 0)
             bg = gUnk_030034A8;
+        {
+        register u32 nul asm("sl") = 0;
         anim = &stack.main;
         anim->data[0] = local114;
         anim->data[1] = local114;
         anim->data[2] = local114;
         anim->data[3] = local114;
         arg0->f6E = sub_08065370(&stack.main, arg0->f68, (s32)&arg0->f6A, (s32)&arg0->f6C, local110);
-        T015L_sub_0800BC08((arg0->f14 << 8) >> 16, (arg0->f18 << 8) >> 16, &stack.x, &stack.y, 0x30, NULL);
+        T015L_sub_0800BC08((arg0->f14 << 8) >> 16, (arg0->f18 << 8) >> 16, &stack.x, &stack.y, 0x30, (void *)nul);
+        }
         if (T015L_sub_08017EC8(arg0) == 0 && !(T015L_F7A & 8)) {
             T015L_F7A = T015L_F7A | 1 | zero;
             break;
         }
         if (arg0->f66 != 0) {
             if ((arg0->f64-- & 2) && sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
             if (arg0->f64 == 0)
                 break;
         } else if (local11C != 0) {
             if ((arg0->f64-- & 2) && sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
         } else if (sub_0800CC98() == 0 && sub_0800CCCC() == 0 && sub_0800CD34() == 0) {
             if (sub_0800CD8C() != 0)
                 v = 0;
             else
                 v = arg0->f62;
-            switch ((s16)v) {
+            switch (v) {
             case 8:
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
                 sub_08065370(&stack.auxA, 0, (s32)&stack.step, (s32)&stack.state, 1);
                 if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
                     T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
                 break;
             case 9:
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
                 sub_08065370(&stack.auxA, 0xA, (s32)&stack.step, (s32)&stack.state, 1);
                 if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
                     T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0xA, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
                 break;
             case 7:
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
                 sub_08065370(&stack.auxA, 0xF, (s32)&stack.step, (s32)&stack.state, 1);
                 if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
                     T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0xF, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
@@ -625,18 +653,22 @@ void sub_0801801C(struct T015LActor *arg0) {
                     sub_08065370(&stack.auxA, 9, (s32)&stack.step, (s32)&stack.state, 1);
                     T015L_DRAW(stack.x, stack.y, 9, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
                     break;
-                case 1:
+                case 1: {
+                    struct T015LAnim *b = &stack.auxB;
                     sub_08065370(&stack.auxB, 0xE, (s32)&stack.step, (s32)&stack.state, 1);
-                    T015L_DRAW(stack.x, stack.y, 0xE, stack.step, bg, stack.auxB.data, stack.auxB.f8, stack.auxB.f0);
+                    T015L_DRAW(stack.x, stack.y, 0xE, stack.step, bg, stack.auxB.data, b->f8, stack.auxB.f0);
                     break;
-                case 2:
+                }
+                case 2: {
+                    struct T015LAnim *b = &stack.auxB;
                     sub_08065370(&stack.auxB, 0xF, (s32)&stack.step, (s32)&stack.state, 1);
-                    T015L_DRAW(stack.x, stack.y, 0xF, stack.step, bg, stack.auxB.data, stack.auxB.f8, stack.auxB.f0);
+                    T015L_DRAW(stack.x, stack.y, 0xF, stack.step, bg, stack.auxB.data, b->f8, stack.auxB.f0);
                     break;
+                }
                 }
                 break;
             case 12:
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
                 if (sub_08065370(&stack.auxA, 0xC, (s32)&stack.step, (s32)&stack.state, 0) == 0
                     && (gUnk_03002344 & 1) == (arg0->f0 & 1))
                     sub_08065230(&stack.auxA, stack.x, stack.y, 0xC, stack.step);
@@ -649,7 +681,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                 }
                 break;
             case 13:
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
                 sub_08065370(&stack.auxA, 0xD, (s32)&stack.step, (s32)&stack.state, 1);
                 if ((gUnk_03002344 & 1) == (arg0->f0 & 1))
                     T015L_DRAW(stack.x, stack.y - (s8)sp118->f44, 0xD, stack.step, bg, stack.auxA.data, stack.auxA.f8, stack.auxA.f0);
@@ -657,7 +689,7 @@ void sub_0801801C(struct T015LActor *arg0) {
             default:
                 stack.state = 0;
                 stack.step = 0;
-                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
+                T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, anim->f8, stack.main.f0);
                 break;
             }
         }
@@ -701,7 +733,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                 anim->data[1] = local114;
             }
             if (local124 != 0) {
-                sub_08000AF0(local114 + 0x10, (void *)(stack.main.fC + (sp118->fD6 << 5)), 1);
+                sub_08000AF0(local114 + 0x10, (void *)(anim->fC + (sp118->fD6 << 5)), 1);
                 local124 = 0;
             }
         } else {
@@ -733,7 +765,10 @@ void sub_0801801C(struct T015LActor *arg0) {
                 sub_080003F0();
         }
         if (sub_08002204() != 0) {
-            if (T015L_STATE != 0xB && T015L_STATE != 0xD && T015L_sub_0805C620(arg0, stack.packet) != 0) {
+            u16 s = T015L_STATE;
+            u8 *a86 = &arg0->f86;
+            u8 *a84 = &arg0->f84;
+            if (s != 0xB && s != 0xD && T015L_sub_0805C620(arg0, stack.packet) != 0) {
                 if (sub_0800CCCC() != 0) {
                     while (sub_08066520(arg0->f14, arg0->f18, T015L_poll_players[0].field2C, stack.packet) == 0 && sub_08056E90() == 0)
                         sub_080003F0();
@@ -742,19 +777,22 @@ void sub_0801801C(struct T015LActor *arg0) {
                         sub_080003F0();
                 }
             }
-            T015L_sub_080571A4(arg0->f86, arg0->f84, 3);
+            T015L_sub_080571A4(*a86, *a84, 3);
         }
         if (T015L_STATE != 0xB
             && !(T015L_players[sub_080020F4()].f30 & 0x2000)
             && ((arg0->f5A >> T015L_players[sub_080020F4()].f0) & 1)) {
             s32 obj = sub_0801E46C((void *)gUnk_030034E0, sp118);
             local128 = 30;
-            while ((s16)(local128 = local128 + 0xFFFF) != -1) {
+            {
+            s32 m1 = -1;
+            while ((s16)(local128 = (u32)((local128 << 16) + 0xFFFF0000) >> 16) != m1) {
                 arg0->f18 -= 0x20;
                 T015L_sub_0806171C(arg0, obj);
                 if (sub_08056E90() != 0)
                     break;
                 sub_080003F0();
+            }
             }
             sub_0801E4CC((u8 *)gUnk_030034E0, obj);
             if (T015L_FIELD(gUnk_030034E0, u8 *, 0x13A) != 0)
@@ -777,9 +815,6 @@ void sub_0801801C(struct T015LActor *arg0) {
 
 #undef T015L_FIELD
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08017F7C", sub_0801801C);
-#endif
 void *sub_08019BF8(u16 id)
 {
     u8 *entry = (u8 *)gUnk_030056F4;

@@ -55,3 +55,124 @@ Findings:
 - Block-local vars per case (case 16: fr/cu/it/nn/ii instead of function-level from/cur/item/n/i)
   fixed case 16 size and shrank case 0/13 deltas (rdiff 611->593): do the same for cases 0, 1, 5, 6, 13.
 - Next: case 6 (+8), case 1 (-4), post (-8), then registers (case 0/13 DROP82).
+
+2026-11-07 (claude-nov07-wA): filtered nmdiff 2963 -> 2453; total size 18112 -> 18152 (ROM 18396, -244).
+casediff sum diff 1448 -> 1263, rdiff 593 -> 516. Cases 1, 6 and post are now size-exact.
+Landed:
+- case 6: both "can unequip" checks get their own block-local `u32 ok6, nn;` (ROM gives them
+  different regs per branch: ok r6/n r2 vs ok r7/n r6), while the loop index stays the shared
+  function-level `i` (r5 in both branches). The ok test is written `if (!ok6) {success} else
+  sound(0x61);`, so the 0x61 tails cross-jump the way the ROM does (_0807DFE8 shared, _0807DFF0 separate).
+- case 1: block-local `u32 fr` (gets r2 like the ROM) plus `u16 lo, hi`. The clamp is written
+  `if (lo >= cursor) ... else if (hi <= cursor)` (ROM operand order). The held-pickup reads
+  `gInv82->belt[gMgr82->cursor]` directly, with no cu/item locals. This one change also took ~330
+  lines off the case 0/13 diffs.
+- post cursor-position cases 1/8: s16 table pairs. x is `t[i*2]`, y is `(&t[1])[i*2]`, which
+  gives ROM's `adds r1,#2` base. Case 8 is `base = c/3*3; idx = base + 3; t[(idx - (c + 1))*2]`.
+  Note: the `idx` temp is needed for size. Inline `base + 3 - (c + 1)` folds to (base+2)-c,
+  is 4 bytes short, and is 7 nmdiff better. ROM keeps r3=base+3 and c+1 separately.
+Diagnosis of what is left:
+- case 9 (-38): its DROP82 tail fully cross-jumps with case 13's stock DROP tail (_0807EBD8).
+  ROM keeps them apart because case 13 there holds the gMgr82 address in r6 across the
+  BD78/BEA0 call (zero in r7). In ours that address pseudo (GCSE, REG_EQUIV) gets no hard reg,
+  so reload rematerializes `ldr r4,=gMgr82`. That makes the tail identical to case 9's (r4/r5).
+  Fix case 13's pressure and case 9 fixes itself.
+- Function-level `target` (pseudo 38) is in r7 and crosses 18 calls; item = r6, held = sl in case 13.
+  Rejected (all raised nmdiff even when a single case improved):
+  * block-local everything in case 13 (2618), in case 0 (2848), in both (2584);
+  * block-local `u16 tg` in case 13 only (2593; case 13 size -104 -> -88, rdiff 516 -> 508).
+  Cases 0 and 13 seem to share pseudos (from/target/item/held) in the ROM too. The ROM spills
+  held to [sp,#52] and uses ip/sl as variables in case 0's money path.
+- case 1 regs: ROM hi=r5, 0x20 mask r6, 0x80 mask r7; ours has them reversed (r6/r5/r4).
+- case 6: the only remaining difference is reload rotation (r7 vs r6 for the gMgr82 load) plus pool placement.
+- case 10 (-2) and the .word shifts are literal-pool placement / alignment.
+Next: register pressure in case 13's money/stock paths (free a callee-saved reg so the gMgr82
+address survives the call). Then case 0 DROP blocks (ROM keeps separate `movs r1,#0` /
+`movs r4,#0` zeros, i.e. no cross-jump there either).
+
+2026-11-07 follow-up (claude-nov07-wA): filtered nmdiff 2453 -> 2380. Draft is now 18392 bytes
+(ROM 18396). Every case is size-exact except case 0 (-4). casediff sum diff 1246, rdiff 390.
+Landed:
+- Drop82Sep (Drop82 + empty `asm volatile("")`, which emits no bytes) on case 9's DROP, case 8's
+  DROP and three case-13 money DROPs. It stops cross-jumping from merging tails that the ROM keeps
+  apart (in the ROM their registers differ, so they never merge). Case 9 -38 -> 0, case 10 -2 -> 0.
+- Money paths now have one DROP per branch where the ROM has one (checked against the asm):
+  * case 0 first path: `if (val <= 100000) {...; DROP; sound; break;} if (heldIdx != cursor) {...} DROP; sound;`
+    (ROM _0807CCE6 / _0807CD36: two separate DROPs, both `bl _0807F774`);
+  * case 0 second path: the val<=100000 branch gets its own DROP;
+  * case 13 from==13 path: the val<=100000 branch gets its own DROP (ROM _0807EE9C).
+  Case 0 went from -100 to -4.
+- `target` split into per-branch `u16 tg0` (case 0) and `u16 tg` (case 13). The ROM holds case 13's
+  cur->kind in r1, which a function-level `target` can't get: it is case 0's and crosses calls
+  because CSE reuses its known-zero value in the target==0 DROPs. This made case 13 size-exact.
+Diagnosis:
+- The "target pressure" was zero reuse. In the target==0 branch, CSE uses `target` (known 0) for
+  DROP's zero stores, so the pseudo lives across CpuSet/BD78. That is ROM-like in case 0.
+- The gMgr82 address in the drop tails is a GCSE reaching register (one pseudo for the whole
+  function, crossing about 57 calls). It gets no hard reg and reload rematerializes it, so it can't
+  be steered from C.
+Tried, not kept:
+- case 13 from==0 money path DROP in the val<=100000 branch (ROM _0807F008 does this): casediff
+  sum 1246 -> 895, but case 13 goes +40 and nmdiff 2437, because the struct-swap tail stops
+  merging into the shared _0807F750 tail (ours uses r6/r7, ROM r4/r5).
+  This is probably right, but it needs the register fix first.
+- Moving case 13's flag/else DROP into both branches (ROM _0807EBD8 looks like a merged tail).
+  The else path's zero then CSEs to a spilled u16 0x80 key mask. Not kept.
+- Block-local n/i in case 13 (no change). Re-reading `cur->kind` instead of `target` (CSE undoes it).
+- Unique-tag asm separators on the other case 0/13 DROPs, greedy one at a time (no gain).
+Next: case 0's last -4 (pool placement plus the r3/r5 cursor-switch temp at the case-0 0x20
+branch). Then the case 16 shared tail registers (F72C-F774, r4 addr / r5 zero), which would let
+the _0807F008 split land.
+
+2026-11-07 second follow-up (claude-nov07-wA): filtered nmdiff 2380 -> 2345. The draft is 18396 bytes,
+the same as the ROM, and every switch case plus pre/post is size-exact (casediff sum 1233, rdiff 390).
+- Case 0's last -4: in the 0x20 branch the ROM copies the loaded cursor into a separate
+  non-call-crossing pseudo (`adds r3, r5, #0`), which it restores in `case 103`.
+  * A block-local copy, or the same function-level `cur`, gets copy-propagated away.
+  * Most function-level vars either get coalesced or shift other cases.
+  * `over` reproduces it (whole-function size exact, nmdiff 2380 -> 2345); a comment marks it.
+  * `base` also size-matched, but it is shared with post and changes post's registers (2496).
+  * A `u16` temp is wrong (it adds an lsl/lsr pair).
+- asm volatile("") separators (Drop82Sep) still in use, all needed for size. Reverting any one
+  makes the draft 4-40 bytes short:
+  * case 8 DROP;
+  * case 9 DROP;
+  * case 13 money paths: from==13 non-cap path, from==0 equal-count path, from==0 final path.
+- Re-tried the case 13 from==0 val<=100000 split (ROM _0807F008). The draft goes +40 and nmdiff
+  rises to 2402, with casediff sum 882. The struct-swap tail (ROM `ldr r4,=gMgr82; bl _0807F750`) needs the
+  reload spill reg r4 / zero r5 to merge into case 16's shared tail. Ours reloads into r6/r7 (the
+  gMgr82 address is the spilled function-wide GCSE pseudo), so the merge fails. This is
+  reload-rotation work.
+- Shuffling the function-level u32 declaration order: no change at all (8 random orders).
+Remaining diff is registers only: case 13 rdiff 86, case 0 113, post 54.
+
+2026-11-07 third follow-up (claude-nov07-w01): filtered nmdiff 2345 -> 2323, full-module aligned diff
+980 -> 968, still 18396 bytes (size-exact).
+- case 1: `asm("" : : "r"(hi));` right after `hi = lo + 3;` raises hi's global priority. That gives
+  ROM's hi=r5 and gMgr82-address r6, and moves the 0x20 mask to r6, so both swaps are fixed. What is
+  left in case 1 is only the 0x30000 add temp (ROM r2, ours r5) plus pool-word placement.
+- Tried and rejected:
+  * case 13 0x10 branch: a block-local cursor (no change);
+  * `asm "r"` on `cur` there (980 -> 1017, because cur is function-level and every case moves);
+  * a block-local `m13 = gMgr82` (no change).
+- Most of the small per-case diffs (cases 2-4, 7, 9-12, 14, 15, 18) are only literal-pool `.word` placement.
+  They should follow once the register diffs in the big cases are gone; don't chase them separately.
+- Tooling: the scratchpad gen/ck.sh aligned diff hides branch-target differences. For a final check use a
+  strict function-relative compare (session scratchpad nov07-w01/rcmp.py, c29/ck.sh). On
+  sub_08003984 the aligned diff was 0 while one back-edge target still differed.
+Next: in case 13 the ROM gives m=r5/cur=r4 at the first `cur % 3` (ours m=r4/cur=r5). cur is function-level, so a
+priority change to it moves every case. Try a per-branch `u32` copy that is not copy-propagated (case 0's
+`over` trick), or the asm "=r"/"0" CSE-hiding trick, on the gMgr82 load in that branch.
+
+2026-11-07 fourth follow-up (claude-nov07-w136): filtered nmdiff 2323 -> 2261, full-module aligned diff
+968 -> 936, still 18396 bytes (size-exact). casediff case 13 diff 573 -> 539 (rdiff 86 -> 84).
+- case 13 0x20 branch: a block-local `u32 c` instead of the function-level `cur` gives ROM's cur=r4/m=r5.
+  The 0x10 branch already matched, and the same change does nothing there.
+- case 13 keys&1, from==0x16 path: block-local `s/it/k/j/v` instead of function-level slot/item/n/i/val.
+  The slot then takes caller-saved r1 like the ROM, and the count loop gets n=r3/i=r2/table r4. The item
+  address is written as `(u8 *)gMgr82 + s * 16 + 0x104`, because the ROM adds the 0x104 struct offset last.
+  &gMgr82->stock[s] folds it first. post moved 115 -> 121 (function-level pressure shifted). The net is still -32.
+- No effect: asm "=r"/"0" or a block-local `m` copy of gMgr82 in the 0x10 branch. Typing tg as u32/s32,
+  or `kind = from;`/`kind = tg;` in the from==0 path.
+  ROM there stores the zero from r6 (`from`, kept alive) and builds 340 in r7. Ours rematerializes
+  `movs r1,#0` and builds 340 in r6. Next: find out why CSE in the ROM kept `from` as the zero register.

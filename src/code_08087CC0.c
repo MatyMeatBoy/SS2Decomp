@@ -2156,8 +2156,9 @@ void sub_0808AFE8_v(void)
     struct RecAF91 records[10][3];
     struct SprAF91 icon;
     struct SprAF91 face;
-    struct { u32 lo:16; u32 hi:16; } bg;
+    struct { u16 lo; u16 hi; } bg;
     u32 sel;
+    u32 selectionStride;
     u32 max;
     s32 off10;
     void *sprite;
@@ -2187,7 +2188,11 @@ void sub_0808AFE8_v(void)
     sub_0800B974(0x36, 0x1E);
     sub_0800B974(0x3C, 0x1F);
     sub_0800B650(0x35, 0x1D, 0x06000000, 0, 0xF);
-    {register u8 *save asm("r2")=saveAF91;register u16 *stages asm("r1")=stagesAF91;register u8 *state asm("r0")=(u8 *)stateAF91;register u32 delta asm("r3")=0x14a;register u32 value asm("r0");value=*(u16 *)(state+delta);value=stages[value];delta+=0xb0;{register u8 *dest asm("r1")=save+delta;asm("" : : "r"(delta));*(u16 *)dest=value;}}
+    {
+        struct StageSaveViewAF91 { u8 prefix[0x1FA]; u16 stage; };
+        struct StageStateViewAF91 { u8 prefix[0x14A]; u16 stage; };
+        ((struct StageSaveViewAF91 *)saveAF91)->stage = stagesAF91[((struct StageStateViewAF91 *)stateAF91)->stage];
+    }
     sub_08065158(&anim, 0x50067, 9, -1, 0);
     sprite = (void *)sub_080653CC();
     sub_080009F8(0x200, 0, 1);
@@ -2201,9 +2206,9 @@ void sub_0808AFE8_v(void)
     for (i = 0; i <= 9; i++) {
         for (j = 0; j <= 2; j++) {
             records[i][j].time = 0;
-            /* table pointers set per record: loop.c hoists B10 into sl, B12 stays in the row body */
+            /* The second halfword column starts two bytes into each four-byte table entry. */
             va = recordTypesAF91;
-            vb = recordVals0AF91;
+            vb = (struct TypeAF91 (*)[3])((u8 *)va + 2);
             if (sub_08058878(i, j) != 0) {
                 records[i][j].type = 1;
                 records[i][j].val = 0;
@@ -2215,7 +2220,6 @@ void sub_0808AFE8_v(void)
             }
         }
     }
-    asm("" : : "r"(va)); /* one more ref: va outranks off10 for sl in global alloc */
     col = 0;
     flag = 0;
     mode = 0;
@@ -2299,6 +2303,7 @@ void sub_0808AFE8_v(void)
                 if (mode == 0) {
                     sub_0805865C(0xF);
                     sub_0801AA8C(0x1E);
+                    selectionStride = sel << 1;
                     goto done;
                 }
             } else {
@@ -2323,20 +2328,22 @@ void sub_0808AFE8_v(void)
         }
         switch (mode) {
         case 0:
-            for (j = 0, rec = records[sel], x = 0xA8; j <= 2; j++) {
+            j = 0;
+            selectionStride = sel << 1;
+            for (rec = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4)), x = 0xA8; j <= 2; j++) {
                 sub_0805FC80(x, 0x6E, rec, 0);
                 rec++;
                 x += 0x18;
             }
-            sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
-            sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+            sub_0805FB7C(2, 5, (u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) / 3600), 0);
+            sub_0805FB7C(5, 5, (u16)((u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) % 3600) / 60), 0);
 
             sub_0805FB7C(8, 5, 0, 0);
             sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
             sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
             sub_0805FB7C(8, 8, sub_08058934(sel), 0);
             if (flag != 0) {
-                sub_0805FFBC(0xF, 0x12, &records[sel][col], 0x80000000);
+                sub_0805FFBC(0xF, 0x12, (struct RecAF91 *)((u8 *)records + ((sel + selectionStride + col) << 4)), 0x80000000);
             } else {
                 text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + 2;
                 sub_0801A3D0(text, 0xF - ((u32)sub_0801A638(text) >> 1), 0x12);
@@ -2377,13 +2384,13 @@ void sub_0808AFE8_v(void)
     }
 done:
     while (sub_0801AAE0() == 0) {
-        for (j = 0, rec = records[sel], x = 0xA8; j <= 2; j++) {
+        for (j = 0, rec = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4)), x = 0xA8; j <= 2; j++) {
             sub_0805FC80(x, 0x6E, rec, 0);
             rec++;
             x += 0x18;
         }
-        sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
-        sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+        sub_0805FB7C(2, 5, (u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) / 3600), 0);
+        sub_0805FB7C(5, 5, (u16)((u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) % 3600) / 60), 0);
 
         sub_0805FB7C(8, 5, 0, 0);
         sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
@@ -2428,7 +2435,7 @@ done:
     i = sub_080008C8() % 3;
     stateAF91->w40 = 1;
     stateAF91->h36 = (i << 8) | sel | 0x8000;
-    stateAF91->rec = records[sel][i];
+    stateAF91->rec = *(struct RecAF91 *)((u8 *)records + ((i + sel + selectionStride) << 4));
     sub_08000420(0x02688420);
 }
 #else
@@ -2957,7 +2964,6 @@ test:
     }
     player->flags |= 0x403;
 }
-#ifdef NONMATCHING
 struct C0Anim { s32 res; s32 f4; s32 f8; u8 pad[0x10]; u8 id; u8 pad2[0x17]; };
 struct C0Item {u16 unk0;u8 unk2;u8 unk3;};
 struct C0Player {u8 p0[16];u16 unk10;u8 p12[10];s16 unk1C;u8 p1e[2];u16 state;u8 p22[14];u32 flags;u8 p34[48];u16 unk64;u8 p66[2];u8 unk68;u8 p69[35];s32 unk8C;s32 unk90;u8 p94[180];struct C0Item *unk148;};
@@ -2970,7 +2976,6 @@ extern u8 *gStateC0 asm("gUnk_03005CF4");
 extern u8 gPortraitC0[] asm("gUnk_08479140");
 extern u8 gCoordsC0[] asm("gUnk_084F0C30");
 extern u8 gCoordsThirdC0[] asm("gUnk_084F0C34");
-extern struct C0Item *gItemsC0 asm("gUnk_03003E28");
 struct C0Slot { struct C0Item *item; u8 pad[0x148]; };
 extern struct C0Slot gSlotsC0[] asm("gUnk_03003E28");
 /* Seat coordinates: [category][seat in category][x, y, z]. */
@@ -3023,7 +3028,6 @@ void sub_0808C0C4_v(void) {
     s32 temp_r1_4;
     s32 temp_r1_5;
     s32 temp_r2;
-    s32 temp_r2_3;
     s32 temp_r4_14;
     register s32 temp_r6 asm("r6");
     s32 var_r9;
@@ -3033,9 +3037,8 @@ void sub_0808C0C4_v(void) {
     u16 temp_r0_4;
     u16 selectedValueC0;
     /* These values expire before the selected player fields are loaded. */
-    register u32 playerStrideC0 asm("r1");
-    register s32 selectedOffsetC0 asm("r0");
-    register struct C0Player *selectedBaseC0 asm("r2");
+    /* sizeof(struct C0Player), set once per menu pass and hoisted. */
+    u32 playerStrideC0;
     register u16 temp_r0_7 asm("r1");
     register u32 confirmFlagsC0 asm("r0");
     u16 temp_r2_2;
@@ -3051,15 +3054,11 @@ void sub_0808C0C4_v(void) {
     u32 var_r5_2;
     register u8 *temp_r4_10 asm("r4");
     register u8 *temp_r4_15 asm("r4");
-    register u8 *temp_r4_2 asm("r4");
     struct C0Item **temp_r0_2;
-    struct C0Item **var_r7;
     struct C0Item *temp_r1;
     struct C0Item *temp_r1_7;
-    register struct C0Player *temp_r4_5 asm("r4");
-    register struct C0Player *temp_r4_6 asm("r4");
-    register struct C0Player *temp_r4_7 asm("r4");
-    register struct C0Player *temp_r4_8 asm("r4");
+    /* Shared by the title text and the selected player: callee-saved r4. */
+    struct C0Player *selPlayerC0;
 
     slotsC0 = gSlotsC0;
     gKeysC0[0x2 / 2] = 0;
@@ -3145,204 +3144,202 @@ loop_15:
         gPlayersC0[sub_080020F4()].unk90 = 0;
         gPlayersC0[sub_080020F4()].unk8C = 0;
         gFlagC0 = 0;
-        /* FAKE: keeps the CSE'd player table base live past both stores. */
-        asm("" :: "r"(gPlayersC0));
     }
-loop_16:
-    temp_r4_2 = sub_08007290(0x1401F6) + 2;
-    sub_0801A3D0(temp_r4_2, (u16) (0xF - ((u32) sub_0801A638(temp_r4_2) >> 1)), 0x12);
-    for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++)
-        sp150[loopCounterC0] = 0;
-    /* FAKE: two empty loop levels give this draw the ROM register weights. */
-    do { do {
-    loopCounterC0 = 0;
-    var_r9 = 0;
-    goto loop_24CheckC0;
+    /* Main menu loop: invariants (player table, stride) are hoisted out of it. */
+    for (;;) {
+        playerStrideC0 = 0x14C;
+        selPlayerC0 = (struct C0Player *)(sub_08007290(0x1401F6) + 2);
+        sub_0801A3D0((u8 *)selPlayerC0, (u16) (0xF - ((u32) sub_0801A638((u8 *)selPlayerC0) >> 1)), 0x12);
+        for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++)
+            sp150[loopCounterC0] = 0;
+        /* FAKE: one empty loop level (inside the menu loop) gives this draw the ROM register weights. */
+        do {
+        loopCounterC0 = 0;
+        var_r9 = 0;
+        goto loop_24CheckC0;
 loop_24BodyC0:
-    playerBaseC0 = (u8 *)gPlayersC0;
-    {
-        u8 *b148 = playerBaseC0 + 0x148;
-        temp_r0_2 = (struct C0Item **)(b148 + var_r9);
-    }
-    temp_r1 = *temp_r0_2;
-    temp_r4_3 = (u16) temp_r1->unk0 >> 4;
-    if (temp_r4_3 == 0) {
-        countsC0 = sp150;
-        temp_r1_2 = (u8) temp_r1->unk3 >> 4;
+        playerBaseC0 = (u8 *)gPlayersC0;
         {
-            u16 *q = &countsC0[temp_r1_2];
-            countTripletC0 = *q * 3;
+            u8 *b148 = playerBaseC0 + 0x148;
+            temp_r0_2 = (struct C0Item **)(b148 + var_r9);
         }
-        temp_r2 = ((temp_r1_2 * 9) + countTripletC0) * 2;
-        sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
-        if (sub_080020F4() == loopCounterC0) {
-            temp_r1_3 = &countsC0[((struct C0Player *)(playerBaseC0 + var_r9))->unk1C];
-            *temp_r1_3 += 1;
-        } else {
-            /* FAKE: weights the item pointer above the running offset. */
-            do { temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4]; } while (0);
-            *temp_r0_3 += 1;
-        }
-    }
-    var_r9 += 0x14C;
-    loopCounterC0 += 1;
-loop_24CheckC0:
-    if (loopCounterC0 < sub_08002164())
-        goto loop_24BodyC0;
-    } while (0); } while (0);
-    temp_r6 = sub_080020F4();
-    if (0x20 & gHeldC0) {
-        playerStrideC0 = 0x14C;
-        selectedOffsetC0 = temp_r6 * playerStrideC0;
-        selectedBaseC0 = gPlayersC0;
-        temp_r4_5 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
-        selectedValueC0 = (u16)temp_r4_5->unk1C;
-        temp_r1_4 = (s16) temp_r4_5->unk1C;
-        if ((temp_r1_4 != 1) && (temp_r1_4 != 3)) {
-
-        } else {
-            temp_r4_5->unk1C = (u16) (selectedValueC0 - 1);
-            goto block_47;
-        }
-        goto block_81;
-    }
-    if (0x10 & gHeldC0) {
-        playerStrideC0 = 0x14C;
-        selectedOffsetC0 = temp_r6 * playerStrideC0;
-        selectedBaseC0 = gPlayersC0;
-        temp_r4_6 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
-        selectedValueC0 = (u16)temp_r4_6->unk1C;
-        temp_r1_5 = (s16) temp_r4_6->unk1C;
-        if ((temp_r1_5 != 0) && (temp_r1_5 != 2)) {
-
-        } else {
-            temp_r4_6->unk1C = (u16) (selectedValueC0 + 1);
-            goto block_47;
-        }
-        goto block_81;
-    }
-    temp_r3 = 0x40 & gHeldC0;
-    if (temp_r3 != 0) {
-        playerStrideC0 = 0x14C;
-        selectedOffsetC0 = temp_r6 * playerStrideC0;
-        selectedBaseC0 = gPlayersC0;
-        temp_r4_7 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
-        temp_r0_4 = temp_r4_7->unk1C;
-        if ((u32) temp_r0_4 <= 1U) {
-            temp_r4_7->unk1C = 4U;
-            goto block_47;
-        }
-        temp_r1_4 = temp_r0_4 - 2;
-        if ((u16) temp_r1_4 > 1U) {
-
-        } else {
-            temp_r4_7->unk1C = temp_r1_4;
-            goto block_47;
-        }
-        goto block_81;
-    }
-    if (0x80 & gHeldC0) {
-        playerStrideC0 = 0x14C;
-        selectedOffsetC0 = temp_r6 * playerStrideC0;
-        selectedBaseC0 = gPlayersC0;
-        temp_r4_8 = (struct C0Player *)((u32)selectedOffsetC0 + (u32)selectedBaseC0);
-        temp_r2_2 = temp_r4_8->unk1C;
-        downShiftedC0 = (u32)temp_r2_2 << 16;
-        if ((downShiftedC0 >> 16) <= 1U) {
-            downResultC0 = temp_r2_2 + 2;
-            temp_r4_8->unk1C = (u16)downResultC0;
-            goto block_47;
-        }
-        downResultC0 = (s32)downShiftedC0 >> 16;
-        if (downResultC0 != 4) {
-
-        } else {
-            temp_r4_8->unk1C = temp_r3;
-            goto block_47;
-        }
-        goto block_81;
-    }
-    goto selectionCheckC0;
-block_47:
-    sub_0805865C(0xE);
-    goto block_81;
-selectionCheckC0:
-    if (gFlagC0 != 1) {
-        goto block_81;
-    }
-    temp_r4_9 = sp150[gPlayersC0[temp_r6].unk1C];
-    if ((s32) temp_r4_9 >= (s32) sub_08002164()) {
-        goto errorFullC0;
-    }
-    loopCounterC0 = 0;
-loopB_TopC0:
-    {
-        u32 k;
-        temp_r4_10 = sub_08007290(0x1401F6) + 2;
-        sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
-        for (var_r5_2 = 0, k = loopCounterC0 + 1; var_r5_2 < 5; var_r5_2++)
-            sp150[var_r5_2] = 0;
-        for (loopCounterC0 = 0, var_r7 = &gItemsC0; loopCounterC0 < sub_08002164(); var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C), loopCounterC0++) {
-            temp_r1_7 = *var_r7;
-            temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
-            if (temp_r4_11 == 0) {
-                temp_r3_2 = (u8) temp_r1_7->unk3 >> 4;
-                temp_r2_3 = (&sp150[0])[temp_r3_2] * 3;
-                temp_r2_3 = ((temp_r3_2 * 9) + temp_r2_3) * 2;
-                sub_08007870(*(u16 *)(gCoordsC0 + temp_r2_3), *(u16 *)(gCoordsC0 + temp_r2_3 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2_3), 0, temp_r4_11, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
+        temp_r1 = *temp_r0_2;
+        temp_r4_3 = (u16) temp_r1->unk0 >> 4;
+        if (temp_r4_3 == 0) {
+            countsC0 = sp150;
+            temp_r1_2 = (u8) temp_r1->unk3 >> 4;
+            {
+                u16 *q = &countsC0[temp_r1_2];
+                countTripletC0 = *q * 3;
+            }
+            temp_r2 = ((temp_r1_2 * 9) + countTripletC0) * 2;
+            sub_08007870(*(u16 *)(gCoordsC0 + temp_r2), *(u16 *)(gCoordsC0 + temp_r2 + 2), *(u16 *)(gCoordsThirdC0 + temp_r2), 0, temp_r4_3, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
+            if (sub_080020F4() == loopCounterC0) {
+                temp_r1_3 = &countsC0[((struct C0Player *)(playerBaseC0 + var_r9))->unk1C];
+                *temp_r1_3 += 1;
+            } else {
+                /* FAKE: weights the item pointer above the running offset. */
+                do { temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4]; } while (0);
+                *temp_r0_3 += 1;
             }
         }
-        loopCounterC0 = k;
-        sub_080003F0();
-    }
-    if (loopCounterC0 <= 7U)
-        goto loopB_TopC0;
-    for (var_r5_2 = 0; var_r5_2 < 5; var_r5_2++) sp150[var_r5_2] = 0;
-    {
-        u32 off;
-        u16 *cnt;
-        for (var_r5_2 = 0, cnt = sp150, off = 0; var_r5_2 < sub_08002164(); off += 0x14C, var_r5_2++) {
-            u8 *base = (u8 *)gPlayersC0;
-            u8 *b148 = base + 0x148;
-            struct C0Item **pit = (struct C0Item **)(b148 + off);
-            if (((*pit)->unk0 >> 4) == 0) {
-                if (var_r5_2 == sub_080020F4()) {
-                    s32 ix = ((struct C0Player *)(off + base))->unk1C;
-                    /* FAKE: the extra cnt weight leaves off to caller-saved r2. */
-                    do { u16 *q = &cnt[ix]; *q += 1; } while (0);
-                } else {
-                    u16 *q;
-                    do { q = &cnt[(*pit)->unk3 >> 4]; } while (0);
-                    *q += 1;
+        var_r9 += 0x14C;
+        loopCounterC0 += 1;
+loop_24CheckC0:
+        if (loopCounterC0 < sub_08002164())
+            goto loop_24BodyC0;
+        } while (0);
+        temp_r6 = sub_080020F4();
+        if (0x20 & gHeldC0) {
+            {
+                u32 playerBaseAddrC0 = (u32)gPlayersC0;
+                selPlayerC0 = (struct C0Player *)(temp_r6 * playerStrideC0 + playerBaseAddrC0);
+            }
+            selectedValueC0 = (u16)selPlayerC0->unk1C;
+            temp_r1_4 = (s16) selPlayerC0->unk1C;
+            if ((temp_r1_4 != 1) && (temp_r1_4 != 3)) {
+
+            } else {
+                selPlayerC0->unk1C = (u16) (selectedValueC0 - 1);
+                goto block_47;
+            }
+            goto block_81;
+        }
+        if (0x10 & gHeldC0) {
+            {
+                u32 playerBaseAddrC0 = (u32)gPlayersC0;
+                selPlayerC0 = (struct C0Player *)(temp_r6 * playerStrideC0 + playerBaseAddrC0);
+            }
+            selectedValueC0 = (u16)selPlayerC0->unk1C;
+            temp_r1_5 = (s16) selPlayerC0->unk1C;
+            if ((temp_r1_5 != 0) && (temp_r1_5 != 2)) {
+
+            } else {
+                selPlayerC0->unk1C = (u16) (selectedValueC0 + 1);
+                goto block_47;
+            }
+            goto block_81;
+        }
+        temp_r3 = 0x40 & gHeldC0;
+        if (temp_r3 != 0) {
+            {
+                u32 playerBaseAddrC0 = (u32)gPlayersC0;
+                selPlayerC0 = (struct C0Player *)(temp_r6 * playerStrideC0 + playerBaseAddrC0);
+            }
+            temp_r0_4 = selPlayerC0->unk1C;
+            if ((u32) temp_r0_4 <= 1U) {
+                selPlayerC0->unk1C = 4U;
+                goto block_47;
+            }
+            temp_r1_4 = temp_r0_4 - 2;
+            if ((u16) temp_r1_4 > 1U) {
+
+            } else {
+                selPlayerC0->unk1C = temp_r1_4;
+                goto block_47;
+            }
+            goto block_81;
+        }
+        if (0x80 & gHeldC0) {
+            {
+                u32 playerBaseAddrC0 = (u32)gPlayersC0;
+                selPlayerC0 = (struct C0Player *)(temp_r6 * playerStrideC0 + playerBaseAddrC0);
+            }
+            temp_r2_2 = selPlayerC0->unk1C;
+            downShiftedC0 = (u32)temp_r2_2 << 16;
+            if ((downShiftedC0 >> 16) <= 1U) {
+                downResultC0 = temp_r2_2 + 2;
+                selPlayerC0->unk1C = (u16)downResultC0;
+                goto block_47;
+            }
+            downResultC0 = (s32)downShiftedC0 >> 16;
+            if (downResultC0 != 4) {
+
+            } else {
+                selPlayerC0->unk1C = temp_r3;
+                goto block_47;
+            }
+            goto block_81;
+        }
+        goto selectionCheckC0;
+block_47:
+        sub_0805865C(0xE);
+        goto block_81;
+selectionCheckC0:
+        if (gFlagC0 != 1) {
+            goto block_81;
+        }
+        temp_r4_9 = sp150[((struct C0Player *)(temp_r6 * playerStrideC0 + (u32)gPlayersC0))->unk1C];
+        if ((s32) temp_r4_9 >= (s32) sub_08002164()) {
+            goto errorFullC0;
+        }
+        loopCounterC0 = 0;
+        do {
+            u32 k;
+            u16 *cn;
+            temp_r4_10 = sub_08007290(0x1401F6) + 2;
+            sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
+            for (var_r5_2 = 0, k = loopCounterC0 + 1; var_r5_2 < 5; var_r5_2++)
+                sp150[var_r5_2] = 0;
+            for (loopCounterC0 = 0; loopCounterC0 < sub_08002164(); loopCounterC0++) {
+                temp_r1_7 = gPlayersC0[loopCounterC0].unk148;
+                temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
+                if (temp_r4_11 == 0) {
+                    /* Set here so loop.c hoists it after the gCoords load. */
+                    cn = sp150;
+                    temp_r3_2 = (u8) temp_r1_7->unk3 >> 4;
+                    sub_08007870(gSeatPosC0[temp_r3_2][cn[temp_r3_2]][0], gSeatPosC0[temp_r3_2][cn[temp_r3_2]][1], gSeatPosC0[temp_r3_2][cn[temp_r3_2]][2], 0, temp_r4_11, &portraitsC0[loopCounterC0].id, portraitsC0[loopCounterC0].f8, portraitsC0[loopCounterC0].res);
+                }
+            }
+            loopCounterC0 = k;
+            sub_080003F0();
+        } while (loopCounterC0 <= 7U);
+        for (var_r5_2 = 0; var_r5_2 < 5; var_r5_2++) sp150[var_r5_2] = 0;
+        {
+            u32 off;
+            u16 *cnt;
+            for (var_r5_2 = 0, cnt = sp150, off = 0; var_r5_2 < sub_08002164(); off += 0x14C, var_r5_2++) {
+                u8 *base = (u8 *)gPlayersC0;
+                u8 *b148 = base + 0x148;
+                struct C0Item **pit = (struct C0Item **)(b148 + off);
+                if (((*pit)->unk0 >> 4) == 0) {
+                    if (var_r5_2 == sub_080020F4()) {
+                        s32 ix = ((struct C0Player *)(off + base))->unk1C;
+                        /* FAKE: the extra cnt weight leaves off to caller-saved r2. */
+                        do { u16 *q = &cnt[ix]; *q += 1; } while (0);
+                    } else {
+                        u16 *q;
+                        do { q = &cnt[(*pit)->unk3 >> 4]; } while (0);
+                        *q += 1;
+                    }
                 }
             }
         }
-    }
-    loopCounterC0 = 0;
-    for (var_r5_2 = 0; var_r5_2 < 4; var_r5_2++)
-        if (sp150[var_r5_2] != 0)
-            loopCounterC0++;
-    if (loopCounterC0 <= 1U) {
-        goto errorSingleC0;
-    }
-    gPlayersC0[sub_080020F4()].unk90 = 0x100;
-    if (gPlayersC0[sub_080020F4()].unk1C != 4) {
-        temp_r4_14 = sub_080020F4();
-        gPlayersC0[temp_r4_14].unk68 = (s8) (gPlayersC0[sub_080020F4()].unk1C + 3);
-    } else {
-        gPlayersC0[sub_080020F4()].unk68 = 0;
-    }
-    sub_0805865C(0xF);
-    gFlagC0 = 0;
-    goto loop_82;
-errorFullC0:
-    sub_0805865C(0x61);
-    goto block_81;
+        loopCounterC0 = 0;
+        for (var_r5_2 = 0; var_r5_2 < 4; var_r5_2++)
+            if (sp150[var_r5_2] != 0)
+                loopCounterC0++;
+        if (loopCounterC0 <= 1U) {
+            goto errorSingleC0;
+        }
+        gPlayersC0[sub_080020F4()].unk90 = 0x100;
+        if (gPlayersC0[sub_080020F4()].unk1C != 4) {
+            temp_r4_14 = sub_080020F4();
+            gPlayersC0[temp_r4_14].unk68 = (s8) (gPlayersC0[sub_080020F4()].unk1C + 3);
+        } else {
+            gPlayersC0[sub_080020F4()].unk68 = 0;
+        }
+        sub_0805865C(0xF);
+        gFlagC0 = 0;
+        goto loop_82;
 errorSingleC0:
-    sub_0805865C(0x61);
+        sub_0805865C(0x61);
+        goto block_81;
+errorFullC0:
+        sub_0805865C(0x61);
 block_81:
-    sub_080003F0();
-    goto loop_16;
+        sub_080003F0();
+    }
 loop_82:
     temp_r0_7 = gFlagC0;
     if (0x20 & temp_r0_7) {
@@ -3424,9 +3421,6 @@ loop_113CheckC0:
 }
 #undef C0_CENTER_TEXT
 #undef C0_DRAW_ALL
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08087CC0", sub_0808C0C4);
-#endif
 extern u8 gUnk_084F0C28[];
 extern u8 gUnk_084F0C8A[];
 extern void sub_080003F4(s32);

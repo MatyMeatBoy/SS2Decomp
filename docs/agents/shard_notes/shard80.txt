@@ -49,3 +49,44 @@ nov03-w5 on sub_08079458 (still 14 lines): the entry RTL (lreg dump: agbcc a.i -
   1000+).
   Next: find what denies high regs to those scalars in ROM (a heavy pseudo live across the
   main loop in r8/sl, or reload spill-register eviction); then the loop_15 compare order.
+
+2026-11-07 (claude-nov07-wC): sub_08078BCC rewritten as natural C; filtered nmdiff 832 -> 11,
+  size 2032 = ROM, frame 0xF0 = ROM.  Still NONMATCHING: only loop 1 differs (playersBCC
+  base in r6 + `adds r7, r6, #0` at the loop entry; ROM has it in r7 and hoists
+  &player->team before `add r3, sp, #8`).
+  What closed the gap:
+  - sum/d/v/pos are `struct { s32 x, y; }`.  Non-addressable 8-byte structs become DImode
+    pseudos; they are what fills the 0x84..0x98 spill pairs, and `pos = sum` gives the
+    ldr/ldr/str/str copy.  Same type for sum and pos (s32 / u32 n -> udiv).
+  - `mode`: a local set once to 0, tested `if (mode == 0)`; the unallocated REG_EQUIV
+    constant is reloaded as `movs r3, #0; cmp r3, #0` (no asm fake needed).  Placing
+    `mode = 0` right before `player = ...` fixes the init-loop reload rotation.
+  - k = 32 is a variable (libcall divisor), set after `dist = Sqrt(...) << 16`.
+  - main loop is a real `for (;;)` (goto-loop gives frame 0xEC: the hist-loop xs pointer
+    then has too few weighted refs for caller-save; ROM saves it in r2 at 0xEC).
+  - block-local `p`/`a` per loop; end block `pl = playersBCC; p = &pl[local]` (base
+    loaded before the multiply); `bonus + 10 + power`; `u16 st = state; flag = 0;`
+    (ROM loads state before clearing flag); nested kind tests in loop 2 (&& folds to bhi).
+  - i (r9) vs &sy (r8) vs &sx (sl): global-alloc order must be &sy > i > &sx; their
+    priorities differ by 1 insn of live length, so i's live length had to grow
+    (726 -> 742) without code change: `(u16)a->x << 8` in loop 2, `s8 direction:8`,
+    `(u16)packet.amount`, inline `e->team` tests.  (Instrumented global.c trace:
+    scratchpad nov07-wC2/agb, GADBG2=1 prints find_reg sets.)
+  Remaining: loop 1 has 53 RTL insns in loop pass 1 (threshold*savings*lifetime = 52), so
+  &player->team (reg 114) is only hoisted in the rerun pass, after the load_mems copy of
+  the base; it no longer conflicts with the base, which then takes r6.  One fewer loop-1
+  insn would fix it, but i's live length must stay >= 742 (741 ties &sy and i wins by
+  regno).  Tried: nested ifs/continue/while forms, casts, team bitfield, pointer members,
+  separate counters (all 53 or code changes).
+
+2026-11-07 (claude-nov07-wC, follow-up): sub_08078BCC MATCHES; NONMATCHING wrapper and
+  asm/nonmatchings/.../sub_08078BCC.s removed.  The last 11 lines (loop-1 base r6+copy vs
+  r7) closed by writing loop 1 as `i = 0; if (i < count) { u8 *team = &player->team;
+  struct PlayerBCC *pl = playersBCC; do { p = (struct PlayerBCC *)(i * sizeof(*p) +
+  (u32)pl); if (*team == p->team) ... } while (++i < count); }`.
+  - team/base computed after the entry test (ROM preheader order), one RTL insn less in
+    the loop, and no load_mems copy of the base, so the base pseudo takes r7.
+  - `&pl[i]` / `pl + i` give `adds r2, r7, r0`; the explicit `i * size + (u32)pl` keeps
+    the ROM's `adds r2, r0, r7` operand order.
+  - The i live-range casts from the previous note are still required (removing any one
+    -> 68 lines, i back in r8).

@@ -61,3 +61,34 @@ Later attempts (2026-10-12, after main merge with revalidated tree):
   Rejected: explicit s16 *px = &x pointers (430), T24_ABS ternary (795), separate
   ph/fr arrays (768), explicit next/old temps for the count loop (163), several
   vyB abs and shift spellings (no change).
+
+2026-11-07 (later) claude-nov07-wB, sub_08025890: full-module aligned diff 51 -> 2, size 2728 = ROM,
+  frame 0x128 = ROM; filtered nmdiff 95 -> 10 (8 of the 10 are bl-target noise from the standalone
+  object). Still NONMATCHING: the only difference is the first `frame = 0`, which computes
+  `add r5,sp,#0xb4` before `movs r0,#0` (ROM loads the zero first).
+  What closed it:
+  - 60-frame loop back to `count = 1; do { ... } while (count++ <= 0x3B);`. count+1 is a GCSE-PRE
+    reaching reg, and those regs get regno/spill-slot order by expression hash bucket (hash linear
+    in regno/offset, mod table size (max_cuid/2)|1). With table size 549, count+1 (hash 80) sorts
+    before the array-base address regs (fp+52..fp+156). ROM needs size 553, where the address regs
+    wrap below it. Same mechanism as sub_08093BAC (shard 97).
+  - `s16 color` and `s16 active` (instead of u32/s32). Same final code, but they add the RTL insns
+    that move the table to 553. color s16 alone also fixes the &x / payload r4-r6 swap.
+  - vyB init as `vyB[i] = abs((s16)(t24_rand25890() % 3)) + 1;` with `int abs(int);`. This swaps the
+    loop.c giv reduction order, so dyA gets sl and vyB gets r9 as in ROM.
+  - Grid clear as two goto loops with no register-asm bindings. 0x1C8 is then rematerialized per
+    iteration in spill reg r7, and the reload rotation after the loop (ldr r1 / ldr r2 [sp,#0xc0])
+    matches.
+  Tooling: scratchpad ninfo.sh/pre.py print the table size and the PRE reaching-reg order. An
+  asm("") padding sweep at the end of the function is a quick probe for table-size effects
+  (not kept).
+  Open: zero-first at the frame/phase init. In fzB (`frame = phase = 0`) the second store gets its
+  address after the zero, because a store from a register source has its address fixed up after
+  that source. ROM shows this for both stores, so both probably had a register source. Rejected:
+  `phase = frame = 0` (2), declaration initializers (2), x0/y0 as declaration initializers (2),
+  volatile (33), u16[2] array (36), struct (50), chaining through i/count/active (55..263),
+  `u16 *pf = &frame` (3).
+  UPDATE (same day): MATCH. The last swap closed with
+  `{ u16 z; asm("" : "=r"(z) : "0"(0)); frame = z; phase = z; }` (coordinator hint, the
+  sub_08003984 trick). Both stores now have a register source, so each address is computed after
+  the zero. u32/s32 z do not match (2). Strict rcmp: STRICT_DIFF_LINES 0.

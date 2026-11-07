@@ -56,3 +56,42 @@ Shard 92, sub_0808C0C4 (code_08087CC0)
   `ldrh [r1,#2]` (2692). The ROM computes [1] as t + (r8 + 2) from the hoisted gCoords register.
   The unk90 store forms (temp index, pointer local, cast forms) do not move the product to r1;
   a temp index gives size 2708 but aligned 41.
+2026-11-07 (claude-nov07-w92): sub_0808C0C4
+  Landed: aligned diff 40 -> 6, filtered nmdiff 56 -> 14; size 2708 = ROM (was 2704), frame = ROM.
+  Still NONMATCHING: only loopB's inner preheader order differs (ours: counts ptr r9, gCoords r8;
+  ROM: gCoords r8 first, then counts r9; regs agree, the reload regs r0/r1 swap with the order).
+  Diagnosis/fixes:
+  - loop_16..block_81 is a real `for (;;)` menu loop in ROM. loop.c then hoists the matched
+    gPlayers loads and the 0x14C constant out of it as unallocated REG_EQUIV pseudos; reload
+    rematerializes them at every use, and that rotation is the ROM's `movs r1,#0xa6` /
+    `ldr r2,=gPlayers` / `movs r3,#0x1c` in all held paths and the selection block. The held-path
+    register bindings (stride r1, offset r0, base r2, pointers r4) are gone.
+  - The constant needs savings*lifetime*13 >= insn_count to be moved: one `playerStrideC0 = 0x14C`
+    set at the top of the menu loop, used by all five `temp_r6 * stride` sites.
+  - gPlayers only moves when each site's use lives long enough: a block-local
+    `u32 playerBaseAddrC0 = (u32)gPlayersC0;` per held path.
+  - Held-path pointer is a pseudo shared with the title-text pointer (crosses calls -> r4), so
+    local-alloc leaves the product in r0 (`adds r4, r0, r2`).
+  - The loop_15 FAKE asm use of gPlayersC0 is no longer needed (removing it fixes the r5/r6 swap).
+  - The real menu loop adds one depth: loop_24 now needs only one do-while(0); loopB's goto loop is
+    a do { } while (i <= 7) (fixes the portrait r4/r5 order there).
+  - loopB inner: gPlayersC0[i].unk148 (SR giv: r7 = gUnk_03003E28 after the movables, += 0x14C via
+    the hoisted stride), seat-table form gSeatPosC0[cat][cn[cat]][k] with `cn = sp150` in the
+    for-init. [2] must be related to gCoords (seat form or gCoordsC0 + t + 4) so that sym+4, not
+    sym+2, is the last use of the gCoords pseudo; then sym+2 stays inline as r8 + 2 and sym+4 is
+    hoisted unallocated (the literal gUnk_084F0C34).
+  Remaining: ROM order gCoords, counts, items means the counts base is a moved movable set after
+  the gCoords load (seat form gives that order). With sp150 directly it is "not desirable"
+  (savings 1, life 2, loop 55-59 insns). Adding `asm("" : : "r"(sp150))` after the call moves it,
+  but then counts (11 refs, live 59) outranks the giv (15/116) and gCoords (14/120, its REG_EQUIV
+  doubles its live length) -> counts r7, giv r8, gCoords r9. Need a way to move the counts base
+  with a doubled live length (a REG_EQUAL/EQUIV on its set) or with fewer weighted refs.
+  Rejected: else-branch/after-if asm uses (still r7), extra gCoords asm use (gCoords takes r7),
+  body-local seat pointer (folds [1]/[2] into ldrh #2/#4), `(nv = sp150)` inside the argument
+  (not moved), inline index recompute.
+  MATCHED (follow-up, same day): set the counts pointer as the first statement of loopB's
+  `if (kind == 0)` block (`cn = sp150;`) instead of in the for-init. loop.c then hoists it as a
+  movable after the gCoords load (moved in body order), giving gCoords r8 / counts r9 / items r7.
+  Setting it at the top of the loop body (outside the if) or after temp_r3_2 does not move it.
+  The last bytes were two branch targets: errorSingleC0 (with the goto) comes before errorFullC0
+  (which falls into block_81). NONMATCHING wrapper and asm/nonmatchings/.../sub_0808C0C4.s removed.

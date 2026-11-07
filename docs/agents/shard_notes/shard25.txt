@@ -57,3 +57,112 @@ Shard 25, sub_08027C1C (code_08021DC4)
   Next: find the r3/r4 preference sources (`-dg` ";; N preferences" lines) that move group
   to r6. That should cascade into j=sl and no group-loop zero register; then reapply the
   ARRAY_REF pos form and the `k` reset counter.
+
+2026-11-07 (claude-nov07-wC, second pass): sub_08027C1C
+  Start: filtered nmdiff 232, normalized difflib 133, 1860 vs 1868 bytes.
+  Landed: filtered 39, difflib 14, 1864 bytes, frame 0x24C. The first 196
+  instructions match, as do the group loop, loop 2's body and the final reset loop.
+  Source changes, each checked in the full module:
+  (a) `i` is a plain pseudo again. pos160 uses the ARRAY_REF form
+      (`W->pos160[i].x == 0`, `eff->pos = W->pos160[i]`), which gives ROM's
+      (W+0x160)+i*8 order and reuses the address in the else branch. A bound
+      `register asm("r5")` i cannot do that: with SMALL_REGISTER_CLASSES, CSE
+      never records expressions that contain a non-fixed hard register.
+  (b) `eff->f8/f1A/f1C = cfg[eff->res->f8]...` with no `res = eff->res` user var.
+      The reloaded res is then a local pseudo (r2 in ROM). That moves loop 2's
+      gState temp to r3, and the `adds r2, r3, #0` copy gives the gState pseudo
+      the r3 preference that sends 0x124 to r4.
+  (c) First retry: `while (x = eff->pos.x, y = eff->pos.y, sub_08066520(x, y,
+      players[...].f2C, &packet) == 0) sub_080003F0();`. A real loop lets loop.c
+      hoist the players base into r6, and x,y go to r4/r5. The x local in r4 gives
+      eff (and W) the r4 preference, so group skips r4.
+  (d) Else retry reads `gUnk_03003170.f90` (TileSys +0x90 = 0x03003200). As a field
+      it is hoisted (`ldr r4, =...` before the loop); the u16 global was "not
+      desirable" (life 1, 16 insns, loop_has_call threshold 13).
+  (e) Final reset: `k = 0; do { reset_loop: ...; if (++k <= 9) goto reset_loop;
+      sub_08056FE0(); } while (0);`. The call is inside the do/while region, so
+      loop_has_call=1 and threshold 13. 0x22C/0x160/0x164 stay unhoisted and are
+      rematerialized with move2add (`subs r6,#204` / `adds r6,#4`). A goto loop
+      on its own, or a for loop, does not do this.
+  (f) Case 11 loads f18 once into a new temp (`if ((w = eff->f18) != 0)`, then
+      passes w as the 5th arg). Reusing `v` breaks the case-10 item registers.
+  (g) agbcc expands every `p->u16field = x` (COMPONENT_REF) as a
+      read-modify-write: (mem & 0) | x. CSE then leaves an SImode reg that is known
+      to be 0, and it folded `eff->f14 = mode` (mode == 0) into that reg instead of
+      reloading mode from 0x244. A direct store does not do this. Fix: the
+      active22C store goes through `u8 *act = W->active22C; act[g] = ...`, and case
+      10 uses `*(&eff->f8) = ... + 1`. A minimal test confirms `p->f = v` is RMW
+      and `*(&p->f) = v` is direct. `*(u16 *)&W->f4 |= 8` also fixes one register.
+  (h) Case 12: `mode = 0; state = eff->fE; asm("" : "+r"(eff)); next = eff + 1;
+      asm("" : : "r"(next)); if (state != 0) ...`. Without the "+r"(eff) barrier,
+      GCSE removes the case-12 recomputation (the head dominates it after jump
+      threading) and adds a PRE copy (`mov r4, r9`). The "r"(next) use keeps next
+      ahead of the main-loop gState address (r9 vs sl).
+  (i) `asm("" ::: "r5");` at function entry. The group/i swap is a priority
+      problem: group (refs 8, live 46, priority 0.52) is allocated before i (35/518,
+      0.34). In pass 0 group skips r1-r4 (preferences) but not r5, so it takes r5
+      and i gets r6. The clobber makes group conflict with r5 while i is unaffected,
+      and everything up to instruction 196 then matches. No natural r5
+      preference/conflict was found (expand_preferences sources were checked: eff, W,
+      the gState pseudo, mode and count). I would like a real fix here.
+  Remaining (difflib 14):
+  - Loop-2 preheader. ROM: rowGroup update (r6 in/out), cfg r6, cfg+12 r9, then
+    `ldr r4,[sp,#0x240]` (entry), then the zero r8. Ours: entry inherits the output
+    reload (r4), and the zero is hoisted between cfg and cfg+12. In ROM the entry init
+    seems to come after loop.c's insertions (an SR giv init?) and the zero after that
+    (pass 2?). Index-based loop 2 (`&rowGroup->e[n]`) puts entry after the movables,
+    but the biv is not eliminated, so the exit test does not match. Explicit
+    cfg/cfgC pointer locals give the right order but break the cfg+4/+8 forms.
+  - Effect-loop head: ROM's first two reloads use r1/r2, ours r0/r1. r0 seems to be
+    occupied at that insn in ROM.
+  - `f4 |= 8`: T/R are r2/r1 in ROM, r1/r2 in ours (local-alloc qty order).
+  Tooling: a global.c GAFORCE/GAFUNC hook (force pseudo->hardreg per function,
+  -1 = leave unallocated) was very useful. Forcing one pseudo gives the target
+  output and confirms the diagnosis before searching for source. The tree is in the
+  session scratchpad (nov07-wC3/agb).
+  Follow-up (same day): filtered 31, difflib 11, size now 1868 = ROM.
+  - A volatile `asm("");` right before `entry = rowGroup->e;` stops the rowGroup
+    output reload from targeting entry's r4. The update is now `ldr r6; adds r6,r6,r1;
+    str r6` like ROM. Entry still copies r6 (`adds r4, r6, #0`) instead of ROM's
+    `ldr r4,[sp,#0x240]` after cfg/cfg+12, and the zero is still hoisted between
+    cfg and cfg+12. Wrapping loop 2 in do{}while(0) made it worse (17).
+  - `asm("" : "+r"(g));` after `g = 0` in the main-loop preheader advances the
+    reload rotation, so the effect-loop head now uses r1/r2 like ROM. Side effect:
+    `g = 0` is `movs r0,#0; mov r8,r0` instead of ROM's inherited `mov r8, r6`
+    (one instruction). `sound = g = 0` and `asm("" : "=r"(g) : "0"(0))` do the
+    same. ROM probably has one extra reload there that inheritance then folds away.
+  Left: loop-2 entry/zero order (5 lines), the g=0 instruction, and the f4 |= 8 temps.
+
+2026-11-07 (claude-nov07-wC, third pass): sub_08027C1C MATCHED
+  Start: filtered 31, difflib 11 (PR #623). End: exact match, 1868 bytes, frame 0x24C;
+  wrapper removed and the .s deleted.
+  (1) Loop-2 preheader order (cfg, cfg+12, entry, zero). Index loops cannot do it:
+      the n<<3 shift giv always has benefit 0 ("not worth while"), so all_reduced=0
+      and the biv is never eliminated. What works is an enclosing loop.c region:
+      `do { row_outer: entry = rowGroup->e; zr = 0; row_loop: body; entry++;
+      end = rowGroup; asm("" : "+r"(end)); if (entry <= &end->e[3]) goto row_loop;
+      do { asm(""); } while (0); if (entry <= &end->e[3]) { asm("" : "+r"(zr));
+      goto row_outer; } } while (0);`. Why each piece is needed:
+      - The outer region's invariants (cfg, cfg+12) are hoisted before its LOOP_BEG,
+        so they land before the entry init.
+      - zr is a user zero that is set twice in the region (the asm in the dead
+        back-edge block), so it is not movable and stays after the entry init.
+        Stores use `eff->fA/fC/fE = zr` in loop 2 only.
+      - The duplicate test is folded by cse2 but not cse1, because loop notes break
+        cse1's extended basic block. The empty do/while(0) supplies those notes
+        without adding a nesting level, so local-alloc weights stay as in the ROM
+        (a nested real do-while flipped the res->f0*3 temps).
+      - The asm-opaque `end` stops GCSE PRE from hoisting rowGroup+24 (it did
+        whenever the outer test recomputed it).
+  (2) Effect-loop head: ROM's reloads use r1/r2 because r0 is unavailable there.
+      Bind `register u32 q asm("r0")`, define it with asm("" : "=r"(q)) at the loop
+      head and use it right after `w = t025World27C;` (asm("" : : "r"(q))). r0 is
+      live across the World load, so its reload takes r1. `g = 0` is plain again and
+      inherits r6 (`mov r8, r6`). The old asm("" : "+r"(g)) is gone.
+  (3) f4 |= 8: `register World *wp asm("r0") = W; register u16 v asm("r2") = wp->f4;
+      wp->f4 = v | 8;`. With the hard-reg op1, local-alloc ties the result to the
+      constant (r1), as in the ROM.
+  Rejected along the way: index loop 2 (n, n += 8) with no biv elimination; outer
+  do-while with an identical test but no asm-end (GCSE hoists end to r9); goto inner
+  loop without the empty do/while(0) (cse1 folds the back-edge, region phony); a
+  reload-rotation hunt in the g=0 preheader (asm "+l", sound/g orders, clobbers).

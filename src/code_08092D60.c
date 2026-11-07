@@ -534,7 +534,6 @@ void sub_08093584(s8 arg0, u8 arg1)
     sub_08098028();
     sub_0800903C(0, 0, 0, 0, 0, 0);
 }
-#ifdef NONMATCHING
 extern s16 rand3BAC(void) asm("sub_0800086C");
 extern u8 palStep3BAC(void *, u32, u16, s32) asm("sub_08096D40");
 extern u8 palFlash3BAC(void *, s32, u16, s32) asm("sub_08096E20");
@@ -568,14 +567,15 @@ void sub_08093BAC(s8 arg0, u8 arg1)
     s32 flag, flag2;
     u32 state; s32 palstate;
     s32 sfx, running;
+    struct Spr2F58 *effect;
+    s16 px, py;
     u8 phase;
     u8 i;
-    u8 idx;
 
-    idx = arg1 - 1;
+    arg1--;
     limit = arg0 * 4;
     spr2F58Init(&spr[0], 0x50027, 7, -1, 1);
-    spr2F58Init(&spr[1], (s8)idx + 0x50027, 7, -1, 1);
+    spr2F58Init(&spr[1], (s8)arg1 + 0x50027, 7, -1, 1);
     spr2F58Init(&sprC, 0x5002B, 8, -1, 1);
     pal2F58Load(pal, spr[1].fC + 0xE0);
     for (i = 0; i < 4; i++) {
@@ -596,7 +596,7 @@ void sub_08093BAC(s8 arg0, u8 arg1)
         sub_080003F0();
     sub_0805865C(0xF4);
     do {
-        switch ((s8)idx) {
+        switch ((s8)arg1) {
         case 0: posB.x = 0x7000; posB.y = 0x7000; break;
         case 1: posB.x = 0x7000; posB.y = 0x6800; break;
         case 2: posB.x = 0x7800; posB.y = 0x6800; break;
@@ -606,7 +606,7 @@ void sub_08093BAC(s8 arg0, u8 arg1)
         switch (state) {
         case 0:
             cur = &spr[0];
-            if ((s8)idx == 3)
+            if ((s8)arg1 == 3)
                 wait = 0xB4;
             else
                 wait = 0x3C;
@@ -619,7 +619,7 @@ void sub_08093BAC(s8 arg0, u8 arg1)
             cur = &spr[0];
             if (wait < cnt) {
                 if (pos2F58Get(0, &pos) != 0) {
-                    switch ((s8)idx) {
+                    switch ((s8)arg1) {
                     case 0: move2F58(&g3BAC_854C, 6, 1, 0x14); break;
                     case 1: move2F58(&g3BAC_857C, 8, 1, 0xE); break;
                     case 2: move2F58(&g3BAC_85BC, 8, 1, 0xE); break;
@@ -649,18 +649,12 @@ void sub_08093BAC(s8 arg0, u8 arg1)
             break;
         case 3:
             if (cnt > 0x78) {
-                struct Spr2F58 *effect;
-                u16 *animation;
-                u16 *height;
-                u16 *width;
-
                 if (gUnk_0300026C != 0)
                     palstate = 3;
                 else
                     palstate = 0;
                 sub_080944A8();
-                i = 0;
-            loop3:
+                for (i = 0; i < 4; i++) {
                     effect = &sprC;
                     if (alive[i] != 0) {
                         h1[i] = h2[i] = 0;
@@ -668,14 +662,13 @@ void sub_08093BAC(s8 arg0, u8 arg1)
                     }
                     sprC.f24 = 1;
                     sub_08000AF0(0x11, (void *)(effect->fC + 0x100), 1);
-                    animation = &anim[i];
-                    height = &h2[i];
-                    width = &h1[i];
-                    alive[i] = anim3BAC(effect, *animation, width, height, 0);
-                    if (frame[i]++ & 1)
-                        draw3BACc(posB.x >> 8, posB.y >> 8, *animation, *width, 0, sprC.f1C, sprC.f8, sprC.f0);
-                                i++;
-                if (i <= 3) goto loop3;
+                    alive[i] = anim3BAC(effect, anim[i], &h1[i], &h2[i], 0);
+                    if (frame[i]++ & 1) {
+                        px = posB.x >> 8;
+                        py = posB.y >> 8;
+                        draw3BACc(px, py, anim[i], h1[i], 0, sprC.f1C, sprC.f8, sprC.f0);
+                    }
+                }
                 if (sfx == 0) {
                     sfx = 1;
                     sub_0805865C(0xF5);
@@ -692,7 +685,7 @@ void sub_08093BAC(s8 arg0, u8 arg1)
                 }
             } else
                 cnt++;
-            switch ((s8)idx) {
+            switch ((s8)arg1) {
             case 0: posA.x = g3BAC_854C[5].x; posA.y = g3BAC_854C[5].y; break;
             case 1: posA.x = g3BAC_857C[7].x; posA.y = g3BAC_857C[7].y; break;
             case 2: posA.x = g3BAC_85BC[7].x; posA.y = g3BAC_85BC[7].y; break;
@@ -704,7 +697,7 @@ void sub_08093BAC(s8 arg0, u8 arg1)
         case 4:
             if (sub_0809449C() == 2)
                 running = 0;
-            switch ((s8)idx) {
+            switch ((s8)arg1) {
             case 0: posA.x = g3BAC_854C[5].x; posA.y = g3BAC_854C[5].y; break;
             case 1: posA.x = g3BAC_857C[7].x; posA.y = g3BAC_857C[7].y; break;
             case 2: posA.x = g3BAC_85BC[7].x; posA.y = g3BAC_85BC[7].y; break;
@@ -738,7 +731,9 @@ void sub_08093BAC(s8 arg0, u8 arg1)
             pal2F58Fade(pal, -6);
             break;
         }
-        draw3BAC(posA.x >> 8, posA.y >> 8, 0, 0, flag, cur->f1C, cur->f8, cur->f0, flag2);
+        px = posA.x >> 8;
+        py = posA.y >> 8;
+        draw3BAC(px, py, 0, 0, flag, cur->f1C, cur->f8, cur->f0, flag2);
         sub_080003F0();
         if (sub_080021A8() == 1)
             running = 0;
@@ -751,9 +746,6 @@ void sub_08093BAC(s8 arg0, u8 arg1)
     sub_0800CC68();
     sub_08098028();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08092D60", sub_08093BAC);
-#endif
 extern s16 rand41B4(void) asm("sub_0800086C");
 extern u8 g41B4_026C asm("gUnk_0300026C");
 extern u8 g41B4_0274 asm("gUnk_03000274");

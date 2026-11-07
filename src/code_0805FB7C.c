@@ -227,7 +227,6 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     iconAssets63[group].attr[9] = 9;
     iconOverlay63.attr[9] = 9;
 }
-#ifdef NONMATCHING
 struct ItemName63 { u16 kind; u16 id; u16 suffix; u8 level; u8 grade; u8 broken; };
 extern u8 *resFF63(s32) asm("sub_08007290");
 extern u32 digitDivFF63[] asm("gUnk_084EBD5C");
@@ -241,7 +240,6 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     u8 buf[32];
     u8 numeric[32];
     s32 value;
-    s32 drawY;
     u8 *res;
     u8 *suffix;
     s32 broken;
@@ -252,12 +250,10 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     u8 *name;
     s32 n;
     u8 i;
-    register struct ItemName63 *entry asm("r5");
-    u16 off;
+    u32 k;
+    s16 off;
 
-    entry = item;
-    drawY = y;
-    if (entry == NULL)
+    if (item == NULL)
         goto clear;
     suffix = NULL;
     broken = 0;
@@ -265,84 +261,93 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     grade = 0;
     cursed = 0;
     mode = flags & 0x7FFFFFFF;
-    switch (entry->kind) {
+    switch (item->kind) {
     case 1:
-        res = resFF63(entry->id | 0x100000);
+        res = resFF63(item->id | 0x100000);
         name = res + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         grade = 0;
         break;
+    /* Cases 2-5 each load the suffix name themselves (not a shared label):
+       the per-case copies are cross-jumped into one, but each copy's reloads
+       advance the reload-register rotation the way the ROM's do. */
     case 2:
     {
-        u8 *r = resFF63(entry->id | 0xB0000);
+        u8 *r = resFF63(item->id | 0xB0000);
         name = r + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
         if (grade == 0)
             grade = *(u16 *)(r + 0xBC);
-        goto suffix;
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
+        break;
     }
     case 3:
-        name = resFF63(entry->id | 0xC0000) + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
-        goto suffix;
+        name = resFF63(item->id | 0xC0000) + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
+        break;
     case 4:
-        name = resFF63(entry->id | 0xD0000) + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
-        goto suffix;
+        name = resFF63(item->id | 0xD0000) + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
+        break;
     case 7:
-        name = resFF63(entry->id | 0x110000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x110000) + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         break;
     case 5:
     {
-        u8 *r = resFF63(entry->id | 0xE0000);
+        u8 *r = resFF63(item->id | 0xE0000);
         name = r + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
         if (r[0xA0] != 0)
             cursed = 1;
     }
-    suffix:
-        if (entry->suffix != 0)
-            suffix = resFF63((entry->suffix - 1) | 0x130000);
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
         break;
     case 6:
-        name = resFF63(entry->id | 0xF0000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0xF0000) + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         grade = 0;
         break;
     case 9:
-        name = resFF63(entry->id | 0x150000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x150000) + gUnk_03003470 * 31;
         break;
     case 10:
         if (sub_0800CC98() == 0) {
             u32 *div;
             u8 *out;
             s32 started;
-            u32 k;
             register s32 *valuePtr asm("sl");
-            value = *(s32 *)&entry->suffix;
+            value = *(s32 *)&item->suffix;
             div = digitDivFF63;
             out = numeric;
             started = 0;
+            /* k is the function-scope counter also used as the name index in
+               mode 1; sharing it makes caller-saving unprofitable, so it takes r8. */
+            k = 0;
             valuePtr = &value;
-            for (k = 0; k <= 5; k++) {
+            for (; k <= 5; k++, div++) {
                 *out = divFF63(valuePtr, *div) + 0x41;
                 if (started != 0 || *out != 0x41) {
                     out++;
                     started = 1;
                 }
-                div++;
             }
             out[0] = 7;
             out[1] = 0;
@@ -352,11 +357,11 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         }
         break;
     case 8:
-        name = resFF63(entry->id | 0x120000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x120000) + gUnk_03003470 * 31;
         break;
     default:
     clear:
-        clearFF63(drawY, 2);
+        clearFF63(y, 2);
         return;
     }
 
@@ -389,14 +394,17 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             buf[n] = 0xCD;
             n++;
         }
+        /* The suffix offset is written as a shift so it stays a plain register
+           operand: the ROM indexes suffix + (i + offset), with the offset hoisted
+           after the pre-test (a `* 31` MULT would be ordered first). */
         if (gUnk_03003470 == 2) {
             if (suffix != NULL) {
                 i = 0;
-                if (suffix[62] != 0) {
+                if (suffix[(gUnk_03003470 << 5) - gUnk_03003470] != 0) {
                     do {
-                        buf[i + n] = suffix[i + 62];
+                        buf[i + n] = suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)];
                         i++;
-                    } while (suffix[i + 62] != 0);
+                    } while (suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)] != 0);
                 }
                 n += i;
                 buf[n] = 0x51;
@@ -409,6 +417,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
                     i++;
                 } while (name[i] != 0 && i <= 0x1B);
             }
+            i = i + n;
         } else {
             i = 0;
             if (name[0] != 0) {
@@ -420,19 +429,17 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             n += i;
             i = 0;
             if (suffix != NULL) {
-                s32 o;
                 buf[n] = 0x51;
                 n++;
-                o = gUnk_03003470 * 31;
-                if (suffix[o] != 0) {
+                if (suffix[(gUnk_03003470 << 5) - gUnk_03003470] != 0) {
                     do {
-                        buf[i + n] = suffix[i + o];
+                        buf[i + n] = suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)];
                         i++;
-                    } while (suffix[i + o] != 0);
+                    } while (suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)] != 0);
                 }
             }
+            i = i + n;
         }
-        i = i + n;
         if (level != 0) {
             if (level <= 9) {
                 u32 tens;
@@ -455,10 +462,9 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         if (broken != 0) {
             buf[0] = 0xA1;
             i = 1;
-        } else if (entry->kind == 1) {
+        } else if (item->kind == 1) {
             if (*(u16 *)(res + 0xA0) == 1) {
                 u32 v;
-                s32 j;
                 u8 *p;
                 if (checkFF63() == 0)
                     v = *(u16 *)(res + 0xA2) * (*(u16 *)(gUnk_030034E0 + 0x48) << 2);
@@ -466,24 +472,24 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
                     v = *(u16 *)(res + 0xA2);
                 for (i = 0; name[i] != 0xFD && name[i] != 0xF7; i++)
                     buf[i] = name[i];
-                j = i + 3;
+                k = i + 3;
                 if (name[i] != 0xFD) {
-                    u32 h = v / 100;
+                    n = v / 100;
                     v = v % 100;
-                    if (h != 0)
-                        buf[i++] = h + 0x41;
-                    h = v / 10;
+                    if (n != 0)
+                        buf[i++] = n + 0x41;
+                    n = v / 10;
                     v = v % 10;
-                    buf[i++] = h + 0x41;
+                    buf[i++] = n + 0x41;
                     buf[i++] = v + 0x41;
                 }
-                p = name + j;
+                p = name + k;
                 if (*p != 0) {
                     do {
                         buf[i] = *p;
-                        j++;
+                        k++;
                         i++;
-                        p = name + j;
+                        p = name + k;
                     } while (*p != 0);
                 }
             } else {
@@ -515,14 +521,12 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         break;
     }
     off = 0;
-    if (flags < 0)
-        off = -(widthFF63(buf) >> 1);
-    x += (s16)off;
-    textFF63(buf, x, drawY);
+    if (flags < 0) {
+        n = widthFF63(buf) >> 1;
+        off = -n;
+    }
+    textFF63(buf, off + x, y);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
-#endif
 struct HudPlayer63 {
     u8 pad0[0x20];
     u16 state;
@@ -781,7 +785,6 @@ void sub_08060DB0(s32 index)
     tasks63[index].u24 = 0;
     sub_08000274(&tasks63[index], index);
 }
-#ifdef NONMATCHING
 struct HudSlotE63 { u16 kind; u16 id; u8 pad4[0xC]; };
 struct HudMgrE63 { u8 pad0[0x54]; u16 sel; u16 list[0x7D]; struct HudSlotE63 bag[25]; };
 extern struct HudMgrE63 *hudMgrE63 asm("gUnk_030034E0");
@@ -803,7 +806,6 @@ void sub_08060E44(s32 animate)
     s16 i;
     s16 j;
     s16 base;
-    s16 k;
     s16 end;
     struct HudPos63 *py = hudPosYE63;
     struct HudPos63 *px = hudPosE63;
@@ -891,27 +893,28 @@ void sub_08060E44(s32 animate)
             base = mgr->sel / 3 * 3;
             end = base + 3;
             if (animate != 0) {
-                for (k = base; k < end; k++) {
-                    if (mgr->list[k] != 0) {
+                /* The slot loop reuses i (and the bag scan j); `-~i` is i + 1 without
+                   letting fold rewrite `end - (i + 1)` into `(end - 1) - i`. */
+                for (i = base; i < end; i++) {
+                    if (mgr->list[i] != 0) {
                         struct HudSlotE63 *found;
                         s32 id;
                         s16 n;
-                        s16 m;
-                        id = mgr->list[k] - 1;
+                        id = mgr->list[i] - 1;
                         found = &tmp;
                         tmp.kind = 1;
                         tmp.id = id;
                         n = 0;
-                        for (m = 0; m <= 0x18; m++) {
-                            if (mgr->bag[m].kind == 1 && id == mgr->bag[m].id) {
+                        for (j = 0; j <= 0x18; j++) {
+                            if (mgr->bag[j].kind == 1 && id == mgr->bag[j].id) {
                                 n++;
-                                found = &mgr->bag[m];
+                                found = &mgr->bag[j];
                             }
                         }
-                        hudNumberE63(px[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
-                                     py[end - ((s16)(k + 1))].x + 0x18, (s16)n, 0);
-                        hudItemE63(px[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
-                                   py[end - ((s16)(k + 1))].x + 0x10, found, 0);
+                        hudNumberE63(px[end - -~i].x + (0xF0 - (7 - slide) * 8),
+                                     py[end - -~i].x + 0x18, (s16)n, 0);
+                        hudItemE63(px[end - -~i].x + (0xF0 - (7 - slide) * 8),
+                                   py[end - -~i].x + 0x10, found, 0);
                     }
                 }
             }
@@ -994,13 +997,12 @@ void sub_08060E44(s32 animate)
             }
             base = mgr->sel / 3 * 3;
             end = base + 3;
-            for (k = base; k < end; k++) {
-                if (mgr->list[k] != 0) {
-                    s32 k1 = k + 1;
+            for (i = base; i < end; i++) {
+                if (mgr->list[i] != 0) {
                     /* Y column addressed as hudPosE63+2 so CSE derives it from the X base. */
-                    hudItemE63(hudPosE63[2 - (end - k1)].x + (0xF0 - (7 - slide) * 8),
-                               ((struct HudPos63 *)&hudPosE63[0].y)[2 - (end - k1)].x + 0x10,
-                               &mgr->bag[mgr->list[k] - 1], 0);
+                    hudItemE63(hudPosE63[2 - (end - -~i)].x + (0xF0 - (7 - slide) * 8),
+                               ((struct HudPos63 *)&hudPosE63[0].y)[2 - (end - -~i)].x + 0x10,
+                               &mgr->bag[mgr->list[i] - 1], 0);
                 }
             }
             {
@@ -1016,9 +1018,6 @@ void sub_08060E44(s32 animate)
         sub_0801A664(2, 4);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060E44);
-#endif
 extern u32 taskMem64[] asm("gUnk_03006180");
 extern struct Task tasks64[] asm("gUnk_03006160");
 extern void sub_08060E44(s32);
@@ -1608,16 +1607,18 @@ block_101:
 block_104:
     sub_0800CDE4();
 }
-#ifdef NONMATCHING
 /*
- * sub_080624D8 draft (GNU diff 653 -> 126 lines, same size as the ROM function).
+ * sub_080624D8: pause menu. The four option icons slide in, one is picked,
+ * they slide out and the choice runs.
  * Shape notes: the sprite helpers are the module's static inline wrappers
  * (load62-style Load624, sub_080653B8-style Scale624, sub_08065230-style Draw624,
  * sub_08065370-style Size624); m.text / m.spr.remap are written in place so gcse
- * PRE produces the ROM's per-case texts spill and remap in sl; the slide-in loop
- * is goto-shaped with its own t1; the level switch sets ok = 0 in ROM case order;
- * scroll x/y go through s16 pointers off a TileSys base. Remaining: register
- * choice in the slide/menu loops.
+ * PRE produces the ROM's per-case texts spill and remap in sl. The slide-in reads
+ * the on-screen positions through the function-scope pointers d / dy (spilled,
+ * rematerialized from their constant equivalences), which keeps the destination
+ * base out of the address register. Each slide loop computes u inside a real loop
+ * so loop.c hoists the 0x400 constant out of it. The player flags are read as
+ * gUnk_03003CE0[].flags (one pool entry, hoisted in the final wait loop).
  */
 struct Pt624 { s32 x, y; };
 struct Spr624 {
@@ -1639,7 +1640,6 @@ extern struct Pt624 dst624[] asm("gUnk_084EBE34");
 extern s32 dstY624[] asm("gUnk_084EBE38");
 extern s32 msg624[] asm("gUnk_084EBE54");
 extern u8 res624[] asm("gUnk_08518938");
-extern u32 flags624[] asm("gUnk_03003D10");
 extern u16 keys624 asm("gUnk_03001324");
 extern u16 held624 asm("gUnk_03001308");
 extern u8 *party624 asm("gUnk_030034E0");
@@ -1710,7 +1710,7 @@ static inline void DrawScaled624(struct Spr624 *p, s32 x, s32 y, u16 id, u16 fra
     drawScaled624(x, y, id, frame, 0, p->remap, p->data, p->base, p->scale, p->scale, 0xFF);
 }
 
-#define PLAYER_FLAGS() flags624[sub_080020F4() * (0x14C / 4)]
+#define PLAYER_FLAGS() gUnk_03003CE0[sub_080020F4()].flags
 
 #define BUSY() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || sub_0805F184() || sub_0800D060())
 #define BUSY2() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || (PLAYER_FLAGS() & 0x2000) || sub_0805F184() || sub_0800D060())
@@ -1734,6 +1734,8 @@ void sub_080624D8_(void)
     s16 *px, *py;
     u32 ok;
     u8 *p;
+    struct Pt624 *d;
+    s32 *dy;
 
     if (sub_0800CD8C() || sub_0800D11C() || sub_0805EF90())
         goto out;
@@ -1761,16 +1763,15 @@ void sub_080624D8_(void)
         sub_080003F0();
     sub_0800CE40();
     t1 = 0;
+    d = dst624;
+    dy = dstY624;
     sub_0805865C(0x12);
-slidein:
-    {
+    do {
         sub_08015C14();
-
-
         for (i = 0; i <= 3; i++) {
             u = 0x400 - t1;
-            Lerp624(&m.x[i], src624[i].x, dst624[i].x, t1, u);
-            Lerp624(&m.y[i], src624[i].y, dstY624[i * 2], t1, u);
+            Lerp624(&m.x[i], src624[i].x, d[i].x, t1, u);
+            Lerp624(&m.y[i], src624[i].y, dy[i * 2], t1, u);
             if (i == 1 && (PLAYER_FLAGS() & 8))
                 Draw624(&m.spr, m.x[1] >> 8, m.y[1] >> 8, 7, 0);
             else
@@ -1778,9 +1779,7 @@ slidein:
         }
         t1 += 0x80;
         sub_080003F0();
-    }
-    if (t1 <= 0x3FF)
-        goto slidein;
+    } while (t1 <= 0x3FF);
 
     sub_0801A664(0x12, 2);
     win = window624(9, 0xF, 9, 1);
@@ -1803,12 +1802,12 @@ slidein:
                 if (i == 1 && (PLAYER_FLAGS() & 8))
                     DrawScaled624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
                 else
-                    DrawScaled624(&m.spr, dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i]);
+                    DrawScaled624(&m.spr, dst624[i].x >> 8, dy[i * 2] >> 8, i, m.w[i]);
             } else {
-                    if (i == 1 && (PLAYER_FLAGS() & 8))
-                        Draw624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
-                    else
-                        Draw624(&m.spr, dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i]);
+                if (i == 1 && (PLAYER_FLAGS() & 8))
+                    Draw624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
+                else
+                    Draw624(&m.spr, dst624[i].x >> 8, dy[i * 2] >> 8, i, m.w[i]);
             }
         }
         w = sub_0801A638(m.text[sel] + 2);
@@ -1824,8 +1823,11 @@ slidein:
         if (keys624 & 1) {
             if (sel > 2) {
                 u16 *c = (u16 *)(state624 + 0x14A);
-                if (++*c > 7)
-                    *c = 0;
+                u32 n = *c + 1;
+                u32 zero = 0;
+                *c = n;
+                if ((u16)n > 7)
+                    *c = zero;
                 sub_0805865C(0xF);
                 continue;
             }
@@ -1837,9 +1839,9 @@ slidein:
             if (sub_0800CDF8() == 0) {
                 t = 0x400;
                 do {
-                    next = t - 0x80;
-                    u = 0x400 - t;
                     for (i = 0; i <= 3; i++) {
+                        next = t - 0x80;
+                        u = 0x400 - t;
                         Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
                         Lerp624(&m.y[i], src624[i].y, dst624[i].y, t, u);
                         if (i == 1 && (PLAYER_FLAGS() & 8))
@@ -1954,8 +1956,6 @@ confirm:
         sub_0801ABE8(6);
     t = 0x400;
     do {
-
-
         for (i = 0; i <= 3; i++) {
             next = t - 0x80;
             u = 0x400 - t;
@@ -1972,7 +1972,7 @@ confirm:
         sub_080003F0();
     } while (t > 0 || sub_0801AAE0() == 0);
     while (sub_0805EEEC(win) == 0) {
-        if (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || (gUnk_03003CE0[sub_080020F4()].flags & 0x2000) || sub_0805F184() || sub_0800D060())
+        if (BUSY2())
             sel = 4;
         sub_080003F0();
     }
@@ -2051,9 +2051,6 @@ confirm:
     sub_0800D04C();
     sub_0800CE54();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080624D8);
-#endif
 struct T65Draw { u32 base; u32 unk4; u8 *data; u32 unkC; u8 pad[12]; u8 style; u8 rest[23]; };
 struct T65Level { u16 count; u8 pad[114]; };
 extern struct T65Level t65_levels[] asm("gUnk_0847846C");

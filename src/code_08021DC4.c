@@ -1997,8 +1997,7 @@ void sub_08024538(s32 arg0) {
         p->flags |= 0x800000;
     }
 }
-#ifdef NONMATCHING
-/* NONMATCHING transition trigger; block order follows the original ASM. */
+/* Transition trigger: waits for the players to gather at the exit, then fires the area transition. */
 struct Task245CC { u8 bytes[0x28]; };
 struct Remote245CC { u16 x,y; u8 flags,p5,p6,flags7; };
 struct Input245CC { u16 x,y,destination,flags; };
@@ -2010,13 +2009,12 @@ struct Anim245CC { s32 w0,w4,w8; u8 *graphics; u8 p10[12]; u8 data[24]; };
 extern struct Player245CC local245CC_gUnk_03003CE0[] asm("gUnk_03003CE0");
 extern struct State245CC *local245CC_gUnk_03005CF4 asm("gUnk_03005CF4");
 extern struct Level245CC local245CC_gUnk_03003170 asm("gUnk_03003170");
-extern struct Remote245CC *local245CC_gUnk_03003E28 asm("gUnk_03003E28");
 extern u32 local245CC_gUnk_084B16E0[] asm("gUnk_084B16E0");
 extern u32 local245CC_gUnk_03005CF0 asm("gUnk_03005CF0");
 extern u32 local245CC_gUnk_030056FC asm("gUnk_030056FC");
 extern u16 local245CC_gUnk_03001324 asm("gUnk_03001324");
 extern u32 local245CC_gUnk_03002344 asm("gUnk_03002344");
-s32 local245CC_sub_0800CCCC(void) asm("sub_0800CCCC"); s32 local245CC_sub_0800CD8C(void) asm("sub_0800CD8C"); extern u32 local245CC_gUnk_03003D10 asm("gUnk_03003D10");
+s32 local245CC_sub_0800CCCC(void) asm("sub_0800CCCC"); s32 local245CC_sub_0800CD8C(void) asm("sub_0800CD8C");
 
 void local245CC_sub_08024538(s32) asm("sub_08024538");
 void local245CC_sub_0805A60C(s32) asm("sub_0805A60C");
@@ -2025,7 +2023,7 @@ void local245CC_sub_08065158(struct Anim245CC *,u32,s32,s32,s32) asm("sub_080651
 void local245CC_sub_08007870(s32,s16,u32,u16,u32,void *,s32,s32) asm("sub_08007870");
 void local245CC_sub_08008E74(s16,s16,u32,u16,u32,void *,s32,s32) asm("sub_08008E74");
 void local245CC_sub_0800BC08(s16,s16,s16 *,s16 *,u32,s32) asm("sub_0800BC08");
-void local245CC_sub_08057DD0(u32,u32,s32,s32,void (*)(s32),struct Input245CC *) asm("sub_08057DD0");
+void local245CC_sub_08057DD0(u32,u32,u16,u16,void (*)(s32),struct Input245CC *) asm("sub_08057DD0");
 void local245CC_sub_08065370(struct Anim245CC *,u32,u16 *,u16 *,u32) asm("sub_08065370");
 void local245CC_sub_080003F0() asm("sub_080003F0");                             /* extern */
 s32 local245CC_sub_0800048C() asm("sub_0800048C");                                 /* extern */
@@ -2087,7 +2085,7 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 sp98;
     u32 sp9C;
     u32 spA0;
-    u32 spA4;
+    u16 spA4;
     u32 spA8;
     u32 spAC;
     s32 spB0;
@@ -2098,14 +2096,7 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 spC4;
     u32 spC8;
     struct Map245CC *spCC;
-    s32 spD0;
-    s32 spD4;
-    s32 spD8;
-    struct Player245CC *spDC;
     u32 shiftedFlags;
-    s16 *temp_r7;
-    s16 temp_r0_8;
-    s16 temp_r0_9;
     s32 temp_r0_10;
     s32 temp_r0_3;
     s32 temp_r0_4;
@@ -2127,50 +2118,48 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 flaggedPlayers;
     s32 activePlayers;
     struct Player245CC *temp_r8;
-    struct Player245CC *var_r4;
-    struct Remote245CC **var_r6;
-    struct Remote245CC *temp_r1_3;
     struct Remote245CC *temp_r1_4;
-    struct Remote245CC *temp_r1_7;
     struct Remote245CC *temp_r1_8;
     struct Remote245CC *temp_r2;
     struct Remote245CC *temp_r2_2;
     struct Remote245CC *temp_r2_3;
-    u16 temp_r0_11;
+    u32 temp_r0_11;
     u16 temp_r1_11;
     u16 temp_r3;
-    u16 temp_r5;
     u32 temp_r0;
     u32 temp_r0_2;
     u32 temp_r0_5;
     u32 temp_r0_6;
     u32 temp_r1;
-    u32 temp_r1_10;
     u32 temp_r1_2;
     u32 temp_r1_5;
     u32 temp_r1_9;
     u32 var_r1_9;
     u32 var_r2_3;
+    u32 flagsTmp;
+    u32 row;
+    u32 t4;
+    u32 inext;
+    struct State245CC **pp;
+    u8 zz;
     u32 playerIndex;
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 temp_r6;
-    u8 temp_r6_2;
-    u8 temp_r6_3;
-    u8 temp_r6_4;
 
     sp84 = arg0;
     spB0 = (struct Task245CC *)local245CC_sub_0800048C() - (struct Task245CC *)((u8 *)local245CC_gUnk_03005CF4 + 0x17BC);
     spCC = local245CC_gUnk_03003170.map;
     sp8C = sp84->x * 8;
     sp90 = sp84->y * 8;
-    temp_r5 = sp84->flags;
-    shiftedFlags = (u32)temp_r5 << 16;
+    var_r5 = sp84->flags;
+    shiftedFlags = (u32)var_r5 << 16;
     temp_r3 = shiftedFlags >> 16;
     spA4 = (u32) temp_r3;
-    var_r5 = 1;
     if (8 & temp_r3) {
         var_r5 = 0;
+    } else {
+        var_r5 = 1;
     }
     if (0x80 & spA4) {
         spC4 = 1;
@@ -2217,19 +2206,19 @@ void sub_080245CC(struct Input245CC *arg0) {
             local245CC_sub_080003F0();
         if (local245CC_sub_080021A8() != 0) return;
         {
-            if (!(((u16) local245CC_gUnk_03005CF4->flags >> 3) & 1)) {
+            if ((flagsTmp = local245CC_gUnk_03005CF4->flags, !((flagsTmp >> 3) & 1))) {
                 local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, 1);
                 if ((local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0) && (temp_r0_4 = local245CC_sub_0800CD8C(), (temp_r0_4 == 0))) {
                     if (spBC != 0) {
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
-                    temp_r6_2 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                     local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_4);
                     if (spCC->wE != 0) {
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_2, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_2, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
                     spBC = 1;
@@ -2237,7 +2226,7 @@ void sub_080245CC(struct Input245CC *arg0) {
                 if (local245CC_sub_0800CDC0() != 0) {
                     matchedPlayers = 0;
                     for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
-                        if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000)
+                        if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000)
                             matchedPlayers += 1;
                     }
                     if (matchedPlayers != local245CC_sub_08002164()) {
@@ -2415,28 +2404,22 @@ afterPlayerBounds245CC: ;
             flaggedPlayers = 0;
             activePlayers = 0;
             matchedPlayers = 0;
-            playerIndex = 0;
-            spD8 = 0;
-            var_r6 = &local245CC_gUnk_03003E28;
-            goto checkRemotePlayers245CC;
-loop_156: {
-                temp_r1_3 = *var_r6;
-                sp7C = (s16) ((u16) temp_r1_3->x >> 4);
-                sp7E = (s16) ((u32) (temp_r1_3->y << 0x14) >> 0x14);
+            for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
+                sp7C = (s16) ((u16) local245CC_gUnk_03003CE0[playerIndex].remote->x >> 4);
+                sp7E = (s16) ((u32) (local245CC_gUnk_03003CE0[playerIndex].remote->y << 0x14) >> 0x14);
                 if ((s32) sp7C < 0) {
                     sp7C = 0;
                 }
                 if ((s32) sp7E < 0) {
                     sp7E = 0;
                 }
-                spDC = local245CC_gUnk_03003CE0;
 
+                asm("" : : "r"(matchedPlayers));
                 if (local245CC_sub_0800CB9C() != 0) {
                     if (local245CC_sub_0800CF80() != 0) {
-                        temp_r1_4 = *var_r6;
-                        if (((s32) (temp_r1_4->flags7 << 0x1B) < 0) || (var_r4 = spDC, ((temp_r1_4->flags << 0x1A) == 0))) {
+                        temp_r1_4 = local245CC_gUnk_03003CE0[playerIndex].remote;
+                        if (((s32) (temp_r1_4->flags7 << 0x1B) < 0) || ((temp_r1_4->flags << 0x1A) == 0)) {
                             matchedPlayers += 1;
-                            var_r4 = spDC;
                         }
                         goto block_148;
                     }
@@ -2449,23 +2432,21 @@ loop_156: {
                         if (var_r1_2 < 0) {
                             var_r1_2 = 0 - var_r1_2;
                         }
-                        var_r4 = spDC;
                         if (var_r1_2 >= (s32) (sp98 + 0x20)) {
                             goto block_135;
                         }
                         goto block_136;
                     }
 block_135:
-                    var_r4 = local245CC_gUnk_03003CE0;
-                    if (((u32) ((*var_r6)->flags << 0x1A) >> 0x1A) & 0x20) {
+                    if (((u32) ((local245CC_gUnk_03003CE0[playerIndex].remote)->flags << 0x1A) >> 0x1A) & 0x20) {
 block_136:
-                        temp_r2 = *var_r6;
+                        temp_r2 = local245CC_gUnk_03003CE0[playerIndex].remote;
                         if ((s32) (temp_r2->flags7 << 0x1B) >= 0) {
                             if (((u32) (temp_r2->flags << 0x1A) >> 0x1A) & 0x20) {
-                                if (((u32) ((u8) temp_r2->x << 0x1C) >> 0x1C) != 0xC) {
-                                    goto block_147;
+                                if (((u32) ((u8) temp_r2->x << 0x1C) >> 0x1C) == 0xC) {
+                                    goto block_148;
                                 }
-                                goto block_148;
+                                goto block_147;
                             }
                         } else {
                             goto block_147;
@@ -2476,36 +2457,29 @@ block_136:
                     if (var_r1_3 < 0) {
                         var_r1_3 = 0 - var_r1_3;
                     }
-                    var_r4 = local245CC_gUnk_03003CE0;
                     if (var_r1_3 < (s32) (sp94 + 0x20)) {
                         var_r1_4 = sp7E - sp90;
                         if (var_r1_4 < 0) {
                             var_r1_4 = 0 - var_r1_4;
                         }
-                        if ((var_r1_4 < (s32) (sp98 + 0x20)) && (*(u32 *)((u8 *)&local245CC_gUnk_03003CE0->flags + spD8) & 0x400)) {
+                        if ((var_r1_4 < (s32) (sp98 + 0x20)) && (local245CC_gUnk_03003CE0[playerIndex].flags & 0x400)) {
 block_147:
                             matchedPlayers += 1;
                         }
                     }
 block_148:
-                    temp_r2_2 = *var_r6;
+                    temp_r2_2 = local245CC_gUnk_03003CE0[playerIndex].remote;
                     if ((((u32) (temp_r2_2->flags << 0x1A) >> 0x1A) & 0x20) && (((u32) ((u8) temp_r2_2->x << 0x1C) >> 0x1C) != 0xC)) {
                         activePlayers += 1;
                     }
                 }
-                if (*(u32 *)((u8 *)&var_r4->flags + spD8) & 0x2000) {
+                if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000) {
                     flaggedPlayers += 1;
                 }
                 if (local245CC_sub_0800CF80() != 0) {
                     flaggedPlayers = 0;
                 }
-                var_r6 = (struct Remote245CC **)((u8 *)var_r6 + 0x14C);
-                spD8 += 0x14C;
-                playerIndex = playerIndex + 1;
-
             }
-checkRemotePlayers245CC:
-            if (playerIndex < local245CC_sub_08002164()) goto loop_156;
             if ((matchedPlayers == local245CC_sub_08002164()) && (activePlayers != local245CC_sub_08002164())) {
                 if ((spA4 == 0) || (spC8 != 0)) {
                     if ((activePlayers == 0) && (flaggedPlayers != local245CC_sub_08002164())) {
@@ -2527,7 +2501,9 @@ checkRemotePlayers245CC:
                 goto block_188;
             }
 block_175:
-            local245CC_sub_08065370(&sp44, spB8, &sp78, &sp7A, 1);
+            {
+            u8 a = spB8;
+            local245CC_sub_08065370(&sp44, a, &sp78, &sp7A, 1);
             if ((local245CC_sub_0800CD34() == 0) && (local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0)) {
                 temp_r0_3 = local245CC_sub_0800CD8C();
                 if (temp_r0_3 == 0) {
@@ -2535,18 +2511,19 @@ block_175:
                     local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_3);
                     if (local245CC_gUnk_03002344 & 1) {
                         switch (spB8) {
-                        default:
-                            local245CC_sub_08007870(sp7C, sp7E, spB8, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
-                            break;
                         case 2:
                             local245CC_sub_08007870(sp7C + 0x10, sp7E, 2, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
                             break;
                         case 6:
                             local245CC_sub_08007870(sp7C - 0x10, sp7E, 6, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
                             break;
+                        default:
+                            local245CC_sub_08007870(sp7C, sp7E, a, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
+                            break;
                         }
                     }
                 }
+            }
             }
 block_186:
             local245CC_sub_080003F0();
@@ -2567,7 +2544,7 @@ block_188:
             if (local245CC_sub_0800CDC0() != 0) {
                 matchedPlayers = 0;
                 for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
-                    if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000)
+                    if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000)
                         matchedPlayers += 1;
                 }
                 if (matchedPlayers == local245CC_sub_08002164()) {
@@ -2601,7 +2578,7 @@ block_188:
                     local245CC_sub_0800A34C(local245CC_gUnk_03003170.curLevel, 0, 1);
                 }
             }
-            do {
+            while (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1)) {
                 while (local245CC_sub_0800CDF8() != 0)
                     local245CC_sub_080003F0();
                 if (local245CC_sub_080021A8() != 0) {
@@ -2610,31 +2587,24 @@ block_188:
                 if (local245CC_sub_08002204() == 0) {
                     goto block_276;
                 }
-                playerIndex = 0;
                 flaggedPlayers = 0;
                 activePlayers = 0;
                 matchedPlayers = 0;
-                spD4 = 0;
-                var_r6 = &local245CC_gUnk_03003E28;
-                goto checkRemotePlayers245CC2;
-loop_260: {
-                    temp_r1_7 = *var_r6;
-                    sp7C = (s16) ((u16) temp_r1_7->x >> 4);
-                    sp7E = (s16) ((u32) (temp_r1_7->y << 0x14) >> 0x14);
+                for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
+                    sp7C = (s16) ((u16) local245CC_gUnk_03003CE0[playerIndex].remote->x >> 4);
+                    sp7E = (s16) ((u32) (local245CC_gUnk_03003CE0[playerIndex].remote->y << 0x14) >> 0x14);
                     if ((s32) sp7C < 0) {
                         sp7C = 0;
                     }
                     if ((s32) sp7E < 0) {
                         sp7E = 0;
                     }
-                    spDC = local245CC_gUnk_03003CE0;
 
                     if (local245CC_sub_0800CB9C() != 0) {
                         if (local245CC_sub_0800CF80() != 0) {
-                            temp_r1_8 = *var_r6;
-                            if (((s32) (temp_r1_8->flags7 << 0x1B) < 0) || (var_r4 = spDC, ((temp_r1_8->flags << 0x1A) == 0))) {
+                            temp_r1_8 = local245CC_gUnk_03003CE0[playerIndex].remote;
+                            if (((s32) (temp_r1_8->flags7 << 0x1B) < 0) || ((temp_r1_8->flags << 0x1A) == 0)) {
                                 matchedPlayers += 1;
-                                var_r4 = spDC;
                             }
                             goto block_253;
                         }
@@ -2647,23 +2617,21 @@ loop_260: {
                             if (var_r1_6 < 0) {
                                 var_r1_6 = 0 - var_r1_6;
                             }
-                            var_r4 = spDC;
                             if (var_r1_6 >= (s32) (sp98 + 0x20)) {
                                 goto block_240;
                             }
                             goto block_241;
                         }
 block_240:
-                        var_r4 = local245CC_gUnk_03003CE0;
-                        if (((u32) ((*var_r6)->flags << 0x1A) >> 0x1A) & 0x20) {
+                        if (((u32) ((local245CC_gUnk_03003CE0[playerIndex].remote)->flags << 0x1A) >> 0x1A) & 0x20) {
 block_241:
-                            temp_r2_3 = *var_r6;
+                            temp_r2_3 = local245CC_gUnk_03003CE0[playerIndex].remote;
                             if ((s32) (temp_r2_3->flags7 << 0x1B) >= 0) {
                                 if (((u32) (temp_r2_3->flags << 0x1A) >> 0x1A) & 0x20) {
-                                    if (((u32) ((u8) temp_r2_3->x << 0x1C) >> 0x1C) != 0xC) {
-                                        goto block_252;
+                                    if (((u32) ((u8) temp_r2_3->x << 0x1C) >> 0x1C) == 0xC) {
+                                        goto block_253;
                                     }
-                                    goto block_253;
+                                    goto block_252;
                                 }
                             } else {
                                 goto block_252;
@@ -2674,35 +2642,28 @@ block_241:
                         if (var_r1_7 < 0) {
                             var_r1_7 = 0 - var_r1_7;
                         }
-                        var_r4 = local245CC_gUnk_03003CE0;
                         if (var_r1_7 < (s32) (sp94 + 0x20)) {
                             var_r1_8 = sp7E - sp90;
                             if (var_r1_8 < 0) {
                                 var_r1_8 = 0 - var_r1_8;
                             }
-                            if ((var_r1_8 < (s32) (sp98 + 0x20)) && (*(u32 *)((u8 *)&local245CC_gUnk_03003CE0->flags + spD4) & 0x400)) {
+                            if ((var_r1_8 < (s32) (sp98 + 0x20)) && (local245CC_gUnk_03003CE0[playerIndex].flags & 0x400)) {
 block_252:
                                 matchedPlayers += 1;
                             }
                         }
 block_253:
-                        if (((u32) ((*var_r6)->flags << 0x1A) >> 0x1A) & 0x20) {
+                        if (((u32) ((local245CC_gUnk_03003CE0[playerIndex].remote)->flags << 0x1A) >> 0x1A) & 0x20) {
                             activePlayers += 1;
                         }
                     }
-                    if (*(u32 *)((u8 *)&var_r4->flags + spD4) & 0x2000) {
+                    if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000) {
                         flaggedPlayers += 1;
                     }
                     if (local245CC_sub_0800CF80() != 0) {
                         flaggedPlayers = 0;
                     }
-                    var_r6 = (struct Remote245CC **)((u8 *)var_r6 + 0x14C);
-                    spD4 += 0x14C;
-                    playerIndex = playerIndex + 1;
-
                 }
-checkRemotePlayers245CC2:
-                if (playerIndex < local245CC_sub_08002164()) goto loop_260;
                 if ((matchedPlayers == local245CC_sub_08002164()) && (activePlayers != local245CC_sub_08002164())) {
                     if ((spA4 == 0) || (spC8 != 0)) {
                         if ((activePlayers == 0) && (flaggedPlayers != local245CC_sub_08002164())) {
@@ -2827,11 +2788,7 @@ afterPlayerBounds245CC2: ;
                 }
                 if ((local245CC_sub_0800CCCC() == 0) && (temp_r0_7 = local245CC_sub_0800CD8C(), (temp_r0_7 == 0))) {
                     local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    temp_r0_8 = (s16) sp8C;
-                    spD0 = (s32) temp_r0_8;
-                    temp_r0_9 = (s16) sp90;
-                    temp_r7 = &sp7E;
-                    local245CC_sub_0800BC08(temp_r0_8, temp_r0_9, &sp7C, temp_r7, 0x30, temp_r0_7);
+                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_7);
                     if (local245CC_gUnk_03002344 & 1) {
                         local245CC_sub_08007870(sp7C, sp7E, 8U, sp80, temp_r0_7, &sp44.data[0], sp44.w8, sp44.w0);
                     }
@@ -2839,19 +2796,19 @@ afterPlayerBounds245CC2: ;
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
-                    temp_r6_3 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    local245CC_sub_0800BC08((s16) spD0, temp_r0_9, &sp7C, temp_r7, 0x30, temp_r0_7);
+                    temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_7);
                     if (spCC->wE != 0) {
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_3, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_3, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
 block_328:
                     spBC = 1;
                 }
                 local245CC_sub_080003F0();
-            } while (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1));
+            }
             }
 block_332:
             if (((u16) local245CC_gUnk_03005CF4->flags >> 3) & 1) {
@@ -2867,19 +2824,17 @@ block_332:
                         spBC = 0;
                     }
                     local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_10);
-                    temp_r6_4 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
+                    temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                     if (spCC->wE != 0) {
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_4, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_4, &sp10.data[0], sp10.w8, sp10.w0);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
                     spBC = 1;
                 }
                 local245CC_sub_080003F0();
-                temp_r1_10 = spA8 - 1;
-                spA8 = temp_r1_10;
-            } while (temp_r1_10 != -1U);
+            } while (--spA8 != -1U);
 block_344:
             temp_r0_11 = sp84->flags;
             temp_r1_11 = temp_r0_11;
@@ -2900,16 +2855,19 @@ block_344:
             }
             local245CC_sub_0800D014();
             var_r1_9 = 0;
-            do {
+            pp = &local245CC_gUnk_03005CF4;
+            zz = 0;
+loop_355:
                 var_r2_3 = 0;
+                t4 = var_r1_9 << 2;
+                inext = var_r1_9 + 1;
+                row = t4 + var_r1_9;
 loop_356:
-                local245CC_gUnk_03005CF4->states[var_r2_3 + (var_r1_9 * 5)] = 0;
+                (*pp)->states[var_r2_3 + row] = zz;
                 var_r2_3 += 1;
-                if (var_r2_3 <= 4U) {
-                    goto loop_356;
-                }
-                var_r1_9 += 1;
-            } while (var_r1_9 <= 0x13U);
+                if (var_r2_3 <= 4U) goto loop_356;
+                var_r1_9 = inext;
+            if (var_r1_9 <= 0x13U) goto loop_355;
             local245CC_sub_080003F0();
             local245CC_sub_0801A664(0x12, 2);
             local245CC_sub_08057624(3);
@@ -2917,9 +2875,6 @@ loop_356:
     }
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_080245CC);
-#endif
 extern void t24_callback257D4(void) asm("sub_080245CC");
 extern u32 t24_state asm("gUnk_03005CF4");
 void t24_start257D4(u32 arg0, s32 param1) asm("sub_080257D4");
@@ -2984,11 +2939,6 @@ alloc:
 
 
 
-#ifdef NONMATCHING
-/* NONMATCHING: same control flow, frame layout and array spill slots as the original; the
-   remaining differences are register choices (&x copy vs payload pointer, dyA/vyB givs in
-   sl/r9) and the 60-frame loop counter, which the original keeps as a do-while whose
-   count+1 temp lands in a late spill slot (0x11C). */
 struct T24Net25890 { u16 unk0, unk2; u8 unk4:6; u8 pad5[2]; u8 unk7; };
 struct T24Player25890 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; s16 unk22; u16 unk24; s16 unk26; u8 pad28[6]; s16 unk2E; u32 flags; u8 pad34[0x58]; s32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net25890 *net; };
 struct T24Sprite25890 { u32 f0,f4,f8,fC; u8 pad10[12]; u8 payload[5]; u8 byte21,byte22,byte23; u8 pad24[16]; };
@@ -3002,6 +2952,7 @@ extern u16 t24_keys25890 asm("gUnk_03001324");
 extern u32 t24_frame25890 asm("gUnk_03002344");
 extern void t24_callback25890(void) asm("sub_08024538");
 extern s16 t24_rand25890(void) asm("sub_0800086C");
+int abs(int);
 extern u8 *t24_text25890(u32) asm("sub_08007290");
 extern u32 sub_08002164(void);
 extern u32 t24_width25890(void *) asm("sub_0801A638");
@@ -3022,17 +2973,16 @@ void t24_gate25890(u16 *arg0) {
     struct T24Player25890 *player;
     u8 *text;
     u32 x0, y0;
-    u32 color;
+    s16 color;
     u32 count;
     u32 timer;
-    s32 active;
+    s16 active;
     u32 ready;
     u32 i;
 
     x0 = arg0[0] * 8;
     y0 = arg0[1] * 8;
-    frame = 0;
-    phase = 0;
+    { u16 z; asm("" : "=r"(z) : "0"(0)); frame = z; phase = z; }
     active = 0;
     ready = 0;
     text = t24_text25890(0x1403D2);
@@ -3055,12 +3005,7 @@ void t24_gate25890(u16 *arg0) {
         vyA[i] = sub_080008C8() % 3 + 1;
         dyB[i] = (s16)(t24_rand25890() % 32) + 130;
         dxB[i] = sub_080008C8() % 200 - 100;
-        {
-            s32 r = (s16)(t24_rand25890() % 3);
-            if (r < 0)
-                r = -r;
-            vyB[i] = r + 1;
-        }
+        vyB[i] = abs((s16)(t24_rand25890() % 3)) + 1;
         dyA[i] <<= 8;
         dyB[i] <<= 8;
         vyA[i] <<= 7;
@@ -3239,7 +3184,8 @@ void t24_gate25890(u16 *arg0) {
         sub_080003F0();
     }
     sub_0805865C(0x24);
-    for (count = 1; ; count++) {
+    count = 1;
+    do {
         while (sub_0800CDF8() != 0)
             sub_080003F0();
         if (sub_080021A8() != 0)
@@ -3282,30 +3228,34 @@ void t24_gate25890(u16 *arg0) {
           }
         }
         sub_080003F0();
-        if (count > 0x3B) break;
-    }
+    } while (count++ <= 0x3B);
     {
         u32 row = 0;
         struct T24State25890 **state = &t24_state25890;
         u32 zero = 0;
 
-        do {
+    outer:
+        {
             u32 col = 0;
-            register u32 four asm("r0") = row << 2;
+            u32 four = row << 2;
             u32 next = row + 1;
             u32 rowOffset;
 
             rowOffset = four + row;
-            do {
+        inner:
+            {
                 struct T24State25890 *base = *state;
                 u32 idx = col + rowOffset;
-                register u32 gridOffset asm("r7") = ((size_t)&((struct T24State25890 *)0)->grid);
 
-                *((u8 *)base + gridOffset + idx) = zero;
+                base->grid[0][idx] = zero;
                 col++;
-            } while (col <= 4);
+            }
+            if (col <= 4)
+                goto inner;
             row = next;
-        } while (row <= 0x13);
+        }
+        if (row <= 0x13)
+            goto outer;
     }
     player->flags &= 0xFF7FFFFF;
     if (sub_08057AE8(7) != 0)
@@ -3318,9 +3268,6 @@ void t24_gate25890(u16 *arg0) {
     sub_08057624(3);
     sub_0800CDAC();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08025890);
-#endif
 void sub_08026338(void *arg) {
     s32 *gp;
     s32 off;
@@ -4753,8 +4700,6 @@ skip:
     }
     return 0;
 }
-#ifdef NONMATCHING
-/* NONMATCHING: same control flow as the ROM; remaining differences are register allocation and literal pools. */
 struct T025Packet27C { u16 f0, f2; u32 rest[3]; };
 struct T025Resource27C { u16 f0; u8 p2[4]; u8 f6, f7; u16 f8; u8 pA[6]; u16 f10; u8 p12[14]; };
 struct T025Effect27C { struct V2W12 pos; u16 f8, fA, fC, fE, f10, f12, f14, f16, f18, f1A, f1C; u8 p1E[2]; struct T025Resource27C *res; };
@@ -4773,7 +4718,6 @@ extern struct T025World27C *t025World27C asm("gUnk_03005CF4");
 extern struct T025Resource27C t025Resources27C[] asm("gUnk_0849E760");
 extern struct T025Config27C t025Configs27C[] asm("gUnk_084B1860");
 extern struct T025Player27C t025Players27C[] asm("gUnk_03003CE0");
-extern u16 t025Level27C asm("gUnk_03003200");
 extern void t025Init27C(void *, s32, s32, s32, s32) asm("sub_08065158");
 extern void t025Hide27C(u32, u32, u32, u32, s32) asm("sub_0800AEF4");
 extern void t025Position27C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
@@ -4800,8 +4744,7 @@ void t025Effects27C(u16 *arg0)
     struct T025Effect27C *eff;
     struct T025Effect27C *next;
     struct T025Resource27C *res;
-    struct V2W12 *pos;
-    register u32 i asm("r5");
+    u32 i;
     u32 g;
     u32 j;
     u32 v;
@@ -4810,8 +4753,12 @@ void t025Effects27C(u16 *arg0)
     u8 z;
     u8 shade;
     u32 k;
+    u32 w;
     s32 x, y;
+    u32 zr;
+    struct T025Group27C *end;
 
+    asm("" ::: "r5");
     rec = arg0;
     groups = 0;
     rows = 0;
@@ -4839,12 +4786,11 @@ void t025Effects27C(u16 *arg0)
         do {
             entry = &group->e[j];
             if (entry->kind != 0) {
-                pos = &t025World27C->pos160[i];
-                if (pos->x == 0) {
+                if (t025World27C->pos160[i].x == 0) {
                     eff->pos.x = entry->x << 11;
                     eff->pos.y = entry->y << 11;
                 } else {
-                    eff->pos = *pos;
+                    eff->pos = t025World27C->pos160[i];
                 }
                 res = &t025Resources27C[entry->kind];
                 eff->res = res;
@@ -4855,14 +4801,13 @@ void t025Effects27C(u16 *arg0)
                 else
                     t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, -1, 0);
                 eff->f14 = t025World27C->active22C[i];
-                res = eff->res;
-                eff->f8 = t025Configs27C[res->f8].f4;
+                eff->f8 = t025Configs27C[eff->res->f8].f4;
                 eff->fA = 0;
                 eff->fC = 0;
                 eff->fE = 0;
                 eff->f18 = 1;
-                eff->f1A = t025Configs27C[res->f8].f8;
-                eff->f1C = t025Configs27C[res->f8].fC;
+                eff->f1A = t025Configs27C[eff->res->f8].f8;
+                eff->f1C = t025Configs27C[eff->res->f8].fC;
                 if (eff->f16 != 0)
                     spawns++;
                 eff++;
@@ -4878,15 +4823,21 @@ void t025Effects27C(u16 *arg0)
 
     if (rows != 0) {
         rowGroup += (u16)(t025World27C->f34 - 1);
-        entry = rowGroup->e;
+        asm("");
+        /* Outer region with a back-edge that cse2 folds away: loop.c hoists
+           the config-table invariants out of it, so they land before
+           `entry = rowGroup->e` and the zero (zr) like in the ROM. */
         do {
+        row_outer:
+            entry = rowGroup->e;
+            zr = 0;
+        row_loop:
             if (entry->kind != 0) {
-                pos = &t025World27C->pos160[i];
-                if (pos->x == 0) {
+                if (t025World27C->pos160[i].x == 0) {
                     eff->pos.x = entry->x << 11;
                     eff->pos.y = entry->y << 11;
                 } else {
-                    eff->pos = *pos;
+                    eff->pos = t025World27C->pos160[i];
                 }
                 res = &t025Resources27C[entry->kind];
                 eff->res = res;
@@ -4897,21 +4848,31 @@ void t025Effects27C(u16 *arg0)
                 else
                     t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, -1, 0);
                 eff->f14 = t025World27C->active22C[i];
-                res = eff->res;
-                eff->f8 = t025Configs27C[res->f8].f4;
-                eff->fA = 0;
-                eff->fC = 0;
-                eff->fE = 0;
+                eff->f8 = t025Configs27C[eff->res->f8].f4;
+                eff->fA = zr;
+                eff->fC = zr;
+                eff->fE = zr;
                 eff->f18 = 1;
-                eff->f1A = t025Configs27C[res->f8].f8;
-                eff->f1C = t025Configs27C[res->f8].fC;
+                eff->f1A = t025Configs27C[eff->res->f8].f8;
+                eff->f1C = t025Configs27C[eff->res->f8].fC;
                 if (eff->f16 != 0)
                     spawns++;
                 eff++;
                 i++;
             }
             entry++;
-        } while (entry <= &rowGroup->e[3]);
+            /* Opaque copy keeps GCSE from hoisting rowGroup + 24. */
+            end = rowGroup;
+            asm("" : "+r"(end));
+            if (entry <= &end->e[3])
+                goto row_loop;
+            /* Loop notes stop cse1 from folding the test below; cse2 does. */
+            do { asm(""); } while (0);
+            if (entry <= &end->e[3]) {
+                asm("" : "+r"(zr));
+                goto row_outer;
+            }
+        } while (0);
     }
 
     t025World27C->f48 = count = i;
@@ -4932,8 +4893,19 @@ void t025Effects27C(u16 *arg0)
             g = 0;
             goto effect_test;
         effect_loop:
-            t025World27C->pos160[g] = eff->pos;
-            t025World27C->active22C[g] = eff->f14;
+            /* r0 live across the World load moves its reload to r1, like the ROM. */
+            {
+                register u32 q asm("r0");
+                struct T025World27C *w;
+                asm("" : "=r"(q));
+                w = t025World27C;
+                asm("" : : "r"(q));
+                w->pos160[g] = eff->pos;
+            }
+            {
+                u8 *act = t025World27C->active22C;
+                act[g] = eff->f14;
+            }
             state = eff->f14;
             if (state != 0)
                 next = eff + 1;
@@ -4944,7 +4916,7 @@ void t025Effects27C(u16 *arg0)
                 next = eff + 1;
                 break;
             case 10:
-                eff->f8 = t025Configs27C[eff->res->f8].f4 + 1;
+                *(&eff->f8) = t025Configs27C[eff->res->f8].f4 + 1;
                 mode = 0;
                 if (eff->fE == 0)
                     break;
@@ -4952,7 +4924,11 @@ void t025Effects27C(u16 *arg0)
                     if (eff->f16 != 0) {
                         while (sub_08068558() == 0)
                             sub_080003F0();
-                        t025World27C->f4 |= 8;
+                        {
+                            register struct T025World27C *wp asm("r0") = t025World27C;
+                            register u16 v asm("r2") = wp->f4;
+                            wp->f4 = v | 8;
+                        }
                     }
                     t025Hide27C((u32)(eff->pos.x << 8) >> 16, (u32)(eff->pos.y << 8) >> 16, eff->f1A, eff->f1C, 0);
                     eff->f18 = 0;
@@ -4987,16 +4963,11 @@ void t025Effects27C(u16 *arg0)
                             packet.f2 = 1;
                         }
                         if (sub_0800CCCC() != 0) {
-                            goto retry_check;
-                        retry:
-                            sub_080003F0();
-                        retry_check:
-                            x = eff->pos.x;
-                            y = eff->pos.y;
-                            if (sub_08066520(x, y, t025Players27C[sub_080020F4()].f2C, (u32 *)&packet) == 0)
-                                goto retry;
+                            while (x = eff->pos.x, y = eff->pos.y,
+                                   sub_08066520(x, y, t025Players27C[sub_080020F4()].f2C, (u32 *)&packet) == 0)
+                                sub_080003F0();
                         } else {
-                            while (sub_08066520(eff->pos.x, eff->pos.y, t025Level27C, (u32 *)&packet) == 0)
+                            while (sub_08066520(eff->pos.x, eff->pos.y, gUnk_03003170.f90, (u32 *)&packet) == 0)
                                 sub_080003F0();
                         }
                         }
@@ -5018,14 +4989,17 @@ void t025Effects27C(u16 *arg0)
                     eff->f8 = 6;
                 }
                 mode = 0;
+                state = eff->fE;
+                asm("" : "+r"(eff));
                 next = eff + 1;
-                if (eff->fE != 0)
+                asm("" : : "r"(next));
+                if (state != 0)
                     eff->f14 = 0xB;
                 break;
             case 11:
-                if (eff->f18 != 0)
+                if ((w = eff->f18) != 0)
                     goto effect_next;
-                t025Hide27C((u32)(eff->pos.x << 8) >> 16, (u32)(eff->pos.y << 8) >> 16, eff->f1A, eff->f1C, eff->f18);
+                t025Hide27C((u32)(eff->pos.x << 8) >> 16, (u32)(eff->pos.y << 8) >> 16, eff->f1A, eff->f1C, w);
                 goto effect_idle;
             }
             eff->fE = sub_08065370(&sprites[g], eff->f8, (s32)&eff->fA, (s32)&eff->fC, (s16)mode);
@@ -5068,17 +5042,18 @@ void t025Effects27C(u16 *arg0)
     }
 
 main_done:
-    for (j = 0; j <= 9; j++) {
-        t025World27C->active22C[j] = 0;
-        t025World27C->pos160[j].x = 0;
-        t025World27C->pos160[j].y = 0;
-    }
-    sub_08056FE0();
+    k = 0;
+    do {
+    reset_loop:
+        t025World27C->active22C[k] = 0;
+        t025World27C->pos160[k].x = 0;
+        t025World27C->pos160[k].y = 0;
+        if (++k <= 9)
+            goto reset_loop;
+        sub_08056FE0();
+    } while (0);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
-#endif
 struct E8368 { u16 h; u8 a; u8 c; };
 struct GS8368 { u8 pad[0x1E4C]; u32 cnt; struct E8368 e[11]; };
 extern struct GS8368 *gGS8368 asm("gUnk_03005CF4");

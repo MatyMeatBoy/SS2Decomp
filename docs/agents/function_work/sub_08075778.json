@@ -1,31 +1,31 @@
 {
   "address": "0x08075778",
-  "updated_utc": "2026-11-07T05:05:05.179529+00:00",
-  "checkpoint": "Verified target-width checkpoint based on be747af9, 2026-11-07: target is u16 like Arg5778.target and every value assigned to it. Candidate/original remain 2388/2416 bytes and frames 364/368. Scoped heuristic score improves 440 to434; normalized byte/halfword distances improve 451/360 to448/356. Strict NO MATCH; original ASM retained; no additional matching credit.",
+  "updated_utc": "2026-11-07T12:00:00Z",
+  "checkpoint": "claude-nov07 shard 77: active C matches; make compare OK with sub_08075778.s removed (base 46155751).",
   "areas": [
     {
       "id": "compile",
       "label": "Complete compiling draft",
       "state": "done",
-      "evidence": "Serial make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; full make -j1 nonmatching succeeds; check_tree reports 0 errors. An unchanged diagnostic full-module compile strictly equals the actual candidate object under the normal module flags. This verifies the checkpoint, not equivalent C."
+      "evidence": "sub_08075778 is active C in code_08073E2C under the normal compiler and flags; the NONMATCHING wrapper and asm/nonmatchings/code_08073E2C/sub_08075778.s are removed. make -j1 compare, make -j1 nonmatching and check_tree pass."
     },
     {
       "id": "lifetimes",
       "label": "Target and hit-loop pointer lifetimes",
-      "state": "active",
-      "evidence": "The initial enemy target and the later enemy-hit loop now use separate pointer variables, following the matched sub_080761A4 sibling. A genuine s32 speed value is assigned 45 once and passed to the existing inline scaling helper at all four sites. These changes preserve the reviewed data flow and all 65 static call targets in original order. The entry now spills its argument at SP+0x120 instead of retaining it in r6, and initial player/index carriers use the original r8/r9 choices. Observed angle-based movement, target lookup, collision tests and attack callbacks suggest RunTargetedAttackProjectile as an unconfirmed semantic proposal; no canonical symbol is renamed. Target is now u16, matching its argument field. Every assignment is either the u16 argument field or the 0xFFFF sentinel; comparison promotions preserve the same values, including comparison with who. No call, memory read or arithmetic operation was added. Fresh static comparison retains all 65 external calls in original order."
+      "state": "done",
+      "evidence": "Per-branch ArcTan sb normalization (cross-jumped as in the ROM), the step5778 mode bit built in the global c, and three FAKE empty-asm lifetimes: r4 held across the post-ArcTan target check (reload rotation picks r6/r0 as in the ROM), the enemy rand call result kept live in r0 (reload copies the constant 1 from r7 into the and destination), and c kept live past the 0x10 test (regmove ties that and to the constant)."
     },
     {
       "id": "layout",
       "label": "Frame, scalar homes and angle branches",
-      "state": "active",
-      "evidence": "Selected checkpoint: candidate 2388 bytes versus original 2416, local frame 364 versus original 368, approximate nmscore 553 to 440. The initial enemy target still remains in r6 instead of its original SP+0x124 home, shifting later scalar homes. The two angle-normalization paths also share more code than the original. Declaration-order changes, separately duplicated angle blocks, memcpy/inventory pointer staging, a separate lookup count, signed draw carriers, explicit player/index bindings, a goto-shaped player-hit loop, pointer-home aggregates and a geometry aggregate were all tested and rejected. Some variants reach the original size/frame while moving more values away from the original registers; exact size alone is insufficient. A volatile pointer aggregate reaches score 415/2412 but places pointers at SP+0x100 and shifts coordinate buffers, so it was rejected. Follow-up initial-target pointer definitions (null/base) add code without recovering its original home: 443/2392, or 450/2392 and 448/2396 with reordered declarations; reordered speed/enemy declarations alone give 447/2388. All were rejected and the selected 440 checkpoint was rebuilt. Preserve this checkpoint and inspect the original target-pointer and angle lifetimes before retrying those hypotheses. Current one-line width checkpoint keeps 2388 bytes/frame364, with strict NO MATCH and byte/halfword distances448/356. It changes invariant spill ordering and removes a mask setup copy. New ordinary shared-enemy-pointer, integer-address carrier and unsigned normalization controls did not recover the original target-pointer home; target-width plus the matched sibling declaration order also regressed and was rejected. No declaration search matrix or unchanged permuter was run."
+      "state": "done",
+      "evidence": "Size 2416 and frame 0x170 equal the ROM and every spill slot lines up. The second offset-table pool word is offX5778+2 (hoisted loop invariant rematerialized by reload); the ROM pool word has the same value 0x084EBEBE, which the disassembler labelled gUnk_084EBEBE. A separate offY symbol is not hoisted by loop.c and changes the draw-block registers."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
-      "state": "pending",
-      "evidence": "Strict module comparison remains NO MATCH. The original ASM is retained and no new matching C bytes or whole-function semantic equivalence are claimed. Static call ordering and heuristic scores do not replace active-C full-ROM proof."
+      "state": "done",
+      "evidence": "Aligned module diff MATCH; strict diff only shows the relocation spelling gUnk_084EBEBC+2 vs gUnk_084EBEBE (same bytes). The full EU ROM compares OK with the active C (2416 bytes recovered)."
     }
   ],
   "regions": []
