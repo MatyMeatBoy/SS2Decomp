@@ -44,3 +44,20 @@ claude-nov07-w85 (2026-11-07, follow-up): filtered nmdiff 1698 -> 1513, size 494
     A function-scope `tb85 = text85` passed as DST cut the register-insensitive diff 1015 -> 421, but
     filtered nmdiff only reached 1477 and size dropped to 4920; setting tb85 right before each template call
     gave 4972 bytes and filtered 1775. Neither landed. Next: tune tb85 placement/scope per call site.
+claude-nov07-w85 (2026-11-07, third pass, nothing landed in code):
+  - The last 4 bytes don't sit in one region. The per-call drift (bl offsets ROM vs candidate) shows
+    kind 1 at -10 bytes, case 2/3 templates at -8..-30, and +36 twice where the candidate keeps its own
+    copy of the digit tail (sub_0801A638/sub_0805FB7C/sub_080653CC) in the case-2 9-body and default rest.
+    In ROM those two tails cross-jump into case 4, and they will only merge once the registers match.
+    The kind-1 -10 is entirely allocation: len in r8 (`movs r0,#0; mov r8,r0`,
+    `movs r1,#1; add r8,r1`, `mov r2,r8`), the char copy before `cmp #255`, and text85 reloaded inside the
+    if instead of PRE-hoisted.
+  - Kind-1 char copy: no source change moved it. Tried a one-case `switch (c)`, comparing
+    `text85[off + len]` (adds a reload, 4976 bytes), `*d == 0xFF` with u8/u32 c, `(u8)c` with s32 c,
+    `(*d = c) == 0xFF`, and re-reading `*src`.
+  - tb85 sweep (function-scope `tb85 = text85` set at entry, passed as DST to a subset of the five
+    text85 templates). Mask bits in template order: 9-body, default rest, case 3, case 4, case 5.
+    Mask 3 (only the two case-2 templates) gives exactly 4972 bytes and a register-blind aligned diff of
+    434 (k12 landed: 1015), but filtered nmdiff 1633 (landed 1513). Mask 1 gives 4972 bytes and filtered
+    1567. Mask 3 is the better base for allocation work, since the remaining diff is mostly registers
+    (high/low choice, spilled item pointers), but it is not landed because the official metric is worse.
