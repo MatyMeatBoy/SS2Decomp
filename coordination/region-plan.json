@@ -44,6 +44,14 @@
       "candidate": null,
       "evidence": "No valid candidate. Preserved .local/923fc/initial-four-experiments/HANDOFF.md and manifest.json: strict fresh whole-module control; new167 private diagnostic trace confirms early bPRE1093 R6 reservation, followed by xs205 R7 and failed1093. Rejected real xs pointer (frame328), unchanged for-loop, staged X, goto-loop (phase3 regression). Outside b/cache producer boundary requires owner coordination. No production edits and no live jobs.",
       "region": "initial-four"
+    },
+    {
+      "action": "review",
+      "actor": "codex-coord-eu-nov07",
+      "at": "2026-11-07T11:53:06+00:00",
+      "candidate": null,
+      "evidence": "Pinned6a52536a artifact injected by owner; actual normal-module NM equals candidate a9072d16.2236/frame332/131 differing halfwords versus136; heuristic170 versus167 disclosed.94 ordered calls; phase2/3/pools/target home preserved; only documented preheader recolor. Owner4 target-home,150 cancellation,120 full cases and9048 core/model pairs pass; increment8 negative detected. Still NONMATCHING, zero matching credit.",
+      "region": "phase-five-core"
     }
   ],
   "module": "code_0808FB5C",
@@ -104,7 +112,7 @@
         "Owner-managed outside literals relative724 limit,728/72C/730 cache/low/high original versus low/high/cache baseline;734 v250,738 v254. No pool relocation or preheader edits in production by worker."
       ],
       "start": "0x0809295A",
-      "state": "submitted",
+      "state": "accepted",
       "types": [
         "accum s16 semantic wrap with zero-extended32 home, d s32, globals low/high stored16 and compared signed16, shake s16 for arithmetic but existing u16 carrier. cache4xu16, offsets/source values u16 loads. Preserve all existing helper widths and C89 declarations."
       ],
