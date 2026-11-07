@@ -110,11 +110,11 @@ void sub_0801801C(struct T015LActor *arg0) {
     u32 count;
     s32 dir;
     u8 bg;
-    u16 v;
+    s16 v;
     s32 h;
     struct T015LAnim *anim;
     u16 w;
-    s32 st;
+    register s32 st asm("r2"); /* ROM loads the switch value straight into r2 */
 
     sp118 = (struct T015LData *)((u8 *)arg0 + 0x204);
     local10C = arg0->fC;
@@ -567,6 +567,7 @@ void sub_0801801C(struct T015LActor *arg0) {
             local110 = 0;
             break;
         }
+        asm("" ::: "r5"); /* no code: the &stack.main PRE reg must not take r5 (ROM r6) */
         if (arg0->fC == 0xB && (T015L_F7A & 8)) {
             bg = sub_0800BC44(arg0->f14 >> 8, arg0->f18 >> 8, 0);
             if (gUnk_03003170.curLevel == 1)
@@ -600,7 +601,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                 v = 0;
             else
                 v = arg0->f62;
-            switch ((s16)v) {
+            switch (v) {
             case 8:
                 T015L_DRAW(stack.x, stack.y, arg0->f68, arg0->f6A, bg, stack.main.data, stack.main.f8, stack.main.f0);
                 sub_08065370(&stack.auxA, 0, (s32)&stack.step, (s32)&stack.state, 1);
@@ -733,7 +734,10 @@ void sub_0801801C(struct T015LActor *arg0) {
                 sub_080003F0();
         }
         if (sub_08002204() != 0) {
-            if (T015L_STATE != 0xB && T015L_STATE != 0xD && T015L_sub_0805C620(arg0, stack.packet) != 0) {
+            u16 s = T015L_STATE;
+            u8 *a86 = &arg0->f86;
+            u8 *a84 = &arg0->f84;
+            if (s != 0xB && s != 0xD && T015L_sub_0805C620(arg0, stack.packet) != 0) {
                 if (sub_0800CCCC() != 0) {
                     while (sub_08066520(arg0->f14, arg0->f18, T015L_poll_players[0].field2C, stack.packet) == 0 && sub_08056E90() == 0)
                         sub_080003F0();
@@ -742,7 +746,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                         sub_080003F0();
                 }
             }
-            T015L_sub_080571A4(arg0->f86, arg0->f84, 3);
+            T015L_sub_080571A4(*a86, *a84, 3);
         }
         if (T015L_STATE != 0xB
             && !(T015L_players[sub_080020F4()].f30 & 0x2000)

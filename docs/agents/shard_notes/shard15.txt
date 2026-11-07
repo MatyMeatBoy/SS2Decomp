@@ -106,3 +106,90 @@ agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: buil
   Next: make G die at `anim = G` with every later use through anim and no size change, then
   retest anim->f8 in DRAW; separately find an arg-setup order inside &auxB's life where
   r0-r3 are live hard regs, so reload has to spill r6.
+
+2026-11-07 claude-nov07-w15 (sub_0801801C NONMATCHING refinement):
+  Landed: one no-code `asm("" ::: "r5");` right after switch (st), where the PRE reaching
+  reg G of &stack.main (fp+16, 51 sets) is live on every path. Filtered nmdiff 589 -> 528,
+  size 7124/7132 and frame 0x168 unchanged. Output equals a patched-compiler run that
+  allocates the case-14 zero (fC = 0 / 5th arg) before G: G now r6 like the ROM,
+  the case-14 zero r5, every TBL1 `add r6,sp,#0x20` and `adds r6,rN` copy now ROM.
+  Diagnosis (patched agbcc: NOLOCAL=<pseudo> skips local-alloc, GFORCE=p:hr, GFIRST=p,..,
+  GCONF/GCONF0 print conflicts/prefs, GCWHO=p prints insns where r4-r6 conflict):
+  - G is allocated early (priority ~27000 vs ~2400 for the case-14 zero). Its only lo
+    conflict is r4 (case-11 F7A path: zero local r4 across the call); copy pref r5 comes
+    from the case-2 tmp (local r5), so find_reg gives r5. The clobber adds r5 to G's
+    conflicts; the zero itself is dead there. A `register u32 z asm("r5")` binding of the
+    case-14 zero also moves G (560) but shifts reload rotation by one.
+  - Second cluster: the NULL zero for sub_0800BC08 is the bit-field mask zero of the
+    anim->data[] stores (cse class head). It is local (block 233) and local-alloc gives it
+    r6, so anim (copy of G) gets no reg and is spilled to 0x130. ROM: zero sl, anim r6.
+    `{ register u32 nul asm("sl") = 0; ... sub_0800BC08(..., (void *)nul); }` around the
+    stores reproduces ROM's anim block byte-for-byte, but anim then needs no slot, the
+    frame drops to 0x164 and every slot >= 0x134 shifts (778). Needs the other missing
+    slot first.
+  - Init: with anim r6 + NULL zero sl, count*12 is spilled and &state is REG_EQUIV
+    rematerialized (`add r2,sp,#244`) like ROM. Still different: ROM spills &step and
+    &phase during reload (slots 0x138/0x13c after count*12 0x134); ours spills &step in
+    global (0x134, pseudo order) and gives &phase local r6. r6 clobbers in block 22 move
+    &phase to r1 or change nothing (frame stays 0x164).
+  Rejected: anim->f8/anim->fC in DRAW/AF0 (anim gets higher priority, G spilled, 2030);
+  anim asm("r6") whole function or scoped (G moves to r7, 7360 bytes); NULL via the
+  `zero` var or an in-loop `zero = 0` (787, 7084 bytes); f1D4 operand orders (no gain).
+  Next: find why ROM's reload spills the regs of &step/&phase in block 22 (same trigger as
+  &auxB -> sl); once that slot exists, add the sl NULL binding above.
+  Follow-up (same day, init spill slots): ROM slots 0x130-0x13c are all global spills
+  assigned in pseudo order before the PRE regs (0x140 = &f60 PRE copy). ROM never reads
+  0x138/0x13c (dead stores of spilled &step/&phase address pseudos). So the count*12 owner
+  must be numbered between &f74 (224) and &step (266): a block-scoped user var does it,
+  e.g. `{ u32 off; stack.state = 0; ... count = sub_08002164(); sp118->f6 = (u32)(sp118->f6
+  * *(u32 *)((u8 *)T015L_scales + (off = count * 3, off <<= 2))) / 100; if (count > 1)
+  sp118->f0 = (u32)((sp118->f0 + 2) * *(u32 *)((u8 *)&T015L_scales[0].b + off)) / 100; }`
+  (multi-set so cse keeps `off` as the owner; plain `off = count * 12` loses it). With the
+  sl NULL binding plus patched-compiler spills of &f74/off/&step/&phase (NOLOCAL + GFORCE
+  p:99) the function is 7132 bytes, frame 0x168, slots 0x130-0x13c = ROM (516 lines).
+  Without forcing, &phase stays local r6 and &f74/&step/off compete for r6/r8/sl (746).
+  ROM leaves r6/r8/sl unused in block 22 and &phase2 rematerialized, so something live
+  through block 22 (not referenced there) must occupy them in ROM. Not found; stopped here.
+
+2026-11-07 claude-nov07-w15N (sub_0801801C, follow-up on PR610):
+  Landed (filtered nmdiff 528 -> 509, full-module aligned diff 138 -> 125, size 7124 -> 7128,
+  frame 0x168 unchanged):
+  - DRAW switch: `s16 v; ... switch (v)` instead of `u16 v; switch ((s16)v)`. ROM computes the
+    case index as `lsls r0,r2,#16; add 0xFFFC0000; asrs #16`; the (s16) cast form folds to
+    `subs r0,r2,#4; lsls; asrs` (-4 bytes) and also swaps the r9/sl x,y loads of case 8.
+    TBL1 case 9 (v as s16 argument) is unchanged.
+  - `register s32 st asm("r2")`: the volatile switch-head snapshot otherwise loads into r0 and
+    copies to r2 (`ldrh r0; adds r2,r0`); ROM is `ldrh r2,[r7,#12]`. u16/u32/s16 st,
+    `switch (st = ...)`, (u16)st casts and a block-scoped r2 temp do not help.
+  Diagnosis of the init (block 22 = f74 .. count*12) with patched agbcc (copy in
+  scratchpad nov07-w15N/agb, adds EQUIVR=<pseudos> to force REG_EQUAL->REG_EQUIV):
+  - The address pseudos of &state/&step/&phase2/&phase/&rng (267/275/301/312/323) are block-local
+    and live to the PRE copies inserted at the end of the block (after sub_08002164 and
+    __udivsi3), so they need callee-saved regs. local-alloc gives count r4, &rng r5, &phase r6,
+    &phase2 r8, &f60 r9, &step sl. &step/&phase2 in hi regs are invisible in the final code
+    (the output `mov sl,rX` is deleted because the REG_EQUIV copy is deleted), which already
+    matches ROM (`add r2,sp,#0xf4` / `movs r4,#0xfa; add r4,sp`). The only init difference left
+    in the `off` + sl-NULL configuration (w15) is &phase: ROM has no reg for it in local or global
+    alloc (its slot 0x13c is in the pre-reload pseudo-order block between &state 0x138 and the
+    &f60 copy 0x140, so it is not a reload spill). Forcing it global (NOLOCAL=312) frees r6, and
+    then &phase2 takes r6 visibly, which ROM does not. So in ROM r6 is unavailable to block-22
+    local qtys (a hard reg live there, or a hidden higher-priority LO qty); not found.
+  - &auxB (pseudo 99) is the opposite case: local-alloc gives r6 and ROM spills it in reload
+    (retry_global_alloc -> sl after r8/r9 went to &auxA/&base); a function-scope sl variable
+    shared between the auxB argument and the NULL argument keeps a PRE copy in r6 (`add r6..;
+    mov sl,r6`), and a plain shared pointer variable reshuffles r8/r9 (worse).
+  - With the init emulated (w15 forced spills) plus `anim->f8` in all DRAW calls and
+    `anim->fC` in the AF0 call, the non-init part of the aligned diff drops 94 -> 40: the
+    DRAW `ldr r4,[r6,#8]` and AF0 `ldr r1,[r6,#12]` come out like ROM once anim is not
+    spilled. Without the init fix anim->f8 is much worse (947), so it is not landed.
+  - Post-loop block: `u16 s = T015L_STATE; u8 *a86 = &arg0->f86; u8 *a84 = &arg0->f84;` at the
+    top of `if (sub_08002204() != 0)` (s used for the 0xB/0xD tests, *a86/*a84 as the
+    sub_080571A4 args) gives ROM r4=&f86 / r5=&f84 after the STATE load (the PRE regs were
+    numbered by hash bucket, 132 before 134, so the tie went to &f84). nmdiff 509 -> 499,
+    aligned 125 -> 118.
+  - Main loop condition: ROM keeps the sub_08056E90() result in r4 (`adds r4,r0,#0; cmp r4,#0`)
+    and reuses it as the f60 reset zero (`strh r4,[r0]`). `(zero = sub_08056E90()) == 0`, and
+    dropping zero from the exit flag, both make the init much worse (aligned 118 -> 178+).
+  Other leads: tail countdown `local128 = (u32)((local128 << 16) + 0xFFFF0000) >> 16` gives the
+  ROM shape but loop.c hoists the 0xFFFF0000 constant (ROM reloads it in the loop);
+  case-12 `ldr r1,[r7,#48]` (ROM r1, ours r0) unexplained.
