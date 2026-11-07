@@ -952,6 +952,8 @@ void sub_0805664C(s32 arg0)
     }
 }
 #ifdef NONMATCHING
+struct StatePlayer567D4 { u8 pad[0x11E]; u16 state; u8 tail[0x2C]; };
+extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
 struct Inv567D4 { u8 pad[0x150]; struct Item567D4 slots[25]; };
 extern struct Inv567D4 *inv567D4 asm("gUnk_030034E0");
@@ -1057,31 +1059,35 @@ void sub_080567D4(s32 id)
             }
             sub_08068070((u32)sub_0805A43C, 0);
             ret = 5;
-            *(u16 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x11E) = ret;
+            { struct StatePlayer567D4 *p = &statePlayers567D4[sub_080020F4()]; p->state = ret; }
             item = gates567D4[id].item;
             kind = gates567D4[id].kind;
             count = gates567D4[id].need;
             for (i = 0; i <= 24; i++) {
                 if (inv567D4->slots[i].item == item && inv567D4->slots[i].kind == kind) {
-                    count--;
-                    inv567D4->slots[i].item = 0;
-                    inv567D4->slots[i].kind = 0;
+                    /* Extra pre-combine operations keep loop.c from hoisting 0x150. */
+                    count = -(-count + 1);
+                    /* This grouping preserves the store weights for register allocation. */
+                    do {
+                        inv567D4->slots[i].item = 0;
+                        inv567D4->slots[i].kind = 0;
+                    } while (0);
                     if (count == 0)
                         break;
                 }
             }
-            key = gates567D4[id].flag;
+            ret = gates567D4[id].flag;
             if (gates567D4[id].bitflag != 0)
-                sub_08068070((u32)callback5990C56, key);
+                sub_08068070((u32)callback5990C56, ret);
             else
-                sub_08068070((u32)sub_08059954, key);
+                sub_08068070((u32)sub_08059954, ret);
             sub_08068820(sub_0805A474, gates567D4[id].event + 5, gates567D4[id].param);
             return;
         }
         if (!(gUnk_030027D0 & 0x20))
             sub_08006D08(0x61);
         ret = 6;
-        *(u16 *)((u8 *)&gUnk_03003CE0[sub_080020F4()] + 0x11E) = ret;
+        { struct StatePlayer567D4 *p = &statePlayers567D4[sub_080020F4()]; p->state = ret; }
     }
 already:
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);

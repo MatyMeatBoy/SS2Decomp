@@ -1,7 +1,7 @@
 {
   "address": "0x080567D4",
-  "updated_utc": "2026-11-07T02:56:49+00:00",
-  "checkpoint": "codex-sol-b-nov07: scope the first position-loop XY bases and use typed inventory slots for removal; normal-module normalized byte edit distance 259 -> 205 and halfword edit distance 188 -> 157, approximate nmscore 200 -> 177. Candidate 1240 bytes versus original 1248; frame remains 0x14. Still NONMATCHING.",
+  "updated_utc": "2026-11-07T03:07:21+00:00",
+  "checkpoint": "codex-sol-b-nov07 follow-up: restore separate 0x11E state offsets, stop removal-slot offset hoisting through a pre-combine unsigned decrement, preserve clear-store weights, and reuse the call-crossing ret for the final flag callback. Relative to PR547, normalized byte edit distance 205 -> 149 and halfword edit distance 157 -> 118; approximate nmscore 177 -> 153. Candidate 1252 bytes versus original 1248; frame remains 0x14. Still NONMATCHING.",
   "areas": [
     {
       "id": "stack_abi",
@@ -13,7 +13,7 @@
       "id": "cfg_registers",
       "label": "Match control flow and register allocation",
       "state": "active",
-      "evidence": "Typed inventory fields preserve the original single removal-loop body and reload its inventory pointer each iteration; scoped XY bases avoid the extra gate/flag home of the old struct experiment, retaining frame 0x14. Count-loop increments now advance the slot before the index as in ROM. Remaining: initial gate/height r6-r7 roles, first-loop Y-base hoist, unwanted removal-loop 0x150 hoist, item/need/kind load interleave and state-store address formation. Same 26 external-call relocations; normalized byte/relocation comparison remains NO MATCH."
+      "evidence": "The removal loop now reproduces the original body and registers (item r7, kind r6, count r3, index r4, zero r5); only its setup/load interleave still differs. Fresh loop dump reports 25 real instructions before combine and rejects both 0x150/0x152 invariants, while retaining the inventory-global and zero hoists. Unsigned count = -(-count + 1) combines to the original subs; do/while(0) groups only the two original stores. Block-local Player pointers restore separate 0x11E offsets for states 5/6. Final flag assignment initializes ret before either callback. Remaining: initial gate-base register/reload, first-loop Y-base hoist, height and handshake registers, load interleaving, and pools/padding. Fresh dump unchanged control equals the normal module object; strict bytes/relocations remain NO MATCH."
     },
     {
       "id": "full_match",
