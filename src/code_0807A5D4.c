@@ -7738,7 +7738,9 @@ extern void f855_57624(u16) asm("sub_08057624");
 extern void f855_0CFA4(void) asm("sub_0800CFA4");
 extern void f855_00420(s32) asm("sub_08000420");
 
-void sub_080855D4(void)
+void sub_080855D4_v(void) asm("sub_080855D4");
+
+void sub_080855D4_v(void)
 {
     u8 name[0x20];
     u8 desc[5][0x20];
