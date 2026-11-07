@@ -1661,12 +1661,13 @@ found27scan_24:
             if (var_r0_21 != ((void *)0)) {
                 (*(u32*)((u8*)(var_r0_21)+(0x44))) = scanCallback27;
             }
+            temp_r4 = 3;
             if (sub_0800CE30() != 0) {
                 var_r0_22 = stateAA28 + 0x1BE;
             } else {
                 var_r0_22 = stateAA28 + 0x1B2;
             }
-            *var_r0_22 = 3;
+            *var_r0_22 = temp_r4;
             sub_0802A590(0, 0xF);
             if (sub_0800CC98() == 0) {
                 temp_r0_7 = sub_0801AB24();
