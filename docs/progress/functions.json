@@ -22997,14 +22997,14 @@
       "name": "sub_080624D8",
       "addr": 134620376,
       "size": 3716,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x080624D8",
       "canonical_symbol": "sub_080624D8",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "TaskFourChoiceAnimatedGameMenu",
       "name_status": "confirmed",
       "name_source": "catalog",
@@ -23058,7 +23058,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2145,
+          "line": 2143,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
