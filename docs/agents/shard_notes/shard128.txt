@@ -52,3 +52,29 @@ Coordinator integration review (2026-11-07, main 6cb57be8):
   stack contents, actual scheduler/render behavior or complete C equivalence.
   Normal ROM comparison, full NONMATCHING build, tree and diff checks pass.
   Original ASM remains the normal implementation; this is still NONMATCHING.
+
+2026-11-07 (claude-nov07-wM) sub_080245CC -- count loops, allocation map
+Landed: the two CDC0 counting loops index the player array as a struct,
+`players[playerIndex].flags & 0x2000` (gUnk_03003CE0[i].flags), not a byte
+offset from gUnk_03003D10. loop.c now hoists the array base into r4 as in ROM
+(08024870 `ldr r4,=...; muls; adds r0,r4`). The unused gUnk_03003D10 extern is
+removed. Aligned diff 646 -> 637, filtered nmdiff 1277 -> 1263, size 4604.
+Allocation map (from -dl -dg on the full module; pseudo numbers from this
+source): flagged=74, active=75, matched=73, playerIndex=101, var_r6=78,
+spDC (players base copy)=51. ROM: var_r6 r6, matched r7, flagged r9, active
+sl, and BOTH spDC (r2, caller-save slot SP+0xDC) and playerIndex (r3,
+caller-save slot SP+0xE0): the two caller-save slots at the end of the
+frame are the r2/r3 save areas, not real locals. So every callee-saved reg
+must be taken before playerIndex is allocated. Priorities here: matched 0.297
+(44 refs, includes the count loops), playerIndex 0.308 (44/714), var_r6 0.255,
+active 0.115, flagged 0.112. The ROM order needs var_r6 above matched, flagged
+above active, and playerIndex below all of them.
+A separate counter for the count loops drops playerIndex to 16 refs (it then
+goes to memory, not r3) and shifts matched/var_r6/active/flagged to
+r6/r7/r9/sl (677, rejected).
+Mode-A remote render: `u8 a = spB8;` (a u8 copy, so CSE keeps it apart) passed
+to sub_08065370 and the default draw call reproduces `ldr; mov r9` and the
+constant 1 in sl (642 alone, size 4608). The default draw call is still not
+cross-jumped into the case-6 call: only the bl matches, below jump.c's
+2-insn minimum, so the ROM source must differ there. That is the extra
+sub_08007870 site.
