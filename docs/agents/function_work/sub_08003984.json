@@ -1,19 +1,19 @@
 {
   "address": "0x08003984",
-  "updated_utc": "2026-11-07T05:29:56.858918+00:00",
-  "checkpoint": "Verified guarded-index checkpoint based on main 8bcb08f4, 2026-11-07. Original/candidate are 8352/8336 bytes; both frames are 0x54C. The prior current baseline was 8340 bytes. Normalized byte/halfword distances improve 206/169 to 197/162 and scoped heuristic score 443 to 440. Strict NO MATCH; original ASM retained. Historical CONT44/8320-byte and mock/CFG evidence below is not a current proof; no matching credit is claimed.",
+  "updated_utc": "2026-11-07T06:02:54.842547+00:00",
+  "checkpoint": "Verified natural-exit/name-base checkpoint based on main d7a7bd7a, 2026-11-07. Original/candidate are 8352/8356 bytes with equal 0x54C frames. Against the preceding 8336-byte checkpoint, normalized byte/halfword distances improve 197/162 to 141/130 and scoped heuristic score 440 to 428. Strict NO MATCH; original ASM retained; no matching credit.",
   "areas": [
     {
       "id": "flow",
       "label": "Current control-flow audit",
       "state": "active",
-      "evidence": "The current original, baseline and selected module contain 199 physical external call sites. The selected candidate preserves the baseline machine call order; baseline and original orders differ because the finish block is already relocated. Historical reconstruction at e8cac7a4 reported 190 explicit calls, 170 comparisons/immediates/polarities and five indexed switches. That bounded auditor was not rerun against this current checkpoint, and complete CFG/operand equivalence is not claimed."
+      "evidence": "The current original and selected module have 199 physical external call sites, including nine compiler helpers, in identical callee order. Both contain one finish callback at ordinal 187. The C cancel branch now spells out the same callback and jumps to the epilogue; the success path retains its existing callback. Replacing the jump to finish3984 with that identical call plus jump to epilogue3984 preserves exactly one callback on each exit path, whether the callee returns or terminates the task. Complete CFG/operand equivalence remains unproven. Historical 190-explicit-call/170-comparison/five-switch audits remain historical and were not rerun."
     },
     {
       "id": "compile",
       "label": "Current compiling C89 draft",
       "state": "done",
-      "evidence": "Serial make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback, full make -j1 nonmatching succeeds and check_tree reports 0 errors. The selected actual module object strictly equals its unchanged-flags full-module control. Separate -dG/-dc diagnostic objects strictly equal the normal baseline and selected objects. These gates verify the compiling checkpoint, not candidate equivalence."
+      "evidence": "Serial make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback, full make -j1 nonmatching succeeds and check_tree reports 0 errors. The actual module strictly equals the raw private candidate and controlled full-module splice under unchanged production flags. A non-mutating native GDB compilation also emits a strictly identical object. These gates verify this compiling checkpoint, not full candidate equivalence."
     },
     {
       "id": "replay",
@@ -25,13 +25,13 @@
       "id": "types",
       "label": "Types and call interfaces",
       "state": "active",
-      "evidence": "The changed access is immediately dominated by the full-value guard if (var_r9 <= 6), where var_r9 is u16. The guard does not truncate to u8. No call, assignment or address escape intervenes before the read, so every evaluated index is 0..6; short-circuit comparison with next does not modify it. All imports, increments, decrements and zero clamps were audited, including possible transient u16 wrap. The expression -(-(u32)var_r9+1)+1 uses defined unsigned modulo arithmetic and preserves the complete value before indexing. Existing finish callback argument packing is retained; private two-word/scoped aliases were not selected."
+      "evidence": "The changed access is immediately dominated by the full-value guard if (var_r9 <= 6), where var_r9 is u16. The guard does not truncate to u8. No call, assignment or address escape intervenes before the read, so every evaluated index is 0..6; short-circuit comparison with next does not modify it. All imports, increments, decrements and zero clamps were audited, including possible transient u16 wrap. The expression -(-(u32)var_r9+1)+1 uses defined unsigned modulo arithmetic and preserves the complete value before indexing. Existing finish callback argument packing is retained; private two-word/scoped aliases were not selected. The follow-up keeps the exact existing unsigned-long-long callback cast and constant; no argument word or interface is invented. Each successful language case still computes the same name address and writes the same table character before the common pointer assignment. On other language values the common pointer becomes arg0+0x10 without a table write, exactly as before. No call or pointer mutation intervenes, and the common assignment reads no uninitialized case temporary."
     },
     {
       "id": "layout",
       "label": "Frame, blocks and registers",
       "state": "active",
-      "evidence": "Current original/candidate are 8352/8336 bytes with equal 0x54C frames; strict normalized comparison remains NO MATCH. The selected index identity removes the old u8 narrowing while preserving separate test/store address computation. It leaves two additional negation nodes through GCSE; baseline/selected combine dumps both have six, and diagnostic objects remain strictly equal to normal outputs. Historical compiler research on older checkpoints identified last_spill_reg rotation as a cause of downstream register choices; private allocator-state mutations were diagnostic only and never acceptable C. Current finish-block placement, duplicated default branches, VRAM-base construction and other reload choices remain unresolved. No compiler, production flag, tooling or opcode change was made."
+      "evidence": "Original/candidate are 8352/8356 bytes with equal 0x54C frames; strict NO MATCH. Distances improve 197 bytes/162 halfwords to 141/130, scoped score 440 to 428. Explicit cancel and success exits prevent early flow.c merge_blocks from moving the sole finish predecessor to the final block. The installed compiler retains both call nodes through early jump/global stages; a non-mutating GDB watch catches late jump.c do_cross_jump deleting the cancel copy. The emitted control strictly equals the actual NONMATCHING module object. Factoring the name base after the language switch restores the two original-style default leaves via GCSE, though an intermediate copy from R0 to R5 remains. VRAM-base construction and other reload choices are unresolved. Universal-loop, aggregate and fixed-register diagnostic alternatives were rejected; no such source was selected. No compiler, production flag, tooling or opcode change was made."
     },
     {
       "id": "match",
