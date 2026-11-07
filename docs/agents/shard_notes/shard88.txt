@@ -9,3 +9,20 @@ Shard 88 notes (sub_080855D4).
   r = rand() & 0xFF in r5 and the hoisted zero in r6 (ours zero r5, r in r0);
   "u32 r = f() & 0xFF", "(u8)f()" and s32 forms do not change it. The other 400+ aligned lines
   are register allocation across the rest of the function.
+
+2026-11-07 (claude-nov07-w85): sub_080855D4
+  Filtered nmdiff 823 -> 702 (aligned 440 -> 368, register-blind aligned 166 -> 149); size 4616
+  (ROM 4620).
+  - Table gUnk_084ECC2C is read as u16 halfwords: cat = tab[i * 2 + 1], id = tab[i * 2]. The ROM
+    computes (i << 2) + 2 before adding the base, and every "find cat" loop's induction pointer starts
+    at base + 2 (`adds r1, #2`), then `ldrh [r1, #0]`. With the struct form the +2 stayed in the
+    addressing mode. That made the duplicated entry test of the `count` loop identical to the bottom
+    test, so cross-jumping turned it back into "b test", and the constant pool was dumped at that
+    barrier (+44 bytes there).
+  - Random-point loop: `j = rand() & 0xFF` into the function-scope j (not a block-local u8): the AND
+    stays an `ands` with a rematerialised 0xFF and r/zero land in r5/r6 as in ROM.
+  - memcpy destination is L.win.item (ROM `add r0, sp, #0x2d4`), not win->item.
+  Remaining: n is in r9 and item in sl (ROM: item r9, n sl). In global-alloc a gcse pointer
+  (item + 0xD4, 4 refs / 36 insns) takes r9 before item and conflicts with it; in ROM that pointer is
+  spilled. pts/pos/speed addresses: ROM forms sp + off before the scaled index (we compute i << 3
+  first); a 2-D `s32 pts[25][2]` and `(&L.pts[0])[i]` did not change it.
