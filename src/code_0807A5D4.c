@@ -1628,9 +1628,9 @@ void sub_0807C29C(void) {
     case 1:
         lo = gInv82->equip / 3 * 3;
         hi = lo + 3;
-        if (gMgr82->cursor <= lo)
+        if (lo >= gMgr82->cursor)
             gMgr82->cursor = lo;
-        else if (gMgr82->cursor >= hi)
+        else if (hi <= gMgr82->cursor)
             gMgr82->cursor = hi - 1;
         if (keys29_03001308 & 0x10) {
             if (gMgr82->cursor == lo) {
@@ -1680,22 +1680,23 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x62);
             }
         } else if (keys29_03001324 & 1) {
-            from = gMgr82->heldFrom;
-            if (from == 0x16) {
-                cur = gMgr82->cursor;
-                item = &gInv82->belt[cur];
-                if (item->kind == 0)
+            u32 fr, cu; struct Item82 *it;
+            fr = gMgr82->heldFrom;
+            if (fr == 0x16) {
+                cu = gMgr82->cursor;
+                it = &gInv82->belt[cu];
+                if (it->kind == 0)
                     break;
                 gMgr82->heldFrom = gMgr82->state;
-                gMgr82->heldIdx = cur;
-                gMgr82->held = *item;
+                gMgr82->heldIdx = cu;
+                gMgr82->held = *it;
                 gMgr82->held.flag2 = 0;
                 sub_0805AD78(gInv82->equip);
                 sub_0805865C(0x5E);
                 break;
             }
             if (gMgr82->cur->kind == 0) {
-                if (from != 11) {
+                if (fr != 11) {
                     if (sub_0805AE34((void *)&gMgr82->held)) {
                         sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                         sub_0807BEA0(1, gMgr82->cursor, (void *)&gMgr82->held);
@@ -1726,7 +1727,7 @@ void sub_0807C29C(void) {
                 sub_0805AD78(gInv82->equip);
                 break;
             }
-            if (from == 11) {
+            if (fr == 11) {
                 sub_0805865C(0x61);
                 break;
             }
