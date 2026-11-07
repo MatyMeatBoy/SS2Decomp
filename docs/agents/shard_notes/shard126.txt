@@ -49,3 +49,64 @@ shard 126 notes
   - Many remaining hunks are reload-rotation / cross-jump differences: per-case f144 reload
     copies in switch 16/17 and case-2 tails in switch 7. These only converge once the
     allocation does.
+
+2026-11-07 (claude-nov07-w126, second pass): sub_0800D368
+  Start: filtered nmdiff 7117, 24888 bytes, register-normalized diff 540, 6 wrong stack refs.
+  End: filtered nmdiff 6238, 24996 bytes (ROM 25180), register-normalized diff 364, 3 wrong
+  stack refs, frame still 476 vs 472.
+  What landed:
+  - Color switches 26/27: every sp128 case writes its own color (bits.red/green bitfield
+    stores with unmasked values; blue through a block-local `u32 *` copy, value computed
+    before the copy) and its own palette store; cross-jumping rebuilds the ROM's shared
+    tails (5cc4/5cdc/5cea). The m2c gotos into switch 27 are gone. Case 1 of 26 writes
+    red/green through ((union ColorUnion297D368 *)&color)->bits: purge_addressof turns
+    those (mem (addressof)) accesses into the ROM's ldrb/ldrh + word merge with -32 and
+    0xfffffc1f (QI/HI masks); `*(u8 *)&color` folds the mask to 0xE0. Case 0 of 27 red is
+    unmasked.
+  - Palette row store: `{ struct PalBufD368 *pal = (void *)&gUnk_03001F40;
+    pal->c[f0 + 0x10][15] = v; }` per store. A pointer base takes the expand_expr
+    BLKmode+alignment path (base+30 forced to a reg first, then + row*32, as in the ROM);
+    a fresh block-local pointer per store lets GCSE-PRE carry the symbol in a reaching reg,
+    which lands in r8 with the `mov r8, r2` copy at the end of the switch head like the ROM.
+    A function-scope pointer gives r6 / a (pal+30) PRE pseudo instead.
+  - sp1A8: CSE replaced the localRecord byte-1 zero store with sp1A8 (known 0 on that
+    path), raising its priority above the CSE'd arg0+0x110 address. A register zero
+    (asm "=r" : "0"(0)) restores ROM: address in r6, sp1A8 spilled to 0x1A8.
+  - f144 record byte RMWs are bitfield stores (w1_b0_n6, w1_b17_n3, w1_b19_n5, new
+    w1_b25_n3); w1_b6_n8 values without (u8) casts (the store's own 0xFF mask stays a
+    movs/ands pair). QImode masks keep -64/-15 constants (-64 built as subs #96 from 32).
+  - m2c if-chains that are really switches: f10 1/2/3 and 6/8 around the bit-17 field,
+    switch-22 case 7 (1/8/9), switch-23 case 0 (1/2/3 with nested bits switch), and
+    f11E `case 7: case 9: case 10:` (ROM range tree cmp 7/blt/cmp 10/bgt/cmp 9/blt).
+  - sub_080760E8/08076A88/08077444 called in both branches of the 0x8000 flag test (f0
+    evaluated first; the else branch passes 0, which CSE turns into the zero test value).
+  - Switch-25 case 4 animation row: u32 [][2][11] indexed with bitfields
+    (struct { u8 pad[6]; u8 lo:2, idx:4, sel:1, hi:1; }) gives the ROM's
+    (idx*4 + sel*44) + f64*88 + base. fB2/fB4/fB6 zero stores as plain fields (CSE builds
+    each address from the previous one: adds #2 / adds #4).
+  Rejected / measured:
+  - Block-local `direction` in switch-4 case 3 (d1): local drift better, struct diff worse;
+    the direction pseudo drops to r8 and r6 still is not used as a reload reg in switch 5.
+  - Inlining the first switch-5 gotos per case (e1): cross-jumping merges more than ROM
+    (our reload regs coincide), struct diff +5.
+  - Natural actor loop (for + effectOwnerTableD368[sp128].f68/.f148/.f0, t1): the loop
+    itself gets closer (ROM uses strength-reduced givs r9/r4/r8 and does not hoist 332),
+    but switch-22 cases at 0x4800 flip their cross-jumps (+50). Worth retrying once the
+    allocation there is closer.
+  - asm "r" refs on the owner-table base (11676/11677) to win r5 from the effect-loop PRE
+    pseudo 11707: asm operands are not substituted by GCSE, so the refs land on a separate
+    literal-load pseudo; no effect.
+  - recordCallValue0 as a w1_b19_n5 store (u2): breaks the ROM's shared tail (+6).
+  Diagnosis of what is left:
+  - Frame +4: ROM allocates the peer-loop index var_r5 to r5 and `found` to r4, spilling
+    the ldrsh exit-test pseudo (0x1D0); ours puts var_r5 in r3 and spills `found` (0x1D8)
+    plus an unused caller-save-looking slot at 0x1D0. Root: global-alloc order between the
+    effect-loop p+40 PRE pseudo (11707, prio ~6709, crosses 9 calls) and the owner-table
+    base (11676, prio ~5538): ROM gives the base r5 first and the PRE pseudo falls to r3
+    (caller-saved, 13 save/restores at 0x1CC); ours gives the PRE pseudo r5.
+  - Most remaining hunks are reload-register rotation (fDC pointer reloads from 0x1C8,
+    sp164 table loads in the color cases) and the cross-jumps that depend on them; the
+    rotation is function-global, so earlier allocation differences shift it.
+  - 0x1D8C-0x1F60 (switch-4 case 3 else branch): the ROM computes &fD8, direction-1 (to
+    sl) and &f40 (to r9) in each of the four predecessors of the level/f24 join; ours
+    computes them once after the join.

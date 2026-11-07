@@ -364,7 +364,7 @@ void sub_0800D368(void *arg0) {
     struct EffectD368 { s16 f0; u16 f2, f4, f6; u8 pad8[16]; s32 f18; u8 tail[12]; };
     struct PeerD368 { u8 f0; u8 pad1[0xB]; s16 fC; u8 padE[6]; s32 f14; s32 f18; u8 pad1C[0x2E]; u16 f4A; s32 f4C; u8 pad50[4]; s32 f54; u16 f58; u16 f5A; u8 pad5C[6]; s16 f62; u8 pad64[0x28]; struct EffectD368 effects[8]; u8 pad1CC[0x10]; u8 f1DC; u8 tail[0x2E0 - 0x1DD]; };
     extern struct PeerD368 *peersD368 asm("gUnk_030056F4");
-    union RecordD368 { struct { u32 value:4; } w0_b0_n4; struct { u32 gap:4; u32 value:12; } w0_b4_n12; struct { u32 gap:16; u32 value:12; } w0_b16_n12; struct { u32 gap:28; u32 value:4; } w0_b28_n4; struct { u32 word0; u32 value:6; } w1_b0_n6; struct { u32 word0; u32 gap:6; u32 value:1; } w1_b6_n1; struct { u32 word0; u32 gap:6; u32 value:4; } w1_b6_n4; struct { u32 word0; u32 gap:6; u32 value:6; } w1_b6_n6; struct { u32 word0; u32 gap:6; u32 value:8; } w1_b6_n8; struct { u32 word0; u32 gap:10; u32 value:1; } w1_b10_n1; struct { u32 word0; u32 gap:11; u32 value:8; } w1_b11_n8; struct { u32 word0; u32 gap:12; u32 value:6; } w1_b12_n6; struct { u32 word0; u32 gap:14; u32 value:3; } w1_b14_n3; struct { u32 word0; u32 gap:17; u32 value:3; } w1_b17_n3; struct { u32 word0; u32 gap:18; u32 value:4; } w1_b18_n4; struct { u32 word0; u32 gap:19; u32 value:5; } w1_b19_n5; struct { u32 word0; u32 gap:20; u32 value:5; } w1_b20_n5; struct { u32 word0; u32 gap:22; u32 value:1; } w1_b22_n1; struct { u32 word0; u32 gap:23; u32 value:1; } w1_b23_n1; struct { u32 word0; u32 gap:28; u32 value:1; } w1_b28_n1; };
+    union RecordD368 { struct { u32 value:4; } w0_b0_n4; struct { u32 gap:4; u32 value:12; } w0_b4_n12; struct { u32 gap:16; u32 value:12; } w0_b16_n12; struct { u32 gap:28; u32 value:4; } w0_b28_n4; struct { u32 word0; u32 value:6; } w1_b0_n6; struct { u32 word0; u32 gap:6; u32 value:1; } w1_b6_n1; struct { u32 word0; u32 gap:6; u32 value:4; } w1_b6_n4; struct { u32 word0; u32 gap:6; u32 value:6; } w1_b6_n6; struct { u32 word0; u32 gap:6; u32 value:8; } w1_b6_n8; struct { u32 word0; u32 gap:10; u32 value:1; } w1_b10_n1; struct { u32 word0; u32 gap:11; u32 value:8; } w1_b11_n8; struct { u32 word0; u32 gap:12; u32 value:6; } w1_b12_n6; struct { u32 word0; u32 gap:14; u32 value:3; } w1_b14_n3; struct { u32 word0; u32 gap:17; u32 value:3; } w1_b17_n3; struct { u32 word0; u32 gap:18; u32 value:4; } w1_b18_n4; struct { u32 word0; u32 gap:19; u32 value:5; } w1_b19_n5; struct { u32 word0; u32 gap:20; u32 value:5; } w1_b20_n5; struct { u32 word0; u32 gap:22; u32 value:1; } w1_b22_n1; struct { u32 word0; u32 gap:23; u32 value:1; } w1_b23_n1; struct { u32 word0; u32 gap:25; u32 value:3; } w1_b25_n3; struct { u32 word0; u32 gap:28; u32 value:1; } w1_b28_n1; };
     struct AnimD368 sp10;
     struct AnimD368 sp44;
     struct AnimD368 sp78;
@@ -3484,16 +3484,12 @@ retry63_1_done:
 
                     } else {
                         temp_r2_24 = ((struct PlayerD368 *)arg0)->f144;
-                        var_r0_28 = 7 & M2C_FIELD(temp_r2_24, u8 *, 6);
-                        var_r1_10 = 0x10;
-                        M2C_FIELD(temp_r2_24, s8 *, 6) = (s8) (var_r0_28 | var_r1_10);
+                        ((union RecordD368 *)temp_r2_24)->w1_b19_n5.value = 2;
                         break;
                     }
                 } else if (8 & ((struct PlayerD368 *)arg0)->f14) {
                     temp_r2_24 = ((struct PlayerD368 *)arg0)->f144;
-                    var_r0_28 = 7 & M2C_FIELD(temp_r2_24, u8 *, 6);
-                    var_r1_10 = 0x20;
-                    M2C_FIELD(temp_r2_24, s8 *, 6) = (s8) (var_r0_28 | var_r1_10);
+                    ((union RecordD368 *)temp_r2_24)->w1_b19_n5.value = 4;
                     break;
                 } else {
                     temp_r2_24 = ((struct PlayerD368 *)arg0)->f144;
@@ -3531,9 +3527,7 @@ retry63_1_done:
 
                     } else {
                         temp_r2_24 = ((struct PlayerD368 *)arg0)->f144;
-                        var_r0_28 = 7 & M2C_FIELD(temp_r2_24, u8 *, 6);
-                        var_r1_10 = 0x10;
-                        M2C_FIELD(temp_r2_24, s8 *, 6) = (s8) (var_r0_28 | var_r1_10);
+                        ((union RecordD368 *)temp_r2_24)->w1_b19_n5.value = 2;
                         break;
                     }
                 } else if (d368_sub_0801DF8C() == 0) {
@@ -3869,12 +3863,11 @@ retry63_1_done:
                 ((union RecordD368 *)temp_r2_43)->w0_b28_n4.value = (s16) ((struct PlayerD368 *)arg0)->f1C;
                 if ((d368_sub_0801DE60() == 7) && (d368_sub_0801DEB8() == 0x13)) {
                     temp_r2_42 = *var_r5_10;
-                    var_r0_31 = (-0xF & M2C_FIELD(temp_r2_42, u8 *, 7)) | (sp170 * 2);
+                    ((union RecordD368 *)temp_r2_42)->w1_b25_n3.value = sp170;
                 } else {
                     temp_r2_42 = *var_r5_10;
-                    var_r0_31 = -0xF & M2C_FIELD(temp_r2_42, u8 *, 7);
+                    ((union RecordD368 *)temp_r2_42)->w1_b25_n3.value = 0;
                 }
-                M2C_FIELD(temp_r2_42, s8 *, 7) = var_r0_31;
                 var_r5_10 = arg0 + 0x144;
                 temp_r3_39 = ((struct PlayerD368 *)arg0)->f144;
                 ((union RecordD368 *)temp_r3_39)->w1_b14_n3.value = ((struct PlayerD368 *)arg0)->f26;
