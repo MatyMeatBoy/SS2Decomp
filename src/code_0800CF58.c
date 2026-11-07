@@ -4004,7 +4004,7 @@ block_1200:
                                 temp_r1_44 = M2C_FIELD(temp_r1_45, u8 *, 0x68);
                                 if ((temp_r1_44 != 0) && (temp_r1_44 == ((struct PlayerD368 *)arg0)->f68)) {
                                     M2C_FIELD((s32 *)&localRecord, u16 *, 4) = (u16) ((struct PlayerD368 *)arg0)->f38;
-                                    M2C_FIELD((s32 *)&localRecord, s8 *, 1) = 0;
+                                    { s8 z; asm("" : "=r"(z) : "0"(0)); M2C_FIELD((s32 *)&localRecord, s8 *, 1) = z; }
                                     M2C_FIELD((s32 *)&localRecord, s8 *, 2) = 0x20;
                                     temp_r2_49 = M2C_FIELD(temp_r1_45, void **, 0x148);
                                     angleWordD368 = ((u32) ArcTan2((s16) (((u16) M2C_FIELD(temp_r2_49, u16 *, 0) >> 4) - ((s32) ((struct PlayerD368 *)arg0)->f8C >> 8)), (s16) (((u32) ((u32) M2C_FIELD(temp_r2_49, u16 *, 2) << 0x14) >> 0x14) - ((s32) ((struct PlayerD368 *)arg0)->f90 >> 8))) << 0x10);
