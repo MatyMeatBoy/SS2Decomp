@@ -1533,7 +1533,6 @@ void sub_0802AA28(void) {
     s32 temp_sl;
     s32 var_r0_12;
     s32 var_r3;
-    s32 var_r5;
     s32 var_r5_3;
     s32 var_r6;
     s32 var_r7;
@@ -1591,7 +1590,6 @@ void sub_0802AA28(void) {
     u8 *var_r2_13;
     u8 *var_r2_26;
     u8 *var_r2_34;
-    s32 temp_r0;
     u8 temp_r0_2;
     void *temp_r0_3;
     void *temp_r0_5;
@@ -1604,15 +1602,18 @@ void sub_0802AA28(void) {
     } else {
         var_r0 = stateAA28 + 0x1B3;
     }
-    temp_r0 = *var_r0;
-    if (temp_r0 != 0xA) {
-        if ((s32) temp_r0 > 1) {
+    helperByte27 = *var_r0;
+    var_r5_3 = helperByte27;
+    if (var_r5_3 != 0xA) {
+        if ((s32) var_r5_3 > 1) {
             if (sub_0800CE30() != 0) {
                 var_r0_20 = stateAA28 + 0x1C6;
             } else {
                 var_r0_20 = stateAA28 + 0x1BA;
             }
-            if (!(((s32) *var_r0_20 >> 2) & 1)) {
+            helperByte27 = *var_r0_20;
+            var_r5_3 = (helperByte27 >> 2) & 1;
+            if (!var_r5_3) {
                 if (sub_0800CE30() != 0) {
                     var_r2_34 = stateAA28 + 0x1C6;
                 } else {
@@ -1798,9 +1799,9 @@ found27scan_83:
                 (*(u32*)((u8*)(var_r0_4)+(0x44))) = scanCallback27;
             }
             if (sub_0800CE30() != 0) {
-                var_r5 = (*(u32*)((u8*)(stateAA28)+(0x7C)));
+                var_r5_3 = (*(u32*)((u8*)(stateAA28)+(0x7C)));
             } else {
-                var_r5 = (*(u32*)((u8*)(stateAA28)+(0x74)));
+                var_r5_3 = (*(u32*)((u8*)(stateAA28)+(0x74)));
             }
             if (sub_0800CE30() != 0) {
                 var_r0_5 = stateAA28 + 0x1C4;
@@ -1813,7 +1814,7 @@ found27scan_83:
             } else {
                 var_r0_6 = stateAA28 + 0x1B8;
             }
-            if ((((s32) *var_r0_6 >> 7) & 1) || (!(var_r5 & 0x20) && (temp_r4 != 0))) {
+            if ((((s32) *var_r0_6 >> 7) & 1) || (!(var_r5_3 & 0x20) && (temp_r4 != 0))) {
                 var_r7 = sub_080289C0(0x13, 0xB0, 0x60);
                 var_r1_6 = stateAA28 + 0x7A4;
                 var_r2_10 = 0;
@@ -2039,7 +2040,9 @@ found27scan_181:
             } else {
                 var_r0_15 = stateAA28 + 0x1B9;
             }
-            if ((temp_r5 != 0) && !(((s32) *var_r0_15 >> 6) & 1)) {
+            helperByte27 = *var_r0_15;
+            temp_r4 = (helperByte27 >> 6) & 1;
+            if ((temp_r5 != 0) && !temp_r4) {
                 firstTaskCallback27 = (u32)&sub_08045B68;
                 var_r4 = stateAA28 + 0xE34;
                 var_r5_2 = 0;
