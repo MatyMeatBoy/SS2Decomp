@@ -2230,10 +2230,14 @@ block_357:
                     sub_08042938(var_r6);
                     if (sub_0800CE30() != 0) {
                         var_r0_18 = stateAA28 + 0x1C5;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     } else {
                         var_r0_18 = stateAA28 + 0x1B9;
+                        helperByte27 = *var_r0_18;
+                        helperArgument27 = (helperByte27 >> 5) & 1;
                     }
-                    sub_0805C7B8(((s32) *var_r0_18 >> 5) & 1);
+                    sub_0805C7B8(helperArgument27);
                     (*(u32*)((u8*)(stateAA28)+(0x50))) = var_r5_3;
                     sub_0801AA8C(0x1E);
                     while (sub_0801AAE0() == 0) {
