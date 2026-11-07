@@ -1630,20 +1630,22 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x5F);
             } else {
                 struct Item82 *cit;
+                struct Mgr82 *abilityManager082;
                 cit = gMgr82->cur;
                 if (cit->kind != 0) switch (cit->kind) {
                 case 2 ... 5:
                     if (cit->flag == 0)
                         break;
                     have = sub_0805B0F0();
-                    if (have < sub_0805B068(gMgr82->cur)) {
+                    if (have < sub_0805B068(((*(struct Mgr82 **)ManagerPointerSlotEU82))->cur)) {
                         sub_0805865C(0x61);
                         break;
                     }
-                    gMgr82->cur->flag = 0;
-                    gMgr82->f68 = 6;
-                    gMgr82->f6A = 100;
-                    sub_0807C014(sub_0805B068(gMgr82->cur));
+                    ((*(struct Mgr82 **)ManagerPointerSlotEU82))->cur->flag = 0;
+                    abilityManager082 = (*(struct Mgr82 **)ManagerPointerSlotEU82);
+                    abilityManager082->f68 = 6;
+                    abilityManager082->f6A = 100;
+                    sub_0807C014(sub_0805B068(abilityManager082->cur));
                     sub_0805865C(0x18C);
                     break;
                 }
