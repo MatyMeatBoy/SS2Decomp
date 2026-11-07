@@ -3279,8 +3279,8 @@ loopB_TopC0:
         u32 k;
         temp_r4_10 = sub_08007290(0x1401F6) + 2;
         sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
-        for (var_r5 = 0, k = loopCounterC0 + 1; var_r5 < 5; var_r5++)
-            sp150[var_r5] = 0;
+        for (var_r5_2 = 0, k = loopCounterC0 + 1; var_r5_2 < 5; var_r5_2++)
+            sp150[var_r5_2] = 0;
         for (loopCounterC0 = 0, var_r7 = &gItemsC0; loopCounterC0 < sub_08002164(); var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C), loopCounterC0++) {
             temp_r1_7 = *var_r7;
             temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
