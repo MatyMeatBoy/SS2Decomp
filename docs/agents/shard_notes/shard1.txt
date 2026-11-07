@@ -68,3 +68,32 @@ codex-solo (2026-11-04): sub_08002B70 now matches, 3604 bytes.
   site breaks cross-jumping (8372). `if ((rows3984[r8][r6] = c) == 0xFF)` for ROM's
   `adds r0,r1,#0; cmp r0,#255` copy cascades to 212. Moving finish3984 inside the
   `*arg0 = 1` block: no change.
+2026-11-07 (claude-nov07-w01): sub_08003984 MATCHES (8352 bytes, make compare OK, asm removed)
+  Start: full-module aligned diff 60, 8356 bytes. The +4 bytes were two extra literal-pool pads:
+  the insn count was equal, but ROM's row-copy copy (`adds r0,r1,#0`) and our extra keys==1 copy
+  flipped pool parity between them. Fixes, in order (aligned diff after each):
+  - keys==1 language cases: block-local `u8 *p` per case (50). The ROM r5 = arg0+0x10 everywhere in
+    timer5 is the gcse reaching reg: renamed var_r5_3 inside case 5 to its own var, final
+    sub_0801A764 takes `arg0 + 0x10` (55), `asm("" : : "r"(nameZero3984))` restores the timer3
+    r4/r5 split (46), the keys==8 search as a goto loop with a block-local `q = arg0 + 0x10` so
+    loop.c does not hoist a copy (44, exact size).
+  - 0x06007000: function-scope `vramBase3984 = 0x06000000` (spilled, rematerialised) plus inline
+    `(off = 0x7000)` in a block gives ROM's `adds r1,r3,r1` operand order and regs (34).
+  - offsetY+0x18 chain: separate statements + `asm("" : : "r"(var_r1_7))`, then the height load
+    bound to r5 (`register u32 h asm("r5") = *temp_r5_14`) for `ldrh r5,[r5]`.
+  - timer6 reload rotation: the two zero stores/args via a spilled `zeroElse3984 = 0` (reloads,
+    not locals) (20); Y table as spilled `yTable3984` + `asm("" : : "r"(drawBaseC8))` keeps r3
+    live so the reloads go r4/r5 like ROM (9).
+  - var_r3_3 r1->r3: compare through `register u32 flagC11 asm("r3")` + empty asm (5).
+  - current = r9: `asm("" : "=r"(var_r9) : "0"(0))` hides var_r9's constant from CSE, then
+    `current = var_r9` and the sub_0800903C arg use var_r9 (2).
+  - row copy `adds r0,r1,#0; cmp r0,#255`: expand_end_loop rotates the inner do-while when its exit
+    jump falls past LOOP_TEST_THRESHOLD (30 insns from the loop label). The 2-D u8 store expands as
+    a 7-insn read-modify-write (store_bit_field), which left no room for any extra compare insn.
+    A pointer store `*(base + (var_r6 + off))` with separate `base`/`off` statements removes the
+    RMW and keeps ROM's address order; the copy is `asm("" : "=l"(c) : "0"(var_r1_2))` (0).
+  - aligned diff 0 but the ROM still differed in one byte: the timer6 back-edge targeted the
+    label before `drawOne3984 = 1`. ROM's loop is a real do/while (loop.c hoists `timer - 4` then
+    `drawOne3984 = 1` above the label); converting the goto loop_375 matched.
+  Lesson: ck.sh's aligned diff normalises branch targets; check strict (function-relative) branch
+  targets too (scratchpad nov07-w01/rcmp.py) before calling it done.
