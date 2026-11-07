@@ -9122,7 +9122,7 @@ digraph calls {
   "sub_08081518" -> "sub_0801A3D0" [label="c"];
   "sub_08081518" -> "sub_0801A638" [label="c"];
   "sub_080815F4" -> "__udivsi3" [label="asm"];
-  "sub_080815F4" -> "sub_08000498" [label="asm,c"];
+  "sub_080815F4" -> "sub_08000498" [label="asm"];
   "sub_080815F4" -> "sub_08000AF0" [label="asm,c"];
   "sub_080815F4" -> "sub_08007290" [label="asm,c"];
   "sub_080815F4" -> "sub_0801A3D0" [label="asm,c"];
