@@ -4882,7 +4882,7 @@ skip:
     return 0;
 }
 #ifdef NONMATCHING
-/* NONMATCHING: same control flow as the ROM; remaining differences are register allocation and literal pools. */
+/* NONMATCHING: control flow, frame and nearly all allocation match; remaining: loop-2 preheader order (cfg+12/entry/zero), two reload-register picks at the effect-loop head and in the f4 |= 8 store. */
 struct T025Packet27C { u16 f0, f2; u32 rest[3]; };
 struct T025Resource27C { u16 f0; u8 p2[4]; u8 f6, f7; u16 f8; u8 pA[6]; u16 f10; u8 p12[14]; };
 struct T025Effect27C { struct V2W12 pos; u16 f8, fA, fC, fE, f10, f12, f14, f16, f18, f1A, f1C; u8 p1E[2]; struct T025Resource27C *res; };
@@ -4901,7 +4901,6 @@ extern struct T025World27C *t025World27C asm("gUnk_03005CF4");
 extern struct T025Resource27C t025Resources27C[] asm("gUnk_0849E760");
 extern struct T025Config27C t025Configs27C[] asm("gUnk_084B1860");
 extern struct T025Player27C t025Players27C[] asm("gUnk_03003CE0");
-extern u16 t025Level27C asm("gUnk_03003200");
 extern void t025Init27C(void *, s32, s32, s32, s32) asm("sub_08065158");
 extern void t025Hide27C(u32, u32, u32, u32, s32) asm("sub_0800AEF4");
 extern void t025Position27C(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
@@ -4928,8 +4927,7 @@ void t025Effects27C(u16 *arg0)
     struct T025Effect27C *eff;
     struct T025Effect27C *next;
     struct T025Resource27C *res;
-    struct V2W12 *pos;
-    register u32 i asm("r5");
+    u32 i;
     u32 g;
     u32 j;
     u32 v;
@@ -4938,8 +4936,10 @@ void t025Effects27C(u16 *arg0)
     u8 z;
     u8 shade;
     u32 k;
+    u32 w;
     s32 x, y;
 
+    asm("" ::: "r5");
     rec = arg0;
     groups = 0;
     rows = 0;
@@ -4967,12 +4967,11 @@ void t025Effects27C(u16 *arg0)
         do {
             entry = &group->e[j];
             if (entry->kind != 0) {
-                pos = &t025World27C->pos160[i];
-                if (pos->x == 0) {
+                if (t025World27C->pos160[i].x == 0) {
                     eff->pos.x = entry->x << 11;
                     eff->pos.y = entry->y << 11;
                 } else {
-                    eff->pos = *pos;
+                    eff->pos = t025World27C->pos160[i];
                 }
                 res = &t025Resources27C[entry->kind];
                 eff->res = res;
@@ -4983,14 +4982,13 @@ void t025Effects27C(u16 *arg0)
                 else
                     t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, -1, 0);
                 eff->f14 = t025World27C->active22C[i];
-                res = eff->res;
-                eff->f8 = t025Configs27C[res->f8].f4;
+                eff->f8 = t025Configs27C[eff->res->f8].f4;
                 eff->fA = 0;
                 eff->fC = 0;
                 eff->fE = 0;
                 eff->f18 = 1;
-                eff->f1A = t025Configs27C[res->f8].f8;
-                eff->f1C = t025Configs27C[res->f8].fC;
+                eff->f1A = t025Configs27C[eff->res->f8].f8;
+                eff->f1C = t025Configs27C[eff->res->f8].fC;
                 if (eff->f16 != 0)
                     spawns++;
                 eff++;
@@ -5009,12 +5007,11 @@ void t025Effects27C(u16 *arg0)
         entry = rowGroup->e;
         do {
             if (entry->kind != 0) {
-                pos = &t025World27C->pos160[i];
-                if (pos->x == 0) {
+                if (t025World27C->pos160[i].x == 0) {
                     eff->pos.x = entry->x << 11;
                     eff->pos.y = entry->y << 11;
                 } else {
-                    eff->pos = *pos;
+                    eff->pos = t025World27C->pos160[i];
                 }
                 res = &t025Resources27C[entry->kind];
                 eff->res = res;
@@ -5025,14 +5022,13 @@ void t025Effects27C(u16 *arg0)
                 else
                     t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, -1, 0);
                 eff->f14 = t025World27C->active22C[i];
-                res = eff->res;
-                eff->f8 = t025Configs27C[res->f8].f4;
+                eff->f8 = t025Configs27C[eff->res->f8].f4;
                 eff->fA = 0;
                 eff->fC = 0;
                 eff->fE = 0;
                 eff->f18 = 1;
-                eff->f1A = t025Configs27C[res->f8].f8;
-                eff->f1C = t025Configs27C[res->f8].fC;
+                eff->f1A = t025Configs27C[eff->res->f8].f8;
+                eff->f1C = t025Configs27C[eff->res->f8].fC;
                 if (eff->f16 != 0)
                     spawns++;
                 eff++;
@@ -5061,7 +5057,10 @@ void t025Effects27C(u16 *arg0)
             goto effect_test;
         effect_loop:
             t025World27C->pos160[g] = eff->pos;
-            t025World27C->active22C[g] = eff->f14;
+            {
+                u8 *act = t025World27C->active22C;
+                act[g] = eff->f14;
+            }
             state = eff->f14;
             if (state != 0)
                 next = eff + 1;
@@ -5072,7 +5071,7 @@ void t025Effects27C(u16 *arg0)
                 next = eff + 1;
                 break;
             case 10:
-                eff->f8 = t025Configs27C[eff->res->f8].f4 + 1;
+                *(&eff->f8) = t025Configs27C[eff->res->f8].f4 + 1;
                 mode = 0;
                 if (eff->fE == 0)
                     break;
@@ -5080,7 +5079,7 @@ void t025Effects27C(u16 *arg0)
                     if (eff->f16 != 0) {
                         while (sub_08068558() == 0)
                             sub_080003F0();
-                        t025World27C->f4 |= 8;
+                        *(u16 *)&t025World27C->f4 |= 8;
                     }
                     t025Hide27C((u32)(eff->pos.x << 8) >> 16, (u32)(eff->pos.y << 8) >> 16, eff->f1A, eff->f1C, 0);
                     eff->f18 = 0;
@@ -5115,16 +5114,11 @@ void t025Effects27C(u16 *arg0)
                             packet.f2 = 1;
                         }
                         if (sub_0800CCCC() != 0) {
-                            goto retry_check;
-                        retry:
-                            sub_080003F0();
-                        retry_check:
-                            x = eff->pos.x;
-                            y = eff->pos.y;
-                            if (sub_08066520(x, y, t025Players27C[sub_080020F4()].f2C, (u32 *)&packet) == 0)
-                                goto retry;
+                            while (x = eff->pos.x, y = eff->pos.y,
+                                   sub_08066520(x, y, t025Players27C[sub_080020F4()].f2C, (u32 *)&packet) == 0)
+                                sub_080003F0();
                         } else {
-                            while (sub_08066520(eff->pos.x, eff->pos.y, t025Level27C, (u32 *)&packet) == 0)
+                            while (sub_08066520(eff->pos.x, eff->pos.y, gUnk_03003170.f90, (u32 *)&packet) == 0)
                                 sub_080003F0();
                         }
                         }
@@ -5146,14 +5140,17 @@ void t025Effects27C(u16 *arg0)
                     eff->f8 = 6;
                 }
                 mode = 0;
+                state = eff->fE;
+                asm("" : "+r"(eff));
                 next = eff + 1;
-                if (eff->fE != 0)
+                asm("" : : "r"(next));
+                if (state != 0)
                     eff->f14 = 0xB;
                 break;
             case 11:
-                if (eff->f18 != 0)
+                if ((w = eff->f18) != 0)
                     goto effect_next;
-                t025Hide27C((u32)(eff->pos.x << 8) >> 16, (u32)(eff->pos.y << 8) >> 16, eff->f1A, eff->f1C, eff->f18);
+                t025Hide27C((u32)(eff->pos.x << 8) >> 16, (u32)(eff->pos.y << 8) >> 16, eff->f1A, eff->f1C, w);
                 goto effect_idle;
             }
             eff->fE = sub_08065370(&sprites[g], eff->f8, (s32)&eff->fA, (s32)&eff->fC, (s16)mode);
@@ -5196,12 +5193,16 @@ void t025Effects27C(u16 *arg0)
     }
 
 main_done:
-    for (j = 0; j <= 9; j++) {
-        t025World27C->active22C[j] = 0;
-        t025World27C->pos160[j].x = 0;
-        t025World27C->pos160[j].y = 0;
-    }
-    sub_08056FE0();
+    k = 0;
+    do {
+    reset_loop:
+        t025World27C->active22C[k] = 0;
+        t025World27C->pos160[k].x = 0;
+        t025World27C->pos160[k].y = 0;
+        if (++k <= 9)
+            goto reset_loop;
+        sub_08056FE0();
+    } while (0);
 }
 
 #else
