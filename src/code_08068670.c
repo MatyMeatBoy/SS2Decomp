@@ -3610,7 +3610,6 @@ other_:
 finish:
     ((u32 *)t072DBFlags)[player] &= ~(1 << bit);
 }
-#ifdef NONMATCHING
 struct T072DESprite { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct T072DEPlayer { u16 id; u8 pad2[0x1e]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 phase, wait, ready; u8 padB8[10]; s16 resource; u8 padC4[24]; u32 counter; u8 padE0[0x64]; u8 *config; u16 *sprite; };
 struct T072DEEnemy { u16 id; u8 pad2[6]; s16 direction; u8 padA[2]; u16 state; u8 padE[6]; s32 x,y; u8 pad1C[0x42]; s16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4e]; u8 threshold; u8 pad22C[0xb4]; };
@@ -3640,6 +3639,8 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     u16 local;
     u32 player, bit;
     s32 px, py;
+    u32 sx;
+    s16 *pdx, *pdy;
     u16 level, selected, i;
     u16 ang; s16 sang, sf; s16 at;
     s32 kind;
@@ -3772,12 +3773,18 @@ void sub_0806DE94(struct T072DEArgs *arg) {
         done = 0;
         px = x >> 8; py = y >> 8;
         do {
-            t072DECoords((s16)px,(s16)py,&dx,&dy,48,0);
+            pdx = &dx;
+            pdy = &dy;
+            sx = (u32)px << 16;
+            /* The unsigned identity keeps Y narrowing inside the loop. */
+            t072DECoords((s32)sx >> 16,(s16)(-(-(u32)py + 1) + 1),pdx,pdy,48,0);
             shade = sub_0800BC44(px,py,0);
             if (sub_08065370(&sprite,level,(s32)&animation[0],(s32)&timers[0],0) != 0) done = (u16)(done + 1);
             if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && (gUnk_03002344 & 1) == (player & 1)) t072DEDraw(dx,dy,level,animation[0],shade,&sprite.f1C,sprite.f8,sprite.f0);
             sub_080003F0();
         } while (done == 0);
+        /* Keep the shifted X value live through the animation loop. */
+        px = sx;
     } else {
         done = 0;
         while (done < total) {
@@ -3829,9 +3836,6 @@ void sub_0806DE94(struct T072DEArgs *arg) {
     t072DEFlags[player] &= ~(1 << bit);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806DE94);
-#endif
 struct ArgE7D4 { u32 player, bit, target, value, f10, level; };
 struct SprE7D4 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
 struct SprBitsE7D4 { u8 lo:4; u8 hi:4; u8 b1, b2, b3; u8 b4:6; u8 b4hi:2; };
