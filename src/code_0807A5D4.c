@@ -1625,7 +1625,8 @@ void sub_0807C29C(void) {
             }
         }
         break;
-    case 1:
+    case 1: {
+        u16 lo, hi;
         lo = gInv82->equip / 3 * 3;
         hi = lo + 3;
         if (lo >= gMgr82->cursor)
@@ -1754,6 +1755,7 @@ void sub_0807C29C(void) {
             }
         }
         break;
+    }
     case 2:
         if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
