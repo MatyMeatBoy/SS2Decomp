@@ -805,7 +805,8 @@ void sub_08060E44(s32 animate)
     s16 base;
     s16 k;
     s16 end;
-    u32 keys;
+    struct HudPos63 *py = hudPosYE63;
+    struct HudPos63 *px = hudPosE63;
 
     mgr = hudMgrE63;
     pl = &hudPlayers63[sub_080020F4()];
@@ -826,8 +827,7 @@ void sub_08060E44(s32 animate)
             slide -= 2;
             if (slide < 0)
                 slide = 0;
-            keys = hudKeys63;
-            if (keys & 0x300)
+            if (hudKeys63 & 0x300)
                 dirty = 1;
             if (count != pl->count) {
                 count = pl->count;
@@ -837,7 +837,7 @@ void sub_08060E44(s32 animate)
                 f78 = pl->f78;
                 dirty = 1;
             }
-            if (keys & 0x100) {
+            if (hudKeys63 & 0x100) {
                 if (++mgr->sel >= pl->f78)
                     mgr->sel = 0;
                 pl->f26 = 0;
@@ -852,7 +852,7 @@ void sub_08060E44(s32 animate)
             }
             if (animate != 0 || dirty != 0) {
                 sub_0801A664(2, 4);
-                for (i = slide, j = 0; i <= 7; i++, j++) {
+                for (j = 0, i = slide; i <= 7; i++, j++) {
                     hudMap63[2][i + 0x16] = hudFrameE63[0][j];
                     hudMap63[3][i + 0x16] = hudFrameE63[1][j];
                     hudMap63[4][i + 0x16] = hudFrameE63[2][j];
@@ -908,10 +908,10 @@ void sub_08060E44(s32 animate)
                                 found = &mgr->bag[m];
                             }
                         }
-                        hudNumberE63(hudPosE63[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
-                                     hudPosYE63[end - ((s16)(k + 1))].x + 0x18, (s16)n, 0);
-                        hudItemE63(hudPosE63[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
-                                   hudPosYE63[end - ((s16)(k + 1))].x + 0x10, found, 0);
+                        hudNumberE63(px[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
+                                     py[end - ((s16)(k + 1))].x + 0x18, (s16)n, 0);
+                        hudItemE63(px[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
+                                   py[end - ((s16)(k + 1))].x + 0x10, found, 0);
                     }
                 }
             }
@@ -927,8 +927,8 @@ void sub_08060E44(s32 animate)
                 s32 e = end;
                 s32 s1 = mgr->sel + 1;
                 s32 idx = e - s1;
-                HudDraw63(&hudIcon63, hudPosE63[idx].x - (7 - slide) * 8 + 0xF1,
-                          hudPosYE63[idx].x + 0x10, 7, 0);
+                HudDraw63(&hudIcon63, px[idx].x - (7 - slide) * 8 + 0xF1,
+                          py[idx].x + 0x10, 7, 0);
             }
             sub_080003F0();
             if (animate != 0) {
@@ -962,7 +962,7 @@ void sub_08060E44(s32 animate)
             slide += 2;
             if (slide > 8)
                 slide = 8;
-            for (i = slide, j = 0; i <= 7; i++, j++) {
+            for (j = 0, i = slide; i <= 7; i++, j++) {
                 hudMap63[2][i + 0x16] = hudFrameE63[0][j];
                 hudMap63[3][i + 0x16] = hudFrameE63[1][j];
                 hudMap63[4][i + 0x16] = hudFrameE63[2][j];
@@ -1007,8 +1007,8 @@ void sub_08060E44(s32 animate)
                 s32 e = end;
                 s32 s1 = mgr->sel + 1;
                 s32 idx = 2 - (e - s1);
-                HudDraw63(&hudIcon63, hudPosE63[idx].x + (0xF0 - (7 - slide) * 8),
-                          hudPosYE63[idx].x + 0x10, 7, 0);
+                HudDraw63(&hudIcon63, px[idx].x + (0xF0 - (7 - slide) * 8),
+                          py[idx].x + 0x10, 7, 0);
             }
             sub_080003F0();
         }

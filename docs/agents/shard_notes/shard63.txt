@@ -66,3 +66,18 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   Rejected on the way: t-reuse of one and-result variable, keys/mask type sweeps (u16/s16/s32/u32),
   operand order, s16 index temp (fixes r1 but adds lsl/asr), px pointer for the X column (worse).
   Next: sub_08060E44 is the sibling -- try the same two shapes (hudKeys re-read, Y pointer local).
+
+2026-11-07 (claude-nov07-wA): sub_08060E44 improved, still NONMATCHING (filtered nmdiff 294 -> 204,
+  size 2120 -> 2116 = ROM, frame 0x54 = ROM).
+  Landed: the sub_080605D0 shapes carry over -- hudKeys63 re-read at each test (294 -> 240); function-scope
+  `px = hudPosE63` / `py = hudPosYE63` pointers for the loop-1 k-body and both HudDraw63 calls (the X literal
+  is no longer GCSE/PRE-hoisted into the m-loop preheader, size now = ROM; 240 -> 222); `for (j = 0, i = slide; ...)`
+  in both column loops fixes the j=0 / slide reload order (222 -> 204).
+  Remaining: (1) loop-1 k-body computes (s16)(k + 1) as `adds 0x10000; asrs` while the ROM does
+  `asrs; adds #1` (int k + 1). Plain `end - (k + 1)` is folded to `(end - 1) - k` (fold split_tree), and an
+  s32 k1 temp becomes a strength-reduced giv in sl (frame 0x50, ~495 lines) -- rejected. (2) m-loop global
+  alloc: ROM n=r7, m=r3, m<<16 copy r2, 0x150 const in ip; ours n=r2, m=r1, copy r5, const r7 (-dg order:
+  666 m, 702, 1492 copy, 664 id, 665 n, 705 const). (3) k/end register swap at the k-loop entry.
+  Rejected: px/py in loop 2 (worse), do-while(0)/order around n++, px/py declaration order (no effect).
+  Next: find a k+1 form that survives fold without a variable (e.g. a mode-changing cast that is a no-op
+  for the value range), then revisit the m-loop priorities.
