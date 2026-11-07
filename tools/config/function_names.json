@@ -5814,6 +5814,27 @@
       ]
     },
     {
+      "address": "0x08058C8C",
+      "canonical_symbol": "sub_08058C8C",
+      "display_name": "StartTrackedSongUnlessMultiplayer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08058790.c",
+          "line": 249,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "If IsMultiplayerWorldScene returns 0: when the link-error song mute (0x030027D0 bit 0x20) is clear, stores the argument in tracked-song word 0x03005CF8 and calls AudioStartOrContinueSongChecked with it; when the mute is set it does nothing. If the scene is multiplayer, it instead calls AudioStopAndClearTrackedSong (sub_080586B4) with 0. Does not validate the song ID itself; the checked starter ignores IDs above 0x1AB."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 981,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static instruction/caller evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x0801A7AC",
       "canonical_symbol": "sub_0801A7AC",
       "display_name": "TaskScreenBrightnessAndWindowTransitions",
@@ -10920,6 +10941,45 @@
       ]
     },
     {
+      "address": "0x0800CB9C",
+      "canonical_symbol": "sub_0800CB9C",
+      "display_name": "IsMultiplayerWorldScene",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 2488,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Returns bit 1 of scene-flags word 0x03003478 as 0 or 1, without changing it. There is no dedicated set/clear helper; the only writer of this bit is the world-scene lifetime task sub_0800BD5C."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1930,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "TaskManageWorldSceneLifetime (sub_0800BD5C) sets bit 1 when its start argument is 1 and clears it for any other value, after initializing players, link message queues and enemy pools."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3252,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "StartWorldSceneLifetimeTask is called with 1 after the multiplayer lobby completes (OK/GO handshake with peers) and with 0 from the single-player character-selection path at line 1131. The bit therefore records that the current world scene was started as a linked multiplayer session."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1433,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Save/quit routine sub_08061E44 picks a different confirmation message (0x1403D7 vs 0x1403D6) when this returns 1, and only combined with LinkIsParentOrLoopback does it hand off to a link request; consistent with a multiplayer-scene query rather than a raw link-hardware state."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 234,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Leaf accessor: loads 0x03003478, shifts right by 1 and masks with 1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static instruction/caller evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x0800CBAC",
       "canonical_symbol": "sub_0800CBAC",
       "display_name": "RequestWorldSceneStop",
@@ -11064,6 +11124,75 @@
       ]
     },
     {
+      "address": "0x0800CDD0",
+      "canonical_symbol": "sub_0800CDD0",
+      "display_name": "SuspendWorldTasks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 99,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Sets bit 8 (0x100) of scene-flags word 0x03003478, preserving all other bits. Paired clear is sub_0800CDE4 and query sub_0800CDF8."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1419,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Save/quit routine sub_08061E44 sets the bit on entry and clears it on every exit (lines 1421 and 1608). Soft-reset sequence sub_08061B88 (line 1338) and the task callback sub_08064E14 (line 3077, cleared at 3177 before an optional SoftReset) also bracket their work with it."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3015,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "World-scene loops wait with `while (sub_0800CDF8() != 0) sub_080003F0();` before doing per-frame work, so ordinary world tasks stall while the bit is set. Dialogue waits elsewhere (e.g. src/code_08058790.c:349) cancel the open dialogue through sub_0805EFBC when they observe it. The name records this hold effect; it does not stop the scheduler or pause hardware."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CDE4",
+      "canonical_symbol": "sub_0800CDE4",
+      "display_name": "ResumeWorldTasks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 102,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Clears bit 8 (0x100) of scene-flags word 0x03003478 with mask 0xFFFFFEFF, preserving all other bits. Inverse of SuspendWorldTasks (sub_0800CDD0)."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1608,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Called at the end of save/quit routine sub_08061E44 (also its early-out at line 1421) and of task callback sub_08064E14 (line 3177), releasing world tasks that wait on IsWorldTaskSuspendRequested. When a saved scene-flags copy is restored (src/code_08021DC4.c:674 and :4237) the bit is cleared again right after the restore, and the save path itself stores the flags with bit 8 masked off (src/code_0805FB7C.c:1478), so the hold never persists in saved data."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CDF8",
+      "canonical_symbol": "sub_0800CDF8",
+      "display_name": "IsWorldTaskSuspendRequested",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 105,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Returns bit 8 of scene-flags word 0x03003478 as 0 or 1."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 3015,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Used as a wait condition by world tasks (`while (sub_0800CDF8() != 0) sub_080003F0();`): over 550 call sites in 22 modules either wait while it is set or, in fixed-message dialogue loops (e.g. src/code_08058790.c:349), cancel the dialogue with sub_0805EFBC and stop waiting. It is a request flag set by SuspendWorldTasks; it does not prove every task has actually stopped."
+        }
+      ]
+    },
+    {
       "address": "0x0800CFC8",
       "canonical_symbol": "sub_0800CFC8",
       "display_name": "MarkCentroidAreaAttackPending",
@@ -11159,6 +11288,75 @@
           "line": 942,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
           "detail": "Original cleanup compares player +0x68 with the saved group byte, branches past the clear on mismatch and otherwise calls sub_0800CFDC before clearing player +0x134. The exact class/skill title and universal meaning of +0x68 remain unresolved."
+        }
+      ]
+    },
+    {
+      "address": "0x0800D0F4",
+      "canonical_symbol": "sub_0800D0F4",
+      "display_name": "BeginLocalPlayerEventLock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 76,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Sets bit 11 (0x800) of scene-flags word 0x03003478, preserving all other bits. Paired clear sub_0800D108 and query sub_0800D11C."
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 344,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Scripted-message routines (sub_08058E54 and its siblings in this module, also many in code_0802FEA0/0803B69C/080443EC) first set bit 0 of the local player's flags (player index LinkGetLocalPlayerId), then call this, run a fixed dialogue or event, and finally clear the player bit and call sub_0800D108. About 170 call sites in 9 modules."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1236,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "While the bit is set, the local player's attack/effect loops stop early (same test as player states 11/12), and save/quit routine sub_08061E44 refuses to run (src/code_0805FB7C.c:1420). Named from these observed effects; it does not itself change input registers or the player record."
+        }
+      ]
+    },
+    {
+      "address": "0x0800D108",
+      "canonical_symbol": "sub_0800D108",
+      "display_name": "EndLocalPlayerEventLock",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 79,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Clears bit 11 (0x800) of scene-flags word 0x03003478 with mask 0xFFFFF7FF, preserving other bits. Inverse of BeginLocalPlayerEventLock (sub_0800D0F4)."
+        },
+        {
+          "source": "src/code_08058790.c",
+          "line": 356,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Called at the end of each scripted-message routine right after bit 0 of the local player's flags is cleared again; about 166 call sites in 11 modules."
+        }
+      ]
+    },
+    {
+      "address": "0x0800D11C",
+      "canonical_symbol": "sub_0800D11C",
+      "display_name": "IsLocalPlayerEventLockActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 82,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Returns bit 11 of scene-flags word 0x03003478 as 0 or 1."
+        },
+        {
+          "source": "src/code_08068670.c",
+          "line": 1408,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Local-player attack and projectile loops break out when this is set, alongside the check for player states 11/12; save/quit routine sub_08061E44 (src/code_0805FB7C.c:1420) returns immediately when it is set."
         }
       ]
     },
