@@ -567,6 +567,7 @@ void sub_0801801C(struct T015LActor *arg0) {
             local110 = 0;
             break;
         }
+        asm("" ::: "r5"); /* no code: the &stack.main PRE reg must not take r5 (ROM r6) */
         if (arg0->fC == 0xB && (T015L_F7A & 8)) {
             bg = sub_0800BC44(arg0->f14 >> 8, arg0->f18 >> 8, 0);
             if (gUnk_03003170.curLevel == 1)
