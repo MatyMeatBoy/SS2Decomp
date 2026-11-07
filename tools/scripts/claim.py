@@ -315,6 +315,9 @@ def require_regions_closed(branch):
 
 if __name__ == "__main__":
     a = sys.argv[1:]
+    if any(arg in ("-h", "--help") for arg in a):
+        print(__doc__)
+        sys.exit(0)
     if not a or a[0] not in ("status", "take", "land", "pr", "release", "who", "stale"):
         sys.exit(__doc__)
     {"status": cmd_status, "take": cmd_take, "land": cmd_land, "pr": cmd_pr, "release": cmd_release, "who": cmd_who,
