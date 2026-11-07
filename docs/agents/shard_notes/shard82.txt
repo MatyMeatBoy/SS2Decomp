@@ -290,3 +290,42 @@ r5/r3 vs ROM r6/r5 and a case 0 r4/r6 swap: filtered 1512 vs 1508, not kept), ca
 Next: case 0 (rdiff ~70, mostly reload rotation: pool-address reload regs r0/r2/r7 differ) and case 13's lim/s*16;
 the ROM's 100000 constants in both money paths (case 0 a36 r3, case 13 2b28 r5) are reloads, i.e. their pseudos got
 no hard reg - find what source shape leaves a REG_EQUIV constant unallocated.
+
+2026-11-07 eighth follow-up / handoff (claude-nov07-w82M): filtered nmdiff 1343 -> 1264, full-module aligned diff
+178 -> 124, strict diff lines 1299 -> 1187, case 0 diff 142 -> ~83. Still 18396 bytes, every case size-exact.
+Landed (one commit each):
+- Thread (a), case 13 money count==count: the earlier "100000 is a reload" theory was wrong. The ROM's 100000 pseudo
+  is allocated (r5; its set is the `ldr r5` and the else-path `str r5` reuses it, which a reload could not do across the
+  else label). What differed is the `mov r0, sl` before `adds r3, r2, r0`: in the ROM it is a real copy insn of s*16,
+  not a reload, so last_spill_reg stays at r5 (from the 0x104 reload) and the next reloads go r6 / r7 / r2 / r3 / r4.
+  Source: `struct C82 { u32 c; }` and `{ u32 t; u8 *b; b = (u8 *)&gMgr82->stock[0].count; asm("" : "=r"(t) : "0"(s * 16));
+  pc = (struct C82 *)(b + t); }`, then pc->c for the load and the then-path store (lim removed). The struct form keeps
+  the store MEM_IN_STRUCT_P; a plain u32* store kills gMgr82 in CSE. That region is now exact (1343 -> 1331).
+- Case 0 money count==count: here the ROM `mov r0, ip` IS a reload (rotation r0 -> zero r1 -> r2/r3 -> r4). What was
+  wrong was v0: the block-local v0 covered three money regions and took r1. Own `u32 vb` in the kind==10 block
+  (ROM r0) plus the from==0x16 count loop using the function-level val gives ROM's cursor r1 / cursor*16 r3 / 100000 r3
+  (allocated) and the whole block matches (1331 -> 1320). The same asm-copy trick there is wrong (tested, worse).
+- gp (= &gMgr82, never allocated) was set at the very top, so the first `gMgr82->flags` read became a reload into r1
+  (ROM: plain pseudo in r0); that shifted reload rotation through most of case 0. gp is now set after the flags
+  test (1320 -> 1266), and the flags test reads through a block-local q hidden by asm("" : "=r"(q) : "0"(q)), because
+  otherwise CSE sets gp from the flags address pseudo, which then stays live in r3 (1266 -> 1264).
+Tried, not kept: gp block-local in the case 13 money block / set before the money switch / at `case 13:` (gp then gets
+sl, or CSE turns the case 13 gMgr82 loads into gp reloads; case 0 gets the same -35 as the landed fix but case 13 +30);
+do{}while(0) around the gp set; a volatile flags read; splitting v0 in other combinations (26-way sweep, scratchpad
+nov07-w82M/r3/H_*); the case 13 asm copy applied to case 0's cursor*16 or base (D*/E*: base copy fixes `mov r7, sl` but
+the DROP zero becomes an inherited r7).
+Diagnosis left in case 0 (aligned hunks @@441/@@491/@@699/@@1154/@@1221): (1) from==0x16 item address: ROM loads
+&gInv82 into r0 and gInv82 into r1 before the cursor load; ours keeps the address in r1 and loads gInv82 after
+`lsls` (the value pseudo is set later; try a block-local `u8 *iv = (u8 *)gInv82;` before `it`). (2) count loop: ROM
+n0=r3, i=r2, table ptr r4; ours n0=r3, i=r5, table r2. (3) @@699 (tg0==0 / kind 2..5 path): same gInv82-before-cursor order
+issue as (1). (4) @@1154: tg0==10 money path, -100000 reload r0 vs ours r5 and the rotation after it.
+Case 13 left: the 0xC0001 kind 2..5 DROP (reload r6 vs ours r5, ldmia r2,r3,r5 vs r2,r6,r7) and the stock[slot]
+mov r8, r1 extra in the from==0 money path (@@4562/4572).
+Tools (session scratchpad nov07-w82M/r3): inst.sh (install + make compare/nonmatching/check_tree/diff --check),
+ga.sh (GADBG+RLDBG trace, pass '-dl -dg' for lreg/greg dumps), the w82L sweeps copied there (sw/ holds a full
+sweep run on the 1266 base).
+Sweep rerun (sweep/sweep3/sweep4/sweep5/sweep6, 632 candidates on the 1266 base): no size-exact candidate below
+aligned 126. Best ones are all +4 bytes: count-loop val block-local (aligned 112), case 13 money from==0 val
+block-local (117). They could be combined with a 4-byte saving elsewhere.
+Next hypotheses: (1)/(3) above (gInv82 value before the cursor load), the +4 val splits combined with something that
+saves 4 bytes, and case 13's 0xC0001 DROP rotation.
