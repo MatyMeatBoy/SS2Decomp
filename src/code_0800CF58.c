@@ -1866,11 +1866,15 @@ block_447:
                 } else if (directionD36874 == 0) {
                     ((struct PlayerD368 *)arg0)->f20 = directionD36874;
                 } else {
+                    s16 *state2LimitD368;
+                    s32 *state2CurrentD368;
                     ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);
-                    temp_r3_3 = ((struct PlayerD368 *)arg0)->f40;
-                    var_r4_3 = &((struct PlayerD368 *)arg0)->fD8;
-                    temp_r1_22 = *var_r4_3;
+                    state2LimitD368 = &((struct PlayerD368 *)arg0)->f40;
+                    state2CurrentD368 = &((struct PlayerD368 *)arg0)->fD8;
+                    temp_r3_3 = *state2LimitD368;
+                    temp_r1_22 = *state2CurrentD368;
                     temp_r0_34 = (s32) (temp_r3_3 - temp_r1_22) >> 1;
+                    var_r4_3 = state2CurrentD368;
                     if (temp_r0_34 > 0) {
                         var_r0_7 = temp_r1_22 + temp_r0_34;
                         *var_r4_3 = var_r0_7;
@@ -1878,8 +1882,8 @@ block_447:
                         var_r0_7 = temp_r1_22 + 1;
                         *var_r4_3 = var_r0_7;
                     }
-                    if ((s32) temp_r3_3 <= (s32) ((struct PlayerD368 *)arg0)->fD8) {
-                        ((struct PlayerD368 *)arg0)->fD8 = (s32) temp_r3_3;
+                    if ((s32) temp_r3_3 <= *state2CurrentD368) {
+                        *state2CurrentD368 = (s32) temp_r3_3;
                     }
                 }
                 temp_r0_35 = d368_sub_0800CCCC();
