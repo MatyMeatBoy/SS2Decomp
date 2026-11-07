@@ -8348,6 +8348,7 @@ void sub_080855D4(void)
     const struct Item855D4 *item;
     const u8 *s;
     u8 *data;
+    u8 *pal;
     u32 n;
     u32 i;
     u32 j;
@@ -8457,7 +8458,8 @@ void sub_080855D4(void)
     f855_0B650(0x2F, 0x1E, 0x06000000, 0, 1);
     f855_0B650(0x31, 0x1F, 0x06000000, 0, 2);
     f855_0B650(0x49, 0x1D, 0x06000000, 0, 0xF);
-    f855_00AF0(0xF, f855_07290(0x70016) + 0x1E0, 1);
+    pal = f855_07290(0x70016);
+    f855_00AF0(0xF, pal + 0x1E0, 1);
     switch (gLang855D4) {
     case 0:
         f855_65158(gShop855D4->sprite, 0x50006, 0, -1, 0);
@@ -8661,7 +8663,10 @@ void sub_080855D4(void)
             gShop855D4->ty = gShop855D4->cursor * 16 + 0x18;
             f855_65230(gShop855D4->sprite, gShop855D4->x, gShop855D4->y, 0x15, 0);
             gShop855D4->shown = 0x64;
-            f855_5FB7C(0xE, 0x13, gShop855D4->cursor + 1 + gShop855D4->index, 0);
+            {
+                s32 t = gShop855D4->cursor + 1;
+                f855_5FB7C(0xE, 0x13, gShop855D4->index + t, 0);
+            }
             f855_5FB7C(0x12, 0x13, count, 0);
             break;
         case 3:
@@ -8838,7 +8843,8 @@ exit:
     while (f855_1AAE0() == 0)
         f855_003F0();
     f855_57624(0x1E);
-    f855_00AF0(0xF, f855_07290(0x70003) + 0x1E0, 1);
+    pal = f855_07290(0x70003);
+    f855_00AF0(0xF, pal + 0x1E0, 1);
     f855_1A664(0, 0x14);
     f855_0CFA4();
     f855_00420(0x11201100);

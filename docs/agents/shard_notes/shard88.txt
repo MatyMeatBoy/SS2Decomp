@@ -90,3 +90,15 @@ Shard 88 notes (sub_080855D4).
   +0xD6 at 0x5F8). They are PRE reaching regs created in hash-bucket order (hashes 672/674 in a
   953-bucket table), so the table size or item's regno would have to change to flip them.
   Dummy locals and moving item's declaration had no effect.
+  Follow-up (same day, claude-nov07-w63): aligned diff 16 -> 8, filtered nmdiff 130 -> 116.
+  - Palette calls: one function-scope `u8 *pal` assigned at both sites
+    (`pal = f855_07290(K); f855_00AF0(0xF, pal + 0x1E0, 1);`). pal is live in two blocks, so it is
+    a global allocno, and local-alloc's combine_regs never ties it to the sum. pal gets r0 (the call
+    value) and the sum gets r1, matching ROM `adds r1,r0,r3`. An asm("" : "+r") copy did not help
+    (the pseudo still dies in the add).
+  - Count display: `{ s32 t = gShop855D4->cursor + 1; f855_5FB7C(0xE, 0x13, gShop855D4->index + t, 0); }`
+    gives ROM's cursor+1 first, then index + t into index's register.
+  Remaining: only the item+0xD4 / item+0xD6 spill-slot swap (PRE reaching regs 1947/1948; hash
+  (plus item 212) = 14014 mod table size; 953 buckets now). A flip needs a table size N with
+  N | 14015+r or N | 14016+r (r = shift of item's regno), e.g. N = 935 with item's regno +9/+10.
+  A batch of 30 local type changes (count/last/n/i/j/c/zero/ox/oy/g/t/k) never flipped it.
