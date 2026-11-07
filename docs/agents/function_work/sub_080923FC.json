@@ -1,7 +1,7 @@
 {
   "address": "0x080923FC",
-  "updated_utc": "2026-10-30T14:10:57Z",
-  "checkpoint": "Final readiness wait checkpoint; NONMATCHING, heuristic distance 624 versus 739 before this work.",
+  "updated_utc": "2026-11-07T07:11:50Z",
+  "checkpoint": "Recover the original 332-byte frame and phase-5 shifted-coordinate homes using ordinary scalar/offset-pointer staging. Normal module candidate2240/original2236 bytes, heuristic251 versus current-main baseline2224/frame328/363. The older624/2280 report was stale. Original ASM remains active.",
   "areas": [
     {
       "id": "sprite_placement",
@@ -19,7 +19,19 @@
       "id": "remaining_code",
       "label": "Resolve remaining frame and control-flow differences",
       "state": "active",
-      "evidence": "Candidate is 2280 bytes versus original 2236, with differing frame size and substantial register and control-flow differences. Heuristic distance 624 is only a prioritization metric."
+      "evidence": "Selected candidate2240/original2236, frame332/332, heuristic251 versus freshly rebuilt baseline2224/frame328/363. In phase5 the signed shifted bound, offset pointers and carried low-halfword result recover X shift at sp+0x13C, Y shift in sl and bound in r9. All94 external static call targets retain exact original order. A score227/frame328 alternative is preserved privately; prefer the recovered frame. Pointer and other register assignments, earlier phases and exact bytes still differ."
+    },
+    {
+      "id": "phase5_homes",
+      "label": "Recover phase-5 invariant homes",
+      "state": "done",
+      "evidence": "Original phase5 keeps shifted X at sp+0x13C, shifted Y in sl and -66 shifted16 in r9, with frame332. Persistent pointers to the actual signed offset globals and a shared shifted signed limit recover those homes and frame extent. The low result is carried into the shifted comparison so the original halfword wrap is preserved without an extra signed global reload. Shifted negative arithmetic uses unsigned shift operands; the bound is -66*0x10000. Cleanup to matching signed pointer spelling emits exactly identical normalized bytes and relocations to the audited machine code."
+    },
+    {
+      "id": "bounded_paths",
+      "label": "Validate bounded machine-code paths",
+      "state": "done",
+      "evidence": "150 original-ROM comparisons cover cancellation yields1/62/303/424/600, first callback byte0/1/4, second byte0..4, synthetic busy patterns0/2 and A5 stack. Another120 run to full completion over first callback byte0/1/4, second byte0..4, busy patterns0/2, two synthetic RNG variants and zero/A5 stack. Calls, sprite payloads, non-stack RAM, return, saved registers and SP agree under clobbering helper stubs. All helpers remain stubbed. The producer bounds the second callback parameter (the source kind variable) to0..4, without proving it positive; the first byte controls falling rounds and is only sampled here. The existing target has no default for kind0 and remains inherited/uninitialized. The kind0 machine-code cases validate uniform seeded stack behavior only; arbitrary inherited memory, actual scheduler/render helpers and full C equivalence are unproven."
     },
     {
       "id": "full_match",
