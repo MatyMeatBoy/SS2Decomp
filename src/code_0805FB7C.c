@@ -227,7 +227,6 @@ void sub_0805FC80(struct IconPosition63 pos, u16 *item, u32 flags)
     iconAssets63[group].attr[9] = 9;
     iconOverlay63.attr[9] = 9;
 }
-#ifdef NONMATCHING
 struct ItemName63 { u16 kind; u16 id; u16 suffix; u8 level; u8 grade; u8 broken; };
 extern u8 *resFF63(s32) asm("sub_08007290");
 extern u32 digitDivFF63[] asm("gUnk_084EBD5C");
@@ -241,7 +240,6 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     u8 buf[32];
     u8 numeric[32];
     s32 value;
-    s32 drawY;
     u8 *res;
     u8 *suffix;
     s32 broken;
@@ -252,12 +250,10 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     u8 *name;
     s32 n;
     u8 i;
-    register struct ItemName63 *entry asm("r5");
-    u16 off;
+    u32 k;
+    s16 off;
 
-    entry = item;
-    drawY = y;
-    if (entry == NULL)
+    if (item == NULL)
         goto clear;
     suffix = NULL;
     broken = 0;
@@ -265,84 +261,93 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     grade = 0;
     cursed = 0;
     mode = flags & 0x7FFFFFFF;
-    switch (entry->kind) {
+    switch (item->kind) {
     case 1:
-        res = resFF63(entry->id | 0x100000);
+        res = resFF63(item->id | 0x100000);
         name = res + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         grade = 0;
         break;
+    /* Cases 2-5 each load the suffix name themselves (not a shared label):
+       the per-case copies are cross-jumped into one, but each copy's reloads
+       advance the reload-register rotation the way the ROM's do. */
     case 2:
     {
-        u8 *r = resFF63(entry->id | 0xB0000);
+        u8 *r = resFF63(item->id | 0xB0000);
         name = r + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
         if (grade == 0)
             grade = *(u16 *)(r + 0xBC);
-        goto suffix;
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
+        break;
     }
     case 3:
-        name = resFF63(entry->id | 0xC0000) + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
-        goto suffix;
+        name = resFF63(item->id | 0xC0000) + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
+        break;
     case 4:
-        name = resFF63(entry->id | 0xD0000) + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
-        goto suffix;
+        name = resFF63(item->id | 0xD0000) + gUnk_03003470 * 31;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
+        break;
     case 7:
-        name = resFF63(entry->id | 0x110000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x110000) + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         break;
     case 5:
     {
-        u8 *r = resFF63(entry->id | 0xE0000);
+        u8 *r = resFF63(item->id | 0xE0000);
         name = r + gUnk_03003470 * 31;
-        broken = entry->broken;
-        level = entry->level;
-        grade = entry->grade;
+        broken = item->broken;
+        level = item->level;
+        grade = item->grade;
         if (r[0xA0] != 0)
             cursed = 1;
     }
-    suffix:
-        if (entry->suffix != 0)
-            suffix = resFF63((entry->suffix - 1) | 0x130000);
+        if (item->suffix != 0)
+            suffix = resFF63((item->suffix - 1) | 0x130000);
         break;
     case 6:
-        name = resFF63(entry->id | 0xF0000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0xF0000) + gUnk_03003470 * 31;
         broken = 0;
         level = 0;
         grade = 0;
         break;
     case 9:
-        name = resFF63(entry->id | 0x150000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x150000) + gUnk_03003470 * 31;
         break;
     case 10:
         if (sub_0800CC98() == 0) {
             u32 *div;
             u8 *out;
             s32 started;
-            u32 k;
             register s32 *valuePtr asm("sl");
-            value = *(s32 *)&entry->suffix;
+            value = *(s32 *)&item->suffix;
             div = digitDivFF63;
             out = numeric;
             started = 0;
+            /* k is the function-scope counter also used as the name index in
+               mode 1; sharing it makes caller-saving unprofitable, so it takes r8. */
+            k = 0;
             valuePtr = &value;
-            for (k = 0; k <= 5; k++) {
+            for (; k <= 5; k++, div++) {
                 *out = divFF63(valuePtr, *div) + 0x41;
                 if (started != 0 || *out != 0x41) {
                     out++;
                     started = 1;
                 }
-                div++;
             }
             out[0] = 7;
             out[1] = 0;
@@ -352,11 +357,11 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         }
         break;
     case 8:
-        name = resFF63(entry->id | 0x120000) + gUnk_03003470 * 31;
+        name = resFF63(item->id | 0x120000) + gUnk_03003470 * 31;
         break;
     default:
     clear:
-        clearFF63(drawY, 2);
+        clearFF63(y, 2);
         return;
     }
 
@@ -389,14 +394,17 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             buf[n] = 0xCD;
             n++;
         }
+        /* The suffix offset is written as a shift so it stays a plain register
+           operand: the ROM indexes suffix + (i + offset), with the offset hoisted
+           after the pre-test (a `* 31` MULT would be ordered first). */
         if (gUnk_03003470 == 2) {
             if (suffix != NULL) {
                 i = 0;
-                if (suffix[62] != 0) {
+                if (suffix[(gUnk_03003470 << 5) - gUnk_03003470] != 0) {
                     do {
-                        buf[i + n] = suffix[i + 62];
+                        buf[i + n] = suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)];
                         i++;
-                    } while (suffix[i + 62] != 0);
+                    } while (suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)] != 0);
                 }
                 n += i;
                 buf[n] = 0x51;
@@ -409,6 +417,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
                     i++;
                 } while (name[i] != 0 && i <= 0x1B);
             }
+            i = i + n;
         } else {
             i = 0;
             if (name[0] != 0) {
@@ -420,19 +429,17 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
             n += i;
             i = 0;
             if (suffix != NULL) {
-                s32 o;
                 buf[n] = 0x51;
                 n++;
-                o = gUnk_03003470 * 31;
-                if (suffix[o] != 0) {
+                if (suffix[(gUnk_03003470 << 5) - gUnk_03003470] != 0) {
                     do {
-                        buf[i + n] = suffix[i + o];
+                        buf[i + n] = suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)];
                         i++;
-                    } while (suffix[i + o] != 0);
+                    } while (suffix[i + ((gUnk_03003470 << 5) - gUnk_03003470)] != 0);
                 }
             }
+            i = i + n;
         }
-        i = i + n;
         if (level != 0) {
             if (level <= 9) {
                 u32 tens;
@@ -455,10 +462,9 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         if (broken != 0) {
             buf[0] = 0xA1;
             i = 1;
-        } else if (entry->kind == 1) {
+        } else if (item->kind == 1) {
             if (*(u16 *)(res + 0xA0) == 1) {
                 u32 v;
-                s32 j;
                 u8 *p;
                 if (checkFF63() == 0)
                     v = *(u16 *)(res + 0xA2) * (*(u16 *)(gUnk_030034E0 + 0x48) << 2);
@@ -466,24 +472,24 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
                     v = *(u16 *)(res + 0xA2);
                 for (i = 0; name[i] != 0xFD && name[i] != 0xF7; i++)
                     buf[i] = name[i];
-                j = i + 3;
+                k = i + 3;
                 if (name[i] != 0xFD) {
-                    u32 h = v / 100;
+                    n = v / 100;
                     v = v % 100;
-                    if (h != 0)
-                        buf[i++] = h + 0x41;
-                    h = v / 10;
+                    if (n != 0)
+                        buf[i++] = n + 0x41;
+                    n = v / 10;
                     v = v % 10;
-                    buf[i++] = h + 0x41;
+                    buf[i++] = n + 0x41;
                     buf[i++] = v + 0x41;
                 }
-                p = name + j;
+                p = name + k;
                 if (*p != 0) {
                     do {
                         buf[i] = *p;
-                        j++;
+                        k++;
                         i++;
-                        p = name + j;
+                        p = name + k;
                     } while (*p != 0);
                 }
             } else {
@@ -515,14 +521,12 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
         break;
     }
     off = 0;
-    if (flags < 0)
-        off = -(widthFF63(buf) >> 1);
-    x += (s16)off;
-    textFF63(buf, x, drawY);
+    if (flags < 0) {
+        n = widthFF63(buf) >> 1;
+        off = -n;
+    }
+    textFF63(buf, off + x, y);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
-#endif
 struct HudPlayer63 {
     u8 pad0[0x20];
     u16 state;

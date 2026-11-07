@@ -108,6 +108,32 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   swapping the n/m declaration order changes nothing; u16 n 83 (2112), s32 n 78 (2108);
   moving n++ after found 117.
 
+2026-11-07 (claude-nov07-w63): sub_0805FFBC improved, still NONMATCHING (full-module aligned diff
+  236 -> 21, filtered nmdiff 582 -> 48; frame 0x68 = ROM; size 1588 vs ROM 1556, the +32 is entirely
+  case 4 not being cross-jumped into case 3).
+  Landed:
+  1. `k` (case-10 digit counter) is the function-scope u32 that mode 1 also uses as the name index
+     (old `s32 j = i + 3`). k crossed 1 call with 7 refs, so caller-save was profitable (4*calls < refs)
+     and it took a caller-saved reg; shared with mode 1 it crosses 5 calls and lands in r8. That frees
+     the lo regs: div r6, started r7, &value sl and `suffix` spills to 0x50 like the ROM (236 -> 167).
+  2. Mode-1 hundreds/tens temp `h` is `n` (n=r5 in mode 0 and h=r5 in mode 1 in the ROM) (-> 65).
+  3. Case 10: `k = 0;` after `started = 0` and `div++` in the for increment (ROM init/increment order).
+  4. Mode 0: `i = i + n` at the end of both gUnk branches (one copy at the join made cse keep the
+     temp as the class head, so buf[i++] used a stale copy hoisted above `if (level)`); the suffix
+     offset is written `(gUnk_03003470 << 5) - gUnk_03003470` inline (a `* 31` MULT is put first in
+     the address, an `o` variable is set before the pre-test so the pre-test gets cross-jumped
+     into the loop test; the shift keeps `suffix + (i + o)` and the hoisted o after the pre-test).
+  5. End: `n = widthFF63(buf) >> 1; off = -n;` with `s16 off` and `textFF63(buf, off + x, y)`;
+     drawY removed (y is used directly).
+  Remaining (21 aligned lines): (a) prologue stores `mov r9,r1; adds r5,r2; str r3` -- ours does the
+  flags store before `entry = item`; dropping the r5 binding fixes the order but swaps item/name
+  (r6/r5): item needs priority > name (refs 28 -> >=32; four `asm("" : : "r"(item))` do it, not
+  landed). (b) cases 3/4: identical RTL, but reload rotation differs (ours case 3 r0,r1,r2 / case 4
+  r3,r0,r1; ROM r2,r3,r0 in both, so ROM has one more rotation step per case, landing on r1, plus
+  one at the end of case 2). Not found from source yet.
+  Rejected: v/started sharing (237), k = res (239), reusing i or timer-like vars, o variable (threads
+  the pre-test), while-loop forms (same RTL), index casts, do{}while(0) around the level code.
+
 2026-11-07 (claude-nov07-w63): sub_08060E44 MATCHED (aligned full-module diff 83 -> 0, filtered nmdiff
   204 -> 0; ASM fallback removed).
   Three source changes closed it:
@@ -125,3 +151,18 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   preferences (m -> r3, copy -> r2/r3) and the end-sext pseudo to outrank k, i.e. shared variables.
   Lesson: when a block-local loop counter's allocation is off, try reusing an existing function-scope
   counter of the same type (i, j) before tuning priorities.
+
+2026-11-07 (claude-nov07-w63, follow-up): sub_0805FFBC MATCHED (aligned diff 21 -> 0, strict rcmp 0;
+  ASM fallback removed). Two more changes on top of the 582 -> 48 draft:
+  1. Cases 2, 3 and 4 each contain their own copy of the suffix load
+     (`if (item->suffix != 0) suffix = resFF63(...); break;`) instead of `goto suffix`.
+     Each copy needs its own `y << 16` reload, which advances the reload-register rotation
+     by one step per case (the ROM's extra "r1" step). With the rotation in step, every copy
+     is identical and cross-jumping folds them into the one in case 5, and case 4 folds into
+     case 3 (`b _080600A6`). Size 1588 -> 1556.
+  2. Without the `register asm("r5")` binding (use `item` directly), the param copy happens in
+     ROM order (`mov r9,r1; adds r5,r2; str r3`). The duplicated suffix code adds item refs,
+     so item now outranks name and takes r5 with no asm hints.
+  Diagnosis: walk the ROM's spilled-store registers case by case. Cases that ended in
+  `goto suffix` (2, 3, 4) were followed by one extra rotation step; cases ending in `break`
+  were not. That points at a per-case reload hidden by cross-jumping.
