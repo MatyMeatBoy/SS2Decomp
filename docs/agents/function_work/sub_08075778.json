@@ -1,0 +1,32 @@
+{
+  "address": "0x08075778",
+  "updated_utc": "2026-11-07T00:15:38.749916+00:00",
+  "checkpoint": "be747af9d3f03c0c7710485ba0c993d7042f63f3",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Complete compiling draft",
+      "state": "done",
+      "evidence": "The owned sub_08075778 draft compiles with the normal code_08073E2C rules. Full normal ROM comparison succeeds with the original ASM fallback active, the complete NONMATCHING build passes and check_tree reports 0 errors. This verifies baseline integrity, not equivalent C."
+    },
+    {
+      "id": "lifetimes",
+      "label": "Target and hit-loop pointer lifetimes",
+      "state": "active",
+      "evidence": "The initial enemy target and the later enemy-hit loop now use separate pointer variables, following the matched sub_080761A4 sibling. A genuine s32 speed value is assigned 45 once and passed to the existing inline scaling helper at all four sites. These changes preserve the reviewed data flow and all 65 static call targets in original order. The entry now spills its argument at SP+0x120 instead of retaining it in r6, and initial player/index carriers use the original r8/r9 choices. Observed angle-based movement, target lookup, collision tests and attack callbacks suggest RunTargetedAttackProjectile as an unconfirmed semantic proposal; no canonical symbol is renamed."
+    },
+    {
+      "id": "layout",
+      "label": "Frame, scalar homes and angle branches",
+      "state": "active",
+      "evidence": "Selected checkpoint: candidate 2388 bytes versus original 2416, local frame 364 versus original 368, approximate nmscore 553 to 440. The initial enemy target still remains in r6 instead of its original SP+0x124 home, shifting later scalar homes. The two angle-normalization paths also share more code than the original. Declaration-order changes, separately duplicated angle blocks, memcpy/inventory pointer staging, a separate lookup count, signed draw carriers, explicit player/index bindings, a goto-shaped player-hit loop, pointer-home aggregates and a geometry aggregate were all tested and rejected. Some variants reach the original size/frame while moving more values away from the original registers; exact size alone is insufficient. A volatile pointer aggregate reaches score 415/2412 but places pointers at SP+0x100 and shifts coordinate buffers, so it was rejected. Preserve this checkpoint and inspect the original target-pointer and angle lifetimes before retrying those hypotheses."
+    },
+    {
+      "id": "match",
+      "label": "Exact active C and linked ROM match",
+      "state": "pending",
+      "evidence": "Strict module comparison remains NO MATCH. The original ASM is retained and no new matching C bytes or whole-function semantic equivalence are claimed. Static call ordering and heuristic scores do not replace active-C full-ROM proof."
+    }
+  ],
+  "regions": []
+}
