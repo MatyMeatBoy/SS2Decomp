@@ -1,7 +1,7 @@
 {
   "address": "0x08014170",
-  "updated_utc": "2026-11-06T23:30:00Z",
-  "checkpoint": "nov06-wA17 shard 12: candidate size equals original (2486 bytes); filtered NONMATCHING diff 21 lines (was 27), GCSE N still 579. Only the bar-3 clamp differs.",
+  "updated_utc": "2026-11-07T00:40:00Z",
+  "checkpoint": "nov06-wC6 shard 12: active C matches; make compare OK with sub_08014170.s removed (base 4c8e44e3).",
   "areas": [
     {
       "id": "flow",
@@ -11,21 +11,21 @@
     },
     {
       "id": "compile",
-      "label": "Complete compilable draft",
+      "label": "Complete active C implementation",
       "state": "done",
-      "evidence": "make compare OK (ASM fallback) and make nonmatching OK. Candidate 2486 bytes, same as original."
+      "evidence": "hud14170 is active C in code_0800CF58 under the normal compiler and flags; the NONMATCHING wrapper and asm/nonmatchings/code_0800CF58/sub_08014170.s are removed. make compare, make nonmatching and check_tree pass."
     },
     {
       "id": "layout",
       "label": "Frame, spill slots and registers",
-      "state": "active",
-      "evidence": "Frame and every stack slot match; GCSE expression table must stay at N=579 (any extra RTL insn flips to 581 and reorders the hoisted-address slots). Fixed: bar length n vs hoisted loop-bound copy (nested do/while(0) raises the copy's loop-depth weighted refs), capacity check arms, inactive draw f26 & 0xFFFF, bar-2 v = dmp reload via hcur = cur (nov06-wB19), and the level lookup loop (nov06-wA17): hcur is the loop counter and the body loads the table base and b5 * 2 into locals, so b5 * 2 has lifetime 2 and loop.c hoists it in its first pass (lsls r6 before the table-pointer giv) while the fC2 pointer copy is still hoisted only in the second pass (r7, no ip). Remaining: bar-3 clamp keeps the cse1 copy pseudo of &fC6 (gcse leaves 673 = PRE reg; cse1 shared it into the post-store load via the skip-block path, so cse2 make_regs_eqv makes the copy canonical and rewrites the store), so value/pointer get r2/r3 instead of r3/r2 and the store reuses r4 instead of reloading [sp,#0xe8] into r6."
+      "state": "done",
+      "evidence": "Frame and every stack slot match; GCSE expression table must stay at N=579 (any extra RTL insn flips to 581 and reorders the hoisted-address slots). Fixed: bar length n vs hoisted loop-bound copy (nested do/while(0) raises the copy's loop-depth weighted refs), capacity check arms, inactive draw f26 & 0xFFFF, bar-2 v = dmp reload via hcur = cur (nov06-wB19), and the level lookup loop (nov06-wA17): hcur is the loop counter and the body loads the table base and b5 * 2 into locals, so b5 * 2 has lifetime 2 and loop.c hoists it in its first pass (lsls r6 before the table-pointer giv) while the fC2 pointer copy is still hoisted only in the second pass (r7, no ip). Bar-3 clamp (nov06-wC6): the value is loaded through `s16 *p = &arg0->fC6` and p is reassigned to the same address inside the clamp block. When cse1 follows the skip-blocks path around that block, invalidate_skipped_block drops p, so the post-join reload computes a fresh address that GCSE/combine fold into the PRE register; on the fall-through pass the reassignment is a no-op set and is deleted, so the GCSE insn count (579 buckets) and the PRE register / stack slot order are unchanged. The loaded value goes into the existing register-r3 local v, which leaves r2 for stats + 0xA0 as in the ROM."
     },
     {
       "id": "match",
       "label": "Exact match and final validation",
-      "state": "pending",
-      "evidence": "Remains NONMATCHING; exact comparison negative."
+      "state": "done",
+      "evidence": "decomp.py check reports MATCH and the full EU ROM compares OK with the active C (2486 bytes recovered)."
     }
   ],
   "regions": []

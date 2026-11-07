@@ -1,0 +1,7 @@
+nov06-wC6: sub_08014170 MATCHED. Last difference was the bar-3 fC6 clamp: cse1 followed the skip-blocks AROUND
+  path over the store block, so the post-join reload reused the first load's address pseudo; that copy of the
+  PRE reg then had two uses and combine could not fold it (extra live copy in r4). Fix: load through
+  `s16 *p = &arg0->fC6;` and reassign `p = &arg0->fC6;` inside the clamp block. invalidate_skipped_block drops p,
+  the post-join load gets a fresh address (PRE copy, folded by combine), and the NOT_TAKEN pass deletes the
+  reassignment as a no-op set, so the GCSE insn count (expr hash table 579 buckets) and PRE-reg / stack-slot order
+  stay as in the ROM. Loading into `v` (register asm r3) instead of a temp puts the value in r3 so stats+0xA0 gets r2.
