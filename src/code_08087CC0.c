@@ -2158,6 +2158,7 @@ void sub_0808AFE8_v(void)
     struct SprAF91 face;
     struct { u32 lo:16; u32 hi:16; } bg;
     u32 sel;
+    u32 selectionStride;
     u32 max;
     s32 off10;
     void *sprite;
@@ -2188,15 +2189,9 @@ void sub_0808AFE8_v(void)
     sub_0800B974(0x3C, 0x1F);
     sub_0800B650(0x35, 0x1D, 0x06000000, 0, 0xF);
     {
-        u8 *save = saveAF91;
-        u16 *stages = stagesAF91;
-        u8 *state = (u8 *)stateAF91;
-        u32 delta = 0x14A;
-        u32 value;
-        value = *(u16 *)(state + delta);
-        value = stages[value];
-        delta += 0xB0;
-        *(u16 *)(save + delta) = value;
+        struct StageSaveViewAF91 { u8 prefix[0x1FA]; u16 stage; };
+        struct StageStateViewAF91 { u8 prefix[0x14A]; u16 stage; };
+        ((struct StageSaveViewAF91 *)saveAF91)->stage = stagesAF91[((struct StageStateViewAF91 *)stateAF91)->stage];
     }
     sub_08065158(&anim, 0x50067, 9, -1, 0);
     sprite = (void *)sub_080653CC();
@@ -2308,6 +2303,7 @@ void sub_0808AFE8_v(void)
                 if (mode == 0) {
                     sub_0805865C(0xF);
                     sub_0801AA8C(0x1E);
+                    selectionStride = sel << 1;
                     goto done;
                 }
             } else {
@@ -2332,20 +2328,21 @@ void sub_0808AFE8_v(void)
         }
         switch (mode) {
         case 0:
-            for (j = 0, rec = records[sel], x = 0xA8; j <= 2; j++) {
+            selectionStride = sel << 1;
+            for (j = 0, rec = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4)), x = 0xA8; j <= 2; j++) {
                 sub_0805FC80(x, 0x6E, rec, 0);
                 rec++;
                 x += 0x18;
             }
-            sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
-            sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+            sub_0805FB7C(2, 5, (u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) / 3600), 0);
+            sub_0805FB7C(5, 5, (u16)((u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) % 3600) / 60), 0);
 
             sub_0805FB7C(8, 5, 0, 0);
             sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
             sub_0805FB7C(5, 8, sub_08058900(sel) % 3600 / 60, 0);
             sub_0805FB7C(8, 8, sub_08058934(sel), 0);
             if (flag != 0) {
-                sub_0805FFBC(0xF, 0x12, &records[sel][col], 0x80000000);
+                sub_0805FFBC(0xF, 0x12, (struct RecAF91 *)((u8 *)records + ((sel + selectionStride + col) << 4)), 0x80000000);
             } else {
                 text = (u8 *)sub_08007290((sel + 0x49F) | 0x140000) + 2;
                 sub_0801A3D0(text, 0xF - ((u32)sub_0801A638(text) >> 1), 0x12);
@@ -2386,13 +2383,13 @@ void sub_0808AFE8_v(void)
     }
 done:
     while (sub_0801AAE0() == 0) {
-        for (j = 0, rec = records[sel], x = 0xA8; j <= 2; j++) {
+        for (j = 0, rec = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4)), x = 0xA8; j <= 2; j++) {
             sub_0805FC80(x, 0x6E, rec, 0);
             rec++;
             x += 0x18;
         }
-        sub_0805FB7C(2, 5, (u16)(timesAF91[sel] / 3600), 0);
-        sub_0805FB7C(5, 5, (u16)((u16)(timesAF91[sel] % 3600) / 60), 0);
+        sub_0805FB7C(2, 5, (u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) / 3600), 0);
+        sub_0805FB7C(5, 5, (u16)((u16)(*(u16 *)((u8 *)timesAF91 + selectionStride) % 3600) / 60), 0);
 
         sub_0805FB7C(8, 5, 0, 0);
         sub_0805FB7C(2, 8, sub_08058900(sel) / 3600, 0);
@@ -2437,7 +2434,7 @@ done:
     i = sub_080008C8() % 3;
     stateAF91->w40 = 1;
     stateAF91->h36 = (i << 8) | sel | 0x8000;
-    stateAF91->rec = records[sel][i];
+    stateAF91->rec = *(struct RecAF91 *)((u8 *)records + ((sel + selectionStride + i) << 4));
     sub_08000420(0x02688420);
 }
 #else
