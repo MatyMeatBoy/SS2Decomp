@@ -1,7 +1,7 @@
 {
   "address": "0x0806C568",
-  "updated_utc": "2026-11-07T02:02:28Z",
-  "checkpoint": "Verified polling/target-order checkpoint after 7eb982e8874bd235f28f59358a9827e1e992b6ac; C-body SHA-256 b264b71e644f8b317ac74aa6b4d50737426c1db43a0c8e3b83841c07995bb589. Natural while polling and original target-arm order restore frame 168 and all 50 static call targets in order; heuristic 677 to 576. Still NONMATCHING; no matching-byte credit.",
+  "updated_utc": "2026-11-07T03:40:40Z",
+  "checkpoint": "Verified ordinary enemy-pointer/cost-lifetime checkpoint after 1ebde1bda3b3435af1d37ab14a83356a60ce636a; C-body SHA-256 08aba7acb86899b2410d806afc740ccd6db9a15739abf13f161aab648cb5d6e3. Real-module heuristic 576 to 549, size 2228 to 2208 versus original 2184. Frame grows 168 to 172 versus original 168. All 50 static call targets remain in original order. Still NONMATCHING; no matching-byte credit.",
   "areas": [
     {
       "id": "compile",
@@ -13,25 +13,25 @@
       "id": "target_traversal",
       "label": "Recover target traversal and completion effects",
       "state": "active",
-      "evidence": "The former register-u16 r7 counter makes agbcc emit a player-target list read from address 0x34. With an ordinary counter, 276 bounded original-ROM comparisons pass: stubbed call arguments, request snapshots, EWRAM/IWRAM effects, callee-saved registers and SP. Cases include local/remote player owners, modes 0/1/6/7, no/player/enemy target lists, delayed timers, readiness/completion waits, cancellation, energy boundaries and early enemy-owner aborts. Restoring only the counter pin reproduces the invalid read in case (owner 0, local 0, mode 1, player targets). The full enemy-owner continuation and all game states remain unproven. Private reproducer: build/try/goal-6C568-emulate.py; negative control: build/try/goal-6C568-regression-control.py. The polling/target-order follow-up passes the same 276 bounded cases with immediate animation completion and another 276 with a two-step completion stub to exercise drawing. All 552 compare original-ROM calls/arguments, request snapshots, RAM effects, saved registers and SP. Readiness and energy-boundary cases retain their earlier scope; complete enemy-owner continuation remains unproven."
+      "evidence": "The earlier r7-pinned final counter emitted a player-target list read from address 0x34; its ordinary-counter repair remains. The current checkpoint repeats 276 immediate-completion and 276 delayed/drawing original-ROM comparisons under clobbering external stubs: call arguments, request snapshots, EWRAM/IWRAM effects, saved registers and SP agree. Cases cover local/remote player owners, modes 0/1/6/7, no/player/enemy target lists, waits, cancellation, energy boundaries and early enemy-owner aborts. Another 144 explicit enemy-owner prefix cases agree on calls and non-stack RAM for owners 4/6/8, local IDs 0/2, modes 0/1/6/7 and energy 0/1/10/50/32767/65535. Those prefix tests stop at the first RNG call or a normal resource-cost abort, before the unresolved enemy-owner/player-pointer continuation; they do not assert register restoration on the stopped prefix. Full enemy-owner continuation and arbitrary game states remain unproven."
     },
     {
       "id": "types_abi",
       "label": "Audit widths, aliases and call lifetimes",
       "state": "active",
-      "evidence": "The player wait path reads world flags at state+4 as u16, matching the original LDRH. Its complement mask is computed before the loop, and both arguments to sub_0806898C use one saved request-pointer view. No new hard-register binding or empty ASM constraint was added; the unsafe final-counter binding was removed. Existing narrow bindings and the enemy-owner/player-pointer contract still need a complete audit. A future typed rewrite can consult sub_0806DE94 at 736763e4, but must preserve this functions u16 delays, field rereads, conditional player filters, and callback rules; the sibling is a reference rather than a drop-in implementation."
+      "evidence": "The enemy pointer and enemy resource-cost temporary now have ordinary lifetimes; remove their r9 and narrow r0 bindings. The signed cost temporary is truncated only at the actual halfword store/comparison. The initial owner read uses the saved volatile request pointer after sub_080020F4, as in the original. The player wait path retains its u16 world-flags read and pre-loop complement mask. Preserve u16 delay arrays, fresh field reads, owner-dependent target filters and callback rules. No new hard-register binding or empty constraint was added. Other existing narrow bindings and the full enemy-owner/player-pointer contract remain unaudited."
     },
     {
       "id": "layout",
       "label": "Recover stack homes and register allocation",
       "state": "active",
-      "evidence": "Previous verified checkpoint: 2208 bytes, frame 176, heuristic 677. Replacing the goto polling guard by a natural while and putting player target arms first restores the original 168-byte frame and improves the whole-module heuristic to 576. Candidate size grows to 2228 versus original 2184; many scalar homes and register choices still differ. Selection-only gives 639/2220; draw-only 713/2212; both arms without loop recovery 672/2220; while-only 662/2212; while plus selection 639/2228; while plus draw 592/2212; combined selected 576/2228. Preserve the ordinary final counter repair: the historical lower-distance r7-pinned version emits an invalid list-pointer read. Unselected controls after order recovery: saved-input read 582/2232; signed cost temporary 582/2224; sibling-style cost lookup 572/2232; ordinary enemy pointer 556/2200 but frame 172; narrow local/count carriers 577/2224. These controls are not the delivered checkpoint. Private candidates and diffs remain in build/try/goal-C568-*. SP+0xAC in the older draft was a player count, not a second pointer."
+      "evidence": "The previous selected checkpoint was 2228 bytes / frame 168 / heuristic 576. Plain enemy-pointer lifetime alone gives 2200 / frame 172 / heuristic 556 and now passes both 276-case completion modes. Adding the saved-request read and ordinary signed cost staging gives 2208 / frame 172 / heuristic 549; normalized differing halfwords improve 1043 to 918. The original is 2184 / frame 168, so this explicitly trades four additional frame bytes for a closer whole-function draft and two fewer register constraints. All 50 static call targets retain order. Owner/level addressability, wide mode carriers and equivalent typed enemy-member views did not recover the frame and were rejected. Explicit kind rejection branches increased size or worsened the combined score. Private frozen candidates, complete diffs and bounded reproducer remain under .local/c568 in the exclusive worker checkout."
     },
     {
       "id": "static_call_order",
       "label": "Recover the static external-call sequence",
       "state": "done",
-      "evidence": "Original ASM and the rebuilt selected NONMATCHING function each contain 50 R_ARM_THM_CALL targets in exactly the same order. The body precedes its polling calls physically, and the player/enemy arms follow the original order. This proves the static sequence only, not complete CFG equivalence, timing or matching bytes."
+      "evidence": "The original ASM and freshly rebuilt current NONMATCHING function each contain 50 R_ARM_THM_CALL targets in exactly the same order. Preserve the natural polling while and player-first selection/drawing arms. This proves the static sequence only, not complete CFG equivalence, timing or matching bytes."
     },
     {
       "id": "full_match",

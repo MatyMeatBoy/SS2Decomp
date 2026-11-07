@@ -2267,7 +2267,7 @@ void sub_0806C568(u32 *arg0) {
     u16 var_r7_3;
     u16 temp_r0_10;
     u16 temp_r0_2;
-    register u16 temp_r0_3 asm("r0");
+    s32 temp_r0_3;
     register u32 temp_r1 asm("r1");
     u16 temp_r2_5;
     u16 temp_r3_2;
@@ -2308,11 +2308,11 @@ void sub_0806C568(u32 *arg0) {
     void *temp_r4_8;
     void *temp_r4_9;
     void *temp_r5;
-    register void *var_r9 asm("r9");
+    void *var_r9;
 
     sp74 = arg0;
     sp8C = (s32) (u16) sub_080020F4();
-    temp_r0 = *arg0;
+    temp_r0 = *sp74;
     sp94 = temp_r0;
     sp98 = T71C_U32(sp74,0x4);
     var_sl = T71C_U16(sp74,0x14);
@@ -2341,9 +2341,12 @@ loop_4:
 block_10:
     if (sp8C != T71C_U32(sp74,0x0)) {
         if (sp94 > 3U) {
-            temp_r0_3 = T71C_U16(var_r9,0x5E) - T71C_S16(gUnk_084EBF1C,var_sl * 2 + T71C_U32(sp74,0xC) * 0x18 + 6);
+            u8 *costBase = gUnk_084EBF1C;
+            u32 costOffset = var_sl * 2 + T71C_U32(sp74,0xC) * 0x18;
+            costBase += 6;
+            temp_r0_3 = T71C_U16(var_r9,0x5E) - *(s16 *)((u32)costBase + costOffset);
             T71C_U16(var_r9,0x5E) = temp_r0_3;
-            if ((s32) (temp_r0_3 << 0x10) < 0) {
+            if ((s16) temp_r0_3 < 0) {
                 temp_r2 = spA0 + ((u8 *)t71CFlags);
                 *temp_r2 &= ~(1 << sp98);
                 T71C_U16(var_r9,0x5E) = 0U;
