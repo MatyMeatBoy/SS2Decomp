@@ -2222,442 +2222,319 @@ void sub_0806BE24(struct ArgBE *arg)
     }
     *(u32 *)(off + (u8 *)fBE) &= ~(1 << bit);
 }
-#ifdef NONMATCHING
-#define T71C_U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
-#define T71C_U16(p,o) (*(u16 *)((u8 *)(p)+(o)))
-#define T71C_S16(p,o) (*(s16 *)((u8 *)(p)+(o)))
-#define T71C_U32(p,o) (*(u32 *)((u8 *)(p)+(o)))
-#define T71C_PTR(p,o) (*(u8 **)((u8 *)(p)+(o)))
- extern u32 t71CFlags[] asm("gUnk_030063E0");
- extern u8 gUnk_084EBF1C[];
- extern u16 t71CFacing[] asm("gUnk_0849E730");
- extern s16 t71CRange[] asm("gUnk_084EC12C");
-void sub_0806C568(u32 *arg0) {
-    struct { u32 desc[13]; u8 targets[8]; u16 xs[6], ys[6], timers[6]; s16 x, y; } frame;
-    u32 * volatile sp74;
-    void *sp78;
-    u32 sp80;
-    s32 sp84;
-    u32 sp88;
-    s32 sp8C;
-    u32 sp90;
-    u32 sp94;
-    s32 sp98;
-    s32 sp9C;
-    s32 spA0;
-    u16 *spA4;
-    u32 waitMask;
-    s16 temp_r1_5;
-    s16 var_r0_4;
-    s32 var_r1;
-    s32 var_r1_2;
-    s32 var_r1_3;
-    s32 var_r2;
-    s32 *temp_r2;
-    s32 *temp_r2_8;
-    s32 *temp_r4_2;
-    s32 *temp_r4_4;
-    s32 temp_r0_4;
-    s32 temp_r0_9;
-    s32 temp_r2_7;
-    s32 temp_r4;
-    s32 var_r8;
-    u16 var_r7_2;
-    u16 var_r7_3;
-    u16 temp_r0_10;
-    u16 temp_r0_2;
-    s32 temp_r0_3;
-    u32 temp_r1;
-    u16 temp_r2_5;
-    u16 temp_r3_2;
-    u16 var_r0;
-    u16 var_r0_2;
-    register u16 var_r0_3 asm("r0");
-    register u16 var_r0_5 asm("r0");
-    u16 var_r7;
-    u16 var_r7_4;
-    u16 var_r7_5;
-    u16 var_r7_6;
-    u16 var_r7_7;
-    u16 var_sl;
-    u32 temp_r0;
-    u32 temp_r0_5;
-    u32 temp_r0_6;
-    u32 temp_r0_7;
-    u32 temp_r0_8;
-    u32 temp_r1_3;
-    u32 var_r6;
-    u8 temp_r1_4;
-    u8 temp_r1_8;
-    u8 temp_r6;
-    u8 var_r6_2;
-    void *temp_r1_2;
-    void *temp_r1_6;
-    void *temp_r1_7;
-    void *temp_r2_2;
-    void *temp_r2_3;
-    void *temp_r2_4;
-    void *temp_r2_6;
-    void *temp_r3;
-    void *temp_r4_10;
-    void *temp_r4_3;
-    void *temp_r4_5;
-    void *temp_r4_6;
-    void *temp_r4_7;
-    void *temp_r4_8;
-    void *temp_r4_9;
-    void *temp_r5;
-    void *var_r9;
+struct SprC568 { u32 f0, f4, f8, fC; u8 pad10[12]; u8 f1C, f1D; u8 pad1E[22]; };
+struct PlyC568 { u16 id; u8 pad2[0x1E]; u16 state; u8 pad22[0x46]; u8 team; u8 pad69[0x49]; u16 fB2; u8 padB4[2]; u16 fB6; u8 padB8[10]; u16 resource; u8 padC4[0x84]; u16 *sprite; };
+struct EneC568 { u16 id; u8 pad2[6]; s16 dir; u8 padA[2]; u16 state; u8 padE[6]; s32 x, y; u8 pad1C[0x3C]; u16 f58; u8 pad5A[4]; u16 resource; u8 pad60[10]; u16 wait; u8 pad6C[0x170]; u8 active; u8 pad1DD[0x4E]; u8 threshold; u8 pad22C[0xB4]; };
+struct RangeC568 { s16 x, y; };
+struct ArgC568 { u32 player, bit, target, value, f10, level; };
+extern struct PlyC568 pC568[] asm("gUnk_03003CE0");
+extern u8 *eC568Base asm("gUnk_030056F4");
+extern u32 eC568Mask asm("gUnk_030056FC");
+extern u32 fC568[] asm("gUnk_030063E0");
+extern u32 flagsC568 asm("gUnk_03002344");
+extern u16 dirC568[] asm("gUnk_0849E730");
+extern s16 sinC568[] asm("gUnk_080B9704");
+extern u8 costC568[] asm("gUnk_084EBF1C");
+extern struct RangeC568 rangeC568[] asm("gUnk_084EC12C");
+extern void initC568(void *, s32, s32, s32, s32) asm("sub_08065158");
+extern void coordsC568(s32, s32, s16 *, s16 *, s32, s32) asm("sub_0800BC08");
+extern s32 animC568(void *, u32, u16 *, u16 *, s32) asm("sub_08065370");
+extern void spawnC568(s32, s32, u32, s32, s32) asm("sub_08069A30");
+extern void sendC568(void *) asm("sub_080694AC");
+extern void drawC568(s32, s32, u16, u16, u8, void *, u32, u32) asm("sub_08007870");
+extern void palC568(u32, u32, u32) asm("sub_08000AF0");
 
-    sp74 = arg0;
-    sp8C = (s32) (u16) sub_080020F4();
-    temp_r0 = *sp74;
-    sp94 = temp_r0;
-    sp98 = T71C_U32(sp74,0x4);
-    var_sl = T71C_U16(sp74,0x14);
-    if (temp_r0 <= 3U) {
-        sp78 = (0x14C * sp94) + ((u8 *)gUnk_03003CE0);
-        spA0 = sp94 * 4;
-        goto block_10;
-    }
-    var_r9 = gUnk_030056F4 + ((sp94 * 0x2E0) + 0xFFFFF480);
-    temp_r4 = sp94 * 4;
-    spA0 = temp_r4;
-    if ((u32) T71C_U16(var_r9,0x6A) < (u32) T71C_U8(var_r9,0x22B)) {
-        temp_r4_2 = temp_r4 + ((u8 *)t71CFlags);
-loop_4:
-        if ((sub_08056E90() != 0) || (sub_0800BA6C() == 0) || (temp_r0_2 = T71C_U16(var_r9,0xC), (temp_r0_2 == 0xA)) || (temp_r0_2 == 0xB)) {
-            *temp_r4_2 &= ~(1 << sp98);
-            return;
-        }
-        sub_080003F0();
-        if ((u32) T71C_U16(var_r9,0x6A) >= (u32) T71C_U8(var_r9,0x22B)) {
-            goto block_10;
-        }
-        goto loop_4;
-    }
-block_10:
-    if (sp8C != T71C_U32(sp74,0x0)) {
-        if (sp94 > 3U) {
-            u8 *costBase = gUnk_084EBF1C;
-            u32 costOffset = var_sl * 2 + T71C_U32(sp74,0xC) * 0x18;
-            costBase += 6;
-            temp_r0_3 = T71C_U16(var_r9,0x5E) - *(s16 *)((u32)costBase + costOffset);
-            T71C_U16(var_r9,0x5E) = temp_r0_3;
-            if ((s16) temp_r0_3 < 0) {
-                temp_r2 = spA0 + ((u8 *)t71CFlags);
-                *temp_r2 &= ~(1 << sp98);
-                T71C_U16(var_r9,0x5E) = 0U;
-                return;
-            }
-        }
-        goto block_16;
-    }
-    temp_r4_3 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0);
-    temp_r1_2 = sp74;
-    { u32 cost = (u16)(sub_0806898C(T71C_U32(temp_r1_2,0xC), (s32) T71C_U32(temp_r1_2,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = T71C_U16(temp_r4_3,0xC2) - cost; }
-    T71C_U16(temp_r4_3,0xC2) = temp_r1;
-    if ((s32) (temp_r1 << 0x10) < 0) {
-        T71C_U16(temp_r4_3,0xC2) = 0U;
-    }
-block_16:
-    frame.xs[0] = 0;
-    frame.ys[0] = 0;
-    frame.timers[0] = 0;
-    var_r7 = 1;
-    do {
-        frame.xs[var_r7] = 0;
-        frame.ys[var_r7] = 0;
-        frame.timers[var_r7] = (sub_080008C8() % 20U) + 0xA + frame.timers[var_r7 - 1] + 1;
-        var_r7 += 1;
-    } while ((u32) var_r7 <= 4U);
-    if (sp94 <= 3U) {
-        if (var_sl != 0) {
-            T71C_U16(sp78,0xB2) = 2U;
-        }
-        if ((u32) T71C_U16(sp78,0xB2) <= 1U) {
-            temp_r4_4 = spA0 + ((u8 *)t71CFlags);
-            waitMask = ~(1U << sp98);
-loop_23:
-            if ((T71C_U16(sp78,0x20) == 0xA) || !(2 & T71C_U16(gUnk_03005CF4,0x4))) {
-                *temp_r4_4 &= waitMask;
+void sub_0806C568(struct ArgC568 *arg)
+{
+    struct SprC568 desc;
+    u8 targets[8];
+    u16 xs[6];
+    u16 ys[6];
+    u16 timers[6];
+    s16 dx, dy;
+    struct PlyC568 *p;
+    u16 level2;
+    u16 done;
+    u16 nhit;
+    u16 count;
+    u16 local;
+    u32 n;
+    u32 player;
+    u32 bit;
+    struct EneC568 *e;
+    struct PlyC568 *q;
+    struct EneC568 *e2;
+    s32 x, y;
+    u16 level;
+    u16 i;
+    u8 shade;
+    u16 a;
+    s32 ax, ay;
+    u32 random;
+    u16 *dst, *prev;
+    s32 j;
+    /* The ROM keeps the player-loop Y delta in r3 across the range checks. */
+    register u32 t asm("r3");
+    u32 w, zy;
+
+    local = sub_080020F4();
+    player = arg->player;
+    bit = arg->bit;
+    level = arg->level;
+    level2 = level;
+    if (player <= 3) {
+        p = &pC568[player];
+    } else {
+        e = (struct EneC568 *)(eC568Base + (player * 0x2E0 + 0xFFFFF480));
+        while (e->wait < e->threshold) {
+            if (sub_08056E90() != 0 || sub_0800BA6C() == 0 || e->state == 10 || e->state == 11) {
+                fC568[player] &= ~(1 << bit);
                 return;
             }
             sub_080003F0();
-            if ((u32) T71C_U16(sp78,0xB2) > 1U) {
-                goto block_27;
-            }
-            goto loop_23;
         }
-block_27:
-        temp_r1_2 = T71C_PTR(sp78,0x148);
-        var_r8 = ((u16) T71C_U16(temp_r1_2,0x0) >> 4) << 8;
-        var_r6 = (u32) (T71C_U16(temp_r1_2,0x2) << 0x14) >> 0xC;
-        goto block_29;
     }
-    var_r8 = T71C_U32(var_r9,0x14);
-    var_r6 = T71C_U32(var_r9,0x18);
-block_29:
-    sp84 = 0;
-    sp88 = 0;
-    temp_r0_4 = sub_0800CDF8();
-    spA4 = sp78 + 0xB6;
-    if (temp_r0_4 != 0) {
-
-    } else if ((u32) T71C_U32(sp74,0x8) <= 3U) {
-        temp_r0_6 = sub_08002164();
-        sp90 = temp_r0_6;
-        var_r7_3 = 0;
-        if (sp88 >= temp_r0_6) {
-
-        } else {
-            do {
-                temp_r2_2 = (0x14C * var_r7_3) + ((u8 *)gUnk_03003CE0);
-                if (T71C_U16(temp_r2_2,0x20) != 0xB) {
-                    if (sp94 <= 3U) {
-                        temp_r1_4 = T71C_U8(temp_r2_2,0x68);
-                        if (T71C_U8(sp78,0x68) != temp_r1_4) {
-                            temp_r4_6 = T71C_PTR(temp_r2_2,0x148);
-                            temp_r0_7 = (u32) (T71C_U8(temp_r4_6,0x0) << 0x1C) >> 0x1C;
-                            if ((temp_r0_7 != 0xB) && (temp_r0_7 != 0xA) && (temp_r0_7 != 0xE) && (temp_r1_4 != 0) && !(((u32) (T71C_U8(temp_r4_6,0x4) << 0x1A) >> 0x1A) & 0x20)) {
-                                frame.x = ((u16) T71C_U16(temp_r4_6,0x0) >> 4) - (var_r8 >> 8);
-                                var_r0 = T71C_U16(temp_r4_6,0x2);
-                                goto block_46;
-                            }
-                        }
-                    } else {
-                        temp_r2_3 = T71C_PTR(temp_r2_2,0x148);
-                        frame.x = ((u16) T71C_U16(temp_r2_3,0x0) >> 4) - (var_r8 >> 8);
-                        var_r0 = T71C_U16(temp_r2_3,0x2);
-block_46:
-                        temp_r3_2 = ((u32) (var_r0 << 0x14) >> 0x14) - ((s32) var_r6 >> 8);
-                        frame.y = temp_r3_2;
-                        var_r1_2 = frame.x;
-                        if ((s32) var_r1_2 < 0) {
-                            var_r1_2 = 0 - var_r1_2;
-                        }
-                        temp_r2_4 = (var_sl * 4) + ((u8 *)t71CRange);
-                        if ((s32) var_r1_2 < (s32) T71C_S16(temp_r2_4,0x0)) {
-                            var_r1_3 = (s16) temp_r3_2;
-                            if ((s32) var_r1_3 < 0) {
-                                var_r1_3 = 0 - var_r1_3;
-                            }
-                            if ((s32) var_r1_3 < (s32) T71C_S16(temp_r2_4,0x2)) {
-                                temp_r0_8 = sp88;
-                                sp88 = (u32) (u16) (temp_r0_8 + 1);
-                                *(temp_r0_8 + frame.targets) = var_r7_3;
-                                sp84 = (s32) (u16) (sp84 + 1);
-                            }
-                        }
-                    }
-                }
-                var_r7_3 = (u16) (var_r7_3 + 1);
-            } while ((u32) var_r7_3 < sp90);
+    if (local != arg->player) {
+        if (player > 3) {
+            u8 *costBase = costC568;
+            u32 costOffset = level * 2 + arg->value * 24;
+            s16 *cost;
+            s32 resource;
+            costBase += 6;
+            cost = (s16 *)(costOffset + (u32)costBase);
+            resource = e->resource - *cost;
+            e->resource = resource;
+            if ((s16)resource < 0) {
+                fC568[player] &= ~(1 << bit);
+                e->resource = 0;
+                return;
+            }
         }
     } else {
-        var_r7_2 = 0;
-        sp9C = gUnk_030056FC;
-        do {
-            if ((1 << var_r7_2) & sp9C) {
-                temp_r4_5 = gUnk_030056F4 + (var_r7_2 * 0x2E0);
-                if ((T71C_U16(temp_r4_5,0xC) != 0xB) && (T71C_U8(temp_r4_5,0x1DC) != 0)) {
-                    frame.x = (s16) ((u32) (T71C_U32(temp_r4_5,0x14) - var_r8) >> 8);
-                    temp_r1_3 = (u32) ((T71C_U32(temp_r4_5,0x18) - var_r6) << 8) >> 0x10;
-                    frame.y = (u16) temp_r1_3;
-                    var_r2 = frame.x;
-                    if ((s32) var_r2 < 0) {
-                        var_r2 = 0 - var_r2;
-                    }
-                    temp_r3 = (var_sl * 4) + ((u8 *)t71CRange);
-                    if ((s32) var_r2 < (s32) T71C_S16(temp_r3,0x0)) {
-                        var_r1 = (s16) temp_r1_3;
-                        if ((s32) var_r1 < 0) {
-                            var_r1 = 0 - var_r1;
-                        }
-                        if ((s32) var_r1 < (s32) T71C_S16(temp_r3,0x2)) {
-                            temp_r0_5 = sp88;
-                            sp88 = (u32) (u16) (temp_r0_5 + 1);
-                            *(temp_r0_5 + frame.targets) = var_r7_2;
-                            sp84 = (s32) (u16) (sp84 + 1);
-                        }
-                    }
-                }
+        struct PlyC568 *cp = &pC568[sub_080020F4()];
+        u16 delta = sub_0806898C(arg->value, arg->level) - 1;
+        cp->resource -= delta;
+        if ((s16)cp->resource < 0)
+            cp->resource = 0;
+    }
+    xs[0] = 0;
+    ys[0] = 0;
+    timers[0] = 0;
+    for (i = 1; i <= 4; i++) {
+        xs[i] = 0;
+        ys[i] = 0;
+        random = sub_080008C8();
+        dst = &timers[i];
+        j = i - 1;
+        prev = &timers[j];
+        random %= 20;
+        random += 10;
+        *dst = random + *prev + 1;
+    }
+    if (player <= 3) {
+        if (level2 != 0)
+            p->fB2 = 2;
+        while (p->fB2 <= 1) {
+            if (p->state == 10 || !(gGameState->flags & 2)) {
+                fC568[player] &= ~(1 << bit);
+                return;
             }
-            var_r7_2 = (u16) (var_r7_2 + 1);
-        } while ((u32) var_r7_2 <= 4U);
-    }
-    if (var_sl == 7) {
-        var_sl = 6;
-    }
-    if ((sp8C == sp94) && (sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-        sub_0805865C(var_sl + 0x155);
-    }
-
-    sub_08065158(frame.desc, 0x5009E, 8, -1, 0);
-    T71C_U8(frame.desc,0x1C) = 7;
-    T71C_U8(frame.desc,0x1D) = 8;
-    if (sp84 == 0) {
-        if (sp94 <= 3U) {
-            var_r0_2 = t71CFacing[(u8) T71C_U8(T71C_PTR(sp78,0x148),3) >> 4];
-        } else {
-            var_r0_2 = t71CFacing[T71C_S16(var_r9,0x8)];
+            sub_080003F0();
         }
-        temp_r1_5 = (s16) (u16) (var_r0_2 * 0x10);
-
-        sub_08069A30(var_r8 + (gUnk_080B9704[temp_r1_5 + 0x40] * 0xA), var_r6 + (gUnk_080B9704[temp_r1_5] * 0xA), sp94, 5, var_sl);
+        x = (p->sprite[0] >> 4) << 8;
+        y = (u32)(p->sprite[1] << 20) >> 12;
     } else {
-        sp80 = 0;
-        while (sp80 < sp88 &&
-               (sp94 != sub_080020F4() ||
-                (((u32) (u16) (T71C_U16(sp78,0x20) - 0xB) > 1U) &&
-                 sub_0800D11C() == 0))) {
-            if ((u32) T71C_U32(sp74,0x8) <= 3U) {
-                var_r7_5 = 0;
-                if (sp88 <= 0U) {
-
+        x = e->x;
+        y = e->y;
+    }
+    nhit = 0;
+    count = 0;
+    if (!sub_0800CDF8()) {
+        if (arg->target <= 3) {
+            n = sub_08002164();
+            for (i = 0; i < n; i++) {
+                q = &pC568[i];
+                if (q->state == 11)
+                    continue;
+                if (player <= 3) {
+                    u32 k;
+                    if (p->team == q->team)
+                        continue;
+                    k = (u32)(((u8 *)q->sprite)[0] << 28) >> 28;
+                    if (k == 11)
+                        continue;
+                    if (k == 10)
+                        continue;
+                    if (k == 14)
+                        continue;
+                    if (q->team == 0)
+                        continue;
+                    if ((u32)(((u8 *)q->sprite)[4] << 26) >> 26 & 0x20)
+                        continue;
+                    dx = (q->sprite[0] >> 4) - (x >> 8);
+                    w = ((u32)(q->sprite[1] << 20) >> 20) - (y >> 8);
+                    w <<= 16;
+                    zy = w >> 16;
+                    dy = zy;
+                    t = zy;
+                    ay = dx;
+                    if (ay < 0)
+                        ay = -ay;
+                    if (ay >= rangeC568[level].x)
+                        continue;
+                    w = t << 16;
+                    ay = (s32)w >> 16;
+                    if (ay < 0)
+                        ay = -ay;
+                    if (ay >= rangeC568[level].y)
+                        continue;
+                    targets[count++] = i;
+                    nhit++;
                 } else {
-                    do {
-                        temp_r2_6 = (0x14C * *(frame.targets + var_r7_5)) + ((u8 *)gUnk_03003CE0);
-                        temp_r1_6 = T71C_PTR(temp_r2_6,0x148);
-
-
-                        sub_0800BC08((s32) ((u16) T71C_U16(temp_r1_6,0x0) >> 4), (s32) ((u32) (T71C_U16(temp_r1_6,0x2) << 0x14) >> 0x14), &frame.x, &frame.y, 0x30, 0);
-                        temp_r1_7 = T71C_PTR(temp_r2_6,0x148);
-                        temp_r6 = (u8) sub_0800BC44((u16) T71C_U16(temp_r1_7,0x0) >> 4, (u32) (T71C_U16(temp_r1_7,0x2) << 0x14) >> 0x14, 0U);
-                        temp_r2_7 = var_r7_5 * 2;
-
-                        temp_r0_10 = frame.timers[temp_r2_7 / 2];
-                        if (temp_r0_10 == 0) {
-
-                            if (sub_08065370(frame.desc, var_sl, (s32) &frame.xs[temp_r2_7 / 2], (s32) &frame.ys[temp_r2_7 / 2], 0) != 0) {
-                                sp80 = (u32) (u16) (sp80 + 1);
-                                var_r0_5 = 0xF0;
-                                goto block_95;
-                            }
-                            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                                if (!(gUnk_03002344 & 1)) {
-                                    sub_08000AF0(0x17U, frame.desc[3], 2U);
-                                }
-
-
-
-
-                                sub_08007870(frame.x, frame.y, (s32) var_sl, frame.xs[temp_r2_7 / 2], temp_r6, (u8 *)frame.desc + 0x1C, frame.desc[2], frame.desc[0]);
-                            }
-                        } else if (temp_r0_10 != 0xF0) {
-                            var_r0_5 = temp_r0_10 - 1;
-block_95:
-                            frame.timers[temp_r2_7 / 2] = var_r0_5;
+                    dx = (q->sprite[0] >> 4) - (x >> 8);
+                    w = ((u32)(q->sprite[1] << 20) >> 20) - (y >> 8);
+                    w <<= 16;
+                    zy = w >> 16;
+                    dy = zy;
+                    t = zy;
+                    ay = dx;
+                    if (ay < 0)
+                        ay = -ay;
+                    if (ay >= rangeC568[level].x)
+                        continue;
+                    w = t << 16;
+                    ay = (s32)w >> 16;
+                    if (ay < 0)
+                        ay = -ay;
+                    if (ay >= rangeC568[level].y)
+                        continue;
+                    targets[count++] = i;
+                    nhit++;
+                }
+            }
+        } else {
+            for (i = 0; i <= 4; i++) {
+                if (!((1 << i) & eC568Mask))
+                    continue;
+                e2 = (struct EneC568 *)(eC568Base + i * 0x2E0);
+                if (e2->state == 11)
+                    continue;
+                if (e2->active == 0)
+                    continue;
+                dx = (u32)(e2->x - x) >> 8;
+                dy = ((u32)(e2->y - y) << 8) >> 16;
+                ax = dx;
+                if (ax < 0)
+                    ax = -ax;
+                if (ax >= rangeC568[level].x)
+                    continue;
+                ay = dy;
+                if (ay < 0)
+                    ay = -ay;
+                if (ay >= rangeC568[level].y)
+                    continue;
+                targets[count++] = i;
+                nhit++;
+            }
+        }
+    }
+    if (level == 7)
+        level = 6;
+    if (local == player && sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+        sub_0805865C(level + 0x155);
+    initC568(&desc, 0x5009E, 8, -1, 0);
+    desc.f1C = 7;
+    desc.f1D = 8;
+    if (nhit == 0) {
+        if (player <= 3)
+            a = dirC568[((u8 *)p->sprite)[3] >> 4] << 4;
+        else
+            a = dirC568[e->dir] << 4;
+        x += sinC568[(s16)a + 0x40] * 10;
+        y += sinC568[(s16)a] * 10;
+        spawnC568(x, y, player, 5, level);
+    } else {
+        done = 0;
+        while (done < count && (player != sub_080020F4() || ((u16)(p->state - 11) > 1 && sub_0800D11C() == 0))) {
+            if (arg->target <= 3) {
+                for (i = 0; i < count; i++) {
+                    q = &pC568[targets[i]];
+                    coordsC568(q->sprite[0] >> 4, (u32)(q->sprite[1] << 20) >> 20, &dx, &dy, 0x30, 0);
+                    shade = sub_0800BC44(q->sprite[0] >> 4, (u32)(q->sprite[1] << 20) >> 20, 0);
+                    if (timers[i] == 0) {
+                        if (animC568(&desc, level, &xs[i], &ys[i], 0)) {
+                            done++;
+                            timers[i] = 0xF0;
+                        } else if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (!(flagsC568 & 1))
+                                palC568(0x17, desc.fC, 2);
+                            drawC568(dx, dy, level, xs[i], shade, &desc.f1C, desc.f8, desc.f0);
                         }
-                        var_r7_5 += 1;
-                    } while ((u32) var_r7_5 < sp88);
+                    } else if (timers[i] != 0xF0) {
+                        timers[i]--;
+                    }
                 }
             } else {
-                var_r7_4 = 0;
-                if (sp88 <= 0U) {
-
-                } else {
-loop_101:
-                    temp_r4_7 = gUnk_030056F4 + (*(frame.targets + var_r7_4) * 0x2E0);
-
-
-                    sub_0800BC08((s32) (T71C_U32(temp_r4_7,0x14) << 8) >> 0x10, (s32) (T71C_U32(temp_r4_7,0x18) << 8) >> 0x10, &frame.x, &frame.y, 0x30, 0);
-                    var_r6_2 = (u8) sub_0800BC44((u32) ((s32) T71C_U32(temp_r4_7,0x14) >> 8), (u32) ((s32) T71C_U32(temp_r4_7,0x18) >> 8), 0U);
-                    temp_r0_9 = var_r7_4 * 2;
-
-                    temp_r2_5 = frame.timers[temp_r0_9 / 2];
-                    if (temp_r2_5 == 0) {
-
-                        if (sub_08065370(frame.desc, var_sl, (s32) &frame.xs[temp_r0_9 / 2], (s32) &frame.ys[temp_r0_9 / 2], 0) != 0) {
-                            sp80 = (u32) (u16) (sp80 + 1);
-                            var_r0_3 = 0xF0;
-                            goto block_117;
-                        }
-                        if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0)) {
-                            if ((gUnk_03003170.curLevel == 4) && (sub_0800CDC0() != 0)) {
-                                var_r6_2 = 0;
-                            }
-                            if (sub_0800CB9C() != 0) {
-                                if ((gUnk_03002344 & 1) == (var_r7_4 & 1)) {
-                                    var_r0_4 = frame.x;
-                                    goto block_114;
-                                }
+                for (i = 0; i < count; i++) {
+                    e2 = (struct EneC568 *)(eC568Base + targets[i] * 0x2E0);
+                    coordsC568((s16)(e2->x >> 8), (s16)(e2->y >> 8), &dx, &dy, 0x30, 0);
+                    shade = sub_0800BC44(e2->x >> 8, e2->y >> 8, 0);
+                    if (timers[i] == 0) {
+                        if (animC568(&desc, level, &xs[i], &ys[i], 0)) {
+                            done++;
+                            timers[i] = 0xF0;
+                        } else if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0) {
+                            if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
+                                shade = 0;
+                            if (sub_0800CB9C()) {
+                                if ((flagsC568 & 1) == (i & 1))
+                                    drawC568(dx, dy, level, xs[i], shade, &desc.f1C, desc.f8, desc.f0);
                             } else {
-                                var_r0_4 = frame.x;
-block_114:
-
-
-
-
-                                sub_08007870(var_r0_4, frame.y, (s32) var_sl, frame.xs[temp_r0_9 / 2], var_r6_2, (u8 *)frame.desc + 0x1C, frame.desc[2], frame.desc[0]);
+                                drawC568(dx, dy, level, xs[i], shade, &desc.f1C, desc.f8, desc.f0);
                             }
                         }
-                    } else if (temp_r2_5 != 0xF0) {
-                        var_r0_3 = temp_r2_5 - 1;
-block_117:
-                        frame.timers[temp_r0_9 / 2] = var_r0_3;
-                    }
-                    var_r7_4 += 1;
-                    if ((u32) var_r7_4 < sp88) {
-                        goto loop_101;
+                    } else if (timers[i] != 0xF0) {
+                        timers[i]--;
                     }
                 }
             }
-            if ((sub_0800CC98() == 0) && (sub_0800CD8C() == 0) && (sub_0800CCCC() == 0) && !(gUnk_03002344 & 1)) {
-                sub_08000AF0(0x17U, frame.desc[3], 2U);
-            }
+            if (sub_0800CC98() == 0 && sub_0800CD8C() == 0 && sub_0800CCCC() == 0 && !(flagsC568 & 1))
+                palC568(0x17, desc.fC, 2);
             sub_080003F0();
         }
-        if ((u32) T71C_U32(sp74,0x8) <= 3U) {
-            var_r7_6 = 0;
-            if (sp88 > 0U) {
-                do {
-                    temp_r1_8 = *(frame.targets + var_r7_6);
-                    if (sp8C == temp_r1_8) {
-                        T71C_U32(sp74,0x8) = (u32) T71C_U16(gUnk_03003CE0,0x14C * temp_r1_8);
-                        sub_080694AC(sp74);
-                        if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                            sub_0805865C(0x1A);
-                        }
-                    }
-                    var_r7_6 += 1;
-                } while ((u32) var_r7_6 < sp88);
+        if (arg->target <= 3) {
+            for (i = 0; i < count; i++) {
+                if (local == targets[i]) {
+                    q = &pC568[targets[i]];
+                    arg->target = q->id;
+                    sendC568(arg);
+                    if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                        sub_0805865C(0x1A);
+                }
             }
         } else {
-            var_r7_7 = 0;
-            if (sp88 > 0U) {
-                do {
-                    temp_r4_10 = gUnk_030056F4 + (*(frame.targets + var_r7_7) * 0x2E0);
-                    if (sp8C == sp94) {
-                        T71C_U32(sp74,0x8) = (u32) (T71C_U16(temp_r4_10,0x0) + 4);
-                        goto block_147;
-                    }
-                    if ((sp94 > 3U) && (sub_08002204() != 0)) {
-                        T71C_U32(sp74,0x8) = (u32) (T71C_U16(temp_r4_10,0x0) + 4);
-block_147:
-                        sub_080694AC(sp74);
-                        if ((sub_0800CCCC() == 0) && (sub_0800CD34() == 0)) {
-                            sub_0805865C(0x1A);
-                        }
-                    } else {
-                        T71C_U16(temp_r4_10,0x58) = (u16) sp94;
-                    }
-                    var_r7_7 += 1;
-                } while ((u32) var_r7_7 < sp88);
+            for (i = 0; i < count; i++) {
+                e2 = (struct EneC568 *)(eC568Base + targets[i] * 0x2E0);
+                if (local == player) {
+                    arg->target = e2->id + 4;
+                    sendC568(arg);
+                    if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                        sub_0805865C(0x1A);
+                } else if (player > 3 && sub_08002204()) {
+                    arg->target = e2->id + 4;
+                    sendC568(arg);
+                    if (sub_0800CCCC() == 0 && sub_0800CD34() == 0)
+                        sub_0805865C(0x1A);
+                } else {
+                    e2->f58 = player;
+                }
             }
         }
     }
-    if (*spA4 == 0) {
-        do {
-            sub_080003F0();
-        } while (*spA4 == 0);
-    }
-    temp_r2_8 = spA0 + ((u8 *)t71CFlags);
-    *temp_r2_8 &= ~(1 << sp98);
+    while (p->fB6 == 0)
+        sub_080003F0();
+    fC568[player] &= ~(1 << bit);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08068670", sub_0806C568);
-#endif
  extern u8 gUnk_084EBF1C[];
 #define T71_S16(p,o) (*(s16 *)((u8 *)(p)+(o)))
 #define T71_U8(p,o) (*(u8 *)((u8 *)(p)+(o)))

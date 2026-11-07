@@ -1,0 +1,31 @@
+Shard 140 = sub_0806C568 (moved from shard 71 by RESHARD-2026-11-04).
+
+2026-11-07 (claude-nov07-wB): sub_0806C568 MATCHED (2184 bytes, frame 0xA8).
+  Before: raw m2c draft, filtered nmdiff 844 lines, 2208 vs 2184 bytes.
+  Landed: replaced the draft with structured C modelled on sub_0806E7D4 / sub_0806DE94
+  (same caster wait loop, cost charge, xs/ys/timers init, desc init, target gather, draw
+  loop, send loop). Local block = desc(0x34) targets[8] xs[6] ys[6] timers[6] dx dy at
+  sp+0x10..0x73; spill slots 0x74.. follow declaration order (arg, p, level2, done, nhit,
+  count, local, n, player, bit, then compiler temps: enemy mask, player*4, &p->fB6).
+  Steps that mattered (filtered count after each):
+  - structured rewrite: 844 -> 282 (size 2176, one spill slot short).
+  - timers init in the DE94 shape (random = rand(); dst; prev; random %= 20; random += 10;
+    *dst = random + *prev + 1) so the +10/+1 are not folded and the zero constant goes to
+    r8; this raised pressure and spilled level2 to 0x7C: -> 113, frame matches.
+  - kind checks as three separate `if (k == N) continue;` (|| merges 10/11 into a range
+    test).
+  - dy = expr; ay = dy (CSE reuses the zero-extended register; a separate u16/u32 temp
+    lets combine store the unextended value instead).
+  - prev = &timers[j] with s32 j = i - 1 (an inline [i - 1] is distributed into i*2 - 2).
+  - final send loop: index through `q = &pC568[targets[i]]; arg->target = q->id;`
+    (struct-array value form hoists the base; u8* arithmetic ties the product to the
+    constant register instead of the target byte).
+  - player gather loop: the ROM uses ONE variable (ay) for both |dx| and |dy| there (r1),
+    while the enemy loop uses ax (r2) / ay (r1). Sharing restores the ROM cross-jumped
+    tail (size 2184) but dy then takes r4 via a copy preference, which evicts &targets from
+    ip. Fixed by computing the narrowed dy as w <<= 16; zy = w >> 16; dy = zy; t = zy with
+    `register u32 t asm("r3")` and ay = (s32)(t << 16) >> 16 through w: 14 -> 0 after
+    the send-loop change.
+  Rejected: merged player-loop tail with a u16 v = sprite[1] (shifts x/y to r6/r8 swap,
+  215); goto-form send loop (140); register u16 t (slot order 0xA0/0xA4 swaps);
+  asm("" : "+r"(t)) after the narrowing (39).
