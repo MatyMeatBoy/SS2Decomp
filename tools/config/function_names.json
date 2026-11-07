@@ -5576,7 +5576,7 @@
     {
       "address": "0x08006C70",
       "canonical_symbol": "sub_08006C70",
-      "display_name": "AudioStartSongIfGameEnabled",
+      "display_name": "AudioStartSongIfPlaybackEnabled",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -5584,13 +5584,19 @@
           "source": "src/code_08002118.c",
           "line": 3333,
           "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
-          "detail": "Calls m4aSongNumStart only when16-bit song ID<=0x1AB and030028AC nonzero. It does not check link mute flag; caller5865C uses a separate path."
+          "detail": "Starts a 16-bit song ID through m4aSongNumStart when the ID is at most 0x1AB and gUnk_030028AC is nonzero. Matched sub_08006E64 sets this playback guard and stops the first music player when clearing it."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 134,
           "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
           "detail": "Original Thumb boundary 0x08006C70..0x08006C98; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006C86->m4aSongNumStart(0x080B7208). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 78,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched sub_08006E64 stores its byte parameter in gUnk_030028AC and calls m4aMPlayStop for gUnk_030075C0 when the parameter is zero, anchoring the playback-enable role."
         }
       ]
     },
