@@ -1,15 +1,15 @@
 {
  "game": {
   "bytes_total": 745152,
-  "bytes_done": 691936,
+  "bytes_done": 693184,
   "funcs_total": 1870,
-  "funcs_done": 1864,
-  "percent": 92.85836983595293,
-  "funcs_drafts": 6,
-  "bytes_drafts": 53216,
+  "funcs_done": 1865,
+  "percent": 93.0258524435283,
+  "funcs_drafts": 5,
+  "bytes_drafts": 51968,
   "percent_with_drafts": 100.0,
-  "funcs_decompiled": 1864,
-  "bytes_decompiled": 691936,
+  "funcs_decompiled": 1865,
+  "bytes_decompiled": 693184,
   "funcs_linked": 0,
   "bytes_linked": 0,
   "funcs_pending": 0,
@@ -20,7 +20,7 @@
   "bytes_decompilable": 745152,
   "funcs_all": 1884,
   "bytes_all": 746140,
-  "percent_decompiled": 92.85836983595293
+  "percent_decompiled": 93.0258524435283
  },
  "lib": {
   "bytes_total": 11240,
@@ -47,15 +47,15 @@
  },
  "all": {
   "bytes_total": 756392,
-  "bytes_done": 703176,
+  "bytes_done": 704424,
   "funcs_total": 2007,
-  "funcs_done": 2001,
-  "percent": 92.96449460068324,
-  "funcs_drafts": 6,
-  "bytes_drafts": 53216,
+  "funcs_done": 2002,
+  "percent": 93.12948841341526,
+  "funcs_drafts": 5,
+  "bytes_drafts": 51968,
   "percent_with_drafts": 100.0,
-  "funcs_decompiled": 1979,
-  "bytes_decompiled": 702236,
+  "funcs_decompiled": 1980,
+  "bytes_decompiled": 703484,
   "funcs_linked": 22,
   "bytes_linked": 940,
   "funcs_pending": 0,
@@ -66,7 +66,7 @@
   "bytes_decompilable": 755452,
   "funcs_all": 2033,
   "bytes_all": 758984,
-  "percent_decompiled": 92.95574040442014
+  "percent_decompiled": 93.12093951700439
  },
  "asm": {
   "bytes": 2592,
@@ -112,8 +112,8 @@
  },
  "callgraph": {
   "nodes": 2035,
-  "edges": 10987,
-  "unresolved_calls": 1290,
+  "edges": 10985,
+  "unresolved_calls": 1289,
   "parsed_c_functions": 1973
  },
  "regional_progress": {
@@ -128,8 +128,8 @@
     "rom_sha256": "e5c64a1740263e9b26120e487f3688fbbf7b3954a2c043c0d84c333df467e0b2",
     "code": {
      "total": 758984,
-     "percent": 92.52316254361094,
-     "matching": 702236
+     "percent": 92.6875928873336,
+     "matching": 703484
     },
     "data": {
      "total": 16017660,

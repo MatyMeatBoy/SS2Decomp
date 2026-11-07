@@ -4,7 +4,7 @@ EU remains the main matching target. Its existing game-only main percentage is u
 
 | Region | Matching C | Code bytes | Data from source | Data bytes |
 | --- | ---: | ---: | ---: | ---: |
-| Europe (main) | 92.52% | 702236 / 758984 | <0.01% | 256 / 16017660 |
+| Europe (main) | 92.69% | 703484 / 758984 | <0.01% | 256 / 16017660 |
 | USA | 0.18% | 1364 / 757560 | 0.00% | 0 / 16019084 |
 | Japan | 0.18% | 1364 / 764376 | 0.00% | 0 / 16012268 |
 
