@@ -1119,10 +1119,6 @@ void sub_080567D4(s32 id)
         players[sub_080020F4()].state = ret;
     }
 already:
-    /* An "l" use of the gates base gives the PRE copy a LO_REGS preference (it is otherwise
-       only used in (plus reg const) forms, which pull it to STACK_REG), so the first load
-       stays a local r1 like ROM. No instruction is emitted. */
-    asm("" : : "l"(gates567D4));
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);
 }
 
