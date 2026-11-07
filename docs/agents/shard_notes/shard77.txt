@@ -81,3 +81,22 @@ shard 77 (claude-nov07-w92, 2026-11-07)
   - enemy rand test `(and 818 663)`: ROM has the r7 constant 1 as op0 (`adds r1, r7, #0; ands r1,
     r0`); canonical order puts the higher-numbered call-result pseudo first. `m1 & call`, `1 & call`,
     `b = m1; b &= call` (8 but size 2412) don't fix it.
+
+shard 77 (claude-nov07-w77N, 2026-11-07)
+- sub_08075778: MATCHED (aligned 9 -> 0, filtered nmdiff 26 -> 0); NONMATCHING wrapper and .s removed.
+  The last three diffs were all lifetime/allocation effects, fixed with empty asm (marked FAKE):
+  * post-ArcTan target reloads (ROM r6/r0, ours r4/r6): reload rotation after the player sb block's
+    r2 reload; r3 holds ang, so ours took r4. `register u32 z asm("r4"); asm("" : "=r"(z));` before
+    `if (target == 0xFFFF) target = arg->target;` and `asm("" : : "r"(z));` after keeps r4 live, so
+    the rotation skips to r6 and then wraps to r0. No code is emitted.
+  * enemy rand test `adds r1,r7,#0; ands r1,r0`: andsi3 is "%0"; with both inputs pseudos reload keeps
+    the RTL order and copies the call result. CSE always swaps a known-constant operand second, so the
+    RTL order cannot be changed; instead `register u32 r asm("r0") = sub_0800086C(); u32 b = r & 1;
+    asm("" : : "r"(r));` keeps the hard reg r0 in the and (combine cannot fold the copy back because r
+    stays live), and find_reloads' reject+2 for non-pseudo operands makes the swapped order win.
+  * `c & 0x10`: c died in the and, so regmove (fixup_match_1, operand 1 first) reused c as the output.
+    `asm("" : : "r"(c));` after the test keeps c live, so regmove picks the dying constant instead.
+  * offY: the ROM pool word 0x084EBEBE is offX5778+2 (loop.c hoists offX and offX+2 as one movable
+    chain, reload rematerializes both); gUnk_084EBEBE is only a disassembler label for that pool value.
+    A separate offY symbol is not hoisted (savings*lifetime too low) and changes the draw block, so
+    `offX5778[(s16)d][1]` stays; bytes are identical and make compare passes.
