@@ -2209,9 +2209,7 @@ block_627:
                                     if (d368_sub_0801DEB8() == 7 && byteTable6410D368[((struct PlayerD368 *)arg0)->f0] != 0) {
                                         ((struct PlayerD368 *)arg0)->f26 = 0U;
                                         ((struct PlayerD368 *)arg0)->f24 = 0U;
-                                        sp130 = 0;
-                                        sp134 = 0;
-                                        ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                        goto state4ResetProgressD368;
                                     } else {
                                         ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
                                         ((struct PlayerD368 *)arg0)->fDC += 1;
@@ -2290,6 +2288,7 @@ block_627:
                                 } else {
                                     ((struct PlayerD368 *)arg0)->f26 = (u16) temp_r0_54;
                                     ((struct PlayerD368 *)arg0)->f24 = (u16) temp_r0_54;
+state4ResetProgressD368:
                                     sp130 = 0;
                                     sp134 = 0;
                                     ((struct PlayerD368 *)arg0)->f20 = 0U;
