@@ -61,3 +61,51 @@ reusing c for the fast loop (774); *pValue for s[7] (728, keeps r4 copy).
 Next: find a fill-loop shape that keeps j++/k+=30 below the inner loop
 (e.g. a second exit path out of the inner loop that makes j+1 not
 anticipatable), then recheck R/next allocation.
+
+2026-11-07 claude-nov07-wM (shard 135): sub_0805E0C4 follow-up, no code landed
+(aligned full-module diff stays 380 / filtered nmdiff ~715 on the current draft).
+Solved: the fill-loop shape. The outer counter is `i` (the counter every later
+loop increments), not `j`: for (i = 0; i < 2; i++) for (line = 0; line < 18;
+line++) lines[i][line] = 0xFD; gives exactly the ROM loop (giv k in r2 copied to
+r1 per row, `adds r2,#30; adds r5,#1; cmp r5,#1` at the bottom). Cause, checked in
+isolation with -dG/-dL: gcse PRE (lcm.c) hoists the counter's +1 above the inner
+loop (and kills the biv, so no strength reduction) unless the same (plus reg 1)
+is also computed on every path further down. i++ in the digit loop is
+unconditional; j++ only appears in the conditional 0x1404DF name loop (and any
+early exit breaks it too), so j never works. Tests: scratch l5/l7/l9..l12 files.
+Not solved: with the fill loop right the global allocation shifts, so the diff
+goes up (648; 578 with the conversions through a reassigned pValue). ROM:
+next (script+1) r4, i r5, pValue r6, and the PRE copy P of &value (inserted at
+the end of bb0) is the lowest-priority pseudo: it gets r7 and reload kicks it out
+for the `line` reload in the fill loop (`ldr r7,[sp,#156]`), so the conversions
+rematerialise `add r4,sp,#144` into a separate local copy Q. Ours: P has 8 refs
+(priority 3*8/314 above next 2/28 and pValue 3/126) because cse2 makes P the
+canonical register and rewrites all seven call args and the s[7] load to P.
+ROM needs Q to survive (P used once), i.e. the conversion-site pointer must not
+be replaced by P in cse2 (in make_regs_eqv Q wins only if it lives beyond its CSE
+block or was born before it). Tried and rejected: block-local s32 *pv (no
+change), pv assigned before the portrait code (next becomes r4 but P ends in
+ip/r4, 654), a reassigned pValue (578, one pseudo for both ranges).
+Also seen (no fix yet): the digit loop keeps `orrs r0,r2` in ROM (CSE did not
+know *s == 0 there; condition reorderings do not help), and the case-3 PRE
+pseudos are &task->col r5 / line<<4 r3 in ROM (no copy for line<<4) vs r6/r4 here.
+Next: with the i fill loop as the base, find the conversion-pointer form that
+keeps Q alive, then recheck next/pValue/i and the case-3 registers.
+
+2026-11-07 claude-nov07-w15 (shard 135): sub_0805E0C4 allocation check with a patched
+agbcc (NOLOCAL/GFORCE/GFIRST/GCONF hooks; FSPFN must be e0c4Impl, the C name). No code landed.
+- With the i-outer fill loop (wM's form), pseudos: next 54, pValue 47, i 48, P = PRE copy
+  of &value hoisted to the end of bb0. Natural: i r5, next r6, pValue r7, P r4 (8 refs
+  after cse2). Forcing only next -> r4 reproduces the ROM model by itself: pValue r6,
+  P r7, then reload spills r7 for the fill-loop `line` reload (RETRY P -> -1), as wM said.
+- Conversion pointer: `{ s32 *pv; asm("" : "=r"(pv) : "0"(&value)); s[0] =
+  sub_08000498(pv, 10000000); ... s[7] = *pv; }` keeps a separate local Q (cse2 cannot
+  merge it into P; P then has one use). On the j-loop draft it gives 712 (715 base);
+  on the i-loop draft 1002 (f1 1005) with P in r4.
+- Why next misses r4: next is allocated first but r4 is in regs_someone_prefers[next]
+  (a lower-priority conflicting allocno, P via its copy to the local Q in r4, prefers r4),
+  so pass 0 of find_reg gives next r6. ROM next r4 means P had no r4 preference there.
+- Even with next r4 / pValue r6 / P spilled (1008) the bb0 zero stores use a different
+  reload rotation: ROM movs r1,r2,r4,r5,r7 (skips r3 and r6), ours r1..r5.
+Next: find a Q shape that is not local-allocated before global (so P has no copy
+preference), then look at what occupies r3/r6 at function entry in ROM.
