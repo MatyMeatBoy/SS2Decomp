@@ -523,7 +523,6 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
 #else
 INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_0805FFBC);
 #endif
-#ifdef NONMATCHING
 struct HudPlayer63 {
     u8 pad0[0x20];
     u16 state;
@@ -571,7 +570,7 @@ void sub_080605D0(s32 animate)
     s16 base;
     s16 k;
     s16 end;
-    u32 keys;
+    struct HudPos63 *py = hudPosY63;
 
     mgr = hudMgr63;
     pl = &hudPlayers63[sub_080020F4()];
@@ -592,8 +591,7 @@ void sub_080605D0(s32 animate)
             slide -= 2;
             if (slide < 0)
                 slide = 0;
-            keys = hudKeys63;
-            if (keys & 0x300)
+            if (hudKeys63 & 0x300)
                 dirty = 1;
             if (count != pl->count) {
                 count = pl->count;
@@ -603,7 +601,7 @@ void sub_080605D0(s32 animate)
                 f78 = pl->f78;
                 dirty = 1;
             }
-            if (keys & 0x200) {
+            if (hudKeys63 & 0x200) {
                 if (pl->state != 5 && pl->state != 2) {
                     if (++mgr->sel >= pl->count)
                         mgr->sel = 0;
@@ -668,7 +666,7 @@ void sub_080605D0(s32 animate)
                 for (k = base; k < end; k++) {
                     s32 offset = (7 - slide) * 8;
                     hudItem63(hudPos63[k - base].x + offset,
-                              hudPosY63[k - base].x + 0x10, &mgr->slots[k], 8);
+                              py[k - base].x + 0x10, &mgr->slots[k], 8);
                 }
             }
             if (animate == 0) {
@@ -682,7 +680,7 @@ void sub_080605D0(s32 animate)
             {
                 s32 offset = (7 - slide) * 8;
                 HudDraw63(&hudIcon63, offset + hudPos63[mgr->sel - base].x - 1,
-                          hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
+                          py[mgr->sel - base].x + 0x10, 7, 0);
             }
             sub_080003F0();
             if (sub_0800CD34() != 0)
@@ -751,12 +749,12 @@ void sub_080605D0(s32 animate)
             for (k = base; k < end; k++) {
                 s32 offset = (7 - slide) * 8;
                 hudItem63(hudPos63[k - base].x + offset,
-                          hudPosY63[k - base].x + 0x10, &mgr->slots[k], 8);
+                          py[k - base].x + 0x10, &mgr->slots[k], 8);
             }
             {
                 s32 offset = (7 - slide) * 8;
                 HudDraw63(&hudIcon63, offset + hudPos63[mgr->sel - base].x,
-                          hudPosY63[mgr->sel - base].x + 0x10, 7, 0);
+                          py[mgr->sel - base].x + 0x10, 7, 0);
             }
             sub_080003F0();
         }
@@ -764,9 +762,6 @@ void sub_080605D0(s32 animate)
         sub_0801A664(2, 4);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_080605D0);
-#endif
 extern u32 taskMem63[] asm("gUnk_03006130");
 extern struct Task tasks63[] asm("gUnk_03006110");
 extern void sub_080605D0(s32);
