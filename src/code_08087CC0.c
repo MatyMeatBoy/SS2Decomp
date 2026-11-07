@@ -3010,8 +3010,7 @@ void sub_0808C0C4_v(void) {
     register u32 bgValueC0 asm("r0");
     register u32 portraitLookupC0 asm("r1");
     register u32 portraitRowC0 asm("r0");
-    /* This product dies before r3 becomes the draw call fourth argument. */
-    register u32 countTripletC0 asm("r3");
+    u32 countTripletC0;
     u8 *portraitBaseC0;
     u8 *portraitTableC0;
     struct C0Player *playerTableC0;
@@ -3047,9 +3046,7 @@ void sub_0808C0C4_v(void) {
     u32 temp_r3_2;
     u32 temp_r4_11;
     u32 temp_r4_3;
-    u32 var_r5;
     u32 var_r5_2;
-    u32 off2;
     register u8 *temp_r4_10 asm("r4");
     register u8 *temp_r4_15 asm("r4");
     register u8 *temp_r4_2 asm("r4");
@@ -3089,26 +3086,20 @@ void sub_0808C0C4_v(void) {
     bgValueC0 = 0x1F03;
     *(u16 *)&sp15C = bgValueC0;
     sub_08000AA8(3U, bgHalfC0);
-    loopCounterC0 = 0;
-    portraitBaseC0 = ((u8 *)portraitsC0);
-    portraitTableC0 = gPortraitC0;
-    playerTableC0 = gPlayersC0;
-    goto portraitCheckC0;
-portraitBodyC0:
-    temp_r4 = portraitBaseC0 + (0x34 * loopCounterC0);
-    temp_r0 = (struct C0Player *)(loopCounterC0 * 0x14C + (u32)playerTableC0);
-    /* Accumulate both table offsets before materializing the resource. */
-    portraitLookupC0 = temp_r0->unk10 * 4;
-    portraitRowC0 = temp_r0->unk64 * 0x58;
-    portraitLookupC0 += portraitRowC0;
-    portraitLookupC0 += (u32)portraitTableC0;
-    portraitLookupC0 = *(u32 *)portraitLookupC0;
-    sub_08065158(temp_r4, portraitLookupC0, 0, -1, 0);
-    temp_r4[0x1C] = (s8) loopCounterC0;
-    loopCounterC0++;
-portraitCheckC0:
-    if (loopCounterC0 < sub_08002164())
-        goto portraitBodyC0;
+    for (loopCounterC0 = 0; loopCounterC0 < sub_08002164(); loopCounterC0++) {
+        portraitBaseC0 = ((u8 *)portraitsC0);
+        portraitTableC0 = gPortraitC0;
+        playerTableC0 = gPlayersC0;
+        temp_r4 = portraitBaseC0 + (0x34 * loopCounterC0);
+        temp_r0 = (struct C0Player *)(loopCounterC0 * 0x14C + (u32)playerTableC0);
+        portraitLookupC0 = temp_r0->unk10 * 4;
+        portraitRowC0 = temp_r0->unk64 * 0x58;
+        portraitLookupC0 += portraitRowC0;
+        portraitLookupC0 += (u32)portraitTableC0;
+        portraitLookupC0 = *(u32 *)portraitLookupC0;
+        sub_08065158(temp_r4, portraitLookupC0, 0, -1, 0);
+        temp_r4[0x1C] = (s8) loopCounterC0;
+    }
     switch (gUnk_03003470) {
     case 0:
         sub_08065158(&sp4C, 0x50002, 0, 0x80000000, 0);
@@ -3160,12 +3151,17 @@ loop_16:
     sub_0801A3D0(temp_r4_2, (u16) (0xF - ((u32) sub_0801A638(temp_r4_2) >> 1)), 0x12);
     for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++)
         sp150[loopCounterC0] = 0;
+    /* FAKE: two empty loop levels give this draw the ROM register weights. */
+    do { do {
     loopCounterC0 = 0;
     var_r9 = 0;
     goto loop_24CheckC0;
 loop_24BodyC0:
     playerBaseC0 = (u8 *)gPlayersC0;
-    temp_r0_2 = (struct C0Item **)(playerBaseC0 + 0x148 + var_r9);
+    {
+        u8 *b148 = playerBaseC0 + 0x148;
+        temp_r0_2 = (struct C0Item **)(b148 + var_r9);
+    }
     temp_r1 = *temp_r0_2;
     temp_r4_3 = (u16) temp_r1->unk0 >> 4;
     if (temp_r4_3 == 0) {
@@ -3181,7 +3177,8 @@ loop_24BodyC0:
             temp_r1_3 = &countsC0[((struct C0Player *)(playerBaseC0 + var_r9))->unk1C];
             *temp_r1_3 += 1;
         } else {
-            temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4];
+            /* FAKE: weights the item pointer above the running offset. */
+            do { temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4]; } while (0);
             *temp_r0_3 += 1;
         }
     }
@@ -3190,6 +3187,7 @@ loop_24BodyC0:
 loop_24CheckC0:
     if (loopCounterC0 < sub_08002164())
         goto loop_24BodyC0;
+    } while (0); } while (0);
     temp_r6 = sub_080020F4();
     if (0x20 & gHeldC0) {
         playerStrideC0 = 0x14C;
@@ -3280,8 +3278,8 @@ loopB_TopC0:
         u32 k;
         temp_r4_10 = sub_08007290(0x1401F6) + 2;
         sub_0801A3D0(temp_r4_10, (u16) (0xF - ((u32) sub_0801A638(temp_r4_10) >> 1)), 0x12);
-        for (var_r5 = 0, k = loopCounterC0 + 1; var_r5 < 5; var_r5++)
-            sp150[var_r5] = 0;
+        for (var_r5_2 = 0, k = loopCounterC0 + 1; var_r5_2 < 5; var_r5_2++)
+            sp150[var_r5_2] = 0;
         for (loopCounterC0 = 0, var_r7 = &gItemsC0; loopCounterC0 < sub_08002164(); var_r7 = (struct C0Item **)((u8 *)var_r7 + 0x14C), loopCounterC0++) {
             temp_r1_7 = *var_r7;
             temp_r4_11 = (u16) temp_r1_7->unk0 >> 4;
@@ -3299,16 +3297,20 @@ loopB_TopC0:
         goto loopB_TopC0;
     for (var_r5_2 = 0; var_r5_2 < 5; var_r5_2++) sp150[var_r5_2] = 0;
     {
-        u16 *cnt = sp150;
-        for (var_r5_2 = 0, off2 = 0; var_r5_2 < sub_08002164(); off2 += 0x14C, var_r5_2++) {
+        u32 off;
+        u16 *cnt;
+        for (var_r5_2 = 0, cnt = sp150, off = 0; var_r5_2 < sub_08002164(); off += 0x14C, var_r5_2++) {
             u8 *base = (u8 *)gPlayersC0;
-            struct C0Item **pit = (struct C0Item **)(off2 + (base + 0x148));
+            u8 *b148 = base + 0x148;
+            struct C0Item **pit = (struct C0Item **)(b148 + off);
             if (((*pit)->unk0 >> 4) == 0) {
                 if (var_r5_2 == sub_080020F4()) {
-                    u16 *q = &cnt[((struct C0Player *)(off2 + base))->unk1C];
-                    *q += 1;
+                    s32 ix = ((struct C0Player *)(off + base))->unk1C;
+                    /* FAKE: the extra cnt weight leaves off to caller-saved r2. */
+                    do { u16 *q = &cnt[ix]; *q += 1; } while (0);
                 } else {
-                    u16 *q = &cnt[(*pit)->unk3 >> 4];
+                    u16 *q;
+                    do { q = &cnt[(*pit)->unk3 >> 4]; } while (0);
                     *q += 1;
                 }
             }
@@ -3381,7 +3383,8 @@ block_94:
         sub_08065230(&sp4C, 0x88, 0x78, 5U, (u32) sp10[1]);
         sub_08065264(&sp4C, 0x68, 0x78, 4, (u32) sp10[0]);
     }
-    C0_DRAW_ALL();
+    /* FAKE: one more loop level, as for the other tail draws. */
+    do { C0_DRAW_ALL(); } while (0);
     sub_080003F0();
     goto loop_82;
 loop_113CheckC0:
