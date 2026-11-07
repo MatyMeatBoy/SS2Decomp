@@ -116,6 +116,10 @@ function, source/ASM evidence and validation in English; explicitly distinguish 
 new matching function from a compiling NONMATCHING draft. If you reused another
 project, credit its URL/revision and preserve its license/provenance.
 
+Delivery checks both the matching ROM and the full NONMATCHING build after
+rebasing and before pushing. This validates newly integrated main changes as
+well as your own checkpoint; a failed draft build blocks both `pr` and `land`.
+
 Keep the published PR head stable during review. Continue private candidates or
 separate local commits while the coordinator checks it; publish the next batch
 after the previous PR is merged. Once your shard is delivered and finished:
