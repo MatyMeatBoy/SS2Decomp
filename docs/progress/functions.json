@@ -8550,7 +8550,7 @@
       "evidence": [
         {
           "source": "src/code_0800CF58.c",
-          "line": 5979,
+          "line": 5978,
           "detail": "Existing C definition with an asm alias to the canonical symbol: hud14170"
         }
       ]
