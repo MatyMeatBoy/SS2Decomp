@@ -11,3 +11,19 @@ nov06-wC6: sub_0808AFE8 (records/time-attack menu) NONMATCHING draft rewritten f
   Remaining: the ROM strength-reduces both type-row pointers in the init loop (r5/r7 += 4) and hoists
   gUnk_084F0B10 into sl (ours: "cond not safe" for the row address in loop.c, so pa/pb are recomputed);
   reload rotation differences follow (sel reloads, jump-table temps, 0x58/-1 constants).
+
+2026-11-06 (claude-nov06 workers): sub_0808AFE8, follow-up after PR537
+  Main (PR537): filtered nmdiff 257 lines, 2444 vs 2448 bytes, frame 0x2CC = ROM.
+  Diagnosis (-dL dump of the record-init loop): in the inner j loop, pass 1 finds the GCSE
+  copy of off10+i "savings 2 not desirable", so row*12 is "cond not safe". Both type-table
+  symbol loads (gUnk_084F0B12/B10 literals) are move insns of life 1, "savings 1 not
+  desirable" against ~42 loop insns. The pa/pb add_vals are therefore not invariant and not
+  givs. Pass 2 moves row*12 but the symbol loads stay, so there is still no strength
+  reduction. ROM implies both loads left the inner loop in pass 1 (B12 to the outer body,
+  B10 further out into sl): a load needs a lifetime of about 4+ luids to be desirable.
+  Rejected: k variable (GNU 239), row pointers in the outer loop (both reduced but 2420
+  bytes, 462), table pointer variables (404-408), address forms (best 225 at 2440 bytes),
+  early symbol loads / pointer += forms (229-451).
+  Next: a C shape where the table symbol is loaded early in the j body (before the time
+  store) and used late (after the call), so its life reaches ~4; or get GCSE PRE to hoist the
+  constant-pool loads; or stop off10+i being a PRE copy inside the j loop.

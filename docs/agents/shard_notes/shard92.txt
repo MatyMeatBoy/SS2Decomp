@@ -1,0 +1,22 @@
+Shard 92, sub_0808C0C4 (code_08087CC0)
+
+2026-11-06 (claude-nov06 workers): sub_0808C0C4
+  Main (PR510, PR523): filtered nmdiff 159 lines, 2708 bytes = ROM, frame 0x16C vs ROM 0x170.
+  Landed: plain locals for 0x15C..0x168; u8 sub_08001108 alias; tail draws with
+  gSeatPosC0[cat][sp150[cat]][k] inline; loopB inner `for` under a goto outer loop
+  (invariants hoisted to the inner preheader); loopC for-loop with `&cnt[x]` in a fresh
+  u16 *q, then `*q += 1` (ROM operand order); function-scope slotsC0 in the draw macros;
+  gStateC0 loaded once in the tail; an empty asm input of gPlayersC0 after gFlagC0 = 0 keeps
+  the CSE'd symbol live (ROM form in loop_15).
+  Diagnosis: the 4 missing frame bytes are a reload spill slot for loopC's `off` (r2,
+  str/ldr [sp,#0x16C] around calls). ROM leaves `off` an unallocated pseudo although
+  r8/r9/sl are free in loopC, so it must be a long-lived, low-priority global pseudo. ROM's
+  Draw portrait `add r5, sp, #0x80; adds r5, r5, r4` and the loopB z literal are reload
+  rematerializations of unallocated hoisted REG_EQUIV pseudos; ours gives the high reg to
+  sym+2/sym+4 instead of the counts pointer. Later diffs are mostly reload-register
+  rotation (movs r3,#28 vs r2).
+  Rejected: seat table in the loopB inner loop (rotation cascade), function-scope seat
+  pointer, grafting an earlier init loop.
+  Next: merge loop_24's var_r9 and off2 into one function-scope offset, or give off2 a
+  function-wide live range, so global alloc leaves it unallocated. Note ROM also reloads
+  gPlayers (ldr r6) on every loopC iteration.

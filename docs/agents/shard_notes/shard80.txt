@@ -27,3 +27,25 @@ nov03-w5 on sub_08079458 (still 14 lines): the entry RTL (lreg dump: agbcc a.i -
   Address spelling via byte offset, &pos.x + 1, or volatile pointer keeps the old
   early-address sequence. A separate value local or input constraint gives the
   selected missing-copy form without fixing the dead PRE insertion.
+
+2026-11-06 (claude-nov06 workers): sub_08078BCC
+  Main: still the tree draft: filtered nmdiff 832 lines, 1944 vs 2032 bytes, frame 0xE4 vs
+  ROM 0xF0. An unlanded natural rewrite reached GNU 772 (1976 bytes, frame still 0xE4), too
+  little for a refinement PR. Shapes that helped:
+  - arg1 plain int: `~(1 << bit)` (a (u8) cast adds an early lsl #24 temp); arg1 then
+    spills to 0x7C like ROM.
+  - kind range checks as `switch (kind) { case 0: case 1: ... }` give ROM's `cmp #1; bgt;
+    cmp #0; blt` in loop 1 (if-forms fold to bhi). loop_15 needs `cmp #0; blt; cmp #1; bgt`
+    (with default: cnt = 0); the switch still emits bgt first there.
+  - flag test through a u8 bitfield `flags:6` at byte 4, then `& 0x20` (ldrb/lsl26/lsr26/and).
+  - one `u32 i` for every loop; natural for-loops over the arrays reproduce the compiler
+    pointer temps (&frames, &ticks, &pos, xs, ys) in spill slots.
+  - `if (who != local) {A} if (who == local) {B}` reproduces the re-test after A.
+  - goto-shaped main loop (for(;;) 910, goto 809) and first group loop (772).
+  Diagnosis: ROM spills every long-lived named scalar (player, sumx, sumy, dx, dy, vx, vy,
+  angle, count, speed, flag, timer, power, bonus, local, tag, tick, snd -> slots 0x80..0xC4
+  in that order) plus 10 temp slots (0xC8..0xEC); ours keeps sumx/sumy/dx/dy in r8/r9/sl.
+  Rejected: scalar declaration order (no effect); volatile locals (slots before the arrays,
+  1000+).
+  Next: find what denies high regs to those scalars in ROM (a heavy pseudo live across the
+  main loop in r8/sl, or reload spill-register eviction); then the loop_15 compare order.

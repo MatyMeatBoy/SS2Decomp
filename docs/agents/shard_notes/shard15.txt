@@ -83,3 +83,26 @@ agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: buil
   Remaining: spill-slot set (&f74/count*12/&state/&phase in ROM vs &f74/&state/&step ours),
   anim/&stack.main pointer in r6 + NULL zero in sl (ours r5/r6 swapped, anim spilled),
   DRAW f8 via anim pointer (anim->f8 only: register chaos, frame -4).
+
+2026-11-06 (claude-nov06 workers): sub_0801801C, state after PR540
+  Main (PR540): filtered nmdiff 557 lines, 7124 vs 7132 bytes, frame 0x168 = ROM. Over half
+  of the GNU diff is the init region before the main loop; ~100 lines around ROM asm
+  1700-2150.
+  Diagnosis, init: a one-step reload-rotation offset. The &base/&auxA/&auxB address pseudos
+  of block 6 cross sub_0800CCCC only through gcse-PRE copies that reload later deletes
+  (REG_EQUIV). ROM: r9/r8/sl; ours always puts one in r6. An instrumented agbcc build that
+  forces &auxB into spilled_pseudos at the first reload pass reproduces ROM's
+  `add r1,sp,#136; mov sl,r1` with nothing changed downstream: ROM spilled r6 during
+  &auxB's life and retry_global_alloc moved it to sl. The triggering insn is not found
+  (it needs a low-reg reload with r0,r2,r3 unavailable, or an inherited/deleted reload).
+  Diagnosis, second cluster: ROM coalesces the PRE reaching reg of &stack.main (G) with
+  `anim` in r6 (DRAW f8 `ldr r4,[r6,#8]`, AF0 `ldr r1,[r6,#12]`) and keeps the NULL zero in
+  sl; ours has G in r5, zero in r6, anim spilled at 0x130. anim->f8 in the source gives anim
+  a high reg, but cse2 keeps G live (first in its class), so they never coalesce.
+  Rejected: anim = &stack.main at the top or before the init calls (cross-jumping, 6504-6524
+  bytes); merging aux into anim; asm barriers on &auxB; a forced r1 reload at the init call
+  (rotation unchanged); zero as 5th sub_08065158 arg; u16/s16 zero; anim set in the arms
+  (7212 bytes).
+  Next: make G die at `anim = G` with every later use through anim and no size change, then
+  retest anim->f8 in DRAW; separately find an arg-setup order inside &auxB's life where
+  r0-r3 are live hard regs, so reload has to spill r6.

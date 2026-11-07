@@ -26,3 +26,27 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   right except pp itself takes r6 (187). 16 random local declaration orders: no effect.
   Next idea: case 2 in the ROM keeps `resource` (r1) and `icon = resource + 0xBE` (r4) apart and reuses the
   item register for `overlay = item[7]`; try one shared `descriptor` variable for all cases + addressable pos.
+
+2026-11-06 (claude-nov06 workers): sub_080605D0
+  Main (PR518): filtered nmdiff 276 lines, 2016 bytes = ROM, frame 0x38 = ROM.
+  Landed: the sprite call is an inline helper taking &hudIcon (obj->attr/f8/f0), fixing the
+  literal/base form (adds r2,r3,#0; adds r2,#0x1c); the loop-2 Y column is read as
+  ((struct HudPos63 *)&hudPosE63[0].y)[i].x so CSE hoists r7 = r6 + 2 like ROM.
+  Remaining: mostly global register choice (r7/r1/r2 swaps), loop-2 base kept in r7; for
+  `keys & 0x300` / `& 0x100` ROM copies the constant register (movs r1; adds r0,r1,#0;
+  ands r0,r2).
+  Rejected for the keys copy: other types, operand order, != 0 forms.
+  Next: no worker hypothesis recorded; start from a -dg priority dump of the pseudos that
+  compete for r7.
+
+2026-11-06 (claude-nov06 workers): sub_08060E44
+  Main (PR518): filtered nmdiff 290 lines, 2120 vs 2116 bytes, frame 0x54 = ROM.
+  Landed: the same &hudIcon sprite helper; inner m-loop counter n is s16 with n++
+  (lsls/add 0x10000/lsrs); `end - (x + 1)` kept unfolded through temps (k1 = k + 1,
+  e = end, s1 = sel + 1, idx = e - s1).
+  Diagnosis: GCSE/PRE hoists the X literal into the m-loop preheader; ROM loads it after the
+  m-loop. Using the unfolded k1 in loop 1 fixes that locally but shifts global allocation
+  (end stays in r7 instead of being spilled).
+  Rejected: the keys & 0x300 forms listed for sub_080605D0.
+  Next: block the X-literal PRE without lengthening k1's or end's live range, so `end`
+  still spills.

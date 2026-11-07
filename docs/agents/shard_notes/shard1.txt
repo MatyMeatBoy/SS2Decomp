@@ -38,3 +38,23 @@ codex-solo (2026-11-04): sub_08002B70 now matches, 3604 bytes.
   Original ASM evidence remains at d67ea17c in
   asm/nonmatchings/code_08002118/sub_08002B70.s.
   sub_08003984 remains NONMATCHING; its earlier notes above still apply.
+
+2026-11-06 (claude-nov06 workers): sub_08003984
+  Main (PR539): filtered nmdiff 117 lines, 8340 vs 8352 bytes, frame 0x54C = ROM.
+  Landed: keys==2 delete path with block-local `u8 *name = arg0 + 0x10` copied after the
+  mask (ROM temp-then-copy `adds r5,r2,#0`); `default:` first in the keys==1 language
+  switch; the 0x100 test as `var_r5_3[(u8)var_r9]` (var_r9 <= 6), which blocks gcse-PRE of
+  r5+r9 (ROM computes the test and store addresses separately) but adds lsl/lsr #24.
+  Remaining: (1) those (u8) mask insns; (2) ROM duplicates the default body
+  (var_r5_3 = arg0+0x10) after both decision-tree leaves (cmp 0 / cmp 2), ours emits it once;
+  (3) ROM forms 0x06007000 as 0x06000000 + the 0x7000 register of
+  handle+(index<<7)+0x7000; an inline `(off = 0x7000)` gets the order and 8352 bytes but
+  cascades allocation (647); (4) ROM keeps the finish block (sub_08000420 call + b.n
+  epilogue, pool after it) right after `*arg0 = 1`, ours moves it before the epilogue;
+  smaller: `adds r0,r1,#0` before cmp 255 and reload rotation near the end.
+  Rejected: for (1) volatile load, (arg0+0x10)[i], s16/s8/u16 casts, store forms, duplicate
+  stores, temp copies (all PRE'd or add insns); for (2) default before the switch or an
+  extra case 3; for (4) `return` instead of `goto epilogue3984` (no change).
+  Next: make the finish block reachable only by fallthrough (or put it inside the while(1)
+  body) so jump.c keeps it in place; test a two-argument sub_08000420 prototype instead of
+  the ULL-cast hack (r0=0x5A112EBF, r1=2).

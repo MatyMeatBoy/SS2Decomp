@@ -27,3 +27,26 @@ loop for the player scan, as in the adjacent effect handler. The draft is now
 888 bytes, matching the original size, and the address-insensitive diff falls
 from 329 to 307 lines. Strict bytes/relocations still differ. ROM, NONMATCHING
 and tree checks pass, and 48 emulated cases agree with the original.
+
+2026-11-06 (claude-nov06 workers): sub_0806DE94 (shard 142, code_08068670)
+  Main (PR541): filtered nmdiff 2 lines, 2368 bytes = ROM, frame 0xB4 = ROM. The only
+  difference: the hoisted `add r4, sp, #84` (&animation[0], single-target do/while loop)
+  comes before the (s16)px shift store `lsls r2,r2,#16; str [sp,#156]` instead of after it.
+  Diagnosis (-dL/-dG dumps): loop.c pass 1 hoists in loop insn order: &dx copy, &dy copy,
+  const 0 (stack arg of sub_08065370), &animation (life 36: CSE1 shares it with Draw's
+  animation[0] load). px<<16 has life 1 in pass 1 (the asr follows), so it moves only in
+  pass 2, after anim. ROM needs it moved in pass 1 between &dy and anim, or anim deferred.
+  The model that fits all dumps: an invariant moves if T*savings*life >= loop insns, with
+  T about 10 at the start of a pass and about 2 lower per insn already moved in that pass.
+  Half-fix (diff 64, frame +4): in-loop `pdx = &dx; pdy = &dy; sx = px << 16;` passing
+  `sx >> 16`, plus a dead `px = sx;` after the loop (reg_scan sees a last use outside the
+  loop, sx life 76). Pass-1 order becomes pdx, pdy, sx, anim = ROM. Side effect: after 3
+  pass-1 moves the const 0 (life 16) stays in the loop, (s16)py's shift grows to life 7 and
+  is hoisted and spilled in pass 2.
+  Rejected: GCSE PRE route (PRE hoists px<<16 when px is set in an earlier block, but combine
+  materializes &dx/&dy at the loop-pass-1 copies, so px still lands first); dead junk
+  counters (removed by delete_trivially_dead_insns between passes); explicit pre-loop
+  pointers; pdy before pdx (88); animation pointer forms, prototypes, decl order.
+  Next: keep the half-fix and stop the py-shift pass-2 hoist: (a) get the const 0 moved in
+  pass 1 (life >= 19, or one fewer pass-1 move before it), (b) add ~4 real pass-2 loop insns
+  that die later in cse2/flow (not trivially dead), or (c) keep the py shift's life <= 6.
