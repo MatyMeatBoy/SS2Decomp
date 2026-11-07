@@ -36,6 +36,14 @@
       },
       "evidence": "Frozen27fb21f1;2236/frame332;136 to131 halfwords;94 ordered call relocations;targetS+12C unchanged;9048 original-core pairs plus write-model checks and step8 RED;strict artifact injection equals normal selected;owner reviews preheader Hi/cache recolor+502/+508;still NONMATCHING",
       "region": "phase-five-core"
+    },
+    {
+      "action": "release",
+      "actor": "sol-match-a-eu",
+      "at": "2026-11-07T11:46:17+00:00",
+      "candidate": null,
+      "evidence": "No valid candidate. Preserved .local/923fc/initial-four-experiments/HANDOFF.md and manifest.json: strict fresh whole-module control; new167 private diagnostic trace confirms early bPRE1093 R6 reservation, followed by xs205 R7 and failed1093. Rejected real xs pointer (frame328), unchanged for-loop, staged X, goto-loop (phase3 regression). Outside b/cache producer boundary requires owner coordination. No production edits and no live jobs.",
+      "region": "initial-four"
     }
   ],
   "module": "code_0808FB5C",
@@ -63,11 +71,11 @@
         "Shared pool relative142..154 is owner-managed, not scratch space:144 cache03001250 (outside usesBA/110),148 FFFF(useBC),14C low03000252(usesDE/10E),150 high03000256(usesEA/116). Loop itself does not read this pool."
       ],
       "start": "0x08092518",
-      "state": "claimed",
+      "state": "free",
       "types": [
         "i is u16 with explicit existing truncation; xs/ys elements and pointer homes are32-bit. Original loop carriers ysR4,iR5,xsR6; baseline xsR7. No new aliases or type changes."
       ],
-      "worker": "sol-match-a-eu"
+      "worker": null
     },
     {
       "candidate": {
