@@ -2872,6 +2872,615 @@
           "detail": "Allocates0x400-byte stack, registers066BC callback on task030061E0. Called by02B70 after multiplayer character selection."
         }
       ]
+    },
+    {
+      "address": "0x08003984",
+      "canonical_symbol": "sub_08003984",
+      "display_name": "TaskCharacterSetupAndNameEntry",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 1166,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Language-specific sprite setup and keyboard cursor selection; character class/palette presentation and editable name at supplied record+0x10. Cleanup normalizes name terminators, marks record used and wakes the requesting task. No particular default name or encoding is claimed. This C remains a NONMATCHING draft; the role is independently anchored by original ASM."
+        },
+        {
+          "source": "asm/nonmatchings/code_08002118/sub_08003984.s",
+          "line": 3639,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Original _08005728 loads saved input record pointer, adds0x10, walks backwards from byte8, tests0xFD and trims0x51 to0xFD with trailing zero. It then closes UI, sets input record byte0 to1 and calls00420 with r0=0x5A112EBF and r1=2. Scheduler00420 accepts only r0 and overwrites r1 immediately, so actual signal is32-bit0x5A112EBF; the draft ULL alias is a code-generation workaround, not64-bit signal semantics. Earlier keyboard grids reference08366E34/08366EFC/08366FC4; original function retains full sprite/input state machine."
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_08000420.s",
+          "line": 3,
+          "revision": "00bc07a38a3dc004d6cf3fb14096e7cdfcf16dc6",
+          "detail": "Scheduler wake helper compares only incoming r0 with each task signal; incoming r1 is immediately overwritten by the task-chain pointer load. Character setup wake signal is0x5A112EBF; the caller also materializes2 in r1 as a code-generation detail, not a64-bit signal."
+        }
+      ]
+    },
+    {
+      "address": "0x08008CC4",
+      "canonical_symbol": "sub_08008CC4",
+      "display_name": "AdvanceSpriteAnimationFrame",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1485,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Selects animation entry by12-byte stride, resets out-of-range frame to0, increments timer until duration reached then advances frame; loop flag wraps to0, otherwise holds final frame and returns1. Existing bounds comparison is count<index, not index>=count.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08006D24.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08008D38",
+      "canonical_symbol": "sub_08008D38",
+      "display_name": "ReverseSpriteAnimationFrame",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1523,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Uses high-bit underflow of16-bit timer/frame to step animation backwards, initializes underflowed frame to last frame, loops or holds first frame and returns1. Existing count/index comparison retained; no bounds safety promise.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08006D24.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08008DB8",
+      "canonical_symbol": "sub_08008DB8",
+      "display_name": "QueueSpriteFramePartTileCopies",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1571,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Resolves animation/frame to sprite-part list, derives each part tile index and shape-based byte size, then queues sequential pixel-data copies via01348. Does not program DMA hardware directly.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08006D24.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080567D4",
+      "canonical_symbol": "sub_080567D4",
+      "display_name": "RunInventoryGateTrigger",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080542C4.c",
+          "line": 993,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Waits for local player to leave and re-enter configured rectangle, counts required item ID/kind across25inventory slots, arbitrates activation through link callback56CB4, consumes matching inventory entries, sets configured completion flag and dispatches configured event. Exact map/quest identity is not claimed. This C remains a NONMATCHING draft; the role is independently anchored by original ASM."
+        },
+        {
+          "source": "asm/nonmatchings/code_080542C4/sub_080567D4.s",
+          "line": 308,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Original _08056A3E loads item/required quantity, walks030034E0+0x150 in16-byte steps through index24, compares two halfwords and counts matches. _08056B8C arbitrates via68070, repeats scan while decrementing requirement and clearing both item halfwords, then sends5990C/59954flag callback and68820event callback. Original table084B23A8 has44-byte records."
+        }
+      ]
+    },
+    {
+      "address": "0x0805E0C4",
+      "canonical_symbol": "sub_0805E0C4",
+      "display_name": "TaskDialogueScriptWindow",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805D094.c",
+          "line": 867,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Window task interprets byte script controls, resolves player-name/numeric substitutions and portrait resources, advances text according to timing/input, and draws buffered lines. Exact script opcode names and complete encoding remain unassigned. This C remains a NONMATCHING draft; the role is independently anchored by original ASM."
+        },
+        {
+          "source": "asm/nonmatchings/code_0805D094/sub_0805E0C4.s",
+          "line": 270,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Original _0805E2EA copies name03003CE2 until0xFD/length limit, then resolves language text resource1404DF when needed; compares glyph/control boundary0xF1. Original _0805ED0E loops buffered lines in30-byte steps into1A3D0 and later updates portrait palette/drawing. Numerous0xFD/0xFE/0xFFcontrol branches anchor byte-script interpretation."
+        }
+      ]
+    },
+    {
+      "address": "0x0805FFBC",
+      "canonical_symbol": "sub_0805FFBC",
+      "display_name": "DrawFormattedItemText",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 239,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Chooses item resource text by category and language, constructs formatting for flags/grade/suffix/level and numeric special case, supports several display modes and optional horizontal centering before drawing. Does not modify the item record. This C remains a NONMATCHING draft; the role is independently anchored by original ASM."
+        },
+        {
+          "source": "asm/nonmatchings/code_0805FB7C/sub_0805FFBC.s",
+          "line": 27,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Original masks flags with0x7FFFFFFF, branches on item halfword0 categories1..10, calls07290 for resource IDs and repeatedly computes language stride31. Byte-string formatting builds stack buffer with0xFD/zero terminators. _08060594 checks signed flags, measures text with1A638 for centering, then calls1A3D0 at line796. This proves formatted item text independently of draft variable names."
+        }
+      ]
+    },
+    {
+      "address": "0x080624D8",
+      "canonical_symbol": "sub_080624D8",
+      "display_name": "TaskFourChoiceAnimatedGameMenu",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1715,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Displays four resource-backed menu choices, animates their slide-in coordinates, pulses selected scale, reads directional/confirm/cancel input and runs selected menu action. Exact visible labels are not assigned. This C remains a NONMATCHING draft; the role is independently anchored by original ASM."
+        },
+        {
+          "source": "asm/nonmatchings/code_0805FB7C/sub_080624D8.s",
+          "line": 340,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Original _080627A0 resolves four resource IDs from084EBE54 with index0..3; sprite scale initializer653B8 receives default bounds. Later loops compare index to3, interpolate position and draw selected/unselected entries;1A638/1A3D0 measure/draw selected text at lines811/830; input globals03001324/03001308 at894/895. Full menu semantics beyond this observed role are not inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08065204",
+      "canonical_symbol": "sub_08065204",
+      "display_name": "InvalidateSpriteResourceDescriptor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3215,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets descriptor resource ID at+0x10 to -1 and zeros metadata/pixel/palette pointers at+8/+0/+0xC. Does not free memory or clear every descriptor field.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065214",
+      "canonical_symbol": "sub_08065214",
+      "display_name": "UploadSpriteDescriptorPalette",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3221,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Uploads descriptor palette with bank index+16, source pointer+0xC plus index*32 and count+0x18. Does not allocate or load a new descriptor.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065230",
+      "canonical_symbol": "sub_08065230",
+      "display_name": "DrawSpriteResourceDescriptor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3227,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls07CF0 with position, animation/frame, mode0 and descriptor remap+0x1C, metadata+8 and pixel data+0. Narrow wrapper role anchored by existing OAM draw-copy implementation.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065264",
+      "canonical_symbol": "sub_08065264",
+      "display_name": "DrawSpriteWithPulsingScale",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3232,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Advances scale halfword+0x2C by signed step+0x2E; reverses step after crossing upper/lower bounds+0x30/+0x32; calls affine draw07F0C with same signed scale for X/Y and angle255. Does not clamp scale at the bounds.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080652E0",
+      "canonical_symbol": "sub_080652E0",
+      "display_name": "DrawSpriteWithPulsingScaleAndMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3244,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Same scale update and bound-based step reversal as65264; forwards explicit low-byte mode to affine draw07F0C.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065370",
+      "canonical_symbol": "sub_08065370",
+      "display_name": "AdvanceSpriteDescriptorAnimation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3256,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Forwards animation ID, frame pointer, timer pointer, metadata pointer descriptor+8 and loop flag to08CC4.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1485,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "08CC4 advances frame/timer from per-frame duration; loops when requested, otherwise holds last frame and returns1."
+        }
+      ]
+    },
+    {
+      "address": "0x08065394",
+      "canonical_symbol": "sub_08065394",
+      "display_name": "ReverseSpriteDescriptorAnimation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3259,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Forwards animation ID, frame pointer, timer pointer, descriptor+8 and loop flag to08D38.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 1523,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "08D38 decrements timer and frame, loops to last frame or holds first frame and returns1 after underflow."
+        }
+      ]
+    },
+    {
+      "address": "0x080653B8",
+      "canonical_symbol": "sub_080653B8",
+      "display_name": "InitSpriteScalePulse",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3262,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets current scale+0x2C to0x100, stores input upper/lower bounds at+0x30/+0x32 and step at+0x2E; consumers65264/652E0 establish scale-pulse roles.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080653CC",
+      "canonical_symbol": "sub_080653CC",
+      "display_name": "GetSharedGlyphSpriteDescriptor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3271,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns address03005D80;65424 uses this same object to draw numeric glyph sprites. No ownership transfer or initialization is performed.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065424",
+      "canonical_symbol": "sub_08065424",
+      "display_name": "DrawRightAlignedSpriteNumber",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3291,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Divides number by descending powers of ten, suppresses leading zeros except final digit, and draws digit sprites6pixels apart ending at input x. Inputs style/digits truncate tou8; negative number substitutes0x7FFFFFFF. Style3 maps animation13.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065504",
+      "canonical_symbol": "sub_08065504",
+      "display_name": "DrawRightAlignedTilemapNumber",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3341,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Builds decimal digits using descending divisors; writes digit tiles ending at input x in03005740[y], suppressing leading zeros except final digit, then marks row via1A664. Negative number substitutes0x7FFFFFFF.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_0805FB7C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080659BC",
+      "canonical_symbol": "sub_080659BC",
+      "display_name": "DrawSpriteDescriptorWithMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 32,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls07CF0 with x/y, animation/frame, low-byte mode and descriptor remap+0x1C, metadata+8, pixel data+0. Unlike65230, caller supplies mode.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080659F4",
+      "canonical_symbol": "sub_080659F4",
+      "display_name": "InterpolateSignedValuesQ10",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 35,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "If endpoints equal stores endpoint; otherwise stores arithmetic-shifted right endpoint*weight>>10 plus left endpoint*(0x400-weight)>>10. Each term shifts separately, so this is not one combined higher-precision interpolation.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065A1C",
+      "canonical_symbol": "sub_08065A1C",
+      "display_name": "TaskDisplayTimedCenteredText",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 9,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Resolves text resource0x140000|id, centers by text length/2, conditionally draws for supplied frame count while yielding signal1 each iteration, then clears text row15. Zero count skips loop; signed negative counts have no general safety guarantee.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065A90",
+      "canonical_symbol": "sub_08065A90",
+      "display_name": "StartTimedCenteredTextTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 68,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "If task030061B0 inactive, obtains0x200-byte stack from allocator01638 while yielding on failure and starts65A1C with id/frame arguments. Task field+8 is0x3C; no priority interpretation inferred.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065B58",
+      "canonical_symbol": "sub_08065B58",
+      "display_name": "AllocateFourActorEffectTaskSlots",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 104,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates0xA0 bytes for four0x28-byte task slots at03006030 and zeros each slot field+8.657C4 uses these slots for callbacks636B0/63B80, which render player sprite effects in projected world coordinates. Allocation failure is not guarded. These are distinct from player-name slots03006208.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 3471,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Uses03006030 slots and selects636B0/63B80 callbacks; player-name callback65BD0 instead uses03006208 through65838."
+        }
+      ]
+    },
+    {
+      "address": "0x08065B84",
+      "canonical_symbol": "sub_08065B84",
+      "display_name": "WaitAndFreeActorEffectTaskSlots",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 111,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Yields until each of four actor effect task slots03006030 is inactive, frees allocated task array and stores zero returned by final activity test to global. Does not cancel active tasks.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065BD0",
+      "canonical_symbol": "sub_08065BD0",
+      "display_name": "TaskDisplayPlayerNameAboveActor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 127,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "For given player index, reads network-position record at player+0x148, projects coordinates with0BC08, horizontally centers name bytes player+2 via1A638 and draws at projectedY-0x30 for supplied count while yielding.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08065CA8",
+      "canonical_symbol": "sub_08065CA8",
+      "display_name": "InitLinkMessageQueuesAndTasks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 164,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates sender task0x28, four peer tasks0xA0 and fifty0x88-byte messages0x1A90; resets active fields, ring counters/sentinel words and control bytes; calls67AFC to start sender/receiver tasks.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_080659B0.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080682A4",
+      "canonical_symbol": "sub_080682A4",
+      "display_name": "LinkIsMessageQueueFull",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 337,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns1 when outgoing message count03006338 exceeds49, else0. Queue capacity50 follows allocation65CA8 and enqueue guards.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080682B8",
+      "canonical_symbol": "sub_080682B8",
+      "display_name": "LinkAllPeersContainRingValue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 343,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "For each connected peer scans ring entries0 through its stored index inclusive; returns whether every peer contains input value. Does not execute or validate that value as a callback.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08068330",
+      "canonical_symbol": "sub_08068330",
+      "display_name": "LinkEnqueueRingValueBroadcast",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 361,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Rejects full50-entry outgoing queue or local ring index>9; enqueues pending tag0x84 with input word and one8-byte payload chunk. No callback execution occurs in this sender.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08068384",
+      "canonical_symbol": "sub_08068384",
+      "display_name": "LinkClearConnectedPeerRings",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 380,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "For each connected peer writes -1 to ten ring words and resets peer stored index to0. Disconnected peer slots are not visited.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080683DC",
+      "canonical_symbol": "sub_080683DC",
+      "display_name": "LinkCountPeersContainingRingValue",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 397,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Counts connected peers whose inclusive0..stored-index ring scan contains the supplied word, counting at most once per peer. Does not invoke callbacks.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08068590",
+      "canonical_symbol": "sub_08068590",
+      "display_name": "LinkPopOutgoingMessage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 453,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Decrements outgoing count, treats signed-negative result as0, shifts remaining0x88-byte records left via memcpy and clears final record active field+4. Overlapping memcpy semantics follow original source/runtime.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x080685F0",
+      "canonical_symbol": "sub_080685F0",
+      "display_name": "LinkPayloadBytesToEightByteChunks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 466,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Rounds unsigned byte count up to next multiple of8 then divides by8. Arithmetic wraps at32bits; do not infer overflow-safe mathematical ceiling for all inputs.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
+    },
+    {
+      "address": "0x08068600",
+      "canonical_symbol": "sub_08068600",
+      "display_name": "CancelLinkMessageTasks",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 473,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Cancels two global task objects03006310/03006230, outgoing sender task03006368 and four0x28-byte peer tasks03006258 when active. Does not free queue allocations itself.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/e181cfee8400da03f9084ff7635d0277fee491f3/src/code_08067B4C.c"
+        }
+      ]
     }
   ]
 }
