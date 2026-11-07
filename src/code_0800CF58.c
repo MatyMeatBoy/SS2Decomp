@@ -6219,7 +6219,6 @@ end:
         }
     }
 }
-#ifdef NONMATCHING
 struct Actor14170 {
     u8 pad0[0x10];
     u16 f10;
@@ -6469,9 +6468,18 @@ void hud14170(struct Actor14170 *arg0)
         if (i) {
             u16 n;
 
-            cur = arg0->fC6;
-            if (cur > stats[0xA0 / 4] + arg0->f79)
-                arg0->fC6 = stats[0xA0 / 4] + arg0->f79;
+            {
+                /* Reassigning p in the clamp block makes cse1 invalidate it
+                   when it skips the block, so the reload after the join
+                   computes a fresh address instead of reusing p. v keeps the
+                   loaded value in r3. */
+                s16 *p = &arg0->fC6;
+                v = *p;
+                if (v > stats[0xA0 / 4] + arg0->f79) {
+                    p = &arg0->fC6;
+                    *p = stats[0xA0 / 4] + arg0->f79;
+                }
+            }
             cur = dx3 = arg0->fC6;
             max = stats[0xA0 / 4]; max += arg0->f79; mx3 = max;
             v = dx3;
@@ -6635,9 +6643,6 @@ void hud14170(struct Actor14170 *arg0)
     sub_08001538((s32)buf2);
     sub_08001538((s32)buf3);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0800CF58", sub_08014170);
-#endif
 void sub_08014B28(void) {
     struct PlayerW12 *p;
     u16 id;
