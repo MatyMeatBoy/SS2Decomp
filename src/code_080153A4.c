@@ -1388,7 +1388,6 @@ void sub_08016ECC_u16(u16 arg0)
     }
   }
 }
-#ifdef NONMATCHING
 struct Pos16F28 { u32 kind:4; u32 x:12; u32 y:12; u32 pad2:4; u32 f4:6; u32 f4b:2; };
 struct Plr16F28 { u8 pad0[0x148]; struct Pos16F28 *pos; };
 extern struct Plr16F28 players16F28[] asm("gUnk_03003CE0");
@@ -1570,10 +1569,11 @@ void sub_08016F28(struct Obj16F28 *self)
                         u32 i;
                         u32 off;
                         u32 r;
+                        struct Obj16F28 **objsp = &objs16F28;
                         tx = -1;
                         for (i = 0, off = 0; i <= 4; off += 0x2E0, i++) {
                             struct Obj16F28 *o;
-                            if ((used16F28 & (1 << i)) && (o = (struct Obj16F28 *)((u8 *)objs16F28 + off)) != self) {
+                            if ((used16F28 & (1 << i)) && (o = (struct Obj16F28 *)((u8 *)*objsp + off)) != self) {
                                 s32 dx = (o->x - self->x) >> 8;
                                 s32 dy = (o->y - self->y) >> 8;
                                 u16 d = Sqrt(dx * dx + dy * dy);
@@ -1644,7 +1644,10 @@ void sub_08016F28(struct Obj16F28 *self)
                         dir = dir16F28(self, e->x >> 8, e->y >> 8);
                         self->dir = dir;
                     } else {
-                        struct Plr16F28 *pl = &players16F28[self->thi];
+                        struct Plr16F28 *pl;
+                        u32 prod = self->thi * sizeof(struct Plr16F28);
+                        pl = players16F28;
+                        pl = (struct Plr16F28 *)((u8 *)pl + prod);
                         if ((s32)(*((u8 *)pl->pos + 4) << 26) < 0)
                             self->flags |= 1;
                         dir = dir16F28(self, pl->pos->x, pl->pos->y);
@@ -1683,7 +1686,10 @@ void sub_08016F28(struct Obj16F28 *self)
         tx = (u32)(e->x << 8) >> 16;
         ty = (u32)(e->y << 8) >> 16;
     } else {
-        struct Plr16F28 *pl = &players16F28[self->thi];
+        struct Plr16F28 *pl;
+        u32 prod = self->thi * sizeof(struct Plr16F28);
+        pl = players16F28;
+        pl = (struct Plr16F28 *)((u8 *)pl + prod);
         if ((s32)(*((u8 *)pl->pos + 4) << 26) < 0)
             self->flags |= 1;
         do { dir = dir16F28(self, pl->pos->x, pl->pos->y); } while (0);
@@ -1834,9 +1840,6 @@ void sub_08016F28(struct Obj16F28 *self)
         break;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080153A4", sub_08016F28);
-#endif
 struct T015CEntity { u16 id; u8 pad2[0xA]; u16 kind; u8 padE[6]; s32 x,y; u8 pad1C[0x5A]; u16 cursor; u8 pad78[2]; u16 flags; u8 pad7C[0x194]; u32 active; u8 pad214[0x1A]; u8 radius; };
 extern struct T015CEntity *T015CEntities asm("gUnk_030056F4");
 extern u8 T015CDirections[] asm("gUnk_084790B4");

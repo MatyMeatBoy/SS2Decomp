@@ -35,3 +35,7 @@ nov06-wB23: sub_08016F28 NONMATCHING draft refined (GNU-diff 412 -> 16 lines, sa
   flags&2 nearest-entity search written in place with the function-scope `tx` as its `best` variable (tx -> r8, not ip).
   Remaining: players[thi] multiply operand order (orig `muls rConst, rIdx`, 2 sites) and the objs base load register
   in the in-place nearest search (orig `ldr r1,=objs; ldr r0,[r1]`). Both are local-alloc tie choices.
+nov06-wB24: sub_08016F28 MATCHED. (1) players[thi] multiply: `u32 prod = thi * sizeof(struct Plr16F28); pl = players;
+  pl = (u8 *)pl + prod;` (pl user var set to the base first -> pl qty ties to the base load, product ties to the constant).
+  (2) in-place nearest search: `struct Obj16F28 **objsp = &objs16F28;` before the loop and `*objsp + off` - the hoisted
+  pseudo gets no hard reg and reload rematerializes `ldr r1,=objs; ldr r0,[r1]`.
