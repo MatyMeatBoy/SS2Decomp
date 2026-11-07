@@ -145,3 +145,21 @@ the same as the ROM, and every switch case plus pre/post is size-exact (casediff
   reload-rotation work.
 - Shuffling the function-level u32 declaration order: no change at all (8 random orders).
 Remaining diff is registers only: case 13 rdiff 86, case 0 113, post 54.
+
+2026-11-07 third follow-up (claude-nov07-w01): filtered nmdiff 2345 -> 2323, full-module aligned diff
+980 -> 968, still 18396 bytes (size-exact).
+- case 1: `asm("" : : "r"(hi));` right after `hi = lo + 3;` raises hi's global priority. That gives
+  ROM's hi=r5 and gMgr82-address r6, and moves the 0x20 mask to r6, so both swaps are fixed. What is
+  left in case 1 is only the 0x30000 add temp (ROM r2, ours r5) plus pool-word placement.
+- Tried and rejected:
+  * case 13 0x10 branch: a block-local cursor (no change);
+  * `asm "r"` on `cur` there (980 -> 1017, because cur is function-level and every case moves);
+  * a block-local `m13 = gMgr82` (no change).
+- Most of the small per-case diffs (cases 2-4, 7, 9-12, 14, 15, 18) are only literal-pool `.word` placement.
+  They should follow once the register diffs in the big cases are gone; don't chase them separately.
+- Tooling: the scratchpad gen/ck.sh aligned diff hides branch-target differences. For a final check use a
+  strict function-relative compare (session scratchpad nov07-w01/rcmp.py, c29/ck.sh). On
+  sub_08003984 the aligned diff was 0 while one back-edge target still differed.
+Next: in case 13 the ROM gives m=r5/cur=r4 at the first `cur % 3` (ours m=r4/cur=r5). cur is function-level, so a
+priority change to it moves every case. Try a per-branch `u32` copy that is not copy-propagated (case 0's
+`over` trick), or the asm "=r"/"0" CSE-hiding trick, on the gMgr82 load in that branch.

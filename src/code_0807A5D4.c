@@ -1640,6 +1640,7 @@ void sub_0807C29C(void) {
         u16 lo, hi;
         lo = gInv82->equip / 3 * 3;
         hi = lo + 3;
+        asm("" : : "r"(hi));
         if (lo >= gMgr82->cursor)
             gMgr82->cursor = lo;
         else if (hi <= gMgr82->cursor)
