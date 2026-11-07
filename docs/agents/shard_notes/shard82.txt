@@ -163,3 +163,16 @@ Remaining diff is registers only: case 13 rdiff 86, case 0 113, post 54.
 Next: in case 13 the ROM gives m=r5/cur=r4 at the first `cur % 3` (ours m=r4/cur=r5). cur is function-level, so a
 priority change to it moves every case. Try a per-branch `u32` copy that is not copy-propagated (case 0's
 `over` trick), or the asm "=r"/"0" CSE-hiding trick, on the gMgr82 load in that branch.
+
+2026-11-07 fourth follow-up (claude-nov07-w136): filtered nmdiff 2323 -> 2261, full-module aligned diff
+968 -> 936, still 18396 bytes (size-exact). casediff case 13 diff 573 -> 539 (rdiff 86 -> 84).
+- case 13 0x20 branch: a block-local `u32 c` instead of the function-level `cur` gives ROM's cur=r4/m=r5.
+  The 0x10 branch already matched, and the same change does nothing there.
+- case 13 keys&1, from==0x16 path: block-local `s/it/k/j/v` instead of function-level slot/item/n/i/val.
+  The slot then takes caller-saved r1 like the ROM, and the count loop gets n=r3/i=r2/table r4. The item
+  address is written as `(u8 *)gMgr82 + s * 16 + 0x104`, because the ROM adds the 0x104 struct offset last.
+  &gMgr82->stock[s] folds it first. post moved 115 -> 121 (function-level pressure shifted). The net is still -32.
+- No effect: asm "=r"/"0" or a block-local `m` copy of gMgr82 in the 0x10 branch. Typing tg as u32/s32,
+  or `kind = from;`/`kind = tg;` in the from==0 path.
+  ROM there stores the zero from r6 (`from`, kept alive) and builds 340 in r7. Ours rematerializes
+  `movs r1,#0` and builds 340 in r6. Next: find out why CSE in the ROM kept `from` as the zero register.

@@ -2608,15 +2608,16 @@ void sub_0807C29C(void) {
             if (gMgr82->cursor > gMgr82->f48)
                 gMgr82->cursor = gMgr82->f48;
         } else if (keys29_03001308 & 0x20) {
-            cur = gMgr82->cursor;
-            if (cur % 3 != 0) {
-                gMgr82->prev = cur;
-                gMgr82->cursor = cur - 1;
+            u32 c;
+            c = gMgr82->cursor;
+            if (c % 3 != 0) {
+                gMgr82->prev = c;
+                gMgr82->cursor = c - 1;
                 sub_0805865C(0x62);
                 break;
             }
-            gMgr82->prev = cur;
-            gMgr82->cursor = cur / 3 * 5 + 4;
+            gMgr82->prev = c;
+            gMgr82->cursor = c / 3 * 5 + 4;
             gMgr82->state = 0;
             sub_0805865C(0x62);
         } else if (keys29_03001308 & 0x40) {
@@ -2644,31 +2645,37 @@ void sub_0807C29C(void) {
             gMgr82->f6A = 100;
             from = gMgr82->heldFrom;
             if (from == 0x16) {
-                slot = gMgr82->cursor + gMgr82->page * 15;
-                item = &gMgr82->stock[slot];
-                if (item->kind == 0)
+                u32 s;
+                struct Item82 *it;
+                u32 k;
+                u32 j;
+                u32 v;
+                s = gMgr82->cursor + gMgr82->page * 15;
+                /* (gMgr82 + s*16) + 0x104: ROM adds the struct offset last */
+                it = (struct Item82 *)((u8 *)gMgr82 + s * 16 + 0x104);
+                if (it->kind == 0)
                     break;
-                if (item->kind != 10) {
+                if (it->kind != 10) {
                     gMgr82->heldFrom = gMgr82->state;
-                    gMgr82->heldIdx = slot;
-                    gMgr82->held = *item;
+                    gMgr82->heldIdx = s;
+                    gMgr82->held = *it;
                     sub_0805865C(0x5E);
                     break;
                 }
                 gMgr82->heldFrom = gMgr82->state;
-                gMgr82->heldIdx = slot;
+                gMgr82->heldIdx = s;
                 gMgr82->held.kind = 10;
                 gMgr82->held.count = gMgr82->stock[gMgr82->heldIdx].count;
                 gMgr82->state = 20;
                 gMgr82->fC = 0;
-                val = gMgr82->stock[gMgr82->heldIdx].count;
-                n = 6;
-                for (i = 4; i <= 9; i++, n--) {
-                    if (gUnk_084EBD4C[i] <= val)
+                v = gMgr82->stock[gMgr82->heldIdx].count;
+                k = 6;
+                for (j = 4; j <= 9; j++, k--) {
+                    if (gUnk_084EBD4C[j] <= v)
                         break;
                 }
-                gMgr82->f14 = n;
-                gMgr82->f10 = n - 1;
+                gMgr82->f14 = k;
+                gMgr82->f10 = k - 1;
                 sub_0805865C(0x5E);
                 break;
             }
