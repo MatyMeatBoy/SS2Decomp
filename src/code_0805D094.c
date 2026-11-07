@@ -893,8 +893,8 @@ void e0c4Impl(struct Task0C4 *task)
     u32 voice;
     u8 *num;
     u8 *name;
-    register u8 *script asm("r8");
-    register u32 portrait asm("sl");
+    u8 *script;
+    u32 portrait;
     s32 *pValue;
     s32 i;
     s32 j;

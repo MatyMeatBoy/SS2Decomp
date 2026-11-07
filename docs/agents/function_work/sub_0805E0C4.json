@@ -1,7 +1,7 @@
 {
   "address": "0x0805E0C4",
-  "updated_utc": "2026-11-07T01:20:23Z",
-  "checkpoint": "Verified source checkpoint 5b7f388d218abcedca755ba883885628f9bba836: linear line-buffer initialization and a saved second-header pointer restore the original frame size. Still NONMATCHING; no matching-byte credit.",
+  "updated_utc": "2026-11-07T01:29:50Z",
+  "checkpoint": "Plain-local follow-up to verified source 5b7f388d218abcedca755ba883885628f9bba836; C-body SHA-256 4c00850e9aed5b31430fd6a7bec294162698a660aff33129b357de5e9d9c9aeb. Remove the script/r8 and portrait/sl bindings, retain the original 236-byte frame, real-module heuristic 783. Still NONMATCHING; no matching-byte credit.",
   "areas": [
     {
       "id": "compile",
@@ -19,7 +19,7 @@
       "id": "layout",
       "label": "Recover frame, spills and source lifetimes",
       "state": "active",
-      "evidence": "Using the existing row-byte offset for the two 18-byte fills and preserving script+1 before the fill jointly restore frame 236 versus previous 232 and original 236. Real-module heuristic distance improves 827 to 813; size stays 3512 versus original 3496. The first standalone changes give 843 and 838; a separate u32 header scope worsens to 902 and is rejected. The original retains the value pointer in r6 and the next-header pointer in r4; this candidate uses another spill and different register roles. Branch layout, later reload rotation and exact instructions still differ. No hard-register binding, barrier, padding or extra memory write was added. The inherited uninitialized blink-timer warning remains. Its existing word load and byte-truncated increment already reproduce that access sequence and should not be retyped on a false width hypothesis."
+      "evidence": "Using the existing row-byte offset for the two 18-byte fills and preserving script+1 before the fill jointly restore frame 236 versus previous 232 and original 236. Real-module heuristic distance improves 827 to 813; size stays 3512 versus original 3496. The first standalone changes give 843 and 838; a separate u32 header scope worsens to 902 and is rejected. The original retains the value pointer in r6 and the next-header pointer in r4; this candidate uses another spill and different register roles. Branch layout, later reload rotation and exact instructions still differ. No hard-register binding, barrier, padding or extra memory write was added. The inherited uninitialized blink-timer warning remains. Its existing word load and byte-truncated increment already reproduce that access sequence and should not be retyped on a false width hypothesis. Plain-local follow-up: removing only the portrait/sl binding preserves the complete function normalized bytes AND relocations against the freshly built 813 control. Removing script/r8, alone or with portrait/sl, improves the real-module heuristic to 783 with size 3512 and frame 236 unchanged. Both bindings are now absent; the same 336 bounded positive-timer dialogue cases pass. This does not establish the untested negative-timer/scheduler behavior or an original-ROM match."
     },
     {
       "id": "full_match",
