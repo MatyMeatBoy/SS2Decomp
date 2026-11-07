@@ -1158,6 +1158,8 @@ static inline void Drop82Sep(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held,
 #define DROP82() Drop82(&sp14)
 /* Drop82P: the DROP through a pointer to gMgr82 (the function-scope gp, which gets no hard reg, so reload re-loads the address at each use like the ROM; or a pointer kept in a register). Drop82PZ also takes heldIdx's zero from its own mov (ROM: separate movs r1/r4 zeros). The inline form computes z (add r0, sp, #20) before the zero store, like the ROM. */
 static inline void Drop82P(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, &(*g)->held, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
+/* Drop82PH: CpuSet's source is the held pointer already in a register (ROM: mov r1, r9). */
+static inline void Drop82PH(vu32 *z, struct Item82 *h, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, h, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
 static inline void Drop82PZ(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, &(*g)->held, 0x05000004); (*g)->heldFrom = 0x16; { u32 zz; asm volatile("mov %0, #0" : "=l"(zz)); (*g)->heldIdx = zz; } }
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
 struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
@@ -2781,10 +2783,16 @@ void sub_0807C29C(void) {
                 u32 s; struct Item82 *it; u32 vv; /* block-local vv: the function-level val (r1) blocked s from r1 */
                 if (gMgr82->stock[gMgr82->heldIdx].count == gMgr82->held.count) {
                     s = gMgr82->cursor + gMgr82->page * 15;
-                    it = &gMgr82->stock[s];
+                    /* (gMgr82 + s*16) + 0x104: ROM keeps s*16 (sl) for the count address too */
+                    it = (struct Item82 *)((u8 *)gMgr82 + s * 16 + 0x104);
                     if (it->kind == 10) {
+                        u32 lim;
+                        /* lim set before vv: the following reloads then rotate like the ROM (ldr r6 / mov r7, r8, DROP
+                           gMgr82 reloads r2/r3, zero r4). Still differs: lim sits in sl, s*16 in ip (ROM: s*16 in sl,
+                           100000 reloaded into r5). */
+                        lim = 100000;
                         vv = gMgr82->stock[s].count + gMgr82->held.count;
-                        if (vv <= 100000) {
+                        if (vv <= lim) {
                             if (gMgr82->heldIdx != s) {
                                 gMgr82->stock[s].count = vv;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
@@ -2815,7 +2823,7 @@ void sub_0807C29C(void) {
                 if (vv <= 100000) {
                     gMgr82->stock[gMgr82->heldIdx].count -= gMgr82->held.count;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count += gMgr82->held.count;
-                    Drop82P(&sp14, gp);
+                    Drop82PH(&sp14, held, gp);
                     sub_0805865C(0x5F);
                     break;
                 }
