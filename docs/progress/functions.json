@@ -2562,14 +2562,14 @@
       "name": "sub_08003984",
       "addr": 134232452,
       "size": 8352,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08002118",
       "kind": "c",
       "cat": "game",
       "address": "0x08003984",
       "canonical_symbol": "sub_08003984",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "TaskCharacterSetupAndNameEntry",
       "name_status": "confirmed",
       "name_source": "catalog",
@@ -2629,7 +2629,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2499,
+          "line": 2501,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2652,7 +2652,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2748,
+          "line": 2750,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
@@ -22554,14 +22554,14 @@
       "name": "sub_0805FFBC",
       "addr": 134610876,
       "size": 1556,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x0805FFBC",
       "canonical_symbol": "sub_0805FFBC",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "DrawFormattedItemText",
       "name_status": "confirmed",
       "name_source": "catalog",
@@ -22618,14 +22618,14 @@
       "name": "sub_08060E44",
       "addr": 134614596,
       "size": 2116,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x08060E44",
       "canonical_symbol": "sub_08060E44",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08060E44",
       "name_status": "unidentified",
       "name_source": null,
@@ -22798,7 +22798,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2146,
+          "line": 2145,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
@@ -22872,7 +22872,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2785,
+          "line": 2784,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
@@ -29139,14 +29139,14 @@
       "name": "sub_0808C0C4",
       "addr": 134791364,
       "size": 2708,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08087CC0",
       "kind": "c",
       "cat": "game",
       "address": "0x0808C0C4",
       "canonical_symbol": "sub_0808C0C4",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "TaskBattleTeamSetup",
       "name_status": "confirmed",
       "name_source": "catalog",
