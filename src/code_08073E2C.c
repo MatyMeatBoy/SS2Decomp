@@ -930,6 +930,7 @@ void sub_08075778(struct Arg5778 *arg)
     u32 big;
     struct Ply5778 *p;
     struct Ply5778 *q;
+    struct Ene5778 *e2;
     struct Ene5778 *e;
     s32 x, y;
     u32 dirIdx;
@@ -947,7 +948,9 @@ void sub_08075778(struct Arg5778 *arg)
     u8 c;
     u32 shade;
     s32 sx, sy;
+    s32 spd;
 
+    spd = 45;
     local = sub_080020F4();
     target = arg->target;
     who = arg->who;
@@ -1025,8 +1028,8 @@ void sub_08075778(struct Arg5778 *arg)
     }
     if (target == 0xFFFF)
         target = arg->target;
-    x += move5778(sin5778[(s16)ang + 0x40] * 2, 45);
-    y += move5778(sin5778[(s16)ang] * 2, 45);
+    x += move5778(sin5778[(s16)ang + 0x40] * 2, spd);
+    y += move5778(sin5778[(s16)ang] * 2, spd);
     if (wait5778(p, 1))
         goto end;
     if (p->state != 13 && !sub_0800CCCC() && !sub_0800CD34())
@@ -1110,26 +1113,26 @@ void sub_08075778(struct Arg5778 *arg)
             for (j = 0; j <= 4 && !hit; j++) {
                 if (!(e5778Mask & (1 << j)))
                     continue;
-                e = &e5778Base[j];
+                e2 = &e5778Base[j];
                 if (sub_0800CD8C())
                     break;
                 if (sub_0800CDF8())
                     break;
-                if (e->team == p->team || e->team == 0)
+                if (e2->team == p->team || e2->team == 0)
                     continue;
-                box2.w = e->w;
-                box2.h = e->h;
-                if (!test5778(&pos, &e->x, &box, &box2))
+                box2.w = e2->w;
+                box2.h = e2->h;
+                if (!test5778(&pos, &e2->x, &box, &box2))
                     continue;
                 ok = 0;
-                if (e->state != 11)
-                    ok = e->serial != serial;
+                if (e2->state != 11)
+                    ok = e2->serial != serial;
                 if (!ok)
                     continue;
-                if (roll5778(power, e->power)) {
+                if (roll5778(power, e2->power)) {
                     if (big) {
                         atk[0xA9] += 0x18;
-                        sub_08022100(e->id + 4);
+                        sub_08022100(e2->id + 4);
                         p->flags |= 0x200000;
                     }
                     if (who == sub_080020F4()) {
@@ -1138,12 +1141,12 @@ void sub_08075778(struct Arg5778 *arg)
                         p->state = lo;
                         t = p->f26;
                         p->f26 = kind;
-                        hitE5778(p, e, atk, 0);
+                        hitE5778(p, e2, atk, 0);
                         sub_0805865C(0x1A);
                         p->state = s;
                         p->f26 = t;
-                        e->owner = local;
-                        e->hitMask |= 1 << local;
+                        e2->owner = local;
+                        e2->hitMask |= 1 << local;
                     }
                     if (big)
                         p->flags &= ~0x200000;
@@ -1154,16 +1157,16 @@ void sub_08075778(struct Arg5778 *arg)
                         p->state = lo;
                         t = p->f26;
                         p->f26 = kind;
-                        hitE5778(p, e, atk, 1);
+                        hitE5778(p, e2, atk, 1);
                         sub_0805865C(0x1A);
                         p->state = s;
                         p->f26 = t;
-                        e->owner = local;
-                        e->hitMask |= 1 << local;
+                        e2->owner = local;
+                        e2->hitMask |= 1 << local;
                     }
                 } else if (who == sub_080020F4()) {
-                    sub_080223F4(e->x, e->y);
-                    e->serial = serial;
+                    sub_080223F4(e2->x, e2->y);
+                    e2->serial = serial;
                     if (!sub_0800CCCC() && !sub_0800CD34())
                         sub_0805865C(0x55);
                 }
@@ -1178,8 +1181,8 @@ void sub_08075778(struct Arg5778 *arg)
         c = sub_0800AE50(x, y, 0);
         if ((c & 0xF) && !(c & 0x10))
             break;
-        x += move5778(sin5778[(s16)ang + 0x40], 45);
-        y += move5778(sin5778[(s16)ang], 45);
+        x += move5778(sin5778[(s16)ang + 0x40], spd);
+        y += move5778(sin5778[(s16)ang], spd);
         if (!sub_0800CC98() && !sub_0800CD8C() && !sub_0800CCCC()) {
             pos5778((s16)(sx = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
             shade = (u8)sub_0800BC44(sx, sy, 0);
