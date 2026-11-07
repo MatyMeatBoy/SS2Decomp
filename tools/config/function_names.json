@@ -9694,6 +9694,1083 @@
           "detail": "The associated starter registers 624D8 on the same control. The original callback is the resource-backed four-choice animated gameplay menu, already named separately in the catalog."
         }
       ]
+    },
+    {
+      "address": "0x08019FA8",
+      "canonical_symbol": "sub_08019FA8",
+      "display_name": "HasFreeEnemySpawnRequestSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1008,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Checks only bits 0 and 1 of request mask 03005724 and returns exactly 1 when either is clear, otherwise 0. It does not reserve a slot or inspect the separate five-enemy actor mask 030056FC."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 396,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "19FA8..19FCA scan the two request bits; 19FD0 returns 1 and 19FD4 returns 0. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1036,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "168FC consumes these same two bits, copies one eight-byte descriptor into request buffer 030042E8 and starts task 1681C; 1681C clears its bit after its final wait. Initializer 16114 allocates two eight-byte descriptors and two 40-byte task controls. Matched scene caller 23A3C waits on this query before enqueueing descriptors through 6603C."
+        }
+      ]
+    },
+    {
+      "address": "0x08019FD8",
+      "canonical_symbol": "sub_08019FD8",
+      "display_name": "RequestEnemySpawnWithSequence",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1016,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Builds an eight-byte descriptor: table + full index * 0x38 in word0, low eight bits of value at byte 4, low eight bits of index at byte 5 and old scene+8 sequence at halfword6. Updates the scene sequence to old + 1 + value modulo 65536 before attempting 6603C. Ignores enqueue success/failure and returns old sequence + descriptor byte 4 modulo 65536; this is not the updated counter or a success indication. No index/value bounds check occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 397,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "19FDC..19FE4 form the record pointer; 19FEA..1A00C pack the descriptor; 1A00E..14 advance the counter; 1A018 attempts 6603C; 1A01C..24 return old sequence plus low byte independently of enqueue result. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 986,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver task 1681C masks byte 4 with 0x7F to select one eight-byte spawn point, uses byte 5 as the scene-state row and halfword6 plus masked byte 4 as the actor spawn identifier passed to 1641C. Thus this function requests one enemy spawn; it does not itself create an actor, reserve request capacity or promise delivery. With byte 4 bit7 set, its returned old sequence+raw byte 4 differs from the consumer identifier."
+        }
+      ]
+    },
+    {
+      "address": "0x0806603C",
+      "canonical_symbol": "sub_0806603C",
+      "display_name": "TryEnqueueEnemySpawnRequest",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 320,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 0 when outgoing queue count exceeds49, the selected point fails 17F7C without flags 0x4000, or pending byte 03006220 is nonzero. Selection is descriptor byte 4 &0x7F. Reads signed 16-bit point coordinates at record+0xA/+0xC and shifts them left11 for proximity testing. On success sets the pending byte, writes tag 0x86, copies exactly eight payload bytes with CpuSet control 0x04000002, sets chunk count 1, increments the queue count and returns1. Queue records are 0x88 bytes; the request does not directly reserve an actor or request-task slot."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1213,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "66046 rejects count>0x31; 66078..8C handle flags 0x4000/proximity; 6608E..A6 gate/set pending byte. 660BC writes 0x86, 660C8 copies two words and 660CC writes one chunk. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1028,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver 6690C subtracts 0x81 before dispatch. Raw case 5 (tag 0x86) passes the reconstructed payload to 168FC and then clears 03006220. Original 6690C dispatch at 66A28 subtracts 0x81; jump table 66A3C entry5 points 66C44, whose 66C46 calls 168FC and 66C4E clears the byte. This connects producer, pending-byte gate and receiver without claiming a completed peer handshake. Matched 23A3C caller marks a scene spawn state 2 only after enqueue returns nonzero."
+        }
+      ]
+    },
+    {
+      "address": "0x080168FC",
+      "canonical_symbol": "sub_080168FC",
+      "display_name": "TryStartEnemySpawnRequestTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1036,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Scans request-mask bits 0..1. Full pool returns-1, optionally writing scene grid value 1 through 571A4 using descriptor bytes5 and4 without masking byte 4. Otherwise copies all eight descriptor bytes, assigns 1681C as callback and retries a 0x200-byte stack allocation with signal 1 waits until nonnull. Writes stack top+0x1FC, raw flags 0x96+slot and zeroes task fields+0/+0x18/+0x24; starts with the request-slot index, then sets the busy bit and returns0. Flags do not establish a task priority. Allocation retries reload the task-array pointer; no captured-pointer lifetime guarantee is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 368,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16916..26 bound the two-slot search; 16930..3E implement full-pool scene-state notification and return-1. 16948..4E copy two words; 1695E assigns 1681C. 16974..90 retry allocation; 169A8 starts before 169B6 sets the busy bit. Success returns0 at 169B8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1057,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched receiver raw case 5 invokes this function for tag 0x86. This is a request-task allocator, not the five-enemy constructor 1641C. Initializer 16114 allocates 0x50 bytes for its two controls and 0x10 bytes for its two descriptors; allocations here are 0x200-byte stacks."
+        }
+      ]
+    },
+    {
+      "address": "0x0801681C",
+      "canonical_symbol": "sub_0801681C",
+      "display_name": "TaskProcessEnemySpawnRequest",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 986,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Copies one request record into local spawn state. Byte4 &0x7F selects a point: flags at+8, unsigned x/y at+0xA/+0xC and a halfword at+0xE. Copies descriptor byte 5, raw byte 4 and sequence+masked index; extra fields come from record+0x30/+0x32/+0x34. If point flags 0x4000 are clear and 17F7C is false, writes scene grid value 1 through 571A4 using byte 5/masked byte 4 and finishes without spawning. Otherwise waits on signal 1 first, then exits on scene stop, cancellation, live request byte 4==0xFF or successful 1641C; while actor capacity is full it retries only while the same proximity/force condition holds. It does not wait outside proximity until a player arrives. All exits perform a final signal 1 wait before clearing the request-slot bit."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 367,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "1682C..68 construct the local state;1686C..78 shift unsigned halfword coordinates left11. 168B0..C6 gate entry/retry,16884 waits before stop/cancel/live-marker tests and 168A8 calls 1641C. Out-of-proximity path 168C8..D6 writes grid1. All exits join 168DA for a final wait before mask clear 168E8. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 7,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Despite local aliases named sound 1681C/sound 168FC,571A4 writes one byte at scene+0x1C8 + row*5 + column under 02204. It is not an audio call. Sender 6603C uses signed point coordinates for its proximity test whereas this task loads unsigned halfwords; arbitrary negative-coordinate equivalence is not assumed."
+        }
+      ]
+    },
+    {
+      "address": "0x0801641C",
+      "canonical_symbol": "sub_0801641C",
+      "display_name": "TryCreateEnemyFromSpawnState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 816,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns0 if all five bits of actor mask 030056FC are occupied. Searches slots ascending normally, descending underCDC0; on success marks one slot and initializes its 0x2E0-byte actor in 030056F4. Species/resource index is (spawn flags &0xFFF)-1, plus 0xC5 underCE30, with 0xD8-byte definitions at 0847AD3C; raw request bit 0x80 can select the following definition when definition byte 0x47 is nonzero. Stores spawn identifier at actor+2, unsigned source coordinates shifted11 at+0x14/+0x18, coordinates shifted3 at+0x24/+0x28 and copies the selected definition to+0x204. Copies raw request/group halfwords to+0x84/+0x86 after clearing request bit 0x80 from+0x84. Initializes effect slots/status, configures callback 1801C in the existing actor-task control 03004220 with its existing stack region 030046EC, starts it and returns1. No allocation or spawn-table bounds validation occurs here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 365,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "1642A..78 implement mode-dependent five-slot allocation and false return;16480..9A mark/locate the actor;1649E..D4 select its definition.16502 stores spawn identifier,16506..1C convert coordinates and 16536 copies 0xD8 bytes.166DE..16728 set callback 1801C/task state and start;1672C returns1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 85,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched target selector 73EE8 independently reads the same 030056F4/030056FC five-actor pool as its enemy fallback after the optional battle-rule peer pass, requiring nonzero health+0x5C, state not11 and byte+0x1DC. This anchors the enemy role beyond local variable names. Caller 1681C supplies the spawn state; its two pending-request slots are a different pool."
+        }
+      ]
+    },
+    {
+      "address": "0x08019BF8",
+      "canonical_symbol": "sub_08019BF8",
+      "display_name": "FindActiveEnemyBySpawnId",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 783,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Narrows the identifier to16 bits, snapshots active mask 030056FC and scans the five 0x2E0-byte actors at 030056F4 in ascending order. Returns the first active actor whose halfword+2 equals the supplied spawn identifier, or null. Identifier0 is searched normally, unlike existence helper 19D34 which rejects0. Does not require nonzero health, a particular state or targetability, and does not mark/reserve the actor."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 382,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "19BFA..FC narrow the key;19C12..1C require activity and compare actor+2;19C1E returns its pointer;19C2C..34 finish the five-slot scan and return0. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 865,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 1641C stores the spawn-state identifier at actor+2, independently of actor slot+0. Receiver 6690C raw case 0x1B calls 19BF8 with the high16 payload bits before applying an item-derived effect to that actor; original 67494 shifts16 then 67496 calls 19BF8. No receiver null check is inferred from this lookup."
+        }
+      ]
+    },
+    {
+      "address": "0x08019C8C",
+      "canonical_symbol": "sub_08019C8C",
+      "display_name": "FindFreeEnemyActorSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 817,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries the five bits of actor mask 030056FC. Returns the lowest clear index 0..4 normally, the highest clear index 4..0 whenCDC0 is nonzero, or-1 when all five slots are occupied. It only queries: no mask write, stack allocation, task creation or reservation occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 384,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "19C8E queriesCDC0;19C96..AC scan descending and 19CB8..CE scan ascending. Both success paths return the index at 19CB4;19CD0..D2 form-1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 830,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched constructor 1641C uses the same mode-dependent five-slot order before actually setting a mask bit and initializing its actor. These are five actual actor slots, distinct from the two pending-request slots checked by 19FA8."
+        }
+      ]
+    },
+    {
+      "address": "0x08019E74",
+      "canonical_symbol": "sub_08019E74",
+      "display_name": "GetEnemySpawnRequestMaskByRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 936,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Snapshots the 16-bit request mask 03005724 and scans only slots0..1. For each active slot, compares the full 32-bit first descriptor word in 030042E8 to the input value and ORs that slot into the result. Returns0..3 as a mask of active requests sharing that record pointer; no nested spawn-point comparison, actor-pool test, key narrowing or mutation occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 392,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "19E7E snapshots the request bits;19E8E..96 reload the descriptor base and compare word0;19E9A..9E build result bits and 19EA2 bounds the scan at1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1067,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 168FC copies the complete eight-byte descriptor into this two-record buffer;1681C takes word0 as its source record and ultimately clears the corresponding request bit. This anchors the input as a spawn record address rather than an enemy ID or generic object resource key. No source caller was found in the pinned src tree; role follows the exact shared data lifecycle."
+        }
+      ]
+    },
+    {
+      "address": "0x08019D7C",
+      "canonical_symbol": "sub_08019D7C",
+      "display_name": "FindSharedEnemyPaletteSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 880,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Searches three 12-byte records at 03005700 with active mask 030056F8 in ascending order. Requires the active bit, matching full 32-bit first key, second key matching the low 16 input bits and nonzero 32-bit reference count. Returns handle 4..6 for the first match or 0xFFFF. Does not acquire, increment or allocate a slot. This is the enemy registry, separate from object registry 03005CFC/03005D00."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 388,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "19D80..82 narrow only the second key;19D90..B8 test activity, both keys and nonzero count.19DBA returns index+4;19DD6 forms 0xFFFF. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "asm/nonmatchings/code_08017F7C/sub_0801801C.s",
+          "line": 58,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original actor task loads definition halfwords +0xD4/+0xD6 and acquires a registry handle through 16E04, storing it in stack+0x114. At lines 3008..16 it passes handle+16 and a selected32-byte palette slice to 00AF0; lines 3343..44 release the same handle through 16ECC. This original path anchors palette identity even though the complete 1801C C body is a NONMATCHING draft at this revision. Returned handles4..6 correspond here to palette-shadow banks20..22."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2152,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched attack-effect task copies 19D7C result from the source enemy resource halfwords+0x2D8/+0x2DA into its sprite palette-remap field+0x1C, reusing the palette registry without incrementing ownership. No fallback or 0xFFFF validation is provided by this query itself."
+        }
+      ]
+    },
+    {
+      "address": "0x08016E04",
+      "canonical_symbol": "sub_08016E04",
+      "display_name": "AcquireSharedEnemyPaletteSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1335,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "First scans the three active12-byte records 03005700 in ascending order for full 32-bit key plus low 16 selector, increments its32-bit reference count and returns handle 4..6. Matching does not require the old count to be nonzero. If no match, allocates the first clear slot, stores both keys/count 1 and sets its bit in 030056F8. Returns 0xFFFF if all three slots are active and no key pair matches. The original word increment wraps with no overflow guard; this differs from find 19D7C which requires a nonzero count."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 374,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16E10..14 narrow selector only.16E20..4A perform active-key match and count increment;16E66 begins free-slot scan;16E8A..9C initialize a free record/count/mask and 16EBC forms 0xFFFF on full nonmatching registry. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "asm/nonmatchings/code_08017F7C/sub_0801801C.s",
+          "line": 58,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original actor task loads definition halfwords +0xD4/+0xD6 and acquires a registry handle through 16E04, storing it in stack+0x114. At lines 3008..16 it passes handle+16 and a selected32-byte palette slice to 00AF0; lines 3343..44 release the same handle through 16ECC. This original path anchors palette identity even though the complete 1801C C body is a NONMATCHING draft at this revision. Returned handles4..6 correspond here to palette-shadow banks20..22."
+        },
+        {
+          "source": "src/video.c",
+          "line": 31,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 00AF0 copies palette groups into shadow 03001F40 at palette index*32, and queues its eventual transfer to palette RAM. Registry acquire/release/query helpers only manage ownership records; they do not themselves upload or erase palette colors."
+        }
+      ]
+    },
+    {
+      "address": "0x08016ECC",
+      "canonical_symbol": "sub_08016ECC",
+      "display_name": "ReleaseSharedEnemyPaletteSlot",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1362,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Computes low 16(handle-4), then checks its active bit in 030056F8. For an active record, an unsigned32-bit count<=1 clears all three words and its mask bit; a larger count is decremented. Inactive handles make no change on the valid4..6 domain. No explicit range validation is performed, so arbitrary invalid handles are not promised safe. No palette colors are erased and no actor/request-task mask is changed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 375,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16ECE..D4 implement wrapped low 16 subtraction;16EDA..E4 gate activity.16EF6..F08 use unsigned count test and clear record/mask;16F1C..1E decrement larger counts. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "asm/nonmatchings/code_08017F7C/sub_0801801C.s",
+          "line": 58,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original actor task loads definition halfwords +0xD4/+0xD6 and acquires a registry handle through 16E04, storing it in stack+0x114. At lines 3008..16 it passes handle+16 and a selected32-byte palette slice to 00AF0; lines 3343..44 release the same handle through 16ECC. This original path anchors palette identity even though the complete 1801C C body is a NONMATCHING draft at this revision. Returned handles4..6 correspond here to palette-shadow banks20..22."
+        },
+        {
+          "source": "src/video.c",
+          "line": 31,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 00AF0 copies palette groups into shadow 03001F40 at palette index*32, and queues its eventual transfer to palette RAM. Registry acquire/release/query helpers only manage ownership records; they do not themselves upload or erase palette colors."
+        }
+      ]
+    },
+    {
+      "address": "0x08016114",
+      "canonical_symbol": "sub_08016114",
+      "display_name": "AllocateAndInitializeEnemyPools",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 568,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Allocates 0xE60 bytes for five 0x2E0-byte enemy actors at 030056F4,0x50 bytes for two 40-byte request task controls at 030056F0 and 0x10 bytes for two eight-byte request descriptors at 030042E8. Clears actor, enemy-palette and request masks 030056FC/030056F8/03005724. For actor slots0..4 calls 7A064(slot+4) and zeroes only selected fields+0/+8/+0xC/+0x10/+0x14/+0x18/+0x4A; this is not a full buffer memset. Clears all three 12-byte palette registry records 03005700. Does not initialize all request-control/descriptor bytes, start actor tasks, check allocations or guard against double initialization."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 362,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16118..42 allocate/store the three buffers and clear masks;1614A..6C initialize five selected actor records;16172..80 clear three palette records. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1923,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-session taskBD5C calls this initializer before player initialization, map/item setup and scene-controller creation, and later calls 161A4 during shutdown. This anchors pool lifetime to a scene session without assigning an exact area title."
+        }
+      ]
+    },
+    {
+      "address": "0x080161A4",
+      "canonical_symbol": "sub_080161A4",
+      "display_name": "StopEnemyTasksAndFreePools",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 602,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "For each set request-mask bit 0..1, stops its40-byte task control in 030056F0. For each set enemy-mask bit 0..4, stops its fixed control in 03004220, then calls 688F8 for actor IDs4..8 regardless of that bit. Frees the request-control buffer, five-actor buffer and request-descriptor buffer, then nulls only 030056F0 and 030056F4. Does not explicitly null 030042E8, clear the three activity masks, reset palette records or erase palette RAM. No explicit signal wait/retry loop occurs in this body; stop/destructor callees retain their own behavior."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 363,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "161AA..CE stop masked request tasks;161D4..FC stop masked actor tasks and invoke 688F8 on each slot+4.16202/1620A/16212 free the three buffers;16218/1A null exactly two globals. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 1964,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-session taskBD5C calls this after its shutdown waits, independently of scene-controller/item/text cleanup. Scheduler stop 003A8 invokes an optional destructor and continues 003C0, which frees task+0x20 and unlinks the task; there is no implied execution of an actor task own normal-exit body."
+        }
+      ]
+    },
+    {
+      "address": "0x080169C8",
+      "canonical_symbol": "sub_080169C8",
+      "display_name": "StopEnemyTasksAndClearPoolState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1094,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queries actual scheduler membership of each of five fixed enemy controls through 00470. For each scheduled task, stops it, reloads the actor buffer and sets health+0x5C=0/state+0xC=11, then writes scene-grid value 3 through 571A4 using the actor low bytes+0x86/+0x84. Separately stops each scheduled task in the two-control request buffer. Clears all three enemy palette registry records and masks 03005724/030056FC/030056F8. Does not free/null the actor, request-control or descriptor buffers, and does not promise all actor bytes or unscheduled actors are rewritten. Scene-grid notification is not sound playback."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 369,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "169D6 tests scheduler membership before 169E0 stop;169E4 reloads actor buffer before health/state stores 169F0/169F4 and grid call 16A02.16A1E..2A handle the two request tasks;16A42..56 clear palette records and the three masks. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08009088.c",
+          "line": 2407,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-transition flow calls this reset alongside scene-state-grid and text cleanup while retaining the scene buffers, contrasting the freeing shutdown 161A4. Membership query 00470 walks the scheduler list and returns a Boolean; it does not merely inspect the enemy active mask."
+        }
+      ]
+    },
+    {
+      "address": "0x08016A7C",
+      "canonical_symbol": "sub_08016A7C",
+      "display_name": "RequestEnemyRemovalBySpawnRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1156,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Finds all active enemies whose full 32-bit field+0x2C equals the supplied spawn-record address, then ORs mask 0x1 into each matching actor flags halfword+0x7A. For both active request slots whose descriptor word0 matches that address, sets descriptor byte 4 to 0xFF. It only marks matching actors and pending requests: no scheduler stop, free, yield or mask clear occurs. Matching is by record pointer, not spawn identifier+2 or an actor slot. No input0 sentinel is checked."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 370,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16A94..B2 form the five-actor matching mask using actor+0x2C;16AD0..DE set flags mask 0x1.16AF2..16B0C check two active descriptor records and set byte 4 to 0xFF. Function returns without calls. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1019,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched request task 1681C checks the live byte 4==0xFF after a signal 1 wait and exits through its final wait/mask-clear path. Constructor 1641C copies the source record pointer to actor+0x2C. Original 1801C loop checks actor flags+0x7A mask 0x1 and uses it on normal exit, but this marker function itself does not guarantee completion or that every specialized actor callback honors the flag."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1061,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver raw case 6 (tag 0x87 after the dispatch 0x81 bias) forwards payload word0 to 16A7C. Original 66C58 loads the reconstructed first word and 66C5A calls 16A7C, tying cancellation to the same record pointer carried by spawn tag 0x86 rather than a player/group enumeration."
+        }
+      ]
+    },
+    {
+      "address": "0x08016B30",
+      "canonical_symbol": "sub_08016B30",
+      "display_name": "SelectNearestPlayerForEnemy",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1176,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Uses a four-entry local distance/index array with loops bounded by participant count 02164, without a count clamp. Origin is enemy live Q8 coordinates+0x14/+0x18 shifted8; candidate coordinates are packed player positions at player+0x148. Rejects player flags 0x2000/0x40002 and player kind+0x64==9; kind>9 additionally requires the enemy+0x5A bit indexed by player ID. Packed kind 0xB or packed flags 0x20 leave squared distance at 0x7FFFFFFF. Sorts pairs by signed 32-bit squared distance; narrows Sqrt of the first result to16 bits. Returns10 without updating the distance ceiling when distance exceeds signed*best; otherwise stores distance and returns the first pair index. This is a filtered player selector, not a health/team check or enemy selector."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 371,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16B62 installs the squared-distance sentinel. Early rejects branch 16BE0 before index store 16BDE, so those rejected pair indices remain uninitialized.16C1C uses signed comparison for sorting;16C52..58 narrow Sqrt to16 bits,16C60 rejects only when distance>ceiling and 16C64 returns the saved index. Count0 or>4 and all-invalid candidates with ceiling>=46340 are not validated safe; no universal no-target guarantee is claimed. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1564,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched enemy AI 16F28 sets distance ceiling240 before calling 16B30, stores the returned target in actor+0x1FC high nibble and only enters its target branch for values<=9. This observed caller rejects the 46340 sentinel through the supplied ceiling. No full1..4 count invariant or arbitrary-distance overflow bound is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08016C88",
+      "canonical_symbol": "sub_08016C88",
+      "display_name": "ComputeEightWayMovementKeysToPoint",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1231,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Takes Q8 origin x/y, pixel target x/y and low 16 signed stopping radius as a fifth stack argument. Original converts each origin to signed 16 pixels with shift-left8/arithmetic-right16, narrows target coordinates and each difference to signed 16, sums the low 32-bit squares and narrows Sqrt to unsigned 16. Returns0 when that nonnegative distance<=signed radius. Otherwise quantizes low 16 ArcTan2 into eight 45-degree bins, rounding up only when the within-bin fraction is strictly greater than half (ties stay in the lower bin), and returns movement masks10/90/80/A0/20/60/40/50 hex. Coordinates/radius are not range checked; negative radius still enters direction calculation, even at distance 0. This is a movement-input computation, not direct position integration."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 372,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16C8A reads the fifth argument;16C90..AE implement origin/target/delta narrowing;16CB6..C4 compare unsigned 16 distance with signed 16 radius.16CCE..E4 quantize angle with strict fractional comparison;16D18..34 return the eight input masks and 16D38 returns0. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1321,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched enemy tracking caller passes its current Q8 position and stored integer-pixel target, storing the returned mask at actor+4 only on its staggered counter phase. The fixed-target sibling 1A298 uses the same ABI. Player-controller original also calls 16C88 and stores its result as movement input; its NONMATCHING source alone is not treated as equivalence proof."
+        }
+      ]
+    },
+    {
+      "address": "0x08016D40",
+      "canonical_symbol": "sub_08016D40",
+      "display_name": "UpdateEnemyTrackingMovementKeys",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1305,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Every invocation refreshes integer-pixel target fields+0x24/+0x28 from the actor+0x1FC high nibble. If actor byte+0x201 mask 0x2 is set, tracks a 030056F4 enemy actor by that index and shifts its live Q8 coordinates8. Otherwise tracks that player index at 03003CE0 and decodes its packed 12-bit pixel coordinates through+0x148, reloading the packet pointer for the second coordinate. No target-index, activity, pointer, health or group validation occurs. Updates actor input+4 through 16C88 only when global counter 03002344%25 equals actor slot+0 times5; second argument is narrowed to signed 16 as the radius. Increments unsigned 16 counter+0x44 on every invocation; if the wrapped result exceeds180, resets both counter and input to0. This is per-call/counter behavior, not an elapsed-frame guarantee."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 373,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "16D4E..56 select target type by mask2.16D60..7C read enemy coordinates;16DA0..AE separately load/decode player packet coordinates;16DB8 computes counter remainder25 and 16DC2 gates input calculation.16DD4 calls 16C88;16DDE..F0 increment/narrow the counter and clear it/input when>180. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1728,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched enemy AI 16F28 calls this for two movement actions using definition distances+0x48/+0x4A as the stopping radius. It reads/writes the same live actor input and target fields used by the other enemy movement helpers; the call does not itself prove a target index is valid."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A298",
+      "canonical_symbol": "sub_0801A298",
+      "display_name": "UpdateEnemyMovementKeysTowardStoredTarget",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1145,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Uses existing target pixels at actor+0x24/+0x28 and current Q8 position+0x14/+0x18. Calls 16C88 and updates input halfword+4 only when 03002344%25 equals actor slot+0 times5; radius is the low 16 signed second argument. Unlike 16D40, it does not refresh a player/enemy tracking target. Increments unsigned 16 counter+0x44 each invocation and clears counter/input when the wrapped result>180. No slot, target, pointer or radius validation and no elapsed-frame guarantee. No source caller was found in the pinned src tree; role is anchored by exact common actor fields and the matched tracking sibling."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 406,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "1A2A8 computes remainder25;1A2B2 gates existing-target movement calculation.1A2B6..C2 load the current/target fields and signed radius,1A2C4 calls 16C88 and 1A2C8 stores input.1A2CE..E0 implement wrapped counter increment and>180 reset. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1305,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sibling 16D40 performs the same staggered input update/counter reset after refreshing target coordinates; keeping the names distinct records that extra tracking operation rather than implying this helper selects or follows a target."
+        }
+      ]
+    },
+    {
+      "address": "0x08017F7C",
+      "canonical_symbol": "sub_08017F7C",
+      "display_name": "IsSpawnPositionInAnyPlayerActivationBox",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 18,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Tests the supplied Q8 position against the packed positions of all participants reported by 02164. Skips only participants whose packed flags byte+4 includes mask 0x20. Uses a 480x320 box centered on each player and a 32x32 box centered on the supplied position, decoding packet x/y as 12-bit unsigned pixels shifted8. Accumulates a Boolean across the full scan rather than returning on the first match. No health, pose, player+0x68 group or local/remote filter is added; this is not a radial-distance or visible-screen test."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 380,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "17F8C/17F94/17F9A build the dimensions480x320 and32x32.17FA4 reads participant count,17FC2..C8 apply only packed mask 0x20,17FCA..DA decode Q8 packet positions and 17FE6 invokes 21FE0;17FEE sets the accumulated result while 17FF8 continues the scan. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 142,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 21FE0 shifts signed position differences right8 before absolute value and compares inclusively to half the summed dimensions. Here thresholds are256/176 pixels in those shifted differences, with touching edges accepted and subpixel arithmetic-shift rounding preserved. No claim is made that this is Euclidean range or that arbitrary coordinate arithmetic cannot wrap."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 320,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched spawn request writer 6603C uses this gate unless point flags 0x4000 bypass it. Matched request task 1681C reevaluates the same gate before each wait/retry, dropping an unforced request that is outside every player activation box. This anchors the spawn-activation role; a positive result alone does not reserve capacity, spawn an actor or prove network peer progress."
+        }
+      ]
+    },
+    {
+      "address": "0x08019C3C",
+      "canonical_symbol": "sub_08019C3C",
+      "display_name": "HasEnemyWithHealthAboveRawPendingDamage",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 795,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Snapshots actor mask 030056FC and scans five 0x2E0-byte actors. Returns exactly1 if any active actor has signed 16 health+0x5C minus the entire unsigned 16 pending-damage word+0x4A strictly greater than0, otherwise0. Does not mutate health/damage or check state, targetability, task membership or species. Empty mask returns 0. The raw word includes its high bit; this is not simply an active-mask query or a fully equivalent prediction of applying pending damage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 383,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "19C42..44 early-out on empty mask.19C64 loads health signed,19C66 loads the raw pending word unsigned,19C68 subtracts and 19C6C uses signed greater-than0.19C72 bounds the five-slot scan;19C80/84 return 1/0. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 848,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched damage applier 19CE8 uses pending word &0x7FFF before subtraction, clears the word and applies a zero/high-bit health test. This query deliberately does not mask the word. Therefore pending bit 0x8000 can make the query false even when the masked damage applier would leave positive health; the name and evidence preserve raw-word comparison rather than promising survival/death equivalence."
+        },
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 405,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched scene-script query 58420 returns 1 directly when scene flags+4 mask 0x10 is set, otherwise forwards 19C3C. Player/world gate 0D1B0 also uses a zero result under CDC0. These callers corroborate a scene enemy-health condition without proving a broader all-enemies-dead or battle-complete meaning."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 107,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched gate 0D1B0 incorporates a zero19C3C result when CDC0 is set, alongside separate local-player/mode/area predicates. Its compound Boolean does not establish a universal all-enemies-dead interpretation for 19C3C."
+        }
+      ]
+    },
+    {
+      "address": "0x0801801C",
+      "canonical_symbol": "sub_0801801C",
+      "display_name": "TaskUpdateAndRenderEnemyActor",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080153A4.c",
+          "line": 932,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched enemy constructor 1641C installs 1801C as the task callback in fixed controls 03004220 and starts it with the selected 0x2E0-byte enemy actor from 030056F4. It sets the corresponding 030056FC actor bit and copies a 0xD8-byte definition to actor+0x204 beforehand. This independently anchors the input as an enemy actor pointer rather than relying on the large draft type names."
+        },
+        {
+          "source": "asm/nonmatchings/code_08017F7C/sub_0801801C.s",
+          "line": 2,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original entry retains R0 actor pointer in R7, points stack+0x118 at actor+0x204 and retries shared palette acquisition 16E04. Original path at lines380..387 gates calls 1C8F0/16F28, line792 applies pending damage through 19CE8 and line938 calls 17C6C. Lines 2216..2290 step animation, project actor position, gate drawing and call 07870. Main-loop tail at lines 3095..3113 yields on signal1 and tests scene stop, actor+0x7A mask 0x1 and scene cancellation before branching back. Normal exit at lines 3330..3344 sends actor identifier through 67E60, copies current to previous position, clears its actor-mask bit and releases its palette handle. These selected original paths prove an updating/rendering enemy task, without claiming every state transition is audited."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 381,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 1801C..19BF8 range is 7132 bytes and equals the linked ELF. Original call anchors:1809E→16E04,18340→16F28,1864C→19CE8,18760→17C6C,192A0→65370,192CC→17EC8,19340→07870,199C0→003F0 and 19BCA→16ECC. Selected role-level paths inspected; no external-call count is inferred from internal BL far branches or literal data. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 94,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "The C body is a NONMATCHING draft at this pinned revision and is used as a reading aid only. Constructor, original ASM and original-byte call paths support the broad task role independently; this name does not upgrade the draft to equivalent or matching C, identify an exact enemy species or assert common behavior for separate specialized enemy callbacks."
+        }
+      ]
+    },
+    {
+      "address": "0x080662C4",
+      "canonical_symbol": "sub_080662C4",
+      "display_name": "TryEnqueueLinkEnemyActionState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 448,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Queues or coalesces an eight-byte action-state snapshot from enemy slot index *0x2E0 at actor+0x1FC. Immediately returns 0 when outgoing count exceeds 49, even if an existing pending update could otherwise match. With available capacity, scans current records for status word 1/tag 0x91/payload halfword+6 equal to actor+2; the first match gets only its eight payload bytes refreshed and returns 1 without count growth. Otherwise appends a status 1/tag 0x91/one-chunk record, copies actor+0x1FC..0x203, increments count and returns 1. It does not update status 2 records, validate the signed/full-width slot index or copy world coordinates."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1217,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "662D8..DE perform the early capacity failure;66318..36 match pending tag 0x91 and spawn identifier;662E4..F0 refresh an existing payload.66354..7C build a new record/copy two words;66384 increments count. Source actor block is+0x1FC, not a velocity pair. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080153A4.c",
+          "line": 1440,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched enemy AI views the transmitted block as target nibbles at+0x1FC, action+0x1FD, phase+0x1FE, a parameter/direction byte+0x200, flags+0x201 and final halfword+0x202. Matched constructor 1641C sets+0x202 from actor spawn identifier+2. At source line 1675 AI 16F28 emits 662C4 with self slot ID after setting its next action/phase. Byte+0x1FF and full parameter/flag enums remain unresolved; local aliases named velocity do not establish velocity semantics."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1197,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver raw case 0x10 is tag 0x91 after 0x81 bias. It ignores the local sender, scans five active enemies, matches payload halfword 6 to actor+2 and copies both payload words to actor+0x1FC. Original case target 6705C checks peer!=local;67082..88 compare the identifier;6708A branches to shared 66B24..30 which stores the eight-byte block. Neighbor tag 0x92/raw case 0x11 instead writes position+0x14/+0x18, independently separating action state from position."
+        }
+      ]
+    },
+    {
+      "address": "0x08067E48",
+      "canonical_symbol": "sub_08067E48",
+      "display_name": "IsOutgoingLinkHeadMarkedSending",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 147,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns exactly whether the first outgoing record at global 03006300 has full status word+4 equal to2. It does not read queue count, validate/null-check the buffer, inspect a live sender task, wait, query acknowledgements or prove a peer transfer is active. The name records a sending marker, not actual completion/busy status."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1258,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "67E4A..4E load the queue base and head word+4;67E50..58 return a Boolean comparison with 2. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 719,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched sender 66720 writes msg+4=2 at entry, original 6672E..32, before reading the local ID or emitting announcement data. Controller 66898 starts it only for head status 1 when the sender task is unscheduled; normal sender completion shifts the queue and clears the vacated status. No direct source caller for 67E48 was found in the pinned src tree, so no additional caller invariant is assumed."
+        }
+      ]
+    },
+    {
+      "address": "0x08067E60",
+      "canonical_symbol": "sub_08067E60",
+      "display_name": "RemovePendingEnemyActionStateBySpawnId",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 152,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Scans outgoing 0x88-byte records while index<current count. Removes only full status word 1/tag 0x91 records whose payload halfword+6 equals the full 32-bit argument; arguments above 65535 cannot match and are not narrowed. For a match, CpuSet copies the fixed trailing-capacity slice from next record onto current using word count(49-index)*34, masked to 21 bits, then decrements count. It advances the index/pointer even after a removal, so adjacent matching records can be skipped. No explicit vacated-tail/status clearing, in-flight status 2 removal, input-count clamp, scheduler wait or meaningful success-return contract is provided. It does not promise to remove every duplicate or a record already being sent."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1259,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "67E74..88 test pending/tag/identifier;67E8A..9C build the fixed-capacity copy control and 67EA2 calls CpuSet.67EA8..AA decrement count;67EAC..B4 advance/retest the next physical slot regardless of removal. No tail-clear instruction occurs. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 768,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Enemy actor controller 1801C calls this with actor spawn identifier+2 during its normal cleanup, before clearing the actor activity bit/releasing palette. Original 19BAC..19BB0 load the identifier/call 67E60. Writer 662C4 and receiver raw case 0x10 corroborate the pending tag 0x91 action-state record and matching spawn identifier. This removes queued snapshots, not the enemy actor or its live task."
+        }
+      ]
+    },
+    {
+      "address": "0x08065E38",
+      "canonical_symbol": "sub_08065E38",
+      "display_name": "RemoveFirstLinkRingValuePerParticipant",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 269,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Captures participant count 02164, then scans each participant ten-word value array at 03006260 with an inclusive j<=cursor bound from 03006210. On its first equal 32-bit value, shifts later words through the old cursor one slot left, writes 0xFFFFFFFF at the final slot, decrements that cursor and stops scanning that participant. It changes only local ring state: no outgoing packet, wait, callback invocation or global queue removal occurs. Count/cursor bounds and the sentinel value are not validated. Searching 0xFFFFFFFF can match an empty sentinel and underflow a zero cursor."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1210,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 65E46 captures participant count;65E66/65EEA perform inclusive cursor bounds;65E88 compares the value.65EAC..CC shift/fill;65ED2..D6 decrement then branch directly to the next participant, proving first-match-only behavior. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 47,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Wrapper 67BF8 invokes this with common token 0x37564 after the matching token-presence barrier wait in enemy phase controllers. Receiver tag 0x84/rawcase3 stores integer payload values per participant and advances/clamps the cursor; the value is not invoked as a function callback. Existing C alias removeRingMessage67 already supplies a semantic name, so this catalog row is a promotion with no new identified-function credit."
+        }
+      ]
+    },
+    {
+      "address": "0x08065F08",
+      "canonical_symbol": "sub_08065F08",
+      "display_name": "RemoveLinkRingValueMatchesPerParticipant",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 286,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Uses the same local participant rings, inclusive cursor bound, shift/fill and cursor decrement as 65E38, but continues its forward scan rather than breaking after a match. The next index is old j+1 even after shifting, so an adjacent matching value shifted into j is skipped; this does not guarantee all occurrences are removed. Does not transmit, wait or clear the full ring. Neither participant/cursor bounds nor 0xFFFFFFFF sentinel input is validated; a zero-cursor sentinel match can underflow the cursor and invalidate later scan bounds."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1211,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 65F60..62 preserve j+1 before the match;65F8E..AE shift/fill;65FB4..B6 decrement cursor;65FB8 restores the precomputed next index and 65FC2..C4 retest against the changed cursor. This directly proves why an all-removal name is too strong. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 394,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Wrapper 683CC applies this to common barrier token 0x37564, including actor task cleanup callers. Existing semantic alias removeAllRingMessages67 overstates the actual adjacent-duplicate behavior. This row improves the display name but is an existing-alias promotion, not a new identified function."
+        }
+      ]
+    },
+    {
+      "address": "0x08067BF8",
+      "canonical_symbol": "sub_08067BF8",
+      "display_name": "ConsumeDefaultLinkBarrierToken",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 47,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Passes fixed token 0x37564 to 65E38, removing at most its first matching local ring entry per current participant. Does not send a barrier token, wait until a peer arrives, clear all ring values or guarantee every duplicate is gone. Default/common identifies the shared literal used by the inspected phase barrier, not a global game-mode enum."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1247,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 67BFA loads literal 0x37564 from 67C04 and 67BFC calls 65E38; the wrapper adds no validation or other operation. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1566,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 9FB6C waits with signal1 yields until 67C08 reports token presence, then consumes through 67BF8 and resets its shared action choice. Original 9FD50 checks 67C08 and 9FD58 calls 67BF8. MatchedA 9950 similarly waits/consumes at originalA 9CA0/A 9CA8. These consumers anchor the common phase-barrier role without proving runtime peer progress."
+        }
+      ]
+    },
+    {
+      "address": "0x08067C08",
+      "canonical_symbol": "sub_08067C08",
+      "display_name": "AllParticipantsHaveDefaultLinkBarrierToken",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 50,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 682B8(0x37564) unchanged. The callee captures current participant count, scans each local ten-word ring through its inclusive cursor for an equal token and returns whether every participant had a match. It does not remove tokens, wait, send or validate membership data. Zero participants produce true vacuously; no positive-count invariant is inferred. Rings include the local participant, so this is not a remote-only readiness or hardware-handshake query."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1248,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 67C0A loads literal 0x37564 and 67C0C calls 682B8. Original 682CE skips scans for count 0 and 6831E..22 compare found with captured count, giving true at zero. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 395,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "MatchedA 9950 enqueues the common token via 67C18, waits while this query is false and then consumes it through 67BF8. The behavior is a shared phase barrier built from token presence; a positive result alone does not identify a lobby, GO command, team or live connected-peer transfer."
+        }
+      ]
+    },
+    {
+      "address": "0x08067C18",
+      "canonical_symbol": "sub_08067C18",
+      "display_name": "TryEnqueueDefaultLinkBarrierToken",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 53,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns 68330(0x37564) unchanged. The callee returns 0 when outgoing count>49 or the local participant ring cursor>9; otherwise appends ready status 1/tag 0x84/one-chunk queue data with token in the first payload word, increments queue count and returns 1. The trailing four chunk bytes are not initialized here. No wait, token-presence check, token consumption, parent-only gate or successful-delivery guarantee is added."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1249,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 67C1A loads literal 0x37564 and 67C1C calls 68330. Original 68338..4A perform capacity/local-cursor rejection,6835E..64 write tag/value/one chunk and 6836A increments count. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1048,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver rawcase3/tag 0x84 stores the token word at participant ring[cursor], increments cursor and clamps it to9. It does not invoke the value as a callback. The ring has ten words, while cursor semantics are inclusive/saturating; no ordinary circular-wrap or exact item-count invariant is invented."
+        }
+      ]
+    },
+    {
+      "address": "0x080683CC",
+      "canonical_symbol": "sub_080683CC",
+      "display_name": "RemoveDefaultLinkBarrierTokenMatches",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 394,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Passes fixed common token 0x37564 to 65F08. Mutates local participant rings by its forward matching-removal algorithm, which can skip adjacent duplicates after a shift. Does not clear all ring values, broadcast a cancellation, wait or guarantee complete token removal. This differs from 67BF8, which stops after the first matching entry per participant."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1277,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 683CE loads literal 0x37564 at 683D8 and 683D0 calls 65F08, with no additional operation. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1690,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 9FB6C cleanup invokes 683CC before its later palette/task-state cleanup. Several other matched enemy phase controllers use the same shared token wrapper on cleanup; exact enemy/class titles and any dynamic all-peer completion are not inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x08068450",
+      "canonical_symbol": "sub_08068450",
+      "display_name": "TryEnqueueSharedEnemyActionChoice",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 415,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Narrows the input to one unsigned byte. Returns 0 when outgoing count 03006338 exceeds 49; otherwise appends one 0x88-byte queue record at 03006300, with status word +4=1, tag 0xAC, zero-extended value at payload word +8 and chunk count +1=1, then increments the count and returns 1. No parent, peer, enemy ID, sentinel or action-range validation occurs here. It initializes only the first four payload bytes of the eight-byte chunk; the trailing word is not promised zero. Enqueue success is not a delivery or synchronization guarantee."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1279,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 68452..54 narrow the value; 6845A..5C check count >0x31; 6846E..74 set tag 0xAC, payload and one chunk; 6847A updates count. Complete original helper range equals the linked ELF. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1547,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Receiver raw case 0x2B, after tag-0x81 dispatch bias, selects latch 0300636C and stores the reconstructed payload low byte. Original table entry at 66AE8 points 67A3E, which loads that latch address before the common byte store at 67A54. The sender and getter therefore share a concrete receiver consumer, not merely a tag label."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1607,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched enemy task 9FB6C uses parent-or-loopback predicate 02204, chooses abs(signed random %4) and enqueues the chosen actor+0x200 byte through 68450 before advancing its action phase. Other instances poll 68490. Original 9FEF8 tests 02204, 9FF00..26 compute/store the choice and 9FF2A enqueues it. This is parent-or-loopback authority, not a universal local-ID==0 test."
+        }
+      ]
+    },
+    {
+      "address": "0x08068490",
+      "canonical_symbol": "sub_08068490",
+      "display_name": "GetSharedEnemyActionChoice",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 416,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Returns the unsigned byte latch 0300636C unchanged, without clearing or consuming it. It is one shared global latch, not a per-player or per-enemy queue. Value 0xFF is the waiting sentinel in the inspected enemy consumers; this getter accepts every stored byte and imposes no global action enum."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1280,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 68490 loads the latch address, 68492 reads one unsigned byte and 68494 returns. The latch is written by receiver tag 0xAC/raw case 0x2B at original 67A54 and reset by 6849C. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1587,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 9FB6C stores the getter result at actor+0x200 and waits while it is 0xFF. Later it passes that choice to action dispatcher A0FEC with a completion-byte pointer. Original 9FE68..78 perform load/store/sentinel test; 9FF7C..80 pass the byte to A0FEC. This provides an action-choice meaning beyond the latch address."
+        },
+        {
+          "source": "src/code_080A9680.c",
+          "line": 423,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Independent matched task A9950 polls the same getter into its second enemy actor+0x200, waits on 0xFF, then maps choices 0/1/2 to next phase 6/7/8. Original A9DAE..C4 implement the poll and sentinel test; A9DE6..A9E02 perform the three phase assignments. Its sender branch at AA3E8..AA418 uses parent-or-loopback authority and abs(random%3). The differing caller ranges are not promoted to a universal shared enum or an actor-isolation guarantee."
+        }
+      ]
+    },
+    {
+      "address": "0x0806849C",
+      "canonical_symbol": "sub_0806849C",
+      "display_name": "ResetSharedEnemyActionChoice",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 419,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Sets shared latch 0300636C to the waiting sentinel 0xFF. Does not send a packet, clear queued messages, wait, reset an actor phase or consume an acknowledgement. The original leaves incoming R0 unchanged on return; the pinned C returns its input word, and existing callers may use a void alias. No Boolean success return is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1281,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 6849C loads the latch address into R2, 6849E loads 0xFF into R1, 684A0 stores that byte and 684A2 returns; R0 is untouched. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        },
+        {
+          "source": "src/code_0809D878.c",
+          "line": 1567,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched 9FB6C resets the latch after its barrier wait/reset and before its action loop. Original reset call is 9FD5C. Independent matched A9950 similarly calls it at original A9CAC before its own phase loop. Subsequent getter consumers explicitly wait on 0xFF, anchoring reset semantics without inferring that the barrier or a remote peer completed at runtime."
+        }
+      ]
+    },
+    {
+      "address": "0x0800093C",
+      "canonical_symbol": "sub_0800093C",
+      "display_name": "NoOpInterruptDispatchCallback",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 190,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Empty callback whose original body is BX LR plus unreachable zero padding. Its interrupt-dispatch role is independently established by actual ROM template references and the copying/indexing consumer, rather than its empty behavior alone. It has no data-memory effects and does not itself acknowledge interrupt flags."
+        },
+        {
+          "source": "src/main.c",
+          "line": 27,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Matched AgbMain copies 0x38 bytes from ROM 080B9984 to RAM 030012A0 and installs a RAM copy of ARM IntrMain. Original 0069E..6A4 use CpuSet control 0400000E, confirming 14 copied words. Words 080B999C..080B 99B4 are seven copies of 0093C|1 at indices 6..12. The entire 56-byte copy window equals original/linked ELF; no table extent is inferred from a preceding symbol alone."
+        },
+        {
+          "source": "asm/crt0.s",
+          "line": 43,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original ARM dispatcher increments IP by4 between ordered enabled/pending-mask tests. Positions6..12 correspond to masks8/10/20/40/200/400/1000 hex, though mask40 at position 9 is shadowed by the earlier position 2 maskC0 test. At source lines96..101, original 001F8..20C load RAM 030012A0+IP and BX-call the chosen pointer after dispatcher-side acknowledgement. This proves callback use and distinguishes it from the ARM exception entry or scheduler helper 00498."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 23,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 0093C..00940 is a four-byte empty routine. Copy bounds require a caveat: copied word13 at 080B99B8 is 746C754D (ASCII Mult from following MultiSio text), not a proved function pointer. Recognized dispatch tests select positions 0..12; gamepak-mask handling spins before the call, while no-recognized-mask fallthrough can reach offset52. No universal safe-index or dynamic invocation of every default slot is claimed. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        }
+      ]
+    },
+    {
+      "address": "0x0808D118",
+      "canonical_symbol": "sub_0808D118",
+      "display_name": "NoOpSceneTaskFinalizer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3850,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Empty routine with original BX LR plus unreachable zero padding. Matched initializer 8D05C installs it as task+0x24 of fixed control 03006450; this establishes a real finalizer role, without assigning an exact menu/class identity to its possible callbacks."
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3823,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Original 8D074 loads the Thumb pointer 8D118|1 from ROM literal 0808D08C and 8D076 stores it to control 03006450+0x24. The initializer sets a 0x1000-byte stack/top+0xFFC and raw flags 0x64, chooses callback 8C0C4 when CB9C is nonzero or 8AFE8 otherwise, then starts the same control at 8D09C with argument 0. Allocation is unchecked; raw flags do not prove priority64. This literal use is corroborated by the actual load/store path, not only its binary occurrence."
+        },
+        {
+          "source": "asm/nonmatchings/sched/sub_080003A8.s",
+          "line": 5,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Scheduler stop reads task+0x24 and invokes the optional routine before common 003C0 cleanup. This empty finalizer performs no data-memory reads/writes, resource release or activity-mask clearing itself; the scheduler separately frees task+0x20 and unlinks the task. Its existence does not prove normal task-body completion or runtime finalization."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1476,
+          "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
+          "detail": "Complete original 8D118..8D11C and initializer 8D05C..8D0B0 ranges equal the linked ELF. Their selected literal pointer and control writes are original Thumb evidence; no semantic claim about all states of the two large callback drafts is required for the finalizer role. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Complete selected function range equals the existing linked ELF. Mapping labels were checked against source and control flow; data markers alone are not treated as literal-pool proof. Static evidence only."
+        }
+      ]
     }
   ]
 }
