@@ -2610,7 +2610,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2502,
+          "line": 2498,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu5B"
         }
       ]
@@ -2633,7 +2633,7 @@
       "evidence": [
         {
           "source": "src/code_08002118.c",
-          "line": 2751,
+          "line": 2747,
           "detail": "Existing C definition with an asm alias to the canonical symbol: menu6C"
         }
       ]
@@ -11227,7 +11227,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3056,
+          "line": 3054,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t24_start257D4"
         }
       ]
@@ -11250,7 +11250,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3138,
+          "line": 3136,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t24_gate25890"
         }
       ]
@@ -11358,7 +11358,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4298,
+          "line": 4296,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -11432,7 +11432,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 5127,
+          "line": 5125,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -21637,14 +21637,14 @@
       "name": "sub_080605D0",
       "addr": 134612432,
       "size": 2016,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0805FB7C",
       "kind": "c",
       "cat": "game",
       "address": "0x080605D0",
       "canonical_symbol": "sub_080605D0",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_080605D0",
       "name_status": "unidentified",
       "name_source": null,
@@ -21851,7 +21851,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2151,
+          "line": 2146,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t65_popupImplementation"
         }
       ]
@@ -21925,7 +21925,7 @@
       "evidence": [
         {
           "source": "src/code_0805FB7C.c",
-          "line": 2790,
+          "line": 2785,
           "detail": "Existing C definition with an asm alias to the canonical symbol: BattleResult441"
         }
       ]
