@@ -997,8 +997,8 @@ static inline void Wait567D4(void)
 }
 void sub_080567D4(s32 id)
 {
-    u32 hw, hh, x, y, n, i, player, item, kind, count, key;
-    s32 result, ret;
+    u32 hw, hh, x, y, n, i, player, item, kind, count;
+    s32 ret;
     u8 *flags;
     u16 *slot;
     ret = Done567D4(id);
@@ -1009,7 +1009,9 @@ void sub_080567D4(s32 id)
         hh = gates567D4[id].h >> 1;
         {
             u8 *xbase = playerX567D4;
-            u8 *ybase = playerY567D4;
+            u32 ybase = (u32)playerY567D4;
+            /* Keep the address live before the wait; combine removes this identity. */
+            ybase = -(-ybase + 1) + 1;
             do {
                 Wait567D4();
                 x = *(s32 *)(xbase + sub_080020F4() * 0x14C) >> 8;
@@ -1045,9 +1047,10 @@ void sub_080567D4(s32 id)
                     flags = gUnk_03005CF4 + 0x1C1;
                 else
                     flags = gUnk_03005CF4 + 0x1B5;
-                result = *flags;
-            } while (result <= 7);
-            if ((result & 3) != player)
+                /* The rectangle checks have finished with the height work value. */
+                hh = *flags;
+            } while ((s32)hh <= 7);
+            if ((hh & 3) != player)
                 return;
             ret = Done567D4(id);
             if (ret) {

@@ -1,7 +1,7 @@
 {
   "address": "0x080567D4",
-  "updated_utc": "2026-11-07T03:07:21+00:00",
-  "checkpoint": "codex-sol-b-nov07 follow-up: restore separate 0x11E state offsets, stop removal-slot offset hoisting through a pre-combine unsigned decrement, preserve clear-store weights, and reuse the call-crossing ret for the final flag callback. Relative to PR547, normalized byte edit distance 205 -> 149 and halfword edit distance 157 -> 118; approximate nmscore 177 -> 153. Candidate 1252 bytes versus original 1248; frame remains 0x14. Still NONMATCHING.",
+  "updated_utc": "2026-11-07T03:19:23+00:00",
+  "checkpoint": "codex-sol-b-nov07 third checkpoint: reuse the completed half-height work value for handshake status, and retain the first-loop Y-base lifetime through an unsigned identity removed before final code generation. Relative to PR549, normalized byte edit distance 149 -> 83 and halfword edit distance 118 -> 59; approximate nmscore 153 -> 114. Candidate 1256 bytes versus original 1248; frame remains 0x14. Still NONMATCHING.",
   "areas": [
     {
       "id": "stack_abi",
@@ -13,7 +13,7 @@
       "id": "cfg_registers",
       "label": "Match control flow and register allocation",
       "state": "active",
-      "evidence": "The removal loop now reproduces the original body and registers (item r7, kind r6, count r3, index r4, zero r5); only its setup/load interleave still differs. Fresh loop dump reports 25 real instructions before combine and rejects both 0x150/0x152 invariants, while retaining the inventory-global and zero hoists. Unsigned count = -(-count + 1) combines to the original subs; do/while(0) groups only the two original stores. Block-local Player pointers restore separate 0x11E offsets for states 5/6. Final flag assignment initializes ret before either callback. Remaining: initial gate-base register/reload, first-loop Y-base hoist, height and handshake registers, load interleaving, and pools/padding. Fresh dump unchanged control equals the normal module object; strict bytes/relocations remain NO MATCH."
+      "evidence": "The first position loop now emits the original Y-base preload/move to r9 and address addition; the height work value and the CE30 scratch use r6/r7 as in ROM. After both rectangle loops the height value is no longer needed, so its u32 storage is safely reused for the 0..255 handshake byte; the signed comparison preserves that byte range. The first-loop Y address is represented as u32 and -(-ybase+1)+1 preserves all 32 bits modulo 2^32; no out-of-object pointer arithmetic, new reads or arithmetic instructions remain. A fresh full-module compiler dump assembles strict-equal to the ordinary NONMATCHING object. Remaining: initial gate-base spilling/reload, first inventory-count loop allocation/setup, handshake player register/status-load copy, state-add scratch, removal setup interleave and pools/padding. Strict bytes/relocations remain NO MATCH."
     },
     {
       "id": "full_match",
