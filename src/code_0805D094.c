@@ -962,13 +962,13 @@ void e0c4Impl(struct Task0C4 *task)
     }
     *pValue = sub_0801E4B0();
     s = num;
-    s[0] = sub_08000498(&value, 10000000);
-    s[1] = sub_08000498(&value, 1000000);
-    s[2] = sub_08000498(&value, 100000);
-    s[3] = sub_08000498(&value, 10000);
-    s[4] = sub_08000498(&value, 1000);
-    s[5] = sub_08000498(&value, 100);
-    s[6] = sub_08000498(&value, 10);
+    s[0] = sub_08000498(pValue, 10000000);
+    s[1] = sub_08000498(pValue, 1000000);
+    s[2] = sub_08000498(pValue, 100000);
+    s[3] = sub_08000498(pValue, 10000);
+    s[4] = sub_08000498(pValue, 1000);
+    s[5] = sub_08000498(pValue, 100);
+    s[6] = sub_08000498(pValue, 10);
     s[7] = value;
     s[8] = 0;
     numIdx = 0;
@@ -1161,55 +1161,59 @@ done:
             lines[line][task->col] = 0xFD;
             if (task->timer < 0 && (keys0C4 & 3) != 0) {
                 c = *script;
-                while ((u8)(c + 3) > 2) {
-                    if (c == 0xFC || strIdx != 0) {
-                        lines[line][task->col] = playerName[strIdx];
-                        strIdx++;
-                        if (playerName[strIdx] == 0) {
+                if ((u8)(c + 3) > 2) {
+                    u8 *fastNum = num;
+                    u8 *fastName = name;
+                    do {
+                        if (c == 0xFC || strIdx != 0) {
+                            lines[line][task->col] = playerName[strIdx];
+                            strIdx++;
+                            if (playerName[strIdx] == 0) {
+                                script++;
+                                strIdx = 0;
+                                task->col--;
+                            }
+                        } else if (c == 0xF6 || idx0 != 0) {
+                            lines[line][task->col] = name0C4[idx0];
+                            idx0++;
+                            if (playerName[idx0] == 0) {
+                                script++;
+                                idx0 = 0;
+                                task->col--;
+                            }
+                        } else if (c == 0xF5 || nameIdx != 0) {
+                            lines[line][task->col] = fastName[nameIdx];
+                            nameIdx++;
+                            if (fastName[nameIdx] == 0) {
+                                script++;
+                                nameIdx = 0;
+                                task->col--;
+                            }
+                        } else if (c == 0xFB || numIdx != 0) {
+                            lines[line][task->col] = fastNum[numIdx];
+                            numIdx++;
+                            if (fastNum[numIdx] == 0) {
+                                script++;
+                                numIdx = 0;
+                                task->col--;
+                            }
+                        } else if (task->str != 0) {
+                            lines[line][task->col] = task->str[strIdx];
+                            strIdx++;
+                            if (task->str[strIdx] == 0) {
+                                task->str = 0;
+                                strIdx = 0;
+                                task->col--;
+                            }
+                        } else {
+                            if (c > 0xF1)
+                                script++;
+                            lines[line][task->col] = *script;
                             script++;
-                            strIdx = 0;
-                            task->col--;
                         }
-                    } else if (c == 0xF6 || idx0 != 0) {
-                        lines[line][task->col] = name0C4[idx0];
-                        idx0++;
-                        if (playerName[idx0] == 0) {
-                            script++;
-                            idx0 = 0;
-                            task->col--;
-                        }
-                    } else if (c == 0xF5 || nameIdx != 0) {
-                        lines[line][task->col] = name[nameIdx];
-                        nameIdx++;
-                        if (name[nameIdx] == 0) {
-                            script++;
-                            nameIdx = 0;
-                            task->col--;
-                        }
-                    } else if (c == 0xFB || numIdx != 0) {
-                        lines[line][task->col] = num[numIdx];
-                        numIdx++;
-                        if (num[numIdx] == 0) {
-                            script++;
-                            numIdx = 0;
-                            task->col--;
-                        }
-                    } else if (task->str != 0) {
-                        lines[line][task->col] = task->str[strIdx];
-                        strIdx++;
-                        if (task->str[strIdx] == 0) {
-                            task->str = 0;
-                            strIdx = 0;
-                            task->col--;
-                        }
-                    } else {
-                        if (c > 0xF1)
-                            script++;
-                        lines[line][task->col] = *script;
-                        script++;
-                    }
-                    task->col++;
-                    c = *script;
+                        task->col++;
+                        c = *script;
+                    } while ((u8)(c + 3) > 2);
                 }
                 lines[line][task->col] = 0xFD;
                 delay = speed;
