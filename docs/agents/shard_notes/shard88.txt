@@ -54,3 +54,10 @@ Shard 88 notes (sub_080855D4).
   memcpy, ROM spills the item+0xD4/+0xD6 pointers to slots and keeps &winBuf.atk in sl and name in r8;
   we keep item+0xD4 in a register. Copies after calls (`adds rX, r0, #0`) differ in a few places, and
   n/item hi-reg choice is still swapped.
+  Rejected (2026-11-07):
+  - counts[] spellings `((u8 *)gSave)[0xC10 + id]` and `(&gSave->counts[0])[id]` (register-blind
+    diff 83 -> 133). ROM loads gSave before the table index in mode-1/3 lookups; ours loads it after.
+  - `asm("" : : "r"(item))` once or twice in the main loop: no change to the n/item r9/sl swap.
+  - `(void *)(sub_08007290(id) + 0x1E0)` with the s32 prototype: no change to the post-call copy.
+  - `L.pts` as `s32 [25][2]` and `(&L.pts[0])[i]` inside the aggregate: no change (superseded by
+    the split locals).
