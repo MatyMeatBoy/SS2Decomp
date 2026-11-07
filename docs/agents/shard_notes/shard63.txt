@@ -151,3 +151,18 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   preferences (m -> r3, copy -> r2/r3) and the end-sext pseudo to outrank k, i.e. shared variables.
   Lesson: when a block-local loop counter's allocation is off, try reusing an existing function-scope
   counter of the same type (i, j) before tuning priorities.
+
+2026-11-07 (claude-nov07-w63, follow-up): sub_0805FFBC MATCHED (aligned diff 21 -> 0, strict rcmp 0;
+  ASM fallback removed). Two more changes on top of the 582 -> 48 draft:
+  1. Cases 2, 3 and 4 each contain their own copy of the suffix load
+     (`if (item->suffix != 0) suffix = resFF63(...); break;`) instead of `goto suffix`.
+     Each copy needs its own `y << 16` reload, which advances the reload-register rotation
+     by one step per case (the ROM's extra "r1" step). With the rotation in step, every copy
+     is identical and cross-jumping folds them into the one in case 5, and case 4 folds into
+     case 3 (`b _080600A6`). Size 1588 -> 1556.
+  2. Without the `register asm("r5")` binding (use `item` directly), the param copy happens in
+     ROM order (`mov r9,r1; adds r5,r2; str r3`). The duplicated suffix code adds item refs,
+     so item now outranks name and takes r5 with no asm hints.
+  Diagnosis: walk the ROM's spilled-store registers case by case. Cases that ended in
+  `goto suffix` (2, 3, 4) were followed by one extra rotation step; cases ending in `break`
+  were not. That points at a per-case reload hidden by cross-jumping.
