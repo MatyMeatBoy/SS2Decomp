@@ -2780,21 +2780,28 @@ block_862:
                                 }
                             }
                         }
-                        ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);
-                        temp_r3_6 = ((struct PlayerD368 *)arg0)->f40;
-                        temp_r1_34 = ((struct PlayerD368 *)arg0)->fD8;
-                        temp_r0_65 = (s32) (temp_r3_6 - temp_r1_34) >> 1;
-                        if (temp_r0_65 > 0) {
-                            var_r0_18 = temp_r1_34 + temp_r0_65;
-                            ((struct PlayerD368 *)arg0)->fD8 = var_r0_18;
-                        } else {
-                            var_r0_18 = temp_r1_34 + 1;
-                            ((struct PlayerD368 *)arg0)->fD8 = var_r0_18;
-                        }
-                        if ((s32) temp_r3_6 > (s32) ((struct PlayerD368 *)arg0)->fD8) {
+                        {
+                            s16 *state7LimitD368;
+                            s32 *state7CurrentD368;
+                            ((struct PlayerD368 *)arg0)->f1C = (s16) (directionD36874 - 1);
+                            state7LimitD368 = &((struct PlayerD368 *)arg0)->f40;
+                            state7CurrentD368 = &((struct PlayerD368 *)arg0)->fD8;
+                            temp_r3_6 = *state7LimitD368;
+                            temp_r1_34 = *state7CurrentD368;
+                            temp_r0_65 = (s32) (temp_r3_6 - temp_r1_34) >> 1;
+                            var_r4_3 = state7CurrentD368;
+                            if (temp_r0_65 > 0) {
+                                var_r0_18 = temp_r1_34 + temp_r0_65;
+                                *var_r4_3 = var_r0_18;
+                            } else {
+                                var_r0_18 = temp_r1_34 + 1;
+                                *var_r4_3 = var_r0_18;
+                            }
+                            if ((s32) temp_r3_6 > *state7CurrentD368) {
 
-                        } else {
-                            ((struct PlayerD368 *)arg0)->fD8 = (s32) temp_r3_6;
+                            } else {
+                                *state7CurrentD368 = (s32) temp_r3_6;
+                            }
                         }
                     }
                 }
