@@ -3459,15 +3459,17 @@ done82:
     case 18:
         sub_0807C1D8();
         gMgr82->f54 += (gMgr82->f58 - gMgr82->f54) / 2;
-        d = gMgr82->f54 - gMgr82->f58;
-        if (d < 0)
-            d = -d;
-        if (d == 1) {
-            gMgr82->f54 = gMgr82->f58;
-        } else if (gMgr82->f54 == gMgr82->f58) {
-            gMgr82->f5C += gMgr82->f60;
-            if (gMgr82->f5C > 0xFF)
-                gMgr82->f5C = 0;
+        {
+            s32 dd = gMgr82->f54 - gMgr82->f58; /* block-local (ROM r0); the function-level d took r2 */
+            if (dd < 0)
+                dd = -dd;
+            if (dd == 1) {
+                gMgr82->f54 = gMgr82->f58;
+            } else if (gMgr82->f54 == gMgr82->f58) {
+                gMgr82->f5C += gMgr82->f60;
+                if (gMgr82->f5C > 0xFF)
+                    gMgr82->f5C = 0;
+            }
         }
         gMgr82->posY = gMgr82->f54 + 0x60;
         text = (u8 *)sub_08007290(0x140186) + 2;
