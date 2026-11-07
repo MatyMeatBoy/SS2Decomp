@@ -2187,7 +2187,17 @@ void sub_0808AFE8_v(void)
     sub_0800B974(0x36, 0x1E);
     sub_0800B974(0x3C, 0x1F);
     sub_0800B650(0x35, 0x1D, 0x06000000, 0, 0xF);
-    {register u8 *save asm("r2")=saveAF91;register u16 *stages asm("r1")=stagesAF91;register u8 *state asm("r0")=(u8 *)stateAF91;register u32 delta asm("r3")=0x14a;register u32 value asm("r0");value=*(u16 *)(state+delta);value=stages[value];delta+=0xb0;{register u8 *dest asm("r1")=save+delta;asm("" : : "r"(delta));*(u16 *)dest=value;}}
+    {
+        u8 *save = saveAF91;
+        u16 *stages = stagesAF91;
+        u8 *state = (u8 *)stateAF91;
+        u32 delta = 0x14A;
+        u32 value;
+        value = *(u16 *)(state + delta);
+        value = stages[value];
+        delta += 0xB0;
+        *(u16 *)(save + delta) = value;
+    }
     sub_08065158(&anim, 0x50067, 9, -1, 0);
     sprite = (void *)sub_080653CC();
     sub_080009F8(0x200, 0, 1);
@@ -2201,9 +2211,9 @@ void sub_0808AFE8_v(void)
     for (i = 0; i <= 9; i++) {
         for (j = 0; j <= 2; j++) {
             records[i][j].time = 0;
-            /* table pointers set per record: loop.c hoists B10 into sl, B12 stays in the row body */
+            /* The second halfword column starts two bytes into each four-byte table entry. */
             va = recordTypesAF91;
-            vb = recordVals0AF91;
+            vb = (struct TypeAF91 (*)[3])((u8 *)va + 2);
             if (sub_08058878(i, j) != 0) {
                 records[i][j].type = 1;
                 records[i][j].val = 0;
@@ -2215,7 +2225,6 @@ void sub_0808AFE8_v(void)
             }
         }
     }
-    asm("" : : "r"(va)); /* one more ref: va outranks off10 for sl in global alloc */
     col = 0;
     flag = 0;
     mode = 0;
