@@ -902,6 +902,7 @@ void e0c4Impl(struct Task0C4 *task)
     s32 first;
     u32 started;
     u8 *s;
+    u8 *next;
     u8 c;
     struct Window0C4 *w;
 
@@ -914,12 +915,13 @@ void e0c4Impl(struct Task0C4 *task)
     pValue = &value;
     num = numBuf;
     name = nameBuf;
+    next = script + 1;
     k = 0;
     j = 0;
     do {
         line = 0;
         do {
-            lines[j][line] = 0xFD;
+            ((u8 *)lines)[k + line] = 0xFD;
             line++;
         } while (line < 18);
         k += 30;
@@ -930,7 +932,7 @@ void e0c4Impl(struct Task0C4 *task)
         portrait = (u8)(c - 1);
     else
         portrait = 0xFF;
-    script++;
+    script = next;
     voice = *script;
     script++;
     if (sub_0800CE30() != 0) {
