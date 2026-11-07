@@ -74,8 +74,11 @@ def owners():
     out = {}
     for line in git("for-each-ref", "--format=%(refname:short) %(contents:subject)", "refs/remotes/origin/shard/").splitlines():
         ref, _, subj = line.partition(" ")
+        suffix = ref.rsplit("/", 1)[1]
+        if not suffix.isdigit():
+            continue  # follow-up branches such as shard/063-e44 are not claims
         m = re.search(r"\((.+)\)", subj)
-        out[int(ref.rsplit("/", 1)[1])] = m.group(1) if m else "?"
+        out[int(suffix)] = m.group(1) if m else "?"
     return out
 
 
