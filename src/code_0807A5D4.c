@@ -1156,9 +1156,9 @@ static inline void Drop82(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x
 /* Same as Drop82, but the empty volatile asm keeps cross-jumping from merging this tail with another identical DROP tail (the ROM keeps them separate because its registers differ). */
 static inline void Drop82Sep(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; asm volatile(""); }
 #define DROP82() Drop82(&sp14)
-/* DROP82R: the DROP through a function-scope pointer to gMgr82; it gets no hard reg, so reload re-loads the address at each use like the ROM. DROP82Z also takes heldIdx's zero from its own mov (ROM: separate movs r1/r4 zeros). */
-#define DROP82R() { *(vu32 *)&sp14 = 0; CpuSet((void *)&sp14, &(*gp)->held, 0x05000004); (*gp)->heldFrom = 0x16; (*gp)->heldIdx = 0; }
-#define DROP82Z() { *(vu32 *)&sp14 = 0; CpuSet((void *)&sp14, &(*gp)->held, 0x05000004); (*gp)->heldFrom = 0x16; { u32 zz; asm volatile("mov %0, #0" : "=l"(zz)); (*gp)->heldIdx = zz; } }
+/* Drop82P: the DROP through a pointer to gMgr82 (the function-scope gp, which gets no hard reg, so reload re-loads the address at each use like the ROM; or a pointer kept in a register). Drop82PZ also takes heldIdx's zero from its own mov (ROM: separate movs r1/r4 zeros). The inline form computes z (add r0, sp, #20) before the zero store, like the ROM. */
+static inline void Drop82P(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, &(*g)->held, 0x05000004); (*g)->heldFrom = 0x16; (*g)->heldIdx = 0; }
+static inline void Drop82PZ(vu32 *z, struct Mgr82 **g) { *z = 0; CpuSet((void *)z, &(*g)->held, 0x05000004); (*g)->heldFrom = 0x16; { u32 zz; asm volatile("mov %0, #0" : "=l"(zz)); (*g)->heldIdx = zz; } }
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
 struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
@@ -2717,17 +2717,20 @@ void sub_0807C29C(void) {
                 if (*(u32 *)held == 0x000C0001) {
                     item = (struct Item82 *)((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x104);
                     switch (item->kind) {
-                    case 2 ... 5:
+                    case 2 ... 5: {
+                        struct Mgr82 **m; /* ROM keeps the gMgr82 address in r6 across BD78/BEA0 into the DROP */
                         if (*((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) != 0) {
                             *((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) = 0;
-                            sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                            asm("" : "=r"(m) : "0"(&gMgr82));
+                            sub_0807BD78((*m)->heldFrom, (*m)->heldIdx);
                         } else {
                             *(struct Item82 *)sp4 = *item;
                             sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)held);
-                            sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
+                            asm("" : "=r"(m) : "0"(&gMgr82));
+                            sub_0807BEA0((*m)->heldFrom, (*m)->heldIdx, (void *)sp4);
                         }
-                        DROP82();
-                        break;
+                        Drop82P(&sp14, m);
+                        break; }
                     default:
                         *(struct Item82 *)sp4 = gMgr82->stock[gMgr82->cursor + gMgr82->page * 15];
                         sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)&gMgr82->held);
@@ -2771,23 +2774,23 @@ void sub_0807C29C(void) {
             /* holding money, tg slot occupied */
             switch (from) {
             case 13: {
-                u32 s; struct Item82 *it;
+                u32 s; struct Item82 *it; u32 vv; /* block-local vv: the function-level val (r1) blocked s from r1 */
                 if (gMgr82->stock[gMgr82->heldIdx].count == gMgr82->held.count) {
                     s = gMgr82->cursor + gMgr82->page * 15;
                     it = &gMgr82->stock[s];
                     if (it->kind == 10) {
-                        val = gMgr82->stock[s].count + gMgr82->held.count;
-                        if (val <= 100000) {
+                        vv = gMgr82->stock[s].count + gMgr82->held.count;
+                        if (vv <= 100000) {
                             if (gMgr82->heldIdx != s) {
-                                gMgr82->stock[s].count = val;
+                                gMgr82->stock[s].count = vv;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                             }
                         } else if (gMgr82->heldIdx != s) {
-                            gMgr82->held.count = val - 100000;
+                            gMgr82->held.count = vv - 100000;
                             gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                             sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                         }
-                        DROP82Z();
+                        Drop82PZ(&sp14, gp);
                         sub_0805865C(0x5F);
                         sub_0805865C(0x5F);
                         break;
@@ -2795,7 +2798,7 @@ void sub_0807C29C(void) {
                     *(struct Item82 *)sp4 = *it;
                     sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)held);
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
-                    DROP82R();
+                    Drop82P(&sp14, gp);
                     sub_0805865C(0x5F);
                     break;
                 }
@@ -2804,16 +2807,16 @@ void sub_0807C29C(void) {
                     break;
                 }
                 s = gMgr82->cursor + gMgr82->page * 15;
-                val = gMgr82->stock[s].count + gMgr82->held.count;
-                if (val <= 100000) {
+                vv = gMgr82->stock[s].count + gMgr82->held.count;
+                if (vv <= 100000) {
                     gMgr82->stock[gMgr82->heldIdx].count -= gMgr82->held.count;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count += gMgr82->held.count;
-                    DROP82R();
+                    Drop82P(&sp14, gp);
                     sub_0805865C(0x5F);
                     break;
                 }
                 if (gMgr82->heldIdx != s) {
-                    gMgr82->held.count = val - 100000;
+                    gMgr82->held.count = vv - 100000;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                 }
