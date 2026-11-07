@@ -1604,6 +1604,16 @@ block_104:
     sub_0800CDE4();
 }
 #ifdef NONMATCHING
+/*
+ * sub_080624D8 draft (GNU diff 653 -> 126 lines, same size as the ROM function).
+ * Shape notes: the sprite helpers are the module's static inline wrappers
+ * (load62-style Load624, sub_080653B8-style Scale624, sub_08065230-style Draw624,
+ * sub_08065370-style Size624); m.text / m.spr.remap are written in place so gcse
+ * PRE produces the ROM's per-case texts spill and remap in sl; the slide-in loop
+ * is goto-shaped with its own t1; the level switch sets ok = 0 in ROM case order;
+ * scroll x/y go through s16 pointers off a TileSys base. Remaining: register
+ * choice in the slide/menu loops.
+ */
 struct Pt624 { s32 x, y; };
 struct Spr624 {
     s32 base; u32 unk4; s32 data; s32 unkC; u32 id; u32 unk14; s32 unk18;
@@ -1631,30 +1641,50 @@ extern u8 *party624 asm("gUnk_030034E0");
 extern u8 *state624 asm("gUnk_03005CF4");
 extern void draw624(s32, s32, u16, u16, s32, void *, s32, s32) asm("sub_08007CF0");
 extern void drawScaled624(s32, s32, u16, u16, s32, void *, s32, s32, s32, s32, s32) asm("sub_08007F0C");
-extern s32 load624(u32, void *) asm("sub_08006EE0");
+extern s32 load624() asm("sub_08006EE0");
 extern u8 *window624(s32, s32, s32, s32) asm("sub_0805D720");
 extern void text624(u8 *, u32, u32) asm("sub_0801A3D0");
 
-static inline void Load624(struct Spr624 *p, u32 id)
+static inline void Load624(u32 id, struct Spr624 *p, s32 a, s32 b, void *res)
 {
-    s32 data;
     u32 i;
+    s32 data;
     p->id = id;
-    p->unk14 = 0;
-    p->unk18 = 0x80000000;
-    p->data = data = load624(id, res624);
+    p->unk14 = a;
+    p->unk18 = b;
+    p->data = data = load624(id, res);
     if (data != 0) {
         id &= 0xFFFF;
-        p->base = data = load624(id | 0x60000, res624);
+        p->base = data = load624(id | 0x60000, res);
         if (data != 0) {
-            p->unkC = data = load624(id | 0x80000, res624);
+            p->unkC = data = load624(id | 0x80000, res);
             if (data != 0) {
+                if (b >= 0)
+                    sub_08000AF0(p->unk14 + 16, (void *)(data + (p->unk14 << 5)), p->unk18);
                 for (i = 0; i <= 15; i++)
                     p->remap[i] = i;
                 sub_080653B8(p, 0x120, 0xE0, 8);
             }
         }
     }
+}
+
+static inline void Scale624(struct Spr624 *p, s16 max, s16 min, s16 step)
+{
+    p->scale = 0x100;
+    p->max = max;
+    p->min = min;
+    p->step = step;
+}
+
+static inline void Draw624(struct Spr624 *p, s32 x, s32 y, u16 id, u16 frame)
+{
+    draw624(x, y, id, frame, 0, p->remap, p->data, p->base);
+}
+
+static inline u32 Size624(struct Spr624 *p, u16 id, u16 *w, u16 *h, u32 f)
+{
+    return sub_08008CC4(id, w, h, (u8 *)p->data, f);
 }
 
 static inline void Lerp624(s32 *dst, s32 a, s32 b, s32 t, s32 u)
@@ -1677,8 +1707,6 @@ static inline void DrawScaled624(struct Spr624 *p, s32 x, s32 y, u16 id, u16 fra
 
 #define PLAYER_FLAGS() flags624[sub_080020F4() * (0x14C / 4)]
 
-#define LERP(a, b, t, u) (((b) * (t) >> 10) + ((a) * (u) >> 10))
-
 #define BUSY() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || sub_0805F184() || sub_0800D060())
 #define BUSY2() (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || (PLAYER_FLAGS() & 0x2000) || sub_0805F184() || sub_0800D060())
 
@@ -1688,70 +1716,72 @@ void sub_080624D8_(void)
 {
     struct Menu624 m;
     u32 sel;
+    u16 k;
     s16 scale, step;
     u8 *win;
-    u8 **texts;
-    u8 *remap;
     u16 i;
-    s32 t, u, a, b;
+    s32 t, u, t1;
     s32 next;
     s16 w;
-    s16 sx, sy;
+    s16 x;
+    s32 sx, sy;
+    struct TileSys *ts;
+    s16 *px, *py;
     u32 ok;
     u8 *p;
 
     if (sub_0800CD8C() || sub_0800D11C() || sub_0805EF90())
         goto out;
-    texts = m.text;
-    remap = m.spr.remap;
     switch (gUnk_03003470) {
     case 0:
-        Load624(&m.spr, 0x50002);
+        Load624(0x50002, &m.spr, 0, 0x80000000, res624);
         break;
     case 1:
-        Load624(&m.spr, 0x5015B);
+        Load624(0x5015B, &m.spr, 0, 0x80000000, res624);
         break;
     case 2:
-        Load624(&m.spr, 0x5015C);
+        Load624(0x5015C, &m.spr, 0, 0x80000000, res624);
         break;
     case 3:
-        Load624(&m.spr, 0x5015D);
+        Load624(0x5015D, &m.spr, 0, 0x80000000, res624);
         break;
     case 4:
-        Load624(&m.spr, 0x5015E);
+        Load624(0x5015E, &m.spr, 0, 0x80000000, res624);
         break;
     }
-    m.spr.scale = 0x100;
-    m.spr.max = 0x120;
-    m.spr.min = 0xE0;
-    m.spr.step = 8;
+    Scale624(&m.spr, 0x120, 0xE0, 8);
     for (i = 0; i <= 3; i++)
-        texts[i] = (u8 *)sub_08007290(msg624[i]);
+        m.text[i] = (u8 *)sub_08007290(msg624[i]);
     while (sub_0801AC78() == 0)
         sub_080003F0();
     sub_0800CE40();
-    t = 0;
+    t1 = 0;
     sub_0805865C(0x12);
-    do {
+slidein:
+    {
         sub_08015C14();
-        next = t + 0x80;
-        u = 0x400 - t;
+
+
         for (i = 0; i <= 3; i++) {
-            Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
-            Lerp624(&m.y[i], src624[i].y, dstY624[i * 2], t, u);
+            u = 0x400 - t1;
+            Lerp624(&m.x[i], src624[i].x, dst624[i].x, t1, u);
+            Lerp624(&m.y[i], src624[i].y, dstY624[i * 2], t1, u);
             if (i == 1 && (PLAYER_FLAGS() & 8))
-                draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
+                Draw624(&m.spr, m.x[1] >> 8, m.y[1] >> 8, 7, 0);
             else
-                draw624(m.x[i] >> 8, m.y[i] >> 8, i, 0, 0, remap, m.spr.data, m.spr.base);
+                Draw624(&m.spr, m.x[i] >> 8, m.y[i] >> 8, i, 0);
         }
-        t = next;
+        t1 += 0x80;
         sub_080003F0();
-    } while (t <= 0x3FF);
+    }
+    if (t1 <= 0x3FF)
+        goto slidein;
 
     sub_0801A664(0x12, 2);
     win = window624(9, 0xF, 9, 1);
+    k = gUnk_03003170.curLevel;
     sel = 1;
-    if (gUnk_03003170.curLevel != 0xC)
+    if (k != 0xC)
         sel = 0;
     step = 8;
     scale = 0x100;
@@ -1763,7 +1793,7 @@ void sub_080624D8_(void)
         if (step < 0 && scale < 0xE0)
             step = 8;
         for (i = 0; i <= 3; i++) {
-            sub_08008CC4(i, &m.w[i], &m.h[i], (u8 *)m.spr.data, 1);
+            Size624(&m.spr, i, &m.w[i], &m.h[i], 1);
             if (sel == i) {
                 if (i == 1 && (PLAYER_FLAGS() & 8))
                     DrawScaled624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
@@ -1771,13 +1801,14 @@ void sub_080624D8_(void)
                     DrawScaled624(&m.spr, dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i]);
             } else {
                     if (i == 1 && (PLAYER_FLAGS() & 8))
-                        draw624(dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1], 0, remap, m.spr.data, m.spr.base);
+                        Draw624(&m.spr, dst624[1].x >> 8, dst624[1].y >> 8, 7, m.w[1]);
                     else
-                        draw624(dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i], 0, remap, m.spr.data, m.spr.base);
+                        Draw624(&m.spr, dst624[i].x >> 8, dstY624[i * 2] >> 8, i, m.w[i]);
             }
         }
-        w = sub_0801A638(texts[sel] + 2);
-        text624(texts[sel] + 2, (u16)(-(w / 2 + (w & 1)) + 15), 16);
+        w = sub_0801A638(m.text[sel] + 2);
+        x = -(w / 2 + (w & 1));
+        text624(m.text[sel] + 2, (u16)(x + 15), 16);
         sub_080003F0();
         if (BUSY())
             keys624 = 2;
@@ -1787,8 +1818,9 @@ void sub_080624D8_(void)
         }
         if (keys624 & 1) {
             if (sel > 2) {
-                if (++*(u16 *)(state624 + 0x14A) > 7)
-                    *(u16 *)(state624 + 0x14A) = 0;
+                u16 *c = (u16 *)(state624 + 0x14A);
+                if (++*c > 7)
+                    *c = 0;
                 sub_0805865C(0xF);
                 continue;
             }
@@ -1806,9 +1838,9 @@ void sub_080624D8_(void)
                         Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
                         Lerp624(&m.y[i], src624[i].y, dst624[i].y, t, u);
                         if (i == 1 && (PLAYER_FLAGS() & 8))
-                            draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
+                            Draw624(&m.spr, m.x[1] >> 8, m.y[1] >> 8, 7, 0);
                         else
-                            draw624(m.x[i] >> 8, m.y[i] >> 8, i, 0, 0, remap, m.spr.data, m.spr.base);
+                            Draw624(&m.spr, m.x[i] >> 8, m.y[i] >> 8, i, 0);
                     }
                     t = next;
                     sub_080003F0();
@@ -1849,36 +1881,36 @@ void sub_080624D8_(void)
                 continue;
             ok = 1;
             switch (gUnk_03003170.curLevel) {
+            case 2:
+                if (gUnk_03003170.f90 == 4 || gUnk_03003170.f90 == 7)
+                    ok = 0;
+                break;
+            case 4:
+                if (gUnk_03003170.f90 == 6)
+                    ok = 0;
+                break;
+            case 5:
+                if (gUnk_03003170.f90 == 0 || gUnk_03003170.f90 == 10)
+                    ok = 0;
+                break;
             case 1:
             case 3:
             case 7:
                 if (gUnk_03003170.f90 == 4)
-                    goto buzz;
-                break;
-            case 2:
-                if (gUnk_03003170.f90 == 4 || gUnk_03003170.f90 == 7)
-                    goto buzz;
-                break;
-            case 4:
-                if (gUnk_03003170.f90 == 6)
-                    goto buzz;
-                break;
-            case 5:
-                if (gUnk_03003170.f90 == 0 || gUnk_03003170.f90 == 10)
-                    goto buzz;
+                    ok = 0;
                 break;
             case 8:
                 if (gUnk_03003170.f90 == 0)
-                    goto buzz;
+                    ok = 0;
+                break;
+            case 19:
+                if (gUnk_03003170.f90 == 2)
+                    ok = 0;
                 break;
             case 11:
             case 12:
             case 13:
                 ok = 0;
-                break;
-            case 19:
-                if (gUnk_03003170.f90 == 2)
-                    goto buzz;
                 break;
             }
             if (ok == 0)
@@ -1917,15 +1949,17 @@ confirm:
         sub_0801ABE8(6);
     t = 0x400;
     do {
-        next = t - 0x80;
-        u = 0x400 - t;
+
+
         for (i = 0; i <= 3; i++) {
+            next = t - 0x80;
+            u = 0x400 - t;
             Lerp624(&m.x[i], src624[i].x, dst624[i].x, t, u);
             Lerp624(&m.y[i], src624[i].y, dst624[i].y, t, u);
             if (i == 1 && (PLAYER_FLAGS() & 8))
-                draw624(m.x[1] >> 8, m.y[1] >> 8, 7, 0, 0, remap, m.spr.data, m.spr.base);
+                Draw624(&m.spr, m.x[1] >> 8, m.y[1] >> 8, 7, 0);
             else
-                draw624(m.x[i] >> 8, m.y[i] >> 8, i, 0, 0, remap, m.spr.data, m.spr.base);
+                Draw624(&m.spr, m.x[i] >> 8, m.y[i] >> 8, i, 0);
         }
         t = next;
         if (BUSY2())
@@ -1933,7 +1967,7 @@ confirm:
         sub_080003F0();
     } while (t > 0 || sub_0801AAE0() == 0);
     while (sub_0805EEEC(win) == 0) {
-        if (BUSY2())
+        if (sub_0800CDF8() || sub_0800D11C() || (sub_0801DF8C() && !sub_0800CCCC()) || (gUnk_03003CE0[sub_080020F4()].flags & 0x2000) || sub_0805F184() || sub_0800D060())
             sel = 4;
         sub_080003F0();
     }
@@ -1944,15 +1978,16 @@ confirm:
         sub_080003F0();
         sub_080003F0();
         sub_080003F0();
-        sx = gUnk_03003170.scrollX;
-        sy = gUnk_03003170.scrollY;
+        ts = &gUnk_03003170;
+        sx = (s16)ts->scrollX;
+        sy = (s16)ts->scrollY;
         sub_0800CCA8();
         sub_08084F24();
         sub_080003F4(0x11201100);
-        gUnk_03003170.scrollX = sx;
-        gUnk_03003170.scrollY = sy;
+        ts->scrollX = sx;
+        ts->scrollY = sy;
         for (i = 0; i <= 0x18; i++) {
-            p = party624 + i * 16;
+            p = party624; p += i * 16;
             if (*(u16 *)(p + 0x150) == 7)
                 *(u16 *)(p + 0x156) = 0;
         }
@@ -1965,8 +2000,11 @@ confirm:
         sub_080003F0();
         sub_080003F0();
         sub_0800CCA8();
-        sx = gUnk_03003170.scrollX;
-        sy = gUnk_03003170.scrollY;
+        ts = &gUnk_03003170;
+        px = (s16 *)&ts->scrollX;
+        sx = *px;
+        py = (s16 *)&ts->scrollY;
+        sy = *py;
         sub_08084EAC();
         goto restore;
     case 2:
@@ -1979,12 +2017,15 @@ confirm:
         sub_080003F0();
         sub_080003F0();
         sub_0800CCA8();
-        sx = gUnk_03003170.scrollX;
-        sy = gUnk_03003170.scrollY;
+        ts = &gUnk_03003170;
+        px = (s16 *)&ts->scrollX;
+        sx = *px;
+        py = (s16 *)&ts->scrollY;
+        sy = *py;
     restore:
         sub_080003F4(0x11201100);
-        gUnk_03003170.scrollX = sx;
-        gUnk_03003170.scrollY = sy;
+        *px = sx;
+        *py = sy;
         sub_0800CCB8();
         gUnk_03003CE0[sub_080020F4()].flags &= ~8;
     reset:
