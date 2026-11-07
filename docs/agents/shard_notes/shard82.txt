@@ -202,8 +202,8 @@ Left in case 13: the 0xC0001 BD78/else DROP (ROM keeps the address in r6 across 
 money from==13 slot*16 in sl (ROM computes the item as (gMgr82 + slot*16) + 260; ours reassociates). Also tg==0 kind store
 (ROM strh r6, ours movs). Tools: session scratchpad nov07-w82N (jl.py lists jumps/labels on a CSE path; dump.sh -ds/-dt dumps).
 
-2026-11-07 sixth follow-up (claude-nov07-w82M): filtered nmdiff 2257 -> 1856, full-module aligned diff 551 -> 449,
-strict diff lines 2667 -> 1852, casediff sum 900 -> 665 (case 0 rdiff 113 -> 75, case 13 rdiff 37 -> 27). Still 18396 bytes.
+2026-11-07 sixth follow-up (claude-nov07-w82M): filtered nmdiff 2257 -> 1818, full-module aligned diff 551 -> 427,
+strict diff lines 2667 -> 1808, casediff sum 900 -> 645 (case 0 rdiff 113 -> 75, case 13 rdiff 37 -> 27). Still 18396 bytes.
 Landed:
 - case 13 money from==13: block-local `vv` instead of the function-level `val`. val (r1) was live in both
   from==13 paths, so it blocked slot s from r1; with vv the ROM's s=r1 / val=r0 / 100000=r5 appear.
@@ -217,6 +217,7 @@ Landed:
   ((u8 *)gInv82 + cursor * 16 + 0x150 / 0x158). With items[cursor], cursor*16 stayed live (r7) and pushed the
   f6A constant 100 to r9.
 - case 0 keys&1: block-local `hd` for the held pointer. ROM spills case 0's held to [sp,#52] while case 13's is r9.
+- case 0 keys&1: block-local `n0`/`v0` for the count loop and money value (function-level n/val; -22 aligned).
 Diagnosis / found but not landed (each is right vs the ROM but costs size until reload rotation also matches):
 - money from==13 val<=100000 DROP (path 2): ROM passes `held` (r9) to CpuSet (`mov r1, r9`), i.e.
   Drop82PH(&sp14, held, gp). Matches that DROP exactly but makes the draft 4 bytes short.

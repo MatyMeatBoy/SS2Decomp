@@ -1372,7 +1372,7 @@ void sub_0807C29C(void) {
                 }
             }
         } else if (keys29_03001324 & 1) {
-            u16 tg0; struct Item82 *hd; /* case 0 has its own held pointer (ROM spills it to [sp,#52]); case 13 keeps the function-level one in r9 */
+            u16 tg0; u32 n0; u32 v0; struct Item82 *hd; /* block-local n0/v0/hd: case 0 has its own held pointer (ROM spills it to [sp,#52]; case 13 keeps the function-level held in r9), and the function-level n/val shifted registers in other cases */
             gMgr82->f6A = 100;
             if (gMgr82->mode != 5) {
                 from = gMgr82->heldFrom;
@@ -1393,14 +1393,14 @@ void sub_0807C29C(void) {
                     gMgr82->held.count = gInv82->items[gMgr82->cursor].count;
                     gMgr82->state = 20;
                     gMgr82->fC = 0;
-                    val = gInv82->items[gMgr82->cursor].count;
-                    n = 6;
-                    for (i = 4; i <= 9; i++, n--) {
-                        if (gUnk_084EBD4C[i] <= val)
+                    v0 = gInv82->items[gMgr82->cursor].count;
+                    n0 = 6;
+                    for (i = 4; i <= 9; i++, n0--) {
+                        if (gUnk_084EBD4C[i] <= v0)
                             break;
                     }
-                    gMgr82->f14 = n;
-                    gMgr82->f10 = n - 1;
+                    gMgr82->f14 = n0;
+                    gMgr82->f10 = n0 - 1;
                     sub_0805865C(0x5E);
                     break;
                 }
@@ -1545,10 +1545,10 @@ void sub_0807C29C(void) {
                 if (gInv82->items[gMgr82->heldIdx].count == gMgr82->held.count) {
                     item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                     if (item->kind == 10) {
-                        val = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
-                        if (val <= 100000) {
+                        v0 = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
+                        if (v0 <= 100000) {
                             if (gMgr82->heldIdx != gMgr82->cursor) {
-                                gInv82->items[gMgr82->cursor].count = val;
+                                gInv82->items[gMgr82->cursor].count = v0;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                             }
                             DROP82();
@@ -1556,7 +1556,7 @@ void sub_0807C29C(void) {
                             break;
                         }
                         if (gMgr82->heldIdx != gMgr82->cursor) {
-                            gMgr82->held.count = val - 100000;
+                            gMgr82->held.count = v0 - 100000;
                             gInv82->items[gMgr82->cursor].count = 100000;
                             sub_0807BEA0(0, gMgr82->heldIdx, (void *)hd);
                         }
@@ -1575,8 +1575,8 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x61);
                     break;
                 }
-                val = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
-                if (val <= 100000) {
+                v0 = gInv82->items[gMgr82->cursor].count + gMgr82->held.count;
+                if (v0 <= 100000) {
                     switch (from) {
                     case 0:
                         gInv82->items[gMgr82->heldIdx].count -= gMgr82->held.count;
@@ -1595,7 +1595,7 @@ void sub_0807C29C(void) {
                     break;
                 }
                 if (gMgr82->heldIdx != gMgr82->cursor) {
-                    over = val - 100000;
+                    over = v0 - 100000;
                     switch (from) {
                     case 0:
                         gMgr82->held.count = gInv82->items[gMgr82->heldIdx].count - gMgr82->held.count + over;
