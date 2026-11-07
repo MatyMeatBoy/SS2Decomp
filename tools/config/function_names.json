@@ -5398,6 +5398,642 @@
           "detail": "Canonical original Thumb boundary 0x0801E594..0x0801E5B0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E59C reads record counter; 0x0801E59E ORs 0xFFFF and0x0801E5A0 writes that halfword. 0x0801E5A4 advances0x28 and0x0801E5A6 bounds eight records; other fields are untouched. This is static original-byte evidence, not a runtime trace."
         }
       ]
+    },
+    {
+      "address": "0x08006B60",
+      "canonical_symbol": "sub_08006B60",
+      "display_name": "AudioApplyDefaultSoundMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3269,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aSoundMode with literal0x93D800. Default describes this fixed initializer setting only; no undocumented frequency/channel interpretation is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 126,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006B60..0x08006B70; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006B64->m4aSoundMode(0x080B76B4). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006B70",
+      "canonical_symbol": "sub_08006B70",
+      "display_name": "AudioSetFourTrackPlayerVolume",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3272,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Index0..3 selects one of music-player controls030075C0/7600/7640/7690; calls m4aMPlayVolumeControl with track mask0xF and supplied volume. Invalid index has no initialized player pointer in source."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 127,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006B70..0x08006BB4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006BA6->m4aMPlayVolumeControl(0x080B80A8). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006BB4",
+      "canonical_symbol": "sub_08006BB4",
+      "display_name": "AudioSetSoundMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3292,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Forwards supplied mode directly to m4aSoundMode without additional validation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 128,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006BB4..0x08006BC0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006BB6->m4aSoundMode(0x080B76B4). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006BC0",
+      "canonical_symbol": "sub_08006BC0",
+      "display_name": "TaskStopSoundEnableDisplayAndYieldForever",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3295,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Clears sound VSync/game-enable flags, calls00940 which clears DISPCNT forced-blank and enables sound VSync, stops all music players, calls06BF8 again, then yields signal1 forever. Display is enabled, not forced blank. No game-over/error meaning is inferred."
+        },
+        {
+          "source": "src/main.c",
+          "line": 193,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "00940 sets display shadow forcedBlank=0, writes DISPCNT and calls06BF8; inverse00968 sets forcedBlank=1. This establishes actual display direction independently of helper naming."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 129,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006BC0..0x08006BE8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006BCC->sub_08000940(0x08000940), 0x08006BD0->m4aMPlayAllStop(0x080B733C), 0x08006BD4->sub_08006BF8(0x08006BF8), 0x08006BD8->sub_080003F0(0x080003F0). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006BE8",
+      "canonical_symbol": "sub_08006BE8",
+      "display_name": "AudioStopAllPlayersAndDisableVSync",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3305,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aMPlayAllStop then06C14, whose guarded path clears03002870 and calls m4aSoundVSyncOff."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 130,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006BE8..0x08006BF8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006BEA->m4aMPlayAllStop(0x080B733C), 0x08006BEE->sub_08006C14(0x08006C14). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006BF8",
+      "canonical_symbol": "sub_08006BF8",
+      "display_name": "AudioEnableVSyncIfDisabled",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3309,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "If03002870 is0, sets it to1 and calls m4aSoundVSyncOn; otherwise does nothing."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 131,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006BF8..0x08006C14; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006C06->m4aSoundVSyncOn(0x080B77EC). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006C14",
+      "canonical_symbol": "sub_08006C14",
+      "display_name": "AudioDisableVSyncIfEnabled",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3315,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "If03002870 nonzero, clears it and calls m4aSoundVSyncOff; otherwise does nothing."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 132,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006C14..0x08006C30; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006C22->m4aSoundVSyncOff(0x080B77A0). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006C30",
+      "canonical_symbol": "sub_08006C30",
+      "display_name": "AudioFadeOutFourPlayers",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3322,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aMPlayFadeOut on four player controls030075C0/7600/7640/7690 with same16-bit speed argument."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 133,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006C30..0x08006C70; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006C3C->m4aMPlayFadeOut(0x080B73A0), 0x08006C44->m4aMPlayFadeOut(0x080B73A0), 0x08006C4C->m4aMPlayFadeOut(0x080B73A0), 0x08006C54->m4aMPlayFadeOut(0x080B73A0). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006C70",
+      "canonical_symbol": "sub_08006C70",
+      "display_name": "AudioStartSongIfPlaybackEnabled",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3333,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Starts a 16-bit song ID through m4aSongNumStart when the ID is at most 0x1AB and gUnk_030028AC is nonzero. Matched sub_08006E64 sets this playback guard and stops the first music player when clearing it."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 134,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006C70..0x08006C98; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006C86->m4aSongNumStart(0x080B7208). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        },
+        {
+          "source": "src/code_08006D24.c",
+          "line": 78,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched sub_08006E64 stores its byte parameter in gUnk_030028AC and calls m4aMPlayStop for gUnk_030075C0 when the parameter is zero, anchoring the playback-enable role."
+        }
+      ]
+    },
+    {
+      "address": "0x08006C98",
+      "canonical_symbol": "sub_08006C98",
+      "display_name": "AudioStartOrChangeSongChecked",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3341,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aSongNumStartOrChange for16-bit ID<=0x1AB; otherwise no operation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 135,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006C98..0x08006CB4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006CA6->m4aSongNumStartOrChange(0x080B7234). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006CB4",
+      "canonical_symbol": "sub_08006CB4",
+      "display_name": "AudioStartOrContinueSongChecked",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3349,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aSongNumStartOrContinue for16-bit ID<=0x1AB; otherwise no operation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 136,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006CB4..0x08006CD0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006CC2->m4aSongNumStartOrContinue(0x080B7280). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006CD0",
+      "canonical_symbol": "sub_08006CD0",
+      "display_name": "AudioStopSongChecked",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3357,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aSongNumStop for16-bit ID<=0x1AB; otherwise no operation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 137,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006CD0..0x08006CEC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006CDE->m4aSongNumStop(0x080B72D4). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006CEC",
+      "canonical_symbol": "sub_08006CEC",
+      "display_name": "AudioContinueSongChecked",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3365,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aSongNumContinue for16-bit ID<=0x1AB; otherwise no operation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 138,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006CEC..0x08006D08; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006CFA->m4aSongNumContinue(0x080B7308). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08006D08",
+      "canonical_symbol": "sub_08006D08",
+      "display_name": "AudioStartSongChecked",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3373,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls m4aSongNumStart for16-bit ID<=0x1AB; otherwise no operation. No030028AC enable check in this wrapper."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 139,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08006D08..0x08006D24; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08006D16->m4aSongNumStart(0x080B7208). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0805865C",
+      "canonical_symbol": "sub_0805865C",
+      "display_name": "AudioStartSongWithLinkErrorGuard",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 521,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "When link-session flags030027D0 lack0x20, calls checked song starter06D08. The bit is set after repeated missing peer reception in01BE4; this wrapper suppresses song start while it is set. It does not prove that every audio path is globally muted or identify a song/sound-effect channel."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 180,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched link-session task sets flag0x20 after more than60 missing-receive iterations with timeout0x50, and calls586B4 to stop the remembered song. This anchors the link-error guard without assigning global audio-mute semantics."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 945,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0805865C..0x0805867C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0805866E->sub_08006D08(0x08006D08). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08058688",
+      "canonical_symbol": "sub_08058688",
+      "display_name": "AudioSetTrackedSongAndReturnPrevious",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 529,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Saves old03005CF8, stores supplied32-bit song value, calls checked start/continue06CB4 unless link-session flag0x20, then returns previous value. Current-song tracking updates even when that guard suppresses playback."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 947,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x08058690 updates tracked song before the link-flag guard at 0x08058696.. 0x0805869C; 0x080586A4 returns old tracker."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 947,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08058688..0x080586B4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x080586A0->sub_08006CB4(0x08006CB4). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x080586B4",
+      "canonical_symbol": "sub_080586B4",
+      "display_name": "AudioStopAndClearTrackedSong",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 537,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Reads tracked song03005CF8, calls checked stop06CD0 with its low16 bits through existing alias, clears tracker and returns previous32-bit value."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 948,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x080586B8 reads tracker; 0x080586BC stops it,0x080586C2 clears tracker and0x080586C4 returns old value."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 948,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x080586B4..0x080586D0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x080586BC->sub_08006CD0(0x08006CD0). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x080586D0",
+      "canonical_symbol": "sub_080586D0",
+      "display_name": "AudioFadePlayersAndClearTrackedSong",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08057CAC.c",
+          "line": 544,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Reads tracked song03005CF8, calls fade-all06C30, clears tracker and returns previous song. Source declaration omits a formal speed argument although call sites pass one; this name does not establish a corrected C prototype or ABI."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 949,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x080586D2.. 0x080586D4 load tracker via r4/r5 without altering incoming r0. 0x080586D6 therefore passes incoming fade-speed r0 to06C30; 0x080586DC clears tracker. The existing C prototype is not corrected by this name."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 949,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x080586D0..0x080586EC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x080586D6->sub_08006C30(0x08006C30). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A7AC",
+      "canonical_symbol": "sub_0801A7AC",
+      "display_name": "TaskScreenBrightnessAndWindowTransitions",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1451,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Waits on signal100; handles requested transitions through shadow BLDCNT at03001290 and BLDY at03001294 plus window IN/OUT and boundary registers. Advances signed direction against duration, yields during ramps, clears active request mask0x16 and waits again. Does not name a particular game screen or color."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 423,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801A7C2 loads scheduler signal 0x64; 0x0801A7C4 waits through003F4. 0x0801A82E/0x0801A8C0 update brightness shadow after scaled progress calculation; 0x0801A932.. 0x0801A93C write window shadows. 0x0801A9AA clears active mask 0x16 then loops."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 423,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A7AC..0x0801A9BC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A7C4->sub_080003F4(0x080003F4), 0x0801A80A->sub_080003F0(0x080003F0), 0x0801A816->sub_080009F8(0x080009F8), 0x0801A82A->__divsi3(0x080B9394), 0x0801A85C->sub_080003F0(0x080003F0), 0x0801A8BA->__divsi3(0x080B9394), 0x0801A8EE->sub_080003F0(0x080003F0), 0x0801A93E->sub_080003F0(0x080003F0), 0x0801A946->sub_08000B38(0x08000B38), 0x0801A952->sub_080009C0(0x080009C0), 0x0801A95E->sub_080003F0(0x080003F0), 0x0801A98A->sub_080009F8(0x080009F8), 0x0801A99A->sub_080003F0(0x080003F0). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801A9BC",
+      "canonical_symbol": "sub_0801A9BC",
+      "display_name": "StartScreenTransitionControllerTask",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1676,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Initializes screen blend/window transition controls03000020..28, writes BLDCNT0xBF and BLDY0x10, flushes video shadow then allocates0x400-byte stack and starts1A7AC on task03000030. No allocation-failure guard or task priority is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 424,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801A9F6 writes task entry from pointer 0801A7AD at literal0x0801AA30; 0x0801A9EC allocates 0x400 and0x0801AA0A starts task. Display shadow BLDCNT/BLDY are written at 0x0801A9C8/0x0801A9CE."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 424,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A9BC..0x0801AA34; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A9E4->sub_08000B50(0x08000B50), 0x0801A9EC->sub_08001494(0x08001494), 0x0801AA0A->sub_08000274(0x08000274). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801AA34",
+      "canonical_symbol": "sub_0801AA34",
+      "display_name": "RequestScreenBrightnessFadeIn",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1700,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Requests mode mask0x2, signed direction-1 and progress=duration; wakes signal100. Controller1A7AC maps progress/duration*16 to BLDY, so brightness fade parameter decreases toward0. Existing already-finished-negative guard may return without request; no color/elapsed-millisecond guarantee."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 425,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801AA58 stores direction-1; 0x0801AA5C/0x0801AA5E store supplied duration/progress. 0x0801AA62 wakes signal 0x64 and0x0801AA74 writes request flags."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 425,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801AA34..0x0801AA8C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801AA62->sub_08000420(0x08000420). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801AA8C",
+      "canonical_symbol": "sub_0801AA8C",
+      "display_name": "RequestScreenBrightnessFadeOut",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1712,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Requests mode mask0x2, direction+1 and progress0; wakes signal100. Controller1A7AC drives BLDY toward16. Existing positive-completed guard may skip request; exact color depends on BLDCNT configuration."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 426,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801AAAA stores direction+1; 0x0801AAAC stores duration and0x0801AAB0 clears progress. 0x0801AAB4 wakes signal 0x64 and0x0801AAC6 writes request flags."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 426,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801AA8C..0x0801AAE0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801AAB4->sub_08000420(0x08000420). Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801AAE0",
+      "canonical_symbol": "sub_0801AAE0",
+      "display_name": "IsScreenTransitionIdle",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1724,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns1 exactly when active transition request mask0x16 in03000028 is clear. Completion mode masks0x8/0x20 and controller marker mask0x1 are excluded from this test."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 427,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801AAE6.. 0x0801AAEC test only active flag mask 0x16; return1 when clear."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 427,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801AAE0..0x0801AAF8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf predicate/body is decoded in the private evidence artifact. Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801AAF8",
+      "canonical_symbol": "sub_0801AAF8",
+      "display_name": "HasPositiveScreenTransitionPassedDuration",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 3,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns1 exactly when direction03000026 is1 and unsigned progress03000022 exceeds duration03000020; otherwise0. Does not itself test active request flags."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 428,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801AAFE tests signed direction1; 0x0801AB0A.. 0x0801AB0C compare unsigned progress against duration and return1 only when strictly greater."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 428,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801AAF8..0x0801AB24; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf predicate/body is decoded in the private evidence artifact. Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801AB24",
+      "canonical_symbol": "sub_0801AB24",
+      "display_name": "GetScreenTransitionMode",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 9,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns1 if flag8 is set, otherwise2 if flag0x20 is set, otherwise0. These are request-selected mode flags; this predicate does not check active request bits or require completion. Controller1A7AC eventually clears active0x16 while preserving these mode flags."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 43,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched request paths1ABE8/1AC24 set mode flags8/0x20 along with active request flags. Thus a nonzero1AB24 result can precede completion; the name deliberately omits completed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 429,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801AB28.. 0x0801AB2E test flag8 first; otherwise0x0801AB30.. 0x0801AB3E map flag0x20 to2. No active/completion test occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 429,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801AB24..0x0801AB50; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf predicate/body is decoded in the private evidence artifact. Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0801AC78",
+      "canonical_symbol": "sub_0801AC78",
+      "display_name": "IsScreenTransitionIdleAtZero",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 60,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Requires active mask0x16 clear, direction-1 and progress0. Returns0 otherwise. This is stronger than general idle test1AAE0; no wall-clock timing guarantee."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 434,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original 0x0801AC7E.. 0x0801AC84 require active mask 0x16 clear; 0x0801AC96 requires direction-1 and0x0801AC9E requires progress0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 434,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801AC78..0x0801ACB8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf predicate/body is decoded in the private evidence artifact. Function boundaries and SDK call-target names are pinned by this configuration. Static evidence, not runtime coverage."
+        }
+      ]
     }
   ]
 }
