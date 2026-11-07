@@ -4176,7 +4176,12 @@ struct DetailEntry815F4 { u16 kind, value; };
 u16 local815F4_sub_0801E378(s32, u16, u8) asm("sub_0801E378");
 u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
 void sub_080815F4(void *arg0) {
-    union { u32 word; u8 bytes[0x208]; } scratch;
+    struct Icon815F4 {
+        u32 field0, field4, field8, palette, resource, index, count;
+        u8 data[16];
+        s16 field2C, field2E, field30, field32;
+    } icons[10];
+    u32 callFlag;
     s32 sp20C;
     s32 sp210;
     s32 sp214;
@@ -4248,7 +4253,6 @@ void sub_080815F4(void *arg0) {
     s32 temp_r2_7;
     s32 temp_r2_9;
     s32 temp_r4;
-    s32 temp_r4_10;
     s32 temp_r4_2;
     s32 temp_r4_3;
     s32 temp_r4_4;
@@ -5100,8 +5104,8 @@ block_230:
                     sub_0805FB7C(var_r0, 6, var_r2_4, 2);
                     temp_r6 = sub_080653CC();
                     temp_r4_2 = ((var_r4_4 - ((u32) sub_0801A638(text85) >> 1)) - var_r7_4) * 8;
-                    scratch.word = 0;
-                    sub_08065230(temp_r6, temp_r4_2, 0x38, 0x1AU, scratch.word);
+                    callFlag = 0;
+                    sub_08065230(temp_r6, temp_r4_2, 0x38, 0x1AU, callFlag);
                 }
             }
             break;
@@ -5331,8 +5335,8 @@ block_230:
                 sub_0805FB7C(temp_r4_6 - ((u32) sub_0801A638(text85) >> 1), 6, sp25C, 2);
                 temp_r6_2 = sub_080653CC();
                 temp_r4_7 = ((temp_r4_6 - ((u32) sub_0801A638(text85) >> 1)) - var_r7_9) * 8;
-                scratch.word = 0;
-                sub_08065230(temp_r6_2, temp_r4_7, 0x38, 0x1AU, scratch.word);
+                callFlag = 0;
+                sub_08065230(temp_r6_2, temp_r4_7, 0x38, 0x1AU, callFlag);
             }
             break;
         }
@@ -5340,11 +5344,10 @@ block_230:
         var_r8_17 = 0;
         do {
             if ((sp254 >> var_r8_17) & 1) {
-                temp_r4_10 = 0x34 * var_r7_17;
-                temp_r5_9 = scratch.bytes + temp_r4_10 + 4;
-                scratch.word = 0;
-                sub_08065158(temp_r5_9, *(u32 *)(table85 + 0x58 * var_r8_17), 1, -1, scratch.word);
-                sub_08000AF0(var_r7_17 + 0x10, *(u32 *)(scratch.bytes + 0x10 + temp_r4_10), 1U);
+                temp_r5_9 = &icons[var_r7_17];
+                callFlag = 0;
+                sub_08065158(temp_r5_9, *(u32 *)(table85 + 0x58 * var_r8_17), 1, -1, callFlag);
+                sub_08000AF0(var_r7_17 + 0x10, icons[var_r7_17].palette, 1U);
                 (*((s8 *)((u8 *)(temp_r5_9) + (0x1C)))) = var_r7_17;
                 var_r7_17 += 1;
             }
@@ -5354,8 +5357,8 @@ block_230:
         if ((u32) var_r7_17 > 0U) {
             var_r4_15 = (0 - (var_r7_17 * 0xC)) + 0x84;
             do {
-                scratch.word = 0;
-                sub_08065230((0x34 * var_r8_18) + scratch.bytes + 4, var_r4_15, 0x81, 0U, scratch.word);
+                callFlag = 0;
+                sub_08065230(&icons[var_r8_18], var_r4_15, 0x81, 0U, callFlag);
                 var_r4_15 += 0x18;
                 var_r8_18 += 1;
             } while (var_r8_18 < (u32) var_r7_17);
@@ -5371,8 +5374,8 @@ block_230:
                 return;
             }
             temp_r2_25 = sub_08007290((temp_r0_17 + 0x314) | 0x140000);
-            scratch.word = (u32) temp_r4_11;
-            sub_08081518(0xF, 7U, temp_r2_25, (u16) (sp250->value), scratch.word);
+            callFlag = (u32) temp_r4_11;
+            sub_08081518(0xF, 7U, temp_r2_25, (u16) (sp250->value), callFlag);
             return;
         case 10:                                    /* switch 3 */
             sub_0805FFBC(0xF, 6, sp23C, 0x80000000);
@@ -5415,24 +5418,24 @@ loop_296:
                             if ((s32) var_r3_13 < 0) {
                                 var_r3_13 = 0 - var_r3_13;
                             }
-                            scratch.word = var_r4_16;
-                            sub_08081518(0xF, 9U, temp_r2_26, (u16) var_r3_13, scratch.word);
+                            callFlag = var_r4_16;
+                            sub_08081518(0xF, 9U, temp_r2_26, (u16) var_r3_13, callFlag);
                             break;
                         case 2:                     /* switch 4 */
                             var_r3_14 = (s16) (sp250->value);
                             if ((s32) var_r3_14 < 0) {
                                 var_r3_14 = 0 - var_r3_14;
                             }
-                            scratch.word = 1;
-                            sub_08081518(0xF, (u32) ((var_r8_20 << 0x11) + 0x80000) >> 0x10, temp_r2_26, (u16) var_r3_14, scratch.word);
+                            callFlag = 1;
+                            sub_08081518(0xF, (u32) ((var_r8_20 << 0x11) + 0x80000) >> 0x10, temp_r2_26, (u16) var_r3_14, callFlag);
                             break;
                         case 3:                     /* switch 4 */
                             var_r3_15 = (s16) (sp250->value);
                             if ((s32) var_r3_15 < 0) {
                                 var_r3_15 = 0 - var_r3_15;
                             }
-                            scratch.word = 1;
-                            sub_08081518(0xF, (u32) ((var_r8_20 << 0x11) + 0x70000) >> 0x10, temp_r2_26, (u16) var_r3_15, scratch.word);
+                            callFlag = 1;
+                            sub_08081518(0xF, (u32) ((var_r8_20 << 0x11) + 0x70000) >> 0x10, temp_r2_26, (u16) var_r3_15, callFlag);
                             break;
                         }
                     }

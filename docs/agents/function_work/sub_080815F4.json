@@ -1,7 +1,7 @@
 {
   "address": "0x080815F4",
-  "updated_utc": "2026-11-07T06:25:00Z",
-  "checkpoint": "Restored the original resource-before-detail block order and the missing kind 8/9 return paths. The NONMATCHING draft improves from 4796 bytes/frame 672/heuristic 2186 to 4868 bytes/frame 676/heuristic 1652; original 4972/frame 684. This corrects the stale frame-completion claim. Original ASM remains active.",
+  "updated_utc": "2026-11-07T06:32:11Z",
+  "checkpoint": "Restored resource-before-detail block order and missing kind 8/9 returns, then replaced the overlapping scratch union with ten genuine 52-byte descriptors and a separate call flag. NONMATCHING draft: 4860 bytes/frame 676/heuristic 1762 versus baseline 4796/frame 672/2186 and original 4972/frame 684. The valid descriptor extent takes priority over the intermediate 4868/676/1652 layout. Original ASM remains active.",
   "areas": [
     {
       "label": "Stack frame extent and entry sequence",
@@ -13,13 +13,19 @@
       "label": "Switch and body control flow",
       "id": "dispatch",
       "state": "active",
-      "evidence": "Lifted the shared detail block out of resource case 0 and placed detail cases in numeric physical order, following original resource bodies before 0x080819CA and detail case 2 before 3/4/5. The default still returns. Relaxed ordered diff improves 4255 to 3047, but control flow and registers remain unmatched. External static calls are 117 original versus 114 selected (previously 109), with two resource lookup and one width lookup sites fewer; this is not an omission or equivalence conclusion."
+      "evidence": "Lifted the shared detail block out of resource case 0 and placed detail cases in numeric physical order, following original resource bodies before 0x080819CA and detail case 2 before 3/4/5. The default still returns. Relaxed ordered diff improves 4255 to 3303, but control flow and registers remain unmatched. External static calls are 117 original versus 114 selected (previously 109), with two resource lookup and one width lookup sites fewer; this is not an omission or equivalence conclusion."
     },
     {
       "label": "Kind 8/9 terminal paths",
       "id": "terminal-kinds",
       "state": "done",
       "evidence": "Original 0x080827B0 tests kinds 8 and 9 and branches directly to return at 0x08082948. The prior draft omitted these switch cases and emitted an extra resource 0x140365 lookup and message draw for kind 8 in the unchanged control. Explicit case 8/9 returns restore the observed path. All 260 bounded original-ROM comparisons pass with synthetic resource/text/stat inputs, both modifier choices, zero/A5 stack seeds, clobbering helper stubs, full return, saved registers/SP, call arguments, text and non-stack RAM. Helpers and decimal/sprite pointer roles are stubbed or normalized; this does not prove arbitrary-memory behavior or full equivalence."
+    },
+    {
+      "id": "descriptor-bounds",
+      "label": "Icon descriptor extent and payload",
+      "state": "done",
+      "evidence": "Original descriptors start at frame offset 4 with 0x34 stride. The intermediate union begins at offset 4 but adds another 4, so the tenth descriptor extends four bytes past its declared 0x208-byte extent. Matched 0x08065158 writes through +0x2B and calls matched 0x080653B8, which writes halfwords through +0x32. A local array of ten genuine 52-byte descriptor records plus a separate scalar call flag restores offset 4 and valid bounds. The frozen intermediate control reproduces offsets 8/60/112 instead of 4/56/108. All 260 expanded cases execute the actual matched initializers, compare full 52-byte draw payloads and exact frame-relative descriptor homes, and pass. Resource resolution and other helpers remain stubbed, decimal pointers normalized, and zero/A5 stack seeds are bounded coverage, not arbitrary-memory or full-equivalence proof."
     },
     {
       "label": "Full match in normal C build",
