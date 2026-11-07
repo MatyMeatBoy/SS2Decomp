@@ -2156,7 +2156,7 @@ void sub_0808AFE8_v(void)
     struct RecAF91 records[10][3];
     struct SprAF91 icon;
     struct SprAF91 face;
-    struct { u32 lo:16; u32 hi:16; } bg;
+    struct { u16 lo; u16 hi; } bg;
     u32 sel;
     u32 selectionStride;
     u32 max;
@@ -2328,8 +2328,9 @@ void sub_0808AFE8_v(void)
         }
         switch (mode) {
         case 0:
+            j = 0;
             selectionStride = sel << 1;
-            for (j = 0, rec = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4)), x = 0xA8; j <= 2; j++) {
+            for (rec = (struct RecAF91 *)((u8 *)records + ((sel + selectionStride) << 4)), x = 0xA8; j <= 2; j++) {
                 sub_0805FC80(x, 0x6E, rec, 0);
                 rec++;
                 x += 0x18;
