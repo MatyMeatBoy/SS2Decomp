@@ -137,3 +137,16 @@ agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: buil
   `zero` var or an in-loop `zero = 0` (787, 7084 bytes); f1D4 operand orders (no gain).
   Next: find why ROM's reload spills the regs of &step/&phase in block 22 (same trigger as
   &auxB -> sl); once that slot exists, add the sl NULL binding above.
+  Follow-up (same day, init spill slots): ROM slots 0x130-0x13c are all global spills
+  assigned in pseudo order before the PRE regs (0x140 = &f60 PRE copy). ROM never reads
+  0x138/0x13c (dead stores of spilled &step/&phase address pseudos). So the count*12 owner
+  must be numbered between &f74 (224) and &step (266): a block-scoped user var does it,
+  e.g. `{ u32 off; stack.state = 0; ... count = sub_08002164(); sp118->f6 = (u32)(sp118->f6
+  * *(u32 *)((u8 *)T015L_scales + (off = count * 3, off <<= 2))) / 100; if (count > 1)
+  sp118->f0 = (u32)((sp118->f0 + 2) * *(u32 *)((u8 *)&T015L_scales[0].b + off)) / 100; }`
+  (multi-set so cse keeps `off` as the owner; plain `off = count * 12` loses it). With the
+  sl NULL binding plus patched-compiler spills of &f74/off/&step/&phase (NOLOCAL + GFORCE
+  p:99) the function is 7132 bytes, frame 0x168, slots 0x130-0x13c = ROM (516 lines).
+  Without forcing, &phase stays local r6 and &f74/&step/off compete for r6/r8/sl (746).
+  ROM leaves r6/r8/sl unused in block 22 and &phase2 rematerialized, so something live
+  through block 22 (not referenced there) must occupy them in ROM. Not found; stopped here.
