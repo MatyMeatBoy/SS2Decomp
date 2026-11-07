@@ -2236,7 +2236,6 @@ void sub_0806C568(u32 *arg0) {
     struct { u32 desc[13]; u8 targets[8]; u16 xs[6], ys[6], timers[6]; s16 x, y; } frame;
     u32 * volatile sp74;
     void *sp78;
-    s32 sp7C;
     u32 sp80;
     s32 sp84;
     u32 sp88;
@@ -2268,7 +2267,7 @@ void sub_0806C568(u32 *arg0) {
     u16 temp_r0_10;
     u16 temp_r0_2;
     s32 temp_r0_3;
-    register u32 temp_r1 asm("r1");
+    u32 temp_r1;
     u16 temp_r2_5;
     u16 temp_r3_2;
     u16 var_r0;
@@ -2316,7 +2315,6 @@ void sub_0806C568(u32 *arg0) {
     sp94 = temp_r0;
     sp98 = T71C_U32(sp74,0x4);
     var_sl = T71C_U16(sp74,0x14);
-    sp7C = (s32) var_sl;
     if (temp_r0 <= 3U) {
         sp78 = (0x14C * sp94) + ((u8 *)gUnk_03003CE0);
         spA0 = sp94 * 4;
@@ -2357,7 +2355,7 @@ block_10:
     }
     temp_r4_3 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0);
     temp_r1_2 = sp74;
-    { register u32 cost asm("r0") = (u16)(sub_0806898C(T71C_U32(temp_r1_2,0xC), (s32) T71C_U32(temp_r1_2,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = T71C_U16(temp_r4_3,0xC2) - cost; }
+    { u32 cost = (u16)(sub_0806898C(T71C_U32(temp_r1_2,0xC), (s32) T71C_U32(temp_r1_2,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = T71C_U16(temp_r4_3,0xC2) - cost; }
     T71C_U16(temp_r4_3,0xC2) = temp_r1;
     if ((s32) (temp_r1 << 0x10) < 0) {
         T71C_U16(temp_r4_3,0xC2) = 0U;
@@ -2374,7 +2372,7 @@ block_16:
         var_r7 += 1;
     } while ((u32) var_r7 <= 4U);
     if (sp94 <= 3U) {
-        if (sp7C != 0) {
+        if (var_sl != 0) {
             T71C_U16(sp78,0xB2) = 2U;
         }
         if ((u32) T71C_U16(sp78,0xB2) <= 1U) {
