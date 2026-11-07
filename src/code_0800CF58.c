@@ -716,7 +716,6 @@ void sub_0800D368(void *arg0) {
     u16 temp_r5_8;
     s32 var_r0_16;
     s32 var_r0_17;
-    s32 var_r0_29;
     s32 var_r0_33;
     s32 var_r0_34;
     s32 var_r0_37;
@@ -3652,9 +3651,12 @@ retry63_1_done:
                         temp_r0_102 = d368_sub_0800CCCC();
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
-                        var_r0_29 = d368_sub_0807A028(1);
-                        var_r3_7 = *var_r5_10;
-                        ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = var_r0_29;
+                        {
+                            u16 lookupResult126;
+                            lookupResult126 = d368_sub_0807A028(1);
+                            var_r3_7 = *var_r5_10;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                        }
                         break;
                     }
                     break;
@@ -3711,9 +3713,12 @@ retry63_1_done:
                             temp_r5_10 = ((struct PlayerD368 *)arg0)->f144;
                             temp_r0_104 = d368_sub_0800CCCC();
                             ((union RecordD368 *)temp_r5_10)->w1_b0_n6.value = ((s32) ((0U - (u32) temp_r0_104) | (u32) temp_r0_104) >> 0x1F) & 0x20;
-                            var_r0_29 = d368_sub_0807A028(1);
-                            var_r3_7 = ((struct PlayerD368 *)arg0)->f144;
-                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = var_r0_29;
+                            {
+                                u16 lookupResult126;
+                                lookupResult126 = d368_sub_0807A028(1);
+                                var_r3_7 = ((struct PlayerD368 *)arg0)->f144;
+                                ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                            }
                             break;
                         }
                     } else {
@@ -3791,9 +3796,12 @@ retry63_1_done:
                         temp_r0_102 = d368_sub_0800CCCC();
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
-                        var_r0_29 = d368_sub_0807A028(1);
-                        var_r3_7 = *var_r5_10;
-                        ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = var_r0_29;
+                        {
+                            u16 lookupResult126;
+                            lookupResult126 = d368_sub_0807A028(1);
+                            var_r3_7 = *var_r5_10;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                        }
                         break;
                     case 2:                         /* switch 18 */
                         var_r5_10 = arg0 + 0x144;
@@ -3807,9 +3815,12 @@ retry63_1_done:
                         temp_r0_102 = d368_sub_0800CCCC();
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
-                        var_r0_29 = d368_sub_0807A028(1);
-                        var_r3_7 = *var_r5_10;
-                        ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = var_r0_29;
+                        {
+                            u16 lookupResult126;
+                            lookupResult126 = d368_sub_0807A028(1);
+                            var_r3_7 = *var_r5_10;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                        }
                         break;
                     case 1:                         /* switch 18 */
                         var_r5_10 = arg0 + 0x144;
@@ -3821,9 +3832,12 @@ retry63_1_done:
                         temp_r0_102 = d368_sub_0800CCCC();
                         temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                         ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
-                        var_r0_29 = d368_sub_0807A028(1);
-                        var_r3_7 = *var_r5_10;
-                        ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = var_r0_29;
+                        {
+                            u16 lookupResult126;
+                            lookupResult126 = d368_sub_0807A028(1);
+                            var_r3_7 = *var_r5_10;
+                            ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                        }
                         break;
                     case 7:                         /* switch 18 */
                         temp_r3_35 = ((struct PlayerD368 *)arg0)->f144;
@@ -3887,9 +3901,12 @@ retry63_1_done:
                 temp_r0_102 = d368_sub_0800CCCC();
                 temp_r0_102 = ((s32) ((0U - (u32) temp_r0_102) | (u32) temp_r0_102) >> 0x1F) & 0x20;
                 ((union RecordD368 *)temp_r4_27)->w1_b0_n6.value = temp_r0_102;
-                var_r0_29 = d368_sub_0807A028(1);
-                var_r3_7 = *var_r5_10;
-                ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = var_r0_29;
+                {
+                    u16 lookupResult126;
+                    lookupResult126 = d368_sub_0807A028(1);
+                    var_r3_7 = *var_r5_10;
+                    ((union RecordD368 *)var_r3_7)->w1_b6_n8.value = lookupResult126;
+                }
                 break;
             case 10:                                /* switch 16 */
                 temp_r2_44 = ((struct PlayerD368 *)arg0)->f144;
@@ -4358,9 +4375,9 @@ selectorDone49:
                             } else {
                                 d368_sub_08065158(&sp10, 0x5011A, 0, -1, (0));
                             }
-                            sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
-                            break;
+                            goto record_nibble_result126;
                         case 9:                     /* switch 22 */
+record_nibble_result126:
                             sp1A4 = ((union RecordD368 *)sp180)->w1_b6_n4.value;
                             break;
                         case 2:                     /* switch 22 */
