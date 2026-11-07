@@ -102,3 +102,19 @@ Shard 88 notes (sub_080855D4).
   (plus item 212) = 14014 mod table size; 953 buckets now). A flip needs a table size N with
   N | 14015+r or N | 14016+r (r = shift of item's regno), e.g. N = 935 with item's regno +9/+10.
   A batch of 30 local type changes (count/last/n/i/j/c/zero/ox/oy/g/t/k) never flipped it.
+
+2026-11-07 (claude-nov07-w88N): sub_080855D4 MATCH (aligned diff 8 -> 0, strict rcmp 0).
+  - Diagnosis correction: the three spill slots are not a D4/D6 swap but a rotation. Slots are
+    assigned upward in pseudo order (win 0x5F0, then the PRE temps). Ours numbered def (sp+0x29E,
+    PRE reg 1940) < D4 (1947) < D6 (1948) -> 0x5F4/0x5F8/0x5FC; the ROM has D4 0x5F4, D6 0x5F8,
+    def 0x5FC, i.e. D4 < D6 < def. PRE reaching regs are created in pre_delete in hash-bucket
+    order, with hash(plus r7 1488) = 15267, (plus r7 662) = 14441, (plus item 212) = 14014 + r.
+    No table size near 953 with a small regno shift works; at N = 953 item's regno must be
+    in 331..454 (D4/D6 buckets between 19 and 146).
+  - Fix: declare item in a block that starts at `win = &winBuf;` and closes after the shop loop
+    (item is only used inside it). Its pseudo becomes 405 (buckets 94/96), the temps are
+    numbered D4, D6, atk, def, and the slots match. No other code changes; N stays 953.
+    (Scoping the block to the shop loop alone gives regno 638, too late; starting it at
+    f855_020F4/pal/switch/f855_009F8 gives 502..553, also too late.)
+  - Lesson: a block-local declaration is a free way to set a pseudo's number anywhere in the
+    function's expansion order (it is created when the block is expanded).

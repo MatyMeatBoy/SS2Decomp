@@ -1,13 +1,13 @@
 {
   "address": "0x080855D4",
-  "updated_utc": "2026-11-07T06:01:33Z",
-  "checkpoint": "Move the genuine zero, BG control word and projection outputs out of the packed Frame855D4 aggregate into ordinary local variables. C-body SHA-256 b2ae09c14aed1a3578ab598472a4dca54a8e0bdfa3ce8f28423d8b952c927e7e; reduced frame-type SHA-256 b74c852be9e4c733054777fb7270c07637efd1ccf34abf3d76a602da5b1caa82. Candidate 4708 to 4616 bytes versus original 4620, frame still 1532 versus original 1540, heuristic 795 to 733. Still NONMATCHING; no matching-byte credit.",
+  "updated_utc": "2026-11-07T18:00:00Z",
+  "checkpoint": "claude-nov07-w88N shard 88: active C matches; make compare OK with sub_080855D4.s removed (base 2589a8d3).",
   "areas": [
     {
       "id": "compile",
       "label": "Preserve a complete compiling collection-scene draft",
       "state": "done",
-      "evidence": "The owned C draft and associated local frame view compile under the normal code_0807A5D4 module flags. Normal ROM compare prints shiningsoul2_eu.gba: OK with the original ASM fallback, the complete NONMATCHING build succeeds, check_tree reports zero errors and the diff check passes. These are baseline-integrity checks, not equivalent-C proof."
+      "evidence": "sub_080855D4 is active C in code_0807A5D4 under the normal compiler and flags; the NONMATCHING wrapper and asm/nonmatchings/code_0807A5D4/sub_080855D4.s are removed. make -j1 compare, make -j1 nonmatching and check_tree pass."
     },
     {
       "id": "tail_homes",
@@ -18,20 +18,20 @@
     {
       "id": "bounded_paths",
       "label": "Audit finite conversion and first-menu paths",
-      "state": "active",
-      "evidence": "Fresh unchanged control and selected source each pass 96 bounded original-ROM comparisons through book conversion, two intro-animation frames, shop setup including CpuSet, and the first mode-0 shop yield. Fixtures cover 0/1/4/25 book slots, collection counts 0/98/99, languages 0/3, two RNG byte seeds with nonzero upper return bits, and uniform zero/A5 stack seeds. Scratch-register-clobbering stubs compare call arguments, rendered text, non-stack RAM and VRAM effects. BG/zero/ox/oy pointer arguments are normalized by their logical roles because their internal addresses are implementation details for these tests; other local pointers remain frame-relative. These tests stop while the function retains its frame. They do not prove saved-register restoration, later menu modes, arbitrary initial memory, actual helper/scheduler behavior or full equivalence."
+      "state": "done",
+      "evidence": "Superseded by the byte match: the active C assembles to the original bytes."
     },
     {
       "id": "allocation",
       "label": "Recover the remaining frame and live ranges",
-      "state": "active",
-      "evidence": "Candidate frame remains 0x5FC (1532), original 0x604 (1540). The absolute inherited BG-word address therefore still differs even after recovering its frame-relative offset; uniform zero/A5 seeds do not prove arbitrary inherited-stack behavior. The intro converted-book count now stays in r9 instead of its former spill, while the original uses SL. Size is 4616 versus original 4620 and normal-module heuristic 733 versus previous 795. The original and both C controls have all 136 external static call targets in the same order. A u32 RNG-angle mask trial compiles unchanged relative to the existing u8 conversion and is not retained. No hard-register bindings or opcode assembly are introduced."
+      "state": "done",
+      "evidence": "Frame 0x604 and size 4620 equal the ROM. The last difference (spill slots of the GCSE-PRE temps for winBuf.def, item+0xD4 and item+0xD6) is fixed by scoping item to a block that starts at win = &winBuf: its later pseudo number moves the item+0xD4/+0xD6 hash buckets ahead of the winBuf.def address, so the temps are numbered (and slotted) D4, D6, def as in the ROM."
     },
     {
       "id": "full_match",
       "label": "Verify exact active C and linked ROM",
-      "state": "pending",
-      "evidence": "Strict normalized bytes and relocations remain NO MATCH. The original ASM remains active. Correct relative homes, equal static call order, bounded traces and heuristic improvements are not matching or full-equivalence proof. No new matching C bytes are claimed."
+      "state": "done",
+      "evidence": "Full-module object strictly equals the ROM (rcmp STRICT_DIFF_LINES 0); make -j1 compare prints the checksum match with the original ASM removed."
     }
   ],
   "regions": []

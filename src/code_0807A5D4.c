@@ -8221,7 +8221,6 @@ void sub_08085534(s32 arg0, s32 arg1)
     } while (i != 0xFFFF);
     *(u32 *)(sub_0800048C() + 8) = 0;
 }
-#ifdef NONMATCHING
 struct Shop6478 {
     u32 running;
     s32 cat;
@@ -8345,7 +8344,6 @@ void sub_080855D4(void)
     u32 last;
     u8 *text;
     struct Win855D4 *win;
-    const struct Item855D4 *item;
     const u8 *s;
     u8 *data;
     u8 *pal;
@@ -8433,6 +8431,11 @@ void sub_080855D4(void)
     }
     f855_5865C(0x177);
     f855_1AA8C(0x3C);
+    /* item is scoped to the shop loops: its later pseudo number puts the GCSE
+       temps for item+0xD4/+0xD6 before the winBuf.def address (ROM slot order). */
+    {
+    const struct Item855D4 *item;
+
     win = &winBuf;
     while (f855_1AAE0() == 0) {
         for (i = 0; i < n; i++) {
@@ -8838,6 +8841,7 @@ void sub_080855D4(void)
         gShop855D4->y += (gShop855D4->ty - gShop855D4->y) / 2;
         f855_003F0();
     }
+    }
 exit:
     f855_1ABE8(6);
     while (f855_1AAE0() == 0)
@@ -8849,9 +8853,6 @@ exit:
     f855_0CFA4();
     f855_00420(0x11201100);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080855D4);
-#endif
 void sub_080867E0(void) {
     sub_08001538(gUnk_03006478);
     gUnk_03006478 = 0;
