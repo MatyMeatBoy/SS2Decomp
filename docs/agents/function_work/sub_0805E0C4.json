@@ -1,0 +1,32 @@
+{
+  "address": "0x0805E0C4",
+  "updated_utc": "2026-11-07T01:20:23Z",
+  "checkpoint": "Verified source checkpoint 5b7f388d218abcedca755ba883885628f9bba836: linear line-buffer initialization and a saved second-header pointer restore the original frame size. Still NONMATCHING; no matching-byte credit.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Preserve a complete compiling dialogue draft",
+      "state": "done",
+      "evidence": "The inherited typed task, window and asset draft compiles under the normal code_0805D094 module rules. This checkpoint passes normal ROM compare with the original ASM fallback, the complete NONMATCHING build, check_tree and diff checks. These gates are baseline integrity, not equivalent-C proof."
+    },
+    {
+      "id": "dialogue_traces",
+      "label": "Recover dialogue parsing and task effects",
+      "state": "active",
+      "evidence": "Both the previous draft and this checkpoint pass 336 bounded original-ROM comparisons through the first state-0 suspend call after a positive-timer dialogue cycle. Cases cover seven portrait headers, both mode returns, local players 0/3, ordinary/fast input, plain text, two lines, player-name and number substitutions, and optional custom u16 strings. They compare stubbed call arguments, rendered text bytes, task fields and EWRAM/IWRAM effects with scratch-register clobbers and an A5 stack seed. The function has not returned at this checkpoint, so this is not a callee-saved-register restoration test. Negative-timer blinking, arbitrary initial stack contents and the complete scheduler remain unproven. Private reproducer: build/try/goal-E0C4-emulate.py."
+    },
+    {
+      "id": "layout",
+      "label": "Recover frame, spills and source lifetimes",
+      "state": "active",
+      "evidence": "Using the existing row-byte offset for the two 18-byte fills and preserving script+1 before the fill jointly restore frame 236 versus previous 232 and original 236. Real-module heuristic distance improves 827 to 813; size stays 3512 versus original 3496. The first standalone changes give 843 and 838; a separate u32 header scope worsens to 902 and is rejected. The original retains the value pointer in r6 and the next-header pointer in r4; this candidate uses another spill and different register roles. Branch layout, later reload rotation and exact instructions still differ. No hard-register binding, barrier, padding or extra memory write was added. The inherited uninitialized blink-timer warning remains. Its existing word load and byte-truncated increment already reproduce that access sequence and should not be retyped on a false width hypothesis."
+    },
+    {
+      "id": "full_match",
+      "label": "Verify exact active C and linked ROM",
+      "state": "pending",
+      "evidence": "Strict NO MATCH. Original ASM remains the normal-build implementation. Equal frame size, bounded traces and heuristic improvements are not full equivalence or matching proofs."
+    }
+  ],
+  "regions": []
+}
