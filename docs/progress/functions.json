@@ -1979,10 +1979,23 @@
       "canonical_symbol": "sub_0800208C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800208C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartLinkOrLoopbackSessionTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 366,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Mode0 selects callback022A4 (copies local24-byte block into receive slot0 and status0x101); mode1 selects01BE4 (MultiSioMain-backed link task). Allocates0x400-byte task stack and registers task at03002740. No behavior for unsupported modes is inferred."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 137,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "022A4 is the loopback callback; existing LinkSessionTask name and source01BE4 establish the other branch."
+        }
+      ]
     },
     {
       "name": "sub_080020E0",
@@ -1996,10 +2009,17 @@
       "canonical_symbol": "sub_080020E0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080020E0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RequestLinkSessionStop",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08001A50.c",
+          "line": 382,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets030027D0 bit0x40000000. Session callbacks01BE4 and022A4 test that bit and terminate; this helper does not wait for termination."
+        }
+      ]
     },
     {
       "name": "sub_080020F4",
@@ -2082,10 +2102,17 @@
       "canonical_symbol": "sub_080021A8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080021A8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LinkHasErrorFlag",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 59,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit3 only in link mode (bit1); otherwise returns0.01BE4 sets bit3 when its error-handling path runs. Does not return raw hardware error status."
+        }
+      ]
     },
     {
       "name": "sub_080021C4",
@@ -2099,10 +2126,23 @@
       "canonical_symbol": "sub_080021C4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080021C4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "EnableLinkErrorWaits",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 74,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets030027D0 bit2.01BE4 gates waiting on error signal0x1F40 on this flag, for repeated hardware error or a peer receive counter above0300272C. Lobby066BC sets it after successful GO handshake."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 159,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Error count greater than5 plus bit2 enters error wait; peer counter above timeout plus bit2 does likewise."
+        }
+      ]
     },
     {
       "name": "sub_080021D4",
@@ -2116,10 +2156,17 @@
       "canonical_symbol": "sub_080021D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080021D4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DisableLinkErrorWaits",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 77,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Clears030027D0 bit2; inverse operation of021C4. Does not stop MultiSio or the session task."
+        }
+      ]
     },
     {
       "name": "sub_080021E8",
@@ -2133,10 +2180,23 @@
       "canonical_symbol": "sub_080021E8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080021E8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LinkHasMissingPeerDataFlag",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 80,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit4 only in link mode; otherwise0.01BE4 clears bit4 every frame, then sets it immediately when any counted peer lacks its receive-success bit. This does not itself imply the timeout threshold was crossed."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 171,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Per-peer loop sets0x10on any missing receive-success flag, separately from the later timeout test."
+        }
+      ]
     },
     {
       "name": "sub_08002204",
@@ -2150,10 +2210,23 @@
       "canonical_symbol": "sub_08002204",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08002204",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LinkIsParentOrLoopback",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 99,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns1 when link-mode flag is absent, otherwise returns03002730 status bit7 (MultiSio parent flag). It is not simply local ID==0."
+        },
+        {
+          "source": "src/code_08001A50.c",
+          "line": 124,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "01BE4 stores MultiSioMain return status in03002730."
+        }
+      ]
     },
     {
       "name": "sub_08002228",
@@ -2167,10 +2240,17 @@
       "canonical_symbol": "sub_08002228",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08002228",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LinkIsSessionActive",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 110,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit0.01BE4 and022A4 set active during their loops and clear it by replacing flags with0x80000000 at exit."
+        }
+      ]
     },
     {
       "name": "sub_08002238",
@@ -2207,10 +2287,17 @@
       "canonical_symbol": "sub_0800224C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0800224C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LinkWaitAllConnectedReceiveFlags",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 116,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "In link mode captures status bits8..11 as wanted peer mask, yields signal1 and waits until status bits0..3 exactly equal it. Loopback returns immediately. No conventional barrier tag or timeout is supplied here."
+        }
+      ]
     },
     {
       "name": "sub_08002298",
@@ -2264,10 +2351,17 @@
       "canonical_symbol": "sub_080022F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080022F4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LinkIsCableMode",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 148,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns030027D0 bit1, the mode flag set by01BE4 and absent from022A4 loopback."
+        }
+      ]
     },
     {
       "name": "sub_08002304",
@@ -2281,10 +2375,17 @@
       "canonical_symbol": "sub_08002304",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08002304",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "LinkClearErrorAndWakeWaiters",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 151,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "In link mode clears030027D0 bit3 and calls TaskWakeBySignal(0x1F40). Outside link mode does nothing. No broader recovery guarantee is inferred."
+        }
+      ]
     },
     {
       "name": "sub_0800232C",
@@ -2332,10 +2433,23 @@
       "canonical_symbol": "sub_08002694",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08002694",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskTitleModeSelection",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 361,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Persistent menu task waits for signal0x14, handles Start/A/Up/Down, draws title/menu resources, stores mode selection03002838. Mode0 stops cable session and starts loopback; mode1 uses cable session; both start save-slot screen065B0. Modes2/3 invoke88914/920E4. Exact visible option strings remain unverified."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 493,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Switch on selected mode explicitly distinguishes single/loopback from cable flow and calls065B0."
+        }
+      ]
     },
     {
       "name": "sub_08002A54",
@@ -2349,10 +2463,17 @@
       "canonical_symbol": "sub_08002A54",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08002A54",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartTitleModeSelectionTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 517,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates0x200-byte stack, registers task03002810 callback02694."
+        }
+      ]
     },
     {
       "name": "sub_08002A8C",
@@ -2400,10 +2521,23 @@
       "canonical_symbol": "sub_08002B70",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08002B70",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskSelectSavedCharacter",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 682,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Loads eight saved-character records with7A378; displays class sprites, names, level and stats; supports slot selection, creation/edit tasks and erase7A2E0; writes selection with7A4B4. Final selected mode1 starts multiplayer lobby06B2C, mode0 continues0CB3C(0). No save-record field beyond observed usage is renamed."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 1129,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Final mode switch calls0CB3C(0) for0 and06B2C for1."
+        }
+      ]
     },
     {
       "name": "sub_08003984",
@@ -2531,10 +2665,17 @@
       "canonical_symbol": "sub_080065B0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080065B0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartSavedCharacterSelectionTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 2997,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Cancels existing03002840 task if active, allocates0x1000-byte stack, registers02B70 callback."
+        }
+      ]
     },
     {
       "name": "sub_080065FC",
@@ -2616,10 +2757,41 @@
       "canonical_symbol": "sub_080066BC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080066BC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TaskLinkLobbyReadyGo",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3061,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Lobby uses24-byte blocks via02118. Clients advertise ASCII OK at bytes8/9; host requires all connected peers ready and A press, then advertises GO for six iterations. Host byte10 publishes two options; clients mirror them. B cancels; client cancel waits more than60iterations. Success enables021C4 and continues0CB3C(1); cancel requests020E0, waits70yields and wakes title signal0x14. Function is matching C at this revision; no runtime trace has been collected."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3132,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Host readiness test, A press and GO stores."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3178,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Client OK stores, GO detection and option mirroring."
+        },
+        {
+          "source": "src/code_08002118.c",
+          "line": 3228,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Exit branches distinguish cancellation and successful lobby."
+        },
+        {
+          "source": "asm/nonmatchings/code_08002118/sub_080066BC.s",
+          "line": 175,
+          "revision": "97d9f36db07ca28ee9ad9528570273ec2f470edf",
+          "detail": "Original ASM compares0x4F/0x4B at lines175/178; host stores0x47/0x4F at246/248, client stores0x4F/0x4B at325/327 and tests0x47/0x4F at333/336; calls020E0,021C4 and0CB3C at510,521,531. The original ASM path exists at the recorded revision."
+        }
+      ]
     },
     {
       "name": "sub_08006B2C",
@@ -2633,10 +2805,17 @@
       "canonical_symbol": "sub_08006B2C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08006B2C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "StartLinkLobbyReadyGoTask",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08002118.c",
+          "line": 3257,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates0x400-byte stack, registers066BC callback on task030061E0. Called by02B70 after multiplayer character selection."
+        }
+      ]
     },
     {
       "name": "sub_08006B60",
@@ -3740,16 +3919,10 @@
       "canonical_symbol": "sub_08008C1C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08008C1C_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08006D24.c",
-          "line": 1460,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08008C1C_v"
-        }
-      ]
+      "display_name": "sub_08008C1C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08008CC4",
@@ -10463,16 +10636,10 @@
       "canonical_symbol": "sub_080284F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080284F4_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08021DC4.c",
-          "line": 5526,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080284F4_v"
-        }
-      ]
+      "display_name": "sub_080284F4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08028830",
@@ -10486,16 +10653,10 @@
       "canonical_symbol": "sub_08028830",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08028830_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08021DC4.c",
-          "line": 5620,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028830_v"
-        }
-      ]
+      "display_name": "sub_08028830",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08028918",
@@ -10543,16 +10704,10 @@
       "canonical_symbol": "sub_08028AAC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08028AAC_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 35,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028AAC_v"
-        }
-      ]
+      "display_name": "sub_08028AAC",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08028D98",
@@ -10566,16 +10721,10 @@
       "canonical_symbol": "sub_08028D98",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08028D98_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 169,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08028D98_v"
-        }
-      ]
+      "display_name": "sub_08028D98",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080290E4",
@@ -10589,16 +10738,10 @@
       "canonical_symbol": "sub_080290E4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "task026E4",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 282,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: task026E4"
-        }
-      ]
+      "display_name": "sub_080290E4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08029174",
@@ -10612,16 +10755,10 @@
       "canonical_symbol": "sub_08029174",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08029174_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 359,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08029174_v"
-        }
-      ]
+      "display_name": "sub_08029174",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0802926C",
@@ -10635,16 +10772,10 @@
       "canonical_symbol": "sub_0802926C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802926C_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 404,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802926C_v"
-        }
-      ]
+      "display_name": "sub_0802926C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0802939C",
@@ -10658,16 +10789,10 @@
       "canonical_symbol": "sub_0802939C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802939C_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 457,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802939C_v"
-        }
-      ]
+      "display_name": "sub_0802939C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0802949C",
@@ -10698,16 +10823,10 @@
       "canonical_symbol": "sub_08029788",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08029788_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 683,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08029788_v"
-        }
-      ]
+      "display_name": "sub_08029788",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0802996C",
@@ -10857,16 +10976,10 @@
       "canonical_symbol": "sub_0802A104",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0802A104_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08028AAC.c",
-          "line": 1011,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0802A104_v"
-        }
-      ]
+      "display_name": "sub_0802A104",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0802A19C",
@@ -13385,16 +13498,10 @@
       "canonical_symbol": "sub_08047B2C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "t47B2C",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080443EC.c",
-          "line": 1380,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: t47B2C"
-        }
-      ]
+      "display_name": "sub_08047B2C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080480E8",
@@ -13550,16 +13657,10 @@
       "canonical_symbol": "sub_0804A89C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "t48implB",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080443EC.c",
-          "line": 3449,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: t48implB"
-        }
-      ]
+      "display_name": "sub_0804A89C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0804AE48",
@@ -14293,16 +14394,10 @@
       "canonical_symbol": "sub_08050E48",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "t53_impl0E48",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0804D330.c",
-          "line": 3139,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: t53_impl0E48"
-        }
-      ]
+      "display_name": "sub_08050E48",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08051A78",
@@ -19450,16 +19545,10 @@
       "canonical_symbol": "sub_0805C7B8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "c7b8_void",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0805A630.c",
-          "line": 1848,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: c7b8_void"
-        }
-      ]
+      "display_name": "sub_0805C7B8",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0805CB04",
@@ -20102,16 +20191,10 @@
       "canonical_symbol": "sub_0805E0C4",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "e0c4Impl",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0805D094.c",
-          "line": 867,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: e0c4Impl"
-        }
-      ]
+      "display_name": "sub_0805E0C4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0805EE6C",
@@ -23753,16 +23836,10 @@
       "canonical_symbol": "sub_08073E2C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08073E2C_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08073E2C.c",
-          "line": 13,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_08073E2C_v"
-        }
-      ]
+      "display_name": "sub_08073E2C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08073EE8",
@@ -24048,16 +24125,10 @@
       "canonical_symbol": "sub_080761A4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080761A4_c",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08073E2C.c",
-          "line": 1301,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080761A4_c"
-        }
-      ]
+      "display_name": "sub_080761A4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_08076A88",
@@ -24581,16 +24652,10 @@
       "canonical_symbol": "sub_0807A5D4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807A5D4_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0807A5D4.c",
-          "line": 105,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0807A5D4_v"
-        }
-      ]
+      "display_name": "sub_0807A5D4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0807B7B4",
@@ -24604,16 +24669,10 @@
       "canonical_symbol": "sub_0807B7B4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0807B7B4_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0807A5D4.c",
-          "line": 727,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0807B7B4_v"
-        }
-      ]
+      "display_name": "sub_0807B7B4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0807BD78",
@@ -25953,16 +26012,10 @@
       "canonical_symbol": "sub_0808AFE8",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_0808AFE8_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08087CC0.c",
-          "line": 2139,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808AFE8_v"
-        }
-      ]
+      "display_name": "sub_0808AFE8",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0808B978",
@@ -25993,16 +26046,10 @@
       "canonical_symbol": "sub_0808C020",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808C020_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08087CC0.c",
-          "line": 2934,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C020_v"
-        }
-      ]
+      "display_name": "sub_0808C020",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0808C0C4",
@@ -26016,16 +26063,10 @@
       "canonical_symbol": "sub_0808C0C4",
       "domain": "game",
       "implementation": "draft",
-      "display_name": "sub_0808C0C4_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08087CC0.c",
-          "line": 2994,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808C0C4_v"
-        }
-      ]
+      "display_name": "sub_0808C0C4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0808CB58",
@@ -26617,16 +26658,10 @@
       "canonical_symbol": "sub_0808E530",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808E530_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0808D4A8.c",
-          "line": 942,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808E530_v"
-        }
-      ]
+      "display_name": "sub_0808E530",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0808E66C",
@@ -26997,16 +27032,10 @@
       "canonical_symbol": "sub_0808F1E4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0808F1E4_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0808D4A8.c",
-          "line": 1627,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_0808F1E4_v"
-        }
-      ]
+      "display_name": "sub_0808F1E4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0808F6A8",
@@ -30257,16 +30286,10 @@
       "canonical_symbol": "sub_0809A834",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "task834",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_08097E28.c",
-          "line": 1375,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: task834"
-        }
-      ]
+      "display_name": "sub_0809A834",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0809ADE8",
@@ -30688,16 +30711,10 @@
       "canonical_symbol": "sub_0809E468",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "taskE468",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0809D878.c",
-          "line": 439,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: taskE468"
-        }
-      ]
+      "display_name": "sub_0809E468",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_0809EDFC",
@@ -31476,16 +31493,10 @@
       "canonical_symbol": "sub_080A35D0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "t107MainD",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_0809D878.c",
-          "line": 3320,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: t107MainD"
-        }
-      ]
+      "display_name": "sub_080A35D0",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A3D2C",
@@ -31499,16 +31510,10 @@
       "canonical_symbol": "sub_080A3D2C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A3D2C_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A3D2C.c",
-          "line": 93,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A3D2C_v"
-        }
-      ]
+      "display_name": "sub_080A3D2C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A4520",
@@ -31539,16 +31544,10 @@
       "canonical_symbol": "sub_080A47A0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A47A0_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A3D2C.c",
-          "line": 427,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A47A0_v"
-        }
-      ]
+      "display_name": "sub_080A47A0",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A49A8",
@@ -31919,16 +31918,10 @@
       "canonical_symbol": "sub_080A68B0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "t109Run68B0",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A3D2C.c",
-          "line": 1882,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: t109Run68B0"
-        }
-      ]
+      "display_name": "sub_080A68B0",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A6BE8",
@@ -31942,16 +31935,10 @@
       "canonical_symbol": "sub_080A6BE8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A6BE8_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A3D2C.c",
-          "line": 1984,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A6BE8_v"
-        }
-      ]
+      "display_name": "sub_080A6BE8",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A705C",
@@ -31965,16 +31952,10 @@
       "canonical_symbol": "sub_080A705C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A705C_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A3D2C.c",
-          "line": 2095,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A705C_v"
-        }
-      ]
+      "display_name": "sub_080A705C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A74E8",
@@ -32005,16 +31986,10 @@
       "canonical_symbol": "sub_080A756C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A756C_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A3D2C.c",
-          "line": 2251,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A756C_v"
-        }
-      ]
+      "display_name": "sub_080A756C",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A7DEC",
@@ -32283,16 +32258,10 @@
       "canonical_symbol": "sub_080A8164",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A8164_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A3D2C.c",
-          "line": 2786,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A8164_v"
-        }
-      ]
+      "display_name": "sub_080A8164",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080A8F90",
@@ -32496,16 +32465,10 @@
       "canonical_symbol": "sub_080A9950",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080A9950_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 281,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080A9950_v"
-        }
-      ]
+      "display_name": "sub_080A9950",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080AB054",
@@ -32553,16 +32516,10 @@
       "canonical_symbol": "sub_080AB2F8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080AB2F8_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 1178,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AB2F8_v"
-        }
-      ]
+      "display_name": "sub_080AB2F8",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080AC214",
@@ -32644,16 +32601,10 @@
       "canonical_symbol": "sub_080AC844",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080AC844_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 2075,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AC844_v"
-        }
-      ]
+      "display_name": "sub_080AC844",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080AD534",
@@ -32667,16 +32618,10 @@
       "canonical_symbol": "sub_080AD534",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080AD534_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 2474,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AD534_v"
-        }
-      ]
+      "display_name": "sub_080AD534",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080ADE30",
@@ -32809,16 +32754,10 @@
       "canonical_symbol": "sub_080AE420",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080AE420_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 2973,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AE420_v"
-        }
-      ]
+      "display_name": "sub_080AE420",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080AF2AC",
@@ -32917,16 +32856,10 @@
       "canonical_symbol": "sub_080AF3F4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080AF3F4_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 3603,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080AF3F4_v"
-        }
-      ]
+      "display_name": "sub_080AF3F4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080B0288",
@@ -32940,16 +32873,10 @@
       "canonical_symbol": "sub_080B0288",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080B0288_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 4067,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0288_v"
-        }
-      ]
+      "display_name": "sub_080B0288",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080B0F70",
@@ -32997,16 +32924,10 @@
       "canonical_symbol": "sub_080B0FC4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080B0FC4_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080A9680.c",
-          "line": 4427,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B0FC4_v"
-        }
-      ]
+      "display_name": "sub_080B0FC4",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080B1FD4",
@@ -33258,16 +33179,10 @@
       "canonical_symbol": "sub_080B44F0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080B44F0_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080B3648.c",
-          "line": 586,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B44F0_v"
-        }
-      ]
+      "display_name": "sub_080B44F0",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080B4690",
@@ -33474,16 +33389,10 @@
       "canonical_symbol": "sub_080B6178",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080B6178_v",
-      "name_status": "existing",
-      "name_source": "c_definition_alias",
-      "evidence": [
-        {
-          "source": "src/code_080B3648.c",
-          "line": 1618,
-          "detail": "Existing C definition with an asm alias to the canonical symbol: sub_080B6178_v"
-        }
-      ]
+      "display_name": "sub_080B6178",
+      "name_status": "unidentified",
+      "name_source": null,
+      "evidence": []
     },
     {
       "name": "sub_080B6324",
@@ -37120,12 +37029,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 199,
-      "existing": 80,
-      "confirmed": 119,
+      "identified": 171,
+      "existing": 35,
+      "confirmed": 136,
       "proposed": 0,
-      "unidentified": 1681,
-      "percent_identified": 10.585106382978724
+      "unidentified": 1709,
+      "percent_identified": 9.095744680851064
     },
     "sdk": {
       "total": 155,
@@ -37138,12 +37047,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 354,
-      "existing": 209,
-      "confirmed": 145,
+      "identified": 326,
+      "existing": 164,
+      "confirmed": 162,
       "proposed": 0,
-      "unidentified": 1681,
-      "percent_identified": 17.395577395577394
+      "unidentified": 1709,
+      "percent_identified": 16.01965601965602
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
