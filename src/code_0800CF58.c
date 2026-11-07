@@ -399,6 +399,7 @@ void sub_0800D368(void *arg0) {
     s32 stackArg0, stackArg1, stackArg2, stackArg3;
     union ColorUnion297D368 { u32 word; struct { unsigned red:5, green:5, blue:5, unused:17; } bits; } colorStorage294D368;
     u32 sp114;
+    u32 ownerFlags;
     s32 sp118;
     s32 sp11C;
     s32 sp120;
@@ -458,8 +459,6 @@ void sub_0800D368(void *arg0) {
     struct RenderColorEntryD368 { u8 reserved[0x1E]; u16 color; };
     extern struct RenderColorEntryD368 renderColorEntriesD368[] asm("gUnk_03001F40");
     struct PalBufD368 { u16 c[0x40][16]; };
-    s16 *var_r1_4;
-    s16 *var_r1_5;
     s32 temp_r0_52;
     s32 temp_r0_53;
     s32 temp_r0_54;
@@ -1509,7 +1508,6 @@ block_197:
                             if (var_r6->f4 != 7) break;
                             {
                                 /* do-while(0): loop-depth ref weight puts the owner-table base in r5 */
-                                u32 ownerFlags;
                                 do {
                                     ownerFlags = effectOwnerTableD368[temp_r0_17].f30 & 0x2000;
                                 } while (0);
@@ -1536,7 +1534,6 @@ block_197:
                             if (var_r6->f4 != 6) break;
                             {
                                 /* do-while(0): loop-depth ref weight puts the owner-table base in r5 */
-                                u32 ownerFlags;
                                 do {
                                     ownerFlags = effectOwnerTableD368[temp_r0_17].f30 & 0x2000;
                                 } while (0);
@@ -1587,7 +1584,6 @@ block_197:
                             if (var_r6->f4 != 7) break;
                             {
                                 /* do-while(0): loop-depth ref weight puts the owner-table base in r5 */
-                                u32 ownerFlags;
                                 do {
                                     ownerFlags = effectOwnerTableD368[temp_r0_17].f30 & 0x2000;
                                 } while (0);
@@ -1629,7 +1625,8 @@ block_197:
                                 temp_r1_10 = (u16) var_r6->f0 - 6;
                                 var_r6->f0 = temp_r1_10;
                                 if ((s32) ((u32) temp_r1_10 << 0x10) < 0) {
-                                    var_r6->f0 = temp_r1_10 | 0xFFFF;
+                                    temp_r1_10 |= 0xFFFF;
+                                    var_r6->f0 = temp_r1_10;
                                 }
                             }
                             ((struct PlayerD368 *)arg0)->f14 = (u16) (0xFFFE & ((struct PlayerD368 *)arg0)->f14);
@@ -1778,14 +1775,12 @@ block_447:
                 temp_r0_31 = d368_sub_0800CCCC();
                 if ((temp_r0_31 == 0) && (sp154 > 0x14U) && (((struct PlayerD368 *)arg0)->f10 == 0xA) && ((s32) (s16) ((struct PlayerD368 *)arg0)->fC2 > 0)) {
                     if (d368_sub_0801DF8C() == 0) {
-                        var_r1_4 = arg0 + 0x134;
-                        goto block_527;
+                        ((struct PlayerD368 *)arg0)->f134 = 1;
                     } else {
                         ((struct PlayerD368 *)arg0)->f134 = (u16) temp_r0_31;
                     }
                 } else {
-                    var_r1_5 = arg0 + 0x134;
-                    goto block_530;
+                    ((struct PlayerD368 *)arg0)->f134 = 0;
                 }
                 break;
             case 1:                                 /* switch 4 */
@@ -1892,16 +1887,12 @@ block_447:
                 temp_r0_35 = d368_sub_0800CCCC();
                 if ((temp_r0_35 == 0) && (sp154 > 0x14U) && (((struct PlayerD368 *)arg0)->f10 == 0xA) && ((s32) (s16) ((struct PlayerD368 *)arg0)->fC2 > 0)) {
                     if (d368_sub_0801DF8C() == 0) {
-                        var_r1_4 = arg0 + 0x134;
-block_527:
-                        *var_r1_4 = 1;
+                        ((struct PlayerD368 *)arg0)->f134 = 1;
                         break;
                     }
                     ((struct PlayerD368 *)arg0)->f134 = (u16) temp_r0_35;
                 } else {
-                    var_r1_5 = arg0 + 0x134;
-block_530:
-                    *var_r1_5 = 0;
+                    ((struct PlayerD368 *)arg0)->f134 = 0;
                 }
                 break;
             case 3:                                 /* switch 4 */
