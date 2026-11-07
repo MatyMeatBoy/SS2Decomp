@@ -4401,6 +4401,1003 @@
           "detail": "Canonical Thumb boundary 0x0800D2F4..0x0800D368; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0800D2F6 queries class; branches distinguish0/2/5 versus3. 0x0800D324 and 0x0800D350 query skill7/6 levels; 0x0800D330 and 0x0800D35C call linked-effect producer with key7/6 and level. Original-byte decoding is static evidence, not a runtime trace or new C-equivalence claim."
         }
       ]
+    },
+    {
+      "address": "0x08078BCC",
+      "canonical_symbol": "sub_08078BCC",
+      "display_name": "TaskEligiblePlayerCentroidAreaAttack",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3312,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched 793BC starts 78BCC with owner player ID and a per-owner effect-pool slot. Receiver6690C case 0x24/tag 0xA5 calls 793BC(sender); the message payload is unused. Player+0x68 is treated only as an observed group/participation selector here; exact team/alive/ready semantics are not established by equality alone.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08073E2C.c#L3312"
+        },
+        {
+          "source": "asm/nonmatchings/code_08073E2C/sub_08078BCC.s",
+          "line": 89,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original ASM groups connected players whose byte+0x68 matches owner, filters packet state 0/1 plus packet byte 5 bit 2, sums packet positions and divides by eligible count (lines 122-158), placing the effect at their centroid. Exact in-game attack or Soul/Unison title is not established. Player+0x68 is treated only as an observed group/participation selector here; exact team/alive/ready semantics are not established by equality alone.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_08073E2C/sub_08078BCC.s#L89"
+        },
+        {
+          "source": "asm/nonmatchings/code_08073E2C/sub_08078BCC.s",
+          "line": 592,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original ASM checks local player byte+0x68, counts iterations and subtracts increasing multiples of 10 from resource+0xC2 (lines 602-635), zeroing resource and field+0x134 on underflow. No elapsed-frame duration guarantee. Player+0x68 is treated only as an observed group/participation selector here; exact team/alive/ready semantics are not established by equality alone.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_08073E2C/sub_08078BCC.s#L592"
+        },
+        {
+          "source": "asm/nonmatchings/code_08073E2C/sub_08078BCC.s",
+          "line": 794,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original ASM tests area overlap through 21FE0 and applies enemy hit bookkeeping; line 902 calls 660EC, broadcasting hit tag 0x8A. The role is an attack, not an inventory interface. Player+0x68 is treated only as an observed group/participation selector here; exact team/alive/ready semantics are not established by equality alone.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_08073E2C/sub_08078BCC.s#L794"
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 2879,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "NONMATCHING draft is a reading aid only. This broad role does not confirm detailed action states, all packet fields or equivalent C; no runtime trace was collected. Player+0x68 is treated only as an observed group/participation selector here; exact team/alive/ready semantics are not established by equality alone.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08073E2C.c#L2879"
+        }
+      ]
+    },
+    {
+      "address": "0x080793BC",
+      "canonical_symbol": "sub_080793BC",
+      "display_name": "StartEligiblePlayerCentroidAreaAttack",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3312,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched starter finds an unused bit among 16 per-owner effect slots, allocates 0x400 bytes, assigns task 78BCC, starts it with owner and slot, then marks slot used. Allocation/no-slot failures return without starting an effect; task field+8 is not priority proof.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08073E2C.c#L3312"
+        },
+        {
+          "source": "asm/nonmatchings/code_08073E2C/sub_08078BCC.s",
+          "line": 89,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Started task computes a eligible player-position centroid and later broadcasts area hits through 660EC. Exact branded attack identity remains unresolved.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_08073E2C/sub_08078BCC.s#L89"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1368,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x080793BC..0x08079458; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc.  Original direct calls: 0x08079408->0x08001494, 0x0807942E->0x08000274. These calls independently anchor the matched source task/allocation/damage/display path. Task-entry pointer 0x08078BCD is loaded from original literal 0x08079454 and stored at task+0xC by 0x0807941A. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x080680F8",
+      "canonical_symbol": "sub_080680F8",
+      "display_name": "EnqueueLinkEligiblePlayerCentroidAreaAttack",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 255,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched producer enqueues tag 0xA5 after 0CFF0 gate and 0CFC8 update. It writes caller value but receiver does not use that payload.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08067B4C.c#L255"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1469,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Receiver tag 0xA5/case 0x24 calls 793BC(sender), starting the eligible-player centroid area attack78BCC with the sender as owner. Exact in-game name unproved.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_080659B0.c#L1469"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1268,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x080680F8..0x08068144; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original 0x08068122 loads tag 0xA5; 0x08068124 stores it at queue entry+0. Source receiver/task consumers establish the effect described above. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08079458",
+      "canonical_symbol": "sub_08079458",
+      "display_name": "TaskTimedAreaDamageEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3368,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched task reads world position and subtype from info record. Subtypes 0..5 select countdown 0/120/180, one of two hitboxes and random damage 50..69 or 100..139; draws numeric countdown, then area visual 22078 and collision/damage calls 1FC34/1F1C4/29A7C/22028. Releases owner effect-pool bit on exit. Resource identities do not establish an exact bomb/item name; durations are counted yields, not promised elapsed frames.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08073E2C.c#L3368"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1235,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched item-use caller sends 6818C/tag 0xA8 for item effect selectors 13/14 with subtypes 2/3, X/Y and an additional value. Other matched enemy projectile callers also start 79888. The task does not read info.d, although the starter stores it.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_0805A630.c#L1235"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1369,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x08079458..0x08079888; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc.  Original direct calls: 0x08079690->0x08022078, 0x0807973A->0x08021FE0, 0x08079748->0x0801F1C4, 0x080796E0->0x0801FC34, 0x080797D8->0x08029A7C. These calls independently anchor the matched source task/allocation/damage/display path. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08079888",
+      "canonical_symbol": "sub_08079888",
+      "display_name": "StartTimedAreaDamageEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3522,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched starter allocates one of 16 per-owner effect tasks with 0x400 bytes; stores owner, slot, X/Y, subtype and extra word, starts 79458. The task selects timing/damage by subtype and does not read the stored extra word.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08073E2C.c#L3522"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1505,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Tag0xA8/case 0x27 calls 79888(ownerLow16,X,Y,subtypeHigh16,extraWord).",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_080659B0.c#L1505"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1370,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x08079888..0x08079948; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc.  Original direct calls: 0x080798C6->0x08001494, 0x08079918->0x08000274. These calls independently anchor the matched source task/allocation/damage/display path. Task-entry pointer 0x08079459 is loaded from original literal 0x08079944 and stored at task+0xC by 0x08079908. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0806818C",
+      "canonical_symbol": "sub_0806818C",
+      "display_name": "EnqueueLinkTimedAreaDamageEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 286,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched producer sends tag 0xA8 in two chunks: owner/subtype packed in word 0, X/Y in words 1/2 and extra value in word 3. Gate 0CFF0 must be clear.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08067B4C.c#L286"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1505,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Receiver invokes 79888, which starts matched 79458 timed area-damage effect. Stored extra value is not read by 79458; do not label it as damage power from the caller parameter alone.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_080659B0.c#L1505"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1270,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x0806818C..0x080681F4; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original 0x080681BC loads tag 0xA8; 0x080681BE stores it at queue entry+0. Source receiver/task consumers establish the effect described above. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08079948",
+      "canonical_symbol": "sub_08079948",
+      "display_name": "TaskRepeatingAreaDamageEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3579,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched task renders startup animation then an area effect for 180 counted loop iterations, testing overlaps and applying damage 10 to eligible actors/players. A per-hit counter suppresses repeated hits until it increments when frame counter&31==0. Releases owner effect-pool slot. Exact item/element identity remains unresolved; X/Y are used, stored subtype/extra values are not read by this body.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08073E2C.c#L3579"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1371,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x08079948..0x08079CC4; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc.  Original direct calls: 0x08079AF0->0x08021FE0, 0x08079AFE->0x0801F1C4, 0x08079B84->0x08029CEC. These calls independently anchor the matched source task/allocation/damage/display path. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x08079CC4",
+      "canonical_symbol": "sub_08079CC4",
+      "display_name": "StartRepeatingAreaDamageEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3665,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched starter allocates an unused per-owner task, stores owner/slot/X/Y/subtype/extra value and starts 79948. The body uses position/owner/slot, not the stored subtype or extra value.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08073E2C.c#L3665"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1511,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Tag0xAA/case 0x29 decodes owner/subtype word 0, X/Y words 1/2 and extra word 3, then calls 79CC4.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_080659B0.c#L1511"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1372,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x08079CC4..0x08079D84; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc.  Original direct calls: 0x08079D02->0x08001494, 0x08079D54->0x08000274. These calls independently anchor the matched source task/allocation/damage/display path. Task-entry pointer 0x08079949 is loaded from original literal 0x08079D80 and stored at task+0xC by 0x08079D44. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0806823C",
+      "canonical_symbol": "sub_0806823C",
+      "display_name": "EnqueueLinkRepeatingAreaDamageEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08067B4C.c",
+          "line": 320,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched producer sends tag 0xAA in two chunks, with packed owner/subtype then X/Y/extra word, gated by 0CFF0.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08067B4C.c#L320"
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1511,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Receiver calls 79CC4, which starts matched 79948 repeating area-damage effect; not a lobby/configuration block. Matched item-use caller 5B688 at src/code_0805A630.c:1244-1245 sends this for item effect selector 15.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_080659B0.c#L1511"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1272,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x0806823C..0x080682A4; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original 0x0806826C loads tag 0xAA; 0x0806826E stores it at queue entry+0. Source receiver/task consumers establish the effect described above. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x080665B0",
+      "canonical_symbol": "sub_080665B0",
+      "display_name": "EnqueueLinkPlayerOverheadAnimation",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080659B0.c",
+          "line": 595,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched producer 665B0 coalesces tag0xA6 and sends one word; receiver 6690C case 0x25 at line 1472 writes its low 16 bits to sender Player+0x11E.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_080659B0.c#L595"
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 10520,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original ASM loads Player+0x11E, advances animation 65370 on sprite sp+0x78 and clears it on completion. Otherwise lines 10562-10574 draw 65230 at player screen Y-0x2A. Alternate draw branch 11313-11367 does the same. Sprite initialization 44-49 uses resource 0x50010 (literal 204). This establishes overhead-animation selection, not exact icon/emote identities or complete equivalent C.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_0800CF58/sub_0800D368.s#L10520"
+        },
+        {
+          "source": "src/code_0805A630.c",
+          "line": 1437,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched item-effect selector 0x10 sends resource parameter+A2 through 665B0; parameter is interpreted as overhead animation by the original player renderer, not a proved round-end or item/Soul ID.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_0805A630.c#L1437"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1222,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x080665B0..0x08066624; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original 0x08066604 loads tag 0xA6; 0x08066606 stores it at queue entry+0. Source receiver/task consumers establish the effect described above. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0808C0C4",
+      "canonical_symbol": "sub_0808C0C4",
+      "display_name": "TaskBattleTeamSetup",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "asm/nonmatchings/code_08087CC0/sub_0808C0C4.s",
+          "line": 257,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original text operand 0x1401F6 resolves through matched 6EE0/7290 language 0 pointer table 0x0838AFF0 to ROM 0x0837E84A. Static rendering with ROM font 0 reads Please choose a team. Same operand appears at line 522. EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. No runtime UI trace.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_08087CC0/sub_0808C0C4.s#L257"
+        },
+        {
+          "source": "asm/nonmatchings/code_08087CC0/sub_0808C0C4.s",
+          "line": 674,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original reads local selection Player+0x1C. If not 4, stores selection+3 at Player+0x68; otherwise 0. Matched 8CB58 counts byte68-3 in four groups and selects Diamond/Club/Spade/Heart Team wins text. This anchors battle-team setup beyond a draft variable or equality test.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_08087CC0/sub_0808C0C4.s#L674"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3159,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "NONMATCHING C draft aids reading the selection/confirmation UI, group occupancy validation, link barrier 67C18/67C08/67BF8 and player attribute synchronization 6617C/66220 at 3387-3402. The original ASM and decoded UI assets establish broad screen identity; exact control-flow equivalence and runtime behavior remain unproved.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08087CC0.c#L3159"
+        }
+      ]
+    },
+    {
+      "address": "0x0808CB58",
+      "canonical_symbol": "sub_0808CB58",
+      "display_name": "TaskBattleTeamWinnerAndResults",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3432,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched task uses link barrier 67C18/67C08/67BF8, positions participants by byte+0x68 minus3, counts non-eliminated players into four group slots at 3634-3643, waits until at most one occupied group remains stable, then identifies winner and displays result text.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08087CC0.c#L3432"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3726,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Winner slot chooses text IDs 0x1401FF..140202. Matched6EE0/7290 pointer lookup plus ROM-font static rendering reads Diamond Team wins!, Club Team wins!, Spade Team wins!, Heart Team wins!. These assets prove battle-team semantics for byte68 values 3..6 in this path, not a uniform enum for every mode.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08087CC0.c#L3726"
+        },
+        {
+          "source": "src/code_08087CC0.c",
+          "line": 3734,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Clears local Player+0x68 and queues 6617C, waits result window and shared scene completion, then writes result value at scene+0x58 and restores scene flags40/36. No exact elapsed-frame guarantee or runtime trace claimed.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_08087CC0.c#L3734"
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1472,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical Thumb boundary 0x0808CB58..0x0808D05C; original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc.  Original direct calls: 0x0808CF5E->0x0805DF38, 0x0808CF78->0x0806617C. These calls independently anchor the matched source task/allocation/damage/display path. Original winner-text literals: 0x1401FF at 0x0808CF28, 0x140200 at 0x0808CF38, 0x140201 at 0x0808CF48, 0x140202 at 0x0808CF80. Their decoded team strings and selection logic are documented in the separate source/asset evidence. Static original-byte evidence, not runtime coverage."
+        }
+      ]
+    },
+    {
+      "address": "0x0800D368",
+      "canonical_symbol": "sub_0800D368",
+      "display_name": "TaskPlayerGameplayState",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5779,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched sub_080135C4 chooses Player[id] at 0x03003CE0 stride 0x14C, wires link send/receive pointers+0x144/+0x148, sets remote state 13/local 0, assigns task entry sub_0800D368 and starts it with the Player pointer at lines 5816-5819. This independently establishes a per-player gameplay task; it is not only a menu or link transport task.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_0800CF58.c#L5779"
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 9,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original ASM preserves incoming Player pointer in r7. At lines125-143 remote state 13 skips local stat recomputation; current HP+0xC4 and resource+0xC2 initialize from maxima+0x62/+0x60. Local initialization calls sub_08067B50/sub_08065DAC/sub_08065D50 and then yields awaiting readiness (lines 171-234).",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_0800CF58/sub_0800D368.s#L9"
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 462,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original ASM references held keys at 0x0300130C and pressed keys at 0x03001324 (literals 462,558-559) and calls sub_08016C88 movement query at line 480. These operations are part of player control; precise per-state behavior is outside the name claim.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_0800CF58/sub_0800D368.s#L462"
+        },
+        {
+          "source": "asm/nonmatchings/code_0800CF58/sub_0800D368.s",
+          "line": 8157,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original block 0x080113AE writes packed state low 4 bits, X from Player+0x8C, Y from+0x90 and facing from+0x1C to link block through+0x144, plus state-dependent second-word fields. Matched sub_08095F10 at src/code_08095B04.c:174-194 independently reads Player+0x148 packet positions.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/asm/nonmatchings/code_0800CF58/sub_0800D368.s#L8157"
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 185,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "The NONMATCHING C draft is a reading aid, not equivalent C. The broad role does not establish every player state, packet field or transition. A separate bounded original-ROM single-player input replay captured entry with R0=0x03003CE0; this confirms invocation only, not state-by-state equivalence or a multiplayer peer session.",
+          "public_source_url": "https://github.com/MatyMeatBoy/SS2Decomp/blob/47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b/src/code_0800CF58.c#L185"
+        },
+        {
+          "source": "src/main.c",
+          "line": 48,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched input-polling function 00760 reads hardware KEYINPUT, XORs with0x3FF into 0300130C and stores now & ~old into03001324 at lines74-85. This independently establishes the held/pressed-key semantics of the original D368 input references, beyond local source alias names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DB94",
+      "canonical_symbol": "sub_0801DB94",
+      "display_name": "InitActorStatusEffectRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 1988,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Sets record category to100; status selector configures key, duration, sounds and sometimes health-derived damage amount. Owner0..3 selects player and larger IDs select0x2E0-byte actor records. Default selector sets key0 and counter0xFFFF, marking slot free. Individual poison/freeze/etc identities are not assigned here."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 449,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801DB94..0x0801DD9C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801DBC6 writes category 100 at record+2; selector dispatch starts 0x0801DBC8. Default path0x0801DD88.. 0x0801DD8E writes key0 and counter0xFFFF. Amount stores at 0x0801DD02/0x0801DD60 follow health-derived calculations. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1150,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched receiver6690C rawcase0x0A uses free/matching record helpers and1DB94 for incoming status-key update, then writes amount+6. Case0x09 also uses these helpers for actor/player hit status processing. This anchors effect-record roles without assigning poison/freeze names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DD9C",
+      "canonical_symbol": "sub_0801DD9C",
+      "display_name": "RecalculateLocalPlayerStats",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2059,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Calls1E024 on local player selected by020F4.1E024 invokes existing stats calculator1BA74, clamps current health and enqueues updates when appearance fields change."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 450,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801DD9C..0x0801DDB8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801DD9E calls own-player ID getter, scales by 0x14C and0x0801DDAC calls1E024 with the runtime player pointer. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DE60",
+      "canonical_symbol": "sub_0801DE60",
+      "display_name": "GetNormalizedCharacterClassIndex",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2077,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Reads character save halfword+0xA and maps8 to6, returning other values truncated tou8. Consumers5D210/5D278/5D2E0 use result to select class bit in equipment-permission mask, anchoring class-index role. No particular numeric class names are assigned."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 456,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801DE60..0x0801DE78; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801DE64 reads character-save+0xA; 0x0801DE66 compares8 and0x0801DE74 substitutes6. Other values are narrowed to8 bits at 0x0801DE6A.. 0x0801DE6C. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_0805D094.c",
+          "line": 55,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched equipment checks5D210/5D278/5D2E0 use1DE60 to select a class-permission bit from resource+A2. This caller use anchors class-index semantics independently of source aliases."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DE78",
+      "canonical_symbol": "sub_0801DE78",
+      "display_name": "CopyCharacterSkillTableToBuffer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2094,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Copies36 bytes from current character save+0x30 to caller buffer using by-value nine-word structure. Stats calculator1BA74 receives this same block and indexed skill reader1E0AC consumes its entries."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 457,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801DE78..0x0801DE98; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801DE7E advances the saved-character pointer by 0x30; three LDM/STM pairs at 0x0801DE80.. 0x0801DE8A copy nine words into the caller buffer. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2192,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Indexed skill-level reader1E0AC reads halfword+4+index*4 from this table; current-class caller0D2F4 supplies saved-character+0x30 and queries skills6/7 before sending their effects. This supports skill-table semantics for the copied36-byte block."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DE98",
+      "canonical_symbol": "sub_0801DE98",
+      "display_name": "CopyCharacterSkillTableFromBuffer",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2099,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Copies36 bytes from caller buffer to current character save+0x30; inverse data transfer of1DE78. Does not recalculate derived stats or validate individual skill values."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 458,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801DE98..0x0801DEB8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801DE9E advances saved-character destination by 0x30; three LDM/STM pairs at 0x0801DEA0.. 0x0801DEAA copy nine words from caller input. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2192,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Indexed skill-level reader1E0AC reads halfword+4+index*4 from this table; current-class caller0D2F4 supplies saved-character+0x30 and queries skills6/7 before sending their effects. This supports skill-table semantics for the copied36-byte block."
+        }
+      ]
+    },
+    {
+      "address": "0x0801DF80",
+      "canonical_symbol": "sub_0801DF80",
+      "display_name": "GetCurrentCharacterSaveRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2141,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns global pointer030034E0 unchanged. Character-selection load/store code and inventory/skill consumers anchor this as current character save record, not runtime Player record03003CE0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 462,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801DF80..0x0801DF8C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801DF80 loads literal 030034E0 from0x0801DF88, then0x0801DF82 dereferences it and returns without transformation. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E024",
+      "canonical_symbol": "sub_0801E024",
+      "display_name": "RecalculatePlayerStatsAndSyncAppearance",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2174,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Preserves appearance/resource fields+0x64/+0x66, runs1BA74 with current character skill table, clamps signed current health+0xC4 to maximum+0x62, then queues6617C and updates equipment via5AD78 if either preserved appearance field changed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 465,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E024..0x0801E0A0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E054 calls stat calculator1BA74. 0x0801E06E clamps signed current HP to the maximum; changed appearance fields trigger6617C at 0x0801E07C and5AD78 at 0x0801E088. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E0AC",
+      "canonical_symbol": "sub_0801E0AC",
+      "display_name": "ReadEffectiveIndexedSkillLevel",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2192,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Reads halfword at skill-table base+4+((u16)index)*4 and maps stored7 to8. Numerous class-specific attack/defense calculations in1BA74 and1E378/1E3D8 consume it as skill level. No general cap or monotonic mapping beyond7->8 is claimed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 467,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E0AC..0x0801E0BC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E0AC.. 0x0801E0B2 narrow the index to16 bits, multiply by4 and read halfword+4; 0x0801E0B4.. 0x0801E0B8 map7 to8. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E0BC",
+      "canonical_symbol": "sub_0801E0BC",
+      "display_name": "FillSixHalfwordStatValues",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2201,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Stores same16-bit input into six consecutive halfwords. Nearby callers operate on six-channel attribute/resistance values; no particular element order is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 468,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E0BC..0x0801E0D0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E0C0.. 0x0801E0CA contain six STRH stores of the same narrowed input at offsets 0,2,4,6,8,A. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5918,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched player initialization13850 zeroes six-halfword arrays at runtime-player+0x4C and+0x7C with1E0BC; these arrays lie within the stat blocks passed to1BA74 and synchronized by6617C/66220. Names do not assign individual stat/element ordering."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E0D0",
+      "canonical_symbol": "sub_0801E0D0",
+      "display_name": "AddSixHalfwordStatValues",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2212,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Adds six source halfwords independently into corresponding destination halfwords, truncating each sum tou16. No saturation or overflow detection."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 469,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E0D0..0x0801E104; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E0D0.. 0x0801E0FE contain six corresponding source/destination halfword loads, additions and STRH stores; no saturation branch. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_0800CF58.c",
+          "line": 5918,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched player initialization13850 zeroes six-halfword arrays at runtime-player+0x4C and+0x7C with1E0BC; these arrays lie within the stat blocks passed to1BA74 and synchronized by6617C/66220. Names do not assign individual stat/element ordering."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E104",
+      "canonical_symbol": "sub_0801E104",
+      "display_name": "FindFreeInlineActorEffectRecord",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2221,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans eight40-byte effect records embedded at actor+0x8C and returns first whose signed counter is-1; null when full. Does not reserve or initialize result."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 470,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E104..0x0801E12C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E108 selects embedded record base+0x8C; 0x0801E112.. 0x0801E116 test signed counter-1 before return. 0x0801E11E adds 0x28 and0x0801E120 bounds index at7. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1150,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched receiver6690C rawcase0x0A uses free/matching record helpers and1DB94 for incoming status-key update, then writes amount+6. Case0x09 also uses these helpers for actor/player hit status processing. This anchors effect-record roles without assigning poison/freeze names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E12C",
+      "canonical_symbol": "sub_0801E12C",
+      "display_name": "FindFreeOrMatchingInlineActorEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2235,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans same eight embedded records and returns first either free(counter-1) OR matching type halfword+2 and key halfword+4. A free record earlier in array wins over a later match."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 471,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E12C..0x0801E164; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E132 selects embedded base+0x8C. 0x0801E13E.. 0x0801E140 accept counter-1 before testing key+4 and type+2 at 0x0801E142.. 0x0801E14C. 0x0801E156 bounds eight records. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E164",
+      "canonical_symbol": "sub_0801E164",
+      "display_name": "FindFreeOrMatchingPlayerEffect",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2257,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans eight40-byte records through player+0x34 pointer; accepts first counter-1, or counter-2 with supplied key+4 and owner/player ID+0 matching record+2. No search priority for existing match over earlier free slot."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 472,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E164..0x0801E1A4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E16A follows player+0x34. 0x0801E17A.. 0x0801E180 accept counter-1 or require counter-2; 0x0801E182.. 0x0801E18E compare key and owner ID. 0x0801E198 bounds eight records. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1150,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched receiver6690C rawcase0x0A uses free/matching record helpers and1DB94 for incoming status-key update, then writes amount+6. Case0x09 also uses these helpers for actor/player hit status processing. This anchors effect-record roles without assigning poison/freeze names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E1A4",
+      "canonical_symbol": "sub_0801E1A4",
+      "display_name": "FindPlayerStatusEffectByKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2267,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans eight records through actor+0x34; requires counter not-1, supplied key at+4 and status category100 at+2. Returns first match or null."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 473,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E1A4..0x0801E1D8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E1A6 follows player+0x34; 0x0801E1B2 rejects counter-1,0x0801E1B6 checks key+4 and0x0801E1BE compares category 100. 0x0801E1CA bounds eight records. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1150,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched receiver6690C rawcase0x0A uses free/matching record helpers and1DB94 for incoming status-key update, then writes amount+6. Case0x09 also uses these helpers for actor/player hit status processing. This anchors effect-record roles without assigning poison/freeze names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E1D8",
+      "canonical_symbol": "sub_0801E1D8",
+      "display_name": "FindPlayerEffectByTypeAndKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2280,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans eight records through actor+0x34 for counter not-1, supplied key+4 and supplied type+2; returns first pointer or null."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 474,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E1D8..0x0801E20C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E1DC follows player+0x34; 0x0801E1E8 rejects counter-1 and0x0801E1EC.. 0x0801E1F4 compare key+4 and type+2. 0x0801E200 bounds eight records. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E20C",
+      "canonical_symbol": "sub_0801E20C",
+      "display_name": "FindInlineActorEffectByTypeAndKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801AAF8.c",
+          "line": 2302,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans eight records at actor+0x8C for counter not-1, supplied key+4 and supplied type+2; returns first pointer or null."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 475,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E20C..0x0801E244; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E212 selects embedded actor+0x8C; 0x0801E21E rejects counter-1 and0x0801E222.. 0x0801E22A compare key+4 and type+2. 0x0801E236 bounds eight records. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E244",
+      "canonical_symbol": "sub_0801E244",
+      "display_name": "FindInlineActorStatusEffectByKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 3,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans eight embedded actor records at+0x8C for counter not-1, matching key+4 and category100+2; returns first pointer or null."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 476,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E244..0x0801E278; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E248 selects embedded actor+0x8C; 0x0801E254 rejects counter-1,0x0801E258 checks key+4 and0x0801E260 compares category 100. 0x0801E26C bounds eight records. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_080659B0.c",
+          "line": 1150,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched receiver6690C rawcase0x0A uses free/matching record helpers and1DB94 for incoming status-key update, then writes amount+6. Case0x09 also uses these helpers for actor/player hit status processing. This anchors effect-record roles without assigning poison/freeze names."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E278",
+      "canonical_symbol": "sub_0801E278",
+      "display_name": "ResetPlayerStatusEffectsByKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 25,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Repeatedly finds category100 records with matching key in player effect list at+0x34 and calls1DB94(ownerID,record,0). Default initializer sets counter0xFFFF and key0; repeats until none remain."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 477,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E278..0x0801E2CC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E28A follows player+0x34 and scans category 100/key matches; 0x0801E2B8 sets initializer selector 0,0x0801E2BA calls1DB94 and0x0801E2C0 repeats search. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E2CC",
+      "canonical_symbol": "sub_0801E2CC",
+      "display_name": "ResetInlineActorStatusEffectsByKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 50,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Repeatedly finds category100 records with matching key at actor+0x8C and calls1DB94(actorID+4,record,0), freeing them through its default initializer. Completes only when no matching nonfree record remains."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 478,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E2CC..0x0801E324; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E2E0 selects embedded actor+0x8C and scans category 100/key matches; 0x0801E30C adds4 to actor owner ID,0x0801E310 sets selector 0,0x0801E312 calls1DB94 and0x0801E318 repeats. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E324",
+      "canonical_symbol": "sub_0801E324",
+      "display_name": "RemovePlayerEffectsByTypeAndKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 79,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Selects player effect list via playerIndex, scans eight records for counter not-1 and matching type/key, sets only counter to0xFFFF. Existing alias removeEntries019 is superseded by this reviewed narrower identity; other record bytes remain unchanged."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 479,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E324..0x0801E378; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E336 loads selected player effect-list pointer; 0x0801E34A.. 0x0801E358 require a nonfree record with matching key/type. 0x0801E35E writes only counter halfword after OR with 0xFFFF; 0x0801E364 bounds eight records. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E4B0",
+      "canonical_symbol": "sub_0801E4B0",
+      "display_name": "GetExperienceNeededForNextLevel",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 169,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Indexes threshold table0848FF54 using saved level word+0x20 and subtracts accumulated experience word+0x1C.1E4CC uses these same fields/table when awarding experience and advancing level."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 484,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E4B0..0x0801E4CC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E4B4 reads saved level+0x20, loads its threshold and0x0801E4BE.. 0x0801E4C0 subtract saved experience+0x1C. Original literal0x0801E4C8 is threshold table0848FF54. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 744,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched actor defeat/loot path computes reward through1E46C, animates reward display6171C, then calls1E4CC on current character save at line759.1E4B0 reads the same cumulative amount/level and threshold table; no multiple-level loop is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E4CC",
+      "canonical_symbol": "sub_0801E4CC",
+      "display_name": "AddExperienceAndAdvanceOneLevel",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 174,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Rejects when local runtime player flags contain0x2000 or unsigned saved level>198. Adds supplied amount to experience+0x1C; if threshold table value reached, increments level once, adds4 to halfword+0x1A and1 to+0x30, calls61830 and returns1. Does not loop across multiple levels or subtract threshold; exact point names are not inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 485,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E4CC..0x0801E538; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E4F2 rejects unsigned level above 198; 0x0801E4FA adds experience. 0x0801E50A stores level+1 once,0x0801E510 adds4 at+0x1A and0x0801E516 adds1 at+0x30; 0x0801E520 invokes61830. No repeated level-up loop. This is static original-byte evidence, not a runtime trace."
+        },
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 744,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched actor defeat/loot path computes reward through1E46C, animates reward display6171C, then calls1E4CC on current character save at line759.1E4B0 reads the same cumulative amount/level and threshold table; no multiple-level loop is inferred."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E550",
+      "canonical_symbol": "sub_0801E550",
+      "display_name": "SetPlayerEffectAmountByTypeAndKey",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 215,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans eight player effect records and for every nonfree matching type/key writes supplied16-bit amount/value at+6. Does not change counter, type or key."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 487,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E550..0x0801E594; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E562 loads selected player effect list; 0x0801E56E.. 0x0801E57C test nonfree/type/key. 0x0801E57E stores supplied value only at+6; 0x0801E584 bounds eight records. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
+    },
+    {
+      "address": "0x0801E594",
+      "canonical_symbol": "sub_0801E594",
+      "display_name": "MarkEightEffectRecordsFree",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 235,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Walks eight40-byte records, writes0xFFFF to each counter halfword and preserves remaining fields. Source performs a volatile read and redundant OR/write; no bytewise clearing or allocator free occurs."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 488,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Canonical original Thumb boundary 0x0801E594..0x0801E5B0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. 0x0801E59C reads record counter; 0x0801E59E ORs 0xFFFF and0x0801E5A0 writes that halfword. 0x0801E5A4 advances0x28 and0x0801E5A6 bounds eight records; other fields are untouched. This is static original-byte evidence, not a runtime trace."
+        }
+      ]
     }
   ]
 }
