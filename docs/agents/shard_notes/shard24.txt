@@ -88,3 +88,7 @@ Later attempts (2026-10-12, after main merge with revalidated tree):
   `phase = frame = 0` (2), declaration initializers (2), x0/y0 as declaration initializers (2),
   volatile (33), u16[2] array (36), struct (50), chaining through i/count/active (55..263),
   `u16 *pf = &frame` (3).
+  UPDATE (same day): MATCH. The last swap closed with
+  `{ u16 z; asm("" : "=r"(z) : "0"(0)); frame = z; phase = z; }` (coordinator hint, the
+  sub_08003984 trick). Both stores now have a register source, so each address is computed after
+  the zero. u32/s32 z do not match (2). Strict rcmp: STRICT_DIFF_LINES 0.

@@ -2984,10 +2984,6 @@ alloc:
 
 
 
-#ifdef NONMATCHING
-/* NONMATCHING: one instruction pair differs from the original: the initial `frame = 0`
-   computes &frame before the zero (ROM loads the zero first). Everything else, including
-   frame size, spill-slot order (the count+1 PRE temp in 0x11C) and register choices, matches. */
 struct T24Net25890 { u16 unk0, unk2; u8 unk4:6; u8 pad5[2]; u8 unk7; };
 struct T24Player25890 { u8 pad0[0x14]; u16 unk14; u8 pad16[10]; u16 state; s16 unk22; u16 unk24; s16 unk26; u8 pad28[6]; s16 unk2E; u32 flags; u8 pad34[0x58]; s32 unk8C, unk90; u8 pad94[0x44]; u32 unkD8; u8 padDC[0x6C]; struct T24Net25890 *net; };
 struct T24Sprite25890 { u32 f0,f4,f8,fC; u8 pad10[12]; u8 payload[5]; u8 byte21,byte22,byte23; u8 pad24[16]; };
@@ -3031,8 +3027,7 @@ void t24_gate25890(u16 *arg0) {
 
     x0 = arg0[0] * 8;
     y0 = arg0[1] * 8;
-    frame = 0;
-    phase = 0;
+    { u16 z; asm("" : "=r"(z) : "0"(0)); frame = z; phase = z; }
     active = 0;
     ready = 0;
     text = t24_text25890(0x1403D2);
@@ -3318,9 +3313,6 @@ void t24_gate25890(u16 *arg0) {
     sub_08057624(3);
     sub_0800CDAC();
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08025890);
-#endif
 void sub_08026338(void *arg) {
     s32 *gp;
     s32 off;
