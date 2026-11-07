@@ -1,37 +1,37 @@
 {
   "address": "0x0802AA28",
-  "updated_utc": "2026-11-07T07:06:12.529448+00:00",
-  "checkpoint": "Verified ordinary-C control-flow checkpoint based on main c3ca8b7a, 2026-11-07. Original/baseline/selected are 3708/3596/3600 bytes, all with 8-byte frames. Normalized byte/halfword distances improve 2262/1313 to 1757/1073; scoped heuristic score 1501 to 1208. Strict NO MATCH; original ASM retained and no matching credit.",
+  "updated_utc": "2026-11-07T07:50:11.624437+00:00",
+  "checkpoint": "Verified query-tail/dispatch checkpoint after main 304b9975, 2026-11-07. Original/previous/selected are 3708/3600/3552 bytes, all with 8-byte frames. Normalized byte/halfword distances improve 1757/1073 to 1406/897; scoped heuristic score 1208 to 1060. All 122 physical external callees now have exact original static order. C-body SHA256 fc25f9d22f8dcff897e1cac5a6327b97587a63c8b5e3aeae64ad232f5a40fb9f. Strict NO MATCH; original ASM retained and no matching credit.",
   "areas": [
     {
       "id": "compile",
       "label": "Current compiling C89 checkpoint",
       "state": "done",
-      "evidence": "Serial normal make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; full make -j1 nonmatching succeeds; check_tree reports zero errors; diff check passes. The actual module strictly equals the selected complete-module private candidate. An unchanged baseline splice also strictly equals the original freshly built NONMATCHING object. Production compiler and flags are unchanged."
+      "evidence": "Serial normal make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; full make -j1 nonmatching succeeds; check_tree reports zero errors; diff check passes. The actual module strictly equals the raw candidate compiled by normal full-module cpp/agbcc/as, the complete-module private candidate and a non-mutating GDB compilation. Baseline splice and diagnostic compiler controls also pass strict equality. Production compiler and flags are unchanged. These are checkpoint-integrity gates, not full candidate equivalence."
     },
     {
       "id": "flow",
       "label": "Recover branch and readiness-loop layout",
       "state": "active",
-      "evidence": "The captured u8 progress value is tested once for 0xA. Within the other arm, swapping the complementary <=1 and >1 bodies changes only lexical order; all statements, labels and branch destinations remain. Four readiness labels had only their self goto as an incoming explicit jump. Replacing each if(test==0){yield;goto self;} with while(test==0){yield;} preserves the initial test and exactly one yield per failed test. No declarations or variable scope move. RTL/jump diagnostic outputs strictly equal their normal baseline/selected objects. Both functions have 122 physical external calls; the first 48 callees now have identical static order, but later ordering still differs. This is not complete CFG/operand equivalence."
+      "evidence": "The ten numeric dispatch cases are in ascending original order; each moved case ends in goto, break or return, so there is no fallthrough to change. The changed-mask arm precedes its complementary equal-mask wait. Shared helper/store labels move after case 0x100, and the common allocation tail follows both mask arms. Existing gotos retain the same target statements; case 0x10 fallthrough becomes an explicit goto. The removed final break formerly exited the switch and then the void function, so the moved tail now ends that function naturally. All 122 physical external call targets now have exact original static order, including 37 mode queries. This does not prove all CFG paths, arguments or memory effects against the ROM."
     },
     {
       "id": "layout",
       "label": "Recover frame, slots and registers",
       "state": "active",
-      "evidence": "Original/baseline/selected are 3708/3596/3600 bytes with equal 8-byte frames. Selected normalized byte/halfword distances are 1757/1073 and scoped heuristic 1208; strict NO MATCH. Initial branch ordering and four poll/yield layouts improve, while later dispatch branches, allocation-retry layouts, instruction order and register choices remain. No new register constraint, memory write, padding or opcode is selected."
+      "evidence": "Original/selected are 3708/3552 bytes with equal 8-byte frames. Normalized byte/halfword distances improve 1757/1073 to 1406/897 and scoped heuristic 1208 to 1060; strict NO MATCH. Pure tail placement otherwise shares one mode-query site late, leaving 121 calls. An unchanged-output native GDB watch on the controlled case-1 query node observes delete_insn -> do_cross_jump -> jump_optimize(cross_jump=1), jump.c:1990/toplev.c:3143. The selected unsigned identity keeps that query tail distinct: two negations in RTL and four after GCSE disappear in combine. The preserved-query GDB control reaches late-jump completion without deletion and emits exactly the actual target object. No compiler state, ROM, production option, opcode or new register constraint is changed. Register choices and missing instructions still require work. Later callback/for-loop experiments remain private and are not included."
     },
     {
       "id": "types",
       "label": "Audit inherited interfaces and state domains",
       "state": "active",
-      "evidence": "The existing empty-asm output captures incoming R9 into var_r6. It is unchanged. Original prologue copies R9 into R6, the early branch later assigns a spawn result, and a later substate switch assigns a result only for cases 0..4. Out-of-range later substates can retain the prologue value before searches/callbacks. No new argument, zero initializer or state-domain assumption is introduced; the full valid-state contract remains unproven. State-array field types, pointer refresh behavior and callback interfaces still need a complete audit."
+      "evidence": "The inherited incoming-R9 capture is unchanged; its out-of-range state contract remains unproven. The new case1Mask is u32, assigned 2 immediately after sub_080402F4, before both flag-store alternatives and the second mode query. It never escapes or changes; every new read is dominated by that assignment. The pointer identity executes only after the case-1 pointer assignment. For any u32 address and mask, -(-address+mask)+mask preserves all address bits modulo 2^32. Both negations and additions are unsigned; conversion uses the established 32-bit GBA pointer representation and introduces no out-of-object pointer arithmetic, dereference or memory access. Slot27 is a local type for the existing 0x28-byte task records: data pointer at +0x20 and word at +0x24. No Slot27 object or padding is allocated. Each nested assignment stores one allocator result into the same word before its null test and possible yield; no field read is added. No arbitrary initialization, new incoming argument or callback interface is introduced. Other inherited field/state domains remain under audit."
     },
     {
       "id": "behavior",
       "label": "Identify and validate scene effects",
       "state": "active",
-      "evidence": "Observed original ASM reads mode-dependent bytes at global state+0x1BF/0x1B3, scans 15 records from+0x7A4 at stride0x70, spawns objects through sub_080289C0 and sets fields+0x18/+0x1A/+0x3C/+0x44. The 0xA arm writes progress 5 and calls sub_08042BB0. Narrow role is scene-entity configuration from progress bytes; an exact story/UI meaning is not established. No new runtime or mocked equivalence test was run for this CFG-only checkpoint."
+      "evidence": "Observed original scene-entity configuration and mode-dependent progress effects remain as in the previous checkpoint. The source transformations preserve each initial readiness test, one yield per failed readiness test, and allocator -> field store -> null test -> optional yield order. A successful allocation retains the same task setup and callback word; each scan of thirty occupied slots still exits without initializing a task in that scan. No runtime or mocked equivalence test was run for this checkpoint, and no exact story/UI title or complete state-domain contract is inferred."
     },
     {
       "id": "match",
