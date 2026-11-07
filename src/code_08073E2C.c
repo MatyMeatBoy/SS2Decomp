@@ -1017,6 +1017,11 @@ void sub_08075778(struct Arg5778 *arg)
                 if (sa < 0)
                     ang = sa + 0x100;
             }
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
         } else {
             struct Ent5778 *te = p5778[target].entity;
             dx = (te->xRaw >> 4) - (x >> 8);
@@ -1031,11 +1036,11 @@ void sub_08075778(struct Arg5778 *arg)
                 if (sa < 0)
                     ang = sa + 0x100;
             }
-        }
-        {
-            s16 sb = ang;
-            if (sb > 0x100)
-                ang = sb - 0x100;
+            {
+                s16 sb = ang;
+                if (sb > 0x100)
+                    ang = sb - 0x100;
+            }
         }
     } else {
         ang = dir5778[((u8 *)p->entity)[3] >> 4];
@@ -1208,7 +1213,10 @@ void sub_08075778(struct Arg5778 *arg)
             pos5778((s16)(shade = x >> 8), (s16)(sy = y >> 8), &dx, &dy, 0x30, 0);
             shade = (u8)sub_0800BC44(shade, sy, 0);
             d = dirIdx;
-            step5778(&spr, 0x40 | d, &frame, &timer, 1);
+            /* FAKE: c (a global pseudo) holds the mode bit so d gets no r1 preference from the
+               step argument; otherwise ang inherits it at `ang = d` and takes r1 instead of r3. */
+            c = 0x40;
+            step5778(&spr, c | d, &frame, &timer, 1);
             if (gUnk_03003170.curLevel == 4 && sub_0800CDC0())
                 shade = 0;
             if (sub_0800CB9C()) {

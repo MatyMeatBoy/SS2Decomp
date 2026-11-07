@@ -66,3 +66,18 @@ shard 77 (claude-nov07-w92, 2026-11-07)
   is (ior X d) instead of (ior d X) (then d gets no r1 preference), on top of per-branch sb blocks.
   Debug tools: scratchpad nov07-w15/agb15 compiler with FSPFN=sub_08075778 GCONF=<regs> (prefs,
   conflicts per allocno; keep the list under ~40 numbers) and GFORCE=<reg>:<hard>.
+  Follow-up (same day, claude-nov07-w92): LANDED per-branch sb blocks + `c = 0x40; step5778(&spr,
+  c | d, ...)`. Filtered nmdiff 76 -> 26, aligned diff 36 -> 9, size 2416 = ROM, still NONMATCHING.
+  The step argument's ior destination must be a GLOBAL pseudo (not yet allocated when
+  set_preference runs), otherwise the local tied to the r1 argument hands d an r1 preference.
+  With c (u8, global) d has no r1 pref, ang takes r3 and sb r1, the enemy sb copy is fully
+  cross-jumped into the player copy. Other global holders: ok/cnt/sy give the same fix but land in
+  r2/r7/r4 plus an extra copy into r1 (10); j 24; n spills (24); block-local or new locals fail (48).
+  Remaining 9 aligned lines:
+  - post-ArcTan `if (target == 0xFFFF) target = arg->target;` reloads r4/r6 where ROM has r6/r0
+    (ROM is one reload ahead after the player sb block; the extra reload is not visible yet);
+  - c & 0x10 test: `ands r1, r0` vs ROM `movs r0,#16; ands r0, r1` (c is now global, so the
+    and result no longer ties to the constant);
+  - enemy rand test `(and 818 663)`: ROM has the r7 constant 1 as op0 (`adds r1, r7, #0; ands r1,
+    r0`); canonical order puts the higher-numbered call-result pseudo first. `m1 & call`, `1 & call`,
+    `b = m1; b &= call` (8 but size 2412) don't fix it.
