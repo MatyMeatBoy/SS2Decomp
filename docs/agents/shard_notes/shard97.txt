@@ -4,3 +4,14 @@ w7 (2026-11-04), sub_08093BAC (nmscore 241, exact size 1542). Survey only (not w
   576), [sp,#0x14c] = the value stored at asm line 185 (read at 553/621); ours has them the other way round
   (pseudo regno order); (2) the ROM hoists `add r2,sp,#0x7c` into r9 for the loop (struct at sp+0x7c used as
   the sub_08065xxx arg and `ldr r1,[r9,#12]`), ours rematerializes it, which shifts r8/r9/sl afterwards.
+
+2026-11-07 (claude-nov07-coord): sub_08093BAC
+  Full-module aligned diff 169, size 1542 = ROM. ROM spill slots: 0x144 = phase+1,
+  0x148 = idx<<24, 0x14C = phase*2 (CSE'd sin index), then 0x150..0x164 = &sprC.f24,
+  &alive, &anim, &h1, &h2, &frame. Ours puts the six address pseudos first and phase+1/
+  phase*2/idx<<24 last: in the ROM those three get no hard register in global alloc (slots
+  in regno order); ours get one and reload spills them later. That shifts r8/r9/sl in loop3
+  (ROM: r9 = &sprC, r8 = 0, sl = i*4, r4 = i*2).
+  `alive[i] = anim3BAC(effect, anim[i], &h1[i], &h2[i], 0)` directly (no pointer locals)
+  gives 168 and the ROM's argument order. No effect: init-loop forms, declaration order of
+  phase/i/idx, effect-> vs sprC. for f24/draw args (167-179).
