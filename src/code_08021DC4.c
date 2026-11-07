@@ -2016,7 +2016,7 @@ extern u32 local245CC_gUnk_03005CF0 asm("gUnk_03005CF0");
 extern u32 local245CC_gUnk_030056FC asm("gUnk_030056FC");
 extern u16 local245CC_gUnk_03001324 asm("gUnk_03001324");
 extern u32 local245CC_gUnk_03002344 asm("gUnk_03002344");
-s32 local245CC_sub_0800CCCC(void) asm("sub_0800CCCC"); s32 local245CC_sub_0800CD8C(void) asm("sub_0800CD8C"); extern u32 local245CC_gUnk_03003D10 asm("gUnk_03003D10");
+s32 local245CC_sub_0800CCCC(void) asm("sub_0800CCCC"); s32 local245CC_sub_0800CD8C(void) asm("sub_0800CD8C");
 
 void local245CC_sub_08024538(s32) asm("sub_08024538");
 void local245CC_sub_0805A60C(s32) asm("sub_0805A60C");
@@ -2237,7 +2237,7 @@ void sub_080245CC(struct Input245CC *arg0) {
                 if (local245CC_sub_0800CDC0() != 0) {
                     matchedPlayers = 0;
                     for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
-                        if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000)
+                        if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000)
                             matchedPlayers += 1;
                     }
                     if (matchedPlayers != local245CC_sub_08002164()) {
@@ -2567,7 +2567,7 @@ block_188:
             if (local245CC_sub_0800CDC0() != 0) {
                 matchedPlayers = 0;
                 for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
-                    if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000)
+                    if (local245CC_gUnk_03003CE0[playerIndex].flags & 0x2000)
                         matchedPlayers += 1;
                 }
                 if (matchedPlayers == local245CC_sub_08002164()) {
