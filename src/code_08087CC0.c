@@ -3010,7 +3010,6 @@ void sub_0808C0C4_v(void) {
     register u32 bgValueC0 asm("r0");
     register u32 portraitLookupC0 asm("r1");
     register u32 portraitRowC0 asm("r0");
-    /* This product dies before r3 becomes the draw call fourth argument. */
     u32 countTripletC0;
     u8 *portraitBaseC0;
     u8 *portraitTableC0;
@@ -3047,9 +3046,7 @@ void sub_0808C0C4_v(void) {
     u32 temp_r3_2;
     u32 temp_r4_11;
     u32 temp_r4_3;
-    u32 var_r5;
     u32 var_r5_2;
-    u32 off2;
     register u8 *temp_r4_10 asm("r4");
     register u8 *temp_r4_15 asm("r4");
     register u8 *temp_r4_2 asm("r4");
@@ -3154,6 +3151,7 @@ loop_16:
     sub_0801A3D0(temp_r4_2, (u16) (0xF - ((u32) sub_0801A638(temp_r4_2) >> 1)), 0x12);
     for (loopCounterC0 = 0; loopCounterC0 < 5; loopCounterC0++)
         sp150[loopCounterC0] = 0;
+    /* FAKE: two empty loop levels give this draw the ROM register weights. */
     do { do {
     loopCounterC0 = 0;
     var_r9 = 0;
@@ -3179,6 +3177,7 @@ loop_24BodyC0:
             temp_r1_3 = &countsC0[((struct C0Player *)(playerBaseC0 + var_r9))->unk1C];
             *temp_r1_3 += 1;
         } else {
+            /* FAKE: weights the item pointer above the running offset. */
             do { temp_r0_3 = &countsC0[(u8) (*temp_r0_2)->unk3 >> 4]; } while (0);
             *temp_r0_3 += 1;
         }
@@ -3307,6 +3306,7 @@ loopB_TopC0:
             if (((*pit)->unk0 >> 4) == 0) {
                 if (var_r5_2 == sub_080020F4()) {
                     s32 ix = ((struct C0Player *)(off + base))->unk1C;
+                    /* FAKE: the extra cnt weight leaves off to caller-saved r2. */
                     do { u16 *q = &cnt[ix]; *q += 1; } while (0);
                 } else {
                     u16 *q;
@@ -3383,6 +3383,7 @@ block_94:
         sub_08065230(&sp4C, 0x88, 0x78, 5U, (u32) sp10[1]);
         sub_08065264(&sp4C, 0x68, 0x78, 4, (u32) sp10[0]);
     }
+    /* FAKE: one more loop level, as for the other tail draws. */
     do { C0_DRAW_ALL(); } while (0);
     sub_080003F0();
     goto loop_82;
