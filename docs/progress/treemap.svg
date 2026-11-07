@@ -143,8 +143,8 @@
 <rect x="86.28" y="357.63" width="39.22" height="32.80" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08072390 | sub_08072390 | unidentified  0x08072390  2508 bytes  [done]</title></rect>
 <rect x="125.49" y="357.63" width="37.03" height="32.80" fill="#d29922" stroke="#9e6a03" stroke-width="0.6"><title>sub_0806DE94 | sub_0806DE94 | unidentified  0x0806DE94  2368 bytes  [nonmatch]</title></rect>
 <rect x="44.75" y="390.44" width="37.83" height="31.13" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806E7D4 | sub_0806E7D4 | unidentified  0x0806E7D4  2296 bytes  [done]</title></rect>
-<rect x="44.75" y="421.57" width="37.83" height="29.62" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_0806C568 | sub_0806C568 | unidentified | 1/5 milestones; not a match  0x0806C568  2184 bytes  [nonmatch]</title></rect>
-<rect x="44.75" y="421.57" width="7.57" height="29.62" fill="#d29922" pointer-events="none"/>
+<rect x="44.75" y="421.57" width="37.83" height="29.62" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_0806C568 | sub_0806C568 | unidentified | 2/6 milestones; not a match  0x0806C568  2184 bytes  [nonmatch]</title></rect>
+<rect x="44.75" y="421.57" width="12.61" height="29.62" fill="#d29922" pointer-events="none"/>
 <rect x="44.75" y="451.19" width="37.83" height="27.99" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08072D5C | sub_08072D5C | unidentified  0x08072D5C  2064 bytes  [done]</title></rect>
 <rect x="44.75" y="479.17" width="37.83" height="27.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806ABC0 | sub_0806ABC0 | unidentified  0x0806ABC0  2052 bytes  [done]</title></rect>
 <rect x="82.57" y="390.44" width="27.78" height="34.34" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0806BE24 | sub_0806BE24 | unidentified  0x0806BE24  1860 bytes  [done]</title></rect>
