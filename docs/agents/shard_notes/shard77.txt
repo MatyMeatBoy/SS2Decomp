@@ -17,3 +17,26 @@ shard 77 (nov03-w4, 2026-11-03)
   orig spills `arg` (sp+0x120) and `e` (0x124); spill slots follow declaration order:
   arg, e, target, lo, serial, kind, x, y, n, iter, dirIdx, local, slot, power, big, then hoisted
   &box, &box2, ang<<16, who*4, &p->ready. The 45 constant is rematerialized in orig (movs each use).
+
+shard 77 (claude-nov07-wB, 2026-11-07)
+- sub_08075778: NONMATCHING draft improved, filtered nmdiff 566 -> 76; size and frame now equal ROM
+  (2416 bytes, sub sp #0x170) and every spill slot lines up. Template: the matched sibling
+  sub_080761A4 (same file) has almost the same shape.
+  * e (0x124) is spilled because the cnt search loop is `(q = &p5778[j])->id != target`: q is
+    function-scope (r6), conflicts with e, and wins r6.
+  * Slot order: e, target, lo, serial, kind, x, y, n, iter, dirIdx, local, slot, power, big; `u16 ang`
+    declared right after frame/timer (GCSE pseudo order puts ang<<16 at 0x164 before who*4).
+  * ArcTan: function-scope `d` is the temp (`d = (u16)atan >> 8; t = (u8)d; if (t > 0x80)
+    d = (u16)(t - 0x100); ang = d;` + the sa<0 block) in both branches; the sb>0x100 block is shared after.
+    d is also `d = dirIdx` in the draw block, so combine loses its nonzero bits and keeps the
+    (s16)d sign-extends there. sy stays its own variable; sx is reused as `shade` (r5).
+  * `{ void *src = tmpl5778(); memcpy(atk, src, 0xC4); }`; inventory row as `b = inv; b += ...*16; b[0x77]`;
+    `ok = 0;` early (zero ordering); player ok as if/else; enemy ok via `u16 st = e2->state; ok = 0; ...`;
+    enemy rand test as `register u32 b asm("r1") = sub_0800086C() & 1` (as in the sibling).
+  * offY is written `offX5778[(s16)d][1]` (reloc becomes gUnk_084EBEBC+2, same bytes); separate offY
+    symbol let local-alloc keep the offX base in r0.
+  Remaining (all regalloc): ang gets r1 instead of r3 (ROM: sb in r1, ang r3; ours ang r1, sb r2),
+  which shifts the reload regs in the ArcTan/normalization block (~50 filtered lines); enemy-branch
+  `adds r1,r7; ands r1,r0` vs ours `adds r1,r0; ands r1,r7` (operand order of the r7 constant 1).
+  Rejected: register asm("r3") on ang (701), sb via function-scope t (110), u32/s32/s16 ang, sa/sb both
+  shared or both per-branch, `1 & call`, `one & call`.
