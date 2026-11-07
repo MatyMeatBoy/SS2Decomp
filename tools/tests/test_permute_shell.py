@@ -91,7 +91,7 @@ class PermuterExportTests(unittest.TestCase):
                                            '--dir', str(case), '--out', str(root / 'out')]), \
              mock.patch.object(permute, 'setup', return_value=aliases), \
              mock.patch.object(permute, 'validate_control', return_value={'entire_object_equal': True}), \
-             mock.patch.object(permute.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, '', '')), \
+             mock.patch.object(permute, 'run_in_process_tree', return_value=subprocess.CompletedProcess([], 0)), \
              contextlib.redirect_stdout(io.StringIO()):
             permute.main()
         return root / 'out/test_target.c'
