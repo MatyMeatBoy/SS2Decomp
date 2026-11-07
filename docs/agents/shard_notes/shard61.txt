@@ -91,3 +91,21 @@ know *s == 0 there; condition reorderings do not help), and the case-3 PRE
 pseudos are &task->col r5 / line<<4 r3 in ROM (no copy for line<<4) vs r6/r4 here.
 Next: with the i fill loop as the base, find the conversion-pointer form that
 keeps Q alive, then recheck next/pValue/i and the case-3 registers.
+
+2026-11-07 claude-nov07-w15 (shard 135): sub_0805E0C4 allocation check with a patched
+agbcc (NOLOCAL/GFORCE/GFIRST/GCONF hooks; FSPFN must be e0c4Impl, the C name). No code landed.
+- With the i-outer fill loop (wM's form), pseudos: next 54, pValue 47, i 48, P = PRE copy
+  of &value hoisted to the end of bb0. Natural: i r5, next r6, pValue r7, P r4 (8 refs
+  after cse2). Forcing only next -> r4 reproduces the ROM model by itself: pValue r6,
+  P r7, then reload spills r7 for the fill-loop `line` reload (RETRY P -> -1), as wM said.
+- Conversion pointer: `{ s32 *pv; asm("" : "=r"(pv) : "0"(&value)); s[0] =
+  sub_08000498(pv, 10000000); ... s[7] = *pv; }` keeps a separate local Q (cse2 cannot
+  merge it into P; P then has one use). On the j-loop draft it gives 712 (715 base);
+  on the i-loop draft 1002 (f1 1005) with P in r4.
+- Why next misses r4: next is allocated first but r4 is in regs_someone_prefers[next]
+  (a lower-priority conflicting allocno, P via its copy to the local Q in r4, prefers r4),
+  so pass 0 of find_reg gives next r6. ROM next r4 means P had no r4 preference there.
+- Even with next r4 / pValue r6 / P spilled (1008) the bb0 zero stores use a different
+  reload rotation: ROM movs r1,r2,r4,r5,r7 (skips r3 and r6), ours r1..r5.
+Next: find a Q shape that is not local-allocated before global (so P has no copy
+preference), then look at what occupies r3/r6 at function entry in ROM.
