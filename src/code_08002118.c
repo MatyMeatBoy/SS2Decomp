@@ -2043,7 +2043,7 @@ block_206:
         if (keys3984 & 0x100) {
             var_r5_3 = arg0 + 0x10;
             if (var_r9 <= 6) {
-                if (next == var_r9 || var_r5_3[var_r9] == 0xFD) {
+                if (next == var_r9 || var_r5_3[(u8)var_r9] == 0xFD) {
                     var_r5_3[var_r9] = 0x51;
                     var_r5_3[(nextChar13984 = var_r9 + 1)] = 0xFD;
                     var_r9++;
@@ -2134,6 +2134,9 @@ block_206:
         } else if (keys3984 == 1) {
             sub_0805865C(0xF);
             switch (language) {
+            default:
+                var_r5_3 = arg0 + 0x10;
+                break;
             case 0:
                 var_r2_2 = arg0 + 0x10;
                 var_r2_2[var_r9] = gUnk_08366E34[current];
@@ -2149,9 +2152,6 @@ block_206:
                 var_r2_2[var_r9] = gUnk_08366FC4[current];
                 var_r5_3 = var_r2_2;
                 break;
-            default:
-                var_r5_3 = arg0 + 0x10;
-                break;
             }
             if (var_r9 <= 6) {
                 var_r9++;
@@ -2165,11 +2165,13 @@ block_206:
         } else if (keys3984 == 2) {
             sub_0805865C(0x10);
             if (var_r9 == next) {
-                var_r5_3 = arg0 + 0x10;
-                var_r5_3[var_r9] = 0xFD;
-                var_r5_3[(nextChar33984 = var_r9 + 1)] = 0;
+                u8 *name = arg0 + 0x10;
+                name[var_r9] = 0xFD;
+                name[(nextChar33984 = var_r9 + 1)] = 0;
                 var_r9--;
-                if (var_r9 & 0x8000) {
+                deleteMaskC6 = var_r9 & 0x8000;
+                var_r5_3 = name;
+                if (deleteMaskC6) {
                     var_r9 = 0;
                     if (arg0[0x10] == 0xFD) {
                         timer = 3;
@@ -2185,8 +2187,10 @@ block_206:
                 }
                 next = var_r9;
             } else {
-                var_r5_3 = arg0 + 0x10;
-                if (var_r5_3[var_r9] == 0x51) {
+                u8 *name = arg0 + 0x10;
+                u8 c = name[var_r9];
+                var_r5_3 = name;
+                if (c == 0x51) {
                     var_r9--;
                     if (var_r9 & 0x8000) {
                         timer = 3;
