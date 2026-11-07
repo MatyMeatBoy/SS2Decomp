@@ -1,0 +1,91 @@
+claude-nov07-w85 (2026-11-07), sub_080815F4 (code_0807A5D4.c, NONMATCHING). Landed: block order
+  restored and the twelve 0xF7 number-template loops folded into one macro. Aligned diff (scratch ck.sh)
+  2251 -> 1401, filtered nmdiff 2829 -> 1698, size 4860 -> 4940 (ROM 4972), frame 676 -> 684 (= ROM 0x2AC).
+  Diagnosis of the block order:
+  - First switch: each item kind with arg[4] != 0 has its own `sub_08007290((arg[4]-1)|0x130000)` call; only
+    `adds r0,#0xa0; str [sp,#0x250]` is shared (cross-jumped into the kind-6 body). The old shared
+    `goto block_30` made gcc merge the calls too. Write `sp250 = call(...) + 0xA0` in every case.
+  - Switch-2 case 2 is an inner `switch (item[0x9B]) { default: header; clamp; break; case 9: ...; goto icons;
+    case 10: ...; goto icons; }` followed by the default's rest. The ROM places the default header first, then
+    9, then 10, then the rest (0x08081A1A/A64/D40/DE0); an if/else chain cannot give that order.
+  - Cases 3/4/5 and the 9/default bodies must each contain the full digit tail; cross-jumping then merges
+    them into case 4 (0x0808247E) and the sp254=0 block into case 5 (0x080824B8). Explicit gotos put the
+    shared copy in the wrong case.
+  - Final default: `if (sp254 != 0) { two for loops } else { 0x140365 text }` (0x140365 is last in ROM).
+  - The 0xF7 loops act like 12 expansions of one routine: their address-taken `v` slots (0x20C..0x238) and the
+    value slots (0x260..0x28C) follow code order, and the +0x9B/+0xA0/+0xA1/+0xA7 pointers (0x290..0x2A0) are
+    CSE temps (they come after the value slots), not user variables. A block macro whose loop is
+    `for (; *s != 0xFD; s++)` gives the ROM `adds r2,r3,#1` (src+1 caller-saved at 0x2A4) and `mov r9,&v`.
+    A `static inline` function version keeps dst=text85 in a pseudo (frame 700, worse).
+  Remaining: allocation. kind-2 item pointer (0x240) gets r9 and the kind-5 one a high reg, so var_sl (the
+  kind 0xB2 halfword) is spilled instead of living in sl. In the number loop, loop.c hoists text85 into sl
+  (ROM rematerialises `ldr =gUnk_03000128` at each use and keeps item+0xAC in sl), and divisor/started are
+  r5/r7 instead of r7/r5. Rejected: binding var_sl to sl (1401 -> 1491), a `u8 *d = dst` macro local (d gets
+  sl), `src++` before the digit loop (1824), inline function forms (1512-1666, bigger frame).
+  Next: make text85 not loop-invariant-hoisted in the number loop (more insns in the outer loop body?), then
+  revisit the kind-1 two-line loop (len should be in r8, the old m2c gotos are still there).
+claude-nov07-w85 (2026-11-07, follow-up): filtered nmdiff 1698 -> 1513, size 4940 -> 4968, frame stays 0x2AC.
+  - Most of the missing 32 bytes were the ROM `adds r2, r0, #0` after each sub_08007290 text lookup
+    (kind 1, kind 6, 0x140365, splits, all twelve number templates). It appears when the lookup result
+    is one function-scope pointer (`res85`) shared by every site: a multi-block pseudo goes to global-alloc,
+    so combine/local-alloc no longer fold it into r0. It first landed in r4 (preference from the
+    local-alloc'd `temp_r4_13 = res85 + 2` in kind 6); sharing one variable for the kind-6 and 0x140365
+    centred text removes that preference, and res85 takes r2 as in ROM. Binding res85 to r2 with
+    register asm makes combine drop the copy again (4848 bytes), rejected.
+  - The 0xFF line splitter is now a macro reusing var_r6/var_r8/var_r7 (src/line/col), and its index is
+    `text85[col + line * 0x20]` (ROM adds col first). Kind 1 is a plain for loop (same code as the gotos).
+  - Still open: kind-1 `adds r0, r1, #0` copy before `cmp #255` and text85 hoisted above the if (no source
+    shape tried changed it: u8/u16/s16/u32 c, `*d == 0xFF`, `(*d = c) == 0xFF`); kind-2/kind-5 item
+    pointers in high regs instead of stack, var_sl spilled.
+  - Number-loop allocation: ROM's text85 handling is per site. In the case-3 template it is hoisted into
+    sl (`ldr r0, =gUnk_03000128; mov sl, r0`). In the case-2 9-body, sl holds the item+0xAC pointer and
+    text85 is a REG_EQUIV pseudo with no hard reg, so it is reloaded at each use. item+0xAC and +0xA7 sit just
+    before the template's `cmp #0xFD`, i.e. gcse/PRE insertions, so whether text85 gets sl is purely priority.
+    A function-scope `tb85 = text85` passed as DST cut the register-insensitive diff 1015 -> 421, but
+    filtered nmdiff only reached 1477 and size dropped to 4920; setting tb85 right before each template call
+    gave 4972 bytes and filtered 1775. Neither landed. Next: tune tb85 placement/scope per call site.
+claude-nov07-w85 (2026-11-07, third pass, nothing landed in code):
+  - The last 4 bytes don't sit in one region. The per-call drift (bl offsets ROM vs candidate) shows
+    kind 1 at -10 bytes, case 2/3 templates at -8..-30, and +36 twice where the candidate keeps its own
+    copy of the digit tail (sub_0801A638/sub_0805FB7C/sub_080653CC) in the case-2 9-body and default rest.
+    In ROM those two tails cross-jump into case 4, and they will only merge once the registers match.
+    The kind-1 -10 is entirely allocation: len in r8 (`movs r0,#0; mov r8,r0`,
+    `movs r1,#1; add r8,r1`, `mov r2,r8`), the char copy before `cmp #255`, and text85 reloaded inside the
+    if instead of PRE-hoisted.
+  - Kind-1 char copy: no source change moved it. Tried a one-case `switch (c)`, comparing
+    `text85[off + len]` (adds a reload, 4976 bytes), `*d == 0xFF` with u8/u32 c, `(u8)c` with s32 c,
+    `(*d = c) == 0xFF`, and re-reading `*src`.
+  - tb85 sweep (function-scope `tb85 = text85` set at entry, passed as DST to a subset of the five
+    text85 templates). Mask bits in template order: 9-body, default rest, case 3, case 4, case 5.
+    Mask 3 (only the two case-2 templates) gives exactly 4972 bytes and a register-blind aligned diff of
+    434 (k12 landed: 1015), but filtered nmdiff 1633 (landed 1513). Mask 1 gives 4972 bytes and filtered
+    1567. Mask 3 is the better base for allocation work, since the remaining diff is mostly registers
+    (high/low choice, spilled item pointers), but it is not landed because the official metric is worse.
+claude-nov07-wA (2026-11-07, fourth pass): filtered nmdiff 1513 -> 1412. Size 4968 -> 4972 = ROM, frame 0x2AC.
+  casediff aligned sum 1284 -> 882 (casediff only splits switch 1; everything after it is "case7").
+  - Insight: m2c var names carry the ROM register, and several m2c temporaries are one call-crossing
+    source variable in the ROM. Merged greedily, keeping only changes that kept exact size and lowered
+    nmdiff (scratch uni.sh):
+      var_r8_17 -> var_r8 (icon loop counter; this puts the kind-1/split counter in r8 as in ROM,
+                  `movs r0,#0; mov r8,r0`), var_r4_15 -> var_r4_4, var_r6_13 -> var_r9_2,
+      var_r6_6 -> var_r6, temp_r5_2/4/7 -> var_r9_3.
+  - The old 4968 was a coincidence of offsetting errors, not near-size:
+    * The candidate kept two extra digit tails (sub_0805FB7C/sub_080653CC: 4 copies vs ROM 2) because
+      `callFlag` is a function-scope variable (pseudo 23, r8) and its `= 0` before each
+      sub_08065230 kept the tails from cross-jumping.
+    * With a literal 0 in the five digit tails the call list matches ROM exactly (117 calls, same
+      order), but the draft is 4892 (-80). Per-call drift (scratch drift4.py) shows ~-4..-10 bytes in
+      every number-template expansion and the kind-1 loop, so the real deficit is register/insn
+      shape in the templates.
+    * Merging var_r6_3..13 into var_r6, or var_r8_20 into var_r8, lands in the same 4892 mode (rdiff
+      better, 1120).
+  - Allocation: sp240 = pseudo 26 (12 refs/476 insns) gets r9, sp24C (29) gets sl, var_sl (91, 7 refs) is
+    spilled. ROM: sp240/sp24C on the stack (hence our sp254.. slots are 8 bytes lower), var_sl in sl.
+    * `asm("" : : "r"(var_sl))` x5 makes var_sl beat sp240, but it takes r9 and sp240 moves to sl
+      (1410). r9 has to be held by a higher-priority conflicting pseudo, as in ROM; the ROM has the
+      FMT destinations in r9.
+    * Hints on var_r9_3 change code (size 4928), rejected. `asm("" : : "m"(sp240))` costs +40 bytes.
+  - Not landed: var_r8_12 <- var_r8_15 gives 1380 but 4968 bytes.
+  Next: the template expansions' instruction shape in the 4892 mode (literal-0 tails). That mode has
+  the right tail merging; find the missing ~6 bytes per template (text85 rematerialisation and
+  divisor/started regs from the notes above).
