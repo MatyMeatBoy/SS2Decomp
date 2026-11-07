@@ -1,7 +1,7 @@
 {
   "address": "0x0806C568",
-  "updated_utc": "2026-11-07T00:58:00Z",
-  "checkpoint": "Verified draft checkpoint 84a70f4584653355cb89959d6618b41a94441970: repair the final player-target counter, stage the cost-call request pointer, hoist the player wait mask and restore the halfword world-flags read. Still NONMATCHING; no matching-byte credit.",
+  "updated_utc": "2026-11-07T00:57:12Z",
+  "checkpoint": "Verified draft checkpoint 7eb982e8874bd235f28f59358a9827e1e992b6ac: repair the final player-target counter, stage the cost-call request pointer, hoist the player wait mask and restore the halfword world-flags read. Still NONMATCHING; no matching-byte credit.",
   "areas": [
     {
       "id": "compile",
