@@ -1966,6 +1966,8 @@ static inline s32 minus923FC(u16 v, s16 s) { return v - s; }
 void sub_080923FC_u8(u32,u32) asm("sub_080923FC");
 void sub_080923FC_u8(u32 arg0, u32 arg1) {
     struct Anim923FC a, b;
+    struct OffsetCache923FC { u16 x0, y0, x1, y1; };
+    extern struct OffsetCache923FC offsetFields923FC asm("gUnk_03001250");
     s32 xs[11], ys[11];
     u16 delay[11], speed[11], accel[11];
     u8 count0 = arg0;
@@ -1990,10 +1992,10 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     a.payload[7] = 0;
     b.payload[8] = 1;
     y = 0xD4;
-    cache923FC[0] = 8;
-    cache923FC[1] = 0;
-    cache923FC[2] = 8;
-    cache923FC[3] = 0;
+    offsetFields923FC.x0 = 8;
+    offsetFields923FC.y0 = 0;
+    offsetFields923FC.x1 = 8;
+    offsetFields923FC.y1 = 0;
     v923FC_250 = v923FC_254 = 8;
     v923FC_252 = -12;
     v923FC_256 = 12;
@@ -2009,15 +2011,15 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     do {
         shake = sub_08092E34();
         if (!BUSY923FC()) {
-            cache923FC[1] = plus923FC(shake, v923FC_252);
-            cache923FC[3] = plus923FC(shake, v923FC_256);
+            offsetFields923FC.y0 = plus923FC(shake, v923FC_252);
+            offsetFields923FC.y1 = plus923FC(shake, v923FC_256);
         }
         sub_080003F0();
         if (sub_080021A8() == 1)
             goto end;
     } while (--timer != 0xFFFF);
-    v923FC_252 = cache923FC[1];
-    v923FC_256 = cache923FC[3];
+    v923FC_252 = offsetFields923FC.y0;
+    v923FC_256 = offsetFields923FC.y1;
     i = 0;
     do {
         if (i & 1)
@@ -2164,10 +2166,10 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
                     (*offsetLo) = clamp;
                 if ((s16)upper > 49)
                     (*offsetHi) = 50;
-                cache923FC[0] = v923FC_250;
-                cache923FC[1] = plus923FC(shake, (*offsetLo));
-                cache923FC[2] = v923FC_254;
-                cache923FC[3] = minus923FC((*offsetHi), shake);
+                offsetFields923FC.x0 = v923FC_250;
+                offsetFields923FC.y0 = plus923FC(shake, (*offsetLo));
+                offsetFields923FC.x1 = v923FC_254;
+                offsetFields923FC.y1 = minus923FC((*offsetHi), shake);
             }
         }
         if (timer == 60)
@@ -2183,8 +2185,8 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             s16 s;
             fade923FC(0, 0x22, 1, fade, 16, 0);
             s = sub_08092E34();
-            cache923FC[1] = plus923FC(s, v923FC_252);
-            cache923FC[3] = minus923FC(v923FC_256, s);
+            offsetFields923FC.y0 = plus923FC(s, v923FC_252);
+            offsetFields923FC.y1 = minus923FC(v923FC_256, s);
             sub_08000AF0(0x10, a.fC + 0xE0, 1);
             drawSpecial923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0, 1);
         }
@@ -2230,8 +2232,8 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
             }
             {
                 s16 s = sub_08092E34();
-                cache923FC[1] = plus923FC(s, v923FC_252);
-                cache923FC[3] = minus923FC(v923FC_256, s);
+                offsetFields923FC.y0 = plus923FC(s, v923FC_252);
+                offsetFields923FC.y1 = minus923FC(v923FC_256, s);
             }
             sub_080003F0();
             if (sub_080021A8() == 1)
