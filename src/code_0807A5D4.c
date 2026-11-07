@@ -8338,7 +8338,7 @@ void sub_080855D4(void)
     s32 pos[25];
     u8 state[25];
     u16 zero;
-    u32 bg;
+    union { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; } bg;
     s32 ox;
     s32 oy;
     u32 count;
@@ -8347,6 +8347,7 @@ void sub_080855D4(void)
     struct Win855D4 *win;
     const struct Item855D4 *item;
     const u8 *s;
+    u8 *data;
     u32 n;
     u32 i;
     u32 j;
@@ -8354,8 +8355,8 @@ void sub_080855D4(void)
 
     f855_009F8(0x200, 0, 1);
     f855_009C0(0x1D00, 0, 1);
-    bg = (bg & 0xFFFF0000) | 0x1E00;
-    f855_00AA8(3, &bg);
+    bg.bits.cnt = 0x1E00;
+    f855_00AA8(3, &bg.word);
     gBgOfs855D4[1] = 0;
     gBgOfs855D4[0] = 0;
     gBgOfs855D4[3] = 0;
@@ -8476,19 +8477,20 @@ void sub_080855D4(void)
     }
     f855_009F8(0x200, 0, 1);
     f855_009C0(0x1F00, 0, 1);
-    *(u16 *)&bg = 0x5A01;
-    f855_00AA8(1, &bg);
-    *(u16 *)&bg = 0x5E01;
-    f855_00AA8(2, &bg);
-    *(u16 *)&bg = 0x1D03;
-    f855_00AA8(3, &bg);
+    j = 0;
+    bg.bits.cnt = 0x5A01;
+    f855_00AA8(1, &bg.word);
+    bg.bits.cnt = 0x5E01;
+    f855_00AA8(2, &bg.word);
+    bg.bits.cnt = 0x1D03;
+    f855_00AA8(3, &bg.word);
     gShop855D4->mode = 0;
     gShop855D4->cat = 0;
     gShop855D4->cursor = 0;
     gShop855D4->index = 0;
     gShop855D4->running = 1;
     gShop855D4->grid = 0;
-    for (j = 0; j <= 7; j++) {
+    for (; j <= 7; j++) {
         win->slots[j].id = 0xFFFF;
         zero = 0;
         f855_CpuSet(&zero, win->slots[j].data, 0x01000018);
@@ -8637,9 +8639,8 @@ void sub_080855D4(void)
             gBgOfs855D4[4] = 0;
             gBgOfs855D4[5] = 0;
             for (i = 0; gTab855D4[gShop855D4->index + i][1] == gShop855D4->cat; i++) {
-                u16 id = gTab855D4[gShop855D4->index + i][0];
-                if (gSave855D4->counts[id] != 0) {
-                    u8 *data = f855_07290(id | 0x120000);
+                if (gSave855D4->counts[gTab855D4[gShop855D4->index + i][0]] != 0) {
+                    data = f855_07290(gTab855D4[gShop855D4->index + i][0] | 0x120000);
                     f855_0CE30();
                     s = data + gLang855D4 * 0x1F;
                 } else {
@@ -8660,7 +8661,7 @@ void sub_080855D4(void)
             gShop855D4->ty = gShop855D4->cursor * 16 + 0x18;
             f855_65230(gShop855D4->sprite, gShop855D4->x, gShop855D4->y, 0x15, 0);
             gShop855D4->shown = 0x64;
-            f855_5FB7C(0xE, 0x13, gShop855D4->cursor + gShop855D4->index + 1, 0);
+            f855_5FB7C(0xE, 0x13, gShop855D4->cursor + 1 + gShop855D4->index, 0);
             f855_5FB7C(0x12, 0x13, count, 0);
             break;
         case 3:
@@ -8675,9 +8676,8 @@ void sub_080855D4(void)
             gBgOfs855D4[2] = 0x100;
             gBgOfs855D4[3] = 0;
             if (gShop855D4->shown != gShop855D4->index) {
-                u16 id = gTab855D4[gShop855D4->index][0];
-                if (gSave855D4->counts[id] != 0) {
-                    u8 *data = f855_07290(id | 0x120000);
+                if (gSave855D4->counts[gTab855D4[gShop855D4->index][0]] != 0) {
+                    data = f855_07290(gTab855D4[gShop855D4->index][0] | 0x120000);
                     if (f855_0CE30() != 0)
                         item = &gItemsB855D4[*(u16 *)(data + 0x9E)];
                     else
@@ -8697,26 +8697,26 @@ void sub_080855D4(void)
                     c = *s;
                 }
                 name[j] = 0xFD;
-                text = f855_07290(*(u16 *)(f855_07290(gTab855D4[gShop855D4->index][0] | 0x120000) + 0xA2) | 0x140000);
+                data = f855_07290(gTab855D4[gShop855D4->index][0] | 0x120000);
+                text = f855_07290(*(u16 *)(data + 0xA2) | 0x140000);
                 s = text + 2;
                 i = 0;
                 j = 0;
                 while (*s != 0xFD) {
-                    c = *s;
-                    if (c == 0xFF) {
+                    if (*s == 0xFF) {
                         desc[i][j] = 0xFD;
                         i++;
                         j = 0;
                     } else {
-                        desc[i][j] = c;
+                        desc[i][j] = *s;
                         j++;
                     }
                     s++;
                 }
                 desc[i][j] = 0xFD;
                 f855_1C8F0(win);
-                f855_5FB7C(0x14, 4, win->atk, 0);
-                f855_5FB7C(0x14, 5, win->def, 0);
+                f855_5FB7C(0x14, 4, winBuf.atk, 0);
+                f855_5FB7C(0x14, 5, winBuf.def, 0);
                 f855_5FB7C(0x14, 6, item->unk8, 0);
                 f855_5FB7C(0x14, 7, item->unk0, 0);
                 f855_5FB7C(0x14, 8, item->unk2, 0);
@@ -8748,8 +8748,9 @@ void sub_080855D4(void)
                     text = f855_07290(0x140540);
                     break;
                 }
+                s = text + 2;
                 if (gSave855D4->counts[gTab855D4[gShop855D4->index][0]] != 0)
-                    f855_1A3D0(text + 2, 0x12, 0xC);
+                    f855_1A3D0(s, 0x12, 0xC);
             }
             f855_1A3D0(name, 0x10 - (f855_1A638(name) >> 1), 1);
             f855_659BC(gShop855D4->sprite, 0xBC, 0x55, 0x25, 0, 1);
@@ -8769,13 +8770,12 @@ void sub_080855D4(void)
                     i = 0;
                     j = 0;
                     while (*s != 0xFD) {
-                        c = *s;
-                        if (c == 0xFF) {
+                        if (*s == 0xFF) {
                             desc[i][j] = 0xFD;
                             i++;
                             j = 0;
                         } else {
-                            desc[i][j] = c;
+                            desc[i][j] = *s;
                             j++;
                         }
                         s++;
@@ -8791,9 +8791,8 @@ void sub_080855D4(void)
                 f855_1A664(0xF, 4);
             }
             {
-                u16 id = gTab855D4[gShop855D4->index][0];
-                if (gSave855D4->counts[id] != 0) {
-                    switch (id) {
+                if (gSave855D4->counts[gTab855D4[gShop855D4->index][0]] != 0) {
+                    switch (gTab855D4[gShop855D4->index][0]) {
                     case 0x75:
                     case 0x76:
                     case 0x77:

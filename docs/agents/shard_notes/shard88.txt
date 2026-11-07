@@ -61,3 +61,32 @@ Shard 88 notes (sub_080855D4).
   - `(void *)(sub_08007290(id) + 0x1E0)` with the s32 prototype: no change to the post-call copy.
   - `L.pts` as `s32 [25][2]` and `(&L.pts[0])[i]` inside the aggregate: no change (superseded by
     the split locals).
+
+2026-11-07 (claude-nov07-w63): sub_080855D4 filtered nmdiff 560 -> 130, size 4596 -> 4620 = ROM
+  (full-module aligned diff 246 -> 16). Located the missing 24 bytes with a per-call offset drift
+  (bl targets aligned between ROM and candidate), then fixed region by region:
+  - win->atk / win->def are read as winBuf.atk / winBuf.def: GCSE hoists sp+0x29C / sp+0x29E like
+    the ROM (atk address in sl, def address spilled), and the extra spill slots bring the frame to
+    0x604. With the size back over 2 KB the mode switch's far jump (`bl _0808673C`) reappears.
+  - bg is `union { struct { u32 cnt:16; u32 spare:16; } bits; u16 half; u32 word; }` (as in
+    code_08009088) and every write is `bg.bits.cnt = K`: the bit-field store loads K in SImode
+    (`ldr r0,=K; strh r0`), where `*(u16 *)&bg = K` loaded it in HImode through a reload copy.
+  - `j = 0;` right after f855_009C0(0x1F00, ...), with `for (; j <= 7; ...)`: j becomes the canonical
+    zero for the gShop stores (ROM `movs r5,#0` before the bg writes).
+  - counts[] lookups take the table index inline (`counts[gTab[...][0]]`, id re-read for the call
+    and the switch): the ROM loads gSave before the index.
+  - One function-scope `u8 *data` for every resFF63 result (mode 0, mode 1 and the description
+    lookup `data = f855_07290(...); text = f855_07290(*(u16 *)(data + 0xA2) | 0x140000)`). A
+    block-local data was local-allocated to r4 and gave `s` (via s = data + lang*31) an r4
+    preference, which put s in r4 instead of r6 and pushed desc into r6.
+  - `s = text + 2;` before the unk22 counts test, and the description loops test `*s == 0xFF`
+    (ROM `adds r0,r1,#0; cmp r0,#255`).
+  Remaining (16 aligned lines): (1) both `f855_00AF0(0xF, f855_07290(K) + 0x1E0, 1)` sites: ours ties
+  the call result to the sum (`adds r1,r0,#0; adds r1,r1,r3`), ROM `adds r1,r0,r3`. local-alloc
+  combine_regs ties them whenever the result dies in the add; a block-local pointer or an s32
+  prototype doesn't change it. (2) `cursor + index + 1` argument: ROM computes cursor+1 first and
+  adds it to index (index's reg is the destination); `-~cursor + index` gets the load order but
+  not the register. (3) item+0xD4 / item+0xD6 GCSE pointers are in swapped spill slots (ROM:
+  +0xD6 at 0x5F8). They are PRE reaching regs created in hash-bucket order (hashes 672/674 in a
+  953-bucket table), so the table size or item's regno would have to change to flip them.
+  Dummy locals and moving item's declaration had no effect.
