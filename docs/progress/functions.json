@@ -11736,21 +11736,21 @@
       "name": "sub_08025890",
       "addr": 134371472,
       "size": 2728,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08021DC4",
       "kind": "c",
       "cat": "game",
       "address": "0x08025890",
       "canonical_symbol": "sub_08025890",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "t24_gate25890",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3013,
+          "line": 3009,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t24_gate25890"
         }
       ]
@@ -11858,7 +11858,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 3955,
+          "line": 3947,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Select"
         }
       ]
@@ -11932,7 +11932,7 @@
       "evidence": [
         {
           "source": "src/code_08021DC4.c",
-          "line": 4784,
+          "line": 4776,
           "detail": "Existing C definition with an asm alias to the canonical symbol: t025Effects27C"
         }
       ]
@@ -31394,14 +31394,14 @@
       "name": "sub_08093BAC",
       "addr": 134822828,
       "size": 1544,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_08092D60",
       "kind": "c",
       "cat": "game",
       "address": "0x08093BAC",
       "canonical_symbol": "sub_08093BAC",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "sub_08093BAC",
       "name_status": "unidentified",
       "name_source": null,
