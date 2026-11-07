@@ -50,3 +50,19 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   Rejected: the keys & 0x300 forms listed for sub_080605D0.
   Next: block the X-literal PRE without lengthening k1's or end's live range, so `end`
   still spills.
+
+2026-11-07 (claude-nov07-wA): sub_080605D0 MATCHED (filtered nmdiff 256 -> 0, ASM fallback removed).
+  Two source changes closed it:
+  1. Read the key register twice: `if (hudKeys63 & 0x300)` ... `if (hudKeys63 & 0x200)` instead of a
+     cached `keys` local. The ROM's `movs rC; adds r0,rC,#0; ands r0,r2` copies come from this shape
+     (regmove no longer ties the and-result to the cached keys pseudo or the constant).
+     Diagnosis path: with function-scope mask variables (`u32 m300 = 0x300`) the constants became
+     REG_EQUIV rematerialized reloads (256 -> 182), which showed the copy was a regmove/tie issue,
+     not a type issue; the double read is what the ROM really does.
+  2. A function-scope `struct HudPos63 *py = hudPosY63;` used for every Y-column read (both k-loops
+     and both HudDraw63 calls). The pointer gets no hard reg and is rematerialized per use, so the
+     Y-table literal is no longer a local-alloc qty that grabbed r1; the (k - base)*4 index chain
+     then takes r1 like the ROM (182 -> 96 with the masks, then 0 with change 1).
+  Rejected on the way: t-reuse of one and-result variable, keys/mask type sweeps (u16/s16/s32/u32),
+  operand order, s16 index temp (fixes r1 but adds lsl/asr), px pointer for the X column (worse).
+  Next: sub_08060E44 is the sibling -- try the same two shapes (hudKeys re-read, Y pointer local).
