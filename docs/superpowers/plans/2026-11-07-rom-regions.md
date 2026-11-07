@@ -32,9 +32,9 @@
 
 **Interfaces:** `load_profiles()` and `verify_rom(path, region, profiles=None)` return verified identity metadata or raise `RegionError`.
 
-- [ ] Write synthetic identity/rejection tests and observe RED.
-- [ ] Implement strict identities and input inspection.
-- [ ] Run focused tests and verify all three local supplied dumps.
+- [x] Write synthetic identity/rejection tests and observe RED.
+- [x] Implement strict identities and input inspection.
+- [x] Run focused tests and verify all three local supplied dumps.
 
 ### Task 2: Compiler fragment reconstruction
 
@@ -42,17 +42,17 @@
 
 **Interfaces:** Extract compiler functions, namespace only assembler local identifiers, select disjoint same-address intervals, render reference gaps and link/verify the target ROM. Consume Task 1 identity metadata.
 
-- [ ] Test extraction, literal safety, overlaps and reference-gap accounting; observe RED.
-- [ ] Implement normal-EU build preflight and linked-symbol/assembly discovery.
-- [ ] Implement regional assembly/linking with exact admitted-fragment and full-ROM comparison.
-- [ ] Verify synthetic tests and real USA/Japan reconstructions with separate coverage reports.
+- [x] Test extraction, literal safety, overlaps and reference-gap accounting; observe RED.
+- [x] Implement normal-EU build preflight and linked-symbol/assembly discovery.
+- [x] Implement regional assembly/linking with exact admitted-fragment and full-ROM comparison.
+- [x] Verify synthetic tests and real USA/Japan reconstructions with separate coverage reports.
 
 ### Task 3: Build integration and review
 
 **Files:** Modify Makefile; create tools/config/region.mk and docs/agents/REGIONS.md.
 
-- [ ] Dispatch REGION=usa/jp explicitly; preserve the existing EU branch and reject unknown regions.
-- [ ] Document experimental coverage and regional research limits.
-- [ ] Run full tooling tests, EU compare/NONMATCHING/tree/diff and both regional comparisons.
+- [x] Dispatch REGION=usa/jp explicitly; preserve the existing EU branch and reject unknown regions.
+- [x] Document experimental coverage and regional research limits.
+- [x] Run full tooling tests, EU compare/NONMATCHING/tree/diff and both regional comparisons.
 - [ ] Obtain independent review, fix material findings, publish and integrate the verified tooling PR.
-- [ ] Record USA replay observations separately from source coverage; continue EU workers.
+- [x] Record USA replay observations separately from source coverage; continue EU workers.
