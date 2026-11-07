@@ -47,3 +47,12 @@ Shard 92, sub_0808C0C4 (code_08087CC0)
   alternative unk90/selection spellings.
   Tooling: evaluate inside the full module (standalone files differ: CSE/GCSE hash symbol
   pointers); scratch scripts in nov07-wC (ck2.sh builds the module with the draft unwrapped).
+
+2026-11-07 (claude-nov07-coord, follow-up after PR580): sub_0808C0C4
+  Tried on the loopB inner loop. Aligned diff 40; full-module nmdiff 56.
+  A block-local `u16 *cn` set in the for-init (`cn = sp150, var_r7 = &gItemsC0`) gives ROM's
+  hoisted counts pointer (r9): aligned 35, nmdiff 55, but size 2700 (worse) because gCoords+2
+  then becomes a per-iteration literal. A `u8 *co = gCoordsC0` local folds [1] into
+  `ldrh [r1,#2]` (2692). The ROM computes [1] as t + (r8 + 2) from the hoisted gCoords register.
+  The unk90 store forms (temp index, pointer local, cast forms) do not move the product to r1;
+  a temp index gives size 2708 but aligned 41.

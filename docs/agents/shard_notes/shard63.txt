@@ -99,3 +99,11 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   only found an invalid variant that drops the case-1 resFF63 call.
   Next: raise started's priority over k/div (ROM order div > started > k), or lower
   suffix's so that it spills.
+
+2026-11-07 (claude-nov07-coord): sub_08060E44 (after PR575)
+  Full-module aligned diff 83, size 2116 = ROM. Index form tried for the four
+  `end - ((s16)(k + 1))` uses (ROM: asrs k; adds #1; subs end, no s16 truncation):
+  `end - (k + 1)` 100; `-(k + 1) + end` 343 (2076 bytes); `end + ~k` 83 (2112 bytes);
+  `(end - k) - 1` 85; an s32 k1 behind an empty asm("+r") barrier 334 (2076 bytes). m-loop:
+  swapping the n/m declaration order changes nothing; u16 n 83 (2112), s32 n 78 (2108);
+  moving n++ after found 117.
