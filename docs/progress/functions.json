@@ -394,10 +394,29 @@
       "canonical_symbol": "sub_08000760",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08000760",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "UpdateKeyStateAndDirectionalRepeat",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/main.c",
+          "line": 53,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Reads active-low KEYINPUT and updates current, previous and pressed-key masks. Maintains directional repeat counters and separately records A/B release edges. A direction change copies all newly pressed keys into the repeat mask."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 20,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08000760..0x0800086C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 20,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0800076C reads KEYINPUT; 0x08000772 inverts pressed sense with 0x3FF, 0x08000774 stores current keys and 0x0800077C stores pressed edges. 0x0800077E selects D-pad mask 0xF0; 0x08000820..0x08000854 inspect only released A/B bits."
+        }
+      ]
     },
     {
       "name": "sub_0800086C",
@@ -4345,10 +4364,29 @@
       "canonical_symbol": "sub_08009088",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08009088",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "SetMosaicBlockSizeShadow",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08009088.c",
+          "line": 5,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Writes a | (b << 4) | (c << 8) | (d << 12) to display shadow +0x3C. The display copier sends it to MOSAIC at 0x0400004C. Byte inputs are not individually masked to four bits before the halfword store."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 188,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08009088..0x080090B0; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 188,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08009096/0x0800909A/0x0800909E align byte inputs by 4/8/12 bits; 0x080090A2 writes one halfword to display shadow +0x3C. Inputs are not independently restricted to nibbles."
+        }
+      ]
     },
     {
       "name": "sub_080090B0",
@@ -7786,10 +7824,35 @@
       "canonical_symbol": "sub_08019CE8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08019CE8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApplyPendingActorDamageAndCheckDeath",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 848,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Subtracts the low 15 bits of actor halfword +0x4A from health +0x5C, then clears pending damage. A zero or high-bit halfword result sets state +0xC to 11, clears health and returns 1; otherwise returns 0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 386,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08019CE8..0x08019D34; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 386,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08019CFE subtracts masked pending damage, 0x08019D02 writes remaining HP and 0x08019D06 clears pending damage. Death path 0x08019D20 sets state 11 and 0x08019D22 zeroes HP."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 142,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched actor task sub_0808D654 calls sub_08019CE8 for actor damage/death handling and sub_0801A120 for floating damage numbers. Its actor coordinates are at +0x14/+0x18 and health at +0x5C."
+        }
+      ]
     },
     {
       "name": "sub_08019D34",
@@ -7803,10 +7866,29 @@
       "canonical_symbol": "sub_08019D34",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08019D34",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HasActiveActorWithId",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 861,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Rejects ID 0 and scans five active actor slots of 0x2E0 bytes. Returns 1 when actor halfword +2 matches the input ID, otherwise 0. Activity comes from bitmap 0x030056FC."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 387,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08019D34..0x08019D7C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 387,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08019D3A rejects ID 0. 0x08019D58 tests active-mask bit and 0x08019D5E..0x08019D62 compare actor ID +2; 0x08019D68 bounds five records."
+        }
+      ]
     },
     {
       "name": "sub_08019D7C",
@@ -7837,10 +7919,29 @@
       "canonical_symbol": "sub_08019DE0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08019DE0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "HasActiveActorWithRecordKey",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 896,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans five active actor slots for a word at +0x2C equal to the supplied record key. Returns 1 for the first match, otherwise 0. No particular spawn-group or script identity is assigned to that key."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 389,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08019DE0..0x08019E20; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 389,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08019DF8 tests active-mask bit, 0x08019DFE loads actor word +0x2C, 0x08019E00 compares supplied key and 0x08019E14 bounds five records."
+        }
+      ]
     },
     {
       "name": "sub_08019E20",
@@ -7871,10 +7972,29 @@
       "canonical_symbol": "sub_08019E30",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08019E30",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "GetActiveActorMaskByRecordKey",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 912,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns a bitmap of all active actor slots whose word at +0x2C equals the supplied record key. The search covers five slots and preserves every match."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 391,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08019E30..0x08019E74; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 391,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08019E4E tests active-mask bit; 0x08019E54..0x08019E58 compare actor word +0x2C and 0x08019E5A ORs each matching slot bit into result. 0x08019E60 bounds five records."
+        }
+      ]
     },
     {
       "name": "sub_08019E74",
@@ -7939,10 +8059,35 @@
       "canonical_symbol": "sub_08019F60",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08019F60",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ScaleActorStatPairForPlayerCount",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1000,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Uses the connected-player count from sub_08002164 to index three-word rate records at 0x0848FA0C. Always scales signed input halfword +6 by rate A / 100; when the count exceeds 1, also scales halfword +0 as (value + 2) * rate B / 100. Products use low 32 bits and unsigned division. A matched caller identifies the +6 value as an input to actor health initialization."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 395,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08019F60..0x08019FA8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08019F64 -> sub_08002164 (0x08002164), 0x08019F7E -> __udivsi3 (0x080B956C), 0x08019F98 -> __udivsi3 (0x080B956C). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 395,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08019F64 gets connected-player count. 0x08019F82 stores scaled halfword +6 after unsigned division by 100; count > 1 also reaches 0x08019F9C storing scaled halfword +0."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 174,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched actor task sub_0808D654 passes resource block actor +0x204 to sub_08019F60, then multiplies its halfword +6 by 3 to initialize current health +0x5C and maximum +0x1D6."
+        }
+      ]
     },
     {
       "name": "sub_08019FA8",
@@ -7990,10 +8135,23 @@
       "canonical_symbol": "sub_0801A040",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A040",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "QueryActiveActorIdPresence",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1030,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Forwards a 16-bit ID to sub_08019D34 and returns its active-actor presence result without additional filtering."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 398,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A040..0x0801A050; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A046 -> sub_08019D34 (0x08019D34). This is static original-byte evidence, not runtime coverage."
+        }
+      ]
     },
     {
       "name": "sub_0801A050",
@@ -8075,10 +8233,29 @@
       "canonical_symbol": "sub_0801A120",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A120",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "DrawFloatingNumberAtActorPosition",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1082,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Extracts flag 0x8000 as a style selector, clamps the remaining value to 999, projects actor coordinates at +0x14/+0x18 through sub_0800BC08 and draws a four-digit sprite number through sub_08065424. The screen X coordinate is reduced by 8; the caller supplies a vertical offset. The special style is 3, otherwise 0."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 403,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A120..0x0801A1C8; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A16A -> sub_0800BC08 (0x0800BC08), 0x0801A196 -> sub_08065424 (0x08065424), 0x0801A1BC -> sub_08065424 (0x08065424). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "src/code_0808D4A8.c",
+          "line": 142,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched actor task sub_0808D654 calls sub_08019CE8 for actor damage/death handling and sub_0801A120 for floating damage numbers. Its actor coordinates are at +0x14/+0x18 and health at +0x5C."
+        }
+      ]
     },
     {
       "name": "sub_0801A1C8",
@@ -8092,10 +8269,29 @@
       "canonical_symbol": "sub_0801A1C8",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A1C8",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FindNearestOtherActiveActor",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1100,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Scans five active actors other than the supplied pointer. It shifts signed coordinate differences right by 8, computes integer Sqrt distance, truncates it to u16 and selects the first strictly smallest distance below 65535. Returns the slot and writes distance, or returns 0xFF without writing distance when none qualifies."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 404,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A1C8..0x0801A270; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A220 -> Sqrt (0x080B858C). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 404,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0801A208/0x0801A210 shift coordinate differences by 8 before squared-distance calculation. 0x0801A220 calls Sqrt, 0x0801A224..0x0801A226 narrow the result to 16 bits, 0x0801A22A..0x0801A22C preserve earlier ties. 0x0801A248 writes distance only when a slot was selected; 0x0801A25C otherwise returns 0xFF."
+        }
+      ]
     },
     {
       "name": "sub_0801A270",
@@ -8109,10 +8305,29 @@
       "canonical_symbol": "sub_0801A270",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A270",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FindFreeActorSlot",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1130,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns the first clear bit index from 0 through 4 in actor activity bitmap 0x030056FC, or -1 if all slots are occupied. It does not allocate or initialize the slot."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 405,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A270..0x0801A298; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 405,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0801A276 reads active bitmap 0x030056FC; 0x0801A27E tests each bit, returning first clear. 0x0801A28E bounds index 4 and 0x0801A292..0x0801A294 return -1 on exhaustion."
+        }
+      ]
     },
     {
       "name": "sub_0801A298",
@@ -8143,10 +8358,29 @@
       "canonical_symbol": "sub_0801A2F0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A2F0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RollThreeEntryWeightedChoice",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1163,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Rolls the 32-bit RNG result modulo 100 and scans at most three four-byte records. It accumulates weight byte +1 with 8-bit wrap and returns the first record byte when roll < sum; otherwise returns 0xFF."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 407,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A2F0..0x0801A328; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x0801A2F4 -> sub_080008C8 (0x080008C8), 0x0801A2FA -> __umodsi3 (0x080B95E4). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 407,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0801A2F4 obtains RNG, 0x0801A2FA takes modulo 100; 0x0801A306/0x0801A312 read weight byte +1 and 0x0801A316..0x0801A318 narrow cumulative sum to 8 bits. 0x0801A30E limits three records; 0x0801A31E reads selected value byte."
+        }
+      ]
     },
     {
       "name": "sub_0801A328",
@@ -8160,10 +8394,29 @@
       "canonical_symbol": "sub_0801A328",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0801A328",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "OffsetPointUsingDirectionLookup",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08017F7C.c",
+          "line": 1187,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Uses a 16-bit direction to index angle table 0x0847AD0A, combines sine/cosine with unsigned 16-bit input coordinates and speed, then stores output X/Y after shifting right by 8. Speed with bit 0x8000 becomes zero. The volatile Y output also receives an intermediate unshifted value."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 408,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0801A328..0x0801A388; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 408,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x0801A340 checks speed bit 0x8000 and 0x0801A346 substitutes zero. 0x0801A350 reads direction-angle lookup. 0x0801A360 stores intermediate Y before final shifted Y store 0x0801A374 and shifted X store 0x0801A378."
+        }
+      ]
     },
     {
       "name": "sub_0801A388",
@@ -10739,10 +10992,35 @@
       "canonical_symbol": "sub_08021C74",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08021C74",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ComputeRandomizedQuadraticDamage",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2406,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Combines a random factor from 100 through 149 with a * a * 10 / (a + b), divides by the third input and 10 with the original 16-bit truncations, and replaces a zero result with 1. Matched combat callers use it for damage calculation."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 519,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08021C74..0x08021CE4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08021C90 -> sub_080008C8 (0x080008C8), 0x08021C9A -> __umodsi3 (0x080B95E4), 0x08021CB8 -> __divsi3 (0x080B9394), 0x08021CC0 -> __divsi3 (0x080B9394), 0x08021CCA -> __udivsi3 (0x080B956C). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 519,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08021C90..0x08021CA8 form random factor 100..149 from RNG low 16. 0x08021CB8/0x08021CC0 perform the two signed divisions; 0x08021CC4..0x08021CC6 truncate before final unsigned divide 10 at 0x08021CCA. 0x08021CD6 replaces zero with 1."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2961,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched combat path sub_0806441C passes target resistance array +0x218 to sub_08021D00 and calls sub_08021C74 with target defense +0x1CE and divisor 200 before applying damage."
+        }
+      ]
     },
     {
       "name": "sub_08021CE4",
@@ -10756,10 +11034,29 @@
       "canonical_symbol": "sub_08021CE4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08021CE4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ScaleValueByPercentBonus",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2417,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Returns signed division of ((bonus + 100) * value) by 100, truncated to u16. The original uses low 32-bit multiplication and does not saturate the result."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 520,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08021CE4..0x08021D00; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08021CF4 -> __divsi3 (0x080B9394). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 520,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08021CEE adds 100 to unsigned 16-bit bonus; 0x08021CF0 multiplies low 32 and 0x08021CF4 divides signed by 100. 0x08021CF8..0x08021CFA narrow the returned value to 16 bits; no saturation."
+        }
+      ]
     },
     {
       "name": "sub_08021D00",
@@ -10773,10 +11070,35 @@
       "canonical_symbol": "sub_08021D00",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08021D00",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "ApplySquaredResistanceFactor",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2420,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "For selectors 1 through 7, selects one of six signed resistance halfwords, with selectors 6/7 sharing index 5. Scales the 16-bit amount by 5000 / (resistance * resistance + 2500), truncates to u16 and replaces high-bit results with 1. Other selectors retain the input amount; matched combat callers supply a target resistance array."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 521,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08021D00..0x08021D88; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08021D64 -> __divsi3 (0x080B9394). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 521,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08021D0C bounds selector 1..7. 0x08021D3C..0x08021D50 select six halfwords, with last selector pair sharing offset +0xA. 0x08021D58 sign-extends resistance, 0x08021D5C squares it and 0x08021D64 divides scaled amount. 0x08021D70..0x08021D76 replace high-bit 16-bit result with 1."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 2961,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched combat path sub_0806441C passes target resistance array +0x218 to sub_08021D00 and calls sub_08021C74 with target defense +0x1CE and divisor 200 before applying damage."
+        }
+      ]
     },
     {
       "name": "sub_08021D88",
@@ -10790,10 +11112,29 @@
       "canonical_symbol": "sub_08021D88",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08021D88",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "AllocateActorSpriteEffectTaskPool",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2456,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Allocates 0x500 bytes for 32 task records of 0x28 bytes at 0x03005CE0 and clears activity bitmap 0x03005CE4. Actor status/damage sprite starters in 0x08021DC4..0x08022504 use this pool."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 522,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08021D88..0x08021DAC; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08021D90 -> sub_08001494 (0x08001494). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 522,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08021D8C..0x08021D90 allocate 0x500 bytes, 0x08021D94 writes pool 0x03005CE0 and 0x08021D9A clears bitmap 0x03005CE4."
+        }
+      ]
     },
     {
       "name": "sub_08021DAC",
@@ -10807,10 +11148,29 @@
       "canonical_symbol": "sub_08021DAC",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08021DAC",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FreeActorSpriteEffectTaskPool",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0801E244.c",
+          "line": 2460,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Frees the actor sprite-effect task pool at 0x03005CE0 and clears its pointer. It does not cancel active tasks or reset activity bitmap 0x03005CE4."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 523,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08021DAC..0x08021DC4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08021DB2 -> sub_08001538 (0x08001538). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 523,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08021DB2 frees pool 0x03005CE0 and 0x08021DB8 clears pointer. No activity polling or bitmap clear occurs."
+        }
+      ]
     },
     {
       "name": "sub_08021DC4",
@@ -10892,10 +11252,35 @@
       "canonical_symbol": "sub_08021FE0",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_08021FE0",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "TestFixedPointAxisAlignedBoxOverlap",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 142,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Shifts signed position differences right by 8 before taking absolute values, then compares them inclusively against half the summed width/height values. Touching edges overlap; shifting before absolute value is part of the observed behavior."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 528,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x08021FE0..0x08022028; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original leaf body has no direct function calls. This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 528,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08021FF2/0x08021FF4 shift coordinate differences by 8 before absolute value. 0x08022002/0x08022014 halve summed dimensions; 0x08022006/0x08022018 reject only strictly greater distances, preserving touching-edge overlap."
+        },
+        {
+          "source": "src/code_08073E2C.c",
+          "line": 3483,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Matched area-damage task sub_08079458 passes two world positions and halfword width/height hitboxes to sub_08021FE0 before applying actor/player damage."
+        }
+      ]
     },
     {
       "name": "sub_08022028",
@@ -11028,10 +11413,29 @@
       "canonical_symbol": "sub_080223A4",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_080223A4",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "RollRelativeStatChance",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_08021DC4.c",
+          "line": 367,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Truncates (a + 10) * 125 / (a + b + 20) to a signed 16-bit threshold and returns whether it is at least the low 16 bits of the RNG result modulo 100. No particular dodge or critical-stat identity is inferred."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 536,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x080223A4..0x080223F4; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x080223C2 -> __divsi3 (0x080B9394), 0x080223CC -> sub_080008C8 (0x080008C8), 0x080223D6 -> __umodsi3 (0x080B95E4). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 536,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x080223C2 divides signed threshold expression; 0x080223CC obtains RNG and 0x080223D6 takes unsigned 16-bit RNG modulo 100. 0x080223E0 sign-extends the 16-bit threshold; 0x080223E4 accepts threshold >= roll."
+        }
+      ]
     },
     {
       "name": "sub_080223F4",
@@ -30126,10 +30530,29 @@
       "canonical_symbol": "sub_0809043C",
       "domain": "game",
       "implementation": "decompiled",
-      "display_name": "sub_0809043C",
-      "name_status": "unidentified",
-      "name_source": null,
-      "evidence": []
+      "display_name": "FixedDivideQ8Low32",
+      "name_status": "confirmed",
+      "name_source": "catalog",
+      "evidence": [
+        {
+          "source": "src/code_0808FB5C.c",
+          "line": 465,
+          "revision": "e181cfee8400da03f9084ff7635d0277fee491f3",
+          "detail": "Computes signed division of (s32)((u32)a << 8) by b. The numerator shift keeps only the low 32 bits; this name does not imply a widened intermediate or a division-by-zero guard."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1549,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "Original Thumb boundary 0x0809043C..0x0809044C; EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc. Original direct calls: 0x08090442 -> __divsi3 (0x080B9394). This is static original-byte evidence, not runtime coverage."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 1549,
+          "revision": "47dde703fb3749813bd4cdb783c8fc5b2b5d9d6b",
+          "detail": "0x08090440 performs low 32-bit left shift by 8 before 0x08090442 calls signed division; incoming denominator remains r1. No widened numerator is formed."
+        }
+      ]
     },
     {
       "name": "sub_0809044C",
@@ -39759,12 +40182,12 @@
   "identification": {
     "game": {
       "total": 1880,
-      "identified": 327,
+      "identified": 348,
       "existing": 32,
-      "confirmed": 295,
+      "confirmed": 316,
       "proposed": 0,
-      "unidentified": 1553,
-      "percent_identified": 17.393617021276597
+      "unidentified": 1532,
+      "percent_identified": 18.51063829787234
     },
     "sdk": {
       "total": 155,
@@ -39777,12 +40200,12 @@
     },
     "all": {
       "total": 2035,
-      "identified": 482,
+      "identified": 503,
       "existing": 161,
-      "confirmed": 321,
+      "confirmed": 342,
       "proposed": 0,
-      "unidentified": 1553,
-      "percent_identified": 23.685503685503686
+      "unidentified": 1532,
+      "percent_identified": 24.717444717444717
     }
   },
   "limitations": "Configured function address intervals, including alignment/literal pools; inventory includes original assembly and linked libraries. Existing descriptive identifiers are recognized, not independently semantically re-proven."
