@@ -300,6 +300,78 @@ source. Diagnose with RTL dumps (`-dl -dg` for local/global alloc, `-dL` loop,
   bit-field expansion, whose mask zero CSE then shares
   ([PR490](https://github.com/MatyMeatBoy/SS2Decomp/pull/490)).
 
+## agbcc mechanisms confirmed (2026-11-07)
+
+Closed or explained during the 2026-11-07 Claude push (18 matches). Same caveat:
+these are compiler decisions to diagnose with dumps, not recipes.
+
+**Register class and allocation.**
+- A pseudo whose only uses are `(plus reg const)` gets regclass preference
+  STACK_REG (addsi3 `k` alternative); the preference spreads through copies and
+  local-alloc then skips the source temp. An empty `asm("" : : "l"(x));` use
+  restores LO_REGS with no code emitted (sub_080567D4). `asm("" : : "r"(x));`
+  only adds a reference, raising global priority (sub_0808AFE8).
+- global.c tries callee-saved low regs first, then caller-saved ones if
+  refs > 4 * calls crossed, then high regs; its first pass prefers the lowest
+  high reg already used in the function. Before blaming a REG_EQUIV reload,
+  check whether a ROM `mov rX, hi` is a plain source copy: in sub_0807C29C
+  case 13 an explicit copy of `s*16` restored the ROM reload order (the 100000
+  constant had a normal register), while in case 0 the same `mov` really was a
+  reload.
+- A function-scope pointer equal to a constant never gets a hard reg and is
+  rematerialized per use; that extra reload advances the reload rotation
+  (sub_080567D4, sub_080624D8). A keep-alive
+  `register u32 z asm("rN"); asm("" : "=r"(z)); ... asm("" : : "r"(z));`
+  keeps rN busy to steer rotation and local-alloc ties (sub_08075778, sub_0801801C).
+- The set of spill registers changes every reload pick: if the ROM rotates over
+  r0-r4,r7, find the insn that needs r7 as a reload reg (e.g. an unhoisted
+  constant folded into an add in a goto loop); a patched compiler forcing it
+  first confirms the theory (sub_080245CC).
+
+**Pseudo numbering, PRE and spill slots.**
+- Spill-slot order of unallocated pseudos follows pseudo number. GCSE-PRE
+  reaching registers are numbered in hash-bucket order; the hash includes
+  operand regnos and the table size (insn count / 2, odd). A block-local
+  variable gets its regno when its block is expanded, so declaring it in a
+  block opened at the right statement, a narrow `s16` dummy, or a different
+  index variable reorders slots (sub_08093BAC, sub_080855D4).
+
+**Loops, switches and tails.**
+- Turn goto loops into real `for`/`do` loops so loop.c hoists invariants into
+  reload-rematerialized pseudos (sub_08093BAC, sub_0808C0C4, sub_08078BCC).
+  The hoisting threshold drops when the loop contains a call.
+- Never use gotos between switch cases: give each case its own copy of shared
+  code. Cross-jumping rebuilds the tails, and each copy adds the hidden reload
+  so rotation advances like the ROM (sub_0805FFBC). Switch case order changes
+  block layout and which calls cross-jump (sub_080245CC).
+- Wrongly allocated block-local loop counter: reuse an existing function-scope
+  counter of the same type. `end - -~i` keeps ROM's `asrs; adds #1; subs`
+  without fold reassociation (sub_08060E44).
+
+**Constants, CSE and stores.**
+- `asm("" : "=r"(z) : "0"(0))` hides a constant from CSE;
+  `{ u16 z; asm("" : "=r"(z) : "0"(0)); a = z; b = z; }` makes zero stores take
+  a register value (sub_08025890, sub_08003984).
+- A `__attribute__((const))` alias declared with `asm("sub_...")` does not kill
+  MEMs in GCSE, so pool loads survive the call; inlining drops CONST_CALL_P.
+- Direct array refs (`a->arr[i]`) keep the ROM's non-reassociated
+  `(base+off)+i*k`; pointer locals reassociate (sub_080855D4).
+- u16 struct field stores expand as read-modify-write `(mem & 0) | x`; writing
+  through a typed pointer makes them direct stores.
+
+**Big m2c drafts.**
+- m2c names encode ROM registers (`var_r8_17` = r8). Families that m2c split
+  are usually one source variable kept in one callee-saved register: merge them
+  (sub_080815F4 exact size; sub_0800D368 normalized diff 364 -> 245).
+- Automated "which variable holds this value" sweeps on the full module work
+  well on giant functions: make a function var block-local around one
+  definition, promote a block-local var, or swap in another function-scope var
+  between two definitions; keep only size-exact winners and check later uses
+  by hand (sub_0807C29C 1804 -> 1343; described in the shard82 notes).
+- Always judge with the full module, not standalone (CSE/GCSE hash symbol
+  strings), and confirm a zero aligned diff with a strict byte compare: diff
+  tools that normalize branch targets can hide mismatches.
+
 **Tooling pitfalls (Spanish-locale Windows).** `make compare` prints
 `La suma coincide`, which `claim.py pr`/`land` treat as a failure because they
 look for `OK`; verify the checksum yourself and open the PR with `gh pr create`.
