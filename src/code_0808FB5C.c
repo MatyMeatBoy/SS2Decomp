@@ -2199,7 +2199,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     for (round = 0; round < count; round++) {
         i = 0;
         do {
-            ys[i] = (abs((s16)(random923FC() % 120)) - 140) << 8;
+            ys[i] = (abs((s16)(random923FC() % 120)) - 140) * 0x100;
             xs[i] = (i + 1) << 12;
             speed[i] = 0;
             accel[i] = abs((s16)(random923FC() % 4));
