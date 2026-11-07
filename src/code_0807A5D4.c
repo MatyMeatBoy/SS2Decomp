@@ -1230,21 +1230,22 @@ void sub_0807C29C(void) {
                     gMgr82->cursor = cur / 5 * 3;
                     gMgr82->prev = 1;
                     break;
-                case 6:
-                    held = &gMgr82->held;
-                    if (held->kind == 10) {
+                case 6: {
+                    struct Item82 *h; /* ROM: h in r1, kind re-read (volatile) for the kind==9 test */
+                    h = &gMgr82->held;
+                    if (h->kind == 10) {
                         if (gMgr82->flags & 4) {
                             gMgr82->state = 17;
                             gMgr82->cursor = 100;
                         }
                         break;
                     }
-                    if (held->kind == 9) {
+                    if (*(vu16 *)&h->kind == 9) {
                         gMgr82->state = 16;
                         gMgr82->cursor = 0;
                         gMgr82->prev = 1;
                     }
-                    break;
+                    break; }
                 }
             } else {
                 switch (gMgr82->mode) {
@@ -1451,11 +1452,12 @@ void sub_0807C29C(void) {
                     if (from == 11)
                         break;
                     if (*(u32 *)held == 0x000C0001) {
-                        item = &gInv82->items[gMgr82->cursor];
+                        /* (gInv82 + cursor*16) + 0x150 / + 0x158: ROM shares the base-first sum */
+                        item = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
                         switch (item->kind) {
                         case 2 ... 5:
-                            if (gInv82->items[gMgr82->cursor].flag != 0) {
-                                gInv82->items[gMgr82->cursor].flag = 0;
+                            if (*((u8 *)gInv82 + gMgr82->cursor * 16 + 0x158) != 0) {
+                                *((u8 *)gInv82 + gMgr82->cursor * 16 + 0x158) = 0;
                                 gMgr82->f6A = 100;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                                 DROP82();
