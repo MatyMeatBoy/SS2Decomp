@@ -132,3 +132,37 @@ Shard 25, sub_08027C1C (code_08021DC4)
     (one instruction). `sound = g = 0` and `asm("" : "=r"(g) : "0"(0))` do the
     same. ROM probably has one extra reload there that inheritance then folds away.
   Left: loop-2 entry/zero order (5 lines), the g=0 instruction, and the f4 |= 8 temps.
+
+2026-11-07 (claude-nov07-wC, third pass): sub_08027C1C MATCHED
+  Start: filtered 31, difflib 11 (PR #623). End: exact match, 1868 bytes, frame 0x24C;
+  wrapper removed and the .s deleted.
+  (1) Loop-2 preheader order (cfg, cfg+12, entry, zero). Index loops cannot do it:
+      the n<<3 shift giv always has benefit 0 ("not worth while"), so all_reduced=0
+      and the biv is never eliminated. What works is an enclosing loop.c region:
+      `do { row_outer: entry = rowGroup->e; zr = 0; row_loop: body; entry++;
+      end = rowGroup; asm("" : "+r"(end)); if (entry <= &end->e[3]) goto row_loop;
+      do { asm(""); } while (0); if (entry <= &end->e[3]) { asm("" : "+r"(zr));
+      goto row_outer; } } while (0);`. Why each piece is needed:
+      - The outer region's invariants (cfg, cfg+12) are hoisted before its LOOP_BEG,
+        so they land before the entry init.
+      - zr is a user zero that is set twice in the region (the asm in the dead
+        back-edge block), so it is not movable and stays after the entry init.
+        Stores use `eff->fA/fC/fE = zr` in loop 2 only.
+      - The duplicate test is folded by cse2 but not cse1, because loop notes break
+        cse1's extended basic block. The empty do/while(0) supplies those notes
+        without adding a nesting level, so local-alloc weights stay as in the ROM
+        (a nested real do-while flipped the res->f0*3 temps).
+      - The asm-opaque `end` stops GCSE PRE from hoisting rowGroup+24 (it did
+        whenever the outer test recomputed it).
+  (2) Effect-loop head: ROM's reloads use r1/r2 because r0 is unavailable there.
+      Bind `register u32 q asm("r0")`, define it with asm("" : "=r"(q)) at the loop
+      head and use it right after `w = t025World27C;` (asm("" : : "r"(q))). r0 is
+      live across the World load, so its reload takes r1. `g = 0` is plain again and
+      inherits r6 (`mov r8, r6`). The old asm("" : "+r"(g)) is gone.
+  (3) f4 |= 8: `register World *wp asm("r0") = W; register u16 v asm("r2") = wp->f4;
+      wp->f4 = v | 8;`. With the hard-reg op1, local-alloc ties the result to the
+      constant (r1), as in the ROM.
+  Rejected along the way: index loop 2 (n, n += 8) with no biv elimination; outer
+  do-while with an identical test but no asm-end (GCSE hoists end to r9); goto inner
+  loop without the empty do/while(0) (cse1 folds the back-edge, region phony); a
+  reload-rotation hunt in the g=0 preheader (asm "+l", sound/g orders, clobbers).

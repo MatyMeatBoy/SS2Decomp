@@ -4745,8 +4745,6 @@ skip:
     }
     return 0;
 }
-#ifdef NONMATCHING
-/* NONMATCHING: control flow, frame and nearly all allocation match; remaining: loop-2 preheader order (cfg+12/entry/zero), two reload-register picks at the effect-loop head and in the f4 |= 8 store. */
 struct T025Packet27C { u16 f0, f2; u32 rest[3]; };
 struct T025Resource27C { u16 f0; u8 p2[4]; u8 f6, f7; u16 f8; u8 pA[6]; u16 f10; u8 p12[14]; };
 struct T025Effect27C { struct V2W12 pos; u16 f8, fA, fC, fE, f10, f12, f14, f16, f18, f1A, f1C; u8 p1E[2]; struct T025Resource27C *res; };
@@ -4802,6 +4800,8 @@ void t025Effects27C(u16 *arg0)
     u32 k;
     u32 w;
     s32 x, y;
+    u32 zr;
+    struct T025Group27C *end;
 
     asm("" ::: "r5");
     rec = arg0;
@@ -4869,8 +4869,14 @@ void t025Effects27C(u16 *arg0)
     if (rows != 0) {
         rowGroup += (u16)(t025World27C->f34 - 1);
         asm("");
-        entry = rowGroup->e;
+        /* Outer region with a back-edge that cse2 folds away: loop.c hoists
+           the config-table invariants out of it, so they land before
+           `entry = rowGroup->e` and the zero (zr) like in the ROM. */
         do {
+        row_outer:
+            entry = rowGroup->e;
+            zr = 0;
+        row_loop:
             if (entry->kind != 0) {
                 if (t025World27C->pos160[i].x == 0) {
                     eff->pos.x = entry->x << 11;
@@ -4888,9 +4894,9 @@ void t025Effects27C(u16 *arg0)
                     t025Init27C(&sprites[i], t025Configs27C[res->f8].f0, 0xD, -1, 0);
                 eff->f14 = t025World27C->active22C[i];
                 eff->f8 = t025Configs27C[eff->res->f8].f4;
-                eff->fA = 0;
-                eff->fC = 0;
-                eff->fE = 0;
+                eff->fA = zr;
+                eff->fC = zr;
+                eff->fE = zr;
                 eff->f18 = 1;
                 eff->f1A = t025Configs27C[eff->res->f8].f8;
                 eff->f1C = t025Configs27C[eff->res->f8].fC;
@@ -4900,7 +4906,18 @@ void t025Effects27C(u16 *arg0)
                 i++;
             }
             entry++;
-        } while (entry <= &rowGroup->e[3]);
+            /* Opaque copy keeps GCSE from hoisting rowGroup + 24. */
+            end = rowGroup;
+            asm("" : "+r"(end));
+            if (entry <= &end->e[3])
+                goto row_loop;
+            /* Loop notes stop cse1 from folding the test below; cse2 does. */
+            do { asm(""); } while (0);
+            if (entry <= &end->e[3]) {
+                asm("" : "+r"(zr));
+                goto row_outer;
+            }
+        } while (0);
     }
 
     t025World27C->f48 = count = i;
@@ -4919,10 +4936,17 @@ void t025Effects27C(u16 *arg0)
             eff = t025World27C->effects;
             sound = 0;
             g = 0;
-            asm("" : "+r"(g));
             goto effect_test;
         effect_loop:
-            t025World27C->pos160[g] = eff->pos;
+            /* r0 live across the World load moves its reload to r1, like the ROM. */
+            {
+                register u32 q asm("r0");
+                struct T025World27C *w;
+                asm("" : "=r"(q));
+                w = t025World27C;
+                asm("" : : "r"(q));
+                w->pos160[g] = eff->pos;
+            }
             {
                 u8 *act = t025World27C->active22C;
                 act[g] = eff->f14;
@@ -4945,7 +4969,11 @@ void t025Effects27C(u16 *arg0)
                     if (eff->f16 != 0) {
                         while (sub_08068558() == 0)
                             sub_080003F0();
-                        *(u16 *)&t025World27C->f4 |= 8;
+                        {
+                            register struct T025World27C *wp asm("r0") = t025World27C;
+                            register u16 v asm("r2") = wp->f4;
+                            wp->f4 = v | 8;
+                        }
                     }
                     t025Hide27C((u32)(eff->pos.x << 8) >> 16, (u32)(eff->pos.y << 8) >> 16, eff->f1A, eff->f1C, 0);
                     eff->f18 = 0;
@@ -5071,9 +5099,6 @@ main_done:
     } while (0);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_08021DC4", sub_08027C1C);
-#endif
 struct E8368 { u16 h; u8 a; u8 c; };
 struct GS8368 { u8 pad[0x1E4C]; u32 cnt; struct E8368 e[11]; };
 extern struct GS8368 *gGS8368 asm("gUnk_03005CF4");
