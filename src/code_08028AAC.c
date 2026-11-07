@@ -1528,7 +1528,6 @@ void sub_0802AA28(void) {
     s32 temp_r4;
     s32 temp_r4_2;
     s32 temp_r5;
-    s32 temp_r6;
     s32 temp_sl;
     s32 var_r0_12;
     s32 var_r3;
@@ -1567,6 +1566,8 @@ void sub_0802AA28(void) {
     u32 var_r2_7;
     u32 var_r2_9;
     u32 case1Mask;
+    u32 taskCallback27;
+    u32 scanCallback27;
     u32 var_r4;
     u32 var_r4_3;
     u32 var_r5_2;
@@ -1585,7 +1586,7 @@ void sub_0802AA28(void) {
     u8 *var_r2_13;
     u8 *var_r2_26;
     u8 *var_r2_34;
-    u8 temp_r0;
+    s32 temp_r0;
     u8 temp_r0_2;
     void *temp_r0_3;
     void *temp_r0_5;
@@ -1618,11 +1619,11 @@ void sub_0802AA28(void) {
                     sub_08006CB4(0x188U);
                 }
             }
-            temp_r6 = sub_080289C0(0x3003D, 0x78, 0x78);
+            var_r6 = sub_080289C0(0x3003D, 0x78, 0x78);
             var_r1_23 = stateAA28 + 0x7A4;
             var_r2_35 = 0;
             do {
-                if (*(s32*)var_r1_23 == temp_r6) {
+                if (*(s32*)var_r1_23 == var_r6) {
                     var_r2_36 = var_r1_23;
                     goto found27scan_18;
                 }
@@ -1637,10 +1638,11 @@ found27scan_18:
                 (*(u16*)((u8*)(var_r2_36)+(0x1A))) = 4;
                 (*(u32*)((u8*)(var_r2_36)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_36)+(0x3C))) | 0x10);
             }
+            scanCallback27 = (u32) &sub_080308B4;
             var_r1_24 = stateAA28 + 0x7A4;
             var_r2_37 = 0;
             do {
-                if (*(s32*)var_r1_24 == temp_r6) {
+                if (*(s32*)var_r1_24 == var_r6) {
                     var_r0_21 = var_r1_24;
                     goto found27scan_24;
                 }
@@ -1651,7 +1653,7 @@ found27scan_18:
             var_r0_21 = ((void *)0);
 found27scan_24:
             if (var_r0_21 != ((void *)0)) {
-                (*(u32*)((u8*)(var_r0_21)+(0x44))) = &sub_080308B4;
+                (*(u32*)((u8*)(var_r0_21)+(0x44))) = scanCallback27;
             }
             if (sub_0800CE30() != 0) {
                 var_r0_22 = stateAA28 + 0x1BE;
@@ -1774,6 +1776,7 @@ found27scan_77:
                 (*(u16*)((u8*)(var_r2_8)+(0x1A))) = 4;
                 (*(u32*)((u8*)(var_r2_8)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_8)+(0x3C))) | 0x10);
             }
+            scanCallback27 = (u32) &sub_0802FA80;
             var_r1_5 = stateAA28 + 0x7A4;
             var_r2_9 = 0;
             do {
@@ -1788,7 +1791,7 @@ found27scan_77:
             var_r0_4 = ((void *)0);
 found27scan_83:
             if (var_r0_4 != ((void *)0)) {
-                (*(u32*)((u8*)(var_r0_4)+(0x44))) = &sub_0802FA80;
+                (*(u32*)((u8*)(var_r0_4)+(0x44))) = scanCallback27;
             }
             if (sub_0800CE30() != 0) {
                 var_r5 = (*(u32*)((u8*)(stateAA28)+(0x7C)));
@@ -1826,6 +1829,7 @@ found27scan_103:
                     (*(u16*)((u8*)(var_r2_11)+(0x1A))) = 4;
                     (*(u32*)((u8*)(var_r2_11)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_11)+(0x3C))) | 0x10);
                 }
+                scanCallback27 = (u32) &sub_0802FEA0;
                 var_r1_7 = stateAA28 + 0x7A4;
                 var_r2_12 = 0;
                 do {
@@ -1840,7 +1844,7 @@ found27scan_103:
                 var_r0_7 = ((void *)0);
 found27scan_109:
                 if (var_r0_7 != ((void *)0)) {
-                    (*(u32*)((u8*)(var_r0_7)+(0x44))) = &sub_0802FEA0;
+                    (*(u32*)((u8*)(var_r0_7)+(0x44))) = scanCallback27;
                 }
                 if (sub_0800CE30() != 0) {
                     var_r2_13 = stateAA28 + 0x1C5;
@@ -1868,6 +1872,7 @@ found27scan_125:
                     (*(u16*)((u8*)(var_r2_15)+(0x1A))) = 4;
                     (*(u32*)((u8*)(var_r2_15)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_15)+(0x3C))) | 0x10);
                 }
+                scanCallback27 = (u32) &sub_0802FEA0;
                 var_r1_9 = stateAA28 + 0x7A4;
                 var_r2_16 = 0;
                 do {
@@ -1882,7 +1887,7 @@ found27scan_125:
                 var_r0_8 = ((void *)0);
 found27scan_131:
                 if (var_r0_8 != ((void *)0)) {
-                    (*(u32*)((u8*)(var_r0_8)+(0x44))) = &sub_0802FEA0;
+                    (*(u32*)((u8*)(var_r0_8)+(0x44))) = scanCallback27;
                 }
             }
             sp4 = sub_080289C0(0xA, 0x3C, 0x90);
@@ -1904,6 +1909,7 @@ found27scan_137:
                 (*(u16*)((u8*)(var_r2_18)+(0x1A))) = 4;
                 (*(u32*)((u8*)(var_r2_18)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_18)+(0x3C))) | 0x10);
             }
+            scanCallback27 = (u32) &sub_08030480;
             var_r1_11 = stateAA28 + 0x7A4;
             var_r2_19 = 0;
             do {
@@ -1918,7 +1924,7 @@ found27scan_137:
             var_r0_9 = ((void *)0);
 found27scan_143:
             if (var_r0_9 != ((void *)0)) {
-                (*(u32*)((u8*)(var_r0_9)+(0x44))) = &sub_08030480;
+                (*(u32*)((u8*)(var_r0_9)+(0x44))) = scanCallback27;
             }
             temp_sl = sub_080289C0(0x3F, 0xBE, 0xBE);
             var_r1_12 = stateAA28 + 0x7A4;
@@ -1966,22 +1972,24 @@ loop_155:
             switch (temp_r0_2) {
             case 0:
                 var_r0_12 = 0x1003B;
-block_173:
-                var_r6 = sub_080289C0(var_r0_12, 0x78, 0x52);
                 break;
             case 1:
                 var_r0_12 = 0x3A;
-                goto block_173;
+                break;
             case 2:
                 var_r0_12 = 0x2003C;
-                goto block_173;
+                break;
             case 3:
                 var_r0_12 = 0x3003D;
-                goto block_173;
+                break;
             case 4:
                 var_r0_12 = 0x40040;
-                goto block_173;
+                break;
+            default:
+                goto selected27_spawn_done;
             }
+            var_r6 = sub_080289C0(var_r0_12, 0x78, 0x52);
+selected27_spawn_done:
             var_r1_14 = stateAA28 + 0x7A4;
             var_r2_23 = 0;
             do {
@@ -2000,6 +2008,7 @@ found27scan_175:
                 (*(u16*)((u8*)(var_r2_24)+(0x1A))) = 0x10;
                 (*(u32*)((u8*)(var_r2_24)+(0x3C))) = (s32) ((*(u32*)((u8*)(var_r2_24)+(0x3C))) | 0x10);
             }
+            scanCallback27 = (u32) &sub_080308B4;
             var_r1_15 = stateAA28 + 0x7A4;
             var_r2_25 = 0;
             do {
@@ -2014,7 +2023,7 @@ found27scan_175:
             var_r0_13 = ((void *)0);
 found27scan_181:
             if (var_r0_13 != ((void *)0)) {
-                (*(u32*)((u8*)(var_r0_13)+(0x44))) = &sub_080308B4;
+                (*(u32*)((u8*)(var_r0_13)+(0x44))) = scanCallback27;
             }
             if (sub_0800CE30() != 0) {
                 var_r0_14 = stateAA28 + 0x1C5;
@@ -2371,9 +2380,14 @@ loop_360:
                 goto block_373;
                         }
 block_373:
+            taskCallback27 = (u32)&sub_08044EB4;
             var_r4_3 = stateAA28 + 0xE34;
             var_r5_4 = 0;
-loop_375:
+            goto test27_slot375;
+next27_slot375:
+            var_r5_4 += 1;
+            var_r4_3 += 0x28;
+test27_slot375:
             if (var_r5_4 <= 0x1DU) {
                 if (sub_08000470(var_r4_3) == 0) {
                     while ((temp_r0_5 = ((struct Slot27 *)var_r4_3)->data
@@ -2381,15 +2395,13 @@ loop_375:
                         sub_080003F0();
                     }
                     (*(u32*)((u8*)(var_r4_3)+(0x8))) = 0x3C;
-                    (*(u32*)((u8*)(var_r4_3)+(0xC))) = &sub_08044EB4;
+                    (*(u32*)((u8*)(var_r4_3)+(0xC))) = taskCallback27;
                     (*(u32*)((u8*)(var_r4_3)+(0x10))) = (void *) (temp_r0_5 + 0x3FC);
                     (*(u32*)((u8*)(var_r4_3)+(0x24))) = 0;
                     sub_08000274(var_r4_3, var_r7);
                     return;
                 }
-                var_r5_4 += 1;
-                var_r4_3 += 0x28;
-                goto loop_375;
+                goto next27_slot375;
             }
 }
     } else {
