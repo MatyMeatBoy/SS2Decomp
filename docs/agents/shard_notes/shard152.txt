@@ -1,0 +1,27 @@
+2026-11-07 claude-nov07-wM, shard152: MATCH sub_080A4D08 (5454 bytes, frame 148).
+  Starting point: NONMATCHING m2c-style draft, 5366 vs 5454 bytes, frame 152, aligned diff 1255.
+  Rewrote the body as structured C; the steps that moved the aligned diff (1255 -> 0):
+  - State switch with every case tail written out, no gotos (1255 -> 1074). Cross-jumping in
+    jump2 picks the shared tails itself once registers agree; the m2c gotos forced other ones.
+  - Wait loops as while (cond) body; (test at the bottom, as in ROM).
+  - Actor as a struct (Act4D08, res at 0x204) instead of byte-offset macros (-> 958): struct
+    field stores do not alias the scalar object pointer global, so the pointer stays cached.
+  - Ground position as s32 ground[2] (-> 872, frame 148): a two-word aggregate pseudo keeps
+    both initial stores (X and constant 0x6800) and takes the 8-byte slot at SP+0x50. Scalar
+    locals lose the dead X store and get the Y constant propagated.
+  - Players as a 0x14C struct array, coordinate copies as
+    players[id()].x = players[id()].x2 = v (-> 440): the base stays in a register (r6) with
+    adds #off rather than CSE-related symbol+offset constants.
+  - arg0->fC = state = K through one u16 local (-> 356): ROM keeps all fC constants in r4.
+  - u16 shotTimer/hitTimer (-> 222), for (i = 0; ...) init (-> 201).
+  - Sine table read through an s32 temporary (-> 102, size = ROM): s16 >> 1 alone becomes
+    ldrh/lsls/asrs #17. The ldrsh [rX, rY] zero index is a reload, so this also put the reload
+    register rotation back in phase for the rest of the function.
+  - s16 shake with shake-- and while (--shake != -1) (lsls/add 0xFFFF0000 form), separate zero
+    variable for the last three post loops, psx = &sx assigned after the projection call,
+    u16 lastAnim (two separate f68 loads), u8 pattern with ?: updates, block-local hit value.
+  - Palette result stored through u16 *pal = &palette (ROM loads the address into r4 before
+    the call).
+  Rejected along the way: a u8 local n for the pattern update (CSE reuses n for the switch),
+  0xFFFF0000 m2c expression in the post loops (constant gets hoisted), s16 local for the table
+  value, palette as an array or a one-field struct.

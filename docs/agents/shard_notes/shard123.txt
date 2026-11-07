@@ -22,3 +22,46 @@ codex-solo (2026-11-04): first complete typed NONMATCHING draft for MPlayMain.
   Do not alter those globals or compiler flags casually: VSync already matches.
   A future C/ABI version can use those registers explicitly, keeping only the
   genuine nonstandard save/restore and indirect-transfer glue as ASM.
+
+claude-nov07-wM (2026-11-07): C/ABI rewrite of MPlayMain; NO MATCH, docs only.
+  Candidate: docs/agents/shard_notes/shard123_MPlayMain_cabi.c (drop-in
+  src/m4a_1_vsync.c). Style as VSync/ply_note: r0-r7, r8, r9, sl, fp all
+  file-scope register variables, naked body, one statement per instruction,
+  goto layout in ROM order; ASM only for push {r0,lr}, pop {r0} + high-reg
+  save, the final pop/mov/pop {r3} (falls into the bx r3 helper) and the early
+  bx lr. Calls use void aliases (sdkCallR3 asm("sub_080B6DD0"), FadeOutBody,
+  ClearChain, Clear64byte, TrkVolPitSet, MidiKeyToFreq); r0-r3 carry ABI.
+  Result with an experimental compiler (below) + -fno-gcse: every instruction
+  matches except 7 missing flag reuses (normalized diff 11 lines, 7 non-branch;
+  the old typed draft is 573 / 520). The src file is unchanged.
+  Blockers in the accepted agbcc_sdk_vsync compiler (all ICE, not mismatches):
+  1. Thumb GO_IF_LEGITIMATE_ADDRESS rejects QI/HI addresses mentioning
+     frame_pointer_rtx (r7) before reload, so ldrb/ldrh/strb/strh [r7,#k]
+     need a pseudo; with every low reg global there is none to give.
+  2. REG+REG addresses are disabled before reload (ldr r3,[r3,r0]).
+  3. GCSE makes a pseudo for the second TRACK->mod (0x17) load; -fno-gcse.
+  Experimental thumb.h (scratch only, not proposed as-is): accept 1 when
+  global_regs[7]; accept 2 when both regs are low global_regs. (Check the REG
+  codes before REGNO in a real patch.) VSync unaffected.
+  Remaining 7 diffs = flag reuse the patched compilers don't do yet:
+  a. subs r0,#1; strb r0,[r4,#0x10]; bne (Z after SUB+STRB; byte-sub-flags
+     only does GT/LE with the ZERO_EXTEND load directly before the SUB)
+  b. subs r0,#0x40; lsls r0,#24; bpl  (N after LSL, GE->PL)
+  c. eors r0,r2; lsls r0,#24; beq      (Z after LSL)
+  d. subs r6,#1; ble   (byte-seeded counter, loop body has calls; LE exit)
+  e. adds r2,r1,r0; bpl (sign-cc-reuse in agbcc_sdk_cc already does this)
+  f. subs r2,#1; ble   (byte counter round-tripped through r9 across calls)
+  g. movs r0,#0x50; adds r5,r5,r0; bgt (pointer; V can differ from CMP, so no
+     sound proof exists - needs a coordinator decision: ASM branch or an
+     accepted unproven rule).
+  C shapes learned (all-global-register naked C): `if (!(a & b))` emits
+  tst b, a (write operands reversed); struct-field stores from a global reg
+  go through a copy pseudo, store via `*(u8 *)&TRACK->wait = r0`; typed loads
+  are fine (cast s8 fields: (u8)TRACK->modM, (s8)TRACK->keyM); integer
+  `*(u16 *)(r7 + 0x22)` gets CSE'd into a pseudo, use field/pointer forms;
+  `u32 limit = 0x80; if (r1 >= limit)` keeps cmp #0x80/bcs etc. (reload puts
+  the constant back, no register needed); combine's nonzero_bits turns
+  `(s32)(u8*u8) >> 7` into lsrs via find_split_point, `asm("" : "+r"(r1))`
+  after the velocity load keeps asrs (same barrier as ply_note).
+  Next: decide whether to extend the vsync compiler (two address rules,
+  -fno-gcse, flag reuses a-f with proofs) and how to handle g.
