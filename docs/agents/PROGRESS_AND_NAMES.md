@@ -54,6 +54,10 @@ internal labels/subroutines do not become invented inventory functions.
 
 ## Permanent names and evidence
 
+The preserved [identification method and restart guide](IDENTIFICATION_METHOD.md)
+records the research workflow and pending-evidence handoff. Identification work
+is currently held while matching EU functions takes priority.
+
 `tools/config/function_names.json` is the reviewed, versioned address-to-display
 name catalog. It never changes `functions.cfg`, C linkage, headers or ASM symbols.
 `functions.json` inventories **every configured function** (including linked and
@@ -162,6 +166,33 @@ coverage if ranges overlap, and say nothing about understanding. Descriptive
 labels and `.byte`/`.word` directives likewise do not prove decoded semantics.
 There is deliberately no `% decoded` or `% understood` metric. Reports recount
 current sources automatically; no manually frozen data totals are maintained.
+
+### Regional source-coverage bars
+
+`regional_progress.svg`, `.json` and `.md` add two independent byte-weighted bars
+for EU, USA and Japan. The existing EU game-only main metrics retain their
+denominators and meaning. The new code denominator is the entire mapped code
+span (including SDK, linked/original ASM, literal pools and alignment); only
+matching C enters its numerator. Header/startup bytes before ROM offset0x23C are
+outside this view.
+
+Data source coverage uses explicitly verified source-declaration intervals in
+`tools/config/regional_progress.json`, not descriptive labels, raw gaps, incbins
+or the number of directives. Its denominator is each region's mapped data span,
+including opaque assets and padding through the end of the ROM. This is a source
+reconstruction percentage, not a decoding/understanding percentage. The initial
+EU numerator is the256-byte `__clz_tab` C initializer; USA/Japan currently have no
+admitted source-data intervals. Data-source text hashes normalize CRLF to LF.
+
+Regional byte receipts are tied to the immutable reference hashes. USA/Japan C
+intervals count only while their canonical EU function remains matching C at the
+admitted address/module. Changed/missing data source removes its credit and is
+listed in `excluded_receipts` until reviewed again. Invalid overlapping ranges,
+raw-incbin overlap, hashes or profile identities fail closed. The generator
+requires neither ROMs nor compiler tools in CI; private local verification and
+normal/regional build gates establish the committed receipts.
+
+See [regional evidence and refresh procedure](REGIONS.md#progress-receipts).
 
 
 ## Build ownership
