@@ -781,7 +781,6 @@ void sub_08060DB0(s32 index)
     tasks63[index].u24 = 0;
     sub_08000274(&tasks63[index], index);
 }
-#ifdef NONMATCHING
 struct HudSlotE63 { u16 kind; u16 id; u8 pad4[0xC]; };
 struct HudMgrE63 { u8 pad0[0x54]; u16 sel; u16 list[0x7D]; struct HudSlotE63 bag[25]; };
 extern struct HudMgrE63 *hudMgrE63 asm("gUnk_030034E0");
@@ -803,7 +802,6 @@ void sub_08060E44(s32 animate)
     s16 i;
     s16 j;
     s16 base;
-    s16 k;
     s16 end;
     struct HudPos63 *py = hudPosYE63;
     struct HudPos63 *px = hudPosE63;
@@ -891,27 +889,28 @@ void sub_08060E44(s32 animate)
             base = mgr->sel / 3 * 3;
             end = base + 3;
             if (animate != 0) {
-                for (k = base; k < end; k++) {
-                    if (mgr->list[k] != 0) {
+                /* The slot loop reuses i (and the bag scan j); `-~i` is i + 1 without
+                   letting fold rewrite `end - (i + 1)` into `(end - 1) - i`. */
+                for (i = base; i < end; i++) {
+                    if (mgr->list[i] != 0) {
                         struct HudSlotE63 *found;
                         s32 id;
                         s16 n;
-                        s16 m;
-                        id = mgr->list[k] - 1;
+                        id = mgr->list[i] - 1;
                         found = &tmp;
                         tmp.kind = 1;
                         tmp.id = id;
                         n = 0;
-                        for (m = 0; m <= 0x18; m++) {
-                            if (mgr->bag[m].kind == 1 && id == mgr->bag[m].id) {
+                        for (j = 0; j <= 0x18; j++) {
+                            if (mgr->bag[j].kind == 1 && id == mgr->bag[j].id) {
                                 n++;
-                                found = &mgr->bag[m];
+                                found = &mgr->bag[j];
                             }
                         }
-                        hudNumberE63(px[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
-                                     py[end - ((s16)(k + 1))].x + 0x18, (s16)n, 0);
-                        hudItemE63(px[end - ((s16)(k + 1))].x + (0xF0 - (7 - slide) * 8),
-                                   py[end - ((s16)(k + 1))].x + 0x10, found, 0);
+                        hudNumberE63(px[end - -~i].x + (0xF0 - (7 - slide) * 8),
+                                     py[end - -~i].x + 0x18, (s16)n, 0);
+                        hudItemE63(px[end - -~i].x + (0xF0 - (7 - slide) * 8),
+                                   py[end - -~i].x + 0x10, found, 0);
                     }
                 }
             }
@@ -994,13 +993,12 @@ void sub_08060E44(s32 animate)
             }
             base = mgr->sel / 3 * 3;
             end = base + 3;
-            for (k = base; k < end; k++) {
-                if (mgr->list[k] != 0) {
-                    s32 k1 = k + 1;
+            for (i = base; i < end; i++) {
+                if (mgr->list[i] != 0) {
                     /* Y column addressed as hudPosE63+2 so CSE derives it from the X base. */
-                    hudItemE63(hudPosE63[2 - (end - k1)].x + (0xF0 - (7 - slide) * 8),
-                               ((struct HudPos63 *)&hudPosE63[0].y)[2 - (end - k1)].x + 0x10,
-                               &mgr->bag[mgr->list[k] - 1], 0);
+                    hudItemE63(hudPosE63[2 - (end - -~i)].x + (0xF0 - (7 - slide) * 8),
+                               ((struct HudPos63 *)&hudPosE63[0].y)[2 - (end - -~i)].x + 0x10,
+                               &mgr->bag[mgr->list[i] - 1], 0);
                 }
             }
             {
@@ -1016,9 +1014,6 @@ void sub_08060E44(s32 animate)
         sub_0801A664(2, 4);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805FB7C", sub_08060E44);
-#endif
 extern u32 taskMem64[] asm("gUnk_03006180");
 extern struct Task tasks64[] asm("gUnk_03006160");
 extern void sub_08060E44(s32);
