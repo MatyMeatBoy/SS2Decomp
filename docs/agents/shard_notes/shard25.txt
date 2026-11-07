@@ -23,3 +23,37 @@ Shard 25, sub_08027C1C (code_08021DC4)
   Next: force nextGroup to a stack spill (declaration order, or a long low-priority live
   range) to recover the 0x248 slot and frame; then find why the outer do/while count test
   is rotated to the top.
+
+2026-11-07 (claude-nov07-wB): sub_08027C1C
+  Start (main c8d2d96d, frame already 0x24C): filtered nmdiff 247, 1864 vs 1868 bytes.
+  Landed: filtered 232, 1860 bytes. (a) Main loop as `for (;;) { ... if (bit || count == 0)
+  goto main_done; }` under the existing entry `if`: both exit tests now sit at the bottom
+  like ROM, and the extra top `count != 0` block is gone. `for(;;)`+`break` x2 and an
+  if+goto back-edge loop do not do this. (b) Case 12 stores eff->f8 directly in both arms,
+  not through `v`. ROM keeps case-10 v in r3 but case-12 in r0, so they are separate values.
+  Diagnosis (greg dumps, `-dg`): ROM has group=r6, 0x124=r4, j=sl, and the group-loop zero
+  (pseudo REG_EQUIV 0) gets no hard reg (so `movs r3,#0` is rematerialized). Ours has
+  group=entry=r4, 0x124=r3, j=r6, zero=sl. global.c pass 0 skips regs a conflicting allocno
+  prefers: group skips r2/r3 because the `W = *gState` pseudo before `eff = W + 0x58C`
+  prefers 2/3/5, and then takes r4. For ROM, group must also skip r4 and 0x124 must skip r3.
+  The source of those preferences is not found yet. Unbinding `i` (no register asm) leaves
+  the output unchanged and i still lands in r5.
+  pos160 address order: ROM computes (W + 0x160) + i*8, the non-reassociated ARRAY_REF
+  form, in both effect loops. `pos = &W->pos160[i]` is folded to (i*8 + 0x160) + W. Writing
+  `W->pos160[i].x == 0` / `eff->pos = W->pos160[i]` with i unbound gives the exact ROM
+  sequence, but reload rotation moves elsewhere: 271 total, so not landed. This is
+  probably the original form; retry it once group/j are fixed.
+  Final reset loop: ROM's counter is r3, so it is NOT the call-crossing j. Using the unused
+  `k` gives r3/r5/r4 like ROM, but j's refs drop and the group loop reallocates (442).
+  ROM also does not hoist 0x22C/0x160/0x164 (reload+move2add `subs r6,#204`/`adds r6,#4`),
+  while ours hoists them in loop pass 1/2 (threshold*lifetime >= insns). Neither u8/u16/s32
+  counters, `<10`, do/while, nor a goto loop reproduce this. A threshold of 13
+  (loop_has_call) would explain it.
+  Rejected: register asm r6 on group (311); do{}while(0) around the parse loop or switch
+  (no change); duplicated `rec += 0x124` per case (no change); f14=mode via goto or
+  `(u16)mode` (CSE still folds mode=0 into the hoisted zero); removing case-12
+  `next = eff + 1` (289); `pos160 + i` / casts (no change). A 13-minute permuter run (4
+  jobs) found only cosmetic `(*(&...))` rewrites.
+  Next: find the r3/r4 preference sources (`-dg` ";; N preferences" lines) that move group
+  to r6. That should cascade into j=sl and no group-loop zero register; then reapply the
+  ARRAY_REF pos form and the `k` reset counter.

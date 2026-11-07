@@ -5267,7 +5267,7 @@ void t025Effects27C(u16 *arg0)
         sub_08056FCC();
 
     if (!((t025World27C->f4 >> 4) & 1) && count != 0) {
-        do {
+        for (;;) {
             eff = t025World27C->effects;
             sound = 0;
             g = 0;
@@ -5353,12 +5353,11 @@ void t025Effects27C(u16 *arg0)
                 res = eff->res;
                 z = res->f6 & 0x80;
                 if (z != 0) {
-                    v = t025Configs27C[res->f8].f4 + 2;
+                    eff->f8 = t025Configs27C[res->f8].f4 + 2;
                 } else {
                     t025Init27C(&sprites[g], 0x50053, 0xD, -1, z);
-                    v = 6;
+                    eff->f8 = 6;
                 }
-                eff->f8 = v;
                 mode = 0;
                 next = eff + 1;
                 if (eff->fE != 0)
@@ -5404,9 +5403,12 @@ void t025Effects27C(u16 *arg0)
                 g++;
             } while (g <= 3);
             sub_080003F0();
-        } while (!((t025World27C->f4 >> 4) & 1) && count != 0);
+            if (((t025World27C->f4 >> 4) & 1) || count == 0)
+                goto main_done;
+        }
     }
 
+main_done:
     for (j = 0; j <= 9; j++) {
         t025World27C->active22C[j] = 0;
         t025World27C->pos160[j].x = 0;
