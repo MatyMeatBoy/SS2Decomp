@@ -155,3 +155,58 @@ shard 126 notes
   - Peer loop: get var_r4_11 allocated before var_r5 (or block r4 for var_r5 elsewhere) to
     swap r4/r5; then the 0x1D0/0x1D4 spill slots and the frame should follow.
   - lookupStats (0xB4E) in r8 and the f14 copy at 0x552 (ROM loads into r1 then copies to r2).
+
+2026-11-07 (claude-nov07-w126d, fourth pass / handoff): sub_0800D368
+  Start: register-normalized 245, raw 3037, filtered nmdiff 4174, 25108 bytes, frame 476.
+  End:   register-normalized 166, raw 1948, filtered nmdiff 3003, 25108 bytes (ROM 25180),
+  frame 472 (now equal to the ROM). Commits a4df0428..e8f454b2 on shard/126 (PR #630).
+  What landed (in order):
+  - r4/r5 swap: temp_r4_5 is var_r4_11, temp_r5_3 is var_r5 (both lower live length when
+    merged). found/var_r4_11 still needs 7 asm("" : : "r"(var_r4_11)) refs (after
+    `var_r4_11 = 0` in the peer scan) to beat var_r5 in global priority (2.98 vs 2.37); with
+    that found=r4, var_r5=r5, the 0xb16-0xb80 block and the reload rotation through the
+    effect loop match, effect-owner cases 2/5 stay separate, and the frame drops to 472.
+    4-6 asm refs give a different (worse) state; 7+ are identical.
+  - Actor loop (0x42b4) as a natural for over effectOwnerTableD368[sp128]; two asm "r" refs
+    on the limit (temp_r2_61) put it in r2 ahead of var_r3_8 (r3) and the whole loop
+    allocation matches (givs r9/r4/r8, 332 rematerialized).
+  - f14 bit tests read the field directly (GCSE reaching-reg copy at 0x552).
+  - `directionD36874 = sp19C = 0;` in switch-4 case 0 (reload inherits r6 at 0x1182).
+  - `<< 4` instead of `* 0x10` for the f68 slot index (base+index operand order, 0x12ce).
+  - BIG: switch-4 case 4 used m2c pointer locals var_r4_3/var_r9/var_sl (&fD8, &f40,
+    direction-1) assigned in the four predecessors of the f24 join. Writing plain field
+    accesses lets GCSE-PRE insert them itself, and the &fD8 reaching reg gets r4 at every
+    fD8 decay site (-20 normalized, -150 raw). var_r4_6/7/8 merged into var_r4_3; dead
+    `var_r4_3 = arg0 + 0xD8` stores removed.
+  - spE0 record after both retry loops through a pointer local set before the do loop
+    (`add r4, sp, #224` hoisted, [r4,#4]/[r4,#0]) (-21 normalized).
+  - ownerFlags function-scope (shared by the three effect-owner f30 tests); f0 decrement
+    `temp_r1_10 |= 0xFFFF; f0 = temp_r1_10;` (keeps the orrs with the literal); f134 tails per
+    case; fA4/fA8 = f8C/f90 as one u64 copy; f30 |= 3/|= 1 per branch; block_1024 sites write
+    `f30 &= C` themselves (stateFlagsD368/var_r1_7/var_r1_23 gone).
+  Rejected / measured:
+  - lookupStats/temp_r8/temp_r0_120: all three are the ROM's r8 variable (mov r8, r0 after
+    each sub_08007290 call), but merging all three pushes arg0 out of r7 (normalized
+    ~1700); merging only temp_r8 gives r6 (+8); only temp_r0_120 is neutral. lookupStats
+    needs lower priority than var_r6_8 (ROM r6) in the third range.
+  - Reading f12 directly in the f1A test (raw -20 but filtered nmdiff +300 from autojunk);
+    not kept. temp_r2_8/temp_r2_7 merges, u16 temps: no effect.
+  - InvD368 f56[f54] sites (0x87c, 0x1324, 0x1610): ROM base r1/index r0, ours swapped. Tried
+    block-local pointer, u8* arithmetic, separate index var, an inline helper: no change or
+    worse. Same for the sub_0805D548 result copy (`adds r2, r0, #0; movs r0,#1; negs`).
+  - var_r0_9/block_627 gotos rewritten as per-site `f20 = N` stores: +4, not kept.
+  - Owner f30 test (0xce0/0xd6a/0xed4): with function-scope ownerFlags the address chain
+    matches; ownerFlags itself gets r1 (ROM r0) and the 8192 constant r0 (ROM r1).
+  Next hypotheses:
+  - Remaining struct by region (sreg): 0x1800 18, 0x1c00 17, 0x5000 15, 0x2000 13,
+    0x3400/0x4800/0x5800 11, 0x1400/0x4c00 10. 0x1800-0x1d60 are the fDC++ / f20=5 tails of
+    switch 5 and switch 7 (case 2 jumps into case 7 tails in the ROM): reload rotation for the
+    0x1C8 pointer must match first (sequence list: grep 'ldr.*[sp, #456]' in both dis).
+  - Look for more m2c pointer/temp locals that are really GCSE/PRE expressions (the
+    var_r4_3 fix was the biggest win of this pass); f144 record temporaries temp_r2_20..,
+    temp_r3_*, temp_r4_13.. are single-use and probably harmless.
+  - The +72 bytes are spread out (drift: -22 by 0x1862, -60 by 0x1b84, -92 at the end); most
+    come from cross-jumped tails that the ROM keeps separate (rotation differences).
+  Tools (scratchpad nov07-w126d): go.sh (run in MSYS env), v.sh base out edits.py, try.sh
+  (merge vars), ids.py/pi.py (pseudo priority/disposition), sreg.py (struct diff per region),
+  drift.py (address drift), atline.py (insns per source line from a -g dump), live.py.
