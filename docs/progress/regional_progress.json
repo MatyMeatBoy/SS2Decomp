@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "primary_region": "eu",
+  "unit": "bytes",
+  "regions": {
+    "eu": {
+      "name": "Europe",
+      "game_code": "AU2P",
+      "rom_sha1": "aa1288be9257337abdfe3034898cf6c7aa778fbc",
+      "rom_sha256": "e5c64a1740263e9b26120e487f3688fbbf7b3954a2c043c0d84c333df467e0b2",
+      "code": {
+        "total": 758984,
+        "percent": 92.52316254361094,
+        "matching": 702236
+      },
+      "data": {
+        "total": 16017660,
+        "percent": 0.0015982359470734177,
+        "done": 256
+      },
+      "code_rom_offsets": [
+        572,
+        759556
+      ],
+      "data_rom_offsets": [
+        759556,
+        16777216
+      ],
+      "admitted_c_functions": [],
+      "excluded_receipts": [],
+      "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c"
+    },
+    "usa": {
+      "name": "USA",
+      "game_code": "AU2E",
+      "rom_sha1": "541469b319a72ef4bc262483745526ac3eddd925",
+      "rom_sha256": "b31c19d2d25683a0941d5d501912b5f21d4590cd7071fa01882e62aa5227a7c9",
+      "code": {
+        "total": 757560,
+        "percent": 0.1800517450762976,
+        "matching": 1364
+      },
+      "data": {
+        "total": 16019084,
+        "percent": 0.0,
+        "done": 0
+      },
+      "code_rom_offsets": [
+        572,
+        758132
+      ],
+      "data_rom_offsets": [
+        758132,
+        16777216
+      ],
+      "admitted_c_functions": [
+        "sub_08000AA8",
+        "sub_08000B68",
+        "sub_08000C50",
+        "sub_08000D0C",
+        "sub_08000D8C",
+        "sub_08000E48",
+        "sub_08000EC8",
+        "sub_08000EF4",
+        "sub_08000F2C",
+        "sub_08000F64",
+        "sub_08000FD4",
+        "sub_08001040",
+        "sub_080010AC",
+        "sub_080010C8",
+        "sub_08001108",
+        "sub_0800115C"
+      ],
+      "excluded_receipts": [],
+      "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c"
+    },
+    "jp": {
+      "name": "Japan",
+      "game_code": "AU2J",
+      "rom_sha1": "19856388caf5140f7527728bd09e20bcb8924eeb",
+      "rom_sha256": "9f3e0d0653de6504c1aeaf03de3cca06ae0c15a24089f0236398ec56d382d17a",
+      "code": {
+        "total": 764376,
+        "percent": 0.17844620971877714,
+        "matching": 1364
+      },
+      "data": {
+        "total": 16012268,
+        "percent": 0.0,
+        "done": 0
+      },
+      "code_rom_offsets": [
+        572,
+        764948
+      ],
+      "data_rom_offsets": [
+        764948,
+        16777216
+      ],
+      "admitted_c_functions": [
+        "sub_08000AA8",
+        "sub_08000B68",
+        "sub_08000C50",
+        "sub_08000D0C",
+        "sub_08000D8C",
+        "sub_08000E48",
+        "sub_08000EC8",
+        "sub_08000EF4",
+        "sub_08000F2C",
+        "sub_08000F64",
+        "sub_08000FD4",
+        "sub_08001040",
+        "sub_080010AC",
+        "sub_080010C8",
+        "sub_08001108",
+        "sub_0800115C"
+      ],
+      "excluded_receipts": [],
+      "evidence_revision": "8a7c8ef382cd6832f3e53eef82a6e0f07da7c11c"
+    }
+  },
+  "limits": "Code includes literal pools/alignment and excludes the header/startup prelude. Data includes opaque assets/padding. Raw ROM gaps/incbins, linked binaries, drafts and names earn no source credit. Data source coverage is not a measure of understanding."
+}

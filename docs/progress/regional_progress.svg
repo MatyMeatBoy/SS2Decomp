@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="274" viewBox="0 0 760 274" role="img" aria-labelledby="title desc">
+<title id="title">Regional matching C and source data progress</title>
+<desc id="desc">Europe is the main target. Each region has independent code and data source bars. Copied reference bytes do not count.</desc>
+<rect width="760" height="274" rx="10" fill="#0d1117"/>
+<g font-family="DejaVu Sans,Arial,sans-serif" fill="#e6edf3">
+<text x="18" y="25" font-size="14" font-weight="bold">ROM regions · code and data from source</text>
+<text x="18" y="51" font-size="12" font-weight="bold">Europe · main</text>
+<g id="eu-code"><title>Europe · main: Code · matching C — 702236 / 758984 bytes</title>
+<text x="186" y="48" font-size="11">Code · matching C</text>
+<text x="444" y="48" text-anchor="end" font-size="11">92.52%</text>
+<rect x="186" y="56" width="258" height="12" rx="3" fill="#30363d"/>
+<rect class="progress-fill" x="186" y="56" width="238.709759" height="12" rx="2" fill="#3fb950"/>
+<text x="186" y="83" font-size="10" fill="#8b949e">702,236 / 758,984 bytes</text></g>
+<g id="eu-data"><title>Europe · main: Data · from source — 256 / 16017660 bytes</title>
+<text x="478" y="48" font-size="11">Data · from source</text>
+<text x="736" y="48" text-anchor="end" font-size="11">&lt;0.01%</text>
+<rect x="478" y="56" width="258" height="12" rx="3" fill="#30363d"/>
+<rect class="progress-fill" x="478" y="56" width="0.004123" height="12" rx="2" fill="#58a6ff"/>
+<text x="478" y="83" font-size="10" fill="#8b949e">256 / 16,017,660 bytes</text></g>
+<text x="18" y="119" font-size="12" font-weight="bold">USA</text>
+<g id="usa-code"><title>USA: Code · matching C — 1364 / 757560 bytes</title>
+<text x="186" y="116" font-size="11">Code · matching C</text>
+<text x="444" y="116" text-anchor="end" font-size="11">0.18%</text>
+<rect x="186" y="124" width="258" height="12" rx="3" fill="#30363d"/>
+<rect class="progress-fill" x="186" y="124" width="0.464534" height="12" rx="2" fill="#3fb950"/>
+<text x="186" y="151" font-size="10" fill="#8b949e">1,364 / 757,560 bytes</text></g>
+<g id="usa-data"><title>USA: Data · from source — 0 / 16019084 bytes</title>
+<text x="478" y="116" font-size="11">Data · from source</text>
+<text x="736" y="116" text-anchor="end" font-size="11">0.00%</text>
+<rect x="478" y="124" width="258" height="12" rx="3" fill="#30363d"/>
+<rect class="progress-fill" x="478" y="124" width="0.000000" height="12" rx="2" fill="#58a6ff"/>
+<text x="478" y="151" font-size="10" fill="#8b949e">0 / 16,019,084 bytes</text></g>
+<text x="18" y="187" font-size="12" font-weight="bold">Japan</text>
+<g id="jp-code"><title>Japan: Code · matching C — 1364 / 764376 bytes</title>
+<text x="186" y="184" font-size="11">Code · matching C</text>
+<text x="444" y="184" text-anchor="end" font-size="11">0.18%</text>
+<rect x="186" y="192" width="258" height="12" rx="3" fill="#30363d"/>
+<rect class="progress-fill" x="186" y="192" width="0.460391" height="12" rx="2" fill="#3fb950"/>
+<text x="186" y="219" font-size="10" fill="#8b949e">1,364 / 764,376 bytes</text></g>
+<g id="jp-data"><title>Japan: Data · from source — 0 / 16012268 bytes</title>
+<text x="478" y="184" font-size="11">Data · from source</text>
+<text x="736" y="184" text-anchor="end" font-size="11">0.00%</text>
+<rect x="478" y="192" width="258" height="12" rx="3" fill="#30363d"/>
+<rect class="progress-fill" x="478" y="192" width="0.000000" height="12" rx="2" fill="#58a6ff"/>
+<text x="478" y="219" font-size="10" fill="#8b949e">0 / 16,012,268 bytes</text></g>
+<text x="18" y="257" font-size="10" fill="#8b949e">Independent regional evidence · raw ROM copies, drafts and names do not fill these bars</text>
+</g></svg>
