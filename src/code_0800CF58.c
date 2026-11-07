@@ -448,7 +448,6 @@ void sub_0800D368(void *arg0) {
     s16 *temp_r0;
     s16 *var_r1_16;
     u32 resourceLimitWord319D368;
-    u32 stateFlagsD368;
     extern u8 byteTable6410D368[] asm("gUnk_03006410");
     extern u8 actorByteState315D368[] asm("gUnk_03006430");
     extern struct PlayerD368 effectOwnerTableD368[] asm("gUnk_03003CE0");
@@ -593,10 +592,8 @@ void sub_0800D368(void *arg0) {
     s32 var_r1_12;
     s32 var_r1_17;
     s32 var_r1_19;
-    s32 var_r1_23;
     s32 var_r1_25;
     s32 var_r1_6;
-    s32 var_r1_7;
     s32 var_r1_8;
     s32 var_r1_9;
     s32 var_r4_11;
@@ -2054,8 +2051,7 @@ state3ZeroStageD368:
                         sp130 = 0;
                         sp134 = 0;
                         ((struct PlayerD368 *)arg0)->f20 = 0U;
-                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
-                        var_r1_7 = 0xFFDFFFFF;
+                        ((struct PlayerD368 *)arg0)->f30 &= 0xFFDFFFFF;
                         goto block_1024;
 
                     }
@@ -2321,8 +2317,7 @@ state4ZeroStageD368:
                         sp130 = 0;
                         sp134 = 0;
                         ((struct PlayerD368 *)arg0)->f20 = 0U;
-                        stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
-                        var_r1_7 = 0xFFDFFFFF;
+                        ((struct PlayerD368 *)arg0)->f30 &= 0xFFDFFFFF;
                         goto block_1024;
 
                 } else {
@@ -3161,8 +3156,7 @@ block_1002:
                 ((struct PlayerD368 *)arg0)->f26 = 0U;
                 sp130 = 0;
                 sp134 = 0;
-                stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
-                var_r1_7 = 0xFFDFFFFF;
+                ((struct PlayerD368 *)arg0)->f30 &= 0xFFDFFFFF;
                 goto block_1024;
             case 12:                                /* switch 4 */
                 temp_r1_40 = ((struct PlayerD368 *)arg0)->fD8;
@@ -3200,10 +3194,8 @@ block_1015:
                     var_r0_9 = 0;
                     goto block_627;
                 case 4:                             /* switch 14 */
-                    stateFlagsD368 = ((struct PlayerD368 *)arg0)->f30;
-                    var_r1_7 = -4;
+                    ((struct PlayerD368 *)arg0)->f30 &= -4;
 block_1024:
-                    ((struct PlayerD368 *)arg0)->f30 = (u32) (stateFlagsD368 & var_r1_7);
                     break;
                 case 7:                             /* switch 14 */
                     if (d368_sub_0805EEFC(sp17C) != 0) {
@@ -4684,8 +4676,7 @@ animationClassDoneD368:
                             sp114 = temp_r0_157;
                             if (d368_sub_0800CCCC() == 0) {
                                 if (d368_sub_0800CF80() == 0) {
-                                    ((struct PlayerD368 *)arg0)->fA4 = (s32) ((struct PlayerD368 *)arg0)->f8C;
-                                    M2C_FIELD((arg0 + 0xA4), s32 *, 4) = (s32) M2C_FIELD((arg0 + 0x8C), s32 *, 4);
+                                    *(u64 *)&((struct PlayerD368 *)arg0)->fA4 = *(u64 *)&((struct PlayerD368 *)arg0)->f8C;
                                     ((struct PlayerD368 *)arg0)->f2C = (u16) gUnk_03003170.f90;
                                     ((struct PlayerD368 *)arg0)->f2E = (u16) gUnk_03003170.curLevel;
                                 }
@@ -4697,11 +4688,10 @@ animationClassDoneD368:
                             d368_sub_080657C4(((struct PlayerD368 *)arg0)->f0, 0);
                         }
                         if (d368_sub_0800CF80() == 0) {
-                            var_r1_23 = 3;
+                            ((struct PlayerD368 *)arg0)->f30 |= 3;
                         } else {
-                            var_r1_23 = 1;
+                            ((struct PlayerD368 *)arg0)->f30 |= 1;
                         }
-                        ((struct PlayerD368 *)arg0)->f30 = (u32) (((struct PlayerD368 *)arg0)->f30 | var_r1_23);
                         break;
                     case 1:                         /* switch 25 */
                     case 2:                         /* switch 25 */
