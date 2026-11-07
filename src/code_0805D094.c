@@ -904,11 +904,19 @@ void e0c4Impl(struct Task0C4 *task)
     s32 first;
     u32 started;
     u8 *s;
-    u8 *next;
+    /* One r4 pointer in the ROM: script + 1, the &value conversion pointer
+       and task->str in both text paths. */
+    register u8 *next asm("r4");
     u8 c;
     u16 attr;
     u8 cf;
     struct Window0C4 *w;
+    /* Set-once name pointers: spilled and rematerialised per use, which gives
+       the ROM `ldr r5, =name; adds r0, r5, idx` operand order. */
+    u8 *n0 = name0C4;
+    u8 *n1 = name1C4;
+    u8 *n2 = name2C4;
+    u8 *n3 = name3C4;
 
     script = task->script;
     drawFlag = 0;
@@ -959,8 +967,7 @@ void e0c4Impl(struct Task0C4 *task)
     }
     *pValue = sub_0801E4B0();
     s = num;
-    /* next is reused as the conversion pointer (ROM keeps it in r4 for both);
-       the loop end stops cse1 from folding *(s32 *)next back to &value. */
+    /* The loop end stops cse1 from folding *(s32 *)next back to &value. */
     do {
         next = (u8 *)&value;
     } while (0);
@@ -1096,33 +1103,33 @@ done:
                     task->col--;
                 }
             } else if (*script == 0xF6) {
-                lines[line][task->col] = name0C4[idx0];
+                lines[line][task->col] = n0[idx0];
                 idx0++;
-                if (name0C4[idx0] == 0) {
+                if (n0[idx0] == 0) {
                     script++;
                     idx0 = 0;
                     task->col--;
                 }
             } else if (*script == 0xF4) {
-                lines[line][task->col] = name1C4[idx1];
+                lines[line][task->col] = n1[idx1];
                 idx1++;
-                if (name1C4[idx1] == 0) {
+                if (n1[idx1] == 0) {
                     script++;
                     idx1 = 0;
                     task->col--;
                 }
             } else if (*script == 0xF3) {
-                lines[line][task->col] = name2C4[idx2];
+                lines[line][task->col] = n2[idx2];
                 idx2++;
-                if (name2C4[idx2] == 0) {
+                if (n2[idx2] == 0) {
                     script++;
                     idx2 = 0;
                     task->col--;
                 }
             } else if (*script == 0xF2) {
-                lines[line][task->col] = name3C4[idx3];
+                lines[line][task->col] = n3[idx3];
                 idx3++;
-                if (name3C4[idx3] == 0) {
+                if (n3[idx3] == 0) {
                     script++;
                     idx3 = 0;
                     task->col--;
@@ -1149,10 +1156,10 @@ done:
                 script++;
             } else if (*script == 0xF8) {
                 script++;
-            } else if (task->str != 0) {
-                lines[line][task->col] = task->str[strIdx];
+            } else if ((next = (u8 *)task->str) != 0) {
+                lines[line][task->col] = ((u16 *)next)[strIdx];
                 strIdx++;
-                if (task->str[strIdx] == 0) {
+                if (((u16 *)next)[strIdx] == 0) {
                     task->str = 0;
                     strIdx = 0;
                     task->col--;
@@ -1167,7 +1174,7 @@ done:
                 cf = *script;
                 if ((u8)(cf + 3) > 2) {
                     u8 *fastName = name;
-                    u8 *fastNum = num;
+                    u8 *fastNum;
                     do {
                         c = cf;
                         if (c == 0xFC || strIdx != 0) {
@@ -1179,7 +1186,7 @@ done:
                                 task->col--;
                             }
                         } else if (c == 0xF6 || idx0 != 0) {
-                            lines[line][task->col] = name0C4[idx0];
+                            lines[line][task->col] = n0[idx0];
                             idx0++;
                             if (playerName[idx0] == 0) {
                                 script++;
@@ -1195,6 +1202,7 @@ done:
                                 task->col--;
                             }
                         } else if (c == 0xFB || numIdx != 0) {
+                            fastNum = num;
                             lines[line][task->col] = fastNum[numIdx];
                             numIdx++;
                             if (fastNum[numIdx] == 0) {
@@ -1202,10 +1210,10 @@ done:
                                 numIdx = 0;
                                 task->col--;
                             }
-                        } else if (task->str != 0) {
-                            lines[line][task->col] = task->str[strIdx];
+                        } else if ((next = (u8 *)task->str) != 0) {
+                            lines[line][task->col] = ((u16 *)next)[strIdx];
                             strIdx++;
-                            if (task->str[strIdx] == 0) {
+                            if (((u16 *)next)[strIdx] == 0) {
                                 task->str = 0;
                                 strIdx = 0;
                                 task->col--;
