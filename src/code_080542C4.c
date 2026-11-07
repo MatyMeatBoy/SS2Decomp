@@ -951,7 +951,6 @@ void sub_0805664C(s32 arg0)
     spawn56(sub_0805664C, arg0);
     }
 }
-#ifdef NONMATCHING
 struct StatePlayer567D4 { u8 pad[0x11E]; u16 state; u8 tail[0x2C]; };
 extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
@@ -1033,11 +1032,13 @@ void sub_080567D4(s32 id)
         u32 byte = key >> 3;
         u8 *fl;
         key &= 7;
-        if (sub_0800CE30() != 0)
+        if (sub_0800CE30() != 0) {
             fl = gUnk_03005CF4 + 0x1C3;
-        else
+            ret = (fl[byte] >> key) & 1;
+        } else {
             fl = gUnk_03005CF4 + 0x1B7;
-        ret = (fl[byte] >> key) & 1;
+            ret = (fl[byte] >> key) & 1;
+        }
     } else
         ret = TestFlag567D4(gates567D4[id].flag);
     if (ret)
@@ -1122,9 +1123,6 @@ already:
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);
 }
 
-#else
-INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
-#endif
 
 void sub_08056CB4(u32 value)
 {
