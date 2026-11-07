@@ -3524,6 +3524,7 @@ loop_98:
                 }
             }
             sub_080003F0();
+            temp_r0_3 = t24_state25890;
             goto loop_107;
         }
     } else {

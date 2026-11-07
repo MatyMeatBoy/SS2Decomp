@@ -1,0 +1,31 @@
+{
+  "address": "0x08025890",
+  "updated_utc": "2026-11-07T02:53:13Z",
+  "checkpoint": "Refresh the global state pointer after the main-loop yield, matching original26004->2600C; still NONMATCHING. Candidate2704/original2728 bytes; frame296/original296 (previous300), heuristic499(previous559). Function-body SHA256 ecc81d43922c2f62ef14b971341a1027fe6404814cb7b364c4199f2a29c1c682.",
+  "areas": [
+    {
+      "id": "state_refresh",
+      "label": "Recover state reload across the frame yield",
+      "state": "done",
+      "evidence": "Original ASM at ef3c99770e95b3356eb9b4350498347b6ebb28e9, asm/nonmatchings/code_08021DC4/sub_08025890.s labels08026004 and0802600C: yield, reload gUnk_03005CF4, read state+4 bit4. Previous draft cached the initial pointer. Reproducer replaces the global pointer after the first animation-bearing yield with a copied state whose bit4 is set: original enters sound0x24 completion, old draft repeats until cancellation. The one-line refresh agrees with original."
+    },
+    {
+      "id": "bounded_paths",
+      "label": "Validate bounded coordination paths",
+      "state": "done",
+      "evidence": "128 original-ROM versus rebuilt draft cases pass: previous112 entry/wait/cancel/transition/network-ready/early-completion cases plus16 pointer-replacement cases; local ids0/1, connected counts2/4, scenes14/15 and initial busy waits0/2. Compare external-call arguments, relevant RAM, saved registers and SP. Stack seededA5. Does not cover drawing, long completion or arbitrary runtime/scheduler states; not full equivalence."
+    },
+    {
+      "id": "remaining_codegen",
+      "label": "Resolve remaining control-flow and register differences",
+      "state": "active",
+      "evidence": "Normalized bytes/relocations still differ. Candidate2704/original2728, frame296/296. Pointer assignment reordering yields2708/573, moving counter init before those assignments leaves2704/559 on the old baseline; both rejected/restored. Remaining initial sprite-byte store order, scan-loop physical shape and pointer allocation require source-shape analysis."
+    },
+    {
+      "id": "full_match",
+      "label": "Verify matching C in the normal ROM build",
+      "state": "pending",
+      "evidence": "Original ASM fallback remains active. Normal compare integrity and compiling NONMATCHING C do not prove this draft matches; zero new matching bytes."
+    }
+  ]
+}
