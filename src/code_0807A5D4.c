@@ -1156,6 +1156,9 @@ static inline void Drop82(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x
 /* Same as Drop82, but the empty volatile asm keeps cross-jumping from merging this tail with another identical DROP tail (the ROM keeps them separate because its registers differ). */
 static inline void Drop82Sep(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; asm volatile(""); }
 #define DROP82() Drop82(&sp14)
+/* DROP82R: the DROP through a function-scope pointer to gMgr82; it gets no hard reg, so reload re-loads the address at each use like the ROM. DROP82Z also takes heldIdx's zero from its own mov (ROM: separate movs r1/r4 zeros). */
+#define DROP82R() { *(vu32 *)&sp14 = 0; CpuSet((void *)&sp14, &(*gp)->held, 0x05000004); (*gp)->heldFrom = 0x16; (*gp)->heldIdx = 0; }
+#define DROP82Z() { *(vu32 *)&sp14 = 0; CpuSet((void *)&sp14, &(*gp)->held, 0x05000004); (*gp)->heldFrom = 0x16; { u32 zz; asm volatile("mov %0, #0" : "=l"(zz)); (*gp)->heldIdx = zz; } }
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
 struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
 extern struct Player82 gPlayers82[] asm("gUnk_03003CE0");
@@ -1167,7 +1170,9 @@ void sub_0807C29C(void) {
     s32 sp18[4];
     s32 sp28;
     s32 sp2C;
+    struct Mgr82 **gp;
 
+    gp = &gMgr82;
     if (gMgr82->flags & 1) {
         keys29_03001308 = 0;
         keys29_03001324 &= ~1;
@@ -2710,11 +2715,11 @@ void sub_0807C29C(void) {
                 if (from == 11)
                     break;
                 if (*(u32 *)held == 0x000C0001) {
-                    item = &gMgr82->stock[gMgr82->cursor + gMgr82->page * 15];
+                    item = (struct Item82 *)((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x104);
                     switch (item->kind) {
                     case 2 ... 5:
-                        if (gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].flag != 0) {
-                            gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].flag = 0;
+                        if (*((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) != 0) {
+                            *((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x10C) = 0;
                             sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                         } else {
                             *(struct Item82 *)sp4 = *item;
@@ -2748,46 +2753,49 @@ void sub_0807C29C(void) {
                     DROP82();
                     sub_0805865C(0x5F);
                     break;
-                default:
-                    item = &gMgr82->stock[gMgr82->cursor + gMgr82->page * 15];
-                    if (held->kind != item->kind)
+                default: {
+                    struct Item82 *it;
+                    it = (struct Item82 *)((u8 *)gMgr82 + (gMgr82->cursor + gMgr82->page * 15) * 16 + 0x104);
+                    if (held->kind != it->kind)
                         break;
-                    *(struct Item82 *)sp4 = *item;
+                    *(struct Item82 *)sp4 = *it;
                     sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)held);
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
                     DROP82();
                     sub_0805865C(0x5F);
                     break;
                 }
+                }
                 break;
             }
             /* holding money, tg slot occupied */
             switch (from) {
-            case 13:
+            case 13: {
+                u32 s; struct Item82 *it;
                 if (gMgr82->stock[gMgr82->heldIdx].count == gMgr82->held.count) {
-                    slot = gMgr82->cursor + gMgr82->page * 15;
-                    item = &gMgr82->stock[slot];
-                    if (item->kind == 10) {
-                        val = gMgr82->stock[slot].count + gMgr82->held.count;
+                    s = gMgr82->cursor + gMgr82->page * 15;
+                    it = &gMgr82->stock[s];
+                    if (it->kind == 10) {
+                        val = gMgr82->stock[s].count + gMgr82->held.count;
                         if (val <= 100000) {
-                            if (gMgr82->heldIdx != slot) {
-                                gMgr82->stock[slot].count = val;
+                            if (gMgr82->heldIdx != s) {
+                                gMgr82->stock[s].count = val;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                             }
-                        } else if (gMgr82->heldIdx != slot) {
+                        } else if (gMgr82->heldIdx != s) {
                             gMgr82->held.count = val - 100000;
                             gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                             sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                         }
-                        DROP82();
+                        DROP82Z();
                         sub_0805865C(0x5F);
                         sub_0805865C(0x5F);
                         break;
                     }
-                    *(struct Item82 *)sp4 = *item;
+                    *(struct Item82 *)sp4 = *it;
                     sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)held);
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
-                    DROP82();
+                    DROP82R();
                     sub_0805865C(0x5F);
                     break;
                 }
@@ -2795,16 +2803,16 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x61);
                     break;
                 }
-                slot = gMgr82->cursor + gMgr82->page * 15;
-                val = gMgr82->stock[slot].count + gMgr82->held.count;
+                s = gMgr82->cursor + gMgr82->page * 15;
+                val = gMgr82->stock[s].count + gMgr82->held.count;
                 if (val <= 100000) {
                     gMgr82->stock[gMgr82->heldIdx].count -= gMgr82->held.count;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count += gMgr82->held.count;
-                    DROP82();
+                    DROP82R();
                     sub_0805865C(0x5F);
                     break;
                 }
-                if (gMgr82->heldIdx != slot) {
+                if (gMgr82->heldIdx != s) {
                     gMgr82->held.count = val - 100000;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
@@ -2812,6 +2820,7 @@ void sub_0807C29C(void) {
                 Drop82Sep(&sp14);
                 sub_0805865C(0x5F);
                 break;
+            }
             case 0:
                 slot = gMgr82->cursor + gMgr82->page * 15;
                 if (gMgr82->stock[slot].kind != 10) {
@@ -2823,12 +2832,13 @@ void sub_0807C29C(void) {
                     if (val <= 100000) {
                         gMgr82->stock[slot].count = val;
                         sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
+                        DROP82();
                     } else {
                         gMgr82->held.count = val - 100000;
                         gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                         sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
+                        DROP82();
                     }
-                    Drop82Sep(&sp14);
                     sub_0805865C(0x5F);
                     break;
                 }
@@ -2836,12 +2846,14 @@ void sub_0807C29C(void) {
                 if (val <= 100000) {
                     gInv82->items[gMgr82->heldIdx].count -= gMgr82->held.count;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count += gMgr82->held.count;
-                } else {
-                    gMgr82->held.count = val - 100000;
-                    gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
-                    sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
+                    DROP82();
+                    sub_0805865C(0x5F);
+                    break;
                 }
-                Drop82Sep(&sp14);
+                gMgr82->held.count = val - 100000;
+                gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
+                sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
+                DROP82();
                 sub_0805865C(0x5F);
                 break;
             }

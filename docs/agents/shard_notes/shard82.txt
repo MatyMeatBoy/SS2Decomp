@@ -176,3 +176,28 @@ priority change to it moves every case. Try a per-branch `u32` copy that is not 
   or `kind = from;`/`kind = tg;` in the from==0 path.
   ROM there stores the zero from r6 (`from`, kept alive) and builds 340 in r7. Ours rematerializes
   `movs r1,#0` and builds 340 in r6. Next: find out why CSE in the ROM kept `from` as the zero register.
+
+2026-11-07 fifth follow-up (claude-nov07-w82N): full-module aligned diff 936 -> 551, casediff sum 1189 -> 900,
+case 13 diff 539 -> 248 (rdiff 84 -> 37), strict diff lines 2699 -> 2667, filtered nmdiff 2261 -> 2257. Still 18396 bytes.
+Every case is still size-exact.
+Diagnosis (zero register in case 13): the ROM stores the zeros of every from==0 path (the tg==0 kind store, the
+from-switch case 0 DROP, all money from==0 DROPs) from r6 = `from`. That comes from CSE jump equivalences: after
+`from == 0`, CSE merges const 0's class into from's class, and make_regs_eqv (cse.c) makes the reg with the latest
+REGNO_LAST_UID canonical. `from` wins only if it is used to the end of case 13. That happens when every money from==0
+branch has its own DROP82(), so CSE (still on the from==0 path) puts `from` in those DROPs.
+Our join-then-Drop82Sep shape ran each DROP in a fresh CSE block (const 0 -> movs). Other competitors in the zero class:
+the f6A=100 store (expanded as RMW: and/ior with a zero pseudo), the HImode keys&0x80 mask, tg.
+Landed:
+- money from==0: DROP82() + sound + break inside each branch. The count==count part is
+  `if (val<=100000) {..BD78; DROP82();} else {..BEA0; DROP82();} sound(0x5F); break;`, which cross-jumps into ROM's _0807EFDE.
+- from-switch default: block-local `it` with `(u8 *)gMgr82 + idx*16 + 0x104` (base first). Its tail now merges into the
+  shared _0807F750 tail like the ROM. Same address form for the 0xC0001 item and its 0x10C flag.
+- money from==13: block-local `u32 s; struct Item82 *it` (ROM's heldIdx=r7, &held.count=r8, stock base r2).
+- money from==13 DROPs: DROP82R uses a function-scope `struct Mgr82 **gp = &gMgr82`. It never gets a hard reg, so
+  reload re-loads the address per use (ROM: ldr r2/ldr r3 =gMgr82 around CpuSet). DROP82Z (count==count DROP) also takes the heldIdx
+  zero from an asm `mov %0, #0` (ROM: separate movs r1/movs r4 zeros). The last (val>100000) DROP stays Drop82Sep.
+Tried, not kept: an asm-zero DROP in the from==13 val>100000 path (makes the keys&0x80 mask canonical, +4 bytes);
+kind = from / re-reading cur->kind (no effect alone); f6A store via a plain pointer (-24 bytes).
+Left in case 13: the 0xC0001 BD78/else DROP (ROM keeps the address in r6 across CpuSet, ours reloads into r0/r4). Also the
+money from==13 slot*16 in sl (ROM computes the item as (gMgr82 + slot*16) + 260; ours reassociates). Also tg==0 kind store
+(ROM strh r6, ours movs). Tools: session scratchpad nov07-w82N (jl.py lists jumps/labels on a CSE path; dump.sh -ds/-dt dumps).
