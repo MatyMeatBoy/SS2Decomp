@@ -1153,6 +1153,8 @@ extern struct Pos82 gUnk_084ECBB0_82[] asm("gUnk_084ECBB0");
 extern struct Mgr82 *gMgr82 asm("gUnk_03006440");
 extern struct Inv82 *gInv82 asm("gUnk_030034E0");
 static inline void Drop82(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; }
+/* Same as Drop82, but the empty volatile asm keeps cross-jumping from merging this tail with another identical DROP tail (the ROM keeps them separate because its registers differ). */
+static inline void Drop82Sep(vu32 *z) { *z = 0; CpuSet((void *)z, &gMgr82->held, 0x05000004); gMgr82->heldFrom = 0x16; gMgr82->heldIdx = 0; asm volatile(""); }
 #define DROP82() Drop82(&sp14)
 #define REFRESH82() { sub_0805AD78(gInv82->equip); sub_0805D094(); sub_0805D0E8(); sub_0805D13C(); }
 struct Player82 { u8 pad[0x77]; u8 f77; u8 f78; u8 pad79[0x8C - 0x79]; s32 f8C; s32 f90; u8 pad94[0xC6 - 0x94]; u16 fC6; u8 rest[0x14C - 0xC8]; };
@@ -1278,7 +1280,7 @@ void sub_0807C29C(void) {
                 gMgr82->cursor--;
                 break;
             }
-            cur = gMgr82->cursor;
+            over = gMgr82->cursor; /* function-level temp: ROM copies the cursor into r3 here (adds r3, r5, #0) */
             if (gMgr82->heldFrom != 0x16) {
                 switch (gMgr82->held.kind) {
                 case 1: gMgr82->cursor = 100; break;
@@ -1332,7 +1334,7 @@ void sub_0807C29C(void) {
                 gMgr82->prev = 1;
                 break;
             case 103:
-                gMgr82->cursor = cur;
+                gMgr82->cursor = over;
                 break;
             case 104:
                 break;
@@ -1364,6 +1366,7 @@ void sub_0807C29C(void) {
                 }
             }
         } else if (keys29_03001324 & 1) {
+            u16 tg0;
             gMgr82->f6A = 100;
             if (gMgr82->mode != 5) {
                 from = gMgr82->heldFrom;
@@ -1395,8 +1398,8 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x5E);
                     break;
                 }
-                target = gMgr82->cur->kind;
-                if (target == 0) {
+                tg0 = gMgr82->cur->kind;
+                if (tg0 == 0) {
                     if (gMgr82->held.kind != 10) {
                         if (from != 11) {
                             sub_0807BD78(from, gMgr82->heldIdx);
@@ -1531,7 +1534,7 @@ void sub_0807C29C(void) {
                     }
                     break;
                 }
-                /* holding money, target slot occupied */
+                /* holding money, tg0 slot occupied */
                 if (gInv82->items[gMgr82->heldIdx].count == gMgr82->held.count) {
                     item = &gInv82->items[gMgr82->cursor];
                     if (item->kind == 10) {
@@ -1541,7 +1544,11 @@ void sub_0807C29C(void) {
                                 gInv82->items[gMgr82->cursor].count = val;
                                 sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                             }
-                        } else if (gMgr82->heldIdx != gMgr82->cursor) {
+                            DROP82();
+                            sub_0805865C(0x5F);
+                            break;
+                        }
+                        if (gMgr82->heldIdx != gMgr82->cursor) {
                             gMgr82->held.count = val - 100000;
                             gInv82->items[gMgr82->cursor].count = 100000;
                             sub_0807BEA0(0, gMgr82->heldIdx, (void *)held);
@@ -1557,7 +1564,7 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x5F);
                     break;
                 }
-                if (target != 10) {
+                if (tg0 != 10) {
                     sub_0805865C(0x61);
                     break;
                 }
@@ -1576,7 +1583,11 @@ void sub_0807C29C(void) {
                         break;
                     }
                     gInv82->items[gMgr82->cursor].count += gMgr82->held.count;
-                } else if (gMgr82->heldIdx != gMgr82->cursor) {
+                    DROP82();
+                    sub_0805865C(0x5F);
+                    break;
+                }
+                if (gMgr82->heldIdx != gMgr82->cursor) {
                     over = val - 100000;
                     switch (from) {
                     case 0:
@@ -1625,12 +1636,14 @@ void sub_0807C29C(void) {
             }
         }
         break;
-    case 1:
+    case 1: {
+        u16 lo, hi;
         lo = gInv82->equip / 3 * 3;
         hi = lo + 3;
-        if (gMgr82->cursor <= lo)
+        asm("" : : "r"(hi));
+        if (lo >= gMgr82->cursor)
             gMgr82->cursor = lo;
-        else if (gMgr82->cursor >= hi)
+        else if (hi <= gMgr82->cursor)
             gMgr82->cursor = hi - 1;
         if (keys29_03001308 & 0x10) {
             if (gMgr82->cursor == lo) {
@@ -1680,22 +1693,21 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x62);
             }
         } else if (keys29_03001324 & 1) {
-            from = gMgr82->heldFrom;
-            if (from == 0x16) {
-                cur = gMgr82->cursor;
-                item = &gInv82->belt[cur];
-                if (item->kind == 0)
+            u32 fr, cu; struct Item82 *it;
+            fr = gMgr82->heldFrom;
+            if (fr == 0x16) {
+                if (gInv82->belt[gMgr82->cursor].kind == 0)
                     break;
                 gMgr82->heldFrom = gMgr82->state;
-                gMgr82->heldIdx = cur;
-                gMgr82->held = *item;
+                gMgr82->heldIdx = gMgr82->cursor;
+                gMgr82->held = gInv82->belt[gMgr82->cursor];
                 gMgr82->held.flag2 = 0;
                 sub_0805AD78(gInv82->equip);
                 sub_0805865C(0x5E);
                 break;
             }
             if (gMgr82->cur->kind == 0) {
-                if (from != 11) {
+                if (fr != 11) {
                     if (sub_0805AE34((void *)&gMgr82->held)) {
                         sub_0807BD78(gMgr82->heldFrom, gMgr82->heldIdx);
                         sub_0807BEA0(1, gMgr82->cursor, (void *)&gMgr82->held);
@@ -1726,7 +1738,7 @@ void sub_0807C29C(void) {
                 sub_0805AD78(gInv82->equip);
                 break;
             }
-            if (from == 11) {
+            if (fr == 11) {
                 sub_0805865C(0x61);
                 break;
             }
@@ -1755,6 +1767,7 @@ void sub_0807C29C(void) {
             }
         }
         break;
+    }
     case 2:
         if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
@@ -2129,7 +2142,8 @@ void sub_0807C29C(void) {
             }
         }
         break;
-    case 6:
+    case 6: {
+        u32 fr;
         if ((u16)(keys29_03001308 & 0x40)) {
             if (gMgr82->heldFrom == 0x16) {
                 gMgr82->state = 5;
@@ -2160,28 +2174,29 @@ void sub_0807C29C(void) {
             }
         } else if (keys29_03001324 & 1) {
             gMgr82->f6A = 100;
-            from = gMgr82->heldFrom;
-            if (from == 0x16) {
+            fr = gMgr82->heldFrom;
+            if (fr == 0x16) {
                 if (gInv82->equipE.kind != 0) {
-                    ok = 0;
+                    u32 ok6, nn;
+                    ok6 = 0;
                     if (gPlayers82[sub_080020F4()].f77 > 3) {
-                        n = gPlayers82[sub_080020F4()].f77;
-                        for (i = 3; i < n; i++) {
+                        nn = gPlayers82[sub_080020F4()].f77;
+                        for (i = 3; i < nn; i++) {
                             if (gInv82->belt[i].kind == 2) {
-                                ok++;
+                                ok6++;
                                 break;
                             }
                         }
                     } else if (gPlayers82[sub_080020F4()].f78 > 3) {
-                        n = gPlayers82[sub_080020F4()].f78;
-                        for (i = 3; i < n; i++) {
+                        nn = gPlayers82[sub_080020F4()].f78;
+                        for (i = 3; i < nn; i++) {
                             if (gInv82->f56[i] != 0) {
-                                ok++;
+                                ok6++;
                                 break;
                             }
                         }
                     }
-                    if (ok) {
+                    if (ok6) {
                         sub_0805865C(0x61);
                     } else {
                         gMgr82->heldFrom = gMgr82->state;
@@ -2193,8 +2208,8 @@ void sub_0807C29C(void) {
                     }
                 }
             } else if (gMgr82->cur->kind == 0) {
-                if (from != 11) {
-                    sub_0807BD78(from, gMgr82->heldIdx);
+                if (fr != 11) {
+                    sub_0807BD78(fr, gMgr82->heldIdx);
                     sub_0807BEA0(6, gMgr82->cursor, (void *)&gMgr82->held);
                     DROP82();
                     sub_0805865C(0x5F);
@@ -2210,34 +2225,35 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x63);
                     sub_0805D1E0();
                 }
-            } else if (from != 11) {
-                ok = 0;
+            } else if (fr != 11) {
+                u32 ok6, nn;
+                ok6 = 0;
                 if (gPlayers82[sub_080020F4()].f77 > 3) {
-                    n = gPlayers82[sub_080020F4()].f77;
-                    for (i = 3; i < n; i++) {
+                    nn = gPlayers82[sub_080020F4()].f77;
+                    for (i = 3; i < nn; i++) {
                         if (gInv82->belt[i].kind == 2) {
-                            ok++;
+                            ok6++;
                             break;
                         }
                     }
                 } else if (gPlayers82[sub_080020F4()].f78 > 3) {
-                    n = gPlayers82[sub_080020F4()].f78;
-                    for (i = 3; i < n; i++) {
+                    nn = gPlayers82[sub_080020F4()].f78;
+                    for (i = 3; i < nn; i++) {
                         if (gInv82->f56[i] != 0) {
-                            ok++;
+                            ok6++;
                             break;
                         }
                     }
                 }
-                if (ok) {
-                    sub_0805865C(0x61);
-                } else {
+                if (!ok6) {
                     *(struct Item82 *)sp4 = gInv82->equipE;
                     sub_0807BEA0(6, gMgr82->cursor, (void *)&gMgr82->held);
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)sp4);
                     DROP82();
                     sub_0805865C(0x5F);
                     sub_0805D1E0();
+                } else {
+                    sub_0805865C(0x61);
                 }
             } else {
                 sub_0805865C(0x61);
@@ -2258,6 +2274,7 @@ void sub_0807C29C(void) {
             }
         }
         break;
+    }
     case 7: {
         u32 c;
         if (keys29_03001308 & 0x10) {
@@ -2382,7 +2399,7 @@ void sub_0807C29C(void) {
                 }
             } else if (from == 0) {
                 gInv82->f56[gMgr82->cursor] = gMgr82->held.sub + 1;
-                DROP82();
+                Drop82Sep(&sp14);
                 sub_0805865C(0x5F);
             }
         }
@@ -2441,7 +2458,7 @@ void sub_0807C29C(void) {
                     sub_0807C014(sub_0805AE94(&gMgr82->held));
                     sub_0805865C(0x63);
                 }
-                DROP82();
+                Drop82Sep(&sp14);
             }
         }
         break;
@@ -2591,15 +2608,16 @@ void sub_0807C29C(void) {
             if (gMgr82->cursor > gMgr82->f48)
                 gMgr82->cursor = gMgr82->f48;
         } else if (keys29_03001308 & 0x20) {
-            cur = gMgr82->cursor;
-            if (cur % 3 != 0) {
-                gMgr82->prev = cur;
-                gMgr82->cursor = cur - 1;
+            u32 c;
+            c = gMgr82->cursor;
+            if (c % 3 != 0) {
+                gMgr82->prev = c;
+                gMgr82->cursor = c - 1;
                 sub_0805865C(0x62);
                 break;
             }
-            gMgr82->prev = cur;
-            gMgr82->cursor = cur / 3 * 5 + 4;
+            gMgr82->prev = c;
+            gMgr82->cursor = c / 3 * 5 + 4;
             gMgr82->state = 0;
             sub_0805865C(0x62);
         } else if (keys29_03001308 & 0x40) {
@@ -2623,39 +2641,46 @@ void sub_0807C29C(void) {
             gMgr82->cursor = 3;
             sub_0805865C(0x62);
         } else if (keys29_03001324 & 1) {
+            u16 tg;
             gMgr82->f6A = 100;
             from = gMgr82->heldFrom;
             if (from == 0x16) {
-                slot = gMgr82->cursor + gMgr82->page * 15;
-                item = &gMgr82->stock[slot];
-                if (item->kind == 0)
+                u32 s;
+                struct Item82 *it;
+                u32 k;
+                u32 j;
+                u32 v;
+                s = gMgr82->cursor + gMgr82->page * 15;
+                /* (gMgr82 + s*16) + 0x104: ROM adds the struct offset last */
+                it = (struct Item82 *)((u8 *)gMgr82 + s * 16 + 0x104);
+                if (it->kind == 0)
                     break;
-                if (item->kind != 10) {
+                if (it->kind != 10) {
                     gMgr82->heldFrom = gMgr82->state;
-                    gMgr82->heldIdx = slot;
-                    gMgr82->held = *item;
+                    gMgr82->heldIdx = s;
+                    gMgr82->held = *it;
                     sub_0805865C(0x5E);
                     break;
                 }
                 gMgr82->heldFrom = gMgr82->state;
-                gMgr82->heldIdx = slot;
+                gMgr82->heldIdx = s;
                 gMgr82->held.kind = 10;
                 gMgr82->held.count = gMgr82->stock[gMgr82->heldIdx].count;
                 gMgr82->state = 20;
                 gMgr82->fC = 0;
-                val = gMgr82->stock[gMgr82->heldIdx].count;
-                n = 6;
-                for (i = 4; i <= 9; i++, n--) {
-                    if (gUnk_084EBD4C[i] <= val)
+                v = gMgr82->stock[gMgr82->heldIdx].count;
+                k = 6;
+                for (j = 4; j <= 9; j++, k--) {
+                    if (gUnk_084EBD4C[j] <= v)
                         break;
                 }
-                gMgr82->f14 = n;
-                gMgr82->f10 = n - 1;
+                gMgr82->f14 = k;
+                gMgr82->f10 = k - 1;
                 sub_0805865C(0x5E);
                 break;
             }
-            target = gMgr82->cur->kind;
-            if (target == 0) {
+            tg = gMgr82->cur->kind;
+            if (tg == 0) {
                 if (gMgr82->held.kind != 10) {
                     sub_0807BD78(from, gMgr82->heldIdx);
                     sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)&gMgr82->held);
@@ -2736,7 +2761,7 @@ void sub_0807C29C(void) {
                 }
                 break;
             }
-            /* holding money, target slot occupied */
+            /* holding money, tg slot occupied */
             switch (from) {
             case 13:
                 if (gMgr82->stock[gMgr82->heldIdx].count == gMgr82->held.count) {
@@ -2766,7 +2791,7 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x5F);
                     break;
                 }
-                if (target != 10) {
+                if (tg != 10) {
                     sub_0805865C(0x61);
                     break;
                 }
@@ -2775,12 +2800,16 @@ void sub_0807C29C(void) {
                 if (val <= 100000) {
                     gMgr82->stock[gMgr82->heldIdx].count -= gMgr82->held.count;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count += gMgr82->held.count;
-                } else if (gMgr82->heldIdx != slot) {
+                    DROP82();
+                    sub_0805865C(0x5F);
+                    break;
+                }
+                if (gMgr82->heldIdx != slot) {
                     gMgr82->held.count = val - 100000;
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                 }
-                DROP82();
+                Drop82Sep(&sp14);
                 sub_0805865C(0x5F);
                 break;
             case 0:
@@ -2799,7 +2828,7 @@ void sub_0807C29C(void) {
                         gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                         sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                     }
-                    DROP82();
+                    Drop82Sep(&sp14);
                     sub_0805865C(0x5F);
                     break;
                 }
@@ -2812,7 +2841,7 @@ void sub_0807C29C(void) {
                     gMgr82->stock[gMgr82->cursor + gMgr82->page * 15].count = 100000;
                     sub_0807BEA0(gMgr82->heldFrom, gMgr82->heldIdx, (void *)held);
                 }
-                DROP82();
+                Drop82Sep(&sp14);
                 sub_0805865C(0x5F);
                 break;
             }
@@ -3265,8 +3294,8 @@ done82:
     case 1:
         if (gMgr82->cursor != gMgr82->prev) {
             base = gMgr82->cursor / 3 * 3;
-            gMgr82->posX = gUnk_084ECBBC_82[gMgr82->cursor - base].x + 0x38;
-            gMgr82->posY = gUnk_084ECBBC_82[gMgr82->cursor - base].y + 0x10;
+            gMgr82->posX = gUnk_084ECBBC[(gMgr82->cursor - base) * 2] + 0x38;
+            gMgr82->posY = (&gUnk_084ECBBC[1])[(gMgr82->cursor - base) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
         }
@@ -3332,9 +3361,10 @@ done82:
         break;
     case 8:
         if (gMgr82->cursor != gMgr82->prev) {
-            base = gMgr82->cursor / 3 * 3 + 3;
-            gMgr82->posX = gUnk_084ECBB0_82[base - (gMgr82->cursor + 1)].x + 0xB8;
-            gMgr82->posY = gUnk_084ECBB0_82[base - (gMgr82->cursor + 1)].y + 0x10;
+            base = gMgr82->cursor / 3 * 3;
+            idx = base + 3;
+            gMgr82->posX = gUnk_084ECBB0[(idx - (gMgr82->cursor + 1)) * 2] + 0xB8;
+            gMgr82->posY = (&gUnk_084ECBB0[1])[(idx - (gMgr82->cursor + 1)) * 2] + 0x10;
             gMgr82->prev = gMgr82->cursor;
             gMgr82->f6C = 0;
         }
