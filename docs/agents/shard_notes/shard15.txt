@@ -182,7 +182,14 @@ agbcc -da (fn dumps .cse/.gcse) which pass merges them in the draft. Dumps: buil
     `anim->fC` in the AF0 call, the non-init part of the aligned diff drops 94 -> 40: the
     DRAW `ldr r4,[r6,#8]` and AF0 `ldr r1,[r6,#12]` come out like ROM once anim is not
     spilled. Without the init fix anim->f8 is much worse (947), so it is not landed.
+  - Post-loop block: `u16 s = T015L_STATE; u8 *a86 = &arg0->f86; u8 *a84 = &arg0->f84;` at the
+    top of `if (sub_08002204() != 0)` (s used for the 0xB/0xD tests, *a86/*a84 as the
+    sub_080571A4 args) gives ROM r4=&f86 / r5=&f84 after the STATE load (the PRE regs were
+    numbered by hash bucket, 132 before 134, so the tie went to &f84). nmdiff 509 -> 499,
+    aligned 125 -> 118.
+  - Main loop condition: ROM keeps the sub_08056E90() result in r4 (`adds r4,r0,#0; cmp r4,#0`)
+    and reuses it as the f60 reset zero (`strh r4,[r0]`). `(zero = sub_08056E90()) == 0`, and
+    dropping zero from the exit flag, both make the init much worse (aligned 118 -> 178+).
   Other leads: tail countdown `local128 = (u32)((local128 << 16) + 0xFFFF0000) >> 16` gives the
-  ROM shape but loop.c hoists the 0xFFFF0000 constant (ROM reloads it in the loop); the
-  &f86/&f84 PRE regs (r4/r5 swapped) are numbered by hash bucket (132 before 134), so a tie
-  always favours &f84; case-12 `ldr r1,[r7,#48]` (ROM r1, ours r0) unexplained.
+  ROM shape but loop.c hoists the 0xFFFF0000 constant (ROM reloads it in the loop);
+  case-12 `ldr r1,[r7,#48]` (ROM r1, ours r0) unexplained.

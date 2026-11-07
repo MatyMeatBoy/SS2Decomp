@@ -734,7 +734,10 @@ void sub_0801801C(struct T015LActor *arg0) {
                 sub_080003F0();
         }
         if (sub_08002204() != 0) {
-            if (T015L_STATE != 0xB && T015L_STATE != 0xD && T015L_sub_0805C620(arg0, stack.packet) != 0) {
+            u16 s = T015L_STATE;
+            u8 *a86 = &arg0->f86;
+            u8 *a84 = &arg0->f84;
+            if (s != 0xB && s != 0xD && T015L_sub_0805C620(arg0, stack.packet) != 0) {
                 if (sub_0800CCCC() != 0) {
                     while (sub_08066520(arg0->f14, arg0->f18, T015L_poll_players[0].field2C, stack.packet) == 0 && sub_08056E90() == 0)
                         sub_080003F0();
@@ -743,7 +746,7 @@ void sub_0801801C(struct T015LActor *arg0) {
                         sub_080003F0();
                 }
             }
-            T015L_sub_080571A4(arg0->f86, arg0->f84, 3);
+            T015L_sub_080571A4(*a86, *a84, 3);
         }
         if (T015L_STATE != 0xB
             && !(T015L_players[sub_080020F4()].f30 & 0x2000)
