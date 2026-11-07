@@ -857,6 +857,8 @@ extern void sub_08065264(void *, s32, s32, u16, u16);
 extern s32 anim0C4(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern u16 keys0C4 asm("gUnk_03001324");
 extern u8 name0C4[] asm("gUnk_03003CE2");
+struct Party0C4 { u8 pad[2]; u8 name[0x14A]; };
+extern struct Party0C4 party0C4[] asm("gUnk_03003CE0");
 extern u8 name1C4[] asm("gUnk_03003E2E");
 extern u8 name2C4[] asm("gUnk_03003F7A");
 extern u8 name3C4[] asm("gUnk_030040C6");
@@ -918,9 +920,9 @@ void e0c4Impl(struct Task0C4 *task)
     num = numBuf;
     name = nameBuf;
     next = script + 1;
-    for (j = 0; j < 2; j++) {
+    for (i = 0; i < 2; i++) {
         for (line = 0; line < 18; line++)
-            lines[j][line] = 0xFD;
+            lines[i][line] = 0xFD;
     }
     c = *script;
     if (c != 0)
@@ -957,45 +959,53 @@ void e0c4Impl(struct Task0C4 *task)
     }
     *pValue = sub_0801E4B0();
     s = num;
-    s[0] = sub_08000498(&value, 10000000);
-    s[1] = sub_08000498(&value, 1000000);
-    s[2] = sub_08000498(&value, 100000);
-    s[3] = sub_08000498(&value, 10000);
-    s[4] = sub_08000498(&value, 1000);
-    s[5] = sub_08000498(&value, 100);
-    s[6] = sub_08000498(&value, 10);
-    s[7] = value;
+    /* next is reused as the conversion pointer (ROM keeps it in r4 for both);
+       the loop end stops cse1 from folding *(s32 *)next back to &value. */
+    do {
+        next = (u8 *)&value;
+    } while (0);
+    /* i is cleared between the first call and its store (ROM movs r5,#0). */
+    s[i = 0] =sub_08000498((s32 *)next, 10000000);
+    s[1] = sub_08000498((s32 *)next, 1000000);
+    s[2] = sub_08000498((s32 *)next, 100000);
+    s[3] = sub_08000498((s32 *)next, 10000);
+    s[4] = sub_08000498((s32 *)next, 1000);
+    s[5] = sub_08000498((s32 *)next, 100);
+    s[6] = sub_08000498((s32 *)next, 10);
+    s[7] = *(s32 *)next;
     s[8] = 0;
     numIdx = 0;
     first = 0;
-    for (i = 0, s = num; i <= 8; i++, s++) {
-        if (*s == 0 && numIdx == 0) {
-            *s |= 0xFF;
+    for (i = 0; i <= 8; i++) {
+        if (num[i] == 0 && numIdx == 0) {
+            num[i] |= 0xFF;
         } else {
-            *s += 0x41;
+            num[i] += 0x41;
             if (numIdx == 0)
                 first = i;
             numIdx = 1;
         }
     }
+    s = num;
     for (i = 0; first <= 7; first++, i++)
-        num[i] = num[first];
+        s[i] = s[first];
     num[i] = 0xFD;
     k = i + 1;
     num[k] = 0;
 
-    playerName = &name0C4[sub_080020F4() * 0x14C];
+    playerName = party0C4[sub_080020F4()].name;
     i = 0;
     if ((name[i] = name0C4[i]) != 0xFD) {
+        s = name;
         do {
             if (++i > 9)
                 break;
-        } while ((name[i] = name0C4[i]) != 0xFD);
+        } while ((s[i] = name0C4[i]) != 0xFD);
     }
     if (sub_08002204() == 0) {
-        s = (u8 *)sub_08007290(0x1404DF);
+        next = (u8 *)sub_08007290(0x1404DF);
         for (j = 2; i <= 12; i++, j++) {
-            if ((name[i] = s[j]) > 0xF1)
+            if ((name[i] = next[j]) > 0xF1)
                 goto found;
         }
         goto done;
@@ -1159,7 +1169,8 @@ done:
                     u8 *fastName = name;
                     u8 *fastNum = num;
                     do {
-                        if (cf == 0xFC || strIdx != 0) {
+                        c = cf;
+                        if (c == 0xFC || strIdx != 0) {
                             lines[line][task->col] = playerName[strIdx];
                             strIdx++;
                             if (playerName[strIdx] == 0) {
@@ -1167,7 +1178,7 @@ done:
                                 strIdx = 0;
                                 task->col--;
                             }
-                        } else if (cf == 0xF6 || idx0 != 0) {
+                        } else if (c == 0xF6 || idx0 != 0) {
                             lines[line][task->col] = name0C4[idx0];
                             idx0++;
                             if (playerName[idx0] == 0) {
@@ -1175,7 +1186,7 @@ done:
                                 idx0 = 0;
                                 task->col--;
                             }
-                        } else if (cf == 0xF5 || nameIdx != 0) {
+                        } else if (c == 0xF5 || nameIdx != 0) {
                             lines[line][task->col] = fastName[nameIdx];
                             nameIdx++;
                             if (fastName[nameIdx] == 0) {
@@ -1183,7 +1194,7 @@ done:
                                 nameIdx = 0;
                                 task->col--;
                             }
-                        } else if (cf == 0xFB || numIdx != 0) {
+                        } else if (c == 0xFB || numIdx != 0) {
                             lines[line][task->col] = fastNum[numIdx];
                             numIdx++;
                             if (fastNum[numIdx] == 0) {
@@ -1200,7 +1211,7 @@ done:
                                 task->col--;
                             }
                         } else {
-                            if (cf > 0xF1)
+                            if (c > 0xF1)
                                 script++;
                             lines[line][task->col] = *script;
                             script++;
