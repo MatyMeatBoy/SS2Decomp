@@ -2043,7 +2043,8 @@ block_206:
         if (keys3984 & 0x100) {
             var_r5_3 = arg0 + 0x10;
             if (var_r9 <= 6) {
-                if (next == var_r9 || var_r5_3[(u8)var_r9] == 0xFD) {
+                /* Keep the test and store addresses separate through GCSE. */
+                if (next == var_r9 || var_r5_3[-(-(u32)var_r9 + 1) + 1] == 0xFD) {
                     var_r5_3[var_r9] = 0x51;
                     var_r5_3[(nextChar13984 = var_r9 + 1)] = 0xFD;
                     var_r9++;
