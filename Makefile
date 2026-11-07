@@ -1,5 +1,9 @@
 # Shining Soul II (Europe) decompilation
 
+REGION    ?= eu
+
+ifeq ($(REGION),eu)
+
 NAME      := shiningsoul2_eu
 ROM       := $(NAME).gba
 ELF       := $(NAME).elf
@@ -186,3 +190,7 @@ tools/agbcc_sdk_postdec/installed: tools/install_agbcc_sdk_postdec.sh tools/patc
 	sh tools/install_agbcc_sdk_postdec.sh
 
 $(BUILD)/src/m4a_1_read.o: Makefile tools/agbcc_sdk_postdec/installed
+
+else
+include tools/config/region.mk
+endif
