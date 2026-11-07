@@ -1,0 +1,44 @@
+{
+  "address": "0x0802AA28",
+  "updated_utc": "2026-11-07T07:06:12.529448+00:00",
+  "checkpoint": "Verified ordinary-C control-flow checkpoint based on main c3ca8b7a, 2026-11-07. Original/baseline/selected are 3708/3596/3600 bytes, all with 8-byte frames. Normalized byte/halfword distances improve 2262/1313 to 1757/1073; scoped heuristic score 1501 to 1208. Strict NO MATCH; original ASM retained and no matching credit.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Current compiling C89 checkpoint",
+      "state": "done",
+      "evidence": "Serial normal make -j1 compare prints shiningsoul2_eu.gba: OK with the original ASM fallback; full make -j1 nonmatching succeeds; check_tree reports zero errors; diff check passes. The actual module strictly equals the selected complete-module private candidate. An unchanged baseline splice also strictly equals the original freshly built NONMATCHING object. Production compiler and flags are unchanged."
+    },
+    {
+      "id": "flow",
+      "label": "Recover branch and readiness-loop layout",
+      "state": "active",
+      "evidence": "The captured u8 progress value is tested once for 0xA. Within the other arm, swapping the complementary <=1 and >1 bodies changes only lexical order; all statements, labels and branch destinations remain. Four readiness labels had only their self goto as an incoming explicit jump. Replacing each if(test==0){yield;goto self;} with while(test==0){yield;} preserves the initial test and exactly one yield per failed test. No declarations or variable scope move. RTL/jump diagnostic outputs strictly equal their normal baseline/selected objects. Both functions have 122 physical external calls; the first 48 callees now have identical static order, but later ordering still differs. This is not complete CFG/operand equivalence."
+    },
+    {
+      "id": "layout",
+      "label": "Recover frame, slots and registers",
+      "state": "active",
+      "evidence": "Original/baseline/selected are 3708/3596/3600 bytes with equal 8-byte frames. Selected normalized byte/halfword distances are 1757/1073 and scoped heuristic 1208; strict NO MATCH. Initial branch ordering and four poll/yield layouts improve, while later dispatch branches, allocation-retry layouts, instruction order and register choices remain. No new register constraint, memory write, padding or opcode is selected."
+    },
+    {
+      "id": "types",
+      "label": "Audit inherited interfaces and state domains",
+      "state": "active",
+      "evidence": "The existing empty-asm output captures incoming R9 into var_r6. It is unchanged. Original prologue copies R9 into R6, the early branch later assigns a spawn result, and a later substate switch assigns a result only for cases 0..4. Out-of-range later substates can retain the prologue value before searches/callbacks. No new argument, zero initializer or state-domain assumption is introduced; the full valid-state contract remains unproven. State-array field types, pointer refresh behavior and callback interfaces still need a complete audit."
+    },
+    {
+      "id": "behavior",
+      "label": "Identify and validate scene effects",
+      "state": "active",
+      "evidence": "Observed original ASM reads mode-dependent bytes at global state+0x1BF/0x1B3, scans 15 records from+0x7A4 at stride0x70, spawns objects through sub_080289C0 and sets fields+0x18/+0x1A/+0x3C/+0x44. The 0xA arm writes progress 5 and calls sub_08042BB0. Narrow role is scene-entity configuration from progress bytes; an exact story/UI meaning is not established. No new runtime or mocked equivalence test was run for this CFG-only checkpoint."
+    },
+    {
+      "id": "match",
+      "label": "Exact active C and linked ROM match",
+      "state": "pending",
+      "evidence": "The original asm/nonmatchings/code_08028AAC/sub_0802AA28.s remains the normal implementation. Equal frames, static call counts, source-C rewrites and fallback-ROM gates do not establish equivalent C or matching bytes. Normal active-C exact ROM proof is still required."
+    }
+  ],
+  "regions": []
+}
