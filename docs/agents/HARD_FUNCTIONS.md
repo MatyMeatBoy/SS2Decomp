@@ -313,8 +313,11 @@ these are compiler decisions to diagnose with dumps, not recipes.
   only adds a reference, raising global priority (sub_0808AFE8).
 - global.c tries callee-saved low regs first, then caller-saved ones if
   refs > 4 * calls crossed, then high regs; its first pass prefers the lowest
-  high reg already used in the function, so a constant variable can take `sl`
-  that the ROM gave another pseudo (sub_0807C29C case 13, still open).
+  high reg already used in the function. Before blaming a REG_EQUIV reload,
+  check whether a ROM `mov rX, hi` is a plain source copy: in sub_0807C29C
+  case 13 an explicit copy of `s*16` restored the ROM reload order (the 100000
+  constant had a normal register), while in case 0 the same `mov` really was a
+  reload.
 - A function-scope pointer equal to a constant never gets a hard reg and is
   rematerialized per use; that extra reload advances the reload rotation
   (sub_080567D4, sub_080624D8). A keep-alive
