@@ -107,3 +107,21 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   `(end - k) - 1` 85; an s32 k1 behind an empty asm("+r") barrier 334 (2076 bytes). m-loop:
   swapping the n/m declaration order changes nothing; u16 n 83 (2112), s32 n 78 (2108);
   moving n++ after found 117.
+
+2026-11-07 (claude-nov07-w63): sub_08060E44 MATCHED (aligned full-module diff 83 -> 0, filtered nmdiff
+  204 -> 0; ASM fallback removed).
+  Three source changes closed it:
+  1. `end - -~k` instead of `end - (s16)(k + 1)` in both slot loops. -~k is k + 1 at the RTL level
+     (combine folds neg/not into plus 1) but tree fold does not reassociate it, so the ROM's
+     `asrs; adds #1; subs` (no s16 truncation) appears and loop 2 needs no k1 temp (83 -> 62).
+  2. The bag scan counter is the function-scope `j` (the fill-loop counter), not a block-local m.
+     The shared pseudo carries the fill loop's preferences, which gives the ROM's m-loop allocation
+     (copy r2, j r3, n r7, 0x150 in ip) and size 2116 (62 -> 60).
+  3. The animate slot loop counter is the function-scope `i` too (k removed). That reorders the
+     global priorities so the end sign-extension takes r4 and the counter r2 (60 -> 0).
+  How it was found: a small Python model of agbcc global.c find_reg (two passes, regs_someone_prefers,
+  "never a new reg in pass 0", preferences after best_reg) run over the -dg dump reproduced every
+  LO_REGS choice; what-if runs showed the ROM needs the counter pseudos to carry extra hard-reg
+  preferences (m -> r3, copy -> r2/r3) and the end-sext pseudo to outrank k, i.e. shared variables.
+  Lesson: when a block-local loop counter's allocation is off, try reusing an existing function-scope
+  counter of the same type (i, j) before tuning priorities.
