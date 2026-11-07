@@ -58,8 +58,20 @@ def running(pid):
             return False
         os.kill(pid, 0)
         return True
-    except ProcessLookupError:
+    except (ProcessLookupError, FileNotFoundError):
         return False
+
+
+class ProcessObservationTests(unittest.TestCase):
+    def test_process_can_disappear_between_proc_exists_and_read(self):
+        stat = mock.Mock()
+        stat.exists.return_value = True
+        stat.read_text.side_effect = FileNotFoundError('/proc/123/stat')
+        with mock.patch.object(os, 'name', 'posix'), \
+             mock.patch(__name__ + '.Path', return_value=stat), \
+             mock.patch.object(os, 'kill') as kill:
+            self.assertFalse(running(123))
+        kill.assert_not_called()
 
 
 def eventually(predicate, seconds=2):
