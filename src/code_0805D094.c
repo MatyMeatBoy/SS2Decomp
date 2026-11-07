@@ -824,7 +824,6 @@ slot_found:
     gUnk_03005D6C|=1<<task[0x70];
     return (u32)task;
 }
-#ifdef NONMATCHING
 struct Asset0C4 { s32 unk0; u32 unk4; s32 unk8; u8 *unkC; u32 unk10; u32 unk14; s32 unk18; u8 remap[16]; u8 tail[8]; };
 struct Window0C4 { u8 pad[0x30]; u8 state; u8 index; };
 struct Task0C4 {
@@ -856,9 +855,9 @@ extern void text0C4(u8 *, u16, u32) asm("sub_0801A3D0");
 extern void sub_08065264(void *, s32, s32, u16, u16);
 extern s32 anim0C4(void *, u16, u16 *, u16 *, s32) asm("sub_08065370");
 extern u16 keys0C4 asm("gUnk_03001324");
-extern u8 name0C4[] asm("gUnk_03003CE2");
-struct Party0C4 { u8 pad[2]; u8 name[0x14A]; };
-extern struct Party0C4 party0C4[] asm("gUnk_03003CE0");
+/* Party entries are 0x14C bytes; the name starts at gUnk_03003CE0 + 2. */
+struct Party0C4 { u8 name[0x14C]; };
+extern struct Party0C4 party0C4[] asm("gUnk_03003CE2");
 extern u8 name1C4[] asm("gUnk_03003E2E");
 extern u8 name2C4[] asm("gUnk_03003F7A");
 extern u8 name3C4[] asm("gUnk_030040C6");
@@ -911,8 +910,10 @@ void e0c4Impl(struct Task0C4 *task)
     u16 attr;
     u8 cf;
     /* Set-once name pointers: spilled and rematerialised per use, which gives
-       the ROM `ldr r5, =name; adds r0, r5, idx` operand order. */
-    u8 *n0 = name0C4;
+       the ROM `ldr r5, =name; adds r0, r5, idx` operand order. n0 is set
+       right before the name copy (from the same constant as playerName, so
+       reload_cse turns its first reload into a register copy). */
+    u8 *n0;
     u8 *n1 = name1C4;
     u8 *n2 = name2C4;
     u8 *n3 = name3C4;
@@ -984,9 +985,11 @@ void e0c4Impl(struct Task0C4 *task)
     first = 0;
     for (i = 0; i <= 8; i++) {
         if (num[i] == 0 && numIdx == 0) {
-            k = num[i];
-            k |= 0xFF;
-            num[i] = k;
+            /* A u16 temp keeps the loop bigger in the first loop pass, so the
+               0xFF constant is only hoisted in the rerun, after the giv init. */
+            u16 kk = num[i];
+            kk |= 0xFF;
+            num[i] = kk;
         } else {
             num[i] += 0x41;
             if (numIdx == 0)
@@ -999,33 +1002,47 @@ void e0c4Impl(struct Task0C4 *task)
         asm("" : "=r"(s) : "0"(num));
         s[i] = s[first];
     }
-    num[i] = 0xFD;
-    k = i + 1;
-    num[k] = 0;
+    {
+        /* ROM: num + i first, then the 0 in a register, then the 0xFD. */
+        u8 *p = &num[i];
+        u8 z = 0;
+        *p = 0xFD;
+        k = i + 1;
+        num[k] = z;
+    }
 
     playerName = party0C4[sub_080020F4()].name;
+    n0 = party0C4[0].name;
     i = 0;
-    if ((name[i] = name0C4[i]) != 0xFD) {
+    if ((name[i] = n0[i]) != 0xFD) {
         s = name;
         do {
             if (++i > 9)
                 break;
-        } while ((s[i] = name0C4[i]) != 0xFD);
+        } while ((s[i] = party0C4[0].name[i]) != 0xFD);
     }
     if (sub_08002204() == 0) {
-        s = (u8 *)sub_08007290(0x1404DF);
-        for (s += 2; i <= 12; i++, s++) {
-            if ((name[i] = *s) > 0xF1)
+        u8 *p, *t;
+        p = (u8 *)sub_08007290(0x1404DF);
+        for (j = 0; i <= 12; i++, j++) {
+            /* name copy hoisted after the guard; k = j + 2 makes the p + k
+               giv worth reducing (init p + 2 after the guard, as in the ROM). */
+            asm("" : "=r"(t) : "0"(name));
+            k = j + 2;
+            if ((t[i] = p[k]) > 0xF1)
                 goto found;
         }
         goto done;
     found:
-        name[i] = 0xFD;
-        k = i + 1;
-        name[k] = 0;
+        t[i] = 0xFD;
+        /* Block-local index: the address is tied to it (ROM r0), zero in r1. */
+        {
+            s32 kk = i + 1;
+            name[kk] = 0;
+        }
     } else {
-        k = i + 1;
-        name[k] = 0;
+        s32 kk = i + 1;
+        name[kk] = 0;
     }
 done:
     strIdx = 0;
@@ -1209,7 +1226,9 @@ done:
                                 task->col--;
                             }
                         } else if (c == 0xFB || numIdx != 0) {
-                            asm("" : "=r"(fastNum) : "0"(num));
+                            /* "=g": the spilled copy needs no in/out reload
+                               register, leaving ldr r4 / str r4 as in the ROM. */
+                            asm("" : "=g"(fastNum) : "0"(num));
                             lines[line][task->col] = fastNum[numIdx];
                             numIdx++;
                             if (fastNum[numIdx] == 0) {
@@ -1444,9 +1463,6 @@ done:
         sub_080003F0();
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0805D094", sub_0805E0C4);
-#endif
 s32 sub_0805EE6C(void *arg0) {
     s32 var_r0;
     register s32 var_r3 asm("r3");

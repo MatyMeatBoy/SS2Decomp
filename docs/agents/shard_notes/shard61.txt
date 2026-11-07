@@ -157,3 +157,39 @@ Remaining diff (24 aligned lines):
 Tools: scratch nov07-w135N/agb (agb15 + NSPDBG prints which insn adds each
 hard reg to the reload spill set), t.sh/v.sh (filtered + aligned metric),
 dump.sh (all RTL dumps for e0c4Impl).
+
+2026-11-07 claude-nov07-wM (shard 135): sub_0805E0C4 MATCHES (filtered nmdiff
+59 -> 0, size 3496, frame 236). NONMATCHING wrapper and the .s file removed;
+make -j1 compare OK. The last five diffs, in the order they were closed:
+- 0x1404DF loop: `for (j = 0; i <= 12; i++, j++) { k = j + 2; ... p[k] }` with
+  a block-local result pointer p. With the separate k = j + 2 index the p + k
+  giv is reduced (init `adds r2,r0,#2` after the guard); s[j], s[j + 2] and
+  (s + 2)[j] all report benefit 2 - add_cost 2 = 0 ("not worth while", loop
+  dump). Not checked in the dump why the k form wins. Hoist the name copy with
+  `asm("" : "=r"(t) : "0"(name))` inside the loop (movable, before the giv
+  init: ROM `ldr r3,[name]; adds r2,r0,#2`) and write found's 0xFD through t.
+  Using s (the function-scope pointer) for the result gives 160+.
+- num terminator: ROM computes num + i, then the 0 (r2), then the 0xFD:
+  `{ u8 *p = &num[i]; u8 z = 0; *p = 0xFD; k = i + 1; num[k] = z; }`. The
+  early zero blocks the inheritance of num in r2, so the second num reload
+  goes to r4, which fixes the reload rotation for the rest of the init code.
+- name copy: ROM r7 = reload_cse copy of the playerName constant, r3 = loop
+  movable copied from r7. Needs n0 assigned right after playerName (n0 =
+  party0C4[0].name) with playerName, n0 and the loop source all the SAME
+  constant. If cse2 sees the loop movable equal to playerName's temp it merges
+  them (muls operand order flips); assigning n0 (a user var living beyond the
+  block) makes n0 the class head instead. party0C4 is now declared at
+  gUnk_03003CE2 with 0x14C entries (relocations equal the ROM's).
+- name terminators: block-local `s32 kk = i + 1; name[kk] = 0;` in both
+  branches (local-alloc ties the address to kk: address r0, zero r1).
+- digit loop 0xFF order: the constant is a movable whose desirability is
+  threshold * savings * lifetime >= insn_count; ROM's loop is too big in pass
+  1 and the constant is hoisted only in the rerun (after the giv init). A u16
+  temp (`u16 kk = num[i]; kk |= 0xFF; num[i] = kk;`) adds the extension insns.
+- fastNum: the "=r" tied asm gets a regmove copy (num not dead) plus an in/out
+  reload of the spilled fastNum (`adds r7,r4`). `asm("" : "=g"(fastNum) :
+  "0"(num))` lets the spilled output stay a MEM: no reload reg, so only the
+  regmove copy remains (`ldr r4,[sp,#0xe0]; str r4,[sp,#0xe8]`).
+Rejected: "=&r" + duplicate "X"/"r"/"g" input (X makes num addressable, the
+others ICE), plain fastNum = num at the loop top (gcse cprop propagates it),
+copy in a non-dominating branch (not hoisted).
