@@ -922,7 +922,7 @@ void sub_08075778(struct Arg5778 *arg)
     struct Box5778 box;
     struct Box5778 box2;
     u16 local;
-    u32 target;
+    u16 target;
     u32 who;
     u32 slot;
     u32 kind;
