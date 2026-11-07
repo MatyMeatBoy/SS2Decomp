@@ -1,7 +1,7 @@
 {
   "address": "0x0807C29C",
-  "updated_utc": "2026-11-07T19:02:34.967982+00:00",
-  "checkpoint": "Scope the real u32 inventory-to-stock money total to its case 13 branch. Seven uses leave the unrelated denomination count value independent. Normalized byte/halfword edit distance improves 437/407 to 385/357, using the same Levenshtein metric on both controls. Candidate/original size 18396/18396, frame 60/60 and 393 external call targets in original order. Case 0 grows four bytes while case 13 remains four bytes short; total-size equality is not matching proof. Strict NO MATCH and original ASM fallback retained.",
+  "updated_utc": "2026-11-07T19:23:28.438527+00:00",
+  "checkpoint": "Use the verified EU manager-pointer slot address for the existing gp initializer and scope the real case 0 denomination index to its scan. Normalized byte/halfword edit distance improves 385/357 to 152/126; candidate/original size remains 18396/18396, frame 60/60 and 393 external calls in original order. All 22 primary arms, preamble and post segment now retain original sizes and offsets. Strict NO MATCH, original ASM fallback and zero matching-byte credit.",
   "areas": [
     {
       "id": "item-copy-first",
@@ -13,25 +13,25 @@
       "id": "case0",
       "label": "States 0-6, 13, 16 and post-switch key/cursor/pointer switches rewritten by hand",
       "state": "done",
-      "evidence": "The historical real inventory-base staging remains in source. The new branch-local money total changes whole-function allocation, including the unrelated case 0 denomination loop; earlier four-halfword and per-case register claims are not reasserted for this checkpoint. No call, field access, arithmetic width, guard or memory order changes in the source delta. The original function-level val has no later read of the replaced definitions; every remaining count-loop use has its own dominating assignment."
+      "evidence": "The denomination scan now uses a separate u32 index confined to its loop, initialized to 4 and tested through 9 with the same increments, n0 decrements and table loads. This removes the extra table-pointer copy and recovers the original R3 count/R2 index/R4 table instruction sequence. Later function-level i reads have separate dominating assignments; the scan value never escapes. The earlier inventory-base staging remains. Separately, gp is initialized from a named fixed EU enum address verified against actual gUnk_03006440=0x03006440; dereferencing it still reads the mutable pointer slot at the existing Drop82P/PH points. No new memory access, helper, asm, binding, purity/volatile attribute or snapshot is introduced."
     },
     {
       "id": "remaining-structure",
       "label": "Remaining state machine and item transfers",
       "state": "done",
-      "evidence": "All 22 primary switch arms and post-switch drawing/state tail remain in the complete compiling NONMATCHING draft. Actual target has 393 external call targets in original order. Current relaxed casediff totals 326/register-masked 262 versus baseline 339/262; these deliberately relaxed diagnostics are separate from strict target-byte/relocation equality and behavioral evidence."
+      "evidence": "All 22 primary switch arms and post-switch drawing/state tail remain in the complete compiling NONMATCHING draft, with393 external calls in original static order. Current relaxed casediff318/register-masked263 versus previous326/262; this diagnostic trades one register-masked difference for the substantial strict normalized edit improvement385/357 to152/126 and full size/offset recovery. Do not add scoped scores or interpret them as semantic equivalence."
     },
     {
       "id": "match",
       "label": "Full match in normal C build",
       "state": "pending",
-      "evidence": "Strict NO MATCH: normalized candidate code SHA256 e4941f3f07302c4a19d273b1cf89897cbb18bdb6bf3d900d271a2c607e0d1b15 differs from original. Normal INCLUDE_ASM remains active. Selected whole-module C, normal active-C context without NONMATCHING, unchanged compiler dumps and linked fixture have identical target bytes and relocation tuples. Bounded constructed full-function state13/from0 money-path tests pass 960 cases/2880 original-EU/baseline/candidate comparisons plus a detected sum+1 negative. All EWRAM, IWRAM outside the observed 92-byte frame, restored SP/R4-R11, ordered helper arguments and BEA0 pointed 16-byte contents are compared. CpuSet is modeled; other helpers use deterministic return values and clobber R1-R3/IP. Other keys/modes, helper implementation behavior, arbitrary states and general equivalence are excluded. No matching-byte credit."
+      "evidence": "Strict NO MATCH: normalized candidate code SHA256 a1c826e82c1bac08022fdaad67d3ccad2fbbd9c35858f22d32eab58e96c9a9b6 differs from original. Original INCLUDE_ASM remains active. Selected whole-module C, normal active-C context without NONMATCHING, unchanged compiler dumps and linked fixture have identical target bytes/relocations; all 47 other module function targets remain unchanged. Fresh constructed full-function tests pass 2220 unique cases/6660 original-EU/public667/candidate comparisons, with independent from0 arithmetic and both pickup-denomination models, plus a detected wrong-neighbor-slot source negative. All EWRAM, IWRAM outside the observed 92-byte frame, actual restored SP/R4-R11 and meaningful ordered helper arguments/BEA0 payloads are compared. CpuSet is modeled; other helpers are deterministic return stubs with R0-R3/IP/NZCV clobbers. Synthetic cloned-manager retargets stress mutability, not observed gameplay. Other modes/keys/branches, real helper/scheduler behavior and general equivalence remain unproved. Earlier 960-case scope is historical and is not used as coverage for the new gp or scan delta. No matching-byte credit."
     },
     {
       "id": "exact-size",
       "label": "Exact size per case",
-      "state": "active",
-      "evidence": "Total size now equals original 18396, frame 60 equals original. Primary case 0 grows to 0xC0C versus original 0xC08, shifting cases 1-12 and 21 by four bytes; case 13 remains 0x860 versus original 0x864 and restores the original case 14/post offsets. Every other primary arm retains its original size. Size equality results from genuine scalar allocation and pool placement, with no padding or dummy storage; registers, branches and literal pools remain unresolved."
+      "state": "done",
+      "evidence": "Fresh combined whole-function casediff: total 18396 equals original, frame 60 equals original; all 22 primary arms plus preamble and post segment match original sizes and function-relative boundaries. In independent causal controls, the genuine slot-address initializer changes case13 from 0x860 to original 0x864 while case0 is still 0xC0C; adding the scoped scan index restores case0 to original 0xC08. The selected coherent object verifies all boundaries together, rather than summing independent metrics. No padding, dummy storage, added calls or opcode/asm substitution. Registers, branches and literal pools remain unresolved; this size milestone is not matching-byte or semantic credit."
     }
   ]
 }
