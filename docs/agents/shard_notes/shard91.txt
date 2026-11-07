@@ -1,0 +1,13 @@
+nov06-wC6: sub_0808AFE8 (records/time-attack menu) NONMATCHING draft rewritten from the m2c goto form
+  (nmdiff 808 -> 257 lines, 2444/2448 bytes, frame 0x2CC matches). Shapes that moved it closer:
+  - records are `struct RecAF91 records[10][3]` (16 bytes: type, val, time, b8, b9); 2D indexing lets loop.c
+    strength-reduce rec/time pointers (flat [30] + i*3+j did not reduce).
+  - the type table `.b` column is read through the gUnk_084F0B12 label (the ROM reloc names it); per-iteration
+    `pa`/`pb` row pointers computed after the time store keep the frame size and the r3 caller-save zero.
+  - main loop: `for (;;)` left with `goto done` (a `break` makes expand_end_loop rotate the whole loop);
+    list scan is a label loop (top test); mode drawing is `switch (mode)` (cmp #0 / cmp #1 chain);
+    list x and display x are separate variables (r4 / r5); times[sel] read directly (no pointer var);
+    the final random column reuses the record counter i (r8); aa is u8.
+  Remaining: the ROM strength-reduces both type-row pointers in the init loop (r5/r7 += 4) and hoists
+  gUnk_084F0B10 into sl (ours: "cond not safe" for the row address in loop.c, so pa/pb are recomputed);
+  reload rotation differences follow (sel reloads, jump-table temps, 0x58/-1 constants).
