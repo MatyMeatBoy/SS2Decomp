@@ -1496,9 +1496,12 @@ void sub_0807C29C(void) {
                         break;
                     case 6:
                         break;
-                    default:
-                        dit = (struct Item82 *)((u8 *)gInv82 + gMgr82->cursor * 16 + 0x150);
-                        if (gMgr82->held.kind != dit->kind) {
+                    default: {
+                        /* ROM computes &held, then loads gInv82, before the item address */
+                        struct Item82 *hh = &gMgr82->held;
+                        struct Inv82 *iv = gInv82;
+                        dit = (struct Item82 *)((u8 *)iv + gMgr82->cursor * 16 + 0x150);
+                        if (hh->kind != dit->kind) {
                             sub_0805865C(0x61);
                             break;
                         }
@@ -1543,6 +1546,7 @@ void sub_0807C29C(void) {
                         DROP82();
                         sub_0805865C(0x5F);
                         break;
+                    }
                     }
                     break;
                 }
@@ -3106,13 +3110,12 @@ void sub_0807C29C(void) {
             gMgr82->prev = 100;
             sub_0805865C(0x62);
         } else if (keys29_03001324 & 1) {
-            u32 idx;
             u32 *p;
             gMgr82->stock[3] = gMgr82->held;
-            idx = gMgr82->heldIdx;
-            p = &gInv82->items[idx].count;
+            from = gMgr82->heldIdx;
+            p = &gInv82->items[from].count;
             if (*p == gMgr82->held.count)
-                sub_0807BD78(gMgr82->heldFrom, idx);
+                sub_0807BD78(gMgr82->heldFrom, from);
             else
                 *p -= gMgr82->held.count;
             DROP82();
