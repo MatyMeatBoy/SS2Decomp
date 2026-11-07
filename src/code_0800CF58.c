@@ -444,7 +444,7 @@ void sub_0800D368(void *arg0) {
     extern const s16 colorWaveTableD368[] asm("gUnk_080B9704");
     struct RenderColorEntryD368 { u8 reserved[0x1E]; u16 color; };
     extern struct RenderColorEntryD368 renderColorEntriesD368[] asm("gUnk_03001F40");
-    struct PalBufD368 { u16 c[0x40][16]; } *palD368;
+    struct PalBufD368 { u16 c[0x40][16]; };
     s16 *var_r1_4;
     s16 *var_r1_5;
     s16 *var_r9;
@@ -5050,8 +5050,7 @@ animationClassDoneD368:
                         }
                     }
                     sp164 = (u32) (0x7F000000 & ((sp164 + 2) << 0x18)) >> 0x18;
-                    palD368 = (void *)&d368_gUnk_03001F40;
-                    palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0;
+                    { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0; }
                     temp_r0_163 = sp128 - 1;
                     if (temp_r0_163 > 0xDU) {
                         goto block_1781;
@@ -5068,19 +5067,19 @@ animationClassDoneD368:
                         colorWordD368 = (colorWordD368 & 0xFFFFFC1F) | colorGreenD368;
                         temp_r0_164 <<= 0xA;
                         colorStorage294D368.word = (colorWordD368 & 0xFFFF83FF) | temp_r0_164;
-                        palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                        { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                         break;
                     }
                     case 1:                         /* switch 26 */ {
                         u32 *var_r3_13; s32 var_r1_25;
                         temp_r5_13 = colorWaveTableD368[sp164];
-                        temp_r3_61 = ((s32) (temp_r5_13 * 5) >> 8) & 0x1F;
-                        *(u8 *)&colorStorage294D368.word = (u8) ((-0x20 & *(u8 *)&colorStorage294D368.word) | temp_r3_61);
-                        *(u16 *)&colorStorage294D368.word = (u16) ((0xFFFFFC1F & *(u16 *)&colorStorage294D368.word) | (temp_r3_61 << 5));
+                        temp_r3_61 = ((s32) (temp_r5_13 * 5) >> 8);
+                        ((union ColorUnion297D368 *)&colorStorage294D368)->bits.red = temp_r3_61;
+                        ((union ColorUnion297D368 *)&colorStorage294D368)->bits.green = temp_r3_61;
                         var_r1_25 = ((s32) (temp_r5_13 * 0x1F) >> 8);
                         var_r3_13 = &colorStorage294D368.word;
                         ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                        palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                        { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                         break;
                     }
                     case 2:                         /* switch 26 */ {
@@ -5092,7 +5091,7 @@ animationClassDoneD368:
                         var_r1_25 = ((s32) (temp_r3_62 * 5) >> 7);
                         var_r3_13 = &colorStorage294D368.word;
                         ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                        palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                        { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                         break;
                     }
                     case 3:                         /* switch 26 */ {
@@ -5103,7 +5102,7 @@ animationClassDoneD368:
                         colorStorage294D368.bits.green = var_r1_25;
                         var_r3_13 = &colorStorage294D368.word;
                         ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                        palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                        { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                         break;
                     }
                     case 4:                         /* switch 26 */ {
@@ -5114,7 +5113,7 @@ animationClassDoneD368:
                         var_r1_25 = ((s32) (temp_r3_63 * 5) >> 7);
                         var_r3_13 = &colorStorage294D368.word;
                         ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                        palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                        { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                         break;
                     }
                     case 5:                         /* switch 26 */ {
@@ -5125,7 +5124,7 @@ animationClassDoneD368:
                         colorStorage294D368.bits.green = var_r1_25;
                         var_r3_13 = &colorStorage294D368.word;
                         ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                        palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                        { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                         break;
                     }
                     case 12:                        /* switch 26 */
@@ -5268,8 +5267,7 @@ block_1716:
                                     }
                                 }
                                 sp164 = (u32) (0x7F000000 & ((sp164 + 2) << 0x18)) >> 0x18;
-                                palD368 = (void *)&d368_gUnk_03001F40;
-                                palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0;
+                                { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = 0; }
                                 temp_r0_161 = sp128 - 1;
                                 if (temp_r0_161 > 0xDU) {
                                     goto block_1781;
@@ -5278,12 +5276,12 @@ block_1716:
                                 case 0:             /* switch 27 */ {
                                     u32 *var_r3_13; s32 var_r1_25;
                                     temp_r3_56 = colorWaveTableD368[sp164];
-                                    colorStorage294D368.bits.red = (temp_r3_56 >> 4) & 0x1F;
+                                    colorStorage294D368.bits.red = temp_r3_56 >> 4;
                                     var_r1_25 = ((s32) (temp_r3_56 * 0x1F) >> 8);
                                     colorStorage294D368.bits.green = var_r1_25;
                                     var_r3_13 = &colorStorage294D368.word;
                                     ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                                    palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                                    { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                                     break;
                                 }
                                 case 1:             /* switch 27 */ {
@@ -5295,7 +5293,7 @@ block_1716:
                                     var_r1_25 = ((s32) (temp_r3_57 * 0x1F) >> 8);
                                     var_r3_13 = &colorStorage294D368.word;
                                     ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                                    palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                                    { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                                     break;
                                 }
                                 case 2:             /* switch 27 */ {
@@ -5307,7 +5305,7 @@ block_1716:
                                     var_r1_25 = ((s32) (temp_r3_58 * 5) >> 7);
                                     var_r3_13 = &colorStorage294D368.word;
                                     ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                                    palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                                    { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                                     break;
                                 }
                                 case 3:             /* switch 27 */ {
@@ -5318,7 +5316,7 @@ block_1716:
                                     colorStorage294D368.bits.green = var_r1_25;
                                     var_r3_13 = &colorStorage294D368.word;
                                     ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                                    palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                                    { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                                     break;
                                 }
                                 case 4:             /* switch 27 */ {
@@ -5329,7 +5327,7 @@ block_1716:
                                     var_r1_25 = ((s32) (temp_r3_59 * 5) >> 7);
                                     var_r3_13 = &colorStorage294D368.word;
                                     ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                                    palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                                    { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                                     break;
                                 }
                                 case 5:             /* switch 27 */ {
@@ -5340,7 +5338,7 @@ block_1716:
                                     colorStorage294D368.bits.green = var_r1_25;
                                     var_r3_13 = &colorStorage294D368.word;
                                     ((union ColorUnion297D368 *)var_r3_13)->bits.blue = var_r1_25;
-                                    palD368->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word;
+                                    { struct PalBufD368 *pal = (void *)&d368_gUnk_03001F40; pal->c[((struct PlayerD368 *)arg0)->f0 + 0x10][15] = *(u16 *)&colorStorage294D368.word; }
                                     break;
                                 }
                                 case 12:            /* switch 27 */
