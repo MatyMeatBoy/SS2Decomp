@@ -181,6 +181,18 @@ block_c:
     }
 }
 #ifdef NONMATCHING
+static inline u16 D368_Level(u8 *p) {
+    s32 i;
+    s32 d = (s8)p[0x6C] * 10;
+    for (i = 7; i >= 0; i--) {
+        u16 t = d + gUnk_0847ACE8[i];
+        if ((s16)t < 0)
+            t = 0;
+        if (*(s16 *)(p + 0xC2) >= (s16)t)
+            return i;
+    }
+    return 0;
+}
 /* Complete control-flow draft; matching and type audit remain in progress. */
 void sub_0800D368(void *arg0) {
     struct PairD36867 { s32 x,y; };
@@ -607,8 +619,6 @@ void sub_0800D368(void *arg0) {
     u16 *var_r3_4;
     u16 *var_r3_5;
     u16 *var_r4_9;
-    u16 *var_r5_2;
-    u16 *var_r5_3;
     struct EffectD368 *var_r6;
     u8 *var_r9_2;
     s32 temp_r0_101;
@@ -1692,35 +1702,11 @@ block_197:
                     sp194 = 0xFFFF;
                 }
                 if (((struct PlayerD368 *)arg0)->f10 != 9) {
-                    thresholdBias0D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
-                    var_r4_2 = 7;
-                    var_r5_2 = arg0 + 0x64;
-                    var_r3_2 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
-                    thresholdStatD368 = (s16 *) sp1B8;
-loop_410:
-                    temp_r0_28 = *var_r3_2 + thresholdBias0D368;
-                    var_r2_4 = temp_r0_28;
-                    if ((s32) (temp_r0_28 << 0x10) < 0) {
-                        var_r2_4 = 0;
-                    }
-                    if (*thresholdStatD368 < (s32) (s16) var_r2_4) {
-                        var_r3_2 -= 0x1;
-                        var_r4_2 -= 1;
-                        if (var_r4_2 < 0) {
-                            var_r0_4 = 0;
-                        } else {
-                            goto loop_410;
-                        }
-                    } else {
-                        var_r0_4 = var_r4_2;
-                    }
-                    if (((u32) var_r0_4 << 0x10) == 0) {
+                    if (D368_Level(arg0) == 0) {
                         sp154 = 0;
                     }
                 } else {
-                    availableCount0 = (u32) d368_sub_08079FD0(d368_sub_0801DEB8()) << 0x10;
-                    var_r5_2 = arg0 + 0x64;
-                    if (availableCount0 == 0) {
+                    if ((u16) d368_sub_08079FD0(d368_sub_0801DEB8()) == 0) {
                         sp154 = 0;
                     }
                 }
@@ -1728,7 +1714,7 @@ loop_410:
                     sp144 = 0;
                     sp154 = 0;
                 }
-                if (((struct PlayerD368 *)arg0)->fC != *var_r5_2) {
+                if (((struct PlayerD368 *)arg0)->fC != ((struct PlayerD368 *)arg0)->f64) {
                     sp154 = 0;
                 }
                 if (((struct PlayerD368 *)arg0)->f10 == 0) {
@@ -1836,35 +1822,11 @@ block_447:
                     sp194 = 0xFFFF;
                 }
                 if (((struct PlayerD368 *)arg0)->f10 != 9) {
-                    thresholdBias1D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
-                    var_r4_4 = 7;
-                    var_r5_3 = arg0 + 0x64;
-                    var_r3_3 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
-                    thresholdStatD368 = (s16 *) sp1B8;
-loop_483:
-                    temp_r0_32 = *var_r3_3 + thresholdBias1D368;
-                    var_r2_5 = temp_r0_32;
-                    if ((s32) (temp_r0_32 << 0x10) < 0) {
-                        var_r2_5 = 0;
-                    }
-                    if (*thresholdStatD368 < (s32) (s16) var_r2_5) {
-                        var_r3_3 -= 0x1;
-                        var_r4_4 -= 1;
-                        if (var_r4_4 < 0) {
-                            var_r0_6 = 0;
-                        } else {
-                            goto loop_483;
-                        }
-                    } else {
-                        var_r0_6 = var_r4_4;
-                    }
-                    if (((u32) var_r0_6 << 0x10) == 0) {
+                    if (D368_Level(arg0) == 0) {
                         sp154 = 0;
                     }
                 } else {
-                    availableCount1 = (u32) d368_sub_08079FD0(d368_sub_0801DEB8()) << 0x10;
-                    var_r5_3 = arg0 + 0x64;
-                    if (availableCount1 == 0) {
+                    if ((u16) d368_sub_08079FD0(d368_sub_0801DEB8()) == 0) {
                         sp154 = 0;
                     }
                 }
@@ -1872,7 +1834,7 @@ loop_483:
                     sp144 = 0;
                     sp154 = 0;
                 }
-                if (((struct PlayerD368 *)arg0)->fC != *var_r5_3) {
+                if (((struct PlayerD368 *)arg0)->fC != ((struct PlayerD368 *)arg0)->f64) {
                     sp154 = 0;
                 }
                 if (((struct PlayerD368 *)arg0)->f10 == 0) {
@@ -2108,27 +2070,7 @@ state3ZeroStageD368:
                     } else {
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
                             sp128 = d368_sub_0801D34C();
-                            thresholdBias3D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
-                            var_r4_5 = 7;
-                            var_r3_4 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
-                            thresholdStatD368 = (s16 *) sp1B8;
-loop_598:
-                            temp_r0_37 = *var_r3_4 + thresholdBias3D368;
-                            var_r2_6 = temp_r0_37;
-                            if ((s32) (temp_r0_37 << 0x10) < 0) {
-                                var_r2_6 = 0;
-                            }
-                            if (*thresholdStatD368 < (s32) (s16) var_r2_6) {
-                                var_r3_4 -= 0x1;
-                                var_r4_5 -= 1;
-                                if (var_r4_5 < 0) {
-                                    var_r0_8 = 0;
-                                } else {
-                                    goto loop_598;
-                                }
-                            } else {
-                                var_r0_8 = var_r4_5;
-                            }
+                            var_r0_8 = D368_Level(arg0);
                             var_r5_4 = (u16) var_r0_8;
                             if (sp128 <= (u32) var_r5_4) {
                                 if (sp128 > (u32) ((struct PlayerD368 *)arg0)->f26) {
@@ -2276,18 +2218,15 @@ block_627:
                             if (temp_r4_12 == 9) {
                                 temp_r0_52 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
                                 if (temp_r0_52 != 0) {
-                                    if (d368_sub_0801DEB8() != 7) {
-                                        goto block_689;
-                                    }
-                                    if (byteTable6410D368[((struct PlayerD368 *)arg0)->f0] == 0) {
-                                        goto block_689;
-                                    } else {
+                                    if (d368_sub_0801DEB8() == 7 && byteTable6410D368[((struct PlayerD368 *)arg0)->f0] != 0) {
                                         ((struct PlayerD368 *)arg0)->f26 = 0U;
                                         ((struct PlayerD368 *)arg0)->f24 = 0U;
-block_691:
                                         sp130 = 0;
                                         sp134 = 0;
                                         ((struct PlayerD368 *)arg0)->f20 = 0U;
+                                    } else {
+                                        ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
+                                        *sp1C8 += 1;
                                     }
                                 } else {
                                     ((struct PlayerD368 *)arg0)->f26 = (u16) temp_r0_52;
@@ -2298,7 +2237,7 @@ block_691:
                                 }
                             } else {
                                 *sp1C8 += 1;
-                                        goto block_693;
+                                ((struct PlayerD368 *)arg0)->f20 = 5U;
                             }
                             break;
                         case 3:                     /* switch 7 */
@@ -2358,18 +2297,19 @@ block_691:
                             if (temp_r4_12 == 9) {
                                 temp_r0_54 = (s16) d368_sub_0806898C(d368_sub_0801DEB8(), ((struct PlayerD368 *)arg0)->f26);
                                 if (temp_r0_54 != 0) {
-block_689:
-                                        ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
-                                        *sp1C8 += 1;
-                                    break;
+                                    ((struct PlayerD368 *)arg0)->f20 = temp_r4_12;
+                                    *sp1C8 += 1;
+                                } else {
+                                    ((struct PlayerD368 *)arg0)->f26 = (u16) temp_r0_54;
+                                    ((struct PlayerD368 *)arg0)->f24 = (u16) temp_r0_54;
+                                    sp130 = 0;
+                                    sp134 = 0;
+                                    ((struct PlayerD368 *)arg0)->f20 = 0U;
                                 }
-                                ((struct PlayerD368 *)arg0)->f26 = (u16) temp_r0_54;
-                                ((struct PlayerD368 *)arg0)->f24 = (u16) temp_r0_54;
-                                goto block_691;
-                            }
-                            *sp1C8 += 1;
-block_693:
+                            } else {
+                                *sp1C8 += 1;
                                 ((struct PlayerD368 *)arg0)->f20 = 5U;
+                            }
                             break;
                         }
                     }
@@ -2404,30 +2344,10 @@ state4ZeroStageD368:
                     } else {
                         if (((struct PlayerD368 *)arg0)->f10 != 9) {
                             sp128 = d368_sub_0801D34C();
-                            thresholdBias4D368 = (s8) ((struct PlayerD368 *)arg0)->f6C * 0xA;
-                            var_r5_5 = 7;
+                            var_r0_13 = D368_Level(arg0);
                             var_r4_7 = arg0 + 0xD8;
                             var_sl = directionD36874 - 1;
                             var_r9 = arg0 + 0x40;
-                            var_r3_5 = (u8 *)&d368_gUnk_0847ACE8 + 0xE;
-                            thresholdStatD368 = (s16 *) sp1B8;
-loop_703:
-                            temp_r0_45 = *var_r3_5 + thresholdBias4D368;
-                            var_r2_8 = temp_r0_45;
-                            if ((s32) (temp_r0_45 << 0x10) < 0) {
-                                var_r2_8 = 0;
-                            }
-                            if (*thresholdStatD368 < (s32) (s16) var_r2_8) {
-                                var_r3_5 -= 0x1;
-                                var_r5_5 -= 1;
-                                if (var_r5_5 < 0) {
-                                    var_r0_13 = 0;
-                                } else {
-                                    goto loop_703;
-                                }
-                            } else {
-                                var_r0_13 = var_r5_5;
-                            }
                             temp_r5_6 = (u16) var_r0_13;
                             if (sp128 > (u32) temp_r5_6) {
                                 sp128 = (u32) temp_r5_6;
@@ -5060,64 +4980,42 @@ block_1635:
                             sp128 = 0;
                         }
                         if (d368_sub_0800CC98() == 0) {
-                            if (sp128 != 0xC) {
-                                if (sp128 <= 0xCU) {
-                                    if (sp128 != 0xA) {
-                                        goto block_1662;
-                                    }
-                                    var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                    var_r1_29 = sp10.fC + 0x180;
-                                } else if (sp128 != 0xD) {
-block_1662:
-                                    if (((struct PlayerD368 *)arg0)->f64 != 9) {
-                                        var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                        var_r1_29 = sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5);
-                                    } else {
-                                        goto block_1675;
-                                    }
+                            switch (sp128) {
+                            case 12:
+                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + 0x1E0, 1);
+                                break;
+                            case 13:
+                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + 0x1A0, 1);
+                                break;
+                            case 10:
+                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + 0x180, 1);
+                                break;
+                            default:
+                                if (((struct PlayerD368 *)arg0)->f64 == 9) {
+                                    d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC, 1);
                                 } else {
-                                    var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                    var_r1_29 = sp10.fC + 0x1A0;
+                                    d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5), 1);
                                 }
-                            } else {
-                                var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                var_r1_29 = sp10.fC + 0x1E0;
+                                break;
                             }
-                            goto block_1676;
-                        }
-                        if (!(M2C_FIELD(d368_gUnk_03006440, s32 *, 0x28) & 1)) {
-                            if (sp128 != 0xC) {
-                                if (sp128 <= 0xC) {
-                                    if (sp128 != 0xA) {
-                                        goto block_1674;
-                                    }
-                                    goto paletteFirstA_D368;
+                        } else if (!(M2C_FIELD(d368_gUnk_03006440, s32 *, 0x28) & 1)) {
+                            switch (sp128) {
+                            case 12:
+                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + 0x1E0, 1);
+                                break;
+                            case 13:
+                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + 0x1A0, 1);
+                                break;
+                            case 10:
+                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + 0x180, 1);
+                                break;
+                            default:
+                                if (((struct PlayerD368 *)arg0)->f64 == 9) {
+                                    d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC, 1);
+                                } else {
+                                    d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5), 1);
                                 }
-                                if (sp128 != 0xD) {
-                                    goto block_1674;
-                                }
-                                goto paletteFirstD_D368;
-                            }
-                            var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                            var_r1_29 = sp10.fC + 0x1E0;
-                            goto block_1676;
-paletteFirstD_D368:
-                            var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                            var_r1_29 = sp10.fC + 0x1A0;
-                            goto block_1676;
-paletteFirstA_D368:
-                            var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                            var_r1_29 = sp10.fC + 0x180;
-                            goto block_1676;
-block_1674:
-                            if (((struct PlayerD368 *)arg0)->f64 == 9) {
-block_1675:
-                                var_r0_39 = ((struct PlayerD368 *)arg0)->f0 + 0x10;
-                                var_r1_29 = sp10.fC;
-block_1676:
-                                d368_sub_08000AF0(var_r0_39, var_r1_29, 1);
-                            } else {
-                                d368_sub_08000AF0(((struct PlayerD368 *)arg0)->f0 + 0x10, sp10.fC + (((struct PlayerD368 *)arg0)->f66 << 5), 1);
+                                break;
                             }
                         }
                     }
