@@ -52,6 +52,14 @@
       "candidate": null,
       "evidence": "Pinned6a52536a artifact injected by owner; actual normal-module NM equals candidate a9072d16.2236/frame332/131 differing halfwords versus136; heuristic170 versus167 disclosed.94 ordered calls; phase2/3/pools/target home preserved; only documented preheader recolor. Owner4 target-home,150 cancellation,120 full cases and9048 core/model pairs pass; increment8 negative detected. Still NONMATCHING, zero matching credit.",
       "region": "phase-five-core"
+    },
+    {
+      "action": "close",
+      "actor": "codex-coord-eu-nov07",
+      "at": "2026-11-07T11:53:10+00:00",
+      "candidate": null,
+      "evidence": "Initial-four worker released with four rejected controls and new-seed reservation trace preserved; no live jobs. Phase-five pinned submission independently assembled/tested and reviewed accepted. All artifacts and alternate167 checkpoint retained. Closing before ordinary owner report/commit/rebase/delivery; no complete C match claimed.",
+      "region": null
     }
   ],
   "module": "code_0808FB5C",
@@ -126,6 +134,6 @@
     "Regions are source candidates with whole-function validation, not independently linkable helpers. No helper extraction, executable asm/opcodes, new fixed-register bindings, opaque identities, false const/pure attributes or flag changes. C89. Production source/headers/reports/tools remain owner-only. Candidate artifacts only; private full-module experimental copies must reproduce the unchanged frozen bytes/relocations before trials.",
     "Initial-four shared literal pool, outside descriptor/cache PRE lifetimes, and phase-five preheader/declaration/pool changes require explicit owner review. Request changes in artifact comments rather than editing production or expanding region ownership. Whole-function allocation fallout must be reported. Preserve already-exact phase-two34-byte and phase-three20-byte blocks and their literal dependencies as regression checks."
   ],
-  "state": "open",
+  "state": "closed",
   "version": 1
 }
