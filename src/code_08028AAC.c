@@ -1570,6 +1570,7 @@ void sub_0802AA28(void) {
     u32 taskCallback27;
     u32 scanCallback27;
     u32 helperArgument27;
+    s32 helperByte27;
     u32 var_r4;
     u32 var_r4_3;
     u32 var_r5_2;
@@ -2107,7 +2108,8 @@ found27scan_181:
                     } else {
                         var_r0_17 = stateAA28 + 0x1B9;
                     }
-                    helperArgument27 = ((s32)*var_r0_17 >> 5) & 1;
+                    helperByte27 = *var_r0_17;
+                    helperArgument27 = (helperByte27 >> 5) & 1;
                     goto call27_shared_helper;
                 case 0x4:
                     sub_0804076C(var_r6);
@@ -2217,7 +2219,8 @@ block_296:
 block_297:
                     var_r0_17 = stateAA28 + var_r3;
 block_298:
-                    helperArgument27 = ((s32) *var_r0_17 >> 5) & 1;
+                    helperByte27 = *var_r0_17;
+                    helperArgument27 = (helperByte27 >> 5) & 1;
 call27_shared_helper:
                     sub_0805C7B8(helperArgument27);
 block_357:
