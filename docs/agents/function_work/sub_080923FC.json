@@ -1,7 +1,7 @@
 {
   "address": "0x080923FC",
-  "updated_utc": "2026-11-07T07:11:50Z",
-  "checkpoint": "Recover the original 332-byte frame and phase-5 shifted-coordinate homes using ordinary scalar/offset-pointer staging. Normal module candidate2240/original2236 bytes, heuristic251 versus current-main baseline2224/frame328/363. The older624/2280 report was stale. Original ASM remains active.",
+  "updated_utc": "2026-11-07T07:29:30Z",
+  "checkpoint": "Follow-up to f17261afebad9f2d41749742346e22ed29105b29: compare phase-4 signed halfwords in shifted form and preserve the phase-3 cache-array pointer. Normal module candidate2236/original2236 bytes, frame332/332, heuristic209 versus prior251 (initial current-main baseline363/frame328). Exact size and frame are not a match; original ASM remains active.",
   "areas": [
     {
       "id": "sprite_placement",
@@ -19,7 +19,7 @@
       "id": "remaining_code",
       "label": "Resolve remaining frame and control-flow differences",
       "state": "active",
-      "evidence": "Selected candidate2240/original2236, frame332/332, heuristic251 versus freshly rebuilt baseline2224/frame328/363. In phase5 the signed shifted bound, offset pointers and carried low-halfword result recover X shift at sp+0x13C, Y shift in sl and bound in r9. All94 external static call targets retain exact original order. A score227/frame328 alternative is preserved privately; prefer the recovered frame. Pointer and other register assignments, earlier phases and exact bytes still differ."
+      "evidence": "Selected candidate2236/original2236, frame332/332, heuristic209 versus preceding2240/332/251 and original current-main control2224/328/363. Phase4 now compares both signed halfwords in their unsigned-shifted/signed32 form, matching the original packed comparison. A scoped actual cache-array pointer recovers phase3 cache in r9 and shifted X in sl; phase5 homes remain recovered. All94 external calls retain exact original order. Positional differing halfwords are171 versus749 on the preceding checkpoint; this is a diagnostic, not matching-byte credit. Register/temporary order, phase2 arithmetic and phase5 address allocation still differ."
     },
     {
       "id": "phase5_homes",
@@ -31,7 +31,7 @@
       "id": "bounded_paths",
       "label": "Validate bounded machine-code paths",
       "state": "done",
-      "evidence": "150 original-ROM comparisons cover cancellation yields1/62/303/424/600, first callback byte0/1/4, second byte0..4, synthetic busy patterns0/2 and A5 stack. Another120 run to full completion over first callback byte0/1/4, second byte0..4, busy patterns0/2, two synthetic RNG variants and zero/A5 stack. Calls, sprite payloads, non-stack RAM, return, saved registers and SP agree under clobbering helper stubs. All helpers remain stubbed. The producer bounds the second callback parameter (the source kind variable) to0..4, without proving it positive; the first byte controls falling rounds and is only sampled here. The existing target has no default for kind0 and remains inherited/uninitialized. The kind0 machine-code cases validate uniform seeded stack behavior only; arbitrary inherited memory, actual scheduler/render helpers and full C equivalence are unproven."
+      "evidence": "Re-ran the same150 cancellation/busy cases and120 full completions on this new candidate, all pass against original ROM: first callback byte0/1/4, second byte0..4, synthetic busy/RNG values, A5 cancellation stack and zero/A5 full stack. Compare calls, sprite payloads, non-stack RAM, return, saved registers and SP under clobbering helper stubs. Fresh normal compiler dump reassembles to exactly identical function bytes and relocations. All helpers remain stubbed. The second callback parameter is recounted0..4, without a positive-count proof; kind0 target remains inherited/uninitialized and is tested only with uniform seeded stack values. Counts2/3 for the first byte, arbitrary inherited memory, actual scheduler/render helpers and full C equivalence remain unproven."
     },
     {
       "id": "full_match",
