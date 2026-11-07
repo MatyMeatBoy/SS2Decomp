@@ -1982,7 +1982,6 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     u16 shake;
     u16 i;
     s32 flag;
-    s32 d;
     s32 lowerLimit;
     s16 *offsetLo, *offsetHi;
 
@@ -2033,6 +2032,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
     timer = 0xF0;
     sub_08092E28(4);
     do {
+        s32 d;
         shake = sub_08092E34();
         accum += 2;
         d = (s16)accum >> 8;
@@ -2143,6 +2143,7 @@ void sub_080923FC_u8(u32 arg0, u32 arg1) {
         shake = sub_08092E34();
         if (!BUSY923FC()) {
             s32 lower;
+            s32 d;
             sub_08000AF0(0x10, a.fC + 0xE0, 1);
             draw923FC((s16)x, (s16)y, 0, 0, param, a.payload, a.f8, a.f0);
             accum += 4;

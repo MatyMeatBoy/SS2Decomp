@@ -1,7 +1,7 @@
 {
   "address": "0x080923FC",
-  "updated_utc": "2026-11-07T07:29:30Z",
-  "checkpoint": "Follow-up to f17261afebad9f2d41749742346e22ed29105b29: compare phase-4 signed halfwords in shifted form and preserve the phase-3 cache-array pointer. Normal module candidate2236/original2236 bytes, frame332/332, heuristic209 versus prior251 (initial current-main baseline363/frame328). Exact size and frame are not a match; original ASM remains active.",
+  "updated_utc": "2026-11-07T07:48:37Z",
+  "checkpoint": "Follow-up to f17261afebad9f2d41749742346e22ed29105b29: packed phase-4 comparison, scoped phase-3 cache pointer and independent phase-local deltas. Normal module candidate2236/original2236 bytes, frame332/332, heuristic183 versus preceding209 and public251 (initial control363/frame328). The original inherited kind0 target home is also recovered under a seeded-neighbor control. Still NONMATCHING; original ASM remains active.",
   "areas": [
     {
       "id": "sprite_placement",
@@ -19,19 +19,19 @@
       "id": "remaining_code",
       "label": "Resolve remaining frame and control-flow differences",
       "state": "active",
-      "evidence": "Selected candidate2236/original2236, frame332/332, heuristic209 versus preceding2240/332/251 and original current-main control2224/328/363. Phase4 now compares both signed halfwords in their unsigned-shifted/signed32 form, matching the original packed comparison. A scoped actual cache-array pointer recovers phase3 cache in r9 and shifted X in sl; phase5 homes remain recovered. All94 external calls retain exact original order. Positional differing halfwords are171 versus749 on the preceding checkpoint; this is a diagnostic, not matching-byte credit. Register/temporary order, phase2 arithmetic and phase5 address allocation still differ."
+      "evidence": "Selected candidate2236/original2236, frame332/332, heuristic183 versus preceding209 and public2240/332/251. Phase4 packed comparison and phase3 cache/X homes remain recovered. The shared d pseudo had12 refs across12 live instructions and died in two phases; separate phase-local deltas recover the original phase2 arithmetic instructions and phase5 delta register. All94 external calls retain exact order. Positional differing halfwords153 versus171 on the preceding candidate remain a diagnostic, not matching-byte credit. Initial array-base register, cache stores, phase3 temporary order and phase5 address allocation still differ."
     },
     {
       "id": "phase5_homes",
       "label": "Recover phase-5 invariant homes",
       "state": "done",
-      "evidence": "Original phase5 keeps shifted X at sp+0x13C, shifted Y in sl and -66 shifted16 in r9, with frame332. Persistent pointers to the actual signed offset globals and a shared shifted signed limit recover those homes and frame extent. The low result is carried into the shifted comparison so the original halfword wrap is preserved without an extra signed global reload. Shifted negative arithmetic uses unsigned shift operands; the bound is -66*0x10000. Cleanup to matching signed pointer spelling emits exactly identical normalized bytes and relocations to the audited machine code."
+      "evidence": "Original phase5 keeps shifted X at sp+0x13C, shifted Y in sl and -66 shifted16 in r9, with frame332. Persistent pointers to the actual signed offset globals and a shared shifted signed limit recover those homes and frame extent. The low result is carried into the shifted comparison so the original halfword wrap is preserved without an extra signed global reload. Shifted negative arithmetic uses unsigned shift operands; the bound is -66*0x10000. Cleanup to matching signed pointer spelling emits exactly identical normalized bytes and relocations to the audited machine code. A distinct-neighbor stack control also checks the inherited kind0 target: original/new frame332 read incomingSP-64, old frame328 read incomingSP-60. Seed134 and -256 respectively; the strict old baseline leaves phase4 early at trace4482, while public f17261af and selected candidate each pass four bounded cases. This preserves the original inherited home without initializing the target."
     },
     {
       "id": "bounded_paths",
       "label": "Validate bounded machine-code paths",
       "state": "done",
-      "evidence": "Re-ran the same150 cancellation/busy cases and120 full completions on this new candidate, all pass against original ROM: first callback byte0/1/4, second byte0..4, synthetic busy/RNG values, A5 cancellation stack and zero/A5 full stack. Compare calls, sprite payloads, non-stack RAM, return, saved registers and SP under clobbering helper stubs. Fresh normal compiler dump reassembles to exactly identical function bytes and relocations. All helpers remain stubbed. The second callback parameter is recounted0..4, without a positive-count proof; kind0 target remains inherited/uninitialized and is tested only with uniform seeded stack values. Counts2/3 for the first byte, arbitrary inherited memory, actual scheduler/render helpers and full C equivalence remain unproven."
+      "evidence": "Re-ran150 cancellation/busy cases and120 full completions on this candidate, all pass against original ROM: first callback byte0/1/4, second byte0..4, synthetic busy/RNG values, A5 cancellation stack and zero/A5 full stack. Four additional kind0 completions pass with first byte0/1 and zero/A5 stack, target134 at original incomingSP-64 and -256 at wrong-frame incomingSP-60. The strict old328-frame baseline reproduces a different phase4 trajectory; public frame332 checkpoint also passes these four cases. Compare calls, sprite payloads, non-stack RAM, return, saved registers and SP under clobbering helper stubs. Fresh normal compiler dump exactly reproduces function bytes/relocations. All helpers remain stubbed. Positive participant count is not proved; target remains uninitialized. First-byte2/3, arbitrary inherited memory, actual scheduler/render helpers and full C equivalence are unproven."
     },
     {
       "id": "full_match",
