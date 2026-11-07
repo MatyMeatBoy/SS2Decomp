@@ -1569,6 +1569,7 @@ void sub_0802AA28(void) {
     u32 firstTaskCallback27;
     u32 taskCallback27;
     u32 scanCallback27;
+    u32 helperArgument27;
     u32 var_r4;
     u32 var_r4_3;
     u32 var_r5_2;
@@ -2106,7 +2107,8 @@ found27scan_181:
                     } else {
                         var_r0_17 = stateAA28 + 0x1B9;
                     }
-                    goto block_298;
+                    helperArgument27 = ((s32)*var_r0_17 >> 5) & 1;
+                    goto call27_shared_helper;
                 case 0x4:
                     sub_0804076C(var_r6);
                     if (sub_0800CE30() != 0) {
@@ -2215,7 +2217,9 @@ block_296:
 block_297:
                     var_r0_17 = stateAA28 + var_r3;
 block_298:
-                    sub_0805C7B8(((s32) *var_r0_17 >> 5) & 1);
+                    helperArgument27 = ((s32) *var_r0_17 >> 5) & 1;
+call27_shared_helper:
+                    sub_0805C7B8(helperArgument27);
 block_357:
                     (*(u32*)((u8*)(stateAA28)+(0x50))) = var_r5_3;
                     goto block_373;
