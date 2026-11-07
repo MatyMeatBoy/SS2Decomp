@@ -5824,13 +5824,13 @@
           "source": "src/code_08058790.c",
           "line": 249,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "If IsMultiplayerWorldScene returns 0: when the link-error song mute (0x030027D0 bit 0x20) is clear, stores the argument in tracked-song word 0x03005CF8 and calls AudioStartOrContinueSongChecked with it; when the mute is set it does nothing. If the scene is multiplayer, it instead calls AudioStopAndClearTrackedSong (sub_080586B4) with 0. Does not validate the song ID itself; the checked starter ignores IDs above 0x1AB."
+          "detail": "When multiplayer-world-scene bit 1 is clear and mute/status word 030027D0 bit 0x20 is clear, stores the full 32-bit argument in tracked-song word 03005CF8 and calls 06CB4. That checked starter narrows the argument to its low 16 bits before accepting IDs <=0x1AB; it does not reject every raw 32-bit value above that bound. If the mute bit is set, this path leaves the tracker unchanged. When the multiplayer-scene bit is set, calls 586B4, which ignores the supplied zero argument, stops the remembered song through its low 16 bits and clears the tracker. No raw link-hardware readiness or input-ID validation is performed here."
         },
         {
           "source": "tools/config/functions.cfg",
           "line": 981,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static instruction/caller evidence only."
+          "detail": "Original 58C90 queries CB9C; 58C98..58CA2 tests status bit 0x20; 58CA6 stores the full input word and 58CAA calls 06CB4. Original 06CB6/06CB8 zero-extends the low halfword before the 06CBC bound check. Multiplayer branch 58CBA calls 586B4; original 586B8 loads the remembered word, 586BC stops it and 586C2 clears it. Complete original helper/callee ranges equal EU ROM/existing ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static evidence only."
         }
       ]
     },
@@ -10951,7 +10951,7 @@
           "source": "src/code_08009088.c",
           "line": 2488,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Returns bit 1 of scene-flags word 0x03003478 as 0 or 1, without changing it. There is no dedicated set/clear helper; the only writer of this bit is the world-scene lifetime task sub_0800BD5C."
+          "detail": "Returns bit 1 of scene-flags word 03003478 as 0 or 1 without changing it. World-scene lifetime task BD5C initializes this bit from its start argument. The complete flags word is also reset by CB30 and restored from scene copies elsewhere, so BD5C is not the only operation that can write this bit."
         },
         {
           "source": "src/code_08009088.c",
@@ -10975,7 +10975,7 @@
           "source": "tools/config/functions.cfg",
           "line": 234,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Leaf accessor: loads 0x03003478, shifts right by 1 and masks with 1. Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static instruction/caller evidence only."
+          "detail": "Original CB9C..CBAC reads scene word 03003478, shifts right by 1 and masks with 1. Original BD90..BDAE sets the bit for start argument 1 and clears it otherwise. Original CB30..CB3C also resets the complete flags word to zero; scene-copy restores write the complete word elsewhere. Complete selected original ranges equal EU ROM/existing ELF, SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static evidence only, not raw link-hardware readiness."
         }
       ]
     },
@@ -11126,7 +11126,7 @@
     {
       "address": "0x0800CDD0",
       "canonical_symbol": "sub_0800CDD0",
-      "display_name": "SuspendWorldTasks",
+      "display_name": "RequestWorldTaskSuspend",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -11140,20 +11140,26 @@
           "source": "src/code_0805FB7C.c",
           "line": 1419,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Save/quit routine sub_08061E44 sets the bit on entry and clears it on every exit (lines 1421 and 1608). Soft-reset sequence sub_08061B88 (line 1338) and the task callback sub_08064E14 (line 3077, cleared at 3177 before an optional SoftReset) also bracket their work with it."
+          "detail": "Save/quit routine 61E44 requests this hold on entry, clears it on its initial rejection path and ordinary finish, but its multiplayer parent/loopback handoff retries 681F4 and returns without clearing it at lines 1433..1435. Soft-reset sequence 61B88 and callback 64E14 also use the flag around their work; these examples do not establish universal pairing, nesting or ownership."
         },
         {
           "source": "src/code_08021DC4.c",
           "line": 3015,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "World-scene loops wait with `while (sub_0800CDF8() != 0) sub_080003F0();` before doing per-frame work, so ordinary world tasks stall while the bit is set. Dialogue waits elsewhere (e.g. src/code_08058790.c:349) cancel the open dialogue through sub_0805EFBC when they observe it. The name records this hold effect; it does not stop the scheduler or pause hardware."
+          "detail": "Matched normal C definition t24_gate25890 (canonical sub_08025890) contains a signal-1 polling wait at this line. Other observed consumers cancel dialogue (matched 58E54 at code_08058790.c:349), return early (636B0 cleanup at code_0805FB7C.c:2327), or gate opening a prompt. The original 58E54 dialogue-cancellation path and 636B0 early-return path independently corroborate these effects. This sets a shared request flag; it does not prove every world task has stopped or pause the scheduler/hardware."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 263,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Original CDD0..CDE4 reads scene word 03003478 and ORs 0x100 before a full-word store. In original 61E44, 61E4A sets this request; linked-parent handoff 61ED6 retries 681F4 and 61EDE branches directly to epilogue 624CC, skipping clear call 624C8. Complete original ranges equal EU ROM/existing ELF; only selected large-caller paths inspected. No runtime or universal suspension acknowledgement claim."
         }
       ]
     },
     {
       "address": "0x0800CDE4",
       "canonical_symbol": "sub_0800CDE4",
-      "display_name": "ResumeWorldTasks",
+      "display_name": "ClearWorldTaskSuspendRequest",
       "status": "confirmed",
       "domain": "game",
       "evidence": [
@@ -11161,13 +11167,19 @@
           "source": "src/code_0800CBBC.c",
           "line": 102,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Clears bit 8 (0x100) of scene-flags word 0x03003478 with mask 0xFFFFFEFF, preserving all other bits. Inverse of SuspendWorldTasks (sub_0800CDD0)."
+          "detail": "Clears bit 8 (0x100) of scene-flags word 03003478 with mask 0xFFFFFEFF, preserving other bits. Clears the request set by RequestWorldTaskSuspend; it does not directly resume task execution or acknowledge that all tasks were suspended."
         },
         {
           "source": "src/code_0805FB7C.c",
           "line": 1608,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Called at the end of save/quit routine sub_08061E44 (also its early-out at line 1421) and of task callback sub_08064E14 (line 3177), releasing world tasks that wait on IsWorldTaskSuspendRequested. When a saved scene-flags copy is restored (src/code_08021DC4.c:674 and :4237) the bit is cleared again right after the restore, and the save path itself stores the flags with bit 8 masked off (src/code_0805FB7C.c:1478), so the hold never persists in saved data."
+          "detail": "Reached by the ordinary finish and initial rejection paths of 61E44, and by the observed 64E14 cleanup. The linked 61E44 handoff at lines 1433..1435 instead returns with the request still set. Scene-copy restores at code_08021DC4.c:670/:4234 are followed by this clear, and the shown save path stores flags with bit 8 masked off at code_0805FB7C.c:1478. These are specific paths, not proof that every exit or every possible saved record clears the flag."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 264,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Original CDE4..CDF8 ANDs scene word 03003478 with 0xFFFFFEFF and stores the full word. Original 61E44 ordinary finish calls this at 624C8; linked-parent handoff branches instead to 624CC and leaves the request set. Complete original helper/caller ranges equal EU ROM/existing ELF; selected caller paths only, not full state-machine proof."
         }
       ]
     },
@@ -11188,7 +11200,13 @@
           "source": "src/code_08021DC4.c",
           "line": 3015,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Used as a wait condition by world tasks (`while (sub_0800CDF8() != 0) sub_080003F0();`): over 550 call sites in 22 modules either wait while it is set or, in fixed-message dialogue loops (e.g. src/code_08058790.c:349), cancel the dialogue with sub_0805EFBC and stop waiting. It is a request flag set by SuspendWorldTasks; it does not prove every task has actually stopped."
+          "detail": "Observed consumers include signal-1 polling waits, dialogue cancellation (58E54 at code_08058790.c:349), early returns (636B0 cleanup at code_0805FB7C.c:2327) and gates that prevent opening a prompt. The example t24_gate25890 loop at this source anchor is matched normal C; the original 58E54/636B0 paths independently corroborate cancellation/return behavior. This tests a shared request bit, not acknowledgement that every task has stopped. No exhaustive count or classification of all call sites is claimed."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 265,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Original CDF8..CE08 extracts bit 8 from scene word 03003478. Original 58EC2 tests it and 58ECA cancels dialogue; original 63AB4..63ABA tests it and branches to the 636B0 return epilogue when set. These directly show distinct cancellation and early-return consumers. Static original-byte evidence only, not exhaustive caller classification."
         }
       ]
     },
@@ -11308,13 +11326,19 @@
           "source": "src/code_08058790.c",
           "line": 344,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Scripted-message routines (sub_08058E54 and its siblings in this module, also many in code_0802FEA0/0803B69C/080443EC) first set bit 0 of the local player's flags (player index LinkGetLocalPlayerId), then call this, run a fixed dialogue or event, and finally clear the player bit and call sub_0800D108. About 170 call sites in 9 modules."
+          "detail": "Observed scripted-message flow 58E54 sets bit 0 of the local player flags, calls this setter, runs its dialogue, then clears the player bit and calls D108. Sibling scripted-message/event routines use similar brackets. This supports a local-player event-lock role for the shared scene bit, without proving universal pairing, nesting or ownership."
         },
         {
           "source": "src/code_08068670.c",
           "line": 1236,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
           "detail": "While the bit is set, the local player's attack/effect loops stop early (same test as player states 11/12), and save/quit routine sub_08061E44 refuses to run (src/code_0805FB7C.c:1420). Named from these observed effects; it does not itself change input registers or the player record."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 303,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Original D0F4..D108 ORs scene word 03003478 with 0x800 and stores it. Original 58E58 obtains the local player ID, 58E60..58E6E sets its flags+0x30 bit 0 and 58E70 calls this setter; 58EE8 later calls D108. Complete selected original ranges equal EU ROM/existing ELF; no mutex, nesting or universal pairing guarantee."
         }
       ]
     },
@@ -11329,13 +11353,19 @@
           "source": "src/code_0800CF58.c",
           "line": 79,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Clears bit 11 (0x800) of scene-flags word 0x03003478 with mask 0xFFFFF7FF, preserving other bits. Inverse of BeginLocalPlayerEventLock (sub_0800D0F4)."
+          "detail": "Clears bit 11 (0x800) of scene-flags word 03003478 with mask 0xFFFFF7FF, preserving other bits. Clears the bit set by BeginLocalPlayerEventLock; it does not itself alter the player record or input registers."
         },
         {
           "source": "src/code_08058790.c",
           "line": 356,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
-          "detail": "Called at the end of each scripted-message routine right after bit 0 of the local player's flags is cleared again; about 166 call sites in 11 modules."
+          "detail": "The observed 58E54 scripted-message path calls this after clearing bit 0 of the current local player flags. Similar event routines use this pattern, but no universal begin/end pairing, nesting, request ownership or exhaustive caller count is established."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 304,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Original D108..D11C ANDs scene word 03003478 with 0xFFFFF7FF and stores it. Original 58ECE obtains the current local player ID, 58EDE..58EE6 clears its flags bit 0, and 58EE8 calls this clearer. Complete selected original ranges equal EU ROM/existing ELF; static observed path only."
         }
       ]
     },
@@ -11357,6 +11387,12 @@
           "line": 1408,
           "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
           "detail": "Local-player attack and projectile loops break out when this is set, alongside the check for player states 11/12; save/quit routine sub_08061E44 (src/code_0805FB7C.c:1420) returns immediately when it is set."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 305,
+          "revision": "9c1d00e9aac49a38f136080f57230a3f6772c79a",
+          "detail": "Original D11C..D12C loads scene word 03003478, shifts right by 11 and masks with 1, returning a boolean bit test without stores. Paired setters are original D0F4/D108 and the observed dialogue bracket is 58E70/58EE8. Complete selected original ranges equal EU ROM/existing ELF; no per-player storage or input-register write occurs in this accessor."
         }
       ]
     },
