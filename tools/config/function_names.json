@@ -4237,6 +4237,33 @@
       ]
     },
     {
+      "address": "0x0805782C",
+      "canonical_symbol": "sub_0805782C",
+      "display_name": "RunFadedFullScreenMenu",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "sub_0805782C (src/code_080571A4.c:345) shows the full sequence: set bit 10, start fade sub_0801ABE8(6) and wait for IsScreenTransitionIdle, RequestMapBackgroundReload, four task waits, set bit 2, save the map scroll, start the menu task with sub_08084F9C(arg), wait for signal 0x11201100, restore the scroll, clear bit 2, wake signal 0x514C8 (the background-reload wait), clear bit 10, then wait for the transition to go idle again. The argument is passed through unchanged as the menu kind to sub_08084F9C."
+        },
+        {
+          "source": "src/code_0807A5D4.c",
+          "line": 7397,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "sub_08084F9C allocates the 0x624-byte menu manager 0x03006440 and a 0xA00-byte stack, then starts task 0x03006450 with callback sub_08082BB0, destructor sub_08085518 and order key 0x64. sub_08082BB0 ends by calling TaskWakeBySignal(0x11201100) (line 5637), which releases the wait in this routine."
+        },
+        {
+          "source": "tools/config/functions.cfg",
+          "line": 888,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Original EU ROM SHA1 aa1288be9257337abdfe3034898cf6c7aa778fbc; static instruction/caller evidence only."
+        }
+      ]
+    },
+    {
       "address": "0x08068070",
       "canonical_symbol": "sub_08068070",
       "display_name": "EnqueueLinkSceneCallbackTask",
@@ -11060,6 +11087,144 @@
           "line": 2499,
           "revision": "b0270484a6dcc0e4649508a2c5589c502c8cdf39",
           "detail": "Storage 0x03003474 is mode dependent: matched callback sub_080066A8 writes its low halfword to BG0HOFS during menu scrolling, and matched menus increment it directly. World-lifetime callback sub_0800BD5C resets it before player action processing. The proposed names describe these three counter helpers and their original state-14 callers, not a universal global variable identity."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CC98",
+      "canonical_symbol": "sub_0800CC98",
+      "display_name": "IsFullScreenMenuActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 45,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Returns bit 2 of scene-flags word 0x03003478 as 0 or 1."
+        },
+        {
+          "source": "src/code_08097E28.c",
+          "line": 591,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "About 460 call sites. World sprite/effect draw paths only draw when this and the bit 3/bit 5 queries are all 0, and the task callback sub_08064E14 waits with `while (sub_0800CC98() != 0) sub_080003F0();` (src/code_0805FB7C.c:3081) before its own screen sequence. The name covers the bit's bracketing role; it does not identify which menu is open."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CCA8",
+      "canonical_symbol": "sub_0800CCA8",
+      "display_name": "MarkFullScreenMenuActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 48,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Sets bit 2 (0x4) of scene-flags word 0x03003478, preserving all other bits. Paired clear sub_0800CCB8."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "sub_0805782C (src/code_080571A4.c:345) shows the full sequence: set bit 10, start fade sub_0801ABE8(6) and wait for IsScreenTransitionIdle, RequestMapBackgroundReload, four task waits, set bit 2, save the map scroll, start the menu task with sub_08084F9C(arg), wait for signal 0x11201100, restore the scroll, clear bit 2, wake signal 0x514C8 (the background-reload wait), clear bit 10, then wait for the transition to go idle again."
+        },
+        {
+          "source": "src/code_0805FB7C.c",
+          "line": 1989,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Other callers bracket the same way around the sibling menu-task starters sub_08084EAC/sub_08084F24 (also waiting on 0x11201100) and, in src/code_0808D4A8.c:1907, around a screen that waits on signal 0x02688420. Every set is followed by a task wait for the screen to finish and then the clear."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CCB8",
+      "canonical_symbol": "sub_0800CCB8",
+      "display_name": "MarkFullScreenMenuInactive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 51,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Clears bit 2 (0x4) of scene-flags word 0x03003478 with mask 0xFFFFFFFB, preserving other bits. Inverse of MarkFullScreenMenuActive."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Called after the menu task has signalled 0x11201100 and the saved map scroll is restored, before the background-reload wait is released with TaskWakeBySignal(0x514C8)."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE40",
+      "canonical_symbol": "sub_0800CE40",
+      "display_name": "BeginMenuFadeTransition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 117,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Sets bit 10 (0x400) of scene-flags word 0x03003478, preserving all other bits. Paired clear sub_0800CE54 and query sub_0800CE68."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "sub_0805782C (src/code_080571A4.c:345) shows the full sequence: set bit 10, start fade sub_0801ABE8(6) and wait for IsScreenTransitionIdle, RequestMapBackgroundReload, four task waits, set bit 2, save the map scroll, start the menu task with sub_08084F9C(arg), wait for signal 0x11201100, restore the scroll, clear bit 2, wake signal 0x514C8 (the background-reload wait), clear bit 10, then wait for the transition to go idle again. Bit 10 therefore covers the whole fade-out, menu and fade-in span, while bit 2 covers only the time the menu task runs."
+        },
+        {
+          "source": "src/code_0802FEA0.c",
+          "line": 807,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "The NPC menu routines in this module (seven sites) and in code_08028AAC/080542C4/0805FB7C repeat the same set-fade-reload-menu-clear order, often inlined."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE54",
+      "canonical_symbol": "sub_0800CE54",
+      "display_name": "EndMenuFadeTransition",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 120,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Clears bit 10 (0x400) of scene-flags word 0x03003478 with mask 0xFFFFFBFF, preserving other bits. Inverse of BeginMenuFadeTransition."
+        },
+        {
+          "source": "src/code_080571A4.c",
+          "line": 345,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Called after the menu task finished and MarkFullScreenMenuInactive, immediately before the final wait for IsScreenTransitionIdle. When a saved scene-flags copy is restored (src/code_08021DC4.c:674) it is cleared together with ResumeWorldTasks."
+        }
+      ]
+    },
+    {
+      "address": "0x0800CE68",
+      "canonical_symbol": "sub_0800CE68",
+      "display_name": "IsMenuFadeTransitionActive",
+      "status": "confirmed",
+      "domain": "game",
+      "evidence": [
+        {
+          "source": "src/code_0800CBBC.c",
+          "line": 123,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Returns bit 10 of scene-flags word 0x03003478 as 0 or 1."
+        },
+        {
+          "source": "src/code_080A3D2C.c",
+          "line": 1440,
+          "revision": "90a9312e8d9f9cc7e03d6090953fcc2fd311960c",
+          "detail": "Few callers (code_0800CF58, 0805FB7C, 08073E2C, 080A3D2C). In code_080A3D2C it is always tested together with IsFullScreenMenuActive: when either is set the routine calls sub_0800D038 (scene flag bit 23), and at line 1071 it calls sub_08015C38 only when both are clear."
         }
       ]
     },
