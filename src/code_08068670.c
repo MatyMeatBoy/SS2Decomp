@@ -2247,6 +2247,7 @@ void sub_0806C568(u32 *arg0) {
     s32 sp9C;
     s32 spA0;
     u16 *spA4;
+    u32 waitMask;
     s16 temp_r1_5;
     s16 var_r0_4;
     s32 var_r1;
@@ -2277,7 +2278,7 @@ void sub_0806C568(u32 *arg0) {
     u16 var_r7;
     u16 var_r7_4;
     u16 var_r7_5;
-    register u16 var_r7_6 asm("r7");
+    u16 var_r7_6;
     u16 var_r7_7;
     u16 var_sl;
     u32 temp_r0;
@@ -2352,7 +2353,8 @@ block_10:
         goto block_16;
     }
     temp_r4_3 = (0x14C * sub_080020F4()) + ((u8 *)gUnk_03003CE0);
-    { register u32 cost asm("r0") = (u16)(sub_0806898C(T71C_U32(sp74,0xC), (s32) T71C_U32(sp74,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = T71C_U16(temp_r4_3,0xC2) - cost; }
+    temp_r1_2 = sp74;
+    { register u32 cost asm("r0") = (u16)(sub_0806898C(T71C_U32(temp_r1_2,0xC), (s32) T71C_U32(temp_r1_2,0x14)) - 1); asm("" : "+r"(cost)); temp_r1 = T71C_U16(temp_r4_3,0xC2) - cost; }
     T71C_U16(temp_r4_3,0xC2) = temp_r1;
     if ((s32) (temp_r1 << 0x10) < 0) {
         T71C_U16(temp_r4_3,0xC2) = 0U;
@@ -2374,9 +2376,10 @@ block_16:
         }
         if ((u32) T71C_U16(sp78,0xB2) <= 1U) {
             temp_r4_4 = spA0 + ((u8 *)t71CFlags);
+            waitMask = ~(1U << sp98);
 loop_23:
-            if ((T71C_U16(sp78,0x20) == 0xA) || !(2 & T71C_U32(gUnk_03005CF4,0x4))) {
-                *temp_r4_4 &= ~(1 << sp98);
+            if ((T71C_U16(sp78,0x20) == 0xA) || !(2 & T71C_U16(gUnk_03005CF4,0x4))) {
+                *temp_r4_4 &= waitMask;
                 return;
             }
             sub_080003F0();
