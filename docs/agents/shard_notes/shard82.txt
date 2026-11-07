@@ -89,3 +89,37 @@ Diagnosis of what is left:
 Next: register pressure in case 13's money/stock paths (free a callee-saved reg so the gMgr82
 address survives the call). Then case 0 DROP blocks (ROM keeps separate `movs r1,#0` /
 `movs r4,#0` zeros, i.e. no cross-jump there either).
+
+2026-11-07 follow-up (claude-nov07-wA): filtered nmdiff 2453 -> 2380. Draft is now 18392 bytes
+(ROM 18396). Every case is size-exact except case 0 (-4). casediff sum diff 1246, rdiff 390.
+Landed:
+- Drop82Sep (Drop82 + empty `asm volatile("")`, which emits no bytes) on case 9's DROP, case 8's
+  DROP and three case-13 money DROPs. It stops cross-jumping from merging tails that the ROM keeps
+  apart (in the ROM their registers differ, so they never merge). Case 9 -38 -> 0, case 10 -2 -> 0.
+- Money paths now have one DROP per branch where the ROM has one (checked against the asm):
+  * case 0 first path: `if (val <= 100000) {...; DROP; sound; break;} if (heldIdx != cursor) {...} DROP; sound;`
+    (ROM _0807CCE6 / _0807CD36: two separate DROPs, both `bl _0807F774`);
+  * case 0 second path: the val<=100000 branch gets its own DROP;
+  * case 13 from==13 path: the val<=100000 branch gets its own DROP (ROM _0807EE9C).
+  Case 0 went from -100 to -4.
+- `target` split into per-branch `u16 tg0` (case 0) and `u16 tg` (case 13). The ROM holds case 13's
+  cur->kind in r1, which a function-level `target` can't get: it is case 0's and crosses calls
+  because CSE reuses its known-zero value in the target==0 DROPs. This made case 13 size-exact.
+Diagnosis:
+- The "target pressure" was zero reuse. In the target==0 branch, CSE uses `target` (known 0) for
+  DROP's zero stores, so the pseudo lives across CpuSet/BD78. That is ROM-like in case 0.
+- The gMgr82 address in the drop tails is a GCSE reaching register (one pseudo for the whole
+  function, crossing about 57 calls). It gets no hard reg and reload rematerializes it, so it can't
+  be steered from C.
+Tried, not kept:
+- case 13 from==0 money path DROP in the val<=100000 branch (ROM _0807F008 does this): casediff
+  sum 1246 -> 895, but case 13 goes +40 and nmdiff 2437, because the struct-swap tail stops
+  merging into the shared _0807F750 tail (ours uses r6/r7, ROM r4/r5).
+  This is probably right, but it needs the register fix first.
+- Moving case 13's flag/else DROP into both branches (ROM _0807EBD8 looks like a merged tail).
+  The else path's zero then CSEs to a spilled u16 0x80 key mask. Not kept.
+- Block-local n/i in case 13 (no change). Re-reading `cur->kind` instead of `target` (CSE undoes it).
+- Unique-tag asm separators on the other case 0/13 DROPs, greedy one at a time (no gain).
+Next: case 0's last -4 (pool placement plus the r3/r5 cursor-switch temp at the case-0 0x20
+branch). Then the case 16 shared tail registers (F72C-F774, r4 addr / r5 zero), which would let
+the _0807F008 split land.
