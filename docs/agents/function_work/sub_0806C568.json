@@ -1,0 +1,38 @@
+{
+  "address": "0x0806C568",
+  "updated_utc": "2026-11-07T00:58:00Z",
+  "checkpoint": "Verified draft checkpoint 84a70f4584653355cb89959d6618b41a94441970: repair the final player-target counter, stage the cost-call request pointer, hoist the player wait mask and restore the halfword world-flags read. Still NONMATCHING; no matching-byte credit.",
+  "areas": [
+    {
+      "id": "compile",
+      "label": "Preserve a compiling complete C draft",
+      "state": "done",
+      "evidence": "Normal ROM compare passes with the original ASM fallback. Full NONMATCHING build, check_tree and diff checks pass. These gates preserve baseline integrity and do not prove draft equivalence."
+    },
+    {
+      "id": "target_traversal",
+      "label": "Recover target traversal and completion effects",
+      "state": "active",
+      "evidence": "The former register-u16 r7 counter makes agbcc emit a player-target list read from address 0x34. With an ordinary counter, 276 bounded original-ROM comparisons pass: stubbed call arguments, request snapshots, EWRAM/IWRAM effects, callee-saved registers and SP. Cases include local/remote player owners, modes 0/1/6/7, no/player/enemy target lists, delayed timers, readiness/completion waits, cancellation, energy boundaries and early enemy-owner aborts. Restoring only the counter pin reproduces the invalid read in case (owner 0, local 0, mode 1, player targets). The full enemy-owner continuation and all game states remain unproven. Private reproducer: build/try/goal-6C568-emulate.py; negative control: build/try/goal-6C568-regression-control.py."
+    },
+    {
+      "id": "types_abi",
+      "label": "Audit widths, aliases and call lifetimes",
+      "state": "active",
+      "evidence": "The player wait path reads world flags at state+4 as u16, matching the original LDRH. Its complement mask is computed before the loop, and both arguments to sub_0806898C use one saved request-pointer view. No new hard-register binding or empty ASM constraint was added; the unsafe final-counter binding was removed. Existing narrow bindings and the enemy-owner/player-pointer contract still need a complete audit."
+    },
+    {
+      "id": "layout",
+      "label": "Recover stack homes and register allocation",
+      "state": "active",
+      "evidence": "Real-module heuristic distance improves from 683 to 677, but size changes from 2196 to 2208 bytes versus original 2184; frame stays 176 versus original 168. A distance-672 variant retains the demonstrated bad counter pin and is rejected. Grouping stack scalars into the descriptor frame, splitting its arrays, forcing origin/mode registers, widening mode and making the owner volatile were rejected after whole-function comparisons. SP+0xA8 caches the xs base; SP+0xAC holds the player count, not a second pointer. Preserve the valid counter repair rather than choosing a smaller unsafe draft."
+    },
+    {
+      "id": "full_match",
+      "label": "Verify matching normal C and the exact ROM",
+      "state": "pending",
+      "evidence": "Strict NO MATCH. Original ASM remains the normal-build implementation. Bounded emulation, heuristic scores and frame milestones are not full equivalence or matching proofs."
+    }
+  ],
+  "regions": []
+}
