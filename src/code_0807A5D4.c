@@ -1175,10 +1175,12 @@ void sub_0807C29C(void) {
     s32 sp2C;
     struct Mgr82 **gp;
 
-    if (gMgr82->flags & 1) {
+    /* q hidden from CSE: otherwise gp below is set from this address pseudo, which then stays live (r3) instead of dying in r0 */
+    { struct Mgr82 **q; q = &gMgr82; asm("" : "=r"(q) : "0"(q));
+    if ((*q)->flags & 1) {
         keys29_03001308 = 0;
         keys29_03001324 &= ~1;
-    }
+    } }
     gp = &gMgr82; /* set after the flags test: gp never gets a hard reg, so a use there is a reload (ROM loads the address into r0) that shifts the reload rotation of all of case 0 */
     if (sub_0801AAE0() == 0)
         keys29_03001324 = 0;
