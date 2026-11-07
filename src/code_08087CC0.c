@@ -2160,7 +2160,7 @@ void sub_0808AFE8_v(void)
     u32 sel;
     u32 selectionStride;
     u32 max;
-    s32 off10;
+    u8 off10;
     void *sprite;
     s32 mode;
     s32 flag;
