@@ -1683,13 +1683,11 @@ void sub_0807C29C(void) {
             u32 fr, cu; struct Item82 *it;
             fr = gMgr82->heldFrom;
             if (fr == 0x16) {
-                cu = gMgr82->cursor;
-                it = &gInv82->belt[cu];
-                if (it->kind == 0)
+                if (gInv82->belt[gMgr82->cursor].kind == 0)
                     break;
                 gMgr82->heldFrom = gMgr82->state;
-                gMgr82->heldIdx = cu;
-                gMgr82->held = *it;
+                gMgr82->heldIdx = gMgr82->cursor;
+                gMgr82->held = gInv82->belt[gMgr82->cursor];
                 gMgr82->held.flag2 = 0;
                 sub_0805AD78(gInv82->equip);
                 sub_0805865C(0x5E);
