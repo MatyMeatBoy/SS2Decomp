@@ -81,3 +81,21 @@ w7 (2026-11-04), sub_0805FC80 (nmscore 164, 824 vs 828 bytes): the ROM keeps the
   Rejected: px/py in loop 2 (worse), do-while(0)/order around n++, px/py declaration order (no effect).
   Next: find a k+1 form that survives fold without a variable (e.g. a mode-changing cast that is a no-op
   for the value range), then revisit the m-loop priorities.
+
+2026-11-07 (claude-nov07-coord): sub_0805FFBC
+  Dropping the `register asm("r9")` binding on drawY: filtered nmdiff 626 -> 582, size
+  1540 -> 1548 (ROM 1556), frame 0x6C -> 0x68 = ROM. Without the binding, `y << 16` (the
+  half of the u16 conversion for textFF63) gets the same pseudo as y, and each switch case
+  gets its own `lsls #16` like ROM.
+  Remaining: ROM spills `suffix` (slot 0x50) and keeps the case-10 locals in div r6,
+  started r7, k r8, &value sl. Ours keeps suffix in a register and puts started in a
+  caller-saved register (r2, refs 5 > 4*calls 1, so global.c tries caller-saved before hi
+  regs), saving it at sp+0x64. Our case 3/4 tails are not cross-jumped (different temp
+  registers). The mode-0 suffix loop computes (i + 62) + suffix in ROM; ours computes
+  (i + suffix) + 62, probably because suffix is still in a register.
+  Rejected: volatile suffix (576); unbinding entry (693) or valuePtr (639); direct &value
+  (639); started/k types, decl order, continue form, `k++, div++` (no change); reusing
+  n/level/grade/cursed/broken for k or started (size 1528-1572). A 25-minute permuter run
+  only found an invalid variant that drops the case-1 resFF63 call.
+  Next: raise started's priority over k/div (ROM order div > started > k), or lower
+  suffix's so that it spills.

@@ -241,7 +241,7 @@ void sub_0805FFBC(s32 x, s32 y, struct ItemName63 *item, s32 flags)
     u8 buf[32];
     u8 numeric[32];
     s32 value;
-    register s32 drawY asm("r9");
+    s32 drawY;
     u8 *res;
     u8 *suffix;
     s32 broken;
