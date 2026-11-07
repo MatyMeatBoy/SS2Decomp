@@ -8324,7 +8324,7 @@ extern void f855_57624(u16) asm("sub_08057624");
 extern void f855_0CFA4(void) asm("sub_0800CFA4");
 extern void f855_00420(s32) asm("sub_08000420");
 
-s32 sub_080855D4(void)
+void sub_080855D4(void)
 {
     u8 name[0x20];
     u8 desc[5][0x20];
@@ -8341,15 +8341,15 @@ s32 sub_080855D4(void)
     u32 bg;
     s32 ox;
     s32 oy;
+    u32 count;
+    u32 last;
+    u8 *text;
     struct Win855D4 *win;
     const struct Item855D4 *item;
     const u8 *s;
-    u8 *text;
     u32 n;
     u32 i;
     u32 j;
-    u32 count;
-    u32 last;
     u8 c;
 
     f855_009F8(0x200, 0, 1);

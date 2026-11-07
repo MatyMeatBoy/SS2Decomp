@@ -44,3 +44,13 @@ Shard 88 notes (sub_080855D4).
     As separate VAR_DECL arrays the loops get ROM's address forms: sp+off before the scaled index,
     the &pos[i] pointer induction variable in the first animation loop. Making only pts..state
     separate gave 656.
+  Follow-up 3: filtered 573 -> 560, register-blind aligned 101 -> 83, frame now 0x5FC vs ROM 0x604.
+  - The function is void: the ROM epilogue is `pop {r0}; bx r0`, but an s32 function that falls off
+    the end pops r1. The definition and include/functions.h are now `void`; the one other use is
+    `(u32)sub_080855D4` as a task pointer.
+  - Spill-slot order: declaring count, last, text, win first puts them at 0x5E4/0x5E8/0x5EC/0x5F0
+    as in ROM.
+  Remaining: 2 spill slots (ROM uses 0x5F4..0x600; the &use pointer is at 0x600, ours 0x5F8). After the
+  memcpy, ROM spills the item+0xD4/+0xD6 pointers to slots and keeps &winBuf.atk in sl and name in r8;
+  we keep item+0xD4 in a register. Copies after calls (`adds rX, r0, #0`) differ in a few places, and
+  n/item hi-reg choice is still swapped.
