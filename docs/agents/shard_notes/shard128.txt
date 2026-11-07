@@ -1,0 +1,37 @@
+2026-11-07 (claude-nov07-wA) sub_080245CC -- structural pass, still NONMATCHING
+Landed (PR from shard/128):
+- Frame now 228 (0xE4), equal to ROM (was 240). Cause of the 3 extra stack
+  homes: the draft passed outgoing stack args through explicit u32 sp0/sp4/
+  sp8/spC locals. Passing every argument directly to the call removed them
+  (and the 0800CD8C result is now stored with `str r7,[sp,#4]` as in ROM,
+  instead of being CSE'd to a constant 0).
+- Callback switch (spB8, jump table at 08024B60): one direct
+  sub_08057DD0(sp9C, spA0, w, h, cb, sp84) call per case; cross-jumping
+  rebuilds the ROM's shared tails (cases 1/3/4 -> 5, 2 -> 6).
+- Remote-render selector (spB8 2/6): `switch (spB8) { default: ...; case 2:
+  x+16 ...; case 6: x-16 ... }` gives the ROM cmp#2/beq, cmp#6/beq, default-
+  first body order.
+- Loops: the mode-A main loop is `while (!(flags>>4 & 1)) {...}` (rotated,
+  test at bottom, as ROM 08024F56); the mode-B wait is
+  `while (t = flags<<16, !(t>>19 & 1) && !(t>>20 & 1)) {...}` (test duplicated
+  top/bottom with constant 1 in r5, as ROM); the mode-B main loop is
+  `if (!(flags>>4&1)) { cue; do {...} while (!(flags>>4&1)); }`; the two
+  CDC0 counting loops are plain for loops (the explicit `spE0 = playerIndex`
+  copies were dead stores and are removed).
+Metrics: aligned difflib 916 -> 646; filtered nmdiff 1433 -> 1277; size 4576
+-> 4604 (ROM 4616); frame 240 -> 228.
+Remaining (allocation, not structure):
+- playerIndex (one function-wide pseudo) should be r3 with caller-save slot
+  sp+0xE0, base gUnk_03003D10 hoisted to r4 in the count loops. Here it has
+  the highest global-alloc priority (refs 44 / live 714) and takes r6; then
+  var_r6 (the &players[i].remote cursor) is pushed to r9 and flaggedPlayers is
+  spilled. ROM order must be var_r6 -> r6, matched -> r7, flagged -> r9,
+  active -> sl, playerIndex -> r3 (caller-save). `asm("" : : "r"(var_r6))`
+  in the loop moved var_r6 to r3 instead (worse); rejected.
+- block_175 (mode-A remote render): ROM copies spB8 to r9 and keeps constant 1
+  in sl; a source copy `u32 a = spB8;` is CSE'd away (identical object).
+- Callback switch case 0: ROM loads sp94 into r2 before the stack-arg stores.
+- Rejected: if-chain instead of the 2/6 switch (668 aligned, 1289 filtered).
+Next hypothesis: lower playerIndex priority (split the CDC0 count loops onto
+their own counter declared so it still shares the pseudo? or add refs to
+flagged/active) and recheck slot order D0/D4/D8 (spD8 offset is in D4 here).

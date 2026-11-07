@@ -2071,10 +2071,6 @@ void local245CC_sub_08067D74() asm("sub_08067D74");                             
 s32 local245CC_sub_08067DC8() asm("sub_08067DC8");                                 /* extern */
 
 void sub_080245CC(struct Input245CC *arg0) {
-    u32 sp0;                               /* compiler-managed */
-    void *sp4;                         /* compiler-managed */
-    s32 sp8;
-    s32 spC;
     struct Anim245CC sp10;
     struct Anim245CC sp44;
     u16 sp78;
@@ -2106,12 +2102,10 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 spD4;
     s32 spD8;
     struct Player245CC *spDC;
-    u32 spE0;
     u32 shiftedFlags;
     s16 *temp_r7;
     s16 temp_r0_8;
     s16 temp_r0_9;
-    s32 var_r0_4;
     s32 temp_r0_10;
     s32 temp_r0_3;
     s32 temp_r0_4;
@@ -2128,7 +2122,6 @@ void sub_080245CC(struct Input245CC *arg0) {
     s32 var_r1_6;
     s32 var_r1_7;
     s32 var_r1_8;
-    s32 var_r2;
     s32 var_r5;
     s32 matchedPlayers;
     s32 flaggedPlayers;
@@ -2147,7 +2140,6 @@ void sub_080245CC(struct Input245CC *arg0) {
     u16 temp_r1_11;
     u16 temp_r3;
     u16 temp_r5;
-    u16 var_r3_3;
     u32 temp_r0;
     u32 temp_r0_2;
     u32 temp_r0_5;
@@ -2156,11 +2148,8 @@ void sub_080245CC(struct Input245CC *arg0) {
     u32 temp_r1_10;
     u32 temp_r1_2;
     u32 temp_r1_5;
-    u32 temp_r1_6;
     u32 temp_r1_9;
-    u32 var_r0;
     u32 var_r1_9;
-    u32 var_r2_2;
     u32 var_r2_3;
     u32 playerIndex;
     u8 *temp_r4;
@@ -2202,20 +2191,17 @@ void sub_080245CC(struct Input245CC *arg0) {
     spC0 = 0;
     local245CC_gUnk_03005CF0 = 0;
     if ((spC8 == 0) && (spA4 != 0)) {
-        sp0 = 0;
-        local245CC_sub_08065158(&sp44, 0x5014FU, 0xC, -1, sp0);
+        local245CC_sub_08065158(&sp44, 0x5014FU, 0xC, -1, 0);
     } else {
-        sp0 = 0;
-        local245CC_sub_08065158(&sp44, 0x50150U, 0xC, -1, sp0);
+        local245CC_sub_08065158(&sp44, 0x50150U, 0xC, -1, 0);
     }
     sp88 = local245CC_sub_08007290(0x1403D1U);
     temp_r8 = &local245CC_gUnk_03003CE0[local245CC_sub_080020F4()];
-    sp0 = 0;
-    local245CC_sub_08065158(&sp10, local245CC_gUnk_084B16E0[local245CC_gUnk_03005CF4->mode], 0xE, -1, sp0);
+    local245CC_sub_08065158(&sp10, local245CC_gUnk_084B16E0[local245CC_gUnk_03005CF4->mode], 0xE, -1, 0);
     if (local245CC_sub_0800CCCC() == 0) {
         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
     }
-    (&sp10.data[0])[spA4] = 0xE;
+    sp10.data[spA4] = 0xE;
     if (local245CC_sub_0800CF80() != 0) {
         sp94 = 0xF0;
         sp98 = 0x10;
@@ -2223,57 +2209,36 @@ void sub_080245CC(struct Input245CC *arg0) {
         sp94 = 0x18;
         sp98 = 0x10;
     }
-loop_15:
     while (local245CC_sub_0800BA6C() == 0)
         local245CC_sub_080003F0();
     if (var_r5 != 0) {
-loop_187:
-        if (((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1) {
-            goto block_188;
-        }
-loop_19:
+        while (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1)) {
         while (local245CC_sub_0800CDF8() != 0)
             local245CC_sub_080003F0();
-        if (local245CC_sub_080021A8() == 0) {
+        if (local245CC_sub_080021A8() != 0) return;
+        {
             if (!(((u16) local245CC_gUnk_03005CF4->flags >> 3) & 1)) {
-                sp0 = (u32)1;
-                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, sp0);
+                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, 1);
                 if ((local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0) && (temp_r0_4 = local245CC_sub_0800CD8C(), (temp_r0_4 == 0))) {
                     if (spBC != 0) {
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
                     temp_r6_2 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    sp0 = (u32)0x30;
-                    sp4 = (void *)temp_r0_4;
-                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, sp0, (s32)sp4);
+                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_4);
                     if (spCC->wE != 0) {
-                        sp0 = (u32) temp_r6_2;
-                        sp4 = &sp10.data[0];
-                        sp8 = sp10.w8;
-                        spC = sp10.w0;
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, sp0, sp4, sp8, spC);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_2, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        sp0 = (u32) temp_r6_2;
-                        sp4 = &sp10.data[0];
-                        sp8 = sp10.w8;
-                        spC = sp10.w0;
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, sp0, sp4, sp8, spC);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_2, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
                     spBC = 1;
                 }
                 if (local245CC_sub_0800CDC0() != 0) {
                     matchedPlayers = 0;
-                    playerIndex = 0;
-loop_37:
-                    spE0 = playerIndex;
-                    if (playerIndex < local245CC_sub_08002164()) {
-                        if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000) {
+                    for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
+                        if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000)
                             matchedPlayers += 1;
-                        }
-                        playerIndex += 1;
-                        goto loop_37;
                     }
                     if (matchedPlayers != local245CC_sub_08002164()) {
                         goto block_39;
@@ -2413,46 +2378,30 @@ afterPlayerBounds245CC: ;
 
             } else {
                 if (local245CC_gUnk_03005CF0 == 0 && local245CC_gUnk_03003170.curLevel != 0 && local245CC_sub_0800CCCC() == 0) {
-                    switch (spB8) {             /* switch 2 */
-                    case 0:                     /* switch 2 */
-                        var_r2 = sp94;
-                        sp0 = (u32)local245CC_sub_0805A60C;
-                        sp4 = sp84;
-block_109:
-                        local245CC_sub_08057DD0(sp9C, spA0, var_r2, 0x10, (void (*)(s32))sp0, (struct Input245CC *)sp4);
+                    switch (spB8) {
+                    case 0:
+                        local245CC_sub_08057DD0(sp9C, spA0, sp94, 0x10, local245CC_sub_0805A60C, sp84);
                         break;
-                    case 1:                     /* switch 2 */
-                        sp0 = (u32)local245CC_sub_0805A618;
-                        sp4 = sp84;
-block_108:
-                        var_r2 = 0x10;
-                        goto block_109;
-                    case 2:                     /* switch 2 */
-                        sp0 = (u32)local245CC_sub_0805A624;
-                        sp4 = sp84;
-block_111:
-                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x40, (void (*)(s32))sp0, (struct Input245CC *)sp4);
+                    case 1:
+                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x10, local245CC_sub_0805A618, sp84);
                         break;
-                    case 3:                     /* switch 2 */
-                        sp0 = (u32)local245CC_sub_0805A630;
-                        sp4 = sp84;
-                        goto block_108;
-                    case 4:                     /* switch 2 */
-                        sp0 = (u32)local245CC_sub_0805A63C;
-                        sp4 = sp84;
-                        goto block_108;
-                    case 5:                     /* switch 2 */
-                        sp0 = (u32)local245CC_sub_0805A648;
-                        sp4 = sp84;
-                        goto block_108;
-                    case 6:                     /* switch 2 */
-                        sp0 = (u32)local245CC_sub_0805A654;
-                        sp4 = sp84;
-                        goto block_111;
-                    case 7:                     /* switch 2 */
-                        sp0 = (u32)local245CC_sub_0805A660;
-                        sp4 = sp84;
-                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x10, (void (*)(s32))sp0, (struct Input245CC *)sp4);
+                    case 2:
+                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x40, local245CC_sub_0805A624, sp84);
+                        break;
+                    case 3:
+                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x10, local245CC_sub_0805A630, sp84);
+                        break;
+                    case 4:
+                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x10, local245CC_sub_0805A63C, sp84);
+                        break;
+                    case 5:
+                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x10, local245CC_sub_0805A648, sp84);
+                        break;
+                    case 6:
+                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x40, local245CC_sub_0805A654, sp84);
+                        break;
+                    case 7:
+                        local245CC_sub_08057DD0(sp9C, spA0, 0x10, 0x10, local245CC_sub_0805A660, sp84);
                         break;
                     }
                     local245CC_gUnk_03005CF0 = 1;
@@ -2481,10 +2430,8 @@ loop_156: {
                     sp7E = 0;
                 }
                 spDC = local245CC_gUnk_03003CE0;
-                spE0 = playerIndex;
 
                 if (local245CC_sub_0800CB9C() != 0) {
-                    playerIndex = spE0;
                     if (local245CC_sub_0800CF80() != 0) {
                         temp_r1_4 = *var_r6;
                         if (((s32) (temp_r1_4->flags7 << 0x1B) < 0) || (var_r4 = spDC, ((temp_r1_4->flags << 0x1A) == 0))) {
@@ -2549,7 +2496,6 @@ block_148:
                 if (*(u32 *)((u8 *)&var_r4->flags + spD8) & 0x2000) {
                     flaggedPlayers += 1;
                 }
-                spE0 = playerIndex;
                 if (local245CC_sub_0800CF80() != 0) {
                     flaggedPlayers = 0;
                 }
@@ -2559,7 +2505,6 @@ block_148:
 
             }
 checkRemotePlayers245CC:
-            spE0 = playerIndex;
             if (playerIndex < local245CC_sub_08002164()) goto loop_156;
             if ((matchedPlayers == local245CC_sub_08002164()) && (activePlayers != local245CC_sub_08002164())) {
                 if ((spA4 == 0) || (spC8 != 0)) {
@@ -2577,55 +2522,36 @@ checkRemotePlayers245CC:
                 if ((local245CC_gUnk_03003170.curLevel == 0xA) && (local245CC_gUnk_03003170.f90 == 0x10) && (local245CC_sub_0800CE30() != 0)) {
                     local245CC_gUnk_03005CF4->destination = 0x12;
                 }
-loop_173:
                 while (local245CC_sub_08067DC8() == 0)
                     local245CC_sub_080003F0();
                 goto block_188;
             }
 block_175:
-            sp0 = (u32)1;
-            local245CC_sub_08065370(&sp44, spB8, &sp78, &sp7A, sp0);
+            local245CC_sub_08065370(&sp44, spB8, &sp78, &sp7A, 1);
             if ((local245CC_sub_0800CD34() == 0) && (local245CC_sub_0800CC98() == 0) && (local245CC_sub_0800CCCC() == 0)) {
                 temp_r0_3 = local245CC_sub_0800CD8C();
                 if (temp_r0_3 == 0) {
                     temp_r6 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    sp0 = (u32)0x30;
-                    sp4 = (void *)temp_r0_3;
-                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, sp0, (s32)sp4);
+                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_3);
                     if (local245CC_gUnk_03002344 & 1) {
-                        if (spB8 != 2) {
-                            if (spB8 != 6) {
-                                var_r0_4 = sp7C;
-                                var_r3_3 = sp78;
-                                sp0 = (u32) temp_r6;
-                                sp4 = &sp44.data[0];
-                                sp8 = sp44.w8;
-                                spC = sp44.w0;
-                                var_r2_2 = spB8;
-                            } else {
-                                var_r0_4 = sp7C - 0x10;
-                                var_r3_3 = sp78;
-                                sp0 = (u32) temp_r6;
-                                sp4 = &sp44.data[0];
-                                sp8 = sp44.w8;
-                                spC = sp44.w0;
-                                var_r2_2 = 6;
-                            }
-                            local245CC_sub_08007870(var_r0_4, sp7E, var_r2_2, var_r3_3, sp0, sp4, sp8, spC);
-                        } else {
-                            sp0 = (u32) temp_r6;
-                            sp4 = &sp44.data[0];
-                            sp8 = sp44.w8;
-                            spC = sp44.w0;
-                            local245CC_sub_08007870(sp7C + 0x10, sp7E, 2U, sp78, sp0, sp4, sp8, spC);
+                        switch (spB8) {
+                        default:
+                            local245CC_sub_08007870(sp7C, sp7E, spB8, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
+                            break;
+                        case 2:
+                            local245CC_sub_08007870(sp7C + 0x10, sp7E, 2, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
+                            break;
+                        case 6:
+                            local245CC_sub_08007870(sp7C - 0x10, sp7E, 6, sp78, temp_r6, &sp44.data[0], sp44.w8, sp44.w0);
+                            break;
                         }
                     }
                 }
             }
-            goto block_186;
 block_186:
             local245CC_sub_080003F0();
-            goto loop_187;
+        }
+        }
 block_188:
             if (!(((u16) local245CC_gUnk_03005CF4->flags >> 3) & 1)) {
 
@@ -2633,49 +2559,29 @@ block_188:
                 local245CC_sub_0805865C(0x24);
             }
             goto block_344;
-
-        }
     } else {
-        temp_r1_5 = local245CC_gUnk_03005CF4->flags << 0x10;
-        if (!((temp_r1_5 >> 0x13) & 1) && !((temp_r1_5 >> 0x14) & 1)) {
-loop_195:
+        while (temp_r1_5 = local245CC_gUnk_03005CF4->flags << 0x10, !((temp_r1_5 >> 0x13) & 1) && !((temp_r1_5 >> 0x14) & 1)) {
             while (local245CC_sub_0800CDF8() != 0)
                 local245CC_sub_080003F0();
-            if (local245CC_sub_080021A8() == 0) {
-                if (local245CC_sub_0800CDC0() != 0) {
-                    matchedPlayers = 0;
-                    playerIndex = 0;
-loop_202:
-                    spE0 = playerIndex;
-                    if (playerIndex < local245CC_sub_08002164()) {
-                        if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000) {
-                            matchedPlayers += 1;
-                        }
-                        playerIndex += 1;
-                        goto loop_202;
-                    }
-                    if (matchedPlayers == local245CC_sub_08002164()) {
-                        temp_r8->state = 0xC;
-                        temp_r8->w22 = 0;
-                        return;
-                    }
-                    goto block_205;
+            if (local245CC_sub_080021A8() != 0) return;
+            if (local245CC_sub_0800CDC0() != 0) {
+                matchedPlayers = 0;
+                for (playerIndex = 0; playerIndex < local245CC_sub_08002164(); playerIndex++) {
+                    if (*(u32 *)((u8 *)&local245CC_gUnk_03003D10 + playerIndex * 0x14C) & 0x2000)
+                        matchedPlayers += 1;
                 }
-block_205:
-                local245CC_sub_080003F0();
-                temp_r1_6 = local245CC_gUnk_03005CF4->flags << 0x10;
-                if (((temp_r1_6 >> 0x13) & 1) || ((temp_r1_6 >> 0x14) & 1)) {
-                    goto block_207;
+                if (matchedPlayers == local245CC_sub_08002164()) {
+                    temp_r8->state = 0xC;
+                    temp_r8->w22 = 0;
+                    return;
                 }
-                goto loop_195;
             }
-        } else {
-block_207:
+            local245CC_sub_080003F0();
+        }
+        {
             sp94 = 0x10;
             sp98 = 0xC;
-            if (((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1) {
-                goto block_332;
-            }
+            if (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1)) {
             if (local245CC_sub_0800CCCC() != 0) {
 
             } else if (spA4 == 0) {
@@ -2695,9 +2601,7 @@ block_207:
                     local245CC_sub_0800A34C(local245CC_gUnk_03003170.curLevel, 0, 1);
                 }
             }
-loop_330:
-            if (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1)) {
-loop_219:
+            do {
                 while (local245CC_sub_0800CDF8() != 0)
                     local245CC_sub_080003F0();
                 if (local245CC_sub_080021A8() != 0) {
@@ -2724,10 +2628,8 @@ loop_260: {
                         sp7E = 0;
                     }
                     spDC = local245CC_gUnk_03003CE0;
-                    spE0 = playerIndex;
 
                     if (local245CC_sub_0800CB9C() != 0) {
-                        playerIndex = spE0;
                         if (local245CC_sub_0800CF80() != 0) {
                             temp_r1_8 = *var_r6;
                             if (((s32) (temp_r1_8->flags7 << 0x1B) < 0) || (var_r4 = spDC, ((temp_r1_8->flags << 0x1A) == 0))) {
@@ -2791,7 +2693,6 @@ block_253:
                     if (*(u32 *)((u8 *)&var_r4->flags + spD4) & 0x2000) {
                         flaggedPlayers += 1;
                     }
-                    spE0 = playerIndex;
                     if (local245CC_sub_0800CF80() != 0) {
                         flaggedPlayers = 0;
                     }
@@ -2801,7 +2702,6 @@ block_253:
 
                 }
 checkRemotePlayers245CC2:
-                spE0 = playerIndex;
                 if (playerIndex < local245CC_sub_08002164()) goto loop_260;
                 if ((matchedPlayers == local245CC_sub_08002164()) && (activePlayers != local245CC_sub_08002164())) {
                     if ((spA4 == 0) || (spC8 != 0)) {
@@ -2816,7 +2716,6 @@ checkRemotePlayers245CC2:
                 }
                 if (spA8 > 2U) {
                     local245CC_gUnk_03005CF4->destination = (s32) sp84->destination;
-loop_274:
                     while (local245CC_sub_08067DC8() == 0)
                         local245CC_sub_080003F0();
                     goto block_332;
@@ -2918,10 +2817,8 @@ block_310:
 
 afterPlayerBounds245CC2: ;
 
-                sp0 = (u32)1;
-                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, sp0);
-                sp0 = (u32)1;
-                local245CC_sub_08065370(&sp44, 8U, &sp80, &sp82, sp0);
+                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, 1);
+                local245CC_sub_08065370(&sp44, 8U, &sp80, &sp82, 1);
                 if (local245CC_sub_0800CD34() != 0) {
                     goto block_328;
                 }
@@ -2934,41 +2831,27 @@ afterPlayerBounds245CC2: ;
                     spD0 = (s32) temp_r0_8;
                     temp_r0_9 = (s16) sp90;
                     temp_r7 = &sp7E;
-                    sp4 = (void *)temp_r0_7;
-                    local245CC_sub_0800BC08(temp_r0_8, temp_r0_9, &sp7C, temp_r7, 0x30, (s32)sp4);
+                    local245CC_sub_0800BC08(temp_r0_8, temp_r0_9, &sp7C, temp_r7, 0x30, temp_r0_7);
                     if (local245CC_gUnk_03002344 & 1) {
-                        sp0 = temp_r0_7;
-                        sp4 = &sp44.data[0];
-                        sp8 = sp44.w8;
-                        spC = sp44.w0;
-                        local245CC_sub_08007870(sp7C, sp7E, 8U, sp80, sp0, sp4, sp8, spC);
+                        local245CC_sub_08007870(sp7C, sp7E, 8U, sp80, temp_r0_7, &sp44.data[0], sp44.w8, sp44.w0);
                     }
                     if (spBC != 0) {
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
                     temp_r6_3 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
-                    sp4 = (void *)temp_r0_7;
-                    local245CC_sub_0800BC08((s16) spD0, temp_r0_9, &sp7C, temp_r7, 0x30, (s32)sp4);
+                    local245CC_sub_0800BC08((s16) spD0, temp_r0_9, &sp7C, temp_r7, 0x30, temp_r0_7);
                     if (spCC->wE != 0) {
-                        sp0 = (u32) temp_r6_3;
-                        sp4 = &sp10.data[0];
-                        sp8 = sp10.w8;
-                        spC = sp10.w0;
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, sp0, sp4, sp8, spC);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_3, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        sp0 = (u32) temp_r6_3;
-                        sp4 = &sp10.data[0];
-                        sp8 = sp10.w8;
-                        spC = sp10.w0;
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, sp0, sp4, sp8, spC);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_3, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
 block_328:
                     spBC = 1;
                 }
                 local245CC_sub_080003F0();
-                goto loop_330;
+            } while (!(((u16) local245CC_gUnk_03005CF4->flags >> 4) & 1));
             }
 block_332:
             if (((u16) local245CC_gUnk_03005CF4->flags >> 3) & 1) {
@@ -2977,29 +2860,18 @@ block_332:
             local245CC_sub_0801A664(0x12, 2);
             spA8 = 9;
             do {
-                sp0 = (u32)1;
-                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, sp0);
+                local245CC_sub_08065370(&sp10, spA4, &sp78, &sp7A, 1);
                 if ((local245CC_sub_0800CC98() == 0) && (temp_r0_10 = local245CC_sub_0800CCCC(), (temp_r0_10 == 0))) {
                     if (spBC != 0) {
                         local245CC_sub_08000AF0(0x1E, sp10.graphics + (spA4 << 5), 1);
                         spBC = 0;
                     }
-                    sp0 = (u32)0x30;
-                    sp4 = (void *)temp_r0_10;
-                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, sp0, (s32)sp4);
+                    local245CC_sub_0800BC08((s16) sp8C, (s16) sp90, &sp7C, &sp7E, 0x30, temp_r0_10);
                     temp_r6_4 = (u8)local245CC_sub_0800BC44(sp8C, sp90, 0);
                     if (spCC->wE != 0) {
-                        sp0 = (u32) temp_r6_4;
-                        sp4 = &sp10.data[0];
-                        sp8 = sp10.w8;
-                        spC = sp10.w0;
-                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, sp0, sp4, sp8, spC);
+                        local245CC_sub_08008E74(sp7C, sp7E, spA4, sp78, temp_r6_4, &sp10.data[0], sp10.w8, sp10.w0);
                     } else {
-                        sp0 = (u32) temp_r6_4;
-                        sp4 = &sp10.data[0];
-                        sp8 = sp10.w8;
-                        spC = sp10.w0;
-                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, sp0, sp4, sp8, spC);
+                        local245CC_sub_08007870(sp7C, sp7E, spA4, sp78, temp_r6_4, &sp10.data[0], sp10.w8, sp10.w0);
                     }
                 } else {
                     spBC = 1;
