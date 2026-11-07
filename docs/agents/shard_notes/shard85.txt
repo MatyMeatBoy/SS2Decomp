@@ -61,3 +61,31 @@ claude-nov07-w85 (2026-11-07, third pass, nothing landed in code):
     434 (k12 landed: 1015), but filtered nmdiff 1633 (landed 1513). Mask 1 gives 4972 bytes and filtered
     1567. Mask 3 is the better base for allocation work, since the remaining diff is mostly registers
     (high/low choice, spilled item pointers), but it is not landed because the official metric is worse.
+claude-nov07-wA (2026-11-07, fourth pass): filtered nmdiff 1513 -> 1412. Size 4968 -> 4972 = ROM, frame 0x2AC.
+  casediff aligned sum 1284 -> 882 (casediff only splits switch 1; everything after it is "case7").
+  - Insight: m2c var names carry the ROM register, and several m2c temporaries are one call-crossing
+    source variable in the ROM. Merged greedily, keeping only changes that kept exact size and lowered
+    nmdiff (scratch uni.sh):
+      var_r8_17 -> var_r8 (icon loop counter; this puts the kind-1/split counter in r8 as in ROM,
+                  `movs r0,#0; mov r8,r0`), var_r4_15 -> var_r4_4, var_r6_13 -> var_r9_2,
+      var_r6_6 -> var_r6, temp_r5_2/4/7 -> var_r9_3.
+  - The old 4968 was a coincidence of offsetting errors, not near-size:
+    * The candidate kept two extra digit tails (sub_0805FB7C/sub_080653CC: 4 copies vs ROM 2) because
+      `callFlag` is a function-scope variable (pseudo 23, r8) and its `= 0` before each
+      sub_08065230 kept the tails from cross-jumping.
+    * With a literal 0 in the five digit tails the call list matches ROM exactly (117 calls, same
+      order), but the draft is 4892 (-80). Per-call drift (scratch drift4.py) shows ~-4..-10 bytes in
+      every number-template expansion and the kind-1 loop, so the real deficit is register/insn
+      shape in the templates.
+    * Merging var_r6_3..13 into var_r6, or var_r8_20 into var_r8, lands in the same 4892 mode (rdiff
+      better, 1120).
+  - Allocation: sp240 = pseudo 26 (12 refs/476 insns) gets r9, sp24C (29) gets sl, var_sl (91, 7 refs) is
+    spilled. ROM: sp240/sp24C on the stack (hence our sp254.. slots are 8 bytes lower), var_sl in sl.
+    * `asm("" : : "r"(var_sl))` x5 makes var_sl beat sp240, but it takes r9 and sp240 moves to sl
+      (1410). r9 has to be held by a higher-priority conflicting pseudo, as in ROM; the ROM has the
+      FMT destinations in r9.
+    * Hints on var_r9_3 change code (size 4928), rejected. `asm("" : : "m"(sp240))` costs +40 bytes.
+  - Not landed: var_r8_12 <- var_r8_15 gives 1380 but 4968 bytes.
+  Next: the template expansions' instruction shape in the 4892 mode (literal-0 tails). That mode has
+  the right tail merging; find the missing ~6 bytes per template (text85 rematerialisation and
+  divisor/started regs from the notes above).
