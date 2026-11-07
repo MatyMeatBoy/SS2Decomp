@@ -3009,12 +3009,12 @@ void sub_0807C29C(void) {
                 sub_0807BEA0(16, gMgr82->cursor, (void *)&gMgr82->held);
                 DROP82();
                 sub_0805865C(0x5F);
-                nn = 0;
+                i = 0; /* function-level i counts here, not the block-local nn (register choice) */
                 for (ii = 0; ii <= 2; ii++) {
                     if (gMgr82->stock[ii].kind != 0)
-                        nn++;
+                        i++;
                 }
-                if (nn == 3)
+                if (i == 3)
                     gMgr82->flags |= 4;
                 break;
             }
@@ -3112,10 +3112,10 @@ void sub_0807C29C(void) {
         } else if (keys29_03001324 & 1) {
             u32 *p;
             gMgr82->stock[3] = gMgr82->held;
-            from = gMgr82->heldIdx;
-            p = &gInv82->items[from].count;
+            have = gMgr82->heldIdx;
+            p = &gInv82->items[have].count;
             if (*p == gMgr82->held.count)
-                sub_0807BD78(gMgr82->heldFrom, from);
+                sub_0807BD78(gMgr82->heldFrom, have);
             else
                 *p -= gMgr82->held.count;
             DROP82();
