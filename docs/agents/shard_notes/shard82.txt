@@ -123,3 +123,25 @@ Tried, not kept:
 Next: case 0's last -4 (pool placement plus the r3/r5 cursor-switch temp at the case-0 0x20
 branch). Then the case 16 shared tail registers (F72C-F774, r4 addr / r5 zero), which would let
 the _0807F008 split land.
+
+2026-11-07 second follow-up (claude-nov07-wA): filtered nmdiff 2380 -> 2345. The draft is 18396 bytes,
+the same as the ROM, and every switch case plus pre/post is size-exact (casediff sum 1233, rdiff 390).
+- Case 0's last -4: in the 0x20 branch the ROM copies the loaded cursor into a separate
+  non-call-crossing pseudo (`adds r3, r5, #0`), which it restores in `case 103`.
+  * A block-local copy, or the same function-level `cur`, gets copy-propagated away.
+  * Most function-level vars either get coalesced or shift other cases.
+  * `over` reproduces it (whole-function size exact, nmdiff 2380 -> 2345); a comment marks it.
+  * `base` also size-matched, but it is shared with post and changes post's registers (2496).
+  * A `u16` temp is wrong (it adds an lsl/lsr pair).
+- asm volatile("") separators (Drop82Sep) still in use, all needed for size. Reverting any one
+  makes the draft 4-40 bytes short:
+  * case 8 DROP;
+  * case 9 DROP;
+  * case 13 money paths: from==13 non-cap path, from==0 equal-count path, from==0 final path.
+- Re-tried the case 13 from==0 val<=100000 split (ROM _0807F008). The draft goes +40 and nmdiff
+  rises to 2402, with casediff sum 882. The struct-swap tail (ROM `ldr r4,=gMgr82; bl _0807F750`) needs the
+  reload spill reg r4 / zero r5 to merge into case 16's shared tail. Ours reloads into r6/r7 (the
+  gMgr82 address is the spilled function-wide GCSE pseudo), so the merge fails. This is
+  reload-rotation work.
+- Shuffling the function-level u32 declaration order: no change at all (8 random orders).
+Remaining diff is registers only: case 13 rdiff 86, case 0 113, post 54.
