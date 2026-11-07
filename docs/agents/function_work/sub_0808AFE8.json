@@ -1,6 +1,6 @@
 {
   "address": "0x0808AFE8",
-  "updated_utc": "2026-11-07T16:54:46+00:00",
+  "updated_utc": "2026-11-07T16:58:10+00:00",
   "checkpoint": "Stage the real selected-row pointer before indexing the mode0 detail column. Candidate and original are now 2448 bytes, frames 716/716, with 104 external calls in original order; the detail-call block at original offsets [0x456,0x47A) is exact. Heuristic 196 to 191; positional normalized halfword differences 624 to 63 are a separate diagnostic. First 188 normalized bytes remain exact. All 47 other module functions retain normalized bytes and relocations. Fresh 160 prefix and 960 full-return synthetic-helper cases pass on the actual linked candidate. Strict NO MATCH; ASM fallback retained.",
   "areas": [
     {
@@ -25,13 +25,13 @@
       "id": "layout",
       "label": "Recover remaining register and control-flow layout",
       "state": "active",
-      "evidence": "Retain PR638 unsigned final-sum association and PR642 real draw-counter setup order. The new selected-row pointer restores the complete original detail-call block [0x456,0x47A), including separate row and column shifts/additions. Candidate 2444 to 2448 bytes now equals original size; frame716 and 104 ordered calls remain. Heuristic196 to191 and positional normalized halfwords624 to63 are distinct diagnostics, not equivalence or progress percentages. First188 bytes remain exact. Initialization preheader, main-loop reloads, final-sum instruction order and pools still differ. No new permuter, rank matrix, binding or artificial lifetime was used; earlier rejected controls and exhausted seeds stay preserved."
+      "evidence": "Retain PR638 unsigned final-sum association and PR642 real draw-counter setup order. The new selected-row pointer restores the complete original detail-call block [0x456,0x47A), including separate row and column shifts/additions. Candidate 2444 to 2448 bytes now equals original size; frame716 and 104 ordered calls remain. Heuristic196 to191 and positional normalized halfwords624 to63 are distinct diagnostics, not equivalence or progress percentages. First188 bytes remain exact. Initialization preheader, main-loop reloads and final-sum instruction order still differ. All normalized relocation tuples and resolved literal-pool targets now equal original. The unlinked B10+2 versus B12 symbol spelling remains, but it is not a current resolved-target mismatch. No new permuter, rank matrix, binding or artificial lifetime was used; earlier rejected controls and exhausted seeds stay preserved."
     },
     {
       "id": "match",
       "label": "Verify exact active C and linked ROM",
       "state": "pending",
-      "evidence": "Strict normalized module bytes and relocations still differ from original. The function remains NONMATCHING with its original ASM fallback. Bounded tests, matching frames, retained calls and byte-identical unaffected regions do not establish a full C match."
+      "evidence": "Normalized code bytes still differ from original, while normalized relocation tuples and resolved literal-pool targets are equal. The function remains NONMATCHING with its original ASM fallback. Bounded tests, matching size/frame, retained calls and byte-identical unaffected functions do not establish a full C match."
     }
   ],
   "regions": []
