@@ -3042,13 +3042,13 @@ digraph calls {
   "sub_08016C88" -> "Sqrt" [label="c"];
   "sub_08016D40" -> "sub_08016C88" [label="c"];
   "sub_08016F28" -> "ArcTan2" [label="asm"];
-  "sub_08016F28" -> "Sqrt" [label="asm"];
+  "sub_08016F28" -> "Sqrt" [label="asm,c"];
   "sub_08016F28" -> "__divsi3" [label="asm"];
   "sub_08016F28" -> "__umodsi3" [label="asm"];
   "sub_08016F28" -> "sub_080008C8" [label="asm"];
   "sub_08016F28" -> "sub_08002204" [label="asm,c"];
   "sub_08016F28" -> "sub_08016B30" [label="asm,c"];
-  "sub_08016F28" -> "sub_08016C88" [label="asm,c"];
+  "sub_08016F28" -> "sub_08016C88" [label="asm"];
   "sub_08016F28" -> "sub_08016D40" [label="asm,c"];
   "sub_08016F28" -> "sub_080662C4" [label="asm,c"];
   "sub_08017C6C" -> "ArcTan2" [label="c"];
