@@ -27,3 +27,28 @@ nov06-wC6: sub_0808AFE8 (records/time-attack menu) NONMATCHING draft rewritten f
   Next: a C shape where the table symbol is loaded early in the j body (before the time
   store) and used late (after the call), so its life reaches ~4; or get GCSE PRE to hoist the
   constant-pool loads; or stop off10+i being a PRE copy inside the j loop.
+
+2026-11-07 (claude-nov07-wA): sub_0808AFE8, record-init loop now matches the ROM
+  Landed: filtered nmdiff 257 -> 231 (2440 vs 2448 bytes, frame 0x2CC = ROM). The inner
+  j loop is identical to the ROM (both type-row pointers reduced, r5/r7 += 4), B10 is in sl,
+  B12 is loaded in the row body, off10 is back on the stack, and zero/time pointer are
+  caller-saved r3/r2.
+  Shape: function-scope `va`/`vb` table pointers assigned at the top of the j body (long
+  life, so loop.c moves both loads in pass 1); va read as
+  `(u8 *)va + ((off10 + i) * 12 + j * 4)` (giv add_val row12 + va, ROM operand order), vb as
+  `vb[off10 + i][j]` (row12 + vb is the last use of row12, so force_movables ties it to the
+  row12 chain in pass 2); `asm("" : : "r"(va))` after the loops.
+  Diagnosis notes (agbcc loop.c/global.c source, see agbcc_arm_sdk build tree):
+  - threshold = 13 here, -3 per moved insn; moved_once regs need T*life >= 2*insn_count.
+  - force_movables links only the movable at REGNO_LAST_UID of the reg, so only one of
+    `row12 + va` / `row12 + vb` can be forced; the other must be a j-first giv.
+  - global alloc tries LO_REGS (callee-saved, then caller-save if 4*calls < refs) before
+    high regs. off10 (4 refs/100 insns, prio 0.08) beat B10 (3/84, 0.036) for sl; the asm
+    gives B10 a 4th ref (0.095).
+  Rejected today: va/vb both row-first (only one reduced, 443), both j-first (row12 not
+  moved in pass 2, 457), vb set inside the else (outer pass hoists it, 369), second vb set in
+  the outer body (252, B12 load early in r2 -> zero takes sl), flat `(*va)[row*3+j]` (253).
+  Remaining in this region: ROM's `sel = 0` reload uses r4 and is inherited for off10 = 0
+  across the call (ours r0 then r1), which shifts i=0 to r3 and merges the hoisted zero.
+  That is reload rotation (last_spill_reg), not source shape. The rest of the 231 lines are
+  in the main loop (sel*2 CSE into sl, r4/r5 swaps, switch-table spill regs).
