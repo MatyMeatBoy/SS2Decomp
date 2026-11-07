@@ -14,8 +14,8 @@
 <text x="269.0" y="86" fill="#e6edf3" font-size="10">940 bytes; not decompiled C</text>
 <rect x="506.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="516.0" y="46" fill="#e6edf3" font-size="11">Identification</text>
-<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">20.93%</text>
-<text x="516.0" y="86" fill="#e6edf3" font-size="10">426 / 2035 registered names</text>
+<text x="516.0" y="69" fill="#3fb950" font-size="21" font-weight="600">22.21%</text>
+<text x="516.0" y="86" fill="#e6edf3" font-size="10">452 / 2035 registered names</text>
 <rect x="753.0" y="30" width="235.0" height="66" rx="5" fill="#161b22"/>
 <text x="763.0" y="46" fill="#e6edf3" font-size="11">Historical C + linked</text>
 <text x="763.0" y="69" fill="#e6edf3" font-size="21" font-weight="600">84.57%</text>
@@ -906,25 +906,25 @@
 <rect x="608.55" y="188.80" width="6.25" height="6.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkWaitAllConnectedReceiveFlags | sub_0800224C | confirmed  0x0800224C  76 bytes  [done]</title></rect>
 <rect x="614.80" y="188.80" width="6.25" height="6.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartSavedCharacterSelectionTask | sub_080065B0 | confirmed  0x080065B0  76 bytes  [done]</title></rect>
 <rect x="621.06" y="188.80" width="5.60" height="6.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkCountConnectedPlayers | sub_08002164 | confirmed  0x08002164  68 bytes  [done]</title></rect>
-<rect x="626.65" y="188.80" width="5.60" height="6.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006B70 | sub_08006B70 | unidentified  0x08006B70  68 bytes  [done]</title></rect>
+<rect x="626.65" y="188.80" width="5.60" height="6.14" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioSetFourTrackPlayerVolume | sub_08006B70 | confirmed  0x08006B70  68 bytes  [done]</title></rect>
 <rect x="608.55" y="194.94" width="4.84" height="6.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080065FC | sub_080065FC | unidentified  0x080065FC  64 bytes  [done]</title></rect>
-<rect x="608.55" y="201.62" width="4.84" height="6.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006C30 | sub_08006C30 | unidentified  0x08006C30  64 bytes  [done]</title></rect>
+<rect x="608.55" y="201.62" width="4.84" height="6.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioFadeOutFourPlayers | sub_08006C30 | confirmed  0x08006C30  64 bytes  [done]</title></rect>
 <rect x="608.55" y="208.29" width="4.84" height="6.26" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08002658 | sub_08002658 | unidentified  0x08002658  60 bytes  [done]</title></rect>
 <rect x="613.39" y="194.94" width="5.62" height="5.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartTitleModeSelectionTask | sub_08002A54 | confirmed  0x08002A54  56 bytes  [done]</title></rect>
 <rect x="619.01" y="194.94" width="5.22" height="5.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartLinkLobbyReadyGoTask | sub_08006B2C | confirmed  0x08006B2C  52 bytes  [done]</title></rect>
 <rect x="624.22" y="194.94" width="4.01" height="5.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkClearErrorAndWakeWaiters | sub_08002304 | confirmed  0x08002304  40 bytes  [done]</title></rect>
-<rect x="628.23" y="194.94" width="4.01" height="5.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006BC0 | sub_08006BC0 | unidentified  0x08006BC0  40 bytes  [done]</title></rect>
-<rect x="613.39" y="199.98" width="4.58" height="4.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006C70 | sub_08006C70 | unidentified  0x08006C70  40 bytes  [done]</title></rect>
+<rect x="628.23" y="194.94" width="4.01" height="5.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskStopSoundEnableDisplayAndYieldForever | sub_08006BC0 | confirmed  0x08006BC0  40 bytes  [done]</title></rect>
+<rect x="613.39" y="199.98" width="4.58" height="4.42" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStartSongIfPlaybackEnabled | sub_08006C70 | confirmed  0x08006C70  40 bytes  [done]</title></rect>
 <rect x="613.39" y="204.39" width="4.58" height="3.98" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkIsParentOrLoopback | sub_08002204 | confirmed  0x08002204  36 bytes  [done]</title></rect>
 <rect x="613.39" y="208.37" width="4.58" height="3.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkHasErrorFlag | sub_080021A8 | confirmed  0x080021A8  28 bytes  [done]</title></rect>
 <rect x="613.39" y="211.46" width="4.58" height="3.09" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkHasMissingPeerDataFlag | sub_080021E8 | confirmed  0x080021E8  28 bytes  [done]</title></rect>
-<rect x="617.97" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006BF8 | sub_08006BF8 | unidentified  0x08006BF8  28 bytes  [done]</title></rect>
-<rect x="621.54" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006C14 | sub_08006C14 | unidentified  0x08006C14  28 bytes  [done]</title></rect>
-<rect x="625.11" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006C98 | sub_08006C98 | unidentified  0x08006C98  28 bytes  [done]</title></rect>
-<rect x="628.68" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006CB4 | sub_08006CB4 | unidentified  0x08006CB4  28 bytes  [done]</title></rect>
-<rect x="617.97" y="203.94" width="4.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006CD0 | sub_08006CD0 | unidentified  0x08006CD0  28 bytes  [done]</title></rect>
-<rect x="617.97" y="207.48" width="4.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006CEC | sub_08006CEC | unidentified  0x08006CEC  28 bytes  [done]</title></rect>
-<rect x="617.97" y="211.02" width="4.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006D08 | sub_08006D08 | unidentified  0x08006D08  28 bytes  [done]</title></rect>
+<rect x="617.97" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioEnableVSyncIfDisabled | sub_08006BF8 | confirmed  0x08006BF8  28 bytes  [done]</title></rect>
+<rect x="621.54" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioDisableVSyncIfEnabled | sub_08006C14 | confirmed  0x08006C14  28 bytes  [done]</title></rect>
+<rect x="625.11" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStartOrChangeSongChecked | sub_08006C98 | confirmed  0x08006C98  28 bytes  [done]</title></rect>
+<rect x="628.68" y="199.98" width="3.57" height="3.96" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStartOrContinueSongChecked | sub_08006CB4 | confirmed  0x08006CB4  28 bytes  [done]</title></rect>
+<rect x="617.97" y="203.94" width="4.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStopSongChecked | sub_08006CD0 | confirmed  0x08006CD0  28 bytes  [done]</title></rect>
+<rect x="617.97" y="207.48" width="4.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioContinueSongChecked | sub_08006CEC | confirmed  0x08006CEC  28 bytes  [done]</title></rect>
+<rect x="617.97" y="211.02" width="4.00" height="3.54" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStartSongChecked | sub_08006D08 | confirmed  0x08006D08  28 bytes  [done]</title></rect>
 <rect x="621.96" y="203.94" width="3.43" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>DisableLinkErrorWaits | sub_080021D4 | confirmed  0x080021D4  20 bytes  [done]</title></rect>
 <rect x="625.39" y="203.94" width="3.43" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkGetReceiveBlock | sub_08002238 | confirmed  0x08002238  20 bytes  [done]</title></rect>
 <rect x="628.82" y="203.94" width="3.43" height="2.95" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08002A8C | sub_08002A8C | unidentified  0x08002A8C  20 bytes  [done]</title></rect>
@@ -933,11 +933,11 @@
 <rect x="624.60" y="206.89" width="2.55" height="3.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>EnableLinkErrorWaits | sub_080021C4 | confirmed  0x080021C4  16 bytes  [done]</title></rect>
 <rect x="627.15" y="206.89" width="2.55" height="3.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkIsSessionActive | sub_08002228 | confirmed  0x08002228  16 bytes  [done]</title></rect>
 <rect x="629.70" y="206.89" width="2.55" height="3.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>LinkIsCableMode | sub_080022F4 | confirmed  0x080022F4  16 bytes  [done]</title></rect>
-<rect x="624.60" y="210.06" width="3.60" height="2.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006B60 | sub_08006B60 | unidentified  0x08006B60  16 bytes  [done]</title></rect>
-<rect x="624.60" y="212.31" width="3.60" height="2.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006BE8 | sub_08006BE8 | unidentified  0x08006BE8  16 bytes  [done]</title></rect>
+<rect x="624.60" y="210.06" width="3.60" height="2.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioApplyDefaultSoundMode | sub_08006B60 | confirmed  0x08006B60  16 bytes  [done]</title></rect>
+<rect x="624.60" y="212.31" width="3.60" height="2.25" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStopAllPlayersAndDisableVSync | sub_08006BE8 | confirmed  0x08006BE8  16 bytes  [done]</title></rect>
 <rect x="628.20" y="210.06" width="2.02" height="3.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08002298 | sub_08002298 | unidentified  0x08002298  12 bytes  [done]</title></rect>
 <rect x="630.22" y="210.06" width="2.02" height="3.00" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006544 | sub_08006544 | unidentified  0x08006544  12 bytes  [done]</title></rect>
-<rect x="628.20" y="213.06" width="4.05" height="1.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08006BB4 | sub_08006BB4 | unidentified  0x08006BB4  12 bytes  [done]</title></rect>
+<rect x="628.20" y="213.06" width="4.05" height="1.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioSetSoundMode | sub_08006BB4 | confirmed  0x08006BB4  12 bytes  [done]</title></rect>
 <rect x="515.9" y="130.0" width="78.8" height="13" fill="#0d1117" fill-opacity="0.75"/>
 <text x="518.9" y="140.0" fill="#e6edf3" font-size="10">code_08002118</text>
 </g>
@@ -1069,7 +1069,7 @@
 <rect x="587.26" y="267.75" width="6.86" height="5.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801DEB8 | sub_0801DEB8 | unidentified  0x0801DEB8  80 bytes  [done]</title></rect>
 <rect x="594.12" y="267.75" width="5.83" height="5.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801DF08 | sub_0801DF08 | unidentified  0x0801DF08  68 bytes  [done]</title></rect>
 <rect x="599.95" y="267.75" width="5.49" height="5.86" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801AB50 | sub_0801AB50 | unidentified  0x0801AB50  64 bytes  [done]</title></rect>
-<rect x="580.06" y="273.61" width="5.58" height="5.76" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801AC78 | sub_0801AC78 | unidentified  0x0801AC78  64 bytes  [done]</title></rect>
+<rect x="580.06" y="273.61" width="5.58" height="5.76" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsScreenTransitionIdleAtZero | sub_0801AC78 | confirmed  0x0801AC78  64 bytes  [done]</title></rect>
 <rect x="580.06" y="279.36" width="5.58" height="5.76" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindFreeOrMatchingPlayerEffect | sub_0801E164 | confirmed  0x0801E164  64 bytes  [done]</title></rect>
 <rect x="580.06" y="285.12" width="5.58" height="5.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801ABE8 | sub_0801ABE8 | unidentified  0x0801ABE8  60 bytes  [done]</title></rect>
 <rect x="580.06" y="290.52" width="5.58" height="5.40" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801DFE8 | sub_0801DFE8 | unidentified  0x0801DFE8  60 bytes  [done]</title></rect>
@@ -1079,8 +1079,8 @@
 <rect x="600.67" y="273.61" width="4.77" height="5.48" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AddSixHalfwordStatValues | sub_0801E0D0 | confirmed  0x0801E0D0  52 bytes  [done]</title></rect>
 <rect x="585.64" y="279.08" width="4.41" height="5.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindPlayerStatusEffectByKey | sub_0801E1A4 | confirmed  0x0801E1A4  52 bytes  [done]</title></rect>
 <rect x="585.64" y="285.00" width="4.41" height="5.92" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>FindPlayerEffectByTypeAndKey | sub_0801E1D8 | confirmed  0x0801E1D8  52 bytes  [done]</title></rect>
-<rect x="585.64" y="290.92" width="4.41" height="5.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801AAF8 | sub_0801AAF8 | unidentified  0x0801AAF8  44 bytes  [done]</title></rect>
-<rect x="590.05" y="279.08" width="5.13" height="4.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801AB24 | sub_0801AB24 | unidentified  0x0801AB24  44 bytes  [done]</title></rect>
+<rect x="585.64" y="290.92" width="4.41" height="5.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>HasPositiveScreenTransitionPassedDuration | sub_0801AAF8 | confirmed  0x0801AAF8  44 bytes  [done]</title></rect>
+<rect x="590.05" y="279.08" width="5.13" height="4.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>GetScreenTransitionMode | sub_0801AB24 | confirmed  0x0801AB24  44 bytes  [done]</title></rect>
 <rect x="595.18" y="279.08" width="5.13" height="4.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801B6F4 | sub_0801B6F4 | unidentified  0x0801B6F4  44 bytes  [done]</title></rect>
 <rect x="600.31" y="279.08" width="5.13" height="4.31" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801B720 | sub_0801B720 | unidentified  0x0801B720  44 bytes  [done]</title></rect>
 <rect x="590.05" y="283.39" width="4.65" height="4.32" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801DDF0 | sub_0801DDF0 | unidentified  0x0801DDF0  40 bytes  [done]</title></rect>
@@ -1342,13 +1342,13 @@
 <rect x="748.81" y="215.56" width="69.19" height="84.67" fill="#0d1117"/>
 <rect x="749.81" y="216.56" width="67.19" height="52.96" fill="#484f58" stroke="#9e6a03" stroke-width="0.6"><title>sub_0801801C | sub_0801801C | unidentified | 1/3 milestones; not a match  0x0801801C  7132 bytes  [nonmatch]</title></rect>
 <rect x="749.81" y="216.56" width="22.40" height="52.96" fill="#d29922" pointer-events="none"/>
-<rect x="749.81" y="269.52" width="13.97" height="18.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A7AC | sub_0801A7AC | unidentified  0x0801A7AC  528 bytes  [done]</title></rect>
+<rect x="749.81" y="269.52" width="13.97" height="18.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>TaskScreenBrightnessAndWindowTransitions | sub_0801A7AC | confirmed  0x0801A7AC  528 bytes  [done]</title></rect>
 <rect x="749.81" y="288.37" width="13.97" height="10.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>QueueTextGlyphTiles | sub_0801A3D0 | confirmed  0x0801A3D0  304 bytes  [done]</title></rect>
 <rect x="763.79" y="269.52" width="8.33" height="10.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A120 | sub_0801A120 | unidentified  0x0801A120  168 bytes  [done]</title></rect>
 <rect x="763.79" y="279.58" width="8.33" height="10.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A1C8 | sub_0801A1C8 | unidentified  0x0801A1C8  168 bytes  [done]</title></rect>
 <rect x="763.79" y="289.64" width="8.33" height="9.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08017F7C | sub_08017F7C | unidentified  0x08017F7C  160 bytes  [done]</title></rect>
 <rect x="772.12" y="269.52" width="7.79" height="8.19" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A5A8 | sub_0801A5A8 | unidentified  0x0801A5A8  128 bytes  [done]</title></rect>
-<rect x="772.12" y="277.72" width="7.79" height="7.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A9BC | sub_0801A9BC | unidentified  0x0801A9BC  120 bytes  [done]</title></rect>
+<rect x="772.12" y="277.72" width="7.79" height="7.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>StartScreenTransitionControllerTask | sub_0801A9BC | confirmed  0x0801A9BC  120 bytes  [done]</title></rect>
 <rect x="772.12" y="285.40" width="7.79" height="7.17" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A664 | sub_0801A664 | unidentified  0x0801A664  112 bytes  [done]</title></rect>
 <rect x="772.12" y="292.57" width="7.79" height="6.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019FD8 | sub_08019FD8 | unidentified  0x08019FD8  104 bytes  [done]</title></rect>
 <rect x="779.91" y="269.52" width="6.52" height="7.66" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019D7C | sub_08019D7C | unidentified  0x08019D7C  100 bytes  [done]</title></rect>
@@ -1357,9 +1357,9 @@
 <rect x="779.91" y="292.18" width="6.52" height="7.04" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019F04 | sub_08019F04 | unidentified  0x08019F04  92 bytes  [done]</title></rect>
 <rect x="786.43" y="269.52" width="7.26" height="6.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A298 | sub_0801A298 | unidentified  0x0801A298  88 bytes  [done]</title></rect>
 <rect x="786.43" y="275.57" width="7.26" height="6.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>InitTextFontResources | sub_0801A70C | confirmed  0x0801A70C  88 bytes  [done]</title></rect>
-<rect x="786.43" y="281.62" width="7.26" height="6.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801AA34 | sub_0801AA34 | unidentified  0x0801AA34  88 bytes  [done]</title></rect>
+<rect x="786.43" y="281.62" width="7.26" height="6.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestScreenBrightnessFadeIn | sub_0801AA34 | confirmed  0x0801AA34  88 bytes  [done]</title></rect>
 <rect x="786.43" y="287.67" width="7.26" height="5.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A050 | sub_0801A050 | unidentified  0x0801A050  84 bytes  [done]</title></rect>
-<rect x="786.43" y="293.45" width="7.26" height="5.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801AA8C | sub_0801AA8C | unidentified  0x0801AA8C  84 bytes  [done]</title></rect>
+<rect x="786.43" y="293.45" width="7.26" height="5.78" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>RequestScreenBrightnessFadeOut | sub_0801AA8C | confirmed  0x0801AA8C  84 bytes  [done]</title></rect>
 <rect x="793.69" y="269.52" width="5.83" height="6.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019C3C | sub_08019C3C | unidentified  0x08019C3C  80 bytes  [done]</title></rect>
 <rect x="799.51" y="269.52" width="5.83" height="6.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019C8C | sub_08019C8C | unidentified  0x08019C8C  80 bytes  [done]</title></rect>
 <rect x="805.34" y="269.52" width="5.83" height="6.85" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A508 | sub_0801A508 | unidentified  0x0801A508  80 bytes  [done]</title></rect>
@@ -1379,7 +1379,7 @@
 <rect x="806.17" y="287.80" width="5.91" height="4.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019FA8 | sub_08019FA8 | unidentified  0x08019FA8  48 bytes  [done]</title></rect>
 <rect x="812.08" y="287.80" width="4.92" height="4.05" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A270 | sub_0801A270 | unidentified  0x0801A270  40 bytes  [done]</title></rect>
 <rect x="806.17" y="291.86" width="3.25" height="3.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A638 | sub_0801A638 | unidentified  0x0801A638  24 bytes  [done]</title></rect>
-<rect x="806.17" y="295.54" width="3.25" height="3.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801AAE0 | sub_0801AAE0 | unidentified  0x0801AAE0  24 bytes  [done]</title></rect>
+<rect x="806.17" y="295.54" width="3.25" height="3.68" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>IsScreenTransitionIdle | sub_0801AAE0 | confirmed  0x0801AAE0  24 bytes  [done]</title></rect>
 <rect x="809.42" y="291.86" width="3.52" height="2.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A650 | sub_0801A650 | unidentified  0x0801A650  20 bytes  [done]</title></rect>
 <rect x="809.42" y="294.69" width="3.52" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08019E20 | sub_08019E20 | unidentified  0x08019E20  16 bytes  [done]</title></rect>
 <rect x="809.42" y="296.96" width="3.52" height="2.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0801A040 | sub_0801A040 | unidentified  0x0801A040  16 bytes  [done]</title></rect>
@@ -1932,16 +1932,16 @@
 <rect x="755.04" y="484.26" width="6.26" height="4.83" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058280 | sub_08058280 | unidentified  0x08058280  64 bytes  [done]</title></rect>
 <rect x="742.51" y="489.09" width="5.28" height="5.37" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058620 | sub_08058620 | unidentified  0x08058620  60 bytes  [done]</title></rect>
 <rect x="742.51" y="494.47" width="5.28" height="5.01" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805853C | sub_0805853C | unidentified  0x0805853C  56 bytes  [done]</title></rect>
-<rect x="742.51" y="499.48" width="5.28" height="3.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058688 | sub_08058688 | unidentified  0x08058688  44 bytes  [done]</title></rect>
+<rect x="742.51" y="499.48" width="5.28" height="3.94" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioSetTrackedSongAndReturnPrevious | sub_08058688 | confirmed  0x08058688  44 bytes  [done]</title></rect>
 <rect x="742.51" y="503.42" width="5.28" height="3.58" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08057CEC | sub_08057CEC | unidentified  0x08057CEC  40 bytes  [done]</title></rect>
 <rect x="747.79" y="489.09" width="4.86" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058420 | sub_08058420 | unidentified  0x08058420  36 bytes  [done]</title></rect>
 <rect x="752.66" y="489.09" width="4.32" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058240 | sub_08058240 | unidentified  0x08058240  32 bytes  [done]</title></rect>
 <rect x="756.98" y="489.09" width="4.32" height="3.50" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058260 | sub_08058260 | unidentified  0x08058260  32 bytes  [done]</title></rect>
-<rect x="747.79" y="492.59" width="3.73" height="4.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_0805865C | sub_0805865C | unidentified  0x0805865C  32 bytes  [done]</title></rect>
+<rect x="747.79" y="492.59" width="3.73" height="4.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStartSongWithLinkErrorGuard | sub_0805865C | confirmed  0x0805865C  32 bytes  [done]</title></rect>
 <rect x="751.52" y="492.59" width="3.26" height="4.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058318 | sub_08058318 | unidentified  0x08058318  28 bytes  [done]</title></rect>
 <rect x="754.78" y="492.59" width="3.26" height="4.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058404 | sub_08058404 | unidentified  0x08058404  28 bytes  [done]</title></rect>
-<rect x="758.04" y="492.59" width="3.26" height="4.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080586B4 | sub_080586B4 | unidentified  0x080586B4  28 bytes  [done]</title></rect>
-<rect x="747.79" y="496.65" width="3.47" height="3.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080586D0 | sub_080586D0 | unidentified  0x080586D0  28 bytes  [done]</title></rect>
+<rect x="758.04" y="492.59" width="3.26" height="4.06" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioStopAndClearTrackedSong | sub_080586B4 | confirmed  0x080586B4  28 bytes  [done]</title></rect>
+<rect x="747.79" y="496.65" width="3.47" height="3.81" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>AudioFadePlayersAndClearTrackedSong | sub_080586D0 | confirmed  0x080586D0  28 bytes  [done]</title></rect>
 <rect x="747.79" y="500.46" width="3.47" height="3.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080583EC | sub_080583EC | unidentified  0x080583EC  24 bytes  [done]</title></rect>
 <rect x="747.79" y="503.73" width="3.47" height="3.27" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_08058524 | sub_08058524 | unidentified  0x08058524  24 bytes  [done]</title></rect>
 <rect x="751.26" y="496.65" width="3.35" height="2.82" fill="#3fb950" stroke="#2a7f39" stroke-width="0.6"><title>sub_080582C0 | sub_080582C0 | unidentified  0x080582C0  20 bytes  [done]</title></rect>
