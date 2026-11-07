@@ -6194,21 +6194,21 @@
       "name": "sub_08014170",
       "addr": 134300016,
       "size": 2488,
-      "state": "nonmatch",
+      "state": "done",
       "module": "code_0800CF58",
       "kind": "c",
       "cat": "game",
       "address": "0x08014170",
       "canonical_symbol": "sub_08014170",
       "domain": "game",
-      "implementation": "draft",
+      "implementation": "decompiled",
       "display_name": "hud14170",
       "name_status": "existing",
       "name_source": "c_definition_alias",
       "evidence": [
         {
           "source": "src/code_0800CF58.c",
-          "line": 6265,
+          "line": 6264,
           "detail": "Existing C definition with an asm alias to the canonical symbol: hud14170"
         }
       ]
