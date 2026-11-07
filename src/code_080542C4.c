@@ -951,6 +951,7 @@ void sub_0805664C(s32 arg0)
     spawn56(sub_0805664C, arg0);
     }
 }
+#ifdef NONMATCHING
 struct StatePlayer567D4 { u8 pad[0x11E]; u16 state; u8 tail[0x2C]; };
 extern struct StatePlayer567D4 statePlayers567D4[] asm("gUnk_03003CE0");
 struct Item567D4 { u16 item, kind; u8 rest[12]; };
@@ -962,9 +963,6 @@ extern u8 playerX567D4[] asm("gUnk_03003D6C");
 extern u8 playerY567D4[] asm("gUnk_03003D70");
 void callback56CB4(u32) asm("sub_08056CB4");
 void callback5990C56(u32) asm("sub_0805990C");
-/* A const call does not kill memory in GCSE, so the first check needs no gates reload on its
-   bit path. Inlining drops CONST_CALL_P, so that check is written out in the function body. */
-s32 IsMulti567D4(void) asm("sub_0800CE30") __attribute__((const));
 static inline s32 TestBit567D4(u32 key)
 {
     u32 byte;
@@ -1035,7 +1033,7 @@ void sub_080567D4(s32 id)
         u32 byte = key >> 3;
         u8 *fl;
         key &= 7;
-        if (IsMulti567D4() != 0)
+        if (sub_0800CE30() != 0)
             fl = gUnk_03005CF4 + 0x1C3;
         else
             fl = gUnk_03005CF4 + 0x1B7;
@@ -1127,6 +1125,10 @@ already:
     asm("" : : "l"(gates567D4));
     sub_08028AAC(gates567D4[id].event + 5, 0x270F, 0x270F, 0);
 }
+
+#else
+INCLUDE_ASM("asm/nonmatchings/code_080542C4", sub_080567D4);
+#endif
 
 void sub_08056CB4(u32 value)
 {

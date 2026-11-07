@@ -1,7 +1,7 @@
 {
   "address": "0x080567D4",
-  "updated_utc": "2026-11-07T14:00:00Z",
-  "checkpoint": "MATCH. Size 1248 and frame 0x14 equal original; normal compare passes with the C active and asm/nonmatchings/code_080542C4/sub_080567D4.s removed. Strict rcmp differs only in the pool word after the function end in the standalone object (0x1FF vs 0x270F); the linked ROM checksum matches.",
+  "updated_utc": "2026-11-07T15:13:04.683073+00:00",
+  "checkpoint": "Truthful-contract correction to PR574 after main 69171345, 2026-11-07. The former 1248-byte strict-equal active-C object used an invalid const alias for sub_0800CE30, which reads mutable mode state. Remove that alias and call the ordinary query. Current C draft 1256 bytes versus ROM 1248, equal frame 0x14 and 26 original ordered calls; strict NO MATCH. Restore original ASM and NONMATCHING wrapper. No matching-byte credit.",
   "areas": [
     {
       "id": "stack_abi",
@@ -12,14 +12,14 @@
     {
       "id": "cfg_registers",
       "label": "Match control flow and register allocation",
-      "state": "done",
-      "evidence": "Last three reload-register picks (0x11E constant r2 at both state stores, [sp,#12] r3, final id r3) fixed by reading the player array through a function-scope pointer `players = statePlayers567D4` and storing `players[sub_080020F4()].state = ret`. The pointer is an unallocated REG_EQUIV pseudo, so reload rematerializes the gUnk_03003CE0 load into r1 and the reload rotation moves on to r2/r3 as in the original. The array-index form also gives the original (idx*0x14C)+base operand order."
+      "state": "active",
+      "evidence": "Function-scope player-array pointer preserves the prior store/register-lifetime work. Ordinary sub_0800CE30 invalidates GCSE memory availability: the current 1256-byte draft has an extra gate-address reload after the first bit check. Normal controlled RTL already marks that symbol-pool load MEM/u. GCSE inserts a second PRE predecessor definition (bb4) despite the immutable pool; emitted LDR adds 2 bytes, repeated pool word 4 and alignment 2. All 26 external-call targets remain in original static order. This is a compiler-pass diagnosis, not equivalence. The historical 1248-byte strict equality cannot validate the false const source contract."
     },
     {
       "id": "full_match",
       "label": "Verify matching C in the normal ROM build",
-      "state": "done",
-      "evidence": "Full-module aligned diff 0; make -j1 compare reports the checksum match with the C body active (NONMATCHING wrapper and INCLUDE_ASM removed); make -j1 nonmatching builds; check_tree passes."
+      "state": "pending",
+      "evidence": "Original asm/nonmatchings/code_080542C4/sub_080567D4.s and NONMATCHING guard restored. Normal compare verifies fallback integrity only; the 1256-byte ordinary-query draft remains strict NO MATCH against original 1248. The old active-C checksum used a false const function declaration and is not acceptable completion evidence. Truthful const ROM-table qualification and real address-lifetime experiments did not match; unsupported pure attribute is not applied. No matching-byte credit."
     }
   ]
 }

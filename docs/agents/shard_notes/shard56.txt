@@ -88,3 +88,23 @@
   Probe: coordinator's RLDBG agbcc (wC2) confirms the rotation.
   Rejected on the way: moving the need>=n branch out of the loop (138), store-expression
   spellings without the pointer (14..135), assigning the pointer at each site (18).
+
+2026-11-07 (codex-sol-b, PR574 truthful-contract correction proposal):
+  Supersedes the earlier MATCH/const-alias claims above. sub_0800CE30 reads mutable
+  gUnk_03003478 bit 9 (matched src/code_0800CBBC.c114-115); declaring it const is false.
+  Removed IsMulti567D4 and call ordinary sub_0800CE30. Restored original ASM fallback
+  and NONMATCHING wrapper: current draft 1256 bytes/frame0x14 versus ROM 1248/frame0x14,
+  all 26 original external calls in order, strict NO MATCH and zero matching credit.
+  Raw b3025cd2 active-C bytes+relocs and linked checksum were genuinely exact, but
+  that validates emitted bytes, not the false declaration; raw control remains private.
+  Ordinary normal RTL already marks the gate-address constant-pool MEM/u. GCSE
+  load_killed_in_block_p treats every ordinary call as a memory kill; plain-query
+  inserts PRE expression 1 at end of bb 4 after the first bit check. Final extra LDR r6
+  adds 2 bytes, repeated gate pool word 4 and alignment 2 = 8 bytes. No compiler patched.
+  Truthful const Gate ROMtable (6 records of 44 bytes at 084B23A8) still 1256 and
+  additionally hoists h value instead of its address; real entry/exit base lifetime
+  variants 1236/1220 regress and are preserved. Compiler pure attribute is ignored,
+  independently tested on installed compiler; no pure declaration is applied.
+  Evidence: ignored build/sol-b574-repair/HANDOFF.md, proof.json, attribute-support.json,
+  full-module controls/normal RTL/GCSE; final correction controls in build/sol-b574-correction.
+  These are bounded controls and compiler diagnosis, not a semantic-equivalence proof.
