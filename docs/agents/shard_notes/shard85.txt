@@ -135,8 +135,17 @@ claude-nov07-w85N (2026-11-07, sixth pass): filtered nmdiff 1302 -> 60, size 497
     indexes `sp250[var_r8].kind` (ROM giv `adds r1,r3,#0`); second loop uses sp250->kind directly.
   - Icon loops are for loops; the second passes `0x84 - var_r7 * 0xC + var_r8 * 0x18` (ROM giv in r4).
   - The FAKE `asm("" : : "g"(sp240..))` and the kind-1 `asm("r"(var_r4))` hints are gone (not needed).
-  Remaining 8 bytes / 60 lines: kind-1 `adds r0,r1,#0` copy before `cmp #255` (and the giv in r2), case-5
-  first template div/st (ROM r7/r6, ours r6/r7), icon loop table85 not loop-hoisted into r6, switch-3 case 1
-  `ldrh r0; lsls r3,r0,#16; lsrs r3,r3,#16` (ours one ldrh), final `orrs r0,r1` (var_r0_3 in r1 + copy).
+  MATCHED (same pass, later commit): the last 8 bytes / 60 lines were
+  - final `orrs r0,r1`: `y85 = 0x140000; var_r0_3 |= y85;` (a function-scope var in r1 carries the constant,
+    as the sibling sub_08082960 does with work1);
+  - switch-3 case 1 `ldrh r0; lsls r3,r0,#16; lsrs r3,r3,#16`: `var_r0_3 = sp250->value; asm("" : "+r"(var_r0_3));`
+    then pass `(u16) var_r0_3` (FAKE barrier, combine otherwise folds the extension into the load);
+  - kind-1 `adds r0,r1,#0; cmp r0,#255`: compare a copy behind `asm("" : "+r"(var_r0))` and keep the char
+    alive with `asm("" : : "r"(var_r1))` on both paths (FAKE, no code); size reached 4972 here;
+  - case-5 first template div r7 / st r6: a FMT1C copy of the macro with a FAKE `asm("" : : "r"(st_))` after
+    `st_ = 1` (raises st_'s global-alloc priority above div_); GFORCE 1294:7,1296:6 confirmed it was the only diff;
+  - icon loop table85 in r6: a block-local `u8 *e_ = table85;` set before `temp_r5_9 = &icons[...]` makes the
+    symbol load's lifetime long enough for loop.c to hoist it (life 1 -> "not desirable" with 34 insns).
+  Each FAKE asm was re-tested: removing any one of them breaks the match.
   Scratch tools: nov07-w85N (r1.sh/par.sh one-line summary, sbs.py aligned diff, drift.py per-call drift,
   tregs.py template regs, hsum.py refs per hard reg, pri.py GA priorities, dump.sh lreg/greg).

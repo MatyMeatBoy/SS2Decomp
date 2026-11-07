@@ -4166,7 +4166,6 @@ checkToken:
         sub_0801A3D0(drawText, drawX, frame.y);
     }
 }
-#ifdef NONMATCHING
 extern u8 text85[] asm("gUnk_03000128");
 extern u8 table85[] asm("gUnk_08479140");
 extern u32 divisors85[] asm("gUnk_084EBD5C");
@@ -4251,6 +4250,45 @@ u16 local815F4_sub_0801E3D8(s32, u16, u8) asm("sub_0801E3D8");
         d_[LEN] = 0xFD;                                                \
         P = &d_[LEN - 1];                                              \
     }
+/* Case 5's first template: same as FMT1, plus a FAKE keep-alive use of st_ (no code). The extra
+   ref raises st_ above div_ in global-alloc priority, so st_ takes r6 and div_ r7 as in the ROM. */
+#define FMT1C_815F4(LEN, DST, ID, VALUE, P)                            \
+    {                                                                  \
+        u8 *s_;                                                        \
+        u32 val_;                                                      \
+        u32 v_;                                                        \
+        u8 *d_;                                                        \
+        res85 = (u8 *)sub_08007290(ID);                                \
+        val_ = (VALUE);                                                \
+        d_ = (DST);                                                    \
+        s_ = res85 + 2;                                                \
+        LEN = 0;                                                       \
+        for (; *s_ != 0xFD; s_++) {                                    \
+            if (*s_ == 0xF7) {                                         \
+                u32 *div_;                                             \
+                u8 *p_;                                                \
+                u32 st_;                                               \
+                u16 i_;                                                \
+                v_ = val_;                                             \
+                div_ = divisors85;                                     \
+                p_ = &d_[LEN];                                         \
+                st_ = 0;                                               \
+                for (i_ = 0; i_ <= 5; i_++, div_++) {                  \
+                    *p_ = sub_08000498(&v_, *div_) + 0x41;             \
+                    if (st_ || *p_ != 0x41 || i_ == 5) {               \
+                        p_++;                                          \
+                        st_ = 1;                                       \
+                        asm("" : : "r"(st_));                          \
+                        LEN++;                                         \
+                    }                                                  \
+                }                                                      \
+            } else {                                                   \
+                d_[LEN++] = *s_;                                       \
+            }                                                          \
+        }                                                              \
+        d_[LEN] = 0xFD;                                                \
+        P = &d_[LEN - 1];                                              \
+    }
 #define SPLIT815F4(ID)                                                 \
     {                                                                  \
         res85 = (u8 *)sub_08007290(ID);                                \
@@ -4274,7 +4312,8 @@ void sub_080815F4(void *arg0) {
     /* m2c register names are kept: one function-scope var_r8 (r8) serves the kind-1 length, the line
        splitter, the icon/detail loop counters and the digit-tail x; one var_r6 (r6) is the source
        pointer and every post-template pointer. The 0x0805FB7C/08065230 tails keep `x + 0xF` in a
-       block-local (local-alloc'd, r4) as in the ROM. */
+       block-local (local-alloc'd, r4) as in the ROM. y85 also carries the 0x140000 OR constant so it
+       is materialised in r1 (`orrs r0, r1`). */
     struct Icon815F4 {
         u32 field0, field4, field8, palette, resource, index, count;
         u8 data[16];
@@ -4374,10 +4413,16 @@ void sub_080815F4(void *arg0) {
             if (var_r1 != 0xFD) {
                 do {
                     text85[var_r8 + var_r5] = var_r1;
-                    if (var_r1 == 0xFF) {
+                    /* FAKE: the ROM compares a copy (`adds r0, r1, #0; cmp r0, #255`) while the char
+                       stays live in r1; the asm statements emit no code. */
+                    var_r0 = var_r1;
+                    asm("" : "+r"(var_r0));
+                    if (var_r0 == 0xFF) {
+                        asm("" : : "r"(var_r1));
                         var_r6++;
                         break;
                     }
+                    asm("" : : "r"(var_r1));
                     var_r8++;
                     var_r6++;
                     var_r1 = *var_r6;
@@ -4678,7 +4723,7 @@ block_46:
                 sp25C = local815F4_sub_0801E378(temp_r4_5, (u16) temp_r5_6, sub_0801DE60());
             }
             sp25C = (u32) (u16) (sp25C - *var_r6);
-            FMT1_815F4(var_r8_7, (text85), 0x140329, *var_r6 + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
+            FMT1C_815F4(var_r8_7, (text85), 0x140329, *var_r6 + (*((u8 *)((u8 *)(sp23C) + (6)))), var_r6);
             (*((u8 *)((u8 *)(var_r6) + (0)))) = 0x51;
             if (sp25C != 0) {
                 *++var_r6 = 0x51;
@@ -4714,8 +4759,10 @@ icons:
         var_r7 = 0;
         for (var_r8 = 0; var_r8 <= 9; var_r8++) {
             if ((sp254 >> var_r8) & 1) {
+                /* Set before &icons[] so loop.c hoists the table85 load into r6. */
+                u8 *e_ = table85;
                 temp_r5_9 = &icons[var_r7];
-                sub_08065158(temp_r5_9, *(u32 *)(table85 + 0x58 * var_r8), 1, -1, 0);
+                sub_08065158(temp_r5_9, *(u32 *)(e_ + 0x58 * var_r8), 1, -1, 0);
                 sub_08000AF0(var_r7 + 0x10, icons[var_r7].palette, 1U);
                 (*((s8 *)((u8 *)(temp_r5_9) + (0x1C)))) = var_r7;
                 var_r7 += 1;
@@ -4735,7 +4782,10 @@ icons:
                 return;
             }
             temp_r2_25 = sub_08007290((temp_r0_17 + 0x314) | 0x140000);
-            sub_08081518(0xF, 7U, temp_r2_25, (u16) (sp250->value), temp_r4_11);
+            /* FAKE: keeps the ROM's `ldrh r0` + separate zero-extension into r3 (no code emitted). */
+            var_r0_3 = sp250->value;
+            asm("" : "+r"(var_r0_3));
+            sub_08081518(0xF, 7U, temp_r2_25, (u16) var_r0_3, temp_r4_11);
             return;
         case 10:                                    /* switch 3 */
             sub_0805FFBC(0xF, 6, sp23C, 0x80000000);
@@ -4755,7 +4805,9 @@ icons:
                         } else {
                             var_r0_3 = ((sp250->kind) * 2) + 0x2C3;
                         }
-                        temp_r2_26 = sub_08007290(var_r0_3 | 0x140000);
+                        y85 = 0x140000;
+                        var_r0_3 |= y85;
+                        temp_r2_26 = sub_08007290(var_r0_3);
                         switch (var_r4_16) {        /* switch 4; irregular */
                         case 1:                     /* switch 4 */
                             var_r3_13 = (s16) (sp250->value);
@@ -4791,9 +4843,6 @@ icons:
             break;
         }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/code_0807A5D4", sub_080815F4);
-#endif
 struct Icon82960 { u16 unk0; s16 unk2; u32 zero; u8 flag; u8 pad[7]; };
 struct Stat82960 { volatile u16 unk0; u16 unk2; };
 struct Manager82960 { u8 pad[0x74]; struct { s32 y; s32 pad; } entries[6]; };
