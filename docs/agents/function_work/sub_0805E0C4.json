@@ -1,13 +1,13 @@
 {
   "address": "0x0805E0C4",
-  "updated_utc": "2026-11-07T04:50:30Z",
-  "checkpoint": "Pointer-lifetime follow-up to plain-local C-body SHA-256 4c00850e9aed5b31430fd6a7bec294162698a660aff33129b357de5e9d9c9aeb. Current C-body SHA-256 2502c66b300711b0129e8e301dd554c1f8ae57d8bf4fb10845b0a595c72b2eb5. Reuse the existing decimal value pointer and scope numeric/name pointers inside the guarded fast-text loop. Real-module heuristic 783 to 763, size 3512 to 3504 versus original 3496, frame 236 unchanged. Still NONMATCHING; no matching-byte credit.",
+  "updated_utc": "2026-11-07T13:00:00Z",
+  "checkpoint": "claude-nov07-wM shard 135: active C matches; make -j1 compare OK with sub_0805E0C4.s removed (base debdb6ae).",
   "areas": [
     {
       "id": "compile",
       "label": "Preserve a complete compiling dialogue draft",
       "state": "done",
-      "evidence": "The inherited typed task, window and asset draft compiles under the normal code_0805D094 module rules. This checkpoint passes normal ROM compare with the original ASM fallback, the complete NONMATCHING build, check_tree and diff checks. These gates are baseline integrity, not equivalent-C proof."
+      "evidence": "sub_0805E0C4 is active C in code_0805D094 under the normal compiler and flags; the NONMATCHING wrapper and asm/nonmatchings/code_0805D094/sub_0805E0C4.s are removed. make -j1 compare, make -j1 nonmatching, check_tree and git diff --check pass."
     },
     {
       "id": "dialogue_traces",
@@ -18,14 +18,14 @@
     {
       "id": "layout",
       "label": "Recover frame, spills and source lifetimes",
-      "state": "active",
-      "evidence": "Using the existing row-byte offset for the two 18-byte fills and preserving script+1 before the fill jointly restore frame 236 versus previous 232 and original 236. Real-module heuristic distance improves 827 to 813; size stays 3512 versus original 3496. The first standalone changes give 843 and 838; a separate u32 header scope worsens to 902 and is rejected. The original retains the value pointer in r6 and the next-header pointer in r4; this candidate uses another spill and different register roles. Branch layout, later reload rotation and exact instructions still differ. No hard-register binding, barrier, padding or extra memory write was added. The inherited uninitialized blink-timer warning remains. Its existing word load and byte-truncated increment already reproduce that access sequence and should not be retyped on a false width hypothesis. Plain-local follow-up: removing only the portrait/sl binding preserves the complete function normalized bytes AND relocations against the freshly built 813 control. Removing script/r8, alone or with portrait/sl, improves the real-module heuristic to 783 with size 3512 and frame 236 unchanged. Both bindings are now absent; the same 336 bounded positive-timer dialogue cases pass. This does not establish the untested negative-timer/scheduler behavior or an original-ROM match. Pointer-lifetime follow-up: pass the existing pValue to all seven decimal conversions, recovering the original persistent r6 value pointer instead of an early SP+0xE8 spill. After the fast-text initial non-terminator guard, declare fastNum=num then fastName=name and use a do-loop. The emitted fast path now snapshots the numeric pointer from SP+0xE0 to SP+0xE8 and retains the name pointer from SP+0xE4 in ip, as the original does. Size improves 3512 to 3504, frame stays 236, heuristic 783 to 763, and normalized positional halfword distance improves 1722 to 1581. All 50 original external call targets remain in static order. These are layout observations, not equivalence metrics. Direct pointer reuse alone gives frame 232; the opposite alias declaration order reverses the two pointer roles; both are preserved as rejected private controls. No hard-register binding, barrier, padding or artificial memory write is added. The existing uninitialized blink-timer handling remains unchanged."
+      "state": "done",
+      "evidence": "Size 3496 and frame 236 equal the ROM. Last fixes: u16 temp in the 0..8 digit loop (0xFF constant hoisted only in the loop rerun, after the giv init); num terminator through a block-local &num[i] and a zero temp; n0 set right before the name copy from the same constant as playerName (party0C4 at gUnk_03003CE2, reload_cse copies r0 to r7 and r7 to r3); 0x1404DF loop with a block-local result pointer, name copy hoisted after the guard and k = j + 2 index (giv p + 2 reduced after the guard); block-local i + 1 for the name terminators; fastNum asm with an \"=g\" output so the spilled copy needs no in/out reload register (FAKE empty-asm lifetimes for the name/num pointer copies)."
     },
     {
       "id": "full_match",
       "label": "Verify exact active C and linked ROM",
-      "state": "pending",
-      "evidence": "Strict NO MATCH. Original ASM remains the normal-build implementation. Equal frame size, bounded traces and heuristic improvements are not full equivalence or matching proofs."
+      "state": "done",
+      "evidence": "Aligned module diff MATCH; strict diff only shows a false positive (the 10000 literal falls in the candidate object address window). The full EU ROM compares OK with the active C (3496 bytes recovered)."
     }
   ],
   "regions": []
