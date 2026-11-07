@@ -1366,6 +1366,7 @@ void sub_0807C29C(void) {
                 }
             }
         } else if (keys29_03001324 & 1) {
+            u16 tg0;
             gMgr82->f6A = 100;
             if (gMgr82->mode != 5) {
                 from = gMgr82->heldFrom;
@@ -1397,8 +1398,8 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x5E);
                     break;
                 }
-                target = gMgr82->cur->kind;
-                if (target == 0) {
+                tg0 = gMgr82->cur->kind;
+                if (tg0 == 0) {
                     if (gMgr82->held.kind != 10) {
                         if (from != 11) {
                             sub_0807BD78(from, gMgr82->heldIdx);
@@ -1533,7 +1534,7 @@ void sub_0807C29C(void) {
                     }
                     break;
                 }
-                /* holding money, target slot occupied */
+                /* holding money, tg0 slot occupied */
                 if (gInv82->items[gMgr82->heldIdx].count == gMgr82->held.count) {
                     item = &gInv82->items[gMgr82->cursor];
                     if (item->kind == 10) {
@@ -1563,7 +1564,7 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x5F);
                     break;
                 }
-                if (target != 10) {
+                if (tg0 != 10) {
                     sub_0805865C(0x61);
                     break;
                 }
@@ -2638,6 +2639,7 @@ void sub_0807C29C(void) {
             gMgr82->cursor = 3;
             sub_0805865C(0x62);
         } else if (keys29_03001324 & 1) {
+            u16 tg;
             gMgr82->f6A = 100;
             from = gMgr82->heldFrom;
             if (from == 0x16) {
@@ -2669,8 +2671,8 @@ void sub_0807C29C(void) {
                 sub_0805865C(0x5E);
                 break;
             }
-            target = gMgr82->cur->kind;
-            if (target == 0) {
+            tg = gMgr82->cur->kind;
+            if (tg == 0) {
                 if (gMgr82->held.kind != 10) {
                     sub_0807BD78(from, gMgr82->heldIdx);
                     sub_0807BEA0(13, gMgr82->cursor + gMgr82->page * 15, (void *)&gMgr82->held);
@@ -2751,7 +2753,7 @@ void sub_0807C29C(void) {
                 }
                 break;
             }
-            /* holding money, target slot occupied */
+            /* holding money, tg slot occupied */
             switch (from) {
             case 13:
                 if (gMgr82->stock[gMgr82->heldIdx].count == gMgr82->held.count) {
@@ -2781,7 +2783,7 @@ void sub_0807C29C(void) {
                     sub_0805865C(0x5F);
                     break;
                 }
-                if (target != 10) {
+                if (tg != 10) {
                     sub_0805865C(0x61);
                     break;
                 }
