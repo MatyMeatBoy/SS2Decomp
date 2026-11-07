@@ -1,0 +1,80 @@
+{
+  "checkpoint": "27fb21f1df1986ea7447eb331223b54fa974481b",
+  "function": "sub_080923FC",
+  "history": [
+    {
+      "action": "init",
+      "actor": "codex-coord-eu-nov07",
+      "at": "2026-11-07T11:34:02+00:00",
+      "evidence": "frozen contract"
+    }
+  ],
+  "module": "code_0808FB5C",
+  "owner": "codex-coord-eu-nov07",
+  "parent_ref": "refs/heads/shard/096",
+  "regions": [
+    {
+      "end": "0x08092572",
+      "entry": "Unique fallthrough08092518 after phase-one upper-offset restore08092516. Setup initializes i and xs/ys bases; head0809252A, parity split08092530/08092550, join0809255A, backedge08092570. No calls. Envelope contains executable [11C,142),[154,176) and shared noncode [142,154) relative to function.",
+      "evidence": "WorkerA .local/923fc/region-initial-four/CONTRACT.v1.md and contract.v1.json SHAee27d5af6e77cb0957c6d7230e094cda825afd5814567631de078feb7c034b9e, original ROM/ASM plus actual frozen normal module. 36 Thumb instructions/72 code bytes plus18 pool bytes; only+12C,+162 differ. New RTL xs205 before bPRE1093 then cachePRE1087; final dispositions do not prove find_reg causation. Do not reuse old183 trace IDs/cause. Source window starts i=0 immediately before initial four-element loop.",
+      "exits": [
+        "Sole fallthrough08092572 after four iterations, i=4; following phase-two fade/accum/timer setup is outside."
+      ],
+      "id": "initial-four",
+      "live_in": [
+        "S, aligned existing frame and actual xs atS+7C / ys atS+A8. No incoming computational register values are consumed by this loop.",
+        "Pass-through S,R8,R9,SL,R11,R12,LR and all unmodified memory remain unchanged; preserve other incoming physical values unless actual source value is defined here. Original R7 passes through; baseline instead carries xs inR7. This physical allocation difference is the diagnostic, not permission to change later source semantics."
+      ],
+      "live_out": [
+        "xs[0..3]={30,90,150,210}; ys[0..3]={0x7000,0x8000,0x5000,0xA000}; pointer homesS+144=xs,S+148=ys; i=4. Later rendering consumes these real homes/elements.",
+        "Original diagnostic R0=0x40000,R1=210,R2=12,R3=S+B4,R4=S+A8,R5=4,R6=S+7C,R7=entryR7,NZCV=0010. Frozen baseline differs only xs carrierR7 versusR6 in this envelope. Scratch physical states are not source ABI; report changes and validate the whole function, with owner approval for outside-lifetime changes."
+      ],
+      "stack": [
+        "Only writes [S+7C,S+8C),[S+A8,S+B8),[S+144,S+14C); each iteration writes ys32 then xs32. Preserve all other stack bytes, elements4..10, descriptors and inherited target.",
+        "Shared pool relative142..154 is owner-managed, not scratch space:144 cache03001250 (outside usesBA/110),148 FFFF(useBC),14C low03000252(usesDE/10E),150 high03000256(usesEA/116). Loop itself does not read this pool."
+      ],
+      "start": "0x08092518",
+      "state": "free",
+      "types": [
+        "i is u16 with explicit existing truncation; xs/ys elements and pointer homes are32-bit. Original loop carriers ysR4,iR5,xsR6; baseline xsR7. No new aliases or type changes."
+      ],
+      "worker": null
+    },
+    {
+      "end": "0x080929AE",
+      "entry": "Unique fallthrough after draw BL08092956 inside the nonbusy gate. Busy branches0809291C/24/2C bypass core to080929AE. Lower-clamp join08092986, upper-clamp join08092992; no calls/data inside84-byte original core.",
+      "evidence": "WorkerB build/sol-b027/region096-readonly-contract.md original full CFG/live/memory audit; new167 actual core/preheader/pool equal183 bytes+relocations (coreSHA159894d3826ca183978779e532f0302693a5bb432e3c69ae9412358974e33aac). Source core accum+=4 throughcache3; declarations lower/d beforedraw, offset pointer initializers beforeloop are external producers. Original carries upper throughlowclamp; baseline conservative aliasing reloads high. Prior183/209 trials227/210 cachepointer+reversedoffsetinitializers+carriedupper regressed; do not repeat unchanged package. Any genuinely new167 candidate requires unchanged whole-module control and whole-function fallout/target-home checks.",
+      "exits": [
+        "Sole common exit080929AE, then timer==60 sound, yield080929BA, cancel check080929BE and decrement/backedge080929C8/0809290E; all outside region and frozen."
+      ],
+      "id": "phase-five-core",
+      "live_in": [
+        "Original S; cache baseR6=03001250; R7 zero-extended low16 shake consumed signed; R8 u16 timer initially180; R9 packed lower limitFFBE0000; SL packed signed Y; R11 caller state; [S+124] accumulator32 low16. Preserve S,R6,R8,R9,SL,R11. R0-R5 and flags have no consumed incoming value in original core; LR/IP unused.",
+        "Frozen167 equivalent core[562,5B2) instead has offsetLoR6/offsetHiR4/cacheR5 live from preheader. This is a semantic cut, not a closed register cut. Preheader pointer/cache producers, lower/d declaration sites and literal order are owner-managed couplings; request them explicitly in artifact comments. No work moves before draw/busy gate."
+      ],
+      "live_out": [
+        "A1=u16(oldAccum+4), store zero-extended32 toS+124; d=sign16(A1)>>8. Store low=u16(oldLow)-d and high=u16(oldHigh)+d modulo16, then clamp wrapped signed low<=-66 to-66 and high>49 to50.",
+        "Store cache0=v250; cache1=u16(postClampLow)+sign16(shake); cache2=v254; cache3=u16(postClampHigh)-sign16(shake), each low16. Preserve accumulator/low/high/optionalclamps/cache0..3 write order. R0-R5/flags and shakeR7 semantically dead at exit; diagnostic original leavesR4=lowaddr,R5=highaddr,R1=signshake,R3=-66. Preserve original persistent state and later ABI."
+      ],
+      "stack": [
+        "Only core stack output S+124 accumulator32. Preserve descriptorsS+14..47 and48..7B, outgoing slots0..10, first/kindS+11C/+120, Y+128,target+12C,param+130,shiftedX+13C and other frame bytes.",
+        "Owner-managed outside literals relative724 limit,728/72C/730 cache/low/high original versus low/high/cache baseline;734 v250,738 v254. No pool relocation or preheader edits in production by worker."
+      ],
+      "start": "0x0809295A",
+      "state": "free",
+      "types": [
+        "accum s16 semantic wrap with zero-extended32 home, d s32, globals low/high stored16 and compared signed16, shake s16 for arithmetic but existing u16 carrier. cache4xu16, offsets/source values u16 loads. Preserve all existing helper widths and C89 declarations."
+      ],
+      "worker": null
+    }
+  ],
+  "shared_declarations": [
+    "Frozen checkpoint 27fb21f1df1986ea7447eb331223b54fa974481b, src/code_0808FB5C.c, canonical sub_080923FC / C alias sub_080923FC_u8. Owner codex-coord-eu-nov07 exclusively assembles production source. Normal candidate 2236 bytes/frame332, SHA256 3d8376ed6de97d71594287fc7356131b4cffec4c6b1075b3dd0a472d5add5763, 94 ordered external calls, score167. No matching credit.",
+    "Freeze Anim923FC (52 bytes), a/b at SP+14/+48; s32 xs[11],ys[11]; u16 delay[11],speed[11],accel[11]; u8 count0/kind truncation; all existing declarations, aliases, helper ABI and compiler flags. Draw coordinates are s32; shake helper arithmetic intentionally uses s16 shake and u16 offset loads.",
+    "S denotes local SP after 32 saved bytes and332 local bytes. Preserve frame332 and target home S+12C = incomingSP-64. Cases1..4 define target; kind0 inherits memory. Never initialize target, assume positive kind, pad arrays, invent objects/stack writes, or restrict Y to99..134.",
+    "Regions are source candidates with whole-function validation, not independently linkable helpers. No helper extraction, executable asm/opcodes, new fixed-register bindings, opaque identities, false const/pure attributes or flag changes. C89. Production source/headers/reports/tools remain owner-only. Candidate artifacts only; private full-module experimental copies must reproduce the unchanged frozen bytes/relocations before trials.",
+    "Initial-four shared literal pool, outside descriptor/cache PRE lifetimes, and phase-five preheader/declaration/pool changes require explicit owner review. Request changes in artifact comments rather than editing production or expanding region ownership. Whole-function allocation fallout must be reported. Preserve already-exact phase-two34-byte and phase-three20-byte blocks and their literal dependencies as regression checks."
+  ],
+  "state": "open",
+  "version": 1
+}
