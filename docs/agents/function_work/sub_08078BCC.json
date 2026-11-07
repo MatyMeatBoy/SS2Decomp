@@ -1,7 +1,7 @@
 {
   "address": "0x08078BCC",
-  "updated_utc": "2026-11-06T23:54:49.304872+00:00",
-  "checkpoint": "64bd35c14db207f4af4444770ad25e43df6d046d",
+  "updated_utc": "2026-11-07T08:44:21.894034+00:00",
+  "checkpoint": "claude-nov07-wC shard 80: active C matches; make compare OK with sub_08078BCC.s removed (PR #599).",
   "areas": [
     {
       "id": "compile",
@@ -12,20 +12,20 @@
     {
       "id": "types",
       "label": "Attribute widths and group-trail behavior",
-      "state": "active",
-      "evidence": "Original sub_08078BCC reads a word at entity+4, shifts left 13 then right 24, retaining an eight-bit field at bits 11..18. The former u16 member discarded bits 16..18; AttrBCC preserves the full word. Follow-up corrected the kind view container: the earlier rest:28 still generated word reads despite preserving the nibble value. A u32 kind:4 followed by u8 tail[3] now produces the original LDRB at both kind sites. Bounded original-ROM/candidate differential checks pass 1520 scenarios: one/two/four grouped players, each local-player index, power values 0/31/32/127/255, normal kinds 0/1 and rejected kinds 2/15, four angle returns, drawing enabled/disabled, early exit and three movement ticks. They compare stubbed calls, player RAM, masks, saved registers and SP, with scratch-register clobbers. A negative control with the old halfword draft and power 32 gives 2 at sub_0801FB14 while the original gives 8; the corrected draft gives 8. Enemy-hit branches and arbitrary initial stack contents are not covered. Group collection, averaged positions, smoothing, two trail sprites and damage calls suggest UpdateGroupTrailEffect as an unconfirmed name; no canonical symbol is renamed."
+      "state": "done",
+      "evidence": "Resolved by the exact match: sub_08078BCC is active C (NONMATCHING wrapper and .s removed); make compare, make nonmatching and check_tree pass."
     },
     {
       "id": "layout",
       "label": "Original control flow and stack layout",
-      "state": "active",
-      "evidence": "Coordinate arrays now precede frame/tick arrays, matching the original XS/YS/frame/tick offsets 0x4C/0x50/0x54/0x58. The original contains an emitted constant-zero conditional and an unreachable screen-bounds block; literal, narrow-return and ordinary inline-zero forms delete it. A marked empty constraint preserves the initialized zero without opcodes or undefined register inputs, retaining the original branch and block. A genuine local damping value of 32 restores both original __divsi3 calls; using literal /32 instead emits shifts. All 43 static call targets follow the original order. Combining loop counters was rejected: it grows the candidate to 1980 bytes but worsens the complete diff and reduces the frame to 224. Current selected candidate is 1944 bytes versus original 2032; its frame is 228 versus original 240, approximate nmscore 609 to 531, then 529 after correcting the kind container. Volatile argument homes and volatile parameters were rejected: they preserve size 1944/frame 228 but move stack slots away from the original and worsen scores to 544..557. Extra kind constraints and signed carriers do not improve the selected result. Remaining spill homes, scalar lifetimes, register allocation and loop structure still differ."
+      "state": "done",
+      "evidence": "Resolved by the exact match: sub_08078BCC is active C (NONMATCHING wrapper and .s removed); make compare, make nonmatching and check_tree pass."
     },
     {
       "id": "match",
       "label": "Exact active C and linked ROM match",
-      "state": "pending",
-      "evidence": "Strict normal-module comparison is NO MATCH. The original ASM remains the normal ROM input. No new matching C bytes, whole-function equivalence or exact-size result is claimed; bounded emulation and heuristic scores cannot prove those properties."
+      "state": "done",
+      "evidence": "Resolved by the exact match: sub_08078BCC is active C (NONMATCHING wrapper and .s removed); make compare, make nonmatching and check_tree pass."
     }
   ],
   "regions": []
